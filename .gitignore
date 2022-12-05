@@ -9,7 +9,7 @@
 /coverage
 
 # vscode
-.vscode/
+# .vscode/
 
 # next.js
 /.next/
