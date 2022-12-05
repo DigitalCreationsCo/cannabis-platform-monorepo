@@ -7,7 +7,17 @@
   "workspaces": [
     "apps/*"
   ],
+  "scripts": {
+    "app": "yarn workspace app start",
+    "build:app": "yarn workspace app build",
+
+    "docker:app": "scripts/docker/dev-app.sh",
+    "permit-scripts": "node scripts/permit-scripts.js"
+  },
   "engines": {
     "node": "16.16.0"
+  },
+  "devDependencies": {
+    "chmod": "^0.2.1"
   }
 }
