@@ -11,5 +11,6 @@ dist
 .git
 .turbo
 
+.vscode
 _dev
 
