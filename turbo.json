@@ -25,6 +25,13 @@
         // can be run whenever. It also has no filesystem outputs.
         "outputs": []
       },
+      "install": {
+        // A package's `install` script depends on the `build`,
+        // `test`, and `lint` scripts of the dependency packages
+        // being completed first. It also has no filesystem outputs.
+        "dependsOn": ["^build", "^test", "^lint"],
+        "outputs": []
+      },
       "deploy": {
         // A package's `deploy` script depends on the `build`,
         // `test`, and `lint` scripts of the same package

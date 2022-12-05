@@ -12,6 +12,7 @@
     "build": "turbo run build",
     "test": "turbo run test",
     "lint": "turbo run lint",
+    "install": "turbo run install",
     "dev": "turbo run dev",
     
     "app": "yarn workspace app",
