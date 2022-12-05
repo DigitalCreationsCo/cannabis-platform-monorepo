@@ -6,6 +6,7 @@
   "private": true,
   "workspaces": [
     "apps/*"
+    ,"packages/*"
   ],
   "scripts": {
     "app": "yarn workspace app start",
