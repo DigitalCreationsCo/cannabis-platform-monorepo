@@ -3,6 +3,13 @@ Dockerfile
 */node_modules
 npm-debug.log
 README.md
+
+build
+dist
+
 .next
 .git
+.turbo
+
 _dev
+
