@@ -20,4 +20,4 @@ RUN yarn build:$BUILD_CONTEXT
 # RUN yarn turbo run build --filter=web...
 
 # CURRENTLY ADDING BIND MOUNTS TO DEV IMAGE
-CMD yarn workspace $BUILD_CONTEXT start
+CMD yarn workspace $BUILD_CONTEXT dev

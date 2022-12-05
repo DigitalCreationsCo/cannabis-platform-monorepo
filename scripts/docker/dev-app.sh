@@ -8,4 +8,4 @@
 echo 'dev app script'
 BUILD_CONTEXT=$1
 
-docker run -it --mount "type=bind,source=$(pwd)/,target=/root" . 
+docker run -it --mount "type=bind,source=$(pwd)/,target=/root" cannabis-platform-monorepo-app
