@@ -5,8 +5,8 @@
   "license": "MIT",
   "private": true,
   "workspaces": [
-    "apps/*"
-    ,"packages/*"
+    "apps/*",
+    "packages/*"
   ],
   "scripts": {
     "build": "turbo run build",
@@ -14,7 +14,7 @@
     "lint": "turbo run lint",
     "dev": "turbo run dev",
     
-    "app": "yarn workspace app start",
+    "app": "yarn workspace app",
     "build:app": "yarn workspace app build",
     "docker:app": "scripts/docker/dev-app.sh",
     "permit-scripts": "node scripts/permit-scripts.js"
