@@ -16,6 +16,9 @@
     "dev": "turbo run dev",
     
     "app": "yarn workspace app",
+    "cfg": "yarn workspace shared-config",
+    "ui": "yarn workspace shared-ui",
+
     "build:app": "yarn workspace app build",
     "docker:app": "scripts/docker/dev-app.sh",
     "permit-scripts": "node scripts/permit-scripts.js"

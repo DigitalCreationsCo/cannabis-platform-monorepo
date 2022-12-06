@@ -1,6 +1,6 @@
 function Button() {
     return (
-        <button>button component</button>
+        <button className="bg-blue-500">this button is imported from shared-ui</button>
     )
 }
 
