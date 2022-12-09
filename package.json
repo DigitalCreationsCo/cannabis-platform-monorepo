@@ -9,7 +9,7 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "turbo run build",
+    "build": "yarn workspaces foreach --topological-dev --parallel --exclude root run build",
     "test": "turbo run test",
     "lint": "turbo run lint",
     "install": "turbo run install",
