@@ -1,0 +1,1 @@
+https://vsupalov.com/rebuilding-docker-image-development/
