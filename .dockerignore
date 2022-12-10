@@ -1,6 +1,6 @@
 Dockerfile
 .dockerignore
-*/node_modules
+**/node_modules
 npm-debug.log
 README.md
 
@@ -11,5 +11,6 @@ dist
 .git
 .turbo
 
+.vscode
 _dev
 

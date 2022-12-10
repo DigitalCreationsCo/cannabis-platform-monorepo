@@ -13,7 +13,7 @@ export default defineConfig({
   ],
   build: {
     lib: {
-      entry: path.resolve(__dirname, 'src/main.ts'),
+      entry: path.resolve(__dirname, 'src/index.ts'),
       name: 'shared-ui',
       formats: ['es', 'umd'],
       fileName: (format) => `shared-ui.${format}.js`,

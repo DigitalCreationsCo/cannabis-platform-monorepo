@@ -1,15 +1,22 @@
 {
     "$schema": "https://turbo.build/schema.json",
     "pipeline": {
+      "install": {
+        // A package's `install` script is not dependent. 
+        // It also has no filesystem outputs.
+        "dependsOn": [],
+        "outputs": []
+      },
       "build": {
         // A package's `build` script depends on that package's
         // dependencies and devDependencies
-        // `build` tasks  being completed first
+        // `build` , test, and install tasks  being completed first. Also
+        // depends on lint task being completed for the package.
         // (the `^` symbol signifies `upstream`).
-        "dependsOn": ["^build"],
+        "dependsOn": ["^test", "lint", "^build", "^install"],
         // note: output globs are relative to each package's `package.json`
         // (and not the monorepo root)
-        "outputs": [".next/**"]
+        "outputs": [".next/**", "dist"]
       },
       "test": {
         // A package's `test` script depends on that package's
@@ -18,7 +25,7 @@
         "outputs": [],
         // A package's `test` script should only be rerun when
         // either a `.tsx` or `.ts` file has changed in `src` or `test` folders.
-        "inputs": ["src/**/*.tsx", "src/**/*.ts", "test/**/*.ts", "test/**/*.tsx"]
+        "inputs": ["pages/**/*.{ts,tsx,js,jsx}","src/**/*.{ts,tsx}", "test/**/*.{ts,tsx}"]
       },
       "lint": {
         // A package's `lint` script has no dependencies and

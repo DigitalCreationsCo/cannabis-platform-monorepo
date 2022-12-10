@@ -1,6 +1,5 @@
 # Install environment
 FROM node:16.16.0 as build
-RUN yarn global add turbo
 # build folder
 ARG BUILD_CONTEXT
 ENV BUILD_CONTEXT=$BUILD_CONTEXT
@@ -10,7 +9,11 @@ WORKDIR /root
 COPY package.json yarn.lock* ./
 # copy app package.json
 COPY ./apps/$BUILD_CONTEXT/package.json apps/$BUILD_CONTEXT/
-RUN yarn install
+COPY . .
+RUN yarn global add turbo
+RUN yarn install -W
+# ?? unable to resolve the shared-ui install
+RUN yarn turbo run install --filter=$BUILD_CONTEXT
 
 # copy app source code and create build
 COPY ./apps/$BUILD_CONTEXT/ apps/$BUILD_CONTEXT/
