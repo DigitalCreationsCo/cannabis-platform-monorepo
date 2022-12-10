@@ -3,24 +3,24 @@
     "version": "0.0.1",
     "private": true,
     "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
     },
     "dependencies": {
-    "next": "13.0.6",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "shared-ui": "*"
-  },
-  "devDependencies": {
-    "eslint": "8.29.0",
-    "eslint-config-next": "13.0.6",
-    "@types/node": "18.11.10",
-    "@types/react": "18.0.26",
-    "@types/react-dom": "18.0.9",
-    "typescript": "4.9.3",
-    "shared-config": "*"
-  }
+        "next": "13.0.6",
+        "react": "18.2.0",
+        "react-dom": "18.2.0",
+        "shared-ui": "*"
+    },
+    "devDependencies": {
+        "@types/node": "18.11.10",
+        "@types/react": "18.0.26",
+        "@types/react-dom": "18.0.9",
+        "eslint": "8.29.0",
+        "eslint-config-next": "13.0.6",
+        "shared-config": "*",
+        "typescript": "4.9.3"
+    }
 }
