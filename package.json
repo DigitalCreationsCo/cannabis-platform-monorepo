@@ -27,5 +27,6 @@
   "devDependencies": {
     "chmod": "0.2.1",
     "turbo": "1.6.3"
-  }
+  },
+  "packageManager": "yarn@3.3.0"
 }
