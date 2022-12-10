@@ -5,7 +5,7 @@
   "type": "module",
   "main": "dist/shared-ui.umd.js",
   "module": "dist/shared-ui.es.js",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/shared-ui.es.js",
@@ -20,6 +20,7 @@
     "prepack": "json -f package.json -I -e \"delete this.devDependencies; delete this.dependencies\""
   },
   "peerDependencies": {
+    "@types/node": "18.11.10",
     "@types/react": "18.0.26",
     "@types/react-dom": "18.0.8",
     "@vitejs/plugin-react": "2.2.0",

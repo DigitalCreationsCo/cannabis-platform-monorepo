@@ -1,4 +1,4 @@
-const tw = require('tailwindcss');
+const resolveConfig = require('tailwindcss/resolveConfig').resolveConfig;
 const tailwindConfig = require('./tailwind.config.cjs');
 
-module.exports = tw(tailwindConfig);
+module.exports = resolveConfig(tailwindConfig);

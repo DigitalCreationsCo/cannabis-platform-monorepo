@@ -9,6 +9,7 @@ export default defineConfig({
     react(),
     dts({
       insertTypesEntry: true,
+      outputDir: "dist/types"
     })
   ],
   build: {

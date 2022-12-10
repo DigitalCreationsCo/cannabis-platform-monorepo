@@ -5,6 +5,8 @@ module.exports = {
         eqeqeq: 'error',
         'no-console': 'warn',
         'prettier/prettier': 'error',
+        'react/jsx-uses-react': 'off',
+        'react/react-in-jsx-scope': 'off',
     },
     parserOptions: {
         sourceType: 'module',
