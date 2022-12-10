@@ -1,6 +1,8 @@
-function Button() {
+function Button({ onClick, children }) {
     return (
-        <button className="bg-blue-500">this button is imported from shared-ui</button>
+        <button onClick={ onClick } className="bg-blue-500">
+            this button is imported from shared-ui:{' '}
+            { children }</button>
     )
 }
 

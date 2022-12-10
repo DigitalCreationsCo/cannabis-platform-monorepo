@@ -9,7 +9,7 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "yarn workspaces foreach --topological-dev --parallel --exclude root run build",
+    "build": "yarn workspaces foreach --topological-dev --parallel --exclude cannabis-platform-monorepo run build",
     "test": "turbo run test",
     "lint": "turbo run lint",
     "install": "turbo run install",
