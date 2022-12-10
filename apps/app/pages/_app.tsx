@@ -1,6 +1,6 @@
-// import "../styles/index.css"
-import "shared-config/index.css"
-// import '../styles/globals.css';
+import "shared-ui/dist/style.css"
+import "../styles/index.css"
+import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 
 export default function App({ Component, pageProps }: AppProps) {

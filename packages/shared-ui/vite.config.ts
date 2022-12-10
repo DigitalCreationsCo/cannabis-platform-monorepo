@@ -6,7 +6,7 @@ import path from 'node:path'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    react({jsxRuntime: "automatic"}),
+    react({jsxRuntime: "classic"}),
     dts({
       insertTypesEntry: true,
       outputDir: "dist/types"

@@ -10,7 +10,8 @@
     ".": {
       "import": "./dist/shared-ui.es.js",
       "require": "./dist/shared-ui.umd.js"
-    }
+    },
+    "./dist/style.css": "./dist/style.css"
   },
   "scripts": {
     "watch:dev": "node ../../node_modules/vite/bin/vite build --watch",
