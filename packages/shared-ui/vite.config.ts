@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import dts from 'vite-plugin-dts'
+import eslint from 'vite-plugin-eslint'
 import path from 'node:path'
 
 // https://vitejs.dev/config/
@@ -9,6 +10,13 @@ export default defineConfig({
     react(),
     dts({
       insertTypesEntry: true,
+    }),
+    eslint({
+      cache: true, fix: true,
+        include: [ "src/**/*.{ts,tsx}" ],
+
+        
+      exclude: [ "**/node_modules/**", "dist", ".turbo", "public" ]
     })
   ],
   build: {
