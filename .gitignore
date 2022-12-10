@@ -49,4 +49,4 @@ next-env.d.ts
 .turbo
 
 # notes folder
-_dev
+# _dev
