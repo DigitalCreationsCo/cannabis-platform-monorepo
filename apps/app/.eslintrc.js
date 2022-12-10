@@ -1,1 +1,1 @@
-module.exports = require('shared-config/.eslintrc.js');
+module.exports = require("shared-config/.eslintrc.js");

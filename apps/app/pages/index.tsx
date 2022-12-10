@@ -1,7 +1,8 @@
 import Head from "next/head";
 import Image from "next/image";
-import styles from "../styles/Home.module.css";
 import { Button } from "shared-ui";
+
+import styles from "../styles/Home.module.css";
 
 export default function Home() {
   return (
@@ -17,7 +18,7 @@ export default function Home() {
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
         <div className="bg-blue-500 m-2">this component is native</div>
-        <Button />
+        <Button onClick={() => {}}>hello</Button>
 
         <p className={styles.description}>
           Get started by editing{" "}

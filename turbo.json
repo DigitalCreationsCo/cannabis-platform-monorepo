@@ -32,6 +32,7 @@
         // can be run whenever. It also has no filesystem outputs.
         "outputs": []
       },
+      "dev": {},
       "deploy": {
         // A package's `deploy` script depends on the `build`,
         // `test`, and `lint` scripts of the same package
