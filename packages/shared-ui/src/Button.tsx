@@ -2,7 +2,9 @@ function Button({ onClick, children, state }: { onClick: React.MouseEventHandler
     return (
         <button onClick={ onClick } className="bg-blue-500">
             this button is imported from shared-ui right now
-            { state }{ children }
+            { state }
+            
+                { children }
         </button>
     )
 }

@@ -1196,14 +1196,13 @@ __metadata:
     "@types/node": 18.11.10
     "@types/react": 18.0.26
     "@types/react-dom": 18.0.9
-    eslint: 8.29.0
-    eslint-config-next: 13.0.6
     next: 13.0.6
     postcss: 8.4.19
     react: 18.2.0
     react-dom: 18.2.0
     shared-config: "*"
     shared-ui: "*"
+  peerDependencies:
     typescript: 4.9.3
   languageName: unknown
   linkType: soft
@@ -1473,6 +1472,7 @@ __metadata:
   dependencies:
     chmod: 0.2.1
     turbo: 1.6.3
+    typescript: 4.9.3
   languageName: unknown
   linkType: soft
 
@@ -2318,6 +2318,15 @@ __metadata:
   peerDependencies:
     eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8
   checksum: a3d612f6647bef33cf2a67c81a6b37b42c075300ed079cffecf5fb475c0d6ab855c1de340d1cbf361a0126429fb906dda597527235d2d12c4404453dbc712fc6
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-simple-import-sort@npm:8.0.0":
+  version: 8.0.0
+  resolution: "eslint-plugin-simple-import-sort@npm:8.0.0"
+  peerDependencies:
+    eslint: ">=5.0.0"
+  checksum: d2a92a7d148803ee9ad4f081892a8d03820198c36a0f4f16a97d9f686a714edc9c9a9e51cc79cb0ba1afff76a1fde6a5eae50e9e3754928068227c92a2db5d6b
   languageName: node
   linkType: hard
 
@@ -4473,10 +4482,12 @@ __metadata:
     "@typescript-eslint/parser": 5.45.0
     autoprefixer: 10.4.13
     eslint: 8.29.0
+    eslint-config-next: 13.0.6
     eslint-config-prettier: 8.5.0
     eslint-plugin-prettier: 4.2.1
     eslint-plugin-react: 7.31.11
     eslint-plugin-react-hooks: 4.6.0
+    eslint-plugin-simple-import-sort: 8.0.0
     postcss: 8.4.19
     prettier: 2.8.0
     tailwindcss: 3.2.4
@@ -4489,8 +4500,17 @@ __metadata:
   dependencies:
     "@types/react": 18.0.24
     "@types/react-dom": 18.0.8
+    "@typescript-eslint/eslint-plugin": 5.45.0
+    "@typescript-eslint/parser": 5.45.0
     "@vitejs/plugin-react": 2.2.0
     autoprefixer: 10.4.13
+    eslint: 8.29.0
+    eslint-config-next: 13.0.6
+    eslint-config-prettier: 8.5.0
+    eslint-plugin-prettier: 4.2.1
+    eslint-plugin-react: 7.31.11
+    eslint-plugin-react-hooks: 4.6.0
+    eslint-plugin-simple-import-sort: 8.0.0
     json: 11.0.0
     postcss: 8.4.19
     prettier: 2.8.0
@@ -4498,9 +4518,10 @@ __metadata:
     react-dom: 18.2.0
     shared-config: "*"
     tailwindcss: 3.2.4
-    typescript: 4.6.4
     vite: 3.2.3
     vite-plugin-dts: 1.7.1
+  peerDependencies:
+    typescript: 4.9.3
   languageName: unknown
   linkType: soft
 
@@ -4987,16 +5008,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:4.6.4":
-  version: 4.6.4
-  resolution: "typescript@npm:4.6.4"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: e7bfcc39cd4571a63a54e5ea21f16b8445268b9900bf55aee0e02ad981be576acc140eba24f1af5e3c1457767c96cea6d12861768fb386cf3ffb34013718631a
-  languageName: node
-  linkType: hard
-
 "typescript@npm:4.9.3":
   version: 4.9.3
   resolution: "typescript@npm:4.9.3"
@@ -5014,16 +5025,6 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 3e4f061658e0c8f36c820802fa809e0fd812b85687a9a2f5430bc3d0368e37d1c9605c3ce9b39df9a05af2ece67b1d844f9f6ea8ff42819f13bcb80f85629af0
-  languageName: node
-  linkType: hard
-
-"typescript@patch:typescript@4.6.4#~builtin<compat/typescript>":
-  version: 4.6.4
-  resolution: "typescript@patch:typescript@npm%3A4.6.4#~builtin<compat/typescript>::version=4.6.4&hash=5d3a66"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 1cb434fbc637d347be90e3a0c6cd05e33c38f941713c8786d3031faf1842c2c148ba91d2fac01e7276b0ae3249b8633f1660e32686cc7a8c6a8fd5361dc52c66
   languageName: node
   linkType: hard
 

@@ -1,1 +1,1 @@
-module.exports = require('shared-config/postcss.config.cjs')
+module.exports = require("shared-config/postcss.config.cjs")
