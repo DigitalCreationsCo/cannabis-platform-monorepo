@@ -11,8 +11,7 @@
     "dependencies": {
         "next": "13.0.6",
         "react": "18.2.0",
-        "react-dom": "18.2.0",
-        "shared-ui": "*"
+        "react-dom": "18.2.0"
     },
     "devDependencies": {
         "@types/node": "18.11.10",
@@ -22,6 +21,7 @@
         "eslint-config-next": "13.0.6",
         "postcss": "8.4.19",
         "shared-config": "*",
+        "shared-ui": "*",
         "typescript": "4.9.3"
     }
 }

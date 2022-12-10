@@ -1,8 +1,9 @@
-function Button({ onClick, children }) {
+function Button({ onClick, children, state }: { onClick: React.MouseEventHandler<HTMLButtonElement>; children: any;  state: Number}) {
     return (
         <button onClick={ onClick } className="bg-blue-500">
-            this button is imported from shared-ui:{' '}
-            { children }</button>
+            this button is imported from shared-ui right now
+            { state }{ children }
+        </button>
     )
 }
 
