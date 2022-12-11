@@ -1,0 +1,17 @@
+choose the tech stack from bottom up
+1. where is the app deployed? browser, mobile phone, tablet, etc.
+1a. what is the deployment pattern?
+2. choose development frameworks
+3. extraneous dependencies (css processors, compilers, linter)
+4. backend systems
+5. cloud environment
+6. ci pipeline
+
+create the system from the top down
+1. build repository, install main dev framework
+2. configure ci
+3. add compiler configuration
+4. css processing
+5. write starting unit tests
+6. write component code
+7. test
