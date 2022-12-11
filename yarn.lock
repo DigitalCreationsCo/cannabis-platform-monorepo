@@ -1221,12 +1221,17 @@ __metadata:
     autoprefixer: 10.4.13
     eslint: 8.29.0
     eslint-config-next: 13.0.6
+<<<<<<< Updated upstream
     eslint-config-prettier: 8.5.0
     eslint-plugin-prettier: 4.2.1
     eslint-plugin-react: 7.31.11
     eslint-plugin-react-hooks: 4.6.0
     eslint-plugin-simple-import-sort: 8.0.0
     next: 13.0.6
+=======
+    eslint-plugin-import: 2.26.0
+    eslint-plugin-jsx-a11y: 6.6.1
+>>>>>>> Stashed changes
     postcss: 8.4.19
     prettier: 2.8.0
     react: 18.2.0
@@ -1503,6 +1508,25 @@ __metadata:
   resolution: "cannabis-platform-monorepo@workspace:."
   dependencies:
     chmod: 0.2.1
+<<<<<<< Updated upstream
+=======
+    eslint: 8.29.0
+    eslint-config-next: 13.0.6
+    eslint-config-prettier: 8.5.0
+    eslint-plugin-import: 2.26.0
+    eslint-plugin-jsx-a11y: 6.6.1
+    eslint-plugin-prettier: 4.2.1
+    eslint-plugin-react: 7.31.11
+    eslint-plugin-react-hooks: 4.6.0
+    json: 11.0.0
+    postcss: 8.4.19
+    prettier: 2.8.0
+    react: 18.2.0
+    react-dom: 18.2.0
+    shared-config: "*"
+    shared-ui: "*"
+    tailwindcss: 3.2.4
+>>>>>>> Stashed changes
     turbo: 1.6.3
     typescript: 4.9.3
   languageName: unknown
@@ -2258,7 +2282,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-import@npm:^2.26.0":
+"eslint-plugin-import@npm:2.26.0, eslint-plugin-import@npm:^2.26.0":
   version: 2.26.0
   resolution: "eslint-plugin-import@npm:2.26.0"
   dependencies:
@@ -2281,7 +2305,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-jsx-a11y@npm:^6.5.1":
+"eslint-plugin-jsx-a11y@npm:6.6.1, eslint-plugin-jsx-a11y@npm:^6.5.1":
   version: 6.6.1
   resolution: "eslint-plugin-jsx-a11y@npm:6.6.1"
   dependencies:
@@ -4539,6 +4563,8 @@ __metadata:
     eslint: 8.29.0
     eslint-config-next: 13.0.6
     eslint-config-prettier: 8.5.0
+    eslint-plugin-import: 2.26.0
+    eslint-plugin-jsx-a11y: 6.6.1
     eslint-plugin-prettier: 4.2.1
     eslint-plugin-react: 7.31.11
     eslint-plugin-react-hooks: 4.6.0
