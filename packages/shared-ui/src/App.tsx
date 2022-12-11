@@ -5,7 +5,37 @@ import Button from './Button';
 function App() {
     const [count, setCount] = useState(0);
 
+<<<<<<< HEAD
     return (
+=======
+
+    return (
+<<<<<<< Updated upstream
+    <div className="App">
+      <div className='flex'>
+        <a href="https://vitejs.dev" target="_blank">
+          <img src="/vite.svg" className="logo" alt="Vite logo" />
+        </a>
+        <a href="https://reactjs.org" target="_blank">
+          <img src={reactLogo} className="logo react" alt="React logo" />
+        </a>
+      </div>
+      <h1 className='bg-blue-500'>Vite + React</h1>
+      <div className="card">
+        <Button onClick={() => setCount((count) => count + 1)} state={count}>
+          count is {count}
+        </Button>
+        <p>
+          Edit <code>src/App.tsx</code> and save to test HMR
+        </p>
+      </div>
+      <p className="read-the-docs">
+        Click on the Vite and React logos to learn more
+      </p>
+    </div>
+  )
+=======
+>>>>>>> topic/eslint
         <div className="App">
             <div className="flex">
                 <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
@@ -17,9 +47,13 @@ function App() {
             </div>
             <h1 className="bg-blue-500">Vite + React</h1>
             <div className="card">
+<<<<<<< HEAD
                 <Button onClick={() => setCount((count) => count + 1)} state={count}>
                     count is {count}
                 </Button>
+=======
+                <Button onClick={() => setCount((count) => count + 1)}>count is {count}</Button>
+>>>>>>> topic/eslint
                 <p>
                     Edit <code>src/App.tsx</code> and save to test HMR
                 </p>
@@ -27,6 +61,10 @@ function App() {
             <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
         </div>
     );
+<<<<<<< HEAD
+=======
+>>>>>>> Stashed changes
+>>>>>>> topic/eslint
 }
 
 export default App;
