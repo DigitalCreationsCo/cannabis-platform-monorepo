@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "lint": "eslint -c eslint-config/base.js"
+    "lint": "eslint -c .eslintrc.cjs",
+    "lint:fix": "eslint -c .eslintrc.cjs --fix"
   },
   "peerDependencies": {
     "@typescript-eslint/eslint-plugin": "5.45.0",

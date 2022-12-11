@@ -1207,6 +1207,8 @@ __metadata:
     next: 13.0.6
     react: 18.2.0
     react-dom: 18.2.0
+    shared-config: "*"
+    shared-ui: "*"
   peerDependencies:
     "@types/node": 18.11.10
     "@types/react": 18.0.26
@@ -1216,12 +1218,15 @@ __metadata:
     autoprefixer: 10.4.13
     eslint: 8.29.0
     eslint-config-next: 13.0.6
+    eslint-config-prettier: 8.5.0
     eslint-plugin-import: 2.26.0
     eslint-plugin-jsx-a11y: 6.6.1
+    eslint-plugin-prettier: 4.2.1
+    eslint-plugin-react: 7.31.11
+    eslint-plugin-react-hooks: 4.6.0
+    eslint-plugin-simple-import-sort: 8.0.0
     postcss: 8.4.19
     prettier: 2.8.0
-    shared-config: "*"
-    shared-ui: "*"
     tailwindcss: 3.2.4
     typescript: 4.9.3
   languageName: unknown
@@ -1505,6 +1510,7 @@ __metadata:
     eslint-plugin-prettier: 4.2.1
     eslint-plugin-react: 7.31.11
     eslint-plugin-react-hooks: 4.6.0
+    eslint-plugin-simple-import-sort: 8.0.0
     json: 11.0.0
     postcss: 8.4.19
     prettier: 2.8.0
@@ -2360,6 +2366,15 @@ __metadata:
   peerDependencies:
     eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8
   checksum: a3d612f6647bef33cf2a67c81a6b37b42c075300ed079cffecf5fb475c0d6ab855c1de340d1cbf361a0126429fb906dda597527235d2d12c4404453dbc712fc6
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-simple-import-sort@npm:8.0.0":
+  version: 8.0.0
+  resolution: "eslint-plugin-simple-import-sort@npm:8.0.0"
+  peerDependencies:
+    eslint: ">=5.0.0"
+  checksum: d2a92a7d148803ee9ad4f081892a8d03820198c36a0f4f16a97d9f686a714edc9c9a9e51cc79cb0ba1afff76a1fde6a5eae50e9e3754928068227c92a2db5d6b
   languageName: node
   linkType: hard
 
@@ -4536,6 +4551,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": 5.45.0
     "@typescript-eslint/parser": 5.45.0
     "@vitejs/plugin-react": 2.2.0
+    shared-config: "*"
     vite: 3.2.3
     vite-plugin-dts: 1.7.1
     vite-plugin-eslint: ^1.8.1
@@ -4555,12 +4571,10 @@ __metadata:
     eslint-plugin-react: 7.31.11
     eslint-plugin-react-hooks: 4.6.0
     eslint-plugin-simple-import-sort: 8.0.0
-    json: 11.0.0
     postcss: 8.4.19
     prettier: 2.8.0
     react: 18.2.0
     react-dom: 18.2.0
-    shared-config: "*"
     tailwindcss: 3.2.4
     typescript: 4.9.3
     vite: 3.2.3
