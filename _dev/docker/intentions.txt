@@ -10,5 +10,6 @@ app, require tailwind config from shared-config
 
 do next:
 start adding all components!
+add icons
 migrate all mui components to tailwind
 app prisma config & lib

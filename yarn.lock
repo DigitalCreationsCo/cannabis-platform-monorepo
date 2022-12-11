@@ -1214,6 +1214,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": 5.45.0
     "@typescript-eslint/parser": 5.45.0
     autoprefixer: 10.4.13
+    clsx: 1.2.1
     eslint: 8.29.0
     eslint-config-next: 13.0.6
     eslint-plugin-import: 2.26.0
@@ -1497,6 +1498,7 @@ __metadata:
     "@typescript-eslint/parser": 5.45.0
     autoprefixer: 10.4.13
     chmod: 0.2.1
+    clsx: 1.2.1
     eslint: 8.29.0
     eslint-config-next: 13.0.6
     eslint-config-prettier: 8.5.0
@@ -1586,6 +1588,13 @@ __metadata:
   version: 0.0.1
   resolution: "client-only@npm:0.0.1"
   checksum: 0c16bf660dadb90610553c1d8946a7fdfb81d624adea073b8440b7d795d5b5b08beb3c950c6a2cf16279365a3265158a236876d92bce16423c485c322d7dfaf8
+  languageName: node
+  linkType: hard
+
+"clsx@npm:1.2.1":
+  version: 1.2.1
+  resolution: "clsx@npm:1.2.1"
+  checksum: 30befca8019b2eb7dbad38cff6266cf543091dae2825c856a62a8ccf2c3ab9c2907c4d12b288b73101196767f66812365400a227581484a05f968b0307cfaf12
   languageName: node
   linkType: hard
 
@@ -4538,7 +4547,7 @@ __metadata:
     "@vitejs/plugin-react": 2.2.0
     vite: 3.2.3
     vite-plugin-dts: 1.7.1
-    vite-plugin-eslint: ^1.8.1
+    vite-plugin-eslint: 1.8.1
   peerDependencies:
     "@types/node": 18.11.10
     "@types/react": 18.0.26
@@ -4546,6 +4555,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": 5.45.0
     "@typescript-eslint/parser": 5.45.0
     autoprefixer: 10.4.13
+    clsx: 1.2.1
     eslint: 8.29.0
     eslint-config-next: 13.0.6
     eslint-config-prettier: 8.5.0
@@ -4565,7 +4575,7 @@ __metadata:
     typescript: 4.9.3
     vite: 3.2.3
     vite-plugin-dts: 1.7.1
-    vite-plugin-eslint: ^1.8.1
+    vite-plugin-eslint: 1.8.1
   languageName: unknown
   linkType: soft
 
@@ -5191,7 +5201,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite-plugin-eslint@npm:^1.8.1":
+"vite-plugin-eslint@npm:1.8.1":
   version: 1.8.1
   resolution: "vite-plugin-eslint@npm:1.8.1"
   dependencies:

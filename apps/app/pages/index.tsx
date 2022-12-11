@@ -1,10 +1,16 @@
 import Head from 'next/head';
 import Image from 'next/image';
+<<<<<<< Updated upstream
 import { Button, Page } from 'shared-ui';
+=======
+import Link from 'next/link';
+import { Button, Page } from 'shared-ui';
+import { H1, H2, H3, H4, H5 } from 'shared-ui/dist/types/Typography';
+>>>>>>> Stashed changes
 
 import styles from '../styles/Home.module.css';
 
-export default function Home() {
+export default function Dashboard() {
     return (
         <div className={styles.container}>
             <Head>
@@ -15,11 +21,25 @@ export default function Home() {
 
             <main className={styles.main}>
                 <Page>
-                    <h1>
+                    <H1>
+                        {/* <h1 className="text-4xl">hello</h1> */}
                         Welcome to <a href="https://nextjs.org">Next.js!</a>
+<<<<<<< Updated upstream
                     </h1>
                     <div className="bg-blue-500 m-2">this component is native</div>
                     <Button onClick={() => {}}>hello</Button>
+=======
+                    </H1>
+                    <H2>hello</H2>
+                    <H3>hello</H3>
+                    <H4>hello</H4>
+                    <H5>hello</H5>
+
+                    <div className="bg-blue-500">this component is native</div>
+                    <Button>
+                        <Link href="/landing">go to Landing Page</Link>
+                    </Button>
+>>>>>>> Stashed changes
                 </Page>
 
                 <p className={styles.description}>
