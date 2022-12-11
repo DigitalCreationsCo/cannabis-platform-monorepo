@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Image from 'next/image';
-import { Button, Page } from 'shared-ui';
+import { Page } from 'shared-ui';
 
 import styles from '../styles/Home.module.css';
 
@@ -19,7 +19,6 @@ export default function Home() {
                         Welcome to <a href="https://nextjs.org">Next.js!</a>
                     </h1>
                     <div className="bg-blue-500 m-2">this component is native</div>
-                    <Button onClick={() => {}}>hello</Button>
                 </Page>
 
                 <p className={styles.description}>

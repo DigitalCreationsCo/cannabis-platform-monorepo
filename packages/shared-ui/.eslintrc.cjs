@@ -8,7 +8,7 @@ module.exports = {
         'plugin:@typescript-eslint/recommended',
         'eslint-config-prettier',
     ],
-    plugins: ['prettier', 'react', 'react-hooks'],
+    plugins: [],
     settings: {
         react: {
             // Tells eslint-plugin-react to automatically detect the version of React to use.
