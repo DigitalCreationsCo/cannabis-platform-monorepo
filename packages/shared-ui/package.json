@@ -61,7 +61,6 @@
     "vite-plugin-eslint": "^1.8.1"
   },
   "files": [
-    "dist",
-    "./**"
+    "dist"
   ]
 }
