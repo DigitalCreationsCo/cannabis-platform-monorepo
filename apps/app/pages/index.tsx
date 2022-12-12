@@ -1,12 +1,8 @@
 import Head from 'next/head';
 import Image from 'next/image';
-<<<<<<< Updated upstream
-import { Button, Page } from 'shared-ui';
-=======
 import Link from 'next/link';
 import { Button, Page } from 'shared-ui';
 import { H1, H2, H3, H4, H5 } from 'shared-ui/dist/types/Typography';
->>>>>>> Stashed changes
 
 import styles from '../styles/Home.module.css';
 
