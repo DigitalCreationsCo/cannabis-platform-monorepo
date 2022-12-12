@@ -1,0 +1,13 @@
+{
+  "name": "data-access",
+  "version": "0.0.1",
+  "main": "./index.js",
+  "license": "MIT",
+  "prisma": {
+    "seed": "node --compiler-options {\"module\":\"CommonJS\"} seed.ts"
+  },
+  "peerDependencies": {
+    "@prisma/client": "4.4.0",
+    "prisma": "4.4.0"
+  }
+}
