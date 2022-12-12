@@ -6,6 +6,13 @@
   "prisma": {
     "seed": "node --compiler-options {\"module\":\"CommonJS\"} seed.ts"
   },
+  "scripts": {
+    "dev": "pscale connect cannabis_delivery_v1 dev --port 3309",
+    "migrate": "prisma migrate",
+    "push": "prisma db push",
+    "deploy": "pscale deploy-request create cannabis_delivery_v1 dev",
+    "seed": "prisma db push && prisma generate && prisma db seed"
+  },
   "peerDependencies": {
     "@prisma/client": "4.4.0",
     "prisma": "4.4.0"

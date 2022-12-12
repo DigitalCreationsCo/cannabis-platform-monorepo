@@ -14,18 +14,17 @@
     "lint": "turbo run lint",
     "install": "turbo run install",
     "dev": "turbo run dev",
+
     "app": "yarn workspace app",
+
     "cfg": "yarn workspace shared-config",
+    
     "ui": "yarn workspace shared-ui",
+    "db": "yarn workspace data-access",
+
     "build:app": "yarn workspace app build",
     "docker:app": "scripts/docker/dev-app.sh",
-    "permit-scripts": "node scripts/permit-scripts.js",
-
-    "db:dev": "pscale connect cannabis_delivery_v1 dev --port 3309",
-    "db:migrate": "yarn workspace data-access prisma migrate",
-    "db:push": "yarn workspace data-access prisma db push",
-    "db:deploy": "pscale deploy-request create cannabis_delivery_v1 dev",
-    "db:seed": "yarn workspace data-access prisma db push && yarn workspace data-access prisma generate && yarn workspace data-access prisma db seed"
+    "permit-scripts": "node scripts/permit-scripts.js"
   },
   "engines": {
     "node": "16.16.0"
