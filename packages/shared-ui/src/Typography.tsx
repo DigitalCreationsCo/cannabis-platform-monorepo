@@ -5,7 +5,7 @@ interface Props extends PropsWithChildren {
 }
 
 export const H1 = ({ className, children }: Props) => {
-    return <h1 className={cx('font-bold text-3xl', className)}>{children}</h1>;
+    return <h1 className={cx('font-bold text-4xl', className)}>{children}</h1>;
 };
 
 export const H2 = ({ className, children }: Props) => {
