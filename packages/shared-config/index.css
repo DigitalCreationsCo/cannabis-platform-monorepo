@@ -9,8 +9,8 @@
   --color-bg-inverse-soft: #bbb5a9;
 
   --color-text-primary: #14a33d;
-  --color-text-secondary: rgb(45, 45, 48);
-  --color-text-default: rgb(45, 45, 48);
+  --color-text-secondary: rgb(48, 45, 45);
+  --color-text-default: rgb(62, 58, 58);
   --color-text-default-soft: rgb(168, 168, 168);
   --color-text-inverse: #ffffff;
   --color-text-inverse-soft: #c6c0b5;
@@ -24,7 +24,7 @@
 }
 
 /** purgecss start ignore */
-.theme-dark {
+/* .theme-dark {
   --color-bg-primary: #847543;
   --color-bg-secondary: #dcd0c0;
   --color-bg-default: #f4f4f4;
@@ -43,8 +43,7 @@
   --font-weight-btn: 600;
 
   --rounded-btn: 0;
-  --rounded-full: 100;
-}
+} */
 /** purgecss end ignore */
 
 @tailwind utilities;

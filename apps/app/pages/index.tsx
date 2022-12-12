@@ -57,9 +57,6 @@ export default function Dashboard() {
             <H5>
                 <Link href="/">Welcome to Gras Cannabis</Link>
             </H5>
-            <Button>
-                <Link href="/landing">go to Landing Page</Link>
-            </Button>
         </Page>
     );
 }

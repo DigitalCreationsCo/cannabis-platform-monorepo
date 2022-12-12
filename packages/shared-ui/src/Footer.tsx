@@ -1,5 +1,9 @@
-function Footer() {
-    return <div>Footer</div>;
-}
+import { Paragraph } from './Typography';
 
-export default Footer;
+export default function Footer() {
+    return (
+        <div className="h-[300px] mt-20 p-12 md:px-24 bg-secondary">
+            <Paragraph className="text-inverse font-bold">Gras Cannabis Distribution Co. &#169;</Paragraph>
+        </div>
+    );
+}

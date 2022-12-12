@@ -1,6 +1,5 @@
 import cx from 'clsx';
 import type { Session } from 'next-auth';
-// import { useSelector } from 'react-redux';
 import Link from 'next/link';
 import Image from 'next/image';
 import { H2, Paragraph } from './Typography';
@@ -10,17 +9,14 @@ import logo from './assets/logo.png';
 import { twMerge } from 'tailwind-merge';
 interface TopBarProps {
     session: Session | null;
+    totalItems?: number;
 }
 
-function TopBar({ session }: TopBarProps) {
-    const totalItems = 6;
+function TopBar({ session, totalItems = 4 }: TopBarProps) {
     const [loading, setLoading] = useState(false);
     const [dialogOpen, setDialogOpen] = useState(false);
 
     const toggleDialog = () => setDialogOpen(!dialogOpen);
-
-    // const state = useSelector((state) => state);
-    // const { totalItems } = state.cart;
 
     const bar = cx('flex flex-row pr-4 lg:px-8 bg-default space-x-2 items-center shadow');
     return (
@@ -29,7 +25,7 @@ function TopBar({ session }: TopBarProps) {
                 <Image alt="Gras" width={50} height={50} src={logo} />
             </Link>
             <Link href="/">
-                <H2 className={'text-primary'}>Gras</H2>
+                <H2>Gras</H2>
             </Link>
             <Link href="/">
                 <Paragraph
@@ -87,7 +83,7 @@ function TopBar({ session }: TopBarProps) {
                         {totalItems >= 1 && (
                             <div
                                 className={twMerge(
-                                    'absolute inline-flex items-center justify-center w-6 h-6 text-sm font-bold text-primary bg-primary border-white rounded-full -top-2 -right-2'
+                                    'absolute inline-flex items-center justify-center w-6 h-6 text-sm text-inverse bg-primary -top-2 -right-2 rounded-full'
                                 )}
                             >
                                 {totalItems}
@@ -96,10 +92,6 @@ function TopBar({ session }: TopBarProps) {
                     </Button>
                 </Link>
             </div>
-
-            {/* <Dialog open={dialogOpen} scroll="body" onClose={toggleDialog}>
-                <Login dialogClose={() => setDialogOpen(false)} />
-            </Dialog> */}
         </div>
     );
 }

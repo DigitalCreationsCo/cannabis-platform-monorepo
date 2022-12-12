@@ -33,29 +33,33 @@ module.exports = {
         borderRadius: {
             none: '0',
             btn: 'var(--rounded-btn)',
-        },
-        typography: {
-            DEFAULT: {
-                css: {
-                    h1: {
-                        fontFamily: 'Cal Sans',
-                    },
-                    h2: {
-                        fontFamily: 'Cal Sans',
-                    },
-                    h3: {
-                        fontFamily: 'Cal Sans',
-                    },
-                    'blockquote p:first-of-type::before': { content: 'none' },
-                    'blockquote p:first-of-type::after': { content: 'none' },
-                },
-            },
+            full: '9999px',
         },
         fontWeights: {
             normal: 'var(--font-weight-normal)',
             bold: 'var(--font-weight-bold)',
             display: 'var(--font-weight-display)',
             btn: 'var(--font-weight-btn)',
+        },
+        letterSpacing: {
+            normal: '.5px',
+        },
+    },
+    typography: {
+        DEFAULT: {
+            css: {
+                h1: {
+                    fontFamily: 'Cal Sans',
+                },
+                h2: {
+                    fontFamily: 'Cal Sans',
+                },
+                h3: {
+                    fontFamily: 'Cal Sans',
+                },
+                'blockquote p:first-of-type::before': { content: 'none' },
+                'blockquote p:first-of-type::after': { content: 'none' },
+            },
         },
     },
     // variants: {},
