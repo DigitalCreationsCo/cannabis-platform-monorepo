@@ -57,8 +57,6 @@ export default function Dashboard() {
             <H5>
                 <Link href="/">Welcome to Gras Cannabis</Link>
             </H5>
-
-            <div className="bg-blue-500">this component is native</div>
             <Button>
                 <Link href="/landing">go to Landing Page</Link>
             </Button>

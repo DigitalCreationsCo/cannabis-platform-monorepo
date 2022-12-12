@@ -1,3 +1,50 @@
 @tailwind base;
 @tailwind components;
+
+:root {
+  --color-bg-primary: #14a33d;
+  --color-bg-secondary: #11dd63;
+  --color-bg-default: #fff2da;
+  --color-bg-inverse: #a49b8a;
+  --color-bg-inverse-soft: #bbb5a9;
+
+  --color-text-primary: #14a33d;
+  --color-text-secondary: rgb(45, 45, 48);
+  --color-text-default: rgb(45, 45, 48);
+  --color-text-default-soft: rgb(168, 168, 168);
+  --color-text-inverse: #ffffff;
+  --color-text-inverse-soft: #c6c0b5;
+
+  --font-weight-normal: 400;
+  --font-weight-bold: 800; 
+  --font-weight-display: 400;
+  --font-weight-btn: 600;
+
+  --rounded-btn: 0.25rem;
+}
+
+/** purgecss start ignore */
+.theme-dark {
+  --color-bg-primary: #847543;
+  --color-bg-secondary: #dcd0c0;
+  --color-bg-default: #f4f4f4;
+  --color-bg-inverse: #373737;
+
+  --color-text-primary: rgb(246, 244, 244);
+  --color-text-secondary: #927e7e;
+  --color-text-default: #373737;
+  --color-text-default-soft: #6a6a6a;
+  --color-text-inverse: #fff;
+  --color-text-inverse-soft: #bbb;
+
+  --font-weight-normal: 400;
+  --font-weight-bold: 800;
+  --font-weight-display: 400;
+  --font-weight-btn: 600;
+
+  --rounded-btn: 0;
+  --rounded-full: 100;
+}
+/** purgecss end ignore */
+
 @tailwind utilities;
