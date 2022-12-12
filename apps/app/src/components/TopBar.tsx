@@ -1,15 +1,16 @@
 import cx from 'clsx';
-import type { Session } from 'next-auth';
 import Link from 'next/link';
 import Image from 'next/image';
-import { H2, Paragraph } from './Typography';
+import logo from '../../public/logo.png'
+import { H2, Paragraph, Button } from 'shared-ui';
+// import { Session } from "next-auth";
 import { useState } from 'react';
-import Button from './Button';
-import logo from './assets/logo.png';
 import { twMerge } from 'tailwind-merge';
+
 interface TopBarProps {
-    session: Session | null;
-    totalItems?: number;
+    // session: Session | null;
+    session: any;
+    totalItems: number;
 }
 
 function TopBar({ session, totalItems = 4 }: TopBarProps) {
