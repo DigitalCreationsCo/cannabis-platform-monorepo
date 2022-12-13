@@ -1,6 +1,6 @@
-import React from "react";
+import { SVGAttributes } from 'react';
 
-const FacebookFilled = (props) => {
+const FacebookFilled = (props: SVGAttributes<SVGElement>) => {
   return (
     <svg {...props} viewBox="0 0 30 30">
       <circle cx="15" cy="15" r="15" fill="#3B5998" />

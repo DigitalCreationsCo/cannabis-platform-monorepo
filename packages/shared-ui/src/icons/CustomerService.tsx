@@ -1,6 +1,6 @@
-import React from "react";
+import { SVGAttributes } from 'react';
 
-const CustomerService = (props) => {
+const CustomerService = (props: SVGAttributes<SVGElement>) => {
   return (
     <svg {...props} viewBox="0 0 64 64">
       <g>

@@ -1,6 +1,6 @@
-import React from "react";
+import { SVGAttributes } from 'react';
 
-const CartIcon = (props) => {
+const CartIcon = (props: SVGAttributes<SVGElement>) => {
   return (
     <svg {...props} viewBox="0 0 12 14">
       <path

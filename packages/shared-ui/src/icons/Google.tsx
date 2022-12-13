@@ -1,6 +1,6 @@
-import React from "react";
+import { SVGAttributes } from 'react';
 
-const Google = (props) => {
+const Google = (props: SVGAttributes<SVGElement>) => {
   return (
     <svg {...props} viewBox="0 0 14 14">
       <path

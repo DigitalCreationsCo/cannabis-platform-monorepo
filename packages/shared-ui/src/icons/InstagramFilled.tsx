@@ -1,6 +1,6 @@
-import React from "react";
+import { SVGAttributes } from 'react';
 
-const InstagramFilled = (props) => {
+const InstagramFilled = (props: SVGAttributes<SVGElement>) => {
   return (
     <svg {...props} viewBox="0 0 30 30">
       <circle cx="15" cy="15" r="15" fill="#E1306C" />

@@ -1,6 +1,6 @@
-import React from "react";
+import { SVGAttributes } from 'react';
 
-const Telegram = (props) => {
+const Telegram = (props: SVGAttributes<SVGElement>) => {
   return (
     <svg {...props} viewBox="0 -39 512.00011 512">
       <g>

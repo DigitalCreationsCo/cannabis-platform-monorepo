@@ -12,7 +12,7 @@ const SearchIcon = ({ className, color, height, width }: SearchIconProps) => {
       fill={color}
       version="1.1"
       viewBox="0 0 512 512"
-      xmlSpace="preserve"
+      {...props}
     >
       <title>Search Icon</title>
       <path

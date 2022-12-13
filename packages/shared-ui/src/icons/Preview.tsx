@@ -1,6 +1,6 @@
-import React from "react";
+import { SVGAttributes } from 'react';
 
-const Preview = (props) => {
+const Preview = (props: SVGAttributes<SVGElement>) => {
   return (
     <svg {...props} viewBox="0 0 14 14" sx={{ fill: "none" }}>
       <g clipPath="url(#clip0_6740_34819)">

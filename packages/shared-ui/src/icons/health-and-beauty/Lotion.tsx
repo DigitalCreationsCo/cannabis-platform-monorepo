@@ -1,6 +1,6 @@
-import React from "react";
+import { SVGAttributes } from 'react';
 
-const Lotion = (props) => {
+const Lotion = (props: SVGAttributes<SVGElement>) => {
   return (
     <svg {...props} viewBox="0 0 18 18" fill="none">
       <path

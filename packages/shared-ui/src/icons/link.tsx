@@ -1,4 +1,4 @@
-import React from "react";
+import { SVGAttributes } from 'react';
 import type { BaseIconProps } from "shared-util/types";
 
 interface LinkIconProps extends BaseIconProps {}
@@ -16,7 +16,7 @@ function LinkIcon({ className, color, height, width }: LinkIconProps) {
       enableBackground="new 0 0 512 512"
       version="1.1"
       viewBox="0 0 512 512"
-      xmlSpace="preserve"
+      {...props}
     >
       <title>Twitter Icon</title>
       <path

@@ -1,6 +1,6 @@
-import React from "react";
+import { SVGAttributes } from 'react';
 
-const Picture = (props) => {
+const Picture = (props: SVGAttributes<SVGElement>) => {
   return (
     <svg {...props} viewBox="0 0 28 29">
       <path

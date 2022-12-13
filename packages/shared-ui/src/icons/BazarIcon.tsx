@@ -1,4 +1,4 @@
-import React from "react";
+import { SVGAttributes } from 'react';
 
 export interface BazarIconProps {}
 

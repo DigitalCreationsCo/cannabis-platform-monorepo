@@ -1,6 +1,6 @@
-import React from "react";
+import { SVGAttributes } from 'react';
 
-const Tops = (props) => {
+const Tops = (props: SVGAttributes<SVGElement>) => {
   return (
     <svg
       {...props}

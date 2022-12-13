@@ -1,6 +1,6 @@
-import React from "react";
+import { SVGAttributes } from 'react';
 
-const Pages = (props) => {
+const Pages = (props: SVGAttributes<SVGElement>) => {
   return (
     <svg
       {...props}

@@ -1,6 +1,6 @@
-import React from "react";
+import { SVGAttributes } from 'react';
 
-const Youtube = (props) => {
+const Youtube = (props: SVGAttributes<SVGElement>) => {
   return (
     <svg {...props} viewBox="0 0 15 11">
       <path

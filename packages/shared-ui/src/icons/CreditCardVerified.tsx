@@ -1,6 +1,6 @@
-import React from "react";
+import { SVGAttributes } from 'react';
 
-const CreditCardVerified = (props) => {
+const CreditCardVerified = (props: SVGAttributes<SVGElement>) => {
   return (
     <svg {...props} viewBox="0 0 64 64">
       <g>

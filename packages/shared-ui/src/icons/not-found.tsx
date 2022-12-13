@@ -16,7 +16,7 @@ const NotFoundIcon = ({
       className={className}
       fill={color}
       viewBox="0 0 634 431"
-      xmlSpace="preserve"
+      {...props}
     >
       <title>Not Found Icon</title>
       <g>

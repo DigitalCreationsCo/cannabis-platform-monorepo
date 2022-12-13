@@ -1,6 +1,6 @@
-import React from "react";
+import { SVGAttributes } from 'react';
 
-const Quote = (props) => {
+const Quote = (props: SVGAttributes<SVGElement>) => {
   return (
     <svg {...props} viewBox="0 0 60 60">
       <path d="M0 30.0005V55.7148H25.7143V30.0005H8.57149C8.57149 20.5481 16.262 12.8576 25.7143 12.8576V4.28613C11.5346 4.28613 0 15.8207 0 30.0005Z" />

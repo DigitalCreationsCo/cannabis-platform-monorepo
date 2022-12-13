@@ -1,6 +1,6 @@
-import React from "react";
+import { SVGAttributes } from 'react';
 
-const Lipstick = (props) => {
+const Lipstick = (props: SVGAttributes<SVGElement>) => {
   return (
     <svg {...props} viewBox="0 0 18 18" fill="none">
       <g clipPath="url(#clip0_6820_26095)">

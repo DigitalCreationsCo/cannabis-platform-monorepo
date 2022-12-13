@@ -1,6 +1,6 @@
-import React from "react";
+import { SVGAttributes } from 'react';
 
-const TeddyBear = (props) => {
+const TeddyBear = (props: SVGAttributes<SVGElement>) => {
   return (
     <svg {...props} viewBox="0 0 511.988 511.988">
       <g>

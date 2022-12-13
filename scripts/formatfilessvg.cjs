@@ -9,10 +9,9 @@ const path = require('path');
 const fs = require('fs');
 
 // joining path of directory
-const directoryPath = path.join('../');
-
-// passing directoryPath and callback function
-fs.readdir(directoryPath, function (err, files) {
+const dir = path.join(__dirname);
+// read files from directory path and callback function
+fs.readdir(dir, function (err, files) {
     //handling error
     if (err) {
         return console.log('Unable to scan directory: ' + err);
@@ -29,13 +28,13 @@ fs.readdir(directoryPath, function (err, files) {
 
 function updateFile(filename, replacements) {
     return new Promise(function (resolve) {
-        fs.readFile(__dirname + '/../' + filename, 'utf-8', function (err, data) {
+        fs.readFile(__dirname + '/' + filename, 'utf-8', function (err, data) {
             var regex, replaceStr;
             if (err) {
                 throw err;
             } else {
                 console.log('formatting files...');
-                replacements.forEach((r, i) => {
+                replacements.forEach((r) => {
                     regex = new RegExp(r.rule);
                     // equals 'let = "match"'
                     // '(\\' + 'let' + '\\s* ]*' + replacements[0].rule + '\\s*=\\s*)([^\\n;}]+)([\\s*;}])'
@@ -56,7 +55,7 @@ function updateFile(filename, replacements) {
 
 const updateOptions = [
     { rule: 'import React from "react";', replacer: "import { SVGAttributes } from 'react';" },
-    { rule: '(props)', replacer: '(props: SVGAttributes<SVGElement>)' },
+    { rule: `\(props\)`, replacer: `props: SVGAttributes<SVGElement>` },
     {
         rule: `svg
                     xmlns="http://www.w3.org/2000/svg"

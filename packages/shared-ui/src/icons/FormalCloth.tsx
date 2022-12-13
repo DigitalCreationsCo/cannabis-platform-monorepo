@@ -1,4 +1,4 @@
-const FormalCloth = (props) => {
+const FormalCloth = (props: SVGAttributes<SVGElement>) => {
   return (
     <svg
       {...props}

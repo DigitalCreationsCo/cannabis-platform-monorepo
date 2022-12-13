@@ -1,6 +1,6 @@
-import React from "react";
+import { SVGAttributes } from 'react';
 
-const Man = (props) => {
+const Man = (props: SVGAttributes<SVGElement>) => {
   return (
     <svg {...props} viewBox="-12 0 512 512.00067">
       <path d="m209.835938 175.996094c0-8.613282-5.453126-15.359375-12.414063-15.359375-6.957031 0-12.410156 6.746093-12.410156 15.359375 0 8.613281 5.449219 15.359375 12.410156 15.359375s12.414063-6.746094 12.414063-15.359375zm0 0" />

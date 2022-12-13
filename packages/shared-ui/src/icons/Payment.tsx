@@ -1,6 +1,6 @@
-import React from "react";
+import { SVGAttributes } from 'react';
 
-const Payment = (props) => {
+const Payment = (props: SVGAttributes<SVGElement>) => {
   return (
     <svg {...props} viewBox="0 0 42 43">
       <g>

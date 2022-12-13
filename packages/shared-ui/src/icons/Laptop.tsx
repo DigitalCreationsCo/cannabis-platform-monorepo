@@ -1,6 +1,6 @@
-import React from "react";
+import { SVGAttributes } from 'react';
 
-const Laptop = (props) => {
+const Laptop = (props: SVGAttributes<SVGElement>) => {
   return (
     <svg {...props} viewBox="0 0 512 512">
       <g>

@@ -1,6 +1,6 @@
-import React from "react";
+import { SVGAttributes } from 'react';
 
-const NewYearGift = (props) => {
+const NewYearGift = (props: SVGAttributes<SVGElement>) => {
   return (
     <svg {...props} viewBox="0 0 19 19" fill="none">
       <g clipPath="url(#clip0_6820_24136)">

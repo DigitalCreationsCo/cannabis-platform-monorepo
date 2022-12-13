@@ -12,7 +12,7 @@ const PlusIcon = ({ color, width, height, className }: PlusIconProps) => {
       fill={color}
       version="1.1"
       viewBox="0 0 512 512"
-      xmlSpace="preserve"
+      {...props}
     >
       <title>Plus Icon</title>
       <path d="M224 32v448c0 17.7 14.3 32 32 32s32-14.3 32-32V32c0-17.7-14.3-32-32-32s-32 14.3-32 32"></path>

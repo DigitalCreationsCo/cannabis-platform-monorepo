@@ -1,6 +1,6 @@
-import React from "react";
+import { SVGAttributes } from 'react';
 
-const RoundTable = (props) => {
+const RoundTable = (props: SVGAttributes<SVGElement>) => {
   return (
     <svg {...props} viewBox="0 0 19 17" fill="none">
       <path

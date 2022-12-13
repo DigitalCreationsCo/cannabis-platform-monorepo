@@ -1,6 +1,6 @@
-import React from "react";
+import { SVGAttributes } from 'react';
 
-const TruckFilled = (props) => {
+const TruckFilled = (props: SVGAttributes<SVGElement>) => {
   return (
     <svg {...props} viewBox="0 0 36 36">
       <path
