@@ -21,6 +21,8 @@
   --font-weight-btn: 600;
 
   --rounded-btn: 0.25rem;
+
+  --sidebar-nav-height: calc(100vh - 64px);
 }
 
 /** purgecss start ignore */

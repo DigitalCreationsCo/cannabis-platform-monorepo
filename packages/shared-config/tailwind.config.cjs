@@ -11,6 +11,9 @@ module.exports = {
                 sans: ['Inter var', ...defaultTheme.fontFamily.sans],
                 mono: ['Consolas', ...defaultTheme.fontFamily.mono],
             },
+            height: {
+                'sidebar-nav-height': 'var(--sidebar-nav-height)',
+            },
         },
         fontFamily: {
             cal: ['Cal Sans', 'Inter var', 'sans-serif'],

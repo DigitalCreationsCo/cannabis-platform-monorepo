@@ -24,6 +24,39 @@ export default function Dashboard() {
             <H4>
                 <Link href="/">Welcome to Gras Cannabis</Link>
             </H4>
+            <H5>
+                <Link href="/">Welcome to Gras Cannabis</Link>
+            </H5>
+            <H1>
+                <Link href="/">Welcome to Gras Cannabis</Link>
+            </H1>
+            <H2>
+                <Link href="/">Welcome to Gras Cannabis</Link>
+            </H2>
+            <H3>
+                <Link href="/">Welcome to Gras Cannabis</Link>
+            </H3>
+            <H4>
+                <Link href="/">Welcome to Gras Cannabis</Link>
+            </H4>
+            <H5>
+                <Link href="/">Welcome to Gras Cannabis</Link>
+            </H5>
+            <H1>
+                <Link href="/">Welcome to Gras Cannabis</Link>
+            </H1>
+            <H2>
+                <Link href="/">Welcome to Gras Cannabis</Link>
+            </H2>
+            <H3>
+                <Link href="/">Welcome to Gras Cannabis</Link>
+            </H3>
+            <H4>
+                <Link href="/">Welcome to Gras Cannabis</Link>
+            </H4>
+            <H5>
+                <Link href="/">Welcome to Gras Cannabis</Link>
+            </H5>
         </Page>
     );
 }

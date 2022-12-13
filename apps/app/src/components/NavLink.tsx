@@ -1,46 +1,34 @@
-import clsx from "clsx";
+import cx from "clsx";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import React, { AnchorHTMLAttributes, CSSProperties } from "react";
+import React, { AnchorHTMLAttributes, CSSProperties, PropsWithChildren } from "react";
+import { Span } from "shared-ui";
 
-// component props interface
+// THIS CMP NEEDS A UNIT TEST
+
 export interface NavLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   href: string;
   className?: string;
+  isActive: boolean;
   style?: CSSProperties;
 }
-// styled component
-// const StyledLink = styled("a")<{ active_route?: string }>(({ theme, active_route }) => ({
-//   position: "relative",
-//   transition: "color 150ms ease-in-out",
-//   color: active_route === "active" ? theme.palette.primary.main : "inherit",
-//   "&:hover": { color: `${theme.palette.primary.main} !important` },
-// }));
 
-const NavLink = ({ href, children, style, className, ...props }: NavLinkProps) => {
-  const { pathname } = useRouter();
-
-  const checkRouteMatch = () => {
-    if (href === "/") return pathname === href;
-    return pathname.includes(href);
-  };
-  // active route
-  const currentRoute = checkRouteMatch();
-
+const NavLink = ({ href, isActive, children, style, className, ...props }: NavLinkProps) => {
+  const navLinkStyle = 'pr-1.5 mb-1.5 border-left-4 items-center justify-between { isActive ? border-yellow : transparent }'
   return (
-    // <Link href={href}>
-    //   <StyledLink
-    //     href={href}
-    //     style={style}
-    //     className={clsx(className)}
-    //     active_route={currentRoute ? "active" : ""}
-    //     {...props}
-    //   >
-    //     {children}
-    //   </StyledLink>
-    // </Link>
-    <div>{ children }</div>
+    <div className={ cx(navLinkStyle) }>
+      <Link href={href}>
+        <StyledLink isActive={ isActive } {...props}>
+          { children }
+        </StyledLink>
+      </Link>
+    </div>
   );
 };
+
+const StyledLink = ({ isActive, children }: {isActive: boolean} & PropsWithChildren) => {
+    return(
+        <Span className={cx('whitespace-nowrap',isActive ? 'text-primary' : 'text-secondary', 'relative transition hover:text-primary')}>{children}</Span>
+    )
+}
 
 export default NavLink;

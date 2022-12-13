@@ -17,10 +17,7 @@
     "app": "yarn workspace app",
     "cfg": "yarn workspace shared-config",
     "ui": "yarn workspace shared-ui",
-<<<<<<< Updated upstream
-=======
-    "db": "yarn workspace data-access",
->>>>>>> Stashed changes
+    
     "build:app": "yarn workspace app build",
     "docker:app": "scripts/docker/dev-app.sh",
     "permit-scripts": "node scripts/permit-scripts.js"

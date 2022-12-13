@@ -1,43 +1,40 @@
-// import FlexBox from "components/FlexBox";
-// import Pages from "components/icons/Pages";
-// import User2 from "components/icons/User2";
 import { useRouter } from 'next/router';
 import { PropsWithChildren } from 'react';
+import { Span } from 'shared-ui';
+import FlexBox from './FlexBox';
 import NavLink, { NavLinkProps } from './NavLink';
 
-interface DashboardNavLinkProps extends PropsWithChildren{
-    isActive: boolean;
-}
-export const DashboardNavLink = ({ children, isActive, ...rest }: DashboardNavLinkProps & NavLinkProps) => {
+export const DashboardNavLink = ({ children, isActive, ...rest }: DashboardNavLinkProps) => {
     return (
-        <NavLink { ...rest }>{ children }</NavLink>
-    );
-}
-
-interface DashboardNavigationWrapperProps extends PropsWithChildren { }
-export const DashboardNavigationWrapper = ({ children }: DashboardNavigationWrapperProps) => {
-    return (
-        <div className='h-7/8 overflow-auto z-10 shadow rounded-btn'>
-            { children }
+        <div className="w-full">
+            <NavLink isActive={isActive} { ...rest }>{ children }</NavLink>
         </div>
     );
 }
 
+type DashboardNavLinkProps = NavLinkProps
+type DashboardNavigationWrapperProps = PropsWithChildren
 interface AdminDashboardProps extends PropsWithChildren {}
+
+export const DashboardNavigationWrapper = ({ children }: DashboardNavigationWrapperProps) => {
+    return (
+        <div className='sidebar-nav-height h-7/8 overflow-auto z-10 shadow rounded-btn'>
+            { children }
+        </div>
+    );
+}
 
 const AdminDashboardNavigation = ({ children }: AdminDashboardProps) => {
     const { pathname } = useRouter();
     return (
         <>
             <DashboardNavigationWrapper>
-                {links.map((item) => (
-                    // <StyledDashboardNav href={item.href} key={item.title} isCurrentPath={pathname.includes(item.href)}>
-                    //     <FlexBox alignItems="center" gap={1}>
-                    //         <item.icon className="nav-icon" fontSize="small" color="inherit" />
-                        // </FlexBox>
-                    // </StyledDashboardNav>
-                    <DashboardNavLink isActive={false}>
-                        <span>{item.title}</span>
+                { links.map((item) => (
+                    <DashboardNavLink href={ item.href } key={ item.title } isActive={ pathname.includes(item.href) }>
+                        <FlexBox>
+                {/*         <item.icon className="nav-icon" fontSize="small" color="inherit" /> */}
+                            <Span>{ item.title }</Span>
+                        </FlexBox>
                     </DashboardNavLink>
                 ))}
             </DashboardNavigationWrapper>
