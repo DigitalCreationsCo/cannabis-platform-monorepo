@@ -55,8 +55,8 @@ function updateFile(filename, replacements) {
 }
 
 const updateOptions = [
-    { rule: '^.', replacer: "import { SVGAttributes } from 'react';" },
-    { rule: '(props)', replacer: 'props: SVGAttribute' },
+    { rule: 'import React from "react";', replacer: "import { SVGAttributes } from 'react';" },
+    { rule: '(props)', replacer: '(props: SVGAttributes<SVGElement>)' },
     {
         rule: `svg
                     xmlns="http://www.w3.org/2000/svg"
