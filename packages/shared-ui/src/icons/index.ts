@@ -118,7 +118,7 @@ import Yogurt from './Yogurt';
 import Youtube from './Youtube';
 import YoutubeFilled from './YoutubeFilled';
 
-const appIcons = {
+const Icons = {
     Beer,
     Milk,
     Snack,
@@ -249,4 +249,4 @@ const appIcons = {
     XIcon,
 };
 
-export default appIcons;
+export default Icons;

@@ -11,6 +11,10 @@
       "import": "./dist/shared-ui.es.js",
       "require": "./dist/shared-ui.umd.js"
     },
+    "./icons": {
+      "import": "./dist/shared-ui.es.js",
+      "require": "./dist/shared-ui.umd.js"
+    },
     "./dist/style.css": "./dist/style.css"
   },
   "scripts": {
