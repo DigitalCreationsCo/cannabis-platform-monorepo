@@ -1,4 +1,4 @@
-import React from 'react';
+import { SVGAttributes } from 'react';
 
 const FeedbackThumbsUp = (props: SVGAttributes<SVGElement>) => {
     return (
