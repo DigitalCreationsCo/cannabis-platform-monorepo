@@ -5,6 +5,7 @@ module.exports = {
         eqeqeq: 'error',
         'no-console': 'warn',
         'prettier/prettier': 'error',
+        'no-useless-escape': 'off',
         'react/jsx-uses-react': 'off',
         'react/react-in-jsx-scope': 'off',
     },

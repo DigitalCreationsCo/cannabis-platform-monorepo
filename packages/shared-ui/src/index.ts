@@ -7,4 +7,6 @@ export { default as Footer } from './Footer';
 export { default as Header } from './Header';
 export { default as Page } from './Page';
 export { default as SideNavContainer } from './SideNavContainer';
-export * from './Typography';
+
+export * as icons from './icons';
+export * as typography from './Typography';
