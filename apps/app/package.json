@@ -1,5 +1,5 @@
 {
-    "name": "app",
+    "name": "@cd/app",
     "version": "0.0.1",
     "private": true,
     "scripts": {
@@ -9,6 +9,9 @@
         "lint": "next lint"
     },
     "peerDependencies": {
+        "@cd/data-access": "*",
+        "@cd/shared-config": "*",
+        "@cd/shared-ui": "*",
         "@reduxjs/toolkit": "1.9.1",
         "@tailwindcss/typography": "0.5.8",
         "@types/node": "18.11.10",
@@ -34,8 +37,6 @@
         "react": "18.2.0",
         "react-dom": "18.2.0",
         "react-redux": "8.0.5",
-        "shared-config": "*",
-        "shared-ui": "*",
         "tailwind-merge": "1.8.0",
         "tailwindcss": "3.2.4",
         "typescript": "4.9.3"

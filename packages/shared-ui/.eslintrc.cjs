@@ -1,6 +1,6 @@
 module.exports = {
     extends: [
-        '../../node_modules/shared-config/.eslintrc.cjs',
+        '../../node_modules/@cd/shared-config/.eslintrc.cjs',
         'plugin:prettier/recommended',
         'plugin:react/recommended',
         'plugin:import/recommended',

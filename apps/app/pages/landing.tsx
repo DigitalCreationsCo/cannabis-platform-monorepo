@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
 import { ReactNode } from 'react';
-import { Page } from 'shared-ui';
+import { Page } from '@cd/shared-ui';
 
 function LandingPage() {
     return <div>Landing Page</div>;

@@ -1,5 +1,5 @@
-import "shared-ui/dist/style.css"
-import "shared-config/index.css"
+import "@cd/shared-ui/dist/style.css"
+import "@cd/shared-config/index.css"
 
 import { Layout } from 'components';
 import type { AppProps } from 'next/app';

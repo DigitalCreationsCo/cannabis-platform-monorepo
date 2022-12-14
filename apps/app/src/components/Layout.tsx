@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react';
-import { Footer, Header, TopBar } from 'shared-ui';
+import { Footer, Header, TopBar } from '@cd/shared-ui';
 import SearchBar from "./AppSearch"
 
 interface LayoutProps extends PropsWithChildren {}

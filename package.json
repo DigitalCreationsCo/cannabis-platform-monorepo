@@ -1,5 +1,5 @@
 {
-  "name": "cannabis-platform-monorepo",
+  "name": "@cd/cannabis-platform-monorepo",
   "version": "0.0.1",
   "main": "index.js",
   "license": "MIT",
@@ -9,20 +9,16 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "yarn workspaces foreach --topological-dev --parallel --exclude cannabis-platform-monorepo run build",
+    "build": "yarn workspaces foreach --topological-dev --parallel --exclude @cd/cannabis-platform-monorepo run build",
     "test": "turbo run test",
     "lint": "turbo run lint",
     "install": "turbo run install",
     "dev": "turbo run dev",
-
-    "app": "yarn workspace app",
-
-    "cfg": "yarn workspace shared-config",
-    
-    "ui": "yarn workspace shared-ui",
-    "db": "yarn workspace data-access",
-
-    "build:app": "yarn workspace app build",
+    "app": "yarn workspace @cd/app",
+    "cfg": "yarn workspace @cd/shared-config",
+    "ui": "yarn workspace @cd/shared-ui",
+    "db": "yarn workspace @cd/data-access",
+    "build:app": "yarn workspace @cd/app build",
     "docker:app": "scripts/docker/dev-app.sh",
     "permit-scripts": "node scripts/permit-scripts.js"
   },
@@ -30,6 +26,9 @@
     "node": "16.16.0"
   },
   "devDependencies": {
+    "@cd/data-access": "*",
+    "@cd/shared-config": "*",
+    "@cd/shared-ui": "*",
     "@prisma/client": "4.4.0",
     "@reduxjs/toolkit": "1.9.1",
     "@tailwindcss/typography": "0.5.8",
@@ -59,8 +58,6 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-redux": "8.0.5",
-    "shared-config": "*",
-    "shared-ui": "*",
     "tailwind-merge": "1.8.0",
     "tailwindcss": "3.2.4",
     "turbo": "1.6.3",
