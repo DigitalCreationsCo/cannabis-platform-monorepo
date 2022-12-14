@@ -1,4 +1,4 @@
-import '@cd/shared-config/index.css';
+import 'shared-config/index.css';
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
