@@ -1,6 +1,8 @@
 import { PropsWithChildren } from 'react';
-import { Footer, Header, TopBar } from '@cd/shared-ui';
+import { Footer, Header, SideNavContainer } from '@cd/shared-ui';
 import SearchBar from "./AppSearch"
+import TopBar from './TopBar';
+import AdminDashboardNavigation from './AdminDashBoardNavigation';
 
 interface LayoutProps extends PropsWithChildren {}
 
@@ -9,7 +11,9 @@ function Layout({ children }: LayoutProps) {
         <>
             <TopBar />
             <Header><SearchBar /></Header>
-            {children}
+            <SideNavContainer SideNavComponent={AdminDashboardNavigation}>
+                { children }
+            </SideNavContainer>
             <Footer />
         </>
     );
