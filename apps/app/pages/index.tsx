@@ -1,7 +1,6 @@
 import Head from 'next/head';
-import Image from 'next/image';
 import Link from 'next/link';
-import { Button, Page, H1, H2, H3, H4, H5 } from 'shared-ui';
+import { Page, H1, H2, H3, H4, H5 } from 'shared-ui';
 
 export default function Dashboard() {
     return (

@@ -1,6 +1,5 @@
-// import SearchIcon from 'components/icons/search';
-import { Icons } from 'shared-ui';
 import { twMerge } from 'tailwind-merge';
+import { Icons } from 'shared-ui';
 
 // export const SearchResultCard = styled(Card)(() => ({
 //   zIndex: 99,

@@ -8,7 +8,7 @@ export default defineConfig({
         react({ jsxRuntime: 'classic' }),
         dts({
             insertTypesEntry: true,
-            outputDir: 'dist/types',
+            outputDir: 'dist',
         }),
     ],
     build: {

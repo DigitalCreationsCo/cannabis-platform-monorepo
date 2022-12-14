@@ -5,13 +5,9 @@
   "type": "module",
   "main": "dist/shared-ui.umd.js",
   "module": "dist/shared-ui.es.js",
-  "types": "./dist/types/index.d.ts",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/shared-ui.es.js",
-      "require": "./dist/shared-ui.umd.js"
-    },
-    "./icons": {
       "import": "./dist/shared-ui.es.js",
       "require": "./dist/shared-ui.umd.js"
     },
