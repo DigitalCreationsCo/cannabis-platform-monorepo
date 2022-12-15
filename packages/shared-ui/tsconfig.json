@@ -18,6 +18,6 @@
     "noEmit": true,
     "jsx": "react-jsx",
   },
-  "include": ["src/**/*.{ts,tsx}", "src/assets/*.png"],
+  "include": ["src/**/*.{ts,tsx}"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
