@@ -1,5 +1,4 @@
 import { twMerge } from 'tailwind-merge';
-import Icons from '@cd/shared-ui';
 // export const SearchResultCard = styled(Card)(() => ({
 //   zIndex: 99,
 //   top: "100%",
