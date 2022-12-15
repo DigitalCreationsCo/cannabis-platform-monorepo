@@ -16,7 +16,7 @@ function Layout({ children }: LayoutProps) {
     const SessionControl = ({ children }: PropsWithChildren) => {
     return (
         <>
-        { session ? {children} : "Please login to view this page." }
+        { session ? <>{children}</> : "Please login to view this page." }
         </>
     )
     }
