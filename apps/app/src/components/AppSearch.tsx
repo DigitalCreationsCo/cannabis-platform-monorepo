@@ -1,4 +1,5 @@
 import { twMerge } from 'tailwind-merge';
+import { Icons } from '@cd/shared-ui';
 
 // export const SearchResultCard = styled(Card)(() => ({
 //   zIndex: 99,
@@ -28,7 +29,7 @@ function SearchBar() {
                 'wh-10'
             )}
         >
-            <Icons.Search height={20} width={20} />
+            {/* <Icons.Search height={20} width={20} /> */}
             <input className="outline-none w-full" placeholder="Search" />
         </div>
     );

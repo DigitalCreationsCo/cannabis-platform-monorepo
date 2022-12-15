@@ -11,9 +11,10 @@ interface TopBarProps {
     // session: Session | null;
     session: any;
     totalItems: number;
+    auth: Function
 }
 
-function TopBar({ session, totalItems = 4 }: TopBarProps) {
+function TopBar({ session, totalItems = 0, auth }: TopBarProps) {
     const [loading, setLoading] = useState(false);
     const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -46,7 +47,8 @@ function TopBar({ session, totalItems = 4 }: TopBarProps) {
 
             <div className="flex-1"></div>
 
-            {session?.user && (
+            {/* {session?.user && ( */ }
+            {session && (
                 <Link href="/support">
                     <Paragraph className={cx('pt-1', 'text-md', 'whitespace-nowrap')}>Need Support?</Paragraph>
                 </Link>
@@ -57,19 +59,22 @@ function TopBar({ session, totalItems = 4 }: TopBarProps) {
                     <Button
                         className="bg-inverse-soft md:hover:bg-inverse text-inverse transition"
                         disabled={loading}
-                        onClick={toggleDialog}
+                        onClick={auth}
                     >
                         Sign In
                     </Button>
                 )}
 
-                {session?.user && (
+                {/* {session?.user && ( */ }
+                {session && (
+                
                     <Button
                         className="bg-inverse-soft md:hover:bg-inverse text-inverse transition"
                         disabled={loading}
                         onClick={() => {
                             setLoading(true);
                             // signOut();
+                            auth();
                         }}
                     >
                         Sign Out
