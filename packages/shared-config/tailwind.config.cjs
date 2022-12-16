@@ -30,6 +30,11 @@ module.exports = {
             inverse: 'var(--color-bg-inverse)',
             'inverse-soft': 'var(--color-bg-inverse-soft)',
         },
+        borderColor: ({ theme }) => ({
+            ...theme('backgroundColor'),
+            transparent: 'var(--transparent)',
+            DEFAULT: theme('backgroundColor.primary', 'currentColor'),
+        }),
         borderRadius: {
             none: '0',
             btn: 'var(--rounded-btn)',

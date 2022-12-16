@@ -16,10 +16,10 @@ function Layout({ children }: LayoutProps) {
     return (
         <>
             <TopBar session={ session } totalItems={ 4 } auth={ toggleSession } />
-                <SideNavContainer SideNavComponent={AdminDashboardNavigation} fixedComponentId={'admin-dashboard'}>
+            <SideNavContainer SideNavComponent={ AdminDashboardNavigation } fixedComponentId={ 'admin-dashboard' }>
                 <Header><SearchBar /></Header>
                 { children }
-                </SideNavContainer>
+            </SideNavContainer>
             <Footer />
         </>
     );

@@ -2,6 +2,8 @@
 @tailwind components;
 
 :root {
+  --color-transparent: rgba(255, 255, 255, 0);
+
   --color-bg-primary: #14a33d;
   --color-bg-secondary: #11dd63;
   --color-bg-default: #fff2da;

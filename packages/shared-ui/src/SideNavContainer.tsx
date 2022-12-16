@@ -22,19 +22,14 @@ function SideNavContainer({ SideNavComponent, fixedComponentId, children }: Side
     // }, []);
 
     const classes = {
-        container: ['relative', 'flex'],
-        sideNavContainer: ['min-w-[200px]', 'z-10', 'top-0', 'bottom-0', false && 'fixed', 'md:block'],
+        container: ['flex'],
+        sideNavContainer: ['min-w-[200px]', 'z-10', 'pt-20', 'top-0', 'bottom-0', false && 'fixed', 'md:block'],
         pageContentShifted: [isFixed && 'pl-[200px]', 'w-full'],
     };
     return (
         <div id={fixedComponentId} className={cx(classes.container)}>
             <div className={cx(classes.sideNavContainer)}>
                 <SideNavComponent />
-                <>
-                    {/* {twConfig.references.map((r, i) => (
-                        <div key={i}>{r.path}</div>
-                    ))} */}
-                </>
             </div>
             <div className={cx('relative', classes.pageContentShifted)}>{children}</div>
         </div>

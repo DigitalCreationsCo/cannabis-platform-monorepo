@@ -1,44 +1,16 @@
 import { useRouter } from 'next/router';
-import { PropsWithChildren } from 'react';
-import { Span, FlexBox } from '@cd/shared-ui';
-import NavLink, { NavLinkProps } from './NavLink';
+import { Icons, NavLink } from '@cd/shared-ui';
 
-export const DashboardNavLink = ({ children, isActive, ...rest }: DashboardNavLinkProps) => {
-    return (
-        <div className="w-full">
-            <NavLink isActive={isActive} { ...rest }>{ children }</NavLink>
-        </div>
-    );
-}
-
-type DashboardNavLinkProps = NavLinkProps
-type DashboardNavigationWrapperProps = PropsWithChildren
-interface AdminDashboardProps extends PropsWithChildren {}
-
-export const DashboardNavigationWrapper = ({ children }: DashboardNavigationWrapperProps) => {
-    return (
-        <div className='sidebar-nav-height h-7/8 overflow-auto z-10 shadow rounded-btn'>
-            { children }
-        </div>
-    );
-}
-
-const AdminDashboardNavigation = ({ children }: AdminDashboardProps) => {
+const AdminDashboardNavigation = () => {
     const { pathname } = useRouter();
     return (
-        <>
-            <DashboardNavigationWrapper>
-                { links.map((item) => (
-                    <DashboardNavLink href={ item.href } key={ item.title } isActive={ pathname.includes(item.href) }>
-                        <FlexBox>
-                {/*         <item.icon className="nav-icon" fontSize="small" color="inherit" /> */}
-                            <Span>{ item.title }</Span>
-                        </FlexBox>
-                    </DashboardNavLink>
-                ))}
-            </DashboardNavigationWrapper>
-            {children}
-        </>
+        <div className="z-10 shadow rounded-btn">
+            {links.map((item) => (
+                <NavLink href={item.href} key={item.title} isActive={pathname.includes(item.href)} Icon={item.icon}>
+                    {item.title}
+                </NavLink>
+            ))}
+        </div>
     );
 };
 
@@ -46,27 +18,27 @@ const links = [
     {
         href: '/',
         title: 'Dashboard',
-        // icon: Dashboard,
+        icon: Icons.Home,
     },
     {
         href: '/products',
         title: 'Products',
-        // icon: Assignment,
+        icon: Icons.PackageBox,
     },
     {
         href: '/orders',
         title: 'Orders',
-    //     icon: ShoppingCart,
+        icon: Icons.Payment,
     },
     {
         href: '/users',
         title: 'Users',
-        // icon: User2,
+        icon: Icons.User2,
     },
     {
         href: '/site-settings',
         title: 'Site Settings',
-        // icon: Settings,
+        icon: Icons.Wheel,
     },
     // {
     //   href: "/delivery-time",

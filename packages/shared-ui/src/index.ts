@@ -9,6 +9,7 @@ export { default as Center } from "./Center";
 export { default as IconWrapper } from './IconWrapper';
 export { default as SideNavContainer } from './SideNavContainer';
 export { default as FlexBox } from "./FlexBox";
+export {default as NavLink} from "./NavLink"
 export * from "./icons";
 export { default as Icons }  from './icons';
 export * from './Typography';
