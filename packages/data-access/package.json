@@ -8,7 +8,7 @@
   "types": "./index.ts",
   "license": "MIT",
   "prisma": {
-    "seed": "node --compiler-options {\"module\":\"CommonJS\"} seed.ts"
+    "seed": "node seed.js"
   },
   "scripts": {
     "postinstall": "prisma generate",
@@ -17,7 +17,7 @@
     "migrate": "prisma migrate",
     "push": "prisma db push",
     "deploy": "pscale deploy-request create cannabis_delivery_v1 dev",
-    "seed": "prisma db push && prisma generate && prisma db seed",
+    "seed": "prisma generate && prisma db push && prisma db seed",
     "studio": "prisma studio"
 
   },

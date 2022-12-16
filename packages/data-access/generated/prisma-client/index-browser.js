@@ -248,7 +248,6 @@ exports.Prisma.ProductScalarFieldEnum = makeEnum({
   discount: 'discount',
   quantity: 'quantity',
   stock: 'stock',
-  organizationName: 'organizationName',
   organizationId: 'organizationId',
   rating: 'rating',
   tags: 'tags',

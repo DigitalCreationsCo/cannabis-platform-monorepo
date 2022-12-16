@@ -38,7 +38,6 @@ function TopBar({ session, totalItems = 0, auth }: TopBarProps) {
                         'hidden',
                         'md:block',
                         'place-self-center',
-                        'whitespace-nowrap'
                     )}
                 >
                     Cannabis Marketplace

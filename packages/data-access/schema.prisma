@@ -258,6 +258,7 @@ model Organization {
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
 
+  @@index([subdomainId])
   @@index([id])
   @@index([vendorId])
 }
@@ -272,6 +273,7 @@ model organizationMembership {
   updatedAt      DateTime         @updatedAt
 
   @@id([organizationId, membershipId])
+  @@index([organizationId])
 }
 model Product {
   id            String    @id @default(cuid())
@@ -287,7 +289,6 @@ model Product {
   quantity Int
   stock Int
   images ImageProduct[]
-  organizationName String
   organizationId String
   organization Organization @relation(fields: [organizationId], references: [id])
   orders Order[]
@@ -299,7 +300,7 @@ model Product {
   updatedAt      DateTime         @updatedAt
 
   @@index([id])
-  @@index([organizationId,organizationName])
+  @@index([organizationId])
 }
 
 model Category {

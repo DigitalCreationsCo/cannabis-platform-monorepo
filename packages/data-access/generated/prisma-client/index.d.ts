@@ -255,7 +255,6 @@ export type Product = {
   discount: number
   quantity: number
   stock: number
-  organizationName: string
   organizationId: string
   rating: number | null
   tags: string | null
@@ -17390,7 +17389,6 @@ export namespace Prisma {
     discount: number | null
     quantity: number | null
     stock: number | null
-    organizationName: string | null
     organizationId: string | null
     rating: number | null
     tags: string | null
@@ -17410,7 +17408,6 @@ export namespace Prisma {
     discount: number | null
     quantity: number | null
     stock: number | null
-    organizationName: string | null
     organizationId: string | null
     rating: number | null
     tags: string | null
@@ -17430,7 +17427,6 @@ export namespace Prisma {
     discount: number
     quantity: number
     stock: number
-    organizationName: number
     organizationId: number
     rating: number
     tags: number
@@ -17470,7 +17466,6 @@ export namespace Prisma {
     discount?: true
     quantity?: true
     stock?: true
-    organizationName?: true
     organizationId?: true
     rating?: true
     tags?: true
@@ -17490,7 +17485,6 @@ export namespace Prisma {
     discount?: true
     quantity?: true
     stock?: true
-    organizationName?: true
     organizationId?: true
     rating?: true
     tags?: true
@@ -17510,7 +17504,6 @@ export namespace Prisma {
     discount?: true
     quantity?: true
     stock?: true
-    organizationName?: true
     organizationId?: true
     rating?: true
     tags?: true
@@ -17623,7 +17616,6 @@ export namespace Prisma {
     discount: number
     quantity: number
     stock: number
-    organizationName: string
     organizationId: string
     rating: number | null
     tags: string | null
@@ -17664,7 +17656,6 @@ export namespace Prisma {
     quantity?: boolean
     stock?: boolean
     images?: boolean | ImageProductFindManyArgs
-    organizationName?: boolean
     organizationId?: boolean
     organization?: boolean | OrganizationArgs
     orders?: boolean | OrderFindManyArgs
@@ -25251,7 +25242,6 @@ export namespace Prisma {
     discount: 'discount',
     quantity: 'quantity',
     stock: 'stock',
-    organizationName: 'organizationName',
     organizationId: 'organizationId',
     rating: 'rating',
     tags: 'tags',
@@ -26348,7 +26338,6 @@ export namespace Prisma {
     quantity?: IntFilter | number
     stock?: IntFilter | number
     images?: ImageProductListRelationFilter
-    organizationName?: StringFilter | string
     organizationId?: StringFilter | string
     organization?: XOR<OrganizationRelationFilter, OrganizationWhereInput>
     orders?: OrderListRelationFilter
@@ -26373,7 +26362,6 @@ export namespace Prisma {
     quantity?: SortOrder
     stock?: SortOrder
     images?: ImageProductOrderByRelationAggregateInput
-    organizationName?: SortOrder
     organizationId?: SortOrder
     organization?: OrganizationOrderByWithRelationInput
     orders?: OrderOrderByRelationAggregateInput
@@ -26400,7 +26388,6 @@ export namespace Prisma {
     discount?: SortOrder
     quantity?: SortOrder
     stock?: SortOrder
-    organizationName?: SortOrder
     organizationId?: SortOrder
     rating?: SortOrder
     tags?: SortOrder
@@ -26428,7 +26415,6 @@ export namespace Prisma {
     discount?: IntWithAggregatesFilter | number
     quantity?: IntWithAggregatesFilter | number
     stock?: IntWithAggregatesFilter | number
-    organizationName?: StringWithAggregatesFilter | string
     organizationId?: StringWithAggregatesFilter | string
     rating?: FloatNullableWithAggregatesFilter | number | null
     tags?: StringNullableWithAggregatesFilter | string | null
@@ -28016,7 +28002,6 @@ export namespace Prisma {
     quantity: number
     stock: number
     images?: ImageProductCreateNestedManyWithoutProductInput
-    organizationName: string
     organization: OrganizationCreateNestedOneWithoutProductsInput
     orders?: OrderCreateNestedManyWithoutItemsInput
     reviews?: ReviewCreateNestedManyWithoutProductInput
@@ -28040,7 +28025,6 @@ export namespace Prisma {
     quantity: number
     stock: number
     images?: ImageProductUncheckedCreateNestedManyWithoutProductInput
-    organizationName: string
     organizationId: string
     orders?: OrderUncheckedCreateNestedManyWithoutItemsInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutProductInput
@@ -28064,7 +28048,6 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     stock?: IntFieldUpdateOperationsInput | number
     images?: ImageProductUpdateManyWithoutProductNestedInput
-    organizationName?: StringFieldUpdateOperationsInput | string
     organization?: OrganizationUpdateOneRequiredWithoutProductsNestedInput
     orders?: OrderUpdateManyWithoutItemsNestedInput
     reviews?: ReviewUpdateManyWithoutProductNestedInput
@@ -28088,7 +28071,6 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     stock?: IntFieldUpdateOperationsInput | number
     images?: ImageProductUncheckedUpdateManyWithoutProductNestedInput
-    organizationName?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     orders?: OrderUncheckedUpdateManyWithoutItemsNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutProductNestedInput
@@ -28110,7 +28092,6 @@ export namespace Prisma {
     discount: number
     quantity: number
     stock: number
-    organizationName: string
     organizationId: string
     rating?: number | null
     tags?: string | null
@@ -28130,7 +28111,6 @@ export namespace Prisma {
     discount?: IntFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
     stock?: IntFieldUpdateOperationsInput | number
-    organizationName?: StringFieldUpdateOperationsInput | string
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     tags?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28149,7 +28129,6 @@ export namespace Prisma {
     discount?: IntFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
     stock?: IntFieldUpdateOperationsInput | number
-    organizationName?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     tags?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29587,7 +29566,6 @@ export namespace Prisma {
     discount?: SortOrder
     quantity?: SortOrder
     stock?: SortOrder
-    organizationName?: SortOrder
     organizationId?: SortOrder
     rating?: SortOrder
     tags?: SortOrder
@@ -29616,7 +29594,6 @@ export namespace Prisma {
     discount?: SortOrder
     quantity?: SortOrder
     stock?: SortOrder
-    organizationName?: SortOrder
     organizationId?: SortOrder
     rating?: SortOrder
     tags?: SortOrder
@@ -29636,7 +29613,6 @@ export namespace Prisma {
     discount?: SortOrder
     quantity?: SortOrder
     stock?: SortOrder
-    organizationName?: SortOrder
     organizationId?: SortOrder
     rating?: SortOrder
     tags?: SortOrder
@@ -32927,7 +32903,6 @@ export namespace Prisma {
     discount: number
     quantity: number
     stock: number
-    organizationName: string
     organization: OrganizationCreateNestedOneWithoutProductsInput
     orders?: OrderCreateNestedManyWithoutItemsInput
     reviews?: ReviewCreateNestedManyWithoutProductInput
@@ -32950,7 +32925,6 @@ export namespace Prisma {
     discount: number
     quantity: number
     stock: number
-    organizationName: string
     organizationId: string
     orders?: OrderUncheckedCreateNestedManyWithoutItemsInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutProductInput
@@ -32983,7 +32957,6 @@ export namespace Prisma {
     discount?: IntFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
     stock?: IntFieldUpdateOperationsInput | number
-    organizationName?: StringFieldUpdateOperationsInput | string
     organization?: OrganizationUpdateOneRequiredWithoutProductsNestedInput
     orders?: OrderUpdateManyWithoutItemsNestedInput
     reviews?: ReviewUpdateManyWithoutProductNestedInput
@@ -33006,7 +32979,6 @@ export namespace Prisma {
     discount?: IntFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
     stock?: IntFieldUpdateOperationsInput | number
-    organizationName?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     orders?: OrderUncheckedUpdateManyWithoutItemsNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutProductNestedInput
@@ -33330,7 +33302,6 @@ export namespace Prisma {
     quantity: number
     stock: number
     images?: ImageProductCreateNestedManyWithoutProductInput
-    organizationName: string
     organization: OrganizationCreateNestedOneWithoutProductsInput
     reviews?: ReviewCreateNestedManyWithoutProductInput
     rating?: number | null
@@ -33353,7 +33324,6 @@ export namespace Prisma {
     quantity: number
     stock: number
     images?: ImageProductUncheckedCreateNestedManyWithoutProductInput
-    organizationName: string
     organizationId: string
     reviews?: ReviewUncheckedCreateNestedManyWithoutProductInput
     rating?: number | null
@@ -33507,7 +33477,6 @@ export namespace Prisma {
     discount?: IntFilter | number
     quantity?: IntFilter | number
     stock?: IntFilter | number
-    organizationName?: StringFilter | string
     organizationId?: StringFilter | string
     rating?: FloatNullableFilter | number | null
     tags?: StringNullableFilter | string | null
@@ -33721,7 +33690,6 @@ export namespace Prisma {
     quantity: number
     stock: number
     images?: ImageProductCreateNestedManyWithoutProductInput
-    organizationName: string
     orders?: OrderCreateNestedManyWithoutItemsInput
     reviews?: ReviewCreateNestedManyWithoutProductInput
     rating?: number | null
@@ -33744,7 +33712,6 @@ export namespace Prisma {
     quantity: number
     stock: number
     images?: ImageProductUncheckedCreateNestedManyWithoutProductInput
-    organizationName: string
     orders?: OrderUncheckedCreateNestedManyWithoutItemsInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutProductInput
     rating?: number | null
@@ -34453,7 +34420,6 @@ export namespace Prisma {
     quantity: number
     stock: number
     images?: ImageProductCreateNestedManyWithoutProductInput
-    organizationName: string
     organization: OrganizationCreateNestedOneWithoutProductsInput
     orders?: OrderCreateNestedManyWithoutItemsInput
     reviews?: ReviewCreateNestedManyWithoutProductInput
@@ -34476,7 +34442,6 @@ export namespace Prisma {
     quantity: number
     stock: number
     images?: ImageProductUncheckedCreateNestedManyWithoutProductInput
-    organizationName: string
     organizationId: string
     orders?: OrderUncheckedCreateNestedManyWithoutItemsInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutProductInput
@@ -34712,7 +34677,6 @@ export namespace Prisma {
     quantity: number
     stock: number
     images?: ImageProductCreateNestedManyWithoutProductInput
-    organizationName: string
     organization: OrganizationCreateNestedOneWithoutProductsInput
     orders?: OrderCreateNestedManyWithoutItemsInput
     rating?: number | null
@@ -34735,7 +34699,6 @@ export namespace Prisma {
     quantity: number
     stock: number
     images?: ImageProductUncheckedCreateNestedManyWithoutProductInput
-    organizationName: string
     organizationId: string
     orders?: OrderUncheckedCreateNestedManyWithoutItemsInput
     rating?: number | null
@@ -34817,7 +34780,6 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     stock?: IntFieldUpdateOperationsInput | number
     images?: ImageProductUpdateManyWithoutProductNestedInput
-    organizationName?: StringFieldUpdateOperationsInput | string
     organization?: OrganizationUpdateOneRequiredWithoutProductsNestedInput
     orders?: OrderUpdateManyWithoutItemsNestedInput
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -34840,7 +34802,6 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     stock?: IntFieldUpdateOperationsInput | number
     images?: ImageProductUncheckedUpdateManyWithoutProductNestedInput
-    organizationName?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     orders?: OrderUncheckedUpdateManyWithoutItemsNestedInput
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -35546,7 +35507,6 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     stock?: IntFieldUpdateOperationsInput | number
     images?: ImageProductUpdateManyWithoutProductNestedInput
-    organizationName?: StringFieldUpdateOperationsInput | string
     organization?: OrganizationUpdateOneRequiredWithoutProductsNestedInput
     reviews?: ReviewUpdateManyWithoutProductNestedInput
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -35569,7 +35529,6 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     stock?: IntFieldUpdateOperationsInput | number
     images?: ImageProductUncheckedUpdateManyWithoutProductNestedInput
-    organizationName?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     reviews?: ReviewUncheckedUpdateManyWithoutProductNestedInput
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -35590,7 +35549,6 @@ export namespace Prisma {
     discount?: IntFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
     stock?: IntFieldUpdateOperationsInput | number
-    organizationName?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     tags?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35624,7 +35582,6 @@ export namespace Prisma {
     discount: number
     quantity: number
     stock: number
-    organizationName: string
     rating?: number | null
     tags?: string | null
     createdAt?: Date | string
@@ -35697,7 +35654,6 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     stock?: IntFieldUpdateOperationsInput | number
     images?: ImageProductUpdateManyWithoutProductNestedInput
-    organizationName?: StringFieldUpdateOperationsInput | string
     orders?: OrderUpdateManyWithoutItemsNestedInput
     reviews?: ReviewUpdateManyWithoutProductNestedInput
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -35720,7 +35676,6 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     stock?: IntFieldUpdateOperationsInput | number
     images?: ImageProductUncheckedUpdateManyWithoutProductNestedInput
-    organizationName?: StringFieldUpdateOperationsInput | string
     orders?: OrderUncheckedUpdateManyWithoutItemsNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutProductNestedInput
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -35741,7 +35696,6 @@ export namespace Prisma {
     discount?: IntFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
     stock?: IntFieldUpdateOperationsInput | number
-    organizationName?: StringFieldUpdateOperationsInput | string
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     tags?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35893,7 +35847,6 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     stock?: IntFieldUpdateOperationsInput | number
     images?: ImageProductUpdateManyWithoutProductNestedInput
-    organizationName?: StringFieldUpdateOperationsInput | string
     organization?: OrganizationUpdateOneRequiredWithoutProductsNestedInput
     orders?: OrderUpdateManyWithoutItemsNestedInput
     reviews?: ReviewUpdateManyWithoutProductNestedInput
@@ -35916,7 +35869,6 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     stock?: IntFieldUpdateOperationsInput | number
     images?: ImageProductUncheckedUpdateManyWithoutProductNestedInput
-    organizationName?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     orders?: OrderUncheckedUpdateManyWithoutItemsNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutProductNestedInput

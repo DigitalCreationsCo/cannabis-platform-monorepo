@@ -14,7 +14,7 @@ export interface NavLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
 }
 
 const NavLink = ({ href, Icon, isActive, children, style, className, ...props }: NavLinkProps) => {
-  const navLinkStyle = ['flex space-x-2 p-2 items-center hover:bg-secondary border-l-4', isActive && 'border-secondary']
+  const navLinkStyle = ['flex space-x-2 p-4 items-center hover:bg-secondary border-l-4', isActive && 'border-secondary']
   return (
     <Link href={ href }>
       <div className={ cx(navLinkStyle) }>

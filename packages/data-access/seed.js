@@ -1,4 +1,6 @@
-import {
+// const client = require("@prisma/client");
+import client from "./generated/prisma-client/index.js"
+const {
   Address,
   Driver,
   Order,
@@ -6,7 +8,7 @@ import {
   PrismaClient,
   Product,
   User,
-} from "@prisma/client";
+} = client
 
 const users = [
   {
@@ -166,7 +168,6 @@ const products = [
     stock: 14,
     tags: "mini, flower, og",
     organizationId: "2",
-    organizationName: "curaleaf",
     rating: 4.5,
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -185,7 +186,6 @@ const products = [
     stock: 10,
     tags: "flower, og",
     organizationId: "2",
-    organizationName: "curaleaf",
     rating: 4.5,
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -203,8 +203,7 @@ const products = [
     quantity: 0,
     stock: 10,
     tags: "flower, og",
-    organizationId: "3",
-    organizationName: "sunnyside",
+    organizationId: "2",
     rating: 3.3,
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -223,7 +222,6 @@ const products = [
     stock: 10,
     tags: "flower, og",
     organizationId: "2",
-    organizationName: "curaleaf",
     rating: 4.0,
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -242,7 +240,6 @@ const products = [
     stock: 10,
     tags: "cbd, og",
     organizationId: "2",
-    organizationName: "curaleaf",
     rating: 2.5,
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -260,8 +257,7 @@ const products = [
     quantity: 0,
     stock: 10,
     tags: "flower, og",
-    organizationId: "3",
-    organizationName: "sunnyside",
+    organizationId: "2",
     rating: 5.0,
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -280,7 +276,6 @@ const products = [
     stock: 10,
     tags: "flower, og",
     organizationId: "2",
-    organizationName: "curaleaf",
     rating: 4.0,
     createdAt: new Date(),
     updatedAt: new Date(),
