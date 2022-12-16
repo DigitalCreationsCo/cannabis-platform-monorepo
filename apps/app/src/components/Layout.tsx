@@ -16,9 +16,9 @@ function Layout({ children }: LayoutProps) {
     return (
         <>
             <TopBar session={ session } totalItems={ 4 } auth={ toggleSession } />
-            <Header><SearchBar /></Header>
                 <SideNavContainer SideNavComponent={AdminDashboardNavigation} fixedComponentId={'admin-dashboard'}>
-                    { children }
+                <Header><SearchBar /></Header>
+                { children }
                 </SideNavContainer>
             <Footer />
         </>

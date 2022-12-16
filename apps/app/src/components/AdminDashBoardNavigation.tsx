@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import { PropsWithChildren } from 'react';
-import { Span } from '@cd/shared-ui';
-import FlexBox from './FlexBox';
+import { Span, FlexBox } from '@cd/shared-ui';
 import NavLink, { NavLinkProps } from './NavLink';
 
 export const DashboardNavLink = ({ children, isActive, ...rest }: DashboardNavLinkProps) => {

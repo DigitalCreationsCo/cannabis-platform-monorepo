@@ -1,17 +1,25 @@
 {
   "name": "@cd/data-access",
+  "private": true,
   "version": "0.0.1",
-  "main": "./index.js",
+  "type": "module",
+  "main": "./index.ts",
+  "module": "./index.ts",
+  "types": "./index.ts",
   "license": "MIT",
   "prisma": {
     "seed": "node --compiler-options {\"module\":\"CommonJS\"} seed.ts"
   },
   "scripts": {
+    "postinstall": "prisma generate",
+    "generate": "prisma generate",
     "dev": "pscale connect cannabis_delivery_v1 dev --port 3309",
     "migrate": "prisma migrate",
     "push": "prisma db push",
     "deploy": "pscale deploy-request create cannabis_delivery_v1 dev",
-    "seed": "prisma db push && prisma generate && prisma db seed"
+    "seed": "prisma db push && prisma generate && prisma db seed",
+    "studio": "prisma studio"
+
   },
   "peerDependencies": {
     "@prisma/client": "4.4.0",

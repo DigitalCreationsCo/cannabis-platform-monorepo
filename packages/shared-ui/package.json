@@ -1,7 +1,7 @@
 {
   "name": "@cd/shared-ui",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "main": "dist/shared-ui.umd.js",
   "module": "dist/shared-ui.es.js",
@@ -15,13 +15,14 @@
     "./dist/style.css": "./dist/style.css"
   },
   "scripts": {
-    "watch:dev": "node ../../node_modules/vite/bin/vite build --watch",
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "preview": "vite preview",
-    "prepack": "json -f package.json -I -e \"delete this.devDependencies; delete this.dependencies\""
+    "prepack": "json -f package.json -I -e \"delete this.devDependencies; delete this.dependencies\"",
+
+    "watch:dev": "node ../../node_modules/vite/bin/vite build --watch"
   },
   "devDependencies": {
     "@types/react": "18.0.24",

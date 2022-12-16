@@ -8,10 +8,11 @@ auto build watch command for developing in dependency packages
 app, require tailwind config from shared-config
 12-12-22
 add icons
-
-do next:
+12-16-22
 app prisma config & lib
 
+do next:
+
 start adding all components!
-add icons
+add rollup build to data-access lib
 migrate all mui components to tailwind
