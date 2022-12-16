@@ -1,14 +1,14 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import { Page} from '@cd/shared-ui';
+import { Page, Span, H3 } from '@cd/shared-ui';
 import prisma, {Organization, Product, Order, User} from "@cd/data-access"
 import { GetServerSideProps } from 'next';
 
 interface AdminDashboardProps {
     user: User;
-  organization: Organization;
-  products: Product[];
-  orders: Order[];
+    organization: Organization;
+    products: Product[];
+    orders: Order[];
 }
 
 export default function Dashboard({ user, organization, products, orders }) {
@@ -19,8 +19,9 @@ export default function Dashboard({ user, organization, products, orders }) {
                 <meta name="vendor experience" content="Property of Gras Cannabis Co." />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <div>logged in as { user.username }</div>
-            <div>organization is { organization.name }</div>
+            <H3>{ organization.name }</H3>
+            <Span className='pl-1'>Hi, { user.username }</Span>
+
         </Page>
     );
 }
