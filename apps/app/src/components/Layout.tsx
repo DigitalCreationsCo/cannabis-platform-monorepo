@@ -12,24 +12,14 @@ function Layout({ children }: LayoutProps) {
     const toggleSession = () => {
         setSession(prev => !prev)
     }
-
-    const SessionControl = ({ children }: PropsWithChildren) => {
-    return (
-        <>
-        { session ? <>{children}</> : "Please login to view this page." }
-        </>
-    )
-    }
     
     return (
         <>
             <TopBar session={ session } totalItems={ 4 } auth={ toggleSession } />
             <Header><SearchBar /></Header>
-            <SessionControl>
-                <SideNavContainer SideNavComponent={AdminDashboardNavigation}>
+                <SideNavContainer SideNavComponent={AdminDashboardNavigation} fixedComponentId={'admin-dashboard'}>
                     { children }
                 </SideNavContainer>
-            </SessionControl>
             <Footer />
         </>
     );

@@ -3,13 +3,15 @@ prune tailwind, postcss, autoprefixer deps,
 export tailwindcss from shared-config,
 load tw classes in shared-ui, without install tw
 load tw classes in app, without installing tw
-
 12-10-22
 auto build watch command for developing in dependency packages
 app, require tailwind config from shared-config
+12-12-22
+add icons
 
 do next:
+app prisma config & lib
+
 start adding all components!
 add icons
 migrate all mui components to tailwind
-app prisma config & lib
