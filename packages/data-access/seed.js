@@ -1,5 +1,5 @@
-// const client = require("@prisma/client");
-import client from "./generated/prisma-client/index.js"
+import client from "@prisma/client";
+// import client from "./generated/prisma-client/index.js"
 const {
   Address,
   Driver,

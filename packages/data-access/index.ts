@@ -1,4 +1,4 @@
 import prisma from "./client"
 
 export default prisma;
-export * from "./generated/prisma-client/"
+export * from "@prisma/client"
