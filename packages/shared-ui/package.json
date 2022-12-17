@@ -21,7 +21,6 @@
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "preview": "vite preview",
     "prepack": "json -f package.json -I -e \"delete this.devDependencies; delete this.dependencies\"",
-
     "watch:dev": "node ../../node_modules/vite/bin/vite build --watch"
   },
   "devDependencies": {
@@ -35,6 +34,7 @@
     "vite-plugin-eslint": "1.8.1"
   },
   "peerDependencies": {
+    "@cd/shared-config": "*",
     "@tailwindcss/typography": "0.5.8",
     "@types/node": "18.11.10",
     "@types/react": "18.0.26",
@@ -57,7 +57,6 @@
     "prettier": "2.8.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "shared-config": "*",
     "tailwind-merge": "1.8.0",
     "tailwindcss": "3.2.4",
     "typescript": "4.9.3",
