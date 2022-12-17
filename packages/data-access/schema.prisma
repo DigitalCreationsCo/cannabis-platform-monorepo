@@ -286,7 +286,6 @@ model Product {
   quantity Int
   stock Int
   images ImageProduct[]
-  organizationName String
   organizationId String
   organization Organization @relation(fields: [organizationId], references: [id])
   orders Order[]
@@ -298,7 +297,7 @@ model Product {
   updatedAt      DateTime         @updatedAt
 
   @@index([id])
-  @@index([organizationId,organizationName])
+  @@index([organizationId])
 }
 
 model Category {
