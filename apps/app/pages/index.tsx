@@ -57,13 +57,13 @@ export default function Dashboard({ user, organization, products, orders }) {
             <Span>Orders</Span>
             <Tiny>Orders</Tiny>
             { orders.map((item, ind) => (
-                <div>{ind}</div>
+                <div key={ind}>{ind}</div>
                 // <OrderRow item={item} key={item._id} orderDetailsRoute="/admin/orders" />
             )) }
 
             Products
             { products.map((item, ind) => (
-                <div>{ind}</div>
+                <div key={ind}>{ind}</div>
                 // <OrderRow item={item} key={item._id} orderDetailsRoute="/admin/orders" />
             )) }
 
