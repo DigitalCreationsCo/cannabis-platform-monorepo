@@ -1,13 +1,5 @@
 import { twMerge } from 'tailwind-merge';
 import { Icons, IconWrapper } from '@cd/shared-ui';
-// export const SearchResultCard = styled(Card)(() => ({
-//   zIndex: 99,
-//   top: "100%",
-//   width: "100%",
-//   position: "absolute",
-//   paddingTop: "0.5rem",
-//   paddingBottom: "0.5rem",
-// }));
 
 function SearchBar() {
     return (
@@ -24,7 +16,7 @@ function SearchBar() {
                 'mx-4',
                 'shadow-md',
                 'outline-none',
-                'lg:w-1/2',
+                'md:w-1/2',
                 'wh-10'
             )}
         >

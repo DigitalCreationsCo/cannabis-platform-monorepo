@@ -20,9 +20,9 @@ function TopBar({ session, totalItems = 0, auth }: TopBarProps) {
 
     const toggleDialog = () => setDialogOpen(!dialogOpen);
 
-    const bar = cx('flex flex-row pr-4 lg:px-8 bg-default space-x-2 items-center shadow');
+    const topbar = cx('flex flex-row h-[66px] pr-4 lg:px-8 bg-default space-x-2 items-center shadow');
     return (
-        <div className={cx(bar)}>
+        <div className={cx(topbar)}>
             <Link href="/" passHref>
                 <Image alt="Gras" width={50} height={50} src={logo} />
             </Link>

@@ -40,6 +40,7 @@
     "autoprefixer": "10.4.13",
     "chmod": "0.2.1",
     "clsx": "1.2.1",
+    "date-fns": "2.29.3",
     "eslint": "8.29.0",
     "eslint-config-next": "13.0.6",
     "eslint-config-prettier": "8.5.0",

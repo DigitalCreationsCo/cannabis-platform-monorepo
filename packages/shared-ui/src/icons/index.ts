@@ -65,6 +65,7 @@ import Lotion from './health-and-beauty/Lotion';
 import Mascara from './health-and-beauty/Mascara';
 import OxygenPump from './health-and-beauty/OxygenPump';
 import Powder from './health-and-beauty/Powder';
+import Right from './Right';
 import Thermometer from './health-and-beauty/Thermometer';
 import Heart from './Heart';
 import Home from './Home';
@@ -119,6 +120,9 @@ import Youtube from './Youtube';
 import YoutubeFilled from './YoutubeFilled';
 
 const Icons = {
+    // directions
+    Right,
+
     Beer,
     Milk,
     Snack,

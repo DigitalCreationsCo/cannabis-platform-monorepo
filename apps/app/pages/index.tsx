@@ -1,11 +1,9 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { useMemo } from 'react';
-import { Page, Span, H3, H6, Card, Paragraph, Grid } from '@cd/shared-ui';
+import { Page, Span, H3, Card, Paragraph, Grid, OrderRow, ProductRow, } from '@cd/shared-ui';
 import prisma, {Organization, Product, Order, User} from "@cd/data-access"
 import { GetServerSideProps } from 'next';
-import { Small } from '@cd/shared-ui';
-import { Tiny } from '@cd/shared-ui';
 
 interface AdminDashboardProps {
     user: User;
@@ -14,7 +12,7 @@ interface AdminDashboardProps {
     orders: Order[];
 }
 
-export default function Dashboard({ user, organization, products, orders }) {
+export default function Dashboard({ user, organization, products, orders }: AdminDashboardProps) {
 
     const todaysOrders = useMemo(() => {
     const todaysOrders = Array.isArray(orders)
@@ -29,6 +27,10 @@ export default function Dashboard({ user, organization, products, orders }) {
     return todaysOrders;
     }, []);
     
+    const stockOutProducts = products.filter((product) => {
+    return product.quantity === 0;
+  });
+
     const cardList = [
     { title: "Total Products", amount: products.length },
     { title: "Total Orders", amount: orders.length },
@@ -45,43 +47,41 @@ export default function Dashboard({ user, organization, products, orders }) {
             <H3>{ organization.name }</H3>
             <Span className='pl-1'>Hi, { user.username }</Span>
 
-            <Grid>
+            {/* <Grid> */}
                 {cardList.map((item, ind) => (
                     <Card key={`cardlist-${ind}`} title={item.title} amount={item.amount} />
                 )) }
-            </Grid>
+            {/* </Grid> */}
 
-            <H6>Orders</H6>
+            {/* <Grid cols={2}> */}
             <Paragraph>Orders</Paragraph>
-            <Small>Orders</Small>
-            <Span>Orders</Span>
-            <Tiny>Orders</Tiny>
-            { orders.map((item, ind) => (
-                <div key={ind}>{ind}</div>
-                // <OrderRow item={item} key={item._id} orderDetailsRoute="/admin/orders" />
+            { orders.map((order) => (
+                <OrderRow order={ order } key={ order.id } orderDetailsRoute="/orders" />
             )) }
+            {/* </Grid> */}
 
-            Products
-            { products.map((item, ind) => (
-                <div key={ind}>{ind}</div>
-                // <OrderRow item={item} key={item._id} orderDetailsRoute="/admin/orders" />
+            {/* <Grid> */}
+            <Paragraph>Products</Paragraph>
+            { products.map((product) => (
+                <ProductRow key={ product.id } product={product} />
             )) }
+            {/* </Grid> */}
 
-            {/* {todaysOrders.map((item) => (
-                <OrderRow item={item} key={item._id} orderDetailsRoute="/admin/orders" />
-            )) } */}
-
-            {/*                 
-                {stockOutProducts.length > 0 && (
-                <Grid item xs={12}>
-                <Card sx={{ p: "20px 30px" }}>
-                    <H5 mb={3}>Stock Out Products</H5>
-                    {stockOutProducts.map((item) => (
-                    <ProductRow product={item} key={item._id} />
-                    ))}
-                </Card>
-                </Grid>
-            )} */}
+            {/* <Grid> */}
+            <Paragraph>Recent Orders</Paragraph>
+            { todaysOrders.length > 0 ? todaysOrders.map((order) => (
+                <OrderRow order={order} key={order.id} orderDetailsRoute="/orders" />
+            )) : "There are no recent orders"}
+            {/* </Grid> */}
+                            
+            {/* <Grid> */ }
+            <Paragraph>Out of Stock Products</Paragraph>
+            { stockOutProducts.length > 0 && 
+                stockOutProducts.map((product) => (
+                <ProductRow key={ product.id } product={product} />
+                ))
+            }
+            {/* </Grid> */}
         </Page>
     );
 }
@@ -101,9 +101,9 @@ export async function getServerSideProps({req, res}) {
     let user = getUserInfo({req})
     let {organizationId} = user
 
-    let organization = await prisma.organization.findUnique({ where: { id: organizationId } }) || {}
-    let products = await prisma.product.findMany({ where: { organizationId }}) || []
-    let orders:Order[] = await prisma.order.findMany({ where: { organizationId }}) || []
+    let organization = await prisma.organization.findUnique({ where: { id: organizationId }}) || {}
+    let products = await prisma.product.findMany({ where: { organizationId }, orderBy: [ { rating: 'desc' },{ quantity: 'desc' }],include: { images: true}}) || []
+    let orders:Order[] = await prisma.order.findMany({ where: { organizationId }, orderBy: [{id: 'desc'}]}) || []
 
     return {
         props: {

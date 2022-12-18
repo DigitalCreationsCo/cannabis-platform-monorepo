@@ -1,5 +1,5 @@
 import { twMerge } from 'tailwind-merge';
-import { PropsWithChildren } from 'react';
+import React, { PropsWithChildren } from 'react';
 interface Props extends PropsWithChildren {
     className?: string;
 }
@@ -29,7 +29,7 @@ export const H6 = ({ className, children }: Props) => {
 };
 
 export const Paragraph = ({ className, children }: Props) => {
-    return <p className={twMerge('text-default text-md font-medium tracking-normal whitespace-nowrap', className)}>{children}</p>;
+    return <p className={className}>{children}</p>;
 };
 
 export const Small = ({ className, children }: Props) => {

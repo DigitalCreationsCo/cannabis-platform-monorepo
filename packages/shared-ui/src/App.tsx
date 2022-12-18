@@ -1,14 +1,16 @@
-import { useState } from 'react';
-
+import React, { useState } from 'react';
 import reactLogo from './assets/react.svg';
-import Button from './Button';
+import { H3 } from './Typography';
+import IconWrapper from './IconWrapper';
+import Icons from './icons';
+import Grid from './Grid';
 
 function App() {
     const [count, setCount] = useState(0);
 
     return (
-        <div className="App">
-            <div className="flex">
+        <div className='App'>
+            <div className="flex bg-default">
                 <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
                     <img src="/vite.svg" className="logo" alt="Vite logo" />
                 </a>
@@ -16,15 +18,10 @@ function App() {
                     <img src={reactLogo} className="logo react" alt="React logo" />
                 </a>
             </div>
-            <h1 className="bg-blue-500">Vite + React</h1>
-            <div className="card">
-                <Button onClick={() => setCount((count) => count + 1)}>count is {count}</Button>
-                <Button onClick={() => setCount((count) => count + 1)}>count is {count}</Button>
-                <p>
-                    Edit <code>src/App.tsx</code> and save to test HMR
-                </p>
-            </div>
-            <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
+            <H3>Cannabis Delivery shared-UI package</H3>
+            <Grid>
+                { Object.values(Icons).map((Icon, i) => <IconWrapper Icon={ Icon } />) }
+            </Grid>
         </div>
     );
 }
