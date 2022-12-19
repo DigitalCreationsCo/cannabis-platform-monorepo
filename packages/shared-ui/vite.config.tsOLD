@@ -15,25 +15,29 @@ export default defineConfig({
     build: {
         lib: {
             entry: path.resolve(__dirname, 'src/index.ts'),
-            // name: '@cd/shared-ui',
-            formats: ['es', 'cjs'],
-            // fileName: (format) => `shared-ui.${format}.js`,
+            name: '@cd/shared-ui',
+            formats: ['es', 'umd'],
+            fileName: (format) => `shared-ui.${format}.js`,
         },
         rollupOptions: {
             plugins: [
                 incremental(),
                 incremental.fixSNE(),
             ],
-            external: ['react', 'react-dom'],
+            external: [ 'react', 'react-dom' ],
             output: {
-                dir: 'dist',
                 globals: {
                     react: 'React',
                     'react-dom': 'ReactDOM',
                 },
+                dir: 'dist',
+                format: 'esm',
+                //ATTENTION: preserveModules must be enabled!
                 preserveModules: true,
+                preserveModulesRoot: 'src',
+                //ATTENTION: minifyInternalExports must be disabled!
+                minifyInternalExports: false,
             },
-            treeshake: false,
         },
     },
 });

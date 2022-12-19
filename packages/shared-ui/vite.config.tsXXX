@@ -1,0 +1,40 @@
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import dts from 'vite-plugin-dts';
+import path from 'node:path';
+import incremental from "@mprt/rollup-plugin-incremental"
+
+export default defineConfig({
+    build: {
+        rollupOptions: {
+            plugins: [
+                incremental(),
+                react({ jsxRuntime: 'classic' }),
+                dts({
+                    insertTypesEntry: true,
+                    outputDir: 'dist',
+                }),
+                incremental.fixSNE(),
+            ],
+            preserveEntrySignatures: 'allow-extension',
+            input: path.resolve(__dirname, 'src/index.ts'),
+            treeshake: false,
+            external: [ 'react', 'react-dom' ],
+            output: {
+                entryFileNames: "src",
+                globals: {
+                    react: 'React',
+                    'react-dom': 'ReactDOM',
+                },
+                inlineDynamicImports: false,
+                dir: 'dist',
+                format: 'esm',
+                //ATTENTION: preserveModules must be enabled!
+                preserveModules: true,
+                preserveModulesRoot: 'src',
+                //ATTENTION: minifyInternalExports must be disabled!
+                minifyInternalExports: false,
+            },
+        },
+    },
+});
