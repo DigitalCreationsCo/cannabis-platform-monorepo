@@ -1,19 +1,23 @@
 import React, { PropsWithChildren } from "react";
-import cx from 'clsx'
+import { twMerge } from "tailwind-merge";
+import { H6 } from ".";
 
 type GridProps = {
+    title?: string;
     className?: string;
-    cols?: number;
-    sm?: number;
-    md?: number;
-    lg?: number;
-    xl?: number;
+    cols?: string;
+    sm?: string;
+    md?: string;
+    lg?: string;
+    xl?: string;
 }
-function Grid({ className, cols, sm, md, lg, xl, children }: GridProps & PropsWithChildren) {
+function Grid({ title, className, cols, sm, md, lg, xl, children }: GridProps & PropsWithChildren) {
     return (
-        <div className={ cx(`grid gap-4 grid-flow-col auto-cols-max`, sm && `sm:grid-cols-${sm}`, md && `md:grid-cols-${md}`, lg && `lg:grid-cols-${lg}`, xl && `xl:grid-cols-${xl}`, className) }>
-            {/* { 'sm:' + sm }{'cols:' + cols}{undefined ? 'true' : 'false'}{'md:' + md} */}
+        <div className="container py-2">
+            { title && <H6 className="py-2">{ title }</H6>}
+            <div className={ twMerge('grid', cols && `grid-cols-${cols}`, sm && `sm:grid-cols-${sm}`, md && `md:grid-cols-${md}`, lg && `lg:grid-cols-${lg}`, xl && `xl:grid-cols-${xl}`, 'sm:gap-4', className) }>
             {children}
+            </div>
         </div>
     );
 }

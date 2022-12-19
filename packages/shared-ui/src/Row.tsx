@@ -4,7 +4,7 @@ import { twMerge } from "tailwind-merge";
 
 function Row({ className, children }: { className?: string; } & PropsWithChildren) {
   return (
-    <Card className={twMerge("flex flex-row grow space-x-4 items-center", className)}>
+    <Card className={twMerge("flex flex-row justify-between items-center", className)}>
         { children }
     </Card>
     )

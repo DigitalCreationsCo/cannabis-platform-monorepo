@@ -1,5 +1,5 @@
-import cx from 'clsx';
 import { PropsWithChildren } from 'react';
+import { twMerge } from 'tailwind-merge';
 import LoadingDots from './LoadingDots';
 
 interface ButtonProps extends PropsWithChildren {
@@ -17,22 +17,14 @@ export default function Button({ type, className, disabled, loading, onClick, ch
             type={type}
             disabled={disabled && loading}
             onClick={onClick}
-            className={cx(
-                {
-                    'cursor-not-allowed': loading,
-                },
-
+            className={ twMerge(
+                loading && 'cursor-not-allowed',
                 'whitespace-nowrap',
-                'relative',
                 'font-semibold',
-                'group',
-                'shadow-md',
+                'shadow-md',    
                 'flex',
-                'inline-flex',
                 'justify-center',
                 'items-center',
-                'space-x-5',
-                'w-full',
                 'px-4',
                 'h-10',
                 'my-2',
@@ -42,7 +34,7 @@ export default function Button({ type, className, disabled, loading, onClick, ch
             )}
             {...props}
         >
-            {loading ? <LoadingDots /> : children}
+            { loading ? <LoadingDots /> : children }
         </button>
     );
 }

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import { Product } from "@prisma/client";
-import { Row, Currency, H6, Icons, IconWrapper, Paragraph } from ".";
+import { Row, Currency, H6, Icons, IconWrapper, Paragraph } from "@cd/shared-ui";
 import {format} from 'date-fns'
 import { twMerge } from "tailwind-merge";
 import Image from "next/image";
@@ -28,16 +28,13 @@ function ProductRow({ product }: ProductRowProps) {
     
     return (
       <Link href={ `products/${product.id}` }>
-        <Row>
-          {/* { product.images[ 0 ]?.location && (
-            <Image src={ product.images[ 0 ]?.location } alt={ product.name } width={ 100 } height={100} />
-          )} */}
-          <H6>{ product.name }</H6>
-          <Paragraph className={ twMerge(product.quantity < 6 ? 'text-primary' : 'text-secondary') }>{ product.quantity.toString().padStart(2, "0") }</Paragraph>
-          <H6><Currency price={ product.basePrice } /></H6>
-          <div>
-            <IconWrapper Icon={ Icons.Right } />
-          </div>
+        <Row className="h-[60px]">
+          <Image className="hidden sm:block" src={ product.images[ 0 ]?.location } alt="" width={ 40 } height={40} />
+          <H6 className="grow">{ product.name }</H6>
+          <Paragraph className={ twMerge("flex justify-center w-[60px]", product.quantity < 6 ? 'text-primary' : 'text-secondary') }>{ product.quantity.toString().padStart(2, "0") }</Paragraph>
+          <H6 className="flex justify-center w-[80px]"><Currency price={ product.basePrice } /></H6>
+          <IconWrapper
+          Icon={ Icons.Right } />
         </Row>
       </Link>
     );

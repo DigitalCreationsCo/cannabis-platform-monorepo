@@ -10,7 +10,7 @@ function Currency({ price, className, locale = "en-us" }: CurrencyProps) {
     const _currencySymbol = {"en-us": "$"}
     function convertCentsToDollars (cents: number) {
         const number = Number(cents / 100 * 100 / 100);
-        return number.toString()
+        return number.toFixed(2)
         // V this statement interrupts React hydration
         // return number.toLocaleString(locale, { maximumFractionDigits: 2, minimumFractionDigits: 2 });
     };

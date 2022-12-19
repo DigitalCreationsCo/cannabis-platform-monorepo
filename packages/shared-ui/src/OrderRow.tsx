@@ -28,14 +28,12 @@ function OrderRow({ order, orderDetailsRoute }: OrderRowProps) {
     
     return (
       <Link href={ `${orderDetailsRoute}/${order.id}` }>
-        <Row>
+        <Row className="h-[60px]">
           <H6>{ order.id }</H6>
-          <Paragraph className={ twMerge(`text-${getColor(order.status)}`) }>{ order.status }</Paragraph>
-          <Paragraph>{ format(new Date(order.createdAt), "MMM dd, yyyy") }</Paragraph>
-        <H6><Currency price={ order.total } /></H6>
-        <div>
+          <Paragraph className={ twMerge("grow", `text-${getColor(order.status)}`) }>{ order.status }</Paragraph>
+          <Paragraph className="flex justify-center w-[120px]">{ format(new Date(order.createdAt), "MMM dd, yyyy") }</Paragraph>
+          <H6 className="flex justify-center w-[80px]"><Currency price={ order.total } /></H6>
           <IconWrapper Icon={ Icons.Right } />
-        </div>
         </Row>
       </Link>
     );

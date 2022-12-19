@@ -81,7 +81,7 @@ function TopBar({ session, totalItems = 0, auth }: TopBarProps) {
                 )}
 
                 <Link href="/cart">
-                    <Button className="bg-inverse-soft md:hover:bg-inverse text-inverse transition">
+                    <Button className="relative bg-inverse-soft md:hover:bg-inverse text-inverse transition">
                         {/* <ShoppingBagOutlined /> */}
                         Bag
                         <span className="sr-only">Notifications</span>
