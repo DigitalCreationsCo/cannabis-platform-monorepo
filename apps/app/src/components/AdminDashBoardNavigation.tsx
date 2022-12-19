@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { Icons, NavLink } from '@cd/shared-ui';
+import { NavLink, Icons } from '@cd/shared-ui';
 
 const AdminDashboardNavigation = () => {
     const { pathname } = useRouter();

@@ -1,7 +1,12 @@
 import { twMerge } from 'tailwind-merge';
 import { Icons, IconWrapper } from '@cd/shared-ui';
+import { ReactEventHandler } from 'react';
 
-function SearchBar() {
+type SearchBarProps = {
+    onChange?: ReactEventHandler;
+    placeholder?: string;
+}
+function SearchBar({ placeholder = "Search", onChange }:SearchBarProps) {
     return (
         <div
             className={twMerge(
@@ -21,7 +26,7 @@ function SearchBar() {
             )}
         >
             <IconWrapper Icon={Icons.Search} />
-            <input className="outline-none w-full" placeholder="Search" />
+            <input placeholder={ placeholder }  className="outline-none w-full" onChange={onChange} />
         </div>
     );
 }

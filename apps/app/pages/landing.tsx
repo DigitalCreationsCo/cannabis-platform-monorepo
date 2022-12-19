@@ -3,10 +3,10 @@ import { ReactNode } from 'react';
 import { Page } from '@cd/shared-ui';
 
 function LandingPage() {
-    return <div>Landing Page</div>;
+    return <Page>Landing Page</Page>;
 }
 
 LandingPage.getLayout = function (page: NextPage & ReactNode) {
-    return <Page>{page}</Page>;
+    return page
 };
 export default LandingPage;

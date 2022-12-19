@@ -1,6 +1,6 @@
 // import { Delete } from "@mui/icons-material";
 // import { Avatar, Button, IconButton, Pagination, TextField, Typography } from "@mui/material";
-// import axios from "axios";
+import axios from "axios";
 // import ConfirmationAlert from "components/ConfirmationAlert";
 // import FlexBox from "components/FlexBox";
 // import DeliveryBox from "components/icons/DeliveryBox";
@@ -12,7 +12,7 @@
 // import { H5 } from "components/Typography";
 // import useProducts from "hooks/useProducts";
 // import Link from "next/link";
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 // import toast from "react-hot-toast";
 // import pagination from "__server__/utils/pagination";
 import prisma, { Organization, Product, Order, User } from "@cd/data-access"
@@ -21,16 +21,21 @@ import { usePagination } from "hooks";
 import Link from "next/link";
 import Image from "next/image";
 import { twMerge } from "tailwind-merge";
+import { Layout } from "components";
+import { JsxElement } from "typescript";
+import { NextComponentType } from "next";
 
 interface ProductsDashboardProps {
-    products: Product[];
+  products: Product[];
 }
 
-export default function Products ({ products }: ProductsDashboardProps) {
+export default function Products({ products }: ProductsDashboardProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [deleteId, setDeleteId] = useState("");
-  const [searchValue, setSearchValue] = useState("");
+  const [ searchValue, setSearchValue ] = useState("");
+  
+  Products.setSearchValue = setSearchValue
 
   const filteredProducts = products.filter((product) =>
     product.name.toLowerCase().includes(searchValue.toLowerCase())
@@ -62,13 +67,8 @@ export default function Products ({ products }: ProductsDashboardProps) {
 
   return (
     <Page>
-      <TextField
-        placeholder="Search Product..."
-        onChange={(e) => setSearchValue(e.target.value)}
-      />
-
       <Grid>
-          <Row>
+          <Row className="h-[44px]">
           <div className="hidden sm:block w-[60px] "></div>
           <H6 className="grow ">Name</H6>
           <H6 className="flex justify-center w-[60px] ">Stock</H6>
@@ -81,9 +81,9 @@ export default function Products ({ products }: ProductsDashboardProps) {
             product.salePrice = salePrice
             return (
               <Link href={`/products/${product.id}`} key={product.id}>
-                <Row>
+                <Row className="h-[60px]">
                   <Image className="hidden sm:block " src={ product.images[ 0 ]?.location } alt="" height={ 60 } width={ 60 } />
-                  <H6 className="grow ">{ product.name }</H6>
+                  <H6 className="grow">{ product.name }</H6>
 
                   <H6 className={ twMerge("flex justify-center w-[60px]", product.quantity < 6 ? 'text-primary' : 'text-secondary') }>{ product.quantity.toString().padStart(2, "0") }</H6>
 
@@ -123,6 +123,10 @@ export default function Products ({ products }: ProductsDashboardProps) {
     </Page>
   );
 };
+
+Products.getLayout = function (page: ReactNode) {
+  return <Layout onSearchChange={(e) => Products.setSearchValue(e.target.value)}>{ page }</Layout>
+}
 
 const getUserInfo = ({ req }) => {
     // let user = req.session?.user

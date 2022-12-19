@@ -30,6 +30,7 @@ export default function Button({ type, className, disabled, loading, onClick, ch
                 'my-2',
                 'rounded-btn',
                 'focus:outline-none',
+                'md:hover:bg-inverse hover:text-inverse transition',
                 className
             )}
             {...props}

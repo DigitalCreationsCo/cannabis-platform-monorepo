@@ -28,7 +28,7 @@ function ProductRow({ product }: ProductRowProps) {
     
     return (
       <Link href={ `products/${product.id}` }>
-        <Row className="h-[60px]">
+        <Row className="h-[44px]">
           <Image className="hidden sm:block" src={ product.images[ 0 ]?.location } alt="" width={ 40 } height={40} />
           <H6 className="grow">{ product.name }</H6>
           <Paragraph className={ twMerge("flex justify-center w-[60px]", product.quantity < 6 ? 'text-primary' : 'text-secondary') }>{ product.quantity.toString().padStart(2, "0") }</Paragraph>

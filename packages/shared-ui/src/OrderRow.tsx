@@ -28,7 +28,7 @@ function OrderRow({ order, orderDetailsRoute }: OrderRowProps) {
     
     return (
       <Link href={ `${orderDetailsRoute}/${order.id}` }>
-        <Row className="h-[60px]">
+        <Row className="h-[48px]">
           <H6>{ order.id }</H6>
           <Paragraph className={ twMerge("grow", `text-${getColor(order.status)}`) }>{ order.status }</Paragraph>
           <Paragraph className="flex justify-center w-[120px]">{ format(new Date(order.createdAt), "MMM dd, yyyy") }</Paragraph>

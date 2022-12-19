@@ -3,14 +3,12 @@ import Link from "next/link";
 import React, { AnchorHTMLAttributes, CSSProperties, PropsWithChildren, SVGAttributes } from "react";
 import { IconWrapper, Span } from ".";
 
-// THIS CMP NEEDS A UNIT TEST, and simplification
-
 export interface NavLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   href: string;
   className?: string;
   isActive: boolean;
   style?: CSSProperties;
-  Icon: SVGElement
+  Icon: any
 }
 
 const NavLink = ({ href, Icon, isActive, children, style, className, ...props }: NavLinkProps) => {
