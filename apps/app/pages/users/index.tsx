@@ -41,9 +41,10 @@ export default function Users ({ users }: UsersDashboardProps) {
     <Page>
       <PageHeader
         title="Users"
+        Icon={Icons.NewArrival}
         Button={
           <Link href="/users/add">
-            <Button>
+            <Button icon={Icons.NewArrival}>
               Add User
             </Button>
           </Link>

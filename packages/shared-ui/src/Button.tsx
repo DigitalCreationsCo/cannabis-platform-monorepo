@@ -7,7 +7,7 @@ interface ButtonProps extends PropsWithChildren {
     disabled?: boolean;
     loading?: boolean;
     onClick?: React.MouseEventHandler<HTMLButtonElement>;
-    icon?: React.ReactElement;
+    icon?: any;
     type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type'];
 }
 
