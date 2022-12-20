@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { usePagination } from "../../src/hooks";
 import prisma, {Order} from "@cd/data-access"
-import { Card, Grid, H6, OrderRow, Page, Row } from "@cd/shared-ui";
+import { Card, Grid, H6, Icons, OrderRow, Page, Row } from "@cd/shared-ui";
+import { PageHeader } from "components";
 
 interface OrdersDashboardProps {
   orders: Order[];
@@ -13,7 +14,10 @@ export default function Orders ({ orders }: OrdersDashboardProps) {
 
     return (
       <Page>
-        {/* <DashboardPageHeader title="Orders" icon={ShoppingBag} navigation={<AdminDashboardNavigation />} /> */}
+        <PageHeader
+          title="Orders"
+          Icon={ Icons.ShoppingBagOutlined }
+        />
         <Grid>
           <Row>
             <H6 className="w-[100px]">

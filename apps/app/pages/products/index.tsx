@@ -7,8 +7,9 @@ import { usePagination } from "hooks";
 import Link from "next/link";
 import Image from "next/image";
 import { twMerge } from "tailwind-merge";
-import { Layout, ConfirmationAlert } from "components";
+import { Layout, ConfirmationAlert, PageHeader } from "components";
 import { Card } from "@cd/shared-ui";
+import { Button } from "@cd/shared-ui";
 
 interface ProductsDashboardProps {
   products: Product[];
@@ -55,6 +56,17 @@ export default function Products({ products }: ProductsDashboardProps) {
 
   return (
     <Page>
+      <PageHeader
+        title="Products"
+        Icon={ Icons.Delivery }
+        Button={
+          <Link href="/add-product">
+            <Button>
+              Add Product
+            </Button>
+          </Link>
+        }
+      />
       <Grid>
         <Row className="h-[44px]">
           <div className="hidden sm:block w-[60px] "></div>
@@ -70,7 +82,7 @@ export default function Products({ products }: ProductsDashboardProps) {
             return (
               <Link href={`/products/${product.id}`} key={product.id}>
                 <Row className="h-[54px] py-0">
-                  <Image className="hidden sm:block " src={ product.images[ 0 ]?.location } alt="" height={ 60 } width={ 60 } />
+                  <Image className="hidden sm:block" src={ product.images[ 0 ]?.location } alt="" height={ 60 } width={ 60 } />
                   <H6 className="grow">{ product.name }</H6>
 
                   <H6 className={ twMerge("flex justify-center w-[60px]", product.quantity < 6 ? 'text-primary' : 'text-secondary') }>{ product.quantity.toString().padStart(2, "0") }</H6>
@@ -83,7 +95,8 @@ export default function Products({ products }: ProductsDashboardProps) {
                     <Currency price={product.salePrice} />
                   </H6>
 
-                  <IconButton Icon={Icons.XIcon} className="min-w-[50px] sm:w-[120px] text-primary sm:space-x-2 h-full"
+                  <IconButton Icon={ Icons.XIcon }
+                    className="min-w-[50px] sm:w-[120px] text-primary sm:space-x-2 h-full"
                     size={12}
                     type="button"
                     data-modal-target="confirmation-alert"

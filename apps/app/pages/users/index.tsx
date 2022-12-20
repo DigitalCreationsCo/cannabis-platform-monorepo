@@ -1,23 +1,12 @@
-// import { Delete } from "@mui/icons-material";
-// import { Avatar, Box, Button, IconButton, Pagination } from "@mui/material";
 import axios from "axios";
-// import ConfirmationAlert from "components/ConfirmationAlert";
-// import FlexBox from "components/FlexBox";
-// import User2 from "components/icons/User2";
-// import AdminDashboardLayout from "components/layout/AdminDashboardLayout";
-// import AdminDashboardNavigation from "components/layout/AdminDashboardNavigation";
-// import DashboardPageHeader from "components/layout/DashboardPageHeader";
-// import Loading from "components/Loading";
-// import TableRow from "components/TableRow";
-// import { H5, H6, Paragraph } from "components/Typography";
-// import useUsers from "hooks/useUsers";
-// import Link from "next/link";
 import React, { useState } from "react";
 import prisma, {User} from "@cd/data-access"
 import { usePagination } from "hooks";
-import { Card, FlexBox, Grid, H6, IconButton, Icons, Page, Paragraph, Row } from "@cd/shared-ui";
+import { Card, Grid, H6, IconButton, Icons, Page, Paragraph, Row } from "@cd/shared-ui";
 import Link from "next/link";
 import Image from "next/image";
+import { PageHeader } from "../../src/components";
+import { Button } from "@cd/shared-ui";
 
 type UsersDashboardProps = {
   users: User[];
@@ -50,18 +39,16 @@ export default function Users ({ users }: UsersDashboardProps) {
 
   return (
     <Page>
-      {/* <DashboardPageHeader
+      <PageHeader
         title="Users"
-        icon={User2}
-        navigation={<AdminDashboardNavigation />}
-        button={
-          <Link href="/admin/users/add">
-            <Button color="primary" sx={{ bgcolor: "primary.light", px: "2rem" }}>
+        Button={
+          <Link href="/users/add">
+            <Button>
               Add User
             </Button>
           </Link>
         }
-      /> */}
+      />
       <Grid>
         <Row className="h-[44px]">
           <div className="hidden sm:block w-[100px]"></div>

@@ -4,12 +4,11 @@ import { twMerge } from "tailwind-merge";
 type IconProps = {
     Icon: any;
     className?: string;
-    height?: number;
-    width?: number;
+    size?: number;
 }
 
-export default function IconWrapper({ Icon, className, height = 20, width = 20 }: IconProps) {
+export default function IconWrapper({ Icon, className, size = 20 }: IconProps) {
     return (
-        <Icon className={twMerge('align-items', className)} height={ height } width={ width } />
+        <Icon className={twMerge('align-items', className)} height={ size } width={ size } />
     );
 }

@@ -10,15 +10,27 @@ app, require tailwind config from shared-config
 add icons
 12-16-22
 app prisma config & lib
+12-20-22
+users page, add memberships to user rows
+complete orders page
+
 
 do next:
-users page, add memberships to user rows
-add details pages for each main page
+finish SideNav - refactor mobile sidebar into this :)
+finish all admin dashboard pages, details pages, etc.
 
-complete orders page
-complete users page
+Check the existing apps for some finished work.
+add unit test suite, and some basic test for main app processes
+- like what? :) Currency, formatting, mutating data, adding, removing entries,
+prisma query, 
+
+add daisy ui for tab, modal, and more.
+
+add details pages for each main page
 complete site settings page
 
 start adding all components!
 add incremental build to shared-ui lib
 migrate all mui components to tailwind
+
+tie up loose ends in the dashboard - dead code, unfinished components

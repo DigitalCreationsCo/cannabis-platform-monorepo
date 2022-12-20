@@ -4,7 +4,8 @@ import { useMemo } from 'react';
 import { Page, Span, H3, Card, Paragraph, Grid, OrderRow, } from '@cd/shared-ui';
 import prisma, {Organization, Product, Order, User} from "@cd/data-access"
 import { GetServerSideProps } from 'next';
-import { ProductRow } from "components"
+import { PageHeader, ProductRow } from "components"
+import { Icons } from '@cd/shared-ui';
 
 interface DashboardProps {
     user: User;
@@ -45,8 +46,11 @@ export default function Dashboard({ user, organization, products, orders }: Dash
                 <meta name="vendor experience" content="Property of Gras Cannabis Co." />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <H3>{ organization.name }</H3>
-            <Span className='pl-1'>Hi, { user.username }</Span>
+            <PageHeader
+                title={`${organization.name} Dashboard`}
+                subTitle={ `Hi, ${user.username}` }
+                Icon={Icons.ShoppingBagOutlined}
+            />
 
             <Grid cols={ 1 } sm={ 2 }>
                 {cardList.map((item, ind) => (

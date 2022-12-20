@@ -4,4 +4,7 @@ export { default as SearchBar } from './AppSearch';
 export { default as TopBar } from './TopBar';
 export { default as ProductRow } from './ProductRow';
 export { default as ConfirmationAlert } from './ConfirmationAlert';
+export { default as Modal } from './Modal';
+export { default as PageHeader } from './PageHeader';
+export { default as SideNav } from './SideNav';
 export { SessionControl } from './SessionControl';

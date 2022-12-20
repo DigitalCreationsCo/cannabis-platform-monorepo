@@ -11,7 +11,7 @@ type IconButtonProps = {
 export default function IconButton({ Icon, type, onClick, className, size = 20, children, ...props }: IconButtonProps & PropsWithChildren) {
     return (
         <Button type={ type }  onClick={onClick} className={className} { ...props } >
-            <IconWrapper height={ size } width={ size } Icon={ Icon } />
+            <IconWrapper size={ size } Icon={ Icon } />
             {children}
         </Button>
     );
