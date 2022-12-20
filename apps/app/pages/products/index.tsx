@@ -56,7 +56,7 @@ export default function Products({ products }: ProductsDashboardProps) {
   return (
     <Page>
       <Grid>
-          <Row className="h-[44px]">
+        <Row className="h-[44px]">
           <div className="hidden sm:block w-[60px] "></div>
           <H6 className="grow ">Name</H6>
           <H6 className="flex justify-center w-[60px] ">Stock</H6>

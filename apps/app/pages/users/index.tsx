@@ -15,8 +15,9 @@ import axios from "axios";
 import React, { useState } from "react";
 import prisma, {User} from "@cd/data-access"
 import { usePagination } from "hooks";
-import { Card, FlexBox, H6, IconButton, Icons, Page, Paragraph, Row } from "@cd/shared-ui";
+import { Card, FlexBox, Grid, H6, IconButton, Icons, Page, Paragraph, Row } from "@cd/shared-ui";
 import Link from "next/link";
+import Image from "next/image";
 
 type UsersDashboardProps = {
   users: User[];
@@ -61,38 +62,42 @@ export default function Users ({ users }: UsersDashboardProps) {
           </Link>
         }
       /> */}
-      <Row>
-        <H6>Name</H6>
-        <H6>Email</H6>
-        <H6>Phone</H6>
-        <H6>Role</H6>
-      </Row>
-
-        {currentUsers.length > 0 ? currentUsers.map((user: User) => {
+      <Grid>
+        <Row className="h-[44px]">
+          <div className="hidden sm:block w-[100px]"></div>
+          <H6 className="grow">Name</H6>
+          <H6 className="hidden lg:flex border justify-start w-[240px]">Email</H6>
+          <H6 className="flex justify-center w-[120px]">Phone</H6>
+          <H6 className="flex justify-center w-[100px]">Role</H6>
+          <div className="min-w-[50px] sm:w-[120px]"></div>
+        </Row>
+        { currentUsers.length > 0 ? currentUsers.map((user: User) => {
           return (
-            <Link href={`/users/${user.id}`} key={user.id}>
-              <Row>
-                <FlexBox>
-                  {/* <Image src={ user.images[ 0 ]?.location } alt="" height={ 100 } width={ 100 } /> */}
-                  <H6>{user.firstName} {user.lastName}</H6>
-                </FlexBox>
-                <Paragraph>{user.email}</Paragraph>
-                <Paragraph>{user.phone || "-"}</Paragraph>
-                <Paragraph>{user.memberships?[0]?.role}</Paragraph>
-                <IconButton Icon={Icons.XIcon}
+            <Link href={ `/users/${user.id}` } key={ user.id }>
+              <Row className="h-[54px] py-0">
+                <Image className="hidden sm:block" src={ user.imageUser[ 0 ]?.location } alt="" height={ 100 } width={ 100 } />
+                <H6 className="grow">{ user.firstName } { user.lastName }</H6>
+                <Paragraph className="hidden lg:flex border justify-start w-[240px]">{ user.email }</Paragraph>
+                <Paragraph className="flex justify-center w-[120px]">{ user.phone || "-" }</Paragraph>
+                <Paragraph className="flex justify-center w-[100px]">{ user.memberships[0]?.role } </Paragraph>
+                <IconButton Icon={ Icons.XIcon }
+                  className="min-w-[50px] sm:w-[120px] text-primary sm:space-x-2 h-full"
+                  size={ 12 }
+                  data-modal-target="confirmation-alert"
                   onClick={ (e) => {
-                    e.preventDefault()
+                    e.preventDefault();
                     e.stopPropagation();
                     setDialogOpen(true);
                     setDeleteId(user.id);
-                  }}
+                  } }
                 >
                   <div className="hidden sm:block">Delete</div>
                 </IconButton>
               </Row>
             </Link>
           );
-        }) : (<Card>There are no users.</Card>)}
+        }) : <Card>There are no users.</Card> }
+      </Grid>
 
         {/* <ConfirmationAlert
           open={dialogOpen}
@@ -121,9 +126,26 @@ const getUserInfo = ({ req }) => {
 export async function getServerSideProps({ req, res }) {
   let user = getUserInfo({req})
   let {organizationId} = user
-  let users: User[] = await prisma.user.findMany(
-    // { where: { organizationId } }
-  ) || [];
+  let users: User[] = await prisma.user.findMany({
+    orderBy: {
+      id: 'desc',
+    },
+    where: {
+      memberships: {
+        some: {
+          organizationId
+        },
+      },
+    },
+    include: {
+      memberships: {
+        orderBy: {
+          role: 'asc'
+        }
+      },
+      imageUser: true,
+    },
+  }) || [];
 
   return {
     props: {

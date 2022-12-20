@@ -1,12 +1,12 @@
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
-    referentialIntegrity = "prisma"
+  referentialIntegrity = "prisma"
 }
 
 generator client {
   provider          = "prisma-client-js"
-    previewFeatures = ["referentialIntegrity"]
+  previewFeatures = ["referentialIntegrity"]
 }
 
 model Account {
@@ -74,7 +74,7 @@ model User {
 }
 
 model Driver {
-  id String @id
+  id String @id @unique
   user User @relation(fields: [id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   orders Order[]
 
@@ -96,25 +96,26 @@ model Vendor {
 
 model Address {
   id            String    @id @default(cuid())
-street1 String
-street2 String?
-city String
-state String
-zipcode String
-country String
-countryCode String?
-coordinateId String?
-coordinates Coordinates? @relation(fields: [coordinateId], references: [id])
-userId String?
-user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
-organizationId String? @unique
-organization Organization? @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  street1 String
+  street2 String?
+  city String
+  state String
+  zipcode String
+  country String
+  countryCode String?
+  coordinateId String?
+  coordinates Coordinates? @relation(fields: [coordinateId], references: [id])
+  userId String?
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organizationId String? @unique
+  organization Organization? @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 
-createdAt      DateTime         @default(now())
+  createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
 
-@@index([userId])
-@@index([organizationId])
+  @@index([userId])
+  @@index([organizationId])
+  @@index([coordinateId])
 }
 
 model ImageOrganization {
@@ -124,10 +125,9 @@ model ImageOrganization {
   organization Organization @relation(fields: [organizationId], references: [id])
   blurhash String?
 
-createdAt      DateTime         @default(now())
+  createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
 
-  @@index([id])
   @@index([organizationId])
 }
 
@@ -141,7 +141,6 @@ model ImageProduct {
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
 
-  @@index([id])
   @@index([productId])
 }
 
@@ -155,7 +154,7 @@ model ImageUser {
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
 
-  @@index([id])
+  @@index([userId])
 }
 
 model ImageVendor {
@@ -184,12 +183,14 @@ model Coordinates {
 model Membership {
   id String @id @default(cuid())
   role MembershipRole
-  organizations organizationMembership[]
+  organizationId String
+  organizations Organization[]
   userId String?
-  user User? @relation(fields: [userId], references: [id], onDelete: SetNull, onUpdate: SetNull)
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
+  @@index([userId])
 }
 
 model Order {
@@ -206,6 +207,10 @@ model Order {
 
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
+
+  @@index([customerId])
+  @@index([driverId])
+  @@index([organizationId])
 }
 
 enum OrderStatus {
@@ -223,9 +228,9 @@ model Payment {
 }
 
 enum MembershipRole {
-  MEMBER
-  ADMIN
-  OWNER
+  OWNER @map("1")
+  ADMIN @map("2")
+  MEMBER @map("3")
 }
 
 enum Currency {
@@ -244,13 +249,13 @@ model Organization {
   dialCode String?
   phone String?
   images ImageOrganization[]
-  memberships organizationMembership[]
+  memberships Membership[]
   products Product[]
   vendorId String
   vendor Vendor @relation(fields: [vendorId], references: [id], onDelete: Restrict, onUpdate:  Restrict)
-  subdomainId String
   termsAccepted Boolean @default(false)
-  subdomain SubDomain @relation(fields: [subdomainId], references: [subdomain])
+  subdomainId String
+  subdomain SubDomain @relation(fields: [subdomainId], references: [id])
   siteSetting SiteSetting?
   orders Order[]
 
@@ -259,19 +264,20 @@ model Organization {
 
   @@index([id])
   @@index([vendorId])
+  @@index([subdomainId])
 }
 
-model organizationMembership {
-  organizationId String
-  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  membershipId String
-  membership Membership @relation(fields: [membershipId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+// model organizationMembership {
+//   organizationId String
+//   organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+//   membershipId String
+//   membership Membership @relation(fields: [membershipId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+//   createdAt      DateTime         @default(now())
+//   updatedAt      DateTime         @updatedAt
 
-  @@id([organizationId, membershipId])
-}
+//   @@id([organizationId, membershipId])
+// }
 model Product {
   id            String    @id @default(cuid())
   name          String
@@ -387,12 +393,12 @@ model SiteSetting {
 }
 
 model SubDomain {
-  subdomain String @unique
+  id String @unique
   organization Organization[]
   isValid Boolean // This boolean should be true if a cronjob monitors that the domain points to our app address
 
 createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
 
-  @@index([subdomain])
+  @@index([id])
 }

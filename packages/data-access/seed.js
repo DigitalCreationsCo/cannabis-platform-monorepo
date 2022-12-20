@@ -39,7 +39,57 @@ const users = [
     createdAt: new Date(),
     updatedAt: new Date(),
   },
+  {
+    id: "3",
+    firstName: "Sam",
+    lastName: "Samuels",
+    username: "Sammy223",
+    email: "sam@gmail.com",
+    emailVerified: true,
+    hashedPassword: "",
+    dialCode: "1",
+    phone: "1232343456",
+    termsAccepted: true,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
 ];
+
+const memberships  = [
+  {
+    id: '1',
+    role: "MEMBER",
+    organizationId: '2',
+    userId: '2',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: '2',
+    role: "ADMIN",
+    organizationId: "2",
+    userId: "1",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: '3',
+    role: "OWNER",
+    organizationId: "2",
+    userId: "1",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: '4',
+    role: "OWNER",
+    organizationId: "3",
+    userId: "3",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  }
+]
+
 const addresses = [
   {
     id: "1",
@@ -128,6 +178,19 @@ const orgs = [
     phone: "1232343456",
     vendorId: "2",
     subdomainId: "curaleaf",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    termsAccepted: true,
+  },
+  {
+    id: "3",
+    name: "Sunnyside",
+    email: "sunnysidedispensaries@grascannabis.org",
+    emailVerified: true,
+    dialCode: "1",
+    phone: "1232343456",
+    vendorId: "3",
+    subdomainId: "sunnyside",
     createdAt: new Date(),
     updatedAt: new Date(),
     termsAccepted: true,
@@ -283,13 +346,13 @@ const products = [
 ];
 const subdomains = [
   {
-    subdomain: "",
+    id: "",
     isValid: true,
     createdAt: new Date(),
     updatedAt: new Date(),
   },
   {
-    subdomain: "curaleaf",
+    id: "curaleaf",
     isValid: true,
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -522,6 +585,7 @@ async function main() {
   await prisma.category.deleteMany();
   await prisma.driver.deleteMany();
   await prisma.order.deleteMany();
+  await prisma.membership.deleteMany();
 
   console.log("cleared all records");
 
@@ -566,6 +630,9 @@ async function main() {
   });
   await prisma.order.createMany({
     data: orders,
+  });
+  await prisma.membership.createMany({
+    data: memberships,
   });
   console.log("inserted all records");
 }
