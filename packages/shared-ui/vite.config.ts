@@ -15,12 +15,6 @@ export default defineConfig({
         lib: {
             entry: path.resolve(__dirname, 'src/index.ts'),
             name: '@cd/shared-ui',
-<<<<<<< Updated upstream
-            formats: ['es', 'umd'],
-            fileName: (format) => `shared-ui.${format}.js`,
-        },
-        rollupOptions: {
-=======
             formats: ['es', 'cjs'],
             fileName: (format) => `shared-ui.${format}.js`,
         },
@@ -29,17 +23,13 @@ export default defineConfig({
                 // incremental(),
                 // incremental.fixSNE(),
             ],
->>>>>>> Stashed changes
             external: ['react', 'react-dom'],
             output: {
                 globals: {
                     react: 'React',
                     'react-dom': 'ReactDOM',
                 },
-<<<<<<< Updated upstream
-=======
                 // preserveModules: true,
->>>>>>> Stashed changes
             },
         },
     },

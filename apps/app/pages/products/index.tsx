@@ -1,29 +1,13 @@
-// import { Delete } from "@mui/icons-material";
-// import { Avatar, Button, IconButton, Pagination, TextField, Typography } from "@mui/material";
 import axios from "axios";
-// import ConfirmationAlert from "components/ConfirmationAlert";
-// import FlexBox from "components/FlexBox";
-// import DeliveryBox from "components/icons/DeliveryBox";
-// import AdminDashboardLayout from "components/layout/AdminDashboardLayout";
-// import AdminDashboardNavigation from "components/layout/AdminDashboardNavigation";
-// import DashboardPageHeader from "components/layout/DashboardPageHeader";
-// import Loading from "components/Loading";
-// import TableRow from "components/TableRow";
-// import { H5 } from "components/Typography";
-// import useProducts from "hooks/useProducts";
-// import Link from "next/link";
 import React, { ReactNode, useState } from "react";
 // import toast from "react-hot-toast";
-// import pagination from "__server__/utils/pagination";
-import prisma, { Organization, Product, Order, User } from "@cd/data-access"
-import { Center, Currency, FlexBox, H6, IconButton, Icons, Page, Paragraph, Row, TextField, Grid, Table } from "@cd/shared-ui"
+import prisma, { Product } from "@cd/data-access"
+import { Currency, H6, IconButton, Icons, Page, Row, Grid } from "@cd/shared-ui"
 import { usePagination } from "hooks";
 import Link from "next/link";
 import Image from "next/image";
 import { twMerge } from "tailwind-merge";
-import { Layout } from "components";
-import { JsxElement } from "typescript";
-import { NextComponentType } from "next";
+import { Layout, ConfirmationAlert } from "components";
 
 interface ProductsDashboardProps {
   products: Product[];
@@ -31,7 +15,8 @@ interface ProductsDashboardProps {
 
 export default function Products({ products }: ProductsDashboardProps) {
   const [currentPage, setCurrentPage] = useState(1);
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const [ dialogOpen, setDialogOpen ] = useState(false);
+  const [deleteName, setDeleteName] = useState("")
   const [deleteId, setDeleteId] = useState("");
   const [ searchValue, setSearchValue ] = useState("");
   
@@ -48,6 +33,7 @@ export default function Products({ products }: ProductsDashboardProps) {
   
   const dialogClose = () => {
     setDeleteId("");
+    setDeleteName("")
     setDialogOpen(false);
   };
 
@@ -57,6 +43,7 @@ export default function Products({ products }: ProductsDashboardProps) {
         await axios.delete(`/api/products/${deleteId}`);
         // refetch();
         setDeleteId("");
+        setDeleteName("")
         setDialogOpen(false);
         toast.success("Product deleted Successfully");
       } catch (error) {
@@ -81,7 +68,7 @@ export default function Products({ products }: ProductsDashboardProps) {
             product.salePrice = salePrice
             return (
               <Link href={`/products/${product.id}`} key={product.id}>
-                <Row className="h-[60px]">
+                <Row className="h-[54px] py-0">
                   <Image className="hidden sm:block " src={ product.images[ 0 ]?.location } alt="" height={ 60 } width={ 60 } />
                   <H6 className="grow">{ product.name }</H6>
 
@@ -95,11 +82,17 @@ export default function Products({ products }: ProductsDashboardProps) {
                     <Currency price={product.salePrice} />
                   </H6>
 
-                  <IconButton Icon={Icons.XIcon} className="min-w-[50px] sm:w-[120px] text-primary sm:space-x-2"
+                  <IconButton Icon={Icons.XIcon} className="min-w-[50px] sm:w-[120px] text-primary sm:space-x-2 h-full"
+                    size={12}
+                    type="button"
+                    data-modal-target="confirmation-alert"
                     onClick={ (e) => {
+                      e.preventDefault()
                       e.stopPropagation();
+                      // e.nativeEvent.stopImmediatePropagation();  
                       setDialogOpen(true);
                       setDeleteId(product.id);
+                      setDeleteName(product.name);
                     }}
                   >
                     <div className="hidden sm:block">Delete</div>
@@ -110,14 +103,13 @@ export default function Products({ products }: ProductsDashboardProps) {
           }) }
         </Grid>
 
-          {/* <ConfirmationAlert
-            open={dialogOpen}
-            close={dialogClose}
-            handleConfirm={handleDeleteProduct}
-            description="Want to remove this product."
-          />
+        <ConfirmationAlert
+          modalId={"confirmation-alert"}
+          handleConfirm={handleDeleteProduct}
+          description={`Do you want to delete ${deleteName}?`}
+        />
 
-          <FlexBox justifyContent="center" mt={5}>
+          {/* <FlexBox justifyContent="center" mt={5}>
             <Pagination count={pageCount} onChange={(_, value) => setCurrentPage(value)} />
           </FlexBox> */}
     </Page>

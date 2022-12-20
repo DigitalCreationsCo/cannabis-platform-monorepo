@@ -3,15 +3,15 @@ import {IconWrapper, Button} from ".";
 
 type IconButtonProps = {
     Icon: any;
+    type?: "button" | "submit" | "reset";
     onClick: ReactEventHandler;
     className?: string;
-    height?: number;
-    width?: number;
+    size?: number;
 };
-export default function IconButton({ Icon, onClick, className, height = 20, width = 20, children, ...rest }: IconButtonProps & PropsWithChildren) {
+export default function IconButton({ Icon, type, onClick, className, size = 20, children, ...props }: IconButtonProps & PropsWithChildren) {
     return (
-        <Button onClick={onClick} className={className}>
-            <IconWrapper height={ height } width={ width } { ...rest } Icon={ Icon } />
+        <Button type={ type }  onClick={onClick} className={className} { ...props } >
+            <IconWrapper height={ size } width={ size } Icon={ Icon } />
             {children}
         </Button>
     );

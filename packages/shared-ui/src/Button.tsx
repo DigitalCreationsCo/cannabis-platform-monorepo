@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react';
+import React, { PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 import LoadingDots from './LoadingDots';
 
@@ -27,9 +27,8 @@ export default function Button({ type, className, disabled, loading, onClick, ch
                 'items-center',
                 'px-4',
                 'h-10',
-                'my-2',
                 'rounded-btn',
-                'focus:outline-none',
+                'focus:outline-none focus:bg-inverse',
                 'md:hover:bg-inverse hover:text-inverse transition',
                 className
             )}

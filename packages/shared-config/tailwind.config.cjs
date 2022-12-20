@@ -27,6 +27,7 @@ module.exports = {
             primary: 'var(--color-bg-primary)',
             secondary: 'var(--color-bg-secondary)',
             default: 'var(--color-bg-default)',
+            'default-soft': 'var(--color-bg-default-soft)',
             inverse: 'var(--color-bg-inverse)',
             'inverse-soft': 'var(--color-bg-inverse-soft)',
         },
