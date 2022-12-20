@@ -12,6 +12,9 @@ add icons
 app prisma config & lib
 
 do next:
+users page, add memberships to user rows
+add details pages for each main page
+
 complete orders page
 complete users page
 complete site settings page

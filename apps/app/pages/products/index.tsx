@@ -90,7 +90,6 @@ export default function Products({ products }: ProductsDashboardProps) {
                     onClick={ (e) => {
                       e.preventDefault()
                       e.stopPropagation();
-                      // e.nativeEvent.stopImmediatePropagation();  
                       setDialogOpen(true);
                       setDeleteId(product.id);
                       setDeleteName(product.name);
@@ -131,14 +130,12 @@ const getUserInfo = ({ req }) => {
 }
 
 export async function getServerSideProps({ req, res }) {
-    
-    let user = getUserInfo({req})
-    let {organizationId} = user
+  let user = getUserInfo({req})
+  let {organizationId} = user
+  let products: Product[] = await prisma.product.findMany({ where: { organizationId }, orderBy: [ { rating: 'desc' },{ quantity: 'desc' }],include: { images: true}}) || []
 
-    let products = await prisma.product.findMany({ where: { organizationId }, orderBy: [ { rating: 'desc' },{ quantity: 'desc' }],include: { images: true}}) || []
-
-    return {
-      props: {
-        products,
-    }}
+  return {
+    props: {
+      products,
+  }}
 }

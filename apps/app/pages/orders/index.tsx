@@ -1,19 +1,7 @@
-// import ShoppingBag from "@mui/icons-material/ShoppingBag";
-// import { Pagination } from "@mui/material";
-// import FlexBox from "components/FlexBox";
-// import AdminDashboardLayout from "components/layout/AdminDashboardLayout";
-// import AdminDashboardNavigation from "components/layout/AdminDashboardNavigation";
-// import DashboardPageHeader from "components/layout/DashboardPageHeader";
-// import Loading from "components/Loading";
-// import OrderRow from "components/orders/OrderRow";
-// import TableRow from "components/TableRow";
-// import { H5 } from "components/Typography";
-// import useOrders from "hooks/useOrders";
-import React, { Fragment, useState } from "react";
-// import pagination from "__server__/utils/pagination";
+import React, { useState } from "react";
 import { usePagination } from "../../src/hooks";
-import prisma, {Organization, Product, Order, User} from "@cd/data-access"
-import { Card, FlexBox, Grid, H6, OrderRow, Page, Row } from "@cd/shared-ui";
+import prisma, {Order} from "@cd/data-access"
+import { Card, Grid, H6, OrderRow, Page, Row } from "@cd/shared-ui";
 
 interface OrdersDashboardProps {
   orders: Order[];
