@@ -8,6 +8,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { twMerge } from "tailwind-merge";
 import { Layout, ConfirmationAlert } from "components";
+import { Card } from "@cd/shared-ui";
 
 interface ProductsDashboardProps {
   products: Product[];
@@ -63,7 +64,7 @@ export default function Products({ products }: ProductsDashboardProps) {
           <H6 className="flex justify-center w-[100px]">Sale</H6>
           <div className="min-w-[50px] sm:w-[120px]"></div>
         </Row>
-          {currentProducts.map((product) => {
+          {currentProducts.length > 0 ? currentProducts.map((product) => {
             const salePrice = product.basePrice - (product.basePrice * product.discount) / 100;
             product.salePrice = salePrice
             return (
@@ -100,7 +101,9 @@ export default function Products({ products }: ProductsDashboardProps) {
                 </Row>
               </Link>
             );
-          }) }
+          }) : (
+            <Card>There are no products available.</Card>
+          )}
         </Grid>
 
         <ConfirmationAlert
@@ -135,7 +138,7 @@ export async function getServerSideProps({ req, res }) {
     let products = await prisma.product.findMany({ where: { organizationId }, orderBy: [ { rating: 'desc' },{ quantity: 'desc' }],include: { images: true}}) || []
 
     return {
-        props: {
-            products,
+      props: {
+        products,
     }}
 }

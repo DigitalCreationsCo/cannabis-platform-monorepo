@@ -12,9 +12,10 @@ add icons
 app prisma config & lib
 
 do next:
-
+complete orders page
+complete users page
+complete site settings page
 
 start adding all components!
-add rollup build to data-access lib
 add incremental build to shared-ui lib
 migrate all mui components to tailwind
