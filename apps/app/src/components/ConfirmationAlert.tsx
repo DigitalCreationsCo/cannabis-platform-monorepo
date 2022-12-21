@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Modal from "./Modal";
 
 type ConfirmationAlertProps = {
+    open: any;
+    setOpen: any;
     modalId: string;
     description?: string;
     handleConfirm: () => void;
@@ -9,16 +11,17 @@ type ConfirmationAlertProps = {
 
 function ConfirmationAlert({
     modalId,
+    open,
+    setOpen,
     handleConfirm,
     description = "Confirm?",
 }: ConfirmationAlertProps) {
-    const [showModal, setModal] = useState(false)
     return (
         <Modal
             id={ modalId }
-            showModal={ showModal }
-            setModal={ setModal }
-            handleConfirm={handleConfirm}
+            open={ open }
+            setModal={ setOpen }
+            handleConfirm={ handleConfirm }
         >
             {description}
         </Modal>

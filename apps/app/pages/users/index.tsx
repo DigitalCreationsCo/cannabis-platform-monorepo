@@ -5,7 +5,7 @@ import { usePagination } from "hooks";
 import { Card, Grid, H6, IconButton, Icons, Page, Paragraph, Row } from "@cd/shared-ui";
 import Link from "next/link";
 import Image from "next/image";
-import { PageHeader } from "../../src/components";
+import { ConfirmationAlert, PageHeader } from "components";
 import { Button } from "@cd/shared-ui";
 
 type UsersDashboardProps = {
@@ -87,12 +87,13 @@ export default function Users ({ users }: UsersDashboardProps) {
         }) : <Card>There are no users.</Card> }
       </Grid>
 
-        {/* <ConfirmationAlert
-          open={dialogOpen}
-          close={dialogClose}
-          handleConfirm={handleDeleteProduct}
+      <ConfirmationAlert
+        modalId="confirmation-alert"
+          open={ dialogOpen }
+          setOpen={ setDialogOpen }
+          handleConfirm={handleDeleteUser}
           description="Want to remove this user."
-        /> */}
+        />
 
         {/* <FlexBox justifyContent="center" mt={5}>
           <Pagination
