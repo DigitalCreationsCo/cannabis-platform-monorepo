@@ -13,7 +13,8 @@ app prisma config & lib
 12-20-22
 users page, add memberships to user rows
 complete orders page
-
+12-21-22
+tailwind config improvements, fixed theme
 
 do next:
 finish SideNav - refactor mobile sidebar into this :)

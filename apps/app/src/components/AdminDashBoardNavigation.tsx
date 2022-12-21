@@ -2,14 +2,18 @@ import { useRouter } from 'next/router';
 import { NavLink, Icons } from '@cd/shared-ui';
 
 const AdminDashboardNavigation = () => {
-    const { pathname } = useRouter();
+    let { pathname } = useRouter();
     return (
         <div className="z-10 shadow rounded-btn">
-            {links.map((item) => (
-                <NavLink href={item.href} key={item.title} isActive={pathname.includes(item.href)} Icon={item.icon}>
-                    {item.title}
-                </NavLink>
-            ))}
+            {links.map((item) => {
+                let href = (item.href.length > 1 && item.href.slice(1)) || item.href;
+                pathname = (item.href.length === 1 && pathname.slice(1)) || pathname;
+                return (
+                    <NavLink href={item.href} key={item.title} isActive={pathname.includes(href)} Icon={item.icon}>
+                        {item.title}
+                    </NavLink>
+                );
+            })}
         </div>
     );
 };

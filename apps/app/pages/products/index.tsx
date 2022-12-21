@@ -85,7 +85,7 @@ export default function Products({ products }: ProductsDashboardProps) {
                   <Image className="hidden sm:block" src={ product.images[ 0 ]?.location } alt="" height={ 60 } width={ 60 } />
                   <H6 className="grow">{ product.name }</H6>
 
-                  <H6 className={ twMerge("flex justify-center w-[60px]", product.quantity < 6 ? 'text-primary' : 'text-secondary') }>{ product.quantity.toString().padStart(2, "0") }</H6>
+                  <H6 className={ twMerge("flex justify-center w-[60px]", product.quantity < 6 && 'text-error') }>{ product.quantity.toString().padStart(2, "0") }</H6>
 
                   <H6 className="flex justify-center w-[80px] ">
                     <Currency price={ product.basePrice } />

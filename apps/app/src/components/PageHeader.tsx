@@ -8,24 +8,26 @@ export interface PageHeaderProps {
   navigation?: any;
   Button?: any;
   Icon?: any;
+  iconColor?: string;
+  fill: string;
 }
 export default function PageHeader ({
   title,
   subTitle,
   navigation,
   Button,
-  Icon
+  Icon,
+  fill = "primary"
 }: PageHeaderProps ) {
   return (
-    <div>
-      <FlexBox className="my-2 flex grow justify-between">
+      <FlexBox className="min-h-[54px] my-2 flex grow">
         <FlexBox className="flex-col">
-          <FlexBox className="flex-row items-center">
+          <FlexBox className="flex-row">
             <H3>{ title }</H3>
-            { Icon && <IconWrapper className="items-center" Icon={ Icon } size={ 24 } /> }
+          { Icon && <IconWrapper class={"fill-" + fill} Icon={ Icon } size={ 24 } /> }
           </FlexBox>
           { subTitle && (
-            <Span className="text-primary">
+            <Span className="self-start text-primary">
               { subTitle }
             </Span>
           )}
@@ -33,11 +35,7 @@ export default function PageHeader ({
         {/* <SideNav position="left" handle={<Menu fontSize="small" />}>
           {navigation}
         </SideNav> */}
-        {/* desktop position */}
-        {Button && <div className="md:mt-2">{ Button }</div>}
+        {Button && Button}
       </FlexBox>
-      {/* mobile position */}
-      { Button && <div className="md:mt-2">{ Button }</div>}
-    </div>
   );
 };

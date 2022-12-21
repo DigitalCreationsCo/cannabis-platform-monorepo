@@ -48,7 +48,7 @@ export default function Dashboard({ user, organization, products, orders }: Dash
             </Head>
             <PageHeader
                 title={`${organization.name} Dashboard`}
-                subTitle={ `Hi, ${user.username}` }
+                subTitle={ `Hi, ${user.firstName}` }
                 Icon={Icons.ShoppingBagOutlined}
             />
 
@@ -89,7 +89,7 @@ export default function Dashboard({ user, organization, products, orders }: Dash
 
 const getUserInfo = ({ req }) => {
     // let user = req.session?.user
-    const session = { user: { username: 'kbarnes', organizationId: '2' } }
+    const session = { user: { username: 'kbarnes', firstName: 'Katie', lastName: 'Barnes', organizationId: '2' } }
     let { user } = session
     return user;
 }

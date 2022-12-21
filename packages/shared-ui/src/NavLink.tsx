@@ -1,25 +1,24 @@
-import cx from "clsx";
 import Link from "next/link";
 import React, { AnchorHTMLAttributes, CSSProperties, PropsWithChildren, SVGAttributes } from "react";
+import { twMerge } from "tailwind-merge";
 import { IconWrapper, Span } from ".";
 
 export interface NavLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   href: string;
   className?: string;
   isActive: boolean;
-  style?: CSSProperties;
   Icon: any
 }
 
-const NavLink = ({ href, Icon, isActive, children, style, className, ...props }: NavLinkProps) => {
-  const navLinkStyle = ['flex space-x-2 p-4 items-center hover:bg-secondary border-l-4', isActive && 'border-secondary']
+const NavLink = ({ href, Icon, isActive, children, className }: NavLinkProps) => {
+  const navLinkStyle = ['h-[44px] flex space-x-2 p-4 items-center border-l-4 border-transparent hover:border-primary', isActive ? 'border-primary' : 'border-transparent']
   return (
     <Link href={ href }>
-      <div className={ cx(navLinkStyle) }>
+      <div className={ twMerge(navLinkStyle, className) }>
       <IconWrapper Icon={Icon} />
-      <StyledLink isActive={ isActive } { ...props }>
-          { children }
-        </StyledLink>
+      <StyledLink isActive={ isActive }>
+        { children }
+      </StyledLink>
       </div>
     </Link>
   );
@@ -27,7 +26,7 @@ const NavLink = ({ href, Icon, isActive, children, style, className, ...props }:
 
 const StyledLink = ({ isActive, className, children }: {isActive: boolean, className?: string} & PropsWithChildren) => {
     return(
-        <Span className={cx('whitespace-nowrap', className)}>{children}</Span>
+        <Span className={twMerge('whitespace-nowrap', className)}>{children}</Span>
     )
 }
 

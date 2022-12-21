@@ -1,30 +1,42 @@
 @tailwind base;
 @tailwind components;
 
+@layer base {
+
+  .text-default {
+    color: var(--color-dark);
+    letter-spacing: 0.5px;
+  }
+
+  html {
+    @apply text-default;
+  } 
+}
+
 :root {
-  --color-transparent: rgba(255, 255, 255, 0);
+  --color-primary: #14a33d;
+  --color-primary-light: #17c649;
+  --color-secondary: #13622a;
+  --color-inverse: #fff2da;
+  --color-inverse-soft: #f9f7f2;
+  --color-accent: #a49b8a;
+  --color-accent-soft: #bbb5a9;
 
-  --color-bg-primary: #14a33d;
-  --color-bg-secondary: #11dd63;
-  --color-bg-default: #fff2da;
-  --color-bg-default-soft: #f9f7f2;
-  --color-bg-inverse: #a49b8a;
-  --color-bg-inverse-soft: #bbb5a9;
+  --color-dark: rgb(62, 58, 58);
+  --color-dark-soft: rgb(168, 168, 168);
 
-  --color-text-primary: #14a33d;
-  --color-text-secondary: rgb(204, 57, 57);
-  --color-text-default: rgb(62, 58, 58);
-  --color-text-default-soft: rgb(168, 168, 168);
-  --color-text-inverse: #ffffff;
-  --color-text-inverse-soft: #c6c0b5;
+  --color-light: #ffffff;
+  --color-light-soft: #c6c0b5;
+
+  --color-error: rgb(221, 22, 22);
 
   --font-weight-normal: 400;
+  --font-weight-semibold: 600;
   --font-weight-bold: 800; 
-  --font-weight-display: 400;
+  --font-weight-display: 900;
   --font-weight-btn: 600;
 
   --rounded-btn: 0.25rem;
-
 }
 
 /** purgecss start ignore */

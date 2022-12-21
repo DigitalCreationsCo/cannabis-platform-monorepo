@@ -20,7 +20,7 @@ function TopBar({ session, totalItems = 0, auth }: TopBarProps) {
 
     const toggleDialog = () => setDialogOpen(!dialogOpen);
 
-    const topbar = cx('flex flex-row h-[66px] pr-4 lg:px-8 bg-default space-x-2 items-center shadow');
+    const topbar = cx('flex flex-row h-[66px] pr-4 lg:px-8 bg-inverse space-x-2 items-center shadow');
     return (
         <div className={cx(topbar)}>
             <Link href="/" passHref>
@@ -31,13 +31,13 @@ function TopBar({ session, totalItems = 0, auth }: TopBarProps) {
             </Link>
             <Link href="/">
                 <Paragraph
-                    className={cx(
+                    className={ cx(
                         'pt-1',
-                        'text-primary',
                         'text-lg',
                         'hidden',
                         'md:block',
                         'place-self-center',
+                        'text-primary',
                     )}
                 >
                     Cannabis Marketplace
@@ -56,7 +56,6 @@ function TopBar({ session, totalItems = 0, auth }: TopBarProps) {
             <div className="flex flex-row space-x-4">
                 {!session && (
                     <Button
-                        className="bg-inverse-soft md:hover:bg-inverse text-inverse transition"
                         disabled={loading}
                         onClick={auth}
                     >
@@ -66,9 +65,7 @@ function TopBar({ session, totalItems = 0, auth }: TopBarProps) {
 
                 {/* {session?.user && ( */ }
                 {session && (
-                
                     <Button
-                        className="bg-inverse-soft md:hover:bg-inverse text-inverse transition"
                         disabled={loading}
                         onClick={() => {
                             setLoading(true);
@@ -81,14 +78,12 @@ function TopBar({ session, totalItems = 0, auth }: TopBarProps) {
                 )}
 
                 <Link href="/cart">
-                    <Button className="relative bg-inverse-soft md:hover:bg-inverse text-inverse transition">
-                        {/* <ShoppingBagOutlined /> */}
+                    <Button className="relative">
                         Bag
-                        <span className="sr-only">Notifications</span>
                         {totalItems >= 1 && (
                             <div
                                 className={twMerge(
-                                    'absolute inline-flex items-center justify-center w-6 h-6 text-sm text-inverse bg-primary -top-2 -right-2 rounded-full'
+                                    'absolute inline-flex items-center justify-center w-6 h-6 text-sm text-light bg-primary -top-2 -right-2 rounded-full'
                                 )}
                             >
                                 {totalItems}

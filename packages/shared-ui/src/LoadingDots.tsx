@@ -3,10 +3,10 @@ import cx from 'clsx';
 
 const LoadingDots = () => {
     return (
-        <span className={cx(styles.loading, 'text-primary bg-primary')}>
-            <span className="text-primary bg-primary" />
-            <span className="text-primary bg-primary" />
-            <span className="text-primary bg-primary" />
+        <span className={cx(styles.loading, 'bg-primary')}>
+            <span className="bg-primary" />
+            <span className="bg-primary" />
+            <span className="bg-primary" />
         </span>
     );
 };

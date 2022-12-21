@@ -20,7 +20,7 @@ export default function Button({ type, className, disabled, loading, onClick, ch
             className={ twMerge(
                 loading && 'cursor-not-allowed',
                 'whitespace-nowrap',
-                'font-semibold',
+                'font-btn',
                 'shadow-md',    
                 'flex',
                 'justify-center',
@@ -28,8 +28,9 @@ export default function Button({ type, className, disabled, loading, onClick, ch
                 'px-4',
                 'h-10',
                 'rounded-btn',
-                'focus:outline-none focus:bg-inverse',
-                'md:hover:bg-inverse hover:text-inverse transition',
+                'bg-accent-soft text-inverse',
+                'focus:outline-none focus:bg-accent',
+                'md:hover:bg-accent transition',
                 className
             )}
             {...props}

@@ -11,7 +11,6 @@ function SearchBar({ placeholder = "Search", onChange }:SearchBarProps) {
         <div
             className={twMerge(
                 'items-center',
-                'bg-white',
                 'flex',
                 'flex-row',
                 'space-x-2',

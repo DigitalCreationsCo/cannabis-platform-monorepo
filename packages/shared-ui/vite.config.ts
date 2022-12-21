@@ -4,6 +4,11 @@ import dts from 'vite-plugin-dts';
 import path from 'node:path';
 
 export default defineConfig({
+    server: {
+        watch: {
+            ignored: ['!**/node_modules/@cd/shared-config/**']
+        }
+    },
     plugins: [
         react({ jsxRuntime: 'classic' }),
         dts({
@@ -23,7 +28,7 @@ export default defineConfig({
                 // incremental(),
                 // incremental.fixSNE(),
             ],
-            external: ['react', 'react-dom'],
+            external: [ 'react', 'react-dom' ],
             output: {
                 globals: {
                     react: 'React',
@@ -33,4 +38,7 @@ export default defineConfig({
             },
         },
     },
+    optimizeDeps: {
+        exclude: ['@cd/shared-config']
+    }
 });

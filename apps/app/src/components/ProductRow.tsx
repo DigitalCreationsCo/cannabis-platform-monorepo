@@ -31,7 +31,7 @@ function ProductRow({ product }: ProductRowProps) {
         <Row className="h-[44px]">
           <Image className="hidden sm:block" src={ product.images[ 0 ]?.location } alt="" width={ 40 } height={40} />
           <H6 className="grow">{ product.name }</H6>
-          <Paragraph className={ twMerge("flex justify-center w-[60px]", product.quantity < 6 ? 'text-primary' : 'text-secondary') }>{ product.quantity.toString().padStart(2, "0") }</Paragraph>
+          <Paragraph className={ twMerge("flex justify-center w-[60px]", product.quantity < 6 && 'text-error') }>{ product.quantity.toString().padStart(2, "0") }</Paragraph>
           <H6 className="flex justify-center w-[80px]"><Currency price={ product.basePrice } /></H6>
           <IconWrapper
           Icon={ Icons.Right } />

@@ -10,7 +10,7 @@ function App() {
 
     return (
         <div className='App'>
-            <div className="flex bg-default">
+            <div className="flex bg-inverse">
                 <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
                     <img src="/vite.svg" className="logo" alt="Vite logo" />
                 </a>

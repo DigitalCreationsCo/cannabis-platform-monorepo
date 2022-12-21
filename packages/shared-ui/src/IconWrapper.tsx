@@ -7,8 +7,8 @@ type IconProps = {
     size?: number;
 }
 
-export default function IconWrapper({ Icon, className, size = 20 }: IconProps) {
+export default function IconWrapper({ Icon, className, size = 20, ...props }: IconProps) {
     return (
-        <Icon className={twMerge('align-items', className)} height={ size } width={ size } />
+        <Icon className={twMerge('align-items', className)} height={ size } width={ size } { ...props } />
     );
 }
