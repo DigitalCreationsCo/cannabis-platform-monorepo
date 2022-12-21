@@ -9,7 +9,6 @@ export interface PageHeaderProps {
   Button?: any;
   Icon?: any;
   iconColor?: string;
-  fill: string;
 }
 export default function PageHeader ({
   title,
@@ -17,14 +16,14 @@ export default function PageHeader ({
   navigation,
   Button,
   Icon,
-  fill = "primary"
+  iconColor = "primary"
 }: PageHeaderProps ) {
   return (
       <FlexBox className="min-h-[54px] my-2 flex grow">
         <FlexBox className="flex-col">
           <FlexBox className="flex-row">
             <H3>{ title }</H3>
-          { Icon && <IconWrapper class={"fill-" + fill} Icon={ Icon } size={ 24 } /> }
+          { Icon && <IconWrapper class={"fill-" + iconColor} Icon={ Icon } size={ 24 } /> }
           </FlexBox>
           { subTitle && (
             <Span className="self-start text-primary">
