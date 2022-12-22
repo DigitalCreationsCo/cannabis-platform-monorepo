@@ -1,9 +1,7 @@
-import cx from 'clsx';
 import Link from 'next/link';
 import Image from 'next/image';
 import logo from '../../public/logo.png'
 import { H2, Paragraph, Button } from '@cd/shared-ui';
-import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import SessionReact, { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import SuperTokensReact from "supertokens-auth-react";
@@ -28,11 +26,11 @@ function TopBar({ totalItems = 0 }: TopBarProps) {
         }
     }
 
-    const topbar = cx('flex flex-row h-[66px] pr-4 lg:px-8 bg-inverse space-x-2 items-center shadow');
+    const topbar = ['flex flex-row h-[66px] pr-4 lg:px-8 bg-inverse space-x-2 items-center shadow']
 
     if (!session.loading) {
         return (
-            <div className={ cx(topbar) }>
+            <div className={ twMerge(topbar) }>
                 <Link href="/" passHref>
                     <Image alt="Gras" width={ 50 } height={ 50 } src={ logo } />
                 </Link>
@@ -41,7 +39,7 @@ function TopBar({ totalItems = 0 }: TopBarProps) {
                 </Link>
                 <Link href="/">
                     <Paragraph
-                        className={ cx(
+                        className={ twMerge(
                             'pt-1',
                             'text-lg',
                             'hidden',
@@ -59,14 +57,15 @@ function TopBar({ totalItems = 0 }: TopBarProps) {
                 { session.doesSessionExist && (
                     <>
                         <Link href="/support">
-                            <Paragraph className={ cx('pt-1', 'text-md', 'whitespace-nowrap') }>Need Support?</Paragraph>
+                            <Paragraph className={ twMerge('pt-1', 'text-md', 'whitespace-nowrap') }>Need Support?</Paragraph>
                         </Link>
                         <FlexBox>
                             <Button
                                 disabled={ session.loading }
                                 onClick={
                                     // test how much of this is redundant
-                                    async () => await SessionReact.signOut()
+                                    () => {}
+                                    // SessionReact.signOut
                                     // location.reload();
                                 }
                             >
@@ -76,21 +75,21 @@ function TopBar({ totalItems = 0 }: TopBarProps) {
                     </>
                 ) }
 
-                { !session.doesSessionExist && (
+                {!session.doesSessionExist && (
                     // <FlexBox>
-                    //     <Link href="/auth">
+                        <Link href="/auth">
                             <Button
                                 disabled={session.loading}
-                                onClick={ async() => {
+                                onClick={() => {}
                                     // test how much of this is redundant
-                                    SuperTokensReact.redirectToAuth();
+                                    // async () => await SuperTokensReact.redirectToAuth({ show: 'signin'})
                                     // SessionReact.attemptRefreshingSession()
                                     // location.reload();
-                                } }
+                                }
                             >
                                 Sign In
                             </Button>
-                    //     </Link>
+                        </Link>
                     // </FlexBox>
                 ) }
 

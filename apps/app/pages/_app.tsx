@@ -31,8 +31,12 @@ export default function App({ Component, pageProps }): JSX.Element{
     const getLayout = Component.getLayout || ((page) => <Layout>{page}</Layout>);
     return (
         <SuperTokensWrapper>
-            <SessionControl>
-                { getLayout(<Component { ...pageProps } />) }
-            </SessionControl>
+            <Session.SessionAuth>
+            {/* <SessionControl> */}
+            {/* { getLayout( */}
+                <Component { ...pageProps } />
+            {/* ) } */}
+                {/* </SessionControl> */ }
+            </Session.SessionAuth>
         </SuperTokensWrapper>);
 }

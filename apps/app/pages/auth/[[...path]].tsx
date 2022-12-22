@@ -9,7 +9,7 @@ export default function Auth(): JSX.Element {
     useEffect(() => {
         if (SuperTokens.canHandleRoute() === false) {
             SuperTokens.redirectToAuth({
-                redirectBack: false,
+                redirectBack: true,
             });
         }
     }, []);
