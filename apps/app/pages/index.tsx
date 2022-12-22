@@ -1,9 +1,7 @@
 import Head from 'next/head';
-import Link from 'next/link';
 import { useMemo } from 'react';
 import { Page, Span, H3, Card, Paragraph, Grid, OrderRow, } from '@cd/shared-ui';
 import prisma, {Organization, Product, Order, User} from "@cd/data-access"
-import { GetServerSideProps } from 'next';
 import { PageHeader, ProductRow } from "components"
 import { Icons } from '@cd/shared-ui';
 
@@ -15,7 +13,6 @@ interface DashboardProps {
 }
 
 export default function Dashboard({ user, organization, products, orders }: DashboardProps) {
-
     const todaysOrders = useMemo(() => {
     const todaysOrders = Array.isArray(orders)
       ? orders.filter((order) => {
@@ -42,8 +39,8 @@ export default function Dashboard({ user, organization, products, orders }: Dash
     return (
         <Page>
             <Head>
-                <title>Cannabis Dispensary Vendor Experience</title>
-                <meta name="vendor experience" content="Property of Gras Cannabis Co." />
+                <title>Gras Cannabis</title>
+                <meta name="vendor experience application" content="Property of Gras Cannabis Co." />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <PageHeader

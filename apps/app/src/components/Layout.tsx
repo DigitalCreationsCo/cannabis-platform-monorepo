@@ -10,15 +10,13 @@ interface LayoutProps extends PropsWithChildren {
 }
 
 function Layout({ onSearchChange, placeholder, children }: LayoutProps) {
-
-    const [ session, setSession ] = useState(false)
-    const toggleSession = () => {
-        setSession(prev => !prev)
-    }
-    
     return (
         <>
-            <TopBar session={ session } totalItems={ 4 } auth={ toggleSession } />
+            <TopBar
+                // session={ session } 
+                // auth={ toggleSession }
+                totalItems={ 4 } 
+            />
             <SideNavContainer SideNavComponent={ AdminDashboardNavigation } fixedComponentId={ 'admin-dashboard' }>
                 <Header><SearchBar placeholder={ placeholder }  onChange={ onSearchChange } /></Header>
                 { children }

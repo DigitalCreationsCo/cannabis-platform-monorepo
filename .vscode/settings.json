@@ -19,6 +19,7 @@
     "purgecss",
     "reduxjs",
     "supertokens",
-    "tailwindcss"
+    "tailwindcss",
+    "topbar"
   ],
 }

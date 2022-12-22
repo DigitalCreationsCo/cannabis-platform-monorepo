@@ -17,6 +17,8 @@ complete orders page
 tailwind config improvements, fixed theme
 
 do next:
+Add context o Session Control, for auth functions available throughout app
+
 finish SideNav - refactor mobile sidebar into this :)
 finish all admin dashboard pages, details pages, etc.
 

@@ -1,9 +1,11 @@
 import React, { PropsWithChildren } from 'react';
+import { twMerge } from 'tailwind-merge';
+type PageProps = {
+    className?: string;
+};
 
-type PageProps = PropsWithChildren;
-
-function Page({ children }: PageProps) {
-    return <div className="min-w-full max-w-screen sm:px-5 pt-2 lg:px-16 pb-20 min-h-[400px]">{children}</div>;
+function Page({ className, children }: PageProps & PropsWithChildren) {
+    return <div className={ twMerge("max-w-screen sm:px-5 pt-2 lg:px-16 pb-20 min-h-[400px]", className) }>{children}</div>;
 }
 
 export default Page;
