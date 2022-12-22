@@ -9,7 +9,7 @@ export default function Auth(): JSX.Element {
     useEffect(() => {
         if (SuperTokens.canHandleRoute() === false) {
             SuperTokens.redirectToAuth({
-                redirectBack: true,
+                redirectBack: false,
             });
         }
     }, []);
@@ -20,6 +20,7 @@ export default function Auth(): JSX.Element {
                 <title>SuperTokens Auth 💫</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
+            
             <main>
                 <SuperTokensComponentNoSSR />
             </main>

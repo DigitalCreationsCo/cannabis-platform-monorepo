@@ -31,12 +31,12 @@ export default function App({ Component, pageProps }): JSX.Element{
     const getLayout = Component.getLayout || ((page) => <Layout>{page}</Layout>);
     return (
         <SuperTokensWrapper>
-            <Session.SessionAuth>
+            {/* <Session.SessionAuth> */}
             {/* <SessionControl> */}
             {/* { getLayout( */}
                 <Component { ...pageProps } />
             {/* ) } */}
                 {/* </SessionControl> */ }
-            </Session.SessionAuth>
+            {/* </Session.SessionAuth> */}
         </SuperTokensWrapper>);
 }
