@@ -6,6 +6,7 @@ import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import * as SuperTokensConfig from '../config/frontendConfig';
 import Session from 'supertokens-auth-react/recipe/session';
 
+
 if (typeof window !== 'undefined') {
     SuperTokensReact.init(SuperTokensConfig.frontendConfig());
 }
@@ -25,18 +26,17 @@ export default function App({ Component, pageProps }): JSX.Element{
         doRefresh();
     }, [ pageProps.fromSupertokens ]);
     if (pageProps.fromSupertokens === "needs-refresh") {
-        return null;
+        return <></>
     }
 
-    const getLayout = Component.getLayout || ((page) => <Layout>{page}</Layout>);
+    const getLayout = Component.getLayout || ((page) => <Layout>{ page }</Layout>);
     return (
         <SuperTokensWrapper>
-            {/* <Session.SessionAuth> */}
-            {/* <SessionControl> */}
-            {/* { getLayout( */}
+            <SessionControl>
+            { getLayout(
                 <Component { ...pageProps } />
-            {/* ) } */}
-                {/* </SessionControl> */ }
-            {/* </Session.SessionAuth> */}
-        </SuperTokensWrapper>);
+                ) }
+            </SessionControl>
+        </SuperTokensWrapper>
+    );
 }

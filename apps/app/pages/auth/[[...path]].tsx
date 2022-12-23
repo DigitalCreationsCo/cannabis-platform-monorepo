@@ -1,13 +1,14 @@
 import Head from 'next/head';
-import React, { useEffect } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import SuperTokens from 'supertokens-auth-react';
+import { NextPage } from 'next';
 
 const SuperTokensComponentNoSSR = dynamic(new Promise((res) => res(SuperTokens.getRoutingComponent)), { ssr: false });
 
 export default function Auth(): JSX.Element {
     useEffect(() => {
-        if (SuperTokens.canHandleRoute() === false) {
+        if (SuperTokens.canHandleRoute()) {
             SuperTokens.redirectToAuth({
                 redirectBack: false,
             });
@@ -27,3 +28,7 @@ export default function Auth(): JSX.Element {
         </div>
     );
 }
+
+Auth.getLayout = function (page: NextPage & ReactNode) {
+    return page
+};
