@@ -15,22 +15,28 @@ users page, add memberships to user rows
 complete orders page
 12-21-22
 tailwind config improvements, fixed theme
+12-23-22
+supertokens signin with managed service
 
 do next:
-Add context o Session Control, for auth functions available throughout app
+finish all admin dashboard pages, details pages, etc.
+complete site settings page
 
 finish SideNav - refactor mobile sidebar into this :)
-finish all admin dashboard pages, details pages, etc.
+
+add daisy ui for tab, modal, and more.
+
+build consumer web app (Easy!!)
+
+switch to self hosted supertokens core
+Add context o Session Control, for auth functions available throughout app
+
 
 Check the existing apps for some finished work.
 add unit test suite, and some basic test for main app processes
 - like what? :) Currency, formatting, mutating data, adding, removing entries,
 prisma query, 
 
-add daisy ui for tab, modal, and more.
-
-add details pages for each main page
-complete site settings page
 
 start adding all components!
 add incremental build to shared-ui lib
