@@ -197,20 +197,38 @@ model Order {
   id            String    @id @default(cuid())
   total Int
   status OrderStatus @default(Pending)
-  items Product[]
+  items OrderItem[]
   customerId String
   customer User @relation(fields: [customerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   driverId String?
   driver Driver? @relation(fields: [driverId], references: [id],  onDelete: SetNull, onUpdate: SetNull)
   organizationId String
   organization Organization @relation(fields: [organizationId], references: [id],  onDelete: Cascade, onUpdate: Cascade)
-
+  isDelivered Boolean @default(false)
+  deliveredAt    DateTime?
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
 
   @@index([customerId])
   @@index([driverId])
   @@index([organizationId])
+}
+
+model OrderItem {
+  id            String  @id @unique
+  product       Product @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  name          String
+  unit Unit @default(g)
+  size Float
+  basePrice Int
+  currency Currency
+  discount Int
+  orders Order[]
+
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([id])
 }
 
 enum OrderStatus {
@@ -280,6 +298,7 @@ model Organization {
 // }
 model Product {
   id            String    @id @default(cuid())
+  orderItem     OrderItem?
   name          String
   description         String?
   features String?
@@ -294,7 +313,6 @@ model Product {
   images ImageProduct[]
   organizationId String
   organization Organization @relation(fields: [organizationId], references: [id])
-  orders Order[]
   reviews Review[]
   rating Float?
   tags String?
@@ -378,18 +396,16 @@ createdAt      DateTime         @default(now())
 }
 
 model SiteSetting {
-    id String @unique
-    organizationId String @unique
-    description String? @db.Text
-    title String
-    bannerText String? @db.Text
-    organization Organization @relation(fields: [organizationId], references: [id])
+  id             String @id
+  description    String? @db.Text
+  title          String
+  bannerText     String? @db.Text
+  organization   Organization @relation(fields: [id], references: [id])
 
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
 
-    @@index([id, organizationId])
-    @@unique([id, organizationId])
+  @@index([id])
 }
 
 model SubDomain {
@@ -397,7 +413,7 @@ model SubDomain {
   organization Organization[]
   isValid Boolean // This boolean should be true if a cronjob monitors that the domain points to our app address
 
-createdAt      DateTime         @default(now())
+  createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
 
   @@index([id])

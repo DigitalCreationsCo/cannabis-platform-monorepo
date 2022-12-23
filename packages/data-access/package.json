@@ -2,13 +2,12 @@
   "name": "@cd/data-access",
   "private": true,
   "version": "0.0.1",
-  "type": "module",
   "main": "./index.ts",
   "module": "./index.ts",
   "types": "./index.ts",
   "license": "MIT",
   "prisma": {
-    "seed": "node seed.js"
+    "seed": "npx ts-node --esm seed.ts"
   },
   "scripts": {
     "generate": "prisma generate",

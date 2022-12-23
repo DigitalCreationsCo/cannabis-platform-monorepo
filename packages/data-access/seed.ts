@@ -1,16 +1,7 @@
-import client from "@prisma/client";
+import client, { Order, Address, Driver, Organization, Product, User, Membership, Vendor, SiteSetting, OrderItem, SubDomain, ImageVendor, ImageUser, ImageOrganization, ImageProduct, Category, PrismaClient } from "@prisma/client";
 // import client from "./generated/prisma-client/index.js"
-const {
-  Address,
-  Driver,
-  Order,
-  Organization,
-  PrismaClient,
-  Product,
-  User,
-} = client
 
-const users = [
+const users: User[] = [
   {
     id: "1",
     firstName: "Bryant",
@@ -55,7 +46,7 @@ const users = [
   },
 ];
 
-const memberships  = [
+const memberships:Membership[]  = [
   {
     id: '1',
     role: "MEMBER",
@@ -90,7 +81,7 @@ const memberships  = [
   }
 ]
 
-const addresses = [
+const addresses:Address[] = [
   {
     id: "1",
     street1: "123 King St",
@@ -138,7 +129,7 @@ const addresses = [
   },
 ];
 
-const vendors = [
+const vendors:Vendor[] = [
   {
     id: "1",
     name: "Gras",
@@ -155,7 +146,7 @@ const vendors = [
   },
 ];
 
-const orgs = [
+const orgs:Organization[] = [
   {
     id: "1",
     name: "Gras",
@@ -196,13 +187,12 @@ const orgs = [
     termsAccepted: true,
   },
 ];
-const siteSettings = [
+const siteSettings:SiteSetting[] = [
   {
     title: "Cannabis Delivered To Your Door",
     description: "grascannabis.com",
     bannerText: "Welcome to Gras",
     id: "1",
-    organizationId: "1",
     createdAt: new Date(),
     updatedAt: new Date(),
   },
@@ -211,12 +201,92 @@ const siteSettings = [
     description: "CuraLeaf Dispensaries in Lancaster, PA",
     bannerText: "Store-wide sale on Cbd 10% discount",
     id: "2",
-    organizationId: "2",
     createdAt: new Date(),
     updatedAt: new Date(),
   },
 ];
-const products = [
+
+const orderItems: OrderItem[] = [
+  {
+    id: "1",
+    name: "King OG",
+    unit: "g",
+    size: 3.5,
+    basePrice: 6999,
+    currency: "USD",
+    discount: 10,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: "2",
+    name: "Blackberry Kush",
+    unit: "g",
+    size: 3.5,
+    basePrice: 6999,
+    currency: "USD",
+    discount: 5,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: "3",
+    name: "Blackberry Nuggs",
+    unit: "g",
+    size: 3.5,
+    basePrice: 6999,
+    currency: "USD",
+    discount: 5,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: "4",
+    name: "Red Taffy Firetruck",
+    unit: "g",
+    size: 3.5,
+    basePrice: 6999,
+    currency: "USD",
+    discount: 5,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: "5",
+    name: "Eagle cbd oil",
+    unit: "g",
+    size: 3.5,
+    basePrice: 6999,
+    currency: "USD",
+    discount: 5,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: "6",
+    name: "Magic Mountain Bush",
+    unit: "g",
+    size: 3.5,
+    basePrice: 6999,
+    currency: "USD",
+    discount: 5,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: "7",
+    name: "Razmatazz",
+    unit: "g",
+    size: 3.5,
+    basePrice: 6999,
+    currency: "USD",
+    discount: 5,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+]
+
+const products:Product[] = [
   {
     id: "1",
     name: "King OG",
@@ -344,7 +414,7 @@ const products = [
     updatedAt: new Date(),
   },
 ];
-const subdomains = [
+const subdomains:SubDomain[] = [
   {
     id: "",
     isValid: true,
@@ -358,7 +428,7 @@ const subdomains = [
     updatedAt: new Date(),
   },
 ];
-const ImageVendors = [
+const ImageVendors: ImageVendor[] = [
   {
     id: "1",
     location:
@@ -368,7 +438,7 @@ const ImageVendors = [
     updatedAt: new Date(),
   },
 ];
-const ImageUsers = [
+const ImageUsers: ImageUser[] = [
   {
     id: "1",
     location:
@@ -379,7 +449,7 @@ const ImageUsers = [
     updatedAt: new Date(),
   },
 ];
-const ImageOrganizations = [
+const ImageOrganizations: ImageOrganization[] = [
   {
     id: "1",
     location:
@@ -399,7 +469,7 @@ const ImageOrganizations = [
     updatedAt: new Date(),
   },
 ];
-const ImageProducts = [
+const ImageProducts: ImageProduct[] = [
   {
     id: "1",
     location:
@@ -419,7 +489,8 @@ const ImageProducts = [
     updatedAt: new Date(),
   },
 ];
-const Categories = [
+
+const Categories: Category[] = [
   {
     id: "1",
     name: "Edibles",
@@ -493,7 +564,8 @@ const Categories = [
     updatedAt: new Date(),
   },
 ];
-const drivers = [
+
+const drivers: Driver[] = [
   {
     id: "1",
     createdAt: new Date(),
@@ -505,7 +577,8 @@ const drivers = [
     updatedAt: new Date(),
   },
 ];
-const orders = [
+
+const orders: Order[] = [
   {
     id: "1",
     total: 12399,
@@ -513,8 +586,11 @@ const orders = [
     customerId: "1",
     driverId: "2",
     organizationId: "2",
+    isDelivered: false,
     createdAt: new Date(),
     updatedAt: new Date(),
+    deliveredAt: null,
+    
   },
   {
     id: "2",
@@ -523,8 +599,10 @@ const orders = [
     customerId: "1",
     driverId: "2",
     organizationId: "2",
+    isDelivered: false,
     createdAt: new Date(),
     updatedAt: new Date(),
+    deliveredAt: null,
   },
   {
     id: "3",
@@ -533,8 +611,10 @@ const orders = [
     customerId: "2",
     driverId: "1",
     organizationId: "2",
+    isDelivered: true,
     createdAt: new Date(),
     updatedAt: new Date(),
+    deliveredAt: new Date(),
   },
   {
     id: "4",
@@ -543,8 +623,10 @@ const orders = [
     customerId: "1",
     driverId: "2",
     organizationId: "2",
+    isDelivered: true,
     createdAt: new Date(),
     updatedAt: new Date(),
+    deliveredAt: new Date(),
   },
   {
     id: "5",
@@ -553,8 +635,10 @@ const orders = [
     customerId: "2",
     driverId: "1",
     organizationId: "2",
+    isDelivered: false,
     createdAt: new Date(),
     updatedAt: new Date(),
+    deliveredAt: null,
   },
   {
     id: "6",
@@ -563,8 +647,10 @@ const orders = [
     customerId: "1",
     driverId: "2",
     organizationId: "2",
+    isDelivered: false,
     createdAt: new Date(),
     updatedAt: new Date(),
+    deliveredAt: null,
   },
 ];
 
@@ -579,12 +665,12 @@ async function main() {
   await prisma.address.deleteMany();
   await prisma.organization.deleteMany();
   await prisma.vendor.deleteMany();
-  await prisma.siteSetting.deleteMany();
   await prisma.product.deleteMany();
   await prisma.subDomain.deleteMany();
   await prisma.category.deleteMany();
   await prisma.driver.deleteMany();
   await prisma.order.deleteMany();
+  await prisma.orderItem.deleteMany()
   await prisma.membership.deleteMany();
 
   console.log("cleared all records");
@@ -634,6 +720,9 @@ async function main() {
   await prisma.membership.createMany({
     data: memberships,
   });
+  await prisma.orderItem.createMany({
+    data: orderItems,
+  })
   console.log("inserted all records");
 }
 

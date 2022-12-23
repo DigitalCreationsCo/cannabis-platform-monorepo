@@ -22,6 +22,8 @@ do next:
 finish all admin dashboard pages, details pages, etc.
 complete site settings page
 
+add toast, test
+
 finish SideNav - refactor mobile sidebar into this :)
 
 add daisy ui for tab, modal, and more.
