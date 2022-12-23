@@ -5,7 +5,7 @@ import { usePagination } from "hooks";
 import { Card, Grid, H6, IconButton, Icons, Page, Paragraph, Row } from "@cd/shared-ui";
 import Link from "next/link";
 import Image from "next/image";
-import { ConfirmationAlert, PageHeader } from "components";
+import { ConfirmationAlert, PageHeader, ProtectedComponent } from "components";
 import { Button } from "@cd/shared-ui";
 
 type UsersDashboardProps = {
@@ -38,6 +38,7 @@ export default function Users ({ users }: UsersDashboardProps) {
   };
 
   return (
+    <ProtectedComponent>
     <Page>
       <PageHeader
         title="Users"
@@ -101,7 +102,8 @@ export default function Users ({ users }: UsersDashboardProps) {
             onChange={(_, value) => setCurrentPage(value)}
           />
         </FlexBox> */}
-    </Page>
+      </Page>
+      </ProtectedComponent>
   );
 };
 

@@ -13,7 +13,7 @@
 // import TopbarSetting from "components/site-settings/TopbarSetting";
 import React, { useState } from "react";
 import { Card, Page } from "@cd/shared-ui";
-import { PageHeader } from "components";
+import { PageHeader, ProtectedComponent } from "components";
 
 type SiteSettingsDashboardProps = {}
 
@@ -21,6 +21,7 @@ export default function SiteSettings({}: SiteSettingsDashboardProps) {
     const [selectTab, setSelectTab] = useState('general');
 
   return (
+    <ProtectedComponent>
     <Page>
       <PageHeader title="Site Settings"
         // icon={ SettingsIcon } navigation={ <AdminDashboardNavigation /> }
@@ -38,6 +39,7 @@ export default function SiteSettings({}: SiteSettingsDashboardProps) {
             </TabList>
         </Box> */}
       </Card>
-    </Page>
+      </Page>
+      </ProtectedComponent>
   );
 };

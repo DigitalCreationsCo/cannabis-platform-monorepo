@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { usePagination } from "../../src/hooks";
 import prisma, {Order} from "@cd/data-access"
 import { Card, Grid, H6, Icons, OrderRow, Page, Row } from "@cd/shared-ui";
-import { PageHeader } from "components";
+import { PageHeader, ProtectedComponent } from "components";
 
 interface OrdersDashboardProps {
   orders: Order[];
@@ -12,7 +12,8 @@ export default function Orders ({ orders }: OrdersDashboardProps) {
     const [currentPage, setCurrentPage] = useState(1);
     const currentOrders = usePagination(currentPage, orders);
 
-    return (
+  return (
+      <ProtectedComponent>
       <Page>
         <PageHeader
           title="Orders"
@@ -50,6 +51,7 @@ export default function Orders ({ orders }: OrdersDashboardProps) {
           />
         </FlexBox> */}
       </Page>
+      </ProtectedComponent>
     );
 };
 

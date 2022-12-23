@@ -1,17 +1,17 @@
 import '@cd/shared-ui/dist/style.css';
 import '@cd/shared-config/index.css';
+import { AppProps } from 'next/app';
 import React, { useEffect } from 'react';
 import { Layout, SessionControl } from 'components';
-import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
-import * as SuperTokensConfig from '../config/frontendConfig';
+import SuperTokens, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session from 'supertokens-auth-react/recipe/session';
+import * as SuperTokensConfig from '../config/frontendConfig';
 
 
 if (typeof window !== 'undefined') {
-    SuperTokensReact.init(SuperTokensConfig.frontendConfig());
+    SuperTokens.init(SuperTokensConfig.frontendConfig());
 }
-// import type { AppProps } from 'next/app';
-export default function App({ Component, pageProps }): JSX.Element{
+export default function App({ Component, pageProps }: AppProps): JSX.Element{
     useEffect(() => {
         async function doRefresh() {
             if (pageProps.fromSupertokens === "needs-refresh") {
@@ -19,7 +19,7 @@ export default function App({ Component, pageProps }): JSX.Element{
                     location.reload();
                 } else {
                     // user has been logged out
-                    SuperTokensReact.redirectToAuth();
+                    SuperTokens.redirectToAuth();
                 }
             }
         }

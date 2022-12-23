@@ -7,4 +7,6 @@ export { default as ConfirmationAlert } from './ConfirmationAlert';
 export { default as Modal } from './Modal';
 export { default as PageHeader } from './PageHeader';
 export { default as SideNav } from './SideNav';
+export { default as ProtectedComponent } from './ProtectedComponent';
+export { default as CartButton } from './CartButton';
 export { SessionControl } from './SessionControl';

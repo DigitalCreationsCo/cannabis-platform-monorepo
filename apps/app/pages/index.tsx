@@ -1,13 +1,9 @@
 import Head from 'next/head';
 import { useMemo } from 'react';
-import { Page, Card, Grid, OrderRow, Center, LoadingDots} from '@cd/shared-ui';
+import { Page, Card, Grid, OrderRow } from '@cd/shared-ui';
 import prisma, {Organization, Product, Order, User} from "@cd/data-access"
-import { PageHeader, ProductRow } from "components"
+import { PageHeader, ProductRow, ProtectedComponent } from "components"
 import { Icons } from '@cd/shared-ui';
-import SessionReact, { useSessionContext } from "supertokens-auth-react/recipe/session";
-import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react'
-import { PropsWithChildren, useState } from 'react';
-import {Layout} from "components";
 
 interface DashboardProps {
     user: User;
@@ -41,6 +37,7 @@ export default function Dashboard({ user, organization, products, orders }: Dash
     ];
     
     return (
+        <ProtectedComponent>
         <Page>
             <Head>
                 <title>Gras Cannabis</title>
@@ -84,7 +81,8 @@ export default function Dashboard({ user, organization, products, orders }: Dash
                 ))
             }
             </Grid>
-        </Page>
+            </Page>
+            </ProtectedComponent>
     );
 
     // return (

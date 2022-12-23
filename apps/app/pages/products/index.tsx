@@ -7,7 +7,7 @@ import { usePagination } from "hooks";
 import Link from "next/link";
 import Image from "next/image";
 import { twMerge } from "tailwind-merge";
-import { Layout, ConfirmationAlert, PageHeader } from "components";
+import { Layout, ConfirmationAlert, PageHeader, ProtectedComponent } from "components";
 import { Card } from "@cd/shared-ui";
 import { Button } from "@cd/shared-ui";
 
@@ -55,6 +55,7 @@ export default function Products({ products }: ProductsDashboardProps) {
   };
 
   return (
+    <ProtectedComponent>
     <Page>
       <PageHeader
         title="Products"
@@ -127,7 +128,8 @@ export default function Products({ products }: ProductsDashboardProps) {
           {/* <FlexBox justifyContent="center" mt={5}>
             <Pagination count={pageCount} onChange={(_, value) => setCurrentPage(value)} />
           </FlexBox> */}
-    </Page>
+      </Page>
+      </ProtectedComponent>
   );
 };
 
