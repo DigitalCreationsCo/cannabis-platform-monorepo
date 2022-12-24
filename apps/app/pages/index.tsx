@@ -27,7 +27,7 @@ export default function Dashboard({ user, organization, products, orders }: Dash
     }, []);
     
     const stockOutProducts = products.filter((product) => {
-    return product.quantity === 0;
+    return product.stock === 0;
   });
 
     const cardList = [
@@ -113,7 +113,7 @@ export async function getServerSideProps({ req, res }) {
     let {organizationId} = user
 
     let organization = await prisma.organization.findUnique({ where: { id: organizationId }}) || {}
-    let products = await prisma.product.findMany({ where: { organizationId }, orderBy: [ { rating: 'desc' },{ quantity: 'desc' }],include: { images: true}}) || []
+    let products = await prisma.product.findMany({ where: { organizationId }, orderBy: [ { rating: 'desc' },{ stock: 'desc' }],include: { images: true}}) || []
     let orders:Order[] = await prisma.order.findMany({ where: { organizationId }, orderBy: [{id: 'desc'}]}) || []
 
     return {

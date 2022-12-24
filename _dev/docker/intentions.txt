@@ -19,6 +19,11 @@ tailwind config improvements, fixed theme
 supertokens signin with managed service
 
 do next:
+seed sample deliveries, build demo application for clients, with working mobile apps. :)
+fix any issue with page components :) 
+
+(Write down what components are breaking often, and why, Write effective unit tests for it!)
+
 finish all admin dashboard pages, details pages, etc.
 complete site settings page
 

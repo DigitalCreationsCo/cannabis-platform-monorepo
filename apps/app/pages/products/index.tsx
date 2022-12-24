@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { ReactNode, useState } from "react";
 // import toast from "react-hot-toast";
 import prisma, { Product } from "@cd/data-access"
-import { Currency, H6, IconButton, Icons, Page, Row, Grid } from "@cd/shared-ui"
+import { Currency, H6, IconButton, Icons, Page, Row, Grid, DeleteButton } from "@cd/shared-ui"
 import { usePagination } from "hooks";
 import Link from "next/link";
 import Image from "next/image";
@@ -86,7 +86,7 @@ export default function Products({ products }: ProductsDashboardProps) {
                   <Image className="hidden sm:block" src={ product.images[ 0 ]?.location } alt="" height={ 60 } width={ 60 } />
                   <H6 className="grow">{ product.name }</H6>
 
-                  <H6 className={ twMerge("flex justify-center w-[60px]", product.quantity < 6 && 'text-error') }>{ product.quantity.toString().padStart(2, "0") }</H6>
+                  <H6 className={ twMerge("flex justify-center w-[60px]", product.stock < 6 && 'text-error') }>{ product.stock.toString().padStart(2, "0") }</H6>
 
                   <H6 className="flex justify-center w-[80px] ">
                     <Currency price={ product.basePrice } />
@@ -96,21 +96,14 @@ export default function Products({ products }: ProductsDashboardProps) {
                     <Currency price={product.salePrice} />
                   </H6>
 
-                  <IconButton Icon={ Icons.XIcon }
-                    className="min-w-[50px] sm:w-[120px] text-primary sm:space-x-2 h-full"
-                    size={12}
-                    type="button"
-                    data-modal-target="confirmation-alert"
-                    onClick={ (e) => {
-                      e.preventDefault()
-                      e.stopPropagation();
-                      setDialogOpen(true);
-                      setDeleteId(product.id);
-                      setDeleteName(product.name);
-                    }}
-                  >
-                    <div className="hidden sm:block">Delete</div>
-                  </IconButton>
+                  <DeleteButton
+                    oncClick={(e) => {
+                        e.preventDefault()
+                        e.stopPropagation();
+                        setDialogOpen(true);
+                        setDeleteId(product.id);
+                        setDeleteName(product.name);
+                    }}></DeleteButton>
                 </Row>
               </Link>
             );
@@ -147,7 +140,7 @@ const getUserInfo = ({ req }) => {
 export async function getServerSideProps({ req, res }) {
   let user = getUserInfo({req})
   let {organizationId} = user
-  let products: Product[] = await prisma.product.findMany({ where: { organizationId }, orderBy: [ { rating: 'desc' },{ quantity: 'desc' }],include: { images: true}}) || []
+  let products: Product[] = await prisma.product.findMany({ where: { organizationId }, orderBy: [ { rating: 'desc' },{ stock: 'desc' }],include: { images: true}}) || []
 
   return {
     props: {

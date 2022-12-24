@@ -19,17 +19,25 @@ import axios from "axios";
 // import useProductSearch from "hooks/useProductSearch";
 // import Link from "next/link";
 import Router, { useRouter } from "next/router";
-import prisma, {Order} from "@cd/data-access"
+import prisma, {Order, OrderItem, Product} from "@cd/data-access"
 import React, { Fragment, useEffect, useState } from "react";
+import { PageHeader, ProtectedComponent } from "../../src/components";
+import { Button, Card, DeleteButton, FlexBox, Grid, H6, Icons, Page, Paragraph, Row, TextField } from "@cd/shared-ui";
+import Link from "next/link";
+import { format } from "date-fns";
+import Image from "next/image";
+import { Currency } from "@cd/shared-ui";
+import { IconButton } from "@cd/shared-ui";
+import { H5 } from "@cd/shared-ui";
 // import toast from "react-hot-toast";
 // import { Order, OrderItems, Product } from "__types__/common";
 
 export default function OrderDetails() {
   const { query } = useRouter();
-  const [ order, setOrder ] = useState<Order | null>(null);
+  const [ order, setOrder ] = useState<Order>(null);
   const [loading, setLoading] = useState(true);
   const [orderStatus, setOrderStatus] = useState("");
-  const [searchOrder, setSearchOrder] = useState("");
+  const [searchProduct, setSearchProduct] = useState("");
   const [loadingButton, setLoadingButton] = useState(false);
 
   const fetchOrderDetails = async () => {
@@ -71,117 +79,95 @@ export default function OrderDetails() {
   };
 
   // calculate order total price
-  const calculatePrice = (items: OrderItems[]) => {
-    const preTaxTotal = items.reduce((prev, curr) => prev + curr.price * curr.quantity, 0);
-    const total = preTaxTotal + order.tax;
-    setOrder((state) => ({ ...state, items, preTaxTotal, total }));
+  const calculateTotal = (items: OrderItem[]) => {
+    const subtotal = items.reduce((prev, curr) => prev + curr.salePrice * curr.quantity, 0);
+    const total = subtotal + order.tax;
+    setOrder((state) => ({ ...state, items, subtotal, total }));
   };
 
   // change the quantity for a item
-  const handleQuantityChange = (qty: number, productId: string) => {
-    const items = order.items.map((item) => {
-      return item.productId === productId ? { ...item, quantity: qty } : item;
+  const handleQuantityChange = (quantity: number, productId: string ) => {
+    const items = order.items.map((item: OrderItem) => {
+      return item.id === productId ? { ...item, quantity } : item;
     });
-    reCalculate(items);
+    calculateTotal(items);
   };
 
   // delete item from order
   const deleteOrderItem = (productId: string) => {
-    const items = order.items.filter((item) => item.productId !== productId);
-    reCalculate(items);
+    const items = order.items.filter((item: OrderItem) => item.id !== productId);
+    calculateTotal(items);
   };
 
   // add new item in order
-  const addOrderItem = (product: Product) => {
-    const priceObj = product.skus[0].price;
-    const price = priceObj.base - (priceObj.base * priceObj.discount) / 100;
+  const addOrderItem = (product: Product, quantity: number) => {
+    const salePrice = product.basePrice - (product.basePrice * product.discount) / 100;
 
     const item = {
-      price,
-      quantity: 1,
-      name: product.item,
-      productId: product._id,
-      img: product.skus[0]?.image[0]?.location,
+      ...product,
+      salePrice,
+      quantity,
     };
 
-    const items = [...order.items, item];
-    reCalculate(items);
+    const items = order.items.push(item)
+    calculateTotal(items);
 
     setSearchProduct("");
-    search(null);
+    // search hook to api
+    // search(null);
   };
 
   return (
-    <AdminDashboardLayout>
-      <DashboardPageHeader
+    <ProtectedComponent>
+      <Page>
+      <PageHeader
         title="Order Details"
-        icon={ShoppingBag}
-        navigation={<AdminDashboardNavigation />}
-        button={
-          <Link href="/admin/orders">
-            <Button color="primary" sx={{ bgcolor: "primary.light", px: "2rem" }}>
-              Back to Order List
-            </Button>
-          </Link>
+        Icon={Icons.ShoppingBagOutlined}
+        // navigation={<AdminDashboardNavigation />}
+        Button={
+        <Link href="/orders">
+          <Button>
+            Back to Order List
+          </Button>
+        </Link>
         }
       />
 
-      {loading && <Loading />}
+        <>
+          <Card>
+            <Grid>
+              <Row>
+                <FlexBox>
+                  <H6>Order #</H6>
+                  <Paragraph>{ order.id }</Paragraph>
+                </FlexBox>
+                <FlexBox className="pre" m={0.75} alignItems="center">
+                  <H6>Ordered on</H6>
+                  <H6>
+                    { format(new Date(order.createdAt), "MMM dd, yyyy") }
+                  </H6>
+                </FlexBox>
 
-      {!loading && (
-        <Fragment>
-          <Card sx={{ p: "0px", mb: "30px" }}>
-            <TableRow
-              elevation={0}
-              sx={{ bgcolor: "grey.200", p: "12px", borderRadius: "0px !important" }}
-            >
-              <FlexBox flex="0 0 0 !important" m={0.75} alignItems="center" whiteSpace="pre">
-                <Typography fontSize="14px" color="grey.600" mr={0.5}>
-                  Order ID:
-                </Typography>
-                <Typography fontSize="14px">{order._id}</Typography>
-              </FlexBox>
-
-              <FlexBox className="pre" m={0.75} alignItems="center">
-                <Typography fontSize="14px" color="grey.600" mr={0.5}>
-                  Placed on:
-                </Typography>
-
-                <Typography fontSize="14px">
-                  {format(new Date(order.createdAt), "dd MMM, yyyy")}
-                </Typography>
-              </FlexBox>
-
-              <Box maxWidth="160px">
                 <TextField
-                  select
-                  fullWidth
                   value={orderStatus}
                   label="Order Status"
                   placeholder="Order Status"
                   onChange={(e) => setOrderStatus(e.target.value)}
-                >
-                  {orderStatusList.map((item) => (
-                    <MenuItem value={item.value} key={item.value}>
-                      {item.label}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Box>
-            </TableRow>
+                />
+            </Row>
 
-            <Box p="1rem 1.5rem 10px" position="relative">
+            <FlexBox>
               <TextField
-                fullWidth
                 label="Add Product"
                 value={searchProduct}
                 onChange={(e) => {
-                  search(e);
+                  // search(e);
                   setSearchProduct(e.target.value);
                 }}
               />
+              <div>searching for: { searchProduct }</div>
 
-              {resultList.length > 0 && (
+              {/* {resultList.length > 0 && (
                 <SearchResultCard elevation={2}>
                   {resultList.map((item) => (
                     <MenuItem key={item._id} onClick={() => addOrderItem(item)}>
@@ -189,156 +175,145 @@ export default function OrderDetails() {
                     </MenuItem>
                   ))}
                 </SearchResultCard>
-              )}
+              )} */}
 
-              {notFoundResult && (
+              {/* {notFoundResult && (
                 <SearchResultCard elevation={2}>
                   <Paragraph p={2}>Not Found Products</Paragraph>
                 </SearchResultCard>
-              )}
-            </Box>
+              )} */}
+            </FlexBox>
 
-            <Box py={1}>
-              {order.items.map((item, index) => (
-                <FlexBox px={2} py={1} flexWrap="wrap" alignItems="center" key={index}>
-                  <FlexBox flex="2 2 260px" m={0.75} alignItems="center">
-                    <Avatar src={item.img} sx={{ height: 64, width: 64 }} />
-                    <Box ml={2.5}>
-                      <H6 my="0px">{item.name}</H6>
+            <FlexBox>
+              {order.items.map((item: OrderItem, index: number) => (
+                <FlexBox key={index}>
+                  <FlexBox>
+                    <Image src={item.product.images[0]?.location} alt="" height={64} width={64} />
+                    <FlexBox>
+                      <H6>{item.name}</H6>
 
-                      <FlexBox alignItems="center">
-                        <Typography fontSize="14px" color="grey.600">
-                          ${item.price} x
-                        </Typography>
+                      <FlexBox>
+                        <H6>
+                          <Currency price={item.salePrice} />
+                        </H6>
 
-                        <Box maxWidth="60px" ml={1} mt={0.5}>
+                        <FlexBox>
                           <TextField
-                            fullWidth
                             type="number"
                             defaultValue={item.quantity}
-                            InputProps={{ inputProps: { min: "1" } }}
-                            onChange={(e) => handleQuantityChange(+e.target.value, item.productId)}
+                            onChange={(e) => handleQuantityChange(e.target.value, item.id)}
                           />
-                        </Box>
+                        </FlexBox>
                       </FlexBox>
-                    </Box>
+                    </FlexBox>
                   </FlexBox>
 
-                  <FlexBox flex="0 0 0 !important" m={0.75} alignItems="center">
-                    <IconButton onClick={() => deleteOrderItem(item.productId)}>
-                      <Delete fontSize="small" />
-                    </IconButton>
+                  <FlexBox>
+                    <DeleteButton onClick={ () => deleteOrderItem(item.id) }></DeleteButton>
                   </FlexBox>
                 </FlexBox>
               ))}
-            </Box>
+              </FlexBox>
+            </Grid>
           </Card>
 
-          <Grid container spacing={3}>
-            <Grid item lg={6} md={6} xs={12}>
-              <Card sx={{ p: "20px 30px", mb: "1.5rem" }}>
-                <H5 mt={0} mb={2}>
-                  Shipping Address
-                </H5>
+          <Grid>
+            <Card>
+              <H5>Shipping Address</H5>
 
-                <H6>Name: {order.shipping.name}</H6>
-                <Paragraph>Email: {order.shipping.email}</Paragraph>
-                <Paragraph>Phone: {order.shipping.phone}</Paragraph>
-                <Paragraph>
-                  Address:{" "}
-                  {`${order.shipping.address}, ${order.shipping.city}, ${order.shipping.postalCode}, ${order.shipping.country}`}
-                </Paragraph>
-              </Card>
+              <H6>Name: {order.delivery.customer.firstName + order.delivery.customer.lastName}</H6>
+              <Paragraph>Email: {order.delivery.customer.email}</Paragraph>
+              <Paragraph>Phone: {order.delivery.customer.dialCode + order.delivery.customer.phone}</Paragraph>
+              <Paragraph>
+                Address:{" "}
+                {`${order.delivery.address.street1 }, ${order.delivery.address.street2 }, ${order.delivery.address.city}, ${order.delivery.address.zipcode}, ${order.delivery.address.country}`}
+              </Paragraph>
+            </Card>
 
-              <LoadingButton
-                fullWidth
-                color="primary"
-                variant="contained"
-                onClick={handleSubmit}
-                loading={loadingButton}
-                // sx={{ display: "block" }}
-              >
-                Save Order
-              </LoadingButton>
-            </Grid>
-
-            <Grid item lg={6} md={6} xs={12}>
-              <Card sx={{ p: "20px 30px", mb: "1.5rem" }}>
-                <H5 mt={0} mb={2}>
-                  Total Summary
-                </H5>
-
-                <FlexBox justifyContent="space-between" alignItems="center" mb={1}>
-                  <Typography fontSize="14px" color="grey.600">
-                    Subtotal:
-                  </Typography>
-                  <H6 my="0px">${order.preTaxTotal.toFixed(2)}</H6>
-                </FlexBox>
-
-                <FlexBox justifyContent="space-between" alignItems="center" mb={1}>
-                  <Typography fontSize="14px" color="grey.600">
-                    Shipping fee:
-                  </Typography>
-                  <H6 my="0px">${0}</H6>
-                </FlexBox>
-
-                <FlexBox justifyContent="space-between" alignItems="center" mb={1}>
-                  <Typography fontSize="14px" color="grey.600">
-                    Discount:
-                  </Typography>
-                  <H6 my="0px">${order.discount}</H6>
-                </FlexBox>
-
-                <FlexBox justifyContent="space-between" alignItems="center" mb={1}>
-                  <Typography fontSize="14px" color="grey.600">
-                    Tax:
-                  </Typography>
-                  <H6 my="0px">${order.tax.toFixed(2)}</H6>
-                </FlexBox>
-
-                {/* <FlexBox justifyContent="space-between" alignItems="center" mb={1}>
-              <Typography fontSize="14px" color="grey.600">
-                Shipping fee:
-              </Typography>
-              <FlexBox alignItems="center" maxWidth="100px" ml={1} mt={0.5}>
-                <Typography mr={1}>$</Typography>
-                <TextField defaultValue={0} type="number" fullWidth />
-              </FlexBox>
-            </FlexBox>
-
-            <FlexBox justifyContent="space-between" alignItems="center" mb={1}>
-              <Typography fontSize="14px" color="grey.600">
-                Discount:
-              </Typography>
-
-              <FlexBox alignItems="center" maxWidth="100px" ml={1} mt={0.5}>
-                <Typography mr={1}>-$</Typography>
-                <TextField defaultValue={discount} type="number" fullWidth />
-              </FlexBox>
-            </FlexBox> */}
-
-                <Divider sx={{ mb: "0.5rem" }} />
-
-                <FlexBox justifyContent="space-between" alignItems="center" mb={2}>
-                  <H6 my="0px">Total</H6>
-                  <H6 my="0px">${order.total.toFixed(2)}</H6>
-                </FlexBox>
-
-                {order.paymentType === "cash" && (
-                  <Typography fontSize="14px">Cash On Delivery Payment</Typography>
-                )}
-
-                {order.paymentStatus && order.paymentType === "card" && (
-                  <Typography fontSize="14px">
-                    Paid by {order.paymentId.card.brand.toUpperCase()} Card
-                  </Typography>
-                )}
-              </Card>
-            </Grid>
+            <Button
+              onClick={handleSubmit}
+              loading={loadingButton}
+            >
+              Save Order
+            </Button>
           </Grid>
-        </Fragment>
-      )}
-    </AdminDashboardLayout>
+
+          <Grid>
+            <Card>
+              <H5>
+                Total
+              </H5>
+
+              <FlexBox>
+                <H5>
+                  Subtotal
+                </H5>
+                <H6><Currency price={ order.subtotal } /></H6>
+              </FlexBox>
+
+              <FlexBox>
+                <H5>
+                  Delivery Fee
+                </H5>
+                <H6><Currency price={0} /></H6>
+              </FlexBox>
+
+              {/* <FlexBox>
+                <H5>
+                  Discount
+                </H5>
+                <H6>${order.discount}</H6>
+              </FlexBox> */}
+
+              <FlexBox>
+                <H5>
+                  Tax
+                </H5>
+                <H6><Currency price={order.tax} /></H6>
+              </FlexBox>
+
+              {/* <FlexBox justifyContent="space-between" alignItems="center" mb={1}>
+            <Typography fontSize="14px" color="grey.600">
+              Shipping fee:
+            </Typography>
+            <FlexBox alignItems="center" maxWidth="100px" ml={1} mt={0.5}>
+              <Typography mr={1}>$</Typography>
+              <TextField defaultValue={0} type="number" fullWidth />
+            </FlexBox>
+          </FlexBox>
+
+          <FlexBox justifyContent="space-between" alignItems="center" mb={1}>
+            <Typography fontSize="14px" color="grey.600">
+              Discount:
+            </Typography>
+
+            <FlexBox alignItems="center" maxWidth="100px" ml={1} mt={0.5}>
+              <Typography mr={1}>-$</Typography>
+              <TextField defaultValue={discount} type="number" fullWidth />
+            </FlexBox>
+          </FlexBox> */}
+
+              {/* <Divider sx={{ mb: "0.5rem" }} />
+
+              <FlexBox justifyContent="space-between" alignItems="center" mb={2}>
+                <H6 my="0px">Total</H6>
+                <H6 my="0px">${order.total.toFixed(2)}</H6>
+              </FlexBox>
+
+              {order.paymentType === "cash" && (
+                <Typography fontSize="14px">Cash On Delivery Payment</Typography>
+              )}
+
+              {order.paymentStatus && order.paymentType === "card" && (
+                <Typography fontSize="14px">
+                  Paid by {order.paymentId.card.brand.toUpperCase()} Card
+                </Typography>
+              )} */}
+            </Card>
+          </Grid>
+        </>
+      </Page>
+      </ProtectedComponent>
   );
 };
 

@@ -19,6 +19,7 @@ export { default as Currency } from './Currency'
 export { default as TextField } from "./TextField"
 export { default as Table } from "./Table"
 export { default as LoadingDots } from "./LoadingDots"
+export { default as DeleteButton } from "./DeleteButton"
 export * from "./icons";
 export { default as Icons }  from './icons';
 export * from './Typography';

@@ -64,6 +64,7 @@ model User {
   reviews Review[]
   memberships Membership[]
   orders Order[]
+  deliveries Delivery[]
   driver Driver?
 
   createdAt      DateTime         @default(now())
@@ -105,10 +106,11 @@ model Address {
   countryCode String?
   coordinateId String?
   coordinates Coordinates? @relation(fields: [coordinateId], references: [id])
-  userId String?
+  userId String? @unique
   user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
   organizationId String? @unique
   organization Organization? @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  deliveries Delivery[]
 
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
@@ -195,9 +197,13 @@ model Membership {
 
 model Order {
   id            String    @id @default(cuid())
+  subtotal Int
   total Int
+  taxFactor Float
+  tax   Int
   status OrderStatus @default(Pending)
   items OrderItem[]
+  delivery Delivery?
   customerId String
   customer User @relation(fields: [customerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   driverId String?
@@ -214,15 +220,32 @@ model Order {
   @@index([organizationId])
 }
 
+model Delivery {
+  id            String @id
+  orderId       String @unique
+  order Order @relation(fields: [orderId], references: [id])
+  customerId String
+  customer User @relation(fields: [customerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  addressCustomerId String
+  address Address @relation(fields: [addressCustomerId], references: [userId])
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([customerId])
+  @@index([addressCustomerId])
+}
+
 model OrderItem {
   id            String  @id @unique
   product       Product @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   name          String
   unit Unit @default(g)
   size Float
-  basePrice Int
+  quantity Int
   currency Currency
+  basePrice Int
   discount Int
+  salePrice Int
   orders Order[]
 
   createdAt      DateTime         @default(now())
@@ -308,7 +331,6 @@ model Product {
   basePrice Int
   currency Currency
   discount Int
-  quantity Int
   stock Int
   images ImageProduct[]
   organizationId String

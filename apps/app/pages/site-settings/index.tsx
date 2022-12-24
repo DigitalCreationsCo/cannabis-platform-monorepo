@@ -12,7 +12,7 @@
 // import SocialLinks from "components/site-settings/SocialLinks";
 // import TopbarSetting from "components/site-settings/TopbarSetting";
 import React, { useState } from "react";
-import { Card, Page } from "@cd/shared-ui";
+import { Card, Icons, Page } from "@cd/shared-ui";
 import { PageHeader, ProtectedComponent } from "components";
 
 type SiteSettingsDashboardProps = {}
@@ -23,8 +23,10 @@ export default function SiteSettings({}: SiteSettingsDashboardProps) {
   return (
     <ProtectedComponent>
     <Page>
-      <PageHeader title="Site Settings"
-        // icon={ SettingsIcon } navigation={ <AdminDashboardNavigation /> }
+        <PageHeader
+          title="Site Settings"
+          Icon={ Icons.CategoryOutlined } 
+          // navigation={ <AdminDashboardNavigation /> }
       />
       <Card className="h-[200px]">
         Dispensary staff can edit their storefront and site settings here
