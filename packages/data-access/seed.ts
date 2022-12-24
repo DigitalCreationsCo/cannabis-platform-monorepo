@@ -192,6 +192,7 @@ const siteSettings:SiteSetting[] = [
     title: "Cannabis Delivered To Your Door",
     description: "grascannabis.com",
     bannerText: "Welcome to Gras",
+    organizationId: "1",
     id: "1",
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -200,6 +201,7 @@ const siteSettings:SiteSetting[] = [
     title: "CuraLeaf Dispensary",
     description: "CuraLeaf Dispensaries in Lancaster, PA",
     bannerText: "Store-wide sale on Cbd 10% discount",
+    organizationId: "2",
     id: "2",
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -661,7 +663,6 @@ async function main() {
   await prisma.imageOrganization.deleteMany();
   await prisma.imageProduct.deleteMany();
   await prisma.imageUser.deleteMany();
-  await prisma.user.deleteMany();
   await prisma.address.deleteMany();
   await prisma.organization.deleteMany();
   await prisma.vendor.deleteMany();
@@ -672,7 +673,8 @@ async function main() {
   await prisma.order.deleteMany();
   await prisma.orderItem.deleteMany()
   await prisma.membership.deleteMany();
-
+  await prisma.user.deleteMany();
+  
   console.log("cleared all records");
 
   await prisma.user.createMany({
@@ -684,12 +686,13 @@ async function main() {
   await prisma.vendor.createMany({
     data: vendors,
   });
-  await prisma.organization.createMany({
-    data: orgs,
-  });
   await prisma.siteSetting.createMany({
     data: siteSettings,
   });
+  await prisma.organization.createMany({
+    data: orgs,
+  });
+
   await prisma.product.createMany({
     data: products,
   });
