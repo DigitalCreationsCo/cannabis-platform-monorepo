@@ -29,7 +29,7 @@ import Image from "next/image";
 import { Currency } from "@cd/shared-ui";
 import { IconButton } from "@cd/shared-ui";
 import { H5 } from "@cd/shared-ui";
-// import toast from "react-hot-toast";
+import toast from "react-hot-toast";
 // import { Order, OrderItems, Product } from "__types__/common";
 
 export default function OrderDetails() {
@@ -49,7 +49,8 @@ export default function OrderDetails() {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      toast.error(error.response.data.message);
+      console.error(error)
+      toast.error(error.message);
     }
   };
 
@@ -116,6 +117,8 @@ export default function OrderDetails() {
     // search hook to api
     // search(null);
   };
+
+  if (!order) return <div>There is no order</div>
 
   return (
     <ProtectedComponent>
@@ -221,12 +224,12 @@ export default function OrderDetails() {
             <Card>
               <H5>Shipping Address</H5>
 
-              <H6>Name: {order.delivery.customer.firstName + order.delivery.customer.lastName}</H6>
-              <Paragraph>Email: {order.delivery.customer.email}</Paragraph>
-              <Paragraph>Phone: {order.delivery.customer.dialCode + order.delivery.customer.phone}</Paragraph>
+              <H6>Name: {order.customer.firstName + order.customer.lastName}</H6>
+              <Paragraph>Email: {order.customer.email}</Paragraph>
+              <Paragraph>Phone: {order.customer.dialCode + order.customer.phone}</Paragraph>
               <Paragraph>
                 Address:{" "}
-                {`${order.delivery.address.street1 }, ${order.delivery.address.street2 }, ${order.delivery.address.city}, ${order.delivery.address.zipcode}, ${order.delivery.address.country}`}
+                {`${order.deliveryInfo.street1 }, ${order.deliveryInfo.street2 }, ${order.deliveryInfo.city}, ${order.deliveryInfo.zipcode}, ${order.deliveryInfo.country}`}
               </Paragraph>
             </Card>
 

@@ -50,7 +50,7 @@ export default function Dashboard({ user, organization, products, orders }: Dash
                 Icon={Icons.ShoppingBagOutlined}
             />
 
-            <Grid cols={ 1 } sm={ 2 }>
+                <Grid>
                 {cardList.map((item, ind) => (
                     <Card key={`cardlist-${ind}`} title={item.title} amount={item.amount} />
                 )) }
@@ -114,7 +114,7 @@ export async function getServerSideProps({ req, res }) {
 
     let organization = await prisma.organization.findUnique({ where: { id: organizationId }}) || {}
     let products = await prisma.product.findMany({ where: { organizationId }, orderBy: [ { rating: 'desc' },{ stock: 'desc' }],include: { images: true}}) || []
-    let orders:Order[] = await prisma.order.findMany({ where: { organizationId }, orderBy: [{id: 'desc'}]}) || []
+    let orders: Order[] = await prisma.order.findMany({ where: { organizationId }, orderBy: [{id: 'desc'}]}) || []
 
     return {
         props: {
@@ -122,46 +122,6 @@ export async function getServerSideProps({ req, res }) {
             organization,
             products,
             orders
-    }}
+        }
+    };
 }
-
-// export default function SessionControl ({ user,
-//             organization,
-//             products,
-//             orders, children }:PropsWithChildren):JSX.Element {
-//     const session = useSessionContext()
-
-//     // export this from session control context
-//     async function logoutClicked() {
-//         await SessionReact.signOut();
-//         SuperTokensReact.redirectToAuth();
-//     }
-
-//      async function fetchUserData() {
-//         const res = await fetch("/api/user");
-//         if (res.status === 200) {
-//             const json = await res.json();
-//             // add user to app state here
-//             alert(JSON.stringify(json));
-//         }
-//      }
-    
-//     if (session.loading === true) {
-//         return <LoadingDots />
-//     }
-
-//     if (!session.doesSessionExist) {
-//         return (
-//             <Page className="flex border">
-//                 <Center>Please login to view this page</Center>
-//                 <button onClick={() => SuperTokensReact.redirectToAuth({ show: 'signin' })}>sign in</button>
-//             </Page>
-//         )
-//     }
-
-//     return (
-//         <SessionReact.SessionAuth>
-//             <{children}>
-//         </SessionReact.SessionAuth>
-//     );
-// };

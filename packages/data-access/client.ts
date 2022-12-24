@@ -14,8 +14,9 @@ function dateToString(doc) {
         console.log("object found");
         dateToString(doc[key]);
       }
-      if (key == "createdAt" || key == "updatedAt" || key == "emailVerified") {
-        doc[key] = doc[key].toString();
+      if (key == "createdAt" || key == "updatedAt" || key == "deliveredAt" || key == "emailVerified") {
+        // doc[key] = doc[key].toString();
+        doc[key] = JSON.parse(JSON.stringify(doc[key]))
       }
     });
   }

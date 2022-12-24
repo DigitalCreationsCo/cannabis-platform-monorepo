@@ -17,15 +17,15 @@ export const H3 = ({ className, children }: Props) => {
 };
 
 export const H4 = ({ className, children }: Props) => {
-    return <h4 className={twMerge('font-bold text-xl whitespace-nowrap', className)}>{children}</h4>;
+    return <h4 className={twMerge('font-semibold text-xl whitespace-nowrap', className)}>{children}</h4>;
 };
 
 export const H5 = ({ className, children }: Props) => {
-    return <h5 className={twMerge('font-bold text-lg whitespace-nowrap', className)}>{children}</h5>;
+    return <h5 className={twMerge('font-semibold text-lg whitespace-nowrap', className)}>{children}</h5>;
 };
 
 export const H6 = ({ className, children }: Props) => {
-    return <h6 className={twMerge('font-bold text-md whitespace-nowrap', className)}>{children}</h6>;
+    return <h6 className={twMerge('font-semibold text-md whitespace-nowrap', className)}>{children}</h6>;
 };
 
 export const Paragraph = ({ className, children }: Props) => {

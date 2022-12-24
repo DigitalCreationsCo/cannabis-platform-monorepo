@@ -64,7 +64,6 @@ model User {
   reviews Review[]
   memberships Membership[]
   orders Order[]
-  deliveries Delivery[]
   driver Driver?
 
   createdAt      DateTime         @default(now())
@@ -110,7 +109,7 @@ model Address {
   user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
   organizationId String? @unique
   organization Organization? @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  deliveries Delivery[]
+  orders Order[]
 
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
@@ -203,7 +202,8 @@ model Order {
   tax   Int
   status OrderStatus @default(Pending)
   items OrderItem[]
-  delivery Delivery?
+  addressCustomerId String @map("addressCustomerId")
+  deliveryInfo Address @relation(fields: [addressCustomerId], references: [userId], onDelete: NoAction, onUpdate: NoAction)
   customerId String
   customer User @relation(fields: [customerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   driverId String?
@@ -215,25 +215,26 @@ model Order {
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
 
+  @@index([addressCustomerId])
   @@index([customerId])
   @@index([driverId])
   @@index([organizationId])
 }
 
-model Delivery {
-  id            String @id
-  orderId       String @unique
-  order Order @relation(fields: [orderId], references: [id])
-  customerId String
-  customer User @relation(fields: [customerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  addressCustomerId String
-  address Address @relation(fields: [addressCustomerId], references: [userId])
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+// model Delivery {
+//   id            String @id
+//   orderId       String @unique
+//   order Order @relation(fields: [orderId], references: [id])
+//   customerId String
+//   customer User @relation(fields: [customerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+//   addressCustomerId String
+//   address Address @relation(fields: [addressCustomerId], references: [userId])
+//   createdAt      DateTime         @default(now())
+//   updatedAt      DateTime         @updatedAt
 
-  @@index([customerId])
-  @@index([addressCustomerId])
-}
+//   @@index([customerId])
+//   @@index([addressCustomerId])
+// }
 
 model OrderItem {
   id            String  @id @unique

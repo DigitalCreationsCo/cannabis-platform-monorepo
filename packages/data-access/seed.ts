@@ -596,12 +596,13 @@ const orders: Order[] = [
     tax: 1239,
     status: "Pending",
     customerId: "1",
+    addressCustomerId: '1',
     driverId: "2",
     organizationId: "2",
     isDelivered: false,
     createdAt: new Date(),
     updatedAt: new Date(),
-    deliveredAt: null,
+    deliveredAt: new Date(),
     
   },
   {
@@ -612,12 +613,13 @@ const orders: Order[] = [
     tax: 1239,
     status: "Processing",
     customerId: "1",
+    addressCustomerId: '1',
     driverId: "2",
     organizationId: "2",
     isDelivered: false,
     createdAt: new Date(),
     updatedAt: new Date(),
-    deliveredAt: null,
+    deliveredAt: new Date(),
   },
   {
     id: "3",
@@ -627,6 +629,7 @@ const orders: Order[] = [
     tax: 1239,
     status: "Delivered",
     customerId: "2",
+    addressCustomerId: '2',
     driverId: "1",
     organizationId: "2",
     isDelivered: true,
@@ -642,6 +645,7 @@ const orders: Order[] = [
     tax: 1239,
     status: "Delivered",
     customerId: "1",
+    addressCustomerId: '1',
     driverId: "2",
     organizationId: "2",
     isDelivered: true,
@@ -657,12 +661,13 @@ const orders: Order[] = [
     tax: 1239,
     status: "Cancelled",
     customerId: "2",
+    addressCustomerId: '2',
     driverId: "1",
     organizationId: "2",
     isDelivered: false,
     createdAt: new Date(),
     updatedAt: new Date(),
-    deliveredAt: null,
+    deliveredAt: new Date(),
   },
   {
     id: "6",
@@ -672,14 +677,66 @@ const orders: Order[] = [
     tax: 1239,
     status: "Pending",
     customerId: "1",
+    addressCustomerId: '1',
     driverId: "2",
     organizationId: "2",
     isDelivered: false,
     createdAt: new Date(),
     updatedAt: new Date(),
-    deliveredAt: null,
+    deliveredAt: new Date(),
   },
 ];
+
+// const deliveries: Delivery[] = [
+//   {
+//     id: "1",
+//     orderId: "1",
+//     customerId: "",
+//     addressCustomerId: "",
+//     createdAt: new Date(),
+//     updatedAt: new Date(),
+//   },
+//   {
+//     id: "1",
+//     orderId: "1",
+//     customerId: "",
+//     addressCustomerId: "",
+//     createdAt: new Date(),
+//     updatedAt: new Date(),
+//   },
+//   {
+//     id: "1",
+//     orderId: "1",
+//     customerId: "",
+//     addressCustomerId: "",
+//     createdAt: new Date(),
+//     updatedAt: new Date(),
+//   },
+//   {
+//     id: "1",
+//     orderId: "1",
+//     customerId: "",
+//     addressCustomerId: "",
+//     createdAt: new Date(),
+//     updatedAt: new Date(),
+//   },
+//   {
+//     id: "1",
+//     orderId: "1",
+//     customerId: "",
+//     addressCustomerId: "",
+//     createdAt: new Date(),
+//     updatedAt: new Date(),
+//   },
+//   {
+//     id: "1",
+//     orderId: "1",
+//     customerId: "",
+//     addressCustomerId: "",
+//     createdAt: new Date(),
+//     updatedAt: new Date(),
+//   },
+// ];
 
 const prisma = new PrismaClient();
 
@@ -693,6 +750,7 @@ async function main() {
   await prisma.vendor.deleteMany();
   await prisma.product.deleteMany();
   await prisma.subDomain.deleteMany();
+  await prisma.siteSetting.deleteMany();
   await prisma.category.deleteMany();
   await prisma.driver.deleteMany();
   await prisma.order.deleteMany();
