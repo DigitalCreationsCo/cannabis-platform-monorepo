@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import User from "../models/User";
-import UsersDAO from "../../data-access/usersDAO";
+import { UserDA } from "../data-access";
 
 /*=================================================
 UserController Methods
@@ -100,13 +100,13 @@ export default class UserController {
       userFromBody.password = await hashPassword(userFromBody.password);
 
       const user = new User(userFromBody);
-      const addUser = await UsersDAO.addUser(user);
+      const addUser = await UserDA.addUser(user);
       if (!addUser.success) {
         console.log("error adding user");
         errors.registerError = addUser.error;
         return res.status(400).json(errors);
       }
-      const userFromDB = await UsersDAO.getUserByEmail(user.email);
+      const userFromDB = await UserDA.getUserByEmail(user.email);
       if (!userFromDB) {
         errors.general = "Internal error, please try again later";
       }
@@ -116,7 +116,7 @@ export default class UserController {
 
       const passwordMatch = userFromDB.password === user.password;
       if (passwordMatch) {
-        const loginResponse = await UsersDAO.loginUser(user, user.encoded());
+        const loginResponse = await UserDA.loginUser(user, user.encoded());
         if (!loginResponse.success) {
           return res.status(500).json({ error: loginResponse.error });
         }
@@ -146,7 +146,7 @@ export default class UserController {
           .json({ error: "Bad password format, expected string." });
         return;
       }
-      let userData = await UsersDAO.getUserByEmail(email);
+      let userData = await UserDA.getUserByEmail(email);
       if (!userData) {
         res.status(401).json({ error: "This user does not exist" });
         return;
@@ -155,11 +155,11 @@ export default class UserController {
 
       // change the DAO function for login, to update instead of insert, if there is an
       // existing doc in the collection, update the existing one!
-      // UsersDAO.login()
+      // UserDA.login()
       //check for password match using hashpassword or plain text from client
       const passwordMatch = await user.comparePassword(password);
       if (password === user.password || passwordMatch) {
-        const loginResponse = await UsersDAO.loginUser(user, user.encoded());
+        const loginResponse = await UserDA.loginUser(user, user.encoded());
         console.log("loginResponse.error: ", loginResponse.error);
 
         if (!loginResponse.success) {
@@ -188,7 +188,7 @@ export default class UserController {
         res.status(401).json({ error });
         return;
       }
-      const logoutResult = await UsersDAO.logoutUser(userObj.email);
+      const logoutResult = await UserDA.logoutUser(userObj.email);
       var { error } = logoutResult;
       if (error) {
         res.status(500).json({ error });
@@ -216,12 +216,12 @@ export default class UserController {
         res.status(401).json({ error });
         return;
       }
-      const user = new User(await UsersDAO.getUserByEmail(userClaim.email));
+      const user = new User(await UserDA.getUserByEmail(userClaim.email));
       if (!(await user.comparePassword(password))) {
         res.status(401).json({ error: "Make sure your password is correct." });
         return;
       }
-      const deleteResult = await UsersDAO.deleteUser(user.email);
+      const deleteResult = await UserDA.deleteUser(user.email);
       var { error } = deleteResult;
       if (error) {
         res.status(500).json({ error });
@@ -243,11 +243,11 @@ export default class UserController {
         return;
       }
 
-      await UsersDAO.updatePreferences(
+      await UserDA.updatePreferences(
         userFromHeader.email,
         req.body.preferences
       );
-      const userFromDB = await UsersDAO.getUserByEmail(userFromHeader.email);
+      const userFromDB = await UserDA.getUserByEmail(userFromHeader.email);
       const updatedUser = new User(userFromDB);
 
       res.json({
@@ -281,7 +281,7 @@ export default class UserController {
         password: await hashPassword(userFromBody.password),
       };
 
-      const insertResult = await UsersDAO.addUser(userInfo);
+      const insertResult = await UserDA.addUser(userInfo);
       if (!insertResult.success) {
         errors.email = insertResult.error;
       }
@@ -291,9 +291,9 @@ export default class UserController {
         return;
       }
 
-      const makeAdminResponse = await UsersDAO.makeAdmin(userFromBody.email);
+      const makeAdminResponse = await UserDA.makeAdmin(userFromBody.email);
 
-      const userFromDB = await UsersDAO.getUserByEmail(userFromBody.email);
+      const userFromDB = await UserDA.getUserByEmail(userFromBody.email);
       if (!userFromDB) {
         errors.general = "Internal error, please try again later";
       }
@@ -305,7 +305,7 @@ export default class UserController {
 
       const user = new User(userFromDB);
       const jwt = user.encoded();
-      const loginResponse = await UsersDAO.loginUser(user.email, jwt);
+      const loginResponse = await UserDA.loginUser(user.email, jwt);
 
       res.json({
         auth_token: jwt,

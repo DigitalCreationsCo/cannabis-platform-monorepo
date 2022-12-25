@@ -1,7 +1,7 @@
 {
   "name": "@cd/shared-ui",
-  "private": true,
   "version": "0.0.1",
+  "private": true,
   "type": "module",
   "main": "dist/shared-ui.cjs.js",
   "module": "dist/shared-ui.es.js",

@@ -1,4 +1,4 @@
-import VendorsDAO from "../data-access/vendorsDAO";
+import OrganizationDA from "../data-access/OrganizationDA";
 
 class WebSockets {
   constructor() {
@@ -24,7 +24,7 @@ class WebSockets {
       client.join(room);
     });
     client.on("subscribeToPendingOrders", async (userId) => {
-      const changeStream = await VendorsDAO.watchPendingOrders(userId);
+      const changeStream = await OrganizationDA.watchPendingOrders(userId);
       changeStream.on("change", (change) => {
         switch (change.operationType) {
           case "insert":

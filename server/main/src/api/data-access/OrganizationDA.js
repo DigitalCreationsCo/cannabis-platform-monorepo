@@ -5,7 +5,7 @@ let vendorSessionsColl;
 let productsColl;
 let pendingOrdersColl;
 
-export default class VendorsDAO {
+export default class OrganizationDAO {
   static async injectDB(conn) {
     if (
       vendorsColl &&

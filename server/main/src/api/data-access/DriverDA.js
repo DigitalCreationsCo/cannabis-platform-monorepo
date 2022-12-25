@@ -3,7 +3,7 @@ import { ObjectId } from "mongodb";
 let driversColl;
 let driverSessionsColl;
 let pendingOrdersColl;
-export default class DriversDAO {
+export default class DriverDA {
   static async injectDB(conn) {
     if (driversColl && driverSessionsColl) {
       return;

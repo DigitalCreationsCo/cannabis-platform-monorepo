@@ -2,9 +2,9 @@ import bcrypt from "bcryptjs";
 import Vendor from "../models/Vendor";
 import Product from "../models/Product";
 import Order from "../models/Order";
-import VendorsDAO from "../../data-access/vendorsDAO";
+import OrganizationDA from "../../data-access/OrganizationDA";
 import Websockets from "../../utils/Websockets";
-import ShopDAO from "../../data-access/shopDAO";
+import ShopDA from "../../data-access/ShopDA";
 
 /*=================================================
 VendorController Methods
@@ -74,11 +74,11 @@ export default class VendorController {
         ...vendorFromBody,
         password: await hashPassword(vendorFromBody.password),
       });
-      const addVendor = await VendorsDAO.addVendor(vendor);
+      const addVendor = await OrganizationDA.addVendor(vendor);
       if (!addVendor.success) {
         errors.email = addVendor.error;
       }
-      const vendorFromDb = await VendorsDAO.getVendorByEmail(vendor.email);
+      const vendorFromDb = await OrganizationDA.getVendorByEmail(vendor.email);
       if (!vendorFromDb) {
         errors.general = "Internal error, please try again later";
       }
@@ -108,7 +108,7 @@ export default class VendorController {
           .json({ error: "Bad password format, expected string." });
         return;
       }
-      let vendorData = await VendorsDAO.getVendorByEmail(email);
+      let vendorData = await OrganizationDA.getVendorByEmail(email);
       if (!vendorData) {
         res.status(401).json({ error: "Make sure your email is correct." });
         return;
@@ -119,7 +119,7 @@ export default class VendorController {
         res.status(401).json({ error: "Make sure your password is correct." });
         return;
       }
-      const loginResponse = await VendorsDAO.loginVendor(
+      const loginResponse = await OrganizationDA.loginVendor(
         vendor,
         vendor.encoded()
       );
@@ -147,7 +147,7 @@ export default class VendorController {
         res.status(401).json({ error });
         return;
       }
-      const logoutResult = await VendorsDAO.logoutVendor(vendorObj.email);
+      const logoutResult = await OrganizationDA.logoutVendor(vendorObj.email);
       var { error } = logoutResult;
       if (error) {
         res.status(500).json({ error });
@@ -176,13 +176,13 @@ export default class VendorController {
         return;
       }
       const vendor = new Vendor(
-        await VendorsDAO.getVendorByEmail(vendorClaim.email)
+        await OrganizationDA.getVendorByEmail(vendorClaim.email)
       );
       if (!(await vendor.comparePassword(password))) {
         res.status(401).json({ error: "Make sure your password is correct." });
         return;
       }
-      const deleteResult = await VendorsDAO.deleteVendor(vendor.email);
+      const deleteResult = await OrganizationDA.deleteVendor(vendor.email);
       var { error } = deleteResult;
       if (error) {
         res.status(500).json({ error });
@@ -197,7 +197,7 @@ export default class VendorController {
   static async apiGetVendor(req, res) {
     try {
       const vendorId = req.params.id || {};
-      let vendor = await VendorsDAO.getVendorById(vendorId);
+      let vendor = await OrganizationDA.getVendorById(vendorId);
       if (!vendor) {
         return res.status(404).json({ error: "Vendor not found." });
       }
@@ -265,7 +265,7 @@ export default class VendorController {
         res.status(401)
         throw new Error("Unauthorized access from auth server!")
       }
-      const product = await ShopDAO.getProductById(id);
+      const product = await ShopDA.getProductById(id);
       let images = [...product.image];
     // push new upload images
     if (req.files && req.files.length > 0) {
@@ -302,7 +302,7 @@ export default class VendorController {
           }
       };
 
-      const updateProduct = await ShopDAO.getProductByIdAndUpdate(
+      const updateProduct = await ShopDA.getProductByIdAndUpdate(
         id, productData
       );
       return res.status(201).json(updateProduct);
@@ -363,7 +363,7 @@ export default class VendorController {
   //       return res.status(401).json({ error: "Bad vendor claim or bad path" });
   //     }
   //     const vendor = new Vendor(
-  //       await VendorsDAO.getVendorByEmail(vendorClaim.email)
+  //       await OrganizationDA.getVendorByEmail(vendorClaim.email)
   //     );
   //     const product = new Product({
   //       ...productFromBody,
@@ -371,7 +371,7 @@ export default class VendorController {
   //       vendorId: vendor.vendorId,
   //     });
   //     console.log(product);
-  //     const addProduct = await VendorsDAO.addProduct(product);
+  //     const addProduct = await OrganizationDA.addProduct(product);
   //     var { error } = addProduct;
   //     if (error) {
   //       res.status(401).json({ error });
@@ -402,13 +402,13 @@ export default class VendorController {
         res.status(401).json({ error: "Bad vendor claim or bad path" });
         return;
       }
-      const updateProduct = await VendorsDAO.updateProduct(productFromBody);
+      const updateProduct = await OrganizationDA.updateProduct(productFromBody);
       var { error } = updateProduct;
       if (error) {
         res.status(401).json({ error });
         return;
       }
-      const product = await VendorsDAO.getProductById(
+      const product = await OrganizationDA.getProductById(
         productFromBody.productId
       );
       res.json(product);
@@ -435,7 +435,7 @@ export default class VendorController {
       //   res.status(401).json({ error: "Bad vendor claim or bad path" });
       //   return;
       // }
-      let pendingOrders = await VendorsDAO.getPendingOrders(vendorId);
+      let pendingOrders = await OrganizationDA.getPendingOrders(vendorId);
       if (!pendingOrders) {
         return res.status(404).json({ error: "Orders not found." });
       }
@@ -458,7 +458,7 @@ export default class VendorController {
 
       const order = new Order(orderFromBody);
       console.log(order);
-      const addOrder = await VendorsDAO.addOrder(order);
+      const addOrder = await OrganizationDA.addOrder(order);
       let { error } = addOrder;
       if (error) {
         res.status(401).json({ error });
@@ -475,7 +475,7 @@ export default class VendorController {
       const vendorId = req.params.id;
       // do auth check of vendorId, to match vendorDB and orderObj: { vendorId }
       const order = req.body;
-      const deleteOrder = await VendorsDAO.deleteOrder(order);
+      const deleteOrder = await OrganizationDA.deleteOrder(order);
       let { error } = deleteOrder;
       if (error) {
         res.status(401).json({ error });

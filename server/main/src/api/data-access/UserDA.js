@@ -2,7 +2,7 @@ import { ObjectId } from "mongodb";
 
 let users;
 let sessions;
-export default class UsersDAO {
+export default class UserDA {
   static async injectDB(conn) {
     if (users && sessions) {
       return;

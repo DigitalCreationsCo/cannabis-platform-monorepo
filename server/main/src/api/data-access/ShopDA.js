@@ -3,7 +3,7 @@ import { ObjectId } from "mongodb";
 let dbName = process.env.DB_NS;
 let usersColl;
 let productsColl;
-export default class ShopDAO {
+export default class ShopDA {
   static async injectDB(conn) {
     if (usersColl && productsColl) {
       return;
@@ -12,7 +12,7 @@ export default class ShopDAO {
       usersColl = await conn.db(dbName).collection("users");
       productsColl = await conn.db(dbName).collection("products");
     } catch (e) {
-      console.error(`Unable to establish collection handles in ShopDAO: ${e}`);
+      console.error(`Unable to establish collection handles in ShopDA: ${e}`);
     }
   }
   /*====================

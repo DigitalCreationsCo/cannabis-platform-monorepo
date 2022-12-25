@@ -1,3 +1,2 @@
 require("dotenv").config()
-
-exports = module.exports = require("./src")
+module.exports = require("./src")

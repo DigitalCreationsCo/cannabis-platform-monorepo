@@ -1,8 +1,8 @@
 import User from "../models/User";
 import Order from "../models/Order";
-import ShopDAO from "../../data-access/shopDAO";
-import UsersDAO from "../../data-access/usersDAO";
-import VendorsDAO from "../../data-access/vendorsDAO";
+import ShopDA from "../../data-access/ShopDA";
+import UserDA from "../../data-access/UserDA";
+import OrganizationDA from "../../data-access/OrganizationDA";
 import Stripe from "stripe";
 import stipeNode from "stripe";
 
@@ -69,7 +69,7 @@ export default class ShopController {
       if (!productId) {
         res.status(400).json("Bad Product Id");
       }
-      let product = await ShopDAO.getProductById(productId);
+      let product = await ShopDA.getProductById(productId);
       if (!product) {
         res.status(404).json({ error: "Error retrieving product" });
         return;
@@ -84,7 +84,7 @@ export default class ShopController {
   static async getProductsByVendor(req, res) {
     try {
       const vendorId = req.params.id || {};
-      let products = await ShopDAO.getProductsByVendor(vendorId);
+      let products = await ShopDA.getProductsByVendor(vendorId);
       if (!products) {
         res.status(404).json({ error: "Error retrieving products" });
         return;
@@ -100,7 +100,7 @@ export default class ShopController {
     try {
       const { vendorIdList } = req.body || [];
       const { page, limit } = req.params;
-      let products = await ShopDAO.getProducts(vendorIdList, page, limit);
+      let products = await ShopDA.getProducts(vendorIdList, page, limit);
       if (!products) {
         res.status(404).json({ error: "Error retrieving products" });
         return;
@@ -120,7 +120,7 @@ export default class ShopController {
         res.status(404).json({ error: "Category not found" });
         return;
       }
-      let productsByCategory = await ShopDAO.getProductsByCategory(category);
+      let productsByCategory = await ShopDA.getProductsByCategory(category);
       if (!productsByCategory) {
         res.status(404).json({ error: "Error retrieving products" });
         return;
@@ -148,7 +148,7 @@ export default class ShopController {
         res.status(401).json({ error: "Bad user claim" });
         return;
       }
-      const cart = await ShopDAO.getUserCart(customerId);
+      const cart = await ShopDA.getUserCart(customerId);
       var { error } = cart;
       if (error) {
         res.status(400).json({ error });
@@ -194,7 +194,7 @@ export default class ShopController {
       the getProduct db call in the future. This will be less work on the backend to add
       products to the cart. V
       */
-      let product = await ShopDAO.getProductById(productId);
+      let product = await ShopDA.getProductById(productId);
       const cartProduct = new CartProduct(product);
       var { error } = product;
       if (error) {
@@ -203,7 +203,7 @@ export default class ShopController {
           .json({ error: "Error retrieving products, check the productId" });
         return;
       }
-      const addedToCart = await ShopDAO.addToCart(customerId, cartProduct);
+      const addedToCart = await ShopDA.addToCart(customerId, cartProduct);
       //work out user identification with passing this product to the correct user cart!
       //write a working DAO method
       var { error } = addedToCart;
@@ -259,7 +259,7 @@ export default class ShopController {
         res.status(401).json({ error: "Bad user claim" });
         return;
       }
-      const updatedCart = await ShopDAO.updateCart(customerId, product);
+      const updatedCart = await ShopDA.updateCart(customerId, product);
       var { error } = updatedCart;
       if (error) {
         res.status(401).json({ error });
@@ -275,7 +275,7 @@ export default class ShopController {
   static async apiGetVendorForOrder(req, res) {
     try {
       const vendorId = req.params.id || {};
-      let vendor = await VendorsDAO.getVendorForOrder(vendorId);
+      let vendor = await OrganizationDA.getVendorForOrder(vendorId);
       if (!vendor) {
         return res.status(404).json({ error: "Vendor not found." });
       }
@@ -300,7 +300,7 @@ export default class ShopController {
         res.status(401).json({ error: "Bad user claim" });
         return;
       }
-      const cart = await ShopDAO.getUserCart(customerId);
+      const cart = await ShopDA.getUserCart(customerId);
       const vendorId = cart.products[0].vendorId.toString();
       var { error } = cart;
       if (error) {
@@ -318,8 +318,8 @@ export default class ShopController {
       -saving it to the database when the user makes a successful payment
       -dispatching the order to a local delivery driver
       */
-      const customer = await UsersDAO.getUserForOrder(customerId);
-      const vendor = await VendorsDAO.getVendorForOrder(vendorId);
+      const customer = await UserDA.getUserForOrder(customerId);
+      const vendor = await OrganizationDA.getVendorForOrder(vendorId);
       const order = new Order({ customer, vendor, ...cart });
       res.json(order);
     } catch (e) {
