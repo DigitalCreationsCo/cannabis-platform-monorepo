@@ -77,9 +77,32 @@ model Driver {
   id String @id @unique
   user User @relation(fields: [id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   orders Order[]
+  driverSession DriverSession?
 
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
+}
+
+model DriverSession {
+  id String @id @unique
+  driver Driver @relation(fields: [id], references: [id])
+  coordinateDriverId String @unique
+  coordinates Coordinates @relation(fields: [coordinateDriverId], references: [driverId])
+  isOnline Boolean @default(false)
+  isActiveDelivery Boolean @default(false)
+  currentRoute Route @relation(fields: [routeId], references: [id])
+  routeId String @unique
+
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([routeId])
+}
+
+model Route {
+  id String @id
+  coordinates Coordinates[]
+  driverSession DriverSession?
 }
 
 model Vendor {
@@ -176,6 +199,9 @@ model Coordinates {
   longitude Float
   radius Float?
   addresses Address[]
+  driverSession DriverSession?
+  driverId String? @unique
+  routes Route[]
 
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt

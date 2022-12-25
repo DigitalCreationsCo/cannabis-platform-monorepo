@@ -2,7 +2,7 @@ import { config } from "dotenv";
 config();
 
 import prisma from "@cd/data-access";
-import { connectDb, server } from "./src/index";
+import { connectDb, server } from "./src";
 const port = process.env.PORT || 8001;
 
 connectDb(prisma)
