@@ -26,8 +26,8 @@ export default function Dashboard({ user, organization, products, orders }: Dash
     return todaysOrders;
     }, []);
     
-    const stockOutProducts = products.filter((product) => {
-    return product.stock === 0;
+    const lowStockProducts = products.filter((product) => {
+    return product.stock <= 6;
   });
 
     const cardList = [
@@ -50,7 +50,7 @@ export default function Dashboard({ user, organization, products, orders }: Dash
                 Icon={Icons.ShoppingBagOutlined}
             />
 
-                <Grid>
+            <Grid>
                 {cardList.map((item, ind) => (
                     <Card key={`cardlist-${ind}`} title={item.title} amount={item.amount} />
                 )) }
@@ -74,31 +74,16 @@ export default function Dashboard({ user, organization, products, orders }: Dash
             )) : <Card>"There are no recent orders"</Card>}
             </Grid>
                             
-            <Grid title="Out of Stock Products">
-            { stockOutProducts.length > 0 && 
-                stockOutProducts.map((product) => (
+            <Grid title="Low Stock Products">
+            { lowStockProducts.length > 0 && 
+                lowStockProducts.map((product) => (
                 <ProductRow key={ product.id } product={product} />
                 ))
             }
             </Grid>
             </Page>
-            </ProtectedComponent>
+        </ProtectedComponent>
     );
-
-    // return (
-    //     <>
-    //         <div>Private route: Dashboard Page</div>
-    //         <button onClick={ async () => {
-    //             await SessionReact.signOut();
-    //         } }>sign out</button>
-            
-    //         <div>Hello, { session.userId }! You are logged in.</div>
-    //         <div>Access token payload: { JSON.stringify(session.accessTokenPayload) }</div>
-    //         <button 
-    //             onClick={ fetchUserData }
-    //         >fetch user api</button>
-    //     </>
-    // )
 }
 
 const getUserInfo = ({ req }) => {

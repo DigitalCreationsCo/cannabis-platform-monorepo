@@ -23,10 +23,10 @@ export default function SiteSettings({}: SiteSettingsDashboardProps) {
   return (
     <ProtectedComponent>
     <Page>
-        <PageHeader
-          title="Site Settings"
-          Icon={ Icons.CategoryOutlined } 
-          // navigation={ <AdminDashboardNavigation /> }
+      <PageHeader
+        title="Site Settings"
+        Icon={ Icons.CategoryOutlined } 
+        // navigation={ <AdminDashboardNavigation /> }
       />
       <Card className="h-[200px]">
         Dispensary staff can edit their storefront and site settings here

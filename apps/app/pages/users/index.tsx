@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import prisma, {User} from "@cd/data-access"
 import { usePagination } from "hooks";
-import { Card, Grid, H6, IconButton, Icons, Page, Paragraph, Row } from "@cd/shared-ui";
+import { Card, DeleteButton, Grid, H6, IconButton, Icons, Page, Paragraph, Row } from "@cd/shared-ui";
 import Link from "next/link";
 import Image from "next/image";
 import { ConfirmationAlert, PageHeader, ProtectedComponent } from "components";
@@ -42,10 +42,10 @@ export default function Users ({ users }: UsersDashboardProps) {
     <Page>
       <PageHeader
         title="Users"
-        Icon={Icons.NewArrival}
+        Icon={Icons.User2}
         Button={
           <Link href="/users/add">
-            <Button icon={Icons.NewArrival}>
+            <Button>
               Add User
             </Button>
           </Link>
@@ -55,7 +55,7 @@ export default function Users ({ users }: UsersDashboardProps) {
         <Row className="h-[44px]">
           <div className="hidden sm:block w-[100px]"></div>
           <H6 className="grow">Name</H6>
-          <H6 className="hidden lg:flex border justify-start w-[240px]">Email</H6>
+          <H6 className="hidden lg:flex justify-start w-[240px]">Email</H6>
           <H6 className="flex justify-center w-[120px]">Phone</H6>
           <H6 className="flex justify-center w-[100px]">Role</H6>
           <div className="min-w-[50px] sm:w-[120px]"></div>
@@ -66,9 +66,9 @@ export default function Users ({ users }: UsersDashboardProps) {
               <Row className="h-[54px] py-0">
                 <Image className="hidden sm:block" src={ user.imageUser[ 0 ]?.location } alt="" height={ 100 } width={ 100 } />
                 <H6 className="grow">{ user.firstName } { user.lastName }</H6>
-                <Paragraph className="hidden lg:flex border justify-start w-[240px]">{ user.email }</Paragraph>
+                <Paragraph className="hidden lg:flex justify-start w-[240px]">{ user.email }</Paragraph>
                 <Paragraph className="flex justify-center w-[120px]">{ user.phone || "-" }</Paragraph>
-                <Paragraph className="flex justify-center w-[100px]">{ user.memberships[0]?.role } </Paragraph>
+                <Paragraph className="flex justify-center w-[100px]">{ user.memberships[ 0 ]?.role } </Paragraph>
                 <IconButton Icon={ Icons.XIcon }
                   className="min-w-[50px] sm:w-[120px] text-primary sm:space-x-2 h-full"
                   size={ 12 }

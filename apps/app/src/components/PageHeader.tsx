@@ -19,7 +19,7 @@ export default function PageHeader ({
   iconColor = "primary"
 }: PageHeaderProps ) {
   return (
-      <FlexBox className="min-h-[54px] my-2 flex grow">
+      <FlexBox className="min-h-[54px] my-2 flex space-x-4">
         <FlexBox className="flex-col">
           <FlexBox className="flex-row">
             <H3>{ title }</H3>
@@ -34,7 +34,9 @@ export default function PageHeader ({
         {/* <SideNav position="left" handle={<Menu fontSize="small" />}>
           {navigation}
         </SideNav> */}
-        {Button && Button}
+      <FlexBox>
+        { Button && Button }
+      </FlexBox>
       </FlexBox>
   );
 };
