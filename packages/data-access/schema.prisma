@@ -262,9 +262,24 @@ model Order {
 //   @@index([addressCustomerId])
 // }
 
+// possibly create a lean reference model for orderItems, because
+// this model will take up lots of db space over time, create like so:
+
+// Product {
+//   id String
+//   ...
+//   orderItems OrderItem[]
+// }
+
+// OrderItem {
+//   id String
+//   productId String
+//   product Product
+// }
+
 model OrderItem {
-  id            String  @id @unique
-  product       Product @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  productId     String  @id @unique
+  product       Product @relation(fields: [productId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   name          String
   unit Unit @default(g)
   size Float
@@ -273,12 +288,14 @@ model OrderItem {
   basePrice Int
   discount Int
   salePrice Int
-  orders Order[]
+  orderId String
+  order Order @relation(fields: [orderId], references: [id])
 
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
 
-  @@index([id])
+  @@index([productId])
+  @@index([orderId])
 }
 
 enum OrderStatus {
@@ -348,7 +365,7 @@ model Organization {
 // }
 model Product {
   id            String    @id @default(cuid())
-  orderItem     OrderItem?
+  orderItem     OrderItem[]
   name          String
   description         String?
   features String?

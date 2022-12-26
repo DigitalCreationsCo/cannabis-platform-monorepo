@@ -30,6 +30,7 @@ import { Currency } from "@cd/shared-ui";
 import { IconButton } from "@cd/shared-ui";
 import { H5 } from "@cd/shared-ui";
 import toast from "react-hot-toast";
+import { urlBuilder } from "../../src/utils";
 // import { Order, OrderItems, Product } from "__types__/common";
 
 export default function OrderDetails() {
@@ -43,14 +44,14 @@ export default function OrderDetails() {
   const fetchOrderDetails = async () => {
     // replace with redux action
     try {
-      const { data } = await axios.get(`/api/orders/${query.id}`);
+      const { data } = await axios(urlBuilder.next + `/api/orders/${query.id}`);
       setOrderStatus(data.status);
       setOrder(data);
       setLoading(false);
     } catch (error) {
       setLoading(false);
       console.error(error)
-      toast.error(error.message);
+      toast.error(error.response.statusText);
     }
   };
 

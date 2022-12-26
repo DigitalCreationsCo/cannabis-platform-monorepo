@@ -6,9 +6,12 @@ const router = Router();
 Shop Routes
 
 getOrdersByOrg
+getOrderById
 createOrder
 ================================= */
-router.route("/orders/:id").get(shopCtrl.getOrdersByOrg)
+router.route("/orders/org/:id").get(shopCtrl.getOrdersByOrg)
+
+router.route("/orders/:id").get(shopCtrl.getOrderById)
 
 // router.route("/orders").post(shopCtrl.createOrder)
 

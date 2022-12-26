@@ -11,6 +11,7 @@ Order Data Access - data class for order table
 
 members: 
 getOrdersByOrg
+getOrderById
 ================================= */
 
 export default class OrderDA {
@@ -35,6 +36,16 @@ export default class OrderDA {
         ]
       }
     ) || [];
+    return data
+  }
+
+  static async getOrderById(id) {
+    const data = await prisma.order.findUnique(
+      {
+        where: { id: '1' },
+        include: { items: { include: { product: { include: { images: true } } } } }
+      }
+    )
     return data
   }
 }

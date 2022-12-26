@@ -210,7 +210,8 @@ const siteSettings:SiteSetting[] = [
 
 const orderItems: OrderItem[] = [
   {
-    id: "1",
+    productId: "1",
+    orderId: '1',
     name: "King OG",
     unit: "g",
     size: 3.5,
@@ -223,7 +224,8 @@ const orderItems: OrderItem[] = [
     updatedAt: new Date(),
   },
   {
-    id: "2",
+    productId: "2",
+    orderId: '1',
     name: "Blackberry Kush",
     unit: "g",
     size: 3.5,
@@ -236,7 +238,8 @@ const orderItems: OrderItem[] = [
     updatedAt: new Date(),
   },
   {
-    id: "3",
+    productId: "3",
+    orderId: '1',
     name: "Blackberry Nuggs",
     unit: "g",
     size: 3.5,
@@ -249,7 +252,8 @@ const orderItems: OrderItem[] = [
     updatedAt: new Date(),
   },
   {
-    id: "4",
+    productId: "4",
+    orderId: '1',
     name: "Red Taffy Firetruck",
     unit: "g",
     size: 3.5,
@@ -262,7 +266,8 @@ const orderItems: OrderItem[] = [
     updatedAt: new Date(),
   },
   {
-    id: "5",
+    productId: "5",
+    orderId: '1',
     name: "Eagle cbd oil",
     unit: "g",
     size: 3.5,
@@ -275,7 +280,8 @@ const orderItems: OrderItem[] = [
     updatedAt: new Date(),
   },
   {
-    id: "6",
+    productId: "6",
+    orderId: '1',
     name: "Magic Mountain Bush",
     unit: "g",
     size: 3.5,
@@ -288,7 +294,8 @@ const orderItems: OrderItem[] = [
     updatedAt: new Date(),
   },
   {
-    id: "7",
+    productId: "7",
+    orderId: '1',
     name: "Razmatazz",
     unit: "g",
     size: 3.5,
@@ -497,6 +504,51 @@ const ImageProducts: ImageProduct[] = [
     createdAt: new Date(),
     updatedAt: new Date(),
   },
+  {
+    id: "3",
+    location:
+      "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
+    blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
+    productId: "3",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: "4",
+    location:
+      "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
+    blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
+    productId: "4",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: "5",
+    location:
+      "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
+    blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
+    productId: "5",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: "6",
+    location:
+      "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
+    blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
+    productId: "6",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: "7",
+    location:
+      "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
+    blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
+    productId: "7",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
 ];
 
 const Categories: Category[] = [
@@ -603,7 +655,6 @@ const orders: Order[] = [
     createdAt: new Date(),
     updatedAt: new Date(),
     deliveredAt: new Date(),
-    
   },
   {
     id: "2",
@@ -800,15 +851,15 @@ async function main() {
   await prisma.driver.createMany({
     data: drivers,
   });
+  await prisma.orderItem.createMany({
+    data: orderItems,
+  })
   await prisma.order.createMany({
     data: orders,
   });
   await prisma.membership.createMany({
     data: memberships,
   });
-  await prisma.orderItem.createMany({
-    data: orderItems,
-  })
   console.log("inserted all records");
 }
 

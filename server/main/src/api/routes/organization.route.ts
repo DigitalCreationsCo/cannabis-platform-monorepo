@@ -4,6 +4,7 @@ const router = Router();
 /* =================================
 Organization Routes
 
+members:
 ================================= */
 
 export default router;

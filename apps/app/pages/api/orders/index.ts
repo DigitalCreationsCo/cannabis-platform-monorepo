@@ -34,15 +34,12 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
         let user = getUserInfo({ req });
         let { organizationId } = user;
 
-        // if (cache.has(`orders/org/${organizationId}`)) {
-        //     console.log('orders cache exists')
-        //     const orders = cache.get(`orders/org/${organizationId}`);
-        //     return res.status(200).json(orders);
-        // }
+        if (cache.has(`orders/org/${organizationId}`)) {
+            const orders = cache.get(`orders/org/${organizationId}`);
+            return res.status(200).json(orders);
+        }
         const orders = await (await axios(urlBuilder.main.getOrdersByOrg(organizationId))).data
-        console.log('setting cache')
         cache.set(`orders/org/${organizationId}`, orders);
-        console.log('cache set')
         return res.status(200).json(orders);
     } catch (error) {
         console.error(error.message);

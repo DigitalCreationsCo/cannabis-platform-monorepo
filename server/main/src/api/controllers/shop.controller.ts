@@ -7,16 +7,29 @@ import { OrderDA } from "../data-access";
 ShopController - controller class for ecommerce business actions
 
 members:
-createOrder
-getOrders
+getOrdersByOrg
+getOrderById
+// createOrder
 ================================= */
 
 export default class ShopController {
+
   static async getOrdersByOrg(req, res) {
     try {
       const organizationId = req.params.id || {}
       const orders = await OrderDA.getOrdersByOrg(organizationId)
       return res.status(200).json(orders);
+    } catch (error) {
+      console.log('API error: ', error)
+      res.status(404).json({ error });
+    }
+  }
+
+  static async getOrderById(req, res) {
+    try {
+      const id = req.params.id || ""
+      const order = await OrderDA.getOrderById(id)
+      return res.status(200).json(order);
     } catch (error) {
       console.log('API error: ', error)
       res.status(404).json({ error });
