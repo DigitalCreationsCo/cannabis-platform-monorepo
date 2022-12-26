@@ -11,13 +11,13 @@ export default function DeleteButton({ className, onClick, size = 12 }: DeleteBu
     return (
         <IconButton
             Icon={ Icons.XIcon }
-            className={ twMerge("min-w-[50px] sm:w-[120px] text-primary sm:space-x-2 h-full", className) }
+            className={ twMerge("min-w-[50px] md:w-[120px] text-primary sm:space-x-2 h-full", className) }
             size={size}
             type="button"
             data-modal-target="confirmation-alert"
             onClick={ onClick }
         >
-            <div className="hidden sm:block">Delete</div>
+            <div className="hidden md:block">Delete</div>
         </IconButton>
     );
 }

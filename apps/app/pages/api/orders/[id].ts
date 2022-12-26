@@ -2,7 +2,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 import nc from "next-connect";
 // import connectDB from "__server__/db";
 // import adminMiddleware from "__server__/middleware/adminMiddleware";
-// import authMiddleware from "__server__/middleware/authMiddleware";
 // import editorMiddleware from "__server__/middleware/editorMiddleware";
 // import errorMiddleware from "__server__/middleware/errorMiddleware";
 // import Order from "__server__/model/Order";
@@ -20,7 +19,7 @@ handler.use(authMiddleware);
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { id } = req.query;
-    const {data} = await axios(urlBuilder.main.getOrderById(id))
+    const { data } = await axios(urlBuilder.main.getOrderById(id))
     if (!data) {
       res.status(404).json("Order Not Found")
     }
@@ -34,18 +33,20 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 // admin user checker middleware
 // handler.use(adminMiddleware);
 
-// update order route
+// update order
 handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { id } = req.query;
-    const updateOrder = await Order.findByIdAndUpdate(
-      id,
-      { $set: req.body },
-      { new: true, upsert: true }
-    );
-    return res.status(200).json(updateOrder);
+    const { data } = await axios(urlBuilder.main.getOrderById(id))
+    // await Order.findByIdAndUpdate(
+    //   id,
+    //   { $set: req.body },
+    //   { new: true, upsert: true }
+    // );
+    return res.status(200).json(data);
   } catch (error) {
-    throw new Error(error.message);
+    console.error(error.message);
+    return res.json(error);
   }
 });
 

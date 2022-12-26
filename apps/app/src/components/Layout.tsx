@@ -9,6 +9,8 @@ import Image from 'next/image';
 import { Footer, Header, SideNavContainer, H2, Paragraph, Button, FlexBox, LoadingDots } from '@cd/shared-ui';
 import Session from 'supertokens-auth-react/recipe/session';
 import SuperTokens from 'supertokens-auth-react';
+import { Page } from '@cd/shared-ui';
+import { Center } from '@cd/shared-ui';
 
 interface LayoutProps extends PropsWithChildren {
     onSearchChange?: ReactEventHandler;
@@ -19,7 +21,7 @@ export default function Layout({ onSearchChange, placeholder, children }: Layout
     const session = useSessionContext()
 
     if (session.loading === true) {
-    return <LoadingDots />;
+    return <Page><Center><LoadingDots /></Center></Page>
     }
 
     const topbar = ['flex flex-row h-[66px] pr-4 lg:px-8 bg-inverse space-x-2 items-center shadow']

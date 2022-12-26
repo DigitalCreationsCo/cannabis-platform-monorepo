@@ -19,23 +19,30 @@ import axios from "axios";
 // import useProductSearch from "hooks/useProductSearch";
 // import Link from "next/link";
 import Router, { useRouter } from "next/router";
-import prisma, {Order, OrderItem, Product} from "@cd/data-access"
+import prisma, {ImageProduct, Order, OrderItem, Product, User} from "@cd/data-access"
 import React, { Fragment, useEffect, useState } from "react";
-import { PageHeader, ProtectedComponent } from "../../src/components";
-import { Button, Card, DeleteButton, FlexBox, Grid, H6, Icons, Page, Paragraph, Row, TextField } from "@cd/shared-ui";
+import { H5, Currency, IconButton, Button, Card, DeleteButton, FlexBox, Grid, H6, Icons, LoadingDots, Page, Paragraph, Row, TextField, PhoneNumber } from "@cd/shared-ui";
 import Link from "next/link";
 import { format } from "date-fns";
 import Image from "next/image";
-import { Currency } from "@cd/shared-ui";
-import { IconButton } from "@cd/shared-ui";
-import { H5 } from "@cd/shared-ui";
 import toast from "react-hot-toast";
-import { urlBuilder } from "../../src/utils";
+import { PageHeader, ProtectedComponent } from "components";
+import { urlBuilder } from "utils";
+import { Center } from "@cd/shared-ui";
 // import { Order, OrderItems, Product } from "__types__/common";
+
+export interface OrderDetail extends Order, Product, ImageProduct, OrderItem {
+  items: OrderItem[];
+  customer: User;
+}
+
+interface OrderItem {
+  product?: Product;
+}
 
 export default function OrderDetails() {
   const { query } = useRouter();
-  const [ order, setOrder ] = useState<Order>(null);
+  const [ order, setOrder ] = useState<OrderDetail>(null);
   const [loading, setLoading] = useState(true);
   const [orderStatus, setOrderStatus] = useState("");
   const [searchProduct, setSearchProduct] = useState("");
@@ -90,14 +97,14 @@ export default function OrderDetails() {
   // change the quantity for a item
   const handleQuantityChange = (quantity: number, productId: string ) => {
     const items = order.items.map((item: OrderItem) => {
-      return item.id === productId ? { ...item, quantity } : item;
+      return item.productId === productId ? { ...item, quantity } : item;
     });
     calculateTotal(items);
   };
 
   // delete item from order
   const deleteOrderItem = (productId: string) => {
-    const items = order.items.filter((item: OrderItem) => item.id !== productId);
+    const items = order.items.filter((item: OrderItem) => item.productId !== productId);
     calculateTotal(items);
   };
 
@@ -111,7 +118,7 @@ export default function OrderDetails() {
       quantity,
     };
 
-    const items = order.items.push(item)
+    const items = [...order.items, item]
     calculateTotal(items);
 
     setSearchProduct("");
@@ -119,164 +126,149 @@ export default function OrderDetails() {
     // search(null);
   };
 
-  if (!order) return <div>There is no order</div>
-
   return (
     <ProtectedComponent>
       <Page>
-      <PageHeader
-        title="Order Details"
-        Icon={Icons.ShoppingBagOutlined}
-        // navigation={<AdminDashboardNavigation />}
-        Button={
-        <Link href="/orders">
-          <Button>
-            Back to Order List
-          </Button>
-        </Link>
-        }
-      />
-
-        <>
-          <Card>
+        { loading ? <Center><LoadingDots /></Center> : order ? (
+          <Grid className="md:max-w-fit">
+            <PageHeader
+              title={`Order #${order?.id}`}
+              Icon={Icons.ShoppingBagOutlined}
+              // navigation={<AdminDashboardNavigation />}
+              Button={
+                <Link href="/orders">
+                  <Button>
+                    Back to Orders
+                  </Button>
+                </Link>
+              }
+            />
             <Grid>
-              <Row>
-                <FlexBox>
-                  <H6>Order #</H6>
-                  <Paragraph>{ order.id }</Paragraph>
-                </FlexBox>
-                <FlexBox className="pre" m={0.75} alignItems="center">
-                  <H6>Ordered on</H6>
-                  <H6>
-                    { format(new Date(order.createdAt), "MMM dd, yyyy") }
-                  </H6>
-                </FlexBox>
-
+              <Row className="justify-start space-x-4">
+                {/* <H6>Order #</H6>
+                <Paragraph>{ order.id }</Paragraph> */}
+                <H6>{`Ordered on ${ format(new Date(order.createdAt), "MMM dd, yyyy") }`}
+                </H6>
                 <TextField
-                  value={orderStatus}
-                  label="Order Status"
-                  placeholder="Order Status"
-                  onChange={(e) => setOrderStatus(e.target.value)}
+                  label="Status"
+                  value={ orderStatus }
+                  onChange={ (e) => setOrderStatus(e.target.value) }
+                  />
+              </Row>
+
+              <Row className="justify-start">
+                <TextField
+                  label="Add Product"
+                  value={ searchProduct }
+                  onChange={ (e) => {
+                    // search(e);
+                    setSearchProduct(e.target.value);
+                  } }
                 />
-            </Row>
+                {/* {resultList.length > 0 && (
+              <SearchResultCard elevation={2}>
+                {resultList.map((item) => (
+                  <MenuItem key={item._id} onClick={() => addOrderItem(item)}>
+                    {item.item}
+                  </MenuItem>
+                ))}
+              </SearchResultCard>
+            )} */}
 
-            <FlexBox>
-              <TextField
-                label="Add Product"
-                value={searchProduct}
-                onChange={(e) => {
-                  // search(e);
-                  setSearchProduct(e.target.value);
-                }}
-              />
-              <div>searching for: { searchProduct }</div>
+                {/* {notFoundResult && (
+              <SearchResultCard elevation={2}>
+                <Paragraph p={2}>Not Found Products</Paragraph>
+              </SearchResultCard>
+            )} */}
+              </Row>
 
-              {/* {resultList.length > 0 && (
-                <SearchResultCard elevation={2}>
-                  {resultList.map((item) => (
-                    <MenuItem key={item._id} onClick={() => addOrderItem(item)}>
-                      {item.item}
-                    </MenuItem>
-                  ))}
-                </SearchResultCard>
-              )} */}
-
-              {/* {notFoundResult && (
-                <SearchResultCard elevation={2}>
-                  <Paragraph p={2}>Not Found Products</Paragraph>
-                </SearchResultCard>
-              )} */}
-            </FlexBox>
-
-            <FlexBox>
-              {order.items.map((item: OrderItem, index: number) => (
-                <FlexBox key={index}>
-                  <FlexBox>
-                    <Image src={item.product.images[0]?.location} alt="" height={64} width={64} />
-                    <FlexBox>
-                      <H6>{item.name}</H6>
-
-                      <FlexBox>
-                        <H6>
-                          <Currency price={item.salePrice} />
-                        </H6>
-
-                        <FlexBox>
-                          <TextField
-                            type="number"
-                            defaultValue={item.quantity}
-                            onChange={(e) => handleQuantityChange(e.target.value, item.id)}
-                          />
-                        </FlexBox>
-                      </FlexBox>
+              <FlexBox className="flex-col space-x-0 items-stretch">
+                { order.items.map((item: OrderItem, index: number) => (
+                  <Row key={ index } className="h-[66px] space-x-4">
+                    <Image src={ item.product.images[ 0 ]?.location } alt="" height={ 64 } width={ 64 } />
+                    <FlexBox className="grow">
+                      <H6>{ item.name }</H6>
                     </FlexBox>
-                  </FlexBox>
 
-                  <FlexBox>
+                    <H6>
+                      <Currency price={ item.salePrice } />
+                    </H6>
+
+                    <TextField
+                      className="w-[66px] font-semibold"
+                      type="number"
+                      defaultValue={ item.quantity }
+                      onChange={ (e) => handleQuantityChange(e.target.value, item.id) }
+                    />
+
                     <DeleteButton onClick={ () => deleteOrderItem(item.id) }></DeleteButton>
-                  </FlexBox>
-                </FlexBox>
-              ))}
+                  </Row>
+                )) }
               </FlexBox>
             </Grid>
-          </Card>
 
-          <Grid>
+            <Grid>
+              <Card>
+                <H5>Delivery</H5>
+                <H6>{ order.customer.firstName + ' ' + order.customer.lastName }</H6>
+                <Paragraph>{ order.customer.email }</Paragraph>
+                <Paragraph><PhoneNumber phone={ order.customer.dialCode + '-' + order.customer.phone }/></Paragraph>
+                <Paragraph>
+                  { order.deliveryInfo.street1 + " " + order.deliveryInfo.street2 + "\n"
+                    + order.deliveryInfo.city + " " + order.deliveryInfo.state + " " + order.deliveryInfo.country + " " + order.deliveryInfo.zipcode }
+                </Paragraph>
+              </Card>
+              </Grid>
+
+            <Grid>
+              <Button
+                onClick={ handleSubmit }
+                loading={ loadingButton }
+              >
+                Save Order
+              </Button>
+            </Grid>
+
+            <Grid>
             <Card>
-              <H5>Shipping Address</H5>
+            <Grid className="max-w-fit m-auto ">
+              
+                <FlexBox>
+                  <H5>
+                    Subtotal
+                  </H5>
+                  <H6><Currency price={ order.subtotal } /></H6>
+                </FlexBox>
 
-              <H6>Name: {order.customer.firstName + order.customer.lastName}</H6>
-              <Paragraph>Email: {order.customer.email}</Paragraph>
-              <Paragraph>Phone: {order.customer.dialCode + order.customer.phone}</Paragraph>
-              <Paragraph>
-                Address:{" "}
-                {`${order.deliveryInfo.street1 }, ${order.deliveryInfo.street2 }, ${order.deliveryInfo.city}, ${order.deliveryInfo.zipcode}, ${order.deliveryInfo.country}`}
-              </Paragraph>
-            </Card>
+                <FlexBox>
+                  <H5>
+                    Delivery Fee
+                  </H5>
+                  <H6><Currency price={ 0 } /></H6>
+                </FlexBox>
 
-            <Button
-              onClick={handleSubmit}
-              loading={loadingButton}
-            >
-              Save Order
-            </Button>
-          </Grid>
-
-          <Grid>
-            <Card>
-              <H5>
-                Total
-              </H5>
-
-              <FlexBox>
-                <H5>
-                  Subtotal
-                </H5>
-                <H6><Currency price={ order.subtotal } /></H6>
-              </FlexBox>
-
-              <FlexBox>
-                <H5>
-                  Delivery Fee
-                </H5>
-                <H6><Currency price={0} /></H6>
-              </FlexBox>
-
-              {/* <FlexBox>
+                {/* <FlexBox>
                 <H5>
                   Discount
                 </H5>
                 <H6>${order.discount}</H6>
               </FlexBox> */}
 
-              <FlexBox>
-                <H5>
-                  Tax
-                </H5>
-                <H6><Currency price={order.tax} /></H6>
-              </FlexBox>
+                <FlexBox>
+                  <H5>
+                    Tax
+                  </H5>
+                  <H6><Currency price={ order.tax } /></H6>
+                </FlexBox>
 
-              {/* <FlexBox justifyContent="space-between" alignItems="center" mb={1}>
+                <FlexBox>
+                  <H5>
+                    Total
+                  </H5>
+                  <H6><Currency price={ order.total } /></H6>
+                </FlexBox>
+
+                {/* <FlexBox justifyContent="space-between" alignItems="center" mb={1}>
             <Typography fontSize="14px" color="grey.600">
               Shipping fee:
             </Typography>
@@ -297,7 +289,7 @@ export default function OrderDetails() {
             </FlexBox>
           </FlexBox> */}
 
-              {/* <Divider sx={{ mb: "0.5rem" }} />
+                {/* <Divider sx={{ mb: "0.5rem" }} />
 
               <FlexBox justifyContent="space-between" alignItems="center" mb={2}>
                 <H6 my="0px">Total</H6>
@@ -313,9 +305,10 @@ export default function OrderDetails() {
                   Paid by {order.paymentId.card.brand.toUpperCase()} Card
                 </Typography>
               )} */}
-            </Card>
-          </Grid>
-        </>
+            </Grid>
+              </Card>
+              </Grid>
+          </Grid>) : (<Paragraph>The order is not found</Paragraph>) }
       </Page>
       </ProtectedComponent>
   );

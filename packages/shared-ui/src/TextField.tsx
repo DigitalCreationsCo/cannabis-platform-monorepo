@@ -1,7 +1,10 @@
+import { FlexBox } from ".";
 import { type } from "os";
 import React, { ReactEventHandler } from "react";
+import { twMerge } from "tailwind-merge";
 
 type TextFieldProps = {
+    className?: string;
     type?: string;
     label?: string;
     value: string;
@@ -9,12 +12,19 @@ type TextFieldProps = {
     defaultValue?: string | number;
     onChange: ReactEventHandler;
 }
-function TextField({ type, value, label, placeholder, defaultValue, onChange }: TextFieldProps) {
+function TextField({ className, type, value, label, placeholder, defaultValue, onChange }: TextFieldProps) {
     return (
-        <>
-            { label && <label></label> }
-            <input defaultValue={defaultValue} type={type} value={value} onChange={ onChange } placeholder={ placeholder }  className="w-full mb-2" />
-        </>
+        <FlexBox>
+            { label && <FlexBox><label>{ label }</label></FlexBox> }
+            <input defaultValue={ defaultValue } type={ type } value={ value } onChange={ onChange } placeholder={ placeholder } className={twMerge(
+                'items-center',
+                'p-2 m-x4 rounded-btn',
+                'wh-10',
+                "outline-none w-full",
+                "shadow-inner",
+                className
+            )} />
+        </FlexBox>
     );
 }
 

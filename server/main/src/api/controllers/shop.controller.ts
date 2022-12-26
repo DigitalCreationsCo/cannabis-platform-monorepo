@@ -35,6 +35,17 @@ export default class ShopController {
       res.status(404).json({ error });
     }
   }
+
+  static async updateOrder(req, res) {
+    try {
+      const id = req.params.id || ""
+      const order = await OrderDA.updateOrder(id)
+      return res.status(200).json(order);
+    } catch (error) {
+      console.log('API error: ', error)
+      res.status(404).json({ error });
+    }
+  }
   
   // static async createOrder(req, res) {
   //   try {

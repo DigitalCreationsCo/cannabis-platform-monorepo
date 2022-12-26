@@ -43,7 +43,20 @@ export default class OrderDA {
     const data = await prisma.order.findUnique(
       {
         where: { id: '1' },
-        include: { items: { include: { product: { include: { images: true } } } } }
+        include: {
+          customer: true,
+          deliveryInfo: true,
+          items: { include: { product: { include: { images: true } } } }
+        }
+      }
+    )
+    return data
+  }
+
+  static async updateOrder(id) {
+    const data = await prisma.order.findUnique(
+      {
+        where: { id: '1' },
       }
     )
     return data
