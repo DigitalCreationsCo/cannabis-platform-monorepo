@@ -9,9 +9,9 @@ const prisma = global.prisma || new PrismaClient();
 function dateToString(doc) {
   if (doc != null || doc != undefined) {
     Object.keys(doc).forEach((key) => {
-      console.log("key pair: ", doc[key]);
+      // console.log("key pair: ", doc[key]);
       if (typeof doc[key] == "object" && doc[key] !== null) {
-        console.log("object found");
+        // console.log("object found");
         dateToString(doc[key]);
       }
       if (key == "createdAt" || key == "updatedAt" || key == "deliveredAt" || key == "emailVerified") {

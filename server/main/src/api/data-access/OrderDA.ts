@@ -1,3 +1,5 @@
+import prisma from "@cd/data-access"
+
 let collections = {
   orders: 'order'
 }
@@ -12,19 +14,19 @@ getOrdersByOrg
 ================================= */
 
 export default class OrderDA {
-  static async injectDB(conn) {
-    try {
-      // if (orders) {
-      //   return;
-      // }
-      orders = conn[collections.orders]
-    } catch (error) {
-      console.error(`Unable to establish database handles in DriverDA: ${error}`);
-    }
-  }
+  // static async injectDB(conn) {
+  //   try {
+  //     // if (orders) {
+  //     //   return;
+  //     // }
+  //     orders = conn[collections.orders]
+  //   } catch (error) {
+  //     console.error(`Unable to establish database handles in DriverDA: ${error}`);
+  //   }
+  // }
 
   static async getOrdersByOrg(organizationId) {
-    return await orders.findMany(
+    const data = await prisma.order.findMany(
       {
         where:
           { organizationId },
@@ -32,6 +34,7 @@ export default class OrderDA {
           { updatedAt: 'desc' }
         ]
       }
-    ) || []
+    ) || [];
+    return data
   }
 }

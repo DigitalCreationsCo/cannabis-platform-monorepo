@@ -645,6 +645,7 @@ __metadata:
     eslint-plugin-react-hooks: 4.6.0
     eslint-plugin-simple-import-sort: 8.0.0
     next: 13.0.6
+    next-connect: 0.13.0
     postcss: 8.4.19
     prettier: 2.8.0
     react: 18.2.0
@@ -697,6 +698,8 @@ __metadata:
     jest: 29.3.1
     json: 11.0.0
     next: 13.0.6
+    next-connect: 0.13.0
+    node-cache: ^5.1.2
     postcss: 8.4.19
     prettier: 2.8.0
     prisma: 4.4.0
@@ -709,7 +712,7 @@ __metadata:
     supertokens-node: 12.1.3
     tailwind-merge: 1.8.0
     tailwindcss: 3.2.4
-    ts-jest: ^29.0.3
+    ts-jest: 29.0.3
     ts-node: 10.9.1
     ts-node-dev: 2.0.0
     turbo: 1.6.3
@@ -749,6 +752,7 @@ __metadata:
     nodemon: 2.0.20
     prettier: 2.8.0
     supertest: 6.3.3
+    ts-jest: 29.0.3
     ts-node: 10.9.1
     ts-node-dev: 2.0.0
     typescript: 4.9.3
@@ -3110,6 +3114,13 @@ __metadata:
     strip-ansi: ^6.0.1
     wrap-ansi: ^7.0.0
   checksum: 79648b3b0045f2e285b76fb2e24e207c6db44323581e421c3acbd0e86454cba1b37aea976ab50195a49e7384b871e6dfb2247ad7dec53c02454ac6497394cb56
+  languageName: node
+  linkType: hard
+
+"clone@npm:2.x":
+  version: 2.1.2
+  resolution: "clone@npm:2.1.2"
+  checksum: aaf106e9bc025b21333e2f4c12da539b568db4925c0501a1bf4070836c9e848c892fa22c35548ce0d1132b08bbbfa17a00144fe58fccdab6fa900fec4250f67d
   languageName: node
   linkType: hard
 
@@ -6872,6 +6883,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"next-connect@npm:0.13.0":
+  version: 0.13.0
+  resolution: "next-connect@npm:0.13.0"
+  dependencies:
+    trouter: ^3.2.0
+  checksum: 1c63c17eafc94e6c18f2c08d201a81e69f3b24ddc3ba83449204832b4ec2b7b79df9a6cea53d44e7982b1f9e7214053d880b9fea302b8027de6cd49e2877c9b5
+  languageName: node
+  linkType: hard
+
 "next@npm:13.0.6":
   version: 13.0.6
   resolution: "next@npm:13.0.6"
@@ -6937,6 +6957,15 @@ __metadata:
   bin:
     next: dist/bin/next
   checksum: 2de1d9975f90ba67b4fb0ca6ec16d91eff3f7e05cea218cf2abb214c28cf8969b4fa7e81df23fe2025bceda676dda2db90e873f0909b17df1d395f6a275a2715
+  languageName: node
+  linkType: hard
+
+"node-cache@npm:^5.1.2":
+  version: 5.1.2
+  resolution: "node-cache@npm:5.1.2"
+  dependencies:
+    clone: 2.x
+  checksum: b0bdd81a6fee4754fb984a05246b510bb35dc54721116d465899bf4229ee3287fdafb47da526900ee9924fb402ed5c7d8050049d37d8bf2d26dbafc23a2c3205
   languageName: node
   linkType: hard
 
@@ -7878,6 +7907,13 @@ __metadata:
     define-properties: ^1.1.3
     functions-have-names: ^1.2.2
   checksum: 51228bae732592adb3ededd5e15426be25f289e9c4ef15212f4da73f4ec3919b6140806374b8894036a86020d054a8d2657d3fee6bb9b4d35d8939c20030b7a6
+  languageName: node
+  linkType: hard
+
+"regexparam@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "regexparam@npm:1.3.0"
+  checksum: ea6449d9984392cdf401d3d9b722a56357224fba7e9fdf2887f1901e0d3a838052d3b92b30f2276047bf5d5b6a1a90b7dff6aa1c89599b246a86285e7e3e3fd4
   languageName: node
   linkType: hard
 
@@ -8891,6 +8927,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"trouter@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "trouter@npm:3.2.0"
+  dependencies:
+    regexparam: ^1.3.0
+  checksum: 50beb18d4cf0239fe5ee81368d59f08b25298869d169d39c35b1c1d142e922025e14a648989382da70d4064d2ac7900b4348401caa0a235c3cccabaaa85351ef
+  languageName: node
+  linkType: hard
+
 "ts-easing@npm:^0.2.0":
   version: 0.2.0
   resolution: "ts-easing@npm:0.2.0"
@@ -8898,7 +8943,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-jest@npm:^29.0.3":
+"ts-jest@npm:29.0.3":
   version: 29.0.3
   resolution: "ts-jest@npm:29.0.3"
   dependencies:

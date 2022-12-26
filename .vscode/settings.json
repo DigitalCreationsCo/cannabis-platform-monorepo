@@ -24,4 +24,5 @@
     "tailwindcss",
     "topbar"
   ],
+  "jest.autoRun": { "watch": false }
 }

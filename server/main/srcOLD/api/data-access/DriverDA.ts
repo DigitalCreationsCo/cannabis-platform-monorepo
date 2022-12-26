@@ -1,3 +1,5 @@
+import prisma from "@cd/data-access"
+
 let collections = {
   drivers: 'driver',
   driverSessions: 'driverSession',
@@ -7,18 +9,18 @@ let collections = {
 let drivers, driverSessions, orders
 
 export default class DriverDA {
-  static async injectDB(conn) {
-    try {
-      if (drivers && driverSessions && orders) {
-      return;
-    }
-      drivers = await conn[collections.drivers]
-      driverSessions = await conn[collections.driverSessions]
-      orders = await conn[collections.orders]
-    } catch (error) {
-      console.error(`Unable to establish database handles in DriverDA: ${error}`);
-    }
-  }
+  // static async injectDB(conn) {
+  //   try {
+  //     if (drivers && driverSessions && orders) {
+  //     return;
+  //   }
+  //     drivers = await conn[collections.drivers]
+  //     driverSessions = await conn[collections.driverSessions]
+  //     orders = await conn[collections.orders]
+  //   } catch (error) {
+  //     console.error(`Unable to establish database handles in DriverDA: ${error}`);
+  //   }
+  // }
 
   /*====================
   Drivers Data Access Methods

@@ -1,3 +1,5 @@
+import prisma from "@cd/data-access"
+
 let collections = {
   users: 'user'
 }
@@ -12,14 +14,14 @@ members:
 ================================= */
 
 export default class UserDA {
-  static async injectDB(conn) {
-    try {
-      if ( users ) {
-        return;
-      }
-      users = await conn[collections.users]
-    } catch (error) {
-      console.error(`Unable to establish database handles in DriverDA: ${error}`);
-    }
-  }
+  // static async injectDB(conn) {
+  //   try {
+  //     if ( users ) {
+  //       return;
+  //     }
+  //     users = await conn[collections.users]
+  //   } catch (error) {
+  //     console.error(`Unable to establish database handles in DriverDA: ${error}`);
+  //   }
+  // }
 }

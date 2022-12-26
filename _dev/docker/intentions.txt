@@ -18,6 +18,11 @@ tailwind config improvements, fixed theme
 12-23-22
 supertokens signin with managed service
 
+Heres what Im doing:
+page component is fetching to nextapi, nextapi is fetching to main server,
+I could fetch from page component to main server. Why not do it? Because it's less secure, and url is available on client side.
+So, a solution would be to use absolute url from page component, and next api. :)
+
 do next:
 seed sample deliveries, build demo application for clients, with working mobile apps. :)
 fix any issue with page components :) 

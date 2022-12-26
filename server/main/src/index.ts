@@ -8,10 +8,10 @@ import {
 
 async function connectDb(client) {
   try {
-    await UserDA.injectDB(client);
-    await OrganizationDA.injectDB(client);
-    await DriverDA.injectDB(client);
-    await OrderDA.injectDB(client);
+    // await UserDA.injectDB(client);
+    // await OrganizationDA.injectDB(client);
+    // await DriverDA.injectDB(client);
+    // await OrderDA.injectDB(client);
     console.log(" 👏 Database is connected.");
   } catch(error) {
     console.error("Error connecting to database: ", error.stack);

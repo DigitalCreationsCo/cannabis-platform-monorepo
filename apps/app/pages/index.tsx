@@ -4,6 +4,8 @@ import { Page, Card, Grid, OrderRow } from '@cd/shared-ui';
 import prisma, {Organization, Product, Order, User} from "@cd/data-access"
 import { PageHeader, ProductRow, ProtectedComponent } from "components"
 import { Icons } from '@cd/shared-ui';
+import axios from 'axios';
+import urlBuilder from '../src/utils/urlBuilder';
 
 interface DashboardProps {
     user: User;
@@ -13,6 +15,8 @@ interface DashboardProps {
 }
 
 export default function Dashboard({ user, organization, products, orders }: DashboardProps) {
+    console.log('orders?: ', orders)
+    // orders = JSON.parse(orders)
     const todaysOrders = useMemo(() => {
     const todaysOrders = Array.isArray(orders)
       ? orders.filter((order) => {
@@ -92,21 +96,24 @@ const getUserInfo = ({ req }) => {
     let { user } = session
     return user;
 }
+
 export async function getServerSideProps({ req, res }) {
-    
+    res.setHeader(
+        'Cache-Control',
+        'public, s-maxage=10, stale-while-revalidate=59'
+    )
     let user = getUserInfo({req})
     let {organizationId} = user
 
     let organization = await prisma.organization.findUnique({ where: { id: organizationId }}) || {}
     let products = await prisma.product.findMany({ where: { organizationId }, orderBy: [ { rating: 'desc' },{ stock: 'desc' }],include: { images: true}}) || []
-    let orders: Order[] = await prisma.order.findMany({ where: { organizationId }, orderBy: [{id: 'desc'}]}) || []
-
+    let orders = await (await fetch(urlBuilder.next + '/api/orders/')).json()
     return {
         props: {
             user,
             organization,
             products,
-            orders
+            orders,
         }
     };
 }

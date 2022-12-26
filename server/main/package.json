@@ -8,6 +8,7 @@
     "dev": "ts-node-dev .",
     "test": "../../node_modules/jest/bin/jest.js",
     "test:fix": "../../node_modules/jest/bin/jest.js --detectOpenHandles",
+    "test:watch": "../../node_modules/jest/bin/jest.js --watchAll",
     "start": "ts-node ."
   },
   "peerDependencies": {
