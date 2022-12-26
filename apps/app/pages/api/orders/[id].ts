@@ -8,6 +8,7 @@ import nc from "next-connect";
 import { authMiddleware, ExtendRequest } from 'middleware';
 import axios from "axios";
 import { urlBuilder } from "../../../src/utils";
+import { OrderDetail } from "../../orders/[id]";
 
 // api route handler
 const handler = nc();
@@ -37,12 +38,9 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { id } = req.query;
-    const { data } = await axios(urlBuilder.main.getOrderById(id))
-    // await Order.findByIdAndUpdate(
-    //   id,
-    //   { $set: req.body },
-    //   { new: true, upsert: true }
-    // );
+    const orderDetail:OrderDetail = req.body
+    const { data } = await axios.put(urlBuilder.main.getOrderById(id), { ...orderDetail })
+    console.log('data updated: ', data)
     return res.status(200).json(data);
   } catch (error) {
     console.error(error.message);

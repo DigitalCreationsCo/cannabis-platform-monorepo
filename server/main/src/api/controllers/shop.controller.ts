@@ -9,6 +9,7 @@ ShopController - controller class for ecommerce business actions
 members:
 getOrdersByOrg
 getOrderById
+updateOrderById
 // createOrder
 ================================= */
 
@@ -36,10 +37,11 @@ export default class ShopController {
     }
   }
 
-  static async updateOrder(req, res) {
+  static async updateOrderById(req, res) {
     try {
       const id = req.params.id || ""
-      const order = await OrderDA.updateOrder(id)
+      const orderDetail = req.body
+      const order = await OrderDA.updateOrderById(id, orderDetail)
       return res.status(200).json(order);
     } catch (error) {
       console.log('API error: ', error)

@@ -72,7 +72,7 @@ export default function OrderDetails() {
     setLoadingButton(true);
     try {
       if (order) {
-        await axios.put(`/api/orders/${order.id}`, {
+        await axios.put(urlBuilder.next + `/api/orders/${order.id}`, {
           ...order,
           status: orderStatus,
           updatedAt: Date.now(),

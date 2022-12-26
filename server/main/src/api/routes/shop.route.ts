@@ -5,15 +5,17 @@ const router = Router();
 /* =================================
 Shop Routes
 
-getOrdersByOrg
-getOrderById
-createOrder
+"/orders/org/:id"   getOrdersByOrg
+
+"/orders/:id"       getOrderById
+
+"/orders/:id"       updateOrderById
 ================================= */
 router.route("/orders/org/:id").get(shopCtrl.getOrdersByOrg)
 
 router.route("/orders/:id").get(shopCtrl.getOrderById)
 
-router.route("/orders/:id").put(shopCtrl.updateOrder)
+router.route("/orders/:id").put(shopCtrl.updateOrderById)
 
 // router.route("/orders").post(shopCtrl.createOrder)
 

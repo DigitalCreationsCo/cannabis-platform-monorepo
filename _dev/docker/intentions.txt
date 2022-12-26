@@ -17,11 +17,9 @@ complete orders page
 tailwind config improvements, fixed theme
 12-23-22
 supertokens signin with managed service
-
-Heres what Im doing:
-page component is fetching to nextapi, nextapi is fetching to main server,
-I could fetch from page component to main server. Why not do it? Because it's less secure, and url is available on client side.
-So, a solution would be to use absolute url from page component, and next api. :)
+12-26-22
+shop, get order routes,
+update order routes is wip
 
 do next:
 seed sample deliveries, build demo application for clients, with working mobile apps. :)
@@ -30,9 +28,7 @@ fix any issue with page components :)
 (Write down what components are breaking often, and why, Write effective unit tests for it!)
 
 finish all admin dashboard pages, details pages, etc.
-complete site settings page
-
-add toast, test
+complete site settings page with data, and routes
 
 finish SideNav - refactor mobile sidebar into this :)
 
@@ -42,6 +38,7 @@ build consumer web app (Easy!!)
 
 switch to self hosted supertokens core
 Add context o Session Control, for auth functions available throughout app
+auth middleware with supertokens sessions from database :)
 
 
 Check the existing apps for some finished work.

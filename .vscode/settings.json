@@ -22,7 +22,8 @@
     "signin",
     "supertokens",
     "tailwindcss",
-    "topbar"
+    "topbar",
+    "zipcode"
   ],
   "jest.autoRun": { "watch": false }
 }

@@ -12,6 +12,7 @@ Order Data Access - data class for order table
 members: 
 getOrdersByOrg
 getOrderById
+updateOrderById
 ================================= */
 
 export default class OrderDA {
@@ -42,7 +43,7 @@ export default class OrderDA {
   static async getOrderById(id) {
     const data = await prisma.order.findUnique(
       {
-        where: { id: '1' },
+        where: { id },
         include: {
           customer: true,
           deliveryInfo: true,
@@ -53,10 +54,12 @@ export default class OrderDA {
     return data
   }
 
-  static async updateOrder(id) {
-    const data = await prisma.order.findUnique(
+  static async updateOrderById(id, order) {
+    const data = await prisma.order.upsert(
       {
-        where: { id: '1' },
+        where: { id },
+        update: { ...order },
+        create: { ...order },
       }
     )
     return data
