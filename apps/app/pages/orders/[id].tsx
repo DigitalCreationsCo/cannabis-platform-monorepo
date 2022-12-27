@@ -29,30 +29,16 @@ import toast from "react-hot-toast";
 import { PageHeader, ProtectedComponent } from "components";
 import { urlBuilder } from "utils";
 import { Center } from "@cd/shared-ui";
-// import { Order, OrderItems, Product } from "__types__/common";
-
-export interface OrderDetail extends Order, Product, ImageProduct, OrderItem {
-  items: OrderItem[];
-  customer: User;
-  driver: Driver;
-  deliveryInfo: Address;
-  organization: Organization;
-}
-
-interface OrderItem {
-  product?: Product;
-}
 
 export default function OrderDetails() {
   const { query } = useRouter();
-  const [ order, setOrder ] = useState<OrderDetail>(null);
+  const [ order, setOrder ] = useState(null);
   const [loading, setLoading] = useState(true);
   const [orderStatus, setOrderStatus] = useState("");
   const [searchProduct, setSearchProduct] = useState("");
   const [loadingButton, setLoadingButton] = useState(false);
 
   const fetchOrderDetails = async () => {
-    // replace with redux action
     try {
       const { data } = await axios(urlBuilder.next + `/api/orders/${query.id}`);
       setOrderStatus(data.status);

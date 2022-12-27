@@ -19,9 +19,11 @@ tailwind config improvements, fixed theme
 supertokens signin with managed service
 12-26-22
 shop, get order routes,
-update order routes is wip
 
 do next:
+fix update order route,
+add product details page, make it resuable for consumer app
+
 seed sample deliveries, build demo application for clients, with working mobile apps. :)
 fix any issue with page components :) 
 

@@ -75,7 +75,7 @@ export default function Dashboard({ user, organization, products, orders }: Dash
             <Grid title="Recent Orders">
             { todaysOrders.length > 0 ? todaysOrders.map((order) => (
                 <OrderRow order={order} key={order.id} orderDetailsRoute="/orders" />
-            )) : <Card>"There are no recent orders"</Card>}
+            )) : <Card>There are no recent orders</Card>}
             </Grid>
                             
             <Grid title="Low Stock Products">
