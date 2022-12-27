@@ -19,7 +19,7 @@ import axios from "axios";
 // import useProductSearch from "hooks/useProductSearch";
 // import Link from "next/link";
 import Router, { useRouter } from "next/router";
-import prisma, {ImageProduct, Order, OrderItem, Product, User} from "@cd/data-access"
+import prisma, {Address, Driver, ImageProduct, Order, OrderItem, Organization, Product, User} from "@cd/data-access"
 import React, { Fragment, useEffect, useState } from "react";
 import { H5, Currency, IconButton, Button, Card, DeleteButton, FlexBox, Grid, H6, Icons, LoadingDots, Page, Paragraph, Row, TextField, PhoneNumber } from "@cd/shared-ui";
 import Link from "next/link";
@@ -34,6 +34,9 @@ import { Center } from "@cd/shared-ui";
 export interface OrderDetail extends Order, Product, ImageProduct, OrderItem {
   items: OrderItem[];
   customer: User;
+  driver: Driver;
+  deliveryInfo: Address;
+  organization: Organization;
 }
 
 interface OrderItem {
