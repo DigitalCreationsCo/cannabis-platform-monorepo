@@ -1,5 +1,5 @@
 import axios from "axios";
-import prisma, {Address, Driver, ImageProduct, Order, OrderItem, Organization, Product, User} from "@cd/data-access"
+import prisma, {Address, Driver, ImageProduct, Order, OrderItem, OrderItemWithDetails, OrderWithDetails, Organization, Prisma, Product, User} from "@cd/data-access"
 import React, { Fragment, useEffect, useState } from "react";
 import { Center, H5, Currency, IconButton, Button, Card, DeleteButton, FlexBox, Grid, H6, Icons, LoadingDots, Page, Paragraph, Row, TextField, PhoneNumber } from "@cd/shared-ui";
 import Link from "next/link";
@@ -12,7 +12,7 @@ import { format } from "date-fns";
 
 export default function OrderDetails() {
   const { query } = useRouter();
-  const [ order, setOrder ] = useState<Order>();
+  const [ order, setOrder ] = useState<OrderWithDetails>();
   const [loading, setLoading] = useState(true);
   const [orderStatus, setOrderStatus] = useState("");
   const [searchProduct, setSearchProduct] = useState("");
@@ -37,18 +37,33 @@ export default function OrderDetails() {
     }
   }, [query]);
 
+  function removeRelatedFields(order) {
+      delete order["driver"];
+      delete order["customer"];
+      delete order["deliveryInfo"];
+      return order;
+  }
+
+  function removeProductsFromItems(items: OrderItemWithDetails[]) {
+    return items.map((item) => {
+      delete item[ "product" ]
+      return item
+    })
+  }
   const handleUpdate = async () => {
     setLoadingButton(true);
     try {
       if (order) {
-        await axios.put(urlBuilder.next + `/api/orders/${order.id}`, {
-          ...order,
+        let update = removeRelatedFields(order)
+        await axios.put(urlBuilder.next + `/api/orders`, {
+          ...update,
+          id: order.id,
+          items: removeProductsFromItems(order.items),
           status: orderStatus,
-          updatedAt: Date.now(),
         });
       }
-      fetchOrderDetails()
-      // location.reload();
+      // fetchOrderDetails()
+      location.reload();
       // Router.push("/orders");
       toast.success(`Order Updated Successfully`);
       setLoadingButton(false);
@@ -151,9 +166,9 @@ export default function OrderDetails() {
               </SearchResultCard>
             )} */}
 
-                { order.items.map((item: OrderItem, index: number) => (
+                { order.items.map((item: OrderItemWithDetails, index: number) => (
                   <Row key={ index } className="h-[66px] space-x-4">
-                    <Image src={ item.product.images[ 0 ]?.location } alt="" height={ 64 } width={ 64 } />
+                    <Image src={ item.product?.images[ 0 ]?.location } alt="" height={ 64 } width={ 64 } />
                     <FlexBox className="grow">
                       <H6>{ item.name }</H6>
                     </FlexBox>

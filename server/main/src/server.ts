@@ -14,7 +14,9 @@ app.use("/api/v1/user", user);
 app.use("/api/v1/driver", driver);
 app.use("/api/v1/shop", shop);
 app.use("/api/v1/organization", organization);
-
+app.use("/api/v1/healthcheck", (req, res) => {
+    res.status(200)
+});
 
 app.use("*", (req, res) => res.status(404).json({ error: "API not found" }));
 

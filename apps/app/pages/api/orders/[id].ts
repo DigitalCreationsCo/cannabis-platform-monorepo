@@ -20,11 +20,11 @@ handler.use(authMiddleware);
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { id } = req.query;
-    console.log('order id: ', id)
+    // console.log('order id: ', id)
     // this is the preferred pattern for handling server response VV
     // across ALL apps and systems
     const { data } = await axios(urlBuilder.main.orderById(id))
-    console.log('order: ', data)
+    // console.log('order: ', data)
     return res.status(res.statusCode).json(data)
   } catch (error: any) {
     console.error(error.message);

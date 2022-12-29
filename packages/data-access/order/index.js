@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -8,67 +7,36 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (g && (g = 0, op[0] && (_ = 0)), _) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-exports.__esModule = true;
-exports.deleteOrder = exports.updateOrder = exports.findOrderWithDetails = exports.createOrder = void 0;
-var prisma_1 = __importDefault(require("../prisma"));
-function createOrder() {
-    return __awaiter(this, void 0, void 0, function () { return __generator(this, function (_a) {
-        return [2 /*return*/];
-    }); });
+import { Unit, Currency } from "@prisma/client";
+import prisma from "../prisma";
+export function createOrder() {
+    return __awaiter(this, void 0, void 0, function* () { });
 }
-exports.createOrder = createOrder;
-function findOrderWithDetails(id) {
-    return __awaiter(this, void 0, void 0, function () {
-        var order;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, prisma_1["default"].order.findUnique({
-                        where: { id: id },
-                        include: {
-                            customer: true,
-                            driver: true,
-                            deliveryInfo: true,
-                            items: { include: { product: { include: { images: true } } } }
-                        }
-                    })];
-                case 1:
-                    order = _a.sent();
-                    return [2 /*return*/, order];
+export function findOrderWithDetails(id) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const order = yield prisma.order.findUnique({
+            where: { id },
+            include: {
+                customer: true,
+                driver: true,
+                deliveryInfo: true,
+                items: { include: { product: { include: { images: true } } } }
             }
         });
+        return order;
     });
 }
-exports.findOrderWithDetails = findOrderWithDetails;
 // export interface OrderDetail extends Order {
 //     items?: Prisma.OrderItemUpdateInput;
 //     customer?: Prisma.UserUpdateInput;
@@ -79,28 +47,32 @@ exports.findOrderWithDetails = findOrderWithDetails;
 // export type OrderItemDetail = {
 //   product?: Product;
 // }
-function updateOrder(order) {
-    return __awaiter(this, void 0, void 0, function () {
-        var update;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, prisma_1["default"].order.update({
-                        where: {
-                            id: order.id
-                        },
-                        data: order
-                    })];
-                case 1:
-                    update = _a.sent();
-                    return [2 /*return*/, update];
-            }
+export function updateOrder(order) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const updateItems = order.items.map((item) => {
+            let { createdAt, updatedAt } = item, rest = __rest(item, ["createdAt", "updatedAt"]);
+            const update = {
+                create: Object.assign(Object.assign({}, rest), { unit: Unit[item.unit], currency: Currency[item.currency] }),
+                update: Object.assign(Object.assign({}, rest), { unit: Unit[item.unit], currency: Currency[item.currency], createdAt }),
+                where: { productId: item.productId }
+            };
+            return update;
         });
+        delete order['createdAt'];
+        delete order['updatedAt'];
+        delete order['items'];
+        console.log('order!!: ', order);
+        const update = yield prisma.order.update({
+            where: {
+                id: order.id
+            },
+            data: Object.assign(Object.assign({}, order), { items: {
+                    upsert: updateItems
+                } }),
+        });
+        return update;
     });
 }
-exports.updateOrder = updateOrder;
-function deleteOrder() {
-    return __awaiter(this, void 0, void 0, function () { return __generator(this, function (_a) {
-        return [2 /*return*/];
-    }); });
+export function deleteOrder() {
+    return __awaiter(this, void 0, void 0, function* () { });
 }
-exports.deleteOrder = deleteOrder;

@@ -1,6 +1,5 @@
-import { prismaMock } from '../singleton'
 import { updateOrder } from '../order'
-import { OrderStatus, Prisma } from '@prisma/client';
+import { OrderStatus } from '@prisma/client';
 
 test('update an order with the given values', async () => {
     const order = {

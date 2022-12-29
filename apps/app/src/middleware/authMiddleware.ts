@@ -1,8 +1,13 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import {User} from '@cd/data-access'
+import { SessionInformation } from 'supertokens-node/recipe/session';
 // import { getToken } from 'next-auth/jwt';
 
-export type ExtendRequest = NextApiRequest & { user: User };
+export type ExtendRequest = NextApiRequest & {
+  session?: SessionInformation
+  user?: User;
+  organizationId?: string;
+};
 
 export default async function authMiddleware(req: ExtendRequest, res: NextApiResponse, next: Function) {
   try {

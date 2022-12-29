@@ -8,9 +8,9 @@ jest.mock('./prisma', () => ({
   default: mockDeep<PrismaClient>(),
 }))
 
-// beforeEach(() => {
-//   // eslint-disable-next-line no-use-before-define
-//   mockReset(prismaMock)
-// })
+beforeEach(() => {
+  // eslint-disable-next-line no-use-before-define
+  mockReset(prismaMock)
+})
 
 export const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>

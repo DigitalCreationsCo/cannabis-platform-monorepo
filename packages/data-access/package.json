@@ -2,8 +2,10 @@
   "name": "@cd/data-access",
   "version": "0.0.1",
   "private": true,
+  "type": "module",
   "main": "./index.ts",
   "module": "./index.ts",
+  "types": "index.d.ts",
   "prisma": {
     "seed": "ts-node --esm seed.ts"
   },
