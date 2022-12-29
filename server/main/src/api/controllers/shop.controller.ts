@@ -1,4 +1,3 @@
-import { User, Order } from "../models";
 import { OrderDA } from "../data-access";
 // import Stripe from "stripe";
 // import stipeNode from "stripe";
@@ -18,8 +17,8 @@ export default class ShopController {
   static async getOrdersByOrg(req, res) {
     try {
       const organizationId = req.params.id || {}
-      const orders = await OrderDA.getOrdersByOrg(organizationId)
-      return res.status(200).json(orders);
+      const data = await OrderDA.getOrdersByOrg(organizationId)
+      return res.status(200).json(data);
     } catch (error) {
       console.log('API error: ', error)
       res.status(500).json({ error });
@@ -29,9 +28,11 @@ export default class ShopController {
   static async getOrderById(req, res) {
     try {
       const id = req.params.id || ""
-      const order = await OrderDA.getOrderById(id)
-      if (!order) return res.status(404).json("")
-      return res.status(200).json(order);
+      const data = await OrderDA.getOrderById(id)
+      // this is the preferred pattern for controller responses VV
+      // across ALL apps and systems
+      if (!data) return res.status(404).json("Order not found")
+      return res.status(200).json(data);
     } catch (error) {
       console.log('API error: ', error)
       res.status(500).json({ error });
@@ -40,12 +41,9 @@ export default class ShopController {
 
   static async updateOrderById(req, res) {
     try {
-      const id = req.params.id || ""
-      const orderDetail = req.body
-      console.log('id: ', id)
-      console.log('order: ', orderDetail)
-      const order = await OrderDA.updateOrderById(id, orderDetail)
-      return res.status(200).json(order);
+      const order = req.body
+      const data = await OrderDA.updateOrderById(order)
+      return res.status(200).json(data);
     } catch (error) {
       console.log('API error: ', error)
       res.status(500).json({ error });

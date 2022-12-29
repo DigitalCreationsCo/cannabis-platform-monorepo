@@ -15,7 +15,7 @@ router.route("/orders/org/:id").get(shopCtrl.getOrdersByOrg)
 
 router.route("/orders/:id").get(shopCtrl.getOrderById)
 
-router.route("/orders/:id").put(shopCtrl.updateOrderById)
+router.route("/orders").put(shopCtrl.updateOrderById)
 
 // router.route("/orders").post(shopCtrl.createOrder)
 

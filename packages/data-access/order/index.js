@@ -35,44 +35,72 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 exports.__esModule = true;
-var client_1 = require("@prisma/client");
-var prisma = global.prisma || new client_1.PrismaClient();
-function dateToString(doc) {
-    if (doc != null || doc != undefined) {
-        Object.keys(doc).forEach(function (key) {
-            // console.log("key pair: ", doc[key]);
-            if (typeof doc[key] == "object" && doc[key] !== null) {
-                // console.log("object found");
-                dateToString(doc[key]);
-            }
-            if (key == "createdAt" || key == "updatedAt" || key == "deliveredAt" || key == "emailVerified") {
-                // doc[key] = doc[key].toString();
-                doc[key] = JSON.parse(JSON.stringify(doc[key]));
+exports.deleteOrder = exports.updateOrder = exports.findOrderWithDetails = exports.createOrder = void 0;
+var prisma_1 = __importDefault(require("../prisma"));
+function createOrder() {
+    return __awaiter(this, void 0, void 0, function () { return __generator(this, function (_a) {
+        return [2 /*return*/];
+    }); });
+}
+exports.createOrder = createOrder;
+function findOrderWithDetails(id) {
+    return __awaiter(this, void 0, void 0, function () {
+        var order;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, prisma_1["default"].order.findUnique({
+                        where: { id: id },
+                        include: {
+                            customer: true,
+                            driver: true,
+                            deliveryInfo: true,
+                            items: { include: { product: { include: { images: true } } } }
+                        }
+                    })];
+                case 1:
+                    order = _a.sent();
+                    return [2 /*return*/, order];
             }
         });
-    }
-    return doc;
-}
-prisma.$use(function (params, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var before, results, after;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                before = Date.now();
-                return [4 /*yield*/, next(params)];
-            case 1:
-                results = _a.sent();
-                if (Array.isArray(results)) {
-                    results.length > 0 && results.forEach(function (doc) { return dateToString(doc); });
-                }
-                results = dateToString(results);
-                after = Date.now();
-                console.log("Total Query ".concat(params.model, ".").concat(params.action, " took ").concat(after - before, "ms"));
-                return [2 /*return*/, results];
-        }
     });
-}); });
-if (process.env.NODE_ENV === "development")
-    global.prisma = prisma;
-exports["default"] = prisma;
+}
+exports.findOrderWithDetails = findOrderWithDetails;
+// export interface OrderDetail extends Order {
+//     items?: Prisma.OrderItemUpdateInput;
+//     customer?: Prisma.UserUpdateInput;
+//     driver?: Prisma.DriverUpdateInput;
+//     deliveryInfo?: any;
+//     organization?: any;
+// }
+// export type OrderItemDetail = {
+//   product?: Product;
+// }
+function updateOrder(order) {
+    return __awaiter(this, void 0, void 0, function () {
+        var update;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, prisma_1["default"].order.update({
+                        where: {
+                            id: order.id
+                        },
+                        data: order
+                    })];
+                case 1:
+                    update = _a.sent();
+                    return [2 /*return*/, update];
+            }
+        });
+    });
+}
+exports.updateOrder = updateOrder;
+function deleteOrder() {
+    return __awaiter(this, void 0, void 0, function () { return __generator(this, function (_a) {
+        return [2 /*return*/];
+    }); });
+}
+exports.deleteOrder = deleteOrder;

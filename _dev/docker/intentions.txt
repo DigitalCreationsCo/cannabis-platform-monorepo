@@ -21,8 +21,14 @@ supertokens signin with managed service
 shop, get order routes,
 
 do next:
-fix update order route,
+
+Testing:
+write prisma lib tests to check types and return from prisma funcs :)
+write nextjs api route tests, to test the proper http request is sent to server. :)
+
 add product details page, make it resuable for consumer app
+
+for typescript: fix tsconfig in any projec that is having compile issue
 
 seed sample deliveries, build demo application for clients, with working mobile apps. :)
 fix any issue with page components :) 

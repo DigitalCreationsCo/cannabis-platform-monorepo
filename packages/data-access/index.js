@@ -1,5 +1,4 @@
 "use strict";
-// import { Order, OrderItem, User, Driver, Address, Organization, Product } from "@prisma/client";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -16,16 +15,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 exports.__esModule = true;
 exports["default"] = void 0;
-// export type OrderDetail = Order & {
-//   items: OrderItem[];
-//   customer: User;
-//   driver: Driver;
-//   deliveryInfo: Address;
-//   organization: Organization;
-// }
-// export type OrderItemDetail = {
-//   product?: Product;
-// }
 var prisma_1 = require("./prisma");
 __createBinding(exports, prisma_1, "default");
+__exportStar(require("./order"), exports);
 __exportStar(require("@prisma/client"), exports);

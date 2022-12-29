@@ -8,7 +8,7 @@ import nc from "next-connect";
 import { authMiddleware, ExtendRequest } from 'middleware';
 import axios from "axios";
 import { urlBuilder } from "../../../src/utils";
-// import { OrderDetail } from "../../orders/[id]";
+import { Prisma } from "@prisma/client";
 
 // api route handler
 const handler = nc();
@@ -20,12 +20,13 @@ handler.use(authMiddleware);
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { id } = req.query;
-    const { data } = await axios(urlBuilder.main.getOrderById(id))
-    if (!data) {
-      res.status(404).json("Order Not Found")
-    }
-    return res.status(200).json(data);
-  } catch (error) {
+    console.log('order id: ', id)
+    // this is the preferred pattern for handling server response VV
+    // across ALL apps and systems
+    const { data } = await axios(urlBuilder.main.orderById(id))
+    console.log('order: ', data)
+    return res.status(res.statusCode).json(data)
+  } catch (error: any) {
     console.error(error.message);
     return res.json(error);
   }
@@ -34,29 +35,15 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 // admin user checker middleware
 // handler.use(adminMiddleware);
 
-// update order
-handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
-  try {
-    const { id } = req.query;
-    const orderDetail = req.body
-    const { data } = await axios.put(urlBuilder.main.getOrderById(id), { ...orderDetail })
-    console.log('data updated: ', data)
-    return res.status(200).json(data);
-  } catch (error) {
-    console.error(error.message);
-    return res.json(error);
-  }
-});
-
 // delete order route
-handler.delete(async (req: NextApiRequest, res: NextApiResponse) => {
-  try {
-    const { id } = req.query;
-    const deleteOrder = await Order.findByIdAndDelete(id);
-    return res.status(200).json(deleteOrder);
-  } catch (error) {
-    throw new Error(error.message);
-  }
-});
+// handler.delete(async (req: NextApiRequest, res: NextApiResponse) => {
+//   try {
+//     const { id } = req.query;
+//     const deleteOrder = await Order.findByIdAndDelete(id);
+//     return res.status(200).json(deleteOrder);
+//   } catch (error) {
+//     throw new Error(error.message);
+//   }
+// });
 
 export default handler;

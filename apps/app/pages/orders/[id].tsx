@@ -1,38 +1,18 @@
-// import Delete from "@mui/icons-material/Delete";
-// import ShoppingBag from "@mui/icons-material/ShoppingBag";
-// import { LoadingButton } from "@mui/lab";
-// import { Avatar, Button, Card, Divider, Grid, MenuItem } from "@mui/material";
-// import IconButton from "@mui/material/IconButton";
-// import TextField from "@mui/material/TextField";
-// import Typography from "@mui/material/Typography";
-// import { Box } from "@mui/system";
 import axios from "axios";
-// import FlexBox from "components/FlexBox";
-// import AdminDashboardLayout from "components/layout/AdminDashboardLayout";
-// import AdminDashboardNavigation from "components/layout/AdminDashboardNavigation";
-// import DashboardPageHeader from "components/layout/DashboardPageHeader";
-// import Loading from "components/Loading";
-// import { SearchResultCard } from "components/search-box/HomeSearchBox";
-// import TableRow from "components/TableRow";
-// import { H5, H6, Paragraph } from "components/Typography";
-// import { format } from "date-fns";
-// import useProductSearch from "hooks/useProductSearch";
-// import Link from "next/link";
-import Router, { useRouter } from "next/router";
 import prisma, {Address, Driver, ImageProduct, Order, OrderItem, Organization, Product, User} from "@cd/data-access"
 import React, { Fragment, useEffect, useState } from "react";
-import { H5, Currency, IconButton, Button, Card, DeleteButton, FlexBox, Grid, H6, Icons, LoadingDots, Page, Paragraph, Row, TextField, PhoneNumber } from "@cd/shared-ui";
+import { Center, H5, Currency, IconButton, Button, Card, DeleteButton, FlexBox, Grid, H6, Icons, LoadingDots, Page, Paragraph, Row, TextField, PhoneNumber } from "@cd/shared-ui";
 import Link from "next/link";
-import { format } from "date-fns";
+import Router, { useRouter } from "next/router";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import { PageHeader, ProtectedComponent } from "components";
 import { urlBuilder } from "utils";
-import { Center } from "@cd/shared-ui";
+import { format } from "date-fns";
 
 export default function OrderDetails() {
   const { query } = useRouter();
-  const [ order, setOrder ] = useState(null);
+  const [ order, setOrder ] = useState<Order>();
   const [loading, setLoading] = useState(true);
   const [orderStatus, setOrderStatus] = useState("");
   const [searchProduct, setSearchProduct] = useState("");
@@ -44,7 +24,7 @@ export default function OrderDetails() {
       setOrderStatus(data.status);
       setOrder(data);
       setLoading(false);
-    } catch (error) {
+    } catch (error: any) {
       setLoading(false);
       console.error(error)
       toast.error(error.response.statusText);
@@ -57,7 +37,7 @@ export default function OrderDetails() {
     }
   }, [query]);
 
-  const handleSubmit = async () => {
+  const handleUpdate = async () => {
     setLoadingButton(true);
     try {
       if (order) {
@@ -67,8 +47,10 @@ export default function OrderDetails() {
           updatedAt: Date.now(),
         });
       }
+      fetchOrderDetails()
+      // location.reload();
+      // Router.push("/orders");
       toast.success(`Order Updated Successfully`);
-      Router.push("/orders");
       setLoadingButton(false);
     } catch (error) {
       toast.error(error.response.data.message || error.response.data.error);
@@ -92,13 +74,13 @@ export default function OrderDetails() {
   };
 
   // delete item from order
-  const deleteOrderItem = (productId: string) => {
+  const handleDeleteItem = (productId: string) => {
     const items = order.items.filter((item: OrderItem) => item.productId !== productId);
     calculateTotal(items);
   };
 
   // add new item in order
-  const addOrderItem = (product: Product, quantity: number) => {
+  const handleAddItem = (product: Product, quantity: number) => {
     const salePrice = product.basePrice - (product.basePrice * product.discount) / 100;
 
     const item = {
@@ -133,19 +115,17 @@ export default function OrderDetails() {
               }
             />
             <Grid>
+              <FlexBox className="flex-col space-x-0 items-stretch">
               <Row className="justify-start space-x-4">
-                {/* <H6>Order #</H6>
-                <Paragraph>{ order.id }</Paragraph> */}
-                <H6>{`Ordered on ${ format(new Date(order.createdAt), "MMM dd, yyyy") }`}
-                </H6>
+                <H6>{`Ordered on ${ format(new Date(order.createdAt), "MMM dd, yyyy") }`}</H6>
                 <TextField
                   label="Status"
                   value={ orderStatus }
                   onChange={ (e) => setOrderStatus(e.target.value) }
                   />
               </Row>
-
-              <Row className="justify-start">
+              <Row className="space-x-0 flex-col justify-start items-stretch">
+                <H6>Items</H6>
                 <TextField
                   label="Add Product"
                   value={ searchProduct }
@@ -154,10 +134,11 @@ export default function OrderDetails() {
                     setSearchProduct(e.target.value);
                   } }
                 />
+                </Row>
                 {/* {resultList.length > 0 && (
               <SearchResultCard elevation={2}>
                 {resultList.map((item) => (
-                  <MenuItem key={item._id} onClick={() => addOrderItem(item)}>
+                  <MenuItem key={item._id} onClick={() => handleAddItem(item)}>
                     {item.item}
                   </MenuItem>
                 ))}
@@ -169,9 +150,7 @@ export default function OrderDetails() {
                 <Paragraph p={2}>Not Found Products</Paragraph>
               </SearchResultCard>
             )} */}
-              </Row>
 
-              <FlexBox className="flex-col space-x-0 items-stretch">
                 { order.items.map((item: OrderItem, index: number) => (
                   <Row key={ index } className="h-[66px] space-x-4">
                     <Image src={ item.product.images[ 0 ]?.location } alt="" height={ 64 } width={ 64 } />
@@ -187,10 +166,10 @@ export default function OrderDetails() {
                       className="w-[66px] font-semibold"
                       type="number"
                       defaultValue={ item.quantity }
-                      onChange={ (e) => handleQuantityChange(e.target.value, item.id) }
+                      onChange={ (e) => handleQuantityChange(e.target.value, item.productId) }
                     />
 
-                    <DeleteButton onClick={ () => deleteOrderItem(item.id) }></DeleteButton>
+                    <DeleteButton onClick={ () => handleDeleteItem(item.productId) }></DeleteButton>
                   </Row>
                 )) }
               </FlexBox>
@@ -207,11 +186,11 @@ export default function OrderDetails() {
                     + order.deliveryInfo.city + " " + order.deliveryInfo.state + " " + order.deliveryInfo.country + " " + order.deliveryInfo.zipcode }
                 </Paragraph>
               </Card>
-              </Grid>
+            </Grid>
 
             <Grid>
               <Button
-                onClick={ handleSubmit }
+                onClick={ handleUpdate }
                 loading={ loadingButton }
               >
                 Save Order

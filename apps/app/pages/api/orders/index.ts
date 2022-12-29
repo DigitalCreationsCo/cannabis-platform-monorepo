@@ -38,7 +38,7 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
             const orders = cache.get(`orders/org/${organizationId}`);
             return res.status(200).json(orders);
         }
-        const orders = await (await axios(urlBuilder.main.getOrdersByOrg(organizationId))).data
+        const orders = await (await axios(urlBuilder.main.ordersByOrgId(organizationId))).data
         cache.set(`orders/org/${organizationId}`, orders);
         return res.status(200).json(orders);
     } catch (error) {
@@ -181,5 +181,20 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 //     description: `Charged Amount is ${amount}`,
 //   });
 // };
+
+// update order
+handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
+  try {
+    const { id } = req.query;
+      const update
+        //   : Prisma.OrderUpdateInput
+          = req.body
+    const { data } = await axios.put(urlBuilder.main.orders(), update)
+    return res.status(res.statusCode).json(data)
+  } catch (error: any) {
+    console.error(error.message);
+    return res.json(error);
+  }
+});
 
 export default handler;

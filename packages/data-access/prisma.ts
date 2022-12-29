@@ -1,8 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 
-// declare global {
-//   var prisma: PrismaClient | undefined;
-// }
+declare global {
+  var prisma: PrismaClient | undefined;
+}
 
 const prisma = global.prisma || new PrismaClient();
 
@@ -34,9 +34,9 @@ prisma.$use(async (params, next) => {
   results = dateToString(results);
   const after = Date.now();
 
-  console.log(
-    `Total Query ${params.model}.${params.action} took ${after - before}ms`
-  );
+  // console.log(
+  //   `Total Query ${params.model}.${params.action} took ${after - before}ms`
+  // );
   return results;
 });
 

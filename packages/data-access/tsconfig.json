@@ -2,14 +2,16 @@
   // Some typical compiler options
   "compilerOptions": {
     // "target": "ESNext",  
-    "moduleResolution": "node",
-    // "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
+    // "moduleResolution": "node",
+    "esModuleInterop": true,
+    // "allowSyntheticDefaultImports": true,
+    // "forceConsistentCasingInFileNames": true,
     // "isolatedModules": true,
     // "declaration": true,
     // "strict": true,
+    "strictNullChecks": true
   },
+  "include": ["**/*.{ts,js}"],
   "watchOptions": {
     // Use native file system events for files and directories
     "watchFile": "useFsEvents",

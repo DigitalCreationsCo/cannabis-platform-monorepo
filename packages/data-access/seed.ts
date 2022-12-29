@@ -1,4 +1,4 @@
-import client, { Order, Address, Driver, Organization, Product, User, Membership, Vendor, SiteSetting, OrderItem, SubDomain, ImageVendor, ImageUser, ImageOrganization, ImageProduct, Category, PrismaClient } from "@prisma/client";
+import { Order, Address, Driver, Organization, Product, User, Membership, Vendor, SiteSetting, OrderItem, SubDomain, ImageVendor, ImageUser, ImageOrganization, ImageProduct, Category, PrismaClient } from "@prisma/client";
 // import client from "./generated/prisma-client/index.js"
 
 const users: User[] = [

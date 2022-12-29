@@ -15,8 +15,6 @@ interface DashboardProps {
 }
 
 export default function Dashboard({ user, organization, products, orders }: DashboardProps) {
-    console.log('orders?: ', orders)
-    // orders = JSON.parse(orders)
     const todaysOrders = useMemo(() => {
     const todaysOrders = Array.isArray(orders)
       ? orders.filter((order) => {
