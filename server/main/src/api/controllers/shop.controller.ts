@@ -44,6 +44,7 @@ export default class ShopController {
     try {
       const order = req.body
       const data = await OrderDA.updateOrderById(order)
+      if (!data) return res.status(400).json("Could not update")
       return res.status(200).json(data);
     } catch (error) {
       console.log('API error: ', error)

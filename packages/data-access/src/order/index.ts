@@ -29,9 +29,9 @@ export async function findOrderWithDetails(id) {
     }
 }
 
-export async function updateOrderWithOrderItems(order:OrderWithDetails) {
+export async function updateOrderWithOrderItems(order) {
     try {
-        const updateOrderItems = order.items?.map((item: OrderItem) => {
+        const updateOrderItemsOp = !!order.items && order.items.map((item: OrderItem) => {
             let { ...rest } = item;
             let orderId = order.id;
             let productId = item.productId
@@ -46,29 +46,26 @@ export async function updateOrderWithOrderItems(order:OrderWithDetails) {
             });
             return update;
         });
-
-        const connectOrderItems = order?.items.map(item => (
+        const connectOrderItems = !!order.items && order.items.map(item => (
             {
                 productId: item.productId,
                 orderId: order.id
             })
-        )
-        delete order[ 'updatedAt' ];
+        ) || []
         delete order[ 'items' ];
         let id = order.id;
-        // const updateOrder = prisma.order.update({
-        //     where: { id },
-        //     data: {
-        //         ...order,
-        //         items: {
-        //             connect: connectOrderItems
-        //         }
-        //     },
-        // });
-
-        await prisma.$transaction([ ...updateOrderItems
-            // , updateOrder
-        ]);
+        const updateOrderOp = prisma.order.update({
+            where: { id },
+            data: {
+                ...order,
+                items: {
+                    connect: connectOrderItems
+                }
+            },
+        });
+        await prisma.$transaction([ ...updateOrderItemsOp ]);
+        const updateOrder = await prisma.$transaction([ updateOrderOp ]);
+        return updateOrder[0]
     } catch (error) {
         console.error('error: ', error)
         throw new Error(error)

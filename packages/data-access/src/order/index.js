@@ -107,14 +107,13 @@ function findOrderWithDetails(id) {
 }
 exports.findOrderWithDetails = findOrderWithDetails;
 function updateOrderWithOrderItems(order) {
-    var _a;
     return __awaiter(this, void 0, void 0, function () {
-        var updateOrderItems, connectOrderItems, id, error_2;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
+        var updateOrderItemsOp, connectOrderItems, id, updateOrderOp, updateOrder, error_2;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
                 case 0:
-                    _b.trys.push([0, 2, , 3]);
-                    updateOrderItems = (_a = order.items) === null || _a === void 0 ? void 0 : _a.map(function (item) {
+                    _a.trys.push([0, 3, , 4]);
+                    updateOrderItemsOp = !!order.items && order.items.map(function (item) {
                         var rest = __rest(item, []);
                         var orderId = order.id;
                         var productId = item.productId;
@@ -130,42 +129,30 @@ function updateOrderWithOrderItems(order) {
                         });
                         return update;
                     });
-                    connectOrderItems = order === null || order === void 0 ? void 0 : order.items.map(function (item) { return ({
+                    connectOrderItems = !!order.items && order.items.map(function (item) { return ({
                         productId: item.productId,
                         orderId: order.id
-                    }); });
-                    delete order['updatedAt'];
+                    }); }) || [];
                     delete order['items'];
                     id = order.id;
-                    // const updateOrder = prisma.order.update({
-                    //     where: { id },
-                    //     data: {
-                    //         ...order,
-                    //         items: {
-                    //             connect: connectOrderItems
-                    //         }
-                    //     },
-                    // });
-                    return [4 /*yield*/, prisma_1["default"].$transaction(__spreadArray([], updateOrderItems
-                        // , updateOrder
-                        , true))];
+                    updateOrderOp = prisma_1["default"].order.update({
+                        where: { id: id },
+                        data: __assign(__assign({}, order), { items: {
+                                connect: connectOrderItems
+                            } })
+                    });
+                    return [4 /*yield*/, prisma_1["default"].$transaction(__spreadArray([], updateOrderItemsOp, true))];
                 case 1:
-                    // const updateOrder = prisma.order.update({
-                    //     where: { id },
-                    //     data: {
-                    //         ...order,
-                    //         items: {
-                    //             connect: connectOrderItems
-                    //         }
-                    //     },
-                    // });
-                    _b.sent();
-                    return [3 /*break*/, 3];
+                    _a.sent();
+                    return [4 /*yield*/, prisma_1["default"].$transaction([updateOrderOp])];
                 case 2:
-                    error_2 = _b.sent();
+                    updateOrder = _a.sent();
+                    return [2 /*return*/, updateOrder[0]];
+                case 3:
+                    error_2 = _a.sent();
                     console.error('error: ', error_2);
                     throw new Error(error_2);
-                case 3: return [2 /*return*/];
+                case 4: return [2 /*return*/];
             }
         });
     });

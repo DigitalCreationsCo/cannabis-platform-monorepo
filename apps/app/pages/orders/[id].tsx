@@ -7,7 +7,7 @@ import Router, { useRouter } from "next/router";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import { PageHeader, ProtectedComponent } from "components";
-import { urlBuilder } from "utils";
+import { fetchData, urlBuilder } from "utils";
 import { format } from "date-fns";
 
 export default function OrderDetails() {
@@ -45,7 +45,7 @@ export default function OrderDetails() {
   }
 
   function removeProductsFromItems(items: OrderItemWithDetails[]) {
-    return items.map((item) => {
+    return items && items.map((item) => {
       delete item[ "product" ]
       return item
     })
@@ -54,22 +54,23 @@ export default function OrderDetails() {
     setLoadingButton(true);
     try {
       if (order) {
-        let update = removeRelatedFields(order)
-        await axios.put(urlBuilder.next + `/api/orders`, {
-          ...update,
-          id: order.id,
-          items: removeProductsFromItems(order.items),
-          status: orderStatus,
-        });
+        setLoading(true)
+        let update = { ...order };
+        update = removeRelatedFields(update)
+        const response = await axios.put(urlBuilder.next + '/api/orders', {
+            ...update,
+            id: order.id,
+            items: removeProductsFromItems(order.items),
+            status: orderStatus
+        })
+        if (response.status !== 200) throw Error("Could not save record")
+        toast.success('Order Updated Successfully');
       }
-      // fetchOrderDetails()
       location.reload();
-      // Router.push("/orders");
-      toast.success(`Order Updated Successfully`);
       setLoadingButton(false);
     } catch (error) {
-      toast.error(error.response.data.message || error.response.data.error);
-      setLoadingButton(false);
+      toast.error(error.message);
+      location.reload();
     }
   };
 

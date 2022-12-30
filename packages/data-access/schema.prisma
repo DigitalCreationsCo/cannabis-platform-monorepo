@@ -228,7 +228,7 @@ model Order {
   tax   Int
   status OrderStatus @default(Pending)
   items OrderItem[]
-  addressCustomerId String @map("addressCustomerId")
+  addressCustomerId String
   deliveryInfo Address @relation(fields: [addressCustomerId], references: [userId], onDelete: NoAction, onUpdate: NoAction)
   customerId String
   customer User @relation(fields: [customerId], references: [id], onDelete: Cascade, onUpdate: Cascade)

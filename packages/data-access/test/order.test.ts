@@ -1,4 +1,4 @@
-import { updateOrder } from '../src/order/index.js'
+import { updateOrderWithOrderItems } from '../src/order/index.js'
 import { OrderStatus } from '@prisma/client';
 
 test('update an order with the given values', async () => {
@@ -20,7 +20,7 @@ test('update an order with the given values', async () => {
     }
 
     // prismaMock.order.update.mockResolvedValue(order)
-    await expect(updateOrder({ ...order, total: 8999 })).resolves.toEqual({
+    await expect(updateOrderWithOrderItems({ ...order, total: 8999 })).resolves.toEqual({
         ...order,
         total: 8999,
     })

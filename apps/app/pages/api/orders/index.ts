@@ -187,8 +187,7 @@ handler.get(async (req: ExtendRequest, res: NextApiResponse) => {
 // update order
 handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const { id } = req.query;
-      const update = req.body
+    const update = req.body
     const { data } = await axios.put(urlBuilder.main.orders(), update)
     return res.status(res.statusCode).json(data)
   } catch (error: any) {
