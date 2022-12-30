@@ -41,8 +41,11 @@ export default class ShopController {
 
   static async updateOrderById(req, res) {
     try {
+      console.log('controller method')
       const order = req.body
+      console.log('controller method pt 2')
       const data = await OrderDA.updateOrderById(order)
+      console.log('controller method pt 3')
       return res.status(200).json(data);
     } catch (error) {
       console.log('API error: ', error)

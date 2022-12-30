@@ -28,7 +28,7 @@ function TopBar({ totalItems = 0 }: TopBarProps) {
 
     const topbar = ['flex flex-row h-[66px] pr-4 lg:px-8 bg-inverse space-x-2 items-center shadow']
 
-    if (session.loading) return <LoadingDots />
+    // if (session.loading) return <LoadingDots />
 
     return (
         <div className={ twMerge(topbar) }>

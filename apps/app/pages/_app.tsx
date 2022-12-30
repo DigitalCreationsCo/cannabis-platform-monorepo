@@ -38,8 +38,8 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element{
                 await axios(urlBuilder.main.healthCheck())
                 setStatus(true)
             } catch (error) {
+                console.log('error: ', error.message);
                 setStatus(false)
-                console.log('error!: ', error.toJSON());
             };
         }
         healthcheck();
@@ -52,7 +52,8 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element{
     return (
         <SuperTokensWrapper>
             <SessionControl>
-                { appStatus === "loading" ? <LoadingDots /> :
+                {
+                    appStatus === "loading" ? <Layout><LoadingDots /></Layout> :
                     appStatus === true ?
                         getLayout(<Component { ...pageProps } />) :
                         getLayout(<Page>Services are not available now. Please try later.</Page>)

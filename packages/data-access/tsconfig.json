@@ -1,11 +1,10 @@
 {
-  // Some typical compiler options
   "compilerOptions": {
-    "outDir": "dist",
-    "declaration": true,
-    "target": "ESNext",
+    // "outDir": "./dist",
+    // "declaration": true,
+    // "target": "ESNext",
     // "skipLibCheck": true,
-    "moduleResolution": "Node",
+    // "moduleResolution": "Node",
     // "useDefineForClassFields": true,
     // "allowUnusedLabels": false,
     // "allowUnreachableCode": false,
@@ -21,10 +20,10 @@
     // "checkJs": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    // "forceConsistentCasingInFileNames": true,
+    "forceConsistentCasingInFileNames": true,
     // "isolatedModules": true,
-    // "strict": true,
-    // "strictNullChecks": true
+    "strict": false,
+    "strictNullChecks": true
   },
   "include": ["src/**/*.ts", "src/**/*.mts","src/**/*.js"],
   "exclude": ["node_modules"],
@@ -39,6 +38,6 @@
     "synchronousWatchDirectory": true,
     // Finally, two additional settings for reducing the amount of possible
     // files to track  work from these directories
-    "excludeDirectories": ["**/node_modules","dist","build"],
+    "excludeDirectories": ["**/node_modules","build"],
   }
 }
