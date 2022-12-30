@@ -67,7 +67,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 exports.__esModule = true;
-exports.deleteOrder = exports.updateOrderWithOrderItems = exports.findOrderWithDetails = exports.createOrder = void 0;
+exports.deleteOrder = exports.updateOrderWithOrderItems = exports.findOrderWithDetails = exports.findOrdersByOrg = exports.createOrder = void 0;
 var prisma_1 = require("../db/prisma");
 function createOrder() {
     return __awaiter(this, void 0, void 0, function () {
@@ -77,9 +77,35 @@ function createOrder() {
     });
 }
 exports.createOrder = createOrder;
-function findOrderWithDetails(id) {
+function findOrdersByOrg(organizationId) {
     return __awaiter(this, void 0, void 0, function () {
         var order, error_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, prisma_1["default"].order.findMany({
+                            where: { organizationId: organizationId },
+                            orderBy: [
+                                { updatedAt: 'desc' }
+                            ]
+                        })];
+                case 1:
+                    order = (_a.sent()) || [];
+                    return [2 /*return*/, order];
+                case 2:
+                    error_1 = _a.sent();
+                    console.error(error_1.message);
+                    throw new Error(error_1.message);
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.findOrdersByOrg = findOrdersByOrg;
+function findOrderWithDetails(id) {
+    return __awaiter(this, void 0, void 0, function () {
+        var order, error_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -97,9 +123,9 @@ function findOrderWithDetails(id) {
                     order = _a.sent();
                     return [2 /*return*/, order];
                 case 2:
-                    error_1 = _a.sent();
-                    console.error(error_1);
-                    throw new Error(error_1);
+                    error_2 = _a.sent();
+                    console.error(error_2);
+                    throw new Error(error_2);
                 case 3: return [2 /*return*/];
             }
         });
@@ -108,7 +134,7 @@ function findOrderWithDetails(id) {
 exports.findOrderWithDetails = findOrderWithDetails;
 function updateOrderWithOrderItems(order) {
     return __awaiter(this, void 0, void 0, function () {
-        var updateOrderItemsOp, connectOrderItems, id, updateOrderOp, updateOrder, error_2;
+        var updateOrderItemsOp, connectOrderItems, id, updateOrderOp, updateOrder, error_3;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -149,9 +175,9 @@ function updateOrderWithOrderItems(order) {
                     updateOrder = _a.sent();
                     return [2 /*return*/, updateOrder[0]];
                 case 3:
-                    error_2 = _a.sent();
-                    console.error('error: ', error_2);
-                    throw new Error(error_2);
+                    error_3 = _a.sent();
+                    console.error('error: ', error_3);
+                    throw new Error(error_3);
                 case 4: return [2 /*return*/];
             }
         });

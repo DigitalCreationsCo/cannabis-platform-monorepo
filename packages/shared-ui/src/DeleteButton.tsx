@@ -14,7 +14,6 @@ export default function DeleteButton({ className, onClick, size = 12 }: DeleteBu
             className={ twMerge("min-w-[50px] md:w-[120px] text-primary sm:space-x-2 h-full", className) }
             size={size}
             type="button"
-            data-modal-target="confirmation-alert"
             onClick={ onClick }
         >
             <div className="hidden md:block">Delete</div>

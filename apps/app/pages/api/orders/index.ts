@@ -40,9 +40,9 @@ handler.get(async (req: ExtendRequest, res: NextApiResponse) => {
             const orders = cache.get(`orders/org/${organizationId}`);
             return res.status(200).json(orders);
         }
-        const orders = await (await axios(urlBuilder.main.ordersByOrgId(organizationId))).data
-        cache.set(`orders/org/${organizationId}`, orders);
-        return res.status(200).json(orders);
+        const { data } = await axios(urlBuilder.main.ordersByOrgId(organizationId))
+        cache.set(`orders/org/${organizationId}`, data);
+        return res.status(res.statusCode).json(data)
     } catch (error) {
         console.error(error.message);
         return res.json(error);

@@ -1,18 +1,13 @@
+import { FlexBox } from "@cd/shared-ui";
 import React from "react";
 import Modal, { ModalProps } from "./Modal";
 
-// type AddProductProps = {
-//     open: any;
-//     setOpen: any;
-//     modalId: string;
-//     description?: string;
-//     handleConfirm?: () => void;
-// };
-
 function AddProduct({ children, ...props }: ModalProps) {
     return (
-        <Modal { ...props }>
-            { children }
+        <Modal className="flex flex-col h-3/4 lg:min-w-[800px]" { ...props }>
+            <FlexBox className="space-y-6 space-x-0 basis-5/6 flex-col items-stretch">
+                { children }
+            </FlexBox>
         </Modal>
   );
 };

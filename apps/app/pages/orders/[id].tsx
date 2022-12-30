@@ -1,14 +1,15 @@
 import axios from "axios";
-import prisma, {Address, Driver, ImageProduct, Order, OrderItem, OrderItemWithDetails, OrderWithDetails, Organization, Prisma, Product, User} from "@cd/data-access"
-import React, { Fragment, useEffect, useState } from "react";
-import { Center, H5, Currency, IconButton, Button, Card, DeleteButton, FlexBox, Grid, H6, Icons, LoadingDots, Page, Paragraph, Row, TextField, PhoneNumber, Padding } from "@cd/shared-ui";
+import { OrderItem, OrderItemWithDetails, OrderWithDetails, Product } from "@cd/data-access"
+import React, { useEffect, useState } from "react";
+import { H5, Currency, Button, Card, DeleteButton, FlexBox, Grid, H6, Icons, LoadingDots, Page, Paragraph, Row, TextField, PhoneNumber, Padding, Center } from "@cd/shared-ui";
 import Link from "next/link";
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import Image from "next/image";
 import toast from "react-hot-toast";
-import { AddProduct, PageHeader, ProtectedComponent } from "components";
-import { fetchData, urlBuilder } from "utils";
+import { AddProduct, PageHeader, ProductItem, ProtectedComponent } from "components";
+import { urlBuilder } from "utils";
 import { format } from "date-fns";
+import { useProductSearch } from "../../src/hooks";
 
 export default function OrderDetails() {
   const { query } = useRouter();
@@ -16,7 +17,12 @@ export default function OrderDetails() {
   const [loading, setLoading] = useState(true);
   const [orderStatus, setOrderStatus] = useState("");
   const [searchProduct, setSearchProduct] = useState("");
-  const [loadingButton, setLoadingButton] = useState(false);
+  const [ loadingButton, setLoadingButton ] = useState(false);
+  const [ openAddProduct, setOpenAddProduct ] = useState(false)
+  
+  const toggleAddProduct = () => setOpenAddProduct(state => !state);
+
+  const { notFoundResult, search, resultList } = useProductSearch();
 
   const fetchOrderDetails = async () => {
     try {
@@ -109,8 +115,7 @@ export default function OrderDetails() {
     calculateTotal(items);
 
     setSearchProduct("");
-    // search hook to api
-    // search(null);
+    search(null);
   };
 
   return (
@@ -142,43 +147,45 @@ export default function OrderDetails() {
                   onChange={ (e) => setOrderStatus(e.target.value) }
                   />
               </Row>
-              <Row className="justify-start items-center">
+              <Row className="justify-start space-x-4 items-center">
                 <H6>Items</H6>
-                {/* <TextField
-                  label="Add Product"
-                  value={ searchProduct }
-                  onChange={ (e) => {
-                    // search(e);
-                    setSearchProduct(e.target.value);
-                  } }
-                /> */}
                       <Button
+                        onClick={ toggleAddProduct }
                         className="bg-light text-dark hover:text-light text-sm h-[30px] border"
                       >Add Product</Button>
                       
                       <AddProduct
-                        open={ true }
-                        onClose={ () => {} }
+                        open={ openAddProduct }
+                        onClose={ toggleAddProduct }
                         description="Add Product"
                       >
-                        <Paragraph>This is a modal</Paragraph>
+                        <TextField
+                          className="shadow"
+                          value={ searchProduct }
+                          onChange={ (e) => {
+                            search(e);
+                            setSearchProduct(e.target.value);
+                          } }
+                        />
+                        {resultList.length > 0 ? (
+                          <FlexBox className="pb-4 overflow-scroll space-x-3 flex flex-row grow">
+                            { resultList.map((product) => (
+                              <ProductItem key={ product.id }
+                                product={ product }
+                                handleConfirm={ handleAddItem }
+                              />
+                            )) }
+                          </FlexBox>
+                          ) : <Center><LoadingDots /></Center> }
+
+                        {notFoundResult && (
+                          // <SearchResultCard elevation={2}>
+                            <Paragraph>No Products Found</Paragraph>
+                          // </SearchResultCard>
+                        )}
                       </AddProduct>
                 </Row>
-                {/* {resultList.length > 0 && (
-              <SearchResultCard elevation={2}>
-                {resultList.map((item) => (
-                  <MenuItem key={item._id} onClick={() => handleAddItem(item)}>
-                    {item.item}
-                  </MenuItem>
-                ))}
-              </SearchResultCard>
-            )} */}
-
-                {/* {notFoundResult && (
-              <SearchResultCard elevation={2}>
-                <Paragraph p={2}>Not Found Products</Paragraph>
-              </SearchResultCard>
-            )} */}
+                
 
                 { order.items.map((item: OrderItemWithDetails, index: number) => (
                   <Row key={ index } className="h-[66px] space-x-4">

@@ -1,7 +1,6 @@
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import { PropsWithChildren } from 'react';
 import LandingPage from './Landing';
-import { Center, LoadingDots, Page } from '@cd/shared-ui';
 
 function ProtectedComponent({ children }: PropsWithChildren) {
     const session = useSessionContext();

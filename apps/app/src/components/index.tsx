@@ -10,4 +10,5 @@ export { default as SideNav } from './SideNav';
 export { default as ProtectedComponent } from './ProtectedComponent';
 export { default as CartButton } from './CartButton';
 export { default as AddProduct } from "./AddProductModal";
+export { default as ProductItem } from "./ProductItem";
 export { SessionControl } from './SessionControl';

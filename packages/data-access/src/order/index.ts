@@ -9,6 +9,24 @@ export async function createOrder() {
     // }
  }
 
+export async function findOrdersByOrg(organizationId) {
+    try {
+        const order = await prisma.order.findMany(
+            {
+            where:
+                { organizationId },
+            orderBy: [
+                { updatedAt: 'desc' }
+            ]
+            }
+            ) || [];
+        return order;
+    } catch (error) {
+        console.error(error.message)
+        throw new Error(error.message)
+    }
+}
+
 export async function findOrderWithDetails(id) {
     try {
         const order = await prisma.order.findUnique(

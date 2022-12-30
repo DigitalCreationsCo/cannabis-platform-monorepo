@@ -1,29 +1,37 @@
-import React, { useState } from "react";
-import Modal from "./Modal";
+import { Button, FlexBox, TextField } from "@cd/shared-ui";
+import React, { PropsWithChildren, ReactNode } from "react";
+import Modal, { ModalProps } from "./Modal";
 
-type ConfirmationAlertProps = {
-    open: any;
-    setOpen: any;
-    modalId: string;
-    description?: string;
+interface ConfirmationAlertProps extends ModalProps{
+    confirmMessage?: string;
     handleConfirm: () => void;
+    children?: ReactNode
 };
 
 function ConfirmationAlert({
-    modalId,
-    open,
-    setOpen,
-    handleConfirm,
     description = "Confirm?",
+    confirmMessage = "Yes",
+    handleConfirm,
+    children,
+    ...props
 }: ConfirmationAlertProps) {
     return (
-        <Modal
-            id={ modalId }
-            open={ open }
-            setModal={ setOpen }
-            handleConfirm={ handleConfirm }
+        <Modal {...props} className="text-center"
+            description={description}
         >
-            {description}
+            <FlexBox className="flex-col space-y-4">
+                { children }
+                <FlexBox className="justify-center">
+                    <Button className="" onClick={ props.onClose }>
+                        No
+                    </Button>
+                    <Button className=""
+                        onClick={handleConfirm}
+                    >
+                        {confirmMessage}
+                    </Button>
+                </FlexBox>
+            </FlexBox>
         </Modal>
     // <Dialog
     //   open={open}

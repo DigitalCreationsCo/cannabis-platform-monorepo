@@ -112,11 +112,11 @@ export default function Products({ products }: ProductsDashboardProps) {
           )}
         </Grid>
 
-        <ConfirmationAlert
+        {/* <ConfirmationAlert
           modalId={"confirmation-alert"}
           handleConfirm={handleDeleteProduct}
           description={`Do you want to delete ${deleteName}?`}
-        />
+        /> */}
 
           {/* <FlexBox justifyContent="center" mt={5}>
             <Pagination count={pageCount} onChange={(_, value) => setCurrentPage(value)} />

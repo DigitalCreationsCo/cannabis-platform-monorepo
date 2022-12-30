@@ -9,14 +9,23 @@ Shop Routes
 
 "/orders/:id"       getOrderById
 
-"/orders/:id"       updateOrderById
+"/orders"           updateOrderById
+
+"/products/org/:id" getProductsByOrg
+
+"/products"         searchProducts
+
 ================================= */
 router.route("/orders/org/:id").get(shopCtrl.getOrdersByOrg)
 
 router.route("/orders/:id").get(shopCtrl.getOrderById)
 
+// router.route("/orders").post(shopCtrl.createOrder)
+
 router.route("/orders").put(shopCtrl.updateOrderById)
 
-// router.route("/orders").post(shopCtrl.createOrder)
+router.route("/products/org/:id").get(shopCtrl.getProductsByOrg)
+
+router.route("/products").post(shopCtrl.searchProducts)
 
 export default router;

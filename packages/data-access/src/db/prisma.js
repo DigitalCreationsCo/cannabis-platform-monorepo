@@ -56,20 +56,20 @@ function dateToString(doc) {
     return doc;
 }
 prisma.$use(function (params, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var results;
+    var before, results, after;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, next(params)];
+            case 0:
+                before = Date.now();
+                return [4 /*yield*/, next(params)];
             case 1:
                 results = _a.sent();
                 if (Array.isArray(results)) {
                     results.length > 0 && results.forEach(function (doc) { return dateToString(doc); });
                 }
                 results = dateToString(results);
-                // const after = Date.now();
-                // console.log(
-                //   `Total Query ${params.model}.${params.action} took ${after - before}ms`
-                // );
+                after = Date.now();
+                console.log("Total Query ".concat(params.model, ".").concat(params.action, " took ").concat(after - before, "ms"));
                 return [2 /*return*/, results];
         }
     });

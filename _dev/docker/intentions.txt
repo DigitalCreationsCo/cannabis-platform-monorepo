@@ -19,19 +19,24 @@ tailwind config improvements, fixed theme
 supertokens signin with managed service
 12-26-22
 shop, get order routes,
+12-26-22
+seed sample deliveries, build demo application for clients, with working mobile apps. :)
+12-31-22
+write prisma lib tests to check types and return from prisma funcs :)
+for typescript: fix tsconfig in any projec that is having compile issue
+add daisy ui for tab, modal, and more.
 
 do next:
 
 Testing:
-write prisma lib tests to check types and return from prisma funcs :)
 write nextjs api route tests, to test the proper http request is sent to server. :)
 
+Fix Modal interactions!
+
+addproducts to order: group productIds together in one item, combine quantities
+Write a unit test suite for addproductshandle
+
 add product details page, make it resuable for consumer app
-
-for typescript: fix tsconfig in any projec that is having compile issue
-
-seed sample deliveries, build demo application for clients, with working mobile apps. :)
-fix any issue with page components :) 
 
 (Write down what components are breaking often, and why, Write effective unit tests for it!)
 
@@ -40,20 +45,17 @@ complete site settings page with data, and routes
 
 finish SideNav - refactor mobile sidebar into this :)
 
-add daisy ui for tab, modal, and more.
-
+Fix the Order totals, and add backend code to update order rows for transactions
 build consumer web app (Easy!!)
 
 switch to self hosted supertokens core
 Add context o Session Control, for auth functions available throughout app
 auth middleware with supertokens sessions from database :)
 
-
 Check the existing apps for some finished work.
 add unit test suite, and some basic test for main app processes
 - like what? :) Currency, formatting, mutating data, adding, removing entries,
 prisma query, 
-
 
 start adding all components!
 add incremental build to shared-ui lib

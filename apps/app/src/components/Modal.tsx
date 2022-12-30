@@ -1,31 +1,32 @@
 //Modal.tsx
 import React, { useRef } from "react";
-// import { useOnClickOutside } from "usehooks-ts";
+import { useOnClickOutside } from "hooks";
 import { twMerge } from "tailwind-merge";
-import { Paragraph } from "@cd/shared-ui";
+import { H6 } from "@cd/shared-ui";
 
 export type ModalProps = {
     children: React.ReactNode;
     open: boolean;
-    onClose(): void;
+    onClose: any;
     className?: string;
-    description: string;
+    description?: string;
     disableClickOutside?: boolean;
 };
 
-const Modal = ({ children, open, disableClickOutside, onClose, description, className }: ModalProps) => {
+const Modal = ({ children, open, disableClickOutside = !open, onClose, description, className }: ModalProps) => {
   const ref = useRef(null);
-//   useOnClickOutside(ref, () => {
-//     if (!disableClickOutside) {
-//       onClose();
-//     }
-//   });
-
-  const modalClass = ["absolute h-[200px] bg-light border modal modal-bottom sm:modal-middle", open && "modal-open"]
+  useOnClickOutside(ref, () => {
+    if (!disableClickOutside) {
+      onClose();
+    }
+  });
+  const modalClass = ["modal", open && "modal-open"]
   return (
-    <div className={twMerge(modalClass, className)}>
-        <div className="modal-box" ref={ ref }>
-            <Paragraph>{ description }</Paragraph>
+    <div
+      className={ twMerge(modalClass) }
+    >
+      <div className={ twMerge("modal-box rounded-btn bg-inverse-soft", className) } ref={ ref }>
+            <H6 className="pb-2">{ description }</H6>
             {children}
         </div>
     </div>

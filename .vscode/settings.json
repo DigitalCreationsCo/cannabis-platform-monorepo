@@ -24,6 +24,7 @@
     "supertokens",
     "tailwindcss",
     "topbar",
+    "usehooks",
     "zipcode"
   ],
   "jest.autoRun": { "watch": false }

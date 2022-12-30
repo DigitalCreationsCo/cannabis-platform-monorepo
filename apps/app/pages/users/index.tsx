@@ -72,7 +72,6 @@ export default function Users ({ users }: UsersDashboardProps) {
                 <IconButton Icon={ Icons.XIcon }
                   className="min-w-[50px] sm:w-[120px] text-primary sm:space-x-2 h-full"
                   size={ 12 }
-                  data-modal-target="confirmation-alert"
                   onClick={ (e) => {
                     e.preventDefault();
                     e.stopPropagation();
@@ -88,13 +87,13 @@ export default function Users ({ users }: UsersDashboardProps) {
         }) : <Card>There are no users.</Card> }
       </Grid>
 
-      <ConfirmationAlert
+      {/* <ConfirmationAlert
         modalId="confirmation-alert"
           open={ dialogOpen }
           setOpen={ setDialogOpen }
           handleConfirm={handleDeleteUser}
           description="Remove this user?"
-        />
+        /> */}
 
         {/* <FlexBox justifyContent="center" mt={5}>
           <Pagination
