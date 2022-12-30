@@ -19,12 +19,8 @@ interface LayoutProps extends PropsWithChildren {
 
 export default function Layout({ onSearchChange, placeholder, children }: LayoutProps) {
     const session = useSessionContext()
-
-    if (session.loading === true) {
-    return <Page><Center><LoadingDots /></Center></Page>
-    }
-
-    const topbar = ['flex flex-row h-[66px] pr-4 lg:px-8 bg-inverse space-x-2 items-center shadow']
+    // if (session.loading === true) return <Page><Center><LoadingDots /></Center></Page>
+    const topbar = [ 'flex flex-row h-[66px] pr-4 lg:px-8 bg-inverse space-x-2 items-center shadow' ]
     return (
         <>
             <div className={ twMerge(topbar) }>
@@ -77,19 +73,19 @@ export default function Layout({ onSearchChange, placeholder, children }: Layout
                 </Button>
             ) }
             </div>
-            
-            { session.doesSessionExist &&
-                (
-                    <SideNavContainer SideNavComponent={ AdminDashboardNavigation } fixedComponentId={ 'admin-dashboard' }>
+            { session.loading === true ? (
+                <SideNavContainer SideNavComponent={ AdminDashboardNavigation } fixedComponentId={ 'admin-dashboard' }>
                     <Header><SearchBar placeholder={ placeholder } onChange={ onSearchChange } /></Header>
-                    { children }
-                    </SideNavContainer>
-                ) ||
-                (
-                    <>
-                    { children }
-                    </>
-                )
+                    <Page><Center><LoadingDots /></Center></Page>
+                </SideNavContainer>)
+                : session.doesSessionExist ?
+                    (
+                        <SideNavContainer SideNavComponent={ AdminDashboardNavigation } fixedComponentId={ 'admin-dashboard' }>
+                            <Header><SearchBar placeholder={ placeholder } onChange={ onSearchChange } /></Header>
+                            { children }
+                        </SideNavContainer>
+                    )
+                    : <>{ children }</>
             }
             <Footer />
         </>

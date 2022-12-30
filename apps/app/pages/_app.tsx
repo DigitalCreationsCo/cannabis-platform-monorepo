@@ -9,7 +9,7 @@ import * as SuperTokensConfig from '../config/frontendConfig';
 import { Toaster } from "react-hot-toast";
 import axios from 'axios';
 import { urlBuilder } from '../src/utils';
-import { Page, LoadingDots } from '@cd/shared-ui';
+import { Page, LoadingDots, Center } from '@cd/shared-ui';
 
 if (typeof window !== 'undefined') {
     SuperTokens.init(SuperTokensConfig.frontendConfig());
@@ -29,17 +29,18 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element{
         doRefresh();
     }, [ pageProps.fromSupertokens ]);
 
-    const [ appStatus, setStatus ] = useState<string | boolean>("loading")
+    const [ appStatus, setAppStatus ] = useState<string | boolean>("loading")
+    pageProps.setAppStatus = setAppStatus
     
     useEffect(() => {
         async function healthcheck() {
             try {
-                setStatus("loading")
+                setAppStatus("loading")
                 await axios(urlBuilder.main.healthCheck())
-                setStatus(true)
+                setAppStatus(true)
             } catch (error) {
                 console.log('error: ', error.message);
-                setStatus(false)
+                setAppStatus(false)
             };
         }
         healthcheck();
@@ -48,12 +49,12 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element{
     if (pageProps.fromSupertokens === "needs-refresh") {
         return <></>
     }
-    const getLayout = Component.getLayout || ((page) => <Layout>{ page }</Layout>);
+    const getLayout = Component.getLayout || ((page) => <Layout setAppStatus={setAppStatus}>{ page }</Layout>);
     return (
         <SuperTokensWrapper>
             <SessionControl>
                 {
-                    appStatus === "loading" ? <Layout><LoadingDots /></Layout> :
+                    appStatus === "loading" ? <Page><Center><LoadingDots /></Center></Page> :
                     appStatus === true ?
                         getLayout(<Component { ...pageProps } />) :
                         getLayout(<Page>Services are not available now. Please try later.</Page>)

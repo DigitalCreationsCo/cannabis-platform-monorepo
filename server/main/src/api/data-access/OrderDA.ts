@@ -12,7 +12,7 @@ updateOrderById
 export default class OrderDA {
 
   static async getOrdersByOrg(organizationId) {
-    // try {
+    try {
       const data = await prisma.order.findMany(
         {
           where:
@@ -23,30 +23,29 @@ export default class OrderDA {
         }
       ) || [];
       return data
-    // } catch (error) {
-    //   console.error(error.message)
-    //   throw new Error(error.message)
-    // }
+    } catch (error) {
+      console.error(error.message)
+      throw new Error(error.message)
+    }
   }
 
   static async getOrderById(id) {
-    // try {
+    try {
       const data = await findOrderWithDetails(id);
       return data;
-    // } catch (error) {
-    //   console.error(error.message)
-    //   throw new Error(error.message)
-    // }
+    } catch (error) {
+      console.error(error.message)
+      throw new Error(error.message)
+    }
   }
 
   static async updateOrderById(order) {
-    // try {
-    console.log('server OrderDA method')
+    try {
       const data = await updateOrderWithOrderItems(order)
       return data
-    // } catch (error) {
-    //   console.error(error.message)
-    //   throw new Error(error.message)
-    // }
+    } catch (error) {
+      console.error(error.message)
+      throw new Error(error.message)
+    }
   }
 }

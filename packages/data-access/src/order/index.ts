@@ -1,4 +1,4 @@
-import { Prisma, OrderItem, Product, ImageProduct, Unit, Currency } from "@prisma/client";
+import { Prisma, OrderItem, Product, ImageProduct, Unit, Currency, Driver, User, Address, Order } from "@prisma/client";
 import prisma from "../db/prisma";
 
 export async function createOrder() {
@@ -10,7 +10,7 @@ export async function createOrder() {
  }
 
 export async function findOrderWithDetails(id) {
-    // try {
+    try {
         const order = await prisma.order.findUnique(
             {
                 where: { id },
@@ -23,71 +23,56 @@ export async function findOrderWithDetails(id) {
             }
         )
         return order
-    // } catch (error) {
-    //     console.error(error.message)
-    //     throw new Error(error.message)
-    // }
+    } catch (error) {
+        console.error(error)
+        throw new Error(error)
+    }
 }
 
-// export interface OrderDetail extends Order {
-//     items?: Prisma.OrderItemUpdateInput;
-//     customer?: Prisma.UserUpdateInput;
-//     driver?: Prisma.DriverUpdateInput;
-//     deliveryInfo?: any;
-//     organization?: any;
-// }
+export async function updateOrderWithOrderItems(order:OrderWithDetails) {
+    try {
+        const updateOrderItems = order.items?.map((item: OrderItem) => {
+            let { ...rest } = item;
+            let orderId = order.id;
+            let productId = item.productId
+            const update = prisma.orderItem.upsert({
+                where: {
+                    orderId_productId: {
+                        orderId, productId
+                    }
+                },
+                create: { ...rest, quantity: Number(item.quantity) },
+                update: { ...rest, quantity: Number(item.quantity) }
+            });
+            return update;
+        });
 
-// export type OrderItemDetail = {
-//   product?: Product;
-// }
-
-export async function updateOrderWithOrderItems(order) {
-    // try {
-        console.log('hello')
-        console.log('hi')
-        return []
-        // const updateOrderItems = order.items.map((item) => {
-        //     let { createdAt, updatedAt, productId, ...rest } = item;
-        //     let orderId = order.id;
-        //     const update = prisma.orderItem.upsert({
-        //         where: { productId },
-        //         create: {
-        //             ...rest,
-        //             orderId,
-        //             unit: Unit[ item.unit ],
-        //             currency: Currency[ item.currency ]
-        //         },
-        //         update: {
-        //             ...rest,
-        //             orderId,
-        //             unit: Unit[ item.unit ],
-        //             currency: Currency[ item.currency ],
-        //             createdAt
-        //         }
-        //     });
-        //     return update;
-        // });
-    
-        // delete order[ 'updatedAt' ];
-        // delete order[ 'items' ];
-        // let id = order.id;
-        // const updateOrder = await prisma.order.update({
+        const connectOrderItems = order?.items.map(item => (
+            {
+                productId: item.productId,
+                orderId: order.id
+            })
+        )
+        delete order[ 'updatedAt' ];
+        delete order[ 'items' ];
+        let id = order.id;
+        // const updateOrder = prisma.order.update({
         //     where: { id },
         //     data: {
         //         ...order,
         //         items: {
-        //             connect: order.items.map(item => ({
-        //                 productId: item.productId,
-        //                 orderId: order.id
-        //             }))
+        //             connect: connectOrderItems
         //         }
         //     },
         // });
-        // await prisma.$transaction([ ...updateOrderItems, updateOrder ]);
-    // } catch (error) {
-    //     console.error(error.message)
-    //     throw new Error(error.message)
-    // }
+
+        await prisma.$transaction([ ...updateOrderItems
+            // , updateOrder
+        ]);
+    } catch (error) {
+        console.error('error: ', error)
+        throw new Error(error)
+    }
 }
 
 export async function deleteOrder() {
@@ -99,7 +84,18 @@ export async function deleteOrder() {
     // }
 }
 
-export type OrderWithDetails = Prisma.PromiseReturnType<typeof findOrderWithDetails>
+// export type OrderWithDetails = Prisma.PromiseReturnType<typeof findOrderWithDetails>
+export type OrderWithDetails = Order & {
+    driver: Driver | null;
+    items?: (OrderItem & {
+        product: Product & {
+            images: ImageProduct[];
+        };
+    })[];
+    customer: User;
+    deliveryInfo: Address;
+    updatedAt?: any;
+}
 export type OrderItemWithDetails = OrderItem & {
         product?: Product & {
             images: ImageProduct[];

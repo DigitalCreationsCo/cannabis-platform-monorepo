@@ -278,7 +278,9 @@ model Order {
 // }
 
 model OrderItem {
-  productId     String  @id @unique
+  orderId String
+  order Order @relation(fields: [orderId], references: [id])
+  productId     String  @unique
   product       Product @relation(fields: [productId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   name          String
   unit Unit @default(g)
@@ -288,14 +290,13 @@ model OrderItem {
   basePrice Int
   discount Int
   salePrice Int
-  orderId String
-  order Order @relation(fields: [orderId], references: [id])
 
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
 
-  @@index([productId])
+  @@id([orderId, productId])
   @@index([orderId])
+  @@index([productId])
 }
 
 enum OrderStatus {

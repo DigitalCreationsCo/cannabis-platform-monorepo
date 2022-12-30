@@ -1,7 +1,7 @@
 import axios from "axios";
 import prisma, {Address, Driver, ImageProduct, Order, OrderItem, OrderItemWithDetails, OrderWithDetails, Organization, Prisma, Product, User} from "@cd/data-access"
 import React, { Fragment, useEffect, useState } from "react";
-import { Center, H5, Currency, IconButton, Button, Card, DeleteButton, FlexBox, Grid, H6, Icons, LoadingDots, Page, Paragraph, Row, TextField, PhoneNumber } from "@cd/shared-ui";
+import { Center, H5, Currency, IconButton, Button, Card, DeleteButton, FlexBox, Grid, H6, Icons, LoadingDots, Page, Paragraph, Row, TextField, PhoneNumber, Padding } from "@cd/shared-ui";
 import Link from "next/link";
 import Router, { useRouter } from "next/router";
 import Image from "next/image";
@@ -115,7 +115,9 @@ export default function OrderDetails() {
   return (
     <ProtectedComponent>
       <Page>
-        { loading ? <Center><LoadingDots /></Center> : order ? (
+        {
+          loading ? <Padding><LoadingDots /></Padding> :
+          order ? (
           <Grid className="md:max-w-fit">
             <PageHeader
               title={`Order #${order?.id}`}

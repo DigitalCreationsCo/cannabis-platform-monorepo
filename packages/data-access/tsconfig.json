@@ -1,10 +1,18 @@
 {
   "compilerOptions": {
+    "esModuleInterop": true,
+    // "allowSyntheticDefaultImports": true,
+    // "forceConsistentCasingInFileNames": true,
+    // "isolatedModules": true,
+    // "strict": false,
+    "strictNullChecks": true,
+    "noEmit": true,
     // "outDir": "./dist",
     // "declaration": true,
-    // "target": "ESNext",
+    "lib": ["ES2021"],
+    "target": "ES2021",
     // "skipLibCheck": true,
-    // "moduleResolution": "Node",
+    "moduleResolution": "Node",
     // "useDefineForClassFields": true,
     // "allowUnusedLabels": false,
     // "allowUnreachableCode": false,
@@ -18,15 +26,8 @@
     // "noUnusedParameters": true,
     // "importsNotUsedAsValues": "error",
     // "checkJs": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
-    // "isolatedModules": true,
-    "strict": false,
-    "strictNullChecks": true
   },
   "include": ["src/**/*.ts", "src/**/*.mts","src/**/*.js"],
-  "exclude": ["node_modules"],
   "watchOptions": {
     // Use native file system events for files and directories
     "watchFile": "useFsEvents",

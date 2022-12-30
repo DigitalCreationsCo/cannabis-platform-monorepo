@@ -21,6 +21,7 @@ export { default as Table } from "./Table"
 export { default as LoadingDots } from "./LoadingDots"
 export { default as DeleteButton } from "./DeleteButton"
 export { default as PhoneNumber } from "./PhoneNumber"
+export { default as Padding } from "./Padding"
 export * from "./icons";
 export { default as Icons }  from './icons';
 export * from './Typography';

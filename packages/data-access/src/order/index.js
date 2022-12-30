@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -35,6 +46,26 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 exports.__esModule = true;
 exports.deleteOrder = exports.updateOrderWithOrderItems = exports.findOrderWithDetails = exports.createOrder = void 0;
 var prisma_1 = require("../db/prisma");
@@ -48,90 +79,94 @@ function createOrder() {
 exports.createOrder = createOrder;
 function findOrderWithDetails(id) {
     return __awaiter(this, void 0, void 0, function () {
-        var order;
+        var order, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, prisma_1["default"].order.findUnique({
-                        where: { id: id },
-                        include: {
-                            customer: true,
-                            driver: true,
-                            deliveryInfo: true,
-                            items: { include: { product: { include: { images: true } } } }
-                        }
-                    })];
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, prisma_1["default"].order.findUnique({
+                            where: { id: id },
+                            include: {
+                                customer: true,
+                                driver: true,
+                                deliveryInfo: true,
+                                items: { include: { product: { include: { images: true } } } }
+                            }
+                        })];
                 case 1:
                     order = _a.sent();
-                    return [2 /*return*/, order
-                        // } catch (error) {
-                        //     console.error(error.message)
-                        //     throw new Error(error.message)
-                        // }
-                    ];
+                    return [2 /*return*/, order];
+                case 2:
+                    error_1 = _a.sent();
+                    console.error(error_1);
+                    throw new Error(error_1);
+                case 3: return [2 /*return*/];
             }
         });
     });
 }
 exports.findOrderWithDetails = findOrderWithDetails;
-// export interface OrderDetail extends Order {
-//     items?: Prisma.OrderItemUpdateInput;
-//     customer?: Prisma.UserUpdateInput;
-//     driver?: Prisma.DriverUpdateInput;
-//     deliveryInfo?: any;
-//     organization?: any;
-// }
-// export type OrderItemDetail = {
-//   product?: Product;
-// }
 function updateOrderWithOrderItems(order) {
+    var _a;
     return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            // try {
-            console.log('hello');
-            console.log('hi');
-            return [2 /*return*/, []
-                // const updateOrderItems = order.items.map((item) => {
-                //     let { createdAt, updatedAt, productId, ...rest } = item;
-                //     let orderId = order.id;
-                //     const update = prisma.orderItem.upsert({
-                //         where: { productId },
-                //         create: {
-                //             ...rest,
-                //             orderId,
-                //             unit: Unit[ item.unit ],
-                //             currency: Currency[ item.currency ]
-                //         },
-                //         update: {
-                //             ...rest,
-                //             orderId,
-                //             unit: Unit[ item.unit ],
-                //             currency: Currency[ item.currency ],
-                //             createdAt
-                //         }
-                //     });
-                //     return update;
-                // });
-                // delete order[ 'updatedAt' ];
-                // delete order[ 'items' ];
-                // let id = order.id;
-                // const updateOrder = await prisma.order.update({
-                //     where: { id },
-                //     data: {
-                //         ...order,
-                //         items: {
-                //             connect: order.items.map(item => ({
-                //                 productId: item.productId,
-                //                 orderId: order.id
-                //             }))
-                //         }
-                //     },
-                // });
-                // await prisma.$transaction([ ...updateOrderItems, updateOrder ]);
-                // } catch (error) {
-                //     console.error(error.message)
-                //     throw new Error(error.message)
-                // }
-            ];
+        var updateOrderItems, connectOrderItems, id, error_2;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _b.trys.push([0, 2, , 3]);
+                    updateOrderItems = (_a = order.items) === null || _a === void 0 ? void 0 : _a.map(function (item) {
+                        var rest = __rest(item, []);
+                        var orderId = order.id;
+                        var productId = item.productId;
+                        var update = prisma_1["default"].orderItem.upsert({
+                            where: {
+                                orderId_productId: {
+                                    orderId: orderId,
+                                    productId: productId
+                                }
+                            },
+                            create: __assign(__assign({}, rest), { quantity: Number(item.quantity) }),
+                            update: __assign(__assign({}, rest), { quantity: Number(item.quantity) })
+                        });
+                        return update;
+                    });
+                    connectOrderItems = order === null || order === void 0 ? void 0 : order.items.map(function (item) { return ({
+                        productId: item.productId,
+                        orderId: order.id
+                    }); });
+                    delete order['updatedAt'];
+                    delete order['items'];
+                    id = order.id;
+                    // const updateOrder = prisma.order.update({
+                    //     where: { id },
+                    //     data: {
+                    //         ...order,
+                    //         items: {
+                    //             connect: connectOrderItems
+                    //         }
+                    //     },
+                    // });
+                    return [4 /*yield*/, prisma_1["default"].$transaction(__spreadArray([], updateOrderItems
+                        // , updateOrder
+                        , true))];
+                case 1:
+                    // const updateOrder = prisma.order.update({
+                    //     where: { id },
+                    //     data: {
+                    //         ...order,
+                    //         items: {
+                    //             connect: connectOrderItems
+                    //         }
+                    //     },
+                    // });
+                    _b.sent();
+                    return [3 /*break*/, 3];
+                case 2:
+                    error_2 = _b.sent();
+                    console.error('error: ', error_2);
+                    throw new Error(error_2);
+                case 3: return [2 /*return*/];
+            }
         });
     });
 }

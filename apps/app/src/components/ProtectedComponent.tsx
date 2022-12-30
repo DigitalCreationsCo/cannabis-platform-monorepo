@@ -1,23 +1,13 @@
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
-import { Center, Page } from '@cd/shared-ui';
-import { PropsWithChildren, ReactNode } from 'react';
+import { PropsWithChildren } from 'react';
 import LandingPage from './Landing';
-import Layout from './Layout';
+import { Center, LoadingDots, Page } from '@cd/shared-ui';
 
 function ProtectedComponent({ children }: PropsWithChildren) {
     const session = useSessionContext();
 
-    if (session.loading) return <></>;
-    if (!session.doesSessionExist) {
-        return (
-            // <Page className="">
-                // {/* <Center className="space-y-2"> */}
-            <LandingPage />
-                // {/* </Center> */}
-            // </Page>
-        );
-    }
-    return <>{children}</>;
+    // if (session.loading) return <Page><Center><LoadingDots /></Center></Page>
+    return session.doesSessionExist ? <>{ children }</> : <LandingPage />
 }
 
 // Will need to add member, admin, owner privilege to separate usage of app domains
