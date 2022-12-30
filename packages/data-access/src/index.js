@@ -15,7 +15,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 exports.__esModule = true;
 exports["default"] = void 0;
-var prisma_1 = require("./prisma");
+var prisma_1 = require("./db/prisma");
 __createBinding(exports, prisma_1, "default");
-__exportStar(require("./order"), exports);
+__exportStar(require("./order/index"), exports);
 __exportStar(require("@prisma/client"), exports);

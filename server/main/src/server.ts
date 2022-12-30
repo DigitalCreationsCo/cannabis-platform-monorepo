@@ -10,6 +10,9 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.use("/api/v1/healthcheck", (req, res) => {
+    res.status(200).send("OK");
+});
 app.use("/api/v1/user", user);
 app.use("/api/v1/driver", driver);
 app.use("/api/v1/shop", shop);

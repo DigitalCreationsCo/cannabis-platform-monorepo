@@ -1,17 +1,32 @@
 {
-  // Some typical compiler options
   "compilerOptions": {
-    // "target": "ESNext",  
-    // "moduleResolution": "node",
-    "esModuleInterop": true,
-    // "allowSyntheticDefaultImports": true,
-    // "forceConsistentCasingInFileNames": true,
-    // "isolatedModules": true,
+    // "outDir": "./dist",
     // "declaration": true,
-    // "strict": true,
+    // "target": "ESNext",
+    // "skipLibCheck": true,
+    // "moduleResolution": "Node",
+    // "useDefineForClassFields": true,
+    // "allowUnusedLabels": false,
+    // "allowUnreachableCode": false,
+    // "exactOptionalPropertyTypes": true,
+    // "noFallthroughCasesInSwitch": true,
+    // "noImplicitOverride": true,
+    // "noImplicitReturns": true,
+    // "noPropertyAccessFromIndexSignature": true,
+    // "noUncheckedIndexedAccess": true,
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+    // "importsNotUsedAsValues": "error",
+    // "checkJs": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    // "isolatedModules": true,
+    "strict": false,
     "strictNullChecks": true
   },
-  "include": ["**/*.{ts,js}"],
+  "include": ["src/**/*.ts", "src/**/*.mts","src/**/*.js"],
+  "exclude": ["node_modules"],
   "watchOptions": {
     // Use native file system events for files and directories
     "watchFile": "useFsEvents",
@@ -23,6 +38,6 @@
     "synchronousWatchDirectory": true,
     // Finally, two additional settings for reducing the amount of possible
     // files to track  work from these directories
-    "excludeDirectories": ["**/node_modules","dist","build"],
+    "excludeDirectories": ["**/node_modules","build"],
   }
 }

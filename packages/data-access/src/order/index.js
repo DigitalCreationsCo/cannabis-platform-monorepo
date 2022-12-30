@@ -35,16 +35,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 exports.__esModule = true;
-exports.deleteOrder = exports.updateOrder = exports.findOrderWithDetails = exports.createOrder = void 0;
-var prisma_1 = __importDefault(require("../prisma"));
+exports.deleteOrder = exports.updateOrderWithOrderItems = exports.findOrderWithDetails = exports.createOrder = void 0;
+var prisma_1 = require("../db/prisma");
 function createOrder() {
-    return __awaiter(this, void 0, void 0, function () { return __generator(this, function (_a) {
-        return [2 /*return*/];
-    }); });
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            return [2 /*return*/];
+        });
+    });
 }
 exports.createOrder = createOrder;
 function findOrderWithDetails(id) {
@@ -63,7 +62,12 @@ function findOrderWithDetails(id) {
                     })];
                 case 1:
                     order = _a.sent();
-                    return [2 /*return*/, order];
+                    return [2 /*return*/, order
+                        // } catch (error) {
+                        //     console.error(error.message)
+                        //     throw new Error(error.message)
+                        // }
+                    ];
             }
         });
     });
@@ -79,28 +83,64 @@ exports.findOrderWithDetails = findOrderWithDetails;
 // export type OrderItemDetail = {
 //   product?: Product;
 // }
-function updateOrder(order) {
+function updateOrderWithOrderItems(order) {
     return __awaiter(this, void 0, void 0, function () {
-        var update;
         return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, prisma_1["default"].order.update({
-                        where: {
-                            id: order.id
-                        },
-                        data: order
-                    })];
-                case 1:
-                    update = _a.sent();
-                    return [2 /*return*/, update];
-            }
+            // try {
+            console.log('hello');
+            console.log('hi');
+            return [2 /*return*/, []
+                // const updateOrderItems = order.items.map((item) => {
+                //     let { createdAt, updatedAt, productId, ...rest } = item;
+                //     let orderId = order.id;
+                //     const update = prisma.orderItem.upsert({
+                //         where: { productId },
+                //         create: {
+                //             ...rest,
+                //             orderId,
+                //             unit: Unit[ item.unit ],
+                //             currency: Currency[ item.currency ]
+                //         },
+                //         update: {
+                //             ...rest,
+                //             orderId,
+                //             unit: Unit[ item.unit ],
+                //             currency: Currency[ item.currency ],
+                //             createdAt
+                //         }
+                //     });
+                //     return update;
+                // });
+                // delete order[ 'updatedAt' ];
+                // delete order[ 'items' ];
+                // let id = order.id;
+                // const updateOrder = await prisma.order.update({
+                //     where: { id },
+                //     data: {
+                //         ...order,
+                //         items: {
+                //             connect: order.items.map(item => ({
+                //                 productId: item.productId,
+                //                 orderId: order.id
+                //             }))
+                //         }
+                //     },
+                // });
+                // await prisma.$transaction([ ...updateOrderItems, updateOrder ]);
+                // } catch (error) {
+                //     console.error(error.message)
+                //     throw new Error(error.message)
+                // }
+            ];
         });
     });
 }
-exports.updateOrder = updateOrder;
+exports.updateOrderWithOrderItems = updateOrderWithOrderItems;
 function deleteOrder() {
-    return __awaiter(this, void 0, void 0, function () { return __generator(this, function (_a) {
-        return [2 /*return*/];
-    }); });
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            return [2 /*return*/];
+        });
+    });
 }
 exports.deleteOrder = deleteOrder;

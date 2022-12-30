@@ -2,13 +2,14 @@
   "name": "@cd/data-access",
   "version": "0.0.1",
   "private": true,
-  "main": "./index.ts",
-  "module": "./index.ts",
+  "type": "module",
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
   "prisma": {
-    "seed": "ts-node --esm seed.ts"
+    "seed": "ts-node --esm src/db/seed.ts"
   },
   "scripts": {
-    "dev": "tsc --watch",
+    "dev": "tsc --watch src/index.ts",
     "test": "../../node_modules/jest/bin/jest.js",
     "generate": "prisma generate",
     "connect": "pscale connect cannabis_delivery_v1 dev --port 3309",

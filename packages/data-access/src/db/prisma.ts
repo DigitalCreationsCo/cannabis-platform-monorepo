@@ -24,7 +24,7 @@ function dateToString(doc) {
 }
 
 prisma.$use(async (params, next) => {
-  const before = Date.now();
+  // const before = Date.now();
 
   let results = await next(params);
 
@@ -32,7 +32,7 @@ prisma.$use(async (params, next) => {
     results.length > 0 && results.forEach((doc) => dateToString(doc));
   }
   results = dateToString(results);
-  const after = Date.now();
+  // const after = Date.now();
 
   // console.log(
   //   `Total Query ${params.model}.${params.action} took ${after - before}ms`
@@ -40,6 +40,6 @@ prisma.$use(async (params, next) => {
   return results;
 });
 
-if (process.env.NODE_ENV === "development") global.prisma = prisma;
+if (process?.env?.["NODE_ENV"] === "development") global.prisma = prisma;
 
 export default prisma;

@@ -21,6 +21,7 @@ handler.use(authMiddleware);
 // caching instance
 const cache = new NodeCache({ stdTTL: 30 });
 
+// extract this function out, use supertokens
 const getUserInfo = ({ req }) => {
     // let user = req.session?.user
     const session = { user: { username: 'kbarnes', firstName: 'Katie', lastName: 'Barnes', organizationId: '2' } };
@@ -29,10 +30,11 @@ const getUserInfo = ({ req }) => {
 };
 
 // get orders from an organization
-handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
+handler.get(async (req: ExtendRequest, res: NextApiResponse) => {
     try {
         let user = getUserInfo({ req });
         let { organizationId } = user;
+        req.organizationId = organizationId
 
         if (cache.has(`orders/org/${organizationId}`)) {
             const orders = cache.get(`orders/org/${organizationId}`);
@@ -186,9 +188,7 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { id } = req.query;
-      const update
-        //   : Prisma.OrderUpdateInput
-          = req.body
+      const update = req.body
     const { data } = await axios.put(urlBuilder.main.orders(), update)
     return res.status(res.statusCode).json(data)
   } catch (error: any) {

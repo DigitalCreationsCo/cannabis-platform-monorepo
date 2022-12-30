@@ -35,6 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var _a;
 exports.__esModule = true;
 var client_1 = require("@prisma/client");
 var prisma = global.prisma || new client_1.PrismaClient();
@@ -55,24 +56,24 @@ function dateToString(doc) {
     return doc;
 }
 prisma.$use(function (params, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var before, results, after;
+    var results;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0:
-                before = Date.now();
-                return [4 /*yield*/, next(params)];
+            case 0: return [4 /*yield*/, next(params)];
             case 1:
                 results = _a.sent();
                 if (Array.isArray(results)) {
                     results.length > 0 && results.forEach(function (doc) { return dateToString(doc); });
                 }
                 results = dateToString(results);
-                after = Date.now();
-                console.log("Total Query ".concat(params.model, ".").concat(params.action, " took ").concat(after - before, "ms"));
+                // const after = Date.now();
+                // console.log(
+                //   `Total Query ${params.model}.${params.action} took ${after - before}ms`
+                // );
                 return [2 /*return*/, results];
         }
     });
 }); });
-if (process.env.NODE_ENV === "development")
+if (((_a = process === null || process === void 0 ? void 0 : process.env) === null || _a === void 0 ? void 0 : _a["NODE_ENV"]) === "development")
     global.prisma = prisma;
 exports["default"] = prisma;

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React, { AnchorHTMLAttributes, CSSProperties, PropsWithChildren, SVGAttributes } from "react";
 import { twMerge } from "tailwind-merge";
-import { IconWrapper, Span } from ".";
+import { IconWrapper, Paragraph, Span } from ".";
 
 export interface NavLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   href: string;
@@ -26,7 +26,7 @@ const NavLink = ({ href, Icon, isActive, children, className }: NavLinkProps) =>
 
 const StyledLink = ({ isActive, className, children }: {isActive: boolean, className?: string} & PropsWithChildren) => {
     return(
-        <Span className={twMerge('whitespace-nowrap', className)}>{children}</Span>
+        <Paragraph className={twMerge('whitespace-nowrap', className)}>{children}</Paragraph>
     )
 }
 
