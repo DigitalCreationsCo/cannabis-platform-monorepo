@@ -41,10 +41,13 @@ export default function OrderDetails() {
     setLoadingButton(true);
     try {
       if (order) {
-        await axios.put(urlBuilder.next + `/api/orders/${order.id}`, {
-          ...order,
-          status: orderStatus,
-          updatedAt: Date.now(),
+        await fetch(urlBuilder.next + `/api/orders`, {
+          method: 'PUT',
+          body: JSON.stringify({
+            ...order,
+            status: orderStatus,
+            updatedAt: Date.now(),
+          })
         });
       }
       fetchOrderDetails()
