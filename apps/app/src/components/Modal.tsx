@@ -1,41 +1,35 @@
-import React, { useState, useEffect, PropsWithChildren, useRef } from "react";
-import { Button, H5, Paragraph, Span } from "@cd/shared-ui";
-import ReactDOM from "react-dom";
+//Modal.tsx
+import React, { useRef } from "react";
+// import { useOnClickOutside } from "usehooks-ts";
 import { twMerge } from "tailwind-merge";
+import { Paragraph } from "@cd/shared-ui";
 
-type ModalProps = {
-    id: string;
+export type ModalProps = {
+    children: React.ReactNode;
     open: boolean;
-    setModal: Function;
-    handleConfirm: Function;
-}
-function Modal({ id, open, setModal, handleConfirm, children }: ModalProps & PropsWithChildren) {
-    const [ isBrowser, setIsBrowser ] = useState(false)
-    useEffect(() => {
-      setIsBrowser(true);
-    }, []);
+    onClose(): void;
+    className?: string;
+    description: string;
+    disableClickOutside?: boolean;
+};
 
-    const ref = useRef(null)
-//     useOnClickOutside(ref, () => {
+const Modal = ({ children, open, disableClickOutside, onClose, description, className }: ModalProps) => {
+  const ref = useRef(null);
+//   useOnClickOutside(ref, () => {
 //     if (!disableClickOutside) {
 //       onClose();
 //     }
 //   });
-    const modalClass = twMerge("modal modal-bottom sm:modal-middle", open && "modal-open");
 
-    if (isBrowser) {
-    return ReactDOM.createPortal(
-        <div className={modalClass}>
-        <div className="modal-box" ref={ref}>
+  const modalClass = ["absolute h-[200px] bg-light border modal modal-bottom sm:modal-middle", open && "modal-open"]
+  return (
+    <div className={twMerge(modalClass, className)}>
+        <div className="modal-box" ref={ ref }>
+            <Paragraph>{ description }</Paragraph>
             {children}
         </div>
-        </div>
-        ,
-        document.getElementById("modal-root") as Element
-    );
-    } else {
-        return null;
-    }
-}
+    </div>
+  );
+};
 
 export default Modal;

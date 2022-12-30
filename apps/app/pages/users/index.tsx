@@ -93,7 +93,7 @@ export default function Users ({ users }: UsersDashboardProps) {
           open={ dialogOpen }
           setOpen={ setDialogOpen }
           handleConfirm={handleDeleteUser}
-          description="Want to remove this user."
+          description="Remove this user?"
         />
 
         {/* <FlexBox justifyContent="center" mt={5}>

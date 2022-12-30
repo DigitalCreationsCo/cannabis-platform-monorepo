@@ -6,7 +6,7 @@ import Link from "next/link";
 import Router, { useRouter } from "next/router";
 import Image from "next/image";
 import toast from "react-hot-toast";
-import { PageHeader, ProtectedComponent } from "components";
+import { AddProduct, PageHeader, ProtectedComponent } from "components";
 import { fetchData, urlBuilder } from "utils";
 import { format } from "date-fns";
 
@@ -142,16 +142,27 @@ export default function OrderDetails() {
                   onChange={ (e) => setOrderStatus(e.target.value) }
                   />
               </Row>
-              <Row className="space-x-0 flex-col justify-start items-stretch">
+              <Row className="justify-start items-center">
                 <H6>Items</H6>
-                <TextField
+                {/* <TextField
                   label="Add Product"
                   value={ searchProduct }
                   onChange={ (e) => {
                     // search(e);
                     setSearchProduct(e.target.value);
                   } }
-                />
+                /> */}
+                      <Button
+                        className="bg-light text-dark hover:text-light text-sm h-[30px] border"
+                      >Add Product</Button>
+                      
+                      <AddProduct
+                        open={ true }
+                        onClose={ () => {} }
+                        description="Add Product"
+                      >
+                        <Paragraph>This is a modal</Paragraph>
+                      </AddProduct>
                 </Row>
                 {/* {resultList.length > 0 && (
               <SearchResultCard elevation={2}>
