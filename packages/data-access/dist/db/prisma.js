@@ -1,12 +1,3 @@
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 import { PrismaClient } from "@prisma/client";
 const prisma = global.prisma || new PrismaClient();
 function dateToString(doc) {
@@ -25,9 +16,9 @@ function dateToString(doc) {
     }
     return doc;
 }
-prisma.$use((params, next) => __awaiter(void 0, void 0, void 0, function* () {
+prisma.$use(async (params, next) => {
     // const before = Date.now();
-    let results = yield next(params);
+    let results = await next(params);
     if (Array.isArray(results)) {
         results.length > 0 && results.forEach((doc) => dateToString(doc));
     }
@@ -37,7 +28,7 @@ prisma.$use((params, next) => __awaiter(void 0, void 0, void 0, function* () {
     //   `Total Query ${params.model}.${params.action} took ${after - before}ms`
     // );
     return results;
-}));
-if (process.env.NODE_ENV === "development")
+});
+if (process?.env?.["NODE_ENV"] === "development")
     global.prisma = prisma;
 export default prisma;

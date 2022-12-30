@@ -1,16 +1,16 @@
-import { Prisma, Order, OrderItem, User, Driver, Address, Product, ImageProduct } from "@prisma/client";
+import { Prisma, OrderItem, Product, ImageProduct } from "@prisma/client";
 export declare function createOrder(): Promise<void>;
-export declare function findOrderWithDetails(id: any): Promise<(Order & {
+export declare function findOrderWithDetails(id: any): Promise<import(".prisma/client").Order & {
     items: (OrderItem & {
         product: Product & {
             images: ImageProduct[];
         };
     })[];
-    driver: Driver | null;
-    deliveryInfo: Address;
-    customer: User;
-}) | null>;
-export declare function updateOrder(order: any): Promise<Order>;
+    driver: import(".prisma/client").Driver;
+    deliveryInfo: import(".prisma/client").Address;
+    customer: import(".prisma/client").User;
+}>;
+export declare function updateOrder(order: any): Promise<import(".prisma/client").Order>;
 export declare function deleteOrder(): Promise<void>;
 export type OrderWithDetails = Prisma.PromiseReturnType<typeof findOrderWithDetails>;
 export type OrderItemWithDetails = OrderItem & {

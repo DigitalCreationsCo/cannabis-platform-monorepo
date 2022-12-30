@@ -1,5 +1,5 @@
 import { mockDeep, mockReset } from 'jest-mock-extended';
-import prisma from './prisma';
+import prisma from './db/prisma';
 jest.mock('./prisma', () => ({
     __esModule: true,
     default: mockDeep(),

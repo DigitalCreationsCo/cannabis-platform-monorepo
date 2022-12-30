@@ -1,11 +1,8 @@
-import { Prisma, Order, OrderItem, User, Driver, Address, Organization, Product, ImageProduct, Unit, Currency } from "@prisma/client";
-import prisma from "../prisma";
-
+import { Unit, Currency } from "@prisma/client";
+import prisma from "../db/prisma";
 export async function createOrder() { }
-
 export async function findOrderWithDetails(id) {
-    const order = await prisma.order.findUnique(
-      {
+    const order = await prisma.order.findUnique({
         where: { id },
         include: {
             customer: true,
@@ -13,11 +10,9 @@ export async function findOrderWithDetails(id) {
             deliveryInfo: true,
             items: { include: { product: { include: { images: true } } } }
         }
-      }
-    )
-    return order
+    });
+    return order;
 }
-
 // export interface OrderDetail extends Order {
 //     items?: Prisma.OrderItemUpdateInput;
 //     customer?: Prisma.UserUpdateInput;
@@ -25,35 +20,32 @@ export async function findOrderWithDetails(id) {
 //     deliveryInfo?: any;
 //     organization?: any;
 // }
-
 // export type OrderItemDetail = {
 //   product?: Product;
 // }
-
 export async function updateOrder(order) {
     const updateItems = order.items.map((item) => {
-        let { createdAt, updatedAt, ...rest } = item
+        let { createdAt, updatedAt, ...rest } = item;
         const update = {
             create: {
                 ...rest,
-                unit: Unit[ item.unit ],
+                unit: Unit[item.unit],
                 currency: Currency[item.currency]
             },
             update: {
                 ...rest,
-                unit: Unit[ item.unit ],
-                currency: Currency[ item.currency ],
+                unit: Unit[item.unit],
+                currency: Currency[item.currency],
                 createdAt
             },
             where: { productId: item.productId }
-        }
-        return update
-    })
-    delete order[ 'createdAt' ]
-    delete order[ 'updatedAt' ]
-    delete order[ 'items' ]
-
-    console.log('order!!: ', order)
+        };
+        return update;
+    });
+    delete order['createdAt'];
+    delete order['updatedAt'];
+    delete order['items'];
+    console.log('order!!: ', order);
     const update = await prisma.order.update({
         where: {
             id: order.id
@@ -64,16 +56,7 @@ export async function updateOrder(order) {
                 upsert: updateItems
             }
         },
-    })
-    return update
+    });
+    return update;
 }
-
-export async function deleteOrder() {}
-
-export type OrderWithDetails = Prisma.PromiseReturnType<typeof findOrderWithDetails>
-export type OrderItemWithDetails = OrderItem & {
-        product?: Product & {
-            images: ImageProduct[];
-        };
-    }
-export type OrderUpdate = Prisma.OrderUpdateArgs[ "data" ]
+export async function deleteOrder() { }

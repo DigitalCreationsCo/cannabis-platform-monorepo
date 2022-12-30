@@ -9,7 +9,7 @@ import * as SuperTokensConfig from '../config/frontendConfig';
 import { Toaster } from "react-hot-toast";
 import axios from 'axios';
 import { urlBuilder } from '../src/utils';
-import { Page } from '@cd/shared-ui';
+import { Page, LoadingDots } from '@cd/shared-ui';
 
 if (typeof window !== 'undefined') {
     SuperTokens.init(SuperTokensConfig.frontendConfig());
@@ -30,9 +30,11 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element{
     }, [ pageProps.fromSupertokens ]);
 
     const [ appStatus, setStatus ] = useState<string | boolean>("loading")
+    
     useEffect(() => {
         async function healthcheck() {
             try {
+                setStatus("loading")
                 await axios(urlBuilder.main.healthCheck())
                 setStatus(true)
             } catch (error) {
@@ -46,12 +48,12 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element{
     if (pageProps.fromSupertokens === "needs-refresh") {
         return <></>
     }
-
     const getLayout = Component.getLayout || ((page) => <Layout>{ page }</Layout>);
     return (
         <SuperTokensWrapper>
             <SessionControl>
-                    { appStatus ?
+                { appStatus === "loading" ? <LoadingDots /> :
+                    appStatus === true ?
                         getLayout(<Component { ...pageProps } />) :
                         getLayout(<Page>Services are not available now. Please try later.</Page>)
                         }

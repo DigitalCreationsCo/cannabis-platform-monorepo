@@ -1,9 +1,8 @@
 import Head from 'next/head';
 import { useMemo } from 'react';
-import { Page, Card, Grid, OrderRow } from '@cd/shared-ui';
-import prisma, {Organization, Product, Order, User, PrismaClient} from "@cd/data-access"
+import { Icons, Page, Card, Grid, OrderRow } from '@cd/shared-ui';
+import prisma, {Organization, Product, Order, User} from "@cd/data-access"
 import { PageHeader, ProductRow, ProtectedComponent } from "components"
-import { Icons } from '@cd/shared-ui';
 import urlBuilder from '../src/utils/urlBuilder';
 
 interface DashboardProps {

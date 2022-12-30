@@ -40,6 +40,6 @@ prisma.$use(async (params, next) => {
   return results;
 });
 
-if (process.env.NODE_ENV === "development") global.prisma = prisma;
+if (process?.env?.["NODE_ENV"] === "development") global.prisma = prisma;
 
 export default prisma;
