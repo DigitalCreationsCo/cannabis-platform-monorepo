@@ -67,6 +67,19 @@ describe('GET productsByOrg', function() {
     });
 });
 
+describe('GET productById', function() {
+    test('/products/3 responds with 200, & json response', async function () {
+        await app
+        .get('/api/v1/shop/products/3')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+            expect(response.body).toBeDefined()
+        })
+    });
+});
+
 describe('Search products', function() {
     test('/products responds with 200, & json response', async function () {
         let search = { search: 'OG' }

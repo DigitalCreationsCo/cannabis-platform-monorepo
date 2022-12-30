@@ -11,6 +11,9 @@ getOrderById
 updateOrderById
 
 getProductsByOrg
+getProductById
+searchProducts
+
 // createOrder
 ================================= */
 
@@ -59,6 +62,20 @@ export default class ShopController {
       const organizationId = req.params.id || {}
       const data = await OrderDA.getProductsByOrg(organizationId)
       if (!data) return res.status(404).json("Products not found")
+      return res.status(200).json(data);
+    } catch (error) {
+      console.log('API error: ', error)
+      res.status(500).json({ error });
+    }
+  }
+
+  static async getProductById(req, res) {
+    try {
+      const id = req.params.id || ""
+      const data = await OrderDA.getProductById(id)
+      // this is the preferred pattern for controller responses VV
+      // across ALL apps and systems
+      if (!data) return res.status(404).json("Product not found")
       return res.status(200).json(data);
     } catch (error) {
       console.log('API error: ', error)

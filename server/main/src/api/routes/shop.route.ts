@@ -13,6 +13,8 @@ Shop Routes
 
 "/products/org/:id" getProductsByOrg
 
+"/products/:id"     getProductById
+
 "/products"         searchProducts
 
 ================================= */
@@ -25,6 +27,8 @@ router.route("/orders/:id").get(shopCtrl.getOrderById)
 router.route("/orders").put(shopCtrl.updateOrderById)
 
 router.route("/products/org/:id").get(shopCtrl.getProductsByOrg)
+
+router.route("/products/:id").get(shopCtrl.getProductById)
 
 router.route("/products").post(shopCtrl.searchProducts)
 

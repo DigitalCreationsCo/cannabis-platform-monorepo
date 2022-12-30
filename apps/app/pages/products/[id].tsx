@@ -1,0 +1,324 @@
+// import { Clear } from "@mui/icons-material";
+// import { LoadingButton } from "@mui/lab";
+// import { Box, Button, Card, Grid, InputLabel, MenuItem, Select, styled } from "@mui/material";
+// import FormControl from "@mui/material/FormControl";
+// import OutlinedInput from "@mui/material/OutlinedInput";
+// import TextField from "@mui/material/TextField";
+// import axios from "axios";
+// import DropZone from "components/DropZone";
+// import FlexBox from "components/FlexBox";
+// import DeliveryBox from "components/icons/DeliveryBox";
+// import AdminDashboardLayout from "components/layout/AdminDashboardLayout";
+// import AdminDashboardNavigation from "components/layout/AdminDashboardNavigation";
+// import DashboardPageHeader from "components/layout/DashboardPageHeader";
+// import Loading from "components/Loading";
+// import { Formik } from "formik";
+// import useCategory from "hooks/useCategory";
+// import Link from "next/link";
+import { Product, ProductWithDetails, Unit } from "@cd/data-access"
+import axios from "axios";
+import Router, { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
+import { urlBuilder } from "../../src/utils";
+// import toast from "react-hot-toast";
+// import * as yup from "yup";
+// import { Product } from "__types__/common";
+
+// const StyledClear = styled(Clear)(() => ({
+//   top: 5,
+//   right: 5,
+//   fontSize: 14,
+//   cursor: "pointer",
+//   position: "absolute",
+// }));
+
+// const UploadImageBox = styled(Box)(({ theme }) => ({
+//   width: 80,
+//   height: 80,
+//   display: "flex",
+//   overflow: "hidden",
+//   borderRadius: "8px",
+//   position: "relative",
+//   alignItems: "center",
+//   justifyContent: "center",
+//   backgroundColor: theme.palette.primary.light,
+// }));
+
+// const checkoutSchema = yup.object().shape({
+//   name: yup.string().required("required"),
+//   category: yup.array().min(1).required("required"),
+//   stock: yup.number().required("required"),
+//   price: yup.number().required("required"),
+// });
+
+export default function ProductDetails() {
+  const { query } = useRouter();
+  // const { categories } = useCategory();
+  const [files, setFiles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [product, setProduct] = useState<ProductWithDetails>();
+  const [loadingButton, setLoadingButton] = useState(false);
+  const [deletedImage, setDeletedImage] = useState([]);
+  const [existingImage, setExistingImage] = useState([]);
+
+  const fetchProductDetails = async () => {
+    try {
+      const { data } = await axios(urlBuilder.next + `/api/products/${query.id}`);
+      setExistingImage(data.images?.[ 0 ].location);
+      setProduct(data);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.error(error);
+      toast.error(error.response.statusText);
+    }
+  };
+
+  useEffect(() => {
+    if (query?.id) {
+      fetchProductDetails()
+    }
+  }, [query]);
+
+  const initialValues:ProductWithDetails = {
+    name: product?.name || "",
+    description: product?.description || "",
+    features: product?.features || "",
+    categories: product?.categories || [],
+    unit: product?.unit || Unit[ "g" ],
+    size: product?.size || 0,
+    basePrice: product?.basePrice || 0,
+    discount: product?.discount || 0,
+    // salePrice: product?.salePrice || 0,
+    stock: product?.stock || 0,
+    organizationId: product?.organizationId || "",
+    // reviews: product?.reviews || [],
+    tags: product?.tags || "",
+  };
+
+  const handleFormSubmit = async (values: any) => {
+    setLoadingButton(true);
+    const formData = new FormData();
+    formData.append("name", values.name);
+    formData.append("unit", values.unit);
+    formData.append("stock", values.stock);
+    formData.append("price", values.price);
+    formData.append("discount", values.discount);
+    formData.append("description", values.description);
+    formData.append("tags", values.tags);
+    formData.append("categories", JSON.stringify(values.category));
+    formData.append("deleteImages", JSON.stringify(deletedImage));
+    files.forEach((file: any) => formData.append("files", file));
+
+    try {
+      await axios.put(`/api/product-upload/${product._id}`, formData);
+      setLoadingBtn(false);
+      toast.success("Product Update Successfully");
+      Router.push("/admin/products");
+    } catch (error) {
+      setLoadingBtn(false);
+      toast.error(error.response.data.message || error.response.data.error);
+    }
+  };
+
+  const handleDeleteExistingImage = (image: Express.MulterS3.File) => {
+    setExistingImage((state) => state.filter((item) => item.key !== image.key));
+    setDeletedImage((state) => [...state, { Key: image.key }]);
+  };
+
+  const handleFileDelete = (file: File) => {
+    setFiles((files) => files.filter((item) => item.name !== file.name));
+  };
+
+  return (
+    <AdminDashboardLayout>
+      <DashboardPageHeader
+        title="Edit Product"
+        icon={DeliveryBox}
+        navigation={<AdminDashboardNavigation />}
+        button={
+          <Link href="/admin/products">
+            <Button color="primary" sx={{ bgcolor: "primary.light", px: "2rem" }}>
+              Back to Product List
+            </Button>
+          </Link>
+        }
+      />
+
+      {loading && <Loading />}
+
+      {!loading && (
+        <Card sx={{ p: "30px" }}>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={checkoutSchema}
+            onSubmit={handleFormSubmit}
+          >
+            {({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
+              <form onSubmit={handleSubmit}>
+                <Grid container spacing={3}>
+                  <Grid item sm={6} xs={12}>
+                    <TextField
+                      fullWidth
+                      name="name"
+                      label="Name"
+                      placeholder="Name"
+                      value={values.name}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      error={!!touched.name && !!errors.name}
+                      helperText={touched.name && errors.name}
+                    />
+                  </Grid>
+
+                  <Grid item sm={6} xs={12}>
+                    <FormControl fullWidth size="small">
+                      <InputLabel id="category">Select Category</InputLabel>
+                      <Select
+                        multiple
+                        name="category"
+                        labelId="category"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        value={values.category}
+                        input={<OutlinedInput label="Select Category" />}
+                      >
+                        {categories.map((item) => (
+                          <MenuItem value={item.name} key={item._id}>
+                            {item.name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <DropZone
+                      onChange={(files) => {
+                        const uploadFiles = files.map((file) =>
+                          Object.assign(file, { preview: URL.createObjectURL(file) })
+                        );
+                        setFiles(uploadFiles);
+                      }}
+                    />
+
+                    <FlexBox flexDirection="row" mt={2} flexWrap="wrap" gap={1}>
+                      {existingImage.map((image: any, i) => {
+                        return (
+                          <UploadImageBox key={i}>
+                            <img src={image.location} width="100%" />
+                            <StyledClear onClick={() => handleDeleteExistingImage(image)} />
+                          </UploadImageBox>
+                        );
+                      })}
+
+                      {files.map((file, index) => {
+                        return (
+                          <UploadImageBox key={index}>
+                            <img src={file.preview} width="100%" />
+                            <StyledClear onClick={() => handleFileDelete(file)} />
+                          </UploadImageBox>
+                        );
+                      })}
+                    </FlexBox>
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <TextField
+                      rows={6}
+                      multiline
+                      fullWidth
+                      name="description"
+                      label="Description"
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      placeholder="Description"
+                      value={values.description}
+                    />
+                  </Grid>
+
+                  <Grid item sm={6} xs={12}>
+                    <TextField
+                      fullWidth
+                      name="stock"
+                      label="Stock"
+                      placeholder="Stock"
+                      onBlur={handleBlur}
+                      value={values.stock}
+                      onChange={handleChange}
+                      error={!!touched.stock && !!errors.stock}
+                      helperText={touched.stock && errors.stock}
+                    />
+                  </Grid>
+
+                  <Grid item sm={6} xs={12}>
+                    <TextField
+                      fullWidth
+                      name="tags"
+                      label="Tags"
+                      onBlur={handleBlur}
+                      value={values.tags}
+                      onChange={handleChange}
+                      placeholder="Tag1, Tag2, Tag3"
+                    />
+                  </Grid>
+
+                  <Grid item sm={6} xs={12}>
+                    <TextField
+                      fullWidth
+                      name="price"
+                      type="number"
+                      onBlur={handleBlur}
+                      value={values.price}
+                      label="Regular Price"
+                      onChange={handleChange}
+                      placeholder="Regular Price"
+                      error={!!touched.price && !!errors.price}
+                      helperText={touched.price && errors.price}
+                    />
+                  </Grid>
+
+                  <Grid item sm={6} xs={12}>
+                    <TextField
+                      fullWidth
+                      type="number"
+                      name="discount"
+                      label="Discount"
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      value={values.discount}
+                      placeholder="Product Discount"
+                    />
+                  </Grid>
+
+                  <Grid item sm={6} xs={12}>
+                    <TextField
+                      fullWidth
+                      name="unit"
+                      label="Unit"
+                      value={values.unit}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      placeholder="Product Unit"
+                    />
+                  </Grid>
+                </Grid>
+
+                <LoadingButton
+                  type="submit"
+                  color="primary"
+                  variant="contained"
+                  loading={loadingBtn}
+                  sx={{ mt: "25px" }}
+                >
+                  Save product
+                </LoadingButton>
+              </form>
+            )}
+          </Formik>
+        </Card>
+      )}
+    </AdminDashboardLayout>
+  );
+};

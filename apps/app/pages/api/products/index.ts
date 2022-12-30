@@ -3,7 +3,7 @@ import NodeCache from "node-cache";
 import axios from 'axios';
 import { urlBuilder } from 'utils';
 import nc from 'next-connect';
-import { authMiddleware, ExtendRequest } from 'middleware';
+import { authMiddleware } from 'middleware';
 
 const handler = nc();
 

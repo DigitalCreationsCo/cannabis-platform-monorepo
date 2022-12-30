@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { Category, ImageProduct, ImageUser, OrderItem, Organization, Prisma, Product, Review, User } from "@prisma/client";
 import prisma from "../db/prisma";
 
 export async function createProduct() {
@@ -27,7 +27,30 @@ export async function findProductsByOrg(organizationId) {
     }
 }
 
-export async function findProductsByText(search, organizationId) {
+export async function findProductWithDetails(id) {
+    try {
+        const product = await prisma.product.findUnique(
+            {
+                where: { id },
+                include: {
+                    categories: true,
+                    images: true,
+                    organization: true,
+                    reviews: {
+                      include: { user: { include: { imageUser: true }} }
+                    },
+                    orderItem: true,
+                }
+            }
+        )
+        return product
+    } catch (error) {
+        console.error(error)
+        throw new Error(error)
+    }
+}
+
+export async function findProductsByText({search}, {organizationId}) {
   try {
     const products = await prisma.product.findMany({
       where: {
@@ -76,3 +99,23 @@ export async function deleteProduct() {
     //     throw new Error(error.message)
     // }
 }
+
+// export type ProductWithDetails = Prisma.PromiseReturnType<typeof findProductWithDetails>
+export type ProductWithDetails = Product & {
+  organization: Organization;
+  orderItem?: OrderItem[];
+  categories: Category[];
+  images?: ImageProduct[];
+  reviews?: Review & {
+    user?: User & {
+      imageUser?: ImageUser;
+    };
+  };
+};
+export type ReviewWithDetails = Review & {
+  user?: User & {
+    imageUser?: ImageUser;
+  };
+};
+export type ProductUpdate = Prisma.ProductUpdateArgs[ "data" ]
+  

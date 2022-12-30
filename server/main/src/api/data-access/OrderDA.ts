@@ -1,4 +1,4 @@
-import { findOrdersByOrg, findOrderWithDetails, findProductsByOrg, findProductsByText, updateOrderWithOrderItems } from "@cd/data-access"
+import { findOrdersByOrg, findOrderWithDetails, findProductsByOrg, findProductsByText, findProductWithDetails, updateOrderWithOrderItems } from "@cd/data-access"
 
 /* =================================
 Order Data Access - data class for order table
@@ -9,6 +9,9 @@ getOrderById
 updateOrderById
 
 getProductsByOrg
+getProductById
+searchProducts
+
 ================================= */
 
 export default class OrderDA {
@@ -47,6 +50,16 @@ export default class OrderDA {
     try {
       const data = await findProductsByOrg(organizationId)
       return data
+    } catch (error) {
+      console.error(error.message)
+      throw new Error(error.message)
+    }
+  }
+
+  static async getProductById(id) {
+    try {
+      const data = await findProductWithDetails(id);
+      return data;
     } catch (error) {
       console.error(error.message)
       throw new Error(error.message)

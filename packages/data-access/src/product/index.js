@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.deleteProduct = exports.findProductsByText = exports.findProductsByOrg = exports.createProduct = void 0;
+exports.deleteProduct = exports.findProductsByText = exports.findProductWithDetails = exports.findProductsByOrg = exports.createProduct = void 0;
 var prisma_1 = require("../db/prisma");
 function createProduct() {
     return __awaiter(this, void 0, void 0, function () {
@@ -74,13 +74,47 @@ function findProductsByOrg(organizationId) {
     });
 }
 exports.findProductsByOrg = findProductsByOrg;
-function findProductsByText(search, organizationId) {
+function findProductWithDetails(id) {
     return __awaiter(this, void 0, void 0, function () {
-        var products, error_2;
+        var product, error_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, prisma_1["default"].product.findUnique({
+                            where: { id: id },
+                            include: {
+                                categories: true,
+                                images: true,
+                                organization: true,
+                                reviews: {
+                                    include: { user: { include: { imageUser: true } } }
+                                },
+                                orderItem: true
+                            }
+                        })];
+                case 1:
+                    product = _a.sent();
+                    return [2 /*return*/, product];
+                case 2:
+                    error_2 = _a.sent();
+                    console.error(error_2);
+                    throw new Error(error_2);
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.findProductWithDetails = findProductWithDetails;
+function findProductsByText(_a, _b) {
+    var search = _a.search;
+    var organizationId = _b.organizationId;
+    return __awaiter(this, void 0, void 0, function () {
+        var products, error_3;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
+                case 0:
+                    _c.trys.push([0, 2, , 3]);
                     return [4 /*yield*/, prisma_1["default"].product.findMany({
                             where: {
                                 organizationId: organizationId,
@@ -114,12 +148,12 @@ function findProductsByText(search, organizationId) {
                             include: { images: true }
                         })];
                 case 1:
-                    products = (_a.sent()) || [];
+                    products = (_c.sent()) || [];
                     return [2 /*return*/, products];
                 case 2:
-                    error_2 = _a.sent();
-                    console.error(error_2.message);
-                    throw new Error(error_2.message);
+                    error_3 = _c.sent();
+                    console.error(error_3.message);
+                    throw new Error(error_3.message);
                 case 3: return [2 /*return*/];
             }
         });
