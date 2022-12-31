@@ -1,7 +1,7 @@
 import axios from "axios";
 import { OrderItem, OrderItemWithDetails, OrderWithDetails, Product } from "@cd/data-access"
 import React, { useEffect, useState } from "react";
-import { H5, Currency, Button, Card, DeleteButton, FlexBox, Grid, H6, Icons, LoadingDots, Page, Paragraph, Row, TextField, PhoneNumber, Padding, Center } from "@cd/shared-ui";
+import { H5, Price, Button, Card, DeleteButton, FlexBox, Grid, H6, Icons, LoadingDots, Page, Paragraph, Row, TextField, PhoneNumber, Padding, Center } from "@cd/shared-ui";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Image from "next/image";
@@ -75,7 +75,11 @@ export default function OrderDetails() {
       location.reload();
       setLoadingButton(false);
     } catch (error) {
-      toast.error(error.message);
+      setLoadingButton(false);
+      setLoading(false)
+      console.error(error)
+      toast.error(error.response.statusText);
+      // toast.error(error.message);
       location.reload();
     }
   };
@@ -195,7 +199,7 @@ export default function OrderDetails() {
                     </FlexBox>
 
                     <H6>
-                      <Currency price={ item.salePrice } />
+                      <Price price={ item.salePrice } />
                     </H6>
 
                     <TextField
@@ -241,14 +245,14 @@ export default function OrderDetails() {
                   <H5>
                     Subtotal
                   </H5>
-                  <H6><Currency price={ order.subtotal } /></H6>
+                  <H6><Price price={ order.subtotal } /></H6>
                 </FlexBox>
 
                 <FlexBox>
                   <H5>
                     Delivery Fee
                   </H5>
-                  <H6><Currency price={ 0 } /></H6>
+                  <H6><Price price={ 0 } /></H6>
                 </FlexBox>
 
                 {/* <FlexBox>
@@ -262,14 +266,14 @@ export default function OrderDetails() {
                   <H5>
                     Tax
                   </H5>
-                  <H6><Currency price={ order.tax } /></H6>
+                  <H6><Price price={ order.tax } /></H6>
                 </FlexBox>
 
                 <FlexBox>
                   <H5>
                     Total
                   </H5>
-                  <H6><Currency price={ order.total } /></H6>
+                  <H6><Price price={ order.total } /></H6>
                 </FlexBox>
 
                 {/* <FlexBox justifyContent="space-between" alignItems="center" mb={1}>

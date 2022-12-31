@@ -1,4 +1,4 @@
-import { Prisma, OrderItem, Product, ImageProduct, Unit, Currency, Driver, User, Address, Order } from "@prisma/client";
+import { Prisma, OrderItem, Product, ImageProduct, Unit, Price, Driver, User, Address, Order } from "@prisma/client";
 import prisma from "../db/prisma";
 
 export async function createOrder() {

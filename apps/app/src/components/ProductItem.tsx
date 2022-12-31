@@ -1,14 +1,14 @@
-import { Currency, FlexBox, H6, Paragraph, TextField } from "@cd/shared-ui";
-import { Product } from "@prisma/client";
+import { Price, FlexBox, H6, Paragraph, TextField } from "@cd/shared-ui";
+import { Product } from "@cd/data-access";
 import Image from "next/image";
 import React, { PropsWithChildren, useState } from "react";
 import { twMerge } from "tailwind-merge";
-import { ConfirmationAlert, Modal } from "components";
+import { ConfirmationAlert } from "components";
 
 type ProductItemProps = {
     className?: string;
     product: Product;
-    handleConfirm: any;
+    handleConfirm?: any;
 }
 function ProductItem({ product, className, handleConfirm, children }: ProductItemProps & PropsWithChildren) {
     const [ openConfirm, setOpenConfirm ] = useState(false)
@@ -17,7 +17,7 @@ function ProductItem({ product, className, handleConfirm, children }: ProductIte
     return (
         <>
             <div onClick={toggleConfirm} className={ twMerge("flex flex-col justify-between bg-light h-full min-w-[180px] rounded-btn shadow", className) }>
-                <div className="relative h-1/2">
+                <div className="relative h-1/2 h-[100px] w-[100px]">
                     <Image className="rounded-btn" src={ product?.images[ 0 ]?.location } alt="" fill={ true }  />
                 </div>
                 <div className="pb-2 pl-2">
@@ -27,10 +27,10 @@ function ProductItem({ product, className, handleConfirm, children }: ProductIte
                     <Paragraph>{ product.stock + ' in stock'}</Paragraph>
                 </FlexBox>
                 <FlexBox>
-                    <Currency price={ product.basePrice } />
+                    <Price price={ product.basePrice } />
                     <Paragraph>{ product.discount }% off</Paragraph>
                 </FlexBox>
-                <H6><Currency price={ product.salePrice }  /></H6>
+                <H6><Price price={ product.salePrice }  /></H6>
                 </div>
             </div>
             

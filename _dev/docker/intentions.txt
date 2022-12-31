@@ -31,6 +31,8 @@ do next:
 Testing:
 write nextjs api route tests, to test the proper http request is sent to server. :)
 
+debug product search hook, and debounce func, use vscode debug
+
 Fix Modal interactions!
 
 addproducts to order: group productIds together in one item, combine quantities
@@ -54,7 +56,7 @@ auth middleware with supertokens sessions from database :)
 
 Check the existing apps for some finished work.
 add unit test suite, and some basic test for main app processes
-- like what? :) Currency, formatting, mutating data, adding, removing entries,
+- like what? :) Price, formatting, mutating data, adding, removing entries,
 prisma query, 
 
 start adding all components!

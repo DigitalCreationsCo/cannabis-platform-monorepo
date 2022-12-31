@@ -15,7 +15,7 @@ export { default as Card } from "./Card";
 export { default as Grid } from "./Grid"
 export { default as OrderRow } from "./OrderRow"
 export { default as Row } from "./Row"
-export { default as Currency } from './Currency'
+export { default as Price } from './Price'
 export { default as TextField } from "./TextField"
 export { default as Table } from "./Table"
 export { default as LoadingDots } from "./LoadingDots"

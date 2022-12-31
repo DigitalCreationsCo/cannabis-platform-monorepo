@@ -286,7 +286,7 @@ model OrderItem {
   unit Unit @default(g)
   size Float
   quantity Int
-  currency Currency
+  currency CurrencyName
   basePrice Int
   discount Int
   salePrice Int
@@ -319,7 +319,7 @@ enum MembershipRole {
   MEMBER @map("3")
 }
 
-enum Currency {
+enum CurrencyName {
   USD
 }
 
@@ -374,7 +374,7 @@ model Product {
   unit Unit @default(g)
   size Float
   basePrice Int
-  currency Currency
+  currency CurrencyName
   discount Int
   stock Int
   images ImageProduct[]

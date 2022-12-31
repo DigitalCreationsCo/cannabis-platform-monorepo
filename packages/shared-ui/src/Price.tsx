@@ -1,11 +1,11 @@
 import React from "react";
-type CurrencyProps = {
+type PriceProps = {
     price: number;
     className?: string;
     locale?: string; // country
 }
 
-function Currency({ price, className, locale = "en-us" }: CurrencyProps) {
+function Price({ price, className, locale = "en-us" }: PriceProps) {
     locale = "en-us"
     const _currencySymbol = {"en-us": "$"}
     function convertCentsToDollars (cents: number) {
@@ -14,12 +14,12 @@ function Currency({ price, className, locale = "en-us" }: CurrencyProps) {
         // V this statement interrupts React hydration
         // return number.toLocaleString(locale, { maximumFractionDigits: 2, minimumFractionDigits: 2 });
     };
-    const renderCurrencyString = (value:number):string => convertCentsToDollars(value);
+    const renderPriceString = (value:number):string => convertCentsToDollars(value);
     return (
         <div className={className}>
-            { _currencySymbol[locale] + renderCurrencyString(price) }
+            { _currencySymbol[locale] + renderPriceString(price) }
         </div>
     )
 }
 
-export default Currency
+export default Price

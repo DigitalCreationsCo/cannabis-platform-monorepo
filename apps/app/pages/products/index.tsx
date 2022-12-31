@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { ReactNode, useState } from "react";
 // import toast from "react-hot-toast";
 import prisma, { Product } from "@cd/data-access"
-import { Currency, H6, IconButton, Icons, Page, Row, Grid, DeleteButton } from "@cd/shared-ui"
+import { Price, H6, IconButton, Icons, Page, Row, Grid, DeleteButton } from "@cd/shared-ui"
 import { usePagination } from "hooks";
 import Link from "next/link";
 import Image from "next/image";
@@ -10,6 +10,7 @@ import { twMerge } from "tailwind-merge";
 import { Layout, ConfirmationAlert, PageHeader, ProtectedComponent } from "components";
 import { Card } from "@cd/shared-ui";
 import { Button } from "@cd/shared-ui";
+import { toast } from "react-hot-toast";
 
 interface ProductsDashboardProps {
   products: Product[];
@@ -49,7 +50,11 @@ export default function Products({ products }: ProductsDashboardProps) {
         setDialogOpen(false);
         toast.success("Product deleted Successfully");
       } catch (error) {
-        toast.error(error.response.data.message);
+        setDeleteId("");
+        setDeleteName("");
+        setDialogOpen(false);
+        console.error(error)
+        toast.error(error.response.statusText);
       }
     }
   };
@@ -89,11 +94,11 @@ export default function Products({ products }: ProductsDashboardProps) {
                   <H6 className={ twMerge("flex justify-center w-[60px]", product.stock < 6 && 'text-error') }>{ product.stock.toString().padStart(2, "0") }</H6>
 
                   <H6 className="flex justify-center w-[80px] ">
-                    <Currency price={ product.basePrice } />
+                    <Price price={ product.basePrice } />
                   </H6>
 
                   <H6 className="flex justify-center w-[100px]">
-                    <Currency price={product.salePrice} />
+                    <Price price={product.salePrice} />
                   </H6>
 
                   <DeleteButton

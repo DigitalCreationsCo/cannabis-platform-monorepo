@@ -7,6 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ConfirmationAlert, PageHeader, ProtectedComponent } from "components";
 import { Button } from "@cd/shared-ui";
+import { toast } from "react-hot-toast";
 
 type UsersDashboardProps = {
   users: User[];
@@ -32,7 +33,8 @@ export default function Users ({ users }: UsersDashboardProps) {
         setDialogOpen(false);
         toast.success("User deleted Successfully");
       } catch (error) {
-        toast.error(error.response.data.message);
+        console.error(error)
+        toast.error(error.response.statusText);
       }
     }
   };

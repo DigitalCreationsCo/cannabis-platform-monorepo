@@ -8,6 +8,7 @@ const useProductSearch = () => {
 
   const search = debounce(async (e) => {
     const value = e?.target?.value || null;
+    console.log('value: ', value)
     if (value) {
       const { data } = await axios.post("/api/products", { search: value });
       if (data?.length > 0) {
