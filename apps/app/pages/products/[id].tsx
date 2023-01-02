@@ -24,6 +24,7 @@ import { toast } from "react-hot-toast";
 import { MenuItem, PageHeader, ProductItem, ProtectedComponent, Select } from "components";
 import { urlBuilder } from "utils";
 import Image from "next/image";
+import { useCategory } from "../../src/hooks";
 // import toast from "react-hot-toast";
 // import * as yup from "yup";
 // import { Product } from "__types__/common";
@@ -59,7 +60,7 @@ export type ImageAny = ImageOrganization | ImageProduct | ImageUser | ImageVendo
 
 export default function ProductDetails() {
   const { query } = useRouter();
-  // const { categories } = useCategory();
+  const { categories } = useCategory();
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState<ProductWithDetails>();
@@ -202,9 +203,10 @@ export default function ProductDetails() {
                     // value={values.category}
                     // input={<OutlinedInput label="Select Category" />}
                   >
-                    {categories.map((item) => (
-                      <MenuItem value={item.name} key={item._id}>
-                        {item.name}
+                    {[...categories, ...product.categories].map((category) => (
+                      <MenuItem
+                        value={ category.name }>
+                        {category.name}
                       </MenuItem>
                     ))}
                   </Select>

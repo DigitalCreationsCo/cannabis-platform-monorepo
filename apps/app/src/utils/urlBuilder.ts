@@ -13,6 +13,8 @@ const urlBuilder =
             productsByOrgId: (id: any) => urlBuilder.main.baseUrl + `/shop/products/org/${id}`,
             productById: (id: any) => urlBuilder.main.baseUrl + `/shop/products/${id}`,
             products: () => urlBuilder.main.baseUrl + '/shop/products',
+
+            categoryList: (id: any) => urlBuilder.main.baseUrl + `/organization/${id}/categories`,
         },
     };
 // : {};

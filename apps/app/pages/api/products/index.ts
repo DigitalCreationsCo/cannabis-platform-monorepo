@@ -10,6 +10,7 @@ const handler = nc();
 // logged in user checker middleware
 handler.use(authMiddleware);
 
+// caching instance
 const cache = new NodeCache({ stdTTL: 20 });
 
 // extract this function out, use supertokens

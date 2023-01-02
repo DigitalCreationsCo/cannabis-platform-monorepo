@@ -1,4 +1,4 @@
-import ordersHandler from "../../pages/api/orders"
+import ordersHandler from "../../pages/api/category"
 import axios from 'axios';
 import { createMocks } from 'node-mocks-http';
 import { urlBuilder } from "../../src/utils";
@@ -11,16 +11,17 @@ beforeAll(() => {
 // issue here, is getting the correct organizationId from the session object, and getting it in axios call.
 // maybe mock the session
 // another issue is the caching that happens on the handler side, can interfere with test
-describe('/api/orders', () => {
-    test('getOrdersByOrgId return the correct server call', async () => {
+describe('/api/category', () => {
+    test('getCategory return the correct server call', async () => {
         const { req, res } = createMocks({
+            organizationId: '3',
             method: 'GET',
             query: {
                 animal: 'dog',
             },
         });
         await ordersHandler(req, res);
-        expect(axios).toHaveBeenLastCalledWith(urlBuilder.main.ordersByOrgId('3'))
+        expect(axios).toHaveBeenLastCalledWith(urlBuilder.main.categoryList('3'))
   });
 });
 

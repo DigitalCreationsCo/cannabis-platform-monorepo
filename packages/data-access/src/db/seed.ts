@@ -1,4 +1,4 @@
-import { Order, Address, Driver, Organization, Product, User, Membership, Vendor, SiteSetting, OrderItem, SubDomain, ImageVendor, ImageUser, ImageOrganization, ImageProduct, Category, PrismaClient } from "@prisma/client";
+import { Order, Address, Driver, Organization, Product, User, Membership, Vendor, SiteSetting, OrderItem, SubDomain, ImageVendor, ImageUser, ImageOrganization, ImageProduct, Category, PrismaClient, CategoryList, Prisma } from "@prisma/client";
 // import client from "./generated/prisma-client/index.js"
 
 const users: User[] = [
@@ -626,6 +626,27 @@ const Categories: Category[] = [
   },
 ];
 
+const CategoryLists: CategoryList[] = [
+  {
+    id: '1',
+    organizationId: '1',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: '2',
+    organizationId: '2',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: '3',
+    organizationId: '3',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  }
+]
+
 const drivers: Driver[] = [
   {
     id: "1",
@@ -803,6 +824,7 @@ async function main() {
   await prisma.subDomain.deleteMany();
   await prisma.siteSetting.deleteMany();
   await prisma.category.deleteMany();
+  await prisma.categoryList.deleteMany();
   await prisma.driver.deleteMany();
   await prisma.order.deleteMany();
   await prisma.orderItem.deleteMany()
@@ -847,6 +869,24 @@ async function main() {
   });
   await prisma.category.createMany({
     data: Categories,
+  });
+  CategoryLists.map(async (categoryList) => {
+    await prisma.categoryList.create({
+      data: {
+        ...categoryList,
+        categories: {
+          connect: [
+              { id: '1' },
+              { id: '2' },
+              { id: '3' },
+              { id: '9' }
+          ]
+        }
+      }
+    })
+  })
+  await prisma.categoryList.createMany({
+    data: CategoryLists,
   });
   await prisma.driver.createMany({
     data: drivers,
