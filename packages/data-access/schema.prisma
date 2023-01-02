@@ -327,7 +327,7 @@ enum Unit {
   g
 }
 model Organization {
-  id            String    @id @default(cuid())
+  id            String    @id @unique @default(cuid())
   name          String
   address Address?
   email         String   @unique
@@ -344,6 +344,7 @@ model Organization {
   subdomain SubDomain @relation(fields: [subdomainId], references: [id])
   siteSetting SiteSetting?
   orders Order[]
+  categoryList CategoryList?
 
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
@@ -400,20 +401,22 @@ model Category {
     categoryLists CategoryList[]
 
     createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+    updatedAt      DateTime         @updatedAt
 
     @@index([name])
     @@index([slug])
 }
 
 model CategoryList {
-  id            String    @id @default(cuid())
+    id            String    @id @default(cuid())
     name String
     slug String @unique
     categories Category[]
+    organizationId String @unique
+    organization Organization @relation(fields: [organizationId], references: [id])
 
     createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+    updatedAt      DateTime         @updatedAt
 
     @@index([name])
     @@index([slug])

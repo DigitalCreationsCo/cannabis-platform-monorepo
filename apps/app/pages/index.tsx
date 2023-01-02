@@ -47,7 +47,7 @@ export default function Dashboard({ user, organization, products, orders }: Dash
             </Head>
             <PageHeader
                 title={`${organization.name} Dashboard`}
-                subTitle={ `Hi, ${user.firstName}` }
+                subTitle={ `Welcome, ${user.firstName}` }
                 Icon={Icons.ShoppingBagOutlined}
             />
 

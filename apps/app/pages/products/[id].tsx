@@ -21,7 +21,7 @@ import Link from "next/link";
 import Router, { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { PageHeader, ProductItem, ProtectedComponent } from "components";
+import { MenuItem, PageHeader, ProductItem, ProtectedComponent, Select } from "components";
 import { urlBuilder } from "utils";
 import Image from "next/image";
 // import toast from "react-hot-toast";
@@ -92,7 +92,7 @@ export default function ProductDetails() {
     name: product?.name || "",
     description: product?.description || "",
     features: product?.features || "",
-    categories: product?.categories || [],
+    category: product?.categories || [],
     // images: product?.images || [],
     unit: product?.unit || "g",
     size: product?.size || 0,
@@ -192,22 +192,24 @@ export default function ProductDetails() {
                   // error={!!touched.name && !!errors.name}
                   // helperText={touched.name && errors.name}
                 />
-                <label id="category">Select Category</label>
-                {/* <Select
-                  multiple
-                  name="category"
-                  labelId="category"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.category}
-                  input={<OutlinedInput label="Select Category" />}
-                >
-                  {categories.map((item) => (
-                    <MenuItem value={item.name} key={item._id}>
-                      {item.name}
-                    </MenuItem>
-                  ))}
-                </Select> */}
+                <FlexBox>
+                  <label className="min-w-[111px]">Category</label>
+                  <Select
+                    multiple
+                    name="category"
+                    // onBlur={handleBlur}
+                    // onChange={handleChange}
+                    // value={values.category}
+                    // input={<OutlinedInput label="Select Category" />}
+                  >
+                    {categories.map((item) => (
+                      <MenuItem value={item.name} key={item._id}>
+                        {item.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FlexBox>
+                
                 {/* <DropZone
                   onChange={(files) => {
                     const uploadFiles = files.map((file) =>

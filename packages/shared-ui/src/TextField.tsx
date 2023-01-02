@@ -19,7 +19,7 @@ function TextField({ className, maxNumber, name, type, value, label, placeholder
 
     return (
         <FlexBox>
-            { label && <FlexBox><label>{ label }</label></FlexBox> }
+            { label && <FlexBox><label className="min-w-[111px]">{ label }</label></FlexBox> }
             <input
                 name={ name }
                 maxLength={ maxNumber }
