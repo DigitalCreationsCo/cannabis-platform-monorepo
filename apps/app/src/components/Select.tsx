@@ -31,11 +31,11 @@ export default function Select({
 type MenuItemProps = {
     value: string | number;
 } & PropsWithChildren
-export function MenuItem({ value, children }: MenuItemProps) {
+export function MenuItem({ value }: MenuItemProps) {
     return (
         <option key={ 'menu-item-' + value }>
             <Paragraph>
-                {children}
+                {value}
             </Paragraph>
         </option>
     );

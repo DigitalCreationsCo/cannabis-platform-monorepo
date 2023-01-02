@@ -7,7 +7,7 @@ type TagProps = {
 function Tag({ Icon, onClick, children }: TagProps) {
     return (
         <div onClick={ onClick }
-            className="cursor-default badge badge-primary gap-2">
+            className="cursor-default badge badge-primary gap-2 w-[112px] transition">
             <Paragraph>{ children }</Paragraph>
             { Icon && <IconWrapper Icon={ Icon } className='fill-light' size={11} /> }
         </div>

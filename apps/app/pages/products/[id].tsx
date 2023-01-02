@@ -183,7 +183,6 @@ export default function ProductDetails() {
                   <ProductItem className="grow" product={ product } />
                 </FlexBox>
               </Grid> */}
-              <Grid className="space-y-2">
                 <TextField
                   name="name"
                   label="Name"
@@ -194,30 +193,22 @@ export default function ProductDetails() {
                   // error={!!touched.name && !!errors.name}
                   // helperText={touched.name && errors.name}
                 />
-                <FlexBox>
+                <TextField
+                  name="description"
+                  label="Description"
+                  // onBlur={handleBlur}
+                  // onChange={handleChange}
+                  // placeholder="Description"
+                  // value={values.description}
+                />
+                <FlexBox className="items-start">
                   <label className="min-w-[111px]">Category</label>
-                  { testCategories.map(item => <div>{ item.name }</div>)}
                   <ClickableTags
                     values={ testCategories }
                     setValues={ setTestCategories }
                     valueKey="name"
                     removeFunc={() => {}}
                   />
-                  {/* <Select
-                    multiple
-                    name="category"
-                    // onBlur={handleBlur}
-                    // onChange={handleChange}
-                    // value={values.category}
-                    // input={<OutlinedInput label="Select Category" />}
-                  >
-                    {[...categories, ...product.categories].map((category) => (
-                      <MenuItem
-                        value={ category.name }>
-                        {category.name}
-                      </MenuItem>
-                    ))}
-                  </Select> */}
                 </FlexBox>
                 
                 {/* <DropZone
@@ -249,17 +240,11 @@ export default function ProductDetails() {
                     );
                   })}
                 </FlexBox>
-                <TextField
-                  name="description"
-                  label="Description"
-                  // onBlur={handleBlur}
-                  // onChange={handleChange}
-                  // placeholder="Description"
-                  // value={values.description}
-                />
+                
                 <TextField
                   name="stock"
                   label="Stock"
+                  type="number"
                   placeholder="Stock"
                   // onBlur={handleBlur}
                   // value={values.stock}
@@ -294,16 +279,15 @@ export default function ProductDetails() {
                   // onChange={handleChange}
                   // value={values.discount}
                   // placeholder="Product Discount"
-              />
-                <TextField
-                  name="unit"
-                  label="Unit"
-                  // value={values.unit}
-                  // onBlur={handleBlur}
-                  // onChange={handleChange}
-                  // placeholder="Product Unit"
                 />
-              </Grid>
+                <FlexBox>
+                  <label className="min-w-[111px]">Unit</label>
+                  <Select className="max-w-fit">
+                    { [ "grams" ].map(unit => (
+                      <MenuItem value={ unit } />
+                    ))}
+                  </Select>
+                </FlexBox>
 
                 <Grid>
                   <Button

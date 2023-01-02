@@ -18,7 +18,7 @@ function ClickableTags({ values, setValues, valueKey, removeFunc, children }: Cl
         }
     }
     return (
-    <FlexBox>
+    <FlexBox wrap>
         { values.map((c) => (
             <Tag
                 key={ valueKey + "-" + c }
