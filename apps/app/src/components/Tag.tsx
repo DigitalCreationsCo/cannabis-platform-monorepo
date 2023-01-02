@@ -1,0 +1,17 @@
+import { IconWrapper, Paragraph } from "@cd/shared-ui";
+import React, { PropsWithChildren, SVGAttributes } from "react";
+type TagProps = {
+    Icon: boolean | ((props: SVGAttributes<SVGElement>) => JSX.Element);
+    onClick?: React.MouseEventHandler<HTMLDivElement>;
+} & PropsWithChildren
+function Tag({ Icon, onClick, children }: TagProps) {
+    return (
+        <div onClick={ onClick }
+            className="cursor-default badge badge-primary gap-2">
+            <Paragraph>{ children }</Paragraph>
+            { Icon && <IconWrapper Icon={ Icon } className='fill-light' size={11} /> }
+        </div>
+    );
+}
+
+export default Tag;

@@ -50,7 +50,7 @@ export async function findProductWithDetails(id) {
     }
 }
 
-export async function findProductsByText({search}, {organizationId}) {
+export async function findProductsByText(search, organizationId) {
   try {
     const products = await prisma.product.findMany({
       where: {

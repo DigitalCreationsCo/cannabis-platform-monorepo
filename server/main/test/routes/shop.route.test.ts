@@ -82,8 +82,8 @@ describe('GET productById', function() {
 
 describe('Search products', function() {
     test('/products responds with 200, & json response', async function () {
-        let search = { search: 'OG' }
-        let organizationId = { organizationId: '3' }
+        let search = 'OG'
+        let organizationId = '3'
         await app
         .post('/api/v1/shop/products')
         .set('Accept', 'application/json')

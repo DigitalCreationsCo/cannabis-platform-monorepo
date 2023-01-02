@@ -12,4 +12,6 @@ export { default as CartButton } from './CartButton';
 export { default as AddProduct } from "./AddProductModal";
 export { default as ProductItem } from "./ProductItem";
 export { default as Select, MenuItem } from "./Select"
+export { default as Tag } from "./Tag"
+export { default as ClickableTags } from "./ClickableTags"
 export { SessionControl } from './SessionControl';

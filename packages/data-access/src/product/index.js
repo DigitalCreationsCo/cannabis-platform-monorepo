@@ -106,15 +106,13 @@ function findProductWithDetails(id) {
     });
 }
 exports.findProductWithDetails = findProductWithDetails;
-function findProductsByText(_a, _b) {
-    var search = _a.search;
-    var organizationId = _b.organizationId;
+function findProductsByText(search, organizationId) {
     return __awaiter(this, void 0, void 0, function () {
         var products, error_3;
-        return __generator(this, function (_c) {
-            switch (_c.label) {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
                 case 0:
-                    _c.trys.push([0, 2, , 3]);
+                    _a.trys.push([0, 2, , 3]);
                     return [4 /*yield*/, prisma_1["default"].product.findMany({
                             where: {
                                 organizationId: organizationId,
@@ -148,10 +146,10 @@ function findProductsByText(_a, _b) {
                             include: { images: true }
                         })];
                 case 1:
-                    products = (_c.sent()) || [];
+                    products = (_a.sent()) || [];
                     return [2 /*return*/, products];
                 case 2:
-                    error_3 = _c.sent();
+                    error_3 = _a.sent();
                     console.error(error_3.message);
                     throw new Error(error_3.message);
                 case 3: return [2 /*return*/];

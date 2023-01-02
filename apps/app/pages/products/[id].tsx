@@ -21,7 +21,7 @@ import Link from "next/link";
 import Router, { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { MenuItem, PageHeader, ProductItem, ProtectedComponent, Select } from "components";
+import { ClickableTags, MenuItem, PageHeader, ProductItem, ProtectedComponent, Select, Tag } from "components";
 import { urlBuilder } from "utils";
 import Image from "next/image";
 import { useCategory } from "../../src/hooks";
@@ -152,6 +152,7 @@ export default function ProductDetails() {
     setFiles((files) => files.filter((item) => item.name !== file.name));
   };
 
+  const [testCategories, setTestCategories] = useState([ { name: 'haha' }, { name: 'googoo' }, { name: 'Edibles' } ])
   return (
     <ProtectedComponent>
       <Page>
@@ -195,7 +196,14 @@ export default function ProductDetails() {
                 />
                 <FlexBox>
                   <label className="min-w-[111px]">Category</label>
-                  <Select
+                  { testCategories.map(item => <div>{ item.name }</div>)}
+                  <ClickableTags
+                    values={ testCategories }
+                    setValues={ setTestCategories }
+                    valueKey="name"
+                    removeFunc={() => {}}
+                  />
+                  {/* <Select
                     multiple
                     name="category"
                     // onBlur={handleBlur}
@@ -209,7 +217,7 @@ export default function ProductDetails() {
                         {category.name}
                       </MenuItem>
                     ))}
-                  </Select>
+                  </Select> */}
                 </FlexBox>
                 
                 {/* <DropZone

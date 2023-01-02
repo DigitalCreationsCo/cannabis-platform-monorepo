@@ -383,7 +383,7 @@ model Product {
 model Category {
     id             String @id @default(cuid())
     name           String
-    slug           String @unique
+    slug           String
     icon           String
     products       Product[]
     categoryLists  CategoryList[]
@@ -392,14 +392,13 @@ model Category {
     updatedAt      DateTime         @updatedAt
 
     @@index([name])
-    @@index([slug])
 }
 
 model CategoryList {
     id             String    @id @default(cuid())
     categories     Category[]
     organizationId String @unique
-    organization   Organization @relation(fields: [organizationId], references: [id])
+    organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
     createdAt      DateTime         @default(now())
     updatedAt      DateTime         @updatedAt

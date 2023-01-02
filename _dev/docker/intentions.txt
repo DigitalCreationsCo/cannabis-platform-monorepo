@@ -28,6 +28,15 @@ add daisy ui for tab, modal, and more.
 
 do next:
 
+categories search
+( searches from categories list to add to one product.categories )
+- textfield component to search, reuse from products search
+- useCategory hook, to search categories from categoryList, using api
+- render results in menuitem
+- add selection to categories list
+- add unit tests for all these points
+- in the future, reuse to add categories to dispensary category list, from global categories list
+
 Testing:
 write nextjs api route tests, to test the proper http request is sent to server. :)
 
