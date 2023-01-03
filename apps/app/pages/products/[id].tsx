@@ -1,20 +1,5 @@
-// import { Clear } from "@mui/icons-material";
-// import { LoadingButton } from "@mui/lab";
-// import { Box, Button, Card, Grid, InputLabel, MenuItem, Select, styled } from "@mui/material";
-// import FormControl from "@mui/material/FormControl";
-// import OutlinedInput from "@mui/material/OutlinedInput";
-// import TextField from "@mui/material/TextField";
-// import axios from "axios";
-// import DropZone from "components/DropZone";
-// import FlexBox from "components/FlexBox";
-// import DeliveryBox from "components/icons/DeliveryBox";
-// import AdminDashboardLayout from "components/layout/AdminDashboardLayout";
-// import AdminDashboardNavigation from "components/layout/AdminDashboardNavigation";
-// import DashboardPageHeader from "components/layout/DashboardPageHeader";
-// import Loading from "components/Loading";
-// import { Formik } from "formik";
-// import useCategory from "hooks/useCategory";
-import { Category, CurrencyName, ImageOrganization, ImageProduct, ImageUser, ImageVendor, ProductWithDetails, Unit } from "@cd/data-access"
+import { Formik } from "formik";
+import { Category, CurrencyName, ImageOrganization, ImageProduct, ImageUser, ImageVendor, Product, ProductWithDetails, Unit } from "@cd/data-access"
 import { Button, Card, FlexBox, Grid, Icons, LoadingDots, Padding, Page, Paragraph, TextField } from "@cd/shared-ui";
 import axios from "axios";
 import Link from "next/link";
@@ -24,10 +9,8 @@ import { toast } from "react-hot-toast";
 import { ClickableTags, MenuItem, PageHeader, ProductItem, ProtectedComponent, Select, Tag } from "components";
 import { urlBuilder } from "utils";
 import Image from "next/image";
-import { useCategory, useOnClickOutside } from "../../src/hooks";
-// import toast from "react-hot-toast";
-// import * as yup from "yup";
-// import { Product } from "__types__/common";
+import { useCategory, useOnClickOutside } from "hooks";
+import * as yup from "yup";
 
 // const StyledClear = styled(Clear)(() => ({
 //   top: 5,
@@ -48,13 +31,19 @@ import { useCategory, useOnClickOutside } from "../../src/hooks";
 //   justifyContent: "center",
 //   backgroundColor: theme.palette.primary.light,
 // }));
-
-// const checkoutSchema = yup.object().shape({
-//   name: yup.string().required("required"),
-//   category: yup.array().min(1).required("required"),
-//   stock: yup.number().required("required"),
-//   price: yup.number().required("required"),
-// });
+    
+const checkoutSchema = yup.object().shape({
+  name: yup.string().required("required"),
+  category: yup.array().min(1).required("required"),
+  stock: yup.number().required("required"),
+  price: yup.number().required("required"),
+  unit: yup.string().required("required"),
+  size: yup.number().required("required"),
+  currency: yup.number().required("required"),
+  basePrice: yup.number().required("required"),
+  discount: yup.number().required("required"),
+  // salePrice:  yup.number().required("required"),
+});
 
 export type ImageAny = ImageOrganization | ImageProduct | ImageUser | ImageVendor
 
@@ -62,7 +51,7 @@ export default function ProductDetails() {
   const { query } = useRouter();
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [ product, setProduct ] = useState<ProductWithDetails | []>([]);
+  const [ product, setProduct ] = useState<ProductWithDetails>();
   const [ productCategories, setProductCategories ] = useState(new Set());
   const [loadingButton, setLoadingButton] = useState(false);
   const [deletedImage, setDeletedImage] = useState<ImageAny[]>([]);
@@ -81,11 +70,9 @@ export default function ProductDetails() {
   const fetchProductDetails = async () => {
     try {
       const { data } = await axios(urlBuilder.next + `/api/products/${query.id}`);
-      console.log(data)
       setExistingImage(data.images);
       setProduct(data);
-      data.categories.forEach(category => setProductCategories(state => state.add(category)))
-      // setProductCategories(state => new Set([ ...data.categories ]))
+      setProductCategories(state => new Set([ ...state, ...data.categories ]))
       setLoading(false);
     } catch (error) {
       setLoadingButton(false);
@@ -101,24 +88,24 @@ export default function ProductDetails() {
     }
   }, [query]);
 
-  const initialValues = product && {
+  const initialValues = {
     id: product?.id || "",
     name: product?.name || "",
     description: product?.description || "",
     features: product?.features || "",
     category: product?.categories || [],
-    // images: product?.images || [],
+    images: product?.images || [],
     unit: product?.unit || "g",
     size: product?.size || 0,
-    // currency: product?.currency || "USD",
+    currency: product?.currency || "USD",
     basePrice: product?.basePrice || 0,
     discount: product?.discount || 0,
     // salePrice: product?.salePrice || 0,
     stock: product?.stock || 0,
     organizationId: product?.organizationId || "",
-    organization: product.organization,
+    organization: product?.organization,
     rating: product?.rating || 0,
-    // reviews: product?.reviews || [],
+    reviews: product?.reviews || [],
     tags: product?.tags || "",
     createdAt: product?.createdAt || new Date(),
     updatedAt: product?.updatedAt || new Date()
@@ -131,20 +118,29 @@ export default function ProductDetails() {
         setLoadingButton(true);
         const formData = new FormData();
         formData.append("name", values.name);
-        formData.append("unit", values.unit);
-        formData.append("stock", values.stock);
-        formData.append("price", values.price);
-        formData.append("discount", values.discount);
         formData.append("description", values.description);
-        formData.append("tags", values.tags);
+        formData.append("features", values.features);
         formData.append("categories", JSON.stringify(values.category));
+        formData.append("images", JSON.stringify(values.images));
+        formData.append("unit", values.unit);
+        formData.append("size", values.size);
+        formData.append("currency", values.currency);
+        formData.append("basePrice", values.basePrice);
+        formData.append("discount", values.discount);
+        // formData.append("salePrice", values.salePrice);
+        formData.append("stock", values.stock);
+        formData.append("organizationId", values.organizationId);
+        formData.append("rating", values.rating);
+        formData.append("reviews", JSON.stringify(values.reviews));
+        formData.append("tags", values.tags);
         formData.append("deleteImages", JSON.stringify(deletedImage));
         files.forEach((file: any) => formData.append("files", file));
 
-        await axios.put(`/api/product-upload/${product?.id}`, formData);
+        // update route
+        // await axios.put(`/api/product-upload/${product?.id}`, formData: Product);
         setLoadingButton(false);
         toast.success("Product Update Successfully");
-        Router.push("/products");
+        // Router.push("/products");
       }
     } catch (error) {
       setLoadingButton(false);
@@ -157,7 +153,6 @@ export default function ProductDetails() {
   const handleDeleteExistingImage = (image: ImageOrganization | ImageProduct | ImageUser | ImageVendor) => {
     let id = image.id
     setExistingImage((state) => state.filter((image) => id !== image.id));
-    // setDeletedImage((state) => [ ...state, { Key: image.key } ]);
     setDeletedImage((state) => [ ...state, image ]);
   };
 
@@ -172,7 +167,7 @@ export default function ProductDetails() {
           title="Edit Product"
           Icon={Icons.Delivery}
           Button={
-            <Link href="products">
+            <Link href="/products">
               <Button>
                 Back to Products
               </Button>
@@ -182,47 +177,40 @@ export default function ProductDetails() {
 
         {loading && <Padding><LoadingDots /></Padding> || product && (
           <Grid className="md:w-2/3 px-3">
-            {/* <Formik
+            <Formik
               initialValues={initialValues}
               validationSchema={checkoutSchema}
               onSubmit={handleFormSubmit}
-            > */}
-              {/*
-              { ({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (*/}
-              <>
-              {/* <Grid>
-                <FlexBox className="grow">
-                  <ProductItem className="grow" product={ product } />
-                </FlexBox>
-              </Grid> */}
-                <TextField
-                  name="name"
-                  label="Name"
-                  placeholder="Name"
-                  // value={values.name}
-                  // onBlur={handleBlur}
-                  // onChange={handleChange}
-                  // error={!!touched.name && !!errors.name}
-                  // helperText={touched.name && errors.name}
+            >
+            { ({ values, errors, touched, handleChange, handleBlur, handleSubmit }) =>
+             <>
+              <TextField
+                name="name"
+                label="Name"
+                placeholder="Name"
+                value={values.name}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                error={!!touched.name && !!errors.name}
+                helperText={touched.name && errors.name}
+              />
+              <TextField
+                name="description"
+                label="Description"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                placeholder="Description"
+                value={values.description}
+              />
+              <FlexBox className="items-start">
+                <label className="min-w-[111px] mt-2">Category</label>
+                <ClickableTags
+                  values={ productCategories }
+                  setValues={ setProductCategories }
+                  valueKey="name"
                 />
-                <TextField
-                  name="description"
-                  label="Description"
-                  // onBlur={handleBlur}
-                  // onChange={handleChange}
-                  // placeholder="Description"
-                  // value={values.description}
-                />
-                <FlexBox className="items-start">
-                  <label className="min-w-[111px] mt-2">Category</label>
-                  <ClickableTags
-                    values={ productCategories }
-                    setValues={ setProductCategories }
-                    valueKey="name"
-                  />
               </FlexBox>
               <div className="relative dropdown w-full">
-              {/* <div className="relative dropdown dropdown-bottom flex-col w-full space-x-0"> */}
                 <TextField
                   className="shadow"
                   label={ "Add Category" }
@@ -235,9 +223,8 @@ export default function ProductDetails() {
                   } }
                 />
                 <div className="dropdown-bottom w-full">
-                {/* <div className="pl-[121px] w-full dropdown-content"> */}
                   { openDropDown && resultList.length > 0 && 
-                    <ul ref={dropDownRef} className="absolute pl-[121px] z-10 border w-full rounded-btn shadow cursor-default">
+                    <ul ref={dropDownRef} className="absolute z-10 ml-[126px] w-full rounded-btn shadow cursor-default">
                       { resultList.map((v, index) => {
                         return (
                           <li
@@ -293,39 +280,39 @@ export default function ProductDetails() {
                   label="Stock"
                   type="number"
                   placeholder="Stock"
-                  // onBlur={handleBlur}
-                  // value={values.stock}
-                  // onChange={handleChange}
-                  // error={!!touched.stock && !!errors.stock}
-                  // helperText={touched.stock && errors.stock}
+                  onBlur={handleBlur}
+                  value={values.stock}
+                  onChange={handleChange}
+                  error={!!touched.stock && !!errors.stock}
+                  helperText={touched.stock && errors.stock}
                 />
                 <TextField
                   name="tags"
                   label="Tags"
-                  // onBlur={handleBlur}
-                  // value={values.tags}
-                  // onChange={handleChange}
-                  // placeholder="Tag1, Tag2, Tag3"
+                  onBlur={handleBlur}
+                  value={values.tags}
+                  onChange={handleChange}
+                  placeholder="Tag1, Tag2, Tag3"
                 />
                 <TextField
-                  name="price"
+                  name="basePrice"
                   type="number"
                   label="Regular Price"
-                  // onBlur={handleBlur}
-                  // value={values.price}
-                  // onChange={handleChange}
-                  // placeholder="Regular Price"
-                  // error={!!touched.price && !!errors.price}
-                  // helperText={touched.price && errors.price}
+                  onBlur={handleBlur}
+                  value={values.basePrice}
+                  onChange={handleChange}
+                  placeholder="Regular Price"
+                  error={!!touched.basePrice && !!errors.basePrice}
+                  helperText={touched.basePrice && errors.basePrice}
                 />
                 <TextField
                   type="number"
                   name="discount"
                   label="Discount"
-                  // onBlur={handleBlur}
-                  // onChange={handleChange}
-                  // value={values.discount}
-                  // placeholder="Product Discount"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.discount}
+                  placeholder="Product Discount"
                 />
                 <FlexBox>
                   <label className="min-w-[111px]">Unit</label>
@@ -340,15 +327,15 @@ export default function ProductDetails() {
 
                 <Grid>
                   <Button
-                    // onClick={handleSubmit}
+                    onClick={handleSubmit}
                     loading={loadingButton}
                   >
                     Save Product
                   </Button>
                 </Grid>
                 </>
-              {/* )} */}
-              {/* </Formik>  */ }
+              }
+              </Formik>
           </Grid>
         ) 
         || <Paragraph>The product is not found</Paragraph>

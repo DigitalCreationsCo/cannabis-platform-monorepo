@@ -132,7 +132,6 @@ export default function OrderDetails() {
             <PageHeader
               title={`Order #${order?.id}`}
               Icon={Icons.ShoppingBagOutlined}
-              // navigation={<AdminDashboardNavigation />}
               Button={
                 <Link href="/orders">
                   <Button>
