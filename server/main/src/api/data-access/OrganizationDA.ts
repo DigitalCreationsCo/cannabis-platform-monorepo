@@ -1,27 +1,23 @@
-import prisma from "@cd/data-access"
-
-let collections = {
-  orgs: 'organization'
-}
-
-let orgs
+import { findCategoryListByOrg } from "@cd/data-access";
 
 /* =================================
 Organization Data Access - data class for organization table
 
 members:
+getCategoryList
 
 ================================= */
 
 export default class OrganizationDA {
-  // static async injectDB(conn) {
-  //   try {
-  //     if ( orgs ) {
-  //       return;
-  //     }
-  //     orgs = await conn[collections.orgs]
-  //   } catch (error) {
-  //     console.error(`Unable to establish database handles in DriverDA: ${error}`);
-  //   }
-  // }
+  
+  // find CategoryList by organizationId, default arg is 1 for platform wide CategoryList
+  static async getCategoryList(organizationId = '1') {
+    try {
+      const data = await findCategoryListByOrg(organizationId);
+      return data
+    } catch (error) {
+      console.error(error.message)
+      throw new Error(error.message)
+    }
+  }
 }

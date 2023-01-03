@@ -848,9 +848,6 @@ async function main() {
   await prisma.organization.createMany({
     data: orgs,
   });
-  await prisma.product.createMany({
-    data: products,
-  });
   await prisma.subDomain.createMany({
     data: subdomains,
   });
@@ -873,17 +870,31 @@ async function main() {
     await prisma.categoryList.create({
       data: {
         ...list,
-        // categories: {
-        //   connect: [
-        //       { id: '1' },
-        //       { id: '2' },
-        //       { id: '3' },
-        //       { id: '9' }
-        //   ]
-        // }
+        categories: {
+          connect: [
+              { id: '1' },
+              { id: '2' },
+              { id: '3' },
+              { id: '9' }
+          ]
+        }
       }
     })
   })
+
+  products.map(async (product) => {
+  await prisma.product.create({
+    data: {
+      ...product,
+      categories: {
+        connect: [
+          { id: '9' }
+        ]
+      }
+    }
+  });
+  })
+  
   await prisma.driver.createMany({
     data: drivers,
   });

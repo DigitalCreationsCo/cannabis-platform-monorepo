@@ -29,14 +29,12 @@ export default function Select({
 }
 
 type MenuItemProps = {
-    value: string | number;
+    value: string;
 } & PropsWithChildren
-export function MenuItem({ value }: MenuItemProps) {
+export function MenuItem({ value, children }: MenuItemProps) {
     return (
-        <option key={ 'menu-item-' + value }>
-            <Paragraph>
-                {value}
-            </Paragraph>
+        <option>
+            {children}
         </option>
     );
 }

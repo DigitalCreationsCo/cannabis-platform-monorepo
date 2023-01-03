@@ -14,17 +14,17 @@
 // import Loading from "components/Loading";
 // import { Formik } from "formik";
 // import useCategory from "hooks/useCategory";
-import { CurrencyName, ImageOrganization, ImageProduct, ImageUser, ImageVendor, ProductWithDetails, Unit } from "@cd/data-access"
+import { Category, CurrencyName, ImageOrganization, ImageProduct, ImageUser, ImageVendor, ProductWithDetails, Unit } from "@cd/data-access"
 import { Button, Card, FlexBox, Grid, Icons, LoadingDots, Padding, Page, Paragraph, TextField } from "@cd/shared-ui";
 import axios from "axios";
 import Link from "next/link";
 import Router, { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { ClickableTags, MenuItem, PageHeader, ProductItem, ProtectedComponent, Select, Tag } from "components";
 import { urlBuilder } from "utils";
 import Image from "next/image";
-import { useCategory } from "../../src/hooks";
+import { useCategory, useOnClickOutside } from "../../src/hooks";
 // import toast from "react-hot-toast";
 // import * as yup from "yup";
 // import { Product } from "__types__/common";
@@ -60,19 +60,32 @@ export type ImageAny = ImageOrganization | ImageProduct | ImageUser | ImageVendo
 
 export default function ProductDetails() {
   const { query } = useRouter();
-  const { categories } = useCategory();
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [product, setProduct] = useState<ProductWithDetails>();
+  const [ product, setProduct ] = useState<ProductWithDetails | []>([]);
+  const [ productCategories, setProductCategories ] = useState(new Set());
   const [loadingButton, setLoadingButton] = useState(false);
   const [deletedImage, setDeletedImage] = useState<ImageAny[]>([]);
-  const [existingImage, setExistingImage] = useState<ImageAny[]>([]);
+  const [ existingImage, setExistingImage ] = useState<ImageAny[]>([]);
+  const [ searchCategoryTerms, setSearchCategoryTerms ] = useState("")
+  const { categories, resultList, notFoundResult, doSearchCategories } = useCategory();
+  const [ openDropDown, setOpenDropDown ] = useState(true)
+  const dropDownRef = useRef(null);
+  useOnClickOutside(dropDownRef, () => {
+      setOpenDropDown(false);
+  });
+  // categories - category list
+  // resultList - filtered categories from searchTerms
+  // doSearchCategories - filter function
 
   const fetchProductDetails = async () => {
     try {
       const { data } = await axios(urlBuilder.next + `/api/products/${query.id}`);
+      console.log(data)
       setExistingImage(data.images);
       setProduct(data);
+      data.categories.forEach(category => setProductCategories(state => state.add(category)))
+      // setProductCategories(state => new Set([ ...data.categories ]))
       setLoading(false);
     } catch (error) {
       setLoadingButton(false);
@@ -152,7 +165,6 @@ export default function ProductDetails() {
     setFiles((files) => files.filter((item) => item.name !== file.name));
   };
 
-  const [testCategories, setTestCategories] = useState([ { name: 'haha' }, { name: 'googoo' }, { name: 'Edibles' } ])
   return (
     <ProtectedComponent>
       <Page>
@@ -169,7 +181,7 @@ export default function ProductDetails() {
         />
 
         {loading && <Padding><LoadingDots /></Padding> || product && (
-          <Grid className="md:w-2/3">
+          <Grid className="md:w-2/3 px-3">
             {/* <Formik
               initialValues={initialValues}
               validationSchema={checkoutSchema}
@@ -202,14 +214,49 @@ export default function ProductDetails() {
                   // value={values.description}
                 />
                 <FlexBox className="items-start">
-                  <label className="min-w-[111px]">Category</label>
+                  <label className="min-w-[111px] mt-2">Category</label>
                   <ClickableTags
-                    values={ testCategories }
-                    setValues={ setTestCategories }
+                    values={ productCategories }
+                    setValues={ setProductCategories }
                     valueKey="name"
-                    removeFunc={() => {}}
                   />
-                </FlexBox>
+              </FlexBox>
+              <div className="relative dropdown w-full">
+              {/* <div className="relative dropdown dropdown-bottom flex-col w-full space-x-0"> */}
+                <TextField
+                  className="shadow"
+                  label={ "Add Category" }
+                  value={ searchCategoryTerms }
+                  onFocus={ () => setOpenDropDown(true) }
+                  onBlur={ () => setSearchCategoryTerms("") }
+                  onChange={ (e) => {
+                    doSearchCategories(e)
+                    setSearchCategoryTerms(e.target.value)
+                  } }
+                />
+                <div className="dropdown-bottom w-full">
+                {/* <div className="pl-[121px] w-full dropdown-content"> */}
+                  { openDropDown && resultList.length > 0 && 
+                    <ul ref={dropDownRef} className="absolute pl-[121px] z-10 border w-full rounded-btn shadow cursor-default">
+                      { resultList.map((v, index) => {
+                        return (
+                          <li
+                            onClick={ () => {
+                              // console.log('category: ', v)
+                              if (![...productCategories].some((cat) => cat.name === v.name)) {
+                                setProductCategories(state => new Set([ ...state, v ]))
+                              }
+                            } }
+                            className={ "bg-inverse z-20 px-4 p-2 hover:bg-accent-soft" }
+                            key={ v + index }
+                          >
+                            { v[ "name" ] }
+                          </li>);
+                      })}
+                    </ul>
+                  }
+                </div>
+              </div>
                 
                 {/* <DropZone
                   onChange={(files) => {
@@ -220,9 +267,9 @@ export default function ProductDetails() {
                   }}
                 /> */}
                 <FlexBox>
-                  {existingImage.map((image: any, i) => {
+                  {existingImage.map((image: any, index) => {
                     return (
-                      <Image src={ image.location } alt="" height={ 100 } width={ 100 } />
+                      <Image key={'product-image-' + index} src={ image.location } alt="" height={ 100 } width={ 100 } />
                       // <UploadImageBox key={i}>
                       //   <img src={image.location} width="100%" />
                       //   <StyledClear onClick={() => handleDeleteExistingImage(image)} />
@@ -230,7 +277,7 @@ export default function ProductDetails() {
                     );
                   })}
 
-                  {files.map((file, index) => {
+                  {/* {files.map((file, index) => {
                     return (
                       <Image src={ file.preview } alt="" height={ 100 } width={ 100 } />
                       // <UploadImageBox key={index}>
@@ -238,7 +285,7 @@ export default function ProductDetails() {
                       //   <StyledClear onClick={() => handleFileDelete(file)} />
                       // </UploadImageBox>
                     );
-                  })}
+                  })} */}
                 </FlexBox>
                 
                 <TextField
@@ -284,7 +331,9 @@ export default function ProductDetails() {
                   <label className="min-w-[111px]">Unit</label>
                   <Select className="max-w-fit">
                     { [ "grams" ].map(unit => (
-                      <MenuItem value={ unit } />
+                      <MenuItem key={ 'menu-item-' + unit } value={ unit }>
+                        {unit}
+                      </MenuItem>
                     ))}
                   </Select>
                 </FlexBox>

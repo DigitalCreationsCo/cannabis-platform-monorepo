@@ -87,7 +87,7 @@ export default class ShopController {
     try {
       const { search, organizationId } = req.body
       const data = await OrderDA.searchProducts(search, organizationId)
-      if (!data) return res.status(400).json("Products Not Found")
+      if (!data) return res.status(404).json("Products Not Found")
       return res.status(200).json(data);
     } catch (error) {
       console.log('API error: ', error)

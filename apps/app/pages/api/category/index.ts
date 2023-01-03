@@ -35,11 +35,11 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
     let user = getUserInfo({ req });
     let { organizationId } = user;
     req.organizationId = organizationId
-    // if (cache.has("categories")) {
-    //   console.log('cache found')
-    //   const categories = cache.get("categories");
-    //   return res.status(200).json(categories);
-    // }
+    if (cache.has("categories")) {
+      console.log('cache found')
+      const categories = cache.get("categories");
+      return res.status(200).json(categories);
+    }
     const { data } = await axios(urlBuilder.main.categoryList(organizationId))
     cache.set("categories", data);
     console.log('setting cache')

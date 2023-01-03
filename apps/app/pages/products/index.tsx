@@ -88,7 +88,7 @@ export default function Products({ products }: ProductsDashboardProps) {
             return (
               <Link href={`/products/${product.id}`} key={product.id}>
                 <Row className="h-[54px] py-0">
-                  <Image className="hidden sm:block" src={ product.images[ 0 ]?.location } alt="" height={ 60 } width={ 60 } />
+                  { product.images[ 0 ] && <Image className="" src={ product.images[ 0 ]?.location } alt="" height={ 60 } width={ 60 } />}
                   <H6 className="grow">{ product.name }</H6>
 
                   <H6 className={ twMerge("flex justify-center w-[60px]", product.stock < 6 && 'text-error') }>{ product.stock.toString().padStart(2, "0") }</H6>

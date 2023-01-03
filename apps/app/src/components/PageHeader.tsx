@@ -23,7 +23,7 @@ export default function PageHeader ({
         <FlexBox className="flex-col">
           <FlexBox className="flex-row">
             <H3>{ title }</H3>
-          { Icon && <IconWrapper class={"fill-" + iconColor} Icon={ Icon } size={ 24 } /> }
+          { Icon && <IconWrapper className={'fill-' + iconColor} Icon={ Icon } size={ 24 } /> }
           </FlexBox>
           { subTitle && (
             <Span className="self-start text-primary">

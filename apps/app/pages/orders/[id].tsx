@@ -16,13 +16,13 @@ export default function OrderDetails() {
   const [ order, setOrder ] = useState<OrderWithDetails>();
   const [loading, setLoading] = useState(true);
   const [orderStatus, setOrderStatus] = useState("");
-  const [searchProduct, setSearchProduct] = useState("");
+  const [searchProductTerms, setSearchProductTerms] = useState("");
   const [ loadingButton, setLoadingButton ] = useState(false);
   const [ openAddProduct, setOpenAddProduct ] = useState(false)
   
   const toggleAddProduct = () => setOpenAddProduct(state => !state);
 
-  const { notFoundResult, search, resultList } = useProductSearch();
+  const { notFoundResult, doSearchProducts, resultList } = useProductSearch();
 
   const fetchOrderDetails = async () => {
     try {
@@ -118,8 +118,8 @@ export default function OrderDetails() {
     const items = [...order.items, item]
     calculateTotal(items);
 
-    setSearchProduct("");
-    search(null);
+    setSearchProductTerms("");
+    doSearchProducts(null);
   };
 
   return (
@@ -165,10 +165,10 @@ export default function OrderDetails() {
                       >
                         <TextField
                           className="shadow"
-                          value={ searchProduct }
+                          value={ searchProductTerms }
                           onChange={ (e) => {
-                            search(e);
-                            setSearchProduct(e.target.value);
+                            doSearchProducts(e);
+                            setSearchProductTerms(e.target.value);
                           } }
                         />
                         {resultList.length > 0 ? (

@@ -15,11 +15,13 @@ type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
     onChange: ReactEventHandler;
 }
 function TextField({ className, maxNumber, name, type, value, label, placeholder, defaultValue, onChange, ...props }: TextFieldProps) {
-    const inputProps:React.InputHTMLAttributes<HTMLInputElement> = {...props}
-
+    const inputProps: React.InputHTMLAttributes<HTMLInputElement> = { ...props }
     return (
-        <FlexBox>
-            { label && <FlexBox><label className="min-w-[111px]">{ label }</label></FlexBox> }
+        <FlexBox className="w-full">
+            { label && <FlexBox className="max-w-[111px] items-start">
+            <label>
+                { label }
+            </label></FlexBox> }
             <input
                 name={ name }
                 maxLength={ maxNumber }

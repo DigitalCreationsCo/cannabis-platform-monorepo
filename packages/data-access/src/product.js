@@ -37,7 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 exports.deleteProduct = exports.findProductsByText = exports.findProductWithDetails = exports.findProductsByOrg = exports.createProduct = void 0;
-var prisma_1 = require("../db/prisma");
+var prisma_1 = require("./db/prisma");
 function createProduct() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {

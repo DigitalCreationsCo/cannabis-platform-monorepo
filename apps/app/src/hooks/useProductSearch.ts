@@ -6,9 +6,8 @@ const useProductSearch = () => {
   const [resultList, setResultList] = useState<any[]>([]);
   const [notFoundResult, setNotFoundResult] = useState(false);
 
-  const search = debounce(async (e) => {
+  const doSearchProducts = debounce(async (e) => {
     const value = e?.target?.value || null;
-    console.log('value: ', value)
     if (value) {
       const { data } = await axios.post("/api/products", { search: value });
       if (data?.length > 0) {
@@ -23,7 +22,7 @@ const useProductSearch = () => {
       setNotFoundResult(false);
     }
   }, 200);
-  return { resultList, notFoundResult, search };
+  return { resultList, notFoundResult, doSearchProducts };
 };
 
 export default useProductSearch;

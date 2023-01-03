@@ -3,25 +3,27 @@ import React, { PropsWithChildren, useState } from "react";
 import { Tag } from ".";
 type ClickableTagProps = {
     valueKey: string;
-    values: any[];
+    values: Set<any>;
     setValues: Function;
-    removeFunc: any;
 } & PropsWithChildren
-function ClickableTags({ values, setValues, valueKey, removeFunc, children }: ClickableTagProps) {
+function ClickableTags({ values, setValues, valueKey, children }: ClickableTagProps) {
     const [ editMode, setEditMode ] = useState(false)
     const onClick = (c: any) => {
         if (editMode) {
-            setValues((state: typeof values) => state.filter(item => item[ valueKey ] !== c[ valueKey ]));
+            setValues((state: any) => {
+                let filterValues = [ ...state ].filter(item => item[ valueKey ] != c[ valueKey ])
+                return new Set([ ...filterValues ])
+            });
         }
         else {
             setEditMode(true);
         }
     }
     return (
-    <FlexBox wrap>
-        { values.map((c) => (
+    <FlexBox wrap className="min-h-[49px] pb-2">
+        { [...values].map((c, index) => (
             <Tag
-                key={ valueKey + "-" + c }
+                key={ valueKey + "-" + index }
                 Icon = { editMode && Icons.XIcon }
                 onClick={() => onClick(c)}
             >
