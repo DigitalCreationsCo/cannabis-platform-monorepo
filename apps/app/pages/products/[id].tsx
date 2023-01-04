@@ -6,24 +6,16 @@ import Link from "next/link";
 import Router, { useRouter } from "next/router";
 import React, { PropsWithChildren, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
-import { ClickableTags, MenuItem, PageHeader, ProductItem, ProtectedComponent, Select, Tag } from "components";
+import { ClickableTags, DropZone, MenuItem, PageHeader, ProductItem, ProtectedComponent, Select, Tag } from "components";
 import { urlBuilder } from "utils";
 import Image from "next/image";
 import { useCategory, useOnClickOutside } from "hooks";
 import * as yup from "yup";
 import { twMerge } from "tailwind-merge";
 
-// const StyledClear = styled(Clear)(() => ({
-//   top: 5,
-//   right: 5,
-//   fontSize: 14,
-//   cursor: "pointer",
-//   position: "absolute",
-// }));
-
 const styleUploadWindow = ["h-[80px] w-[80px] flex overflow-hidden rounded-btn relative items-center justify-center bg-light"]
-const UploadImageBox = (props: PropsWithChildren) => (
-  <div className={twMerge(styleUploadWindow)}>{ props.children }</div>);
+const UploadImageBox = ({ onClick, children }: { onClick: any; } & PropsWithChildren) => (
+  <div onClick={ onClick } className={twMerge(styleUploadWindow)}>{ children }</div>);
     
 const checkoutSchema = yup.object().shape({
   name: yup.string().required("required"),
@@ -48,7 +40,7 @@ export type ProductUpdatePayload = Product & {
 
 export default function ProductDetails() {
   const { query } = useRouter();
-  const [files, setFiles] = useState([]);
+  const [files, setFiles] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [ product, setProduct ] = useState<ProductWithDetails>();
   const [ productCategories, setProductCategories ] = useState(new Set());
@@ -57,9 +49,7 @@ export default function ProductDetails() {
   const [ existingImage, setExistingImage ] = useState<ImageAny[]>([]);
   const [ searchCategoryTerms, setSearchCategoryTerms ] = useState("")
   const { categoryList, categorySearchResult, notFoundCategories, doSearchCategories } = useCategory();
-  // categoryList: category list
-  // categorySearchResult - filtered categories from searchTerms
-  // doSearchCategories - filter function
+
   const [ openDropDown, setOpenDropDown ] = useState(true)
   const dropDownRef = useRef(null);
   useOnClickOutside(dropDownRef, () => {
@@ -131,12 +121,9 @@ export default function ProductDetails() {
         formData.append("tags", values.tags);
         formData.append("deleteImages", JSON.stringify(deletedImage));
         files.forEach((file: any) => formData.append("files", file));
-
         const { data } = await axios.put(urlBuilder.next + `/api/product-upload/${product.id}`, formData);
-          // { headers: { "Content-Type": "multipart/form-data" } }
         setLoadingButton(false);
         toast.success(data);
-        // Router.push("/products");
       }
     } catch (error) {
       setLoadingButton(false);
@@ -152,8 +139,8 @@ export default function ProductDetails() {
     setDeletedImage((state) => [ ...state, image ]);
   };
 
-  const handleFileDelete = (file: File) => {
-    setFiles((files) => files.filter((item) => item.name !== file.name));
+  const handleFileDelete = (file) => {
+    setFiles((files) => files.filter((item) => item.id !== file.id));
   };
 
   return (
@@ -188,7 +175,6 @@ export default function ProductDetails() {
                 onBlur={handleBlur}
                 onChange={handleChange}
                 error={!!touched.name && !!errors.name}
-                // helperText={touched.name && errors.name}
               />
               <TextField
                 name="description"
@@ -225,7 +211,6 @@ export default function ProductDetails() {
                         return (
                           <li
                             onClick={ () => {
-                              // console.log('category: ', v)
                               if (![...productCategories].some((cat) => cat.name === v.name)) {
                                 setProductCategories(state => new Set([ ...state, v ]))
                               }
@@ -241,33 +226,28 @@ export default function ProductDetails() {
                 </div>
               </div>
                 
-                {/* <DropZone
+                <DropZone
                   onChange={(files) => {
                     const uploadFiles = files.map((file) =>
                       Object.assign(file, { preview: URL.createObjectURL(file) })
                     );
                     setFiles(uploadFiles);
                   }}
-                /> */}
+                />
                 <FlexBox>
                   {existingImage.map((image: any, index) => {
                     return (
-                      // <Image key={'product-image-' + index} src={ image.location } alt="" height={ 100 } width={ 100 } />
-                      <UploadImageBox key={ index }>
-                        hello existingImage
-                        {/* <img src={image.location} width="100%" />
-                        <StyledClear onClick={() => handleDeleteExistingImage(image)} /> */}
+                      <UploadImageBox key={ index } onClick={() => handleDeleteExistingImage(image)}>
+                        <span className="indicator-item badge badge-secondary"></span> 
+                        <Image key={'product-image-' + index} src={ image.location } alt="" fill={true} />
                       </UploadImageBox>
                     );
                   })}
 
                   {files.map((file, index) => {
                     return (
-                      // <Image src={ file.preview } alt="" height={ 100 } width={ 100 } />
-                      <UploadImageBox key={ index }>
-                        hello files
-                        {/* <img src={file.preview} width="100%" />
-                        <StyledClear onClick={() => handleFileDelete(file)} /> */}
+                      <UploadImageBox key={ index } onClick={() => handleFileDelete(file)} >
+                        <Image src={ file.preview } alt="" height={ 100 } width={ 100 } />
                       </UploadImageBox>
                     );
                   })}

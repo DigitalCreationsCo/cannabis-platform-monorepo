@@ -14,4 +14,5 @@ export { default as ProductItem } from "./ProductItem";
 export { default as Select, MenuItem } from "./Select"
 export { default as Tag } from "./Tag"
 export { default as ClickableTags } from "./ClickableTags"
+export { default as DropZone } from "./DropZone"
 export { SessionControl } from './SessionControl';

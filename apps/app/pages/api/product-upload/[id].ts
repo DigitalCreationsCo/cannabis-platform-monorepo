@@ -43,8 +43,6 @@ handler.put(async (req: ExtendApiRequest, res: NextApiResponse) => {
       }
     });
     data.pipe(res)
-    // req.pipe(res)
-    // return res.status(res.statusCode).json(data);
   } catch (error) {
     throw new Error(error.message);
   }
