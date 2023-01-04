@@ -3,7 +3,7 @@ import axios from "axios";
 import { useState } from "react";
 
 const useProductSearch = () => {
-  const [resultList, setResultList] = useState<any[]>([]);
+  const [categorySearchResult, setcategorySearchResult] = useState<any[]>([]);
   const [notFoundResult, setNotFoundResult] = useState(false);
 
   const doSearchProducts = debounce(async (e) => {
@@ -11,18 +11,18 @@ const useProductSearch = () => {
     if (value) {
       const { data } = await axios.post("/api/products", { search: value });
       if (data?.length > 0) {
-        setResultList(data);
+        setcategorySearchResult(data);
         setNotFoundResult(false);
       } else {
-        setResultList([]);
+        setcategorySearchResult([]);
         setNotFoundResult(true);
       }
     } else {
-      setResultList([]);
+      setcategorySearchResult([]);
       setNotFoundResult(false);
     }
   }, 200);
-  return { resultList, notFoundResult, doSearchProducts };
+  return { categorySearchResult, notFoundResult, doSearchProducts };
 };
 
 export default useProductSearch;

@@ -4,13 +4,14 @@ import { Button, Card, FlexBox, Grid, Icons, LoadingDots, Padding, Page, Paragra
 import axios from "axios";
 import Link from "next/link";
 import Router, { useRouter } from "next/router";
-import React, { useEffect, useRef, useState } from "react";
+import React, { PropsWithChildren, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { ClickableTags, MenuItem, PageHeader, ProductItem, ProtectedComponent, Select, Tag } from "components";
 import { urlBuilder } from "utils";
 import Image from "next/image";
 import { useCategory, useOnClickOutside } from "hooks";
 import * as yup from "yup";
+import { twMerge } from "tailwind-merge";
 
 // const StyledClear = styled(Clear)(() => ({
 //   top: 5,
@@ -20,17 +21,9 @@ import * as yup from "yup";
 //   position: "absolute",
 // }));
 
-// const UploadImageBox = styled(Box)(({ theme }) => ({
-//   width: 80,
-//   height: 80,
-//   display: "flex",
-//   overflow: "hidden",
-//   borderRadius: "8px",
-//   position: "relative",
-//   alignItems: "center",
-//   justifyContent: "center",
-//   backgroundColor: theme.palette.primary.light,
-// }));
+const styleUploadWindow = ["h-[80px] w-[80px] flex overflow-hidden rounded-btn relative items-center justify-center bg-light"]
+const UploadImageBox = (props: PropsWithChildren) => (
+  <div className={twMerge(styleUploadWindow)}>{ props.children }</div>);
     
 const checkoutSchema = yup.object().shape({
   name: yup.string().required("required"),
@@ -57,15 +50,15 @@ export default function ProductDetails() {
   const [deletedImage, setDeletedImage] = useState<ImageAny[]>([]);
   const [ existingImage, setExistingImage ] = useState<ImageAny[]>([]);
   const [ searchCategoryTerms, setSearchCategoryTerms ] = useState("")
-  const { categories, resultList, notFoundResult, doSearchCategories } = useCategory();
+  const { categoryList, categorySearchResult, notFoundCategories, doSearchCategories } = useCategory();
+  // categoryList: category list
+  // categorySearchResult - filtered categories from searchTerms
+  // doSearchCategories - filter function
   const [ openDropDown, setOpenDropDown ] = useState(true)
   const dropDownRef = useRef(null);
   useOnClickOutside(dropDownRef, () => {
       setOpenDropDown(false);
   });
-  // categories - category list
-  // resultList - filtered categories from searchTerms
-  // doSearchCategories - filter function
 
   const fetchProductDetails = async () => {
     try {
@@ -136,6 +129,7 @@ export default function ProductDetails() {
         formData.append("deleteImages", JSON.stringify(deletedImage));
         files.forEach((file: any) => formData.append("files", file));
 
+        console.log('form data: ', formData)
         // update route
         // await axios.put(`/api/product-upload/${product?.id}`, formData: Product);
         setLoadingButton(false);
@@ -223,9 +217,9 @@ export default function ProductDetails() {
                   } }
                 />
                 <div className="dropdown-bottom w-full">
-                  { openDropDown && resultList.length > 0 && 
+                  { openDropDown && categorySearchResult.length > 0 && 
                     <ul ref={dropDownRef} className="absolute z-10 ml-[126px] w-full rounded-btn shadow cursor-default">
-                      { resultList.map((v, index) => {
+                      { categorySearchResult.map((v, index) => {
                         return (
                           <li
                             onClick={ () => {
@@ -256,23 +250,25 @@ export default function ProductDetails() {
                 <FlexBox>
                   {existingImage.map((image: any, index) => {
                     return (
-                      <Image key={'product-image-' + index} src={ image.location } alt="" height={ 100 } width={ 100 } />
-                      // <UploadImageBox key={i}>
-                      //   <img src={image.location} width="100%" />
-                      //   <StyledClear onClick={() => handleDeleteExistingImage(image)} />
-                      // </UploadImageBox>
+                      // <Image key={'product-image-' + index} src={ image.location } alt="" height={ 100 } width={ 100 } />
+                      <UploadImageBox key={ index }>
+                        hello existingImage
+                        {/* <img src={image.location} width="100%" />
+                        <StyledClear onClick={() => handleDeleteExistingImage(image)} /> */}
+                      </UploadImageBox>
                     );
                   })}
 
-                  {/* {files.map((file, index) => {
+                  {files.map((file, index) => {
                     return (
-                      <Image src={ file.preview } alt="" height={ 100 } width={ 100 } />
-                      // <UploadImageBox key={index}>
-                      //   <img src={file.preview} width="100%" />
-                      //   <StyledClear onClick={() => handleFileDelete(file)} />
-                      // </UploadImageBox>
+                      // <Image src={ file.preview } alt="" height={ 100 } width={ 100 } />
+                      <UploadImageBox key={ index }>
+                        hello files
+                        {/* <img src={file.preview} width="100%" />
+                        <StyledClear onClick={() => handleFileDelete(file)} /> */}
+                      </UploadImageBox>
                     );
-                  })} */}
+                  })}
                 </FlexBox>
                 
                 <TextField

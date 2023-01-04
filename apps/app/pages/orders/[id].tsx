@@ -22,7 +22,7 @@ export default function OrderDetails() {
   
   const toggleAddProduct = () => setOpenAddProduct(state => !state);
 
-  const { notFoundResult, doSearchProducts, resultList } = useProductSearch();
+  const { notFoundResult, doSearchProducts, categorySearchResult } = useProductSearch();
 
   const fetchOrderDetails = async () => {
     try {
@@ -170,9 +170,9 @@ export default function OrderDetails() {
                             setSearchProductTerms(e.target.value);
                           } }
                         />
-                        {resultList.length > 0 ? (
+                        {categorySearchResult.length > 0 ? (
                           <FlexBox className="pb-4 overflow-scroll space-x-3 flex flex-row grow">
-                            { resultList.map((product) => (
+                            { categorySearchResult.map((product) => (
                               <ProductItem key={ product.id }
                                 product={ product }
                                 handleConfirm={ handleAddItem }
