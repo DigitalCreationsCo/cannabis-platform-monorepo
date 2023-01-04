@@ -1,6 +1,7 @@
 import React, { PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 import LoadingDots from './LoadingDots';
+import Center from "./Center"
 
 interface ButtonProps extends PropsWithChildren {
     className?: string;
@@ -35,7 +36,7 @@ export default function Button({ type, className, disabled, loading, onClick, ch
             )}
             {...props}
         >
-            { loading ? <LoadingDots /> : children }
+            { loading ? <Center><LoadingDots /></Center> : children }
         </button>
     );
 }

@@ -11,6 +11,7 @@ import { Layout, ConfirmationAlert, PageHeader, ProtectedComponent } from "compo
 import { Card } from "@cd/shared-ui";
 import { Button } from "@cd/shared-ui";
 import { toast } from "react-hot-toast";
+import { calcSalePrice } from "../../src/utils";
 
 interface ProductsDashboardProps {
   products: Product[];
@@ -83,8 +84,7 @@ export default function Products({ products }: ProductsDashboardProps) {
           <div className="min-w-[50px] sm:w-[120px]"></div>
         </Row>
           {currentProducts.length > 0 ? currentProducts.map((product) => {
-            const salePrice = product.basePrice - (product.basePrice * product.discount) / 100;
-            product.salePrice = salePrice
+            product.salePrice = calcSalePrice(product.basePrice, product.discount)
             return (
               <Link href={`/products/${product.id}`} key={product.id}>
                 <Row className="h-[54px] py-0">

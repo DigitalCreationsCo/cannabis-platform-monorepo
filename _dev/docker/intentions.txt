@@ -27,6 +27,16 @@ for typescript: fix tsconfig in any projec that is having compile issue
 add daisy ui for tab, modal, and more.
 
 do next:
+product upload, wasabi s3 storage, imagekit.io image handling ;D
+
+discount and pricing model:
+discounts are applied on order basis, 
+    applied from a product discount, if it exists,
+    inherited to orderItem from product
+    salePrice exist in db records: 
+        OrderItem, is calculated from basePrice and discount
+
+* build swagger api for node main server
 
 categories search
 ( searches from categories list to add to one product.categories )

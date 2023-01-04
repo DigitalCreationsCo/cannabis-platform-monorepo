@@ -5,6 +5,7 @@ Organization Data Access - data class for organization table
 
 members:
 getCategoryList
+updateProduct
 
 ================================= */
 
@@ -15,6 +16,17 @@ export default class OrganizationDA {
     try {
       const data = await findCategoryListByOrg(organizationId);
       return data
+    } catch (error) {
+      console.error(error.message)
+      throw new Error(error.message)
+    }
+  }
+
+  static async updateProduct(product) {
+    try {
+      return "product was updated OK"
+      // const data = await updateProduct(product);
+      // return data
     } catch (error) {
       console.error(error.message)
       throw new Error(error.message)

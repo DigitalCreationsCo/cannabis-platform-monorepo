@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import { AddProduct, PageHeader, ProductItem, ProtectedComponent } from "components";
-import { urlBuilder } from "utils";
+import { calcSalePrice, urlBuilder } from "utils";
 import { format } from "date-fns";
 import { useProductSearch } from "../../src/hooks";
 
@@ -107,7 +107,7 @@ export default function OrderDetails() {
 
   // add new item in order
   const handleAddItem = (product: Product, quantity: number) => {
-    const salePrice = product.basePrice - (product.basePrice * product.discount) / 100;
+    const salePrice = calcSalePrice(product.basePrice, product.discount);
 
     const item = {
       ...product,

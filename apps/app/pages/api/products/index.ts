@@ -21,7 +21,7 @@ const getUserInfo = ({ req }) => {
     return user;
 };
 
-// get orders from an organization
+// get products from an organization
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     let user = getUserInfo({ req });

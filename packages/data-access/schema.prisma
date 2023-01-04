@@ -363,8 +363,8 @@ model Product {
   unit Unit @default(g)
   size Float
   basePrice Int
-  currency CurrencyName
   discount Int
+  currency CurrencyName
   stock Int
   images ImageProduct[]
   organizationId String

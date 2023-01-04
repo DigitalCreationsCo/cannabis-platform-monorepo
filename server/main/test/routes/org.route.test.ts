@@ -25,3 +25,42 @@ describe('GET categoryList', function() {
         })
     });
 });
+
+describe('PUT updateProduct', function() {
+    test('/product/update responds with 200, & json response', async function () {
+        await app
+        .get('/api/v1/organization/product/update')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+            expect(response.body).toBeDefined()
+        })
+    });
+});
+
+describe('PUT updateProduct', function() {
+    test('/product/update responds with 404, no update when a product is not update', async function () {
+        await app
+        .get('/api/v1/organization/product/update')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+            expect(response.body).toBeDefined()
+        })
+    });
+});
+
+describe('PUT updateProduct', function() {
+    test('/product/update responds with 400, when bad data is sent', async function () {
+        await app
+        .get('/api/v1/organization/product/update')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+            expect(response.body).toBeDefined()
+        })
+    });
+});

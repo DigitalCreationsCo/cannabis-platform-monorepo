@@ -1,0 +1,22 @@
+product upload data handling steps:
+
+// PREVIOUS DATA FLOW
+// data comes from request body
+// get product from db
+// get images from product
+// push new uploaded images to images
+// delete images from product
+// delete files from image bucket
+// filter out deletedImages
+// create new productData, use uploaded data, or use product data
+// update db table
+
+// currently does this way, for less networking requests, possibly need to use the older way for scalability and prevent using mutated data 
+// CURRENT DATA FLOW
+// data comes from request body
+// get images from request
+// delete images from product
+// delete files from image bucket
+// filter out deletedImages
+// create new productData, use uploaded data
+// update db table

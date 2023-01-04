@@ -35,10 +35,16 @@ const checkoutSchema = yup.object().shape({
   currency: yup.number().required("required"),
   basePrice: yup.number().required("required"),
   discount: yup.number().required("required"),
-  // salePrice:  yup.number().required("required"),
 });
 
 export type ImageAny = ImageOrganization | ImageProduct | ImageUser | ImageVendor
+export type ProductUpdatePayload = Product & {
+  categories: any;
+  images: ImageProduct[] & string;
+  reviews: any;
+  deleteImages?: ImageProduct[] & string;
+  files?: ImageProduct[] | string;
+}
 
 export default function ProductDetails() {
   const { query } = useRouter();
@@ -93,7 +99,6 @@ export default function ProductDetails() {
     currency: product?.currency || "USD",
     basePrice: product?.basePrice || 0,
     discount: product?.discount || 0,
-    // salePrice: product?.salePrice || 0,
     stock: product?.stock || 0,
     organizationId: product?.organizationId || "",
     organization: product?.organization,
@@ -104,8 +109,7 @@ export default function ProductDetails() {
     updatedAt: product?.updatedAt || new Date()
   };
 
-  // add more values
-  const handleFormSubmit = async (values: any) => {
+  async function handleFormSubmit(values: any) {
     try {
       if (product) {
         setLoadingButton(true);
@@ -120,7 +124,6 @@ export default function ProductDetails() {
         formData.append("currency", values.currency);
         formData.append("basePrice", values.basePrice);
         formData.append("discount", values.discount);
-        // formData.append("salePrice", values.salePrice);
         formData.append("stock", values.stock);
         formData.append("organizationId", values.organizationId);
         formData.append("rating", values.rating);
@@ -129,11 +132,10 @@ export default function ProductDetails() {
         formData.append("deleteImages", JSON.stringify(deletedImage));
         files.forEach((file: any) => formData.append("files", file));
 
-        console.log('form data: ', formData)
-        // update route
-        // await axios.put(`/api/product-upload/${product?.id}`, formData: Product);
+        const { data } = await axios.put(urlBuilder.next + `/api/product-upload/${product.id}`, formData);
         setLoadingButton(false);
-        toast.success("Product Update Successfully");
+        toast.success(data);
+        // toast.success("Product Update Successfully");
         // Router.push("/products");
       }
     } catch (error) {
@@ -173,11 +175,11 @@ export default function ProductDetails() {
           <Grid className="md:w-2/3 px-3">
             <Formik
               initialValues={initialValues}
-              validationSchema={checkoutSchema}
+              // validationSchema={checkoutSchema}
               onSubmit={handleFormSubmit}
             >
             { ({ values, errors, touched, handleChange, handleBlur, handleSubmit }) =>
-             <>
+             <form onSubmit={handleSubmit}>
               <TextField
                 name="name"
                 label="Name"
@@ -186,7 +188,7 @@ export default function ProductDetails() {
                 onBlur={handleBlur}
                 onChange={handleChange}
                 error={!!touched.name && !!errors.name}
-                helperText={touched.name && errors.name}
+                // helperText={touched.name && errors.name}
               />
               <TextField
                 name="description"
@@ -280,7 +282,7 @@ export default function ProductDetails() {
                   value={values.stock}
                   onChange={handleChange}
                   error={!!touched.stock && !!errors.stock}
-                  helperText={touched.stock && errors.stock}
+                  // helperText={touched.stock && errors.stock}
                 />
                 <TextField
                   name="tags"
@@ -299,7 +301,7 @@ export default function ProductDetails() {
                   onChange={handleChange}
                   placeholder="Regular Price"
                   error={!!touched.basePrice && !!errors.basePrice}
-                  helperText={touched.basePrice && errors.basePrice}
+                  // helperText={touched.basePrice && errors.basePrice}
                 />
                 <TextField
                   type="number"
@@ -322,14 +324,15 @@ export default function ProductDetails() {
                 </FlexBox>
 
                 <Grid>
-                  <Button
-                    onClick={handleSubmit}
-                    loading={loadingButton}
-                  >
-                    Save Product
-                  </Button>
+                    <Button
+                      className="bg-accent-soft hover:bg-accent"
+                      type="submit"
+                      loading={loadingButton}
+                    >
+                        Save Product
+                    </Button>
                 </Grid>
-                </>
+                </form>
               }
               </Formik>
           </Grid>
