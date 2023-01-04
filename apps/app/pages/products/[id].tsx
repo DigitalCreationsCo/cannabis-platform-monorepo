@@ -133,9 +133,9 @@ export default function ProductDetails() {
         files.forEach((file: any) => formData.append("files", file));
 
         const { data } = await axios.put(urlBuilder.next + `/api/product-upload/${product.id}`, formData);
+          // { headers: { "Content-Type": "multipart/form-data" } }
         setLoadingButton(false);
         toast.success(data);
-        // toast.success("Product Update Successfully");
         // Router.push("/products");
       }
     } catch (error) {

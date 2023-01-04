@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import { Organization, Product, Order } from "../models";
 import { OrganizationDA } from "../data-access";
+const Busboy = require('busboy')
 
 /* =================================
 OrganizationController - controller class for organization management actions
@@ -27,7 +28,59 @@ export default class OrganizationController {
   
     static async updateProduct(req, res) {
       try {
-          const { id } = req.params
+        const { id } = req.params
+        var busboy = Busboy({ headers: req.headers });
+        console.log('busboy init')
+        var uploadStartTime = new Date(),
+            busboyFinishTime = null,
+            s3UploadFinishTime = null;
+
+        busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
+            console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
+
+            // var s3 = new AWS.S3({
+            //   params: {Bucket: 'sswa', Key: filename, Body: file},
+            //   options: {partSize: 5 * 1024 * 1024, queueSize: 10}   // 5 MB
+            // });
+            // s3.upload().on('httpUploadProgress', function (evt) {
+            //   console.log(evt);
+            // }).send(function (err, data) {
+            //   s3UploadFinishTime = new Date();
+            //   if(busboyFinishTime && s3UploadFinishTime) {
+            //       res.json({
+            //         uploadStartTime: uploadStartTime,
+            //         busboyFinishTime: busboyFinishTime,
+            //         s3UploadFinishTime: s3UploadFinishTime
+            //       });
+            //   }
+            //   console.log(err, data);
+            // });
+        });
+        busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
+            console.log('Field [' + fieldname + ']: value: ' + val);
+        });
+        busboy.on('finish', function() {
+            console.log('Done parsing form!');
+            busboyFinishTime = new Date();
+            // if(busboyFinishTime && s3UploadFinishTime) {
+              // res.json({
+              //     uploadStartTime: uploadStartTime,
+              //     busboyFinishTime: busboyFinishTime,
+              //     s3UploadFinishTime: s3UploadFinishTime
+              // });
+              res.status(200).json('upload complete!')
+            // }
+        });
+        req.pipe(busboy);
+      } catch (error) {
+        console.log('API error: ', error)
+        res.status(500).json({ error });
+      }
+    }
+}
+
+
+
           // const {
           //   name,
           //   description,
@@ -46,7 +99,8 @@ export default class OrganizationController {
           //   tags,
           //   deleteImages,
           // } = req.body;
-          // console.log('name: ', name)
+          
+          // const product = { name }
 
           // images = JSON.parse(images)
           // categories = JSON.parse(categories)
@@ -88,13 +142,8 @@ export default class OrganizationController {
           // //   ],
           // // };
         
-          const data = await OrganizationDA.updateProduct(product)
-          if (!data) return res.status(404).json("Categories not found")
-          // if (!data) return res.status(400).json("Could not update")
-          return res.status(200).json(data);
-        } catch (error) {
-          console.log('API error: ', error)
-          res.status(500).json({ error });
-        }
-    }
-}
+        
+          // const data = await OrganizationDA.updateProduct(product)
+          // if (!data) return res.status(404).json("Categories not found")
+          // // if (!data) return res.status(400).json("Could not update")
+          // return res.status(200).json(data);
