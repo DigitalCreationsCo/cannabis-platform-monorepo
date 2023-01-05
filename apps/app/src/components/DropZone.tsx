@@ -1,4 +1,4 @@
-import { Button, FlexBox, H5, Paragraph, Small } from "@cd/shared-ui";
+import { Button, FlexBox, H5, H6, Paragraph, Small } from "@cd/shared-ui";
 import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { twMerge } from "tailwind-merge";
@@ -17,26 +17,30 @@ export default function DropZone ({
   const onDrop = useCallback((acceptedFiles) => {
     if (onChange) onChange(acceptedFiles);
   }, []);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const { getRootProps, getInputProps, open, isDragActive } = useDropzone({
     onDrop,
-    maxFiles: 10,
+    maxFiles: 3,
     multiple: true,
     accept: {"image/*": []},
   });
   return (
-    <FlexBox className={ twMerge(
-      "min-h-[200px] items-center border rounded-btn bg-light border-accent flex-col justify-center",
-      isDragActive ? "bg-accent" : "transparent",
-      "transition outline-none",
-      "dropzone"
-    ) }>
+    <FlexBox { ...getRootProps({
+        className: twMerge(
+          "min-h-[200px] items-center border rounded-btn bg-light border-accent flex-col justify-center",
+          isDragActive ? "bg-accent" : "transparent",
+          "transition outline-none",
+          'dropzone'
+          )}
+          ) }  
+    >
       <input {...getInputProps()} />
-      <H5>{title}</H5>
+      <H6>{title}</H6>
       <div className="w-[200px] mx-auto"></div>
       <Paragraph className={ twMerge("px-2 mb-2 mt-1", isDragActive ? "bg-accent" : "bg-dark-soft") }>
         on</Paragraph>
       <Button
-          type="button"
+        type="button"
+        onClick={open}
       >
           Select files
       </Button>

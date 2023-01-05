@@ -1,4 +1,4 @@
-import { Prisma, OrderItem, Product, ImageProduct, Unit, Driver, User, Address, Order } from "@prisma/client";
+import { Prisma, OrderItem, Product, ImageProduct, Unit, Driver, User, Address, Order, ProductVariant } from "@prisma/client";
 import prisma from "./db/prisma";
 
 export async function createOrder() {
@@ -36,7 +36,7 @@ export async function findOrderWithDetails(id) {
                     customer: true,
                     driver: true,
                     deliveryInfo: true,
-                    items: { include: { product: { include: { images: true } } } }
+                    items: { include: { productVariant: { include: { images: true } } } }
                 }
             }
         )
@@ -52,11 +52,11 @@ export async function updateOrderWithOrderItems(order) {
         const updateOrderItemsOp = !!order.items && order.items.map((item: OrderItem) => {
             let { ...rest } = item;
             let orderId = order.id;
-            let productId = item.productId
+            let variantId = item.variantId
             const update = prisma.orderItem.upsert({
                 where: {
-                    orderId_productId: {
-                        orderId, productId
+                    orderId_variantId: {
+                        orderId, variantId
                     }
                 },
                 create: { ...rest, quantity: Number(item.quantity) },
@@ -64,9 +64,9 @@ export async function updateOrderWithOrderItems(order) {
             });
             return update;
         });
-        const connectOrderItems = !!order.items && order.items.map(item => (
+        const connectOrderItems = !!order.items && order.items.map((item: OrderItem) => (
             {
-                productId: item.productId,
+                variantId: item.variantId,
                 orderId: order.id
             })
         ) || []
@@ -103,7 +103,7 @@ export async function deleteOrder() {
 export type OrderWithDetails = Order & {
     driver: Driver | null;
     items?: (OrderItem & {
-        product: Product & {
+        productVariant: ProductVariant & {
             images: ImageProduct[];
         };
     })[];
@@ -111,8 +111,9 @@ export type OrderWithDetails = Order & {
     deliveryInfo: Address;
     updatedAt?: any;
 }
+
 export type OrderItemWithDetails = OrderItem & {
-        product?: Product & {
+        productVariant?: ProductVariant & {
             images: ImageProduct[];
         };
     }

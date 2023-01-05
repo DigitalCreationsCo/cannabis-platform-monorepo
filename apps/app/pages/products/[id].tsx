@@ -1,21 +1,26 @@
 import { Formik } from "formik";
 import { Category, CurrencyName, ImageOrganization, ImageProduct, ImageUser, ImageVendor, Product, ProductWithDetails, Unit } from "@cd/data-access"
-import { Button, Card, FlexBox, Grid, Icons, LoadingDots, Padding, Page, Paragraph, TextField } from "@cd/shared-ui";
+import { Button, Card, FlexBox, Grid, H6, Icons, IconWrapper, LoadingDots, Padding, Page, Paragraph, Row, TextField } from "@cd/shared-ui";
 import axios from "axios";
 import Link from "next/link";
 import Router, { useRouter } from "next/router";
 import React, { PropsWithChildren, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
-import { ClickableTags, DropZone, MenuItem, PageHeader, ProductItem, ProtectedComponent, Select, Tag } from "components";
+import { ClickableTags, DropZone, MenuItem, Modal, PageHeader, ProductItem, ProtectedComponent, Select, Tag } from "components";
 import { urlBuilder } from "utils";
 import Image from "next/image";
 import { useCategory, useOnClickOutside } from "hooks";
 import * as yup from "yup";
 import { twMerge } from "tailwind-merge";
 
-const styleUploadWindow = ["h-[80px] w-[80px] flex overflow-hidden rounded-btn relative items-center justify-center bg-light"]
+const styleUploadWindow = ["h-[80px] w-[80px] border flex rounded-btn relative items-center justify-center bg-light"]
 const UploadImageBox = ({ onClick, children }: { onClick: any; } & PropsWithChildren) => (
-  <div onClick={ onClick } className={twMerge(styleUploadWindow)}>{ children }</div>);
+  <div onClick={ onClick } className={ twMerge(styleUploadWindow, 'indicator') }>
+    <span className="indicator-item badge bg-primary w-5 h-5 p-0 items-center justify-center">
+      <IconWrapper Icon={ Icons.XIcon } size={ 8 } className={"fill-light"} />
+    </span>
+    { children }
+  </div>);
     
 const checkoutSchema = yup.object().shape({
   name: yup.string().required("required"),
@@ -49,6 +54,9 @@ export default function ProductDetails() {
   const [ existingImage, setExistingImage ] = useState<ImageAny[]>([]);
   const [ searchCategoryTerms, setSearchCategoryTerms ] = useState("")
   const { categoryList, categorySearchResult, notFoundCategories, doSearchCategories } = useCategory();
+  
+  const [ openModal, setModal ] = useState(true)
+  const toggleModal = () => setModal(state => !state)
 
   const [ openDropDown, setOpenDropDown ] = useState(true)
   const dropDownRef = useRef(null);
@@ -150,11 +158,16 @@ export default function ProductDetails() {
           title="Edit Product"
           Icon={Icons.Delivery}
           Button={
-            <Link href="/products">
-              <Button>
-                Back to Products
+            <>
+              <Link href="/products">
+                <Button>
+                  Back to Products
+                </Button>
+              </Link>
+              <Button onClick={() => setModal(true)}>
+                Edit Variants
               </Button>
-            </Link>
+            </>
           }
         />
 
@@ -166,7 +179,29 @@ export default function ProductDetails() {
               onSubmit={handleFormSubmit}
             >
             { ({ values, errors, touched, handleChange, handleBlur, handleSubmit }) =>
-             <form onSubmit={handleSubmit}>
+                <form onSubmit={ handleSubmit }>
+                  
+              <Modal
+                open={ openModal }
+                onClose={ toggleModal }
+                description="Variants"
+              >
+                <Grid className="space-y-4">
+                  <Row>
+                    <Paragraph className="flex justify-center w-[60px] ">Size</Paragraph>
+                    <Paragraph className="flex justify-center w-[80px] ">Unit</Paragraph>
+                    <Paragraph className="flex justify-center w-[80px] ">Price</Paragraph>
+                    <Paragraph className="flex justify-center w-[80px] ">Discount</Paragraph>
+                  </Row>
+                  { product.variants.map((v, index) => (
+                    <Row></Row>
+                  )) }
+                  <FlexBox className="justify-center">
+                    <Button>Cancel</Button>
+                    <Button>Save</Button>
+                  </FlexBox>
+                </Grid>
+              </Modal>
               <TextField
                 name="name"
                 label="Name"
@@ -185,7 +220,7 @@ export default function ProductDetails() {
                 value={values.description}
               />
               <FlexBox className="items-start">
-                <label className="min-w-[111px] mt-2">Category</label>
+                <label className="min-w-[111px] mt-2">Categories</label>
                 <ClickableTags
                   values={ productCategories }
                   setValues={ setProductCategories }
@@ -226,24 +261,15 @@ export default function ProductDetails() {
                 </div>
               </div>
                 
-                <DropZone
-                  onChange={(files) => {
-                    const uploadFiles = files.map((file) =>
-                      Object.assign(file, { preview: URL.createObjectURL(file) })
-                    );
-                    setFiles(uploadFiles);
-                  }}
-                />
+              <Grid>
                 <FlexBox>
                   {existingImage.map((image: any, index) => {
-                    return (
-                      <UploadImageBox key={ index } onClick={() => handleDeleteExistingImage(image)}>
-                        <span className="indicator-item badge badge-secondary"></span> 
-                        <Image key={'product-image-' + index} src={ image.location } alt="" fill={true} />
-                      </UploadImageBox>
-                    );
-                  })}
-
+                  return (
+                    <UploadImageBox key={ index } onClick={() => handleDeleteExistingImage(image)}>
+                      <Image key={'product-image-' + index} src={ image.location } alt="" fill={true} />
+                    </UploadImageBox>
+                  );
+                  }) }
                   {files.map((file, index) => {
                     return (
                       <UploadImageBox key={ index } onClick={() => handleFileDelete(file)} >
@@ -252,7 +278,16 @@ export default function ProductDetails() {
                     );
                   })}
                 </FlexBox>
-                
+                  <DropZone
+                    onChange={(files) => {
+                      const uploadFiles = files.map((file) =>
+                        Object.assign(file, { preview: URL.createObjectURL(file) })
+                      );
+                      setFiles(uploadFiles);
+                    }}
+                  />
+                  </Grid>
+                  <FlexBox>
                 <TextField
                   name="stock"
                   label="Stock"
@@ -263,7 +298,15 @@ export default function ProductDetails() {
                   onChange={handleChange}
                   error={!!touched.stock && !!errors.stock}
                   // helperText={touched.stock && errors.stock}
-                />
+                    />
+                    {/* <Select className="max-w-fit">
+                      { [ "grams" ].map(unit => (
+                        <MenuItem key={ 'menu-item-' + unit } value={ unit }>
+                          {unit}
+                        </MenuItem>
+                      ))}
+                    </Select> */}
+                  </FlexBox>
                 <TextField
                   name="tags"
                   label="Tags"
@@ -292,17 +335,6 @@ export default function ProductDetails() {
                   value={values.discount}
                   placeholder="Product Discount"
                 />
-                <FlexBox>
-                  <label className="min-w-[111px]">Unit</label>
-                  <Select className="max-w-fit">
-                    { [ "grams" ].map(unit => (
-                      <MenuItem key={ 'menu-item-' + unit } value={ unit }>
-                        {unit}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FlexBox>
-
                 <Grid>
                     <Button
                       className="bg-accent-soft hover:bg-accent"

@@ -1,4 +1,4 @@
-import { Category, ImageProduct, ImageUser, OrderItem, Organization, Prisma, Product, Review, User } from "@prisma/client";
+import { Category, ImageProduct, ImageUser, OrderItem, Organization, Prisma, Product, ProductVariant, Review, User } from "@prisma/client";
 import prisma from "./db/prisma";
 
 export async function createProduct() {
@@ -16,9 +16,14 @@ export async function findProductsByOrg(organizationId) {
         where: { organizationId },
         orderBy: [
           { rating: 'desc' },
-          { stock: 'desc' }
         ],
-        include: { images: true }
+        include: {
+          variants: {
+            include: {
+              images: true
+            }
+          }
+        }
       }) || [];
       return products;
     } catch (error) {
@@ -34,12 +39,13 @@ export async function findProductWithDetails(id) {
                 where: { id },
                 include: {
                     categories: true,
-                    images: true,
                     organization: true,
                     reviews: {
                       include: { user: { include: { imageUser: true }} }
                     },
-                    orderItem: true,
+                  variants: {
+                      include: { images: true }
+                    },
                 }
             }
         )
@@ -80,10 +86,13 @@ export async function findProductsByText(search, organizationId) {
       },
       orderBy: [
           { rating: 'desc' },
-          { stock: 'desc' }
       ],
-      include: { images: true }
-      }) || [];
+      include: {
+        variants: {
+          include: { images: true }
+        },
+      }
+    }) || [];
       return products;
     } catch (error) {
       console.error(error.message)
@@ -103,9 +112,8 @@ export async function deleteProduct() {
 // export type ProductWithDetails = Prisma.PromiseReturnType<typeof findProductWithDetails>
 export type ProductWithDetails = Product & {
   organization: Organization;
-  orderItem?: OrderItem[];
+  variants?: ProductVariant[];
   categories: Category[];
-  images?: ImageProduct[];
   reviews?: Review & {
     user?: User & {
       imageUser?: ImageUser;
