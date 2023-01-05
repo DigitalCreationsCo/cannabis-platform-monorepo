@@ -116,7 +116,7 @@ function findOrderWithDetails(id) {
                                 customer: true,
                                 driver: true,
                                 deliveryInfo: true,
-                                items: { include: { product: { include: { images: true } } } }
+                                items: { include: { productVariant: { include: { images: true } } } }
                             }
                         })];
                 case 1:
@@ -142,12 +142,12 @@ function updateOrderWithOrderItems(order) {
                     updateOrderItemsOp = !!order.items && order.items.map(function (item) {
                         var rest = __rest(item, []);
                         var orderId = order.id;
-                        var productId = item.productId;
+                        var variantId = item.variantId;
                         var update = prisma_1["default"].orderItem.upsert({
                             where: {
-                                orderId_productId: {
+                                orderId_variantId: {
                                     orderId: orderId,
-                                    productId: productId
+                                    variantId: variantId
                                 }
                             },
                             create: __assign(__assign({}, rest), { quantity: Number(item.quantity) }),
@@ -156,7 +156,7 @@ function updateOrderWithOrderItems(order) {
                         return update;
                     });
                     connectOrderItems = !!order.items && order.items.map(function (item) { return ({
-                        productId: item.productId,
+                        variantId: item.variantId,
                         orderId: order.id
                     }); }) || [];
                     delete order['items'];

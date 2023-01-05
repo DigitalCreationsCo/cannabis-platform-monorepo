@@ -11,7 +11,7 @@ import { Layout, ConfirmationAlert, PageHeader, ProtectedComponent } from "compo
 import { Card } from "@cd/shared-ui";
 import { Button } from "@cd/shared-ui";
 import { toast } from "react-hot-toast";
-import { calcSalePrice } from "../../src/utils";
+import { calcSalePrice, urlBuilder } from "../../src/utils";
 
 interface ProductsDashboardProps {
   products: Product[];
@@ -78,9 +78,9 @@ export default function Products({ products }: ProductsDashboardProps) {
         <Row className="h-[44px]">
           <div className="hidden sm:block w-[60px] "></div>
           <H6 className="grow ">Name</H6>
-          <H6 className="flex justify-center w-[60px] ">Stock</H6>
-          <H6 className="flex justify-center w-[80px] ">Price</H6>
-          <H6 className="flex justify-center w-[100px]">Sale</H6>
+          {/* <H6 className="flex justify-center w-[60px] ">Stock</H6> */}
+          {/* <H6 className="flex justify-center w-[80px] ">Price</H6> */}
+          {/* <H6 className="flex justify-center w-[100px]">Sale</H6> */}
           <div className="min-w-[50px] sm:w-[120px]"></div>
         </Row>
           {currentProducts.length > 0 ? currentProducts.map((product) => {
@@ -88,18 +88,18 @@ export default function Products({ products }: ProductsDashboardProps) {
             return (
               <Link href={`/products/${product.id}`} key={product.id}>
                 <Row className="h-[54px] py-0">
-                  { product.images[ 0 ] && <Image className="" src={ product.images[ 0 ]?.location } alt="" height={ 60 } width={ 60 } />}
+                  { product.variants[0].images[ 0 ] && <Image className="" src={ product.variants[0].images[ 0 ]?.location } alt="" height={ 60 } width={ 60 } />}
                   <H6 className="grow">{ product.name }</H6>
 
-                  <H6 className={ twMerge("flex justify-center w-[60px]", product.stock < 6 && 'text-error') }>{ product.stock.toString().padStart(2, "0") }</H6>
+                  {/* <H6 className={ twMerge("flex justify-center w-[60px]", product.stock < 6 && 'text-error') }>{ product.stock.toString().padStart(2, "0") }</H6> */}
 
-                  <H6 className="flex justify-center w-[80px] ">
+                  {/* <H6 className="flex justify-center w-[80px] ">
                     <Price price={ product.basePrice } />
-                  </H6>
+                  </H6> */}
 
-                  <H6 className="flex justify-center w-[100px]">
+                  {/* <H6 className="flex justify-center w-[100px]">
                     <Price price={product.salePrice} />
-                  </H6>
+                  </H6> */}
 
                   <DeleteButton
                     oncClick={(e) => {
@@ -144,9 +144,8 @@ const getUserInfo = ({ req }) => {
 
 export async function getServerSideProps({ req, res }) {
   let user = getUserInfo({req})
-  let {organizationId} = user
-  let products: Product[] = await prisma.product.findMany({ where: { organizationId }, orderBy: [ { rating: 'desc' },{ stock: 'desc' }],include: { images: true}}) || []
-
+  let { organizationId } = user
+  let products = await (await fetch(urlBuilder.next + '/api/products')).json()
   return {
     props: {
       products,

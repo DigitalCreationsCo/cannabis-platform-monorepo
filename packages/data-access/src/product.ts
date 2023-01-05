@@ -43,7 +43,7 @@ export async function findProductWithDetails(id) {
                     reviews: {
                       include: { user: { include: { imageUser: true }} }
                     },
-                  variants: {
+                    variants: {
                       include: { images: true }
                     },
                 }
@@ -112,7 +112,9 @@ export async function deleteProduct() {
 // export type ProductWithDetails = Prisma.PromiseReturnType<typeof findProductWithDetails>
 export type ProductWithDetails = Product & {
   organization: Organization;
-  variants?: ProductVariant[];
+  variants?: ProductVariant[] & {
+    images: ImageProduct[];
+  };
   categories: Category[];
   reviews?: Review & {
     user?: User & {

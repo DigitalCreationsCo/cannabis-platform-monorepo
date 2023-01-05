@@ -1,6 +1,6 @@
 import { Formik } from "formik";
 import { Category, CurrencyName, ImageOrganization, ImageProduct, ImageUser, ImageVendor, Product, ProductWithDetails, Unit } from "@cd/data-access"
-import { Button, Card, FlexBox, Grid, H6, Icons, IconWrapper, LoadingDots, Padding, Page, Paragraph, Row, TextField } from "@cd/shared-ui";
+import { Button, Card, FlexBox, Grid, H6, Icons, IconWrapper, LoadingDots, Padding, Page, Paragraph, Price, Row, TextField } from "@cd/shared-ui";
 import axios from "axios";
 import Link from "next/link";
 import Router, { useRouter } from "next/router";
@@ -55,8 +55,8 @@ export default function ProductDetails() {
   const [ searchCategoryTerms, setSearchCategoryTerms ] = useState("")
   const { categoryList, categorySearchResult, notFoundCategories, doSearchCategories } = useCategory();
   
-  const [ openModal, setModal ] = useState(true)
-  const toggleModal = () => setModal(state => !state)
+  const [ openModal, setModal ] = useState(false)
+  const toggleModal = () => { console.log('toggle'); setModal(state => !state) }
 
   const [ openDropDown, setOpenDropDown ] = useState(true)
   const dropDownRef = useRef(null);
@@ -67,7 +67,7 @@ export default function ProductDetails() {
   const fetchProductDetails = async () => {
     try {
       const { data } = await axios(urlBuilder.next + `/api/products/${query.id}`);
-      setExistingImage(data.images);
+      setExistingImage(data.variants[0].images);
       setProduct(data);
       setProductCategories(state => new Set([ ...state, ...data.categories ]))
       setLoading(false);
@@ -91,20 +91,21 @@ export default function ProductDetails() {
     description: product?.description || "",
     features: product?.features || "",
     category: product?.categories || [],
-    images: product?.images || [],
-    unit: product?.unit || "g",
-    size: product?.size || 0,
-    currency: product?.currency || "USD",
-    basePrice: product?.basePrice || 0,
-    discount: product?.discount || 0,
-    stock: product?.stock || 0,
+    variants: product?.variants?.map(( variant ) => ({ ...variant })),
+    // images: product?.images || [],
+    // unit: product?.unit || "g",
+    // size: product?.size || 0,
+    // currency: product?.currency || "USD",
+    // basePrice: product?.basePrice || 0,
+    // discount: product?.discount || 0,
+    // stock: product?.stock || 0,
     organizationId: product?.organizationId || "",
     organization: product?.organization,
     rating: product?.rating || 0,
     reviews: product?.reviews || [],
     tags: product?.tags || "",
     createdAt: product?.createdAt || new Date(),
-    updatedAt: product?.updatedAt || new Date()
+    updatedAt: product?.updatedAt || new Date(),
   };
 
   async function handleFormSubmit(values: any) {
@@ -132,6 +133,7 @@ export default function ProductDetails() {
         const { data } = await axios.put(urlBuilder.next + `/api/product-upload/${product.id}`, formData);
         setLoadingButton(false);
         toast.success(data);
+        Router.push('/products')
       }
     } catch (error) {
       setLoadingButton(false);
@@ -164,7 +166,9 @@ export default function ProductDetails() {
                   Back to Products
                 </Button>
               </Link>
-              <Button onClick={() => setModal(true)}>
+              <Button
+                // type="button"
+                onClick={ (e) => { console.log('click'); e.preventDefault(); e.stopPropagation(); setModal(true)} }>
                 Edit Variants
               </Button>
             </>
@@ -176,32 +180,85 @@ export default function ProductDetails() {
             <Formik
               initialValues={initialValues}
               // validationSchema={checkoutSchema}
-              onSubmit={handleFormSubmit}
+              onSubmit={ handleFormSubmit }
             >
-            { ({ values, errors, touched, handleChange, handleBlur, handleSubmit }) =>
-                <form onSubmit={ handleSubmit }>
-                  
-              <Modal
+              { ({ values, errors, touched, handleChange, handleBlur, handleSubmit }) =>
+                <>
+                  <Modal
                 open={ openModal }
                 onClose={ toggleModal }
                 description="Variants"
+                className="min-w-full w-full sm:min-w-[600px] sm:w-[600px] px-0 sm:px-2 md:px-4"
               >
-                <Grid className="space-y-4">
-                  <Row>
-                    <Paragraph className="flex justify-center w-[60px] ">Size</Paragraph>
-                    <Paragraph className="flex justify-center w-[80px] ">Unit</Paragraph>
-                    <Paragraph className="flex justify-center w-[80px] ">Price</Paragraph>
-                    <Paragraph className="flex justify-center w-[80px] ">Discount</Paragraph>
+                <Grid className="px-0 space-y-2">
+                  <Row className="px-0 sm:px-4border">
+                    <Paragraph className="flex justify-start">Sku</Paragraph>
+                    <Paragraph className="flex justify-start">Stock</Paragraph>
+                    <Paragraph className="flex justify-start">Size</Paragraph>
+                    <Paragraph className="flex justify-start">Price</Paragraph>
+                    <Paragraph className="flex justify-start pr-4">Discount</Paragraph>
                   </Row>
-                  { product.variants.map((v, index) => (
-                    <Row></Row>
+                  { product.variants && product.variants.map((v, index) => (
+                    <Row className={ twMerge("px-0 sm:px-4", !!touched.variants && "bg-accent") } key={ 'variant-' + index }>
+                      <Paragraph className="flex justify-center">
+                      { v.sku }  
+                      </Paragraph>
+                      <FlexBox className="flex justify-center">
+                        <TextField
+                          className="w-[80px]"
+                        name={`variants[${index}].stock`}
+                        placeholder="Stock"
+                        value={values?.variants?.[index].stock}
+                        onBlur={handleBlur}
+                        onChange={ handleChange }
+                        />
+                      </FlexBox>
+                      <FlexBox className="flex justify-center">
+                        <TextField
+                          className="w-[80px]"
+                        name={`variants[${index}].size`}
+                        placeholder="Size"
+                        value={values?.variants?.[index].size}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        />
+                      </FlexBox>
+                      <FlexBox className="flex justify-center">
+                        <TextField
+                          className="w-[80px]"
+                        name={`variants[${index}].basePrice`}
+                        placeholder="Price"
+                        value={values?.variants?.[index].basePrice}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        />
+                      </FlexBox>
+                      <FlexBox className="flex justify-center">
+                        <TextField
+                          className="w-[80px]"
+                        name={`variants[${index}].discount`}
+                        placeholder="Discount"
+                        value={values?.variants?.[index].discount}
+                        onBlur={handleBlur}
+                        onChange={ handleChange }
+                        />
+                        </FlexBox>
+                    </Row>
                   )) }
                   <FlexBox className="justify-center">
-                    <Button>Cancel</Button>
-                    <Button>Save</Button>
+                    {/* <Button onClick={() => setModal(false)}>Cancel</Button> */}
+                        <Button
+                          onClick={ (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            toggleModal();
+                          } }
+                        >Close</Button>
                   </FlexBox>
                 </Grid>
               </Modal>
+                  
+              <form onSubmit={ (e) => { e.preventDefault(); e.stopPropagation(); handleSubmit(); } }>            
               <TextField
                 name="name"
                 label="Name"
@@ -227,6 +284,7 @@ export default function ProductDetails() {
                   valueKey="name"
                 />
               </FlexBox>
+              <Grid>
               <div className="relative dropdown w-full">
                 <TextField
                   className="shadow"
@@ -260,8 +318,8 @@ export default function ProductDetails() {
                   }
                 </div>
               </div>
-                
-              <Grid>
+              </Grid>
+              <Grid className="space-y-2">
                 <FlexBox>
                   {existingImage.map((image: any, index) => {
                   return (
@@ -287,7 +345,7 @@ export default function ProductDetails() {
                     }}
                   />
                   </Grid>
-                  <FlexBox>
+                  {/* <FlexBox>
                 <TextField
                   name="stock"
                   label="Stock"
@@ -299,14 +357,14 @@ export default function ProductDetails() {
                   error={!!touched.stock && !!errors.stock}
                   // helperText={touched.stock && errors.stock}
                     />
-                    {/* <Select className="max-w-fit">
+                    <Select className="max-w-fit">
                       { [ "grams" ].map(unit => (
                         <MenuItem key={ 'menu-item-' + unit } value={ unit }>
                           {unit}
                         </MenuItem>
                       ))}
-                    </Select> */}
-                  </FlexBox>
+                    </Select>
+                  </FlexBox> */}
                 <TextField
                   name="tags"
                   label="Tags"
@@ -315,7 +373,7 @@ export default function ProductDetails() {
                   onChange={handleChange}
                   placeholder="Tag1, Tag2, Tag3"
                 />
-                <TextField
+                {/* <TextField
                   name="basePrice"
                   type="number"
                   label="Regular Price"
@@ -325,8 +383,8 @@ export default function ProductDetails() {
                   placeholder="Regular Price"
                   error={!!touched.basePrice && !!errors.basePrice}
                   // helperText={touched.basePrice && errors.basePrice}
-                />
-                <TextField
+                /> */}
+                {/* <TextField
                   type="number"
                   name="discount"
                   label="Discount"
@@ -334,17 +392,20 @@ export default function ProductDetails() {
                   onChange={handleChange}
                   value={values.discount}
                   placeholder="Product Discount"
-                />
+                /> */}
                 <Grid>
                     <Button
                       className="bg-accent-soft hover:bg-accent"
-                      type="submit"
-                      loading={loadingButton}
+                      // type="submit"
+                      loading={ loadingButton }
+                      onClick={ (e) => { e.preventDefault(); e.stopPropagation(); handleSubmit(); } }
                     >
                         Save Product
                     </Button>
                 </Grid>
-                </form>
+                  </form>
+                </>
+                  
               }
               </Formik>
           </Grid>

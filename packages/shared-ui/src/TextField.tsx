@@ -20,9 +20,10 @@ function TextField({ className, maxNumber, name, type, error, value, label, plac
     return (
         <FlexBox className="w-full">
             { label && <FlexBox className="min-w-[111px] items-start">
-            <label>
+                <label>
                 { label }
-            </label></FlexBox> }
+                </label>
+            </FlexBox> }
             <input
                 name={ name }
                 maxLength={ maxNumber }

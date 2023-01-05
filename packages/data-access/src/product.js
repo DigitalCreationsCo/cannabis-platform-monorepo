@@ -57,9 +57,14 @@ function findProductsByOrg(organizationId) {
                             where: { organizationId: organizationId },
                             orderBy: [
                                 { rating: 'desc' },
-                                { stock: 'desc' }
                             ],
-                            include: { images: true }
+                            include: {
+                                variants: {
+                                    include: {
+                                        images: true
+                                    }
+                                }
+                            }
                         })];
                 case 1:
                     products = (_a.sent()) || [];
@@ -85,12 +90,13 @@ function findProductWithDetails(id) {
                             where: { id: id },
                             include: {
                                 categories: true,
-                                images: true,
                                 organization: true,
                                 reviews: {
                                     include: { user: { include: { imageUser: true } } }
                                 },
-                                orderItem: true
+                                variants: {
+                                    include: { images: true }
+                                }
                             }
                         })];
                 case 1:
@@ -141,9 +147,12 @@ function findProductsByText(search, organizationId) {
                             },
                             orderBy: [
                                 { rating: 'desc' },
-                                { stock: 'desc' }
                             ],
-                            include: { images: true }
+                            include: {
+                                variants: {
+                                    include: { images: true }
+                                }
+                            }
                         })];
                 case 1:
                     products = (_a.sent()) || [];
