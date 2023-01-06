@@ -8,7 +8,7 @@ export default class MainDocument extends Document {
 
     render() {
         return (
-            <Html>
+            <Html data-theme="cannabis">
                 <Head />
                 <body>
                     <Main />

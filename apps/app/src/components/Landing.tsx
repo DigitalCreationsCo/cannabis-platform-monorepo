@@ -32,10 +32,12 @@ export default function LandingPage() {
                 }}
             ></div>
 
-            <Center className="z-10">
+            <Center className="z-10 space-y-1">
                 <H1 className="text-inverse font-display">Welcome to Gras Cannabis</H1>
-                <Paragraph className="text-lg text-inverse">Please sign in to use this app.</Paragraph>
-                <Button disabled={session.loading} onClick={() => SuperTokens.redirectToAuth({ show: 'signin' })}>
+                <Paragraph className="text-lg text-inverse">Sign in to use this app</Paragraph>
+                <Button
+                    className='w-[200px] h-[100px] bg-primary hover:bg-[#0b7529] opacity-90 text-xl transition ease-in-out duration-300'
+                    disabled={ session.loading } onClick={ () => SuperTokens.redirectToAuth({ show: 'signin' }) }>
                     Sign In
                 </Button>
             </Center>

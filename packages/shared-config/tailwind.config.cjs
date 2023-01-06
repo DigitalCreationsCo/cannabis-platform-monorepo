@@ -1,75 +1,71 @@
-/** @type {import('tailwindcss').Config} */
+const colors = require('tailwindcss/colors');
 
 module.exports = {
     content: ['src/**/*.{js,ts,jsx,tsx}', 'pages/**/*.{js,ts,jsx,tsx}'],
-    plugins: [require('@tailwindcss/typography'), require('daisyui')],
-    daisyui: {
-        styled: true,
-        themes: false,
-    },
+    plugins: [require('daisyui')],
     theme: {
         extend: {
-            textColor: {
-                DEFAULT: 'var(--color-dark)',
-            },
-            borderColor: {
-                DEFAULT: 'var(--color-primary)',
+            colors: {
+                inherit: colors.inherit,
+                current: colors.current,
+                transparent: colors.transparent,
+
+                primary: 'var(--primary)',
+                'primary-light': 'var(--primary-light)',
+                secondary: 'var(--secondary)',
+                inverse: 'var(--inverse)',
+                'inverse-soft': 'var(--inverse-soft)',
+                accent: 'var(--accent)',
+                'accent-soft': 'var(--accent-soft)',
+
+                dark: 'var(--dark)',
+                'dark-soft': 'var(--dark-soft)',
+                light: 'var(--light)',
+                'light-soft': 'var(--light-soft)',
+                error: 'var(--error)',
             },
             borderWidth: {
                 DEFAULT: '1.5px',
             },
-            //     fontFamily: {
-            //         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
-            //         mono: ['Consolas', ...defaultTheme.fontFamily.mono],
-            //     },
-        },
-        colors: ({ colors }) => ({
-            inherit: colors.inherit,
-            current: colors.current,
-            transparent: colors.transparent,
-            primary: 'var(--color-primary)',
-            'primary-light': 'var(--color-primary-light)',
-            secondary: 'var(--color-secondary)',
-            inverse: 'var(--color-inverse)',
-            'inverse-soft': 'var(--color-inverse-soft)',
-            accent: 'var(--color-accent)',
-            'accent-soft': 'var(--color-accent-soft)',
-            dark: 'var(--color-dark)',
-            'dark-soft': 'var(--color-dark-soft)',
-            light: 'var(--color-light)',
-            'light-soft': 'var(--color-light-soft)',
-            error: 'var(--color-error)',
-        }),
-        // fontFamily: ({ theme }) => ({
-        //     sans: ['Cal Sans', 'Inter var', theme('fontFamily.sans.ui-sans-serif')],
-        //     mono: ['Consolas', theme('fontFamily.mono.ui-monospace')],
-        // }),
-        borderRadius: {
-            none: '0',
-            btn: 'var(--rounded-btn)',
-            full: '9999px',
-        },
-        fontWeight: {
-            normal: 'var(--font-weight-normal)',
-            semibold: 'var(--font-weight-semibold)',
-            bold: 'var(--font-weight-bold)',
-            display: 'var(--font-weight-display)',
-            btn: 'var(--font-weight-btn)',
-        },
-    },
-    typography: {
-        DEFAULT: {
-            css: {
-                h1: {
-                    fontFamily: 'Cal Sans',
-                },
-                h2: {
-                    fontFamily: 'Cal Sans',
-                },
-                h3: {
-                    fontFamily: 'Cal Sans',
-                },
+            borderColor: {
+                DEFAULT: '#14a33d',
+            },
+            borderRadius: {
+                none: '0',
+                btn: 'var(--rounded-btn)',
+                full: '9999px',
+            },
+            fontWeight: {
+                normal: 'var(--font-weight-normal)',
+                semibold: 'var(--font-weight-semibold)',
+                bold: 'var(--font-weight-bold)',
+                display: 'var(--font-weight-display)',
+                btn: 'var(--font-weight-btn)',
             },
         },
+    },
+    daisyui: {
+        themes: [
+            {
+                cannabis: {
+                    '--primary': '#14a33d',
+                    '--primary-light': '#17c649',
+                    '--secondary': '#13622a',
+                    '--inverse': '#fff2da',
+                    '--inverse-soft': '#f9f7f2',
+                    '--accent': '#a49b8a',
+                    '--accent-soft': '#bbb5a9',
+
+                    '--dark': '#3e3a3a',
+                    '--dark-soft': '#a8a8a8',
+
+                    '--light': '#ffffff',
+                    '--light-soft': '#c6c0b5',
+
+                    '--error': '#dd1616',
+                },
+            },
+            'dark',
+        ],
     },
 };

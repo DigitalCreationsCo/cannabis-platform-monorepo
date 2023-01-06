@@ -36,7 +36,7 @@ function TopBar({ totalItems = 0 }: TopBarProps) {
                 <Image alt="Gras" width={ 50 } height={ 50 } src={ logo } />
             </Link>
             <Link href="/">
-                <H2>Gras</H2>
+                <H2>Gras hello</H2>
             </Link>
             <Link href="/">
                 <Paragraph
