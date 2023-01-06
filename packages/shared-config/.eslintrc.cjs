@@ -1,25 +1,20 @@
 module.exports = {
-    extends: ['eslint:recommended', 'plugin:prettier/recommended'],
-    plugins: ['prettier', 'react', 'react-hooks'],
+    extends: ['eslint:recommended', 'plugin:prettier/recommended', 'eslint-config-prettier'],
+    plugins: ['prettier'],
     rules: {
         eqeqeq: 'error',
-        'no-console': 'warn',
+        'no-console': 'off',
         'prettier/prettier': 'error',
-        'react/jsx-uses-react': 'off',
-        'react/react-in-jsx-scope': 'off',
-    },
-    parserOptions: {
-        sourceType: 'module',
-        ecmaVersion: 'latest',
-        ecmaFeatures: {
-            jsx: true,
-        },
     },
     env: {
         browser: true,
         node: true,
         es6: true,
         jest: true,
+    },
+    parserOptions: {
+        sourceType: 'module',
+        ecmaVersion: 'latest',
     },
     ignorePatterns: ['node_modules', 'build', 'dist', 'public'],
 };

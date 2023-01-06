@@ -1,6 +1,6 @@
 import EmailPasswordReact from 'supertokens-auth-react/recipe/emailpassword';
 import SessionReact from 'supertokens-auth-react/recipe/session';
-import { appInfo } from './appInfo';
+import { appInfo } from "@cd/shared-config/auth/appInfo"
 import Router from 'next/router';
 
 export let frontendConfig = () => {

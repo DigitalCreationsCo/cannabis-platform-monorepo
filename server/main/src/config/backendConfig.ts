@@ -1,8 +1,8 @@
 import EmailPasswordNode from "supertokens-node/recipe/emailpassword";
 import SessionNode from "supertokens-node/recipe/session";
 import Dashboard from "supertokens-node/recipe/dashboard";
-import { appInfo } from "./appInfo";
-import { AuthConfig } from "../interfaces";
+import { appInfo } from "@cd/shared-config/auth/appInfo";
+import { AuthConfig } from "../../interfaces";
 
 export let backendConfig = (): AuthConfig => {
     return {

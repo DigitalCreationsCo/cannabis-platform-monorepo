@@ -1,29 +1,42 @@
-import express from "express";
-import http from "http";
-import bodyParser from "body-parser";
-import cors from "cors";
-import { user, shop, driver, organization, error } from "./api/routes";
+import express from 'express';
+import supertokens from 'supertokens-node';
+import { backendConfig } from './config/backendConfig';
+
+import cors from 'cors';
+import { websiteDomain } from '@cd/shared-config/auth/appInfo';
+import { middleware, errorHandler } from 'supertokens-node/framework/express';
+
+import bodyParser from 'body-parser';
+import { user, shop, driver, organization, error } from './api/routes';
+import http from 'http';
+
+supertokens.init(backendConfig());
 
 const app = express();
-
-app.use(cors());
+app.use(
+    cors({
+        origin: websiteDomain,
+        allowedHeaders: ['content-type', ...supertokens.getAllCORSHeaders()],
+        credentials: true,
+    })
+);
+app.use(middleware());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use("/api/v1/healthcheck", (req, res) => {
-    res.status(200).send("OK");
+app.use('/api/v1/healthcheck', (req, res) => {
+    res.status(200).send('OK');
 });
-
-app.use("/api/v1/user", user);
-app.use("/api/v1/driver", driver);
-app.use("/api/v1/shop", shop);
-app.use("/api/v1/organization", organization);
-
+app.use('/api/v1/user', user);
+app.use('/api/v1/driver', driver);
+app.use('/api/v1/shop', shop);
+app.use('/api/v1/organization', organization);
 // error handling test routes
-app.use("/api/v1/error", error)
-
-app.use("*", (req, res) => res.status(404).json({ error: "API not found" }));
+app.use('/api/v1/error', error);
+// supertokens errorhandler
+app.use(errorHandler());
+// app.use((err: unknown, req: Request, res: Response, next: NextFunction) => { /* ... */ });
+app.use('*', (req, res) => res.status(404).json({ error: 'API not found' }));
 
 const server = http.createServer(app);
-
 export default server;

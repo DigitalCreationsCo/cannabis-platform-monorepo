@@ -12,6 +12,8 @@ import { urlBuilder } from '../src/utils';
 import { Page, LoadingDots, Center } from '@cd/shared-ui';
 
 if (typeof window !== 'undefined') {
+            
+    
     SuperTokens.init(SuperTokensConfig.frontendConfig());
 }
 export default function App({ Component, pageProps }: AppProps): JSX.Element{

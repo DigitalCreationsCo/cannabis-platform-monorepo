@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.cjs",
+  ],
+  "exclude": [
+    "node_modules",
+  ]
+}

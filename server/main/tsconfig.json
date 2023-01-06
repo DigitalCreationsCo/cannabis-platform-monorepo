@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "esModuleInterop": true,
     // "composite": true,
     // "module": "ESNext",
     // "moduleResolution": "Node",
@@ -9,7 +10,6 @@
     // "lib": ["DOM", "DOM.Iterable", "ESNext"],
     // "allowJs": true,
     // "skipLibCheck": true,
-    "esModuleInterop": true,
     // "allowSyntheticDefaultImports": true,
     // "strict": false,
     // "forceConsistentCasingInFileNames": true,
@@ -17,5 +17,6 @@
     // "isolatedModules": true,
     // "noEmit": true,
   },
-  "include": ["index.ts"]
+  "include": ["index.ts"],
+  "exclude": ["node_modules"]
 }

@@ -5,10 +5,8 @@ module.exports = {
         'plugin:import/recommended',
         'plugin:jsx-a11y/recommended',
         'plugin:@typescript-eslint/recommended',
-        'eslint-config-prettier',
-        'plugin:prettier/recommended',
     ],
-    plugins: ['react', 'react-hooks', 'prettier'],
+    plugins: ['react', 'react-hooks'],
     settings: {
         react: {
             // Tells eslint-plugin-react to automatically detect the version of React to use.
@@ -18,7 +16,7 @@ module.exports = {
         'import/resolver': {
             node: {
                 paths: ['src'],
-                extensions: ['.js', '.jsx', '.ts', '.tsx', '.png'],
+                extensions: ['.js', '.jsx', '.ts', '.tsx', '.png', '.css'],
             },
         },
     },
@@ -26,5 +24,10 @@ module.exports = {
         'react/jsx-uses-react': 'error',
         'react/jsx-uses-vars': 'error',
         'react/react-in-jsx-scope': 'off',
+    },
+    parserOptions: {
+        ecmaFeatures: {
+            jsx: true,
+        },
     },
 };

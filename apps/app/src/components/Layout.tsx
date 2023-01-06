@@ -39,7 +39,7 @@ export default function Layout({ onSearchChange, placeholder, children }: Layout
                         'hidden',
                         'md:block',
                         'place-self-center',
-                        'text-primary',
+                        'text-primary font-semibold',
                     ) }
                 >
                     Cannabis Marketplace

@@ -40,7 +40,6 @@
     "@typescript-eslint/parser": "5.45.0",
     "autoprefixer": "10.4.13",
     "axios": "1.2.1",
-    "bcryptjs": "2.4.3",
     "busboy": "1.6.0",
     "chmod": "0.2.1",
     "clsx": "1.2.1",
@@ -85,6 +84,7 @@
     "ts-node-dev": "2.0.0",
     "turbo": "1.6.3",
     "typescript": "4.9.3",
+    "typescript-plugin-css-modules": "4.1.1",
     "usehooks-ts": "2.9.1",
     "yup": "0.32.11"
   },
