@@ -1,6 +1,6 @@
 import express from 'express';
 import supertokens from 'supertokens-node';
-import { EmailPasswordConfig } from './config/EmailPasswordConfig';
+import { backendConfig } from './config/backendConfig';
 
 import cors from 'cors';
 import { websiteDomain } from '@cd/shared-config/auth/appInfo';
@@ -10,7 +10,7 @@ import bodyParser from 'body-parser';
 import { user, shop, driver, organization, error } from './api/routes';
 import http from 'http';
 
-supertokens.init(EmailPasswordConfig());
+supertokens.init(backendConfig());
 
 const app = express();
 app.use(
