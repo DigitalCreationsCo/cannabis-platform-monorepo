@@ -1,0 +1,23 @@
+1-7-2023
+Followed this instruction: https://supertokens.com/blog/connect-supertokens-to-database#running-supertokens-and-mysql-without-docker
+1. pull docker supertokens image
+
+2. create supertokesn db user
+user: supertokens-user
+
+database: cannabis_delivery_v1
+username: 5rym7hkijdnzxdirhiw8
+host: us-east.connect.psdb.cloud
+password: pscale_pw_k7kY1HvI5XnaRKePgW52jv01EQXj8FxJFAhL43YCTzP
+
+3. 
+Run the SuperTokens docker image with the env var specifying the MySQL connection URI:
+
+// template VVV
+docker run \
+  -p 3567:3567 \
+  --network=host \
+  -e MYSQL_CONNECTION_URI="mysql://supertokens_user:somePassword@192.168.1.1:3306/supertokens" \
+  -d registry.supertokens.io/supertokens/supertokens-mysql
+
+4. created runSupertokens docker script at scripts/docker/
