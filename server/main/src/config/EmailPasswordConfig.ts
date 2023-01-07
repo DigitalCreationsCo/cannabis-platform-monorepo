@@ -4,13 +4,13 @@ import Dashboard from "supertokens-node/recipe/dashboard";
 import { appInfo } from "@cd/shared-config/auth/appInfo";
 import { AuthConfig } from "../../interfaces";
 
-export let backendConfig = (): AuthConfig => {
+export let EmailPasswordConfig = (): AuthConfig => {
     return {
         framework: "express",
         supertokens: {
             // this is the location of the SuperTokens core.
-            // connectionURI: "https://dev-7df8c83181c511edb537317a8c6fe87a-us-east-1.aws.supertokens.io:3572",
-            connectionURI: "https://try.supertokens.com",
+            connectionURI: "https://dev-7df8c83181c511edb537317a8c6fe87a-us-east-1.aws.supertokens.io:3572",
+            // connectionURI: "https://try.supertokens.com",
         },
         appInfo,
         // recipeList contains all the modules that you want to
@@ -19,8 +19,8 @@ export let backendConfig = (): AuthConfig => {
             EmailPasswordNode.init(),
             SessionNode.init(),
             Dashboard.init({
-                // apiKey: "l87ZtvrDXHQZdqalA=M8j7r5=JmLDx",
-                apiKey: "supertokens_is_awesome",
+                apiKey: "l87ZtvrDXHQZdqalA=M8j7r5=JmLDx",
+                // apiKey: "supertokens_is_awesome",
             }),
         ],
         isInServerlessEnv: true,

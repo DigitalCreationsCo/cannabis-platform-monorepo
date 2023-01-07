@@ -1,6 +1,6 @@
 import express from 'express';
 import supertokens from 'supertokens-node';
-import { backendConfig } from './config/backendConfig';
+import { EmailPasswordConfig } from './config/EmailPasswordConfig';
 
 import cors from 'cors';
 import { websiteDomain } from '@cd/shared-config/auth/appInfo';
@@ -10,7 +10,7 @@ import bodyParser from 'body-parser';
 import { user, shop, driver, organization, error } from './api/routes';
 import http from 'http';
 
-supertokens.init(backendConfig());
+supertokens.init(EmailPasswordConfig());
 
 const app = express();
 app.use(
@@ -27,7 +27,7 @@ app.use(bodyParser.json());
 app.use('/api/v1/healthcheck', (req, res) => {
     res.status(200).send('OK');
 });
-app.use('/api/v1/user', user);
+app.use('/api/v1/auth', user);
 app.use('/api/v1/driver', driver);
 app.use('/api/v1/shop', shop);
 app.use('/api/v1/organization', organization);

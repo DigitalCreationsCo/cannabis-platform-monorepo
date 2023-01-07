@@ -1,3 +1,5 @@
+import { Prisma } from '@prisma/client';
+import { signIn, signUp } from 'supertokens-node/recipe/emailpassword';
 /* =================================
 UserController - controller class for user actions
 
@@ -9,13 +11,11 @@ login
 export default class UserController {
     static async login(req, res) {
         try {
-            let userId = 'User1';
-            let jwtPayload = { name: 'spooky action at a distance' };
-            let sessionData = { awesomeThings: ['programming', 'javascript', 'supertokens'] };
-
-            await supertokens.createNewSession(res, userId, jwtPayload, sessionData);
-
-            res.send('logged in');
+            let { email, password } = req.body;
+            console.log('email: ', email);
+            console.log('password: ', password);
+            const signInUser = await signIn(email, password);
+            res.status(200).json(signInUser);
         } catch (error) {
             console.log('API error: ', error);
             res.status(500).json({ error });
