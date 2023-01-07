@@ -1,8 +1,8 @@
 {
   "name": "@cd/shared-config",
   "version": "1.0.0",
+  "private": true,
   "main": "index.css",
-  "license": "MIT",
   "scripts": {
     "lint": "eslint -c .eslintrc.cjs"
   },
