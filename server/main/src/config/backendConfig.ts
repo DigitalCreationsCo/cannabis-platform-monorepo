@@ -10,7 +10,8 @@ export let backendConfig = (): AuthConfig => {
         supertokens: {
             // this is the location of the SuperTokens core.
             // connectionURI: "https://dev-7df8c83181c511edb537317a8c6fe87a-us-east-1.aws.supertokens.io:3572",
-            connectionURI: "https://try.supertokens.com",
+            // connectionURI: "https://try.supertokens.com",
+            connectionURI: "http://localhost:3567",
         },
         appInfo,
         // recipeList contains all the modules that you want to
@@ -19,8 +20,7 @@ export let backendConfig = (): AuthConfig => {
             EmailPasswordNode.init(),
             SessionNode.init(),
             Dashboard.init({
-                // apiKey: "l87ZtvrDXHQZdqalA=M8j7r5=JmLDx",
-                apiKey: "supertokens_is_awesome",
+                apiKey: "l87ZtvrDXHQZdqalA=M8j7r5=JmLDx",
             }),
         ],
         isInServerlessEnv: true,
