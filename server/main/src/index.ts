@@ -1,18 +1,9 @@
 import server from "./server";
-import {
-  UserDA,
-  DriverDA,
-  OrganizationDA,
-  OrderDA
-} from "./api/data-access";
 import { PrismaClient } from "@prisma/client";
 
-async function connectDb(client: PrismaClient) {
+async function connectDb(prisma: PrismaClient) {
   try {
-    // await UserDA.injectDB(client);
-    // await OrganizationDA.injectDB(client);
-    // await DriverDA.injectDB(client);
-    // await OrderDA.injectDB(client);
+    await prisma.$connect()
     console.log(" 👏 Database is connected.");
   } catch(error:any) {
     console.error("Error connecting to database: ", error.stack);

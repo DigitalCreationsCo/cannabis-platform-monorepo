@@ -6,8 +6,7 @@ type PriceProps = {
 }
 
 function Price({ price, className, locale = "en-us" }: PriceProps) {
-    locale = "en-us"
-    const _currencySymbol = {"en-us": "$"}
+    const _currencySymbol: any = {"en-us": "$"}
     function convertCentsToDollars (cents: number) {
         const number = Number(cents / 100 * 100 / 100);
         return number.toFixed(2)
