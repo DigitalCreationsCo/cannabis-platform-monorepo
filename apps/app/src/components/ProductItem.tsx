@@ -1,5 +1,5 @@
 import { Price, FlexBox, H6, Paragraph, TextField } from "@cd/shared-ui";
-import { Product } from "@cd/data-access";
+import { Product, ProductWithDetails } from "@cd/data-access";
 import Image from "next/image";
 import React, { PropsWithChildren, useState } from "react";
 import { twMerge } from "tailwind-merge";
@@ -7,7 +7,7 @@ import { ConfirmationAlert } from "components";
 
 type ProductItemProps = {
     className?: string;
-    product: Product;
+    product: ProductWithDetails;
     handleConfirm?: any;
 }
 function ProductItem({ product, className, handleConfirm, children }: ProductItemProps & PropsWithChildren) {
@@ -18,19 +18,22 @@ function ProductItem({ product, className, handleConfirm, children }: ProductIte
         <>
             <div onClick={toggleConfirm} className={ twMerge("flex flex-col justify-between bg-light h-full min-w-[180px] rounded-btn shadow", className) }>
                 <div className="relative h-1/2 h-[100px] w-[100px]">
-                    <Image className="rounded-btn" src={ product?.images[ 0 ]?.location } alt="" fill={ true }  />
+                    <Image className="rounded-btn" src={ product?.variants?.[0]?.images[0]?.location } alt="" fill={ true }  />
                 </div>
                 <div className="pb-2 pl-2">
-                <Paragraph>{ product.name }</Paragraph>
+                    <Paragraph>{ product.name }</Paragraph>
+                    
+                    {/* ADD PRODUCT VARIANT SELECT HERE */ }
+                    
                 <FlexBox>
-                    <Paragraph>{ product.size + product.unit }</Paragraph>
-                    <Paragraph>{ product.stock + ' in stock'}</Paragraph>
+                    {/* <Paragraph>{ product.size + product.unit }</Paragraph> */}
+                    {/* <Paragraph>{ product.stock + ' in stock'}</Paragraph> */}
                 </FlexBox>
                 <FlexBox>
-                    <Price price={ product.basePrice } />
-                    <Paragraph>{ product.discount }% off</Paragraph>
+                    {/* <Price price={ product.basePrice } /> */}
+                    {/* <Paragraph>{ product.discount }% off</Paragraph> */}
                 </FlexBox>
-                <H6><Price price={ product.salePrice }  /></H6>
+                {/* <H6><Price price={ product.salePrice }  /></H6> */}
                 </div>
             </div>
             

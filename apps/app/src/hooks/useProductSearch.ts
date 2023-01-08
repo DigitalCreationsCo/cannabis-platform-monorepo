@@ -1,9 +1,10 @@
 import { debounce } from "utils";
 import axios from "axios";
 import { useState } from "react";
+import { ProductWithDetails } from "@cd/data-access";
 
 const useProductSearch = () => {
-  const [categorySearchResult, setcategorySearchResult] = useState<any[]>([]);
+  const [categorySearchResult, setcategorySearchResult] = useState<ProductWithDetails[]>([]);
   const [notFoundResult, setNotFoundResult] = useState(false);
 
   const doSearchProducts = debounce(async (e) => {
