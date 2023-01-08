@@ -8,15 +8,16 @@
     "seed": "ts-node --esm src/db/seed.ts"
   },
   "scripts": {
-    "dev": "yarn connect",
-    "dev:watch": "tsc --watch src/index.ts",
+    "dev": "tsc --watch src/index.ts",
     "test": "../../node_modules/jest/bin/jest.js",
     "generate": "prisma generate",
     "connect": "pscale connect cannabis_delivery_v1 dev --port 3309",
     "migrate": "prisma migrate",
     "push": "prisma db push",
     "deploy": "pscale deploy-request create cannabis_delivery_v1 dev",
-    "seed": "prisma generate && prisma db push && prisma db seed",
+    "seed": "prisma db seed",
+    "clear": "ts-node --esm src/db/clear.ts",
+    "reseed": "prisma generate && prisma db push && yarn db clear && prisma db seed",
     "studio": "prisma studio"
   },
   "peerDependencies": {

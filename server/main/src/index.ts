@@ -1,7 +1,6 @@
 import server from "./server";
-import { PrismaClient } from "@prisma/client";
 
-async function connectDb(prisma: PrismaClient) {
+async function connectDb(prisma) {
   try {
     await prisma.$connect()
     console.log(" 👏 Database is connected.");

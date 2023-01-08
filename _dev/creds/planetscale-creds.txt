@@ -1,0 +1,17 @@
+root-admin
+database: cannabis_delivery_v1
+username: sj3cs75fu1kfprd06olu
+host: us-east.connect.psdb.cloud
+password: pscale_pw_phumguFeaLaztdHseiKP3vjvc4e0XZwovsO19SZVh4z
+
+dev
+database: cannabis_delivery_v1
+username: ixtybplwsa2vs6ths22v
+host: us-east.connect.psdb.cloud
+password: pscale_pw_FR7eQje6iY5gf3gqho6CnczBbbi0TrwsnBoiG5f0TKs
+
+prod-admin
+database: cannabis_delivery_v1
+username: edyxcgwnxao3sgsl7rmq
+host: us-east.connect.psdb.cloud
+password: pscale_pw_OdxL41SLEznVPek7orIQJB4ufzRxawn97gbcaM3v2yr
