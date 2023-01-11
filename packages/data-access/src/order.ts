@@ -1,6 +1,21 @@
 import { Prisma, OrderItem, Product, ImageProduct, Unit, Driver, User, Address, Order, ProductVariant } from "@prisma/client";
 import prisma from "./db/prisma";
 
+/* =================================
+Functions
+
+createOrder
+findOrdersByOrg
+findOrderWithDetails
+updateOrderWithOrderItems
+deleteOrder
+
+Types
+OrderWithDetails
+OrderItemWithDetails
+OrderUpdate
+
+================================= */
 export async function createOrder() {
     // try {
     // } catch (error) {

@@ -20,4 +20,5 @@ __createBinding(exports, prisma_1, "default");
 __exportStar(require("./order"), exports);
 __exportStar(require("./product"), exports);
 __exportStar(require("./category"), exports);
+__exportStar(require("./user"), exports);
 __exportStar(require("@prisma/client"), exports);

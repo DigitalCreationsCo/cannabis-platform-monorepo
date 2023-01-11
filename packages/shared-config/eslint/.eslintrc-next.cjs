@@ -1,6 +1,11 @@
 module.exports = {
+    settings: { 
+    next: {
+      rootDir: "../**/apps/*",
+    },
+  },
     extends: [
-        "./eslintrc-react.cjs",
+        "../../packages/shared-config/eslint/.eslintrc-react.cjs",
         'eslint-config-next',
     ],
 };

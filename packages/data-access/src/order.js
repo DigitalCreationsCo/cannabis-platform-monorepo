@@ -69,6 +69,21 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 exports.__esModule = true;
 exports.deleteOrder = exports.updateOrderWithOrderItems = exports.findOrderWithDetails = exports.findOrdersByOrg = exports.createOrder = void 0;
 var prisma_1 = require("./db/prisma");
+/* =================================
+Functions
+
+createOrder
+findOrdersByOrg
+findOrderWithDetails
+updateOrderWithOrderItems
+deleteOrder
+
+Types
+OrderWithDetails
+OrderItemWithDetails
+OrderUpdate
+
+================================= */
 function createOrder() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
