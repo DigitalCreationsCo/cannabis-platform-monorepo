@@ -24,10 +24,8 @@ const cache = new NodeCache({ stdTTL: 30 });
 // get orders from an organization
 handler.get(async (req: ExtendRequest, res: NextApiResponse) => {
     try {
-        console.log('hello');
         const { user } = req;
         const { organizationId } = user;
-
         if (cache.has(`orders/org/${organizationId}`)) {
             const orders = cache.get(`orders/org/${organizationId}`);
             return res.status(200).json(orders);

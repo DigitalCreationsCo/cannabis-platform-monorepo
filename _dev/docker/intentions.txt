@@ -27,12 +27,8 @@ for typescript: fix tsconfig in any projec that is having compile issue
 add daisy ui for tab, modal, and more.
 1-11-22
 creating userdata middleware for all routes
-adding userdata to request / jwt access token
-
 
 do next:
-
-
 product upload, wasabi s3 storage, imagekit.io image handling ;D
 
 discount and pricing model:

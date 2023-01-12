@@ -7,9 +7,6 @@
     "typescript",
     "typescriptreact"
   ],
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true,
-  },
   "cSpell.words": [
     "blurhash",
     "camelcase",

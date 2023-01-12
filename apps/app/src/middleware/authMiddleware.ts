@@ -3,12 +3,11 @@ import { EmployeeUserData, EmployeeUserSession, User } from '@cd/data-access';
 import { SessionInformation } from 'supertokens-node/recipe/session';
 import { verifySession } from 'supertokens-node/recipe/session/framework/express';
 import { SessionRequest } from 'supertokens-node/framework/express';
-
 // import { getToken } from 'next-auth/jwt';
 
 export type ExtendRequest = NextApiRequest & {
-    session?: SessionInformation;
-    user?: EmployeeUserData;
+    session: SessionInformation;
+    user: EmployeeUserData;
 };
 
 const getSession = (req) => {
@@ -56,10 +55,11 @@ function getUserInfoFromAccessToken(req) {
 // this way, any metadata (id, organizationId, etc) is available for the backend data requests
 export default async function authMiddleware(req: ExtendRequest, res: any, next: Function) {
     try {
-        console.log('auth middleware');
         const { user } = getUserInfoFromAccessToken(req);
         req.user = user;
-        console.log('auth middleware user: ', user);
+        console.log('auth middleware');
+        // console.log('auth middleware user: ', user);
+        
         // await verifySession()(req, res, next());
         // const userId = req?.session?.getUserId();
         // let userInfo = await EmailPassword.getUserById({userId})

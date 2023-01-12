@@ -82,10 +82,6 @@ function TopBar({ totalItems = 0 }: TopBarProps) {
                         <Button
                             disabled={session.loading}
                             onClick={() => {}
-                                // test how much of this is redundant
-                                // async () => await SuperTokensReact.redirectToAuth({ show: 'signin'})
-                                // SessionReact.attemptRefreshingSession()
-                                // location.reload();
                             }
                         >
                             Sign In

@@ -69,7 +69,7 @@ prisma.$use(function (params, next) { return __awaiter(void 0, void 0, void 0, f
                 }
                 results = dateToString(results);
                 after = Date.now();
-                console.log("Total Query ".concat(params.model, ".").concat(params.action, " took ").concat(after - before, "ms"));
+                console.log("Query ".concat(params.model, ".").concat(params.action, " done after ").concat(after - before, "ms"));
                 return [2 /*return*/, results];
         }
     });
