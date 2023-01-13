@@ -21,6 +21,12 @@ app.use(
     })
 );
 app.use(middleware());
+// app.use((req, res) => {
+//     middleware(),
+//         async (next) => {
+//             await verifySession()(req, res, next);
+//         };
+// });
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 

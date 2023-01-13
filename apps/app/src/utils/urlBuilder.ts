@@ -6,6 +6,7 @@ const urlBuilder =
             baseUrl: 'http://localhost:6001/api/v1',
             healthCheck: () => urlBuilder.main.baseUrl + "/healthcheck",
             
+            verifySession: () => urlBuilder.main.baseUrl + "/auth/verifySession",
             ordersByOrgId: (id: any) => urlBuilder.main.baseUrl + `/shop/orders/org/${id}`,
             orderById: (id: any) => urlBuilder.main.baseUrl + `/shop/orders/${id}`,
             orders: () => urlBuilder.main.baseUrl + `/shop/orders`,

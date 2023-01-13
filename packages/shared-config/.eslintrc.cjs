@@ -1,5 +1,11 @@
 module.exports = {
-    extends: ['eslint:recommended', 'plugin:prettier/recommended', 'eslint-config-prettier'],
+    extends: [
+        'eslint:recommended',
+        'eslint-config-prettier',
+        'plugin:import/recommended',
+        'plugin:@typescript-eslint/recommended',
+        'plugin:prettier/recommended',
+    ],
     plugins: ['prettier'],
     rules: {
         eqeqeq: 'error',
@@ -11,10 +17,6 @@ module.exports = {
         node: true,
         es6: true,
         jest: true,
-    },
-    parserOptions: {
-        sourceType: 'module',
-        ecmaVersion: 'latest',
     },
     ignorePatterns: ['node_modules', 'build', 'dist', 'public'],
 };

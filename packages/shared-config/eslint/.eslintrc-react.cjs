@@ -1,10 +1,8 @@
 module.exports = {
     extends: [
-        "../.eslintrc.cjs",
+        "/packages/shared-config/.eslintrc.cjs",
         'plugin:react/recommended',
-        'plugin:import/recommended',
         'plugin:jsx-a11y/recommended',
-        'plugin:@typescript-eslint/recommended',
     ],
     plugins: ['react', 'react-hooks'],
     settings: {
@@ -16,7 +14,7 @@ module.exports = {
         'import/resolver': {
             node: {
                 paths: ['src'],
-                extensions: ['.js', '.jsx', '.ts', '.tsx', '.png', '.css'],
+                extensions: ['.js', '.jsx', '.ts', '.tsx', '.cjs', '.png', '.css'],
             },
         },
     },

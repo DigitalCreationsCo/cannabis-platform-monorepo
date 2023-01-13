@@ -594,6 +594,7 @@ __metadata:
     json: 11.0.0
     next: 13.0.6
     next-connect: 0.13.0
+    nextjs-cors: ^2.1.2
     node-cache: 5.1.2
     node-mocks-http: 1.12.1
     nodemon: 2.0.20
@@ -3291,7 +3292,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cors@npm:2.8.5":
+"cors@npm:2.8.5, cors@npm:^2.8.5":
   version: 2.8.5
   resolution: "cors@npm:2.8.5"
   dependencies:
@@ -7202,6 +7203,17 @@ __metadata:
   bin:
     next: dist/bin/next
   checksum: 2de1d9975f90ba67b4fb0ca6ec16d91eff3f7e05cea218cf2abb214c28cf8969b4fa7e81df23fe2025bceda676dda2db90e873f0909b17df1d395f6a275a2715
+  languageName: node
+  linkType: hard
+
+"nextjs-cors@npm:^2.1.2":
+  version: 2.1.2
+  resolution: "nextjs-cors@npm:2.1.2"
+  dependencies:
+    cors: ^2.8.5
+  peerDependencies:
+    next: ^8.1.1-canary.54 || ^9.0.0 || ^10.0.0-0 || ^11.0.0 || ^12.0.0 || ^13.0.0
+  checksum: 92417b4367b1761c8bd3747f3f014a96f199d4101c39f64b03225913daec09f0952dd501f4381d9bee4a424cfc61921e862e7bab6970fc20810c0fbbc924d222
   languageName: node
   linkType: hard
 
