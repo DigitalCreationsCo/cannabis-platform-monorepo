@@ -1,4 +1,4 @@
-import { Card, H1, Button, Center, Page, Paragraph } from '@cd/shared-ui';
+import { Button, Center, H1, Paragraph } from '@cd/shared-ui';
 import Image from 'next/image';
 import SuperTokens from 'supertokens-auth-react';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
@@ -17,7 +17,6 @@ export default function LandingPage() {
             <Image
                 src={backdrop}
                 alt=""
-                placeholder="blur"
                 fill={true}
                 style={{ objectFit: 'cover', objectPosition: '40% 60%' }}
             />

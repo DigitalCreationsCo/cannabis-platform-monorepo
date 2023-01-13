@@ -1,14 +1,14 @@
+import { OrderItem, OrderItemWithDetails, OrderWithDetails, Product } from "@cd/data-access";
+import { Button, Card, Center, DeleteButton, FlexBox, Grid, H5, H6, Icons, LoadingDots, Padding, Page, Paragraph, PhoneNumber, Price, Row, TextField } from "@cd/shared-ui";
 import axios from "axios";
-import { OrderItem, OrderItemWithDetails, OrderWithDetails, Product } from "@cd/data-access"
-import React, { useEffect, useState } from "react";
-import { H5, Price, Button, Card, DeleteButton, FlexBox, Grid, H6, Icons, LoadingDots, Page, Paragraph, Row, TextField, PhoneNumber, Padding, Center } from "@cd/shared-ui";
+import { AddProduct, PageHeader, ProductItem, ProtectedComponent } from "components";
+import { format } from "date-fns";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import Image from "next/image";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { AddProduct, PageHeader, ProductItem, ProtectedComponent } from "components";
 import { calcSalePrice, urlBuilder } from "utils";
-import { format } from "date-fns";
 import { useProductSearch } from "../../src/hooks";
 
 export default function OrderDetails() {
@@ -191,8 +191,8 @@ export default function OrderDetails() {
                 
 
                 { order.items.map((item: OrderItemWithDetails, index: number) => (
-                  <Row key={ index } className="h-[66px] space-x-4">
-                    <Image src={ item.product?.images[ 0 ]?.location } alt="" height={ 64 } width={ 64 } />
+                  <Row key={ index } className="h-[66px] md:space-x-4">
+                    <Image src={ item.product?.images[ 0 ]?.location } className="hidden sm:block" alt="" height={ 64 } width={ 64 } />
                     <FlexBox className="grow">
                       <H6>{ item.name }</H6>
                     </FlexBox>

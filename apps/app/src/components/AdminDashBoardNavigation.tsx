@@ -1,10 +1,10 @@
+import { Icons, NavLink } from '@cd/shared-ui';
 import { useRouter } from 'next/router';
-import { NavLink, Icons } from '@cd/shared-ui';
 
 const AdminDashboardNavigation = () => {
     let { pathname } = useRouter();
     return (
-        <div className="z-10 shadow rounded-btn">
+        <div>
             {links.map((item) => {
                 let href = (item.href.length > 1 && item.href.slice(1)) || item.href;
                 pathname = (item.href.length === 1 && pathname.slice(1)) || pathname;

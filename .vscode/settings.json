@@ -8,7 +8,8 @@
     "typescriptreact"
   ],
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true,
+    "source.fixAll": true,
+    "source.organizeImports": true,
   },
   "cSpell.words": [
     "blurhash",

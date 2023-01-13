@@ -45,6 +45,7 @@ module.exports = {
         },
     },
     daisyui: {
+        styled: true,
         themes: [
             {
                 cannabis: {
@@ -65,7 +66,6 @@ module.exports = {
                     '--error': '#dd1616',
                 },
             },
-            'dark',
         ],
     },
 };

@@ -27,6 +27,17 @@ for typescript: fix tsconfig in any projec that is having compile issue
 add daisy ui for tab, modal, and more.
 
 do next:
+refine the ui for mobile and web
+add mobile sidenav drawer:
+TO FIX:
+    drawer menu on mobile is broken, overlay is not working, check the dom tree order, add zindex to overlay
+    on desktop size, hide the overlay
+    when its done
+    NOTE: abstract a component, ONLY when you need it more than twice! This saves time, headche, and technical debt.
+Deploy to vercel TODAY. No excuses. Send it as is.
+
+deploy to vercel, message Matthew so he can review and give feedback
+
 product upload, wasabi s3 storage, imagekit.io image handling ;D
 
 discount and pricing model:

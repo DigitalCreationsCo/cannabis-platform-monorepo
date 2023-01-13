@@ -1,7 +1,5 @@
 import { FlexBox, H3, IconWrapper, Span } from "@cd/shared-ui";
-import React from "react";
 import { twMerge } from "tailwind-merge";
-import {SideNav} from ".";
 
 export interface PageHeaderProps {
   title?: string;
@@ -20,7 +18,7 @@ export default function PageHeader ({
   iconColor = "primary"
 }: PageHeaderProps ) {
   return (
-      <FlexBox className="min-h-[54px] my-2 flex space-x-4">
+      <FlexBox className="min-h-[54px] flex space-x-4">
         <FlexBox className="flex-col">
           <FlexBox className="flex-row">
             <H3>{ title }</H3>

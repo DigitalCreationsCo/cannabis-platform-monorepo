@@ -1,16 +1,16 @@
-import { PropsWithChildren, ReactEventHandler, useState } from 'react';
-import SearchBar from "./AppSearch"
-import AdminDashboardNavigation from './AdminDashBoardNavigation';
-import { useSessionContext } from 'supertokens-auth-react/recipe/session';
-import { twMerge } from 'tailwind-merge';
-import Link from 'next/link';
-import logo from '../../public/logo.png'
+import {
+    Button, Center, FlexBox, Footer, H2, Header, LoadingDots, Page, Paragraph
+} from '@cd/shared-ui';
 import Image from 'next/image';
-import { Footer, Header, SideNavContainer, H2, Paragraph, Button, FlexBox, LoadingDots } from '@cd/shared-ui';
-import Session from 'supertokens-auth-react/recipe/session';
+import Link from 'next/link';
+import { PropsWithChildren, ReactEventHandler } from 'react';
 import SuperTokens from 'supertokens-auth-react';
-import { Page } from '@cd/shared-ui';
-import { Center } from '@cd/shared-ui';
+import Session, { useSessionContext } from 'supertokens-auth-react/recipe/session';
+import { twMerge } from 'tailwind-merge';
+import logo from '../../public/logo.png';
+import AdminDashboardNavigation from './AdminDashBoardNavigation';
+import SearchBar from "./AppSearch";
+import SideNavContainer from './SideNavContainer';
 
 interface LayoutProps extends PropsWithChildren {
     onSearchChange?: ReactEventHandler;
@@ -20,20 +20,21 @@ interface LayoutProps extends PropsWithChildren {
 export default function Layout({ onSearchChange, placeholder, children }: LayoutProps) {
     const session = useSessionContext()
     // if (session.loading === true) return <Page><Center><LoadingDots /></Center></Page>
-    const topbar = [ 'flex flex-row h-[66px] pr-4 lg:px-8 bg-inverse space-x-2 items-center shadow' ]
+    const main = "bg-inverse-soft"
+    const topbar = [ 'flex flex-row h-[66px] pr-4 lg:px-8 lg:pr-16 bg-inverse space-x-2 items-center shadow' ]
     return (
-        <>
-            <div className={ twMerge(topbar) }>
+        <div className={main}>
+            <div className={ twMerge(topbar) }>   
             <Link href="/" passHref>
                 <Image alt="Gras" width={ 50 } height={ 50 } src={ logo } />
             </Link>
             <Link href="/">
-                <H2>Gras</H2>
+                <H2 className="pt-1">Gras</H2>
             </Link>
             <Link href="/">
                 <Paragraph
                     className={ twMerge(
-                        'pt-1',
+                        'pt-2',
                         'pl-2',
                         'text-lg',
                         'hidden',
@@ -51,7 +52,7 @@ export default function Layout({ onSearchChange, placeholder, children }: Layout
             { session.doesSessionExist && (
                 <>
                     <Link href="/support">
-                        <Paragraph className={ twMerge('pt-1', 'text-md', 'whitespace-nowrap') }>Need Support?</Paragraph>
+                        <Paragraph className={ twMerge('pt-1', 'px-3', 'text-md', 'whitespace-nowrap') }>Need Support?</Paragraph>
                     </Link>
                     <FlexBox>
                         <Button
@@ -73,21 +74,24 @@ export default function Layout({ onSearchChange, placeholder, children }: Layout
                 </Button>
             ) }
             </div>
-            { session.loading === true ? (
-                <SideNavContainer SideNavComponent={ AdminDashboardNavigation } fixedComponentId={ 'admin-dashboard' }>
-                    <Header><SearchBar placeholder={ placeholder } onChange={ onSearchChange } /></Header>
-                    <Page><Center><LoadingDots /></Center></Page>
-                </SideNavContainer>)
-                : session.doesSessionExist ?
-                    (
-                        <SideNavContainer SideNavComponent={ AdminDashboardNavigation } fixedComponentId={ 'admin-dashboard' }>
-                            <Header><SearchBar placeholder={ placeholder } onChange={ onSearchChange } /></Header>
-                            { children }
-                        </SideNavContainer>
-                    )
-                    : <>{ children }</>
-            }
-            <Footer />
-        </>
+                { session.loading === true ? (
+                    <SideNavContainer SideNavComponent={ AdminDashboardNavigation } fixedComponentId={ 'dashboard-links' }>
+                        <Header><SearchBar placeholder={ placeholder } onChange={ onSearchChange } /></Header>
+                        <Page><Center><LoadingDots /></Center></Page>
+                    </SideNavContainer>)
+                    : session.doesSessionExist ?
+                        (
+                            <SideNavContainer SideNavComponent={ AdminDashboardNavigation } fixedComponentId={ 'dashboard-links' }>
+                                <Header
+                                    SearchComponent={ <SearchBar placeholder={ placeholder } onChange={ onSearchChange } /> }
+                                >
+                                </Header>
+                                { children }
+                            </SideNavContainer>
+                        )
+                        : <>{ children }</>
+                }
+                <Footer />
+        </div>
     );
 }

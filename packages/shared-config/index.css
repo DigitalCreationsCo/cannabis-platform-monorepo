@@ -4,8 +4,8 @@
 @layer base {
 
   body { 
-    @apply text-dark
-  }
+    @apply text-dark;
+  } 
 
   :root {
     --font-weight-normal: 400;

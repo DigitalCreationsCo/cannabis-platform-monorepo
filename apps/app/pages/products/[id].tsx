@@ -1,17 +1,17 @@
-import { Formik } from "formik";
-import { Category, CurrencyName, ImageOrganization, ImageProduct, ImageUser, ImageVendor, Product, ProductWithDetails, Unit } from "@cd/data-access"
-import { Button, Card, FlexBox, Grid, H6, Icons, IconWrapper, LoadingDots, Padding, Page, Paragraph, Price, Row, TextField } from "@cd/shared-ui";
+import { ImageOrganization, ImageProduct, ImageUser, ImageVendor, Product, ProductWithDetails } from "@cd/data-access";
+import { Button, FlexBox, Grid, Icons, IconWrapper, LoadingDots, Padding, Page, Paragraph, Row, TextField } from "@cd/shared-ui";
 import axios from "axios";
+import { ClickableTags, DropZone, Modal, PageHeader, ProtectedComponent } from "components";
+import { Formik } from "formik";
+import { useCategory, useOnClickOutside } from "hooks";
+import Image from "next/image";
 import Link from "next/link";
 import Router, { useRouter } from "next/router";
-import React, { PropsWithChildren, useEffect, useRef, useState } from "react";
+import { PropsWithChildren, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
-import { ClickableTags, DropZone, MenuItem, Modal, PageHeader, ProductItem, ProtectedComponent, Select, Tag } from "components";
-import { urlBuilder } from "utils";
-import Image from "next/image";
-import { useCategory, useOnClickOutside } from "hooks";
-import * as yup from "yup";
 import { twMerge } from "tailwind-merge";
+import { urlBuilder } from "utils";
+import * as yup from "yup";
 
 const styleUploadWindow = ["h-[80px] w-[80px] border flex rounded-btn relative items-center justify-center bg-light"]
 const UploadImageBox = ({ onClick, children }: { onClick: any; } & PropsWithChildren) => (
@@ -191,7 +191,7 @@ export default function ProductDetails() {
                 className="min-w-full w-full sm:min-w-[600px] sm:w-[600px] px-0 sm:px-2 md:px-4"
               >
                 <Grid className="px-0 space-y-2">
-                  <Row className="px-0 sm:px-4border">
+                  <Row className="px-0 sm:px-4">
                     <Paragraph className="flex justify-start">Sku</Paragraph>
                     <Paragraph className="flex justify-start">Stock</Paragraph>
                     <Paragraph className="flex justify-start">Size</Paragraph>

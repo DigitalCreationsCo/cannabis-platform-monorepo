@@ -1,8 +1,8 @@
+import prisma, { Order, Organization, Product, User } from "@cd/data-access";
+import { Card, Grid, Icons, OrderRow, Page } from '@cd/shared-ui';
+import { PageHeader, ProductRow, ProtectedComponent } from "components";
 import Head from 'next/head';
 import { useMemo } from 'react';
-import { Icons, Page, Card, Grid, OrderRow } from '@cd/shared-ui';
-import prisma, {Organization, Product, Order, User} from "@cd/data-access"
-import { PageHeader, ProductRow, ProtectedComponent } from "components"
 import urlBuilder from '../src/utils/urlBuilder';
 
 interface DashboardProps {
