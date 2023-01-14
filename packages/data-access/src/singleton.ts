@@ -1,6 +1,6 @@
-import type { PrismaClient } from '@prisma/client'
-import { mockDeep, mockReset, DeepMockProxy } from 'jest-mock-extended'
-import prisma from './db/prisma'
+import type { PrismaClient } from '@prisma/client';
+import { DeepMockProxy, mockDeep, mockReset } from 'jest-mock-extended';
+import prisma from './db/prisma';
 
 jest.mock('./prisma', () => ({
   __esModule: true,
@@ -8,7 +8,6 @@ jest.mock('./prisma', () => ({
 }))
 
 beforeEach(() => {
-  // eslint-disable-next-line no-use-before-define
   mockReset(prismaMock)
 })
 

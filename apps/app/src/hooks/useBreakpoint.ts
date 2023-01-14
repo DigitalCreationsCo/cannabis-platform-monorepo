@@ -1,5 +1,5 @@
+import tailwindConfig from '@cd/shared-config/tailwind.config.cjs'; // Fix the path
 import resolveConfig from 'tailwindcss/resolveConfig';
-import tailwindConfig from 'shared-config/tailwind.config.cjs'; // Fix the path
 
 const fullConfig = resolveConfig(tailwindConfig);
 

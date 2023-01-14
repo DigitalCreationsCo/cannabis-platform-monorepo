@@ -11,7 +11,7 @@ function ClickableTags({ values, setValues, valueKey, children }: ClickableTagPr
     const onClick = (c: any) => {
         if (editMode) {
             setValues((state: any) => {
-                const filterValues = [...state].filter((item) => item[valueKey] != c[valueKey]);
+                const filterValues = [...state].filter((item) => item[valueKey] !== c[valueKey]);
                 return new Set([...filterValues]);
             });
         } else {

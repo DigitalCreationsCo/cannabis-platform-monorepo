@@ -10,7 +10,7 @@ import {
     Page,
     Paragraph,
     Row,
-    TextField
+    TextField,
 } from '@cd/shared-ui';
 import axios from 'axios';
 import { ClickableTags, DropZone, Modal, PageHeader, ProtectedComponent } from 'components';
@@ -345,10 +345,7 @@ export default function ProductDetails() {
                                                             >
                                                                 {categorySearchResult.map((v, index) => {
                                                                     return (
-
                                                                         <li
-                                                                {/* eslint-disable */}
-                                                                            
                                                                             onClick={() => {
                                                                                 if (
                                                                                     ![...productCategories].some(
@@ -382,7 +379,7 @@ export default function ProductDetails() {
                                                             <UploadImageBox
                                                                 key={index}
                                                                 onClick={() => handleDeleteExistingImage(image)}
-                                                                onKeyUp={() => {}}
+                                                                // onKeyUp={() => {}}
                                                             >
                                                                 <Image
                                                                     key={'product-image-' + index}

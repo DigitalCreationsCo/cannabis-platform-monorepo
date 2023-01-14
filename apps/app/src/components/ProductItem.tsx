@@ -16,16 +16,14 @@ function ProductItem({ product, className, handleConfirm, children }: ProductIte
     const toggleConfirm = () => setOpenConfirm((state) => !state);
     return (
         <>
-            {/* eslint-disable */}
             <div
                 onClick={toggleConfirm}
-                onKeyUp={() => {}}
+                // onKeyUp={() => {}}
                 className={twMerge(
                     'flex flex-col justify-between bg-light h-full min-w-[180px] rounded-btn shadow',
                     className
                 )}
             >
-            {/* eslint-disable */}
                 <div className="relative h-1/2 h-[100px] w-[100px]">
                     <Image
                         className="rounded-btn"

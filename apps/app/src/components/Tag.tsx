@@ -6,7 +6,7 @@ type TagProps = {
 } & PropsWithChildren;
 function Tag({ Icon, onClick, children }: TagProps) {
     return (
-        <div onClick={onClick} onKeyUp={() => {}} className="cursor-default badge badge-primary m-2 gap-2 w-[112px]">
+        <div onClick={onClick} onKeyUp={onClick} className="cursor-default badge badge-primary m-2 gap-2 w-[112px]">
             <Small>{children}</Small>
             {Icon && <IconWrapper Icon={Icon} className="fill-light" size={11} />}
         </div>

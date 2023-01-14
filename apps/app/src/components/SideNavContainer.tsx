@@ -39,17 +39,11 @@ function SideNavContainer({ SideNavComponent, fixedComponentId, drawerComponentI
             <div className={twMerge(classes.pageContentShifted)}>{children}</div>
 
             <div className={twMerge(classes.sideNavDrawer)}>
-                {/* eslint-disable */}
-                <label htmlFor={ drawerComponentId } className="drawer-overlay lg:hidden"></label>
-                {/* eslint-disable */}
+                <label htmlFor={drawerComponentId} className="drawer-overlay lg:hidden"></label>
                 <div className={twMerge(classes.sideNavComponentContainer)}>
                     <SideNavComponent />
                 </div>
             </div>
-
-
-
-            
         </div>
     );
 }
