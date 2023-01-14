@@ -1,13 +1,12 @@
 import axios from 'axios';
-import React, { ReactNode, useState } from 'react';
+import { ReactNode, useState } from 'react';
 // import toast from "react-hot-toast";
-import prisma, { Product } from '@cd/data-access';
-import { Price, H6, IconButton, Icons, Page, Row, Grid, DeleteButton, Card, Button } from '@cd/shared-ui';
+import { Product } from '@cd/data-access';
+import { Button, Card, DeleteButton, Grid, H6, Icons, Page, Row } from '@cd/shared-ui';
+import { Layout, PageHeader, ProtectedComponent } from 'components';
 import { usePagination } from 'hooks';
-import Link from 'next/link';
 import Image from 'next/image';
-import { twMerge } from 'tailwind-merge';
-import { Layout, ConfirmationAlert, PageHeader, ProtectedComponent } from 'components';
+import Link from 'next/link';
 import { toast } from 'react-hot-toast';
 import { calcSalePrice, urlBuilder } from '../../src/utils';
 
@@ -137,7 +136,11 @@ export default function Products({ products }: ProductsDashboardProps) {
 }
 
 Products.getLayout = function (page: ReactNode) {
-    return <Layout onSearchChange={(e) => Products.setSearchValue(e.target.value)}>{page}</Layout>;
+    return (
+        <Layout placeholder={'Search Products'} onSearchChange={(e) => Products.setSearchValue(e.target.value)}>
+            {page}
+        </Layout>
+    );
 };
 
 const getUserInfo = ({ req }) => {

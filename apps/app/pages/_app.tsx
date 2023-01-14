@@ -1,15 +1,15 @@
-import '@cd/shared-ui/dist/style.css';
 import '@cd/shared-config/index.css';
-import { AppProps } from 'next/app';
-import React, { useEffect, useState } from 'react';
+import { Center, LoadingDots, Page } from '@cd/shared-ui';
+import '@cd/shared-ui/dist/style.css';
+import axios from 'axios';
 import { Layout, SessionControl } from 'components';
+import { AppProps } from 'next/app';
+import { useEffect, useState } from 'react';
+import { Toaster } from 'react-hot-toast';
 import SuperTokens, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session from 'supertokens-auth-react/recipe/session';
 import * as SuperTokensConfig from '../config/frontendConfig';
-import { Toaster } from 'react-hot-toast';
-import axios from 'axios';
 import { urlBuilder } from '../src/utils';
-import { Page, LoadingDots, Center } from '@cd/shared-ui';
 
 if (typeof window !== 'undefined') {
     SuperTokens.init(SuperTokensConfig.frontendConfig());
