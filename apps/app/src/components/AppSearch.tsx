@@ -8,20 +8,20 @@ type SearchBarProps = {
 }
 function SearchBar({ placeholder = "Search", onChange }: SearchBarProps) {
     const [ isFocused, setFocused ] = useState(false)
-    const focused = 'border w-full md:w-1/2'
+    const focused = 'border lg:w-[420px]'
+    //  w-full md:w-1/2'
     const searchRef = useRef(null)
     return (
         <div
             onFocus={ () => setFocused(true) }
             onBlur= { () => setFocused(false )}
             className={ twMerge(
-                'container items-center bg-light',
-                'flex flex-row space-x-3',
-                'w-full md:w-[777px] lg:w-[333px]',
-                'px-4 py-2',
-                'outline-none',
-                'wh-10',
+                [ 'flex flex-row items-center space-x-3',
+                'w-full md:w-[644px] lg:w-[244px]',
+                'bg-light lg:shadow-md',
+                'py-2 pl-4',
                 isFocused ? focused : 'border border-transparent',
+                ]
             )}
         >
             <IconWrapper Icon={Icons.Search} />

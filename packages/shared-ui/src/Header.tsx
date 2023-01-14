@@ -6,9 +6,19 @@ type HeaderProps = {
     drawerComponentId?: string;
 } & PropsWithChildren;
 function Header({ SearchComponent, drawerComponentId, children }: HeaderProps) {
-    const headerContainerStyle = ['flex flex-row items-center py-3 lg:px-12 lg:justify-end']
-    const headerStyle = ['lg:justify-end flex flex-row w-full md:max-w-fit mx-4 md:mx-0 shadow-md md:shadow-none']
-    const drawerButtonStyle = ["btn btn-ghost rounded-none bg-light lg:hidden"]
+    const headerContainerStyle = [
+        'flex flex-row grow',
+        'py-3 sm:px-5 lg:px-16',
+        'lg:justify-end',
+    ]
+    const headerStyle = [ 'flex flex-row grow',
+        'lg:justify-end',
+        'md:max-w-fit',
+        'shadow-md lg:shadow-none'
+    ]
+    const drawerButtonStyle = [
+        "btn btn-ghost rounded-none bg-light lg:hidden"
+    ]
     return (
         <div className={ twMerge(headerContainerStyle) }>
             <div className={ twMerge(headerStyle) }>
