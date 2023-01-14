@@ -1,13 +1,13 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import nc from "next-connect";
+import { NextApiRequest, NextApiResponse } from 'next';
+import nc from 'next-connect';
 // import connectDB from "__server__/db";
 // import adminMiddleware from "__server__/middleware/adminMiddleware";
 // import editorMiddleware from "__server__/middleware/editorMiddleware";
 // import errorMiddleware from "__server__/middleware/errorMiddleware";
 // import Order from "__server__/model/Order";
 import { authMiddleware } from 'middleware';
-import axios from "axios";
-import { urlBuilder } from "../../../src/utils";
+import axios from 'axios';
+import { urlBuilder } from '../../../src/utils';
 
 // api route handler
 const handler = nc();
@@ -17,16 +17,16 @@ handler.use(authMiddleware);
 
 // get a single order
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
-  try {
-    const { id } = req.query;
-    // this is the preferred pattern for handling server response VV
-    // across ALL apps and systems
-    const { data } = await axios(urlBuilder.main.orderById(id))
-    return res.status(res.statusCode).json(data)
-  } catch (error: any) {
-    console.error(error.message);
-    return res.json(error);
-  }
+    try {
+        const { id } = req.query;
+        // this is the preferred pattern for handling server response VV
+        // across ALL apps and systems
+        const { data } = await axios(urlBuilder.main.orderById(id));
+        return res.status(res.statusCode).json(data);
+    } catch (error: any) {
+        console.error(error.message);
+        return res.json(error);
+    }
 });
 
 // admin user checker middleware

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Button } from '@cd/shared-ui';
 import { twMerge } from 'tailwind-merge';
 
-function CartButton({ totalItems }: {totalItems: number}) {
+function CartButton({ totalItems }: { totalItems: number }) {
     return (
         <Link href="/cart">
             <Button className="relative">

@@ -1,18 +1,18 @@
-import { Category } from "@cd/data-access";
-import axios from "axios";
-import toast from "react-hot-toast";
-import { useState } from "react";
-import { debounce } from "../utils";
+import { Category } from '@cd/data-access';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import { useState } from 'react';
+import { debounce } from '../utils';
 
 export default function useCategory() {
-    const [ categoryList, setCategoryList ] = useState<Category[]>([]);
-    const [ categorySearchResult, setSearchResult ] = useState<any[]>([]);
-    const [ notFoundCategories, setNotFound ] = useState(false);
+    const [categoryList, setCategoryList] = useState<Category[]>([]);
+    const [categorySearchResult, setSearchResult] = useState<any[]>([]);
+    const [notFoundCategories, setNotFound] = useState(false);
 
     const doSearchCategories = debounce(async (e) => {
         if (categoryList.length === 0) {
             try {
-                const { data } = await axios("/api/category");
+                const { data } = await axios('/api/category');
                 if (data.categories?.length === 0) {
                     setSearchResult([]);
                     setNotFound(true);
@@ -30,11 +30,11 @@ export default function useCategory() {
             searchCategories(value);
         }
     }, 200);
-    doSearchCategories()
+    doSearchCategories();
 
     function searchCategories(value: any) {
-        setSearchResult(categoryList.filter(c => c.name.toLowerCase().match(value)))
+        setSearchResult(categoryList.filter((c) => c.name.toLowerCase().match(value)));
     }
 
     return { categoryList, categorySearchResult, notFoundCategories, doSearchCategories };
-};
+}

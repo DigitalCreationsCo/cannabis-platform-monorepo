@@ -1,5 +1,5 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import NodeCache from "node-cache";
+import { NextApiRequest, NextApiResponse } from 'next';
+import NodeCache from 'node-cache';
 import axios from 'axios';
 import { urlBuilder } from 'utils';
 import nc from 'next-connect';
@@ -17,7 +17,7 @@ const cache = new NodeCache({ stdTTL: 20 });
 const getUserInfo = ({ req }) => {
     // let user = req.session?.user
     const session = { user: { username: 'kbarnes', firstName: 'Katie', lastName: 'Barnes', organizationId: '2' } };
-    let { user } = session;
+    const { user } = session;
     return user;
 };
 

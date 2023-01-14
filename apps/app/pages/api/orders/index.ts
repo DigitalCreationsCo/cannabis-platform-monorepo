@@ -25,24 +25,24 @@ const cache = new NodeCache({ stdTTL: 30 });
 const getUserInfo = ({ req }) => {
     // let user = req.session?.user
     const session = { user: { username: 'kbarnes', firstName: 'Katie', lastName: 'Barnes', organizationId: '2' } };
-    let { user } = session;
+    const { user } = session;
     return user;
 };
 
 // get orders from an organization
 handler.get(async (req: ExtendRequest, res: NextApiResponse) => {
     try {
-        let user = getUserInfo({ req });
-        let { organizationId } = user;
-        req.organizationId = organizationId
+        const user = getUserInfo({ req });
+        const { organizationId } = user;
+        req.organizationId = organizationId;
 
         if (cache.has(`orders/org/${organizationId}`)) {
             const orders = cache.get(`orders/org/${organizationId}`);
             return res.status(200).json(orders);
         }
-        const { data } = await axios(urlBuilder.main.ordersByOrgId(organizationId))
+        const { data } = await axios(urlBuilder.main.ordersByOrgId(organizationId));
         cache.set(`orders/org/${organizationId}`, data);
-        return res.status(res.statusCode).json(data)
+        return res.status(res.statusCode).json(data);
     } catch (error) {
         console.error(error.message);
         return res.json(error);
@@ -186,14 +186,14 @@ handler.get(async (req: ExtendRequest, res: NextApiResponse) => {
 
 // update order
 handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
-  try {
-    const update = req.body
-    const { data } = await axios.put(urlBuilder.main.orders(), update)
-    return res.status(res.statusCode).json(data)
-  } catch (error: any) {
-    console.error(error.message);
-    return res.json(error);
-  }
+    try {
+        const update = req.body;
+        const { data } = await axios.put(urlBuilder.main.orders(), update);
+        return res.status(res.statusCode).json(data);
+    } catch (error: any) {
+        console.error(error.message);
+        return res.json(error);
+    }
 });
 
 export default handler;

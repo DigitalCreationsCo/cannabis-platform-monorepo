@@ -6,7 +6,7 @@ const AdminDashboardNavigation = () => {
     return (
         <div>
             {links.map((item) => {
-                let href = (item.href.length > 1 && item.href.slice(1)) || item.href;
+                const href = (item.href.length > 1 && item.href.slice(1)) || item.href;
                 pathname = (item.href.length === 1 && pathname.slice(1)) || pathname;
                 return (
                     <NavLink href={item.href} key={item.title} isActive={pathname.startsWith(href)} Icon={item.icon}>

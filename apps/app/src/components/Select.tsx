@@ -1,6 +1,6 @@
-import { Paragraph } from "@cd/shared-ui";
-import React, { PropsWithChildren } from "react";
-import { twMerge } from "tailwind-merge";
+import { Paragraph } from '@cd/shared-ui';
+import React, { PropsWithChildren } from 'react';
+import { twMerge } from 'tailwind-merge';
 
 type SelectProps = {
     // label?: string | number;
@@ -8,7 +8,8 @@ type SelectProps = {
     // value: string | number;
     // defaultOption: any;
     className?: string;
-} & React.SelectHTMLAttributes<HTMLSelectElement> & PropsWithChildren
+} & React.SelectHTMLAttributes<HTMLSelectElement> &
+    PropsWithChildren;
 export default function Select({
     multiple,
     // label,
@@ -16,13 +17,15 @@ export default function Select({
     // value,
     // defaultOption = options[ 0 ],
     className,
-    children }: SelectProps) {
+    children,
+}: SelectProps) {
     return (
         <div className="w-full">
-            <select className={ twMerge("focus:outline-none shadow border select w-full", className) }
-                multiple={ multiple }
+            <select
+                className={twMerge('focus:outline-none shadow border select w-full', className)}
+                multiple={multiple}
             >
-                { children }
+                {children}
             </select>
         </div>
     );
@@ -30,11 +33,7 @@ export default function Select({
 
 type MenuItemProps = {
     value: string;
-} & PropsWithChildren
+} & PropsWithChildren;
 export function MenuItem({ value, children }: MenuItemProps) {
-    return (
-        <option>
-            {children}
-        </option>
-    );
+    return <option>{children}</option>;
 }

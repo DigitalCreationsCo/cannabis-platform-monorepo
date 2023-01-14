@@ -11,26 +11,26 @@
 // import ShippingTax from "components/site-settings/ShippingTax";
 // import SocialLinks from "components/site-settings/SocialLinks";
 // import TopbarSetting from "components/site-settings/TopbarSetting";
-import React, { useState } from "react";
-import { Card, Icons, Page } from "@cd/shared-ui";
-import { PageHeader, ProtectedComponent } from "components";
+import { Card, Icons, Page } from '@cd/shared-ui';
+import { PageHeader, ProtectedComponent } from 'components';
+import { useState } from 'react';
 
-type SiteSettingsDashboardProps = {}
+type SiteSettingsDashboardProps = Record<string, unknown>;
 
-export default function SiteSettings({}: SiteSettingsDashboardProps) {
+export default function SiteSettings() {
     const [selectTab, setSelectTab] = useState('general');
 
-  return (
-    <ProtectedComponent>
-    <Page>
-      <PageHeader
-        title="Site Settings"
-        Icon={ Icons.CategoryOutlined } 
-        // navigation={ <AdminDashboardNavigation /> }
-      />
-      <Card className="h-[200px]">
-        Dispensary staff can edit their storefront and site settings here
-        {/* <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+    return (
+        <ProtectedComponent>
+            <Page>
+                <PageHeader
+                    title="Site Settings"
+                    Icon={Icons.CategoryOutlined}
+                    // navigation={ <AdminDashboardNavigation /> }
+                />
+                <Card className="h-[200px]">
+                    Dispensary staff can edit their storefront and site settings here
+                    {/* <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <TabList onChange={(_, value) => setSelectTab(value)} variant="scrollable">
                 <Tab label="General" value="general" disableRipple />
                 <Tab label="Topbar" value="topbar" disableRipple />
@@ -40,8 +40,8 @@ export default function SiteSettings({}: SiteSettingsDashboardProps) {
                 <Tab label="Shipping & Vat" value="shipping-vat" disableRipple />
             </TabList>
         </Box> */}
-      </Card>
-      </Page>
-      </ProtectedComponent>
-  );
-};
+                </Card>
+            </Page>
+        </ProtectedComponent>
+    );
+}

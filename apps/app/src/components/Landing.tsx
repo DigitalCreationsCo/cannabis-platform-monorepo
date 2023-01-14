@@ -14,12 +14,7 @@ export default function LandingPage() {
                 clipPath: 'inset(0 0 0 0)',
             }}
         >
-            <Image
-                src={backdrop}
-                alt=""
-                fill={true}
-                style={{ objectFit: 'cover', objectPosition: '40% 60%' }}
-            />
+            <Image src={backdrop} alt="" fill={true} style={{ objectFit: 'cover', objectPosition: '40% 60%' }} />
             <div
                 style={{
                     backgroundColor: 'rgba(0,0,0,0.1)',
@@ -35,8 +30,10 @@ export default function LandingPage() {
                 <H1 className="text-inverse font-display">Welcome to Gras Cannabis</H1>
                 <Paragraph className="text-lg text-inverse">Sign in to use this app</Paragraph>
                 <Button
-                    className='w-[200px] h-[80px] bg-primary hover:bg-[#0b7529] opacity-90 text-xl transition ease-in-out duration-300'
-                    disabled={ session.loading } onClick={ () => SuperTokens.redirectToAuth({ show: 'signin' }) }>
+                    className="w-[200px] h-[80px] bg-primary hover:bg-[#0b7529] opacity-90 text-xl transition ease-in-out duration-300"
+                    disabled={session.loading}
+                    onClick={() => SuperTokens.redirectToAuth({ show: 'signin' })}
+                >
                     Sign In
                 </Button>
             </Center>

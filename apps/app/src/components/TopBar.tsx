@@ -1,53 +1,45 @@
-import Link from 'next/link';
+import { Button, FlexBox, H2, Paragraph } from '@cd/shared-ui';
 import Image from 'next/image';
-import logo from '../../public/logo.png'
-import { H2, Paragraph, Button, LoadingDots } from '@cd/shared-ui';
-import { twMerge } from 'tailwind-merge';
+import Link from 'next/link';
+import SuperTokensReact from 'supertokens-auth-react';
 import SessionReact, { useSessionContext } from 'supertokens-auth-react/recipe/session';
-import SuperTokensReact from "supertokens-auth-react";
-import { FlexBox } from '@cd/shared-ui';
+import { twMerge } from 'tailwind-merge';
+import logo from '../../public/logo.png';
 
 interface TopBarProps {
     totalItems: number;
 }
 
 function TopBar({ totalItems = 0 }: TopBarProps) {
-    const session = useSessionContext()
+    const session = useSessionContext();
     async function logoutClicked() {
         await SessionReact.signOut();
         SuperTokensReact.redirectToAuth();
     }
 
     async function fetchUserData() {
-        const res = await fetch("/api/user");
+        const res = await fetch('/api/user');
         if (res.status === 200) {
             const json = await res.json();
             alert(JSON.stringify(json));
         }
     }
 
-    const topbar = ['flex flex-row h-[66px] pr-4 lg:px-8 bg-inverse space-x-2 items-center shadow']
+    const topbar = ['flex flex-row h-[66px] pr-4 lg:px-8 bg-inverse space-x-2 items-center shadow'];
 
     // if (session.loading) return <LoadingDots />
 
     return (
-        <div className={ twMerge(topbar) }>
+        <div className={twMerge(topbar)}>
             <Link href="/" passHref>
-                <Image alt="Gras" width={ 50 } height={ 50 } src={ logo } />
+                <Image alt="Gras" width={50} height={50} src={logo} />
             </Link>
             <Link href="/">
                 <H2>Gras hello</H2>
             </Link>
             <Link href="/">
                 <Paragraph
-                    className={ twMerge(
-                        'pt-1',
-                        'text-lg',
-                        'hidden',
-                        'md:block',
-                        'place-self-center',
-                        'text-primary',
-                    ) }
+                    className={twMerge('pt-1', 'text-lg', 'hidden', 'md:block', 'place-self-center', 'text-primary')}
                 >
                     Cannabis Marketplace
                 </Paragraph>
@@ -55,14 +47,14 @@ function TopBar({ totalItems = 0 }: TopBarProps) {
 
             <div className="flex-1"></div>
 
-            { session.doesSessionExist && (
+            {session.doesSessionExist && (
                 <>
                     <Link href="/support">
-                        <Paragraph className={ twMerge('pt-1', 'text-md', 'whitespace-nowrap') }>Need Support?</Paragraph>
+                        <Paragraph className={twMerge('pt-1', 'text-md', 'whitespace-nowrap')}>Need Support?</Paragraph>
                     </Link>
                     <FlexBox>
                         <Button
-                            disabled={ session.loading }
+                            disabled={session.loading}
                             onClick={
                                 // test how much of this is redundant
                                 SessionReact.signOut
@@ -74,25 +66,15 @@ function TopBar({ totalItems = 0 }: TopBarProps) {
                         </Button>
                     </FlexBox>
                 </>
-            ) }
+            )}
 
             {!session.doesSessionExist && (
                 // <FlexBox>
-                    <Link href="/auth">
-                        <Button
-                            disabled={session.loading}
-                            onClick={() => {}
-                                // test how much of this is redundant
-                                // async () => await SuperTokensReact.redirectToAuth({ show: 'signin'})
-                                // SessionReact.attemptRefreshingSession()
-                                // location.reload();
-                            }
-                        >
-                            Sign In
-                        </Button>
-                    </Link>
+                <Link href="/auth">
+                    <Button disabled={session.loading}>Sign In</Button>
+                </Link>
                 // </FlexBox>
-            ) }
+            )}
 
             {/* cart button for user app */}
             {/* <Link href="/cart">

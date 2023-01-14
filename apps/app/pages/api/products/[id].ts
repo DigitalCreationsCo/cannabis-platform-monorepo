@@ -1,7 +1,7 @@
-import axios from "axios";
-import { NextApiRequest, NextApiResponse } from "next";
-import nc from "next-connect";
-import { urlBuilder } from "../../../src/utils";
+import axios from 'axios';
+import { NextApiRequest, NextApiResponse } from 'next';
+import nc from 'next-connect';
+import { urlBuilder } from '../../../src/utils';
 // import adminMiddleware from "__server__/middleware/adminMiddleware";
 // import editorMiddleware from "__server__/middleware/editorMiddleware";
 // import errorMiddleware from "__server__/middleware/errorMiddleware";
@@ -12,18 +12,18 @@ import { authMiddleware } from 'middleware';
 const handler = nc();
 
 // logged in user checker and admin user checker middleware
-handler.use(authMiddleware)
+handler.use(authMiddleware);
 
 // get a single product
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
-  try {
-    const { id } = req.query;
-    const { data } = await axios(urlBuilder.main.productById(id))
-    return res.status(res.statusCode).json(data)
-  } catch (error) {
-    console.error(error.message);
-    return res.json(error);
-  }
+    try {
+        const { id } = req.query;
+        const { data } = await axios(urlBuilder.main.productById(id));
+        return res.status(res.statusCode).json(data);
+    } catch (error) {
+        console.error(error.message);
+        return res.json(error);
+    }
 });
 
 // admin user checker middleware

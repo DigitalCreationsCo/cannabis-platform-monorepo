@@ -6,7 +6,7 @@ function ProtectedComponent({ children }: PropsWithChildren) {
     const session = useSessionContext();
 
     // if (session.loading) return <Page><Center><LoadingDots /></Center></Page>
-    return session.doesSessionExist ? <>{ children }</> : <LandingPage />
+    return session.doesSessionExist ? <>{children}</> : <LandingPage />;
 }
 
 // Will need to add member, admin, owner privilege to separate usage of app domains

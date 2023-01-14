@@ -8,7 +8,7 @@ interface SideNavContainerProps extends PropsWithChildren {
     drawerComponentId?: string;
 }
 function SideNavContainer({ SideNavComponent, fixedComponentId, drawerComponentId, children }: SideNavContainerProps) {
-    const [ isFixed, setIsFixed ] = useState<boolean>(false);
+    const [isFixed, setIsFixed] = useState<boolean>(false);
     // const scrollListener = useCallback(() => {
     //     const element: any = document.getElementById(navFixedComponentID);
     //     const top = element.getBoundingClientRect().top + layoutConstant.headerHeight;
@@ -23,36 +23,33 @@ function SideNavContainer({ SideNavComponent, fixedComponentId, drawerComponentI
     // }, []);
 
     const classes = {
-        container: [
-            'drawer drawer-mobile', 'h-fit',
-        ],
-        sideNavDrawer: [
-            'drawer-side', 
-            isFixed && 'fixed',
-        ],
-        sideNavComponentContainer: [
-            "bg-light h-fit shadow drop-shadow",
-            'lg:w-[188px] lg:mt-4'
-        ],
+        container: ['drawer drawer-mobile', 'h-fit'],
+        sideNavDrawer: ['drawer-side', isFixed && 'fixed'],
+        sideNavComponentContainer: ['bg-light h-fit shadow drop-shadow', 'lg:w-[188px] lg:mt-4'],
         pageContentShifted: [
             // 'border',
             'drawer-content',
-            isFixed && 'pl-[188px]', 'w-full'
+            isFixed && 'pl-[188px]',
+            'w-full',
         ],
     };
     return (
-        <div id={ fixedComponentId } className={ twMerge(classes.container) }>
-            <input id={ drawerComponentId } type="checkbox" className="drawer-toggle" />
-            <div className={ twMerge(classes.pageContentShifted) }>
-                { children }
-            </div>
+        <div id={fixedComponentId} className={twMerge(classes.container)}>
+            <input id={drawerComponentId} type="checkbox" className="drawer-toggle" />
+            <div className={twMerge(classes.pageContentShifted)}>{children}</div>
 
-            <div className={ twMerge(classes.sideNavDrawer) }>
+            <div className={twMerge(classes.sideNavDrawer)}>
+                {/* eslint-disable */}
                 <label htmlFor={ drawerComponentId } className="drawer-overlay lg:hidden"></label>
-                <div className={ twMerge(classes.sideNavComponentContainer) }>
+                {/* eslint-disable */}
+                <div className={twMerge(classes.sideNavComponentContainer)}>
                     <SideNavComponent />
                 </div>
             </div>
+
+
+
+            
         </div>
     );
 }

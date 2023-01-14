@@ -1,6 +1,6 @@
 module.exports = {
     extends: [
-        "./eslintrc-react.cjs",
         'eslint-config-next',
+        "../../packages/shared-config/eslint/.eslintrc-react.cjs",
     ],
 };

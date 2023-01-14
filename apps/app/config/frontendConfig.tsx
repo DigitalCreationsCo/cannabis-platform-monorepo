@@ -1,9 +1,9 @@
 import EmailPasswordReact from 'supertokens-auth-react/recipe/emailpassword';
 import SessionReact from 'supertokens-auth-react/recipe/session';
-import { appInfo } from "@cd/shared-config/auth/appInfo"
+import { appInfo } from '@cd/shared-config/auth/appInfo';
 import Router from 'next/router';
 
-export let frontendConfig = () => {
+export const frontendConfig = () => {
     return {
         appInfo,
         // recipeList contains all the modules that you want to

@@ -21,7 +21,7 @@ export default function Auth(): JSX.Element {
                 <title>SuperTokens Auth 💫</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            
+
             <main>
                 <SuperTokensComponentNoSSR />
             </main>
@@ -30,5 +30,5 @@ export default function Auth(): JSX.Element {
 }
 
 Auth.getLayout = function (page: NextPage & ReactNode) {
-    return page
+    return page;
 };

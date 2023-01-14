@@ -1,11 +1,11 @@
-import ordersHandler from "../../pages/api/orders"
+import ordersHandler from '../../pages/api/orders';
 import axios from 'axios';
 import { createMocks } from 'node-mocks-http';
-import { urlBuilder } from "../../src/utils";
+import { urlBuilder } from '../../src/utils';
 
 beforeAll(() => {
-    jest.mock('axios')
-})
+    jest.mock('axios');
+});
 
 // call handle, and expect the correct backend server call
 // issue here, is getting the correct organizationId from the session object, and getting it in axios call.
@@ -20,8 +20,8 @@ describe('/api/orders', () => {
             },
         });
         await ordersHandler(req, res);
-        expect(axios).toHaveBeenLastCalledWith(urlBuilder.main.ordersByOrgId('3'))
-  });
+        expect(axios).toHaveBeenLastCalledWith(urlBuilder.main.ordersByOrgId('3'));
+    });
 });
 
 // broken
