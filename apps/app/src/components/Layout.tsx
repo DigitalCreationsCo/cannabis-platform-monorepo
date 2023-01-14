@@ -81,9 +81,14 @@ export default function Layout({ onSearchChange, placeholder, children }: Layout
                     </SideNavContainer>)
                     : session.doesSessionExist ?
                         (
-                            <SideNavContainer SideNavComponent={ AdminDashboardNavigation } fixedComponentId={ 'dashboard-links' }>
+                        <SideNavContainer
+                            SideNavComponent={ AdminDashboardNavigation }
+                            fixedComponentId={ 'dashboard-links-container' }
+                            drawerComponentId={ 'dashboard-links-drawer' }
+                        >
                                 <Header
                                     SearchComponent={ <SearchBar placeholder={ placeholder } onChange={ onSearchChange } /> }
+                                    drawerComponentId={ 'dashboard-links-drawer' }
                                 >
                                 </Header>
                                 { children }
