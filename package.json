@@ -25,6 +25,10 @@
   "engines": {
     "node": "16.16.0"
   },
+  "prisma": {
+    "schema": "packages/data-access/schema.prisma",
+    "seed": "ts-node --esm src/db/seed.ts"
+  },
   "devDependencies": {
     "@cd/data-access": "*",
     "@cd/shared-config": "*",

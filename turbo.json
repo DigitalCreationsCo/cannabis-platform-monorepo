@@ -3,7 +3,6 @@
     "pipeline": {
         "build": {
             "dependsOn": [
-                "test",
                 "^build"
             ],
             "outputs": [
@@ -19,6 +18,7 @@
             "outputs": []
         },
         "dev": {
+            "cache": false,
             "dependsOn": [
                 "^build",
                 "^dev"
