@@ -1,8 +1,8 @@
 import { IconWrapper, Small } from '@cd/shared-ui';
-import React, { PropsWithChildren, SVGAttributes } from 'react';
+import { MouseEventHandler, PropsWithChildren, ReactEventHandler, SVGAttributes } from 'react';
 type TagProps = {
-    Icon: boolean | ((props: SVGAttributes<SVGElement>) => JSX.Element);
-    onClick?: React.MouseEventHandler<HTMLDivElement>;
+    Icon?: (props: SVGAttributes<SVGElement>) => JSX.Element;
+    onClick?: MouseEventHandler<HTMLElement> & ReactEventHandler<Element>;
 } & PropsWithChildren;
 function Tag({ Icon, onClick, children }: TagProps) {
     return (

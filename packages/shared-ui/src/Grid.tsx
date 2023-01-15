@@ -15,7 +15,7 @@ type GridProps = {
 }
 function Grid({ gap, title, className, cols, rows, sm, md, lg, xl, children }: GridProps & PropsWithChildren) {
     return (
-        <div className="py-2">
+        <div>
             { title && <H6 className="py-2">{ title }</H6>}
             <div className={ twMerge('grid', cols && `grid-cols-${cols}`, rows && 'grid-rows-' + rows, sm && `sm:grid-cols-${sm}`, md && `md:grid-cols-${md}`, lg && `lg:grid-cols-${lg}`, xl && `xl:grid-cols-${xl}`, gap && "gap-" + gap, className) }>
             {children}

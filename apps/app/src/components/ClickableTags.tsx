@@ -1,12 +1,12 @@
 import { FlexBox, Icons } from '@cd/shared-ui';
-import { PropsWithChildren, useState } from 'react';
+import { Dispatch, PropsWithChildren, SetStateAction, useState } from 'react';
 import { Tag } from '.';
 type ClickableTagProps = {
     valueKey: string;
-    values: Set<any>;
-    setValues: any;
+    values: Set<unknown>;
+    setValues: Dispatch<SetStateAction<Set<unknown>>>;
 } & PropsWithChildren;
-function ClickableTags({ values, setValues, valueKey, children }: ClickableTagProps) {
+function ClickableTags({ values, setValues, valueKey }: ClickableTagProps) {
     const [editMode, setEditMode] = useState(false);
     const onClick = (c: any) => {
         if (editMode) {
