@@ -8,4 +8,4 @@ const Twitter = (props: SVGAttributes<SVGElement>) => {
     );
 };
 
-export default Twitte;
+export default Twitter;
