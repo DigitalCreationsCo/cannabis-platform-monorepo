@@ -1,5 +1,5 @@
-import { updateOrderWithOrderItems } from '../src/order/index.js'
 import { OrderStatus } from '@prisma/client';
+import { updateOrderWithOrderItems } from '../src/order.js';
 
 test('update an order with the given values', async () => {
     const order = {
