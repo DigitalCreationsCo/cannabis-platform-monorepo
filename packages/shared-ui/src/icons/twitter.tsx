@@ -1,6 +1,6 @@
 import { SVGAttributes } from 'react';
 
-const TwitterIcon = (props: SVGAttributes<SVGElement>) => {
+const Twitter = (props: SVGAttributes<SVGElement>) => {
     return (
         <svg viewBox="0 0 512 512" {...props}>
             <title>Twitter Icon</title>
@@ -9,4 +9,4 @@ const TwitterIcon = (props: SVGAttributes<SVGElement>) => {
     );
 };
 
-export default TwitterIcon;
+export default Twitter;
