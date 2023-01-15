@@ -1,9 +1,9 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import NodeCache from 'node-cache';
 import axios from 'axios';
-import { urlBuilder } from 'utils';
+import { authMiddleware, ExtendRequest } from 'middleware';
+import { NextApiResponse } from 'next';
 import nc from 'next-connect';
-import { authMiddleware } from 'middleware';
+import NodeCache from 'node-cache';
+import { urlBuilder } from 'utils';
 
 const handler = nc();
 
@@ -22,7 +22,7 @@ const getUserInfo = ({ req }) => {
 };
 
 // get products from an organization
-handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
+handler.get(async (req: ExtendRequest, res: NextApiResponse) => {
     try {
         const user = getUserInfo({ req });
         const { organizationId } = user;
@@ -42,7 +42,7 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 });
 
 // search products
-handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
+handler.post(async (req: ExtendRequest, res: NextApiResponse) => {
     try {
         const user = getUserInfo({ req });
         const { organizationId } = user;

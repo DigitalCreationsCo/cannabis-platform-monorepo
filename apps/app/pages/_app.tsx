@@ -3,6 +3,7 @@ import { Center, LoadingDots, Page } from '@cd/shared-ui';
 import '@cd/shared-ui/dist/style.css';
 import axios from 'axios';
 import { Layout, SessionControl } from 'components';
+import { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import { useEffect, useState } from 'react';
 import { Toaster } from 'react-hot-toast';
@@ -14,7 +15,20 @@ import { urlBuilder } from '../src/utils';
 if (typeof window !== 'undefined') {
     SuperTokens.init(SuperTokensConfig.frontendConfig());
 }
-export default function App({ Component, pageProps }: AppProps): JSX.Element {
+
+// interface CustomAppProps extends Omit<AppProps, 'Component'> {
+//     Component: AppProps['Component'] & { getLayout?: (page: ReactNode) => JSX.Element };
+// }
+
+export type NextPageWithLayout<P = Record<string, unknown>, IP = P> = NextPage<P, IP> & {
+    getLayout?: (page: JSX.Element) => JSX.Element;
+};
+
+type CustomAppProps = AppProps & {
+    Component: NextPageWithLayout;
+};
+
+export default function App({ Component, pageProps }: CustomAppProps): JSX.Element {
     useEffect(() => {
         async function doRefresh() {
             if (pageProps.fromSupertokens === 'needs-refresh') {
@@ -49,7 +63,7 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
     if (pageProps.fromSupertokens === 'needs-refresh') {
         return <></>;
     }
-    const getLayout = Component.getLayout || ((page) => <Layout setAppStatus={setAppStatus}>{page}</Layout>);
+    const getLayout = Component.getLayout || ((page) => <Layout>{page}</Layout>);
     return (
         <SuperTokensWrapper>
             <SessionControl>

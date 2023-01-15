@@ -1,4 +1,4 @@
-import prisma, { Order, Organization, Product, User } from '@cd/data-access';
+import prisma, { Order, Organization, ProductWithDetails, User } from '@cd/data-access';
 import { Card, Grid, Icons, OrderRow, Page } from '@cd/shared-ui';
 import { PageHeader, ProductRow, ProtectedComponent } from 'components';
 import Head from 'next/head';
@@ -8,7 +8,7 @@ import urlBuilder from '../src/utils/urlBuilder';
 interface DashboardProps {
     user: User;
     organization: Organization;
-    products: Product[];
+    products: ProductWithDetails[];
     orders: Order[];
 }
 
@@ -26,10 +26,7 @@ export default function Dashboard({ user, organization, products, orders }: Dash
         return todaysOrders;
     }, []);
 
-    const lowStockProducts = products.filter((product) => {
-        return product.stock <= 6;
-    });
-
+    const lowStockVariants = findLowStockVariants(products);
     const cardList = [
         { title: 'Total Products', amount: products.length },
         { title: 'Total Orders', amount: orders.length },
@@ -79,13 +76,33 @@ export default function Dashboard({ user, organization, products, orders }: Dash
                 </Grid>
 
                 <Grid title="Low Stock Products">
-                    {lowStockProducts.length > 0 &&
-                        lowStockProducts.map((product) => <ProductRow key={product.id} product={product} />)}
+                    {lowStockVariants.length > 0 ? (
+                        lowStockVariants.map((product) =>
+                            product.variants.map((variant) => (
+                                <ProductRow key={product.id} product={product} variant={variant} />
+                            ))
+                        )
+                    ) : (
+                        <Card>There are no low stock products</Card>
+                    )}
                 </Grid>
             </Page>
         </ProtectedComponent>
     );
 }
+
+export const findLowStockVariants = (products) =>
+    products.map((product) => {
+        if (product.id && product.variants) {
+            return {
+                ...product,
+                variants: product.variants.filter((variant) => {
+                    console.log('variant: ', variant.id);
+                    return variant.stock < 7;
+                }),
+            };
+        } else return [];
+    });
 
 const getUserInfo = ({ req }) => {
     // let user = req.session?.user

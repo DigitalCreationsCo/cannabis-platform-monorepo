@@ -1,4 +1,4 @@
-import { Category, ImageProduct, ImageUser, OrderItem, Organization, Prisma, Product, ProductVariant, Review, User } from "@prisma/client";
+import { Category, ImageProduct, ImageUser, Organization, Prisma, Product, ProductVariant, Review, User } from "@prisma/client";
 import prisma from "./db/prisma";
 
 export async function createProduct() {
@@ -112,15 +112,17 @@ export async function deleteProduct() {
 // export type ProductWithDetails = Prisma.PromiseReturnType<typeof findProductWithDetails>
 export type ProductWithDetails = Product & {
   organization: Organization;
-  variants?: ProductVariant & {
-    images: ImageProduct[];
-  }[];
+  variants?: ProductVariantWithDetails[];
   categories: Category[];
   reviews?: Review & {
     user?: User & {
       imageUser?: ImageUser;
     };
   };
+};
+
+export type ProductVariantWithDetails = ProductVariant & {
+  images: ImageProduct[];
 };
 export type ReviewWithDetails = Review & {
   user?: User & {

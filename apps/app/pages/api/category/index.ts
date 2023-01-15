@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiResponse } from 'next';
 import nc from 'next-connect';
 import NodeCache from 'node-cache';
 // import slugify from "slugify";
@@ -8,8 +8,8 @@ import NodeCache from 'node-cache';
 // import errorMiddleware from "__server__/middleware/errorMiddleware";
 // import Category from "__server__/model/Category";
 // import slugifyOption from "__server__/utils/slugifyOption";
-import { authMiddleware, ExtendRequest } from 'middleware';
 import axios from 'axios';
+import { authMiddleware, ExtendRequest } from 'middleware';
 import { urlBuilder } from '../../../src/utils';
 
 // api route handler
@@ -30,7 +30,7 @@ const getUserInfo = ({ req }) => {
 };
 
 // get all categories route
-handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
+handler.get(async (req: ExtendRequest, res: NextApiResponse) => {
     try {
         const user = getUserInfo({ req });
         const { organizationId } = user;

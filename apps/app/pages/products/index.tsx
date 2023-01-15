@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ReactNode, useState } from 'react';
+import { useState } from 'react';
 // import toast from "react-hot-toast";
 import { Product } from '@cd/data-access';
 import { Button, Card, DeleteButton, Grid, H6, Icons, Page, Row } from '@cd/shared-ui';
@@ -135,7 +135,7 @@ export default function Products({ products }: ProductsDashboardProps) {
     );
 }
 
-Products.getLayout = function (page: ReactNode) {
+Products.getLayout = function (page: JSX.Element) {
     return (
         <Layout placeholder={'Search Products'} onSearchChange={(e) => Products.setSearchValue(e.target.value)}>
             {page}

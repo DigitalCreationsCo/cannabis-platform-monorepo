@@ -1,10 +1,12 @@
-import Head from 'next/head';
-import React, { ReactNode, useEffect } from 'react';
-import dynamic from 'next/dynamic';
-import SuperTokens from 'supertokens-auth-react';
 import { NextPage } from 'next';
+import dynamic from 'next/dynamic';
+import Head from 'next/head';
+import { ReactNode, useEffect } from 'react';
+import SuperTokens from 'supertokens-auth-react';
 
-const SuperTokensComponentNoSSR = dynamic(new Promise((res) => res(SuperTokens.getRoutingComponent)), { ssr: false });
+const SuperTokensComponentNoSSR = dynamic(new Promise((res) => res(SuperTokens.getRoutingComponent)) as unknown, {
+    ssr: false,
+});
 
 export default function Auth(): JSX.Element {
     useEffect(() => {
