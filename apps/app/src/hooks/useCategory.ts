@@ -1,12 +1,12 @@
 import { Category } from '@cd/data-access';
 import axios from 'axios';
-import toast from 'react-hot-toast';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import { debounce } from '../utils';
 
 export default function useCategory() {
     const [categoryList, setCategoryList] = useState<Category[]>([]);
-    const [categorySearchResult, setSearchResult] = useState<any[]>([]);
+    const [categorySearchResult, setSearchResult] = useState<Category[]>([]);
     const [notFoundCategories, setNotFound] = useState(false);
 
     const doSearchCategories = debounce(async (e) => {
@@ -32,7 +32,7 @@ export default function useCategory() {
     }, 200);
     doSearchCategories();
 
-    function searchCategories(value: any) {
+    function searchCategories(value: string) {
         setSearchResult(categoryList.filter((c) => c.name.toLowerCase().match(value)));
     }
 

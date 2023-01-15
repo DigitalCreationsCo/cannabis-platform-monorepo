@@ -1,4 +1,12 @@
-import { ImageOrganization, ImageProduct, ImageUser, ImageVendor, Product, ProductWithDetails } from '@cd/data-access';
+import {
+    Category,
+    ImageOrganization,
+    ImageProduct,
+    ImageUser,
+    ImageVendor,
+    Product,
+    ProductWithDetails
+} from '@cd/data-access';
 import {
     Button,
     FlexBox,
@@ -10,7 +18,7 @@ import {
     Page,
     Paragraph,
     Row,
-    TextField,
+    TextField
 } from '@cd/shared-ui';
 import axios from 'axios';
 import { ClickableTags, DropZone, Modal, PageHeader, ProtectedComponent } from 'components';
@@ -26,8 +34,8 @@ import { urlBuilder } from 'utils';
 import * as yup from 'yup';
 
 const styleUploadWindow = ['h-[80px] w-[80px] border flex rounded-btn relative items-center justify-center bg-light'];
-const UploadImageBox = ({ onClick, onKeyUp, children }: { onClick: any; onKeyUp: any } & PropsWithChildren) => (
-    <div onClick={onClick} className={twMerge(styleUploadWindow, 'indicator')}>
+const UploadImageBox = ({ onClick, onKeyUp, children }: { onClick: any; onKeyUp?: any } & PropsWithChildren) => (
+    <div onClick={onClick} onKeyUp={onKeyUp} className={twMerge(styleUploadWindow, 'indicator')}>
         <span className="indicator-item badge bg-primary w-5 h-5 p-0 items-center justify-center">
             <IconWrapper Icon={Icons.XIcon} size={8} className={'fill-light'} />
         </span>
@@ -58,15 +66,15 @@ export type ProductUpdatePayload = Product & {
 
 export default function ProductDetails() {
     const { query } = useRouter();
-    const [files, setFiles] = useState<any[]>([]);
+    const [files, setFiles] = useState<unknown[]>([]);
     const [loading, setLoading] = useState(true);
     const [product, setProduct] = useState<ProductWithDetails>();
-    const [productCategories, setProductCategories] = useState(new Set());
+    const [productCategories, setProductCategories] = useState<Set<Category>>(new Set());
     const [loadingButton, setLoadingButton] = useState(false);
     const [deletedImage, setDeletedImage] = useState<ImageAny[]>([]);
     const [existingImage, setExistingImage] = useState<ImageAny[]>([]);
     const [searchCategoryTerms, setSearchCategoryTerms] = useState('');
-    const { categoryList, categorySearchResult, notFoundCategories, doSearchCategories } = useCategory();
+    const { categorySearchResult, doSearchCategories } = useCategory();
 
     const [openModal, setModal] = useState(false);
     const toggleModal = () => {
@@ -165,9 +173,11 @@ export default function ProductDetails() {
         setDeletedImage((state) => [...state, image]);
     };
 
-    const handleFileDelete = (file) => {
-        setFiles((files) => files.filter((item) => item.id !== file.id));
+    /* eslint-disable */
+    const handleFileDelete = (deleteFile) => {
+        setFiles((files) => files.filter((file: {id: string}) => file.id !== deleteFile.id));
     };
+    /* eslint-disable */
 
     return (
         <ProtectedComponent>
@@ -325,7 +335,7 @@ export default function ProductDetails() {
                                                 />
                                             </FlexBox>
                                             <Grid>
-                                                <div className="relative dropdown w-full">
+                                                <div className="relative z-10 dropdown w-full">
                                                     <TextField
                                                         className="shadow"
                                                         label={'Add Category'}
@@ -361,7 +371,7 @@ export default function ProductDetails() {
                                                                             className={
                                                                                 'bg-inverse z-20 px-4 p-2 hover:bg-accent-soft'
                                                                             }
-                                                                            key={v + index}
+                                                                            key={v.name + index}
                                                                         >
                                                                             {v['name']}
                                                                         </li>
@@ -390,7 +400,7 @@ export default function ProductDetails() {
                                                             </UploadImageBox>
                                                         );
                                                     })}
-                                                    {files.map((file, index) => {
+                                                    {files.map((file: {id: string, preview: string}, index) => {
                                                         return (
                                                             <UploadImageBox
                                                                 key={index}
