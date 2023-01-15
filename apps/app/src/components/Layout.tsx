@@ -1,11 +1,7 @@
-import { Button, Center, FlexBox, Footer, H2, Header, LoadingDots, Page, Paragraph } from '@cd/shared-ui';
-import Image from 'next/image';
-import Link from 'next/link';
+import { Center, Footer, Header, LoadingDots, Page } from '@cd/shared-ui';
+import { TopBar } from 'components';
 import { ChangeEventHandler, PropsWithChildren, ReactEventHandler } from 'react';
-import SuperTokens from 'supertokens-auth-react';
-import Session, { useSessionContext } from 'supertokens-auth-react/recipe/session';
-import { twMerge } from 'tailwind-merge';
-import logo from '../../public/logo.png';
+import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import AdminDashboardNavigation from './AdminDashBoardNavigation';
 import SearchBar from './AppSearch';
 import SideNavContainer from './SideNavContainer';
@@ -22,34 +18,7 @@ export default function Layout({ onSearchChange, placeholder, children }: Layout
     if (session.loading === true)
         return (
             <div className={main}>
-                <div className={twMerge(topbar)}>
-                    <Link href="/" passHref>
-                        <Image alt="Gras" width={50} height={50} src={logo} />
-                    </Link>
-                    <Link href="/">
-                        <H2 className="pt-1">Gras</H2>
-                    </Link>
-                    <Link href="/">
-                        <Paragraph
-                            className={twMerge(
-                                'pt-2',
-                                'pl-2',
-                                'text-lg',
-                                'hidden',
-                                'md:block',
-                                'place-self-center',
-                                'text-primary font-semibold'
-                            )}
-                        >
-                            Cannabis Marketplace
-                        </Paragraph>
-                    </Link>
-
-                    <div className="flex-1"></div>
-                    <Button disabled={session.loading} onClick={() => SuperTokens.redirectToAuth({ show: 'signin' })}>
-                        Sign In
-                    </Button>
-                </div>
+                <TopBar />
                 {session.loading === true && (
                     <SideNavContainer SideNavComponent={AdminDashboardNavigation} fixedComponentId={'dashboard-links'}>
                         <Header
@@ -68,52 +37,7 @@ export default function Layout({ onSearchChange, placeholder, children }: Layout
 
     return (
         <div className={main}>
-            <div className={twMerge(topbar)}>
-                <Link href="/" passHref>
-                    <Image alt="Gras" width={50} height={50} src={logo} />
-                </Link>
-                <Link href="/">
-                    <H2 className="pt-1">Gras</H2>
-                </Link>
-                <Link href="/">
-                    <Paragraph
-                        className={twMerge(
-                            'pt-2',
-                            'pl-2',
-                            'text-lg',
-                            'hidden',
-                            'md:block',
-                            'place-self-center',
-                            'text-primary font-semibold'
-                        )}
-                    >
-                        Cannabis Marketplace
-                    </Paragraph>
-                </Link>
-
-                <div className="flex-1"></div>
-
-                {session.doesSessionExist && (
-                    <>
-                        <Link href="/support">
-                            <Paragraph className={twMerge('pt-1', 'px-3', 'text-md', 'whitespace-nowrap')}>
-                                Need Support?
-                            </Paragraph>
-                        </Link>
-                        <FlexBox>
-                            <Button disabled={session.loading} onClick={() => Session.signOut()}>
-                                Sign Out
-                            </Button>
-                        </FlexBox>
-                    </>
-                )}
-
-                {!session.doesSessionExist && (
-                    <Button disabled={session.loading} onClick={() => SuperTokens.redirectToAuth({ show: 'signin' })}>
-                        Sign In
-                    </Button>
-                )}
-            </div>
+            <TopBar />
             {session.doesSessionExist ? (
                 <SideNavContainer
                     SideNavComponent={AdminDashboardNavigation}
