@@ -495,10 +495,11 @@ __metadata:
 "@cd/app@workspace:apps/app":
   version: 0.0.0-use.local
   resolution: "@cd/app@workspace:apps/app"
-  peerDependencies:
+  dependencies:
     "@cd/data-access": "*"
     "@cd/shared-config": "*"
     "@cd/shared-ui": "*"
+  peerDependencies:
     "@reduxjs/toolkit": 1.9.1
     "@tailwindcss/typography": 0.5.8
     "@types/formidable": 2.0.5
