@@ -76,7 +76,11 @@ export default function App({ Component, pageProps }: CustomAppProps): JSX.Eleme
                 ) : appStatus === true ? (
                     getLayout(<Component {...pageProps} />)
                 ) : (
-                    getLayout(<Page>Services are not available now. Please try later.</Page>)
+                    getLayout(
+                        <Page>
+                            <Center>Services are not available now. Please try later.</Center>
+                        </Page>
+                    )
                 )}
                 <Toaster position="top-right" />
             </SessionControl>
