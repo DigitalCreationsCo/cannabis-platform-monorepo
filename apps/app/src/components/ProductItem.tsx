@@ -1,4 +1,4 @@
-import { ProductWithDetails } from '@cd/data-access';
+import { ProductVariantWithDetails } from '@cd/data-access';
 import { FlexBox, Paragraph, TextField } from '@cd/shared-ui';
 import { ConfirmationAlert } from 'components';
 import Image from 'next/image';
@@ -7,7 +7,7 @@ import { twMerge } from 'tailwind-merge';
 
 type ProductItemProps = {
     className?: string;
-    product: ProductWithDetails;
+    product: ProductVariantWithDetails;
     handleConfirm?: any;
 };
 function ProductItem({ product, className, handleConfirm, children }: ProductItemProps & PropsWithChildren) {

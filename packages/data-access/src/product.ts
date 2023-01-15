@@ -122,7 +122,7 @@ export type ProductWithDetails = Product & {
 };
 
 export type ProductVariantWithDetails = ProductVariant & {
-  images: ImageProduct[];
+  images?: ImageProduct[];
 };
 export type ReviewWithDetails = Review & {
   user?: User & {

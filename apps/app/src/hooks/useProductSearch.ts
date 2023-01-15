@@ -1,29 +1,30 @@
-import { debounce } from 'utils';
+import { ProductVariantWithDetails, ProductWithDetails } from '@cd/data-access';
 import axios from 'axios';
 import { useState } from 'react';
-import { ProductWithDetails } from '@cd/data-access';
+import { debounce } from 'utils';
 
 const useProductSearch = () => {
-    const [categorySearchResult, setcategorySearchResult] = useState<ProductWithDetails[]>([]);
+    const [productSearchResult, setProductSearchResult] = useState<ProductVariantWithDetails[]>([]);
     const [notFoundResult, setNotFoundResult] = useState(false);
 
     const doSearchProducts = debounce(async (e) => {
         const value = e?.target?.value || null;
         if (value) {
-            const { data } = await axios.post('/api/products', { search: value });
+            const data: ProductWithDetails[] = await (await axios.post('/api/products', { search: value })).data;
+            const variantProducts = data.flatMap((product) => product.variants);
             if (data?.length > 0) {
-                setcategorySearchResult(data);
+                setProductSearchResult(variantProducts);
                 setNotFoundResult(false);
             } else {
-                setcategorySearchResult([]);
+                setProductSearchResult([]);
                 setNotFoundResult(true);
             }
         } else {
-            setcategorySearchResult([]);
+            setProductSearchResult([]);
             setNotFoundResult(false);
         }
     }, 200);
-    return { categorySearchResult, notFoundResult, doSearchProducts };
+    return { productSearchResult, notFoundResult, doSearchProducts };
 };
 
 export default useProductSearch;

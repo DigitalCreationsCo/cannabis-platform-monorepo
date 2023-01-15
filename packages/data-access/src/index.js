@@ -15,9 +15,10 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 exports.__esModule = true;
 exports["default"] = void 0;
+__exportStar(require("@prisma/client"), exports);
+__exportStar(require("./category"), exports);
 var prisma_1 = require("./db/prisma");
 __createBinding(exports, prisma_1, "default");
+__exportStar(require("./models"), exports);
 __exportStar(require("./order"), exports);
 __exportStar(require("./product"), exports);
-__exportStar(require("./category"), exports);
-__exportStar(require("@prisma/client"), exports);

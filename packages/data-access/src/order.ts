@@ -1,5 +1,6 @@
-import { Prisma, OrderItem, Product, ImageProduct, Unit, Driver, User, Address, Order, ProductVariant } from "@prisma/client";
+import { Address, Driver, Order, OrderItem, Prisma, User } from "@prisma/client";
 import prisma from "./db/prisma";
+import { ProductVariantWithDetails } from "./product";
 
 export async function createOrder() {
     // try {
@@ -102,19 +103,13 @@ export async function deleteOrder() {
 // export type OrderWithDetails = Prisma.PromiseReturnType<typeof findOrderWithDetails>
 export type OrderWithDetails = Order & {
     driver: Driver | null;
-    items?: (OrderItem & {
-        productVariant: ProductVariant & {
-            images: ImageProduct[];
-        };
-    })[];
+    items?: OrderItemWithDetails[];
     customer: User;
     deliveryInfo: Address;
     updatedAt?: any;
 }
 
 export type OrderItemWithDetails = OrderItem & {
-        productVariant?: ProductVariant & {
-            images: ImageProduct[];
-        };
+    productVariant: ProductVariantWithDetails
     }
 export type OrderUpdate = Prisma.OrderUpdateArgs[ "data" ]

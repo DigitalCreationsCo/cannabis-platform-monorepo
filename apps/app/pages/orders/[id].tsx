@@ -1,4 +1,10 @@
-import { OrderItem, OrderItemWithDetails, OrderWithDetails, Product } from '@cd/data-access';
+import {
+    OrderItem,
+    OrderItemWithDetails,
+    OrderItemWithDetailsClass,
+    OrderWithDetails,
+    ProductVariantWithDetails,
+} from '@cd/data-access';
 import {
     Button,
     Card,
@@ -40,7 +46,7 @@ export default function OrderDetails() {
 
     const toggleAddProduct = () => setOpenAddProduct((state) => !state);
 
-    const { notFoundResult, doSearchProducts, categorySearchResult } = useProductSearch();
+    const { notFoundResult, doSearchProducts, productSearchResult } = useProductSearch();
 
     const fetchOrderDetails = async () => {
         try {
@@ -48,7 +54,7 @@ export default function OrderDetails() {
             setOrderStatus(data.status);
             setOrder(data);
             setLoading(false);
-        } catch (error: any) {
+        } catch (error) {
             setLoading(false);
             console.error(error);
             toast.error(error.response.statusText);
@@ -106,37 +112,48 @@ export default function OrderDetails() {
     };
 
     // calculate order total price
-    const calculateTotal = (items: OrderItem[]) => {
+    const calculateTotal = (items: OrderItemWithDetails[]) => {
         const subtotal = items.reduce((prev, curr) => prev + curr.salePrice * curr.quantity, 0);
         const total = subtotal + order.tax;
-        setOrder((state) => ({ ...state, items, subtotal, total }));
+        setOrder((state) => ({ ...state, subtotal, total }));
+        // setOrder((state) => ({ ...state, items, subtotal, total }));
     };
 
     // change the quantity for a item
-    const handleQuantityChange = (quantity: number, productId: string) => {
-        const items = order.items.map((item: OrderItem) => {
-            return item.productId === productId ? { ...item, quantity } : item;
+    const handleQuantityChange = (quantity: number, variantId: string) => {
+        const items = order.items.map((item: OrderItemWithDetails) => {
+            return item.variantId === variantId ? { ...item, quantity } : item;
         });
         calculateTotal(items);
     };
 
     // delete item from order
-    const handleDeleteItem = (productId: string) => {
-        const items = order.items.filter((item: OrderItem) => item.productId !== productId);
+    const handleDeleteItem = (variantId: string) => {
+        const items = order.items.filter((item: OrderItem) => item.variantId !== variantId);
         calculateTotal(items);
     };
 
     // add new item in order
-    const handleAddItem = (product: Product, quantity: number) => {
-        const salePrice = calcSalePrice(product.basePrice, product.discount);
+    const handleAddItem = (variant: ProductVariantWithDetails, quantity: number) => {
+        const salePrice = calcSalePrice(variant.basePrice, variant.discount);
 
-        const item = {
-            ...product,
+        const addItem: OrderItemWithDetails = new OrderItemWithDetailsClass({
+            discount: variant.discount,
+            currency: variant.currency,
+            createdAt: variant.createdAt,
+            updatedAt: variant.updatedAt,
+            productVariant: variant,
+            name: variant.name,
+            unit: variant.unit,
+            size: variant.size,
+            basePrice: variant.basePrice,
+            variantId: variant.id,
             salePrice,
             quantity,
-        };
+            orderId: order.id,
+        });
 
-        const items = [...order.items, item];
+        const items = [...order.items, addItem];
         calculateTotal(items);
 
         setSearchProductTerms('');
@@ -193,9 +210,9 @@ export default function OrderDetails() {
                                                 setSearchProductTerms(e.target.value);
                                             }}
                                         />
-                                        {categorySearchResult.length > 0 ? (
+                                        {productSearchResult.length > 0 ? (
                                             <FlexBox className="pb-4 overflow-scroll space-x-3 flex flex-row grow">
-                                                {categorySearchResult.map((product) => (
+                                                {productSearchResult.map((product) => (
                                                     <ProductItem
                                                         key={product.id}
                                                         product={product}
@@ -220,7 +237,7 @@ export default function OrderDetails() {
                                 {order.items.map((item: OrderItemWithDetails, index: number) => (
                                     <Row key={index} className="h-[66px] md:space-x-4">
                                         <Image
-                                            src={item.product?.images[0]?.location}
+                                            src={item.productVariant?.images[0]?.location}
                                             className="hidden sm:block"
                                             alt=""
                                             height={64}
@@ -238,10 +255,10 @@ export default function OrderDetails() {
                                             className="w-[66px] font-semibold"
                                             type="number"
                                             defaultValue={item.quantity}
-                                            onChange={(e) => handleQuantityChange(e.target.value, item.productId)}
+                                            onChange={(e) => handleQuantityChange(e.target.value, item.variantId)}
                                         />
 
-                                        <DeleteButton onClick={() => handleDeleteItem(item.productId)}></DeleteButton>
+                                        <DeleteButton onClick={() => handleDeleteItem(item.variantId)}></DeleteButton>
                                     </Row>
                                 ))}
                             </FlexBox>
