@@ -1,22 +1,22 @@
+import prisma, { User, UserWithDetails } from '@cd/data-access';
+import { Button, Card, Grid, H6, IconButton, Icons, Page, Paragraph, Row } from '@cd/shared-ui';
 import axios from 'axios';
-import React, { useState } from 'react';
-import prisma, { User } from '@cd/data-access';
+import { PageHeader, ProtectedComponent } from 'components';
 import { usePagination } from 'hooks';
-import { Card, DeleteButton, Grid, H6, IconButton, Icons, Page, Paragraph, Row, Button } from '@cd/shared-ui';
-import Link from 'next/link';
 import Image from 'next/image';
-import { ConfirmationAlert, PageHeader, ProtectedComponent } from 'components';
+import Link from 'next/link';
+import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 
 type UsersDashboardProps = {
-    users: User[];
+    users: UserWithDetails[];
 };
 export default function Users({ users }: UsersDashboardProps) {
     const [currentPage, setCurrentPage] = useState(1);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [deleteId, setDeleteId] = useState('');
 
-    const currentUsers = usePagination(currentPage, users);
+    const currentUsers: UserWithDetails[] = usePagination(currentPage, users);
 
     const dialogClose = () => {
         setDeleteId('');
@@ -60,7 +60,7 @@ export default function Users({ users }: UsersDashboardProps) {
                         <div className="min-w-[50px] sm:w-[120px]"></div>
                     </Row>
                     {currentUsers.length > 0 ? (
-                        currentUsers.map((user: User) => {
+                        currentUsers.map((user) => {
                             return (
                                 <Link href={`/users/${user.id}`} key={user.id}>
                                     <Row className="h-[54px] py-0">

@@ -1,5 +1,5 @@
 import { ProductVariantWithDetails } from '@cd/data-access';
-import { FlexBox, Paragraph, TextField } from '@cd/shared-ui';
+import { FlexBox, Paragraph, Price, TextField } from '@cd/shared-ui';
 import { ConfirmationAlert } from 'components';
 import Image from 'next/image';
 import { PropsWithChildren, useState } from 'react';
@@ -25,12 +25,7 @@ function ProductItem({ product, className, handleConfirm, children }: ProductIte
                 )}
             >
                 <div className="relative h-1/2 h-[100px] w-[100px]">
-                    <Image
-                        className="rounded-btn"
-                        src={product?.variants?.[0]?.images[0]?.location}
-                        alt=""
-                        fill={true}
-                    />
+                    <Image className="rounded-btn" src={product?.images[0]?.location} alt="" fill={true} />
                 </div>
                 <div className="pb-2 pl-2">
                     <Paragraph>{product.name}</Paragraph>
@@ -38,14 +33,16 @@ function ProductItem({ product, className, handleConfirm, children }: ProductIte
                     {/* ADD PRODUCT VARIANT SELECT HERE */}
 
                     <FlexBox>
-                        {/* <Paragraph>{ product.size + product.unit }</Paragraph> */}
-                        {/* <Paragraph>{ product.stock + ' in stock'}</Paragraph> */}
+                        <Paragraph>{product.size + product.unit}</Paragraph>
+                        <Paragraph>{product.stock + ' in stock'}</Paragraph>
                     </FlexBox>
                     <FlexBox>
-                        {/* <Price price={ product.basePrice } /> */}
-                        {/* <Paragraph>{ product.discount }% off</Paragraph> */}
+                        <Price price={product.basePrice} />
+                        <Paragraph>{product.discount}% off</Paragraph>
                     </FlexBox>
-                    {/* <H6><Price price={ product.salePrice }  /></H6> */}
+                    {/* <H6>
+                        <Price price={product.salePrice} />
+                    </H6> */}
                 </div>
             </div>
 

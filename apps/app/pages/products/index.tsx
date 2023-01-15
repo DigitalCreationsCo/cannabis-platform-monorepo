@@ -1,3 +1,4 @@
+/* eslint-disable */
 import axios from 'axios';
 import { useState } from 'react';
 // import toast from "react-hot-toast";
@@ -12,6 +13,11 @@ import { calcSalePrice, urlBuilder } from '../../src/utils';
 
 interface ProductsDashboardProps {
     products: Product[];
+    setSearchValue: string;
+}
+
+const ProductsSetSearchDispatch = {
+    setSearchValue: null
 }
 
 export default function Products({ products }: ProductsDashboardProps) {
@@ -21,7 +27,7 @@ export default function Products({ products }: ProductsDashboardProps) {
     const [deleteId, setDeleteId] = useState('');
     const [searchValue, setSearchValue] = useState('');
 
-    Products.setSearchValue = setSearchValue;
+    ProductsSetSearchDispatch.setSearchValue = setSearchValue;
 
     const filteredProducts = products.filter((product) =>
         product.name.toLowerCase().includes(searchValue.toLowerCase())
@@ -104,7 +110,7 @@ export default function Products({ products }: ProductsDashboardProps) {
                   </H6> */}
 
                                         <DeleteButton
-                                            oncClick={(e) => {
+                                            onClick={(e) => {
                                                 e.preventDefault();
                                                 e.stopPropagation();
                                                 setDialogOpen(true);
@@ -137,7 +143,12 @@ export default function Products({ products }: ProductsDashboardProps) {
 
 Products.getLayout = function (page: JSX.Element) {
     return (
-        <Layout placeholder={'Search Products'} onSearchChange={(e) => Products.setSearchValue(e.target.value)}>
+        <Layout placeholder={ 'Search Products' } onSearchChange={ (e) => {
+            const { target } = e
+            if (target) {
+                ProductsSetSearchDispatch.setSearchValue((target as HTMLInputElement).value);
+            }
+        } }>
             {page}
         </Layout>
     );

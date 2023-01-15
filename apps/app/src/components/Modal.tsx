@@ -1,11 +1,11 @@
 //Modal.tsx
-import React, { useRef } from 'react';
-import { useOnClickOutside } from 'hooks';
-import { twMerge } from 'tailwind-merge';
 import { H6 } from '@cd/shared-ui';
+import { useOnClickOutside } from 'hooks';
+import React, { useRef } from 'react';
+import { twMerge } from 'tailwind-merge';
 
 export type ModalProps = {
-    children: React.ReactNode;
+    children?: React.ReactNode;
     open: boolean;
     onClose: any;
     className?: string;

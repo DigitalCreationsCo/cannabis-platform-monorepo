@@ -1,7 +1,7 @@
 import { Button, Center, FlexBox, Footer, H2, Header, LoadingDots, Page, Paragraph } from '@cd/shared-ui';
 import Image from 'next/image';
 import Link from 'next/link';
-import { PropsWithChildren, ReactEventHandler } from 'react';
+import { ChangeEventHandler, PropsWithChildren, ReactEventHandler } from 'react';
 import SuperTokens from 'supertokens-auth-react';
 import Session, { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import { twMerge } from 'tailwind-merge';
@@ -11,15 +11,61 @@ import SearchBar from './AppSearch';
 import SideNavContainer from './SideNavContainer';
 
 interface LayoutProps extends PropsWithChildren {
-    onSearchChange?: ReactEventHandler;
+    onSearchChange?: ChangeEventHandler<HTMLInputElement> & ReactEventHandler<Element>;
     placeholder?: string;
 }
 
 export default function Layout({ onSearchChange, placeholder, children }: LayoutProps) {
     const session = useSessionContext();
-    // if (session.loading === true) return <Page><Center><LoadingDots /></Center></Page>
     const main = 'bg-inverse-soft';
     const topbar = ['flex flex-row h-[66px] pr-4 lg:px-8 lg:pr-16 bg-inverse space-x-2 items-center shadow'];
+    if (session.loading === true)
+        return (
+            <div className={main}>
+                <div className={twMerge(topbar)}>
+                    <Link href="/" passHref>
+                        <Image alt="Gras" width={50} height={50} src={logo} />
+                    </Link>
+                    <Link href="/">
+                        <H2 className="pt-1">Gras</H2>
+                    </Link>
+                    <Link href="/">
+                        <Paragraph
+                            className={twMerge(
+                                'pt-2',
+                                'pl-2',
+                                'text-lg',
+                                'hidden',
+                                'md:block',
+                                'place-self-center',
+                                'text-primary font-semibold'
+                            )}
+                        >
+                            Cannabis Marketplace
+                        </Paragraph>
+                    </Link>
+
+                    <div className="flex-1"></div>
+                    <Button disabled={session.loading} onClick={() => SuperTokens.redirectToAuth({ show: 'signin' })}>
+                        Sign In
+                    </Button>
+                </div>
+                {session.loading === true && (
+                    <SideNavContainer SideNavComponent={AdminDashboardNavigation} fixedComponentId={'dashboard-links'}>
+                        <Header
+                            SearchComponent={<SearchBar placeholder={placeholder} onChange={onSearchChange} />}
+                        ></Header>
+                        <Page>
+                            <Center>
+                                <LoadingDots />
+                            </Center>
+                        </Page>
+                    </SideNavContainer>
+                )}
+                <Footer />
+            </div>
+        );
+
     return (
         <div className={main}>
             <div className={twMerge(topbar)}>
@@ -68,18 +114,7 @@ export default function Layout({ onSearchChange, placeholder, children }: Layout
                     </Button>
                 )}
             </div>
-            {session.loading === true ? (
-                <SideNavContainer SideNavComponent={AdminDashboardNavigation} fixedComponentId={'dashboard-links'}>
-                    <Header>
-                        <SearchBar placeholder={placeholder} onChange={onSearchChange} />
-                    </Header>
-                    <Page>
-                        <Center>
-                            <LoadingDots />
-                        </Center>
-                    </Page>
-                </SideNavContainer>
-            ) : session.doesSessionExist ? (
+            {session.doesSessionExist ? (
                 <SideNavContainer
                     SideNavComponent={AdminDashboardNavigation}
                     fixedComponentId={'dashboard-links-container'}
