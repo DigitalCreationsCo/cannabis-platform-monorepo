@@ -1,9 +1,11 @@
 {
-    "name": "@cd/app",
-    "peerDependencies": {
+    "dependencies": {
         "@cd/data-access": "*",
         "@cd/shared-config": "*",
-        "@cd/shared-ui": "*",
+        "@cd/shared-ui": "*"
+    },
+    "name": "@cd/app",
+    "peerDependencies": {
         "@reduxjs/toolkit": "1.9.1",
         "@tailwindcss/typography": "0.5.8",
         "@types/formidable": "2.0.5",
