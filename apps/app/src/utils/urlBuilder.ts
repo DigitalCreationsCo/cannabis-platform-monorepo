@@ -1,9 +1,11 @@
+const mainUrl = process.env.SERVER_MAIN_URL;
+console.log('api: ', mainUrl + '/api/v1');
 const urlBuilder =
     // process.env.NODE_ENV === 'development' ?
     {
         next: 'http://localhost:3000',
         main: {
-            baseUrl: 'http://localhost:6001/api/v1',
+            baseUrl: mainUrl + '/api/v1',
             healthCheck: () => urlBuilder.main.baseUrl + '/healthcheck',
 
             ordersByOrgId: (id: any) => urlBuilder.main.baseUrl + `/shop/orders/org/${id}`,

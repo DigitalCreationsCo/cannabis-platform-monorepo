@@ -53,7 +53,7 @@ export default function App({ Component, pageProps }: CustomAppProps): JSX.Eleme
                 await axios(urlBuilder.main.healthCheck());
                 setAppStatus(true);
             } catch (error) {
-                console.log('error: ', error.message);
+                console.log('healthcheck error: ', error.message);
                 setAppStatus(false);
             }
         }

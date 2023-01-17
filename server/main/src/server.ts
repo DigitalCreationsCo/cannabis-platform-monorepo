@@ -2,13 +2,13 @@ import express from 'express';
 import supertokens from 'supertokens-node';
 import { backendConfig } from './config/backendConfig';
 
-import cors from 'cors';
 import { websiteDomain } from '@cd/shared-config/auth/appInfo';
-import { middleware, errorHandler } from 'supertokens-node/framework/express';
+import cors from 'cors';
+import { errorHandler, middleware } from 'supertokens-node/framework/express';
 
 import bodyParser from 'body-parser';
-import { user, shop, driver, organization, error } from './api/routes';
 import http from 'http';
+import { driver, error, organization, shop, user } from './api/routes';
 
 supertokens.init(backendConfig());
 
@@ -25,6 +25,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use('/api/v1/healthcheck', (req, res) => {
+    console.log('from healthcheck route');
     res.status(200).send('OK');
 });
 app.use('/api/v1/auth', user);

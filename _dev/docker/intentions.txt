@@ -1,3 +1,8 @@
+UI NOTE: abstract a component, ONLY when you need it more than twice! This saves time, headche, and technical debt.
+
+TDD NOTE: 
+Write down what components are breaking often, and why, Write effective unit tests for it!
+
 12-9-22
 prune tailwind, postcss, autoprefixer deps,
 export tailwindcss from shared-config,
@@ -25,20 +30,18 @@ seed sample deliveries, build demo application for clients, with working mobile 
 write prisma lib tests to check types and return from prisma funcs :)
 for typescript: fix tsconfig in any projec that is having compile issue
 add daisy ui for tab, modal, and more.
-
-do next:
+1-12-22
 refine the ui for mobile and web
 add mobile sidenav drawer:
-TO FIX:
-    drawer menu on mobile is broken, overlay is not working, check the dom tree order, add zindex to overlay
-    on desktop size, hide the overlay
-    when its done
-    NOTE: abstract a component, ONLY when you need it more than twice! This saves time, headche, and technical debt.
-Deploy to vercel TODAY. No excuses. Send it as is.
 
-deploy to vercel, message Matthew so he can review and give feedback
+To do:
+Revise vercel deployment. Connect with linode server. Test for edge cases. (What are they?)
+Harden security in linode, and vercel.
+Add forever run script for server stops.
+Message Matthew so he can review and give feedback
 
 product upload, wasabi s3 storage, imagekit.io image handling ;D
+host supertokens on linode with docker, use dockercompose
 
 discount and pricing model:
 discounts are applied on order basis, 
@@ -49,48 +52,30 @@ discounts are applied on order basis,
 
 * build swagger api for node main server
 
-categories search
-( searches from categories list to add to one product.categories )
-- textfield component to search, reuse from products search
-- useCategory hook, to search categories from categoryList, using api
-- render results in menuitem
-- add selection to categories list
-- add unit tests for all these points
-- in the future, reuse to add categories to dispensary category list, from global categories list
+Check the existing apps for some finished work (signup forms)
+start adding all components!
+migrate all mui components to tailwind
 
 Testing:
+prisma query, 
+Price, formatting, mutating data, adding, removing entries,
 write nextjs api route tests, to test the proper http request is sent to server. :)
-
-debug product search hook, and debounce func, use vscode debug
-
-Fix Modal interactions!
-
-addproducts to order: group productIds together in one item, combine quantities
+unit test debounce func
 Write a unit test suite for addproductshandle
+Write test for updateProducts page funcs
+test the correct env is loaded (dev, or production)
+provision development and prod, preprod spaces
 
 add product details page, make it resuable for consumer app
-
-(Write down what components are breaking often, and why, Write effective unit tests for it!)
 
 finish all admin dashboard pages, details pages, etc.
 complete site settings page with data, and routes
 
-finish SideNav - refactor mobile sidebar into this :)
-
 Fix the Order totals, and add backend code to update order rows for transactions
 build consumer web app (Easy!!)
 
-switch to self hosted supertokens core
-Add context o Session Control, for auth functions available throughout app
 auth middleware with supertokens sessions from database :)
 
-Check the existing apps for some finished work.
-add unit test suite, and some basic test for main app processes
-- like what? :) Price, formatting, mutating data, adding, removing entries,
-prisma query, 
-
-start adding all components!
 add incremental build to shared-ui lib
-migrate all mui components to tailwind
-
 tie up loose ends in the dashboard - dead code, unfinished components
+cycle reusable comps to shared-ui for using consumer app :)

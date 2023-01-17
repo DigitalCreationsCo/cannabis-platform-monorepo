@@ -118,6 +118,8 @@ export async function getServerSideProps({ req, res }) {
 
     const organization = (await prisma.organization.findUnique({ where: { id: organizationId } })) || {};
     const products = await (await fetch(urlBuilder.next + '/api/products')).json();
+    console.log('products getServerSideProps: ', products);
+
     const orders = await (await fetch(urlBuilder.next + '/api/orders/')).json();
     return {
         props: {
