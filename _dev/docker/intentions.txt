@@ -34,6 +34,12 @@ add daisy ui for tab, modal, and more.
 refine the ui for mobile and web
 add mobile sidenav drawer:
 
+TODO:
+add healthcheck middleware to use in api routes,
+fix the class instance in orders[id] page
+using env variables again,
+Profit
+
 To do:
 Revise vercel deployment. Connect with linode server. Test for edge cases. (What are they?)
 Harden security in linode, and vercel.

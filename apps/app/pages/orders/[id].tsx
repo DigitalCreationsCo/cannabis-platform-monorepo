@@ -1,9 +1,6 @@
 import {
     OrderItem,
-    OrderItemWithDetails,
-    OrderItemWithDetailsClass,
-    OrderWithDetails,
-    ProductVariantWithDetails,
+    OrderItemWithDetails, OrderWithDetails
 } from '@cd/data-access';
 import {
     Button,
@@ -22,7 +19,7 @@ import {
     PhoneNumber,
     Price,
     Row,
-    TextField,
+    TextField
 } from '@cd/shared-ui';
 import axios from 'axios';
 import { AddProduct, PageHeader, ProductItem, ProtectedComponent } from 'components';
@@ -32,7 +29,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { calcSalePrice, urlBuilder } from 'utils';
+import { urlBuilder } from 'utils';
 import { useProductSearch } from '../../src/hooks';
 
 export default function OrderDetails() {
@@ -134,31 +131,31 @@ export default function OrderDetails() {
     };
 
     // add new item in order
-    const handleAddItem = (variant: ProductVariantWithDetails, quantity: number) => {
-        const salePrice = calcSalePrice(variant.basePrice, variant.discount);
+    // const handleAddItem = (variant: ProductVariantWithDetails, quantity: number) => {
+    //     const salePrice = calcSalePrice(variant.basePrice, variant.discount);
 
-        const addItem: OrderItemWithDetails = new OrderItemWithDetailsClass({
-            discount: variant.discount,
-            currency: variant.currency,
-            createdAt: variant.createdAt,
-            updatedAt: variant.updatedAt,
-            productVariant: variant,
-            name: variant.name,
-            unit: variant.unit,
-            size: variant.size,
-            basePrice: variant.basePrice,
-            variantId: variant.id,
-            salePrice,
-            quantity,
-            orderId: order.id,
-        });
+    //     const addItem: OrderItemWithDetails = new OrderItemWithDetailsClass({
+    //         discount: variant.discount,
+    //         currency: variant.currency,
+    //         createdAt: variant.createdAt,
+    //         updatedAt: variant.updatedAt,
+    //         productVariant: variant,
+    //         name: variant.name,
+    //         unit: variant.unit,
+    //         size: variant.size,
+    //         basePrice: variant.basePrice,
+    //         variantId: variant.id,
+    //         salePrice,
+    //         quantity,
+    //         orderId: order.id,
+    //     });
 
-        const items = [...order.items, addItem];
-        calculateTotal(items);
+    //     const items = [...order.items, addItem];
+    //     calculateTotal(items);
 
-        setSearchProductTerms('');
-        doSearchProducts(null);
-    };
+    //     setSearchProductTerms('');
+    //     doSearchProducts(null);
+    // };
 
     return (
         <ProtectedComponent>
