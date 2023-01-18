@@ -1,7 +1,4 @@
-import {
-    OrderItem,
-    OrderItemWithDetails, OrderWithDetails
-} from '@cd/data-access';
+import { OrderItem, OrderItemWithDetails, OrderWithDetails } from '@cd/data-access';
 import {
     Button,
     Card,
@@ -13,7 +10,6 @@ import {
     H6,
     Icons,
     LoadingDots,
-    Padding,
     Page,
     Paragraph,
     PhoneNumber,
@@ -31,11 +27,11 @@ import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { urlBuilder } from 'utils';
 import { useProductSearch } from '../../src/hooks';
+import { ExtendedPageComponent } from '../_app';
 
-export default function OrderDetails() {
+export default function OrderDetails({ appReady, setAppReady }: ExtendedPageComponent) {
     const { query } = useRouter();
     const [order, setOrder] = useState<OrderWithDetails>();
-    const [loading, setLoading] = useState(true);
     const [orderStatus, setOrderStatus] = useState('');
     const [searchProductTerms, setSearchProductTerms] = useState('');
     const [loadingButton, setLoadingButton] = useState(false);
@@ -50,9 +46,9 @@ export default function OrderDetails() {
             const { data } = await axios(urlBuilder.next + `/api/orders/${query.id}`);
             setOrderStatus(data.status);
             setOrder(data);
-            setLoading(false);
+            setAppReady(true);
         } catch (error) {
-            setLoading(false);
+            setAppReady(false);
             console.error(error);
             toast.error(error.response.statusText);
         }
@@ -84,7 +80,7 @@ export default function OrderDetails() {
         setLoadingButton(true);
         try {
             if (order) {
-                setLoading(true);
+                setAppReady('loading');
                 let update = { ...order };
                 update = removeRelatedFields(update);
                 const response = await axios.put(urlBuilder.next + '/api/orders', {
@@ -100,7 +96,7 @@ export default function OrderDetails() {
             setLoadingButton(false);
         } catch (error) {
             setLoadingButton(false);
-            setLoading(false);
+            setAppReady(false);
             console.error(error);
             toast.error(error.response.statusText);
             // toast.error(error.message);
@@ -160,176 +156,180 @@ export default function OrderDetails() {
     return (
         <ProtectedComponent>
             <Page>
-                {loading ? (
-                    <Padding>
-                        <LoadingDots />
-                    </Padding>
-                ) : order ? (
-                    <Grid className="md:max-w-fit">
-                        <PageHeader
-                            title={`Order #${order?.id}`}
-                            Icon={Icons.ShoppingBagOutlined}
-                            Button={
-                                <Link href="/orders">
-                                    <Button>Back to Orders</Button>
-                                </Link>
-                            }
-                        />
-                        <Grid>
-                            <FlexBox className="flex-col space-x-0 items-stretch">
-                                <Row className="justify-start space-x-4">
-                                    <H6>{`Ordered on ${format(new Date(order.createdAt), 'MMM dd, yyyy')}`}</H6>
-                                    <TextField
-                                        label="Status"
-                                        value={orderStatus}
-                                        onChange={(e) => setOrderStatus(e.target.value)}
-                                    />
-                                </Row>
-                                <Row className="justify-start space-x-4 items-center">
-                                    <H6>Items</H6>
-                                    <Button
-                                        onClick={toggleAddProduct}
-                                        className="bg-light text-dark hover:text-light text-sm h-[30px] border"
-                                    >
-                                        Add Product
-                                    </Button>
-
-                                    <AddProduct
-                                        open={openAddProduct}
-                                        onClose={toggleAddProduct}
-                                        description="Add Product"
-                                    >
+                {
+                    // appStatus ? (
+                    // <Padding>
+                    //     <LoadingDots />
+                    // </Padding>
+                    // ) :
+                    order ? (
+                        <Grid className="md:max-w-fit">
+                            <PageHeader
+                                title={`Order #${order?.id}`}
+                                Icon={Icons.ShoppingBagOutlined}
+                                Button={
+                                    <Link href="/orders">
+                                        <Button>Back to Orders</Button>
+                                    </Link>
+                                }
+                            />
+                            <Grid>
+                                <FlexBox className="flex-col space-x-0 items-stretch">
+                                    <Row className="justify-start space-x-4">
+                                        <H6>{`Ordered on ${format(new Date(order.createdAt), 'MMM dd, yyyy')}`}</H6>
                                         <TextField
-                                            className="shadow"
-                                            value={searchProductTerms}
-                                            onChange={(e) => {
-                                                doSearchProducts(e);
-                                                setSearchProductTerms(e.target.value);
-                                            }}
+                                            label="Status"
+                                            value={orderStatus}
+                                            onChange={(e) => setOrderStatus(e.target.value)}
                                         />
-                                        {productSearchResult.length > 0 ? (
-                                            <FlexBox className="pb-4 overflow-scroll space-x-3 flex flex-row grow">
-                                                {productSearchResult.map((product) => (
-                                                    <ProductItem
-                                                        key={product.id}
-                                                        product={product}
-                                                        handleConfirm={handleAddItem}
-                                                    />
-                                                ))}
+                                    </Row>
+                                    <Row className="justify-start space-x-4 items-center">
+                                        <H6>Items</H6>
+                                        <Button
+                                            onClick={toggleAddProduct}
+                                            className="bg-light text-dark hover:text-light text-sm h-[30px] border"
+                                        >
+                                            Add Product
+                                        </Button>
+
+                                        <AddProduct
+                                            open={openAddProduct}
+                                            onClose={toggleAddProduct}
+                                            description="Add Product"
+                                        >
+                                            <TextField
+                                                className="shadow"
+                                                value={searchProductTerms}
+                                                onChange={(e) => {
+                                                    doSearchProducts(e);
+                                                    setSearchProductTerms(e.target.value);
+                                                }}
+                                            />
+                                            {productSearchResult.length > 0 ? (
+                                                <FlexBox className="pb-4 overflow-scroll space-x-3 flex flex-row grow">
+                                                    {productSearchResult.map((product) => (
+                                                        <ProductItem
+                                                            key={product.id}
+                                                            product={product}
+                                                            handleConfirm={handleAddItem}
+                                                        />
+                                                    ))}
+                                                </FlexBox>
+                                            ) : (
+                                                <Center>
+                                                    <LoadingDots />
+                                                </Center>
+                                            )}
+
+                                            {notFoundResult && (
+                                                // <SearchResultCard elevation={2}>
+                                                <Paragraph>No Products Found</Paragraph>
+                                                // </SearchResultCard>
+                                            )}
+                                        </AddProduct>
+                                    </Row>
+
+                                    {order.items.map((item: OrderItemWithDetails, index: number) => (
+                                        <Row key={index} className="h-[66px] md:space-x-4">
+                                            <Image
+                                                src={item.productVariant?.images[0]?.location}
+                                                className="hidden sm:block"
+                                                alt=""
+                                                height={64}
+                                                width={64}
+                                            />
+                                            <FlexBox className="grow">
+                                                <H6>{item.name}</H6>
                                             </FlexBox>
-                                        ) : (
-                                            <Center>
-                                                <LoadingDots />
-                                            </Center>
-                                        )}
 
-                                        {notFoundResult && (
-                                            // <SearchResultCard elevation={2}>
-                                            <Paragraph>No Products Found</Paragraph>
-                                            // </SearchResultCard>
-                                        )}
-                                    </AddProduct>
-                                </Row>
+                                            <H6>
+                                                <Price price={item.salePrice} />
+                                            </H6>
 
-                                {order.items.map((item: OrderItemWithDetails, index: number) => (
-                                    <Row key={index} className="h-[66px] md:space-x-4">
-                                        <Image
-                                            src={item.productVariant?.images[0]?.location}
-                                            className="hidden sm:block"
-                                            alt=""
-                                            height={64}
-                                            width={64}
-                                        />
-                                        <FlexBox className="grow">
-                                            <H6>{item.name}</H6>
+                                            <TextField
+                                                className="w-[66px] font-semibold"
+                                                type="number"
+                                                defaultValue={item.quantity}
+                                                onChange={(e) => handleQuantityChange(e.target.value, item.variantId)}
+                                            />
+
+                                            <DeleteButton
+                                                onClick={() => handleDeleteItem(item.variantId)}
+                                            ></DeleteButton>
+                                        </Row>
+                                    ))}
+                                </FlexBox>
+                            </Grid>
+
+                            <Grid>
+                                <Card>
+                                    <H5>Delivery</H5>
+                                    <H6>{order.customer.firstName + ' ' + order.customer.lastName}</H6>
+                                    <Paragraph>{order.customer.email}</Paragraph>
+                                    <Paragraph>
+                                        <PhoneNumber phone={order.customer.dialCode + '-' + order.customer.phone} />
+                                    </Paragraph>
+                                    <Paragraph>
+                                        {order.deliveryInfo.street1 +
+                                            ' ' +
+                                            order.deliveryInfo.street2 +
+                                            '\n' +
+                                            order.deliveryInfo.city +
+                                            ' ' +
+                                            order.deliveryInfo.state +
+                                            ' ' +
+                                            order.deliveryInfo.country +
+                                            ' ' +
+                                            order.deliveryInfo.zipcode}
+                                    </Paragraph>
+                                </Card>
+                            </Grid>
+
+                            <Grid>
+                                <Button onClick={handleUpdate} loading={loadingButton}>
+                                    Save Order
+                                </Button>
+                            </Grid>
+
+                            <Grid>
+                                <Card>
+                                    <Grid className="max-w-fit m-auto ">
+                                        <FlexBox>
+                                            <H5>Subtotal</H5>
+                                            <H6>
+                                                <Price price={order.subtotal} />
+                                            </H6>
                                         </FlexBox>
 
-                                        <H6>
-                                            <Price price={item.salePrice} />
-                                        </H6>
+                                        <FlexBox>
+                                            <H5>Delivery Fee</H5>
+                                            <H6>
+                                                <Price price={0} />
+                                            </H6>
+                                        </FlexBox>
 
-                                        <TextField
-                                            className="w-[66px] font-semibold"
-                                            type="number"
-                                            defaultValue={item.quantity}
-                                            onChange={(e) => handleQuantityChange(e.target.value, item.variantId)}
-                                        />
-
-                                        <DeleteButton onClick={() => handleDeleteItem(item.variantId)}></DeleteButton>
-                                    </Row>
-                                ))}
-                            </FlexBox>
-                        </Grid>
-
-                        <Grid>
-                            <Card>
-                                <H5>Delivery</H5>
-                                <H6>{order.customer.firstName + ' ' + order.customer.lastName}</H6>
-                                <Paragraph>{order.customer.email}</Paragraph>
-                                <Paragraph>
-                                    <PhoneNumber phone={order.customer.dialCode + '-' + order.customer.phone} />
-                                </Paragraph>
-                                <Paragraph>
-                                    {order.deliveryInfo.street1 +
-                                        ' ' +
-                                        order.deliveryInfo.street2 +
-                                        '\n' +
-                                        order.deliveryInfo.city +
-                                        ' ' +
-                                        order.deliveryInfo.state +
-                                        ' ' +
-                                        order.deliveryInfo.country +
-                                        ' ' +
-                                        order.deliveryInfo.zipcode}
-                                </Paragraph>
-                            </Card>
-                        </Grid>
-
-                        <Grid>
-                            <Button onClick={handleUpdate} loading={loadingButton}>
-                                Save Order
-                            </Button>
-                        </Grid>
-
-                        <Grid>
-                            <Card>
-                                <Grid className="max-w-fit m-auto ">
-                                    <FlexBox>
-                                        <H5>Subtotal</H5>
-                                        <H6>
-                                            <Price price={order.subtotal} />
-                                        </H6>
-                                    </FlexBox>
-
-                                    <FlexBox>
-                                        <H5>Delivery Fee</H5>
-                                        <H6>
-                                            <Price price={0} />
-                                        </H6>
-                                    </FlexBox>
-
-                                    {/* <FlexBox>
+                                        {/* <FlexBox>
                 <H5>
                   Discount
                 </H5>
                 <H6>${order.discount}</H6>
               </FlexBox> */}
 
-                                    <FlexBox>
-                                        <H5>Tax</H5>
-                                        <H6>
-                                            <Price price={order.tax} />
-                                        </H6>
-                                    </FlexBox>
+                                        <FlexBox>
+                                            <H5>Tax</H5>
+                                            <H6>
+                                                <Price price={order.tax} />
+                                            </H6>
+                                        </FlexBox>
 
-                                    <FlexBox>
-                                        <H5>Total</H5>
-                                        <H6>
-                                            <Price price={order.total} />
-                                        </H6>
-                                    </FlexBox>
+                                        <FlexBox>
+                                            <H5>Total</H5>
+                                            <H6>
+                                                <Price price={order.total} />
+                                            </H6>
+                                        </FlexBox>
 
-                                    {/* <FlexBox justifyContent="space-between" alignItems="center" mb={1}>
+                                        {/* <FlexBox justifyContent="space-between" alignItems="center" mb={1}>
             <Typography fontSize="14px" color="grey.600">
               Shipping fee:
             </Typography>
@@ -350,7 +350,7 @@ export default function OrderDetails() {
             </FlexBox>
           </FlexBox> */}
 
-                                    {/* <Divider sx={{ mb: "0.5rem" }} />
+                                        {/* <Divider sx={{ mb: "0.5rem" }} />
 
               <FlexBox justifyContent="space-between" alignItems="center" mb={2}>
                 <H6 my="0px">Total</H6>
@@ -366,13 +366,14 @@ export default function OrderDetails() {
                   Paid by {order.paymentId.card.brand.toUpperCase()} Card
                 </Typography>
               )} */}
-                                </Grid>
-                            </Card>
+                                    </Grid>
+                                </Card>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                ) : (
-                    <Paragraph>The order is not found</Paragraph>
-                )}
+                    ) : (
+                        <Paragraph>The order is not found</Paragraph>
+                    )
+                }
             </Page>
         </ProtectedComponent>
     );

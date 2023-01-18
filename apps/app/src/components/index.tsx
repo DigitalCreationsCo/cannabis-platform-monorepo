@@ -13,5 +13,7 @@ export { default as ProductRow } from './ProductRow';
 export { default as ProtectedComponent } from './ProtectedComponent';
 export { default as Select, MenuItem } from './Select';
 export { SessionControl } from './SessionControl';
+export { default as SideNavContainer } from './SideNavContainer';
 export { default as Tag } from './Tag';
 export { default as TopBar } from './TopBar';
+

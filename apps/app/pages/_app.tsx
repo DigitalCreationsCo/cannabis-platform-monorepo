@@ -4,7 +4,7 @@ import '@cd/shared-ui/dist/style.css';
 import { Layout, SessionControl } from 'components';
 import { NextPage } from 'next';
 import { AppProps } from 'next/app';
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Toaster } from 'react-hot-toast';
 import SuperTokens, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session from 'supertokens-auth-react/recipe/session';
@@ -18,12 +18,14 @@ if (typeof window !== 'undefined') {
 //     Component: AppProps['Component'] & { getLayout?: (page: ReactNode) => JSX.Element };
 // }
 
-export type NextPageWithLayout<P = Record<string, unknown>, IP = P> = NextPage<P, IP> & {
+export type ExtendedPageComponent<P = Record<string, unknown>, IP = P> = NextPage<P, IP> & {
     getLayout?: (page: JSX.Element) => JSX.Element;
+    appReady: string | boolean;
+    setAppReady: Dispatch<SetStateAction<string | boolean>>;
 };
 
 type CustomAppProps = AppProps & {
-    Component: NextPageWithLayout;
+    Component: ExtendedPageComponent;
 };
 
 export default function App({ Component, pageProps }: CustomAppProps): JSX.Element {
@@ -41,22 +43,9 @@ export default function App({ Component, pageProps }: CustomAppProps): JSX.Eleme
         doRefresh();
     }, [pageProps.fromSupertokens]);
 
-    const [appStatus, setAppStatus] = useState<string | boolean>(true);
-    pageProps.setAppStatus = setAppStatus;
-
-    // useEffect(() => {
-    //     async function healthcheck() {
-    //         try {
-    //             setAppStatus('loading');
-    //             await axios(urlBuilder.main.healthCheck());
-    //             setAppStatus(true);
-    //         } catch (error) {
-    //             console.log('healthcheck error: ', error.message);
-    //             setAppStatus(false);
-    //         }
-    //     }
-    //     healthcheck();
-    // }, []);
+    const [appReady, setAppReady] = useState<string | boolean>(true);
+    pageProps.appReady = appReady;
+    pageProps.setAppReady = setAppReady;
 
     if (pageProps.fromSupertokens === 'needs-refresh') {
         return <></>;
@@ -65,13 +54,13 @@ export default function App({ Component, pageProps }: CustomAppProps): JSX.Eleme
     return (
         <SuperTokensWrapper>
             <SessionControl>
-                {appStatus === 'loading' ? (
+                {appReady === 'loading' ? (
                     <Page>
                         <Center>
                             <LoadingDots />
                         </Center>
                     </Page>
-                ) : appStatus === true ? (
+                ) : appReady === true ? (
                     getLayout(<Component {...pageProps} />)
                 ) : (
                     getLayout(
