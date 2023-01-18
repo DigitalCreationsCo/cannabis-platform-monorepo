@@ -56,7 +56,8 @@
     },
     "private": true,
     "scripts": {
-        "build": "next build",
+        "build": "NODE_ENV=production next build",
+        "build:dev": "NODE_ENV=development next build",
         "debug": "NODE_OPTIONS='--inspect' next dev",
         "dev": "next dev",
         "lint": "next lint",
