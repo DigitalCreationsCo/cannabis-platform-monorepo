@@ -1,14 +1,11 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import NodeCache from 'node-cache';
-import axios from 'axios';
-import { urlBuilder } from 'utils';
+import { authMiddleware, healthCheckMiddleware } from 'middleware';
 import nc from 'next-connect';
-import { authMiddleware } from 'middleware';
+import NodeCache from 'node-cache';
 
 const handler = nc();
 
 // logged in user checker middleware
-handler.use(authMiddleware);
+handler.use(authMiddleware).use(healthCheckMiddleware);
 
 // caching instance
 const cache = new NodeCache({ stdTTL: 20 });

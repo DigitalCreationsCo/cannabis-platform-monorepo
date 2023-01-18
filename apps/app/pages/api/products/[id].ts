@@ -6,13 +6,13 @@ import { urlBuilder } from '../../../src/utils';
 // import editorMiddleware from "__server__/middleware/editorMiddleware";
 // import errorMiddleware from "__server__/middleware/errorMiddleware";
 // import { deleteFiles } from "__server__/middleware/uploadMiddleware";
-import { authMiddleware } from 'middleware';
+import { authMiddleware, healthCheckMiddleware } from 'middleware';
 
 // api route handler
 const handler = nc();
 
 // logged in user checker and admin user checker middleware
-handler.use(authMiddleware);
+handler.use(authMiddleware).use(healthCheckMiddleware);
 
 // get a single product
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {

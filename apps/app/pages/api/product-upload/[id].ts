@@ -1,12 +1,9 @@
+import { ImageProduct } from '@prisma/client';
 import axios from 'axios';
+import { authMiddleware, healthCheckMiddleware } from 'middleware';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
 import { urlBuilder } from '../../../src/utils';
-import NodeCache from 'node-cache';
-import { authMiddleware } from 'middleware';
-import { ProductUpdatePayload } from '../../products/[id]';
-import { ImageProduct } from '@prisma/client';
-import formidable from 'formidable';
 
 // const form = formidable({ multiples: true })
 // async function parseMultipartForm(req, res, next) {
@@ -29,7 +26,7 @@ interface ExtendApiRequest extends NextApiRequest {
 }
 
 const handler = nc();
-handler.use(authMiddleware);
+handler.use(authMiddleware).use(healthCheckMiddleware);
 // .use(parseMultipartForm)
 
 // update product route

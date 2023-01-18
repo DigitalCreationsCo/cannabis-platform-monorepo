@@ -8,15 +8,15 @@ import NodeCache from 'node-cache';
 // import User from "__server__/model/User";
 // import { stripe } from "../stripe";
 import axios from 'axios';
-import { urlBuilder } from 'utils';
+import { authMiddleware, ExtendRequest, healthCheckMiddleware } from 'middleware';
 import nc from 'next-connect';
-import { authMiddleware, ExtendRequest } from 'middleware';
+import { urlBuilder } from 'utils';
 
 // api route handler
 const handler = nc();
 
 // logged in user checker middleware
-handler.use(authMiddleware);
+handler.use(authMiddleware).use(healthCheckMiddleware);
 
 // caching instance
 const cache = new NodeCache({ stdTTL: 30 });

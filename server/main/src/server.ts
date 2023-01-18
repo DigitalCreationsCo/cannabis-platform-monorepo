@@ -25,8 +25,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use('/api/v1/healthcheck', (req, res) => {
-    console.log('from healthcheck route');
-    res.status(200).json('OK');
+    return res.status(200).json('OK');
 });
 app.use('/api/v1/auth', user);
 app.use('/api/v1/driver', driver);

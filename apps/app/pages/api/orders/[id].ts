@@ -5,15 +5,15 @@ import nc from 'next-connect';
 // import editorMiddleware from "__server__/middleware/editorMiddleware";
 // import errorMiddleware from "__server__/middleware/errorMiddleware";
 // import Order from "__server__/model/Order";
-import { authMiddleware } from 'middleware';
 import axios from 'axios';
+import { authMiddleware, healthCheckMiddleware } from 'middleware';
 import { urlBuilder } from '../../../src/utils';
 
 // api route handler
 const handler = nc();
-
+d;
 // logged in user checker middleware
-handler.use(authMiddleware);
+handler.use(authMiddleware).use(healthCheckMiddleware);
 
 // get a single order
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {

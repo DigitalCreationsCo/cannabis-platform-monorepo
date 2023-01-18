@@ -9,14 +9,14 @@ import NodeCache from 'node-cache';
 // import Category from "__server__/model/Category";
 // import slugifyOption from "__server__/utils/slugifyOption";
 import axios from 'axios';
-import { authMiddleware, ExtendRequest } from 'middleware';
+import { authMiddleware, ExtendRequest, healthCheckMiddleware } from 'middleware';
 import { urlBuilder } from '../../../src/utils';
 
 // api route handler
 const handler = nc();
 
 // logged in user & admin user checker middleware
-handler.use(authMiddleware);
+handler.use(authMiddleware).use(healthCheckMiddleware);
 
 // caching instance
 const cache = new NodeCache({ stdTTL: 30 });
