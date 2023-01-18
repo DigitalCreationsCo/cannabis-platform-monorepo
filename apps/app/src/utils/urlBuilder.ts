@@ -1,5 +1,5 @@
 const mainUrl = process.env.SERVER_MAIN_URL;
-console.log('api: ', mainUrl + '/api/v1');
+console.log('api: ', process.env.SERVER_MAIN_URL + '/api/v1');
 const urlBuilder =
     // process.env.NODE_ENV === 'development' ?
     {

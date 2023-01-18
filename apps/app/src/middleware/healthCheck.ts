@@ -4,7 +4,7 @@ import { urlBuilder } from '../utils';
 
 export default async function healthCheck(req, res, next) {
     try {
-        console.log('checking server health of ', process.env.SERVER_MAIN_URL + '/api/v1' + '/healthcheck');
+        console.log('checking server health at', process.env.SERVER_MAIN_URL + '/api/v1' + '/healthcheck');
         await axios(urlBuilder.main.healthCheck());
         next();
     } catch (error) {

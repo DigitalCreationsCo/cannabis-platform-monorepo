@@ -30,13 +30,9 @@ handler.get(async (req: ExtendRequest, res: NextApiResponse) => {
 
         if (cache.has(`products/org/${organizationId}`)) {
             const products = cache.get(`products/org/${organizationId}`);
-            console.log('getting cache products');
             return res.status(200).json(products);
         }
-        console.log('axios: getting products');
         const { data } = await axios(urlBuilder.main.productsByOrgId(organizationId));
-        console.log('products: ', data);
-        console.log('set products in the cache');
         cache.set(`products/org/${organizationId}`, data);
         return res.status(res.statusCode).json(data);
     } catch (error) {

@@ -1,7 +1,6 @@
 import '@cd/shared-config/index.css';
 import { Center, LoadingDots, Page } from '@cd/shared-ui';
 import '@cd/shared-ui/dist/style.css';
-import axios from 'axios';
 import { Layout, SessionControl } from 'components';
 import { NextPage } from 'next';
 import { AppProps } from 'next/app';
@@ -10,7 +9,6 @@ import { Toaster } from 'react-hot-toast';
 import SuperTokens, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session from 'supertokens-auth-react/recipe/session';
 import * as SuperTokensConfig from '../config/frontendConfig';
-import { urlBuilder } from '../src/utils';
 
 if (typeof window !== 'undefined') {
     SuperTokens.init(SuperTokensConfig.frontendConfig());
@@ -43,22 +41,22 @@ export default function App({ Component, pageProps }: CustomAppProps): JSX.Eleme
         doRefresh();
     }, [pageProps.fromSupertokens]);
 
-    const [appStatus, setAppStatus] = useState<string | boolean>('loading');
+    const [appStatus, setAppStatus] = useState<string | boolean>(true);
     pageProps.setAppStatus = setAppStatus;
 
-    useEffect(() => {
-        async function healthcheck() {
-            try {
-                setAppStatus('loading');
-                await axios(urlBuilder.main.healthCheck());
-                setAppStatus(true);
-            } catch (error) {
-                console.log('healthcheck error: ', error.message);
-                setAppStatus(false);
-            }
-        }
-        healthcheck();
-    }, []);
+    // useEffect(() => {
+    //     async function healthcheck() {
+    //         try {
+    //             setAppStatus('loading');
+    //             await axios(urlBuilder.main.healthCheck());
+    //             setAppStatus(true);
+    //         } catch (error) {
+    //             console.log('healthcheck error: ', error.message);
+    //             setAppStatus(false);
+    //         }
+    //     }
+    //     healthcheck();
+    // }, []);
 
     if (pageProps.fromSupertokens === 'needs-refresh') {
         return <></>;

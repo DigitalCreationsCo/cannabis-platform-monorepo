@@ -11,7 +11,7 @@ import { urlBuilder } from '../../../src/utils';
 
 // api route handler
 const handler = nc();
-d;
+
 // logged in user checker middleware
 handler.use(authMiddleware).use(healthCheckMiddleware);
 
