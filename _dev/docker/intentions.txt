@@ -33,8 +33,11 @@ add daisy ui for tab, modal, and more.
 1-12-22
 refine the ui for mobile and web
 add mobile sidenav drawer:
+1-18-22
+fix some stuff - idk what
 
-To do:
+To do: 
+fix modals in [id].tsx pages
 Revise vercel deployment. Connect with linode server. Test for edge cases. (What are they?)
 Harden security in linode, and vercel.
 Add forever run script for server stops.
@@ -79,3 +82,5 @@ auth middleware with supertokens sessions from database :)
 add incremental build to shared-ui lib
 tie up loose ends in the dashboard - dead code, unfinished components
 cycle reusable comps to shared-ui for using consumer app :)
+
+* organization and product lookup needs to check the users membership org on the backend, for security ocnfirmation

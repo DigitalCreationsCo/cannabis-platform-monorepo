@@ -1,11 +1,11 @@
-import { PropsWithChildren } from 'react';
-import SuperTokens, { useSessionContext } from 'supertokens-auth-react/recipe/session';
+import React, { PropsWithChildren } from 'react';
+import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import LandingPage from './Landing';
 
 function ProtectedComponent({ children }: PropsWithChildren) {
     const session = useSessionContext();
     if (session.loading) return <></>;
-    return SuperTokens.doesSessionExist() ? <>{children}</> : <LandingPage />;
+    return (!session.doesSessionExist && <LandingPage />) || <>{children}</>;
 }
 
 // Will need to add member, admin, owner privilege to separate usage of app domains

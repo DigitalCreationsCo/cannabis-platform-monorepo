@@ -1,16 +1,16 @@
-import { Button, H2, Paragraph } from '@cd/shared-ui';
+import { Button, FlexBox, H2, Paragraph } from '@cd/shared-ui';
 import Image from 'next/image';
 import Link from 'next/link';
+import React from 'react';
 import SuperTokens from 'supertokens-auth-react';
-import SessionReact from 'supertokens-auth-react/recipe/session';
+import SessionReact, { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/logo.png';
 
 function TopBar() {
-    // const session = useSessionContext();
+    const doesSessionExist = async () => await SessionReact.doesSessionExist();
+    const session = useSessionContext();
     const topbar = ['flex flex-row h-[66px] pr-4 lg:px-16 bg-inverse space-x-2 items-center shadow'];
-    const doesSessionExist = SessionReact.doesSessionExist();
-    console.log('does session exist?', doesSessionExist);
     return (
         <div className={twMerge(topbar)}>
             <Link href="/" passHref>
@@ -35,7 +35,7 @@ function TopBar() {
                 </Paragraph>
             </Link>
             <div className="flex-1"></div>
-            {/* {doesSessionExist && (
+            {doesSessionExist() && (
                 <>
                     <Link href="/support">
                         <Paragraph className={twMerge('pt-1', 'px-3', 'text-md', 'whitespace-nowrap')}>
@@ -46,8 +46,12 @@ function TopBar() {
                         <Button onClick={() => SessionReact.signOut()}>Sign Out</Button>
                     </FlexBox>
                 </>
-            )} */}
-            <Button onClick={() => SuperTokens.redirectToAuth({ show: 'signin' })}>Sign In</Button>
+            )}
+            {!doesSessionExist() && (
+                <FlexBox>
+                    <Button onClick={() => SuperTokens.redirectToAuth({ show: 'signin' })}>Sign In</Button>
+                </FlexBox>
+            )}
             {/* cart button for user app */}
             {/* <Link href="/cart">
                 <Button className="relative">

@@ -10,12 +10,13 @@ import {
     H6,
     Icons,
     LoadingDots,
+    Padding,
     Page,
     Paragraph,
     PhoneNumber,
     Price,
     Row,
-    TextField,
+    TextField
 } from '@cd/shared-ui';
 import axios from 'axios';
 import { AddProduct, PageHeader, ProductItem, ProtectedComponent } from 'components';
@@ -34,6 +35,7 @@ export default function OrderDetails({ appReady, setAppReady }: ExtendedPageComp
     const [order, setOrder] = useState<OrderWithDetails>();
     const [orderStatus, setOrderStatus] = useState('');
     const [searchProductTerms, setSearchProductTerms] = useState('');
+    const [loading, setLoading] = useState(true);
     const [loadingButton, setLoadingButton] = useState(false);
     const [openAddProduct, setOpenAddProduct] = useState(false);
 
@@ -46,6 +48,7 @@ export default function OrderDetails({ appReady, setAppReady }: ExtendedPageComp
             const { data } = await axios(urlBuilder.next + `/api/orders/${query.id}`);
             setOrderStatus(data.status);
             setOrder(data);
+            setLoading(false);
             setAppReady(true);
         } catch (error) {
             setAppReady(false);
@@ -92,8 +95,8 @@ export default function OrderDetails({ appReady, setAppReady }: ExtendedPageComp
                 if (response.status !== 200) throw Error('Could not save record');
                 toast.success('Order Updated Successfully');
             }
-            location.reload();
             setLoadingButton(false);
+            location.reload();
         } catch (error) {
             setLoadingButton(false);
             setAppReady(false);
@@ -156,13 +159,12 @@ export default function OrderDetails({ appReady, setAppReady }: ExtendedPageComp
     return (
         <ProtectedComponent>
             <Page>
-                {
-                    // appStatus ? (
-                    // <Padding>
-                    //     <LoadingDots />
-                    // </Padding>
-                    // ) :
-                    order ? (
+                {(loading && (
+                    <Padding>
+                        <LoadingDots />
+                    </Padding>
+                )) ||
+                    (order && (
                         <Grid className="md:max-w-fit">
                             <PageHeader
                                 title={`Order #${order?.id}`}
@@ -370,10 +372,7 @@ export default function OrderDetails({ appReady, setAppReady }: ExtendedPageComp
                                 </Card>
                             </Grid>
                         </Grid>
-                    ) : (
-                        <Paragraph>The order is not found</Paragraph>
-                    )
-                }
+                    )) || <Paragraph>The order is not found</Paragraph>}
             </Page>
         </ProtectedComponent>
     );
