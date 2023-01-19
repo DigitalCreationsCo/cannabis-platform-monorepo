@@ -43,6 +43,7 @@ Harden security in linode, and vercel.
 Add forever run script for server stops.
 Message Matthew so he can review and give feedback
 
+Deploy supertokens in linode container, add to env
 product upload, wasabi s3 storage, imagekit.io image handling ;D
 host supertokens on linode with docker, use dockercompose
 
