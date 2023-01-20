@@ -5,7 +5,7 @@ import {
     ImageUser,
     ImageVendor,
     Product,
-    ProductWithDetails,
+    ProductWithDetails
 } from '@cd/data-access';
 import {
     Button,
@@ -18,7 +18,7 @@ import {
     Page,
     Paragraph,
     Row,
-    TextField,
+    TextField
 } from '@cd/shared-ui';
 import axios from 'axios';
 import { ClickableTags, DropZone, Modal, PageHeader, ProtectedComponent } from 'components';
@@ -93,7 +93,7 @@ export default function ProductDetails() {
             const { data } = await axios(urlBuilder.next + `/api/products/${query.id}`);
             setExistingImage(data.variants[0].images);
             setProduct(data);
-            setProductCategories((state) => new Set([...state, ...data.categories]));
+            setProductCategories(new Set([...data.categories]));
             setLoading(false);
         } catch (error) {
             setLoadingButton(false);
@@ -104,7 +104,8 @@ export default function ProductDetails() {
     };
 
     useEffect(() => {
-        if (query?.id) {
+        if (query?.id && !product) {
+            console.log('fetch product');
             fetchProductDetails();
         }
     }, [query]);
