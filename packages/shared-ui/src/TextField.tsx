@@ -4,6 +4,7 @@ import { FlexBox } from ".";
 
 type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
     className?: string;
+    containerClassName?: string;
     maxNumber?: number;
     name?: string;
     type?: string;
@@ -14,10 +15,10 @@ type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
     onChange: ReactEventHandler;
     error?: boolean;
 }
-function TextField({ className, maxNumber, name, type, error, value, label, placeholder, defaultValue, onChange, ...props }: TextFieldProps) {
+function TextField({ className, containerClassName, maxNumber, name, type, error, value, label, placeholder, defaultValue, onChange, ...props }: TextFieldProps) {
     const inputProps: React.InputHTMLAttributes<HTMLInputElement> = { ...props }
     return (
-        <FlexBox className="w-full">
+        <FlexBox className={twMerge("w-full", containerClassName )}>
             { label && <FlexBox className="min-w-[111px] items-start">
                 <label>
                 { label }

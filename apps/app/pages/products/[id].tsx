@@ -223,69 +223,66 @@ export default function ProductDetails() {
                                         <Modal
                                             open={openModal}
                                             onClose={toggleModal}
-                                            description="Variants"
-                                            className="min-w-full w-full sm:min-w-[600px] sm:w-[600px] px-0 sm:px-2 md:px-4"
+                                            description="Product Variants"
+                                        className="w-screen
+                                            // min-w-full w-full sm:min-w-[600px] sm:w-[600px] px-0 sm:px-2 md:px-4
+                                            "
                                         >
                                             <Grid className="px-0 space-y-2">
-                                                <Row className="px-0 sm:px-4">
-                                                    <Paragraph className="flex justify-start">Sku</Paragraph>
-                                                    <Paragraph className="flex justify-start">Stock</Paragraph>
-                                                    <Paragraph className="flex justify-start">Size</Paragraph>
-                                                    <Paragraph className="flex justify-start">Price</Paragraph>
-                                                    <Paragraph className="flex justify-start pr-4">Discount</Paragraph>
+                                                <Row className="px-0 mx-0 justify-between">
+                                                    <Paragraph className="justify-start w-[80px]">Sku</Paragraph>
+                                                    <Paragraph className="justify-start w-[80px]">Stock</Paragraph>
+                                                    <Paragraph className="justify-start w-[80px]">Size</Paragraph>
+                                                    <Paragraph className="justify-start w-[80px]">Price</Paragraph>
+                                                    <Paragraph className="justify-start w-[80px]">Discount</Paragraph>
                                                 </Row>
                                                 {product.variants &&
                                                     product.variants.map((v, index) => (
                                                         <Row
-                                                            className={twMerge(
-                                                                'px-0 sm:px-4',
+                                                            className={ twMerge('px-0 mx-0 justify-between',
                                                                 !!touched.variants && 'bg-accent'
                                                             )}
                                                             key={'variant-' + index}
                                                         >
-                                                            <Paragraph className="flex justify-center">
+                                                            <Paragraph className="w-[80px] pr-2">
                                                                 {v.sku}
                                                             </Paragraph>
-                                                            <FlexBox className="flex justify-center">
-                                                                <TextField
-                                                                    className="w-[80px]"
-                                                                    name={`variants[${index}].stock`}
-                                                                    placeholder="Stock"
-                                                                    value={values?.variants?.[index].stock}
-                                                                    onBlur={handleBlur}
-                                                                    onChange={handleChange}
-                                                                />
-                                                            </FlexBox>
-                                                            <FlexBox className="flex justify-center">
-                                                                <TextField
-                                                                    className="w-[80px]"
-                                                                    name={`variants[${index}].size`}
-                                                                    placeholder="Size"
-                                                                    value={values?.variants?.[index].size}
-                                                                    onBlur={handleBlur}
-                                                                    onChange={handleChange}
-                                                                />
-                                                            </FlexBox>
-                                                            <FlexBox className="flex justify-center">
-                                                                <TextField
-                                                                    className="w-[80px]"
-                                                                    name={`variants[${index}].basePrice`}
-                                                                    placeholder="Price"
-                                                                    value={values?.variants?.[index].basePrice}
-                                                                    onBlur={handleBlur}
-                                                                    onChange={handleChange}
-                                                                />
-                                                            </FlexBox>
-                                                            <FlexBox className="flex justify-center">
-                                                                <TextField
-                                                                    className="w-[80px]"
-                                                                    name={`variants[${index}].discount`}
-                                                                    placeholder="Discount"
-                                                                    value={values?.variants?.[index].discount}
-                                                                    onBlur={handleBlur}
-                                                                    onChange={handleChange}
-                                                                />
-                                                            </FlexBox>
+                                                            <TextField
+                                                                containerClassName="w-fit px-0 mx-0"
+                                                                className="px-0 mx-0 w-[80px]"
+                                                                name={`variants[${index}].stock`}
+                                                                placeholder="Stock"
+                                                                value={values?.variants?.[index].stock}
+                                                                onBlur={handleBlur}
+                                                                onChange={handleChange}
+                                                            />
+                                                            <TextField
+                                                                containerClassName="w-fit px-0 mx-0"
+                                                                className="px-0 mx-0 w-[80px]"
+                                                                name={`variants[${index}].size`}
+                                                                placeholder="Size"
+                                                                value={values?.variants?.[index].size}
+                                                                onBlur={handleBlur}
+                                                                onChange={handleChange}
+                                                            />
+                                                            <TextField
+                                                                containerClassName="w-fit px-0 mx-0"
+                                                                className="px-0 mx-0 w-[80px]"
+                                                                name={`variants[${index}].basePrice`}
+                                                                placeholder="Price"
+                                                                value={values?.variants?.[index].basePrice}
+                                                                onBlur={handleBlur}
+                                                                onChange={handleChange}
+                                                            />
+                                                            <TextField
+                                                                containerClassName="w-fit px-0 mx-0"
+                                                                className="px-0 mx-0 w-[80px]"
+                                                                name={`variants[${index}].discount`}
+                                                                placeholder="Discount"
+                                                                value={values?.variants?.[index].discount}
+                                                                onBlur={handleBlur}
+                                                                onChange={handleChange}
+                                                            />
                                                         </Row>
                                                     ))}
                                                 <FlexBox className="justify-center">

@@ -24,7 +24,7 @@ const Modal = ({ children, open, disableClickOutside = !open, onClose, descripti
     return (
         <div className={twMerge(modalClass)}>
             <div className={twMerge('modal-box rounded-btn bg-inverse-soft', className)} ref={ref}>
-                <H6 className="pb-2">{description}</H6>
+                <H6 className={twMerge('pb-2')}>{description}</H6>
                 {children}
             </div>
         </div>
