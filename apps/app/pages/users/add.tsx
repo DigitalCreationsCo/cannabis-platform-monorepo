@@ -21,7 +21,7 @@ export default function AddUser() {
                             label="Name"
                             name={`Name`}
                             placeholder="Stock"
-                            value={'Margaret'}
+                            value={''}
                             // onBlur={handleBlur}
                             onChange={() => null}
                         />
