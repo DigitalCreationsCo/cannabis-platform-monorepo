@@ -341,12 +341,15 @@ export default function ProductDetails() {
                                                         className="shadow"
                                                         label={'Add Category'}
                                                         value={searchCategoryTerms}
-                                                        onFocus={() => setOpenDropDown(true)}
-                                                        onBlur={() => setSearchCategoryTerms('')}
-                                                        onChange={(e) => {
-                                                            doSearchCategories(e);
-                                                            setSearchCategoryTerms(e.target.value);
-                                                        }}
+                                                    onFocus={ (e) => {
+                                                        doSearchCategories(e)
+                                                        setOpenDropDown(true);
+                                                    } }
+                                                    onBlur={ () => setOpenDropDown(true) }
+                                                    onChange={(e) => {
+                                                        setSearchCategoryTerms(e.target.value);
+                                                        doSearchCategories(e);
+                                                    }}
                                                     />
                                                     <div className="dropdown-bottom w-full">
                                                         {openDropDown && categorySearchResult.length > 0 && (
