@@ -1,5 +1,4 @@
 import { FlexBox } from '@cd/shared-ui';
-import React from 'react';
 import Modal, { ModalProps } from './Modal';
 
 function AddProduct({ children, ...props }: ModalProps) {

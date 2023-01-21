@@ -188,56 +188,47 @@ export default function OrderDetails({ appReady, setAppReady }: ExtendedPageComp
                                     </Link>
                                 }
                             />
+                            <AddProduct
+                                className="z-100 w-screen"
+                                open={openAddProduct}
+                                onClose={toggleAddProduct}
+                                description="Add Product"
+                            >
+                                <TextField
+                                    className="shadow"
+                                    value={searchProductTerms}
+                                    onChange={(e) => {
+                                        doSearchProducts(e);
+                                        setSearchProductTerms(e.target.value);
+                                    }}
+                                    placeholder="Search Products"
+                                />
+                                {productSearchResult.length > 0 ? (
+                                    <FlexBox className="pb-4 overflow-scroll space-x-3 flex flex-row grow">
+                                        {productSearchResult.map((product) => (
+                                            <ProductItem
+                                                key={product.id}
+                                                product={product}
+                                                handleConfirm={handleAddItem}
+                                            />
+                                        ))}
+                                    </FlexBox>
+                                ) : (
+                                    <Center>
+                                        <LoadingDots />
+                                    </Center>
+                                )}
+
+                                {notFoundResult && (
+                                    // <SearchResultCard elevation={2}>
+                                    <Paragraph>No Products Found</Paragraph>
+                                    // </SearchResultCard>
+                                )}
+                            </AddProduct>
                             <Grid>
                                 <FlexBox className="flex-col space-x-0 items-stretch">
                                     <Row className="justify-between space-x-4">
                                         <H6>{`Ordered on ${format(new Date(order.createdAt), 'MMM dd, yyyy')}`}</H6>
-                                        {/* <div className="relative z-10 dropdown w-full">
-                                            <TextField
-                                                label="Status"
-                                                value={orderStatus}
-                                                onChange={(e) => setOrderStatus(e.target.value)}
-                                            />
-                                            <TextField
-                                                className="shadow"
-                                                label={'Add Category'}
-                                                value={searchCategoryTerms}
-                                                onFocus={(e) => {
-                                                    doSearchCategories(e);
-                                                    setOpenDropDown(true);
-                                                }}
-                                                // onBlur={ () => setOpenDropDown(false) }
-                                                onChange={(e) => {
-                                                    setSearchCategoryTerms(e.target.value);
-                                                    doSearchCategories(e);
-                                                    setOpenDropDown(true);
-                                                }}
-                                            />
-                                            <div className="dropdown-bottom w-full">
-                                                {openDropDown && (
-                                                    <ul
-                                                        ref={dropDownRef}
-                                                        className="absolute z-10 ml-[126px] w-full rounded-btn shadow cursor-default"
-                                                    >
-                                                        {orderStatusList.map((v, index) => {
-                                                            return (
-                                                                <li
-                                                                    onClick={() => {
-                                                                        setOrderStatus(v.value as OrderStatus);
-                                                                    }}
-                                                                    className={
-                                                                        'bg-inverse z-20 px-4 p-2 hover:bg-accent-soft'
-                                                                    }
-                                                                    key={v.name + index}
-                                                                >
-                                                                    {v['label']}
-                                                                </li>
-                                                            );
-                                                        })}
-                                                    </ul>
-                                                )}
-                                            </div>
-                                        </div> */}
                                         <FlexBox>
                                             <H6>Status</H6>
                                             <select className="select">
@@ -265,42 +256,6 @@ export default function OrderDetails({ appReady, setAppReady }: ExtendedPageComp
                                         >
                                             Add Product
                                         </Button>
-
-                                        <AddProduct
-                                            open={openAddProduct}
-                                            onClose={toggleAddProduct}
-                                            description="Add Product"
-                                        >
-                                            <TextField
-                                                className="shadow"
-                                                value={searchProductTerms}
-                                                onChange={(e) => {
-                                                    doSearchProducts(e);
-                                                    setSearchProductTerms(e.target.value);
-                                                }}
-                                            />
-                                            {productSearchResult.length > 0 ? (
-                                                <FlexBox className="pb-4 overflow-scroll space-x-3 flex flex-row grow">
-                                                    {productSearchResult.map((product) => (
-                                                        <ProductItem
-                                                            key={product.id}
-                                                            product={product}
-                                                            handleConfirm={handleAddItem}
-                                                        />
-                                                    ))}
-                                                </FlexBox>
-                                            ) : (
-                                                <Center>
-                                                    <LoadingDots />
-                                                </Center>
-                                            )}
-
-                                            {notFoundResult && (
-                                                // <SearchResultCard elevation={2}>
-                                                <Paragraph>No Products Found</Paragraph>
-                                                // </SearchResultCard>
-                                            )}
-                                        </AddProduct>
                                     </Row>
 
                                     {order.items.map((item: OrderItemWithDetails, index: number) => (
