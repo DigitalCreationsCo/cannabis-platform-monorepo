@@ -30,11 +30,11 @@ import { format } from 'date-fns';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { twMerge } from 'tailwind-merge';
 import { calcSalePrice, urlBuilder } from 'utils';
-import { useProductSearch } from '../../src/hooks';
+import { useOnClickOutside, useProductSearch } from '../../src/hooks';
 import { ExtendedPageComponent } from '../_app';
 
 export default function OrderDetails({ appReady, setAppReady }: ExtendedPageComponent) {
@@ -47,6 +47,12 @@ export default function OrderDetails({ appReady, setAppReady }: ExtendedPageComp
     const [openAddProduct, setOpenAddProduct] = useState(false);
 
     const toggleAddProduct = () => setOpenAddProduct((state) => !state);
+
+    const [openDropDown, setOpenDropDown] = useState(true);
+    const dropDownRef = useRef(null);
+    useOnClickOutside(dropDownRef, () => {
+        setOpenDropDown(false);
+    });
 
     const { notFoundResult, doSearchProducts, productSearchResult } = useProductSearch();
 
@@ -184,13 +190,72 @@ export default function OrderDetails({ appReady, setAppReady }: ExtendedPageComp
                             />
                             <Grid>
                                 <FlexBox className="flex-col space-x-0 items-stretch">
-                                    <Row className="justify-start space-x-4">
+                                    <Row className="justify-between space-x-4">
                                         <H6>{`Ordered on ${format(new Date(order.createdAt), 'MMM dd, yyyy')}`}</H6>
-                                        {/* <TextField
-                                            label="Status"
-                                            value={orderStatus}
-                                            onChange={(e) => setOrderStatus(e.target.value)}
-                                        /> */}
+                                        {/* <div className="relative z-10 dropdown w-full">
+                                            <TextField
+                                                label="Status"
+                                                value={orderStatus}
+                                                onChange={(e) => setOrderStatus(e.target.value)}
+                                            />
+                                            <TextField
+                                                className="shadow"
+                                                label={'Add Category'}
+                                                value={searchCategoryTerms}
+                                                onFocus={(e) => {
+                                                    doSearchCategories(e);
+                                                    setOpenDropDown(true);
+                                                }}
+                                                // onBlur={ () => setOpenDropDown(false) }
+                                                onChange={(e) => {
+                                                    setSearchCategoryTerms(e.target.value);
+                                                    doSearchCategories(e);
+                                                    setOpenDropDown(true);
+                                                }}
+                                            />
+                                            <div className="dropdown-bottom w-full">
+                                                {openDropDown && (
+                                                    <ul
+                                                        ref={dropDownRef}
+                                                        className="absolute z-10 ml-[126px] w-full rounded-btn shadow cursor-default"
+                                                    >
+                                                        {orderStatusList.map((v, index) => {
+                                                            return (
+                                                                <li
+                                                                    onClick={() => {
+                                                                        setOrderStatus(v.value as OrderStatus);
+                                                                    }}
+                                                                    className={
+                                                                        'bg-inverse z-20 px-4 p-2 hover:bg-accent-soft'
+                                                                    }
+                                                                    key={v.name + index}
+                                                                >
+                                                                    {v['label']}
+                                                                </li>
+                                                            );
+                                                        })}
+                                                    </ul>
+                                                )}
+                                            </div>
+                                        </div> */}
+                                        <FlexBox>
+                                            <H6>Status</H6>
+                                            <select className="select">
+                                                {orderStatus && <option selected>{orderStatus}</option>}
+                                                {orderStatusList
+                                                    .filter((o) => o.value !== orderStatus)
+                                                    .map((o) => (
+                                                        <option
+                                                            onClick={() => {
+                                                                setOrderStatus(o.value as OrderStatus);
+                                                            }}
+                                                            key={'status-' + o.label}
+                                                        >
+                                                            {o.label}
+                                                        </option>
+                                                    ))}
+                                            </select>
+                                        </FlexBox>
                                     </Row>
                                     <Row className="justify-start space-x-4 items-center">
                                         <H6>Items</H6>
