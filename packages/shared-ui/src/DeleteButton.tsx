@@ -1,6 +1,6 @@
 import React, { ReactEventHandler } from "react";
 import { twMerge } from "tailwind-merge";
-import { Icons, IconButton } from ".";
+import { IconButton, Icons } from ".";
 
 type DeleteButtonProps = {
     className?: string;
@@ -11,7 +11,7 @@ export default function DeleteButton({ className, onClick, size = 12 }: DeleteBu
     return (
         <IconButton
             Icon={ Icons.XIcon }
-            className={ twMerge("min-w-[50px] md:w-[120px] text-primary sm:space-x-2 h-full", className) }
+            className={ twMerge("max-w-[50px] md:max-w-[120px] text-primary sm:space-x-2 h-full", className) }
             size={size}
             type="button"
             onClick={ onClick }

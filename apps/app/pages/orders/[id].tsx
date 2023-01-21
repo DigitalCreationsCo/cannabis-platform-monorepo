@@ -1,4 +1,10 @@
-import { OrderItem, OrderItemWithDetails, OrderWithDetails, ProductVariantWithDetails } from '@cd/data-access';
+import {
+    OrderItem,
+    OrderItemWithDetails,
+    OrderStatus,
+    OrderWithDetails,
+    ProductVariantWithDetails
+} from '@cd/data-access';
 import {
     Button,
     Card,
@@ -16,7 +22,7 @@ import {
     PhoneNumber,
     Price,
     Row,
-    TextField,
+    TextField
 } from '@cd/shared-ui';
 import axios from 'axios';
 import { AddProduct, PageHeader, ProductItem, ProtectedComponent } from 'components';
@@ -26,6 +32,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { twMerge } from 'tailwind-merge';
 import { calcSalePrice, urlBuilder } from 'utils';
 import { useProductSearch } from '../../src/hooks';
 import { ExtendedPageComponent } from '../_app';
@@ -33,7 +40,7 @@ import { ExtendedPageComponent } from '../_app';
 export default function OrderDetails({ appReady, setAppReady }: ExtendedPageComponent) {
     const { query } = useRouter();
     const [order, setOrder] = useState<OrderWithDetails>();
-    const [orderStatus, setOrderStatus] = useState('');
+    const [orderStatus, setOrderStatus] = useState<OrderStatus>();
     const [searchProductTerms, setSearchProductTerms] = useState('');
     const [loading, setLoading] = useState(true);
     const [loadingButton, setLoadingButton] = useState(false);
@@ -179,11 +186,11 @@ export default function OrderDetails({ appReady, setAppReady }: ExtendedPageComp
                                 <FlexBox className="flex-col space-x-0 items-stretch">
                                     <Row className="justify-start space-x-4">
                                         <H6>{`Ordered on ${format(new Date(order.createdAt), 'MMM dd, yyyy')}`}</H6>
-                                        <TextField
+                                        {/* <TextField
                                             label="Status"
                                             value={orderStatus}
                                             onChange={(e) => setOrderStatus(e.target.value)}
-                                        />
+                                        /> */}
                                     </Row>
                                     <Row className="justify-start space-x-4 items-center">
                                         <H6>Items</H6>
@@ -232,28 +239,34 @@ export default function OrderDetails({ appReady, setAppReady }: ExtendedPageComp
                                     </Row>
 
                                     {order.items.map((item: OrderItemWithDetails, index: number) => (
-                                        <Row key={index} className="h-[66px] md:space-x-4">
+                                        <Row key={index} className="h-[66px] flex md:space-x-4">
                                             <Image
                                                 src={item.productVariant?.images[0]?.location}
-                                                className="hidden sm:block"
+                                                className={twMerge('hidden sm:block sm:visible ')}
                                                 alt=""
                                                 height={64}
                                                 width={64}
                                             />
-                                            <FlexBox className="grow">
-                                                <H6>{item.name}</H6>
+                                            <FlexBox className="grow ">
+                                                <H6 className="">{item.name}</H6>
                                             </FlexBox>
 
-                                            <H6>
+                                            <H6 className="">
                                                 <Price price={item.salePrice} />
                                             </H6>
-
-                                            <TextField
-                                                className="w-[66px] font-semibold"
-                                                type="number"
-                                                defaultValue={item.quantity}
-                                                onChange={(e) => handleQuantityChange(e.target.value, item.variantId)}
-                                            />
+                                            {orderStatus === 'Pending' ? (
+                                                <TextField
+                                                    containerClassName=" w-fit"
+                                                    className="w-[66px] font-semibold"
+                                                    type="number"
+                                                    defaultValue={item.quantity}
+                                                    onChange={(e) =>
+                                                        handleQuantityChange(e.target.value, item.variantId)
+                                                    }
+                                                />
+                                            ) : (
+                                                <H6 className="w-[66px] font-semibold mx-4 px-4">{item.quantity}</H6>
+                                            )}
 
                                             <DeleteButton
                                                 onClick={() => handleDeleteItem(item.variantId)}
@@ -287,15 +300,15 @@ export default function OrderDetails({ appReady, setAppReady }: ExtendedPageComp
                                 </Card>
                             </Grid>
 
-                            <Grid>
-                                <Button onClick={handleUpdate} loading={loadingButton}>
+                            <FlexBox className="justify-center py-2 items-stretch">
+                                <Button className="flex grow" onClick={handleUpdate} loading={loadingButton}>
                                     Save Order
                                 </Button>
-                            </Grid>
+                            </FlexBox>
 
                             <Grid>
                                 <Card>
-                                    <Grid className="max-w-fit m-auto ">
+                                    <Grid className="max-w-fit md:m-auto ">
                                         <FlexBox>
                                             <H5>Subtotal</H5>
                                             <H6>
