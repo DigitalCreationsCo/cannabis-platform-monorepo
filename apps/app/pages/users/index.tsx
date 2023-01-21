@@ -1,5 +1,5 @@
 import prisma, { User, UserWithDetails } from '@cd/data-access';
-import { Button, Card, Grid, H6, IconButton, Icons, Page, Paragraph, Row } from '@cd/shared-ui';
+import { Button, Card, DeleteButton, Grid, H6, Icons, Page, Paragraph, Row } from '@cd/shared-ui';
 import axios from 'axios';
 import { PageHeader, ProtectedComponent } from 'components';
 import { usePagination } from 'hooks';
@@ -57,7 +57,7 @@ export default function Users({ users }: UsersDashboardProps) {
                         <H6 className="hidden lg:flex justify-start w-[240px]">Email</H6>
                         <H6 className="flex justify-center w-[120px]">Phone</H6>
                         <H6 className="flex justify-center w-[100px]">Role</H6>
-                        <div className="min-w-[50px] sm:w-[120px]"></div>
+                        <div className="min-w-[50px] md:w-[120px]"></div>
                     </Row>
                     {currentUsers.length > 0 ? (
                         currentUsers.map((user) => {
@@ -81,21 +81,10 @@ export default function Users({ users }: UsersDashboardProps) {
                                             {user.phone || '-'}
                                         </Paragraph>
                                         <Paragraph className="flex justify-center w-[100px]">
-                                            {user.memberships[0]?.role}{' '}
+                                            {user.memberships[0]?.role.substring(0, 1).toLocaleUpperCase() +
+                                                user.memberships[0]?.role.slice(1).toLocaleLowerCase()}{' '}
                                         </Paragraph>
-                                        <IconButton
-                                            Icon={Icons.XIcon}
-                                            className="min-w-[50px] sm:w-[120px] text-primary sm:space-x-2 h-full"
-                                            size={12}
-                                            onClick={(e) => {
-                                                e.preventDefault();
-                                                e.stopPropagation();
-                                                setDialogOpen(true);
-                                                setDeleteId(user.id);
-                                            }}
-                                        >
-                                            <div className="hidden sm:block">Delete</div>
-                                        </IconButton>
+                                        <DeleteButton onClick={{}}></DeleteButton>
                                     </Row>
                                 </Link>
                             );
