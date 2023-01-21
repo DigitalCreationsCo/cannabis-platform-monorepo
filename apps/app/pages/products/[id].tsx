@@ -5,7 +5,7 @@ import {
     ImageUser,
     ImageVendor,
     Product,
-    ProductWithDetails
+    ProductWithDetails,
 } from '@cd/data-access';
 import {
     Button,
@@ -18,7 +18,7 @@ import {
     Page,
     Paragraph,
     Row,
-    TextField
+    TextField,
 } from '@cd/shared-ui';
 import axios from 'axios';
 import { ClickableTags, DropZone, Modal, PageHeader, ProtectedComponent } from 'components';

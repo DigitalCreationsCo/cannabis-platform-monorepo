@@ -84,7 +84,11 @@ export default function Users({ users }: UsersDashboardProps) {
                                             {user.memberships[0]?.role.substring(0, 1).toLocaleUpperCase() +
                                                 user.memberships[0]?.role.slice(1).toLocaleLowerCase()}{' '}
                                         </Paragraph>
-                                        <DeleteButton onClick={{}}></DeleteButton>
+                                        <DeleteButton
+                                            onClick={() => {
+                                                console.log('do nothing');
+                                            }}
+                                        ></DeleteButton>
                                     </Row>
                                 </Link>
                             );
