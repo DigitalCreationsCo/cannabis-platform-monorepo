@@ -341,15 +341,16 @@ export default function ProductDetails() {
                                                         className="shadow"
                                                         label={'Add Category'}
                                                         value={searchCategoryTerms}
-                                                    onFocus={ (e) => {
-                                                        doSearchCategories(e)
-                                                        setOpenDropDown(true);
-                                                    } }
-                                                    onBlur={ () => setOpenDropDown(true) }
-                                                    onChange={(e) => {
-                                                        setSearchCategoryTerms(e.target.value);
-                                                        doSearchCategories(e);
-                                                    }}
+                                                        onFocus={ (e) => {
+                                                            doSearchCategories(e)
+                                                            setOpenDropDown(true);
+                                                        } }
+                                                        // onBlur={ () => setOpenDropDown(false) }
+                                                        onChange={ (e) => {
+                                                            setSearchCategoryTerms(e.target.value);
+                                                            doSearchCategories(e);
+                                                            setOpenDropDown(true);
+                                                        }}
                                                     />
                                                     <div className="dropdown-bottom w-full">
                                                         {openDropDown && categorySearchResult.length > 0 && (
@@ -385,8 +386,16 @@ export default function ProductDetails() {
                                                         )}
                                                     </div>
                                                 </div>
-                                            </Grid>
-                                            <Grid className="space-y-2">
+                                        </Grid>
+                                        <TextField
+                                                name="tags"
+                                                label="Tags"
+                                                onBlur={handleBlur}
+                                                value={values.tags}
+                                                onChange={handleChange}
+                                                placeholder="Tag1, Tag2, Tag3"
+                                            />
+                                            <Grid title="Images" className="space-y-2">
                                                 <FlexBox>
                                                     {existingImage.map((image: any, index) => {
                                                         return (
@@ -452,14 +461,7 @@ export default function ProductDetails() {
                       ))}
                     </Select>
                   </FlexBox> */}
-                                            <TextField
-                                                name="tags"
-                                                label="Tags"
-                                                onBlur={handleBlur}
-                                                value={values.tags}
-                                                onChange={handleChange}
-                                                placeholder="Tag1, Tag2, Tag3"
-                                            />
+                                            
                                             {/* <TextField
                   name="basePrice"
                   type="number"
@@ -480,9 +482,9 @@ export default function ProductDetails() {
                   value={values.discount}
                   placeholder="Product Discount"
                 /> */}
-                                            <Grid>
+                                        <FlexBox className="justify-center py-2 items-stretch">
                                                 <Button
-                                                    className="bg-accent-soft hover:bg-accent"
+                                                    className="flex grow bg-accent-soft hover:bg-accent"
                                                     // type="submit"
                                                     loading={loadingButton}
                                                     onClick={(e) => {
@@ -492,8 +494,8 @@ export default function ProductDetails() {
                                                     }}
                                                 >
                                                     Save Product
-                                                </Button>
-                                            </Grid>
+                                            </Button>
+                                        </FlexBox>
                                         </form>
                                     </>
                                 )}
