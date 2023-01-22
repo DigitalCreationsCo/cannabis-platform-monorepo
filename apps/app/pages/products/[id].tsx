@@ -5,7 +5,7 @@ import {
     ImageUser,
     ImageVendor,
     Product,
-    ProductWithDetails,
+    ProductWithDetails
 } from '@cd/data-access';
 import {
     Button,
@@ -18,7 +18,7 @@ import {
     Page,
     Paragraph,
     Row,
-    TextField,
+    TextField
 } from '@cd/shared-ui';
 import axios from 'axios';
 import { ClickableTags, DropZone, Modal, PageHeader, ProtectedComponent } from 'components';
@@ -116,7 +116,7 @@ export default function ProductDetails() {
         description: product?.description || '',
         features: product?.features || '',
         category: product?.categories || [],
-        variants: product?.variants?.map((variant) => ({ ...variant })),
+        variants: product?.variants?.map((variant) => ({ ...variant })) || [],
         // images: product?.images || [],
         // unit: product?.unit || "g",
         // size: product?.size || 0,
