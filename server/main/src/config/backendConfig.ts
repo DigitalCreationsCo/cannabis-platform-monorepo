@@ -8,14 +8,14 @@ export let backendConfig = (): AuthConfig => {
     return {
         framework: "express",
         supertokens: {
-            connectionURI: "http://localhost:3567",
+            connectionURI: process.env.SUPERTOKENS_CONNECTION_URI,
         },
         appInfo,
         recipeList: [
             EmailPasswordNode.init(),
             SessionNode.init(),
             Dashboard.init({
-                apiKey: "l87ZtvrDXHQZdqalA=M8j7r5=JmLDx",
+                apiKey: process.env.SUPERTOKENS_DASHBOARD_KEY,
             }),
         ],
         isInServerlessEnv: true,

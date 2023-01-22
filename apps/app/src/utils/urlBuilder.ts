@@ -1,8 +1,9 @@
+const next = process.env.APP_URL;
 const mainUrl = process.env.SERVER_MAIN_URL;
-console.log('server main api: ', process.env.SERVER_MAIN_URL);
+// console.log('Server Main api: ', process.env.SERVER_MAIN_URL);
 
 const urlBuilder = {
-    next: 'http://localhost:3000',
+    next,
     main: {
         baseUrl: mainUrl + '/api/v1',
         healthCheck: () => urlBuilder.main.baseUrl + '/healthcheck',
