@@ -1,5 +1,6 @@
 const mainUrl = process.env.SERVER_MAIN_URL;
 console.log('server main api: ', process.env.SERVER_MAIN_URL);
+
 const urlBuilder = {
     next: 'http://localhost:3000',
     main: {

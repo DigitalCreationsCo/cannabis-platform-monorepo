@@ -21,6 +21,7 @@
         "clsx": "1.2.1",
         "daisyui": "2.46.0",
         "date-fns": "2.29.3",
+        "dotenv": "16.0.3",
         "eslint": "8.29.0",
         "eslint-config-next": "13.0.6",
         "eslint-config-prettier": "8.5.0",

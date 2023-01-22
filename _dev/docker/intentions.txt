@@ -35,9 +35,18 @@ refine the ui for mobile and web
 add mobile sidenav drawer:
 1-18-22
 fix some stuff - idk what
+1-20-22
+fix modals in [id].tsx pages
 
 To do: 
-fix modals in [id].tsx pages
+env
+add node_env var to main server,
+export findEnv and config shared-config, I suppose
+test in app, and server
+push to vercel / linode 
+test, 
+Profit!
+
 Revise vercel deployment. Connect with linode server. Test for edge cases. (What are they?)
 Harden security in linode, and vercel.
 Add forever run script for server stops.
