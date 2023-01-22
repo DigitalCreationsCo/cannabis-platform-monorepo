@@ -1,1 +1,1 @@
-module.exports = require('@cd/shared-config/eslint/.eslintrc-next.cjs');
+module.exports = require('@cd/shared-config/.eslintrc-next.cjs');
