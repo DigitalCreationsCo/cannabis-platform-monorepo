@@ -37,20 +37,20 @@ add mobile sidenav drawer:
 fix some stuff - idk what
 1-20-22
 fix modals in [id].tsx pages
-
-To do: 
+1-21-22
 env
 add node_env var to main server,
 export findEnv and config shared-config, I suppose
-test in app, and server
 push to vercel / linode 
-test, 
-Profit!
 
+To do: 
+setup nginx with https on linode
+update server main url env var
 Revise vercel deployment. Connect with linode server. Test for edge cases. (What are they?)
 Harden security in linode, and vercel.
 Add forever run script for server stops.
 Message Matthew so he can review and give feedback
+Profit :)
 
 Deploy supertokens in linode container, add to env
 product upload, wasabi s3 storage, imagekit.io image handling ;D
