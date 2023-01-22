@@ -97,7 +97,6 @@ export const findLowStockVariants = (products) =>
             return {
                 ...product,
                 variants: product.variants.filter((variant) => {
-                    console.log('variant: ', variant.id);
                     return variant.stock < 7;
                 }),
             };
