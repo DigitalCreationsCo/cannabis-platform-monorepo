@@ -4,7 +4,11 @@ type DialCodeSelectProps = {
     className?: string;
 };
 export default function DialCodeSelect({ className }: DialCodeSelectProps) {
-    return <Select className={className} options={dialCodeOptions}></Select>;
+    return (
+        <div className="w-fit">
+            <Select className={className} options={dialCodeOptions}></Select>
+        </div>
+    );
 }
 
 const dialCodeOptions = [

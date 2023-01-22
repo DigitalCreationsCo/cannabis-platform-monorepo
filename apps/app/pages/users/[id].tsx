@@ -159,7 +159,6 @@ export default function UserDetails() {
                                         />
                                         <FlexBox>
                                             <TextField
-                                                className="border"
                                                 name="email"
                                                 label="Email"
                                                 placeholder="email@domain.com"
@@ -171,10 +170,11 @@ export default function UserDetails() {
                                             {/* figure out how to change this value with checkbox */}
                                             <CheckBox checked={true} label={'verified'} />
                                         </FlexBox>
-                                        <FlexBox className="">
+                                        <FlexBox className="items-center">
                                             <Paragraph className="min-w-[111px]">Phone</Paragraph>
-                                            <DialCodeSelect />
+                                            <DialCodeSelect className="w-fit" />
                                             <TextField
+                                                className="w-fit"
                                                 name="phone"
                                                 placeholder="00 000 0000"
                                                 onBlur={handleBlur}
@@ -186,6 +186,7 @@ export default function UserDetails() {
                                         <FlexBox>
                                             <Paragraph className="min-w-[111px]">Role</Paragraph>
                                             <Select
+                                                className="w-fit"
                                                 name="role"
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
