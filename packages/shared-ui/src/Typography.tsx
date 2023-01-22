@@ -29,7 +29,11 @@ export const H6 = ({ className, children }: Props) => {
 };
 
 export const Paragraph = ({ className, children }: Props) => {
-    return <p style={{whiteSpace:"pre"}} className={className}>{children}</p>;
+    return (
+        <p style={{ whiteSpace: 'pre' }} className={className}>
+            {children}
+        </p>
+    );
 };
 
 export const Small = ({ className, children }: Props) => {

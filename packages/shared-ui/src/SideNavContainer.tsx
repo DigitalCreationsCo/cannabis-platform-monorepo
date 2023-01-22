@@ -23,7 +23,16 @@ function SideNavContainer({ SideNavComponent, fixedComponentId, children }: Side
 
     const classes = {
         container: ['flex'],
-        sideNavContainer: ['min-w-[200px]', 'z-10', 'pt-20', 'top-0', 'bottom-0', isFixed && 'fixed', 'hidden', 'md:block'],
+        sideNavContainer: [
+            'min-w-[200px]',
+            'z-10',
+            'pt-20',
+            'top-0',
+            'bottom-0',
+            isFixed && 'fixed',
+            'hidden',
+            'md:block',
+        ],
         pageContentShifted: [isFixed && 'pl-[200px]', 'w-full'],
     };
     return (

@@ -13,6 +13,7 @@
     "build": "yarn workspaces foreach --topological-dev --parallel --exclude @cd/cannabis-platform-monorepo run build",
     "test": "turbo run test",
     "lint": "turbo run lint",
+    "lint:fix": "turbo run lint:fix",
     "dev": "turbo run dev",
     "app": "yarn workspace @cd/app",
     "ui": "yarn workspace @cd/shared-ui",
