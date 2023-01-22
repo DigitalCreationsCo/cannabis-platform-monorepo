@@ -4,10 +4,15 @@ const router = Router();
 /* =================================
 User Routes
 
-"/login"    login
+"/login"                login
+
+'/user-details/:id'     getUserDetails
+
 
 ================================= */
 
 router.route('/login').post(userCtrl.login);
+
+router.route('/user-details/:id').get(userCtrl.getUserDetails);
 
 export default router;

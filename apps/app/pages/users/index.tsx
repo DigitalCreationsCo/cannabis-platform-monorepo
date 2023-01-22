@@ -1,4 +1,4 @@
-import prisma, { User, UserWithDetails } from '@cd/data-access';
+import { UserWithDetails } from '@cd/data-access';
 import { Button, Card, DeleteButton, Grid, H6, Icons, Page, Paragraph, Row } from '@cd/shared-ui';
 import axios from 'axios';
 import { PageHeader, ProtectedComponent } from 'components';
@@ -7,6 +7,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
+import { urlBuilder } from '../../src/utils';
 
 type UsersDashboardProps = {
     users: UserWithDetails[];
@@ -117,38 +118,8 @@ export default function Users({ users }: UsersDashboardProps) {
     );
 }
 
-const getUserInfo = ({ req }) => {
-    // let user = req.session?.user
-    const session = { user: { username: 'kbarnes', organizationId: '2' } };
-    const { user } = session;
-    return user;
-};
-
 export async function getServerSideProps({ req, res }) {
-    const user = getUserInfo({ req });
-    const { organizationId } = user;
-    const users: User[] =
-        (await prisma.user.findMany({
-            orderBy: {
-                id: 'desc',
-            },
-            where: {
-                memberships: {
-                    some: {
-                        organizationId,
-                    },
-                },
-            },
-            include: {
-                memberships: {
-                    orderBy: {
-                        role: 'asc',
-                    },
-                },
-                imageUser: true,
-            },
-        })) || [];
-
+    const users = await (await fetch(urlBuilder.next + '/api/users/')).json();
     return {
         props: {
             users,

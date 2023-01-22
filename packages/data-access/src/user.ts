@@ -7,8 +7,38 @@ export async function createUser() {
     //     console.error(error.message)
     //     throw new Error(error.message)
     // }
- }
-
+}
+ 
+export async function findUsersByOrg(organizationId) { 
+    try {
+        const users = await prisma.user.findMany({
+            orderBy: {
+                id: 'desc',
+            },
+            where: {
+                memberships: {
+                    some: {
+                        organizationId,
+                    },
+                },
+            },
+            include: {
+                memberships: {
+                    orderBy: {
+                        role: 'asc',
+                    },
+                },
+                imageUser: true,
+                address: true,
+            },
+        })
+        return users
+    } catch (error) {
+        console.error(error.message)
+        throw new Error(error.message)
+    }
+}
+        
 export async function findUserWithDetails(id) {
     try {
         const user = await prisma.user.findUnique(

@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.findUserWithDetails = exports.createUser = void 0;
+exports.findUserWithDetails = exports.findUsersByOrg = exports.createUser = void 0;
 var prisma_1 = require("./db/prisma");
 function createUser() {
     return __awaiter(this, void 0, void 0, function () {
@@ -46,9 +46,50 @@ function createUser() {
     });
 }
 exports.createUser = createUser;
+function findUsersByOrg(organizationId) {
+    return __awaiter(this, void 0, void 0, function () {
+        var users, error_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, prisma_1["default"].user.findMany({
+                            orderBy: {
+                                id: 'desc'
+                            },
+                            where: {
+                                memberships: {
+                                    some: {
+                                        organizationId: organizationId
+                                    }
+                                }
+                            },
+                            include: {
+                                memberships: {
+                                    orderBy: {
+                                        role: 'asc'
+                                    }
+                                },
+                                imageUser: true,
+                                address: true
+                            }
+                        })];
+                case 1:
+                    users = _a.sent();
+                    return [2 /*return*/, users];
+                case 2:
+                    error_1 = _a.sent();
+                    console.error(error_1.message);
+                    throw new Error(error_1.message);
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.findUsersByOrg = findUsersByOrg;
 function findUserWithDetails(id) {
     return __awaiter(this, void 0, void 0, function () {
-        var user, error_1;
+        var user, error_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -65,9 +106,9 @@ function findUserWithDetails(id) {
                     user = _a.sent();
                     return [2 /*return*/, user];
                 case 2:
-                    error_1 = _a.sent();
-                    console.error(error_1);
-                    throw new Error(error_1);
+                    error_2 = _a.sent();
+                    console.error(error_2);
+                    throw new Error(error_2);
                 case 3: return [2 /*return*/];
             }
         });

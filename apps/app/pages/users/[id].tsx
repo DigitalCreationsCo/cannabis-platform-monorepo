@@ -7,7 +7,9 @@ import Router, { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import * as yup from 'yup';
-import { PageHeader, ProtectedComponent } from '../../src/components';
+import { PageHeader, ProtectedComponent, Select } from '../../src/components';
+import CheckBox from '../../src/components/CheckBox';
+import DialCodeSelect from '../../src/components/Dashboard/DialCodeSelect';
 import { urlBuilder } from '../../src/utils';
 
 const checkoutSchema = yup.object().shape({
@@ -44,7 +46,7 @@ export default function UserDetails() {
                 countryCode: user?.address.countryCode || '',
             }) ||
             null,
-        role: user?.memberships[0]?.role || 'MEMBER',
+        role: user?.memberships?.[0]?.role || 'MEMBER',
         dialCode: user?.dialCode || '',
         phone: user?.phone || '',
     };
@@ -72,7 +74,7 @@ export default function UserDetails() {
     const handleFormSubmit = async (values) => {
         try {
             const { data } = await axios.put(urlBuilder.next + `/api/users`, { ...values });
-            // toast.success('User updated successfully');
+            toast.success('User updated successfully');
             setLoadingButton(false);
             toast.success(data);
             Router.push('/users');
@@ -103,7 +105,7 @@ export default function UserDetails() {
                     </Padding>
                 )) ||
                     (user && (
-                        <Grid className="md:w-2/3 px-3">
+                        <Grid className="md:w-2/3 px-3 space-y-2">
                             <Formik
                                 initialValues={initialValues}
                                 // validationSchema={checkoutSchema}
@@ -111,6 +113,7 @@ export default function UserDetails() {
                             >
                                 {({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
                                     <form
+                                        className="space-y-2"
                                         onSubmit={(e) => {
                                             e.preventDefault();
                                             e.stopPropagation();
@@ -118,53 +121,15 @@ export default function UserDetails() {
                                         }}
                                     >
                                         <TextField
-                                            fullWidth
-                                            name="first_name"
-                                            label="First Name"
-                                            placeholder="John"
+                                            name="username"
+                                            label="Username"
+                                            placeholder=""
                                             onBlur={handleBlur}
                                             onChange={handleChange}
-                                            value={values.first_name}
-                                            error={!!touched.first_name && !!errors.first_name}
-                                            helperText={touched.first_name && errors.first_name}
-                                        />
-
-                                        <TextField
-                                            fullWidth
-                                            name="last_name"
-                                            label="Last Name"
-                                            placeholder="Doe"
-                                            onBlur={handleBlur}
-                                            onChange={handleChange}
-                                            value={values.last_name}
-                                            error={!!touched.last_name && !!errors.last_name}
-                                            helperText={touched.last_name && errors.last_name}
-                                        />
-
-                                        <TextField
-                                            fullWidth
-                                            name="email"
-                                            label="Email"
-                                            placeholder="email@domain.com"
-                                            onBlur={handleBlur}
-                                            onChange={handleChange}
-                                            value={values.email}
-                                            error={!!touched.email && !!errors.email}
-                                            helperText={touched.email && errors.email}
+                                            value={values.username}
+                                            error={!!touched.username && !!errors.username}
                                         />
                                         <TextField
-                                            fullWidth
-                                            name="phone"
-                                            label="Phone"
-                                            placeholder="00 000 0000"
-                                            onBlur={handleBlur}
-                                            onChange={handleChange}
-                                            value={values.phone}
-                                            error={!!touched.phone && !!errors.phone}
-                                            helperText={touched.phone && errors.phone}
-                                        />
-                                        <TextField
-                                            fullWidth
                                             type="password"
                                             name="password"
                                             label="Password"
@@ -173,28 +138,70 @@ export default function UserDetails() {
                                             onChange={handleChange}
                                             value={values.password}
                                             error={!!touched.password && !!errors.password}
-                                            helperText={touched.password && errors.password}
                                         />
-                                        {/* <FormControl fullWidth size="small">
-                                                <InputLabel id="role">User Role</InputLabel>
-                                                <Select
-                                                    name="role"
-                                                    labelId="role"
-                                                    onBlur={handleBlur}
-                                                    onChange={handleChange}
-                                                    value={values.role}
-                                                    input={<OutlinedInput label="Select Role" />}
-                                                    error={!!touched.role && !!errors.role}
-                                                >
-                                                    <MenuItem value="user">User</MenuItem>
-                                                    <MenuItem value="admin">Admin</MenuItem>
-                                                </Select>
-                                            </FormControl> */}
+                                        <TextField
+                                            name="firstName"
+                                            label="First Name"
+                                            placeholder=""
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            value={values.firstName}
+                                            error={!!touched.firstName && !!errors.firstName}
+                                        />
+                                        <TextField
+                                            name="lastName"
+                                            label="Last Name"
+                                            placeholder=""
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            value={values.lastName}
+                                            error={!!touched.lastName && !!errors.lastName}
+                                        />
+                                        <FlexBox>
+                                            <TextField
+                                                className="border"
+                                                name="email"
+                                                label="Email"
+                                                placeholder="email@domain.com"
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                                value={values.email}
+                                                error={!!touched.email && !!errors.email}
+                                            />
+                                            {/* figure out how to change this value with checkbox */}
+                                            <CheckBox checked={true} label={'verified'} />
+                                        </FlexBox>
+                                        <FlexBox className="">
+                                            <Paragraph className="min-w-[111px]">Phone</Paragraph>
+                                            <DialCodeSelect />
+                                            <TextField
+                                                name="phone"
+                                                placeholder="00 000 0000"
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                                value={values.phone}
+                                                error={!!touched.phone && !!errors.phone}
+                                            />
+                                        </FlexBox>
+                                        <FlexBox>
+                                            <Paragraph className="min-w-[111px]">Role</Paragraph>
+                                            <Select
+                                                name="role"
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                                value={values.role}
+                                                options={[
+                                                    { label: 'OWNER', value: 1 },
+                                                    { label: 'ADMIN', value: 2 },
+                                                    { label: 'MEMBER', value: 3 },
+                                                ]}
+                                            ></Select>
+                                        </FlexBox>
 
-                                        <FlexBox className="justify-center py-2 items-stretch">
+                                        <FlexBox className="justify-center py-2 pl-[128px] justify-start">
                                             <Button
-                                                className="flex grow bg-accent-soft hover:bg-accent"
-                                                // type="submit"
+                                                className="bg-accent-soft hover:bg-accent"
+                                                type="submit"
                                                 loading={loadingButton}
                                                 onClick={(e) => {
                                                     e.preventDefault();
@@ -202,7 +209,7 @@ export default function UserDetails() {
                                                     handleSubmit();
                                                 }}
                                             >
-                                                Save Product
+                                                Save
                                             </Button>
                                         </FlexBox>
                                     </form>
