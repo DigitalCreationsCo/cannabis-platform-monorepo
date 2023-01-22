@@ -17,9 +17,9 @@ export default function PageHeader({ title, subTitle, Button, Icon, iconColor = 
                     <H3>{title}</H3>
                     {Icon && (
                         <IconWrapper
-                            className={twMerge('fill-' + iconColor, 'hidden sm:block')}
+                            className={twMerge('fill-' + iconColor, 'invisible sm:visible')}
                             Icon={Icon}
-                            size={24}
+                            size={26}
                         />
                     )}
                 </FlexBox>
