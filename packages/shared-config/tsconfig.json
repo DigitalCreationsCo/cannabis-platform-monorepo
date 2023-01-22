@@ -4,8 +4,8 @@
   },
   "include": [
     "**/*.ts",
-    "**/*.cjs",
-  ],
+    "**/*.cjs"
+, "index.js", "config/index.js", "config/loadEnv.js"  ],
   "exclude": [
     "node_modules",
   ]

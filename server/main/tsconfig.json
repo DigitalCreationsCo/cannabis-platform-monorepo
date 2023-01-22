@@ -2,8 +2,8 @@
   "compilerOptions": {
     "esModuleInterop": true,
     // "composite": true,
-    // "module": "ESNext",
-    // "moduleResolution": "Node",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
     // "declaration": true,
     // "target": "ESNext",
     // "useDefineForClassFields": true,
@@ -17,6 +17,8 @@
     // "isolatedModules": true,
     // "noEmit": true,
   },
-  "include": ["index.mts"],
+  "include": [
+    "**/*.ts",
+  ],
   "exclude": ["node_modules"]
 }

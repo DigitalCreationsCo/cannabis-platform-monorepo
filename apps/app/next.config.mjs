@@ -1,11 +1,10 @@
 /** @type {import('next').NextConfig} */
 
-import dotenv from 'dotenv';
-import { findUpSync } from 'find-up';
 const nodeEnv = process.env.NODE_ENV;
-
-export const findEnv = (env) => findUpSync('.env.' + env);
-dotenv.config({ path: findEnv(nodeEnv) });
+import { loadEnv } from '@cd/shared-config/config/loadEnv.js';
+import { config } from 'dotenv';
+import { expand } from 'dotenv-expand';
+expand(config({ path: loadEnv(nodeEnv) }));
 
 const nextConfig = {
     reactStrictMode: true,
