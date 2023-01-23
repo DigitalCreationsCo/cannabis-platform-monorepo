@@ -45,14 +45,6 @@ push to vercel / linode
 1-22-22
 added site setting general page, created api routes,
 
-make schema changes to SiteSetting
-accept a slug, add values field to model
-add SettingsSlug enum
-create typescript types based on the different settings values
-write unit tests, manually test
-
-WILL FINISH SITE SETTINGs pages and apis
-
 To do: 
 setup nginx with https on linode
 update server main url env var
@@ -61,6 +53,14 @@ Harden security in linode, and vercel.
 Add forever run script for server stops.
 Message Matthew so he can review and give feedback
 Profit :)
+
+make schema changes to SiteSetting
+accept a slug, add values field to model
+add SettingsSlug enum
+create typescript types based on the different settings values
+write unit tests, manually test
+
+WILL FINISH SITE SETTINGs pages and apis
 
 Add admin middlewares
 
