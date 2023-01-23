@@ -45,7 +45,7 @@ push to vercel / linode
 1-22-22
 added site setting general page, created api routes,
 
-
+make schema changes
 WILL FINISH SITE SETTINGs pages and apis
 
 To do: 
