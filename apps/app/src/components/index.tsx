@@ -14,5 +14,13 @@ export { default as ProtectedComponent } from './ProtectedComponent';
 export { default as Select, MenuItem } from './Select';
 export { SessionControl } from './SessionControl';
 export { default as SideNavContainer } from './SideNavContainer';
+export { default as BannerSlider } from './SiteSettings/BannerSlider';
+export { default as FooterSettings } from './SiteSettings/FooterSettings';
+export { default as GeneralForm } from './SiteSettings/GeneralForm';
+export { default as ShippingTax } from './SiteSettings/ShippingTax';
+export { default as SocialLinks } from './SiteSettings/SocialLinks';
+export { default as TopbarSettings } from './SiteSettings/TopbarSettings';
 export { default as Tag } from './Tag';
 export { default as TopBar } from './TopBar';
+export { default as UploadImageBox } from './UploadImageBox';
+

@@ -1,4 +1,4 @@
-import { Order, Address, Driver, Organization, Product, User, Membership, Vendor, SiteSetting, OrderItem, SubDomain, ImageVendor, ImageUser, ImageOrganization, ImageProduct, Category, PrismaClient, CategoryList, Prisma, ProductVariant } from "@prisma/client";
+import { Address, Category, CategoryList, Driver, ImageOrganization, ImageProduct, ImageUser, ImageVendor, Membership, Order, OrderItem, Organization, PrismaClient, Product, ProductVariant, SiteSetting, SubDomain, User, Vendor } from "@prisma/client";
 
 const users: User[] = [
   {
@@ -186,7 +186,7 @@ const orgs:Organization[] = [
     termsAccepted: true,
   },
 ];
-const siteSettings:SiteSetting[] = [
+const siteSetting:SiteSetting[] = [
   {
     title: "Cannabis Delivered To Your Door",
     description: "grascannabis.com",
@@ -896,7 +896,7 @@ async function main() {
     data: vendors,
   });
   await prisma.siteSetting.createMany({
-    data: siteSettings,
+    data: siteSetting,
   });
   await prisma.organization.createMany({
     data: orgs,

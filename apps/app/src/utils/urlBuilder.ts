@@ -20,6 +20,8 @@ const urlBuilder = {
 
         categoryList: (id: any) => urlBuilder.main.baseUrl + `/organization/${id}/categories`,
 
+        getSiteSettings: (id: any) => urlBuilder.main.baseUrl + `/organization/${id}/site-settings`,
+
         usersByOrgId: (id: any) => urlBuilder.main.baseUrl + `/organization/${id}/users`,
         getUserDetails: (id: any) => urlBuilder.main.baseUrl + `/auth/user-details/${id}`,
     },

@@ -8,7 +8,7 @@ members:
 getCategoryList
 updateProduct
 getUsersByOrg
-
+getSettings
 ================================= */
 
 export default class OrganizationController {
@@ -90,6 +90,19 @@ export default class OrganizationController {
             const organizationId = req.params.id || '';
             const data = await UserDA.getUsersByOrg(organizationId);
             if (!data) return res.status(404).json('Users are not found');
+            return res.status(200).json(data);
+        } catch (error) {
+            console.log('API error: ', error);
+            res.status(500).json({ error });
+        }
+    }
+
+    static async getSettings(req, res) {
+        try {
+            const organizationId = req.params.id || '';
+            const { slug } = req.body;
+            const data = await OrganizationDA.getSettings(slug, organizationId);
+            if (!data) return res.status(404).json('Settings Not Found');
             return res.status(200).json(data);
         } catch (error) {
             console.log('API error: ', error);

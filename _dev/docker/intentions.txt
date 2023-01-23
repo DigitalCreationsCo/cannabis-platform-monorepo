@@ -42,6 +42,11 @@ env
 add node_env var to main server,
 export findEnv and config shared-config, I suppose
 push to vercel / linode 
+1-22-22
+added site setting general page, created api routes,
+
+
+WILL FINISH SITE SETTINGs pages and apis
 
 To do: 
 setup nginx with https on linode
@@ -51,6 +56,8 @@ Harden security in linode, and vercel.
 Add forever run script for server stops.
 Message Matthew so he can review and give feedback
 Profit :)
+
+Add admin middlewares
 
 Deploy supertokens in linode container, add to env
 product upload, wasabi s3 storage, imagekit.io image handling ;D

@@ -1,4 +1,4 @@
-import { findCategoryListByOrg } from '@cd/data-access';
+import { findCategoryListByOrg, findSiteSettingBySlug } from '@cd/data-access';
 
 /* =================================
 Organization Data Access - data class for organization table
@@ -6,7 +6,7 @@ Organization Data Access - data class for organization table
 members:
 getCategoryList
 updateProduct
-
+getSettings(slug, organizationId);
 ================================= */
 
 export default class OrganizationDA {
@@ -23,9 +23,19 @@ export default class OrganizationDA {
 
     static async updateProduct(product) {
         try {
-            return 'product was updated OK';
+            await new Promise((res) => res('product was updated OK'));
             // const data = await updateProduct(product);
             // return data
+        } catch (error) {
+            console.error(error.message);
+            throw new Error(error.message);
+        }
+    }
+
+    static async getSettings(slug, organizationId) {
+        try {
+            const settings = await findSiteSettingBySlug(slug, organizationId);
+            return settings;
         } catch (error) {
             console.error(error.message);
             throw new Error(error.message);

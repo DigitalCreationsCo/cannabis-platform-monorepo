@@ -14,14 +14,4 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 exports.__esModule = true;
-exports["default"] = void 0;
-__exportStar(require("@prisma/client"), exports);
-__exportStar(require("./category"), exports);
-var prisma_1 = require("./db/prisma");
-__createBinding(exports, prisma_1, "default");
-__exportStar(require("./models"), exports);
-__exportStar(require("./order"), exports);
-__exportStar(require("./product"), exports);
-__exportStar(require("./site-setting"), exports);
-__exportStar(require("./user"), exports);
-__exportStar(require("./utils"), exports);
+__exportStar(require("./slug"), exports);

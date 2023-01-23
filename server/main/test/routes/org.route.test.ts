@@ -65,3 +65,29 @@ describe('GET categoryList', function () {
 //             });
 //     });
 // });
+
+// describe('Get getUsersByOrg', function () {
+//     test('2/users responds with 200, and json response', async function () {
+//         await app
+//             .get('/api/v1/organization/2/users')
+//             .set('Accept', 'application/json')
+//             .expect('Content-Type', /json/)
+//             .expect(200)
+//             .then((response) => {
+//                 expect(response.body).toBeDefined();
+//             });
+//     });
+// });
+
+// describe('POST getSiteSettings', function () {
+//     test('2/site-settings with correct request body, responds with 200, and json response', async function () {
+//         await app
+//             .get('/api/v1/organization/2/site-settings')
+//             .set('Accept', 'application/json')
+//             .expect('Content-Type', /json/)
+//             .expect(200)
+//             .then((response) => {
+//                 expect(response.body).toBeDefined();
+//             });
+//     });
+// });
