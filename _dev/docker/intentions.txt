@@ -45,7 +45,12 @@ push to vercel / linode
 1-22-22
 added site setting general page, created api routes,
 
-make schema changes
+make schema changes to SiteSetting
+accept a slug, add values field to model
+add SettingsSlug enum
+create typescript types based on the different settings values
+write unit tests, manually test
+
 WILL FINISH SITE SETTINGs pages and apis
 
 To do: 
