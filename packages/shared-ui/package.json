@@ -1,11 +1,4 @@
 {
-  "name": "@cd/shared-ui",
-  "version": "0.0.1",
-  "private": true,
-  "type": "module",
-  "main": "dist/shared-ui.cjs.js",
-  "module": "dist/shared-ui.es.js",
-  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/shared-ui.es.js",
@@ -14,15 +7,12 @@
     "./dist/icons": "./dist/icons",
     "./dist/style.css": "./dist/style.css"
   },
-  "scripts": {
-    "dev": "node ../../node_modules/vite/bin/vite build --watch",
-    "serve:dev": "vite",
-    "build": "tsc && vite build",
-    "lint": "eslint . --ext .ts,.tsx",
-    "lint:fix": "eslint . --ext .ts,.tsx --fix",
-    "preview": "vite preview",
-    "prepack": "json -f package.json -I -e \"delete this.devDependencies; delete this.dependencies\""
-  },
+  "files": [
+    "dist"
+  ],
+  "main": "dist/shared-ui.cjs.js",
+  "module": "dist/shared-ui.es.js",
+  "name": "@cd/shared-ui",
   "peerDependencies": {
     "@cd/data-access": "*",
     "@cd/shared-config": "*",
@@ -58,7 +48,15 @@
     "vite-plugin-dts": "1.7.1",
     "vite-plugin-eslint": "1.8.1"
   },
-  "files": [
-    "dist"
-  ]
+  "private": true,
+  "scripts": {
+    "build": "tsc && vite build",
+    "dev": "node ../../node_modules/vite/bin/vite build --watch",
+    "prepack": "json -f package.json -I -e \"delete this.devDependencies; delete this.dependencies\"",
+    "preview": "vite preview",
+    "serve:dev": "vite"
+  },
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "version": "0.0.1"
 }

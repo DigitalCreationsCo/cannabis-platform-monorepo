@@ -1,1 +1,1 @@
-module.exports = require('@cd/shared-config/eslint/.eslintrc-react.cjs');
+module.exports = require('@cd/shared-config/.eslintrc-react.cjs');

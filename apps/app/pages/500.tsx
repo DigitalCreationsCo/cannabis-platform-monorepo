@@ -4,7 +4,7 @@ function _500() {
     return (
         <Page>
             <Center>
-                <H4>We're sorry! An error happened. Please try again.</H4>
+                <H4>{`We're sorry! An error happened. Please try again.`}</H4>
             </Center>
         </Page>
     );

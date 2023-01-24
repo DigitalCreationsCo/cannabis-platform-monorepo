@@ -1,6 +1,6 @@
 module.exports = {
     extends: [
-        "../.eslintrc.cjs",
+        "../../packages/shared-config/.eslintrc.cjs",
         'plugin:react/recommended',
         'plugin:import/recommended',
         'plugin:jsx-a11y/recommended',

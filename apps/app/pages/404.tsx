@@ -5,7 +5,7 @@ function _404() {
         <Page>
             <Center>
                 <H1>404</H1>
-                <H4>We're sorry! An error happened. Please try again.</H4>
+                <H4>{`We're sorry! An error happened. Please try again.`}</H4>
             </Center>
         </Page>
     );
