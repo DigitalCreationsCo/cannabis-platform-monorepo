@@ -1,11 +1,8 @@
 {
-    "dependencies": {
+    "devDependencies": {
         "@cd/data-access": "*",
         "@cd/shared-config": "*",
-        "@cd/shared-ui": "*"
-    },
-    "name": "@cd/app",
-    "peerDependencies": {
+        "@cd/shared-ui": "*",
         "@reduxjs/toolkit": "1.9.1",
         "@tailwindcss/typography": "0.5.8",
         "@types/formidable": "2.0.5",
@@ -57,6 +54,7 @@
         "usehooks-ts": "2.9.1",
         "yup": "0.32.11"
     },
+    "name": "@cd/app",
     "private": true,
     "scripts": {
         "build": "NODE_ENV=production next build",

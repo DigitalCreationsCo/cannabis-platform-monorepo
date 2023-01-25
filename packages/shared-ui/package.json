@@ -1,19 +1,5 @@
 {
-  "exports": {
-    ".": {
-      "import": "./dist/shared-ui.es.js",
-      "require": "./dist/shared-ui.cjs.js"
-    },
-    "./dist/icons": "./dist/icons",
-    "./dist/style.css": "./dist/style.css"
-  },
-  "files": [
-    "dist"
-  ],
-  "main": "dist/shared-ui.cjs.js",
-  "module": "dist/shared-ui.es.js",
-  "name": "@cd/shared-ui",
-  "peerDependencies": {
+  "devDependencies": {
     "@cd/data-access": "*",
     "@cd/shared-config": "*",
     "@tailwindcss/typography": "0.5.8",
@@ -48,6 +34,20 @@
     "vite-plugin-dts": "1.7.1",
     "vite-plugin-eslint": "1.8.1"
   },
+  "exports": {
+    ".": {
+      "import": "./dist/shared-ui.es.js",
+      "require": "./dist/shared-ui.cjs.js"
+    },
+    "./dist/icons": "./dist/icons",
+    "./dist/style.css": "./dist/style.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "dist/shared-ui.cjs.js",
+  "module": "dist/shared-ui.es.js",
+  "name": "@cd/shared-ui",
   "private": true,
   "scripts": {
     "build": "tsc && vite build",

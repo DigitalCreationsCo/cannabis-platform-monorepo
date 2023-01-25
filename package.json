@@ -7,7 +7,8 @@
   "workspaces": [
     "apps/*",
     "packages/*",
-    "server/*"
+    "server/*",
+    "services/*"
   ],
   "scripts": {
     "build": "yarn workspaces foreach --topological-dev --parallel --exclude @cd/cannabis-platform-monorepo run build",

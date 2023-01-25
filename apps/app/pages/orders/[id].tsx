@@ -3,7 +3,7 @@ import {
     OrderItemWithDetails,
     OrderStatus,
     OrderWithDetails,
-    ProductVariantWithDetails,
+    ProductVariantWithDetails
 } from '@cd/data-access';
 import {
     Button,
@@ -22,7 +22,7 @@ import {
     PhoneNumber,
     Price,
     Row,
-    TextField,
+    TextField
 } from '@cd/shared-ui';
 import axios from 'axios';
 import { AddProduct, PageHeader, ProductItem, ProtectedComponent } from 'components';
@@ -146,7 +146,7 @@ export default function OrderDetails({ appReady, setAppReady }: ExtendedPageComp
     const handleAddItem = (variant: ProductVariantWithDetails, quantity: number) => {
         const salePrice = calcSalePrice(variant.basePrice, variant.discount);
 
-        const addItem = {
+        const addItem: OrderItemWithDetails = {
             discount: variant.discount,
             currency: variant.currency,
             createdAt: variant.createdAt,

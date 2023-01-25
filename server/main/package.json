@@ -1,7 +1,5 @@
 {
-  "main": "./index.ts",
-  "name": "@cd/server-main",
-  "peerDependencies": {
+  "devDependencies": {
     "@cd/data-access": "*",
     "@cd/shared-config": "*",
     "@types/jest": "29.2.4",
@@ -13,6 +11,7 @@
     "cross-env": "7.0.3",
     "dotenv": "16.0.3",
     "dotenv-expand": "10.0.0",
+    "eslint": "8.29.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-import": "2.26.0",
     "eslint-plugin-prettier": "4.2.1",
@@ -29,6 +28,8 @@
     "ts-node-dev": "2.0.0",
     "typescript": "4.9.3"
   },
+  "main": "./index.ts",
+  "name": "@cd/server-main",
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development ts-node .",
