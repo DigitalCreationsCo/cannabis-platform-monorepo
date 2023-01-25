@@ -1,0 +1,13 @@
+# can be used to launch all services for production
+# as well as launch development server for every monorepo app and package
+
+services:
+  app:
+    container_name: app
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - BUILD_CONTEXT=app
+    ports:
+      - '3000:3000'
