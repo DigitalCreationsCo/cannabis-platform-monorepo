@@ -4,13 +4,12 @@ Dockerfile
 npm-debug.log
 README.md
 
-build
-dist
+**/build
+**/dist
 
-.next
-.git
-.turbo
+**/.next
+**/.git
+**/.turbo
 
-.vscode
-_dev
-
+**/.vscode
+**/_dev

@@ -20,7 +20,7 @@
     "ui": "yarn workspace @cd/shared-ui",
     "db": "yarn workspace @cd/data-access",
     "main": "yarn workspace @cd/server-main",
-    "docker:app": "scripts/docker/dev-app.sh",
+    "docker:app": "scripts/docker/docker.sh",
     "docker:supertokens": "scripts/docker/runSupertokens.sh",
     "permit-scripts": "node scripts/permit-scripts.js"
   },
