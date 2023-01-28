@@ -7,11 +7,10 @@
   "workspaces": [
     "apps/*",
     "packages/*",
-    "server/*",
-    "services/*"
+    "server/*"
   ],
   "scripts": {
-    "build": "turbo run build",
+    "build": "yarn workspaces foreach --topological-dev --recursive --from '@cd/app' --verbose run build",
     "test": "turbo run test",
     "lint": "turbo run lint",
     "lint:fix": "turbo run lint:fix",

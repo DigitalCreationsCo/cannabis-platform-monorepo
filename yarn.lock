@@ -631,7 +631,7 @@ __metadata:
 "@cd/data-access@*, @cd/data-access@workspace:packages/data-access":
   version: 0.0.0-use.local
   resolution: "@cd/data-access@workspace:packages/data-access"
-  peerDependencies:
+  dependencies:
     "@cd/shared-config": "*"
     "@prisma/client": 4.4.0
     "@types/jest": 29.2.4
