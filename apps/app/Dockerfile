@@ -22,23 +22,15 @@ FROM node:16-alpine
 # # Launch app with PM2
 # CMD [ "pm2-runtime", "start", "yarn", "--", "start" ]
 
-RUN echo 'set workdir monorepo'
 WORKDIR /root/monorepo
-RUN echo 'copy files'
 COPY . .
-RUN echo 'set yarn version'
 RUN yarn set version berry
-RUN yarn workspaces focus @cd/app
-RUN echo 'set workdir apps/app'
+RUN yarn install
 WORKDIR /root/monorepo/apps/app
-RUN echo 'install pm2'
 RUN npm install --global pm2
 RUN yarn build
-RUN echo 'yarn build'
 
 EXPOSE 3000
-RUN echo 'expose port 3000'
 USER node
-RUN echo 'pm2 start'
 CMD [ "pm2-runtime", "start", "yarn", "--", "start" ]
 # RUN docker run --rm -it -p3000:3000 web
