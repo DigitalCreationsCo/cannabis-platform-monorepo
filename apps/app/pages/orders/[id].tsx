@@ -3,7 +3,7 @@ import {
     OrderItemWithDetails,
     OrderStatus,
     OrderWithDetails,
-    ProductVariantWithDetails
+    ProductVariantWithDetails,
 } from '@cd/data-access';
 import {
     Button,
@@ -22,7 +22,7 @@ import {
     PhoneNumber,
     Price,
     Row,
-    TextField
+    TextField,
 } from '@cd/shared-ui';
 import axios from 'axios';
 import { AddProduct, PageHeader, ProductItem, ProtectedComponent } from 'components';

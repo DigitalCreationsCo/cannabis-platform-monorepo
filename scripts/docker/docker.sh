@@ -7,7 +7,7 @@
 BUILD_CONTEXT=$1
 
 # pipe stdin to docker
-tar --exclude='node_modules' --exclude='dist' --exclude='.git' -cf - ../.. | docker build -f apps/app/Dockerfile - -t app
+tar --exclude='node_modules' --exclude='dist' --exclude='.git' -cf - . | docker build -f apps/app/Dockerfile - -t app
 
 # create develop container
 # docker run -it --mount "type=bind,source=$(pwd)/,target=/root" node:16.16.0z
