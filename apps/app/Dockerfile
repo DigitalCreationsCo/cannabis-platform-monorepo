@@ -1,4 +1,4 @@
-FROM node:16-alpine
+FROM --platform=linux/amd64 node:16-alpine3.17
 # # Set working directory
 # WORKDIR /usr/app
 # # Install PM2 globally
@@ -22,14 +22,28 @@ FROM node:16-alpine
 # # Launch app with PM2
 # CMD [ "pm2-runtime", "start", "yarn", "--", "start" ]
 
+ENV YARN_VERSION 3.3.1
+
+# RUN apk add --no-cache libc6-compat
+# RUN apk add --update --no-cache libc6-compat openssl openssl-dev
+# RUN apk add --update --no-cache libc6-compat openssl libressl-dev
+# RUN apt-get install openssl openssl-dev libc6 
+RUN apk add --update --no-cache libc6-compat openssl1.1-compat
 WORKDIR /root/monorepo
 COPY . .
-RUN yarn set version berry
-RUN yarn install
-WORKDIR /root/monorepo/apps/app
 RUN npm install --global pm2
+
+# RUN npm install -global turbo
+RUN yarn set version $YARN_VERSION
+RUN yarn install
+
+# RUN apk update && apk add openssl openssl-dev
+#  libssl-dev
+# RUN yarn db generate
+RUN npx prisma generate
 RUN yarn build
 
+WORKDIR /root/monorepo/apps/app
 EXPOSE 3000
 USER node
 CMD [ "pm2-runtime", "start", "yarn", "--", "start" ]

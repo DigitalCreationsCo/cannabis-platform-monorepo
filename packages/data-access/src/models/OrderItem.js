@@ -1,7 +1,5 @@
-"use strict";
-exports.__esModule = true;
-var OrderItemWithDetailsClass = /** @class */ (function () {
-    function OrderItemWithDetailsClass(orderItemData) {
+export default class OrderItemWithDetailsClass {
+    constructor(orderItemData) {
         this.productVariant = orderItemData.productVariant;
         this.orderId = orderItemData.orderId;
         this.variantId = orderItemData.variantId;
@@ -16,6 +14,4 @@ var OrderItemWithDetailsClass = /** @class */ (function () {
         this.createdAt = orderItemData.createdAt;
         this.updatedAt = orderItemData.updatedAt;
     }
-    return OrderItemWithDetailsClass;
-}());
-exports["default"] = OrderItemWithDetailsClass;
+}

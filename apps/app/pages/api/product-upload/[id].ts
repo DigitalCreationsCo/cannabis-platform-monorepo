@@ -1,4 +1,4 @@
-import { ImageProduct } from '@prisma/client';
+import { ImageProduct } from '@cd/data-access';
 import axios from 'axios';
 import { authMiddleware, healthCheckMiddleware } from 'middleware';
 import { NextApiRequest, NextApiResponse } from 'next';

@@ -1,7 +1,4 @@
 {
-  "files": [
-    "src"
-  ],
   "main": "./src/index.ts",
   "module": "./src/index.ts",
   "name": "@cd/data-access",
@@ -22,6 +19,7 @@
   },
   "private": true,
   "scripts": {
+    "build": "tsc -b",
     "clear": "ts-node --esm src/db/clear.ts",
     "connect": "pscale connect cannabis_delivery_v1 dev --port 3309",
     "deploy": "pscale deploy-request create cannabis_delivery_v1 dev",

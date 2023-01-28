@@ -1,9 +1,9 @@
+import { Order } from '@cd/data-access';
+import { format } from 'date-fns';
 import Link from 'next/link';
 import React from 'react';
-import { Order } from '@prisma/client';
-import { Row, Price, H6, Icons, IconWrapper, Paragraph } from '.';
-import { format } from 'date-fns';
 import { twMerge } from 'tailwind-merge';
+import { H6, Icons, IconWrapper, Paragraph, Price, Row } from '.';
 
 type OrderRowProps = {
     order: Order;
