@@ -11,7 +11,7 @@
     "services/*"
   ],
   "scripts": {
-    "build": "yarn workspaces foreach --topological-dev --parallel --exclude @cd/cannabis-platform-monorepo run build",
+    "build": "turbo run build",
     "test": "turbo run test",
     "lint": "turbo run lint",
     "lint:fix": "turbo run lint:fix",

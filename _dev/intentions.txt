@@ -41,26 +41,30 @@ fix modals in [id].tsx pages
 root env
 1-24-22
 serve nextapp from linode with nginx
+1-25-22
+docker config to copy all monorepo files
+1-27-22
+docker configuration nextjs app, resolving image issues, and prisma client generation
 
 To do: 
-Revise dockerfile to build fast and lean
-refer to this article for help:
-https://dev.to/jonlauridsen/exploring-the-monorepo-5-perfect-docker-52aj
-1. copy all mono repo files, filter app dependencies, profit.
 configure nextapp and nginx with docker,
 deploy with docker on linode, use pm2 for nextjs
+Revise dockerfile to build fast and lean
+https://dev.to/jonlauridsen/exploring-the-monorepo-5-perfect-docker-52aj
+
 get the site working for client demos.
 setup nginx with https on linode
 update server main url env var
 Revise vercel deployment. Connect with linode server. Test for edge cases. (What are they?)
 Harden security in linode, and vercel.
 Add forever run script for server stops.
-Message Matthew so he can review and give feedback
+Have Matthew review and give feedback
 Profit :)
 
 Deploy supertokens in linode container, add to env
+host supertokens on linode with docker, use dockercompose for container deployments
+
 product upload, wasabi s3 storage, imagekit.io image handling ;D
-host supertokens on linode with docker, use dockercompose
 
 discount and pricing model:
 discounts are applied on order basis, 

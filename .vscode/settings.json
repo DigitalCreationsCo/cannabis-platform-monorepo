@@ -11,6 +11,9 @@
     "source.fixAll": true,
     "source.organizeImports": true,
   },
+  "files.exclude": {
+     "**/.git": false
+  },
   "cSpell.words": [
     "blurhash",
     "camelcase",
