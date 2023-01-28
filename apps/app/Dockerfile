@@ -31,7 +31,6 @@ ENV YARN_VERSION 3.3.1
 RUN apk add --update --no-cache libc6-compat openssl1.1-compat
 WORKDIR /root/monorepo
 COPY . .
-# COPY .git/ ./.git/
 RUN npm install --global pm2
 
 # RUN npm install -global turbo
