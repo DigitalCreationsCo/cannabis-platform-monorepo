@@ -30,6 +30,7 @@ ENV YARN_VERSION 3.3.1
 # RUN apt-get install openssl openssl-dev libc6 
 RUN apk add --update --no-cache libc6-compat openssl1.1-compat
 WORKDIR /root/monorepo
+COPY .git/ ./.git/
 COPY . .
 RUN npm install --global pm2
 
