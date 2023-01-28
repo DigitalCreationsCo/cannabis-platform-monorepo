@@ -32,9 +32,9 @@
         "test": {
             "dependsOn": [],
             "inputs": [
-                "pages/**/*.{ts,tsx,js,jsx}",
-                "src/**/*.{ts,tsx}",
-                "test/**/*.{ts,tsx}"
+                "**/pages/**/*.{ts,tsx,js,jsx}",
+                "**/src/**/*.{ts,tsx}",
+                "**/test/**/*.{ts,tsx}"
             ],
             "outputs": []
         }

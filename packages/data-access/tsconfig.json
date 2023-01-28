@@ -27,7 +27,7 @@
     // "importsNotUsedAsValues": "error",
     // "checkJs": true,
   },
-  "include": ["src/**/*.ts", "src/**/*.mts","src/**/*.js"],
+  "include": ["src"],
   "watchOptions": {
     // Use native file system events for files and directories
     "watchFile": "useFsEvents",
@@ -39,6 +39,6 @@
     "synchronousWatchDirectory": true,
     // Finally, two additional settings for reducing the amount of possible
     // files to track  work from these directories
-    "excludeDirectories": ["**/node_modules","build"],
+    "excludeDirectories": ["node_modules","build", "dist"],
   }
 }

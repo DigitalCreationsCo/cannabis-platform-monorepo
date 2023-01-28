@@ -15,7 +15,6 @@ module.exports = {
         // Tells eslint how to resolve imports
         'import/resolver': {
             node: {
-                paths: ['src'],
                 extensions: ['.js', '.jsx', '.ts', '.tsx', '.png', '.css'],
             },
         },

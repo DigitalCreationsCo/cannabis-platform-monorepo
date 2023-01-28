@@ -1,4 +1,7 @@
 {
+  "files": [
+    "src"
+  ],
   "main": "./src/index.ts",
   "module": "./src/index.ts",
   "name": "@cd/data-access",
