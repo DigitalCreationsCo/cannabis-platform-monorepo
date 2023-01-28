@@ -10,7 +10,7 @@ export async function createOrder() {
     // }
  }
 
-export async function findOrdersByOrg(organizationId) {
+export async function findOrdersByOrg(organizationId: string) {
     try {
         const order = await prisma.order.findMany(
             {
@@ -22,13 +22,13 @@ export async function findOrdersByOrg(organizationId) {
             }
             ) || [];
         return order;
-    } catch (error) {
+    } catch (error: any) {
         console.error(error.message)
         throw new Error(error.message)
     }
 }
 
-export async function findOrderWithDetails(id) {
+export async function findOrderWithDetails(id: string) {
     try {
         const order = await prisma.order.findUnique(
             {
@@ -42,13 +42,13 @@ export async function findOrderWithDetails(id) {
             }
         )
         return order
-    } catch (error) {
+    } catch (error: any) {
         console.error(error)
         throw new Error(error)
     }
 }
 
-export async function updateOrderWithOrderItems(order) {
+export async function updateOrderWithOrderItems(order: any) {
     try {
         const updateOrderItemsOp = !!order.items && order.items.map((item: OrderItem) => {
             let { ...rest } = item;
@@ -85,7 +85,7 @@ export async function updateOrderWithOrderItems(order) {
         await prisma.$transaction([ ...updateOrderItemsOp ]);
         const updateOrder = await prisma.$transaction([ updateOrderOp ]);
         return updateOrder[0]
-    } catch (error) {
+    } catch (error: any) {
         console.error('error: ', error)
         throw new Error(error)
     }

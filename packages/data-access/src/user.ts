@@ -9,7 +9,7 @@ export async function createUser() {
     // }
  }
 
-export async function findUserWithDetails(id) {
+export async function findUserWithDetails(id: string) {
     try {
         const user = await prisma.user.findUnique(
             {
@@ -22,7 +22,7 @@ export async function findUserWithDetails(id) {
             }
         )
         return user
-    } catch (error) {
+    } catch (error: any) {
         console.error(error)
         throw new Error(error)
     }

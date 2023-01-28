@@ -6,7 +6,7 @@ declare global {
 
 const prisma = global.prisma || new PrismaClient();
 
-function dateToString(doc) {
+function dateToString(doc: any) {
   if (doc != null || doc != undefined) {
     Object.keys(doc).forEach((key) => {
       // console.log("key pair: ", doc[key]);

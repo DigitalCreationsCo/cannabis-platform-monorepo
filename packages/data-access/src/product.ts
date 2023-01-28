@@ -9,7 +9,7 @@ export async function createProduct() {
     // }
  }
 
-export async function findProductsByOrg(organizationId) {
+export async function findProductsByOrg(organizationId: string) {
   try {
     const products = await prisma.product.findMany(
       {
@@ -26,13 +26,13 @@ export async function findProductsByOrg(organizationId) {
         }
       }) || [];
       return products;
-    } catch (error) {
+    } catch (error: any) {
         console.error(error.message)
         throw new Error(error.message)
     }
 }
 
-export async function findProductWithDetails(id) {
+export async function findProductWithDetails(id: string) {
     try {
         const product = await prisma.product.findUnique(
             {
@@ -50,13 +50,13 @@ export async function findProductWithDetails(id) {
             }
         )
         return product
-    } catch (error) {
+    } catch (error: any) {
         console.error(error)
         throw new Error(error)
     }
 }
 
-export async function findProductsByText(search, organizationId) {
+export async function findProductsByText(search: string, organizationId: string) {
   try {
     const products = await prisma.product.findMany({
       where: {
@@ -94,7 +94,7 @@ export async function findProductsByText(search, organizationId) {
       }
     }) || [];
       return products;
-    } catch (error) {
+    } catch (error: any) {
       console.error(error.message)
       throw new Error(error.message)
     }
