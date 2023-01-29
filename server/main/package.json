@@ -1,7 +1,9 @@
 {
-  "devDependencies": {
+  "dependencies": {
     "@cd/data-access": "*",
-    "@cd/shared-config": "*",
+    "@cd/shared-config": "*"
+  },
+  "devDependencies": {
     "@types/jest": "29.2.4",
     "@types/node": "18.11.10",
     "@typescript-eslint/eslint-plugin": "5.45.0",

@@ -10,7 +10,7 @@
     "server/*"
   ],
   "scripts": {
-    "build": "yarn workspaces foreach --topological-dev --recursive --from '@cd/app' --verbose run build",
+    "build": "turbo run build",
     "test": "turbo run test",
     "lint": "turbo run lint",
     "lint:fix": "turbo run lint:fix",
@@ -30,12 +30,10 @@
     "schema": "packages/data-access/schema.prisma",
     "seed": "ts-node --esm src/db/seed.ts"
   },
-  "dependencies": {
+  "devDependencies": {
     "@cd/data-access": "*",
     "@cd/shared-config": "*",
-    "@cd/shared-ui": "*"
-  },
-  "devDependencies": {
+    "@cd/shared-ui": "*",
     "@prisma/client": "4.4.0",
     "@reduxjs/toolkit": "1.9.1",
     "@tailwindcss/typography": "0.5.8",

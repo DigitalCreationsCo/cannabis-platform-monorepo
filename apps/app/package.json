@@ -1,8 +1,10 @@
 {
-    "devDependencies": {
+    "dependencies": {
         "@cd/data-access": "*",
         "@cd/shared-config": "*",
-        "@cd/shared-ui": "*",
+        "@cd/shared-ui": "*"
+    },
+    "devDependencies": {
         "@reduxjs/toolkit": "1.9.1",
         "@tailwindcss/typography": "0.5.8",
         "@types/formidable": "2.0.5",
