@@ -1,7 +1,7 @@
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
-import dts from 'rollup-plugin-dts';
+import css from 'rollup-plugin-css-only';
 import postcss from 'rollup-plugin-postcss';
 import packageJson from './package.json' assert { type: 'json' };
 
@@ -18,13 +18,8 @@ export default [
                 file: packageJson.module,
                 format: 'es',
             },
+            { file: 'dist/style.css' },
         ],
-        plugins: [resolve(), commonjs(), postcss(), typescript({ tsconfig: './tsconfig.json' })],
-    },
-    {
-        input: 'dist/shared-ui.es.js',
-        output: [{ file: 'dist/index.d.ts', format: 'esm' }],
-        external: [/\.css$/],
-        plugins: [dts()],
+        plugins: [resolve(), commonjs(), postcss(), css(), typescript({ tsconfig: './tsconfig.json' })],
     },
 ];
