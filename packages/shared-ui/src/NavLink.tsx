@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import React, { AnchorHTMLAttributes, CSSProperties, PropsWithChildren, SVGAttributes } from 'react';
+import { AnchorHTMLAttributes, PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { IconWrapper, Paragraph, Span } from '.';
-
+import IconWrapper from './IconWrapper';
+import { Paragraph } from './Typography';
 export interface NavLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
     href: string;
     className?: string;

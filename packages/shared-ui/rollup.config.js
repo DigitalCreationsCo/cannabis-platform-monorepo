@@ -1,19 +1,20 @@
-import packageJson from './package.json';
-
+import commonjs from '@rollup/plugin-commonjs';
+import resolve from '@rollup/plugin-node-resolve';
+import typescript from '@rollup/plugin-typescript';
+import postcss from 'rollup-plugin-postcss';
+import packageJson from './package.json' assert { type: 'json' };
 export default {
     input: 'src/index.ts',
     output: [
         {
             file: packageJson.main,
-            format: (format) => `shared-ui.${format}.js`,
-            sourcemap: true,
+            format: 'cjs',
             name: '@cd/shared-ui',
         },
         {
             file: packageJson.module,
-            format: (format) => `shared-ui.${format}.js`,
-            sourcemap: true,
+            format: 'es',
         },
     ],
-    plugins: [],
+    plugins: [resolve(), commonjs(), postcss(), typescript({ tsconfig: './tsconfig.json' })],
 };

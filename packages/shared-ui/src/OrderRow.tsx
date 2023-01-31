@@ -1,10 +1,12 @@
 import { Order } from '@cd/data-access';
 import { format } from 'date-fns';
 import Link from 'next/link';
-import React from 'react';
 import { twMerge } from 'tailwind-merge';
-import { H6, Icons, IconWrapper, Paragraph, Price, Row } from '.';
-
+import Icons from './icons';
+import IconWrapper from './IconWrapper';
+import Price from './Price';
+import Row from './Row';
+import { H6, Paragraph } from './Typography';
 type OrderRowProps = {
     order: Order;
     orderDetailsRoute: string;

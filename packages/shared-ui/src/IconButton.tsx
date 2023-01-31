@@ -1,6 +1,6 @@
-import React, { PropsWithChildren, ReactEventHandler } from 'react';
-import { IconWrapper, Button } from '.';
-
+import { PropsWithChildren, ReactEventHandler } from 'react';
+import Button from './Button';
+import IconWrapper from './IconWrapper';
 type IconButtonProps = {
     Icon: any;
     type?: 'button' | 'submit' | 'reset';

@@ -1,6 +1,6 @@
 import React, { ReactEventHandler } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { FlexBox } from '.';
+import FlexBox from './FlexBox';
 
 type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
     className?: string;

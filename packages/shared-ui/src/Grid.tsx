@@ -1,6 +1,6 @@
-import React, { PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { H6 } from '.';
+import { H6 } from './Typography';
 
 type GridProps = {
     title?: string;
