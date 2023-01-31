@@ -2,6 +2,7 @@
   "devDependencies": {
     "@cd/data-access": "*",
     "@cd/shared-config": "*",
+    "@rollup/plugin-typescript": "11.0.0",
     "@tailwindcss/typography": "0.5.8",
     "@types/node": "18.11.10",
     "@types/react-dom": "18.0.8",
@@ -26,6 +27,8 @@
     "prettier": "2.8.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "rollup": "3.12.0",
+    "rollup-plugin-postcss": "4.0.2",
     "tailwind-merge": "1.8.0",
     "tailwindcss": "3.2.4",
     "typescript": "4.9.3"
