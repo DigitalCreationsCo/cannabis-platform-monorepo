@@ -84,7 +84,7 @@
             ],
             "outputs": []
         },
-        "watch:": {
+        "watch": {
             "cache": true,
             "dependsOn": [],
             "inputs": [
