@@ -1,7 +1,9 @@
 {
+  "dependencies": {
+    "@prisma/client": "4.4.0"
+  },
   "devDependencies": {
     "@cd/shared-config": "*",
-    "@prisma/client": "4.4.0",
     "@types/jest": "29.2.4",
     "jest": "29.3.1",
     "jest-mock-extended": "3.0.1",
@@ -21,15 +23,15 @@
   "scripts": {
     "build": "tsc -b",
     "clear": "ts-node --esm src/db/clear.ts",
-    "connect": "pscale connect cannabis_delivery_v1 dev --port 3309",
-    "deploy": "pscale deploy-request create cannabis_delivery_v1 dev",
+    "db:connect": "pscale connect cannabis_delivery_v1 dev --port 3309",
+    "db:deploy": "pscale deploy-request create cannabis_delivery_v1 dev",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate",
+    "db:push": "prisma db push --skip-generate",
+    "db:reseed": "prisma generate && prisma db push && yarn clear && prisma db seed",
+    "db:seed": "prisma db seed",
+    "db:studio": "prisma studio",
     "dev": "tsc --watch src/index.ts",
-    "generate": "prisma generate",
-    "migrate": "prisma migrate",
-    "push": "prisma db push",
-    "reseed": "prisma generate && prisma db push && yarn db clear && prisma db seed",
-    "seed": "prisma db seed",
-    "studio": "prisma studio",
     "test": "../../node_modules/jest/bin/jest.js"
   },
   "version": "0.0.1"

@@ -609,6 +609,7 @@ __metadata:
     react-dom: 18.2.0
     react-dropzone: 14.2.3
     react-hot-toast: 2.4.0
+    react-phone-number-input: 3.1.41
     react-redux: 8.0.5
     supertest: 6.3.3
     supertokens-auth-react: 0.28.1
