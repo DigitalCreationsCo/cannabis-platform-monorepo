@@ -7,7 +7,6 @@
     "@types/react-dom": "18.0.8",
     "@typescript-eslint/eslint-plugin": "5.45.0",
     "@typescript-eslint/parser": "5.45.0",
-    "@vitejs/plugin-react": "2.2.0",
     "autoprefixer": "10.4.13",
     "clsx": "1.2.1",
     "concurrently": "7.6.0",
@@ -29,10 +28,7 @@
     "react-dom": "18.2.0",
     "tailwind-merge": "1.8.0",
     "tailwindcss": "3.2.4",
-    "typescript": "4.9.3",
-    "vite": "3.2.3",
-    "vite-plugin-dts": "1.7.1",
-    "vite-plugin-eslint": "1.8.1"
+    "typescript": "4.9.3"
   },
   "exports": {
     ".": {
@@ -51,12 +47,10 @@
   "private": true,
   "scripts": {
     "build": "concurrently \"yarn build:ts\"",
-    "build:ts": "tsc && vite build",
-    "dev": "vite",
+    "build:ts": "tsc",
     "prepack": "json -f package.json -I -e \"delete this.devDependencies; delete this.dependencies\"",
-    "preview": "vite preview",
     "watch": "concurrently \"yarn watch:ts\"",
-    "watch:ts": "node ../../node_modules/vite/bin/vite build --watch"
+    "watch:ts": "echo \"watch script\""
   },
   "type": "module",
   "types": "./dist/index.d.ts",
