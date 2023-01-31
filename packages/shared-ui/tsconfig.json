@@ -1,13 +1,14 @@
 {
   "compilerOptions": {
     "declaration": true,
+    "declarationDir": "types",
+    "emitDeclarationOnly": true,
     "target": "ESNext",
     // "lib": ["DOM", "DOM.Iterable", "ESNext"],
     // "allowJs": false,
     // "resolveJsonModule": true,
     // "useDefineForClassFields": true,
     // "isolatedModules": true,
-    // "noEmit": true,
     "module": "esnext",
     "jsx": "react-jsx",
     "sourceMap": true,
