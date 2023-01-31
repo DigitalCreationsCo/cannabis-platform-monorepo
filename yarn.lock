@@ -574,7 +574,7 @@ __metadata:
     busboy: 1.6.0
     chmod: 0.2.1
     clsx: 1.2.1
-    concurrently: ^7.6.0
+    concurrently: 7.6.0
     cors: 2.8.5
     cross-env: 7.0.3
     daisyui: 2.46.0
@@ -716,6 +716,7 @@ __metadata:
     "@vitejs/plugin-react": 2.2.0
     autoprefixer: 10.4.13
     clsx: 1.2.1
+    concurrently: 7.6.0
     daisyui: 2.46.0
     date-fns: 2.29.3
     eslint: 8.29.0
@@ -3228,7 +3229,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"concurrently@npm:^7.6.0":
+"concurrently@npm:7.6.0":
   version: 7.6.0
   resolution: "concurrently@npm:7.6.0"
   dependencies:

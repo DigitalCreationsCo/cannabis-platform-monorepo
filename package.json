@@ -91,6 +91,7 @@
     "react-dropzone": "14.2.3",
     "react-hot-toast": "2.4.0",
     "react-redux": "8.0.5",
+    "react-phone-number-input": "3.1.41",
     "supertest": "6.3.3",
     "supertokens-auth-react": "0.28.1",
     "supertokens-node": "12.1.3",
