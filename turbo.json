@@ -1,9 +1,50 @@
 {
     "$schema": "https://turbo.build/schema.json",
     "pipeline": {
+        "@cd/app#build": {
+            "dependsOn": [
+                "^build"
+            ],
+            "inputs": [
+                "pages/**/*",
+                "src/**/*",
+                "public/**/*",
+                "next.config.js",
+                "package.json",
+                "tsconfig.json"
+            ],
+            "outputs": [
+                ".next/**"
+            ]
+        },
+        "@cd/app#dev": {
+            "cache": false,
+            "dependsOn": [
+                "^build"
+            ],
+            "inputs": [
+                "pages/**/*",
+                "src/**/*",
+                "public/**/*",
+                "next.config.js",
+                "package.json",
+                "tsconfig.json"
+            ]
+        },
+        "@cd/app#start": {
+            "cache": false
+        },
         "build": {
             "dependsOn": [
                 "^build"
+            ],
+            "inputs": [
+                "src/**/*",
+                "package.json",
+                "tsconfig.json"
+            ],
+            "outputs": [
+                "dist/**"
             ]
         },
         "deploy": {
@@ -18,7 +59,13 @@
             "cache": false,
             "dependsOn": [
                 "^build"
-            ]
+            ],
+            "inputs": [
+                "src/**/*",
+                "package.json",
+                "tsconfig.json"
+            ],
+            "outputs": []
         },
         "lint": {
             "outputs": []
@@ -29,9 +76,19 @@
         "test": {
             "dependsOn": [],
             "inputs": [
-                "**/pages/**/*.{ts,tsx,js,jsx}",
-                "**/src/**/*.{ts,tsx}",
-                "**/test/**/*.{ts,tsx}"
+                "test/**/*",
+                "**/*.test.ts",
+                "**/*.test.tsx",
+                "**/*.test.js",
+                "**/*.test.jsx"
+            ],
+            "outputs": []
+        },
+        "watch:": {
+            "cache": true,
+            "dependsOn": [],
+            "inputs": [
+                "src/**/*"
             ],
             "outputs": []
         }

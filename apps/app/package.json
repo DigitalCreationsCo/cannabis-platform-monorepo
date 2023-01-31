@@ -1,8 +1,10 @@
 {
-    "devDependencies": {
+    "dependencies": {
         "@cd/data-access": "*",
         "@cd/shared-config": "*",
-        "@cd/shared-ui": "*",
+        "@cd/shared-ui": "*"
+    },
+    "devDependencies": {
         "@reduxjs/toolkit": "1.9.1",
         "@tailwindcss/typography": "0.5.8",
         "@types/formidable": "2.0.5",
@@ -57,7 +59,6 @@
     "private": true,
     "scripts": {
         "build": "NODE_ENV=production next build",
-        "build:dev": "NODE_ENV=development next build",
         "debug": "NODE_OPTIONS='--inspect' next dev",
         "dev": "next dev",
         "lint": "next lint",

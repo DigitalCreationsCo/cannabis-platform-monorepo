@@ -10,6 +10,7 @@
     "@vitejs/plugin-react": "2.2.0",
     "autoprefixer": "10.4.13",
     "clsx": "1.2.1",
+    "concurrently": "7.6.0",
     "daisyui": "2.46.0",
     "date-fns": "2.29.3",
     "eslint": "8.29.0",
@@ -49,11 +50,13 @@
   "name": "@cd/shared-ui",
   "private": true,
   "scripts": {
-    "build": "tsc && vite build",
-    "dev": "node ../../node_modules/vite/bin/vite build --watch",
+    "build": "concurrently \"yarn build:ts\"",
+    "build:ts": "tsc && vite build",
+    "dev": "vite",
     "prepack": "json -f package.json -I -e \"delete this.devDependencies; delete this.dependencies\"",
     "preview": "vite preview",
-    "serve:dev": "vite"
+    "watch": "concurrently \"yarn watch:ts\"",
+    "watch:ts": "node ../../node_modules/vite/bin/vite build --watch"
   },
   "type": "module",
   "types": "./dist/index.d.ts",
