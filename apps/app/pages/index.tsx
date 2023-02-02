@@ -13,7 +13,6 @@ interface DashboardProps {
 }
 
 export default function Dashboard({ user, organization, products, orders }: DashboardProps) {
-    console.log('user: ', user);
     const todaysOrders = useMemo(() => {
         const todaysOrders = Array.isArray(orders)
             ? orders.filter((order) => {
@@ -107,7 +106,9 @@ export const findLowStockVariants = (products) =>
 
 const getUserInfo = ({ req }) => {
     // let user = req.session?.user
-    const session = { user: { username: 'kbarnes', firstName: 'Katie', lastName: 'Barnes', organizationId: '2' } };
+    const session = {
+        user: { username: 'kbarnes', firstName: 'Katie', lastName: 'Barnes', memberships: [{ organizationId: '2' }] },
+    };
     const { user } = session;
     return user;
 };
@@ -115,7 +116,7 @@ const getUserInfo = ({ req }) => {
 export async function getServerSideProps({ req, res }) {
     res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
     const user = getUserInfo({ req });
-    const { organizationId } = user;
+    const { organizationId } = user.memberships[0];
 
     const organization = await (await fetch(urlBuilder.next + `/api/organization/${organizationId}`)).json();
     const products = await (await fetch(urlBuilder.next + '/api/products')).json();
