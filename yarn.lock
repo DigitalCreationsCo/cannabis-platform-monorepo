@@ -557,7 +557,7 @@ __metadata:
     react-phone-number-input: 3.1.41
     react-redux: 8.0.5
     rollup: 3.12.0
-    rollup-plugin-css-only: ^4.3.0
+    rollup-plugin-css-only: 4.3.0
     rollup-plugin-dts: 5.1.1
     rollup-plugin-postcss: 4.0.2
     supertest: 6.3.3
@@ -683,6 +683,7 @@ __metadata:
     react: 18.2.0
     react-dom: 18.2.0
     rollup: 3.12.0
+    rollup-plugin-css-only: 4.3.0
     rollup-plugin-dts: 5.1.1
     rollup-plugin-postcss: 4.0.2
     tailwind-merge: 1.8.0
@@ -8971,7 +8972,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup-plugin-css-only@npm:^4.3.0":
+"rollup-plugin-css-only@npm:4.3.0":
   version: 4.3.0
   resolution: "rollup-plugin-css-only@npm:4.3.0"
   dependencies:

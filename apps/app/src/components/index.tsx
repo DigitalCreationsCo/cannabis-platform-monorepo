@@ -7,6 +7,7 @@ export { default as ConfirmationAlert } from './ConfirmationAlert';
 export { default as DropZone } from './DropZone';
 export { default as Layout } from './Layout';
 export { default as Modal } from './Modal';
+export { default as OfflineHandler } from './OfflineHandler';
 export { default as PageHeader } from './PageHeader';
 export { default as ProductItem } from './ProductItem';
 export { default as ProductRow } from './ProductRow';
@@ -16,3 +17,4 @@ export { SessionControl } from './SessionControl';
 export { default as SideNavContainer } from './SideNavContainer';
 export { default as Tag } from './Tag';
 export { default as TopBar } from './TopBar';
+

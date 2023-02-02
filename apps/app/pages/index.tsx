@@ -1,9 +1,8 @@
-import prisma, { Order, Organization, ProductWithDetails, User } from '@cd/data-access';
+import { Order, Organization, ProductWithDetails, User } from '@cd/data-access';
 import { Card, Grid, Icons, OrderRow, Page } from '@cd/shared-ui';
 import { PageHeader, ProductRow, ProtectedComponent } from 'components';
 import Head from 'next/head';
 import { useMemo } from 'react';
-import urlBuilder from '../src/utils/urlBuilder';
 
 interface DashboardProps {
     user: User;
@@ -12,7 +11,8 @@ interface DashboardProps {
     orders: Order[];
 }
 
-export default function Dashboard({ user, organization, products, orders }: DashboardProps) {
+export default function Dashboard({ user }: DashboardProps) {
+    console.log('user: ', user);
     const todaysOrders = useMemo(() => {
         const todaysOrders = Array.isArray(orders)
             ? orders.filter((order) => {
@@ -114,17 +114,17 @@ const getUserInfo = ({ req }) => {
 export async function getServerSideProps({ req, res }) {
     res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
     const user = getUserInfo({ req });
-    const { organizationId } = user;
+    // const { organizationId } = user;
 
-    const organization = (await prisma.organization.findUnique({ where: { id: organizationId } })) || {};
-    const products = await (await fetch(urlBuilder.next + '/api/products')).json();
-    const orders = await (await fetch(urlBuilder.next + '/api/orders/')).json();
+    // const organization = (await prisma.organization.findUnique({ where: { id: organizationId } })) || {};
+    // const products = await (await fetch(urlBuilder.next + '/api/products')).json();
+    // const orders = await (await fetch(urlBuilder.next + '/api/orders/')).json();
     return {
         props: {
             user,
-            organization,
-            products,
-            orders,
+            // organization,
+            // products,
+            // orders,
         },
     };
 }

@@ -1,5 +1,54 @@
-import { PrismaClient } from "@prisma/client";
-const users = [
+"use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var client_1 = require("@prisma/client");
+var users = [
     {
         id: "1",
         firstName: "Bryant",
@@ -43,7 +92,7 @@ const users = [
         updatedAt: new Date(),
     },
 ];
-const memberships = [
+var memberships = [
     {
         id: '1',
         role: "MEMBER",
@@ -77,7 +126,7 @@ const memberships = [
         updatedAt: new Date(),
     }
 ];
-const addresses = [
+var addresses = [
     {
         id: "1",
         street1: "123 King St",
@@ -124,7 +173,7 @@ const addresses = [
         updatedAt: new Date(),
     },
 ];
-const vendors = [
+var vendors = [
     {
         id: "1",
         name: "Gras",
@@ -140,7 +189,7 @@ const vendors = [
         updatedAt: new Date(),
     },
 ];
-const orgs = [
+var orgs = [
     {
         id: "1",
         name: "Gras",
@@ -181,7 +230,7 @@ const orgs = [
         termsAccepted: true,
     },
 ];
-const siteSettings = [
+var siteSettings = [
     {
         title: "Cannabis Delivered To Your Door",
         description: "grascannabis.com",
@@ -201,7 +250,7 @@ const siteSettings = [
         updatedAt: new Date(),
     },
 ];
-const orderItems = [
+var orderItems = [
     {
         variantId: "1",
         orderId: '1',
@@ -301,7 +350,7 @@ const orderItems = [
         updatedAt: new Date(),
     },
 ];
-const variants = [
+var variants = [
     {
         id: "1",
         name: "King OG",
@@ -415,7 +464,7 @@ const variants = [
         updatedAt: new Date(),
     },
 ];
-const products = [
+var products = [
     {
         id: "1",
         name: "King OG",
@@ -494,7 +543,7 @@ const products = [
         updatedAt: new Date(),
     },
 ];
-const subdomains = [
+var subdomains = [
     {
         id: "",
         isValid: true,
@@ -508,7 +557,7 @@ const subdomains = [
         updatedAt: new Date(),
     },
 ];
-const ImageVendors = [
+var ImageVendors = [
     {
         id: "1",
         location: "https://cloudfront-us-east-1.images.arcpublishing.com/gray/GHYFGWKYW5CMRHTINQDDFCN7CI.jpg",
@@ -517,7 +566,7 @@ const ImageVendors = [
         updatedAt: new Date(),
     },
 ];
-const ImageUsers = [
+var ImageUsers = [
     {
         id: "1",
         location: "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
@@ -527,7 +576,7 @@ const ImageUsers = [
         updatedAt: new Date(),
     },
 ];
-const ImageOrganizations = [
+var ImageOrganizations = [
     {
         id: "1",
         location: "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
@@ -545,7 +594,7 @@ const ImageOrganizations = [
         updatedAt: new Date(),
     },
 ];
-const ImageProducts = [
+var ImageProducts = [
     {
         id: "1",
         location: "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
@@ -603,7 +652,7 @@ const ImageProducts = [
         updatedAt: new Date(),
     },
 ];
-const Categories = [
+var Categories = [
     {
         id: "1",
         name: "Edibles",
@@ -677,7 +726,7 @@ const Categories = [
         updatedAt: new Date(),
     },
 ];
-const CategoryLists = [
+var CategoryLists = [
     {
         id: '1',
         organizationId: '1',
@@ -697,7 +746,7 @@ const CategoryLists = [
         updatedAt: new Date(),
     }
 ];
-const drivers = [
+var drivers = [
     {
         id: "1",
         createdAt: new Date(),
@@ -709,7 +758,7 @@ const drivers = [
         updatedAt: new Date(),
     },
 ];
-const orders = [
+var orders = [
     {
         id: "1",
         subtotal: 12000,
@@ -857,91 +906,154 @@ const orders = [
 //     updatedAt: new Date(),
 //   },
 // ];
-const prisma = new PrismaClient();
-async function main() {
-    await prisma.user.createMany({
-        data: users,
-    });
-    await prisma.address.createMany({
-        data: addresses,
-    });
-    await prisma.vendor.createMany({
-        data: vendors,
-    });
-    await prisma.siteSetting.createMany({
-        data: siteSettings,
-    });
-    await prisma.organization.createMany({
-        data: orgs,
-    });
-    await prisma.subDomain.createMany({
-        data: subdomains,
-    });
-    await prisma.imageVendor.createMany({
-        data: ImageVendors,
-    });
-    await prisma.imageOrganization.createMany({
-        data: ImageOrganizations,
-    });
-    await prisma.imageProduct.createMany({
-        data: ImageProducts,
-    });
-    await prisma.imageUser.createMany({
-        data: ImageUsers,
-    });
-    await prisma.category.createMany({
-        data: Categories,
-    });
-    CategoryLists.map(async (list) => {
-        await prisma.categoryList.create({
-            data: {
-                ...list,
-                categories: {
-                    connect: [
-                        { id: '1' },
-                        { id: '2' },
-                        { id: '3' },
-                        { id: '9' }
-                    ]
-                }
+var prisma = new client_1.PrismaClient();
+function main() {
+    return __awaiter(this, void 0, void 0, function () {
+        var _this = this;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, prisma.user.createMany({
+                        data: users,
+                    })];
+                case 1:
+                    _a.sent();
+                    return [4 /*yield*/, prisma.address.createMany({
+                            data: addresses,
+                        })];
+                case 2:
+                    _a.sent();
+                    return [4 /*yield*/, prisma.vendor.createMany({
+                            data: vendors,
+                        })];
+                case 3:
+                    _a.sent();
+                    return [4 /*yield*/, prisma.siteSetting.createMany({
+                            data: siteSettings,
+                        })];
+                case 4:
+                    _a.sent();
+                    return [4 /*yield*/, prisma.organization.createMany({
+                            data: orgs,
+                        })];
+                case 5:
+                    _a.sent();
+                    return [4 /*yield*/, prisma.subDomain.createMany({
+                            data: subdomains,
+                        })];
+                case 6:
+                    _a.sent();
+                    return [4 /*yield*/, prisma.imageVendor.createMany({
+                            data: ImageVendors,
+                        })];
+                case 7:
+                    _a.sent();
+                    return [4 /*yield*/, prisma.imageOrganization.createMany({
+                            data: ImageOrganizations,
+                        })];
+                case 8:
+                    _a.sent();
+                    return [4 /*yield*/, prisma.imageProduct.createMany({
+                            data: ImageProducts,
+                        })];
+                case 9:
+                    _a.sent();
+                    return [4 /*yield*/, prisma.imageUser.createMany({
+                            data: ImageUsers,
+                        })];
+                case 10:
+                    _a.sent();
+                    return [4 /*yield*/, prisma.category.createMany({
+                            data: Categories,
+                        })];
+                case 11:
+                    _a.sent();
+                    CategoryLists.map(function (list) { return __awaiter(_this, void 0, void 0, function () {
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, prisma.categoryList.create({
+                                        data: __assign(__assign({}, list), { categories: {
+                                                connect: [
+                                                    { id: '1' },
+                                                    { id: '2' },
+                                                    { id: '3' },
+                                                    { id: '9' }
+                                                ]
+                                            } })
+                                    })];
+                                case 1:
+                                    _a.sent();
+                                    return [2 /*return*/];
+                            }
+                        });
+                    }); });
+                    products.map(function (product) { return __awaiter(_this, void 0, void 0, function () {
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, prisma.product.create({
+                                        data: __assign(__assign({}, product), { categories: {
+                                                connect: [
+                                                    { id: '9' }
+                                                ]
+                                            } })
+                                    })];
+                                case 1:
+                                    _a.sent();
+                                    return [2 /*return*/];
+                            }
+                        });
+                    }); });
+                    return [4 /*yield*/, prisma.driver.createMany({
+                            data: drivers,
+                        })];
+                case 12:
+                    _a.sent();
+                    return [4 /*yield*/, prisma.productVariant.createMany({
+                            data: variants,
+                        })];
+                case 13:
+                    _a.sent();
+                    return [4 /*yield*/, prisma.orderItem.createMany({
+                            data: orderItems,
+                        })];
+                case 14:
+                    _a.sent();
+                    return [4 /*yield*/, prisma.order.createMany({
+                            data: orders,
+                        })];
+                case 15:
+                    _a.sent();
+                    return [4 /*yield*/, prisma.membership.createMany({
+                            data: memberships,
+                        })];
+                case 16:
+                    _a.sent();
+                    console.log("inserted all records");
+                    return [2 /*return*/];
             }
         });
     });
-    products.map(async (product) => {
-        await prisma.product.create({
-            data: {
-                ...product,
-                categories: {
-                    connect: [
-                        { id: '9' }
-                    ]
-                }
-            }
-        });
-    });
-    await prisma.driver.createMany({
-        data: drivers,
-    });
-    await prisma.productVariant.createMany({
-        data: variants,
-    });
-    await prisma.orderItem.createMany({
-        data: orderItems,
-    });
-    await prisma.order.createMany({
-        data: orders,
-    });
-    await prisma.membership.createMany({
-        data: memberships,
-    });
-    console.log("inserted all records");
 }
 main()
-    .then(async () => {
-    await prisma.$disconnect();
-})
-    .catch(async (e) => {
-    console.error(e);
-    await prisma.$disconnect();
-    process.exit(1);
-});
+    .then(function () { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, prisma.$disconnect()];
+            case 1:
+                _a.sent();
+                return [2 /*return*/];
+        }
+    });
+}); })
+    .catch(function (e) { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                console.error(e);
+                return [4 /*yield*/, prisma.$disconnect()];
+            case 1:
+                _a.sent();
+                process.exit(1);
+                return [2 /*return*/];
+        }
+    });
+}); });

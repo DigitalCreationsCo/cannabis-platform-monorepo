@@ -45,8 +45,17 @@ serve nextapp from linode with nginx
 docker config to copy all monorepo files
 1-27-22
 docker configuration nextjs app, resolving image issues, and prisma client generation
+1-29-22
+switched shared-ui to rollup to resolve docker build issue, and improve ci experience
+2-2-22
+- shared-ui build with rollup, output css files
+- error context component for handling down server, browser offline, and response errors
 
 To do: 
+create useQuery hook for api calls,
+useQuery hook can set ErrorHandlerCode using context value,
+replace all axios and fetch calls with usequery hook
+
 configure nextapp and nginx with docker,
 deploy with docker on linode, use pm2 for nextjs
 Revise dockerfile to build fast and lean

@@ -10,7 +10,7 @@
     // "outDir": "./dist",
     // "declaration": true,
     "lib": ["ES2021"],
-    "target": "ES2021",
+    "target": "ES5",
     // "skipLibCheck": true,
     "moduleResolution": "Node",
     // "useDefineForClassFields": true,

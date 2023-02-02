@@ -13,7 +13,6 @@
     "typescript": "4.9.3"
   },
   "main": "./src/index.ts",
-  "module": "./src/index.ts",
   "name": "@cd/data-access",
   "prisma": {
     "schema": "./schema.prisma",

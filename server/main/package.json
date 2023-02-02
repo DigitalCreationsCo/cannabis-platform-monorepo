@@ -36,7 +36,8 @@
     "start": "cross-env NODE_ENV=production ts-node .",
     "test": "../../node_modules/jest/bin/jest.js",
     "test:fix": "../../node_modules/jest/bin/jest.js --detectOpenHandles",
-    "test:watch": "../../node_modules/jest/bin/jest.js --watchAll"
+    "test:watch": "../../node_modules/jest/bin/jest.js --watchAll",
+    "watch": "cross-env NODE_ENV=development ts-node ."
   },
   "version": "0.0.1"
 }

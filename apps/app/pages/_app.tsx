@@ -1,6 +1,6 @@
 import '@cd/shared-config/index.css';
 import { Center, LoadingDots, Page } from '@cd/shared-ui';
-import '@cd/shared-ui/dist/style.css';
+// import '@cd/shared-ui/dist/style.css';
 import { Layout, SessionControl } from 'components';
 import { NextPage } from 'next';
 import { AppProps } from 'next/app';
@@ -9,6 +9,7 @@ import { Toaster } from 'react-hot-toast';
 import SuperTokens, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session from 'supertokens-auth-react/recipe/session';
 import * as SuperTokensConfig from '../config/frontendConfig';
+import ErrorHandler from '../src/context/ErrorHandler';
 
 if (typeof window !== 'undefined') {
     SuperTokens.init(SuperTokensConfig.frontendConfig());
@@ -53,24 +54,26 @@ export default function App({ Component, pageProps }: CustomAppProps): JSX.Eleme
     const getLayout = Component.getLayout || ((page) => <Layout>{page}</Layout>);
     return (
         <SuperTokensWrapper>
-            <SessionControl>
-                {appReady === 'loading' ? (
-                    <Page>
-                        <Center>
-                            <LoadingDots />
-                        </Center>
-                    </Page>
-                ) : appReady === true ? (
-                    getLayout(<Component {...pageProps} />)
-                ) : (
-                    getLayout(
+            <ErrorHandler>
+                <SessionControl>
+                    {appReady === 'loading' ? (
                         <Page>
-                            <Center>Services are not available now. Please try later.</Center>
+                            <Center>
+                                <LoadingDots />
+                            </Center>
                         </Page>
-                    )
-                )}
-                <Toaster position="top-right" />
-            </SessionControl>
+                    ) : appReady === true ? (
+                        getLayout(<Component {...pageProps} />)
+                    ) : (
+                        getLayout(
+                            <Page>
+                                <Center>Services are not available now. Please try later.</Center>
+                            </Page>
+                        )
+                    )}
+                    <Toaster position="top-right" />
+                </SessionControl>
+            </ErrorHandler>
         </SuperTokensWrapper>
     );
 }
