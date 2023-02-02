@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "declarationDir": "types",
     "emitDeclarationOnly": true,
     "target": "ESNext",
     // "lib": ["DOM", "DOM.Iterable", "ESNext"],

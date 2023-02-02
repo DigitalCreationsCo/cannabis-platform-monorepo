@@ -13,13 +13,20 @@ export default [
                 file: packageJson.main,
                 format: 'cjs',
                 name: '@cd/shared-ui',
+                sourcemap: true,
             },
             {
                 file: packageJson.module,
                 format: 'es',
+                sourcemap: true,
             },
-            { file: 'dist/style.css' },
         ],
-        plugins: [resolve(), commonjs(), postcss(), css(), typescript({ tsconfig: './tsconfig.json' })],
+        plugins: [
+            resolve(),
+            commonjs(),
+            postcss(),
+            css({ output: 'style.css' }),
+            typescript({ tsconfig: './tsconfig.json' }),
+        ],
     },
 ];
