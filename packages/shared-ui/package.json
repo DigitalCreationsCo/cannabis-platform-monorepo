@@ -27,8 +27,6 @@
     "json": "11.0.0",
     "postcss": "8.4.19",
     "prettier": "2.8.0",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
     "rollup": "3.12.0",
     "rollup-plugin-css-only": "4.3.0",
     "rollup-plugin-dts": "5.1.1",
@@ -51,6 +49,10 @@
   "main": "dist/shared-ui.cjs.js",
   "module": "dist/shared-ui.es.js",
   "name": "@cd/shared-ui",
+  "peerDependencies": {
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
   "private": true,
   "scripts": {
     "build": "concurrently \"yarn build:ts\"",
