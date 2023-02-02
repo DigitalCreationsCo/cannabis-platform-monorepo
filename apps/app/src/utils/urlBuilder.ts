@@ -17,6 +17,8 @@ const urlBuilder = {
         products: () => urlBuilder.main.baseUrl + '/shop/products',
         productUpdate: (id: any) => urlBuilder.main.baseUrl + `/organization/product/${id}/update`,
 
+        organizationById: (id: any) => urlBuilder.main.baseUrl + `/organization/${id}`,
+
         categoryList: (id: any) => urlBuilder.main.baseUrl + `/organization/${id}/categories`,
     },
 };

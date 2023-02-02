@@ -1,5 +1,4 @@
 import { Order, Organization, ProductWithDetails, User } from '@cd/data-access';
-import prisma from '@cd/data-access/src/db/prisma';
 import { Card, Grid, Icons, OrderRow, Page } from '@cd/shared-ui';
 import { PageHeader, ProductRow, ProtectedComponent } from 'components';
 import Head from 'next/head';
@@ -118,7 +117,7 @@ export async function getServerSideProps({ req, res }) {
     const user = getUserInfo({ req });
     const { organizationId } = user;
 
-    const organization = (await prisma.organization.findUnique({ where: { id: organizationId } })) || {};
+    const organization = await (await fetch(urlBuilder.next + `/api/organization/${organizationId}`)).json();
     const products = await (await fetch(urlBuilder.next + '/api/products')).json();
     const orders = await (await fetch(urlBuilder.next + '/api/orders/')).json();
     return {
