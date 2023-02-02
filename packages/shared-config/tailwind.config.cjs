@@ -1,6 +1,7 @@
 const colors = require('tailwindcss/colors');
 
 module.exports = {
+    purge: ['src/**/*.tsx'],
     content: ['src/**/*.{js,ts,jsx,tsx}', 'pages/**/*.{js,ts,jsx,tsx}'],
     plugins: [require('daisyui')],
     theme: {

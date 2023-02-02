@@ -1,6 +1,6 @@
 import '@cd/shared-config/index.css';
 import { Center, LoadingDots, Page } from '@cd/shared-ui';
-// import '@cd/shared-ui/dist/style.css';
+import '@cd/shared-ui/dist/style.css';
 import { Layout, SessionControl } from 'components';
 import { NextPage } from 'next';
 import { AppProps } from 'next/app';

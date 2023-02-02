@@ -1,7 +1,7 @@
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
-import css from 'rollup-plugin-css-only';
+import path from 'path';
 import postcss from 'rollup-plugin-postcss';
 import packageJson from './package.json' assert { type: 'json' };
 
@@ -21,8 +21,6 @@ export default {
         },
     ],
     plugins: [
-        resolve(),
-        commonjs(),
         postcss({
             config: {
                 path: './postcss.config.cjs',
@@ -32,8 +30,11 @@ export default {
             inject: {
                 insertAt: 'top',
             },
+            extract: path.resolve('dist/style.css'),
         }),
-        css({ output: 'style.css' }),
+        resolve(),
+        commonjs(),
+
         typescript({ tsconfig: './tsconfig.json' }),
     ],
     external: ['react', 'react-dom'],
