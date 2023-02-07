@@ -8,6 +8,7 @@ type HeaderProps = {
 function Header({ SearchComponent, drawerComponentId, children }: HeaderProps) {
     const headerContainerStyle = [
         'flex flex-row grow',
+        'lg:ml-[188px]',
         'py-6 sm:px-5 lg:px-16 xl:pl-0 xl:pr-16',
         'lg:justify-end lg:right-0',
     ];

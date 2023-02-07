@@ -1,5 +1,5 @@
 import '@cd/shared-config/index.css';
-import { ErrorMessage, Page } from '@cd/shared-ui';
+import { Center, LoadingDots, Page } from '@cd/shared-ui';
 import '@cd/shared-ui/dist/style.css';
 import { Layout, SessionControl } from 'components';
 import { NextPage } from 'next';
@@ -54,7 +54,7 @@ export default function App({ Component, pageProps }: CustomAppProps): JSX.Eleme
     return (
         <SuperTokensWrapper>
             <SessionControl>
-                {/* {appReady === 'loading' ? (
+                {appReady === 'loading' ? (
                     <Page>
                         <Center>
                             <LoadingDots />
@@ -68,8 +68,8 @@ export default function App({ Component, pageProps }: CustomAppProps): JSX.Eleme
                             <Center>Services are not available now. Please try later.</Center>
                         </Page>
                     )
-                )} */}
-                {getLayout(
+                )}
+                {/* {getLayout(
                     <Page>
                         <ErrorMessage
                             code={500}
@@ -78,7 +78,7 @@ export default function App({ Component, pageProps }: CustomAppProps): JSX.Eleme
                                 (500 - Internal Server Error)`}
                         />
                     </Page>
-                )}
+                )} */}
                 <Toaster position="top-right" />
             </SessionControl>
         </SuperTokensWrapper>

@@ -2,7 +2,7 @@ import { Button, FlexBox, Footer, H2, Header, Paragraph } from '@cd/shared-ui';
 import { SideNavContainer } from 'components';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { ChangeEventHandler, PropsWithChildren, ReactEventHandler, useEffect } from 'react';
+import { ChangeEventHandler, PropsWithChildren, ReactEventHandler, useEffect } from 'react';
 import SuperTokens from 'supertokens-auth-react';
 import SessionReact, { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import { twMerge } from 'tailwind-merge';
@@ -23,15 +23,15 @@ export default function Layout({ onSearchChange, placeholder, children }: Layout
             {session.doesSessionExist ? (
                 <div className={main}>
                     <TopBar doesSessionExist={session.doesSessionExist} />
+                    <Header
+                        SearchComponent={<SearchBar placeholder={placeholder} onChange={onSearchChange} />}
+                        drawerComponentId={'dashboard-links-drawer'}
+                    ></Header>
                     <SideNavContainer
                         SideNavComponent={AdminDashboardNavigation}
                         fixedComponentId={'dashboard-links-container'}
                         drawerComponentId={'dashboard-links-drawer'}
                     >
-                        <Header
-                            SearchComponent={<SearchBar placeholder={placeholder} onChange={onSearchChange} />}
-                            drawerComponentId={'dashboard-links-drawer'}
-                        ></Header>
                         {children}
                     </SideNavContainer>
                 </div>
