@@ -24,5 +24,6 @@ var prisma_1 = require("./db/prisma");
 Object.defineProperty(exports, "default", { enumerable: true, get: function () { return __importDefault(prisma_1).default; } });
 __exportStar(require("./models"), exports);
 __exportStar(require("./order"), exports);
+__exportStar(require("./organization"), exports);
 __exportStar(require("./product"), exports);
 __exportStar(require("./user"), exports);

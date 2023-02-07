@@ -49,10 +49,18 @@ docker configuration nextjs app, resolving image issues, and prisma client gener
 switched shared-ui to rollup to resolve docker build issue, and improve ci experience
 2-2-22
 - shared-ui build with rollup, output css files
-- error context component for handling down server, browser offline, and response errors
+
+- error context component for handling down server, browser offline, and response errors,
+    make use of React Error Boundary, as well as useQuery hook for components that fetch data
+    for middleware, do some research, or refactor the healthcheck middleware into a built in axios function. :)
+    Dont be afraid to create something messy. Clean it up later.
 
 To do: 
+Nextjs error handling in place:
+
+
 create useQuery hook for api calls,
+current problem: 
 useQuery hook can set ErrorHandlerCode using context value,
 replace all axios and fetch calls with usequery hook
 

@@ -24,9 +24,9 @@ app.use(middleware());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use('/api/v1/healthcheck', (req, res) => {
-    return res.status(200).json('OK');
-});
+// app.use('/api/v1/healthcheck', (req, res) => {
+//     return res.status(200).json('OK');
+// });
 app.use('/api/v1/auth', user);
 app.use('/api/v1/driver', driver);
 app.use('/api/v1/shop', shop);

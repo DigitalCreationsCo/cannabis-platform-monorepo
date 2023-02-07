@@ -4,6 +4,7 @@ export { default as Button } from './Button';
 export { default as Card } from './Card';
 export { default as Center } from './Center';
 export { default as DeleteButton } from './DeleteButton';
+export { default as ErrorMessage } from './ErrorMessage';
 export { default as FlexBox } from './FlexBox';
 export { default as Footer } from './Footer';
 export { default as Grid } from './Grid';

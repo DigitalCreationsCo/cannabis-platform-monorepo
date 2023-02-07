@@ -1,12 +1,12 @@
-import { Order, Organization, ProductWithDetails, User } from '@cd/data-access';
+import { Order, Organization, ProductWithDetails, UserWithDetails } from '@cd/data-access';
 import { Card, Grid, Icons, OrderRow, Page } from '@cd/shared-ui';
+import axios from 'axios';
 import { PageHeader, ProductRow, ProtectedComponent } from 'components';
-import Head from 'next/head';
 import { useMemo } from 'react';
 import { urlBuilder } from '../src/utils';
 
 interface DashboardProps {
-    user: User;
+    user: UserWithDetails;
     organization: Organization;
     products: ProductWithDetails[];
     orders: Order[];
@@ -36,13 +36,8 @@ export default function Dashboard({ user, organization, products, orders }: Dash
     return (
         <ProtectedComponent>
             <Page>
-                <Head>
-                    <title>Gras Cannabis</title>
-                    <meta name="vendor experience application" content="Property of Gras Cannabis Co." />
-                    <link rel="icon" href="/favicon.ico" />
-                </Head>
                 <PageHeader
-                    title={`${organization.name} Dashboard`}
+                    title={`${organization?.name} Dashboard`}
                     subTitle={`Welcome, ${user.firstName}`}
                     Icon={Icons.ShoppingBagOutlined}
                 />
@@ -110,23 +105,23 @@ const getUserInfo = ({ req }) => {
         user: { username: 'kbarnes', firstName: 'Katie', lastName: 'Barnes', memberships: [{ organizationId: '2' }] },
     };
     const { user } = session;
-    return user;
+    return {
+        session,
+        user,
+    };
 };
 
 export async function getServerSideProps({ req, res }) {
     res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
-    const user = getUserInfo({ req });
+    const { user } = getUserInfo({ req });
     const { organizationId } = user.memberships[0];
+    const organization = await (await axios(urlBuilder.next + `/api/organization/${organizationId}`)).data;
+    const products = await (await axios(urlBuilder.next + '/api/products')).data;
+    const orders = await (await axios(urlBuilder.next + '/api/orders/')).data;
 
-    const organization = await (await fetch(urlBuilder.next + `/api/organization/${organizationId}`)).json();
-    const products = await (await fetch(urlBuilder.next + '/api/products')).json();
-    const orders = await (await fetch(urlBuilder.next + '/api/orders/')).json();
+    if (!user || !organization || !products || !orders) return { notFound: true };
+
     return {
-        props: {
-            user,
-            organization,
-            products,
-            orders,
-        },
+        props: { user, organization, products, orders },
     };
 }

@@ -1,22 +1,31 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useErrorStatus } from '../context/ErrorHandler';
+// import { useErrorStatus } from '../context/ErrorHandler';
 
 export default function useQuery({ url }) {
-    const { setErrorStatusCode } = useErrorStatus();
-    const [apiData, setApiData] = useState();
+    // const { setErrorStatusCode } = useErrorStatus();
+    const [responseData, setResponseData] = useState();
 
+    console.log('use query');
     useEffect(() => {
-        axios(url)
-            .then((response) => response.data)
-            .then(({ code, status, ...apiData }) => {
-                if (code > 400) {
-                    setErrorStatusCode(400);
-                } else {
-                    setApiData(apiData);
-                }
-            });
+        try {
+            axios(url)
+                .then((response) => response.data)
+                .then(({ code, status, ...data }) => {
+                    console.log('useQuery response code: ', code);
+                    console.log('useQuery response status: ', status);
+                    console.log('useQuery message: ', data);
+                    if (code > 399) {
+                        // setErrorStatusCode(code);
+                    } else {
+                        setResponseData(data);
+                    }
+                });
+        } catch (error) {
+            // setErrorStatusCode(500);
+            console.log(' useQuery error: ', error.message);
+        }
     }, [url]);
 
-    return { data: apiData };
+    return { data: responseData };
 }

@@ -9,7 +9,6 @@ import { Toaster } from 'react-hot-toast';
 import SuperTokens, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session from 'supertokens-auth-react/recipe/session';
 import * as SuperTokensConfig from '../config/frontendConfig';
-import ErrorHandler from '../src/context/ErrorHandler';
 
 if (typeof window !== 'undefined') {
     SuperTokens.init(SuperTokensConfig.frontendConfig());
@@ -54,26 +53,24 @@ export default function App({ Component, pageProps }: CustomAppProps): JSX.Eleme
     const getLayout = Component.getLayout || ((page) => <Layout>{page}</Layout>);
     return (
         <SuperTokensWrapper>
-            <ErrorHandler>
-                <SessionControl>
-                    {appReady === 'loading' ? (
+            <SessionControl>
+                {appReady === 'loading' ? (
+                    <Page>
+                        <Center>
+                            <LoadingDots />
+                        </Center>
+                    </Page>
+                ) : appReady === true ? (
+                    getLayout(<Component {...pageProps} />)
+                ) : (
+                    getLayout(
                         <Page>
-                            <Center>
-                                <LoadingDots />
-                            </Center>
+                            <Center>Services are not available now. Please try later.</Center>
                         </Page>
-                    ) : appReady === true ? (
-                        getLayout(<Component {...pageProps} />)
-                    ) : (
-                        getLayout(
-                            <Page>
-                                <Center>Services are not available now. Please try later.</Center>
-                            </Page>
-                        )
-                    )}
-                    <Toaster position="top-right" />
-                </SessionControl>
-            </ErrorHandler>
+                    )
+                )}
+                <Toaster position="top-right" />
+            </SessionControl>
         </SuperTokensWrapper>
     );
 }
