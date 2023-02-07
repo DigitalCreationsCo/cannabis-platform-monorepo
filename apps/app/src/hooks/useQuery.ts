@@ -2,6 +2,9 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 // import { useErrorStatus } from '../context/ErrorHandler';
 
+// adapt to work client side and ssr, throw errors for failed requests,
+// test all cases for api calls
+
 export default function useQuery({ url }) {
     // const { setErrorStatusCode } = useErrorStatus();
     const [responseData, setResponseData] = useState();

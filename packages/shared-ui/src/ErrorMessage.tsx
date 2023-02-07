@@ -5,7 +5,7 @@ function ErrorMessage({ code, message }: { code: number; message: string }) {
     return (
         <Center>
             <H1>{code}</H1>
-            <H4>{message}</H4>
+            <H4 className="whitespace-normal">{message}</H4>
         </Center>
     );
 }

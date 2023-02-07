@@ -112,16 +112,21 @@ const getUserInfo = ({ req }) => {
 };
 
 export async function getServerSideProps({ req, res }) {
-    res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
-    const { user } = getUserInfo({ req });
-    const { organizationId } = user.memberships[0];
-    const organization = await (await axios(urlBuilder.next + `/api/organization/${organizationId}`)).data;
-    const products = await (await axios(urlBuilder.next + '/api/products')).data;
-    const orders = await (await axios(urlBuilder.next + '/api/orders/')).data;
+    try {
+        res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
+        const { user } = getUserInfo({ req });
+        const { organizationId } = user.memberships[0];
+        const organization = await (await axios(urlBuilder.next + `/api/organization/${organizationId}`)).data;
+        const products = await (await axios(urlBuilder.next + '/api/products')).data;
+        const orders = await (await axios(urlBuilder.next + '/api/orders/')).data;
 
-    if (!user || !organization || !products || !orders) return { notFound: true };
+        if (!user || !organization || !products || !orders) return { notFound: true };
 
-    return {
-        props: { user, organization, products, orders },
-    };
+        return {
+            props: { user, organization, products, orders },
+        };
+    } catch (error) {
+        console.log('SSR error: ', error.message);
+        throw new Error(error);
+    }
 }

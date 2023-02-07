@@ -57,7 +57,7 @@ switched shared-ui to rollup to resolve docker build issue, and improve ci exper
 
 To do: 
 Nextjs error handling in place:
-
+need a comprehensive solution for ssr, and for client side ui handling of errors
 
 create useQuery hook for api calls,
 current problem: 
@@ -121,3 +121,6 @@ tie up loose ends in the dashboard - dead code, unfinished components
 cycle reusable comps to shared-ui for using consumer app :)
 
 * organization and product lookup needs to check the users membership org on the backend, for security ocnfirmation
+
+Production fine details:
+add static landing page that shows isolated from server activity, make it always available

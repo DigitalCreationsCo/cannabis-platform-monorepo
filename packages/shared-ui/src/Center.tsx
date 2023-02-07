@@ -1,9 +1,9 @@
-import React, { PropsWithChildren } from 'react';
-import FlexBox from './FlexBox';
+import { PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
+import FlexBox from './FlexBox';
 
 function Center({ className, children }: { className?: string } & PropsWithChildren) {
-    return <FlexBox className={twMerge('grow flex-col justify-center', className)}>{children}</FlexBox>;
+    return <FlexBox className={twMerge('grow flex-col md:justify-center', className)}>{children}</FlexBox>;
 }
 
 export default Center;
