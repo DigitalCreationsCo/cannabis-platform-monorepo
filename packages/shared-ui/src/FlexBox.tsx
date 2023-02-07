@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 const FlexBox = ({ children, className, wrap }: { className?: string; wrap?: boolean } & PropsWithChildren) => (

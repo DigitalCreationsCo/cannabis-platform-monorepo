@@ -74,8 +74,8 @@ export default function App({ Component, pageProps }: CustomAppProps): JSX.Eleme
                         <ErrorMessage
                             code={500}
                             message={`Thank you for using our service. Our servers are not available currently. 
-                    Please dial the support phone number or try again later. 
-                    500 - Internal Server Error`}
+                                Please dial the support phone number or try again later. 
+                                (500 - Internal Server Error)`}
                         />
                     </Page>
                 )}

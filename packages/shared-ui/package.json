@@ -59,7 +59,7 @@
     "build:ts": "rollup -c",
     "prepack": "json -f package.json -I -e \"delete this.devDependencies; delete this.dependencies\"",
     "watch": "concurrently \"yarn watch:ts\"",
-    "watch:ts": "echo \"watch script\""
+    "watch:ts": "rollup -c --watch"
   },
   "type": "module",
   "types": "./dist/index.d.ts",

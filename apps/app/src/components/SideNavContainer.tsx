@@ -26,7 +26,7 @@ function SideNavContainer({ SideNavComponent, fixedComponentId, drawerComponentI
         container: ['drawer drawer-mobile', 'h-fit'],
         sideNavDrawer: ['drawer-side', isFixed && 'fixed'],
         sideNavComponentContainer: ['bg-light h-fit shadow drop-shadow', 'lg:w-[188px] lg:mt-4'],
-        pageContentShifted: ['border', 'drawer-content', isFixed && 'pl-[188px]', 'w-full'],
+        pageContentShifted: ['drawer-content', isFixed && 'pl-[188px]', 'w-full'],
     };
     return (
         <div id={fixedComponentId} className={twMerge(classes.container)}>

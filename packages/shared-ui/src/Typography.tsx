@@ -17,11 +17,7 @@ export const H3 = ({ className, children }: Props) => {
 };
 
 export const H4 = ({ className, children }: Props) => {
-    return (
-        <h4 style={{ whiteSpace: 'pre' }} className={twMerge('font-semibold text-xl whitespace-nowrap', className)}>
-            {children}
-        </h4>
-    );
+    return <h4 className={twMerge('font-semibold text-xl whitespace-nowrap', className)}>{children}</h4>;
 };
 
 export const H5 = ({ className, children }: Props) => {
@@ -33,11 +29,7 @@ export const H6 = ({ className, children }: Props) => {
 };
 
 export const Paragraph = ({ className, children }: Props) => {
-    return (
-        <p style={{ whiteSpace: 'pre' }} className={className}>
-            {children}
-        </p>
-    );
+    return <p className={twMerge('whitespace-normal', className)}>{children}</p>;
 };
 
 export const Small = ({ className, children }: Props) => {
