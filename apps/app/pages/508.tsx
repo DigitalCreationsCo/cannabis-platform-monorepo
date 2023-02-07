@@ -5,7 +5,8 @@ function _500() {
         <Page>
             <ErrorMessage
                 code={500}
-                message={`We're sorry! An error happened. Please try again. This is the custom 500 page.`}
+                message={`Thank you for using our service. Our servers are not available currently. 
+                    Please dial the support phone number or try again later.`}
             />
         </Page>
     );
