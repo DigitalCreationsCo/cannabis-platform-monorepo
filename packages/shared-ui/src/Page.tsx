@@ -6,11 +6,7 @@ type PageProps = {
 
 function Page({ className, children }: PageProps & PropsWithChildren) {
     return (
-        <div
-            className={twMerge('min-h-[440px] h-fit flex flex-col grow', 'w-full', 'pb-24 sm:px-5 lg:px-16', className)}
-        >
-            {children}
-        </div>
+        <div className={twMerge('flex flex-col grow', 'w-full', 'pb-24 sm:px-5 lg:px-16', className)}>{children}</div>
     );
 }
 

@@ -16,7 +16,7 @@ interface LayoutProps extends PropsWithChildren {
 
 export default function Layout({ onSearchChange, placeholder, children }: LayoutProps) {
     const session = useSessionContext();
-    const main = 'bg-inverse-soft';
+    const main = 'bg-inverse-soft min-h-[800px]';
     if (session.loading === true) return <></>;
     return (
         <>
