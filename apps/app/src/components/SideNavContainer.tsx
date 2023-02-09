@@ -22,15 +22,17 @@ function SideNavContainer({ SideNavComponent, fixedComponentId, drawerComponentI
     //     return () => window.removeEventListener('scroll', scrollListener);
     // }, []);
 
+    // dont mess with these styles unless youre prepared for pain
     const classes = {
-        container: ['drawer drawer-mobile', 'h-fit'],
-        sideNavDrawer: ['drawer-side', isFixed && 'fixed'],
-        sideNavComponentContainer: ['bg-light h-fit shadow drop-shadow', 'lg:w-[188px] lg:mt-4'],
+        container: ['drawer drawer-mobile', 'h-full'],
         pageContentShifted: [
             'drawer-content',
             // isFixed && 'pl-[188px]',
             'w-full',
         ],
+        sideNavDrawer: ['drawer-side', isFixed && 'fixed', 'min-h-full'],
+        drawerOverlay: ['drawer-overlay h-full lg:hidden'],
+        sideNavComponentContainer: ['bg-light h-fit shadow drop-shadow', 'lg:w-[188px] lg:mt-4'],
     };
     return (
         <div id={fixedComponentId} className={twMerge(classes.container)}>
@@ -38,7 +40,7 @@ function SideNavContainer({ SideNavComponent, fixedComponentId, drawerComponentI
             <div className={twMerge(classes.pageContentShifted)}>{children}</div>
 
             <div className={twMerge(classes.sideNavDrawer)}>
-                <label htmlFor={drawerComponentId} className="drawer-overlay lg:hidden"></label>
+                <label htmlFor={drawerComponentId} className={twMerge(classes.drawerOverlay)}></label>
                 <div className={twMerge(classes.sideNavComponentContainer)}>
                     <SideNavComponent />
                 </div>
