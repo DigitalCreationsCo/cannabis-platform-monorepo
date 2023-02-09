@@ -4,7 +4,6 @@ import '@cd/shared-ui/dist/style.css';
 import { Layout, SessionControl } from 'components';
 import { NextPage } from 'next';
 import { AppProps } from 'next/app';
-import Router from 'next/router';
 import { Dispatch, SetStateAction, useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
 import SuperTokens, { SuperTokensWrapper } from 'supertokens-auth-react';
@@ -56,7 +55,7 @@ export default function App({ Component, pageProps }: CustomAppProps): JSX.Eleme
                 <Toaster position="top-right" />
                 <AppStateProvider>
                     {({ isLoading, setIsLoading }) => {
-                        Router.events.on('routeChangeStart', () => setIsLoading(true));
+                        // Router.events.on('routeChangeStart', () => setIsLoading(true));
                         // Router.events.on('routeChangeComplete', () => setIsLoading(false));
                         // Router.events.on('routeChangeError', () => setIsLoading(false));
 
