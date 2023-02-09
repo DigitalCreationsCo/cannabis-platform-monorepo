@@ -1,9 +1,10 @@
 import '@cd/shared-config/index.css';
-import { Center, LoadingDots, Page } from '@cd/shared-ui';
+import { Center, LoadingDots } from '@cd/shared-ui';
 import '@cd/shared-ui/dist/style.css';
 import { Layout, SessionControl } from 'components';
 import { NextPage } from 'next';
 import { AppProps } from 'next/app';
+import Router from 'next/router';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Toaster } from 'react-hot-toast';
 import SuperTokens, { SuperTokensWrapper } from 'supertokens-auth-react';
@@ -20,8 +21,8 @@ if (typeof window !== 'undefined') {
 
 export type ExtendedPageComponent<P = Record<string, unknown>, IP = P> = NextPage<P, IP> & {
     getLayout?: (page: JSX.Element) => JSX.Element;
-    appReady: string | boolean;
-    setAppReady: Dispatch<SetStateAction<string | boolean>>;
+    isLoading: boolean;
+    setIsLoading: Dispatch<SetStateAction<string | boolean>>;
 };
 
 type CustomAppProps = AppProps & {
@@ -29,6 +30,7 @@ type CustomAppProps = AppProps & {
 };
 
 export default function App({ Component, pageProps }: CustomAppProps): JSX.Element {
+    console.log('app root');
     useEffect(() => {
         async function doRefresh() {
             if (pageProps.fromSupertokens === 'needs-refresh') {
@@ -43,43 +45,29 @@ export default function App({ Component, pageProps }: CustomAppProps): JSX.Eleme
         doRefresh();
     }, [pageProps.fromSupertokens]);
 
-    const [appReady, setAppReady] = useState<string | boolean>(true);
-    pageProps.appReady = appReady;
-    pageProps.setAppReady = setAppReady;
-
+    const [isLoading, setIsLoading] = useState<string | boolean>(false);
+    pageProps.isLoading = isLoading;
+    pageProps.setIsLoading = setIsLoading;
     if (pageProps.fromSupertokens === 'needs-refresh') {
         return <></>;
     }
+
+    Router.events.on('routeChangeStart', () => setIsLoading(true));
+    Router.events.on('routeChangeComplete', () => setIsLoading(false));
+    Router.events.on('routeChangeError', () => setIsLoading(false));
+
     const getLayout = Component.getLayout || ((page) => <Layout>{page}</Layout>);
     return (
         <SuperTokensWrapper>
             <SessionControl>
-                {appReady === 'loading' ? (
-                    <Page>
-                        <Center>
-                            <LoadingDots />
-                        </Center>
-                    </Page>
-                ) : appReady === true ? (
-                    getLayout(<Component {...pageProps} />)
-                ) : (
-                    getLayout(
-                        <Page>
-                            <Center>Services are not available now. Please try later.</Center>
-                        </Page>
-                    )
-                )}
-                {/* {getLayout(
-                    <Page>
-                        <ErrorMessage
-                            code={500}
-                            message={`Thank you for using our service. Our servers are not available currently. 
-                                Please dial the support phone number or try again later. 
-                                (500 - Internal Server Error)`}
-                        />
-                    </Page>
-                )} */}
                 <Toaster position="top-right" />
+                {isLoading
+                    ? getLayout(
+                          <Center className="p-12">
+                              <LoadingDots />
+                          </Center>
+                      )
+                    : getLayout(<Component {...pageProps} />)}
             </SessionControl>
         </SuperTokensWrapper>
     );

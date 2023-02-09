@@ -11,7 +11,7 @@ export interface PageHeaderProps {
 }
 export default function PageHeader({ title, subTitle, Button, Icon, iconColor = 'primary' }: PageHeaderProps) {
     return (
-        <FlexBox className="pb-6 lg:pt-6 xl:max-h-[111px] min-h-[54px] flex space-x-4">
+        <FlexBox className="pb-6 lg:pt-6 xl:min-h-[111px] xl:absolute z-10 top-[66px] min-h-[54px] flex space-x-4">
             <FlexBox className="flex-col">
                 <FlexBox className="flex-row">
                     <H3>{title}</H3>

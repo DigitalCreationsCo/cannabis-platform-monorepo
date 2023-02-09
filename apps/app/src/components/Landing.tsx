@@ -26,7 +26,7 @@ export default function LandingPage() {
                 }}
             ></div>
 
-            <Center className="z-10 space-y-1">
+            <Center className="z-10 space-y-2 justify-center">
                 <H1 className="text-inverse font-display">Welcome to Gras Cannabis</H1>
                 <Paragraph className="text-lg text-inverse">Sign in to use this app</Paragraph>
                 <Button
