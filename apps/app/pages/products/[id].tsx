@@ -5,7 +5,7 @@ import {
     ImageUser,
     ImageVendor,
     Product,
-    ProductWithDetails,
+    ProductWithDetails
 } from '@cd/data-access';
 import {
     Button,
@@ -18,7 +18,7 @@ import {
     Page,
     Paragraph,
     Row,
-    TextField,
+    TextField
 } from '@cd/shared-ui';
 import axios from 'axios';
 import { ClickableTags, DropZone, Modal, PageHeader, ProtectedComponent } from 'components';
@@ -26,12 +26,13 @@ import { Formik } from 'formik';
 import { useCategory, useOnClickOutside } from 'hooks';
 import Image from 'next/image';
 import Link from 'next/link';
-import Router, { useRouter } from 'next/router';
-import { PropsWithChildren, useEffect, useRef, useState } from 'react';
+import Router from 'next/router';
+import { PropsWithChildren, useRef, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { twMerge } from 'tailwind-merge';
 import { urlBuilder } from 'utils';
 import * as yup from 'yup';
+import { useAppState } from '../../src/context/AppProvider';
 
 const styleUploadWindow = ['h-[80px] w-[80px] border flex rounded-btn relative items-center justify-center bg-light'];
 const UploadImageBox = ({ onClick, onKeyUp, children }: { onClick: any; onKeyUp?: any } & PropsWithChildren) => (
@@ -64,15 +65,13 @@ export type ProductUpdatePayload = Product & {
     files?: ImageProduct[] | string;
 };
 
-export default function ProductDetails() {
-    const { query } = useRouter();
-    const [files, setFiles] = useState<unknown[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [product, setProduct] = useState<ProductWithDetails>();
+export default function ProductDetails({ product }: { product: ProductWithDetails }) {
+    const { isLoading, setIsLoading } = useAppState();
     const [productCategories, setProductCategories] = useState<Set<Category>>(new Set());
+    const [files, setFiles] = useState<unknown[]>([]);
     const [loadingButton, setLoadingButton] = useState(false);
+    const [existingImage, setExistingImage] = useState<ImageAny[]>(product?.variants[0]?.images || []);
     const [deletedImage, setDeletedImage] = useState<ImageAny[]>([]);
-    const [existingImage, setExistingImage] = useState<ImageAny[]>([]);
     const [searchCategoryTerms, setSearchCategoryTerms] = useState('');
     const { categorySearchResult, doSearchCategories } = useCategory();
 
@@ -87,28 +86,6 @@ export default function ProductDetails() {
     useOnClickOutside(dropDownRef, () => {
         setOpenDropDown(false);
     });
-
-    const fetchProductDetails = async () => {
-        try {
-            const { data } = await axios(urlBuilder.next + `/api/products/${query.id}`);
-            setExistingImage(data.variants[0].images);
-            setProduct(data);
-            setProductCategories(new Set([...data.categories]));
-            setLoading(false);
-        } catch (error) {
-            setLoadingButton(false);
-            setLoading(false);
-            console.error(error);
-            toast.error(error.response?.statusText || error.message);
-        }
-    };
-
-    useEffect(() => {
-        if (query?.id && !product) {
-            console.log('fetch product');
-            fetchProductDetails();
-        }
-    }, [query]);
 
     const initialValues = {
         id: product?.id || '',
@@ -162,7 +139,6 @@ export default function ProductDetails() {
             }
         } catch (error) {
             setLoadingButton(false);
-            setLoading(false);
             console.error(error);
             toast.error(error.response.statusText);
         }
@@ -191,7 +167,7 @@ export default function ProductDetails() {
                             <Link href="/products">
                                 <Button>Back to Products</Button>
                             </Link>
-                            <Button
+                            { product && <Button
                                 // type="button"
                                 onClick={(e) => {
                                     console.log('click');
@@ -201,17 +177,16 @@ export default function ProductDetails() {
                                 }}
                             >
                                 Edit Variants
-                            </Button>
+                            </Button>}
                         </>
                     }
                 />
 
-                {(loading && (
+                {isLoading ? (
                     <Padding>
                         <LoadingDots />
                     </Padding>
-                )) ||
-                    (product && (
+                ) : product ? (
                         <Grid className="md:w-2/3 px-3">
                             <Formik
                                 initialValues={initialValues}
@@ -498,8 +473,36 @@ export default function ProductDetails() {
                                 )}
                             </Formik>
                         </Grid>
-                    )) || <Paragraph>The product is not found</Paragraph>}
+                    ) : <Paragraph>The product is not found</Paragraph>}
             </Page>
         </ProtectedComponent>
     );
+}
+
+const getUserInfo = ({ req }) => {
+    // let user = req.session?.user
+    const session = {
+        user: { username: 'kbarnes', firstName: 'Katie', lastName: 'Barnes', memberships: [{ organizationId: '2' }] },
+    };
+    const { user } = session;
+    return {
+        session,
+        user,
+    };
+};
+
+export async function getServerSideProps({ req, res, params }) {
+    try {
+        // res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
+        const { user } = getUserInfo({ req });
+        const product = await (await axios(urlBuilder.next + `/api/products/${params.id}`)).data;
+        if (!product) return { notFound: true };
+
+        return {
+            props: { product },
+        };
+    } catch (error) {
+        console.log('SSR error: ', error.message);
+        throw new Error(error);
+    }
 }
