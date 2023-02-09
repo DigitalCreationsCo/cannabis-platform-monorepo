@@ -14,12 +14,9 @@ export default function useQuery({ url }) {
             .then((data) => {
                 // console.log('useQuery response code: ', code);
                 // console.log('useQuery response status: ', status);
-                console.log('useQuery message: ', data);
-                // if (code > 399) {
-                //     // setErrorStatusCode(code);
-                // } else {
-                //     setResponseData(data);
-                // }
+                console.log('useQuery data: ', data);
+                // if (code > 399) setErrorStatusCode(code);
+                setResponseData(data);
             })
             .catch((error) => {
                 console.log(' useQuery error: ', error.message);
