@@ -53,8 +53,9 @@ export default function App({ Component, pageProps }: CustomAppProps): JSX.Eleme
     }
 
     Router.events.on('routeChangeStart', () => setIsLoading(true));
-    Router.events.on('routeChangeComplete', () => setIsLoading(false));
-    Router.events.on('routeChangeError', () => setIsLoading(false));
+    // Router.events.on('routeChangeComplete', () => setIsLoading(false));
+    // Leave the page to handle the loading state
+    // Router.events.on('routeChangeError', () => setIsLoading(false));
 
     const getLayout = Component.getLayout || ((page) => <Layout>{page}</Layout>);
     return (
