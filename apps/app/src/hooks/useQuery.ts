@@ -1,26 +1,24 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { useEffect, useState } from 'react';
 
 // adapt to work client side and ssr, throw errors for failed requests,
 // test all cases for api calls
-
+// not working correctly, prefer to use ssr for query calls
 export default function useQuery({ url }) {
     const [responseData, setResponseData] = useState();
     const [statusCode, setStatusCode] = useState();
-    console.log('use query');
+    const [statusText, setStatusText] = useState();
     useEffect(() => {
         axios(url)
             .then((response) => response.data)
-            .then((data) => {
-                // console.log('useQuery response code: ', code);
-                // console.log('useQuery response status: ', status);
-                console.log('useQuery data: ', data);
-                // if (code > 399) setErrorStatusCode(code);
+            .then(({ status, statusText, ...data }): AxiosResponse => {
+                if (status > 399) throw new Error(data);
                 setResponseData(data);
             })
             .catch((error) => {
-                console.log(' useQuery error: ', error.message);
-                throw new Error(error.message);
+                console.log(' useQuery error: ', error);
+                setStatusText(data);
+                setStatusCode();
             });
     }, [url]);
 

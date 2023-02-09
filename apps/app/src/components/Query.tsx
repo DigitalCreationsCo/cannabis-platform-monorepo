@@ -1,3 +1,4 @@
+import { AxiosResponse } from 'axios';
 import { useQuery } from 'hooks';
 import Page404 from '../../pages/404';
 
@@ -6,13 +7,10 @@ export default function Query({
     children,
 }: {
     url: string;
-    children: ({ data }: { data: unknown }) => JSX.Element;
+    children: ({ data }: { data: AxiosResponse['data'] }) => JSX.Element;
 }) {
     const { data, statusCode } = useQuery({ url });
-
-    if (statusCode === 404) {
-        return <Page404 code={statusCode} />;
-    }
+    if (statusCode) return <Page404 code={statusCode} />;
 
     return children({ data });
 }
