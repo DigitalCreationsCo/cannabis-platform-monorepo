@@ -1,7 +1,13 @@
 import { useQuery } from 'hooks';
 import Page404 from '../../pages/404';
 
-export default function Query({ url, children }: { url: string; children: Function }) {
+export default function Query({
+    url,
+    children,
+}: {
+    url: string;
+    children: ({ data }: { data: unknown }) => JSX.Element;
+}) {
     const { data, statusCode } = useQuery({ url });
 
     if (statusCode === 404) {
