@@ -1,4 +1,4 @@
-import { findCategoryListByOrg, findOrganizationById } from '@cd/data-access';
+import { findCategoryListByOrg, findOrganizationById, findUsersByOrganization } from '@cd/data-access';
 
 /* =================================
 Organization Data Access - data class for organization table
@@ -6,6 +6,7 @@ Organization Data Access - data class for organization table
 members:
 getOrganizationById
 getCategoryList
+getUsersByOrganization
 updateProduct
 
 ================================= */
@@ -26,6 +27,16 @@ export default class OrganizationDA {
     static async getCategoryList(organizationId = '1') {
         try {
             const data = await findCategoryListByOrg(organizationId);
+            return data;
+        } catch (error) {
+            console.error(error.message);
+            throw new Error(error.message);
+        }
+    }
+
+    static async getUsersByOrganization(organizationId) {
+        try {
+            const data = await findUsersByOrganization(organizationId);
             return data;
         } catch (error) {
             console.error(error.message);

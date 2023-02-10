@@ -1,27 +1,22 @@
-import prisma from "@cd/data-access"
-
-let collections = {
-  users: 'user'
-}
-
-let users
+import { findUserWithDetails } from '@cd/data-access';
 
 /* =================================
-User Data Access - data class for user table
+User Data Access - data class for User table
 
-members: 
+members:
+getUserById
 
 ================================= */
 
 export default class UserDA {
-  // static async injectDB(conn) {
-  //   try {
-  //     if ( users ) {
-  //       return;
-  //     }
-  //     users = await conn[collections.users]
-  //   } catch (error) {
-  //     console.error(`Unable to establish database handles in DriverDA: ${error}`);
-  //   }
-  // }
+    // find user by id
+    static async getUserById(id) {
+        try {
+            const data = await findUserWithDetails(id);
+            return data;
+        } catch (error) {
+            console.error(error.message);
+            throw new Error(error.message);
+        }
+    }
 }

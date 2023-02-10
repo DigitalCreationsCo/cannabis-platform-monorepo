@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { usePagination } from '../../src/hooks';
-import prisma, { Order } from '@cd/data-access';
+import { Order } from '@cd/data-access';
 import { Card, Grid, H6, Icons, OrderRow, Page, Row } from '@cd/shared-ui';
 import { PageHeader, ProtectedComponent } from 'components';
+import { useState } from 'react';
+import { usePagination } from '../../src/hooks';
+import { urlBuilder } from '../../src/utils';
 
 interface OrdersDashboardProps {
     orders: Order[];
@@ -56,9 +57,7 @@ const getUserInfo = ({ req }) => {
 export async function getServerSideProps({ req, res }) {
     const user = getUserInfo({ req });
     const { organizationId } = user;
-
-    const orders = (await prisma.order.findMany({ where: { organizationId }, orderBy: [{ id: 'desc' }] })) || [];
-
+    const orders: Order[] = await (await fetch(urlBuilder.next + '/api/orders')).json();
     return {
         props: {
             orders,

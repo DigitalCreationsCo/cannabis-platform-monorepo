@@ -11,16 +11,20 @@ export async function createUser() {
 
 export async function findUserWithDetails(id: string) {
     try {
-        const user = await prisma.user.findUnique(
-            {
-                where: { id },
+        const user = (await prisma.user.findUnique({
+                where: {
+                    id
+                },
                 include: {
                     address: true,
+                    memberships: {
+                        orderBy: {
+                            role: 'asc',
+                        },
+                    },
                     imageUser: true,
-                    memberships: true,
-                }
-            }
-        )
+                },
+        })) || null
         return user
     } catch (error: any) {
         console.error(error)
@@ -28,13 +32,12 @@ export async function findUserWithDetails(id: string) {
     }
 }
 
-// export type UserWithDetails = Prisma.PromiseReturnType<typeof findUserWithDetails>
-
 export type UserWithDetails = User & {
     address: Address[];
     imageUser?: ImageUser[];
     memberships?: Membership[];
 }
+// export type UserWithDetails = Prisma.PromiseReturnType<typeof findUserWithDetails>
 
 // type UserWithDetails = (User & {
 //     address: Address[];
