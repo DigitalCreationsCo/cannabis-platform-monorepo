@@ -1,10 +1,11 @@
-import { Prisma } from '@prisma/client';
-import { signIn, signUp } from 'supertokens-node/recipe/emailpassword';
+import { signIn } from 'supertokens-node/recipe/emailpassword';
+import { UserDA } from '../data-access';
 /* =================================
 UserController - controller class for user actions
 
 members:
 login
+getUserById
 
 ================================= */
 
@@ -16,6 +17,18 @@ export default class UserController {
             console.log('password: ', password);
             const signInUser = await signIn(email, password);
             res.status(200).json(signInUser);
+        } catch (error) {
+            console.log('API error: ', error);
+            res.status(500).json({ error });
+        }
+    }
+
+    static async getUserById(req, res) {
+        try {
+            const userId = req.params.id || '';
+            const data = await UserDA.getUserById(userId);
+            if (!data) return res.status(404).json('User not found');
+            return res.status(200).json(data);
         } catch (error) {
             console.log('API error: ', error);
             res.status(500).json({ error });

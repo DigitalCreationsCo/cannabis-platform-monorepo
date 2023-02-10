@@ -181,22 +181,7 @@ export async function getServerSideProps({ req, res, params }) {
     try {
         // res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
         const { user } = getUserInfo({ req });
-        // const userData = await (await axios(urlBuilder.next + `/api/users/${params.id}`)).data;
-        const userData: UserWithDetails =
-            (await prisma.user.findUnique({
-                where: {
-                    id: params.id,
-                },
-                include: {
-                    address: true,
-                    memberships: {
-                        orderBy: {
-                            role: 'asc',
-                        },
-                    },
-                    imageUser: true,
-                },
-            })) || null;
+        const userData = await (await axios(urlBuilder.next + `/api/users/${params.id}`)).data;
         if (!userData) return { notFound: true };
 
         return {
