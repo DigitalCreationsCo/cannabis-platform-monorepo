@@ -71,7 +71,7 @@ function findUserWithDetails(id) {
                             },
                         })];
                 case 1:
-                    user = (_a.sent()) || null;
+                    user = _a.sent();
                     return [2 /*return*/, user];
                 case 2:
                     error_1 = _a.sent();

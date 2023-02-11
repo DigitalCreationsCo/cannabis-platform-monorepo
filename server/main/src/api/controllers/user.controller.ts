@@ -25,9 +25,8 @@ export default class UserController {
 
     static async getUserById(req, res) {
         try {
-            const userId = req.params.id || '';
-            console.log('userId: ', userId);
-            const data = await UserDA.getUserById(userId);
+            const id = req.params.id || '';
+            const data = await UserDA.getUserById(id);
             if (!data) return res.status(404).json('User not found');
             return res.status(200).json(data);
         } catch (error) {

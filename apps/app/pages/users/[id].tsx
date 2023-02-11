@@ -168,7 +168,6 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
 export async function getServerSideProps({ params }) {
     try {
         const userData = await (await axios(urlBuilder.next + `/api/users/${params.id}`)).data;
-        console.log('user: ', userData);
         if (!userData) return { notFound: true };
         return {
             props: { user: userData },
