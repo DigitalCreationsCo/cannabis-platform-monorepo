@@ -24,7 +24,7 @@ export async function findUserWithDetails(id: string) {
                     },
                     imageUser: true,
                 },
-        }) || null
+        })
         return user
     } catch (error: any) {
         console.error(error)

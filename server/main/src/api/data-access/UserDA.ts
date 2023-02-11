@@ -9,7 +9,6 @@ getUserById
 ================================= */
 
 export default class UserDA {
-    // find user by id
     static async getUserById(id) {
         try {
             const data = await findUserWithDetails(id);
