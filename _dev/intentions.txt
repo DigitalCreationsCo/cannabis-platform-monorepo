@@ -57,6 +57,7 @@ switched shared-ui to rollup to resolve docker build issue, and improve ci exper
 
 To do: 
 update membership data from getUserInfo funcs on api routes
+create tests for orders routes, users routes, on next api, and server, and data access lib
 
 configure nextapp and nginx with docker,
 deploy with docker on linode, use pm2 for nextjs

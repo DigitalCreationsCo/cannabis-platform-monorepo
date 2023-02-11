@@ -3,7 +3,7 @@ import {
     OrderItemWithDetails,
     OrderStatus,
     OrderWithDetails,
-    ProductVariantWithDetails
+    ProductVariantWithDetails,
 } from '@cd/data-access';
 import {
     Button,
@@ -22,7 +22,7 @@ import {
     PhoneNumber,
     Price,
     Row,
-    TextField
+    TextField,
 } from '@cd/shared-ui';
 import axios from 'axios';
 import { AddProduct, PageHeader, ProductItem, ProtectedComponent } from 'components';
@@ -425,7 +425,6 @@ const getUserInfo = ({ req }) => {
 export async function getServerSideProps({ req, res, params }) {
     try {
         // res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
-        const { user } = getUserInfo({ req });
         const order = await (await axios(urlBuilder.next + `/api/orders/${params.id}`)).data;
         if (!order) return { notFound: true };
 

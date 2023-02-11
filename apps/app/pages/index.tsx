@@ -3,7 +3,7 @@ import { Card, Grid, Icons, OrderRow, Page } from '@cd/shared-ui';
 import axios from 'axios';
 import { PageHeader, ProductRow, ProtectedComponent } from 'components';
 import { useMemo } from 'react';
-import { urlBuilder } from '../src/utils';
+import { getUserInfo, urlBuilder } from '../src/utils';
 
 interface DashboardProps {
     user: UserWithDetails;
@@ -99,18 +99,6 @@ export const findLowStockVariants = (products) =>
         } else return [];
     });
 
-const getUserInfo = ({ req }) => {
-    // let user = req.session?.user
-    const session = {
-        user: { username: 'kbarnes', firstName: 'Katie', lastName: 'Barnes', memberships: [{ organizationId: '2' }] },
-    };
-    const { user } = session;
-    return {
-        session,
-        user,
-    };
-};
-
 export async function getServerSideProps({ req, res }) {
     try {
         res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
@@ -119,9 +107,7 @@ export async function getServerSideProps({ req, res }) {
         const organization = await (await axios(urlBuilder.next + `/api/organization/${organizationId}`)).data;
         const products = await (await axios(urlBuilder.next + '/api/products')).data;
         const orders = await (await axios(urlBuilder.next + '/api/orders/')).data;
-
         if (!user || !organization || !products || !orders) return { notFound: true };
-
         return {
             props: { user, organization, products, orders },
         };

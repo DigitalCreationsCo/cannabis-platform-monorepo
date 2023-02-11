@@ -5,7 +5,7 @@ import {
     ImageUser,
     ImageVendor,
     Product,
-    ProductWithDetails
+    ProductWithDetails,
 } from '@cd/data-access';
 import {
     Button,
@@ -18,7 +18,7 @@ import {
     Page,
     Paragraph,
     Row,
-    TextField
+    TextField,
 } from '@cd/shared-ui';
 import axios from 'axios';
 import { ClickableTags, DropZone, Modal, PageHeader, ProtectedComponent } from 'components';
@@ -479,25 +479,10 @@ export default function ProductDetails({ product }: { product: ProductWithDetail
     );
 }
 
-const getUserInfo = ({ req }) => {
-    // let user = req.session?.user
-    const session = {
-        user: { username: 'kbarnes', firstName: 'Katie', lastName: 'Barnes', memberships: [{ organizationId: '2' }] },
-    };
-    const { user } = session;
-    return {
-        session,
-        user,
-    };
-};
-
-export async function getServerSideProps({ req, res, params }) {
+export async function getServerSideProps({ params }) {
     try {
-        // res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
-        const { user } = getUserInfo({ req });
         const product = await (await axios(urlBuilder.next + `/api/products/${params.id}`)).data;
         if (!product) return { notFound: true };
-
         return {
             props: { product },
         };

@@ -57,15 +57,21 @@ function findUserWithDetails(id) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
                     return [4 /*yield*/, prisma_1.default.user.findUnique({
-                            where: { id: id },
+                            where: {
+                                id: id
+                            },
                             include: {
                                 address: true,
+                                memberships: {
+                                    orderBy: {
+                                        role: 'asc',
+                                    },
+                                },
                                 imageUser: true,
-                                memberships: true,
-                            }
+                            },
                         })];
                 case 1:
-                    user = _a.sent();
+                    user = (_a.sent()) || null;
                     return [2 /*return*/, user];
                 case 2:
                     error_1 = _a.sent();
@@ -77,6 +83,7 @@ function findUserWithDetails(id) {
     });
 }
 exports.findUserWithDetails = findUserWithDetails;
+// export type UserWithDetails = Prisma.PromiseReturnType<typeof findUserWithDetails>
 // type UserWithDetails = (User & {
 //     address: Address[];
 //     imageUser: ImageUser[];

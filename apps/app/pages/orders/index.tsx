@@ -47,16 +47,7 @@ export default function Orders({ orders }: OrdersDashboardProps) {
     );
 }
 
-const getUserInfo = ({ req }) => {
-    // let user = req.session?.user
-    const session = { user: { username: 'kbarnes', organizationId: '2' } };
-    const { user } = session;
-    return user;
-};
-
-export async function getServerSideProps({ req, res }) {
-    const user = getUserInfo({ req });
-    const { organizationId } = user;
+export async function getServerSideProps() {
     const orders: Order[] = await (await fetch(urlBuilder.next + '/api/orders')).json();
     return {
         props: {

@@ -60,7 +60,7 @@ export default function Users({ users }: UsersDashboardProps) {
                         <H6 className="flex justify-center w-[100px]">Role</H6>
                         <div className="min-w-[50px] md:w-[120px]"></div>
                     </Row>
-                    {currentUsers.length > 0 ? (
+                    {users && currentUsers.length > 0 ? (
                         currentUsers.map((user) => {
                             return (
                                 <Link href={`/users/${user.id}`} key={user.id}>
@@ -118,16 +118,7 @@ export default function Users({ users }: UsersDashboardProps) {
     );
 }
 
-const getUserInfo = ({ req }) => {
-    // let user = req.session?.user
-    const session = { user: { username: 'kbarnes', organizationId: '2' } };
-    const { user } = session;
-    return user;
-};
-
-export async function getServerSideProps({ req, res }) {
-    const user = getUserInfo({ req });
-    const { organizationId } = user;
+export async function getServerSideProps() {
     const users: User[] = await (await fetch(urlBuilder.next + '/api/users')).json();
     return {
         props: {

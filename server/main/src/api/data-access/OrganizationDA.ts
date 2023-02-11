@@ -36,6 +36,8 @@ export default class OrganizationDA {
 
     static async getUsersByOrganization(organizationId) {
         try {
+            console.log('hello');
+            console.log('organization id: ', organizationId);
             const data = await findUsersByOrganization(organizationId);
             return data;
         } catch (error) {

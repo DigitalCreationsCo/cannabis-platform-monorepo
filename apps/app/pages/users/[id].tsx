@@ -165,25 +165,11 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
     );
 }
 
-const getUserInfo = ({ req }) => {
-    // let user = req.session?.user
-    const session = {
-        user: { username: 'kbarnes', firstName: 'Katie', lastName: 'Barnes', memberships: [{ organizationId: '2' }] },
-    };
-    const { user } = session;
-    return {
-        session,
-        user,
-    };
-};
-
-export async function getServerSideProps({ req, res, params }) {
+export async function getServerSideProps({ params }) {
     try {
-        // res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
-        const { user } = getUserInfo({ req });
         const userData = await (await axios(urlBuilder.next + `/api/users/${params.id}`)).data;
+        console.log('user: ', userData);
         if (!userData) return { notFound: true };
-
         return {
             props: { user: userData },
         };

@@ -66,6 +66,7 @@
             "cache": false,
             "dependsOn": [
                 "^build",
+                "build",
                 "^db:generate"
             ],
             "inputs": [

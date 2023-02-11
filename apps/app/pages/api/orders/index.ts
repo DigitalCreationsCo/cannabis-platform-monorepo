@@ -1,41 +1,20 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import NodeCache from 'node-cache';
-// import Stripe from "stripe";
-// import adminMiddleware from "__server__/middleware/adminMiddleware";
-// import Order from "__server__/model/Order";
-// import Payment from "__server__/model/Payment";
-// import Product from "__server__/model/Product";
-// import User from "__server__/model/User";
-// import { stripe } from "../stripe";
 import axios from 'axios';
 import { authMiddleware, ExtendRequest, healthCheckMiddleware } from 'middleware';
+import { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
-import { urlBuilder } from 'utils';
+import NodeCache from 'node-cache';
+import { getUserInfo, urlBuilder } from 'utils';
 
-// api route handler
-const handler = nc();
-
-// logged in user checker middleware
-handler.use(authMiddleware).use(healthCheckMiddleware);
-
-// caching instance
 const cache = new NodeCache({ stdTTL: 30 });
-
-// extract this function out, use supertokens
-const getUserInfo = ({ req }) => {
-    // let user = req.session?.user
-    const session = { user: { username: 'kbarnes', firstName: 'Katie', lastName: 'Barnes', organizationId: '2' } };
-    const { user } = session;
-    return user;
-};
-
+const handler = nc();
+handler.use(authMiddleware).use(healthCheckMiddleware);
 // get orders from an organization
 handler.get(async (req: ExtendRequest, res: NextApiResponse) => {
     try {
-        const user = getUserInfo({ req });
-        const { organizationId } = user;
+        res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
+        const { user } = getUserInfo({ req });
+        const { organizationId } = user.memberships[0];
         req.organizationId = organizationId;
-
         if (cache.has(`orders/org/${organizationId}`)) {
             const orders = cache.get(`orders/org/${organizationId}`);
             return res.status(200).json(orders);
@@ -49,7 +28,6 @@ handler.get(async (req: ExtendRequest, res: NextApiResponse) => {
     }
 });
 
-// admin user checker middleware
 // handler.use(adminMiddleware);
 
 // create a order route

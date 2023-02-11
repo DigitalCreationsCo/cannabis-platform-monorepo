@@ -154,16 +154,7 @@ Products.getLayout = function (page: JSX.Element) {
     );
 };
 
-const getUserInfo = ({ req }) => {
-    // let user = req.session?.user
-    const session = { user: { username: 'kbarnes', organizationId: '2' } };
-    const { user } = session;
-    return user;
-};
-
 export async function getServerSideProps({ req, res }) {
-    const user = getUserInfo({ req });
-    const { organizationId } = user;
     const products = await (await fetch(urlBuilder.next + '/api/products')).json();
     return {
         props: {
