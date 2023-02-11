@@ -4,11 +4,9 @@
     // "allowSyntheticDefaultImports": true,
     // "forceConsistentCasingInFileNames": true,
     // "isolatedModules": true,
-    // "strict": false,
+    "strict": true,
     "strictNullChecks": true,
-    // "noEmit": true,
-    // "outDir": "./dist",
-    // "declaration": true,
+    "declaration": true,
     "lib": ["ES2021"],
     "target": "ES5",
     // "skipLibCheck": true,
@@ -26,6 +24,8 @@
     // "noUnusedParameters": true,
     // "importsNotUsedAsValues": "error",
     // "checkJs": true,
+    "rootDir": "src",
+    "outDir": "dist"
   },
   "include": ["src"],
   "watchOptions": {

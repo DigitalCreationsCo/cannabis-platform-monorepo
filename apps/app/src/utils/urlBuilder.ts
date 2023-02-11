@@ -22,7 +22,7 @@ const urlBuilder = {
 
         categoryList: (id: any) => urlBuilder.main.baseUrl + `/organization/${id}/categories`,
 
-        userById: (id: any) => urlBuilder.main.baseUrl + `/auth/${id}`,
+        userById: (id: any) => urlBuilder.main.baseUrl + `/auth/user/${id}`,
         usersByOrg: (id: any) => urlBuilder.main.baseUrl + `/organization/${id}/users`,
     },
 };

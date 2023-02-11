@@ -11,7 +11,7 @@ export async function createUser() {
 
 export async function findUserWithDetails(id: string) {
     try {
-        const user = (await prisma.user.findUnique({
+        const user = await prisma.user.findUnique({
                 where: {
                     id
                 },
@@ -24,7 +24,7 @@ export async function findUserWithDetails(id: string) {
                     },
                     imageUser: true,
                 },
-        })) || null
+        }) || null
         return user
     } catch (error: any) {
         console.error(error)

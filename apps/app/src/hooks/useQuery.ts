@@ -5,20 +5,22 @@ import { useEffect, useState } from 'react';
 // test all cases for api calls
 // not working correctly, prefer to use ssr for query calls
 export default function useQuery({ url }) {
-    const [responseData, setResponseData] = useState();
-    const [statusCode, setStatusCode] = useState();
-    const [statusText, setStatusText] = useState();
+    const [responseData, setResponseData] = useState<unknown>();
+    const [statusCode, setStatusCode] = useState<number>();
+    const [statusText, setStatusText] = useState<string>();
     useEffect(() => {
         axios(url)
             .then((response) => response.data)
-            .then(({ status, statusText, ...data }): AxiosResponse => {
-                if (status > 399) throw new Error(data);
+            .then(({ status, statusText, ...data }: AxiosResponse) => {
+                // if (status > 399) throw new Error(data);
                 setResponseData(data);
+                setStatusCode(status);
+                setStatusText(statusText);
             })
             .catch((error) => {
                 console.log(' useQuery error: ', error);
-                setStatusText(data);
-                setStatusCode();
+                // setStatusText();
+                // setStatusCode();
             });
     }, [url]);
 

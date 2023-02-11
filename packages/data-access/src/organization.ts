@@ -12,7 +12,7 @@ export async function findOrganizationById(organizationId:string) {
 
 export async function findUsersByOrganization(organizationId:string) {
     try {
-        const users = (await prisma.user.findMany({
+        const users = await prisma.user.findMany({
             orderBy: {
                 id: 'desc',
             },
@@ -31,7 +31,7 @@ export async function findUsersByOrganization(organizationId:string) {
                 },
                 imageUser: true,
             },
-        })) || []
+        }) || [];
         return users
     } catch (error: any) {
         console.error(error)

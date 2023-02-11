@@ -1,39 +1,20 @@
+import axios from 'axios';
+import { authMiddleware, ExtendRequest, healthCheckMiddleware } from 'middleware';
 import { NextApiResponse } from 'next';
 import nc from 'next-connect';
 import NodeCache from 'node-cache';
-// import slugify from "slugify";
-// import connectDB from "__server__/db";
-// import adminMiddleware from "__server__/middleware/adminMiddleware";
-// import editorMiddleware from "__server__/middleware/editorMiddleware";
-// import errorMiddleware from "__server__/middleware/errorMiddleware";
-// import Category from "__server__/model/Category";
-// import slugifyOption from "__server__/utils/slugifyOption";
-import axios from 'axios';
-import { authMiddleware, ExtendRequest, healthCheckMiddleware } from 'middleware';
-import { urlBuilder } from '../../../src/utils';
+import { getUserInfo, urlBuilder } from '../../../src/utils';
 
-// api route handler
-const handler = nc();
-
-// logged in user & admin user checker middleware
-handler.use(authMiddleware).use(healthCheckMiddleware);
-
-// caching instance
 const cache = new NodeCache({ stdTTL: 30 });
-
-// extract this function out, use supertokens
-const getUserInfo = ({ req }) => {
-    // let user = req.session?.user
-    const session = { user: { username: 'kbarnes', firstName: 'Katie', lastName: 'Barnes', organizationId: '2' } };
-    const { user } = session;
-    return user;
-};
+const handler = nc();
+handler.use(authMiddleware).use(healthCheckMiddleware);
 
 // get all categories route
 handler.get(async (req: ExtendRequest, res: NextApiResponse) => {
     try {
-        const user = getUserInfo({ req });
-        const { organizationId } = user;
+        res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
+        const { user } = getUserInfo({ req });
+        const { organizationId } = user.memberships[0];
         req.organizationId = organizationId;
         if (cache.has('categories')) {
             console.log('cache found');

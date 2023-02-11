@@ -3,31 +3,18 @@ import { authMiddleware, ExtendRequest, healthCheckMiddleware } from 'middleware
 import { NextApiResponse } from 'next';
 import nc from 'next-connect';
 import NodeCache from 'node-cache';
-import { urlBuilder } from 'utils';
+import { getUserInfo, urlBuilder } from 'utils';
 
-const handler = nc();
-
-// logged in user checker middleware
-handler.use(authMiddleware).use(healthCheckMiddleware);
-
-// caching instance
 const cache = new NodeCache({ stdTTL: 20 });
-
-// extract this function out, use supertokens
-const getUserInfo = ({ req }) => {
-    // let user = req.session?.user
-    const session = { user: { username: 'kbarnes', firstName: 'Katie', lastName: 'Barnes', organizationId: '2' } };
-    const { user } = session;
-    return user;
-};
-
+const handler = nc();
+handler.use(authMiddleware).use(healthCheckMiddleware);
 // get products from an organization
 handler.get(async (req: ExtendRequest, res: NextApiResponse) => {
     try {
-        const user = getUserInfo({ req });
-        const { organizationId } = user;
+        res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
+        const { user } = getUserInfo({ req });
+        const { organizationId } = user.memberships[0];
         req.organizationId = organizationId;
-
         if (cache.has(`products/org/${organizationId}`)) {
             const products = cache.get(`products/org/${organizationId}`);
             return res.status(200).json(products);
@@ -44,10 +31,9 @@ handler.get(async (req: ExtendRequest, res: NextApiResponse) => {
 // search products
 handler.post(async (req: ExtendRequest, res: NextApiResponse) => {
     try {
-        const user = getUserInfo({ req });
-        const { organizationId } = user;
+        const { user } = getUserInfo({ req });
+        const { organizationId } = user.memberships[0];
         req.organizationId = organizationId;
-
         const { search } = req.body;
         if (search) {
             const { data } = await axios.post(urlBuilder.main.products(), {

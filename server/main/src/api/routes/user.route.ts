@@ -12,6 +12,6 @@ User Routes
 
 router.route('/login').post(userCtrl.login);
 
-router.route('/:id').post(userCtrl.getUserById);
+router.route('/user/:id').get(userCtrl.getUserById);
 
 export default router;

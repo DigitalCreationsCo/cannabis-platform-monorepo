@@ -39,7 +39,7 @@ export default class OrganizationController {
     static async getUsersByOrganization(req, res) {
         try {
             const organizationId = req.params.id || '';
-            const data = await OrganizationDA.getOrganizationUsers(organizationId);
+            const data = await OrganizationDA.getUsersByOrganization(organizationId);
             if (!data) return res.status(404).json('Organization not found');
             return res.status(200).json(data);
         } catch (error) {

@@ -2,21 +2,9 @@ import { authMiddleware, healthCheckMiddleware } from 'middleware';
 import nc from 'next-connect';
 import NodeCache from 'node-cache';
 
-const handler = nc();
-
-// logged in user checker middleware
-handler.use(authMiddleware).use(healthCheckMiddleware);
-
-// caching instance
 const cache = new NodeCache({ stdTTL: 20 });
-
-// extract this function out, use supertokens
-const getUserInfo = ({ req }) => {
-    // let user = req.session?.user
-    const session = { user: { username: 'kbarnes', firstName: 'Katie', lastName: 'Barnes', organizationId: '2' } };
-    const { user } = session;
-    return user;
-};
+const handler = nc();
+handler.use(authMiddleware).use(healthCheckMiddleware);
 
 // create new product
 // handler.post(async (req: NextApiRequest, res: NextApiResponse) => {

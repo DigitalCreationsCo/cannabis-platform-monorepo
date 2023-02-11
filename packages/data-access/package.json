@@ -1,10 +1,11 @@
 {
   "dependencies": {
+    "@cd/shared-config": "*",
     "@prisma/client": "4.4.0"
   },
   "devDependencies": {
-    "@cd/shared-config": "*",
     "@types/jest": "29.2.4",
+    "concurrently": "7.6.0",
     "jest": "29.3.1",
     "jest-mock-extended": "3.0.1",
     "prisma": "4.4.0",
@@ -12,7 +13,10 @@
     "ts-node": "10.9.1",
     "typescript": "4.9.3"
   },
-  "main": "./src/index.ts",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist",
   "name": "@cd/data-access",
   "prisma": {
     "schema": "./schema.prisma",
@@ -20,7 +24,8 @@
   },
   "private": true,
   "scripts": {
-    "build": "tsc -b",
+    "build": "concurrently \"yarn build:ts\"",
+    "build:ts": "tsc -b",
     "clear": "ts-node --esm src/db/clear.ts",
     "db:connect": "pscale connect cannabis_delivery_v1 dev --port 3309",
     "db:deploy": "pscale deploy-request create cannabis_delivery_v1 dev",
@@ -30,8 +35,10 @@
     "db:reseed": "prisma generate && prisma db push && yarn clear && prisma db seed",
     "db:seed": "prisma db seed",
     "db:studio": "prisma studio",
-    "dev": "tsc --watch src/index.ts",
-    "test": "../../node_modules/jest/bin/jest.js"
+    "prepack": "json -f package.json -I -e \"delete this.devDependencies; delete this.dependencies\"",
+    "test": "../../node_modules/jest/bin/jest.js",
+    "watch": "concurrently \"yarn watch:ts\"",
+    "watch:ts": "tsc --watch"
   },
   "version": "0.0.1"
 }
