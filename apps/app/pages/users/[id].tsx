@@ -2,7 +2,6 @@ import { UserWithDetails } from '@cd/data-access';
 import {
     Button,
     Card,
-    Center,
     FlexBox,
     Grid,
     H5,
@@ -30,6 +29,9 @@ import { useOnClickOutside } from '../../src/hooks';
 // add image
 // add update api route
 // add get api route, next and server
+
+// Will need to test admin level privelege for some api routes, like users/[id]
+// will use this component to protect those routes from non-admin users
 
 export default function UserDetails({ user }: { user: UserWithDetails }) {
     const { isLoading, setIsLoading } = useAppState();
@@ -78,28 +80,30 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
     return (
         <ProtectedComponent>
             <Page>
+                <PageHeader
+                    title={`User #${user?.id}`}
+                    Icon={Icons.ShoppingBagOutlined}
+                    Button={
+                        <Link href="/users">
+                            <Button>Back to Users</Button>
+                        </Link>
+                    }
+                />
                 {isLoading ? (
-                    <Center>
-                        <Padding>
-                            <LoadingDots />
-                        </Padding>
-                    </Center>
+                    <Padding>
+                        <LoadingDots />
+                    </Padding>
                 ) : user ? (
                     <Grid className="md:max-w-fit">
-                        <PageHeader
-                            title={`User #${user?.id}`}
-                            Icon={Icons.ShoppingBagOutlined}
-                            Button={
-                                <Link href="/users">
-                                    <Button>Back to Users</Button>
-                                </Link>
-                            }
-                        />
-                        <Grid>
-                            <FlexBox className="flex-col space-x-0 items-stretch">
-                                <Row className="justify-between space-x-4">
-                                    <H6>{`User joined on ${format(new Date(user.createdAt), 'MMM dd, yyyy')}`}</H6>
-                                    {/* <FlexBox>
+                        {/* <Formik
+                        // initialValues={initialValues}
+                        // validationSchema={userSchema}
+                        // onSubmit={handleFormSubmit}
+                        > */}
+                        <FlexBox className="flex-col space-x-0 items-stretch">
+                            <Row className="justify-between space-x-4">
+                                <H6>{`User joined on ${format(new Date(user.createdAt), 'MMM dd, yyyy')}`}</H6>
+                                {/* <FlexBox>
                                             <H6>Status</H6>
                                             <select className="select" defaultValue={UserStatus}>
                                                 {UserStatus && <option>{UserStatus}</option>}
@@ -115,8 +119,8 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
                                                 ))}
                                             </select>
                                         </FlexBox> */}
-                                </Row>
-                                {/* <Row className="justify-start space-x-4 items-center">
+                            </Row>
+                            {/* <Row className="justify-start space-x-4 items-center">
                                         <H6>Items</H6>
                                         <Button
                                             onClick={toggleAddProduct}
@@ -125,8 +129,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
                                             Add Product
                                         </Button>
                                     </Row> */}
-                            </FlexBox>
-                        </Grid>
+                        </FlexBox>
 
                         <Grid>
                             <Card>
@@ -156,6 +159,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
                                 Save User
                             </Button>
                         </FlexBox>
+                        {/* </Formik> */}
                     </Grid>
                 ) : (
                     <Paragraph>The User is not found</Paragraph>
