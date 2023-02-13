@@ -17,14 +17,14 @@ import {
 import axios from 'axios';
 import { ConfirmationModal, DropZone, Modal, PageHeader, ProtectedComponent } from 'components';
 import { format } from 'date-fns';
-import { Formik } from 'formik';
+import { useFormik } from 'formik';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { urlBuilder } from 'utils';
+import * as yup from 'yup';
 import { useAppState } from '../../src/context/AppProvider';
-import { useOnClickOutside } from '../../src/hooks';
 
 // Will need to test admin level privelege for some api routes, like users/[id]
 // will use this component to protect those routes from non-admin users
@@ -37,21 +37,6 @@ import { useOnClickOutside } from '../../src/hooks';
 // maybe add editor middleware functionality for priveleged editing within the page? use ssr for this.
 
 export default function UserDetails({ user }: { user: UserWithDetails }) {
-    const { isLoading } = useAppState();
-    const [files, setFiles] = useState<unknown[]>([]);
-    const [loadingButton, setLoadingButton] = useState(false);
-    const [existingImage, setExistingImage] = useState<ImageUser[]>(user?.imageUser || []);
-    const [deletedImage, setDeletedImage] = useState<ImageUser[]>([]);
-    const [openDropDown, setOpenDropDown] = useState(true);
-    const [addressUpdateIndex, setAddressUpdateIndex] = useState<number>();
-    const [addressUpdateModal, setAddressUpdateModal] = useState(false);
-    const [addressDeleteModal, setAddressDeleteModal] = useState(false);
-
-    const dropDownRef = useRef(null);
-    useOnClickOutside(dropDownRef, () => {
-        setOpenDropDown(false);
-    });
-
     const initialValues = {
         id: user?.id || '',
         firstName: user?.firstName || '',
@@ -68,6 +53,33 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
         createdAt: user?.createdAt || new Date(),
         updatedAt: user?.updatedAt || new Date(),
     };
+
+    const validationSchema = yup.object().shape({
+        firstName: yup.string().required('required'),
+        lastName: yup.string().required('required'),
+        username: yup.string().required('required'),
+        email: yup.string().required('required'),
+        dialCode: yup.number().required('required'),
+        phone: yup.number().required('required'),
+        address: yup.array().min(1).required('required'),
+    });
+    const { values, errors, touched, handleChange, handleBlur, handleSubmit } = useFormik({
+        initialValues,
+        validationSchema,
+        onSubmit: handleFormSubmit,
+    });
+    const { isLoading } = useAppState();
+    const [files, setFiles] = useState<unknown[]>([]);
+    const [loadingButton, setLoadingButton] = useState(false);
+    const [existingImage, setExistingImage] = useState<ImageUser[]>(user?.imageUser || []);
+    const [deletedImage, setDeletedImage] = useState<ImageUser[]>([]);
+    const [addressUpdateIndex, setAddressUpdateIndex] = useState<number>();
+    const [addressUpdateModal, setAddressUpdateModal] = useState(false);
+    const [addressDeleteModal, setAddressDeleteModal] = useState(false);
+    const [address, setAddress] = useState<Address[]>(values.address || []);
+    useEffect(() => {
+        setAddress(values.address);
+    }, [values.address]);
 
     async function handleFormSubmit(values: any) {
         try {
@@ -100,28 +112,10 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
         }
     }
 
-    // function removeRelatedFields(user) {
-    //     // delete User['driver'];
-    //     // delete User['customer'];
-    //     // delete User['deliveryInfo'];
-    //     return user;
-    // }
-
-    // async function handleAddressUpdate() {
-    //     try {
-    //         const { data } = await axios.put(
-    //             urlBuilder.next + `/api/users/${user?.id}/address/${user?.address?.[addressUpdateIndex]?.id}`
-    //         );
-    //         toast.success(data);
-    //     } catch (error) {
-    //         console.error(error);
-    //         toast.error(error.response.statusText);
-    //     }
-    // }
-
     async function handleAddressDelete({ addressId, userId }: { addressId: Address['id']; userId: User['id'] }) {
         try {
             const { data } = await axios.delete(urlBuilder.next + `/api/users/${userId}/address/${addressId}`);
+            setAddress(address.filter((address) => address.id !== addressId));
             toast.success(data);
         } catch (error) {
             console.error(error);
@@ -161,32 +155,50 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
                     </Padding>
                 ) : user ? (
                         <Grid className="md:max-w-fit px-3">
-                        <Formik
-                            initialValues={initialValues}
-                            // validationSchema={userSchema}
-                            onSubmit={handleFormSubmit}
-                        >
-                                { ({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
-                                    <>
-                                        
-                                        <Modal className="px-10" description={ `Edit Address` } open={ addressUpdateModal } onClose={ () => setAddressUpdateModal(false) }>
-                                            <Grid className='space-y-2'>
-                                            <TextField
-                                                                containerClassName=""
-                                                                className="px-0 mx-0"
-                                                name={ `user.address[${addressUpdateIndex}].street1` } label="Street Line 1" placeholder="Street Line 1"
-                                            value={values?.address?.[addressUpdateIndex]?.street1}
-                                                                onBlur={handleBlur}
-                                                    onChange={ handleChange } />
-                                                <FlexBox className="justify-center">
-                                                <Button onClick={ () => { toast.success('Please save your changes.'); } }>Close</Button></FlexBox>
-                                            </Grid>
-                                        </Modal>
-                                        <ConfirmationModal
-                                            onClose={() => setAddressDeleteModal(false)}
-                                            open={ addressDeleteModal }
-                                            handleConfirm={() => handleAddressDelete({ addressId: user?.address?.[addressUpdateIndex]?.id, userId: user?.id })}
-                                            description={ "Delete this address? You can't undo this action." } />
+                            <>
+                                <Modal className="px-10 border" description={ `Edit Address` } open={ addressUpdateModal } onClose={ () => setAddressUpdateModal(false) }>
+                                    <Grid className='space-y-4'>
+                                        <FlexBox className='flex-col space-x-0 space-y-1'>
+                                    <TextField
+                                        name={ `address[${addressUpdateIndex}].street1` } label="Street Line 1" placeholder="Street Line 1"
+                                        value={values.address?.[addressUpdateIndex]?.street1}
+                                        onBlur={handleBlur}
+                                        onChange={ handleChange } />
+                                    <TextField
+                                        name={ `address[${addressUpdateIndex}].street2` } label="Street Line 2" placeholder="Street Line 2"
+                                        value={values.address?.[addressUpdateIndex]?.street2}
+                                        onBlur={handleBlur}
+                                        onChange={ handleChange } />
+                                        <TextField
+                                        name={ `address[${addressUpdateIndex}].city` } label="City" placeholder="City"
+                                        value={values.address?.[addressUpdateIndex]?.city}
+                                        onBlur={handleBlur}
+                                        onChange={ handleChange } />
+                                        <TextField
+                                        name={ `address[${addressUpdateIndex}].state` } label="State" placeholder="State"
+                                        value={values.address?.[addressUpdateIndex]?.state}
+                                        onBlur={handleBlur}
+                                        onChange={ handleChange } />
+                                        <TextField
+                                        name={ `address[${addressUpdateIndex}].country` } label="Country" placeholder="Country"
+                                        value={values.address?.[addressUpdateIndex]?.country}
+                                        onBlur={handleBlur}
+                                        onChange={ handleChange } />
+                                        <TextField
+                                        name={ `address[${addressUpdateIndex}].zipcode` } label="Zipcode" placeholder="Zipcode"
+                                        value={values.address?.[addressUpdateIndex]?.zipcode}
+                                        onBlur={handleBlur}
+                                                onChange={ handleChange } />
+                                        </FlexBox>
+                                        <FlexBox className="justify-center">
+                                            <Button onClick={ () => { setAddressUpdateModal(false); toast.success('Please save your changes.'); } }>Close</Button></FlexBox>
+                                    </Grid>
+                                </Modal>
+                                <ConfirmationModal
+                                    onClose={() => setAddressDeleteModal(false)}
+                                    open={ addressDeleteModal }
+                                    handleConfirm={() => handleAddressDelete({ addressId: user?.address?.[addressUpdateIndex]?.id, userId: user?.id })}
+                                    description={ "Delete this address? You can't undo this action." } />
                                 <form
                                     onSubmit={(e) => {
                                         e.preventDefault();
@@ -252,23 +264,25 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
                                                 onChange={handleChange}
                                                 error={!!touched.phone && !!errors.phone}
                                             />
-                                        </FlexBox>
+                                                </FlexBox>
+                                                
                                         <FlexBox className="flex-row min-w-[111px]">
                                             <label>Addresses</label>
                                         </FlexBox>
-                                        {user.address.map((address, index) => (
+                                        {address.map((address, index) => (
                                             <Card key={`address-${index}`} className={'w-full px-3 flex-row justify-between items-center'}>
                                                 <Paragraph className={'whitespace-pre-line'}>
                                                     {`${address.street1} ${address.street2} 
-                                                    ${address.city} ${address.state} ${address.country} ${address.zipcode}`}
+                                                    ${address.city} ${address.state}
+                                                    ${address.country} ${address.zipcode}` }
                                                 </Paragraph>
                                                 <FlexBox className="max-w-fit">
                                                     <Button className={"w-1/2"} onClick={(e) => {
-                                    e.preventDefault();
+                                                        e.preventDefault();
                                                         e.stopPropagation();
                                                         setAddressUpdateIndex(index);
-                                    setAddressUpdateModal(true);
-                                }}>Edit</Button>
+                                                        setAddressUpdateModal(true);
+                                                    }}>Edit</Button>
                                                     <DeleteButton className={ "w-1/2" } label={ false } onClick={ (e) => {
                                                         e.preventDefault();
                                                         e.stopPropagation();
@@ -334,10 +348,8 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
                                             Save Changes
                                         </Button>
                                     </FlexBox>
-                                        </form>
-                                        </>
-                            )}
-                        </Formik>
+                                </form>
+                            </>
                     </Grid>
                 ) : (
                     <Paragraph>The User is not found</Paragraph>

@@ -23,7 +23,13 @@ function ConfirmationModal({
                     <Button className="" onClick={props.onClose}>
                         No
                     </Button>
-                    <Button className="" onClick={handleConfirm}>
+                    <Button
+                        className=""
+                        onClick={() => {
+                            handleConfirm();
+                            props.onClose();
+                        }}
+                    >
                         {confirmMessage}
                     </Button>
                 </FlexBox>
