@@ -41,7 +41,7 @@ function TextField({
                 </FlexBox>
             )}
             <input
-                onFocus={(e) => {
+                onFocus={() => {
                     if (onfocus) onfocus;
                     setFocus(true);
                 }}

@@ -1,8 +1,9 @@
 //Modal.tsx
 import { H6 } from '@cd/shared-ui';
 import { useOnClickOutside } from 'hooks';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { twMerge } from 'tailwind-merge';
+import { useModal } from '../../context';
 
 export type ModalProps = {
     children?: React.ReactNode;
@@ -14,12 +15,17 @@ export type ModalProps = {
 };
 
 const Modal = ({ children, open, disableClickOutside = !open, onClose, description, className }: ModalProps) => {
+    const { setModalOpen } = useModal();
     const ref = useRef(null);
     useOnClickOutside(ref, () => {
         if (!disableClickOutside) {
             onClose();
+            setModalOpen(false);
         }
     });
+    useEffect(() => {
+        if (open) setModalOpen(true);
+    }, [open, setModalOpen]);
     const modalClass = ['modal', open && 'modal-open'];
     return (
         <div className={twMerge(modalClass)}>

@@ -10,6 +10,7 @@ import SuperTokens, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session from 'supertokens-auth-react/recipe/session';
 import * as SuperTokensConfig from '../config/frontendConfig';
 import AppStateProvider from '../src/context/AppProvider';
+import ModalProvider from '../src/context/ModalProvider';
 
 if (typeof window !== 'undefined') {
     SuperTokens.init(SuperTokensConfig.frontendConfig());
@@ -53,23 +54,25 @@ export default function App({ Component, pageProps }: CustomAppProps): JSX.Eleme
         <SuperTokensWrapper>
             <SessionControl>
                 <Toaster position="top-right" />
-                <AppStateProvider>
-                    {({ isLoading, setIsLoading }) => {
-                        // Router.events.on('routeChangeStart', () => setIsLoading(true));
-                        // Router.events.on('routeChangeComplete', () => setIsLoading(false));
-                        // Router.events.on('routeChangeError', () => setIsLoading(false));
+                <ModalProvider>
+                    <AppStateProvider>
+                        {({ isLoading, setIsLoading }) => {
+                            // Router.events.on('routeChangeStart', () => setIsLoading(true));
+                            // Router.events.on('routeChangeComplete', () => setIsLoading(false));
+                            // Router.events.on('routeChangeError', () => setIsLoading(false));
 
-                        return isLoading
-                            ? getLayout(
-                                  <Center>
-                                      <Padding>
-                                          <LoadingDots />
-                                      </Padding>
-                                  </Center>
-                              )
-                            : getLayout(<Component {...pageProps} />);
-                    }}
-                </AppStateProvider>
+                            return isLoading
+                                ? getLayout(
+                                      <Center>
+                                          <Padding>
+                                              <LoadingDots />
+                                          </Padding>
+                                      </Center>
+                                  )
+                                : getLayout(<Component {...pageProps} />);
+                        }}
+                    </AppStateProvider>
+                </ModalProvider>
             </SessionControl>
         </SuperTokensWrapper>
     );
