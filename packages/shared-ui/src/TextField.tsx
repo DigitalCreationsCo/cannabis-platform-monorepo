@@ -13,6 +13,7 @@ type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
     placeholder?: string;
     defaultValue?: string | number;
     onChange: ReactEventHandler;
+    onBlur?: ReactEventHandler;
     error?: boolean;
 };
 function TextField({
@@ -27,9 +28,11 @@ function TextField({
     placeholder,
     defaultValue,
     onChange,
+    onBlur,
     ...props
 }: TextFieldProps) {
     const inputProps: React.InputHTMLAttributes<HTMLInputElement> = { ...props };
+    const [focus, setFocus] = React.useState(false);
     return (
         <FlexBox className={twMerge('w-full', containerClassName)}>
             {label && (
@@ -38,12 +41,20 @@ function TextField({
                 </FlexBox>
             )}
             <input
+                onFocus={(e) => {
+                    if (onfocus) onfocus;
+                    setFocus(true);
+                }}
                 name={name}
                 maxLength={maxNumber}
                 defaultValue={defaultValue}
                 type={type}
                 value={value}
                 onChange={onChange}
+                onBlur={() => {
+                    if (onBlur) onBlur;
+                    setFocus(false);
+                }}
                 placeholder={placeholder}
                 className={twMerge(
                     'items-center',
@@ -52,6 +63,7 @@ function TextField({
                     'outline-none w-full',
                     'shadow-inner',
                     'input-md',
+                    focus && 'shadow-md',
                     error && 'input-error',
                     className
                 )}

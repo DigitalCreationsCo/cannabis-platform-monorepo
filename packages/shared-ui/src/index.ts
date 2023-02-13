@@ -26,4 +26,5 @@ export { default as SideNavContainer } from './SideNavContainer';
 export { default as Table } from './Table';
 export { default as TextField } from './TextField';
 export * from './Typography';
+export { default as UploadImageBox } from './UploadImageBox';
 

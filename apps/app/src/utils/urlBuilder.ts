@@ -24,6 +24,8 @@ const urlBuilder = {
 
         userById: (id: any) => urlBuilder.main.baseUrl + `/auth/user/${id}`,
         usersByOrg: (id: any) => urlBuilder.main.baseUrl + `/organization/${id}/users`,
+        addressByIdAndUser: (addressId: any, id: any) =>
+            urlBuilder.main.baseUrl + `/auth/user/${id}/address/${addressId}`,
     },
 };
 

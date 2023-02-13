@@ -1,6 +1,6 @@
 import { ProductVariantWithDetails } from '@cd/data-access';
 import { FlexBox, Paragraph, Price, TextField } from '@cd/shared-ui';
-import { ConfirmationAlert } from 'components';
+import { ConfirmationModal } from 'components';
 import Image from 'next/image';
 import { PropsWithChildren, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
@@ -46,7 +46,7 @@ function ProductItem({ product, className, handleConfirm, children }: ProductIte
                 </div>
             </div>
 
-            <ConfirmationAlert
+            <ConfirmationModal
                 description={`Confirm add ${product.name}?`}
                 open={openConfirm}
                 handleConfirm={() => handleConfirm(product, quantity)}
@@ -62,7 +62,7 @@ function ProductItem({ product, className, handleConfirm, children }: ProductIte
                     defaultValue={quantity}
                     onChange={(e) => setQuantity(e.target.value)}
                 />
-            </ConfirmationAlert>
+            </ConfirmationModal>
         </>
     );
 }
