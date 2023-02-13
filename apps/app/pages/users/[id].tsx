@@ -169,14 +169,18 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
                                 { ({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
                                     <>
                                         
-                                        <Modal description={ `Edit Address` } open={ addressUpdateModal } onClose={ () => setAddressUpdateModal(false) }>
+                                        <Modal className="px-10" description={ `Edit Address` } open={ addressUpdateModal } onClose={ () => setAddressUpdateModal(false) }>
+                                            <Grid className='space-y-2'>
                                             <TextField
                                                                 containerClassName=""
                                                                 className="px-0 mx-0"
                                                 name={ `user.address[${addressUpdateIndex}].street1` } label="Street Line 1" placeholder="Street Line 1"
                                             value={values?.address?.[addressUpdateIndex]?.street1}
                                                                 onBlur={handleBlur}
-                                                                onChange={handleChange}/>
+                                                    onChange={ handleChange } />
+                                                <FlexBox className="justify-center">
+                                                <Button onClick={ () => { toast.success('Please save your changes.'); } }>Close</Button></FlexBox>
+                                            </Grid>
                                         </Modal>
                                         <ConfirmationModal
                                             onClose={() => setAddressDeleteModal(false)}
@@ -253,7 +257,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
                                             <label>Addresses</label>
                                         </FlexBox>
                                         {user.address.map((address, index) => (
-                                            <Card key={`address-${index}`} className={'w-full flex-row justify-between items-center'}>
+                                            <Card key={`address-${index}`} className={'w-full px-3 flex-row justify-between items-center'}>
                                                 <Paragraph className={'whitespace-pre-line'}>
                                                     {`${address.street1} ${address.street2} 
                                                     ${address.city} ${address.state} ${address.country} ${address.zipcode}`}
