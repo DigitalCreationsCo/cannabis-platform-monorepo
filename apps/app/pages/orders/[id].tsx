@@ -89,7 +89,6 @@ export default function OrderDetails({ order }: { order: OrderWithDetails }) {
             location.reload();
         } catch (error) {
             setLoadingButton(false);
-
             setIsLoading(false);
             console.error(error);
             toast.error(error.response.statusText);

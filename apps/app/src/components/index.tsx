@@ -1,12 +1,10 @@
-export { default as AddProduct } from './AddProductModal';
 export { default as AdminDashboardNavigation } from './AdminDashBoardNavigation';
 export { default as SearchBar } from './AppSearch';
 export { default as CartButton } from './CartButton';
 export { default as ClickableTags } from './ClickableTags';
-export { default as ConfirmationAlert } from './ConfirmationAlert';
 export { default as DropZone } from './DropZone';
 export { default as Layout } from './Layout';
-export { default as Modal } from './Modal';
+export * from './modal';
 export { default as OfflineHandler } from './OfflineHandler';
 export { default as PageHeader } from './PageHeader';
 export { default as ProductItem } from './ProductItem';

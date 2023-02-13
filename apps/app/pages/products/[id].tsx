@@ -12,13 +12,13 @@ import {
     FlexBox,
     Grid,
     Icons,
-    IconWrapper,
     LoadingDots,
     Padding,
     Page,
     Paragraph,
     Row,
     TextField,
+    UploadImageBox,
 } from '@cd/shared-ui';
 import axios from 'axios';
 import { ClickableTags, DropZone, Modal, PageHeader, ProtectedComponent } from 'components';
@@ -27,22 +27,12 @@ import { useCategory, useOnClickOutside } from 'hooks';
 import Image from 'next/image';
 import Link from 'next/link';
 import Router from 'next/router';
-import { PropsWithChildren, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { twMerge } from 'tailwind-merge';
 import { urlBuilder } from 'utils';
 import * as yup from 'yup';
 import { useAppState } from '../../src/context/AppProvider';
-
-const styleUploadWindow = ['h-[80px] w-[80px] border flex rounded-btn relative items-center justify-center bg-light'];
-const UploadImageBox = ({ onClick, onKeyUp, children }: { onClick: any; onKeyUp?: any } & PropsWithChildren) => (
-    <div onClick={onClick} onKeyUp={onKeyUp} className={twMerge(styleUploadWindow, 'indicator')}>
-        <span className="indicator-item badge bg-primary w-5 h-5 p-0 items-center justify-center">
-            <IconWrapper Icon={Icons.XIcon} size={8} className={'fill-light'} />
-        </span>
-        {children}
-    </div>
-);
 
 const checkoutSchema = yup.object().shape({
     name: yup.string().required('required'),
@@ -66,7 +56,7 @@ export type ProductUpdatePayload = Product & {
 };
 
 export default function ProductDetails({ product }: { product: ProductWithDetails }) {
-    const { isLoading, setIsLoading } = useAppState();
+    const { isLoading } = useAppState();
     const [productCategories, setProductCategories] = useState<Set<Category>>(new Set());
     const [files, setFiles] = useState<unknown[]>([]);
     const [loadingButton, setLoadingButton] = useState(false);
@@ -390,9 +380,7 @@ export default function ProductDetails({ product }: { product: ProductWithDetail
                                                             <UploadImageBox
                                                                 key={index}
                                                                 onClick={() => handleFileDelete(file)}
-                                                                onKeyUp={() => {
-                                                                    return 'thank yuo i almost pooed.';
-                                                                }}
+                                                                
                                                             >
                                                                 <Image
                                                                     src={file.preview}

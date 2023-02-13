@@ -137,6 +137,7 @@ model Address {
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
 
+  @@unique([userId, id])
   @@index([userId])
   @@index([organizationId])
   @@index([coordinateId])
