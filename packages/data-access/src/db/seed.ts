@@ -1,4 +1,4 @@
-import { Order, Address, Driver, Organization, Product, User, Membership, Vendor, SiteSetting, OrderItem, SubDomain, ImageVendor, ImageUser, ImageOrganization, ImageProduct, Category, PrismaClient, CategoryList, Prisma, ProductVariant } from "@prisma/client";
+import { Address, Category, CategoryList, Driver, ImageOrganization, ImageProduct, ImageUser, ImageVendor, Membership, Order, OrderItem, Organization, PrismaClient, Product, ProductVariant, SiteSetting, SubDomain, User, Vendor } from "@prisma/client";
 
 const users: User[] = [
   {
@@ -306,8 +306,72 @@ const orderItems: OrderItem[] = [
     createdAt: new Date(),
     updatedAt: new Date(),
   },
-]
-
+];
+const ImageProducts: ImageProduct[] = [
+  {
+    id: "1",
+    location:
+      "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
+    blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
+    variantId: "1",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: "2",
+    location:
+      "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
+    blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
+    variantId: "1",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: "3",
+    location:
+      "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
+    blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
+    variantId: "3",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: "4",
+    location:
+      "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
+    blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
+    variantId: "4",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: "5",
+    location:
+      "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
+    blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
+    variantId: "5",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: "6",
+    location:
+      "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
+    blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
+    variantId: "6",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: "7",
+    location:
+      "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
+    blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
+    variantId: "7",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+];
 const variants: ProductVariant[] = [
   {
     id: "1",
@@ -324,7 +388,7 @@ const variants: ProductVariant[] = [
     updatedAt: new Date(),
   },
   {
-    id: "8",
+    id: "2",
     name: "King OG",
     unit: "g",
     size: 9,
@@ -338,7 +402,7 @@ const variants: ProductVariant[] = [
     updatedAt: new Date(),
   },
   {
-    id: "2",
+    id: "3",
     name: "Blackberry Kush",
     unit: "g",
     size: 3.5,
@@ -352,7 +416,7 @@ const variants: ProductVariant[] = [
     updatedAt: new Date(),
   },
   {
-    id: "3",
+    id: "4",
     name: "Blackberry Nuggs",
     unit: "g",
     size: 3.5,
@@ -366,7 +430,7 @@ const variants: ProductVariant[] = [
     updatedAt: new Date(),
   },
   {
-    id: "4",
+    id: "5",
     name: "Red Taffy Firetruck",
     unit: "g",
     size: 3.5,
@@ -380,7 +444,7 @@ const variants: ProductVariant[] = [
     updatedAt: new Date(),
   },
   {
-    id: "5",
+    id: "6",
     name: "Eagle cbd oil",
     unit: "g",
     size: 3.5,
@@ -394,7 +458,7 @@ const variants: ProductVariant[] = [
     updatedAt: new Date(),
   },
   {
-    id: "6",
+    id: "7",
     name: "Magic Mountain Bush",
     unit: "g",
     size: 3.5,
@@ -408,7 +472,7 @@ const variants: ProductVariant[] = [
     updatedAt: new Date(),
   },
   {
-    id: "7",
+    id: "8",
     name: "Razmatazz",
     unit: "g",
     size: 3.5,
@@ -557,72 +621,6 @@ const ImageOrganizations: ImageOrganization[] = [
     updatedAt: new Date(),
   },
 ];
-const ImageProducts: ImageProduct[] = [
-  {
-    id: "1",
-    location:
-      "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
-    blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
-    variantId: "1",
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    id: "2",
-    location:
-      "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
-    blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
-    variantId: "1",
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    id: "3",
-    location:
-      "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
-    blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
-    variantId: "3",
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    id: "4",
-    location:
-      "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
-    blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
-    variantId: "4",
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    id: "5",
-    location:
-      "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
-    blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
-    variantId: "5",
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    id: "6",
-    location:
-      "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
-    blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
-    variantId: "6",
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    id: "7",
-    location:
-      "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
-    blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
-    variantId: "7",
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-];
-
 const Categories: Category[] = [
   {
     id: "1",
@@ -831,61 +829,9 @@ const orders: Order[] = [
   },
 ];
 
-// const deliveries: Delivery[] = [
-//   {
-//     id: "1",
-//     orderId: "1",
-//     customerId: "",
-//     addressCustomerId: "",
-//     createdAt: new Date(),
-//     updatedAt: new Date(),
-//   },
-//   {
-//     id: "1",
-//     orderId: "1",
-//     customerId: "",
-//     addressCustomerId: "",
-//     createdAt: new Date(),
-//     updatedAt: new Date(),
-//   },
-//   {
-//     id: "1",
-//     orderId: "1",
-//     customerId: "",
-//     addressCustomerId: "",
-//     createdAt: new Date(),
-//     updatedAt: new Date(),
-//   },
-//   {
-//     id: "1",
-//     orderId: "1",
-//     customerId: "",
-//     addressCustomerId: "",
-//     createdAt: new Date(),
-//     updatedAt: new Date(),
-//   },
-//   {
-//     id: "1",
-//     orderId: "1",
-//     customerId: "",
-//     addressCustomerId: "",
-//     createdAt: new Date(),
-//     updatedAt: new Date(),
-//   },
-//   {
-//     id: "1",
-//     orderId: "1",
-//     customerId: "",
-//     addressCustomerId: "",
-//     createdAt: new Date(),
-//     updatedAt: new Date(),
-//   },
-// ];
-
 const prisma = new PrismaClient();
 
 async function main() {
-  
   await prisma.user.createMany({
     data: users,
   });
@@ -904,18 +850,7 @@ async function main() {
   await prisma.subDomain.createMany({
     data: subdomains,
   });
-  await prisma.imageVendor.createMany({
-    data: ImageVendors,
-  });
-  await prisma.imageOrganization.createMany({
-    data: ImageOrganizations,
-  });
-  await prisma.imageProduct.createMany({
-    data: ImageProducts,
-  });
-  await prisma.imageUser.createMany({
-    data: ImageUsers,
-  });
+
   await prisma.category.createMany({
     data: Categories,
   });
@@ -934,7 +869,28 @@ async function main() {
       }
     })
   })
+  await prisma.driver.createMany({
+    data: drivers,
+  });
+  await prisma.order.createMany({
+    data: orders,
+  });  
+  await prisma.orderItem.createMany({
+    data: orderItems,
+  })
+  await prisma.membership.createMany({
+    data: memberships,
+  });
 
+  await prisma.productVariant.createMany({
+    data: variants,
+    // skipduplicates here from some reason, to prevent an error with seed command
+    skipDuplicates: true,
+  })
+    // soo.. as the products and variants list grows,
+  // we may have use a sort method on the products table, and
+  // variants table if we want to continue to quickly seed the database.
+// why? to quickly connect related records with iterating through the entire table.
   products.map(async (product) => {
   await prisma.product.create({
     data: {
@@ -943,26 +899,27 @@ async function main() {
         connect: [
           { id: '9' }
         ]
-      }
+      },
+      // variants: {
+      //   connect: variants.filter(variant => variant.productId === product.id).map(variant => ({ id: variant.id }))
+      // }
     }
-  });
   })
+  });
   
-  await prisma.driver.createMany({
-    data: drivers,
+  await prisma.imageVendor.createMany({
+    data: ImageVendors,
   });
-  await prisma.productVariant.createMany({
-    data: variants,
-  })
-  await prisma.orderItem.createMany({
-    data: orderItems,
-  })
-  await prisma.order.createMany({
-    data: orders,
+  await prisma.imageOrganization.createMany({
+    data: ImageOrganizations,
   });
-  await prisma.membership.createMany({
-    data: memberships,
+  await prisma.imageProduct.createMany({
+    data: ImageProducts,
   });
+  await prisma.imageUser.createMany({
+    data: ImageUsers,
+  });
+  
   console.log("inserted all records");
 }
 

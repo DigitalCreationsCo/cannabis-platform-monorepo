@@ -350,6 +350,64 @@ var orderItems = [
         updatedAt: new Date(),
     },
 ];
+var ImageProducts = [
+    {
+        id: "1",
+        location: "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
+        blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
+        variantId: "1",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+    },
+    {
+        id: "2",
+        location: "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
+        blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
+        variantId: "1",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+    },
+    {
+        id: "3",
+        location: "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
+        blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
+        variantId: "3",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+    },
+    {
+        id: "4",
+        location: "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
+        blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
+        variantId: "4",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+    },
+    {
+        id: "5",
+        location: "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
+        blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
+        variantId: "5",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+    },
+    {
+        id: "6",
+        location: "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
+        blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
+        variantId: "6",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+    },
+    {
+        id: "7",
+        location: "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
+        blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
+        variantId: "7",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+    },
+];
 var variants = [
     {
         id: "1",
@@ -366,7 +424,7 @@ var variants = [
         updatedAt: new Date(),
     },
     {
-        id: "8",
+        id: "2",
         name: "King OG",
         unit: "g",
         size: 9,
@@ -380,7 +438,7 @@ var variants = [
         updatedAt: new Date(),
     },
     {
-        id: "2",
+        id: "3",
         name: "Blackberry Kush",
         unit: "g",
         size: 3.5,
@@ -394,7 +452,7 @@ var variants = [
         updatedAt: new Date(),
     },
     {
-        id: "3",
+        id: "4",
         name: "Blackberry Nuggs",
         unit: "g",
         size: 3.5,
@@ -408,7 +466,7 @@ var variants = [
         updatedAt: new Date(),
     },
     {
-        id: "4",
+        id: "5",
         name: "Red Taffy Firetruck",
         unit: "g",
         size: 3.5,
@@ -422,7 +480,7 @@ var variants = [
         updatedAt: new Date(),
     },
     {
-        id: "5",
+        id: "6",
         name: "Eagle cbd oil",
         unit: "g",
         size: 3.5,
@@ -436,7 +494,7 @@ var variants = [
         updatedAt: new Date(),
     },
     {
-        id: "6",
+        id: "7",
         name: "Magic Mountain Bush",
         unit: "g",
         size: 3.5,
@@ -450,7 +508,7 @@ var variants = [
         updatedAt: new Date(),
     },
     {
-        id: "7",
+        id: "8",
         name: "Razmatazz",
         unit: "g",
         size: 3.5,
@@ -590,64 +648,6 @@ var ImageOrganizations = [
         location: "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
         blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
         organizationId: "2",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-    },
-];
-var ImageProducts = [
-    {
-        id: "1",
-        location: "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
-        blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
-        variantId: "1",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-    },
-    {
-        id: "2",
-        location: "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
-        blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
-        variantId: "1",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-    },
-    {
-        id: "3",
-        location: "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
-        blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
-        variantId: "3",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-    },
-    {
-        id: "4",
-        location: "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
-        blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
-        variantId: "4",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-    },
-    {
-        id: "5",
-        location: "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
-        blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
-        variantId: "5",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-    },
-    {
-        id: "6",
-        location: "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
-        blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
-        variantId: "6",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-    },
-    {
-        id: "7",
-        location: "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
-        blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
-        variantId: "7",
         createdAt: new Date(),
         updatedAt: new Date(),
     },
@@ -856,56 +856,6 @@ var orders = [
         deliveredAt: new Date(),
     },
 ];
-// const deliveries: Delivery[] = [
-//   {
-//     id: "1",
-//     orderId: "1",
-//     customerId: "",
-//     addressCustomerId: "",
-//     createdAt: new Date(),
-//     updatedAt: new Date(),
-//   },
-//   {
-//     id: "1",
-//     orderId: "1",
-//     customerId: "",
-//     addressCustomerId: "",
-//     createdAt: new Date(),
-//     updatedAt: new Date(),
-//   },
-//   {
-//     id: "1",
-//     orderId: "1",
-//     customerId: "",
-//     addressCustomerId: "",
-//     createdAt: new Date(),
-//     updatedAt: new Date(),
-//   },
-//   {
-//     id: "1",
-//     orderId: "1",
-//     customerId: "",
-//     addressCustomerId: "",
-//     createdAt: new Date(),
-//     updatedAt: new Date(),
-//   },
-//   {
-//     id: "1",
-//     orderId: "1",
-//     customerId: "",
-//     addressCustomerId: "",
-//     createdAt: new Date(),
-//     updatedAt: new Date(),
-//   },
-//   {
-//     id: "1",
-//     orderId: "1",
-//     customerId: "",
-//     addressCustomerId: "",
-//     createdAt: new Date(),
-//     updatedAt: new Date(),
-//   },
-// ];
 var prisma = new client_1.PrismaClient();
 function main() {
     return __awaiter(this, void 0, void 0, function () {
@@ -942,30 +892,10 @@ function main() {
                         })];
                 case 6:
                     _a.sent();
-                    return [4 /*yield*/, prisma.imageVendor.createMany({
-                            data: ImageVendors,
-                        })];
-                case 7:
-                    _a.sent();
-                    return [4 /*yield*/, prisma.imageOrganization.createMany({
-                            data: ImageOrganizations,
-                        })];
-                case 8:
-                    _a.sent();
-                    return [4 /*yield*/, prisma.imageProduct.createMany({
-                            data: ImageProducts,
-                        })];
-                case 9:
-                    _a.sent();
-                    return [4 /*yield*/, prisma.imageUser.createMany({
-                            data: ImageUsers,
-                        })];
-                case 10:
-                    _a.sent();
                     return [4 /*yield*/, prisma.category.createMany({
                             data: Categories,
                         })];
-                case 11:
+                case 7:
                     _a.sent();
                     CategoryLists.map(function (list) { return __awaiter(_this, void 0, void 0, function () {
                         return __generator(this, function (_a) {
@@ -986,6 +916,42 @@ function main() {
                             }
                         });
                     }); });
+                    return [4 /*yield*/, prisma.driver.createMany({
+                            data: drivers,
+                        })];
+                case 8:
+                    _a.sent();
+                    return [4 /*yield*/, prisma.order.createMany({
+                            data: orders,
+                        })];
+                case 9:
+                    _a.sent();
+                    return [4 /*yield*/, prisma.orderItem.createMany({
+                            data: orderItems,
+                        })];
+                case 10:
+                    _a.sent();
+                    return [4 /*yield*/, prisma.membership.createMany({
+                            data: memberships,
+                        })];
+                case 11:
+                    _a.sent();
+                    return [4 /*yield*/, prisma.productVariant.createMany({
+                            data: variants,
+                            // skipduplicates here from some reason, to prevent an error with seed command
+                            skipDuplicates: true,
+                        })
+                        // soo.. as the products and variants list grows,
+                        // we may have use a sort method on the products table, and
+                        // variants table if we want to continue to quickly seed the database.
+                        // why? to quickly connect related records with iterating through the entire table.
+                    ];
+                case 12:
+                    _a.sent();
+                    // soo.. as the products and variants list grows,
+                    // we may have use a sort method on the products table, and
+                    // variants table if we want to continue to quickly seed the database.
+                    // why? to quickly connect related records with iterating through the entire table.
                     products.map(function (product) { return __awaiter(_this, void 0, void 0, function () {
                         return __generator(this, function (_a) {
                             switch (_a.label) {
@@ -1002,28 +968,23 @@ function main() {
                             }
                         });
                     }); });
-                    return [4 /*yield*/, prisma.driver.createMany({
-                            data: drivers,
-                        })];
-                case 12:
-                    _a.sent();
-                    return [4 /*yield*/, prisma.productVariant.createMany({
-                            data: variants,
+                    return [4 /*yield*/, prisma.imageVendor.createMany({
+                            data: ImageVendors,
                         })];
                 case 13:
                     _a.sent();
-                    return [4 /*yield*/, prisma.orderItem.createMany({
-                            data: orderItems,
+                    return [4 /*yield*/, prisma.imageOrganization.createMany({
+                            data: ImageOrganizations,
                         })];
                 case 14:
                     _a.sent();
-                    return [4 /*yield*/, prisma.order.createMany({
-                            data: orders,
+                    return [4 /*yield*/, prisma.imageProduct.createMany({
+                            data: ImageProducts,
                         })];
                 case 15:
                     _a.sent();
-                    return [4 /*yield*/, prisma.membership.createMany({
-                            data: memberships,
+                    return [4 /*yield*/, prisma.imageUser.createMany({
+                            data: ImageUsers,
                         })];
                 case 16:
                     _a.sent();

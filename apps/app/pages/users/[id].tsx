@@ -47,7 +47,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
         imageUser: user?.imageUser || [],
         memberships: user?.memberships || [],
         createdAt: user?.createdAt || new Date(),
-        updatedAt: user?.updatedAt || new Date(),
+        updatedAt: user?.updatedAt || new Date()
     };
 
     const validationSchema = yup.object().shape({
@@ -57,12 +57,12 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
         email: yup.string().required('required'),
         dialCode: yup.number().required('required'),
         phone: yup.number().required('required'),
-        address: yup.array().min(1).required('required'),
+        address: yup.array().min(1).required('required')
     });
     const { values, errors, touched, handleChange, handleBlur, handleSubmit } = useFormik({
         initialValues,
         validationSchema,
-        onSubmit: handleFormSubmit,
+        onSubmit: handleFormSubmit
     });
     const { isLoading } = useAppState();
     const [files, setFiles] = useState<unknown[]>([]);
@@ -361,6 +361,7 @@ export async function getServerSideProps({ params }) {
     try {
         const userData = await (await axios(urlBuilder.next + `/api/users/${params.id}`)).data;
         if (!userData) return { notFound: true };
+        console.log('SSR user: ', userData)
         return {
             props: { user: userData },
         };
