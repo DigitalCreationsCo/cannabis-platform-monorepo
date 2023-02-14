@@ -1,4 +1,5 @@
 export * from '@prisma/client';
+export * from './address';
 export * from './category';
 export { default } from './db/prisma';
 export * from './models';

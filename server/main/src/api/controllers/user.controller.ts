@@ -34,4 +34,28 @@ export default class UserController {
             res.status(500).json({ error });
         }
     }
+
+    static async getAddressById(req, res) {
+        try {
+            const { id = '', addressId = '' } = req.params;
+            const data = await UserDA.getAddressByIdAndUser({ id, addressId });
+            if (!data) return res.status(404).json('Address not found');
+            return res.status(200).json(data);
+        } catch (error) {
+            console.log('API error: ', error);
+            res.status(500).json({ error });
+        }
+    }
+
+    static async deleteAddressById(req, res) {
+        try {
+            const { id = '', addressId = '' } = req.params;
+            const data = await UserDA.deleteAddressByIdAndUser({ id, addressId });
+            if (!data) return res.status(404).json('Address not found');
+            return res.status(200).json(data);
+        } catch (error) {
+            console.log('API error: ', error);
+            res.status(500).json({ error });
+        }
+    }
 }
