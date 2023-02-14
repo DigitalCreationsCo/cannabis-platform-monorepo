@@ -3,7 +3,7 @@ import {
     OrderItemWithDetails,
     OrderStatus,
     OrderWithDetails,
-    ProductVariantWithDetails,
+    ProductVariantWithDetails
 } from '@cd/data-access';
 import {
     Button,
@@ -22,7 +22,7 @@ import {
     PhoneNumber,
     Price,
     Row,
-    TextField,
+    TextField
 } from '@cd/shared-ui';
 import axios from 'axios';
 import { AddProduct, PageHeader, ProductItem, ProtectedComponent } from 'components';
@@ -80,7 +80,7 @@ export default function OrderDetails({ order }: { order: OrderWithDetails }) {
                     ...updateOrder,
                     id: order.id,
                     items: removeProductsFromItems(order.items),
-                    status: orderStatus,
+                    status: orderStatus
                 });
                 if (response.status !== 200) throw Error('Could not save record');
                 toast.success('Order Updated Successfully');
@@ -135,7 +135,7 @@ export default function OrderDetails({ order }: { order: OrderWithDetails }) {
             variantId: variant.id,
             salePrice,
             quantity,
-            orderId: order.id,
+            orderId: order.id
         };
 
         const items = [...order.items, addItem];
@@ -393,31 +393,31 @@ export default function OrderDetails({ order }: { order: OrderWithDetails }) {
 const orderStatusList = [
     {
         label: 'Pending',
-        value: 'Pending',
+        value: 'Pending'
     },
     {
         label: 'Processing',
-        value: 'Processing',
+        value: 'Processing'
     },
     {
         label: 'Delivered',
-        value: 'Delivered',
+        value: 'Delivered'
     },
     {
         label: 'Cancelled',
-        value: 'Cancelled',
-    },
+        value: 'Cancelled'
+    }
 ];
 
 const getUserInfo = ({ req }) => {
     // let user = req.session?.user
     const session = {
-        user: { username: 'kbarnes', firstName: 'Katie', lastName: 'Barnes', memberships: [{ organizationId: '2' }] },
+        user: { username: 'kbarnes', firstName: 'Katie', lastName: 'Barnes', memberships: [{ organizationId: '2' }] }
     };
     const { user } = session;
     return {
         session,
-        user,
+        user
     };
 };
 
@@ -428,7 +428,7 @@ export async function getServerSideProps({ req, res, params }) {
         if (!order) return { notFound: true };
 
         return {
-            props: { order },
+            props: { order }
         };
     } catch (error) {
         console.log('SSR error: ', error.message);
