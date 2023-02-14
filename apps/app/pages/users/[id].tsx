@@ -30,6 +30,7 @@ import { useAppState } from '../../src/context/AppProvider';
 // will use this component to protect those routes from non-admin users
 
 // To Do:
+// add Address modal, use update modal?
 // test, test, test
 
 export default function UserDetails({ user }: { user: UserWithDetails }) {
@@ -261,10 +262,16 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
                                                 onChange={handleChange}
                                                 error={!!touched.phone && !!errors.phone}
                                             />
-                                                </FlexBox>
+                                        </FlexBox>
                                                 
                                         <FlexBox className="flex-row min-w-[111px]">
                                             <label>Addresses</label>
+                                            <Button
+                                                // onClick={toggleAddProduct}
+                                                className="bg-light text-dark hover:text-light text-sm h-[30px] border"
+                                            >
+                                                Add Product
+                                            </Button>
                                         </FlexBox>
                                         {address.length > 0 ? address.map((address, index) => (
                                             <Card key={`address-${index}`} className={'w-full px-3 flex-row justify-between items-center'}>
