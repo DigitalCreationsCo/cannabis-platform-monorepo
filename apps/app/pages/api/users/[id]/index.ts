@@ -10,7 +10,7 @@ handler.use(authMiddleware).use(healthCheckMiddleware);
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         console.log('get user api route');
-        res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
+        // res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
         const { id } = req.query;
         const { data } = await axios(urlBuilder.main.userById(id));
         return res.status(res.statusCode).json(data);

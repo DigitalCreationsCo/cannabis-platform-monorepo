@@ -1,11 +1,5 @@
 module.exports = {
-    extends: [
-        'eslint:recommended',
-        'plugin:import/recommended',
-        'plugin:import/typescript',
-        'plugin:prettier/recommended',
-        'eslint-config-prettier',
-    ],
+    extends: ['eslint:recommended', 'plugin:import/recommended', 'plugin:import/typescript', 'eslint-config-prettier'],
     plugins: ['prettier'],
     rules: {
         eqeqeq: 'error',

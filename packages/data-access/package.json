@@ -32,7 +32,7 @@
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate",
     "db:push": "prisma db push --skip-generate",
-    "db:reseed": "prisma generate && prisma db push && yarn clear && prisma db seed",
+    "db:reseed": "prisma generate && prisma db push && yarn clear && prisma db seed && prisma generate && yarn build",
     "db:seed": "prisma db seed",
     "db:studio": "prisma studio",
     "prepack": "json -f package.json -I -e \"delete this.devDependencies; delete this.dependencies\"",
