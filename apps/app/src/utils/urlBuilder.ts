@@ -1,7 +1,7 @@
-const next = process.env.APP_URL;
+const next = process.env.NEXT_PUBLIC_APP_URL;
 const mainUrl = process.env.SERVER_MAIN_URL;
-console.log('Next api: ', process.env.APP_URL);
-console.log('Server Main api: ', process.env.SERVER_MAIN_URL);
+console.log('Next api: ', next);
+console.log('Server Main api: ', mainUrl);
 
 const urlBuilder = {
     next,

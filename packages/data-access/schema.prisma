@@ -118,7 +118,7 @@ model Vendor {
 }
 
 model Address {
-  id            String    @id @default(cuid())
+  id            String    @id @default(cuid()) @unique
   street1 String
   street2 String?
   city String

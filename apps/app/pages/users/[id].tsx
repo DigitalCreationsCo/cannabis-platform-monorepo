@@ -30,11 +30,7 @@ import { useAppState } from '../../src/context/AppProvider';
 // will use this component to protect those routes from non-admin users
 
 // To Do:
-// 1. Add the more textfield to update address modal
 // test, test, test
-// create server main api routes for address, with test cases
-// test some more ;)
-// maybe add editor middleware functionality for priveleged editing within the page? use ssr for this.
 
 export default function UserDetails({ user }: { user: UserWithDetails }) {
     const initialValues = {
@@ -73,10 +69,12 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
     const [loadingButton, setLoadingButton] = useState(false);
     const [existingImage, setExistingImage] = useState<ImageUser[]>(user?.imageUser || []);
     const [deletedImage, setDeletedImage] = useState<ImageUser[]>([]);
+    const [address, setAddress] = useState<Address[]>(values.address || []);
     const [addressUpdateIndex, setAddressUpdateIndex] = useState<number>();
     const [addressUpdateModal, setAddressUpdateModal] = useState(false);
+    const [addressDeleteIndex, setAddressDeleteIndex] = useState<number>();
     const [addressDeleteModal, setAddressDeleteModal] = useState(false);
-    const [address, setAddress] = useState<Address[]>(values.address || []);
+
     useEffect(() => {
         setAddress(values.address);
     }, [values.address]);
@@ -123,8 +121,6 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
         }
     }
 
-    // change user admin level function
-
     const handleDeleteExistingImage = (image: ImageUser) => {
         const id = image.id;
         setExistingImage((state) => state.filter((image) => id !== image.id));
@@ -161,32 +157,32 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
                                         <FlexBox className='flex-col space-x-0 space-y-1'>
                                     <TextField
                                         name={ `address[${addressUpdateIndex}].street1` } label="Street Line 1" placeholder="Street Line 1"
-                                        value={values.address?.[addressUpdateIndex]?.street1}
+                                        value={values?.address?.[addressUpdateIndex]?.street1}
                                         onBlur={handleBlur}
                                         onChange={ handleChange } />
                                     <TextField
                                         name={ `address[${addressUpdateIndex}].street2` } label="Street Line 2" placeholder="Street Line 2"
-                                        value={values.address?.[addressUpdateIndex]?.street2}
+                                        value={values?.address?.[addressUpdateIndex]?.street2}
                                         onBlur={handleBlur}
                                         onChange={ handleChange } />
                                         <TextField
                                         name={ `address[${addressUpdateIndex}].city` } label="City" placeholder="City"
-                                        value={values.address?.[addressUpdateIndex]?.city}
+                                        value={values?.address?.[addressUpdateIndex]?.city}
                                         onBlur={handleBlur}
                                         onChange={ handleChange } />
                                         <TextField
                                         name={ `address[${addressUpdateIndex}].state` } label="State" placeholder="State"
-                                        value={values.address?.[addressUpdateIndex]?.state}
+                                        value={values?.address?.[addressUpdateIndex]?.state}
                                         onBlur={handleBlur}
                                         onChange={ handleChange } />
                                         <TextField
                                         name={ `address[${addressUpdateIndex}].country` } label="Country" placeholder="Country"
-                                        value={values.address?.[addressUpdateIndex]?.country}
+                                        value={values?.address?.[addressUpdateIndex]?.country}
                                         onBlur={handleBlur}
                                         onChange={ handleChange } />
                                         <TextField
                                         name={ `address[${addressUpdateIndex}].zipcode` } label="Zipcode" placeholder="Zipcode"
-                                        value={values.address?.[addressUpdateIndex]?.zipcode}
+                                        value={values?.address?.[addressUpdateIndex]?.zipcode}
                                         onBlur={handleBlur}
                                                 onChange={ handleChange } />
                                         </FlexBox>
@@ -194,10 +190,11 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
                                             <Button onClick={ () => { setAddressUpdateModal(false); toast.success('Please save your changes.'); } }>Close</Button></FlexBox>
                                     </Grid>
                                 </Modal>
+                                
                                 <ConfirmationModal
                                     onClose={() => setAddressDeleteModal(false)}
                                     open={ addressDeleteModal }
-                                    handleConfirm={() => handleAddressDelete({ addressId: user?.address?.[addressUpdateIndex]?.id, userId: user?.id })}
+                                    handleConfirm={() => handleAddressDelete({ addressId: address?.[addressDeleteIndex]?.id, userId: user?.id })}
                                     description={ "Delete this address? You can't undo this action." } />
                                 <form
                                     onSubmit={(e) => {
@@ -212,7 +209,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
                                             name="firstName"
                                             label="First Name"
                                             placeholder="First Name"
-                                            value={values.firstName}
+                                            value={values?.firstName}
                                             onBlur={handleBlur}
                                             onChange={handleChange}
                                             error={!!touched.firstName && !!errors.firstName}
@@ -221,7 +218,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
                                             name="lastName"
                                             label="Last Name"
                                             placeholder="Last Name"
-                                            value={values.lastName}
+                                            value={values?.lastName}
                                             onBlur={handleBlur}
                                             onChange={handleChange}
                                             error={!!touched.lastName && !!errors.lastName}
@@ -230,7 +227,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
                                             name="username"
                                             label="UserName"
                                             placeholder="UserName"
-                                            value={values.username}
+                                            value={values?.username}
                                             onBlur={handleBlur}
                                             onChange={handleChange}
                                             error={!!touched.username && !!errors.username}
@@ -239,7 +236,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
                                             name="email"
                                             label="Email"
                                             placeholder="Email"
-                                            value={values.email}
+                                            value={values?.email}
                                             onBlur={handleBlur}
                                             onChange={handleChange}
                                             error={!!touched.email && !!errors.email}
@@ -250,7 +247,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
                                                 name="dialCode"
                                                 label="DialCode"
                                                 placeholder="DialCode"
-                                                value={values.dialCode}
+                                                value={values?.dialCode}
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
                                                 error={!!touched.dialCode && !!errors.dialCode}
@@ -259,7 +256,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
                                                 name="phone"
                                                 label="Phone"
                                                 placeholder="Phone"
-                                                value={values.phone}
+                                                value={values?.phone}
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
                                                 error={!!touched.phone && !!errors.phone}
@@ -269,7 +266,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
                                         <FlexBox className="flex-row min-w-[111px]">
                                             <label>Addresses</label>
                                         </FlexBox>
-                                        {address.map((address, index) => (
+                                        {address.length > 0 ? address.map((address, index) => (
                                             <Card key={`address-${index}`} className={'w-full px-3 flex-row justify-between items-center'}>
                                                 <Paragraph className={'whitespace-pre-line'}>
                                                     {`${address.street1} ${address.street2} 
@@ -287,10 +284,11 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
                                                         e.preventDefault();
                                                         e.stopPropagation();
                                                         setAddressDeleteModal(true)
+                                                        setAddressDeleteIndex(index)
                                                     } } />
                                                 </FlexBox>
                                             </Card>
-                                        ))}
+                                        )): <Card>This user has no address listed.</Card>}
                                         <FlexBox>
                                             <Paragraph>{`Are the Terms Of Use accepted? ${
                                                 user.termsAccepted ? 'Yes' : 'No'

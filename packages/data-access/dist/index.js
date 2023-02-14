@@ -19,6 +19,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = void 0;
 __exportStar(require("@prisma/client"), exports);
+__exportStar(require("./address"), exports);
 __exportStar(require("./category"), exports);
 var prisma_1 = require("./db/prisma");
 Object.defineProperty(exports, "default", { enumerable: true, get: function () { return __importDefault(prisma_1).default; } });
