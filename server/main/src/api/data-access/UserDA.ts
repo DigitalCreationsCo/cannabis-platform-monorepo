@@ -19,9 +19,9 @@ export default class UserDA {
         }
     }
 
-    static async getAddressByIdAndUser({ id, addressId }) {
+    static async getAddressById(addressId) {
         try {
-            const data = await findAddressById(id);
+            const data = await findAddressById(addressId);
             return data;
         } catch (error) {
             console.error(error.message);
@@ -29,9 +29,9 @@ export default class UserDA {
         }
     }
 
-    static async deleteAddressByIdAndUser({ id, addressId }) {
+    static async deleteAddressById(addressId) {
         try {
-            const data = await deleteAddressById(id);
+            const data = await deleteAddressById(addressId);
             return data;
         } catch (error) {
             console.error(error.message);

@@ -38,7 +38,7 @@ export default class UserController {
     static async getAddressById(req, res) {
         try {
             const { id = '', addressId = '' } = req.params;
-            const data = await UserDA.getAddressByIdAndUser({ id, addressId });
+            const data = await UserDA.getAddressById(addressId);
             if (!data) return res.status(404).json('Address not found');
             return res.status(200).json(data);
         } catch (error) {
@@ -50,7 +50,7 @@ export default class UserController {
     static async deleteAddressById(req, res) {
         try {
             const { id = '', addressId = '' } = req.params;
-            const data = await UserDA.deleteAddressByIdAndUser({ id, addressId });
+            const data = await UserDA.deleteAddressById(addressId);
             if (!data) return res.status(404).json('Address not found');
             return res.status(200).json(data);
         } catch (error) {
