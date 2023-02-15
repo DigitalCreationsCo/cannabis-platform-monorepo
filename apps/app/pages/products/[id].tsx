@@ -5,7 +5,7 @@ import {
     ImageUser,
     ImageVendor,
     Product,
-    ProductWithDetails,
+    ProductWithDetails
 } from '@cd/data-access';
 import {
     Button,
@@ -18,7 +18,7 @@ import {
     Paragraph,
     Row,
     TextField,
-    UploadImageBox,
+    UploadImageBox
 } from '@cd/shared-ui';
 import axios from 'axios';
 import { ClickableTags, DropZone, Modal, PageHeader, ProtectedComponent } from 'components';
@@ -43,7 +43,7 @@ const checkoutSchema = yup.object().shape({
     size: yup.number().required('required'),
     currency: yup.number().required('required'),
     basePrice: yup.number().required('required'),
-    discount: yup.number().required('required'),
+    discount: yup.number().required('required')
 });
 
 export type ImageAny = ImageOrganization | ImageProduct | ImageUser | ImageVendor;
@@ -97,7 +97,7 @@ export default function ProductDetails({ product }: { product: ProductWithDetail
         reviews: product?.reviews || [],
         tags: product?.tags || '',
         createdAt: product?.createdAt || new Date(),
-        updatedAt: product?.updatedAt || new Date(),
+        updatedAt: product?.updatedAt || new Date()
     };
 
     async function handleFormSubmit(values: any) {
@@ -401,47 +401,6 @@ export default function ProductDetails({ product }: { product: ProductWithDetail
                                                     }}
                                                 />
                                             </Grid>
-                                            {/* <FlexBox>
-                <TextField
-                  name="stock"
-                  label="Stock"
-                  type="number"
-                  placeholder="Stock"
-                  onBlur={handleBlur}
-                  value={values.stock}
-                  onChange={handleChange}
-                  error={!!touched.stock && !!errors.stock}
-                  // helperText={touched.stock && errors.stock}
-                    />
-                    <Select className="max-w-fit">
-                      { [ "grams" ].map(unit => (
-                        <MenuItem key={ 'menu-item-' + unit } value={ unit }>
-                          {unit}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FlexBox> */}
-                                            
-                                            {/* <TextField
-                  name="basePrice"
-                  type="number"
-                  label="Regular Price"
-                  onBlur={handleBlur}
-                  value={values.basePrice}
-                  onChange={handleChange}
-                  placeholder="Regular Price"
-                  error={!!touched.basePrice && !!errors.basePrice}
-                  // helperText={touched.basePrice && errors.basePrice}
-                /> */}
-                                            {/* <TextField
-                  type="number"
-                  name="discount"
-                  label="Discount"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.discount}
-                  placeholder="Product Discount"
-                /> */}
                                         <FlexBox className="justify-center py-2 items-stretch">
                                                 <Button
                                                     className="flex grow bg-accent-soft hover:bg-accent"

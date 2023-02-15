@@ -118,11 +118,12 @@ export default function Users({ users }: UsersDashboardProps) {
     );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps({ res }) {
+    res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
     const users: User[] = await (await fetch(urlBuilder.next + '/api/users')).json();
     return {
         props: {
-            users,
-        },
+            users
+        }
     };
 }

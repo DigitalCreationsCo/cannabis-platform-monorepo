@@ -8,7 +8,7 @@ function Card({ className, title, amount, children }: CardProps & PropsWithChild
     return (
         <div
             className={twMerge(
-                'bg-light flex flex-col shadow drop-shadow rounded-btn min-w-max py-2 pl-2 sm:px-4 sm:space-x-4',
+                'bg-light flex flex-col shadow drop-shadow rounded-btn min-w-max py-2 pl-2 sm:px-4',
                 className
             )}
         >
