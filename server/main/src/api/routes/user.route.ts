@@ -20,6 +20,6 @@ router.route('/user/:id').get(userCtrl.getUserById);
 
 router.route('/user/:id/address/:addressId').get(userCtrl.getAddressById);
 
-router.route('/user/:id/address/:addressId').delete(userCtrl.deleteAddressById);
+router.route('/user/:id/address/:addressId').delete(userCtrl.removeUserAddress);
 
 export default router;

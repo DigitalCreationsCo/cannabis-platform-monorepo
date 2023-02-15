@@ -55,34 +55,34 @@ function clearRecords() {
                     return [4 /*yield*/, prisma.imageUser.deleteMany()];
                 case 4:
                     _a.sent();
-                    return [4 /*yield*/, prisma.address.deleteMany()];
+                    return [4 /*yield*/, prisma.organization.deleteMany()];
                 case 5:
                     _a.sent();
-                    return [4 /*yield*/, prisma.organization.deleteMany()];
+                    return [4 /*yield*/, prisma.vendor.deleteMany()];
                 case 6:
                     _a.sent();
-                    return [4 /*yield*/, prisma.vendor.deleteMany()];
+                    return [4 /*yield*/, prisma.product.deleteMany()];
                 case 7:
                     _a.sent();
-                    return [4 /*yield*/, prisma.product.deleteMany()];
+                    return [4 /*yield*/, prisma.subDomain.deleteMany()];
                 case 8:
                     _a.sent();
-                    return [4 /*yield*/, prisma.subDomain.deleteMany()];
+                    return [4 /*yield*/, prisma.siteSetting.deleteMany()];
                 case 9:
                     _a.sent();
-                    return [4 /*yield*/, prisma.siteSetting.deleteMany()];
+                    return [4 /*yield*/, prisma.category.deleteMany()];
                 case 10:
                     _a.sent();
-                    return [4 /*yield*/, prisma.category.deleteMany()];
+                    return [4 /*yield*/, prisma.categoryList.deleteMany()];
                 case 11:
                     _a.sent();
-                    return [4 /*yield*/, prisma.categoryList.deleteMany()];
+                    return [4 /*yield*/, prisma.driver.deleteMany()];
                 case 12:
                     _a.sent();
-                    return [4 /*yield*/, prisma.driver.deleteMany()];
+                    return [4 /*yield*/, prisma.order.deleteMany()];
                 case 13:
                     _a.sent();
-                    return [4 /*yield*/, prisma.order.deleteMany()];
+                    return [4 /*yield*/, prisma.address.deleteMany()];
                 case 14:
                     _a.sent();
                     return [4 /*yield*/, prisma.orderItem.deleteMany()];
@@ -94,7 +94,7 @@ function clearRecords() {
                     return [4 /*yield*/, prisma.user.deleteMany()];
                 case 17:
                     _a.sent();
-                    console.log("cleared all records");
+                    console.log('cleared all records');
                     return [2 /*return*/];
             }
         });

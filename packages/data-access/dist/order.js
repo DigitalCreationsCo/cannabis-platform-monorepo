@@ -118,7 +118,7 @@ function findOrderWithDetails(id) {
                             include: {
                                 customer: true,
                                 driver: true,
-                                deliveryInfo: true,
+                                destinationAddress: true,
                                 items: { include: { productVariant: { include: { images: true } } } }
                             }
                         })];
