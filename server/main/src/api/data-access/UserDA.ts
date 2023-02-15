@@ -1,10 +1,12 @@
-import { deleteAddressById, findAddressById, findUserWithDetails } from '@cd/data-access';
+import { findAddressById, findUserWithDetails, removeAddressByIdAndUserId } from '@cd/data-access';
 
 /* =================================
 User Data Access - data class for User table
 
 members:
 getUserById
+getAddressById
+removeAddressFromUser
 
 ================================= */
 
@@ -29,9 +31,9 @@ export default class UserDA {
         }
     }
 
-    static async deleteAddressById(addressId) {
+    static async removeAddressFromUser({ addressId, userId }) {
         try {
-            const data = await deleteAddressById(addressId);
+            const data = await removeAddressByIdAndUserId({ addressId, userId });
             return data;
         } catch (error) {
             console.error(error.message);

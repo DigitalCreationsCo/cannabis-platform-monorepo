@@ -35,3 +35,20 @@ export async function deleteAddressById(id: string) {
         throw new Error(error)
     }
 }
+
+export async function removeAddressByIdAndUserId({ addressId, userId }: { addressId: string, userId: string }) {
+    try {
+        const removeAddress = await prisma.address.update({
+            where: {
+                id: addressId
+            },
+            data: {
+                user: { disconnect: true }
+            }
+        })
+        return `Address ${removeAddress?.id} is removed.`
+    } catch (error: any) {
+        console.error(error)
+        throw new Error(error)
+    }
+}
