@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteAddressById = exports.findAddressById = void 0;
+exports.removeAddressByIdAndUserId = exports.deleteAddressById = exports.findAddressById = void 0;
 var prisma_1 = __importDefault(require("./db/prisma"));
 // export async function createAddress() {
 // try {
@@ -98,3 +98,32 @@ function deleteAddressById(id) {
     });
 }
 exports.deleteAddressById = deleteAddressById;
+function removeAddressByIdAndUserId(_a) {
+    var addressId = _a.addressId, userId = _a.userId;
+    return __awaiter(this, void 0, void 0, function () {
+        var removeAddress, error_3;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _b.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, prisma_1.default.address.update({
+                            where: {
+                                id: addressId
+                            },
+                            data: {
+                                user: { disconnect: true }
+                            }
+                        })];
+                case 1:
+                    removeAddress = _b.sent();
+                    return [2 /*return*/, "Address ".concat(removeAddress === null || removeAddress === void 0 ? void 0 : removeAddress.id, " is removed.")];
+                case 2:
+                    error_3 = _b.sent();
+                    console.error(error_3);
+                    throw new Error(error_3);
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.removeAddressByIdAndUserId = removeAddressByIdAndUserId;

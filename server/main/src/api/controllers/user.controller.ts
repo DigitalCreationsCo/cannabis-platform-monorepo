@@ -6,6 +6,8 @@ UserController - controller class for user actions
 members:
 login
 getUserById
+getAddressById
+removeAddressFromUser
 
 ================================= */
 
@@ -47,10 +49,10 @@ export default class UserController {
         }
     }
 
-    static async deleteAddressById(req, res) {
+    static async removeAddressFromUser(req, res) {
         try {
             const { id = '', addressId = '' } = req.params;
-            const data = await UserDA.deleteAddressById(addressId);
+            const data = await UserDA.removeAddressFromUser({ addressId, userId: id });
             if (!data) return res.status(404).json('Address not found');
             return res.status(200).json(data);
         } catch (error) {
