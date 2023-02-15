@@ -30,13 +30,13 @@ export async function findOrdersByOrg(organizationId: string) {
 
 export async function findOrderWithDetails(id: string) {
     try {
-        const order = await prisma.order.findUnique(
+        const order:OrderWithDetails|null = await prisma.order.findUnique(
             {
                 where: { id },
                 include: {
                     customer: true,
                     driver: true,
-                    deliveryInfo: true,
+                    destinationAddress: true,
                     items: { include: { productVariant: { include: { images: true } } } }
                 }
             }
@@ -85,6 +85,7 @@ export async function updateOrderWithOrderItems(order: any) {
         await prisma.$transaction([ ...updateOrderItemsOp ]);
         const updateOrder = await prisma.$transaction([ updateOrderOp ]);
         return updateOrder[0]
+        return updateOrder[0]
     } catch (error: any) {
         console.error('error: ', error)
         throw new Error(error)
@@ -105,7 +106,7 @@ export type OrderWithDetails = Order & {
     driver: Driver | null;
     items?: OrderItemWithDetails[];
     customer: User;
-    deliveryInfo: Address;
+    destinationAddress: Address;
     updatedAt?: any;
 }
 
