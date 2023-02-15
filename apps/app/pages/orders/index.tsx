@@ -51,7 +51,7 @@ export async function getServerSideProps() {
     const orders: Order[] = await (await fetch(urlBuilder.next + '/api/orders')).json();
     return {
         props: {
-            orders,
-        },
+            orders
+        }
     };
 }

@@ -22,7 +22,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { urlBuilder } from 'utils';
+import { renderAddress, urlBuilder } from 'utils';
 import * as yup from 'yup';
 import { useAppState } from '../../src/context/AppProvider';
 
@@ -270,16 +270,13 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
                                                 // onClick={toggleAddProduct}
                                                 className="bg-light text-dark hover:text-light text-sm h-[30px] border"
                                             >
-                                                Add Product
+                                                Add Address
                                             </Button>
                                         </FlexBox>
                                         {address.length > 0 ? address.map((address, index) => (
                                             <Card key={`address-${index}`} className={'w-full px-3 flex-row justify-between items-center'}>
-                                                <Paragraph className={'whitespace-pre-line'}>
-                                                    {`${address.street1} ${address.street2} 
-                                                    ${address.city} ${address.state}
-                                                    ${address.country} ${address.zipcode}` }
-                                                </Paragraph>
+                                                { renderAddress(address) }
+
                                                 <FlexBox className="max-w-fit">
                                                     <Button className={"w-1/2"} onClick={(e) => {
                                                         e.preventDefault();

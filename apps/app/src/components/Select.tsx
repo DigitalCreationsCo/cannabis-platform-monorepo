@@ -1,39 +1,25 @@
-import { Paragraph } from '@cd/shared-ui';
-import React, { PropsWithChildren } from 'react';
+import React, { Dispatch, MouseEventHandler, SetStateAction } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 type SelectProps = {
-    // label?: string | number;
-    // options: any[];
-    // value: string | number;
-    // defaultOption: any;
+    multiple?: React.SelectHTMLAttributes<HTMLSelectElement>['multiple'];
+    defaultValue: string | number;
+    values: string[] | number[];
     className?: string;
-} & React.SelectHTMLAttributes<HTMLSelectElement> &
-    PropsWithChildren;
-export default function Select({
-    multiple,
-    // label,
-    // options,
-    // value,
-    // defaultOption = options[ 0 ],
-    className,
-    children,
-}: SelectProps) {
+    setOption?: Dispatch<SetStateAction<string | number>> | MouseEventHandler<HTMLOptionElement>['onClick'];
+};
+export default function Select({ multiple, values, defaultValue = values[0], className, setOption }: SelectProps) {
     return (
-        <div className="w-full">
-            <select
-                className={twMerge('focus:outline-none shadow border select w-full', className)}
-                multiple={multiple}
-            >
-                {children}
-            </select>
-        </div>
+        <select
+            className={twMerge('select focus:outline-none shadow border w-full', className)}
+            multiple={multiple}
+            defaultValue={defaultValue}
+        >
+            {values?.map((value, index) => (
+                <option value={value} onClick={() => setOption(value)} key={'option-' + index}>
+                    {value}
+                </option>
+            ))}
+        </select>
     );
-}
-
-type MenuItemProps = {
-    value: string;
-} & PropsWithChildren;
-export function MenuItem({ value, children }: MenuItemProps) {
-    return <option>{children}</option>;
 }

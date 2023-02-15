@@ -1,5 +1,5 @@
 export const layoutConstant = {
-    sideNavWidth: 188,
+    sideNavWidth: 188
 };
 
 // export const db_slug = {
