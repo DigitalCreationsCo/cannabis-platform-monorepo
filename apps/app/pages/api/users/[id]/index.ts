@@ -9,7 +9,6 @@ handler.use(authMiddleware).use(healthCheckMiddleware);
 // get a single user
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
     try {
-        console.log('get user api route');
         // res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
         const { id } = req.query;
         const { data } = await axios(urlBuilder.main.userById(id));

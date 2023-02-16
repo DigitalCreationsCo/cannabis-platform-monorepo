@@ -15,6 +15,7 @@ type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
     onChange: ReactEventHandler;
     onBlur?: ReactEventHandler;
     error?: boolean;
+    helperText?: string;
 };
 function TextField({
     className,
@@ -29,6 +30,7 @@ function TextField({
     defaultValue,
     onChange,
     onBlur,
+    helperText,
     ...props
 }: TextFieldProps) {
     const inputProps: React.InputHTMLAttributes<HTMLInputElement> = { ...props };
@@ -55,16 +57,16 @@ function TextField({
                     if (onBlur) onBlur;
                     setFocus(false);
                 }}
-                placeholder={placeholder}
+                placeholder={helperText || placeholder}
                 className={twMerge(
                     'items-center',
                     'p-4 mx-4 rounded-btn',
                     'wh-10',
-                    'outline-none w-full',
+                    'outline-none focus:outline-none w-full',
                     'shadow-inner',
                     'input-md',
                     focus && 'shadow-md',
-                    error && 'input-error',
+                    error && 'input-error border-2',
                     className
                 )}
                 {...inputProps}

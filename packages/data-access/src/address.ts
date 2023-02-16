@@ -1,12 +1,16 @@
 import prisma from "./db/prisma";
 
-// export async function createAddress() {
-    // try {
-    // } catch (error) {
-    //     console.error(error.message)
-    //     throw new Error(error.message)
-    // }
-//  }
+export async function createAddress(address:any) {
+    try {
+        const createAddress = await prisma.address.create({
+            data: address
+        })
+        return createAddress
+    } catch (error: any) {
+        console.error(error)
+        throw new Error(error)
+    }
+ }
 
 export async function findAddressById(id: string) {
     try {
@@ -51,4 +55,32 @@ export async function removeAddressByIdAndUserId({ addressId, userId }: { addres
         console.error(error)
         throw new Error(error)
     }
+}
+
+// export type AddressCreateType = Prisma.AddressCreateInput
+// export type AddressCreateType = Prisma.PromiseReturnType<typeof createAddress>
+
+export type AddressCreateType ={
+    street1: string;
+    street2: string | null;
+    city: string;
+    state: string;
+    zipcode: string;
+    country: string;
+    countryCode: string | null;
+    coordinateId?: string;
+    userId: string | undefined;
+    organizationId: string | undefined;
+};
+
+export type AddressUserCreateType ={
+    street1: string;
+    street2: string | null;
+    city: string;
+    state: string;
+    zipcode: string;
+    country: string;
+    countryCode: string | null;
+    coordinateId: string;
+    userId: string | undefined;
 }

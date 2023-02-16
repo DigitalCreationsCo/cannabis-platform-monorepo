@@ -1,7 +1,7 @@
 import { PropsWithChildren, ReactEventHandler } from 'react';
 import Button from './Button';
 import IconWrapper from './IconWrapper';
-type IconButtonProps = {
+export type IconButtonProps = {
     Icon: any;
     type?: 'button' | 'submit' | 'reset';
     onClick: ReactEventHandler;

@@ -3,7 +3,6 @@ module.exports = {
         "../../packages/shared-config/.eslintrc-react.cjs",
         'next',
         "next/core-web-vitals",
-        'prettier',
     ],
     settings: {
         next: {

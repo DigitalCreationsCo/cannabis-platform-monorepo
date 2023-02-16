@@ -7,6 +7,7 @@ members:
 login
 getUserById
 getAddressById
+addAddressToUser
 removeAddressFromUser
 
 ================================= */
@@ -42,6 +43,18 @@ export default class UserController {
             const { id = '', addressId = '' } = req.params;
             const data = await UserDA.getAddressById(addressId);
             if (!data) return res.status(404).json('Address not found');
+            return res.status(200).json(data);
+        } catch (error) {
+            console.log('API error: ', error);
+            res.status(500).json({ error });
+        }
+    }
+
+    static async addAddressToUser(req, res) {
+        try {
+            const address = req.body;
+            const data = await UserDA.createAddress(address);
+            if (!data) return res.status(404).json('Address was not created');
             return res.status(200).json(data);
         } catch (error) {
             console.log('API error: ', error);

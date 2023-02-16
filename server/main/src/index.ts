@@ -10,4 +10,4 @@ async function connectDb(prisma) {
   }
 }
 
-export { connectDb, server }
+export { connectDb, server };

@@ -3,8 +3,8 @@ import { urlBuilder } from '../utils';
 
 export default async function HealthCheck(req, res, next) {
     try {
-        console.log('serving next app from ', process.env.APP_URL);
-        console.log('checking server health at', process.env.SERVER_MAIN_URL + '/api/v1' + '/healthcheck');
+        console.log(' app served from ', process.env.APP_URL);
+        console.log(' healthcheck at', process.env.SERVER_MAIN_URL + '/api/v1' + '/healthcheck');
         await axios(urlBuilder.main.healthCheck());
         next();
     } catch (error) {

@@ -95,7 +95,10 @@
         },
         "watch": {
             "cache": true,
-            "dependsOn": [],
+            "dependsOn": [
+                "^db:generate",
+                 "^build"
+            ],
             "inputs": [
                 "src/**/*"
             ],

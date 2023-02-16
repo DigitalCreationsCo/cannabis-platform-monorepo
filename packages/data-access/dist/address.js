@@ -39,18 +39,34 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.removeAddressByIdAndUserId = exports.deleteAddressById = exports.findAddressById = void 0;
+exports.removeAddressByIdAndUserId = exports.deleteAddressById = exports.findAddressById = exports.createAddress = void 0;
 var prisma_1 = __importDefault(require("./db/prisma"));
-// export async function createAddress() {
-// try {
-// } catch (error) {
-//     console.error(error.message)
-//     throw new Error(error.message)
-// }
-//  }
+function createAddress(address) {
+    return __awaiter(this, void 0, void 0, function () {
+        var createAddress_1, error_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, prisma_1.default.address.create({
+                            data: address
+                        })];
+                case 1:
+                    createAddress_1 = _a.sent();
+                    return [2 /*return*/, createAddress_1];
+                case 2:
+                    error_1 = _a.sent();
+                    console.error(error_1);
+                    throw new Error(error_1);
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.createAddress = createAddress;
 function findAddressById(id) {
     return __awaiter(this, void 0, void 0, function () {
-        var address, error_1;
+        var address, error_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -64,9 +80,9 @@ function findAddressById(id) {
                     address = _a.sent();
                     return [2 /*return*/, address];
                 case 2:
-                    error_1 = _a.sent();
-                    console.error(error_1);
-                    throw new Error(error_1);
+                    error_2 = _a.sent();
+                    console.error(error_2);
+                    throw new Error(error_2);
                 case 3: return [2 /*return*/];
             }
         });
@@ -75,7 +91,7 @@ function findAddressById(id) {
 exports.findAddressById = findAddressById;
 function deleteAddressById(id) {
     return __awaiter(this, void 0, void 0, function () {
-        var deleteAddress, error_2;
+        var deleteAddress, error_3;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -89,9 +105,9 @@ function deleteAddressById(id) {
                     deleteAddress = _a.sent();
                     return [2 /*return*/, "Address ".concat(deleteAddress === null || deleteAddress === void 0 ? void 0 : deleteAddress.id, " is removed.")];
                 case 2:
-                    error_2 = _a.sent();
-                    console.error(error_2);
-                    throw new Error(error_2);
+                    error_3 = _a.sent();
+                    console.error(error_3);
+                    throw new Error(error_3);
                 case 3: return [2 /*return*/];
             }
         });
@@ -101,7 +117,7 @@ exports.deleteAddressById = deleteAddressById;
 function removeAddressByIdAndUserId(_a) {
     var addressId = _a.addressId, userId = _a.userId;
     return __awaiter(this, void 0, void 0, function () {
-        var removeAddress, error_3;
+        var removeAddress, error_4;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -118,9 +134,9 @@ function removeAddressByIdAndUserId(_a) {
                     removeAddress = _b.sent();
                     return [2 /*return*/, "Address ".concat(removeAddress === null || removeAddress === void 0 ? void 0 : removeAddress.id, " is removed.")];
                 case 2:
-                    error_3 = _b.sent();
-                    console.error(error_3);
-                    throw new Error(error_3);
+                    error_4 = _b.sent();
+                    console.error(error_4);
+                    throw new Error(error_4);
                 case 3: return [2 /*return*/];
             }
         });

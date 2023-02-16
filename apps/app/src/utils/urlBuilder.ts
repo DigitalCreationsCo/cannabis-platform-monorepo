@@ -1,7 +1,5 @@
 const next = process.env.NEXT_PUBLIC_APP_URL;
 const mainUrl = process.env.SERVER_MAIN_URL;
-console.log('Next api: ', next);
-console.log('Server Main api: ', mainUrl);
 
 const urlBuilder = {
     next,
@@ -24,9 +22,11 @@ const urlBuilder = {
 
         userById: (id: any) => urlBuilder.main.baseUrl + `/auth/user/${id}`,
         usersByOrg: (id: any) => urlBuilder.main.baseUrl + `/organization/${id}/users`,
+
         addressByIdAndUser: (addressId: any, id: any) =>
             urlBuilder.main.baseUrl + `/auth/user/${id}/address/${addressId}`,
-    },
+        address: () => urlBuilder.main.baseUrl + '/auth/address'
+    }
 };
 
 export default urlBuilder;

@@ -1,4 +1,4 @@
-import { findAddressById, findUserWithDetails, removeAddressByIdAndUserId } from '@cd/data-access';
+import { createAddress, findAddressById, findUserWithDetails, removeAddressByIdAndUserId } from '@cd/data-access';
 
 /* =================================
 User Data Access - data class for User table
@@ -6,6 +6,7 @@ User Data Access - data class for User table
 members:
 getUserById
 getAddressById
+addAddressToUser
 removeAddressFromUser
 
 ================================= */
@@ -24,6 +25,17 @@ export default class UserDA {
     static async getAddressById(addressId) {
         try {
             const data = await findAddressById(addressId);
+            return data;
+        } catch (error) {
+            console.error(error.message);
+            throw new Error(error.message);
+        }
+    }
+
+    static async createAddress(address) {
+        try {
+            address.coordinateId = '';
+            const data = await createAddress(address);
             return data;
         } catch (error) {
             console.error(error.message);
