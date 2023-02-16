@@ -10,6 +10,7 @@ export interface PageHeaderProps {
     iconColor?: string;
 }
 export default function PageHeader({ title, subTitle, Button, Icon, iconColor = 'primary' }: PageHeaderProps) {
+    console.log('page header: color: ', iconColor)
     return (
         <FlexBox className="pb-6 lg:pt-6 xl:min-h-[111px] xl:absolute z-10 top-[66px] min-h-[54px] flex space-x-4">
             <FlexBox className="flex-col">
@@ -17,7 +18,7 @@ export default function PageHeader({ title, subTitle, Button, Icon, iconColor = 
                     <H3>{title}</H3>
                     {Icon && (
                         <IconWrapper
-                            className={twMerge('fill-' + iconColor, 'hidden sm:block')}
+                            className={twMerge('fill-' + iconColor, 'sm:block')}
                             Icon={Icon}
                             size={24}
                         />
