@@ -4,6 +4,7 @@ import { useOnClickOutside } from 'hooks';
 import React, { useEffect, useRef } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { useModal } from '../../context';
+import CloseButton from '../CloseButton';
 
 export type ModalProps = {
     children?: React.ReactNode;
@@ -12,9 +13,18 @@ export type ModalProps = {
     className?: string;
     description?: string;
     disableClickOutside?: boolean;
+    showCloseButton?: boolean;
 };
 
-const Modal = ({ children, open, disableClickOutside = !open, onClose, description, className }: ModalProps) => {
+const Modal = ({
+    children,
+    open,
+    disableClickOutside = !open,
+    onClose,
+    description,
+    className,
+    showCloseButton = true
+}: ModalProps) => {
     const { setModalOpen } = useModal();
     const ref = useRef(null);
     useOnClickOutside(ref, () => {
@@ -30,6 +40,7 @@ const Modal = ({ children, open, disableClickOutside = !open, onClose, descripti
     return (
         <div className={twMerge(modalClass)}>
             <div className={twMerge('modal-box rounded-btn bg-inverse-soft', className)} ref={ref}>
+                {showCloseButton && <CloseButton onClick={onClose} />}
                 <H6 className={twMerge('pb-2')}>{description}</H6>
                 {children}
             </div>

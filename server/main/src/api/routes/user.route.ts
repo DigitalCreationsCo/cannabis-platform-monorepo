@@ -8,6 +8,8 @@ User Routes
 
 "/user/:id"                     getUserById
 
+"/address"                      addAddressToUser
+
 "/user/:id/address/:addressId"  getAddressById
 
 "/user/:id/address/:addressId"  deleteAddressById
@@ -17,6 +19,8 @@ User Routes
 router.route('/login').post(userCtrl.login);
 
 router.route('/user/:id').get(userCtrl.getUserById);
+
+router.route('/address').post(userCtrl.addAddressToUser);
 
 router.route('/user/:id/address/:addressId').get(userCtrl.getAddressById);
 

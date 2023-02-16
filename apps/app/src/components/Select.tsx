@@ -1,4 +1,4 @@
-import React, { Dispatch, MouseEventHandler, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 type SelectProps = {
@@ -6,7 +6,7 @@ type SelectProps = {
     defaultValue: string | number;
     values: string[] | number[];
     className?: string;
-    setOption?: Dispatch<SetStateAction<string | number>> | MouseEventHandler<HTMLOptionElement>['onClick'];
+    setOption?: Dispatch<SetStateAction<string | number>>
 };
 export default function Select({ multiple, values, defaultValue = values[0], className, setOption }: SelectProps) {
     return (

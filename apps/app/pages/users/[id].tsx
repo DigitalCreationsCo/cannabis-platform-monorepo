@@ -15,7 +15,7 @@ import {
     UploadImageBox
 } from '@cd/shared-ui';
 import axios from 'axios';
-import { ConfirmationModal, DropZone, Modal, PageHeader, ProtectedComponent } from 'components';
+import { AddAddressUserModal, ConfirmationModal, DropZone, Modal, PageHeader, ProtectedComponent } from 'components';
 import { format } from 'date-fns';
 import { useFormik } from 'formik';
 import Image from 'next/image';
@@ -30,8 +30,14 @@ import { useAppState } from '../../src/context/AppProvider';
 // will use this component to protect those routes from non-admin users
 
 // To Do:
+// finish createAddress api routes, add test cases
 // add Address modal, use update modal?
+// move edit modal to its own component?
+// clean up the edit modal, to close without mutating state, or save changes when pressing the close button.
+// its very close to being clean, but not quite there yet.
 // test, test, test
+//check admin privelege for these modals
+// create update record api route
 
 export default function UserDetails({ user }: { user: UserWithDetails }) {
     const initialValues = {
@@ -60,7 +66,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
         phone: yup.number().required('required'),
         address: yup.array().min(1).required('required')
     });
-    const { values, errors, touched, handleChange, handleBlur, handleSubmit } = useFormik({
+    const { values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue } = useFormik({
         initialValues,
         validationSchema,
         onSubmit: handleFormSubmit
@@ -70,7 +76,13 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
     const [loadingButton, setLoadingButton] = useState(false);
     const [existingImage, setExistingImage] = useState<ImageUser[]>(user?.imageUser || []);
     const [deletedImage, setDeletedImage] = useState<ImageUser[]>([]);
+
     const [address, setAddress] = useState<Address[]>(values.address || []);
+    const [addressAddModal, setAddressAddModal] = useState(false);
+
+    const [addressUpdate, setAddressUpdate] = useState<Address>();
+    const handleAddressUpdate = (event, fieldName) =>
+        setAddressUpdate((prev) => ({ ...prev, fieldName: event.target.value }));
     const [addressUpdateIndex, setAddressUpdateIndex] = useState<number>();
     const [addressUpdateModal, setAddressUpdateModal] = useState(false);
     const [addressDeleteIndex, setAddressDeleteIndex] = useState<number>();
@@ -153,47 +165,67 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
                 ) : user ? (
                         <Grid className="md:max-w-fit px-3">
                             <>
-                                <Modal className="px-10 border" description={ `Edit Address` } open={ addressUpdateModal } onClose={ () => setAddressUpdateModal(false) }>
+                                
+                                {/* check admin privelege for these modals */}
+                                <AddAddressUserModal description={'Add a new address'} userId={user?.id} setState={setAddress} open={ addressAddModal} onClose={ () => setAddressAddModal(false)} />
+
+                                <Modal className="px-10 border"
+                                    description={ `Edit Address` }
+                                    open={ addressUpdateModal }
+                                    onClose={ () => {
+                                        setAddressUpdateModal(false);
+                                        setAddressUpdateIndex(null);
+                                    } }>
                                     <Grid className='space-y-4'>
                                         <FlexBox className='flex-col space-x-0 space-y-1'>
                                     <TextField
-                                        name={ `address[${addressUpdateIndex}].street1` } label="Street Line 1" placeholder="Street Line 1"
-                                        value={values?.address?.[addressUpdateIndex]?.street1}
+                                        name={ `addressUpdate.street1` } label="Street Line 1" placeholder="Street Line 1"
+                                        value={addressUpdate?.street1}
                                         onBlur={handleBlur}
-                                        onChange={ handleChange } />
+                                                onChange={ e => handleAddressUpdate(e, 'street1') } />
+                                            
                                     <TextField
                                         name={ `address[${addressUpdateIndex}].street2` } label="Street Line 2" placeholder="Street Line 2"
-                                        value={values?.address?.[addressUpdateIndex]?.street2}
+                                        value={addressUpdate?.street2}
                                         onBlur={handleBlur}
-                                        onChange={ handleChange } />
+                                                onChange={ e => handleAddressUpdate(e, 'street2') } />
+                                            
                                         <TextField
                                         name={ `address[${addressUpdateIndex}].city` } label="City" placeholder="City"
-                                        value={values?.address?.[addressUpdateIndex]?.city}
+                                        value={addressUpdate?.city}
                                         onBlur={handleBlur}
-                                        onChange={ handleChange } />
+                                                onChange={ e => handleAddressUpdate(e, 'city') } />
+                                            
                                         <TextField
-                                        name={ `address[${addressUpdateIndex}].state` } label="State" placeholder="State"
-                                        value={values?.address?.[addressUpdateIndex]?.state}
+                                        name={ `state` } label="State" placeholder="State"
+                                        value={addressUpdate?.state}
                                         onBlur={handleBlur}
-                                        onChange={ handleChange } />
+                                                onChange={ e => handleAddressUpdate(e, 'state') } />
+                                            
                                         <TextField
                                         name={ `address[${addressUpdateIndex}].country` } label="Country" placeholder="Country"
-                                        value={values?.address?.[addressUpdateIndex]?.country}
+                                        value={addressUpdate?.country}
                                         onBlur={handleBlur}
-                                        onChange={ handleChange } />
+                                                onChange={ e => handleAddressUpdate(e, 'country') } />
+                                            
                                         <TextField
                                         name={ `address[${addressUpdateIndex}].zipcode` } label="Zipcode" placeholder="Zipcode"
-                                        value={values?.address?.[addressUpdateIndex]?.zipcode}
+                                        value={addressUpdate?.zipcode}
                                         onBlur={handleBlur}
-                                                onChange={ handleChange } />
+                                        onChange={ e => handleAddressUpdate(e, 'zipcode') } />
                                         </FlexBox>
                                         <FlexBox className="justify-center">
-                                            <Button onClick={ () => { setAddressUpdateModal(false); toast.success('Please save your changes.'); } }>Close</Button></FlexBox>
+                                            <Button onClick={ () => {
+                                                setFieldValue('address', addressUpdate);
+                                                setAddressUpdate(null)
+                                                setAddressUpdateModal(false); toast.success('Please save your changes.');
+                                            } }>Close</Button></FlexBox>
                                     </Grid>
                                 </Modal>
                                 
                                 <ConfirmationModal
-                                    onClose={() => setAddressDeleteModal(false)}
+                                    showCloseButton={false}
+                                    onClose={ () => { setAddressDeleteModal(false); setAddressDeleteIndex(null); }}
                                     open={ addressDeleteModal }
                                     handleConfirm={() => handleAddressDelete({ addressId: address?.[addressDeleteIndex]?.id, userId: user?.id })}
                                     description={ "Delete this address? You can't undo this action." } />
@@ -264,10 +296,16 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
                                             />
                                         </FlexBox>
                                                 
-                                        <FlexBox className="flex-row min-w-[111px]">
-                                            <label>Addresses</label>
+                                        <FlexBox>
+                                            <FlexBox className="min-w-[111px] items-start">
+                                                <label>Addresses</label>
+                                                </FlexBox>
                                             <Button
-                                                // onClick={toggleAddProduct}
+                                                onClick={ (e) => {
+                                                    e.preventDefault();
+                                                        e.stopPropagation();
+                                                    setAddressAddModal(true);
+                                                } }
                                                 className="bg-light text-dark hover:text-light text-sm h-[30px] border"
                                             >
                                                 Add Address
@@ -281,14 +319,15 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
                                                     <Button className={"w-1/2"} onClick={(e) => {
                                                         e.preventDefault();
                                                         e.stopPropagation();
+                                                        setAddressUpdate(values.address[index])
                                                         setAddressUpdateIndex(index);
                                                         setAddressUpdateModal(true);
                                                     }}>Edit</Button>
                                                     <DeleteButton className={ "w-1/2" } label={ false } onClick={ (e) => {
                                                         e.preventDefault();
                                                         e.stopPropagation();
-                                                        setAddressDeleteModal(true)
                                                         setAddressDeleteIndex(index)
+                                                        setAddressDeleteModal(true)
                                                     } } />
                                                 </FlexBox>
                                             </Card>
@@ -365,7 +404,7 @@ export async function getServerSideProps({ params }) {
     try {
         const userData = await (await axios(urlBuilder.next + `/api/users/${params.id}`)).data;
         if (!userData) return { notFound: true };
-        console.log('SSR user: ', userData)
+        // console.log('SSR user: ', userData)
         return {
             props: { user: userData },
         };

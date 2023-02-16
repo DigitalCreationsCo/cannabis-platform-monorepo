@@ -1,7 +1,9 @@
 {
-  "devDependencies": {
+  "dependencies": {
     "@cd/data-access": "*",
-    "@cd/shared-config": "*",
+    "@cd/shared-config": "*"
+  },
+  "devDependencies": {
     "@types/jest": "29.2.4",
     "@types/node": "18.11.10",
     "@typescript-eslint/eslint-plugin": "5.45.0",
@@ -37,7 +39,7 @@
     "test": "../../node_modules/jest/bin/jest.js",
     "test:fix": "../../node_modules/jest/bin/jest.js --detectOpenHandles",
     "test:watch": "../../node_modules/jest/bin/jest.js --watchAll",
-    "watch": "cross-env NODE_ENV=development ts-node ."
+    "watch": "cross-env NODE_ENV=development nodemon ."
   },
   "version": "0.0.1"
 }
