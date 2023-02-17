@@ -1,27 +1,28 @@
-import { Button, FlexBox, H3, H6, Paragraph, TextField } from '@cd/shared-ui';
+import { Button, FlexBox, H3, H6, Icons, Paragraph, Small, TextField } from '@cd/shared-ui';
 import { useFormik } from 'formik';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import * as yup from 'yup';
 import { useFormContext } from '../../context/StepFormProvider';
 
-// ToDo:
-// Organization Search for SearchTextField
-// Add country picker to set Country and countryCode fields
-
-function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
+// To Do: Add helpertext to textfields
+function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
     const { setFormValues } = useFormContext();
     const [loadingButton, setLoadingButton] = useState(false);
+    const [passwordVisibility, setPasswordVisibility] = useState(false);
+    const togglePasswordVisibility = useCallback(() => {
+        setPasswordVisibility((visible) => !visible);
+    }, []);
 
     const onSubmit = async (values: typeof initialValues) => {
         try {
             setLoadingButton(true);
-            setFormValues({ organization: { ...values } });
+            setFormValues({ newUser: { ...values } });
             setLoadingButton(false);
             nextFormStep();
         } catch (error) {
-            console.log('Dispensary Create Error: ', error);
+            console.log('Dispensary User Create Error: ', error);
             toast.error(error.response.data.message || error.response.data.errors);
             setLoadingButton(false);
         }
@@ -36,32 +37,52 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
+
     return (
         <form className={'content relative'} onSubmit={handleSubmit}>
             <Image src={'/logo.png'} alt="Gras Cannabis logo" height={63} width={63} priority />
-            <H3>{`Congratulations, you're joining Gras Cannabis`}</H3>
-            <Paragraph>Please fill all the fields and continue to create your dispensary account.</Paragraph>
+            <H3>{`Create your first User Account.`}</H3>
+            <Paragraph>{`Create an account to own and manage your dispensary's inventory, data, and other users. 
+            This will be the account with the most access to view and change data in your dispensary.`}</Paragraph>
+            <Small>Please fill the applicable fields to continue</Small>
             <TextField
-                name="name"
-                label="Dispensary Name"
-                placeholder="What is the name of your Dispensary?"
-                value={values?.name}
+                name="firstName"
+                label="First Name"
+                placeholder="First Name"
+                value={values?.firstName}
                 onBlur={handleBlur}
                 onChange={handleChange}
-                error={!!touched.name && !!errors.name}
-                helperText={touched.name && errors.name}
+                error={!!touched.firstName && !!errors.firstName}
+                helperText={touched.firstName && errors.firstName}
+            />
+            <TextField
+                name="lastName"
+                label="Last Name"
+                placeholder="Last Name"
+                value={values?.lastName}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                error={!!touched.lastName && !!errors.lastName}
+            />
+            <TextField
+                name="username"
+                label="UserName"
+                placeholder="UserName"
+                value={values?.username}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                error={!!touched.username && !!errors.username}
             />
             <TextField
                 name="email"
+                type="email"
                 label="Email"
-                placeholder="you@yourdispensary.com"
+                placeholder="Email"
                 value={values?.email}
                 onBlur={handleBlur}
                 onChange={handleChange}
                 error={!!touched.email && !!errors.email}
-                helperText={touched.email && errors.email}
             />
-            <Paragraph>What is the phone number of your dispensary business?</Paragraph>
             <FlexBox>
                 <TextField
                     maxLength={3}
@@ -76,6 +97,7 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
                 <TextField
                     name="phone"
                     label="Phone"
+                    type="tel"
                     placeholder="Phone"
                     value={values?.phone}
                     onBlur={handleBlur}
@@ -83,7 +105,32 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
                     error={!!touched.phone && !!errors.phone}
                 />
             </FlexBox>
-            <Paragraph>Where are you located?</Paragraph>
+            <TextField
+                name="password"
+                label="Password"
+                placeholder="********"
+                value={values?.password}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                error={!!touched.password && !!errors.password}
+                helperText={touched.password && errors.password}
+                type={passwordVisibility ? 'text' : 'password'}
+                insertIcon={passwordVisibility ? Icons.View : Icons.ViewOff}
+                onClickIcon={togglePasswordVisibility}
+            />
+            <TextField
+                name="re_password"
+                label="Confirm Password"
+                placeholder="********"
+                value={values?.re_password}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                error={!!touched.re_password && !!errors.re_password}
+                helperText={touched.re_password && errors.re_password}
+                type={passwordVisibility ? 'text' : 'password'}
+                insertIcon={passwordVisibility ? Icons.View : Icons.ViewOff}
+                onClickIcon={togglePasswordVisibility}
+            />
             <TextField
                 name="address.street1"
                 label="Street Line 1"
@@ -146,9 +193,9 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
             />
             <FlexBox>
                 <label>
-                    By signing up to be listed on Gras Cannabis Marketplace, you agree to our
+                    By creating a User Account on Gras Cannabis Marketplace, you agree to our
                     <a href="/" target="_blank" rel="noreferrer noopener">
-                        <H6 className={'border-b-2'}>Dispensary Terms & Conditions</H6>
+                        <H6 className={'border-b-2'}>User Terms & Conditions</H6>
                     </a>
                 </label>
                 <input
@@ -175,29 +222,34 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
 }
 
 const initialValues = {
-    name: 'Curaleaf',
-    email: 'makedreamsreal@email.com',
-    address: {
-        street1: '123 MLK Ave',
-        street2: 'Suite 900',
-        city: 'Philadelphia',
-        state: 'PA',
-        zipcode: '19130',
-        country: 'United States',
-        countryCode: 'US',
-        coordinateId: '',
-        organizationId: '2'
-    },
+    id: '',
+    firstName: '',
+    lastName: '',
+    username: '',
+    email: '',
+    emailVerified: false,
+    password: '',
+    re_password: '',
     dialCode: '1',
-    phone: '2343454567',
+    phone: '',
+    address: {
+        street1: '',
+        street2: '',
+        city: '',
+        state: '',
+        zipcode: '',
+        country: '',
+        countryCode: ''
+    },
     termsAccepted: false,
-    subdomainId: '',
-    vendorId: '2'
+    imageUser: []
 };
 
 const validationSchema = yup.object().shape({
-    name: yup.string().required('Dispensary name is required'),
-    email: yup.string(),
+    firstName: yup.string().required('required'),
+    lastName: yup.string().required('required'),
+    username: yup.string().required('required'),
+    email: yup.string().required('required'),
     address: {
         street1: yup.string().required('street line 1 is required'),
         street2: yup.string(),
@@ -211,7 +263,7 @@ const validationSchema = yup.object().shape({
     phone: yup.string().required('phone number is required').length(10, 'phone number must be 10 digits'),
     termsAccepted: yup
         .bool()
-        .test('agreement', 'Please read and agree to our Dispensary Terms and Conditions.', (value) => value === true)
+        .test('agreement', 'Please read and agree to our User Terms and Conditions.', (value) => value === true)
 });
 
-export default DispensaryCreate;
+export default DispensaryUserCreate;

@@ -121,7 +121,7 @@ function LoginModal({ open, onClose, ...props }: ModalProps) {
                         helperText={touched.password && errors.password}
                         type={passwordVisibility ? 'text' : 'password'}
                         insertIcon={passwordVisibility ? Icons.View : Icons.ViewOff}
-                        onClickInsertIcon={togglePasswordVisibility}
+                        onClickIcon={togglePasswordVisibility}
                     />
                 </FlexBox>
                 <FlexBox className="justify-center py-4">
