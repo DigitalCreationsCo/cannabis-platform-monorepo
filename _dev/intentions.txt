@@ -56,13 +56,8 @@ switched shared-ui to rollup to resolve docker build issue, and improve ci exper
     Dont be afraid to create something messy. Clean it up later.
 2-14-22
 - get adress and delete address By Id work ok. updates user relation records.
-
-To do: 
-Fix Order > Address < User relation, as they are sharing records of Address from the same table.
-( An alternative is when removing addresses from user, to simply unlink the relation, so the record stays in the table. This.)
-
-update membership data from getUserInfo funcs on api routes
-create tests for orders routes, users routes, on next api, and server, and data access lib
+2-16-22
+    Fix Order > Address < User unlink the relation, so the record stays in the table.
 
 configure nextapp and nginx with docker,
 deploy with docker on linode, use pm2 for nextjs

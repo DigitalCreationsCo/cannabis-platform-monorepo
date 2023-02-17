@@ -7,9 +7,9 @@ import LandingPage from './Landing';
 
 function ProtectedComponent({ children }: PropsWithChildren) {
     const session = useSessionContext();
-    if (session.loading === true) {
-        return <></>;
-    } else return (!session.doesSessionExist && <LandingPage />) || <>{children}</>;
+    if (session.loading === true) return <></>;
+    if (!session.doesSessionExist) return <LandingPage />;
+    if (session.doesSessionExist) return <>{children}</>;
 }
 
 // Will need to add member, admin, owner privilege to separate usage of app domains
