@@ -11,6 +11,7 @@ import Session from 'supertokens-auth-react/recipe/session';
 import * as SuperTokensConfig from '../config/frontendConfig';
 import AppStateProvider from '../src/context/AppProvider';
 import ModalProvider from '../src/context/ModalProvider';
+import StepFormValuesProvider from '../src/context/StepFormProvider';
 
 if (typeof window !== 'undefined') {
     SuperTokens.init(SuperTokensConfig.frontendConfig());
@@ -55,23 +56,25 @@ export default function App({ Component, pageProps }: CustomAppProps): JSX.Eleme
             <SessionControl>
                 <Toaster position="top-right" />
                 <ModalProvider>
-                    <AppStateProvider>
-                        {({ isLoading, setIsLoading }) => {
-                            // Router.events.on('routeChangeStart', () => setIsLoading(true));
-                            // Router.events.on('routeChangeComplete', () => setIsLoading(false));
-                            // Router.events.on('routeChangeError', () => setIsLoading(false));
+                    <StepFormValuesProvider>
+                        <AppStateProvider>
+                            {({ isLoading, setIsLoading }) => {
+                                // Router.events.on('routeChangeStart', () => setIsLoading(true));
+                                // Router.events.on('routeChangeComplete', () => setIsLoading(false));
+                                // Router.events.on('routeChangeError', () => setIsLoading(false));
 
-                            return isLoading
-                                ? getLayout(
-                                      <Center>
-                                          <Padding>
-                                              <LoadingDots />
-                                          </Padding>
-                                      </Center>
-                                  )
-                                : getLayout(<Component {...pageProps} />);
-                        }}
-                    </AppStateProvider>
+                                return isLoading
+                                    ? getLayout(
+                                          <Center>
+                                              <Padding>
+                                                  <LoadingDots />
+                                              </Padding>
+                                          </Center>
+                                      )
+                                    : getLayout(<Component {...pageProps} />);
+                            }}
+                        </AppStateProvider>
+                    </StepFormValuesProvider>
                 </ModalProvider>
             </SessionControl>
         </SuperTokensWrapper>

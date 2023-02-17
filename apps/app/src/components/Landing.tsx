@@ -1,5 +1,6 @@
 import { Button, Center, H1, Paragraph } from '@cd/shared-ui';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useState } from 'react';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import backdrop from '../../public/marijuana-backdrop.png';
@@ -22,7 +23,7 @@ export default function LandingPage() {
                 <Image src={backdrop} alt="" fill style={{ objectFit: 'cover', objectPosition: '80% 20%' }} />
                 <div
                     style={{
-                        backgroundColor: 'rgba(0,0,0,0.1)',
+                        backgroundColor: 'rgba(0,0,0,0.4)',
                         position: 'fixed',
                         height: '100%',
                         width: '100%',
@@ -41,6 +42,16 @@ export default function LandingPage() {
                     >
                         Sign In
                     </Button>
+
+                    <Paragraph className="whitespace-pre-line text-lg text-inverse">
+                        {`If you are a new dispensary, 
+                        create a Dispensary Account here`}
+                    </Paragraph>
+                    <Link href="/signup/create-dispensary-account">
+                        <Button className="w-[200px] h-[80px] bg-primary hover:bg-[#0b7529] opacity-90 transition ease-in-out duration-300">
+                            <Paragraph className="whitespace-pre-line">Create A Dispensary Account</Paragraph>
+                        </Button>
+                    </Link>
                 </Center>
             </div>
         </>

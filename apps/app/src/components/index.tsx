@@ -4,6 +4,7 @@ export { default as CartButton } from './CartButton';
 export { default as ClickableTags } from './ClickableTags';
 export { default as CloseButton } from './CloseButton';
 export { default as DropZone } from './DropZone';
+export * from './form';
 export { default as Layout } from './Layout';
 export * from './modal';
 export { default as OfflineHandler } from './OfflineHandler';
