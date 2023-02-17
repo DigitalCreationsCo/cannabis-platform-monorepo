@@ -58,7 +58,9 @@ switched shared-ui to rollup to resolve docker build issue, and improve ci exper
 - get adress and delete address By Id work ok. updates user relation records.
 2-16-22
     Fix Order > Address < User unlink the relation, so the record stays in the table.
-
+2-17-22
+    Dispensary Signup Form, 30% done
+    
 configure nextapp and nginx with docker,
 deploy with docker on linode, use pm2 for nextjs
 Revise dockerfile to build fast and lean
