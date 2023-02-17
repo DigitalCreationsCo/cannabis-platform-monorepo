@@ -49,7 +49,8 @@ export default function LandingPage() {
                     </Paragraph>
                     <Link href="/signup/create-dispensary-account">
                         <Button className="w-[200px] h-[80px] bg-primary hover:bg-[#0b7529] opacity-90 transition ease-in-out duration-300">
-                            <Paragraph className="whitespace-pre-line">Create A Dispensary Account</Paragraph>
+                            <Paragraph className="whitespace-pre-line">{`Create a
+                             Dispensary Account`}</Paragraph>
                         </Button>
                     </Link>
                 </Center>
