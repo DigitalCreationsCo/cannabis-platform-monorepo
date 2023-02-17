@@ -1,18 +1,19 @@
 import { Button, FlexBox, H2, Paragraph } from '@cd/shared-ui';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
-import SuperTokens from 'supertokens-auth-react';
-import SessionReact, { useSessionContext } from 'supertokens-auth-react/recipe/session';
+import { useState } from 'react';
+import SessionReact from 'supertokens-auth-react/recipe/session';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/logo.png';
+import { LoginModal } from './modal';
 
 function TopBar() {
     const doesSessionExist = async () => await SessionReact.doesSessionExist();
-    const session = useSessionContext();
+    const [showModal, setModal] = useState(false);
     const topbar = ['flex flex-row h-[66px] pr-4 lg:px-16 bg-inverse space-x-2 items-center shadow'];
     return (
         <div className={twMerge(topbar)}>
+            <LoginModal open={showModal} onClose={() => setModal(false)} />
             <Link href="/" passHref>
                 <Image alt="Gras" width={50} height={50} src={logo} />
             </Link>
@@ -49,7 +50,7 @@ function TopBar() {
             )}
             {!doesSessionExist() && (
                 <FlexBox>
-                    <Button onClick={() => SuperTokens.redirectToAuth({ show: 'signin' })}>Sign In</Button>
+                    <Button onClick={() => setModal(true)}>Sign THIS</Button>
                 </FlexBox>
             )}
             {/* cart button for user app */}

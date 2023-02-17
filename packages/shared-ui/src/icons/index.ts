@@ -1,5 +1,6 @@
+import * as CarbonIcons from '@carbon/icons-react';
+
 import AlarmClock from './AlarmClock';
-import Apple from './Apple';
 import AppleStore from './AppleStore';
 import BabyFeeder from './BabyFeeder';
 import BabyGirl from './BabyGirl';
@@ -8,15 +9,11 @@ import BeautyProducts from './BeautyProducts';
 import Beer from './Beer';
 import Bottle from './Bottle';
 import Breakfast from './Breakfast';
-import Camera from './Camera';
-import Car from './Car';
 import Carrot from './Carrot';
 import CartIcon from './Cart';
-import Category from './Category';
 import CategoryOutlined from './CategoryOutline';
 import CreditCardVerified from './CreditCardVerified';
 import CustomerService from './CustomerService';
-import Delivery from './Delivery';
 import DeliveryBox from './DeliveryBox';
 import DottedStar from './DottedStar';
 import Dress from './Dress';
@@ -41,11 +38,9 @@ import Sofa from './furniture-shop/Sofa';
 import Stool from './furniture-shop/Stool';
 import Trending from './furniture-shop/Trending';
 import Wardrobe from './furniture-shop/Wardrobe';
-import Gift from './Gift';
 import BabyToys from './gift-shop/BabyToys';
 import BirthdayCake from './gift-shop/BirthdayCake';
 import Children from './gift-shop/Children';
-import Chirstmas from './gift-shop/Christmas';
 import Flower from './gift-shop/Flower';
 import Football from './gift-shop/Football';
 import NewYearGift from './gift-shop/NewYearGift';
@@ -57,7 +52,6 @@ import WeddingGift from './gift-shop/WeddingGift';
 import GiftBox from './GiftBox';
 import Google from './Google';
 import AutoMotive from './health-and-beauty/Automotive';
-import FaceMask from './health-and-beauty/FaceMask';
 import HealthBeauty from './health-and-beauty/HealthBeauty';
 import LenseCase from './health-and-beauty/LenseCase';
 import Lipstick from './health-and-beauty/Lipstick';
@@ -65,19 +59,13 @@ import Lotion from './health-and-beauty/Lotion';
 import Mascara from './health-and-beauty/Mascara';
 import OxygenPump from './health-and-beauty/OxygenPump';
 import Powder from './health-and-beauty/Powder';
-import Right from './Right';
 import Thermometer from './health-and-beauty/Thermometer';
 import Heart from './Heart';
-import Home from './Home';
 import Honey from './Honey';
 import Instagram from './Instagram';
 import InstagramFilled from './InstagramFilled';
-import Laptop from './Laptop';
-import Light from './Light';
-import Lightning from './Lightning';
 import MakeUp from './MakeUp';
 import Man from './Man';
-import Microphone from './Microphone';
 import Milk from './Milk';
 import MoneyGuarantee from './MoneyGurantee';
 import MotorBike from './MotorBike';
@@ -96,7 +84,7 @@ import PlayStore from './PlayStore';
 import Preview from './Preview';
 import Quote from './Quote';
 import RankBadge from './RankBadge';
-import Search from './search';
+import Right from './Right';
 import Shield from './Shield';
 import Shirt from './Shirt';
 import ShoppingBagOutlined from './ShoppingBagOutlined';
@@ -110,7 +98,6 @@ import Tshirt from './Tshirt';
 import Twitter from './Twitter';
 import TwitterFilled from './TwitterFilled';
 import User2 from './User2';
-import Watch from './Watch';
 import Wheel from './Wheel';
 import Woman from './Woman';
 import WomenDress from './WomenDress';
@@ -128,7 +115,7 @@ const Icons = {
     Snack,
     Truck,
     Honey,
-    Apple,
+    // Apple,
     Shield,
     Bottle,
     Carrot,
@@ -145,7 +132,7 @@ const Icons = {
     CreditCardVerified,
 
     // furniture-shop-icons
-    Home,
+    // Home,
     Sofa,
     Chair,
     Stool,
@@ -168,7 +155,7 @@ const Icons = {
     BabyToys,
     Children,
     Football,
-    Chirstmas,
+    // Chirstmas,
     TeddyBear,
     WeddingGift,
     NewYearGift,
@@ -180,7 +167,7 @@ const Icons = {
     Lotion,
     Mascara,
     Lipstick,
-    FaceMask,
+    // FaceMask,
     LenseCase,
     OxygenPump,
     AutoMotive,
@@ -199,12 +186,12 @@ const Icons = {
     BabyGirl,
     BasketBall,
     BeautyProducts,
-    Camera,
-    Car,
+    // Camera,
+    // Car,
     CartIcon,
-    Category,
+    // Category,
     CategoryOutlined,
-    Delivery,
+    // Delivery,
     DeliveryBox,
     DottedStar,
     Dress,
@@ -212,17 +199,17 @@ const Icons = {
     FacebookFilled,
     Figma,
     Food,
-    Gift,
+    // Gift,
     GiftBox,
     Google,
     Heart,
     InstagramFilled,
-    Laptop,
-    Light,
-    Lightning,
+    // Laptop,
+    // Light,
+    // Lightning,
     MakeUp,
     Man,
-    Microphone,
+    // Microphone,
     MotorBike,
     NewArrival,
     PackageBox,
@@ -239,18 +226,19 @@ const Icons = {
     Tshirt,
     TwitterFilled,
     User2,
-    Watch,
+    // Watch,
     Wheel,
     Woman,
     WomenDress,
     YoutubeFilled,
-    Search,
+    // Search,
     Shirt,
     Pant,
     Tops,
     Skirt,
     FormalCloth,
     XIcon,
+    ...CarbonIcons
 };
 
 export default Icons;

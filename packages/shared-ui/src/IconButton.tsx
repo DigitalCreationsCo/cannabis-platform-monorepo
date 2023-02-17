@@ -1,13 +1,12 @@
 import { PropsWithChildren, ReactEventHandler } from 'react';
 import Button from './Button';
-import IconWrapper from './IconWrapper';
-export type IconButtonProps = {
-    Icon: any;
+import IconWrapper, { IconProps } from './IconWrapper';
+interface IconButtonProps extends IconProps {
     type?: 'button' | 'submit' | 'reset';
-    onClick: ReactEventHandler;
+    onClick?: ReactEventHandler;
     className?: string;
     size?: number;
-};
+}
 export default function IconButton({
     Icon,
     type,

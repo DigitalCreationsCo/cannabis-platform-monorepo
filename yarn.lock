@@ -435,6 +435,35 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@carbon/icon-helpers@npm:^10.38.0":
+  version: 10.38.0
+  resolution: "@carbon/icon-helpers@npm:10.38.0"
+  checksum: 04277dcb45891d09ec5bd8ba43fcaaa3bea72d2cb24e02017a712873cabc81cba6efaf3932198ef1496092f33a853b5c66aec737a59c2a6eb576a5628d28951d
+  languageName: node
+  linkType: hard
+
+"@carbon/icons-react@npm:11.16.0":
+  version: 11.16.0
+  resolution: "@carbon/icons-react@npm:11.16.0"
+  dependencies:
+    "@carbon/icon-helpers": ^10.38.0
+    "@carbon/telemetry": 0.1.0
+    prop-types: ^15.7.2
+  peerDependencies:
+    react: ">=16"
+  checksum: 03c37dd8cf0fd92d9ae7ab9a53959f5a19fed807144ba583bbb2c57bb56d91a288dea4bc72f0abaf00c3ce513f03daf18801cb88ffd2fd6d937a926d2cba20ab
+  languageName: node
+  linkType: hard
+
+"@carbon/telemetry@npm:0.1.0":
+  version: 0.1.0
+  resolution: "@carbon/telemetry@npm:0.1.0"
+  bin:
+    carbon-telemetry: bin/carbon-telemetry.js
+  checksum: e93039763ed40b612a1cb5c70001d5e7e92ff034f1559676d47ce9a98e6285ba2856f6a59146b03e6349702eb96d61f2fe91349e981ca858e45c4527a3c1e876
+  languageName: node
+  linkType: hard
+
 "@cd/app@workspace:apps/app":
   version: 0.0.0-use.local
   resolution: "@cd/app@workspace:apps/app"
@@ -498,6 +527,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cd/cannabis-platform-monorepo@workspace:."
   dependencies:
+    "@carbon/icons-react": 11.16.0
     "@cd/data-access": "*"
     "@cd/shared-config": "*"
     "@cd/shared-ui": "*"
@@ -507,6 +537,7 @@ __metadata:
     "@rollup/plugin-node-resolve": 15.0.1
     "@rollup/plugin-typescript": 11.0.0
     "@tailwindcss/typography": 0.5.8
+    "@types/carbon__icons-react": 11.15.0
     "@types/formidable": 2.0.5
     "@types/jest": 29.2.4
     "@types/node": 18.11.10
@@ -654,12 +685,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cd/shared-ui@workspace:packages/shared-ui"
   dependencies:
+    "@carbon/icons-react": 11.16.0
     "@cd/data-access": "*"
     "@cd/shared-config": "*"
     "@rollup/plugin-commonjs": 24.0.1
     "@rollup/plugin-node-resolve": 15.0.1
     "@rollup/plugin-typescript": 11.0.0
     "@tailwindcss/typography": 0.5.8
+    "@types/carbon__icons-react": 11.15.0
     "@types/node": 18.11.10
     "@types/react-dom": 18.0.8
     "@typescript-eslint/eslint-plugin": 5.45.0
@@ -1628,6 +1661,13 @@ __metadata:
     "@types/connect": "*"
     "@types/node": "*"
   checksum: e17840c7d747a549f00aebe72c89313d09fbc4b632b949b2470c5cb3b1cb73863901ae84d9335b567a79ec5efcfb8a28ff8e3f36bc8748a9686756b6d5681f40
+  languageName: node
+  linkType: hard
+
+"@types/carbon__icons-react@npm:11.15.0":
+  version: 11.15.0
+  resolution: "@types/carbon__icons-react@npm:11.15.0"
+  checksum: cb13da3dc08dcf3345acd65b4ecfa9e7a3329f9566c53b8b2630b9462452364ecc1deefb5f734cd1660973b6a55579f49a000213e531adddbf985b3d23b3db5b
   languageName: node
   linkType: hard
 

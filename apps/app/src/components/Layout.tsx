@@ -1,9 +1,8 @@
 import { Button, FlexBox, Footer, H2, Header, Paragraph } from '@cd/shared-ui';
-import { SideNavContainer } from 'components';
+import { LoginModal, SideNavContainer } from 'components';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ChangeEventHandler, PropsWithChildren, ReactEventHandler, useEffect } from 'react';
-import SuperTokens from 'supertokens-auth-react';
+import { ChangeEventHandler, PropsWithChildren, ReactEventHandler, useEffect, useState } from 'react';
 import SessionReact, { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/logo.png';
@@ -15,13 +14,18 @@ interface LayoutProps extends PropsWithChildren {
 }
 
 export default function Layout({ onSearchChange, placeholder, children }: LayoutProps) {
+    const [showModal, setModal] = useState(false);
     const session = useSessionContext();
-    const main = 'bg-inverse-soft min-h-[800px]';
     if (session.loading === true) return <></>;
+    const isSignedIn = session.doesSessionExist;
+
+    const styles = { main: 'bg-inverse-soft min-h-[800px]' };
     return (
-        <>
-            {session.doesSessionExist ? (
-                <div className={main}>
+        <div className="h-screen flex flex-col">
+            <LoginModal open={showModal} onClose={() => setModal(false)} />
+
+            {isSignedIn ? (
+                <div className={styles.main}>
                     <TopBar doesSessionExist={session.doesSessionExist} />
                     <Header
                         SearchComponent={<SearchBar placeholder={placeholder} onChange={onSearchChange} />}
@@ -37,19 +41,17 @@ export default function Layout({ onSearchChange, placeholder, children }: Layout
                 </div>
             ) : (
                 <>
-                    <TopBar doesSessionExist={session.doesSessionExist} />
+                    <TopBar doesSessionExist={session.doesSessionExist} setLoginModal={setModal} />
                     {children}
                 </>
             )}
             <Footer />
-        </>
+        </div>
     );
 }
 
-function TopBar({ doesSessionExist }: { doesSessionExist?: boolean }) {
-    useEffect(() => {
-        console.log('does Session exist?', doesSessionExist);
-    }, [doesSessionExist]);
+function TopBar({ doesSessionExist, setLoginModal }: { doesSessionExist?: boolean; setLoginModal?: any }) {
+    useEffect(() => {}, [doesSessionExist]);
     const topbar = ['flex flex-row h-[66px] pr-4 lg:px-16 bg-inverse space-x-2 items-center shadow'];
     return (
         <div className={twMerge(topbar)}>
@@ -77,7 +79,7 @@ function TopBar({ doesSessionExist }: { doesSessionExist?: boolean }) {
             <div className="flex-1"></div>
             {!doesSessionExist && (
                 <FlexBox>
-                    <Button onClick={() => SuperTokens.redirectToAuth({ show: 'signin' })}>Sign In</Button>
+                    <Button onClick={() => setLoginModal(true)}>Sign In</Button>
                 </FlexBox>
             )}
             {doesSessionExist && (

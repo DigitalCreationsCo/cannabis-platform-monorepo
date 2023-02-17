@@ -1,6 +1,8 @@
-import React, { ReactEventHandler } from 'react';
+import { CarbonIconType } from '@carbon/icons-react';
+import React, { ReactEventHandler, SVGAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
 import FlexBox from './FlexBox';
+import IconButton from './IconButton';
 
 type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
     className?: string;
@@ -16,6 +18,9 @@ type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
     onBlur?: ReactEventHandler;
     error?: boolean;
     helperText?: string;
+    insertIcon?: ((props: SVGAttributes<SVGElement>) => JSX.Element) | CarbonIconType;
+    onClickInsertIcon?: any;
+    inputRef?: any;
 };
 function TextField({
     className,
@@ -31,6 +36,9 @@ function TextField({
     onChange,
     onBlur,
     helperText,
+    insertIcon,
+    onClickInsertIcon,
+    inputRef,
     ...props
 }: TextFieldProps) {
     const inputProps: React.InputHTMLAttributes<HTMLInputElement> = { ...props };
@@ -38,11 +46,21 @@ function TextField({
     return (
         <FlexBox className={twMerge('w-full', containerClassName)}>
             {label && (
-                <FlexBox className="min-w-[111px] items-start">
+                <FlexBox className="min-w-[111px] justify-between">
                     <label>{label}</label>
+                    {insertIcon && (
+                        <IconButton
+                            onClick={onClickInsertIcon}
+                            className={twMerge(
+                                'bg-transparent hover:bg-transparent md:hover:bg-transparent focus:bg-transparent shadow-none px-0 m-0 w-min h-min place-self-center'
+                            )}
+                            Icon={insertIcon}
+                        />
+                    )}
                 </FlexBox>
             )}
             <input
+                ref={inputRef}
                 onFocus={() => {
                     if (onfocus) onfocus;
                     setFocus(true);
