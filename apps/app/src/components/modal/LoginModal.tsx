@@ -1,19 +1,19 @@
-import { Button, FlexBox, Grid, H1, H3, Icons, Paragraph, TextField } from '@cd/shared-ui';
+import { Button, FlexBox, Grid, H1, H3, H6, Icons, Paragraph, TextField } from '@cd/shared-ui';
 import { useFormik } from 'formik';
 import Image from 'next/image';
-import { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
+import { useCallback, useState } from 'react';
 import toast from 'react-hot-toast';
 import * as yup from 'yup';
 import Modal, { ModalProps } from './Modal';
 
 function LoginModal({ open, onClose, ...props }: ModalProps) {
     const [loadingButton, setLoadingButton] = useState(false);
-    const [showPassword, setShowPassword] = useState(false);
+    const [passwordVisibility, setPasswordVisibility] = useState(false);
 
-    const emailInputRef = useRef<HTMLInputElement>(null);
-    useEffect(() => {
-        if (emailInputRef) emailInputRef.current?.focus();
-    });
+    const togglePasswordVisibility = useCallback(() => {
+        setPasswordVisibility((visible) => !visible);
+    }, []);
 
     const { values, errors, touched, handleBlur, handleChange, handleSubmit, resetForm } = useFormik({
         initialValues,
@@ -24,7 +24,7 @@ function LoginModal({ open, onClose, ...props }: ModalProps) {
     const resetModalState = () => {
         onClose();
         setLoadingButton(false);
-        setShowPassword(false);
+        setPasswordVisibility(false);
         resetForm();
     };
 
@@ -85,8 +85,8 @@ function LoginModal({ open, onClose, ...props }: ModalProps) {
         }
     }
     return (
-        <Modal className="" open={open} onClose={resetModalState} {...props}>
-            <Grid>
+        <Modal open={open} onClose={resetModalState} {...props}>
+            <Grid className="space-y-2 px-3">
                 <FlexBox className="flex-col space-y-2">
                     <FlexBox className="justify-center">
                         <Image src={'/logo.png'} alt="Gras Cannabis logo" width={63} height={63} priority />
@@ -100,8 +100,7 @@ function LoginModal({ open, onClose, ...props }: ModalProps) {
                 <FlexBox className="flex-col space-x-0 space-y-2">
                     <Paragraph>Sign in with your email & password</Paragraph>
                     <TextField
-                        // inputRef={(input) => input && input.focus()}
-                        inputRef={emailInputRef}
+                        // inputRef={emailInputRef}
                         name="email"
                         label="Email"
                         placeholder="you@email.com"
@@ -120,9 +119,9 @@ function LoginModal({ open, onClose, ...props }: ModalProps) {
                         onChange={handleChange}
                         error={!!touched.password && !!errors.password}
                         helperText={touched.password && errors.password}
-                        type={showPassword ? 'text' : 'password'}
-                        insertIcon={showPassword ? Icons.View : Icons.ViewOff}
-                        onClickInsertIcon={() => setShowPassword(!showPassword)}
+                        type={passwordVisibility ? 'text' : 'password'}
+                        insertIcon={passwordVisibility ? Icons.View : Icons.ViewOff}
+                        onClickInsertIcon={togglePasswordVisibility}
                     />
                 </FlexBox>
                 <FlexBox className="justify-center py-4">
@@ -133,6 +132,20 @@ function LoginModal({ open, onClose, ...props }: ModalProps) {
                     >
                         Sign In
                     </Button>
+                </FlexBox>
+                <FlexBox className="flex-col justify-between w-fit place-self-center space-x-0 space-y-4 pb-2">
+                    <FlexBox className="w-full justify-between">
+                        <Paragraph>Don't have account? </Paragraph>
+                        <Link href="/signup">
+                            <H6 className="border-b"> Sign Up</H6>
+                        </Link>
+                    </FlexBox>
+                    <FlexBox className="w-full justify-between">
+                        <Paragraph>Forgot your password?</Paragraph>
+                        <Link href="/reset-password">
+                            <H6 className="border-b"> Reset It</H6>
+                        </Link>
+                    </FlexBox>
                 </FlexBox>
             </Grid>
         </Modal>
