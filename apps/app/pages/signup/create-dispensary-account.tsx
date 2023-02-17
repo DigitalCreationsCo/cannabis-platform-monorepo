@@ -1,5 +1,11 @@
 import { FlexBox, Page } from '@cd/shared-ui';
-import { DispensaryCreate, FormCard } from 'components';
+import {
+    DispensaryCreate,
+    DispensaryReview,
+    DispensarySignUpComplete,
+    DispensaryUserCreate,
+    FormCard
+} from 'components';
 import Head from 'next/head';
 import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
@@ -10,14 +16,7 @@ function DispensarySignUpStepForm() {
     const [formStep, setFormStep] = useState(0);
     const nextFormStep = () => setFormStep((currentStep) => currentStep + 1);
     const prevFormStep = () => setFormStep((currentStep) => currentStep - 1);
-
-    const formStepList = [
-        <DispensaryCreate key={'step-0'} nextFormStep={nextFormStep} />
-        // <DispensaryUserCreate key={'step-1'} nextFormStep={nextFormStep} />,
-        // <DispensaryReview key={'step-2'} nextFormStep={nextFormStep} />,
-        // <DispensarySignUpComplete key={'step-3'} nextFormStep={nextFormStep} />
-    ];
-
+    const FormStepComponents = [DispensaryCreate, DispensaryUserCreate, DispensaryReview, DispensarySignUpComplete];
     const styles = { gradient: ['bg-gradient-to-b', 'from-primary', 'to-secondary'] };
     return (
         <Page className={twMerge('w-screen h-screen p-0 m-0 sm:p-0 lg:p-0')}>
@@ -27,10 +26,16 @@ function DispensarySignUpStepForm() {
             <FlexBox className={twMerge(styles.gradient, 'h-full min-w-full flex-col py-6')}>
                 <FormCard
                     currentStep={formStep}
-                    totalSteps={formStepList.length}
+                    totalSteps={FormStepComponents.length}
                     // prevFormStep={ prevFormStep }
                 >
-                    <>{formStepList[formStep] && formStepList[formStep]}</>
+                    {FormStepComponents.map((_fsc, index) => {
+                        return (
+                            formStep === index && (
+                                <_fsc key={'form-step-component-' + index} nextFormStep={nextFormStep} />
+                            )
+                        );
+                    })}
                 </FormCard>
             </FlexBox>
         </Page>

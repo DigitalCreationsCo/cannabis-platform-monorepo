@@ -19,7 +19,7 @@ type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
     error?: boolean;
     helperText?: string;
     insertIcon?: ((props: SVGAttributes<SVGElement>) => JSX.Element) | CarbonIconType;
-    onClickInsertIcon?: any;
+    onClickIcon?: any;
     inputRef?: any;
 };
 function TextField({
@@ -37,7 +37,7 @@ function TextField({
     onBlur,
     helperText,
     insertIcon,
-    onClickInsertIcon,
+    onClickIcon,
     inputRef,
     ...props
 }: TextFieldProps) {
@@ -50,7 +50,7 @@ function TextField({
                     <label>{label}</label>
                     {insertIcon && (
                         <IconButton
-                            onClick={onClickInsertIcon}
+                            onClick={onClickIcon}
                             className={twMerge(
                                 'bg-transparent hover:bg-transparent md:hover:bg-transparent focus:bg-transparent shadow-none px-0 m-0 w-min h-min place-self-center'
                             )}

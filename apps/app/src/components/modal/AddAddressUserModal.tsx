@@ -61,18 +61,16 @@ function AddAddressUserModal({ userId, onClose, setState, ...props }: AddAddress
                 formData.append('countryCode', values.countryCode);
                 formData.append('userId', values.userId);
 
-                const { data } = await axios.post(urlBuilder.next + `/api/users/${userId}/address`, formData,
-                    {
+                const { data } = await axios.post(urlBuilder.next + `/api/users/${userId}/address`, formData, {
                     headers: {
-                            'Content-Type': 'application/json'
-                                  }
-                }
-                );
+                        'Content-Type': 'application/json'
+                    }
+                });
                 console.log('address created: ', data);
                 setLoadingButton(false);
                 if (setState) setState((prev) => [...prev, data]);
                 toast.success('Address is created.');
-                if (onClose) onClose()
+                if (onClose) onClose();
             }
         } catch (error) {
             setLoadingButton(false);
