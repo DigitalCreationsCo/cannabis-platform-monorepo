@@ -1,0 +1,6 @@
+Dev Call - Docker build with Kalipha 2-18-22
+docker container is running, the app is not compiling.
+I think there are some schema changes in the database, which conflict with Kaliphas branch db schema.
+Also, he suggest the .yarn folder is an issue to include in the repository.
+I will research the .yarn folder with docker.
+
