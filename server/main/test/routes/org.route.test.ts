@@ -13,6 +13,19 @@ beforeAll(() => {
 
 // i can mock these routes much easier, by mocking the controller function being called
 
+describe('POST organization', function () {
+    test('/ responds with 201 Created, & json response', async function () {
+        await app
+            .get('/api/v1/organization/2')
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .then((response) => {
+                expect(response.body).toBeDefined();
+            });
+    });
+});
+
 describe('GET organization', function () {
     test('/2 responds with 200, & json response', async function () {
         await app

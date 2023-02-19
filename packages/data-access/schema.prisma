@@ -331,8 +331,10 @@ model Organization {
   id            String    @id @unique @default(cuid())
   name          String
   address Address?
-  dialCode String?
-  phone String?
+  dialCode String
+  phone String
+  email String
+  emailVerified Boolean @default(false)
   images ImageOrganization[]
   memberships Membership[]
   products Product[]

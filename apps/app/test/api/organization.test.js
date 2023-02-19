@@ -12,6 +12,19 @@
 // // // maybe mock the session
 // // // another issue is the caching that happens on the handler side, can interfere with test
 // // describe('/api/organization', () => {
+// //     test('POST /organization return the correct server call', async () => {
+// //         const { req, res } = createMocks({
+// //             method: 'GET',
+// //             query: {
+// //                 animal: 'dog',
+// //             },
+// //         });
+// //         await organizationHandler(req, res);
+// //         expect(axios).toHaveBeenLastCalledWith(urlBuilder.main.organizationById('2'));
+// //     });
+// // });
+
+// // describe('/api/organization', () => {
 // //     test('getOrganizationById return the correct server call', async () => {
 // //         const { req, res } = createMocks({
 // //             method: 'GET',

@@ -1,9 +1,10 @@
-import { findCategoryListByOrg, findOrganizationById, findUsersByOrganization } from '@cd/data-access';
+import { createOrganization, findCategoryListByOrg, findOrganizationById, findUsersByOrganization, OrganizationCreateType } from '@cd/data-access';
 
 /* =================================
 Organization Data Access - data class for organization table
 
 members:
+createOrganization
 getOrganizationById
 getCategoryList
 getUsersByOrganization
@@ -12,6 +13,21 @@ updateProduct
 ================================= */
 
 export default class OrganizationDA {
+    static async createOrganization(organizationData: OrganizationCreateType) {
+        try {
+            let { address, ...organization } = organizationData;
+
+            organization.subdomainId = organization.name.toLowerCase();
+            
+            address.coordinateId = '';
+            const data = await createOrganization(organization, address);
+            return data;
+        } catch (error) {
+            console.error(error.message);
+            throw new Error(error.message);
+        }
+    }
+
     // find organization by organizationId
     static async getOrganizationById(organizationId) {
         try {
@@ -46,7 +62,7 @@ export default class OrganizationDA {
 
     static async updateProduct(product) {
         try {
-            return 'product was updated OK';
+            return 'TEST: product was updated OK';
             // const data = await updateProduct(product);
             // return data
         } catch (error) {

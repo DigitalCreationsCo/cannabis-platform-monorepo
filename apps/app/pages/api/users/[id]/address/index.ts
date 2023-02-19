@@ -13,13 +13,11 @@ handler.use(authMiddleware).use(healthCheckMiddleware);
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         const formData: AddressCreateType = req.body;
-        const { data } = await axios.post(urlBuilder.main.address(), formData,
-            {
+        const { data } = await axios.post(urlBuilder.main.address(), formData, {
             headers: {
-                'Content-Type': 'application/json',
-                }
+                'Content-Type': 'application/json'
             }
-        );
+        });
         return res.status(res.statusCode).json(data);
     } catch (error) {
         console.error(error.message);

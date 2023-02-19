@@ -1,7 +1,11 @@
+import { OrganizationCreateType } from '@cd/data-access/dist';
 import { createContext, PropsWithChildren, useContext, useState } from 'react';
 
 interface FormContextProps extends PropsWithChildren {
-    formData: Record<string, unknown>;
+    formData: {
+        organization: OrganizationCreateType;
+        newUser: any;
+    }
     setFormValues: (values: Record<string, unknown>) => void;
 }
 export const FormContext = createContext<FormContextProps>(null);

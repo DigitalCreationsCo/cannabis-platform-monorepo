@@ -5,13 +5,27 @@ const Busboy = require('busboy');
 OrganizationController - controller class for organization management actions
 
 members:
+createOrganization
 getOrganizationById
 getCategoryList
+getUsersByOrganization
 updateProduct
 
 ================================= */
 
 export default class OrganizationController {
+    static async createOrganization(req, res) {
+        try {
+            const organization = req.body
+            const data = await OrganizationDA.createOrganization(organization);
+            if (!data) return res.status(404).json('Organization could not be created.');
+            return res.status(201).json(data);
+        } catch (error) {
+            console.log('API error: ', error);
+            res.status(500).json({ error });
+        }
+    }
+
     static async getOrganizationById(req, res) {
         try {
             const organizationId = req.params.id || '';

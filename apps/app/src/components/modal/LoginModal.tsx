@@ -86,66 +86,56 @@ function LoginModal({ open, onClose, ...props }: ModalProps) {
     }
     return (
         <Modal open={open} onClose={resetModalState} {...props}>
-            <Grid className="space-y-2 px-3">
-                <FlexBox className="flex-col space-y-2">
-                    <FlexBox className="justify-center">
-                        <Image src={'/logo.png'} alt="Gras Cannabis logo" width={63} height={63} priority />
-                        <H3>
-                            Welcome to <H1>Gras Cannabis</H1>
-                        </H3>
-                    </FlexBox>
-
-                    <H3>One Stop Cannabis Marketplace</H3>
+            <Grid>
+                <FlexBox>
+                    <Image src={'/logo.png'} alt="Gras Cannabis logo" width={63} height={63} priority />
+                    <H3>
+                        Welcome to <H1>Gras Cannabis</H1>
+                    </H3>
                 </FlexBox>
-                <FlexBox className="flex-col space-x-0 space-y-2">
-                    <Paragraph>Sign in with your email & password</Paragraph>
-                    <TextField
-                        // inputRef={emailInputRef}
-                        name="email"
-                        label="Email"
-                        placeholder="you@email.com"
-                        value={values?.email}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        error={!!touched.email && !!errors.email}
-                        helperText={touched.email && errors.email}
-                    />
-                    <TextField
-                        name="password"
-                        label="Password"
-                        placeholder="password"
-                        value={values?.password}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        error={!!touched.password && !!errors.password}
-                        helperText={touched.password && errors.password}
-                        type={passwordVisibility ? 'text' : 'password'}
-                        insertIcon={passwordVisibility ? Icons.View : Icons.ViewOff}
-                        onClickIcon={togglePasswordVisibility}
-                    />
+                <H3>One Stop Cannabis Marketplace</H3>
+                <Paragraph>Sign in with your email & password</Paragraph>
+                <TextField
+                    name="email"
+                    label="Email"
+                    placeholder="you@email.com"
+                    value={values?.email}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    error={!!touched.email && !!errors.email}
+                    helperText={touched.email && errors.email}
+                />
+                <TextField
+                    name="password"
+                    label="Password"
+                    placeholder="password"
+                    value={values?.password}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    error={!!touched.password && !!errors.password}
+                    helperText={touched.password && errors.password}
+                    type={passwordVisibility ? 'text' : 'password'}
+                    insertIcon={passwordVisibility ? Icons.View : Icons.ViewOff}
+                    onClickIcon={togglePasswordVisibility}
+                />
+                <Button
+                    onClick={() => {
+                        handleSubmit();
+                    }}
+                >
+                    Sign In
+                </Button>
+                <FlexBox>
+                    <Paragraph>Don't have account? </Paragraph>
+                    <Link href="/signup">
+                        <H6 className="border-b"> Sign Up</H6>
+                    </Link>
                 </FlexBox>
-                <FlexBox className="justify-center py-4">
-                    <Button
-                        onClick={() => {
-                            handleSubmit();
-                        }}
-                    >
-                        Sign In
-                    </Button>
-                </FlexBox>
-                <FlexBox className="flex-col justify-between w-fit place-self-center space-x-0 space-y-4 pb-2">
-                    <FlexBox className="w-full justify-between">
-                        <Paragraph>Don't have account? </Paragraph>
-                        <Link href="/signup">
-                            <H6 className="border-b"> Sign Up</H6>
-                        </Link>
-                    </FlexBox>
-                    <FlexBox className="w-full justify-between">
-                        <Paragraph>Forgot your password?</Paragraph>
-                        <Link href="/reset-password">
-                            <H6 className="border-b"> Reset It</H6>
-                        </Link>
-                    </FlexBox>
+                <FlexBox>
+                    <Paragraph>Forgot your password?</Paragraph>
+                    <Link href="/reset-password">
+                        <H6 className="border-b"> Reset It</H6>
+                    </Link>
                 </FlexBox>
             </Grid>
         </Modal>

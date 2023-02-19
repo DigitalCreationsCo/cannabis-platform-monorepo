@@ -4,6 +4,8 @@ const router = Router();
 /* =================================
 Organization Routes
 
+"/"     createOrganization
+
 "/:id"     getOrganizationById
 
 "/:id/categories"     getCategoryList
@@ -15,6 +17,8 @@ Organization Routes
 
 ================================= */
 
+router.route('/').post(orgCtrl.createOrganization);
+    
 router.route('/:id').get(orgCtrl.getOrganizationById);
 
 router.route('/:id/categories').get(orgCtrl.getCategoryList);

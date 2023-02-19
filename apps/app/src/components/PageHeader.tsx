@@ -9,7 +9,7 @@ export interface PageHeaderProps {
     Icon?: any;
     iconColor?: string;
 }
-export default function PageHeader({ title, subTitle, Button, Icon }: PageHeaderProps) {
+export default function PageHeader({ title, iconColor, subTitle, Button, Icon }: PageHeaderProps) {
     return (
         <FlexBox className="pb-6 lg:pt-6 xl:min-h-[111px] xl:absolute z-10 top-[66px] min-h-[54px] flex space-x-4">
             <FlexBox className="flex-col">

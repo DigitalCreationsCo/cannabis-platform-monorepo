@@ -306,7 +306,9 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
                                                         e.stopPropagation();
                                                     setAddressAddModal(true);
                                                 } }
-                                                className="bg-light text-dark hover:text-light text-sm h-[30px] border"
+                                                size='sm'
+                                                transparent
+                                                border
                                             >
                                                 Add Address
                                             </Button>
