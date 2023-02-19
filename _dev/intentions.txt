@@ -60,7 +60,16 @@ switched shared-ui to rollup to resolve docker build issue, and improve ci exper
     Fix Order > Address < User unlink the relation, so the record stays in the table.
 2-17-22
     Dispensary Signup Form, 30% done
-    
+2-18-22
+    Simplify component classes, signup api routes
+
+create server/main route for new organizations, and new users
+test both routes, 
+make sure duplicate records are not created
+add search function to dispensary create to find existing vendor brands,
+
+To Do: Add country picker to address forms, add country code
+
 configure nextapp and nginx with docker,
 deploy with docker on linode, use pm2 for nextjs
 Revise dockerfile to build fast and lean
@@ -121,3 +130,7 @@ cycle reusable comps to shared-ui for using consumer app :)
 
 Production fine details:
 add static landing page that shows isolated from server activity, make it always available
+
+Improve Dev Experience:
+frontend: component generators, to automate file creation
+, use less tailwind classes, and more components for frontend styling, { Grid, GridwithPadding, Grid gradient={}, etc}

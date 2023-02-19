@@ -32,7 +32,7 @@ export default class UserDA {
         }
     }
 
-    static async createAddress(address) {
+    static async addAddressToUser(address) {
         try {
             address.coordinateId = '';
             const data = await createAddress(address);

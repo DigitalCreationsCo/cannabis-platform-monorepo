@@ -9,12 +9,12 @@ type FormCardProps = {
 function FormCard({ currentStep, totalSteps, className, children }: FormCardProps) {
     return (
         <Card className={className}>
-            {children}
             <FlexBox>
                 <Paragraph>
-                    {currentStep + 1} of {totalSteps}
+                    Page {currentStep + 1} of {totalSteps}
                 </Paragraph>
             </FlexBox>
+            {children}
         </Card>
     );
 }

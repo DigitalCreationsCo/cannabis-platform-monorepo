@@ -1,6 +1,7 @@
 export { default as AdminDashboardNavigation } from './AdminDashBoardNavigation';
 export { default as SearchBar } from './AppSearch';
 export { default as CartButton } from './CartButton';
+export { default as CheckBox } from './CheckBox';
 export { default as ClickableTags } from './ClickableTags';
 export { default as CloseButton } from './CloseButton';
 export { default as DropZone } from './DropZone';

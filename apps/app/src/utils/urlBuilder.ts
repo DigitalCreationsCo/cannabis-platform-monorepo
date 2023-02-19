@@ -16,6 +16,7 @@ const urlBuilder = {
         products: () => urlBuilder.main.baseUrl + '/shop/products',
         productUpdate: (id: any) => urlBuilder.main.baseUrl + `/organization/product/${id}/update`,
 
+        organization: () => urlBuilder.main.baseUrl + `/organization`,
         organizationById: (id: any) => urlBuilder.main.baseUrl + `/organization/${id}`,
 
         categoryList: (id: any) => urlBuilder.main.baseUrl + `/organization/${id}/categories`,
@@ -23,9 +24,9 @@ const urlBuilder = {
         userById: (id: any) => urlBuilder.main.baseUrl + `/auth/user/${id}`,
         usersByOrg: (id: any) => urlBuilder.main.baseUrl + `/organization/${id}/users`,
 
+        address: () => urlBuilder.main.baseUrl + '/auth/address',
         addressByIdAndUser: (addressId: any, id: any) =>
-            urlBuilder.main.baseUrl + `/auth/user/${id}/address/${addressId}`,
-        address: () => urlBuilder.main.baseUrl + '/auth/address'
+            urlBuilder.main.baseUrl + `/auth/user/${id}/address/${addressId}`
     }
 };
 

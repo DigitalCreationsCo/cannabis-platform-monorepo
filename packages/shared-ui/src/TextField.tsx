@@ -50,7 +50,11 @@ function TextField({
                     <label>{label}</label>
                     {insertIcon && (
                         <IconButton
-                            onClick={onClickIcon}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                e.preventDefault();
+                                onClickIcon && onClickIcon(e);
+                            }}
                             className={twMerge(
                                 'bg-transparent hover:bg-transparent md:hover:bg-transparent focus:bg-transparent shadow-none px-0 m-0 w-min h-min place-self-center'
                             )}

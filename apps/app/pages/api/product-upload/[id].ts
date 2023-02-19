@@ -32,12 +32,13 @@ handler.use(authMiddleware).use(healthCheckMiddleware);
 // update product route
 handler.put(async (req: ExtendApiRequest, res: NextApiResponse) => {
     try {
+        res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
         const { id } = req.query;
         const { data } = await axios.put(urlBuilder.main.productUpdate(id), req, {
             responseType: 'stream',
             headers: {
-                'Content-Type': req.headers['content-type'],
-            },
+                'Content-Type': req.headers['content-type']
+            }
         });
         data.pipe(res);
     } catch (error) {
@@ -47,7 +48,7 @@ handler.put(async (req: ExtendApiRequest, res: NextApiResponse) => {
 
 export const config = {
     api: {
-        bodyParser: false,
-    },
+        bodyParser: false
+    }
 };
 export default handler;

@@ -1,10 +1,11 @@
-import { Button, FlexBox, H3, H6, Icons, Paragraph, Small, TextField } from '@cd/shared-ui';
+import { Button, FlexBox, H3, H6, Icons, Label, Paragraph, Small, TextField } from '@cd/shared-ui';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import { useCallback, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import * as yup from 'yup';
 import { useFormContext } from '../../context/StepFormProvider';
+import CheckBox from '../CheckBox';
 
 // To Do: Add helpertext to textfields
 function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
@@ -17,9 +18,11 @@ function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
 
     const onSubmit = async (values: typeof initialValues) => {
         try {
+            console.log('values');
             setLoadingButton(true);
             setFormValues({ newUser: { ...values } });
             setLoadingButton(false);
+            console.log('Dispensary User Create Values: ', values);
             nextFormStep();
         } catch (error) {
             console.log('Dispensary User Create Error: ', error);
@@ -97,7 +100,6 @@ function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
                 <TextField
                     name="phone"
                     label="Phone"
-                    type="tel"
                     placeholder="Phone"
                     value={values?.phone}
                     onBlur={handleBlur}
@@ -192,18 +194,20 @@ function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
                 helperText={touched?.address?.zipcode && errors?.address?.zipcode}
             />
             <FlexBox>
-                <label>
+                <Label>
                     By creating a User Account on Gras Cannabis Marketplace, you agree to our
                     <a href="/" target="_blank" rel="noreferrer noopener">
-                        <H6 className={'border-b-2'}>User Terms & Conditions</H6>
+                        <H6 className={'border-b-2 inline-block'}>User Terms & Conditions</H6>
                     </a>
-                </label>
-                <input
+                </Label>
+                <CheckBox
                     type="checkbox"
                     name="termsAccepted"
                     onChange={handleChange}
                     checked={values?.termsAccepted || false}
                 />
+                <Label>{touched.termsAccepted && errors.termsAccepted}</Label>
+                <Paragraph>I agree to the dispensary terms and conditions</Paragraph>
             </FlexBox>
             <Button
                 type="submit"
@@ -211,6 +215,7 @@ function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
                 onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
+                    console.log('submit');
                     handleSubmit();
                 }}
                 disabled={values.termsAccepted === false}
@@ -222,24 +227,23 @@ function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
 }
 
 const initialValues = {
-    id: '',
-    firstName: '',
-    lastName: '',
-    username: '',
-    email: '',
+    firstName: 'Bryant',
+    lastName: 'Mehaffey',
+    username: 'bigchiefa1',
+    email: 'bigchief@gmail.com',
     emailVerified: false,
-    password: '',
-    re_password: '',
+    password: 'asdfasdf',
+    re_password: 'asdfasdf',
     dialCode: '1',
-    phone: '',
+    phone: '1232343456',
     address: {
-        street1: '',
+        street1: '313 West St',
         street2: '',
-        city: '',
-        state: '',
-        zipcode: '',
-        country: '',
-        countryCode: ''
+        city: 'Philadelphia',
+        state: 'PA',
+        zipcode: '17603',
+        country: 'United States',
+        countryCode: 'US'
     },
     termsAccepted: false,
     imageUser: []
@@ -250,7 +254,7 @@ const validationSchema = yup.object().shape({
     lastName: yup.string().required('required'),
     username: yup.string().required('required'),
     email: yup.string().required('required'),
-    address: {
+    address: yup.object().shape({
         street1: yup.string().required('street line 1 is required'),
         street2: yup.string(),
         city: yup.string().required('city is required'),
@@ -258,12 +262,12 @@ const validationSchema = yup.object().shape({
         zipcode: yup.string().required('zipcode is required').length(5, 'zipcode must be 5 digits'),
         country: yup.string().required('country is required'),
         countryCode: yup.string().required('country code is required')
-    },
+    }),
     dialCode: yup.string().required('dialing code is required'),
     phone: yup.string().required('phone number is required').length(10, 'phone number must be 10 digits'),
     termsAccepted: yup
         .bool()
-        .test('agreement', 'Please read and agree to our User Terms and Conditions.', (value) => value === true)
+        .test('termsAccepted', 'Please read and agree to our User Terms and Conditions.', (value) => value === true)
 });
 
 export default DispensaryUserCreate;

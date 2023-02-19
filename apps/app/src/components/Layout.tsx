@@ -52,7 +52,7 @@ export default function Layout({ onSearchChange, placeholder, children }: Layout
 
 function TopBar({ doesSessionExist, setLoginModal }: { doesSessionExist?: boolean; setLoginModal?: any }) {
     useEffect(() => {}, [doesSessionExist]);
-    const topbar = ['flex flex-row h-[66px] pr-4 lg:px-16 bg-inverse space-x-2 items-center shadow'];
+    const topbar = ['flex flex-row min-h-[66px] pr-4 lg:px-16 bg-inverse space-x-2 items-center shadow'];
     return (
         <div className={twMerge(topbar)}>
             <Link href="/" passHref>

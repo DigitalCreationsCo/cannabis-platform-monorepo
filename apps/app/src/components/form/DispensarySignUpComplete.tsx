@@ -2,10 +2,8 @@ import { Button, H3, Paragraph } from '@cd/shared-ui';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { useFormContext } from '../../context/StepFormProvider';
 
 function DispensarySignUpComplete() {
-    const { formData } = useFormContext();
     const [loadingButton, setLoadingButton] = useState(false);
 
     useEffect(() => {
@@ -13,19 +11,20 @@ function DispensarySignUpComplete() {
     }, []);
     return (
         <form className={'content relative'}>
-            <H3>Congratulations, you created your Dispensary on Gras Cannabis Marketplace.</H3>
+            <H3>Congratulations! You created your Dispensary Account on Gras Cannabis Marketplace.</H3>
             <Paragraph>
-                You're almost ready to meet the customers on our platform.
-                <br />
-                Soon, they can find your products and place orders from your dispensary.
+                This is a great step towards introducing your products to the Gras Cannabis Marketplace.
+                You're almost ready to meet our customers.
                 <br />
                 Please sign in upload your products and customize your storefront so your new customers can find you in
                 the marketplace.
+                Soon, they can find your products and place orders from your dispensary.
+                <br />
             </Paragraph>
-            <Image alt="Gras Cannabis logo" src={'/logo.png'} fill />
+            <Image alt="Gras Cannabis logo" src={'/logo.png'} height={63} width={63} priority  />
             <Link href="/">
-                <Button type="submit" loading={loadingButton}>
-                    Sign In
+                <Button size='lg' type="submit" loading={loadingButton}>
+                    Create My Storefront
                 </Button>
             </Link>
         </form>

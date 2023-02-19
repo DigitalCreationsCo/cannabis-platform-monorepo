@@ -53,7 +53,7 @@ export default class UserController {
     static async addAddressToUser(req, res) {
         try {
             const address = req.body;
-            const data = await UserDA.createAddress(address);
+            const data = await UserDA.addAddressToUser(address);
             if (!data) return res.status(404).json('Address was not created');
             return res.status(200).json(data);
         } catch (error) {

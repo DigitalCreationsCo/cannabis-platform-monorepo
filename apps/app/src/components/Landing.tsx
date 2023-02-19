@@ -1,7 +1,7 @@
-import { Button, Center, H1, Paragraph } from '@cd/shared-ui';
-import Image from 'next/image';
+import { Button, Center, H1, H5, Paragraph } from '@cd/shared-ui';
+import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { PropsWithChildren, useState } from 'react';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import backdrop from '../../public/marijuana-backdrop.png';
 import { LoginModal } from './modal';
@@ -12,49 +12,60 @@ export default function LandingPage() {
     return (
         <>
             <LoginModal open={showModal} onClose={() => setModal(false)} />
-            <div
-                className="w-full flex"
-                style={{
-                    width: '100%',
-                    height: '70vh',
-                    clipPath: 'inset(0 0 0 0)'
-                }}
-            >
-                <Image src={backdrop} alt="" fill style={{ objectFit: 'cover', objectPosition: '80% 20%' }} />
-                <div
-                    style={{
-                        backgroundColor: 'rgba(0,0,0,0.4)',
-                        position: 'fixed',
-                        height: '100%',
-                        width: '100%',
-                        left: '0',
-                        top: '0'
-                    }}
-                ></div>
-
-                <Center className="z-10 space-y-2 justify-center">
-                    <H1 className="text-inverse font-display">Welcome to Gras Cannabis</H1>
-                    <Paragraph className="text-lg text-inverse">Sign in to use this app</Paragraph>
+            <ImageBackDrop src={backdrop}>
+                <Center>
+                    <H1 color="light">Welcome to Gras Cannabis</H1>
+                    <H5 color="light">Sign in to use this app</H5>
                     <Button
-                        className="w-[200px] h-[80px] bg-primary hover:bg-[#0b7529] opacity-90 text-xl transition ease-in-out duration-300"
+                        size="lg"
+                        bg="primary"
+                        transparent
                         disabled={session.loading}
                         onClick={() => setModal(true)}
+                        className="hover:bg-[#0b7529]"
                     >
                         Sign In
                     </Button>
 
-                    <Paragraph className="whitespace-pre-line text-lg text-inverse">
+                    <H5 color="light">
                         {`If you are a new dispensary, 
                         create a Dispensary Account here`}
-                    </Paragraph>
+                    </H5>
                     <Link href="/signup/create-dispensary-account">
-                        <Button className="w-[200px] h-[80px] bg-primary hover:bg-[#0b7529] opacity-90 transition ease-in-out duration-300">
-                            <Paragraph className="whitespace-pre-line">{`Create a
+                        <Button size="lg" bg="primary" transparent className="hover:bg-[#0b7529]">
+                            <Paragraph color="light">{`Create a
                              Dispensary Account`}</Paragraph>
                         </Button>
                     </Link>
                 </Center>
-            </div>
+            </ImageBackDrop>
         </>
     );
 }
+
+const ImageBackDrop = ({ src, children }: { src: string | StaticImageData } & PropsWithChildren) => {
+    return (
+        <div
+            className="w-full flex"
+            style={{
+                width: '100%',
+                height: '70vh',
+                clipPath: 'inset(0 0 0 0)'
+            }}
+        >
+            <Image src={src} alt="" fill style={{ zIndex: -1, objectFit: 'cover', objectPosition: '80% 20%' }} />
+            <div
+                style={{
+                    zIndex: -1,
+                    backgroundColor: 'rgba(0,0,0,0.4)',
+                    position: 'fixed',
+                    height: '100%',
+                    width: '100%',
+                    left: '0',
+                    top: '0'
+                }}
+            ></div>
+            {children}
+        </div>
+    );
+};
