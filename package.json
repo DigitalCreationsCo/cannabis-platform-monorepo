@@ -23,7 +23,8 @@
     "db:reseed": "yarn workspace @cd/data-access db:reseed",
     "docker:app": "scripts/docker/docker.sh",
     "docker:supertokens": "scripts/docker/runSupertokens.sh",
-    "permit-scripts": "node scripts/permit-scripts.js"
+    "permit-scripts": "node scripts/permit-scripts.js",
+    "start": "pm2 start ecosystem.config.js --env production"
   },
   "engines": {
     "node": "16.16.0"
@@ -39,6 +40,11 @@
     "pm2": "5.2.2"
   },
   "devDependencies": {
+    "@babel/cli": "7.20.7",
+    "@babel/core": "7.20.12",
+    "@babel/preset-env": "7.20.2",
+    "@babel/preset-flow": "7.18.6",
+    "@babel/preset-typescript": "7.18.6",
     "@carbon/icons-react": "11.16.0",
     "@prisma/client": "4.4.0",
     "@reduxjs/toolkit": "1.9.1",
