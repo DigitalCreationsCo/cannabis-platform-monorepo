@@ -4,3 +4,13 @@ I think there are some schema changes in the database, which conflict with Kalip
 Also, he suggest the .yarn folder is an issue to include in the repository.
 I will research the .yarn folder with docker.
 
+Result: Kalipha branch works with pushing old db schema from February 13.
+Next steps: 
+1. Solve the ssr issue on production build -> the server is not available, due to a supertokens config issue:
+    production api needs https address and secure cookies for session to work.
+    Solution is to deploy the node server in a Linode, with docker, and with supertokens working functionally.
+    Then Kalipha can create the docker image for app, and deploy this image as well for production.
+
+2. remove the db query from Kalipha's branch, so there is no db error.
+3. provision a production branch, with db schema from Kaliphas branch. 
+4. Message Kalipha by Monday, have a call to discuss the next steps

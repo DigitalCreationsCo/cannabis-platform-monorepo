@@ -1,14 +1,13 @@
-import { OrganizationCreateType } from '@cd/data-access/dist';
 import { Button, FlexBox, H3, H5, Paragraph } from '@cd/shared-ui';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { useFormContext } from '../../context/StepFormProvider';
+import { FormDataProps, useFormContext } from '../../context/StepFormProvider';
 import { renderNestedDataObject } from '../../utils';
 
 function DispensaryReview({ nextFormStep }: { nextFormStep: () => void }) {
     const [loadingButton, setLoadingButton] = useState(false);
-    const { formData }:{formData: {organization: OrganizationCreateType}} = useFormContext();
+    const { formData }:{formData: FormDataProps} = useFormContext();
 
     const handleFormSubmit = async () => {
         try {

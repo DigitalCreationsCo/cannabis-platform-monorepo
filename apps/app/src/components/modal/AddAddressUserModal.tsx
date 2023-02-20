@@ -1,4 +1,4 @@
-import { AddressCreateType, AddressUserCreateType } from '@cd/data-access/dist';
+import { AddressUserCreateType } from '@cd/data-access/dist';
 import { Button, FlexBox, Grid, TextField } from '@cd/shared-ui';
 import axios from 'axios';
 import { useFormik } from 'formik';
@@ -46,7 +46,7 @@ function AddAddressUserModal({ userId, onClose, setState, ...props }: AddAddress
         onSubmit: handleFormSubmit
     });
 
-    async function handleFormSubmit(values: AddressCreateType) {
+    async function handleFormSubmit(values: AddressUserCreateType) {
         try {
             console.log('click');
             if (!loadingButton) {

@@ -1,10 +1,12 @@
+// @ts-nocheck;
+
 function createDate() {
   const timeElapsed = Date.now();
   const today = new Date(timeElapsed);
   return today.toISOString();
 }
 
-import { Order } from '@cd/data-access'
+import { Order } from '@cd/data-access';
 
 export default class OrderInfo extends Order {
   constructor({

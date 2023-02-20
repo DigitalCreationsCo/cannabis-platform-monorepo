@@ -22,6 +22,7 @@
     "ecommerce",
     "Formik",
     "healthcheck",
+    "nocheck",
     "pscale",
     "purgecss",
     "reduxjs",

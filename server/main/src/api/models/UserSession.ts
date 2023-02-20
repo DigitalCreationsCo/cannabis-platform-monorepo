@@ -1,10 +1,10 @@
+// @ts-nocheck;
+
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { ObjectId } from "mongodb";
 
 export default class UserSession {
   constructor({
-    customerId = new ObjectId(),
     email,
     firstName,
     lastName,
@@ -39,7 +39,6 @@ export default class UserSession {
     recentlyViewedVendors = [],
     recentlyViewedProducts = [],
   } = {}) {
-    this.customerId = customerId;
     this.email = email;
     this.firstName = firstName;
     this.lastName = lastName;
