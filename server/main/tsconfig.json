@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "outDir": "dist",
+    // "strict": false,
     "esModuleInterop": true,
     // "composite": true,
     "module": "CommonJS",
@@ -11,7 +13,6 @@
     // "allowJs": true,
     // "skipLibCheck": true,
     // "allowSyntheticDefaultImports": true,
-    // "strict": false,
     // "forceConsistentCasingInFileNames": true,
     // "resolveJsonModule": true,
     // "isolatedModules": true,

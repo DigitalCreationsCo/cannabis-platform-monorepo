@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "@cd/data-access": "*",
-    "@cd/shared-config": "*"
+    "@cd/shared-config": "*",
+    "pm2": "5.2.2"
   },
   "devDependencies": {
     "@types/jest": "29.2.4",
@@ -35,6 +36,7 @@
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development ts-node .",
+    "build": "tsc -b",
     "start": "cross-env NODE_ENV=production ts-node .",
     "test": "../../node_modules/jest/bin/jest.js",
     "test:fix": "../../node_modules/jest/bin/jest.js --detectOpenHandles",
