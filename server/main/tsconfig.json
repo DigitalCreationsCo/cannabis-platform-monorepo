@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "dist",
+    // "outDir": "dist",
     // "strict": false,
     "esModuleInterop": true,
     // "composite": true,
