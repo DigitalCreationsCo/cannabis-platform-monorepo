@@ -5,7 +5,7 @@
   "include": [
     "**/*.ts",
     "**/*.cjs"
-, "index.js", "config/index.js", "config/loadEnv.js"  ],
+, "index.js", "config/index.js", "config/loadEnv.js", "auth/appInfo.js"  ],
   "exclude": [
     "node_modules",
   ]

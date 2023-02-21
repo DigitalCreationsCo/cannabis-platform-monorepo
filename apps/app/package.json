@@ -3,9 +3,6 @@
         "@cd/data-access": "*",
         "@cd/shared-config": "*",
         "@cd/shared-ui": "*",
-        "eslint-plugin-react": "7.31.11"
-    },
-    "devDependencies": {
         "@reduxjs/toolkit": "1.9.1",
         "@tailwindcss/typography": "0.5.8",
         "@types/formidable": "2.0.5",
@@ -28,6 +25,7 @@
         "eslint-plugin-import": "2.26.0",
         "eslint-plugin-jsx-a11y": "6.6.1",
         "eslint-plugin-prettier": "4.2.1",
+        "eslint-plugin-react": "7.31.11",
         "eslint-plugin-react-hooks": "4.6.0",
         "eslint-plugin-simple-import-sort": "8.0.0",
         "find-up": "5.0.0",

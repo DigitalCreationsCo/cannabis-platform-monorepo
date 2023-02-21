@@ -20,7 +20,12 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
-_supertokensNode["default"].init((0, _backendConfig.backendConfig)());
+console.log('Starting server...');
+console.log('supertokens connection string: ', process && process.env && process.env.SUPERTOKENS_CONNECTION_URI || "http://localhost:3567");
+console.log('node env: ', process && process.env && process.env.NODE_ENV || "production");
+if (_supertokensNode["default"]) {
+  _supertokensNode["default"].init((0, _backendConfig.backendConfig)());
+} else throw Error('Supertokens is not available.');
 var app = (0, _express["default"])();
 app.use((0, _cors["default"])({
   origin: _appInfo.websiteDomain,

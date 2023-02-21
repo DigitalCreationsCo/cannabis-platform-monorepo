@@ -9,15 +9,19 @@ import { errorHandler, middleware } from 'supertokens-node/framework/express';
 import bodyParser from 'body-parser';
 import http from 'http';
 import { driver, error, organization, shop, user } from './api/routes';
+console.log('Starting server...');
+console.log('supertokens connection string: ', process.env.SUPERTOKENS_CONNECTION_URI);
+console.log('node env: ', process.env.NODE_ENV);
 
-supertokens.init(backendConfig());
-
+if (supertokens) {
+    supertokens.init(backendConfig());
+} else throw Error('Supertokens is not available.');
 const app = express();
 app.use(
     cors({
         origin: websiteDomain,
         allowedHeaders: ['content-type', ...supertokens.getAllCORSHeaders()],
-        credentials: true,
+        credentials: true
     })
 );
 app.use(middleware());
