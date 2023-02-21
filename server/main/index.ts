@@ -1,9 +1,9 @@
 import prisma from '@cd/data-access';
-import { loadEnv } from '@cd/shared-config/config/loadEnv.js';
+import { loadEnv } from '@cd/shared-config/config/loadEnv';
 import { config } from 'dotenv';
 import { expand } from 'dotenv-expand';
 
-const nodeEnv = process.env.NODE_ENV;
+const nodeEnv = process.env.NODE_ENV || process.env.BABEL_ENV;
 expand(config({ path: loadEnv(nodeEnv) }));
 const port = process.env.SERVER_MAIN_PORT || 'xxxx';
 

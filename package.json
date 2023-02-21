@@ -61,6 +61,7 @@
     "@typescript-eslint/parser": "5.45.0",
     "autoprefixer": "10.4.13",
     "axios": "1.2.1",
+    "babel-plugin-inline-dotenv": "1.7.0",
     "bcryptjs": "2.4.3",
     "busboy": "1.6.0",
     "chmod": "0.2.1",

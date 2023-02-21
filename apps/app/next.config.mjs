@@ -10,9 +10,10 @@ const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
     output: 'standalone',
+    // outputFileTracingRoot: path.join(__dirname, '../../'),
     images: {
-        domains: ['cdn-cashy-static-assets.lucidchart.com'],
-    },
+        domains: ['cdn-cashy-static-assets.lucidchart.com']
+    }
 };
 
 export default nextConfig;

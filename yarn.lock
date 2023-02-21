@@ -1535,6 +1535,7 @@ __metadata:
     "@typescript-eslint/parser": 5.45.0
     autoprefixer: 10.4.13
     axios: 1.2.1
+    babel-plugin-inline-dotenv: 1.7.0
     bcryptjs: 2.4.3
     busboy: 1.6.0
     chmod: 0.2.1
@@ -1629,6 +1630,7 @@ __metadata:
     "@types/node": 18.11.10
     "@typescript-eslint/eslint-plugin": 5.45.0
     "@typescript-eslint/parser": 5.45.0
+    babel-plugin-inline-dotenv: 1.7.0
     bcryptjs: 2.4.3
     cors: 2.8.5
     cross-env: 7.0.3
@@ -1672,6 +1674,7 @@ __metadata:
     eslint-plugin-react: 7.31.11
     eslint-plugin-react-hooks: 4.6.0
     eslint-plugin-simple-import-sort: 8.0.0
+    find-up: 5.0.0
     postcss: 8.4.19
     prettier: 2.8.0
     tailwindcss: 3.2.4
@@ -3739,6 +3742,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"babel-plugin-inline-dotenv@npm:1.7.0":
+  version: 1.7.0
+  resolution: "babel-plugin-inline-dotenv@npm:1.7.0"
+  dependencies:
+    dotenv: ^16.0.0
+  peerDependencies:
+    dotenv-expand: ">= 5.0.0"
+  peerDependenciesMeta:
+    dotenv-expand:
+      optional: true
+  checksum: 1203b100b84d247a0db5d1f2565f452e1afa3f747e5ad872ddbf3533b49ec2173ba2c99d22c05fa902914da8de331fbc714132c2eda7b0a2a26fa909dbb10a67
+  languageName: node
+  linkType: hard
+
 "babel-plugin-istanbul@npm:^6.1.1":
   version: 6.1.1
   resolution: "babel-plugin-istanbul@npm:6.1.1"
@@ -5145,7 +5162,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv@npm:16.0.3, dotenv@npm:^16.0.3":
+"dotenv@npm:16.0.3, dotenv@npm:^16.0.0, dotenv@npm:^16.0.3":
   version: 16.0.3
   resolution: "dotenv@npm:16.0.3"
   checksum: afcf03f373d7a6d62c7e9afea6328e62851d627a4e73f2e12d0a8deae1cd375892004f3021883f8aec85932cd2834b091f568ced92b4774625b321db83b827f8

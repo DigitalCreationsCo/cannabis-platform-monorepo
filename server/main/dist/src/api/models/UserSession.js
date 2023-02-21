@@ -118,7 +118,7 @@ var UserSession = /*#__PURE__*/function () {
     value: function encoded() {
       return _jsonwebtoken["default"].sign(_objectSpread({
         exp: Math.floor(Date.now() / 1000) + 60 * 60 * 4
-      }, this.toJson()), process.env.SECRET_KEY);
+      }, this.toJson()), process && process.env && process.env.SECRET_KEY || "!Zy-Sq*Hp:%zO=IT5K2zdf&M{|i~{_");
     }
   }], [{
     key: "decoded",
@@ -127,7 +127,7 @@ var UserSession = /*#__PURE__*/function () {
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
-              return _context2.abrupt("return", _jsonwebtoken["default"].verify(userJwt, process.env.SECRET_KEY, function (error, decoded) {
+              return _context2.abrupt("return", _jsonwebtoken["default"].verify(userJwt, process && process.env && process.env.SECRET_KEY || "!Zy-Sq*Hp:%zO=IT5K2zdf&M{|i~{_", function (error, decoded) {
                 if (error) {
                   return {
                     error: error

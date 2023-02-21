@@ -6,6 +6,7 @@
                 "^build"
             ],
             "inputs": [
+                "./.next",
                 "pages/**/*",
                 "src/**/*",
                 "public/**/*",
@@ -42,7 +43,8 @@
             "inputs": [
                 "src/**/*",
                 "package.json",
-                "tsconfig.json"
+                "tsconfig.json",
+                "**/*.js"
             ],
             "outputs": [
                 "dist/**"

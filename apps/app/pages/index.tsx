@@ -30,7 +30,7 @@ export default function Dashboard({ user, organization, products, orders }: Dash
     const cardList = [
         { title: 'Total Products', amount: products.length },
         { title: 'Total Orders', amount: orders.length },
-        { title: "Today's Orders", amount: todaysOrders.length },
+        { title: "Today's Orders", amount: todaysOrders.length }
     ];
 
     return (
@@ -94,7 +94,7 @@ export const findLowStockVariants = (products) =>
                 variants: product.variants.filter((variant) => {
                     console.log('variant: ', variant.id);
                     return variant.stock < 7;
-                }),
+                })
             };
         } else return [];
     });
@@ -109,7 +109,7 @@ export async function getServerSideProps({ req, res }) {
         const orders = await (await axios(urlBuilder.next + '/api/orders/')).data;
         if (!user || !organization || !products || !orders) return { notFound: true };
         return {
-            props: { user, organization, products, orders },
+            props: { user, organization, products, orders }
         };
     } catch (error) {
         console.log('SSR error: ', error.message);
