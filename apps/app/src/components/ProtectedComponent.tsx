@@ -1,6 +1,6 @@
+import Router from 'next/router';
 import { PropsWithChildren } from 'react';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
-import LandingPage from './Landing';
 
 // Will need to test admin level privelege for some api routes, like users/[id]
 // will use this component to protect those routes from non-admin users
@@ -8,7 +8,9 @@ import LandingPage from './Landing';
 function ProtectedComponent({ children }: PropsWithChildren) {
     const session = useSessionContext();
     if (session.loading === true) return <></>;
-    if (!session.doesSessionExist) return <LandingPage />;
+    if (!session.doesSessionExist) {
+        Router.push('/welcome');
+    }
     if (session.doesSessionExist) return <>{children}</>;
 }
 

@@ -6,16 +6,16 @@ export declare function findProductsByOrg(organizationId: string): Promise<(Prod
     })[];
 })[]>;
 export declare function findProductWithDetails(id: string): Promise<(Product & {
-    organization: Organization;
-    categories: Category[];
-    variants: (ProductVariant & {
-        images: ImageProduct[];
-    })[];
     reviews: (Review & {
         user: User & {
             imageUser: ImageUser[];
         };
     })[];
+    variants: (ProductVariant & {
+        images: ImageProduct[];
+    })[];
+    categories: Category[];
+    organization: Organization;
 }) | null>;
 export declare function findProductsByText(search: string, organizationId: string): Promise<(Product & {
     variants: (ProductVariant & {
