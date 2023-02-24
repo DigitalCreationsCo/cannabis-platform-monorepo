@@ -1,9 +1,10 @@
 import { Order, Organization, ProductWithDetails, UserWithDetails } from '@cd/data-access';
 import { Card, Grid, Icons, OrderRow, Page } from '@cd/shared-ui';
 import axios from 'axios';
-import { PageHeader, ProductRow, ProtectedComponent } from 'components';
+import { PageHeader, ProductRow } from 'components';
 import { useMemo } from 'react';
-import { getUserInfo, urlBuilder } from '../src/utils';
+import { getSession } from '../src/session';
+import { urlBuilder } from '../src/utils';
 
 interface DashboardProps {
     user: UserWithDetails;
@@ -13,6 +14,7 @@ interface DashboardProps {
 }
 
 export default function Dashboard({ user, organization, products, orders }: DashboardProps) {
+    console.log('render Dashboard page')
     const todaysOrders = useMemo(() => {
         const todaysOrders = Array.isArray(orders)
             ? orders.filter((order) => {
@@ -34,7 +36,6 @@ export default function Dashboard({ user, organization, products, orders }: Dash
     ];
 
     return (
-        <ProtectedComponent>
             <Page>
                 <PageHeader
                     title={`${organization?.name} Dashboard`}
@@ -82,7 +83,6 @@ export default function Dashboard({ user, organization, products, orders }: Dash
                     )}
                 </Grid>
             </Page>
-        </ProtectedComponent>
     );
 }
 
@@ -102,7 +102,7 @@ export const findLowStockVariants = (products) =>
 export async function getServerSideProps({ req, res }) {
     try {
         res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
-        const { user } = getUserInfo({ req });
+        const { user } = await getSession()
         const { organizationId } = user.memberships[0];
         const organization = await (await axios(urlBuilder.next + `/api/organization/${organizationId}`)).data;
         const products = await (await axios(urlBuilder.next + '/api/products')).data;

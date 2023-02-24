@@ -1,5 +1,5 @@
 import express from 'express';
-import supertokens from 'supertokens-node';
+import Supertokens from 'supertokens-node';
 import { backendConfig } from './config/backendConfig';
 
 import { websiteDomain } from '@cd/shared-config/auth/appInfo';
@@ -8,19 +8,19 @@ import { errorHandler, middleware } from 'supertokens-node/framework/express';
 
 import bodyParser from 'body-parser';
 import http from 'http';
-import { driver, error, organization, shop, user } from './api/routes';
+import { driver, error, organization, session, shop, user } from './api/routes';
 console.log('Starting server...');
 console.log('supertokens connection string: ', process.env.SUPERTOKENS_CONNECTION_URI);
 console.log('node env: ', process.env.NODE_ENV);
 
-if (supertokens) {
-    supertokens.init(backendConfig());
+if (Supertokens) {
+    Supertokens.init(backendConfig());
 } else throw Error('Supertokens is not available.');
 const app = express();
 app.use(
     cors({
         origin: websiteDomain,
-        allowedHeaders: ['content-type', ...supertokens.getAllCORSHeaders()],
+        allowedHeaders: ['content-type', ...Supertokens.getAllCORSHeaders()],
         credentials: true
     })
 );
@@ -33,6 +33,7 @@ app.use('/api/v1/healthcheck', (req, res) => {
 });
 app.use('/api/v1/auth', user);
 app.use('/api/v1/driver', driver);
+app.use('/api/v1/session', session)
 app.use('/api/v1/shop', shop);
 app.use('/api/v1/organization', organization);
 // error handling test routes
