@@ -15,8 +15,9 @@
     "lint": "turbo run lint",
     "lint:fix": "turbo run lint:fix",
     "watch": "turbo run watch --parallel",
-    "dev": "concurrently \"yarn watch\" \"yarn dev:init\"",
-    "dev:init": "turbo run dev --filter='./apps/*' --parallel",
+    "dev": "concurrently \"yarn watch\" \"yarn dev:apps\"",
+    "dev:apps": "turbo run dev --filter='./apps/*' --parallel",
+    "dev:init": "yarn build && yarn dev",
     "app": "yarn workspace @cd/app",
     "ui": "yarn workspace @cd/shared-ui",
     "main": "yarn workspace @cd/server-main",
@@ -24,7 +25,8 @@
     "docker:app": "scripts/docker/docker.sh",
     "docker:supertokens": "scripts/docker/runSupertokens.sh",
     "permit-scripts": "node scripts/permit-scripts.js",
-    "start": "pm2 start ecosystem.config.js --env production"
+    "start": "pm2 start ecosystem.config.js --env production",
+    "stop": "pm2 stop ecosystem.config.js --env production"
   },
   "engines": {
     "node": "16.16.0"

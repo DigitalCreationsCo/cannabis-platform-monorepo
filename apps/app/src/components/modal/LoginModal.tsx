@@ -85,7 +85,7 @@ function LoginModal({ open, onClose, ...props }: ModalProps) {
         }
     }
     return (
-        <Modal open={open} onClose={resetModalState} {...props}>
+        <Modal className="min-w-full min-h-screen rounded-none" open={open} onClose={resetModalState} {...props}>
             <Grid>
                 <FlexBox>
                     <Image src={'/logo.png'} alt="Gras Cannabis logo" width={63} height={63} priority />
