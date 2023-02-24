@@ -14,6 +14,7 @@ export const frontendConfig = () => {
             },
             tokenTransferMethod: 'header'
         })
-    ]
+    ],
+    isInServerLessEnv: false
     };
 };

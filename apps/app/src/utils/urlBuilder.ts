@@ -7,6 +7,8 @@ const urlBuilder = {
         baseUrl: mainUrl + '/api/v1',
         healthCheck: () => urlBuilder.main.baseUrl + '/healthcheck',
 
+        getSession: () => urlBuilder.main.baseUrl + '/session',
+
         ordersByOrgId: (id: any) => urlBuilder.main.baseUrl + `/shop/orders/org/${id}`,
         orderById: (id: any) => urlBuilder.main.baseUrl + `/shop/orders/${id}`,
         orders: () => urlBuilder.main.baseUrl + `/shop/orders`,
