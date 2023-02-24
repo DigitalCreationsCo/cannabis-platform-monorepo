@@ -5,8 +5,8 @@ const apiBasePath = '/api/v1/auth';
 
 const appInfo = {
     appName: 'Cannabis Delivery',
-    websiteDomain,
     apiDomain,
+    websiteDomain,
     apiBasePath
 };
 

@@ -1,4 +1,3 @@
-import Router from 'next/router';
 import { PropsWithChildren } from 'react';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 
@@ -8,10 +7,10 @@ import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 function ProtectedComponent({ children }: PropsWithChildren) {
     const session = useSessionContext();
     if (session.loading === true) return <></>;
-    if (!session.doesSessionExist) {
-        Router.push('/welcome');
+    if (session.doesSessionExist) {
+        return children
     }
-    if (session.doesSessionExist) return <>{children}</>;
+    return <>{children}</>
 }
 
 // Will need to add member, admin, owner privilege to separate usage of app domains

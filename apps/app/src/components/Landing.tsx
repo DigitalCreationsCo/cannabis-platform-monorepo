@@ -49,7 +49,7 @@ const ImageBackDrop = ({ src, children }: { src: string | StaticImageData } & Pr
             className="w-full flex"
             style={{
                 width: '100%',
-                height: '70vh',
+                height: '100%',
                 clipPath: 'inset(0 0 0 0)'
             }}
         >
