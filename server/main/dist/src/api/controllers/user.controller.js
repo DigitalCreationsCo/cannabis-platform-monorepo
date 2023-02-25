@@ -20,8 +20,8 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 UserController - controller class for user actions
 
 members:
-login
-logout
+signin
+signout
 getUserById
 getAddressById
 addAddressToUser
@@ -33,17 +33,18 @@ var UserController = /*#__PURE__*/function () {
     _classCallCheck(this, UserController);
   }
   _createClass(UserController, null, [{
-    key: "login",
+    key: "signin",
     value: function () {
-      var _login = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(req, res) {
+      var _signin = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(req, res) {
         var user, data;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
               _context.prev = 0;
-              user = req.body;
+              // console.log('hello');
+              user = req.body; // console.log('server main: SIGNIN', user);
               _context.next = 4;
-              return _dataAccess.UserDA.login(user);
+              return _dataAccess.UserDA.signin(user);
             case 4:
               data = _context.sent;
               _context.next = 7;
@@ -63,15 +64,15 @@ var UserController = /*#__PURE__*/function () {
           }
         }, _callee, null, [[0, 10]]);
       }));
-      function login(_x, _x2) {
-        return _login.apply(this, arguments);
+      function signin(_x, _x2) {
+        return _signin.apply(this, arguments);
       }
-      return login;
+      return signin;
     }()
   }, {
-    key: "logout",
+    key: "signout",
     value: function () {
-      var _logout = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(req, res) {
+      var _signout = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(req, res) {
         var session;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
@@ -79,7 +80,7 @@ var UserController = /*#__PURE__*/function () {
               _context2.prev = 0;
               session = req.body;
               _context2.next = 4;
-              return _dataAccess.UserDA.logout(session);
+              return _dataAccess.UserDA.signout(session);
             case 4:
               return _context2.abrupt("return", res.status(200));
             case 7:
@@ -95,10 +96,10 @@ var UserController = /*#__PURE__*/function () {
           }
         }, _callee2, null, [[0, 7]]);
       }));
-      function logout(_x3, _x4) {
-        return _logout.apply(this, arguments);
+      function signout(_x3, _x4) {
+        return _signout.apply(this, arguments);
       }
-      return logout;
+      return signout;
     }()
   }, {
     key: "getUserById",

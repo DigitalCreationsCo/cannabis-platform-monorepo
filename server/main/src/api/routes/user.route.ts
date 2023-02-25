@@ -18,7 +18,9 @@ User Routes
 
 ================================= */
 
-router.route('/signin').post(userCtrl.signin);
+router.route('/signin').post((req, res) => {
+    return res.json('hello');
+});
 
 router.route('/signout').post(userCtrl.signout);
 

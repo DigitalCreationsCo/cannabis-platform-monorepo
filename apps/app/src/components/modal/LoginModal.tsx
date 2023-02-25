@@ -1,13 +1,17 @@
 import { Button, FlexBox, Grid, H1, H3, H6, Icons, Paragraph, TextField } from '@cd/shared-ui';
+import axios from 'axios';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCallback, useState } from 'react';
 import toast from 'react-hot-toast';
 import * as yup from 'yup';
+import { useSession } from '../../context';
+import { urlBuilder } from '../../utils';
 import Modal, { ModalProps } from './Modal';
 
 function LoginModal({ open, onClose, ...props }: ModalProps) {
+    const { setSession } = useSession();
     const [loadingButton, setLoadingButton] = useState(false);
     const [passwordVisibility, setPasswordVisibility] = useState(false);
 
@@ -31,53 +35,24 @@ function LoginModal({ open, onClose, ...props }: ModalProps) {
     async function onSubmit(values: typeof initialValues) {
         setLoadingButton(true);
         try {
-            console.log('click');
-            //   signIn("credentials", {
-            //     redirect: false,
-            //     email: values.email,
-            //     password: values.password,
-            //     //@ts-ignore
-            //     callbackUrl,
-            //   })
-            //   .then((res) => {
-            //     if (res.ok) {
-            //       router.replace("/");
-            //     }
-            //   })
-            //   .catch((error) => {
-            //     console.log(error);
-            //     toast.error(error);
-            //     setLoadingButton(false);
-            //   });
-            //   dialogClose?.();
-            //   //@ts-ignore
-            //   // router.replace(callbackUrl ? callbackUrl : "/");
-            //   setLoadingButton(false);
-            // } catch (error) {
-            //   toast.error(error.response.data.message);
-            //   setLoadingButton(false);
-            // }
-            // try {
-            //     signIn('credentials', {
-            //         redirect: true,
-            //         email: values.email,
-            //         password: values.password,
-            //         //@ts-ignore
-            //         callbackUrl
-            //     }).then(({ ok, error }) => {
-            //         if (ok) {
-            //             dialogClose?.();
-            //             router.replace('/');
-            //         } else {
-            //             console.log(error);
-            //             toast.error(error);
-            //         }
-            //     });
-            //     //@ts-ignore
-            //     // router.replace(callbackUrl ? callbackUrl : "/");
-            //     setLoadingButton(false);
-            if (onClose) onClose();
-            location.reload();
+            if (!loadingButton) {
+                setLoadingButton(true);
+                const formData = new FormData();
+                formData.append('email', values.email);
+                formData.append('password', values.password);
+
+                const { data } = await axios.post(urlBuilder.next + `/api/signin`, formData, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                console.log('signin: ', data);
+                // setSession(data)
+                setLoadingButton(false);
+                toast.success('Signed in');
+                if (onClose) onClose();
+                location.reload();
+            }
         } catch (error) {
             setLoadingButton(false);
             console.error(error);
@@ -122,7 +97,11 @@ function LoginModal({ open, onClose, ...props }: ModalProps) {
                     onClickIcon={togglePasswordVisibility}
                 />
                 <Button
-                    onClick={() => {
+                    type="submit"
+                    loading={loadingButton}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
                         handleSubmit();
                     }}
                 >

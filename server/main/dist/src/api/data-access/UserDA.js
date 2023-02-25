@@ -20,9 +20,9 @@ var UserDA = /*#__PURE__*/function () {
     _classCallCheck(this, UserDA);
   }
   _createClass(UserDA, null, [{
-    key: "login",
+    key: "signin",
     value: function () {
-      var _login = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(userLoginData) {
+      var _signin = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(userLoginData) {
         var _user$hashedPassword, user, payload;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
@@ -75,15 +75,15 @@ var UserDA = /*#__PURE__*/function () {
           }
         }, _callee, null, [[0, 16]]);
       }));
-      function login(_x) {
-        return _login.apply(this, arguments);
+      function signin(_x) {
+        return _signin.apply(this, arguments);
       }
-      return login;
+      return signin;
     }()
   }, {
-    key: "logout",
+    key: "signout",
     value: function () {
-      var _logout = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(session) {
+      var _signout = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(session) {
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
@@ -105,10 +105,10 @@ var UserDA = /*#__PURE__*/function () {
           }
         }, _callee2, null, [[0, 6]]);
       }));
-      function logout(_x2) {
-        return _logout.apply(this, arguments);
+      function signout(_x2) {
+        return _signout.apply(this, arguments);
       }
-      return logout;
+      return signout;
     }()
   }, {
     key: "getUserById",

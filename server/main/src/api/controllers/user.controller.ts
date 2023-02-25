@@ -17,7 +17,9 @@ removeAddressFromUser
 export default class UserController {
     static async signin(req, res) {
         try {
+            // console.log('hello');
             const user = req.body;
+            // console.log('server main: SIGNIN', user);
             const data = await UserDA.signin(user);
             await STSession.createNewSession(res, data.id, data);
             return res.status(200).json(data);

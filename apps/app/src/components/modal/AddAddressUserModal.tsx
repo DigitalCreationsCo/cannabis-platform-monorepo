@@ -48,7 +48,6 @@ function AddAddressUserModal({ userId, onClose, setState, ...props }: AddAddress
 
     async function handleFormSubmit(values: AddressUserCreateType) {
         try {
-            console.log('click');
             if (!loadingButton) {
                 setLoadingButton(true);
                 const formData = new FormData();
