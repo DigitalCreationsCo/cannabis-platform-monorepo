@@ -18,11 +18,9 @@ User Routes
 
 ================================= */
 
-router.route('/signin').post((req, res) => {
-    return res.json('hello');
-});
+router.route('/user/signin').post(userCtrl.signin);
 
-router.route('/signout').post(userCtrl.signout);
+router.route('/user/signout').post(userCtrl.signout);
 
 router.route('/user/:id').get(userCtrl.getUserById);
 

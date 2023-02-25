@@ -14,7 +14,6 @@ Organization Routes
 
 "/product/:id/update"     updateProduct
 
-
 ================================= */
 
 router.route('/').post(orgCtrl.createOrganization);

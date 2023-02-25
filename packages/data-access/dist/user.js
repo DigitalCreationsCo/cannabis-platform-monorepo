@@ -56,6 +56,7 @@ function findUserWithDetailsByEmail(email) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
+                    console.log('email data param: ', email);
                     return [4 /*yield*/, prisma_1.default.user.findUnique({
                             where: {
                                 email: email
@@ -142,6 +143,7 @@ function updateUserPasswordToken(email, timeLimitedToken) {
     });
 }
 exports.updateUserPasswordToken = updateUserPasswordToken;
+// export type UserCreateType = Prisma.PromiseReturnType<typeof createUser>
 // export type UserWithDetails = Prisma.PromiseReturnType<typeof findUserWithDetails>
 // type UserWithDetails = (User & {
 //     address: Address[];

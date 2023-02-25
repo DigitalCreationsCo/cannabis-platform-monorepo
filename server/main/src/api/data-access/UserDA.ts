@@ -1,5 +1,4 @@
-import { createAddress, findAddressById, findUserWithDetailsByEmail, findUserWithDetailsById, Membership, removeAddressByIdAndUserId, updateUserPasswordToken } from '@cd/data-access';
-import { compare } from 'bcryptjs';
+import { AccessTokenPayload, createAddress, findAddressById, findUserWithDetailsByEmail, findUserWithDetailsById, removeAddressByIdAndUserId, updateUserPasswordToken, UserLoginData } from '@cd/data-access';
 import { SessionContainer } from 'supertokens-node/recipe/session';
 /* =================================
 User Data Access - data class for User table
@@ -16,22 +15,8 @@ updatePasswordToken
 
 ================================= */
 
-type userLoginData = {
-    email: string;
-    password: string;
-}
-
-type AccessTokenPayload = {
-    username: string;
-    id: string;
-    email: string;
-     firstName: string; 
-     lastName: string; 
-     memberships: Membership[]
-}
-
 export default class UserDA {
-    static async signin(userLoginData: userLoginData) {
+    static async signin(userLoginData: UserLoginData) {
         try {
         const user = await findUserWithDetailsByEmail(userLoginData.email)
 
@@ -39,13 +24,14 @@ export default class UserDA {
 			throw new Error('Please reset your password');
 		}
 
-		if (user !== null && (await compare(userLoginData.password, user.hashedPassword ?? ''))) {
-			const payload: AccessTokenPayload = { id: user.id,username: user.username, email: user.email, firstName: user.firstName, lastName: user.lastName, memberships: user.memberships };
+		// if (user !== null && !(await compare(userLoginData.password, user.hashedPassword ?? ''))) {
+        //     throw new Error('Invalid password')
+        // }
+			const payload: AccessTokenPayload = { id: user.id, username: user.username, email: user.email, firstName: user.firstName, lastName: user.lastName, memberships: user.memberships };
             return payload
-		}
         } catch (error) {
             console.error(error.message);
-            throw new Error('Invalid email or password');
+            throw new Error(error);
         }
     }
 

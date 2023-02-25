@@ -40,46 +40,6 @@ app.use(_bodyParser["default"].json());
 app.use('/api/v1/healthcheck', function (req, res) {
   return res.status(200).json('OK');
 });
-// app.get('/api/v1/session', async (req:SessionRequest, res, next) => {
-//     try {
-//         await verifySession()(req, res, next);
-//         // await superTokensNextWrapper(
-//         //     async (next) => {
-//         //         return await verifySession()(req, res, next);
-//         //     },
-//         //     req,
-//         //     res
-//         // );
-//         // console.log('getting session from supertokens');
-//         let sessionData = req.session;
-//         console.log('session data: ', sessionData);
-
-//         // console.log('Session available?: ', req.session)
-//         // return res.status(200).json({
-//         //     note: "Fetch any data from your application for authenticated user after using verifySession middleware",
-//         //     session: req.session.getSessionData(),
-//         //     user: req.session.getUserId(),
-//         //     accessTokenPayload: req.session.getAccessTokenPayload(),
-//         // });
-//         // const session = {
-//         //     user: {
-//         //         username: 'kbarnes',
-//         //         firstName: 'Katie',
-//         //         lastName: 'Barnes',
-//         //         memberships: [{ organizationId: '2' }]
-//         //     }
-//         // };
-//         // console.log('Session: SERVER: ', req.session)
-//         const session = {
-//             user: null
-//         }
-//         return res.send({ session, user: session.user });
-//     } catch (error) {
-//         console.log('API error: ', error);
-//         res.status(500).json({ error });
-//     }
-// });
-
 app.use('/api/v1/auth', _routes.user);
 app.use('/api/v1/driver', _routes.driver);
 app.use('/api/v1/session', _routes.session);
