@@ -1,11 +1,11 @@
 import { Button, FlexBox, Grid, H3, H6, Label, Paragraph, TextField } from '@cd/shared-ui';
+import { CheckBox } from 'components';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import * as yup from 'yup';
 import { useFormContext } from '../../context/StepFormProvider';
-import CheckBox from '../CheckBox';
 
 // ToDo:
 // Organization Search for SearchTextField
@@ -41,7 +41,8 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
         <form className={'content relative'} onSubmit={handleSubmit}>
             <Grid>
                 <Image src={'/logo.png'} alt="Gras Cannabis logo" height={63} width={63} priority />
-                <H3>{`Congratulations, you're joining Gras Cannabis! You are joining the world's most popular Cannabis marketplace.`}</H3>
+                <H3>{`Congratulations, you're joining Gras Cannabis. 
+                Welcome to our customers' favorite Cannabis marketplace.`}</H3>
                 <Paragraph>Please fill all the fields and continue to create your dispensary account.</Paragraph>
                 <TextField
                     name="name"

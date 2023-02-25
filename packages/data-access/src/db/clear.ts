@@ -4,6 +4,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function clearRecords() {
+    console.log('clearing tables...');
     await prisma.imageVendor.deleteMany();
     await prisma.imageOrganization.deleteMany();
     await prisma.imageProduct.deleteMany();
@@ -23,16 +24,7 @@ async function clearRecords() {
     await prisma.membership.deleteMany();
     await prisma.user.deleteMany();
 
-    console.log('cleared all records');
+    console.log('cleared all tables');
 }
 
 export default clearRecords();
-// main()
-//   .then(async () => {
-//     await prisma.$disconnect();
-//   })
-//   .catch(async (e) => {
-//     console.error(e);
-//     await prisma.$disconnect();
-//     process.exit(1);
-//   });

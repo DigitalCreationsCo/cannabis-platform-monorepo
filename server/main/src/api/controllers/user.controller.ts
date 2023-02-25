@@ -17,11 +17,11 @@ removeAddressFromUser
 export default class UserController {
     static async signin(req, res) {
         try {
-            // console.log('hello');
             const user = req.body;
-            // console.log('server main: SIGNIN', user);
             const data = await UserDA.signin(user);
-            await STSession.createNewSession(res, data.id, data);
+            // create a data func to save this session.userDataInAccessToken in db
+            const session = await STSession.createNewSession(res, data.id, data);
+            console.log('session created: ', session);
             return res.status(200).json(data);
         } catch (error) {
             console.log('API error: ', error);

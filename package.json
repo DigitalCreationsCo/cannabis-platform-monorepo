@@ -22,6 +22,7 @@
     "ui": "yarn workspace @cd/shared-ui",
     "main": "yarn workspace @cd/server-main",
     "db:reseed": "yarn workspace @cd/data-access db:reseed",
+    "db:clear": "yarn workspace @cd/data-access db:clear",
     "docker:app": "scripts/docker/docker.sh",
     "docker:supertokens": "scripts/docker/runSupertokens.sh",
     "permit-scripts": "node scripts/permit-scripts.js",

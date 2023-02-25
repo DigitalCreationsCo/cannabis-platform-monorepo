@@ -337,7 +337,7 @@ model Organization {
   address Address?
   dialCode String
   phone String
-  email String
+  email String @unique
   emailVerified Boolean @default(false)
   images ImageOrganization[]
   memberships Membership[]

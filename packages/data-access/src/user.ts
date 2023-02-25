@@ -1,4 +1,5 @@
 import { Address, ImageUser, Membership, User } from "@prisma/client";
+import { AddressUserCreateType } from "./address";
 import prisma from "./db/prisma";
 
 export async function createUser() {
@@ -11,19 +12,20 @@ export async function createUser() {
 
 export async function findUserWithDetailsByEmail(email: string) {
     try {
+        console.log('email data param: ', email)
         const user = await prisma.user.findUnique({
-                where: {
-                    email
-                },
-                include: {
-                    address: true,
-                    memberships: {
-                        orderBy: {
-                            role: 'asc',
-                        },
+            where: {
+                email
+            },
+            include: {
+                address: true,
+                memberships: {
+                    orderBy: {
+                        role: 'asc',
                     },
-                    imageUser: true,
                 },
+                imageUser: true,
+            },
         })
         return user
     } catch (error: any) {
@@ -74,6 +76,35 @@ export type UserWithDetails = User & {
     imageUser?: ImageUser[];
     memberships?: Membership[];
 }
+
+export type UserCreateType = {
+    firstName: string;
+    lastName: string;
+    username: string;
+    email: string;
+    password: string;
+    re_password: string;
+    phone: string;
+    dialCode: string;
+    termsAccepted: boolean;
+    imageUser: ImageUser[] | null;
+    address: AddressUserCreateType;
+}
+
+export type UserLoginData = {
+    email: string;
+    password: string;
+}
+
+export type AccessTokenPayload = {
+    username: string;
+    id: string;
+    email: string;
+     firstName: string; 
+     lastName: string; 
+     memberships: Membership[]
+}
+// export type UserCreateType = Prisma.PromiseReturnType<typeof createUser>
 // export type UserWithDetails = Prisma.PromiseReturnType<typeof findUserWithDetails>
 
 // type UserWithDetails = (User & {

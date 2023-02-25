@@ -1,5 +1,4 @@
 import { Button, FlexBox, Grid, H1, H3, H6, Icons, Paragraph, TextField } from '@cd/shared-ui';
-import axios from 'axios';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -7,8 +6,9 @@ import { useCallback, useState } from 'react';
 import toast from 'react-hot-toast';
 import * as yup from 'yup';
 import { useSession } from '../../context';
-import { urlBuilder } from '../../utils';
 import Modal, { ModalProps } from './Modal';
+
+import { signIn } from 'supertokens-auth-react/recipe/emailpassword';
 
 function LoginModal({ open, onClose, ...props }: ModalProps) {
     const { setSession } = useSession();
@@ -37,21 +37,33 @@ function LoginModal({ open, onClose, ...props }: ModalProps) {
         try {
             if (!loadingButton) {
                 setLoadingButton(true);
-                const formData = new FormData();
-                formData.append('email', values.email);
-                formData.append('password', values.password);
-
-                const { data } = await axios.post(urlBuilder.next + `/api/signin`, formData, {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
+                const response = await signIn({
+                    formFields: [
+                        {
+                            id: 'email',
+                            value: values.email
+                        },
+                        {
+                            id: 'password',
+                            value: values.password
+                        }
+                    ]
                 });
-                console.log('signin: ', data);
+                console.log('response: ', response);
+                // const formData = new FormData();
+                // formData.append('email', values.email);
+                // formData.append('password', values.password);
+                // await axios.post(urlBuilder.next + `/api/signin`, formData, {
+                //     headers: {
+                //         'Content-Type': 'application/json'
+                //     }
+                // });
+                // console.log('signin: ', data);
                 // setSession(data)
                 setLoadingButton(false);
                 toast.success('Signed in');
-                if (onClose) onClose();
-                location.reload();
+                // if (onClose) onClose();
+                // location.reload();
             }
         } catch (error) {
             setLoadingButton(false);
@@ -73,52 +85,64 @@ function LoginModal({ open, onClose, ...props }: ModalProps) {
                 </FlexBox>
                 <H3>One Stop Cannabis Marketplace</H3>
                 <Paragraph>Sign in with your email & password</Paragraph>
-                <TextField
-                    name="email"
-                    label="Email"
-                    placeholder="you@email.com"
-                    value={values?.email}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    error={!!touched.email && !!errors.email}
-                    helperText={touched.email && errors.email}
-                />
-                <TextField
-                    name="password"
-                    label="Password"
-                    placeholder="password"
-                    value={values?.password}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    error={!!touched.password && !!errors.password}
-                    helperText={touched.password && errors.password}
-                    type={passwordVisibility ? 'text' : 'password'}
-                    insertIcon={passwordVisibility ? Icons.View : Icons.ViewOff}
-                    onClickIcon={togglePasswordVisibility}
-                />
-                <Button
-                    type="submit"
-                    loading={loadingButton}
-                    onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        handleSubmit();
-                    }}
-                >
-                    Sign In
-                </Button>
-                <FlexBox>
-                    <Paragraph>{`Don't have account?`} </Paragraph>
-                    <Link href="/signup">
-                        <H6 className="border-b"> Sign Up</H6>
-                    </Link>
-                </FlexBox>
-                <FlexBox>
-                    <Paragraph>Forgot your password?</Paragraph>
-                    <Link href="/reset-password">
-                        <H6 className="border-b"> Reset It</H6>
-                    </Link>
-                </FlexBox>
+                <form>
+                    <TextField
+                        name="email"
+                        label="Email"
+                        placeholder="you@email.com"
+                        value={values?.email}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        error={!!touched.email && !!errors.email}
+                        helperText={touched.email && errors.email}
+                    />
+                    <TextField
+                        name="password"
+                        label="Password"
+                        placeholder="password"
+                        value={values?.password}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        error={!!touched.password && !!errors.password}
+                        helperText={touched.password && errors.password}
+                        type={passwordVisibility ? 'text' : 'password'}
+                        insertIcon={passwordVisibility ? Icons.View : Icons.ViewOff}
+                        onClickIcon={togglePasswordVisibility}
+                    />
+                    <Button
+                        type="submit"
+                        loading={loadingButton}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            handleSubmit();
+                        }}
+                    >
+                        Sign In
+                    </Button>
+                    <FlexBox>
+                        <Paragraph>{`Don't have account?`} </Paragraph>
+                        <Link
+                            href="/signup"
+                            onClick={() => {
+                                if (onClose) onClose();
+                            }}
+                        >
+                            <H6 className="border-b"> Sign Up</H6>
+                        </Link>
+                    </FlexBox>
+                    <FlexBox>
+                        <Paragraph>Forgot your password?</Paragraph>
+                        <Link
+                            href="/password-reset"
+                            onClick={() => {
+                                if (onClose) onClose();
+                            }}
+                        >
+                            <H6 className="border-b"> Reset It</H6>
+                        </Link>
+                    </FlexBox>
+                </form>
             </Grid>
         </Modal>
     );

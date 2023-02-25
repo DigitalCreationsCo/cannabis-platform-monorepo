@@ -21,6 +21,7 @@ export default class OrganizationDA {
             
             address.coordinateId = '';
             const data = await createOrganization(organization, address);
+            console.log(`Organization ${organization.name} is created.`)
             return data;
         } catch (error) {
             console.error(error.message);

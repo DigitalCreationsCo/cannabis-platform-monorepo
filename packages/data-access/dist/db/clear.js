@@ -43,7 +43,9 @@ function clearRecords() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, prisma.imageVendor.deleteMany()];
+                case 0:
+                    console.log('clearing tables...');
+                    return [4 /*yield*/, prisma.imageVendor.deleteMany()];
                 case 1:
                     _a.sent();
                     return [4 /*yield*/, prisma.imageOrganization.deleteMany()];
@@ -94,19 +96,10 @@ function clearRecords() {
                     return [4 /*yield*/, prisma.user.deleteMany()];
                 case 17:
                     _a.sent();
-                    console.log('cleared all records');
+                    console.log('cleared all tables');
                     return [2 /*return*/];
             }
         });
     });
 }
 exports.default = clearRecords();
-// main()
-//   .then(async () => {
-//     await prisma.$disconnect();
-//   })
-//   .catch(async (e) => {
-//     console.error(e);
-//     await prisma.$disconnect();
-//     process.exit(1);
-//   });

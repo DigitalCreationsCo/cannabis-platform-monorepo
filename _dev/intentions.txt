@@ -63,6 +63,12 @@ switched shared-ui to rollup to resolve docker build issue, and improve ci exper
 2-18-22
     Simplify component classes, signup api routes
 
+
+Fix password hashing
+create newSession override function
+
+create userSignup frontend page, api route, data function (with pw hashing), override supertokens, test cases
+
 create server/main route for new organizations, and new users
 test both routes, 
 make sure duplicate records are not created
