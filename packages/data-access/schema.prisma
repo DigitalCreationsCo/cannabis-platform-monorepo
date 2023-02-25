@@ -35,9 +35,12 @@ model Account {
 
 model Session {
   id           String   @id @default(cuid())
-  sessionToken String   @unique
+  sessionToken String?   @unique
   userId       String   @unique
-  expires      DateTime
+  firstName    String
+  lastName     String
+  email        String
+  expires      DateTime?
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   
   createdAt      DateTime         @default(now())
@@ -54,6 +57,7 @@ model User {
   email         String   @unique
   emailVerified Boolean @default(false)
   hashedPassword String?
+  passwordResetToken String?
   dialCode String?
   phone String?
   address Address[]

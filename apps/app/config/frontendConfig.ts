@@ -6,15 +6,16 @@ import Session from 'supertokens-auth-react/recipe/session';
 export const frontendConfig = () => {
     return {
         appInfo,
-        recipeList: [EmailPassword.init(), Session.init({
-            onHandleEvent: (event:RecipeEventWithSessionContext)=> {
-                if (event.action === 'UNAUTHORISED' || event.action === 'SIGN_OUT') {
-                    window.location.href='/welcome'
+        recipeList: [
+            EmailPassword.init(),
+            Session.init({
+                onHandleEvent: (event: RecipeEventWithSessionContext) => {
+                    if (event.action === 'UNAUTHORISED' || event.action === 'SIGN_OUT') {
+                        window.location.href = '/welcome';
+                    }
                 }
-            },
-            tokenTransferMethod: 'header'
-        })
-    ],
-    isInServerLessEnv: false
+            })
+        ],
+        isInServerLessEnv: false
     };
 };

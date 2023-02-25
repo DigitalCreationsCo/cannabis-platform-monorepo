@@ -5,7 +5,7 @@ import SessionNode from "supertokens-node/recipe/session";
 import { AuthConfig } from "../../interfaces";
 
 export let backendConfig = (): AuthConfig => {
-    console.log('appInfo: ', appInfo)
+    console.log('SERVER MAIN: appInfo: ', appInfo)
     return {
         framework: "express",
         supertokens: {

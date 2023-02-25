@@ -194,7 +194,7 @@ const initialValues = {
         zipcode: '19130',
         country: 'United States',
         countryCode: 'US',
-        coordinateId: '',
+        coordinateId: ''
     },
     dialCode: '1',
     phone: '2343454567',

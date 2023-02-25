@@ -1,10 +1,10 @@
 import { Button, FlexBox, Grid, Icons, Page, Row, TextField } from '@cd/shared-ui';
-import { PageHeader, ProtectedComponent } from 'components';
+import { PageHeader, ProtectedPage } from 'components';
 import Link from 'next/link';
 
 export default function AddUser() {
     return (
-        <ProtectedComponent>
+        <ProtectedPage>
             <Page>
                 <PageHeader
                     title="Add Dispensary Staff"
@@ -58,6 +58,6 @@ export default function AddUser() {
                     </FlexBox>
                 </Grid>
             </Page>
-        </ProtectedComponent>
+        </ProtectedPage>
     );
 }

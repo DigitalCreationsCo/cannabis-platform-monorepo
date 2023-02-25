@@ -4,7 +4,9 @@ const router = Router();
 /* =================================
 User Routes
 
-"/login"                        login
+"/signin"                        signin
+
+"/signout"                       signout
 
 "/user/:id"                     getUserById
 
@@ -16,7 +18,9 @@ User Routes
 
 ================================= */
 
-router.route('/login').post(userCtrl.login);
+router.route('/signin').post(userCtrl.signin);
+
+router.route('/signout').post(userCtrl.signout);
 
 router.route('/user/:id').get(userCtrl.getUserById);
 

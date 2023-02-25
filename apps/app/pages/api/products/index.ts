@@ -3,7 +3,8 @@ import { authMiddleware, ExtendRequest, healthCheckMiddleware } from 'middleware
 import { NextApiResponse } from 'next';
 import nc from 'next-connect';
 import NodeCache from 'node-cache';
-import { getUserInfo, urlBuilder } from 'utils';
+import { urlBuilder } from 'utils';
+import { getSession } from '../../../src/session';
 
 const cache = new NodeCache({ stdTTL: 20 });
 const handler = nc();
@@ -12,7 +13,7 @@ handler.use(authMiddleware).use(healthCheckMiddleware);
 handler.get(async (req: ExtendRequest, res: NextApiResponse) => {
     try {
         res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
-        const { user } = getUserInfo({ req });
+        const { user } = await getSession();
         const { organizationId } = user.memberships[0];
         req.organizationId = organizationId;
         if (cache.has(`products/org/${organizationId}`)) {
@@ -31,14 +32,14 @@ handler.get(async (req: ExtendRequest, res: NextApiResponse) => {
 // search products
 handler.post(async (req: ExtendRequest, res: NextApiResponse) => {
     try {
-        const { user } = getUserInfo({ req });
+        const { user } = await getSession();
         const { organizationId } = user.memberships[0];
         req.organizationId = organizationId;
         const { search } = req.body;
         if (search) {
             const { data } = await axios.post(urlBuilder.main.products(), {
                 search,
-                organizationId,
+                organizationId
             });
             return res.status(res.statusCode).json(data);
         }

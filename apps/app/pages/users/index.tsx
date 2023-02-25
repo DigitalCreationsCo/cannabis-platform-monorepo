@@ -1,7 +1,7 @@
 import { User, UserWithDetails } from '@cd/data-access';
 import { Button, Card, DeleteButton, Grid, H6, Icons, Page, Paragraph, Row } from '@cd/shared-ui';
 import axios from 'axios';
-import { PageHeader, ProtectedComponent } from 'components';
+import { PageHeader, ProtectedPage } from 'components';
 import { usePagination } from 'hooks';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -40,7 +40,7 @@ export default function Users({ users }: UsersDashboardProps) {
     };
 
     return (
-        <ProtectedComponent>
+        <ProtectedPage>
             <Page>
                 <PageHeader
                     title="Users"
@@ -114,7 +114,7 @@ export default function Users({ users }: UsersDashboardProps) {
           />
         </FlexBox> */}
             </Page>
-        </ProtectedComponent>
+        </ProtectedPage>
     );
 }
 

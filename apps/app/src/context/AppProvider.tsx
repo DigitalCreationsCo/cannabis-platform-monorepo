@@ -3,11 +3,11 @@ import React from 'react';
 const AppContext = React.createContext(null);
 
 export default function AppStateProvider({
-    children,
+    children
 }: {
     children: ({
         isLoading,
-        setIsLoading,
+        setIsLoading
     }: {
         isLoading: boolean;
         setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;

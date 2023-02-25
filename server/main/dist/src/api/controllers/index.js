@@ -15,6 +15,12 @@ Object.defineProperty(exports, "orgCtrl", {
     return _organization["default"];
   }
 });
+Object.defineProperty(exports, "sessionCtrl", {
+  enumerable: true,
+  get: function get() {
+    return _session["default"];
+  }
+});
 Object.defineProperty(exports, "shopCtrl", {
   enumerable: true,
   get: function get() {
@@ -29,6 +35,7 @@ Object.defineProperty(exports, "userCtrl", {
 });
 var _driver = _interopRequireDefault(require("./driver.controller"));
 var _organization = _interopRequireDefault(require("./organization.controller"));
+var _session = _interopRequireDefault(require("./session.controller"));
 var _shop = _interopRequireDefault(require("./shop.controller"));
 var _user = _interopRequireDefault(require("./user.controller"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }

@@ -3,7 +3,8 @@ import { authMiddleware, ExtendRequest, healthCheckMiddleware } from 'middleware
 import { NextApiResponse } from 'next';
 import nc from 'next-connect';
 import NodeCache from 'node-cache';
-import { getUserInfo, urlBuilder } from '../../../src/utils';
+import { getSession } from '../../../src/session';
+import { urlBuilder } from '../../../src/utils';
 
 const cache = new NodeCache({ stdTTL: 30 });
 const handler = nc();
@@ -13,7 +14,7 @@ handler.use(authMiddleware).use(healthCheckMiddleware);
 handler.get(async (req: ExtendRequest, res: NextApiResponse) => {
     try {
         res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
-        const { user } = getUserInfo({ req });
+        const { user } = await getSession();
         const { organizationId } = user.memberships[0];
         req.organizationId = organizationId;
         if (cache.has('categories')) {

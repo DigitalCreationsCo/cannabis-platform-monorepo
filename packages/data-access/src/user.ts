@@ -7,10 +7,32 @@ export async function createUser() {
     //     console.error(error.message)
     //     throw new Error(error.message)
     // }
- }
+}
 
-export async function findUserWithDetails(id: string) {
+export async function findUserWithDetailsByEmail(email: string) {
+    try {
+        const user = await prisma.user.findUnique({
+                where: {
+                    email
+                },
+                include: {
+                    address: true,
+                    memberships: {
+                        orderBy: {
+                            role: 'asc',
+                        },
+                    },
+                    imageUser: true,
+                },
+        })
+        return user
+    } catch (error: any) {
+        console.error(error)
+        throw new Error(error)
+    }
+}
 
+export async function findUserWithDetailsById(id: string) {
     try {
         const user = await prisma.user.findUnique({
                 where: {
@@ -27,6 +49,20 @@ export async function findUserWithDetails(id: string) {
                 },
         })
         return user
+    } catch (error: any) {
+        console.error(error)
+        throw new Error(error)
+    }
+}
+
+export async function updateUserPasswordToken(email: string, timeLimitedToken: string) {
+    try {
+        const user = await prisma.user.update({
+            where: { email },
+            data: { passwordResetToken: timeLimitedToken },
+            select: { email: true, id: true }
+        });
+        return user;
     } catch (error: any) {
         console.error(error)
         throw new Error(error)

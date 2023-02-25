@@ -4,7 +4,7 @@ import Page404 from '../../pages/404';
 
 export default function Query({
     url,
-    children,
+    children
 }: {
     url: string;
     children: ({ data }: { data: AxiosResponse['data'] }) => JSX.Element;

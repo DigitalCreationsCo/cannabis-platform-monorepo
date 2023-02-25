@@ -12,7 +12,7 @@
 // import SocialLinks from "components/site-settings/SocialLinks";
 // import TopbarSetting from "components/site-settings/TopbarSetting";
 import { Card, Icons, Page } from '@cd/shared-ui';
-import { PageHeader, ProtectedComponent } from 'components';
+import { PageHeader, ProtectedPage } from 'components';
 import { useState } from 'react';
 
 type SiteSettingsDashboardProps = Record<string, unknown>;
@@ -21,7 +21,7 @@ export default function SiteSettings() {
     const [selectTab, setSelectTab] = useState('general');
 
     return (
-        <ProtectedComponent>
+        <ProtectedPage>
             <Page>
                 <PageHeader
                     title="Site Settings"
@@ -42,6 +42,6 @@ export default function SiteSettings() {
         </Box> */}
                 </Card>
             </Page>
-        </ProtectedComponent>
+        </ProtectedPage>
     );
 }

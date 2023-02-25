@@ -12,7 +12,7 @@ export interface DropZoneProps {
 export default function DropZone({
     onChange,
     title = 'Drag & drop product image here',
-    imageSize = 'Upload 280*280 image',
+    imageSize = 'Upload 280*280 image'
 }: DropZoneProps) {
     const onDrop = useCallback((acceptedFiles) => {
         if (onChange) onChange(acceptedFiles);
@@ -21,7 +21,7 @@ export default function DropZone({
         onDrop,
         maxFiles: 3,
         multiple: true,
-        accept: { 'image/*': [] },
+        accept: { 'image/*': [] }
     });
     return (
         <FlexBox
@@ -31,7 +31,7 @@ export default function DropZone({
                     isDragActive ? 'bg-accent' : 'transparent',
                     'transition outline-none',
                     'dropzone'
-                ),
+                )
             })}
         >
             <input {...getInputProps()} />

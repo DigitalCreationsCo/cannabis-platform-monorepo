@@ -1,7 +1,7 @@
 import { Order, Organization, ProductWithDetails, UserWithDetails } from '@cd/data-access';
 import { Card, Grid, Icons, OrderRow, Page } from '@cd/shared-ui';
 import axios from 'axios';
-import { PageHeader, ProductRow } from 'components';
+import { PageHeader, ProductRow, ProtectedPage } from 'components';
 import { useMemo } from 'react';
 import { getSession } from '../src/session';
 import { urlBuilder } from '../src/utils';
@@ -14,7 +14,6 @@ interface DashboardProps {
 }
 
 export default function Dashboard({ user, organization, products, orders }: DashboardProps) {
-    console.log('render Dashboard page')
     const todaysOrders = useMemo(() => {
         const todaysOrders = Array.isArray(orders)
             ? orders.filter((order) => {
@@ -36,6 +35,7 @@ export default function Dashboard({ user, organization, products, orders }: Dash
     ];
 
     return (
+        <ProtectedPage>
             <Page>
                 <PageHeader
                     title={`${organization?.name} Dashboard`}
@@ -83,6 +83,7 @@ export default function Dashboard({ user, organization, products, orders }: Dash
                     )}
                 </Grid>
             </Page>
+        </ProtectedPage>
     );
 }
 
@@ -92,7 +93,6 @@ export const findLowStockVariants = (products) =>
             return {
                 ...product,
                 variants: product.variants.filter((variant) => {
-                    console.log('variant: ', variant.id);
                     return variant.stock < 7;
                 })
             };
@@ -101,8 +101,11 @@ export const findLowStockVariants = (products) =>
 
 export async function getServerSideProps({ req, res }) {
     try {
-        res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
-        const { user } = await getSession()
+        const { session, user } = await getSession();
+        if (!session || !user) {
+            return { redirect: { destination: '/welcome', permanent: false } };
+        }
+
         const { organizationId } = user.memberships[0];
         const organization = await (await axios(urlBuilder.next + `/api/organization/${organizationId}`)).data;
         const products = await (await axios(urlBuilder.next + '/api/products')).data;

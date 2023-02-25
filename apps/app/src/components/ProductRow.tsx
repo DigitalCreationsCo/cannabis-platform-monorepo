@@ -19,10 +19,9 @@ function ProductRow({ product, variant }: ProductRowProps) {
                 {variant && (
                     <>
                         <Paragraph
-                            className={twMerge('flex justify-center w-[60px]', variant.stock < 6 && 'text-error')}
+                            className={twMerge('flex flex-row justify-center w-max', variant.stock < 6 && 'text-error')}
                         >
-                            {variant.stock.toString().padStart(2, '0')}{' '}
-                            <Paragraph className={twMerge('flex justify-center w-[60px] text-dark')}>stock</Paragraph>
+                            {variant.stock.toString().padStart(2, '0')} stock
                         </Paragraph>
                         <H6 className="flex justify-center w-[80px]">
                             <Price price={variant.basePrice} />

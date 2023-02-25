@@ -6,9 +6,9 @@ export { default as ClickableTags } from './ClickableTags';
 export { default as CloseButton } from './CloseButton';
 export { default as DropZone } from './DropZone';
 export * from './form';
+export { default as LandingPage } from './Landing';
 export { default as Layout } from './Layout';
 export * from './modal';
-export { default as OfflineHandler } from './OfflineHandler';
 export { default as PageHeader } from './PageHeader';
 export { default as ProductItem } from './ProductItem';
 export { default as ProductRow } from './ProductRow';
@@ -18,4 +18,3 @@ export { default as Select } from './Select';
 export { default as SideNavContainer } from './SideNavContainer';
 export { default as Tag } from './Tag';
 export { default as TopBar } from './TopBar';
-

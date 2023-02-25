@@ -1,10 +1,12 @@
-import { signIn } from 'supertokens-node/recipe/emailpassword';
+import STSession from 'supertokens-node/recipe/session';
 import { UserDA } from '../data-access';
+
 /* =================================
 UserController - controller class for user actions
 
 members:
-login
+signin
+signout
 getUserById
 getAddressById
 addAddressToUser
@@ -13,13 +15,23 @@ removeAddressFromUser
 ================================= */
 
 export default class UserController {
-    static async login(req, res) {
+    static async signin(req, res) {
         try {
-            let { email, password } = req.body;
-            console.log('email: ', email);
-            console.log('password: ', password);
-            const signInUser = await signIn(email, password);
-            res.status(200).json(signInUser);
+            const user = req.body;
+            const data = await UserDA.signin(user);
+            await STSession.createNewSession(res, data.id, data);
+            return res.status(200).json(data);
+        } catch (error) {
+            console.log('API error: ', error);
+            res.status(500).json({ error });
+        }
+    }
+
+    static async signout(req, res) {
+        try {
+            const session = req.body;
+            await UserDA.signout(session);
+            return res.status(200);
         } catch (error) {
             console.log('API error: ', error);
             res.status(500).json({ error });

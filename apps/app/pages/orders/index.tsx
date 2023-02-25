@@ -1,6 +1,6 @@
 import { Order } from '@cd/data-access';
 import { Card, Grid, H6, Icons, OrderRow, Page, Row } from '@cd/shared-ui';
-import { PageHeader, ProtectedComponent } from 'components';
+import { PageHeader, ProtectedPage } from 'components';
 import { useState } from 'react';
 import { usePagination } from '../../src/hooks';
 import { urlBuilder } from '../../src/utils';
@@ -14,7 +14,7 @@ export default function Orders({ orders }: OrdersDashboardProps) {
     const currentOrders = usePagination(currentPage, orders);
 
     return (
-        <ProtectedComponent>
+        <ProtectedPage>
             <Page>
                 <PageHeader title="Orders" Icon={Icons.ShoppingBagOutlined} />
                 <Grid>
@@ -43,7 +43,7 @@ export default function Orders({ orders }: OrdersDashboardProps) {
           />
         </FlexBox> */}
             </Page>
-        </ProtectedComponent>
+        </ProtectedPage>
     );
 }
 

@@ -1,21 +1,21 @@
-import { PropsWithChildren } from 'react';
+import React from 'react';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 
 // Will need to test admin level privelege for some api routes, like users/[id]
 // will use this component to protect those routes from non-admin users
 
-function ProtectedComponent({ children }: PropsWithChildren) {
+function ProtectedPage({ children }): React.ReactElement {
     const session = useSessionContext();
     if (session.loading === true) return <></>;
-    if (session.doesSessionExist) {
-        return children
-    }
-    return <>{children}</>
+    // if (session.doesSessionExist) {
+    //     return children;
+    // }
+    return <>{children}</>;
 }
 
 // Will need to add member, admin, owner privilege to separate usage of app domains
 
-// function ProtectedComponent() {
+// function ProtectedPage() {
 //     let claimValue = Session.useClaimValue(UserRoleClaim);
 //     if (claimValue.loading || !claimValue.doesSessionExist) {
 //         return (
@@ -37,4 +37,4 @@ function ProtectedComponent({ children }: PropsWithChildren) {
 //     }
 // }
 
-export default ProtectedComponent;
+export default ProtectedPage;

@@ -4,7 +4,7 @@ import { useState } from 'react';
 // import toast from "react-hot-toast";
 import { Product } from '@cd/data-access';
 import { Button, Card, DeleteButton, Grid, H6, Icons, Page, Row } from '@cd/shared-ui';
-import { Layout, PageHeader, ProtectedComponent } from 'components';
+import { Layout, PageHeader, ProtectedPage } from 'components';
 import { usePagination } from 'hooks';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -62,7 +62,7 @@ export default function Products({ products }: ProductsDashboardProps) {
     };
 
     return (
-        <ProtectedComponent>
+        <ProtectedPage>
             <Page>
                 <PageHeader
                     title="Products"
@@ -137,7 +137,7 @@ export default function Products({ products }: ProductsDashboardProps) {
             <Pagination count={pageCount} onChange={(_, value) => setCurrentPage(value)} />
           </FlexBox> */}
             </Page>
-        </ProtectedComponent>
+        </ProtectedPage>
     );
 }
 

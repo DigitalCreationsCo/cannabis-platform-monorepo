@@ -4,12 +4,14 @@ import '@cd/shared-ui/dist/style.css';
 import { Layout } from 'components';
 import { NextPage } from 'next';
 import { AppProps } from 'next/app';
+import Head from 'next/head';
 import { Dispatch, SetStateAction } from 'react';
 import { Toaster } from 'react-hot-toast';
 import SupertokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import { frontendConfig } from '../config/frontendConfig';
 import AppStateProvider from '../src/context/AppProvider';
 import ModalProvider from '../src/context/ModalProvider';
+import SessionProvider from '../src/context/SessionProvider';
 import StepFormValuesProvider from '../src/context/StepFormProvider';
 
 export type ExtendedPageComponent<P = Record<string, unknown>, IP = P> = NextPage<P, IP> & {
@@ -22,35 +24,46 @@ type CustomAppProps = AppProps & {
     Component: ExtendedPageComponent;
 };
 
-if (typeof window !== "undefined") {
+if (typeof window !== 'undefined') {
     SupertokensReact.init(frontendConfig());
 }
 
 export default function App({ Component, pageProps }: CustomAppProps): JSX.Element {
     const getLayout = Component.getLayout || ((page) => <Layout>{page}</Layout>);
     return (
-        <SuperTokensWrapper>
-        <ModalProvider>
-            <Toaster position="top-right" />
-            <StepFormValuesProvider>
-                <AppStateProvider>
-                    {({ isLoading, setIsLoading }) => {
-                        // Router.events.on('routeChangeStart', () => setIsLoading(true));
-                        // Router.events.on('routeChangeComplete', () => setIsLoading(false));
-                        // Router.events.on('routeChangeError', () => setIsLoading(false));
+        <>
+            <Head>
+                <title>Gras Cannabis Marketplace</title>
+                <meta name="vendor experience application" content="Property of Gras Cannabis Co." />
+            </Head>
+            <SuperTokensWrapper>
+                <SessionProvider>
+                    <ModalProvider>
+                        <Toaster position="top-right" />
+                        <StepFormValuesProvider>
+                            <AppStateProvider>
+                                {({ isLoading, setIsLoading }) => {
+                                    // Router.events.on('routeChangeStart', () => setIsLoading(true));
+                                    // Router.events.on('routeChangeComplete', () => setIsLoading(false));
+                                    // Router.events.on('routeChangeError', () => setIsLoading(false));
 
-                        return getLayout(
-                            isLoading ? 
-                                    <Center>
-                                        <Padding>
-                                            <LoadingDots />
-                                        </Padding>
-                                    </Center>
-                            : <Component {...pageProps} />);
-                    }}
-                </AppStateProvider>
-            </StepFormValuesProvider>
-        </ModalProvider>
-        </SuperTokensWrapper>
+                                    return getLayout(
+                                        isLoading ? (
+                                            <Center>
+                                                <Padding>
+                                                    <LoadingDots />
+                                                </Padding>
+                                            </Center>
+                                        ) : (
+                                            <Component {...pageProps} />
+                                        )
+                                    );
+                                }}
+                            </AppStateProvider>
+                        </StepFormValuesProvider>
+                    </ModalProvider>
+                </SessionProvider>
+            </SuperTokensWrapper>
+        </>
     );
 }

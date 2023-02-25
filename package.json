@@ -39,6 +39,7 @@
     "@cd/data-access": "*",
     "@cd/shared-config": "*",
     "@cd/shared-ui": "*",
+    "nanoid": "3.3.4",
     "pm2": "5.2.2"
   },
   "devDependencies": {

@@ -1,14 +1,11 @@
 import { Page } from '@cd/shared-ui';
-import { ProtectedComponent } from '../src/components';
-import LandingPage from '../src/components/Landing';
+import { LandingPage } from 'components';
 
 function WelcomePage() {
     return (
-        <ProtectedComponent>
-            <Page>
-                <LandingPage />
-            </Page>
-        </ProtectedComponent>
+        <Page className="p-0 sm:p-0 lg:p-0">
+            <LandingPage />
+        </Page>
     );
 }
 

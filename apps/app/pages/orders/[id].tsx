@@ -26,7 +26,7 @@ import {
     TextField
 } from '@cd/shared-ui';
 import axios from 'axios';
-import { AddProduct, PageHeader, ProductItem, ProtectedComponent, Select } from 'components';
+import { AddProduct, PageHeader, ProductItem, ProtectedPage, Select } from 'components';
 import { format } from 'date-fns';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -147,7 +147,7 @@ export default function OrderDetails({ order }: { order: OrderWithDetails }) {
     };
 
     return (
-        <ProtectedComponent>
+        <ProtectedPage>
             <Page>
                 {isLoading ? (
                     <Center>
@@ -318,7 +318,7 @@ export default function OrderDetails({ order }: { order: OrderWithDetails }) {
                     )) || <Paragraph>The order is not found</Paragraph>
                 )}
             </Page>
-        </ProtectedComponent>
+        </ProtectedPage>
     );
 }
 
