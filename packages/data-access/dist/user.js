@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findUserWithDetails = exports.createUser = void 0;
+exports.updateUserPasswordToken = exports.findUserWithDetailsById = exports.findUserWithDetailsByEmail = exports.createUser = void 0;
 var prisma_1 = __importDefault(require("./db/prisma"));
 function createUser() {
     return __awaiter(this, void 0, void 0, function () {
@@ -49,7 +49,7 @@ function createUser() {
     });
 }
 exports.createUser = createUser;
-function findUserWithDetails(id) {
+function findUserWithDetailsByEmail(email) {
     return __awaiter(this, void 0, void 0, function () {
         var user, error_1;
         return __generator(this, function (_a) {
@@ -58,7 +58,7 @@ function findUserWithDetails(id) {
                     _a.trys.push([0, 2, , 3]);
                     return [4 /*yield*/, prisma_1.default.user.findUnique({
                             where: {
-                                id: id
+                                email: email
                             },
                             include: {
                                 address: true,
@@ -82,7 +82,66 @@ function findUserWithDetails(id) {
         });
     });
 }
-exports.findUserWithDetails = findUserWithDetails;
+exports.findUserWithDetailsByEmail = findUserWithDetailsByEmail;
+function findUserWithDetailsById(id) {
+    return __awaiter(this, void 0, void 0, function () {
+        var user, error_2;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, prisma_1.default.user.findUnique({
+                            where: {
+                                id: id
+                            },
+                            include: {
+                                address: true,
+                                memberships: {
+                                    orderBy: {
+                                        role: 'asc',
+                                    },
+                                },
+                                imageUser: true,
+                            },
+                        })];
+                case 1:
+                    user = _a.sent();
+                    return [2 /*return*/, user];
+                case 2:
+                    error_2 = _a.sent();
+                    console.error(error_2);
+                    throw new Error(error_2);
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.findUserWithDetailsById = findUserWithDetailsById;
+function updateUserPasswordToken(email, timeLimitedToken) {
+    return __awaiter(this, void 0, void 0, function () {
+        var user, error_3;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, prisma_1.default.user.update({
+                            where: { email: email },
+                            data: { passwordResetToken: timeLimitedToken },
+                            select: { email: true, id: true }
+                        })];
+                case 1:
+                    user = _a.sent();
+                    return [2 /*return*/, user];
+                case 2:
+                    error_3 = _a.sent();
+                    console.error(error_3);
+                    throw new Error(error_3);
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.updateUserPasswordToken = updateUserPasswordToken;
 // export type UserWithDetails = Prisma.PromiseReturnType<typeof findUserWithDetails>
 // type UserWithDetails = (User & {
 //     address: Address[];

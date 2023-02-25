@@ -10,7 +10,7 @@ var _emailpassword = _interopRequireDefault(require("supertokens-node/recipe/ema
 var _session = _interopRequireDefault(require("supertokens-node/recipe/session"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 var backendConfig = function backendConfig() {
-  console.log('appInfo: ', _appInfo.appInfo);
+  console.log('SERVER MAIN: appInfo: ', _appInfo.appInfo);
   return {
     framework: "express",
     supertokens: {

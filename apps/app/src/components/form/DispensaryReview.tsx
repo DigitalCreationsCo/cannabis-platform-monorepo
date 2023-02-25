@@ -7,15 +7,16 @@ import { renderNestedDataObject } from '../../utils';
 
 function DispensaryReview({ nextFormStep }: { nextFormStep: () => void }) {
     const [loadingButton, setLoadingButton] = useState(false);
-    const { formData }:{formData: FormDataProps} = useFormContext();
+    const { formData }: { formData: FormDataProps } = useFormContext();
 
     const handleFormSubmit = async () => {
         try {
             setLoadingButton(true);
             await axios.post('/api/organization/', formData.organization, {
-            headers: {
-                        'Content-Type': 'application/json'
-                    }});
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
             console.log('posting organization');
             // const { data } = await axios.post('/api/users/', {
             //     email: formData.newUser.email,

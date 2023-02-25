@@ -18,8 +18,8 @@ beforeAll(function () {
 
 // i can mock these routes much easier, by mocking the controller function being called
 
-describe('GET /userbyId', function () {
-  test('/2 responds with 200, & json response', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+describe('POST /login', function () {
+  test('responds with 200, returns user json', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
@@ -34,13 +34,13 @@ describe('GET /userbyId', function () {
     }, _callee);
   })));
 });
-describe('GET addressByIdAndUser', function () {
-  test('/2/categories responds with 200, & json response', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+describe('GET /logout', function () {
+  test('/200, revokes session', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
           _context2.next = 2;
-          return app.get('/api/v1/organization/2/categories').set('Accept', 'application/json').expect('Content-Type', /json/).expect(200).then(function (response) {
+          return app.get('/api/v1/organization/2').set('Accept', 'application/json').expect('Content-Type', /json/).expect(200).then(function (response) {
             expect(response.body).toBeDefined();
           });
         case 2:
@@ -48,6 +48,54 @@ describe('GET addressByIdAndUser', function () {
           return _context2.stop();
       }
     }, _callee2);
+  })));
+});
+describe('GET /userbyId', function () {
+  test('/2 responds with 200, & json response', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+      while (1) switch (_context3.prev = _context3.next) {
+        case 0:
+          _context3.next = 2;
+          return app.get('/api/v1/organization/2').set('Accept', 'application/json').expect('Content-Type', /json/).expect(200).then(function (response) {
+            expect(response.body).toBeDefined();
+          });
+        case 2:
+        case "end":
+          return _context3.stop();
+      }
+    }, _callee3);
+  })));
+});
+describe('GET addressById', function () {
+  test('/2/categories responds with 200, & json response', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
+    return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+      while (1) switch (_context4.prev = _context4.next) {
+        case 0:
+          _context4.next = 2;
+          return app.get('/api/v1/organization/2/categories').set('Accept', 'application/json').expect('Content-Type', /json/).expect(200).then(function (response) {
+            expect(response.body).toBeDefined();
+          });
+        case 2:
+        case "end":
+          return _context4.stop();
+      }
+    }, _callee4);
+  })));
+});
+describe('POST addAddressToUser', function () {
+  test('/2/categories responds with 200, & json response', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
+    return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+      while (1) switch (_context5.prev = _context5.next) {
+        case 0:
+          _context5.next = 2;
+          return app.get('/api/v1/organization/2/categories').set('Accept', 'application/json').expect('Content-Type', /json/).expect(200).then(function (response) {
+            expect(response.body).toBeDefined();
+          });
+        case 2:
+        case "end":
+          return _context5.stop();
+      }
+    }, _callee5);
   })));
 });
 

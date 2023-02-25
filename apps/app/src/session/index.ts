@@ -1,18 +1,20 @@
-import axios from "axios";
-import { SessionInformation } from "supertokens-node/recipe/session";
-import { urlBuilder } from "../utils";
+import { UserWithDetails } from '@cd/data-access/dist';
+import axios from 'axios';
+import { SessionInformation } from 'supertokens-node/recipe/session';
+import { urlBuilder } from '../utils';
 
 export type SessionInfo = {
     session: SessionInformation;
-    user: any;
-    accessTokenPayload: any;
-}
+    user: UserWithDetails;
+    accessTokenPayload: unknown;
+};
 
 export async function getSession(): Promise<SessionInfo | null> {
-    console.log('fetching session from backened')
-    const {data } = await axios(urlBuilder.next + '/api/session');
+    const { data } = await axios(urlBuilder.next + '/api/session');
+    console.log('get Session: ', data);
     if (data) {
-        console.log('session DATA: ', data)
-        return data
+        return data;
+    } else {
+        return null;
     }
 }

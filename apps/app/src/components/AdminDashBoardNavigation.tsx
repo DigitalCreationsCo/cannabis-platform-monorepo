@@ -22,28 +22,28 @@ const links = [
     {
         href: '/',
         title: 'Dashboard',
-        icon: Icons.Home,
+        icon: Icons.Home
     },
     {
         href: '/products',
         title: 'Products',
-        icon: Icons.PackageBox,
+        icon: Icons.PackageBox
     },
     {
         href: '/orders',
         title: 'Orders',
-        icon: Icons.Payment,
+        icon: Icons.Payment
     },
     {
         href: '/users',
         title: 'Users',
-        icon: Icons.User2,
+        icon: Icons.User2
     },
     {
         href: '/site-settings',
         title: 'Site Settings',
-        icon: Icons.Wheel,
-    },
+        icon: Icons.Wheel
+    }
     // {
     //   href: "/delivery-time",
     //   title: "Delivery Time",

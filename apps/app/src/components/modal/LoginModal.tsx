@@ -84,14 +84,17 @@ function LoginModal({ open, onClose, ...props }: ModalProps) {
             toast.error(error.response.statusText);
         }
     }
+
+    const styles = {
+        responsive: 'min-w-full min-h-screen sm:!rounded-none md:min-w-min md:min-h-min md:!rounded'
+    };
     return (
-        <Modal className="min-w-full min-h-screen rounded-none" open={open} onClose={resetModalState} {...props}>
+        <Modal className={styles.responsive} open={open} onClose={resetModalState} {...props}>
             <Grid>
                 <FlexBox>
                     <Image src={'/logo.png'} alt="Gras Cannabis logo" width={63} height={63} priority />
-                    <H3>
-                        Welcome to <H1>Gras Cannabis</H1>
-                    </H3>
+                    <H3> Welcome to</H3>
+                    <H1>Gras Cannabis</H1>
                 </FlexBox>
                 <H3>One Stop Cannabis Marketplace</H3>
                 <Paragraph>Sign in with your email & password</Paragraph>
@@ -126,7 +129,7 @@ function LoginModal({ open, onClose, ...props }: ModalProps) {
                     Sign In
                 </Button>
                 <FlexBox>
-                    <Paragraph>Don't have account? </Paragraph>
+                    <Paragraph>{`Don't have account?`} </Paragraph>
                     <Link href="/signup">
                         <H6 className="border-b"> Sign Up</H6>
                     </Link>

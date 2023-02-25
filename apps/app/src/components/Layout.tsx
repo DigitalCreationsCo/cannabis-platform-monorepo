@@ -2,7 +2,7 @@ import { Button, FlexBox, Footer, H2, Header, Paragraph } from '@cd/shared-ui';
 import { LoginModal, SideNavContainer } from 'components';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ChangeEventHandler, PropsWithChildren, ReactEventHandler, useEffect, useState } from 'react';
+import { ChangeEventHandler, PropsWithChildren, ReactEventHandler, useState } from 'react';
 import SessionReact, { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/logo.png';
@@ -51,7 +51,6 @@ export default function Layout({ onSearchChange, placeholder, children }: Layout
 }
 
 function TopBar({ doesSessionExist, setLoginModal }: { doesSessionExist?: boolean; setLoginModal?: any }) {
-    useEffect(() => {}, [doesSessionExist]);
     const topbar = ['flex flex-row min-h-[66px] pr-4 lg:px-16 bg-inverse space-x-2 items-center shadow'];
     return (
         <div className={twMerge(topbar)}>

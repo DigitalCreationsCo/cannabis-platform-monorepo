@@ -70,6 +70,8 @@ add search function to dispensary create to find existing vendor brands,
 
 To Do: Add country picker to address forms, add country code
 
+Test: Mailserver with linode stmp client
+
 configure nextapp and nginx with docker,
 deploy with docker on linode, use pm2 for nextjs
 Revise dockerfile to build fast and lean

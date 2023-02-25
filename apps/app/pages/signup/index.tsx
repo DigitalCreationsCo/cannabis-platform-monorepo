@@ -12,15 +12,14 @@ function SignUpStart() {
                     <FlexBox>
                         <H4>Before you create an account,</H4>
                         <H4>
-                            Please select an account. If you operate a dispensary and want to create a Dispensary
-                            Account, please choose `Create A Dispensary Account`
+                            {`Please select an account. If you operate a dispensary and want to create a Dispensary Account, please choose "\`Create A Dispensary Account"\``}
                         </H4>
                     </FlexBox>
 
                     <Center>
                         <FlexBox>
                             <Center>
-                                <H5>I'm here to shop for Cannabis Products</H5>
+                                <H5>{`I'm here to shop for Cannabis Products`}</H5>
                                 <Link href="/signup/create-account">
                                     <Button size="lg" bg="primary" transparent className="hover:bg-[#0b7529]">
                                         <Paragraph color="light">Create An Account</Paragraph>
@@ -31,7 +30,7 @@ function SignUpStart() {
 
                         <FlexBox>
                             <Center>
-                                <H5>I'm here to create a Dispensary Account</H5>
+                                <H5>{`I'm here to create a Dispensary Account`}</H5>
                                 <Link href="/signup/create-dispensary-account">
                                     <Button size="lg" bg="primary" transparent className="hover:bg-[#0b7529]">
                                         <Paragraph color="light">Create A Dispensary Account</Paragraph>

@@ -9,9 +9,9 @@ const handler = nc();
 // get session from backend
 handler.get(async (req: ExtendRequest, res: NextApiResponse) => {
     try {
-        console.log('next backend: GET SESSION')
-        res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
+        // res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=10');
         const { data } = await axios(urlBuilder.main.getSession());
+        console.log('next backend: GET SESSION: ', data);
         return res.status(res.statusCode).json(data);
     } catch (error) {
         // throw new error to handle any error discrepancy between frontend and next api

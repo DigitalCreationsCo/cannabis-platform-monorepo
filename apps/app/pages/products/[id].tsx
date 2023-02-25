@@ -21,7 +21,7 @@ import {
     UploadImageBox
 } from '@cd/shared-ui';
 import axios from 'axios';
-import { ClickableTags, DropZone, Modal, PageHeader, ProtectedComponent } from 'components';
+import { ClickableTags, DropZone, Modal, PageHeader, ProtectedPage } from 'components';
 import { Formik } from 'formik';
 import { useCategory, useOnClickOutside } from 'hooks';
 import Image from 'next/image';
@@ -147,7 +147,7 @@ export default function ProductDetails({ product }: { product: ProductWithDetail
     /* eslint-disable */
 
     return (
-        <ProtectedComponent>
+        <ProtectedPage>
             <Page>
                 <PageHeader
                     title="Edit Product"
@@ -422,7 +422,7 @@ export default function ProductDetails({ product }: { product: ProductWithDetail
                         </Grid>
                     ) : <Paragraph>The product is not found</Paragraph>}
             </Page>
-        </ProtectedComponent>
+        </ProtectedPage>
     );
 }
 

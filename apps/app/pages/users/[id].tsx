@@ -15,7 +15,7 @@ import {
     UploadImageBox
 } from '@cd/shared-ui';
 import axios from 'axios';
-import { AddAddressUserModal, ConfirmationModal, DropZone, Modal, PageHeader, ProtectedComponent } from 'components';
+import { AddAddressUserModal, ConfirmationModal, DropZone, Modal, PageHeader, ProtectedPage } from 'components';
 import { format } from 'date-fns';
 import { useFormik } from 'formik';
 import Image from 'next/image';
@@ -147,7 +147,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
     /* eslint-disable */
 
     return (
-        <ProtectedComponent>
+        <ProtectedPage>
             <Page>
                 <PageHeader
                     title={`User: ${user?.firstName}`}
@@ -398,7 +398,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
                     <Paragraph>The User is not found</Paragraph>
                 )}
             </Page>
-        </ProtectedComponent>
+        </ProtectedPage>
     );
 }
 

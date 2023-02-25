@@ -1,9 +1,9 @@
 import { Grid, H4, H5, Icons, Page } from '@cd/shared-ui';
-import { PageHeader, ProtectedComponent } from '../src/components';
+import { PageHeader, ProtectedPage } from '../src/components';
 
 function Support() {
     return (
-        <ProtectedComponent>
+        <ProtectedPage>
             <Page className="md:max-w-1/2">
                 <PageHeader title="Support" Icon={Icons.Shield} />
                 <Grid className="space-y-4 px-2">
@@ -14,7 +14,7 @@ function Support() {
                 1-800-GREEN-35`}</H4>
                 </Grid>
             </Page>
-        </ProtectedComponent>
+        </ProtectedPage>
     );
 }
 
