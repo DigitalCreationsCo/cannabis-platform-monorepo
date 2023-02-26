@@ -50,8 +50,7 @@ function UserSignUp() {
             zipcode: '19130',
             country: 'United States',
             countryCode: 'US',
-            coordinateId: '',
-            userId: ''
+            coordinateId: ''
         }
     };
 
@@ -107,7 +106,6 @@ function UserSignUp() {
                 formData.append('address.zipcode', values.address.zipcode);
                 formData.append('address.country', values.address.country);
                 formData.append('address.countryCode', values.address.countryCode);
-                formData.append('address.userId', values.address.userId);
                 const { data } = await axios.post(urlBuilder.next + '/api/signup', formData, {
                     headers: {
                         'Content-Type': 'application/json'

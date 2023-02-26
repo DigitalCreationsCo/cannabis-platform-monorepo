@@ -73,7 +73,7 @@ export type AddressCreateType ={
     organizationId: string | undefined;
 };
 
-export type AddressUserCreateType ={
+export type AddressUserCreateType = {
     street1: string;
     street2: string | null;
     city: string;
@@ -83,4 +83,5 @@ export type AddressUserCreateType ={
     countryCode: string | null;
     coordinateId: string;
     userId: string | undefined;
+    // ^ userId used to connect with user
 }
