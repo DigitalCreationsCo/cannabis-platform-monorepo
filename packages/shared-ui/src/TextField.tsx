@@ -43,8 +43,11 @@ function TextField({
 }: TextFieldProps) {
     const inputProps: React.InputHTMLAttributes<HTMLInputElement> = { ...props };
     const [focus, setFocus] = React.useState(false);
+    const styles = {
+        flexContainer: 'space-x-0 space-y-0 w-full lg:flex-row lg:items-center'
+    };
     return (
-        <FlexBox className={twMerge('w-full', containerClassName)}>
+        <FlexBox className={twMerge(styles.flexContainer, containerClassName)}>
             {label && (
                 <FlexBox className="min-w-[111px] justify-between">
                     <label>{label}</label>

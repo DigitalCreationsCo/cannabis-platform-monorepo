@@ -10,7 +10,6 @@ import {
 } from 'components';
 import { useFormik } from 'formik';
 import Head from 'next/head';
-import Image from 'next/image';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { twMerge } from 'tailwind-merge';
@@ -22,7 +21,6 @@ function UserSignUp() {
     const nextFormStep = () => setFormStep((currentStep) => currentStep + 1);
     const prevFormStep = () => setFormStep((currentStep) => currentStep - 1);
     const FormStepComponents = [DispensaryCreate, DispensaryUserCreate, DispensaryReview, DispensarySignUpComplete];
-    const styles = { gradient: ['bg-gradient-to-b', 'from-primary', 'to-secondary'] };
 
     const initialValues: UserCreateType = {
         firstName: '',
@@ -125,182 +123,174 @@ function UserSignUp() {
         onSubmit,
         validationSchema
     });
+
+    const styles = { gradient: ['bg-gradient-to-b', 'from-primary', 'to-secondary', 'p-0 lg:p-16 h-max'] };
     return (
-        <Page>
+        <Page className={twMerge(styles.gradient)}>
             <Head>
-                <title>Create a Dispensary Account</title>
+                <title>Create an account</title>
             </Head>
-            <FlexBox className={twMerge(styles.gradient)}>
-                <FormCard currentStep={formStep} totalSteps={FormStepComponents.length}>
-                    <form className={'content relative'} onSubmit={handleSubmit}>
-                        <Grid>
-                            <Image src={'/logo.png'} alt="Gras Cannabis logo" height={63} width={63} priority />
-                            <H3>{`Create an account`}</H3>
-                            <H3>{`Shop for weed`}</H3>
-                            <Paragraph>
-                                Please fill all the fields and continue to create your dispensary account.
-                            </Paragraph>
-                            <TextField
-                                name="username"
-                                label="UserName"
-                                placeholder="Choose your username"
-                                onBlur={handleBlur}
+            <FormCard currentStep={formStep} totalSteps={FormStepComponents.length}>
+                <form onSubmit={handleSubmit}>
+                    <H3>{`Create an account`}</H3>
+                    <H3>{`Get Cannabis Delivered 🌴🔥`}</H3>
+                    <Paragraph>Please fill all the fields and continue to create your dispensary account.</Paragraph>
+                    <Grid className="space-y-2">
+                        <TextField
+                            name="username"
+                            label="UserName"
+                            placeholder="Choose your username"
+                            onBlur={handleBlur}
+                            onChange={handleChange}
+                            value={values.username}
+                            error={!!touched.username && !!errors.username}
+                            helperText={touched.username && errors.username}
+                        />
+                        <TextField
+                            name="firstName"
+                            label="First Name"
+                            placeholder="first name"
+                            onBlur={handleBlur}
+                            onChange={handleChange}
+                            value={values.firstName}
+                            error={!!touched.firstName && !!errors.firstName}
+                            helperText={touched.firstName && errors.firstName}
+                        />
+                        <Paragraph>What is the phone number of your dispensary business?</Paragraph>
+                        <TextField
+                            name="lastName"
+                            label="Last Name"
+                            placeholder="last name"
+                            onBlur={handleBlur}
+                            onChange={handleChange}
+                            value={values.lastName}
+                            error={!!touched.lastName && !!errors.lastName}
+                            helperText={touched.lastName && errors.lastName}
+                        />
+                        <TextField
+                            name="email"
+                            type="email"
+                            label="Email"
+                            onBlur={handleBlur}
+                            value={values.email}
+                            onChange={handleChange}
+                            placeholder="email address"
+                            error={!!touched.email && !!errors.email}
+                            helperText={touched.email && errors.email}
+                        />
+                        <TextField
+                            name="dialCode"
+                            label="dialCode"
+                            placeholder="Dial Code"
+                            onBlur={handleBlur}
+                            onChange={handleChange}
+                            value={values.dialCode}
+                            error={!!touched.dialCode && !!errors.dialCode}
+                            helperText={touched.dialCode && errors.dialCode}
+                        />
+                        <TextField
+                            name="phone"
+                            label="Phone"
+                            placeholder="Phone"
+                            value={values?.phone}
+                            onBlur={handleBlur}
+                            onChange={handleChange}
+                            error={!!touched.phone && !!errors.phone}
+                            helperText={touched.phone && errors.phone}
+                        />
+                        <Paragraph>Where are you located?</Paragraph>
+                        <TextField
+                            name="address.street1"
+                            label="Street Line 1"
+                            placeholder="Street Line 1"
+                            value={values?.address?.street1}
+                            onBlur={handleBlur}
+                            onChange={handleChange}
+                            error={!!touched?.address?.street1 && !!errors?.address?.street1}
+                            helperText={touched?.address?.street1 && errors?.address?.street1}
+                        />
+                        <TextField
+                            name="address.street2"
+                            label="Street Line 2"
+                            placeholder="Street Line 2"
+                            value={values?.address?.street2}
+                            onBlur={handleBlur}
+                            onChange={handleChange}
+                            error={!!touched?.address?.street2 && !!errors?.address?.street2}
+                            helperText={touched?.address?.street2 && errors?.address?.street2}
+                        />
+                        <TextField
+                            name="address.city"
+                            label="City"
+                            placeholder="City"
+                            value={values?.address?.city}
+                            onBlur={handleBlur}
+                            onChange={handleChange}
+                            error={!!touched?.address?.city && !!errors?.address?.city}
+                            helperText={touched?.address?.city && errors?.address?.city}
+                        />
+                        <TextField
+                            name="address.state"
+                            label="State"
+                            placeholder="State"
+                            value={values?.address?.state}
+                            onBlur={handleBlur}
+                            onChange={handleChange}
+                            error={!!touched?.address?.state && !!errors?.address?.state}
+                            helperText={touched?.address?.state && errors?.address?.state}
+                        />
+                        <TextField
+                            name="address.country"
+                            label="Country"
+                            placeholder="Country"
+                            value={values?.address?.country}
+                            onBlur={handleBlur}
+                            onChange={handleChange}
+                            error={!!touched?.address?.country && !!errors?.address?.country}
+                            helperText={touched?.address?.country && errors?.address?.country}
+                        />
+                        <TextField
+                            name="address.zipcode"
+                            label="Zipcode"
+                            placeholder="Zipcode"
+                            value={values?.address?.zipcode}
+                            onBlur={handleBlur}
+                            onChange={handleChange}
+                            error={!!touched?.address?.zipcode && !!errors?.address?.zipcode}
+                            helperText={touched?.address?.zipcode && errors?.address?.zipcode}
+                        />
+                        <FlexBox className="grow space-y-2 space-x-0 p-0">
+                            <Label>
+                                {`By signing up to be listed on Gras Cannabis Marketplace, you agree to our `}
+                                <a href="/" target="_blank" rel="noreferrer noopener">
+                                    <H6 className={'border-b-2 inline-block'}>Dispensary terms and conditions</H6>.
+                                </a>
+                            </Label>
+                            <CheckBox
+                                type="checkbox"
+                                name="termsAccepted"
                                 onChange={handleChange}
-                                value={values.username}
-                                error={!!touched.username && !!errors.username}
-                                helperText={touched.username && errors.username}
+                                checked={values?.termsAccepted || false}
+                                helperText={touched.termsAccepted && errors.termsAccepted}
+                                description={`I agree to the dispensary terms and conditions`}
                             />
-                            <TextField
-                                name="firstName"
-                                label="First Name"
-                                placeholder="first name"
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                                value={values.firstName}
-                                error={!!touched.firstName && !!errors.firstName}
-                                helperText={touched.firstName && errors.firstName}
-                            />
-                            <Paragraph>What is the phone number of your dispensary business?</Paragraph>
-                            <FlexBox>
-                                <TextField
-                                    name="lastName"
-                                    label="Last Name"
-                                    placeholder="last name"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.lastName}
-                                    error={!!touched.lastName && !!errors.lastName}
-                                    helperText={touched.lastName && errors.lastName}
-                                />
-                                <TextField
-                                    name="email"
-                                    type="email"
-                                    label="Email"
-                                    onBlur={handleBlur}
-                                    value={values.email}
-                                    onChange={handleChange}
-                                    placeholder="email address"
-                                    error={!!touched.email && !!errors.email}
-                                    helperText={touched.email && errors.email}
-                                />
-                                <TextField
-                                    name="dialCode"
-                                    label="dialCode"
-                                    placeholder="Dial Code"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.dialCode}
-                                    error={!!touched.dialCode && !!errors.dialCode}
-                                    helperText={touched.dialCode && errors.dialCode}
-                                />
-                                <TextField
-                                    name="phone"
-                                    label="Phone"
-                                    placeholder="Phone"
-                                    value={values?.phone}
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    error={!!touched.phone && !!errors.phone}
-                                    helperText={touched.phone && errors.phone}
-                                />
-                            </FlexBox>
-                            <Paragraph>Where are you located?</Paragraph>
-                            <TextField
-                                name="address.street1"
-                                label="Street Line 1"
-                                placeholder="Street Line 1"
-                                value={values?.address?.street1}
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                                error={!!touched?.address?.street1 && !!errors?.address?.street1}
-                                helperText={touched?.address?.street1 && errors?.address?.street1}
-                            />
-                            <TextField
-                                name="address.street2"
-                                label="Street Line 2"
-                                placeholder="Street Line 2"
-                                value={values?.address?.street2}
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                                error={!!touched?.address?.street2 && !!errors?.address?.street2}
-                                helperText={touched?.address?.street2 && errors?.address?.street2}
-                            />{' '}
-                            <TextField
-                                name="address.city"
-                                label="City"
-                                placeholder="City"
-                                value={values?.address?.city}
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                                error={!!touched?.address?.city && !!errors?.address?.city}
-                                helperText={touched?.address?.city && errors?.address?.city}
-                            />
-                            <TextField
-                                name="address.state"
-                                label="State"
-                                placeholder="State"
-                                value={values?.address?.state}
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                                error={!!touched?.address?.state && !!errors?.address?.state}
-                                helperText={touched?.address?.state && errors?.address?.state}
-                            />
-                            <TextField
-                                name="address.country"
-                                label="Country"
-                                placeholder="Country"
-                                value={values?.address?.country}
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                                error={!!touched?.address?.country && !!errors?.address?.country}
-                                helperText={touched?.address?.country && errors?.address?.country}
-                            />
-                            <TextField
-                                name="address.zipcode"
-                                label="Zipcode"
-                                placeholder="Zipcode"
-                                value={values?.address?.zipcode}
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                                error={!!touched?.address?.zipcode && !!errors?.address?.zipcode}
-                                helperText={touched?.address?.zipcode && errors?.address?.zipcode}
-                            />
-                            <FlexBox>
-                                <Label>
-                                    {`By signing up to be listed on 
-                    Gras Cannabis Marketplace, you
-                    agree to our `}
-                                    <a href="/" target="_blank" rel="noreferrer noopener">
-                                        <H6 className={'border-b-2 inline-block'}>Dispensary terms and conditions</H6>.
-                                    </a>
-                                </Label>
-                                <FlexBox>
-                                    <CheckBox
-                                        type="checkbox"
-                                        name="termsAccepted"
-                                        onChange={handleChange}
-                                        checked={values?.termsAccepted || false}
-                                    />
-                                    <Label>{touched.termsAccepted && errors.termsAccepted}</Label>
-                                    <Paragraph>I agree to the dispensary terms and conditions</Paragraph>
-                                </FlexBox>
-                            </FlexBox>
-                            <Button
-                                type="submit"
-                                loading={loadingButton}
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                    handleSubmit();
-                                }}
-                                disabled={values.termsAccepted === false}
-                            >
-                                Next
-                            </Button>
-                        </Grid>
-                    </form>
-                </FormCard>
-            </FlexBox>
+                        </FlexBox>
+                        <Button
+                            className="place-self-center"
+                            type="submit"
+                            loading={loadingButton}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                handleSubmit();
+                            }}
+                            disabled={values.termsAccepted === false}
+                        >
+                            Next
+                        </Button>
+                    </Grid>
+                </form>
+            </FormCard>
         </Page>
     );
 }

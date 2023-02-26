@@ -5,13 +5,12 @@ import { H4, H6 } from './Typography';
 type CardProps = { className?: string; title?: string; amount?: string | number };
 
 function Card({ className, title, amount, children }: CardProps & PropsWithChildren) {
+    const styles = {
+        cardContainer:
+            'm-auto h-max w-full md:!w-5/6 lg:!w-2/3 bg-light flex flex-col shadow drop-shadow max-w-screen p-2 !pb-12 md:p-5 md:px-12 !rounded-none md:!rounded-btn'
+    };
     return (
-        <div
-            className={twMerge(
-                'bg-light flex flex-col shadow drop-shadow rounded-btn max-w-screen py-2 pl-2 sm:px-4',
-                className
-            )}
-        >
+        <div className={twMerge(styles.cardContainer, className)}>
             {title && <H6 className="whitespace-pre">{title}</H6>}
             {amount !== undefined && <H4>{amount}</H4>}
             {children}
