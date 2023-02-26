@@ -1,11 +1,11 @@
-import { Button, FlexBox, Grid, H3, H6, Label, Paragraph, TextField } from '@cd/shared-ui';
-import { CheckBox } from 'components';
+import { Button, FlexBox, Grid, H3, H6, Paragraph, TextField } from '@cd/shared-ui';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import * as yup from 'yup';
 import { useFormContext } from '../../context/StepFormProvider';
+import TermsAgreement from '../TermsAgreement';
 
 // ToDo:
 // Organization Search for SearchTextField
@@ -40,9 +40,18 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
     return (
         <form className={'content relative'} onSubmit={handleSubmit}>
             <Grid>
-                <Image src={'/logo.png'} alt="Gras Cannabis logo" height={63} width={63} priority />
-                <H3>{`Congratulations, you're joining Gras Cannabis. 
+                <FlexBox className="flex-row space-x-2 pr-2 md:pr-0">
+                    <H3>{`Congratulations, you're joining Gras Cannabis. 
                 Welcome to our customers' favorite Cannabis marketplace.`}</H3>
+                    <Image
+                        className="rounded-btn"
+                        src={'/logo.png'}
+                        alt="Gras Cannabis logo"
+                        height={63}
+                        width={63}
+                        priority
+                    />
+                </FlexBox>
                 <Paragraph>Please fill all the fields and continue to create your dispensary account.</Paragraph>
                 <TextField
                     name="name"
@@ -147,26 +156,21 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
                     error={!!touched?.address?.zipcode && !!errors?.address?.zipcode}
                     helperText={touched?.address?.zipcode && errors?.address?.zipcode}
                 />
-                <FlexBox>
-                    <Label>
-                        {`By signing up to be listed on 
-                    Gras Cannabis Marketplace, you
-                    agree to our `}
-                        <a href="/" target="_blank" rel="noreferrer noopener">
-                            <H6 className={'border-b-2 inline-block'}>Dispensary terms and conditions</H6>.
-                        </a>
-                    </Label>
-                    <FlexBox>
-                        <CheckBox
-                            type="checkbox"
-                            name="termsAccepted"
-                            onChange={handleChange}
-                            checked={values?.termsAccepted || false}
-                        />
-                        <Label>{touched.termsAccepted && errors.termsAccepted}</Label>
-                        <Paragraph>I agree to the dispensary terms and conditions</Paragraph>
-                    </FlexBox>
-                </FlexBox>
+                <TermsAgreement
+                    name="termsAccepted"
+                    onChange={handleChange}
+                    checked={values?.termsAccepted || false}
+                    helperText={touched.termsAccepted && errors.termsAccepted}
+                    description={
+                        <>
+                            By signing up to be listed on Gras Cannabis Marketplace, you agree to our
+                            <a href="/" target="_blank" rel="noreferrer noopener">
+                                <H6 className={'border-b-2 inline-block'}>Dispensary Terms and Conditions</H6>.
+                            </a>
+                        </>
+                    }
+                    label={`I agree to the Dispensary Terms and Conditions`}
+                />
                 <Button
                     type="submit"
                     loading={loadingButton}

@@ -32,7 +32,14 @@ export default function Button({
     ...props
 }: ButtonProps) {
     const classes = {
-        button: ['rounded-btn', 'whitespace-nowrap', 'font-btn', 'shadow-md', 'flex items-center', 'justify-center'],
+        button: [
+            'rounded-btn',
+            'whitespace-nowrap',
+            'font-btn',
+            'shadow-md',
+            'flex items-center place-self-center',
+            'justify-center'
+        ],
         noClickWhileLoading: loading && 'cursor-not-allowed',
         size: [
             (size === 'lg' && 'text-xl w-[200px] h-[80px]') || (size === 'sm' && 'text-sm h-[30px]') || 'w-[140px] h-10'

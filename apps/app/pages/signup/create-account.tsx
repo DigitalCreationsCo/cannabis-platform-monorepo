@@ -1,12 +1,12 @@
 import { UserCreateType } from '@cd/data-access/dist';
-import { Button, FlexBox, Grid, H3, H6, Label, Page, Paragraph, TextField } from '@cd/shared-ui';
+import { Button, FlexBox, Grid, H3, H6, Page, Paragraph, TextField } from '@cd/shared-ui';
 import {
-    CheckBox,
     DispensaryCreate,
     DispensaryReview,
     DispensarySignUpComplete,
     DispensaryUserCreate,
-    FormCard
+    FormCard,
+    TermsAgreement
 } from 'components';
 import { useFormik } from 'formik';
 import Head from 'next/head';
@@ -156,7 +156,6 @@ function UserSignUp() {
                             error={!!touched.firstName && !!errors.firstName}
                             helperText={touched.firstName && errors.firstName}
                         />
-                        <Paragraph>What is the phone number of your dispensary business?</Paragraph>
                         <TextField
                             name="lastName"
                             label="Last Name"
@@ -178,27 +177,29 @@ function UserSignUp() {
                             error={!!touched.email && !!errors.email}
                             helperText={touched.email && errors.email}
                         />
-                        <TextField
-                            name="dialCode"
-                            label="dialCode"
-                            placeholder="Dial Code"
-                            onBlur={handleBlur}
-                            onChange={handleChange}
-                            value={values.dialCode}
-                            error={!!touched.dialCode && !!errors.dialCode}
-                            helperText={touched.dialCode && errors.dialCode}
-                        />
-                        <TextField
-                            name="phone"
-                            label="Phone"
-                            placeholder="Phone"
-                            value={values?.phone}
-                            onBlur={handleBlur}
-                            onChange={handleChange}
-                            error={!!touched.phone && !!errors.phone}
-                            helperText={touched.phone && errors.phone}
-                        />
-                        <Paragraph>Where are you located?</Paragraph>
+                        <FlexBox className="flex-row space-x-4">
+                            <TextField
+                                name="dialCode"
+                                label="Dial Code"
+                                placeholder="Dial Code"
+                                onBlur={handleBlur}
+                                onChange={handleChange}
+                                value={values.dialCode}
+                                error={!!touched.dialCode && !!errors.dialCode}
+                                helperText={touched.dialCode && errors.dialCode}
+                            />
+                            <TextField
+                                name="phone"
+                                label="Phone"
+                                placeholder="Phone"
+                                value={values?.phone}
+                                onBlur={handleBlur}
+                                onChange={handleChange}
+                                error={!!touched.phone && !!errors.phone}
+                                helperText={touched.phone && errors.phone}
+                            />
+                        </FlexBox>
+                        <Paragraph>What is your address for delivery?</Paragraph>
                         <TextField
                             name="address.street1"
                             label="Street Line 1"
@@ -259,22 +260,22 @@ function UserSignUp() {
                             error={!!touched?.address?.zipcode && !!errors?.address?.zipcode}
                             helperText={touched?.address?.zipcode && errors?.address?.zipcode}
                         />
-                        <FlexBox className="grow space-y-2 space-x-0 p-0">
-                            <Label>
-                                {`By signing up to be listed on Gras Cannabis Marketplace, you agree to our `}
-                                <a href="/" target="_blank" rel="noreferrer noopener">
-                                    <H6 className={'border-b-2 inline-block'}>Dispensary terms and conditions</H6>.
-                                </a>
-                            </Label>
-                            <CheckBox
-                                type="checkbox"
-                                name="termsAccepted"
-                                onChange={handleChange}
-                                checked={values?.termsAccepted || false}
-                                helperText={touched.termsAccepted && errors.termsAccepted}
-                                description={`I agree to the dispensary terms and conditions`}
-                            />
-                        </FlexBox>
+                        <TermsAgreement
+                            name="termsAccepted"
+                            onChange={handleChange}
+                            checked={values?.termsAccepted || false}
+                            helperText={touched.termsAccepted && errors.termsAccepted}
+                            error={!!touched.termsAccepted && !!errors.termsAccepted}
+                            description={
+                                <>
+                                    {`Before creating an account for Gras Cannabis Marketplace, you will agree to our `}
+                                    <a href="/" target="_blank" rel="noreferrer noopener">
+                                        <H6 className={'border-b-2 inline-block'}>User Terms and Conditions</H6>.
+                                    </a>
+                                </>
+                            }
+                            label={`I agree to the User Terms and Conditions`}
+                        />
                         <Button
                             className="place-self-center"
                             type="submit"

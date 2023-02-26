@@ -1,6 +1,7 @@
 {
   "recommendations": [
     "dbaeumer.vscode-eslint",
-    "pulkitgangwar.nextjs-snippets"
+    "pulkitgangwar.nextjs-snippets",
+    "formulahendry.auto-complete-tag"
   ]
 }
