@@ -9,14 +9,25 @@ export const renderAddress = (address: Address) => (
     </Paragraph>
 );
 
-export const renderNestedDataObject = (data: any, Component, removeFields) => {
-    data = Object.keys({ ...data })
-        .filter((d) => !removeFields.includes(d))
+export const renderNestedDataObject = (data, Component, removeFields) => {
+    const result = Object.keys({ ...data })
+        .filter((field) => {
+            (removeFields && !removeFields.includes(field)) || true;
+        })
         .map((key, index) => {
             if (typeof data[key] === 'object') {
                 return renderNestedDataObject(data[key], Component, removeFields);
             } else return Component({ key: key + index.toString(), children: [key] + ': ' + data[key] });
         })
         .flat();
-    return data;
+    return result;
+};
+
+export const buildSTFormFields = (data) => {
+    const result = Object.keys(data).map((key) => {
+        if (typeof data[key] === 'object' && data[key] !== null) {
+            return { id: key, value: buildSTFormFields(data[key]) };
+        } else return { id: key, value: data[key] };
+    });
+    return result;
 };

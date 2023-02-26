@@ -1,6 +1,5 @@
-import { Address, ImageUser, Membership, User } from "@prisma/client";
-import { AddressUserCreateType } from "./address";
-export declare function createUser(): Promise<void>;
+import { Address, ImageUser, Membership, Prisma, User } from "@prisma/client";
+export declare function createUser(userData: UserCreateType): Promise<User>;
 export declare function findUserWithDetailsByEmail(email: string): Promise<(User & {
     address: Address[];
     imageUser: ImageUser[];
@@ -30,8 +29,8 @@ export type UserCreateType = {
     phone: string;
     dialCode: string;
     termsAccepted: boolean;
-    imageUser: ImageUser[] | null;
-    address: AddressUserCreateType;
+    imageUser: Prisma.ImageUserCreateInput;
+    address: Prisma.AddressCreateArgs["data"];
 };
 export type UserLoginData = {
     email: string;
@@ -41,7 +40,4 @@ export type AccessTokenPayload = {
     username: string;
     id: string;
     email: string;
-    firstName: string;
-    lastName: string;
-    memberships: Membership[];
 };

@@ -24,7 +24,8 @@ const urlBuilder = {
         categoryList: (id: any) => urlBuilder.main.baseUrl + `/organization/${id}/categories`,
 
         signin: () => urlBuilder.main.baseUrl + `/auth/user/signin`,
-        signout: () => urlBuilder.main.baseUrl + `/auth/user/signout`,
+        signup: () => urlBuilder.main.baseUrl + `/auth/user/signup`,
+        signout: () => urlBuilder.main.baseUrl + `/auth/signout`,
         userById: (id: any) => urlBuilder.main.baseUrl + `/auth/user/${id}`,
         usersByOrg: (id: any) => urlBuilder.main.baseUrl + `/organization/${id}/users`,
 

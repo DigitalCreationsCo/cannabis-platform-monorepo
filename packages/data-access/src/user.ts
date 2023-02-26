@@ -1,13 +1,21 @@
-import { Address, ImageUser, Membership, User } from "@prisma/client";
-import { AddressUserCreateType } from "./address";
+import { Address, ImageUser, Membership, Prisma, User } from "@prisma/client";
 import prisma from "./db/prisma";
 
-export async function createUser() {
-    // try {
-    // } catch (error) {
-    //     console.error(error.message)
-    //     throw new Error(error.message)
-    // }
+export async function createUser(userData: UserCreateType) {
+    try {
+        const user = await prisma.user.create({
+            data: {
+                ...userData,
+                termsAccepted: Boolean(userData.termsAccepted),
+                address: { create: userData.address }, 
+                imageUser: { create: userData.imageUser}
+            }
+        })
+        return user;
+    } catch (error:any) {
+        console.error(error)
+        throw new Error(error)
+    }
 }
 
 export async function findUserWithDetailsByEmail(email: string) {
@@ -87,8 +95,8 @@ export type UserCreateType = {
     phone: string;
     dialCode: string;
     termsAccepted: boolean;
-    imageUser: ImageUser[] | null;
-    address: AddressUserCreateType;
+    imageUser: Prisma.ImageUserCreateInput;
+    address: Prisma.AddressCreateArgs[ "data" ];
 }
 
 export type UserLoginData = {
@@ -100,9 +108,6 @@ export type AccessTokenPayload = {
     username: string;
     id: string;
     email: string;
-     firstName: string; 
-     lastName: string; 
-     memberships: Membership[]
 }
 // export type UserCreateType = Prisma.PromiseReturnType<typeof createUser>
 // export type UserWithDetails = Prisma.PromiseReturnType<typeof findUserWithDetails>

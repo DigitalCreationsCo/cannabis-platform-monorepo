@@ -1,3 +1,4 @@
+import { AccessTokenPayload } from '@cd/data-access/dist';
 import STSession from 'supertokens-node/recipe/session';
 import { UserDA } from '../data-access';
 
@@ -11,18 +12,19 @@ getUserById
 getAddressById
 addAddressToUser
 removeAddressFromUser
+signup
 
 ================================= */
 
 export default class UserController {
     static async signin(req, res) {
         try {
-            const user = req.body;
-            const data = await UserDA.signin(user);
+            const userLoginData = req.body;
+            const user = await UserDA.signin(userLoginData);
             // create a data func to save this session.userDataInAccessToken in db
-            const session = await STSession.createNewSession(res, data.id, data);
-            console.log('session created: ', session);
-            return res.status(200).json(data);
+            const accessTokenPayload:AccessTokenPayload = { id: user.id, username: user.username, email: user.email };
+            const session = await STSession.createNewSession(res, accessTokenPayload.id, accessTokenPayload, null, user);
+            return res.status(200).json(session);
         } catch (error) {
             console.log('API error: ', error);
             res.status(500).json({ error });
@@ -82,6 +84,21 @@ export default class UserController {
             const data = await UserDA.removeAddressFromUser({ addressId, userId: id });
             if (!data) return res.status(404).json('Address not found');
             return res.status(200).json(data);
+        } catch (error) {
+            console.log('API error: ', error);
+            res.status(500).json({ error });
+        }
+    }
+
+    static async signup(req, res) {
+        try {
+            const createUserData = req.body;
+            console.log('createUserData: ', createUserData)
+            const user = await UserDA.signup(createUserData);
+            // create a data func to save this session.userDataInAccessToken in db
+            const accessTokenPayload:AccessTokenPayload = { id: user.id, username: user.username, email: user.email };
+            const session = await STSession.createNewSession(res, accessTokenPayload.id, accessTokenPayload, null, user);
+            return res.status(200).json(session);
         } catch (error) {
             console.log('API error: ', error);
             res.status(500).json({ error });

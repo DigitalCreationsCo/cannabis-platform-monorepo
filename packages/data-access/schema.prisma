@@ -56,7 +56,7 @@ model User {
   username String? @unique
   email         String   @unique
   emailVerified Boolean @default(false)
-  hashedPassword String?
+  passwordHash String?
   passwordResetToken String?
   dialCode String?
   phone String?

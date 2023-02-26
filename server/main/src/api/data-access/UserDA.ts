@@ -1,5 +1,6 @@
-import { AccessTokenPayload, createAddress, findAddressById, findUserWithDetailsByEmail, findUserWithDetailsById, removeAddressByIdAndUserId, updateUserPasswordToken, UserLoginData } from '@cd/data-access';
+import { createAddress, createUser, findAddressById, findUserWithDetailsByEmail, findUserWithDetailsById, removeAddressByIdAndUserId, updateUserPasswordToken, UserCreateType, UserLoginData } from '@cd/data-access';
 import { SessionContainer } from 'supertokens-node/recipe/session';
+import { createPasswordHash } from '../../util/utility';
 /* =================================
 User Data Access - data class for User table
 
@@ -12,6 +13,7 @@ getAddressById
 addAddressToUser
 removeAddressFromUser
 updatePasswordToken
+signup
 
 ================================= */
 
@@ -20,15 +22,14 @@ export default class UserDA {
         try {
         const user = await findUserWithDetailsByEmail(userLoginData.email)
 
-		if (user !== null && user.hashedPassword === null) {
+		if (user !== null && user.passwordHash === null) {
 			throw new Error('Please reset your password');
 		}
 
 		// if (user !== null && !(await compare(userLoginData.password, user.hashedPassword ?? ''))) {
         //     throw new Error('Invalid password')
         // }
-			const payload: AccessTokenPayload = { id: user.id, username: user.username, email: user.email, firstName: user.firstName, lastName: user.lastName, memberships: user.memberships };
-            return payload
+			return user;
         } catch (error) {
             console.error(error.message);
             throw new Error(error);
@@ -103,6 +104,17 @@ export default class UserDA {
         } catch (error) {
             console.error(error.message);
             throw new Error(error.message);
+        }
+    }
+
+    static async signup(createUserData: UserCreateType) {
+        try {
+            createUserData = await createPasswordHash(createUserData)
+            const user = await createUser(createUserData)
+            return user;
+        } catch (error) {
+            console.error(error.message);
+            throw new Error(error);
         }
     }
 }
