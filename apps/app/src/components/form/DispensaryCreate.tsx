@@ -210,7 +210,7 @@ const initialValues = {
 
 const validationSchema = yup.object().shape({
     name: yup.string().required('Dispensary name is required'),
-    email: yup.string(),
+    email: yup.string().email('invalid email').required('Email is required'),
     address: yup.object().shape({
         street1: yup.string().required('street line 1 is required'),
         street2: yup.string(),

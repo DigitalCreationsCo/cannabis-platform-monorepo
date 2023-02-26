@@ -1,5 +1,6 @@
 import { UserCreateType } from '@cd/data-access/dist';
-import { Button, FlexBox, Grid, H3, H6, Page, Paragraph, TextField } from '@cd/shared-ui';
+import { Button, FlexBox, Grid, H3, H6, Icons, Page, Paragraph, TextField } from '@cd/shared-ui';
+import axios from 'axios';
 import {
     DispensaryCreate,
     DispensaryReview,
@@ -10,27 +11,35 @@ import {
 } from 'components';
 import { useFormik } from 'formik';
 import Head from 'next/head';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import toast from 'react-hot-toast';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
+import { useSession } from '../../src/context';
+import { urlBuilder } from '../../src/utils';
 
 function UserSignUp() {
-    const [loadingButton, setLoadingButton] = useState(false);
+    const { setSession } = useSession();
+
     const [formStep, setFormStep] = useState(0);
+    const [loadingButton, setLoadingButton] = useState(false);
+    const [passwordVisibility, setPasswordVisibility] = useState(false);
+    const togglePasswordVisibility = useCallback(() => {
+        setPasswordVisibility((visible) => !visible);
+    }, []);
     const nextFormStep = () => setFormStep((currentStep) => currentStep + 1);
     const prevFormStep = () => setFormStep((currentStep) => currentStep - 1);
     const FormStepComponents = [DispensaryCreate, DispensaryUserCreate, DispensaryReview, DispensarySignUpComplete];
 
     const initialValues: UserCreateType = {
-        firstName: '',
-        lastName: '',
-        username: '',
-        email: '',
-        password: '',
-        re_password: '',
-        phone: '',
-        dialCode: '',
+        firstName: 'Bryant',
+        lastName: 'Mejia',
+        username: 'bigchiefa1111',
+        email: 'bmejia2345@gmail.com',
+        password: '12323456',
+        re_password: '12323456',
+        phone: '1233455678',
+        dialCode: '1',
         termsAccepted: false,
         imageUser: null,
         address: {
@@ -51,71 +60,69 @@ function UserSignUp() {
         firstName: yup.string().required('First Name is required'),
         lastName: yup.string().required('Last Name is required'),
         email: yup.string().email('invalid email').required('Email is required'),
-        password: yup.string().required('Password is required').min(6, 'Password must be at least 6 characters'),
+        password: yup.string().required('Password is required').min(8, 'Password must be at least 8 characters'),
         re_password: yup
             .string()
             .oneOf([yup.ref('password'), null], 'Passwords must match')
             .required('Please re-type password'),
-        agreement: yup
+        termsAccepted: yup
             .bool()
-            .test('agreement', 'You have to agree with our Terms and Conditions.', (value) => value === true),
+            .test(
+                'termsAccepted',
+                'Please read and agree to our User Terms and Conditions.',
+                (value) => value === true
+            ),
         phone: yup.string().required('Phone number is required').length(10, 'Phone number must be 10 digits'),
-        dialCode: yup.string().required('Dialing code is required')
+        dialCode: yup.string().required('Dialing code is required'),
+        address: yup.object().shape({
+            street1: yup.string().required('street line 1 is required'),
+            street2: yup.string(),
+            city: yup.string().required('city is required'),
+            state: yup.string().required('state is required'),
+            zipcode: yup.string().required('zipcode is required').length(5, 'zipcode must be 5 digits'),
+            country: yup.string().required('country is required'),
+            countryCode: yup.string().required('country code is required')
+        })
     });
 
+    // TEST
     async function onSubmit(values: UserCreateType) {
         try {
-            // if (!loadingButton) {
-            //     setLoadingButton(true);
-            //     const formData = new FormData();
-            //     formData.append('street1', values.street1);
-            //     formData.append('street2', values.street2);
-            //     formData.append('city', values.city);
-            //     formData.append('state', values.state);
-            //     formData.append('zipcode', values.zipcode);
-            //     formData.append('country', values.country);
-            //     formData.append('countryCode', values.countryCode);
-            //     formData.append('userId', values.userId);
-            //     const { data } = await axios.post(urlBuilder.next + `/api/users/${userId}/address`, formData, {
-            //         headers: {
-            //             'Content-Type': 'application/json'
-            //         }
-            //     });
-            //     console.log('address created: ', data);
-            //     setLoadingButton(false);
-            //     if (setState) setState((prev) => [...prev, data]);
-            //     toast.success('Address is created.');
-            //     if (onClose) onClose();
-            // }
+            if (!loadingButton) {
+                setLoadingButton(true);
+                const formData = new FormData();
+                formData.append('username', values.username);
+                formData.append('firstName', values.firstName);
+                formData.append('lastName', values.lastName);
+                formData.append('email', values.email);
+                formData.append('password', values.password);
+                formData.append('re_password', values.re_password);
+                formData.append('dialCode', values.dialCode);
+                formData.append('phone', values.phone);
+                formData.append('termsAccepted', values.termsAccepted.toString());
+                formData.append('address.street1', values.address.street1);
+                formData.append('address.street2', values.address.street2);
+                formData.append('address.city', values.address.city);
+                formData.append('address.state', values.address.state);
+                formData.append('address.zipcode', values.address.zipcode);
+                formData.append('address.country', values.address.country);
+                formData.append('address.countryCode', values.address.countryCode);
+                formData.append('address.userId', values.address.userId);
+                const { data } = await axios.post(urlBuilder.next + '/api/signup', formData, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                setSession(data);
+                setLoadingButton(false);
+                toast.success('Your account is created.');
+                // nextFormStep();
+            }
         } catch (error) {
             setLoadingButton(false);
             console.error(error);
             toast.error(error.response.statusText);
-            // location.reload();
         }
-
-        // from old user signup flow **
-        //     setLoadingButton(true);
-
-        // try {
-        //   await axios.post("/api/auth/register", {
-        //     email: values.email,
-        //     password: values.password,
-        //     lastName: values.lastName,
-        //     firstName: values.firstName,
-        //     username: values.username,
-        //     re_password: values.re_password,
-        //     termsAccepted: values.agreement,
-        //     phone: values.phone,
-        //     dialCode: values.dialCode
-        //   });
-        //   await signIn("credentials", { email: values.email, password: values.password });
-        //   toast.success("User signed up successfully");
-        //   setLoadingButton(false);
-        // } catch (error) {
-        //   toast.error(error.response.data.message || error.response.data.errors);
-        //   setLoadingButton(false);
-        // }
     }
 
     const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
@@ -145,6 +152,32 @@ function UserSignUp() {
                             value={values.username}
                             error={!!touched.username && !!errors.username}
                             helperText={touched.username && errors.username}
+                        />
+                        <TextField
+                            name="password"
+                            label="Password"
+                            placeholder="********"
+                            value={values?.password}
+                            onBlur={handleBlur}
+                            onChange={handleChange}
+                            error={!!touched.password && !!errors.password}
+                            helperText={touched.password && errors.password}
+                            type={passwordVisibility ? 'text' : 'password'}
+                            insertIcon={passwordVisibility ? Icons.View : Icons.ViewOff}
+                            onClickIcon={togglePasswordVisibility}
+                        />
+                        <TextField
+                            name="re_password"
+                            label="Confirm Password"
+                            placeholder="********"
+                            value={values?.re_password}
+                            onBlur={handleBlur}
+                            onChange={handleChange}
+                            error={!!touched.re_password && !!errors.re_password}
+                            helperText={touched.re_password && errors.re_password}
+                            type={passwordVisibility ? 'text' : 'password'}
+                            insertIcon={passwordVisibility ? Icons.View : Icons.ViewOff}
+                            onClickIcon={togglePasswordVisibility}
                         />
                         <TextField
                             name="firstName"
@@ -278,7 +311,6 @@ function UserSignUp() {
                         />
                         <Button
                             className="place-self-center"
-                            type="submit"
                             loading={loadingButton}
                             onClick={(e) => {
                                 e.preventDefault();

@@ -51,51 +51,54 @@ function TextField({
             {label && (
                 <FlexBox className="min-w-[111px] justify-between">
                     <label>{label}</label>
-                    {insertIcon && (
-                        <IconButton
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                e.preventDefault();
-                                onClickIcon && onClickIcon(e);
-                            }}
-                            className={twMerge(
-                                'bg-transparent hover:bg-transparent md:hover:bg-transparent focus:bg-transparent shadow-none px-0 m-0 w-min h-min place-self-center'
-                            )}
-                            Icon={insertIcon}
-                        />
-                    )}
                 </FlexBox>
             )}
-            <input
-                ref={inputRef}
-                onFocus={() => {
-                    if (onfocus) onfocus;
-                    setFocus(true);
-                }}
-                name={name}
-                maxLength={maxNumber}
-                defaultValue={defaultValue}
-                type={type}
-                value={value}
-                onChange={onChange}
-                onBlur={() => {
-                    if (onBlur) onBlur;
-                    setFocus(false);
-                }}
-                placeholder={helperText || placeholder}
-                className={twMerge(
-                    'items-center',
-                    'p-4 mx-4 rounded-btn',
-                    'wh-10',
-                    'outline-none focus:outline-none w-full',
-                    'shadow-inner',
-                    'input-md',
-                    focus && 'shadow-md',
-                    error && 'input-error border-2',
-                    className
+            <FlexBox className="grow w-full flex-row items-center">
+                {insertIcon && (
+                    <IconButton
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            e.preventDefault();
+                            onClickIcon && onClickIcon(e);
+                        }}
+                        className={twMerge(
+                            'bg-transparent hover:bg-transparent md:hover:bg-transparent focus:bg-transparent shadow-none px-0 pl-2 m-0 w-min h-min place-self-center'
+                        )}
+                        Icon={insertIcon}
+                    />
                 )}
-                {...inputProps}
-            />
+                <input
+                    ref={inputRef}
+                    onFocus={() => {
+                        if (onfocus) onfocus;
+                        setFocus(true);
+                    }}
+                    name={name}
+                    maxLength={maxNumber}
+                    defaultValue={defaultValue}
+                    type={type}
+                    value={value}
+                    onChange={onChange}
+                    onBlur={() => {
+                        if (onBlur) onBlur;
+                        setFocus(false);
+                    }}
+                    placeholder={helperText || placeholder}
+                    className={twMerge(
+                        'bg-light',
+                        'items-center',
+                        'p-4 mx-2 rounded-btn',
+                        'wh-10',
+                        'outline-none focus:outline-none w-full',
+                        'shadow-inner',
+                        'input-md',
+                        focus && 'shadow-md',
+                        error && 'input-error border-2',
+                        className
+                    )}
+                    {...inputProps}
+                />
+            </FlexBox>
         </FlexBox>
     );
 }
