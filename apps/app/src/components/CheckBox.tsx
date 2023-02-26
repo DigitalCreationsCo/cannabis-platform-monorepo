@@ -1,17 +1,20 @@
-import { FlexBox, Label, Paragraph } from '@cd/shared-ui';
+import { FlexBox, Paragraph } from '@cd/shared-ui';
+import { twMerge } from 'tailwind-merge';
 
-function CheckBox({
-    name,
-    onChange,
-    checked,
-    helperText,
-    description
-}: { helperText?: string; description?: string } & React.InputHTMLAttributes<HTMLInputElement>) {
+export type CheckBoxProps = {
+    className?: string;
+    helperText?: string;
+    label?: string;
+    error?: boolean;
+} & React.InputHTMLAttributes<HTMLInputElement>;
+
+function CheckBox({ error, label, className, name, onChange, checked, helperText }: CheckBoxProps) {
     const styles = {
-        checkboxContainer: 'flex-row items-center space-x-1 py-8 md:py-2 m-auto self-center md:self-start'
+        checkboxContainer: 'flex-row items-center space-x-1 py-8 md:py-2 m-auto self-center md:self-start',
+        helperText: error && 'input-error border-2'
     };
     return (
-        <FlexBox className={styles.checkboxContainer}>
+        <FlexBox className={twMerge(styles.checkboxContainer, className)}>
             <input
                 style={{ height: '20px', width: '30px' }}
                 type="checkbox"
@@ -19,8 +22,10 @@ function CheckBox({
                 onChange={onChange}
                 checked={checked}
             />
-            <Label>{helperText}</Label>
-            <Paragraph>{description}</Paragraph>
+            <FlexBox className={twMerge('flex-col', styles.helperText)}>
+                {/* <Label>{helperText || label}</Label> */}
+                <Paragraph>{label}</Paragraph>
+            </FlexBox>
         </FlexBox>
     );
 }
