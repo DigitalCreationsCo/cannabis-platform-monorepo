@@ -11,7 +11,7 @@ generator client {
 
 model Account {
   id                 String  @id @default(cuid())
-  userId             String
+  userId             String?
   type               String
   provider           String
   providerAccountId  String
@@ -24,7 +24,7 @@ model Account {
   session_state      String?
   oauth_token_secret String? 
   oauth_token        String?
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt      DateTime         @db.DateTime()
   updatedAt      DateTime         @db.DateTime()
@@ -35,25 +35,25 @@ model Account {
 
 model Session {
   id           String   @id @default(cuid())
-  sessionToken String?   @unique
-  userId       String   @unique
-  firstName    String
-  lastName     String
+  sessionHandle String   @unique
   email        String
-  expires      DateTime?
+  username     String
+  expires      DateTime
+  userId       String
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
 
   @@index([userId])
+  @@index([sessionHandle])
 }
 
 model User {
   id            String    @id @default(cuid())
   firstName          String
   lastName String
-  username String? @unique
+  username String @unique
   email         String   @unique
   emailVerified Boolean @default(false)
   passwordHash String?
@@ -62,7 +62,7 @@ model User {
   phone String?
   address Address[]
   termsAccepted Boolean @default(false)
-  imageUser     ImageUser[]
+  imageUser     ImageUser?
   accounts      Account[]
   sessions      Session[]
   reviews Review[]
@@ -176,7 +176,7 @@ model ImageProduct {
 model ImageUser {
   id String @id @default(cuid())
   location String
-  userId String
+  userId String @unique
   user User @relation(fields: [userId], references: [id])
   blurhash String?
 

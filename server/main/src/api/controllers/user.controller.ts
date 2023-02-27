@@ -1,4 +1,4 @@
-import { AccessTokenPayload } from '@cd/data-access/dist';
+import { SessionPayload } from '@cd/data-access/dist';
 import STSession from 'supertokens-node/recipe/session';
 import { UserDA } from '../data-access';
 
@@ -21,9 +21,14 @@ export default class UserController {
         try {
             const userLoginData = req.body;
             const user = await UserDA.signin(userLoginData);
+
             // create a data func to save this session.userDataInAccessToken in db
-            const accessTokenPayload:AccessTokenPayload = { id: user.id, username: user.username, email: user.email };
-            const session = await STSession.createNewSession(res, accessTokenPayload.id, accessTokenPayload, null, user);
+            const sessionPayload:SessionPayload = { userId: user.id, username: user.username, email: user.email };
+
+            const session = await STSession.createNewSession(res, user.id, sessionPayload, { data: 'SESSION TEST DATA' }, user)
+            
+            // create session here
+            
             return res.status(200).json(session);
         } catch (error) {
             console.log('API error: ', error);
@@ -90,18 +95,28 @@ export default class UserController {
         }
     }
 
-    static async signup(req, res) {
+    static async signup(req, res):Promise<SessionResponsePayload> {
         try {
             const createUserData = req.body;
-            console.log('createUserData: ', createUserData)
             const user = await UserDA.signup(createUserData);
-            // create a data func to save this session.userDataInAccessToken in db
-            const accessTokenPayload:AccessTokenPayload = { id: user.id, username: user.username, email: user.email };
-            const session = await STSession.createNewSession(res, accessTokenPayload.id, accessTokenPayload, null, user);
-            return res.status(200).json(session);
+
+            const sessionPayload:SessionPayload = { userId: user.id, username: user.username, email: user.email };
+            
+            const sessionToken = await STSession.createNewSession(res, user.id, sessionPayload, { data: 'SESSION TEST DATA' }, user);
+            
+            // future note: drivers will have only session active on a device.
+            // Drivers will need their own session function for login
+            const session = await UserDA.createUserSession(sessionToken.getHandle(), sessionPayload, await sessionToken.getExpiry())
+            return res.status(200).json({
+                status: true,
+                message: 'Your account is created!',
+                session
+            });
         } catch (error) {
             console.log('API error: ', error);
             res.status(500).json({ error });
         }
     }
 }
+
+export type SessionResponsePayload = { status: boolean; message: string; session: any}

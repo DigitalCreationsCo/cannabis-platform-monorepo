@@ -16,18 +16,13 @@ handler.post(async (req: ExtendRequest, res: NextApiResponse) => {
                 'Content-Type': 'application/json'
             }
         });
-        console.log('NEXT: signup data: ', data);
-        return res.status(res.statusCode).json('hello');
+        if (data.status === true) {
+            return res.status(res.statusCode).json(data);
+        }
     } catch (error) {
-        // throw new error to handle any error discrepancy between frontend and next api
         console.error(error.message);
         throw new Error(error.response.data);
     }
 });
 
 export default handler;
-
-type userLoginData = {
-    email: string;
-    password: string;
-};

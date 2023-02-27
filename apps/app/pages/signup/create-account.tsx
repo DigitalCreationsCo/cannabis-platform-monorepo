@@ -19,7 +19,7 @@ import { useSession } from '../../src/context';
 import { urlBuilder } from '../../src/utils';
 
 function UserSignUp() {
-    const { setSession } = useSession();
+    const { session, setSession } = useSession();
 
     const [formStep, setFormStep] = useState(0);
     const [loadingButton, setLoadingButton] = useState(false);
@@ -111,9 +111,9 @@ function UserSignUp() {
                         'Content-Type': 'application/json'
                     }
                 });
-                setSession(data);
+                setSession(data.session);
                 setLoadingButton(false);
-                toast.success('Your account is created.');
+                toast.success(data.message);
                 // nextFormStep();
             }
         } catch (error) {
@@ -321,6 +321,7 @@ function UserSignUp() {
                         </Button>
                     </Grid>
                 </form>
+                <>{session?.user?.username}</>
             </FormCard>
         </Page>
     );

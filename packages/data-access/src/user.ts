@@ -1,18 +1,71 @@
 import { Address, ImageUser, Membership, Prisma, User } from "@prisma/client";
 import prisma from "./db/prisma";
 
-export async function createUser(userData: UserCreateType) {
+export async function createUser(userData: any) {
     try {
         const user = await prisma.user.create({
             data: {
-                ...userData,
-                termsAccepted: Boolean(userData.termsAccepted),
-                address: { create: userData.address }, 
-                imageUser: { create: userData.imageUser}
-            }
+                email: userData.email,
+                emailVerified: false,
+                username: userData.username,
+                firstName: userData.firstName,
+                lastName: userData.lastName,
+                passwordHash: userData.passwordHash,
+                termsAccepted: true,
+                dialCode: userData.dialCode,
+                phone: userData.phone,
+                address: userData.address ? {
+                    create: { 
+                        ...userData.address
+                    }
+                } : undefined,
+                imageUser: userData.imageUser ? {
+                    create: {
+                        ...userData.imageUser
+                    }
+                } : undefined,
+                memberships: userData.memberships ? {
+                    create: userData.memberships
+                } : undefined,
+            },
+            include: {address: true, imageUser: true, memberships: true}
         })
         return user;
-    } catch (error:any) {
+    } catch (error: any) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            // The .code property can be accessed in a type-safe manner
+            if (error.code === 'P2002') {
+                throw new Error('This user exists already. Please choose a different username or email.')
+            }
+          }
+        throw new Error(error)
+    }
+}
+
+export async function createSession(sessionHandle:string, sessionPayload: SessionPayload, expires:number) {
+    try {
+        const session = await prisma.session.create({
+            data: {
+                sessionHandle,
+                email: sessionPayload.email,
+                username: sessionPayload.username,
+                expires: new Date(),
+                user: {
+                    connect: { id: sessionPayload.userId }
+                }
+            },
+            include: {
+                user: {
+                    include: {
+                        address: true,
+                        imageUser: true,
+                        memberships: true
+                    }
+                }
+            }
+        })
+        return session;
+    } catch (error: any) {
         console.error(error)
         throw new Error(error)
     }
@@ -104,9 +157,9 @@ export type UserLoginData = {
     password: string;
 }
 
-export type AccessTokenPayload = {
+export type SessionPayload = {
     username: string;
-    id: string;
+    userId: string;
     email: string;
 }
 // export type UserCreateType = Prisma.PromiseReturnType<typeof createUser>
