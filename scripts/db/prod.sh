@@ -1,0 +1,1 @@
+export DATABASE_URL='mysql://av0tz0l4gvr26wk2w2j7:pscale_pw_3fc11nBdGzxMpPL48oiaTIImF9NFnoUYv9KdUxfhjeh@us-east.connect.psdb.cloud/cannabis_delivery_v1?sslaccept=strict'

@@ -27,7 +27,8 @@
     "docker:supertokens": "scripts/docker/runSupertokens.sh",
     "permit-scripts": "node scripts/permit-scripts.js",
     "start": "pm2 start ecosystem.config.js --env production",
-    "stop": "pm2 stop ecosystem.config.js --env production"
+    "stop": "pm2 stop ecosystem.config.js --env production",
+    "launch:prod": "yarn build:prod && yarn start"
   },
   "engines": {
     "node": "16.16.0"
@@ -77,6 +78,7 @@
     "daisyui": "2.46.0",
     "date-fns": "2.29.3",
     "dotenv": "16.0.3",
+    "dotenv-cli": "7.0.0",
     "dotenv-expand": "10.0.0",
     "eslint": "8.29.0",
     "eslint-config-next": "13.0.6",
