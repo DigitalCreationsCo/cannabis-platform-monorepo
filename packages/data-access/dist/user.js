@@ -50,7 +50,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUserPasswordToken = exports.findUserWithDetailsById = exports.findUserWithDetailsByEmail = exports.createUser = void 0;
+exports.updateUserPasswordToken = exports.findUserWithDetailsById = exports.findUserWithDetailsByEmail = exports.createSession = exports.createUser = void 0;
+var client_1 = require("@prisma/client");
 var prisma_1 = __importDefault(require("./db/prisma"));
 function createUser(userData) {
     return __awaiter(this, void 0, void 0, function () {
@@ -60,14 +61,39 @@ function createUser(userData) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
                     return [4 /*yield*/, prisma_1.default.user.create({
-                            data: __assign(__assign({}, userData), { termsAccepted: Boolean(userData.termsAccepted), address: { create: userData.address }, imageUser: { create: userData.imageUser } })
+                            data: {
+                                email: userData.email,
+                                emailVerified: false,
+                                username: userData.username,
+                                firstName: userData.firstName,
+                                lastName: userData.lastName,
+                                passwordHash: userData.passwordHash,
+                                termsAccepted: true,
+                                dialCode: userData.dialCode,
+                                phone: userData.phone,
+                                address: userData.address ? {
+                                    create: __assign({}, userData.address)
+                                } : undefined,
+                                imageUser: userData.imageUser ? {
+                                    create: __assign({}, userData.imageUser)
+                                } : undefined,
+                                memberships: userData.memberships ? {
+                                    create: userData.memberships
+                                } : undefined,
+                            },
+                            include: { address: true, imageUser: true, memberships: true }
                         })];
                 case 1:
                     user = _a.sent();
                     return [2 /*return*/, user];
                 case 2:
                     error_1 = _a.sent();
-                    console.error(error_1);
+                    if (error_1 instanceof client_1.Prisma.PrismaClientKnownRequestError) {
+                        // The .code property can be accessed in a type-safe manner
+                        if (error_1.code === 'P2002') {
+                            throw new Error('This user exists already. Please choose a different username or email.');
+                        }
+                    }
                     throw new Error(error_1);
                 case 3: return [2 /*return*/];
             }
@@ -75,9 +101,49 @@ function createUser(userData) {
     });
 }
 exports.createUser = createUser;
+function createSession(sessionHandle, sessionPayload, expires) {
+    return __awaiter(this, void 0, void 0, function () {
+        var session, error_2;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, prisma_1.default.session.create({
+                            data: {
+                                sessionHandle: sessionHandle,
+                                email: sessionPayload.email,
+                                username: sessionPayload.username,
+                                expires: new Date(),
+                                user: {
+                                    connect: { id: sessionPayload.userId }
+                                }
+                            },
+                            include: {
+                                user: {
+                                    include: {
+                                        address: true,
+                                        imageUser: true,
+                                        memberships: true
+                                    }
+                                }
+                            }
+                        })];
+                case 1:
+                    session = _a.sent();
+                    return [2 /*return*/, session];
+                case 2:
+                    error_2 = _a.sent();
+                    console.error(error_2);
+                    throw new Error(error_2);
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.createSession = createSession;
 function findUserWithDetailsByEmail(email) {
     return __awaiter(this, void 0, void 0, function () {
-        var user, error_2;
+        var user, error_3;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -101,9 +167,9 @@ function findUserWithDetailsByEmail(email) {
                     user = _a.sent();
                     return [2 /*return*/, user];
                 case 2:
-                    error_2 = _a.sent();
-                    console.error(error_2);
-                    throw new Error(error_2);
+                    error_3 = _a.sent();
+                    console.error(error_3);
+                    throw new Error(error_3);
                 case 3: return [2 /*return*/];
             }
         });
@@ -112,7 +178,7 @@ function findUserWithDetailsByEmail(email) {
 exports.findUserWithDetailsByEmail = findUserWithDetailsByEmail;
 function findUserWithDetailsById(id) {
     return __awaiter(this, void 0, void 0, function () {
-        var user, error_3;
+        var user, error_4;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -135,9 +201,9 @@ function findUserWithDetailsById(id) {
                     user = _a.sent();
                     return [2 /*return*/, user];
                 case 2:
-                    error_3 = _a.sent();
-                    console.error(error_3);
-                    throw new Error(error_3);
+                    error_4 = _a.sent();
+                    console.error(error_4);
+                    throw new Error(error_4);
                 case 3: return [2 /*return*/];
             }
         });
@@ -146,7 +212,7 @@ function findUserWithDetailsById(id) {
 exports.findUserWithDetailsById = findUserWithDetailsById;
 function updateUserPasswordToken(email, timeLimitedToken) {
     return __awaiter(this, void 0, void 0, function () {
-        var user, error_4;
+        var user, error_5;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -160,9 +226,9 @@ function updateUserPasswordToken(email, timeLimitedToken) {
                     user = _a.sent();
                     return [2 /*return*/, user];
                 case 2:
-                    error_4 = _a.sent();
-                    console.error(error_4);
-                    throw new Error(error_4);
+                    error_5 = _a.sent();
+                    console.error(error_5);
+                    throw new Error(error_5);
                 case 3: return [2 /*return*/];
             }
         });

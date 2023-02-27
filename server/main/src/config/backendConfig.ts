@@ -1,7 +1,7 @@
 import { appInfo } from "@cd/shared-config/auth/appInfo";
 import Dashboard from "supertokens-node/recipe/dashboard";
-import EmailPasswordNode from "supertokens-node/recipe/emailpassword";
-import SessionNode from "supertokens-node/recipe/session";
+import EmailPassword from "supertokens-node/recipe/emailpassword";
+import STSession from "supertokens-node/recipe/session";
 import { AuthConfig } from "../../interfaces";
 
 export let backendConfig = (): AuthConfig => {
@@ -13,7 +13,7 @@ export let backendConfig = (): AuthConfig => {
         },
         appInfo,
         recipeList: [
-            EmailPasswordNode.init({
+            EmailPassword.init({
                 override: {
                     functions(originalImp) {
                         return { 
@@ -42,7 +42,7 @@ export let backendConfig = (): AuthConfig => {
                     }
                 }
             }),
-            SessionNode.init(),
+            STSession.init(),
             Dashboard.init({
                 apiKey: process.env.SUPERTOKENS_DASHBOARD_KEY,
             }),

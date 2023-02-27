@@ -45,7 +45,7 @@
   "name": "@cd/server-main",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development BABEL_ENV=development nodemon .",
+    "dev": "cross-env NODE_ENV=development BABEL_ENV=development ts-node .",
     "run:build-dev": "yarn cross-env NODE_ENV=development ts-node server/main/dist",
     "run:build-prod": "yarn cross-env NODE_ENV=production ts-node server/main/dist",
     "build:ts": "tsc -b",

@@ -1,19 +1,25 @@
-import { createAddress, createUser, findAddressById, findUserWithDetailsByEmail, findUserWithDetailsById, removeAddressByIdAndUserId, updateUserPasswordToken, UserCreateType, UserLoginData } from '@cd/data-access';
+import { createAddress, createSession, createUser, findAddressById, findUserWithDetailsByEmail, findUserWithDetailsById, removeAddressByIdAndUserId, SessionPayload, updateUserPasswordToken, UserCreateType, UserLoginData } from '@cd/data-access';
 import { SessionContainer } from 'supertokens-node/recipe/session';
 import { createPasswordHash } from '../../util/utility';
+
 /* =================================
 User Data Access - data class for User table
 
 members:
 signin
 signout
+signup
+
 getUserById
 getUserByEmail
 getAddressById
+
 addAddressToUser
 removeAddressFromUser
+
 updatePasswordToken
-signup
+
+createUserSession
 
 ================================= */
 
@@ -111,7 +117,18 @@ export default class UserDA {
         try {
             createUserData = await createPasswordHash(createUserData)
             const user = await createUser(createUserData)
-            return user;
+            console.log(`created user ${user.username}`)
+            return user
+        } catch (error) {
+            console.error(error.message);
+            throw new Error(error);
+        }
+    }
+
+    static async createUserSession(sessionHandle: string, sessionPayload: SessionPayload, expires: number) {
+        try {
+            const session = await createSession(sessionHandle, sessionPayload, expires)
+            return session;
         } catch (error) {
             console.error(error.message);
             throw new Error(error);

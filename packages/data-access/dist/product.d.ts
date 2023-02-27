@@ -8,7 +8,7 @@ export declare function findProductsByOrg(organizationId: string): Promise<(Prod
 export declare function findProductWithDetails(id: string): Promise<(Product & {
     reviews: (Review & {
         user: User & {
-            imageUser: ImageUser[];
+            imageUser: ImageUser | null;
         };
     })[];
     variants: (ProductVariant & {
