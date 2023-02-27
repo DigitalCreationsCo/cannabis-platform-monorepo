@@ -1,23 +1,41 @@
-root-admin
+dev-admin - dev admin
 database: cannabis_delivery_v1
 username: sj3cs75fu1kfprd06olu
 host: us-east.connect.psdb.cloud
 password: pscale_pw_phumguFeaLaztdHseiKP3vjvc4e0XZwovsO19SZVh4z
 
-dev
+supertokens-user - dev admin
 database: cannabis_delivery_v1
-username: ixtybplwsa2vs6ths22v
+username: 5rym7hkijdnzxdirhiw8
 host: us-east.connect.psdb.cloud
-password: pscale_pw_FR7eQje6iY5gf3gqho6CnczBbbi0TrwsnBoiG5f0TKs
+password: pscale_pw_k7kY1HvI5XnaRKePgW52jv01EQXj8FxJFAhL43YCTzP
 
-prod-admin
+dev - dev rw
+database: cannabis_delivery_v1
+username: 2iilk03ly8g0yc021wo3
+host: us-east.connect.psdb.cloud
+password: pscale_pw_gKEBkkVgdJDGFALYqJlNnRnyR1QIN75rbXyKtYagISe
+
+docker-dev - dev rw
+database: cannabis_delivery_v1
+username: wri4e38fd9d12ao3r6az
+host: us-east.connect.psdb.cloud
+password: pscale_pw_KTjejdcT7n2ZSsdsbqbqDsRqHDkIk45ZydaP3VkrsyG
+
+prod-admin - main admin
 database: cannabis_delivery_v1
 username: edyxcgwnxao3sgsl7rmq
 host: us-east.connect.psdb.cloud
 password: pscale_pw_OdxL41SLEznVPek7orIQJB4ufzRxawn97gbcaM3v2yr
 
-docker-dev
+production - main rw
 database: cannabis_delivery_v1
-username: wri4e38fd9d12ao3r6az
+username: av0tz0l4gvr26wk2w2j7
 host: us-east.connect.psdb.cloud
-password: pscale_pw_KTjejdcT7n2ZSsdsbqbqDsRqHDkIk45ZydaP3VkrsyG
+password: pscale_pw_3fc11nBdGzxMpPL48oiaTIImF9NFnoUYv9KdUxfhjeh
+
+supertokens-production
+database: cannabis_delivery_v1
+username: c1ezawzu4vy9i1vfj5pv
+host: us-east.connect.psdb.cloud
+password: pscale_pw_av7XICitgWzr1ofk0p9NP4Q1jSkvEVuhMhpXkoku18s

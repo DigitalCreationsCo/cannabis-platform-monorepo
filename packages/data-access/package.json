@@ -11,7 +11,9 @@
     "prisma": "^4.4.0",
     "ts-jest": "29.0.3",
     "ts-node": "10.9.1",
-    "typescript": "4.9.3"
+    "typescript": "4.9.3",
+    "dotenv": "16.0.3",
+    "dotenv-cli": "7.0.0"
   },
   "files": [
     "dist"
@@ -24,18 +26,18 @@
   },
   "private": true,
   "scripts": {
-    "build": "concurrently \"yarn build:ts\"",
-    "build:ts": "tsc -b",
+    "build:dev": "scripts/db/dev.sh && prisma migrate dev && tsc -b",
+    "build:prod": "scripts/db/prod.sh && prisma migrate main && tsc -b",
     "db:clear": "ts-node --esm src/db/clear.ts",
     "db:connect": "pscale connect cannabis_delivery_v1 dev --port 3309",
     "db:deploy": "pscale deploy-request create cannabis_delivery_v1 dev",
     "db:generate": "prisma generate",
-    "db:migrate": "prisma migrate",
+    "db:migrate dev": "scripts/db/dev.sh && prisma migrate dev",
+    "db:migrate prod": "scripts/db/prod.sh && prisma migrate main",
     "db:push": "prisma db push --skip-generate",
     "db:reseed": "prisma db push && prisma generate && yarn db:clear && prisma db seed && prisma generate && yarn build",
     "db:seed": "prisma db seed",
     "db:studio": "prisma studio",
-    "prepack": "json -f package.json -I -e \"delete this.devDependencies; delete this.dependencies\"",
     "test": "../../node_modules/jest/bin/jest.js",
     "watch": "concurrently \"yarn watch:ts\"",
     "watch:ts": "tsc --watch"
