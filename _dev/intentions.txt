@@ -71,6 +71,8 @@ create userSignup frontend page, api route, data function (with pw hashing), ove
 TO DO
 BUILD SHOPPING EXPERIENCE APP xD
 
+update UI components to show session status (Layout, topbar, pages, dont couple the state)
+
 create server/main route for new organizations, and new users
 make sure duplicate records are not created
 add search function to dispensary create to find existing vendor brands,
