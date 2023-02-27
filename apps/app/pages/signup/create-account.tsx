@@ -11,6 +11,7 @@ import {
 } from 'components';
 import { useFormik } from 'formik';
 import Head from 'next/head';
+import Router from 'next/router';
 import { useCallback, useState } from 'react';
 import toast from 'react-hot-toast';
 import { twMerge } from 'tailwind-merge';
@@ -114,6 +115,7 @@ function UserSignUp() {
                 setSession(data.session);
                 setLoadingButton(false);
                 toast.success(data.message);
+                Router.push('/');
                 // nextFormStep();
             }
         } catch (error) {
@@ -321,7 +323,6 @@ function UserSignUp() {
                         </Button>
                     </Grid>
                 </form>
-                <>{session?.user?.username}</>
             </FormCard>
         </Page>
     );

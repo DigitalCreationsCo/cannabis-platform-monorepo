@@ -5,9 +5,10 @@ import { Layout } from 'components';
 import { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
-import SupertokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
+import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
+import Session from 'supertokens-auth-react/recipe/session';
 import { frontendConfig } from '../config/frontendConfig';
 import AppStateProvider from '../src/context/AppProvider';
 import ModalProvider from '../src/context/ModalProvider';
@@ -25,10 +26,27 @@ type CustomAppProps = AppProps & {
 };
 
 if (typeof window !== 'undefined') {
-    SupertokensReact.init(frontendConfig());
+    SuperTokensReact.init(frontendConfig());
 }
 
 export default function App({ Component, pageProps }: CustomAppProps): JSX.Element {
+    useEffect(() => {
+        async function doRefresh() {
+            if (pageProps.fromSupertokens === 'needs-refresh') {
+                if (await Session.attemptRefreshingSession()) {
+                    location.reload();
+                } else {
+                    // user has been logged out
+                    SuperTokensReact.redirectToAuth();
+                }
+            }
+        }
+        doRefresh();
+    }, [pageProps.fromSupertokens]);
+    if (pageProps.fromSupertokens === 'needs-refresh') {
+        return null;
+    }
+
     const getLayout = Component.getLayout || ((page) => <Layout>{page}</Layout>);
     return (
         <>
