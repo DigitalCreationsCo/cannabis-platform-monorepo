@@ -62,26 +62,24 @@ switched shared-ui to rollup to resolve docker build issue, and improve ci exper
     Dispensary Signup Form, 30% done
 2-18-22
     Simplify component classes, signup api routes
-
-
+...
+2-27-22
 Fix password hashing
-create newSession override function
+create newSession override function - i didn't, i used express route for signup
+create userSignup frontend page, api route, data function (with pw hashing), override supertokens
 
-create userSignup frontend page, api route, data function (with pw hashing), override supertokens, test cases
+TO DO
+BUILD SHOPPING EXPERIENCE APP xD
 
 create server/main route for new organizations, and new users
-test both routes, 
 make sure duplicate records are not created
 add search function to dispensary create to find existing vendor brands,
 
-To Do: Add country picker to address forms, add country code
+Write test cases for signup, signin, signout route
 
+create password reset, and sendpwresettoken routes
+configure mailserver with linode
 Test: Mailserver with linode stmp client
-
-configure nextapp and nginx with docker,
-deploy with docker on linode, use pm2 for nextjs
-Revise dockerfile to build fast and lean
-https://dev.to/jonlauridsen/exploring-the-monorepo-5-perfect-docker-52aj
 
 get the site working for client demos.
 setup nginx with https on linode
@@ -96,6 +94,12 @@ Deploy supertokens in linode container, add to env
 host supertokens on linode with docker, use dockercompose for container deployments
 
 product upload, wasabi s3 storage, imagekit.io image handling ;D
+Add country picker to address forms, add country code
+
+configure nextapp and nginx with docker,
+deploy with docker on linode, use pm2 for nextjs
+Revise dockerfile to build fast and lean
+https://dev.to/jonlauridsen/exploring-the-monorepo-5-perfect-docker-52aj
 
 discount and pricing model:
 discounts are applied on order basis, 
@@ -120,7 +124,7 @@ Write test for updateProducts page funcs
 test the correct env is loaded (dev, or production)
 provision development and prod, preprod spaces
 
-add product details page, make it resuable for consumer app
+add product details page, make it reusable for consumer app
 
 finish all admin dashboard pages, details pages, etc.
 complete site settings page with data, and routes
