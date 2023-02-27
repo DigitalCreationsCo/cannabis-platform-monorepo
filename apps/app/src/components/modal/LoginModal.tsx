@@ -4,14 +4,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useCallback, useState } from 'react';
 import toast from 'react-hot-toast';
+import { signIn } from 'supertokens-auth-react/recipe/emailpassword';
 import * as yup from 'yup';
 import { useSession } from '../../context';
 import Modal, { ModalProps } from './Modal';
 
-import { signIn } from 'supertokens-auth-react/recipe/emailpassword';
-
 function LoginModal({ open, onClose, ...props }: ModalProps) {
-    const { setSession } = useSession();
+    const { setSession, session } = useSession();
     const [loadingButton, setLoadingButton] = useState(false);
     const [passwordVisibility, setPasswordVisibility] = useState(false);
 
@@ -32,43 +31,57 @@ function LoginModal({ open, onClose, ...props }: ModalProps) {
         resetForm();
     };
 
+    async function signInUser() {
+        try {
+            console.log('sign in');
+            const response = await signIn({
+                formFields: [
+                    {
+                        id: 'email',
+                        value: values.email
+                    },
+                    {
+                        id: 'password',
+                        value: values.password
+                    }
+                ]
+            });
+            console.log('sign in 2d');
+            if (response.status === 'WRONG_CREDENTIALS_ERROR') {
+                throw new Error('Email is incorrect.');
+            }
+            return 'Signed in';
+        } catch (error) {
+            console.error(error);
+            throw new Error(error);
+        }
+    }
+
     async function onSubmit(values: typeof initialValues) {
         setLoadingButton(true);
         try {
             if (!loadingButton) {
                 setLoadingButton(true);
-                const response = await signIn({
-                    formFields: [
-                        {
-                            id: 'email',
-                            value: values.email
-                        },
-                        {
-                            id: 'password',
-                            value: values.password
-                        }
-                    ]
-                });
-                console.log('response: ', response);
                 // const formData = new FormData();
                 // formData.append('email', values.email);
                 // formData.append('password', values.password);
-                // await axios.post(urlBuilder.next + `/api/signin`, formData, {
+                // const { data } = await axios.post(urlBuilder.next + `/api/signin`, formData, {
                 //     headers: {
                 //         'Content-Type': 'application/json'
                 //     }
                 // });
-                // console.log('signin: ', data);
-                // setSession(data)
+                const response = await signInUser();
+                console.log('signin data: ', response);
+                // setSession(data.session);
                 setLoadingButton(false);
-                toast.success('Signed in');
-                // if (onClose) onClose();
-                // location.reload();
+                toast.success('Signing in');
+                if (onClose) onClose();
+                // Router.push('/');
             }
         } catch (error) {
             setLoadingButton(false);
             console.error(error);
-            toast.error(error.response.statusText);
+            toast.error(error.message);
         }
     }
 

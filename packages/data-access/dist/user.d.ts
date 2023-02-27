@@ -1,25 +1,25 @@
 import { Address, ImageUser, Membership, Prisma, User } from "@prisma/client";
 export declare function createUser(userData: any): Promise<User & {
     address: Address[];
-    memberships: Membership[];
     imageUser: ImageUser | null;
+    memberships: Membership[];
 }>;
 export declare function createSession(sessionHandle: string, sessionPayload: SessionPayload, expires: number): Promise<import(".prisma/client").Session & {
     user: (User & {
         address: Address[];
-        memberships: Membership[];
         imageUser: ImageUser | null;
+        memberships: Membership[];
     }) | null;
 }>;
 export declare function findUserWithDetailsByEmail(email: string): Promise<(User & {
     address: Address[];
-    memberships: Membership[];
     imageUser: ImageUser | null;
+    memberships: Membership[];
 }) | null>;
 export declare function findUserWithDetailsById(id: string): Promise<(User & {
     address: Address[];
-    memberships: Membership[];
     imageUser: ImageUser | null;
+    memberships: Membership[];
 }) | null>;
 export declare function updateUserPasswordToken(email: string, timeLimitedToken: string): Promise<{
     id: string;
