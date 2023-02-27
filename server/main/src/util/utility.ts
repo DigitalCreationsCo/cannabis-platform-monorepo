@@ -1,4 +1,4 @@
-import { hashSync } from 'bcryptjs';
+import { compareSync, hashSync } from 'bcryptjs';
 import { customAlphabet } from 'nanoid';
 import { createHash } from 'node:crypto';
 
@@ -26,4 +26,8 @@ export const createPasswordHash = (data: any) => {
 		...rest,
 		passwordHash: hashSync(password, Number(process.env.PASSWORD_SALT_ROUNDS)),
 	};
+}
+
+export const isPasswordMatch = (password: string, passwordHash: string) => {
+	return compareSync(password, passwordHash ?? '')
 }

@@ -40,6 +40,15 @@ app.use('/api/v1/organization', organization);
 app.use('/api/v1/error', error);
 // supertokens errorhandler
 app.use(errorHandler());
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+    if (err.message === 'Please reset your password') {
+        return res.status(401).send(err.message)
+    }
+    if (err.message === 'Invalid password') {
+        return res.status(401).send(err.message)
+    }
+    res.status(500).send(err.message)
+})
 // app.use((err: unknown, req: Request, res: Response, next: NextFunction) => { /* ... */ });
 app.use('*', (req, res) => res.status(404).json({ error: 'API not found' }));
 

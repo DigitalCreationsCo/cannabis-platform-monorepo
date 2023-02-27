@@ -7,7 +7,13 @@ export const frontendConfig = () => {
     return {
         appInfo,
         recipeList: [
-            EmailPassword.init(),
+            EmailPassword.init({
+                // onHandleEvent: (context) => {
+                //     if (context.action === 'WRONG_CREDENTIALS_ERROR') {
+                //         throw new Error('Wrong email');
+                //     }
+                // }
+            }),
             Session.init({
                 onHandleEvent: (event: RecipeEventWithSessionContext) => {
                     if (event.action === 'UNAUTHORISED' || event.action === 'SIGN_OUT') {

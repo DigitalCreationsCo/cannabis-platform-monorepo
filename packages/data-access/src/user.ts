@@ -73,7 +73,6 @@ export async function createSession(sessionHandle:string, sessionPayload: Sessio
 
 export async function findUserWithDetailsByEmail(email: string) {
     try {
-        console.log('email data param: ', email)
         const user = await prisma.user.findUnique({
             where: {
                 email
