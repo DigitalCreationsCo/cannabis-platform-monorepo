@@ -26,6 +26,7 @@ getUserById
 getAddressById
 addAddressToUser
 removeAddressFromUser
+signup
 
 ================================= */
 var UserController = /*#__PURE__*/function () {
@@ -36,33 +37,41 @@ var UserController = /*#__PURE__*/function () {
     key: "signin",
     value: function () {
       var _signin = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(req, res) {
-        var user, data;
+        var userLoginData, user, sessionPayload, session;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
               _context.prev = 0;
-              // console.log('hello');
-              user = req.body; // console.log('server main: SIGNIN', user);
+              userLoginData = req.body;
               _context.next = 4;
-              return _dataAccess.UserDA.signin(user);
+              return _dataAccess.UserDA.signin(userLoginData);
             case 4:
-              data = _context.sent;
-              _context.next = 7;
-              return _session["default"].createNewSession(res, data.id, data);
-            case 7:
-              return _context.abrupt("return", res.status(200).json(data));
-            case 10:
-              _context.prev = 10;
+              user = _context.sent;
+              // create a data func to save this session.userDataInAccessToken in db
+              sessionPayload = {
+                userId: user.id,
+                username: user.username,
+                email: user.email
+              };
+              _context.next = 8;
+              return _session["default"].createNewSession(res, user.id, sessionPayload, {
+                data: 'SESSION TEST DATA'
+              }, user);
+            case 8:
+              session = _context.sent;
+              return _context.abrupt("return", res.status(200).json(session));
+            case 12:
+              _context.prev = 12;
               _context.t0 = _context["catch"](0);
               console.log('API error: ', _context.t0);
               res.status(500).json({
                 error: _context.t0
               });
-            case 14:
+            case 16:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[0, 10]]);
+        }, _callee, null, [[0, 12]]);
       }));
       function signin(_x, _x2) {
         return _signin.apply(this, arguments);
@@ -259,6 +268,65 @@ var UserController = /*#__PURE__*/function () {
         return _removeAddressFromUser.apply(this, arguments);
       }
       return removeAddressFromUser;
+    }()
+  }, {
+    key: "signup",
+    value: function () {
+      var _signup = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(req, res) {
+        var createUserData, user, sessionPayload, sessionToken, session;
+        return _regeneratorRuntime().wrap(function _callee7$(_context7) {
+          while (1) switch (_context7.prev = _context7.next) {
+            case 0:
+              _context7.prev = 0;
+              createUserData = req.body;
+              _context7.next = 4;
+              return _dataAccess.UserDA.signup(createUserData);
+            case 4:
+              user = _context7.sent;
+              sessionPayload = {
+                userId: user.id,
+                username: user.username,
+                email: user.email
+              };
+              _context7.next = 8;
+              return _session["default"].createNewSession(res, user.id, sessionPayload, {
+                data: 'SESSION TEST DATA'
+              }, user);
+            case 8:
+              sessionToken = _context7.sent;
+              _context7.t0 = _dataAccess.UserDA;
+              _context7.t1 = sessionToken.getHandle();
+              _context7.t2 = sessionPayload;
+              _context7.next = 14;
+              return sessionToken.getExpiry();
+            case 14:
+              _context7.t3 = _context7.sent;
+              _context7.next = 17;
+              return _context7.t0.createUserSession.call(_context7.t0, _context7.t1, _context7.t2, _context7.t3);
+            case 17:
+              session = _context7.sent;
+              return _context7.abrupt("return", res.status(200).json({
+                status: true,
+                message: 'Your account is created!',
+                session: session
+              }));
+            case 21:
+              _context7.prev = 21;
+              _context7.t4 = _context7["catch"](0);
+              console.log('API error: ', _context7.t4);
+              res.status(500).json({
+                error: _context7.t4
+              });
+            case 25:
+            case "end":
+              return _context7.stop();
+          }
+        }, _callee7, null, [[0, 21]]);
+      }));
+      function signup(_x13, _x14) {
+        return _signup.apply(this, arguments);
+      }
+      return signup;
     }()
   }]);
   return UserController;

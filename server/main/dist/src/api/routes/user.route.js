@@ -10,9 +10,11 @@ var router = (0, _express.Router)();
 /* =================================
 User Routes
 
-"/signin"                        signin
+"/signin"                       signin
 
-"/signout"                       signout
+"/signout"                      signout
+
+"/signout"                      signout
 
 "/user/:id"                     getUserById
 
@@ -24,10 +26,9 @@ User Routes
 
 ================================= */
 
-router.route('/signin').post(function (req, res) {
-  return res.json('hello');
-});
-router.route('/signout').post(_controllers.userCtrl.signout);
+router.route('/user/signin').post(_controllers.userCtrl.signin);
+router.route('/user/signup').post(_controllers.userCtrl.signup);
+router.route('/user/signout').post(_controllers.userCtrl.signout);
 router.route('/user/:id').get(_controllers.userCtrl.getUserById);
 router.route('/address').post(_controllers.userCtrl.addAddressToUser);
 router.route('/user/:id/address/:addressId').get(_controllers.userCtrl.getAddressById);

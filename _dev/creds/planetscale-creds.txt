@@ -1,8 +1,8 @@
 dev-admin - dev admin
 database: cannabis_delivery_v1
-username: sj3cs75fu1kfprd06olu
+username: 1zm4vqdjyogm3vvwf1ax
 host: us-east.connect.psdb.cloud
-password: pscale_pw_phumguFeaLaztdHseiKP3vjvc4e0XZwovsO19SZVh4z
+password: pscale_pw_FrXy2xGuodU1vsIj0CI5Fj644RNLCmEDCRmiW25QZSK
 
 supertokens-user - dev admin
 database: cannabis_delivery_v1

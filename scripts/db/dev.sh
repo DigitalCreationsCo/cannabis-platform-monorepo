@@ -1,1 +1,1 @@
-export DATABASE_URL='mysql://2iilk03ly8g0yc021wo3:pscale_pw_gKEBkkVgdJDGFALYqJlNnRnyR1QIN75rbXyKtYagISe@us-east.connect.psdb.cloud/cannabis_delivery_v1?sslaccept=strict'
+DATABASE_URL='#%#^' SHADOW_DATABASE_URL='mysql://shadow-db-1:4eyKYN+C#?&n3%R@139-144-253-195.ip.linodeusercontent.com:3306/shadow_db'
