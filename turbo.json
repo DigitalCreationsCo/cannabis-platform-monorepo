@@ -35,10 +35,27 @@
         "@cd/app#start": {
             "cache": false
         },
+        "@cd/data-access#db:migrate init": {
+            "cache": false
+        },
+        "@cd/data-access#build:prod": {
+            "dependsOn": [
+                "db:generate"
+            ],
+            "inputs": [
+                "src/**/*",
+                "package.json",
+                "tsconfig.json",
+                "**/*.js"
+            ],
+            "outputs": [
+                "dist/**"
+            ]
+        },
         "build": {
             "dependsOn": [
-                "^build",
-                "^db:generate"
+                "db:generate",
+                "^build"
             ],
             "inputs": [
                 "src/**/*",
@@ -68,8 +85,8 @@
             "cache": false,
             "dependsOn": [
                 "^build",
-                "build",
-                "^db:generate"
+                "db:generate",
+                "build"
             ],
             "inputs": [
                 "src/**/*",
@@ -98,8 +115,8 @@
         "watch": {
             "cache": true,
             "dependsOn": [
-                "^db:generate",
-                 "^build"
+                "db:generate",
+                 "build"
             ],
             "inputs": [
                 "src/**/*"

@@ -48,17 +48,18 @@ var OrganizationDA = /*#__PURE__*/function () {
               return (0, _dataAccess.createOrganization)(organization, address);
             case 6:
               data = _context.sent;
+              console.log("Organization ".concat(organization.name, " is created."));
               return _context.abrupt("return", data);
-            case 10:
-              _context.prev = 10;
+            case 11:
+              _context.prev = 11;
               _context.t0 = _context["catch"](0);
               console.error(_context.t0.message);
               throw new Error(_context.t0.message);
-            case 14:
+            case 15:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[0, 10]]);
+        }, _callee, null, [[0, 11]]);
       }));
       function createOrganization(_x) {
         return _createOrganization2.apply(this, arguments);

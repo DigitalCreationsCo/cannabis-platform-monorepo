@@ -33,6 +33,8 @@ app.use((0, _cors["default"])({
   credentials: true
 }));
 app.use((0, _express2.middleware)());
+
+// IF I HAVE ISSUES WITH MULTIPARTFORM IN THE FUTURE, CHECK THIS SETTING AGAIN!
 app.use(_bodyParser["default"].urlencoded({
   extended: true
 }));
@@ -49,6 +51,15 @@ app.use('/api/v1/organization', _routes.organization);
 app.use('/api/v1/error', _routes.error);
 // supertokens errorhandler
 app.use((0, _express2.errorHandler)());
+app.use(function (err, req, res, next) {
+  if (err.message === 'Please reset your password') {
+    return res.status(401).send(err.message);
+  }
+  if (err.message === 'Invalid password') {
+    return res.status(401).send(err.message);
+  }
+  res.status(500).send(err.message);
+});
 // app.use((err: unknown, req: Request, res: Response, next: NextFunction) => { /* ... */ });
 app.use('*', function (req, res) {
   return res.status(404).json({

@@ -68,38 +68,69 @@ Fix password hashing
 create newSession override function - i didn't, i used express route for signup
 create userSignup frontend page, api route, data function (with pw hashing), override supertokens
 
+What must I do next?
 TO DO
+1. Test db migrate with local shadow db
+why ? to have a baseline and saved database schema for recovery
+why? to have a one command deployment process for scalability that WORKS
+2. test linode shadow db instance in prod environemnt.
+why ? to run migrations locally and in production.
+Do this tomorrow. First thing in the morning.
+
 BUILD SHOPPING EXPERIENCE APP xD
+why? because the customers need an app to buy
 
 update UI components to show session status (Layout, topbar, pages, dont couple the state)
+why? because people have to know if they are signed in, be able to signin
 
 create server/main route for new organizations, and new users
+why? so dispensaries and users can register
+
 make sure duplicate records are not created
+why? so every use has a unique username
+
 add search function to dispensary create to find existing vendor brands,
+why? so dispensaries can be tracked under their umbrella franchise
 
 Write test cases for signup, signin, signout route
+why? to test and make sure the server is always functioning properly
 
 create password reset, and sendpwresettoken routes
+why? because users need to reset their password, so customer service is not occupied with this
+
 configure mailserver with linode
+why? to send emails to users based on user actions (reset password, verify email) to automate
 Test: Mailserver with linode stmp client
 
 get the site working for client demos.
+why? to host our site, so clients can see our product live, in action
+
 setup nginx with https on linode
-update server main url env var
-Revise vercel deployment. Connect with linode server. Test for edge cases. (What are they?)
-Harden security in linode, and vercel.
-Add forever run script for server stops.
+why? for hosting, security
+
+Harden security in linode
 Have Matthew review and give feedback
 Profit :)
 
-Deploy supertokens in linode container, add to env
-host supertokens on linode with docker, use dockercompose for container deployments
+-host supertokens on linode with docker, use dockercompose, k8s for container deployments
+-Deploy supertokens in linode container, add to env
+why? to have scalable backend services
+why? because there MAY be a bottleneck with requests to supertokens
+there isnt now, though.
+How can we know the bottleneck in the future?
+(TEST RESPOND TO AND FROM BACKEND SERVICES,
+MEASURE HTTP REQUEST LATENCY WITH SOME MEASURING PACKAGE, HTTP-(MEASURE???), LOGROCKET? FOR ALL REQUESTS)
+
 
 product upload, wasabi s3 storage, imagekit.io image handling ;D
+Why? Because we MUST verify customer age and identification, and conduct background check for drivers and customers, dispensary employess
+
 Add country picker to address forms, add country code
+Why? UX usability
 
 configure nextapp and nginx with docker,
-deploy with docker on linode, use pm2 for nextjs
+- use nodebalancer
+
 Revise dockerfile to build fast and lean
 https://dev.to/jonlauridsen/exploring-the-monorepo-5-perfect-docker-52aj
 
