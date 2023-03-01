@@ -59,11 +59,10 @@
   },
   "private": true,
   "scripts": {
-    "build": "concurrently \"yarn build:ts\"",
-    "build:ts": "rollup -c",
+    "build": "rollup -c",
+    "build:prod": "rollup -c",
     "prepack": "json -f package.json -I -e \"delete this.devDependencies; delete this.dependencies\"",
-    "watch": "concurrently \"yarn watch:ts\"",
-    "watch:ts": "rollup -c --watch"
+    "watch": "rollup -c --watch"
   },
   "type": "module",
   "types": "./dist/index.d.ts",
