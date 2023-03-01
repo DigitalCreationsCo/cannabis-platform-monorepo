@@ -33,18 +33,17 @@
   "scripts": {
     "build": "tsc -b",
     "build:prod": "dotenv -e ../../.env.production -- prisma migrate deploy && tsc -b",
-
     "db:clear": "ts-node --esm src/db/clear.ts",
     "db:generate": "npx prisma generate",
     "db:migrate-init": "dotenv -e ../../.env.development -- prisma migrate dev --name initial-migration --create-only && prisma migrate dev",
     "db:migrate": "dotenv -e ../../.env.development -- prisma migrate dev",
+    "db:migrate-reset": "dotenv -e ../../.env.development -- prisma migrate reset",
     "db:migrate-prod": "dotenv -e ../../.env.production -- prisma migrate deploy",
     "db:push": "npx prisma db push",
     "db:push-force": "npx prisma db push --force-reset --accept-data-loss",
     "db:reseed": "npx prisma db push && prisma generate && yarn db:clear && prisma db seed && prisma generate && yarn build",
     "db:seed": "prisma db seed",
     "db:studio": "prisma studio",
-
     "test": "../../node_modules/jest/bin/jest.js",
     "watch": "tsc --watch"
   },
