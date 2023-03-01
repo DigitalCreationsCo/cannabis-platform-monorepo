@@ -10,8 +10,9 @@
     "server/*"
   ],
   "scripts": {
+    "db:init": "yarn db db:migrate-init",
     "dev:init": "yarn permit-scripts && yarn build && yarn dev",
-    "prod:init": "yarn permit-scripts && turbo build:prod && yarn start",
+    "prod:init": "yarn permit-scripts && yarn build && yarn start",
     "dev": "concurrently \"yarn watch\" \"yarn dev:apps\"",
     "dev:apps": "turbo run dev --filter='./apps/*' --parallel",
     "watch": "turbo run watch --parallel",
@@ -24,7 +25,7 @@
     "lint": "turbo run lint",
     "lint:fix": "turbo run lint:fix",
     "build": "turbo run build",
-    "build:fix": "turbo run lint:fix && turbo run build:fix",
+    "build:fix": "turbo run lint:fix && turbo run build",
     "test": "turbo run test",
     "app": "yarn workspace @cd/app",
     "ui": "yarn workspace @cd/shared-ui",

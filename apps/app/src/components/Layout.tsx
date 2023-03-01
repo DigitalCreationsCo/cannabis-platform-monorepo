@@ -2,7 +2,7 @@ import { Button, FlexBox, Footer, H2, Header, Paragraph } from '@cd/shared-ui';
 import { LoginModal, SideNavContainer } from 'components';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ChangeEventHandler, PropsWithChildren, ReactEventHandler, useState } from 'react';
+import { ChangeEventHandler, Dispatch, PropsWithChildren, ReactEventHandler, SetStateAction, useState } from 'react';
 import SessionReact, { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/logo.png';
@@ -24,8 +24,6 @@ export default function Layout({ onSearchChange, placeholder, children }: Layout
     return (
         <div className="h-screen flex flex-col">
             <LoginModal open={showModal} onClose={() => setModal(false)} />
-            <>{session.doesSessionExist && session.userId}</>
-            <>{'turkey'}</>
             {isSignedIn ? (
                 <div className={styles.main}>
                     <TopBar doesSessionExist={session.doesSessionExist} />
@@ -52,7 +50,13 @@ export default function Layout({ onSearchChange, placeholder, children }: Layout
     );
 }
 
-function TopBar({ doesSessionExist, setLoginModal }: { doesSessionExist?: boolean; setLoginModal?: unknown }) {
+function TopBar({
+    doesSessionExist,
+    setLoginModal
+}: {
+    doesSessionExist?: boolean;
+    setLoginModal?: Dispatch<SetStateAction<boolean>>;
+}) {
     const topbar = ['flex flex-row min-h-[66px] pr-4 lg:px-16 bg-inverse space-x-2 items-center shadow'];
     return (
         <div className={twMerge(topbar)}>
