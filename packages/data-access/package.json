@@ -31,7 +31,7 @@
   },
   "private": true,
   "scripts": {
-    "build": "tsc -b",
+    "build": "dotenv -e ../../.env.development -- yarn db:generate && tsc -b",
     "build:prod": "dotenv -e ../../.env.production -- prisma migrate deploy && tsc -b",
     "db:clear": "ts-node --esm src/db/clear.ts",
     "db:generate": "npx prisma generate",
