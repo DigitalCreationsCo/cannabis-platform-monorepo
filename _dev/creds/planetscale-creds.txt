@@ -10,7 +10,7 @@ username: 3lye41h59tjh9bty4q8m
 host: us-east.connect.psdb.cloud
 password: pscale_pw_7o2cGrMJcWUcltkf0OoPxAZRnMvhePL9nh50of4eyOP
 
-supertokens-user - dev admin
+supertokens-dev - dev admin
 database: cannabis_delivery_v1
 username: 5rym7hkijdnzxdirhiw8
 host: us-east.connect.psdb.cloud
@@ -24,18 +24,19 @@ password: pscale_pw_KTjejdcT7n2ZSsdsbqbqDsRqHDkIk45ZydaP3VkrsyG
 
 prod-admin - main admin
 database: cannabis_delivery_v1
-username: edyxcgwnxao3sgsl7rmq
+username: 9zr5koln0y91fhumaiit
 host: us-east.connect.psdb.cloud
-password: pscale_pw_OdxL41SLEznVPek7orIQJB4ufzRxawn97gbcaM3v2yr
+password: pscale_pw_rP9RqnT4pAkmmUawnaX67bkYr6AUAWJ2pBqhO9qVBpV
 
 production - main rw
 database: cannabis_delivery_v1
-username: av0tz0l4gvr26wk2w2j7
+username: 1udopknyc3qq5brdb32m
 host: us-east.connect.psdb.cloud
-password: pscale_pw_3fc11nBdGzxMpPL48oiaTIImF9NFnoUYv9KdUxfhjeh
+password: pscale_pw_OR3mr1bdGg4yFiGcVfQSvar5GH6UW87irLfnzHNaWiR
 
-supertokens-production
+supertokens-prod - main admin
 database: cannabis_delivery_v1
-username: c1ezawzu4vy9i1vfj5pv
+username: 7urqtubzoq8b14bip9uc
 host: us-east.connect.psdb.cloud
-password: pscale_pw_av7XICitgWzr1ofk0p9NP4Q1jSkvEVuhMhpXkoku18s
+password: pscale_pw_OKk5FbmiY0dLKZFOATQUssrtLVcUsoFI8zUHmenDDY4
+
