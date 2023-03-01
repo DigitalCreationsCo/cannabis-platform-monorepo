@@ -1,4 +1,4 @@
-import { SessionPayload } from '@cd/data-access/dist';
+import { SessionPayload } from '@cd/data-access';
 import STSession from 'supertokens-node/recipe/session';
 import { UserDA } from '../data-access';
 
@@ -113,8 +113,16 @@ export default class UserController {
                 session
             });
         } catch (error) {
-            console.log('API error: ', error);
-            res.status(500).json({ error });
+            return res.status(200).json({
+                status: false,
+                message: error.message,
+                session: null
+            });
+            // if (error.message === 'This user exists already. Please choose a different username or email.') {
+            //     return res.status(400).json(error)
+            // }
+            // console.log('API error: ', error.message);
+            // return res.status(500).json(error);
         }
     }
 }

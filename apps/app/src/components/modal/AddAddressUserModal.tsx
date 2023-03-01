@@ -1,4 +1,4 @@
-import { AddressUserCreateType } from '@cd/data-access/dist';
+import { AddressUserCreateType } from '@cd/data-access';
 import { Button, FlexBox, Grid, TextField } from '@cd/shared-ui';
 import axios from 'axios';
 import { useFormik } from 'formik';

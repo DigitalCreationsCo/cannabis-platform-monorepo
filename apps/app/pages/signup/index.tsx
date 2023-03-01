@@ -12,7 +12,7 @@ function SignUpStart() {
                     <FlexBox>
                         <H4>Before you create an account,</H4>
                         <H4>
-                            {`Please select an account. If you operate a dispensary and want to create a Dispensary Account, please choose "\`Create A Dispensary Account"\``}
+                            {`Please select an account. If you operate a dispensary and want to create a Dispensary Account, please choose \`Create A Dispensary Account\``}
                         </H4>
                     </FlexBox>
 

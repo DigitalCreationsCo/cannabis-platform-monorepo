@@ -1,4 +1,4 @@
-import { AddressCreateType } from '@cd/data-access/dist';
+import { AddressCreateType } from '@cd/data-access';
 import axios from 'axios';
 import { authMiddleware, healthCheckMiddleware } from 'middleware';
 import { NextApiRequest, NextApiResponse } from 'next';

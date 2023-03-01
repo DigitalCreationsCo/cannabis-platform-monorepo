@@ -1,4 +1,4 @@
-import { UserWithDetails } from '@cd/data-access/dist';
+import { UserWithDetails } from '@cd/data-access';
 import axios from 'axios';
 import { SessionInformation } from 'supertokens-node/recipe/session';
 import { urlBuilder } from '../utils';

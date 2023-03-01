@@ -1,4 +1,4 @@
-import { OrganizationCreateType } from '@cd/data-access/dist';
+import { OrganizationCreateType } from '@cd/data-access';
 import { createContext, PropsWithChildren, useContext, useState } from 'react';
 
 export type FormDataProps = {

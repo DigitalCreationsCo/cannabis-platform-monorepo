@@ -1,4 +1,4 @@
-import { OrganizationCreateType } from '@cd/data-access/dist';
+import { OrganizationCreateType } from '@cd/data-access';
 import axios from 'axios';
 import { ExtendRequest, healthCheckMiddleware } from 'middleware';
 import { NextApiResponse } from 'next';

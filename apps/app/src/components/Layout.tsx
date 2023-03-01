@@ -6,7 +6,6 @@ import { ChangeEventHandler, PropsWithChildren, ReactEventHandler, useState } fr
 import SessionReact, { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/logo.png';
-import { useSession } from '../context';
 import AdminDashboardNavigation from './AdminDashBoardNavigation';
 import SearchBar from './AppSearch';
 interface LayoutProps extends PropsWithChildren {
@@ -15,9 +14,8 @@ interface LayoutProps extends PropsWithChildren {
 }
 
 export default function Layout({ onSearchChange, placeholder, children }: LayoutProps) {
-    const { setSession, session: sessionContext } = useSession();
-
     const [showModal, setModal] = useState(false);
+
     const session = useSessionContext();
     if (session.loading === true) return <></>;
     const isSignedIn = session.doesSessionExist;
@@ -26,7 +24,8 @@ export default function Layout({ onSearchChange, placeholder, children }: Layout
     return (
         <div className="h-screen flex flex-col">
             <LoginModal open={showModal} onClose={() => setModal(false)} />
-            <>{sessionContext?.user?.username}</>
+            <>{session.doesSessionExist && session.userId}</>
+            <>{'turkey'}</>
             {isSignedIn ? (
                 <div className={styles.main}>
                     <TopBar doesSessionExist={session.doesSessionExist} />
@@ -53,7 +52,7 @@ export default function Layout({ onSearchChange, placeholder, children }: Layout
     );
 }
 
-function TopBar({ doesSessionExist, setLoginModal }: { doesSessionExist?: boolean; setLoginModal?: any }) {
+function TopBar({ doesSessionExist, setLoginModal }: { doesSessionExist?: boolean; setLoginModal?: unknown }) {
     const topbar = ['flex flex-row min-h-[66px] pr-4 lg:px-16 bg-inverse space-x-2 items-center shadow'];
     return (
         <div className={twMerge(topbar)}>

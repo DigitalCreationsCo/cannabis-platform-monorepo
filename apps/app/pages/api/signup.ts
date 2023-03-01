@@ -1,4 +1,4 @@
-import { UserCreateType } from '@cd/data-access/dist';
+import { UserCreateType } from '@cd/data-access';
 import axios from 'axios';
 import { authMiddleware, ExtendRequest, healthCheckMiddleware } from 'middleware';
 import { NextApiResponse } from 'next';
@@ -17,8 +17,8 @@ handler.post(async (req: ExtendRequest, res: NextApiResponse) => {
             }
         });
         if (data.status === true) {
-            return res.status(res.statusCode).json(data);
-        }
+            return res.status(200).json(data);
+        } else return res.status(200).json(data);
     } catch (error) {
         console.error(error.message);
         throw new Error(error.response.data);

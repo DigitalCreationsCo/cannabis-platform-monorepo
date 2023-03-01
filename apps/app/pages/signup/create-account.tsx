@@ -1,4 +1,4 @@
-import { UserCreateType } from '@cd/data-access/dist';
+import { UserCreateType } from '@cd/data-access';
 import { Button, FlexBox, Grid, H3, H6, Icons, Page, Paragraph, TextField } from '@cd/shared-ui';
 import axios from 'axios';
 import {
@@ -11,17 +11,13 @@ import {
 } from 'components';
 import { useFormik } from 'formik';
 import Head from 'next/head';
-import Router from 'next/router';
 import { useCallback, useState } from 'react';
 import toast from 'react-hot-toast';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
-import { useSession } from '../../src/context';
 import { urlBuilder } from '../../src/utils';
 
 function UserSignUp() {
-    const { session, setSession } = useSession();
-
     const [formStep, setFormStep] = useState(0);
     const [loadingButton, setLoadingButton] = useState(false);
     const [passwordVisibility, setPasswordVisibility] = useState(false);
@@ -112,16 +108,17 @@ function UserSignUp() {
                         'Content-Type': 'application/json'
                     }
                 });
-                setSession(data.session);
                 setLoadingButton(false);
                 toast.success(data.message);
-                Router.push('/');
-                // nextFormStep();
+                if (data.status === true) {
+                    nextFormStep();
+                    // Router.push('/');
+                }
             }
         } catch (error) {
             setLoadingButton(false);
-            console.error(error);
-            toast.error(error.response.statusText);
+            console.error('create acount error: ', error);
+            toast.error(error.message);
         }
     }
 

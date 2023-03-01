@@ -1,4 +1,4 @@
-import { OrderStatus, OrderWithDetails } from '@cd/data-access/dist';
+import { OrderStatus, OrderWithDetails } from '@cd/data-access';
 
 export const checkOrderIsCompleteOrCanceled = (order: OrderWithDetails) =>
     order.status === 'Cancelled' || order.status === 'Delivered';
