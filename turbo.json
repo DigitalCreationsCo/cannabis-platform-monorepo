@@ -1,77 +1,24 @@
 {
     "$schema": "https://turbo.build/schema.json",
     "pipeline": {
-        "@cd/app#build": {
-            "dependsOn": [
-                "^build"
-            ],
-            "inputs": [
-                "./.next",
-                "pages/**/*",
-                "src/**/*",
-                "public/**/*",
-                "next.config.js",
-                "package.json",
-                "tsconfig.json"
-            ],
-            "outputs": [
-                ".next/**"
-            ]
-        },
-        "@cd/app#dev": {
-            "cache": false,
-            "dependsOn": [
-                "^build"
-            ],
-            "inputs": [
-                "pages/**/*",
-                "src/**/*",
-                "public/**/*",
-                "next.config.js",
-                "package.json",
-                "tsconfig.json"
-            ]
-        },
-        "@cd/app#start": {
-            "cache": false
-        },
-        "@cd/data-access#db:migrate init": {
-            "cache": false
-        },
-        "@cd/data-access#build:prod": {
+        "@cd/data-access#build": {
             "dependsOn": [
                 "db:generate"
             ],
-            "inputs": [
-                "src/**/*",
-                "package.json",
-                "tsconfig.json",
-                "**/*.js"
-            ],
+            "inputs": [],
             "outputs": [
-                "dist/**"
+                "dist"
             ]
         },
         "build": {
             "dependsOn": [
-                "db:generate",
                 "^build"
             ],
-            "inputs": [
-                "src/**/*",
-                "package.json",
-                "tsconfig.json",
-                "**/*.js"
-            ],
+            "inputs": [],
             "outputs": [
-                "dist/**"
+                "dist/**",
+                ".next/**"
             ]
-        },
-        "db:generate": {
-            "cache": false
-        },
-        "db:push": {
-            "cache": false
         },
         "deploy": {
             "dependsOn": [
@@ -84,16 +31,8 @@
         "dev": {
             "cache": false,
             "dependsOn": [
-                "^build",
-                "db:generate",
-                "build"
-            ],
-            "inputs": [
-                "src/**/*",
-                "package.json",
-                "tsconfig.json"
-            ],
-            "outputs": []
+                "^build"
+            ]
         },
         "lint": {
             "outputs": []
@@ -102,25 +41,17 @@
             "outputs": []
         },
         "test": {
-            "dependsOn": [],
             "inputs": [
-                "test/**/*",
-                "**/*.test.ts",
-                "**/*.test.tsx",
-                "**/*.test.js",
-                "**/*.test.jsx"
+                "**/*.test.*"
             ],
             "outputs": []
         },
         "watch": {
             "cache": true,
             "dependsOn": [
-                "db:generate",
-                 "build"
+                "build"
             ],
-            "inputs": [
-                "src/**/*"
-            ],
+            "inputs": [],
             "outputs": []
         }
     }
