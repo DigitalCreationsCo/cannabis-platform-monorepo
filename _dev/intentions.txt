@@ -83,6 +83,15 @@ why? because the customers need an app to buy
 update UI components to show session status (Layout, topbar, pages, dont couple the state)
 why? because people have to know if they are signed in, be able to signin
 
+What am I doing now?
+- testing docker with mysql image, for planetscale migrate with shadowdb
+why? So I can push changes to my db
+why? So I can promote up to date shema to production
+why? So I can host a production environment
+why? So Matthew and I can demo the software to a client in MD
+why? So we can get paying customers
+why? Because we are launching a profitable company
+
 create server/main route for new organizations, and new users
 why? so dispensaries and users can register
 
