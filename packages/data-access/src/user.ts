@@ -33,7 +33,6 @@ export async function createUser(userData: any) {
         return user;
     } catch (error: any) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
-            // The .code property can be accessed in a type-safe manner
             if (error.code === 'P2002') {
                 throw new Error('This user exists already. Please choose a different username or email.')
             }
@@ -42,7 +41,7 @@ export async function createUser(userData: any) {
     }
 }
 
-export async function createSession(sessionHandle:string, sessionPayload: SessionPayload, expires:number) {
+export async function createDBSession(sessionHandle:string, sessionPayload: SessionPayload, expires:number) {
     try {
         const session = await prisma.session.create({
             data: {

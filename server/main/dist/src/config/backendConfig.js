@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.backendConfig = void 0;
-var _dist = require("@cd/data-access/dist");
+var _dataAccess = require("@cd/data-access");
 var _appInfo = require("@cd/shared-config/auth/appInfo");
 var _dashboard = _interopRequireDefault(require("supertokens-node/recipe/dashboard"));
 var _emailpassword = _interopRequireDefault(require("supertokens-node/recipe/emailpassword"));
@@ -44,7 +44,7 @@ var backendConfig = function backendConfig() {
                       }
                       console.log('SERVER MAIN: signin input: ', input);
                       _context.next = 4;
-                      return (0, _dist.findUserWithDetailsByEmail)(input.email);
+                      return (0, _dataAccess.findUserWithDetailsByEmail)(input.email);
                     case 4:
                       userContext = _context.sent;
                       if (!(userContext !== null && userContext.passwordHash === null)) {

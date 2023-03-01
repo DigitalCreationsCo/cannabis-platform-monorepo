@@ -1,4 +1,4 @@
-import { createAddress, createSession, createUser, findAddressById, findUserWithDetailsByEmail, findUserWithDetailsById, removeAddressByIdAndUserId, SessionPayload, updateUserPasswordToken, UserCreateType, UserLoginData } from '@cd/data-access';
+import { createAddress, createDBSession, createUser, findAddressById, findUserWithDetailsByEmail, findUserWithDetailsById, removeAddressByIdAndUserId, SessionPayload, updateUserPasswordToken, UserCreateType, UserLoginData } from '@cd/data-access';
 import { SessionContainer } from 'supertokens-node/recipe/session';
 import { createPasswordHash } from '../../util/utility';
 
@@ -120,14 +120,14 @@ export default class UserDA {
             console.log(`created user ${user.username}`)
             return user
         } catch (error) {
-            console.error(error.message);
-            throw new Error(error);
+            console.error('UserDA error: ', error.message);
+            throw new Error(error.message);
         }
     }
 
     static async createUserSession(sessionHandle: string, sessionPayload: SessionPayload, expires: number) {
         try {
-            const session = await createSession(sessionHandle, sessionPayload, expires)
+            const session = await createDBSession(sessionHandle, sessionPayload, expires)
             return session;
         } catch (error) {
             console.error(error.message);

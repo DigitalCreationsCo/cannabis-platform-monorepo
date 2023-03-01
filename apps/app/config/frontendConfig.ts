@@ -4,6 +4,7 @@ import EmailPassword from 'supertokens-auth-react/recipe/emailpassword';
 import Session from 'supertokens-auth-react/recipe/session';
 
 export const frontendConfig = () => {
+    console.log('FRONTEND API INFO: ', appInfo);
     return {
         appInfo,
         recipeList: [
@@ -18,6 +19,18 @@ export const frontendConfig = () => {
                 onHandleEvent: (event: RecipeEventWithSessionContext) => {
                     if (event.action === 'UNAUTHORISED' || event.action === 'SIGN_OUT') {
                         window.location.href = '/welcome';
+                    }
+                    if (event.action === 'SESSION_CREATED') {
+                        console.log('session created: ', event.userContext);
+                        if (
+                            event.userContext.memberships[0]?.role.toLocaleUpperCase() === 'ADMIN' ||
+                            event.userContext.memberships[0]?.role.toLocaleUpperCase() === 'OWNER'
+                        ) {
+                            // window.location.href = '/dashboard';
+                            window.location.href = '/';
+                        } else {
+                            window.location.href = '/';
+                        }
                     }
                 }
             })

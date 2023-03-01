@@ -2,15 +2,14 @@ import { Button, FlexBox, Grid, H1, H3, H6, Icons, Paragraph, TextField } from '
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import Link from 'next/link';
+import Router from 'next/router';
 import { useCallback, useState } from 'react';
 import toast from 'react-hot-toast';
 import { signIn } from 'supertokens-auth-react/recipe/emailpassword';
 import * as yup from 'yup';
-import { useSession } from '../../context';
 import Modal, { ModalProps } from './Modal';
 
 function LoginModal({ open, onClose, ...props }: ModalProps) {
-    const { setSession, session } = useSession();
     const [loadingButton, setLoadingButton] = useState(false);
     const [passwordVisibility, setPasswordVisibility] = useState(false);
 
@@ -46,14 +45,15 @@ function LoginModal({ open, onClose, ...props }: ModalProps) {
                     }
                 ]
             });
-            console.log('sign in 2d');
             if (response.status === 'WRONG_CREDENTIALS_ERROR') {
-                throw new Error('Email is incorrect.');
+                throw new Error('Email or Password is incorrect.');
             }
-            return 'Signed in';
+            if (response.status === 'OK') {
+                return 'Signed in';
+            }
         } catch (error) {
             console.error(error);
-            throw new Error(error);
+            throw new Error(error.message);
         }
     }
 
@@ -72,11 +72,10 @@ function LoginModal({ open, onClose, ...props }: ModalProps) {
                 // });
                 const response = await signInUser();
                 console.log('signin data: ', response);
-                // setSession(data.session);
                 setLoadingButton(false);
                 toast.success('Signing in');
                 if (onClose) onClose();
-                // Router.push('/');
+                Router.push('/');
             }
         } catch (error) {
             setLoadingButton(false);
@@ -86,11 +85,11 @@ function LoginModal({ open, onClose, ...props }: ModalProps) {
     }
 
     const styles = {
-        responsive: 'min-w-full min-h-screen sm:!rounded-none md:min-w-min md:min-h-min md:!rounded'
+        responsive: 'min-w-full min-h-screen sm:!rounded-none md:min-w-min md:min-h-min md:!rounded px-12 py-8'
     };
     return (
         <Modal className={styles.responsive} open={open} onClose={resetModalState} {...props}>
-            <Grid>
+            <form>
                 <FlexBox>
                     <Image src={'/logo.png'} alt="Gras Cannabis logo" width={63} height={63} priority />
                     <H3> Welcome to</H3>
@@ -98,7 +97,7 @@ function LoginModal({ open, onClose, ...props }: ModalProps) {
                 </FlexBox>
                 <H3>One Stop Cannabis Marketplace</H3>
                 <Paragraph>Sign in with your email & password</Paragraph>
-                <form>
+                <Grid className="space-y-2">
                     <TextField
                         name="email"
                         label="Email"
@@ -122,18 +121,20 @@ function LoginModal({ open, onClose, ...props }: ModalProps) {
                         insertIcon={passwordVisibility ? Icons.View : Icons.ViewOff}
                         onClickIcon={togglePasswordVisibility}
                     />
-                    <Button
-                        type="submit"
-                        loading={loadingButton}
-                        onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            handleSubmit();
-                        }}
-                    >
-                        Sign In
-                    </Button>
-                    <FlexBox>
+                    <FlexBox className="py-2">
+                        <Button
+                            className="place-self-center"
+                            loading={loadingButton}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                handleSubmit();
+                            }}
+                        >
+                            Sign In
+                        </Button>
+                    </FlexBox>
+                    <FlexBox className="items-center">
                         <Paragraph>{`Don't have account?`} </Paragraph>
                         <Link
                             href="/signup"
@@ -144,7 +145,7 @@ function LoginModal({ open, onClose, ...props }: ModalProps) {
                             <H6 className="border-b"> Sign Up</H6>
                         </Link>
                     </FlexBox>
-                    <FlexBox>
+                    <FlexBox className="items-center">
                         <Paragraph>Forgot your password?</Paragraph>
                         <Link
                             href="/password-reset"
@@ -155,8 +156,8 @@ function LoginModal({ open, onClose, ...props }: ModalProps) {
                             <H6 className="border-b"> Reset It</H6>
                         </Link>
                     </FlexBox>
-                </form>
-            </Grid>
+                </Grid>
+            </form>
         </Modal>
     );
 }

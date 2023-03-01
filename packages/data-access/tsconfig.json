@@ -9,6 +9,7 @@
     "declaration": true,
     "lib": ["ES2021"],
     "target": "ES5",
+    "declarationMap": true,
     // "skipLibCheck": true,
     "moduleResolution": "Node",
     // "useDefineForClassFields": true,
