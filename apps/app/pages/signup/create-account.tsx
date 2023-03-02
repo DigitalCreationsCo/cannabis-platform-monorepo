@@ -80,18 +80,53 @@ function UserSignUp() {
         })
     });
 
+    const { values, errors, touched, handleBlur, handleChange, handleSubmit, validateForm } = useFormik({
+        initialValues,
+        onSubmit,
+        validationSchema
+    });
+
+    function notifyValidation() {
+        validateForm().then((errors) => {
+            if (Object.values(errors).length > 0) {
+                console.log('validation errors: ', errors);
+                toast.error(Object.values(errors)[0].toString());
+            }
+        });
+    }
+
     // TEST
     async function onSubmit(values: UserCreateType) {
         try {
+            if (errors) console.log('errors: ', errors);
             if (!loadingButton) {
                 setLoadingButton(true);
                 const signup = await signUp({
                     formFields: [
                         { id: 'email', value: values.email },
-                        { id: 'password', value: values.password }
+                        { id: 'password', value: values.password },
+                        { id: 're-password', value: values.re_password },
+                        { id: 'username', value: values.username },
+                        { id: 'firstName', value: values.firstName },
+                        { id: 'lastName', value: values.lastName },
+                        { id: 'dialCode', value: values.dialCode },
+                        { id: 'phone', value: values.phone },
+                        { id: 'termsAccepted', value: values.termsAccepted.toString() },
+                        { id: 'address.street1', value: values.address.street1 },
+                        { id: 'address.street2', value: values.address.street2 },
+                        { id: 'address.city', value: values.address.city },
+                        { id: 'address.state', value: values.address.state },
+                        { id: 'address.zipcode', value: values.address.zipcode },
+                        { id: 'address.country', value: values.address.country },
+                        { id: 'address.countryCode', value: values.address.countryCode }
                     ],
                     userContext: { ...values }
                 });
+                if (signup.status === 'FIELD_ERROR') {
+                    toast.error(signup.formFields[0].error);
+                }
+                if (signup.status === 'OK') {
+                }
                 console.log('signup: ', signup);
                 // const formData = new FormData();
                 // formData.append('username', values.username);
@@ -128,12 +163,6 @@ function UserSignUp() {
             toast.error(error.message);
         }
     }
-
-    const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
-        initialValues,
-        onSubmit,
-        validationSchema
-    });
 
     const styles = { gradient: ['bg-gradient-to-b', 'from-primary', 'to-secondary', 'p-0 lg:p-16 h-max'] };
     return (
@@ -319,6 +348,7 @@ function UserSignUp() {
                             onClick={(e) => {
                                 e.preventDefault();
                                 e.stopPropagation();
+                                notifyValidation();
                                 handleSubmit();
                             }}
                             disabled={values.termsAccepted === false}

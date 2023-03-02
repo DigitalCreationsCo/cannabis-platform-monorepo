@@ -15,6 +15,26 @@ export let backendConfig = (): AuthConfig => {
         appInfo,
         recipeList: [
             EmailPassword.init({
+                signUpFeature:{
+                    formFields: [
+                        { id: 'email'},
+                        { id: 'password' },
+                        { id: 're-password' },
+                        { id: 'username' },
+                        { id: 'firstName' },
+                        { id: 'lastName' },
+                        { id: 'phone' },
+                        { id: 'dialCode' },
+                        { id: 'address.countryCode' },
+                        { id: 'address.country' },
+                        { id: 'address.city' },
+                        { id: 'address.state' },
+                        { id: 'address.zipcode' },
+                        { id: 'address.street1' },
+                        { id: 'address.street2', optional: true },
+                        { id: 'termsAccepted' }
+                    ]
+                },
                 override: {
                     functions(originalImp) {
                         return { 
@@ -22,8 +42,8 @@ export let backendConfig = (): AuthConfig => {
                             async signIn(input: UserLoginData) {
                                 // try{
                                 if (input) {
-                                    const userContext = await findUserWithDetailsByEmail(input.email)
-                                    console.log('SERVER MAIN: signin userContext: ', userContext)
+                                    const user = await findUserWithDetailsByEmail(input.email)
+                                    console.log('SERVER MAIN: signin user: ', user)
                                     // if (userContext === null) {
                                     //     throw new Error('User does not exist');
                                     // }
@@ -34,7 +54,7 @@ export let backendConfig = (): AuthConfig => {
                                     // if (userContext !== null && !isPasswordMatch(input.password, userContext.passwordHash)) {
                                     //     throw new Error('Invalid password')
                                     // }
-                                    const response = await originalImp.signIn({...input, userContext})
+                                    const response = await originalImp.signIn({...input, userContext: user})
                                     console.log('response: ', response)
                                     return response
                                 }
@@ -43,23 +63,62 @@ export let backendConfig = (): AuthConfig => {
                             //     return new Error(error)
                             // }
                         },
-                            async signUp(input) {
-                                if (input) {
-                                    console.log('SERVER MAIN: signup input: ', input);
+                            // async signUp(input) {
+                            //     if (input) {
+                            //         console.log('SERVER MAIN: signup input: ', input);
+
+                            //         const userContext = input.userContext
+                            //         // console.log('user   context: ', userContext())
+                            //     const response = await originalImp.signUp(input)
+                            //     console.log('backend signup response: ', response)
                                     
-                                    // const user = await UserDA.signup(createUserData);
-                                    // access token payload
-                                    // const sessionPayload:SessionPayload = { userId: user.id, username: user.username, email: user.email };
+                            //     if (response.status === "OK") {
+                            //         console.log('signup: session created')
+                            //         return response
+
+                            //     }
+                            //         // const user = await UserDA.signup(createUserData);
+                            //         // access token payload
+                            //         // const sessionPayload:SessionPayload = { userId: user.id, username: user.username, email: user.email };
                                     
-                                    // const sessionToken = await STSession.createNewSession(res, user.id, sessionPayload, { data: 'SESSION TEST DATA' }, user);
-                                    // future note: drivers will have only session active on a device.
-                                    // Drivers will need their own session function for login
-                                    // const session = await UserDA.createUserSession(sessionToken.getHandle(), sessionPayload, await sessionToken.getExpiry())
+                            //         // const sessionToken = await STSession.createNewSession(res, user.id, sessionPayload, { data: 'SESSION TEST DATA' }, user);
+                            //         // future note: drivers will have only session active on a device.
+                            //         // Drivers will need their own session function for login
+                            //         // const session = await UserDA.createUserSession(sessionToken.getHandle(), sessionPayload, await sessionToken.getExpiry())
+                            //     }
+                            // }
+                        }
+                    },
+                    apis(originalImplementation, builder) {
+                        return {
+                            ...originalImplementation,
+                            signUpPOST: async function (input) {
+                                // console.log('! post signup callback input: ', input)
+                                // let response = {...await originalImplementation.signUpPOST(input), user: {...input.formFields}}
+                                // console.log('backend signup response: ', response);
+                                // if (response.status === 'OK') {
+                                //     console.log('backend signup OK');
+                                //     response = { ...response, user: {...response?.user, ...input.userContext } };
+                                //     return response
+                                // }
+                                let response = {...await originalImplementation.signUpPOST(input) }
+                                if (response.status === 'OK') {
+                                    const formFieldsArr = Object.values(input.formFields)
+                                    console.log('formFields Array: ', formFieldsArr) // yes
+                                    // console.log('formFields obj: ', Object.values(input.formFields).map((i, index )=> ({'id': i['value']})))
+                                    const formFields = formFieldsArr.map((_, index )=> {
+                                        const id = formFieldsArr[index]['id']
+                                        return {_,[id]: '1'}
+                                    })
+
+                                    // const formFields = input.formFields.reduce((acc,cur) => ({...acc, ...cur }), {})
+                                    // const result = formFields.reduce((acc,cur) => ({...acc, 'id': cur['value'] }), {})
+                                    console.log('form fields: ', formFields)
+                                    response = { ...response, user: {...response.user}}
+                                    console.log('backend signup api: ', response)
                                 }
-                                const response = await originalImp.signUp(input)
-                                console.log('signup response: ', response)
                                 return response
-                            }
+                            },
                         }
                     },
                     // apis: async (originalImplementation) => {
