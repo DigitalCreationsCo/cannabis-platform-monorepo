@@ -10,6 +10,7 @@ import {
 } from 'components';
 import { useFormik } from 'formik';
 import Head from 'next/head';
+import Router from 'next/router';
 import { useCallback, useState } from 'react';
 import toast from 'react-hot-toast';
 import { signUp } from 'supertokens-auth-react/recipe/emailpassword';
@@ -112,50 +113,23 @@ function UserSignUp() {
                         { id: 'dialCode', value: values.dialCode },
                         { id: 'phone', value: values.phone },
                         { id: 'termsAccepted', value: values.termsAccepted.toString() },
-                        { id: 'address.street1', value: values.address.street1 },
-                        { id: 'address.street2', value: values.address.street2 },
-                        { id: 'address.city', value: values.address.city },
-                        { id: 'address.state', value: values.address.state },
-                        { id: 'address.zipcode', value: values.address.zipcode },
-                        { id: 'address.country', value: values.address.country },
-                        { id: 'address.countryCode', value: values.address.countryCode }
-                    ],
-                    userContext: { ...values }
+                        { id: 'street1', value: values.address.street1 },
+                        { id: 'street2', value: values.address.street2 },
+                        { id: 'city', value: values.address.city },
+                        { id: 'state', value: values.address.state },
+                        { id: 'zipcode', value: values.address.zipcode },
+                        { id: 'country', value: values.address.country },
+                        { id: 'countryCode', value: values.address.countryCode }
+                    ]
                 });
+                console.log('front end signup response: ', signup);
                 if (signup.status === 'FIELD_ERROR') {
-                    toast.error(signup.formFields[0].error);
+                    throw new Error(signup.formFields[0].error);
                 }
                 if (signup.status === 'OK') {
+                    Router.push('/');
+                    toast.success('Your account is created.', { duration: 5000 });
                 }
-                console.log('signup: ', signup);
-                // const formData = new FormData();
-                // formData.append('username', values.username);
-                // formData.append('firstName', values.firstName);
-                // formData.append('lastName', values.lastName);
-                // formData.append('email', values.email);
-                // formData.append('password', values.password);
-                // formData.append('re_password', values.re_password);
-                // formData.append('dialCode', values.dialCode);
-                // formData.append('phone', values.phone);
-                // formData.append('termsAccepted', values.termsAccepted.toString());
-                // formData.append('address.street1', values.address.street1);
-                // formData.append('address.street2', values.address.street2);
-                // formData.append('address.city', values.address.city);
-                // formData.append('address.state', values.address.state);
-                // formData.append('address.zipcode', values.address.zipcode);
-                // formData.append('address.country', values.address.country);
-                // formData.append('address.countryCode', values.address.countryCode);
-                // const { data } = await axios.post(urlBuilder.next + '/api/signup', formData, {
-                //     headers: {
-                //         'Content-Type': 'application/json'
-                //     }
-                // });
-                setLoadingButton(false);
-                // toast.success(data.message);
-                // if (data.status === true) {
-                // nextFormStep();
-                // Router.push('/');
-                // }
             }
         } catch (error) {
             setLoadingButton(false);

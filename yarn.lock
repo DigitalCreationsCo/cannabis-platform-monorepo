@@ -1521,6 +1521,7 @@ __metadata:
     "@cd/data-access": "*"
     "@cd/shared-config": "*"
     "@cd/shared-ui": "*"
+    "@paralleldrive/cuid2": ^2.2.0
     "@prisma/client": 4.4.0
     "@reduxjs/toolkit": 1.9.1
     "@rollup/plugin-commonjs": 24.0.1
@@ -2335,6 +2336,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@noble/hashes@npm:^1.1.5":
+  version: 1.2.0
+  resolution: "@noble/hashes@npm:1.2.0"
+  checksum: 8ca080ce557b8f40fb2f78d3aedffd95825a415ac8e13d7ffe3643f8626a8c2d99a3e5975b555027ac24316d8b3c02a35b8358567c0c23af681e6573602aa434
+  languageName: node
+  linkType: hard
+
 "@nodelib/fs.scandir@npm:2.1.5":
   version: 2.1.5
   resolution: "@nodelib/fs.scandir@npm:2.1.5"
@@ -2422,6 +2430,15 @@ __metadata:
   version: 1.0.0
   resolution: "@panva/asn1.js@npm:1.0.0"
   checksum: cb6bcc1918a7f08e81e7d7f5bde83c20a66b30248ddc3ef10b1612e0e0b9f722c2b07ca6b586a089a49c1b6cfb29d63fdd23d4bc00c8cc40538b5595bec66d7d
+  languageName: node
+  linkType: hard
+
+"@paralleldrive/cuid2@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "@paralleldrive/cuid2@npm:2.2.0"
+  dependencies:
+    "@noble/hashes": ^1.1.5
+  checksum: 5d708a097d3965b17fa17cf31ae2f1351fafee686c107d290cb018620814f46654e4fdbe374984a731265b19ff2c57968f05a6c7137680e8b1ac426a7f2f8227
   languageName: node
   linkType: hard
 

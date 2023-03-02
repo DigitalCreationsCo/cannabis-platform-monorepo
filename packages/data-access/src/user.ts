@@ -53,15 +53,15 @@ export async function createDBSession(sessionHandle:string, sessionPayload: Sess
                     connect: { id: sessionPayload.userId }
                 }
             },
-            include: {
-                user: {
-                    include: {
-                        address: true,
-                        imageUser: true,
-                        memberships: true
-                    }
-                }
-            }
+            // include: {
+            //     user: {
+            //         include: {
+            //             address: true,
+            //             imageUser: true,
+            //             memberships: true
+            //         }
+            //     }
+            // }
         })
         return session;
     } catch (error: any) {
