@@ -1,4 +1,5 @@
 import { SessionPayload } from '@cd/data-access';
+import { signUp } from 'supertokens-node/recipe/emailpassword';
 import STSession from 'supertokens-node/recipe/session';
 import { UserDA } from '../data-access';
 
@@ -97,16 +98,23 @@ export default class UserController {
 
     static async signup(req, res):Promise<SessionResponsePayload> {
         try {
+            // form values from client
             const createUserData = req.body;
-            const user = await UserDA.signup(createUserData);
 
+            // create user record in db
+            const user = await UserDA.createUser(createUserData);
+
+            // // access token payload
             const sessionPayload:SessionPayload = { userId: user.id, username: user.username, email: user.email };
             
+            // // create supertokens session
             const sessionToken = await STSession.createNewSession(res, user.id, sessionPayload, { data: 'SESSION TEST DATA' }, user);
             
-            // future note: drivers will have only session active on a device.
-            // Drivers will need their own session function for login
+            // // future note: drivers will have only session active on a device.
+            // // Drivers will need their own session function for login
             const session = await UserDA.createUserSession(sessionToken.getHandle(), sessionPayload, await sessionToken.getExpiry())
+            
+            const signedUp = await signUp(user.email, user.passwordHash, user)
             return res.status(200).json({
                 status: true,
                 message: 'Your account is created!',

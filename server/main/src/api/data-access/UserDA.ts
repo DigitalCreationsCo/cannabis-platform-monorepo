@@ -113,10 +113,11 @@ export default class UserDA {
         }
     }
 
-    static async signup(createUserData: UserCreateType) {
+    static async createUser(createUserData: UserCreateType) {
         try {
             createUserData = await createPasswordHash(createUserData)
             const user = await createUser(createUserData)
+
             console.log(`created user ${user.username}`)
             return user
         } catch (error) {

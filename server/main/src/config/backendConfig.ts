@@ -42,13 +42,24 @@ export let backendConfig = (): AuthConfig => {
                             //     console.log(error)
                             //     return new Error(error)
                             // }
-                        }
-                            // async signUp(input) {
-                            //     if (input) {
-                            //         console.log('SERVER MAIN: signup input: ', input);
-                            //     }
-                            //     return originalImp.signUp(input)
-                            // }
+                        },
+                            async signUp(input) {
+                                if (input) {
+                                    console.log('SERVER MAIN: signup input: ', input);
+                                    
+                                    // const user = await UserDA.signup(createUserData);
+                                    // access token payload
+                                    // const sessionPayload:SessionPayload = { userId: user.id, username: user.username, email: user.email };
+                                    
+                                    // const sessionToken = await STSession.createNewSession(res, user.id, sessionPayload, { data: 'SESSION TEST DATA' }, user);
+                                    // future note: drivers will have only session active on a device.
+                                    // Drivers will need their own session function for login
+                                    // const session = await UserDA.createUserSession(sessionToken.getHandle(), sessionPayload, await sessionToken.getExpiry())
+                                }
+                                const response = await originalImp.signUp(input)
+                                console.log('signup response: ', response)
+                                return response
+                            }
                         }
                     },
                     // apis: async (originalImplementation) => {

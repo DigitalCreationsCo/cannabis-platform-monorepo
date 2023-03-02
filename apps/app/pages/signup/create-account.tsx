@@ -1,6 +1,5 @@
 import { UserCreateType } from '@cd/data-access';
 import { Button, FlexBox, Grid, H3, H6, Icons, Page, Paragraph, TextField } from '@cd/shared-ui';
-import axios from 'axios';
 import {
     DispensaryCreate,
     DispensaryReview,
@@ -13,9 +12,9 @@ import { useFormik } from 'formik';
 import Head from 'next/head';
 import { useCallback, useState } from 'react';
 import toast from 'react-hot-toast';
+import { signUp } from 'supertokens-auth-react/recipe/emailpassword';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
-import { urlBuilder } from '../../src/utils';
 
 function UserSignUp() {
     const [formStep, setFormStep] = useState(0);
@@ -86,34 +85,42 @@ function UserSignUp() {
         try {
             if (!loadingButton) {
                 setLoadingButton(true);
-                const formData = new FormData();
-                formData.append('username', values.username);
-                formData.append('firstName', values.firstName);
-                formData.append('lastName', values.lastName);
-                formData.append('email', values.email);
-                formData.append('password', values.password);
-                formData.append('re_password', values.re_password);
-                formData.append('dialCode', values.dialCode);
-                formData.append('phone', values.phone);
-                formData.append('termsAccepted', values.termsAccepted.toString());
-                formData.append('address.street1', values.address.street1);
-                formData.append('address.street2', values.address.street2);
-                formData.append('address.city', values.address.city);
-                formData.append('address.state', values.address.state);
-                formData.append('address.zipcode', values.address.zipcode);
-                formData.append('address.country', values.address.country);
-                formData.append('address.countryCode', values.address.countryCode);
-                const { data } = await axios.post(urlBuilder.next + '/api/signup', formData, {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
+                const signup = await signUp({
+                    formFields: [
+                        { id: 'email', value: values.email },
+                        { id: 'password', value: values.password }
+                    ],
+                    userContext: { ...values }
                 });
+                console.log('signup: ', signup);
+                // const formData = new FormData();
+                // formData.append('username', values.username);
+                // formData.append('firstName', values.firstName);
+                // formData.append('lastName', values.lastName);
+                // formData.append('email', values.email);
+                // formData.append('password', values.password);
+                // formData.append('re_password', values.re_password);
+                // formData.append('dialCode', values.dialCode);
+                // formData.append('phone', values.phone);
+                // formData.append('termsAccepted', values.termsAccepted.toString());
+                // formData.append('address.street1', values.address.street1);
+                // formData.append('address.street2', values.address.street2);
+                // formData.append('address.city', values.address.city);
+                // formData.append('address.state', values.address.state);
+                // formData.append('address.zipcode', values.address.zipcode);
+                // formData.append('address.country', values.address.country);
+                // formData.append('address.countryCode', values.address.countryCode);
+                // const { data } = await axios.post(urlBuilder.next + '/api/signup', formData, {
+                //     headers: {
+                //         'Content-Type': 'application/json'
+                //     }
+                // });
                 setLoadingButton(false);
-                toast.success(data.message);
-                if (data.status === true) {
-                    nextFormStep();
-                    // Router.push('/');
-                }
+                // toast.success(data.message);
+                // if (data.status === true) {
+                // nextFormStep();
+                // Router.push('/');
+                // }
             }
         } catch (error) {
             setLoadingButton(false);

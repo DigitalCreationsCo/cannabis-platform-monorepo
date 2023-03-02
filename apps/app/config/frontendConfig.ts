@@ -9,11 +9,11 @@ export const frontendConfig = () => {
         appInfo,
         recipeList: [
             EmailPassword.init({
-                // onHandleEvent: (context) => {
-                //     if (context.action === 'WRONG_CREDENTIALS_ERROR') {
-                //         throw new Error('Wrong email');
-                //     }
-                // }
+                onHandleEvent: (context) => {
+                    if (context.action === 'SUCCESS') {
+                        console.log('emailpassword success: ', context);
+                    }
+                }
             }),
             Session.init({
                 onHandleEvent: (event: RecipeEventWithSessionContext) => {
@@ -23,8 +23,8 @@ export const frontendConfig = () => {
                     if (event.action === 'SESSION_CREATED') {
                         console.log('session created: ', event.userContext);
                         if (
-                            event.userContext.memberships[0]?.role.toLocaleUpperCase() === 'ADMIN' ||
-                            event.userContext.memberships[0]?.role.toLocaleUpperCase() === 'OWNER'
+                            event.userContext.memberships?.[0]?.role.toLocaleUpperCase() === 'ADMIN' ||
+                            event.userContext.memberships?.[0]?.role.toLocaleUpperCase() === 'OWNER'
                         ) {
                             // window.location.href = '/dashboard';
                             window.location.href = '/';
