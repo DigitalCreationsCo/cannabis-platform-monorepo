@@ -44,6 +44,7 @@
     "@cd/data-access": "*",
     "@cd/shared-config": "*",
     "@cd/shared-ui": "*",
+    "@paralleldrive/cuid2": "2.2.0",
     "nanoid": "3.3.4",
     "pm2": "5.2.2"
   },
