@@ -16,7 +16,6 @@ export async function getSession({ req, res }): Promise<SessionInfo | null> {
                 Cookie: req.headers.cookie
             }
         });
-        console.log('get Session: ', data);
         if (data.status) {
             return data;
         } else throw new Error(data.error);

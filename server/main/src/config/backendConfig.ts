@@ -119,7 +119,20 @@ export let backendConfig = (): AuthConfig => {
                     },
                 },
             }),
-            STSession.init(),
+            STSession.init({
+                override: {
+                    apis: (originalImplementation) => {
+                        return { 
+                            ...originalImplementation,
+                            refreshPOST(input) {
+                                // update session db record with new expiry
+                                console.log('backend refreshPOST input: ', input)
+                                return originalImplementation.refreshPOST(input)
+                            },
+                        }
+                    },
+                }
+            }),
             Dashboard.init({
                 apiKey: process.env.SUPERTOKENS_DASHBOARD_KEY,
             }),

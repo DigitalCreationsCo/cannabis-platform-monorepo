@@ -107,6 +107,7 @@ export async function getServerSideProps({ req, res }) {
             console.log('No session or user');
             return { redirect: { destination: '/welcome', permanent: false } };
         }
+
         const { organizationId } = user.memberships[0];
         const organization = await (
             await axios(urlBuilder.next + `/api/organization/${organizationId}`, {
@@ -129,14 +130,20 @@ export async function getServerSideProps({ req, res }) {
                 }
             })
         ).data;
-        if (!user || !organization || !products || !orders) return { notFound: true };
+        if (!user || !organization || !products || !orders) {
+            return { notFound: true };
+        }
         return {
             props: { user, organization, products, orders }
         };
     } catch (error) {
         console.log('SSR error: ', error.message);
         if (error.type === Session.Error.TRY_REFRESH_TOKEN) {
+            console.log('needs refresh error: ', error);
             return { props: { fromSupertokens: 'needs-refresh' } };
+        } else if (error.type === Session.Error.UNAUTHORISED) {
+            console.log('unauthorized error: ', error);
+            return res.status(200).json({ status: false, error });
         } else return { redirect: { destination: '/welcome', permanent: false } };
     }
 }

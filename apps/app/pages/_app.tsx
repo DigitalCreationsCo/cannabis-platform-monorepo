@@ -48,7 +48,8 @@ export default function App({ Component, pageProps }: CustomAppProps): JSX.Eleme
                     location.reload();
                 } else {
                     // user has been logged out
-                    SuperTokensReact.redirectToAuth();
+                    // SuperTokensReact.redirectToAuth();
+                    window.location.href = '/';
                 }
             }
         }

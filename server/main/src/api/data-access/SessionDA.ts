@@ -1,21 +1,20 @@
-import { findProductsByText } from '@cd/data-access';
+import { findSessionByHandle } from '@cd/data-access';
 
 /* =================================
 Session Data Access - data class for Session table
 
 members: 
 getSession
-
 ================================= */
 
 export default class SessionDA {
-    static async getSession(search, organizationId = null) {
+    static async getSession(handle:string) {
         try {
-            const data = await findProductsByText(search, organizationId);
+            const data = await findSessionByHandle(handle);
             return data;
         } catch (error) {
-            console.error(error.message);
-            throw new Error(error.message);
+            console.error(error);
+            throw new Error(error);
         }
     }
 }

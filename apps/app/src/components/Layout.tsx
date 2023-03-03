@@ -3,8 +3,10 @@ import { LoginModal, SideNavContainer } from 'components';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ChangeEventHandler, Dispatch, PropsWithChildren, ReactEventHandler, SetStateAction, useState } from 'react';
-import SessionReact, { useSessionContext } from 'supertokens-auth-react/recipe/session';
+import { useSessionContext } from 'supertokens-auth-react/recipe/session';
+import { signOut } from 'supertokens-auth-react/recipe/thirdpartyemailpassword';
 import { twMerge } from 'tailwind-merge';
+
 import logo from '../../public/logo.png';
 import AdminDashboardNavigation from './AdminDashBoardNavigation';
 import SearchBar from './AppSearch';
@@ -17,16 +19,16 @@ export default function Layout({ onSearchChange, placeholder, children }: Layout
     const [showModal, setModal] = useState(false);
 
     const session = useSessionContext();
+    const { doesSessionExist } = session;
     if (session.loading === true) return <></>;
-    const isSignedIn = session.doesSessionExist;
 
     const styles = { main: 'bg-inverse-soft min-h-[800px]' };
     return (
         <div className="h-screen flex flex-col">
             <LoginModal open={showModal} onClose={() => setModal(false)} />
-            {isSignedIn ? (
+            {doesSessionExist ? (
                 <div className={styles.main}>
-                    <TopBar doesSessionExist={session.doesSessionExist} />
+                    <TopBar doesSessionExist={doesSessionExist} />
                     <Header
                         SearchComponent={<SearchBar placeholder={placeholder} onChange={onSearchChange} />}
                         drawerComponentId={'dashboard-links-drawer'}
@@ -41,7 +43,7 @@ export default function Layout({ onSearchChange, placeholder, children }: Layout
                 </div>
             ) : (
                 <>
-                    <TopBar doesSessionExist={session.doesSessionExist} setLoginModal={setModal} />
+                    <TopBar doesSessionExist={doesSessionExist} setLoginModal={setModal} />
                     {children}
                 </>
             )}
@@ -57,6 +59,10 @@ function TopBar({
     doesSessionExist?: boolean;
     setLoginModal?: Dispatch<SetStateAction<boolean>>;
 }) {
+    const signedOut = async () => {
+        signOut();
+        window.location.href = '/';
+    };
     const topbar = ['flex flex-row min-h-[66px] pr-4 lg:px-16 bg-inverse space-x-2 items-center shadow'];
     return (
         <div className={twMerge(topbar)}>
@@ -95,7 +101,7 @@ function TopBar({
                         </Paragraph>
                     </Link>
                     <FlexBox>
-                        <Button onClick={() => SessionReact.signOut()}>Sign Out</Button>
+                        <Button onClick={signedOut}>Sign Out</Button>
                     </FlexBox>
                 </>
             )}
