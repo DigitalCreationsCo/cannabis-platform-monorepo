@@ -73,7 +73,7 @@ function LoginModal({ open, onClose, ...props }: ModalProps) {
                 const response = await signInUser();
                 console.log('signin data: ', response);
                 setLoadingButton(false);
-                toast.success('Signing in');
+                toast.success('Signed in');
                 if (onClose) onClose();
                 Router.push('/');
             }

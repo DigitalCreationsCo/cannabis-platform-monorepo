@@ -5,6 +5,7 @@ import { Layout } from 'components';
 import { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
+import Router from 'next/router';
 import { Dispatch, SetStateAction, useEffect } from 'react';
 import toast, { Toaster, useToasterStore } from 'react-hot-toast';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
@@ -41,14 +42,12 @@ export default function App({ Component, pageProps }: CustomAppProps): JSX.Eleme
     }, [toasts]);
 
     useEffect(() => {
-        console.log('app need refresh');
         async function doRefresh() {
             if (pageProps.fromSupertokens === 'needs-refresh') {
                 if (await Session.attemptRefreshingSession()) {
                     location.reload();
                 } else {
                     // user has been logged out
-                    // SuperTokensReact.redirectToAuth();
                     window.location.href = '/';
                 }
             }
@@ -71,9 +70,9 @@ export default function App({ Component, pageProps }: CustomAppProps): JSX.Eleme
                     <StepFormValuesProvider>
                         <AppStateProvider>
                             {({ isLoading, setIsLoading }) => {
-                                // Router.events.on('routeChangeStart', () => setIsLoading(true));
-                                // Router.events.on('routeChangeComplete', () => setIsLoading(false));
-                                // Router.events.on('routeChangeError', () => setIsLoading(false));
+                                Router.events.on('routeChangeStart', () => setIsLoading(true));
+                                Router.events.on('routeChangeComplete', () => setIsLoading(false));
+                                Router.events.on('routeChangeError', () => setIsLoading(false));
 
                                 return getLayout(
                                     isLoading ? (

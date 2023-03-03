@@ -70,6 +70,9 @@ create userSignup frontend page, api route, data function (with pw hashing), ove
 
 What must I do next?
 TO DO
+// TODO update session db record with new expiry
+                                // TODO delete session db record
+                                
 1. Test db migrate with local shadow db
 why ? to have a baseline and saved database schema for recovery
 why? to have a one command deployment process for scalability that WORKS

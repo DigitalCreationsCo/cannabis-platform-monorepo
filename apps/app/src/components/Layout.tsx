@@ -3,8 +3,7 @@ import { LoginModal, SideNavContainer } from 'components';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ChangeEventHandler, Dispatch, PropsWithChildren, ReactEventHandler, SetStateAction, useState } from 'react';
-import { useSessionContext } from 'supertokens-auth-react/recipe/session';
-import { signOut } from 'supertokens-auth-react/recipe/thirdpartyemailpassword';
+import { signOut, useSessionContext } from 'supertokens-auth-react/recipe/session';
 import { twMerge } from 'tailwind-merge';
 
 import logo from '../../public/logo.png';
