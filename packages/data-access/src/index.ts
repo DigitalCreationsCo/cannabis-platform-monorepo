@@ -6,5 +6,6 @@ export * from './models';
 export * from './order';
 export * from './organization';
 export * from './product';
+export * from './session';
 export * from './user';
 
