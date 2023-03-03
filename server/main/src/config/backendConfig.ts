@@ -2,9 +2,10 @@ import { Address, findUserWithDetailsByEmail, SessionPayload, UserCreateType, Us
 import { appInfo } from "@cd/shared-config/auth/appInfo";
 import Dashboard from "supertokens-node/recipe/dashboard";
 import EmailPassword from "supertokens-node/recipe/emailpassword";
-import STSession from "supertokens-node/recipe/session";
+import Session from "supertokens-node/recipe/session";
 import { AuthConfig } from "../../interfaces";
 import { UserDA } from "../api/data-access";
+import SessionDA from "../api/data-access/SessionDA";
 
 export let backendConfig = (): AuthConfig => {
     console.log('SERVER MAIN BACKEND API INFO: ', appInfo)
@@ -83,51 +84,51 @@ export let backendConfig = (): AuthConfig => {
                                     const formFieldsArr = Object.values(input.formFields)
                                     const formFields = formFieldsArr.map((_, index )=> {
                                         const id = formFieldsArr[index]['id']
-                                        // console.log('id: ', id)
-                                        // const idVal = _[id]
-                                        // console.log('id value: ', idVal)
-                                        // const idVal2 = _['id']
-                                        // console.log('id value 2: ', idVal2)
-                                        // return {_,[id]: '1'}
                                         return {[id]: _['value']}
                                     })
+                                    
                                     const formFieldsTransformed = Object.assign({}, ...formFields)
-                                    // console.log('form fields transformed: ', formFieldsTransformed)
+                                    
                                     response = { ...response, user: {...response.user, ...formFieldsTransformed }} // yes
-                                    console.log('backend signUpPost OK response: ', response)
+                                    // console.log('backend signUpPost OK response: ', response)
 
                                     const {timeJoined, street1, street2, city, state, zipcode, country, countryCode, ...createUserData} = response.user as EmailPassword.User & UserCreateType & Address
                                     createUserData.address = {street1, street2, city, state, zipcode, country, countryCode}
                                     createUserData.createdAt = new Date(timeJoined)
-                                    console.log('create user data: ', createUserData)
+                                    // console.log('create user data: ', createUserData)
 
                                     const user = await UserDA.createUser(createUserData);
-                                    console.log ('backend signUpPost created user: ', user)
-                                    // const sessionToken = await STSession.createNewSession(res, user.id, sessionPayload, { data: 'SESSION TEST DATA' }, user);
+                                    // console.log ('backend signUpPost created user: ', user)
 
                                     // future note: drivers will have only session active on a device.
                                     // Drivers will need their own session function for login
                             
                                     const sessionPayload:SessionPayload = { userId: user.id, username: user.username, email: user.email };
                                     const dbSession = await UserDA.createUserSession(response.session.getHandle(), sessionPayload, await response.session.getExpiry())
-                                    console.log ('backend signUpPost created session: ', dbSession)
+                                    // console.log ('backend signUpPost created session: ', dbSession)
                                 }
-                                console.log('backend signUpPost response: ', response)
+                                // console.log('backend signUpPost response: ', response)
                                 return response
                             },
                         }
                     },
                 },
             }),
-            STSession.init({
+            Session.init({
                 override: {
                     apis: (originalImplementation) => {
                         return { 
                             ...originalImplementation,
-                            refreshPOST(input) {
-                                // update session db record with new expiry
+                            async refreshPOST(input) {
                                 console.log('backend refreshPOST input: ', input)
-                                return originalImplementation.refreshPOST(input)
+                                const session = await originalImplementation.refreshPOST(input)
+                                await SessionDA.updateExpireSession(session.getHandle(), await session.getExpiry())
+                                return session;
+                            },
+                            async signOutPOST(input) {
+                                const response = await originalImplementation.signOutPOST(input)
+                                await SessionDA.deleteSession(input.session.getHandle())
+                                return response;
                             },
                         }
                     },
