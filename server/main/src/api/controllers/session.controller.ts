@@ -1,7 +1,9 @@
 import { SessionInformation } from 'supertokens-node/recipe/session';
 // import { MailerService } from '../../email/mailerService';
+import Session from "supertokens-node/recipe/session";
 import { createToken, sha265hex } from '../../util/utility';
 import { UserDA } from "../data-access";
+
 /* =================================
 Session Controller - controller class for user session
 
@@ -20,16 +22,9 @@ export type SessionInfo = {
 export default class SessionController {
     static async getSession(req, res) {
         try {
-                 // await superTokensNextWrapper(
-            //     async (next) => {
-            //         return await verifySession()(req, res, next);
-            //     },
-            //     req,
-            //     res
-            // );
-            console.log('getting session from supertokens')
-            // let sessionData = req.session?.getSessionData
-            // console.log('session data: ', sessionData)
+            console.log(' 👋 backend get session here')
+            let sessionData = Session.getSession(req, res);
+            console.log('session data: ', sessionData)
             
             // console.log('Session available?: ', req.session)
             // return res.status(200).json({
@@ -38,13 +33,9 @@ export default class SessionController {
             //     user: req.session.getUserId(),
             //     accessTokenPayload: req.session.getAccessTokenPayload(),
             // });
-            // const session = {
-            //     user: { username: 'kbarnes', firstName: 'Katie', lastName: 'Barnes', memberships: [{ organizationId: '2' }] },
-            // };
-            // console.log('Session: SERVER: ', req.session)
             const session = {
-                user: null
-            }
+                user: { username: 'kbarnes', firstName: 'Katie', lastName: 'Barnes', memberships: [{ organizationId: '2' }] },
+            };
             return res.status(200).json({ session, user: session.user })
         } catch (error) {
             console.log('API error: ', error);
