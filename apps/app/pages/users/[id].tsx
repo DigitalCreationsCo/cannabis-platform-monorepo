@@ -237,7 +237,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
                                     }}
                                 >
                                     <FlexBox className="flex-col space-x-0 space-y-2 items-stretch">
-                                        <H6>{`Member since ${format(new Date(user.createdAt), 'MMM dd, yyyy')}`}</H6>
+                                        <H6>{`Member since ${format(new Date(user?.createdAt!), 'MMM dd, yyyy')}`}</H6>
                                         <TextField
                                             name="firstName"
                                             label="First Name"
@@ -402,9 +402,13 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
     );
 }
 
-export async function getServerSideProps({ params }) {
+export async function getServerSideProps({ req, params }) {
     try {
-        const userData = await (await axios(urlBuilder.next + `/api/users/${params.id}`)).data;
+        const userData = await (await axios(urlBuilder.next + `/api/users/${params.id}`,{
+            headers: {
+                Cookie: req.headers.cookie
+            }
+        })).data;
         if (!userData) return { notFound: true };
         // console.log('SSR user: ', userData)
         return {

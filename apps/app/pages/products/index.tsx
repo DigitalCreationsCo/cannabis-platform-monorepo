@@ -156,7 +156,11 @@ Products.getLayout = function (page: JSX.Element) {
 
 export async function getServerSideProps({ req, res }) {
     res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
-    const products = await (await fetch(urlBuilder.next + '/api/products')).json();
+    const products = await (await fetch(urlBuilder.next + '/api/products', {
+        headers: {
+            Cookie: req.headers.cookie
+        }
+    })).json();
     return {
         props: {
             products,

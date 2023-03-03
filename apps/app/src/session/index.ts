@@ -1,20 +1,27 @@
-import { UserWithDetails } from '@cd/data-access';
+import { SessionPayload, UserWithDetails } from '@cd/data-access';
 import axios from 'axios';
 import { SessionInformation } from 'supertokens-node/recipe/session';
 import { urlBuilder } from '../utils';
 
-export type SessionInfo = {
+type SessionInfo = {
     session: SessionInformation;
     user: UserWithDetails;
-    accessTokenPayload: unknown;
+    accessTokenPayload: SessionPayload;
 };
 
-export async function getSession(): Promise<SessionInfo | null> {
-    const { data } = await axios(urlBuilder.next + '/api/session');
-    console.log('get Session: ', data);
-    if (data) {
-        return data;
-    } else {
-        return null;
+export async function getSession({ req, res }): Promise<SessionInfo | null> {
+    try {
+        const { data } = await axios(urlBuilder.next + '/api/session', {
+            headers: {
+                Cookie: req.headers.cookie
+            }
+        });
+        console.log('get Session: ', data);
+        if (data.status) {
+            return data;
+        } else throw new Error(data.error);
+    } catch (error) {
+        console.log('get session error: ', error);
+        throw new Error(error.message);
     }
 }

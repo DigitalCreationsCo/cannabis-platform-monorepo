@@ -322,9 +322,15 @@ export default function OrderDetails({ order }: { order: OrderWithDetails }) {
     );
 }
 
-export async function getServerSideProps({ params }) {
+export async function getServerSideProps({ req, params }) {
     try {
-        const order = await (await axios(urlBuilder.next + `/api/orders/${params.id}`)).data;
+        const order = await (
+            await axios(urlBuilder.next + `/api/orders/${params.id}`, {
+                headers: {
+                    Cookie: req.headers.cookie
+                }
+            })
+        ).data;
         if (!order) return { notFound: true };
         return {
             props: { order }

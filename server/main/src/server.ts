@@ -4,8 +4,10 @@ import express from 'express';
 import http from 'http';
 import Supertokens from 'supertokens-node';
 import { errorHandler, middleware, SessionRequest } from 'supertokens-node/framework/express';
+import Session from 'supertokens-node/recipe/session';
 import { verifySession } from "supertokens-node/recipe/session/framework/express";
-import { error, organization, shop } from './api/routes';
+import { SessionInfo } from './api/controllers/session.controller';
+import { errorRoute, organization, shop } from './api/routes';
 import { backendConfig } from './config/backendConfig';
 
 console.log('Starting server...');
@@ -29,28 +31,52 @@ app.use(middleware());
 // app.use(bodyParser.urlencoded({ extended: true }));
 // app.use(bodyParser.json());
 
-// app.use('/api/v1/healthcheck', (req, res) => {
-//     return res.status(200).json('OK');
-// });
+app.use('/api/v1/healthcheck', (req, res) => {
+    return res.status(200).json('OK');
+});
 // app.use('/api/v1/auth', user);
 // app.use('/api/v1/driver', driver);
-app.get('/api/v1/session', verifySession(), async (req:SessionRequest, res) => {
-    const session2 = req.session
-    const session = {
-        user: {
-            username: 'kbarnes',
-            firstName: 'Katie',
-            lastName: 'Barnes',
-            memberships: [{ organizationId: '2' }]
+app.get('/api/v1/session', verifySession(), async (req:SessionRequest, res, next) => {
+    try{
+        // const session = req.session
+        const session = {
+            user: {
+                username: 'kbarnes',
+                firstName: 'Katie',
+                lastName: 'Barnes',
+                memberships: [{ organizationId: '2' }]
+            }
+        };
+        // console.log('session data :', session.getSessionData())
+        // console.log('session ac token payload :', session.getAccessTokenPayload())
+        // console.log('session token :', session.getAccessToken())
+        // console.log('session user id :', session.getUserId())
+        
+        // res.send({
+        //     sessionHandle: session.getHandle(),
+        //     userId: session.getUserId(),
+        //     sessionData: await session.getSessionData(),
+        //   });
+        return res.status(200).json({ status: true, session: session, user: session.user });
+    }
+    catch (error) {
+        console.log('API error: ', error);
+        if (error.type === Session.Error.TRY_REFRESH_TOKEN) {
+            console.log('try refresh token error: ', error);
+            return res.status(200).json({ status: false, error });
+            // return { props: { fromSupertokens: 'needs-refresh' } }
+        } else if (error.type === Session.Error.UNAUTHORISED) {
+            console.log('unauthorized error: ', error)
+            return res.status(200).json({ status: false, error });
         }
-    };
-    return res.status(200).json({ session, user: session.user });
+        res.status(200).json({ status: false, error });
+    }
 });
 // app.use('/api/v1/session', session);
 app.use('/api/v1/shop', shop);
 app.use('/api/v1/organization', organization);
 // error handling test routes
-app.use('/api/v1/error', error);
+app.use('/api/v1/error', errorRoute);
 // supertokens errorhandler
 app.use(errorHandler());
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -67,3 +93,8 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
 
 const server = http.createServer(app);
 export default server;
+
+export type SessionResponse = {
+    status: boolean;
+    session: SessionInfo;
+}

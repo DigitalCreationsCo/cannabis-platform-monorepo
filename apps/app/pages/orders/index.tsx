@@ -47,8 +47,14 @@ export default function Orders({ orders }: OrdersDashboardProps) {
     );
 }
 
-export async function getServerSideProps() {
-    const orders: Order[] = await (await fetch(urlBuilder.next + '/api/orders')).json();
+export async function getServerSideProps({ req }) {
+    const orders: Order[] = await (
+        await fetch(urlBuilder.next + '/api/orders', {
+            headers: {
+                Cookie: req.headers.cookie
+            }
+        })
+    ).json();
     return {
         props: {
             orders

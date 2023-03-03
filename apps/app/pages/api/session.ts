@@ -10,12 +10,15 @@ const handler = nc();
 handler.get(async (req: ExtendRequest, res: NextApiResponse) => {
     try {
         // res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=10');
-        const { data } = await axios(urlBuilder.main.getSession());
-        console.log('next backend: GET SESSION: ', data);
-        return res.status(res.statusCode).json(data);
+        const { data } = await axios(urlBuilder.main.getSession(), {
+            headers: {
+                Cookie: req.headers.cookie
+            }
+        });
+        res.status(res.statusCode).json({ status: true, data });
     } catch (error) {
-        // throw new error to handle any error discrepancy between frontend and next api
-        throw new Error(error.response.data);
+        console.log('next api session error: ', error);
+        res.status(res.statusCode).json({ status: false, error });
     }
 });
 

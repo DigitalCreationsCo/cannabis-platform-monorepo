@@ -426,9 +426,13 @@ export default function ProductDetails({ product }: { product: ProductWithDetail
     );
 }
 
-export async function getServerSideProps({ params }) {
+export async function getServerSideProps({ req, params }) {
     try {
-        const product = await (await axios(urlBuilder.next + `/api/products/${params.id}`)).data;
+        const product = await (await axios(urlBuilder.next + `/api/products/${params.id}`, {
+            headers: {
+                Cookie: req.headers.cookie
+            }
+        })).data;
         if (!product) return { notFound: true };
         return {
             props: { product },

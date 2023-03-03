@@ -1,4 +1,4 @@
-import { User, UserWithDetails } from '@cd/data-access';
+import { UserWithDetails } from '@cd/data-access';
 import { Button, Card, DeleteButton, Grid, H6, Icons, Page, Paragraph, Row } from '@cd/shared-ui';
 import axios from 'axios';
 import { PageHeader, ProtectedPage } from 'components';
@@ -67,7 +67,7 @@ export default function Users({ users }: UsersDashboardProps) {
                                     <Row className="h-[54px] py-0">
                                         <Image
                                             className="hidden sm:block"
-                                            src={user.imageUser[0]?.location}
+                                            src={user.imageUser?.[0]?.location}
                                             alt=""
                                             height={100}
                                             width={100}
@@ -118,9 +118,16 @@ export default function Users({ users }: UsersDashboardProps) {
     );
 }
 
-export async function getServerSideProps({ res }) {
+export async function getServerSideProps({ req, res }) {
     res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
-    const users: User[] = await (await fetch(urlBuilder.next + '/api/users')).json();
+    const users: UserWithDetails[] = await (
+        await fetch(urlBuilder.next + '/api/users', {
+            headers: {
+                Cookie: req.headers.cookie
+            }
+        })
+    ).json();
+    console.log('users page: ', users[0].memberships);
     return {
         props: {
             users
