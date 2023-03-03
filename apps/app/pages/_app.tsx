@@ -41,6 +41,7 @@ export default function App({ Component, pageProps }: CustomAppProps): JSX.Eleme
     }, [toasts]);
 
     useEffect(() => {
+        console.log('app need refresh');
         async function doRefresh() {
             if (pageProps.fromSupertokens === 'needs-refresh') {
                 if (await Session.attemptRefreshingSession()) {

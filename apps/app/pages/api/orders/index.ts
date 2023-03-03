@@ -13,7 +13,7 @@ handler.use(authMiddleware).use(healthCheckMiddleware);
 handler.get(async (req: ExtendRequest, res: NextApiResponse) => {
     try {
         res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
-        const { user } = await getSession();
+        const { user } = await getSession({ req, res });
         const { organizationId } = user.memberships[0];
         req.organizationId = organizationId;
         if (cache.has(`orders/org/${organizationId}`)) {

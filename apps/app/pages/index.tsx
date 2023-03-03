@@ -3,6 +3,7 @@ import { Card, Grid, Icons, OrderRow, Page } from '@cd/shared-ui';
 import axios from 'axios';
 import { PageHeader, ProductRow, ProtectedPage } from 'components';
 import { useMemo } from 'react';
+import Session from 'supertokens-node/recipe/session';
 import { getSession } from '../src/session';
 import { urlBuilder } from '../src/utils';
 
@@ -101,21 +102,41 @@ export const findLowStockVariants = (products) =>
 
 export async function getServerSideProps({ req, res }) {
     try {
-        const { session, user } = await getSession();
+        const { session, user } = await getSession({ req, res });
         if (!session || !user) {
+            console.log('No session or user');
             return { redirect: { destination: '/welcome', permanent: false } };
         }
-
         const { organizationId } = user.memberships[0];
-        const organization = await (await axios(urlBuilder.next + `/api/organization/${organizationId}`)).data;
-        const products = await (await axios(urlBuilder.next + '/api/products')).data;
-        const orders = await (await axios(urlBuilder.next + '/api/orders/')).data;
+        const organization = await (
+            await axios(urlBuilder.next + `/api/organization/${organizationId}`, {
+                headers: {
+                    Cookie: req.headers.cookie
+                }
+            })
+        ).data;
+        const products = await (
+            await axios(urlBuilder.next + '/api/products', {
+                headers: {
+                    Cookie: req.headers.cookie
+                }
+            })
+        ).data;
+        const orders = await (
+            await axios(urlBuilder.next + '/api/orders/', {
+                headers: {
+                    Cookie: req.headers.cookie
+                }
+            })
+        ).data;
         if (!user || !organization || !products || !orders) return { notFound: true };
         return {
             props: { user, organization, products, orders }
         };
     } catch (error) {
         console.log('SSR error: ', error.message);
-        throw new Error(error);
+        if (error.type === Session.Error.TRY_REFRESH_TOKEN) {
+            return { props: { fromSupertokens: 'needs-refresh' } };
+        } else return { redirect: { destination: '/welcome', permanent: false } };
     }
 }
