@@ -10,7 +10,8 @@ Session Controller - controller class for user session
 members:
 getSession
 sendPasswordResetTokenEmail
-resetPassword
+doResetPassword
+
 ================================= */
 
 export type SessionInfo = {

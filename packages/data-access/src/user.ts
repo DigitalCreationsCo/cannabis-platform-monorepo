@@ -1,6 +1,15 @@
 import { Address, ImageUser, Membership, Prisma, User } from "@prisma/client";
 import prisma from "./db/prisma";
 
+/*
+* User Data Access functions
+*
+* createUser
+* findUserWithDetailsByEmail
+* findUserWithDetailsById
+* updateUserPasswordToken
+*/
+
 export async function createUser(userData: any) {
     try {
         const user = await prisma.user.create({
@@ -37,35 +46,6 @@ export async function createUser(userData: any) {
                 throw new Error('This user exists already. Please choose a different username or email.')
             }
           }
-        throw new Error(error)
-    }
-}
-
-export async function createDBSession(sessionHandle:string, sessionPayload: SessionPayload, expires:number) {
-    try {
-        const session = await prisma.session.create({
-            data: {
-                sessionHandle,
-                email: sessionPayload.email,
-                username: sessionPayload.username,
-                expires: new Date(),
-                user: {
-                    connect: { id: sessionPayload.userId }
-                }
-            },
-            // include: {
-            //     user: {
-            //         include: {
-            //             address: true,
-            //             imageUser: true,
-            //             memberships: true
-            //         }
-            //     }
-            // }
-        })
-        return session;
-    } catch (error: any) {
-        console.error(error)
         throw new Error(error)
     }
 }
@@ -155,11 +135,6 @@ export type UserLoginData = {
     password: string;
 }
 
-export type SessionPayload = {
-    username: string;
-    userId: string;
-    email: string;
-}
 // export type UserCreateType = Prisma.PromiseReturnType<typeof createUser>
 // export type UserWithDetails = Prisma.PromiseReturnType<typeof findUserWithDetails>
 

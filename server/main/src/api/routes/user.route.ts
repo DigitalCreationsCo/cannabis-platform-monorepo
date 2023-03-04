@@ -4,12 +4,6 @@ const router = Router();
 /* =================================
 User Routes
 
-"/signin"                       signin
-
-"/signout"                      signout
-
-"/signout"                      signout
-
 "/user/:id"                     getUserById
 
 "/address"                      addAddressToUser
@@ -19,12 +13,6 @@ User Routes
 "/user/:id/address/:addressId"  deleteAddressById
 
 ================================= */
-
-router.route('/user/signin').post(userCtrl.signin);
-
-router.route('/user/signup').post(userCtrl.signup);
-
-router.route('/user/signout').post(userCtrl.signout);
 
 router.route('/user/:id').get(userCtrl.getUserById);
 

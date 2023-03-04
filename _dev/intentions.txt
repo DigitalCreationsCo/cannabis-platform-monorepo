@@ -67,8 +67,23 @@ switched shared-ui to rollup to resolve docker build issue, and improve ci exper
 Fix password hashing
 create newSession override function - i didn't, i used express route for signup
 create userSignup frontend page, api route, data function (with pw hashing), override supertokens
+3-3-22
+signup flow OK
+get session flow OK
 
-What must I do next?
+
+What must I do next? 3-4-2023
+signin flow
+production environment testing: {
+    upload the latest repo
+    test with supertokens, mysql containers
+    write a docker compose file (or whatever kubernetes uses)
+    test in the cloud,
+    create hte k8s config, so I can save money in between deployments. ;)
+    Message Kalifa SATURDAY to have a call on Monday.
+}
+
+
 TO DO
 // TODO update session db record with new expiry
                                 // TODO delete session db record

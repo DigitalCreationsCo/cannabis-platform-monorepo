@@ -1,14 +1,12 @@
-import { createAddress, createDBSession, createUser, findAddressById, findUserWithDetailsByEmail, findUserWithDetailsById, removeAddressByIdAndUserId, SessionPayload, updateUserPasswordToken, UserCreateType, UserLoginData } from '@cd/data-access';
-import { SessionContainer } from 'supertokens-node/recipe/session';
+import { createAddress, createUser, findAddressById, findUserWithDetailsByEmail, findUserWithDetailsById, removeAddressByIdAndUserId, updateUserPasswordToken, UserCreateType } from '@cd/data-access';
 import { createPasswordHash } from '../../util/utility';
 
 /* =================================
-User Data Access - data class for User table
+User Data Access - data methods for User Controller
 
 members:
-signin
-signout
-signup
+signin                  not used
+signout                 not used
 
 getUserById
 getUserByEmail
@@ -18,39 +16,39 @@ addAddressToUser
 removeAddressFromUser
 
 updatePasswordToken
-
-createUserSession
+createUser
 
 ================================= */
 
 export default class UserDA {
-    static async signin(userLoginData: UserLoginData) {
-        try {
-        const user = await findUserWithDetailsByEmail(userLoginData.email)
+    // static async signin(userLoginData: UserLoginData) {
+    //     try {
+    //     const user = await findUserWithDetailsByEmail(userLoginData.email)
 
-		if (user !== null && user.passwordHash === null) {
-			throw new Error('Please reset your password');
-		}
+	// 	if (user !== null && user.passwordHash === null) {
+	// 		throw new Error('Please reset your password');
+	// 	}
 
-		// if (user !== null && !(await compare(userLoginData.password, user.hashedPassword ?? ''))) {
-        //     throw new Error('Invalid password')
-        // }
-			return user;
-        } catch (error) {
-            console.error(error.message);
-            throw new Error(error);
-        }
-    }
+	// 	// if (user !== null && !(await compare(userLoginData.password, user.hashedPassword ?? ''))) {
+    //     //     throw new Error('Invalid password')
+    //     // }
+	// 		return user;
+    //     } catch (error) {
+    //         console.error(error.message);
+    //         throw new Error(error);
+    //     }
+    // }
 
-    static async signout(session: SessionContainer) {
-        try {
-            await session.revokeSession()
-            console.log(`session ${session.getUserId()} is revoked.`)
-        } catch (error) {
-            console.error(error.message);
-            throw new Error('Logout failed.');
-        }
-    }
+    // untested
+    // static async signout(session: SessionContainer) {
+    //     try {
+    //         await session.revokeSession()
+    //         console.log(`session ${session.getUserId()} is revoked.`)
+    //     } catch (error) {
+    //         console.error(error.message);
+    //         throw new Error('Logout failed.');
+    //     }
+    // }
 
     static async getUserById(id) {
         try {
@@ -123,16 +121,6 @@ export default class UserDA {
         } catch (error) {
             console.error('UserDA error: ', error.message);
             throw new Error(error.message);
-        }
-    }
-
-    static async createUserSession(sessionHandle: string, sessionPayload: SessionPayload, expires: number) {
-        try {
-            const session = await createDBSession(sessionHandle, sessionPayload, expires)
-            return session;
-        } catch (error) {
-            console.error(error.message);
-            throw new Error(error);
         }
     }
 }

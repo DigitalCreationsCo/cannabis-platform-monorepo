@@ -99,7 +99,6 @@ function UserSignUp() {
     // TEST
     async function onSubmit(values: UserCreateType) {
         try {
-            if (errors) console.log('errors: ', errors);
             if (!loadingButton) {
                 setLoadingButton(true);
                 const signup = await signUp({
@@ -122,7 +121,6 @@ function UserSignUp() {
                         { id: 'countryCode', value: values.address.countryCode }
                     ]
                 });
-                console.log('front end signup response: ', signup);
                 if (signup.status === 'FIELD_ERROR') {
                     throw new Error(signup.formFields[0].error);
                 }

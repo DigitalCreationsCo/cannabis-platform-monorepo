@@ -17,7 +17,7 @@ function LoginModal({ open, onClose, ...props }: ModalProps) {
         setPasswordVisibility((visible) => !visible);
     }, []);
 
-    const { values, errors, touched, handleBlur, handleChange, handleSubmit, resetForm } = useFormik({
+    const { values, errors, touched, handleBlur, handleChange, handleSubmit, resetForm, validateForm } = useFormik({
         initialValues,
         onSubmit,
         validationSchema
@@ -32,7 +32,6 @@ function LoginModal({ open, onClose, ...props }: ModalProps) {
 
     async function signInUser() {
         try {
-            console.log('sign in');
             const response = await signIn({
                 formFields: [
                     {
@@ -57,25 +56,39 @@ function LoginModal({ open, onClose, ...props }: ModalProps) {
         }
     }
 
-    async function onSubmit(values: typeof initialValues) {
+    function notifyValidation() {
+        validateForm().then((errors) => {
+            if (Object.values(errors).length > 0) {
+                console.log('validation errors: ', errors);
+                toast.error(Object.values(errors)[0].toString());
+            }
+        });
+    }
+    async function onSubmit() {
         setLoadingButton(true);
         try {
             if (!loadingButton) {
                 setLoadingButton(true);
-                // const formData = new FormData();
-                // formData.append('email', values.email);
-                // formData.append('password', values.password);
-                // const { data } = await axios.post(urlBuilder.next + `/api/signin`, formData, {
-                //     headers: {
-                //         'Content-Type': 'application/json'
-                //     }
-                // });
-                const response = await signInUser();
-                console.log('signin data: ', response);
-                setLoadingButton(false);
-                toast.success('Signed in');
-                if (onClose) onClose();
-                Router.push('/');
+                const signin = await signIn({
+                    formFields: [
+                        {
+                            id: 'email',
+                            value: values.email
+                        },
+                        {
+                            id: 'password',
+                            value: values.password
+                        }
+                    ]
+                });
+                console.log('frontend signin: ', signin);
+                if (signin.status === 'WRONG_CREDENTIALS_ERROR') {
+                    throw new Error(signin.message);
+                }
+                if (signin.status === 'OK') {
+                    Router.push('/');
+                    toast.success('Signed in', { duration: 5000 });
+                }
             }
         } catch (error) {
             setLoadingButton(false);
@@ -128,6 +141,7 @@ function LoginModal({ open, onClose, ...props }: ModalProps) {
                             onClick={(e) => {
                                 e.preventDefault();
                                 e.stopPropagation();
+                                notifyValidation();
                                 handleSubmit();
                             }}
                         >
