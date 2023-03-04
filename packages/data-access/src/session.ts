@@ -1,4 +1,14 @@
 import prisma from "./db/prisma";
+
+/*
+* Session Data Access functions
+*
+* findSessionByHandle
+* createSession
+* updateExpireSession
+* deleteSessionByHandle
+*/
+
 export async function findSessionByHandle(sessionHandle:string) {
     try {
         const data = await prisma.session.findUnique({
@@ -13,6 +23,35 @@ export async function findSessionByHandle(sessionHandle:string) {
     } catch (error: any) {
         console.error(error);
         throw new Error(error);
+    }
+}
+
+export async function createSession(sessionHandle:string, sessionPayload: SessionPayload, expires:number) {
+    try {
+        const session = await prisma.session.create({
+            data: {
+                sessionHandle,
+                email: sessionPayload.email,
+                username: sessionPayload.username,
+                expires: new Date(),
+                user: {
+                    connect: { id: sessionPayload.userId }
+                }
+            },
+            // include: {
+            //     user: {
+            //         include: {
+            //             address: true,
+            //             imageUser: true,
+            //             memberships: true
+            //         }
+            //     }
+            // }
+        })
+        return session;
+    } catch (error: any) {
+        console.error(error)
+        throw new Error(error)
     }
 }
 
@@ -45,4 +84,10 @@ export async function deleteSessionByHandle(sessionHandle:string) {
         console.error(error);
         throw new Error(error);
     }
+}
+
+export type SessionPayload = {
+    username: string;
+    userId: string;
+    email: string;
 }

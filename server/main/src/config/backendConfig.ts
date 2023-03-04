@@ -4,8 +4,7 @@ import Dashboard from "supertokens-node/recipe/dashboard";
 import EmailPassword from "supertokens-node/recipe/emailpassword";
 import Session from "supertokens-node/recipe/session";
 import { AuthConfig } from "../../interfaces";
-import { UserDA } from "../api/data-access";
-import SessionDA from "../api/data-access/SessionDA";
+import { SessionDA, UserDA } from "../api/data-access";
 
 export let backendConfig = (): AuthConfig => {
     console.log('SERVER MAIN BACKEND API INFO: ', appInfo)
@@ -42,11 +41,13 @@ export let backendConfig = (): AuthConfig => {
                         return { 
                             ...originalImplementation,
                             async signIn(input: UserLoginData) {
+                                try{
                                 const user = await findUserWithDetailsByEmail(input.email)
-                                console.log('backend signin user: ', user)
-                                // if (userContext === null) {
-                                //     throw new Error('User does not exist');
-                                // }
+                                console.log('user: ', user)
+                                if (user === null) {
+                                    console.log('User does not exist')
+                                    throw new Error('User does not exist');
+                                }
                                 // if (userContext !== null && userContext.passwordHash === null) {
                                 //     throw new Error('Please reset your password');
                                 // }
@@ -55,24 +56,30 @@ export let backendConfig = (): AuthConfig => {
                                 //     throw new Error('Invalid password')
                                 // }
                                 const response = await originalImplementation.signIn({...input, userContext: user})
-                                console.log('backend signin response: ', response)
                                 return response
+                                } catch (error) {
+                                    console.log('backend signin error: ', error)
+                                    // throw new Error(error)
+                                    return { 
+                                        status: 'WRONG_CREDENTIALS_ERROR',
+                                        message: error
+                                    }
+                                }
                             },
-                            // async signUp(input) {
-                            //     const response = await originalImplementation.signUp(input)
-                            //     if (response.status === 'OK') {
-                            //         // set cuid as the user id, for data parity
-                            //         response.user.id = createId()
-                            //     }
-                            //     if (response.status ==="EMAIL_ALREADY_EXISTS_ERROR") return response
-                            //     console.log('backend signup response: ', response)
-                            //     return response
-                            // }
                         }
                     },
                     apis(originalImplementation) {
                         return {
                             ...originalImplementation,
+                            signInPOST: async function (input) {
+                                try {
+                                console.log('backend signInPost input: ', input)
+                                return originalImplementation.signInPOST(input)
+                                } catch (error) {
+                                    console.log('backend signInPost error: ', error)
+                                    throw new Error(error)
+                                }
+                            },
                             signUpPOST: async function (input) {
                                 console.log('backend signUpPost input: ', input)
                                 if (originalImplementation.signUpPOST === undefined) {
@@ -104,7 +111,7 @@ export let backendConfig = (): AuthConfig => {
                                     // Drivers will need their own session function for login
                             
                                     const sessionPayload:SessionPayload = { userId: user.id, username: user.username, email: user.email };
-                                    const dbSession = await UserDA.createUserSession(response.session.getHandle(), sessionPayload, await response.session.getExpiry())
+                                    const dbSession = await SessionDA.createUserSession(response.session.getHandle(), sessionPayload, await response.session.getExpiry())
                                     // console.log ('backend signUpPost created session: ', dbSession)
                                 }
                                 // console.log('backend signUpPost response: ', response)
@@ -116,16 +123,29 @@ export let backendConfig = (): AuthConfig => {
             }),
             Session.init({
                 override: {
+                    functions: (originalImplementation) => {
+                        return {
+                            ...originalImplementation,
+                            createNewSession: async (input) => {
+                                console.log('backend createNewSession input: ', input)
+                                // create new user session, or driver session
+                                const session = await originalImplementation.createNewSession(input)
+                                const sessionPayload:SessionPayload = { userId: input.userId, username: input.accessTokenPayload.username, email: input.accessTokenPayload.email };
+                                const dbSession = await SessionDA.createUserSession(session.getHandle(), sessionPayload, await session.getExpiry())
+                                return session;
+                            }
+                        }
+                    },
                     apis: (originalImplementation) => {
                         return { 
                             ...originalImplementation,
-                            async refreshPOST(input) {
+                            refreshPOST: async (input) => {
                                 console.log('backend refreshPOST input: ', input)
                                 const session = await originalImplementation.refreshPOST(input)
                                 await SessionDA.updateExpireSession(session.getHandle(), await session.getExpiry())
                                 return session;
                             },
-                            async signOutPOST(input) {
+                            signOutPOST: async (input) => {
                                 const response = await originalImplementation.signOutPOST(input)
                                 await SessionDA.deleteSession(input.session.getHandle())
                                 return response;
