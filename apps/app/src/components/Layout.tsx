@@ -18,8 +18,8 @@ export default function Layout({ onSearchChange, placeholder, children }: Layout
     const [showModal, setModal] = useState(false);
 
     const session = useSessionContext();
-    const { doesSessionExist } = session;
     if (session.loading === true) return <></>;
+    const { doesSessionExist } = session;
 
     const styles = { main: 'bg-inverse-soft min-h-[800px]' };
     return (

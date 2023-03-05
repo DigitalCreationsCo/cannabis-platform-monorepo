@@ -83,7 +83,7 @@ function LoginModal({ open, onClose, ...props }: ModalProps) {
                 });
                 console.log('frontend signin: ', signin);
                 if (signin.status === 'WRONG_CREDENTIALS_ERROR') {
-                    throw new Error(signin.message);
+                    throw new Error(signin.status);
                 }
                 if (signin.status === 'OK') {
                     Router.push('/');
