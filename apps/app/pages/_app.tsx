@@ -1,6 +1,4 @@
-import '@cd/shared-config/index.css';
 import { Center, LoadingDots, Padding } from '@cd/shared-ui';
-import '@cd/shared-ui/dist/style.css';
 import { Layout } from 'components';
 import { NextPage } from 'next';
 import { AppProps } from 'next/app';
@@ -14,6 +12,7 @@ import { frontendConfig } from '../config/frontendConfig';
 import AppStateProvider from '../src/context/AppProvider';
 import ModalProvider from '../src/context/ModalProvider';
 import StepFormValuesProvider from '../src/context/StepFormProvider';
+import '../styles/globals.css';
 
 export type ExtendedPageComponent<P = Record<string, unknown>, IP = P> = NextPage<P, IP> & {
     getLayout?: (page: JSX.Element) => JSX.Element;
