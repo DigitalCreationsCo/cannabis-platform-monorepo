@@ -2,6 +2,7 @@
     "dependencies": {
         "@cd/data-access": "*",
         "@cd/shared-config": "*",
+        "@cd/shared-lib": "*",
         "@cd/shared-ui": "*",
         "@reduxjs/toolkit": "1.9.1",
         "@tailwindcss/typography": "0.5.8",

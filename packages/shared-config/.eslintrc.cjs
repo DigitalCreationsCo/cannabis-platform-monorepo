@@ -4,24 +4,24 @@ module.exports = {
     rules: {
         eqeqeq: 'error',
         'no-console': 'off',
-        'prettier/prettier': 'error',
+        'prettier/prettier': 'error'
     },
     env: {
         browser: true,
         node: true,
         es6: true,
-        jest: true,
+        jest: true
     },
     parserOptions: {
         sourceType: 'module',
-        ecmaVersion: 'latest',
+        ecmaVersion: 'latest'
     },
     settings: {
         'import/resolver': {
             node: {
-                extensions: ['.js', '.jsx', '.ts', '.tsx', '.png', '.css'],
-            },
-        },
+                extensions: ['.js', '.jsx', '.ts', '.tsx', '.png', '.css']
+            }
+        }
     },
-    ignorePatterns: ['node_modules', 'build', 'dist', 'public'],
+    ignorePatterns: ['node_modules', 'build', 'dist', 'public']
 };

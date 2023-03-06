@@ -1,0 +1,45 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    // "allowSyntheticDefaultImports": true,
+    // "forceConsistentCasingInFileNames": true,
+    // "isolatedModules": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "declaration": true,
+    "lib": ["ES2021"],
+    "target": "ES5",
+    "declarationMap": true,
+    // "skipLibCheck": true,
+    "moduleResolution": "Node",
+    // "useDefineForClassFields": true,
+    // "allowUnusedLabels": false,
+    // "allowUnreachableCode": false,
+    // "exactOptionalPropertyTypes": true,
+    // "noFallthroughCasesInSwitch": true,
+    // "noImplicitOverride": true,
+    // "noImplicitReturns": true,
+    // "noPropertyAccessFromIndexSignature": true,
+    // "noUncheckedIndexedAccess": true,
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+    // "importsNotUsedAsValues": "error",
+    // "checkJs": true,
+    "rootDir": "src",
+    "outDir": "dist"
+  },
+  "include": ["src"],
+  "watchOptions": {
+    // Use native file system events for files and directories
+    "watchFile": "useFsEvents",
+    "watchDirectory": "useFsEvents",
+    // Poll files for updates more frequently
+    // when they're updated a lot.
+    "fallbackPolling": "dynamicPriority",
+    // Don't coalesce watch notification
+    "synchronousWatchDirectory": true,
+    // Finally, two additional settings for reducing the amount of possible
+    // files to track  work from these directories
+    "excludeDirectories": ["node_modules","build", "dist"],
+  }
+}
