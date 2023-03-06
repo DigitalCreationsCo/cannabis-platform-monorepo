@@ -3,10 +3,12 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "build": "NODE_ENV=production next build",
+    "debug": "NODE_OPTIONS='--inspect' next dev",
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "start": "next start"
   },
   "dependencies": {
     "@cd/data-access": "*",
