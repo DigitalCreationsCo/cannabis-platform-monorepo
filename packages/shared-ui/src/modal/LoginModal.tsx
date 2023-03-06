@@ -9,6 +9,7 @@ import { signIn } from 'supertokens-auth-react/recipe/emailpassword';
 import * as yup from 'yup';
 import Modal, { ModalProps } from './Modal';
 
+// inject signin functions into this login component
 function LoginModal({ open, onClose, ...props }: ModalProps) {
     const [loadingButton, setLoadingButton] = useState(false);
     const [passwordVisibility, setPasswordVisibility] = useState(false);
@@ -30,7 +31,7 @@ function LoginModal({ open, onClose, ...props }: ModalProps) {
         resetForm();
     };
 
-    async function signInUser() {
+    async function signedInUser() {
         try {
             const response = await signIn({
                 formFields: [
@@ -47,8 +48,12 @@ function LoginModal({ open, onClose, ...props }: ModalProps) {
             if (response.status === 'WRONG_CREDENTIALS_ERROR') {
                 throw new Error('Email or Password is incorrect.');
             }
+            console.log('frontend signin: ', signin);
             if (response.status === 'OK') {
-                return 'Signed in';
+                // do something with the session object, save in persisted storage
+                Router.push('/');
+                toast.success('Signed in', { duration: 5000 });
+                setLoadingButton(false);
             }
         } catch (error) {
             console.error(error);
@@ -69,26 +74,7 @@ function LoginModal({ open, onClose, ...props }: ModalProps) {
         try {
             if (!loadingButton) {
                 setLoadingButton(true);
-                const signin = await signIn({
-                    formFields: [
-                        {
-                            id: 'email',
-                            value: values.email
-                        },
-                        {
-                            id: 'password',
-                            value: values.password
-                        }
-                    ]
-                });
-                console.log('frontend signin: ', signin);
-                if (signin.status === 'WRONG_CREDENTIALS_ERROR') {
-                    throw new Error(signin.status);
-                }
-                if (signin.status === 'OK') {
-                    Router.push('/');
-                    toast.success('Signed in', { duration: 5000 });
-                }
+                await signedInUser();
             }
         } catch (error) {
             setLoadingButton(false);

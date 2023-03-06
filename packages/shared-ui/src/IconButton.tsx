@@ -1,7 +1,7 @@
 import { PropsWithChildren, ReactEventHandler } from 'react';
 import Button from './Button';
 import IconWrapper, { IconProps } from './IconWrapper';
-interface IconButtonProps extends IconProps {
+export interface IconButtonProps extends IconProps {
     type?: 'button' | 'submit' | 'reset';
     onClick?: ReactEventHandler;
     className?: string;

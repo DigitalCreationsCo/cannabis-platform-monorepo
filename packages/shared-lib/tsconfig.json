@@ -1,28 +1,3 @@
-// {
-//   "compilerOptions": {    
-//     "declarationMap": true,
-//     // "lib": ["dom","dom.iterable","ES2021"],
-//     // "isolatedModules": true,
-//     // "incremental": true,
-//     "target": "ESNext",
-//     "emitDeclarationOnly": true,
-//     "declaration": true,
-//     "sourceMap": true,
-
-//     "strict": false,
-//     "forceConsistentCasingInFileNames": true,
-//     "module": "esnext",
-//     "moduleResolution": "node",
-
-//     "rootDir": "src",
-//     "esModuleInterop": true,
-//     "allowSyntheticDefaultImports": true,
-//     "jsx": "react-jsx",
-//     "outDir": "dist"
-//   },
-//   "include": ["src"]
-// }
-
 {
   "compilerOptions": {
     "declaration": true,
@@ -38,6 +13,10 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
+    "rootDir": "src",
+    // "incremental": true,
+    // "isolatedModules": true,
+    // "lib": ["dom","dom.iterable","ES2021"],
   },
   "include": ["src"]
 }

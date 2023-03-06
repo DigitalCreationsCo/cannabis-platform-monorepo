@@ -1,7 +1,10 @@
 import { IconButton, Icons } from '@cd/shared-ui';
 import { twMerge } from 'tailwind-merge';
+import { IconButtonProps } from './IconButton';
 
-function CloseButton(props) {
+type CloseButtonProps = IconButtonProps;
+
+function CloseButton(props: CloseButtonProps) {
     const closeButtonStyle =
         'bg-transparent hover:bg-transparent md:hover:bg-transparent shadow-none top-0 right-0 px-0 m-0 w-min h-min absolute';
     return (

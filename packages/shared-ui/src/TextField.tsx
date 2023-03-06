@@ -17,7 +17,7 @@ type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
     onChange: ReactEventHandler;
     onBlur?: ReactEventHandler;
     error?: boolean;
-    helperText?: string;
+    helperText?: string | false;
     insertIcon?: ((props: SVGAttributes<SVGElement>) => JSX.Element) | CarbonIconType;
     onClickIcon?: any;
     inputRef?: any;

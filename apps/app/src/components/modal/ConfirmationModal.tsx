@@ -1,6 +1,6 @@
 import { Button, FlexBox } from '@cd/shared-ui';
+import Modal, { ModalProps } from '@cd/shared-ui/src/modal/Modal';
 import { ReactNode } from 'react';
-import Modal, { ModalProps } from './Modal';
 
 interface ConfirmationModalProps extends ModalProps {
     confirmMessage?: string;
