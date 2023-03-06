@@ -1,8 +1,6 @@
 {
   "name": "@cd/cannabis-platform-monorepo",
   "version": "0.0.1",
-  "main": "index.js",
-  "license": "MIT",
   "private": true,
   "workspaces": [
     "apps/*",
@@ -29,6 +27,7 @@
     "build:prod": "turbo run build:prod",
     "test": "turbo run test",
     "app": "yarn workspace @cd/app",
+    "shop": "yarn workspace @cd/shop",
     "ui": "yarn workspace @cd/shared-ui",
     "main": "yarn workspace @cd/server-main",
     "db": "yarn workspace @cd/data-access"

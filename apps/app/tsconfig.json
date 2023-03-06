@@ -5,7 +5,7 @@
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
-    "useUnknownInCatchVariables": false,
+    "useUnknownInCatchVariables": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -15,28 +15,13 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "paths": {
-      "components": [
-        "./src/components/"
-      ],
-      "hooks": [
-        "./src/hooks/"
-      ],
-      "middleware": [
-        "./src/middleware/"
-      ],
-      "utils": [
-        "./src/utils/"
-      ]
-    }
   },
   "include": [
     "next-env.d.ts",
     "**/**/*.ts",
     "**/**/*.tsx",
-    "interfaces.d.ts"
-, "next.config.mjs"  ],
-  "exclude": [
-    "node_modules"
-  ]
+    "interfaces.d.ts",
+    "next.config.mjs",
+  ],
+  "exclude": [ "node_modules" ]
 }
