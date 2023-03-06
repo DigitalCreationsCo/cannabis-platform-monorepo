@@ -12,30 +12,30 @@ export default {
             file: packageJson.main,
             format: 'cjs',
             name: '@cd/shared-ui',
-            sourcemap: true,
+            sourcemap: true
         },
         {
             file: packageJson.module,
             format: 'esm',
-            sourcemap: true,
-        },
+            sourcemap: true
+        }
     ],
     plugins: [
         postcss({
             config: {
-                path: './postcss.config.cjs',
+                path: './postcss.config.cjs'
             },
             extensions: ['.css'],
             minimize: true,
             inject: {
-                insertAt: 'top',
+                insertAt: 'top'
             },
-            extract: path.resolve('dist/style.css'),
+            extract: path.resolve('dist/style.css')
         }),
         resolve(),
         commonjs(),
 
-        typescript({ tsconfig: './tsconfig.json' }),
+        typescript({ tsconfig: './tsconfig.json' })
     ],
-    external: ['react', 'react-dom'],
+    external: ['react', 'react-dom']
 };

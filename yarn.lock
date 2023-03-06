@@ -1698,6 +1698,17 @@ __metadata:
   dependencies:
     "@cd/data-access": "*"
     "@cd/shared-config": "*"
+    "@types/react-dom": 18.0.8
+    eslint-config-next: 13.0.6
+    eslint-config-prettier: 8.5.0
+    eslint-plugin-import: 2.26.0
+    eslint-plugin-jsx-a11y: 6.6.1
+    eslint-plugin-prettier: 4.2.1
+    eslint-plugin-react: 7.31.11
+    eslint-plugin-react-hooks: 4.6.0
+    eslint-plugin-simple-import-sort: 8.0.0
+    next: 13.0.6
+    typescript: 4.9.3
   peerDependencies:
     react: 18.2.0
     react-dom: 18.2.0
