@@ -1,4 +1,6 @@
-export type ExtendedPageComponent<P = Record<string, unknown>, IP = P> = NextPage<P, IP> & {
+import { Dispatch, SetStateAction } from "react";
+
+export type ExtendedPageComponent = {
     getLayout?: (page: JSX.Element) => JSX.Element;
     isLoading: boolean;
     setIsLoading: Dispatch<SetStateAction<boolean>>;

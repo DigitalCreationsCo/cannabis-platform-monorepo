@@ -1,4 +1,4 @@
-import { ExtendedPageComponent, ModalProvider } from '@cd/shared-lib';
+import { AppStateProvider, ExtendedPageComponent, ModalProvider } from '@cd/shared-lib';
 import { Center, LoadingDots, Padding } from '@cd/shared-ui';
 import { Layout } from 'components';
 import { AppProps } from 'next/app';
@@ -9,7 +9,6 @@ import toast, { Toaster, useToasterStore } from 'react-hot-toast';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session from 'supertokens-auth-react/recipe/session';
 import { frontendConfig } from '../config/frontendConfig';
-import AppStateProvider from '../src/context/AppProvider';
 import StepFormValuesProvider from '../src/context/StepFormProvider';
 import '../styles/globals.css';
 

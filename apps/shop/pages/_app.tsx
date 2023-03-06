@@ -1,3 +1,4 @@
+import { ExtendedPageComponent } from '@cd/shared-lib';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useEffect } from 'react';
@@ -5,15 +6,16 @@ import toast, { Toaster, useToasterStore } from 'react-hot-toast';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session from 'supertokens-auth-react/recipe/session';
 import { frontendConfig } from '../config/frontendConfig';
-
 // must go to shared-lib
 // import ModalProvider from '../src/context/ModalProvider';
-
 import '../styles/globals.css';
 
-if (typeof window !== 'undefined') SuperTokensReact.init(frontendConfig());
+type CustomAppProps = AppProps & {
+    Component: ExtendedPageComponent;
+};
 
-export default function App({ Component, pageProps }: AppProps) {
+if (typeof window !== 'undefined') SuperTokensReact.init(frontendConfig());
+export default function App({ Component, pageProps }: CustomAppProps) {
     const getLayout = Component.getLayout || ((page) => <p>Page Layout{page}</p>);
 
     const TOAST_LIMIT = 2;

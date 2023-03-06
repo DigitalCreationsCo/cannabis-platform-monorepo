@@ -1,10 +1,6 @@
 import React from 'react';
 
-const AppContext = React.createContext(null);
-
-export default function AppStateProvider({
-    children
-}: {
+interface AppContextProps {
     children: ({
         isLoading,
         setIsLoading
@@ -12,7 +8,10 @@ export default function AppStateProvider({
         isLoading: boolean;
         setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
     }) => JSX.Element;
-}) {
+}
+const AppContext = React.createContext(null);
+
+export default function AppStateProvider({ children }: AppContextProps) {
     const [isLoading, setIsLoading] = React.useState(false);
 
     const context = React.useMemo(() => ({ isLoading, setIsLoading }), [isLoading, setIsLoading]);

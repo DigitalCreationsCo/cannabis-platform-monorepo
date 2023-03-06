@@ -1,5 +1,4 @@
 import '@cd/shared-config/index.css';
-
 export { default as Button } from './Button';
 export { default as Card } from './Card';
 export { default as Center } from './Center';
@@ -11,7 +10,6 @@ export { default as Footer } from './Footer';
 export { default as Grid } from './Grid';
 export { default as Header } from './Header';
 export { default as IconButton } from './IconButton';
-export * from './icons';
 export { default as Icons } from './icons';
 export { default as IconWrapper } from './IconWrapper';
 export { default as Label } from './Label';

@@ -28,4 +28,6 @@ const StepFormValuesProvider = ({ children }) => {
 
 const useFormContext = () => useContext<FormContextProps>(FormContext);
 
-export { useFormContext, StepFormValuesProvider, FormContextProps, FormDataProps };
+export { useFormContext, StepFormValuesProvider };
+export type { FormContextProps, FormDataProps };
+
