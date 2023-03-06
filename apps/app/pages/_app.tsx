@@ -1,33 +1,23 @@
+import { ExtendedPageComponent, ModalProvider } from '@cd/shared-lib';
 import { Center, LoadingDots, Padding } from '@cd/shared-ui';
 import { Layout } from 'components';
-import { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import Router from 'next/router';
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { useEffect } from 'react';
 import toast, { Toaster, useToasterStore } from 'react-hot-toast';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session from 'supertokens-auth-react/recipe/session';
 import { frontendConfig } from '../config/frontendConfig';
 import AppStateProvider from '../src/context/AppProvider';
-import ModalProvider from '../src/context/ModalProvider';
 import StepFormValuesProvider from '../src/context/StepFormProvider';
 import '../styles/globals.css';
-
-export type ExtendedPageComponent<P = Record<string, unknown>, IP = P> = NextPage<P, IP> & {
-    getLayout?: (page: JSX.Element) => JSX.Element;
-    isLoading: boolean;
-    setIsLoading: Dispatch<SetStateAction<boolean>>;
-};
 
 type CustomAppProps = AppProps & {
     Component: ExtendedPageComponent;
 };
 
-if (typeof window !== 'undefined') {
-    SuperTokensReact.init(frontendConfig());
-}
-
+if (typeof window !== 'undefined') SuperTokensReact.init(frontendConfig());
 export default function App({ Component, pageProps }: CustomAppProps): JSX.Element {
     const getLayout = Component.getLayout || ((page) => <Layout>{page}</Layout>);
 

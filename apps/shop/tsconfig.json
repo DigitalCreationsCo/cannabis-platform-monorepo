@@ -20,6 +20,7 @@
     "**/**/*.ts", 
     "**/**/*.tsx", 
     "interfaces.d.ts",
+    "next.config.mjs",
 ],
   "exclude": [ "node_modules" ]
 }

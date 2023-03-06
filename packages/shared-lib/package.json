@@ -1,0 +1,23 @@
+{
+  "name": "@cd/shared-lib",
+  "dependencies": {
+    "@cd/data-access": "*",
+    "@cd/shared-config": "*"
+  },
+  "devDependencies": {
+    "typescript": "4.9.3"
+  },
+  "main": "dist",
+  "type": "module",
+  "peerDependencies": {
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "watch": "tsc --watch"
+  },
+  "private": true,
+  "types": "./dist/index.d.ts",
+  "version": "0.0.1"
+}
