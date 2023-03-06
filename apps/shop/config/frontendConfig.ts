@@ -1,7 +1,14 @@
-import { appInfo } from '@cd/shared-config/auth/appInfo';
 import { RecipeEventWithSessionContext } from 'supertokens-auth-react/lib/build/recipe/session/types';
 import EmailPassword from 'supertokens-auth-react/recipe/emailpassword';
 import Session from 'supertokens-auth-react/recipe/session';
+
+const port = process.env.SHOP_APP_PORT || 30000;
+const appInfo = {
+    appName: 'Cannabis Delivery',
+    websiteDomain: process.env.NEXT_PUBLIC_SHOP_APP_URL || `http://localhost:${port}`,
+    apiDomain: process.env.SERVER_MAIN_URL || `http://localhost:60001`,
+    apiBasePath: '/api/v1/'
+};
 
 export const frontendConfig = () => {
     console.log('FRONTEND API INFO: ', appInfo);

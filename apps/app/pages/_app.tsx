@@ -1,6 +1,5 @@
 import { AppStateProvider, ExtendedPageComponent, ModalProvider } from '@cd/shared-lib';
-import { Center, LoadingDots, Padding } from '@cd/shared-ui';
-import { Layout } from 'components';
+import { Center, Layout, LoadingDots, Padding } from '@cd/shared-ui';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import Router from 'next/router';

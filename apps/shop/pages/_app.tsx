@@ -6,8 +6,7 @@ import toast, { Toaster, useToasterStore } from 'react-hot-toast';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session from 'supertokens-auth-react/recipe/session';
 import { frontendConfig } from '../config/frontendConfig';
-// must go to shared-lib
-// import ModalProvider from '../src/context/ModalProvider';
+import { Layout } from '../src/components';
 import '../styles/globals.css';
 
 type CustomAppProps = AppProps & {
@@ -16,7 +15,7 @@ type CustomAppProps = AppProps & {
 
 if (typeof window !== 'undefined') SuperTokensReact.init(frontendConfig());
 export default function App({ Component, pageProps }: CustomAppProps) {
-    const getLayout = Component.getLayout || ((page) => <p>Page Layout{page}</p>);
+    const getLayout = Component.getLayout || ((page) => <Layout>Page Layout{page}</Layout>);
 
     const TOAST_LIMIT = 2;
     const { toasts } = useToasterStore();

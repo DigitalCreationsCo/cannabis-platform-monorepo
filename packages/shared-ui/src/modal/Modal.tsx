@@ -1,9 +1,9 @@
 //Modal.tsx
+import { useModal } from '@cd/shared-lib';
 import { H6 } from '@cd/shared-ui';
-import { useOnClickOutside } from 'hooks';
+// import { useOnClickOutside } from 'hooks';
 import React, { useEffect, useRef } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { useModal } from '../../context';
 import CloseButton from '../CloseButton';
 
 export type ModalProps = {
@@ -27,12 +27,12 @@ const Modal = ({
 }: ModalProps) => {
     const { setModalOpen } = useModal();
     const ref = useRef(null);
-    useOnClickOutside(ref, () => {
-        if (!disableClickOutside) {
-            onClose();
-            setModalOpen(false);
-        }
-    });
+    // useOnClickOutside(ref, () => {
+    //     if (!disableClickOutside) {
+    //         onClose();
+    //         setModalOpen(false);
+    //     }
+    // });
     useEffect(() => {
         if (open) setModalOpen(true);
     }, [open, setModalOpen]);
