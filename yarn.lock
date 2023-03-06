@@ -1754,7 +1754,9 @@ __metadata:
     autoprefixer: 10.4.13
     axios: 1.2.1
     busboy: 1.6.0
+    clsx: 1.2.1
     daisyui: 2.46.0
+    date-fns: 2.29.3
     dotenv: 16.0.3
     dotenv-expand: 10.0.0
     eslint: 8.29.0
