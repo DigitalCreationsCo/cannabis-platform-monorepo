@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 const AdminDashboardNavigation = () => {
     let { pathname } = useRouter();
     return (
-        <div>
+        <ul>
             {links.map((item) => {
                 const href = (item.href.length > 1 && item.href.slice(1)) || item.href;
                 pathname = (item.href.length === 1 && pathname.slice(1)) || pathname;
@@ -14,7 +14,7 @@ const AdminDashboardNavigation = () => {
                     </NavLink>
                 );
             })}
-        </div>
+        </ul>
     );
 };
 

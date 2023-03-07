@@ -54,21 +54,6 @@ function TopBar({ doesSessionExist, setModal, signedOut }: TopBarProps) {
                     <Button onClick={() => setModal(true)}>Sign In</Button>
                 </FlexBox>
             )}
-            {/* cart button for user app */}
-            {/* <Link href="/cart">
-                <Button className="relative">
-                    Bag
-                    { totalItems >= 1 && (
-                        <div
-                            className={ twMerge(
-                                'absolute inline-flex items-center justify-center w-6 h-6 text-sm text-light bg-primary -top-2 -right-2 rounded-full'
-                            ) }
-                        >
-                            { totalItems }
-                        </div>
-                    ) }
-                </Button>
-            </Link> */}
         </div>
     );
 }

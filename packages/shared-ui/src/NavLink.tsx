@@ -13,14 +13,14 @@ export interface NavLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
 const NavLink = ({ href, Icon, isActive, children, className }: NavLinkProps) => {
     const navLinkStyle = [
         'h-[44px] flex space-x-2 p-4 items-center border-l-4 border-transparent hover:border-primary',
-        isActive ? 'border-primary' : 'border-transparent',
+        isActive ? 'border-primary' : 'border-transparent'
     ];
     return (
         <Link href={href}>
-            <div className={twMerge(navLinkStyle, className)}>
+            <li className={twMerge(navLinkStyle, className)}>
                 <IconWrapper Icon={Icon} />
                 <StyledLink isActive={isActive}>{children}</StyledLink>
-            </div>
+            </li>
         </Link>
     );
 };
@@ -28,7 +28,7 @@ const NavLink = ({ href, Icon, isActive, children, className }: NavLinkProps) =>
 const StyledLink = ({
     isActive,
     className,
-    children,
+    children
 }: { isActive: boolean; className?: string } & PropsWithChildren) => {
     return <Paragraph className={twMerge('whitespace-nowrap', className)}>{children}</Paragraph>;
 };
