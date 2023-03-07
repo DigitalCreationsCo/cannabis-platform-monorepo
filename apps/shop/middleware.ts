@@ -1,4 +1,4 @@
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 export const config = {
     matcher: [
         /*
@@ -20,7 +20,7 @@ export default function middleware(req: NextRequest) {
     console.log('SHOP_APP_URL: ', shopAppUrl);
 
     const url = req.nextUrl;
-    console.log('url: ', url.href);
+    console.log('url: ', url);
 
     const pathname = url.pathname;
     console.log('pathname: ', pathname);
@@ -28,23 +28,24 @@ export default function middleware(req: NextRequest) {
     const hostname = req.headers.get('host');
     console.log('hostname: ', hostname);
 
-    const subDomain = hostname?.replace(shopAppUrl, ''); // PUT YOUR DOMAIN HERE
+    const subDomain = hostname?.replace('.' + shopAppUrl, ''); // PUT YOUR DOMAIN HERE
     console.log('subDomain: ', subDomain);
+    console.log(' ');
 
     // 1. IF VIEWING THE BASE,URL REDIREC TO /BROWSE FOR MARKETPLACE PAGE
     // 2. IF HOSTNAME STARTS WITH APP., REDIRECT TO DASHBOARD APP URL
-    // if (subDomain === 'app') {
-    //     // check cookies and sign in if session token exists
-    //     // if (
-    //     //     url.pathname === '/login' &&
-    //     //     (req.cookies.get('next-auth.session-token') || req.cookies.get('__Secure-next-auth.session-token'))
-    //     // ) {
-    //     //     url.pathname = '/';
-    //     //     return NextResponse.redirect(url);
-    //     // }
-    //     url.pathname = `/app${pathname}`;
-    //     // return NextResponse.rewrite(url);
-    // }
+    if (subDomain === 'app') {
+        // check cookies and sign in if session token exists
+        // if (
+        //     url.pathname === '/login' &&
+        //     (req.cookies.get('next-auth.session-token') || r                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          eq.cookies.get('__Secure-next-auth.session-token'))
+        // ) {
+        //     url.pathname = '/';
+        //     return NextResponse.redirect(url);
+        // }
+        url.pathname = `/app${pathname}`;
+        return NextResponse.rewrite(url);
+    }
 
     // if (subDomain === shopAppUrl && pathname === '/') {
     //     console.log('redirecting to /browse');
@@ -61,7 +62,6 @@ export default function middleware(req: NextRequest) {
     //     // the main logic component will happen in pages/sites/[site]/index.tsx
     //     return NextResponse.rewrite(new URL(`/_stores/${subDomainId}${pathname}`, req.url));
     // }
-    console.log(' ');
     // return NextResponse.rewrite(new URL(`/_stores/${subDomainId}${pathname}`, req.url));
 
     // Prevent security issues – users should not be able to canonically access
