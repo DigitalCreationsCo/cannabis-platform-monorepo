@@ -5,7 +5,7 @@ import SideNavContainer from './SideNavContainer';
 
 // import AdminDashboardNavigation from './AdminDashBoardNavigation';
 interface LayoutProps extends PropsWithChildren {
-    SideNavComponent: React.ElementType;
+    SideNavComponent: () => JSX.Element;
     TopBarComponent: React.ElementType;
     signedOut: () => void;
     setModal: Dispatch<SetStateAction<boolean>>;

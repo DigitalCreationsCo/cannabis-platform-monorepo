@@ -1,8 +1,9 @@
-import { Button, FlexBox, H2, logo, Paragraph } from '@cd/shared-ui';
+import { Button, FlexBox, H2, Paragraph } from '@cd/shared-ui';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Dispatch, SetStateAction } from 'react';
 import { twMerge } from 'tailwind-merge';
+import logo from '../../public/logo.png';
 
 export type TopBarProps = {
     doesSessionExist?: boolean;
@@ -11,9 +12,13 @@ export type TopBarProps = {
 };
 
 function TopBar({ doesSessionExist, setModal, signedOut }: TopBarProps) {
-    const topbar = ['flex flex-row h-[66px] pr-4 lg:px-16 bg-inverse space-x-2 items-center shadow'];
+    const styles = {
+        topbar: ['flex flex-row h-[66px] pr-4 lg:px-16 bg-inverse space-x-2 items-center shadow'],
+        badge: 'indicator absolute inline-flex items-center justify-center w-6 h-6 text-sm text-light bg-primary -top-2 -right-2 rounded-full'
+    };
+
     return (
-        <div className={twMerge(topbar)}>
+        <div className={twMerge(styles.topbar)}>
             <Link href="/" passHref>
                 <Image alt="Gras" width={50} height={50} src={logo} />
             </Link>
@@ -36,6 +41,14 @@ function TopBar({ doesSessionExist, setModal, signedOut }: TopBarProps) {
                 </Paragraph>
             </Link>
             <div className="flex-1"></div>
+            <Link href="/cart">
+                <Button className="indicator w-[100px]">
+                    Bag
+                    {/* { totalItems >= 1 && ( */}
+                    <div className={twMerge(styles.badge)}>{6}</div>
+                </Button>
+            </Link>
+
             {doesSessionExist && (
                 <>
                     <Link href="/support">
@@ -53,21 +66,6 @@ function TopBar({ doesSessionExist, setModal, signedOut }: TopBarProps) {
                     <Button onClick={() => setModal(true)}>Sign In</Button>
                 </FlexBox>
             )}
-            {/* cart button for user app */}
-            {/* <Link href="/cart">
-                <Button className="relative">
-                    Bag
-                    { totalItems >= 1 && (
-                        <div
-                            className={ twMerge(
-                                'absolute inline-flex items-center justify-center w-6 h-6 text-sm text-light bg-primary -top-2 -right-2 rounded-full'
-                            ) }
-                        >
-                            { totalItems }
-                        </div>
-                    ) }
-                </Button>
-            </Link> */}
         </div>
     );
 }

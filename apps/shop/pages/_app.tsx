@@ -1,11 +1,13 @@
 import { ExtendedPageComponent } from '@cd/shared-lib';
+import { Layout } from '@cd/shared-ui';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import toast, { Toaster, useToasterStore } from 'react-hot-toast';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
-import Session from 'supertokens-auth-react/recipe/session';
+import Session, { signOut } from 'supertokens-auth-react/recipe/session';
 import { frontendConfig } from '../config/frontendConfig';
+import { TopBar } from '../src/components';
 import '../styles/globals.css';
 
 type CustomAppProps = AppProps & {
@@ -14,10 +16,17 @@ type CustomAppProps = AppProps & {
 
 if (typeof window !== 'undefined') SuperTokensReact.init(frontendConfig());
 export default function App({ Component, pageProps }: CustomAppProps) {
-    // const getLayout = Component.getLayoutContext || ((page) => <div>Page Layout{page}</div>);
-    // const getLayoutContext = () => {
-    //     return Component.getLayoutContext() || null;
-    // };
+    const doesSessionExist = useRef(undefined);
+    useEffect(() => {
+        async function checkSession() {
+            doesSessionExist.current = await Session.doesSessionExist();
+        }
+        checkSession();
+    });
+
+    const signedOut = async () => {
+        signOut();
+    };
 
     const TOAST_LIMIT = 2;
     const { toasts } = useToasterStore();
@@ -44,6 +53,9 @@ export default function App({ Component, pageProps }: CustomAppProps) {
     if (pageProps.fromSupertokens === 'needs-refresh') {
         return null;
     }
+
+    const getLayoutContext = Component.getLayoutContext || (() => ({}));
+
     return (
         <>
             <Head>
@@ -52,7 +64,26 @@ export default function App({ Component, pageProps }: CustomAppProps) {
             </Head>
             <SuperTokensWrapper>
                 <Toaster position="top-center" />
-                <Component {...pageProps} />
+                <Layout
+                    SideNavComponent={() => (
+                        <>
+                            <ul>
+                                <li>Home</li>
+                                <li>Flower</li>
+                                <li>Edibles</li>
+                            </ul>
+                        </>
+                    )}
+                    TopBarComponent={TopBar}
+                    signedOut={signedOut}
+                    setModal={() => {
+                        console.log('set Modal');
+                    }}
+                    doesSessionExist={doesSessionExist.current}
+                    {...getLayoutContext()}
+                >
+                    <Component {...pageProps} />
+                </Layout>
             </SuperTokensWrapper>
         </>
     );
