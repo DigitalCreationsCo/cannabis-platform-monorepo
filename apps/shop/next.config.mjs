@@ -17,11 +17,11 @@ const nextConfig = {
             },
             {
                 source: '/app',
-                destination: `${dashboardAppUrl}`
+                destination: `${dashboardAppUrl}/app`
             },
             {
                 source: '/app/:path*',
-                destination: `${dashboardAppUrl}/:path*`
+                destination: `${dashboardAppUrl}/app/:path*`
             }
         ];
     },
