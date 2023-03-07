@@ -7,6 +7,7 @@ import { expand } from 'dotenv-expand';
 expand(config({ path: loadEnv(nodeEnv) }));
 
 const nextConfig = {
+    basePath: '/app',
     reactStrictMode: true,
     swcMinify: true,
     output: 'standalone',

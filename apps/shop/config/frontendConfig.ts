@@ -58,7 +58,7 @@ export const frontendConfig = () => {
                 // }
                 onHandleEvent: (event: RecipeEventWithSessionContext) => {
                     if (event.action === 'UNAUTHORISED' || event.action === 'SIGN_OUT') {
-                        window.location.href = '/welcome';
+                        window.location.href = '/';
                     }
                     if (event.action === 'SESSION_CREATED') {
                         if (
