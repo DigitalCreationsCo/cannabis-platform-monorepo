@@ -51,7 +51,7 @@ function TopBar({ doesSessionExist, setModal, signedOut }: TopBarProps) {
             )}
             {!doesSessionExist && (
                 <FlexBox>
-                    <Button onClick={() => setModal(true)}>Sign THIS</Button>
+                    <Button onClick={() => setModal(true)}>Sign In</Button>
                 </FlexBox>
             )}
             {/* cart button for user app */}

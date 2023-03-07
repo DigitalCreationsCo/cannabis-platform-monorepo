@@ -59,7 +59,7 @@
     "scripts": {
         "build": "NODE_ENV=production next build",
         "debug": "NODE_OPTIONS='--inspect' next dev",
-        "dev": "next dev",
+        "dev": "next dev -p 3001",
         "lint": "next lint",
         "lint:fix": "eslint . --ext .ts,.tsx --fix",
         "start": "next start",
