@@ -31,10 +31,10 @@
   },
   "include": [
     "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
+    "**/**/*.ts",
+    "**/**/*.tsx",
     "interfaces.d.ts",
-    "next.config.mjs", 
+    "next.config.mjs",  
   ],
   "exclude": [ "node_modules" ]
 }

@@ -1,6 +1,5 @@
 import { ProductVariantWithDetails } from '@cd/data-access';
-import { FlexBox, Paragraph, Price, TextField } from '@cd/shared-ui';
-import { ConfirmationModal } from 'components';
+import { ConfirmationModal, FlexBox, Paragraph, Price, TextField } from '@cd/shared-ui';
 import Image from 'next/image';
 import { PropsWithChildren, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
@@ -10,7 +9,7 @@ type ProductItemProps = {
     product: ProductVariantWithDetails;
     handleConfirm?: any;
 };
-function ProductItem({ product, className, handleConfirm, children }: ProductItemProps & PropsWithChildren) {
+function ProductItem({ product, className, handleConfirm }: ProductItemProps & PropsWithChildren) {
     const [openConfirm, setOpenConfirm] = useState(false);
     const [quantity, setQuantity] = useState(1);
     const toggleConfirm = () => setOpenConfirm((state) => !state);

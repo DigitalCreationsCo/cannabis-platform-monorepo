@@ -2,6 +2,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
 import path from 'path';
+import image from 'rollup-plugin-img';
 import postcss from 'rollup-plugin-postcss';
 import packageJson from './package.json' assert { type: 'json' };
 
@@ -34,8 +35,10 @@ export default {
         }),
         resolve(),
         commonjs(),
-
-        typescript({ tsconfig: './tsconfig.json' })
+        typescript({ tsconfig: './tsconfig.json' }),
+        image({
+            output: 'dist/assets'
+        })
     ],
     external: ['react', 'react-dom']
 };

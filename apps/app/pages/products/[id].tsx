@@ -13,6 +13,7 @@ import {
     Grid,
     Icons,
     LoadingDots,
+    Modal,
     Padding,
     Page,
     Paragraph,
@@ -21,7 +22,7 @@ import {
     UploadImageBox
 } from '@cd/shared-ui';
 import axios from 'axios';
-import { ClickableTags, DropZone, Modal, PageHeader, ProtectedPage } from 'components';
+import { ClickableTags, DropZone, PageHeader, ProtectedPage } from 'components';
 import { Formik } from 'formik';
 import { useCategory, useOnClickOutside } from 'hooks';
 import Image from 'next/image';

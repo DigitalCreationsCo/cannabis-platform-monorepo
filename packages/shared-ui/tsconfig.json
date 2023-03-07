@@ -8,11 +8,11 @@
     "jsx": "react-jsx",
     "sourceMap": true,
     "outDir": "dist",
-    "strict": true,
+    "strict": false,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
   },
-  "include": ["src", "../../apps/app/src/components/TopBar.tsx"]
+  "include": ["src"]
 }

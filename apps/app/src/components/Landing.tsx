@@ -1,10 +1,9 @@
-import { Button, Center, H1, H5, Paragraph } from '@cd/shared-ui';
+import { Button, Center, H1, H5, LoginModal, Paragraph } from '@cd/shared-ui';
 import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import { PropsWithChildren, useState } from 'react';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import backdrop from '../../public/marijuana-backdrop.png';
-import { LoginModal } from './modal';
 export default function LandingPage() {
     const [showModal, setModal] = useState(false);
 

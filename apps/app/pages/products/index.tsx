@@ -3,8 +3,9 @@ import axios from 'axios';
 import { useState } from 'react';
 // import toast from "react-hot-toast";
 import { Product } from '@cd/data-access';
+import { LayoutContext } from '@cd/shared-lib';
 import { Button, Card, DeleteButton, Grid, H6, Icons, Page, Row } from '@cd/shared-ui';
-import { Layout, PageHeader, ProtectedPage } from 'components';
+import { PageHeader, ProtectedPage } from 'components';
 import { usePagination } from 'hooks';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -141,18 +142,16 @@ export default function Products({ products }: ProductsDashboardProps) {
     );
 }
 
-Products.getLayout = function (page: JSX.Element) {
-    return (
-        <Layout placeholder={ 'Search Products' } onSearchChange={ (e) => {
-            const { target } = e
-            if (target) {
-                ProductsSetSearchDispatch.setSearchValue((target as HTMLInputElement).value);
+Products.getLayoutContext = ():LayoutContext => ({
+    placeholder: 'Search Products', 
+    onSearchChange: (e) => {
+            if (e?.target) {
+                ProductsSetSearchDispatch.setSearchValue((e.target as HTMLInputElement).value);
             }
-        } }>
-            {page}
-        </Layout>
-    );
-};
+        }
+    // page: page,
+    }
+);
 
 export async function getServerSideProps({ req, res }) {
     res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');

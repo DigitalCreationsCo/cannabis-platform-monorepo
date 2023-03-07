@@ -11,7 +11,7 @@ export default function Home() {
             </Head>
             <div>
                 <p>Shopping App</p>
-                Env: APP_NAME: {process.env.NEXT_PUBLIC_SHOP_APP_NAME}
+                Env: APP_NAME: {appName}
             </div>
         </>
     );

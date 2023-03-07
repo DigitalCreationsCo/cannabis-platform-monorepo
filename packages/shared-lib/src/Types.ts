@@ -1,7 +1,18 @@
-import { Dispatch, SetStateAction } from "react";
+import { ChangeEventHandler, Dispatch, ReactEventHandler, SetStateAction } from "react";
 
 export type ExtendedPageComponent = {
-    getLayout?: (page: JSX.Element) => JSX.Element;
+    getLayoutContext?: () => LayoutContext;
     isLoading: boolean;
     setIsLoading: Dispatch<SetStateAction<boolean>>;
 };
+
+export type LayoutContext = {
+    SideNavComponent?: React.ElementType;
+    TopBarComponent?: React.ElementType;
+    signedOut?: () => void;
+    setModal?: Dispatch<SetStateAction<boolean>>;
+    onSearchChange?: ChangeEventHandler<HTMLInputElement> & ReactEventHandler<Element>;
+    placeholder?: string;
+    doesSessionExist?: boolean;
+    // page: JSX.Element;
+}

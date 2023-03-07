@@ -1,12 +1,16 @@
-import { Button, FlexBox, Grid, H1, H3, H6, Icons, Paragraph, TextField } from '@cd/shared-ui';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import Link from 'next/link';
-import Router from 'next/router';
 import { useCallback, useState } from 'react';
 import toast from 'react-hot-toast';
 import { signIn } from 'supertokens-auth-react/recipe/emailpassword';
 import * as yup from 'yup';
+import Button from '../Button';
+import FlexBox from '../FlexBox';
+import Grid from '../Grid';
+import Icons from '../icons';
+import TextField from '../TextField';
+import { H1, H3, H6, Paragraph } from '../Typography';
 import Modal, { ModalProps } from './Modal';
 
 // inject signin functions into this login component
@@ -48,10 +52,11 @@ function LoginModal({ open, onClose, ...props }: ModalProps) {
             if (response.status === 'WRONG_CREDENTIALS_ERROR') {
                 throw new Error('Email or Password is incorrect.');
             }
-            console.log('frontend signin: ', signin);
+            console.log('frontend signin: ', response);
             if (response.status === 'OK') {
                 // do something with the session object, save in persisted storage
-                Router.push('/');
+                // Router.push('/');
+                window.location.href = '/';
                 toast.success('Signed in', { duration: 5000 });
                 setLoadingButton(false);
             }

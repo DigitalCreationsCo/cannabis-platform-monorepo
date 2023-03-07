@@ -29,6 +29,7 @@
     "app": "yarn workspace @cd/app",
     "shop": "yarn workspace @cd/shop",
     "ui": "yarn workspace @cd/shared-ui",
+    "lib": "yarn workspace @cd/shared-lib",
     "main": "yarn workspace @cd/server-main",
     "db": "yarn workspace @cd/data-access"
   },
@@ -117,6 +118,7 @@
     "rollup": "3.12.0",
     "rollup-plugin-css-only": "4.3.0",
     "rollup-plugin-dts": "5.1.1",
+    "rollup-plugin-img": "^1.1.0",
     "rollup-plugin-postcss": "4.0.2",
     "supertest": "6.3.3",
     "supertokens-auth-react": "0.28.1",

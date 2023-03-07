@@ -6,6 +6,7 @@ import {
     ProductVariantWithDetails
 } from '@cd/data-access';
 import {
+    AddProductModal,
     Button,
     Card,
     Center,
@@ -26,7 +27,7 @@ import {
     TextField
 } from '@cd/shared-ui';
 import axios from 'axios';
-import { AddProduct, PageHeader, ProductItem, ProtectedPage, Select } from 'components';
+import { PageHeader, ProductItem, ProtectedPage, Select } from 'components';
 import { format } from 'date-fns';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -167,7 +168,7 @@ export default function OrderDetails({ order }: { order: OrderWithDetails }) {
                                     </Link>
                                 }
                             />
-                            <AddProduct
+                            <AddProductModal
                                 className="z-100 w-screen"
                                 open={openAddProduct}
                                 onClose={toggleAddProduct}
@@ -203,7 +204,7 @@ export default function OrderDetails({ order }: { order: OrderWithDetails }) {
                                     <Paragraph>No Products Found</Paragraph>
                                     // </SearchResultCard>
                                 )}
-                            </AddProduct>
+                            </AddProductModal>
                             <Grid className="space-y-2">
                                 <Row className="justify-between space-x-4">
                                     <H6>{`Ordered on ${format(new Date(order.createdAt), 'MMM dd, yyyy')}`}</H6>

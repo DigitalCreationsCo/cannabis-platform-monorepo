@@ -1,5 +1,5 @@
-import { FlexBox } from '@cd/shared-ui';
-import Modal, { ModalProps } from '@cd/shared-ui/src/modal/Modal';
+import FlexBox from '../FlexBox';
+import Modal, { ModalProps } from './Modal';
 
 function AddProduct({ children, ...props }: ModalProps) {
     return (
