@@ -17,23 +17,27 @@ export const config = {
  */
 export default function middleware(req: NextRequest) {
     const shopAppUrl = process.env.NEXT_PUBLIC_SHOP_APP_URL.split('//')[1];
-    console.log('SHOP_APP_URL: ', shopAppUrl);
 
     const url = req.nextUrl;
-    console.log('url: ', url);
-
-    const pathname = url.pathname;
-    console.log('pathname: ', pathname);
-
     const hostname = req.headers.get('host');
-    console.log('hostname: ', hostname);
-
     const subDomain = hostname?.replace('.' + shopAppUrl, ''); // PUT YOUR DOMAIN HERE
-    console.log('subDomain: ', subDomain);
-    console.log(' ');
 
-    // 1. IF VIEWING THE BASE,URL REDIREC TO /BROWSE FOR MARKETPLACE PAGE
-    // 2. IF HOSTNAME STARTS WITH APP., REDIRECT TO DASHBOARD APP URL
+    // Prevent security issues – users should not be able to canonically access
+    // the pages/_stores folder, or /app directory and its respective contents. This can also be done
+    // via rewrites to a custom 404 page
+    if (subDomain !== 'app' && url.pathname.startsWith(`/app`)) {
+        url.pathname = '/404';
+
+        return NextResponse.rewrite(url);
+    }
+
+    if (url.pathname.startsWith(`/_stores`)) {
+        url.pathname = '/404';
+
+        return NextResponse.rewrite(url);
+    }
+
+    // IF HOSTNAME IS APP, REDIRECT TO DASHBOARD APP URL
     if (subDomain === 'app') {
         // check cookies and sign in if session token exists
         // if (
@@ -43,31 +47,24 @@ export default function middleware(req: NextRequest) {
         //     url.pathname = '/';
         //     return NextResponse.redirect(url);
         // }
-        url.pathname = `/app${pathname}`;
-        return NextResponse.rewrite(url);
+        if (url.pathname === '/') {
+            url.pathname = `/app${url.pathname}`;
+
+            return NextResponse.rewrite(url);
+        } else {
+            return NextResponse.next();
+        }
     }
 
-    // if (subDomain === shopAppUrl && pathname === '/') {
-    //     console.log('redirecting to /browse');
-    //     return NextResponse.redirect(`http://${shopAppUrl}/browse`);
-    // }
-    // // 3. IF HOSTNAME STARTS WITH STORE, REDIRECT TO STOREFRONT DYNAMIC APP URL
-    // else if (
-    //     !hostname.includes(':') && // exclude all files in the public folder
-    //     !pathname.startsWith('/api') // exclude all API routes
-    // ) {
-    //     console.log('rewriting to /_stores');
-    //     console.log(req.url + `/_stores/${subDomainId}${pathname}`);
-    //     // rewrite to the current hostname under the pages/sites folder
-    //     // the main logic component will happen in pages/sites/[site]/index.tsx
-    //     return NextResponse.rewrite(new URL(`/_stores/${subDomainId}${pathname}`, req.url));
-    // }
-    // return NextResponse.rewrite(new URL(`/_stores/${subDomainId}${pathname}`, req.url));
+    // IF HOSTNAME IS NOT APP and has subdomain, REDIRECT TO store URL
+    if (subDomain !== shopAppUrl) {
+        console.log('rewriting to /_stores');
+        return NextResponse.rewrite(new URL(`/_stores/${subDomain}${url.pathname}`, req.nextUrl.origin));
+    }
 
-    // Prevent security issues – users should not be able to canonically access
-    // the pages/sites folder and its respective contents. This can also be done
-    // via rewrites to a custom 404 page
-    // if (pathname.startsWith(`/_sites`)) {
-    //     return new Response(null, { status: 404 });
-    // }
+    // base url redirect to /browse
+    if (subDomain === shopAppUrl && url.pathname === '/') {
+        console.log('redirecting to /browse');
+        return NextResponse.redirect(`http://${shopAppUrl}/browse`);
+    }
 }
