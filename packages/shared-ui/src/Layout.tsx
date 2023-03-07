@@ -1,5 +1,7 @@
 import { ChangeEventHandler, Dispatch, PropsWithChildren, ReactEventHandler, SetStateAction } from 'react';
-import { Footer, Header, SideNavContainer } from '.';
+import Footer from './Footer';
+import Header from './Header';
+import SideNavContainer from './SideNavContainer';
 
 // import AdminDashboardNavigation from './AdminDashBoardNavigation';
 interface LayoutProps extends PropsWithChildren {
@@ -7,7 +9,6 @@ interface LayoutProps extends PropsWithChildren {
     TopBarComponent: React.ElementType;
     signedOut: () => void;
     setModal: Dispatch<SetStateAction<boolean>>;
-    // session: SessionContextType | undefined;
     onSearchChange?: ChangeEventHandler<HTMLInputElement> & ReactEventHandler<Element>;
     placeholder?: string;
     doesSessionExist: boolean;
@@ -20,7 +21,6 @@ export default function Layout({
     TopBarComponent,
     signedOut,
     setModal,
-    // session,
     onSearchChange,
     placeholder,
     doesSessionExist,

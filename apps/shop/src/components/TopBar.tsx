@@ -1,9 +1,8 @@
-import { Button, FlexBox, H2, Paragraph } from '@cd/shared-ui';
+import { Button, FlexBox, H2, logo, Paragraph } from '@cd/shared-ui';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Dispatch, SetStateAction } from 'react';
 import { twMerge } from 'tailwind-merge';
-import logo from '../../public/logo.png';
 
 export type TopBarProps = {
     doesSessionExist?: boolean;

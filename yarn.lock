@@ -1588,6 +1588,7 @@ __metadata:
     rollup: 3.12.0
     rollup-plugin-css-only: 4.3.0
     rollup-plugin-dts: 5.1.1
+    rollup-plugin-img: ^1.1.0
     rollup-plugin-postcss: 4.0.2
     supertest: 6.3.3
     supertokens-auth-react: 0.28.1
@@ -1696,9 +1697,24 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cd/shared-lib@workspace:packages/shared-lib"
   dependencies:
+    "@carbon/icons-react": 11.16.0
     "@cd/data-access": "*"
     "@cd/shared-config": "*"
+    "@rollup/plugin-commonjs": 24.0.1
+    "@rollup/plugin-node-resolve": 15.0.1
+    "@rollup/plugin-typescript": 11.0.0
+    "@tailwindcss/typography": 0.5.8
+    "@types/carbon__icons-react": 11.15.0
+    "@types/node": 18.11.10
     "@types/react-dom": 18.0.8
+    "@typescript-eslint/eslint-plugin": 5.45.0
+    "@typescript-eslint/parser": 5.45.0
+    autoprefixer: 10.4.13
+    clsx: 1.2.1
+    concurrently: 7.6.0
+    daisyui: 2.46.0
+    date-fns: 2.29.3
+    eslint: 8.29.0
     eslint-config-next: 13.0.6
     eslint-config-prettier: 8.5.0
     eslint-plugin-import: 2.26.0
@@ -1707,7 +1723,15 @@ __metadata:
     eslint-plugin-react: 7.31.11
     eslint-plugin-react-hooks: 4.6.0
     eslint-plugin-simple-import-sort: 8.0.0
-    next: 13.0.6
+    json: 11.0.0
+    postcss: 8.4.19
+    prettier: 2.8.0
+    rollup: 3.12.0
+    rollup-plugin-css-only: 4.3.0
+    rollup-plugin-dts: 5.1.1
+    rollup-plugin-postcss: 4.0.2
+    tailwind-merge: 1.8.0
+    tailwindcss: 3.2.4
     typescript: 4.9.3
   peerDependencies:
     react: 18.2.0
@@ -1746,11 +1770,13 @@ __metadata:
     eslint-plugin-react-hooks: 4.6.0
     eslint-plugin-simple-import-sort: 8.0.0
     json: 11.0.0
+    next: 13.0.6
     postcss: 8.4.19
     prettier: 2.8.0
     rollup: 3.12.0
     rollup-plugin-css-only: 4.3.0
     rollup-plugin-dts: 5.1.1
+    rollup-plugin-img: 1.1.0
     rollup-plugin-postcss: 4.0.2
     tailwind-merge: 1.8.0
     tailwindcss: 3.2.4
@@ -10808,6 +10834,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"rollup-plugin-img@npm:1.1.0, rollup-plugin-img@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "rollup-plugin-img@npm:1.1.0"
+  dependencies:
+    rollup-pluginutils: ^2.0.1
+  checksum: 42da9dff3187878b88dbf422ffe66f728992793481a1ff61f23a1d68b7b171cd3549e34bc2e18a4f44cbc86462236d2a2528b4aa4e3c704cfc09db2fee2969a6
+  languageName: node
+  linkType: hard
+
 "rollup-plugin-postcss@npm:4.0.2":
   version: 4.0.2
   resolution: "rollup-plugin-postcss@npm:4.0.2"
@@ -10831,7 +10866,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup-pluginutils@npm:^2.8.2":
+"rollup-pluginutils@npm:^2.0.1, rollup-pluginutils@npm:^2.8.2":
   version: 2.8.2
   resolution: "rollup-pluginutils@npm:2.8.2"
   dependencies:

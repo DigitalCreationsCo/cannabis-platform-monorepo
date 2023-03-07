@@ -1,6 +1,5 @@
 import { AddressUserCreateType } from '@cd/data-access';
-import { Button, FlexBox, Grid, TextField } from '@cd/shared-ui';
-import Modal, { ModalProps } from '@cd/shared-ui/src/modal/Modal';
+import { Button, FlexBox, Grid, Modal, ModalProps, TextField } from '@cd/shared-ui';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import { Dispatch, SetStateAction, useState } from 'react';
