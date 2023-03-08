@@ -13,7 +13,7 @@ export type TopBarProps = {
 
 function TopBar({ doesSessionExist, setModal, signedOut }: TopBarProps) {
     const styles = {
-        topbar: ['flex flex-row h-[66px] pr-4 lg:px-16 bg-inverse space-x-2 items-center shadow'],
+        topbar: ['flex flex-row min-h-[66px] pr-4 lg:px-16 bg-inverse space-x-2 items-center shadow'],
         badge: 'indicator absolute inline-flex items-center justify-center w-6 h-6 text-sm text-light bg-primary -top-2 -right-2 rounded-full'
     };
 
@@ -25,21 +25,19 @@ function TopBar({ doesSessionExist, setModal, signedOut }: TopBarProps) {
             <Link href="/">
                 <H2 className="pt-1">Gras</H2>
             </Link>
-            <Link href="/">
-                <Paragraph
-                    className={twMerge(
-                        'pt-2',
-                        'pl-2',
-                        'text-lg',
-                        'hidden',
-                        'md:block',
-                        'place-self-center',
-                        'text-primary font-semibold'
-                    )}
-                >
-                    Cannabis Marketplace
-                </Paragraph>
-            </Link>
+            <Paragraph
+                className={twMerge(
+                    'pt-2',
+                    'pl-2',
+                    'text-lg',
+                    'hidden',
+                    'md:block',
+                    'place-self-center',
+                    'text-primary font-semibold'
+                )}
+            >
+                Cannabis Marketplace
+            </Paragraph>
             <div className="flex-1"></div>
             <Link href="/cart">
                 <Button className="indicator w-[100px]">

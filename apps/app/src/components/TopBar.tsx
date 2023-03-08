@@ -12,7 +12,7 @@ export type TopBarProps = {
 };
 
 function TopBar({ doesSessionExist, setModal, signedOut }: TopBarProps) {
-    const topbar = ['flex flex-row h-[66px] pr-4 lg:px-16 bg-inverse space-x-2 items-center shadow'];
+    const topbar = ['flex flex-row min-h-[66px] pr-4 lg:px-16 bg-inverse space-x-2 items-center shadow'];
     return (
         <div className={twMerge(topbar)}>
             <Link href="/" passHref>

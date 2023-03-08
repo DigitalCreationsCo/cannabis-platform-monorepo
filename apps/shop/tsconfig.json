@@ -16,6 +16,7 @@
     "incremental": true
   },
   "include": [
+    "postcss.config.cjs",
     "next-env.d.ts", 
     "**/**/*.ts", 
     "**/**/*.tsx", 

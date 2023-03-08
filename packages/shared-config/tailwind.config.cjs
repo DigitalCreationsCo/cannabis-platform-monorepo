@@ -22,27 +22,27 @@ module.exports = {
                 'dark-soft': 'var(--dark-soft)',
                 light: 'var(--light)',
                 'light-soft': 'var(--light-soft)',
-                error: 'var(--error)',
+                error: 'var(--error)'
             },
             borderWidth: {
-                DEFAULT: '1.5px',
+                DEFAULT: '1.5px'
             },
             borderColor: {
-                DEFAULT: '#14a33d',
+                DEFAULT: '#14a33d'
             },
             borderRadius: {
                 none: '0',
                 btn: 'var(--rounded-btn)',
-                full: '9999px',
+                full: '9999px'
             },
             fontWeight: {
                 normal: 'var(--font-weight-normal)',
                 semibold: 'var(--font-weight-semibold)',
                 bold: 'var(--font-weight-bold)',
                 display: 'var(--font-weight-display)',
-                btn: 'var(--font-weight-btn)',
-            },
-        },
+                btn: 'var(--font-weight-btn)'
+            }
+        }
     },
     daisyui: {
         styled: true,
@@ -63,9 +63,9 @@ module.exports = {
                     '--light': '#ffffff',
                     '--light-soft': '#c6c0b5',
 
-                    '--error': '#dd1616',
-                },
-            },
-        ],
-    },
+                    '--error': '#dd1616'
+                }
+            }
+        ]
+    }
 };
