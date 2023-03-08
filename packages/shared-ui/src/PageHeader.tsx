@@ -1,5 +1,7 @@
-import { FlexBox, H3, IconWrapper, Span } from '@cd/shared-ui';
 import { twMerge } from 'tailwind-merge';
+import FlexBox from './FlexBox';
+import IconWrapper from './IconWrapper';
+import { H3, Span } from './Typography';
 
 export interface PageHeaderProps {
     title?: string;

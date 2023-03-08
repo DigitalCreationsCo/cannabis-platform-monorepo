@@ -1,7 +1,7 @@
 import { UserWithDetails } from '@cd/data-access';
-import { Button, Card, DeleteButton, Grid, H6, Icons, Page, Paragraph, Row } from '@cd/shared-ui';
+import { Button, Card, DeleteButton, Grid, H6, Icons, Page, PageHeader, Paragraph, Row } from '@cd/shared-ui';
 import axios from 'axios';
-import { PageHeader, ProtectedPage } from 'components';
+import { ProtectedPage } from 'components';
 import { usePagination } from 'hooks';
 import Image from 'next/image';
 import Link from 'next/link';

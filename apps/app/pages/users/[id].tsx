@@ -12,12 +12,13 @@ import {
     Modal,
     Padding,
     Page,
+    PageHeader,
     Paragraph,
     TextField,
     UploadImageBox
 } from '@cd/shared-ui';
 import axios from 'axios';
-import { AddAddressUserModal, DropZone, PageHeader, ProtectedPage } from 'components';
+import { AddAddressUserModal, DropZone, ProtectedPage } from 'components';
 import { format } from 'date-fns';
 import { useFormik } from 'formik';
 import Image from 'next/image';

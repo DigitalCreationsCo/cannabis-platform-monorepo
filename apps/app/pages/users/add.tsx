@@ -1,5 +1,5 @@
-import { Button, FlexBox, Grid, Icons, Page, Row, TextField } from '@cd/shared-ui';
-import { PageHeader, ProtectedPage } from 'components';
+import { Button, FlexBox, Grid, Icons, Page, PageHeader, Row, TextField } from '@cd/shared-ui';
+import { ProtectedPage } from 'components';
 import Link from 'next/link';
 
 export default function AddUser() {

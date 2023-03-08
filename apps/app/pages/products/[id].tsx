@@ -16,13 +16,14 @@ import {
     Modal,
     Padding,
     Page,
+    PageHeader,
     Paragraph,
     Row,
     TextField,
     UploadImageBox
 } from '@cd/shared-ui';
 import axios from 'axios';
-import { ClickableTags, DropZone, PageHeader, ProtectedPage } from 'components';
+import { ClickableTags, DropZone, ProtectedPage } from 'components';
 import { Formik } from 'formik';
 import { useCategory, useOnClickOutside } from 'hooks';
 import Image from 'next/image';

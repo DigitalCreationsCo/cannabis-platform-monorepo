@@ -6,7 +6,6 @@ export { default as DropZone } from './DropZone';
 export * from './form';
 export { default as LandingPage } from './Landing';
 export * from './modal';
-export { default as PageHeader } from './PageHeader';
 export { default as ProductItem } from './ProductItem';
 export { default as ProductRow } from './ProductRow';
 export { default as ProtectedPage } from './ProtectedPage';

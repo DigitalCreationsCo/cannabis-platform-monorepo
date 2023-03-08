@@ -22,6 +22,7 @@ export { default as NavLink } from './NavLink';
 export { default as OrderRow } from './OrderRow';
 export { default as Padding } from './Padding';
 export { default as Page } from './Page';
+export { default as PageHeader } from './PageHeader';
 export { default as PhoneNumber } from './PhoneNumber';
 export { default as Price } from './Price';
 export { default as Row } from './Row';

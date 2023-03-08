@@ -19,6 +19,7 @@ import {
     LoadingDots,
     Padding,
     Page,
+    PageHeader,
     Paragraph,
     PhoneNumber,
     Price,
@@ -27,7 +28,7 @@ import {
     TextField
 } from '@cd/shared-ui';
 import axios from 'axios';
-import { PageHeader, ProductItem, ProtectedPage, Select } from 'components';
+import { ProductItem, ProtectedPage, Select } from 'components';
 import { format } from 'date-fns';
 import Image from 'next/image';
 import Link from 'next/link';

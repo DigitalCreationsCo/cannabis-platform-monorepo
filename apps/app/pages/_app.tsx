@@ -1,5 +1,5 @@
 import { AppStateProvider, ExtendedPageComponent, ModalProvider } from '@cd/shared-lib';
-import { Button, Center, Layout, LoadingDots, Padding } from '@cd/shared-ui';
+import { Center, Layout, LoadingDots, Padding } from '@cd/shared-ui';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import Router from 'next/router';
@@ -105,29 +105,26 @@ export default function App({ Component, pageProps }: CustomAppProps): JSX.Eleme
                                 Router.events.on('routeChangeError', () => setIsLoading(false));
 
                                 return (
-                                    <>
-                                        <Layout
-                                            SideNavComponent={AdminDashboardNavigation}
-                                            TopBarComponent={TopBar}
-                                            signedOut={signedOut}
-                                            setModal={() => {
-                                                console.log('set Modal');
-                                            }}
-                                            doesSessionExist={doesSessionExist.current}
-                                            {...getLayoutContext()}
-                                        >
-                                            {isLoading ? (
-                                                <Center>
-                                                    <Padding>
-                                                        <LoadingDots />
-                                                    </Padding>
-                                                </Center>
-                                            ) : (
-                                                <Component {...pageProps} />
-                                            )}
-                                        </Layout>
-                                        <Button>Hello</Button>
-                                    </>
+                                    <Layout
+                                        SideNavComponent={AdminDashboardNavigation}
+                                        TopBarComponent={TopBar}
+                                        signedOut={signedOut}
+                                        setModal={() => {
+                                            console.log('set Modal');
+                                        }}
+                                        doesSessionExist={doesSessionExist.current}
+                                        {...getLayoutContext()}
+                                    >
+                                        {isLoading ? (
+                                            <Center>
+                                                <Padding>
+                                                    <LoadingDots />
+                                                </Padding>
+                                            </Center>
+                                        ) : (
+                                            <Component {...pageProps} />
+                                        )}
+                                    </Layout>
                                 );
                             }}
                         </AppStateProvider>
