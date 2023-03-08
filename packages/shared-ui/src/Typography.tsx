@@ -5,6 +5,9 @@ interface Props extends PropsWithChildren {
     className?: string;
 }
 
+const styles = {
+    'cursor-default': 'cursor-default'
+};
 export const H1 = ({ className, color = 'dark', children }: Props) => {
     return (
         <h1
@@ -65,6 +68,7 @@ export const H5 = ({ className, color = 'dark', children }: Props) => {
     return (
         <h5
             className={twMerge(
+                styles['cursor-default'],
                 'font-semibold text-lg whitespace-normal',
                 (color === 'light' && 'text-inverse') || 'text-dark',
                 className
@@ -79,6 +83,7 @@ export const H6 = ({ className, color = 'dark', children }: Props) => {
     return (
         <h6
             className={twMerge(
+                styles['cursor-default'],
                 'font-semibold text-md whitespace-normal',
                 (color === 'light' && 'text-inverse') || 'text-dark',
                 className
@@ -91,20 +96,35 @@ export const H6 = ({ className, color = 'dark', children }: Props) => {
 
 export const Paragraph = ({ className, color = 'dark', children }: Props) => {
     return (
-        <p className={twMerge('whitespace-pre-line', (color === 'light' && 'text-inverse') || 'text-dark', className)}>
+        <p
+            className={twMerge(
+                styles['cursor-default'],
+                'whitespace-pre-line',
+                (color === 'light' && 'text-inverse') || 'text-dark',
+                className
+            )}
+        >
             {children}
         </p>
     );
 };
 
 export const Small = ({ className, children }: Props) => {
-    return <span className={twMerge('text-sm whitespace-normal', className)}>{children}</span>;
+    return (
+        <span className={twMerge(styles['cursor-default'], 'text-sm whitespace-normal', className)}>{children}</span>
+    );
 };
 
 export const Span = ({ className, children }: Props) => {
-    return <span className={twMerge('text-md inline whitespace-normal', className)}>{children}</span>;
+    return (
+        <span className={twMerge(styles['cursor-default'], 'text-md inline whitespace-normal', className)}>
+            {children}
+        </span>
+    );
 };
 
 export const Tiny = ({ className, children }: Props) => {
-    return <span className={twMerge('text-xs whitespace-normal', className)}>{children}</span>;
+    return (
+        <span className={twMerge(styles['cursor-default'], 'text-xs whitespace-normal', className)}>{children}</span>
+    );
 };
