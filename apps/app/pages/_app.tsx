@@ -61,7 +61,7 @@ export default function App({ Component, pageProps }: CustomAppProps): JSX.Eleme
                 <meta name="vendor experience application" content="Property of Gras Cannabis Co." />
             </Head>
             <SessionWrapper>
-                {({ signOut, doesSessionExist }) => (
+                {(sessionContext) => (
                     <ModalProvider>
                         <Toaster position="top-center" />
                         <StepFormValuesProvider>
@@ -74,11 +74,11 @@ export default function App({ Component, pageProps }: CustomAppProps): JSX.Eleme
                                         <Layout
                                             SideNavComponent={AdminDashboardNavigation}
                                             TopBarComponent={TopBar}
-                                            signedOut={signOut}
+                                            signedOut={sessionContext.signOut}
                                             setModal={() => {
                                                 console.log('set Modal');
                                             }}
-                                            doesSessionExist={doesSessionExist}
+                                            doesSessionExist={sessionContext.doesSessionExist}
                                             {...getLayoutContext()}
                                         >
                                             {isLoading ? (
@@ -88,7 +88,7 @@ export default function App({ Component, pageProps }: CustomAppProps): JSX.Eleme
                                                     </Padding>
                                                 </Center>
                                             ) : (
-                                                <Component {...pageProps} />
+                                                <Component {...sessionContext} {...pageProps} />
                                             )}
                                         </Layout>
                                     );
