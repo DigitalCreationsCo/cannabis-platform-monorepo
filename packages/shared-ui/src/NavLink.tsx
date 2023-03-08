@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { AnchorHTMLAttributes, PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 import IconWrapper from './IconWrapper';
@@ -16,12 +15,12 @@ const NavLink = ({ href, Icon, isActive, children, className }: NavLinkProps) =>
         isActive ? 'border-primary' : 'border-transparent'
     ];
     return (
-        <Link href={href}>
+        <a href={href}>
             <li className={twMerge(navLinkStyle, className)}>
                 <IconWrapper Icon={Icon} />
                 <StyledLink isActive={isActive}>{children}</StyledLink>
             </li>
-        </Link>
+        </a>
     );
 };
 

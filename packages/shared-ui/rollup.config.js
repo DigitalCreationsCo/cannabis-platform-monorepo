@@ -40,5 +40,11 @@ export default {
             output: 'dist/assets'
         })
     ],
-    external: ['react', 'react-dom']
+    external: ['react', 'react-dom', 'next'],
+    watch: {
+        clearScreen: false,
+        include: './**',
+        buildDelay: 1000,
+        exclude: ['node_modules', 'dist', '.turbo']
+    }
 };

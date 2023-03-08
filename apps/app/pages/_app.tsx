@@ -1,12 +1,12 @@
-import { AppStateProvider, ExtendedPageComponent, ModalProvider } from '@cd/shared-lib';
+import { AppStateProvider, ExtendedPageComponent, ModalProvider, SessionWrapper } from '@cd/shared-lib';
 import { Center, Layout, LoadingDots, Padding } from '@cd/shared-ui';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import Router from 'next/router';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import toast, { Toaster, useToasterStore } from 'react-hot-toast';
-import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
-import Session, { signOut } from 'supertokens-auth-react/recipe/session';
+import SuperTokensReact from 'supertokens-auth-react';
+import Session from 'supertokens-auth-react/recipe/session';
 import { frontendConfig } from '../config/frontendConfig';
 import { AdminDashboardNavigation, TopBar } from '../src/components';
 import StepFormValuesProvider from '../src/context/StepFormProvider';
@@ -18,19 +18,14 @@ type CustomAppProps = AppProps & {
 
 if (typeof window !== 'undefined') SuperTokensReact.init(frontendConfig());
 export default function App({ Component, pageProps }: CustomAppProps): JSX.Element {
-    const doesSessionExist = useRef(undefined);
-    useEffect(() => {
-        async function checkSession() {
-            doesSessionExist.current = await Session.doesSessionExist();
-        }
-        checkSession();
-    });
-
+    // const session = useSessionContext();
+    // Component.signIn = signIn;
+    // Component.signOut = signOut;
+    // Component.signUp = signUp;
+    // Component.session = session;
+    // const doesSessionExist = useRef(undefined);
     // check fro null
     // const { setModalOpen } = useModal();
-    const signedOut = async () => {
-        signOut();
-    };
 
     const TOAST_LIMIT = 2;
     const { toasts } = useToasterStore();
@@ -58,80 +53,51 @@ export default function App({ Component, pageProps }: CustomAppProps): JSX.Eleme
         return null;
     }
 
-    // const getLayout = (Component.getLayoutContext():LayoutContext) ||
-    //     ((layoutContext: LayoutContext) => (
-    //         <Layout
-    //             SideNavComponent={AdminDashboardNavigation}
-    //             TopBarComponent={TopBar}
-    //             signedOut={signedOut}
-    //             setModal={setModal}
-    //             doesSessionExist={doesSessionExist.current}
-    //             {...layoutContext}
-    //         >
-    //             {layoutContext.page}
-    //         </Layout>
-    //     ));
-
-    // const getLayoutContext = (Component) => return Component.getLayoutContext || ((layoutContext: LayoutContext) => (
-    //     <Layout
-    //         SideNavComponent={AdminDashboardNavigation}
-    //         TopBarComponent={TopBar}
-    //         signedOut={signedOut}
-    //         setModal={setModal}
-    //         doesSessionExist={doesSessionExist.current}
-    //         {...layoutContext}
-    //     >
-    //         {layoutContext.page}
-    //     </Layout>
-    // );
-
     const getLayoutContext = Component.getLayoutContext || (() => ({}));
-
     return (
         <>
             <Head>
                 <title>Gras Cannabis Marketplace</title>
                 <meta name="vendor experience application" content="Property of Gras Cannabis Co." />
             </Head>
-            <SuperTokensWrapper>
-                {/* <SessionProvider> */}
-                <ModalProvider>
-                    <Toaster position="top-center" />
-                    <StepFormValuesProvider>
-                        <AppStateProvider>
-                            {({ isLoading, setIsLoading }) => {
-                                Router.events.on('routeChangeStart', () => setIsLoading(true));
-                                Router.events.on('routeChangeComplete', () => setIsLoading(false));
-                                Router.events.on('routeChangeError', () => setIsLoading(false));
-
-                                return (
-                                    <Layout
-                                        SideNavComponent={AdminDashboardNavigation}
-                                        TopBarComponent={TopBar}
-                                        signedOut={signedOut}
-                                        setModal={() => {
-                                            console.log('set Modal');
-                                        }}
-                                        doesSessionExist={doesSessionExist.current}
-                                        {...getLayoutContext()}
-                                    >
-                                        {isLoading ? (
-                                            <Center>
-                                                <Padding>
-                                                    <LoadingDots />
-                                                </Padding>
-                                            </Center>
-                                        ) : (
-                                            <Component {...pageProps} />
-                                        )}
-                                    </Layout>
-                                );
-                            }}
-                        </AppStateProvider>
-                    </StepFormValuesProvider>
-                </ModalProvider>
-                {/* </SessionProvider> */}
-            </SuperTokensWrapper>
+            <SessionWrapper>
+                {({ signOut, doesSessionExist }) => (
+                    <ModalProvider>
+                        <Toaster position="top-center" />
+                        <StepFormValuesProvider>
+                            <AppStateProvider>
+                                {({ isLoading, setIsLoading }) => {
+                                    Router.events.on('routeChangeStart', () => setIsLoading(true));
+                                    Router.events.on('routeChangeComplete', () => setIsLoading(false));
+                                    Router.events.on('routeChangeError', () => setIsLoading(false));
+                                    return (
+                                        <Layout
+                                            SideNavComponent={AdminDashboardNavigation}
+                                            TopBarComponent={TopBar}
+                                            signedOut={signOut}
+                                            setModal={() => {
+                                                console.log('set Modal');
+                                            }}
+                                            doesSessionExist={doesSessionExist}
+                                            {...getLayoutContext()}
+                                        >
+                                            {isLoading ? (
+                                                <Center>
+                                                    <Padding>
+                                                        <LoadingDots />
+                                                    </Padding>
+                                                </Center>
+                                            ) : (
+                                                <Component {...pageProps} />
+                                            )}
+                                        </Layout>
+                                    );
+                                }}
+                            </AppStateProvider>
+                        </StepFormValuesProvider>
+                    </ModalProvider>
+                )}
+            </SessionWrapper>
         </>
     );
 }
