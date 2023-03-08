@@ -1,4 +1,4 @@
-import { Page, Paragraph } from '@cd/shared-ui';
+import { Button, Page, Paragraph } from '@cd/shared-ui';
 import Head from 'next/head';
 
 export default function MarketPlace({ host }) {
@@ -21,12 +21,12 @@ export default function MarketPlace({ host }) {
                 the cart. It also display list of nearby dispensaries and lets the user enter their storefront to view
                 merchandise and content.
             </Paragraph>
+            <Button>Hello</Button>
         </Page>
     );
 }
 
 export function getServerSideProps({ req }) {
-    console.log('host: ', req.headers.host);
     return {
         props: {
             host: req.headers.host

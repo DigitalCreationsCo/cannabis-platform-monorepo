@@ -1,5 +1,5 @@
 import { ExtendedPageComponent } from '@cd/shared-lib';
-import { Button, Layout } from '@cd/shared-ui';
+import { Layout } from '@cd/shared-ui';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useEffect, useRef } from 'react';
@@ -64,7 +64,6 @@ export default function App({ Component, pageProps }: CustomAppProps) {
             </Head>
             <SuperTokensWrapper>
                 <Toaster position="top-center" />
-                <Button>Hello</Button>
                 <Layout
                     SideNavComponent={() => (
                         <>

@@ -1,7 +1,7 @@
 import { Order, Organization, ProductWithDetails, UserWithDetails } from '@cd/data-access';
-import { Card, Grid, Icons, OrderRow, Page } from '@cd/shared-ui';
+import { Card, Grid, Icons, OrderRow, Page, PageHeader } from '@cd/shared-ui';
 import axios from 'axios';
-import { PageHeader, ProductRow, ProtectedPage } from 'components';
+import { ProductRow, ProtectedPage } from 'components';
 import { useMemo } from 'react';
 import Session from 'supertokens-node/recipe/session';
 import { getSession } from '../src/session';

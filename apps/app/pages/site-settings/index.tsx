@@ -11,8 +11,8 @@
 // import ShippingTax from "components/site-settings/ShippingTax";
 // import SocialLinks from "components/site-settings/SocialLinks";
 // import TopbarSetting from "components/site-settings/TopbarSetting";
-import { Card, Icons, Page } from '@cd/shared-ui';
-import { PageHeader, ProtectedPage } from 'components';
+import { Card, Icons, Page, PageHeader } from '@cd/shared-ui';
+import { ProtectedPage } from 'components';
 import { useState } from 'react';
 
 type SiteSettingsDashboardProps = Record<string, unknown>;
