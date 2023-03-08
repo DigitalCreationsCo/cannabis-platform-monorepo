@@ -1,6 +1,5 @@
 import { Order } from '@cd/data-access';
 import { format } from 'date-fns';
-import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 import Icons from './icons';
 import IconWrapper from './IconWrapper';
@@ -29,7 +28,7 @@ function OrderRow({ order, orderDetailsRoute }: OrderRowProps) {
     };
 
     return (
-        <Link href={`${orderDetailsRoute}/${order.id}`}>
+        <a href={`${orderDetailsRoute}/${order.id}`}>
             <Row className="h-[48px] justify-between">
                 <H6 className="w-[100px]">{order.id}</H6>
                 <Paragraph className={twMerge('grow', `text-${getColor(order.status)}`)}>{order.status}</Paragraph>
@@ -41,7 +40,7 @@ function OrderRow({ order, orderDetailsRoute }: OrderRowProps) {
                 </H6>
                 <IconWrapper Icon={Icons.Right} />
             </Row>
-        </Link>
+        </a>
     );
 }
 

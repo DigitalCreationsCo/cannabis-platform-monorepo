@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, useState } from 'react';
 // import { layoutConstant } from 'utils/constants';
-import { useModal } from '@cd/shared-lib';
+// import { useModal } from '@cd/shared-lib';
 import { twMerge } from 'tailwind-merge';
 
 export interface SideNavContainerProps extends PropsWithChildren {
@@ -9,7 +9,7 @@ export interface SideNavContainerProps extends PropsWithChildren {
     drawerComponentId?: string;
 }
 function SideNavContainer({ SideNavComponent, fixedComponentId, drawerComponentId, children }: SideNavContainerProps) {
-    const { modalOpen } = useModal();
+    // const { modalOpen } = useModal();
     const [isFixed, setIsFixed] = useState<boolean>(false);
     // const scrollListener = useCallback(() => {
     //     const element: any = document.getElementById(navFixedComponentID);
