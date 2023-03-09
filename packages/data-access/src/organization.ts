@@ -66,10 +66,10 @@ export async function findOrganizationBySubdomain(subdomainId:string) {
     }
 }
 
-export async function findLocalOrganizations({ userLocation, proximityRadius }: ServeUserProximity) {
+export async function findLocalOrganizations(organizationIds: string[]) {
     try {
-        const local_organizations = await prisma.organization.findMany({ where: { id: subdomainId }, include: {organization: {include: {address: true, images: true, products: true, siteSetting: true, categoryList: true}}} }) || {}
-        return local_organizations
+        const localOrganizations = await prisma.organization.findMany({ where: { id: { in: organizationIds } }, include: { address: true, images: true, products: true, siteSetting: true, categoryList: true }}) || []
+        return localOrganizations
     } catch (error: any) {
         console.error(error)
         throw new Error(error)
