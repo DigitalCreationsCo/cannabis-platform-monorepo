@@ -3,24 +3,31 @@ import prisma from "./db/prisma";
 
 export async function createOrganization(organization: any, address: any) { 
     try {
+        const { vendorId, subdomainId, ...organizationCreate } = organization
         const createOrganization = await prisma.organization.create({
             data: {
-                ...organization,
+                ...organizationCreate,
                 address: {
                     create: address
                 },
-                subDomain: {
-                    create: {id: organization.subdomainId}
+                subdomain: {
+                    connectOrCreate: { 
+                        where: { id: organization.subdomainId },
+                        create: { id: subdomainId, isValid: true }
+                    }
                 },
                 vendor:{
-                    connectOrCreate: {id: organization.vendorId}
+                    connectOrCreate: {
+                        where: { id: vendorId },
+                        create: { id: vendorId, name: organization.name, publicName: organization.name }
+                    }
                 },
             }
         });
         return createOrganization
     } catch (error: any) {
         console.error(error)
-        throw new Error(error)
+        throw new Error('error creating organization, unique key exists')
     }
 }
 export async function findOrganizationById(organizationId:string) {
