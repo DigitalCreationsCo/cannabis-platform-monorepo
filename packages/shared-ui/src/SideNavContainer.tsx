@@ -7,8 +7,16 @@ export interface SideNavContainerProps extends PropsWithChildren {
     SideNavComponent: React.ElementType;
     fixedComponentId: string;
     drawerComponentId?: string;
+    showSideNav?: boolean;
 }
-function SideNavContainer({ SideNavComponent, fixedComponentId, drawerComponentId, children }: SideNavContainerProps) {
+
+function SideNavContainer({
+    showSideNav,
+    SideNavComponent,
+    fixedComponentId,
+    drawerComponentId,
+    children
+}: SideNavContainerProps) {
     // const { modalOpen } = useModal();
     const [isFixed, setIsFixed] = useState<boolean>(false);
     // const scrollListener = useCallback(() => {
@@ -34,7 +42,11 @@ function SideNavContainer({ SideNavComponent, fixedComponentId, drawerComponentI
         ],
         sideNavDrawer: ['drawer-side', isFixed && 'fixed', 'min-h-full'],
         drawerOverlay: ['drawer-overlay h-full lg:hidden'],
-        sideNavComponentContainer: ['bg-light h-fit shadow drop-shadow', 'lg:w-[188px] lg:mt-4']
+        sideNavComponentContainer: [
+            !showSideNav && 'hidden',
+            'bg-light h-fit shadow drop-shadow',
+            'lg:w-[188px] lg:mt-4'
+        ]
     };
     return (
         <div id={fixedComponentId} className={twMerge(classes.container)}>

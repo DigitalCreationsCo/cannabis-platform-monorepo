@@ -65,21 +65,21 @@ export default function App({ Component, pageProps }: CustomAppProps) {
             <SuperTokensWrapper>
                 <Toaster position="top-center" />
                 <Layout
+                    showSideNav={false}
                     SideNavComponent={() => (
-                        <>
-                            <ul>
-                                <li>Home</li>
-                                <li>Flower</li>
-                                <li>Edibles</li>
-                            </ul>
-                        </>
+                        <ul>
+                            <li>all products</li>
+                            <li>edibles</li>
+                            <li>flower</li>
+                            <li>cbd</li>
+                        </ul>
                     )}
                     TopBarComponent={TopBar}
                     signedOut={signedOut}
                     setModal={() => {
                         console.log('set Modal');
                     }}
-                    doesSessionExist={doesSessionExist.current}
+                    doesSessionExist={true}
                     {...getLayoutContext()}
                 >
                     <Component {...pageProps} />
