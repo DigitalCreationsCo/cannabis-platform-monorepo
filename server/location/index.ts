@@ -1,4 +1,3 @@
-import prisma from '@cd/data-access';
 import { loadEnv } from '@cd/shared-config/config/loadEnv';
 import { config } from 'dotenv';
 import { expand } from 'dotenv-expand';
@@ -9,7 +8,7 @@ const port = process.env.SERVER_LOCATION_PORT || 'xxxx';
 
 import { connectDb, server } from './src';
 
-connectDb(prisma)
+connectDb()
     .then(() => {
         server.listen(port, () => {
             console.log(` 🚀 Server: LOCATION listening on port ${port}.`);

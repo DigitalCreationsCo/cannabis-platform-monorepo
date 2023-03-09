@@ -25,6 +25,7 @@
     "babel-plugin-inline-dotenv": "1.7.0",
     "cors": "2.8.5",
     "cross-env": "7.0.3",
+    "mongodb": "5.1.0",
     "eslint": "8.29.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-import": "2.26.0",
