@@ -17,12 +17,13 @@ export default class OrganizationController {
     static async createOrganization(req, res) {
         try {
             const organization = req.body;
+            console.log('SERVER: createOrganization: ', organization);
             const data = await OrganizationDA.createOrganization(organization);
             if (!data) return res.status(404).json('Organization could not be created.');
             return res.status(201).json(data);
         } catch (error) {
-            console.log('API error: ', error);
-            res.status(500).json({ error });
+            console.log('API error: ', error.message);
+            res.status(500).json({ error: error.message });
         }
     }
 

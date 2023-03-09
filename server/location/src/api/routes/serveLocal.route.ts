@@ -4,6 +4,8 @@ const router = Router();
 /* =================================
 Serve Local Data Routes
 
+/organizations      getLocalOrganizations
+
 ================================= */
 
 router.route('/organizations').post(locationCtrl.getLocalOrganizations);

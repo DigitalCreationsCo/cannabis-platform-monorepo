@@ -485,7 +485,7 @@ model SiteSetting {
 model SubDomain {
   id String @unique
   organization Organization[]
-  isValid Boolean // This boolean is always true, doesn't serve any purpose yet
+  isValid Boolean @default(true) // This boolean is always true, doesn't serve any purpose yet
 
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
