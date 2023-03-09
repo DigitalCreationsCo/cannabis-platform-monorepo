@@ -34,8 +34,11 @@ app.use(middleware());
 app.use('/api/v1/healthcheck', (req, res) => {
     return res.status(200).json('OK');
 });
+
 // app.use('/api/v1/auth', user);
+
 // app.use('/api/v1/driver', driver);
+
 app.get('/api/v1/session', verifySession(), async (req:SessionRequest, res) => {
     try{
         // const session = {
@@ -69,12 +72,17 @@ app.get('/api/v1/session', verifySession(), async (req:SessionRequest, res) => {
     }
 });
 // app.use('/api/v1/session', session);
+
 app.use('/api/v1/shop', shop);
+
 app.use('/api/v1/organization', organization);
+
 // error handling test routes
 app.use('/api/v1/error', errorRoute);
+
 // supertokens errorhandler
 app.use(errorHandler());
+
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
     if (err.message === 'Please reset your password') {
         return res.status(401).send(err.message)
@@ -84,7 +92,9 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
     }
     res.status(500).send(err.message)
 })
+
 // app.use((err: unknown, req: Request, res: Response, next: NextFunction) => { /* ... */ });
+
 // app.use('*', (req, res) => res.status(404).json({ error: 'API not found' }));
 
 const server = http.createServer(app);

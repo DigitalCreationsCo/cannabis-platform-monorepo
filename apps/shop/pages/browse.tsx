@@ -29,6 +29,9 @@ export default function MarketPlace({ host }) {
 }
 
 export function getServerSideProps({ req }) {
+    const organizations_local = await prisma.organization.findMany({
+        where: {}
+    });
     return {
         props: {
             host: req.headers.host
