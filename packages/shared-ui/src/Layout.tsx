@@ -1,22 +1,13 @@
-import { ChangeEventHandler, Dispatch, PropsWithChildren, ReactEventHandler, SetStateAction } from 'react';
+import { LayoutProps } from '@cd/shared-lib';
+import { PropsWithChildren } from 'react';
 import Footer from './Footer';
 import Header from './Header';
 import SideNavContainer from './SideNavContainer';
 
-// import AdminDashboardNavigation from './AdminDashBoardNavigation';
-interface LayoutProps extends PropsWithChildren {
-    SideNavComponent: () => JSX.Element;
-    TopBarComponent: React.ElementType;
-    signedOut: () => void;
-    setModal: Dispatch<SetStateAction<boolean>>;
-    onSearchChange?: ChangeEventHandler<HTMLInputElement> & ReactEventHandler<Element>;
-    placeholder?: string;
-    doesSessionExist: boolean;
-}
-
 // topbar goes out as a unique child component with props
 // header goes in here as generic component with props
 export default function Layout({
+    showSideNav,
     SideNavComponent,
     TopBarComponent,
     signedOut,
@@ -25,7 +16,7 @@ export default function Layout({
     placeholder,
     doesSessionExist,
     children
-}: LayoutProps) {
+}: LayoutProps & PropsWithChildren) {
     const styles = { main: 'bg-inverse-soft min-h-[800px]' };
 
     const navLinkContainerId = 'dashboard-links-container';
@@ -41,6 +32,7 @@ export default function Layout({
                         drawerComponentId={drawerComponentId}
                     />
                     <SideNavContainer
+                        showSideNav={showSideNav}
                         SideNavComponent={SideNavComponent}
                         fixedComponentId={navLinkContainerId}
                         drawerComponentId={drawerComponentId}

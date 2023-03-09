@@ -31,7 +31,7 @@ function SessionProvider({ children }: SessionProviderProps): React.ReactElement
 }
 const useSession = () => useContext(SessionContext)
 
-function SessionWrapper ({ children }) {
+function SessionWrapper ({ stInstance , children }) {
     return (
         <SuperTokensWrapper>
             <SessionProvider>{children}</SessionProvider>

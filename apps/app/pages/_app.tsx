@@ -3,7 +3,7 @@ import { Center, Layout, LoadingDots, Padding } from '@cd/shared-ui';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import Router from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import toast, { Toaster, useToasterStore } from 'react-hot-toast';
 import SuperTokensReact from 'supertokens-auth-react';
 import Session from 'supertokens-auth-react/recipe/session';
@@ -16,8 +16,17 @@ type CustomAppProps = AppProps & {
     Component: ExtendedPageComponent;
 };
 
-if (typeof window !== 'undefined') SuperTokensReact.init(frontendConfig());
 export default function App({ Component, pageProps }: CustomAppProps): JSX.Element {
+    const stInstance = useRef(null);
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            if (stInstance.current === null) {
+                stInstance.current = SuperTokensReact.init(frontendConfig());
+                console.log('initiated supertokens in the client');
+            }
+        }
+    });
+
     // const session = useSessionContext();
     // Component.signIn = signIn;
     // Component.signOut = signOut;
@@ -60,7 +69,7 @@ export default function App({ Component, pageProps }: CustomAppProps): JSX.Eleme
                 <title>Gras Cannabis Marketplace</title>
                 <meta name="vendor experience application" content="Property of Gras Cannabis Co." />
             </Head>
-            <SessionWrapper>
+            <SessionWrapper stInstance={stInstance}>
                 {(sessionContext) => (
                     <ModalProvider>
                         <Toaster position="top-center" />
