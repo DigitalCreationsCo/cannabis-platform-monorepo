@@ -1,4 +1,4 @@
-import { Address } from "@prisma/client";
+import { Address, Coordinates } from "@prisma/client";
 import prisma from "./db/prisma";
 
 export async function createOrganization(organization: any, address: any) { 
@@ -56,6 +56,26 @@ export async function findUsersByOrganization(organizationId:string) {
     }
 }
 
+export async function findOrganizationBySubdomain(subdomainId:string) {
+    try {
+        const organization = await prisma.subDomain.findUnique({ where: { id: subdomainId }, include: {organization: {include: {address: true, images: true, products: true, siteSetting: true, categoryList: true}}} }) || {}
+        return organization
+    } catch (error: any) {
+        console.error(error)
+        throw new Error(error)
+    }
+}
+
+export async function findLocalOrganizations({ userLocation, proximityRadius }: ServeUserProximity) {
+    try {
+        const local_organizations = await prisma.organization.findMany({ where: { id: subdomainId }, include: {organization: {include: {address: true, images: true, products: true, siteSetting: true, categoryList: true}}} }) || {}
+        return local_organizations
+    } catch (error: any) {
+        console.error(error)
+        throw new Error(error)
+    }
+}
+
 // export type OrganizationCreateType = Prisma.PromiseReturnType<typeof createOrganization>
 // export type OrganizationC = Prisma.OrganizationCreateArgs["data"]
 
@@ -69,4 +89,9 @@ export type OrganizationCreateType = {
     vendorId: string
     termsAccepted?: boolean
     subdomainId: string
+}
+
+export type ServeUserProximity = {
+    userLocation: Coordinates;
+    proximityRadius: number;
 }

@@ -1,6 +1,1 @@
-module.exports = {
-  "useTabs": false,
-  "tabWidth": 4,
-  "singleQuote": true,
-  "printWidth": 120
-}
+module.exports = require('@cd/shared-config/.prettierrc.cjs')
