@@ -175,6 +175,13 @@ const vendors:Vendor[] = [
     createdAt: new Date(),
     updatedAt: new Date(),
   },
+  {
+    id: "3",
+    name: "SunnySide",
+    publicName: "SunnySide",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
 ];
 
 const orgs:Organization[] = [
@@ -607,6 +614,12 @@ const subdomains:SubDomain[] = [
   },
   {
     id: "curaleaf",
+    isValid: true,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: "sunnyside",
     isValid: true,
     createdAt: new Date(),
     updatedAt: new Date(),

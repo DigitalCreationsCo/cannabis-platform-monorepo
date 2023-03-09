@@ -9,6 +9,12 @@ export async function createOrganization(organization: any, address: any) {
                 address: {
                     create: address
                 },
+                subDomain: {
+                    create: {id: organization.subdomainId}
+                },
+                vendor:{
+                    connectOrCreate: {id: organization.vendorId}
+                },
             }
         });
         return createOrganization
