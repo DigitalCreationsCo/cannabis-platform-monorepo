@@ -85,6 +85,13 @@ production environment testing: {
 
 
 TO DO
+CREATE PYTHON GEOCODE SERVER, SERVE WITH NGINX SCRIPT, OR DOCKER?
+TEST THE LOCAL_ORGANIZATION ROUTE, SAVE THE COORDINATES IN BOTH DB, MYSQL AND MONGO
+INITIALIZE BACKUPS IN mongodb
+CONNECT WITH KALIPHA TO FACILIATE THE DOCKER COMPOSE JOB
+KEEP GOING. BRIDGE THE GAPS NOW.
+IM DOING A GOOD JOB.
+
 check modal use hook
 // TODO update session db record with new expiry
                                 // TODO delete session db record

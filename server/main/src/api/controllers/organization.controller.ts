@@ -1,3 +1,4 @@
+import { getGeoCoordinates } from '../../util/utility';
 import { OrganizationDA } from '../data-access';
 const Busboy = require('busboy');
 
@@ -17,9 +18,13 @@ export default class OrganizationController {
     static async createOrganization(req, res) {
         try {
             const organization = req.body;
-            console.log('SERVER: createOrganization: ', organization);
+
+            const coordinates = await getGeoCoordinates(organization.address);
+            if (coordinates) organization.address.coordinates = coordinates;
+
             const data = await OrganizationDA.createOrganization(organization);
             if (!data) return res.status(404).json('Organization could not be created.');
+
             return res.status(201).json(data);
         } catch (error) {
             console.log('API error: ', error.message);

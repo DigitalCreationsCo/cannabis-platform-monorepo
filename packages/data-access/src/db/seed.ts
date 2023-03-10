@@ -83,6 +83,29 @@ const memberships:Membership[]  = [
   }
 ]
 
+const coordinates = [
+  {
+    latitude: 40.046,
+    longitude: -76.302,
+    addressId: '1'
+  },
+  {
+    latitude: 20.046,
+    longitude: -36.302,
+    addressId: '2'
+  },
+  {
+    latitude: 50.046,
+    longitude: -16.302,
+    addressId: '3'
+  },
+  {
+    latitude: 5.046,
+    longitude: -36.302,
+    addressId: '4'
+  }
+]
+
 const addresses:Address[] = [
   {
     id: "1",
@@ -93,7 +116,6 @@ const addresses:Address[] = [
     zipcode: "17602",
     country: "United States",
     countryCode: "US",
-    coordinateId: "2",
     userId: '3',
     organizationId: null,
     createdAt: new Date(),
@@ -107,7 +129,6 @@ const addresses:Address[] = [
     zipcode: "17602",
     country: "United States",
     countryCode: "US",
-    coordinateId: "2",
     userId: null,
     organizationId: '1',
     createdAt: new Date(),
@@ -122,7 +143,6 @@ const addresses:Address[] = [
     zipcode: "17602",
     country: "United States",
     countryCode: "US",
-    coordinateId: "2",
     userId: '2',
     organizationId: null,
     createdAt: new Date(),
@@ -137,7 +157,6 @@ const addresses:Address[] = [
     zipcode: "17602",
     country: "United States",
     countryCode: "US",
-    coordinateId: "2",
     userId: '2',
     organizationId: null,
     createdAt: new Date(),
@@ -152,7 +171,6 @@ const addresses:Address[] = [
     zipcode: "17602",
     country: "United States",
     countryCode: "US",
-    coordinateId: "3",
     userId: "1",
     organizationId: null,
     createdAt: new Date(),

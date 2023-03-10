@@ -1,14 +1,27 @@
 import { Address, Coordinates } from "@prisma/client";
 import prisma from "./db/prisma";
 
-export async function createOrganization(organization: any, address: any) { 
+export async function createOrganization(organization: OrganizationCreateType) { 
     try {
-        const { vendorId, subdomainId, ...organizationCreate } = organization
+        organization.subdomainId = organization.name.toLowerCase();
+        const { vendorId, address, subdomainId, ...data } = organization
+        const { coordinates, userId, ...addressData } = address
+
+        const { latitude, longitude } = coordinates
+        console.log('coordinates here', coordinates)
         const createOrganization = await prisma.organization.create({
             data: {
-                ...organizationCreate,
+                ...data,
                 address: {
-                    create: address
+                    create: {
+                        ...addressData,
+                        coordinates: {
+                            create: {
+                                latitude: Number(latitude),
+                                longitude: Number(longitude)
+                            }
+                        }
+                    }
                 },
                 subdomain: {
                     connectOrCreate: { 
@@ -22,12 +35,22 @@ export async function createOrganization(organization: any, address: any) {
                         create: { id: vendorId, name: organization.name, publicName: organization.name }
                     }
                 },
+                // add default site settings
             }
         });
+        // const createOrganization = await prisma.$transaction(
+        //     [
+        //       prisma.resource.deleteMany({ where: { name: 'name' } }),
+        //       prisma.resource.createMany({ data }),
+        //     ],
+        //   )
         return createOrganization
     } catch (error: any) {
-        console.error(error)
-        throw new Error('error creating organization, unique key exists')
+        console.error('ERROR: ', error.message)
+        if (error.code === 'P2002') {
+            throw new Error('error creating organization, unique key exists')
+        }
+        else throw new Error('error creating organization')
     }
 }
 export async function findOrganizationById(organizationId:string) {
@@ -93,14 +116,16 @@ export async function findLocalOrganizations(organizationIds: string[]) {
 // export type OrganizationC = Prisma.OrganizationCreateArgs["data"]
 
 export type OrganizationCreateType = {
+    id: string | undefined
     name: string
-    address: Address
+    address: Address & { coordinates: Coordinates }
     dialCode: string
     phone: string
     email: string
     emailVerified?: boolean
     vendorId: string
     termsAccepted?: boolean
+    coordinates?: Coordinates
     subdomainId: string
 }
 

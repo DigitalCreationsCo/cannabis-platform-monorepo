@@ -70,3 +70,8 @@ export interface LayoutProps extends PropsWithChildren {
     doesSessionExist: boolean;
     // page: JSX.Element;
 }
+
+export interface LayoutContextProps {
+    onSearchChange?: ChangeEventHandler<HTMLInputElement> & ReactEventHandler<Element>;
+    placeholder?: string;
+}

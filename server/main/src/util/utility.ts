@@ -1,3 +1,5 @@
+import { Address } from '@prisma/client';
+import axios from 'axios';
 import { compareSync, hashSync } from 'bcryptjs';
 import { customAlphabet } from 'nanoid';
 import { createHash } from 'node:crypto';
@@ -30,4 +32,33 @@ export const createPasswordHash = (data: any) => {
 
 export const isPasswordMatch = (password: string, passwordHash: string) => {
 	return compareSync(password, passwordHash ?? '')
+}
+
+export const getGeoCoordinates = async (address: Address) => {
+	const { street1, street2 ,city, state, country, zipcode,countryCode } = address;
+	const addressString = `${street1} ${street2} ${city} ${state} ${country} ${zipcode} ${countryCode}`;
+	const coordinates = await getCoordinates(addressString);
+	console.log('getGeoCoordinates: ', coordinates)
+	return coordinates
+}
+
+const getCoordinates = async (addressString: string):Promise<{
+    latitude: any;
+    longitude: any;
+}| null> => {
+	try {
+		const {data } = await axios(process.env.LOCATION_IQ_URL, {
+			params: {
+				key: process.env.LOCATION_IQ_API_KEY,
+				q: addressString,
+				format: 'json',
+				}
+			})
+		const { lat: latitude, lon: longitude } = data[0];
+		const coordinates = { latitude, longitude };
+		return coordinates || null;
+	} catch (error) {
+		console.log('Error getting coordinates: ', error);
+		return null
+	}
 }
