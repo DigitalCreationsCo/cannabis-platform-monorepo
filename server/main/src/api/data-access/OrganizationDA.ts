@@ -13,14 +13,9 @@ updateProduct
 ================================= */
 
 export default class OrganizationDA {
-    static async createOrganization(organizationData: OrganizationCreateType) {
+    static async createOrganization(organization: OrganizationCreateType) {
         try {
-            let { address, ...organization } = organizationData;
-
-            organization.subdomainId = organization.name.toLowerCase();
-            
-            address.coordinateId = '';
-            const data = await createOrganization(organization, address);
+            const data = await createOrganization(organization);
             console.log(`Organization ${organization.name} is created.`)
             return data;
         } catch (error) {

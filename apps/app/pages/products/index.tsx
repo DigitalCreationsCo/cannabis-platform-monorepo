@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useState } from 'react';
 // import toast from "react-hot-toast";
 import { Product } from '@cd/data-access';
-import { LayoutProps } from '@cd/shared-lib';
+import { LayoutContextProps } from '@cd/shared-lib';
 import { Button, Card, DeleteButton, Grid, H6, Icons, Page, PageHeader, Row } from '@cd/shared-ui';
 import { ProtectedPage } from 'components';
 import { usePagination } from 'hooks';
@@ -142,14 +142,13 @@ export default function Products({ products }: ProductsDashboardProps) {
     );
 }
 
-Products.getLayoutContext = ():LayoutProps => ({
+Products.getLayoutContext = ():LayoutContextProps => ({
     placeholder: 'Search Products', 
     onSearchChange: (e) => {
             if (e?.target) {
                 ProductsSetSearchDispatch.setSearchValue((e.target as HTMLInputElement).value);
             }
         }
-    // page: page,
     }
 );
 

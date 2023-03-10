@@ -46,8 +46,7 @@ function UserSignUp() {
             state: 'PA',
             zipcode: '19130',
             country: 'United States',
-            countryCode: 'US',
-            coordinateId: ''
+            countryCode: 'US'
         }
     };
 
