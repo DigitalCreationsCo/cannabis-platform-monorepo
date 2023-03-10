@@ -6,7 +6,7 @@ import LoadingDots from './LoadingDots';
 interface ButtonProps extends PropsWithChildren {
     size?: 'lg' | 'sm' | 'md';
     bg?: 'primary' | 'accent-soft' | 'transparent';
-    hover?: 'accent' | 'primary';
+    hover?: 'accent' | 'primary' | 'transparent';
     transparent?: true | false;
     border?: boolean;
     className?: string;

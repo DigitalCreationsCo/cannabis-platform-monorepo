@@ -3,10 +3,11 @@ import { twMerge } from 'tailwind-merge';
 
 type DispensaryCard = {
     dispensary: string;
+    className: string | string[];
 };
-function DispensaryCard({ dispensary }) {
+function DispensaryCard({ dispensary, className }) {
     return (
-        <Card className={twMerge(['w-[200px]'])} title={dispensary.name}>
+        <Card className={twMerge(['max-w-1/3', className])} title={dispensary.name}>
             {'id: ' + dispensary.id}
         </Card>
     );
