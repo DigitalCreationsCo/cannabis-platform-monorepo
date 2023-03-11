@@ -27,7 +27,7 @@ function DispensaryListCarousel({ title, list }: DispensaryListProps) {
                         ❮
                     </Button>
                 </a>
-                <div className="carousel items-center p-2 space-x-4 rounded-box carousel-center">
+                <div className="carousel items-center w-full p-2 space-x-4 rounded-box carousel-center">
                     {list.map((dispensary, index) => (
                         <div key={'dispensary-card-' + index} id={'dispensary-card-' + index} className="carousel-item">
                             <DispensaryCard key={'dispensary-' + dispensary.id} dispensary={dispensary} />

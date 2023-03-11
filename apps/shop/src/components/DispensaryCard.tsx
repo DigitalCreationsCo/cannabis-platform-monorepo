@@ -1,6 +1,6 @@
 import { OrganizationWithShopDetails } from '@cd/data-access';
-import { checkDispensaryIsOpen } from '@cd/shared-lib';
-import { Card, Paragraph } from '@cd/shared-ui';
+import { checkDispensaryIsOpen, renderAddress } from '@cd/shared-lib';
+import { Card, FlexBox, Paragraph } from '@cd/shared-ui';
 import Image from 'next/image';
 import { twMerge } from 'tailwind-merge';
 
@@ -10,28 +10,49 @@ type DispensaryCardProps = {
 };
 function DispensaryCard({ dispensary, className }: DispensaryCardProps) {
     const styles = {
-        dispensarycard: 'min-w-[300px] md:!min-w-[400px]'
+        dispensarycard: ['min-w-[300px] md:w-[350px] p-4 md:p-4']
     };
     return (
         <Card className={twMerge([styles.dispensarycard, className])} title={dispensary.name}>
-            <Image src={dispensary.images?.[0].location} alt={dispensary.name} />
-            {/* <Paragraph>{checkDispensaryIsOpen(dispensary.schedule)}</Paragraph> */}
-            <Paragraph className="badge -ml-1">
+            <FlexBox className="items-end flex-row justify-between">
+                <Image
+                    src={dispensary.images?.[0].location}
+                    alt={dispensary.name}
+                    height={100}
+                    width={100}
+                    className="border"
+                />
+                {/* <Paragraph>{checkDispensaryIsOpen(dispensary.schedule)}</Paragraph> */}
+                <Paragraph>
+                    {renderAddress({
+                        street1: '1239 2nd st',
+                        street2: '',
+                        city: 'Baltimore',
+                        state: 'Maryland',
+                        zipcode: '23456',
+                        id: '2',
+                        country: 'United States',
+                        countryCode: 'US',
+                        userId: null,
+                        createdAt: new Date(),
+                        updatedAt: new Date(),
+                        organizationId: '1'
+                    })}
+                </Paragraph>
+            </FlexBox>
+            <Paragraph className="badge -ml-2 p-3 self-end absolute">
                 {checkDispensaryIsOpen({
-                    days: 43210,
+                    days: 6543210,
                     id: '1',
                     organizationId: '2',
-                    openAt: 200,
-                    closeAt: 2000,
+                    openAt: 8,
+                    closeAt: 20,
                     createdAt: new Date(),
                     updatedAt: new Date()
                 })
                     ? 'open now'
                     : 'closed'}
             </Paragraph>
-            <Paragraph>{'hello'}</Paragraph>
-            <Paragraph>{'id: ' + dispensary.id}</Paragraph>
-            <Paragraph>{'id: ' + dispensary.id}</Paragraph>
         </Card>
     );
 }
