@@ -1,4 +1,4 @@
-import { Address, Coordinates } from "@prisma/client";
+import { Address, CategoryList, Coordinates, ImageOrganization, Schedule } from "@prisma/client";
 import prisma from "./db/prisma";
 
 export async function createOrganization(organization: OrganizationCreateType) { 
@@ -127,6 +127,22 @@ export type OrganizationCreateType = {
     termsAccepted?: boolean
     coordinates?: Coordinates
     subdomainId: string
+}
+
+export type OrganizationWithShopDetails = {
+    id: string
+    name: string
+    address: Address & { coordinates: Coordinates }
+    dialCode: string
+    phone: string
+    email: string
+    emailVerified?: boolean
+    vendorId: string
+    termsAccepted?: boolean
+    subdomainId: string
+    images: ImageOrganization[]
+    categoryList: CategoryList[]
+    schedule: Schedule
 }
 
 export type ServeUserProximity = {

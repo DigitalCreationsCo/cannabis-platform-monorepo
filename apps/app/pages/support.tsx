@@ -6,6 +6,7 @@ function Support() {
             <PageHeader title="Support" Icon={Icons.Shield} />
             <Grid className="space-y-4 px-2">
                 <H5 className="whitespace-pre-line">{` 
+            Thanks for choosing Gras.
             We're working around the clock to deliver a world class support service for your business.
             For software support, please dial the toll-free support phone number. `}</H5>
                 <H4 className="text-left whitespace-pre-line">{`24 / 7 Gras Support Phone Number: 

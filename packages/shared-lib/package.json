@@ -57,9 +57,9 @@
   },
   "private": true,
   "scripts": {
-    "build": "rollup -c",
-    "build:prod": "rollup -c",
-    "watch": "rollup -c --watch"
+    "build": "rm -rf dist && rollup -c",
+    "build:prod": "rm -rf dist && rollup -c",
+    "watch": "rm -rf dist && rollup -c --watch"
   },
   "type": "module",
   "types": "./dist/index.d.ts",
