@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { H4, H6 } from './Typography';
+import { H4, H5 } from './Typography';
 
 type CardProps = { className?: string; title?: string; amount?: string | number };
 
@@ -11,7 +11,7 @@ function Card({ className, title, amount, children }: CardProps & PropsWithChild
     };
     return (
         <div className={twMerge(styles.cardContainer, className)}>
-            {title && <H6 className="whitespace-pre">{title}</H6>}
+            {title && <H5 className="whitespace-pre">{title}</H5>}
             {amount !== undefined && <H4>{amount}</H4>}
             {children}
         </div>

@@ -12,15 +12,18 @@ export function calcSalePrice(price: number, discount: number) {
 export const parseDaysFromSchedule = (days: number) => String(days).split("").map(Number)
 
 export const checkDispensaryIsOpen = (schedule: Schedule) => {
-    const now = new Date();
+    const now = new Date()
 
     const { openAt, closeAt } = schedule
+
     const openTime = new Date();
-    
+    openTime.setHours(openAt)
+
     const closeTime = new Date();
+    closeTime.setHours(closeAt)
+
     const days = parseDaysFromSchedule(schedule.days)
 
     const result = days.includes(now.getDay()) && now > openTime && now < closeTime
-    console.log('result', result)
     return result
 }
