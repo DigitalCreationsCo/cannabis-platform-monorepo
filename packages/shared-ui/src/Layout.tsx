@@ -17,12 +17,12 @@ export default function Layout({
     doesSessionExist,
     children
 }: LayoutProps & PropsWithChildren) {
-    const styles = { main: 'bg-inverse-soft min-h-[800px]' };
+    const styles = { main: 'bg-inverse-soft' };
 
     const navLinkContainerId = 'dashboard-links-container';
     const drawerComponentId = 'dashboard-links-drawer';
     return (
-        <div className="h-screen flex flex-col">
+        <div className="flex flex-col">
             {doesSessionExist ? (
                 <div className={styles.main}>
                     <TopBarComponent signedOut={signedOut} doesSessionExist={doesSessionExist} />

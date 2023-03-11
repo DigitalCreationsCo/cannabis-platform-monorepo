@@ -214,7 +214,9 @@ const orgs:Organization[] = [
     subdomainId: "",
     createdAt: new Date(),
     updatedAt: new Date(),
-    termsAccepted: true,
+    termsAccepted: true,    
+    openAt: 0800,
+    closeAt: 2000,
   },
   {
     id: "2",
@@ -227,7 +229,9 @@ const orgs:Organization[] = [
     subdomainId: "curaleaf",
     createdAt: new Date(),
     updatedAt: new Date(),
-    termsAccepted: true,
+    termsAccepted: true,    
+    openAt: 0800,
+    closeAt: 2000,
   },
   {
     id: "3",
@@ -240,7 +244,9 @@ const orgs:Organization[] = [
     subdomainId: "sunnyside",
     createdAt: new Date(),
     updatedAt: new Date(),
-    termsAccepted: true,
+    termsAccepted: true,    
+    openAt: 0800,
+    closeAt: 2000,
   },
 ];
 const siteSettings:SiteSetting[] = [
