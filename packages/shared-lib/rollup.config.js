@@ -22,6 +22,7 @@ export default {
             name: '@cd/shared-lib',
             format: 'esm',
             minifyInternalExports: false,
+            sourcemap: true,
         }
     ],
     plugins: [
