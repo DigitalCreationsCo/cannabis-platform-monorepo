@@ -1523,6 +1523,7 @@ __metadata:
     "@cd/shared-config": "*"
     "@cd/shared-lib": "*"
     "@cd/shared-ui": "*"
+    "@mprt/rollup-plugin-incremental": ^0.1.0
     "@paralleldrive/cuid2": 2.2.0
     "@prisma/client": 4.4.0
     "@reduxjs/toolkit": 1.9.1
@@ -1569,7 +1570,7 @@ __metadata:
     jest: 29.3.1
     jest-mock-extended: 3.0.1
     json: 11.0.0
-    mongodb: ^5.1.0
+    mongodb: 5.1.0
     nanoid: 3.3.4
     next: 13.0.6
     next-connect: 0.13.0
@@ -1664,6 +1665,7 @@ __metadata:
     express: 4.18.2
     find-up: 5.0.0
     jest: 29.3.1
+    mongodb: 5.1.0
     nanoid: 3.3.4
     nodemon: 2.0.20
     pm2: 5.2.2
@@ -1695,6 +1697,7 @@ __metadata:
     "@types/node": 18.11.10
     "@typescript-eslint/eslint-plugin": 5.45.0
     "@typescript-eslint/parser": 5.45.0
+    axios: 1.2.1
     babel-plugin-inline-dotenv: 1.7.0
     bcryptjs: 2.4.3
     cors: 2.8.5
@@ -2385,6 +2388,15 @@ __metadata:
     "@jridgewell/resolve-uri": 3.1.0
     "@jridgewell/sourcemap-codec": 1.4.14
   checksum: 9d703b859cff5cd83b7308fd457a431387db5db96bd781a63bf48e183418dd9d3d44e76b9e4ae13237f6abeeb25d739ec9215c1d5bfdd08f66f750a50074a339
+  languageName: node
+  linkType: hard
+
+"@mprt/rollup-plugin-incremental@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "@mprt/rollup-plugin-incremental@npm:0.1.0"
+  peerDependencies:
+    rollup: ^2.33.1
+  checksum: d8fc47845a4d347d7b670cc16817d29a223c5b99bc1bcda626d295905bd008516e9cb8f93dd2cf48a9ff5e57c9befa3c608f46b4038e1e1a586ae3709a21ddf3
   languageName: node
   linkType: hard
 
@@ -8725,7 +8737,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb@npm:^5.1.0":
+"mongodb@npm:5.1.0":
   version: 5.1.0
   resolution: "mongodb@npm:5.1.0"
   dependencies:

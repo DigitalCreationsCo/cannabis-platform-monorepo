@@ -28,6 +28,7 @@
     "eslint-plugin-prettier": "4.2.1",
     "eslint-plugin-react-hooks": "4.6.0",
     "eslint-plugin-simple-import-sort": "8.0.0",
+    "@mprt/rollup-plugin-incremental": "0.1.0",
     "json": "11.0.0",
     "postcss": "8.4.19",
     "prettier": "2.8.0",

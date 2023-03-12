@@ -1,4 +1,4 @@
-import { ChangeEventHandler, Dispatch, PropsWithChildren, ReactEventHandler, SetStateAction } from "react";
+import { ChangeEventHandler, Dispatch, ReactEventHandler, SetStateAction } from "react";
 import { SessionContextType } from 'supertokens-auth-react/recipe/session';
 
 export type ExtendedPageComponent = {
@@ -52,24 +52,12 @@ export type ExtendedPageComponent = {
           fetchResponse: Response;
       }
 >;
-    getLayoutContext?: () => LayoutProps;
+    getLayoutContext?: () => LayoutContextProps;
     isLoading: boolean;
     setIsLoading: Dispatch<SetStateAction<boolean>>;
     session: SessionContextType;
     doesSessionExist: boolean;
 };
-
-export interface LayoutProps extends PropsWithChildren {
-    SideNavComponent: React.ElementType;
-    showSideNav?: boolean;
-    TopBarComponent: React.ElementType;
-    signedOut: () => void;
-    setModal: Dispatch<SetStateAction<boolean>>;
-    onSearchChange?: ChangeEventHandler<HTMLInputElement> & ReactEventHandler<Element>;
-    placeholder?: string;
-    doesSessionExist: boolean;
-    // page: JSX.Element;
-}
 
 export interface LayoutContextProps {
     onSearchChange?: ChangeEventHandler<HTMLInputElement> & ReactEventHandler<Element>;
