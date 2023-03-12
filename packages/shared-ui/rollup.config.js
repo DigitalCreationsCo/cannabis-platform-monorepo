@@ -9,13 +9,14 @@ import packageJson from './package.json' assert { type: 'json' };
 export default {
     input: 'src/index.ts',
     output: [
+        // {
+        //     file: packageJson.main,
+        //     format: 'cjs',
+        //     name: '@cd/shared-ui',
+        //     sourcemap: true
+        // },
         {
-            file: packageJson.main,
-            format: 'cjs',
             name: '@cd/shared-ui',
-            sourcemap: true
-        },
-        {
             file: packageJson.module,
             format: 'esm',
             sourcemap: true
@@ -40,11 +41,11 @@ export default {
             output: 'dist/assets'
         })
     ],
-    external: ['react', 'react-dom', 'next'],
+    external: ['react', 'react-dom', 'next', '@cd/shared-lib'],
     watch: {
         clearScreen: false,
         include: './**',
         buildDelay: 1000,
-        exclude: ['node_modules', 'dist', '.turbo']
+        exclude: ['node_modules/**', 'dist/**', '.turbo/**']
     }
 };

@@ -1,8 +1,19 @@
-import { LayoutProps } from '@cd/shared-lib';
-import { PropsWithChildren } from 'react';
+import { ChangeEventHandler, Dispatch, PropsWithChildren, ReactEventHandler, SetStateAction } from 'react';
 import Footer from './Footer';
 import Header from './Header';
 import SideNavContainer from './SideNavContainer';
+
+interface LayoutProps extends PropsWithChildren {
+    SideNavComponent: React.ElementType;
+    showSideNav?: boolean;
+    TopBarComponent: React.ElementType;
+    signedOut: () => void;
+    setModal: Dispatch<SetStateAction<boolean>>;
+    onSearchChange?: ChangeEventHandler<HTMLInputElement> & ReactEventHandler<Element>;
+    placeholder?: string;
+    doesSessionExist: boolean;
+    // page: JSX.Element;
+}
 
 // topbar goes out as a unique child component with props
 // header goes in here as generic component with props
