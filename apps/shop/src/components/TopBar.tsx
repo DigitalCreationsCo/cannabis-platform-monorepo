@@ -12,6 +12,7 @@ export type TopBarProps = {
 };
 
 function TopBar({ doesSessionExist, setModal, signedOut }: TopBarProps) {
+    console.log('doesSessionExist', doesSessionExist);
     const styles = {
         topbar: ['flex flex-row min-h-[66px] pr-4 lg:px-16 bg-inverse space-x-2 items-center shadow'],
         badge: 'indicator absolute inline-flex items-center justify-center w-6 h-6 text-sm text-light bg-primary -top-2 -right-2 rounded-full'

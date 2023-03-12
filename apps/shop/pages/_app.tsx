@@ -1,4 +1,7 @@
-import { ExtendedPageComponent } from '@cd/shared-lib';
+import {
+    ExtendedPageComponent,
+    ModalProvider
+} from '@cd/shared-lib';
 import { Layout } from '@cd/shared-ui';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
@@ -63,27 +66,29 @@ export default function App({ Component, pageProps }: CustomAppProps) {
                 <meta name="vendor experience application" content="Property of Gras Cannabis Co." />
             </Head>
             <SuperTokensWrapper>
-                <Toaster position="top-center" />
-                <Layout
-                    showSideNav={false}
-                    SideNavComponent={() => (
-                        <ul>
-                            <li>all products</li>
-                            <li>edibles</li>
-                            <li>flower</li>
-                            <li>cbd</li>
-                        </ul>
-                    )}
-                    TopBarComponent={TopBar}
-                    signedOut={signedOut}
-                    setModal={() => {
-                        console.log('set Modal');
-                    }}
-                    doesSessionExist={true}
-                    {...getLayoutContext()}
-                >
-                    <Component {...pageProps} />
-                </Layout>
+                <ModalProvider>
+                    <Toaster position="top-center" />
+                    <Layout
+                        showSideNav={false}
+                        SideNavComponent={() => (
+                            <ul>
+                                <li>all products</li>
+                                <li>edibles</li>
+                                <li>flower</li>
+                                <li>cbd</li>
+                            </ul>
+                        )}
+                        TopBarComponent={TopBar}
+                        signedOut={signedOut}
+                        setModal={() => {
+                            console.log('set Modal');
+                        }}
+                        doesSessionExist={doesSessionExist.current}
+                        {...getLayoutContext()}
+                    >
+                        <Component {...pageProps} />
+                    </Layout>
+                </ModalProvider>
             </SuperTokensWrapper>
         </>
     );
