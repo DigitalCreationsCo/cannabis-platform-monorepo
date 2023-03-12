@@ -109,6 +109,7 @@
     "node-cache": "5.1.2",
     "node-mocks-http": "1.12.1",
     "nodemon": "2.0.20",
+    "nollup": "0.21.0",
     "postcss": "8.4.19",
     "prettier": "2.8.0",
     "prisma": "4.4.0",
