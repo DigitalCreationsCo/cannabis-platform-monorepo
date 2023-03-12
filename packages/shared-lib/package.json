@@ -42,15 +42,15 @@
   },
   "exports": {
     ".": {
-      "import": "./dist/shared-lib.es.js",
-      "require": "./dist/shared-lib.cjs.js"
+      "import": "./dist",
+      "require": "./dist"
     }
   },
   "files": [
     "dist"
   ],
-  "main": "dist/shared-lib.cjs.js",
-  "module": "dist/shared-lib.es.js",
+  "main": "dist",
+  "module": "dist",
   "name": "@cd/shared-lib",
   "peerDependencies": {
     "react": "18.2.0",

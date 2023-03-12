@@ -1,4 +1,3 @@
-import incremental from '@mprt/rollup-plugin-incremental';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
@@ -8,7 +7,6 @@ import postcss from 'rollup-plugin-postcss';
 
 export default {
     input: 'src/index.ts',
-    treeshake: false,
     output: [
         // {
         //     file: packageJson.main,
@@ -19,16 +17,11 @@ export default {
         {
             dir: 'dist',
             name: '@cd/shared-ui',
-            preserveModules: true,
-            preserveModulesRoot: 'src',
             // file: packageJson.module,
-            format: 'esm',
-            sourcemap: true,
-            minifyInternalExports: false
+            format: 'esm'
         }
     ],
     plugins: [
-        incremental(),
         postcss({
             config: {
                 path: './postcss.config.cjs'
@@ -42,17 +35,16 @@ export default {
         }),
         resolve(),
         commonjs(),
-        typescript({ tsconfig: './tsconfig.json' }),
         image({
             output: 'dist/assets'
         }),
-        incremental.fixSNE()
+        typescript({ tsconfig: './tsconfig.json' })
     ],
     external: ['react', 'react-dom', 'next', 'shared-lib', '@cd/shared-lib'],
     watch: {
         clearScreen: false,
         include: './**',
         buildDelay: 1000,
-        exclude: ['node_modules/**', 'dist/**', '.turbo/**']
+        exclude: ['**/node_modules/**', 'dist/**', '.turbo/**']
     }
 };

@@ -45,8 +45,8 @@
   },
   "exports": {
     ".": {
-      "import": "./dist/shared-ui.es.js",
-      "require": "./dist/shared-ui.cjs.js"
+      "import": "./dist",
+      "require": "./dist"
     },
     "./dist/icons": "./dist/icons",
     "./dist/style.css": "./dist/style.css"
@@ -54,8 +54,8 @@
   "files": [
     "dist"
   ],
-  "main": "dist/shared-ui.cjs.js",
-  "module": "dist/shared-ui.es.js",
+  "main": "dist",
+  "module": "dist",
   "name": "@cd/shared-ui",
   "peerDependencies": {
     "react": "18.2.0",
