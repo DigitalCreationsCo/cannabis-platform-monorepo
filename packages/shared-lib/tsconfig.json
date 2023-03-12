@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
+    "allowJs": true,
     "declaration": true,
-    "emitDeclarationOnly": true,
+    "emitDeclarationOnly": false,
     "target": "ESNext",
     "declarationMap": true,
     "module": "esnext",
@@ -18,5 +19,5 @@
     // "isolatedModules": true,
     // "lib": ["dom","dom.iterable","ES2021"],
   },
-  "include": ["src"]
+  "include": ["src", "src/redux/**/*.js"]
 }

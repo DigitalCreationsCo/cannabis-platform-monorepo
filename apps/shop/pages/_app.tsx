@@ -1,6 +1,6 @@
 import {
     ExtendedPageComponent,
-    ModalProvider
+    ModalProvider, useModal
 } from '@cd/shared-lib';
 import { Layout } from '@cd/shared-ui';
 import type { AppProps } from 'next/app';
@@ -26,6 +26,8 @@ export default function App({ Component, pageProps }: CustomAppProps) {
         }
         checkSession();
     });
+
+    const { modalOpen, setModalOpen } = useModal();
 
     const signedOut = async () => {
         signOut();
