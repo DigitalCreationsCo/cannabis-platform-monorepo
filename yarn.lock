@@ -1523,7 +1523,7 @@ __metadata:
     "@cd/shared-config": "*"
     "@cd/shared-lib": "*"
     "@cd/shared-ui": "*"
-    "@mprt/rollup-plugin-incremental": ^0.1.0
+    "@mprt/rollup-plugin-incremental": 0.1.0
     "@paralleldrive/cuid2": 2.2.0
     "@prisma/client": 4.4.0
     "@reduxjs/toolkit": 1.9.1
@@ -1577,6 +1577,7 @@ __metadata:
     node-cache: 5.1.2
     node-mocks-http: 1.12.1
     nodemon: 2.0.20
+    nollup: ^0.21.0
     pm2: 5.2.2
     postcss: 8.4.19
     prettier: 2.8.0
@@ -1757,6 +1758,7 @@ __metadata:
     "@carbon/icons-react": 11.16.0
     "@cd/data-access": "*"
     "@cd/shared-config": "*"
+    "@mprt/rollup-plugin-incremental": 0.1.0
     "@rollup/plugin-commonjs": 24.0.1
     "@rollup/plugin-node-resolve": 15.0.1
     "@rollup/plugin-typescript": 11.0.0
@@ -1803,6 +1805,7 @@ __metadata:
     "@carbon/icons-react": 11.16.0
     "@cd/data-access": "*"
     "@cd/shared-config": "*"
+    "@mprt/rollup-plugin-incremental": 0.1.0
     "@rollup/plugin-commonjs": 24.0.1
     "@rollup/plugin-node-resolve": 15.0.1
     "@rollup/plugin-typescript": 11.0.0
@@ -2391,7 +2394,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mprt/rollup-plugin-incremental@npm:^0.1.0":
+"@mprt/rollup-plugin-incremental@npm:0.1.0":
   version: 0.1.0
   resolution: "@mprt/rollup-plugin-incremental@npm:0.1.0"
   peerDependencies:
@@ -2816,6 +2819,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@rollup/pluginutils@npm:^3.0.8":
+  version: 3.1.0
+  resolution: "@rollup/pluginutils@npm:3.1.0"
+  dependencies:
+    "@types/estree": 0.0.39
+    estree-walker: ^1.0.1
+    picomatch: ^2.2.2
+  peerDependencies:
+    rollup: ^1.20.0||^2.0.0
+  checksum: 8be16e27863c219edbb25a4e6ec2fe0e1e451d9e917b6a43cf2ae5bc025a6b8faaa40f82a6e53b66d0de37b58ff472c6c3d57a83037ae635041f8df959d6d9aa
+  languageName: node
+  linkType: hard
+
 "@rushstack/eslint-patch@npm:^1.1.3":
   version: 1.2.0
   resolution: "@rushstack/eslint-patch@npm:1.2.0"
@@ -2998,6 +3014,13 @@ __metadata:
   version: 1.0.0
   resolution: "@types/estree@npm:1.0.0"
   checksum: 910d97fb7092c6738d30a7430ae4786a38542023c6302b95d46f49420b797f21619cdde11fa92b338366268795884111c2eb10356e4bd2c8ad5b92941e9e6443
+  languageName: node
+  linkType: hard
+
+"@types/estree@npm:0.0.39":
+  version: 0.0.39
+  resolution: "@types/estree@npm:0.0.39"
+  checksum: 412fb5b9868f2c418126451821833414189b75cc6bf84361156feed733e3d92ec220b9d74a89e52722e03d5e241b2932732711b7497374a404fad49087adc248
   languageName: node
   linkType: hard
 
@@ -3481,7 +3504,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"acorn@npm:^8.4.1, acorn@npm:^8.7.0, acorn@npm:^8.8.0":
+"acorn@npm:^8.1.0, acorn@npm:^8.4.1, acorn@npm:^8.7.0, acorn@npm:^8.8.0":
   version: 8.8.2
   resolution: "acorn@npm:8.8.2"
   bin:
@@ -4628,7 +4651,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"convert-source-map@npm:^1.1.0, convert-source-map@npm:^1.5.0, convert-source-map@npm:^1.6.0, convert-source-map@npm:^1.7.0":
+"convert-source-map@npm:^1.1.0, convert-source-map@npm:^1.5.0, convert-source-map@npm:^1.5.1, convert-source-map@npm:^1.6.0, convert-source-map@npm:^1.7.0":
   version: 1.9.0
   resolution: "convert-source-map@npm:1.9.0"
   checksum: dc55a1f28ddd0e9485ef13565f8f756b342f9a46c4ae18b843fe3c30c675d058d6a4823eff86d472f187b176f0adf51ea7b69ea38be34be4a63cbbf91b0593c8
@@ -5022,7 +5045,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:^3.2.6, debug@npm:^3.2.7":
+"debug@npm:^3.0.1, debug@npm:^3.2.6, debug@npm:^3.2.7":
   version: 3.2.7
   resolution: "debug@npm:3.2.7"
   dependencies:
@@ -5524,6 +5547,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"es6-promise@npm:^4.1.1":
+  version: 4.2.8
+  resolution: "es6-promise@npm:4.2.8"
+  checksum: 95614a88873611cb9165a85d36afa7268af5c03a378b35ca7bda9508e1d4f1f6f19a788d4bc755b3fd37c8ebba40782018e02034564ff24c9d6fa37e959ad57d
+  languageName: node
+  linkType: hard
+
 "escalade@npm:^3.1.1":
   version: 3.1.1
   resolution: "escalade@npm:3.1.1"
@@ -5911,6 +5941,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"estree-walker@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "estree-walker@npm:1.0.1"
+  checksum: 7e70da539691f6db03a08e7ce94f394ce2eef4180e136d251af299d41f92fb2d28ebcd9a6e393e3728d7970aeb5358705ddf7209d52fbcb2dd4693f95dcf925f
+  languageName: node
+  linkType: hard
+
 "estree-walker@npm:^2.0.2":
   version: 2.0.2
   resolution: "estree-walker@npm:2.0.2"
@@ -5997,7 +6034,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express@npm:4.18.2":
+"express-history-api-fallback@npm:^2.2.1":
+  version: 2.2.1
+  resolution: "express-history-api-fallback@npm:2.2.1"
+  checksum: dfdb08ea09ae80b22228f8f028588826d66b33683e8211dcde533de646518179ac7899e82710d2679971beb90ed6aa5a838fe7b69a93ff79bd8405ec5b884614
+  languageName: node
+  linkType: hard
+
+"express-http-proxy@npm:^1.5.1":
+  version: 1.6.3
+  resolution: "express-http-proxy@npm:1.6.3"
+  dependencies:
+    debug: ^3.0.1
+    es6-promise: ^4.1.1
+    raw-body: ^2.3.0
+  checksum: 67fa357a29404e22778cfa59e60cdf410d876caeeaab7d34946d40ac6555cfcc666a0fd28fc087149b1f9bbb8349b057ad575485331126b1b99b696ab2528488
+  languageName: node
+  linkType: hard
+
+"express@npm:4.18.2, express@npm:^4.16.3":
   version: 4.18.2
   resolution: "express@npm:4.18.2"
   dependencies:
@@ -8434,6 +8489,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"magic-string@npm:^0.25.7":
+  version: 0.25.9
+  resolution: "magic-string@npm:0.25.9"
+  dependencies:
+    sourcemap-codec: ^1.4.8
+  checksum: 9a0e55a15c7303fc360f9572a71cffba1f61451bc92c5602b1206c9d17f492403bf96f946dfce7483e66822d6b74607262e24392e87b0ac27b786e69a40e9b1a
+  languageName: node
+  linkType: hard
+
 "magic-string@npm:^0.27.0":
   version: 0.27.0
   resolution: "magic-string@npm:0.27.0"
@@ -8575,7 +8639,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mime-types@npm:^2.1.12, mime-types@npm:~2.1.24, mime-types@npm:~2.1.34":
+"mime-types@npm:^2.1.12, mime-types@npm:^2.1.29, mime-types@npm:~2.1.24, mime-types@npm:~2.1.34":
   version: 2.1.35
   resolution: "mime-types@npm:2.1.35"
   dependencies:
@@ -9045,6 +9109,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"nollup@npm:^0.21.0":
+  version: 0.21.0
+  resolution: "nollup@npm:0.21.0"
+  dependencies:
+    "@rollup/pluginutils": ^3.0.8
+    acorn: ^8.1.0
+    chokidar: ^3.5.1
+    convert-source-map: ^1.5.1
+    express: ^4.16.3
+    express-history-api-fallback: ^2.2.1
+    express-http-proxy: ^1.5.1
+    magic-string: ^0.25.7
+    mime-types: ^2.1.29
+    source-map: ^0.5.6
+    source-map-fast: "npm:source-map@0.7.3"
+    ws: ^7.5.3
+  bin:
+    nollup: lib/cli.js
+  checksum: 8cc952f77be3ac8f82ef1c045c8ff32459161c718c1c87c49722564fce6e3a107710ea0cfa6c8b1a024806c953a1e29eb9ae8e63f73b7441b43be02372a3d41a
+  languageName: node
+  linkType: hard
+
 "nopt@npm:^6.0.0":
   version: 6.0.0
   resolution: "nopt@npm:6.0.0"
@@ -9474,7 +9560,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"picomatch@npm:^2.0.4, picomatch@npm:^2.2.1, picomatch@npm:^2.2.3, picomatch@npm:^2.3.1":
+"picomatch@npm:^2.0.4, picomatch@npm:^2.2.1, picomatch@npm:^2.2.2, picomatch@npm:^2.2.3, picomatch@npm:^2.3.1":
   version: 2.3.1
   resolution: "picomatch@npm:2.3.1"
   checksum: 050c865ce81119c4822c45d3c84f1ced46f93a0126febae20737bd05ca20589c564d6e9226977df859ed5e03dc73f02584a2b0faad36e896936238238b0446cf
@@ -10417,7 +10503,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"raw-body@npm:^2.2.0, raw-body@npm:^2.3.3":
+"raw-body@npm:^2.2.0, raw-body@npm:^2.3.0, raw-body@npm:^2.3.3":
   version: 2.5.2
   resolution: "raw-body@npm:2.5.2"
   dependencies:
@@ -11381,6 +11467,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"source-map-fast@npm:source-map@0.7.3":
+  version: 0.7.3
+  resolution: "source-map@npm:0.7.3"
+  checksum: cd24efb3b8fa69b64bf28e3c1b1a500de77e84260c5b7f2b873f88284df17974157cc88d386ee9b6d081f08fdd8242f3fc05c953685a6ad81aad94c7393dedea
+  languageName: node
+  linkType: hard
+
 "source-map-js@npm:>=0.6.2 <2.0.0, source-map-js@npm:^1.0.2":
   version: 1.0.2
   resolution: "source-map-js@npm:1.0.2"
@@ -11415,7 +11508,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"source-map@npm:^0.5.7":
+"source-map@npm:^0.5.6, source-map@npm:^0.5.7":
   version: 0.5.7
   resolution: "source-map@npm:0.5.7"
   checksum: 5dc2043b93d2f194142c7f38f74a24670cd7a0063acdaf4bf01d2964b402257ae843c2a8fa822ad5b71013b5fcafa55af7421383da919752f22ff488bc553f4d
@@ -12814,7 +12907,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ws@npm:^7.0.0":
+"ws@npm:^7.0.0, ws@npm:^7.5.3":
   version: 7.5.9
   resolution: "ws@npm:7.5.9"
   peerDependencies:
