@@ -1,16 +1,15 @@
-import {
-    ExtendedPageComponent,
-    ModalProvider, useModal
-} from '@cd/shared-lib';
+import { ExtendedPageComponent } from '@cd/shared-lib';
 import { Layout } from '@cd/shared-ui';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useEffect, useRef } from 'react';
 import toast, { Toaster, useToasterStore } from 'react-hot-toast';
+import { Provider as ReduxProvider } from 'react-redux';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session, { signOut } from 'supertokens-auth-react/recipe/session';
 import { frontendConfig } from '../config/frontendConfig';
 import { TopBar } from '../src/components';
+import store from '../src/redux/store';
 import '../styles/globals.css';
 
 type CustomAppProps = AppProps & {
@@ -26,8 +25,6 @@ export default function App({ Component, pageProps }: CustomAppProps) {
         }
         checkSession();
     });
-
-    const { modalOpen, setModalOpen } = useModal();
 
     const signedOut = async () => {
         signOut();
@@ -45,6 +42,7 @@ export default function App({ Component, pageProps }: CustomAppProps) {
     useEffect(() => {
         async function doRefresh() {
             if (pageProps.fromSupertokens === 'needs-refresh') {
+                console.log('needs refresh');
                 if (await Session.attemptRefreshingSession()) {
                     location.reload();
                 } else {
@@ -67,8 +65,8 @@ export default function App({ Component, pageProps }: CustomAppProps) {
                 <title>Gras Cannabis Marketplace</title>
                 <meta name="vendor experience application" content="Property of Gras Cannabis Co." />
             </Head>
-            <SuperTokensWrapper>
-                <ModalProvider>
+            <ReduxProvider store={store}>
+                <SuperTokensWrapper>
                     <Toaster position="top-center" />
                     <Layout
                         showSideNav={false}
@@ -82,16 +80,13 @@ export default function App({ Component, pageProps }: CustomAppProps) {
                         )}
                         TopBarComponent={TopBar}
                         signedOut={signedOut}
-                        setModal={() => {
-                            console.log('set Modal');
-                        }}
                         doesSessionExist={doesSessionExist.current}
                         {...getLayoutContext()}
                     >
                         <Component {...pageProps} />
                     </Layout>
-                </ModalProvider>
-            </SuperTokensWrapper>
+                </SuperTokensWrapper>
+            </ReduxProvider>
         </>
     );
 }

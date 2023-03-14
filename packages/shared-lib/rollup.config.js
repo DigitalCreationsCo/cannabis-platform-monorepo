@@ -1,4 +1,3 @@
-import incremental from '@mprt/rollup-plugin-incremental';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
@@ -16,26 +15,25 @@ export default {
         // },
         {
             dir: 'dist',
-            // file: packageJson.module,
-            preserveModules: true,
-            preserveModulesRoot: 'src',
+            // preserveModules: true,
+            // preserveModulesRoot: 'src',
             name: '@cd/shared-lib',
             format: 'esm',
-            minifyInternalExports: false,
+            // minifyInternalExports: false,    
             sourcemap: true,
         }
     ],
     plugins: [
-        incremental(),
+        // incremental(),
         resolve(),
         commonjs(),
         typescript({ tsconfig: './tsconfig.json' }),
-        incremental.fixSNE(),
+        // incremental.fixSNE(),
     ],
-    external: ['react', 'react-dom', '@cd/shared-ui', 'shared-ui'],
+    external: ['react', 'react-dom', '@cd/shared-ui', 'shared-ui', 'react-redux', '@reduxjs/toolkit'],
     watch: {
         clearScreen: false,
-        // include: './**',
+        include: './**',
         buildDelay: 1000,
         exclude: ['node_modules/**', 'dist/**', '.turbo/**']
     }

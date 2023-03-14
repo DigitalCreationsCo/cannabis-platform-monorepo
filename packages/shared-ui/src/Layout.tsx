@@ -1,4 +1,4 @@
-import { ChangeEventHandler, Dispatch, PropsWithChildren, ReactEventHandler, SetStateAction } from 'react';
+import { ChangeEventHandler, PropsWithChildren, ReactEventHandler } from 'react';
 import Footer from './Footer';
 import Header from './Header';
 import SideNavContainer from './SideNavContainer';
@@ -8,7 +8,6 @@ interface LayoutProps extends PropsWithChildren {
     showSideNav?: boolean;
     TopBarComponent: React.ElementType;
     signedOut: () => void;
-    setModal: Dispatch<SetStateAction<boolean>>;
     onSearchChange?: ChangeEventHandler<HTMLInputElement> & ReactEventHandler<Element>;
     placeholder?: string;
     doesSessionExist: boolean;
@@ -22,7 +21,6 @@ export default function Layout({
     SideNavComponent,
     TopBarComponent,
     signedOut,
-    setModal,
     onSearchChange,
     placeholder,
     doesSessionExist,
@@ -37,11 +35,7 @@ export default function Layout({
             {doesSessionExist ? (
                 <div className={styles.main}>
                     <TopBarComponent signedOut={signedOut} doesSessionExist={doesSessionExist} />
-                    <Header
-                        placeholder={placeholder}
-                        onSearchChange={onSearchChange}
-                        drawerComponentId={drawerComponentId}
-                    />
+
                     <SideNavContainer
                         showSideNav={showSideNav}
                         SideNavComponent={SideNavComponent}
@@ -53,7 +47,12 @@ export default function Layout({
                 </div>
             ) : (
                 <>
-                    <TopBarComponent doesSessionExist={doesSessionExist} setLoginModal={setModal} />
+                    <TopBarComponent doesSessionExist={doesSessionExist} />
+                    <Header
+                        placeholder={placeholder}
+                        onSearchChange={onSearchChange}
+                        drawerComponentId={drawerComponentId}
+                    />
                     {children}
                 </>
             )}

@@ -1,5 +1,5 @@
+import { Address } from '@cd/data-access';
 import { Paragraph } from '@cd/shared-ui';
-import { Address } from '@prisma/client';
 
 export const renderAddress = (address: Address) => (
     <Paragraph className={'whitespace-pre-line'}>

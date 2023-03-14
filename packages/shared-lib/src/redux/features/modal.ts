@@ -1,15 +1,18 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { AnyAction, createAsyncThunk, createSlice, Dispatch } from "@reduxjs/toolkit";
+import { ThunkArgumentsType } from "../";
 
-const openModal = createAsyncThunk("modal/openModal", async (args: unknown) => {
-  return args;
-});
+// export type ThunkDispatch = TDispatch<void, {store: Store}, Action<any>>
+// export type AsyncThunkPayloadCreatorType = AsyncThunkPayloadCreator<void, {}, {dispatch: Dispatch<AnyAction>; extra: {store:Store }}>
 
-const launchConfirmModal = createAsyncThunk(
+// export type AsyncThunkAction = AsyncThunkAction<unknown, {}, {}>;
+// export type AllActions = AsyncThunkAction<unknown, {}, {}> & AnyAction;
+
+const launchConfirmModal = createAsyncThunk<boolean, modalActionPayload, {dispatch: Dispatch<AnyAction>; extra: ThunkArgumentsType}>(
   "modal/confirmModal",
-  async (modalProps, { dispatch, extra }) => {
+  async (modalProps, {dispatch, extra}) => {
     const store = extra.store;
     dispatch(modalActions.openModal(modalProps));
-    return new Promise((resolve) => {
+    return new Promise<boolean>((resolve) => {
       const unsubscribe = store.subscribe(() => {
         const { isConfirmed, isDeclined } = store.getState().modal;
         if (isConfirmed) {
@@ -20,13 +23,12 @@ const launchConfirmModal = createAsyncThunk(
           unsubscribe();
           resolve(false);
         }
-        // unsubscribe();
       });
     });
   }
 );
 
-const launchSelectModalLocationType = createAsyncThunk(
+const launchSelectModalLocationType = createAsyncThunk<boolean, modalActionPayload, {dispatch: Dispatch<AnyAction>; extra: ThunkArgumentsType}>(
   "modal/selectModalLocationType",
   async (modalProps, { dispatch, extra }) => {
     const store = extra.store;
@@ -48,7 +50,7 @@ const launchSelectModalLocationType = createAsyncThunk(
   }
 );
 
-const launchTipModal = createAsyncThunk(
+const launchTipModal = createAsyncThunk<boolean, modalActionPayload, {dispatch: Dispatch<AnyAction>; extra: ThunkArgumentsType}>(
   "modal/launchTipModal",
   async (modalProps, { dispatch, extra }) => {
     dispatch(modalActions.openModal(modalProps));
@@ -56,14 +58,12 @@ const launchTipModal = createAsyncThunk(
     return new Promise((resolve) => {
       const unsubscribe = store.subscribe(() => {
         const { isSelected } = store.getState().modal;
-        console.log("is selected: ", isSelected);
         if (isSelected) {
           const { tipPercentage } = store.getState().payment;
           console.log(
             "launch modal tip percentage from modal: ",
             tipPercentage
           );
-          console.log("resolving modal value..");
           unsubscribe();
           resolve(tipPercentage);
         }
@@ -73,7 +73,7 @@ const launchTipModal = createAsyncThunk(
   }
 );
 
-const initialState:ModalProps = {
+const initialState = {
   modalType: "",
   modalVisible: false,
   modalText: "",
@@ -83,10 +83,22 @@ const initialState:ModalProps = {
   isSelected: false,
 };
 
+export type modalActionPayload = {
+  modalType: string;
+  modalText?: string;
+}
+
 const modalSlice = createSlice({
   name: "modal",
   initialState,
   reducers: {
+    openModal: (state, { payload }: {payload} ) => {
+      console.log("modaltype: ", payload.modalType);
+      console.log("modalText: ", payload.modalText);
+      state.modalType = payload.modalType || state.modalType
+      state.modalText = payload.modalText || state.modalText
+      state.modalVisible = true;
+    },
     closeModal: () => initialState,
     waitLoading: (state) => {
       state.isLoading = true;
@@ -111,17 +123,6 @@ const modalSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(openModal.fulfilled, (state, { payload }) => {
-      const { modalType, modalText = "" } = payload;
-      // console.log("modaltype: ", modalType);
-      // console.log("modalText: ", modalText);
-      state.modalType = modalType;
-      state.modalText = modalText;
-      state.modalVisible = true;
-    })
-    builder.addCase(openModal.pending, (state) => {}),
-    builder.addCase(openModal.rejected, (state) => {}),
-
     builder.addCase(launchConfirmModal.fulfilled, (state, { payload }) => {
       console.log("confirm modal payload: ", payload);
     }),
@@ -141,7 +142,6 @@ const modalSlice = createSlice({
 });
 
 export const modalActions = {
-  openModal,
   launchConfirmModal,
   launchSelectModalLocationType,
   launchTipModal,
