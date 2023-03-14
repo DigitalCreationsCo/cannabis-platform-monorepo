@@ -1,4 +1,4 @@
-import { AppStateProvider, ExtendedPageComponent, ModalProvider, SessionWrapper } from '@cd/shared-lib';
+import { AppStateProvider, ExtendedPageComponent, SessionWrapper } from '@cd/shared-lib';
 import { Center, Layout, LoadingDots, Padding } from '@cd/shared-ui';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
@@ -71,7 +71,8 @@ export default function App({ Component, pageProps }: CustomAppProps): JSX.Eleme
             </Head>
             <SessionWrapper stInstance={stInstance}>
                 {(sessionContext) => (
-                    <ModalProvider>
+                    // <ModalProvider>
+                    <>
                         <Toaster position="top-center" />
                         <StepFormValuesProvider>
                             <AppStateProvider>
@@ -84,9 +85,6 @@ export default function App({ Component, pageProps }: CustomAppProps): JSX.Eleme
                                             SideNavComponent={AdminDashboardNavigation}
                                             TopBarComponent={TopBar}
                                             signedOut={sessionContext.signOut}
-                                            setModal={() => {
-                                                console.log('set Modal');
-                                            }}
                                             doesSessionExist={sessionContext.doesSessionExist}
                                             {...getLayoutContext()}
                                         >
@@ -104,7 +102,8 @@ export default function App({ Component, pageProps }: CustomAppProps): JSX.Eleme
                                 }}
                             </AppStateProvider>
                         </StepFormValuesProvider>
-                    </ModalProvider>
+                    </>
+                    // </ModalProvider>
                 )}
             </SessionWrapper>
         </>

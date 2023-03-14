@@ -18,7 +18,8 @@ export default {
             dir: 'dist',
             name: '@cd/shared-ui',
             // file: packageJson.module,
-            format: 'esm'
+            format: 'esm',
+            sourcemap: true
         }
     ],
     plugins: [

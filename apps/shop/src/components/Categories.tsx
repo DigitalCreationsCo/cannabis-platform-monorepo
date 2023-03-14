@@ -15,8 +15,8 @@ function CategoriesSelector() {
                 'Edibles',
                 'Topicals',
                 'Vapes'
-            ].map((category) => (
-                <Button key={category} bg={'primary'} className="flex-none">
+            ].map((category, index) => (
+                <Button key={category + index} bg={'primary'} className="flex-none">
                     <li className="list-none">{category}</li>
                 </Button>
             ))}

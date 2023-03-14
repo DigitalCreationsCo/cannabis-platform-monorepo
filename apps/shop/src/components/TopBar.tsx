@@ -1,17 +1,28 @@
+// import { modalActions, modalTypes } from '@cd/shared-lib';
 import { Button, FlexBox, H2, Paragraph } from '@cd/shared-ui';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Dispatch, SetStateAction } from 'react';
+// import { useDispatch } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/logo.png';
 
 export type TopBarProps = {
     doesSessionExist?: boolean;
-    setModal: Dispatch<SetStateAction<boolean>>;
     signedOut: () => void;
 };
 
-function TopBar({ doesSessionExist, setModal, signedOut }: TopBarProps) {
+function TopBar({ doesSessionExist, signedOut }: TopBarProps) {
+    // const dispatch = useDispatch();
+
+    function openLoginModal() {
+        console.log('dispatch: open Login Modal');
+        // dispatch(
+        //     modalActions.openModal({
+        //         modalType: modalTypes.loginModal
+        //     })
+        // );
+    }
+
     console.log('doesSessionExist', doesSessionExist);
     const styles = {
         topbar: ['flex flex-row min-h-[66px] pr-4 lg:px-16 bg-inverse space-x-2 items-center shadow'],
@@ -62,7 +73,7 @@ function TopBar({ doesSessionExist, setModal, signedOut }: TopBarProps) {
             )}
             {!doesSessionExist && (
                 <FlexBox>
-                    <Button onClick={() => setModal(true)}>Sign In</Button>
+                    <Button onClick={openLoginModal}>Sign In</Button>
                 </FlexBox>
             )}
         </div>

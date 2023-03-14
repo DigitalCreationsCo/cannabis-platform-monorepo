@@ -1,7 +1,7 @@
 //Modal.tsx
 import { H6 } from '../Typography';
 // import { useOnClickOutside } from 'hooks';
-import React, { Dispatch, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { twMerge } from 'tailwind-merge';
 import CloseButton from '../CloseButton';
 
@@ -13,7 +13,6 @@ export type ModalProps = {
     description?: string;
     disableClickOutside?: boolean;
     showCloseButton?: boolean;
-    setModal?: Dispatch<React.SetStateAction<boolean>>;
 };
 
 const Modal = ({
@@ -23,8 +22,7 @@ const Modal = ({
     onClose,
     description,
     className,
-    showCloseButton = true,
-    setModal
+    showCloseButton = true
 }: ModalProps) => {
     // const { setModalOpen } = useModal();
     const ref = useRef(null);
@@ -34,10 +32,7 @@ const Modal = ({
     //         setModalOpen(false);
     //     }
     // });
-    useEffect(() => {
-        // POSSIBLY BUG -- BROKEN OR UNNECESSARY DISPATCH HERE V, BECAUSE THIS SETMODAL PROP IS FOR APP CONTEXT THAT IS NOT BEING USED
-        if (open) setModal(true);
-    }, [open, setModal]);
+
     const modalClass = ['modal', open && 'modal-open'];
     return (
         <div className={twMerge(modalClass)}>

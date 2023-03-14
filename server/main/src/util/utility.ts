@@ -1,4 +1,4 @@
-import { Address } from '@prisma/client';
+import { Address } from '@cd/data-access';
 import axios from 'axios';
 import { compareSync, hashSync } from 'bcryptjs';
 import { customAlphabet } from 'nanoid';

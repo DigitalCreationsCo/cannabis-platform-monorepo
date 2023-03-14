@@ -18,8 +18,8 @@
   "include": [
     "postcss.config.cjs",
     "next-env.d.ts", 
-    "**/**/*.ts", 
-    "**/**/*.tsx", 
+    "./**/*.ts", 
+    "./**/*.tsx", 
     "interfaces.d.ts",
     "next.config.mjs",
 ],

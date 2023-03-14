@@ -1,16 +1,13 @@
 import { ExtendedPageComponent } from '@cd/shared-lib';
-import { Button, Center, H1, H5, LoginModal, Page, Paragraph } from '@cd/shared-ui';
+import { Button, Center, H1, H5, Page, Paragraph } from '@cd/shared-ui';
 import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
-import { PropsWithChildren, useState } from 'react';
+import { PropsWithChildren } from 'react';
 import backdrop from '../public/marijuana-backdrop.png';
 
-function WelcomePage({ session, signIn }: ExtendedPageComponent) {
-    const [showModal, setModal] = useState(false);
-
+function WelcomePage({ session }: ExtendedPageComponent) {
     return (
         <Page className="p-0 sm:p-0 lg:p-0">
-            <LoginModal signIn={signIn} open={showModal} onClose={() => setModal(false)} />
             <ImageBackDrop src={backdrop}>
                 <Center>
                     <H1 color="light">Welcome to Gras Cannabis</H1>
@@ -20,7 +17,6 @@ function WelcomePage({ session, signIn }: ExtendedPageComponent) {
                         bg="primary"
                         transparent
                         disabled={session.loading}
-                        onClick={() => setModal(true)}
                         className="hover:bg-[#0b7529]"
                     >
                         Sign In

@@ -1,11 +1,11 @@
-import { OrganizationWithShopDetails } from '@cd/data-access';
 import { checkDispensaryIsOpen, renderAddress } from '@cd/shared-lib';
 import { Card, FlexBox, Paragraph } from '@cd/shared-ui';
 import Image from 'next/image';
 import { twMerge } from 'tailwind-merge';
 
 type DispensaryCardProps = {
-    dispensary: OrganizationWithShopDetails;
+    // dispensary: OrganizationWithShopDetails;
+    dispensary: { name: string; id: string; images?: { location: string }[] };
     className?: string | string[];
 };
 function DispensaryCard({ dispensary, className }: DispensaryCardProps) {
@@ -15,13 +15,15 @@ function DispensaryCard({ dispensary, className }: DispensaryCardProps) {
     return (
         <Card className={twMerge([styles.dispensarycard, className])} title={dispensary.name}>
             <FlexBox className="items-end flex-row justify-between">
-                <Image
-                    src={dispensary.images?.[0].location}
-                    alt={dispensary.name}
-                    height={100}
-                    width={100}
-                    className="border"
-                />
+                {dispensary.images?.[0] && (
+                    <Image
+                        src={dispensary.images?.[0].location}
+                        alt={dispensary.name}
+                        height={100}
+                        width={100}
+                        className="border"
+                    />
+                )}
                 {/* <Paragraph>{checkDispensaryIsOpen(dispensary.schedule)}</Paragraph> */}
                 <Paragraph>
                     {renderAddress({
