@@ -1,4 +1,4 @@
-import { Address, Category, CategoryList, Driver, ImageOrganization, ImageProduct, ImageUser, ImageVendor, Membership, Order, OrderItem, Organization, PrismaClient, Product, ProductVariant, SiteSetting, SubDomain, User, Vendor } from "@prisma/client";
+import { Address, Category, CategoryList, Driver, ImageOrganization, ImageProduct, ImageUser, ImageVendor, Membership, Order, OrderItem, Organization, PrismaClient, Product, ProductVariant, Schedule, SiteSetting, SubDomain, User, Vendor } from "@prisma/client";
 
 const users: User[] = [
   {
@@ -202,6 +202,35 @@ const vendors:Vendor[] = [
   },
 ];
 
+const schedules:Schedule[] = [
+  {
+    id: "1",
+    organizationId: "1",
+    days: 6543210,
+    openAt: 0800,
+    closeAt: 2000,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+},
+{
+  id: "2",
+  organizationId: "2",
+  days: 54321,
+  openAt: 0800,
+  closeAt: 2000,
+  createdAt: new Date(),
+  updatedAt: new Date(),
+},
+{
+  id: "3",
+  organizationId: "3",
+  days: 54321,
+  openAt: 1100,
+  closeAt: 2400,
+  createdAt: new Date(),
+  updatedAt: new Date(),
+}
+]
 const orgs:Organization[] = [
   {
     id: "1",
@@ -215,8 +244,6 @@ const orgs:Organization[] = [
     createdAt: new Date(),
     updatedAt: new Date(),
     termsAccepted: true,    
-    openAt: 0800,
-    closeAt: 2000,
   },
   {
     id: "2",
@@ -230,8 +257,6 @@ const orgs:Organization[] = [
     createdAt: new Date(),
     updatedAt: new Date(),
     termsAccepted: true,    
-    openAt: 0800,
-    closeAt: 2000,
   },
   {
     id: "3",
@@ -245,8 +270,6 @@ const orgs:Organization[] = [
     createdAt: new Date(),
     updatedAt: new Date(),
     termsAccepted: true,    
-    openAt: 0800,
-    closeAt: 2000,
   },
 ];
 const siteSettings:SiteSetting[] = [
@@ -913,9 +936,14 @@ async function main() {
   await prisma.siteSetting.createMany({
     data: siteSettings,
   });
+  
+  await prisma.schedule.createMany({
+    data: schedules,
+  });
   await prisma.organization.createMany({
     data: orgs,
   });
+
   await prisma.subDomain.createMany({
     data: subdomains,
   });

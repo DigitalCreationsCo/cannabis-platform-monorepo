@@ -4,8 +4,12 @@ const nodeEnv = process.env.NODE_ENV;
 import { loadEnv } from '@cd/shared-config/config/loadEnv.js';
 import { config } from 'dotenv';
 import { expand } from 'dotenv-expand';
-expand(config({ path: loadEnv(nodeEnv) }));
+import path from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
+expand(config({ path: loadEnv(nodeEnv) }));
 // const dashboardAppUrl = process.env.NEXT_PUBLIC_DASHBOARD_APP_URL;
 
 const nextConfig = {
@@ -28,6 +32,9 @@ const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
     output: 'standalone',
+    experimental: {
+        outputFileTracingRoot: path.join(__dirname, '../../')
+    },
     images: {
         domains: ['cdn-cashy-static-assets.lucidchart.com']
     }

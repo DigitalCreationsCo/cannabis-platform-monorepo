@@ -13,7 +13,10 @@ COPY package.json .
 
 RUN turbo prune --scope=@cd/shop --docker
 
-FROM node:alpine AS installer
+FROM node:16.16-alpine AS installer
+ENV YARN_VERSION 3.3.1
+ENV TURBO_VERSION 1.6.3
+
 RUN apk add --no-cache libc6-compat
 RUN apk update
 WORKDIR /app
@@ -35,21 +38,22 @@ COPY turbo.json turbo.json
 
 RUN yarn turbo run build --filter=@cd/shop...
 
-FROM node:alpine AS runner
+FROM node:16.16-alpine AS runner
+ENV YARN_VERSION 3.3.1
+ENV TURBO_VERSION 1.6.3
+
 WORKDIR /app
 
-# Don't run production as root
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 USER nextjs
 
-COPY --from=installer /app/apps/shop/next.config.js .
+COPY --from=installer /app/apps/shop/next.config.mjs .
 COPY --from=installer /app/apps/shop/package.json .
 
-# Automatically leverage output traces to reduce image size
-# https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=installer --chown=nextjs:nodejs /app/apps/shop/.next/standalone ./
 COPY --from=installer --chown=nextjs:nodejs /app/apps/shop/.next/static ./apps/shop/.next/static
 COPY --from=installer --chown=nextjs:nodejs /app/apps/shop/public ./apps/shop/public
 
+EXPOSE 3000
 CMD node apps/shop/server.js
