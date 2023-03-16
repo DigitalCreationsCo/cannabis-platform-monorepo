@@ -7,8 +7,12 @@ services:
       context: .
       dockerfile: ./apps/shop/Dockerfile.shop
     restart: always
+    expose:
+      - 3000
     ports:
       - 3000:3000
+    depends_on:
+      - nginx
     networks:
       - gras_network
   app: 
@@ -37,6 +41,8 @@ services:
       context: ./services/nginx
       dockerfile: ./Dockerfile.nginx
     restart: always
+    expose:
+      - 80
     ports:
       - 80:80
     networks:
