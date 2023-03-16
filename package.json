@@ -8,6 +8,9 @@
     "server/*"
   ],
   "scripts": {
+    "k8s:start": "terraform:apply && kubectl apply -f k8s/",
+    "terraform:apply": "terraform -chdir='./terraform' apply -auto-approve",
+    "terraform:destroy": "terraform -chdir='./terraform' destroy",
     "db:init": "yarn db db:migrate-init",
     "dev:init": "yarn permit-scripts && yarn build && yarn dev",
     "prod:init": "yarn permit-scripts && yarn build && yarn start",

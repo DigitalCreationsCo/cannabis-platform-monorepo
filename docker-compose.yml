@@ -1,8 +1,46 @@
 version: '3'
+
 services:
+  shop: 
+    container_name: shop
+    build: 
+      context: .
+      dockerfile: ./apps/shop/Dockerfile.shop
+    restart: always
+    ports:
+      - 3000:3000
+    networks:
+      - gras_network
   app: 
-    build: ./apps/app
-  # nginx: 
-  #   build: ./services/nginx
-  #   ports:
-  #     - 80:80
+    container_name: app
+    build: 
+      context: .
+      dockerfile: ./apps/app/Dockerfile
+    restart: always
+    ports:
+      - 3001:3001
+    networks:
+      - gras_network
+  main: 
+    container_name: main
+    build: 
+      context: .
+      dockerfile: ./server/main/Dockerfile
+    restart: always
+    ports: 
+      - 6001:6001
+    networks:
+      - gras_network
+  nginx:
+    container_name: nginx
+    build:
+      context: ./services/nginx
+      dockerfile: ./Dockerfile.nginx
+    restart: always
+    ports:
+      - 80:80
+    networks:
+      - gras_network
+networks:
+  gras_network:
+    external: false
