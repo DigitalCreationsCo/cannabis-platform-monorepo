@@ -63,5 +63,10 @@ COPY --from=installer --chown=nextjs:nodejs /app/apps/shop/public ./apps/shop/pu
 # WORKDIR /apps/shop
 
 EXPOSE 3000
+<<<<<<< Updated upstream
 # CMD yarn start
 CMD node apps/shop/server.js
+=======
+
+CMD node apps/shop/server.js
+>>>>>>> Stashed changes

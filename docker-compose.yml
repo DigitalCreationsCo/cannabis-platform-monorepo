@@ -1,5 +1,4 @@
 version: '3'
-
 services:
   shop: 
     container_name: shop
@@ -7,44 +6,65 @@ services:
       context: .
       dockerfile: ./apps/shop/Dockerfile.shop
     restart: always
-    expose:
-      - 3000
-    ports:
-      - 3000:3000
+    env_file:
+      - ./.env.production
     depends_on:
       - nginx
     networks:
       - gras_network
-  app: 
-    container_name: app
-    build: 
-      context: .
-      dockerfile: ./apps/app/Dockerfile
-    restart: always
-    ports:
-      - 3001:3001
-    networks:
-      - gras_network
-  main: 
-    container_name: main
-    build: 
-      context: .
-      dockerfile: ./server/main/Dockerfile
-    restart: always
-    ports: 
-      - 6001:6001
-    networks:
-      - gras_network
   nginx:
-    container_name: nginx
+    container_name: gras_nginx
     build:
       context: ./services/nginx
       dockerfile: ./Dockerfile.nginx
     restart: always
-    expose:
-      - 80
     ports:
       - 80:80
+    networks:
+      - gras_network
+  # app: 
+  #   container_name: app
+  #   build: 
+  #     context: .
+  #     dockerfile: ./apps/app/Dockerfile
+  #   restart: always
+  #   # expose:
+  #   #   - 3001
+  #   ports:
+  #     - 3001:3001
+  #   networks:
+  #     - gras_network
+  # main: 
+  #   container_name: main
+  #   build: 
+  #     context: .
+  #     dockerfile: ./server/main/Dockerfile
+  #   restart: always
+  #   # expose:
+  #     # - 6000
+  #   ports: 
+  #     - 6001:6001
+  #   networks:
+  #     - gras_network
+  shadow_db_mysql:
+    container_name: shadow_db
+    image: mysql:8.0
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_DATABASE=shadowdb
+    ports:
+      - 6603:3306
+    networks:
+      - gras_network
+  supertokens_core:
+    container_name: supertokens_core
+    image: supertokens/supertokens-mysql:4.4
+    restart: always
+    environment:
+      - MYSQL_CONNECTION_URI="mysql://5rym7hkijdnzxdirhiw8:pscale_pw_k7kY1HvI5XnaRKePgW52jv01EQXj8FxJFAhL43YCTzP@us-east.connect.psdb.cloud/cannabis_delivery_v1?ssl={rejectUnauthorized:true}"
+    ports:
+      - 3567:3567
     networks:
       - gras_network
 networks:
