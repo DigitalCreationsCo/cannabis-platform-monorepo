@@ -10,7 +10,7 @@ WORKDIR /app
 COPY . .
 
 RUN npm install turbo@$TURBO_VERSION --location=global
-RUN yarn set version $YARN_VERSION
+# RUN yarn set version $YARN_VERSION
 RUN yarn install
 # RUN yarn add turbo@$TURBO_VERSION
 
@@ -28,7 +28,7 @@ COPY .gitignore .gitignore
 COPY --from=builder /app/out/json/ .
 COPY --from=builder /app/out/yarn.lock ./yarn.lock
 
-RUN yarn set version $YARN_VERSION
+# RUN yarn set version $YARN_VERSION
 RUN yarn install
 
 COPY --from=builder /app/out/full/ .
