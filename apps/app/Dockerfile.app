@@ -14,7 +14,7 @@ RUN yarn set version $YARN_VERSION
 RUN yarn install
 RUN yarn add turbo@$TURBO_VERSION
 
-RUN yarn turbo prune --scope=@cd/shop --docker
+RUN yarn turbo prune --scope=@cd/app --docker
 
 FROM node:16.16-alpine AS installer
 ENV YARN_VERSION 3.3.1
@@ -41,7 +41,7 @@ COPY turbo.json turbo.json
 # ARG TURBO_TOKEN
 # ENV TURBO_TOKEN=$TURBO_TOKEN
 
-RUN yarn turbo run build --filter=@cd/shop...
+RUN yarn turbo run build --filter=@cd/app...
 
 FROM node:16.16-alpine AS runner
 
@@ -53,15 +53,15 @@ USER nextjs
 
 
 COPY --from=installer /app/ .
-COPY --from=installer /app/apps/shop/next.config.mjs .
-COPY --from=installer /app/apps/shop/package.json .
+COPY --from=installer /app/apps/app/next.config.mjs .
+COPY --from=installer /app/apps/app/package.json .
 
-COPY --from=installer --chown=nextjs:nodejs /app/apps/shop/.next/standalone ./
-COPY --from=installer --chown=nextjs:nodejs /app/apps/shop/.next/static ./apps/shop/.next/static
-COPY --from=installer --chown=nextjs:nodejs /app/apps/shop/public ./apps/shop/public
+COPY --from=installer --chown=nextjs:nodejs /app/apps/app/.next/standalone ./
+COPY --from=installer --chown=nextjs:nodejs /app/apps/app/.next/static ./apps/app/.next/static
+COPY --from=installer --chown=nextjs:nodejs /app/apps/app/public ./apps/app/public
 
-# WORKDIR /apps/shop
+# WORKDIR /apps/app
 
-EXPOSE 3000
+EXPOSE 3001
 
-CMD node apps/shop/server.js
+CMD node apps/app/server.js

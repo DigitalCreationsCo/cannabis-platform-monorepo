@@ -12,6 +12,18 @@ services:
       - nginx
     networks:
       - gras_network
+  app: 
+    container_name: app
+    build: 
+      context: .
+      dockerfile: ./apps/app/Dockerfile.app
+    restart: always
+    env_file:
+      - ./.env.production
+    depends_on:
+      - nginx
+    networks:
+      - gras_network
   nginx:
     container_name: gras_nginx
     build:
@@ -22,18 +34,6 @@ services:
       - 80:80
     networks:
       - gras_network
-  # app: 
-  #   container_name: app
-  #   build: 
-  #     context: .
-  #     dockerfile: ./apps/app/Dockerfile
-  #   restart: always
-  #   # expose:
-  #   #   - 3001
-  #   ports:
-  #     - 3001:3001
-  #   networks:
-  #     - gras_network
   # main: 
   #   container_name: main
   #   build: 
