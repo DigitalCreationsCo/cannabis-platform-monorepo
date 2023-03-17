@@ -9,10 +9,10 @@ WORKDIR /app
 
 COPY . .
 
-# RUN npm install turbo@$TURBO_VERSION --location=global
+RUN npm install turbo@$TURBO_VERSION --location=global
 RUN yarn set version $YARN_VERSION
 RUN yarn install
-RUN yarn add turbo@$TURBO_VERSION
+# RUN yarn add turbo@$TURBO_VERSION
 
 RUN yarn turbo prune --scope=@cd/app --docker
 
