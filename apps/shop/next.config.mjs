@@ -10,25 +10,25 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 expand(config({ path: loadEnv(nodeEnv) }));
-// const dashboardAppUrl = process.env.NEXT_PUBLIC_DASHBOARD_APP_URL;
+const dashboardAppUrl = process.env.NEXT_PUBLIC_DASHBOARD_APP_URL;
 
 const nextConfig = {
-    // rewrites: async () => {
-    //     return [
-    //         {
-    //             source: '/:path*',
-    //             destination: '/:path*'
-    //         },
-    //         {
-    //             source: '/app',
-    //             destination: `${dashboardAppUrl}/app`
-    //         },
-    //         {
-    //             source: '/app/:path*',
-    //             destination: `${dashboardAppUrl}/app/:path*`
-    //         }
-    //     ];
-    // },
+    rewrites: async () => {
+        return [
+            {
+                source: '/:path*',
+                destination: '/:path*'
+            },
+            {
+                source: '/app',
+                destination: `${dashboardAppUrl}/app`
+            },
+            {
+                source: '/app/:path*',
+                destination: `${dashboardAppUrl}/app/:path*`
+            }
+        ];
+    },
     reactStrictMode: true,
     swcMinify: true,
     output: 'standalone',
