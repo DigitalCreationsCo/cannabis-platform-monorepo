@@ -70,7 +70,21 @@ create userSignup frontend page, api route, data function (with pw hashing), ove
 3-3-22
 signup flow OK
 get session flow OK
+3-17-22
+resolving docker compose file
 
+T DO:
+create K8s service and deployment based from docker-compose.yml,
+test it with lke k8s manager
+save the config.
+Push to remote repo.
+Resolve redux
+resolve supertokens processes
+create image server, using linode ob storage bucket
+create payment server with stripe, to handle multiparty payments and customer payments, and payments to the platform.
+WIN.
+Meet Ryan Blair. Show him the system, get his honest opinion.
+He will shit on it. Thats okay, do not be discouraged!
 
 What must I do next? 3-4-2023
 signin flow

@@ -16,3 +16,5 @@
 # docker run --detach --name=my-mysql --publish 6603:3306 mysql:8.0
 
 docker run --detach --name=my-mysql --env="MYSQL_ROOT_PASSWORD=secret" --env="MYSQL_DATABASE=shadowdb" --publish 6603:3306 mysql:8.0
+
+# this container is created now in dockercompose and k8s config

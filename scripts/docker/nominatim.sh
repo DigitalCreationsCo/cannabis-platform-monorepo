@@ -7,3 +7,5 @@ docker run -it --shm-size=1g \
   -p 8080:8080 \
   --name nominatim \
   mediagis/nominatim:4.1
+
+  # not used
