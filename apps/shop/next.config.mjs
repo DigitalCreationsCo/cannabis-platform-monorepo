@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 
-const nodeEnv = process.env.NODE_ENV;
+const nodeEnv = process.env.NEXT_PUBLIC_NODE_ENV;
 import { loadEnv } from '@cd/shared-config/config/loadEnv.js';
 import { config } from 'dotenv';
 import { expand } from 'dotenv-expand';
@@ -10,7 +10,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 expand(config({ path: loadEnv(nodeEnv) }));
-const dashboardAppUrl = process.env.NEXT_PUBLIC_DASHBOARD_APP_URL;
 
 const nextConfig = {
     rewrites: async () => {
@@ -21,11 +20,11 @@ const nextConfig = {
             },
             {
                 source: '/app',
-                destination: `${dashboardAppUrl}/app`
+                destination: `${process.env.NEXT_PUBLIC_DASHBOARD_APP_URL}/app`
             },
             {
                 source: '/app/:path*',
-                destination: `${dashboardAppUrl}/app/:path*`
+                destination: `${process.env.NEXT_PUBLIC_DASHBOARD_APP_URL}/app/:path*`
             }
         ];
     },

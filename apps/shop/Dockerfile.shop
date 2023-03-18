@@ -51,8 +51,6 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 USER nextjs
 
-
-COPY --from=installer /app/ .
 COPY --from=installer /app/apps/shop/next.config.mjs .
 COPY --from=installer /app/apps/shop/package.json .
 
@@ -60,8 +58,8 @@ COPY --from=installer --chown=nextjs:nodejs /app/apps/shop/.next/standalone ./
 COPY --from=installer --chown=nextjs:nodejs /app/apps/shop/.next/static ./apps/shop/.next/static
 COPY --from=installer --chown=nextjs:nodejs /app/apps/shop/public ./apps/shop/public
 
-# WORKDIR /apps/shop
-
 EXPOSE 3000
+
+ENV NODE_ENV production
 
 CMD node apps/shop/server.js

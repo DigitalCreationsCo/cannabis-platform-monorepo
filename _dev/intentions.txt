@@ -72,9 +72,11 @@ signup flow OK
 get session flow OK
 3-17-22
 resolving docker compose file
+create K8s service and deployment based from docker-compose.yml,
+3-18-22
 
 T DO:
-create K8s service and deployment based from docker-compose.yml,
+resolve environment variables in next config when using docker
 test it with lke k8s manager
 save the config.
 Push to remote repo.

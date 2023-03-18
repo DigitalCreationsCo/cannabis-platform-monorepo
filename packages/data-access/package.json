@@ -1,8 +1,8 @@
 {
   "dependencies": {
     "@cd/shared-config": "*",
-    "@prisma/client": "4.4.0",
-    "prisma": "4.4.0"
+    "@prisma/client": "4.10.0",
+    "prisma": "4.10.0"
   },
   "devDependencies": {
     "@types/jest": "29.2.4",
