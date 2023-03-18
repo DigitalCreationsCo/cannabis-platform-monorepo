@@ -50,10 +50,10 @@
     "@cd/shared-lib": "*",
     "@cd/shared-ui": "*",
     "@paralleldrive/cuid2": "2.2.0",
+    "@prisma/client": "4.10.0",
     "nanoid": "3.3.4",
-    "prisma": "4.4.0",
-    "@prisma/client": "4.4.0",
-    "pm2": "5.2.2"
+    "pm2": "5.2.2",
+    "prisma": "4.10.0"
   },
   "devDependencies": {
     "@babel/cli": "7.20.7",
