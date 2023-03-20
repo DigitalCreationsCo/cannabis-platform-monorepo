@@ -22,7 +22,7 @@
     "permit-scripts": "node scripts/permit-scripts.js",
     "docker:app": "scripts/docker/docker.sh",
     "docker:supertokens": "scripts/docker/supertokens.sh",
-    "docker:mysql": "scripts/docker/mysql.sh",
+    "docker:shadow-mysql": "scripts/docker/shadow-mysql.sh",
     "docker:nominatim": "scripts/docker/nominatim.sh",
     "lint": "turbo run lint",
     "lint:fix": "turbo run lint:fix",
