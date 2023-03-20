@@ -46,9 +46,9 @@ COPY --from=installer /app/apps/shop/next.config.mjs .
 COPY --from=installer --chown=nextjs:nodejs /app/apps/shop/.next/standalone ./
 COPY --from=installer --chown=nextjs:nodejs /app/apps/shop/.next/static ./apps/shop/.next/static
 COPY --from=installer --chown=nextjs:nodejs /app/apps/shop/public ./apps/shop/public
-COPY --chown=nextjs:nodejs ./scripts ./scripts
-RUN chmod 777 ./scripts/printEnv.sh
-RUN ./scripts/printEnv.sh
+# COPY --chown=nextjs:nodejs ./scripts ./scripts
+# RUN chmod 777 ./scripts/printEnv.sh
+# RUN ./scripts/printEnv.sh
 
 EXPOSE 3000
 

@@ -1,16 +1,14 @@
 /** @type {import('next').NextConfig} */
-
-const nodeEnv = process.env.NODE_ENV;
-import { loadEnv } from '@cd/shared-config/config/loadEnv.js';
-import { config } from 'dotenv';
-import { expand } from 'dotenv-expand';
-import { PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_BUILD } from 'next/constants';
+// import { loadEnv } from '@cd/shared-config/config/loadEnv.js';
+// import { config } from 'dotenv';
+// import { expand } from 'dotenv-expand';
+import { PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_BUILD } from 'next/constants.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-expand(config({ path: loadEnv(nodeEnv) }));
+// expand(config({ path: loadEnv(nodeEnv) }));
 
 const nextConfig = (phase) => {
     // when started in development mode `next dev` or `npm run dev` regardless of the value of STAGING environment variable
