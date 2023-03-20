@@ -2,11 +2,17 @@ import { RecipeEventWithSessionContext } from 'supertokens-auth-react/lib/build/
 import EmailPassword from 'supertokens-auth-react/recipe/emailpassword';
 import Session from 'supertokens-auth-react/recipe/session';
 
-const port = process.env.SHOP_APP_PORT || 30000;
+// const port = process.env.SHOP_APP_PORT || 30000;
+// const appInfo = {
+//     appName: 'Cannabis Delivery',
+//     websiteDomain: process.env.NEXT_PUBLIC_SHOP_APP_URL || `http://localhost:${port}`,
+//     apiDomain: process.env.SERVER_MAIN_URL || `http://localhost:60001`,
+//     apiBasePath: '/api/v1/'
+// };
 const appInfo = {
     appName: 'Cannabis Delivery',
-    websiteDomain: process.env.NEXT_PUBLIC_SHOP_APP_URL || `http://localhost:${port}`,
-    apiDomain: process.env.SERVER_MAIN_URL || `http://localhost:60001`,
+    websiteDomain: 'http://localhost:3000',
+    apiDomain: 'http://localhost:6001',
     apiBasePath: '/api/v1/'
 };
 
