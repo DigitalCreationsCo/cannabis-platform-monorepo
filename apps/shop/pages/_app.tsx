@@ -1,10 +1,15 @@
 import { ExtendedPageComponent } from '@cd/shared-lib';
+import { Layout } from '@cd/shared-ui';
 import type { AppProps } from 'next/app';
+import Head from 'next/head';
 import { useEffect, useRef } from 'react';
-import toast, { useToasterStore } from 'react-hot-toast';
-import SuperTokensReact from 'supertokens-auth-react';
+import toast, { Toaster, useToasterStore } from 'react-hot-toast';
+import { Provider as ReduxProvider } from 'react-redux';
+import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session, { signOut } from 'supertokens-auth-react/recipe/session';
 import { frontendConfig } from '../config/frontendConfig';
+import { TopBar } from '../src/components';
+import store from '../src/redux/store';
 import '../styles/globals.css';
 
 type CustomAppProps = AppProps & {
@@ -56,7 +61,7 @@ export default function App({ Component, pageProps }: CustomAppProps) {
 
     return (
         <>
-            {/* <Head>
+            <Head>
                 <title>Gras Cannabis Marketplace</title>
                 <meta name="vendor experience application" content="Property of Gras Cannabis Co." />
             </Head>
@@ -81,12 +86,7 @@ export default function App({ Component, pageProps }: CustomAppProps) {
                         <Component {...pageProps} />
                     </Layout>
                 </SuperTokensWrapper>
-            </ReduxProvider> */}
-            <div>
-                node env:{process.env.NODE_ENV}
-                dashboard app url:{process.env.NEXT_PUBLIC_DASHBOARD_APP_URL}
-                NEXT_PUBLIC_DASHBOARD_APP_NAME: {process.env.NEXT_PUBLIC_DASHBOARD_APP_NAME}
-            </div>
+            </ReduxProvider>
         </>
     );
 }
