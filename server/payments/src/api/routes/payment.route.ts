@@ -4,19 +4,14 @@ const router = Router();
 /* =================================
 Payment Routes
 
-"/user/:id"                     getUserById
+'/purchase'             processOrderPayment
 
-"/address"                      addAddressToUser
-
-"/user/:id/address/:addressId"  getAddressById
-
-"/user/:id/address/:addressId"  deleteAddressById
+'/stripe/authorize'     authorizeDispensaryAccount
 
 ================================= */
 
-// router.route('/user/:id').get(paymentCtrl.getUserById);
+router.route('/purchase').post(paymentCtrl.processPurchase);
 
-router.route('/purchase').post(paymentCtrl.processPayment);
 router.route('/stripe/authorize').get(stripeCtrl.authorizeDispensaryAccount);
 
 export default router;

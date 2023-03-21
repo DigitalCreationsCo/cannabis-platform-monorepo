@@ -1,16 +1,20 @@
 import {
+    createOrder,
     findOrdersByOrg,
     findOrderWithDetails,
     findProductsByOrg,
     findProductsByText,
     findProductWithDetails,
-    updateOrderWithOrderItems,
+    Order,
+    updateOrderWithOrderItems
 } from '@cd/data-access';
 
 /* =================================
 Order Data Access - data class for order table
 
 members: 
+createOrder
+
 getOrdersByOrg
 getOrderById
 updateOrderById
@@ -22,6 +26,16 @@ searchProducts
 ================================= */
 
 export default class OrderDA {
+    static async createOrder(order:Order) {
+        try {
+            const data = await createOrder(order);
+            return data;
+        } catch (error) {
+            console.error(error.message);
+            throw new Error(error.message);
+        }
+    }
+
     static async getOrdersByOrg(organizationId) {
         try {
             const data = await findOrdersByOrg(organizationId);
