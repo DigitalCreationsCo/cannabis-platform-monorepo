@@ -2,12 +2,14 @@ import { Address, Driver, Order, OrderItem, Prisma, User } from "@prisma/client"
 import prisma from "./db/prisma";
 import { ProductVariantWithDetails } from "./product";
 
-export async function createOrder() {
-    // try {
-    // } catch (error) {
-    //     console.error(error.message)
-    //     throw new Error(error.message)
-    // }
+export async function createOrder(order:Order) {
+    try {
+        const createOrder = await prisma.order.create({data: { ...order }})
+        return createOrder
+    } catch (error: any) {
+        console.error(error.message)
+        throw new Error(error.message)
+    }
  }
 
 export async function findOrdersByOrg(organizationId: string) {

@@ -1,0 +1,15 @@
+end to end flow for account creation and stripe authorization:
+
+USER:
+person creates their account with signup form
+request to server main:createUser with form values
+request to payment server, create stripe account (maybe defer to when the user adds a payment method)
+on success, return to user, sign in. :)
+
+DISPENSARY:
+person creates the dispensary account with dispensary signup form
+request to server main: createDispensaryAccount with form values
+request to payment server, create & authorize stripe account for dispensary
+on success, return to user, sign in.
+
+DRIVER:

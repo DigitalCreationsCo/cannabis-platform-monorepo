@@ -1,39 +1,29 @@
 import { PaymentDA } from '../data-access';
+import StripeService from '../stripe';
 
 /* =================================
 PaymentController - controller class for payment processing actions
 
 members:
+processPurchase
 
 ================================= */
 
 export default class PaymentController {
-    static async processPayment(req, res) {
-        // request code here
-        //
-        //database access methods can be defined in paymentDAO.js
+    static async processPurchase(req, res) {
+        // input: userid, organizationid, { ...order }
         try {
-            const { paymentServicePayload } = req.body;
-            // console.log("payment payload received: ", paymentServicePayload);
-            console.log('payment payload received');
-            // fix this line once the total handling is fixed on client sides
-            const {
-                order,
-                order: { subTotal: total }
-            } = paymentServicePayload;
-            const { success, error } = await PaymentDA.processPayment({
-                order,
-                total
-            });
+            let { userId, organization, order } = req.body;
+            // create stripe charge
+            // on success, create order record
+            // update the dispensary record with the order
+            // update user record with the order.
+            // return ?
 
-            if (error) {
-                console.log('error: ', error);
-                res.status(401).json({ error });
-            }
-            console.log('success: ', success);
-            res.json({ success });
-        } catch (e) {
-            res.status(500).json({ error: e });
+            const charge = await StripeService.chargeBuyerTransaction(buyer, seller, transaction);
+            const processOrder = await PaymentDA.processPurchase(order);
+        } catch (error) {
+            res.status(500).json({ error });
         }
     }
 }

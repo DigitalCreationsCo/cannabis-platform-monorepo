@@ -71,6 +71,7 @@ model User {
   memberships Membership[]
   orders Order[]
   driver Driver?
+  payments Payment[]
 
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
@@ -236,19 +237,27 @@ model Order {
   tax   Int
   status OrderStatus @default(Pending)
   items OrderItem[]
+
+  paymentId String @unique
+  payment Payment @relation(fields: [paymentId], references: [id], onDelete: NoAction, onUpdate: Cascade)
+
   addressId String
   destinationAddress Address @relation(fields: [addressId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  
   customerId String
   customer User @relation(fields: [customerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  driverId String?
-  driver Driver? @relation(fields: [driverId], references: [id],  onDelete: SetNull, onUpdate: SetNull)
+  
   organizationId String
   organization Organization @relation(fields: [organizationId], references: [id],  onDelete: Cascade, onUpdate: Cascade)
+  
+  driverId String?
+  driver Driver? @relation(fields: [driverId], references: [id],  onDelete: SetNull, onUpdate: SetNull)
   isDelivered Boolean @default(false)
   deliveredAt    DateTime?
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
 
+  @@index([paymentId])
   @@index([addressId])
   @@index([customerId])
   @@index([driverId])
@@ -315,10 +324,22 @@ enum OrderStatus {
 }
 
 model Payment {
-  id            String    @id @default(cuid())
+  id            String    @id @default(cuid()) @unique
+  status        String
+  gateway       String  @default("stripe")
+  type          String
+  amount        Float
+  token         String
+  customerId    String
+  customer      User @relation(fields: [customerId], references: [id], onDelete: NoAction, onUpdate: Cascade)
+  orderId       String
+  order         Order?
 
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
+
+  @@index([orderId])
+  @@index([customerId])
 }
 
 enum MembershipRole {

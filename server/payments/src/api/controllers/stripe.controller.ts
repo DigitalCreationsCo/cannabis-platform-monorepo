@@ -11,9 +11,8 @@ checkOnboardDispensaryAccount
 ================================= */
 export default class StripeController {
     static async authorizeDispensaryAccount(req, res: Response) {
-        let dispensaryAccount:OrganizationCreateType & {stripeAccountId: string} = req.body;
-        
         try {
+            let dispensaryAccount:OrganizationCreateType & {stripeAccountId: string} = req.body;
             let accountId = dispensaryAccount.stripeAccountId;
             if (accountId == undefined) {
                 let accountParams = {
