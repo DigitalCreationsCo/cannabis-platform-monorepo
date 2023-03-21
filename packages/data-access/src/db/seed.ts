@@ -235,6 +235,7 @@ const orgs:Organization[] = [
   {
     id: "1",
     name: "Gras",
+    stripeAccountId: null,
     email: "gras@grascannabis.org",
     emailVerified: false,
     dialCode: "1",
@@ -244,11 +245,13 @@ const orgs:Organization[] = [
     createdAt: new Date(),
     updatedAt: new Date(),
     termsAccepted: true,    
+    onboardingComplete:false
   },
   {
     id: "2",
     name: "Curaleaf",
     email: "curaleaf@grascannabis.org",
+    stripeAccountId: null,
     emailVerified: false,
     dialCode: "1",
     phone: "1232343456",
@@ -257,11 +260,13 @@ const orgs:Organization[] = [
     createdAt: new Date(),
     updatedAt: new Date(),
     termsAccepted: true,    
+    onboardingComplete:false
   },
   {
     id: "3",
     name: "Sunnyside",
     email: "sunnysidedispensaries@grascannabis.org",
+    stripeAccountId: null,
     emailVerified: true,
     dialCode: "1",
     phone: "1232343456",
@@ -270,6 +275,7 @@ const orgs:Organization[] = [
     createdAt: new Date(),
     updatedAt: new Date(),
     termsAccepted: true,    
+    onboardingComplete:false
   },
 ];
 const siteSettings:SiteSetting[] = [
