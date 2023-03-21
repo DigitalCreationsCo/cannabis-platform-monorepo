@@ -8,7 +8,7 @@ members:
 ================================= */
 
 export default class UserController {
-    // static async signin(req, res) {
+    // static async signin(req, res) { 
     //     try {
     //         const userLoginData = req.body;
     //         const user = await UserDA.signin(userLoginData);

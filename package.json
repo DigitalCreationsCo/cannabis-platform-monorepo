@@ -35,6 +35,7 @@
     "ui": "yarn workspace @cd/shared-ui",
     "lib": "yarn workspace @cd/shared-lib",
     "main": "yarn workspace @cd/server-main",
+    "payments": "yarn workspace @cd/server-payments",
     "db": "yarn workspace @cd/data-access"
   },
   "engines": {
@@ -53,7 +54,8 @@
     "@prisma/client": "4.10.0",
     "nanoid": "3.3.4",
     "pm2": "5.2.2",
-    "prisma": "4.10.0"
+    "prisma": "4.10.0",
+    "stripe": "11.15.0"
   },
   "devDependencies": {
     "@babel/cli": "7.20.7",

@@ -2,7 +2,7 @@ import { OrganizationCreateType } from '@cd/data-access';
 import StripeService from '../stripe';
 
 /* =================================
-StripeController - controller class for stripe accounts actions
+StripeController - controller class for preworking data and calling stripe accounts functions
 
 members:
 authorizeAccount
@@ -37,13 +37,8 @@ export default class StripeController {
                     },
                     payoutsEnabled: true
                 }
-
-
-      const account = await stripe.accounts.create(accountParams);
+      const account = await StripeService.authorizeDispensaryAccount(accountParams)
       accountId = account.id;
-
-      // Update the model and store the Stripe account ID in the datastore:
-      // this Stripe account ID will be used to issue payouts to the pilot
       req.user.stripeAccountId = accountId;
       await req.user.save();
     }
