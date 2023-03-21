@@ -7,7 +7,7 @@ class StripeService {
     }
 
     // INCOMPLETE
-    async chargeBuyerTransaction(buyer, seller, transaction) {
+    async chargeBuyerPurchase(buyer, seller, transaction) {
         try {
             // const { values, customerId, amount, tax, items, subtotal } = req.body
 
@@ -73,7 +73,7 @@ class StripeService {
         //       charged = await createCharge({ amount, source: card.cardId, customer: customerId });
         //     }
 
-            const charge = await this.stripe.accounts.retrieve(stripeAccountId);
+            const charge = await this.stripe.charges.create(stripeAccountId);
             return charge
         } catch (error) {
             console.error(error.message);

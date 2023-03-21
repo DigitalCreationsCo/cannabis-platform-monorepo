@@ -71,7 +71,8 @@ model User {
   memberships Membership[]
   orders Order[]
   driver Driver?
-  payments Payment[]
+
+  purchases Purchase[]
 
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
@@ -235,11 +236,11 @@ model Order {
   total Int
   taxFactor Float
   tax   Int
-  status OrderStatus @default(Pending)
+  orderStatus OrderStatus @default(Pending)
   items OrderItem[]
 
-  paymentId String @unique
-  payment Payment @relation(fields: [paymentId], references: [id], onDelete: NoAction, onUpdate: Cascade)
+  purchaseId String? @unique
+  purchase Purchase? @relation(fields: [purchaseId], references: [id], onDelete: NoAction, onUpdate: Cascade)
 
   addressId String
   destinationAddress Address @relation(fields: [addressId], references: [id], onDelete: Restrict, onUpdate: Restrict)
@@ -257,7 +258,7 @@ model Order {
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
 
-  @@index([paymentId])
+  @@index([purchaseId])
   @@index([addressId])
   @@index([customerId])
   @@index([driverId])
@@ -323,15 +324,21 @@ enum OrderStatus {
   Cancelled
 }
 
-model Payment {
+enum PaymentStatus {
+  Pending
+  Paid
+  Failed
+}
+
+model Purchase {
   id            String    @id @default(cuid()) @unique
-  status        String
+  paymentStatus PaymentStatus @default(Pending)
   gateway       String  @default("stripe")
-  type          String
+  type          String  @default("card")
   amount        Float
   token         String
-  customerId    String
-  customer      User @relation(fields: [customerId], references: [id], onDelete: NoAction, onUpdate: Cascade)
+  customerId    String?
+  customer      User? @relation(fields: [customerId], references: [id], onDelete: NoAction, onUpdate: Cascade)
   orderId       String
   order         Order?
 

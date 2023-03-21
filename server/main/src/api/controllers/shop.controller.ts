@@ -1,4 +1,4 @@
-import { Order } from '@cd/data-access';
+import { OrderCreate, OrderWithDetails } from '@cd/data-access';
 import { OrderDA } from '../data-access';
 // import Stripe from "stripe";
 // import stipeNode from "stripe";
@@ -25,46 +25,38 @@ export default class ShopController {
         // self contained order handling function
         // create Order record, add order to user record, add order to dispensary,
         // decrement item stock
-      try {
-        let orderPayload:Order = req.body.order
-        const order = await OrderDA.createOrder(orderPayload)
+        try {
+            let orderPayload:OrderCreate = req.body.order
+            let order:OrderWithDetails
+            let charge = req.body.charge
 
-        // create payment record
-        // add order to user record, add order to dispensary,
-        // decrement item stock
-          const payment = await Payment.create({
-            customerId: user._id,
-            status: charged.status,
-            gateway: "stripe",
-            type: charged.payment_method_details.type,
-            amount: charged.amount / 100,
-            token: charged.id,
-            card: {
-              brand: charged.payment_method_details.card.brand,
-              panLastFour: charged.payment_method_details.card.last4,
-              expirationMonth: charged.payment_method_details.card.exp_month,
-              expirationYear: charged.payment_method_details.card.exp_year,
-            },
-          });
+            // create payment record
+            // add order to user record, add order to dispensary,
+            // decrement item stock
+            const purchase = await OrderDA.createPurchase({
+                orderId: orderPayload.id,
+                gateway: "stripe",
+                type: charge.payment_method_details.type,
+                amount: charge.amount / 100,
+                token: charge.id,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            });
 
-          await Order.findByIdAndUpdate(
-            { _id: order._id },
-            { paymentId: payment._id, paymentStatus: payment.status },
-            { new: true, upsert: true }
-          );
-        }
+            order = await OrderDA.createOrder({
+                ...orderPayload,
+                purchaseId: purchase.id,
+                orderStatus: 'Processing'
+            })
 
-        // decrement the product stock
-        items.forEach(async (item: { productId: string; quantity: number }) => {
-          const product = await Product.findOne({ _id: item.productId });
-          const newQuantity = product.skus[0].quantity - item.quantity;
-          product.skus[0].quantity = newQuantity;
-
-          await Product.updateOne({ _id: product._id }, { $set: product });
-        });
-
-        return res.status(201).json({ message: "Order created Successfully" });
-      } catch (error) {
+            // decrement the product stock
+            order.items.forEach(async (item) => {
+                const updateProductVariantQuantity = await OrderDA.updateProductVariantQuantity(item.variantId, item.quantity)
+            })
+    
+            return res.status(201).json({ message: "Order created Successfully" });
+            
+        } catch (error) {
             console.log('API error shopcontroller: createOrder: ', error);
             res.status(500).json({ error });
       }
