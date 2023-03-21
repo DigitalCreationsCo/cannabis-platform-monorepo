@@ -1,52 +1,86 @@
-import { OrganizationCreateType } from '@cd/data-access';
+import { OrganizationCreateType, updateOrganizationRecord, updateStripeAccountDispensary } from '@cd/data-access';
+import { Response } from 'express';
 import StripeService from '../stripe';
-
 /* =================================
 StripeController - controller class for preworking data and calling stripe accounts functions
 
 members:
-authorizeAccount
+authorizeDispensaryAccount
+checkOnboardDispensaryAccount
 
 ================================= */
 export default class StripeController {
-    static async authorizeDispensaryAccount(req, res) {
-        let account:OrganizationCreateType & {stripeAccountId: string} = req.body;
+    static async authorizeDispensaryAccount(req, res: Response) {
+        let dispensaryAccount:OrganizationCreateType & {stripeAccountId: string} = req.body;
         
         try {
-            let accountId = account.stripeAccountId;
+            let accountId = dispensaryAccount.stripeAccountId;
             if (accountId == undefined) {
                 let accountParams = {
                     type: 'express',
-                    country: account.address.countryCode || undefined,
-                    email: account.email || undefined,
+                    country: dispensaryAccount.address.countryCode || undefined,
+                    email: dispensaryAccount.email || undefined,
                     business_type: 'company', 
                     company: {
-                        name: account.name || undefined,
+                        name: dispensaryAccount.name || undefined,
                         address:{
-                            line1: account.address.street1 || undefined,
-                            line2: account.address.street2 || undefined,
-                            city: account.address.city || undefined,
-                            state: account.address.state || undefined,
-                            postal_code: account.address.zipcode || undefined,
-                            country: account.address.countryCode || undefined
+                            line1: dispensaryAccount.address.street1 || undefined,
+                            line2: dispensaryAccount.address.street2 || undefined,
+                            city: dispensaryAccount.address.city || undefined,
+                            state: dispensaryAccount.address.state || undefined,
+                            postal_code: dispensaryAccount.address.zipcode || undefined,
+                            country: dispensaryAccount.address.countryCode || undefined
                         },
-                        phone: account.phone || undefined,
+                        phone: dispensaryAccount.phone || undefined,
                     },
                     capabilities: {
                         card_payments: {requested: true},
                     },
                     payoutsEnabled: true
                 }
-      const account = await StripeService.authorizeDispensaryAccount(accountParams)
-      accountId = account.id;
-      req.user.stripeAccountId = accountId;
-      await req.user.save();
-    }
-
-            const response = await StripeService.authorizeDispensaryAccount(req, res);
-            return res.status(200).json(response);
+                const account = await StripeService.authorizeDispensaryAccount(accountParams)
+                accountId = account.id;
+                dispensaryAccount.stripeAccountId = accountId;
+                await updateStripeAccountDispensary(dispensaryAccount.id, dispensaryAccount.stripeAccountId)
+            }
+            const accountLink = await StripeService.createDispensaryAccountLink({
+                account: accountId,
+                // create react account Link page for stripe
+                // refresh_url: config.publicDomain + '/pilots/stripe/authorize',
+                
+                // redirect to dispensary dashboard
+                return_url: 'app.' + process.env.SHOP_APP_URL,
+                type: 'account_onboarding'
+            });
+            res.writeHead(302, {
+                'Location': accountLink.url
+            })
         } catch (error) {
             res.status(500).json({ error });
         }
+    }
+
+    static async checkOnboardDispensaryAccount (req, res: Response) {
+        try {
+            // Retrieve the user's Stripe account and check if they have finished onboarding
+            let {id, stripeAccountId} = req.body;
+            const account = await StripeService.getAccount(stripeAccountId);
+            if (account.details_submitted) {
+                await updateOrganizationRecord(id, {onboardingComplete: true})
+                return res.writeHead(302, {
+                    'Location': '/'
+                })
+            } else {
+              console.log('The dispensary stripe onboarding process was not completed.');
+              // create react account Link page for stripe
+                // refresh_url: config.publicDomain + '/pilots/stripe/authorize',
+                return res.writeHead(302, {
+                    'Location': '/'
+                })
+            }
+          } catch (error) {
+            console.log('Failed to retrieve Stripe account information.');
+            res.status(500).json({ error });
+          }
     }
 }

@@ -5,25 +5,30 @@ class StripeService {
     constructor(apiKey, config) {
         this.stripe = new Stripe(apiKey, config);
     }
-    // async authorizeDispensaryAccount(req, res) {
-    //     try {
-    //     const query = req.query
-    //         const response = await this.stripe.oauth.token({
-    //             grant_type: 'authorization_code',
-    //             code: query.code
-    //         })
-    //         console.log(response.stripe_user_id)
-    //         res.redirect("customURLTORedirect")
-    //     } catch (error) {
-    //         console.log(error)
-    //         res.redirect("customURLTORedirect")
-    //     }
-    // }
+    async getAccount(stripeAccountId: string) {
+        try {
+            const account = await this.stripe.accounts.retrieve(stripeAccountId);
+            return account
+        } catch (error) {
+            console.error(error.message);
+            throw new Error(error.message);
+        }
+    }
     async authorizeDispensaryAccount(accountParams: Stripe.CustomerCreateParams) {
         try {
-            if (!accountParams) throw new Error('Dispensary Account Params are required!');
+            if (!accountParams) throw new Error('Dispensary Stripe Account Params are required!');
             const account = await this.stripe.accounts.create(accountParams);
             return account;
+        } catch (error) {
+            console.error(error.message);
+            throw new Error(error.message);
+        }
+    }
+    async createDispensaryAccountLink(params: Stripe.AccountLinkCreateParams) {
+        try {
+            if (!params || !params.account) throw new Error('Dispensary Stripe Account Link Params are required!');
+            const accountLink = await this.stripe.accountLinks.create(params);
+            return accountLink;
         } catch (error) {
             console.error(error.message);
             throw new Error(error.message);

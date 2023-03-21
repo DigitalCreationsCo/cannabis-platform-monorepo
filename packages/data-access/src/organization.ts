@@ -1,5 +1,14 @@
-import { Address, CategoryList, Coordinates, ImageOrganization, Schedule } from "@prisma/client";
+import { Address, CategoryList, Coordinates, ImageOrganization, Prisma, Schedule } from "@prisma/client";
 import prisma from "./db/prisma";
+
+/*
+*   createOrganization
+*   findOrganizationById
+*   findUsersByOrganization
+*   findOrganizationBySubdomain
+*   findLocalOrganizations
+*   updateOrganization
+*/
 
 export async function createOrganization(organization: OrganizationCreateType) { 
     try {
@@ -38,12 +47,6 @@ export async function createOrganization(organization: OrganizationCreateType) {
                 // add default site settings
             }
         });
-        // const createOrganization = await prisma.$transaction(
-        //     [
-        //       prisma.resource.deleteMany({ where: { name: 'name' } }),
-        //       prisma.resource.createMany({ data }),
-        //     ],
-        //   )
         return createOrganization
     } catch (error: any) {
         console.error('ERROR: ', error.message)
@@ -112,6 +115,26 @@ export async function findLocalOrganizations(organizationIds: string[]) {
     }
 }
 
+export async function updateOrganizationRecord(id: string, data: Prisma.OrganizationUpdateArgs['data']) {
+    try {
+        const update = await prisma.organization.update({ where: { id }, data: {...data }})
+        return update
+    } catch (error: any) {
+        console.error(error)
+        throw new Error(error)
+    }
+}
+
+export async function updateStripeAccountDispensary(id: string, stripeAccountId: string, accountParams = {}) {
+    try {
+        const update = await prisma.organization.update({ where: { id }, data: { stripeAccountId, ...accountParams}})
+        return update
+    } catch (error: any) {
+        console.error(error)
+        throw new Error(error)
+    }
+}
+
 // export type OrganizationCreateType = Prisma.PromiseReturnType<typeof createOrganization>
 // export type OrganizationC = Prisma.OrganizationCreateArgs["data"]
 
@@ -143,6 +166,11 @@ export type OrganizationWithShopDetails = {
     images: ImageOrganization[]
     categoryList: CategoryList[]
     schedule: Schedule
+}
+
+export type OrganizationStripeDetail = {
+    id: string;
+    stripeAccountId: string;
 }
 
 export type ServeUserProximity = {
