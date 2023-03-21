@@ -1,12 +1,12 @@
 import {
     createOrder,
-    findOrdersByOrg,
+    createPurchase, findOrdersByOrg,
     findOrderWithDetails,
     findProductsByOrg,
     findProductsByText,
-    findProductWithDetails,
-    Order,
-    updateOrderWithOrderItems
+    findProductWithDetails, OrderCreate, PurchaseCreate,
+    updateOrderWithOrderItems,
+    updateVariantQuantity
 } from '@cd/data-access';
 
 /* =================================
@@ -14,6 +14,7 @@ Order Data Access - data class for order table
 
 members: 
 createOrder
+createPurchase
 
 getOrdersByOrg
 getOrderById
@@ -23,12 +24,24 @@ getProductsByOrg
 getProductById
 searchProducts
 
+updateProductVariantQuantity
+
 ================================= */
 
 export default class OrderDA {
-    static async createOrder(order:Order) {
+    static async createOrder(order:OrderCreate) {
         try {
             const data = await createOrder(order);
+            return data;
+        } catch (error) {
+            console.error(error.message);
+            throw new Error(error.message);
+        }
+    }
+
+    static async createPurchase(purchase:PurchaseCreate) {
+        try {
+            const data = await createPurchase(purchase);
             return data;
         } catch (error) {
             console.error(error.message);
@@ -89,6 +102,16 @@ export default class OrderDA {
     static async searchProducts(search, organizationId = null) {
         try {
             const data = await findProductsByText(search, organizationId);
+            return data;
+        } catch (error) {
+            console.error(error.message);
+            throw new Error(error.message);
+        }
+    }
+
+    static async updateProductVariantQuantity(variantId:string, quantity:number) {
+        try {
+            const data = await updateVariantQuantity(variantId, quantity, '-')
             return data;
         } catch (error) {
             console.error(error.message);
