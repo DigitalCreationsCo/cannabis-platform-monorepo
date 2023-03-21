@@ -17,6 +17,6 @@ Payment Routes
 // router.route('/user/:id').get(paymentCtrl.getUserById);
 
 router.route('/purchase').post(paymentCtrl.processPayment);
-router.route('/stripe/authorize').get(stripeCtrl.authorizeAccount);
+router.route('/stripe/authorize').get(stripeCtrl.authorizeDispensaryAccount);
 
 export default router;

@@ -27,3 +27,11 @@ export const checkDispensaryIsOpen = (schedule: Schedule) => {
     const result = days.includes(now.getDay()) && now > openTime && now < closeTime
     return result
 }
+
+export const getCurrencySymbol = currency => {
+    const currencySymbol = new Intl.NumberFormat('en', {
+      currency,
+      style: 'currency' 
+    }).formatToParts(0).find(part => part.type === 'currency');
+    return currencySymbol && currencySymbol.value;
+  }
