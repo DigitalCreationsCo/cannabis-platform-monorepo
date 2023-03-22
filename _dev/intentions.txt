@@ -78,42 +78,46 @@ Tear down linodes to lower monthly costs. ;)
 3-20-22
 stripe backend
 write up nextconfig to have different env vars depending on app phase, (development, test, production, staging)
+resolve environment variables in next config when using docker
+3-21-22
+create payment server with stripe, to handle multiparty payments and customer payments, and payments to the platform.
+Resolve redux
 
 
-T DO: easy tasks for today
+TO DO:
+Test user registration flow, with data creation funcs
+test stripe account creation.
+test dispensarty registration flow. with data creation funcs
+test stripe dispensary standard account creation.
+finish writing stripe funcs.
+
+Create checkout flow. Test.
+!!Resolve, how the heck will my databases work?
+mongodb is necessary for geonear processes, and changeWatch for websockets. Make it work.
+
+Call with Lindsay Neiss at 2pm.
 
 stripe frontend implementation. Use elements pkg for frontend, create a custom stripe implementation.
 (Search for exisiting work with react, multimarketplace w stripe connect and elements)
 use express account type for stripe, with custom frontned flow. tahat uses existing flow.
 TEST.
-Call with Lindsay Neiss at 2pm.
 
 move forward with deploying the k8s services. :)
 Get on it!
 
-Keep making money. Save up to go to California. Pay your bills too.
-Connect with Zac for the next call for more help with linode, k8s or next.
+Keep making money. Save up to go to California. Pay your bills too. Pay defi masters
+Keep trading crypto and gain big dollars, little by little. :)
 
+Connect with Zac for the next call for more help with linode, k8s or next.
 Connect with a dev on codementor to complete the kubernetes install, and address any cors issues.
 
-Keep trading crypto and gain big dollars, little by little. :)
 fasting and exercise, and SLEEP are your best friend now.
-
-resolve environment variables in next config when using docker
-Update: successful build of next standalone server.
-the bad: environment variables are not parsed from .env or .env.local.
-Good: build works.
-Try: inserting .env file into .next/server folder to include with standalone build. `\('_')/`
-
-Upload the app to Linode using kubernetes and terraform
 
 test it with lke k8s manager
 save the config.
 Push to remote repo.
-Resolve redux
 resolve supertokens processes
 create image server, using linode ob storage bucket
-create payment server with stripe, to handle multiparty payments and customer payments, and payments to the platform.
 WIN.
 Meet Ryan Blair in his home in Los Angeles, April 2023.
 Show him the system, get his honest opinion. 
