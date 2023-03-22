@@ -1,4 +1,4 @@
-import { ExtendedPageComponent } from '@cd/shared-lib';
+import { ExtendedPageComponent, ModalContainer } from '@cd/shared-lib';
 import { Layout } from '@cd/shared-ui';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
@@ -8,7 +8,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session, { signOut } from 'supertokens-auth-react/recipe/session';
 import { frontendConfig } from '../config/frontendConfig';
-import { TopBar } from '../src/components';
+import { ModalProvider, TopBar } from '../src/components';
 import store from '../src/redux/store';
 import '../styles/globals.css';
 
@@ -83,6 +83,8 @@ export default function App({ Component, pageProps }: CustomAppProps) {
                         doesSessionExist={doesSessionExist.current}
                         {...getLayoutContext()}
                     >
+                        <ModalContainer />
+                        <ModalProvider />
                         <Component {...pageProps} />
                     </Layout>
                 </SuperTokensWrapper>

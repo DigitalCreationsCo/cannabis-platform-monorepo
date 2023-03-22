@@ -25,12 +25,12 @@ export default {
     ],
     plugins: [
         // incremental(),
-        resolve(),
+        resolve({"modulePaths": ["node_modules", "src"]}),
         commonjs(),
         typescript({ tsconfig: './tsconfig.json' }),
         // incremental.fixSNE(),
     ],
-    external: ['react', 'react-dom', '@cd/shared-ui', 'shared-ui', 'react-redux', '@reduxjs/toolkit'],
+    external: ['axios', 'usehooks-ts', 'react', 'react-dom', '@cd/shared-ui', 'shared-ui', 'react-redux', '@reduxjs/toolkit'],
     watch: {
         clearScreen: false,
         include: './**',

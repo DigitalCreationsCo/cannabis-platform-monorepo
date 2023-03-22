@@ -7,7 +7,8 @@ class StripeService {
     }
 
     // INCOMPLETE
-    async chargeBuyerPurchase(buyer, seller, transaction) {
+    // ARGS: buyer, seller, transaction 
+    async chargeCustomerPurchase() {
         try {
             // const { values, customerId, amount, tax, items, subtotal } = req.body
 
@@ -73,8 +74,11 @@ class StripeService {
         //       charged = await createCharge({ amount, source: card.cardId, customer: customerId });
         //     }
 
-            const charge = await this.stripe.charges.create(stripeAccountId);
-            return charge
+
+        // Research the multimarketplace approach to stripe connect, and continue writing these funcs
+            // const charge = await this.stripe.charges.create(stripeAccountId);
+            // return charge
+            return {}
         } catch (error) {
             console.error(error.message);
             throw new Error(error.message);

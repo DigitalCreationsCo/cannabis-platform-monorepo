@@ -13,7 +13,7 @@ import { ProductVariantWithDetails } from "./product";
 */
 
 
-export async function createOrder(order: any):Promise<OrderWithDetails> {
+export async function createOrder(order: any) {
     try {
         const createOrder = await prisma.order.upsert({
             where: {
@@ -51,7 +51,7 @@ export async function createOrder(order: any):Promise<OrderWithDetails> {
                 }
             },
         })
-        return createOrder
+        return createOrder as OrderWithDetails
     } catch (error: any) {
         console.error(error.message)
         throw new Error(error.message)

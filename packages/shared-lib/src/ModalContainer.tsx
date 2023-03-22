@@ -1,5 +1,7 @@
 import { LoginModal } from "@cd/shared-ui";
-import { useEffect } from "react";
+import { LoginModalProps } from "@cd/shared-ui/dist/modal/LoginModal";
+import { useMemo } from "react";
+import { ModalStateProps } from "./redux";
 // import ConfirmModal from "./ConfirmModal";
 // import MessageBanner from "./MessageBanner";
 // import MessageModal from "./MessageModal";
@@ -15,18 +17,12 @@ const MODAL_COMPONENTS = Object.freeze({
     LOGIN_MODAL: LoginModal
 });
 
-const ModalContainer = (props) => {
-  useEffect(() => {console.log('ue render')})
-  console.log('props', props)
-  console.log('modal container: modalType: ', props.modalType)
-  // console.log(props)
-  // console.log('modal container: modalType: ', props.modalType)
-  if (!props.modalType) return <></>;
-
-  // const ModalComponent = useMemo(() => MODAL_COMPONENTS[modalType], [modalType]);
-  // // return <ModalComponent {...props} />;
-  // // return <LoginModal {...props} />
-  return <div>modal container here modalType:{props.modalType}</div>
+const ModalContainer = (props: ModalStateProps & LoginModalProps) => {
+  const ModalComponent = useMemo(() => MODAL_COMPONENTS[props.modalType], [props.modalType]);
+  if (!props.modalType && !props.modalVisible) return <></>;
+  // return <ModalComponent {...props} />;
+  return <LoginModal {...props} />
+  // return <div>modal container here modalType:{props.modalType}</div>
 };
 
 export { ModalContainer };

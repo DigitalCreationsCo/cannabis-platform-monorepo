@@ -1,7 +1,7 @@
 import { OrderStatus, OrderWithDetails, Schedule } from '@cd/data-access';
 
 export const checkOrderIsCompleteOrCanceled = (order: OrderWithDetails) =>
-    order.status === 'Cancelled' || order.status === 'Delivered';
+    order.orderStatus === 'Cancelled' || order.orderStatus === 'Delivered';
 
 export const orderStatusList: OrderStatus[] = ['Pending', 'Processing', 'Delivered', 'Cancelled'];
 
