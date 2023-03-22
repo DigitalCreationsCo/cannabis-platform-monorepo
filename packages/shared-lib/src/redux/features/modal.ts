@@ -73,7 +73,17 @@ const launchTipModal = createAsyncThunk<boolean, modalActionPayload, {dispatch: 
   }
 );
 
-const initialState = {
+export type ModalStateProps = {
+  modalType: string,
+  modalVisible: boolean,
+  modalText?: string,
+  isLoading?: boolean,
+  isConfirmed?: boolean,
+  isDeclined?: boolean,
+  isSelected?: boolean,
+}
+
+const initialState:ModalStateProps = {
   modalType: "",
   modalVisible: false,
   modalText: "",
@@ -98,6 +108,7 @@ const modalSlice = createSlice({
       state.modalType = payload.modalType || state.modalType
       state.modalText = payload.modalText || state.modalText
       state.modalVisible = true;
+
     },
     closeModal: () => initialState,
     waitLoading: (state) => {

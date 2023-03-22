@@ -1,8 +1,9 @@
 // import { modalActions, modalTypes } from '@cd/shared-lib';
+import { modalActions, modalTypes } from '@cd/shared-lib';
 import { Button, FlexBox, H2, Paragraph } from '@cd/shared-ui';
 import Image from 'next/image';
 import Link from 'next/link';
-// import { useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/logo.png';
 
@@ -12,15 +13,15 @@ export type TopBarProps = {
 };
 
 function TopBar({ doesSessionExist, signedOut }: TopBarProps) {
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
     function openLoginModal() {
         console.log('dispatch: open Login Modal');
-        // dispatch(
-        //     modalActions.openModal({
-        //         modalType: modalTypes.loginModal
-        //     })
-        // );
+        dispatch(
+            modalActions.openModal({
+                modalType: modalTypes.loginModal
+            })
+        );
     }
 
     console.log('doesSessionExist', doesSessionExist);

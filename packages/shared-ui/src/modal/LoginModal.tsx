@@ -98,8 +98,8 @@ function LoginModal({ dispatchCloseModal, modalVisible, signIn, ...props }: Logi
                     <H1>Gras Cannabis</H1>
                 </FlexBox>
                 <H3>One Stop Cannabis Marketplace</H3>
-                <Paragraph>Sign in with your email & password</Paragraph>
                 <Grid className="space-y-2">
+                    <Paragraph>Sign in with your email & password</Paragraph>
                     <TextField
                         name="email"
                         label="Email"
@@ -163,7 +163,7 @@ const validationSchema = yup.object().shape({
 
 export default LoginModal;
 
-interface LoginModalProps {
+export interface LoginModalProps {
     dispatchCloseModal: () => void;
     modalVisible: boolean;
     signIn: (input: {

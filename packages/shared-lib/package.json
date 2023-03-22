@@ -3,9 +3,11 @@
     "@cd/data-access": "*",
     "@cd/shared-config": "*",
     "@cd/shared-ui": "*",
-    "eslint-plugin-react": "7.31.11"
+    "eslint-plugin-react": "7.31.11",
+    "usehooks-ts": "2.9.1"
   },
   "devDependencies": {
+    "axios": "1.2.1",
     "@carbon/icons-react": "11.16.0",
     "@mprt/rollup-plugin-incremental": "0.1.0",
     "@reduxjs/toolkit": "1.8.3",

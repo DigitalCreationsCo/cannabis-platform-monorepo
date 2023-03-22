@@ -1,9 +1,9 @@
 //Modal.tsx
-import { H6 } from '../Typography';
-// import { useOnClickOutside } from 'hooks';
+import { useOnClickOutside } from '@cd/shared-lib';
 import React, { useRef } from 'react';
 import { twMerge } from 'tailwind-merge';
 import CloseButton from '../CloseButton';
+import { H6 } from '../Typography';
 
 export type ModalProps = {
     children?: React.ReactNode;
@@ -26,12 +26,11 @@ const Modal = ({
 }: ModalProps) => {
     // const { setModalOpen } = useModal();
     const ref = useRef(null);
-    // useOnClickOutside(ref, () => {
-    //     if (!disableClickOutside) {
-    //         onClose();
-    //         setModalOpen(false);
-    //     }
-    // });
+    useOnClickOutside(ref, () => {
+        if (!disableClickOutside) {
+            onClose();
+        }
+    });
 
     const modalClass = ['modal', open && 'modal-open'];
     return (
