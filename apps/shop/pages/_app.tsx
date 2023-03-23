@@ -1,4 +1,4 @@
-import { ExtendedPageComponent, ModalContainer } from '@cd/shared-lib';
+import { ExtendedPageComponent, StepFormValuesProvider } from '@cd/shared-lib';
 import { Layout } from '@cd/shared-ui';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
@@ -65,30 +65,30 @@ export default function App({ Component, pageProps }: CustomAppProps) {
                 <title>Gras Cannabis Marketplace</title>
                 <meta name="vendor experience application" content="Property of Gras Cannabis Co." />
             </Head>
-            <ReduxProvider store={store}>
-                <SuperTokensWrapper>
-                    <Toaster position="top-center" />
-                    <Layout
-                        showSideNav={false}
-                        SideNavComponent={() => (
-                            <ul>
-                                <li>all products</li>
-                                <li>edibles</li>
-                                <li>flower</li>
-                                <li>cbd</li>
-                            </ul>
-                        )}
-                        TopBarComponent={TopBar}
-                        signedOut={signedOut}
-                        doesSessionExist={doesSessionExist.current}
-                        {...getLayoutContext()}
-                    >
-                        <ModalContainer />
-                        <ModalProvider />
-                        <Component {...pageProps} />
-                    </Layout>
-                </SuperTokensWrapper>
-            </ReduxProvider>
+            <SuperTokensWrapper>
+                <ReduxProvider store={store}>
+                    <StepFormValuesProvider>
+                        <Toaster position="top-center" />
+                        <Layout
+                            SideNavComponent={() => (
+                                <ul>
+                                    <li>all products</li>
+                                    <li>edibles</li>
+                                    <li>flower</li>
+                                    <li>cbd</li>
+                                </ul>
+                            )}
+                            TopBarComponent={TopBar}
+                            signedOut={signedOut}
+                            doesSessionExist={doesSessionExist.current}
+                            {...getLayoutContext()}
+                        >
+                            <ModalProvider />
+                            <Component {...pageProps} />
+                        </Layout>
+                    </StepFormValuesProvider>
+                </ReduxProvider>
+            </SuperTokensWrapper>
         </>
     );
 }

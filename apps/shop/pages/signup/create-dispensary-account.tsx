@@ -1,14 +1,15 @@
+import { LayoutContextProps } from '@cd/shared-lib';
 import { Page } from '@cd/shared-ui';
+import Head from 'next/head';
+import { useState } from 'react';
+import { twMerge } from 'tailwind-merge';
 import {
     DispensaryCreate,
     DispensaryReview,
     DispensarySignUpComplete,
     DispensaryUserCreate,
     FormCard
-} from 'components';
-import Head from 'next/head';
-import { useState } from 'react';
-import { twMerge } from 'tailwind-merge';
+} from '../../src/components';
 
 function DispensarySignUpStepForm() {
     const [formStep, setFormStep] = useState(0);
@@ -32,4 +33,7 @@ function DispensarySignUpStepForm() {
     );
 }
 
+DispensarySignUpStepForm.getLayoutContext = (): LayoutContextProps => ({
+    showHeader: false
+});
 export default DispensarySignUpStepForm;

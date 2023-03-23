@@ -7,6 +7,10 @@
     @apply text-dark;
   } 
 
+  a * {
+    cursor: pointer;
+  }
+
   :root {
     --font-weight-normal: 400;
     --font-weight-semibold: 600;

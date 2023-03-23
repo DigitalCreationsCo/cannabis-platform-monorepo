@@ -1,23 +1,23 @@
+import { LayoutContextProps } from '@cd/shared-lib';
 import { ChangeEventHandler, PropsWithChildren, ReactEventHandler } from 'react';
 import Footer from './Footer';
 import Header from './Header';
 import SideNavContainer from './SideNavContainer';
 
-interface LayoutProps extends PropsWithChildren {
+interface LayoutProps extends LayoutContextProps, PropsWithChildren {
     SideNavComponent: React.ElementType;
-    showSideNav?: boolean;
     TopBarComponent: React.ElementType;
     signedOut: () => void;
     onSearchChange?: ChangeEventHandler<HTMLInputElement> & ReactEventHandler<Element>;
     placeholder?: string;
     doesSessionExist: boolean;
-    // page: JSX.Element;
 }
 
 // topbar goes out as a unique child component with props
 // header goes in here as generic component with props
 export default function Layout({
-    showSideNav,
+    showSideNav = true,
+    showHeader = true,
     SideNavComponent,
     TopBarComponent,
     signedOut,
@@ -48,11 +48,13 @@ export default function Layout({
             ) : (
                 <>
                     <TopBarComponent doesSessionExist={doesSessionExist} />
-                    <Header
-                        placeholder={placeholder}
-                        onSearchChange={onSearchChange}
-                        drawerComponentId={drawerComponentId}
-                    />
+                    {showHeader && (
+                        <Header
+                            placeholder={placeholder}
+                            onSearchChange={onSearchChange}
+                            drawerComponentId={drawerComponentId}
+                        />
+                    )}
                     {children}
                 </>
             )}

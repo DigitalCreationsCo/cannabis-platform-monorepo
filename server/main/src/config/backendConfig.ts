@@ -3,6 +3,7 @@ import { appInfo } from "@cd/shared-config/auth/appInfo";
 import Dashboard from "supertokens-node/recipe/dashboard";
 import EmailPassword from "supertokens-node/recipe/emailpassword";
 import Session from "supertokens-node/recipe/session";
+import { UserRoleClaim } from "supertokens-node/recipe/userroles";
 import { AuthConfig } from "../../interfaces";
 import { SessionDA, UserDA } from "../api/data-access";
 
@@ -81,7 +82,7 @@ export let backendConfig = (): AuthConfig => {
                                 }
                             },
                             signUpPOST: async function (input) {
-                                console.log('backend signUpPost input: ', input)
+                                // console.log('backend signUpPost input: ', input)
                                 if (originalImplementation.signUpPOST === undefined) {
                                     throw Error("backend signUpPost: Something went wrong.");
                                 }
@@ -105,7 +106,7 @@ export let backendConfig = (): AuthConfig => {
                                     // console.log('create user data: ', createUserData)
 
                                     const user = await UserDA.createUser(createUserData);
-                                    // console.log ('backend signUpPost created user: ', user)
+                                    console.log ('backend signUpPost created user: ', user)
 
                                     // future note: drivers will have only session active on a device.
                                     // Drivers will need their own session function for login
@@ -127,10 +128,16 @@ export let backendConfig = (): AuthConfig => {
                         return {
                             ...originalImplementation,
                             createNewSession: async (input) => {
+                                input.accessTokenPayload = {
+                                    ...input.accessTokenPayload,
+                                    ...(await UserRoleClaim.build(input.userId, input.userContext))
+                                };
+                                console.log('accessTokenPayload: ', input.accessTokenPayload)
                                 console.log('backend createNewSession input: ', input)
                                 // create new user session, or driver session
                                 const session = await originalImplementation.createNewSession(input)
                                 const sessionPayload:SessionPayload = { userId: input.userId, username: input.accessTokenPayload.username, email: input.accessTokenPayload.email };
+                                console.log('NEW SESSIONS PAYLOAD: ', sessionPayload)
                                 const dbSession = await SessionDA.createUserSession(session.getHandle(), sessionPayload, await session.getExpiry())
                                 return session;
                             }

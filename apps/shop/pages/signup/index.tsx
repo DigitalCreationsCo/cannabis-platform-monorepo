@@ -1,3 +1,4 @@
+import { LayoutContextProps } from '@cd/shared-lib';
 import { Button, Center, FlexBox, Grid, H1, H4, H5, Padding, Page, Paragraph } from '@cd/shared-ui';
 import Link from 'next/link';
 
@@ -44,5 +45,9 @@ function SignUpStart() {
         </Page>
     );
 }
+
+SignUpStart.getLayoutContext = (): LayoutContextProps => ({
+    showHeader: false
+});
 
 export default SignUpStart;
