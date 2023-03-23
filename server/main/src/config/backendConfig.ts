@@ -58,6 +58,7 @@ export let backendConfig = (): AuthConfig => {
                                 //     throw new Error('Invalid password')
                                 // }
                                 const response = await originalImplementation.signIn({...input, userContext: user})
+                                console.log('backend signin reponse: ', response)
                                 return response
                                 } catch (error) {
                                     console.log('backend signin error: ', error)
@@ -76,10 +77,6 @@ export let backendConfig = (): AuthConfig => {
                                 } catch (error) {
                                     console.log('backend signup error: ', error)
                                     throw new Error(error)
-                                    // return {
-                                    //     status: "EMAIL_ALREADY_EXISTS_ERROR",
-                                    //     message: error
-                                    // }
                                 }
                             },
                         }
@@ -90,7 +87,9 @@ export let backendConfig = (): AuthConfig => {
                             ...originalImplementation,
                             signInPOST: async function (input) {
                                 try {
-                                return originalImplementation.signInPOST(input)
+                                let response = await originalImplementation.signInPOST(input)
+                                console.log('sign in POST OK')
+                                return response
                                 } catch (error) {
                                     console.log('backend signInPost error: ', error)
                                     throw new Error(error)
@@ -120,20 +119,20 @@ export let backendConfig = (): AuthConfig => {
                                 const user = await UserDA.createUser(createUserData);
                                 
                                 input.userContext ={ ...user }
+                                console.log('signup input with usercontext: ', input)
 
                                 let response = await originalImplementation.signUpPOST(input)
 
                                 if (response.status === 'OK') {
                                     console.log('sign up POST OK')
-
                                     // future note: drivers will have only session active on a device.
                                     // Drivers will need their own session function for login
-                            
+                                    
+                                    response.user = { ...response.user, ...response.session.getAccessTokenPayload() }
                                 }
                                 return response
                             } catch (error) {
                                 console.log('backend signInPost error: ', error.message)
-                                // throw new Error(error.message)
                                 return { 
                                     status: "GENERAL_ERROR",
                                     message: error.message

@@ -1,35 +1,33 @@
-const Selector = Object.freeze({
-    isLoading: (state) => state.module.isLoading,
-  
-    user: (state) => state.user,
-    locationData: (state) => state.user.user.locationData,
-    currentLocation: (state) =>
-      state.user.user.locationData.currentLocation.location,
-    selectedLocation: (state) => {
-      const {
-        locationData,
-        locationData: { selectedLocationType },
-      } = state.user.user;
-      return locationData[selectedLocationType];
+import { AppState } from ".";
+
+// TO DO: Create a custom useSelector hook that will inject this selector into redux, to get type definitions in the selector without having to import the state type into the selector file
+const Selector = (state:AppState) => Object.freeze({
+
+    user: () => state.user.user,
+
+    location: () => state.location,
+    currentLocation: () =>
+      state.location.currentLocation.address.coordinates,
+    selectedLocation: () => {
+      const selectedLocationType = state.location.selectLocationType
+      return state.location[selectedLocationType];
     },
   
-    socket: (state) => state.socket,
-    incomingOrder: (state) => state.socket.incomingOrder,
-    dispatchOrders: (state) => state.socket.dispatchOrders,
-    remainingRoute: (state) => state.socket.remainingRoute,
-    destinationType: (state) => state.socket.destinationType,
+    socket: () => state.socket,
+    incomingOrder: () => state.socket.incomingOrder,
+    dispatchOrders: () => state.socket.dispatchOrders,
+    remainingRoute: () => state.socket.remainingRoute,
+    destinationType: () => state.socket.destinationType,
   
-    cart: (state) => state.cart,
+    cart: () => state.cart,
   
-    vendors: (state) => state.vendors,
+    dispensaries: () => state.dispensaries,
   
-    products: (state) => state.products,
+    products: () => state.products,
   
-    modal: (state) => state.modal,
+    modal: () => state.modal,
   
-    message: (state) => state.message,
-  
-    payment: (state) => state.payment,
+    payment: () => state.payment,
   });
   
   export default Selector;

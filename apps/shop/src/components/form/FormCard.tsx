@@ -3,8 +3,8 @@ import { PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 type FormCardProps = {
-    currentStep: number;
-    totalSteps: number;
+    currentStep?: number;
+    totalSteps?: number;
     className?: string;
 } & PropsWithChildren;
 function FormCard({ currentStep, totalSteps, className, children }: FormCardProps) {

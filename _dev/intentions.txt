@@ -82,10 +82,13 @@ resolve environment variables in next config when using docker
 3-21-22
 create payment server with stripe, to handle multiparty payments and customer payments, and payments to the platform.
 Resolve redux
-
+3-23-22
+Test user registration flow, with data creation funcs
+signin flow
 
 TO DO:
-Test user registration flow, with data creation funcs
+persist redux store in nextjs, test
+
 test stripe account creation.
 test dispensarty registration flow. with data creation funcs
 test stripe dispensary standard account creation.
@@ -94,8 +97,6 @@ finish writing stripe funcs.
 Create checkout flow. Test.
 !!Resolve, how the heck will my databases work?
 mongodb is necessary for geonear processes, and changeWatch for websockets. Make it work.
-
-Call with Lindsay Neiss at 2pm.
 
 stripe frontend implementation. Use elements pkg for frontend, create a custom stripe implementation.
 (Search for exisiting work with react, multimarketplace w stripe connect and elements)
@@ -125,7 +126,6 @@ Ask Ryan for a $2,000,000 loan.
 He may discourage it. Thats okay, do not be discouraged!
 
 What must I do next? 3-4-2023
-signin flow
 production environment testing: {
     upload the latest repo
     test with supertokens, mysql containers
@@ -137,7 +137,6 @@ production environment testing: {
 
 
 TO DO
-CREATE PYTHON GEOCODE SERVER, SERVE WITH NGINX SCRIPT, OR DOCKER?
 TEST THE LOCAL_ORGANIZATION ROUTE, SAVE THE COORDINATES IN BOTH DB, MYSQL AND MONGO
 INITIALIZE BACKUPS IN mongodb
 CONNECT WITH KALIPHA TO FACILIATE THE DOCKER COMPOSE JOB

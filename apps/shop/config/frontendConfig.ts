@@ -27,8 +27,10 @@ export const frontendConfig = () => {
                         return {
                             ...originalImplementation,
                             async signUp(input) {
+                                console.log('sign up input on frontend');
                                 // console.log('frontend signup input: ', input);
                                 const response = await originalImplementation.signUp(input);
+                                console.log('sign in event: ', response);
                                 // console.log('frontend signup response: ', response.status);
                                 // if (response.status === 'FIELD_ERROR') {
                                 //     console.log('fe sign up: field error: ', response);
@@ -39,6 +41,7 @@ export const frontendConfig = () => {
                             async signIn(input) {
                                 // console.log('frontend signin input: ', input);
                                 const response = await originalImplementation.signIn(input);
+                                console.log('sign up event: ', response);
                                 // console.log('frontend signin response: ', response);
                                 // if (response.status === 'FIELD_ERROR') return response;
                                 return response;

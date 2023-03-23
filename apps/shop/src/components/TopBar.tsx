@@ -3,9 +3,10 @@ import { modalActions, modalTypes } from '@cd/shared-lib';
 import { Button, FlexBox, H2, Paragraph } from '@cd/shared-ui';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/logo.png';
+import { RootState } from '../redux/store';
 
 export type TopBarProps = {
     doesSessionExist?: boolean;
@@ -14,6 +15,7 @@ export type TopBarProps = {
 
 function TopBar({ doesSessionExist, signedOut }: TopBarProps) {
     const dispatch = useDispatch();
+    const user = useSelector((state: RootState) => state.user);
 
     function openLoginModal() {
         console.log('dispatch: open Login Modal');
@@ -24,7 +26,6 @@ function TopBar({ doesSessionExist, signedOut }: TopBarProps) {
         );
     }
 
-    console.log('doesSessionExist', doesSessionExist);
     const styles = {
         topbar: ['flex flex-row min-h-[66px] pr-4 lg:px-16 bg-inverse space-x-2 items-center shadow'],
         badge: 'indicator absolute inline-flex items-center justify-center w-6 h-6 text-sm text-light bg-primary -top-2 -right-2 rounded-full'
@@ -60,7 +61,7 @@ function TopBar({ doesSessionExist, signedOut }: TopBarProps) {
                 </Button>
             </Link>
 
-            {doesSessionExist && (
+            {user.isSignedIn ? (
                 <>
                     <Link href="/support">
                         <Paragraph className={twMerge('pt-1', 'px-3', 'text-md', 'whitespace-nowrap')}>
@@ -71,8 +72,7 @@ function TopBar({ doesSessionExist, signedOut }: TopBarProps) {
                         <Button onClick={signedOut}>Sign Out</Button>
                     </FlexBox>
                 </>
-            )}
-            {!doesSessionExist && (
+            ) : (
                 <FlexBox>
                     <Button onClick={openLoginModal}>Sign In</Button>
                 </FlexBox>
