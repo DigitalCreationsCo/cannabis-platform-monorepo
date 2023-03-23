@@ -7,15 +7,18 @@ function SignUpStart() {
         <Page>
             <Grid>
                 <Padding>
-                    <H1 className="text-center text-primary whitespace-pre-line font-display">
-                        Welcome to Gras Cannabis
-                    </H1>
-                    <FlexBox>
-                        <H4>Before you create an account,</H4>
-                        <H4>
-                            {`Please select an account. If you operate a dispensary and want to create a Dispensary Account, please choose \`Create A Dispensary Account\``}
-                        </H4>
-                    </FlexBox>
+                    <Center>
+                        <H1 className="text-center text-primary whitespace-pre-line font-display">Welcome to Gras</H1>
+                        <Padding>
+                            <FlexBox className="max-w-[400px]">
+                                <H4 className="whitespace-pre-line">
+                                    {`Before you create an account, 
+                                    Please select an account. If you operate a dispensary and want to create a Dispensary Account, please choose 
+                                    \`Create A Dispensary Account\``}
+                                </H4>
+                            </FlexBox>
+                        </Padding>
+                    </Center>
 
                     <Center>
                         <FlexBox>

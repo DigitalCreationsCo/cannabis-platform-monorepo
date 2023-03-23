@@ -1,4 +1,5 @@
 import { websiteDomain } from '@cd/shared-config/auth/appInfo';
+import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
 import http from 'http';
@@ -24,6 +25,7 @@ app.use(
     cors({
         origin: websiteDomain,
         allowedHeaders: ['content-type', ...Supertokens.getAllCORSHeaders()],
+        methods: ["GET", "PUT", "POST", "DELETE"],
         credentials: true
     })
 );
@@ -31,12 +33,12 @@ app.use(
 app.use(middleware());
 
 // IF I HAVE ISSUES WITH MULTIPARTFORM IN THE FUTURE, CHECK THIS SETTING AGAIN!
-// app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-// app.use('/api/v1/healthcheck', (req, res) => {
-//     return res.status(200).json('OK');
-// });
+app.use('/api/v1/healthcheck', (req, res) => {
+    return res.status(200).json('OK');
+});
 
 // app.use('/api/v1/auth', user);
 

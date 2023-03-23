@@ -1829,7 +1829,6 @@ __metadata:
     "@carbon/icons-react": 11.16.0
     "@cd/data-access": "*"
     "@cd/shared-config": "*"
-    "@cd/shared-ui": "*"
     "@mprt/rollup-plugin-incremental": 0.1.0
     "@reduxjs/toolkit": 1.8.3
     "@rollup/plugin-commonjs": 24.0.1
@@ -1842,6 +1841,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": 5.45.0
     "@typescript-eslint/parser": 5.45.0
     autoprefixer: 10.4.13
+    axios: 1.2.1
     clsx: 1.2.1
     concurrently: 7.6.0
     daisyui: 2.46.0
@@ -1858,6 +1858,7 @@ __metadata:
     json: 11.0.0
     postcss: 8.4.19
     prettier: 2.8.0
+    react-hot-toast: 2.4.0
     react-redux: 8.0.2
     rollup: 3.12.0
     rollup-plugin-css-only: 4.3.0
@@ -1880,6 +1881,7 @@ __metadata:
     "@carbon/icons-react": 11.16.0
     "@cd/data-access": "*"
     "@cd/shared-config": "*"
+    "@cd/shared-lib": "*"
     "@mprt/rollup-plugin-incremental": 0.1.0
     "@rollup/plugin-commonjs": 24.0.1
     "@rollup/plugin-node-resolve": 15.0.1

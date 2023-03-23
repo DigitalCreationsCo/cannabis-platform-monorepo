@@ -13,7 +13,7 @@ const appInfo = {
     appName: 'Cannabis Delivery',
     websiteDomain: 'http://localhost:3000',
     apiDomain: process.env.SERVER_MAIN_URL,
-    apiBasePath: '/api/v1/'
+    apiBasePath: ''
 };
 
 export const frontendConfig = () => {
@@ -29,15 +29,18 @@ export const frontendConfig = () => {
                             async signUp(input) {
                                 // console.log('frontend signup input: ', input);
                                 const response = await originalImplementation.signUp(input);
-                                // console.log('frontend signup response: ', response);
-                                if (response.status === 'FIELD_ERROR') return response;
+                                // console.log('frontend signup response: ', response.status);
+                                // if (response.status === 'FIELD_ERROR') {
+                                //     console.log('fe sign up: field error: ', response);
+                                //     return response;
+                                // }
                                 return response;
                             },
                             async signIn(input) {
-                                console.log('frontend signin input: ', input);
+                                // console.log('frontend signin input: ', input);
                                 const response = await originalImplementation.signIn(input);
-                                console.log('frontend signin response: ', response);
-                                if (response.status === 'FIELD_ERROR') return response;
+                                // console.log('frontend signin response: ', response);
+                                // if (response.status === 'FIELD_ERROR') return response;
                                 return response;
                             }
                         };

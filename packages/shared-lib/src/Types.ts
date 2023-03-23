@@ -63,5 +63,6 @@ export interface LayoutContextProps {
     onSearchChange?: ChangeEventHandler<HTMLInputElement> & ReactEventHandler<Element>;
     placeholder?: string;
     showSideNav?: boolean;
+    showTopBar?: boolean;
     showHeader?: boolean;
 }

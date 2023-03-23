@@ -94,7 +94,7 @@ function UserSignUp() {
                     formFields: [
                         { id: 'email', value: values.email },
                         { id: 'password', value: values.password },
-                        { id: 're-password', value: values.re_password },
+                        { id: 're_password', value: values.re_password },
                         { id: 'username', value: values.username },
                         { id: 'firstName', value: values.firstName },
                         { id: 'lastName', value: values.lastName },
@@ -112,9 +112,12 @@ function UserSignUp() {
                 });
                 console.log('signup: ', signup);
                 if (signup.status === 'FIELD_ERROR') {
+                    console.log('signup error: ', signup.formFields[0].error);
                     throw new Error(signup.formFields[0].error);
                 }
+                console.log('signup error: ', signup.status);
                 if (signup.status === 'OK') {
+                    console.log('signup ok');
                     Router.push('/');
                     toast.success('Your account is created.', { duration: 5000 });
                 }
@@ -325,6 +328,7 @@ function UserSignUp() {
 }
 
 UserSignUp.getLayoutContext = (): LayoutContextProps => ({
-    showHeader: false
+    showHeader: false,
+    showTopBar: false
 });
 export default UserSignUp;
