@@ -1,5 +1,5 @@
 import { AnyAction, createAsyncThunk, createSlice, Dispatch } from "@reduxjs/toolkit";
-import { ThunkArgumentsType } from "../";
+import { ThunkArgumentsType } from "..";
 
 // export type ThunkDispatch = TDispatch<void, {store: Store}, Action<any>>
 // export type AsyncThunkPayloadCreatorType = AsyncThunkPayloadCreator<void, {}, {dispatch: Dispatch<AnyAction>; extra: {store:Store }}>
@@ -143,7 +143,7 @@ const modalSlice = createSlice({
     builder.addCase(launchSelectModalLocationType.fulfilled, (state, { payload }) => {}),
     builder.addCase(launchSelectModalLocationType.pending, (state) => {}),
     builder.addCase(launchSelectModalLocationType.rejected, (state) => {}),
-
+    
     builder.addCase(launchTipModal.fulfilled, (state, { payload }) => {
       console.log("tip modal payload: ", payload);
     }),
@@ -158,4 +158,5 @@ export const modalActions = {
   launchTipModal,
   ...modalSlice.actions,
 };
+
 export const modalReducer = modalSlice.reducer;

@@ -4,8 +4,10 @@
   },
   "include": [
     "**/*.ts",
-    "**/*.cjs"
-, "index.js", "config/index.js", "config/loadEnv.js", "auth/appInfo.js"  ],
+    "**/*.cjs",
+    "index.js", 
+    "config/loadEnv.js"
+  ],
   "exclude": [
     "node_modules",
   ]

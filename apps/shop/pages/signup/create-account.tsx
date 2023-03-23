@@ -1,13 +1,6 @@
 import { UserCreateType } from '@cd/data-access';
+import { LayoutContextProps } from '@cd/shared-lib';
 import { Button, FlexBox, Grid, H3, H6, Icons, Page, Paragraph, TextField } from '@cd/shared-ui';
-import {
-    DispensaryCreate,
-    DispensaryReview,
-    DispensarySignUpComplete,
-    DispensaryUserCreate,
-    FormCard,
-    TermsAgreement
-} from 'components';
 import { useFormik } from 'formik';
 import Head from 'next/head';
 import Router from 'next/router';
@@ -16,17 +9,14 @@ import toast from 'react-hot-toast';
 import { signUp } from 'supertokens-auth-react/recipe/emailpassword';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
+import { FormCard, TermsAgreement } from '../../src/components';
 
 function UserSignUp() {
-    const [formStep, setFormStep] = useState(0);
     const [loadingButton, setLoadingButton] = useState(false);
     const [passwordVisibility, setPasswordVisibility] = useState(false);
     const togglePasswordVisibility = useCallback(() => {
         setPasswordVisibility((visible) => !visible);
     }, []);
-    const nextFormStep = () => setFormStep((currentStep) => currentStep + 1);
-    const prevFormStep = () => setFormStep((currentStep) => currentStep - 1);
-    const FormStepComponents = [DispensaryCreate, DispensaryUserCreate, DispensaryReview, DispensarySignUpComplete];
 
     const initialValues: UserCreateType = {
         firstName: 'Bryant',
@@ -120,6 +110,7 @@ function UserSignUp() {
                         { id: 'countryCode', value: values.address.countryCode }
                     ]
                 });
+                console.log('signup: ', signup);
                 if (signup.status === 'FIELD_ERROR') {
                     throw new Error(signup.formFields[0].error);
                 }
@@ -141,7 +132,7 @@ function UserSignUp() {
             <Head>
                 <title>Create an account</title>
             </Head>
-            <FormCard currentStep={formStep} totalSteps={FormStepComponents.length}>
+            <FormCard>
                 <form onSubmit={handleSubmit}>
                     <H3>{`Create an account`}</H3>
                     <H3>{`Get Cannabis Delivered 🌴🔥`}</H3>
@@ -333,4 +324,7 @@ function UserSignUp() {
     );
 }
 
+UserSignUp.getLayoutContext = (): LayoutContextProps => ({
+    showHeader: false
+});
 export default UserSignUp;

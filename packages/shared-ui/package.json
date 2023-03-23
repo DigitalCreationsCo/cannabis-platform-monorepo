@@ -2,6 +2,7 @@
   "dependencies": {
     "@cd/data-access": "*",
     "@cd/shared-config": "*",
+    "@cd/shared-lib": "*",
     "eslint-plugin-react": "7.31.11"
   },
   "devDependencies": {

@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useCallback, useState } from 'react';
 import toast from 'react-hot-toast';
+import { signIn } from 'supertokens-auth-react/recipe/emailpassword';
 import * as yup from 'yup';
 import Button from '../Button';
 import FlexBox from '../FlexBox';
@@ -12,7 +13,7 @@ import TextField from '../TextField';
 import { H1, H3, H6, Paragraph } from '../Typography';
 import Modal from './Modal';
 
-function LoginModal({ dispatchCloseModal, modalVisible, signIn, ...props }: LoginModalProps) {
+function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalProps) {
     const [loadingButton, setLoadingButton] = useState(false);
     const [passwordVisibility, setPasswordVisibility] = useState(false);
 
@@ -166,31 +167,32 @@ export default LoginModal;
 export interface LoginModalProps {
     dispatchCloseModal: () => void;
     modalVisible: boolean;
-    signIn: (input: {
-        formFields: {
-            id: string;
-            value: string;
-        }[];
-        options?: unknown;
-        userContext?: unknown;
-    }) => Promise<
-        | {
-              status: 'OK';
-              user: { id: string; email: string; timeJoined: number };
-              fetchResponse: Response;
-          }
-        | {
-              status: 'FIELD_ERROR';
-              formFields: {
-                  id: string;
-                  error: string;
-              }[];
-              fetchResponse: Response;
-          }
-        | {
-              status: 'WRONG_CREDENTIALS_ERROR';
+    signIn: unknown;
+    // signIn: (input: {
+    //     formFields: {
+    //         id: string;
+    //         value: string;
+    //     }[];
+    //     options?: unknown;
+    //     userContext?: unknown;
+    // }) => Promise<
+    //     | {
+    //           status: 'OK';
+    //           user: { id: string; email: string; timeJoined: number };
+    //           fetchResponse: Response;
+    //       }
+    //     | {
+    //           status: 'FIELD_ERROR';
+    //           formFields: {
+    //               id: string;
+    //               error: string;
+    //           }[];
+    //           fetchResponse: Response;
+    //       }
+    //     | {
+    //           status: 'WRONG_CREDENTIALS_ERROR';
 
-              fetchResponse: Response;
-          }
-    >;
+    //           fetchResponse: Response;
+    //       }
+    // >;
 }

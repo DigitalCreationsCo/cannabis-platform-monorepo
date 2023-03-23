@@ -1,5 +1,6 @@
-import { Address, ImageUser, Membership, Prisma, User } from "@prisma/client";
+import { ImageUser, Membership, Prisma, User } from "@prisma/client";
 import prisma from "./db/prisma";
+import { OrderWithDetails } from "./order";
 
 /*
 * User Data Access functions
@@ -110,10 +111,25 @@ export async function updateUserPasswordToken(email: string, timeLimitedToken: s
     }
 }
 
-export type UserWithDetails = User & {
-    address: Address[];
+export type UserWithDetails = Omit<User, "createdAt" | "updatedAt"> & {
+    address: {
+        id?: string
+        street1: string
+        street2: string | null
+        city: string
+        state: string
+        zipcode: string
+        country: string
+        countryCode: string | null
+        userId?: string | null
+        organizationId?: string | null
+        createdAt?: Date
+        updatedAt?: Date
+    }[];
     imageUser?: ImageUser[];
     memberships?: Membership[];
+    orders?: OrderWithDetails[]
+    preferences?: null
 }
 
 export type UserCreateType = {

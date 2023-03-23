@@ -1,5 +1,4 @@
 import { websiteDomain } from '@cd/shared-config/auth/appInfo';
-import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
 import http from 'http';
@@ -18,7 +17,9 @@ console.log('node env: ', process.env.NODE_ENV);
 if (Supertokens) {
     Supertokens.init(backendConfig());
 } else throw Error('Supertokens is not available.');
+
 const app = express();
+
 app.use(
     cors({
         origin: websiteDomain,
@@ -26,15 +27,16 @@ app.use(
         credentials: true
     })
 );
+
 app.use(middleware());
 
 // IF I HAVE ISSUES WITH MULTIPARTFORM IN THE FUTURE, CHECK THIS SETTING AGAIN!
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
 
-app.use('/api/v1/healthcheck', (req, res) => {
-    return res.status(200).json('OK');
-});
+// app.use('/api/v1/healthcheck', (req, res) => {
+//     return res.status(200).json('OK');
+// });
 
 // app.use('/api/v1/auth', user);
 

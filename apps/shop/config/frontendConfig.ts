@@ -12,7 +12,7 @@ import Session from 'supertokens-auth-react/recipe/session';
 const appInfo = {
     appName: 'Cannabis Delivery',
     websiteDomain: 'http://localhost:3000',
-    apiDomain: 'http://localhost:6001',
+    apiDomain: process.env.SERVER_MAIN_URL,
     apiBasePath: '/api/v1/'
 };
 

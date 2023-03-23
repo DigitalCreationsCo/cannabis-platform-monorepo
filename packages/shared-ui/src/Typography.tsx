@@ -12,6 +12,7 @@ export const H1 = ({ className, color = 'dark', children }: Props) => {
     return (
         <h1
             className={twMerge(
+                styles['cursor-default'],
                 'text-4xl font-bold whitespace-nowrap',
                 (color === 'light' && 'text-inverse') || 'text-dark',
                 className
@@ -26,6 +27,7 @@ export const H2 = ({ className, color = 'dark', children }: Props) => {
     return (
         <h2
             className={twMerge(
+                styles['cursor-default'],
                 'font-bold text-3xl whitespace-nowrap',
                 (color === 'light' && 'text-inverse') || 'text-dark',
                 className
@@ -40,6 +42,7 @@ export const H3 = ({ className, color = 'dark', children }: Props) => {
     return (
         <h3
             className={twMerge(
+                styles['cursor-default'],
                 'font-bold text-2xl whitespace-normal',
                 (color === 'light' && 'text-inverse') || 'text-dark',
                 className
@@ -54,6 +57,7 @@ export const H4 = ({ className, color = 'dark', children }: Props) => {
     return (
         <h4
             className={twMerge(
+                styles['cursor-default'],
                 'font-semibold text-xl whitespace-normal',
                 (color === 'light' && 'text-inverse') || 'text-dark',
                 className
