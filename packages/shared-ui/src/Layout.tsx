@@ -18,6 +18,7 @@ interface LayoutProps extends LayoutContextProps, PropsWithChildren {
 export default function Layout({
     showSideNav = true,
     showHeader = true,
+    showTopBar = true,
     SideNavComponent,
     TopBarComponent,
     signedOut,
@@ -47,7 +48,7 @@ export default function Layout({
                 </div>
             ) : (
                 <>
-                    <TopBarComponent doesSessionExist={doesSessionExist} />
+                    {showTopBar && <TopBarComponent doesSessionExist={doesSessionExist} />}
                     {showHeader && (
                         <Header
                             placeholder={placeholder}

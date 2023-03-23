@@ -49,7 +49,7 @@ export default class LocationDA {
             console.log(`Found ${local_organizations.length} local organizations.`);
             return local_organizations;
         } catch (error) {
-            console.error('UserDA error: ', error.message);
+            console.error('LocationDA error: ', error.message);
             throw new Error(error.message);
         }
     }
