@@ -1,14 +1,13 @@
 import { ExtendedPageComponent, StepFormValuesProvider } from '@cd/shared-lib';
-import { Layout } from '@cd/shared-ui';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import toast, { Toaster, useToasterStore } from 'react-hot-toast';
 import { Provider as ReduxProvider } from 'react-redux';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
-import Session, { signOut } from 'supertokens-auth-react/recipe/session';
+import Session from 'supertokens-auth-react/recipe/session';
 import { frontendConfig } from '../config/frontendConfig';
-import { ModalProvider, TopBar } from '../src/components';
+import { LayoutContainer, ModalProvider } from '../src/components';
 import store from '../src/redux/store';
 import '../styles/globals.css';
 
@@ -18,27 +17,6 @@ type CustomAppProps = AppProps & {
 
 if (typeof window !== 'undefined') SuperTokensReact.init(frontendConfig());
 export default function App({ Component, pageProps }: CustomAppProps) {
-    const doesSessionExist = useRef(undefined);
-    useEffect(() => {
-        async function checkSession() {
-            doesSessionExist.current = await Session.doesSessionExist();
-        }
-        checkSession();
-    });
-
-    const signedOut = async () => {
-        signOut();
-    };
-
-    const TOAST_LIMIT = 2;
-    const { toasts } = useToasterStore();
-    useEffect(() => {
-        toasts
-            .filter((t) => t.visible)
-            .filter((_, i) => i >= TOAST_LIMIT)
-            .forEach((t) => toast.dismiss(t.id));
-    }, [toasts]);
-
     useEffect(() => {
         async function doRefresh() {
             if (pageProps.fromSupertokens === 'needs-refresh') {
@@ -67,28 +45,28 @@ export default function App({ Component, pageProps }: CustomAppProps) {
             </Head>
             <SuperTokensWrapper>
                 <ReduxProvider store={store}>
-                    <StepFormValuesProvider>
-                        <Toaster position="top-center" />
-                        <Layout
-                            SideNavComponent={() => (
-                                <ul>
-                                    <li>all products</li>
-                                    <li>edibles</li>
-                                    <li>flower</li>
-                                    <li>cbd</li>
-                                </ul>
-                            )}
-                            TopBarComponent={TopBar}
-                            signedOut={signedOut}
-                            doesSessionExist={doesSessionExist.current}
-                            {...getLayoutContext()}
-                        >
+                    <LayoutContainer {...getLayoutContext()}>
+                        <ToasterProvider />
+                        <StepFormValuesProvider>
                             <ModalProvider />
                             <Component {...pageProps} />
-                        </Layout>
-                    </StepFormValuesProvider>
+                        </StepFormValuesProvider>
+                    </LayoutContainer>
                 </ReduxProvider>
             </SuperTokensWrapper>
         </>
     );
 }
+
+const ToasterProvider = () => {
+    const TOAST_LIMIT = 2;
+    const { toasts } = useToasterStore();
+    useEffect(() => {
+        toasts
+            .filter((t) => t.visible)
+            .filter((_, i) => i >= TOAST_LIMIT)
+            .forEach((t) => toast.dismiss(t.id));
+    }, [toasts]);
+
+    return <Toaster position="top-center" />;
+};

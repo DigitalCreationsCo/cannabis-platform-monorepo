@@ -10,7 +10,7 @@ interface LayoutProps extends LayoutContextProps, PropsWithChildren {
     signedOut: () => void;
     onSearchChange?: ChangeEventHandler<HTMLInputElement> & ReactEventHandler<Element>;
     placeholder?: string;
-    doesSessionExist: boolean;
+    isSession: boolean;
 }
 
 // topbar goes out as a unique child component with props
@@ -24,7 +24,7 @@ export default function Layout({
     signedOut,
     onSearchChange,
     placeholder,
-    doesSessionExist,
+    isSession,
     children
 }: LayoutProps & PropsWithChildren) {
     const styles = { main: 'bg-inverse-soft' };
@@ -33,9 +33,9 @@ export default function Layout({
     const drawerComponentId = 'dashboard-links-drawer';
     return (
         <div className="flex flex-col">
-            {doesSessionExist ? (
+            {isSession ? (
                 <div className={styles.main}>
-                    <TopBarComponent signedOut={signedOut} doesSessionExist={doesSessionExist} />
+                    <TopBarComponent signedOut={signedOut} doesSessionExist={isSession} />
 
                     <SideNavContainer
                         showSideNav={showSideNav}
@@ -48,7 +48,7 @@ export default function Layout({
                 </div>
             ) : (
                 <>
-                    {showTopBar && <TopBarComponent doesSessionExist={doesSessionExist} />}
+                    {showTopBar && <TopBarComponent doesSessionExist={isSession} />}
                     {showHeader && (
                         <Header
                             placeholder={placeholder}

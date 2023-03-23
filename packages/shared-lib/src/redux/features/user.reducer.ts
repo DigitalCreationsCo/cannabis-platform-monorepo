@@ -115,7 +115,7 @@ import { ThunkArgumentsType } from "..";
 //   }
 // );
 
-export const signinUser = createAsyncThunk<boolean, {email: string; password: string}, {dispatch: Dispatch<AnyAction>; extra: ThunkArgumentsType}>(
+export const signinUserAsync = createAsyncThunk<boolean, {email: string; password: string}, {dispatch: Dispatch<AnyAction>; extra: ThunkArgumentsType}>(
   "user/signinUser",
   async ({ email, password }, {dispatch, extra, rejectWithValue}) => {
     const { signIn } = extra.supertokens;
@@ -195,10 +195,11 @@ export type UserStateProps = {
   token: string | null;
   user: UserWithDetails;
   friendList: any[];
-  isLoading: boolean,
-  isSuccess: boolean,
-  isError: boolean,
-  errorMessage: string,
+  isSignedIn: boolean;
+  isLoading: boolean;
+  isSuccess: boolean;
+  isError: boolean;
+  errorMessage: string;
 }
 
 const initialState:UserStateProps = {
@@ -267,6 +268,7 @@ const initialState:UserStateProps = {
     { userName: "Hansel", customerId: "23456" },
     { userName: "Sean", customerId: "345678" },
   ],
+  isSignedIn: false,
   isLoading: false,
   isSuccess: false,
   isError: false,
@@ -277,6 +279,13 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
+    signinUserSync: ((state, {payload}) => {
+      state.user = payload.user;
+      state.isSignedIn = true;
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.isError = false;
+    }),
     clearState: (state) => {
       state.isError = false;
       state.isSuccess = false;
@@ -307,7 +316,7 @@ export const userSlice = createSlice({
     //   state.isError = true;
     // }),
 
-    builder.addCase(signinUser.fulfilled, (state, { payload }) => {
+    builder.addCase(signinUserAsync.fulfilled, (state, { payload }) => {
       // const { user } = state;
       // let { address, location, ...userData } = payload.info;
       // Object.assign(user, userData);
@@ -318,12 +327,13 @@ export const userSlice = createSlice({
       // state.user = user;
       // state.token = payload.auth_token;
       state.isLoading = false;
+      state.isSignedIn = true;
       // state.isSuccess = true;
     }),
-    builder.addCase(signinUser.pending, (state) => {
+    builder.addCase(signinUserAsync.pending, (state) => {
       state.isLoading = true;
     }),
-    builder.addCase(signinUser.rejected, (state, { payload }) => {
+    builder.addCase(signinUserAsync.rejected, (state, { payload }) => {
       state.isLoading = false;
       state.isError = true;
       // state.errorMessage = payload;
@@ -343,7 +353,7 @@ export const userSlice = createSlice({
 
 export const userActions = {
 //   signupUser,
-  signinUser,
+  signinUserAsync,
 //   logoutUser,
   ...userSlice.actions,
 };

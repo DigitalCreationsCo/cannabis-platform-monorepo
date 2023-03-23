@@ -1,17 +1,20 @@
 import { UserCreateType } from '@cd/data-access';
-import { LayoutContextProps } from '@cd/shared-lib';
+import { LayoutContextProps, userActions } from '@cd/shared-lib';
 import { Button, FlexBox, Grid, H3, H6, Icons, Page, Paragraph, TextField } from '@cd/shared-ui';
 import { useFormik } from 'formik';
 import Head from 'next/head';
 import Router from 'next/router';
 import { useCallback, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
 import { signUp } from 'supertokens-auth-react/recipe/emailpassword';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 import { FormCard, TermsAgreement } from '../../src/components';
 
 function UserSignUp() {
+    const dispatch = useDispatch();
+
     const [loadingButton, setLoadingButton] = useState(false);
     const [passwordVisibility, setPasswordVisibility] = useState(false);
     const togglePasswordVisibility = useCallback(() => {
@@ -87,45 +90,51 @@ function UserSignUp() {
 
     // TEST
     async function onSubmit(values: UserCreateType) {
-        try {
-            if (!loadingButton) {
-                setLoadingButton(true);
-                const signup = await signUp({
-                    formFields: [
-                        { id: 'email', value: values.email },
-                        { id: 'password', value: values.password },
-                        { id: 're_password', value: values.re_password },
-                        { id: 'username', value: values.username },
-                        { id: 'firstName', value: values.firstName },
-                        { id: 'lastName', value: values.lastName },
-                        { id: 'dialCode', value: values.dialCode },
-                        { id: 'phone', value: values.phone },
-                        { id: 'termsAccepted', value: values.termsAccepted.toString() },
-                        { id: 'street1', value: values.address.street1 },
-                        { id: 'street2', value: values.address.street2 },
-                        { id: 'city', value: values.address.city },
-                        { id: 'state', value: values.address.state },
-                        { id: 'zipcode', value: values.address.zipcode },
-                        { id: 'country', value: values.address.country },
-                        { id: 'countryCode', value: values.address.countryCode }
-                    ]
-                });
-                console.log('signup: ', signup);
-                if (signup.status === 'FIELD_ERROR') {
-                    console.log('signup error: ', signup.formFields[0].error);
-                    throw new Error(signup.formFields[0].error);
+        const response = await signUpUser();
+        dispatch(userActions.signinUserSync({ user: response.user }));
+        Router.push('/');
+
+        async function signUpUser() {
+            try {
+                if (!loadingButton) {
+                    setLoadingButton(true);
+                    const response = await signUp({
+                        formFields: [
+                            { id: 'email', value: values.email },
+                            { id: 'password', value: values.password },
+                            { id: 're_password', value: values.re_password },
+                            { id: 'username', value: values.username },
+                            { id: 'firstName', value: values.firstName },
+                            { id: 'lastName', value: values.lastName },
+                            { id: 'dialCode', value: values.dialCode },
+                            { id: 'phone', value: values.phone },
+                            { id: 'termsAccepted', value: values.termsAccepted.toString() },
+                            { id: 'street1', value: values.address.street1 },
+                            { id: 'street2', value: values.address.street2 },
+                            { id: 'city', value: values.address.city },
+                            { id: 'state', value: values.address.state },
+                            { id: 'zipcode', value: values.address.zipcode },
+                            { id: 'country', value: values.address.country },
+                            { id: 'countryCode', value: values.address.countryCode }
+                        ]
+                    });
+                    if (response.status === 'FIELD_ERROR') {
+                        console.log('signup error: ', response.formFields[0].error);
+                        throw new Error(response.formFields[0].error);
+                    }
+                    console.log('signup error: ', response.status);
+                    if (response.status === 'OK') {
+                        console.log('signup ok');
+                        toast.success('Your account is created.', { duration: 5000 });
+                        return response;
+                    }
                 }
-                console.log('signup error: ', signup.status);
-                if (signup.status === 'OK') {
-                    console.log('signup ok');
-                    Router.push('/');
-                    toast.success('Your account is created.', { duration: 5000 });
-                }
+            } catch (error) {
+                setLoadingButton(false);
+                console.error('create acount error: ', error);
+                toast.error(error.message);
+                return null;
             }
-        } catch (error) {
-            setLoadingButton(false);
-            console.error('create acount error: ', error);
-            toast.error(error.message);
         }
     }
 
