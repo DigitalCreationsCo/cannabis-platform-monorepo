@@ -36,12 +36,6 @@ export default function middleware(req: NextRequest) {
         return NextResponse.rewrite(url);
     }
 
-    if (url.pathname.startsWith(`/_stores`)) {
-        url.pathname = '/404';
-
-        return NextResponse.rewrite(url);
-    }
-
     if (subDomain.startsWith('app')) {
         // check cookies and sign in if session token exists
         // if (
@@ -60,9 +54,25 @@ export default function middleware(req: NextRequest) {
         }
     }
 
+    // rewrite to /_stores/*
     if (!subDomain.startsWith(shopAppUrl)) {
-        console.log('rewriting to /_stores');
         return NextResponse.rewrite(new URL(`/_stores/${subDomain}${url.pathname}`, req.nextUrl.origin));
+    }
+
+    // block manual access to /_stores/*
+    if (url.pathname.startsWith(`/_stores`)) {
+        // const intendedSubdomain = url.pathname.split('/')[2];
+        // console.log('intendedSubdomain', intendedSubdomain);
+        // console.log('/_stores url detected');
+        // console.log(!subDomain.startsWith(shopAppUrl));
+        // if (!subDomain.startsWith(shopAppUrl)) {
+        //     if (intendedSubdomain === undefined) {
+        url.pathname = '/404';
+        return NextResponse.rewrite(url);
+        //     }
+        //     console.log('rewriting to /_stores');
+        //     return NextResponse.rewrite(`http://${intendedSubdomain}.localhost:3000`);
+        // }
     }
 
     // base url redirect to /browse
