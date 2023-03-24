@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { AppState } from "..";
 
 export const locationTypes = {
     HOME_LOCATION: 'homeLocation',
@@ -84,9 +85,7 @@ const locationSlice = createSlice({
             state.selectLocationType = payload.selectLocationType
         }
     },
-    extraReducers: {
-        
-    }
+    extraReducers: {}
 })
 
 export const locationActions = {
@@ -94,3 +93,14 @@ export const locationActions = {
 }
 
 export const locationReducer = locationSlice.reducer
+
+export const selectLocationState = (state:AppState) => state.location;
+
+export const selectCurrentLocationState = (state:AppState) => 
+  state.location.currentLocation.address.coordinates;
+
+export const selectSelectedLocationState = (state:AppState) => {
+  const selectedLocationType = state.location.selectLocationType
+  
+  return state.location[selectedLocationType];
+};

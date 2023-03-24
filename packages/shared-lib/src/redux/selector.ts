@@ -4,14 +4,6 @@ import { AppState } from ".";
 const Selector = (state:AppState) => Object.freeze({
 
     user: () => state.user.user,
-
-    location: () => state.location,
-    currentLocation: () =>
-      state.location.currentLocation.address.coordinates,
-    selectedLocation: () => {
-      const selectedLocationType = state.location.selectLocationType
-      return state.location[selectedLocationType];
-    },
   
     socket: () => state.socket,
     incomingOrder: () => state.socket.incomingOrder,
@@ -24,8 +16,6 @@ const Selector = (state:AppState) => Object.freeze({
     dispensaries: () => state.dispensaries,
   
     products: () => state.products,
-  
-    modal: () => state.modal,
   
     payment: () => state.payment,
   });
