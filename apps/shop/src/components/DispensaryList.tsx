@@ -1,5 +1,7 @@
+import { selectLocationState } from '@cd/shared-lib';
 import { Button, H5 } from '@cd/shared-ui';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import DispensaryCard from './DispensaryCard';
 
 type DispensaryListProps = {
@@ -7,6 +9,10 @@ type DispensaryListProps = {
     list: { name: string; id: string }[];
 };
 function DispensaryListCarousel({ title, list }: DispensaryListProps) {
+    const location = useSelector(selectLocationState);
+    const { selectLocationType } = location;
+    location[selectLocationType].city;
+
     const [slideIndex, setSlideindex] = useState(0);
     const decrement = (e) => {
         e.stopPropagation();
@@ -22,7 +28,7 @@ function DispensaryListCarousel({ title, list }: DispensaryListProps) {
     };
     return (
         <>
-            <H5 className="pl-4 sm:!pl-12">{title}</H5>
+            <H5 className="pl-4 sm:!pl-12">{title + ' ' + `${'( Philadelphia )'}`}</H5>
 
             <div className="flex flex-row items-center overflow-auto">
                 <a onClick={decrement} href={'#dispensary-card-' + slideIndex}>
