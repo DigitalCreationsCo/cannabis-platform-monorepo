@@ -5,6 +5,10 @@ import Header from './Header';
 import SideNavContainer from './SideNavContainer';
 
 interface LayoutProps extends LayoutContextProps, PropsWithChildren {
+    showSideNavOnDesktop: boolean;
+    showSideNav: boolean;
+    showHeader: boolean;
+    showTopBar: boolean;
     SideNavComponent: React.ElementType;
     TopBarComponent: React.ElementType;
     signedOut: () => void;
@@ -19,6 +23,7 @@ export default function Layout({
     showSideNav = true,
     showHeader = true,
     showTopBar = true,
+    showSideNavOnDesktop,
     SideNavComponent,
     TopBarComponent,
     signedOut,
@@ -35,9 +40,16 @@ export default function Layout({
         <div className="flex flex-col">
             {isSession ? (
                 <div className={styles.main}>
-                    <TopBarComponent signedOut={signedOut} doesSessionExist={isSession} />
-
+                    {showTopBar && <TopBarComponent signedOut={signedOut} doesSessionExist={isSession} />}
+                    {showHeader && (
+                        <Header
+                            placeholder={placeholder}
+                            onSearchChange={onSearchChange}
+                            drawerComponentId={drawerComponentId}
+                        />
+                    )}
                     <SideNavContainer
+                        showSideNavOnDesktop={showSideNavOnDesktop}
                         showSideNav={showSideNav}
                         SideNavComponent={SideNavComponent}
                         fixedComponentId={navLinkContainerId}

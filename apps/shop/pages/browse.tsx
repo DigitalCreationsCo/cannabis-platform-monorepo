@@ -18,34 +18,10 @@ export default function MarketPlace({ host }) {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <Grid className="space-y-5">
-                {/* <Button
-                    onClick={() =>
-                        dispatch(modalActions.openModal({ modalType: modalTypes.loginModal, modalText: 'show modal' }))
-                    }
-                >
-                    show modal
-                </Button> */}
                 <DispensaryList title={'Dispensaries Near You'} list={organizationsListDummy} />
                 <CategoriesSelector />
             </Grid>
             <Paragraph>
-                {`Shopping App
-            Env: APP_NAME: ${appName}
-            Shopping at host: ${host}
-            `}
-            </Paragraph>
-            <Paragraph>
-                This page is the main shopping view. It displays a list of products and allows the user to add them to
-                the cart. It also display list of nearby dispensaries and lets the user enter their storefront to view
-                merchandise and content.
-            </Paragraph>
-            {/* <Paragraph>
-                {`Shopping App
-            Env: APP_NAME: ${appName}
-            Shopping at host: ${host}
-            `}
-            </Paragraph>
-            <Paragraph>
                 This page is the main shopping view. It displays a list of products and allows the user to add them to
                 the cart. It also display list of nearby dispensaries and lets the user enter their storefront to view
                 merchandise and content.
@@ -73,6 +49,17 @@ export default function MarketPlace({ host }) {
                 merchandise and content.
             </Paragraph>
             <Paragraph>
+                {`Shopping App
+            Env: APP_NAME: ${appName}
+            Shopping at host: ${host}
+            `}
+            </Paragraph>
+            <Paragraph>
+                This page is the main shopping view. It displays a list of products and allows the user to add them to
+                the cart. It also display list of nearby dispensaries and lets the user enter their storefront to view
+                merchandise and content.
+            </Paragraph>
+            <Paragraph>
                 This page is the main shopping view. It displays a list of products and allows the user to add them to
                 the cart. It also display list of nearby dispensaries and lets the user enter their storefront to view
                 merchandise and content.
@@ -87,7 +74,7 @@ export default function MarketPlace({ host }) {
                 This page is the main shopping view. It displays a list of products and allows the user to add them to
                 the cart. It also display list of nearby dispensaries and lets the user enter their storefront to view
                 merchandise and content.
-            </Paragraph> */}
+            </Paragraph>
         </Page>
     );
 }

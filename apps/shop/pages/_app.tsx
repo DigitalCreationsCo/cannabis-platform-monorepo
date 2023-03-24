@@ -1,5 +1,5 @@
 import { ExtendedPageComponent, StepFormValuesProvider } from '@cd/shared-lib';
-import { LoadingDots } from '@cd/shared-ui';
+import { Center, FlexBox, LoadingDots } from '@cd/shared-ui';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useEffect } from 'react';
@@ -47,7 +47,16 @@ function App({ Component, pageProps }: CustomAppProps) {
                 <meta name="vendor experience application" content="Property of Gras Cannabis Co." />
             </Head>
             <SuperTokensWrapper>
-                <PersistGate persistor={store._persistor} loading={<LoadingDots />}>
+                <PersistGate
+                    persistor={store._persistor}
+                    loading={
+                        <FlexBox className="grow items-center min-h-screen">
+                            <Center>
+                                <LoadingDots />
+                            </Center>
+                        </FlexBox>
+                    }
+                >
                     <LayoutContainer {...getLayoutContext()}>
                         <ToasterProvider />
                         <StepFormValuesProvider>

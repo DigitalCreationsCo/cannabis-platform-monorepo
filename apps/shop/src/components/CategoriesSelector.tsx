@@ -2,7 +2,7 @@ import { Button, FlexBox } from '@cd/shared-ui';
 
 function CategoriesSelector() {
     return (
-        <FlexBox className="flex-row space-x-0 px-4 lg:!space-x-8 overflow-x-scroll">
+        <FlexBox className="hidden lg:flex flex-row space-x-0 px-4 lg:!space-x-8 overflow-x-scroll">
             {[
                 'All',
                 'Flowers',
