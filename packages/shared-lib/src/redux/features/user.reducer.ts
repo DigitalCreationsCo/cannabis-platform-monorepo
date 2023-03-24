@@ -3,7 +3,7 @@ import { UserWithDetails } from "@cd/data-access";
 import { AnyAction, createAsyncThunk, createSlice, Dispatch } from "@reduxjs/toolkit";
 // import * as SecureStore from "expo-secure-store";
 import toast from 'react-hot-toast';
-import { ThunkArgumentsType } from "..";
+import { AppState, ThunkArgumentsType } from "..";
 
 // import { messageActions } from "./message";
 // import { vendorActions } from "./vendors";
@@ -359,3 +359,5 @@ export const userActions = {
 };
 
 export const userReducer = userSlice.reducer;
+
+export const selectUserState = (state: AppState) => state.user;

@@ -135,8 +135,11 @@ production environment testing: {
     Message Kalifa SATURDAY to have a call on Monday.
 }
 
-
 TO DO
+create account edge issue cases:
+submit signup form when supertokens core is down -- is the user record created in db?
+record should not create if supertokens core is down. the whole process should abort.
+
 TEST THE LOCAL_ORGANIZATION ROUTE, SAVE THE COORDINATES IN BOTH DB, MYSQL AND MONGO
 INITIALIZE BACKUPS IN mongodb
 CONNECT WITH KALIPHA TO FACILIATE THE DOCKER COMPOSE JOB
