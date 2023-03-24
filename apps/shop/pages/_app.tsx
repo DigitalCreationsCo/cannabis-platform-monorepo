@@ -1,14 +1,16 @@
 import { ExtendedPageComponent, StepFormValuesProvider } from '@cd/shared-lib';
+import { LoadingDots } from '@cd/shared-ui';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useEffect } from 'react';
 import toast, { Toaster, useToasterStore } from 'react-hot-toast';
-import { Provider as ReduxProvider } from 'react-redux';
+import { useStore } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session from 'supertokens-auth-react/recipe/session';
 import { frontendConfig } from '../config/frontendConfig';
 import { LayoutContainer, ModalProvider } from '../src/components';
-import store from '../src/redux/store';
+import { wrapper } from '../src/redux/store';
 import '../styles/globals.css';
 
 type CustomAppProps = AppProps & {
@@ -16,7 +18,8 @@ type CustomAppProps = AppProps & {
 };
 
 if (typeof window !== 'undefined') SuperTokensReact.init(frontendConfig());
-export default function App({ Component, pageProps }: CustomAppProps) {
+function App({ Component, pageProps }: CustomAppProps) {
+    const store = useStore();
     useEffect(() => {
         async function doRefresh() {
             if (pageProps.fromSupertokens === 'needs-refresh') {
@@ -44,7 +47,7 @@ export default function App({ Component, pageProps }: CustomAppProps) {
                 <meta name="vendor experience application" content="Property of Gras Cannabis Co." />
             </Head>
             <SuperTokensWrapper>
-                <ReduxProvider store={store}>
+                <PersistGate persistor={store._persistor} loading={<LoadingDots />}>
                     <LayoutContainer {...getLayoutContext()}>
                         <ToasterProvider />
                         <StepFormValuesProvider>
@@ -52,7 +55,7 @@ export default function App({ Component, pageProps }: CustomAppProps) {
                             <Component {...pageProps} />
                         </StepFormValuesProvider>
                     </LayoutContainer>
-                </ReduxProvider>
+                </PersistGate>
             </SuperTokensWrapper>
         </>
     );
@@ -70,3 +73,5 @@ const ToasterProvider = () => {
 
     return <Toaster position="top-center" />;
 };
+
+export default wrapper.withRedux(App);

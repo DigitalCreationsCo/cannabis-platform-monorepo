@@ -1,5 +1,5 @@
 import { AnyAction, createAsyncThunk, createSlice, Dispatch } from "@reduxjs/toolkit";
-import { ThunkArgumentsType } from "..";
+import { AppState, ThunkArgumentsType } from "..";
 
 // export type ThunkDispatch = TDispatch<void, {store: Store}, Action<any>>
 // export type AsyncThunkPayloadCreatorType = AsyncThunkPayloadCreator<void, {}, {dispatch: Dispatch<AnyAction>; extra: {store:Store }}>
@@ -160,3 +160,5 @@ export const modalActions = {
 };
 
 export const modalReducer = modalSlice.reducer;
+
+export const selectModalState = (state:AppState) => state.modal;
