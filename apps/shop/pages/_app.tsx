@@ -17,8 +17,20 @@ type CustomAppProps = AppProps & {
     Component: ExtendedPageComponent;
 };
 
-if (typeof window !== 'undefined') SuperTokensReact.init(frontendConfig());
 function App({ Component, pageProps }: CustomAppProps) {
+    let coordinates;
+
+    if (typeof window !== 'undefined') SuperTokensReact.init(frontendConfig());
+
+    // if (navigator.geolocation !== undefined) {
+    //     navigator.geolocation.getCurrentPosition(
+    //         (position) => {
+    //             coordinates = [position.coords.latitude, position.coords.longitude];
+    //         },
+    //         () => console.log('Geolocation is not supported by this browser.')
+    //     );
+    // }
+
     const store = useStore();
     useEffect(() => {
         async function doRefresh() {
