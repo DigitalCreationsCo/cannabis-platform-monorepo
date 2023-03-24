@@ -17,13 +17,16 @@ function DispensaryListCarousel({ title, list }: DispensaryListProps) {
         if (slideIndex < list.length - 1) setSlideindex(slideIndex + 1);
     };
 
+    const styles = {
+        carouselButton: 'px-6 hidden sm:block'
+    };
     return (
         <>
             <H5 className="pl-4 sm:!pl-12">{title}</H5>
 
             <div className="flex flex-row items-center overflow-auto">
                 <a onClick={decrement} href={'#dispensary-card-' + slideIndex}>
-                    <Button bg="transparent" size="sm" className="px-4 hidden sm:block" hover="transparent">
+                    <Button bg="transparent" size="sm" className={styles.carouselButton} hover="transparent">
                         ❮
                     </Button>
                 </a>
@@ -35,7 +38,7 @@ function DispensaryListCarousel({ title, list }: DispensaryListProps) {
                     ))}
                 </div>
                 <a onClick={increment} href={'#dispensary-card-' + slideIndex}>
-                    <Button bg="transparent" size="sm" className="px-4" hover="transparent">
+                    <Button bg="transparent" size="sm" className={styles.carouselButton} hover="transparent">
                         ❯
                     </Button>
                 </a>

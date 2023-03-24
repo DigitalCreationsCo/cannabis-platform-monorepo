@@ -8,9 +8,11 @@ export interface SideNavContainerProps extends PropsWithChildren {
     fixedComponentId: string;
     drawerComponentId?: string;
     showSideNav?: boolean;
+    showSideNavOnDesktop?: boolean;
 }
 
 function SideNavContainer({
+    showSideNavOnDesktop,
     showSideNav,
     SideNavComponent,
     fixedComponentId,
@@ -40,7 +42,7 @@ function SideNavContainer({
             // isFixed && 'pl-[188px]',
             'w-full'
         ],
-        sideNavDrawer: ['drawer-side', isFixed && 'fixed', 'min-h-full'],
+        sideNavDrawer: [!showSideNavOnDesktop && 'lg:!hidden', 'drawer-side', isFixed && 'fixed', 'min-h-full'],
         drawerOverlay: ['drawer-overlay h-full lg:hidden'],
         sideNavComponentContainer: [
             !showSideNav && 'hidden',
