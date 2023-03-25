@@ -9,20 +9,20 @@ export async function createProduct() {
     // }
  }
 
-export async function findProductsByOrg(organizationId: string) {
+export async function findProductsByOrg(organizationIdList: string[], page: number, limit: number) {
   try {
     const products = await prisma.product.findMany(
       {
-        where: { organizationId },
+        skip: (page > 0 ? page - 1 : 0) * limit,
+        take: limit,
+        where: { organizationId: { in: organizationIdList } },
         orderBy: [
           { rating: 'desc' },
+        // { sales: 'desc' }
         ],
         include: {
-          variants: {
-            include: {
-              images: true
-            }
-          }
+          variants: true,
+          categories: true,
         }
       }) || [];
       return products;

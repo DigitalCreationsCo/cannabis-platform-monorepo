@@ -24,6 +24,7 @@ export const urlBuilder = {
         productById: (id: any) => urlBuilder.main.baseUrl + `/shop/products/${id}`,
         products: () => urlBuilder.main.baseUrl + '/shop/products',
         productUpdate: (id: any) => urlBuilder.main.baseUrl + `/organization/product/${id}/update`,
+        productsByMultipleOrgs: (page: number, limit: number) => urlBuilder.main.baseUrl + `/shop/products&_page=${page}&_limit=${limit}`,
 
         organization: () => urlBuilder.main.baseUrl + `/organization`,
         organizationById: (id: any) => urlBuilder.main.baseUrl + `/organization/${id}`,
@@ -42,7 +43,7 @@ export const urlBuilder = {
     },
     location: {
         baseUrl: locationUrl + '/api/v1',
-        getLocalOrganizations: () => urlBuilder.location.baseUrl + '/serveLocal/organizations',
+        organizationsLocal: () => urlBuilder.location.baseUrl + '/serveLocal/organizations',
     }
 };
 

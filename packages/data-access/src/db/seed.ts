@@ -1,4 +1,4 @@
-import { Address, Category, CategoryList, Driver, ImageOrganization, ImageProduct, ImageUser, ImageVendor, Membership, Order, OrderItem, Organization, PrismaClient, Product, ProductVariant, Schedule, SiteSetting, SubDomain, User, Vendor } from "@prisma/client";
+import { Address, Category, CategoryList, Driver, ImageOrganization, ImageProduct, ImageUser, ImageVendor, Membership, Order, OrderItem, Organization, PrismaClient, Product, ProductVariant, Purchase, Schedule, SiteSetting, SubDomain, User, Vendor } from "@prisma/client";
 
 const users: User[] = [
   {
@@ -207,7 +207,7 @@ const schedules:Schedule[] = [
     id: "1",
     organizationId: "1",
     days: 6543210,
-    openAt: 0800,
+    openAt: 800,
     closeAt: 2000,
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -216,7 +216,7 @@ const schedules:Schedule[] = [
   id: "2",
   organizationId: "2",
   days: 54321,
-  openAt: 0800,
+  openAt: 800,
   closeAt: 2000,
   createdAt: new Date(),
   updatedAt: new Date(),
@@ -276,6 +276,21 @@ const orgs:Organization[] = [
     updatedAt: new Date(),
     termsAccepted: true,    
     onboardingComplete:false
+  },
+  {
+    id: "4",
+    name: "McNuggz Dispensary",
+    email: "McNuggz@grascannabis.org",
+    stripeAccountId: null,
+    emailVerified: true,
+    dialCode: "1",
+    phone: "1232343456",
+    vendorId: "3",
+    subdomainId: "mcnuggz",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    termsAccepted: true,    
+    onboardingComplete:true
   },
 ];
 const siteSettings:SiteSetting[] = [
@@ -657,6 +672,50 @@ const products:Product[] = [
     createdAt: new Date(),
     updatedAt: new Date(),
   },
+  {
+    id: "8",
+    name: "Eagle cbd oil",
+    description: "Satisfying Liquid Goochy",
+    features: "fresh, relaxing",
+    tags: "cbd, og",
+    organizationId: "3",
+    rating: 2.5,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: "9",
+    name: "Magic Mountain Bush",
+    description: "helpful for your heart",
+    features: "fresh, relaxing",
+    tags: "flower, og",
+    organizationId: "3",
+    rating: 5.0,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: "10",
+    name: "Razmatazz",
+    description: "sweet and sour",
+    features: "fresh, relaxing",
+    tags: "flower, og",
+    organizationId: "3",
+    rating: 4.0,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: "11",
+    name: "Razmatazz",
+    description: "sweet and sour",
+    features: "fresh, relaxing",
+    tags: "flower, og",
+    organizationId: "4",
+    rating: 4.0,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
 ];
 const subdomains:SubDomain[] = [
   {
@@ -828,6 +887,33 @@ const drivers: Driver[] = [
   },
 ];
 
+const purchases: Purchase[] = [
+{
+    id: "1",
+    paymentStatus: "Pending",
+    gateway: "stripe",
+    type: "card",
+    amount: 12399,
+    token: '12345',
+    customerId: "1",
+    orderId: "1",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+},
+{
+    id: "2",
+    paymentStatus: "Paid",
+    gateway: "stripe",
+    type: "card",
+    amount: 23444,
+    token: '12345',
+    customerId: "2",
+    orderId: "2",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+}
+]
+
 const orders: Order[] = [
   {
     id: "1",
@@ -840,7 +926,7 @@ const orders: Order[] = [
     addressId: '5',
     driverId: "2",
     organizationId: "2",
-    purchaseId: '',
+    purchaseId: '1',
     isDelivered: false,
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -857,7 +943,7 @@ const orders: Order[] = [
     addressId: '5',
     driverId: "2",
     organizationId: "2",
-    purchaseId: '',
+    purchaseId: '2',
     isDelivered: false,
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -875,7 +961,7 @@ const orders: Order[] = [
     driverId: "1",
     organizationId: "2",
     isDelivered: true,
-    purchaseId: '',
+    purchaseId: null,
     createdAt: new Date(),
     updatedAt: new Date(),
     deliveredAt: new Date(),
@@ -891,7 +977,7 @@ const orders: Order[] = [
     addressId: '5',
     driverId: "2",
     organizationId: "2",
-    purchaseId: '',
+    purchaseId: null,
     isDelivered: true,
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -907,7 +993,7 @@ const orders: Order[] = [
     customerId: "2",
     addressId: '3',
     driverId: "1",
-    purchaseId: '',
+    purchaseId: null,
     organizationId: "2",
     isDelivered: false,
     createdAt: new Date(),
@@ -926,7 +1012,7 @@ const orders: Order[] = [
     driverId: "2",
     organizationId: "2",
     isDelivered: false,
-    purchaseId: '',
+    purchaseId: null,
     createdAt: new Date(),
     updatedAt: new Date(),
     deliveredAt: new Date(),

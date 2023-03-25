@@ -15,7 +15,7 @@ export const getDispensariesLocal = createAsyncThunk(
       const {coordinates} = location[selectLocationType].address
         
       const {data } = await axios.post(
-        urlBuilder.location.getLocalOrganizations(), {
+        urlBuilder.location.organizationsLocal(), {
           userLocation: coordinates,
           proximityRadius: radius,
         }, { 
@@ -90,6 +90,37 @@ export const getDispensariesLocal = createAsyncThunk(
 //   }
 // );
 
+export const getProductsFromLocal = createAsyncThunk(
+  "shop/getProductsFromLocal",
+  async (_, thunkAPI) => {
+    try {
+      const { shop } = thunkAPI.getState() as { shop: ShopStateProps };
+      const { dispensaries } = shop;
+      
+      const dispensaryIdList = dispensaries.map((disp) => disp.id);
+
+      const {data} = await axios.post(urlBuilder.main.)
+
+      const response = await fetchData(urlList.GET_PRODUCTS(1, 10), {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          vendorIdList,
+        }),
+      });
+      if (response.status === 200) {
+        let data = await response.json();
+        return data;
+      }
+    } catch (err) {
+      return thunkAPI.rejectWithValue("A general error occured. ");
+    }
+  }
+);
+
 type OrganizationWithDetailsAndMetadata = OrganizationWithShopDetails & { metadata?: { productsFetched?: boolean }}
 export type ShopStateProps = {
     dispensaries: OrganizationWithDetailsAndMetadata[];
@@ -133,7 +164,7 @@ export const shopSlice = createSlice({
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = true;
-    }),
+    })
 
     // [getVendorsExcluding.fulfilled]: (state, { payload }) => {
     //   const { vendors } = payload;
@@ -148,6 +179,7 @@ export const shopSlice = createSlice({
     //   state.vendors.push(...vendors);
     //   console.log("getVendors excluding success");
     // },
+
     // [getVendorsExcluding.pending]: (state) => {
     //   state.isFetching = true;
     // },
@@ -184,7 +216,7 @@ export const shopSlice = createSlice({
     //   state.isFetching = false;
     //   state.isError = true;
     // },
-  },
+  }
 });
 
 export const shopActions = {

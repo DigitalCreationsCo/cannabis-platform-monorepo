@@ -2,7 +2,6 @@ import { Grid, Page, Paragraph } from '@cd/shared-ui';
 import Head from 'next/head';
 import Session from 'supertokens-node/recipe/session';
 import { CategoriesSelector, DispensaryList } from '../src/components';
-import { getSession } from '../src/session/getSession';
 
 const organizationsListDummy = [
     { name: 'Curaleaf', subdomainId: 'curaleaf', id: '234' },
@@ -23,6 +22,63 @@ export default function MarketPlace({ host }) {
                 <DispensaryList title={'Dispensaries Near You'} list={organizationsListDummy} />
                 <CategoriesSelector />
             </Grid>
+            <Paragraph>
+                This page is the main shopping view. It displays a list of products and allows the user to add them to
+                the cart. It also display list of nearby dispensaries and lets the user enter their storefront to view
+                merchandise and content.
+            </Paragraph>
+            <Paragraph>
+                {`Shopping App
+            Env: APP_NAME: ${appName}
+            Shopping at host: ${host}
+            `}
+            </Paragraph>
+            <Paragraph>
+                {`Shopping App
+            Env: APP_NAME: ${appName}
+            Shopping at host: ${host}
+            `}
+            </Paragraph>
+            <Paragraph>
+                {`Shopping App
+            Env: APP_NAME: ${appName}
+            Shopping at host: ${host}
+            `}
+            </Paragraph>
+            <Paragraph>
+                {`Shopping App
+            Env: APP_NAME: ${appName}
+            Shopping at host: ${host}
+            `}
+            </Paragraph>
+            <Paragraph>
+                {`Shopping App
+            Env: APP_NAME: ${appName}
+            Shopping at host: ${host}
+            `}
+            </Paragraph>
+            <Paragraph>
+                This page is the main shopping view. It displays a list of products and allows the user to add them to
+                the cart. It also display list of nearby dispensaries and lets the user enter their storefront to view
+                merchandise and content.
+            </Paragraph>
+            <Paragraph>
+                {`Shopping App
+            Env: APP_NAME: ${appName}
+            Shopping at host: ${host}
+            `}
+            </Paragraph>
+            <Paragraph>
+                This page is the main shopping view. It displays a list of products and allows the user to add them to
+                the cart. It also display list of nearby dispensaries and lets the user enter their storefront to view
+                merchandise and content.
+            </Paragraph>
+            <Paragraph>
+                {`Shopping App
+            Env: APP_NAME: ${appName}
+            Shopping at host: ${host}
+            `}
+            </Paragraph>
             <Paragraph>
                 This page is the main shopping view. It displays a list of products and allows the user to add them to
                 the cart. It also display list of nearby dispensaries and lets the user enter their storefront to view
@@ -81,21 +137,8 @@ export default function MarketPlace({ host }) {
     );
 }
 
-export async function getServerSideProps({ req, res }) {
+export async function getServerSideProps ({req, res}) {
     try {
-        const { session, user } = await getSession({ req, res });
-        if (!session || !user) {
-            console.log('No session or user');
-            return { redirect: { destination: '/', permanent: false } };
-        }
-
-        // const organizations_local = await (
-        //     await axios(urlBuilder.next + `/api/organization/local`, {
-        //         headers: {
-        //             Cookie: req.headers.cookie
-        //         }
-        //     })
-        // ).data;
         return {
             props: {
                 host: req.headers.host
@@ -110,4 +153,4 @@ export async function getServerSideProps({ req, res }) {
             return res.status(200).json({ status: false, error });
         } else return { notFound: true };
     }
-}
+});

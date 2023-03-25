@@ -5,10 +5,10 @@ import Header from './Header';
 import SideNavContainer from './SideNavContainer';
 
 interface LayoutProps extends LayoutContextProps, PropsWithChildren {
-    showSideNavOnDesktop: boolean;
-    showSideNav: boolean;
-    showHeader: boolean;
-    showTopBar: boolean;
+    showSideNavOnDesktop?: boolean;
+    showSideNav?: boolean;
+    showHeader?: boolean;
+    showTopBar?: boolean;
     SideNavComponent: React.ElementType;
     TopBarComponent: React.ElementType;
     signedOut: () => void;
@@ -23,7 +23,7 @@ export default function Layout({
     showSideNav = true,
     showHeader = true,
     showTopBar = true,
-    showSideNavOnDesktop,
+    showSideNavOnDesktop = true,
     SideNavComponent,
     TopBarComponent,
     signedOut,
@@ -59,7 +59,7 @@ export default function Layout({
                     </SideNavContainer>
                 </div>
             ) : (
-                <>
+                <div className={styles.main}>
                     {showTopBar && <TopBarComponent doesSessionExist={isSession} />}
                     {showHeader && (
                         <Header
@@ -69,22 +69,9 @@ export default function Layout({
                         />
                     )}
                     {children}
-                </>
+                </div>
             )}
             <Footer />
         </div>
     );
 }
-
-// function LayoutContainer = () => {
-//     const doesSessionExist = async () => await SessionReact.doesSessionExist();
-
-//     const signedOut = async () => {
-//         signOut();
-//         windsow.location.href = '/';
-//     };
-
-//     if (session?.loading === true) return <></>;
-//     const doesSessionExist = session?.doesSessionExist;
-//     return (<Layout>{children}</Layout>)
-// }

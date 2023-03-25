@@ -50,7 +50,7 @@
     "db:migrate-prod": "dotenv -e ../../.env.production -- prisma migrate deploy",
     "db:push": "dotenv -e ../../.env.development -- npx prisma db push",
     "db:push-force": "npx prisma db push --force-reset --accept-data-loss",
-    "db:reseed": "dotenv -e ../../.env.development -- npx prisma db push && prisma generate && yarn db:clear && prisma db seed && prisma generate && yarn build",
+    "db:reseed": "dotenv -e ../../.env.development -- yarn db:clear && dotenv -e ../../.env.development -- npx prisma db push && dotenv -e ../../.env.development prisma db seed && prisma generate && yarn build",
     "db:seed": "dotenv -e ../../.env.development -- prisma db seed",
     "db:studio": "dotenv -e ../../.env.development -- prisma studio",
     "test": "../../node_modules/jest/bin/jest.js",

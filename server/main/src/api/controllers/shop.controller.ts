@@ -103,7 +103,22 @@ export default class ShopController {
     static async getProductsByOrg(req, res) {
         try {
             const organizationId = req.params.id || {};
+            
             const data = await OrderDA.getProductsByOrg(organizationId);
+            if (!data) return res.status(404).json('Products not found');
+            return res.status(200).json(data);
+        } catch (error) {
+            console.log('API error: ', error);
+            res.status(500).json({ error });
+        }
+    }
+
+    static async getProductsByMultipleOrgs(req, res) {
+        try {
+            const idList = req.body || [];
+            const { page, limit } = req.params;
+            
+            const data = await OrderDA.getProductsByOrg(idList, page, limit);
             if (!data) return res.status(404).json('Products not found');
             return res.status(200).json(data);
         } catch (error) {
