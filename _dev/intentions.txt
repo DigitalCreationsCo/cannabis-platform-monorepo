@@ -85,6 +85,10 @@ Resolve redux
 3-23-22
 Test user registration flow, with data creation funcs
 signin flow
+3-25-22
+Test getDispensariesLocal with server, Locationprovider, and in the app ui, with redux data
+Create test data in mongodb and prisma
+write unit tests
 
 TO DO:
 persist redux store in nextjs, test
