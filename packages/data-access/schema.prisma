@@ -243,7 +243,7 @@ model Order {
   purchase Purchase? @relation(fields: [purchaseId], references: [id], onDelete: NoAction, onUpdate: Cascade)
 
   addressId String
-  destinationAddress Address @relation(fields: [addressId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  destinationAddress Address @relation(fields: [addressId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   
   customerId String
   customer User @relation(fields: [customerId], references: [id], onDelete: Cascade, onUpdate: Cascade)

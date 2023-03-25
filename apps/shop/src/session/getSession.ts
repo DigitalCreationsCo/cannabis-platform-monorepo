@@ -18,7 +18,6 @@ export type ExtendRequest = NextApiRequest & {
 
 export async function getSession({ req }): Promise<SessionInfo | null> {
     try {
-        console.log('get session func');
         const { data } = await axios(urlBuilder.next + '/api/session', {
             headers: {
                 Cookie: req.headers.cookie

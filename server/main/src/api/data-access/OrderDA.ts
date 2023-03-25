@@ -79,9 +79,16 @@ export default class OrderDA {
         }
     }
 
-    static async getProductsByOrg(organizationId) {
+    static async getProductsByOrg(
+        organizationIdList: string | string[], 
+        page: number = 1, 
+        limit: number = 20
+        ) {
         try {
-            const data = await findProductsByOrg(organizationId);
+            
+            const idList = Array.isArray(organizationIdList) ? organizationIdList : [organizationIdList];
+
+            const data = await findProductsByOrg(idList, page, limit);
             return data;
         } catch (error) {
             console.error(error.message);

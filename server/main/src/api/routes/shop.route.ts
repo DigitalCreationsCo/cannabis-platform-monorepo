@@ -35,4 +35,6 @@ router.route('/products/:id').get(shopCtrl.getProductById);
 
 router.route('/products').post(shopCtrl.searchProducts);
 
+router.route('/products&_page=:page&_limit=:limit').post(shopCtrl.getProductsByMultipleOrgs);
+
 export default router;

@@ -1,4 +1,5 @@
-import { selectSelectedLocationState } from '@cd/shared-lib';
+import { selectSelectedLocationState, shopActions } from '@cd/shared-lib';
+import { PropsWithChildren } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 const LocationProvider = ({ children }: PropsWithChildren) => {
@@ -7,12 +8,13 @@ const LocationProvider = ({ children }: PropsWithChildren) => {
 
     const { coordinates, zipcode } = location.address;
 
-    // const getVendorsAsync = async () => {
-    //   await dispatch(vendorActions.getVendors());
-    // };
-    // const getProductsAsync = async () => {
-    //   await dispatch(productActions.getProducts());
-    // };
+    const getDispensaries = async () => {
+        await dispatch(shopActions.getDispensariesLocal());
+    };
+
+    const getProducts = async () => {
+        await dispatch(productActions.getProducts());
+    };
 
     // this useEffect should watch locationType,
     // and refetch vendors and products for the new geoLocation Coordinates
