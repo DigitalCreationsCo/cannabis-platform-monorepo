@@ -1,4 +1,4 @@
-import { findLocalOrganizations, ServeUserProximity } from "@cd/data-access";
+import { findLocalOrganizationsById, ServeUserProximity } from "@cd/data-access";
 import { MongoClient } from "mongodb";
 
 /* =================================
@@ -45,7 +45,7 @@ export default class LocationDA {
         .toArray();
         console.log('mongo local_organizations_ids: ', local_organizations_ids)
         
-            const local_organizations = await findLocalOrganizations(local_organizations_ids);
+            const local_organizations = await findLocalOrganizationsById(local_organizations_ids);
             console.log(`Found ${local_organizations.length} local organizations.`);
             return local_organizations;
         } catch (error) {

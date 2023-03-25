@@ -130,6 +130,7 @@
     "redux-persist": "6.0.0",
     "rollup": "3.12.0",
     "rollup-plugin-css-only": "4.3.0",
+    "rollup-plugin-dotenv": "0.4.1",
     "rollup-plugin-dts": "5.1.1",
     "rollup-plugin-img": "1.1.0",
     "rollup-plugin-postcss": "4.0.2",
