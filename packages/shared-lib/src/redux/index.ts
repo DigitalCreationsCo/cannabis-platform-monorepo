@@ -1,5 +1,5 @@
 import { Store } from '@reduxjs/toolkit';
-import { LocationStateProps, ModalStateProps, UserStateProps } from './features';
+import { LocationStateProps, ModalStateProps, ShopStateProps, UserStateProps } from './features';
 
 export * from './features';
 export * from './middleware';
@@ -9,6 +9,7 @@ export type AppState = Readonly<{
     modal: ModalStateProps
     user: UserStateProps
     location: LocationStateProps
+    shop: ShopStateProps
 }>
 
 export type ThunkArgumentsType = {

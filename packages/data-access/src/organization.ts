@@ -105,7 +105,7 @@ export async function findOrganizationBySubdomain(subdomainId:string) {
     }
 }
 
-export async function findLocalOrganizations(organizationIds: string[]) {
+export async function findLocalOrganizationsById(organizationIds: string[]) {
     try {
         const localOrganizations = await prisma.organization.findMany({ where: { id: { in: organizationIds } }, include: { address: true, images: true, products: true, siteSetting: true, categoryList: true }}) || []
         return localOrganizations
