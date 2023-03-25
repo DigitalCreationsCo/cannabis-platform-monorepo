@@ -10,7 +10,7 @@ const organizationsListDummy = [
     { name: 'McNuggz', subdomainId: 'mcnuggz', id: '456' }
 ];
 
-export default function MarketPlace() {
+export default function MarketPlace({ host }) {
     const appName = process.env.NEXT_PUBLIC_SHOP_APP_NAME || '';
     return (
         <Page>
@@ -88,6 +88,7 @@ export async function getServerSideProps({ req, res }) {
             console.log('No session or user');
             return { redirect: { destination: '/', permanent: false } };
         }
+
         // const organizations_local = await (
         //     await axios(urlBuilder.next + `/api/organization/local`, {
         //         headers: {
