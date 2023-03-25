@@ -101,6 +101,6 @@ export const selectCurrentLocationState = (state:AppState) =>
 
 export const selectSelectedLocationState = (state:AppState) => {
   const selectedLocationType = state.location.selectLocationType
-  
-  return state.location[selectedLocationType];
+  const selectedLocation: LocationType =  state.location[selectedLocationType]
+  return selectedLocation
 };

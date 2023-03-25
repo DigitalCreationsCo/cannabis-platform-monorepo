@@ -44,7 +44,6 @@ function DispensaryCard({ dispensary, className }: DispensaryCardProps) {
                             className="border"
                         />
                     )}
-                    {/* <Paragraph>{checkDispensaryIsOpen(dispensary.schedule)}</Paragraph> */}
                     <Paragraph>
                         {renderAddress({
                             street1: '1239 2nd st',
@@ -62,6 +61,7 @@ function DispensaryCard({ dispensary, className }: DispensaryCardProps) {
                         })}
                     </Paragraph>
                 </FlexBox>
+                {/* <Paragraph>{checkDispensaryIsOpen(dispensary.schedule)}</Paragraph> */}
                 <Paragraph className="badge -ml-2 p-3 self-end absolute">
                     {checkDispensaryIsOpen({
                         days: 6543210,

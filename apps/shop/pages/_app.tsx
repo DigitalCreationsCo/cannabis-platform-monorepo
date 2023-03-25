@@ -4,12 +4,11 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useEffect } from 'react';
 import toast, { Toaster, useToasterStore } from 'react-hot-toast';
-import { useStore } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session from 'supertokens-auth-react/recipe/session';
 import { frontendConfig } from '../config/frontendConfig';
-import { LayoutContainer, ModalProvider } from '../src/components';
+import { LayoutContainer, LocationProvider, ModalProvider } from '../src/components';
 import { wrapper } from '../src/redux/store';
 import '../styles/globals.css';
 
@@ -17,11 +16,11 @@ type CustomAppProps = AppProps & {
     Component: ExtendedPageComponent;
 };
 
-function App({ Component, pageProps }: CustomAppProps) {
-    let coordinates;
-
+function App({ Component, ...rest }: CustomAppProps) {
     if (typeof window !== 'undefined') SuperTokensReact.init(frontendConfig());
 
+    const { store, props } = wrapper.useWrappedStore(rest);
+    const { pageProps } = props;
     // if (navigator.geolocation !== undefined) {
     //     navigator.geolocation.getCurrentPosition(
     //         (position) => {
@@ -31,7 +30,6 @@ function App({ Component, pageProps }: CustomAppProps) {
     //     );
     // }
 
-    const store = useStore();
     useEffect(() => {
         async function doRefresh() {
             if (pageProps.fromSupertokens === 'needs-refresh') {
@@ -69,13 +67,15 @@ function App({ Component, pageProps }: CustomAppProps) {
                         </FlexBox>
                     }
                 >
-                    <LayoutContainer {...getLayoutContext()}>
-                        <ToasterProvider />
-                        <StepFormValuesProvider>
-                            <ModalProvider />
-                            <Component {...pageProps} />
-                        </StepFormValuesProvider>
-                    </LayoutContainer>
+                    <LocationProvider>
+                        <LayoutContainer {...getLayoutContext()}>
+                            <ToasterProvider />
+                            <StepFormValuesProvider>
+                                <ModalProvider />
+                                <Component {...pageProps} />
+                            </StepFormValuesProvider>
+                        </LayoutContainer>
+                    </LocationProvider>
                 </PersistGate>
             </SuperTokensWrapper>
         </>
@@ -95,4 +95,4 @@ const ToasterProvider = () => {
     return <Toaster position="top-center" />;
 };
 
-export default wrapper.withRedux(App);
+export default App;
