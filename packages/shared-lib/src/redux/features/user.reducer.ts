@@ -194,7 +194,7 @@ export const signinUserAsync = createAsyncThunk<boolean, {email: string; passwor
 export type UserStateProps = {
   token: string | null;
   user: UserWithDetails;
-  friendList: any[];
+  // friendList: any[];
   isSignedIn: boolean;
   isLoading: boolean;
   isSuccess: boolean;
@@ -203,14 +203,14 @@ export type UserStateProps = {
 }
 
 const initialState:UserStateProps = {
-  token: null,
+  token: "",
   user: {
     id: "",
     email: "",
     username: "",
     firstName: "",
     lastName: "",
-    dialCode: null,
+    dialCode: '',
     address: [
       {
         street1: '',
@@ -219,55 +219,17 @@ const initialState:UserStateProps = {
         state: '',
         zipcode: '',
         country: '',
-        countryCode: null,
+        countryCode: '',
       }
     ],
-    phone: null,
+    phone: '',
     orders: [],
-    preferences: null,
+    // preferences: {},
     emailVerified: false, 
     passwordHash: '', 
     passwordResetToken: '',
     termsAccepted: false
   },
-  friendList: [
-    { userName: "Geena", customerId: "12345" },
-    { userName: "Hansel", customerId: "23456" },
-    { userName: "Sean", customerId: "345678" },
-    { userName: "Geena", customerId: "12345" },
-    { userName: "Hansel", customerId: "23456" },
-    { userName: "Sean", customerId: "345678" },
-    { userName: "Geena", customerId: "12345" },
-    { userName: "Hansel", customerId: "23456" },
-    { userName: "Sean", customerId: "345678" },
-    { userName: "Geena", customerId: "12345" },
-    { userName: "Hansel", customerId: "23456" },
-    { userName: "Sean", customerId: "345678" },
-    { userName: "Geena", customerId: "12345" },
-    { userName: "Hansel", customerId: "23456" },
-    { userName: "Sean", customerId: "345678" },
-    { userName: "Geena", customerId: "12345" },
-    { userName: "Hansel", customerId: "23456" },
-    { userName: "Sean", customerId: "345678" },
-    { userName: "Geena", customerId: "12345" },
-    { userName: "Hansel", customerId: "23456" },
-    { userName: "Sean", customerId: "345678" },
-    { userName: "Geena", customerId: "12345" },
-    { userName: "Hansel", customerId: "23456" },
-    { userName: "Sean", customerId: "345678" },
-    { userName: "Geena", customerId: "12345" },
-    { userName: "Hansel", customerId: "23456" },
-    { userName: "Sean", customerId: "345678" },
-    { userName: "Geena", customerId: "12345" },
-    { userName: "Hansel", customerId: "23456" },
-    { userName: "Sean", customerId: "345678" },
-    { userName: "Geena", customerId: "12345" },
-    { userName: "Hansel", customerId: "23456" },
-    { userName: "Sean", customerId: "345678" },
-    { userName: "Geena", customerId: "12345" },
-    { userName: "Hansel", customerId: "23456" },
-    { userName: "Sean", customerId: "345678" },
-  ],
   isSignedIn: false,
   isLoading: false,
   isSuccess: false,
