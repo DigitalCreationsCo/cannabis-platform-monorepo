@@ -46,6 +46,7 @@ app.use('/api/v1/healthcheck', (req, res) => {
 
 app.get('/api/v1/session', verifySession(), async (req:SessionRequest, res) => {
     try{
+        console.log('session route')
         // const session = {
         //     user: {
         //         username: 'kbarnes',
@@ -60,7 +61,9 @@ app.get('/api/v1/session', verifySession(), async (req:SessionRequest, res) => {
         //     sessionData: await session.getSessionData(),
         //   });s
         const _session =  req.session;
+        console.log(_session)
         const sessionFromDb = await SessionDA.getSession(_session.getHandle());
+        console.log('session from db: ', sessionFromDb)
         const { user, ...session } = sessionFromDb;
         res.status(200).json({ status: true, session: {session}, user });
     } catch (error) {

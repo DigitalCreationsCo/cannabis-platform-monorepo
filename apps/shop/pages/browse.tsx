@@ -1,6 +1,8 @@
 import { Grid, Page, Paragraph } from '@cd/shared-ui';
 import Head from 'next/head';
+import Session from 'supertokens-node/recipe/session';
 import { CategoriesSelector, DispensaryList } from '../src/components';
+import { getSession } from '../src/session/getSession';
 
 const organizationsListDummy = [
     { name: 'Curaleaf', subdomainId: 'curaleaf', id: '234' },
@@ -8,7 +10,7 @@ const organizationsListDummy = [
     { name: 'McNuggz', subdomainId: 'mcnuggz', id: '456' }
 ];
 
-export default function MarketPlace({ host }) {
+export default function MarketPlace() {
     const appName = process.env.NEXT_PUBLIC_SHOP_APP_NAME || '';
     return (
         <Page>
@@ -79,13 +81,32 @@ export default function MarketPlace({ host }) {
     );
 }
 
-export async function getServerSideProps({ req }) {
-    // const organizations_local = await prisma.organization.findMany({
-    //     where: {}
-    // });
-    return {
-        props: {
-            host: req.headers.host
+export async function getServerSideProps({ req, res }) {
+    try {
+        const { session, user } = await getSession({ req, res });
+        if (!session || !user) {
+            console.log('No session or user');
+            return { redirect: { destination: '/', permanent: false } };
         }
-    };
+        // const organizations_local = await (
+        //     await axios(urlBuilder.next + `/api/organization/local`, {
+        //         headers: {
+        //             Cookie: req.headers.cookie
+        //         }
+        //     })
+        // ).data;
+        return {
+            props: {
+                host: req.headers.host
+            }
+        };
+    } catch (error) {
+        console.log('SSR error marketplace place: ', error.message);
+        if (error.type === Session.Error.TRY_REFRESH_TOKEN) {
+            return { props: { fromSupertokens: 'needs-refresh' } };
+        } else if (error.type === Session.Error.UNAUTHORISED) {
+            console.log('unauthorized error: ', error);
+            return res.status(200).json({ status: false, error });
+        } else return { notFound: true };
+    }
 }

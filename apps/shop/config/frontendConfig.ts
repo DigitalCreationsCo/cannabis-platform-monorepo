@@ -13,7 +13,7 @@ const appInfo = {
     appName: 'Cannabis Delivery',
     websiteDomain: 'http://localhost:3000',
     apiDomain: process.env.SERVER_MAIN_URL,
-    apiBasePath: ''
+    apiBasePath: '/api/v1/'
 };
 
 export const frontendConfig = () => {
