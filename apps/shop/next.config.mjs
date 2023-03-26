@@ -85,8 +85,15 @@ const nextConfig = (phase) => {
             if (isDev)
                 return 'mongodb+srv://dbDev1:wYaMFDyhZJDy0i5y@cluster0.ckvbf.mongodb.net/?retryWrites=true&w=majority';
         })(),
-        LOCATION_IQ_URL: (() => {
+        LOCATION_IQ_GEOCODE_URL: (() => {
             if (isDev) return 'https://us1.locationiq.com/v1/search';
+            if (isStaging) return 'https://us1.locationiq.com/v1/search';
+            if (isProd) return 'https://us1.locationiq.com/v1/search';
+        })(),
+        LOCATION_IQ_REVERSE_GEOCODE_URL: (() => {
+            if (isDev) return 'https://us1.locationiq.com/v1/reverse';
+            if (isStaging) return 'https://us1.locationiq.com/v1/reverse';
+            if (isProd) return 'https://us1.locationiq.com/v1/reverse';
         })()
     };
 

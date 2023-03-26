@@ -1,4 +1,11 @@
-import { crashMiddleware, locationReducer, loggerMiddleware, modalReducer, userReducer } from '@cd/shared-lib';
+import {
+    crashMiddleware,
+    locationReducer,
+    loggerMiddleware,
+    modalReducer,
+    shopReducer,
+    userReducer
+} from '@cd/shared-lib';
 import { combineReducers, configureStore, Store } from '@reduxjs/toolkit';
 import { deserialize, serialize } from 'json-immutable';
 import { createWrapper } from 'next-redux-wrapper';
@@ -14,7 +21,8 @@ const supertokens = () => {
 const rootReducer = combineReducers({
     modal: modalReducer,
     user: userReducer,
-    location: locationReducer
+    location: locationReducer,
+    shop: shopReducer
 });
 
 export type PersistedStore = Store & { _persistor?: Persistor };

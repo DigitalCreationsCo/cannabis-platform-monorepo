@@ -22,7 +22,7 @@ export default {
         resolve({"modulePaths": ["node_modules", "src"]}),
         commonjs(),
         typescript({ tsconfig: './tsconfig.json' }),
-        dotenvExtended({ cwd: '../../' })
+        dotenvExtended({}, { cwd: '../../', envKey: process.env.NODE_ENV })
     ],
     external: ['axios', 'usehooks-ts', 'react', 'react-dom', '@cd/shared-ui', 'shared-ui', 'react-redux', '@reduxjs/toolkit'],
     watch: {
