@@ -1,22 +1,23 @@
-import { ExtendedPageComponent } from '@cd/shared-lib';
+import { LayoutContextProps } from '@cd/shared-lib';
 import { Button, Center, H1, H5, Page, Paragraph } from '@cd/shared-ui';
 import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import { PropsWithChildren } from 'react';
 import backdrop from '../public/marijuana-backdrop.png';
 
-function WelcomePage({ session }: ExtendedPageComponent) {
+function WelcomePage() {
     return (
-        <Page className="p-0 sm:p-0 lg:p-0">
+        <Page className="lg:p-0 border-2">
             <ImageBackDrop src={backdrop}>
-                <Center>
+                <Center className="border m-auto justify-center items-center full self-center grow flex">
                     <H1 color="light">Welcome to Gras Cannabis</H1>
                     <H5 color="light">Sign in to use this app</H5>
                     <Button
                         size="lg"
                         bg="primary"
                         transparent
-                        disabled={session.loading}
+                        // FIX THIS
+                        disabled={false}
                         className="hover:bg-[#0b7529]"
                     >
                         Sign In
@@ -38,13 +39,16 @@ function WelcomePage({ session }: ExtendedPageComponent) {
     );
 }
 
+WelcomePage.getLayoutContext = (): LayoutContextProps => ({
+    showHeader: false,
+    showTopBar: true
+});
+
 const ImageBackDrop = ({ src, children }: { src: string | StaticImageData } & PropsWithChildren) => {
     return (
         <div
-            className="w-full flex"
+            className="relative min-h-screen w-screen overflow-hidden"
             style={{
-                width: '100%',
-                height: '100%',
                 clipPath: 'inset(0 0 0 0)'
             }}
         >

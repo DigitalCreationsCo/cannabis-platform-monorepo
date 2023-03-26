@@ -6,7 +6,7 @@ import Router from 'next/router';
 import { useEffect, useRef } from 'react';
 import { Toaster } from 'react-hot-toast';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
-import Session, { doesSessionExist, signOut, useSessionContext } from 'supertokens-auth-react/recipe/session';
+import Session, { doesSessionExist, signOut } from 'supertokens-auth-react/recipe/session';
 import { frontendConfig } from '../config/frontendConfig';
 import { AdminDashboardNavigation, TopBar } from '../src/components';
 import StepFormValuesProvider from '../src/context/StepFormProvider';
@@ -20,8 +20,6 @@ export default function App({ Component, pageProps }: CustomAppProps) {
     if (typeof window !== 'undefined') {
         SuperTokensReact.init(frontendConfig());
     }
-
-    const sessionContext = useSessionContext();
 
     const isSession = useRef(false);
     useEffect(() => {
@@ -49,16 +47,6 @@ export default function App({ Component, pageProps }: CustomAppProps) {
     }
 
     const getLayoutContext = Component.getLayoutContext || (() => ({}));
-
-    if (sessionContext.loading) {
-        return (
-            <Center>
-                <LoadingDots />
-            </Center>
-        );
-    }
-
-    sessionContext.loading || console.log('sessionContext', sessionContext);
 
     return (
         <>
@@ -90,7 +78,7 @@ export default function App({ Component, pageProps }: CustomAppProps) {
                                             </Padding>
                                         </Center>
                                     ) : (
-                                        <Component {...sessionContext} {...pageProps} />
+                                        <Component {...pageProps} />
                                     )}
                                 </StepFormValuesProvider>
                             </Layout>
