@@ -14,21 +14,31 @@ const LocationProvider = ({ children }: PropsWithChildren) => {
         dispatch(shopActions.getProductsFromLocal());
     };
 
-    if (typeof window !== 'undefined') {
-        if (navigator?.geolocation !== undefined) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    dispatch(
-                        locationActions.setCurrentCoordinates({
-                            latitude: position.coords.latitude,
-                            longitude: position.coords.longitude
-                        })
-                    );
-                },
-                () => console.log('Geolocation is not supported by this browser.')
-            );
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            if (navigator?.geolocation !== undefined) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        console.log('geolocating your position...');
+                        dispatch(
+                            locationActions.setCurrentCoordinates({
+                                latitude: position.coords.latitude,
+                                longitude: position.coords.longitude
+                            })
+                        );
+
+                        dispatch(
+                            locationActions.getAddressByCoordinates({
+                                latitude: position.coords.latitude,
+                                longitude: position.coords.longitude
+                            })
+                        );
+                    },
+                    () => console.log('Geolocation is not supported by this browser.')
+                );
+            }
         }
-    }
+    }, []);
 
     const location = useSelector(selectSelectedLocationState);
     const shop = useAppSelector(selectShopState);

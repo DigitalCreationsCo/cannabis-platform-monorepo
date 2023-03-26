@@ -1,5 +1,19 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AppState } from "..";
+import { getGeoAddressByCoordinates } from "../../utils/geo";
+
+export const getAddressByCoordinates = createAsyncThunk(
+  "location/getAddressByCoordinates",
+  async (coordinates: {latitude: number; longitude: number}, {rejectWithValue}) => {
+    try {
+      const address = await getGeoAddressByCoordinates(coordinates);
+      return address
+    } catch (error) {
+      console.log("getAddressByCoordinates: ", error);
+      return rejectWithValue("Could not get address");
+    }
+  }
+);
 
 export const locationTypes = {
     HOME_LOCATION: 'homeLocation',
@@ -22,12 +36,26 @@ type LocationType = {
 
 }
 
+type AddressPayload = { 
+    street1: string;
+    street2: string | null;
+    city: string;
+    state: string;
+    zipcode: string;
+    country: string;
+    countryCode: string | null;
+    coordinates: {latitude: number; longitude: number};
+}
+
 export type LocationStateProps = {
     radius: number;
     selectLocationType: typeof locationTypes.HOME_LOCATION | typeof locationTypes.CURRENT_LOCATION | typeof locationTypes.GIFT_LOCATION;
     homeLocation: LocationType;
     currentLocation: LocationType;
     giftLocation: LocationType;
+    isLoading: boolean;
+    isSuccess: boolean;
+    isError: boolean;
 }
 
 const initialState: LocationStateProps = {
@@ -81,15 +109,18 @@ const initialState: LocationStateProps = {
           }
         },
       },
-}
+      isLoading: false,
+    isSuccess: false,
+    isError: false
+};
 
 const locationSlice = createSlice({
     name: "location",
     initialState,
     reducers: {
         setCurrentCoordinates: (state, { payload }: { payload: { latitude: number; longitude: number }}) => {
-          state.currentLocation?.address?.coordinates?.latitude = payload.latitude
-          state.currentLocation?.address?.coordinates?.longitude = payload.longitude
+          state.currentLocation.address.coordinates.latitude = payload.latitude
+          state.currentLocation.address.coordinates.longitude = payload.longitude
         },
         setCurrentLocation: (state, { payload }: { payload }) => {
             state.currentLocation = payload.currentLocation
@@ -98,10 +129,31 @@ const locationSlice = createSlice({
             state.selectLocationType = payload
         }
     },
-    extraReducers: {}
+    extraReducers: (builder) => {
+      builder.addCase(getAddressByCoordinates.fulfilled, (state, { payload }: {payload: AddressPayload}) => {
+        const address = payload
+        state.currentLocation.address = address
+        state.isLoading = false
+        state.isSuccess = true
+        state.isError = false
+      }),
+      builder.addCase(getAddressByCoordinates.pending, (state) => {
+        state.isLoading = true
+        state.isSuccess = false
+        state.isError = false
+      }),
+      builder.addCase(getAddressByCoordinates.rejected, (state, { payload }) => {
+        const error = payload;
+        console.log('getAddressByCoordinates error: ', error)
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.isError = true;
+      })
+    }
 })
 
 export const locationActions = {
+  getAddressByCoordinates,
   ...locationSlice.actions
 }
 

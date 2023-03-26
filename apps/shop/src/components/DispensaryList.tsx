@@ -9,8 +9,7 @@ type DispensaryListProps = {
     list: { name: string; id: string }[];
 };
 function DispensaryListCarousel({ title, list }: DispensaryListProps) {
-    const location = useSelector(selectSelectedLocationState);
-    const city = location.city;
+    const selectedLocation = useSelector(selectSelectedLocationState);
 
     const [slideIndex, setSlideindex] = useState(0);
     const decrement = (e) => {
@@ -27,7 +26,9 @@ function DispensaryListCarousel({ title, list }: DispensaryListProps) {
     };
     return (
         <>
-            <H5 className="pl-4 sm:!pl-12">{title + ` ( ${city || 'Philadelphia'} )`}</H5>
+            <H5 className="pl-4 sm:!pl-12">
+                {title + ` ( ${selectedLocation.address.city}, ${selectedLocation.address.state} )`}
+            </H5>
 
             <div className="flex flex-row items-center overflow-auto">
                 <a onClick={decrement} href={'#dispensary-card-' + slideIndex}>

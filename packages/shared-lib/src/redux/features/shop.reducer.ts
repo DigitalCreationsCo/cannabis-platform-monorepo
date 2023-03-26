@@ -171,6 +171,8 @@ export const shopSlice = createSlice({
     }),
     builder.addCase(getProductsFromLocal.pending, (state) => {
       state.isLoading = true;
+      state.isSuccess = false;
+      state.isError = false;
     }),
     builder.addCase(getProductsFromLocal.rejected, (state, { payload }) => {
       const error = payload;
