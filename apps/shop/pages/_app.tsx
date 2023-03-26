@@ -1,9 +1,8 @@
-import { ExtendedPageComponent, StepFormValuesProvider } from '@cd/shared-lib';
+import { ExtendedPageComponent, StepFormValuesProvider, ToastProvider } from '@cd/shared-lib';
 import { Center, FlexBox, LoadingDots } from '@cd/shared-ui';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useEffect } from 'react';
-import toast, { Toaster, useToasterStore } from 'react-hot-toast';
 import { Provider as ReduxProvider, useStore } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
@@ -48,7 +47,7 @@ function App({ Component, pageProps }: CustomAppProps) {
         <>
             <Head>
                 <title>Gras Cannabis Marketplace</title>
-                <meta name="vendor experience application" content="Property of Gras Cannabis Co." />
+                <meta name="Marketplace App" content="Property of Gras Cannabis Co." />
             </Head>
             <SuperTokensWrapper>
                 <ReduxProvider store={store}>
@@ -64,7 +63,7 @@ function App({ Component, pageProps }: CustomAppProps) {
                     >
                         <LocationProvider>
                             <LayoutContainer {...getLayoutContext()}>
-                                <ToasterProvider />
+                                <ToastProvider />
                                 <StepFormValuesProvider>
                                     <ModalProvider />
                                     <Component {...pageProps} />
@@ -95,7 +94,7 @@ function App({ Component, pageProps }: CustomAppProps) {
                     >
                         <LocationProvider>
                             <LayoutContainer {...getLayoutContext()}>
-                                <ToasterProvider />
+                                <ToastProvider />
                                 <StepFormValuesProvider>
                                     <ModalProvider />
                                     <Component {...pageProps} />
@@ -108,18 +107,5 @@ function App({ Component, pageProps }: CustomAppProps) {
         </>
     );
 }
-
-const ToasterProvider = () => {
-    const TOAST_LIMIT = 2;
-    const { toasts } = useToasterStore();
-    useEffect(() => {
-        toasts
-            .filter((t) => t.visible)
-            .filter((_, i) => i >= TOAST_LIMIT)
-            .forEach((t) => toast.dismiss(t.id));
-    }, [toasts]);
-
-    return <Toaster position="top-center" />;
-};
 
 export default wrapper.withRedux(App);

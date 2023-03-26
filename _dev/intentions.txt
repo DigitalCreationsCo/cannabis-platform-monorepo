@@ -93,8 +93,11 @@ write unit tests
 TO DO:
 persist redux store in nextjs, test
 
+
 test stripe account creation.
-test dispensarty registration flow. with data creation funcs
+test dispensarty registration flow. with data creation funcs {
+    create mongo document for dispensary onsignup, included coordinates with geonear index
+}
 test stripe dispensary standard account creation.
 finish writing stripe funcs.
 
