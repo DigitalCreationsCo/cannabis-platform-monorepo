@@ -55,7 +55,6 @@ const LocationProvider = ({ children }: PropsWithChildren) => {
 
     useEffect(() => {
         if (shop?.dispensaries?.length >= 1) {
-            console.log('calling get Products');
             getProducts();
         }
     }, [shop?.dispensaries?.length]);
