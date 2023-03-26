@@ -1,5 +1,5 @@
 import { crashMiddleware, locationReducer, loggerMiddleware, modalReducer, userReducer } from '@cd/shared-lib';
-import { Action, combineReducers, configureStore, Store, ThunkAction } from '@reduxjs/toolkit';
+import { combineReducers, configureStore, Store } from '@reduxjs/toolkit';
 import { deserialize, serialize } from 'json-immutable';
 import { createWrapper } from 'next-redux-wrapper';
 import { Persistor, persistReducer, persistStore } from 'redux-persist';
@@ -77,6 +77,7 @@ function makeStore() {
 
     return store;
 }
+const store = makeStore();
 
 export const wrapper = createWrapper<AppStore>(makeStore, {
     debug: true,
@@ -85,5 +86,7 @@ export const wrapper = createWrapper<AppStore>(makeStore, {
 });
 
 export type AppStore = ReturnType<typeof makeStore>;
-export type RootState = ReturnType<AppStore['getState']>;
-export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action>;
+
+export type RootState = ReturnType<typeof store.getState>;
+
+export type AppDispatch = typeof store.dispatch;

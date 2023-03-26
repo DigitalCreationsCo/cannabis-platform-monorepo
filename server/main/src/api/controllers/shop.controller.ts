@@ -14,6 +14,7 @@ getOrdersByOrg
 getOrderById
 updateOrderById
 
+getProductsByMultipleOrgs
 getProductsByOrg
 getProductById
 searchProducts

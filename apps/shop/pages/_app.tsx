@@ -18,18 +18,11 @@ type CustomAppProps = AppProps & {
 };
 
 function App({ Component, pageProps }: CustomAppProps) {
-    if (typeof window !== 'undefined') SuperTokensReact.init(frontendConfig());
+    if (typeof window !== 'undefined') {
+        SuperTokensReact.init(frontendConfig());
+    }
 
     const store: PersistedStore = useStore((state) => state);
-
-    // if (navigator.geolocation !== undefined) {
-    //     navigator.geolocation.getCurrentPosition(
-    //         (position) => {
-    //             coordinates = [position.coords.latitude, position.coords.longitude];
-    //         },
-    //         () => console.log('Geolocation is not supported by this browser.')
-    //     );
-    // }
 
     useEffect(() => {
         async function doRefresh() {

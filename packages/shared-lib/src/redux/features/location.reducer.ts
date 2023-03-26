@@ -17,7 +17,7 @@ type LocationType = {
         zipcode: string;
         country: string;
         countryCode: string | null;
-        coordinates: number[];
+        coordinates: {latitude: number; longitude: number};
     };
 
 }
@@ -43,7 +43,10 @@ const initialState: LocationStateProps = {
           zipcode: "",
           country: "",
           countryCode: null,
-          coordinates: []
+          coordinates: {
+            latitude: 0,
+            longitude: 0
+          }
         },
       },
       currentLocation: {
@@ -56,7 +59,10 @@ const initialState: LocationStateProps = {
           zipcode: "",
           country: "",
           countryCode: null,
-          coordinates: []
+          coordinates: {
+            latitude: 0,
+            longitude: 0
+          }
         },
       },
       giftLocation: {
@@ -69,7 +75,10 @@ const initialState: LocationStateProps = {
           zipcode: "",
           country: "",
           countryCode: null,
-          coordinates: []
+          coordinates: {
+            latitude: 0,
+            longitude: 0
+          }
         },
       },
 }
@@ -78,11 +87,15 @@ const locationSlice = createSlice({
     name: "location",
     initialState,
     reducers: {
+        setCurrentCoordinates: (state, { payload }: { payload: { latitude: number; longitude: number }}) => {
+          state.currentLocation?.address?.coordinates?.latitude = payload.latitude
+          state.currentLocation?.address?.coordinates?.longitude = payload.longitude
+        },
         setCurrentLocation: (state, { payload }: { payload }) => {
             state.currentLocation = payload.currentLocation
         },
-        setLocationType: (state, {payload}) => {
-            state.selectLocationType = payload.selectLocationType
+        setLocationType: (state, {payload}: {payload: LocationStateProps['selectLocationType']}) => {
+            state.selectLocationType = payload
         }
     },
     extraReducers: {}
