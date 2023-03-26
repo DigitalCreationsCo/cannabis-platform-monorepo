@@ -137,7 +137,7 @@ export default function MarketPlace({ host }) {
     );
 }
 
-export async function getServerSideProps ({req, res}) {
+export async function getServerSideProps({ req, res }) {
     try {
         return {
             props: {
@@ -153,4 +153,4 @@ export async function getServerSideProps ({req, res}) {
             return res.status(200).json({ status: false, error });
         } else return { notFound: true };
     }
-});
+}

@@ -99,22 +99,15 @@ export const getProductsFromLocal = createAsyncThunk(
       
       const dispensaryIdList = dispensaries.map((disp) => disp.id);
 
-      const {data} = await axios.post(urlBuilder.main.)
-
-      const response = await fetchData(urlList.GET_PRODUCTS(1, 10), {
-        method: "POST",
+      const {data} = await axios.post(urlBuilder.main.productsByMultipleOrgs(1, 20), {
+        ...dispensaryIdList
+      }, {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          vendorIdList,
-        }),
-      });
-      if (response.status === 200) {
-        let data = await response.json();
-        return data;
-      }
+      })
+      return data
     } catch (err) {
       return thunkAPI.rejectWithValue("A general error occured. ");
     }
@@ -161,6 +154,28 @@ export const shopSlice = createSlice({
       state.isLoading = true;
     }),
     builder.addCase(getDispensariesLocal.rejected, (state, { payload }) => {
+      const error = payload;
+      console.log('get dispensaries local error: ', error)
+      
+      state.isLoading = false;
+      state.isSuccess = false;
+      state.isError = true;
+    }),
+    
+    builder.addCase(getProductsFromLocal.fulfilled, (state, { payload }: PayloadAction<ProductWithDetails[]>) => {
+      const products = payload;
+      state.products.push(...products);
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.isError = false;
+    }),
+    builder.addCase(getProductsFromLocal.pending, (state) => {
+      state.isLoading = true;
+    }),
+    builder.addCase(getProductsFromLocal.rejected, (state, { payload }) => {
+      const error = payload;
+      console.log('get products local error: ', error)
+      
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = true;
@@ -217,10 +232,11 @@ export const shopSlice = createSlice({
     //   state.isError = true;
     // },
   }
-});
+})
 
 export const shopActions = {
   getDispensariesLocal,
+  getProductsFromLocal,
   // getVendorsExcluding,
   // getProductsByVendor,
   ...shopSlice.actions,

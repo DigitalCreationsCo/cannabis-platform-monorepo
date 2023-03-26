@@ -1,56 +1,54 @@
-import { selectSelectedLocationState, shopActions } from '@cd/shared-lib';
-import { PropsWithChildren } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { locationActions, selectSelectedLocationState, selectShopState, shopActions } from '@cd/shared-lib';
+import { PropsWithChildren, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
 
 const LocationProvider = ({ children }: PropsWithChildren) => {
-    const dispatch = useDispatch();
-    const location = useSelector(selectSelectedLocationState);
-
-    const { coordinates, zipcode } = location.address;
+    const dispatch = useAppDispatch();
 
     const getDispensaries = async () => {
-        await dispatch(shopActions.getDispensariesLocal());
+        dispatch(shopActions.getDispensariesLocal());
     };
 
     const getProducts = async () => {
-        await dispatch(productActions.getProducts());
+        dispatch(shopActions.getProductsFromLocal());
     };
 
-    // this useEffect should watch locationType,
-    // and refetch vendors and products for the new geoLocation Coordinates
-    // Test it!
-    // useEffect(() => {
-    //   console.log("locationType effect");
-    //   if (geoLocation.coordinates.length === 2) {
-    //     setIsLoading(true);
-    //     if (!isFetching) {
-    //       getVendorsAsync();
-    //     }
-    //     // console.log("geolocation effect ? ", geoLocation);
-    //     // getProductsAsync();
-    //   }
-    // }, [locationType]);
+    if (typeof window !== 'undefined') {
+        if (navigator?.geolocation !== undefined) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    dispatch(
+                        locationActions.setCurrentCoordinates({
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude
+                        })
+                    );
+                },
+                () => console.log('Geolocation is not supported by this browser.')
+            );
+        }
+    }
 
-    // useEffect(() => {
-    //   console.log("geolocation effect");
-    // }, [geoLocation]);
+    const location = useSelector(selectSelectedLocationState);
+    const shop = useAppSelector(selectShopState);
 
-    // useEffect(() => {
-    //   console.log("vendors length ? ", vendors?.length);
-    //   if (vendors?.length >= 1) {
-    //     console.log("calling get Products");
-    //     getProductsAsync();
-    //   }
-    // }, [vendors]);
+    const { coordinates, zipcode } = location.address;
 
-    // temporary useEffect until vendorCards and productCards and HomeScreen are connected components
-    // useEffect(() => {
-    //   // if (vendors?.length > 1 && products?.length > 1) {
-    //   //   setTimeout(() =>
-    //   setIsLoading(false);
-    //   //   , 200);
-    //   // }
-    // }, []);
+    useEffect(() => {
+        if (coordinates.latitude && coordinates.longitude) {
+            if (!shop.isLoading) {
+                getDispensaries();
+            }
+        }
+    }, [coordinates, zipcode, location]);
+
+    useEffect(() => {
+        if (shop?.dispensaries?.length >= 1) {
+            console.log('calling get Products');
+            getProducts();
+        }
+    }, [shop?.dispensaries?.length]);
 
     return <>{children}</>;
 };
