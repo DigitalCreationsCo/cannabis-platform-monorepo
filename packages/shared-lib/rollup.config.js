@@ -10,11 +10,8 @@ export default {
     output: [
         {
             dir: 'dist',
-            // preserveModules: true,
-            // preserveModulesRoot: 'src',
             name: '@cd/shared-lib',
             format: 'esm',
-            // minifyInternalExports: false,    
             sourcemap: true,
         }
     ],
@@ -24,7 +21,7 @@ export default {
         typescript({ tsconfig: './tsconfig.json' }),
         dotenvExtended({}, { cwd: '../../', envKey: process.env.NODE_ENV })
     ],
-    external: ['axios', 'usehooks-ts', 'react', 'react-dom', '@cd/shared-ui', 'shared-ui', 'react-redux', '@reduxjs/toolkit'],
+    external: ['axios', 'react', 'react-dom', 'react-hot-toast', 'react-redux', '@reduxjs/toolkit', '@cd/data-access', '@cd/shared-config', '@cd/shared-ui', 'tailwindcss', 'supertokens-auth-react'],
     watch: {
         clearScreen: false,
         include: './**',

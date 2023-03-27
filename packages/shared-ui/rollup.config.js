@@ -41,7 +41,7 @@ export default {
         }),
         typescript({ tsconfig: './tsconfig.json' })
     ],
-    external: ['react', 'react-dom', 'next', 'shared-lib', '@cd/shared-lib'],
+    external: ['axios', 'react', 'react-dom', 'usehooks-ts', 'next', '@cd/shared-lib'],
     watch: {
         clearScreen: false,
         include: './**',

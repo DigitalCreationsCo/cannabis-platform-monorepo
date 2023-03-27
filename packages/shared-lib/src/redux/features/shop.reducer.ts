@@ -1,8 +1,9 @@
 import { OrganizationWithShopDetails, ProductWithDetails } from "@cd/data-access";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import { AppState, LocationStateProps } from "..";
 import { urlBuilder } from "../../utils";
+import { AppState } from "../types";
+import { LocationStateProps } from './location.reducer';
 
 export const getDispensariesLocal = createAsyncThunk(
   "shop/getDispensariesLocal",

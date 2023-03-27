@@ -95,7 +95,7 @@ class StripeService {
         }
     }
 
-    async authorizeDispensaryAccount(accountParams: Stripe.CustomerCreateParams) {
+    async createDispensaryAccount(accountParams: Stripe.CustomerCreateParams) {
         try {
             if (!accountParams) throw new Error('Dispensary Stripe Account Params are required!');
             const account = await this.stripe.accounts.create(accountParams);

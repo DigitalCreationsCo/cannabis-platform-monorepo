@@ -15,7 +15,7 @@ export { default as IconButton } from './IconButton';
 export { default as Icons } from './icons';
 export { default as IconWrapper } from './IconWrapper';
 export { default as Label } from './Label';
-export { default as Layout } from './Layout';
+export * from './Layout';
 export { default as LoadingDots } from './LoadingDots';
 export * from './modal';
 export { default as NavLink } from './NavLink';

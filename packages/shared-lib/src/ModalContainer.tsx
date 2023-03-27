@@ -1,5 +1,4 @@
-import { LoginModal } from "@cd/shared-ui";
-import { LoginModalProps } from "@cd/shared-ui/dist/modal/LoginModal";
+import { LoginModal, LoginModalProps } from "@cd/shared-ui";
 import { useMemo } from "react";
 import { ModalStateProps } from "./redux";
 // import ConfirmModal from "./ConfirmModal";

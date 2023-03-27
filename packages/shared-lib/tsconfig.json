@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "allowJs": true,
+    "allowJs": false,
     "declaration": true,
-    "emitDeclarationOnly": false,
+    "emitDeclarationOnly": true,
     "target": "ESNext",
     "declarationMap": true,
     "module": "esnext",
@@ -14,10 +14,10 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "rootDir": "src",
     // "incremental": true,
     // "isolatedModules": true,
     // "lib": ["dom","dom.iterable","ES2021"],
   },
-  "include": ["src", "src/redux/**/*.js"]
+  "include": ["src"],
+  "exclude": ["dist", ".turbo", "node_modules"]
 }

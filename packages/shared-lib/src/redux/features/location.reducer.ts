@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { AppState } from "..";
 import { getGeoAddressByCoordinates } from "../../utils/geo";
+import { AppState } from "../types";
 
 export const getAddressByCoordinates = createAsyncThunk(
   "location/getAddressByCoordinates",
@@ -53,6 +53,7 @@ export type LocationStateProps = {
     homeLocation: LocationType;
     currentLocation: LocationType;
     giftLocation: LocationType;
+    allLocations: LocationType[];
     isLoading: boolean;
     isSuccess: boolean;
     isError: boolean;
@@ -75,7 +76,7 @@ const initialState: LocationStateProps = {
             latitude: 0,
             longitude: 0
           }
-        },
+        }
       },
       currentLocation: {
         locationType: locationTypes.CURRENT_LOCATION,
@@ -109,6 +110,7 @@ const initialState: LocationStateProps = {
           }
         },
       },
+      allLocations: [],
       isLoading: false,
     isSuccess: false,
     isError: false
@@ -125,9 +127,15 @@ const locationSlice = createSlice({
         setCurrentLocation: (state, { payload }: { payload }) => {
             state.currentLocation = payload.currentLocation
         },
-        setLocationType: (state, {payload}: {payload: LocationStateProps['selectLocationType']}) => {
+        setSelectLocationType: (state, {payload}: {payload: LocationStateProps['selectLocationType']}) => {
             state.selectLocationType = payload
-        }
+        },
+        setHomeAddress: (state, {payload}: {payload: LocationType}) => {
+          state.homeLocation = {...state.homeLocation, ...payload }
+        },
+        addAddress: (state, {payload}: {payload: LocationType}) => {
+          state.allLocations = [...state.allLocations, payload ]
+        },
     },
     extraReducers: (builder) => {
       builder.addCase(getAddressByCoordinates.fulfilled, (state, { payload }: {payload: AddressPayload}) => {

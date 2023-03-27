@@ -20,5 +20,6 @@ export const modalTypes = Object.freeze({
     messageBanner: "MESSAGE_BANNER",
     tipModal: "TIP_MODAL",
     loginModal: "LOGIN_MODAL",
+    cartModal: "CART_MODAL",
   });
 

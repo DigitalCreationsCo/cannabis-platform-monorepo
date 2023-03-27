@@ -1,4 +1,5 @@
-import { ChangeEventHandler, Dispatch, ReactEventHandler, SetStateAction } from "react";
+import { LayoutContextProps } from "@cd/shared-ui";
+import { Dispatch, SetStateAction } from "react";
 import { SessionContextType } from 'supertokens-auth-react/recipe/session';
 
 export type ExtendedPageComponent = {
@@ -58,11 +59,3 @@ export type ExtendedPageComponent = {
     session: SessionContextType;
     doesSessionExist: boolean;
 };
-
-export interface LayoutContextProps {
-    onSearchChange?: ChangeEventHandler<HTMLInputElement> & ReactEventHandler<Element>;
-    placeholder?: string;
-    showSideNav?: boolean;
-    showTopBar?: boolean;
-    showHeader?: boolean;
-}

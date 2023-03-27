@@ -89,11 +89,9 @@ signin flow
 Test getDispensariesLocal with server, Locationprovider, and in the app ui, with redux data
 Create test data in mongodb and prisma
 write unit tests
-
-TO DO:
 persist redux store in nextjs, test
 
-
+TO DO:
 test stripe account creation.
 test dispensarty registration flow. with data creation funcs {
     create mongo document for dispensary onsignup, included coordinates with geonear index

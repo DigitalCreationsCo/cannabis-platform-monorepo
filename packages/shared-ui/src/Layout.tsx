@@ -1,8 +1,15 @@
-import { LayoutContextProps } from '@cd/shared-lib';
 import { ChangeEventHandler, PropsWithChildren, ReactEventHandler } from 'react';
 import Footer from './Footer';
 import Header from './Header';
 import SideNavContainer from './SideNavContainer';
+
+interface LayoutContextProps {
+    onSearchChange?: ChangeEventHandler<HTMLInputElement> & ReactEventHandler<Element>;
+    placeholder?: string;
+    showSideNav?: boolean;
+    showTopBar?: boolean;
+    showHeader?: boolean;
+}
 
 interface LayoutProps extends LayoutContextProps, PropsWithChildren {
     showSideNavOnDesktop?: boolean;
@@ -19,7 +26,7 @@ interface LayoutProps extends LayoutContextProps, PropsWithChildren {
 
 // topbar goes out as a unique child component with props
 // header goes in here as generic component with props
-export default function Layout({
+function Layout({
     showSideNav = true,
     showHeader = true,
     showTopBar = true,
@@ -75,3 +82,5 @@ export default function Layout({
         </div>
     );
 }
+
+export { Layout, LayoutContextProps };

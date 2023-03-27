@@ -7,6 +7,7 @@ export function formatDispensaryUrl(subdomainId: string) {
 const next = process.env.NEXT_PUBLIC_APP_URL;
 const mainUrl = process.env.SERVER_MAIN_URL;
 const locationUrl = process.env.SERVER_LOCATION_URL;
+const paymentUrl = process.env.SERVER_PAYMENT_URL;
 
 export const urlBuilder = {
     next,
@@ -44,6 +45,12 @@ export const urlBuilder = {
     location: {
         baseUrl: locationUrl + '/api/v1',
         organizationsLocal: () => urlBuilder.location.baseUrl + '/serveLocal/organizations',
+        createorganizationLocationRecord: () => urlBuilder.location.baseUrl + '/serveLocal/create-record',
+    },
+    payment: {
+        baseUrl: paymentUrl + '/api/v1',
+        purchase: () => urlBuilder.payment.baseUrl + '/purchase',
+        createDispensaryAccount: () => urlBuilder.payment.baseUrl + '/stripe/dispensary-create'
     }
 };
 
