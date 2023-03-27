@@ -6,9 +6,11 @@ function CartModal({ dispatchCloseModal, modalVisible, ...props }: CartModalProp
         dispatchCloseModal();
     };
     return (
-        <Modal modalVisible={modalVisible} onClose={closeModal} {...props}>
-            <FlexBox>Cart Modal</FlexBox>
-        </Modal>
+        <div>
+            <Modal modalVisible={modalVisible} onClose={closeModal} {...props}>
+                <FlexBox>Cart Modal</FlexBox>
+            </Modal>
+        </div>
     );
 }
 

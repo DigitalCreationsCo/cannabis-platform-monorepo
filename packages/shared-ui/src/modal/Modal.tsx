@@ -7,9 +7,10 @@ import { H6 } from '../Typography';
 
 export type ModalProps = {
     children?: React.ReactNode;
+    isModalOverlay?: boolean;
     modalVisible: boolean;
     onClose: () => void;
-    className?: string;
+    className?: string | string[];
     description?: string;
     disableClickOutside?: boolean;
     showCloseButton?: boolean;
@@ -17,6 +18,7 @@ export type ModalProps = {
 
 const Modal = ({
     children,
+    isModalOverlay = true,
     modalVisible,
     disableClickOutside = !modalVisible,
     onClose,
@@ -32,7 +34,7 @@ const Modal = ({
     });
 
     const styles = {
-        modalClass: ['modal', modalVisible && 'modal-open'],
+        modalClass: [isModalOverlay && 'modal', modalVisible && 'modal-open'],
         responsive: 'min-w-full min-h-screen sm:!rounded-none md:min-w-min md:min-h-min md:!rounded px-12 py-8'
     };
     return (
