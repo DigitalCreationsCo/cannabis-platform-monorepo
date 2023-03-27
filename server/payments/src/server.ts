@@ -2,6 +2,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
 import http from 'http';
+import { accountRoutes } from './api/routes';
 import paymentRoutes from "./api/routes/payment.route";
 
 const app = express();
@@ -17,6 +18,8 @@ app.use('/api/v1/healthcheck', (req, res) => {
 });
 
 app.use("/api/v1/payment", paymentRoutes);
+
+app.use("/api/v1/accounts", accountRoutes);
 
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
     // if (err.message === 'Invalid password') {

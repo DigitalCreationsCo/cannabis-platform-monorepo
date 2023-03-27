@@ -91,7 +91,7 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
         responsive: 'min-w-full min-h-screen sm:!rounded-none md:min-w-min md:min-h-min md:!rounded px-12 py-8'
     };
     return (
-        <Modal className={styles.responsive} open={modalVisible} onClose={closeModalAndReset} {...props}>
+        <Modal className={styles.responsive} modalVisible={modalVisible} onClose={closeModalAndReset} {...props}>
             <form>
                 <FlexBox>
                     <Image src={'/logo.png'} alt="Gras Cannabis logo" width={63} height={63} priority />
@@ -162,37 +162,9 @@ const validationSchema = yup.object().shape({
     password: yup.string().required('Password is required')
 });
 
-export default LoginModal;
-
-export interface LoginModalProps {
+export type LoginModalProps = {
     dispatchCloseModal: () => void;
     modalVisible: boolean;
-    signIn: unknown;
-    // signIn: (input: {
-    //     formFields: {
-    //         id: string;
-    //         value: string;
-    //     }[];
-    //     options?: unknown;
-    //     userContext?: unknown;
-    // }) => Promise<
-    //     | {
-    //           status: 'OK';
-    //           user: { id: string; email: string; timeJoined: number };
-    //           fetchResponse: Response;
-    //       }
-    //     | {
-    //           status: 'FIELD_ERROR';
-    //           formFields: {
-    //               id: string;
-    //               error: string;
-    //           }[];
-    //           fetchResponse: Response;
-    //       }
-    //     | {
-    //           status: 'WRONG_CREDENTIALS_ERROR';
+};
 
-    //           fetchResponse: Response;
-    //       }
-    // >;
-}
+export { LoginModal };

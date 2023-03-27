@@ -1,5 +1,5 @@
 import { modalActions, ModalStateProps, userActions } from '@cd/shared-lib';
-import { Button, FlexBox, Grid, H1, H3, H6, Icons, Modal, Paragraph, TextField } from '@cd/shared-ui';
+import { Button, CartModal, FlexBox, Grid, H1, H3, H6, Icons, Modal, Paragraph, TextField } from '@cd/shared-ui';
 import type { LoginModalProps } from '@cd/shared-ui/dist/modal/LoginModal';
 import { useFormik } from 'formik';
 import Image from 'next/image';
@@ -7,8 +7,8 @@ import Link from 'next/link';
 import { useCallback, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import { connect } from 'react-redux';
-import { signIn } from 'supertokens-auth-react/recipe/emailpassword';
 import * as yup from 'yup';
+import { useAppDispatch } from '../../redux/hooks';
 import { RootState } from '../../redux/store';
 
 // import ConfirmModal from "./ConfirmModal";
@@ -23,6 +23,7 @@ const MODAL_COMPONENTS = Object.freeze({
     //   SELECT_MODAL: SelectModal,
     //   TIP_MODAL: TipModal,
     //   MESSAGE_BANNER: MessageBanner,
+    CART_MODAL: CartModal,
     LOGIN_MODAL: LoginModal
 });
 
@@ -35,10 +36,13 @@ const ModalContainer = (props: ModalStateProps & LoginModalProps) => {
 export { ModalContainer };
 
 const mapStateToProps = (state: RootState) => state.modal;
-const mapDispatchToProps = { dispatchCloseModal: modalActions.closeModal, signIn: userActions.signinUser };
+const mapDispatchToProps = { dispatchCloseModal: modalActions.closeModal };
 export default connect(mapStateToProps, mapDispatchToProps)(ModalContainer);
 
 function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalProps) {
+    const dispatch = useAppDispatch();
+    const signInUser = dispatch(userActions.signinUserAsync());
+
     const [loadingButton, setLoadingButton] = useState(false);
     const [passwordVisibility, setPasswordVisibility] = useState(false);
 
@@ -59,37 +63,6 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
         resetForm();
     };
 
-    async function signedInUser() {
-        try {
-            const response = await signIn({
-                formFields: [
-                    {
-                        id: 'email',
-                        value: values.email
-                    },
-                    {
-                        id: 'password',
-                        value: values.password
-                    }
-                ]
-            });
-            if (response.status === 'WRONG_CREDENTIALS_ERROR') {
-                throw new Error('Email or Password is incorrect.');
-            }
-            console.log('frontend signin: ', response);
-            if (response.status === 'OK') {
-                // do something with the session object, save in persisted storage
-                // Router.push('/');
-                window.location.href = '/';
-                toast.success('Signed in', { duration: 5000 });
-                setLoadingButton(false);
-            }
-        } catch (error) {
-            console.error(error);
-            throw new Error(error.message);
-        }
-    }
-
     function notifyValidation() {
         validateForm().then((errors) => {
             if (Object.values(errors).length > 0) {
@@ -103,7 +76,8 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
         try {
             if (!loadingButton) {
                 setLoadingButton(true);
-                await signedInUser();
+                await signInUser({ email: values.email, password: values.password });
+                // await signedInUser();
             }
         } catch (error) {
             setLoadingButton(false);
@@ -116,7 +90,7 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
         responsive: 'min-w-full min-h-screen sm:!rounded-none md:min-w-min md:min-h-min md:!rounded px-12 py-8'
     };
     return (
-        <Modal className={styles.responsive} open={modalVisible} onClose={closeModalAndReset} {...props}>
+        <Modal className={styles.responsive} modalVisible={modalVisible} onClose={closeModalAndReset} {...props}>
             <form>
                 <FlexBox>
                     <Image src={'/logo.png'} alt="Gras Cannabis logo" width={63} height={63} priority />

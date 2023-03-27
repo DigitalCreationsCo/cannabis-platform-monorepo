@@ -10,13 +10,14 @@ checkOnboardDispensaryAccount
 
 ================================= */
 export default class StripeController {
-    static async authorizeDispensaryAccount(req, res: Response) {
+
+    static async createDispensaryAccount(req, res: Response) {
         try {
             let dispensaryAccount:OrganizationCreateType & {stripeAccountId: string} = req.body;
             let accountId = dispensaryAccount.stripeAccountId;
             if (accountId == undefined) {
                 let accountParams = {
-                    type: 'express',
+                    type: 'standard',
                     country: dispensaryAccount.address.countryCode || undefined,
                     email: dispensaryAccount.email || undefined,
                     business_type: 'company', 
@@ -37,7 +38,7 @@ export default class StripeController {
                     },
                     payoutsEnabled: true
                 }
-                const account = await StripeService.authorizeDispensaryAccount(accountParams)
+                const account = await StripeService.createDispensaryAccount(accountParams)
                 accountId = account.id;
                 dispensaryAccount.stripeAccountId = accountId;
                 await updateStripeAccountDispensary(dispensaryAccount.id, dispensaryAccount.stripeAccountId)

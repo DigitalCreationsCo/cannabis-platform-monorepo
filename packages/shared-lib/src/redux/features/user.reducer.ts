@@ -3,7 +3,8 @@ import { UserWithDetails } from "@cd/data-access";
 import { AnyAction, createAsyncThunk, createSlice, Dispatch } from "@reduxjs/toolkit";
 // import * as SecureStore from "expo-secure-store";
 import toast from 'react-hot-toast';
-import { AppState, ThunkArgumentsType } from "..";
+import { AppState, ThunkArgumentsType } from "../types";
+import { locationActions } from './location.reducer';
 
 // import { messageActions } from "./message";
 // import { vendorActions } from "./vendors";
@@ -115,8 +116,8 @@ import { AppState, ThunkArgumentsType } from "..";
 //   }
 // );
 
-export const signinUserAsync = createAsyncThunk<boolean, {email: string; password: string}, {dispatch: Dispatch<AnyAction>; extra: ThunkArgumentsType}>(
-  "user/signinUser",
+export const signinUserAsync = createAsyncThunk<UserWithDetails, {email: string; password: string}, {dispatch: Dispatch<AnyAction>; extra: ThunkArgumentsType}>(
+  "user/signinUserAsync",
   async ({ email, password }, {dispatch, extra, rejectWithValue}) => {
     const { signIn } = extra.supertokens;
     try {
@@ -136,23 +137,36 @@ export const signinUserAsync = createAsyncThunk<boolean, {email: string; passwor
         toast.error('Email or Password is incorrect.');
     }
     if (response.status === 'OK') {
-        // do something with the session object, save in persisted storage
-        // Router.push('/');
-        window.location.href = '/';
-        toast.success('Signed in', { duration: 5000 });
-    }
-    return response.user
         // await SecureStore.setItemAsync(
         //   "authentication",
         //   serializedUserData
         // ).catch((err) => console.log(err));
 
+        if (response.user.address !== undefined && Array.isArray(response.user.addresss)) {
+          response.user.address.forEach(address => dispatch(locationActions.addAddress(response.user.address)))
+        }
+        window.location.href = '/';
+        toast.success('Signed in', { duration: 5000 });
+        return response.user
+    }
+        
     } catch (error) {
       return rejectWithValue("signin error: " + error);
     }
   }
 );
 
+const signOutUserAsync = createAsyncThunk<void, {}, {dispatch: Dispatch<AnyAction>; extra: ThunkArgumentsType}>(
+  "user/signOutUserAsync",
+  async (_, {dispatch, extra, rejectWithValue}) => {
+    try {
+      const { signOut} = extra.supertokens
+      await signOut()
+    } catch (error) {
+      return rejectWithValue("signout error: " + error);
+    }
+  }
+)
 // export const logoutUser = createAsyncThunk(
 //   "user/logoutUser",
 //   async ({ token, email }, thunkAPI) => {
@@ -279,18 +293,15 @@ export const userSlice = createSlice({
     // }),
 
     builder.addCase(signinUserAsync.fulfilled, (state, { payload }) => {
-      // const { user } = state;
-      // let { address, location, ...userData } = payload.info;
-      // Object.assign(user, userData);
-      // // console.log("login user state: ", user);
-      // // console.log("login user data: ", userData);
-      // user.locationData.homeLocation.address = address;
-      // user.locationData.homeLocation.location = location;
-      // state.user = user;
-      // state.token = payload.auth_token;
+      const user = payload
+      if (user !== undefined) {
+        state.user = {...state.user, ...user}
+      }
       state.isLoading = false;
       state.isSignedIn = true;
-      // state.isSuccess = true;
+      state.isSuccess = true;
+      state.isError = false
+      state.errorMessage = ""
     }),
     builder.addCase(signinUserAsync.pending, (state) => {
       state.isLoading = true;
@@ -298,25 +309,25 @@ export const userSlice = createSlice({
     builder.addCase(signinUserAsync.rejected, (state, { payload }) => {
       state.isLoading = false;
       state.isError = true;
-      // state.errorMessage = payload;
-    })
+      state.errorMessage = payload as string
+    }),
 
-    // builder.addCase(logoutUser.fulfilled, () => initialState),
-    // builder.addCase(logoutUser.pending]: (state) => {
-    //   state.isFetching = true;
-    // }),
-    // builder.addCase(logoutUser.rejected, (state, { payload }) => {
-    //   state.isFetching = false;
-    //   state.isError = true;
-    //   state.errorMessage = payload;
-    // }),
+    builder.addCase(signOutUserAsync.fulfilled, () => initialState),
+    builder.addCase(signOutUserAsync.pending, (state) => {
+      state.isLoading = true;
+    }),
+    builder.addCase(signOutUserAsync.rejected, (state, { payload }) => {
+      state.isSuccess = false;
+      state.isLoading = false;
+      state.isError = true;
+      state.errorMessage = payload as string
+    })
   }
 });
 
 export const userActions = {
 //   signupUser,
   signinUserAsync,
-//   logoutUser,
   ...userSlice.actions,
 };
 

@@ -1,4 +1,4 @@
-import { findLocalOrganizationsById, ServeUserProximity } from "@cd/data-access";
+import { findLocalOrganizationsById, OrganizationWithShopDetails, ServeUserProximity } from "@cd/data-access";
 import { MongoClient } from "mongodb";
 
 /* =================================
@@ -53,4 +53,15 @@ export default class LocationDA {
             throw new Error(error.message);
         }
     }
+
+    static async addOrganizationMongoRecord(organization: OrganizationWithShopDetails) {
+      try {
+          const newOrganization = await organizations_geo.createOne({ ...organization})
+          return newOrganization
+          console.log('created mongo organization record: ', newOrganization.id)
+      } catch (error) {
+          console.error('LocationDA error: ', error.message);
+          throw new Error(error.message);
+      }
+  }
 }

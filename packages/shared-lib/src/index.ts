@@ -1,4 +1,3 @@
-export * from './AppProvider';
 export * from './hooks';
 export * from './ModalContainer';
 export * from './redux';
