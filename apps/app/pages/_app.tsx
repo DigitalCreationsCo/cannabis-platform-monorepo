@@ -1,12 +1,11 @@
-import { AppStateProvider, ExtendedPageComponent } from '@cd/shared-lib';
-import { Center, Layout, LoadingDots, Padding } from '@cd/shared-ui';
+import { ExtendedPageComponent } from '@cd/shared-lib';
+import { Layout } from '@cd/shared-ui';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-import Router from 'next/router';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
-import Session, { doesSessionExist, signOut } from 'supertokens-auth-react/recipe/session';
+import Session, { signOut } from 'supertokens-auth-react/recipe/session';
 import { frontendConfig } from '../config/frontendConfig';
 import { AdminDashboardNavigation, TopBar } from '../src/components';
 import StepFormValuesProvider from '../src/context/StepFormProvider';
@@ -21,13 +20,13 @@ export default function App({ Component, pageProps }: CustomAppProps) {
         SuperTokensReact.init(frontendConfig());
     }
 
-    const isSession = useRef(false);
-    useEffect(() => {
-        const checkSession = async () => {
-            isSession.current = await doesSessionExist();
-        };
-        checkSession();
-    }, []);
+    // const isSession = useRef(false);
+    // useEffect(() => {
+    //     const checkSession = async () => {
+    //         isSession.current = await doesSessionExist();
+    //     };
+    //     checkSession();
+    // }, []);
 
     useEffect(() => {
         async function doRefresh() {
@@ -48,6 +47,10 @@ export default function App({ Component, pageProps }: CustomAppProps) {
 
     const getLayoutContext = Component.getLayoutContext || (() => ({}));
 
+    // Router.events.on('routeChangeStart', () => setIsLoading(true));
+    // Router.events.on('routeChangeComplete', () => setIsLoading(false));
+    // Router.events.on('routeChangeError', () => setIsLoading(false));
+
     return (
         <>
             <Head>
@@ -55,36 +58,19 @@ export default function App({ Component, pageProps }: CustomAppProps) {
                 <meta name="Dispensary Experience App" content="Property of Gras Cannabis Co." />
             </Head>
             <SuperTokensWrapper>
-                <AppStateProvider>
-                    {({ isLoading, setIsLoading }) => {
-                        Router.events.on('routeChangeStart', () => setIsLoading(true));
-                        Router.events.on('routeChangeComplete', () => setIsLoading(false));
-                        Router.events.on('routeChangeError', () => setIsLoading(false));
-                        return (
-                            <Layout
-                                SideNavComponent={AdminDashboardNavigation}
-                                TopBarComponent={TopBar}
-                                signedOut={signOut}
-                                isSession={isSession.current}
-                                {...getLayoutContext()}
-                            >
-                                <Toaster position="top-center" />
-                                <StepFormValuesProvider>
-                                    {/* <ModalProvider /> */}
-                                    {isLoading ? (
-                                        <Center>
-                                            <Padding>
-                                                <LoadingDots />
-                                            </Padding>
-                                        </Center>
-                                    ) : (
-                                        <Component {...pageProps} />
-                                    )}
-                                </StepFormValuesProvider>
-                            </Layout>
-                        );
-                    }}
-                </AppStateProvider>
+                <Layout
+                    SideNavComponent={AdminDashboardNavigation}
+                    TopBarComponent={TopBar}
+                    signedOut={signOut}
+                    // isSession={isSession.current}
+                    {...getLayoutContext()}
+                >
+                    <Toaster position="top-center" />
+                    <StepFormValuesProvider>
+                        {/* <ModalProvider /> */}
+                        <Component {...pageProps} />
+                    </StepFormValuesProvider>
+                </Layout>
             </SuperTokensWrapper>
         </>
     );

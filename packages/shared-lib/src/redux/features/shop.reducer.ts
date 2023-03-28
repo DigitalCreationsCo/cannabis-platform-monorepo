@@ -122,6 +122,7 @@ export type ShopStateProps = {
     isLoading: boolean;
     isSuccess: boolean;
     isError: boolean;
+    errorMessage: string;
 }
 
 const initialState: ShopStateProps = {
@@ -130,6 +131,7 @@ const initialState: ShopStateProps = {
     isLoading: false,
     isSuccess: false,
     isError: false,
+    errorMessage: ""
 }
 
 export const shopSlice = createSlice({
@@ -176,12 +178,13 @@ export const shopSlice = createSlice({
       state.isError = false;
     }),
     builder.addCase(getProductsFromLocal.rejected, (state, { payload }) => {
-      const error = payload;
+      const error = payload as string
       console.log('get products local error: ', error)
       
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = true;
+      state.errorMessage = error
     })
 
     // [getVendorsExcluding.fulfilled]: (state, { payload }) => {

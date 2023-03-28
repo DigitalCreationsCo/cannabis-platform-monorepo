@@ -57,6 +57,7 @@ export type LocationStateProps = {
     isLoading: boolean;
     isSuccess: boolean;
     isError: boolean;
+    errorMessage: string;
 }
 
 const initialState: LocationStateProps = {
@@ -110,10 +111,11 @@ const initialState: LocationStateProps = {
           }
         },
       },
-      allLocations: [],
-      isLoading: false,
+    allLocations: [],
+    isLoading: false,
     isSuccess: false,
-    isError: false
+    isError: false,
+    errorMessage: ""
 };
 
 const locationSlice = createSlice({

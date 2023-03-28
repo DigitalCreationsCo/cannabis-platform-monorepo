@@ -1,21 +1,22 @@
 // import { modalActions, modalTypes } from '@cd/shared-lib';
-import { modalActions, modalTypes } from '@cd/shared-lib';
+import { modalActions, modalTypes, selectCartState, selectIsCartEmpty, selectUserState } from '@cd/shared-lib';
 import { Button, FlexBox, H2, Paragraph } from '@cd/shared-ui';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/logo.png';
-import { RootState } from '../redux/store';
 
 export type TopBarProps = {
     doesSessionExist?: boolean;
     signedOut: () => void;
 };
 
-function TopBar({ doesSessionExist, signedOut }: TopBarProps) {
+function TopBar({ signedOut }: TopBarProps) {
     const dispatch = useDispatch();
-    const user = useSelector((state: RootState) => state.user);
+    const user = useSelector(selectUserState);
+    const cart = useSelector(selectCartState);
+    const isCartEmpty = useSelector(selectIsCartEmpty);
 
     function openLoginModal() {
         console.log('dispatch: open Login Modal');
@@ -26,14 +27,14 @@ function TopBar({ doesSessionExist, signedOut }: TopBarProps) {
         );
     }
 
-    function openCartModal() {
-        console.log('dispatch: open cart Modal');
-        dispatch(
-            modalActions.openModal({
-                modalType: modalTypes.cartModal
-            })
-        );
-    }
+    // function openCartModal() {
+    //     console.log('dispatch: open cart Modal');
+    //     dispatch(
+    //         modalActions.openModal({
+    //             modalType: modalTypes.cartModal
+    //         })
+    //     );
+    // }
 
     const styles = {
         topbar: ['flex flex-row min-h-[66px] pr-4 lg:px-16 bg-inverse space-x-2 items-center shadow'],
@@ -62,11 +63,15 @@ function TopBar({ doesSessionExist, signedOut }: TopBarProps) {
                 Cannabis Marketplace
             </Paragraph>
             <div className="flex-1"></div>
-            <Link href="/cart">
-                <Button className="indicator w-[100px]">
-                    Bag
-                    {/* { totalItems >= 1 && ( */}
-                    <div className={twMerge(styles.badge)}>{6}</div>
+            <Link href="/cart" passHref>
+                <Button
+                    className="indicator w-[100px]"
+                    // onClick={openCartModal}
+                >
+                    <>
+                        Bag
+                        {isCartEmpty || <div className={twMerge(styles.badge)}>{cart.totalItems}</div>}
+                    </>
                 </Button>
             </Link>
 

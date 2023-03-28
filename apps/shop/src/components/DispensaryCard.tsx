@@ -31,7 +31,6 @@ function DispensaryCard({ dispensary, className }: DispensaryCardProps) {
         dispensarycard: ['min-w-[300px] md:w-[350px] p-4 md:p-4']
     };
     return (
-        // <Link href={`/_stores/${dispensary.subdomainId}`} >
         <Link href={formatDispensaryUrl(dispensary.subdomainId)}>
             <Card className={twMerge([styles.dispensarycard, className])} title={dispensary.name}>
                 <FlexBox className="items-end flex-row justify-between">
