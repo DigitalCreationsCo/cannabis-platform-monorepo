@@ -47,7 +47,7 @@ function ProductItem({ product, className, handleConfirm }: ProductItemProps & P
 
             <ConfirmationModal
                 description={`Confirm add ${product.name}?`}
-                open={openConfirm}
+                modalVisible={openConfirm}
                 handleConfirm={() => handleConfirm(product, quantity)}
                 confirmMessage={'Add Product'}
                 onClose={toggleConfirm}

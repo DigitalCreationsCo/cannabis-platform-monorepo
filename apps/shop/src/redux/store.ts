@@ -1,4 +1,5 @@
 import {
+    cartReducer,
     crashMiddleware,
     locationReducer,
     loggerMiddleware,
@@ -22,7 +23,8 @@ const rootReducer = combineReducers({
     modal: modalReducer,
     user: userReducer,
     location: locationReducer,
-    shop: shopReducer
+    shop: shopReducer,
+    cart: cartReducer
 });
 
 export type PersistedStore = Store & { _persistor?: Persistor };

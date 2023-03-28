@@ -1,12 +1,13 @@
-import { modalActions, ModalStateProps, userActions } from '@cd/shared-lib';
-import { Button, CartModal, FlexBox, Grid, H1, H3, H6, Icons, Modal, Paragraph, TextField } from '@cd/shared-ui';
+import { modalActions, ModalStateProps, selectShopState, userActions } from '@cd/shared-lib';
+import { Button, FlexBox, Grid, H1, H3, H6, Icons, Modal, ModalProps, Paragraph, TextField } from '@cd/shared-ui';
 import type { LoginModalProps } from '@cd/shared-ui/dist/modal/LoginModal';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCallback, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
+import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 import { useAppDispatch } from '../../redux/hooks';
 import { RootState } from '../../redux/store';
@@ -39,9 +40,37 @@ const mapStateToProps = (state: RootState) => state.modal;
 const mapDispatchToProps = { dispatchCloseModal: modalActions.closeModal };
 export default connect(mapStateToProps, mapDispatchToProps)(ModalContainer);
 
+function CartModal({ dispatchCloseModal, modalVisible, ...props }: CartModalProps) {
+    const { cart } = useSelector(selectShopState);
+    const closeModal = () => {
+        dispatchCloseModal();
+    };
+    const styles = {
+        cartModal: ['absolute', 'm-12', 'top-0 right-0 border-2 z-10']
+    };
+    return (
+        <Modal
+            isModalOverlay={false}
+            modalVisible={modalVisible}
+            onClose={closeModal}
+            {...props}
+            className={twMerge(styles.cartModal)}
+        >
+            <FlexBox>Cart Modal</FlexBox>
+        </Modal>
+    );
+}
+
+// export default CartModal;
+
+interface CartModalProps extends ModalProps {
+    dispatchCloseModal: () => void;
+}
+
 function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalProps) {
     const dispatch = useAppDispatch();
-    const signInUser = dispatch(userActions.signinUserAsync());
+    const signInUser = (signInArgs: { email: string; password: string }) =>
+        dispatch(userActions.signinUserAsync(signInArgs));
 
     const [loadingButton, setLoadingButton] = useState(false);
     const [passwordVisibility, setPasswordVisibility] = useState(false);

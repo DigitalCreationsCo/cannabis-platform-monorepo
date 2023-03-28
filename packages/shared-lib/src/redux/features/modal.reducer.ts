@@ -81,6 +81,7 @@ export type ModalStateProps = {
   isConfirmed?: boolean,
   isDeclined?: boolean,
   isSelected?: boolean,
+  errorMessage: string
 }
 
 const initialState:ModalStateProps = {
@@ -91,6 +92,7 @@ const initialState:ModalStateProps = {
   isConfirmed: false,
   isDeclined: false,
   isSelected: false,
+  errorMessage: ""
 };
 
 export type modalActionPayload = {

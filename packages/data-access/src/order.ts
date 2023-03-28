@@ -131,11 +131,7 @@ export async function updateOrderWithOrderItems(order: any) {
             let orderId = order.id;
             let variantId = item.variantId
             const update = prisma.orderItem.upsert({
-                where: {
-                    orderId_variantId: {
-                        orderId, variantId
-                    }
-                },
+                where: { variantId },
                 create: { ...rest, quantity: Number(item.quantity) },
                 update: { ...rest, quantity: Number(item.quantity) }
             });

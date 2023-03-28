@@ -56,9 +56,13 @@ export default class LocationDA {
 
     static async addOrganizationMongoRecord(organization: OrganizationWithShopDetails) {
       try {
-          const newOrganization = await organizations_geo.createOne({ ...organization})
-          return newOrganization
+          const newOrganization = await organizations_geo.insertOne({ 
+            id: organization.id,
+            address: { ...organization.address,
+            coordinates: [organization.address.coordinates.longitude, organization.address.coordinates.latitude]},
+          })
           console.log('created mongo organization record: ', newOrganization.id)
+          return newOrganization
       } catch (error) {
           console.error('LocationDA error: ', error.message);
           throw new Error(error.message);

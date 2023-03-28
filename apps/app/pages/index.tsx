@@ -102,6 +102,8 @@ export const findLowStockVariants = (products) =>
 
 export async function getServerSideProps({ req, res }) {
     try {
+        return { redirect: { destination: '/welcome', permanent: false } };
+
         const { session, user } = await getSession({ req, res });
         if (!session || !user) {
             console.log('No session or user');
