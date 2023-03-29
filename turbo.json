@@ -3,6 +3,7 @@
     "globalDependencies": ["./.env.development"],
     "globalEnv": ["NODE_ENV", "BABEL_ENV"],
     "pipeline": {
+        "@cd/data-access#db:generate": {},
         "build": {
             "dependsOn": [
                 "^build"
@@ -45,7 +46,7 @@
         },
         "watch": {
             "cache": true,
-            "dependsOn": [],
+            "dependsOn": ["@cd/data-access#db:generate", "^watch"],
             "inputs": [],
             "outputs": []
         }

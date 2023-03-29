@@ -4,22 +4,14 @@ import typescript from '@rollup/plugin-typescript';
 import path from 'path';
 import image from 'rollup-plugin-img';
 import postcss from 'rollup-plugin-postcss';
+import packageJson from './package.json' assert { type: 'json' };
 
 export default {
     input: 'src/index.ts',
     output: [
-        // {
-        //     file: packageJson.main,
-        //     format: 'cjs',
-        //     name: '@cd/shared-ui',
-        //     sourcemap: true
-        // },
         {
-            dir: 'dist',
-            name: '@cd/shared-ui',
-            // file: packageJson.module,
-            format: 'esm',
-            sourcemap: true
+            file: packageJson.main,
+            format: 'cjs'
         }
     ],
     plugins: [
@@ -46,6 +38,6 @@ export default {
         clearScreen: false,
         include: './**',
         buildDelay: 1000,
-        exclude: ['**/node_modules/**', 'dist/**', '.turbo/**']
+        exclude: ['node_modules/**', 'dist/**', '.turbo/**']
     }
 };

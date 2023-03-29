@@ -83,4 +83,6 @@ function Layout({
     );
 }
 
-export { Layout, LayoutContextProps };
+export { Layout };
+export type { LayoutContextProps };
+
