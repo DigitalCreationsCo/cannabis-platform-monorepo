@@ -1,12 +1,5 @@
 {
-  "compilerOptions": {
-    "esModuleInterop": true,
-    "module": "CommonJS",
-    "moduleResolution": "Node",
-  },
-  "include": [
-    "src",
-    "**/*.ts",
-  ],
-  "exclude": ["node_modules"]
+  "extends": "@cd/shared-config/tsconfig/base.json",
+  "include": ["."],
+  "exclude": ["dist", "build", "node_modules"]
 }

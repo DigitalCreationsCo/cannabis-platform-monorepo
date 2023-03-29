@@ -1,23 +1,5 @@
 {
-  "compilerOptions": {
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "strictNullChecks": true,
-    "declaration": true,
-    "lib": ["ES2021"],
-    "target": "ES5",
-    "declarationMap": true,
-    "moduleResolution": "Node",
-    "rootDir": "src",
-    "outDir": "dist"
-  },
-  "include": ["src"],
-  "watchOptions": {
-    "watchFile": "useFsEvents",
-    "watchDirectory": "useFsEvents",
-    "fallbackPolling": "dynamicPriority",
-    "synchronousWatchDirectory": true,
-    "excludeDirectories": ["node_modules","build", "dist"],
-  }
+  "extends": "@cd/shared-config/tsconfig/base.json",
+  "include": ["."],
+  "exclude": ["dist", "build", "node_modules", "test"]
 }
