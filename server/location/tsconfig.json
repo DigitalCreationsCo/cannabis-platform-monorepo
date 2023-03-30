@@ -1,5 +1,5 @@
 {
-  "extends": "@cd/shared-config/tsconfig/base.json",
+  "extends": "../../packages/shared-config/tsconfig/base.json",
   "include": ["."],
   "exclude": ["dist", "build", "node_modules"]
 }
