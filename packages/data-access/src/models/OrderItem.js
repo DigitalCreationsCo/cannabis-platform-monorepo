@@ -1,4 +1,17 @@
 export default class OrderItemWithDetailsClass {
+    productVariant;
+    orderId;
+    variantId;
+    name;
+    unit;
+    size;
+    quantity;
+    basePrice;
+    discount;
+    salePrice;
+    currency;
+    createdAt;
+    updatedAt;
     constructor(orderItemData) {
         this.productVariant = orderItemData.productVariant;
         this.orderId = orderItemData.orderId;

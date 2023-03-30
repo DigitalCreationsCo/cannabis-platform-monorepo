@@ -1,5 +1,5 @@
 {
-  "extends": "@cd/shared-config/tsconfig/react-library.json",
+  "extends": "../../packages/shared-config/tsconfig/react-library.json",
   "include": ["."],
   "exclude": ["dist", "build", "node_modules"],
   "compilerOptions": {

@@ -3,16 +3,11 @@
     "@cd/data-access": "*",
     "@cd/shared-config": "*",
     "@cd/shared-ui": "*",
-    "eslint-plugin-react": "7.31.11",
-    "rollup-plugin-dotenv-extended": "2.0.2"
+    "eslint-plugin-react": "7.31.11"
   },
   "devDependencies": {
     "@carbon/icons-react": "11.16.0",
-    "@mprt/rollup-plugin-incremental": "0.1.0",
     "@reduxjs/toolkit": "1.8.3",
-    "@rollup/plugin-commonjs": "24.0.1",
-    "@rollup/plugin-node-resolve": "15.0.1",
-    "@rollup/plugin-typescript": "11.0.0",
     "@tailwindcss/typography": "0.5.8",
     "@types/carbon__icons-react": "11.15.0",
     "@types/node": "18.11.10",
@@ -25,6 +20,7 @@
     "concurrently": "7.6.0",
     "daisyui": "2.46.0",
     "date-fns": "2.29.3",
+    "dotenv": "16.0.3",
     "eslint": "8.29.0",
     "eslint-config-next": "13.0.6",
     "eslint-config-prettier": "8.5.0",
@@ -38,17 +34,11 @@
     "prettier": "2.8.0",
     "react-hot-toast": "2.4.0",
     "react-redux": "8.0.2",
-    "rollup": "3.12.0",
-    "rollup-plugin-css-only": "4.3.0",
-    "rollup-plugin-dts": "5.1.1",
-    "rollup-plugin-postcss": "4.0.2",
     "tailwind-merge": "1.8.0",
     "tailwindcss": "3.2.4",
+    "tsup": "6.7.0",
     "typescript": "4.9.3"
   },
-  "files": [
-    "dist"
-  ],
   "main": "dist/index.js",
   "name": "@cd/shared-lib",
   "peerDependencies": {
@@ -57,9 +47,8 @@
   },
   "private": true,
   "scripts": {
-    "build": "rm -rf dist && rollup -c --environment NODE_ENV:development",
-    "build:prod": "rm -rf dist && rollup -c --environment NODE_ENV:production",
-    "watch": "rm -rf dist && rollup -c --watch --environment NODE_ENV:development"
+    "build": "rm -rf dist && NODE_ENV=production tsup",
+    "watch": "rm -rf dist && NODE_ENV=development tsup --watch"
   },
   "type": "module",
   "version": "0.0.1"

@@ -9,13 +9,25 @@
       "forceConsistentCasingInFileNames": true,
       "inlineSources": false,
       "isolatedModules": true,
-      "moduleResolution": "node",
+      "moduleResolution": "node16",
+      "module":"ES2015",
       "noUnusedLocals": false,
       "noUnusedParameters": false,
       "preserveWatchOutput": true,
       "skipLibCheck": true,
       "strict": false,
-      "target": "ES2020"
+      "target": "ES2015",
+      "lib": ["ES2015"],
+      "paths": {
+        "@cd/shared-ui": ["../../packages/shared-ui"],
+        "@cd/shared-ui/*": ["../../packages/shared-ui/*"],
+        "@cd/shared-lib": ["../../packages/shared-lib"],
+        "@cd/shared-lib/*": ["../../packages/shared-lib/*"],
+        "@cd/data-access": ["../../packages/data-access"],
+        "@cd/data-access/*": ["../../packages/data-access/*"],
+        "@cd/shared-config": ["../../packages/shared-config"],
+        "@cd/shared-config/*": ["../../packages/shared-config/*"]
+      }
     },
     "exclude": ["node_modules"]
   }
