@@ -8,9 +8,8 @@ export default defineConfig((options) => ({
     treeshake: true,
     clean: true,
     dts: true,
-    format: ['esm'],
+    format: ['esm', 'cjs'],
     platform: 'node',
-    module: 'esnext',
     target: ['esnext', 'chrome70', 'edge18', 'firefox70', 'node16'],
     sourcemap: !options.watch,
     minify: !options.watch

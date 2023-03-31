@@ -4,21 +4,17 @@
     "compilerOptions": {
       "composite": false,
       "declaration": true,
+      "declarationMap": true,
       "forceConsistentCasingInFileNames": true,
+      "inlineSources": false,
+      "isolatedModules": true,
+      "moduleResolution": "node",
+      "module":"ES6",
+      "noUnusedLocals": false,
+      "noUnusedParameters": false,
+      "preserveWatchOutput": true,
       "strict": false,
       "target": "ES6",
-      "lib": ["ES6"],
-      "moduleResolution": "node",
-      "paths": {
-        "@cd/shared-ui": ["../../packages/shared-ui"],
-        "@cd/shared-ui/*": ["../../packages/shared-ui/*"],
-        "@cd/shared-lib": ["../../packages/shared-lib"],
-        "@cd/shared-lib/*": ["../../packages/shared-lib/*"],
-        "@cd/data-access": ["../../packages/data-access"],
-        "@cd/data-access/*": ["../../packages/data-access/*"],
-        "@cd/shared-config": ["../../packages/shared-config"],
-        "@cd/shared-config/*": ["../../packages/shared-config/*"]
-      }
-    },
-    "exclude": ["node_modules"]
+      "lib": ["ES6"]
+    }
   }

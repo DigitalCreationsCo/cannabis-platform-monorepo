@@ -8,9 +8,9 @@ export default defineConfig((options) => {
         splitting: true,
         clean: true,
         dts: true,
-        format: ['cjs'],
+        format: ['esm', 'cjs'],
         platform: 'node',
-        target: ['es6'],
+        target: ['esnext'],
         sourcemap: !options.watch,
         // Do not minify node only packages to let patching possible by the consumer (ie: patch-package)
         minify: false

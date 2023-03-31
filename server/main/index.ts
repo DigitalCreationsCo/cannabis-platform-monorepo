@@ -1,15 +1,14 @@
-import prisma from '@cd/data-access';
-import { loadEnv } from '@cd/shared-config/config/loadEnv';
+import { loadEnv } from '@cd/shared-config/config/loadEnv.js';
 import { config } from 'dotenv';
 import { expand } from 'dotenv-expand';
 
-const nodeEnv = process.env.NODE_ENV || process.env.BABEL_ENV;
+const nodeEnv = process.env.NODE_ENV;
 expand(config({ path: loadEnv(nodeEnv) }));
 const port = process.env.SERVER_MAIN_PORT || 'xxxx';
 
 import { connectDb, server } from './src';
 
-connectDb(prisma)
+connectDb()
     .then(() => {
         server.listen(port, () => {
             console.log(` 🚀 Server Main listening on port ${port}.`);
