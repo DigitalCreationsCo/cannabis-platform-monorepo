@@ -4,6 +4,7 @@
   "exclude": ["dist", "build", "node_modules", "test"],
   "compilerOptions": {
     "outDir": "dist",
-    "target": "ES6"
+    "target": "ESNext",
+    "module": "ESNext",
   }
 }
