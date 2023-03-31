@@ -1,4 +1,4 @@
-import { loadEnv } from '@cd/shared-config/config/loadEnv.mjs';
+import { loadEnv } from '@cd/shared-config/config/loadEnv.js';
 import { config } from 'dotenv';
 import { expand } from 'dotenv-expand';
 

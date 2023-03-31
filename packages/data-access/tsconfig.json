@@ -1,8 +1,9 @@
 {
   "extends": "../../packages/shared-config/tsconfig/base.json",
   "include": ["."],
-  "exclude": ["dist", "bu2ild", "node_modules", "test"],
+  "exclude": ["dist", "build", "node_modules", "test"],
   "compilerOptions": {
     "outDir": "dist",
+    "target": "ES6"
   }
 }
