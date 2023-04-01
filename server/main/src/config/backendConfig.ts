@@ -1,5 +1,5 @@
 import { findUserWithDetailsByEmail, SessionPayload, UserLoginData } from "@cd/data-access";
-import { appInfo } from "@cd/shared-config/auth/appInfo";
+import { appInfo } from "@cd/shared-config/auth/appInfo.js";
 import Dashboard from "supertokens-node/recipe/dashboard";
 import EmailPassword from "supertokens-node/recipe/emailpassword";
 import Session from "supertokens-node/recipe/session";

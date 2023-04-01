@@ -1,5 +1,5 @@
 import prisma from '@cd/data-access';
-import server from "./server";
+import server from "./server.js";
 
 async function connectDb() {
   try {

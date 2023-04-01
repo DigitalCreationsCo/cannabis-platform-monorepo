@@ -6,7 +6,7 @@ const nodeEnv = process.env.NODE_ENV;
 expand(config({ path: loadEnv(nodeEnv) }));
 const port = process.env.SERVER_MAIN_PORT || 'xxxx';
 
-import { connectDb, server } from './src';
+import { connectDb, server } from './src/index.js';
 
 connectDb()
     .then(() => {
@@ -19,3 +19,4 @@ connectDb()
         console.error('Error connecting to database: ', err.stack);
         process.exit(1);
     });
+
