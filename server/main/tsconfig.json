@@ -3,5 +3,19 @@
   "outDir": "dist",
   "target": "ESNext",
   "module": "ESNext",
-  }
+  "moduleResolution": "Node",
+  "esModuleInterop": true
+  },
+  "include": [
+    "src",
+    "**/*.ts",
+    "**/*.tsx",
+  ],
+  "exclude": [
+    "**/node_modules",
+    "**/dist",
+    "@cd/data-access",
+    "@cd/shared-ui",
+    "@cd/shared-lib"
+  ]
 }

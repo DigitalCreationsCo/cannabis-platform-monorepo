@@ -25,12 +25,12 @@
   },
   "exports": {
     ".": {
-      "import": "./dist/index.js",
+      "import": "./dist/wrapper.js",
       "require": "./dist/index.cjs"
     }
   },
   "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
+  "module": "./dist/wrapper.js",
   "name": "@cd/data-access",
   "prisma": {
     "schema": "./schema.prisma",
