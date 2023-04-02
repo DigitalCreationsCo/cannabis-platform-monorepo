@@ -1,15 +1,11 @@
 import { AddressUserCreateType } from '@cd/data-access';
 import { urlBuilder } from '@cd/shared-lib';
+import { Button, FlexBox, Grid, Modal, ModalProps, TextField } from '@cd/shared-ui';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import { Dispatch, SetStateAction, useState } from 'react';
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
-import Button from '../Button';
-import FlexBox from '../FlexBox';
-import Grid from '../Grid';
-import TextField from '../TextField';
-import Modal, { ModalProps } from './Modal';
 
 interface AddAddressModalProps extends ModalProps {
     userId: string;

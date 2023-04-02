@@ -11,5 +11,6 @@ export default defineConfig((options) => ({
     platform: 'node',
     target: ['esnext'],
     sourcemap: !options.watch,
-    minify: !options.watch
+    minify: !options.watch,
+    external: ['react', 'react-dom']
 }));
