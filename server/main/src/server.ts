@@ -4,10 +4,10 @@ import cors from 'cors';
 import express from 'express';
 import http from 'http';
 import Supertokens from 'supertokens-node';
-import { errorHandler, middleware, SessionRequest } from 'supertokens-node/framework/express/index.js';
-import { verifySession } from "supertokens-node/recipe/session/framework/express/index.js";
-import { SessionInfo } from './api/controllers/session.controller.js';
-import SessionDA from './api/data-access/SessionDA.js';
+import { errorHandler, middleware, SessionRequest } from 'supertokens-node/framework/express';
+import { verifySession } from "supertokens-node/recipe/session/framework/express";
+import { SessionInfo } from './api/controllers/session.controller';
+import SessionDA from './api/data-access/SessionDA';
 import { errorRoute, organization, shop } from './api/routes';
 import { backendConfig } from './config/backendConfig';
 
