@@ -1,5 +1,4 @@
-import { LayoutContextProps } from '@cd/shared-lib';
-import { Page } from '@cd/shared-ui';
+import { LayoutContextProps, Page } from '@cd/shared-ui';
 import Head from 'next/head';
 import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';

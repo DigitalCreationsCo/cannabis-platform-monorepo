@@ -1,4 +1,5 @@
 import { locationActions, selectSelectedLocationState, selectShopState, shopActions } from '@cd/shared-lib';
+import { AnyAction } from '@reduxjs/toolkit';
 import { PropsWithChildren, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
@@ -7,11 +8,11 @@ const LocationProvider = ({ children }: PropsWithChildren) => {
     const dispatch = useAppDispatch();
 
     const getDispensaries = async () => {
-        dispatch(shopActions.getDispensariesLocal());
+        dispatch(shopActions.getDispensariesLocal() as unknown as AnyAction);
     };
 
     const getProducts = async () => {
-        dispatch(shopActions.getProductsFromLocal());
+        dispatch(shopActions.getProductsFromLocal() as unknown as AnyAction);
     };
 
     useEffect(() => {
@@ -31,7 +32,7 @@ const LocationProvider = ({ children }: PropsWithChildren) => {
                             locationActions.getAddressByCoordinates({
                                 latitude: position.coords.latitude,
                                 longitude: position.coords.longitude
-                            })
+                            }) as unknown as AnyAction
                         );
                     },
                     () => console.log('Geolocation is not supported by this browser.')

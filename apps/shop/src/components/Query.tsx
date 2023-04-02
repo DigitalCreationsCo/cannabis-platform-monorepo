@@ -1,5 +1,5 @@
+import { useQuery } from '@cd/shared-lib';
 import { AxiosResponse } from 'axios';
-import { useQuery } from 'hooks';
 import Page404 from '../../pages/404';
 
 export default function Query({

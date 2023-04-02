@@ -62,7 +62,8 @@ export default function App({ Component, pageProps }: CustomAppProps) {
                     SideNavComponent={AdminDashboardNavigation}
                     TopBarComponent={TopBar}
                     signedOut={signOut}
-                    // isSession={isSession.current}
+                    // FIX THIS
+                    isSession={false}
                     {...getLayoutContext()}
                 >
                     <Toaster position="top-center" />

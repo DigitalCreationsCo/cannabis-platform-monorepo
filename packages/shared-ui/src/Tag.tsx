@@ -1,9 +1,7 @@
-import { IconWrapper, Small } from '@cd/shared-ui';
 import { MouseEventHandler, PropsWithChildren, ReactEventHandler, SVGAttributes } from 'react';
-type TagProps = {
-    Icon?: (props: SVGAttributes<SVGElement>) => JSX.Element;
-    onClick?: MouseEventHandler<HTMLElement> & ReactEventHandler<Element>;
-} & PropsWithChildren;
+import IconWrapper from './IconWrapper';
+import { Small } from './Typography';
+
 function Tag({ Icon, onClick, children }: TagProps) {
     return (
         <div onClick={onClick} onKeyUp={onClick} className="cursor-default badge badge-primary m-2 gap-2 w-[112px]">
@@ -14,3 +12,8 @@ function Tag({ Icon, onClick, children }: TagProps) {
 }
 
 export default Tag;
+
+type TagProps = {
+    Icon?: (props: SVGAttributes<SVGElement>) => JSX.Element;
+    onClick?: MouseEventHandler<HTMLElement> & ReactEventHandler<Element>;
+} & PropsWithChildren;

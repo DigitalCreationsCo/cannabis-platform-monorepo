@@ -1,6 +1,19 @@
-import { modalActions, ModalStateProps, selectShopState, userActions } from '@cd/shared-lib';
-import { Button, FlexBox, Grid, H1, H3, H6, Icons, Modal, ModalProps, Paragraph, TextField } from '@cd/shared-ui';
-import type { LoginModalProps } from '@cd/shared-ui/dist/modal/LoginModal';
+import { ModalStateProps, modalActions, selectCartState, selectModalState, userActions } from '@cd/shared-lib';
+import {
+    Button,
+    FlexBox,
+    Grid,
+    H1,
+    H3,
+    H6,
+    Icons,
+    LoginModalProps,
+    Modal,
+    ModalProps,
+    Paragraph,
+    TextField
+} from '@cd/shared-ui';
+import { AnyAction } from '@reduxjs/toolkit';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -10,7 +23,6 @@ import { connect, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 import { useAppDispatch } from '../../redux/hooks';
-import { RootState } from '../../redux/store';
 
 // import ConfirmModal from "./ConfirmModal";
 // import MessageBanner from "./MessageBanner";
@@ -29,19 +41,19 @@ const MODAL_COMPONENTS = Object.freeze({
 });
 
 const ModalContainer = (props: ModalStateProps & LoginModalProps) => {
-    const ModalComponent = useMemo(() => MODAL_COMPONENTS[props.modalType], [props.modalType]);
-    if (!props.modalType && !props.modalVisible) return <></>;
-    return <ModalComponent {...props} />;
+    const modalState = useSelector(selectModalState);
+    const ModalComponent = useMemo(() => MODAL_COMPONENTS[modalState.modalType], [modalState.modalType]);
+    if (!modalState.modalType && !modalState.modalVisible) return <></>;
+    return <ModalComponent {...modalState} {...props} />;
 };
 
 export { ModalContainer };
-
-const mapStateToProps = (state: RootState) => state.modal;
+const mapStateToProps = selectModalState;
 const mapDispatchToProps = { dispatchCloseModal: modalActions.closeModal };
 export default connect(mapStateToProps, mapDispatchToProps)(ModalContainer);
 
 function CartModal({ dispatchCloseModal, modalVisible, ...props }: CartModalProps) {
-    const { cart } = useSelector(selectShopState);
+    const { cart } = useSelector(selectCartState);
     const closeModal = () => {
         dispatchCloseModal();
     };
@@ -57,6 +69,9 @@ function CartModal({ dispatchCloseModal, modalVisible, ...props }: CartModalProp
             className={twMerge(styles.cartModal)}
         >
             <FlexBox>Cart Modal</FlexBox>
+            {cart.map((item) => (
+                <>{item.name}</>
+            ))}
         </Modal>
     );
 }
@@ -70,7 +85,7 @@ interface CartModalProps extends ModalProps {
 function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalProps) {
     const dispatch = useAppDispatch();
     const signInUser = (signInArgs: { email: string; password: string }) =>
-        dispatch(userActions.signinUserAsync(signInArgs));
+        dispatch(userActions.signinUserAsync(signInArgs) as unknown as AnyAction);
 
     const [loadingButton, setLoadingButton] = useState(false);
     const [passwordVisibility, setPasswordVisibility] = useState(false);

@@ -1,5 +1,4 @@
-import { LayoutContextProps } from '@cd/shared-lib';
-import { Layout } from '@cd/shared-ui';
+import { Layout, LayoutContextProps } from '@cd/shared-ui';
 import { PropsWithChildren } from 'react';
 import { useSelector } from 'react-redux';
 import { signOut } from 'supertokens-auth-react/recipe/session';

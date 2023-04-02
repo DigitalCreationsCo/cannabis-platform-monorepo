@@ -4,6 +4,7 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useEffect } from 'react';
 import { Provider as ReduxProvider, useStore } from 'react-redux';
+import { Persistor } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session from 'supertokens-auth-react/recipe/session';
@@ -21,7 +22,7 @@ function App({ Component, pageProps }: CustomAppProps) {
         SuperTokensReact.init(frontendConfig());
     }
 
-    const store: PersistedStore = useStore((state) => state);
+    const store: PersistedStore = useStore();
 
     useEffect(() => {
         async function doRefresh() {
@@ -83,7 +84,7 @@ function App({ Component, pageProps }: CustomAppProps) {
             <SuperTokensWrapper>
                 <ReduxProvider store={store}>
                     <PersistGate
-                        persistor={store}
+                        persistor={store as PersistedStore & Persistor}
                         loading={
                             <FlexBox className="grow items-center min-h-screen">
                                 <Center>

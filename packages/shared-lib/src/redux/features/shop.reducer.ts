@@ -1,5 +1,5 @@
 import { OrganizationWithShopDetails, ProductWithDetails } from "@cd/data-access";
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { urlBuilder } from "../../utils";
 import { AppState } from "../types";

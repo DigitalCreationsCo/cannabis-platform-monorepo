@@ -1,6 +1,6 @@
 import { UserCreateType } from '@cd/data-access';
-import { LayoutContextProps, userActions } from '@cd/shared-lib';
-import { Button, FlexBox, Grid, H3, H6, Icons, Page, Paragraph, TextField } from '@cd/shared-ui';
+import { userActions } from '@cd/shared-lib';
+import { Button, FlexBox, Grid, H3, H6, Icons, LayoutContextProps, Page, Paragraph, TextField } from '@cd/shared-ui';
 import { useFormik } from 'formik';
 import Head from 'next/head';
 import Router from 'next/router';
