@@ -27,7 +27,7 @@ services:
   nginx:
     container_name: gras_nginx
     build:
-      context: ./services/nginx
+      context: ./nginx
       dockerfile: ./Dockerfile.nginx
     restart: always
     ports:
