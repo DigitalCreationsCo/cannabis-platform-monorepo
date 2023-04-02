@@ -52,7 +52,8 @@
     "db:seed": "dotenv -e ../../.env.development -- prisma db seed",
     "db:studio": "dotenv -e ../../.env.development -- prisma studio",
     "test": "../../node_modules/jest/bin/jest.js",
-    "watch": "NODE_ENV=development tsup --watch"
+    "watch": "NODE_ENV=development tsup --watch",
+    "postinstall": "yarn db:generate"
   },
   "type": "module",
   "types": "dist/esm/index.d.ts",
