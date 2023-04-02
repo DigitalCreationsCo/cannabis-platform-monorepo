@@ -90,6 +90,10 @@ Test getDispensariesLocal with server, Locationprovider, and in the app ui, with
 Create test data in mongodb and prisma
 write unit tests
 persist redux store in nextjs, test
+4-1-2023
+Revise build pattern for packages/ and server/main.
+IT TOOK ME MORE THAN 2 WEEKS TO FIX THIS. 
+COMMIT FREQUENTLY. RESOLVE ISSUES BEFORE MOVING ON. DONT BLOCK YOURSELF BY CREATING TOO MANY CHANGES.
 
 TO DO:
 test stripe account creation.
