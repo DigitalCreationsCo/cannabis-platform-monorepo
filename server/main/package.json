@@ -16,7 +16,6 @@
     "@babel/core": "7.20.12",
     "@babel/node": "7.20.7",
     "@babel/preset-env": "7.20.2",
-    "@babel/preset-flow": "7.18.6",
     "@babel/preset-typescript": "7.18.6",
     "@cd/shared-config": "*",
     "@cd/shared-lib": "*",
@@ -48,13 +47,13 @@
   "name": "@cd/server-main",
   "private": true,
   "scripts": {
-    "build:prod": "rm -rf dist && cross-env NODE_ENV=production babel . --out-dir dist --extensions \".ts\"",
-    "build": "rm -rf dist && cross-env NODE_ENV=production babel . --out-dir dist --extensions \".ts\"",
+    "build:prod": "rm -rf dist && cross-env NODE_ENV=production babel . --out-dir dist --extensions \".ts,.tsx\"",
+    "build": "rm -rf dist && cross-env NODE_ENV=production babel . --out-dir dist --extensions \".ts,.tsx\"",
     "start": "cross-env NODE_ENV=production babel-node dist",
     "test": "../../node_modules/jest/bin/jest.js",
     "test:fix": "../../node_modules/jest/bin/jest.js --detectOpenHandles",
     "test:watch": "../../node_modules/jest/bin/jest.js --watchAll",
-    "watch": "yarn build && nodemon --exec babel-node index.ts"
+    "watch": "yarn build && babel-node index.ts --extensions \".ts,.tsx\""
   },
   "version": "0.0.1"
 }
