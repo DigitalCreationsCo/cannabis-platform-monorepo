@@ -1,8 +1,0 @@
-01-05-2022
-    -create Drivers route, controller, DAO methods
-    -create login, logout, goOnline, connectForDispatch methods
-12-25-2022
-    - add server project into cannabis-platform-monorepo
-    - refactor data access funcs
-
-needs a lot of work to convert mongo crud ops to prisma mySQL ;)

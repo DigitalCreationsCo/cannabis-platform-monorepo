@@ -58,5 +58,6 @@
     "watch": "rm -rf dist && NODE_ENV=development tsup --watch"
   },
   "type": "module",
+  "types": "dist/index.d.ts",
   "version": "0.0.1"
 }

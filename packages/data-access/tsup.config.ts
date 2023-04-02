@@ -5,8 +5,8 @@ dotenv.config({ path: `../../.env.${process.env.NODE_ENV}` });
 export default defineConfig((options) => {
     return [
         {
-            entry: ['index.cjs'],
-            splitting: true,
+            entry: ['src'],
+            outDir: 'dist/cjs',
             clean: true,
             dts: true,
             format: ['cjs'],
@@ -17,8 +17,8 @@ export default defineConfig((options) => {
             minify: false
         },
         {
-            entry: ['wrapper.mjs'],
-            splitting: true,
+            entry: ['src'],
+            outDir: 'dist/esm',
             clean: true,
             dts: true,
             format: ['esm'],
