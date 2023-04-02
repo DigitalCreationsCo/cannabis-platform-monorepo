@@ -31,7 +31,9 @@ function OrderRow({ order, orderDetailsRoute }: OrderRowProps) {
         <a href={`${orderDetailsRoute}/${order.id}`}>
             <Row className="h-[48px] justify-between">
                 <H6 className="w-[100px]">{order.id}</H6>
-                <Paragraph className={twMerge('grow', `text-${getColor(order.status)}`)}>{order.status}</Paragraph>
+                <Paragraph className={twMerge('grow', `text-${getColor(order.orderStatus)}`)}>
+                    {order.orderStatus}
+                </Paragraph>
                 <Paragraph className="w-[140px] flex justify-center w-[120px]">
                     {format(new Date(order.createdAt), 'MMM dd, yyyy')}
                 </Paragraph>

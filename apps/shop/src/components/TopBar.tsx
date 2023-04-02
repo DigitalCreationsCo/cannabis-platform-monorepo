@@ -1,17 +1,41 @@
+// import { modalActions, modalTypes } from '@cd/shared-lib';
+import { modalActions, modalTypes, selectCartState, selectIsCartEmpty, selectUserState } from '@cd/shared-lib';
 import { Button, FlexBox, H2, Paragraph } from '@cd/shared-ui';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Dispatch, SetStateAction } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/logo.png';
 
 export type TopBarProps = {
     doesSessionExist?: boolean;
-    setModal: Dispatch<SetStateAction<boolean>>;
     signedOut: () => void;
 };
 
-function TopBar({ doesSessionExist, setModal, signedOut }: TopBarProps) {
+function TopBar({ signedOut }: TopBarProps) {
+    const dispatch = useDispatch();
+    const user = useSelector(selectUserState);
+    const cart = useSelector(selectCartState);
+    const isCartEmpty = useSelector(selectIsCartEmpty);
+
+    function openLoginModal() {
+        console.log('dispatch: open Login Modal');
+        dispatch(
+            modalActions.openModal({
+                modalType: modalTypes.loginModal
+            })
+        );
+    }
+
+    // function openCartModal() {
+    //     console.log('dispatch: open cart Modal');
+    //     dispatch(
+    //         modalActions.openModal({
+    //             modalType: modalTypes.cartModal
+    //         })
+    //     );
+    // }
+
     const styles = {
         topbar: ['flex flex-row min-h-[66px] pr-4 lg:px-16 bg-inverse space-x-2 items-center shadow'],
         badge: 'indicator absolute inline-flex items-center justify-center w-6 h-6 text-sm text-light bg-primary -top-2 -right-2 rounded-full'
@@ -39,15 +63,19 @@ function TopBar({ doesSessionExist, setModal, signedOut }: TopBarProps) {
                 Cannabis Marketplace
             </Paragraph>
             <div className="flex-1"></div>
-            <Link href="/cart">
-                <Button className="indicator w-[100px]">
-                    Bag
-                    {/* { totalItems >= 1 && ( */}
-                    <div className={twMerge(styles.badge)}>{6}</div>
+            <Link href="/cart" passHref>
+                <Button
+                    className="indicator w-[100px]"
+                    // onClick={openCartModal}
+                >
+                    <>
+                        Bag
+                        {isCartEmpty || <div className={twMerge(styles.badge)}>{cart.totalItems}</div>}
+                    </>
                 </Button>
             </Link>
 
-            {doesSessionExist && (
+            {user.isSignedIn ? (
                 <>
                     <Link href="/support">
                         <Paragraph className={twMerge('pt-1', 'px-3', 'text-md', 'whitespace-nowrap')}>
@@ -58,10 +86,9 @@ function TopBar({ doesSessionExist, setModal, signedOut }: TopBarProps) {
                         <Button onClick={signedOut}>Sign Out</Button>
                     </FlexBox>
                 </>
-            )}
-            {!doesSessionExist && (
+            ) : (
                 <FlexBox>
-                    <Button onClick={() => setModal(true)}>Sign In</Button>
+                    <Button onClick={openLoginModal}>Sign In</Button>
                 </FlexBox>
             )}
         </div>

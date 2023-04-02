@@ -33,5 +33,15 @@
     "usehooks",
     "zipcode"
   ],
-  "jest.autoRun": { "watch": false }
+  "jest.autoRun": { "watch": false },
+  "files.autoSave": "off",
+        "terminal.integrated.env.osx": {
+            "KUBECONFIG": "${workspaceFolder}/.kube/kubeconfig.yaml"
+        },
+        "terminal.integrated.env.windows": {
+            "KUBECONFIG": "${workspaceFolder}\\.kube\\kubeconfig.yaml"
+        },
+        "terminal.integrated.env.linux": {
+            "KUBECONFIG": "${workspaceFolder}/.kube/kubeconfig.yaml"
+        },
 }

@@ -1,0 +1,16 @@
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+**/node_modules
+npm-debug.log
+README.md
+
+**/build
+**/dist
+
+**/.next
+**/.turbo
+
+# **/.vscode
+**/_dev

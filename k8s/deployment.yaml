@@ -1,0 +1,22 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gras-nginx-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: gras-nginx-deployment
+  template:
+    metadata:
+      labels:
+        app: gras-nginx-deployment
+    spec:
+      containers:
+        - name: gras-nginx-container
+          image: nginx:alpine
+          imagePullPolicy: Always
+          ports:
+            - name: gras-nginx-port
+              containerPort: 80

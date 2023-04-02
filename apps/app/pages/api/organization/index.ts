@@ -1,9 +1,9 @@
 import { OrganizationCreateType } from '@cd/data-access';
+import { urlBuilder } from '@cd/shared-lib';
 import axios from 'axios';
 import { ExtendRequest, healthCheckMiddleware } from 'middleware';
 import { NextApiResponse } from 'next';
 import nc from 'next-connect';
-import { urlBuilder } from 'utils';
 
 const handler = nc();
 handler.use(healthCheckMiddleware);

@@ -1,1 +1,1 @@
-module.exports = require('@cd/shared-config/.eslintrc.cjs');
+import '@cd/shared-config/.eslintrc.cjs';

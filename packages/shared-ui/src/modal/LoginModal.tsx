@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useCallback, useState } from 'react';
 import toast from 'react-hot-toast';
+import { signIn } from 'supertokens-auth-react/recipe/emailpassword';
 import * as yup from 'yup';
 import Button from '../Button';
 import FlexBox from '../FlexBox';
@@ -10,42 +11,9 @@ import Grid from '../Grid';
 import Icons from '../icons';
 import TextField from '../TextField';
 import { H1, H3, H6, Paragraph } from '../Typography';
-import Modal, { ModalProps } from './Modal';
+import Modal from './Modal';
 
-function LoginModal({
-    signIn,
-    open,
-    onClose,
-    ...props
-}: {
-    signIn: (input: {
-        formFields: {
-            id: string;
-            value: string;
-        }[];
-        options?: unknown;
-        userContext?: unknown;
-    }) => Promise<
-        | {
-              status: 'OK';
-              user: { id: string; email: string; timeJoined: number };
-              fetchResponse: Response;
-          }
-        | {
-              status: 'FIELD_ERROR';
-              formFields: {
-                  id: string;
-                  error: string;
-              }[];
-              fetchResponse: Response;
-          }
-        | {
-              status: 'WRONG_CREDENTIALS_ERROR';
-
-              fetchResponse: Response;
-          }
-    >;
-} & ModalProps) {
+function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalProps) {
     const [loadingButton, setLoadingButton] = useState(false);
     const [passwordVisibility, setPasswordVisibility] = useState(false);
 
@@ -59,8 +27,8 @@ function LoginModal({
         validationSchema
     });
 
-    const resetModalState = () => {
-        onClose();
+    const closeModalAndReset = () => {
+        dispatchCloseModal();
         setLoadingButton(false);
         setPasswordVisibility(false);
         resetForm();
@@ -123,7 +91,7 @@ function LoginModal({
         responsive: 'min-w-full min-h-screen sm:!rounded-none md:min-w-min md:min-h-min md:!rounded px-12 py-8'
     };
     return (
-        <Modal className={styles.responsive} open={open} onClose={resetModalState} {...props}>
+        <Modal className={styles.responsive} modalVisible={modalVisible} onClose={closeModalAndReset} {...props}>
             <form>
                 <FlexBox>
                     <Image src={'/logo.png'} alt="Gras Cannabis logo" width={63} height={63} priority />
@@ -131,8 +99,8 @@ function LoginModal({
                     <H1>Gras Cannabis</H1>
                 </FlexBox>
                 <H3>One Stop Cannabis Marketplace</H3>
-                <Paragraph>Sign in with your email & password</Paragraph>
                 <Grid className="space-y-2">
+                    <Paragraph>Sign in with your email & password</Paragraph>
                     <TextField
                         name="email"
                         label="Email"
@@ -172,23 +140,13 @@ function LoginModal({
                     </FlexBox>
                     <FlexBox className="items-center">
                         <Paragraph>{`Don't have account?`} </Paragraph>
-                        <Link
-                            href="/signup"
-                            onClick={() => {
-                                if (onClose) onClose();
-                            }}
-                        >
+                        <Link href="/signup" onClick={closeModalAndReset}>
                             <H6 className="border-b"> Sign Up</H6>
                         </Link>
                     </FlexBox>
                     <FlexBox className="items-center">
                         <Paragraph>Forgot your password?</Paragraph>
-                        <Link
-                            href="/password-reset"
-                            onClick={() => {
-                                if (onClose) onClose();
-                            }}
-                        >
+                        <Link href="/password-reset" onClick={closeModalAndReset}>
                             <H6 className="border-b"> Reset It</H6>
                         </Link>
                     </FlexBox>
@@ -204,4 +162,9 @@ const validationSchema = yup.object().shape({
     password: yup.string().required('Password is required')
 });
 
-export default LoginModal;
+type LoginModalProps = {
+    dispatchCloseModal: () => void;
+    modalVisible: boolean;
+};
+
+export { LoginModal, type LoginModalProps };

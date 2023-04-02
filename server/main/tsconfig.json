@@ -1,26 +1,16 @@
-{
+{ 
   "compilerOptions": {
-    // "outDir": "dist",
-    // "strict": false,
-    "esModuleInterop": true,
-    // "composite": true,
-    "module": "CommonJS",
-    "moduleResolution": "Node",
-    // "declaration": true,
-    // "target": "ESNext",
-    // "useDefineForClassFields": true,
-    // "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    // "allowJs": true,
-    // "skipLibCheck": true,
-    // "allowSyntheticDefaultImports": true,
-    // "forceConsistentCasingInFileNames": true,
-    // "resolveJsonModule": true,
-    // "isolatedModules": true,
-    // "noEmit": true,
+  "target": "ESNext",
+  "module": "ESNext",
+  "moduleResolution": "Node",
+  "esModuleInterop": true
   },
   "include": [
     "src",
     "**/*.ts",
+    "**/*.tsx",
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "**/*.css",
+  ]
 }

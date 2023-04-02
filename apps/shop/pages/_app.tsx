@@ -1,45 +1,32 @@
-import { ExtendedPageComponent } from '@cd/shared-lib';
-import { Layout } from '@cd/shared-ui';
+import { ExtendedPageComponent, StepFormValuesProvider, ToastProvider } from '@cd/shared-lib';
+import { Center, FlexBox, LoadingDots } from '@cd/shared-ui';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import { useEffect, useRef } from 'react';
-import toast, { Toaster, useToasterStore } from 'react-hot-toast';
+import { useEffect } from 'react';
+import { Provider as ReduxProvider, useStore } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
-import Session, { signOut } from 'supertokens-auth-react/recipe/session';
+import Session from 'supertokens-auth-react/recipe/session';
 import { frontendConfig } from '../config/frontendConfig';
-import { TopBar } from '../src/components';
+import { LayoutContainer, LocationProvider, ModalProvider } from '../src/components';
+import { PersistedStore, wrapper } from '../src/redux/store';
 import '../styles/globals.css';
 
 type CustomAppProps = AppProps & {
     Component: ExtendedPageComponent;
 };
 
-if (typeof window !== 'undefined') SuperTokensReact.init(frontendConfig());
-export default function App({ Component, pageProps }: CustomAppProps) {
-    const doesSessionExist = useRef(undefined);
-    useEffect(() => {
-        async function checkSession() {
-            doesSessionExist.current = await Session.doesSessionExist();
-        }
-        checkSession();
-    });
+function App({ Component, pageProps }: CustomAppProps) {
+    if (typeof window !== 'undefined') {
+        SuperTokensReact.init(frontendConfig());
+    }
 
-    const signedOut = async () => {
-        signOut();
-    };
-
-    const TOAST_LIMIT = 2;
-    const { toasts } = useToasterStore();
-    useEffect(() => {
-        toasts
-            .filter((t) => t.visible)
-            .filter((_, i) => i >= TOAST_LIMIT)
-            .forEach((t) => toast.dismiss(t.id));
-    }, [toasts]);
+    const store: PersistedStore = useStore((state) => state);
 
     useEffect(() => {
         async function doRefresh() {
             if (pageProps.fromSupertokens === 'needs-refresh') {
+                console.log('needs refresh');
                 if (await Session.attemptRefreshingSession()) {
                     location.reload();
                 } else {
@@ -56,35 +43,69 @@ export default function App({ Component, pageProps }: CustomAppProps) {
 
     const getLayoutContext = Component.getLayoutContext || (() => ({}));
 
-    return (
+    return typeof window !== undefined ? (
+        <>
+            <Head>
+                <title>Gras Cannabis Marketplace</title>
+                <meta name="Marketplace App" content="Property of Gras Cannabis Co." />
+            </Head>
+            <SuperTokensWrapper>
+                <ReduxProvider store={store}>
+                    <PersistGate
+                        persistor={store._persistor}
+                        loading={
+                            <FlexBox className="grow items-center min-h-screen">
+                                <Center>
+                                    <LoadingDots />
+                                </Center>
+                            </FlexBox>
+                        }
+                    >
+                        <LocationProvider>
+                            <LayoutContainer {...getLayoutContext()}>
+                                <ToastProvider />
+                                <StepFormValuesProvider>
+                                    <ModalProvider />
+                                    <Component {...pageProps} />
+                                </StepFormValuesProvider>
+                            </LayoutContainer>
+                        </LocationProvider>
+                    </PersistGate>
+                </ReduxProvider>
+            </SuperTokensWrapper>
+        </>
+    ) : (
         <>
             <Head>
                 <title>Gras Cannabis Marketplace</title>
                 <meta name="vendor experience application" content="Property of Gras Cannabis Co." />
             </Head>
             <SuperTokensWrapper>
-                <Toaster position="top-center" />
-                <Layout
-                    showSideNav={false}
-                    SideNavComponent={() => (
-                        <ul>
-                            <li>all products</li>
-                            <li>edibles</li>
-                            <li>flower</li>
-                            <li>cbd</li>
-                        </ul>
-                    )}
-                    TopBarComponent={TopBar}
-                    signedOut={signedOut}
-                    setModal={() => {
-                        console.log('set Modal');
-                    }}
-                    doesSessionExist={true}
-                    {...getLayoutContext()}
-                >
-                    <Component {...pageProps} />
-                </Layout>
+                <ReduxProvider store={store}>
+                    <PersistGate
+                        persistor={store}
+                        loading={
+                            <FlexBox className="grow items-center min-h-screen">
+                                <Center>
+                                    <LoadingDots />
+                                </Center>
+                            </FlexBox>
+                        }
+                    >
+                        <LocationProvider>
+                            <LayoutContainer {...getLayoutContext()}>
+                                <ToastProvider />
+                                <StepFormValuesProvider>
+                                    <ModalProvider />
+                                    <Component {...pageProps} />
+                                </StepFormValuesProvider>
+                            </LayoutContainer>
+                        </LocationProvider>
+                    </PersistGate>
+                </ReduxProvider>
             </SuperTokensWrapper>
         </>
     );
 }
+
+export default wrapper.withRedux(App);
