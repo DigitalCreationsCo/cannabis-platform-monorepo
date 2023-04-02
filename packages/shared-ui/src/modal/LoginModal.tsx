@@ -162,9 +162,9 @@ const validationSchema = yup.object().shape({
     password: yup.string().required('Password is required')
 });
 
-export type LoginModalProps = {
+type LoginModalProps = {
     dispatchCloseModal: () => void;
     modalVisible: boolean;
 };
 
-export { LoginModal };
+export { LoginModal, type LoginModalProps };
