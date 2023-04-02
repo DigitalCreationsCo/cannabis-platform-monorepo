@@ -13,6 +13,6 @@ export default defineConfig((options) => {
         target: ['esnext'],
         sourcemap: !options.watch,
         // Do not minify node only packages to let patching possible by the consumer (ie: patch-package)
-        minify: false
+        minify: true
     };
 });

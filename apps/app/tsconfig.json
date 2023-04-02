@@ -9,7 +9,13 @@
     "node_modules"
   ],
   "compilerOptions": {
+    "rootDir": ".",
     "skipLibCheck": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "paths": {
+      "middleware": ["src/middleware/index"],
+      "middleware/*": ["src/middleware/*"],
+    }
   }
 }

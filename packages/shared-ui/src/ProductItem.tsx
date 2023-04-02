@@ -1,8 +1,12 @@
 import { ProductVariantWithDetails } from '@cd/data-access';
-import { ConfirmationModal, FlexBox, Paragraph, Price, TextField } from '@cd/shared-ui';
 import Image from 'next/image';
 import { PropsWithChildren, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
+import FlexBox from './FlexBox';
+import Price from './Price';
+import TextField from './TextField';
+import { Paragraph } from './Typography';
+import { ConfirmationModal } from './modal';
 
 type ProductItemProps = {
     className?: string;

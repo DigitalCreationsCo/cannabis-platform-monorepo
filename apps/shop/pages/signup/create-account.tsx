@@ -1,6 +1,19 @@
 import { UserCreateType } from '@cd/data-access';
 import { userActions } from '@cd/shared-lib';
-import { Button, FlexBox, Grid, H3, H6, Icons, LayoutContextProps, Page, Paragraph, TextField } from '@cd/shared-ui';
+import {
+    Button,
+    FlexBox,
+    FormCard,
+    Grid,
+    H3,
+    H6,
+    Icons,
+    LayoutContextProps,
+    Page,
+    Paragraph,
+    TermsAgreement,
+    TextField
+} from '@cd/shared-ui';
 import { useFormik } from 'formik';
 import Head from 'next/head';
 import Router from 'next/router';
@@ -10,7 +23,6 @@ import { useDispatch } from 'react-redux';
 import { signUp } from 'supertokens-auth-react/recipe/emailpassword';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
-import { FormCard, TermsAgreement } from '../../src/components';
 
 function UserSignUp() {
     const dispatch = useDispatch();

@@ -1,5 +1,6 @@
-import { FlexBox, Paragraph } from '@cd/shared-ui';
 import { twMerge } from 'tailwind-merge';
+import FlexBox from './FlexBox';
+import { Paragraph } from './Typography';
 
 export type CheckBoxProps = {
     className?: string;

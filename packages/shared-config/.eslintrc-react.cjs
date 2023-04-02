@@ -3,7 +3,6 @@ module.exports = {
         "../../packages/shared-config/.eslintrc.cjs",
         'plugin:react/recommended',
         'plugin:jsx-a11y/recommended',
-        'plugin:@typescript-eslint/recommended',
         "plugin:react/recommended",
         "plugin:react/jsx-runtime",
         "plugin:react-hooks/recommended"

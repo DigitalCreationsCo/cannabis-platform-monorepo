@@ -52,13 +52,14 @@ const LocationProvider = ({ children }: PropsWithChildren) => {
                 getDispensaries();
             }
         }
-    }, [coordinates, zipcode, location]);
+    }, [coordinates]);
+    // }, [coordinates, zipcode, location]);
 
     useEffect(() => {
         if (shop?.dispensaries?.length >= 1) {
             getProducts();
         }
-    }, [shop?.dispensaries?.length]);
+    }, [!shop.isLoading, shop?.dispensaries?.length]);
 
     return <>{children}</>;
 };

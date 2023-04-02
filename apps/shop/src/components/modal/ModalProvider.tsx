@@ -80,6 +80,7 @@ function CartModal({ dispatchCloseModal, modalVisible, ...props }: CartModalProp
 
 interface CartModalProps extends ModalProps {
     dispatchCloseModal: () => void;
+    modalVisible: boolean;
 }
 
 function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalProps) {

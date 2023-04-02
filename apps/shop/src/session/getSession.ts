@@ -1,8 +1,8 @@
 import { SessionPayload, User, UserWithDetails } from '@cd/data-access';
+import { urlBuilder } from '@cd/shared-lib';
 import axios from 'axios';
 import { NextApiRequest } from 'next';
 import { SessionInformation } from 'supertokens-node/recipe/session';
-import { urlBuilder } from '../utils';
 
 type SessionInfo = {
     session: SessionInformation;

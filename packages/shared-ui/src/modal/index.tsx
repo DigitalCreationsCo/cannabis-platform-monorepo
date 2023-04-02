@@ -1,3 +1,4 @@
+export { default as AddAddressUserModal } from './AddAddressUserModal';
 export { default as AddProductModal } from './AddProductModal';
 export { default as CartModal } from './CartModal';
 export { default as ConfirmationModal } from './ConfirmationModal';

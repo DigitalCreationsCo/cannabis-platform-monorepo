@@ -1,8 +1,8 @@
+import { urlBuilder } from '@cd/shared-lib';
 import axios from 'axios';
 import { NextApiResponse } from 'next';
 import nc from 'next-connect';
 import { ExtendRequest } from '../../src/session/getSession';
-import { urlBuilder } from '../../src/utils';
 
 const handler = nc();
 

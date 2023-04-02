@@ -1,9 +1,8 @@
 import { ProductVariantWithDetails } from '@cd/data-access';
 import { selectCartState } from '@cd/shared-lib';
-import { Card, H3, Page } from '@cd/shared-ui';
+import { Card, H3, Page, ProductItem } from '@cd/shared-ui';
 import { useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
-import ProductItem from '../src/components/ProductItem';
 
 function CartPage() {
     const { cart } = useSelector(selectCartState);

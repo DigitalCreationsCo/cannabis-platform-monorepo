@@ -1,6 +1,8 @@
-import { Card, FlexBox, H6 } from '@cd/shared-ui';
 import { PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
+import Card from './Card';
+import FlexBox from './FlexBox';
+import { H6 } from './Typography';
 
 type FormCardProps = {
     currentStep?: number;

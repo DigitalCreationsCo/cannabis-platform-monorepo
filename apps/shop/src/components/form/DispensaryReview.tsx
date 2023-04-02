@@ -1,9 +1,8 @@
-import { FormDataProps, useFormContext } from '@cd/shared-lib';
+import { FormDataProps, renderNestedDataObject, useFormContext } from '@cd/shared-lib';
 import { Button, FlexBox, H3, H5, Paragraph } from '@cd/shared-ui';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { renderNestedDataObject } from '../../utils';
 
 function DispensaryReview({ nextFormStep }: { nextFormStep: () => void }) {
     const [loadingButton, setLoadingButton] = useState(false);

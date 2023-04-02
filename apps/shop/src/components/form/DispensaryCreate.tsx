@@ -1,11 +1,10 @@
 import { useFormContext } from '@cd/shared-lib';
-import { Button, FlexBox, Grid, H3, H6, Paragraph, TextField } from '@cd/shared-ui';
+import { Button, FlexBox, Grid, H3, H6, Paragraph, TermsAgreement, TextField } from '@cd/shared-ui';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import * as yup from 'yup';
-import TermsAgreement from '../../components/TermsAgreement';
 
 // ToDo:
 // Organization Search for SearchTextField

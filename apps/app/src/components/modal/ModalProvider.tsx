@@ -1,6 +1,5 @@
-import { modalActions, ModalStateProps, userActions } from '@cd/shared-lib';
-import { Button, FlexBox, Grid, H1, H3, H6, Icons, Modal, Paragraph, TextField } from '@cd/shared-ui';
-import type { LoginModalProps } from '@cd/shared-ui/dist/modal/LoginModal';
+import { modalActions, ModalStateProps, selectModalState, userActions } from '@cd/shared-lib';
+import { Button, FlexBox, Grid, H1, H3, H6, Icons, LoginModalProps, Modal, Paragraph, TextField } from '@cd/shared-ui';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -9,7 +8,6 @@ import toast from 'react-hot-toast';
 import { connect } from 'react-redux';
 import { signIn } from 'supertokens-auth-react/recipe/emailpassword';
 import * as yup from 'yup';
-import { RootState } from '../../redux/store';
 
 // import ConfirmModal from "./ConfirmModal";
 // import MessageBanner from "./MessageBanner";
@@ -34,7 +32,7 @@ const ModalContainer = (props: ModalStateProps & LoginModalProps) => {
 
 export { ModalContainer };
 
-const mapStateToProps = (state: RootState) => state.modal;
+const mapStateToProps = selectModalState;
 const mapDispatchToProps = { dispatchCloseModal: modalActions.closeModal, signIn: userActions.signinUser };
 export default connect(mapStateToProps, mapDispatchToProps)(ModalContainer);
 

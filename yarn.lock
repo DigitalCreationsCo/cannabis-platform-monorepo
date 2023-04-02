@@ -1525,7 +1525,6 @@ __metadata:
     dotenv-expand: 10.0.0
     eslint: 8.29.0
     eslint-config-next: 13.0.6
-    eslint-config-prettier: 8.5.0
     eslint-plugin-import: 2.26.0
     eslint-plugin-jsx-a11y: 6.6.1
     eslint-plugin-prettier: 4.2.1
@@ -1581,7 +1580,6 @@ __metadata:
     concurrently: 7.6.0
     dotenv-cli: 7.0.0
     eslint: 8.29.0
-    eslint-config-prettier: 8.5.0
     eslint-plugin-import: 2.26.0
     eslint-plugin-prettier: 4.2.1
     eslint-plugin-simple-import-sort: 8.0.0
@@ -1622,7 +1620,6 @@ __metadata:
     dotenv: 16.0.3
     dotenv-expand: 10.0.0
     eslint: 8.29.0
-    eslint-config-prettier: 8.5.0
     eslint-plugin-import: 2.26.0
     eslint-plugin-prettier: 4.2.1
     eslint-plugin-simple-import-sort: 8.0.0
@@ -1714,7 +1711,6 @@ __metadata:
     dotenv: 16.0.3
     dotenv-expand: 10.0.0
     eslint: 8.29.0
-    eslint-config-prettier: 8.5.0
     eslint-plugin-import: 2.26.0
     eslint-plugin-prettier: 4.2.1
     eslint-plugin-simple-import-sort: 8.0.0
@@ -1827,7 +1823,6 @@ __metadata:
     dotenv-expand: 10.0.0
     eslint: 8.29.0
     eslint-config-next: 13.0.6
-    eslint-config-prettier: 8.5.0
     eslint-plugin-import: 2.26.0
     eslint-plugin-jsx-a11y: 6.6.1
     eslint-plugin-prettier: 4.2.1

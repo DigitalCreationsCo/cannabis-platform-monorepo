@@ -44,7 +44,7 @@ function App({ Component, pageProps }: CustomAppProps) {
 
     const getLayoutContext = Component.getLayoutContext || (() => ({}));
 
-    return typeof window !== undefined ? (
+    return typeof window !== 'undefined' ? (
         <>
             <Head>
                 <title>Gras Cannabis Marketplace</title>
