@@ -1,40 +1,14 @@
 {
-  "dependencies": {
+  "devDependencies": {
     "@cd/data-access": "*",
     "@cd/shared-config": "*",
     "@cd/shared-ui": "*",
-    "eslint-plugin-react": "7.31.11"
-  },
-  "devDependencies": {
-    "@carbon/icons-react": "11.16.0",
     "@reduxjs/toolkit": "1.8.3",
-    "@tailwindcss/typography": "0.5.8",
-    "@types/carbon__icons-react": "11.15.0",
     "@types/node": "18.11.10",
     "@types/react-dom": "18.0.8",
-    "@typescript-eslint/eslint-plugin": "5.45.0",
-    "@typescript-eslint/parser": "5.45.0",
-    "autoprefixer": "10.4.13",
-    "axios": "1.2.1",
-    "clsx": "1.2.1",
-    "concurrently": "7.6.0",
-    "daisyui": "2.46.0",
-    "date-fns": "2.29.3",
     "dotenv": "16.0.3",
-    "eslint": "8.29.0",
-    "eslint-config-next": "13.0.6",
-    "eslint-config-prettier": "8.5.0",
-    "eslint-plugin-import": "2.26.0",
-    "eslint-plugin-jsx-a11y": "6.6.1",
-    "eslint-plugin-prettier": "4.2.1",
-    "eslint-plugin-react-hooks": "4.6.0",
-    "eslint-plugin-simple-import-sort": "8.0.0",
-    "json": "11.0.0",
-    "postcss": "8.4.19",
-    "prettier": "2.8.0",
     "react-hot-toast": "2.4.0",
     "react-redux": "8.0.2",
-    "tailwind-merge": "1.8.0",
     "tailwindcss": "3.2.4",
     "tsup": "6.7.0",
     "typescript": "4.9.3"
@@ -49,6 +23,7 @@
   "module": "dist/index.js",
   "name": "@cd/shared-lib",
   "peerDependencies": {
+    "axios": "1.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },

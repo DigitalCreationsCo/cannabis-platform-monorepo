@@ -3,8 +3,9 @@
   "include": ["."],
   "exclude": ["dist", "build", "node_modules"],
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true, 
     "outDir": "dist",
-      "target": "ESNext",
-      "module": "ESNext",
+    "target": "ESNext",
+    "module": "ESNext",
   }
 }
