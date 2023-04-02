@@ -11,10 +11,6 @@
     "**/*.tsx",
   ],
   "exclude": [
-    "**/node_modules",
-    "**/dist",
-    "@cd/data-access",
-    "@cd/shared-ui",
-    "@cd/shared-lib"
+    "**/*.css",
   ]
 }

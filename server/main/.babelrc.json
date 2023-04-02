@@ -3,7 +3,7 @@
       ["@babel/preset-env"],
       ["@babel/preset-typescript"]
     ],
-    "ignore": ["node_modules", "**/*.css"],
+    "ignore": ["*.css"],
     "minified": true,
     "env": {
         "development": {
