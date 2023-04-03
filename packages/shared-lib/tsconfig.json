@@ -3,8 +3,8 @@
   "include": ["."],
   "exclude": ["dist", "build", "**/node_modules"],
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true, 
-    "esModuleInterop": true,
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
       "baseUrl": ".",
       "target": "ESNext",
       "module": "ESNext",

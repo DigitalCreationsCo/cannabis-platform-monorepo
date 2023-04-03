@@ -1,4 +1,4 @@
-import '@cd/shared-config/index.css';
+import '../../shared-config/index.css;';
 export { default as Button } from './Button';
 export { default as Card } from './Card';
 export { default as Center } from './Center';

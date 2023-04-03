@@ -14,7 +14,7 @@ export default defineConfig((options) => {
             target: ['esnext'],
             sourcemap: !options.watch,
             minify: !options.watch,
-            external: ['react', 'react-dom']
+            external: ['react', 'react-dom', 'supertokens-auth-react', 'supertokens-node']
         },
         {
             entry: ['src/index.ts'],
@@ -26,7 +26,7 @@ export default defineConfig((options) => {
             target: ['esnext'],
             sourcemap: !options.watch,
             minify: !options.watch,
-            external: ['react', 'react-dom']
+            external: ['react', 'react-dom', 'supertokens-auth-react', 'supertokens-node']
         }
     ];
 });

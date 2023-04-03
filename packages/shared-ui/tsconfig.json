@@ -8,5 +8,9 @@
     "allowSyntheticDefaultImports": true, 
     "target": "ESNext",
     "module": "ESNext",
+    "paths": {
+      "@cd/shared-config": ["../../packages/shared-config"],
+      "@cd/shared-config/*": ["../../packages/shared-config/*"],
+    }
   }
 }

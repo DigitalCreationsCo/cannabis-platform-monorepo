@@ -15,6 +15,6 @@
     "paths": {
       "@cd/data-access": ["../../packages/data-access/src"],
       "@cd/shared-lib": ["../../packages/shared-lib/src"],
-    }
+      }
     },
 }

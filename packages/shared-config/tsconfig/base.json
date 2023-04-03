@@ -16,6 +16,6 @@
       "preserveWatchOutput": true,
       "strict": false,
       "target": "ESNext",
-      "lib": ["ESNext"]
+      "lib": ["ESNext","dom","dom.iterable"]
     }
   }
