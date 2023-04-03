@@ -94,6 +94,8 @@ persist redux store in nextjs, test
 Revise build pattern for packages/ and server/main.
 IT TOOK ME MORE THAN 2 WEEKS TO FIX THIS. 
 COMMIT FREQUENTLY. RESOLVE ISSUES BEFORE MOVING ON. DONT BLOCK YOURSELF BY CREATING TOO MANY CHANGES.
+4-2-2023
+still resolving deps build and dev server :)
 
 TO DO:
 test stripe account creation.
