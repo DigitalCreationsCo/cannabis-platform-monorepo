@@ -1606,7 +1606,6 @@ __metadata:
     "@babel/preset-flow": 7.18.6
     "@babel/preset-typescript": 7.18.6
     "@cd/data-access": "*"
-    "@cd/shared-config": "*"
     "@paralleldrive/cuid2": 2.2.0
     "@types/bcryptjs": 2.4.2
     "@types/jest": 29.2.4
@@ -1632,8 +1631,6 @@ __metadata:
     pm2: 5.2.2
     prettier: 2.8.0
     supertest: 6.3.3
-    supertokens-auth-react: 0.28.1
-    supertokens-node: 12.1.3
     ts-jest: 29.0.3
     ts-node: 10.9.1
     typescript: 4.9.3
@@ -1650,7 +1647,6 @@ __metadata:
     "@babel/preset-env": 7.20.2
     "@babel/preset-typescript": 7.18.6
     "@cd/data-access": "*"
-    "@cd/shared-config": "*"
     "@cd/shared-lib": "*"
     "@types/bcryptjs": 2.4.2
     "@types/jest": 29.2.4
@@ -1678,7 +1674,6 @@ __metadata:
     pm2: 5.2.2
     prettier: 2.8.0
     supertest: 6.3.3
-    supertokens-auth-react: 0.28.1
     supertokens-node: 12.1.3
     ts-jest: 29.0.3
     ts-node: 10.9.1
@@ -1698,7 +1693,6 @@ __metadata:
     "@babel/preset-flow": 7.18.6
     "@babel/preset-typescript": 7.18.6
     "@cd/data-access": "*"
-    "@cd/shared-config": "*"
     "@types/jest": 29.2.4
     "@types/node": 18.11.10
     "@typescript-eslint/eslint-plugin": 5.45.0
@@ -1754,7 +1748,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cd/shared-lib@workspace:packages/shared-lib"
   dependencies:
-    "@cd/shared-ui": "*"
+    "@cd/shared-ui": "workspace:^"
     "@reduxjs/toolkit": 1.8.3
     "@types/node": 18.11.10
     "@types/react-dom": 18.0.8
@@ -1765,13 +1759,15 @@ __metadata:
     tsup: 6.7.0
     typescript: 4.9.3
   peerDependencies:
+    "@types/react": 18.0.8
+    "@types/react-dom": 18.0.8
     axios: 1.2.1
     react: 18.2.0
     react-dom: 18.2.0
   languageName: unknown
   linkType: soft
 
-"@cd/shared-ui@*, @cd/shared-ui@workspace:packages/shared-ui":
+"@cd/shared-ui@*, @cd/shared-ui@workspace:^, @cd/shared-ui@workspace:packages/shared-ui":
   version: 0.0.0-use.local
   resolution: "@cd/shared-ui@workspace:packages/shared-ui"
   dependencies:
@@ -1803,6 +1799,7 @@ __metadata:
     "@cd/shared-config": "*"
     "@cd/shared-lib": "*"
     "@cd/shared-ui": "*"
+    "@emotion/react": ^11.10.6
     "@reduxjs/toolkit": 1.8.3
     "@tailwindcss/typography": 0.5.8
     "@types/formidable": 2.0.5
@@ -1912,7 +1909,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/react@npm:^11.1.1, @emotion/react@npm:^11.4.1":
+"@emotion/react@npm:^11.1.1, @emotion/react@npm:^11.10.6, @emotion/react@npm:^11.4.1":
   version: 11.10.6
   resolution: "@emotion/react@npm:11.10.6"
   dependencies:
@@ -3210,13 +3207,13 @@ __metadata:
   linkType: hard
 
 "@types/react@npm:*":
-  version: 18.0.31
-  resolution: "@types/react@npm:18.0.31"
+  version: 18.0.32
+  resolution: "@types/react@npm:18.0.32"
   dependencies:
     "@types/prop-types": "*"
     "@types/scheduler": "*"
     csstype: ^3.0.2
-  checksum: 6befbd5587e266905b50fd6bbd7c1cacd557bddf99e6a9862ca2f1d06df3dca71b9d485a37d010479730f021aab93b852d417c714de5efc2f41be0ff4c09b4db
+  checksum: c8dbce83c455e520e75f3649988f46100e3a3c0bf7241281ea5bd9067a0368290f0d7c6102e12e6ec9d649134b29a3ef4c421f376ec5aa06ed78cbdd8c144b4c
   languageName: node
   linkType: hard
 

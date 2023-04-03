@@ -3,5 +3,8 @@
     "outDir": "dist",
     "target": "ESNext",
     "module": "ESNext",
+    "paths": {
+      "@cd/data-access": ["../../packages/data-access/src"],
+    }
   }
 }

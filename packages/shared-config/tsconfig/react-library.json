@@ -6,6 +6,7 @@
       "jsx": "react-jsx",
       "lib": ["ESNext", "dom","dom.iterable"],
       "module": "ESNext",
-      "declaration": true
+      "declaration": true,
+      "sourceMap": true
     }
   }

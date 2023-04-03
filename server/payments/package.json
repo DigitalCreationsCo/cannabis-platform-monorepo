@@ -15,7 +15,6 @@
     "@babel/preset-env": "7.20.2",
     "@babel/preset-flow": "7.18.6",
     "@babel/preset-typescript": "7.18.6",
-    "@cd/shared-config": "*",
     "@types/jest": "29.2.4",
     "@types/node": "18.11.10",
     "@typescript-eslint/eslint-plugin": "5.45.0",

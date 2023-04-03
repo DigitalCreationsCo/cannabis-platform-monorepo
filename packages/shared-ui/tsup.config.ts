@@ -7,7 +7,6 @@ export default defineConfig((options) => {
         {
             entry: ['src/index.ts'],
             outDir: 'dist/esm',
-            splitting: true,
             clean: true,
             dts: true,
             format: ['esm'],
@@ -20,7 +19,6 @@ export default defineConfig((options) => {
         {
             entry: ['src/index.ts'],
             outDir: 'dist/cjs',
-            splitting: true,
             clean: true,
             dts: true,
             format: ['cjs'],

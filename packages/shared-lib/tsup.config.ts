@@ -15,7 +15,7 @@ export default defineConfig((options) => {
             sourcemap: !options.watch,
             // Do not minify node only packages to let patching possible by the consumer (ie: patch-package)
             minify: false,
-            external: ['react', 'react-dom']
+            external: ['react', 'react-dom', 'supertokens-auth-react', '@cd/shared-ui']
         },
         {
             entry: ['src'],
@@ -28,7 +28,7 @@ export default defineConfig((options) => {
             sourcemap: !options.watch,
             // Do not minify node only packages to let patching possible by the consumer (ie: patch-package)
             minify: false,
-            external: ['react', 'react-dom']
+            external: ['react', 'react-dom', 'supertokens-auth-react', '@cd/shared-ui']
         }
     ];
 });

@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "@cd/shared-ui": "*",
+    "@cd/shared-ui": "workspace:^",
     "@reduxjs/toolkit": "1.8.3",
     "@types/node": "18.11.10",
     "@types/react-dom": "18.0.8",
@@ -21,6 +21,8 @@
   "module": "dist/esm/index.js",
   "name": "@cd/shared-lib",
   "peerDependencies": {
+    "@types/react": "18.0.8",
+    "@types/react-dom": "18.0.8",
     "axios": "1.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0"

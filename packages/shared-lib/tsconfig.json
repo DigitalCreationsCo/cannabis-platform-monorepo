@@ -3,9 +3,13 @@
   "include": ["."],
   "exclude": ["dist", "build", "**/node_modules"],
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true, 
+    "esModuleInterop": true,
       "baseUrl": ".",
-      "outDir": "dist",
       "target": "ESNext",
       "module": "ESNext",
+      "paths": {
+        "@cd/shared-ui": ["../../packages/shared-ui/src"]
+      }
   }
 }
