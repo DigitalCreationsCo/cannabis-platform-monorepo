@@ -9,7 +9,6 @@ module.exports = {
     env: {
         browser: true,
         node: true,
-        es6: true,
         jest: true
     },
     parserOptions: {
@@ -23,5 +22,5 @@ module.exports = {
             }
         }
     },
-    ignorePatterns: ['node_modules', 'build', 'dist', 'public']
+    ignorePatterns: ['**/node_modules', 'build', 'dist', 'public']
 };

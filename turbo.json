@@ -45,10 +45,13 @@
             "outputs": []
         },
         "watch": {
-            "cache": true,
-            "dependsOn": ["@cd/data-access#db:generate", "^watch"],
+            "cache": false,
+            "dependsOn": ["^watch"],
             "inputs": [],
-            "outputs": []
+            "outputs": [
+                "dist/**",
+                ".next/**"
+            ]
         }
     }
 }

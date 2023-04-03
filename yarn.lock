@@ -1754,8 +1754,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cd/shared-lib@workspace:packages/shared-lib"
   dependencies:
-    "@cd/data-access": "*"
-    "@cd/shared-config": "*"
     "@cd/shared-ui": "*"
     "@reduxjs/toolkit": 1.8.3
     "@types/node": 18.11.10
@@ -1779,7 +1777,6 @@ __metadata:
   dependencies:
     "@carbon/icons-react": 11.16.0
     "@cd/data-access": "*"
-    "@cd/shared-config": "*"
     "@types/carbon__icons-react": 11.15.0
     daisyui: 2.46.0
     date-fns: 2.29.3
