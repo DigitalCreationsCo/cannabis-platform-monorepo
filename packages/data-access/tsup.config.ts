@@ -1,6 +1,8 @@
 import * as dotenv from 'dotenv';
 import { defineConfig } from 'tsup';
-dotenv.config({ path: `../../.env.${process.env.NODE_ENV}` });
+const nodeEnv = process.env.NODE_ENV || 'development';
+
+dotenv.config({ path: `../../.env.${nodeEnv}` });
 
 export default defineConfig((options) => {
     return [
