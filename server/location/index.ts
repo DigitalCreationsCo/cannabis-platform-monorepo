@@ -1,10 +1,10 @@
-import { loadEnv } from '@cd/shared-config/config/loadEnv.js';
-import { config } from 'dotenv';
-import { expand } from 'dotenv-expand';
+// import { loadEnv } from '@cd/shared-config/config/loadEnv.js';
+// import { config } from 'dotenv';
+// import { expand } from 'dotenv-expand';
 
 const nodeEnv = process.env.NODE_ENV;
-expand(config({ path: loadEnv(nodeEnv) }));
-const port = process.env.SERVER_LOCATION_PORT || 'xxxx';
+// expand(config({ path: loadEnv(nodeEnv) }));
+const port = process.env.SERVER_LOCATION_PORT || 'NO_PORT_FOUND';
 
 import { connectDb, server } from './src';
 
