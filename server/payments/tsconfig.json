@@ -1,7 +1,15 @@
 {
   "extends": "@cd/shared-config/tsconfig/base.json",
-  "include": ["."],
-  "exclude": ["dist", "build", "node_modules"],
+  "include": [
+    "src",
+    "**/*.ts",
+    "**/*.tsx",
+  ],
+  "exclude": [
+    "**/node_modules",
+    "dist", 
+    "build"
+  ],
   "compilerOptions": {
     "outDir": "dist",
     "target": "ESNext",

@@ -12,12 +12,25 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "paths": {
-      "@cd/data-access": ["../../packages/data-access/src"],
-      "@cd/data-access/*": ["../../packages/data-access/src/*"],
-      "@cd/shared-ui": ["../../packages/shared-ui/src"],
-      "@cd/shared-ui/*": ["../../packages/shared-ui/src/*"],
-      "@cd/shared-lib": ["../../packages/shared-lib/src"],
-      "@cd/shared-lib/*": ["../../packages/shared-lib/src/*"]
-    }
+      "@cd/data-access": [
+        "../../packages/data-access/src"
+      ],
+      "@cd/data-access/*": [
+        "../../packages/data-access/src/*"
+      ],
+      "@cd/shared-ui": [
+        "../../packages/shared-ui/src"
+      ],
+      "@cd/shared-ui/*": [
+        "../../packages/shared-ui/src/*"
+      ],
+      "@cd/shared-lib": [
+        "../../packages/shared-lib/src"
+      ],
+      "@cd/shared-lib/*": [
+        "../../packages/shared-lib/src/*"
+      ]
+    },
+    "jsx": "preserve"
   }
 }

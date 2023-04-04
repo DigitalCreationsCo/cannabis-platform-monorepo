@@ -19,8 +19,8 @@ const MODAL_COMPONENTS = Object.freeze({
 const ModalContainer = (props: ModalStateProps & LoginModalProps) => {
   const ModalComponent = useMemo(() => MODAL_COMPONENTS[props.modalType], [props.modalType]);
   if (!props.modalType && !props.modalVisible) return <></>;
-  // return <ModalComponent {...props} />;
-  return <LoginModal {...props} />
+  return <ModalComponent {...props} />;
+  // return <LoginModal {...props} />
   // return <div>modal container here modalType:{props.modalType}</div>
 };
 

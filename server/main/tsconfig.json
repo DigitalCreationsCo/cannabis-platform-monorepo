@@ -6,6 +6,7 @@
   ],
   "exclude": [
     "**/*.css",
+    "**/node_modules"
   ],
   "compilerOptions": {
     "target": "ESNext",

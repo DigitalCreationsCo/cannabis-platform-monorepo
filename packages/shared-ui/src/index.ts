@@ -38,5 +38,4 @@ export { default as UploadImageBox } from './UploadImageBox';
 export * from './assets';
 export { default as Icons } from './icons';
 export * from './modal';
-export * from './styles';
-
+import '../../shared-config/index.css';

@@ -1,4 +1,12 @@
 {
+  "include": [
+    "src",
+    "**/*.ts",
+    "**/*.tsx",
+  ],
+  "exclude": [
+    "**/node_modules"
+  ],
   "compilerOptions": {
     "outDir": "dist",
     "target": "ESNext",

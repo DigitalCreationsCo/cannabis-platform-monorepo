@@ -9,7 +9,8 @@
       "target": "ESNext",
       "module": "ESNext",
       "paths": {
-        "@cd/shared-ui": ["../../packages/shared-ui/src"]
+        "@cd/shared-ui": ["../../packages/shared-ui/src"],
+        "@cd/shared-ui/*": ["../../packages/shared-ui/src/*"]
       }
   }
 }
