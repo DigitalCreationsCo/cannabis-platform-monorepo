@@ -7,8 +7,6 @@
     "pm2": "5.2.2"
   },
   "devDependencies": {
-    "dotenv": "16.0.3",
-    "dotenv-expand": "10.0.0",
     "@babel/cli": "7.20.7",
     "@babel/core": "7.20.12",
     "@babel/preset-env": "7.20.2",
@@ -21,6 +19,8 @@
     "babel-plugin-inline-dotenv": "1.7.0",
     "cors": "2.8.5",
     "cross-env": "7.0.3",
+    "dotenv": "16.0.3",
+    "dotenv-expand": "10.0.0",
     "eslint": "8.29.0",
     "eslint-plugin-import": "2.26.0",
     "eslint-plugin-prettier": "4.2.1",
