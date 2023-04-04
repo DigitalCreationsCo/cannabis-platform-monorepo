@@ -1,6 +1,6 @@
 import { Dispatch, PropsWithChildren, SetStateAction, useState } from 'react';
-import { Tag } from '.';
 import FlexBox from './FlexBox';
+import Tag from './Tag';
 import Icons from './icons';
 
 function ClickableTags({ values, setValues, valueKey }: ClickableTagProps) {
