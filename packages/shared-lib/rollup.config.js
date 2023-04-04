@@ -15,14 +15,14 @@ export default {
         {
             file: packageJson.module,
             format: 'esm',
+            name: '@cd/shared-lib',
             sourcemap: true
         }
     ],
     plugins: [
         resolve(),
         commonjs(),
-
         typescript({ tsconfig: './tsconfig.json' })
     ],
-    external: ['react', 'react-dom']
+    external: ['@reduxjs/toolkit', 'axios', 'react', 'react-dom', '@cd/shared-ui']
 };

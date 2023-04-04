@@ -11,7 +11,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "1.8.3",
+    "@reduxjs/toolkit": "1.9.1",
     "@types/formidable": "2.0.5",
     "@types/jest": "29.2.4",
     "@types/node": "18.11.10",

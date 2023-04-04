@@ -8,9 +8,8 @@ module.exports = function (config) {
         presets: [
             '@babel/preset-env',
             '@babel/preset-typescript'
-            // '@babel/preset-flow'
         ],
-        // ignore: ['**/test'],
+        ignore: ['**/*.test'],
         env: {
             development: {
                 plugins: [
