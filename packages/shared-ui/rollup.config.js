@@ -2,7 +2,6 @@ import commonjs from '@rollup/plugin-commonjs';
 import image from '@rollup/plugin-image';
 import resolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
-import path from 'path';
 import postcss from 'rollup-plugin-postcss';
 import packageJson from './package.json' assert { type: 'json' };
 
@@ -32,7 +31,7 @@ export default {
             inject: {
                 insertAt: 'top'
             },
-            extract: path.resolve('dist/style.css')
+            extract: 'style.css'
         }),
         resolve(),
         commonjs(),

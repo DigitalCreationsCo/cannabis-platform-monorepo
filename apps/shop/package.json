@@ -11,9 +11,6 @@
     "start": "next start"
   },
   "dependencies": {
-    "@cd/data-access": "*",
-    "@cd/shared-lib": "*",
-    "@cd/shared-ui": "*",
     "@reduxjs/toolkit": "1.8.3",
     "@types/formidable": "2.0.5",
     "@types/jest": "29.2.4",
@@ -52,6 +49,9 @@
     "yup": "0.32.11"
   },
   "devDependencies": {
+    "@cd/data-access": "*",
+    "@cd/shared-lib": "*",
+    "@cd/shared-ui": "*",
     "@emotion/react": "11.10.6",
     "eslint": "8.29.0",
     "eslint-config-next": "13.0.6",

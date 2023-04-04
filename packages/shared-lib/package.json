@@ -1,8 +1,6 @@
 {
-  "dependencies": {
-    "@cd/shared-ui": "*"
-  },
   "devDependencies": {
+    "@cd/shared-ui": "*",
     "@reduxjs/toolkit": "1.8.3",
     "@types/node": "18.11.10",
     "@types/react-dom": "18.0.8",
