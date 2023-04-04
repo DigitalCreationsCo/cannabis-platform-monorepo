@@ -1,46 +1,44 @@
 {
-  "dependencies": {
-    "@cd/shared-config": "*",
-    "@prisma/client": "^4.4.0"
+  "peerDependencies": {
+    "@prisma/client": "4.10.0"
   },
   "devDependencies": {
+    "@prisma/client": "4.10.0",
     "@types/jest": "29.2.4",
     "@typescript-eslint/eslint-plugin": "5.45.0",
     "@typescript-eslint/parser": "5.45.0",
     "concurrently": "7.6.0",
     "dotenv-cli": "7.0.0",
     "eslint": "8.29.0",
-    "eslint-config-prettier": "8.5.0",
     "eslint-plugin-import": "2.26.0",
     "eslint-plugin-prettier": "4.2.1",
     "eslint-plugin-simple-import-sort": "8.0.0",
     "jest": "29.3.1",
     "jest-mock-extended": "3.0.1",
     "prettier": "2.8.0",
-    "prisma": "^4.4.0",
+    "prisma": "4.10.0",
     "ts-jest": "29.0.3",
     "ts-node": "10.9.1",
+    "tsup": "6.7.0",
     "typescript": "4.9.3"
   },
-  "files": [
-    "dist"
-  ],
-  "main": "./dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.cjs"
+    }
+  },
+  "main": "./dist/cjs/index.cjs",
+  "module": "./dist/esm/index.js",
   "name": "@cd/data-access",
   "prisma": {
     "schema": "./schema.prisma",
     "seed": "ts-node --esm src/db/seed.ts"
   },
-  "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.js"
-    }
-  },
   "private": true,
   "scripts": {
-    "build": "dotenv -e ../../.env.development -- yarn db:generate && tsc -b",
-    "build:prod": "dotenv -e ../../.env.production -- prisma migrate deploy && tsc -b",
+    "build": "NODE_ENV=production tsup",
+    "build:prod": "NODE_ENV=production tsup",
     "db:clear": "ts-node --esm src/db/clear.ts",
     "db:generate": "npx prisma generate",
     "db:migrate-init": "dotenv -e ../../.env.development -- prisma migrate dev --name initial-migration --create-only && prisma migrate dev",
@@ -49,12 +47,14 @@
     "db:migrate-prod": "dotenv -e ../../.env.production -- prisma migrate deploy",
     "db:push": "dotenv -e ../../.env.development -- npx prisma db push",
     "db:push-force": "npx prisma db push --force-reset --accept-data-loss",
-    "db:reseed": "dotenv -e ../../.env.development -- npx prisma db push && prisma generate && yarn db:clear && prisma db seed && prisma generate && yarn build",
+    "db:reseed": "dotenv -e ../../.env.development -- yarn db:clear && dotenv -e ../../.env.development -- npx prisma db push && dotenv -e ../../.env.development prisma db seed && prisma generate && yarn build",
     "db:seed": "dotenv -e ../../.env.development -- prisma db seed",
     "db:studio": "dotenv -e ../../.env.development -- prisma studio",
     "test": "../../node_modules/jest/bin/jest.js",
-    "watch": "tsc --watch"
+    "watch": "NODE_ENV=development tsup --watch",
+    "postinstall": "yarn db:generate"
   },
-  "types": "dist/index.d.ts",
+  "type": "module",
+  "types": "dist/esm/index.d.ts",
   "version": "0.0.1"
 }

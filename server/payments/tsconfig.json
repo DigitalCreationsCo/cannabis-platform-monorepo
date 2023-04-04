@@ -1,0 +1,21 @@
+{
+  "extends": "@cd/shared-config/tsconfig/base.json",
+  "include": [
+    "src",
+    "**/*.ts",
+    "**/*.tsx",
+  ],
+  "exclude": [
+    "**/node_modules",
+    "dist", 
+    "build"
+  ],
+  "compilerOptions": {
+    "outDir": "dist",
+    "target": "ESNext",
+    "module": "ESNext",
+    "paths": {
+      "@cd/data-access": ["../../packages/data-access/src"],
+    }
+  }
+}

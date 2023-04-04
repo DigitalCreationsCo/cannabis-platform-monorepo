@@ -28,6 +28,7 @@ export async function findSessionByHandle(sessionHandle:string) {
 
 export async function createSession(sessionHandle:string, sessionPayload: SessionPayload, expires:number) {
     try {
+        console.log('create session args: ', sessionHandle, sessionPayload, expires)
         const session = await prisma.session.create({
             data: {
                 sessionHandle,
@@ -38,15 +39,6 @@ export async function createSession(sessionHandle:string, sessionPayload: Sessio
                     connect: { id: sessionPayload.userId }
                 }
             },
-            // include: {
-            //     user: {
-            //         include: {
-            //             address: true,
-            //             imageUser: true,
-            //             memberships: true
-            //         }
-            //     }
-            // }
         })
         return session;
     } catch (error: any) {

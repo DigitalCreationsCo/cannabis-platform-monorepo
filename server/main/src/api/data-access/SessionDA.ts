@@ -24,6 +24,7 @@ export default class SessionDA {
 
     static async createUserSession(sessionHandle: string, sessionPayload: SessionPayload, expires: number) {
         try {
+            console.log('creating user session for user: ', sessionPayload)
             const session = await createSession(sessionHandle, sessionPayload, expires)
             return session;
         } catch (error) {
@@ -34,6 +35,7 @@ export default class SessionDA {
 
     static async updateExpireSession(handle:string, expires: number) {
         try {
+            console.log('updating session expire for session: ', handle, expires)
             const data = await updateExpireSession(handle, expires);
             return data;
         } catch (error) {

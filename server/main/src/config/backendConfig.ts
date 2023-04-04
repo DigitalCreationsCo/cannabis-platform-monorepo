@@ -1,8 +1,9 @@
-import { Address, findUserWithDetailsByEmail, SessionPayload, UserCreateType, UserLoginData } from "@cd/data-access";
-import { appInfo } from "@cd/shared-config/auth/appInfo";
+import { findUserWithDetailsByEmail, SessionPayload, UserLoginData } from "@cd/data-access";
+import { appInfo } from "@cd/shared-config/auth/appInfo.js";
 import Dashboard from "supertokens-node/recipe/dashboard";
 import EmailPassword from "supertokens-node/recipe/emailpassword";
 import Session from "supertokens-node/recipe/session";
+// import { UserRoleClaim } from "supertokens-node/recipe/userroles";
 import { AuthConfig } from "../../interfaces";
 import { SessionDA, UserDA } from "../api/data-access";
 
@@ -20,7 +21,7 @@ export let backendConfig = (): AuthConfig => {
                     formFields: [
                         { id: 'email'},
                         { id: 'password' },
-                        { id: 're-password' },
+                        { id: 're_password' },
                         { id: 'username' },
                         { id: 'firstName' },
                         { id: 'lastName' },
@@ -38,7 +39,8 @@ export let backendConfig = (): AuthConfig => {
                 },
                 override: {
                     functions(originalImplementation) {
-                        return { 
+                        return {
+
                             ...originalImplementation,
                             async signIn(input: UserLoginData) {
                                 try{
@@ -56,6 +58,7 @@ export let backendConfig = (): AuthConfig => {
                                 //     throw new Error('Invalid password')
                                 // }
                                 const response = await originalImplementation.signIn({...input, userContext: user})
+                                console.log('backend signin reponse: ', response)
                                 return response
                                 } catch (error) {
                                     console.log('backend signin error: ', error)
@@ -66,56 +69,75 @@ export let backendConfig = (): AuthConfig => {
                                     }
                                 }
                             },
+
+                            async signUp(input) {
+                                try{
+                                const response = await originalImplementation.signUp(input)
+                                return response
+                                } catch (error) {
+                                    console.log('backend signup error: ', error)
+                                    throw new Error(error)
+                                }
+                            },
                         }
                     },
                     apis(originalImplementation) {
                         return {
+                            
                             ...originalImplementation,
                             signInPOST: async function (input) {
                                 try {
-                                console.log('backend signInPost input: ', input)
-                                return originalImplementation.signInPOST(input)
+                                let response = await originalImplementation.signInPOST(input)
+                                console.log('sign in POST OK')
+                                return response
                                 } catch (error) {
                                     console.log('backend signInPost error: ', error)
                                     throw new Error(error)
                                 }
                             },
                             signUpPOST: async function (input) {
-                                console.log('backend signUpPost input: ', input)
+                                try {
                                 if (originalImplementation.signUpPOST === undefined) {
-                                    throw Error("backend signUpPost: Something went wrong.");
+                                    throw Error("backend signUp: Something went wrong.");
                                 }
                                 
-                                let response = {...await originalImplementation.signUpPOST(input) }
+                                const formFieldsArr = Object.values(input.formFields)
+                                const formFields = formFieldsArr.map((_, index )=> {
+                                    const id = formFieldsArr[index]['id']
+                                    return {[id]: _['value']}
+                                })
+                                
+                                const formFieldsTransformed = Object.assign({}, ...formFields)
+                                const createUserInput = {
+                                    ...formFieldsTransformed
+                                }
+
+                                const {timeJoined, street1, street2, city, state, zipcode, country, countryCode, ...createUserData} = createUserInput
+                                createUserData.address = {street1, street2, city, state, zipcode, country, countryCode}
+                                createUserData.createdAt = new Date(timeJoined)
+                                
+                                const user = await UserDA.createUser(createUserData);
+                                
+                                input.userContext ={ ...user }
+                                console.log('signup input with usercontext: ', input)
+
+                                let response = await originalImplementation.signUpPOST(input)
+
                                 if (response.status === 'OK') {
-                                    const formFieldsArr = Object.values(input.formFields)
-                                    const formFields = formFieldsArr.map((_, index )=> {
-                                        const id = formFieldsArr[index]['id']
-                                        return {[id]: _['value']}
-                                    })
-                                    
-                                    const formFieldsTransformed = Object.assign({}, ...formFields)
-                                    
-                                    response = { ...response, user: {...response.user, ...formFieldsTransformed }} // yes
-                                    // console.log('backend signUpPost OK response: ', response)
-
-                                    const {timeJoined, street1, street2, city, state, zipcode, country, countryCode, ...createUserData} = response.user as EmailPassword.User & UserCreateType & Address
-                                    createUserData.address = {street1, street2, city, state, zipcode, country, countryCode}
-                                    createUserData.createdAt = new Date(timeJoined)
-                                    // console.log('create user data: ', createUserData)
-
-                                    const user = await UserDA.createUser(createUserData);
-                                    // console.log ('backend signUpPost created user: ', user)
-
+                                    console.log('sign up POST OK')
                                     // future note: drivers will have only session active on a device.
                                     // Drivers will need their own session function for login
-                            
-                                    const sessionPayload:SessionPayload = { userId: user.id, username: user.username, email: user.email };
-                                    const dbSession = await SessionDA.createUserSession(response.session.getHandle(), sessionPayload, await response.session.getExpiry())
-                                    // console.log ('backend signUpPost created session: ', dbSession)
+                                    
+                                    response.user = { ...response.user, ...response.session.getAccessTokenPayload() }
                                 }
-                                // console.log('backend signUpPost response: ', response)
                                 return response
+                            } catch (error) {
+                                console.log('backend signInPost error: ', error.message)
+                                return { 
+                                    status: "GENERAL_ERROR",
+                                    message: error.message
+                                }
+                            }
                             },
                         }
                     },
@@ -125,23 +147,31 @@ export let backendConfig = (): AuthConfig => {
                 override: {
                     functions: (originalImplementation) => {
                         return {
+                            
                             ...originalImplementation,
                             createNewSession: async (input) => {
-                                console.log('backend createNewSession input: ', input)
-                                // create new user session, or driver session
+                                
+                                const userId = input.userContext.id
+                                input.userId = userId
+                                input.accessTokenPayload = {...input.accessTokenPayload, ...input.userContext}
+
                                 const session = await originalImplementation.createNewSession(input)
+
                                 const sessionPayload:SessionPayload = { userId: input.userId, username: input.accessTokenPayload.username, email: input.accessTokenPayload.email };
-                                const dbSession = await SessionDA.createUserSession(session.getHandle(), sessionPayload, await session.getExpiry())
+
+                                await SessionDA.createUserSession(session.getHandle(), sessionPayload, await session.getExpiry())
+                                
                                 return session;
                             }
                         }
                     },
                     apis: (originalImplementation) => {
-                        return { 
+                        return {
+                            
                             ...originalImplementation,
                             refreshPOST: async (input) => {
-                                console.log('backend refreshPOST input: ', input)
                                 const session = await originalImplementation.refreshPOST(input)
+                                console.log('refresh session: ', session)
                                 await SessionDA.updateExpireSession(session.getHandle(), await session.getExpiry())
                                 return session;
                             },

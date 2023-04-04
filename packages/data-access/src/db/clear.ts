@@ -9,18 +9,23 @@ async function clearRecords() {
     await prisma.imageOrganization.deleteMany();
     await prisma.imageProduct.deleteMany();
     await prisma.imageUser.deleteMany();
-    await prisma.organization.deleteMany();
-    await prisma.vendor.deleteMany();
-    await prisma.product.deleteMany();
-    await prisma.subDomain.deleteMany();
+
     await prisma.siteSetting.deleteMany();
     await prisma.category.deleteMany();
     await prisma.categoryList.deleteMany();
     await prisma.driver.deleteMany();
-    await prisma.order.deleteMany();
 
-    await prisma.address.deleteMany();
     await prisma.orderItem.deleteMany();
+    await prisma.order.deleteMany();
+    await prisma.address.deleteMany();
+
+    await prisma.productVariant.deleteMany();
+    await prisma.product.deleteMany();
+
+    await prisma.organization.deleteMany();
+    await prisma.vendor.deleteMany();
+    await prisma.subDomain.deleteMany();
+
     await prisma.membership.deleteMany();
     await prisma.user.deleteMany();
 

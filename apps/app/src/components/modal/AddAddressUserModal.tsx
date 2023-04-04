@@ -1,11 +1,11 @@
 import { AddressUserCreateType } from '@cd/data-access';
+import { urlBuilder } from '@cd/shared-lib';
 import { Button, FlexBox, Grid, Modal, ModalProps, TextField } from '@cd/shared-ui';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import { Dispatch, SetStateAction, useState } from 'react';
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
-import { urlBuilder } from '../../utils';
 
 interface AddAddressModalProps extends ModalProps {
     userId: string;
@@ -45,6 +45,12 @@ function AddAddressUserModal({ userId, onClose, setState, ...props }: AddAddress
         onSubmit: handleFormSubmit
     });
 
+    const closeModalAndReset = () => {
+        onClose();
+        setLoadingButton(false);
+        resetForm();
+    };
+
     async function handleFormSubmit(values: AddressUserCreateType) {
         try {
             if (!loadingButton) {
@@ -68,7 +74,7 @@ function AddAddressUserModal({ userId, onClose, setState, ...props }: AddAddress
                 setLoadingButton(false);
                 if (setState) setState((prev) => [...prev, data]);
                 toast.success('Address is created.');
-                if (onClose) onClose();
+                closeModalAndReset();
             }
         } catch (error) {
             setLoadingButton(false);
@@ -79,7 +85,7 @@ function AddAddressUserModal({ userId, onClose, setState, ...props }: AddAddress
     }
 
     return (
-        <Modal {...props} onClose={onClose}>
+        <Modal {...props} onClose={closeModalAndReset}>
             <Grid className="space-y-4">
                 <form
                     onSubmit={(e) => {

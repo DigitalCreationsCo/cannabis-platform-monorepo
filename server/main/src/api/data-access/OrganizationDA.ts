@@ -1,5 +1,6 @@
 import { createOrganization, findCategoryListByOrg, findOrganizationById, findUsersByOrganization, OrganizationCreateType } from '@cd/data-access';
-
+import { urlBuilder } from '@cd/shared-lib';
+import axios from 'axios';
 /* =================================
 Organization Data Access - data class for organization table
 
@@ -16,8 +17,21 @@ export default class OrganizationDA {
     static async createOrganization(organization: OrganizationCreateType) {
         try {
             const data = await createOrganization(organization);
-            console.log(`Organization ${organization.name} is created.`)
-            return data;
+            await axios.post(urlBuilder.location.createorganizationLocationRecord(), { ...organization },{ headers: {
+                          Accept: "application/json",
+                          "Content-Type": "application/json",
+                        }})
+            console.log(`${organization.name} record is created.`)
+
+            await axios.post(urlBuilder.payment.createDispensaryAccount(), { ...organization },{ 
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                }
+            })
+            console.log('stripe account created.')
+
+            return 'Your organization account is created';
         } catch (error) {
             console.error(error.message);
             throw new Error(error.message);

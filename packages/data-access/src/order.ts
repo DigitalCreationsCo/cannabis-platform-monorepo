@@ -1,14 +1,90 @@
-import { Address, Driver, Order, OrderItem, Prisma, User } from "@prisma/client";
+import { Address, Driver, Order, OrderItem, OrderStatus, Prisma, User } from "@prisma/client";
 import prisma from "./db/prisma";
 import { ProductVariantWithDetails } from "./product";
 
-export async function createOrder() {
-    // try {
-    // } catch (error) {
-    //     console.error(error.message)
-    //     throw new Error(error.message)
-    // }
+/*
+*   createOrder
+*   createPurchase
+*   findOrdersByOrg
+*   findOrderWithDetails
+*   updateOrderWithOrderItems
+*
+*   updateVariantQuantity
+*/
+
+
+export async function createOrder(order: any) {
+    try {
+        const createOrder = await prisma.order.upsert({
+            where: {
+                id: order.id
+            },
+            update: { 
+                ...order,
+                purchase: {
+                    connect: {
+                        id: order.purchaseId
+                    }
+                },
+                destinationAddress: {
+                    connect: {
+                        id: order.addressId
+                    }
+                },
+                customer: {
+                    connect: {
+                        id: order.customerId
+                    }
+                },
+                organization: {
+                    connect: {
+                        id: order.organizationId
+                    }
+                }
+             },
+             create: { 
+                ...order,
+                purchase: {
+                    connect: {
+                        id: order.purchaseId
+                    }
+                }
+            },
+        })
+        return createOrder as OrderWithDetails
+    } catch (error: any) {
+        console.error(error.message)
+        throw new Error(error.message)
+    }
  }
+
+export async function createPurchase(purchase: any) {
+    try {
+        const createPurchase = await prisma.purchase.upsert({
+            where: {
+                id: purchase.id
+            },
+            update: { ...purchase, order: { connect: { id: purchase.orderId } } },
+            create: { 
+                ...purchase,
+                order: {
+                    connect: {
+                        id: purchase.orderId
+                    }
+                },
+                customer: {
+                    connect: {
+                        id: (purchase.customerId)
+                    }
+                }
+            }
+        })
+        return createPurchase
+    } catch (error: any) {
+        console.error(error.message)
+        throw new Error(error.message)
+    }
+}
 
 export async function findOrdersByOrg(organizationId: string) {
     try {
@@ -55,11 +131,7 @@ export async function updateOrderWithOrderItems(order: any) {
             let orderId = order.id;
             let variantId = item.variantId
             const update = prisma.orderItem.upsert({
-                where: {
-                    orderId_variantId: {
-                        orderId, variantId
-                    }
-                },
+                where: { variantId },
                 create: { ...rest, quantity: Number(item.quantity) },
                 update: { ...rest, quantity: Number(item.quantity) }
             });
@@ -101,6 +173,39 @@ export async function deleteOrder() {
     // }
 }
 
+export async function updateVariantQuantity(variantId:string, quantity:number, operation:'+'|'-') {
+    try {
+        let updateVariant
+        if (operation === '-') {
+             updateVariant = await prisma.productVariant.update({
+                where: {
+                    id: variantId
+                },
+                data: {
+                    stock: {
+                        decrement: quantity
+                    }
+                }
+            })
+        } else if (operation === '+') {
+            updateVariant = await prisma.productVariant.update({
+                where: {
+                    id: variantId
+                },
+                data: {
+                    stock: {
+                        increment: quantity
+                    }
+                }
+            })
+        }
+        return updateVariant
+    } catch (error: any) {
+        console.error(error)
+        throw new Error(error)
+    }
+}
+
 // export type OrderWithDetails = Prisma.PromiseReturnType<typeof findOrderWithDetails>
 export type OrderWithDetails = Order & {
     driver: Driver | null;
@@ -113,4 +218,26 @@ export type OrderWithDetails = Order & {
 export type OrderItemWithDetails = OrderItem & {
     productVariant: ProductVariantWithDetails
     }
+
 export type OrderUpdate = Prisma.OrderUpdateArgs[ "data" ]
+// export type OrderCreate = Prisma.OrderCreateArgs[ "data" ]
+export type OrderCreate = {
+    id?: string
+    subtotal: number
+    total: number
+    taxFactor: number
+    tax: number
+    orderStatus?: OrderStatus
+    purchaseId?: string | null
+    addressId: string
+    customerId: string
+    organizationId: string
+    driverId?: string | null
+    isDelivered?: boolean
+    deliveredAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    items?: OrderItemWithDetails[]
+  }
+  
+export type PurchaseCreate = Prisma.PurchaseCreateArgs[ "data" ]

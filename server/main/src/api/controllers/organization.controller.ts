@@ -1,4 +1,4 @@
-import { getGeoCoordinates } from '../../util/utility';
+import { getGeoCoordinatesByAddress } from '@cd/shared-lib';
 import { OrganizationDA } from '../data-access';
 const Busboy = require('busboy');
 
@@ -19,7 +19,7 @@ export default class OrganizationController {
         try {
             const organization = req.body;
 
-            const coordinates = await getGeoCoordinates(organization.address);
+            const coordinates = await getGeoCoordinatesByAddress(organization.address);
             if (coordinates) organization.address.coordinates = coordinates;
 
             const data = await OrganizationDA.createOrganization(organization);

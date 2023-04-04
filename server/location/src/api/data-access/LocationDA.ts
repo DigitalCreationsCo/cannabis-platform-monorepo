@@ -1,4 +1,4 @@
-import { findLocalOrganizations, ServeUserProximity } from "@cd/data-access";
+import { findLocalOrganizationsById, OrganizationWithShopDetails, ServeUserProximity } from "@cd/data-access";
 import { MongoClient } from "mongodb";
 
 /* =================================
@@ -45,12 +45,27 @@ export default class LocationDA {
         .toArray();
         console.log('mongo local_organizations_ids: ', local_organizations_ids)
         
-            const local_organizations = await findLocalOrganizations(local_organizations_ids);
+            const local_organizations = await findLocalOrganizationsById(local_organizations_ids);
             console.log(`Found ${local_organizations.length} local organizations.`);
             return local_organizations;
         } catch (error) {
-            console.error('UserDA error: ', error.message);
+            console.error('LocationDA error: ', error.message);
             throw new Error(error.message);
         }
     }
+
+    static async addOrganizationMongoRecord(organization: OrganizationWithShopDetails) {
+      try {
+          const newOrganization = await organizations_geo.insertOne({ 
+            id: organization.id,
+            address: { ...organization.address,
+            coordinates: [organization.address.coordinates.longitude, organization.address.coordinates.latitude]},
+          })
+          console.log('created mongo organization record: ', newOrganization.id)
+          return newOrganization
+      } catch (error) {
+          console.error('LocationDA error: ', error.message);
+          throw new Error(error.message);
+      }
+  }
 }
