@@ -4,7 +4,7 @@
         "@cd/shared-config": "*",
         "@cd/shared-lib": "*",
         "@cd/shared-ui": "*",
-        "@reduxjs/toolkit": "1.8.3",
+        "@reduxjs/toolkit": "1.9.1",
         "@tailwindcss/typography": "0.5.8",
         "@types/formidable": "2.0.5",
         "@types/jest": "29.2.4",

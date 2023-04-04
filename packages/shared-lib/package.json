@@ -1,14 +1,14 @@
 {
   "devDependencies": {
-    "@cd/shared-ui": "*",
-    "@reduxjs/toolkit": "1.8.3",
+    "@rollup/plugin-commonjs": "^24.0.1",
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-typescript": "^11.0.0",
     "@types/node": "18.11.10",
     "@types/react-dom": "18.0.8",
     "dotenv": "16.0.3",
     "react-hot-toast": "2.4.0",
-    "react-redux": "8.0.2",
+    "rollup": "^3.20.2",
     "tailwindcss": "3.2.4",
-    "tsup": "6.7.0",
     "typescript": "4.9.3"
   },
   "exports": {
@@ -21,7 +21,9 @@
   "module": "dist/esm/index.js",
   "name": "@cd/shared-lib",
   "peerDependencies": {
+    "react-redux": "8.0.2",
     "@cd/shared-ui": "*",
+    "@reduxjs/toolkit": "1.9.1",
     "@types/react": "18.0.8",
     "@types/react-dom": "18.0.8",
     "axios": "1.2.1",
