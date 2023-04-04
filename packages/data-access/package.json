@@ -1,16 +1,15 @@
 {
-  "dependencies": {
-    "@cd/shared-config": "*",
+  "peerDependencies": {
     "@prisma/client": "4.10.0"
   },
   "devDependencies": {
+    "@prisma/client": "4.10.0",
     "@types/jest": "29.2.4",
     "@typescript-eslint/eslint-plugin": "5.45.0",
     "@typescript-eslint/parser": "5.45.0",
     "concurrently": "7.6.0",
     "dotenv-cli": "7.0.0",
     "eslint": "8.29.0",
-    "eslint-config-prettier": "8.5.0",
     "eslint-plugin-import": "2.26.0",
     "eslint-plugin-prettier": "4.2.1",
     "eslint-plugin-simple-import-sort": "8.0.0",
@@ -38,8 +37,8 @@
   },
   "private": true,
   "scripts": {
-    "build": "dotenv -e ../../.env.production -- yarn db:generate && tsup",
-    "build:prod": "dotenv -e ../../.env.production -- prisma migrate deploy && tsup",
+    "build": "NODE_ENV=production dotenv -e ../../.env.production -- yarn db:generate && tsup",
+    "build:prod": "NODE_ENV=production dotenv -e ../../.env.production -- prisma migrate deploy && tsup",
     "db:clear": "ts-node --esm src/db/clear.ts",
     "db:generate": "npx prisma generate",
     "db:migrate-init": "dotenv -e ../../.env.development -- prisma migrate dev --name initial-migration --create-only && prisma migrate dev",
@@ -52,7 +51,7 @@
     "db:seed": "dotenv -e ../../.env.development -- prisma db seed",
     "db:studio": "dotenv -e ../../.env.development -- prisma studio",
     "test": "../../node_modules/jest/bin/jest.js",
-    "watch": "dotenv -e ../../.env.development -- tsup --watch",
+    "watch": "NODE_ENV=development dotenv -e ../../.env.development -- tsup --watch",
     "postinstall": "yarn db:generate"
   },
   "type": "module",
