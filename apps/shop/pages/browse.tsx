@@ -1,11 +1,12 @@
 import { Grid, Page, Paragraph } from '@cd/shared-ui';
 import Head from 'next/head';
+import Session from 'supertokens-node/recipe/session';
 import { CategoriesSelector, DispensaryList } from '../src/components';
 
 const organizationsListDummy = [
-    { name: 'Dispensary 1', id: '234' },
-    { name: 'Dispensary 2', id: '345' },
-    { name: 'Dispensary 3', id: '456' }
+    { name: 'Curaleaf', subdomainId: 'curaleaf', id: '234' },
+    { name: 'Sunnyside', subdomainId: 'sunnyside', id: '345' },
+    { name: 'McNuggz', subdomainId: 'mcnuggz', id: '456' }
 ];
 
 export default function MarketPlace({ host }) {
@@ -22,6 +23,106 @@ export default function MarketPlace({ host }) {
                 <CategoriesSelector />
             </Grid>
             <Paragraph>
+                This page is the main shopping view. It displays a list of products and allows the user to add them to
+                the cart. It also display list of nearby dispensaries and lets the user enter their storefront to view
+                merchandise and content.
+            </Paragraph>
+            <Paragraph>
+                {`Shopping App
+            Env: APP_NAME: ${appName}
+            Shopping at host: ${host}
+            `}
+            </Paragraph>
+            <Paragraph>
+                {`Shopping App
+            Env: APP_NAME: ${appName}
+            Shopping at host: ${host}
+            `}
+            </Paragraph>
+            <Paragraph>
+                {`Shopping App
+            Env: APP_NAME: ${appName}
+            Shopping at host: ${host}
+            `}
+            </Paragraph>
+            <Paragraph>
+                {`Shopping App
+            Env: APP_NAME: ${appName}
+            Shopping at host: ${host}
+            `}
+            </Paragraph>
+            <Paragraph>
+                {`Shopping App
+            Env: APP_NAME: ${appName}
+            Shopping at host: ${host}
+            `}
+            </Paragraph>
+            <Paragraph>
+                This page is the main shopping view. It displays a list of products and allows the user to add them to
+                the cart. It also display list of nearby dispensaries and lets the user enter their storefront to view
+                merchandise and content.
+            </Paragraph>
+            <Paragraph>
+                {`Shopping App
+            Env: APP_NAME: ${appName}
+            Shopping at host: ${host}
+            `}
+            </Paragraph>
+            <Paragraph>
+                This page is the main shopping view. It displays a list of products and allows the user to add them to
+                the cart. It also display list of nearby dispensaries and lets the user enter their storefront to view
+                merchandise and content.
+            </Paragraph>
+            <Paragraph>
+                {`Shopping App
+            Env: APP_NAME: ${appName}
+            Shopping at host: ${host}
+            `}
+            </Paragraph>
+            <Paragraph>
+                This page is the main shopping view. It displays a list of products and allows the user to add them to
+                the cart. It also display list of nearby dispensaries and lets the user enter their storefront to view
+                merchandise and content.
+            </Paragraph>
+            <Paragraph>
+                {`Shopping App
+            Env: APP_NAME: ${appName}
+            Shopping at host: ${host}
+            `}
+            </Paragraph>
+            <Paragraph>
+                This page is the main shopping view. It displays a list of products and allows the user to add them to
+                the cart. It also display list of nearby dispensaries and lets the user enter their storefront to view
+                merchandise and content.
+            </Paragraph>
+            <Paragraph>
+                {`Shopping App
+            Env: APP_NAME: ${appName}
+            Shopping at host: ${host}
+            `}
+            </Paragraph>
+            <Paragraph>
+                This page is the main shopping view. It displays a list of products and allows the user to add them to
+                the cart. It also display list of nearby dispensaries and lets the user enter their storefront to view
+                merchandise and content.
+            </Paragraph>
+            <Paragraph>
+                {`Shopping App
+            Env: APP_NAME: ${appName}
+            Shopping at host: ${host}
+            `}
+            </Paragraph>
+            <Paragraph>
+                This page is the main shopping view. It displays a list of products and allows the user to add them to
+                the cart. It also display list of nearby dispensaries and lets the user enter their storefront to view
+                merchandise and content.
+            </Paragraph>
+            <Paragraph>
+                This page is the main shopping view. It displays a list of products and allows the user to add them to
+                the cart. It also display list of nearby dispensaries and lets the user enter their storefront to view
+                merchandise and content.
+            </Paragraph>
+            <Paragraph>
                 {`Shopping App
             Env: APP_NAME: ${appName}
             Shopping at host: ${host}
@@ -36,13 +137,20 @@ export default function MarketPlace({ host }) {
     );
 }
 
-export async function getServerSideProps({ req }) {
-    // const organizations_local = await prisma.organization.findMany({
-    //     where: {}
-    // });
-    return {
-        props: {
-            host: req.headers.host
-        }
-    };
+export async function getServerSideProps({ req, res }) {
+    try {
+        return {
+            props: {
+                host: req.headers.host
+            }
+        };
+    } catch (error) {
+        console.log('SSR error marketplace place: ', error.message);
+        if (error.type === Session.Error.TRY_REFRESH_TOKEN) {
+            return { props: { fromSupertokens: 'needs-refresh' } };
+        } else if (error.type === Session.Error.UNAUTHORISED) {
+            console.log('unauthorized error: ', error);
+            return res.status(200).json({ status: false, error });
+        } else return { notFound: true };
+    }
 }

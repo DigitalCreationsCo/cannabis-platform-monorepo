@@ -1,8 +1,7 @@
 import commonjs from '@rollup/plugin-commonjs';
+import image from '@rollup/plugin-image';
 import resolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
-import path from 'path';
-import image from 'rollup-plugin-img';
 import postcss from 'rollup-plugin-postcss';
 import packageJson from './package.json' assert { type: 'json' };
 
@@ -18,6 +17,7 @@ export default {
         {
             file: packageJson.module,
             format: 'esm',
+            name: '@cd/shared-ui',
             sourcemap: true
         }
     ],
@@ -31,20 +31,12 @@ export default {
             inject: {
                 insertAt: 'top'
             },
-            extract: path.resolve('dist/style.css')
+            extract: 'style.css'
         }),
         resolve(),
         commonjs(),
-        typescript({ tsconfig: './tsconfig.json' }),
-        image({
-            output: 'dist/assets'
-        })
+        image(),
+        typescript({ tsconfig: './tsconfig.json' })
     ],
-    external: ['react', 'react-dom', 'next'],
-    watch: {
-        clearScreen: false,
-        include: './**',
-        buildDelay: 1000,
-        exclude: ['node_modules', 'dist', '.turbo']
-    }
+    external: ['react', 'react-dom', 'usehooks-ts']
 };

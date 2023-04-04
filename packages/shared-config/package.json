@@ -20,7 +20,7 @@
     "prettier": "2.8.0",
     "tailwindcss": "3.2.4"
   },
-  "main": "index.css",
+  "main": "index.js",
   "name": "@cd/shared-config",
   "private": true,
   "scripts": {

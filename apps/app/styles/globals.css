@@ -1,2 +1,2 @@
 @import url('../../../packages/shared-config/index.css');
-@import url('../../../packages/shared-ui/dist/style.css');
+@import url('../../../packages/shared-ui/dist/esm/index.css');

@@ -1,1 +1,1 @@
-module.exports = require('@cd/shared-config/.prettierrc.cjs')
+import '@cd/shared-config/.prettierrc.cjs';

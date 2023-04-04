@@ -1,5 +1,5 @@
 module.exports = {
-    extends: ['eslint:recommended', 'plugin:import/recommended', 'plugin:import/typescript'],
+    extends: ['plugin:@typescript-eslint/recommended', 'plugin:import/typescript', 'eslint:recommended'],
     plugins: ['prettier'],
     rules: {
         eqeqeq: 'error',
@@ -9,7 +9,6 @@ module.exports = {
     env: {
         browser: true,
         node: true,
-        es6: true,
         jest: true
     },
     parserOptions: {
@@ -23,5 +22,5 @@ module.exports = {
             }
         }
     },
-    ignorePatterns: ['node_modules', 'build', 'dist', 'public']
+    ignorePatterns: ['**/node_modules', 'build', 'dist', 'public']
 };

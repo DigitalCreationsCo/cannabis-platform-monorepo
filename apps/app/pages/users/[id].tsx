@@ -1,5 +1,6 @@
 import { Address, ImageUser, User, UserWithDetails } from '@cd/data-access';
 import {
+    AddAddressUserModal,
     Button,
     Card,
     ConfirmationModal,
@@ -18,7 +19,7 @@ import {
     UploadImageBox
 } from '@cd/shared-ui';
 import axios from 'axios';
-import { AddAddressUserModal, DropZone, ProtectedPage } from 'components';
+import { DropZone, ProtectedPage } from 'components';
 import { format } from 'date-fns';
 import { useFormik } from 'formik';
 import Image from 'next/image';

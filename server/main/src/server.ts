@@ -1,4 +1,4 @@
-import { websiteDomain } from '@cd/shared-config/auth/appInfo';
+import { websiteDomain } from '@cd/shared-config/auth/appInfo.js';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
@@ -18,14 +18,18 @@ console.log('node env: ', process.env.NODE_ENV);
 if (Supertokens) {
     Supertokens.init(backendConfig());
 } else throw Error('Supertokens is not available.');
+
 const app = express();
+
 app.use(
     cors({
         origin: websiteDomain,
         allowedHeaders: ['content-type', ...Supertokens.getAllCORSHeaders()],
+        methods: ["GET", "PUT", "POST", "DELETE"],
         credentials: true
     })
 );
+
 app.use(middleware());
 
 // IF I HAVE ISSUES WITH MULTIPARTFORM IN THE FUTURE, CHECK THIS SETTING AGAIN!
@@ -42,6 +46,7 @@ app.use('/api/v1/healthcheck', (req, res) => {
 
 app.get('/api/v1/session', verifySession(), async (req:SessionRequest, res) => {
     try{
+        console.log('session route')
         // const session = {
         //     user: {
         //         username: 'kbarnes',
@@ -56,7 +61,9 @@ app.get('/api/v1/session', verifySession(), async (req:SessionRequest, res) => {
         //     sessionData: await session.getSessionData(),
         //   });s
         const _session =  req.session;
+        console.log(_session)
         const sessionFromDb = await SessionDA.getSession(_session.getHandle());
+        console.log('session from db: ', sessionFromDb)
         const { user, ...session } = sessionFromDb;
         res.status(200).json({ status: true, session: {session}, user });
     } catch (error) {

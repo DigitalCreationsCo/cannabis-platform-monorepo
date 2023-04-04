@@ -3,7 +3,7 @@ import { SuperTokensWrapper } from 'supertokens-auth-react';
 import { signIn, signUp } from 'supertokens-auth-react/recipe/emailpassword';
 import { doesSessionExist as STdoesSessionExist, SessionContextType, signOut, useSessionContext } from 'supertokens-auth-react/recipe/session';
 
-const SessionContext = createContext(null);
+export const SessionContext = createContext({ signIn, signUp, signOut });
 
 interface SessionProviderProps {
     children: ({session, signIn, signUp, signOut, doesSessionExist }:{

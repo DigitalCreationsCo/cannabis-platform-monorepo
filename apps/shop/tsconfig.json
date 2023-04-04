@@ -1,27 +1,36 @@
 {
-  "compilerOptions": {
-    "target": "ESNext",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": false,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true
-  },
+  "extends": "../../packages/shared-config/tsconfig/next.json",
   "include": [
-    "postcss.config.cjs",
-    "next-env.d.ts", 
-    "**/**/*.ts", 
-    "**/**/*.tsx", 
-    "interfaces.d.ts",
-    "next.config.mjs",
-],
-  "exclude": [ "node_modules" ]
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "paths": {
+      "@cd/data-access": [
+        "../../packages/data-access/src"
+      ],
+      "@cd/data-access/*": [
+        "../../packages/data-access/src/*"
+      ],
+      "@cd/shared-ui": [
+        "../../packages/shared-ui/src"
+      ],
+      "@cd/shared-ui/*": [
+        "../../packages/shared-ui/src/*"
+      ],
+      "@cd/shared-lib": [
+        "../../packages/shared-lib/src"
+      ],
+      "@cd/shared-lib/*": [
+        "../../packages/shared-lib/src/*"
+      ]
+    },
+    "jsx": "preserve"
+  }
 }

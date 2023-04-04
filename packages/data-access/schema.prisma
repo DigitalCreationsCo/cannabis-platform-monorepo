@@ -8,6 +8,7 @@ datasource db {
 generator client {
   provider          = "prisma-client-js"
   previewFeatures = ["referentialIntegrity"]
+  binaryTargets = ["native", "linux-musl"]
 }
 
 model Account {
@@ -70,6 +71,8 @@ model User {
   memberships Membership[]
   orders Order[]
   driver Driver?
+
+  purchases Purchase[]
 
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
@@ -233,21 +236,29 @@ model Order {
   total Int
   taxFactor Float
   tax   Int
-  status OrderStatus @default(Pending)
+  orderStatus OrderStatus @default(Pending)
   items OrderItem[]
+
+  purchaseId String? @unique
+  purchase Purchase? @relation(fields: [purchaseId], references: [id], onDelete: NoAction, onUpdate: Cascade)
+
   addressId String
-  destinationAddress Address @relation(fields: [addressId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  destinationAddress Address @relation(fields: [addressId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  
   customerId String
   customer User @relation(fields: [customerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  driverId String?
-  driver Driver? @relation(fields: [driverId], references: [id],  onDelete: SetNull, onUpdate: SetNull)
+  
   organizationId String
   organization Organization @relation(fields: [organizationId], references: [id],  onDelete: Cascade, onUpdate: Cascade)
+  
+  driverId String?
+  driver Driver? @relation(fields: [driverId], references: [id],  onDelete: SetNull, onUpdate: SetNull)
   isDelivered Boolean @default(false)
   deliveredAt    DateTime?
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
 
+  @@index([purchaseId])
   @@index([addressId])
   @@index([customerId])
   @@index([driverId])
@@ -285,10 +296,14 @@ model Order {
 // }
 
 model OrderItem {
+  id      String    @id @default(cuid())  @unique
   orderId String
   order Order @relation(fields: [orderId], references: [id])
-  variantId     String  @unique
+  organizationId String
+  organizationName String
+  variantId     String @default(cuid()) @unique
   productVariant       ProductVariant @relation(fields: [variantId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  productId String
   name          String
   unit Unit @default(g)
   size Float
@@ -296,12 +311,12 @@ model OrderItem {
   basePrice Int
   discount Int
   salePrice Int
+  applyDiscount Boolean
   currency CurrencyName
 
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
 
-  @@id([orderId, variantId])
   @@index([orderId])
   @@index([variantId])
 }
@@ -313,11 +328,29 @@ enum OrderStatus {
   Cancelled
 }
 
-model Payment {
-  id            String    @id @default(cuid())
+enum PaymentStatus {
+  Pending
+  Paid
+  Failed
+}
+
+model Purchase {
+  id            String    @id @default(cuid()) @unique
+  paymentStatus PaymentStatus @default(Pending)
+  gateway       String  @default("stripe")
+  type          String  @default("card")
+  amount        Float
+  token         String
+  customerId    String?
+  customer      User? @relation(fields: [customerId], references: [id], onDelete: NoAction, onUpdate: Cascade)
+  orderId       String
+  order         Order?
 
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
+
+  @@index([orderId])
+  @@index([customerId])
 }
 
 enum MembershipRole {
@@ -333,9 +366,22 @@ enum CurrencyName {
 enum Unit {
   g
 }
+
+enum Day {
+  Monday
+  Tuesday
+  Wednesday
+  Thursday
+  Friday
+  Saturday
+  Sunday
+}
+
 model Organization {
   id            String    @id @unique @default(cuid())
   name          String
+  stripeAccountId String? @unique
+  onboardingComplete Boolean @default(false)
   address Address?
   dialCode String
   phone String
@@ -345,6 +391,7 @@ model Organization {
   memberships Membership[]
   products Product[]
   vendorId String
+  schedule Schedule?
   vendor Vendor @relation(fields: [vendorId], references: [id], onDelete: Restrict, onUpdate:  Restrict)
   termsAccepted Boolean @default(false)
   subdomainId String
@@ -360,6 +407,24 @@ model Organization {
   @@index([vendorId])
   @@index([subdomainId])
 }
+
+// days is flat integer of numbers from 6-0, 0 is monday, 6 is sunday
+// 0 cannot be first digit, because of javscript octal literals parsing
+model Schedule {
+  id String @id @default(cuid())
+  organizationId String @unique
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  days Int
+  openAt Int?
+  closeAt Int?
+  
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([id])
+  @@index([organizationId])
+}
+
 model Product {
   id            String    @id @default(cuid())
   name          String
@@ -385,6 +450,8 @@ model ProductVariant {
   orderItem     OrderItem[]
   name          String
   sku           Float?
+  organizationId String
+  organizationName String
   productId     String
   product       Product @relation(fields: [productId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   unit Unit @default(g)

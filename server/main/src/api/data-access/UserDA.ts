@@ -116,7 +116,7 @@ export default class UserDA {
             createUserData = await createPasswordHash(createUserData)
             const user = await createUser(createUserData)
 
-            console.log(`created user ${user.username}`)
+            console.log(`created user ${user.id}`)
             return user
         } catch (error) {
             console.error('UserDA error: ', error.message);

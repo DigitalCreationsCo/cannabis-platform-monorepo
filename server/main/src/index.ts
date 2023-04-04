@@ -1,6 +1,7 @@
+import prisma from '@cd/data-access';
 import server from "./server";
 
-async function connectDb(prisma) {
+async function connectDb() {
   try {
     await prisma.$connect()
     console.log(" 👏 Database is connected.");

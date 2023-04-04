@@ -1,12 +1,18 @@
 {
-  "compilerOptions": {
-    "esModuleInterop": true,
-    "module": "CommonJS",
-    "moduleResolution": "Node",
-  },
   "include": [
     "src",
     "**/*.ts",
+    "**/*.tsx",
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "**/node_modules"
+  ],
+  "compilerOptions": {
+    "outDir": "dist",
+    "target": "ESNext",
+    "module": "ESNext",
+    "paths": {
+      "@cd/data-access": ["../../packages/data-access/src"],
+    }
+  }
 }

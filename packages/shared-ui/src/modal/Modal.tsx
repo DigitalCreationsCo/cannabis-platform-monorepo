@@ -1,46 +1,44 @@
 //Modal.tsx
-import { H6 } from '../Typography';
-// import { useOnClickOutside } from 'hooks';
-import React, { Dispatch, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { twMerge } from 'tailwind-merge';
 import CloseButton from '../CloseButton';
+import { useOnClickOutside } from '../hooks';
+import { H6 } from '../Typography';
 
 export type ModalProps = {
     children?: React.ReactNode;
-    open: boolean;
-    onClose: any;
-    className?: string;
+    isModalOverlay?: boolean;
+    modalVisible: boolean;
+    onClose: () => void;
+    className?: string | string[];
     description?: string;
     disableClickOutside?: boolean;
     showCloseButton?: boolean;
-    setModal?: Dispatch<React.SetStateAction<boolean>>;
 };
 
 const Modal = ({
     children,
-    open,
-    disableClickOutside = !open,
+    isModalOverlay = true,
+    modalVisible,
+    disableClickOutside = !modalVisible,
     onClose,
     description,
     className,
-    showCloseButton = true,
-    setModal
+    showCloseButton = true
 }: ModalProps) => {
-    // const { setModalOpen } = useModal();
     const ref = useRef(null);
-    // useOnClickOutside(ref, () => {
-    //     if (!disableClickOutside) {
-    //         onClose();
-    //         setModalOpen(false);
-    //     }
-    // });
-    useEffect(() => {
-        // POSSIBLY BUG -- BROKEN OR UNNECESSARY DISPATCH HERE V, BECAUSE THIS SETMODAL PROP IS FOR APP CONTEXT THAT IS NOT BEING USED
-        if (open) setModal(true);
-    }, [open, setModal]);
-    const modalClass = ['modal', open && 'modal-open'];
+    useOnClickOutside(ref, () => {
+        if (!disableClickOutside) {
+            onClose();
+        }
+    });
+
+    const styles = {
+        modalClass: [isModalOverlay && 'modal', modalVisible && 'modal-open'],
+        responsive: 'min-w-full min-h-screen sm:!rounded-none md:min-w-min md:min-h-min md:!rounded px-12 py-8'
+    };
     return (
-        <div className={twMerge(modalClass)}>
+        <div className={twMerge(styles.modalClass)}>
             <div className={twMerge('modal-box rounded-btn bg-inverse-soft', className)} ref={ref}>
                 {showCloseButton && <CloseButton onClick={onClose} />}
                 <H6 className={twMerge('pb-2')}>{description}</H6>

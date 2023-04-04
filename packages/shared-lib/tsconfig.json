@@ -1,22 +1,16 @@
 {
+  "extends": "../../packages/shared-config/tsconfig/react-library.json",
+  "include": ["."],
+  "exclude": ["dist", "build", "**/node_modules"],
   "compilerOptions": {
-    "declaration": true,
-    "emitDeclarationOnly": true,
-    "target": "ESNext",
-    "declarationMap": true,
-    "module": "esnext",
-    "jsx": "react-jsx",
-    "sourceMap": true,
-    "outDir": "dist",
-    "strict": false,
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "rootDir": "src",
-    // "incremental": true,
-    // "isolatedModules": true,
-    // "lib": ["dom","dom.iterable","ES2021"],
-  },
-  "include": ["src"]
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+      "baseUrl": ".",
+      "target": "ESNext",
+      "module": "ESNext",
+      "paths": {
+        "@cd/shared-ui": ["../../packages/shared-ui/src"],
+        "@cd/shared-ui/*": ["../../packages/shared-ui/src/*"]
+      }
+  }
 }
