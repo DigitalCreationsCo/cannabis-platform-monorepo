@@ -30,8 +30,8 @@
   },
   "private": true,
   "scripts": {
-    "build": "NODE_ENV=production tsup",
-    "watch": "NODE_ENV=development tsup --watch"
+    "build": "NODE_ENV=production rollup -c",
+    "watch": "NODE_ENV=development rollup -c --watch"
   },
   "type": "module",
   "types": "dist/esm/index.d.ts",
