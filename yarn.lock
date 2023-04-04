@@ -1761,6 +1761,7 @@ __metadata:
     tsup: 6.7.0
     typescript: 4.9.3
   peerDependencies:
+    "@cd/shared-ui": "*"
     "@types/react": 18.0.8
     "@types/react-dom": 18.0.8
     axios: 1.2.1

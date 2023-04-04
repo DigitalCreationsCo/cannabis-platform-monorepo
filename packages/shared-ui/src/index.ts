@@ -1,4 +1,3 @@
-import '../../shared-config/index.css;';
 export { default as Button } from './Button';
 export { default as Card } from './Card';
 export { default as Center } from './Center';
@@ -39,4 +38,5 @@ export { default as UploadImageBox } from './UploadImageBox';
 export * from './assets';
 export { default as Icons } from './icons';
 export * from './modal';
+export * from './styles';
 
