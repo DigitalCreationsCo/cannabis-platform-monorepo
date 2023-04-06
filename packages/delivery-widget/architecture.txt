@@ -1,0 +1,11 @@
+widget app is found in /widget directory
+
+init script is loaded into any html page intended for Gras Delivery Widget
+init script will init the widget, or create a script that loads from app url.
+
+app url will serve:
+the entry file appending the widget to window
+
+Next steps:
+create webpack config ( or browserify ) to bundle the widget app
+into a javascript.

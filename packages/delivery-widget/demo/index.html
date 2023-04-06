@@ -14,6 +14,17 @@
         <link rel="stylesheet" href="../../../packages/shared-ui/dist/esm/style.css">
         
     </head>
+    <script>
+      function initDeliveryWidget() {
+        window.grasWidget.init();
+      }
+      function initialize(i, t) {
+          var e;
+          i.getElementById(t) ? initDeliveryWidget() : ((e = i.createElement("script")).id = t, e.src = "http://localhost:8080", e.async = !0, e.onload = initDeliveryWidget, i.head.appendChild(e));
+      }
+      function initiateCall() { initialize(document, "gras-widget-script"); }
+      window.addEventListener ? window.addEventListener("load", initiateCall, !1) : window.attachEvent("load", initiateCall);
+    </script>
     <body>
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
@@ -46,7 +57,5 @@
                 <button class="m-auto p-12 bg-primary text-light"><h1 class="font-bold">SHOP AROUND</h1></button>
               </div>
         </main>
-
-        <!-- <script src="../dist/script/initDeliveryWidget.js" /> -->
     </body>
 </html>
