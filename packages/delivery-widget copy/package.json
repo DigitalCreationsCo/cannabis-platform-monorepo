@@ -1,12 +1,12 @@
 {
-  "name": "@cd/delivery-widget",
+  "name": "@cd/delivery-widget-copy",
   "private": true,
   "version": "0.0.1",
   "main": "./src",
   "scripts": {
     "build": "yarn build:clean && tsc && yarn bundle:ejs && yarn bundle:widget",
     "build:clean": "rm -rf dist",
-    "bundle:widget": "tsc src/widget/*.ts browserify ./dist/widget/index.js -o ./dist/widget.js",
+    "bundle:widget": "tsc src/widget/* .ts browserify ./dist/widget/index.js -o ./dist/widget.js",
     "bundle:ejs": "copyfiles -u 3 \"./src/**/*.ejs\" \"./dist/widget/views\" --verbose",
     "start": "yarn build && node dist",
     "test": "echo \"Error: no test specified\" && exit 1"
