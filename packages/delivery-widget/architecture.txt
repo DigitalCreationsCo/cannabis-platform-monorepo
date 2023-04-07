@@ -18,3 +18,6 @@ localhost:8080 -> will set var widget to load widget files in the window.
 widget.init is called to create the widget using javascript, maybe using express.
 
 widget.init creates a dom element as root for react app, and initializes react app.
+
+create a dom element in the document that will render the view from express app
+add the static js bundle to graswidget script
