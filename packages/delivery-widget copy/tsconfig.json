@@ -1,9 +1,0 @@
-{
-    "include": ["src", "globals.d.ts"],
-    "compilerOptions": {
-        "target": "es5",
-        "allowJs": true,
-        "outDir": "dist",
-        "esModuleInterop": true,
-    }
-}
