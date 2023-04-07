@@ -6,12 +6,13 @@
   "scripts": {
     "build": "yarn build:clean && tsc",
     "build:clean": "rm -rf dist",
+    "build:watch": "tsc --watch",
     "bundle:widget": "tsc src/* --out /dev/stdout | browserify -o ./dist/widget.js",
     "bundle:ejs": "copyfiles -u 3 \"./src/**/*.ejs\" \"./dist/widget/views\" --verbose",
     "start": "yarn build && node dist",
-    "serve:dev": "concurrently \"yarn serve:js\" \"yarn serve:hostpage\"",
-    "serve:hostpage": "serve -l 4040 ./public --cors",
-    "serve:js": "serve -l 4050 ./dist --cors",
+    "serve:dev": "concurrently \"yarn build:watch\" \"yarn serve:js\" \"yarn serve:hostpage\"",
+    "serve:hostpage": "browser-sync start -s \"public\" -f . --port 4040 --ui-port 4041 --cors",
+    "serve:js": "browser-sync start -s \"dist\" --port 4050 --ui-port 4051 --cors",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
@@ -21,6 +22,7 @@
   },
   "devDependencies": {
     "@types/ejs": "3.1.2",
+    "browser-sync": "2.29.1",
     "browserify": "17.0.0",
     "concurrently": "8.0.1",
     "copyfiles": "2.4.1",
