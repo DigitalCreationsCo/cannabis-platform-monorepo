@@ -9,3 +9,4 @@ the entry file appending the widget to window
 Next steps:
 create webpack config ( or browserify ) to bundle the widget app
 into a javascript.
+
