@@ -1,0 +1,9 @@
+{
+    "include": ["./widget"],
+    "compilerOptions": {
+        "target": "es5",
+        "allowJs": true,
+        "outDir": "dist",
+        "esModuleInterop": true,
+    }
+}
