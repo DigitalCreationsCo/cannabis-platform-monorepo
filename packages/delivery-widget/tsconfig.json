@@ -1,10 +1,26 @@
 {
-    "include": ["./widget"],
+    "include": ["."],
+    "exclude": ["script", "webpack.config.js"],
     "compilerOptions": {
+        "lib": [
+            "dom",
+            "dom.iterable",
+            "esnext"
+        ],
+        "skipLibCheck": true,
+        "module": "esnext",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "noEmit": false,
         "target": "es5",
         "allowJs": true,
-        "outDir": "dist",
+        "outDir": "./dist",
         "esModuleInterop": true,
-        "jsx": "preserve"
+        "allowSyntheticDefaultImports": true,
+        "strict": false,
+        "forceConsistentCasingInFileNames": true,
+        "noFallthroughCasesInSwitch": true,
+        "jsx": "react-jsx"
     }
 }

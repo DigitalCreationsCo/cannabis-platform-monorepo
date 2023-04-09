@@ -1,4 +1,6 @@
-
+import React from "react";
+import ReactDOM from "react-dom";
+import App from './src/App';
 var init = function () {
     // create widget root element
     // const root = document.createElement("div")
@@ -26,17 +28,6 @@ var init = function () {
         document.getElementById('root')
     );
 };
-
-import React from "react";
-import ReactDOM from "react-dom";
-
-const App = () => {
-    return (<div>Hello Widget</div>)
-}
-export default ReactDOM.render(
-    React.createElement(App, null),
-    document.getElementById('root')
-  );
 
 function grasWidget() {
     return {
