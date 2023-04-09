@@ -21,6 +21,12 @@
         "strict": false,
         "forceConsistentCasingInFileNames": true,
         "noFallthroughCasesInSwitch": true,
-        "jsx": "react-jsx"
+        "jsx": "react-jsx",
+        "baseUrl": ".",
+        "paths": {
+            "@cd/shared-ui": ["../shared-ui/src"],
+            "@cd/shared-ui/*": ["../shared-ui/src/*"],
+            
+        }
     }
 }
