@@ -1,16 +1,15 @@
-import React from "react";
+import { useNavigate } from "react-router-dom"
 
-class Button extends React.Component {
-    constructor(props) {
-        super(props);
+export default function Button() {
+    const history = useNavigate()
+    
+    const handleClick = () => {
+        history("/checkout")
     }
-    render () {
-        return (
-            <div className="border absolute bottom-0 right-0 m-2 p-4 rounded-full bg-primary">
-                <h1><a href="/posts">Delivery by Gras</a></h1>
-            </div>
-        )
-    }
+    
+    return (
+        <button onClick={handleClick} className="border absolute bottom-0 right-0 m-2 p-4 rounded-full bg-primary">
+            <h1>Delivery by Gras</h1>
+        </button>
+    )
 }
-
-export default Button
