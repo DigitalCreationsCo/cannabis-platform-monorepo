@@ -13,7 +13,7 @@
         "resolveJsonModule": true,
         "isolatedModules": true,
         "noEmit": false,
-        "target": "es5",
+        "target": "esnext",
         "allowJs": true,
         "outDir": "./dist",
         "esModuleInterop": true,
