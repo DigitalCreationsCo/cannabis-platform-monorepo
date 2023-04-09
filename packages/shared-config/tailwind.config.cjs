@@ -1,11 +1,7 @@
 const colors = require('tailwindcss/colors');
 
 module.exports = {
-    content: [
-        '../../packages/*/src/**/*{js, ts, jsx, tsx,}',
-        '../../apps/*/src/**/*.{js,ts,jsx,tsx}',
-        '../../apps/*/pages/**/*.{js,ts,jsx,tsx}'
-    ],
+    content: ['../../packages/**/*{jsx, tsx,}', '../../apps/**/*.{jsx,tsx}', '../../apps/**/*.{jsx,tsx}'],
     plugins: [require('daisyui')],
     theme: {
         extend: {
