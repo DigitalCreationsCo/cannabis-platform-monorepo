@@ -1,7 +1,7 @@
 {
   "extends": "../../packages/shared-config/tsconfig/react-library.json",
   "include": ["."],
-  "exclude": ["dist", "build", "**/node_modules"],
+  "exclude": ["dist"],
   "compilerOptions": {
     "outDir": "dist",
     "declaration": true,
@@ -10,8 +10,8 @@
     "target": "ESNext",
     "module": "ESNext",
     "paths": {
-      "@cd/shared-config": ["../../packages/shared-config"],
-      "@cd/shared-config/*": ["../../packages/shared-config/*"],
+      // "@cd/shared-config": ["../../packages/shared-config"],
+      // "@cd/shared-config/*": ["../../packages/shared-config/*"],
     }
   }
 }

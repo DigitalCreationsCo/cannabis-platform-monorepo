@@ -34,7 +34,7 @@
         <main class="flex flex-col min-h-screen">
             <nav>
                 <div class="bg-primary text-light mx-auto px-6 py-2 flex justify-between items-center">
-                  <a class="font-bold text-2xl lg:text-4xl" href="#">
+                  <a class="font-bold text-2xl lg:text-4xl" href="/">
                     DISPENSARY
                   </a>
                   <div class="block lg:hidden">
@@ -47,15 +47,42 @@
                   </div>
                   <div class="hidden lg:block">
                     <ul class="inline-flex">
-                      <li><a class="px-4 font-bold w-[100px]" href="/">Home</a></li>
-                      <li><a class="px-4 hover:text-gray-800 w-[100px]" href="checkout.html">Checkout<span class="font-bold bg-light text-primary text-sm badge mx-2">4</span></a></li>
+                      <li><a class="px-4 hover:text-gray-800 w-[100px]" href="/">Home</a></li>
+                      <li><a class="px-4 font-bold w-[100px]" href="checkout.html">Checkout<span class="bg-light text-primary text-sm badge mx-2">4</span></a></li>
                     </ul>
                   </div>
                 </div>
               </nav>
               <div class="px-6 py-6 flex flex-col grow">
                 <h1 class="font-bold">Welcome to Dispensary Ecommerce Store</h1>
-                <a class="m-auto p-12 bg-primary text-light" href="checkout.html"><button ><h1 class="font-bold">CHECKOUT</h1></button></a>
+                <a href="/" class="w-fit"><button class="font-bold text-sm mx-2">< go back</button></a>
+                <div class="m-auto space-y-2">
+                  <h1 class="font-bold text-2xl">This is your bag</h1>
+                  <div id="item-1" class="h-[100px] border m-auto py-6 px-6 rounded-btn flex flex-row justify-between items-center space-x-8">
+                    <image src="./image/sample_1.jpeg" height="50px" width="50px" />
+                    <h1 class="font-bold text-lg">Sour Deezel</h1>
+                    <p class="grow">$39.88</p>
+                    <p>3.5g</p>
+                  </div>
+                  <div id="item-2" class="h-[100px] border m-auto py-6 px-6 rounded-btn flex flex-row justify-between items-center space-x-8">
+                    <image src="./image/sample_2.jpeg" height="50px" width="50px" />
+                    <h1 class="font-bold text-lg">Sour Deezel</h1>
+                    <p class="grow">$32.99</p>
+                    <p>3.5g</p>
+                  </div>
+                  <div id="item-3" class="h-[100px] border m-auto py-6 px-6 rounded-btn flex flex-row justify-between items-center space-x-8">
+                    <image src="./image/sample_3.jpeg" height="50px" width="50px" />
+                    <h1 class="font-bold text-lg">Sour Deezel</h1>
+                    <p class="grow">$32.99</p>
+                    <p>3.5g</p>
+                  </div>
+                  <div id="item-4" class="h-[100px] border m-auto py-6 px-6 rounded-btn flex flex-row justify-start items-center space-x-8">
+                    <image src="./image/sample_4.jpeg" height="50px" width="50px" />
+                    <h1 class="font-bold text-lg">Sour Deezel</h1>
+                    <p class="grow">$73.88</p>
+                    <p>7g</p>
+                  </div>
+                </div>
               </div>
         </main>
     </body>

@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom"
 
-export default function Button() {
+function Button() {
+
     const history = useNavigate()
     
     const handleClick = () => {
@@ -13,3 +14,5 @@ export default function Button() {
         </button>
     )
 }
+
+export default Button

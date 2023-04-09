@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import Button from './views/Button';
-import Checkout from './views/Checkout';
+// import Button from './views/Button';
+// import Checkout from './views/Checkout';
 
 const SwitchComponents = ({ active, children }) => {
     // Switch all children and return the "active" one
@@ -13,8 +13,8 @@ export default function App(): JSX.Element {
 
     return (
         <SwitchComponents active={activeComponent}>
-            <Button />
-            <Checkout />
+            {/* <Button />
+            <Checkout /> */}
         </SwitchComponents>
     )
 }

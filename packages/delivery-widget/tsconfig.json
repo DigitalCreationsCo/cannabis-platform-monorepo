@@ -1,6 +1,6 @@
 {
     "include": ["."],
-    "exclude": ["script", "webpack.config.js"],
+    "exclude": ["script", "dist", "webpack.config.cjs", "**/node_modules"],
     "compilerOptions": {
         "lib": [
             "dom",
