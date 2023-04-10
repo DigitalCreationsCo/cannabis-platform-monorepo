@@ -52,7 +52,6 @@
     "@cd/data-access": "*",
     "@cd/shared-lib": "*",
     "@cd/shared-ui": "*",
-    "@emotion/react": "11.10.6",
     "eslint": "8.29.0",
     "eslint-config-next": "13.0.6",
     "eslint-plugin-import": "2.26.0",
@@ -64,8 +63,5 @@
     "node-mocks-http": "1.12.1",
     "prettier": "2.8.0",
     "ts-jest": "29.0.3"
-  },
-  "resolutions": {
-    "@emotion/react": "11.10.6"
   }
 }
