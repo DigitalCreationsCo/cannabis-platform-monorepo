@@ -1,20 +1,22 @@
 {
   "dependencies": {
-    "usehooks-ts": "2.9.1",
-    "tailwind-merge": "1.8.0",
     "@carbon/icons-react": "11.16.0",
     "@cd/data-access": "*",
     "daisyui": "2.46.0",
     "date-fns": "2.29.3",
-    "next": "13.0.6"
+    "next": "13.0.6",
+    "tailwind-merge": "1.8.0",
+    "usehooks-ts": "2.9.1"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "24.0.1",
     "@rollup/plugin-image": "3.0.2",
     "@rollup/plugin-node-resolve": "15.0.1",
     "@rollup/plugin-typescript": "11.0.0",
-    "postcss": "8.4.19",
     "@types/carbon__icons-react": "11.15.0",
+    "esbuild": "^0.17.15",
+    "esbuild-plugin-inline-image": "^0.0.9",
+    "postcss": "8.4.19",
     "prettier": "2.8.0",
     "rollup": "3.20.2",
     "rollup-plugin-postcss": "4.0.2"
@@ -34,6 +36,7 @@
   },
   "private": true,
   "scripts": {
+    "esbuild": "node esbuild.js",
     "build": "NODE_ENV=production rollup -c",
     "watch": "NODE_ENV=development rollup -c --watch"
   },
