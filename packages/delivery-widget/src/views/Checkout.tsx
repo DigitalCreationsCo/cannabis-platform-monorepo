@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { twMerge } from "tailwind-merge"
 import { checkHrefCheckout } from "../util"
+import WidgetView, { ViewProps } from "./WidgetView"
 
-export default function Checkout() {
+function Checkout({ className }: ViewProps) {
     const [loading, setLoading] = useState(false)
-
+    const history = useNavigate()
+    
     useEffect(() => {
-        checkHrefCheckout()
+        checkHrefCheckout() ? null : history("/not-checkout")
     }, [window.location.href])
 
     const handleClick = () => {
@@ -14,28 +18,23 @@ export default function Checkout() {
     }
 
     return (
-        <div className="border absolute bottom-0 right-0 m-2 p-4 rounded-full bg-primary">
+        <div className={twMerge(className)}>
             {
                 loading ? 
-                <div>
-                    <h1>Checking out...</h1>
-                    <p>You are being redirected</p>
-                </div> : 
-                checkHrefCheckout() ? 
-                (
-                <div className="flex flex-col items-center">
-                <button onClick={handleClick}>Get Delivery by Gras</button>
-                </div>
-                )
-            : (
-            <div className="flex flex-row items-center">
-                <div className="flex flex-col">
-                <p>Gras and 'dispensary' are teaming up to delivery your goods straight to your home. </p>
-                <h1>Click here during checkout to get your order by delivery</h1>
-                </div>
-                <CloseButton />
-            </div>
-            )}
+                    (
+                    <div>
+                        <h1>Checking out...</h1>
+                        <p>You are being redirected</p>
+                    </div>
+                    ) : 
+                    (
+                    <button onClick={handleClick} 
+                    className="flex flex-col items-center">
+                        <h1>Delivery by Gras - straight to your door</h1>
+                        <p>Click here for delivery!</p>
+                    </button>
+                    )
+                }
         </div>
     )
 }
@@ -47,3 +46,5 @@ function CloseButton() {
         </div>
     );
 }
+
+export default WidgetView(Checkout)

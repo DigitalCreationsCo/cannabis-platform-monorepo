@@ -1,9 +1,10 @@
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import { twMerge } from "tailwind-merge"
 import { checkHrefCheckout } from "../util"
+import WidgetView, { ViewProps } from "./WidgetView"
 
-function Button() {
-
+function Button({ className }: ViewProps) {
     const history = useNavigate()
     
     const handleClick = () => {
@@ -11,21 +12,16 @@ function Button() {
     }
 
     useEffect(() => {
-        checkHrefCheckout()
+        checkHrefCheckout() ? history("/checkout") : null
     }, [window.location.href])
     
     return (
-    <div onClick={handleClick} className="border absolute bottom-0 right-0 m-2 p-4 rounded-full bg-primary">
-        { checkHrefCheckout() ? <div className="flex flex-col items-center">
-            <h1>Delivery by Gras straight to your door.</h1>
-            <p>Click here for delivery checkout!</p>
-            </div> : 
-            <div className="flex flex-row items-center">
-                <h1>Delivery by Gras</h1>
-                <p>now at checkout</p>
-            </div>
-        }
-    </div>
+    <button onClick={handleClick} className={twMerge(className, "tooltip")} data-tip="Click to learn more!">
+        <div className="flex flex-col items-center">
+            <h1>Delivery by Gras</h1>
+            <p>now at checkout</p>
+        </div>
+    </button>
     )
 }
 
@@ -37,4 +33,4 @@ function CloseButton() {
     );
 }
 
-export default Button
+export default WidgetView(Button)

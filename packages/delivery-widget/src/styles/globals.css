@@ -1,2 +1,5 @@
-@import url('../../../../packages/shared-config/index.css');
-@import url('../../../../packages/shared-ui/dist/esm/style.css');
+@import url('../../../../packages/shared-config/dist/index.css');
+@import url('../../../../packages/shared-ui/dist/index.css');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
