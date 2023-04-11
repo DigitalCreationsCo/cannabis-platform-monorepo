@@ -17,7 +17,7 @@
     "serve:js": "browser-sync start -s \"dist\" --port 4050 --ui-port 4051 --cors",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@cd/shared-ui": "*",
     "@formkit/auto-animate": "1.0.0-beta.6",
     "cheerio": "1.0.0-rc.12",
@@ -27,9 +27,7 @@
     "react-dom": "18.2.0",
     "react-router-dom": "6.10.0",
     "tailwind-merge": "1.8.0",
-    "typescript": "4.9.3"
-  },
-  "devDependencies": {
+    "typescript": "4.9.3",
     "@babel/core": "7.21.4",
     "@babel/preset-env": "7.21.4",
     "@babel/preset-react": "7.18.6",

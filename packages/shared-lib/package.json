@@ -1,21 +1,16 @@
 {
-  "dependencies": {
-    "react-hot-toast": "2.4.0"
-  },
-  "devDependencies": {
-    "@rollup/plugin-commonjs": "24.0.1",
-    "@rollup/plugin-node-resolve": "^15.0.1",
-    "@rollup/plugin-typescript": "11.0.0",
-    "@types/node": "18.11.10",
-    "@types/react-dom": "18.0.8",
-    "dotenv": "16.0.3",
-    "esbuild": "0.17.15",
-    "rollup": "^3.20.2",
-    "typescript": "4.9.3"
-  },
   "main": "dist/index.js",
   "name": "@cd/shared-lib",
   "peerDependencies": {
+    "react-hot-toast": "2.4.0",
+    "@rollup/plugin-commonjs": "24.0.1",
+    "@rollup/plugin-node-resolve": "15.0.1",
+    "@rollup/plugin-typescript": "11.0.0",
+    "@types/node": "18.11.10",
+    "dotenv": "16.0.3",
+    "esbuild": "0.17.15",
+    "rollup": "3.20.2",
+    "typescript": "4.9.3",
     "@cd/shared-ui": "*",
     "@reduxjs/toolkit": "1.9.1",
     "@types/react": "18.0.34",

@@ -1,8 +1,6 @@
 {
-  "dependencies": {
-    "find-up": "5.0.0"
-  },
-  "devDependencies": {
+  "peerDependencies": {
+    "find-up": "5.0.0",
     "@tailwindcss/typography": "0.5.8",
     "@typescript-eslint/eslint-plugin": "5.45.0",
     "@typescript-eslint/parser": "5.45.0",

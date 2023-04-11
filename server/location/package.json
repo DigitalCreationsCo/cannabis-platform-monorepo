@@ -1,12 +1,10 @@
 {
-  "dependencies": {
+  "peerDependencies": {
     "@cd/data-access": "*",
     "@paralleldrive/cuid2": "2.2.0",
     "bcryptjs": "2.4.3",
     "nanoid": "3.3.4",
-    "pm2": "5.2.2"
-  },
-  "devDependencies": {
+    "pm2": "5.2.2",
     "@babel/cli": "7.20.7",
     "@babel/core": "7.20.12",
     "@babel/preset-env": "7.20.2",
