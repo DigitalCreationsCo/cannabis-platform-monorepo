@@ -1,4 +1,4 @@
-import { CloseButton } from "@cd/shared-ui"
+// import { CloseButton } from "@cd/shared-ui"
 import { useEffect } from "react"
 import { twMerge } from "tailwind-merge"
 import { checkHrefCheckout } from "../util"
@@ -16,7 +16,7 @@ function NotCheckout({ className }:ViewProps) {
                 <p>Gras and 'dispensary' are teaming up to delivery your goods straight to your home. </p>
                 <h1>Click here at checkout for your order delivery!</h1>
                 </div>
-                <CloseButton />
+                {/* <CloseButton /> */}
             </div>
         </div>
     )

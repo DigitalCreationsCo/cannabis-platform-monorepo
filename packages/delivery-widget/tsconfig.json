@@ -1,5 +1,5 @@
 {
-    "include": [".", "../../packages/shared-ui"],
+    "include": ["."],
     "exclude": ["script", "dist", "webpack.config.cjs", "**/node_modules"],
     "compilerOptions": {
         "lib": [
@@ -24,9 +24,8 @@
         "jsx": "react-jsx",
         "baseUrl": ".",
         "paths": {
-            "@cd/shared-ui": ["../shared-ui/src"],
-            "@cd/shared-ui/*": ["../shared-ui/src/*"],
-            
+            // "@cd/shared-ui": ["../shared-ui/src"],
+            // "@cd/shared-ui/*": ["../shared-ui/src/*"],
         }
     }
 }
