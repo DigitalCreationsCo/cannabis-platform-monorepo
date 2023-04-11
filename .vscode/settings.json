@@ -33,5 +33,8 @@
     "usehooks",
     "zipcode"
   ],
-  "jest.autoRun": { "watch": false }
+  "jest.autoRun": {
+    "watch": false
+  },
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

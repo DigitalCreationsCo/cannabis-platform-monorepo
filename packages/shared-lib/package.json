@@ -1,8 +1,8 @@
 {
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^24.0.1",
+    "@rollup/plugin-commonjs": "24.0.1",
     "@rollup/plugin-node-resolve": "^15.0.1",
-    "@rollup/plugin-typescript": "^11.0.0",
+    "@rollup/plugin-typescript": "11.0.0",
     "@types/node": "18.11.10",
     "@types/react-dom": "18.0.8",
     "dotenv": "16.0.3",
@@ -22,8 +22,8 @@
   "peerDependencies": {
     "@cd/shared-ui": "*",
     "@reduxjs/toolkit": "1.9.1",
-    "@types/react": "18.0.8",
-    "@types/react-dom": "18.0.8",
+    "@types/react": "18.0.34",
+    "@types/react-dom": "18.0.11",
     "axios": "1.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",

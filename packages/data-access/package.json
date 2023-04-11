@@ -1,13 +1,13 @@
 {
   "peerDependencies": {
-    "@cd/shared-config": "*",
     "@prisma/client": "4.10.0"
   },
   "devDependencies": {
+    "@cd/shared-config": "*",
     "@prisma/client": "4.10.0",
     "@types/jest": "29.2.4",
-    "@types/react": "18.0.8",
-    "@types/react-dom": "18.0.8",
+    "@types/react": "18.0.34",
+    "@types/react-dom": "18.0.11",
     "@typescript-eslint/eslint-plugin": "5.45.0",
     "@typescript-eslint/parser": "5.45.0",
     "dotenv-cli": "7.0.0",
@@ -30,7 +30,6 @@
     }
   },
   "main": "./dist/index.js",
-  "module": "./dist/index.js",
   "name": "@cd/data-access",
   "prisma": {
     "schema": "./schema.prisma",

@@ -4,6 +4,7 @@
     "exclude": ["dist", "build", "**/node_modules", "test"],
     "compilerOptions": {
       "declaration": true,
+      "outDir": "dist",
       "baseUrl": ".",
       "target": "ESNext",
       "module": "ESNext",

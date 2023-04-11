@@ -737,7 +737,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-syntax-jsx@npm:^7.18.6, @babel/plugin-syntax-jsx@npm:^7.21.4, @babel/plugin-syntax-jsx@npm:^7.7.2":
+"@babel/plugin-syntax-jsx@npm:^7.18.6, @babel/plugin-syntax-jsx@npm:^7.7.2":
   version: 7.21.4
   resolution: "@babel/plugin-syntax-jsx@npm:7.21.4"
   dependencies:
@@ -1252,7 +1252,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-transform-typescript@npm:^7.18.6, @babel/plugin-transform-typescript@npm:^7.21.3":
+"@babel/plugin-transform-typescript@npm:^7.18.6":
   version: 7.21.3
   resolution: "@babel/plugin-transform-typescript@npm:7.21.3"
   dependencies:
@@ -1503,21 +1503,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/preset-typescript@npm:7.21.4":
-  version: 7.21.4
-  resolution: "@babel/preset-typescript@npm:7.21.4"
-  dependencies:
-    "@babel/helper-plugin-utils": ^7.20.2
-    "@babel/helper-validator-option": ^7.21.0
-    "@babel/plugin-syntax-jsx": ^7.21.4
-    "@babel/plugin-transform-modules-commonjs": ^7.21.2
-    "@babel/plugin-transform-typescript": ^7.21.3
-  peerDependencies:
-    "@babel/core": ^7.0.0-0
-  checksum: 83b2f2bf7be3a970acd212177525f58bbb1f2e042b675a47d021a675ae27cf00b6b6babfaf3ae5c980592c9ed1b0712e5197796b691905d25c99f9006478ea06
-  languageName: node
-  linkType: hard
-
 "@babel/register@npm:^7.18.9":
   version: 7.21.0
   resolution: "@babel/register@npm:7.21.0"
@@ -1704,6 +1689,8 @@ __metadata:
     "@cd/shared-config": "*"
     "@cd/shared-lib": "*"
     "@cd/shared-ui": "*"
+    "@types/react": 18.0.34
+    "@types/react-dom": 18.0.11
     "@typescript-eslint/eslint-plugin": 5.45.0
     "@typescript-eslint/parser": 5.45.0
     autoprefixer: 10.4.13
@@ -1742,10 +1729,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cd/data-access@workspace:packages/data-access"
   dependencies:
+    "@cd/shared-config": "*"
     "@prisma/client": 4.10.0
     "@types/jest": 29.2.4
-    "@types/react": 18.0.8
-    "@types/react-dom": 18.0.8
+    "@types/react": 18.0.34
+    "@types/react-dom": 18.0.11
     "@typescript-eslint/eslint-plugin": 5.45.0
     "@typescript-eslint/parser": 5.45.0
     dotenv-cli: 7.0.0
@@ -1761,7 +1749,6 @@ __metadata:
     ts-node: 10.9.1
     typescript: 4.9.3
   peerDependencies:
-    "@cd/shared-config": "*"
     "@prisma/client": 4.10.0
   languageName: unknown
   linkType: soft
@@ -1773,12 +1760,12 @@ __metadata:
     "@babel/core": 7.21.4
     "@babel/preset-env": 7.21.4
     "@babel/preset-react": 7.18.6
-    "@babel/preset-typescript": 7.21.4
+    "@babel/preset-typescript": 7.18.6
     "@cd/shared-ui": "*"
     "@formkit/auto-animate": 1.0.0-beta.6
     "@types/ejs": 3.1.2
-    "@types/react": 18.0.8
-    "@types/react-dom": 18.0.8
+    "@types/react": 18.0.34
+    "@types/react-dom": 18.0.11
     babel-loader: 9.1.2
     browser-sync: 2.29.1
     browserify: 17.0.0
@@ -1957,9 +1944,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cd/shared-lib@workspace:packages/shared-lib"
   dependencies:
-    "@rollup/plugin-commonjs": ^24.0.1
+    "@rollup/plugin-commonjs": 24.0.1
     "@rollup/plugin-node-resolve": ^15.0.1
-    "@rollup/plugin-typescript": ^11.0.0
+    "@rollup/plugin-typescript": 11.0.0
     "@types/node": 18.11.10
     "@types/react-dom": 18.0.8
     dotenv: 16.0.3
@@ -1969,8 +1956,8 @@ __metadata:
   peerDependencies:
     "@cd/shared-ui": "*"
     "@reduxjs/toolkit": 1.9.1
-    "@types/react": 18.0.8
-    "@types/react-dom": 18.0.8
+    "@types/react": 18.0.34
+    "@types/react-dom": 18.0.11
     axios: 1.2.1
     react: 18.2.0
     react-dom: 18.2.0
@@ -2002,8 +1989,8 @@ __metadata:
     typescript: 4.9.3
     usehooks-ts: 2.9.1
   peerDependencies:
-    "@types/react": 18.0.8
-    "@types/react-dom": 18.0.8
+    "@types/react": 18.0.34
+    "@types/react-dom": 18.0.11
     react: 18.2.0
     react-dom: 18.2.0
     yup: 0.32.11
@@ -3127,25 +3114,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/plugin-commonjs@npm:^24.0.1":
-  version: 24.1.0
-  resolution: "@rollup/plugin-commonjs@npm:24.1.0"
-  dependencies:
-    "@rollup/pluginutils": ^5.0.1
-    commondir: ^1.0.1
-    estree-walker: ^2.0.2
-    glob: ^8.0.3
-    is-reference: 1.2.1
-    magic-string: ^0.27.0
-  peerDependencies:
-    rollup: ^2.68.0||^3.0.0
-  peerDependenciesMeta:
-    rollup:
-      optional: true
-  checksum: 42faafc9bc8e04d75c86bb50d693ebb9c5eee19bf9ab3c09780b872547d12ff5ea85cfec7da75f5176d0aa4b5233101f667f44b85b331450a7bb14c95180852e
-  languageName: node
-  linkType: hard
-
 "@rollup/plugin-image@npm:3.0.2":
   version: 3.0.2
   resolution: "@rollup/plugin-image@npm:3.0.2"
@@ -3215,25 +3183,6 @@ __metadata:
     tslib:
       optional: true
   checksum: b0d34ff0ad6bfc681c437ef42df7b02f04c361465be5a2044cd30cac5b003045c54e4377d58ab91925e296076b792bbb5ddded72cacdd21092bc8694a95b046f
-  languageName: node
-  linkType: hard
-
-"@rollup/plugin-typescript@npm:^11.0.0":
-  version: 11.1.0
-  resolution: "@rollup/plugin-typescript@npm:11.1.0"
-  dependencies:
-    "@rollup/pluginutils": ^5.0.1
-    resolve: ^1.22.1
-  peerDependencies:
-    rollup: ^2.14.0||^3.0.0
-    tslib: "*"
-    typescript: ">=3.7.0"
-  peerDependenciesMeta:
-    rollup:
-      optional: true
-    tslib:
-      optional: true
-  checksum: 64ed5abbae392032fb190a5d3a29beb73f968919aed964ed5545e2732de6a1670f97131785e9376c06f784ae61545c5ad47352c126f3830aaa16b669bee2e9b9
   languageName: node
   linkType: hard
 
@@ -3695,6 +3644,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-dom@npm:18.0.11":
+  version: 18.0.11
+  resolution: "@types/react-dom@npm:18.0.11"
+  dependencies:
+    "@types/react": "*"
+  checksum: 579691e4d5ec09688087568037c35edf8cfb1ab3e07f6c60029280733ee7b5c06d66df6fcc90786702c93ac8cb13bc7ff16c79ddfc75d082938fbaa36e1cdbf4
+  languageName: node
+  linkType: hard
+
 "@types/react-dom@npm:18.0.8":
   version: 18.0.8
   resolution: "@types/react-dom@npm:18.0.8"
@@ -3713,7 +3671,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*":
+"@types/react@npm:*, @types/react@npm:18.0.34":
   version: 18.0.34
   resolution: "@types/react@npm:18.0.34"
   dependencies:
@@ -3721,17 +3679,6 @@ __metadata:
     "@types/scheduler": "*"
     csstype: ^3.0.2
   checksum: 60d2766e7644ec480075bbb154bf8fb8476089466b643662ef59964e27cae2d8c71fd9c717a4dfa9627c3e050fa2ae866d10d16f66b4509058d1bfe2a564b18c
-  languageName: node
-  linkType: hard
-
-"@types/react@npm:18.0.8":
-  version: 18.0.8
-  resolution: "@types/react@npm:18.0.8"
-  dependencies:
-    "@types/prop-types": "*"
-    "@types/scheduler": "*"
-    csstype: ^3.0.2
-  checksum: 12d0e6bc390709926d8eaeb7d2edb4ef9c9fbe8eac41cb0619d958386700547bff91c880c2a12a9eb1e0d09afa4f1e86fd1b93164c627824465b72123f149f3b
   languageName: node
   linkType: hard
 

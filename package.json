@@ -46,6 +46,8 @@
     "@cd/shared-config": "*",
     "@cd/shared-lib": "*",
     "@cd/shared-ui": "*",
+    "@types/react": "18.0.34",
+    "@types/react-dom": "18.0.11",
     "@typescript-eslint/eslint-plugin": "5.45.0",
     "@typescript-eslint/parser": "5.45.0",
     "autoprefixer": "10.4.13",
