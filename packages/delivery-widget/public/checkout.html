@@ -56,29 +56,37 @@
                 <a href="/" class="w-fit"><button class="font-bold text-sm mx-2">< go back</button></a>
                 <div class="m-auto space-y-2">
                   <h1 class="font-bold text-2xl">This is your bag</h1>
-                  <div id="item-1" class="h-[100px] border m-auto py-6 px-6 rounded-btn flex flex-row justify-between items-center space-x-8">
-                    <image src="./image/sample_1.jpeg" height="50px" width="50px" />
-                    <h1 class="font-bold text-lg">Sour Deezel</h1>
-                    <p class="grow">$39.88</p>
-                    <p>3.5g</p>
+                  <div id="item-1" data-item="cart-item" class="h-[100px] border m-auto py-6 px-6 rounded-btn flex flex-row justify-between items-center space-x-8">
+                    <image data-item="cart-item-image" src="./image/sample_1.jpeg" height="50px" width="50px" />
+                    <h1 data-item="cart-item-name" class="font-bold text-lg">Sour Deezel</h1>
+                    <p data-item="cart-item-price" class="grow">$39.88</p>
+                    <p data-item="cart-item-weight">3.5g</p>
+                    <p data-item="cart-item-quantity">2</p>
                   </div>
-                  <div id="item-2" class="h-[100px] border m-auto py-6 px-6 rounded-btn flex flex-row justify-between items-center space-x-8">
-                    <image src="./image/sample_2.jpeg" height="50px" width="50px" />
-                    <h1 class="font-bold text-lg">Sour Deezel</h1>
-                    <p class="grow">$32.99</p>
-                    <p>3.5g</p>
+                  <div id="item-2" data-item="cart-item" class="h-[100px] border m-auto py-6 px-6 rounded-btn flex flex-row justify-between items-center space-x-8">
+                    <image data-item="cart-item-image" src="./image/sample_2.jpeg" height="50px" width="50px" />
+                    <h1 data-item="cart-item-name" class="font-bold text-lg">Sour Deezel</h1>
+                    <p data-item="cart-item-price" class="grow">$32.99</p>
+                    <p data-item="cart-item-weight">3.5g</p>
+                    <p data-item="cart-item-quantity">1</p>
                   </div>
-                  <div id="item-3" class="h-[100px] border m-auto py-6 px-6 rounded-btn flex flex-row justify-between items-center space-x-8">
-                    <image src="./image/sample_3.jpeg" height="50px" width="50px" />
-                    <h1 class="font-bold text-lg">Sour Deezel</h1>
-                    <p class="grow">$32.99</p>
-                    <p>3.5g</p>
+                  <div id="item-3" data-item="cart-item" class="h-[100px] border m-auto py-6 px-6 rounded-btn flex flex-row justify-between items-center space-x-8">
+                    <image data-item="cart-item-image" src="./image/sample_3.jpeg" height="50px" width="50px" />
+                    <h1 data-item="cart-item-name" class="font-bold text-lg">Sour Deezel</h1>
+                    <p data-item="cart-item-price" class="grow">$32.99</p>
+                    <p data-item="cart-item-weight">3.5g</p>
+                    <p data-item="cart-item-quantity">1</p>
                   </div>
-                  <div id="item-4" class="h-[100px] border m-auto py-6 px-6 rounded-btn flex flex-row justify-start items-center space-x-8">
-                    <image src="./image/sample_4.jpeg" height="50px" width="50px" />
-                    <h1 class="font-bold text-lg">Sour Deezel</h1>
-                    <p class="grow">$73.88</p>
-                    <p>7g</p>
+                  <div id="item-4" data-item="cart-item" class="h-[100px] border m-auto py-6 px-6 rounded-btn flex flex-row justify-start items-center space-x-8">
+                    <image data-item="cart-item-image" src="./image/sample_4.jpeg" height="50px" width="50px" />
+                    <h1 data-item="cart-item-name" class="font-bold text-lg">Sour Deezel</h1>
+                    <p data-item="cart-item-price" class="grow">$73.88</p>
+                    <p data-item="cart-item-weight">7g</p>
+                    <p data-item="cart-item-quantity">3</p>
+                  </div>
+                  <div class="flex justify-between">
+                    <h1 class="font-bold text-xl">Total</h1>
+                    <p data-item="cart-total">$199.62</p>
                   </div>
                 </div>
               </div>

@@ -1,41 +1,57 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { twMerge } from "tailwind-merge"
+import CartList from "../components/CartItemList"
 import { crawler } from "../crawler"
 import { checkHrefCheckout } from "../util"
 import WidgetView, { ViewProps } from "./WidgetView"
 
 function Checkout({ className }: ViewProps) {
-    const [loading, setLoading] = useState(false)
+    const [loadingCheckout, setLoadingCheckout] = useState(false)
+    const [showCart, setShowCart] = useState(false)
+    const [cart, setCart] = useState(null)
+    const [cartError, setCartError] = useState(null)
     const history = useNavigate()
     
     useEffect(() => {
         checkHrefCheckout() ? null : history("/not-checkout")
     }, [window.location.href])
-
-    const handleClick = () => {
-        setLoading(true)
-        // window.location.href = "https://dispensary.gras.com/checkout"
+    
+    const runCrawler = () => {
         crawler()
+        .then(setCart)
+        .then(() => setShowCart(true))
+        .catch((error) => {
+            console.error(error); 
+            setCartError(error);
+        })
+    }
+
+    const getCartData = () => {
+        runCrawler()
+    }
+
+    const handleCheckout = () => {
+        setLoadingCheckout(true)
+        // window.location.href = "https://dispensary.gras.com/checkout"
     }
 
     return (
         <div className={twMerge(className)}>
-            {
-                loading ? 
-                    (
+                { loadingCheckout ? 
                     <div>
                         <h1>Checking out...</h1>
                         <p>You are being redirected</p>
-                    </div>
-                    ) : 
-                    (
-                    <button onClick={handleClick} 
+                    </div> : 
+                    showCart && <div className="flex flex-col">
+                        <CartList cart={cart} cartError={cartError} />
+                        <button>Checkout</button>
+                    </div> ||
+                    <button onClick={getCartData} 
                     className="flex flex-col items-center">
                         <h1>Delivery by Gras - straight to your door</h1>
-                        <p>Click here for delivery!</p>
+                        <p>Click here for delivery</p>
                     </button>
-                    )
                 }
         </div>
     )
