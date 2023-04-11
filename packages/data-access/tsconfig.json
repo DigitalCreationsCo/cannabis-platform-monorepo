@@ -1,6 +1,6 @@
 {
     "extends": "../../packages/shared-config/tsconfig/base.json",
-    "include": ["src", "**/*.ts", "**/*.tsx"],
+    "include": ["src",],
     "exclude": ["dist", "build", "**/node_modules", "test"],
     "compilerOptions": {
       "baseUrl": ".",
