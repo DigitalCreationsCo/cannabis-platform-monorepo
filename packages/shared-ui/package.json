@@ -26,10 +26,10 @@
     "rollup-plugin-postcss": "4.0.2"
   },
   "exports": {
-    ".": "./dist/esm/index.js",
-    "./dist/esm/style.css": "./dist/esm/style.css"
+    ".": "./dist/index.js",
+    "./dist/style/index.css": "./dist/style/index.css"
   },
-  "main": "dist/esm/index.js",
+  "main": "dist/index.js",
   "name": "@cd/shared-ui",
   "peerDependencies": {
     "@types/react": "18.0.34",
@@ -39,12 +39,12 @@
   "private": true,
   "scripts": {
     "build": "tsc && node esbuild.js && yarn build:css",
-    "build:css": "npx tailwindcss -i ./src/index.css -o ./dist/index.css --minify",
-    "build:css-watch": "npx tailwindcss -i ./src/index.css -o ./dist/index.css --minify --watch",
+    "build:css": "npx tailwindcss -i ./src/index.css -o ./dist/style/index.css --minify",
+    "build:css-watch": "npx tailwindcss -i ./src/index.css -o ./dist/style/index.css --minify --watch",
     "rollup": "NODE_ENV=production rollup -c",
     "watch": "tsc && node esbuild.watch.js && yarn build:css-watch"
   },
-  "types": "dist/esm/index.d.ts",
+  "types": "dist/index.d.ts",
   "type": "module",
   "version": "0.0.1"
 }
