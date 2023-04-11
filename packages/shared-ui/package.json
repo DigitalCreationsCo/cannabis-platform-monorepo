@@ -5,6 +5,9 @@
     "daisyui": "2.46.0",
     "date-fns": "2.29.3",
     "next": "13.0.6",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-hot-toast": "2.4.0",
     "tailwind-merge": "1.8.0",
     "typescript": "4.9.3",
     "usehooks-ts": "2.9.1"
@@ -31,16 +34,15 @@
   "peerDependencies": {
     "@types/react": "18.0.34",
     "@types/react-dom": "18.0.11",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
     "yup": "0.32.11"
   },
   "private": true,
   "scripts": {
-    "esbuild": "tsc && node esbuild.js && yarn build:css",
-    "build": "NODE_ENV=production rollup -c",
+    "build": "tsc && node esbuild.js && yarn build:css",
     "build:css": "npx tailwindcss -i ./src/index.css -o ./dist/index.css --minify",
-    "watch": "NODE_ENV=development rollup -c --watch"
+    "build:css-watch": "npx tailwindcss -i ./src/index.css -o ./dist/index.css --minify --watch",
+    "rollup": "NODE_ENV=production rollup -c",
+    "watch": "tsc && node esbuild.watch.js && yarn build:css-watch"
   },
   "types": "dist/esm/index.d.ts",
   "type": "module",
