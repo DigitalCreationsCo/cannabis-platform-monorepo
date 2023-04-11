@@ -6,28 +6,28 @@
   "main": "dist/index.js",
   "name": "@cd/shared-ui",
   "peerDependencies": {
-    "@types/react": "18.0.34",
-    "@types/react-dom": "18.0.11",
-    "yup": "0.32.11",
     "@deanc/esbuild-plugin-postcss": "1.0.2",
     "@rollup/plugin-commonjs": "24.0.1",
     "@rollup/plugin-image": "3.0.2",
     "@rollup/plugin-node-resolve": "15.0.1",
     "@rollup/plugin-typescript": "11.0.0",
+    "@types/react": "18.0.34",
+    "@types/react-dom": "18.0.11",
     "esbuild": "0.17.15",
     "esbuild-plugin-inline-image": "0.0.9",
     "postcss": "8.4.19",
     "prettier": "2.8.0",
     "rollup": "3.20.2",
-    "rollup-plugin-postcss": "4.0.2"
+    "rollup-plugin-postcss": "4.0.2",
+    "yup": "0.32.11"
   },
   "private": true,
   "scripts": {
-    "build": "tsc && node esbuild.js && yarn build:css",
+    "build": "node ../../node_modules/typescript/bin/tsc && node esbuild.js && yarn build:css",
     "build:css": "npx tailwindcss -i ./src/index.css -o ./dist/style/index.css --minify",
     "build:css-watch": "npx tailwindcss -i ./src/index.css -o ./dist/style/index.css --minify --watch",
     "rollup": "NODE_ENV=production rollup -c",
-    "watch": "tsc && node esbuild.watch.js && yarn build:css-watch"
+    "watch": "node ../../node_modules/typescript/bin/tsc && node esbuild.watch.js && yarn build:css-watch"
   },
   "types": "dist/index.d.ts",
   "type": "module",

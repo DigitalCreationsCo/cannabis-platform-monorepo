@@ -8,6 +8,8 @@ esbuild
         sourcemap: true,
         outdir: 'dist',
         packages: 'external',
-        plugins: [inlineImage()]
+        assetNames: 'assets/[name]',
+        loader: { '.png': 'file' },
+        plugins: [inlineImage({ outdir: 'dist/assets' })]
     })
     .catch((e) => console.error(e.message));

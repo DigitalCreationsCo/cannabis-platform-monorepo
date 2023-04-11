@@ -8,6 +8,8 @@ let context = await esbuild
         sourcemap: true,
         outdir: 'dist',
         packages: 'external',
+        assetNames: 'assets/[name]',
+        loader: { '.png': 'file' },
         plugins: [inlineImage()]
     })
     .catch((e) => console.error(e.message));

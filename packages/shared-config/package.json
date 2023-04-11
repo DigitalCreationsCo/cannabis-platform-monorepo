@@ -1,6 +1,5 @@
 {
   "peerDependencies": {
-    "find-up": "5.0.0",
     "@tailwindcss/typography": "0.5.8",
     "@typescript-eslint/eslint-plugin": "5.45.0",
     "@typescript-eslint/parser": "5.45.0",
@@ -14,6 +13,7 @@
     "eslint-plugin-react": "7.31.11",
     "eslint-plugin-react-hooks": "4.6.0",
     "eslint-plugin-simple-import-sort": "8.0.0",
+    "find-up": "5.0.0",
     "postcss": "8.4.19",
     "postcss-cli": "10.1.0",
     "prettier": "2.8.0",
