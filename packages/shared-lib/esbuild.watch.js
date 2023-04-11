@@ -1,5 +1,4 @@
 import * as esbuild from 'esbuild';
-import inlineImage from 'esbuild-plugin-inline-image';
 
 let context = await esbuild
     .context({
@@ -8,8 +7,7 @@ let context = await esbuild
         sourcemap: true,
         outdir: 'dist',
         packages: 'external',
-        plugins: [inlineImage()]
     })
     .catch((e) => console.error(e.message));
 await context.watch();
-console.log('watching @cd/shared-ui context...');
+console.log('watching @cd/shared-lib context...');
