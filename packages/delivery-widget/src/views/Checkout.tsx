@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { twMerge } from "tailwind-merge"
+import { crawler } from "../crawler"
 import { checkHrefCheckout } from "../util"
 import WidgetView, { ViewProps } from "./WidgetView"
 
@@ -15,6 +16,7 @@ function Checkout({ className }: ViewProps) {
     const handleClick = () => {
         setLoading(true)
         // window.location.href = "https://dispensary.gras.com/checkout"
+        crawler()
     }
 
     return (

@@ -4,18 +4,6 @@ import './styles/globals.css';
 import Button from './views/Button';
 import Checkout from './views/Checkout';
 import NotCheckout from './views/NotCheckout';
-  
-// const router = createMemoryRouter([
-//     {
-//         path: "/",
-//         element: <Button />,
-//     //  loader: rootLoader,
-//     },
-//     {
-//       path: "/checkout",
-//       element: <Checkout />,
-//     },
-// ]);
 
 const WidgetContainer = ({children }) => {
     return (
