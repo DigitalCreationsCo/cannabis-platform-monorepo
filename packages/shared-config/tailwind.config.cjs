@@ -1,10 +1,14 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const colors = require('tailwindcss/colors');
 
 module.exports = {
+    mode: 'jit',
     content: [
-        '../../packages/*/src/**/*{js, ts, jsx, tsx,}',
-        '../../apps/*/src/**/*.{js,ts,jsx,tsx}',
-        '../../apps/*/pages/**/*.{js,ts,jsx,tsx}'
+        '../../**/*.html',
+        '../../packages/**/*.jsx',
+        '../../packages/**/*.tsx',
+        '../../apps/**/*.jsx',
+        '../../apps/**/*.tsx'
     ],
     plugins: [require('daisyui')],
     theme: {

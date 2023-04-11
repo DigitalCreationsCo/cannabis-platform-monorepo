@@ -71,6 +71,18 @@ create userSignup frontend page, api route, data function (with pw hashing), ove
 signup flow OK
 get session flow OK
 
+4-9-22
+Continue building checkout widget
+Add stripe functionality NOW - do it next. Keep it simple!
+Test the widget in a react app as well.
+Host node servers.
+Launch this month. Win.
+
+TODO: 
+Correct enefficiency with shared-ui build,use esbuild or webpack.
+use tailwind jit compiler
+correct postcss files for each package (shared-ui, apps)
+Have tailwind output that can be used by all packges
 
 What must I do next? 3-4-2023
 signin flow
