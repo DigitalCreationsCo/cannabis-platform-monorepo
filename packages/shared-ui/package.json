@@ -1,32 +1,32 @@
 {
-  "devDependencies": {
+  "dependencies": {
     "@carbon/icons-react": "11.16.0",
     "@cd/data-access": "*",
-    "@rollup/plugin-commonjs": "^24.0.1",
-    "@rollup/plugin-image": "^3.0.2",
-    "@rollup/plugin-node-resolve": "^15.0.1",
-    "@rollup/plugin-typescript": "^11.0.0",
-    "@types/carbon__icons-react": "11.15.0",
     "daisyui": "2.46.0",
     "date-fns": "2.29.3",
     "next": "13.0.6",
-    "postcss": "8.4.19",
-    "prettier": "2.8.0",
-    "rollup": "^3.20.2",
-    "rollup-plugin-postcss": "^4.0.2",
     "tailwind-merge": "1.8.0",
-    "tsup": "6.7.0",
+    "typescript": "4.9.3",
     "usehooks-ts": "2.9.1"
   },
+  "devDependencies": {
+    "@deanc/esbuild-plugin-postcss": "^1.0.2",
+    "@rollup/plugin-commonjs": "24.0.1",
+    "@rollup/plugin-image": "3.0.2",
+    "@rollup/plugin-node-resolve": "15.0.1",
+    "@rollup/plugin-typescript": "11.0.0",
+    "esbuild": "^0.17.15",
+    "esbuild-plugin-inline-image": "^0.0.9",
+    "postcss": "8.4.19",
+    "prettier": "2.8.0",
+    "rollup": "3.20.2",
+    "rollup-plugin-postcss": "4.0.2"
+  },
   "exports": {
-    ".": {
-      "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.cjs"
-    },
+    ".": "./dist/esm/index.js",
     "./dist/esm/style.css": "./dist/esm/style.css"
   },
-  "main": "dist/cjs/index.cjs",
-  "module": "dist/esm/index.js",
+  "main": "dist/esm/index.js",
   "name": "@cd/shared-ui",
   "peerDependencies": {
     "@types/react": "18.0.8",
@@ -37,7 +37,9 @@
   },
   "private": true,
   "scripts": {
+    "esbuild": "tsc && node esbuild.js && yarn build:css",
     "build": "NODE_ENV=production rollup -c",
+    "build:css": "npx tailwindcss -i ./src/index.css -o ./dist/index.css --minify",
     "watch": "NODE_ENV=development rollup -c --watch"
   },
   "types": "dist/esm/index.d.ts",

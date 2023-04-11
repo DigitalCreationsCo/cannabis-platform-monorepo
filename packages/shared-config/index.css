@@ -3,10 +3,9 @@
 @tailwind utilities;
 
 @layer base {
-
-  body { 
+  /* body { 
     @apply text-dark;
-  } 
+  }  */
 
   a * {
     cursor: pointer;

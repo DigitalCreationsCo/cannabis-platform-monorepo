@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
-interface Props extends PropsWithChildren {
+interface Props extends PropsWithChildren<unknown> {
     color?: 'light' | 'dark';
     className?: string;
 }

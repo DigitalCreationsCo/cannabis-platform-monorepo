@@ -1,0 +1,23 @@
+widget app is found in /widget directory
+
+init script is loaded into any html page intended for Gras Delivery Widget
+init script will init the widget, or create a script that loads from app url.
+
+app url will serve:
+the entry file appending the widget to window
+
+Next steps:
+create webpack config ( or browserify ) to bundle the widget app
+into a javascript.
+
+how to serve the widget to any html document:
+
+include the initDeliveryWidget script on html document, before the body.
+the script will hit localhost:8080, or the server url that serves the widget files.
+localhost:8080 -> will set var widget to load widget files in the window.
+widget.init is called to create the widget using javascript, maybe using express.
+
+widget.init creates a dom element as root for react app, and initializes react app.
+
+create a dom element in the document that will render the view from express app
+add the static js bundle to graswidget script
