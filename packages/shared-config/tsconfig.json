@@ -5,8 +5,10 @@
   "include": [
     "**/*.ts",
     "**/*.cjs"
-, "index.js", "config/index.js", "config/loadEnv.js", "auth/appInfo.js"  ],
+, "index.js", 
+"config", 
+"auth"  ],
   "exclude": [
-    "node_modules",
+    "**/node_modules",
   ]
 }

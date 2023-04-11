@@ -3,6 +3,7 @@
     "include": ["src",],
     "exclude": ["dist", "build", "**/node_modules", "test"],
     "compilerOptions": {
+      "declaration": true,
       "baseUrl": ".",
       "target": "ESNext",
       "module": "ESNext",

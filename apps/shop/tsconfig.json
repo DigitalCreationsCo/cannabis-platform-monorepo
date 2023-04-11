@@ -31,6 +31,7 @@
         "../../packages/shared-lib/src/*"
       ]
     },
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "isolatedModules": true
   }
 }
