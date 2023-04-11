@@ -1,2 +1,1 @@
-import * as logo from './logo.png';
-export { logo };
+export * as logo from './logo.png';

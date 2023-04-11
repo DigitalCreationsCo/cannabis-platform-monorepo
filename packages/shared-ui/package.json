@@ -23,11 +23,12 @@
   },
   "private": true,
   "scripts": {
-    "build": "node ../../node_modules/typescript/bin/tsc && node esbuild.js && yarn build:css",
+    "build:clean": "rm -rf dist",
+    "build": "yarn build:clean && node ../../node_modules/typescript/bin/tsc && node esbuild.js && yarn build:css",
     "build:css": "npx tailwindcss -i ./src/index.css -o ./dist/style/index.css --minify",
     "build:css-watch": "npx tailwindcss -i ./src/index.css -o ./dist/style/index.css --minify --watch",
     "rollup": "NODE_ENV=production rollup -c",
-    "watch": "node ../../node_modules/typescript/bin/tsc && node esbuild.watch.js && yarn build:css-watch"
+    "watch": "yarn build:clean && node ../../node_modules/typescript/bin/tsc && node esbuild.watch.js && yarn build:css-watch"
   },
   "types": "dist/index.d.ts",
   "type": "module",

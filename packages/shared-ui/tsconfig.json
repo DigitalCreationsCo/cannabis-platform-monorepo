@@ -9,5 +9,6 @@
     "allowSyntheticDefaultImports": true, 
     "target": "ESNext",
     "module": "ESNext",
+    "typeRoots": ["./src/types/*"]
   }
 }

@@ -10,6 +10,6 @@ esbuild
         packages: 'external',
         assetNames: 'assets/[name]',
         loader: { '.png': 'file' },
-        plugins: [inlineImage({ outdir: 'dist/assets' })]
+        plugins: [inlineImage()]
     })
     .catch((e) => console.error(e.message));
