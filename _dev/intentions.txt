@@ -73,6 +73,17 @@ get session flow OK
 
 4-9-22
 Continue building checkout widget
+4-11-22
+resolving build errors in all packages and apps:
+shared-config: self build OK, dependency OK
+data-access: self build OK, dependency OK
+shared-ui: self build OK, dependency OK
+shared-lib: self build NO, dependency NO
+delivery-widget: self build OK, dependency OK
+shop: self build NO, dependency NO
+app: self build NO, dependency NO
+
+
 Add stripe functionality NOW - do it next. Keep it simple!
 Test the widget in a react app as well.
 Host node servers.
