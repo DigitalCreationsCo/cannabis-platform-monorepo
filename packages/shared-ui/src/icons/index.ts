@@ -106,10 +106,8 @@ import Yogurt from './Yogurt';
 import Youtube from './Youtube';
 import YoutubeFilled from './YoutubeFilled';
 
-const Icons = {
-    // directions
+export default {
     Right,
-
     Beer,
     Milk,
     Snack,
@@ -181,7 +179,6 @@ const Icons = {
     Instagram,
     PlayStore,
     AppleStore,
-
     BabyFeeder,
     BabyGirl,
     BasketBall,
@@ -240,5 +237,3 @@ const Icons = {
     XIcon,
     ...CarbonIcons
 };
-
-export default Icons;

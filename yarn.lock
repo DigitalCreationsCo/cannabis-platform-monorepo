@@ -1600,6 +1600,7 @@ __metadata:
     "@rollup/plugin-typescript": 11.0.0
     "@tailwindcss/typography": 0.5.8
     "@types/bcryptjs": 2.4.2
+    "@types/carbon__icons-react": 11.16.0
     "@types/ejs": 3.1.2
     "@types/formidable": 2.0.5
     "@types/jest": 29.2.4
@@ -1939,12 +1940,15 @@ __metadata:
 "@cd/shared-ui@*, @cd/shared-ui@workspace:packages/shared-ui":
   version: 0.0.0-use.local
   resolution: "@cd/shared-ui@workspace:packages/shared-ui"
+  dependencies:
+    "@types/carbon__icons-react": 11.16.0
   peerDependencies:
     "@deanc/esbuild-plugin-postcss": 1.0.2
     "@rollup/plugin-commonjs": 24.0.1
     "@rollup/plugin-image": 3.0.2
     "@rollup/plugin-node-resolve": 15.0.1
     "@rollup/plugin-typescript": 11.0.0
+    "@types/carbon__icons-react": 11.16.0
     "@types/react": 18.0.34
     "@types/react-dom": 18.0.11
     babel-loader: 9.1.2
@@ -1968,6 +1972,8 @@ __metadata:
 "@cd/shop@workspace:apps/shop":
   version: 0.0.0-use.local
   resolution: "@cd/shop@workspace:apps/shop"
+  dependencies:
+    next: 13.0.6
   peerDependencies:
     "@cd/data-access": "*"
     "@cd/shared-lib": "*"
@@ -1999,7 +2005,6 @@ __metadata:
     jest: 29.3.1
     jest-mock-extended: 3.0.1
     json-immutable: 0.5.0
-    next: 13.0.6
     next-connect: 0.13.0
     next-redux-wrapper: 8.1.0
     node-cache: 5.1.2
@@ -3327,6 +3332,13 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: bfcadb042a41b124c4e3de4925e3be6d35b78f93f27c4535d5ff86980dc0f8bc407ed99b9b54528952dc62834d5a779392f7a12c2947dd19330eb05a6bcae15a
+  languageName: node
+  linkType: hard
+
+"@types/carbon__icons-react@npm:11.16.0":
+  version: 11.16.0
+  resolution: "@types/carbon__icons-react@npm:11.16.0"
+  checksum: b546783723c172decb727639fa63d2f97bfa361c058a25ef03dcc58cefbe8caf8a3ff56cd10d8e14c868a3d2989e77c29056de2ce91c7ad7dd4686e6d213f5a7
   languageName: node
   linkType: hard
 
