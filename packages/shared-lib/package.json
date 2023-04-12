@@ -28,6 +28,7 @@
     "rollup": "NODE_ENV=production rollup -c",
     "rollup-watch": "NODE_ENV=development rollup -c --watch"
   },
+  "type": "module",
   "types": "dist/index.d.ts",
   "version": "0.0.1"
 }

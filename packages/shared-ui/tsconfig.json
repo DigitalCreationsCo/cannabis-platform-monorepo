@@ -5,9 +5,9 @@
   "compilerOptions": {
     "outDir": "dist",
     "declaration": true,
-    "allowJs": true,
     "baseUrl": ".",
     "allowSyntheticDefaultImports": true, 
+    "allowJs": true,
     "target": "ESNext",
     "module": "ESNext",
     "skipLibCheck": true

@@ -32,10 +32,10 @@
   "private": true,
   "scripts": {
     "build:clean": "rm -rf dist",
-    "build": "yarn build:clean && ../../node_modules/webpack/bin/webpack.js --mode production",
+    "build": "yarn build:clean && ../../node_modules/webpack/bin/webpack.js --mode production && yarn build:css",
     "esbuild": "yarn build:clean && node ../../node_modules/typescript/bin/tsc && node esbuild.js && yarn build:css",
-    "build:css": "npx tailwindcss -i ./src/index.css -o ./dist/style/index.css --minify",
-    "build:css-watch": "npx tailwindcss -i ./src/index.css -o ./dist/style/index.css --minify --watch",
+    "build:css": "npx tailwindcss -i ./src/styles/index.css -o ./dist/style/index.css --minify",
+    "build:css-watch": "npx tailwindcss -i ./src/styles/index.css -o ./dist/style/index.css --minify --watch",
     "rollup": "NODE_ENV=production rollup -c",
     "esbuild-watch": "yarn build:clean && node ../../node_modules/typescript/bin/tsc && node esbuild.watch.js && yarn build:css-watch"
   },

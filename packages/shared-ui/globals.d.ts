@@ -6,4 +6,3 @@ declare global {
 }
 export { };
 
-declare module '*.png';

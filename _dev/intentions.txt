@@ -78,7 +78,7 @@ resolving build errors in all packages and apps:
 shared-config: self build OK, dependency OK
 data-access: self build OK, dependency OK
 shared-ui: self build OK, dependency OK
-shared-lib: self build NO, dependency NO
+shared-lib: self build OK, dependency OK
 delivery-widget: self build OK, dependency OK
 shop: self build NO, dependency NO
 app: self build NO, dependency NO

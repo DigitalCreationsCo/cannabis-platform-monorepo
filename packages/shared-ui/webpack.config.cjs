@@ -5,6 +5,7 @@ module.exports = {
     entry: './src/index.ts',
     output: {
         path: path.resolve(__dirname, 'dist'),
+        publicPath: '/',
         filename: 'index.js'
     },
     resolve: {
@@ -30,7 +31,7 @@ module.exports = {
                 test: /\.(jpe?g|png|gif|svg)$/i,
                 loader: 'file-loader',
                 options: {
-                    name: '/assets/[name].[ext]'
+                    name: '/public/[name].[ext]'
                 }
             }
         ]
