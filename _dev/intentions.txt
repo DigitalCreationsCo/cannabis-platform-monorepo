@@ -80,7 +80,7 @@ data-access: self build OK, dependency OK
 shared-ui: self build OK, dependency OK
 shared-lib: self build OK, dependency OK
 delivery-widget: self build OK, dependency OK
-shop: self build NO, dependency NO
+shop: self build OK, dependency OK
 app: self build NO, dependency NO
 
 
