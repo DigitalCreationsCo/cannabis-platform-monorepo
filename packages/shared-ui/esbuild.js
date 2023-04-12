@@ -1,3 +1,4 @@
+// import dts from 'dts-bundle';
 import * as esbuild from 'esbuild';
 import inlineImage from 'esbuild-plugin-inline-image';
 
@@ -10,6 +11,11 @@ esbuild
         packages: 'external',
         assetNames: 'assets/[name]',
         loader: { '.png': 'file' },
-        plugins: [inlineImage()]
+        plugins: [inlineImage({ base64: true })]
     })
     .catch((e) => console.error(e.message));
+
+// dts.bundle({
+//     name: '@cd/shared-ui',
+//     main: 'dist/index.d.ts'
+// });
