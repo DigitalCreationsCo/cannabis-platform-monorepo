@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
-import Icons from './icons';
+import Icons from '../icons';
 import IconWrapper from './IconWrapper';
 
 const styleUploadWindow = ['h-[80px] w-[80px] border flex rounded-btn relative items-center justify-center bg-light'];

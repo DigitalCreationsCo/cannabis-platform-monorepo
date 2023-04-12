@@ -1,2 +1,2 @@
-import * as logo from './logo.png';
-export { logo };
+import logo from './logo.png';
+export default logo;

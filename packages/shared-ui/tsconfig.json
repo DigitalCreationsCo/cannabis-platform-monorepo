@@ -1,16 +1,15 @@
 {
   "extends": "../../packages/shared-config/tsconfig/react-library.json",
-  "include": ["src", "src/globals.d.ts"],
+  "include": ["src"],
   "exclude": ["dist", "**/node_modules"],
   "compilerOptions": {
     "outDir": "dist",
     "declaration": true,
-    "declarationDir": "dist",
     "allowJs": true,
-    "emitDeclarationOnly": true,
     "baseUrl": ".",
     "allowSyntheticDefaultImports": true, 
     "target": "ESNext",
-    "module": "ESNext"
+    "module": "ESNext",
+    "skipLibCheck": true
   }
 }

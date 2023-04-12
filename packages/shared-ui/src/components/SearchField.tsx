@@ -1,6 +1,6 @@
 import { ReactEventHandler, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
-import Icons from './icons';
+import Icons from '../icons';
 import IconWrapper from './IconWrapper';
 
 type SearchBarProps = {

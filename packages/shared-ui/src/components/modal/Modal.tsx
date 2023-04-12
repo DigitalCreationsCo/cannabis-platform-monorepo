@@ -1,8 +1,8 @@
 //Modal.tsx
 import React, { useRef } from 'react';
 import { twMerge } from 'tailwind-merge';
+import { useOnClickOutside } from '../../hooks';
 import CloseButton from '../CloseButton';
-import { useOnClickOutside } from '../hooks';
 import { H6 } from '../Typography';
 
 export type ModalProps = {

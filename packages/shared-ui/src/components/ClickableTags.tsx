@@ -1,7 +1,7 @@
 import { Dispatch, PropsWithChildren, SetStateAction, useState } from 'react';
+import Icons from '../icons';
 import FlexBox from './FlexBox';
 import Tag from './Tag';
-import Icons from './icons';
 
 function ClickableTags({ values, setValues, valueKey }: ClickableTagProps) {
     const [editMode, setEditMode] = useState(false);
