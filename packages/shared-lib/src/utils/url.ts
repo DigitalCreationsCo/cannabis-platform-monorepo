@@ -1,7 +1,12 @@
 export function formatDispensaryUrl(subdomainId: string) {
-    if (process.env.NODE_ENV === 'development') return `http://${subdomainId}.localhost:3000`;
-    if (process.env.NODE_ENV === 'staging') return `http://${subdomainId}.localhost:3000`;
-    if (process.env.NODE_ENV === 'production') return `http://${subdomainId}.grascannabis.org`;
+    switch(process.env.NODE_ENV) {
+        case 'development':
+            return `http://${subdomainId}.localhost:3000`;
+        case 'test':
+            return `http://${subdomainId}.localhost:3000`;
+        case 'production':
+            return `http://${subdomainId}.grascannabis.org`;
+    }
 }
 
 const next = process.env.NEXT_PUBLIC_APP_URL;

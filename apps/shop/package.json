@@ -11,7 +11,8 @@
     "start": "next start"
   },
   "dependencies": {
-    "next": "13.0.6"
+    "next": "13.0.6",
+    "next-redux-wrapper": "8.1.0"
   },
   "peerDependencies": {
     "@cd/data-access": "*",
@@ -45,7 +46,6 @@
     "jest-mock-extended": "3.0.1",
     "json-immutable": "0.5.0",
     "next-connect": "0.13.0",
-    "next-redux-wrapper": "8.1.0",
     "node-cache": "5.1.2",
     "node-mocks-http": "1.12.1",
     "postcss": "8.4.19",

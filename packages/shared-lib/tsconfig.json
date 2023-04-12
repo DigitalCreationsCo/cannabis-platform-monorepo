@@ -3,9 +3,11 @@
   "include": ["."],
   "exclude": ["dist", "build", "**/node_modules"],
   "compilerOptions": {
+      "outDir": "dist",
       "esModuleInterop": true,
       "allowSyntheticDefaultImports": true,
       "baseUrl": ".",
+      "declaration": true,
       "target": "ESNext",
       "module": "ESNext",
       "paths": {}
