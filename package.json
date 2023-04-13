@@ -53,7 +53,7 @@
     "@cd/shared-config": "*",
     "@cd/shared-lib": "*",
     "@cd/shared-ui": "*",
-    "@deanc/esbuild-plugin-postcss": "1.0.2",
+    "@deanc/esbuild-plugin-postcss": "1.0.1",
     "@formkit/auto-animate": "1.0.0-beta.6",
     "@paralleldrive/cuid2": "2.2.0",
     "@prisma/client": "4.10.0",
@@ -96,7 +96,7 @@
     "dotenv-cli": "7.0.0",
     "dotenv-expand": "10.0.0",
     "ejs": "3.1.9",
-    "esbuild": "0.17.15",
+    "esbuild": "0.8.32",
     "esbuild-plugin-inline-image": "0.0.9",
     "eslint": "8.29.0",
     "eslint-config-next": "13.0.6",
@@ -167,6 +167,8 @@
   },
   "resolutions": {
     "@types/react": "18.0.34",
-    "@types/react-dom": "18.0.11"
+    "@types/react-dom": "18.0.11",
+    "esbuild": "0.8.32",
+    "immutable": "4.3.0"
   }
 }

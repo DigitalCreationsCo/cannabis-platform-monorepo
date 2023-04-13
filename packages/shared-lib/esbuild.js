@@ -6,6 +6,7 @@ esbuild
         bundle: true,
         sourcemap: true,
         outdir: 'dist',
+        format: 'esm',
         packages: 'external',
     })
     .catch((e) => console.error(e.message));

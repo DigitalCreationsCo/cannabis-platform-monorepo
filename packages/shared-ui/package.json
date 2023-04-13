@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "name": "@cd/shared-ui",
   "peerDependencies": {
-    "@deanc/esbuild-plugin-postcss": "1.0.2",
+    "@deanc/esbuild-plugin-postcss": "1.0.1",
     "@rollup/plugin-commonjs": "24.0.1",
     "@rollup/plugin-image": "3.0.2",
     "@rollup/plugin-node-resolve": "15.0.1",
@@ -16,7 +16,7 @@
     "@types/react-dom": "18.0.11",
     "babel-loader": "9.1.2",
     "css-loader": "6.7.3",
-    "esbuild": "0.17.15",
+    "esbuild": "0.8.32",
     "esbuild-plugin-inline-image": "0.0.9",
     "file-loader": "6.2.0",
     "postcss": "8.4.19",
