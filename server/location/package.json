@@ -1,8 +1,8 @@
 {
   "peerDependencies": {
     "@babel/cli": "7.20.7",
-    "@babel/core": "7.20.12",
-    "@babel/preset-env": "7.20.2",
+    "@babel/core": "7.21.4",
+    "@babel/preset-env": "7.21.4",
     "@babel/preset-typescript": "7.18.6",
     "@cd/data-access": "*",
     "@paralleldrive/cuid2": "2.2.0",
