@@ -1,7 +1,18 @@
 {
-  "name": "@cd/cannabis-platform-monorepo",
+  "name": "cannabis-platform-monorepo",
   "version": "0.0.1",
   "private": true,
+  "keywords": [
+      "monorepo",
+      "nextjs",
+      "prisma",
+      "workspace"
+  ],
+  "homepage": "https://github.com/DigitalCreationsCo/cannabis-platform-monorepo",
+  "repository": {
+      "type": "git",
+      "url": "DigitalCreationsCo/cannabis-platform-monorepo"
+  },
   "workspaces": [
     "apps/*",
     "packages/*",
@@ -35,11 +46,9 @@
     "db": "yarn workspace @cd/data-access"
   },
   "engines": {
-    "node": "16.16.0"
-  },
-  "prisma": {
-    "schema": "packages/data-access/schema.prisma",
-    "seed": "ts-node --esm src/db/seed.ts"
+    "node": "16.^16.0",
+    "yarn": ">=1.22.0",
+    "npm": "please-use-yarn"
   },
   "dependencies": {
     "@babel/cli": "7.20.7",
