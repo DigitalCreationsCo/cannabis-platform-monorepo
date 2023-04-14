@@ -14,8 +14,7 @@
     "esModuleInterop": true,
     "baseUrl": ".",
     "paths": {
-      "middleware": ["src/middleware/index"],
-      "middleware/*": ["src/middleware/*"],
+      "@cd/core-lib": ["../../packages/core-lib/src/index"],
     }
   }
 }

@@ -1,4 +1,4 @@
-import { FormCard, LayoutContextProps, Page } from '@cd/shared-ui';
+import { FormCard, LayoutContextProps, Page } from '@cd/ui-lib';
 import Head from 'next/head';
 import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';

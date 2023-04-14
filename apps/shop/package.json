@@ -16,8 +16,6 @@
   },
   "peerDependencies": {
     "@cd/data-access": "*",
-    "@cd/shared-lib": "*",
-    "@cd/shared-ui": "*",
     "@reduxjs/toolkit": "1.9.1",
     "@types/formidable": "2.0.5",
     "@types/jest": "29.2.4",

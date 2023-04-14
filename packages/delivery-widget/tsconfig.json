@@ -24,8 +24,8 @@
         "jsx": "react-jsx",
         "baseUrl": ".",
         "paths": {
-            // "@cd/shared-ui": ["../shared-ui/src"],
-            // "@cd/shared-ui/*": ["../shared-ui/src/*"],
+            // "@cd/ui-lib": ["../ui-lib/src"],
+            // "@cd/ui-lib/*": ["../ui-lib/src/*"],
         }
     }
 }

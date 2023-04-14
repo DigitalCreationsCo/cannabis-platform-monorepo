@@ -1,4 +1,4 @@
-import { Button, FlexBox, H2, Paragraph } from '@cd/shared-ui';
+import { Button, FlexBox, H2, Paragraph } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Dispatch, SetStateAction } from 'react';

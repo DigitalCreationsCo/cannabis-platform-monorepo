@@ -13,7 +13,7 @@ import {
     Paragraph,
     TermsAgreement,
     TextField
-} from '@cd/shared-ui';
+} from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import Head from 'next/head';
 import Router from 'next/router';

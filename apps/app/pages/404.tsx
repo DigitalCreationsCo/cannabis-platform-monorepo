@@ -1,4 +1,4 @@
-import { ErrorMessage, Page } from '@cd/shared-ui';
+import { ErrorMessage, Page } from '@cd/ui-lib';
 
 function _404({ code = 404 }: { code: number }) {
     return (

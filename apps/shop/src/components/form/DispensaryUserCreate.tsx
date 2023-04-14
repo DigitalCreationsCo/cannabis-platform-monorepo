@@ -1,5 +1,5 @@
 import { useFormContext } from '@cd/shared-lib';
-import { Button, CheckBox, FlexBox, H3, H6, Icons, Label, Paragraph, Small, TextField } from '@cd/shared-ui';
+import { Button, CheckBox, FlexBox, H3, H6, Icons, Label, Paragraph, Small, TextField } from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import { useCallback, useEffect, useState } from 'react';

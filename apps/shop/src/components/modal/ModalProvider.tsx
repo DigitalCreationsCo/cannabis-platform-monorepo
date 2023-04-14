@@ -1,4 +1,4 @@
-import { ModalStateProps, modalActions, selectCartState, selectModalState, userActions } from '@cd/shared-lib';
+import { modalActions, ModalStateProps, selectCartState, selectModalState, userActions } from '@cd/shared-lib';
 import {
     Button,
     FlexBox,
@@ -12,7 +12,7 @@ import {
     ModalProps,
     Paragraph,
     TextField
-} from '@cd/shared-ui';
+} from '@cd/ui-lib';
 import { AnyAction } from '@reduxjs/toolkit';
 import { useFormik } from 'formik';
 import Image from 'next/image';

@@ -1,5 +1,5 @@
 import { Order } from '@cd/data-access';
-import { Card, Grid, H6, Icons, OrderRow, Page, PageHeader, Row } from '@cd/shared-ui';
+import { Card, Grid, H6, Icons, OrderRow, Page, PageHeader, Row } from '@cd/ui-lib';
 import { ProtectedPage } from 'components';
 import { useState } from 'react';
 import { usePagination } from '../../src/hooks';

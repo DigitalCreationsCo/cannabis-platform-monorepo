@@ -1,5 +1,5 @@
 import { selectSelectedLocationState } from '@cd/shared-lib';
-import { Button, H5 } from '@cd/shared-ui';
+import { Button, H5 } from '@cd/ui-lib';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import DispensaryCard from './DispensaryCard';

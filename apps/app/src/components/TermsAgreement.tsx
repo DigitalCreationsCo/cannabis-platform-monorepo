@@ -1,4 +1,4 @@
-import { FlexBox, Label } from '@cd/shared-ui';
+import { FlexBox, Label } from '@cd/ui-lib';
 import CheckBox, { CheckBoxProps } from './CheckBox';
 
 function TermsAgreement({ description, ...props }: { description?: React.ReactNode } & CheckBoxProps) {

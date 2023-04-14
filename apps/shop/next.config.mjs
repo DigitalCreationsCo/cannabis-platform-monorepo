@@ -174,7 +174,7 @@ const nextConfig = (phase) => {
 };
 
 const transpiledNextConfig = withTranspiledModules([
-    '@cd/shared-ui',
+    '@cd/ui-lib',
     '@cd/shared-lib',
     '@cd/data-access',
     '@cd/shared-config'

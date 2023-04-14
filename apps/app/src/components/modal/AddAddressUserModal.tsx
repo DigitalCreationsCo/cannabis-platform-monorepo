@@ -1,6 +1,6 @@
 import { AddressUserCreateType } from '@cd/data-access';
 import { urlBuilder } from '@cd/shared-lib';
-import { Button, FlexBox, Grid, Modal, ModalProps, TextField } from '@cd/shared-ui';
+import { Button, FlexBox, Grid, Modal, ModalProps, TextField } from '@cd/ui-lib';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import { Dispatch, SetStateAction, useState } from 'react';

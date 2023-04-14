@@ -1,4 +1,4 @@
-import { Grid, Page } from '@cd/shared-ui';
+import { Grid, Page } from '@cd/ui-lib';
 import Head from 'next/head';
 
 export default function StoreFront({

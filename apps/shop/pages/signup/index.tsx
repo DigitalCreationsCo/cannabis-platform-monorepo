@@ -1,4 +1,4 @@
-import { Button, Center, FlexBox, Grid, H1, H4, H5, LayoutContextProps, Padding, Page, Paragraph } from '@cd/shared-ui';
+import { Button, Center, FlexBox, Grid, H1, H4, H5, LayoutContextProps, Padding, Page, Paragraph } from '@cd/ui-lib';
 import Link from 'next/link';
 
 function SignUpStart() {

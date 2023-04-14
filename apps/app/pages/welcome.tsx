@@ -1,5 +1,5 @@
 import { LayoutContextProps } from '@cd/shared-lib';
-import { Button, Center, H1, H5, Page, Paragraph } from '@cd/shared-ui';
+import { Button, Center, H1, H5, Page, Paragraph } from '@cd/ui-lib';
 import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import { PropsWithChildren } from 'react';

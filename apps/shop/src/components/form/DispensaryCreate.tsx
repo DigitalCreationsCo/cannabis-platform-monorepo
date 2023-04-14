@@ -1,5 +1,5 @@
 import { useFormContext } from '@cd/shared-lib';
-import { Button, FlexBox, Grid, H3, H6, Paragraph, TermsAgreement, TextField } from '@cd/shared-ui';
+import { Button, FlexBox, Grid, H3, H6, Paragraph, TermsAgreement, TextField } from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';

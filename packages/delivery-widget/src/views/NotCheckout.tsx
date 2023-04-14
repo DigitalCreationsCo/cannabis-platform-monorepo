@@ -1,4 +1,4 @@
-// import { CloseButton } from "@cd/shared-ui"
+// import { CloseButton } from "@cd/ui-lib"
 import { useEffect } from "react"
 import { twMerge } from "tailwind-merge"
 import { checkHrefCheckout } from "../util"

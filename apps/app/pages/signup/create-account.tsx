@@ -1,5 +1,5 @@
 import { UserCreateType } from '@cd/data-access';
-import { Button, FlexBox, Grid, H3, H6, Icons, Page, Paragraph, TextField } from '@cd/shared-ui';
+import { Button, FlexBox, Grid, H3, H6, Icons, Page, Paragraph, TextField } from '@cd/ui-lib';
 import {
     DispensaryCreate,
     DispensaryReview,
