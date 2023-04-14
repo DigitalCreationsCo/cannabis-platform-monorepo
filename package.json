@@ -3,15 +3,15 @@
   "version": "0.0.1",
   "private": true,
   "keywords": [
-      "monorepo",
-      "nextjs",
-      "prisma",
-      "workspace"
+    "monorepo",
+    "nextjs",
+    "prisma",
+    "workspace"
   ],
   "homepage": "https://github.com/DigitalCreationsCo/cannabis-platform-monorepo",
   "repository": {
-      "type": "git",
-      "url": "DigitalCreationsCo/cannabis-platform-monorepo"
+    "type": "git",
+    "url": "DigitalCreationsCo/cannabis-platform-monorepo"
   },
   "workspaces": [
     "apps/*",
@@ -60,6 +60,7 @@
     "@carbon/icons-react": "11.16.0",
     "@cd/data-access": "*",
     "@cd/shared-config": "*",
+    "rimraf": "4.4.1",
     "@cd/shared-lib": "*",
     "@cd/shared-ui": "*",
     "@deanc/esbuild-plugin-postcss": "1.0.1",
@@ -114,6 +115,7 @@
     "eslint-plugin-react": "7.31.11",
     "eslint-plugin-react-hooks": "4.6.0",
     "eslint-plugin-simple-import-sort": "8.0.0",
+    "eslint-import-resolver-typescript": "3.5.3",
     "express": "4.18.2",
     "file-loader": "6.2.0",
     "find-up": "5.0.0",
@@ -160,7 +162,6 @@
     "ts-node": "10.9.1",
     "ts-node-dev": "2.0.0",
     "tsconfig-paths": "4.2.0",
-    "turbo": "1.6.3",
     "typescript": "4.9.3",
     "typescript-plugin-css-modules": "4.1.1",
     "usehooks-ts": "2.9.1",
@@ -171,7 +172,8 @@
   },
   "packageManager": "yarn@3.3.1",
   "devDependencies": {
-    "dts-bundle": "0.7.3"
+    "dts-bundle": "0.7.3",
+    "@types/prettier": "2.7.2"
   },
   "resolutions": {
     "@types/react": "18.0.34",
