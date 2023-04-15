@@ -1,6 +1,6 @@
 const {
   getDefaultIgnorePatterns,
-} = require('@your-org/eslint-config-bases/helpers');
+} = require('@cd/eslint-config-bases/helpers');
 
 module.exports = {
   root: true,
@@ -10,13 +10,13 @@ module.exports = {
   },
   ignorePatterns: [...getDefaultIgnorePatterns(), '.next', '.out'],
   extends: [
-    '@your-org/eslint-config-bases/typescript',
-    '@your-org/eslint-config-bases/sonar',
-    '@your-org/eslint-config-bases/regexp',
-    '@your-org/eslint-config-bases/jest',
-    '@your-org/eslint-config-bases/react',
-    '@your-org/eslint-config-bases/tailwind',
-    '@your-org/eslint-config-bases/rtl',
+    '@cd/eslint-config/typescript',
+    '@cd/eslint-config/sonar',
+    '@cd/eslint-config/regexp',
+    '@cd/eslint-config/jest',
+    '@cd/eslint-config/react',
+    '@cd/eslint-config/tailwind',
+    '@cd/eslint-config/rtl',
     // Add specific rules for nextjs
     'plugin:@next/next/core-web-vitals',
     // Apply prettier and disable incompatible rules
@@ -41,19 +41,6 @@ module.exports = {
       files: ['src/pages/\\_*.{ts,tsx}'],
       rules: {
         'react/display-name': 'off',
-      },
-    },
-    {
-      files: ['src/backend/**/*graphql*schema*.ts'],
-      rules: {
-        '@typescript-eslint/naming-convention': [
-          'error',
-          {
-            // Fine-tune naming convention for graphql resolvers and allow PascalCase
-            selector: ['objectLiteralProperty'],
-            format: ['camelCase', 'PascalCase'],
-          },
-        ],
       },
     },
   ],
