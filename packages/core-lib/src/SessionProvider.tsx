@@ -17,7 +17,7 @@ interface SessionProviderProps {
 
 function SessionProvider({ children }: SessionProviderProps): React.ReactElement {
     const session = useSessionContext();
-    let doesSessionExist
+    let doesSessionExist: boolean = false
 
     useEffect(() => {
         async function checkSession() {
@@ -31,7 +31,7 @@ function SessionProvider({ children }: SessionProviderProps): React.ReactElement
 }
 const useSession = () => useContext(SessionContext)
 
-function SessionWrapper ({ stInstance , children }) {
+function SessionWrapper ({ children }: SessionProviderProps) {
     return (
         <SuperTokensWrapper>
             <SessionProvider>{children}</SessionProvider>

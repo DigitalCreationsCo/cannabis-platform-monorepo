@@ -5,7 +5,7 @@
     "@babel/node": "7.20.7",
     "@babel/preset-env": "7.21.4",
     "@babel/preset-typescript": "7.18.6",
-    "@cd/data-access": "*",
+    "@cd/data-access": "workspace:*",
     "@types/jest": "29.2.4",
     "@types/node": "18.11.10",
     "@typescript-eslint/eslint-plugin": "5.45.0",

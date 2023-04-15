@@ -25,7 +25,7 @@ export default function useCategory() {
                     setCategoryList(data.categories);
                     setNotFound(false);
                 }
-            } catch (error) {
+            } catch (error: any) {
                 setCategoryList([]);
                 setNotFound(true);
                 toast.error(error.response.data);

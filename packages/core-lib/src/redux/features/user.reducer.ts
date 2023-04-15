@@ -1,10 +1,13 @@
 
 import { UserWithDetails } from "@cd/data-access";
-import { AnyAction, createAsyncThunk, createSlice, Dispatch } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { Dispatch } from "react";
+import { AnyAction } from 'redux';
 // import * as SecureStore from "expo-secure-store";
 import toast from 'react-hot-toast';
 import { AppState, ThunkArgumentsType } from "../types";
 import { locationActions } from './location.reducer';
+
 
 // import { messageActions } from "./message";
 // import { vendorActions } from "./vendors";

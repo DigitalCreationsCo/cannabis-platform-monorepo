@@ -8,5 +8,3 @@ export * from './product';
 export * from './session';
 export * from './user';
 
-console.log('   data access bundle!');
-console.log('node env: ', process.env.NODE_ENV);

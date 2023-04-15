@@ -2,6 +2,7 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "strict": false,
     "baseUrl": "./src",
     "target": "esnext",
     "lib": ["dom", "dom.iterable", "esnext"],
@@ -9,7 +10,14 @@
     "jsx": "react-jsx",
     "noEmit": false,
     "incremental": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "composite": true,
+    "paths": {
+      "@cd/data-access": ["../../../packages/data-access/src/index"],
+      "@cd/data-access/*": ["../../../packages/data-access/src/*"],
+      "@cd/eslint-config": ["../../../packages/eslint-config/src/index"],
+      "@cd/eslint-config/*": ["../../../packages/eslint-config/src/*"]
+    }
   },
-  "exclude": ["**/node_modules", "**/.*/", "dist", "build"]
+  "exclude": ["**/.*/", "dist", "build",  "**/test/*"]
 }

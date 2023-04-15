@@ -1,6 +1,6 @@
-function debounce(func, timeout = 300) {
-    let timer;
-    return (...args) => {
+function debounce(func: Function, timeout: number = 300) {
+    let timer: NodeJS.Timeout ;
+    return (...args: any) => {
         clearTimeout(timer);
         timer = setTimeout(() => {
             func.apply(this, args);

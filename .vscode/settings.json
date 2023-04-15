@@ -1,4 +1,12 @@
 {
+  "json.schemas": [
+    {
+      "url": "https://cdn.jsdelivr.net/npm/tsup/schema.json",
+      "fileMatch": [
+        "**/tsup.config.json"
+      ]
+    }
+  ],
   "editor.defaultFormatter": "dbaeumer.vscode-eslint",
   "editor.formatOnSave": false,
   "eslint.validate": [
