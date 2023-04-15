@@ -1766,7 +1766,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@cd/eslint-config@workspace:*, @cd/eslint-config@workspace:^, @cd/eslint-config@workspace:packages/eslint-config":
+"@cd/eslint-config@workspace:*, @cd/eslint-config@workspace:packages/eslint-config":
   version: 0.0.0-use.local
   resolution: "@cd/eslint-config@workspace:packages/eslint-config"
   dependencies:
@@ -1993,7 +1993,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cd/ui-lib@workspace:packages/ui-lib"
   dependencies:
-    "@cd/eslint-config": "workspace:^"
+    "@cd/data-access": "workspace:*"
+    "@cd/eslint-config": "workspace:*"
     "@types/carbon__icons-react": 11.16.0
     "@types/jest": 29.2.4
     "@types/node": 18.11.10

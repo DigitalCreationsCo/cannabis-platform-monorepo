@@ -3,7 +3,8 @@
   "module": "dist/index.esm.js",
   "name": "@cd/ui-lib",
   "devDependencies": {
-    "@cd/eslint-config": "workspace:^",
+    "@cd/data-access": "workspace:*",
+    "@cd/eslint-config": "workspace:*",
     "@types/carbon__icons-react": "11.16.0",
     "@types/jest": "29.2.4",
     "@types/node": "18.11.10",
@@ -53,7 +54,7 @@
   },
   "private": true,
   "scripts": {
-    "build": "tsup && build:css",
+    "build": "rimraf ./dist && tsup",
     "build:css": "npx tailwindcss -i ./src/styles/index.css -o ./dist/style/index.css --minify",
     "build:css-watch": "npx tailwindcss -i ./src/styles/index.css -o ./dist/style/index.css --minify --watch",
     "build-storybook": "storybook build --output-dir build/storybook",
@@ -68,6 +69,5 @@
     "typecheck": "tsc --project ./tsconfig.json --noEmit"
   },
   "types": "dist/index.d.ts",
-  "type": "module",
   "version": "0.0.1"
 }

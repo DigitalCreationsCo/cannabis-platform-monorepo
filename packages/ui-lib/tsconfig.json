@@ -8,7 +8,12 @@
     "module": "esnext",
     "jsx": "react-jsx",
     "noEmit": false,
-    "incremental": true
+    "incremental": true,
+    "paths": {
+      "@cd/data-access": ["../../../packages/data-access/src/index"],
+      "@cd/eslint-config": ["../../../packages/eslint-config/src/index"],
+      "@cd/eslint-config/*": ["../../../packages/eslint-config/src/*"]
+    }
   },
   "exclude": ["**/node_modules", "**/.*/", "dist", "build"]
 }

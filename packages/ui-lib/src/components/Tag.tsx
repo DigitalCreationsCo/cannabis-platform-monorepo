@@ -14,6 +14,6 @@ function Tag({ Icon, onClick, children }: TagProps) {
 export default Tag;
 
 type TagProps = {
-    Icon?: (props: SVGAttributes<SVGElement>) => JSX.Element;
+    Icon?: ((props: SVGAttributes<SVGElement>) => JSX.Element) | null;
     onClick?: MouseEventHandler<HTMLElement> & ReactEventHandler<Element>;
 } & PropsWithChildren;

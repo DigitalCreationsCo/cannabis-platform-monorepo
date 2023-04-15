@@ -18,7 +18,7 @@ function ClickableTags({ values, setValues, valueKey }: ClickableTagProps) {
     return (
         <FlexBox className="min-h-[49px] pb-2">
             {[...values].map((c, index) => (
-                <Tag key={valueKey + '-' + index} Icon={editMode && Icons.XIcon} onClick={() => onClick(c)}>
+                <Tag key={valueKey + '-' + index} Icon={editMode ? Icons.XIcon : null} onClick={() => onClick(c)}>
                     {c[valueKey]}
                 </Tag>
             ))}
@@ -30,6 +30,6 @@ export default ClickableTags;
 
 type ClickableTagProps = {
     valueKey: string;
-    values: Set<unknown>;
+    values: Set<Record<string, string>>;
     setValues: Dispatch<SetStateAction<Set<unknown>>>;
 } & PropsWithChildren;

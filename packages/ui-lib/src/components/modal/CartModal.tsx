@@ -1,7 +1,7 @@
 import FlexBox from '../FlexBox';
 import Modal, { ModalProps } from './Modal';
 
-function CartModal({ dispatchCloseModal, modalVisible, ...props }: CartModalProps) {
+function CartModal({ dispatchCloseModal, modalVisible, onClose, ...props }: CartModalProps) {
     const closeModal = () => {
         dispatchCloseModal();
     };

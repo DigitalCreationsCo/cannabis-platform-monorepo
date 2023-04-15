@@ -3,10 +3,10 @@ import Image from 'next/image';
 import { PropsWithChildren, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import FlexBox from './FlexBox';
+import { ConfirmationModal } from './modal';
 import Price from './Price';
 import TextField from './TextField';
 import { Paragraph } from './Typography';
-import { ConfirmationModal } from './modal';
 
 type ProductItemProps = {
     className?: string;
@@ -28,7 +28,7 @@ function ProductItem({ product, className, handleConfirm }: ProductItemProps & P
                 )}
             >
                 <div className="relative h-1/2 h-[100px] w-[100px]">
-                    <Image className="rounded-btn" src={product?.images[0]?.location} alt="" fill={true} />
+                    {product?.images && product?.images[0]?.location && <Image className="rounded-btn" src={product?.images[0]?.location} alt="" fill={true} />}
                 </div>
                 <div className="pb-2 pl-2">
                     <Paragraph>{product.name}</Paragraph>
@@ -63,7 +63,7 @@ function ProductItem({ product, className, handleConfirm }: ProductItemProps & P
                     type="number"
                     value={quantity}
                     defaultValue={quantity}
-                    onChange={(e) => setQuantity(e.target.value)}
+                    onChange={(event) => setQuantity((event.target as HTMLInputElement).value as unknown as number)}
                 />
             </ConfirmationModal>
         </>

@@ -59,7 +59,7 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
                 toast.success('Signed in', { duration: 5000 });
                 setLoadingButton(false);
             }
-        } catch (error) {
+        } catch (error: any) {
             console.error(error);
             throw new Error(error.message);
         }
@@ -80,7 +80,7 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
                 setLoadingButton(true);
                 await signedInUser();
             }
-        } catch (error) {
+        } catch (error: any) {
             setLoadingButton(false);
             console.error(error);
             toast.error(error.message);
