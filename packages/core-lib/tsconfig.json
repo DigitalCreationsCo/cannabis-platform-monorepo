@@ -11,7 +11,6 @@
     "noEmit": false,
     "incremental": true,
     "isolatedModules": true,
-    "composite": true,
     "paths": {
       "@cd/data-access": ["../../../packages/data-access/src/index"],
       "@cd/data-access/*": ["../../../packages/data-access/src/*"],
@@ -19,5 +18,5 @@
       "@cd/eslint-config/*": ["../../../packages/eslint-config/src/*"]
     }
   },
-  "exclude": ["**/.*/", "dist", "build",  "**/test/*"]
+  "exclude": ["**/node_modules", "**/.*/", "dist", "build",  "**/test/*"]
 }

@@ -1,8 +1,6 @@
 
 import { UserWithDetails } from "@cd/data-access";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { Dispatch } from "react";
-import { AnyAction } from 'redux';
 // import * as SecureStore from "expo-secure-store";
 import toast from 'react-hot-toast';
 import { AppState, ThunkArgumentsType } from "../types";
@@ -119,7 +117,10 @@ import { locationActions } from './location.reducer';
 //   }
 // );
 
-export const signinUserAsync = createAsyncThunk<UserWithDetails, {email: string; password: string}, {dispatch: Dispatch<AnyAction>; extra: ThunkArgumentsType}>(
+export const signinUserAsync = createAsyncThunk<UserWithDetails, {email: string; password: string}, { 
+  // dispatch: Dispatch<AnyAction>; 
+  extra: ThunkArgumentsType 
+}>(
   "user/signinUserAsync",
   async ({ email, password }, {dispatch, extra, rejectWithValue}) => {
     const { signIn } = extra.supertokens;
@@ -159,7 +160,10 @@ export const signinUserAsync = createAsyncThunk<UserWithDetails, {email: string;
   }
 );
 
-const signOutUserAsync = createAsyncThunk<void, {}, {dispatch: Dispatch<AnyAction>; extra: ThunkArgumentsType}>(
+const signOutUserAsync = createAsyncThunk<void, {}, {
+  // dispatch: Dispatch<AnyAction>; 
+  extra: ThunkArgumentsType
+}>(
   "user/signOutUserAsync",
   async (_, {dispatch, extra, rejectWithValue}) => {
     try {
