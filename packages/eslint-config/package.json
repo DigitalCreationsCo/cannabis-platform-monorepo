@@ -55,6 +55,5 @@
     "typecheck": "tsc --project tsconfig.json --noEmit",
     "clean": "rimraf ./dist ./coverage ./tsconfig.tsbuildinfo"
   },
-  "type": "commonjs",
   "version": "1.0.0"
 }
