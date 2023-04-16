@@ -8,7 +8,7 @@ export const renderAddress = (address: Address) => (
     </>
 );
 
-export const renderNestedDataObject = (data, Component, removeFields) => {
+export const renderNestedDataObject = (data: any, Component: any, removeFields: any):any => {
     const result = Object.keys({ ...data })
         .filter((field) => {
             (removeFields && !removeFields.includes(field)) || true;
@@ -22,7 +22,7 @@ export const renderNestedDataObject = (data, Component, removeFields) => {
     return result;
 };
 
-export const buildSTFormFields = (data) => {
+export const buildSTFormFields = (data: Record<string, any>): any => {
     const result = Object.keys(data).map((key) => {
         if (typeof data[key] === 'object' && data[key] !== null) {
             return { id: key, value: buildSTFormFields(data[key]) };

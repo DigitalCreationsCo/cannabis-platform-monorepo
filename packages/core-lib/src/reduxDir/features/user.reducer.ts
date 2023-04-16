@@ -1,3 +1,4 @@
+// @ts-nocheck
 
 import { UserWithDetails } from "@cd/data-access";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";

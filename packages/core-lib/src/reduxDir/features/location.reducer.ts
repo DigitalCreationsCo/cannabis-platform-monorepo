@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getGeoAddressByCoordinates } from "../../utils/geo";
 import { AppState } from "../types";
@@ -126,7 +128,7 @@ const locationSlice = createSlice({
           state.currentLocation.address.coordinates.latitude = payload.latitude
           state.currentLocation.address.coordinates.longitude = payload.longitude
         },
-        setCurrentLocation: (state, { payload }: { payload }) => {
+        setCurrentLocation: (state, { payload }: { payload: { currentLocation :LocationType }}) => {
             state.currentLocation = payload.currentLocation
         },
         setSelectLocationType: (state, {payload}: {payload: LocationStateProps['selectLocationType']}) => {

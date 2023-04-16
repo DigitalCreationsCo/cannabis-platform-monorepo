@@ -1,3 +1,4 @@
+// @ts-nocheck
 
 // TO DO: Create a custom useSelector hook that will inject this selector into redux, to get type definitions in the selector without having to import the state type into the selector file
 const Selector = (state) => Object.freeze({

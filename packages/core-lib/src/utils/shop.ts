@@ -12,23 +12,31 @@ export function calcSalePrice(price: number, discount: number) {
 export const parseDaysFromSchedule = (days: number) => String(days).split("").map(Number)
 
 export const checkDispensaryIsOpen = (schedule: Schedule) => {
-    const now = new Date()
+    try {
+        const now = new Date()
 
-    const { openAt, closeAt } = schedule
+        const { openAt, closeAt } = schedule
+        if (!openAt || !closeAt) {
+            return null
+        }
 
-    const openTime = new Date();
-    openTime.setHours(openAt)
+        const openTime = new Date();
+        openTime.setHours(openAt)
 
-    const closeTime = new Date();
-    closeTime.setHours(closeAt)
+        const closeTime = new Date();
+        closeTime.setHours(closeAt)
 
-    const days = parseDaysFromSchedule(schedule.days)
+        const days = parseDaysFromSchedule(schedule.days)
+        const result = days.includes(now.getDay()) && now > openTime && now < closeTime
 
-    const result = days.includes(now.getDay()) && now > openTime && now < closeTime
-    return result
+        return result ? 'open now' : 'closed';
+
+    } catch (error) {
+        return null
+    }
 }
 
-export const getCurrencySymbol = currency => {
+export const getCurrencySymbol = (currency: any) => {
     const currencySymbol = new Intl.NumberFormat('en', {
       currency,
       style: 'currency' 

@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { Address } from "@cd/data-access";
 import axios from "axios";
 

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 // adapt to work client side and ssr, throw errors for failed requests,
 // test all cases for api calls
 // not working correctly, prefer to use ssr for query calls
-export default function useQuery({ url }) {
+export default function useQuery({ url }: { url: string }) {
     const [responseData, setResponseData] = useState<unknown>();
     const [statusCode, setStatusCode] = useState<number>();
     const [statusText, setStatusText] = useState<string>();

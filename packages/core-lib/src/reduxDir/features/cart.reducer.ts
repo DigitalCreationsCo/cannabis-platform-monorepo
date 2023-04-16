@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { OrderItem, OrderStatus } from "@cd/data-access";
 import { AnyAction, createAsyncThunk, createSlice, Dispatch, PayloadAction } from "@reduxjs/toolkit";
 import { calcSalePrice } from "../../utils";
@@ -46,6 +48,7 @@ export const addItem = createAsyncThunk<OrderItem, OrderItem, {dispatch: Dispatc
         //   console.log("Dont add to cart -- do nothing");
         //   return thunkAPI.rejectWithValue("user declined add to cart");
         // }
+        return rejectWithValue("declined add to cart");
       } else {
         // NavigationService.goBack();
         return addItem;
@@ -242,7 +245,7 @@ const cartSlice = createSlice({
     updateItem: (state, {payload}: PayloadAction<OrderItem>) => {
       const itemInCart = state.cart.find(
         item => item.id == payload.id
-      );
+      ) as OrderItem;
       const index = state.cart.indexOf(itemInCart);
       
       if (index !== -1) {

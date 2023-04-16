@@ -112,7 +112,7 @@ export async function deleteProduct() {
 // export type ProductWithDetails = Prisma.PromiseReturnType<typeof findProductWithDetails>
 export type ProductWithDetails = Product & {
   organization: Organization;
-  variants?: ProductVariantWithDetails[];
+  variants: ProductVariantWithDetails[];
   categories: Category[];
   reviews?: Review & {
     user?: User & {

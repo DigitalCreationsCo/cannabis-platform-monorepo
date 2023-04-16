@@ -37,7 +37,7 @@ export default function useCategory() {
 
     // console.log('categoryList ', categoryList);
 
-    const doSearchCategories = debounce(async (e) => {
+    const doSearchCategories = debounce(async (event: any) => {
         // if (categoryList.length === 0) {
         //     try {
         //         const { data } = await axios('/api/category');
@@ -53,7 +53,7 @@ export default function useCategory() {
         //         toast.error(error.response.data);
         //     }
         // }
-        const value = e?.target?.value.toLowerCase() || null;
+        const value = event?.target?.value.toLowerCase() || null;
         // if (value) {
         searchCategories(value);
         // }

@@ -7,7 +7,7 @@ const useProductSearch = () => {
     const [productSearchResult, setProductSearchResult] = useState<ProductVariantWithDetails[]>([]);
     const [notFoundResult, setNotFoundResult] = useState(false);
 
-    const doSearchProducts = debounce(async (e) => {
+    const doSearchProducts = debounce(async (e: any) => {
         const value = e?.target?.value || null;
         if (value) {
             const data: ProductWithDetails[] = await (await axios.post('/api/products', { search: value })).data;

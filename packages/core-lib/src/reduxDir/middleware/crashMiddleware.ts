@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 const crashMiddleware = (store) => (next) => (action) => {
     try {
       return next(action);

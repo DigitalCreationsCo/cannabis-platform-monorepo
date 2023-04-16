@@ -16,12 +16,12 @@ export default defineConfig({
     environment: 'happy-dom',
     setupFiles: './config/test/setupVitest.ts',
     passWithNoTests: true,
-    /*
     deps: {
-      experimentalOptimizer: {
-        enabled: true,
-      },
-    }, */
+      external: ['fs'],
+      // experimentalOptimizer: {
+      //   enabled: true,
+      // },
+    },
     cache: {
       dir: '../../.cache/vitest/core-lib',
     },
