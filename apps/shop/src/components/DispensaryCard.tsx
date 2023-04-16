@@ -19,7 +19,7 @@ type DispensaryCardProps = {
         emailVerified?: boolean;
         vendorId?: string;
         termsAccepted?: boolean;
-        subdomainId?: string;
+        subdomainId: string;
         images?: ImageOrganization[];
         categoryList?: CategoryList[];
         schedule?: Schedule;
@@ -37,7 +37,7 @@ function DispensaryCard({ dispensary, className }: DispensaryCardProps) {
                     {dispensary.images?.[0] && (
                         <Image
                             src={dispensary.images?.[0].location}
-                            alt={dispensary.name}
+                            alt={dispensary.name || ''}
                             height={100}
                             width={100}
                             className="border"

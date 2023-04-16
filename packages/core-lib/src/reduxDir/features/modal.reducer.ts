@@ -74,8 +74,10 @@ const launchTipModal = createAsyncThunk<boolean, modalActionPayload, {dispatch: 
   }
 );
 
+export type ModalType = "SHOW_MODAL" | "CONFIRM_MODAL" | "SELECT_MODAL" | "TIP_MODAL" | "MESSAGE_BANNER" | 'CART_MODAL' | 'LOGIN_MODAL'
+
 export type ModalStateProps = {
-  modalType: string,
+  modalType: ModalType,
   modalVisible: boolean,
   modalText?: string,
   isLoading?: boolean,
@@ -86,7 +88,7 @@ export type ModalStateProps = {
 }
 
 const initialState:ModalStateProps = {
-  modalType: "",
+  modalType: "SHOW_MODAL",
   modalVisible: false,
   modalText: "",
   isLoading: false,
@@ -97,7 +99,7 @@ const initialState:ModalStateProps = {
 };
 
 export type modalActionPayload = {
-  modalType: string;
+  modalType: ModalType;
   modalText?: string;
 }
 
@@ -105,7 +107,7 @@ const modalSlice = createSlice({
   name: "modal",
   initialState,
   reducers: {
-    openModal: (state, { payload }: {payload} ) => {
+    openModal: (state, { payload }: {payload: modalActionPayload} ) => {
       console.log("modaltype: ", payload.modalType);
       console.log("modalText: ", payload.modalText);
       state.modalType = payload.modalType || state.modalType

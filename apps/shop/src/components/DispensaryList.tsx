@@ -6,17 +6,21 @@ import DispensaryCard from './DispensaryCard';
 
 type DispensaryListProps = {
     title: string;
-    list: { name: string; id: string }[];
+    list: { 
+        name: string; 
+        id: string; 
+        subdomainId: string;
+    }[];
 };
 function DispensaryListCarousel({ title, list }: DispensaryListProps) {
     const selectedLocation = useSelector(selectSelectedLocationState);
 
     const [slideIndex, setSlideindex] = useState(0);
-    const decrement = (e) => {
+    const decrement = (e: any) => {
         e.stopPropagation();
         if (slideIndex > 0) setSlideindex(slideIndex - 1);
     };
-    const increment = (e) => {
+    const increment = (e: any) => {
         e.stopPropagation();
         if (slideIndex < list.length - 1) setSlideindex(slideIndex + 1);
     };

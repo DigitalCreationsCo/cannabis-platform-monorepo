@@ -14,7 +14,7 @@ export default function DropZone({
     title = 'Drag & drop product image here',
     imageSize = 'Upload 280*280 image'
 }: DropZoneProps) {
-    const onDrop = useCallback((acceptedFiles) => {
+    const onDrop = useCallback((acceptedFiles: any) => {
         if (onChange) onChange(acceptedFiles);
     }, []);
     const { getRootProps, getInputProps, open, isDragActive } = useDropzone({

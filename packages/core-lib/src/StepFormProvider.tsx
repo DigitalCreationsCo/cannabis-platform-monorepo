@@ -13,7 +13,7 @@ interface FormContextProps extends PropsWithChildren {
 
 const FormContext = createContext<FormContextProps>({} as FormContextProps);
 
-const StepFormValuesProvider = ({ children }: FormContextProps) => {
+const StepFormValuesProvider = ({ children }: PropsWithChildren) => {
     const [formData, setFormData] = useState<FormDataProps>({} as FormDataProps);
 
     const setFormValues = (values: Record<string, unknown>) => {

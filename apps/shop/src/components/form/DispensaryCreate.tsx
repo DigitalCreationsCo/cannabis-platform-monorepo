@@ -20,7 +20,7 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
             setFormValues({ organization: { ...values } });
             setLoadingButton(false);
             nextFormStep();
-        } catch (error) {
+        } catch (error: any) {
             console.log('Dispensary Create Error: ', error);
             toast.error(error.response.data.message || error.response.data.errors);
             setLoadingButton(false);
@@ -159,7 +159,7 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
                     name="termsAccepted"
                     onChange={handleChange}
                     checked={values?.termsAccepted || false}
-                    helperText={touched.termsAccepted && errors.termsAccepted}
+                    helperText={touched.termsAccepted && errors.termsAccepted || ''}
                     description={
                         <>
                             By signing up to be listed on Gras Cannabis Marketplace, you agree to our

@@ -10,7 +10,7 @@ type ProductRowProps = {
 };
 
 function ProductRow({ product, variant }: ProductRowProps) {
-    const imageSrc = product.variants?.[0].images[0]?.location || variant?.images?.[0]?.location || false;
+    const imageSrc = product?.variants && product.variants?.[0].images?.[0].location || variant?.images?.[0]?.location || false;
     return (
         <Link href={`products/${product.id}`}>
             <Row className="h-[44px]">

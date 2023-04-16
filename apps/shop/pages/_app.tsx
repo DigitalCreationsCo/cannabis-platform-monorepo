@@ -22,7 +22,7 @@ function App({ Component, pageProps }: CustomAppProps) {
         SuperTokensReact.init(frontendConfig());
     }
 
-    const store: PersistedStore = useStore();
+    const store = useStore() as PersistedStore
 
     useEffect(() => {
         async function doRefresh() {

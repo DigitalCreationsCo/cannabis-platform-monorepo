@@ -23,7 +23,7 @@ function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
             setLoadingButton(false);
             console.log('Dispensary User Create Values: ', values);
             nextFormStep();
-        } catch (error) {
+        } catch (error: any) {
             console.log('Dispensary User Create Error: ', error);
             toast.error(error.response.data.message || error.response.data.errors);
             setLoadingButton(false);

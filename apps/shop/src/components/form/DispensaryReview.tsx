@@ -53,7 +53,7 @@ function DispensaryReview({ nextFormStep }: { nextFormStep: () => void }) {
             toast.success('Successfully created your Dispensary Account and User Account!');
             nextFormStep();
             // await signIn("credentials", { email: formData.newUser.email, password: formData.newUser.password });
-        } catch (error) {
+        } catch (error: any) {
             console.log('Dispensary Review Error: ', error);
             toast.error(error.response.data.message || error.response.data.errors);
             setLoadingButton(false);

@@ -8,16 +8,14 @@ import {
     H6,
     Icons,
     LoginModalProps,
-    Modal,
-    ModalProps,
-    Paragraph,
+    Modal, Paragraph,
     TextField
 } from '@cd/ui-lib';
 import { AnyAction } from '@reduxjs/toolkit';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useCallback, useMemo, useState } from 'react';
+import { JSXElementConstructor, useCallback, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import { connect, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
@@ -31,18 +29,20 @@ import { useAppDispatch } from '../../redux/hooks';
 // import TipModal from "./TipModal";
 
 const MODAL_COMPONENTS = Object.freeze({
-    //   SHOW_MODAL: MessageModal,
-    //   CONFIRM_MODAL: ConfirmModal,
-    //   SELECT_MODAL: SelectModal,
-    //   TIP_MODAL: TipModal,
-    //   MESSAGE_BANNER: MessageBanner,
-    CART_MODAL: CartModal,
-    LOGIN_MODAL: LoginModal
+    'SHOW_MODAL': () => <></>,
+    'CONFIRM_MODAL': () => <></>,
+    'SELECT_MODAL': () => <></>,
+    'TIP_MODAL': () => <></>,
+    'MESSAGE_BANNER': () => <></>,
+    'CART_MODAL': CartModal,
+    'LOGIN_MODAL': LoginModal
 });
 
-const ModalContainer = (props: ModalStateProps & LoginModalProps) => {
+type ModalContainerProps = ModalStateProps & LoginModalProps
+
+const ModalContainer = (props: ModalContainerProps) => {
     const modalState = useSelector(selectModalState);
-    const ModalComponent = useMemo(() => MODAL_COMPONENTS[modalState.modalType], [modalState.modalType]);
+    const ModalComponent = useMemo<JSXElementConstructor<ModalStateProps & LoginModalProps>>(() => MODAL_COMPONENTS[modalState.modalType], [modalState.modalType]);
     if (!modalState.modalType && !modalState.modalVisible) return <></>;
     return <ModalComponent {...modalState} {...props} />;
 };
@@ -78,7 +78,7 @@ function CartModal({ dispatchCloseModal, modalVisible, ...props }: CartModalProp
 
 // export default CartModal;
 
-interface CartModalProps extends ModalProps {
+interface CartModalProps {
     dispatchCloseModal: () => void;
     modalVisible: boolean;
 }
@@ -124,7 +124,7 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
                 await signInUser({ email: values.email, password: values.password });
                 // await signedInUser();
             }
-        } catch (error) {
+        } catch (error: any) {
             setLoadingButton(false);
             console.error(error);
             toast.error(error.message);
