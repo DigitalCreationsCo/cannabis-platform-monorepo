@@ -59,7 +59,7 @@
     "build:css-watch": "npx tailwindcss -i ./src/styles/index.css -o ./dist/style/index.css --minify --watch",
     "build-storybook": "storybook build --output-dir build/storybook",
     "clean": "rimraf ./dist ./build ./tsconfig.tsbuildinfo ./node_modules/.cache",
-    "dev": "tsup --watch",
+    "watch": "tsup --watch",
     "fix-all-files": "eslint . --ext .ts,.tsx,.js,.jsx,.cjs,.mjs --fix",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx,.cjs,.mjs --cache --cache-location ../../.cache/eslint/ui-lib.eslintcache",
     "serve-storybook": "sirv build/storybook --cors --port 8888",

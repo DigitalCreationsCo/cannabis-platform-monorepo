@@ -45,8 +45,13 @@
     "packages:test:unit": "yarn workspaces foreach -ptv --include '@cd/*' run test-unit",
     "packages:typecheck": "yarn workspaces foreach -ptv --include '@cd/*' run typecheck",
     "postinstall": "is-ci || yarn husky install",
-    "apps:build": "yarn workspaces foreach -ptv --include '*-app' run build",
-    "apps:clean": "yarn workspaces foreach -ptv --include '*-app' run clean"
+    "apps:build": "yarn workspaces foreach -ptv --include '@cd/*-app' run build",
+    "apps:clean": "yarn workspaces foreach -ptv --include '@cd/*-app' run clean",
+    "apps:watch": "yarn workspaces foreach -ptv --include '@cd/*-app' run dev",
+    "server:build": "yarn workspaces foreach -ptv --include '@cd/server-*' run build",
+    "server:clean": "yarn workspaces foreach -ptv --include '@cd/server-*' run clean",
+    "server:watch": "yarn workspaces foreach -ptv --include '@cd/server-*' run watch",
+    "watch:all": "run-s server:watch apps:watch"
   },
   "engines": {
     "node": "16.^16.0",
