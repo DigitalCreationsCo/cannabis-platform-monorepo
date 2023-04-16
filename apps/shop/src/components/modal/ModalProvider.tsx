@@ -1,4 +1,4 @@
-import { modalActions, ModalStateProps, selectCartState, selectModalState, userActions } from '@cd/shared-lib';
+import { modalActions, ModalStateProps, selectCartState, selectModalState, userActions } from '@cd/core-lib';
 import {
     Button,
     FlexBox,

@@ -175,9 +175,9 @@ const nextConfig = (phase) => {
 
 const transpiledNextConfig = withTranspiledModules([
     '@cd/ui-lib',
-    '@cd/shared-lib',
     '@cd/data-access',
-    '@cd/shared-config'
+    '@cd/eslint-config',
+    '@cd/core-lib'
 ])(nextConfig);
 
 export default transpiledNextConfig;

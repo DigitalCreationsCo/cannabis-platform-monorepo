@@ -1,4 +1,4 @@
-import { LayoutContextProps } from '@cd/shared-lib';
+import { LayoutContextProps } from '@cd/core-lib';
 import { Button, Center, H1, H5, Page, Paragraph } from '@cd/ui-lib';
 import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';

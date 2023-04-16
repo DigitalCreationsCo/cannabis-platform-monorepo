@@ -1,4 +1,4 @@
-import { urlBuilder } from '@cd/shared-lib';
+import { urlBuilder } from '@cd/core-lib';
 import axios from 'axios';
 import { authMiddleware, ExtendRequest, healthCheckMiddleware } from 'middleware';
 import { NextApiResponse } from 'next';

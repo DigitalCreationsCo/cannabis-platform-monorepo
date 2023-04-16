@@ -6,8 +6,8 @@ import {
     modalReducer,
     shopReducer,
     userReducer
-} from '@cd/shared-lib';
-import { Store, combineReducers, configureStore } from '@reduxjs/toolkit';
+} from '@cd/core-lib';
+import { combineReducers, configureStore, Store } from '@reduxjs/toolkit';
 import { deserialize, serialize } from 'json-immutable';
 import { createWrapper } from 'next-redux-wrapper';
 import { Persistor, persistReducer, persistStore } from 'redux-persist';

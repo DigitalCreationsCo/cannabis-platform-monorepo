@@ -1,4 +1,4 @@
-import { modalActions, ModalStateProps, selectModalState, userActions } from '@cd/shared-lib';
+import { modalActions, ModalStateProps, selectModalState, userActions } from '@cd/core-lib';
 import { Button, FlexBox, Grid, H1, H3, H6, Icons, LoginModalProps, Modal, Paragraph, TextField } from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import Image from 'next/image';

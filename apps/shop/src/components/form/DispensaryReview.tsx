@@ -1,4 +1,4 @@
-import { FormDataProps, renderNestedDataObject, useFormContext } from '@cd/shared-lib';
+import { FormDataProps, renderNestedDataObject, useFormContext } from '@cd/core-lib';
 import { Button, FlexBox, H3, H5, Paragraph } from '@cd/ui-lib';
 import axios from 'axios';
 import { useEffect, useState } from 'react';

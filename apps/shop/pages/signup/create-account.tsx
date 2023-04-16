@@ -1,5 +1,5 @@
+import { userActions } from '@cd/core-lib';
 import { UserCreateType } from '@cd/data-access';
-import { userActions } from '@cd/shared-lib';
 import {
     Button,
     FlexBox,

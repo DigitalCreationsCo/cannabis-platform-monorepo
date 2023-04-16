@@ -1,4 +1,4 @@
-import { urlBuilder } from '@cd/shared-lib';
+import { urlBuilder } from '@cd/core-lib';
 import axios from 'axios';
 import { NextApiResponse } from 'next';
 import nc from 'next-connect';

@@ -1,4 +1,4 @@
-import { StepFormValuesProvider, ToastProvider } from '@cd/shared-lib';
+import { StepFormValuesProvider, ToastProvider } from '@cd/core-lib';
 import { Center, FlexBox, LayoutContextProps, LoadingDots } from "@cd/ui-lib";
 import type { AppProps } from 'next/app';
 import Head from 'next/head';

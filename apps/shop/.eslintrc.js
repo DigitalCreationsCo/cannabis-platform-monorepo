@@ -1,6 +1,6 @@
 const {
   getDefaultIgnorePatterns,
-} = require('@cd/eslint-config-bases/helpers');
+} = require('@cd/eslint-config/helpers');
 
 module.exports = {
   root: true,
@@ -20,7 +20,7 @@ module.exports = {
     // Add specific rules for nextjs
     'plugin:@next/next/core-web-vitals',
     // Apply prettier and disable incompatible rules
-    '@your-org/eslint-config-bases/prettier',
+    '@cd/eslint-config/prettier',
   ],
   rules: {
     // https://github.com/vercel/next.js/discussions/16832

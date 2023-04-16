@@ -1,4 +1,4 @@
-import { selectSelectedLocationState } from '@cd/shared-lib';
+import { selectSelectedLocationState } from '@cd/core-lib';
 import { Button, H5 } from '@cd/ui-lib';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';

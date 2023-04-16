@@ -1,5 +1,5 @@
+import { checkDispensaryIsOpen, formatDispensaryUrl, renderAddress } from '@cd/core-lib';
 import { Address, CategoryList, Coordinates, ImageOrganization, Schedule } from '@cd/data-access';
-import { checkDispensaryIsOpen, formatDispensaryUrl, renderAddress } from '@cd/shared-lib';
 import { Card, FlexBox, Paragraph } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
