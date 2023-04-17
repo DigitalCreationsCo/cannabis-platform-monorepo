@@ -7,14 +7,16 @@ import IconButton from './IconButton';
 interface CloseButtonProps {
     Icon?: ((props: SVGAttributes<SVGElement>) => JSX.Element) | CarbonIconType;
     onClick?: ReactEventHandler;
+    theme?: 'light' | 'dark';
+    className?: string;
 }
 
-function CloseButton({ Icon = Icons.XIcon, ...props }: CloseButtonProps) {
+function CloseButton({ Icon = Icons.XIcon, className, ...props }: CloseButtonProps) {
     const closeButtonStyle =
         'bg-transparent hover:bg-transparent md:hover:bg-transparent shadow-none top-0 right-0 px-0 m-0 w-min h-min absolute';
     return (
-        <div className="relative py-2">
-            <IconButton size={16} className={twMerge(closeButtonStyle)} {...props} Icon={Icon} />
+        <div className={twMerge("relative py-2")}>
+            <IconButton size={16} className={twMerge(closeButtonStyle, className)} {...props} Icon={Icon} />
         </div>
     );
 }

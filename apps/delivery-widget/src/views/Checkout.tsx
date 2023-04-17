@@ -41,7 +41,7 @@ function Checkout({ className }: ViewProps) {
     }
 
     return (
-        <div className={twMerge(className)}>
+        <div className={twMerge('w-[240px]', className)}>
                 { loadingCheckout ? 
                     <div>
                         <h1>Checking out...</h1>
@@ -49,24 +49,17 @@ function Checkout({ className }: ViewProps) {
                     </div> : 
                     showCart && <div className="flex flex-col">
                         <CartList cart={cart} cartError={cartError} />
+                        If you're ready for checkout, click the button below.
                         <button>Checkout</button>
                     </div> ||
                     <button onClick={getCartData} 
-                    className="flex flex-col items-center">
+                    className="flex flex-col items-center w-full">
                         <h1>Delivery by Gras - straight to your door</h1>
-                        <p>Click here for delivery</p>
+                        <p>Click here to start your delivery</p>
                     </button>
                 }
         </div>
     )
-}
-
-function CloseButton() {
-    return (
-        <div className="cursor-default py-2 text-light text-3xl">
-            x
-        </div>
-    );
 }
 
 export default WidgetView(Checkout)

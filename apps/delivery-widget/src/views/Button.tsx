@@ -1,10 +1,23 @@
-import { useEffect } from "react"
+import { getBreakpointValue } from "@cd/ui-lib/src/hooks/useBreakpoint"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { twMerge } from "tailwind-merge"
 import { checkHrefCheckout } from "../util"
 import WidgetView, { ViewProps } from "./WidgetView"
 
 function Button({ className }: ViewProps) {
+    const [screenwidth, setScreenwidth] = useState(window.innerWidth)
+    
+    const setWindowDimensions = () => {
+        setScreenwidth(window.innerWidth)
+      }
+      useEffect(() => {
+        window.addEventListener('resize', setWindowDimensions);
+        return () => {
+          window.removeEventListener('resize', setWindowDimensions)
+        }
+      }, [])
+
     const history = useNavigate()
     
     const handleClick = () => {
@@ -15,22 +28,19 @@ function Button({ className }: ViewProps) {
         checkHrefCheckout() ? history("/checkout") : null
     }, [window.location.href])
     
+    const md = getBreakpointValue('md')
     return (
-    <button onClick={handleClick} className={twMerge(className, "tooltip")} data-tip="Click to learn more!">
+    <button onClick={handleClick} className={twMerge(className, 'w-[300px', "tooltip")} data-tip="Click to learn more!">
         <div className="flex flex-col items-center">
-            <h1>Delivery by Gras</h1>
-            <p>now at checkout</p>
+            {
+            screenwidth <= md ? <h1>Now offering Delivery by Gras at checkout</h1> : 
+            <>
+            <h1>Delivery by Gras</h1><p>now at checkout</p>
+            </>
+            }
         </div>
     </button>
     )
-}
-
-function CloseButton() {
-    return (
-        <div className="items-center flex px-2 bg-light text-primary font-bold rounded-full text-3xl">
-            x
-        </div>
-    );
 }
 
 export default WidgetView(Button)

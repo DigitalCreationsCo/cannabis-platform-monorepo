@@ -1,6 +1,5 @@
 {
-  "main": "dist/index.js",
-  "module": "dist/index.esm.js",
+  "main": "dist/index.mjs",
   "name": "@cd/ui-lib",
   "devDependencies": {
     "@cd/data-access": "workspace:*",

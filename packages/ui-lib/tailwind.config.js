@@ -4,9 +4,7 @@ module.exports = {
     content: [
         './src/**/*.{js,ts,jsx,tsx}',
         '../../apps/**/*.{jsx,tsx}',
-    ],
-    purge: [
-        '*.html', 
+        '../../apps/delivery-widget/src/**/*.{jsx,tsx}',
     ],
     plugins: [require('daisyui')],
     theme: {

@@ -7,11 +7,30 @@ import Checkout from './views/Checkout';
 import NotCheckout from './views/NotCheckout';
 
 const WidgetContainer = ({children }: PropsWithChildren) => {
+    // const [scrollHeight, setScrollHeight] = React.useState(0)
+    
+    // const setScroll = () => {
+    //     setScrollHeight(window.scrollY)
+    // }
+    
+    // useEffect(() => {
+    //     window.addEventListener('scroll', setScroll);
+    //     return () => {
+    //         window.removeEventListener('scroll', setScroll)
+    //     }
+    // }, [])
+      
+    // console.log('scrollheight', scrollHeight)
     return (
-    <div className="absolute bottom-0 right-0 m-4">
-        {children}
-    </div>
-)}
+        // top div is used to keep the button at the bottom of the page, 
+        // while also allowing the button to be sticky
+        // and having responsive padding at the bottom of the page
+        <div className='flex h-20 md:h-0'>
+        <div className="fixed bottom-0 h-auto md:right-0 md:m-4">
+            {children}
+        </div></div>
+    )
+}
 
 const Router = () => {
     return (

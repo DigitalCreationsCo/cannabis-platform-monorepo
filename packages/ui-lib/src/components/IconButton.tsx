@@ -6,6 +6,7 @@ export interface IconButtonProps extends IconProps {
     onClick?: ReactEventHandler;
     className?: string;
     size?: number;
+    theme?: 'light' | 'dark';
 }
 export default function IconButton({
     Icon,
@@ -14,11 +15,12 @@ export default function IconButton({
     className,
     size = 20,
     children,
+    theme = 'dark',
     ...props
 }: IconButtonProps & PropsWithChildren) {
     return (
         <Button type={type} onClick={onClick} className={className} {...props}>
-            <IconWrapper size={size} Icon={Icon} />
+            <IconWrapper theme={theme} size={size} Icon={Icon} />
             {children}
         </Button>
     );

@@ -7,7 +7,7 @@ module.exports = [
             filename: 'index.js'
         },
         resolve: {
-            extensions: [".tsx", ".ts", ".jsx", ".js"],
+            extensions: [".tsx", ".ts", ".jsx", ".js", ".css"],
         },
         module: {
             rules: [
@@ -23,8 +23,26 @@ module.exports = [
                 },
                 {
                     test: /\.(css|scss)$/,
-                    use: ["style-loader", "css-loader"],
-                }
+                    use: [
+                        "style-loader", 
+                        "css-loader",
+                        {
+                            loader: "postcss-loader",
+                            options: {
+                            postcssOptions: {
+                                plugins: [
+                                [
+                                    "postcss-preset-env",
+                                    {
+                                    // Options
+                                    },
+                                ],
+                                ],
+                            },
+                            },
+                        }
+                    ],
+                },
             ]
         }
     },
@@ -36,7 +54,7 @@ module.exports = [
             filename: 'widget.js'
         },
         resolve: {
-            extensions: [".tsx", ".ts", ".jsx", ".js"],
+            extensions: [".tsx", ".ts", ".jsx", ".js", ".css"],
         },
         module: {
             rules: [
@@ -57,7 +75,25 @@ module.exports = [
                 },
                 {
                     test: /\.(css|scss)$/,
-                    use: ["style-loader", "css-loader"],
+                    use: [
+                        "style-loader", 
+                        "css-loader",
+                        {
+                            loader: "postcss-loader",
+                            options: {
+                            postcssOptions: {
+                                plugins: [
+                                [
+                                    "postcss-preset-env",
+                                    {
+                                    // Options
+                                    },
+                                ],
+                                ],
+                            },
+                            },
+                        }
+                    ],
                 },
 
             ]

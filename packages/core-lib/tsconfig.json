@@ -12,6 +12,8 @@
     "incremental": true,
     "isolatedModules": true,
     "paths": {
+      "@cd/ui-lib": ["../../../packages/ui-lib/src/index"],
+      "@cd/ui-lib/*": ["../../../packages/ui-lib/src/*"],
       "@cd/data-access": ["../../../packages/data-access/src/index"],
       "@cd/data-access/*": ["../../../packages/data-access/src/*"],
       "@cd/eslint-config": ["../../../packages/eslint-config/src/index"],

@@ -3,7 +3,7 @@ import { twMerge } from 'tailwind-merge';
 import Center from './Center';
 import LoadingDots from './LoadingDots';
 
-interface ButtonProps extends PropsWithChildren {
+export interface ButtonProps extends PropsWithChildren {
     size?: 'lg' | 'sm' | 'md';
     bg?: 'primary' | 'accent-soft' | 'transparent';
     hover?: 'accent' | 'primary' | 'transparent';
