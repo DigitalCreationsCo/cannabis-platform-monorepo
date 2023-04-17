@@ -1,5 +1,5 @@
-import { Button, FlexBox, H5, H6, Paragraph, Small } from '@cd/shared-ui';
-import React, { useCallback } from 'react';
+import { Button, FlexBox, H6, Paragraph, Small } from '@cd/ui-lib';
+import { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { twMerge } from 'tailwind-merge';
 
@@ -14,7 +14,7 @@ export default function DropZone({
     title = 'Drag & drop product image here',
     imageSize = 'Upload 280*280 image'
 }: DropZoneProps) {
-    const onDrop = useCallback((acceptedFiles) => {
+    const onDrop = useCallback((acceptedFiles: any) => {
         if (onChange) onChange(acceptedFiles);
     }, []);
     const { getRootProps, getInputProps, open, isDragActive } = useDropzone({

@@ -1,5 +1,5 @@
 import { ProductVariantWithDetails, ProductWithDetails } from '@cd/data-access';
-import { FlexBox, H6, Icons, IconWrapper, Paragraph, Price, Row } from '@cd/shared-ui';
+import { FlexBox, H6, Icons, IconWrapper, Paragraph, Price, Row } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
@@ -10,7 +10,7 @@ type ProductRowProps = {
 };
 
 function ProductRow({ product, variant }: ProductRowProps) {
-    const imageSrc = product.variants?.[0].images[0]?.location || variant?.images?.[0]?.location || false;
+    const imageSrc = product?.variants && product.variants?.[0].images?.[0].location || variant?.images?.[0]?.location || false;
     return (
         <Link href={`products/${product.id}`}>
             <Row className="h-[44px]">

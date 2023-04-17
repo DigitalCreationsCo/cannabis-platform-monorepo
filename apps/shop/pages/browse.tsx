@@ -1,4 +1,4 @@
-import { Grid, Page, Paragraph } from '@cd/shared-ui';
+import { Grid, Page, Paragraph } from '@cd/ui-lib';
 import Head from 'next/head';
 import Session from 'supertokens-node/recipe/session';
 import { CategoriesSelector, DispensaryList } from '../src/components';
@@ -9,7 +9,7 @@ const organizationsListDummy = [
     { name: 'McNuggz', subdomainId: 'mcnuggz', id: '456' }
 ];
 
-export default function MarketPlace({ host }) {
+export default function MarketPlace({ host }: { host: string}) {
     const appName = process.env.NEXT_PUBLIC_SHOP_APP_NAME || '';
     return (
         <Page>
@@ -137,14 +137,14 @@ export default function MarketPlace({ host }) {
     );
 }
 
-export async function getServerSideProps({ req, res }) {
+export async function getServerSideProps({ req, res }: any) {
     try {
         return {
             props: {
                 host: req.headers.host
             }
         };
-    } catch (error) {
+    } catch (error: any) {
         console.log('SSR error marketplace place: ', error.message);
         if (error.type === Session.Error.TRY_REFRESH_TOKEN) {
             return { props: { fromSupertokens: 'needs-refresh' } };

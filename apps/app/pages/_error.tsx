@@ -1,4 +1,4 @@
-import { ErrorMessage, Page } from '@cd/shared-ui';
+import { ErrorMessage, Page } from '@cd/ui-lib';
 import { AxiosError } from 'axios';
 import { NextPageContext } from 'next';
 

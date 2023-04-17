@@ -1,5 +1,5 @@
+import { userActions } from '@cd/core-lib';
 import { UserCreateType } from '@cd/data-access';
-import { userActions } from '@cd/shared-lib';
 import {
     Button,
     FlexBox,
@@ -13,7 +13,7 @@ import {
     Paragraph,
     TermsAgreement,
     TextField
-} from '@cd/shared-ui';
+} from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import Head from 'next/head';
 import Router from 'next/router';
@@ -103,7 +103,7 @@ function UserSignUp() {
     // TEST
     async function onSubmit(values: UserCreateType) {
         const response = await signUpUser();
-        dispatch(userActions.signinUserSync({ user: response.user }));
+        dispatch(userActions.signinUserSync({ user: response?.user }));
         Router.push('/');
 
         async function signUpUser() {
@@ -122,12 +122,12 @@ function UserSignUp() {
                             { id: 'phone', value: values.phone },
                             { id: 'termsAccepted', value: values.termsAccepted.toString() },
                             { id: 'street1', value: values.address.street1 },
-                            { id: 'street2', value: values.address.street2 },
+                            { id: 'street2', value: values.address.street2 || '' },
                             { id: 'city', value: values.address.city },
                             { id: 'state', value: values.address.state },
                             { id: 'zipcode', value: values.address.zipcode },
                             { id: 'country', value: values.address.country },
-                            { id: 'countryCode', value: values.address.countryCode }
+                            { id: 'countryCode', value: values.address.countryCode || '' }
                         ]
                     });
                     if (response.status === 'FIELD_ERROR') {
@@ -141,7 +141,7 @@ function UserSignUp() {
                         return response;
                     }
                 }
-            } catch (error) {
+            } catch (error: any) {
                 setLoadingButton(false);
                 console.error('create acount error: ', error);
                 toast.error(error.message);
@@ -266,7 +266,7 @@ function UserSignUp() {
                             name="address.street2"
                             label="Street Line 2"
                             placeholder="Street Line 2"
-                            value={values?.address?.street2}
+                            value={values?.address?.street2 || ''}
                             onBlur={handleBlur}
                             onChange={handleChange}
                             error={!!touched?.address?.street2 && !!errors?.address?.street2}
@@ -316,7 +316,7 @@ function UserSignUp() {
                             name="termsAccepted"
                             onChange={handleChange}
                             checked={values?.termsAccepted || false}
-                            helperText={touched.termsAccepted && errors.termsAccepted}
+                            helperText={touched.termsAccepted && errors.termsAccepted || ''}
                             error={!!touched.termsAccepted && !!errors.termsAccepted}
                             description={
                                 <>

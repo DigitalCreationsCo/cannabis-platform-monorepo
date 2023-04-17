@@ -1,5 +1,5 @@
+import { urlBuilder } from '@cd/core-lib';
 import { OrganizationCreateType } from '@cd/data-access';
-import { urlBuilder } from '@cd/shared-lib';
 import axios from 'axios';
 import { ExtendRequest, healthCheckMiddleware } from 'middleware';
 import { NextApiResponse } from 'next';

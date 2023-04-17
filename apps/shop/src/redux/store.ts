@@ -6,8 +6,8 @@ import {
     modalReducer,
     shopReducer,
     userReducer
-} from '@cd/shared-lib';
-import { Store, combineReducers, configureStore } from '@reduxjs/toolkit';
+} from '@cd/core-lib';
+import { combineReducers, configureStore, Reducer, Store } from '@reduxjs/toolkit';
 import { deserialize, serialize } from 'json-immutable';
 import { createWrapper } from 'next-redux-wrapper';
 import { Persistor, persistReducer, persistStore } from 'redux-persist';
@@ -27,7 +27,7 @@ const rootReducer = combineReducers({
     cart: cartReducer
 });
 
-export type PersistedStore = Store & { _persistor?: Persistor };
+export type PersistedStore = Store & { _persistor: Persistor };
 
 // const bindMiddleware = (middleware) => {
 //     if (process.env.NODE_ENV !== 'production') {
@@ -48,10 +48,10 @@ export type PersistedStore = Store & { _persistor?: Persistor };
 //     }
 // };
 
-const thunkArguments = { store: null, supertokens: supertokens() };
+const thunkArguments: {store: Store | null, supertokens: any } = { store: null, supertokens: supertokens() };
 
 function makeStore() {
-    function createConfiguredStore(reducer) {
+    function createConfiguredStore<T>(reducer:Reducer) {
         return configureStore({
             reducer,
             devTools: process.env.NODE_ENV !== 'production',
@@ -65,12 +65,12 @@ function makeStore() {
         });
     }
 
-    let store: PersistedStore;
+    let store
 
     const isServer = typeof window === 'undefined';
     if (isServer) {
         // store = createConfiguredStore(hydratableReducer);
-        store = createConfiguredStore(rootReducer);
+        store = createConfiguredStore<Store>(rootReducer);
     } else {
         const persistConfig = {
             key: 'nextjs',
@@ -79,7 +79,7 @@ function makeStore() {
         };
 
         const persistedReducer = persistReducer(persistConfig, rootReducer);
-        store = createConfiguredStore(persistedReducer);
+        store = createConfiguredStore<PersistedStore>(persistedReducer) as PersistedStore;
         store._persistor = persistStore(store);
     }
 

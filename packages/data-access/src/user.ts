@@ -142,7 +142,7 @@ export type UserCreateType = {
     phone: string;
     dialCode: string;
     termsAccepted: boolean;
-    imageUser: Prisma.ImageUserCreateInput;
+    imageUser: Prisma.ImageUserCreateArgs[ "data" ] | null;
     address: Prisma.AddressCreateArgs[ "data" ];
 }
 

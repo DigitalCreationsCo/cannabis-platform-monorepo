@@ -1,4 +1,4 @@
-import { Icons, NavLink } from '@cd/shared-ui';
+import { Icons, NavLink } from '@cd/ui-lib';
 import { useRouter } from 'next/router';
 
 const CategoriesNavigation = () => {

@@ -1,5 +1,5 @@
 import { ProductVariantWithDetails } from '@cd/data-access';
-import { ConfirmationModal, FlexBox, Paragraph, Price, TextField } from '@cd/shared-ui';
+import { ConfirmationModal, FlexBox, Paragraph, Price, TextField } from '@cd/ui-lib';
 import Image from 'next/image';
 import { PropsWithChildren, useState } from 'react';
 import { twMerge } from 'tailwind-merge';

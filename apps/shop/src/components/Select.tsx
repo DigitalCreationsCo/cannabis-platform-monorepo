@@ -6,7 +6,7 @@ type SelectProps = {
     defaultValue: string | number;
     values: string[] | number[];
     className?: string;
-    setOption?: Dispatch<SetStateAction<string | number>>;
+    setOption: Dispatch<SetStateAction<string | number>>;
 };
 export default function Select({ multiple, values, defaultValue = values[0], className, setOption }: SelectProps) {
     return (

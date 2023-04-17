@@ -17,7 +17,7 @@ import {
     Paragraph,
     TextField,
     UploadImageBox
-} from '@cd/shared-ui';
+} from '@cd/ui-lib';
 import axios from 'axios';
 import { DropZone, ProtectedPage } from 'components';
 import { format } from 'date-fns';
