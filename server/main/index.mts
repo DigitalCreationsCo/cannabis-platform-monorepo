@@ -6,7 +6,7 @@ const nodeEnv = process.env.NODE_ENV
 // expand(config({ path: loadEnv(nodeEnv) }));
 const port = process.env.SERVER_MAIN_PORT || 'NO_PORT_FOUND';
 
-import { connectDb, server } from './src';
+import { connectDb, server } from './src/index';
 
 connectDb()
     .then(() => {

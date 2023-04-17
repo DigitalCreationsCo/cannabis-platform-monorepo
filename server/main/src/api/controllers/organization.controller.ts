@@ -1,4 +1,4 @@
-import { getGeoCoordinatesByAddress } from '@cd/shared-lib';
+import { getGeoCoordinatesByAddress } from '@cd/core-lib';
 import { OrganizationDA } from '../data-access';
 const Busboy = require('busboy');
 

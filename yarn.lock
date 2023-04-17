@@ -1856,7 +1856,7 @@ __metadata:
 "@cd/server-main@workspace:server/main":
   version: 0.0.0-use.local
   resolution: "@cd/server-main@workspace:server/main"
-  peerDependencies:
+  dependencies:
     "@babel/cli": 7.20.7
     "@babel/core": 7.21.4
     "@babel/node": 7.20.7
@@ -1873,6 +1873,7 @@ __metadata:
     babel-plugin-inline-dotenv: 1.7.0
     bcryptjs: 2.4.3
     busboy: 1.6.0
+    concurrently: 8.0.1
     cors: 2.8.5
     cross-env: 7.0.3
     dotenv: 16.0.3

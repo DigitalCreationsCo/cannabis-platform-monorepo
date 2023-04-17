@@ -1,5 +1,5 @@
+import { urlBuilder } from '@cd/core-lib';
 import { createOrganization, findCategoryListByOrg, findOrganizationById, findUsersByOrganization, OrganizationCreateType } from '@cd/data-access';
-import { urlBuilder } from '@cd/shared-lib';
 import axios from 'axios';
 /* =================================
 Organization Data Access - data class for organization table
