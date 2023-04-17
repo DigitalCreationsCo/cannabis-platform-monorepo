@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { twMerge } from "tailwind-merge"
-import CartList from "../components/CartItemList"
+import CartList, { Cart } from "../components/CartItemList"
 import { crawler } from "../crawler"
 import { checkHrefCheckout } from "../util"
 import WidgetView, { ViewProps } from "./WidgetView"
@@ -9,8 +9,12 @@ import WidgetView, { ViewProps } from "./WidgetView"
 function Checkout({ className }: ViewProps) {
     const [loadingCheckout, setLoadingCheckout] = useState(false)
     const [showCart, setShowCart] = useState(false)
-    const [cart, setCart] = useState(null)
-    const [cartError, setCartError] = useState(null)
+    const [cart, setCart] = useState<Cart>({
+        cartItems: [],
+        total: 0
+    })
+    // const [total, setTotal] = useState(0)
+    const [cartError, setCartError] = useState('')
     const history = useNavigate()
     
     useEffect(() => {

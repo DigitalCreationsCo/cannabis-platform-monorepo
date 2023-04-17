@@ -1,3 +1,4 @@
+import { PropsWithChildren } from 'react';
 import * as ReactDOMClient from 'react-dom/client';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import './styles/globals.css';
@@ -5,7 +6,7 @@ import Button from './views/Button';
 import Checkout from './views/Checkout';
 import NotCheckout from './views/NotCheckout';
 
-const WidgetContainer = ({children }) => {
+const WidgetContainer = ({children }: PropsWithChildren) => {
     return (
     <div className="absolute bottom-0 right-0 m-4">
         {children}
@@ -25,9 +26,7 @@ const Router = () => {
 }
 
 export default { init: () => 
-    ReactDOMClient.createRoot(
-    document.getElementById('root')
-).render(
+    ReactDOMClient.createRoot(document.getElementById('root') as Element).render(
     <WidgetContainer>
         <Router />
     </WidgetContainer>

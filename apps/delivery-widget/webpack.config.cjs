@@ -1,12 +1,11 @@
 module.exports = [
     {
-        entry: './index.tsx',
+        entry: './index.ts',
         output: {
             path: __dirname + '/dist',
             publicPath: '/',
             filename: 'index.js'
         },
-        mode: 'development',
         resolve: {
             extensions: [".tsx", ".ts", ".jsx", ".js"],
         },
@@ -36,7 +35,6 @@ module.exports = [
             publicPath: '/',
             filename: 'widget.js'
         },
-        mode: 'development',
         resolve: {
             extensions: [".tsx", ".ts", ".jsx", ".js"],
         },

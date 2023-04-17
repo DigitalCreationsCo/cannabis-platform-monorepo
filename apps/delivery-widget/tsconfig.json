@@ -1,31 +1,25 @@
 {
-    "include": ["."],
-    "exclude": ["script", "dist", "webpack.config.cjs", "**/node_modules"],
+    "$schema": "https://json.schemastore.org/tsconfig",
+    "extends": "../../tsconfig.base.json",
+    "exclude": ["script", "dist", "webpack.config.cjs", "**/node_modules",  "**/.*/"],
     "compilerOptions": {
-        "lib": [
-            "dom",
-            "dom.iterable",
-            "esnext"
-        ],
-        "skipLibCheck": true,
+        "baseUrl": "./src",
+        "lib": [ "dom", "dom.iterable", "esnext" ],
         "module": "esnext",
-        "moduleResolution": "node",
-        "resolveJsonModule": true,
-        "isolatedModules": true,
         "noEmit": false,
         "target": "esnext",
         "allowJs": true,
         "outDir": "./dist",
-        "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true,
-        "strict": false,
-        "forceConsistentCasingInFileNames": true,
-        "noFallthroughCasesInSwitch": true,
         "jsx": "react-jsx",
-        "baseUrl": ".",
         "paths": {
-            // "@cd/ui-lib": ["../ui-lib/src"],
-            // "@cd/ui-lib/*": ["../ui-lib/src/*"],
+            "@cd/ui-lib/*": ["../../../packages/ui-lib/src/*"],
+            "@cd/ui-lib": ["../../../packages/ui-lib/src/index"],
+            "@cd/core-lib/*": ["../../../packages/core-lib/src/*"],
+            "@cd/core-lib": ["../../../packages/core-lib/src/index"],
+            "@cd/data-access": ["../../../packages/data-access/src/index"],
+            "@cd/data-access/*": [ "../../../packages/data-access/src/*"],
+            "@cd/eslint-config": ["../../../packages/eslint-config/src/index"],
+            "@cd/eslint-config/*": ["../../../packages/eslint-config/src/*"]
         }
     }
 }
