@@ -1,11 +1,10 @@
-import { ExtendedPageComponent } from '@cd/shared-lib';
-import { Layout } from '@cd/shared-ui';
+import { Layout, LayoutContextProps } from "@cd/ui-lib";
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-import { useEffect } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
-import Session, { signOut } from 'supertokens-auth-react/recipe/session';
+import Session, { SessionContextType, signOut } from 'supertokens-auth-react/recipe/session';
 import { frontendConfig } from '../config/frontendConfig';
 import { AdminDashboardNavigation, TopBar } from '../src/components';
 import StepFormValuesProvider from '../src/context/StepFormProvider';
@@ -76,3 +75,62 @@ export default function App({ Component, pageProps }: CustomAppProps) {
         </>
     );
 }
+
+
+export type ExtendedPageComponent = {
+    signIn: (input: {
+        formFields: {
+            id: string;
+            value: string;
+        }[];
+        options?: unknown;
+        userContext?: unknown;
+    }) => Promise<
+    | {
+          status: "OK";
+          user: { id: string; email: string; timeJoined: number };
+          fetchResponse: Response;
+      }
+    | {
+          status: "FIELD_ERROR";
+          formFields: {
+              id: string;
+              error: string;
+          }[];
+          fetchResponse: Response;
+      }
+    | {
+          status: "WRONG_CREDENTIALS_ERROR";
+          
+            fetchResponse: Response;
+      }
+>;
+    signOut: () => Promise<void>;
+    signUp: (input: {
+        formFields: {
+            id: string;
+            value: string;
+        }[];
+        options?: unknown;
+        userContext?: unknown;
+    }) => Promise<
+    | {
+          status: "OK";
+          user: { id: string; email: string; timeJoined: number };
+          fetchResponse: Response;
+      }
+    | {
+          status: "FIELD_ERROR";
+          formFields: {
+              id: string;
+              error: string;
+          }[];
+          fetchResponse: Response;
+      }
+>;
+    getLayoutContext?: () => LayoutContextProps;
+    isLoading: boolean;
+    setIsLoading: Dispatch<SetStateAction<boolean>>;
+    session: SessionContextType;
+    doesSessionExist: boolean;
+};

@@ -1,4 +1,4 @@
-import { Grid, H4, H5, Icons, Page, PageHeader } from '@cd/shared-ui';
+import { Grid, H4, H5, Icons, Page, PageHeader } from '@cd/ui-lib';
 
 function Support() {
     return (

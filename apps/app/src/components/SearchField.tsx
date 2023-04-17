@@ -1,4 +1,4 @@
-import { Icons, IconWrapper } from '@cd/shared-ui';
+import { Icons, IconWrapper } from '@cd/ui-lib';
 import { ReactEventHandler, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 

@@ -1,4 +1,4 @@
-import { Button, H3, Paragraph } from '@cd/shared-ui';
+import { Button, H3, Paragraph } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';

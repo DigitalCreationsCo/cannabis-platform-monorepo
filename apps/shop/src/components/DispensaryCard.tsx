@@ -1,6 +1,6 @@
+import { checkDispensaryIsOpen, formatDispensaryUrl, renderAddress } from '@cd/core-lib';
 import { Address, CategoryList, Coordinates, ImageOrganization, Schedule } from '@cd/data-access';
-import { checkDispensaryIsOpen, formatDispensaryUrl, renderAddress } from '@cd/shared-lib';
-import { Card, FlexBox, Paragraph } from '@cd/shared-ui';
+import { Card, FlexBox, Paragraph } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
@@ -19,7 +19,7 @@ type DispensaryCardProps = {
         emailVerified?: boolean;
         vendorId?: string;
         termsAccepted?: boolean;
-        subdomainId?: string;
+        subdomainId: string;
         images?: ImageOrganization[];
         categoryList?: CategoryList[];
         schedule?: Schedule;
@@ -37,7 +37,7 @@ function DispensaryCard({ dispensary, className }: DispensaryCardProps) {
                     {dispensary.images?.[0] && (
                         <Image
                             src={dispensary.images?.[0].location}
-                            alt={dispensary.name}
+                            alt={dispensary.name || ''}
                             height={100}
                             width={100}
                             className="border"

@@ -1,5 +1,5 @@
-import { useFormContext } from '@cd/shared-lib';
-import { Button, CheckBox, FlexBox, H3, H6, Icons, Label, Paragraph, Small, TextField } from '@cd/shared-ui';
+import { useFormContext } from '@cd/core-lib';
+import { Button, CheckBox, FlexBox, H3, H6, Icons, Label, Paragraph, Small, TextField } from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import { useCallback, useEffect, useState } from 'react';
@@ -23,7 +23,7 @@ function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
             setLoadingButton(false);
             console.log('Dispensary User Create Values: ', values);
             nextFormStep();
-        } catch (error) {
+        } catch (error: any) {
             console.log('Dispensary User Create Error: ', error);
             toast.error(error.response.data.message || error.response.data.errors);
             setLoadingButton(false);

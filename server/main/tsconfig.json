@@ -13,9 +13,5 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "esModuleInterop": true,
-    "paths": {
-      "@cd/data-access": ["../../packages/data-access/src"],
-      "@cd/shared-lib": ["../../packages/shared-lib/src"],
-      }
     },
 }

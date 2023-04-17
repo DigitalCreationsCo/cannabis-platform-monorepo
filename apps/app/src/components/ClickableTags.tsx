@@ -1,4 +1,4 @@
-import { FlexBox, Icons } from '@cd/shared-ui';
+import { FlexBox, Icons } from '@cd/ui-lib';
 import { Dispatch, PropsWithChildren, SetStateAction, useState } from 'react';
 import { Tag } from '.';
 type ClickableTagProps = {

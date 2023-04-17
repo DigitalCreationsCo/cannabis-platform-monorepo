@@ -6,7 +6,7 @@ Write down what components are breaking often, and why, Write effective unit tes
 12-9-22
 prune tailwind, postcss, autoprefixer deps,
 export tailwindcss from shared-config,
-load tw classes in shared-ui, without install tw
+load tw classes in ui-lib, without install tw
 load tw classes in app, without installing tw
 12-10-22
 auto build watch command for developing in dependency packages
@@ -46,9 +46,9 @@ docker config to copy all monorepo files
 1-27-22
 docker configuration nextjs app, resolving image issues, and prisma client generation
 1-29-22
-switched shared-ui to rollup to resolve docker build issue, and improve ci experience
+switched ui-lib to rollup to resolve docker build issue, and improve ci experience
 2-2-22
-- shared-ui build with rollup, output css files
+- ui-lib build with rollup, output css files
 2-6-22
 - error context component for handling down server, browser offline, and response errors,
     make use of React Error Boundary, as well as useQuery hook for components that fetch data
@@ -73,15 +73,26 @@ get session flow OK
 
 4-9-22
 Continue building checkout widget
+4-11-22
+resolving build errors in all packages and apps:
+shared-config: self build OK, dependency OK
+data-access: self build OK, dependency OK
+ui-lib: self build OK, dependency OK
+shared-lib: self build OK, dependency OK
+delivery-widget: self build OK, dependency OK
+shop: self build OK, dependency OK
+app: self build NO, dependency NO
+
+
 Add stripe functionality NOW - do it next. Keep it simple!
 Test the widget in a react app as well.
 Host node servers.
 Launch this month. Win.
 
 TODO: 
-Correct enefficiency with shared-ui build,use esbuild or webpack.
+Correct enefficiency with ui-lib build,use esbuild or webpack.
 use tailwind jit compiler
-correct postcss files for each package (shared-ui, apps)
+correct postcss files for each package (ui-lib, apps)
 Have tailwind output that can be used by all packges
 
 What must I do next? 3-4-2023
@@ -214,9 +225,9 @@ build consumer web app (Easy!!)
 
 auth middleware with supertokens sessions from database :)
 
-add incremental build to shared-ui lib
+add incremental build to ui-lib lib
 tie up loose ends in the dashboard - dead code, unfinished components
-cycle reusable comps to shared-ui for using consumer app :)
+cycle reusable comps to ui-lib for using consumer app :)
 
 * organization and product lookup needs to check the users membership org on the backend, for security ocnfirmation
 

@@ -1,4 +1,4 @@
-import { Page } from '@cd/shared-ui';
+import { Page } from '@cd/ui-lib';
 import {
     DispensaryCreate,
     DispensaryReview,

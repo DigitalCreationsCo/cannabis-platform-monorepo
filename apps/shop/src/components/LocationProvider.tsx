@@ -1,4 +1,4 @@
-import { locationActions, selectSelectedLocationState, selectShopState, shopActions } from '@cd/shared-lib';
+import { locationActions, selectSelectedLocationState, selectShopState, shopActions } from '@cd/core-lib';
 import { AnyAction } from '@reduxjs/toolkit';
 import { PropsWithChildren, useEffect } from 'react';
 import { useSelector } from 'react-redux';

@@ -19,7 +19,7 @@ export const config = {
 
 // the redirects are not designed well, but they work for now.
 export default function middleware(req: NextRequest) {
-    const shopAppUrl = process.env.SHOP_APP_URL.split('//')[1].split(':')[0];
+    const shopAppUrl = process?.env?.SHOP_APP_URL && process?.env?.SHOP_APP_URL.split('//')[1].split(':')[0] || 'localhost';
     const url = req.nextUrl;
     console.log('url', url);
     const hostname = req.headers.get('host');
@@ -31,6 +31,9 @@ export default function middleware(req: NextRequest) {
     // Prevent security issues – users should not be able to canonically access
     // the pages/_stores folder, or /app directory and its respective contents. This can also be done
     // via rewrites to a custom 404 page
+
+    if ( subDomain === null ) return
+
     if (!subDomain.startsWith('app') && url.pathname.startsWith(`/app`)) {
         url.pathname = '/404';
 

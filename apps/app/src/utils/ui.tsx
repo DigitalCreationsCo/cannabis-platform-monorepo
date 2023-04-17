@@ -1,4 +1,4 @@
-import { Paragraph } from '@cd/shared-ui';
+import { Paragraph } from '@cd/ui-lib';
 import { Address } from '@prisma/client';
 
 export const renderAddress = (address: Address) => (

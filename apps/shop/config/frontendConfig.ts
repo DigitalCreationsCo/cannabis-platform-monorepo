@@ -1,4 +1,3 @@
-import { RecipeEventWithSessionContext } from 'supertokens-auth-react/lib/build/recipe/session/types';
 import EmailPassword from 'supertokens-auth-react/recipe/emailpassword';
 import Session from 'supertokens-auth-react/recipe/session';
 
@@ -12,7 +11,7 @@ import Session from 'supertokens-auth-react/recipe/session';
 const appInfo = {
     appName: 'Cannabis Delivery',
     websiteDomain: 'http://localhost:3000',
-    apiDomain: process.env.SERVER_MAIN_URL,
+    apiDomain: process.env.SERVER_MAIN_URL || 'http://localhost:6001',
     apiBasePath: '/api/v1/'
 };
 
@@ -68,7 +67,7 @@ export const frontendConfig = () => {
                 //         };
                 //     }
                 // }
-                onHandleEvent: (event: RecipeEventWithSessionContext) => {
+                onHandleEvent: (event) => {
                     if (event.action === 'UNAUTHORISED' || event.action === 'SIGN_OUT') {
                         window.location.href = '/';
                     }
@@ -83,7 +82,7 @@ export const frontendConfig = () => {
                             window.location.href = '/';
                         }
                     }
-                }
+                },
             })
         ],
         isInServerLessEnv: false

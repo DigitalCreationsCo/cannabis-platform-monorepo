@@ -1,6 +1,6 @@
+import { selectCartState } from '@cd/core-lib';
 import { ProductVariantWithDetails } from '@cd/data-access';
-import { selectCartState } from '@cd/shared-lib';
-import { Card, H3, Page, ProductItem } from '@cd/shared-ui';
+import { Card, H3, Page, ProductItem } from '@cd/ui-lib';
 import { useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 
