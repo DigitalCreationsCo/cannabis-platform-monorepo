@@ -10,6 +10,7 @@ import { SessionDA, UserDA } from '../api/data-access';
 export const backendConfig = (): AuthConfig => {
     console.log('SERVER MAIN BACKEND API INFO: ', appInfo);
     console.log('data base url: ', process.env.DATABASE_URL);
+    console.log('supertokens hosted at ', process.env.SUPERTOKENS_CONNECTION_URI)
     return {
         framework: 'express',
         supertokens: {

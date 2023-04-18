@@ -1,5 +1,5 @@
 {
-  "main": "./src/index.ts",
+  "main": "./dist/index.js",
   "dependencies": {
     "@cd/core-lib": "workspace:*",
     "@cd/data-access": "workspace:*",
@@ -25,6 +25,7 @@
     "@typescript-eslint/parser": "5.45.0",
     "babel-plugin-css-modules-transform": "1.6.2",
     "babel-plugin-inline-dotenv": "1.7.0",
+    "babel-watch": "7.7.2",
     "concurrently": "8.0.1",
     "dotenv": "16.0.3",
     "dotenv-expand": "10.0.0",
@@ -54,10 +55,7 @@
     "test": "../../node_modules/jest/bin/jest.js",
     "test:fix": "../../node_modules/jest/bin/jest.js --detectOpenHandles",
     "test:watch": "../../node_modules/jest/bin/jest.js --watchAll",
-    "watch:babel": "cross-env NODE_ENV=development && babel ./src/index.ts --out-dir ./dist",
-    "watch:node": "cross-env NODE_ENV=development && concurrently \"tsc --project tsconfig.build.json -w\" \"nodemon ./dist.index.js\" ",
-    "watch:ts": "cross-env NODE_ENV=development && tsc --build tsconfig.build.json",
-    "watch": "rimraf ./dist && cross-env NODE_ENV=development && tsc --project tsconfig.build.json"
+    "watch": "rimraf ./dist && cross-env NODE_ENV=development && babel ./src --out-dir dist --extensions \".ts,.tsx\" && concurrently \"babel ./src --out-dir dist --extensions \".ts,.tsx\"\" \"nodemon ./dist\""
   },
   "version": "0.0.1"
 }
