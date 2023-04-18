@@ -40,6 +40,7 @@
     "install:playwright": "playwright install",
     "nuke:node_modules": "npx rimraf@3.0.1 '**/node_modules'",
     "packages:build": "yarn workspaces foreach -ptv --include '@cd/*' run build",
+    "packages:watch": "yarn workspaces foreach -ptv --include '@cd/*' run watch",
     "packages:clean": "yarn workspaces foreach -ptv --include '@cd/*' run clean",
     "packages:lint": "yarn workspaces foreach -ptv --include '@cd/*' run lint",
     "packages:test:unit": "yarn workspaces foreach -ptv --include '@cd/*' run test-unit",
@@ -50,8 +51,12 @@
     "apps:dev": "yarn workspaces foreach -ptv --include '@cd/*-app' run dev",
     "server:build": "yarn workspaces foreach -ptv --include '@cd/server-*' run build",
     "server:clean": "yarn workspaces foreach -ptv --include '@cd/server-*' run clean",
-    "server:watch": "yarn workspaces foreach -ptv --include '@cd/server-*' run watch",
-    "watch:all": "run-s server:watch apps:watch"
+    "watch:all-OLD": "run-s packages:watch apps:dev",
+    "watch:all-cc": "concurrently \"yarn packages:watch\" \"yarn apps:dev\"",
+    "dev": "run-p packages:watch server:watch apps:dev",
+    "permit-scripts": "node scripts/permit-scripts.js",
+    "docker:supertokens": "scripts/docker/supertokens.sh",
+    "docker:shadow-db": "scripts/docker/mysql.sh"
   },
   "engines": {
     "node": "16.^16.0",
