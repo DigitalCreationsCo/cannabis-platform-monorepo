@@ -6,7 +6,7 @@ export default defineConfig((options) => ({
   treeshake: true,
   clean: true,
   dts: true,
-  format: ['esm'],
+  format: ['esm', 'cjs'],
   platform: 'browser',
   target: ['es2017', 'chrome70', 'edge18', 'firefox70', 'node16'],
   tsconfig: new URL('./tsconfig.build.json', import.meta.url).pathname,

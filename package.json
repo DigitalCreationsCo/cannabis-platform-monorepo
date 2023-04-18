@@ -53,7 +53,7 @@
     "server:clean": "yarn workspaces foreach -ptv --include '@cd/server-*' run clean",
     "watch:all-OLD": "run-s packages:watch apps:dev",
     "watch:all-cc": "concurrently \"yarn packages:watch\" \"yarn apps:dev\"",
-    "dev": "run-p packages:watch server:watch apps:dev",
+    "dev": "run-s packages:watch apps:dev",
     "permit-scripts": "node scripts/permit-scripts.js",
     "docker:supertokens": "scripts/docker/supertokens.sh",
     "docker:shadow-db": "scripts/docker/mysql.sh"
