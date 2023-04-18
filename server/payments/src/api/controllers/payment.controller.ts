@@ -23,7 +23,7 @@ export default class PaymentController {
             // const charge = await StripeService.chargeBuyerPurchase(buyer, seller, transaction);
             const charge = await StripeService.chargeCustomerPurchase();
             const processOrder = await PaymentDA.processPurchase(order, charge);
-        } catch (error) {
+        } catch (error: any) {
             res.status(500).json({ error });
         }
     }

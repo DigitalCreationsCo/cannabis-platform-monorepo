@@ -55,7 +55,7 @@ export default class StripeController {
             res.writeHead(302, {
                 'Location': accountLink.url
             })
-        } catch (error) {
+        } catch (error: any) {
             res.status(500).json({ error });
         }
     }
@@ -78,7 +78,7 @@ export default class StripeController {
                     'Location': '/'
                 })
             }
-          } catch (error) {
+          } catch (error: any) {
             console.log('Failed to retrieve Stripe account information.');
             res.status(500).json({ error });
           }

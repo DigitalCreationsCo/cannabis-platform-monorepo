@@ -38,7 +38,7 @@ export default class SessionController {
                 user: { username: 'kbarnes', firstName: 'Katie', lastName: 'Barnes', memberships: [{ organizationId: '2' }] },
             };
             return res.status(200).json({ session, user: session.user })
-        } catch (error) {
+        } catch (error: any) {
             console.log('API error: ', error);
             res.status(500).json({ error });
         }
@@ -59,7 +59,7 @@ export default class SessionController {
             }
 
             console.log(`User ${user.id} requested password reset`);
-        } catch (error) {
+        } catch (error: any) {
             console.log('API error: ', error);
             res.status(500).json({ error });
         }
@@ -83,7 +83,7 @@ export default class SessionController {
 
             // console.log(`User ${user.id} successfully performed password reset`);
             console.log(`User successfully performed password reset`);
-        } catch (error) {
+        } catch (error: any) {
             console.log('API error: ', error);
             res.status(500).json({ error });
         }

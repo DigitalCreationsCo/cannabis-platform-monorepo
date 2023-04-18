@@ -1,6 +1,6 @@
 const {
   getDefaultIgnorePatterns,
-} = require('@cd/eslint-config/helpers');
+} = require('@cd/eslint-config/src/helpers');
 
 module.exports = {
   root: true,

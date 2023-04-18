@@ -1,5 +1,5 @@
+import { appInfo } from '@cd/core-lib';
 import { findUserWithDetailsByEmail, SessionPayload, UserLoginData } from '@cd/data-access';
-import { appInfo } from '@cd/shared-config/auth/appInfo.js';
 import Dashboard from 'supertokens-node/recipe/dashboard';
 import EmailPassword from 'supertokens-node/recipe/emailpassword';
 import Session from 'supertokens-node/recipe/session';
@@ -63,7 +63,7 @@ export const backendConfig = (): AuthConfig => {
                                     });
                                     console.log('backend signin reponse: ', response);
                                     return response;
-                                } catch (error) {
+                                } catch (error: any) {
                                     console.log('backend signin error: ', error);
                                     // throw new Error(error)
                                     return {
@@ -77,7 +77,7 @@ export const backendConfig = (): AuthConfig => {
                                 try {
                                     const response = await originalImplementation.signUp(input);
                                     return response;
-                                } catch (error) {
+                                } catch (error: any) {
                                     console.log('backend signup error: ', error);
                                     throw new Error(error);
                                 }
@@ -92,7 +92,7 @@ export const backendConfig = (): AuthConfig => {
                                     const response = await originalImplementation.signInPOST(input);
                                     console.log('sign in POST OK');
                                     return response;
-                                } catch (error) {
+                                } catch (error: any) {
                                     console.log('backend signInPost error: ', error);
                                     throw new Error(error);
                                 }
@@ -154,7 +154,7 @@ export const backendConfig = (): AuthConfig => {
                                         };
                                     }
                                     return response;
-                                } catch (error) {
+                                } catch (error: any) {
                                     console.log('backend signInPost error: ', error.message);
                                     return {
                                         status: 'GENERAL_ERROR',

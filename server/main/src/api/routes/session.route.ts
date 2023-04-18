@@ -36,7 +36,7 @@ router.get('/', (req: SessionRequest, res) => {
             }
         };
         return res.status(200).json({ session, user: session.user });
-    } catch (error) {
+    } catch (error: any) {
         console.log('API error: ', error);
         res.status(500).json({ error });
     }

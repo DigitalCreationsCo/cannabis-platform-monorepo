@@ -1,7 +1,0 @@
-{
-  "watch": ["./**/*.ts", "package.json"],
-  "ext": "ts,js,json",
-  "ignore": ["test"],
-  "ignoreRoot": [".git"],
-  "exec": "ts-node ./index.mts"
-}

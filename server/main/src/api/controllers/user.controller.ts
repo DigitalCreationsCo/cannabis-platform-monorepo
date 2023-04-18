@@ -28,7 +28,7 @@ export default class UserController {
     //         // create session here
             
     //         return res.status(200).json(session);
-    //     } catch (error) {
+    //     } catch (error: any) {
     //         console.log('API error: ', error);
     //         res.status(500).json({ error });
     //     }
@@ -40,7 +40,7 @@ export default class UserController {
     //         const session = req.body;
     //         await UserDA.signout(session);
     //         return res.status(200);
-    //     } catch (error) {
+    //     } catch (error: any) {
     //         console.log('API error: ', error);
     //         res.status(500).json({ error });
     //     }
@@ -52,7 +52,7 @@ export default class UserController {
             const data = await UserDA.getUserById(id);
             if (!data) return res.status(404).json('User not found');
             return res.status(200).json(data);
-        } catch (error) {
+        } catch (error: any) {
             console.log('API error: ', error);
             res.status(500).json({ error });
         }
@@ -64,7 +64,7 @@ export default class UserController {
             const data = await UserDA.getAddressById(addressId);
             if (!data) return res.status(404).json('Address not found');
             return res.status(200).json(data);
-        } catch (error) {
+        } catch (error: any) {
             console.log('API error: ', error);
             res.status(500).json({ error });
         }
@@ -76,7 +76,7 @@ export default class UserController {
             const data = await UserDA.addAddressToUser(address);
             if (!data) return res.status(404).json('Address was not created');
             return res.status(200).json(data);
-        } catch (error) {
+        } catch (error: any) {
             console.log('API error: ', error);
             res.status(500).json({ error });
         }
@@ -88,7 +88,7 @@ export default class UserController {
             const data = await UserDA.removeAddressFromUser({ addressId, userId: id });
             if (!data) return res.status(404).json('Address not found');
             return res.status(200).json(data);
-        } catch (error) {
+        } catch (error: any) {
             console.log('API error: ', error);
             res.status(500).json({ error });
         }
@@ -118,7 +118,7 @@ export default class UserController {
     //             message: 'Your account is created!',
     //             session
     //         });
-    //     } catch (error) {
+    //     } catch (error: any) {
     //         return res.status(200).json({
     //             status: false,
     //             message: error.message,
