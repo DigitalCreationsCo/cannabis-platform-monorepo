@@ -1,4 +1,4 @@
-import prisma from '@cd/data-access/src/db/prisma';
+import prisma from '@cd/data-access';
 import server from "./server";
 
 async function connectDb() {

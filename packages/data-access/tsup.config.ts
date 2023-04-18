@@ -6,7 +6,7 @@ export default defineConfig((options) => {
     splitting: true,
     clean: true,
     dts: true,
-    format: ['esm'],
+    format: ['esm', 'cjs'],
     platform: 'node',
     target: ['node16'],
     tsconfig: new URL('./tsconfig.build.json', import.meta.url).pathname,

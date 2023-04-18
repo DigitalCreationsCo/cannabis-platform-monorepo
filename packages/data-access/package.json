@@ -28,7 +28,8 @@
   "dependencies": {
     "@prisma/client": "4.10.0"
   },
-  "main": "./src/index.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "name": "@cd/data-access",
   "prisma": {
     "seed": "ts-node --esm src/db/seed.ts"
@@ -52,6 +53,6 @@
     "test-unit": "echo \"No unit tests yet\"",
     "typecheck": "tsc --project ./tsconfig.json --noEmit"
   },
-  "types": "dist/types/index.d.ts",
+  "types": "dist/index.d.ts",
   "version": "0.0.1"
 }
