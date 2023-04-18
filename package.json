@@ -104,6 +104,7 @@
     "dotenv": "16.0.3",
     "dotenv-cli": "7.0.0",
     "dotenv-expand": "10.0.0",
+    "dotenv-flow-cli": "1.0.0",
     "dts-bundle": "0.7.3",
     "ejs": "3.1.9",
     "eslint": "8.29.0",

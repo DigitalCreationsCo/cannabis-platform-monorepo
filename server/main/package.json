@@ -1,6 +1,7 @@
 {
   "main": "./src/index.ts",
   "dependencies": {
+    "@cd/core-lib": "workspace:*",
     "@cd/data-access": "workspace:*",
     "axios": "1.2.1",
     "bcryptjs": "2.4.3",
@@ -48,7 +49,7 @@
   "name": "@cd/server-main",
   "private": true,
   "scripts": {
-    "build": "rimraf ./dist && cross-env NODE_ENV=production && babel . --out-dir dist --extensions \".ts,.tsx\"",
+    "build": "rimraf ./dist && cross-env NODE_ENV=production && babel ./src --out-dir dist --extensions \".ts,.tsx\"",
     "start": "cross-env NODE_ENV=production babel-node dist",
     "test": "../../node_modules/jest/bin/jest.js",
     "test:fix": "../../node_modules/jest/bin/jest.js --detectOpenHandles",
@@ -56,8 +57,7 @@
     "watch:babel": "cross-env NODE_ENV=development && babel ./src/index.ts --out-dir ./dist",
     "watch:node": "cross-env NODE_ENV=development && concurrently \"tsc --project tsconfig.build.json -w\" \"nodemon ./dist.index.js\" ",
     "watch:ts": "cross-env NODE_ENV=development && tsc --build tsconfig.build.json",
-    "watch": "cross-env NODE_ENV=development && tsc --build tsconfig.build.json"
-
+    "watch": "rimraf ./dist && cross-env NODE_ENV=development && tsc --project tsconfig.build.json"
   },
   "version": "0.0.1"
 }
