@@ -1,5 +1,5 @@
 {
-  "main": "./index.mts",
+  "main": "./index.ts",
   "dependencies": {
     "@cd/data-access": "workspace:*",
     "axios": "1.2.1",
