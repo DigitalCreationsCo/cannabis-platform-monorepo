@@ -1873,6 +1873,7 @@ __metadata:
     axios: 1.2.1
     babel-plugin-css-modules-transform: 1.6.2
     babel-plugin-inline-dotenv: 1.7.0
+    babel-watch: 7.7.2
     bcryptjs: 2.4.3
     body-parser: 1.20.2
     busboy: 1.6.0
@@ -5839,6 +5840,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"babel-watch@npm:7.7.2":
+  version: 7.7.2
+  resolution: "babel-watch@npm:7.7.2"
+  dependencies:
+    chalk: ^4.1.0
+    chokidar: ^3.4.3
+    commander: ^6.2.0
+    debug: ^4.3.1
+    lodash.debounce: ^4.0.8
+    lodash.isregexp: ^4.0.1
+    lodash.isstring: ^4.0.1
+    signal-exit: ^3.0.7
+    source-map-support: ^0.5.19
+    string-argv: ^0.3.1
+  peerDependencies:
+    "@babel/core": ^7.0.0
+  bin:
+    babel-watch: babel-watch.js
+  checksum: 10cf5120b3d867c2ab1181ac2d02b57fc491176a04f823647cedebb60ac7ddba5ba3724bf2681445be163c3bcf4b50cf6ce1f168361bc0c602a45ca209831f55
+  languageName: node
+  linkType: hard
+
 "balanced-match@npm:^1.0.0":
   version: 1.0.2
   resolution: "balanced-match@npm:1.0.2"
@@ -6545,6 +6568,7 @@ __metadata:
     babel-loader: 9.1.2
     babel-plugin-css-modules-transform: 1.6.2
     babel-plugin-inline-dotenv: 1.7.0
+    babel-watch: 7.7.2
     bcryptjs: 2.4.3
     browser-sync: 2.29.1
     browserify: 17.0.0
@@ -6764,7 +6788,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chokidar@npm:>=3.0.0 <4.0.0, chokidar@npm:^3.3.0, chokidar@npm:^3.4.0, chokidar@npm:^3.5.1, chokidar@npm:^3.5.2, chokidar@npm:^3.5.3":
+"chokidar@npm:>=3.0.0 <4.0.0, chokidar@npm:^3.3.0, chokidar@npm:^3.4.0, chokidar@npm:^3.4.3, chokidar@npm:^3.5.1, chokidar@npm:^3.5.2, chokidar@npm:^3.5.3":
   version: 3.5.3
   resolution: "chokidar@npm:3.5.3"
   dependencies:
@@ -7075,6 +7099,13 @@ __metadata:
   version: 4.1.1
   resolution: "commander@npm:4.1.1"
   checksum: d7b9913ff92cae20cb577a4ac6fcc121bd6223319e54a40f51a14740a681ad5c574fd29a57da478a5f234a6fa6c52cbf0b7c641353e03c648b1ae85ba670b977
+  languageName: node
+  linkType: hard
+
+"commander@npm:^6.2.0":
+  version: 6.2.1
+  resolution: "commander@npm:6.2.1"
+  checksum: d7090410c0de6bc5c67d3ca41c41760d6d268f3c799e530aafb73b7437d1826bbf0d2a3edac33f8b57cc9887b4a986dce307fa5557e109be40eadb7c43b21742
   languageName: node
   linkType: hard
 
@@ -12826,6 +12857,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash.isregexp@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "lodash.isregexp@npm:4.0.1"
+  checksum: 0da80e2f19b8fc2a4b1cb55e9755f1dba5305c7f22e935c1422a1ed12b2f2a8bfd9c8f4a008871b730f4338cb41e09e127fe4fd543baa459b187f0ee96f21680
+  languageName: node
+  linkType: hard
+
 "lodash.isstring@npm:^4.0.1":
   version: 4.0.1
   resolution: "lodash.isstring@npm:4.0.1"
@@ -17854,7 +17892,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"source-map-support@npm:0.5.21, source-map-support@npm:^0.5.12, source-map-support@npm:^0.5.16, source-map-support@npm:^0.5.21, source-map-support@npm:~0.5.20":
+"source-map-support@npm:0.5.21, source-map-support@npm:^0.5.12, source-map-support@npm:^0.5.16, source-map-support@npm:^0.5.19, source-map-support@npm:^0.5.21, source-map-support@npm:~0.5.20":
   version: 0.5.21
   resolution: "source-map-support@npm:0.5.21"
   dependencies:
@@ -18177,6 +18215,13 @@ __metadata:
   version: 1.1.0
   resolution: "streamsearch@npm:1.1.0"
   checksum: 1cce16cea8405d7a233d32ca5e00a00169cc0e19fbc02aa839959985f267335d435c07f96e5e0edd0eadc6d39c98d5435fb5bbbdefc62c41834eadc5622ad942
+  languageName: node
+  linkType: hard
+
+"string-argv@npm:^0.3.1":
+  version: 0.3.1
+  resolution: "string-argv@npm:0.3.1"
+  checksum: efbd0289b599bee808ce80820dfe49c9635610715429c6b7cc50750f0437e3c2f697c81e5c390208c13b5d5d12d904a1546172a88579f6ee5cbaaaa4dc9ec5cf
   languageName: node
   linkType: hard
 
