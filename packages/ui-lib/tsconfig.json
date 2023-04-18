@@ -2,10 +2,11 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "outDir": "./dist",
     "baseUrl": "./src",
-    "target": "esnext",
+    "target": "es2020",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "module": "esnext",
+    "module": "es2020",
     "jsx": "react-jsx",
     "noEmit": false,
     "incremental": true,
