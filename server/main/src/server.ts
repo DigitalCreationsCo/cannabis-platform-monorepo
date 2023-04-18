@@ -1,4 +1,4 @@
-import { websiteDomain } from '@cd/shared-config/auth/appInfo.js';
+import { websiteDomain } from '@cd/core-lib/src/auth/appInfo.js';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
@@ -66,7 +66,7 @@ app.get('/api/v1/session', verifySession(), async (req:SessionRequest, res) => {
         console.log('session from db: ', sessionFromDb)
         const { user, ...session } = sessionFromDb;
         res.status(200).json({ status: true, session: {session}, user });
-    } catch (error) {
+    } catch (error: any) {
         console.log('API error: ', error);
         // if (error.type === Session.Error.TRY_REFRESH_TOKEN) {
         //     console.log('try refresh token error: ', error);

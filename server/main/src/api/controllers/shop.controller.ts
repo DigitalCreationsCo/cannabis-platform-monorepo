@@ -57,7 +57,7 @@ export default class ShopController {
     
             return res.status(201).json({ message: "Order created Successfully" });
             
-        } catch (error) {
+        } catch (error: any) {
             console.log('API error shopcontroller: createOrder: ', error);
             res.status(500).json({ error });
       }
@@ -69,7 +69,7 @@ export default class ShopController {
             const data = await OrderDA.getOrdersByOrg(organizationId);
             if (!data) return res.status(404).json('Orders not found');
             return res.status(200).json(data);
-        } catch (error) {
+        } catch (error: any) {
             console.log('API error: ', error);
             res.status(500).json({ error });
         }
@@ -83,7 +83,7 @@ export default class ShopController {
             // across ALL apps and systems
             if (!data) return res.status(404).json('Order not found');
             return res.status(200).json(data);
-        } catch (error) {
+        } catch (error: any) {
             console.log('API error: ', error);
             res.status(500).json({ error });
         }
@@ -95,7 +95,7 @@ export default class ShopController {
             const data = await OrderDA.updateOrderById(order);
             if (!data) return res.status(400).json('Could not update');
             return res.status(200).json(data);
-        } catch (error) {
+        } catch (error: any) {
             console.log('API error: ', error);
             res.status(500).json({ error });
         }
@@ -108,7 +108,7 @@ export default class ShopController {
             const data = await OrderDA.getProductsByOrg(organizationId);
             if (!data) return res.status(404).json('Products not found');
             return res.status(200).json(data);
-        } catch (error) {
+        } catch (error: any) {
             console.log('API error: ', error);
             res.status(500).json({ error });
         }
@@ -122,7 +122,7 @@ export default class ShopController {
             const data = await OrderDA.getProductsByOrg(idList, page, limit);
             if (!data) return res.status(404).json('Products not found');
             return res.status(200).json(data);
-        } catch (error) {
+        } catch (error: any) {
             console.log('API error: ', error);
             res.status(500).json({ error });
         }
@@ -136,7 +136,7 @@ export default class ShopController {
             // across ALL apps and systems
             if (!data) return res.status(404).json('Product not found');
             return res.status(200).json(data);
-        } catch (error) {
+        } catch (error: any) {
             console.log('API error: ', error);
             res.status(500).json({ error });
         }
@@ -148,7 +148,7 @@ export default class ShopController {
             const data = await OrderDA.searchProducts(search, organizationId);
             if (!data) return res.status(404).json('Products Not Found');
             return res.status(200).json(data);
-        } catch (error) {
+        } catch (error: any) {
             console.log('API error: ', error);
             res.status(500).json({ error });
         }

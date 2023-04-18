@@ -79,7 +79,7 @@ class StripeService {
             // const charge = await this.stripe.charges.create(stripeAccountId);
             // return charge
             return {}
-        } catch (error) {
+        } catch (error: any) {
             console.error(error.message);
             throw new Error(error.message);
         }
@@ -89,7 +89,7 @@ class StripeService {
         try {
             const account = await this.stripe.accounts.retrieve(stripeAccountId);
             return account
-        } catch (error) {
+        } catch (error: any) {
             console.error(error.message);
             throw new Error(error.message);
         }
@@ -100,7 +100,7 @@ class StripeService {
             if (!accountParams) throw new Error('Dispensary Stripe Account Params are required!');
             const account = await this.stripe.accounts.create(accountParams);
             return account;
-        } catch (error) {
+        } catch (error: any) {
             console.error(error.message);
             throw new Error(error.message);
         }
@@ -111,7 +111,7 @@ class StripeService {
             if (!params || !params.account) throw new Error('Dispensary Stripe Account Link Params are required!');
             const accountLink = await this.stripe.accountLinks.create(params);
             return accountLink;
-        } catch (error) {
+        } catch (error: any) {
             console.error(error.message);
             throw new Error(error.message);
         }

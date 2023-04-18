@@ -48,7 +48,7 @@ export default class LocationDA {
             const local_organizations = await findLocalOrganizationsById(local_organizations_ids);
             console.log(`Found ${local_organizations.length} local organizations.`);
             return local_organizations;
-        } catch (error) {
+        } catch (error: any) {
             console.error('LocationDA error: ', error.message);
             throw new Error(error.message);
         }
@@ -63,7 +63,7 @@ export default class LocationDA {
           })
           console.log('created mongo organization record: ', newOrganization.id)
           return newOrganization
-      } catch (error) {
+      } catch (error: any) {
           console.error('LocationDA error: ', error.message);
           throw new Error(error.message);
       }
