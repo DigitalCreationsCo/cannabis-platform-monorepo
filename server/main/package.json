@@ -1,5 +1,5 @@
 {
-  "main": "./index.ts",
+  "main": "./src/index.ts",
   "dependencies": {
     "@cd/data-access": "workspace:*",
     "axios": "1.2.1",
@@ -53,9 +53,11 @@
     "test": "../../node_modules/jest/bin/jest.js",
     "test:fix": "../../node_modules/jest/bin/jest.js --detectOpenHandles",
     "test:watch": "../../node_modules/jest/bin/jest.js --watchAll",
-    "watch:ts": "cross-env NODE_ENV=development && babel index.ts --out-dir ./dist",
+    "watch:babel": "cross-env NODE_ENV=development && babel ./src/index.ts --out-dir ./dist",
     "watch:node": "cross-env NODE_ENV=development && concurrently \"tsc --project tsconfig.build.json -w\" \"nodemon ./dist.index.js\" ",
+    "watch:ts": "cross-env NODE_ENV=development && tsc --build tsconfig.build.json",
     "watch": "cross-env NODE_ENV=development && tsc --build tsconfig.build.json"
+
   },
   "version": "0.0.1"
 }
