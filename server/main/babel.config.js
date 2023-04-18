@@ -4,6 +4,7 @@ module.exports = function (config) {
     const envFile = (!!envName && '.env.' + envName) || '.env.development';
     console.log('babel config envName: ', envName);
     console.log('babel config envFile: ', envFile);
+    console.log('load env from file: ', '../../' + envFile)
     return {
         presets: ['@babel/preset-env', '@babel/preset-typescript'],
         env: {
@@ -15,7 +16,7 @@ module.exports = function (config) {
                             path: '../../' + envFile
                         }
                     ]
-                ]
+                ],
             },
             production: {
                 plugins: [
@@ -25,7 +26,7 @@ module.exports = function (config) {
                             path: '../../' + envFile
                         }
                     ]
-                ]
+                ],
             }
         }
     };

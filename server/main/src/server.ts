@@ -1,4 +1,4 @@
-import { websiteDomain } from '@cd/core-lib/src/auth/appInfo.js';
+import { websiteDomain } from '@cd/core-lib';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';

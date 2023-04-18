@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "1.9.2",
+    "axios": "1.2.1",
     "react-redux": "8.0.2"
   },
   "devDependencies": {
@@ -29,7 +30,6 @@
     "@vitejs/plugin-react": "3.1.0",
     "@vitest/coverage-istanbul": "0.29.8",
     "@vitest/ui": "0.29.8",
-    "axios": "1.2.1",
     "cross-env": "7.0.3",
     "dotenv": "16.0.3",
     "eslint": "8.29.0",
@@ -64,5 +64,11 @@
     "typecheck": "tsc --project ./tsconfig.json --noEmit"
   },
   "types": "dist/index.d.ts",
+  "eslintConfig": {
+    "env": {
+      "browser": false,
+      "node": true
+    }
+  },
   "version": "0.0.1"
 }

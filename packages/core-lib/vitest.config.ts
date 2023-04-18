@@ -13,11 +13,10 @@ export default defineConfig({
   ],
   test: {
     globals: true,
-    environment: 'happy-dom',
     setupFiles: './config/test/setupVitest.ts',
     passWithNoTests: true,
     deps: {
-      external: ['fs'],
+      external: ['fs', 'axios',],
       // experimentalOptimizer: {
       //   enabled: true,
       // },
