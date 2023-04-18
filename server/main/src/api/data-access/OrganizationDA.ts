@@ -32,7 +32,7 @@ export default class OrganizationDA {
             console.log('stripe account created.')
 
             return 'Your organization account is created';
-        } catch (error) {
+        } catch (error:any) {
             console.error(error.message);
             throw new Error(error.message);
         }
@@ -43,7 +43,7 @@ export default class OrganizationDA {
         try {
             const data = await findOrganizationById(organizationId);
             return data;
-        } catch (error) {
+        } catch (error:any) {
             console.error(error.message);
             throw new Error(error.message);
         }
@@ -54,7 +54,7 @@ export default class OrganizationDA {
         try {
             const data = await findCategoryListByOrg(organizationId);
             return data;
-        } catch (error) {
+        } catch (error:any) {
             console.error(error.message);
             throw new Error(error.message);
         }
@@ -64,7 +64,7 @@ export default class OrganizationDA {
         try {
             const data = await findUsersByOrganization(organizationId);
             return data;
-        } catch (error) {
+        } catch (error:any) {
             console.error(error.message);
             throw new Error(error.message);
         }
@@ -75,7 +75,7 @@ export default class OrganizationDA {
             return 'TEST: product was updated OK';
             // const data = await updateProduct(product);
             // return data
-        } catch (error) {
+        } catch (error:any) {
             console.error(error.message);
             throw new Error(error.message);
         }

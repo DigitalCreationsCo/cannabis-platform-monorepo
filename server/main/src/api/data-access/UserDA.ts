@@ -33,9 +33,9 @@ export default class UserDA {
     //     //     throw new Error('Invalid password')
     //     // }
 	// 		return user;
-    //     } catch (error) {
+    //     } catch (error:any) {
     //         console.error(error.message);
-    //         throw new Error(error);
+    //         throw new Error(error:any);
     //     }
     // }
 
@@ -44,7 +44,7 @@ export default class UserDA {
     //     try {
     //         await session.revokeSession()
     //         console.log(`session ${session.getUserId()} is revoked.`)
-    //     } catch (error) {
+    //     } catch (error:any) {
     //         console.error(error.message);
     //         throw new Error('Logout failed.');
     //     }
@@ -54,7 +54,7 @@ export default class UserDA {
         try {
             const data = await findUserWithDetailsById(id);
             return data;
-        } catch (error) {
+        } catch (error:any) {
             console.error(error.message);
             throw new Error(error.message);
         }
@@ -64,7 +64,7 @@ export default class UserDA {
         try {
             const data = await findUserWithDetailsByEmail(email);
             return data;
-        } catch (error) {
+        } catch (error:any) {
             console.error(error.message);
             throw new Error(error.message);
         }
@@ -74,7 +74,7 @@ export default class UserDA {
         try {
             const data = await findAddressById(addressId);
             return data;
-        } catch (error) {
+        } catch (error:any) {
             console.error(error.message);
             throw new Error(error.message);
         }
@@ -85,7 +85,7 @@ export default class UserDA {
             address.coordinateId = '';
             const data = await createAddress(address);
             return data;
-        } catch (error) {
+        } catch (error:any) {
             console.error(error.message);
             throw new Error(error.message);
         }
@@ -95,7 +95,7 @@ export default class UserDA {
         try {
             const data = await removeAddressByIdAndUserId({ addressId, userId });
             return data;
-        } catch (error) {
+        } catch (error:any) {
             console.error(error.message);
             throw new Error(error.message);
         }
@@ -105,7 +105,7 @@ export default class UserDA {
         try {
             const data = await updateUserPasswordToken(email, timeLimitedToken)
             return data;
-        } catch (error) {
+        } catch (error:any) {
             console.error(error.message);
             throw new Error(error.message);
         }
@@ -118,7 +118,7 @@ export default class UserDA {
 
             console.log(`created user ${user.id}`)
             return user
-        } catch (error) {
+        } catch (error:any) {
             console.error('UserDA error: ', error.message);
             throw new Error(error.message);
         }

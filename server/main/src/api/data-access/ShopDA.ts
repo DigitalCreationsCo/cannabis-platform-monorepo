@@ -14,7 +14,7 @@ export default class ShopDA {
         try {
             const data = await updateVariantQuantity(variantId, quantity, '-')
             return data;
-        } catch (error) {
+        } catch (error:any) {
             console.error(error.message);
             throw new Error(error.message);
         }

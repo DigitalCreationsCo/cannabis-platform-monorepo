@@ -1,12 +1,10 @@
 import { Address } from '@cd/data-access';
 
 export const renderAddress = (address: Address) => (
-    <>
-        {`${address.street1} ${address.street2}
-        ${address.city}, ${address.state}
-        ${address.country} ${address.zipcode}`}
-    </>
-);
+    `${address.street1} ${address.street2}
+    ${address.city}, ${address.state}
+    ${address.country} ${address.zipcode}`
+    );
 
 export const renderNestedDataObject = (data: any, Component: any, removeFields: any):any => {
     const result = Object.keys({ ...data })

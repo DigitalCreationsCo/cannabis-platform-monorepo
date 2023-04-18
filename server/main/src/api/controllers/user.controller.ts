@@ -125,10 +125,10 @@ export default class UserController {
     //             session: null
     //         });
     //         // if (error.message === 'This user exists already. Please choose a different username or email.') {
-    //         //     return res.status(400).json(error)
+    //         //     return res.status(400).json(error:any)
     //         // }
     //         // console.log('API error: ', error.message);
-    //         // return res.status(500).json(error);
+    //         // return res.status(500).json(error:any);
     //     }
     // }
     

@@ -37,6 +37,7 @@
     "nodemon": "2.0.20",
     "pm2": "5.2.2",
     "prettier": "2.8.0",
+    "rimraf": "4.4.1",
     "supertest": "6.3.3",
     "supertokens-node": "12.1.3",
     "ts-jest": "29.0.3",
@@ -47,15 +48,14 @@
   "name": "@cd/server-main",
   "private": true,
   "scripts": {
-    "build:prod": "rm -rf dist && cross-env NODE_ENV=production babel . --out-dir dist --extensions \".ts,.tsx\"",
-    "build": "rm -rf dist && cross-env NODE_ENV=production babel . --out-dir dist --extensions \".ts,.tsx\"",
+    "build": "rimraf ./dist && cross-env NODE_ENV=production && babel . --out-dir dist --extensions \".ts,.tsx\"",
     "start": "cross-env NODE_ENV=production babel-node dist",
     "test": "../../node_modules/jest/bin/jest.js",
     "test:fix": "../../node_modules/jest/bin/jest.js --detectOpenHandles",
     "test:watch": "../../node_modules/jest/bin/jest.js --watchAll",
     "watch:ts": "cross-env NODE_ENV=development && babel index.ts --out-dir ./dist",
     "watch:node": "cross-env NODE_ENV=development && concurrently \"tsc --project tsconfig.build.json -w\" \"nodemon ./dist.index.js\" ",
-    "watch": "cross-env NODE_ENV=development && tsc --project tsconfig.build.json --watch"
+    "watch": "cross-env NODE_ENV=development && tsc --build tsconfig.build.json"
   },
   "version": "0.0.1"
 }
