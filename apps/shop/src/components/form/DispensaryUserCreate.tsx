@@ -1,10 +1,10 @@
-import { useFormContext } from '@cd/core-lib';
 import { Button, CheckBox, FlexBox, H3, H6, Icons, Label, Paragraph, Small, TextField } from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import { useCallback, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import * as yup from 'yup';
+import { useFormContext } from '../StepFormProvider';
 
 // To Do: Add helpertext to textfields
 function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
