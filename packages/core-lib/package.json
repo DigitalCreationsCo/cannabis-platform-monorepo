@@ -1,5 +1,6 @@
 {
   "main": "dist/index.js",
+  "module": "dist/index.esm.mjs",
   "name": "@cd/core-lib",
   "peerDependencies": {
     "@reduxjs/toolkit": "1.9.2",
