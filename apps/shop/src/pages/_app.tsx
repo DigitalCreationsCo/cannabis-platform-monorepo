@@ -8,9 +8,9 @@ import { Persistor } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session, { SessionContextType } from 'supertokens-auth-react/recipe/session';
+import { LayoutContainer, LocationProvider, ModalProvider } from '../components';
 import { frontendConfig } from '../config/frontendConfig';
-import { LayoutContainer, LocationProvider, ModalProvider } from '../src/components';
-import { PersistedStore, wrapper } from '../src/redux/store';
+import { PersistedStore, wrapper } from '../redux/store';
 import '../styles/globals.css';
 
 type CustomAppProps = AppProps & {

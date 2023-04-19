@@ -1,7 +1,7 @@
 import { Grid, Page, Paragraph } from '@cd/ui-lib';
 import Head from 'next/head';
 import Session from 'supertokens-node/recipe/session';
-import { CategoriesSelector, DispensaryList } from '../src/components';
+import { CategoriesSelector, DispensaryList } from '../components';
 
 const organizationsListDummy = [
     { name: 'Curaleaf', subdomainId: 'curaleaf', id: '234' },

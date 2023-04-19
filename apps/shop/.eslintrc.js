@@ -10,17 +10,17 @@ module.exports = {
   },
   ignorePatterns: [...getDefaultIgnorePatterns(), '.next', '.out'],
   extends: [
-    '@cd/eslint-config/typescript',
-    '@cd/eslint-config/sonar',
-    '@cd/eslint-config/regexp',
-    '@cd/eslint-config/jest',
-    '@cd/eslint-config/react',
-    '@cd/eslint-config/tailwind',
-    '@cd/eslint-config/rtl',
+    '@cd/eslint-config/src/bases/typescript',
+    '@cd/eslint-config/src/bases/sonar',
+    '@cd/eslint-config/src/bases/regexp',
+    '@cd/eslint-config/src/bases/jest',
+    '@cd/eslint-config/src/bases/react',
+    '@cd/eslint-config/src/bases/tailwind',
+    '@cd/eslint-config/src/bases/rtl',
     // Add specific rules for nextjs
     'plugin:@next/next/core-web-vitals',
     // Apply prettier and disable incompatible rules
-    '@cd/eslint-config/prettier',
+    '@cd/eslint-config/src/bases/prettier',
   ],
   rules: {
     // https://github.com/vercel/next.js/discussions/16832
