@@ -30,12 +30,13 @@ function Button({ className }: ViewProps) {
     
     const md = getBreakpointValue('md')
     return (
-    <button onClick={handleClick} className={twMerge(className, 'w-[300px', "tooltip")} data-tip="Click to learn more!">
+    <button onClick={handleClick} className={twMerge(className, 'w-[300px', "tooltip tooltip-open")} data-tip="Click to learn more!">
         <div className="flex flex-col items-center">
             {
-            screenwidth <= md ? <h1>Now offering Delivery by Gras at checkout</h1> : 
+            screenwidth <= md ? <h1>Delivery by Gras available at checkout</h1> : 
             <>
-            <h1>Delivery by Gras</h1><p>now at checkout</p>
+            <h1>Delivery by Gras</h1>
+            <p>now at checkout</p>
             </>
             }
         </div>

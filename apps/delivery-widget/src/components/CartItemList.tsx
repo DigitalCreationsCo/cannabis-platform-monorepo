@@ -24,13 +24,17 @@ function CartList({cart, cartError} : CartListProps) {
             We've got your order ready for delivery. 
             If you'd like to make any changes, please do so on the checkout page.
             </p>
-        <div className="border grid grid-flow-row grid-cols-2 grid-rows-2">
+        <div className="m-auto gap-8 grid grid-flow-row grid-cols-2 grid-rows-2">
         {cart && cart.cartItems.map((cartItem, index) => (
             <div key={`cart-item-${index}`}>
-                <img src={cartItem.image} height="50px" width="50px" />
-                <h1>{cartItem.name}</h1>
+                <div>
+                <img src={cartItem.image} className="object-scale-down max-h-[50px] max-w-[50px] rounded" />
+                </div>
+                <div className="flex flex-row justify-between space-x-2">
+                    <h1>{cartItem.name}</h1>
+                    <p>{cartItem.weight}</p>
+                </div>
                 <p>{cartItem.price}</p>
-                <p>{cartItem.weight}</p>
             </div>
         ))}
         </div>
