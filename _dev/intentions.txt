@@ -82,20 +82,24 @@ shared-lib: self build OK, dependency OK
 delivery-widget: self build OK, dependency OK
 shop: self build OK, dependency OK
 app: self build NO, dependency NO
+4-14-22
+Correct enefficiency with ui-lib build,use esbuild or webpack.
+use tailwind jit compiler
+correct postcss files for each package (ui-lib, apps)
+Have tailwind output that can be used by all packges
+4-19-22
+resolved build errors,
+using source imports for apps and node
+build and watch scripts OK
 
-
+To DO: 
 Add stripe functionality NOW - do it next. Keep it simple!
 Test the widget in a react app as well.
 Host node servers.
 Launch this month. Win.
 
-TODO: 
-Correct enefficiency with ui-lib build,use esbuild or webpack.
-use tailwind jit compiler
-correct postcss files for each package (ui-lib, apps)
-Have tailwind output that can be used by all packges
-
 What must I do next? 3-4-2023
+Lower the widget bundle size into modules.
 signin flow
 production environment testing: {
     upload the latest repo
