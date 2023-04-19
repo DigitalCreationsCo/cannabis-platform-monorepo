@@ -6,8 +6,7 @@ import { Toaster } from 'react-hot-toast';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session, { SessionContextType, signOut } from 'supertokens-auth-react/recipe/session';
 import { frontendConfig } from '../config/frontendConfig';
-import { AdminDashboardNavigation, TopBar } from '../src/components';
-import StepFormValuesProvider from '../src/context/StepFormProvider';
+import { AdminDashboardNavigation, StepFormValuesProvider, TopBar } from '../src/components';
 import '../styles/globals.css';
 
 type CustomAppProps = AppProps & {
