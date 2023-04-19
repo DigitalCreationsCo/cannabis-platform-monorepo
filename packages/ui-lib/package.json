@@ -1,5 +1,5 @@
 {
-  "main": "dist/index.mjs",
+  "main": "src/index.ts",
   "name": "@cd/ui-lib",
   "devDependencies": {
     "@cd/data-access": "workspace:*",
@@ -65,6 +65,5 @@
     "test-unit": "echo \"No unit tests yet\"",
     "typecheck": "tsc --project ./tsconfig.json --noEmit"
   },
-  "types": "dist/index.d.ts",
   "version": "0.0.1"
 }

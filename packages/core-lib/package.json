@@ -1,6 +1,5 @@
 {
-  "main": "dist/index.js",
-  "module": "dist/index.esm.js",
+  "main": "src/index.ts",
   "name": "@cd/core-lib",
   "peerDependencies": {
     "@reduxjs/toolkit": "1.9.2",
@@ -64,11 +63,6 @@
     "typecheck": "tsc --project ./tsconfig.json --noEmit"
   },
   "types": "dist/index.d.ts",
-  "eslintConfig": {
-    "env": {
-      "browser": false,
-      "node": true
-    }
-  },
+  "source": "src/index.ts",
   "version": "0.0.1"
 }
