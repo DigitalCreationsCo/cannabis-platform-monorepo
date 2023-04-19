@@ -7,7 +7,7 @@ import {
     DispensaryReview,
     DispensarySignUpComplete,
     DispensaryUserCreate
-} from '../../src/components';
+} from '../../components';
 
 function DispensarySignUpStepForm() {
     const [formStep, setFormStep] = useState(0);

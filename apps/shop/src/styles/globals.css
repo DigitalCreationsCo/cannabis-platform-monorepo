@@ -1,0 +1,6 @@
+/* @import url('../../../packages/shared-config/dist/index.css'); */
+@import url('@cd/ui-lib/src/styles/index.css');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
