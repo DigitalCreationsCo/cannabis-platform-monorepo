@@ -4,10 +4,10 @@
     "exclude": ["script", "dist", "webpack.config.cjs", "**/node_modules",  "**/.*/"],
     "compilerOptions": {
         "baseUrl": "./src",
-        "lib": [ "dom", "dom.iterable", "esnext" ],
-        "module": "esnext",
+        "lib": [ "dom", "dom.iterable", "ES2015" ],
+        "module": "ES2015",
         "noEmit": false,
-        "target": "esnext",
+        "target": "ES2015",
         "allowJs": true,
         "outDir": "./dist",
         "jsx": "react-jsx",
