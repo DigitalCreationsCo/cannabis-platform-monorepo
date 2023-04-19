@@ -9,7 +9,7 @@
       "dom.iterable",
       "ES2015"
     ],
-    "module": "es2015",
+    "module": "esnext",
     "jsx": "preserve",
     "incremental": true,
     "paths": {
