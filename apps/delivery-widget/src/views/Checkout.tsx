@@ -1,3 +1,4 @@
+import Button from "@cd/ui-lib/src/components/Button"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { twMerge } from "tailwind-merge"
@@ -37,21 +38,23 @@ function Checkout({ className }: ViewProps) {
 
     const handleCheckout = () => {
         setLoadingCheckout(true)
+        window.location.href = "http://localhost:3000/browse"
         // window.location.href = "https://dispensary.gras.com/checkout"
     }
 
     return (
         <div className={twMerge('w-[240px]', className)}>
-                { loadingCheckout ? 
-                    <div>
-                        <h1>Checking out...</h1>
-                        <p>You are being redirected</p>
-                    </div> : 
-                    showCart && <div className="flex flex-col">
+                { 
+                    showCart ? loadingCheckout &&
+                    <div className="flex flex-col h-[420px] w-[340px] m-auto content-center justify-center items-center place-content-center">
+                        <h1 className="text-lg">Checking out...</h1>
+                        <p>You will be redirected</p>
+                    </div> ||
+                    <div className="flex flex-col h-[420px] w-[340px]">
                         <CartList cart={cart} cartError={cartError} />
                         If you're ready for checkout, click the button below.
-                        <button>Checkout</button>
-                    </div> ||
+                        <Button className="p-4" onClick={handleCheckout}>Checkout</Button>
+                    </div> :
                     <button onClick={getCartData} 
                     className="flex flex-col items-center w-full">
                         <h1>Delivery by Gras - straight to your door</h1>

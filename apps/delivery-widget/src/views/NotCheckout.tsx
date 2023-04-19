@@ -16,8 +16,8 @@ function NotCheckout({ className }:ViewProps) {
         <div className={twMerge(className)}>
             <div className="flex flex-row items-center whitespace-wrap">
                 <div className="flex flex-col p-2">
-                <p>Gras and 'dispensary' are teaming up to delivery your goods straight to your home. </p>
-                <h1>Click here at checkout to start your delivery!</h1>
+                <p>Your dispensary is teaming up with Delivery by Gras to offer home delivery of your goods. </p>
+                <h1 className="m-auto">Click here during checkout to start your delivery.</h1>
                 </div>
                 <CloseButton theme={'dark'} className="p-4" onClick={() => history("/")}/>
             </div>

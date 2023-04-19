@@ -5,14 +5,9 @@
   "main": "./dist/index.js",
   "scripts": {
     "clean": "rimraf ./dist ./build ./node_modules/.cache",
-    "build": "rimraf ./dist && webpack --mode production",
-    "build:css": "npx tailwindcss -o ./dist/index.css --minify",
+    "build": "rimraf ./dist && yarn postcss && webpack --mode production",
     "postcss": "postcss ./src/styles/globals.css -o ./dist/index.css",
-    "start": "node dist/index.js",
-    "dev": "webpack serve --mode development --hot",
-    "serve:dev": "concurrently \"yarn build:watch\" \"yarn serve:js\" \"yarn serve:hostpage\"",
-    "serve:hostpage": "browser-sync start -s \"public\" -f . --port 4040 --ui-port 4041 --cors",
-    "serve:js": "browser-sync start -s \"dist\" --port 4050 --ui-port 4051 --cors",
+    "serve": "webpack serve --mode development --hot",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
