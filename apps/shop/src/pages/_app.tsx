@@ -1,4 +1,3 @@
-import { StepFormValuesProvider, ToastProvider } from '@cd/core-lib';
 import { Center, FlexBox, LayoutContextProps, LoadingDots } from "@cd/ui-lib";
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
@@ -8,7 +7,7 @@ import { Persistor } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session, { SessionContextType } from 'supertokens-auth-react/recipe/session';
-import { LayoutContainer, LocationProvider, ModalProvider } from '../components';
+import { LayoutContainer, LocationProvider, ModalProvider, StepFormValuesProvider, ToastProvider } from '../components';
 import { frontendConfig } from '../config/frontendConfig';
 import { PersistedStore, wrapper } from '../redux/store';
 import '../styles/globals.css';
