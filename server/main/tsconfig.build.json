@@ -5,8 +5,8 @@
     "baseUrl": "./src",
     "noEmit": false,
     "outDir": "./dist",
-    "target": "ES5",
-    "lib": ["dom", "dom.iterable", "es5"],
+    "target": "ES2015",
+    "lib": ["dom", "dom.iterable", "ES2015"],
     "esModuleInterop": true
   },
   "include": [
