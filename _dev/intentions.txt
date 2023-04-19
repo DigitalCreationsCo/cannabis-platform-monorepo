@@ -82,18 +82,27 @@ shared-lib: self build OK, dependency OK
 delivery-widget: self build OK, dependency OK
 shop: self build OK, dependency OK
 app: self build NO, dependency NO
+4-15-22
+Correct enefficiency with ui-lib build,use esbuild or webpack.
+use tailwind jit compiler
+correct postcss files for each package (ui-lib, apps)
+Have tailwind output that can be used by all packges
+4-19-022
+resolve build and watch OK, packages no build import OK, delivery widget redirect
 
+
+ToDO:
+delivery widget redirect
+shop app background check and checkout pages
+stripe checkout node route
+pre rendered stripe checkout page
+Wrap it all up with kubernetes
+Host on linode :)
 
 Add stripe functionality NOW - do it next. Keep it simple!
 Test the widget in a react app as well.
 Host node servers.
 Launch this month. Win.
-
-TODO: 
-Correct enefficiency with ui-lib build,use esbuild or webpack.
-use tailwind jit compiler
-correct postcss files for each package (ui-lib, apps)
-Have tailwind output that can be used by all packges
 
 What must I do next? 3-4-2023
 signin flow
