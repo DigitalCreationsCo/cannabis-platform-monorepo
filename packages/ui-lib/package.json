@@ -58,7 +58,7 @@
     "build:css": "npx tailwindcss -i ./src/styles/index.css -o ./dist/style/index.css --minify",
     "build:css-watch": "npx tailwindcss -i ./src/styles/index.css -o ./dist/style/index.css --minify --watch",
     "clean": "rimraf ./dist ./build ./tsconfig.tsbuildinfo ./node_modules/.cache",
-    "watch": "nodemon .src/index.ts --exec tsup",
+    "watch": "rimraf ./dist && tsup --watch",
     "fix-all-files": "eslint . --ext .ts,.tsx,.js,.jsx,.cjs,.mjs --fix",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx,.cjs,.mjs --cache --cache-location ../../.cache/eslint/ui-lib.eslintcache",
     "test": "run-s test-unit",
