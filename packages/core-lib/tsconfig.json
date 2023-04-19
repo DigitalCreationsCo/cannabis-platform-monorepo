@@ -8,9 +8,6 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "module": "esnext",
     "jsx": "react-jsx",
-    "noEmit": false,
-    "incremental": true,
-    "isolatedModules": true,
     "paths": {
       "@cd/ui-lib": ["../../../packages/ui-lib/src/index"],
       "@cd/ui-lib/*": ["../../../packages/ui-lib/src/*"],

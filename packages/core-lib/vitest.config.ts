@@ -6,10 +6,10 @@ const testFiles = ['./src/**/*.test.{js,jsx,ts,tsx}'];
 
 export default defineConfig({
   plugins: [
-    tsconfigPaths(),
     react({
       // fastRefresh: false,
     }),
+    tsconfigPaths(),
   ],
   test: {
     globals: true,
