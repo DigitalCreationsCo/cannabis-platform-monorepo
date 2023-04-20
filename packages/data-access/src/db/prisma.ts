@@ -1,5 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 
+console.info(` :: data-access package is in ${process.env.NODE_ENV} mode.`)
+console.info(` :: connecting to database at ${process.env.DATABASE_URL}.`)
 declare global {
     var prisma: PrismaClient | undefined;
 }

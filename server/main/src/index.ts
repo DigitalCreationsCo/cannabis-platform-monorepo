@@ -10,8 +10,7 @@ const port = process.env.SERVER_MAIN_PORT || 'NO_PORT_FOUND';
 connectDb()
     .then(() => {
         server.listen(port, () => {
-            console.log(` 🚀 Server Main listening on port ${port}.`);
-            console.info(' ♞ Server Main running in ' + nodeEnv + ' mode.');
+            console.log(` 🚀 server/main listening on port ${port}.`);
         });
     })
     .catch((err) => {
@@ -22,6 +21,7 @@ connectDb()
 
 async function connectDb() {
   try {
+    console.log(` >> server/main start in ${process.env.NODE_ENV} mode.`);
     await prisma.$connect()
     console.log(" 👏 Database is connected.");
   } catch(error:any) {

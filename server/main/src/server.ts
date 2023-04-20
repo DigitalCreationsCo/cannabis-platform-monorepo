@@ -11,10 +11,6 @@ import SessionDA from './api/data-access/SessionDA';
 import { errorRoute, organization, shop } from './api/routes';
 import { backendConfig } from './config/backendConfig';
 
-console.log('Starting server...');
-console.log('supertokens connection string: ', process.env.SUPERTOKENS_CONNECTION_URI);
-console.log('node env: ', process.env.NODE_ENV);
-
 if (Supertokens) {
     Supertokens.init(backendConfig());
 } else throw Error('Supertokens is not available.');

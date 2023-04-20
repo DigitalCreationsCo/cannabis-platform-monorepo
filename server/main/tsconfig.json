@@ -19,11 +19,6 @@
       "@cd/eslint-config/*": ["../../../packages/eslint-config/src/*"]
     }
   },
-  "ts-node": {
-    "compilerOptions": {
-      "module": "commonjs"
-    }
-  },
   "include": [
     "**/*.ts",
     "**/*.tsx",
