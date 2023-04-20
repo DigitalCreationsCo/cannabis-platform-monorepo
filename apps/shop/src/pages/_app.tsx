@@ -1,15 +1,17 @@
+/// @ts-nocheck
 import { Center, FlexBox, LayoutContextProps, LoadingDots } from "@cd/ui-lib";
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { Provider as ReduxProvider, useStore } from 'react-redux';
-import { Persistor } from 'redux-persist';
+// import { Persistor } from 'redux-persist';
+import withRedux from 'next-redux-wrapper';
 import { PersistGate } from 'redux-persist/integration/react';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session, { SessionContextType } from 'supertokens-auth-react/recipe/session';
-import { LayoutContainer, LocationProvider, ModalProvider, StepFormValuesProvider, ToastProvider } from '../components';
+import { LayoutContainer, ModalProvider, StepFormValuesProvider, ToastProvider } from '../components';
 import { frontendConfig } from '../config/frontendConfig';
-import { PersistedStore, wrapper } from '../redux/store';
+import reduxStore from '../redux/store';
 import '../styles/globals.css';
 
 type CustomAppProps = AppProps & {
@@ -21,7 +23,7 @@ function App({ Component, pageProps }: CustomAppProps) {
         SuperTokensReact.init(frontendConfig());
     }
 
-    const store = useStore() as PersistedStore
+    const store = useStore()
 
     useEffect(() => {
         async function doRefresh() {
@@ -43,7 +45,7 @@ function App({ Component, pageProps }: CustomAppProps) {
 
     const getLayoutContext = Component.getLayoutContext || (() => ({}));
 
-    return typeof window !== 'undefined' ? (
+    return (
         <>
             <Head>
                 <title>Gras Cannabis Marketplace</title>
@@ -61,7 +63,7 @@ function App({ Component, pageProps }: CustomAppProps) {
                             </FlexBox>
                         }
                     >
-                        <LocationProvider>
+                        {/* <LocationProvider> */}
                             <LayoutContainer {...getLayoutContext()}>
                                 <ToastProvider />
                                 <StepFormValuesProvider>
@@ -69,46 +71,15 @@ function App({ Component, pageProps }: CustomAppProps) {
                                     <Component {...pageProps} />
                                 </StepFormValuesProvider>
                             </LayoutContainer>
-                        </LocationProvider>
+                        {/* </LocationProvider> */}
                     </PersistGate>
                 </ReduxProvider>
             </SuperTokensWrapper>
         </>
-    ) : (
-        <>
-            <Head>
-                <title>Gras Cannabis Marketplace</title>
-                <meta name="vendor experience application" content="Property of Gras Cannabis Co." />
-            </Head>
-            <SuperTokensWrapper>
-                <ReduxProvider store={store}>
-                    <PersistGate
-                        persistor={store as PersistedStore & Persistor}
-                        loading={
-                            <FlexBox className="grow items-center min-h-screen">
-                                <Center>
-                                    <LoadingDots />
-                                </Center>
-                            </FlexBox>
-                        }
-                    >
-                        <LocationProvider>
-                            <LayoutContainer {...getLayoutContext()}>
-                                <ToastProvider />
-                                <StepFormValuesProvider>
-                                    <ModalProvider />
-                                    <Component {...pageProps} />
-                                </StepFormValuesProvider>
-                            </LayoutContainer>
-                        </LocationProvider>
-                    </PersistGate>
-                </ReduxProvider>
-            </SuperTokensWrapper>
-        </>
-    );
+    )
 }
 
-export default wrapper.withRedux(App);
+export default withRedux(reduxStore)(App);
 
 export type ExtendedPageComponent = {
     signIn: (input: {
