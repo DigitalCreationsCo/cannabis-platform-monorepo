@@ -30,14 +30,13 @@
     "@prisma/client": "4.10.0"
   },
   "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
   "name": "@cd/data-access",
   "prisma": {
     "seed": "ts-node --esm src/db/seed.ts"
   },
   "private": true,
   "scripts": {
-    "build": "rimraf ./dist && cross-env NODE_ENV=development DATABASE_URL=hello && dotenv -e ../../.env.development -- tsup",
+    "build": "rimraf ./dist && tsup",
     "clean": "rimraf ./dist ./coverage ./tsconfig.tsbuildinfo",
     "debug-test-e2e": "cross-env DEBUG=testcontainers vitest run $@",
     "watch": "rimraf ./dist && tsup --watch",

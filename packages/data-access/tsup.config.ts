@@ -1,7 +1,7 @@
 import { defineConfig } from 'tsup';
 
 export default defineConfig((options) => {
-  // console.log('database url: ', process.env.DATABASE_URL)
+  console.log(' :: database url: ', process.env.DATABASE_URL)
   return {
     // env: {
     //   NODE_ENV: process.env.NODE_ENV,

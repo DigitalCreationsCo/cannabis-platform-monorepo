@@ -22,6 +22,7 @@ connectDb()
 async function connectDb() {
   try {
     console.log(` >> server/main start in ${process.env.NODE_ENV} mode.`);
+    console.log(` >> database url is ${process.env.DATABASE_URL}.`);
     await prisma.$connect()
     console.log(" 👏 Database is connected.");
   } catch(error:any) {
