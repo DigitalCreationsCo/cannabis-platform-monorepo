@@ -51,8 +51,8 @@
   "name": "@cd/server-main",
   "private": true,
   "scripts": {
-    "build": "rimraf ./dist && cross-env NODE_ENV=production && babel ./src --out-dir dist --extensions \".ts,.tsx\"",
-    "start": "cross-env NODE_ENV=production babel-node dist",
+    "build": "rimraf ./dist && dotenv -e ../../.env.production -- babel ./src --out-dir dist --extensions \".ts,.tsx\"",
+    "start": "dotenv -e ../../.env.production -- babel-node dist",
     "test": "../../node_modules/jest/bin/jest.js",
     "test:fix": "../../node_modules/jest/bin/jest.js --detectOpenHandles",
     "test:watch": "../../node_modules/jest/bin/jest.js --watchAll",

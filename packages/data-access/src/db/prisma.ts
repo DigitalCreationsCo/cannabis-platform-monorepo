@@ -11,7 +11,7 @@ if (!url) {
         ` :: Cannot create prisma client instance, missing env variable DATABASE_URL.`
       )
 }
-console.info(` :: connecting to database at ${url}.`)
+// console.info(` :: connecting to database at ${url}.`)
 
 const prisma = global.prisma || new PrismaClient({
     datasources: { 
