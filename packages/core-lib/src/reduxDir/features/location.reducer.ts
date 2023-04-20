@@ -125,24 +125,31 @@ const locationSlice = createSlice({
     initialState,
     reducers: {
         setCurrentCoordinates: (state, { payload }: { payload: { latitude: number; longitude: number }}) => {
+          console.info('setCurrentCoordinates action')
           state.currentLocation.address.coordinates.latitude = payload.latitude
           state.currentLocation.address.coordinates.longitude = payload.longitude
         },
         setCurrentLocation: (state, { payload }: { payload: { currentLocation :LocationType }}) => {
+          console.info('setCurrentLocation action')
+
             state.currentLocation = payload.currentLocation
         },
         setSelectLocationType: (state, {payload}: {payload: LocationStateProps['selectLocationType']}) => {
-            state.selectLocationType = payload
+          console.info('setSelectLocationType action')
+          state.selectLocationType = payload
         },
         setHomeAddress: (state, {payload}: {payload: LocationType}) => {
+          console.info('setHomeAddress action')
           state.homeLocation = {...state.homeLocation, ...payload }
         },
         addAddress: (state, {payload}: {payload: LocationType}) => {
+          console.info('addAddress action')
           state.allLocations = [...state.allLocations, payload ]
         },
     },
     extraReducers: (builder) => {
       builder.addCase(getAddressByCoordinates.fulfilled, (state, { payload }: {payload: AddressPayload}) => {
+        console.info('getAddressByCoordinates fulfilled')
         const address = payload
         state.currentLocation.address = address
         state.isLoading = false
@@ -150,11 +157,13 @@ const locationSlice = createSlice({
         state.isError = false
       }),
       builder.addCase(getAddressByCoordinates.pending, (state) => {
+        console.info('getAddressByCoordinates pending')
         state.isLoading = true
         state.isSuccess = false
         state.isError = false
       }),
       builder.addCase(getAddressByCoordinates.rejected, (state, { payload }) => {
+        console.info('getAddressByCoordinates rejected')
         const error = payload;
         console.log('getAddressByCoordinates error: ', error)
         state.isLoading = false;
