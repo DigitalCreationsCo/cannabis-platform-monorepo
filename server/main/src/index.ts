@@ -10,7 +10,7 @@ const port = process.env.SERVER_MAIN_PORT || 'NO_PORT_FOUND';
 connectDb()
     .then(() => {
         server.listen(port, () => {
-            console.log(` 🚀 server/main listening on port ${port}.`);
+            console.log(` >> server/main is listening on port ${port}.`);
         });
     })
     .catch((err) => {
@@ -21,10 +21,9 @@ connectDb()
 
 async function connectDb() {
   try {
-    console.log(` >> server/main start in ${process.env.NODE_ENV} mode.`);
-    console.log(` >> database url is ${process.env.DATABASE_URL}.`);
+    console.info(` >> server/main start in ${process.env.NODE_ENV} mode.`);
     await prisma.$connect()
-    console.log(" 👏 Database is connected.");
+    console.info(" >> server/main is connected to database.");
   } catch(error:any) {
     console.error("Error connecting to database: ", error.stack);
     process.exit(1);
