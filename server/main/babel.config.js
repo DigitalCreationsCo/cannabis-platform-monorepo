@@ -4,7 +4,7 @@ module.exports = function (config) {
     config.cache(true);
 
     const nodeEnv = process.env.NODE_ENV || 'development';
-
+    console.log(' >> server/main env loaded from ', path.resolve(__dirname, '../../.env.' + nodeEnv))
     return {
         presets: ['@babel/preset-env', '@babel/preset-typescript'],
         env: {
@@ -13,7 +13,6 @@ module.exports = function (config) {
                     [
                         'inline-dotenv',
                         {
-                            // path: path.resolve'../../' + envFile
                             path: path.resolve(__dirname, '../../.env.' + nodeEnv)
                         }
                     ]
