@@ -1,4 +1,4 @@
-import { Button, Center, H3, LoadingDots, Paragraph, UploadImageBox } from "@cd/ui-lib";
+import { Button, Center, H3, Paragraph, UploadImageBox } from "@cd/ui-lib";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -52,11 +52,11 @@ const VerifyPhotoId = ({ nextFormStep }: { nextFormStep: () => void }) => {
     }
 
     return (
-    <Center className='space-y-2'>
-        <H3>Thanks for order from Delivery by Gras!
+    <Center className='space-y-2 w-3/4 m-auto'>
+        <H3>Thanks for ordering from Delivery by Gras.
         </H3>
         <H3>
-            Before we can deliver to you, we'll need to verify your age and identification</H3>
+            Before we can deliver to you, help us verify your age and identification</H3>
         <Paragraph>Please upload a picture of the front and back of your state photo id.</Paragraph>
         <div className="h-[200px] w-[240px]">
         {frontImage ? 
@@ -112,7 +112,6 @@ const VerifyPhotoId = ({ nextFormStep }: { nextFormStep: () => void }) => {
         loading={loadingButton}
         onClick={onSubmitUpload}
         >Verify ID</Button>
-        <LoadingDots />
     </Center>
 )}
 
