@@ -39,12 +39,12 @@ function Layout({
     isSession,
     children
 }: LayoutProps & PropsWithChildren) {
-    const styles = { main: 'bg-inverse-soft' };
+    const styles = { main: 'bg-inverse-soft flex flex-col grow' };
 
     const navLinkContainerId = 'dashboard-links-container';
     const drawerComponentId = 'dashboard-links-drawer';
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col min-h-screen">
             {isSession ? (
                 <div className={styles.main}>
                     {showTopBar && <TopBarComponent signedOut={signedOut} doesSessionExist={isSession} />}

@@ -46,10 +46,10 @@ export default function Button({
         ],
         bgColor: ['bg-' + bg],
         textColor: [
-            (bg === 'transparent' && 'text-dark shadow-none') || (bg === 'accent-soft' && 'text-dark') || 'text-light'
+            !disabled ? [(bg === 'transparent' && 'text-dark shadow-none') || (bg === 'accent-soft' && 'text-dark') || 'text-light'] : 'text-secondary'
         ],
         focus: ['focus:outline-none focus:bg-' + bg],
-        hover: [hover && 'hover:bg-' + hover, 'transition ease-in-out duration-300'],
+        hover: [!disabled ? hover && ['hover:bg-' + hover, 'transition ease-in-out duration-300'] : ''],
         transparent: (transparent && 'opacity-90') || '',
         border: [border ? 'border-' + hover : 'border-transparent']
     };
