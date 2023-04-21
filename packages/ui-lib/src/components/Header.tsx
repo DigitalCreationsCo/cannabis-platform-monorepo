@@ -9,13 +9,13 @@ type HeaderProps = {
 } & PropsWithChildren;
 function Header({ onSearchChange, placeholder, drawerComponentId, children }: HeaderProps) {
     const headerContainerStyle = [
-        'flex',
+        'flex flex-row',
         'lg:ml-[188px]',
         'py-6 sm:px-5 lg:px-16 xl:pl-0 xl:pr-16',
         'lg:justify-end lg:right-0'
     ];
     const headerStyle = [
-        'flex flex-row py-2',
+        'flex flex-row grow',
         'w-full md:w-fit xl:w-fit',
         'lg:justify-end lg:h-fit',
         'shadow-md lg:shadow-none'
