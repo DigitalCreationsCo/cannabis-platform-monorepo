@@ -1,5 +1,6 @@
 import { Page } from "@cd/ui-lib/components";
 import { SubmitAddress, UserName } from "components";
+import VerifyPhotoId from "components/VerifyPhotoId";
 import Head from "next/head";
 import { useState } from "react";
 
@@ -8,7 +9,7 @@ function QuickDelivery() {
     const nextFormStep = () => setFormStep((currentStep) => currentStep + 1);
     // const prevFormStep = () => setFormStep((currentStep) => currentStep - 1);
     const FormStepComponents = [
-        // VerifyPhotoId, 
+        VerifyPhotoId, 
         UserName,
         SubmitAddress
     ];    
