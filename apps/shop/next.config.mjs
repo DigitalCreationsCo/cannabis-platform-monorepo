@@ -168,7 +168,10 @@ const nextConfig = (phase) => {
             outputFileTracingRoot: path.join(__dirname, '../../')
         },
         images: {
-            domains: ['cdn-cashy-static-assets.lucidchart.com']
+            domains: [
+                'cdn-cashy-static-assets.lucidchart.com',
+                'encrypted-tbn0.gstatic.com',
+            ]
         }
     };
 };

@@ -1755,6 +1755,7 @@ __metadata:
     postcss-loader: ^7.2.4
     postcss-preset-env: ^8.3.1
     react: 18.2.0
+    react-cookie: 4.1.1
     react-dom: 18.2.0
     react-router-dom: 6.10.0
     rimraf: 4.4.1

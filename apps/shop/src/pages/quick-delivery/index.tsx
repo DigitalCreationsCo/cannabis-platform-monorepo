@@ -18,7 +18,7 @@ function QuickDelivery() {
     return (
         <Page className="pb-0 md:pb-24">
             <Head>
-                <title>Sign Up - Delivery by Gras</title>
+                <title>Delivery by Gras</title>
             </Head>
                 {FormStepComponents.map((_fsc, index) => {
                     return (
