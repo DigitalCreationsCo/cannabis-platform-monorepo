@@ -20,7 +20,7 @@ const CheckAge = ({ redirect }: { redirect?: string }) => {
         <H1>Welcome to Gras</H1>
         <H3>
             first thing first,
-            Are you 21 years or older?
+            are you 21 years or older?
             </H3>
             
         <FlexBox className="p-4 space-x-4 space-y-4">
