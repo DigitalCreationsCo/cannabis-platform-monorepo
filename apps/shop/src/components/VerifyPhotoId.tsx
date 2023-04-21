@@ -53,10 +53,11 @@ const VerifyPhotoId = ({ nextFormStep }: { nextFormStep: () => void }) => {
 
     return (
     <Center className='space-y-2 w-3/4 m-auto'>
-        <H3>Thanks for ordering from Delivery by Gras.
+        <H3>Thank you for ordering from Delivery by Gras.
         </H3>
+        <H3>We've got your order ready for delivery.</H3>
         <H3>
-            Before we can deliver to you, help us verify your age and identification</H3>
+            Before we can deliver to you, please share your photo to help us verify you.</H3>
         <Paragraph>Please upload a picture of the front and back of your state photo id.</Paragraph>
         <div className="h-[200px] w-[240px]">
         {frontImage ? 
