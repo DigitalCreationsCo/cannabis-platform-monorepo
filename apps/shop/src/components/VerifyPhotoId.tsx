@@ -8,8 +8,13 @@ import { useFormContext } from "./StepFormProvider";
 const VerifyPhotoId = ({ nextFormStep }: { nextFormStep: () => void }) => {
     const { resetFormValues, setFormValues } = useFormContext();
     
-    useEffect(() => {
+    const createNewFormContext = () => {
+        console.info('creating new form context: VerifyPhotoId')
         resetFormValues();
+    }
+    
+    useEffect(() => {
+        createNewFormContext()
     }, [])
 
     const [frontImage, setFrontImage] = useState<any>(null);
@@ -22,12 +27,12 @@ const VerifyPhotoId = ({ nextFormStep }: { nextFormStep: () => void }) => {
         try {
             if (frontImage && backImage) {
                 setLoadingButton(true);
-                // nextFormStep();
                 const response = await verifyPhotoIdImage({frontImage, backImage})
                 // if (response.status === 200) {
                 if (response !== null) {
                     toast('Success! Your photo id has been verified.')
                 }
+                nextFormStep();
             }
         } catch (error: any) {
         }

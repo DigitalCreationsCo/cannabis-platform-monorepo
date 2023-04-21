@@ -1,4 +1,5 @@
 import { Page } from "@cd/ui-lib/components";
+import { UserSignUp } from "components";
 import VerifyPhotoId from "components/VerifyPhotoId";
 import Head from "next/head";
 import { useState } from "react";
@@ -7,7 +8,7 @@ function QuickDelivery() {
     const [formStep, setFormStep] = useState(0);
     const nextFormStep = () => setFormStep((currentStep) => currentStep + 1);
     // const prevFormStep = () => setFormStep((currentStep) => currentStep - 1);
-    const FormStepComponents = [VerifyPhotoId];    
+    const FormStepComponents = [VerifyPhotoId, UserSignUp];    
     const styles = { gradient: ['bg-gradient-to-b', 'from-primary', 'to-secondary', 'p-0 lg:p-16 h-max'] };
     
     return (
