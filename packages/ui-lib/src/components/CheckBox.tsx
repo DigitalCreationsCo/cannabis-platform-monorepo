@@ -1,4 +1,6 @@
+import { MouseEventHandler } from 'react';
 import { twMerge } from 'tailwind-merge';
+import Button from './Button';
 import FlexBox from './FlexBox';
 import { Paragraph } from './Typography';
 
@@ -15,7 +17,7 @@ function CheckBox({ error, label, className, name, onChange, checked, helperText
         helperText: error && 'input-error border-2'
     };
     return (
-        <FlexBox className={twMerge(styles.checkboxContainer, className)}>
+        <Button bg="transparent" hover='transparent' onClick={onChange as unknown as MouseEventHandler<HTMLButtonElement>} className={twMerge(styles.checkboxContainer, className)}>
             <input
                 style={{ height: '20px', width: '30px' }}
                 type="checkbox"
@@ -27,7 +29,7 @@ function CheckBox({ error, label, className, name, onChange, checked, helperText
                 {/* <Label>{helperText || label}</Label> */}
                 <Paragraph>{label}</Paragraph>
             </FlexBox>
-        </FlexBox>
+        </Button>
     );
 }
 

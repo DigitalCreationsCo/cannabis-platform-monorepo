@@ -9,10 +9,13 @@ type FormDataProps = {
 interface FormContextProps extends PropsWithChildren {
     formData: FormDataProps;
     setFormValues: (values: Record<string, unknown>) => void;
+    resetFormValues: () => void;
 }
 
 const FormContext = createContext<FormContextProps>({} as FormContextProps);
 
+// a data provider component that will be used to store the form values
+// over multiple component pages, allowing to access the values over multiple pages
 const StepFormValuesProvider = ({ children }: PropsWithChildren) => {
     const [formData, setFormData] = useState<FormDataProps>({} as FormDataProps);
 
@@ -23,7 +26,11 @@ const StepFormValuesProvider = ({ children }: PropsWithChildren) => {
         }));
     };
 
-    return <FormContext.Provider value={{ formData, setFormValues }}>{children}</FormContext.Provider>;
+    const resetFormValues = () => {
+        setFormData({} as FormDataProps);
+    }
+
+    return <FormContext.Provider value={{ formData, setFormValues, resetFormValues }}>{children}</FormContext.Provider>;
 };
 
 const useFormContext = () => useContext<FormContextProps>(FormContext);

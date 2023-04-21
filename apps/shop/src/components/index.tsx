@@ -1,5 +1,6 @@
 export { default as CategoriesNavigation } from './CategoriesNavigation';
 export { default as CategoriesSelector } from './CategoriesSelector';
+export * from "./CheckAge";
 export { default as DispensaryCard } from './DispensaryCard';
 export { default as DispensaryList } from './DispensaryList';
 export * from './form';

@@ -1,3 +1,4 @@
+import { ServerResponse } from 'http';
 import { NextRequest, NextResponse } from 'next/server';
 
 export const config = {
@@ -18,7 +19,7 @@ export const config = {
  */
 
 // the redirects are not designed well, but they work for now.
-export default function middleware(req: NextRequest) {
+export default function middleware(req: NextRequest, res: ServerResponse) {
     const shopAppUrl = process?.env?.SHOP_APP_URL && process?.env?.SHOP_APP_URL.split('//')[1].split(':')[0] || 'localhost';
     const url = req.nextUrl;
     console.log('url', url);
@@ -44,7 +45,7 @@ export default function middleware(req: NextRequest) {
         // check cookies and sign in if session token exists
         // if (
         //     url.pathname === '/login' &&
-        //     (req.cookies.get('next-auth.session-token') || r                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          eq.cookies.get('__Secure-next-auth.session-token'))
+        //     (req.cookies.get('next-auth.session-token') || req.cookies.get('__Secure-next-auth.session-token'))
         // ) {
         //     url.pathname = '/';
         //     return NextResponse.redirect(url);
@@ -79,9 +80,20 @@ export default function middleware(req: NextRequest) {
         // }
     }
 
+    if (subDomain.includes(shopAppUrl) && url.pathname !== '/welcome') {
+        let over21 = req.cookies.get('yesOver21')?.value
+        if (!over21) {
+
+            if (url.pathname === '/quick-delivery') {
+                return NextResponse.redirect(`http://${subDomain}/welcome?redirect=/quick-delivery`); 
+            }
+
+            return NextResponse.redirect(`http://${subDomain}/welcome?redirect=/`); 
+        }
+    }
+
     // base url redirect to /browse
     if (subDomain.includes(shopAppUrl) && url.pathname === '/') {
-        console.log('redirecting to /browse');
-        return NextResponse.redirect(`http://${subDomain}/browse`);
+        return NextResponse.redirect(`http://${subDomain}/browse`); 
     }
 }
