@@ -9,3 +9,4 @@ export * from './modal';
 export * from "./StepFormProvider";
 export * from './ToastProvider';
 export { default as TopBar } from './TopBar';
+export * from "./VerifyPhotoId";

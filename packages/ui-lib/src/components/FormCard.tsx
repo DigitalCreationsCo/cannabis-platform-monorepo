@@ -14,7 +14,9 @@ function FormCard({ currentStep, totalSteps, className, children }: FormCardProp
     return (
         <Card className={twMerge('bg-inverse', className)}>
             {children}
-            <FlexBox className={styles.pageNumber}>{currentStep && <H6>{currentStep + 1}</H6>}</FlexBox>
+            <FlexBox className={styles.pageNumber}>
+                {currentStep && <H6>{currentStep + 1}</H6>}
+            </FlexBox>
         </Card>
     );
 }

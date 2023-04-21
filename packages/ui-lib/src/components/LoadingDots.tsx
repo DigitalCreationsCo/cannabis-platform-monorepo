@@ -1,5 +1,4 @@
 import { twMerge } from 'tailwind-merge';
-import React from 'react';
 
 const LoadingDots = () => {
     const dot = 'animate-bounce w-[12px] h-[12px] rounded-full bg-primary';
