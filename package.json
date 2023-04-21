@@ -168,7 +168,8 @@
     "webpack": "5.78.0",
     "webpack-cli": "5.0.1",
     "webpack-dev-server": "4.13.2",
-    "yup": "0.32.11"
+    "yup": "0.32.11",
+    "react-cookie": "4.1.1"
   },
   "resolutions": {
     "@types/react": "18.0.34",
