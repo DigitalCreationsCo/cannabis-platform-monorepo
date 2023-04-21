@@ -63,11 +63,18 @@ const crawler = async () => {
                     const $item = $(item)
                     const _item = {
                         name: $item.find('[data-item=cart-item-name]').text(),
-                        price: $item.find('[data-item=cart-item-price]').text() as unknown as number,
+                        basePrice: $item.find('[data-item=cart-item-price]').text() as unknown as number,
                         quantity: $item.find('[data-item=cart-item-quantity]').text() as unknown as number,
-                        weight: $item.find('[data-item=cart-item-weight]').text() as unknown as number,
-                        image: $item.find('[data-item=cart-item-image]').attr('src') || '',
+                        size: $item.find('[data-item=cart-item-weight]').text() as unknown as number,
+                        unit: 'g',
+                        images: [{
+                            id: $item.find('[data-item=cart-item-image]').attr('id') || '',
+                            location: ($item.find('[data-item=cart-item-image]').attr('src') || '').match(/[^(.)].*/g)?.[0] as unknown as string
+                        }],
                     }
+
+
+                    console.log('item created from parseHtml: ', _item)
                     cartData.cartItems.push(_item)
                     // cartItems.push(_item)
                 })

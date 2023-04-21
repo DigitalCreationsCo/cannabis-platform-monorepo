@@ -37,7 +37,7 @@ function Checkout({ className }: ViewProps) {
     const getCartData = () => {
         runCrawler()
     }
-
+    
     const handleCheckout = () => {
         setLoadingCheckout(true)
         window.location.href = "http://localhost:3000/quick-delivery"

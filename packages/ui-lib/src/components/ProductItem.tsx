@@ -17,6 +17,8 @@ function ProductItem({ product, className, handleConfirm }: ProductItemProps & P
     const [openConfirm, setOpenConfirm] = useState(false);
     const [quantity, setQuantity] = useState(1);
     const toggleConfirm = () => setOpenConfirm((state) => !state);
+
+    console.log('product image source: ', product?.images?.[0]?.location)
     return (
         <>
             <div
@@ -37,7 +39,7 @@ function ProductItem({ product, className, handleConfirm }: ProductItemProps & P
 
                     <FlexBox>
                         <Paragraph>{product.size + product.unit}</Paragraph>
-                        <Paragraph>{product.stock + ' in stock'}</Paragraph>
+                        {product.stock && <Paragraph>{product.stock + ' in stock'}</Paragraph>}
                     </FlexBox>
                     <FlexBox>
                         <Price price={product.basePrice} />

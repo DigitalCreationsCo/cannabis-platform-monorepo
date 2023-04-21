@@ -1,6 +1,7 @@
-import { Button, Center, H3, Paragraph, UploadImageBox } from "@cd/ui-lib";
+import { Button, Center, H3, Paragraph, ProductItem, UploadImageBox } from "@cd/ui-lib";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 import { toast } from "react-hot-toast";
 import DropZone from "./DropZone";
 import { useFormContext } from "./StepFormProvider";
@@ -51,11 +52,21 @@ const VerifyPhotoId = ({ nextFormStep }: { nextFormStep: () => void }) => {
         }
     }
 
+    const [cookies, setCookie] = useCookies(['gras-cart-token'])
+    
+    const cart = cookies["gras-cart-token"] && JSON.parse(JSON.stringify(cookies["gras-cart-token"])) || null
+    console.log('cart: ', cart)
+    
     return (
     <Center className='space-y-2 w-3/4 m-auto'>
         <H3>Thank you for ordering from Delivery by Gras.
         </H3>
         <H3>We've got your order ready for delivery.</H3>
+        <div className="flex flex-row">{
+        cart.cartItems.length > 0 && cart.cartItems.map((item, index) => (
+            <ProductItem key={`cart-item-${index}`} product={item} />
+            )) || <div>You have no items in your order.</div>}</div>
+            
         <H3>
             Before we can deliver to you, please share your photo to help us verify you.</H3>
         <Paragraph>Please upload a picture of the front and back of your state photo id.</Paragraph>
