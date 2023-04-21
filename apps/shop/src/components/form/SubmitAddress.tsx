@@ -48,7 +48,7 @@ function SubmitAddressForm({ nextFormStep }: { nextFormStep: () => void }) {
             setFormValues({ newUser: { ...values } });
             setLoadingButton(false);
             // nextFormStep(); 
-            router.push('/confirm-order')
+            router.push('/quick-delivery/confirm-order')
         } catch (error: any) {
             console.log('User Submit Address Error: ', error);
             toast.error(error.response.data.message || error.response.data.errors);
