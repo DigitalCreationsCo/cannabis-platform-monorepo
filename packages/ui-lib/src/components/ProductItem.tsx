@@ -27,7 +27,7 @@ function ProductItem({ product, className, handleConfirm }: ProductItemProps & P
                     className
                 )}
             >
-                <div className="relative h-1/2 h-[100px] w-[100px]">
+                <div className="relative h-[100px] w-[100px]">
                     {product?.images && product?.images[0]?.location && <Image className="rounded-btn" src={product?.images[0]?.location} alt="" fill={true} />}
                 </div>
                 <div className="pb-2 pl-2">

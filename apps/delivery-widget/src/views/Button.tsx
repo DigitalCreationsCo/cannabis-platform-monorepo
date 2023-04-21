@@ -1,3 +1,4 @@
+import { H4, Paragraph } from "@cd/ui-lib/src/components/Typography"
 import { getBreakpointValue } from "@cd/ui-lib/src/hooks/useBreakpoint"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
@@ -30,13 +31,13 @@ function Button({ className }: ViewProps) {
     
     const md = getBreakpointValue('md')
     return (
-    <button onClick={handleClick} className={twMerge(className, 'w-[300px', "tooltip tooltip-open")} data-tip="Click to learn more!">
+    <button onClick={handleClick} className={twMerge(className, 'md:rounded-full md:w-[300px]', "tooltip tooltip-open")} data-tip="Click to learn more!">
         <div className="flex flex-col items-center">
             {
-            screenwidth <= md ? <h1>Delivery by Gras available at checkout</h1> : 
+            screenwidth <= md ? <H4 color="light">Delivery by Gras available at checkout</H4> : 
             <>
-            <h1>Delivery by Gras</h1>
-            <p>now at checkout</p>
+            <H4 color="light">Delivery by Gras</H4>
+            <Paragraph color="light">now at checkout</Paragraph>
             </>
             }
         </div>
