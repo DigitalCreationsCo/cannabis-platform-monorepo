@@ -1,4 +1,6 @@
 import Button from "@cd/ui-lib/src/components/Button"
+import CloseButton from "@cd/ui-lib/src/components/CloseButton"
+import { H4, Paragraph } from "@cd/ui-lib/src/components/Typography"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { twMerge } from "tailwind-merge"
@@ -38,30 +40,37 @@ function Checkout({ className }: ViewProps) {
 
     const handleCheckout = () => {
         setLoadingCheckout(true)
-        window.location.href = "http://localhost:3000/browse"
-        // window.location.href = "https://dispensary.gras.com/checkout"
+        window.location.href = "http://localhost:3000/quick-delivery"
+        // window.location.href = "https://dispensary.gras.com/quick-delivery"
     }
 
+    const styles = {
+        loadingCheckout: [className, "md:!rounded", "flex flex-col items-center justify-center", "md:w-[440px]"],
+        showCart: [className, "md:!rounded", "flex flex-col justify-between m-auto", "md:w-[440px]"],
+        checkout: [className, 'md:rounded-full', 'cursor-pointer']
+    }
     return (
-        <div className={twMerge('w-[240px]', className)}>
-                { 
-                    showCart ? loadingCheckout &&
-                    <div className="flex flex-col h-[420px] w-[340px] m-auto content-center justify-center items-center place-content-center">
-                        <h1 className="text-lg">Checking out...</h1>
-                        <p>You will be redirected</p>
-                    </div> ||
-                    <div className="flex flex-col h-[420px] w-[340px]">
-                        <CartList cart={cart} cartError={cartError} />
-                        If you're ready for checkout, click the button below.
-                        <Button className="p-4" onClick={handleCheckout}>Checkout</Button>
-                    </div> :
-                    <button onClick={getCartData} 
-                    className="flex flex-col items-center w-full">
-                        <h1>Delivery by Gras - straight to your door</h1>
-                        <p>Click here to start your delivery</p>
-                    </button>
-                }
-        </div>
+        <>
+            {
+                showCart ? loadingCheckout &&
+                <div className={twMerge(styles.loadingCheckout, 'min-h-[540px]')}>
+                    <H4 color="light" className="animate-bounce text-lg">Checking out...</H4>
+                    <Paragraph color="light">You will be redirected</Paragraph>
+                </div> ||
+                <div className={twMerge(styles.showCart, 'min-h-[540px] overflow-scroll', 'space-y-1')}>
+                    <CloseButton className="p-4" onClick={() => setShowCart(false)} />
+                    <CartList setShowCart={() => setShowCart(false)} cart={cart} cartError={cartError} />
+                    <Paragraph className="text-light m-auto">If you're ready for checkout, click the button below.</Paragraph>
+                    <Button className="p-4" onClick={handleCheckout}>Checkout</Button>
+                </div> :
+                <button className={twMerge(styles.checkout)}
+                    onClick={getCartData}>
+                    <H4 color="light" className="cursor-pointer m-auto">Delivery by Gras - straight to your door</H4>
+                    <Paragraph className="cursor-pointer m-auto w-fit border-b-2 hover:border-secondary" color="light">
+                        Click here to start your delivery</Paragraph>
+                </button>
+            }
+        </>
     )
 }
 

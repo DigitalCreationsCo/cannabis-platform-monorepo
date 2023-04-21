@@ -119,9 +119,9 @@ export const Small = ({ className, children }: Props) => {
     );
 };
 
-export const Span = ({ className, children }: Props) => {
+export const Span = ({ className, children, ...props }: Props) => {
     return (
-        <span className={twMerge(styles['cursor-default'], 'text-md inline whitespace-normal', className)}>
+        <span className={twMerge(styles['cursor-default'], 'text-md inline whitespace-normal', className)} {...props }>
             {children}
         </span>
     );
