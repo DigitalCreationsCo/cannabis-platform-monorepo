@@ -1,5 +1,4 @@
 import {
-    FormCard,
     LayoutContextProps,
     Page
 } from '@cd/ui-lib';
@@ -14,9 +13,7 @@ function CreateUserAccount() {
             <Head>
                 <title>Create an account</title>
             </Head>
-            <FormCard>
-                <UserSignUp />
-            </FormCard>
+            <UserSignUp />
         </Page>
     );
 }

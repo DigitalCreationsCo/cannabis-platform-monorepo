@@ -25,9 +25,9 @@ const CheckAge = ({ redirect }: { redirect?: string }) => {
             
         <FlexBox className="p-4 space-x-4 space-y-4">
 
-            <CheckBox onChange={toggleOver21} checked={yesOver21} label="I'm over 21" />
+            <CheckBox onChange={toggleOver21} checked={yesOver21} LabelComponent={H3} label="I'm over 21" />
 
-            <Button className="p-4"
+            <Button size="lg"
             onClick={confirmAgeOver21}>
                 Continue</Button>
         </FlexBox>

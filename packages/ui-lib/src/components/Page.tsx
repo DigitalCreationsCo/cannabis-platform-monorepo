@@ -6,7 +6,7 @@ type PageProps = {
 
 function Page({ className, children }: PageProps & PropsWithChildren) {
     const styles = {
-        page: ['bg-inverse-soft', 'flex flex-col grow', 'min-w-screen', 'pb-24 sm:px-4 lg:px-16']
+        page: ['bg-inverse-soft', 'flex flex-col grow', 'min-w-screen', 'pb-24', 'sm:px-4 lg:px-16']
     };
     return <div className={twMerge([styles.page, className])}>{children}</div>;
 }

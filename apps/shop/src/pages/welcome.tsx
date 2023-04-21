@@ -4,9 +4,10 @@ import { useRouter } from "next/router";
 
 function Welcome () {
     const router = useRouter()
+    const redirect = router.query.redirect as string || '/'
     return (
     <Page>
-        <CheckAge redirect={router.query.redirect as string} />
+        <CheckAge redirect={redirect} />
     </Page>
 )}
 
