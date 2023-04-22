@@ -86,7 +86,7 @@ function CartList({cart, cartError, setShowCart} : CartListProps) {
 const CartItem = ({ cartItem }: {cartItem: CartItem}) => {
     return (
         <div className='grid-item grow w-fit flex flex-col items-stretch justify-stretch grow'>
-            <img src={cartItem.images[0].location} className="object-scale-down min-h-[50px] min-w-[50px] rounded" />
+            <img src={cartItem.images[0].location} className="h-[80px] w-[80px] rounded" />
             <div className="flex flex-row justify-between space-x-2">
                 <Paragraph className='text-light'>{cartItem.name}</Paragraph>
                 <Paragraph className='text-light'>{cartItem.size}{cartItem.unit}</Paragraph>

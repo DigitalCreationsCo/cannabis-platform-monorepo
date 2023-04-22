@@ -170,7 +170,6 @@ const nextConfig = (phase) => {
         images: {
             domains: [
                 'cdn-cashy-static-assets.lucidchart.com',
-                'encrypted-tbn0.gstatic.com',
             ]
         }
     };
