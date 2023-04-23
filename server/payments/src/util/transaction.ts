@@ -1,5 +1,11 @@
 import { OrderWithDetails } from "@cd/data-access"
 
+/**
+ * Determines the platform fee for every transaction
+ * note: HARD CODE THIS VALUE
+ * @param amount 
+ * @returns 
+ */
 function calculatePlatformFeeForTransaction(amount: number) {
 //   return Math.round(amount * 0.1)
     return amount

@@ -1,6 +1,6 @@
 import { OrderWithDetails } from "@cd/data-access";
 import Stripe from "stripe";
-import { calculatePlatformFeeForTransaction } from "util/transaction";
+import { calculatePlatformFeeForTransaction, generateCheckoutLineItemsFromOrderItems } from "util/transaction";
 
 class StripeService {
     stripe: Stripe;
@@ -16,6 +16,9 @@ class StripeService {
     async createCheckout(order: OrderWithDetails, dispensaryStripeAccountId: string) {        
         const session = await this.stripe.checkout.sessions.create({
         mode: 'payment',
+        success_url: process.env.NEXT_PUBLIC_SHOP_APP_CHECKOUT_SUCCESS_URL,
+        cancel_url: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/checkout`,
+        line_items: generateCheckoutLineItemsFromOrderItems(order.items),
         
         payment_intent_data: {
             application_fee_amount: calculatePlatformFeeForTransaction(123),
@@ -24,10 +27,6 @@ class StripeService {
             },
         },
 
-        line_items: generateCheckoutLineItemsFromOrderItems(order.items),
-        
-        success_url: process.env.NEXT_PUBLIC_SHOP_APP_CHECKOUT_SUCCESS_URL,
-        cancel_url: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/checkout`,
         });
     }
 
