@@ -1,4 +1,4 @@
-import { convertCentsToDollars } from '@cd/core-lib';
+import { convertCentsToDollars } from '@cd/core-lib/src/utils/transaction';
 
 type PriceProps = {
     price: number;

@@ -1,5 +1,5 @@
 import { OrderItem, OrderItemWithDetails } from "@cd/data-access";
-import { Button, Center, H3, Paragraph, Price, UploadImageBox } from "@cd/ui-lib";
+import { Button, Center, H4, H5, H6, Paragraph, Price, UploadImageBox } from "@cd/ui-lib";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
@@ -59,34 +59,25 @@ const VerifyPhotoId = ({ nextFormStep }: { nextFormStep: () => void }) => {
     console.log('cart: ', cart)
     
     return (
-    <Center className='space-y-2 w-3/4 m-auto'>
-        <H3>Thank you for ordering from Delivery by Gras.
-        </H3>
-        <H3>We've got your order ready for delivery.</H3>
-        <div className="flex flex-row">{
+    <Center className='space-y-2 w-3/4 m-auto pb-20 md:pb-0'>
+        <H4>Thank you for ordering from Delivery by Gras.
+        </H4>
+        <H5>We've got your order ready for delivery.</H5>
+        <div className="flex flex-col md:grid grid-cols-2 gap-2">{
         cart.cartItems.length > 0 && cart.cartItems.map((product: OrderItemWithDetails, index) => (
-            <div key={`cart-item-${index}`} className="pb-2 pl-2">
-                    <Paragraph>{product.name}</Paragraph>
+            <div key={`order-item-${index}`} className="border flex space-x-2 items-center p-4 rounded justify-between">
+                <H6>{product.name}</H6>
+                <Paragraph>{product.size + product.unit}</Paragraph>
+                <Price price={product.salePrice || product.basePrice} />
+            </div>
 
-                    {/* ADD PRODUCT VARIANT SELECT HERE */}
-
-                    <div>
-                        <Paragraph>{product.size + product.unit}</Paragraph>
-                        {/* {product.stock && <Paragraph>{product.stock + ' in stock'}</Paragraph>} */}
-                    </div>
-                    <div>
-                        <Price price={product.basePrice} />
-                        <Paragraph>{product.discount}% off</Paragraph>
-                    </div>
-                    {/* <H6>
-                        <Price price={product.salePrice} />
-                    </H6> */}
-                </div>
-            )) || <div>You have no items in your order.</div>}</div>
+            )) || <div>You have no items in your order.</div>}
+            <H5 className="flex justify-end col-span-2">Your total is <Price className="pl-2" price={cart.total || 0} /></H5>
+            </div>
             
-        <H3>
-            Before we can deliver to you, please share your photo to help us verify you.</H3>
-        <Paragraph>Please upload a picture of the front and back of your state photo id.</Paragraph>
+        <H4>
+            Before we can deliver to you, please share your photo to help us verify you.</H4>
+        <H5>Please upload a picture of the front and back of your state photo id.</H5>
         <div className="h-[200px] w-[240px]">
         {frontImage ? 
             <UploadImageBox

@@ -1,3 +1,4 @@
+import { convertDollarsToWholeNumber } from '@cd/core-lib/src/utils/transaction'
 import * as cheerio from 'cheerio'
 import { Cart, CartItem } from '../components/CartItemList'
 
@@ -58,13 +59,13 @@ const crawler = async () => {
                 
                 const cartData: Cart = {
                     cartItems: cartItems,
-                    total: total
+                    total: convertDollarsToWholeNumber(total)
                 }
                 html.forEach((item) => {
                     const $item = $(item)
                     const _item = {
                         name: $item.find('[data-item=cart-item-name]').text(),
-                        basePrice: $item.find('[data-item=cart-item-price]').text(),
+                        basePrice: convertDollarsToWholeNumber($item.find('[data-item=cart-item-price]').text()),
                         quantity: $item.find('[data-item=cart-item-quantity]').text() as unknown as number,
                         size: $item.find('[data-item=cart-item-weight]').text() as unknown as number,
                         unit: 'g',
