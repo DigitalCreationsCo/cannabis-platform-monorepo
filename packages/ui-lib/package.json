@@ -1,6 +1,9 @@
 {
   "main": "src/index.ts",
   "name": "@cd/ui-lib",
+  "depedencies": {
+    "@cd/core-lib": "workspace:*"
+  },
   "devDependencies": {
     "@cd/data-access": "workspace:*",
     "@cd/eslint-config": "workspace:*",
