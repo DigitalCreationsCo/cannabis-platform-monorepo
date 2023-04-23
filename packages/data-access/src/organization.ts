@@ -180,9 +180,12 @@ export async function updateStripeAccountDispensary(id: string, stripeAccountId:
  * @param organizationId 
  * @returns stripeAccountId
  */
+
+
+// INCOMEPLEEETE
 export async function getStripeAccountId(organizationId: string) {
     try {
-        const update = await prisma.organization.update({ where: { id }, data: { stripeAccountId, ...accountParams}})
+        const update = await prisma.organization.findUnique({ where: { id }, data: { stripeAccountId, ...accountParams}})
         return update
     } catch (error: any) {
         console.error(error)

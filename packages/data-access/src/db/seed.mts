@@ -1119,7 +1119,6 @@ async function main() {
     data: drivers,
   });
 
-
   await prisma.order.createMany({
     data: orders,
   });  
