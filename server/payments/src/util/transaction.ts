@@ -23,7 +23,11 @@ function generateCheckoutLineItemsFromOrderItems(items:OrderWithDetails['items']
                 currency: 'usd',
                 product_data: {
                     name: item.name,
-                },
+                    unit_label: item.unit,
+                    metadata: {
+                        productId: item.productId,
+                    }
+                },  
                 unit_amount: item.salePrice,
             },
             quantity: item.quantity,
