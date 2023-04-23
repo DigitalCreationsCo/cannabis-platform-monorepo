@@ -310,8 +310,8 @@ model OrderItem {
   quantity Int
   basePrice Int
   discount Int
+  isDiscount Boolean
   salePrice Int
-  applyDiscount Boolean
   currency CurrencyName
 
   createdAt      DateTime         @default(now())

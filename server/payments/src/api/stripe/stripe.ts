@@ -164,23 +164,3 @@ class StripeService {
 export default new StripeService(process.env.STRIPE_API_KEY, {
     apiVersion: process.env.STRIPE_API_VERSION || '2022-11-15'
 })
-
-/**
- * format order Items list into stripe line items list
- * @param items 
- * @returns array of stripe line item objects
- */
-function generateCheckoutLineItemsFromOrderItems(items:OrderWithDetails['items']) {
-    return items.map(item => {
-        return {
-            price_data: {
-                currency: 'usd',
-                product_data: {
-                    name: item.name,
-                },
-                unit_amount: item.price * 100,
-            },
-            quantity: item.quantity,
-        }
-    })
-}
