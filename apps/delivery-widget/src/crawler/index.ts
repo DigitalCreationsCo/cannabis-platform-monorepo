@@ -1,7 +1,8 @@
 import * as cheerio from 'cheerio'
 import { Cart, CartItem } from '../components/CartItemList'
 
-type DataKey = 'cart'
+
+type DOMDataKey = 'cart'
 
 const crawler = async () => {
     const _cartItemSelector = {
@@ -24,7 +25,7 @@ const crawler = async () => {
         const data = parseData('cart')
         return data;
         
-        function parseData(dataKey: DataKey) {
+        function parseData(dataKey: DOMDataKey) {
             switch (dataKey){
                 case 'cart':
                     return parseCartHtml()
@@ -63,7 +64,7 @@ const crawler = async () => {
                     const $item = $(item)
                     const _item = {
                         name: $item.find('[data-item=cart-item-name]').text(),
-                        basePrice: ($item.find('[data-item=cart-item-price]').text()),
+                        basePrice: $item.find('[data-item=cart-item-price]').text(),
                         quantity: $item.find('[data-item=cart-item-quantity]').text() as unknown as number,
                         size: $item.find('[data-item=cart-item-weight]').text() as unknown as number,
                         unit: 'g',

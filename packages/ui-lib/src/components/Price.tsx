@@ -1,4 +1,5 @@
-import React from 'react';
+import { convertCentsToDollars } from '@cd/core-lib';
+
 type PriceProps = {
     price: number;
     className?: string;
@@ -7,12 +8,6 @@ type PriceProps = {
 
 function Price({ price, className, locale = 'en-us' }: PriceProps) {
     const _currencySymbol: any = { 'en-us': '$' };
-    function convertCentsToDollars(cents: number) {
-        const number = Number(((cents / 100) * 100) / 100);
-        return number.toFixed(2);
-        // V this statement interrupts React hydration
-        // return number.toLocaleString(locale, { maximumFractionDigits: 2, minimumFractionDigits: 2 });
-    }
     const renderPriceString = (value: number): string => convertCentsToDollars(value);
     return <div className={className}>{_currencySymbol[locale] + renderPriceString(price)}</div>;
 }
