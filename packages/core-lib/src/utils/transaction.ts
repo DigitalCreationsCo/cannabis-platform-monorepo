@@ -50,8 +50,10 @@ function convertCentsToDollars(cents: number) {
  * @param value a dollar value with up to 2 decimal values
  * @returns a whole number conversion
  */
-function convertDollarsToWholeNumber(value: number) {
-    return Math.round(value * 100);
+function convertDollarsToWholeNumber(value: number | string) {
+    // regex to remove all non-numeric characters, and joins the numbers
+    const number = value.toString().match(/\d*/g)?.join('')
+    return Number(number)
 }
 
 /**

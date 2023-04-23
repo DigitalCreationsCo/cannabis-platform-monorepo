@@ -1,3 +1,4 @@
+import Price from "@cd/ui-lib/src/components/Price";
 import { H5, Paragraph } from "@cd/ui-lib/src/components/Typography";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
@@ -61,7 +62,7 @@ function CartList({cart, cartError, setShowCart} : CartListProps) {
     }, [])
 
     const styles = {
-        cartGrid: "w-fit m-auto text-light gap-8 grid grid-flow-row grid-cols-2 grid-rows-2 flex grow items-stretch justify-stretch"
+        cartGrid: "w-fit m-auto gap-8 grid grid-flow-row grid-cols-2 grid-rows-2 flex grow items-stretch justify-stretch"
     }
     return (
         <div className='items-center space-y-1 w-3/4 m-auto'>
@@ -77,7 +78,8 @@ function CartList({cart, cartError, setShowCart} : CartListProps) {
             )) || <Paragraph className='text-light'>Your cart is empty.</Paragraph>
             }
         </div>
-        {cart && <H5 className='flex justify-end text-light'>Your total is {cart.total}</H5>}
+        {cart && <H5 className='flex justify-end text-light'>{`Your total is `}
+        <Price className={'pl-2 pr-8'} price={cart.total} /></H5>}
         {cartError && <Paragraph>{cartError}</Paragraph>}
         </div>
     );
@@ -91,26 +93,9 @@ const CartItem = ({ cartItem }: {cartItem: CartItem}) => {
                 <Paragraph className='text-light'>{cartItem.name}</Paragraph>
                 <Paragraph className='text-light'>{cartItem.size}{cartItem.unit}</Paragraph>
             </div>
-            <Paragraph className='text-light'>{cartItem.basePrice}</Paragraph>
+            <div className='text-light'><Price price={cartItem.basePrice} /></div>
         </div>
     )
 }
-// function CartList({cart, cartError} : CartListProps) {
-//     return (
-//         <>
-//         Prepping your order for delivery
-//         {cart && cart.cartItems.map((cartItem, index) => (
-//             <div key={`cart-item-${index}`}>
-//                 <img src={cartItem.image} height="50px" width="50px" />
-//                 <h1>{cartItem.name}</h1>
-//                 <p>{cartItem.price}</p>
-//                 <p>{cartItem.weight}</p>
-//             </div>
-//         ))}
-//         {cart && <h1>{cart.total}</h1>}
-//         {cartError && <h1>{cartError}</h1>}
-//         </>
-//     );
-// }
 
 export default CartList;

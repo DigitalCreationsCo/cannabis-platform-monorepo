@@ -16,7 +16,6 @@ function Checkout({ className }: ViewProps) {
         cartItems: [],
         total: 0
     })
-    // const [total, setTotal] = useState(0)
     const [cartError, setCartError] = useState('')
     const history = useNavigate()
     
