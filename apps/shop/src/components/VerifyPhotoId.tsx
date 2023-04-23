@@ -1,4 +1,5 @@
-import { Button, Center, H3, Paragraph, ProductItem, UploadImageBox } from "@cd/ui-lib";
+import { OrderItem, OrderItemWithDetails } from "@cd/data-access";
+import { Button, Center, H3, Paragraph, Price, UploadImageBox } from "@cd/ui-lib";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
@@ -54,7 +55,7 @@ const VerifyPhotoId = ({ nextFormStep }: { nextFormStep: () => void }) => {
 
     const [cookies, setCookie] = useCookies(['gras-cart-token'])
     
-    const cart = cookies["gras-cart-token"] && JSON.parse(JSON.stringify(cookies["gras-cart-token"])) || null
+    const cart = cookies["gras-cart-token"] && JSON.parse(JSON.stringify(cookies["gras-cart-token"])) as OrderItem || null
     console.log('cart: ', cart)
     
     return (
@@ -63,8 +64,24 @@ const VerifyPhotoId = ({ nextFormStep }: { nextFormStep: () => void }) => {
         </H3>
         <H3>We've got your order ready for delivery.</H3>
         <div className="flex flex-row">{
-        cart.cartItems.length > 0 && cart.cartItems.map((item, index) => (
-            <ProductItem key={`cart-item-${index}`} product={item} />
+        cart.cartItems.length > 0 && cart.cartItems.map((product: OrderItemWithDetails, index) => (
+            <div key={`cart-item-${index}`} className="pb-2 pl-2">
+                    <Paragraph>{product.name}</Paragraph>
+
+                    {/* ADD PRODUCT VARIANT SELECT HERE */}
+
+                    <div>
+                        <Paragraph>{product.size + product.unit}</Paragraph>
+                        {/* {product.stock && <Paragraph>{product.stock + ' in stock'}</Paragraph>} */}
+                    </div>
+                    <div>
+                        <Price price={product.basePrice} />
+                        <Paragraph>{product.discount}% off</Paragraph>
+                    </div>
+                    {/* <H6>
+                        <Price price={product.salePrice} />
+                    </H6> */}
+                </div>
             )) || <div>You have no items in your order.</div>}</div>
             
         <H3>

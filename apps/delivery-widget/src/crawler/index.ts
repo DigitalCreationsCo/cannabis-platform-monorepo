@@ -63,7 +63,7 @@ const crawler = async () => {
                     const $item = $(item)
                     const _item = {
                         name: $item.find('[data-item=cart-item-name]').text(),
-                        basePrice: $item.find('[data-item=cart-item-price]').text() as unknown as number,
+                        basePrice: ($item.find('[data-item=cart-item-price]').text()),
                         quantity: $item.find('[data-item=cart-item-quantity]').text() as unknown as number,
                         size: $item.find('[data-item=cart-item-weight]').text() as unknown as number,
                         unit: 'g',
