@@ -1,9 +1,12 @@
+const path = require("node:path");
+
 module.exports = function (config) {
     config.cache(true);
-    const envName = process.env.NODE_ENV || process.env.BABEL_ENV || 'development';
-    const envFile = (!!envName && '.env.' + envName) || '.env.development';
-    console.log('babel config envName: ', envName);
-    console.log('babel config envFile: ', envFile);
+
+    const nodeEnv = process.env.NODE_ENV || 'development';
+
+    console.info(' 💰 server/payments env loaded from ', path.resolve(__dirname, '../../.env.' + nodeEnv))
+
     return {
         presets: ['@babel/preset-env', '@babel/preset-typescript'],
         env: {
@@ -12,20 +15,20 @@ module.exports = function (config) {
                     [
                         'inline-dotenv',
                         {
-                            path: '../../' + envFile
+                            path: path.resolve(__dirname, '../../.env.' + nodeEnv)
                         }
                     ]
-                ]
+                ],
             },
             production: {
                 plugins: [
                     [
                         'inline-dotenv',
                         {
-                            path: '../../' + envFile
+                            path: path.resolve(__dirname, '../../.env.' + nodeEnv)
                         }
                     ]
-                ]
+                ],
             }
         }
     };

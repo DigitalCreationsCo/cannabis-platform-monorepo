@@ -55,7 +55,7 @@ export const urlBuilder = {
     payment: {
         baseUrl: paymentUrl + '/api/v1',
         purchase: () => urlBuilder.payment.baseUrl + '/purchase',
-        createDispensaryAccount: () => urlBuilder.payment.baseUrl + '/stripe/dispensary-create'
+        createDispensaryAccount: () => urlBuilder.payment.baseUrl + '/stripe/dispensary-account'
     }
 };
 

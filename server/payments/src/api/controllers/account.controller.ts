@@ -2,15 +2,19 @@ import { OrganizationCreateType, updateOrganizationRecord, updateStripeAccountDi
 import { Response } from 'express';
 import StripeService from '../stripe';
 /* =================================
-StripeController - controller class for preworking data and calling stripe accounts functions
+AccountController - controller class for preworking data and calling stripe accounts functions
 
 members:
 authorizeDispensaryAccount
 checkOnboardDispensaryAccount
 
 ================================= */
-export default class StripeController {
+export default class AccountController {
 
+    /**
+     * Link a dispensary account (Organization) to a stripe account
+     * 
+     */
     static async createDispensaryAccount(req, res: Response) {
         try {
             let dispensaryAccount:OrganizationCreateType & {stripeAccountId: string} = req.body;
@@ -41,6 +45,7 @@ export default class StripeController {
                 const account = await StripeService.createDispensaryAccount(accountParams)
                 accountId = account.id;
                 dispensaryAccount.stripeAccountId = accountId;
+                // adds stripe account id to organization record
                 await updateStripeAccountDispensary(dispensaryAccount.id, dispensaryAccount.stripeAccountId)
             }
             const accountLink = await StripeService.createDispensaryAccountLink({
@@ -60,22 +65,35 @@ export default class StripeController {
         }
     }
 
+    /**
+     * Retrieve the user's Stripe account and check if they have finished onboarding
+     * @param req 
+     * @param res 
+     * @returns 
+     */
     static async checkOnboardDispensaryAccount (req, res: Response) {
         try {
-            // Retrieve the user's Stripe account and check if they have finished onboarding
             let {id, stripeAccountId} = req.body;
             const account = await StripeService.getAccount(stripeAccountId);
             if (account.details_submitted) {
-                await updateOrganizationRecord(id, {onboardingComplete: true})
+                await updateOrganizationRecord(id, {stripeOnboardingComplete: true})
                 return res.writeHead(302, {
                     'Location': '/'
                 })
             } else {
-              console.log('The dispensary stripe onboarding process was not completed.');
-              // create react account Link page for stripe
-                // refresh_url: config.publicDomain + '/pilots/stripe/authorize',
-                return res.writeHead(302, {
-                    'Location': '/'
+                console.log('The dispensary stripe onboarding process was not completed.');
+                const accountLink = await StripeService.createDispensaryAccountLink({
+                    account: stripeAccountId,
+                    // create react account Link page for stripe
+                    // refresh_url: config.publicDomain + '/pilots/stripe/authorize',
+                    
+                    // redirect to dispensary dashboard
+                    return_url: 'app.' + process.env.SHOP_APP_URL,
+                    type: 'account_onboarding'
+                });
+                
+                res.writeHead(302, {
+                    'Location': accountLink.url
                 })
             }
           } catch (error: any) {

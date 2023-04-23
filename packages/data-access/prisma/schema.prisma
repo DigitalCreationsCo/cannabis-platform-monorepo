@@ -381,7 +381,7 @@ model Organization {
   id            String    @id @unique @default(cuid())
   name          String
   stripeAccountId String? @unique
-  onboardingComplete Boolean @default(false)
+  stripeOnboardingComplete Boolean @default(false)
   address Address?
   dialCode String
   phone String

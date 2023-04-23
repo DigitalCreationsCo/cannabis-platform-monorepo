@@ -2,8 +2,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
 import http from 'http';
-import { accountRoutes } from './api/routes';
-import paymentRoutes from "./api/routes/payment.route";
+import { accountRoutes, paymentRoutes } from './api/routes';
 
 const app = express();
 app.use(
