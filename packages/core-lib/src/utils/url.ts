@@ -54,8 +54,13 @@ export const urlBuilder = {
     },
     payment: {
         baseUrl: paymentUrl + '/api/v1',
-        purchase: () => urlBuilder.payment.baseUrl + '/purchase',
-        createDispensaryAccount: () => urlBuilder.payment.baseUrl + '/stripe/dispensary-account'
+        purchase: () => urlBuilder.payment.baseUrl + '/payment/purchase',
+        createDispensaryAccount: () => urlBuilder.payment.baseUrl + '/accounts/dispensary-account',
+        checkOnboard: () => urlBuilder.payment.baseUrl + '/accounts/check-onboard',
+        checkout: () => {
+            console.log('payment url: ', paymentUrl)
+            return urlBuilder.payment.baseUrl + '/payment/checkout'
+        }
     }
 };
 

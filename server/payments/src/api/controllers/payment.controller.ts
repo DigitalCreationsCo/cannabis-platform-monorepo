@@ -1,4 +1,4 @@
-import { getStripeAccountId, OrderWithDetails } from '@cd/data-access';
+import { OrderWithDetails } from '@cd/data-access';
 import { PaymentDA } from '../data-access';
 import StripeService from '../stripe';
 
@@ -20,14 +20,15 @@ export default class PaymentController {
     static async createCheckout(req, res) {
         try {
             const order: OrderWithDetails = req.body
-            if (order && order.items.length > 0) {
-                const stripeAccountId = await getStripeAccountId(order.organizationId)
-                const checkout = await StripeService.createCheckout(order, stripeAccountId);
+            console.log('payment server createCheckout order: ', order)
+            // if (order && order.items.length > 0) {
+            //     const stripeAccountId = await getStripeAccountId(order.organizationId)
+            //     const checkout = await StripeService.createCheckout(order, stripeAccountId);
 
-                return res.writeHead(302, {
-                    'Location': checkout.url
-                })
-            } else throw new Error('No items in order');
+            //     return res.writeHead(302, {
+            //         'Location': checkout.url
+            //     })
+            // } else throw new Error('No items in order');
         } catch (error: any) {
             res.status(500).json({ error });
         }

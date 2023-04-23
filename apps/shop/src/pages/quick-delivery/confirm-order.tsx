@@ -1,40 +1,47 @@
-import { selectCartState } from '@cd/core-lib';
 import { ProductVariantWithDetails } from '@cd/data-access';
 import { Button, Card, H3, H5, H6, Page, ProductItem } from '@cd/ui-lib';
+import axios from 'axios';
+import { useFormContext } from 'components';
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
+import { useCookies } from 'react-cookie';
 import { twMerge } from 'tailwind-merge';
 
 function ConfirmOrder() {
+    const { formData } = useFormContext();
     const router = useRouter()
     
-    const { cart } = useSelector(selectCartState);
+    // const { cart } = useSelector(selectCartState);
 
-    const checkout = () => { router.push("/checkout"); }
+
+    const [cookies, setCookie] = useCookies(['gras-cart-token'])
+    
+    const cart = cookies["gras-cart-token"] && JSON.parse(JSON.stringify(cookies["gras-cart-token"])) as OrderItem || null
+    console.log('cart: ', cart)
+
+    const createStripeCheckout = async () => { 
+        console.log(' client side formData: ', formData)
+        await axios.post('/api/checkout-session', formData)
+     }
     
     const styles = {
-        cartContainer: 'min-w-full flex flex-col lg:px-8',
+        cartContainer: 'flex flex-col lg:px-8 justify-center max-w-fit m-auto border',
         cart: 'p-8 items-center flex flex-col'
     };
     
     return (
         <Page>
             <Card className={twMerge(styles.cartContainer)}>
-                <H3>Here's your order</H3>
+                <H3>Nice! You're ready to checkout!</H3>
                 <H5>Make sure you have what you need, then hit Checkout to start your delivery.</H5>
                 
                 {cart.length > 0 ? cart.map((item) => (
                     <ProductItem key={item.id} product={item as unknown as ProductVariantWithDetails} />
-                )): <div
-                className={styles.cart}>
-                    <H5>
+                )): <div className={styles.cart}><H5>
                         Your bag is empty</H5>
-                    <a href="/">
-                        <H6 className={'cursor-pointer border-b-2 inline-block'}>What are you shopping for?</H6>.
-                    </a>
-                </div>
+                    <a href="/"><H6 className={'cursor-pointer border-b-2 inline-block'}>
+                        What are you shopping for?</H6>.</a></div>
                 }
-                <Button onClick={checkout} disabled={cart.length < 1}>Checkout</Button>
+                <Button onClick={createStripeCheckout} disabled={cart.length < 1}>Checkout</Button>
             </Card>
         </Page>
     );
