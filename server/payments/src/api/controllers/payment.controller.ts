@@ -1,4 +1,4 @@
-import { OrderWithDetails } from '@cd/data-access';
+import { getStripeAccountId, OrderWithDetails } from '@cd/data-access';
 import { PaymentDA } from '../data-access';
 import StripeService from '../stripe';
 
@@ -21,8 +21,8 @@ export default class PaymentController {
         try {
             const order: OrderWithDetails = req.body
             if (order && order.items.length > 0) {
-                const stripeAccountId = getStripeAccountId(order.organizationId)
-                const checkout = await StripeService.createCheckout(order, );
+                const stripeAccountId = await getStripeAccountId(order.organizationId)
+                const checkout = await StripeService.createCheckout(order, stripeAccountId);
             } else throw new Error('No items in order');
         } catch (error: any) {
             res.status(500).json({ error });
