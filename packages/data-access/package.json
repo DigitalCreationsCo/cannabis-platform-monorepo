@@ -32,7 +32,9 @@
   "main": "./dist/index.js",
   "name": "@cd/data-access",
   "prisma": {
-    "seed": "node --loader ts-node/esm ./src/db/seed.mts"
+    "seed": "node --loader ts-node/esm ./src/db/seed.mts",
+    "schema": "./prisma/schema.prisma",
+    "generate": "prisma generate"
   },
   "private": true,
   "scripts": {
@@ -43,14 +45,14 @@
     "fix-all-files": "eslint . --ext .ts,.tsx,.js,.jsx,.cjs,.mjs --fix",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx,.cjs,.mjs --cache --cache-location ../../.cache/eslint/db-main-prisma.eslintcache",
     "postinstall": "prisma generate",
-    "db:clear": "dotenv -e ../../.env.development -- node ./dist/db/clear.js",
-    "prisma-db-push": "dotenv -e ../../.env.development -- yarn prisma db push",
-    "prisma-db-seed": "npx prisma generate && dotenv-flow -- yarn prisma db seed",
-    "prisma-migrate": "dotenv-flow -- yarn prisma migrate",
-    "prisma-migrate-reset": "dotenv-flow -- yarn prisma migrate reset",
-    "prisma-studio": "dotenv-flow -- yarn prisma studio",
+    "db-clear": "dotenv -e ../../.env.development -- node --loader ts-node/esm ./src/db/clear.mts",
+    "db-push": "dotenv -e ../../.env.development -- yarn prisma db push",
+    "db-seed": "npx prisma generate && dotenv -e ../../.env.development -- yarn prisma db seed",
+    "db-migrate": "dotenv -e ../../.env.development  -- yarn prisma migrate dev",
+    "db-migrate-reset": "dotenv -e ../../.env.development -- yarn prisma migrate reset",
+    "prisma-studio": "dotenv -e ../../.env.development -- yarn prisma studio",
     "test": "run-s test:unit",
-    "test-e2e": "dotenv-flow -- yarn vitest run",
+    "test-e2e": "dotenv -e ../../.env.development -- yarn vitest run",
     "test-unit": "echo \"No unit tests yet\"",
     "typecheck": "tsc --project ./tsconfig.json --noEmit"
   },
