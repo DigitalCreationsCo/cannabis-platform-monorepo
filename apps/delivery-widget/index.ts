@@ -1,5 +1,6 @@
 import App from './src';
-var init = function () {
+var init = function (options: any) {
+    console.info('gras widget init, options: ', options);
     const root = document.createElement("div")
     root.setAttribute("id", "root")
     document.body.appendChild(root);

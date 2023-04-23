@@ -32,7 +32,7 @@
   "main": "./dist/index.js",
   "name": "@cd/data-access",
   "prisma": {
-    "seed": "ts-node --esm src/db/seed.ts"
+    "seed": "node --loader ts-node/esm ./src/db/seed.mts"
   },
   "private": true,
   "scripts": {
@@ -43,8 +43,9 @@
     "fix-all-files": "eslint . --ext .ts,.tsx,.js,.jsx,.cjs,.mjs --fix",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx,.cjs,.mjs --cache --cache-location ../../.cache/eslint/db-main-prisma.eslintcache",
     "postinstall": "prisma generate",
-    "prisma-db-push": "dotenv-flow -- yarn prisma db push",
-    "prisma-db-seed": "dotenv-flow -- yarn prisma db seed",
+    "db:clear": "dotenv -e ../../.env.development -- node ./dist/db/clear.js",
+    "prisma-db-push": "dotenv -e ../../.env.development -- yarn prisma db push",
+    "prisma-db-seed": "npx prisma generate && dotenv-flow -- yarn prisma db seed",
     "prisma-migrate": "dotenv-flow -- yarn prisma migrate",
     "prisma-migrate-reset": "dotenv-flow -- yarn prisma migrate reset",
     "prisma-studio": "dotenv-flow -- yarn prisma studio",

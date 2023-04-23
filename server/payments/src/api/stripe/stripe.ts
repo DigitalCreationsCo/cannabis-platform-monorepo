@@ -1,4 +1,6 @@
+import { OrderWithDetails } from "@cd/data-access";
 import Stripe from "stripe";
+import { calculatePlatformFeeForTransaction } from "util/transaction";
 
 class StripeService {
     stripe: Stripe;
@@ -6,8 +8,35 @@ class StripeService {
         this.stripe = new Stripe(apiKey, config);
     }
 
-    // INCOMPLETE
-    // ARGS: buyer, seller, transaction 
+    /**
+     * Create stripe checkout session for frontend
+     * @param order
+     * @param dispensaryStripeAccountId
+     */
+    async createCheckout(order: OrderWithDetails, dispensaryStripeAccountId: string) {        
+        const session = await this.stripe.checkout.sessions.create({
+        mode: 'payment',
+        
+        payment_intent_data: {
+            application_fee_amount: calculatePlatformFeeForTransaction(123),
+            transfer_data: {
+                destination: dispensaryStripeAccountId
+            },
+        },
+
+        line_items: generateCheckoutLineItemsFromOrderItems(order.items),
+        
+        success_url: process.env.NEXT_PUBLIC_SHOP_APP_CHECKOUT_SUCCESS_URL,
+        cancel_url: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/checkout`,
+        });
+    }
+
+    /**
+     * INCOMPLETE!! Create a stripe charge for a customer purchase
+     * @param buyer
+     * @param seller
+     * @param transaction
+     */
     async chargeCustomerPurchase() {
         try {
             // const { values, customerId, amount, tax, items, subtotal } = req.body
@@ -85,6 +114,10 @@ class StripeService {
         }
     }
 
+    /**
+     * Get stripe connected account details using accountId
+     * @param stripeAccountId string
+     */
     async getAccount(stripeAccountId: string) {
         try {
             const account = await this.stripe.accounts.retrieve(stripeAccountId);
@@ -95,6 +128,11 @@ class StripeService {
         }
     }
 
+    /**
+     * create a stripe connected account for dispensary
+     * @param accountParams 
+     * @returns stripe account object
+     */
     async createDispensaryAccount(accountParams: Stripe.CustomerCreateParams) {
         try {
             if (!accountParams) throw new Error('Dispensary Stripe Account Params are required!');
@@ -106,6 +144,11 @@ class StripeService {
         }
     }
 
+    /**
+     * Create a stripe account link for dispensary to create a connected account
+     * @param params 
+     * @returns 
+     */
     async createDispensaryAccountLink(params: Stripe.AccountLinkCreateParams) {
         try {
             if (!params || !params.account) throw new Error('Dispensary Stripe Account Link Params are required!');
@@ -121,3 +164,23 @@ class StripeService {
 export default new StripeService(process.env.STRIPE_API_KEY, {
     apiVersion: process.env.STRIPE_API_VERSION || '2022-11-15'
 })
+
+/**
+ * format order Items list into stripe line items list
+ * @param items 
+ * @returns array of stripe line item objects
+ */
+function generateCheckoutLineItemsFromOrderItems(items:OrderWithDetails['items']) {
+    return items.map(item => {
+        return {
+            price_data: {
+                currency: 'usd',
+                product_data: {
+                    name: item.name,
+                },
+                unit_amount: item.price * 100,
+            },
+            quantity: item.quantity,
+        }
+    })
+}

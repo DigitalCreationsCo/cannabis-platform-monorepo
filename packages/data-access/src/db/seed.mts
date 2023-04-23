@@ -245,7 +245,7 @@ const orgs:Organization[] = [
     createdAt: new Date(),
     updatedAt: new Date(),
     termsAccepted: true,    
-    onboardingComplete:false
+    stripeOnboardingComplete:false
   },
   {
     id: "2",
@@ -260,7 +260,7 @@ const orgs:Organization[] = [
     createdAt: new Date(),
     updatedAt: new Date(),
     termsAccepted: true,    
-    onboardingComplete:false
+    stripeOnboardingComplete:false
   },
   {
     id: "3",
@@ -275,7 +275,7 @@ const orgs:Organization[] = [
     createdAt: new Date(),
     updatedAt: new Date(),
     termsAccepted: true,    
-    onboardingComplete:false
+    stripeOnboardingComplete:false
   },
   {
     id: "4",
@@ -290,7 +290,7 @@ const orgs:Organization[] = [
     createdAt: new Date(),
     updatedAt: new Date(),
     termsAccepted: true,    
-    onboardingComplete:true
+    stripeOnboardingComplete:true
   },
 ];
 const siteSettings:SiteSetting[] = [

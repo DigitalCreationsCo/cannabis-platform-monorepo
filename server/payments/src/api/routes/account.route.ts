@@ -1,13 +1,15 @@
 import { Router } from 'express';
-import { stripeCtrl } from '../controllers';
+import { accountCtrl } from '../controllers';
 const router = Router();
 /* =================================
-Stripe Account Routes
+API Routes for Stripe Account Creation, Editing, Updating, and Linking
 
-'/stripe/dispensary-authorize'     authorizeDispensaryAccount
+POST    '/stripe/dispensary-account'            authorizeDispensaryAccount
 
 ================================= */
 
-router.route('/stripe/dispensary-account').get(stripeCtrl.createDispensaryAccount);
+router.route('/stripe/dispensary-account').post(accountCtrl.createDispensaryAccount);
+
+router.route('/stripe/check-onboard').post(accountCtrl.checkOnboardDispensaryAccount);
 
 export default router;
