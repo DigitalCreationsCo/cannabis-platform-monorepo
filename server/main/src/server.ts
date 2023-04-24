@@ -1,4 +1,4 @@
-import { websiteDomain } from '@cd/shared-config/auth/appInfo.js';
+import { websiteDomain } from '@cd/core-lib';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
@@ -10,10 +10,6 @@ import { SessionInfo } from './api/controllers/session.controller';
 import SessionDA from './api/data-access/SessionDA';
 import { errorRoute, organization, shop } from './api/routes';
 import { backendConfig } from './config/backendConfig';
-
-console.log('Starting server...');
-console.log('supertokens connection string: ', process.env.SUPERTOKENS_CONNECTION_URI);
-console.log('node env: ', process.env.NODE_ENV);
 
 if (Supertokens) {
     Supertokens.init(backendConfig());
@@ -66,7 +62,7 @@ app.get('/api/v1/session', verifySession(), async (req:SessionRequest, res) => {
         console.log('session from db: ', sessionFromDb)
         const { user, ...session } = sessionFromDb;
         res.status(200).json({ status: true, session: {session}, user });
-    } catch (error) {
+    } catch (error: any) {
         console.log('API error: ', error);
         // if (error.type === Session.Error.TRY_REFRESH_TOKEN) {
         //     console.log('try refresh token error: ', error);

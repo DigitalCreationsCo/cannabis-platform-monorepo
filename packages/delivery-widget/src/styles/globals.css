@@ -1,5 +1,0 @@
-@import url('../../../../packages/shared-config/dist/index.css');
-@import url('../../../../packages/shared-ui/dist/index.css');
-@tailwind base;
-@tailwind components;
-@tailwind utilities;

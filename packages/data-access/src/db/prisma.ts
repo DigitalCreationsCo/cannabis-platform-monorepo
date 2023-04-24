@@ -1,10 +1,23 @@
 import { PrismaClient } from '@prisma/client';
 
+console.info(` :: data-access package is in ${process.env.NODE_ENV} mode.`)
 declare global {
     var prisma: PrismaClient | undefined;
 }
 
-const prisma = global.prisma || new PrismaClient();
+const url = process.env?.DATABASE_URL
+if (!url) {
+    throw new Error(
+        ` :: Cannot create prisma client instance, missing env variable DATABASE_URL.`
+      )
+}
+// console.info(` :: connecting to database at ${url}.`)
+
+const prisma = global.prisma || new PrismaClient({
+    datasources: { 
+        db: { url: url }
+    }
+});
 
 function dateToString(doc: any) {
     if (doc != null || doc != undefined) {

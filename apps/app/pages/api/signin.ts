@@ -6,6 +6,11 @@ import { signIn } from 'supertokens-auth-react/recipe/emailpassword';
 const handler = nc();
 handler.use(authMiddleware).use(healthCheckMiddleware);
 
+/**
+ * THIS API ROUTE IS NOT USED IN LEUI OF SUPERTOKENS SIGNIN API.
+ * 
+ * SAME APPLIES TO SIGNUP API ROUTE.
+ */
 handler.post(async (req: ExtendRequest, res: NextApiResponse) => {
     try {
         // const formData: userLoginData = req.body;

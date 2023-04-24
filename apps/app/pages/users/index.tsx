@@ -1,5 +1,5 @@
 import { UserWithDetails } from '@cd/data-access';
-import { Button, Card, DeleteButton, Grid, H6, Icons, Page, PageHeader, Paragraph, Row } from '@cd/shared-ui';
+import { Button, Card, DeleteButton, Grid, H6, Icons, Page, PageHeader, Paragraph, Row } from '@cd/ui-lib';
 import axios from 'axios';
 import { ProtectedPage } from 'components';
 import { usePagination } from 'hooks';

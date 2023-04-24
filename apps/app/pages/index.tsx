@@ -1,5 +1,5 @@
 import { Order, Organization, ProductWithDetails, UserWithDetails } from '@cd/data-access';
-import { Card, Grid, Icons, OrderRow, Page, PageHeader } from '@cd/shared-ui';
+import { Card, Grid, Icons, OrderRow, Page, PageHeader } from '@cd/ui-lib';
 import axios from 'axios';
 import { ProductRow, ProtectedPage } from 'components';
 import { useMemo } from 'react';

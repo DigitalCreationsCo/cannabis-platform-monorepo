@@ -1,23 +1,16 @@
 {
-    "extends": "../../packages/shared-config/tsconfig/base.json",
-    "include": ["src", "**/*.ts", "**/*.tsx"],
-    "exclude": ["dist", "build", "**/node_modules", "test"],
-    "compilerOptions": {
-      "baseUrl": ".",
-      "target": "ESNext",
-      "module": "ESNext",
-      "esModuleInterop": true,
-      "forceConsistentCasingInFileNames": true,
-      "strict": false,
-      "strictNullChecks": true,
-      "lib": ["ESNext"],
-      "moduleResolution": "Node",
-    },
-    "watchOptions": {
-      "watchFile": "useFsEvents",
-      "watchDirectory": "useFsEvents",
-      "fallbackPolling": "dynamicPriority",
-      "synchronousWatchDirectory": true,
-      "excludeDirectories": ["node_modules","build", "dist", "test"],
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "../../tsconfig.base.json",
+  "exclude": ["**/node_modules", "dist", "build"],
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "target": "ES2015",
+    "lib": ["ES2015"],
+    "module": "ES2015",
+    "noEmit": false,
+    "incremental": true,
+    "paths": {
+      "@cd/eslint-config": ["../../../packages/eslint-config/"]
     }
   }
+}

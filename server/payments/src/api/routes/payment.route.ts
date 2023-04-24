@@ -2,11 +2,15 @@ import { Router } from 'express';
 import { paymentCtrl } from '../controllers';
 const router = Router();
 /* =================================
-Payment Routes
+API Routes for Payment Processing and Checkout
 
-'/purchase'             processOrderPayment
+POST    '/checkout'             createCheckout
+
+POST    '/purchase'             processPurchase
 
 ================================= */
+
+router.route('/checkout').post(paymentCtrl.createCheckout);
 
 router.route('/purchase').post(paymentCtrl.processPurchase);
 

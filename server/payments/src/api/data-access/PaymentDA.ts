@@ -16,7 +16,7 @@ export default class PaymentDA {
             const createOrder = await axios.post(process.env.SERVER_MAIN_URL + '/api/v1/shop/orders', { order, charge });
 
             return createOrder;
-        } catch (error) {
+        } catch (error: any) {
             console.error(error.message);
             throw new Error(error.message);
         }

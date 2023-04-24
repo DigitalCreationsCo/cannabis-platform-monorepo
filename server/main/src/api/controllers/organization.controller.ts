@@ -1,4 +1,4 @@
-import { getGeoCoordinatesByAddress } from '@cd/shared-lib';
+import { getGeoCoordinatesByAddress } from '@cd/core-lib';
 import { OrganizationDA } from '../data-access';
 const Busboy = require('busboy');
 
@@ -26,7 +26,7 @@ export default class OrganizationController {
             if (!data) return res.status(404).json('Organization could not be created.');
 
             return res.status(201).json(data);
-        } catch (error) {
+        } catch (error:any) {
             console.log('API error: ', error.message);
             res.status(500).json({ error: error.message });
         }
@@ -38,7 +38,7 @@ export default class OrganizationController {
             const data = await OrganizationDA.getOrganizationById(organizationId);
             if (!data) return res.status(404).json('Organization not found');
             return res.status(200).json(data);
-        } catch (error) {
+        } catch (error:any) {
             console.log('API error: ', error);
             res.status(500).json({ error });
         }
@@ -50,7 +50,7 @@ export default class OrganizationController {
             const data = await OrganizationDA.getCategoryList(organizationId);
             if (!data) return res.status(404).json('Categories not found');
             return res.status(200).json(data);
-        } catch (error) {
+        } catch (error:any) {
             console.log('API error: ', error);
             res.status(500).json({ error });
         }
@@ -62,7 +62,7 @@ export default class OrganizationController {
             const data = await OrganizationDA.getUsersByOrganization(organizationId);
             if (!data) return res.status(404).json('Organization not found');
             return res.status(200).json(data);
-        } catch (error) {
+        } catch (error: any) {
             console.log('API error: ', error);
             res.status(500).json({ error });
         }
@@ -123,7 +123,7 @@ export default class OrganizationController {
                 // }
             });
             req.pipe(busboy);
-        } catch (error) {
+        } catch (error: any) {
             console.log('API error: ', error);
             res.status(500).json({ error });
         }

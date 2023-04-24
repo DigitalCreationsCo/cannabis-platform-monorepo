@@ -1,4 +1,4 @@
-import { Button, FlexBox } from '@cd/shared-ui';
+import { Button, FlexBox } from '@cd/ui-lib';
 
 function CategoriesSelector() {
     return (

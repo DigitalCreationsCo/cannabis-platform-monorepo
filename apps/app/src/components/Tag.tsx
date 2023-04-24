@@ -1,4 +1,4 @@
-import { IconWrapper, Small } from '@cd/shared-ui';
+import { IconWrapper, Small } from '@cd/ui-lib';
 import { MouseEventHandler, PropsWithChildren, ReactEventHandler, SVGAttributes } from 'react';
 type TagProps = {
     Icon?: (props: SVGAttributes<SVGElement>) => JSX.Element;

@@ -1,0 +1,562 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+  referentialIntegrity = "prisma"
+}
+
+generator client {
+  provider          = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
+  binaryTargets = ["native", "linux-musl"]
+}
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String?
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?  @db.Text
+  access_token       String?  @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?  @db.Text
+  session_state      String?
+  oauth_token_secret String? 
+  oauth_token        String?
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt      DateTime         @db.DateTime()
+  updatedAt      DateTime         @db.DateTime()
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionHandle String   @unique
+  email        String
+  username     String
+  expires      DateTime
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([userId])
+  @@index([sessionHandle])
+}
+
+model User {
+  id            String    @id @default(cuid())
+  firstName          String
+  lastName String
+  username String @unique
+  email         String   @unique
+  emailVerified Boolean @default(false)
+  passwordHash String?
+  passwordResetToken String?
+  dialCode String?
+  phone String?
+  address Address[]
+  termsAccepted Boolean @default(false)
+  imageUser     ImageUser?
+  accounts      Account[]
+  sessions      Session[]
+  reviews Review[]
+  memberships Membership[]
+  orders Order[]
+  driver Driver?
+
+  purchases Purchase[]
+
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([id])
+  @@index([email])
+}
+
+model Driver {
+  id String @id @unique
+  user User @relation(fields: [id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  orders Order[]
+  driverSession DriverSession?
+
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+}
+
+model DriverSession {
+  id String @id @unique
+  driver Driver @relation(fields: [id], references: [id])
+  coordinateDriverId String @unique
+  coordinates Coordinates @relation(fields: [coordinateDriverId], references: [driverId])
+  isOnline Boolean @default(false)
+  isActiveDelivery Boolean @default(false)
+  currentRoute Route @relation(fields: [routeId], references: [id])
+  routeId String @unique
+
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([routeId])
+}
+
+model Route {
+  id String @id
+  coordinates Coordinates[]
+  driverSession DriverSession?
+}
+
+model Vendor {
+  id            String    @id @default(cuid())
+  name          String
+  publicName    String
+  organizations Organization[]
+
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([id])
+}
+
+model Address {
+  id            String    @id @default(cuid()) @unique
+  street1 String
+  street2 String?
+  city String
+  state String
+  zipcode String
+  country String
+  countryCode String?
+  coordinates Coordinates?
+  userId String?
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  organizationId String? @unique
+  organization Organization? @relation(fields: [organizationId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  orders Order[]
+
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@unique([userId, id])
+  @@index([userId])
+  @@index([organizationId])
+}
+
+model ImageOrganization {
+  id            String    @id @default(cuid())
+  location String
+  organizationId String
+  organization Organization @relation(fields: [organizationId], references: [id])
+  blurhash String?
+
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([organizationId])
+}
+
+model ImageProduct {
+  id String @id @default(cuid())
+  location String
+  variantId String
+  variant ProductVariant @relation(fields: [variantId], references: [id])
+  blurhash String?
+
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([variantId])
+}
+
+model ImageUser {
+  id String @id @default(cuid())
+  location String
+  userId String @unique
+  user User @relation(fields: [userId], references: [id])
+  blurhash String?
+
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([userId])
+}
+
+model ImageVendor {
+  id String @id @default(cuid())
+  location String
+  // vendor Vendor?
+  blurhash String?
+
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([id])
+}
+
+model Coordinates {
+  id String @id @default(cuid())
+  latitude Float
+  longitude Float
+  radius Float?
+  addressId String @unique
+  addresses Address @relation(fields: [addressId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  driverSession DriverSession?
+  driverId String? @unique
+  routes Route[]
+
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([addressId])
+}
+
+model Membership {
+  id String @id @default(cuid())
+  role MembershipRole
+  organizationId String
+  organizations Organization[]
+  userId String?
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  @@index([userId])
+}
+
+model Order {
+  id            String    @id @default(cuid())
+  subtotal Int
+  total Int
+  taxFactor Float
+  tax   Int
+  orderStatus OrderStatus @default(Pending)
+  items OrderItem[]
+
+  purchaseId String? @unique
+  purchase Purchase? @relation(fields: [purchaseId], references: [id], onDelete: NoAction, onUpdate: Cascade)
+
+  addressId String
+  destinationAddress Address @relation(fields: [addressId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  
+  customerId String
+  customer User @relation(fields: [customerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  
+  organizationId String
+  organization Organization @relation(fields: [organizationId], references: [id],  onDelete: Cascade, onUpdate: Cascade)
+  
+  driverId String?
+  driver Driver? @relation(fields: [driverId], references: [id],  onDelete: SetNull, onUpdate: SetNull)
+  isDelivered Boolean @default(false)
+  deliveredAt    DateTime?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([purchaseId])
+  @@index([addressId])
+  @@index([customerId])
+  @@index([driverId])
+  @@index([organizationId])
+}
+
+// model Delivery {
+//   id            String @id
+//   orderId       String @unique
+//   order Order @relation(fields: [orderId], references: [id])
+//   customerId String
+//   customer User @relation(fields: [customerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+//   addressCustomerId String
+//   address Address @relation(fields: [addressCustomerId], references: [userId])
+//   createdAt      DateTime         @default(now())
+//   updatedAt      DateTime         @updatedAt
+
+//   @@index([customerId])
+//   @@index([addressCustomerId])
+// }
+
+// possibly create a lean reference model for orderItems, because
+// this model will take up lots of db space over time, create like so:
+
+// Product {
+//   id String
+//   ...
+//   orderItems OrderItem[]
+// }
+
+// OrderItem {
+//   id String
+//   productId String
+//   product Product
+// }
+
+model OrderItem {
+  id      String    @id @default(cuid())  @unique
+  orderId String
+  order Order @relation(fields: [orderId], references: [id])
+  organizationId String
+  organizationName String
+  variantId     String @default(cuid()) @unique
+  productVariant       ProductVariant @relation(fields: [variantId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  productId String
+  name          String
+  unit Unit @default(g)
+  size Float
+  quantity Int
+  basePrice Int
+  discount Int
+  isDiscount Boolean
+  salePrice Int
+  currency CurrencyName
+
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([orderId])
+  @@index([variantId])
+}
+
+enum OrderStatus {
+  Pending
+  Processing
+  Delivered
+  Cancelled
+}
+
+enum PaymentStatus {
+  Pending
+  Paid
+  Failed
+}
+
+model Purchase {
+  id            String    @id @default(cuid()) @unique
+  paymentStatus PaymentStatus @default(Pending)
+  gateway       String  @default("stripe")
+  type          String  @default("card")
+  amount        Float
+  token         String
+  customerId    String?
+  customer      User? @relation(fields: [customerId], references: [id], onDelete: NoAction, onUpdate: Cascade)
+  orderId       String
+  order         Order?
+
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([orderId])
+  @@index([customerId])
+}
+
+enum MembershipRole {
+  OWNER @map("1")
+  ADMIN @map("2")
+  MEMBER @map("3")
+}
+
+enum CurrencyName {
+  USD
+}
+
+enum Unit {
+  g
+}
+
+enum Day {
+  Monday
+  Tuesday
+  Wednesday
+  Thursday
+  Friday
+  Saturday
+  Sunday
+}
+
+model Organization {
+  id            String    @id @unique @default(cuid())
+  name          String
+  stripeAccountId String? @unique
+  stripeOnboardingComplete Boolean @default(false)
+  address Address?
+  dialCode String
+  phone String
+  email String @unique
+  emailVerified Boolean @default(false)
+  images ImageOrganization[]
+  memberships Membership[]
+  products Product[]
+  vendorId String
+  schedule Schedule?
+  vendor Vendor @relation(fields: [vendorId], references: [id], onDelete: Restrict, onUpdate:  Restrict)
+  termsAccepted Boolean @default(false)
+  subdomainId String
+  subdomain SubDomain @relation(fields: [subdomainId], references: [id])
+  siteSetting SiteSetting?
+  orders Order[]
+  categoryList CategoryList?
+
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([id])
+  @@index([vendorId])
+  @@index([subdomainId])
+}
+
+// days is flat integer of numbers from 6-0, 0 is monday, 6 is sunday
+// 0 cannot be first digit, because of javscript octal literals parsing
+model Schedule {
+  id String @id @default(cuid())
+  organizationId String @unique
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  days Int
+  openAt Int?
+  closeAt Int?
+  
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([id])
+  @@index([organizationId])
+}
+
+model Product {
+  id            String    @id @default(cuid())
+  name          String
+  description         String?
+  features String?
+  variants ProductVariant[]
+  categories Category[]
+  organizationId String
+  organization Organization @relation(fields: [organizationId], references: [id])
+  reviews Review[]
+  rating Float?
+  tags String?
+
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([id])
+  @@index([organizationId])
+}
+
+model ProductVariant {
+  id            String    @id @default(cuid())
+  orderItem     OrderItem[]
+  name          String
+  sku           Float?
+  organizationId String
+  organizationName String
+  productId     String
+  product       Product @relation(fields: [productId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  unit Unit @default(g)
+  size Float
+  basePrice Int
+  discount Int
+  currency CurrencyName
+  stock Int
+  images ImageProduct[]
+
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([id])
+  @@index([productId])
+}
+
+model Category {
+    id             String @id @default(cuid())
+    name           String
+    slug           String
+    icon           String
+    products       Product[]
+    categoryLists  CategoryList[]
+
+    createdAt      DateTime         @default(now())
+    updatedAt      DateTime         @updatedAt
+
+    @@index([name])
+}
+
+model CategoryList {
+    id             String    @id @default(cuid())
+    categories     Category[]
+    organizationId String @unique
+    organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    createdAt      DateTime         @default(now())
+    updatedAt      DateTime         @updatedAt
+}
+
+model ServiceList {
+  id             String    @id @default(cuid())
+  name           String
+  slug           String @unique
+  services       Service[]
+
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([slug])
+}
+
+model Service {
+  id            String    @id @default(cuid())
+  title String
+  subtitle String?
+  slug String @unique
+  icon String
+  serviceLists ServiceList[]
+
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([title])
+  @@index([slug])
+}
+
+model Review {
+  id            String    @id @default(cuid())
+  rating Int
+  comment String? @db.Text
+  productId String @unique
+  product Product @relation(fields: [productId], references: [id])
+  userId String
+  user User @relation(fields: [userId], references: [id])
+
+createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([userId])
+  @@index([productId])
+}
+
+model SiteSetting {
+  id            String    @id @default(cuid())
+  description    String? @db.Text
+  title          String
+  bannerText     String? @db.Text
+  organizationId String @unique
+  organization   Organization @relation(fields: [organizationId], references: [id])
+
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([id])
+}
+
+model SubDomain {
+  id String @unique
+  organization Organization[]
+  isValid Boolean @default(true) // This boolean is always true, doesn't serve any purpose yet
+
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([id])
+}

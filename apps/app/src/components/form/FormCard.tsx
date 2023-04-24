@@ -1,4 +1,4 @@
-import { Card, FlexBox, H6 } from '@cd/shared-ui';
+import { Card, FlexBox, H6 } from '@cd/ui-lib';
 import { PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 

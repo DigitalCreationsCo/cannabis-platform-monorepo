@@ -5,6 +5,11 @@ import { NextApiResponse } from 'next';
 import nc from 'next-connect';
 import { urlBuilder } from '../../src/utils';
 
+/**
+ * THIS API ROUTE IS NOT USED IN LEUI OF SUPERTOKENS SIGNUP API.
+ * 
+ * SAME APPLIES TO SIGNIN API ROUTE.
+ */
 const handler = nc();
 handler.use(authMiddleware).use(healthCheckMiddleware);
 

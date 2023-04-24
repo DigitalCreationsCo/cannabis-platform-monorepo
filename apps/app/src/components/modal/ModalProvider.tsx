@@ -1,5 +1,5 @@
-import { modalActions, ModalStateProps, selectModalState, userActions } from '@cd/shared-lib';
-import { Button, FlexBox, Grid, H1, H3, H6, Icons, LoginModalProps, Modal, Paragraph, TextField } from '@cd/shared-ui';
+import { modalActions, ModalStateProps, selectModalState, userActions } from '@cd/core-lib';
+import { Button, FlexBox, Grid, H1, H3, H6, Icons, LoginModalProps, Modal, Paragraph, TextField } from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import Link from 'next/link';

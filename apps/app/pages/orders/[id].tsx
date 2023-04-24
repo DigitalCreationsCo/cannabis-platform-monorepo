@@ -26,7 +26,7 @@ import {
     Row,
     Span,
     TextField
-} from '@cd/shared-ui';
+} from '@cd/ui-lib';
 import axios from 'axios';
 import { ProductItem, ProtectedPage, Select } from 'components';
 import { format } from 'date-fns';

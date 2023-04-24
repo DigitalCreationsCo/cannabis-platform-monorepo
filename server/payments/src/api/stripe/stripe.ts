@@ -1,3 +1,5 @@
+import { calculatePlatformFeeForTransaction, generateCheckoutLineItemsFromOrderItems } from "@cd/core-lib";
+import { OrderWithDetails } from "@cd/data-access";
 import Stripe from "stripe";
 
 class StripeService {
@@ -6,8 +8,38 @@ class StripeService {
         this.stripe = new Stripe(apiKey, config);
     }
 
-    // INCOMPLETE
-    // ARGS: buyer, seller, transaction 
+    /**
+     * Create stripe checkout session for frontend
+     * @param order
+     * @param dispensaryStripeAccountId
+     */
+    async createCheckout(order: OrderWithDetails, dispensaryStripeAccountId: string) {        
+        const session = await this.stripe.checkout.sessions.create({
+            mode: 'payment',
+            success_url: process.env.NEXT_PUBLIC_SHOP_APP_CHECKOUT_SUCCESS_URL,
+            cancel_url: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/checkout`,
+            line_items: generateCheckoutLineItemsFromOrderItems(order.items),
+            
+            payment_intent_data: {
+                application_fee_amount: calculatePlatformFeeForTransaction(123),
+                transfer_data: {
+                    destination: dispensaryStripeAccountId
+                },
+            },
+            customer_email: order.customer.email,
+            shipping_address_collection: {
+                allowed_countries: ['US'],
+            },
+        });
+        return session
+    }
+
+    /**
+     * INCOMPLETE!! Create a stripe charge for a customer purchase
+     * @param buyer
+     * @param seller
+     * @param transaction
+     */
     async chargeCustomerPurchase() {
         try {
             // const { values, customerId, amount, tax, items, subtotal } = req.body
@@ -79,39 +111,53 @@ class StripeService {
             // const charge = await this.stripe.charges.create(stripeAccountId);
             // return charge
             return {}
-        } catch (error) {
+        } catch (error: any) {
             console.error(error.message);
             throw new Error(error.message);
         }
     }
 
+    /**
+     * Get stripe connected account details using accountId
+     * @param stripeAccountId string
+     */
     async getAccount(stripeAccountId: string) {
         try {
             const account = await this.stripe.accounts.retrieve(stripeAccountId);
             return account
-        } catch (error) {
+        } catch (error: any) {
             console.error(error.message);
             throw new Error(error.message);
         }
     }
 
+    /**
+     * create a stripe connected account for dispensary
+     * @param accountParams 
+     * @returns stripe account object
+     */
     async createDispensaryAccount(accountParams: Stripe.CustomerCreateParams) {
         try {
             if (!accountParams) throw new Error('Dispensary Stripe Account Params are required!');
             const account = await this.stripe.accounts.create(accountParams);
             return account;
-        } catch (error) {
+        } catch (error: any) {
             console.error(error.message);
             throw new Error(error.message);
         }
     }
 
+    /**
+     * Create a stripe account link for dispensary to create a connected account
+     * @param params 
+     * @returns 
+     */
     async createDispensaryAccountLink(params: Stripe.AccountLinkCreateParams) {
         try {
             if (!params || !params.account) throw new Error('Dispensary Stripe Account Link Params are required!');
             const accountLink = await this.stripe.accountLinks.create(params);
             return accountLink;
-        } catch (error) {
+        } catch (error: any) {
             console.error(error.message);
             throw new Error(error.message);
         }

@@ -1,4 +1,4 @@
-import { Button, FlexBox, Grid, Icons, Page, PageHeader, Row, TextField } from '@cd/shared-ui';
+import { Button, FlexBox, Grid, Icons, Page, PageHeader, Row, TextField } from '@cd/ui-lib';
 import { ProtectedPage } from 'components';
 import Link from 'next/link';
 
