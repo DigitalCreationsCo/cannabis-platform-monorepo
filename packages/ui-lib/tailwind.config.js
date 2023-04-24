@@ -5,6 +5,7 @@ module.exports = {
         './src/**/*.{js,ts,jsx,tsx}',
         '../../apps/**/*.{jsx,tsx}',
         '../../apps/delivery-widget/src/**/*.{jsx,tsx}',
+        '../../packages/ui-lib/src/**/*.{jsx,tsx}',
     ],
     plugins: [require('daisyui')],
     theme: {
