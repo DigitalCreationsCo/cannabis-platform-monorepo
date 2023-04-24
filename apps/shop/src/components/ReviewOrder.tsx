@@ -11,7 +11,7 @@ function ConfirmOrder() {
     const [cookies, setCookie] = useCookies(['gras-cart-token'])
     
     const cart = cookies["gras-cart-token"] && JSON.parse(JSON.stringify(cookies["gras-cart-token"])) as OrderItem || null
-    console.log('cart: ', cart)
+    console.log('cart: ', cart) 
 
     const createStripeCheckout = async () => { 
         console.log(' client side formData: ', formData)
