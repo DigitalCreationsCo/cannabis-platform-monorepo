@@ -237,7 +237,7 @@ model Order {
   taxFactor Float
   tax   Int
   orderStatus OrderStatus @default(Pending)
-  items OrderItem[]
+  items ProductVariant[]
 
   purchaseId String? @unique
   purchase Purchase? @relation(fields: [purchaseId], references: [id], onDelete: NoAction, onUpdate: Cascade)
@@ -446,18 +446,22 @@ model Product {
 }
 
 model ProductVariant {
-  id            String    @id @default(cuid())
-  orderItem     OrderItem[]
+  id            String    @id @default(cuid()) @unique
   name          String
   sku           Float?
+  orderId String
+  order Order[]
   organizationId String
   organizationName String
   productId     String
   product       Product @relation(fields: [productId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   unit Unit @default(g)
   size Float
+  quantity Int
   basePrice Int
   discount Int
+  isDiscount Boolean
+  salePrice Int
   currency CurrencyName
   stock Int
   images ImageProduct[]
