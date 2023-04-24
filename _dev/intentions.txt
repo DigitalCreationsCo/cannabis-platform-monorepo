@@ -104,6 +104,10 @@ Test many edge cases according to the stripe docs.
 Also, create the company deck!
 
 To DO: 
+ConfirmOrder:
+    // NOTE: Should encrypt this token in the future.
+    // NOTE: Add the cart data to redux store at this point, and delete the cookie after this.
+
 Add stripe functionality NOW - do it next. Keep it simple!
 Test the widget in a react app as well.
 Host node servers.

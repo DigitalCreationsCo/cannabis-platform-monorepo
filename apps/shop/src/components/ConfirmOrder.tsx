@@ -23,6 +23,8 @@ function ConfirmOrder({ nextFormStep }: { nextFormStep: () => void }) {
     console.log('parse cart token: ', cart)
     // NOTE: Should encrypt this token in the future.
 
+    // NOTE: Add the cart data to redux store at this point, and delete the cookie after this.
+
     return (
         <Center className='space-y-2 w-3/4 m-auto pb-20 md:pb-0'>
         <H3>Thank you for ordering Delivery by Gras.
