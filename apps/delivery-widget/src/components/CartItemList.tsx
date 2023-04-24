@@ -6,7 +6,7 @@ import { useCookies } from "react-cookie";
 type CartListProps = {
     cart: Cart;
     cartError: string;
-    setShowCart: () => void;
+    setExpandWidget: (expandWidget: boolean) => void;
 }
 
 export type Cart = {
@@ -41,7 +41,7 @@ export type CartItem = {
     updatedAt?: Date
 }
 
-function CartList({cart, cartError, setShowCart} : CartListProps) {
+function CartList({cart, cartError, setExpandWidget} : CartListProps) {
 
     const [cookies, setCookie] = useCookies(['gras-cart-token'])
    
@@ -68,7 +68,7 @@ function CartList({cart, cartError, setShowCart} : CartListProps) {
         <div className='items-center space-y-1 w-3/4 m-auto'>
         <Paragraph className='text-light text-lg'>
             Here is your delivery order. If you wish to make changes, edit the{' '}
-            <a onClick={setShowCart} className="cursor-pointer border-2 border-b-secondary">
+            <a onClick={() => setExpandWidget(false)} className="cursor-pointer border-2 border-b-secondary">
                 Dispensary Cart</a>
                 , and return here for checkout.
             </Paragraph>
