@@ -295,31 +295,31 @@ model Order {
 //   product Product
 // }
 
-model OrderItem {
-  id      String    @id @default(cuid())  @unique
-  orderId String
-  order Order @relation(fields: [orderId], references: [id])
-  organizationId String
-  organizationName String
-  variantId     String @default(cuid()) @unique
-  productVariant       ProductVariant @relation(fields: [variantId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  productId String
-  name          String
-  unit Unit @default(g)
-  size Float
-  quantity Int
-  basePrice Int
-  discount Int
-  isDiscount Boolean
-  salePrice Int
-  currency CurrencyName
+// model OrderItem {
+//   id      String    @id @default(cuid())  @unique
+//   orderId String
+//   order Order @relation(fields: [orderId], references: [id])
+//   organizationId String
+//   organizationName String
+//   variantId     String @default(cuid()) @unique
+//   productVariant       ProductVariant @relation(fields: [variantId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+//   productId String
+//   name          String
+//   unit Unit @default(g)
+//   size Float
+//   quantity Int
+//   basePrice Int
+//   discount Int
+//   isDiscount Boolean
+//   salePrice Int
+//   currency CurrencyName
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+//   createdAt      DateTime         @default(now())
+//   updatedAt      DateTime         @updatedAt
 
-  @@index([orderId])
-  @@index([variantId])
-}
+//   @@index([orderId])
+//   @@index([variantId])
+// }
 
 enum OrderStatus {
   Pending
@@ -449,7 +449,6 @@ model ProductVariant {
   id            String    @id @default(cuid()) @unique
   name          String
   sku           Float?
-  orderId String
   order Order[]
   organizationId String
   organizationName String
