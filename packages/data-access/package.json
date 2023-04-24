@@ -1,6 +1,7 @@
 {
   "devDependencies": {
     "@cd/eslint-config": "workspace:*",
+    "@testing-library/jest-dom": "5.16.5",
     "@types/jest": "29.2.4",
     "@types/node": "18.11.10",
     "@types/react": "18.0.34",
@@ -53,7 +54,8 @@
     "prisma-studio": "dotenv -e ../../.env.development -- yarn prisma studio",
     "test": "run-s test:unit",
     "test-e2e": "dotenv -e ../../.env.development -- yarn vitest run",
-    "test-unit": "echo \"No unit tests yet\"",
+    "test-unit": "jest --config ./jest.config.ts",
+    "test-unit-coverage": "yarn test-unit --collect-coverage=true",
     "typecheck": "tsc --project ./tsconfig.json --noEmit"
   },
   "version": "0.0.1"
