@@ -1,4 +1,4 @@
-import { selectCartState } from '@cd/core-lib/reduxDir';
+import { selectCartState, selectIsCartEmpty } from '@cd/core-lib/reduxDir';
 import { ProductVariantWithDetails } from '@cd/data-access';
 import { Button, H3, H5, H6 } from '@cd/ui-lib';
 import axios from 'axios';
@@ -10,7 +10,8 @@ import CartItem from './cart/CartItem';
 function ReviewOrder() {
 
     const { cart } = useSelector(selectCartState);
-
+    const cartIsEmpty = useSelector(selectIsCartEmpty)
+    
     const { formData } = useFormContext();
 
     const createStripeCheckout = async () => { 
@@ -23,21 +24,19 @@ function ReviewOrder() {
     };
     
     return (
-            <>
-                <H3>Nice! You're ready to checkout!</H3>
-                <H5>Make sure you have what you need, then hit Checkout to start your delivery.</H5>
-                
-                {cart.length > 0 
-                ? cart.map(
-                    (item) => <CartItem key={`bag-item-${item.id}`} product={item as unknown as ProductVariantWithDetails} />)
-                    : <div className={styles.cart}><H5>
-                        Your bag is empty</H5>
-                        <a href="/"><H6 className={'cursor-pointer border-b-2 inline-block'}>
-                            What are you shopping for?</H6>.</a></div>}
-                            
-                <Button onClick={createStripeCheckout} disabled={cart.length < 1}>
-                    Checkout</Button>
-            </>
+    <>
+        <H3>Nice! You're ready to checkout!</H3>
+        <H5>Make sure you have what you need, then hit Checkout to start your delivery.</H5>
+        {!cartIsEmpty ? cart.map(
+            (item) => <CartItem key={`bag-item-${item.id}`} product={item as unknown as ProductVariantWithDetails} />)
+            : <div className={styles.cart}><H5>
+                Your bag is empty</H5>
+                <a href="/"><H6 className={'cursor-pointer border-b-2 inline-block'}>
+                    What are you shopping for?</H6>.</a></div>}
+                    
+        <Button onClick={createStripeCheckout} disabled={!!cartIsEmpty}>
+            Checkout</Button>
+    </>
     );
 }
 

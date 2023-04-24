@@ -402,7 +402,7 @@ export const cartActions = {
 export const cartReducer = cartSlice.reducer;
 
 export const selectCartState = (state: AppState) => state.cart;
-export const selectIsCartEmpty = (state: AppState):Boolean => state.cart.totalItems === 0;
+export const selectIsCartEmpty = (state: AppState):Boolean => state.cart.totalItems < 1;
 
 export type SimpleCart = {
   total: number; 

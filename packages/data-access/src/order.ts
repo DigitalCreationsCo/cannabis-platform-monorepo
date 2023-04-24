@@ -1,4 +1,4 @@
-import { Address, Driver, Order, OrderItem, OrderStatus, Prisma, User } from "@prisma/client";
+import { Address, Driver, Order, OrderStatus, Prisma, ProductVariant, User } from "@prisma/client";
 import prisma from "./db/prisma";
 import { ProductVariantWithDetails } from "./product";
 
@@ -113,7 +113,7 @@ export async function findOrderWithDetails(id: string) {
                     customer: true,
                     driver: true,
                     destinationAddress: true,
-                    items: { include: { productVariant: { include: { images: true } } } }
+                    items: { include: { images: true } }
                 }
             }
         )
@@ -126,23 +126,35 @@ export async function findOrderWithDetails(id: string) {
 
 export async function updateOrderWithOrderItems(order: any) {
     try {
-        const updateOrderItemsOp = !!order.items && order.items.map((item: OrderItem) => {
+        const updateOrderItemsOp = !!order.items && order.items.map((item: ProductVariant) => {
             let { ...rest } = item;
             let orderId = order.id;
-            let variantId = item.variantId
-            const update = prisma.orderItem.upsert({
-                where: { variantId },
-                create: { ...rest, quantity: Number(item.quantity) },
-                update: { ...rest, quantity: Number(item.quantity) }
+            let variantId = item.id
+            const update = prisma.productVariant.upsert({
+                where: { id: variantId },
+                create: { ...rest, 
+                    sku: Number(item.sku),
+                    size: Number(item.size),
+                    quantity: Number(item.quantity),
+                    basePrice: Number(item.basePrice),
+                    discount: Number(item.discount),
+                    salePrice: Number(item.salePrice),
+                    stock: Number(item.stock),
+                },
+                update: { ...rest,
+                    sku: Number(item.sku),
+                    size: Number(item.size),
+                    quantity: Number(item.quantity),
+                    basePrice: Number(item.basePrice),
+                    discount: Number(item.discount),
+                    salePrice: Number(item.salePrice),
+                    stock: Number(item.stock)
+                }
             });
             return update;
         });
-        const connectOrderItems = !!order.items && order.items.map((item: OrderItem) => (
-            {
-                variantId: item.variantId,
-                orderId: order.id
-            })
-        ) || []
+        const connectOrderItems = !!order.items && order.items.map(
+            (item: ProductVariant) => ({ id: item.id })) || []
         delete order[ 'items' ];
         let id = order.id;
         const updateOrderOp = prisma.order.update({
@@ -209,7 +221,7 @@ export async function updateVariantQuantity(variantId:string, quantity:number, o
 // export type OrderWithDetails = Prisma.PromiseReturnType<typeof findOrderWithDetails>
 export type OrderWithDetails = Order & {
     driver: Driver | null;
-    items?: OrderItemWithDetails[];
+    items?: ProductVariantWithDetails[];
     customer: User;
     destinationAddress: Address;
     updatedAt?: any;
