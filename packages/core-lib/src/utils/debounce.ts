@@ -14,4 +14,5 @@ function saveInput() {
 }
 const processChange = debounce(() => saveInput());
 
-export default debounce;
+export { debounce as default };
+
