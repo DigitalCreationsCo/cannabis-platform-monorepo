@@ -227,10 +227,6 @@ export type OrderWithDetails = Order & {
     updatedAt?: any;
 }
 
-export type OrderItemWithDetails = OrderItem & {
-    productVariant: ProductVariantWithDetails
-    }
-
 export type OrderUpdate = Prisma.OrderUpdateArgs[ "data" ]
 // export type OrderCreate = Prisma.OrderCreateArgs[ "data" ]
 export type OrderCreate = {
@@ -249,7 +245,7 @@ export type OrderCreate = {
     deliveredAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    items?: OrderItemWithDetails[]
+    items?: ProductVariantWithDetails[]
   }
   
 export type PurchaseCreate = Prisma.PurchaseCreateArgs[ "data" ]
