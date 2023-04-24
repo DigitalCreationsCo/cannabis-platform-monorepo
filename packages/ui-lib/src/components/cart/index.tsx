@@ -1,1 +1,2 @@
-export * from './SimpleCartItem';
+export { default as SimpleCartItem } from './SimpleCartItem';
+
