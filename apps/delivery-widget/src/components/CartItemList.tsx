@@ -1,44 +1,14 @@
+import { SimpleCart } from '@cd/core-lib/src/reduxDir/features/cart.reducer';
+import SimpleCartItem from '@cd/ui-lib/components/cart/SimpleCartItem';
 import Price from "@cd/ui-lib/src/components/Price";
 import { H5, Paragraph } from "@cd/ui-lib/src/components/Typography";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 
 type CartListProps = {
-    cart: Cart;
+    cart: SimpleCart;
     cartError: string;
     setExpandWidget: (expandWidget: boolean) => void;
-}
-
-export type Cart = {
-    total: number; 
-    cartItems: CartItem[]
-}
-
-export type CartItem = {
-    name: string;
-    basePrice: number;
-    size: number;
-    unit: string;
-    images: {
-        id?: string
-        location: string
-        variantId?: string
-        blurhash?: string | null
-        createdAt?: Date
-        updatedAt?: Date
-    }[];
-    quantity: number;
-
-    id?: string
-    sku?: number | null
-    organizationId?: string
-    organizationName?: string
-    productId?: string
-    discount?: number
-    currency?: string
-    stock?: number
-    createdAt?: Date
-    updatedAt?: Date
 }
 
 function CartList({cart, cartError, setExpandWidget} : CartListProps) {
@@ -51,8 +21,8 @@ function CartList({cart, cartError, setExpandWidget} : CartListProps) {
             var expires = new Date();
             expires.setDate(expires.getDate() + 1);
 
+            // ENCRYPT THIS DATA IN THE FUTRE
             document.cookie = `gras-cart-token=${cartAsString};expires=${expires.toUTCString()};`
-            // setCookie('gras-cart-token', cartAsString)
             console.info('gras-cart-token cookie created.')
         }
     }
@@ -75,7 +45,7 @@ function CartList({cart, cartError, setExpandWidget} : CartListProps) {
             </Paragraph>
         <div className={styles.cartContainer}>
             {cart.cartItems.length > 0 && cart.cartItems.map((cartItem, index) => (
-                <CartItem  key={`cart-item-${index}`} cartItem={cartItem} />
+                <SimpleCartItem key={`cart-item-${index}`} product={cartItem}/>
             )) || <Paragraph className='text-light'>Your cart is empty.</Paragraph>
             }
             {cart && <H5 className='flex justify-end text-light'>{`Your total is `}
@@ -87,23 +57,23 @@ function CartList({cart, cartError, setExpandWidget} : CartListProps) {
     );
 }
 
-const CartItem = ({ cartItem }: {cartItem: CartItem}) => {
-    return (
-        // <div className='grid-item grow w-fit flex flex-col items-stretch justify-stretch grow'>
-        //     <img src={cartItem.images[0].location} className="h-[80px] w-[80px] rounded" />
-        //     <div className="flex flex-row justify-between space-x-2">
-        //         <Paragraph className='text-light'>{cartItem.name}</Paragraph>
-        //         <Paragraph className='text-light'>{cartItem.size}{cartItem.unit}</Paragraph>
-        //     </div>
-        //     <div className='text-light'><Price price={cartItem.basePrice} /></div>
-        // </div>
-        <div className='w-full flex flex-row space-x-2 justify-between grow'>
-            {/* <img src={cartItem.images[0].location} className="h-[80px] w-[80px] rounded" /> */}
-                <Paragraph className='text-light'>{cartItem.name}</Paragraph>
-                <Paragraph className='text-light items-end grow'>{cartItem.size}{cartItem.unit}</Paragraph>
-            <div className='text-light'><Price price={cartItem.basePrice} /></div>
-        </div>
-    )
-}
+// const CartItem = ({ cartItem }: {cartItem: ProductVariantWithDetails}) => {
+//     return (
+//         // <div className='grid-item grow w-fit flex flex-col items-stretch justify-stretch grow'>
+//         //     <img src={cartItem.images[0].location} className="h-[80px] w-[80px] rounded" />
+//         //     <div className="flex flex-row justify-between space-x-2">
+//         //         <Paragraph className='text-light'>{cartItem.name}</Paragraph>
+//         //         <Paragraph className='text-light'>{cartItem.size}{cartItem.unit}</Paragraph>
+//         //     </div>
+//         //     <div className='text-light'><Price price={cartItem.basePrice} /></div>
+//         // </div>
+//         <div className='w-full flex flex-row space-x-2 justify-between grow'>
+//             {/* <img src={cartItem.images[0].location} className="h-[80px] w-[80px] rounded" /> */}
+//                 <Paragraph className='text-light'>{cartItem.name}</Paragraph>
+//                 <Paragraph className='text-light items-end grow'>{cartItem.size}{cartItem.unit}</Paragraph>
+//             <div className='text-light'><Price price={cartItem.basePrice} /></div>
+//         </div>
+//     )
+// }
 
 export default CartList;

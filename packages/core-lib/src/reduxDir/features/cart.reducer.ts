@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import { OrderItem, OrderStatus } from "@cd/data-access";
+import { OrderItem, OrderStatus, ProductVariantWithDetails } from "@cd/data-access";
 import { AnyAction, createAsyncThunk, createSlice, Dispatch, PayloadAction } from "@reduxjs/toolkit";
 import { calcSalePrice } from "../../utils";
 import { AppState, ThunkArgumentsType } from "../types";
@@ -403,3 +403,8 @@ export const cartReducer = cartSlice.reducer;
 
 export const selectCartState = (state: AppState) => state.cart;
 export const selectIsCartEmpty = (state: AppState):Boolean => state.cart.totalItems === 0;
+
+export type SimpleCart = {
+  total: number; 
+  cartItems: ProductVariantWithDetails[]
+}
