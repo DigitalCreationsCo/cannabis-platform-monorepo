@@ -1,5 +1,5 @@
 import {
-    Button, FormCard, Grid,
+    Button, Grid,
     H3, Paragraph, TextField
 } from '@cd/ui-lib';
 import { useFormContext } from 'components';
@@ -47,8 +47,7 @@ function SubmitAddressForm({ nextFormStep }: { nextFormStep: () => void }) {
             setLoadingButton(true);
             setFormValues({ newUser: { ...values } });
             setLoadingButton(false);
-            // nextFormStep(); 
-            router.push('/quick-delivery/confirm-order')
+            nextFormStep(); 
         } catch (error: any) {
             console.log('User Submit Address Error: ', error);
             toast.error(error.response.data.message || error.response.data.errors);
@@ -72,7 +71,6 @@ function SubmitAddressForm({ nextFormStep }: { nextFormStep: () => void }) {
     }
 
     return (
-        <FormCard className="m-auto px-12">
             <form onSubmit={handleSubmit}>
                 <H3>{`Where is your delivery going?`}</H3>
                 <Paragraph>* Please fill the required fields.</Paragraph>
@@ -151,7 +149,6 @@ function SubmitAddressForm({ nextFormStep }: { nextFormStep: () => void }) {
                     </Button>
                 </Grid>
             </form>
-        </FormCard>
     );
 }
 

@@ -15,7 +15,7 @@ export default function IconButton({
     className,
     size = 20,
     children,
-    theme = 'dark',
+    theme = 'light',
     ...props
 }: IconButtonProps & PropsWithChildren) {
     return (

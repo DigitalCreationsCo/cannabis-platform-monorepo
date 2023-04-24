@@ -2,17 +2,12 @@ import { ProductVariantWithDetails } from '@cd/data-access';
 import { Button, Card, H3, H5, H6, Page, ProductItem } from '@cd/ui-lib';
 import axios from 'axios';
 import { useFormContext } from 'components';
-import { useRouter } from 'next/router';
 import { useCookies } from 'react-cookie';
 import { twMerge } from 'tailwind-merge';
 
 function ConfirmOrder() {
     const { formData } = useFormContext();
-    const router = useRouter()
     
-    // const { cart } = useSelector(selectCartState);
-
-
     const [cookies, setCookie] = useCookies(['gras-cart-token'])
     
     const cart = cookies["gras-cart-token"] && JSON.parse(JSON.stringify(cookies["gras-cart-token"])) as OrderItem || null

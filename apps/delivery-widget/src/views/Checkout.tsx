@@ -64,7 +64,7 @@ function Checkout({ className, expandWidget, setExpandWidget }: ViewProps) {
                 <div className={twMerge(styles.showCart, 'min-h-[540px] overflow-scroll', 'space-y-1')}>
                     <CloseButton className="p-4" onClick={() => setExpandWidget(false)} />
                     <CartList setExpandWidget={setExpandWidget} cart={cart} cartError={cartError} />
-                    <Paragraph className="text-light m-auto">If you're ready for checkout, click the button below.</Paragraph>
+                    <Paragraph className="text-light m-auto">If you're ready for checkout, hit the button below.</Paragraph>
                     <Button className="p-4" onClick={handleCheckout}>Checkout</Button>
                 </div> :
                 <button className={twMerge(styles.checkout)}

@@ -1,6 +1,6 @@
 import {
     Button,
-    FlexBox, FormCard, Grid,
+    FlexBox, Grid,
     H3, Icons, Paragraph, TextField
 } from '@cd/ui-lib';
 import { useFormContext } from 'components';
@@ -68,12 +68,11 @@ function UserNameForm({ nextFormStep }: { nextFormStep: () => void }) {
     }
 
     return (
-        <FormCard className="m-auto px-12">
             <form onSubmit={handleSubmit}>
-                <H3>{`Create your account`}</H3>
+                <H3>{`Sign Up`}</H3>
                 <H3>{`Get Cannabis Delivered 🌴🔥`}</H3>
-                <Paragraph>* Please fill the required fields.</Paragraph>
                 <Grid className="space-y-2">
+                <Paragraph>* Please fill the required fields.</Paragraph>
                 <FlexBox className="flex-row space-x-4">
                         <TextField
                             name="dialCode"
@@ -157,7 +156,6 @@ function UserNameForm({ nextFormStep }: { nextFormStep: () => void }) {
                     </Button>
                 </Grid>
             </form>
-        </FormCard>
     );
 }
 
