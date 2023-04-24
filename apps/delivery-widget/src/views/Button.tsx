@@ -1,10 +1,10 @@
+import { useCheckHrefIncludes } from "@cd/core-lib/src/utils/useCheckHrefIncludes"
 import CloseButton from "@cd/ui-lib/src/components/CloseButton"
 import { H4, Paragraph } from "@cd/ui-lib/src/components/Typography"
 import { getBreakpointValue } from "@cd/ui-lib/src/hooks/useBreakpoint"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { twMerge } from "tailwind-merge"
-import { checkHrefCheckout } from "../util"
 import WidgetView, { ViewProps } from "./WidgetView"
 
 function Button({ className, expandWidget, setExpandWidget }: ViewProps) {
@@ -15,18 +15,22 @@ function Button({ className, expandWidget, setExpandWidget }: ViewProps) {
       setExpandWidget(false)
     }
 
-    const history = useNavigate()
-    
-    useEffect(() => {
-        checkHrefCheckout() ? history("/checkout") : null
-    }, [window.location.href])
-    
     const [screenwidth, setScreenwidth] = useState(window.innerWidth)
     
     const setWindowDimensions = () => {
       setScreenwidth(window.innerWidth)
     }
     
+    const history = useNavigate()
+
+    useEffect(() => {
+      function goToCheckout() {
+          console.log('is checkout? ', useCheckHrefIncludes('checkout'))
+          useCheckHrefIncludes('checkout') ? history('/checkout') : null 
+      }
+      goToCheckout()
+    })
+  
     useEffect(() => {
       window.addEventListener('resize', setWindowDimensions);
       return () => {

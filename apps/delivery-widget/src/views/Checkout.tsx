@@ -1,3 +1,4 @@
+import { useCheckHrefIncludes } from "@cd/core-lib/src/utils/useCheckHrefIncludes"
 import Button from "@cd/ui-lib/src/components/Button"
 import CloseButton from "@cd/ui-lib/src/components/CloseButton"
 import { H4, Paragraph } from "@cd/ui-lib/src/components/Typography"
@@ -6,7 +7,6 @@ import { useNavigate } from "react-router-dom"
 import { twMerge } from "tailwind-merge"
 import CartList, { Cart } from "../components/CartItemList"
 import { crawler } from "../crawler"
-import { checkHrefCheckout } from "../util"
 import WidgetView, { ViewProps } from "./WidgetView"
 
 function Checkout({ className, expandWidget, setExpandWidget }: ViewProps) {
@@ -27,9 +27,12 @@ function Checkout({ className, expandWidget, setExpandWidget }: ViewProps) {
     const history = useNavigate()
     
     useEffect(() => {
-        checkHrefCheckout() ? null : history("/")
-        console.log('checkout? ', checkHrefCheckout())
-    }, [window.location.href])
+        function goToCheckout() {
+            console.log('is checkout? ', useCheckHrefIncludes('checkout'))
+            useCheckHrefIncludes('checkout') ? history('/checkout') : null 
+        }
+        goToCheckout()
+    })
     
     const runCrawler = () => {
         crawler()

@@ -1,20 +1,10 @@
-export function formatDispensaryUrl(subdomainId: string) {
-    switch(process.env.NODE_ENV) {
-        case 'development':
-            return `http://${subdomainId}.localhost:3000`;
-        case 'test':
-            return `http://${subdomainId}.localhost:3000`;
-        case 'production':
-            return `http://${subdomainId}.grascannabis.org`;
-    }
-}
 
 const next = process.env.NEXT_PUBLIC_APP_URL;
 const mainUrl = process.env.SERVER_MAIN_URL;
 const locationUrl = process.env.SERVER_LOCATION_URL;
 const paymentUrl = process.env.SERVER_PAYMENT_URL;
 
-export const urlBuilder = {
+const urlBuilder = {
     next,
     main: {
         baseUrl: mainUrl + '/api/v1',
@@ -64,4 +54,8 @@ export const urlBuilder = {
     }
 };
 
-export default urlBuilder;
+
+export {
+    urlBuilder as default,
+};
+
