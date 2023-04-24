@@ -227,10 +227,8 @@ const initialState: CartStateProps = {
         organizationId: '',
     },
     orderDispensaryName: '',
-    cart: [{
-      name: 'Hello'
-    }],
-    totalItems: 1,
+    cart: [],
+    totalItems: 0,
     subtotal: 0,
     isLoading: false,
     isSuccess: false,
@@ -238,9 +236,46 @@ const initialState: CartStateProps = {
     errorMessage: "",
 };
 
+// dummy cart
+const dummyState: CartStateProps = {
+  order: {
+      subtotal: 3140,
+      total: 0,
+      taxFactor: 0,
+      tax: 0,
+      orderStatus: null,
+      addressId: '',
+      customerId: '',
+      organizationId: '234',
+  },
+  orderDispensaryName: '',
+  cart: [{
+    id: '12355',
+    organizationId: '234',
+    organizationName: 'Curaleaf',
+    variantId: '1111',
+    productId: '234565',
+    name: "Edible Donka",
+    unit: 'g',
+    size: 3.5,
+    quantity: 1,
+    basePrice: 3488,
+    discount: 10,
+    isDiscount: true,
+    salePrice: 3140,
+    currency: 'USD',
+  }],
+  totalItems: 1,
+  subtotal: 3140,
+  isLoading: false,
+  isSuccess: false,
+  isError: false,
+  errorMessage: "",
+};
+
 const cartSlice = createSlice({
   name: "cart",
-  initialState,
+  initialState: dummyState,
   reducers: {
     clearState: () => initialState,
     
