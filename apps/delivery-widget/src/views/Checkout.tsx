@@ -1,3 +1,4 @@
+import { SimpleCart } from "@cd/core-lib/src/reduxDir/features"
 import { useCheckHrefIncludes } from "@cd/core-lib/src/utils/useCheckHrefIncludes"
 import Button from "@cd/ui-lib/src/components/Button"
 import CloseButton from "@cd/ui-lib/src/components/CloseButton"
@@ -5,12 +6,12 @@ import { H4, Paragraph } from "@cd/ui-lib/src/components/Typography"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { twMerge } from "tailwind-merge"
-import CartList, { Cart } from "../components/CartItemList"
+import CartList from "../components/CartItemList"
 import { crawler } from "../crawler"
 import WidgetView, { ViewProps } from "./WidgetView"
 
 function Checkout({ className, expandWidget, setExpandWidget }: ViewProps) {
-    const [cart, setCart] = useState<Cart>({
+    const [cart, setCart] = useState<SimpleCart>({
         cartItems: [],
         total: 0
     })

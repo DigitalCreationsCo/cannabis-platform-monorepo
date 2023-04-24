@@ -1,6 +1,7 @@
+import { SimpleCart } from '@cd/core-lib/reduxDir/features'
 import { convertDollarsToWholeNumber } from '@cd/core-lib/src/utils/transaction'
+import { ProductVariantWithDetails } from '@cd/data-access'
 import * as cheerio from 'cheerio'
-import { Cart, CartItem } from '../components/CartItemList'
 
 
 type DOMDataKey = 'cart'
@@ -53,11 +54,11 @@ const crawler = async () => {
                 return _cartTotalSelector[_domain] || _cartTotalSelector['localhost']
             }
 
-            function createCartData(html: cheerio.AnyNode[], total: number):Cart {
+            function createCartData(html: cheerio.AnyNode[], total: number):SimpleCart {
                 // console.log('create cart data input: ', html)
-                const cartItems:CartItem[] = []
+                const cartItems:ProductVariantWithDetails[] = []
                 
-                const cartData: Cart = {
+                const cartData: SimpleCart = {
                     cartItems: cartItems,
                     total: convertDollarsToWholeNumber(total)
                 }
@@ -77,7 +78,7 @@ const crawler = async () => {
 
 
                     console.log('item created from parseHtml: ', _item)
-                    cartData.cartItems.push(_item)
+                    cartData.cartItems.push(_item as ProductVariantWithDetails)
                     // cartItems.push(_item)
                 })
                 // console.log('cartData', cartData)
@@ -87,7 +88,7 @@ const crawler = async () => {
     }
     catch (error) {
         console.log(error)
-        const cart: Cart = {
+        const cart: SimpleCart = {
             cartItems: [],
             total: 0
         }
