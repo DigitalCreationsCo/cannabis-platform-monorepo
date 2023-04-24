@@ -62,24 +62,26 @@ function CartList({cart, cartError, setExpandWidget} : CartListProps) {
     }, [])
 
     const styles = {
-        cartGrid: "w-fit m-auto gap-8 grid grid-flow-row grid-cols-2 grid-rows-2 flex grow items-stretch justify-stretch"
+        cartContainer: "w-2/3 m-auto flex flex-col grow items-stretch justify-stretch"
     }
     return (
         <div className='items-center space-y-1 w-3/4 m-auto'>
         <Paragraph className='text-light text-lg'>
-            Here is your delivery order. If you wish to make changes, edit the{' '}
+            We can deliver your order straight to your home.
+            If you wish to make any changes, edit your{' '}
             <a onClick={() => setExpandWidget(false)} className="cursor-pointer border-2 border-b-secondary">
-                Dispensary Cart</a>
+                Cart</a>
                 , and return here for checkout.
             </Paragraph>
-        <div className={styles.cartGrid}>
+        <div className={styles.cartContainer}>
             {cart.cartItems.length > 0 && cart.cartItems.map((cartItem, index) => (
                 <CartItem  key={`cart-item-${index}`} cartItem={cartItem} />
             )) || <Paragraph className='text-light'>Your cart is empty.</Paragraph>
             }
+            {cart && <H5 className='flex justify-end text-light'>{`Your total is `}
+            <Price className={'pl-2'} price={cart.total} /></H5>}
         </div>
-        {cart && <H5 className='flex justify-end text-light'>{`Your total is `}
-        <Price className={'pl-2 pr-8'} price={cart.total} /></H5>}
+        
         {cartError && <Paragraph>{cartError}</Paragraph>}
         </div>
     );
@@ -87,12 +89,18 @@ function CartList({cart, cartError, setExpandWidget} : CartListProps) {
 
 const CartItem = ({ cartItem }: {cartItem: CartItem}) => {
     return (
-        <div className='grid-item grow w-fit flex flex-col items-stretch justify-stretch grow'>
-            <img src={cartItem.images[0].location} className="h-[80px] w-[80px] rounded" />
-            <div className="flex flex-row justify-between space-x-2">
+        // <div className='grid-item grow w-fit flex flex-col items-stretch justify-stretch grow'>
+        //     <img src={cartItem.images[0].location} className="h-[80px] w-[80px] rounded" />
+        //     <div className="flex flex-row justify-between space-x-2">
+        //         <Paragraph className='text-light'>{cartItem.name}</Paragraph>
+        //         <Paragraph className='text-light'>{cartItem.size}{cartItem.unit}</Paragraph>
+        //     </div>
+        //     <div className='text-light'><Price price={cartItem.basePrice} /></div>
+        // </div>
+        <div className='w-full flex flex-row space-x-2 justify-between grow'>
+            {/* <img src={cartItem.images[0].location} className="h-[80px] w-[80px] rounded" /> */}
                 <Paragraph className='text-light'>{cartItem.name}</Paragraph>
-                <Paragraph className='text-light'>{cartItem.size}{cartItem.unit}</Paragraph>
-            </div>
+                <Paragraph className='text-light items-end grow'>{cartItem.size}{cartItem.unit}</Paragraph>
             <div className='text-light'><Price price={cartItem.basePrice} /></div>
         </div>
     )

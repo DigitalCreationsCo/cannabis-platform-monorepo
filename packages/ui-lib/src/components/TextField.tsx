@@ -47,7 +47,7 @@ function TextField({
         flexContainer: 'space-x-0 space-y-0 w-full lg:flex-row lg:items-center'
     };
     return (
-        <FlexBox className={twMerge(styles.flexContainer, containerClassName)}>
+        <FlexBox className={twMerge(styles.flexContainer, containerClassName, 'text-dark')}>
             {label && (
                 <FlexBox className="min-w-[111px] justify-between">
                     <label>{label}</label>

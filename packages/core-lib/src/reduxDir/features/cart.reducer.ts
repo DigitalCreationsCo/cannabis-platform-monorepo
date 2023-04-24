@@ -23,14 +23,14 @@ import { AppState, ThunkArgumentsType } from "../types";
 //   urlList,
 // } from "@cannabis_delivery/component_dispensary.utils";
 
-export const addItem = createAsyncThunk<OrderItem, OrderItem, {dispatch: Dispatch<AnyAction>; extra: ThunkArgumentsType;}>(
+export const addItem = createAsyncThunk<OrderItem[], OrderItem, {dispatch: Dispatch<AnyAction>; extra: ThunkArgumentsType;}>(
   "cart/addItem",
   async (addItem, { getState, dispatch, rejectWithValue }) => {
     try {
       const { cart } = getState() as { cart: CartStateProps };
 
       const itemDispensaryAndCartDispensaryConflict =
-        !(cart.order.organizationId === addItem.organizationId || cart.order.organizationId === "");
+        !(cart.order.organizationId === addItem[0].organizationId || cart.order.organizationId === "");
       if (itemDispensaryAndCartDispensaryConflict) {
         console.log("item and cart dispensary conflict");
         // const confirmAddToCart = await dispatch(
@@ -227,8 +227,10 @@ const initialState: CartStateProps = {
         organizationId: '',
     },
     orderDispensaryName: '',
-    cart: [],
-    totalItems: 0,
+    cart: [{
+      name: 'Hello'
+    }],
+    totalItems: 1,
     subtotal: 0,
     isLoading: false,
     isSuccess: false,
@@ -265,22 +267,33 @@ const cartSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(addItem.fulfilled, (state, { payload }) => {
-        const addItem = payload
+        const addItems = payload
         if (state.order.organizationId === "") {
-            state.order.organizationId = addItem.organizationId;
-            state.orderDispensaryName = addItem.organizationName;
+            state.order.organizationId = addItem[0].organizationId;
+            state.orderDispensaryName = addItem[0].organizationName;
         }
-        let item = state.cart.find(
-            item => item.id == addItem.id
-        );
-        if (!item) {
+        
+        addItems.forEach((addItem) => {
+          let item = state.cart.find(
+              item => item.id == addItem.id
+          );
+          // no item match -> add item
+          if (!item ) {
+              state.cart.push(addItem);
+          }
+          // item match and variant match -> add quantity
+          if (item && item.variantId === addItem.variantId) {
+              item.quantity += addItem.quantity;
+          }
+          // item match and variant dont match ( possibly due to lacking data ?? ) -> add item
+          if (item && item.variantId !== addItem.variantId) {
             state.cart.push(addItem);
-        }
-        if (item) {
-            item.quantity += addItem.quantity;
-        }
+          }
+        });
+
         state.totalItems = countTotalItems(state.cart);
         state.subtotal = countCartSubtotal(state.cart);
+        
     }),
     builder.addCase(addItem.pending, (state) => {
         state.isLoading = true;
