@@ -1,5 +1,5 @@
 import { Card, LayoutContextProps, Page } from "@cd/ui-lib/src/components";
-import { ReviewOrder } from "components";
+import { ConfirmOrder, ReviewOrder, SubmitAddress, UserName, VerifyPhotoId } from "components";
 import Head from "next/head";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
@@ -9,10 +9,10 @@ function QuickDelivery() {
     const nextFormStep = () => setFormStep((currentStep) => currentStep + 1);
     // const prevFormStep = () => setFormStep((currentStep) => currentStep - 1);
     const FormStepComponents = [
-        // ConfirmOrder,
-        // VerifyPhotoId, 
-        // UserName,
-        // SubmitAddress,
+        ConfirmOrder,
+        VerifyPhotoId, 
+        UserName,
+        SubmitAddress,
         ReviewOrder
     ];    
     const styles = { gradient: ['bg-gradient-to-b', 'from-primary', 'to-secondary', 'p-0 lg:p-16 h-max'] };
