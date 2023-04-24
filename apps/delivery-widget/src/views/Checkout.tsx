@@ -9,24 +9,32 @@ import { crawler } from "../crawler"
 import { checkHrefCheckout } from "../util"
 import WidgetView, { ViewProps } from "./WidgetView"
 
-function Checkout({ className }: ViewProps) {
-    const [loadingCheckout, setLoadingCheckout] = useState(false)
-    const [showCart, setShowCart] = useState(false)
+function Checkout({ className, expandWidget, setExpandWidget }: ViewProps) {
     const [cart, setCart] = useState<Cart>({
         cartItems: [],
         total: 0
     })
     const [cartError, setCartError] = useState('')
+    
+    const [loadingCheckout, setLoadingCheckout] = useState(false)
+    
+    const handleCheckout = () => {
+        setLoadingCheckout(true)
+        window.location.href = "http://localhost:3000/quick-delivery"
+        // window.location.href = "https://dispensary.gras.com/quick-delivery"
+    }
+    
     const history = useNavigate()
     
     useEffect(() => {
-        checkHrefCheckout() ? null : history("/not-checkout")
+        checkHrefCheckout() ? null : history("/")
+        console.log('checkout? ', checkHrefCheckout())
     }, [window.location.href])
     
     const runCrawler = () => {
         crawler()
         .then(setCart)
-        .then(() => setShowCart(true))
+        .then(() => setExpandWidget(true))
         .catch((error) => {
             console.error(error); 
             setCartError(error);
@@ -35,12 +43,6 @@ function Checkout({ className }: ViewProps) {
 
     const getCartData = () => {
         runCrawler()
-    }
-    
-    const handleCheckout = () => {
-        setLoadingCheckout(true)
-        window.location.href = "http://localhost:3000/quick-delivery"
-        // window.location.href = "https://dispensary.gras.com/quick-delivery"
     }
 
     const styles = {
@@ -51,14 +53,14 @@ function Checkout({ className }: ViewProps) {
     return (
         <>
             {
-                showCart ? loadingCheckout &&
+                expandWidget ? loadingCheckout &&
                 <div className={twMerge(styles.loadingCheckout, 'min-h-[540px]')}>
                     <H4 color="light" className="animate-bounce text-lg">Checking out...</H4>
                     <Paragraph color="light">You will be redirected</Paragraph>
                 </div> ||
                 <div className={twMerge(styles.showCart, 'min-h-[540px] overflow-scroll', 'space-y-1')}>
-                    <CloseButton className="p-4" onClick={() => setShowCart(false)} />
-                    <CartList setShowCart={() => setShowCart(false)} cart={cart} cartError={cartError} />
+                    <CloseButton className="p-4" onClick={() => setExpandWidget(false)} />
+                    <CartList setExpandWidget={setExpandWidget} cart={cart} cartError={cartError} />
                     <Paragraph className="text-light m-auto">If you're ready for checkout, click the button below.</Paragraph>
                     <Button className="p-4" onClick={handleCheckout}>Checkout</Button>
                 </div> :

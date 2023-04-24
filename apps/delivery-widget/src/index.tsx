@@ -1,12 +1,10 @@
-import { PropsWithChildren } from 'react';
 import * as ReactDOMClient from 'react-dom/client';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import './styles/globals.css';
 import Button from './views/Button';
 import Checkout from './views/Checkout';
-import NotCheckout from './views/NotCheckout';
 
-const WidgetContainer = ({children }: PropsWithChildren) => {
+const Router = () => {
     // const [scrollHeight, setScrollHeight] = React.useState(0)
     
     // const setScroll = () => {
@@ -27,26 +25,17 @@ const WidgetContainer = ({children }: PropsWithChildren) => {
         // and having responsive padding at the bottom of the page
         <div className='flex h-20 md:h-0'>
         <div className="fixed bottom-0 h-auto md:right-0 md:m-4">
-            {children}
-        </div></div>
-    )
-}
-
-const Router = () => {
-    return (
         <MemoryRouter>
             <Routes>
-                <Route path="/" element={Button} />
-                <Route path="/checkout" element={Checkout} />
-                <Route path="/not-checkout" element={NotCheckout} />
+                <Route path="/" element={Button()} />
+                <Route path="/checkout" element={Checkout()} />
             </Routes>
         </MemoryRouter>
+        </div></div>
     )
 }
 
 export default { init: () => 
     ReactDOMClient.createRoot(document.getElementById('root') as Element).render(
-    <WidgetContainer>
         <Router />
-    </WidgetContainer>
 )}
