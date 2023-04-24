@@ -1,5 +1,5 @@
 import { SimpleCart } from '@cd/core-lib/src/reduxDir/features/cart.reducer';
-import SimpleCartItem from '@cd/ui-lib/components/cart/SimpleCartItem';
+import SimpleCartItem from '@cd/ui-lib/src/components/cart/SimpleCartItem';
 import Price from "@cd/ui-lib/src/components/Price";
 import { H5, Paragraph } from "@cd/ui-lib/src/components/Typography";
 import { useEffect } from "react";

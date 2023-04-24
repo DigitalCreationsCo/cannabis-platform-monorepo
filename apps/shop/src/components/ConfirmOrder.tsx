@@ -1,3 +1,4 @@
+import { SimpleCart } from "@cd/core-lib";
 import { ProductVariantWithDetails } from "@cd/data-access";
 import { Button, Center, H3, H5, Paragraph, Price, SimpleCartItem } from "@cd/ui-lib";
 import { useEffect } from "react";
@@ -22,7 +23,7 @@ function ConfirmOrder({ nextFormStep }: { nextFormStep: () => void }) {
     // TEST CART
     // const cart:any = {cartItems: [], total: 0}
 
-    const cart:  = cookies["gras-cart-token"] && JSON.parse(JSON.stringify(cookies["gras-cart-token"]))
+    const cart: SimpleCart = cookies["gras-cart-token"] && JSON.parse(JSON.stringify(cookies["gras-cart-token"]))
     
     const cartIsEmpty = cart.cartItems.length < 1
     // console.log('parse cart token: ', cart)

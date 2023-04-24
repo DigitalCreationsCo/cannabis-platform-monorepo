@@ -1,11 +1,11 @@
-import { OrderItemWithDetails } from "@cd/data-access"
+import { ProductVariantWithDetails } from "@cd/data-access"
 
 /**
  * format order Items list into stripe line items list
  * @param items 
  * @returns array of stripe line item objects
  */
-function generateCheckoutLineItemsFromOrderItems(items: OrderItemWithDetails[]) {
+function generateCheckoutLineItemsFromOrderItems(items: ProductVariantWithDetails[]) {
     return items && items?.length > 0 && items?.map(item => {
         return {
             price_data: {

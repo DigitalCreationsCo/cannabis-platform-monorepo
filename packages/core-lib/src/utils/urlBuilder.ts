@@ -56,6 +56,6 @@ const urlBuilder = {
 
 
 export {
-    urlBuilder as default,
+    urlBuilder
 };
 

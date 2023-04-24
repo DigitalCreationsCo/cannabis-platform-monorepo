@@ -1,3 +1,4 @@
+import path from 'path';
 import { defineConfig } from 'tsup';
 
 export default defineConfig((options) => ({
@@ -8,7 +9,7 @@ export default defineConfig((options) => ({
   dts: true,
   format: ['esm', 'cjs'],
   target: ['es2017', 'chrome70', 'edge18', 'firefox70', 'node16'],
-  tsconfig: new URL('./tsconfig.build.json', import.meta.url).pathname,
+  tsconfig: path.resolve('./tsconfig.build.json'),
   sourcemap: !options.watch,
   minify: !options.watch,
 }));
