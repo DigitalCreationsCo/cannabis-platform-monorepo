@@ -16,7 +16,7 @@ async function clearRecords() {
     await prisma.driver.deleteMany();
 
     await prisma.order.deleteMany();
-    await prisma.orderItem.deleteMany();
+    // await prisma.orderItem.deleteMany();
     await prisma.address.deleteMany();
 
     await prisma.productVariant.deleteMany();
