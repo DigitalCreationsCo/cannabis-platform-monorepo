@@ -4,12 +4,19 @@ import prisma from "./db/prisma";
 /*
 *   createOrganization
 *   findOrganizationById
+*   findMultipleOrganizationsById
 *   findUsersByOrganization
 *   findOrganizationBySubdomain
-*   findLocalOrganizations
 *   updateOrganization
+*   updateStripeAccountDispensary
+*   getStripeAccountId
 */
 
+/**
+ * Create new Organization record
+ * @param organization 
+ * @returns the created organization
+ */
 export async function createOrganization(organization: OrganizationCreateType) { 
     try {
         organization.subdomainId = organization.name.toLowerCase();
@@ -56,6 +63,12 @@ export async function createOrganization(organization: OrganizationCreateType) {
         else throw new Error('error creating organization')
     }
 }
+
+/**
+ * get Organization record by id
+ * @param organizationId 
+ * @returns 
+ */
 export async function findOrganizationById(organizationId:string) {
     try {
         const organization = await prisma.organization.findUnique({ where: { id: organizationId } }) || {}
@@ -66,6 +79,11 @@ export async function findOrganizationById(organizationId:string) {
     }
 }
 
+/** 
+ * get Users for an Organization using the organizationId
+ * @param organizationId
+ * @returns details of users for the organization
+*/
 export async function findUsersByOrganization(organizationId:string) {
     try {
         const users = await prisma.user.findMany({
@@ -95,6 +113,11 @@ export async function findUsersByOrganization(organizationId:string) {
     }
 }
 
+/**
+ * get Organization record using subdomain id
+ * @param subdomainId 
+ * @returns detailed organization record
+ */
 export async function findOrganizationBySubdomain(subdomainId:string) {
     try {
         const organization = await prisma.subDomain.findUnique({ where: { id: subdomainId }, include: {organization: {include: {address: true, images: true, products: true, siteSetting: true, categoryList: true}}} }) || {}
@@ -105,7 +128,12 @@ export async function findOrganizationBySubdomain(subdomainId:string) {
     }
 }
 
-export async function findLocalOrganizationsById(organizationIds: string[]) {
+/**
+ * get zero or more Organization records using an array
+ * @param organizationIds 
+ * @returns an array of detailed Organization records
+ */
+export async function findMultipleOrganizationsById(organizationIds: string[]) {
     try {
         const localOrganizations = await prisma.organization.findMany({ where: { id: { in: organizationIds } }, include: { address: true, images: true, products: true, siteSetting: true, categoryList: true }}) || []
         return localOrganizations
@@ -115,6 +143,12 @@ export async function findLocalOrganizationsById(organizationIds: string[]) {
     }
 }
 
+/**
+ * update Organization Record
+ * @param id organization id
+ * @param data fields to update
+ * @returns 
+ */
 export async function updateOrganizationRecord(id: string, data: Prisma.OrganizationUpdateArgs['data']) {
     try {
         const update = await prisma.organization.update({ where: { id }, data: {...data }})
@@ -125,10 +159,35 @@ export async function updateOrganizationRecord(id: string, data: Prisma.Organiza
     }
 }
 
+/**
+* Adds stripe account id to organization record
+* @param id organization id
+* @param stripeAccountId stripe account id
+* @param accountParams additional params to update
+*/
 export async function updateStripeAccountDispensary(id: string, stripeAccountId: string, accountParams = {}) {
     try {
         const update = await prisma.organization.update({ where: { id }, data: { stripeAccountId, ...accountParams}})
         return update
+    } catch (error: any) {
+        console.error(error)
+        throw new Error(error)
+    }
+}
+
+/**
+ * get the stripe account id for an organization using the organization id
+ * @param organizationId 
+ * @returns stripeAccountId
+ */
+export async function getStripeAccountId(organizationId: string) {
+    try {
+        const accountId = await prisma.organization.findUnique(
+            { 
+                where: { id: organizationId },
+                select: { stripeAccountId: true }
+            })
+        return accountId?.stripeAccountId
     } catch (error: any) {
         console.error(error)
         throw new Error(error)

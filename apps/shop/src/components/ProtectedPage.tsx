@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 
 // Will need to test admin level privelege for some api routes, like users/[id]
 // will use this component to protect those routes from non-admin users
@@ -6,7 +6,7 @@ import React from 'react';
 // refactor this component to get the session,
 // and pass the session to child page,
 // if there is no page, return the not found error page
-function ProtectedPage({ children }): React.ReactElement {
+function ProtectedPage({ children }: PropsWithChildren): React.ReactElement {
     // const session = useSessionContext();
     // if (session.loading === true) return <></>;
     // if (session.doesSessionExist) {

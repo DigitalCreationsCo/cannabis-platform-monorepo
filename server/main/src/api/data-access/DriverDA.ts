@@ -1,4 +1,3 @@
-import prisma from "@cd/data-access"
 
 let collections = {
   drivers: 'driver',
@@ -22,7 +21,7 @@ export default class DriverDA {
   //   }
   //     drivers = await conn[collections.drivers]
   //     driverSessions = await conn[collections.driverSessions]
-  //   } catch (error) {
+  //   } catch (error:any) {
   //     console.error(`Unable to establish database handles in DriverDA: ${error}`);
   //   }
   // }

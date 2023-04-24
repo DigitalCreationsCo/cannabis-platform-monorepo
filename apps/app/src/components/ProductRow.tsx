@@ -1,5 +1,5 @@
 import { ProductVariantWithDetails, ProductWithDetails } from '@cd/data-access';
-import { FlexBox, H6, Icons, IconWrapper, Paragraph, Price, Row } from '@cd/shared-ui';
+import { FlexBox, H6, Icons, IconWrapper, Paragraph, Price, Row } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';

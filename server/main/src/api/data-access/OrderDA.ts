@@ -33,7 +33,7 @@ export default class OrderDA {
         try {
             const data = await createOrder(order);
             return data;
-        } catch (error) {
+        } catch (error:any) {
             console.error(error.message);
             throw new Error(error.message);
         }
@@ -43,7 +43,7 @@ export default class OrderDA {
         try {
             const data = await createPurchase(purchase);
             return data;
-        } catch (error) {
+        } catch (error:any) {
             console.error(error.message);
             throw new Error(error.message);
         }
@@ -53,7 +53,7 @@ export default class OrderDA {
         try {
             const data = await findOrdersByOrg(organizationId);
             return data;
-        } catch (error) {
+        } catch (error:any) {
             console.error(error.message);
             throw new Error(error.message);
         }
@@ -63,7 +63,7 @@ export default class OrderDA {
         try {
             const data = await findOrderWithDetails(id);
             return data;
-        } catch (error) {
+        } catch (error:any) {
             console.error(error.message);
             throw new Error(error.message);
         }
@@ -73,7 +73,7 @@ export default class OrderDA {
         try {
             const data = await updateOrderWithOrderItems(order);
             return data;
-        } catch (error) {
+        } catch (error:any) {
             console.error(error.message);
             throw new Error(error.message);
         }
@@ -90,7 +90,7 @@ export default class OrderDA {
 
             const data = await findProductsByOrg(idList, page, limit);
             return data;
-        } catch (error) {
+        } catch (error:any) {
             console.error(error.message);
             throw new Error(error.message);
         }
@@ -100,7 +100,7 @@ export default class OrderDA {
         try {
             const data = await findProductWithDetails(id);
             return data;
-        } catch (error) {
+        } catch (error:any) {
             console.error(error.message);
             throw new Error(error.message);
         }
@@ -110,7 +110,7 @@ export default class OrderDA {
         try {
             const data = await findProductsByText(search, organizationId);
             return data;
-        } catch (error) {
+        } catch (error:any) {
             console.error(error.message);
             throw new Error(error.message);
         }
@@ -120,7 +120,7 @@ export default class OrderDA {
         try {
             const data = await updateVariantQuantity(variantId, quantity, '-')
             return data;
-        } catch (error) {
+        } catch (error:any) {
             console.error(error.message);
             throw new Error(error.message);
         }

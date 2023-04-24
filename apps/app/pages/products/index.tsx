@@ -2,9 +2,9 @@
 import axios from 'axios';
 import { useState } from 'react';
 // import toast from "react-hot-toast";
+import { LayoutContextProps } from '@cd/core-lib';
 import { Product } from '@cd/data-access';
-import { LayoutContextProps } from '@cd/shared-lib';
-import { Button, Card, DeleteButton, Grid, H6, Icons, Page, PageHeader, Row } from '@cd/shared-ui';
+import { Button, Card, DeleteButton, Grid, H6, Icons, Page, PageHeader, Row } from '@cd/ui-lib';
 import { ProtectedPage } from 'components';
 import { usePagination } from 'hooks';
 import Image from 'next/image';

@@ -1,5 +1,5 @@
-import { Button, FlexBox, H5, H6, Paragraph, Small } from '@cd/shared-ui';
-import React, { useCallback } from 'react';
+import { Button, FlexBox, H6, Paragraph, Small } from '@cd/ui-lib';
+import { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { twMerge } from 'tailwind-merge';
 

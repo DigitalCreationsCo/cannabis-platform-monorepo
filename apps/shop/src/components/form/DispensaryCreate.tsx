@@ -1,10 +1,10 @@
-import { useFormContext } from '@cd/shared-lib';
-import { Button, FlexBox, Grid, H3, H6, Paragraph, TermsAgreement, TextField } from '@cd/shared-ui';
+import { Button, FlexBox, Grid, H3, H6, Paragraph, TermsAgreement, TextField } from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import * as yup from 'yup';
+import { useFormContext } from '../StepFormProvider';
 
 // ToDo:
 // Organization Search for SearchTextField
@@ -20,7 +20,7 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
             setFormValues({ organization: { ...values } });
             setLoadingButton(false);
             nextFormStep();
-        } catch (error) {
+        } catch (error: any) {
             console.log('Dispensary Create Error: ', error);
             toast.error(error.response.data.message || error.response.data.errors);
             setLoadingButton(false);
@@ -159,7 +159,7 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
                     name="termsAccepted"
                     onChange={handleChange}
                     checked={values?.termsAccepted || false}
-                    helperText={touched.termsAccepted && errors.termsAccepted}
+                    helperText={touched.termsAccepted && errors.termsAccepted || ''}
                     description={
                         <>
                             By signing up to be listed on Gras Cannabis Marketplace, you agree to our

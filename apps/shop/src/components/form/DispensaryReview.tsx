@@ -1,8 +1,9 @@
-import { FormDataProps, renderNestedDataObject, useFormContext } from '@cd/shared-lib';
-import { Button, FlexBox, H3, H5, Paragraph } from '@cd/shared-ui';
+import { renderNestedDataObject } from '@cd/core-lib';
+import { Button, FlexBox, H3, H5, Paragraph } from '@cd/ui-lib';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { FormDataProps, useFormContext } from '../StepFormProvider';
 
 function DispensaryReview({ nextFormStep }: { nextFormStep: () => void }) {
     const [loadingButton, setLoadingButton] = useState(false);
@@ -53,7 +54,7 @@ function DispensaryReview({ nextFormStep }: { nextFormStep: () => void }) {
             toast.success('Successfully created your Dispensary Account and User Account!');
             nextFormStep();
             // await signIn("credentials", { email: formData.newUser.email, password: formData.newUser.password });
-        } catch (error) {
+        } catch (error: any) {
             console.log('Dispensary Review Error: ', error);
             toast.error(error.response.data.message || error.response.data.errors);
             setLoadingButton(false);

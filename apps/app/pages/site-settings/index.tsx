@@ -11,7 +11,7 @@
 // import ShippingTax from "components/site-settings/ShippingTax";
 // import SocialLinks from "components/site-settings/SocialLinks";
 // import TopbarSetting from "components/site-settings/TopbarSetting";
-import { Card, Icons, Page, PageHeader } from '@cd/shared-ui';
+import { Card, Icons, Page, PageHeader } from '@cd/ui-lib';
 import { ProtectedPage } from 'components';
 import { useState } from 'react';
 

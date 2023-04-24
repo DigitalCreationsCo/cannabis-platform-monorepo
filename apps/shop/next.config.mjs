@@ -2,8 +2,10 @@
 // import { loadEnv } from '@cd/shared-config/config/loadEnv.js';
 // import { config } from 'dotenv';
 // import { expand } from 'dotenv-expand';
+import withTranspiledModules from 'next-transpile-modules';
 import { PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_BUILD } from 'next/constants.js';
 import path from 'path';
+
 import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -166,9 +168,18 @@ const nextConfig = (phase) => {
             outputFileTracingRoot: path.join(__dirname, '../../')
         },
         images: {
-            domains: ['cdn-cashy-static-assets.lucidchart.com']
+            domains: [
+                'cdn-cashy-static-assets.lucidchart.com',
+            ]
         }
     };
 };
 
-export default nextConfig;
+const transpiledNextConfig = withTranspiledModules([
+    '@cd/ui-lib',
+    '@cd/data-access',
+    '@cd/eslint-config',
+    '@cd/core-lib'
+])(nextConfig);
+
+export default transpiledNextConfig;
