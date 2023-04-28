@@ -70,8 +70,8 @@ function Checkout({ className, expandWidget, setExpandWidget }: ViewProps) {
                 </div> :
                 <button className={twMerge(styles.checkout)}
                     onClick={getCartData}>
-                    <H4 color="light" className="cursor-pointer m-auto">Delivery by Gras - straight to your door</H4>
-                    <Paragraph className="cursor-pointer m-auto w-fit border-b-2 hover:border-secondary" color="light">
+                    <H4 color="light" className="m-auto">Delivery by Gras - straight to your door</H4>
+                    <Paragraph className="cursor-pointer m-auto w-fit border-b-2" color="light">
                         Click here to start your delivery</Paragraph>
                 </button>
             }
