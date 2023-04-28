@@ -6,13 +6,13 @@ interface Props extends PropsWithChildren<unknown> {
 }
 
 const styles = {
-    'cursor-default': 'cursor-default'
+    'cursor-inherit': 'cursor-inherit'
 };
 export const H1 = ({ className, color = 'dark', children }: Props) => {
     return (
         <h1
             className={twMerge(
-                styles['cursor-default'],
+                styles['cursor-inherit'],
                 'text-4xl font-bold whitespace-nowrap',
                 (color === 'light' && 'text-inverse') || 'text-dark',
                 className
@@ -27,7 +27,7 @@ export const H2 = ({ className, color = 'dark', children }: Props) => {
     return (
         <h2
             className={twMerge(
-                styles['cursor-default'],
+                styles['cursor-inherit'],
                 'font-bold text-3xl whitespace-nowrap',
                 (color === 'light' && 'text-inverse') || 'text-dark',
                 className
@@ -42,7 +42,7 @@ export const H3 = ({ className, color = 'dark', children }: Props) => {
     return (
         <h3
             className={twMerge(
-                styles['cursor-default'],
+                styles['cursor-inherit'],
                 'font-bold text-2xl whitespace-normal',
                 (color === 'light' && 'text-inverse') || 'text-dark',
                 className
@@ -57,7 +57,7 @@ export const H4 = ({ className, color = 'dark', children }: Props) => {
     return (
         <h4
             className={twMerge(
-                styles['cursor-default'],
+                styles['cursor-inherit'],
                 'font-semibold text-xl whitespace-normal',
                 (color === 'light' && 'text-inverse') || 'text-dark',
                 className
@@ -72,7 +72,7 @@ export const H5 = ({ className, color = 'dark', children }: Props) => {
     return (
         <h5
             className={twMerge(
-                styles['cursor-default'],
+                styles['cursor-inherit'],
                 'font-semibold text-lg whitespace-normal',
                 (color === 'light' && 'text-inverse') || 'text-dark',
                 className
@@ -87,7 +87,7 @@ export const H6 = ({ className, color = 'dark', children }: Props) => {
     return (
         <h6
             className={twMerge(
-                styles['cursor-default'],
+                styles['cursor-inherit'],
                 'font-semibold text-md whitespace-normal',
                 (color === 'light' && 'text-inverse') || 'text-dark',
                 className
@@ -102,7 +102,7 @@ export const Paragraph = ({ className, color = 'dark', children }: Props) => {
     return (
         <p
             className={twMerge(
-                styles['cursor-default'],
+                styles['cursor-inherit'],
                 'whitespace-pre-line',
                 (color === 'light' && 'text-inverse') || 'text-dark',
                 className
@@ -115,13 +115,13 @@ export const Paragraph = ({ className, color = 'dark', children }: Props) => {
 
 export const Small = ({ className, children }: Props) => {
     return (
-        <span className={twMerge(styles['cursor-default'], 'text-sm whitespace-normal', className)}>{children}</span>
+        <span className={twMerge(styles['cursor-inherit'], 'text-sm whitespace-normal', className)}>{children}</span>
     );
 };
 
 export const Span = ({ className, children, ...props }: Props) => {
     return (
-        <span className={twMerge(styles['cursor-default'], 'text-md inline whitespace-normal', className)} {...props }>
+        <span className={twMerge(styles['cursor-inherit'], 'text-md inline whitespace-normal', className)} {...props }>
             {children}
         </span>
     );
@@ -129,6 +129,6 @@ export const Span = ({ className, children, ...props }: Props) => {
 
 export const Tiny = ({ className, children }: Props) => {
     return (
-        <span className={twMerge(styles['cursor-default'], 'text-xs whitespace-normal', className)}>{children}</span>
+        <span className={twMerge(styles['cursor-inherit'], 'text-xs whitespace-normal', className)}>{children}</span>
     );
 };

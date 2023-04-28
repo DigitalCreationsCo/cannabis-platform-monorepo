@@ -39,17 +39,20 @@ function CartList({cart, cartError, setExpandWidget} : CartListProps) {
         <Paragraph className='text-light text-lg'>
             We can deliver your order straight to your home.
             If you wish to make any changes, edit your{' '}
-            <a onClick={() => setExpandWidget(false)} className="cursor-pointer border-2 border-b-secondary">
+            <a onClick={() => setExpandWidget(false)} className="cursor-pointer border-b-secondary">
                 Cart</a>
                 , and return here for checkout.
             </Paragraph>
         <div className={styles.cartContainer}>
             {cart.cartItems.length > 0 && cart.cartItems.map((cartItem, index) => (
+                <>
+                {index > 0 && <hr className='border-secondary' />}
                 <SimpleCartItem key={`cart-item-${index}`} product={cartItem}/>
+                </>
             )) || <Paragraph className='text-light'>Your cart is empty.</Paragraph>
             }
             {cart && <H5 className='flex justify-end text-light'>{`Your total is `}
-            <Price className={'pl-2'} price={cart.total} /></H5>}
+            <Price className='pl-2 text-light' price={cart.total} /></H5>}
         </div>
         
         {cartError && <Paragraph>{cartError}</Paragraph>}

@@ -41,6 +41,11 @@
 }
 
 @layer utilities {
+  
+    .cursor-inherit {
+      cursor: inherit;
+    }
+
     /* Hide scrollbar for Chrome, Safari and Opera */
     .hide-scroll::-webkit-scrollbar {
       display: none;

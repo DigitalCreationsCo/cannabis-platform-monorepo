@@ -2030,7 +2030,7 @@ __metadata:
     babel-loader: 9.1.2
     cross-env: 7.0.3
     css-loader: 6.7.3
-    daisyui: 2.46.0
+    daisyui: 2.51.6
     file-loader: 6.2.0
     jest: 29.3.1
     jest-environment-jsdom: 29.5.0
@@ -6673,7 +6673,7 @@ __metadata:
     copyfiles: 2.4.1
     cors: 2.8.5
     css-loader: 6.7.3
-    daisyui: 2.46.0
+    daisyui: 2.51.6
     date-fns: 2.29.3
     dotenv: 16.0.3
     dotenv-cli: 7.0.0
@@ -7972,6 +7972,21 @@ __metadata:
     autoprefixer: ^10.0.2
     postcss: ^8.1.6
   checksum: 9fedcec550fd4aa33dfd424ba8e772f318f6367486cd2aaebc2eff83541c4b82d7f514ab123880b2b1b0b3f4b8ced2aab4bbd43dd1cd951c67253931411f2450
+  languageName: node
+  linkType: hard
+
+"daisyui@npm:2.51.6":
+  version: 2.51.6
+  resolution: "daisyui@npm:2.51.6"
+  dependencies:
+    color: ^4.2
+    css-selector-tokenizer: ^0.8.0
+    postcss-js: ^4.0.0
+    tailwindcss: ^3
+  peerDependencies:
+    autoprefixer: ^10.0.2
+    postcss: ^8.1.6
+  checksum: cd3444a5031f81a10a5e33154ff2072430a318ad8904a51a0fb9a7e29bd687eed187571348d8c22fdcfd60d6cdd86556297ed4654cdfa898fec8fb1f8b565e54
   languageName: node
   linkType: hard
 

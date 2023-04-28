@@ -1,13 +1,14 @@
 const colors = require('tailwindcss/colors');
 
 module.exports = {
+    plugins: [require('daisyui')],
     content: [
         './src/**/*.{js,ts,jsx,tsx}',
-        '../../apps/**/*.{jsx,tsx}',
+        '../../apps/shop/**/*.{jsx,tsx}',
+        '../../apps/app/**/*.{jsx,tsx}',
         '../../apps/delivery-widget/src/**/*.{jsx,tsx}',
         '../../packages/ui-lib/src/**/*.{jsx,tsx}',
     ],
-    plugins: [require('daisyui')],
     theme: {
         extend: {
             colors: {
@@ -51,6 +52,8 @@ module.exports = {
     },
     daisyui: {
         styled: true,
+        base: true,
+        utils: true,
         themes: [
             {
                 cannabis: {

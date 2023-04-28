@@ -51,13 +51,13 @@ function Button({ className, expandWidget, setExpandWidget }: ViewProps) {
             </div>
             <CloseButton theme={'dark'} className="relative p-4" onClick={closeWidget} />
         </div> :
-        <div className="flex flex-col items-center !cursor-pointer">
+        <div className="flex flex-col items-center">
         <div className={twMerge("tooltip tooltip-open absolute top-0 tooltip-primary")} data-tip="Click to learn more!"></div>
           { 
           screenwidth <= md ? 
-          <H4 color="light" className="!cursor-pointer">Delivery by Gras available at checkout</H4> : <>
-          <H4 color="light" className="!cursor-pointer">Delivery by Gras</H4>
-          <Paragraph color="light" className="!cursor-pointer">now at checkout</Paragraph></>}
+          <H4 color="light">Delivery by Gras available at checkout</H4> : <>
+          <H4 color="light">Delivery by Gras</H4>
+          <Paragraph color="light">now at checkout</Paragraph></>}
         </div>}
     </div>
     )

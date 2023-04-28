@@ -17,14 +17,15 @@ const WidgetView = (View:(props:ViewProps) => JSX.Element) => () => {
     const styles = {
         container: ["relative"],
         responsive: ["w-screen md:w-auto"],
-        theme: ["ring-2 ring-offset-2 bg-primary p-4 w-full"]
+        theme: ["ring-2 ring-offset-2 bg-primary", "p-4 w-full"],
+        hover: [!expandWidget && `hover:bg-primary-light transition`]
     }
     return (
         <div ref={ref} className={twMerge([styles.container, styles.responsive])} >
         <View
             expandWidget={expandWidget} 
             setExpandWidget={setExpandWidget} 
-            className={twMerge([styles.theme])} />
+            className={twMerge([styles.theme, styles.hover])} />
         </div>
         )
     }
