@@ -36,6 +36,6 @@ const Router = () => {
 }
 
 export default { init: () => 
-    ReactDOMClient.createRoot(document.getElementById('root') as Element).render(
+    ReactDOMClient.createRoot(document.getElementById('gras-widget-root') as Element).render(
         <Router />
 )}
