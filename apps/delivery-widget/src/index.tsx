@@ -23,7 +23,7 @@ const Router = () => {
         // top div is used to keep the button at the bottom of the page, 
         // while also allowing the button to be sticky
         // and having responsive padding at the bottom of the page
-        <div className='flex h-20 md:h-0'>
+        <div className='absolute flex h-20 md:h-0'>
         <div className="fixed bottom-0 h-auto md:right-0 md:m-4">
         <MemoryRouter>
             <Routes>
@@ -31,11 +31,13 @@ const Router = () => {
                 <Route path="/checkout" element={Checkout()} />
             </Routes>
         </MemoryRouter>
-        </div></div>
+        </div>
+        </div>
     )
 }
 
-export default { init: () => 
+export default { init: async () => {
     ReactDOMClient.createRoot(document.getElementById('gras-widget-root') as Element).render(
         <Router />
-)}
+    )
+}}

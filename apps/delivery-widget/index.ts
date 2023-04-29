@@ -1,10 +1,11 @@
 import App from './src';
-var init = function (options: any) {
+var init = async function (options: any) {
     console.info('gras widget init, options: ', options);
-    const root = document.createElement("div")
-    root.setAttribute("id", "root")
-    document.body.appendChild(root);
-    App.init();
+    var g = document.createElement("div")
+    g.setAttribute("id", "gras-widget-root")
+    g.setAttribute('class', "gras-widget-wrapper")
+    document.body.appendChild(g);
+    await App.init();
 };
 
 function grasWidget() {
@@ -14,3 +15,5 @@ function grasWidget() {
 };
 
 window.grasWidget = grasWidget;
+
+export { };
