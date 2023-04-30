@@ -17,7 +17,7 @@ const WidgetView = (View:(props:ViewProps) => JSX.Element) => () => {
         function checkPath() {
             if (location.pathname != pathname) {
                 pathname = location.pathname;
-                console.log('is checkout? ', useCheckHrefIncludes('checkout'))
+                // console.log('is checkout? ', useCheckHrefIncludes('checkout'))
                 useCheckHrefIncludes('checkout') ? history('/checkout') : history('/')
             }
         }
