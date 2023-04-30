@@ -1,10 +1,8 @@
 import { SimpleCart } from "@cd/core-lib/src/reduxDir/features"
-import { useCheckHrefIncludes } from "@cd/core-lib/src/utils/useCheckHrefIncludes"
 import Button from "@cd/ui-lib/src/components/Button"
 import CloseButton from "@cd/ui-lib/src/components/CloseButton"
 import { H4, Paragraph } from "@cd/ui-lib/src/components/Typography"
-import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useState } from "react"
 import { twMerge } from "tailwind-merge"
 import CartList from "../components/CartItemList"
 import { crawler } from "../crawler"
@@ -25,16 +23,32 @@ function Checkout({ className, expandWidget, setExpandWidget }: ViewProps) {
         // window.location.href = "https://dispensary.gras.com/quick-delivery"
     }
     
-    const history = useNavigate()
+    // const history = useNavigate()
     
-    useEffect(() => {
-        function goToCheckout() {
-            console.log('is checkout? ', useCheckHrefIncludes('checkout'))
-            useCheckHrefIncludes('checkout') ? history('/checkout') : null 
-        }
-        goToCheckout()
-    })
+    // function goToCheckout() {
+    //     console.log('is checkout? ', useCheckHrefIncludes('checkout'))
+    //     useCheckHrefIncludes('checkout') ? history('/checkout') : null 
+    // }
+
+    // useEffect(() => {
+    //     console.log('widget rendered: Checkout')
+    // })
     
+    // useEffect(() => {
+    //     goToCheckout()
+    //     return () => {
+    //         goToCheckout()
+    //     }
+    // }, [])
+
+    // useEffect(() => {
+    //     console.log('window location changed')
+    //     goToCheckout()
+    //     return () => {
+    //         console.log('window location changed cleanup')
+    //     }
+    // }, [window.location])
+      
     const runCrawler = () => {
         crawler()
         .then(setCart)

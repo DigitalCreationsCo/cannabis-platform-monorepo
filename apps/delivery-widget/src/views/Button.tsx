@@ -1,9 +1,7 @@
-import { useCheckHrefIncludes } from "@cd/core-lib/src/utils/useCheckHrefIncludes"
 import CloseButton from "@cd/ui-lib/src/components/CloseButton"
 import { H4, Paragraph } from "@cd/ui-lib/src/components/Typography"
 import { getBreakpointValue } from "@cd/ui-lib/src/hooks/useBreakpoint"
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
 import { twMerge } from "tailwind-merge"
 import WidgetView, { ViewProps } from "./WidgetView"
 
@@ -21,15 +19,30 @@ function Button({ className, expandWidget, setExpandWidget }: ViewProps) {
       setScreenwidth(window.innerWidth)
     }
     
-    const history = useNavigate()
+    // function goToCheckout() {
+    //   console.log('is checkout? ', useCheckHrefIncludes('checkout'))
+    //   useCheckHrefIncludes('checkout') ? history('/checkout') : null 
+    // }
 
-    useEffect(() => {
-      function goToCheckout() {
-          console.log('is checkout? ', useCheckHrefIncludes('checkout'))
-          useCheckHrefIncludes('checkout') ? history('/checkout') : null 
-      }
-      goToCheckout()
-    })
+    // useEffect(() => {
+    //   console.log('window location: ', window.location.href)
+    //   console.log('widget rendered: Button')
+    // })
+
+    // useEffect(() => {
+    //   goToCheckout()
+    //   return () => {
+    //     goToCheckout()
+    //   }
+    // }, [])
+
+    // useEffect(() => {
+    //   console.log('window location changed')
+    //   goToCheckout()
+    //   return () => {
+    //     console.log('window location changed cleanup')
+    //   }
+    // }, [window.location])
   
     useEffect(() => {
       window.addEventListener('resize', setWindowDimensions);
@@ -37,9 +50,8 @@ function Button({ className, expandWidget, setExpandWidget }: ViewProps) {
         window.removeEventListener('resize', setWindowDimensions)
       }
     }, [])
-    
-    const md = getBreakpointValue('md')
 
+    const md = getBreakpointValue('md')
     return (
     <div onClick={openWidget} className={twMerge([className, "relative", "cursor-pointer", "md:rounded-full"])}>
       {expandWidget ? 
