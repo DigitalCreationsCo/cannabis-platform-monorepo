@@ -172,7 +172,7 @@ function getDispensaryDomain() {
             return 'localhost'
         case window.location.href.includes('sunnyside'):
             return 'sunnyside'
-        case window.location.href.includes('manasupply.com'):
+        case window.location.href.includes('manasupply'):
             return 'mana-supply-company'
         default:
             return 'localhost'
