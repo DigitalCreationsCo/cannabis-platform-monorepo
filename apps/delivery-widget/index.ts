@@ -4,7 +4,8 @@ var init = async function (options: any) {
     var g = document.createElement("div")
     g.setAttribute("id", "gras-widget-root")
     g.setAttribute('class', "gras-widget-wrapper")
-    document.body.appendChild(g);
+    const root = document.getElementById('root')
+    root?.appendChild(g);
     await App.init();
 };
 

@@ -22,7 +22,7 @@ function Checkout({ className, expandWidget, setExpandWidget }: ViewProps) {
         window.location.href = "http://localhost:3000/quick-delivery"
         // window.location.href = "https://dispensary.gras.com/quick-delivery"
     }
-    
+
     // const history = useNavigate()
     
     // function goToCheckout() {

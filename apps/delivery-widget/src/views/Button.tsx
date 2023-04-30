@@ -1,11 +1,15 @@
+// import { useCheckHrefIncludes } from '@cd/core-lib/src/utils/useCheckHrefIncludes'
 import CloseButton from "@cd/ui-lib/src/components/CloseButton"
 import { H4, Paragraph } from "@cd/ui-lib/src/components/Typography"
 import { getBreakpointValue } from "@cd/ui-lib/src/hooks/useBreakpoint"
 import { useEffect, useState } from "react"
+// import { useNavigate } from 'react-router-dom'
 import { twMerge } from "tailwind-merge"
 import WidgetView, { ViewProps } from "./WidgetView"
 
 function Button({ className, expandWidget, setExpandWidget }: ViewProps) {
+
+  
     const openWidget = () => setExpandWidget(true)
 
     const closeWidget = (event:any) => {
@@ -19,31 +23,6 @@ function Button({ className, expandWidget, setExpandWidget }: ViewProps) {
       setScreenwidth(window.innerWidth)
     }
     
-    // function goToCheckout() {
-    //   console.log('is checkout? ', useCheckHrefIncludes('checkout'))
-    //   useCheckHrefIncludes('checkout') ? history('/checkout') : null 
-    // }
-
-    // useEffect(() => {
-    //   console.log('window location: ', window.location.href)
-    //   console.log('widget rendered: Button')
-    // })
-
-    // useEffect(() => {
-    //   goToCheckout()
-    //   return () => {
-    //     goToCheckout()
-    //   }
-    // }, [])
-
-    // useEffect(() => {
-    //   console.log('window location changed')
-    //   goToCheckout()
-    //   return () => {
-    //     console.log('window location changed cleanup')
-    //   }
-    // }, [window.location])
-  
     useEffect(() => {
       window.addEventListener('resize', setWindowDimensions);
       return () => {
