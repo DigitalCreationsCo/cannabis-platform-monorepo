@@ -10,12 +10,12 @@ const crawler = async () => {
     const _cartItemSelector = {
         'localhost': '[data-item=cart-item]',
         'sunnyside': '[data-cy=CartItem]',
-        'mana-supply-company': '[data-testid=cart-item-container]'
+        'manasupply': '[data-testid=cart-item-container]'
     }
     const _cartTotalSelector = {
         'localhost': '[data-item=cart-total]',
         'sunnyside': '[data-cy=CartTotal]',
-        'mana-supply-company': '[data-testid=cart-dropdown-subtotal]'
+        'manasupply': '[data-testid=cart-dropdown-subtotal]'
     }
     
     type DomData = {
@@ -58,7 +58,7 @@ const crawler = async () => {
                 location: '.product-image',
             },
         },
-        'mana-supply-company':{
+        'manasupply':{
             'cart-item': '[data-testid=cart-item-container]',
             'total':     '[data-testid=cart-dropdown-subtotal]',
             'name': '.item__Name',
@@ -79,8 +79,17 @@ const crawler = async () => {
         if (typeof window === 'undefined') throw new Error('window is not available')
         
         const _url = window.location.href
-        const response = await fetch(_url)
+        console.log('get url: ', _url)
+
+        const response = await fetch(_url, {
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile/12A4345d Safari/600.1.4'
+            }
+        })
+        console.log('response: ', response)
+
         const html = await response.text()
+        console.log('html found: ', html)
 
         const $ = cheerio.load(html)
         const data = parseData('cart')
@@ -97,16 +106,18 @@ const crawler = async () => {
         
         function parseCartHtml() {
             const _domain = getDispensaryDomain()
+            console.log('domain: ', _domain)
             // const cartItemSelector = getCartItemSelector()
             // const _cartItemHtml = $(cartItemSelector).get()
 
             // const cartTotalSelector = getCartTotalSelector()
             // const _cartTotal = $(cartTotalSelector).text() as unknown as number
 
+            console.log($())
             const _cartItemHtml = $(getDomData(_domain)['cart-item']).get()
-            const _cartTotal = $(getDomData(_domain)['total']).text() as unknown as number
-            
             console.info('cart items: ', _cartItemHtml)
+
+            const _cartTotal = $(getDomData(_domain)['total']).text() as unknown as number
             console.info('cart total: ', _cartTotal)
             
             const _cartData = createCartData(_cartItemHtml, _cartTotal)
@@ -168,12 +179,10 @@ export { crawler }
 
 function getDispensaryDomain() {
     switch(true) {
-        case window.location.href.includes('localhost'):
-            return 'localhost'
         case window.location.href.includes('sunnyside'):
             return 'sunnyside'
         case window.location.href.includes('manasupply'):
-            return 'mana-supply-company'
+            return 'manasupply'
         default:
             return 'localhost'
     }
