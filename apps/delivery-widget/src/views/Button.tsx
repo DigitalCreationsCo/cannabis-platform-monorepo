@@ -53,7 +53,7 @@ function Button({ className, expandWidget, setExpandWidget }: ViewProps) {
         </div> :
         <div className="flex flex-col items-center">
         <div className={twMerge("tooltip tooltip-open absolute top-0 tooltip-primary")} data-tip="Click to learn more!"></div>
-          { 
+          {
           screenwidth <= md ? 
           <H4 color="light">Delivery by Gras available at checkout</H4> : <>
           <H4 color="light">Delivery by Gras</H4>
