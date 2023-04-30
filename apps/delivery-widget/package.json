@@ -6,8 +6,9 @@
   "scripts": {
     "clean": "rimraf ./dist ./build ./node_modules/.cache",
     "build": "rimraf ./dist && yarn postcss && webpack --mode production",
-    "postcss": "postcss ./src/styles/globals.css -o ./dist/index.css",
-    "build:css": "npx tailwindcss -i ./src/styles/globals.css -o ./dist/index.css",
+    "postcss": "node ./postcss.js",
+    "postcss2": "postcss ./src/styles/globals.css -o ./dist/index.css",
+    "build:css": "tailwindcss build -i ./src/styles/globals.css -o ./dist/index.css",
     "serve": "webpack serve --mode development --hot",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -43,6 +44,7 @@
     "postcss-import": "15.1.0",
     "postcss-loader": "7.2.4",
     "postcss-namespace": "1.1.1",
+    "postcss-plugin-namespace": "0.0.3",
     "postcss-preset-env": "8.3.1",
     "rimraf": "4.4.1",
     "serve": "14.2.0",

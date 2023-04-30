@@ -2176,6 +2176,7 @@ __metadata:
     postcss-import: 15.1.0
     postcss-loader: 7.2.4
     postcss-namespace: 1.1.1
+    postcss-plugin-namespace: ^0.0.3
     postcss-preset-env: 8.3.1
     react: 18.2.0
     react-cookie: 4.1.1
@@ -19194,6 +19195,15 @@ __metadata:
   peerDependencies:
     postcss: ^8.4
   checksum: c812c858aa3337efe55f86c4a3675db499870b9be637dc5338161b89ed95ef3e9d11bd9b37873b8fbb5e5e05d84aecc51e8e357c57e3ef78191219e8b6413ea7
+  languageName: node
+  linkType: hard
+
+"postcss-plugin-namespace@npm:^0.0.3":
+  version: 0.0.3
+  resolution: "postcss-plugin-namespace@npm:0.0.3"
+  dependencies:
+    postcss: ^7.0.6
+  checksum: 6e692ec42202239f2195f7bad5d3668c2c290e89afa3bea3dc06c3b577f244fd3360108c4f561727299d640e4d7bc9b9805b2c50ce20877d0b485d2e23b68987
   languageName: node
   linkType: hard
 
