@@ -104,6 +104,7 @@ Test many edge cases according to the stripe docs.
 Also, create the company deck!
 
 To DO: 
+must do: WRITE UNIT TESTS FOR WIDGET CRAWLER
 ConfirmOrder:
     // NOTE: Should encrypt this token in the future.
     // NOTE: Add the cart data to redux store at this point, and delete the cookie after this.
