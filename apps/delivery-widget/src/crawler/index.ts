@@ -9,12 +9,71 @@ type DOMDataKey = 'cart'
 const crawler = async () => {
     const _cartItemSelector = {
         'localhost': '[data-item=cart-item]',
-        'sunnyside': '[data-cy=CartItem]'
+        'sunnyside': '[data-cy=CartItem]',
+        'mana-supply-company': '[data-testid=cart-item-container]'
     }
     const _cartTotalSelector = {
         'localhost': '[data-item=cart-total]',
-        'sunnyside': '[data-cy=CartTotal]'
+        'sunnyside': '[data-cy=CartTotal]',
+        'mana-supply-company': '[data-testid=cart-dropdown-subtotal]'
     }
+    
+    type DomData = {
+        'cart-item': string;
+        'total':     string;
+        'name': string;
+        'label': string;
+        'basePrice': string;
+        'quantity': string;
+        'size': string;
+        'unit': string;
+        'images': {
+            location: string;
+        };
+    }
+    const _domDataSelector:Record<string, DomData> = {
+        'localhost': {
+            'cart-item': '[data-item=cart-item]',
+            'total':     '[data-item=cart-total]',
+            'name': '.item__Name',
+            'label': '.item__Brand',
+            'basePrice': '.item__Price',
+            'quantity': '.item__Quantity',
+            'size': '.item__Name',
+            'unit': '.item__Name',
+            'images': {
+                location: '.product-image',
+            },
+        },
+        'sunnyside': {
+            'cart-item': '[data-cy=CartItem]',
+            'total':     '[data-cy=CartTotal]',
+            'name': '.item__Name',
+            'label': '.item__Brand',
+            'basePrice': '.item__Price',
+            'quantity': '.item__Quantity',
+            'size': '.item__Name',
+            'unit': '.item__Name',
+            'images': {
+                location: '.product-image',
+            },
+        },
+        'mana-supply-company':{
+            'cart-item': '[data-testid=cart-item-container]',
+            'total':     '[data-testid=cart-dropdown-subtotal]',
+            'name': '.item__Name',
+            'label': '.item__Brand',
+            'basePrice': '.item__Price',
+            'quantity': '.item__Quantity',
+            'size': '.item__Name',
+            'unit': '.item__Name',
+            'images': {
+                location: '.product-image',
+            },
+        }
+    }
+
+
     
     try {
         if (typeof window === 'undefined') throw new Error('window is not available')
@@ -37,15 +96,25 @@ const crawler = async () => {
         }
         
         function parseCartHtml() {
-            const _domain = getDomain()
-            const cartItemSelector = getCartItemSelector()
-            const _cartItemHtml = $(cartItemSelector).get()
+            const _domain = getDispensaryDomain()
+            // const cartItemSelector = getCartItemSelector()
+            // const _cartItemHtml = $(cartItemSelector).get()
 
-            const cartTotalSelector = getCartTotalSelector()
-            const _cartTotal = $(cartTotalSelector).text() as unknown as number
+            // const cartTotalSelector = getCartTotalSelector()
+            // const _cartTotal = $(cartTotalSelector).text() as unknown as number
+
+            const _cartItemHtml = $(getDomData(_domain)['cart-item']).get()
+            const _cartTotal = $(getDomData(_domain)['total']).text() as unknown as number
+            
+            console.info('cart items: ', _cartItemHtml)
+            console.info('cart total: ', _cartTotal)
+            
             const _cartData = createCartData(_cartItemHtml, _cartTotal)
             return _cartData;
 
+            function getDomData(domain:string) {
+                return _domDataSelector[domain] || _domDataSelector['localhost']
+            }
             function getCartItemSelector() {
                 return _cartItemSelector[_domain] || _cartItemSelector['localhost']
             }
@@ -55,33 +124,32 @@ const crawler = async () => {
             }
 
             function createCartData(html: cheerio.AnyNode[], total: number):SimpleCart {
-                // console.log('create cart data input: ', html)
+                console.log('create cart data input: ', html)
                 const cartItems:ProductVariantWithDetails[] = []
                 
                 const cartData: SimpleCart = {
                     cartItems: cartItems,
                     total: convertDollarsToWholeNumber(total)
                 }
-                html.forEach((item) => {
+                html.forEach((item, index) => {
                     const $item = $(item)
                     const _item = {
-                        name: $item.find('[data-item=cart-item-name]').text(),
-                        basePrice: convertDollarsToWholeNumber($item.find('[data-item=cart-item-price]').text()),
-                        quantity: $item.find('[data-item=cart-item-quantity]').text() as unknown as number,
-                        size: $item.find('[data-item=cart-item-weight]').text() as unknown as number,
-                        unit: 'g',
+                        name: $item.find(getDomData(_domain).name).text(),
+                        basePrice: convertDollarsToWholeNumber($item.find(getDomData(_domain).basePrice).text()),
+                        quantity: $item.find(getDomData(_domain).quantity).text() as unknown as number,
+                        size: $item.find(getDomData(_domain).size).text() as unknown as number,
+                        unit: $item.find(getDomData(_domain).unit).text(),
                         images: [{
-                            id: $item.find('[data-item=cart-item-image]').attr('id') || '',
-                            location: ($item.find('[data-item=cart-item-image]').attr('src') || '').match(/[^(.)].*/g)?.[0] as unknown as string
+                            id: index,
+                            location: ($item.find(getDomData(_domain).images.location).attr('src') || '').match(/[^(.)].*/g)?.[0] as unknown as string
                         }],
                     }
 
 
                     console.log('item created from parseHtml: ', _item)
-                    cartData.cartItems.push(_item as ProductVariantWithDetails)
-                    // cartItems.push(_item)
+                    cartData.cartItems.push(_item as unknown as ProductVariantWithDetails)
                 })
-                // console.log('cartData', cartData)
+                console.log('cartData', cartData)
                 return cartData
             }
         }
@@ -98,12 +166,14 @@ const crawler = async () => {
 
 export { crawler }
 
-function getDomain() {
+function getDispensaryDomain() {
     switch(true) {
         case window.location.href.includes('localhost'):
             return 'localhost'
         case window.location.href.includes('sunnyside'):
             return 'sunnyside'
+        case window.location.href.includes('manasupply.com'):
+            return 'mana-supply-company'
         default:
             return 'localhost'
     }
