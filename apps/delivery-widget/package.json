@@ -10,6 +10,7 @@
     "postcss2": "postcss ./src/styles/globals.css -o ./dist/index.css",
     "build:css": "tailwindcss build -i ./src/styles/globals.css -o ./dist/index.css",
     "serve": "webpack serve --mode development --hot",
+    "dev": "webpack-dev-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
