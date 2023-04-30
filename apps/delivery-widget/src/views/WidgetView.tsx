@@ -1,5 +1,7 @@
+import { useCheckHrefIncludes } from '@cd/core-lib/src/utils/useCheckHrefIncludes';
 import { useOnClickOutside } from "@cd/ui-lib/src/hooks";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { twMerge } from "tailwind-merge";
 
 export type ViewProps = {
@@ -9,6 +11,20 @@ export type ViewProps = {
 }
 
 const WidgetView = (View:(props:ViewProps) => JSX.Element) => () => {
+    const history = useNavigate()
+    let pathname = location.pathname;
+    useEffect(() => {
+        function checkPath() {
+            if (location.pathname != pathname) {
+                pathname = location.pathname;
+                useCheckHrefIncludes('checkout') ? history('/checkout') : history('/')
+            }
+        }
+        window.addEventListener("click", checkPath);
+        return () => {
+            window.removeEventListener('click', checkPath)
+        }
+    })
     const [expandWidget, setExpandWidget] = useState(false)
     
     const ref = useRef(null);
