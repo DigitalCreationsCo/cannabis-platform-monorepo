@@ -22,7 +22,7 @@
           i.getElementById(t) ? initDeliveryWidget() : ((e = i.createElement("script")).id = t, e.src = "http://localhost:8080/index.js", e.async = !0, e.onload = initDeliveryWidget, i.head.appendChild(e))
       }
       // script id can be used to verify authentication tokens
-      function initiateCall() {initialize(document, "gras-widget-root")}
+      function initiateCall() {initialize(document, "gras-widget-script")}
       window.addEventListener ? window.addEventListener("load", initiateCall, !1) : window.attachEvent("load", initiateCall);
     </script>
     <body>
