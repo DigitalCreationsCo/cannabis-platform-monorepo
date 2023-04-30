@@ -10,9 +10,9 @@ export type ViewProps = {
 
 const WidgetView = (View:(props:ViewProps) => JSX.Element) => () => {
     const [expandWidget, setExpandWidget] = useState(false)
-    const ref = useRef(null);
     
-    useClickOutside(ref, () => setExpandWidget(false))
+    const ref = useRef(null);
+    useOnClickOutside(ref, () => setExpandWidget(false));
     
     const styles = {
         container: ["relative"],
@@ -29,11 +29,5 @@ const WidgetView = (View:(props:ViewProps) => JSX.Element) => () => {
         </div>
         )
     }
-
-function useClickOutside (ref: any, handler: () => void) {
-    useOnClickOutside(ref, () => {
-        handler()
-    });
-}
 
 export default WidgetView
