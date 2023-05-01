@@ -5,7 +5,7 @@ import { H4, Paragraph } from "@cd/ui-lib/src/components/Typography"
 import { useState } from "react"
 import { twMerge } from "tailwind-merge"
 import CartList from "../components/CartItemList"
-import { crawler } from "../crawler"
+import { cheerioCrawler as crawler } from "../crawler"
 import WidgetView, { ViewProps } from "./WidgetView"
 
 function Checkout({ className, expandWidget, setExpandWidget }: ViewProps) {

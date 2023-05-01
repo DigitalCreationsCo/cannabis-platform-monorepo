@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import { OrderItem, OrderStatus, ProductVariantWithDetails } from "@cd/data-access";
+import { OrderCreate, OrderStatus, ProductVariantWithDetails } from "@cd/data-access";
 import { AnyAction, createAsyncThunk, createSlice, Dispatch, PayloadAction } from "@reduxjs/toolkit";
 import { calcSalePrice } from "../../utils";
 import { AppState, ThunkArgumentsType } from "../types";
@@ -23,7 +23,7 @@ import { AppState, ThunkArgumentsType } from "../types";
 //   urlList,
 // } from "@cannabis_delivery/component_dispensary.utils";
 
-export const addItem = createAsyncThunk<OrderItem[], OrderItem, {dispatch: Dispatch<AnyAction>; extra: ThunkArgumentsType;}>(
+export const addItem = createAsyncThunk<ProductVariantWithDetails[], ProductVariantWithDetails[], {dispatch: Dispatch<AnyAction>; extra: ThunkArgumentsType;}>(
   "cart/addItem",
   async (addItem, { getState, dispatch, rejectWithValue }) => {
     try {
@@ -48,7 +48,8 @@ export const addItem = createAsyncThunk<OrderItem[], OrderItem, {dispatch: Dispa
         //   console.log("Dont add to cart -- do nothing");
         //   return thunkAPI.rejectWithValue("user declined add to cart");
         // }
-        return rejectWithValue("declined add to cart");
+        
+        // return rejectWithValue("declined add to cart");
       } else {
         // NavigationService.goBack();
         return addItem;
@@ -206,9 +207,10 @@ export type CartStateProps = {
         organizationId: string;
     };
     orderDispensaryName: string;
-    cart: OrderItem[];
+    cart: ProductVariantWithDetails[];
     totalItems: number;
     subtotal: number;
+    total: number;
     isLoading: boolean;
     isSuccess: boolean;
     isError: boolean;
@@ -275,14 +277,22 @@ const dummyState: CartStateProps = {
 
 const cartSlice = createSlice({
   name: "cart",
-  initialState: dummyState,
+  initialState: initialState,
   reducers: {
+    saveSimpleCart: (state, { payload }: PayloadAction<SimpleCart>) => {
+      const simpleCart = payload
+      state.cart = simpleCart.cartItems;
+      state.total = simpleCart.total;
+      state.orderDispensaryName = simpleCart.organizationName;
+      state.order.organizationId = simpleCart.organizationId;
+    },
+
     clearState: () => initialState,
     
-    updateItem: (state, {payload}: PayloadAction<OrderItem>) => {
+    updateItem: (state, {payload}: PayloadAction<ProductVariantWithDetails>) => {
       const itemInCart = state.cart.find(
         item => item.id == payload.id
-      ) as OrderItem;
+      ) as ProductVariantWithDetails;
       const index = state.cart.indexOf(itemInCart);
       
       if (index !== -1) {
@@ -298,7 +308,12 @@ const cartSlice = createSlice({
         state.cart = newCart;
         state.totalItems = countTotalItems(state.cart);
         state.subtotal = countCartSubtotal(state.cart);
-    }
+    },
+    
+    createOrder: (state, { payload }: PayloadAction<OrderCreate>) => {
+      const order = payload;
+      state.order = order;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(addItem.fulfilled, (state, { payload }) => {
@@ -372,17 +387,17 @@ const cartSlice = createSlice({
   }
 });
 
-function countTotalItems(itemList: OrderItem[]) {
+function countTotalItems(itemList: ProductVariantWithDetails[]) {
     const totalItems = itemList.reduce((sum, item) => sum + item.quantity, 0);
     return totalItems;
 };
 
-function countCartSubtotal(itemList: OrderItem[]) {
+function countCartSubtotal(itemList: ProductVariantWithDetails[]) {
     const subtotal = itemList.reduce((sum, item) => sum + getItemDiscountPrice(item), 0);
     return subtotal
 };
 
-function getItemDiscountPrice(item: OrderItem) {
+function getItemDiscountPrice(item: ProductVariantWithDetails) {
     let discount = 0;
     if (item.discount !== discount || item.discount !== null|| item.discount !== undefined) {
         discount = item.discount;
@@ -406,5 +421,7 @@ export const selectIsCartEmpty = (state: AppState):Boolean => state.cart.totalIt
 
 export type SimpleCart = {
   total: number; 
-  cartItems: ProductVariantWithDetails[]
+  cartItems: ProductVariantWithDetails[];
+  organizationId?: string;
+  organizationName?: string;
 }

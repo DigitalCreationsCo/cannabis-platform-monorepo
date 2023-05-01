@@ -7,7 +7,7 @@ import { twMerge } from "tailwind-merge";
 function QuickDelivery() {
     const [formStep, setFormStep] = useState(0);
     const nextFormStep = () => setFormStep((currentStep) => currentStep + 1);
-    // const prevFormStep = () => setFormStep((currentStep) => currentStep - 1);
+    const prevFormStep = () => setFormStep((currentStep) => currentStep - 1);
     const FormStepComponents = [
         ConfirmOrder,
         VerifyPhotoId, 
@@ -25,7 +25,7 @@ function QuickDelivery() {
             <Card className='m-auto'>
                 {FormStepComponents.map((_fsc, index) => {
                     return (
-                        formStep === index && <_fsc key={'form-step-component-' + index} nextFormStep={nextFormStep} />
+                        formStep === index && <_fsc key={'form-step-component-' + index} nextFormStep={nextFormStep} prevFormStep={prevFormStep} />
                     );
                 })}
             </Card>

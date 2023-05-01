@@ -26,6 +26,7 @@ export const locationTypes = {
 type LocationType = {
     locationType: string;
     address: {
+        id: string;
         street1: string;
         street2: string;
         city: string;
@@ -68,6 +69,7 @@ const initialState: LocationStateProps = {
     homeLocation: {
         locationType: locationTypes.HOME_LOCATION,
         address: {
+          id: "",
           street1: "",
           street2: "",
           city: "",
@@ -84,6 +86,7 @@ const initialState: LocationStateProps = {
       currentLocation: {
         locationType: locationTypes.CURRENT_LOCATION,
         address: {
+          id: "",
           street1: "",
           street2: "",
           city: "",
@@ -100,6 +103,7 @@ const initialState: LocationStateProps = {
       giftLocation: {
         locationType: locationTypes.GIFT_LOCATION,
         address: {
+          id: "",
           street1: "",
           street2: "",
           city: "",

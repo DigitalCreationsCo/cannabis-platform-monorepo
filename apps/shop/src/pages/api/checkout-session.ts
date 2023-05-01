@@ -8,7 +8,7 @@ const handler = nc();
 
 handler.post(async (req: ExtendRequest, res: NextApiResponse) => {
     try {
-        const formData = req.body;
+        const checkoutOrder = req.body;
         // const { data } = await axios.post(urlBuilder.main.organization(), formData, {
         //     headers: {
         //         'Content-Type': 'application/json'
@@ -17,8 +17,8 @@ handler.post(async (req: ExtendRequest, res: NextApiResponse) => {
         // return res.status(res.statusCode).json(data);
 
         console.log('api route: create stripe checkout session');
-        console.log('form data: ', formData)
-        const { data } = await axios.post(urlBuilder.payment.checkout(), formData, {
+        console.log('checkout order: ', checkoutOrder)
+        const { data } = await axios.post(urlBuilder.payment.checkout(), checkoutOrder, {
             headers: {
                 'Content-Type': 'application/json'
             }

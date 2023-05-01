@@ -1,16 +1,16 @@
-import { Button, Center, H2, H5, UploadImageBox } from "@cd/ui-lib";
+import { Button, Center, FlexBox, H2, H5, UploadImageBox } from "@cd/ui-lib";
 import Image from "next/image";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import DropZone from "./DropZone";
 
-const VerifyPhotoId = ({ nextFormStep }: { nextFormStep: () => void }) => {
+const VerifyPhotoId = ({ nextFormStep, prevFormStep }: { nextFormStep: () => void; prevFormStep: () => void; }) => {
 
     const [frontImage, setFrontImage] = useState<any>(null);
     const [backImage, setBackImage] = useState<any>(null);
     const [loadingButton, setLoadingButton] = useState(false);
 
-    const uploaded = !frontImage || !backImage
+    const uploaded = frontImage && backImage
 
     const onSubmitUpload = async () => {
         try {
@@ -96,11 +96,18 @@ const VerifyPhotoId = ({ nextFormStep }: { nextFormStep: () => void }) => {
                 />
         }
         </div>
-        <Button 
-        disabled={uploaded}
-        loading={loadingButton}
-        onClick={onSubmitUpload}
-        >Verify ID</Button>
+        <FlexBox className='flex-row space-x-4 py-2'>
+            <Button 
+            disabled={uploaded}
+            loading={loadingButton}
+            onClick={prevFormStep}
+            >back</Button>
+            <Button 
+            disabled={!uploaded}
+            loading={loadingButton}
+            onClick={onSubmitUpload}
+            >Verify ID</Button>
+        </FlexBox>
     </Center>
 )}
 
