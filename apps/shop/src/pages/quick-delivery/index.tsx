@@ -2,25 +2,31 @@ import { selectUserState } from "@cd/core-lib/reduxDir";
 import { Card, LayoutContextProps, Page } from "@cd/ui-lib/src/components";
 import { ConfirmOrder, ReviewOrder, SubmitAddress, UserName, VerifyPhotoId } from "components";
 import Head from "next/head";
+import Router from 'next/router';
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { twMerge } from "tailwind-merge";
 
 function QuickDelivery() {
     const user =useSelector(selectUserState)
+    const { isLegalAge, idVerified } = user.user
+
+    if ((!isLegalAge && idVerified) || (isLegalAge === false)) Router.push('/sorry-we-cant-serve-you')
     
     const [formStep, setFormStep] = useState(0);
     const nextFormStep = () => setFormStep((currentStep) => currentStep + 1);
     const prevFormStep = () => setFormStep((currentStep) => currentStep - 1);
     const FormStepComponents = [
         ConfirmOrder,
-        user.user && VerifyPhotoId || null, // if there is no user, or user is over21, not age verified, then verify photo id
+        isLegalAge === null && !idVerified && VerifyPhotoId || isLegalAge && idVerified && null, // if there is no user, or user is over21, not age verified, then verify photo id
         UserName,
         SubmitAddress,
         ReviewOrder
     ];
     const styles = { gradient: ['bg-gradient-to-b', 'from-primary', 'to-secondary', 'p-0 lg:p-16 h-max'] };
     
+
+
     return (
         <Page className={twMerge(styles.gradient, "pb-0 md:pb-24")}>
             <Head>
