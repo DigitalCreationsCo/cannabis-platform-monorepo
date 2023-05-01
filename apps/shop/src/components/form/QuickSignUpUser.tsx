@@ -9,7 +9,7 @@ import { useCallback, useState } from 'react';
 import toast from 'react-hot-toast';
 import * as yup from 'yup';
 
-function UserNameForm({ nextFormStep }: { nextFormStep: () => void }) {
+function QuickSignUpUserForm({ nextFormStep }: { nextFormStep: () => void }) {
     const { setFormValues } = useFormContext();
 
     const [loadingButton, setLoadingButton] = useState(false);
@@ -159,4 +159,4 @@ function UserNameForm({ nextFormStep }: { nextFormStep: () => void }) {
     );
 }
 
-export default UserNameForm;
+export default QuickSignUpUserForm;

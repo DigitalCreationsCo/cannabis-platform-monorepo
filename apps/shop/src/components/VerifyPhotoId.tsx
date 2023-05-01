@@ -1,10 +1,12 @@
 import { Button, Center, FlexBox, H2, H5, UploadImageBox } from "@cd/ui-lib";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import DropZone from "./DropZone";
 import { useFormContext } from "./StepFormProvider";
 
-const VerifyPhotoId = ({ nextFormStep, prevFormStep }: { nextFormStep: () => void; prevFormStep: () => void; }) => {    
+const VerifyPhotoId = ({ nextFormStep, prevFormStep }: { nextFormStep: () => void; prevFormStep: () => void; }) => {
+    
     const { resetFormValues, setFormValues } = useFormContext();
     useEffect(() => {
         const createNewFormContext = () => {
@@ -19,30 +21,29 @@ const VerifyPhotoId = ({ nextFormStep, prevFormStep }: { nextFormStep: () => voi
     const [frontImage, setFrontImage] = useState<any>(null);
     const [backImage, setBackImage] = useState<any>(null);
     const [loadingButton, setLoadingButton] = useState(false);
+    const uploaded = frontImage && backImage
 
-    nextFormStep()
-
-    // const uploaded = frontImage && backImage
-    // const onSubmitUpload = async () => {
-    //     try {
-    //         if (frontImage && backImage) {
-    //             setLoadingButton(true);
-    //             toast('Verifying your photo id...')
-    //             const response = await verifyPhotoIdImage({frontImage, backImage})
-    //             // if (response.status === 200) {
-    //             if (response !== null) {
-    //                 toast('Success! Your photo id has been verified.')
-    //                 nextFormStep();
+    const onSubmitUpload = async () => {
+        try {
+            if (frontImage && backImage) {
+                setLoadingButton(true);
+                toast('Verifying your photo id...')
+                const response = await verifyPhotoIdImage({frontImage, backImage})
+                // if (response.status === 200) {
+                if (response !== null) {
+                    toast('Success! Your photo id has been verified.')
                     
-    //                 // setFormValues({ageVerified: true})
+                    // setFormValues({ isLegalAge: true, idVerified: true })
 
-    //                 // GET IDENTIFICATION CONFIRM RESPONSE
-    //                 // ADD THE PROPERTY ageVerified: true to new user form,
-    //             }
-    //         }
-    //     } catch (error: any) {
-    //     }
-    // }
+                    // GET IDENTIFICATION CONFIRM RESPONSE
+                    // ADD THE PROPERTY ageVerified: true to new user form,
+                    nextFormStep();
+
+                }
+            }
+        } catch (error: any) {
+        }
+    }
 
     const verifyPhotoIdImage = async ({frontImage, backImage}: any) => {
         try {
@@ -114,14 +115,14 @@ const VerifyPhotoId = ({ nextFormStep, prevFormStep }: { nextFormStep: () => voi
         </div>
         <FlexBox className='flex-row space-x-4 py-2'>
             <Button 
-            // disabled={uploaded}
+            disabled={uploaded}
             loading={loadingButton}
             onClick={prevFormStep}
-            >back</Button>
+            >go back</Button>
             <Button 
-            // disabled={!uploaded}
+            disabled={!uploaded}
             loading={loadingButton}
-            // onClick={onSubmitUpload}
+            onClick={onSubmitUpload}
             >Verify ID</Button>
         </FlexBox>
     </Center>
