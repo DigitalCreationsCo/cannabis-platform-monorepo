@@ -58,6 +58,8 @@ model User {
   username String @unique
   email         String   @unique
   emailVerified Boolean @default(false)
+  ageVerified Boolean @default(false)
+  idVerified Boolean @default(false)
   passwordHash String?
   passwordResetToken String?
   dialCode String?
