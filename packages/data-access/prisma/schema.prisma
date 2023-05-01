@@ -58,7 +58,7 @@ model User {
   username String @unique
   email         String   @unique
   emailVerified Boolean @default(false)
-  ageVerified Boolean @default(false)
+  is21 Boolean?
   idVerified Boolean @default(false)
   passwordHash String?
   passwordResetToken String?
