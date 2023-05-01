@@ -1,12 +1,9 @@
 import { cartActions, modalActions, modalTypes, selectCartState, selectIsCartEmpty, selectSelectedLocationState, selectUserState, SimpleCart } from "@cd/core-lib";
 import { OrderCreate, ProductVariantWithDetails } from "@cd/data-access";
 import { Button, Center, H3, H5, Paragraph, Price, SimpleCartItem } from "@cd/ui-lib";
-import { AnyAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
-import { useFormContext } from "./StepFormProvider";
 
 function ConfirmOrder({ nextFormStep }: { nextFormStep: () => void }) {
     
@@ -20,17 +17,6 @@ function ConfirmOrder({ nextFormStep }: { nextFormStep: () => void }) {
             })
         );
     }
-    
-    const { resetFormValues, setFormValues } = useFormContext();
-    
-    useEffect(() => {
-        const createNewFormContext = () => {
-            console.info('creating new form context for Quick Delivery Form')
-            resetFormValues()
-        }
-    
-        createNewFormContext()
-    }, [])
     
     const [cookies, setCookie] = useCookies(['gras-cart-token'])
 
@@ -51,9 +37,9 @@ function ConfirmOrder({ nextFormStep }: { nextFormStep: () => void }) {
     const selectedLocation = useSelector(selectSelectedLocationState)
     // const checkout = () => { router.push("/checkout"); }
 
-    useEffect(() => {
-        if (simpleCart) dispatch(cartActions.saveSimpleCart(simpleCart) as unknown as AnyAction);
-    }, [simpleCart, cart])
+    // useEffect(() => {
+    //     if (simpleCart) dispatch(cartActions.saveSimpleCart(simpleCart) as unknown as AnyAction);
+    // }, [simpleCart, cart])
 
     const createOrder = async () => {
         const order:OrderCreate = {
@@ -97,9 +83,10 @@ function ConfirmOrder({ nextFormStep }: { nextFormStep: () => void }) {
                 </>
                 ) : (
                     <>
-                <H5>Next, we need your contact info and address so our delivery person can get to you.</H5>
+                <Paragraph>Next, we need your contact info and address so our delivery person can get to you.</Paragraph>
+                <Paragraph>Hit Next to provide your info, or sign in</Paragraph>
                 <Button 
-                disabled={!!cartIsEmpty}
+                // disabled={!!cartIsEmpty}
                 onClick={nextFormStep}
                 >Next</Button>
                 <Button onClick={openLoginModal}>

@@ -111,7 +111,7 @@ export async function updateUserPasswordToken(email: string, timeLimitedToken: s
     }
 }
 
-export type UserWithDetails = Omit<User, "createdAt" | "updatedAt"> & {
+export type UserWithDetails = User & Omit<User, "createdAt" | "updatedAt"> & {
     address: {
         id?: string
         street1: string
