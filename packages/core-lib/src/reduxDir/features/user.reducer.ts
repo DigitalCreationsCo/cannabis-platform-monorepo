@@ -345,4 +345,3 @@ export const userActions = {
 export const userReducer = userSlice.reducer;
 
 export const selectUserState = (state: AppState) => state.user;
-export const selectIsOver21 = (state: AppState) => state.user.user.is21 && state.user.user.idVerified;
