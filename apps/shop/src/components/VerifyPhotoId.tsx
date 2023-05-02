@@ -59,10 +59,8 @@ const VerifyPhotoId = ({ nextFormStep, prevFormStep }: { nextFormStep: () => voi
     }
     
     return (
-    <Center className='space-y-2 w-3/4 m-auto pb-20 md:pb-0'>
-        <H2 className="self-start">
-            Before we deliver, </H2>
-            <H2>Please verify your id</H2>
+    <Center className='space-y-4 w-3/4 m-auto pb-20 md:pb-0'>
+        <H2>Please verify your id</H2>
         <H5>Please upload a picture of the front and back of your state's photo id card.</H5>
         <div className="h-[200px] w-[240px]">
         {frontImage ? 
@@ -115,8 +113,7 @@ const VerifyPhotoId = ({ nextFormStep, prevFormStep }: { nextFormStep: () => voi
         </div>
         <FlexBox className='flex-row space-x-4 py-2'>
             <Button 
-            disabled={uploaded}
-            loading={loadingButton}
+            disabled={loadingButton}
             onClick={prevFormStep}
             >go back</Button>
             <Button 

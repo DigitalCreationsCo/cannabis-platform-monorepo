@@ -9,7 +9,8 @@ import { useCallback, useState } from 'react';
 import toast from 'react-hot-toast';
 import * as yup from 'yup';
 
-function QuickSignUpUserForm({ nextFormStep }: { nextFormStep: () => void }) {
+function QuickSignUpUserForm({ nextFormStep, prevFormStep }: { nextFormStep: () => void; prevFormStep: () => void; }) {
+    
     const { setFormValues } = useFormContext();
 
     const [loadingButton, setLoadingButton] = useState(false);
@@ -71,7 +72,7 @@ function QuickSignUpUserForm({ nextFormStep }: { nextFormStep: () => void }) {
             <form onSubmit={handleSubmit}>
                 <H3>{`Sign Up`}</H3>
                 <H3>{`Get Cannabis Delivered 🌴🔥`}</H3>
-                <Grid className="space-y-2">
+                <Grid className="space-y-4">
                 <Paragraph>* Please fill the required fields.</Paragraph>
                 <FlexBox className="flex-row space-x-4">
                         <TextField
@@ -142,18 +143,24 @@ function QuickSignUpUserForm({ nextFormStep }: { nextFormStep: () => void }) {
                         error={!!touched.email && !!errors.email}
                         helperText={touched.email && errors.email}
                     />
-                    <Button
-                        className="place-self-center"
+                    <FlexBox className='justify-center flex-row space-x-4 py-2'>
+                        <Button 
                         loading={loadingButton}
-                        onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            notifyValidation();
-                            handleSubmit();
-                        }}
-                    >
-                        Next
-                    </Button>
+                        onClick={prevFormStep}
+                        >go back</Button>
+                        <Button
+                            className="place-self-center"
+                            loading={loadingButton}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                notifyValidation();
+                                handleSubmit();
+                            }}
+                        >
+                            Next
+                        </Button>
+                    </FlexBox>
                 </Grid>
             </form>
     );
