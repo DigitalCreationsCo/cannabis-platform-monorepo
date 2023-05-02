@@ -1,6 +1,6 @@
 import { selectUserState } from "@cd/core-lib/reduxDir";
 import { Card, LayoutContextProps, Page } from "@cd/ui-lib/src/components";
-import { ConfirmOrder, QuickSignUpUserForm, ReviewOrder, SubmitAddress, VerifyPhotoId } from "components";
+import { QuickSignUpUserForm, ReviewOrder, SubmitAddress, VerifyPhotoId } from "components";
 import Head from "next/head";
 import Router from 'next/router';
 import { useState } from "react";
@@ -17,7 +17,7 @@ function QuickDelivery() {
     const nextFormStep = () => setFormStep((currentStep) => currentStep + 1);
     const prevFormStep = () => setFormStep((currentStep) => currentStep - 1);
     const FormStepComponents = [
-        ConfirmOrder,
+        // ConfirmOrder,
         !idVerified && VerifyPhotoId || isLegalAge && idVerified && null, // if there is no user, or user is over21, not age verified, then verify photo id
         !user.isSignedIn && QuickSignUpUserForm || null,
         user.user.address.length < 1 && SubmitAddress || null,
