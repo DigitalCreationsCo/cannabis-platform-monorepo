@@ -1,4 +1,6 @@
+import { urlBuilder } from "@cd/core-lib";
 import { Button, Center, FlexBox, H2, H5, UploadImageBox } from "@cd/ui-lib";
+import axios from "axios";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -34,6 +36,7 @@ const VerifyPhotoId = ({ nextFormStep, prevFormStep }: { nextFormStep: () => voi
     const [loadingButton, setLoadingButton] = useState(false);
     const uploaded = frontImage && backImage
 
+    useEffect(() => {}, [frontImage, backImage])
     const onSubmitUpload = async () => {
         try {
             if (frontImage && backImage) {
@@ -41,7 +44,7 @@ const VerifyPhotoId = ({ nextFormStep, prevFormStep }: { nextFormStep: () => voi
                 toast('Verifying your photo id...')
                 const response = await verifyPhotoIdImage({frontImage, backImage})
                 // if (response.status === 200) {
-                if (response !== null) {
+                if (response) {
                     toast('Success! Your photo id has been verified.')
                     
                     // setFormValues({ isLegalAge: true, idVerified: true })
@@ -50,6 +53,8 @@ const VerifyPhotoId = ({ nextFormStep, prevFormStep }: { nextFormStep: () => voi
                     // ADD THE PROPERTY ageVerified: true to new user form,
                     nextFormStep();
 
+                } else {
+                    
                 }
             }
         } catch (error: any) {
@@ -58,21 +63,20 @@ const VerifyPhotoId = ({ nextFormStep, prevFormStep }: { nextFormStep: () => voi
 
     const verifyPhotoIdImage = async ({frontImage, backImage}: any) => {
         try {
-            console.log('verifyPhotoIdImage: frontimage ', frontImage)
-            console.log('verifyPhotoIdImage: backimage ', backImage)
+            // console.log('verifyPhotoIdImage: frontimage ', frontImage)
+            // console.log('verifyPhotoIdImage: backimage ', backImage)
 
             const form = new FormData();
-            form.append("file", frontImage.data, frontImage.name);
-            
-            console.log('boundary? ', form.get('boundary'))
-            
-            // const response = await axios.post(
-            //     urlBuilder.image.verifyIdentificationImage(), 
-            //     form, {
-            //     headers: {
-            //         "Content-Type": `multipart/form-data; boundary=${form.get('boundary')}`,
-            //     },
-            // })
+            form.append("file", frontImage);
+            form.append("file", backImage);
+
+            const response = await axios.post(
+                urlBuilder.image.verifyIdentificationImage(), 
+                form, {
+                headers: {
+                    "Content-Type": `multipart/form-data;`,
+                },
+            })
             return true
         } catch (error: any) {
         }
@@ -100,7 +104,8 @@ const VerifyPhotoId = ({ nextFormStep, prevFormStep }: { nextFormStep: () => voi
                     maxFiles={1}
                     onChange={async (files) => {
                         const promiseFiles = files.map(async (file) => {
-                            new Promise((resolve, reject) => {
+
+                            return new Promise((resolve, reject) => {
                                 const reader = new FileReader()
                                 reader.onabort = () => reject('file reading was aborted')
                                 reader.onerror = () => reject('file reading has failed')
@@ -108,19 +113,14 @@ const VerifyPhotoId = ({ nextFormStep, prevFormStep }: { nextFormStep: () => voi
                                     resolve(reader.result)
                                 }
                                 reader.readAsBinaryString(file)
-                            }).then(async (data) => {
-                                await Object.assign(file, {
+                            }).then(async (data) => Object.assign(file, {
                                     preview: URL.createObjectURL(file),
                                     data: data || null
-                                })
-                            })
-                            console.log('file, ', file)
-                            return file
-                        });
-                        console.log('promise files, ', promiseFiles)
-                        const uploadFile = await Promise.race(promiseFiles)
-                        console.log('uploadFile, ', uploadFile)
-                        setFrontImage(uploadFile);
+                                }));
+                            });
+
+                        const uploadFile:Image[] = await Promise.all(promiseFiles)
+                        setFrontImage(uploadFile[0]);
                     }}
                 />
         }</div>
@@ -140,8 +140,9 @@ const VerifyPhotoId = ({ nextFormStep, prevFormStep }: { nextFormStep: () => voi
             : <DropZone
                     title="Upload ID Back Image"
                     maxFiles={1}
-                    onChange={async (files: any[]) => {
+                    onChange={async (files) => {
                         const promiseFiles = files.map(async (file) => {
+
                             return new Promise((resolve, reject) => {
                                 const reader = new FileReader()
                                 reader.onabort = () => reject('file reading was aborted')
@@ -150,17 +151,13 @@ const VerifyPhotoId = ({ nextFormStep, prevFormStep }: { nextFormStep: () => voi
                                     resolve(reader.result)
                                 }
                                 reader.readAsBinaryString(file)
-                            }).then(async (data) => {
-                                return file = {
-                                    ...file,
+                            }).then(async (data) => Object.assign(file, {
                                     preview: URL.createObjectURL(file),
                                     data: data || null
-                                }
-                            })
-                        });
-                        console.log('promise files, ', promiseFiles)
-                        const uploadFile = await Promise.all(promiseFiles)
-                        console.log('uploadFile, ', uploadFile)
+                                }));
+                            });
+
+                        const uploadFile:Image[] = await Promise.all(promiseFiles)
                         setBackImage(uploadFile[0]);
                     }}
                 />
