@@ -49,7 +49,7 @@ function ConfirmOrder({ nextFormStep }: { nextFormStep: () => void }) {
             tax: 0,
             addressId: selectedLocation.address.id,
             customerId: user.user.id,
-            organizationId: simepleCart.organizationId || '',
+            organizationId: simpleCart.organizationId || '',
             items: cart.cart,
             isDelivered: false,
         }
@@ -61,6 +61,7 @@ function ConfirmOrder({ nextFormStep }: { nextFormStep: () => void }) {
         const order = createOrder()
         await axios.post('/api/checkout-session', order)
      }
+     
     return (
         <Center className='space-y-2 w-3/4 m-auto pb-20 md:pb-0'>
         <H3>Thanks for ordering Delivery by Gras.
