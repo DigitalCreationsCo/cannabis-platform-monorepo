@@ -6,7 +6,7 @@ class ImageDAO {
         this.imageWorker = imageWorker;
     }
     
-    async getTextFromImage(uri) {
+    async getDobFromIdentificationImage(uri) {
         try {
         const { text } = await this.imageWorker.getTextFromImage(uri);
         // save any text in db here non-blocking statement
@@ -17,7 +17,7 @@ class ImageDAO {
         dobString[5] = "-";
         dobString.join("");
         console.log("dob string: ", dobString);
-        
+
         return { 
             success: true, 
             text: text 

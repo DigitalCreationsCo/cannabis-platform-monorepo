@@ -3,6 +3,7 @@ const next = process.env.NEXT_PUBLIC_APP_URL;
 const mainUrl = process.env.SERVER_MAIN_URL;
 const locationUrl = process.env.SERVER_LOCATION_URL;
 const paymentUrl = process.env.SERVER_PAYMENT_URL;
+const imageUrl = process.env.SERVER_IMAGE_URL;
 
 const urlBuilder = {
     next,
@@ -51,7 +52,11 @@ const urlBuilder = {
             console.log('payment url: ', paymentUrl)
             return urlBuilder.payment.baseUrl + '/payment/checkout'
         }
-    }
+    },
+    image: {
+        baseUrl: imageUrl + '/api/v1',
+        verifyIdentificationImage: () => urlBuilder.location.baseUrl + '/image/scan-identification',
+    },
 };
 
 
