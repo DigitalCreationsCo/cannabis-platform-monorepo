@@ -1,4 +1,4 @@
-import ImageDAO from 'api/data-access/imageDAO';
+import ImageDAO from '../data-access';
 
 /* =================================
 ImageController - controller class for Image Uploading, and Processing
@@ -14,7 +14,7 @@ export default class AccountController {
           let { imgUri } = req.body;
           let text;
 
-          if (imgUri) text = await ImageDAO.getTextFromImage(imgUri);
+          if (imgUri) text = await ImageDAO.getDobFromIdentificationImage(imgUri);
           console.log("successfully parsed text from image: ", text);
           // format text here, get date of birth
           // may need a class to get fields from ids, or handle formats in different states/ countries

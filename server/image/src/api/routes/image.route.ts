@@ -11,6 +11,6 @@ POST    '/upload'                   uploadImage
 ================================= */
 router.route("/scan-identification").post(imageCtrl.verifyIdentificationImage);
 
-router.route("/upload").post(imageCtrl.uploadImage);
+// router.route("/upload").post(imageCtrl.uploadImage);
 
 export default router;

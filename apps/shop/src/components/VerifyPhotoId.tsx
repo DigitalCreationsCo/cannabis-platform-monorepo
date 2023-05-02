@@ -5,6 +5,17 @@ import { toast } from "react-hot-toast";
 import DropZone from "./DropZone";
 import { useFormContext } from "./StepFormProvider";
 
+type Image = {
+data: string;
+path: string;
+preview: string;
+lastModified: Date;
+lastModifiedDate: Date;
+name: string;
+size: number;
+type: string;
+}
+
 const VerifyPhotoId = ({ nextFormStep, prevFormStep }: { nextFormStep: () => void; prevFormStep: () => void; }) => {
     
     const { resetFormValues, setFormValues } = useFormContext();
@@ -18,8 +29,8 @@ const VerifyPhotoId = ({ nextFormStep, prevFormStep }: { nextFormStep: () => voi
         createNewFormContext()
     }, [])
 
-    const [frontImage, setFrontImage] = useState<any>(null);
-    const [backImage, setBackImage] = useState<any>(null);
+    const [frontImage, setFrontImage] = useState<Image | null>(null);
+    const [backImage, setBackImage] = useState<Image | null>(null);
     const [loadingButton, setLoadingButton] = useState(false);
     const uploaded = frontImage && backImage
 
@@ -49,9 +60,18 @@ const VerifyPhotoId = ({ nextFormStep, prevFormStep }: { nextFormStep: () => voi
         try {
             console.log('verifyPhotoIdImage: frontimage ', frontImage)
             console.log('verifyPhotoIdImage: backimage ', backImage)
-            // return await axios.post('/api/verify-photo-id', {
-                // photo_id_front_image: frontImage, 
-                // photo_id_back_image: backImage
+
+            const form = new FormData();
+            form.append("file", frontImage.data, frontImage.name);
+            
+            console.log('boundary? ', form.get('boundary'))
+            
+            // const response = await axios.post(
+            //     urlBuilder.image.verifyIdentificationImage(), 
+            //     form, {
+            //     headers: {
+            //         "Content-Type": `multipart/form-data; boundary=${form.get('boundary')}`,
+            //     },
             // })
             return true
         } catch (error: any) {
@@ -69,7 +89,7 @@ const VerifyPhotoId = ({ nextFormStep, prevFormStep }: { nextFormStep: () => voi
             onClick={() => setFrontImage(null)}
             >
                 <Image
-                    src={frontImage.preview}
+                    src={frontImage?.preview}
                     alt="Id Front"
                     fill={true}
                     className='rounded'
@@ -78,11 +98,29 @@ const VerifyPhotoId = ({ nextFormStep, prevFormStep }: { nextFormStep: () => voi
             : <DropZone
                     title="Upload ID Front Image"
                     maxFiles={1}
-                    onChange={(files) => {
-                        const uploadFiles = files.map((file) =>
-                            Object.assign(file, { preview: URL.createObjectURL(file) })
-                        );
-                        setFrontImage(uploadFiles[0]);
+                    onChange={async (files) => {
+                        const promiseFiles = files.map(async (file) => {
+                            new Promise((resolve, reject) => {
+                                const reader = new FileReader()
+                                reader.onabort = () => reject('file reading was aborted')
+                                reader.onerror = () => reject('file reading has failed')
+                                reader.onload = () => {
+                                    resolve(reader.result)
+                                }
+                                reader.readAsBinaryString(file)
+                            }).then(async (data) => {
+                                await Object.assign(file, {
+                                    preview: URL.createObjectURL(file),
+                                    data: data || null
+                                })
+                            })
+                            console.log('file, ', file)
+                            return file
+                        });
+                        console.log('promise files, ', promiseFiles)
+                        const uploadFile = await Promise.race(promiseFiles)
+                        console.log('uploadFile, ', uploadFile)
+                        setFrontImage(uploadFile);
                     }}
                 />
         }</div>
@@ -102,11 +140,28 @@ const VerifyPhotoId = ({ nextFormStep, prevFormStep }: { nextFormStep: () => voi
             : <DropZone
                     title="Upload ID Back Image"
                     maxFiles={1}
-                    onChange={(files) => {
-                        const uploadFiles = files.map((file) =>
-                            Object.assign(file, { preview: URL.createObjectURL(file) })
-                        );
-                        setBackImage(uploadFiles[0]);
+                    onChange={async (files: any[]) => {
+                        const promiseFiles = files.map(async (file) => {
+                            return new Promise((resolve, reject) => {
+                                const reader = new FileReader()
+                                reader.onabort = () => reject('file reading was aborted')
+                                reader.onerror = () => reject('file reading has failed')
+                                reader.onload = () => {
+                                    resolve(reader.result)
+                                }
+                                reader.readAsBinaryString(file)
+                            }).then(async (data) => {
+                                return file = {
+                                    ...file,
+                                    preview: URL.createObjectURL(file),
+                                    data: data || null
+                                }
+                            })
+                        });
+                        console.log('promise files, ', promiseFiles)
+                        const uploadFile = await Promise.all(promiseFiles)
+                        console.log('uploadFile, ', uploadFile)
+                        setBackImage(uploadFile[0]);
                     }}
                 />
         }
