@@ -1,5 +1,5 @@
-// import * as findUp from 'find-up';
-const findUp = require('find-up');
+import * as findUp from 'find-up';
+// const findUp = require('find-up');
 function loadEnv(nodeEnv: string) {
     const envName = (!!nodeEnv && '.env.' + nodeEnv) || '.env.development';
     const envPath = (env: string) => findUp.sync(env);
@@ -7,4 +7,3 @@ function loadEnv(nodeEnv: string) {
 }
 
 export { loadEnv };
-// export { loadEnv };

@@ -1,8 +1,8 @@
-const next = process.env.NEXT_PUBLIC_APP_URL;
+// const next = process.env.NEXT_PUBLIC_APP_URL;
 const mainUrl = process.env.SERVER_MAIN_URL;
 
 const urlBuilder = {
-    next,
+    // next,
     main: {
         baseUrl: mainUrl + '/api/v1',
         healthCheck: () => urlBuilder.main.baseUrl + '/healthcheck',
