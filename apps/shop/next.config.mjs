@@ -1,5 +1,4 @@
-/** @type {import('next').NextConfig} */
-// import { loadEnv } from '@cd/shared-config/config/loadEnv.js';
+// import { loadEnv } from '@cd/core-lib/config/loadEnv.js';
 // import { config } from 'dotenv';
 // import { expand } from 'dotenv-expand';
 import withTranspiledModules from 'next-transpile-modules';
@@ -12,6 +11,9 @@ const __dirname = path.dirname(__filename);
 
 // expand(config({ path: loadEnv(nodeEnv) }));
 
+/**
+ * @type {import('next').NextConfig}
+ */
 const nextConfig = (phase) => {
     // when started in development mode `next dev` or `npm run dev` regardless of the value of STAGING environment variable
     const isDev = phase === PHASE_DEVELOPMENT_SERVER;
@@ -29,19 +31,19 @@ const nextConfig = (phase) => {
             if (isStaging) return 'https://localhost:3000';
             return 'NEXT_PUBLIC_APP_URL:not (isDev,isProd && !isStaging,isProd && isStaging)';
         })(),
-        SHOP_APP_URL: (() => {
+        NEXT_PUBLIC_SHOP_APP_URL: (() => {
             if (isDev) return 'http://localhost:3000';
             if (isProd) return 'https://localhost:3000';
             if (isStaging) return 'https://localhost:3000';
-            return 'SHOP_APP_URL:not (isDev,isProd && !isStaging,isProd && isStaging)';
+            return 'NEXT_PUBLIC_SHOP_APP_URL:not (isDev,isProd && !isStaging,isProd && isStaging)';
         })(),
-        DASHBOARD_APP_URL: (() => {
+        NEXT_PUBLIC_DASHBOARD_APP_URL: (() => {
             if (isDev) return 'http://localhost:3001';
             if (isProd) {
                 return 'http://localhost:3001';
             }
             if (isStaging) return 'http://localhost:3001';
-            return 'DASHBOARD_APP_URL:not (isDev,isProd && !isStaging,isProd && isStaging)';
+            return 'NEXT_PUBLIC_DASHBOARD_APP_URL:not (isDev,isProd && !isStaging,isProd && isStaging)';
         })(),
         SERVER_MAIN_URL: (() => {
             if (isDev) return 'http://localhost:6001';
@@ -58,6 +60,22 @@ const nextConfig = (phase) => {
             }
             if (isStaging) return 'http://localhost:6011';
             return 'SERVER_LOCATION_URL:not (isDev,isProd && !isStaging,isProd && isStaging)';
+        })(),
+        SERVER_PAYMENTS_URL: (() => {
+            if (isDev) return 'http://localhost:6021';
+            if (isProd) {
+                return 'http://localhost:6021';
+            }
+            if (isStaging) return 'http://localhost:6021';
+            return 'SERVER_PAYMENTS_URL:not (isDev,isProd && !isStaging,isProd && isStaging)';
+        })(),
+        SERVER_IMAGE_URL: (() => {
+            if (isDev) return 'http://localhost:6031';
+            if (isProd) {
+                return 'http://localhost:6031';
+            }
+            if (isStaging) return 'http://localhost:6031';
+            return 'SERVER_IMAGE_URL:not (isDev,isProd && !isStaging,isProd && isStaging)';
         })(),
         SUPERTOKENS_CONNECTION_URI: (() => {
             if (isDev) return 'http://localhost:3567';
@@ -144,17 +162,23 @@ const nextConfig = (phase) => {
             },
             {
                 source: '/app',
-                destination: `${env_1.DASHBOARD_APP_URL}/app`
+                destination: `${env_1.NEXT_PUBLIC_DASHBOARD_APP_URL}/app`
             },
             {
                 source: '/app/:path*',
-                destination: `${env_1.DASHBOARD_APP_URL}/app/:path*`
+                destination: `${env_1.NEXT_PUBLIC_DASHBOARD_APP_URL}/app/:path*`
             }
         ];
     };
 
     // next.config.js object
-    return {
+    return withTranspiledModules([
+        '@cd/ui-lib',
+        '@cd/data-access',
+        '@cd/eslint-config',
+        '@cd/core-lib'
+    ])(
+        {
         env: {
             ...env_1,
             ...env_2,
@@ -172,14 +196,7 @@ const nextConfig = (phase) => {
                 'cdn-cashy-static-assets.lucidchart.com',
             ]
         }
-    };
+    })
 };
 
-const transpiledNextConfig = withTranspiledModules([
-    '@cd/ui-lib',
-    '@cd/data-access',
-    '@cd/eslint-config',
-    '@cd/core-lib'
-])(nextConfig);
-
-export default transpiledNextConfig;
+export default nextConfig;

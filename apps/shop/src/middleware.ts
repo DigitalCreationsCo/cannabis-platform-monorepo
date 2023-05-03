@@ -20,7 +20,7 @@ export const config = {
 
 // the redirects are not designed well, but they work for now.
 export default function middleware(req: NextRequest, res: ServerResponse) {
-    const shopAppUrl = process?.env?.SHOP_APP_URL && process?.env?.SHOP_APP_URL.split('//')[1].split(':')[0] || 'localhost';
+    const shopAppUrl = process?.env?.NEXT_PUBLIC_SHOP_APP_URL && process?.env?.NEXT_PUBLIC_SHOP_APP_URL.split('//')[1].split(':')[0] || 'localhost';
     const url = req.nextUrl;
     console.log('url', url);
     const hostname = req.headers.get('host');
