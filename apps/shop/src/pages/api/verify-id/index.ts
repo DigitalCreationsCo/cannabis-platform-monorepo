@@ -8,15 +8,13 @@ const handler = nc();
 
 handler.post(async (req:NextRequest, res:NextApiResponse) => {
     try {
-        console.log('env: ', process.env);
-        console.log('next: verify-id route')
+        console.log('next api: verify-id route')
         const formData = req.body;
         console.log('api/verify-id request to ', urlBuilder.image.verifyIdentificationImage())
         const { data } = await axios.post(urlBuilder.image.verifyIdentificationImage(), 
         formData, {
                 headers: {
                 "Content-Type": `multipart/form-data;`,
-                'limit': '1mb'
             }
         });
         return res.status(res.statusCode).json(data);

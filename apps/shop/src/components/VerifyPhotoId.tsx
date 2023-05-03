@@ -63,19 +63,13 @@ const VerifyPhotoId = ({ nextFormStep, prevFormStep }: { nextFormStep: () => voi
 
     const verifyPhotoIdImage = async ({frontImage, backImage}: any) => {
         try {
-            const form = new FormData();
-            form.append("file", frontImage);
-            form.append("file", backImage);
-            console.log('shop url: ', process.env)
-            const response = await axios.post('/api/verify-id',
-                form, {
-                headers: {
-                    "Content-Type": `multipart/form-data;`,
-                    'limit': '2mb'
-                },
-            })
-            console.log('verify id response: ', response)
-            return response.data
+            const formData = new FormData();
+            formData.append("file", frontImage);
+            formData.append("file", backImage);
+            const response = await axios.post('/api/verify-id', formData);
+            
+            console.log('verify id response: ', response);
+            return response.data;
         } catch (error: any) {
             console.log('verify id error: ', error)
         }

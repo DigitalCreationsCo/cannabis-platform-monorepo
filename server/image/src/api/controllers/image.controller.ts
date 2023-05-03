@@ -1,3 +1,4 @@
+import Busboy from 'busboy';
 import ImageDAO from '../data-access';
 
 /* =================================
@@ -11,7 +12,23 @@ export default class AccountController {
 
     static async verifyIdentificationImage(req, res) {
         try {
+          var busboy = Busboy({ headers: req.headers });
+            console.log('busboy init');
+            busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
+                console.log(
+                    'File [' +
+                        fieldname +
+                        ']: filename: ' +
+                        filename +
+                        ', encoding: ' +
+                        encoding +
+                        ', mimetype: ' +
+                        mimetype
+                );
+            });
+
           console.log('image server: verifyIdentificationImage route')
+          console.log('req body: ', req.body)
           let { imgUri } = req.body;
           let text;
 
