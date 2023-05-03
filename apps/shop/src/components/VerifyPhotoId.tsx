@@ -1,6 +1,6 @@
-import { urlBuilder } from "@cd/core-lib";
 import { Button, Center, FlexBox, H2, H5, UploadImageBox } from "@cd/ui-lib";
 import axios from "axios";
+import FormData from "form-data";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -63,22 +63,21 @@ const VerifyPhotoId = ({ nextFormStep, prevFormStep }: { nextFormStep: () => voi
 
     const verifyPhotoIdImage = async ({frontImage, backImage}: any) => {
         try {
-            // console.log('verifyPhotoIdImage: frontimage ', frontImage)
-            // console.log('verifyPhotoIdImage: backimage ', backImage)
-
             const form = new FormData();
             form.append("file", frontImage);
             form.append("file", backImage);
-
-            const response = await axios.post(
-                urlBuilder.image.verifyIdentificationImage(), 
+            console.log('shop url: ', process.env)
+            const response = await axios.post('/api/verify-id',
                 form, {
                 headers: {
                     "Content-Type": `multipart/form-data;`,
+                    'limit': '2mb'
                 },
             })
-            return true
+            console.log('verify id response: ', response)
+            return response.data
         } catch (error: any) {
+            console.log('verify id error: ', error)
         }
     }
     

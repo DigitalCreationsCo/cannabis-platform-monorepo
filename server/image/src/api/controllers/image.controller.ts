@@ -11,6 +11,7 @@ export default class AccountController {
 
     static async verifyIdentificationImage(req, res) {
         try {
+          console.log('image server: verifyIdentificationImage route')
           let { imgUri } = req.body;
           let text;
 

@@ -1,12 +1,14 @@
 
-const next = process.env.NEXT_PUBLIC_APP_URL;
+const shop = process.env.NEXT_PUBLIC_SHOP_APP_URL;
+const dashboard = process.env.NEXT_PUBLIC_DASHBOARD_APP_URL;
 const mainUrl = process.env.SERVER_MAIN_URL;
 const locationUrl = process.env.SERVER_LOCATION_URL;
-const paymentUrl = process.env.SERVER_PAYMENT_URL;
+const paymentUrl = process.env.SERVER_PAYMENTS_URL;
 const imageUrl = process.env.SERVER_IMAGE_URL;
 
 const urlBuilder = {
-    next,
+    shop,
+    dashboard,
     main: {
         baseUrl: mainUrl + '/api/v1',
         healthCheck: () => urlBuilder.main.baseUrl + '/healthcheck',
@@ -55,7 +57,7 @@ const urlBuilder = {
     },
     image: {
         baseUrl: imageUrl + '/api/v1',
-        verifyIdentificationImage: () => urlBuilder.location.baseUrl + '/image/scan-identification',
+        verifyIdentificationImage: () => urlBuilder.image.baseUrl + '/image/scan-identification',
     },
 };
 
