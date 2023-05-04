@@ -65,8 +65,8 @@ const VerifyPhotoId = ({ nextFormStep, prevFormStep }: { nextFormStep: () => voi
     const verifyPhotoIdImage = async ({frontImage, backImage}: any) => {
         try {
             const formData = new FormData();
-            formData.append("image", frontImage);
-            formData.append("image", backImage);
+            formData.append("idFrontImage", frontImage);
+            formData.append("idBackImage", backImage);
 
             const response = await axios.post(urlBuilder.image.verifyIdentificationImage(), formData, {
                 headers: {
