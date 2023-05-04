@@ -1,3 +1,4 @@
+import { urlBuilder } from "@cd/core-lib/src/utils";
 import { Button, Center, FlexBox, H2, H5, UploadImageBox } from "@cd/ui-lib";
 import axios from "axios";
 import FormData from "form-data";
@@ -64,11 +65,16 @@ const VerifyPhotoId = ({ nextFormStep, prevFormStep }: { nextFormStep: () => voi
     const verifyPhotoIdImage = async ({frontImage, backImage}: any) => {
         try {
             const formData = new FormData();
-            formData.append("file", frontImage);
-            formData.append("file", backImage);
-            const response = await axios.post('/api/verify-id', formData);
+            formData.append("image", frontImage);
+            formData.append("image", backImage);
+
+            const response = await axios.post(urlBuilder.image.verifyIdentificationImage(), formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }
+            );
             
-            console.log('verify id response: ', response);
             return response.data;
         } catch (error: any) {
             console.log('verify id error: ', error)
