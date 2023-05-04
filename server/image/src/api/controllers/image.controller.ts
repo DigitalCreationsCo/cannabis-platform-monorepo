@@ -1,5 +1,6 @@
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { createId } from '@paralleldrive/cuid2';
+import s3Client from '../../s3/verifyIdClient';
 /* =================================
 ImageController - controller class for Image Uploading, and Processing
 
@@ -15,7 +16,6 @@ export default class AccountController {
 
           if (images) {
             const uploaded = uploadImageToS3ObjectStore(images, process.env.VERIFY_ID_BUCKET_NAME)
-            console.log('images uploaded: ', uploaded)
           }
           // if (imgUri) text = await ImageDAO.getDobFromIdentificationImage(imgUri);
           // console.log("successfully parsed text from image: ", text);
@@ -45,21 +45,21 @@ export default class AccountController {
     }
 }
 
-function uploadImageToS3ObjectStore(body: any[], bucketName: string) {
-  console.log('bucketName: ', bucketName)
-  console.log('process bucketname? ', process.env.VERIFY_ID_BUCKET_NAME)
+async function uploadImageToS3ObjectStore(body: any[], bucketName: string) {
   try {
-    const upload = body.map(object => new PutObjectCommand({
+    const upload = body.forEach(async (object) => {
+      const putObjectCommand = new PutObjectCommand({
         ACL: "public-read",
         Body: object.buffer,
         Bucket: bucketName,
         Key: `${createId()}-${object.fieldname}`
       })
-    );
 
-    console.info('upload: ', upload)
+      await s3Client.send(putObjectCommand)
+      console.info(`Uploaded ${object.fieldname} to ${bucketName}`)
+    });
 
-    return upload;
+    // return upload;
   } catch (error: any) {
     throw new Error(error.message)
   }
