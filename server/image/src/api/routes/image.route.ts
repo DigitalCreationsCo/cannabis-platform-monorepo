@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { imageCtrl } from '../controllers';
+
 const router = Router();
 /* =================================
 API Routes for Image Uploading, and Processing

@@ -1,25 +1,18 @@
-import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
 import http from 'http';
-import { imageRoutes } from './api/routes';
+import multer from 'multer';
+import { imageCtrl } from './api/controllers';
+
+const upload = multer();
 
 const app = express();
 
 app.use(cors());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
 
-app.use('/api/v1/healthcheck', (req, res) => {
-    return res.status(200).json('OK');
-});
-
-app.use("/api/v1/image", imageRoutes);
+app.post("/api/v1/image/scan-identification", upload.any(), imageCtrl.verifyIdentificationImage);
 
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-    // if (err.message === 'Invalid password') {
-    //     return res.status(401).send(err.message)
-    // }
     res.status(500).send(err.message)
 })
 
