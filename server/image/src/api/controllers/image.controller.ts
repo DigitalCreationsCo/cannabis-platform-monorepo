@@ -1,4 +1,5 @@
-
+import { PutObjectCommand } from '@aws-sdk/client-s3';
+import { createId } from '@paralleldrive/cuid2';
 /* =================================
 ImageController - controller class for Image Uploading, and Processing
 
@@ -12,6 +13,10 @@ export default class AccountController {
         try {
           const images = req.files
 
+          if (images) {
+            const uploaded = uploadImageToS3ObjectStore(images, process.env.VERIFY_ID_BUCKET_NAME)
+            console.log('images uploaded: ', uploaded)
+          }
           // if (imgUri) text = await ImageDAO.getDobFromIdentificationImage(imgUri);
           // console.log("successfully parsed text from image: ", text);
           // // format text here, get date of birth
@@ -40,8 +45,22 @@ export default class AccountController {
     }
 }
 
-// export const config = {
-//     api: {
-//         bodyParser: true
-//     }
-// }
+function uploadImageToS3ObjectStore(body: any[], bucketName: string) {
+  console.log('bucketName: ', bucketName)
+  console.log('process bucketname? ', process.env.VERIFY_ID_BUCKET_NAME)
+  try {
+    const upload = body.map(object => new PutObjectCommand({
+        ACL: "public-read",
+        Body: object.buffer,
+        Bucket: bucketName,
+        Key: `${createId()}-${object.fieldname}`
+      })
+    );
+
+    console.info('upload: ', upload)
+
+    return upload;
+  } catch (error: any) {
+    throw new Error(error.message)
+  }
+}
