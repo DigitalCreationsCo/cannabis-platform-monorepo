@@ -11,8 +11,10 @@ import * as yup from 'yup';
 
 function QuickSignUpUserForm({ nextFormStep, prevFormStep }: { nextFormStep: () => void; prevFormStep: () => void; }) {
     
-    const { setFormValues } = useFormContext();
+    const { setFormValues, formData } = useFormContext();
 
+    console.log('formData: ', formData);
+    
     const [loadingButton, setLoadingButton] = useState(false);
     const [passwordVisibility, setPasswordVisibility] = useState(false);
     const togglePasswordVisibility = useCallback(() => {
@@ -43,7 +45,7 @@ function QuickSignUpUserForm({ nextFormStep, prevFormStep }: { nextFormStep: () 
     const onSubmit = async (values: typeof initialValues) => {
         try {
             setLoadingButton(true);
-            setFormValues({ newUser: { ...values } });
+            setFormValues({ ...values });
             setLoadingButton(false);
             nextFormStep();
         } catch (error: any) {

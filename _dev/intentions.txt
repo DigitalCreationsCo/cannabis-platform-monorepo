@@ -101,7 +101,10 @@ Keep going!
 Test the checkout flow. 
 Test many edge cases according to the stripe docs.
 
-Also, create the company deck!
+5-5
+add cart cookie to bag state,
+sign up and in from quick-delivery
+add non-signed in bag state to user bag state
 
 To DO: 
 must do: WRITE UNIT TESTS FOR WIDGET CRAWLER

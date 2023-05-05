@@ -14,6 +14,8 @@ function ReviewOrder() {
     
     const { formData } = useFormContext();
 
+    console.log('formData: ', formData);
+
     const createStripeCheckout = async () => { 
         console.log(' client side formData: ', formData)
         await axios.post('/api/checkout-session', formData)
