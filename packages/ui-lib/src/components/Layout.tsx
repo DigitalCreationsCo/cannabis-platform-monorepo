@@ -45,39 +45,25 @@ function Layout({
     const drawerComponentId = 'dashboard-links-drawer';
     return (
         <div className="flex flex-col min-h-screen">
-            {isSession ? (
-                <div className={styles.main}>
-                    {showTopBar && <TopBarComponent signedOut={signedOut} doesSessionExist={isSession} />}
-                    {showHeader && (
-                        <Header
-                            placeholder={placeholder}
-                            onSearchChange={onSearchChange}
-                            drawerComponentId={drawerComponentId}
-                        />
-                    )}
-                    <SideNavContainer
-                        showSideNavOnDesktop={showSideNavOnDesktop}
-                        showSideNav={showSideNav}
-                        SideNavComponent={SideNavComponent}
-                        fixedComponentId={navLinkContainerId}
+            <div className={styles.main}>
+                {showTopBar && <TopBarComponent signedOut={signedOut} doesSessionExist={isSession} />}
+                {showHeader && (
+                    <Header
+                        placeholder={placeholder}
+                        onSearchChange={onSearchChange}
                         drawerComponentId={drawerComponentId}
-                    >
-                        {children}
-                    </SideNavContainer>
-                </div>
-            ) : (
-                <div className={styles.main}>
-                    {showTopBar && <TopBarComponent doesSessionExist={isSession} />}
-                    {showHeader && (
-                        <Header
-                            placeholder={placeholder}
-                            onSearchChange={onSearchChange}
-                            drawerComponentId={drawerComponentId}
-                        />
-                    )}
+                    />
+                )}
+                <SideNavContainer
+                    showSideNavOnDesktop={showSideNavOnDesktop}
+                    showSideNav={showSideNav}
+                    SideNavComponent={SideNavComponent}
+                    fixedComponentId={navLinkContainerId}
+                    drawerComponentId={drawerComponentId}
+                >
                     {children}
-                </div>
-            )}
+                </SideNavContainer>
+            </div>
             <Footer />
         </div>
     );

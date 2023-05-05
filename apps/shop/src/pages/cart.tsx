@@ -27,7 +27,7 @@ function CartPage() {
                     <H5>
                         Your bag is empty</H5>
                     <a href="/">
-                        <H6 className={'cursor-pointer border-b-2 inline-block'}>What are you shopping for?</H6>.
+                        <H6 className={'cursor-pointer border-b-2 inline-block'}>Find your cure</H6>.
                     </a>
                 </div>
                 }

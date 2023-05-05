@@ -10,8 +10,10 @@ import toast from 'react-hot-toast';
 import * as yup from 'yup';
 
 function SubmitAddressForm({ nextFormStep }: { nextFormStep: () => void }) {
-    const { setFormValues } = useFormContext();
+    const { setFormValues, formData } = useFormContext();
     
+    console.log('formData: ', formData);
+
     const router = useRouter();
     
     const [loadingButton, setLoadingButton] = useState(false);
@@ -45,7 +47,7 @@ function SubmitAddressForm({ nextFormStep }: { nextFormStep: () => void }) {
     const onSubmit = async (values: typeof initialValues) => {
         try {
             setLoadingButton(true);
-            setFormValues({ newUser: { ...values } });
+            setFormValues({ ...values });
             setLoadingButton(false);
             nextFormStep(); 
         } catch (error: any) {

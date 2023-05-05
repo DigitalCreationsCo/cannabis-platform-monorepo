@@ -22,8 +22,10 @@ type: string;
 
 const VerifyPhotoId = ({ nextFormStep, prevFormStep }: { nextFormStep: () => void; prevFormStep: () => void; }) => {
 
-    const { resetFormValues, setFormValues } = useFormContext();
+    const { resetFormValues, setFormValues, formData } = useFormContext();
     
+    console.log('formData: ', formData);
+
     useEffect(() => {
         const createNewFormContext = () => {
             console.info('creating new form context for Quick Delivery Form')
@@ -32,6 +34,7 @@ const VerifyPhotoId = ({ nextFormStep, prevFormStep }: { nextFormStep: () => voi
         // MAKE SURE THIS IS NOT RENDERING REPEATEDLY, CLEANNING UP THE FORM CONTEXT
         createNewFormContext()
     }, [])
+
 
     const [frontImage, setFrontImage] = useState<Image | null>(null);
     const [backImage, setBackImage] = useState<Image | null>(null);
