@@ -1,14 +1,15 @@
+import withTranspiledModules from 'next-transpile-modules';
+import { PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_BUILD, PHASE_TEST } from 'next/constants.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
 import { config } from 'dotenv';
 import { expand } from 'dotenv-expand';
 import { loadEnv } from './src/config/loadEnv.mjs';
 
-import withTranspiledModules from 'next-transpile-modules';
-import { PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_BUILD, PHASE_TEST } from 'next/constants.js';
-import path from 'path';
-
-import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
 expand(config({ path: loadEnv(process.env.NODE_ENV) }))
 
 /**
@@ -179,9 +180,6 @@ const nextConfig = (phase) => {
         ];
     };
 
-    console.log('NODE ENV? ', process.env.NODE_ENV)
-    console.log('process.env.NEXT_PUBLIC_DASHBOARD_APP_URL', process.env.NEXT_PUBLIC_DASHBOARD_APP_URL)
-    // next.config.js object
     return withTranspiledModules([
         '@cd/ui-lib',
         '@cd/data-access',
