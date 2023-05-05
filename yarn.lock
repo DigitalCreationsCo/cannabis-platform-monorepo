@@ -3591,6 +3591,7 @@ __metadata:
     "@types/jest": 29.2.4
     "@types/node": 18.11.10
     "@types/react-dom": 18.0.11
+    "@types/react-google-recaptcha": ^2.1.5
     "@typescript-eslint/eslint-plugin": 5.45.0
     "@typescript-eslint/parser": 5.45.0
     autoprefixer: 10.4.13
@@ -3628,6 +3629,7 @@ __metadata:
     react-cookie: 4.1.1
     react-dom: 18.2.0
     react-dropzone: 14.2.3
+    react-google-recaptcha: 2.1.0
     react-hot-toast: 2.4.0
     react-redux: 8.0.2
     redux-devtools-extension: 2.13.9
@@ -6709,6 +6711,15 @@ __metadata:
   dependencies:
     "@types/react": "*"
   checksum: 579691e4d5ec09688087568037c35edf8cfb1ab3e07f6c60029280733ee7b5c06d66df6fcc90786702c93ac8cb13bc7ff16c79ddfc75d082938fbaa36e1cdbf4
+  languageName: node
+  linkType: hard
+
+"@types/react-google-recaptcha@npm:^2.1.5":
+  version: 2.1.5
+  resolution: "@types/react-google-recaptcha@npm:2.1.5"
+  dependencies:
+    "@types/react": "*"
+  checksum: 8d0fa9e2ad8b3f135c423a196f7007650dc06bceeab3edf73176699189527f1befeefcf9c4289d9e3f1feb427d0034ca218331afa7e874d9e92ff81105a0a4ca
   languageName: node
   linkType: hard
 
@@ -21027,7 +21038,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:*, prop-types@npm:^15.6.0, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
+"prop-types@npm:*, prop-types@npm:^15.5.0, prop-types@npm:^15.6.0, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -21320,6 +21331,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-async-script@npm:^1.1.1":
+  version: 1.2.0
+  resolution: "react-async-script@npm:1.2.0"
+  dependencies:
+    hoist-non-react-statics: ^3.3.0
+    prop-types: ^15.5.0
+  peerDependencies:
+    react: ">=16.4.1"
+  checksum: 303890eeaf9e18d59fca77f9c891bf3b52d2ec9ea88f0af9d19c160a1f101b447c5104ca46e2dd84c19de756d4797f1f054d041b888a3d57204d9145f4b1b532
+  languageName: node
+  linkType: hard
+
 "react-cookie@npm:4.1.1":
   version: 4.1.1
   resolution: "react-cookie@npm:4.1.1"
@@ -21401,6 +21424,18 @@ __metadata:
   version: 2.0.4
   resolution: "react-fast-compare@npm:2.0.4"
   checksum: 06046595f90a4e3e3a56f40a8078c00aa71bdb064ddb98343f577f546aa22e888831fd45f009c93b34707cc842b4c637737e956fd13d6f80607ee92fb9cf9a1c
+  languageName: node
+  linkType: hard
+
+"react-google-recaptcha@npm:2.1.0":
+  version: 2.1.0
+  resolution: "react-google-recaptcha@npm:2.1.0"
+  dependencies:
+    prop-types: ^15.5.0
+    react-async-script: ^1.1.1
+  peerDependencies:
+    react: ">=16.4.1"
+  checksum: f4f4d248eb95ebfab8db73199e3ca402acf7abec873c616c12fd113c635657df6d844890ef7e7dfe4cb2563302e910dbce54d44404af93863336786dd29e8efa
   languageName: node
   linkType: hard
 

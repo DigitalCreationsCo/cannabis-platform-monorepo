@@ -48,15 +48,18 @@ export default class AccountController {
 async function uploadImageToS3ObjectStore(body: any[], bucketName: string) {
   try {
     const upload = body.forEach(async (object) => {
+
+      const key = `${createId()}-${object.fieldname}`;
+
       const putObjectCommand = new PutObjectCommand({
         ACL: "public-read",
         Body: object.buffer,
         Bucket: bucketName,
-        Key: `${createId()}-${object.fieldname}`
+        Key: key
       })
 
       await s3Client.send(putObjectCommand)
-      console.info(`Uploaded ${object.fieldname} to ${bucketName}`)
+      console.info(`Uploaded ${key} to ${bucketName}`)
     });
 
     // return upload;
