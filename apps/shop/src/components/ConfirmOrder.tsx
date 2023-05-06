@@ -10,14 +10,13 @@ import { useDispatch, useSelector } from "react-redux";
 function ConfirmOrder({ nextFormStep }: { nextFormStep?: () => void }) {
     const dispatch = useDispatch();
     
-    const [cookies, setCookie, removeCookie] = useCookies(['gras-cart-token'])
+    const [cookies, _, removeCookie] = useCookies(['gras-cart-token'])
     const simpleCart: SimpleCart = cookies["gras-cart-token"] && JSON.parse(JSON.stringify(cookies["gras-cart-token"]))
 
     const cart = useSelector(selectCartState);
     const cartIsEmpty = useSelector(selectIsCartEmpty)
     const user = useSelector(selectUserState);
     const selectedLocation = useSelector(selectSelectedLocationState)
-    // const checkout = () => { router.push("/checkout"); }
 
     useEffect(() => {
         // console.log('simple Cart: ', simpleCart)
@@ -77,10 +76,10 @@ function ConfirmOrder({ nextFormStep }: { nextFormStep?: () => void }) {
                 </>
                 ) : (
                     <>
-                <Paragraph>Next, we need your contact info and address so our delivery person can get to you.</Paragraph>
-                <Paragraph>Hit Next to provide your info, or sign in</Paragraph>
+                <Paragraph>We'll need your contact info and address so our delivery person can get to you.</Paragraph>
+                <Paragraph>Hit Next to provide your info, or <i>sign in</i></Paragraph>
                 <Button 
-                // disabled={!!cartIsEmpty}
+                disabled={!!cartIsEmpty}
                 onClick={nextFormStep}
                 >Next</Button>
                 <Button onClick={openLoginModal}>
@@ -100,7 +99,3 @@ function ConfirmOrder({ nextFormStep }: { nextFormStep?: () => void }) {
 }
 
 export default ConfirmOrder;
-
-function dispatch(arg0: any) {
-    throw new Error("Function not implemented.");
-}

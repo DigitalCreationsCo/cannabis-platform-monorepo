@@ -1,3 +1,4 @@
+import { selectModalState } from '@cd/core-lib/reduxDir';
 import { Layout, LayoutContextProps } from '@cd/ui-lib';
 import { PropsWithChildren } from 'react';
 import { useSelector } from 'react-redux';
@@ -12,8 +13,10 @@ const signedOut = async () => {
 
 const LayoutContainer = (props: LayoutContextProps & PropsWithChildren) => {
     const user = useSelector((state: RootState) => state.user);
+    const {modalVisible} = useSelector(selectModalState)
     return (
         <Layout
+            isModalVisible={modalVisible}
             showSideNavOnDesktop={false}
             SideNavComponent={CategoriesNavigation}
             TopBarComponent={TopBar}

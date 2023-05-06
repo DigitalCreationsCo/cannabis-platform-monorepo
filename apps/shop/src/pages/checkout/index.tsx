@@ -1,7 +1,7 @@
-import { selectIsCartEmpty, selectSelectedLocationState } from '@cd/core-lib/reduxDir';
+import { selectIsCartEmpty, selectSelectedLocationState, selectUserState } from '@cd/core-lib/reduxDir';
 import { renderAddress } from '@cd/core-lib/utils';
 import { Button, Paragraph } from '@cd/ui-lib';
-import { Card, H3, H4, Page } from "@cd/ui-lib/components";
+import { Card, H3, H4, H5, Page } from "@cd/ui-lib/components";
 // import axios from 'axios';
 // import { useFormContext } from "components";
 import { useSelector } from 'react-redux';
@@ -9,9 +9,6 @@ import { RenderCart } from '../../components';
 
 function Checkout() {
     const cartIsEmpty = useSelector(selectIsCartEmpty)
-    const selectedAddress = useSelector(selectSelectedLocationState)
-
-    // const { formData } = useFormContext();
 
     const createStripeCheckout = async () => { 
         // console.log(' client side formData: ', formData)
@@ -20,9 +17,9 @@ function Checkout() {
 
     return (
         <Page className="items-center">
-            <Card className="min-w-full">
+            <Card className="min-w-full space-y-2">
             <H3 className='text-primary'>Checkout</H3>
-            <div className='flex flex-col md:flex-row justify-between'>
+            <div className='flex flex-row justify-between'>
                 <div><H4>You're ready for checkout</H4>
                 <Paragraph>You can review your order here, and hit <b>Place my order</b> to start delivery.</Paragraph>
                 </div>
@@ -34,9 +31,9 @@ function Checkout() {
                 disabled={!!cartIsEmpty}>
                     Place my order</Button>
             </div>
-            <div className='flex flex-row'>
+            <div className='flex flex-col-reverse lg:flex-row justify-between'>
                 <RenderCart />
-                <ReviewAddress />                    
+                <ReviewDeliveryAddress />                    
             </div>
             </Card>
         </Page>
@@ -45,13 +42,21 @@ function Checkout() {
 
 export default Checkout;
 
-function ReviewAddress() {
+function ReviewDeliveryAddress() {
+    const {user} = useSelector(selectUserState)
     const selectedAddress = useSelector(selectSelectedLocationState)
     
     return (
-        <div>
-            hello
+        <div className="py-8">
+        <H5 className='text-primary text-center'>Delivery Address</H5>
+        <div className={styles.addressContainer}>
+            {user?.firstName} {user?.lastName}
             {renderAddress(selectedAddress.address)}
         </div>
+        </div>
     )
+}
+
+const styles = {
+    addressContainer: 'h-full w-[300px] m-auto text-center rounded border',
 }

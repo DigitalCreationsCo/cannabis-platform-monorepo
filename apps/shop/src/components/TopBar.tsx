@@ -63,7 +63,7 @@ function TopBar({ signedOut }: TopBarProps) {
                 Cannabis Marketplace
             </Paragraph>
             <div className="flex-1"></div>
-            <Link href="/cart" passHref>
+            <Link href="/yourbag" passHref>
                 <Button
                     className="indicator w-[100px]"
                     // onClick={openCartModal}
