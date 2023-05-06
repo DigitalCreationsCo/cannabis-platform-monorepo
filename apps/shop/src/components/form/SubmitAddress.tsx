@@ -48,6 +48,9 @@ function SubmitAddressForm({ nextFormStep }: { nextFormStep: () => void }) {
         try {
             setLoadingButton(true);
             setFormValues({ ...values });
+
+            // SUBMIT USER FORM HERE TO SIGNUP
+
             setLoadingButton(false);
             nextFormStep(); 
         } catch (error: any) {
