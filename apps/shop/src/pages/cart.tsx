@@ -24,27 +24,33 @@ function CartPage() {
             <Card className={twMerge(styles.cartContainer)}>
                 <H3 className="px-8">Your Bag</H3>
                 <Grid className={twMerge(styles.cartGrid)}>
-                    <H4 className={styles.total}>
-                    Your total is <Price className="pl-2" basePrice={total} /></H4>
-                    {cart.length > 0 ? cart.map((item) => (
-                        <ProductItem key={item.id || originId} product={item as unknown as ProductVariantWithDetails} />
-                    )): 
-                        <div className='text-center col-span-2'>
-                        <H5>
-                            Your bag is empty</H5>
-                        <a href="/">
-                            <H6 className={'cursor-pointer border-b-2 inline-block'}>Find your cure</H6>.
-                        </a>
-                        </div>
-                    }
-                    <H4 className={styles.total}>
-                    Your total is <Price className="pl-2" basePrice={total} /></H4>
+                    { renderTotal() }
+                    { renderCart() }
+                    { renderTotal() }
                 </Grid>
                 <Button onClick={checkout}
                 disabled={totalItems < 1}>Checkout</Button>
             </Card>
         </Page>
     );
+
+    function renderTotal() {
+        return <H4 className={styles.total}>
+        Your total is <Price basePrice={total} /></H4>
+    }
+    function renderCart() {
+        return (cart.length > 0 ? cart.map((item, index) => (
+            <ProductItem key={`bag-item-${index}`} product={item as unknown as ProductVariantWithDetails} />
+            )) :
+            <div className='text-center col-span-2'>
+            <H5>
+                Your bag is empty</H5>
+            <a href="/">
+                <H6 className={'cursor-pointer border-b-2 inline-block'}>Find your cure</H6>
+            </a>
+            </div>
+        );
+    }
 }
 
 export default CartPage;

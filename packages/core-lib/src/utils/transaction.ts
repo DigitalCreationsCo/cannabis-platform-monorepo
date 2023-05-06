@@ -19,13 +19,6 @@ const checkOrderIsCompleteOrCanceled = (order: OrderWithDetails) =>
 function calcSalePrice(price: number, discount: number) {
     let _discountPercentage = discount / 100;
     let _price = price
-
-    console.log('calculate sale price')
-    console.log('price: ', price)
-    console.log('discount: ', discount)
-    console.log('_discountPercentage: ', _discountPercentage)
-    console.log('_price: ', _price)
-
     return _price === discount * price ? _price : _price - ((price * _discountPercentage));
 }
 

@@ -35,18 +35,14 @@ function Price({
             if (salePrice) {
                 _salePrice = salePrice * quantity;
             } else {
-                console.log('basePrice: ', basePrice)
-                console.log('discount: ', _discount)
-                console.log('sale price: ', calcSalePrice(basePrice, _discount) * quantity)
                 _salePrice = calcSalePrice(basePrice, _discount) * quantity;
             }
         return _salePrice
     }
 
     return <div className={twMerge("flex flex-row space-x-2 pl-2", className)}>
-        {showOriginalPrice && <Paragraph className="text-dark">{_currencySymbol[locale] + toDollars(base)}</Paragraph>}
-        {showDiscount && <Paragraph className="text-accent">`${discount}% off`</Paragraph> }
-        
+        {showOriginalPrice && <Paragraph className="text-accent line-through">{_currencySymbol[locale] + toDollars(base)}</Paragraph>}
+        {showDiscount && discount > 0 && <Paragraph className="text-accent">`${discount}% off`</Paragraph> }
         <Paragraph className="text-dark">{_currencySymbol[locale] + toDollars(computeSalePrice())}</Paragraph>
         </div>;
 }
