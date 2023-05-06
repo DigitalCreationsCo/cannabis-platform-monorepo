@@ -1,11 +1,16 @@
 import { selectUserState } from "@cd/core-lib/reduxDir";
 import { Card, H2, LayoutContextProps, Page } from "@cd/ui-lib/src/components";
-import { ConfirmOrder, QuickSignUpUserForm, SubmitAddress } from "components";
+import { ConfirmOrder, QuickSignUpUserForm, SubmitAddress, VerifyPhotoId } from "components";
 import Head from "next/head";
 import Router from 'next/router';
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { twMerge } from "tailwind-merge";
+
+type FormStepComponentProps = { 
+    nextFormStep: () => void; 
+    prevFormStep: () => void; 
+}
 
 function QuickDelivery() {
     const user = useSelector(selectUserState)
@@ -16,16 +21,14 @@ function QuickDelivery() {
     const [formStep, setFormStep] = useState(0);
     const nextFormStep = () => setFormStep((currentStep) => currentStep + 1);
     const prevFormStep = () => setFormStep((currentStep) => currentStep - 1);
+
     const FormStepComponents = [
         ConfirmOrder,
-        // !idVerified && VerifyPhotoId || isLegalAge && idVerified && null, // if there is no user, or user is over21, not age verified, then verify photo id
+        !idVerified && VerifyPhotoId || isLegalAge && idVerified && null, // if there is no user, or user is over21, not age verified, then verify photo id
         !user.isSignedIn && QuickSignUpUserForm || null,
         (user.user.address.length < 1 || !user.isSignedIn) && SubmitAddress || null,
     ];
-    const styles = { gradient: ['bg-gradient-to-b', 'from-primary', 'to-secondary', 'p-0 lg:p-16 h-max'] };
     
-
-
     return (
         <Page className={twMerge(styles.gradient, "pb-0 md:pb-24")}>
             <Head>
@@ -33,16 +36,12 @@ function QuickDelivery() {
             </Head>
             <Card className='m-auto bg-inverse-soft space-y-2'>
                 <H2>Quick Delivery</H2>
-                {FormStepComponents.filter(_fsc => _fsc !== null).map((_fsc, index) => {
-                    if (_fsc === null) return null;
-                    return (
-                        formStep === index && <_fsc key={'form-step-component-' + index} nextFormStep={nextFormStep} prevFormStep={prevFormStep} />
-                    );
+                {FormStepComponents
+                .filter(_fsc => _fsc !== null)
+                .map((Fsc: any, index) => {
+                    if (Fsc === null) return null;
+                    return formStep === index && <Fsc key={'form-step-component-' + index} nextFormStep={nextFormStep} prevFormStep={prevFormStep} />
                 })}
-                 {/* {...FormStepComponents.reduce((components: any[], component, index) => {
-                    if (component !== null) components.push(formStep === index && <component />);
-                    return components;
-                }, []) */}
             </Card>
         </Page>
     );
@@ -53,3 +52,5 @@ QuickDelivery.getLayoutContext = (): LayoutContextProps => ({
 })
 
 export default QuickDelivery
+export type { FormStepComponentProps };
+const styles = { gradient: ['bg-gradient-to-b', 'from-primary', 'to-secondary', 'p-0 lg:p-16 h-max'] };

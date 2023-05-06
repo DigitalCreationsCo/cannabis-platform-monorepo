@@ -49,7 +49,7 @@ function TextField({
     return (
         <FlexBox className={twMerge(styles.flexContainer, containerClassName, 'text-dark')}>
             {label && (
-                <FlexBox className="min-w-[111px] justify-between">
+                <FlexBox className="min-w-[121px] justify-between">
                     <label>{label}</label>
                 </FlexBox>
             )}

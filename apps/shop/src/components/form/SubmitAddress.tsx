@@ -6,13 +6,14 @@ import {
 import { useFormContext } from 'components';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
+import { FormStepComponentProps } from 'pages/quick-delivery';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { signUp } from 'supertokens-auth-react/recipe/emailpassword';
 import * as yup from 'yup';
 
-function SubmitAddressForm({ prevFormStep }: { nextFormStep: () => void; prevFormStep: () => void; }) {
+function SubmitAddressForm({ prevFormStep }: FormStepComponentProps) {
     
     const [loadingButton, setLoadingButton] = useState(false);
     const dispatch = useDispatch();

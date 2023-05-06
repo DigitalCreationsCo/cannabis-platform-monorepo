@@ -1,4 +1,4 @@
-import { PutObjectCommand } from '@aws-sdk/client-s3';
+import { PutObjectCommand, PutObjectCommandOutput } from '@aws-sdk/client-s3';
 import { createId } from '@paralleldrive/cuid2';
 import s3Client from '../../s3/verifyIdClient';
 /* =================================
@@ -14,8 +14,9 @@ export default class AccountController {
         try {
           const images = req.files
 
+          let uploaded
           if (images) {
-            const uploaded = uploadImageToS3ObjectStore(images, process.env.VERIFY_ID_BUCKET_NAME)
+            uploaded = await uploadImageToS3ObjectStore(images, process.env.VERIFY_ID_BUCKET_NAME)
           }
           // if (imgUri) text = await ImageDAO.getDobFromIdentificationImage(imgUri);
           // console.log("successfully parsed text from image: ", text);
@@ -36,7 +37,8 @@ export default class AccountController {
           // });
           // // }
           res.status(200).json({
-              success: true,
+              success: true, 
+              uploaded
           })
         } catch (error) {
           console.log(error);
@@ -45,10 +47,11 @@ export default class AccountController {
     }
 }
 
-async function uploadImageToS3ObjectStore(body: any[], bucketName: string) {
+async function uploadImageToS3ObjectStore(body: any[], bucketName: string): Promise<Record<string, string>> {
   try {
-    const upload = body.forEach(async (object) => {
-
+    let uploadKeys = {}
+    
+    const uploadPromise = body.map(async (object) => new Promise(async (resolve, reject) => {
       const key = `${createId()}-${object.fieldname}`;
 
       const putObjectCommand = new PutObjectCommand({
@@ -58,11 +61,16 @@ async function uploadImageToS3ObjectStore(body: any[], bucketName: string) {
         Key: key
       })
 
-      await s3Client.send(putObjectCommand)
-      console.info(`Uploaded ${key} to ${bucketName}`)
-    });
+      resolve({ ...s3Client.send(putObjectCommand), key })
+      console.info(`Uploaded ${key} to ${bucketName}`);
+      
+    }).then(async(upload: PutObjectCommandOutput & {key: string}) => {
+      Object.assign(uploadKeys, { [object.fieldname]: upload.key });
+    }));
+    await Promise.allSettled(uploadPromise);
 
-    // return upload;
+    return uploadKeys;
+    
   } catch (error: any) {
     throw new Error(error.message)
   }

@@ -3,11 +3,12 @@ import { OrderCreate, ProductVariantWithDetails } from "@cd/data-access";
 import { Button, Center, H5, Paragraph, Price, SimpleCartItem } from "@cd/ui-lib";
 import { AnyAction } from "@reduxjs/toolkit";
 import axios from "axios";
+import { FormStepComponentProps } from "pages/quick-delivery";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
 
-function ConfirmOrder({ nextFormStep }: { nextFormStep?: () => void }) {
+function ConfirmOrder({ nextFormStep }: FormStepComponentProps) {
     const dispatch = useDispatch();
     
     const [cookies, _, removeCookie] = useCookies(['gras-cart-token'])
