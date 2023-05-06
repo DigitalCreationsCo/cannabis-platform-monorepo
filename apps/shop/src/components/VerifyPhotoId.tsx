@@ -3,6 +3,7 @@ import { Button, Center, FlexBox, H2, H5, UploadImageBox } from "@cd/ui-lib";
 import axios from "axios";
 import FormData from "form-data";
 import Image from "next/image";
+import { FormStepComponentProps } from "pages/quick-delivery";
 import { useEffect, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { toast } from "react-hot-toast";
@@ -20,7 +21,7 @@ size: number;
 type: string;
 }
 
-const VerifyPhotoId = ({ nextFormStep, prevFormStep }: { nextFormStep: () => void; prevFormStep: () => void; }) => {
+const VerifyPhotoId = ({ nextFormStep, prevFormStep }: FormStepComponentProps) => {
 
     const { resetFormValues, setFormValues, formData } = useFormContext();
     
@@ -38,31 +39,30 @@ const VerifyPhotoId = ({ nextFormStep, prevFormStep }: { nextFormStep: () => voi
 
     const [frontImage, setFrontImage] = useState<Image | null>(null);
     const [backImage, setBackImage] = useState<Image | null>(null);
+    
+    useEffect(() => {}, [frontImage, backImage])
+    
     const [loadingButton, setLoadingButton] = useState(false);
     const uploaded = frontImage && backImage
 
     const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
-    useEffect(() => {}, [frontImage, backImage])
     const onSubmitUpload = async () => {
         try {
             if (frontImage && backImage) {
                 setLoadingButton(true);
                 toast('Verifying your photo id...')
                 const response = await verifyPhotoIdImage({frontImage, backImage})
-                // if (response.status === 200) {
-                if (response) {
+                if (response.status === 200) {
                     toast('Success! Your photo id has been verified.')
-                    
-                    // setFormValues({ isLegalAge: true, idVerified: true })
-
                     // GET IDENTIFICATION CONFIRM RESPONSE
-                    // ADD THE PROPERTY ageVerified: true to new user form,
-                    nextFormStep();
-
-                } else {
                     
-                }
+                    setFormValues({ newUser: { isLegalAge: true, idVerified: true }})
+
+                    // set photo id link to user form data
+                    
+                    nextFormStep();
+                } else {}
             }
         } catch (error: any) {
         }
@@ -73,13 +73,13 @@ const VerifyPhotoId = ({ nextFormStep, prevFormStep }: { nextFormStep: () => voi
             const formData = new FormData();
             formData.append("idFrontImage", frontImage);
             formData.append("idBackImage", backImage);
-
             const { data } = await axios.post(urlBuilder.image.verifyIdentificationImage(), formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-
+            console.info('Upload photo id image: ', data);
+            
             return data;
         } catch (error: any) {
             console.log('verify id error: ', error)
@@ -92,14 +92,11 @@ const VerifyPhotoId = ({ nextFormStep, prevFormStep }: { nextFormStep: () => voi
     async function handleCaptcha(e: any) {
         try {
             e.preventDefault();
-            
             const inputVal = await e.target[0].value;
             const token = captchaRef.current.getValue();
             captchaRef.current.reset();
-
             const response = await axios.post('/api/recaptcha', { inputVal, token });
             if (response.status === 200) await onSubmitUpload()
-
         } catch (error) {
             console.log(error);
         }
