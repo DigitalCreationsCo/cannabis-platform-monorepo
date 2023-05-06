@@ -22,12 +22,12 @@ function Price({
     showDiscount = false,
     showOriginalPrice = false,
     locale = 'en-us' }: PriceProps) {
-    
     const _currencySymbol: any = { 'en-us': '$' };
 
+    const base = basePrice * quantity;
+    
     const toDollars = (value: number): string => convertCentsToDollars(value);
 
-    const base = basePrice * quantity;
     // discount is a flat number representing percentage off
     function computeSalePrice() {
         let _salePrice: number
@@ -42,11 +42,10 @@ function Price({
             }
         return _salePrice
     }
-    
 
-    return <div className={twMerge("min-w-full grow flex flex-row space-x-2", className)}>
-        <Paragraph className="text-dark">{showOriginalPrice && _currencySymbol[locale] + toDollars(base)}</Paragraph>
-        <Paragraph className="text-accent">{showDiscount && `${discount}% off`}</Paragraph> 
+    return <div className={twMerge("flex flex-row space-x-2 pl-2", className)}>
+        {showOriginalPrice && <Paragraph className="text-dark">{_currencySymbol[locale] + toDollars(base)}</Paragraph>}
+        {showDiscount && <Paragraph className="text-accent">`${discount}% off`</Paragraph> }
         
         <Paragraph className="text-dark">{_currencySymbol[locale] + toDollars(computeSalePrice())}</Paragraph>
         </div>;
