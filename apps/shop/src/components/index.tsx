@@ -1,3 +1,4 @@
+export * from './cart';
 export { default as CategoriesNavigation } from './CategoriesNavigation';
 export { default as CategoriesSelector } from './CategoriesSelector';
 export { default as CheckAge } from "./CheckAge";
