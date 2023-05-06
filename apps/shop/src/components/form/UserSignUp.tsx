@@ -106,6 +106,7 @@ function UserSignUpForm() {
                     const response = await signUp({
                         formFields: [
                             { id: 'email', value: values.email },
+                            { id: 'emailVerified', value: false.toString() },
                             { id: 'password', value: values.password },
                             { id: 're_password', value: values.re_password },
                             { id: 'username', value: values.username },
@@ -120,7 +121,9 @@ function UserSignUpForm() {
                             { id: 'state', value: values.address.state },
                             { id: 'zipcode', value: values.address.zipcode },
                             { id: 'country', value: values.address.country },
-                            { id: 'countryCode', value: values.address.countryCode || '' }
+                            { id: 'countryCode', value: values.address.countryCode || '' },
+                            { id: 'isLegalAge', value: values.isLegalAge.toString() },
+                            { id: 'idVerified', value: values.idVerified.toString() },
                         ]
                     });
                     if (response.status === 'FIELD_ERROR') {
@@ -316,6 +319,7 @@ function UserSignUpForm() {
                         }
                         label={`I agree to the User Terms and Conditions`}
                     />
+                    
                     <Button
                         className="place-self-center"
                         loading={loadingButton}

@@ -1,33 +1,39 @@
 import {
     Button,
-    FlexBox, Grid,
-    H3, Icons, Paragraph, TextField
+    FlexBox, Grid, Icons, Paragraph, TextField
 } from '@cd/ui-lib';
 import { useFormContext } from 'components';
 import { useFormik } from 'formik';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import toast from 'react-hot-toast';
 import * as yup from 'yup';
 
 function QuickSignUpUserForm({ nextFormStep, prevFormStep }: { nextFormStep: () => void; prevFormStep: () => void; }) {
     
-    const { setFormValues, formData } = useFormContext();
+    const { formData, setFormValues } = useFormContext();
 
     console.log('formData: ', formData);
     
     const [loadingButton, setLoadingButton] = useState(false);
     const [passwordVisibility, setPasswordVisibility] = useState(false);
-    const togglePasswordVisibility = useCallback(() => {
-        setPasswordVisibility((visible) => !visible);
-    }, []);
+    const [re_passwordVisibility, setRe_PasswordVisibility] = useState(false);
+
+    // const initialValues = {
+    //     username: formData?.newUser?.username,
+    //     email: formData?.newUser?.email || '',
+    //     password: formData?.newUser?.password || '',
+    //     re_password: formData?.newUser?.re_password || '',
+    //     phone: formData?.newUser?.phone || '',
+    //     dialCode: formData?.newUser?.dialCode || '1',
+    // };
 
     const initialValues = {
-        username: 'bigchiefa1111',
-        email: 'bmejia2345@gmail.com',
-        password: '12323456',
-        re_password: '12323456',
-        phone: '1233455678',
-        dialCode: '1',
+        username: formData?.newUser?.username || 'asdfsdfg',
+        email: formData?.newUser?.email || 'bmej@dev.com',
+        password: formData?.newUser?.password || 'asdfasdf',
+        re_password: formData?.newUser?.re_password || 'asdfasdf',
+        phone: formData?.newUser?.phone || '1232343456',
+        dialCode: formData?.newUser?.dialCode || '1',
     };
 
     const validationSchema = yup.object().shape({
@@ -45,7 +51,7 @@ function QuickSignUpUserForm({ nextFormStep, prevFormStep }: { nextFormStep: () 
     const onSubmit = async (values: typeof initialValues) => {
         try {
             setLoadingButton(true);
-            setFormValues({ ...values });
+            setFormValues({ newUser: { ...values }});
             setLoadingButton(false);
             nextFormStep();
         } catch (error: any) {
@@ -72,15 +78,15 @@ function QuickSignUpUserForm({ nextFormStep, prevFormStep }: { nextFormStep: () 
 
     return (
             <form onSubmit={handleSubmit}>
-                <H3>{`Sign Up`}</H3>
-                <H3>{`Get Cannabis Delivered 🌴🔥`}</H3>
+                <Paragraph>Let's get your contact info</Paragraph>
+                {/* <H3>{`Get Cannabis Delivered 🌴🔥`}</H3> */}
                 <Grid className="space-y-4">
                 <Paragraph>* Please fill the required fields.</Paragraph>
                 <FlexBox className="flex-row space-x-4">
                         <TextField
                             name="dialCode"
                             label="* dial code"
-                            placeholder="Dial Code"
+                            placeholder="+1"
                             onBlur={handleBlur}
                             onChange={handleChange}
                             value={values.dialCode}
@@ -90,7 +96,7 @@ function QuickSignUpUserForm({ nextFormStep, prevFormStep }: { nextFormStep: () 
                         <TextField
                             name="phone"
                             label="* phone"
-                            placeholder="What is your phone number?"
+                            placeholder="phone"
                             value={values?.phone}
                             onBlur={handleBlur}
                             onChange={handleChange}
@@ -104,7 +110,7 @@ function QuickSignUpUserForm({ nextFormStep, prevFormStep }: { nextFormStep: () 
                         placeholder="Choose a username"
                         onBlur={handleBlur}
                         onChange={handleChange}
-                        value={values.username}
+                        value={values?.username}
                         error={!!touched.username && !!errors.username}
                         helperText={touched.username && errors.username}
                     />
@@ -119,7 +125,7 @@ function QuickSignUpUserForm({ nextFormStep, prevFormStep }: { nextFormStep: () 
                         helperText={touched.password && errors.password}
                         type={passwordVisibility ? 'text' : 'password'}
                         insertIcon={passwordVisibility ? Icons.View : Icons.ViewOff}
-                        onClickIcon={togglePasswordVisibility}
+                        onClickIcon={() => setPasswordVisibility((visible) => !visible)}
                     />
                     <TextField
                         name="re_password"
@@ -130,9 +136,9 @@ function QuickSignUpUserForm({ nextFormStep, prevFormStep }: { nextFormStep: () 
                         onChange={handleChange}
                         error={!!touched.re_password && !!errors.re_password}
                         helperText={touched.re_password && errors.re_password}
-                        type={passwordVisibility ? 'text' : 'password'}
-                        insertIcon={passwordVisibility ? Icons.View : Icons.ViewOff}
-                        onClickIcon={togglePasswordVisibility}
+                        type={re_passwordVisibility ? 'text' : 'password'}
+                        insertIcon={re_passwordVisibility ? Icons.View : Icons.ViewOff}
+                        onClickIcon={() => setRe_PasswordVisibility((visible) => !visible)}
                     />
                     <TextField
                         name="email"
@@ -151,17 +157,14 @@ function QuickSignUpUserForm({ nextFormStep, prevFormStep }: { nextFormStep: () 
                         onClick={prevFormStep}
                         >go back</Button>
                         <Button
-                            className="place-self-center"
-                            loading={loadingButton}
-                            onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                notifyValidation();
-                                handleSubmit();
-                            }}
-                        >
-                            Next
-                        </Button>
+                        className="place-self-center"
+                        loading={loadingButton}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            notifyValidation();
+                            handleSubmit();
+                        }}>Next</Button>
                     </FlexBox>
                 </Grid>
             </form>

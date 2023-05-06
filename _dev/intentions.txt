@@ -117,6 +117,9 @@ Test the widget in a react app as well.
 Host node servers.
 Launch this month. Win.
 
+IMPROVEMENTS:
+add cookie to sign up forms to persist data, if the tab, or app is closed
+
 What must I do next? 3-4-2023
 Lower the widget bundle size into modules.
 signin flow

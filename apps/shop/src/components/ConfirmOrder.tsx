@@ -52,8 +52,8 @@ function ConfirmOrder({ nextFormStep }: { nextFormStep?: () => void }) {
      
     return (
         <Center className='space-y-2 w-3/4 m-auto pb-20 md:pb-0'>
-            <H5>Before you get your delivery,
-                <br />Let's double check your order here.</H5>
+            <Paragraph>Before you get your delivery,
+                <br />Let's double check your order here.</Paragraph>
             <div className="flex flex-col md:grid grid-cols-2 gap-2">
 
             {!cartIsEmpty &&

@@ -137,12 +137,15 @@ export type UserCreateType = {
     lastName: string;
     username: string;
     email: string;
+    emailVerified: boolean;
     password: string;
     re_password: string;
     phone: string;
     dialCode: string;
     termsAccepted: boolean;
     imageUser: Prisma.ImageUserCreateArgs[ "data" ] | null;
+    isLegalAge: boolean;
+    idVerified: boolean;
     address: Prisma.AddressCreateArgs[ "data" ];
 }
 

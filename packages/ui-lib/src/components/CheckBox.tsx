@@ -9,9 +9,11 @@ export interface CheckBoxProps extends React.InputHTMLAttributes<HTMLInputElemen
     helperText?: string;
     label?: string;
     error?: boolean;
+    onChange: React.ChangeEventHandler<HTMLInputElement>;
 }
 
-function CheckBox({ LabelComponent, error, label, className, name, onChange, checked, helperText }: CheckBoxProps) {
+function CheckBox({ LabelComponent, onChange, error, label, className, name, checked, helperText }: CheckBoxProps) {
+
     const styles = {
         checkboxContainer: 'flex flex-row items-center space-x-2 py-8 md:py-2 m-auto self-center md:self-start',
         helperText: error && 'input-error border-2',
