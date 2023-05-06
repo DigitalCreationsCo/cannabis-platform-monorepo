@@ -15,11 +15,11 @@ function CartItem({ product, className, editable = false, handleConfirm }: CartI
     const [quantity, setQuantity] = useState(product.quantity);
 
     return (
-        <>
-        <IconButton Icon={Icons.Subtract} />
+        <div className='flex flex-row space-x-4'>
         <ProductItem product={product} />
+        <IconButton Icon={Icons.Subtract} />
         <IconButton Icon={Icons.Add} />
-        </>
+        </div>
     );
 }
 
