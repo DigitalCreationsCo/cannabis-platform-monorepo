@@ -65,7 +65,7 @@ function ConfirmOrder({ nextFormStep }: { nextFormStep?: () => void }) {
 
             <H5 className="flex justify-end col-span-2">
                 Your total is 
-                <Price className="pl-2" basePrice={cart.total || 0} /></H5>
+                <Price basePrice={cart.total || 0} /></H5>
             </div>
             
             {user.isSignedIn ? (

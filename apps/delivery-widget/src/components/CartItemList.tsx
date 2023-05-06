@@ -48,7 +48,8 @@ function CartList({cart, cartError, setExpandWidget} : CartListProps) {
                 </>
             )) || <Paragraph className='text-light'>Your cart is empty.</Paragraph>
             }
-            {cart && <H5 className='flex justify-end text-light'>{`Your total is `}
+            {cart && <H5 className='flex justify-end text-light'>
+                Your total is
             <Price className='pl-2 text-light' basePrice={cart.total} /></H5>}
         </div>
         
