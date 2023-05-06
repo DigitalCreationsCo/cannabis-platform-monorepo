@@ -1,45 +1,34 @@
 import { cartActions, modalActions, modalTypes, selectCartState, selectIsCartEmpty, selectSelectedLocationState, selectUserState, SimpleCart } from "@cd/core-lib";
 import { OrderCreate, ProductVariantWithDetails } from "@cd/data-access";
-import { Button, Center, H3, H5, Paragraph, Price, SimpleCartItem } from "@cd/ui-lib";
+import { Button, Center, H5, Paragraph, Price, SimpleCartItem } from "@cd/ui-lib";
+import { AnyAction } from "@reduxjs/toolkit";
 import axios from "axios";
+import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
 
-function ConfirmOrder({ nextFormStep }: { nextFormStep: () => void }) {
-    
+function ConfirmOrder({ nextFormStep }: { nextFormStep?: () => void }) {
     const dispatch = useDispatch();
-
-    function openLoginModal() {
-        console.log('dispatch: open Login Modal');
-        dispatch(
-            modalActions.openModal({
-                modalType: modalTypes.loginModal
-            })
-        );
-    }
     
-    const [cookies, setCookie] = useCookies(['gras-cart-token'])
-
-    // TEST CART
-    // const cart:any = {cartItems: [], total: 0}
-
+    const [cookies, setCookie, removeCookie] = useCookies(['gras-cart-token'])
     const simpleCart: SimpleCart = cookies["gras-cart-token"] && JSON.parse(JSON.stringify(cookies["gras-cart-token"]))
 
-    console.log('simple cart: ', simpleCart)
-
-    // console.log('parse cart token: ', cart)
-    // NOTE: Should encrypt this token in the future.
-
-    // NOTE: Add the cart data to redux store at this point, and delete the cookie after this.
-    const cartIsEmpty = useSelector(selectIsCartEmpty)
     const cart = useSelector(selectCartState);
+    const cartIsEmpty = useSelector(selectIsCartEmpty)
     const user = useSelector(selectUserState);
     const selectedLocation = useSelector(selectSelectedLocationState)
     // const checkout = () => { router.push("/checkout"); }
 
-    // useEffect(() => {
-    //     if (simpleCart) dispatch(cartActions.saveSimpleCart(simpleCart) as unknown as AnyAction);
-    // }, [simpleCart, cart])
+    useEffect(() => {
+        // console.log('simple Cart: ', simpleCart)
+        if (simpleCart) dispatch(cartActions.saveSimpleCart(simpleCart) as unknown as AnyAction);
+        
+        removeCookie('gras-cart-token')
+        console.info('gras-cart-token cookie removed.')
+        // NOTE: Should encrypt this token in the future.
+        // NOTE: Add the cart data to redux store at this point, and delete the cookie after this.
+
+    }, [])
 
     const createOrder = async () => {
         const order:OrderCreate = {
@@ -64,17 +53,21 @@ function ConfirmOrder({ nextFormStep }: { nextFormStep: () => void }) {
      
     return (
         <Center className='space-y-2 w-3/4 m-auto pb-20 md:pb-0'>
-        <H3>Thanks for ordering Delivery by Gras.
-        </H3>
-        <H5>Before we deliver to you, let's double check your order here.</H5>
-        <div className="flex flex-col md:grid grid-cols-2 gap-2">
+            <H5>Before you get your delivery,
+                <br />Let's double check your order here.</H5>
+            <div className="flex flex-col md:grid grid-cols-2 gap-2">
+
             {!cartIsEmpty &&
             cart.cart?.map((product: ProductVariantWithDetails, index: number) => 
             <SimpleCartItem key={`order-item-${index}`} product={product}/>) || 
             <Paragraph className="col-span-2">
                 You have no items in your order.</Paragraph> }
-            <H5 className="flex justify-end col-span-2">Your total is <Price className="pl-2" price={cart.total || 0} /></H5>
+
+            <H5 className="flex justify-end col-span-2">
+                Your total is 
+                <Price className="pl-2" basePrice={cart.total || 0} /></H5>
             </div>
+            
             {user.isSignedIn ? (
                 <>
                 <Paragraph>Hit checkout to complete your delivery order.</Paragraph>
@@ -96,6 +89,14 @@ function ConfirmOrder({ nextFormStep }: { nextFormStep: () => void }) {
             )}
         </Center>
     );
+
+    function openLoginModal() {
+        dispatch(
+            modalActions.openModal({
+                modalType: modalTypes.loginModal
+            })
+        );
+    }
 }
 
 export default ConfirmOrder;

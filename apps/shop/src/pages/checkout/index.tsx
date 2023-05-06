@@ -1,10 +1,13 @@
-import { H1 } from "@cd/ui-lib/components";
+import { H2 } from "@cd/ui-lib";
+import { Page } from "@cd/ui-lib/components";
+import { ConfirmOrder } from "components";
 
 function Checkout() {
     return (
-        <H1>
-            Checkout
-        </H1>
+        <Page className="items-center">
+            <H2>Checkout</H2>
+            <ConfirmOrder />
+        </Page>
     );
 }
 

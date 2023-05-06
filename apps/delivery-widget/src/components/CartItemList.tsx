@@ -3,7 +3,6 @@ import SimpleCartItem from '@cd/ui-lib/src/components/cart/SimpleCartItem';
 import Price from "@cd/ui-lib/src/components/Price";
 import { H5, Paragraph } from "@cd/ui-lib/src/components/Typography";
 import { useEffect } from "react";
-import { useCookies } from "react-cookie";
 
 type CartListProps = {
     cart: SimpleCart;
@@ -13,8 +12,6 @@ type CartListProps = {
 
 function CartList({cart, cartError, setExpandWidget} : CartListProps) {
 
-    const [cookies, setCookie] = useCookies(['gras-cart-token'])
-   
     function createCheckoutCookie() {
         if (cart && !cartError) {
             const cartAsString = JSON.stringify(cart)
@@ -52,7 +49,7 @@ function CartList({cart, cartError, setExpandWidget} : CartListProps) {
             )) || <Paragraph className='text-light'>Your cart is empty.</Paragraph>
             }
             {cart && <H5 className='flex justify-end text-light'>{`Your total is `}
-            <Price className='pl-2 text-light' price={cart.total} /></H5>}
+            <Price className='pl-2 text-light' basePrice={cart.total} /></H5>}
         </div>
         
         {cartError && <Paragraph>{cartError}</Paragraph>}

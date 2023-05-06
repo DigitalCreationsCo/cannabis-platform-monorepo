@@ -1,12 +1,9 @@
 import { ProductVariantWithDetails } from '@cd/data-access';
-import Image from 'next/image';
 import { PropsWithChildren, useState } from 'react';
-import { twMerge } from 'tailwind-merge';
-import FlexBox from './FlexBox';
 import { ConfirmationModal } from './modal';
 import Price from './Price';
 import TextField from './TextField';
-import { Paragraph } from './Typography';
+import { H6, Paragraph } from './Typography';
 
 type ProductItemProps = {
     className?: string;
@@ -18,36 +15,24 @@ function ProductItem({ product, className, handleConfirm }: ProductItemProps & P
     const [quantity, setQuantity] = useState(1);
     const toggleConfirm = () => setOpenConfirm((state) => !state);
 
-    console.log('product image source: ', product?.images?.[0]?.location)
+    // console.log('product image source: ', product?.images?.[0]?.location)
+
     return (
         <>
-            <div
-                onClick={toggleConfirm}
-                // onKeyUp={() => {}}
-                className={twMerge(
-                    'flex flex-col justify-between bg-light h-full min-w-[180px] rounded-btn shadow',
-                    className
-                )}
-            >
-                <div className="relative h-[100px] w-[100px]">
-                    {product?.images && product?.images[0]?.location && <Image className="rounded-btn" src={product?.images[0]?.location} alt="" fill={true} />}
-                </div>
-                <div className="pb-2 pl-2">
-                    <Paragraph>{product.name}</Paragraph>
-
-                    {/* ADD PRODUCT VARIANT SELECT HERE */}
-
-                    <FlexBox>
-                        <Paragraph>{product.size + product.unit}</Paragraph>
-                        {product.stock && <Paragraph>{product.stock + ' in stock'}</Paragraph>}
-                    </FlexBox>
-                    <FlexBox>
-                        <Price price={product.basePrice} />
-                        <Paragraph>{product.discount}% off</Paragraph>
-                    </FlexBox>
-                    {/* <H6>
-                        <Price price={product.salePrice} />
-                    </H6> */}
+            <div className='flex flex-row col-span-2 md:col-span-1'>
+                <img src={product?.images?.[0]?.location} style={{ height: 100, maxHeight: 100, width: 100, maxWidth: 100 }} className='rounded border object-cover place-self-center' />
+                {/* <div className="w-full grid grid-flow-row"> */}
+                <div className="grid w-full p-4">
+                {/* <div className=""> */}
+                    <H6 className='flex flex-row'>{product.name} ({product.quantity})</H6>
+                    <Paragraph className='place-self-end'>{product.size + product.unit}</Paragraph>
+                    <Price className="justify-end"
+                    basePrice={product.basePrice} 
+                    salePrice={product.salePrice}
+                    discount={product.discount}
+                    quantity={product.quantity}
+                    showDiscount
+                    />
                 </div>
             </div>
 
@@ -73,3 +58,33 @@ function ProductItem({ product, className, handleConfirm }: ProductItemProps & P
 }
 
 export default ProductItem;
+
+            // <div
+            //     onClick={toggleConfirm}
+            //     // onKeyUp={() => {}}
+            //     className={twMerge(
+            //         'flex flex-row justify-between bg-light h-full min-w-[180px] rounded-btn shadow',
+            //         className
+            //     )}
+            // >
+            //     <div className="relative h-[100px] w-[100px]">
+            //         {product?.images && product?.images[0]?.location && <Image className="rounded-btn" src={product?.images[0]?.location} alt="" fill={true} />}
+            //         </div>
+            //         <div className="pb-2 pl-2 grow flex flex-row">
+            //             <Paragraph>{product.name}</Paragraph>
+    
+            //             {/* ADD PRODUCT VARIANT SELECT HERE */}
+    
+            //             <FlexBox>
+            //                 <Paragraph>{product.size + product.unit}</Paragraph>
+            //                 {product.stock && <Paragraph>{product.stock + ' in stock'}</Paragraph>}
+            //             </FlexBox>
+            //             <FlexBox>
+            //                 <Price price={product.basePrice} />
+            //                 <Paragraph>{product.discount}% off</Paragraph>
+            //             </FlexBox>
+            //             <H6>
+            //                 <Price price={product.salePrice} />
+            //             </H6>
+            //         </div>
+            //     </div>
