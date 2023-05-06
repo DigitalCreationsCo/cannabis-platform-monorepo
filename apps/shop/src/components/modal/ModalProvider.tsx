@@ -122,7 +122,6 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
             if (!loadingButton) {
                 setLoadingButton(true);
                 await signInUser({ email: values.email, password: values.password });
-                // await signedInUser();
             }
         } catch (error: any) {
             setLoadingButton(false);

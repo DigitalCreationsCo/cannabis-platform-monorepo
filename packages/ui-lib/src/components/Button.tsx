@@ -5,8 +5,8 @@ import LoadingDots from './LoadingDots';
 
 export interface ButtonProps extends PropsWithChildren {
     size?: 'lg' | 'sm' | 'md';
-    bg?: 'primary' | 'accent-soft' | 'transparent';
-    hover?: 'accent' | 'primary' | 'transparent';
+    bg?: 'primary' | 'primary-light' | 'accent-soft' | 'transparent';
+    hover?: 'accent' | 'primary' | 'primary-light' | 'secondary' | 'transparent';
     transparent?: true | false;
     border?: boolean;
     className?: string;
@@ -42,7 +42,7 @@ export default function Button({
         ],
         noClickWhileLoading: loading && 'cursor-not-allowed',
         size: [
-            (size === 'lg' && 'text-xl w-[200px] h-[80px]') || (size === 'sm' && 'text-sm h-[30px]') || 'w-[140px] h-10'
+            (size === 'lg' && 'text-xl min-w-[180px] h-[70px]') || (size === 'sm' && 'text-sm h-[30px]') || 'w-[140px] h-10'
         ],
         bgColor: ['bg-' + bg],
         textColor: [

@@ -1,4 +1,5 @@
 import { ChangeEventHandler, PropsWithChildren, ReactEventHandler } from 'react';
+import { twMerge } from 'tailwind-merge';
 import Footer from './Footer';
 import Header from './Header';
 import SideNavContainer from './SideNavContainer';
@@ -22,6 +23,8 @@ interface LayoutProps extends LayoutContextProps, PropsWithChildren {
     onSearchChange?: ChangeEventHandler<HTMLInputElement> & ReactEventHandler<Element>;
     placeholder?: string;
     isSession: boolean;
+    isModalVisible?: boolean;
+    className?: string | string[];
 }
 
 // topbar goes out as a unique child component with props
@@ -37,14 +40,20 @@ function Layout({
     onSearchChange,
     placeholder,
     isSession,
-    children
+    children,
+    isModalVisible,
+    className
 }: LayoutProps & PropsWithChildren) {
-    const styles = { main: 'bg-inverse-soft flex flex-col grow' };
+
+    const styles = { 
+        main: 'bg-inverse-soft flex flex-col grow',
+        isModalOverlay: isModalVisible && 'w-full fixed'
+    };
 
     const navLinkContainerId = 'dashboard-links-container';
     const drawerComponentId = 'dashboard-links-drawer';
     return (
-        <div className="flex flex-col min-h-screen">
+        <div className={twMerge("flex flex-col min-h-screen", styles.isModalOverlay, className)}>
             <div className={styles.main}>
                 {showTopBar && <TopBarComponent signedOut={signedOut} doesSessionExist={isSession} />}
                 {showHeader && (
