@@ -1,5 +1,6 @@
 import { ProductVariantWithDetails } from '@cd/data-access';
 import { PropsWithChildren, useState } from 'react';
+import { twMerge } from 'tailwind-merge';
 import { ConfirmationModal } from './modal';
 import Price from './Price';
 import TextField from './TextField';
@@ -19,11 +20,9 @@ function ProductItem({ product, className, handleConfirm }: ProductItemProps & P
 
     return (
         <>
-            <div className='flex flex-row col-span-2 md:col-span-1'>
+            <div className={twMerge('flex flex-row col-span-2 md:col-span-1', className)}>
                 <img src={product?.images?.[0]?.location} style={{ height: 100, maxHeight: 100, width: 100, maxWidth: 100 }} className='rounded border object-cover place-self-center' />
-                {/* <div className="w-full grid grid-flow-row"> */}
                 <div className="grid w-full p-4">
-                {/* <div className=""> */}
                     <H6 className='flex flex-row'>{product.name} ({product.quantity})</H6>
                     <Paragraph className='place-self-end'>{product.size + product.unit}</Paragraph>
                     <Price className="justify-end"
@@ -35,30 +34,36 @@ function ProductItem({ product, className, handleConfirm }: ProductItemProps & P
                     />
                 </div>
             </div>
-
-            <ConfirmationModal
-                description={`Confirm add ${product.name}?`}
-                modalVisible={openConfirm}
-                handleConfirm={() => handleConfirm(product, quantity)}
-                confirmMessage={'Add Product'}
-                onClose={toggleConfirm}
-            >
-                <TextField
-                    label="Quantity"
-                    maxNumber={product.stock}
-                    className="w-[66px] font-semibold"
-                    type="number"
-                    value={quantity}
-                    defaultValue={quantity}
-                    onChange={(event) => setQuantity((event.target as HTMLInputElement).value as unknown as number)}
-                />
-            </ConfirmationModal>
+            <ProductItemModal />    
         </>
     );
+
+    function ProductItemModal() {
+        return (
+        <ConfirmationModal
+            description={`Confirm add ${product.name}?`}
+            modalVisible={openConfirm}
+            handleConfirm={() => handleConfirm(product, quantity)}
+            confirmMessage={'Add Product'}
+            onClose={toggleConfirm}
+        >
+            <TextField
+                label="Quantity"
+                maxNumber={product.stock}
+                className="w-[66px] font-semibold"
+                type="number"
+                value={quantity}
+                defaultValue={quantity}
+                onChange={(event) => setQuantity((event.target as HTMLInputElement).value as unknown as number)}
+            />
+        </ConfirmationModal>
+        );
+    }
 }
 
 export default ProductItem;
 
+            // OLD MARKUP BEFORE COMPONENT CART CHANGES, KEEP FOR REFERENCE
             // <div
             //     onClick={toggleConfirm}
             //     // onKeyUp={() => {}}
