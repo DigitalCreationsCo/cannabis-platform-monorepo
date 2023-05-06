@@ -4,11 +4,16 @@ import { H6, Paragraph } from "../Typography";
 
 function SimpleCartItem({product}: {product: ProductVariantWithDetails}) {
     return (
-        <div className="flex space-x-2 items-center p-4 rounded justify-between">
-                <H6>{product.name}</H6>
-                <Paragraph>{product.size + product.unit}</Paragraph>
-                <Price price={product.salePrice || product.basePrice} />
-            </div>
+        <div className="flex flex-nowrap space-x-2 items-center p-4 rounded justify-between">
+            <H6 className='flex flex-row flex-nowrap'>{product.name} ({product.quantity})</H6>
+            <Paragraph>{product.size + product.unit}</Paragraph>
+            <Price 
+            basePrice={product.basePrice} 
+            salePrice={product.salePrice}
+            discount={product.discount}
+            quantity={product.quantity}
+            />
+        </div>
     );
 }
 

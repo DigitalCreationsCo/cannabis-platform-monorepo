@@ -13,11 +13,20 @@ const checkOrderIsCompleteOrCanceled = (order: OrderWithDetails) =>
 /**
  * calculates the price of an item after discount
  * @param price 
- * @param discount 
+ * @param discount a flat number representing percentage off
  * @returns 
  */
 function calcSalePrice(price: number, discount: number) {
-    return price - (price * discount) / 100;
+    let _discountPercentage = discount / 100;
+    let _price = price
+
+    console.log('calculate sale price')
+    console.log('price: ', price)
+    console.log('discount: ', discount)
+    console.log('_discountPercentage: ', _discountPercentage)
+    console.log('_price: ', _price)
+
+    return _price === discount * price ? _price : _price - ((price * _discountPercentage));
 }
 
 /**
@@ -39,8 +48,10 @@ function getCurrencySymbol(currency: any) {
  * @returns converted dollar value with 2 decimal values
  */
 function convertCentsToDollars(cents: number) {
-    const number = Number(((cents / 100) * 100) / 100);
-    return number.toFixed(2);
+    // console.log('cents: ', cents)
+    const dollarValue = Number(((cents / 100) * 100) / 100);
+    // console.log('dollarValue: ', dollarValue.toFixed(2))
+    return dollarValue.toFixed(2);
     // V Beware: this statement interrupts React hydration
     // return number.toLocaleString(locale, { maximumFractionDigits: 2, minimumFractionDigits: 2 });
 }
@@ -65,6 +76,11 @@ function convertDollarsToWholeNumber(value: number | string) {
 function calculatePlatformFeeForTransaction(amount: number) {
     //   return Math.round(amount * 0.1)
     return amount
+}
+
+function calculateDeliveryFee(amount: number) {
+
+    return amount;
 }
     
 

@@ -32,7 +32,7 @@ function QuickDelivery() {
             <Head>
                 <title>Delivery by Gras</title>
             </Head>
-            <Card className='m-auto'>
+            <Card className='m-auto bg-inverse-soft'>
                 {FormStepComponents.filter(_fsc => _fsc !== null).map((_fsc, index) => {
                     if (_fsc === null) return null;
                     return (

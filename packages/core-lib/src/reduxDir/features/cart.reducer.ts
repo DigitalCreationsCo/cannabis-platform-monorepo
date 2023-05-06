@@ -232,6 +232,7 @@ const initialState: CartStateProps = {
     cart: [],
     totalItems: 0,
     subtotal: 0,
+    total: 0,
     isLoading: false,
     isSuccess: false,
     isError: false,
@@ -285,6 +286,9 @@ const cartSlice = createSlice({
       state.total = simpleCart.total;
       state.orderDispensaryName = simpleCart.organizationName;
       state.order.organizationId = simpleCart.organizationId;
+
+      state.totalItems = countTotalItems(state.cart);
+      state.subtotal = countCartSubtotal(state.cart);
     },
 
     clearState: () => initialState,
@@ -388,7 +392,8 @@ const cartSlice = createSlice({
 });
 
 function countTotalItems(itemList: ProductVariantWithDetails[]) {
-    const totalItems = itemList.reduce((sum, item) => sum + item.quantity, 0);
+    const totalItems = itemList.reduce((sum, item) => sum + Number(item.quantity), 0);
+    console.log('count total items: ', totalItems)
     return totalItems;
 };
 
