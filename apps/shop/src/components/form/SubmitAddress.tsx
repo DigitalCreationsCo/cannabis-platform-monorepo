@@ -53,6 +53,7 @@ function SubmitAddressForm({ nextFormStep }: { nextFormStep: () => void }) {
 
             setLoadingButton(false);
             nextFormStep(); 
+            // Router.push('/checkout')
         } catch (error: any) {
             console.log('User Submit Address Error: ', error);
             toast.error(error.response.data.message || error.response.data.errors);
