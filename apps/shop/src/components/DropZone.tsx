@@ -4,7 +4,7 @@ import { useDropzone } from 'react-dropzone';
 import { twMerge } from 'tailwind-merge';
 
 export interface DropZoneProps {
-    onChange?: (files: []) => void;
+    onChange?: any;
     title?: string;
     imageSize?: string;
     maxFiles?: number;
@@ -23,7 +23,10 @@ export default function DropZone({
         onDrop,
         maxFiles: maxFiles,
         multiple: true,
-        accept: { 'image/*': [] }
+        accept: {  
+            'image/jpeg': [],
+            'image/png': []
+        }
     });
     return (
         <div
@@ -39,7 +42,6 @@ export default function DropZone({
             <input {...getInputProps()} />
             <H6>{title}</H6>
             <div className="w-[200px] mx-auto"></div>
-            {/* <Paragraph className={twMerge('px-2 mb-2 mt-1', isDragActive ? 'bg-accent' : 'bg-dark-soft')}>on</Paragraph> */}
             <Button type="button" onClick={open}>
                 Select files
             </Button>

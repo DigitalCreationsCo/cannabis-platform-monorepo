@@ -52,10 +52,11 @@ const VerifyPhotoId = ({ nextFormStep, prevFormStep }: FormStepComponentProps) =
             if (frontImage && backImage) {
                 setLoadingButton(true);
                 toast('Verifying your photo id...')
-                const response = await verifyPhotoIdImage({frontImage, backImage})
+                const response = await verifyLegalAgeImageUpload({frontImage, backImage})
                 if (response.status === 200) {
                     toast('Success! Your photo id has been verified.')
                     // GET IDENTIFICATION CONFIRM RESPONSE
+                    console.log('response data: ', response.data);
                     
                     setFormValues({ newUser: { isLegalAge: true, idVerified: true }})
 
@@ -68,12 +69,12 @@ const VerifyPhotoId = ({ nextFormStep, prevFormStep }: FormStepComponentProps) =
         }
     }
 
-    const verifyPhotoIdImage = async ({frontImage, backImage}: any) => {
+    const verifyLegalAgeImageUpload = async ({frontImage, backImage}: any) => {
         try {
             const formData = new FormData();
             formData.append("idFrontImage", frontImage);
             formData.append("idBackImage", backImage);
-            const { data } = await axios.post(urlBuilder.image.verifyIdentificationImage(), formData, {
+            const { data } = await axios.post(urlBuilder.image.verifyIdentificationImageUpload(), formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -123,8 +124,8 @@ const VerifyPhotoId = ({ nextFormStep, prevFormStep }: FormStepComponentProps) =
                     : <DropZone
                             title="Upload ID Front Image"
                             maxFiles={1}
-                            onChange={async (files) => {
-                                const promiseFiles = files.map(async (file) => {
+                            onChange={async (files: any) => {
+                                const promiseFiles = files.map(async (file: any) => {
 
                                     return new Promise((resolve, reject) => {
                                         const reader = new FileReader()
@@ -161,8 +162,8 @@ const VerifyPhotoId = ({ nextFormStep, prevFormStep }: FormStepComponentProps) =
                     : <DropZone
                             title="Upload ID Back Image"
                             maxFiles={1}
-                            onChange={async (files) => {
-                                const promiseFiles = files.map(async (file) => {
+                            onChange={async (files: any) => {
+                                const promiseFiles = files.map(async (file: any) => {
 
                                     return new Promise((resolve, reject) => {
                                         const reader = new FileReader()

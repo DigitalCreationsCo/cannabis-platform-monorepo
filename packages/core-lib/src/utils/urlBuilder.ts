@@ -57,7 +57,8 @@ const urlBuilder = {
     },
     image: {
         baseUrl: imageUrl + '/api/v1',
-        verifyIdentificationImage: () => urlBuilder.image.baseUrl + '/image/scan-identification',
+        verifyIdentificationImageUpload: () => urlBuilder.image.baseUrl + '/image/scan-identification-upload',
+        verifyIdentificationImageUri: () => urlBuilder.image.baseUrl + '/image/scan-identification-uri',
     },
 };
 

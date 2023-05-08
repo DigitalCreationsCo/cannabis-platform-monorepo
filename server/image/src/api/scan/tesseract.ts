@@ -1,7 +1,7 @@
 import { createWorker, Worker } from "tesseract.js";
 
 class ImageWorker {
-    imageWorker: Worker
+  imageWorker: Worker
     
   constructor(imageWorker) {
     this.imageWorker = imageWorker;
@@ -17,30 +17,15 @@ class ImageWorker {
     await this.imageWorker.terminate();
   }
 
-  async getTextFromImage(uri) {
+  async parseImageToText(imgUri:string): Promise<string> {
     try {
-      let isImageUri;
-      switch (true) {
-        case uri.endsWith(".jpeg"):
-          isImageUri = true;
-        case uri.endsWith(".jpg"):
-          isImageUri = true;
-        case uri.endsWith(".png"):
-          isImageUri = true;
-        case uri.endsWith(".bmp"):
-          isImageUri = true;
-        case uri.endsWith(".pbm"):
-          isImageUri = true;
-      }
-      console.log("isImage ? ", isImageUri);
-      if (isImageUri) {
-        const {
-          data: { text },
-        } = await this.imageWorker.recognize(uri);
-        return { text };
-      } else throw new Error("the uri is not a supported image");
+      console.log('parse this uri: ', imgUri)
+      const { data } = await this.imageWorker.recognize('https://gras-verify.us-east-1.linodeobjects.com/zd6zduk85aiwnwj0wnadihw6-idFrontImage.png');
+      console.log('it worked')
+      return data.text
     } catch (error) {
-      return { error };
+      console.error(error);
+      throw new Error("the uri is not a supported image");
     }
   }
 }
