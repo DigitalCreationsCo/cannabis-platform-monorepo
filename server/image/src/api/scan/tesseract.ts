@@ -19,9 +19,8 @@ class ImageWorker {
 
   async parseImageToText(imgUri:string): Promise<string> {
     try {
-      console.log('parse this uri: ', imgUri)
-      const { data } = await this.imageWorker.recognize('https://gras-verify.us-east-1.linodeobjects.com/zd6zduk85aiwnwj0wnadihw6-idFrontImage.png');
-      console.log('it worked')
+      console.log('image worker is parsing image to text: ', imgUri)
+      const { data } = await this.imageWorker.recognize(imgUri);
       return data.text
     } catch (error) {
       console.error(error);
