@@ -107,6 +107,10 @@ sign up and in from quick-delivery
 add non-signed in bag state to user bag state
 
 To DO: 
+Complete the regex match for cardreader, right now the match regex is turn offed,
+card reader will always return true. Turn it on before we have paying customers!
+
+
 must do: WRITE UNIT TESTS FOR WIDGET CRAWLER
 ConfirmOrder:
     // NOTE: Should encrypt this token in the future.
