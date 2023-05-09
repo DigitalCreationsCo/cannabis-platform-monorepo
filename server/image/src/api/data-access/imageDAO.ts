@@ -14,7 +14,6 @@ class ImageDAO {
         // in the future, we should check the users state from the users address to confirm the legal age, 
         // and then check the users age from the users record dob
         try {
-            console.log('image DAO: imgUri: ', imgUri)
             const text = await this.imageWorker.parseImageToText(imgUri);
             console.log('text: ', text)
             const cardReader = new IdCardReader(text)

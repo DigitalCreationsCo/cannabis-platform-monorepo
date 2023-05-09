@@ -25,11 +25,10 @@ export default class ImageController {
       if (images) {
         uploadedImages = await uploadImageToS3ObjectStore(images, process.env.VERIFY_ID_BUCKET_NAME)
         
-        console.log('uploadedImages: ', uploadedImages)
         const idFrontImage = getObjectStorageUri(uploadedImages['idFrontImage'], process.env.VERIFY_ID_BUCKET_NAME, process.env.OBJECT_STORAGE_REGION)
-
         isLegalAge = await checkLegalAgeFromIdImage(idFrontImage)
         idVerified = true
+        
       } else {
         throw new Error("The server didn't receive images.")
       }
@@ -39,8 +38,9 @@ export default class ImageController {
           images: uploadedImages
       });
     } catch (error:any) {
+      console.log('Sorry, we could not verify the image. Please upload a different image.')
       console.log(error);
-      res.status(500).json(error.message);
+      res.status(200).json(error.message);
     }
   }
 
@@ -58,7 +58,7 @@ export default class ImageController {
       return res.status(200).json({
         success: true,
         result: { isLegalAge, idVerified },
-        images: imgUri
+        images: [imgUri]
       });
     } catch (error: any) {
       console.log(error);
@@ -70,8 +70,7 @@ export default class ImageController {
 
 function getObjectStorageUri (key: string, bucketName: string, region: string, ) { 
   const uri = `https://${bucketName}.${region}.linodeobjects.com/${key}`; 
-
-  console.log('image uri: ', uri)
+  console.info('create object storage uri: ', uri)
   return uri;
 }
 
@@ -110,8 +109,8 @@ async function uploadImageToS3ObjectStore(files: any[], bucketName: string): Pro
       },
     });
     
-    let uploadedFiles 
-    await Promise.all(files.map(async (file) => {
+    let uploadedFiles = {}
+    await Promise.all(files.map(async (file): Promise<ImagePath> => {
       
         const fileBuffer = await file.buffer
         const fileExtension = getExtensionFromMimeType(file.mimetype);
@@ -124,12 +123,17 @@ async function uploadImageToS3ObjectStore(files: any[], bucketName: string): Pro
           ContentType: file.mimetype,
         });
 
-        s3Client.send(putObjectCommand);
+        console.info('uploading to s3 object storage..')
+        await s3Client.send(putObjectCommand);
+        
+        console.info(`Uploaded ${key} to ${bucketName}/${key}`)
         return { [file.fieldname]: key };
         
       })
-    )
-    // .then(Object.assign())
+    ).then(
+        _uploadedFiles => {
+          _uploadedFiles.forEach(file => Object.assign(uploadedFiles, file))
+      })
     
     return uploadedFiles
 
