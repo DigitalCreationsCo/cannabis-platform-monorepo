@@ -14,4 +14,7 @@ describe('Id Card Reader Test', () => {
     test('check isLegalAge from 21 Maryland id should return true', async () => {
         cardReader.isLegalAge()
     });
+
+    test('cardreader scans a uri that is not an image file')
+    test('cardreader scans a uri that is not an image of an id')
 });
