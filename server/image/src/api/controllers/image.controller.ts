@@ -28,6 +28,7 @@ export default class ImageController {
         uploadedImages = await uploadImageToS3ObjectStore(images, process.env.VERIFY_ID_BUCKET_NAME)
         isUploaded = true
         
+        // NOTE: checkLegalAgeFromIdImage is turned off! Must be turned on and working for paying customers!!
         // const idFrontImage = getObjectStorageUri(uploadedImages['idFrontImage'], process.env.VERIFY_ID_BUCKET_NAME, process.env.OBJECT_STORAGE_REGION)
         // isLegalAge = await checkLegalAgeFromIdImage(idFrontImage)
         isLegalAge = true
