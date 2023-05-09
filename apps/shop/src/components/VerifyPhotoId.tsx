@@ -57,15 +57,13 @@ const VerifyPhotoId = ({ nextFormStep, prevFormStep }: FormStepComponentProps) =
                 if (response.success) {
                     toast('Thanks for verifying your id!')
                     // GET IDENTIFICATION CONFIRM RESPONSE
-                    
                     setFormValues({ newUser: {
                         ...response.result,
                         } 
                     })
                     // set photo id link to user form data
-                    
                     nextFormStep();
-                } else if (response.success) {
+                } else if (response.success === false) {
                     toast.error('Error verifying your photo id. Please try again.')
                     setLoadingButton(false);
                 }
