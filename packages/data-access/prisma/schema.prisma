@@ -67,6 +67,8 @@ model User {
   address Address[]
   termsAccepted Boolean @default(false)
   imageUser     ImageUser?
+  idFrontImage  String?
+  idBackImage   String?
   accounts      Account[]
   sessions      Session[]
   reviews Review[]

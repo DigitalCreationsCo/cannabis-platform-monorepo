@@ -52,20 +52,28 @@ const VerifyPhotoId = ({ nextFormStep, prevFormStep }: FormStepComponentProps) =
             if (frontImage && backImage) {
                 setLoadingButton(true);
                 toast('Verifying your photo id...')
-                const response = await verifyLegalAgeImageUpload({frontImage, backImage})
-                if (response.status === 200) {
-                    toast('Success! Your photo id has been verified.')
+                const response: VerifyPhotoIDUploadResponse = await verifyLegalAgeImageUpload({frontImage, backImage})
+                console.log('response: ', response)
+                if (response.success) {
+                    toast('Thanks for verifying your id!')
                     // GET IDENTIFICATION CONFIRM RESPONSE
-                    console.log('response data: ', response.data);
                     
-                    setFormValues({ newUser: { isLegalAge: true, idVerified: true }})
-
+                    setFormValues({ newUser: {
+                        ...response.result,
+                        } 
+                    })
                     // set photo id link to user form data
                     
                     nextFormStep();
-                } else {}
+                } else if (response.success) {
+                    toast.error('Error verifying your photo id. Please try again.')
+                    setLoadingButton(false);
+                }
             }
         } catch (error: any) {
+            console.log('error: ', error);
+            toast.error(error);
+            setLoadingButton(false);
         }
     }
 
@@ -79,11 +87,10 @@ const VerifyPhotoId = ({ nextFormStep, prevFormStep }: FormStepComponentProps) =
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            console.info('Upload photo id image: ', data);
-            
             return data;
         } catch (error: any) {
             console.log('verify id error: ', error)
+            throw new Error(`We're having a problem verifying your image. Please try again.`)
         }
     }
     
@@ -209,3 +216,14 @@ const VerifyPhotoId = ({ nextFormStep, prevFormStep }: FormStepComponentProps) =
 )}
 
 export default VerifyPhotoId
+
+type VerifyPhotoIDUploadResponse = {
+    success: boolean,
+    result: { 
+        isLegalAge: boolean, 
+        idVerified: boolean
+    },
+    images: Record<string, string> | null
+    isUploaded: boolean,
+    error?: string,
+}

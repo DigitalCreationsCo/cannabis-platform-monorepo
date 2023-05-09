@@ -15,6 +15,8 @@ export default class ImageController {
 
   // verify Identification could be one function, I keep as two for now, for easier testing, and to not break it. ;P
   static async verifyIdentificationImageFromUpload(req, res) {
+    let isUploaded = false
+
     try {
       let images = req.files
       
@@ -24,6 +26,7 @@ export default class ImageController {
       
       if (images) {
         uploadedImages = await uploadImageToS3ObjectStore(images, process.env.VERIFY_ID_BUCKET_NAME)
+        isUploaded = true
         
         const idFrontImage = getObjectStorageUri(uploadedImages['idFrontImage'], process.env.VERIFY_ID_BUCKET_NAME, process.env.OBJECT_STORAGE_REGION)
         isLegalAge = await checkLegalAgeFromIdImage(idFrontImage)
@@ -35,12 +38,18 @@ export default class ImageController {
       return res.status(200).json({
           success: true,
           result: { isLegalAge, idVerified },
-          images: uploadedImages
+          images: uploadedImages,
+          isUploaded,
       });
     } catch (error:any) {
       console.log('Sorry, we could not verify the image. Please upload a different image.')
       console.log(error);
-      res.status(200).json(error.message);
+      res.status(200).json({
+          success: false,
+          error: error.message,
+          images: null,
+          isUploaded
+      });
     }
   }
 

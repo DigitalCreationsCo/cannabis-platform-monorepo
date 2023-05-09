@@ -23,4 +23,8 @@ describe('POST scan-identification-uri', function() {
             expect(response.body).toBeDefined()
         })
     });
+
+    test('/scan-identification-upload uploads no image in the request')
+    test('/scan-identification-upload uploads a non-image file in the request')
+    test('/scan-identification-upload uploads an image that is not an id photo')
 });
