@@ -1,12 +1,12 @@
-import { PutObjectCommand, PutObjectCommandOutput } from '@aws-sdk/client-s3';
-import { createId } from '@paralleldrive/cuid2';
+import { PutObjectCommand } from '@aws-sdk/client-s3';
+// import { createId } from '@paralleldrive/cuid2';
 import s3Client from '../../s3/verifyIdClient';
 import ImageDAO from '../data-access/imageDAO';
 /* =================================
 ImageController - controller class for Image Uploading, and Processing
 
 members:
-verifyIdentificationImage
+verifyIdentificationImageFromUpload
 
 ================================= */
 export default class AccountController {
@@ -21,8 +21,7 @@ export default class AccountController {
     }> {
         try {
           let images = req.files
-          if (!Array.isArray(images)) images = Object.entries(images).flat()
-          console.log('images: ', images)
+          
           let uploadedImages
           let isLegalAge
           let idVerified
@@ -30,9 +29,11 @@ export default class AccountController {
           if (images) {
             uploadedImages = await uploadImageToS3ObjectStore(images, process.env.VERIFY_ID_BUCKET_NAME)
             console.log('uploadedImages: ', uploadedImages)
-            const imgUri = getObjectStorageUri(uploadedImages['idFrontImage'], process.env.VERIFY_ID_BUCKET_NAME, process.env.OBJECT_STORAGE_REGION)
-            isLegalAge = await checkLegalAgeFromIdImage(imgUri)
-            idVerified = true
+            // const imgUri = getObjectStorageUri(uploadedImages['idFrontImage'], process.env.VERIFY_ID_BUCKET_NAME, process.env.OBJECT_STORAGE_REGION)
+
+            // console.log('imgUri: ', imgUri)
+            // isLegalAge = await checkLegalAgeFromIdImage(imgUri)
+            // idVerified = true
 
           } else {
             throw new Error("No images uploaded")
@@ -101,41 +102,64 @@ function getExtensionFromMimeType(mimeType: string) {
   return extensionMap[mimeType] || '';
 }
 
-async function uploadImageToS3ObjectStore(body: any[], bucketName: string): Promise<Record<string, string>> {
+async function uploadImageToS3ObjectStore(files: any[], bucketName: string)
+// : Record<string, string> 
+: Promise<void>
+{
   try {
-    let uploadKeys = {}
     
-    const uploadPromise = body.map(async (object) => new Promise(async (resolve, reject) => {
+    await Promise.all(
+      files.map(async (file) => {
+        console.log('file: ', file)
+        
+        const fileBuffer = await file.buffer
+        console.log('fileBuffer: ', fileBuffer)
 
-      console.log('object: ', object)
-      const extension = getExtensionFromMimeType(object.mimetype);
+        const putObjectCommand = new PutObjectCommand({
+          Bucket: bucketName,
+          Key: file.fieldname,
+          Body: fileBuffer,
+          ContentType: file.mimetype,
+        });
 
-      const key = `${createId()}-${object.fieldname}${extension}`;
-      console.log('key: ', key)
-      const putObjectCommand = new PutObjectCommand({
-        ContentType: object.mimetype,
-        ACL: "public-read",
-        Body: object.buffer,
-        Bucket: bucketName,
-        Key: key
+        await s3Client.send(putObjectCommand);
       })
 
-      console.log('putObjectCommand: ', putObjectCommand)
-      const upload = await s3Client.send(putObjectCommand)
-      resolve({ ...upload, key })
-      console.info(`Uploaded ${key} to ${bucketName}`);
-      
-    }).then(async(upload: PutObjectCommandOutput & {key: string}) => {
-      Object.assign(uploadKeys, { [object.fieldname]: upload.key });
-    }).catch((error) => {
-      console.error('Error uploading image to object storage: ', error)
-      throw new Error('Error uploading image to object storage.')
-    }))
-    await Promise.allSettled(uploadPromise);
+    );
+    // let uploadKeys = {}
+    
+    // const uploadPromise = files.map(async (file) => {
+    //   return new Promise(async (resolve, reject) => {
+    //     const extension = getExtensionFromMimeType(file.mimetype);
+    //     // const key = `${createId()}-${file.fieldname}${extension}`;
+    //     const key = `${file.fieldname}${extension}`;
+        
+    //     const putObjectCommand = new PutObjectCommand({
+    //       // ContentType: object.mimetype,
+    //       // ContentEncoding: object.encoding,
+    //       ACL: "public-read",
+    //       Body: file.buffer,
+    //       Bucket: bucketName,
+    //       Key: key
+    //     })
 
-    return uploadKeys;
+    //     resolve({ ...await s3Client.send(putObjectCommand), key })
+        
+    //   }).then(async(upload: PutObjectCommandOutput & {key: string}) => {
+    //     console.log('upload: ', upload)
+    //     Object.assign(uploadKeys, { [file.fieldname]: upload.key });
+    //   }).catch((error) => {
+    //     console.error('Error uploading image to object storage: ', error)
+    //     throw new Error('Error uploading image to object storage.')
+    //   })
+    // });
+    
+    // await Promise.all(uploadPromise);
+    
+    // return uploadKeys;
     
   } catch (error: any) {
+    console.error(error)
     throw new Error(error.message)
   }
 }
