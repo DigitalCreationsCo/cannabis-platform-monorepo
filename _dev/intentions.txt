@@ -105,11 +105,14 @@ Test many edge cases according to the stripe docs.
 add cart cookie to bag state,
 sign up and in from quick-delivery
 add non-signed in bag state to user bag state
+5-9-2023
+handle new user checkout by prompt for sign in for signup
+5-10-2023
+[production/supertokens-passwordless e415d5501] passqwordless signon and signup mostly works, need to resolve some type erros, and handle the new user form flow, and write tests. And AUTH will be done!
+
+
 
 To DO: 
-
-Create a standard modal component, 
-handle new user checkout by prompt for sign in for signup, 
 complete signup process,
 test users login and signup
 test checkout
