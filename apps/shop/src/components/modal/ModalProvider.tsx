@@ -4,20 +4,18 @@ import {
     FlexBox,
     Grid,
     H1,
-    H3,
-    H6,
-    Icons,
-    LoginModalProps,
+    H3, LoginModalProps,
     Modal, Paragraph,
     TextField
 } from '@cd/ui-lib';
 import { AnyAction } from '@reduxjs/toolkit';
 import { useFormik } from 'formik';
 import Image from 'next/image';
-import Link from 'next/link';
-import { JSXElementConstructor, useCallback, useMemo, useState } from 'react';
+import { JSXElementConstructor, useEffect, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import { connect, useSelector } from 'react-redux';
+import { handleOTPInput, sendOTPEmail, sendOTPPhone } from 'session/OTP';
+import { getLoginAttemptInfo } from "supertokens-web-js/recipe/passwordless";
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 import { useAppDispatch } from '../../redux/hooks';
@@ -86,30 +84,21 @@ interface CartModalProps {
 }
 
 function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalProps) {
+
     const dispatch = useAppDispatch();
     const signInUser = (signInArgs: { email: string; password: string }) =>
         dispatch(userActions.signinUserAsync(signInArgs) as unknown as AnyAction);
 
     const [loadingButton, setLoadingButton] = useState(false);
-    const [passwordVisibility, setPasswordVisibility] = useState(false);
-
-    const togglePasswordVisibility = useCallback(() => {
-        setPasswordVisibility((visible) => !visible);
-    }, []);
-
+    const [isInputPhone, setIsInputPhone] = useState(false);
+    const [hasOTPBeenSent, setHasOTPBeenSent] = useState(false);
+    
     const { values, errors, touched, handleBlur, handleChange, handleSubmit, resetForm, validateForm } = useFormik({
         initialValues,
         onSubmit,
-        validationSchema
+        validationSchema: () => isInputPhone ? phoneValidationSchema : emailValidationSchema
     });
-
-    const closeModalAndReset = () => {
-        dispatchCloseModal();
-        setLoadingButton(false);
-        setPasswordVisibility(false);
-        resetForm();
-    };
-
+    
     function notifyValidation() {
         validateForm().then((errors) => {
             if (Object.values(errors).length > 0) {
@@ -118,12 +107,38 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
             }
         });
     }
+    
+    useEffect(() => {
+        const checkInputEmailOrPhone = () => {
+            !values.emailOrPhone.match(/[^0-9]/g) ? setIsInputPhone(true) : setIsInputPhone(false);
+
+        }
+        checkInputEmailOrPhone()
+    }, [values.emailOrPhone])
+    
+    useEffect(() => {
+        async function hasInitialOTPBeenSent() {
+            return await getLoginAttemptInfo() !== undefined;
+        }
+        hasInitialOTPBeenSent().then((hasInitialOTPBeenSent) => {
+            setHasOTPBeenSent(hasInitialOTPBeenSent);
+        })
+    }, [])
+    const closeModalAndReset = () => {
+        dispatchCloseModal();
+        setLoadingButton(false);
+        resetForm();
+    };
+
     async function onSubmit() {
-        setLoadingButton(true);
         try {
             if (!loadingButton) {
-                setLoadingButton(true);
-                await signInUser({ email: values.email, password: values.password });
+                !hasOTPBeenSent 
+                    ? isInputPhone ? sendOTPPhone(values.emailOrPhone) : sendOTPEmail(values.emailOrPhone)
+                    : () => {
+                        setLoadingButton(true);
+                        handleOTPInput(values.passcode);
+                    }
             }
         } catch (error: any) {
             setLoadingButton(false);
@@ -134,10 +149,10 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
 
     const styles = {
         responsive: 'min-w-full min-h-screen sm:!rounded-none md:min-w-min md:min-h-min md:!rounded px-12 py-8',
-        paddTop: ''
+        padd: 'pt-8 pb-12'
     };
     return (
-        <Modal className={twMerge(styles.responsive, styles.paddTop)} modalVisible={modalVisible} onClose={closeModalAndReset} {...props}>
+        <Modal className={twMerge(styles.responsive, styles.padd)} modalVisible={modalVisible} onClose={closeModalAndReset} {...props}>
             <form>
                 <FlexBox>
                     <Image src={'/logo.png'} alt="Gras Cannabis logo" width={63} height={63} priority />
@@ -145,65 +160,86 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
                     <H1>Gras</H1>
                 </FlexBox>
                 <H3>a one stop cannabis marketplace</H3>
+                {isInputPhone ? 'phone' : 'email'}
                 <Grid className="space-y-2">
-                    <Paragraph>Sign in with your email & password</Paragraph>
-                    <TextField
-                        name="email"
-                        label="Email"
-                        placeholder="you@email.com"
-                        value={values?.email}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        error={!!touched.email && !!errors.email}
-                        helperText={touched.email && errors.email}
-                    />
-                    <TextField
-                        name="password"
-                        label="Password"
-                        placeholder="password"
-                        value={values?.password}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        error={!!touched.password && !!errors.password}
-                        helperText={touched.password && errors.password}
-                        type={passwordVisibility ? 'text' : 'password'}
-                        insertIcon={passwordVisibility ? Icons.View : Icons.ViewOff}
-                        onClickIcon={togglePasswordVisibility}
-                    />
-                    <FlexBox className="py-2">
-                        <Button
-                            className="place-self-center"
-                            loading={loadingButton}
-                            onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                notifyValidation();
-                                handleSubmit();
-                            }}
-                        >
-                            Sign In
-                        </Button>
-                    </FlexBox>
-                    <FlexBox className="items-center">
-                        <Paragraph>{`Don't have account?`} </Paragraph>
-                        <Link href="/signup" onClick={closeModalAndReset}>
-                            <H6 className="border-b"> Sign Up</H6>
-                        </Link>
-                    </FlexBox>
-                    <FlexBox className="items-center">
-                        <Paragraph>Forgot your password?</Paragraph>
-                        <Link href="/password-reset" onClick={closeModalAndReset}>
-                            <H6 className="border-b"> Reset It</H6>
-                        </Link>
-                    </FlexBox>
+                    {hasOTPBeenSent ? <>
+                    <Paragraph>Sign in with your email or mobile</Paragraph>
+                        <TextField
+                            containerClassName='w-2/3 m-auto lg:flex-col lg:items-start'
+                            className="my-2 shadow"
+                            autoComplete='off'
+                            type='text'
+                            name="emailOrPhone"
+                            label="Email or Phone number"
+                            placeholder=""
+                            value={values?.emailOrPhone}
+                            onBlur={handleBlur}
+                            onChange={handleChange}
+                            error={!!touched.emailOrPhone && !!errors.emailOrPhone}
+                            // helperText={touched.emailOrPhone && errors.emailOrPhone}
+                        />
+                        <FlexBox className="py-2">
+                            <Button
+                                className="place-self-center"
+                                loading={loadingButton}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    notifyValidation();
+                                    handleSubmit();
+                                }}
+                            >
+                                Sign In
+                            </Button>
+                        </FlexBox>
+                        </> : <>
+                        <Paragraph>Enter your one time passcode</Paragraph>
+                        <TextField
+                            containerClassName='w-2/3 m-auto lg:flex-col lg:items-start'
+                            className="my-2 shadow"
+                            autoComplete='off'
+                            type='text'
+                            name="emailOrPhone"
+                            label="Email or Phone number"
+                            placeholder=""
+                            value={values?.emailOrPhone}
+                            onBlur={handleBlur}
+                            onChange={handleChange}
+                            error={!!touched.emailOrPhone && !!errors.emailOrPhone}
+                            // helperText={touched.emailOrPhone && errors.emailOrPhone}
+                        />
+                        <FlexBox className="py-2">
+                            <Button
+                                className="place-self-center"
+                                loading={loadingButton}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    notifyValidation();
+                                    handleSubmit();
+                                }}
+                            >
+                                Sign In
+                            </Button>
+                        </FlexBox>
+                        </>
+                    }
                 </Grid>
             </form>
         </Modal>
     );
 }
 
-const initialValues = { email: '', password: '' };
-const validationSchema = yup.object().shape({
-    email: yup.string().email('Invalid Email').required('Email is required'),
-    password: yup.string().required('Password is required')
+const initialValues = { emailOrPhone: '' };
+
+const emailValidationSchema = yup.object().shape({
+    emailOrPhone: yup.string()
+    .email('Not a valid email.')
+    .required('Email or Phone number is required.'),
+});
+
+const phoneValidationSchema = yup.object().shape({
+    emailOrPhone: yup.string()
+    .length(10, 'Phone number must be 10 digits')
+    .required('Email or Phone number is required.'),
 });
