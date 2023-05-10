@@ -59,7 +59,7 @@
     "docker:shadow-db": "scripts/docker/mysql.sh",
     "k8s:start": "terraform:apply && kubectl apply -f k8s/",
     "terraform:apply": "terraform -chdir='./terraform' apply -auto-approve",
-    "terraform:destroy": "terraform -chdir='./terraform' destroy",
+    "terraform:destroy": "terraform -chdir='./terraform' destroy"
   },
   "engines": {
     "node": "16.^16.0",
