@@ -5,6 +5,9 @@ import {
     Grid,
     H1,
     H3,
+    H5,
+    Icons,
+    IconWrapper,
     LoginModalProps,
     Modal, Paragraph,
     TextField
@@ -12,15 +15,15 @@ import {
 import { AnyAction } from '@reduxjs/toolkit';
 import { useFormik } from 'formik';
 import Image from 'next/image';
-import { JSXElementConstructor, useEffect, useMemo, useState } from 'react';
+import { JSXElementConstructor, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import { connect, useSelector } from 'react-redux';
 import { handleOTPInput, sendOTPEmail, sendOTPPhone } from 'session/OTP';
-import { getLoginAttemptInfo } from "supertokens-web-js/recipe/passwordless";
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 import { useAppDispatch } from '../../redux/hooks';
 import CheckoutModal from './CheckoutModal';
+
 
 // import ConfirmModal from "./ConfirmModal";
 // import MessageBanner from "./MessageBanner";
@@ -86,160 +89,228 @@ interface CartModalProps {
 
 function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalProps) {
 
-    const dispatch = useAppDispatch();
-    const signInUser = (signInArgs: { email: string; password: string }) =>
-        dispatch(userActions.signinUserAsync(signInArgs) as unknown as AnyAction);
+    const [formStep, setFormStep] = useState(0);
+    const nextFormStep = () => setFormStep((currentStep) => currentStep <= 1 ? currentStep + 1 : currentStep);
+    const prevFormStep = () => setFormStep((currentStep) => currentStep - 1);
+    
+    const FormStepComponents = [
+        SendOTP,
+        EnterOTP
+    ];
+    
+    const FormStepComponent = useMemo(() => FormStepComponents[formStep], [formStep]);
 
-    const [loadingButton, setLoadingButton] = useState(false);
-    const [isInputPhone, setIsInputPhone] = useState(false);
-    const [hasOTPBeenSent, setHasOTPBeenSent] = useState(false);
-    
-    const { values, errors, touched, handleBlur, handleChange, handleSubmit, resetForm, validateForm } = useFormik({
-        initialValues,
-        onSubmit,
-        validationSchema: () => isInputPhone ? phoneValidationSchema : emailValidationSchema
-    });
-    
-    function notifyValidation() {
-        validateForm().then((errors) => {
-            if (Object.values(errors).length > 0) {
-                console.log('validation errors: ', errors);
-                toast.error(Object.values(errors)[0].toString());
-            }
+    function SendOTP () {
+        
+        const initialValues = { emailOrPhone: '' };
+
+        const { values, errors, touched, handleBlur, handleChange, handleSubmit, resetForm, validateForm } = useFormik({
+            initialValues,
+            onSubmit,
+            validationSchema: () => isInputPhone ? phoneValidationSchema : emailValidationSchema
         });
-    }
-    
-    useEffect(() => {
-        const checkInputEmailOrPhone = () => {
-            !values.emailOrPhone.match(/[^0-9]/g) ? setIsInputPhone(true) : setIsInputPhone(false);
 
-        }
-        checkInputEmailOrPhone()
-    }, [values.emailOrPhone])
-    
-    useEffect(() => {
-        async function hasInitialOTPBeenSent() {
-            return await getLoginAttemptInfo() !== undefined;
-        }
-        hasInitialOTPBeenSent().then((hasInitialOTPBeenSent) => {
-            setHasOTPBeenSent(hasInitialOTPBeenSent);
-        })
-    }, [])
-    const closeModalAndReset = () => {
-        dispatchCloseModal();
-        setLoadingButton(false);
-        resetForm();
-    };
+        // DISABLED FOR NOW TO USE ONLY EMAIL LOGIN
+        const [isInputPhone, setIsInputPhone] = useState(false);
 
-    async function onSubmit() {
-        try {
-            if (!loadingButton) {
-                !hasOTPBeenSent 
-                    ? isInputPhone ? sendOTPPhone(values.emailOrPhone) : sendOTPEmail(values.emailOrPhone)
-                    : () => {
-                        setLoadingButton(true);
-                        handleOTPInput(values.passcode);
-                    }
+        // DISABLED FOR NOW TO USE ONLY EMAIL LOGIN
+        // useEffect(() => {
+        //     const checkInputEmailOrPhone = () => {
+        //         !values.emailOrPhone.match(/[^0-9]/g) ? setIsInputPhone(true) : setIsInputPhone(false);
+        //     }
+        //     checkInputEmailOrPhone()
+        // }, [values.emailOrPhone])
+
+        function notifyValidation() {
+            validateForm().then((errors) => {
+                if (Object.values(errors).length > 0) {
+                    console.log('validation errors: ', errors);
+                    toast.error(Object.values(errors)[0].toString());
+                }
+            });
+        }
+        
+        const [loading, setLoading] = useState(false);
+
+        async function onSubmit() {
+            try {
+                if(!loading) {
+                    setLoading(true);
+                    isInputPhone ? await sendOTPPhone(values.emailOrPhone) : await sendOTPEmail(values.emailOrPhone)
+                    nextFormStep();
+                }
+            } catch (error: any) {
+                console.error(error);
+                toast.error(error.message);
             }
-        } catch (error: any) {
-            setLoadingButton(false);
-            console.error(error);
-            toast.error(error.message);
         }
+            
+        return (
+            <form>
+                <Grid className="space-y-2">
+                    <Paragraph>Sign in with your email</Paragraph>
+                    <TextField
+                        containerClassName='w-2/3 m-auto lg:flex-col lg:items-start'
+                        className="my-2 shadow"
+                        autoComplete='off'
+                        type='text'
+                        name="emailOrPhone"
+                        label=""
+                        placeholder="Email"
+                        value={values?.emailOrPhone}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        error={!!touched.emailOrPhone && !!errors.emailOrPhone}
+                    />
+                    <FlexBox className="py-2">
+                        <Button
+                            loading={loading}
+                            className="place-self-center"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                notifyValidation();
+                                handleSubmit();
+                            }}
+                        >
+                            Continue
+                        </Button>
+                    </FlexBox>
+                </Grid>
+            </form>
+        )
     }
 
+    function EnterOTP () {
+        const [loadingButton, setLoadingButton] = useState(false);
+
+        const dispatch = useAppDispatch();
+        const signInUser = (signInArgs: { email: string; password: string }) =>
+            dispatch(userActions.signinUserAsync(signInArgs) as unknown as AnyAction);
+
+        const initialValues = { passcode: '' };
+
+        const { values, errors, touched, handleBlur, handleChange, handleSubmit, resetForm, validateForm } = useFormik({
+            initialValues,
+            onSubmit,
+            validationSchema: passcodeValidationSchema
+        });
+
+        function notifyValidation() {
+            validateForm().then((errors) => {
+                if (Object.values(errors).length > 0) {
+                    console.log('validation errors: ', errors);
+                    toast.error(Object.values(errors)[0].toString());
+                }
+            });
+        }
+
+        async function onSubmit() {
+            try {
+                if (!loadingButton) {
+                    setLoadingButton(true);
+                    handleOTP()
+                }
+            } catch (error: any) {
+                setLoadingButton(false);
+                console.error(error);
+                toast.error(error.message);
+            }
+        }
+
+        const handleOTP = async () => {
+            try {
+                await handleOTPInput(values.passcode);
+            } catch (error: any) {
+                setLoadingButton(false);
+                toast.error(error.message);
+            }
+        }
+
+        // useEffect(() => {
+        //     async function hasInitialOTPBeenSent() {
+        //         return await getLoginAttemptInfo() !== undefined;
+        //     }
+        //     hasInitialOTPBeenSent().then(hasInitialOTPBeenSent => hasInitialOTPBeenSent ? null : prevFormStep())
+        // }, [])
+    
+        return (
+            <form>
+                <Grid className="space-y-2">
+                    <H5>Enter your one time passcode</H5>
+                    <TextField
+                        containerClassName='w-2/3 m-auto lg:flex-col lg:items-start'
+                        className="my-2 shadow"
+                        autoComplete='off'
+                        type='text'
+                        name="passcode"
+                        label="passcode"
+                        placeholder=""
+                        value={values?.passcode}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        error={!!touched.passcode && !!errors.passcode}
+                    />
+                    <FlexBox className="py-2 space-y-8">
+                        <Button
+                            className="place-self-center"
+                            loading={loadingButton}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                notifyValidation();
+                                handleSubmit();
+                            }}
+                        >
+                            Sign In
+                        </Button>
+                        <div className="flex flex-row items-center m-auto">
+                        <IconWrapper Icon={Icons.ArrowLeft} className="text-dark" />
+                        <div onClick={prevFormStep} className="m-auto">
+                            <Paragraph className="ml-2 border-b-2 border-secondary">
+                                {`Change email`}</Paragraph></div></div>
+                    </FlexBox>
+                </Grid>
+            </form>
+        )
+    }
+        
+        const closeModalAndReset = () => {
+            setFormStep(0);
+            dispatchCloseModal();
+        };
+
+        return (
+            <Modal className={twMerge(styles.responsive, styles.padd)} modalVisible={modalVisible} onClose={closeModalAndReset} {...props}>
+                    <FlexBox>
+                        <Image src={'/logo.png'} alt="Gras Cannabis logo" width={63} height={63} priority />
+                        <H3> Welcome to</H3>
+                        <H1>Gras</H1>
+                    </FlexBox>
+                    <H3>a one stop cannabis marketplace</H3>
+                    <FormStepComponent />
+            </Modal>
+        );
+    }
+    
     const styles = {
         responsive: 'min-w-full min-h-screen sm:!rounded-none md:min-w-min md:min-h-min md:!rounded px-12 py-8',
         padd: 'pt-8 pb-12'
     };
-    return (
-        <Modal className={twMerge(styles.responsive, styles.padd)} modalVisible={modalVisible} onClose={closeModalAndReset} {...props}>
-            <form>
-                <FlexBox>
-                    <Image src={'/logo.png'} alt="Gras Cannabis logo" width={63} height={63} priority />
-                    <H3> Welcome to</H3>
-                    <H1>Gras</H1>
-                </FlexBox>
-                <H3>a one stop cannabis marketplace</H3>
-                <Grid className="space-y-2">
-                    {!hasOTPBeenSent ? <>
-                    <Paragraph>Sign in with your email or mobile</Paragraph>
-                        <TextField
-                            containerClassName='w-2/3 m-auto lg:flex-col lg:items-start'
-                            className="my-2 shadow"
-                            autoComplete='off'
-                            type='text'
-                            name="emailOrPhone"
-                            label="Email or Phone number"
-                            placeholder=""
-                            value={values?.emailOrPhone}
-                            onBlur={handleBlur}
-                            onChange={handleChange}
-                            error={!!touched.emailOrPhone && !!errors.emailOrPhone}
-                            // helperText={touched.emailOrPhone && errors.emailOrPhone}
-                        />
-                        <FlexBox className="py-2">
-                            <Button
-                                className="place-self-center"
-                                loading={loadingButton}
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                    notifyValidation();
-                                    handleSubmit();
-                                }}
-                            >
-                                Sign In
-                            </Button>
-                        </FlexBox>
-                        </> : <>
-                        <Paragraph>Enter your one time passcode</Paragraph>
-                        <TextField
-                            containerClassName='w-2/3 m-auto lg:flex-col lg:items-start'
-                            className="my-2 shadow"
-                            autoComplete='off'
-                            type='text'
-                            name="emailOrPhone"
-                            label="Email or Phone number"
-                            placeholder=""
-                            value={values?.emailOrPhone}
-                            onBlur={handleBlur}
-                            onChange={handleChange}
-                            error={!!touched.emailOrPhone && !!errors.emailOrPhone}
-                            // helperText={touched.emailOrPhone && errors.emailOrPhone}
-                        />
-                        <FlexBox className="py-2">
-                            <Button
-                                className="place-self-center"
-                                loading={loadingButton}
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                    notifyValidation();
-                                    handleSubmit();
-                                }}
-                            >
-                                Sign In
-                            </Button>
-                        </FlexBox>
-                        </>
-                    }
-                </Grid>
-            </form>
-        </Modal>
-    );
-}
 
-const initialValues = { emailOrPhone: '' };
-
-const emailValidationSchema = yup.object().shape({
-    emailOrPhone: yup.string()
-    .email('Not a valid email.')
-    .required('Email or Phone number is required.'),
-});
-
-const phoneValidationSchema = yup.object().shape({
-    emailOrPhone: yup.string()
-    .length(10, 'Phone number must be 10 digits')
-    .required('Email or Phone number is required.'),
-});
+    const emailValidationSchema = yup.object().shape({
+        emailOrPhone: yup.string()
+        .email('Not a valid email.')
+        .required('Email or Phone number is required.'),
+    });
+    
+    const phoneValidationSchema = yup.object().shape({
+        emailOrPhone: yup.string()
+        .length(11, 'Phone number must be 11 digits')
+        .required('Email or Phone number is required.'),
+    });
+    
+    const passcodeValidationSchema = yup.object().shape({
+        passcode: yup.string()
+        .required('Invalid passcode.')
+    });

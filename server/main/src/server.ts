@@ -4,10 +4,8 @@ import cors from 'cors';
 import express from 'express';
 import http from 'http';
 import Supertokens from 'supertokens-node';
-import { errorHandler, middleware, SessionRequest } from 'supertokens-node/framework/express';
-import { verifySession } from "supertokens-node/recipe/session/framework/express";
+import { errorHandler, middleware } from 'supertokens-node/framework/express';
 import { SessionInfo } from './api/controllers/session.controller';
-import SessionDA from './api/data-access/SessionDA';
 import { errorRoute, organization, shop } from './api/routes';
 import { backendConfig } from './config/backendConfig';
 
@@ -40,41 +38,41 @@ app.use('/api/v1/healthcheck', (req, res) => {
 
 // app.use('/api/v1/driver', driver);
 
-app.get('/api/v1/session', verifySession(), async (req:SessionRequest, res) => {
-    try{
-        console.log('session route')
-        // const session = {
-        //     user: {
-        //         username: 'kbarnes',
-        //         firstName: 'Katie',
-        //         lastName: 'Barnes',
-        //         memberships: [{ organizationId: '2' }]
-        //     }
-        // };
-        // res.send({
-        //     sessionHandle: session.getHandle(),
-        //     userId: session.getUserId(),
-        //     sessionData: await session.getSessionData(),
-        //   });s
-        const _session =  req.session;
-        console.log(_session)
-        const sessionFromDb = await SessionDA.getSession(_session.getHandle());
-        console.log('session from db: ', sessionFromDb)
-        const { user, ...session } = sessionFromDb;
-        res.status(200).json({ status: true, session: {session}, user });
-    } catch (error: any) {
-        console.log('API error: ', error);
-        // if (error.type === Session.Error.TRY_REFRESH_TOKEN) {
-        //     console.log('try refresh token error: ', error);
-        //     return res.status(200).json({ status: false, error });
-        //     // return { props: { fromSupertokens: 'needs-refresh' } }
-        // } else if (error.type === Session.Error.UNAUTHORISED) {
-        //     console.log('unauthorized error: ', error)
-        //     return res.status(200).json({ status: false, error });
-        // }
-        res.status(200).json({ status: false, error });
-    }
-});
+// app.get('/api/v1/session', verifySession(), async (req:SessionRequest, res) => {
+//     try{
+//         console.log('session route')
+//         // const session = {
+//         //     user: {
+//         //         username: 'kbarnes',
+//         //         firstName: 'Katie',
+//         //         lastName: 'Barnes',
+//         //         memberships: [{ organizationId: '2' }]
+//         //     }
+//         // };
+//         // res.send({
+//         //     sessionHandle: session.getHandle(),
+//         //     userId: session.getUserId(),
+//         //     sessionData: await session.getSessionData(),
+//         //   });s
+//         const _session =  req.session;
+//         console.log(_session)
+//         const sessionFromDb = await SessionDA.getSession(_session.getHandle());
+//         console.log('session from db: ', sessionFromDb)
+//         const { user, ...session } = sessionFromDb;
+//         res.status(200).json({ status: true, session: {session}, user });
+//     } catch (error: any) {
+//         console.log('API error: ', error);
+//         // if (error.type === Session.Error.TRY_REFRESH_TOKEN) {
+//         //     console.log('try refresh token error: ', error);
+//         //     return res.status(200).json({ status: false, error });
+//         //     // return { props: { fromSupertokens: 'needs-refresh' } }
+//         // } else if (error.type === Session.Error.UNAUTHORISED) {
+//         //     console.log('unauthorized error: ', error)
+//         //     return res.status(200).json({ status: false, error });
+//         // }
+//         res.status(200).json({ status: false, error });
+//     }
+// });
 // app.use('/api/v1/session', session);
 
 app.use('/api/v1/shop', shop);

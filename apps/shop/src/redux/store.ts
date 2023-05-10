@@ -57,6 +57,7 @@ export default (initialState) => {
   if (isClient) {
     const persistConfig = {
       key: 'root',
+      blacklist: ['modal', ],
       storage
     };
 
