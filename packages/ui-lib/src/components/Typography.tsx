@@ -113,9 +113,9 @@ export const Paragraph = ({ className, color = 'dark', children }: Props) => {
     );
 };
 
-export const Small = ({ className, children }: Props) => {
+export const Small = ({ className, color = 'dark', children }: Props) => {
     return (
-        <span className={twMerge(styles['cursor-inherit'], 'text-sm whitespace-normal', className)}>{children}</span>
+        <span className={twMerge(styles['cursor-inherit'], (color === 'light' && 'text-inverse') || 'text-dark', 'text-sm whitespace-normal', className)}>{children}</span>
     );
 };
 

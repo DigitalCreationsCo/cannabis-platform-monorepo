@@ -96,9 +96,9 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
                 <FlexBox>
                     <Image src={'/logo.png'} alt="Gras Cannabis logo" width={63} height={63} priority />
                     <H3> Welcome to</H3>
-                    <H1>Gras Cannabis</H1>
+                    <H1>Gras</H1>
                 </FlexBox>
-                <H3>One Stop Cannabis Marketplace</H3>
+                <H3>A One Stop Cannabis Marketplace</H3>
                 <Grid className="space-y-2">
                     <Paragraph>Sign in with your email & password</Paragraph>
                     <TextField

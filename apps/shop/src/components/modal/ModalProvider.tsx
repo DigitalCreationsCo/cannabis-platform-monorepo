@@ -21,6 +21,7 @@ import { connect, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 import { useAppDispatch } from '../../redux/hooks';
+import CheckoutModal from './CheckoutModal';
 
 // import ConfirmModal from "./ConfirmModal";
 // import MessageBanner from "./MessageBanner";
@@ -34,6 +35,7 @@ const MODAL_COMPONENTS = Object.freeze({
     'SELECT_MODAL': () => <></>,
     'TIP_MODAL': () => <></>,
     'MESSAGE_BANNER': () => <></>,
+    'CHECKOUT_MODAL': CheckoutModal,
     'CART_MODAL': CartModal,
     'LOGIN_MODAL': LoginModal
 });
@@ -131,17 +133,18 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
     }
 
     const styles = {
-        responsive: 'min-w-full min-h-screen sm:!rounded-none md:min-w-min md:min-h-min md:!rounded px-12 py-8'
+        responsive: 'min-w-full min-h-screen sm:!rounded-none md:min-w-min md:min-h-min md:!rounded px-12 py-8',
+        paddTop: ''
     };
     return (
-        <Modal className={styles.responsive} modalVisible={modalVisible} onClose={closeModalAndReset} {...props}>
+        <Modal className={twMerge(styles.responsive, styles.paddTop)} modalVisible={modalVisible} onClose={closeModalAndReset} {...props}>
             <form>
                 <FlexBox>
                     <Image src={'/logo.png'} alt="Gras Cannabis logo" width={63} height={63} priority />
                     <H3> Welcome to</H3>
-                    <H1>Gras Cannabis</H1>
+                    <H1>Gras</H1>
                 </FlexBox>
-                <H3>One Stop Cannabis Marketplace</H3>
+                <H3>a one stop cannabis marketplace</H3>
                 <Grid className="space-y-2">
                     <Paragraph>Sign in with your email & password</Paragraph>
                     <TextField

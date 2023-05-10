@@ -55,19 +55,14 @@ function App({ Component, pageProps }: CustomAppProps) {
                 <ReduxProvider store={store}>
                     <PersistGate
                         persistor={store._persistor}
-                        loading={
-                            <FlexBox className="grow items-center min-h-screen">
-                                <Center>
-                                    <LoadingDots />
-                                </Center>
-                            </FlexBox>
-                        }
-                    >
+                        loading={<FlexBox className="grow items-center min-h-screen"><Center>
+                            <LoadingDots /></Center></FlexBox>}
+                            >
                         {/* <LocationProvider> */}
+                            <ModalProvider />
+                            <ToastProvider />
                             <LayoutContainer {...getLayoutContext()}>
-                                <ToastProvider />
                                 <StepFormValuesProvider>
-                                    <ModalProvider />
                                     <Component {...pageProps} />
                                 </StepFormValuesProvider>
                             </LayoutContainer>

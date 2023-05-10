@@ -19,7 +19,7 @@ function CreateUserAccount() {
 
 CreateUserAccount.getLayoutContext = (): LayoutContextProps => ({
     showHeader: false,
-    showTopBar: false
+    showTopBar: true
 });
 export default CreateUserAccount;
 

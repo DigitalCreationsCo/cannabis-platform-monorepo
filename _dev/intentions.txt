@@ -107,6 +107,23 @@ sign up and in from quick-delivery
 add non-signed in bag state to user bag state
 
 To DO: 
+
+Create a standard modal component, 
+handle new user checkout by prompt for sign in for signup, 
+complete signup process,
+test users login and signup
+test checkout
+
+!! Create landing page with shop app in a new branch. 
+Push it to linode so people can SEE OUR PRODUCT!
+Create short youtube videos explaining 
+1. How our network works
+2. How our product works
+3. How our software works
+4. How to install our software.
+
+DO THESE THINGS THIS WEEK! BE DONE BY SATURDAY
+
 Complete the regex match for cardreader, right now the match regex is turn offed,
 card reader will always return true. Turn it on before we have paying customers!
 

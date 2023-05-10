@@ -5,8 +5,7 @@ import {
     FlexBox, FormCard, Grid,
     H3,
     H6,
-    Icons, Paragraph,
-    TermsAgreement,
+    Icons, Paragraph, TermsAgreement,
     TextField
 } from '@cd/ui-lib';
 import { useFormik } from 'formik';
@@ -310,12 +309,12 @@ function UserSignUpForm() {
                         helperText={touched.termsAccepted && errors.termsAccepted || ''}
                         error={!!touched.termsAccepted && !!errors.termsAccepted}
                         description={
-                            <>
-                                {`Before creating an account for Gras Cannabis Marketplace, you will agree to our `}
+                            <Paragraph>
+                                {`Before creating an account with Gras, please read our `}
                                 <a href="/" target="_blank" rel="noreferrer noopener">
                                     <H6 className={'border-b-2 inline-block'}>User Terms and Conditions</H6>.
                                 </a>
-                            </>
+                            </Paragraph>
                         }
                         label={`I agree to the User Terms and Conditions`}
                     />

@@ -1,21 +1,32 @@
-import { selectCartState } from '@cd/core-lib';
+import { modalActions, modalTypes, selectCartState, selectUserState } from '@cd/core-lib';
 import { Button, Card, H3, Page } from '@cd/ui-lib';
 import RenderCart from 'components/cart/RenderCart';
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 
 function CartPage() {
-    const router = useRouter()
-    const checkout = () => { router.push("/checkout"); }
+    const dispatch = useDispatch()
+    const user = useSelector(selectUserState);
+    
+    const Router = useRouter()
+    const checkoutOrSignUp = (event: any) => { 
+        if (user.isSignedIn) { 
+            Router.push("/checkout"); 
+        } else { 
+            event.preventDefault();
+            event.stopPropagation();
+            dispatch(modalActions.openModal({ modalType: modalTypes.checkoutModal, modalText: 'HELLO, TEST MODAL TEXT' }))
+        }
+    }
     
     const { totalItems } = useSelector(selectCartState);
     return (
         <Page>
             <Card className={twMerge(styles.cartContainer)}>
-                <H3 className="px-8">Your Bag</H3>
+                <H3 className="px-8 absolute">Your Bag</H3>
                 <RenderCart />
-                <Button onClick={checkout}
+                <Button onClick={checkoutOrSignUp}
                 disabled={totalItems < 1}>Checkout</Button>
             </Card>
         </Page>
@@ -25,5 +36,5 @@ function CartPage() {
 export default CartPage;
 
 const styles = {
-    cartContainer: 'min-w-full flex flex-col lg:px-8',
+    cartContainer: 'min-w-full flex flex-col lg:px-8 py-4 space-y-4',
 };
