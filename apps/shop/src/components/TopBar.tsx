@@ -9,10 +9,10 @@ import logo from '../../public/logo.png';
 
 export type TopBarProps = {
     doesSessionExist?: boolean;
-    signedOut: () => void;
+    signOut: () => void;
 };
 
-function TopBar({ signedOut }: TopBarProps) {
+function TopBar({ signOut }: TopBarProps) {
     const dispatch = useDispatch();
     const user = useSelector(selectUserState);
     const cart = useSelector(selectCartState);
@@ -83,7 +83,7 @@ function TopBar({ signedOut }: TopBarProps) {
                         </Paragraph>
                     </Link>
                     <FlexBox>
-                        <Button onClick={signedOut}>Sign Out</Button>
+                        <Button onClick={signOut}>Sign Out</Button>
                     </FlexBox>
                 </>
             ) : (

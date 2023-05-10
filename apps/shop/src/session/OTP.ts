@@ -1,3 +1,4 @@
+import { UserWithDetails } from "@cd/data-access";
 import Router from "next/router";
 import { toast } from "react-hot-toast";
 import { consumeCode, createCode, resendCode } from "supertokens-auth-react/recipe/passwordless";
@@ -39,10 +40,9 @@ async function sendOTPPhone(phoneNumber: string) {
     }
 }
 
-async function resendOTPEmail() {
+async function resendOTP() {
     try {
         let response = await resendCode();
-
         if (response.status === "RESTART_FLOW_ERROR") {
             // this can happen if the user has already successfully logged in into
             // another device whilst also trying to login to this one.
@@ -50,7 +50,6 @@ async function resendOTPEmail() {
             window.location.assign("/auth")
         } else {
             // OTP resent successfully.
-            toast.success("Please check your email for the one time passcode.");
         }
     } catch (err: any) {
         if (err.isSuperTokensGeneralError === true) {
@@ -69,22 +68,19 @@ async function handleOTPInput(otp: string) {
             userInputCode: otp
         });
 
-        console.log('response', response)
         if (response.status === "OK") {
             if (response.createdNewUser) {
-                // user sign up success
+                // user sign up success : new user
                 
                 // navigate to form input for user and address, verify id
                 Router.push("/create-account")
                 return null
-                
-            } else {
-                // user sign in success
+            } else if (!response.createdNewUser) {
+                // user sign in success : existing user
 
-                // return user context
-                let user = response.user || null
-                console.log('handle OTP response: ', response)
-                return user
+                if (response.user) { 
+                    return response.user as unknown as UserWithDetails 
+                } else { throw new Error('User not found')}
             }
             window.location.assign("/")
         } else if (response.status === "INCORRECT_USER_INPUT_CODE_ERROR") {
@@ -124,5 +120,5 @@ async function handleOTPInput(otp: string) {
     }
 }
 
-export { sendOTPEmail, sendOTPPhone, resendOTPEmail, handleOTPInput };
+export { sendOTPEmail, sendOTPPhone, resendOTP, handleOTPInput };
 

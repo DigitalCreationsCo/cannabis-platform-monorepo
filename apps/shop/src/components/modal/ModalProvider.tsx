@@ -7,18 +7,16 @@ import {
     H3,
     H5,
     Icons,
-    IconWrapper,
-    LoginModalProps,
+    IconWrapper, LoginModalProps,
     Modal, Paragraph,
     TextField
 } from '@cd/ui-lib';
-import { AnyAction } from '@reduxjs/toolkit';
 import { useFormik } from 'formik';
 import Image from 'next/image';
-import { JSXElementConstructor, useMemo, useState } from 'react';
+import { JSXElementConstructor, useEffect, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import { connect, useSelector } from 'react-redux';
-import { handleOTPInput, sendOTPEmail, sendOTPPhone } from 'session/OTP';
+import { handleOTPInput, resendOTP, sendOTPEmail, sendOTPPhone } from 'session/OTP';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 import { useAppDispatch } from '../../redux/hooks';
@@ -185,8 +183,6 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
         const [loadingButton, setLoadingButton] = useState(false);
 
         const dispatch = useAppDispatch();
-        const signInUser = (signInArgs: { email: string; password: string }) =>
-            dispatch(userActions.signinUserAsync(signInArgs) as unknown as AnyAction);
 
         const initialValues = { passcode: '' };
 
@@ -221,26 +217,50 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
         const handleOTPAndSignIn = async () => {
             try {
                 const user = await handleOTPInput(values.passcode);
-                // if (user) dispatch(userActions.signinUserSync(user))
+                if (user) dispatch(userActions.signinUserSync(user))
+                toast.success(`You're signed in!`)
+                dispatchCloseModal();
+                
             } catch (error: any) {
                 setLoadingButton(false);
                 toast.error(error.message);
             }
         }
 
-        // useEffect(() => {
-        //     async function hasInitialOTPBeenSent() {
-        //         return await getLoginAttemptInfo() !== undefined;
-        //     }
-        //     hasInitialOTPBeenSent().then(hasInitialOTPBeenSent => hasInitialOTPBeenSent ? null : prevFormStep())
-        // }, [])
+        const [canResendOTP, setCanResetOTP] = useState(false);
+
+        const [counter, setCounter] = useState(15);
+        
+        useEffect(() => {
+            let timer: any;
+            if (!canResendOTP) {
+                if (counter > 0) {
+                timer = setTimeout(() => setCounter(c => c - 1), 1000);
+                }
+                if (counter <= 0) setCanResetOTP(true);
+            }
+
+            return () => {
+                if (timer) {
+                    clearTimeout(timer); 
+                }
+            };
+        }, [counter, canResendOTP === false]);
+
+        const checkAndResendOTP = canResendOTP ?  async () => {
+            console.log('resending otp')
+            await resendOTP();
+            setCanResetOTP(false);
+        } : null
+
+        const showResendOrCountdown = canResendOTP ? 'Resend' : `Resend in ${counter}`
     
         return (
             <form>
-                <Grid className="space-y-2">
-                    <H5>Enter your one time passcode</H5>
+                <H5>Enter your one time passcode</H5>
+                <Grid className="relative space-y-2 w-2/3 m-auto">
                     <TextField
-                        containerClassName='w-2/3 m-auto lg:flex-col lg:items-start'
+                        containerClassName='m-auto lg:flex-col lg:items-start'
                         className="my-2 shadow text-center"
                         autoComplete='off'
                         type='text'
@@ -265,11 +285,17 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
                         >
                             Sign In
                         </Button>
-                        <div className="flex flex-row items-center m-auto">
-                        <IconWrapper Icon={Icons.ArrowLeft} className="text-dark" />
-                        <div onClick={prevFormStep} className="m-auto">
-                            <Paragraph className="ml-2 border-b-2 border-secondary">
-                                {`Change email`}</Paragraph></div></div>
+
+                        <FlexBox>
+                            <div onClick={checkAndResendOTP} className="m-auto">
+                                <Paragraph>{showResendOrCountdown}</Paragraph></div>
+
+                            <div className="flex flex-row items-center m-auto">
+                            <IconWrapper Icon={Icons.ArrowLeft} className="text-dark" />
+                            <div onClick={prevFormStep} className="m-auto">
+                                <Paragraph className="ml-2 border-b-2 border-secondary">
+                                    {`Change email`}</Paragraph></div></div>
+                        </FlexBox>
                     </FlexBox>
                 </Grid>
             </form>

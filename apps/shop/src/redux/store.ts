@@ -12,8 +12,8 @@ import {
 import { combineReducers, configureStore, Store } from '@reduxjs/toolkit';
 // import { deserialize, serialize } from 'json-immutable';
 // import { createWrapper } from 'next-redux-wrapper';
-import { signIn, signUp } from 'supertokens-auth-react/recipe/emailpassword';
-import { signOut } from 'supertokens-web-js/recipe/session';
+import { signInEmailPassword, signUpEmailPassword } from 'supertokens-auth-react/recipe/emailpassword';
+import { signOut } from 'supertokens-auth-react/recipe/session';
 
 import { HYDRATE } from 'next-redux-wrapper';
 import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
@@ -44,7 +44,7 @@ const hydratableReducer = (state, action) => {
 };
 
 const supertokens = () => {
-    return { signIn, signUp, signOut };
+    return { signInEmailPassword, signUpEmailPassword, signOut };
 };
 
 export default (initialState) => {

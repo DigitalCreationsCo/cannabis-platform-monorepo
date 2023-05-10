@@ -1,7 +1,7 @@
 import { appInfo } from '@cd/core-lib';
 import Session from 'supertokens-node/recipe/session';
 // import { UserRoleClaim } from "supertokens-node/recipe/userroles";
-import { findUserWithDetailsByEmail, findUserWithDetailsById, findUserWithDetailsByPhone } from '@cd/data-access';
+import { findUserWithDetailsByEmail, findUserWithDetailsById, findUserWithDetailsByPhone, UserWithDetails } from '@cd/data-access';
 import Dashboard from "supertokens-node/recipe/dashboard";
 import Passwordless from "supertokens-node/recipe/passwordless";
 import { AuthConfig } from '../../interfaces';
@@ -233,22 +233,30 @@ export const backendConfig = (): AuthConfig => {
                                 let user = await findUserWithDetailsById(input.userId) || null;
                                 return user;
                             },
-                            consumeCode: async (input) => {
+                            consumeCode: async (input): Promise<{
+                                status: "OK";
+                                createdNewUser: boolean;
+                                user: UserWithDetails | Passwordless.User;
+                                isFromDb: boolean;
+                            }> => {
                                 let response = await originalImplementation.consumeCode(input);
 
                                 if (response.status === "OK") {
-                                    let user = response.user
-
-                                    console.log('consume code user: ', user);
                                     if (!response.createdNewUser) {
-                                        // TODO: post sign up logic
+                                        let user
 
-                                        // let user = await getUserDataFromEmail(email) || null;
-                                        // // TODO: post sign in logicn
-                                        // response.user = { ...response.user, ...user }
+                                        if (response.user.email) {
+                                            user = await findUserWithDetailsByEmail(response.user.email) || null;
+                                            response.user = { ...user }
+
+                                        } else if (response.user.phoneNumber) {
+                                            user = await findUserWithDetailsByPhone(response.user.phoneNumber) || null;
+                                            response.user = { ...user }
+
+                                        }
                                     }
                                 }
-                                return response;
+                                return { ...response, isFromDb: true };
                             }
                         }
                         // apis: (originalImplementation) => {
