@@ -1,6 +1,7 @@
 import { appInfo } from '@cd/core-lib';
 import Session from 'supertokens-node/recipe/session';
 // import { UserRoleClaim } from "supertokens-node/recipe/userroles";
+import { findUserWithDetailsByEmail, findUserWithDetailsById, findUserWithDetailsByPhone } from '@cd/data-access';
 import Dashboard from "supertokens-node/recipe/dashboard";
 import Passwordless from "supertokens-node/recipe/passwordless";
 import { AuthConfig } from '../../interfaces';
@@ -214,7 +215,69 @@ export const backendConfig = (): AuthConfig => {
         recipeList: [
             Passwordless.init({
                 flowType: "USER_INPUT_CODE",
-                contactMethod: "EMAIL_OR_PHONE"
+                contactMethod: "EMAIL_OR_PHONE",
+                override: {
+                    functions: (originalImplementation) => {
+                        return {
+                            ...originalImplementation,
+                            async getUserByEmail(input) {
+
+                                let user = await findUserWithDetailsByEmail(input.email) || null;
+                                return user;
+                            },
+                            async getUserByPhoneNumber(input) {
+                                let user = await findUserWithDetailsByPhone(input.phoneNumber) || null;
+                                return user;
+                            },
+                            async getUserById(input) {
+                                let user = await findUserWithDetailsById(input.userId) || null;
+                                return user;
+                            },
+                            consumeCode: async (input) => {
+                                let response = await originalImplementation.consumeCode(input);
+
+                                if (response.status === "OK") {
+                                    let user = response.user
+
+                                    console.log('consume code user: ', user);
+                                    if (!response.createdNewUser) {
+                                        // TODO: post sign up logic
+
+                                        // let user = await getUserDataFromEmail(email) || null;
+                                        // // TODO: post sign in logicn
+                                        // response.user = { ...response.user, ...user }
+                                    }
+                                }
+                                return response;
+                            }
+                        }
+                        // apis: (originalImplementation) => {
+                        //     return {
+                        //         ...originalImplementation,
+                        //         consumeCodePOST: async (input) => {
+                        //             if (originalImplementation.consumeCodePOST === undefined) {
+                        //                 throw Error("Something went wrong.");
+                        //             }
+                                    
+                        //             let response = await originalImplementation.consumeCodePOST(input);
+                        //             let user
+                        //             // Post sign up response, we check if it was successful
+                        //             if (response.status === "OK") {
+                        //                 let { id, email, phoneNumber } = response.user;
+        
+                        //                 if (response.createdNewUser) {
+                        //                     // TODO: post sign up logic
+                        //                 } else {
+                        //                     let user = getUserDataFromEmail(email) || null;
+                        //                     // TODO: post sign in logicn
+                        //                 }
+                        //             }
+                        //             return response;
+                        //         }
+                        //     };
+                        // }
+                    },
+                }
             }),
             Session.init(), // initializes session features
             Dashboard.init({

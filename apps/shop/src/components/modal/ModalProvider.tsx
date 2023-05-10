@@ -102,7 +102,7 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
 
     function SendOTP () {
         
-        const initialValues = { emailOrPhone: '' };
+        const initialValues = { emailOrPhone: 'bmejiadeveloper2@gmail.com' };
 
         const { values, errors, touched, handleBlur, handleChange, handleSubmit, resetForm, validateForm } = useFormik({
             initialValues,
@@ -209,7 +209,7 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
             try {
                 if (!loadingButton) {
                     setLoadingButton(true);
-                    handleOTP()
+                    handleOTPAndSignIn()
                 }
             } catch (error: any) {
                 setLoadingButton(false);
@@ -218,9 +218,10 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
             }
         }
 
-        const handleOTP = async () => {
+        const handleOTPAndSignIn = async () => {
             try {
-                await handleOTPInput(values.passcode);
+                const user = await handleOTPInput(values.passcode);
+                // if (user) dispatch(userActions.signinUserSync(user))
             } catch (error: any) {
                 setLoadingButton(false);
                 toast.error(error.message);
@@ -240,7 +241,7 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
                     <H5>Enter your one time passcode</H5>
                     <TextField
                         containerClassName='w-2/3 m-auto lg:flex-col lg:items-start'
-                        className="my-2 shadow"
+                        className="my-2 shadow text-center"
                         autoComplete='off'
                         type='text'
                         name="passcode"

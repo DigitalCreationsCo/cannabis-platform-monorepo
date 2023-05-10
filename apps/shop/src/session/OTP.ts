@@ -1,3 +1,4 @@
+import Router from "next/router";
 import { toast } from "react-hot-toast";
 import { consumeCode, createCode, resendCode } from "supertokens-auth-react/recipe/passwordless";
     
@@ -72,10 +73,18 @@ async function handleOTPInput(otp: string) {
         if (response.status === "OK") {
             if (response.createdNewUser) {
                 // user sign up success
+                
                 // navigate to form input for user and address, verify id
+                Router.push("/create-account")
+                return null
+                
             } else {
                 // user sign in success
-                // navigate to home
+
+                // return user context
+                let user = response.user || null
+                console.log('handle OTP response: ', response)
+                return user
             }
             window.location.assign("/")
         } else if (response.status === "INCORRECT_USER_INPUT_CODE_ERROR") {
