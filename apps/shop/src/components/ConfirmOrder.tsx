@@ -2,7 +2,7 @@ import { cartActions, modalActions, modalTypes, selectCartState, selectIsCartEmp
 import { OrderCreate, ProductVariantWithDetails } from "@cd/data-access";
 import { Button, Center, H5, Paragraph, Price, SimpleCartItem } from "@cd/ui-lib";
 import { AnyAction } from "@reduxjs/toolkit";
-import axios from "axios";
+import Router from "next/router";
 import { FormStepComponentProps } from "pages/quick-delivery";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
@@ -46,15 +46,19 @@ function ConfirmOrder({ nextFormStep }: FormStepComponentProps) {
         return order;
     }
 
-    const checkout = async () => { 
-        const order = createOrder()
-        await axios.post('/api/checkout-session', order)
-     }
+    // const checkout = async () => { 
+    //     const order = createOrder()
+    //     await axios.post('/api/checkout-session', order)
+    // }
+
+    const checkout = () => {
+        Router.push('/checkout');
+    }
      
     return (
         <Center className='space-y-2 w-3/4 m-auto pb-20 md:pb-0'>
-            <Paragraph>Before you get your delivery,
-                <br />Let's double check your order here.</Paragraph>
+            <H5>Before you get your delivery,
+                <br />Let's double check your order here.</H5>
             <div className="flex flex-col md:grid grid-cols-2 gap-2">
 
             {!cartIsEmpty &&
