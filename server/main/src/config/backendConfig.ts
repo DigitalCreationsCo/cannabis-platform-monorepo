@@ -1,6 +1,7 @@
 import { appInfo } from '@cd/core-lib';
 import Session from 'supertokens-node/recipe/session';
 // import { UserRoleClaim } from "supertokens-node/recipe/userroles";
+import Dashboard from "supertokens-node/recipe/dashboard";
 import Passwordless from "supertokens-node/recipe/passwordless";
 import { AuthConfig } from '../../interfaces';
 
@@ -208,16 +209,17 @@ export const backendConfig = (): AuthConfig => {
         //             }
         //         }
         //     }),
-        //     Dashboard.init({
-        //         apiKey: process.env.SUPERTOKENS_DASHBOARD_KEY
-        //     })
+        //
         // ],
         recipeList: [
             Passwordless.init({
                 flowType: "USER_INPUT_CODE",
                 contactMethod: "EMAIL_OR_PHONE"
             }),
-            Session.init() // initializes session features
+            Session.init(), // initializes session features
+            Dashboard.init({
+                apiKey: process.env.SUPERTOKENS_DASHBOARD_KEY
+            })
         ],
         isInServerlessEnv: false
     };

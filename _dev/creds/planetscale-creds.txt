@@ -22,6 +22,11 @@ username: wri4e38fd9d12ao3r6az
 host: us-east.connect.psdb.cloud
 password: pscale_pw_KTjejdcT7n2ZSsdsbqbqDsRqHDkIk45ZydaP3VkrsyG
 
+dev-2023-05-10 - dev admin
+qqvgb5w6smymbpzsco7q
+pscale_pw_KEmQE4TgbHADhhV6oT1wi5u7pZuCiyGoNzSQhLcmBiT
+
+
 prod-admin - main admin
 database: cannabis_delivery_v1
 username: 9zr5koln0y91fhumaiit

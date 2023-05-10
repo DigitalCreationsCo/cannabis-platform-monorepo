@@ -32,7 +32,6 @@
     "@cd/data-access": "workspace:*",
     "@cd/eslint-config": "workspace:*",
     "@cd/ui-lib": "workspace:*",
-    "@prisma/client": "4.10.0",
     "@reduxjs/toolkit": "1.9.2",
     "axios": "1.2.1",
     "cors": "2.8.5",

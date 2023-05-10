@@ -34,11 +34,11 @@ function OrderRow({ order, orderDetailsRoute }: OrderRowProps) {
                 <Paragraph className={twMerge('grow', `text-${getColor(order.orderStatus)}`)}>
                     {order.orderStatus}
                 </Paragraph>
-                <Paragraph className="w-[140px] flex justify-center w-[120px]">
+                <Paragraph className="w-[140px] flex justify-center">
                     {format(new Date(order.createdAt), 'MMM dd, yyyy')}
                 </Paragraph>
-                <H6 className="w-[80px] flex justify-center w-[80px]">
-                    <Price price={order.total} />
+                <H6 className="w-[80px] flex justify-center">
+                    <Price basePrice={order.total} />
                 </H6>
                 <IconWrapper Icon={Icons.Right} />
             </Row>
