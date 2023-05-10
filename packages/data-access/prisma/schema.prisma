@@ -66,7 +66,7 @@ model User {
   phone String? @unique
   address Address[]
   termsAccepted Boolean @default(false)
-  imageUser     ImageUser?
+  imageUser     ImageUser[]
   idFrontImage  String?
   idBackImage   String?
   accounts      Account[]

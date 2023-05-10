@@ -51,7 +51,7 @@ export async function createUser(userData: any) {
     }
 }
 
-export async function findUserWithDetailsByEmail(email: string) {
+export async function findUserWithDetailsByEmail(email: string): Promise<UserWithDetails | null> {
     try {
         const user = await prisma.user.findUnique({
             where: {
@@ -74,7 +74,30 @@ export async function findUserWithDetailsByEmail(email: string) {
     }
 }
 
-export async function findUserWithDetailsById(id: string) {
+export async function findUserWithDetailsByPhone(phone: string): Promise<UserWithDetails | null> {
+    try {
+        const user = await prisma.user.findUnique({
+            where: {
+                phone
+            },
+            include: {
+                address: true,
+                memberships: {
+                    orderBy: {
+                        role: 'asc',
+                    },
+                },
+                imageUser: true,
+            },
+        })
+        return user
+    } catch (error: any) {
+        console.error(error)
+        throw new Error(error)
+    }
+}
+
+export async function findUserWithDetailsById(id: string): Promise<UserWithDetails | null> {
     try {
         const user = await prisma.user.findUnique({
                 where: {
@@ -126,8 +149,8 @@ export type UserWithDetails = User & Omit<User, "createdAt" | "updatedAt"> & {
         createdAt?: Date
         updatedAt?: Date
     }[];
-    imageUser?: ImageUser[];
-    memberships?: Membership[];
+    imageUser?: ImageUser[] | null
+    memberships?: Membership[] | null
     orders?: OrderWithDetails[]
     preferences?: null
 }
