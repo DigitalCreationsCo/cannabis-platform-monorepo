@@ -40,7 +40,7 @@
     "clean": "rimraf ./dist ./coverage ./tsconfig.tsbuildinfo",
     "debug-test-e2e": "cross-env DEBUG=testcontainers vitest run $@",
     "watch": "rimraf ./dist && tsup --watch",
-    "fix-all-files": "eslint . --ext .ts,.tsx,.js,.jsx,.cjs,.mjs --fix",
+    "lint-fix": "eslint . --ext .ts,.tsx,.js,.jsx,.cjs,.mjs --fix",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx,.cjs,.mjs --cache --cache-location ../../.cache/eslint/db-main-prisma.eslintcache",
     "postinstall": "prisma generate",
     "db-clear": "dotenv -e ../../.env.development -- node --loader ts-node/esm ./src/db/clear.mts",
