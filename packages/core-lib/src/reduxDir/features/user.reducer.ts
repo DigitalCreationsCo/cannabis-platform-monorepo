@@ -161,14 +161,14 @@ export const signinUserAsyncEmailPassword = createAsyncThunk<UserWithDetails, {e
   }
 );
 
-const signOutUserAsync = createAsyncThunk<void, {}, {
+const signOutUserAsync = createAsyncThunk<void, void, {
   // dispatch: Dispatch<AnyAction>; 
   extra: ThunkArgumentsType
 }>(
   "user/signOutUserAsync",
   async (_, {dispatch, extra, rejectWithValue}) => {
     try {
-      const { signOut} = extra.supertokens
+      const { signOut } = extra.supertokens
       await signOut()
     } catch (error) {
       return rejectWithValue("signout error: " + error);
@@ -266,8 +266,8 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    signinUserSync: ((state, {payload}: {payload: { user: UserWithDetails }}) => {
-      state.user = payload.user;
+    signinUserSync: ((state, {payload}: {payload: UserWithDetails }) => {
+      state.user = payload;
       state.isSignedIn = true;
       state.isLoading = false;
       state.isSuccess = true;
@@ -339,6 +339,7 @@ export const userSlice = createSlice({
 export const userActions = {
 //   signupUser,
   signinUserAsyncEmailPassword,
+  signOutUserAsync,
   ...userSlice.actions,
 };
 

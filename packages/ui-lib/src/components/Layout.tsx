@@ -19,7 +19,7 @@ interface LayoutProps extends LayoutContextProps, PropsWithChildren {
     showTopBar?: boolean;
     SideNavComponent: React.ElementType;
     TopBarComponent: React.ElementType;
-    signedOut: () => void;
+    signOut: () => void;
     onSearchChange?: ChangeEventHandler<HTMLInputElement> & ReactEventHandler<Element>;
     placeholder?: string;
     isSession: boolean;
@@ -36,7 +36,7 @@ function Layout({
     showSideNavOnDesktop = true,
     SideNavComponent,
     TopBarComponent,
-    signedOut,
+    signOut,
     onSearchChange,
     placeholder,
     isSession,
@@ -55,7 +55,7 @@ function Layout({
     return (
         <div className={twMerge("flex flex-col min-h-screen", styles.isModalOverlay, className)}>
             <div className={styles.main}>
-                {showTopBar && <TopBarComponent signedOut={signedOut} doesSessionExist={isSession} />}
+                {showTopBar && <TopBarComponent signOut={signOut} doesSessionExist={isSession} />}
                 {showHeader && (
                     <Header
                         placeholder={placeholder}
