@@ -14,17 +14,15 @@ import { frontendConfig } from '../config/frontendConfig';
 import reduxStore from '../redux/store';
 import '../styles/globals.css';
 
+if (typeof window !== 'undefined') {
+    SuperTokensReact.init(frontendConfig());
+}
+
 type CustomAppProps = AppProps & {
     Component: ExtendedPageComponent;
 };
 
 function App({ Component, pageProps }: CustomAppProps) {
-    if (typeof window !== 'undefined') {
-        SuperTokensReact.init(frontendConfig());
-        console.log('supertokens: ', SuperTokensReact);
-    }
-
-    const store = useStore()
 
     useEffect(() => {
         async function doRefresh() {
@@ -43,6 +41,8 @@ function App({ Component, pageProps }: CustomAppProps) {
     if (pageProps.fromSupertokens === 'needs-refresh') {
         return null;
     }
+
+    const store = useStore()
 
     const getLayoutContext = Component.getLayoutContext || (() => ({}));
 
