@@ -1,7 +1,6 @@
 {
     "dependencies": {
         "@cd/data-access": "workspace:*",
-        "@prisma/client": "4.10.0",
         "@reduxjs/toolkit": "1.9.2",
         "@typescript-eslint/eslint-plugin": "5.45.0",
         "@typescript-eslint/parser": "5.45.0",

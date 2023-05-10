@@ -4,7 +4,8 @@ import {
     FlexBox,
     Grid,
     H1,
-    H3, LoginModalProps,
+    H3,
+    LoginModalProps,
     Modal, Paragraph,
     TextField
 } from '@cd/ui-lib';
@@ -160,9 +161,8 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
                     <H1>Gras</H1>
                 </FlexBox>
                 <H3>a one stop cannabis marketplace</H3>
-                {isInputPhone ? 'phone' : 'email'}
                 <Grid className="space-y-2">
-                    {hasOTPBeenSent ? <>
+                    {!hasOTPBeenSent ? <>
                     <Paragraph>Sign in with your email or mobile</Paragraph>
                         <TextField
                             containerClassName='w-2/3 m-auto lg:flex-col lg:items-start'
