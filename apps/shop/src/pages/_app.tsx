@@ -21,6 +21,7 @@ type CustomAppProps = AppProps & {
 function App({ Component, pageProps }: CustomAppProps) {
     if (typeof window !== 'undefined') {
         SuperTokensReact.init(frontendConfig());
+        console.log('supertokens: ', SuperTokensReact);
     }
 
     const store = useStore()
@@ -132,4 +133,5 @@ export type ExtendedPageComponent = {
     setIsLoading: Dispatch<SetStateAction<boolean>>;
     session: SessionContextType;
     doesSessionExist: boolean;
+    fromSupertokens: string;
 };
