@@ -26,7 +26,7 @@
     "g:check-dist": "yarn workspaces foreach -ptv run check-dist",
     "g:clean": "yarn clean:global-cache && yarn workspaces foreach -ptv run clean",
     "g:codegen": "yarn workspaces foreach -ptv run codegen",
-    "g:fix-all-files": "yarn workspaces foreach -ptv run fix-all-files",
+    "g:lint-fix": "yarn workspaces foreach -ptv run lint-fix",
     "g:lint": "yarn workspaces foreach -ptv run lint --color",
     "g:lint-staged-files": "lint-staged --allow-empty",
     "g:lint-styles": "yarn workspaces foreach -ptv run lint-styles --color",
@@ -56,7 +56,10 @@
     "dev": "concurrently \"yarn packages:watch\" \"yarn apps:dev\"",
     "permit-scripts": "node scripts/permit-scripts.js",
     "docker:supertokens": "scripts/docker/supertokens.sh",
-    "docker:shadow-db": "scripts/docker/mysql.sh"
+    "docker:shadow-db": "scripts/docker/mysql.sh",
+    "k8s:start": "terraform:apply && kubectl apply -f k8s/",
+    "terraform:apply": "terraform -chdir='./terraform' apply -auto-approve",
+    "terraform:destroy": "terraform -chdir='./terraform' destroy",
   },
   "engines": {
     "node": "16.^16.0",
