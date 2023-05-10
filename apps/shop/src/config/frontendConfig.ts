@@ -9,6 +9,7 @@ const appInfo = {
     apiBasePath: '/api/v1/'
 };
 
+console.log('front end app info: ', appInfo);
 export const frontendConfig = () => {
     return {
         appInfo,
@@ -47,22 +48,22 @@ export const frontendConfig = () => {
                 //         };
                 //     }
                 // }
-                onHandleEvent: (event) => {
-                    if (event.action === 'UNAUTHORISED' || event.action === 'SIGN_OUT') {
-                        window.location.href = '/';
-                    }
-                    if (event.action === 'SESSION_CREATED') {
-                        if (
-                            event.userContext.memberships?.[0]?.role.toLocaleUpperCase() === 'ADMIN' ||
-                            event.userContext.memberships?.[0]?.role.toLocaleUpperCase() === 'OWNER'
-                        ) {
-                            // window.location.href = '/dashboard';
-                            window.location.href = '/';
-                        } else {
-                            window.location.href = '/';
-                        }
-                    }
-                },
+                // onHandleEvent: (event) => {
+                //     if (event.action === 'UNAUTHORISED' || event.action === 'SIGN_OUT') {
+                //         window.location.href = '/';
+                //     }
+                //     if (event.action === 'SESSION_CREATED') {
+                //         if (
+                //             event.userContext.memberships?.[0]?.role.toLocaleUpperCase() === 'ADMIN' ||
+                //             event.userContext.memberships?.[0]?.role.toLocaleUpperCase() === 'OWNER'
+                //         ) {
+                //             // window.location.href = '/dashboard';
+                //             window.location.href = '/';
+                //         } else {
+                //             window.location.href = '/';
+                //         }
+                //     }
+                // },
             })
         ],
         isInServerLessEnv: false
