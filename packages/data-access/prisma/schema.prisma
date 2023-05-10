@@ -56,14 +56,14 @@ model User {
   firstName          String
   lastName String
   username String @unique
-  email         String   @unique
+  email         String?  @unique
   emailVerified Boolean @default(false)
   isLegalAge Boolean?
   idVerified Boolean @default(false)
   passwordHash String?
   passwordResetToken String?
   dialCode String?
-  phone String?
+  phone String? @unique
   address Address[]
   termsAccepted Boolean @default(false)
   imageUser     ImageUser?
@@ -83,6 +83,7 @@ model User {
 
   @@index([id])
   @@index([email])
+  @@index([phone])
 }
 
 model Driver {
