@@ -2,15 +2,8 @@ import { RecipeEventWithSessionContext } from 'supertokens-auth-react/lib/build/
 import EmailPassword from 'supertokens-auth-react/recipe/emailpassword';
 import Session from 'supertokens-auth-react/recipe/session';
 
-// const port = process.env.DASHBOARD_APP_PORT || 30001;
-// const appInfo = {
-//     appName: 'Cannabis Delivery',
-//     websiteDomain: process.env.DASHBOARD_APP_URL || `http://localhost:${port}`,
-//     apiDomain: process.env.SERVER_MAIN_URL || `http://localhost:60001`,
-//     apiBasePath: '/api/v1/'
-// };
 const appInfo = {
-    appName: 'Cannabis Delivery',
+    appName: 'Gras',
     websiteDomain: 'http://localhost:3001',
     apiDomain: 'http://localhost:6001',
     apiBasePath: '/api/v1/'

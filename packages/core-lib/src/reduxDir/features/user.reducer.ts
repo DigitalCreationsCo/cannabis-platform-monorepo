@@ -118,11 +118,11 @@ import { locationActions } from './location.reducer';
 //   }
 // );
 
-export const signinUserAsync = createAsyncThunk<UserWithDetails, {email: string; password: string}, { 
+export const signinUserAsyncEmailPassword = createAsyncThunk<UserWithDetails, {email: string; password: string}, { 
   // dispatch: Dispatch<AnyAction>; 
   extra: ThunkArgumentsType 
 }>(
-  "user/signinUserAsync",
+  "user/signinUserAsyncEmailPassword",
   async ({ email, password }, {dispatch, extra, rejectWithValue}) => {
     const { signIn } = extra.supertokens;
     try {
@@ -266,7 +266,7 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    signinUserSync: ((state, {payload}) => {
+    signinUserSync: ((state, {payload}: {payload: { user: UserWithDetails }}) => {
       state.user = payload.user;
       state.isSignedIn = true;
       state.isLoading = false;
@@ -303,7 +303,7 @@ export const userSlice = createSlice({
     //   state.isError = true;
     // }),
 
-    builder.addCase(signinUserAsync.fulfilled, (state, { payload }) => {
+    builder.addCase(signinUserAsyncEmailPassword.fulfilled, (state, { payload }) => {
       const user = payload
       if (user !== undefined) {
         state.user = {...state.user, ...user}
@@ -314,10 +314,10 @@ export const userSlice = createSlice({
       state.isError = false
       state.errorMessage = ""
     }),
-    builder.addCase(signinUserAsync.pending, (state) => {
+    builder.addCase(signinUserAsyncEmailPassword.pending, (state) => {
       state.isLoading = true;
     }),
-    builder.addCase(signinUserAsync.rejected, (state, { payload }) => {
+    builder.addCase(signinUserAsyncEmailPassword.rejected, (state, { payload }) => {
       state.isLoading = false;
       state.isError = true;
       state.errorMessage = payload as string
@@ -338,7 +338,7 @@ export const userSlice = createSlice({
 
 export const userActions = {
 //   signupUser,
-  signinUserAsync,
+  signinUserAsyncEmailPassword,
   ...userSlice.actions,
 };
 
