@@ -1,7 +1,7 @@
 import { appInfo } from '@cd/core-lib';
 import Session from 'supertokens-node/recipe/session';
 // import { UserRoleClaim } from "supertokens-node/recipe/userroles";
-import { findUserWithDetailsByEmail, findUserWithDetailsById, findUserWithDetailsByPhone, UserWithDetails } from '@cd/data-access';
+import { findUserWithDetailsByEmail, findUserWithDetailsById, findUserWithDetailsByPhone } from '@cd/data-access';
 import Dashboard from "supertokens-node/recipe/dashboard";
 import Passwordless from "supertokens-node/recipe/passwordless";
 import { AuthConfig } from '../../interfaces';
@@ -233,12 +233,7 @@ export const backendConfig = (): AuthConfig => {
                                 let user = await findUserWithDetailsById(input.userId) || null;
                                 return user;
                             },
-                            consumeCode: async (input): Promise<{
-                                status: "OK";
-                                createdNewUser: boolean;
-                                user: UserWithDetails | Passwordless.User;
-                                isFromDb: boolean;
-                            }> => {
+                            consumeCode: async (input) => {
                                 let response = await originalImplementation.consumeCode(input);
 
                                 if (response.status === "OK") {

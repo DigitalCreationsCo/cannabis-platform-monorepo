@@ -1,5 +1,4 @@
-import { UserWithDetails } from "@cd/data-access";
-import Router from "next/router";
+import { PasswordlessResponseWithUserDetails } from "@cd/core-lib/reduxDir";
 import { consumeCode, createCode, resendCode } from "supertokens-auth-react/recipe/passwordless";
     
 async function sendOTPEmail(email: string) {
@@ -56,27 +55,27 @@ async function resendOTP() {
 }
 
 
-async function handleOTPInput(otp: string) {
+async function handleOTPInput(otp: string):PasswordlessResponseWithUserDetails {
     try {
         let response = await consumeCode({
             userInputCode: otp
         });
 
         if (response.status === "OK") {
-            if (response.createdNewUser) {
-                // user sign up success : new user
+            // if (response.createdNewUser) {
+            //     // user sign up success : new user
                 
-                // navigate to form input for user and address, verify id
-                Router.push("/create-account")
-                return null
-            } else if (!response.createdNewUser) {
-                // user sign in success : existing user
-
-                if (response.user) { 
-                    return response.user as unknown as UserWithDetails 
-                } else { throw new Error('User not found')}
-            }
-            window.location.assign("/")
+            //     // navigate to form input for user and address, verify id
+            //     Router.push("/create-account")
+            //     return null
+            // } else if (!response.createdNewUser) {
+            //     // user sign in success : existing user
+                // if (response.user) { 
+                //     return response.user as unknown as UserWithDetails 
+                // } else { throw new Error('User not found')}
+                return response as unknown as PasswordlessResponseWithUserDetails
+            // }
+            // window.location.assign("/")
         } else if (response.status === "INCORRECT_USER_INPUT_CODE_ERROR") {
             // the user entered an invalid OTP
             
