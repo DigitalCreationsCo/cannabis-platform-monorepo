@@ -134,7 +134,13 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
             try {
                 if(!loading) {
                     setLoading(true);
-                    isInputPhone ? await sendOTPPhone(values.emailOrPhone) : await sendOTPEmail(values.emailOrPhone)
+                    if (isInputPhone) {
+                        await sendOTPPhone(values.emailOrPhone)
+                        toast.success("Please check your mobile messages for the one time passcode.");
+                    } else { 
+                        await sendOTPEmail(values.emailOrPhone);
+                        toast.success("Please check your email for the one time passcode.");
+                    }
                     nextFormStep();
                 }
             } catch (error: any) {
