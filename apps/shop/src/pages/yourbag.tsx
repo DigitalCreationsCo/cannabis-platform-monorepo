@@ -1,4 +1,4 @@
-import { modalActions, modalTypes, selectCartState, selectUserState } from '@cd/core-lib';
+import { modalActions, modalTypes, selectCartState, selectIsAddressAdded, selectUserState } from '@cd/core-lib';
 import { Button, Card, H3, Page } from '@cd/ui-lib';
 import RenderCart from 'components/cart/RenderCart';
 import { useRouter } from 'next/router';
@@ -8,15 +8,16 @@ import { twMerge } from 'tailwind-merge';
 function CartPage() {
     const dispatch = useDispatch()
     const user = useSelector(selectUserState);
+    const isAddressAdded = useSelector(selectIsAddressAdded)
     
     const Router = useRouter()
     const checkoutOrSignUp = (event: any) => { 
-        if (user.isSignedIn) { 
+        if (user.isSignedIn && isAddressAdded) { 
             Router.push("/checkout"); 
         } else { 
             event.preventDefault();
             event.stopPropagation();
-            dispatch(modalActions.openModal({ modalType: modalTypes.checkoutModal, modalText: 'HELLO, TEST MODAL TEXT' }))
+            dispatch(modalActions.openModal({ modalType: modalTypes.checkoutModal }))
         }
     }
     
