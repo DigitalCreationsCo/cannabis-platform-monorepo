@@ -144,6 +144,9 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
                     nextFormStep();
                 }
             } catch (error: any) {
+                setTimeout(() => {
+                    setLoading(false)
+                }, 1000);
                 console.error(error);
                 toast.error(error.message);
             }
