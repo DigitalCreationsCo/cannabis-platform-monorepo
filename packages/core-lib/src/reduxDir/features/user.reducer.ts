@@ -346,3 +346,4 @@ export const userActions = {
 export const userReducer = userSlice.reducer;
 
 export const selectUserState = (state: AppState) => state.user;
+export const selectIsAddressAdded = (state: AppState) => state.user.user.address.length > 0;

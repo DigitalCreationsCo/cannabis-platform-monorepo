@@ -1,6 +1,7 @@
-import { modalActions, modalTypes } from '@cd/core-lib';
-import { Button, Center, FlexBox, H4, H6, Modal, Paragraph } from '@cd/ui-lib';
+import { modalActions, modalTypes, selectIsAddressAdded, selectUserState } from '@cd/core-lib';
+import { Button, Center, FlexBox, H4, Modal, Paragraph } from '@cd/ui-lib';
 import Link from 'next/link';
+import { useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import { useAppDispatch } from '../../redux/hooks';
 
@@ -12,6 +13,9 @@ interface CheckoutModalProps {
 function CheckoutModal({ dispatchCloseModal, modalVisible, ...props }: CheckoutModalProps) {
     const dispatch = useAppDispatch();
 
+    const user = useSelector(selectUserState)
+    const isAddressAdded = useSelector(selectIsAddressAdded)
+    
     const closeModalAndReset = () => {
         dispatchCloseModal();
     };
@@ -19,20 +23,41 @@ function CheckoutModal({ dispatchCloseModal, modalVisible, ...props }: CheckoutM
     return (
         <Modal
         disableClickOutside
-        className={twMerge(styles.responsive, 'min-h-fit')} 
+        className={twMerge(styles.responsive, 'flex flex-col')} 
         modalVisible={modalVisible} 
         onClose={dispatchCloseModal} 
         {...props}>
-            <Center className='space-y-8 w-3/4 m-auto pb-6 md:pb-0'>
+            <Center className='space-y-8 w-3/4 m-auto pb-8'>
             <H4>It looks like you haven't ordered with us before.</H4>
-            <Paragraph>
+            
+                {!user.isSignedIn && <><Paragraph>
+                    We'll need your contact info and address so our delivery person can get to you.{'\n'}
+                    <b>Sign In</b> with your account</Paragraph>
+                    <FlexBox className='space-y-8'>
+                        <Button
+                            className="place-self-center"
+                            onClick={openLoginModal}>
+                            Sign In</Button>
+                    </FlexBox></>
+                }
+
+                {user.isSignedIn && <><Paragraph>
+                    We'll need your contact info and address so our delivery person can get to you.{'\n'}
+                    Hit <b>Next</b> to provide your info.</Paragraph>
+                    <FlexBox className='space-y-8'>
+                    <Link href="/signup/create-account">
+                        <Button
+                            className="place-self-center">
+                            Next</Button>
+                            </Link>
+                    </FlexBox></>
+                }
+
+            {/* <Paragraph>
                 We'll need your contact info and address so our delivery person can get to you.{'\n'}
                 <b>Sign In</b> with your account, or <b>Sign up</b> to provide your info.</Paragraph>
                 <FlexBox className='space-y-8'>
                     <Button
-                        className="place-self-center"
-                        onClick={openLoginModal}>
-                        Sign In</Button>
                     <FlexBox className="items-center">
                         <Link href="/signup/create-account">
                         <Paragraph>{`Don't have account?`} </Paragraph>
@@ -40,8 +65,8 @@ function CheckoutModal({ dispatchCloseModal, modalVisible, ...props }: CheckoutM
                             <H6>Sign Up</H6>
                             </div>
                         </Link>
-                    </FlexBox>
-                </FlexBox>
+                    </FlexBox> */}
+                {/* </FlexBox> */}
             </Center>
         </Modal>
     );
