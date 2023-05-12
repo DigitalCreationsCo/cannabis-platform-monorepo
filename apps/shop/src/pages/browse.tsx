@@ -12,7 +12,6 @@ const organizationsListDummy = [
 ];
 
 export default function MarketPlace({ host }: { host: string}) {
-    const appName = process.env.NEXT_PUBLIC_SHOP_APP_NAME || '';
 
     const selectedLocation = useSelector(selectSelectedLocationState);
 

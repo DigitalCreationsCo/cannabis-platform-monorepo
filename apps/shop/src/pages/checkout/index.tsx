@@ -47,7 +47,7 @@ export default Checkout;
 function ReviewDeliveryAddress() {
     const {user} = useSelector(selectUserState)
     const selectedAddress = useSelector(selectSelectedLocationState)
-    const [address, setAddress] = useState(user?.address[0])
+    const [address, setAddress] = useState(selectedAddress['address'])
     const [showDropdown, setShowDropdown] = useState(false)
     
     return (
@@ -63,7 +63,7 @@ function ReviewDeliveryAddress() {
                 hover='transparent'
                 border={true}>
                     <Paragraph>{user?.firstName} {user?.lastName}</Paragraph>
-                    <Paragraph>{renderAddress({address })}</Paragraph>
+                    <Paragraph>{renderAddress({ address })}</Paragraph>
                 </Button>
                 }
                 

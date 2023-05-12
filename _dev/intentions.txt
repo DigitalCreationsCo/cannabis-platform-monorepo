@@ -114,8 +114,10 @@ handle new user checkout by prompt for sign in for signup
 
 To DO: 
 
+add location provider
 add location middleware to dispatch for location and set location on signin
 
+fix continue signup flow for quick-delivery and mybag
 SETUP USER PROTECTED PAGES WITH SUPERTOKENS:
 Checkout, settings, support, admin pages,
 

@@ -146,6 +146,10 @@ const locationSlice = createSlice({
           console.info('setHomeAddress action')
           state.homeLocation = {...state.homeLocation, ...payload }
         },
+        setAllLocations: (state, {payload}: {payload: LocationType[]}) => {
+          console.info('setAllLocations action')
+          state.allLocations = payload
+        },
         addAddress: (state, {payload}: {payload: LocationType}) => {
           console.info('addAddress action')
           state.allLocations = [...state.allLocations, payload ]

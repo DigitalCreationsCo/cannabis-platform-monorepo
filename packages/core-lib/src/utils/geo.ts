@@ -31,7 +31,7 @@ const getCoordinates = async (addressString: string):Promise<{
 	}
 }
 
-export const getGeoAddressByCoordinates = async (coordinates: { latitude: number; longitude: number }) => {
+export const getGeoAddressByCoordinates = async (coordinates: { latitude: number; longitude: number }): Promise<Address> => {
     const { latitude, longitude } = coordinates;
     try {
 		const {data } = await axios(process.env.LOCATION_IQ_REVERSE_GEOCODE_URL, {

@@ -1,10 +1,20 @@
 // @ts-nocheck
 
-const locationMiddleware = (store) => (next) => (action) => {
+import { MiddlewareAPI } from "@reduxjs/toolkit";
+
+const locationMiddleware = (store: MiddlewareAPI) => (next) => (action) => {
     try {
         console.log(' *** location middleware ***')
-        console.log('action: ', action);
-        // if (action.type = )
+        if (action.type = user/signinUserSync) {
+            const { user } = action.payload;
+            if ( user.address) {
+                store.dispatch(locationActions.setAllLocations(user.address));
+                store.dispatch(locationActions.setHomeAddress(user.address[0]));
+            }
+
+        }
+
+
         return next(action);
     } catch (error) {
         console.log("Location Middleware: Caught an exception: ");
