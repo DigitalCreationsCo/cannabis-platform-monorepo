@@ -59,15 +59,14 @@ function App({ Component, pageProps }: CustomAppProps) {
                         loading={<FlexBox className="grow items-center min-h-screen"><Center>
                             <LoadingDots /></Center></FlexBox>}
                             >
-                        <LocationProvider>
-                            <ModalProvider />
-                            <ToastProvider />
-                            <LayoutContainer {...getLayoutContext()}>
-                                <StepFormValuesProvider>
-                                    <Component {...pageProps} />
-                                </StepFormValuesProvider>
-                            </LayoutContainer>
-                        </LocationProvider>
+                        <LocationProvider />
+                        <ModalProvider />
+                        <ToastProvider />
+                        <LayoutContainer {...getLayoutContext()}>
+                            <StepFormValuesProvider>
+                                <Component {...pageProps} />
+                            </StepFormValuesProvider>
+                        </LayoutContainer>
                     </PersistGate>
                 </ReduxProvider>
             </SuperTokensWrapper>

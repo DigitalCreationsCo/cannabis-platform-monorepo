@@ -19,7 +19,8 @@ function Checkout({ className, expandWidget, setExpandWidget }: ViewProps) {
     
     const handleCheckout = () => {
         setLoadingCheckout(true)
-        window.location.href = process.env.NEXT_PUBLIC_SHOP_APP_URL + "/quick-delivery"
+        window.location.href = "http://localhost:3000/quick-delivery"
+        // window.location.href = process.env.NEXT_PUBLIC_SHOP_APP_URL + "/quick-delivery"
         // window.location.href = "https://dispensary.gras.com/quick-delivery"
     }
 
