@@ -1,9 +1,21 @@
 import { Address } from '@cd/data-access';
 
-export const renderAddress = (address: Omit<Address, "userId" | "organizationId" | "createdAt" | "updatedAt">) => (
+export const renderAddress = ({
+    address,
+    showCity = true,
+    showState = true,
+    showCountry = true,
+    showZipcode = true,
+} : { 
+    address : Omit<Address, "id" | "userId" | "organizationId" | "createdAt" | "updatedAt">;
+    showCity?: boolean;
+    showState?: boolean;
+    showCountry?: boolean;
+    showZipcode?: boolean;
+}) => (
     `${address.street1} ${address.street2}
-    ${address.city}, ${address.state}
-    ${address.country} ${address.zipcode}`
+    ${showCity && address.city + ', ' || ''} ${showState && address.state || ''}
+    ${showCountry && address.country || ''} ${showZipcode && address.zipcode || ''}`
     );
 
 export const renderNestedDataObject = (data: any, Component: any, removeFields: any):any => {

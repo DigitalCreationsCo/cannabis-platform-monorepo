@@ -9,6 +9,7 @@ export interface ButtonProps extends PropsWithChildren {
     hover?: 'accent' | 'primary' | 'primary-light' | 'secondary' | 'transparent';
     transparent?: true | false;
     border?: boolean;
+    borderColor?: string;
     className?: string;
     disabled?: boolean;
     loading?: boolean;
@@ -24,6 +25,7 @@ export default function Button({
     hover = 'accent',
     transparent = false,
     type,
+    borderColor,
     className,
     disabled,
     loading,
@@ -51,7 +53,7 @@ export default function Button({
         focus: ['focus:outline-none focus:bg-' + bg],
         hover: [!disabled ? hover && ['hover:bg-' + hover, 'transition ease-in-out duration-300'] : ''],
         transparent: (transparent && 'opacity-90') || '',
-        border: [border ? 'border-' + hover : 'border-transparent']
+        border: [border ? 'border-' + (borderColor || hover) : 'border-transparent']
     };
     return (
         <button
