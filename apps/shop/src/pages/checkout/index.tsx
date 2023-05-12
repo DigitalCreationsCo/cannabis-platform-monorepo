@@ -2,9 +2,11 @@ import { selectIsCartEmpty, selectSelectedLocationState, selectUserState } from 
 import { renderAddress } from '@cd/core-lib/utils';
 import { Button, Paragraph } from '@cd/ui-lib';
 import { Card, H3, H4, H5, Page } from "@cd/ui-lib/components";
+import { useState } from 'react';
 // import axios from 'axios';
 // import { useFormContext } from "components";
 import { useSelector } from 'react-redux';
+import { twMerge } from 'tailwind-merge';
 import { RenderCart } from '../../components';
 
 function Checkout() {
@@ -45,18 +47,44 @@ export default Checkout;
 function ReviewDeliveryAddress() {
     const {user} = useSelector(selectUserState)
     const selectedAddress = useSelector(selectSelectedLocationState)
+    const [address, setAddress] = useState(user?.address[0])
+    const [showDropdown, setShowDropdown] = useState(false)
     
     return (
-        <div className="py-8">
-        <H5 className='text-primary text-center'>Delivery Address</H5>
-        <div className={styles.addressContainer}>
-            {user?.firstName} {user?.lastName}
-            {renderAddress(selectedAddress.address)}
+        <div className="py-8 dropdown">
+            <H5 className='text-primary text-center'>Delivery Address</H5>
+            <div className={twMerge([styles.addressContainer,])}>
+                {!showDropdown &&
+                <Button
+                className='relative flex flex-col h-full w-[300px] m-auto text-center rounded justify-start'
+                // onClick={() => setShowDropdown(true)}
+                borderColor='primary'
+                bg='transparent' 
+                hover='transparent'
+                border={true}>
+                    <Paragraph>{user?.firstName} {user?.lastName}</Paragraph>
+                    <Paragraph>{renderAddress({address })}</Paragraph>
+                </Button>
+                }
+                
+                {/* DROPDOWN TO SELECT A DIFFERENT ADDRESS */}
+                {/* {showDropdown && 
+                <div>
+                    {user?.address.map((selectAddress, index) => 
+                        <div className={styles.selectAddress}>
+                        <Paragraph key={`select-address-${index}`}>
+                            {renderAddress({ address: selectAddress, showCountry: false, showZipcode: false} )}</Paragraph>
+                        </div>
+                    )}
+                </div>
+                } */}
+
+            </div>
         </div>
-        </div>
-    )
+    );
 }
 
 const styles = {
-    addressContainer: 'h-full w-[300px] m-auto text-center rounded border',
+    addressContainer: 'relative flex flex-col h-full w-[300px] m-auto text-center rounded justify-start shadow border',
+    selectAddress: ''
 }
