@@ -45,18 +45,15 @@ function DispensaryCard({ dispensary, className }: DispensaryCardProps) {
                     )}
                     <Paragraph>
                         {renderAddress({
+                            address: {
                             street1: '1239 2nd st',
                             street2: '',
                             city: 'Baltimore',
                             state: 'Maryland',
                             zipcode: '23456',
-                            id: '2',
                             country: 'United States',
                             countryCode: 'US',
-                            userId: null,
-                            createdAt: new Date(),
-                            updatedAt: new Date(),
-                            organizationId: '1'
+                            }
                         })}
                     </Paragraph>
                 </FlexBox>
