@@ -27,7 +27,7 @@ export default function MarketPlace({ host }: { host: string}) {
             </Head>
             <H3 className='px-4'>Good day{firstName && `, ${ firstName}`}!</H3>
             <Grid className="space-y-5">
-                <DispensaryList title={`Dispensaries Near You ( ${selectedLocation?.address?.city}, ${selectedLocation?.address?.state} )`} list={organizationsListDummy} />
+                <DispensaryList title={`Dispensaries Near You ( ${selectedLocation?.address?.city} )`} list={organizationsListDummy} />
                 <CategoriesSelector />
             </Grid>
             <Paragraph>

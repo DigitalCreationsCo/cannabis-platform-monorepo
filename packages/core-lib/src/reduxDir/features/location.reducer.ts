@@ -8,7 +8,6 @@ export const getAddressByCoordinates = createAsyncThunk(
   "location/getAddressByCoordinates",
   async (coordinates: {latitude: number; longitude: number}, {rejectWithValue}) => {
     try {
-      console.log("getAddressByCoordinates: ", coordinates);
       const address = await getGeoAddressByCoordinates(coordinates);
       return address
     } catch (error) {
@@ -130,14 +129,14 @@ const locationSlice = createSlice({
     initialState,
     reducers: {
         setCurrentCoordinates: (state, { payload }: { payload: { latitude: number; longitude: number }}) => {
-          console.info('setCurrentCoordinates action')
+          console.info('setCurrentCoordinates action, ', payload);
           state.currentLocation.address.coordinates.latitude = payload.latitude
           state.currentLocation.address.coordinates.longitude = payload.longitude
         },
-        setCurrentLocation: (state, { payload }: { payload: { currentLocation :LocationType }}) => {
+        setCurrentAddress: (state, { payload }: { payload: AddressPayload }) => {
+            
           console.info('setCurrentLocation action')
-
-            state.currentLocation = payload.currentLocation
+          state.currentLocation.address = payload
         },
         setSelectLocationType: (state, {payload}: {payload: LocationStateProps['selectLocationType']}) => {
           console.info('setSelectLocationType action')
@@ -160,7 +159,7 @@ const locationSlice = createSlice({
       builder.addCase(getAddressByCoordinates.fulfilled, (state, { payload }: {payload: AddressPayload}) => {
         console.info('getAddressByCoordinates fulfilled')
         const address = payload
-        state.currentLocation.address = address
+        state.currentLocation.address = { ...address }
         state.isLoading = false
         state.isSuccess = true
         state.isError = false
