@@ -1,4 +1,4 @@
-import { selectUserState } from "@cd/core-lib/reduxDir";
+import { selectIsAddressAdded, selectUserState } from "@cd/core-lib/reduxDir";
 import { Card, H2, LayoutContextProps, Page } from "@cd/ui-lib/src/components";
 import { ConfirmOrder, QuickSignUpUserForm, SubmitAddress, VerifyPhotoId } from "components";
 import Head from "next/head";
@@ -14,6 +14,8 @@ type FormStepComponentProps = {
 
 function QuickDelivery() {
     const user = useSelector(selectUserState)
+    const isAddressAdded = useSelector(selectIsAddressAdded)
+    
     const { isLegalAge, idVerified } = user.user
 
     if (!isLegalAge === false || (!isLegalAge && idVerified)) Router.push('/sorry-we-cant-serve-you')
@@ -26,7 +28,7 @@ function QuickDelivery() {
         ConfirmOrder,
         !idVerified && VerifyPhotoId || isLegalAge && idVerified && null, // if there is no user, or user is over21, not age verified, then verify photo id
         !user.isSignedIn && QuickSignUpUserForm || null,
-        (user.user.address.length < 1 || !user.isSignedIn) && SubmitAddress || null,
+        !isAddressAdded || !user.isSignedIn && SubmitAddress || null,
     ];
     
     return (

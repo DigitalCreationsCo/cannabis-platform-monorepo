@@ -113,6 +113,12 @@ handle new user checkout by prompt for sign in for signup
 
 
 To DO: 
+
+add location middleware to dispatch for location and set location on signin
+
+SETUP USER PROTECTED PAGES WITH SUPERTOKENS:
+Checkout, settings, support, admin pages,
+
 complete signup process,
 test users login and signup
 test checkout

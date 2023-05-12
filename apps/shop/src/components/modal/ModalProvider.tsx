@@ -1,7 +1,6 @@
 import { modalActions, ModalStateProps, selectCartState, selectModalState, userActions } from '@cd/core-lib';
 import {
-    Button,
-    FlexBox,
+    Button, FlexBox,
     Grid,
     H1,
     H3,
@@ -98,6 +97,7 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
     
     const FormStepComponent = useMemo(() => FormStepComponents[formStep], [formStep]);
 
+    const [inputValue, setInputValue] = useState('');
     function SendOTP () {
         
         const initialValues = { emailOrPhone: 'bmejiadeveloper2@gmail.com' };
@@ -134,12 +134,13 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
             try {
                 if(!loading) {
                     setLoading(true);
+                    setInputValue(values.emailOrPhone);
                     if (isInputPhone) {
                         await sendOTPPhone(values.emailOrPhone)
                         toast.success("Please check your mobile messages for the one time passcode.");
                     } else { 
                         await sendOTPEmail(values.emailOrPhone);
-                        toast.success("Please check your email for the one time passcode.");
+                        toast.success(`A one time passcode has been sent to ${values.emailOrPhone}.`, { duration: 5000});
                     }
                     nextFormStep();
                 }
@@ -226,7 +227,6 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
         const handleOTPAndSignIn = async () => {
             try {
                 const response  = await handleOTPInput(values.passcode);
-                console.log('response: ', response);
 
                 if (response?.user) {
                     dispatch(userActions.signinUserSync(response.user));
@@ -241,17 +241,17 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
             }
         }
 
-        const [canResendOTP, setCanResetOTP] = useState(false);
-
+        
         const [counter, setCounter] = useState(15);
+        const [canSend, setCanSend] = useState(false);
         
         useEffect(() => {
             let timer: any;
-            if (!canResendOTP) {
+            if (!canSend) {
                 if (counter > 0) {
                 timer = setTimeout(() => setCounter(c => c - 1), 1000);
                 }
-                if (counter <= 0) setCanResetOTP(true);
+                if (counter <= 0) setCanSend(true);
             }
 
             return () => {
@@ -259,15 +259,21 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
                     clearTimeout(timer); 
                 }
             };
-        }, [counter, canResendOTP === false]);
+        }, [canSend, counter]);
 
-        const checkAndResendOTP = canResendOTP ?  async () => {
-            console.log('resending otp')
-            await resendOTP();
-            setCanResetOTP(false);
-        } : null
+        const checkAndResendOTP = async (e: any) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            if (canSend) {
+                setCounter(15);
+                setCanSend(false);
+                await resendOTP();
+                toast.success(`A one time passcode has been sent to ${inputValue}.`, { duration: 5000});
+            }
+        }
 
-        const showResendOrCountdown = canResendOTP ? 'Resend' : `Resend in ${counter}`
+        const showResendOrCountdown = canSend ? 'Resend' : `Resend in ${counter}`
     
         return (
             <form>
@@ -300,15 +306,20 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
                             Sign In
                         </Button>
 
-                        <FlexBox>
-                            <div onClick={checkAndResendOTP} className="m-auto">
-                                <Paragraph>{showResendOrCountdown}</Paragraph></div>
+                        <FlexBox className='m-auto space-y-2'>
+                            <Button 
+                            bg={'transparent'}
+                            hover={'transparent'}
+                            className="hover:border-b"
+                            onClick={checkAndResendOTP}>
+                                {showResendOrCountdown}</Button>
 
-                            <div className="flex flex-row items-center m-auto">
-                            <IconWrapper Icon={Icons.ArrowLeft} className="text-dark" />
-                            <div onClick={prevFormStep} className="m-auto">
-                                <Paragraph className="ml-2 border-b-2 border-secondary">
-                                    {`Change email`}</Paragraph></div></div>
+                            <Button
+                            bg={'transparent'}
+                            hover={'transparent'}
+                            onClick={prevFormStep}>
+                            <IconWrapper Icon={Icons.ArrowLeft} className="text-dark pr-2" />
+                                Change email</Button>
                         </FlexBox>
                     </FlexBox>
                 </Grid>
@@ -323,19 +334,20 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
 
         return (
             <Modal className={twMerge(styles.responsive, styles.padd)} modalVisible={modalVisible} onClose={closeModalAndReset} {...props}>
-                    <FlexBox>
-                        <Image src={'/logo.png'} alt="Gras Cannabis logo" width={63} height={63} priority />
-                        <H3> Welcome to</H3>
-                        <H1>Gras</H1>
-                    </FlexBox>
-                    <H3>a one stop cannabis marketplace</H3>
-                    <FormStepComponent />
+                <div className='m-auto'>
+                <FlexBox>
+                    <Image src={'/logo.png'} alt="Gras Cannabis logo" width={63} height={63} priority />
+                    <H3> Welcome to</H3>
+                    <H1>Gras</H1>
+                </FlexBox>
+                <H3>a one stop cannabis marketplace</H3>
+                <FormStepComponent /></div>
             </Modal>
         );
     }
     
     const styles = {
-        responsive: 'min-w-full min-h-screen sm:!rounded-none md:min-w-min md:min-h-min md:!rounded px-12 py-8',
+        responsive: 'min-w-full min-h-screen sm:!rounded-none md:min-w-min md:min-h-min md:!rounded px-12 py-8 flex flex-col',
         padd: 'pt-8 pb-12'
     };
 
