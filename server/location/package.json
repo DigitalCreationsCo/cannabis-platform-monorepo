@@ -13,6 +13,7 @@
   "devDependencies": {
     "@babel/cli": "7.20.7",
     "@babel/core": "7.21.4",
+    "@babel/node": "7.20.7",
     "@babel/preset-env": "7.21.4",
     "@babel/preset-typescript": "7.18.6",
     "@paralleldrive/cuid2": "2.2.0",
@@ -24,6 +25,7 @@
     "babel-plugin-inline-dotenv": "1.7.0",
     "cross-env": "7.0.3",
     "dotenv": "16.0.3",
+    "dotenv-cli": "7.0.0",
     "dotenv-expand": "10.0.0",
     "eslint": "8.29.0",
     "eslint-plugin-import": "2.26.0",
@@ -53,7 +55,6 @@
     "test:watch": "../../node_modules/jest/bin/jest.js --watchAll",
     "watch:old": "yarn build && nodemon dist",
     "watch": "rimraf ./node_modules/.cache && dotenv -e ../../.env.development -- babel-node -x .ts src/index.ts"
-
   },
   "version": "0.0.1"
 }
