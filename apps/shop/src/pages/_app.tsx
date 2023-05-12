@@ -9,7 +9,7 @@ import withRedux from 'next-redux-wrapper';
 import { PersistGate } from 'redux-persist/integration/react';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session, { SessionContextType } from 'supertokens-auth-react/recipe/session';
-import { LayoutContainer, ModalProvider, StepFormValuesProvider, ToastProvider } from '../components';
+import { LayoutContainer, LocationProvider, ModalProvider, StepFormValuesProvider, ToastProvider } from '../components';
 import { frontendConfig } from '../config/frontendConfig';
 import reduxStore from '../redux/store';
 import '../styles/globals.css';
@@ -59,7 +59,7 @@ function App({ Component, pageProps }: CustomAppProps) {
                         loading={<FlexBox className="grow items-center min-h-screen"><Center>
                             <LoadingDots /></Center></FlexBox>}
                             >
-                        {/* <LocationProvider> */}
+                        <LocationProvider>
                             <ModalProvider />
                             <ToastProvider />
                             <LayoutContainer {...getLayoutContext()}>
@@ -67,7 +67,7 @@ function App({ Component, pageProps }: CustomAppProps) {
                                     <Component {...pageProps} />
                                 </StepFormValuesProvider>
                             </LayoutContainer>
-                        {/* </LocationProvider> */}
+                        </LocationProvider>
                     </PersistGate>
                 </ReduxProvider>
             </SuperTokensWrapper>
