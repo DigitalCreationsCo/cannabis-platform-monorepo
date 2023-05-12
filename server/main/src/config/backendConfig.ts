@@ -1,7 +1,7 @@
 import { appInfo } from '@cd/core-lib';
 import Session from 'supertokens-node/recipe/session';
 // import { UserRoleClaim } from "supertokens-node/recipe/userroles";
-import { findUserWithDetailsByEmail, findUserWithDetailsById, findUserWithDetailsByPhone } from '@cd/data-access';
+import { findUserWithDetailsByEmail, findUserWithDetailsByPhone } from '@cd/data-access';
 import Dashboard from "supertokens-node/recipe/dashboard";
 import Passwordless from "supertokens-node/recipe/passwordless";
 import { AuthConfig } from '../../interfaces';
@@ -220,19 +220,19 @@ export const backendConfig = (): AuthConfig => {
                     functions: (originalImplementation) => {
                         return {
                             ...originalImplementation,
-                            async getUserByEmail(input) {
+                            // async getUserByEmail(input) {
 
-                                let user = await findUserWithDetailsByEmail(input.email) || null;
-                                return user;
-                            },
-                            async getUserByPhoneNumber(input) {
-                                let user = await findUserWithDetailsByPhone(input.phoneNumber) || null;
-                                return user;
-                            },
-                            async getUserById(input) {
-                                let user = await findUserWithDetailsById(input.userId) || null;
-                                return user;
-                            },
+                            //     let user = await findUserWithDetailsByEmail(input.email) || null;
+                            //     return user;
+                            // },
+                            // async getUserByPhoneNumber(input) {
+                            //     let user = await findUserWithDetailsByPhone(input.phoneNumber) || null;
+                            //     return user;
+                            // },
+                            // async getUserById(input) {
+                            //     let user = await findUserWithDetailsById(input.userId) || null;
+                            //     return user;
+                            // },
                             consumeCode: async (input) => {
                                 let response = await originalImplementation.consumeCode(input);
 
@@ -242,11 +242,11 @@ export const backendConfig = (): AuthConfig => {
 
                                         if (response.user.email) {
                                             user = await findUserWithDetailsByEmail(response.user.email) || null;
-                                            response.user = { ...user }
+                                            response.user = { ...response.user, ...user }
 
                                         } else if (response.user.phoneNumber) {
                                             user = await findUserWithDetailsByPhone(response.user.phoneNumber) || null;
-                                            response.user = { ...user }
+                                            response.user = { ...response.user, ...user }
 
                                         }
                                     }

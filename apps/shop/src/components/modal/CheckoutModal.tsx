@@ -1,6 +1,6 @@
 import { modalActions, modalTypes, selectIsAddressAdded, selectUserState } from '@cd/core-lib';
 import { Button, Center, FlexBox, H4, Modal, Paragraph } from '@cd/ui-lib';
-import Link from 'next/link';
+import Router from 'next/router';
 import { useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import { useAppDispatch } from '../../redux/hooks';
@@ -19,6 +19,11 @@ function CheckoutModal({ dispatchCloseModal, modalVisible, ...props }: CheckoutM
     const closeModalAndReset = () => {
         dispatchCloseModal();
     };
+
+    function completeSignUp() {
+        closeModalAndReset()
+        Router.push("/signup/create-account");
+    }
 
     return (
         <Modal
@@ -41,15 +46,14 @@ function CheckoutModal({ dispatchCloseModal, modalVisible, ...props }: CheckoutM
                     </FlexBox></>
                 }
 
-                {user.isSignedIn && <><Paragraph>
+                {user.isSignedIn && !isAddressAdded && <><Paragraph>
                     We'll need your contact info and address so our delivery person can get to you.{'\n'}
                     Hit <b>Next</b> to provide your info.</Paragraph>
                     <FlexBox className='space-y-8'>
-                    <Link href="/signup/create-account">
                         <Button
-                            className="place-self-center">
-                            Next</Button>
-                            </Link>
+                        onClick={completeSignUp}
+                        className="place-self-center">
+                        Next</Button>
                     </FlexBox></>
                 }
 

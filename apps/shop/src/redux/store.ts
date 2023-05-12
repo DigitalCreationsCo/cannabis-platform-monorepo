@@ -2,13 +2,16 @@
 
 import {
   cartReducer,
-  // crashMiddleware,
   locationReducer,
-  // loggerMiddleware,
   modalReducer,
   shopReducer,
   userReducer
 } from '@cd/core-lib';
+import {
+  crashMiddleware,
+  locationMiddleware,
+  loggerMiddleware
+} from '@cd/core-lib/src/reduxDir/middleware';
 import { combineReducers, configureStore, Store } from '@reduxjs/toolkit';
 // import { deserialize, serialize } from 'json-immutable';
 // import { createWrapper } from 'next-redux-wrapper';
@@ -74,7 +77,7 @@ export default (initialState) => {
                 extraArgument: thunkArguments
             }
         })
-        // .concat([crashMiddleware, loggerMiddleware])
+        .concat([crashMiddleware, loggerMiddleware, locationMiddleware])
     });
 
      store._persistor = persistStore(store);
@@ -92,7 +95,7 @@ export default (initialState) => {
                 extraArgument: thunkArguments
             }
         })
-        // .concat([crashMiddleware, loggerMiddleware])
+        .concat([crashMiddleware, loggerMiddleware, locationMiddleware])
     });
   }
 

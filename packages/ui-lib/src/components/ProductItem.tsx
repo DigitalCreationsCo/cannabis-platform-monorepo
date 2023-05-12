@@ -53,7 +53,6 @@ function ProductItem({ product, className, handleConfirm }: ProductItemProps & P
                 className="w-[66px] font-semibold"
                 type="number"
                 value={quantity}
-                defaultValue={quantity}
                 onChange={(event) => setQuantity((event.target as HTMLInputElement).value as unknown as number)}
             />
         </ConfirmationModal>
