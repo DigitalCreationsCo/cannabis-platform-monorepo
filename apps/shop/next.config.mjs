@@ -202,7 +202,16 @@ const nextConfig = (phase) => {
             domains: [
                 'cdn-cashy-static-assets.lucidchart.com',
             ]
-        }
+        },
+        // webpack: (config, { isServer }) => {
+        //     if (!isServer) {
+        //       // Fixes npm packages that depend on `fs` module
+        //       // @link https://github.com/vercel/next.js/issues/36514#issuecomment-1112074589
+        //       config.resolve.fallback = { ...config.resolve.fallback, fs: false };
+        //     }
+        
+        //     return config;
+        // },
     })
 };
 

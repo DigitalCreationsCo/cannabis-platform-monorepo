@@ -1,3 +1,4 @@
+import { Address, Coordinates } from "@prisma/client";
 import prisma from "./db/prisma";
 
 export async function createAddress(address:any) {
@@ -85,3 +86,5 @@ export type AddressUserCreateType = {
     userId: string | undefined;
     // ^ userId used to connect with user
 }
+
+export type AddressWithDetails = Address & { coordinates: Coordinates }
