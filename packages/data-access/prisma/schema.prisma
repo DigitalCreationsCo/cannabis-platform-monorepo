@@ -143,7 +143,7 @@ model Address {
   userId String?
   user User? @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   organizationId String? @unique
-  organization Organization? @relation(fields: [organizationId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  organization Organization?
   orders Order[]
 
   createdAt      DateTime         @default(now())
@@ -387,7 +387,8 @@ model Organization {
   name          String
   stripeAccountId String? @unique
   stripeOnboardingComplete Boolean @default(false)
-  address Address?
+  addressId String @unique
+  address Address? @relation(fields: [addressId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   dialCode String
   phone String
   email String @unique
