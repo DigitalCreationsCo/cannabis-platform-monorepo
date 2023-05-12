@@ -242,6 +242,7 @@ export const backendConfig = (): AuthConfig => {
 
                                         if (response.user.email) {
                                             user = await findUserWithDetailsByEmail(response.user.email) || null;
+                                            console.log('user found: ', user)
                                             response.user = { ...response.user, ...user }
 
                                         } else if (response.user.phoneNumber) {
