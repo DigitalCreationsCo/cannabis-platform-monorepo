@@ -1,10 +1,10 @@
 import { locationActions, selectSelectedLocationState, selectShopState, shopActions } from '@cd/core-lib';
 import { AnyAction } from '@reduxjs/toolkit';
-import { PropsWithChildren, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 
-const LocationProvider = ({ children }: PropsWithChildren) => {
+const LocationProvider = () => {
     const dispatch = useAppDispatch();
 
     const getDispensaries = async () => {
@@ -41,27 +41,24 @@ const LocationProvider = ({ children }: PropsWithChildren) => {
         }
     }, []);
 
-    const location = useSelector(selectSelectedLocationState);
-    const shop = useAppSelector(selectShopState);
+    const selectedLocation = useSelector(selectSelectedLocationState);
+    const shopState = useAppSelector(selectShopState);
 
-    const { coordinates, zipcode } = location.address;
+    const coordinates = selectedLocation?.address?.coordinates;
 
     useEffect(() => {
         if (coordinates.latitude && coordinates.longitude) {
-            if (!shop.isLoading) {
+            if (!shopState.isLoading) {
                 getDispensaries();
             }
         }
     }, [coordinates]);
-    // }, [coordinates, zipcode, location]);
 
     useEffect(() => {
-        if (shop?.dispensaries?.length >= 1) {
+        if (!shopState.isLoading && shopState?.dispensaries?.length >= 1) {
             getProducts();
         }
-    }, [!shop.isLoading, shop?.dispensaries?.length]);
-
-    return <>{children}</>;
+    }, [shopState]);
 };
 
 export default LocationProvider;

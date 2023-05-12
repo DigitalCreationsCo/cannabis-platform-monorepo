@@ -8,6 +8,7 @@ export const getAddressByCoordinates = createAsyncThunk(
   "location/getAddressByCoordinates",
   async (coordinates: {latitude: number; longitude: number}, {rejectWithValue}) => {
     try {
+      console.log("getAddressByCoordinates: ", coordinates);
       const address = await getGeoAddressByCoordinates(coordinates);
       return address
     } catch (error) {
