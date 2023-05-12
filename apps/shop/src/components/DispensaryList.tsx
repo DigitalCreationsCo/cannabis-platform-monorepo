@@ -1,7 +1,5 @@
-import { selectSelectedLocationState } from '@cd/core-lib';
 import { Button, H5 } from '@cd/ui-lib';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import DispensaryCard from './DispensaryCard';
 
 type DispensaryListProps = {
@@ -13,7 +11,6 @@ type DispensaryListProps = {
     }[];
 };
 function DispensaryListCarousel({ title, list }: DispensaryListProps) {
-    const selectedLocation = useSelector(selectSelectedLocationState);
 
     const [slideIndex, setSlideindex] = useState(0);
     const decrement = (e: any) => {
@@ -31,7 +28,7 @@ function DispensaryListCarousel({ title, list }: DispensaryListProps) {
     return (
         <>
             <H5 className="pl-4 sm:!pl-12">
-                {title + ` ( ${selectedLocation.address.city}, ${selectedLocation.address.state} )`}
+                {title}
             </H5>
 
             <div className="flex flex-row items-center overflow-auto">

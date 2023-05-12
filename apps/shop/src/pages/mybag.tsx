@@ -25,7 +25,7 @@ function CartPage() {
     return (
         <Page>
             <Card className={twMerge(styles.cartContainer)}>
-                <H3 className="px-8 absolute">Your Bag</H3>
+                <H3 className="px-8 absolute">My Bag</H3>
                 <RenderCart />
                 <Button onClick={checkoutOrSignUp}
                 disabled={totalItems < 1}>Checkout</Button>

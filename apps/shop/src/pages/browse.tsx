@@ -1,4 +1,4 @@
-import { selectUserState } from '@cd/core-lib/reduxDir';
+import { selectSelectedLocationState, selectUserState } from '@cd/core-lib/src/reduxDir';
 import { Grid, H3, Page, Paragraph } from '@cd/ui-lib';
 import Head from 'next/head';
 import { useSelector } from 'react-redux';
@@ -14,6 +14,8 @@ const organizationsListDummy = [
 export default function MarketPlace({ host }: { host: string}) {
     const appName = process.env.NEXT_PUBLIC_SHOP_APP_NAME || '';
 
+    const selectedLocation = useSelector(selectSelectedLocationState);
+
     const user = useSelector(selectUserState)
     const firstName = user?.user?.firstName
     
@@ -26,7 +28,7 @@ export default function MarketPlace({ host }: { host: string}) {
             </Head>
             <H3 className='px-4'>Good day{firstName && `, ${ firstName}`}!</H3>
             <Grid className="space-y-5">
-                <DispensaryList title={'Dispensaries Near You'} list={organizationsListDummy} />
+                <DispensaryList title={`Dispensaries Near You ( ${selectedLocation?.address?.city}, ${selectedLocation?.address?.state} )`} list={organizationsListDummy} />
                 <CategoriesSelector />
             </Grid>
             <Paragraph>
