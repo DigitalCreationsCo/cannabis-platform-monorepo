@@ -134,7 +134,6 @@ const locationSlice = createSlice({
           state.currentLocation.address.coordinates.longitude = payload.longitude
         },
         setCurrentAddress: (state, { payload }: { payload: AddressPayload }) => {
-            
           console.info('setCurrentLocation action')
           state.currentLocation.address = payload
         },

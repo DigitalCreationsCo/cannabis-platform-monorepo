@@ -24,12 +24,12 @@ const LocationProvider = () => {
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
                         console.log('geolocating your position...', position);
-                        // dispatch(
-                        //     locationActions.setCurrentCoordinates({
-                        //         latitude: position.coords.latitude,
-                        //         longitude: position.coords.longitude
-                        //     })
-                        // );
+                        dispatch(
+                            locationActions.setCurrentCoordinates({
+                                latitude: position.coords.latitude,
+                                longitude: position.coords.longitude
+                            })
+                        );
                         getGeoAddressByCoordinates({
                             latitude: position.coords.latitude,
                             longitude: position.coords.longitude

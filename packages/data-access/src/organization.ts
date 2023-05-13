@@ -232,7 +232,7 @@ export type OrganizationStripeDetail = {
     stripeAccountId: string;
 }
 
-export type ServeUserProximity = {
+export type UserLocation = {
     userLocation: Coordinates;
     proximityRadius: number;
 }

@@ -1,4 +1,4 @@
-import { findMultipleOrganizationsById, OrganizationWithShopDetails, ServeUserProximity } from "@cd/data-access";
+import { findMultipleOrganizationsById, OrganizationWithShopDetails } from "@cd/data-access";
 import { MongoClient } from "mongodb";
 
 /* =================================
@@ -24,13 +24,16 @@ export default class LocationDA {
           }
     }
 
-    static async getLocalOrganizations({ userLocation, proximityRadius }: ServeUserProximity) {
+    static async getLocalOrganizations(coordinates: number[], proximityRadius: number) {
         try {
+          console.log('coordinates: ', coordinates)
+          console.log('proximityRadius: ', proximityRadius)
+
             const local_organizations_ids = await organizations_geo
         .aggregate([
           {
             $geoNear: {
-              near: userLocation,
+              near: coordinates,
               distanceField: "vendorDistanceFromUser",
               maxDistance: proximityRadius,
               spherical: true,
