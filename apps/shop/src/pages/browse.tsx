@@ -3,13 +3,8 @@ import { Grid, H3, Page, Paragraph } from '@cd/ui-lib';
 import Head from 'next/head';
 import { useSelector } from 'react-redux';
 import Session from 'supertokens-node/recipe/session';
+import organizationsListDummy from '../../data/organizationsList';
 import { CategoriesSelector, DispensaryList } from '../components';
-
-const organizationsListDummy = [
-    { name: 'Curaleaf', subdomainId: 'curaleaf', id: '234' },
-    { name: 'Sunnyside', subdomainId: 'sunnyside', id: '345' },
-    { name: 'McNuggz', subdomainId: 'mcnuggz', id: '456' }
-];
 
 export default function MarketPlace({ host }: { host: string}) {
 

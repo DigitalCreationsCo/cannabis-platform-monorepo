@@ -1,12 +1,24 @@
-import { LayoutContextProps } from '@cd/core-lib';
+import { LayoutContextProps, modalActions, modalTypes } from '@cd/core-lib';
 import { Button, FlexBox, H1, H2, H4, H5, Page, Paragraph } from '@cd/ui-lib';
 import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import { PropsWithChildren } from 'react';
+import { useAppDispatch } from 'redux/hooks';
 import { twMerge } from 'tailwind-merge';
 import backdrop from '/public/marijuana-backdrop.png';
 
 function LandingPage() {
+
+    const dispatch = useAppDispatch();
+    
+    function openCheckAgeModal() {
+        dispatch(
+            modalActions.openModal({
+                modalType: modalTypes.checkAgeModal,
+                modalText: ''
+            })
+        );
+    }
 
     const styles={
         hero: [
@@ -34,12 +46,12 @@ function LandingPage() {
                             bg="secondary"
                             transparent
                             className="hover:bg-primary-light"
+                            onClick={openCheckAgeModal}
                         >
                             Enter
                         </Button>
                     </FlexBox>
                     {/* <FlexBox className={twMerge(styles.aboutContainer, 'bg-primary p-4 rounded relative')}> */}
-                        {/* <FlexBox className={twMerge(styles.about, 'space-y-2 w-full h-full p-8 absolute rounded items-center shadow')}> */}
                         <FlexBox className={twMerge(styles.about, 'opacity-95 cursor-default space-y-2 m-auto md:m-10 w-[440px] h-full p-8 rounded items-center shadow')}>
                             <H2 className='text-secondary'>About Gras</H2>
                             <Paragraph>Gras is a home-grown service provider for cannabis lovers.
@@ -63,7 +75,7 @@ function LandingPage() {
                             </Button>
                         </Link>
                     </FlexBox>
-                    
+
                 </FlexBox>
             </ImageBackDrop>
         </Page>
@@ -78,7 +90,13 @@ const ImageBackDrop = ({ src, children }: { src: string | StaticImageData } & Pr
                 clipPath: 'inset(0 0 0 0)'
             }}
         >
-            <Image src={src} alt="" fill style={{ zIndex: -1, objectFit: 'cover', objectPosition: '80% 20%' }} />
+            <Image 
+            priority
+            src={src} 
+            alt="" 
+            fill 
+            style={{ zIndex: -1, objectFit: 'cover', objectPosition: '80% 20%' }} 
+            />
             <div
                 style={{
                     zIndex: -1,

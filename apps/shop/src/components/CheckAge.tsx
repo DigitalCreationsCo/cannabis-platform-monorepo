@@ -3,15 +3,16 @@ import { useRouter } from "next/router"
 import { useState } from "react"
 import { useCookies } from "react-cookie"
 
-const CheckAge = ({ redirect }: { redirect?: string }) => {
+const CheckAge = ({ redirect, onContinue }: { onContinue: () => void; redirect?: string }) => {
     const router = useRouter()
     const [cookies, setCookie] = useCookies(['yesOver21'])
 
     const [yesOver21, setYesOver21] = useState(false)
     const toggleOver21 = () => setYesOver21(!yesOver21)
     
-    const confirmAgeOver21 = () => {
-        setCookie('yesOver21', 'true')  
+    const onSubmit = () => {
+        setCookie('yesOver21', 'true')
+        if (onContinue) onContinue()
         router.push({ pathname: redirect }) // navigates back to the previous page, or the home page if there is no redirect URL
     }
 
@@ -29,7 +30,7 @@ const CheckAge = ({ redirect }: { redirect?: string }) => {
 
             <Button size="lg"
             disabled={!yesOver21}
-            onClick={confirmAgeOver21}>
+            onClick={onSubmit}>
                 Continue</Button>
         </FlexBox>
     </Center>
