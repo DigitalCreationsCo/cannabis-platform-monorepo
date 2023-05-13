@@ -12,20 +12,18 @@ function Header({ onSearchChange, placeholder, drawerComponentId, children }: He
         'flex flex-row',
         'lg:ml-[188px]',
         'py-6 sm:px-5 lg:px-16 xl:pl-0 xl:pr-16',
-        'lg:justify-end lg:right-0',
-        'relative'
+        'lg:justify-end lg:right-0'
     ];
     const headerStyle = [
         'flex flex-row grow',
-        'w-full md:w-fit lg:w-1/2',
+        'w-full md:w-fit xl:w-fit',
         'lg:justify-end lg:h-fit',
         'shadow-md lg:shadow-none'
     ];
-    const absoluteHeaderStyle = ['z-10 lg:absolute']
     const drawerButtonStyle = ['btn btn-ghost rounded-none bg-light lg:hidden'];
     return (
         <div className={twMerge(headerContainerStyle)}>
-            <div className={twMerge(headerStyle, absoluteHeaderStyle)}>
+            <div className={twMerge(headerStyle)}>
                 <label htmlFor={drawerComponentId} className={twMerge(drawerButtonStyle)}>
                     {/* // add this svg to ui-lib lib */}
                     <svg

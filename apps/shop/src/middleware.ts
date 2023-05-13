@@ -80,20 +80,25 @@ export default function middleware(req: NextRequest, res: ServerResponse) {
         // }
     }
 
-    if (subDomain.includes(shopAppUrl) && url.pathname !== '/welcome') {
-        let over21 = req.cookies.get('yesOver21')?.value
-        if (!over21) {
+    // // redirect to /welcome if not over 21
+    // if (subDomain.includes(shopAppUrl) && url.pathname !== '/welcome') {
+    //     let over21 = req.cookies.get('yesOver21')?.value
+    //     if (!over21) {
 
-            if (url.pathname === '/quick-delivery') {
-                return NextResponse.redirect(`http://${subDomain}/welcome?redirect=/quick-delivery`); 
-            }
+    //         if (url.pathname === '/quick-delivery') {
+    //             return NextResponse.redirect(`http://${subDomain}/welcome?redirect=/quick-delivery`); 
+    //         }
 
-            return NextResponse.redirect(`http://${subDomain}/welcome?redirect=/`); 
-        }
-    }
+    //         return NextResponse.redirect(`http://${subDomain}/welcome?redirect=/`); 
+    //     }
+    // }
 
     // base url redirect to /browse
     if (subDomain.includes(shopAppUrl) && url.pathname === '/') {
-        return NextResponse.redirect(`http://${subDomain}/browse`); 
+        let over21 = req.cookies.get('yesOver21')?.value
+
+        if (over21) {
+            return NextResponse.redirect(`http://${subDomain}/browse`); 
+        }
     }
 }
