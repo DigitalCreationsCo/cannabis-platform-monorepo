@@ -19,6 +19,7 @@ import { handleOTPInput, resendOTP, sendOTPEmail, sendOTPPhone } from 'session/O
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 import { useAppDispatch } from '../../redux/hooks';
+import CheckAgeModal from './CheckAgeModal';
 import CheckoutModal from './CheckoutModal';
 
 
@@ -34,6 +35,7 @@ const MODAL_COMPONENTS = Object.freeze({
     'SELECT_MODAL': () => <></>,
     'TIP_MODAL': () => <></>,
     'MESSAGE_BANNER': () => <></>,
+    'CHECK_AGE_MODAL': CheckAgeModal,
     'CHECKOUT_MODAL': CheckoutModal,
     'CART_MODAL': CartModal,
     'LOGIN_MODAL': LoginModal
