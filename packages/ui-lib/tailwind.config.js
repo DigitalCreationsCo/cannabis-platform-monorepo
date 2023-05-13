@@ -19,6 +19,7 @@ module.exports = {
                 primary: 'var(--primary)',
                 'primary-light': 'var(--primary-light)',
                 secondary: 'var(--secondary)',
+                'secondary-light': 'var(--secondary-light)',
                 inverse: 'var(--inverse)',
                 'inverse-soft': 'var(--inverse-soft)',
                 accent: 'var(--accent)',
@@ -28,7 +29,8 @@ module.exports = {
                 'dark-soft': 'var(--dark-soft)',
                 light: 'var(--light)',
                 'light-soft': 'var(--light-soft)',
-                error: 'var(--error)'
+                error: 'var(--error)',
+                yellow: 'var(--yellow)'
             },
             borderWidth: {
                 DEFAULT: '1.5px'
@@ -60,6 +62,7 @@ module.exports = {
                     '--primary': '#14a33d',
                     '--primary-light': '#17c649',
                     '--secondary': '#13622a',
+                    '--secondary-light': '#4BBE6E',
                     '--inverse': '#fff2da',
                     '--inverse-soft': '#f9f7f2',
                     '--accent': '#a49b8a',
@@ -71,7 +74,9 @@ module.exports = {
                     '--light': '#ffffff',
                     '--light-soft': '#c6c0b5',
 
-                    '--error': '#dd1616'
+                    '--error': '#dd1616',
+
+                    '--yellow': '#FFF244',
                 }
             }
         ]

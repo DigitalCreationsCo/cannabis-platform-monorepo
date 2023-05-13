@@ -5,7 +5,7 @@ import LoadingDots from './LoadingDots';
 
 export interface ButtonProps extends PropsWithChildren {
     size?: 'lg' | 'sm' | 'md';
-    bg?: 'primary' | 'primary-light' | 'accent-soft' | 'transparent';
+    bg?: 'primary' | 'primary-light' | 'secondary' | 'accent-soft' | 'transparent';
     hover?: 'accent' | 'primary' | 'primary-light' | 'secondary' | 'transparent';
     transparent?: true | false;
     border?: boolean;
@@ -51,7 +51,7 @@ export default function Button({
             !disabled ? [(bg === 'transparent' && 'text-dark shadow-none') || (bg === 'accent-soft' && 'text-dark') || 'text-light'] : 'text-secondary'
         ],
         focus: ['focus:outline-none focus:bg-' + bg],
-        hover: [!disabled ? hover && ['hover:bg-' + hover, 'transition ease-in-out duration-300'] : ''],
+        hover: [!disabled ? hover && ['hover:bg-' + hover, 'transition ease-in-out duration-50'] : ''],
         transparent: (transparent && 'opacity-90') || '',
         border: [border ? 'border-' + (borderColor || hover) : 'border-transparent']
     };
