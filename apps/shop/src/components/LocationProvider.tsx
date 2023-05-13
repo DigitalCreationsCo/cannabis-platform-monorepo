@@ -1,12 +1,14 @@
 import { locationActions, selectSelectedLocationState, selectShopState, shopActions } from '@cd/core-lib';
 import { getGeoAddressByCoordinates } from '@cd/core-lib/src/utils/geo';
 import { AnyAction } from '@reduxjs/toolkit';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useSelector } from 'react-redux';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 
 const LocationProvider = () => {
+    const router = useRouter()
     const [enteredSite, setEnteredSite] = useState(false);
     const [cookies, setCookie, removeCookie] = useCookies(['yesOver21']);
 
@@ -14,8 +16,9 @@ const LocationProvider = () => {
         function checkCheckAgeCookie(): boolean {
             return cookies.yesOver21 || false
         }
+        console.log('checkCheckAgeCookie: ', checkCheckAgeCookie());
         checkCheckAgeCookie() ? setEnteredSite(true) : setEnteredSite(false);
-    }, [])
+    }, [router])
 
     const dispatch = useAppDispatch();
 
@@ -30,6 +33,7 @@ const LocationProvider = () => {
     };
 
     useEffect(() => {
+        console.log('enteredSite: ', enteredSite)
         if (typeof window !== 'undefined' && enteredSite) {
             if (navigator?.geolocation !== undefined) {
                 navigator.geolocation.getCurrentPosition(
@@ -52,7 +56,7 @@ const LocationProvider = () => {
                 );
             }
         }
-    }, []);
+    }, [enteredSite]);
 
     const selectedLocation = useSelector(selectSelectedLocationState);
     const shopState = useAppSelector(selectShopState);
