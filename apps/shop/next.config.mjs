@@ -106,10 +106,6 @@ const nextConfig = (phase) => {
     //         if (isTest) return 'mysql://root:secret@localhost:6603/shadowdb';
     //         return 'SHADOW_DATABASE_URL:not (isDev,isProd && !isStaging,isProd && isStaging)';
     //     })(),
-    //     MONGODB_URL: (() => {
-    //         if (isDev) return 'mongodb+srv://dbDev1:wYaMFDyhZJDy0i5y@cluster0.ckvbf.mongodb.net/?retryWrites=true&w=majority';
-    //         if (isTest) return 'mongodb+srv://dbDev1:wYaMFDyhZJDy0i5y@cluster0.ckvbf.mongodb.net/?retryWrites=true&w=majority';
-    //     })(),
     //     LOCATION_IQ_GEOCODE_URL: (() => {
     //         if (isDev) return 'https://us1.locationiq.com/v1/search';
     //         if (isStaging) return 'https://us1.locationiq.com/v1/search';

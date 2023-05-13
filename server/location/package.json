@@ -20,6 +20,7 @@
     "@types/bcryptjs": "2.4.2",
     "@types/jest": "29.2.4",
     "@types/node": "18.11.10",
+    "babel-watch": "7.7.2",
     "@typescript-eslint/eslint-plugin": "5.45.0",
     "@typescript-eslint/parser": "5.45.0",
     "babel-plugin-inline-dotenv": "1.7.0",
@@ -53,8 +54,8 @@
     "test": "../../node_modules/jest/bin/jest.js",
     "test:fix": "../../node_modules/jest/bin/jest.js --detectOpenHandles",
     "test:watch": "../../node_modules/jest/bin/jest.js --watchAll",
-    "watch:old": "yarn build && nodemon dist",
-    "watch": "rimraf ./node_modules/.cache && dotenv -e ../../.env.development -- babel-node -x .ts src/index.ts"
+    "dev": "rimraf ./node_modules/.cache && dotenv -e ../../.env.development -- babel-node -x .ts src/index.ts",
+    "watch": "rimraf ./node_modules/.cache && dotenv -e ../../.env.development -- babel-watch -e \".ts\" -c ./babel.config.js ./src/index.ts"
   },
   "version": "0.0.1"
 }

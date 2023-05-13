@@ -1,9 +1,9 @@
 
 const shop = process.env.NEXT_PUBLIC_SHOP_APP_URL;
 const dashboard = process.env.NEXT_PUBLIC_DASHBOARD_APP_URL;
-const mainUrl = process.env.SERVER_MAIN_URL;
-const locationUrl = process.env.SERVER_LOCATION_URL;
-const paymentUrl = process.env.SERVER_PAYMENTS_URL;
+const mainUrl = process.env.NEXT_PUBLIC_SERVER_MAIN_URL;
+const locationUrl = process.env.NEXT_PUBLIC_SERVER_LOCATION_URL;
+const paymentUrl = process.env.NEXT_PUBLIC_SERVER_PAYMENTS_URL;
 const imageUrl = process.env.NEXT_PUBLIC_SERVER_IMAGE_URL;
 
 const urlBuilder = {

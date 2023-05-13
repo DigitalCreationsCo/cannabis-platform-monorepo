@@ -6,12 +6,12 @@ import server from "./server";
 
 const nodeEnv = process.env.NODE_ENV
 // expand(config({ path: loadEnv(nodeEnv) }));
-const port = process.env.SERVER_PAYMENTS_PORT || 'xxxx';
+const port = process.env.SERVER_PAYMENTS_PORT || 'NO_PORT_FOUND';
 
 connectDb(prisma)
     .then(() => {
         server.listen(port, () => {
-            console.log(` 💰 server/payments is listening on port ${port}.`);
+            console.log(` 💰 server-payments is listening on port ${port}.`);
         });
     })
     .catch((err) => {
@@ -22,9 +22,9 @@ connectDb(prisma)
 
 async function connectDb(prisma) {
   try {
-    console.info(' 💰 server/payments start in ' + nodeEnv + ' mode.');
+    console.info(' 💰 server-payments start in ' + nodeEnv + ' mode.');
     await prisma.$connect()
-    console.log(" 💰 server/payments is connected to database.");
+    console.log(" 💰 server-payments is connected to database.");
   } catch(error:any) {
     console.error("Error connecting to database: ", error.stack);
     process.exit(1);

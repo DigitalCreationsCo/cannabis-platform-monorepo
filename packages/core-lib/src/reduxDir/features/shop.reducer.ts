@@ -7,7 +7,7 @@ import { urlBuilder } from "../../utils";
 import { AppState } from "../types";
 import { LocationStateProps } from './location.reducer';
 
-export const getDispensariesLocal = createAsyncThunk(
+export const getDispensariesLocal = createAsyncThunk<OrganizationWithDetailsAndMetadata[], void>(
   "shop/getDispensariesLocal",
   async (_, {getState, rejectWithValue}) => {
     try {
@@ -17,17 +17,17 @@ export const getDispensariesLocal = createAsyncThunk(
       const { selectLocationType, radius } = location;
       const {coordinates} = location[selectLocationType].address
         
-      const {data } = await axios.post(
+      const response = await axios.post(
         urlBuilder.location.organizationsLocal(), {
           userLocation: coordinates,
           proximityRadius: radius,
         }, { 
           headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
+            // Accept: "application/json",
+            // "Content-Type": "application/json",
           }
         });
-        return data
+        return response.data
     } catch (error) {
       console.log("getDispensariesLocal: ", error);
       return rejectWithValue("Could not get dispensaries");
@@ -93,7 +93,7 @@ export const getDispensariesLocal = createAsyncThunk(
 //   }
 // );
 
-export const getProductsFromLocal = createAsyncThunk(
+export const getProductsFromLocal = createAsyncThunk<ProductWithDetails[], void>(
   "shop/getProductsFromLocal",
   async (_, thunkAPI) => {
     try {
@@ -110,6 +110,8 @@ export const getProductsFromLocal = createAsyncThunk(
           "Content-Type": "application/json",
         },
       })
+      console.log('getProductsFromLocal: ', data)
+
       return data
     } catch (err) {
       return thunkAPI.rejectWithValue("A general error occured. ");
@@ -142,37 +144,44 @@ export const shopSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getDispensariesLocal.fulfilled, (state, { payload }: PayloadAction<OrganizationWithDetailsAndMetadata[]>) => {
-      const dispensaries = payload
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.isError = false;
 
+      const dispensaries = payload
       dispensaries.forEach((disp) => {
         disp.metadata = {
           productsFetched: false,
         };
         state.dispensaries.push(disp)
       });
-
-      state.isLoading = false;
-      state.isSuccess = true;
-      state.isError = false;
     }),
     builder.addCase(getDispensariesLocal.pending, (state) => {
       state.isLoading = true;
     }),
     builder.addCase(getDispensariesLocal.rejected, (state, { payload }) => {
-      const error = payload;
-      console.log('get dispensaries local error: ', error)
-      
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = true;
+
+      const error = payload;
+      state.errorMessage = error
+      toast.error(error)
+      console.log('get dispensaries local error: ', error)
     }),
     
     builder.addCase(getProductsFromLocal.fulfilled, (state, { payload }: PayloadAction<ProductWithDetails[]>) => {
-      const products = payload;
-      state.products.push(...products);
       state.isLoading = false;
       state.isSuccess = true;
       state.isError = false;
+
+      // are products returned for individual dispensaries?
+      // if so, where is the data stored?
+
+      // can we use this V global products data to populate the products for each dispensary?
+
+      const products = payload;
+      state.products.push(...products);
     }),
     builder.addCase(getProductsFromLocal.pending, (state) => {
       state.isLoading = true;
@@ -180,13 +189,14 @@ export const shopSlice = createSlice({
       state.isError = false;
     }),
     builder.addCase(getProductsFromLocal.rejected, (state, { payload }) => {
-      const error = payload as string
-      console.log('get products local error: ', error)
-      
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = true;
+
+      const error = payload as string
       state.errorMessage = error
+      toast.error(error)
+      console.log('get products local error: ', error)
     })
 
     // [getVendorsExcluding.fulfilled]: (state, { payload }) => {

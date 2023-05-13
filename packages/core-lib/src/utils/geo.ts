@@ -1,16 +1,16 @@
 // @ts-nocheck
 
-import { Address, AddressWithDetails } from "@cd/data-access";
+import { Address, AddressWithDetails, Coordinates } from "@cd/data-access";
 import axios from "axios";
 
 export const getGeoCoordinatesByAddress = async (address: Address) => {
 	const { street1, street2 ,city, state, country, zipcode,countryCode } = address;
 	const addressString = `${street1} ${street2} ${city} ${state} ${country} ${zipcode} ${countryCode}`;
-	const coordinates = await getCoordinates(addressString);
+	const coordinates = await getCoordinatesByAddressString(addressString);
 	return coordinates
 }
 
-const getCoordinates = async (addressString: string):Promise<{
+const getCoordinatesByAddressString = async (addressString: string):Promise<{
     latitude: any;
     longitude: any;
 }| null> => {
@@ -70,4 +70,10 @@ export const getGeoAddressByCoordinates = async (coordinates: { latitude: number
 		console.log('Error getting address using coordinates: ', error);
 		return null
 	}
+}
+
+export function getCoordinatePairFromUserLocation(userlocation: Coordinates) {
+    if (userlocation.latitude && userlocation.longitude) { 
+        return [Number(userlocation.longitude), Number(userlocation.latitude)];
+    } else throw new Error('Invalid user location')
 }

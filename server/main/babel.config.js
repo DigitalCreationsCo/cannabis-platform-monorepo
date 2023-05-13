@@ -5,7 +5,7 @@ module.exports = function (config) {
 
     const nodeEnv = process.env.NODE_ENV || 'development';
 
-    console.info(' >> server/main env loaded from ', path.resolve(__dirname, '../../.env.' + nodeEnv))
+    console.info(' >> server-main env loaded from ', path.resolve(__dirname, '../../.env.' + nodeEnv))
 
     return {
         presets: ['@babel/preset-env', '@babel/preset-typescript'],

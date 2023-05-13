@@ -1,3 +1,4 @@
+import { getCoordinatePairFromUserLocation } from '@cd/core-lib';
 import { OrganizationWithShopDetails } from '@cd/data-access';
 import { LocationDA } from '../data-access';
 /* =================================
@@ -11,13 +12,14 @@ getLocalOrganizations
 export default class LocationController {
     static async getLocalOrganizations(req, res) {
         try {
-            console.log('Location Controller: getLocalOrganizations');
-            console.log('request body: ', req.body);
             const { userLocation, proximityRadius } = req.body;
-            const data = await LocationDA.getLocalOrganizations({
-                userLocation,
+
+            const coordinates = getCoordinatePairFromUserLocation(userLocation);
+
+            const data = await LocationDA.getLocalOrganizations(
+                coordinates,
                 proximityRadius
-            });
+            );
             if (!data) return res.status(404).json('Local organizations were not found.');
             return res.status(201).json(data);
         } catch (error: any) {

@@ -57,7 +57,7 @@
     "test:fix": "../../node_modules/jest/bin/jest.js --detectOpenHandles",
     "test:watch": "../../node_modules/jest/bin/jest.js --watchAll",
     "watch:old": "rimraf ./dist && babel ./src --out-dir dist --extensions \".ts,.tsx\" && sleep 5 && concurrently \"babel ./src --out-dir dist --extensions \".ts,.tsx\"\" \"nodemon ./dist\"",
-    "watch": "rimraf ./node_modules/.cache && dotenv -e ../../.env.development -- babel-node -x .ts src/index.ts"
+    "watch": "rimraf ./node_modules/.cache && dotenv -e ../../.env.development -- babel-watch -e \".ts\" -c ./babel.config.js ./src/index.ts"
   },
   "version": "0.0.1"
 }
