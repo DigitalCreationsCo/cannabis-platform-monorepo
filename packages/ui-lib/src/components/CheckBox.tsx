@@ -15,12 +15,13 @@ export interface CheckBoxProps extends React.InputHTMLAttributes<HTMLInputElemen
 function CheckBox({ LabelComponent, onChange, error, label, className, name, checked, helperText }: CheckBoxProps) {
 
     const styles = {
-        checkboxContainer: 'flex flex-row items-center space-x-2 py-8 md:py-2 m-auto self-center md:self-start',
+        checkboxContainer: 'flex flex-row items-center space-x-2 py-8 md:py-2 m-auto self-center md:self-start cursor-pointer',
         helperText: error && 'input-error border-2',
     };
     return (
         <div onClick={onChange as unknown as MouseEventHandler<HTMLDivElement>} className={twMerge(styles.checkboxContainer, className)}>
             <input
+                className='cursor-pointer'
                 style={{ height: '30px', width: '30px' }}
                 type="checkbox"
                 name={name}
