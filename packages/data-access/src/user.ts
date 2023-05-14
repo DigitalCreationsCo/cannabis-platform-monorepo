@@ -11,11 +11,11 @@ import { OrderWithDetails } from "./order";
 * updateUserPasswordToken
 */
 
-export async function createOrUpdateUser(userData: any) {
+export async function createOrUpdateUser(userData: UserCreateType) {
     try {
         const user = await prisma.user.upsert({
             where: {
-                id: userData.id
+                email: userData.email,
             },
             create: {
                 email: userData.email,
@@ -27,19 +27,22 @@ export async function createOrUpdateUser(userData: any) {
                 termsAccepted: true,
                 dialCode: userData.dialCode,
                 phone: userData.phone,
-                address: userData.address ? {
-                    create: { 
-                        ...userData.address
+                address: {
+                    connectOrCreate: {
+                        where: { id: userData.address.id },
+                        create: { ...userData.address },
                     }
-                } : undefined,
+                },
                 imageUser: userData.imageUser ? {
                     create: {
                         ...userData.imageUser
                     }
                 } : undefined,
-                memberships: userData.memberships ? {
-                    create: userData.memberships
-                } : undefined,
+                memberships: {
+                    create: {
+                        
+                    }
+                }
             },
             update: {
                 email: userData.email,
@@ -47,7 +50,7 @@ export async function createOrUpdateUser(userData: any) {
                 username: userData.username,
                 firstName: userData.firstName,
                 lastName: userData.lastName,
-                passwordHash: userData.passwordHash,
+                passwordHash: userData.passwordHash || '',
                 termsAccepted: true,
                 dialCode: userData.dialCode,
                 phone: userData.phone,
@@ -66,6 +69,79 @@ export async function createOrUpdateUser(userData: any) {
                 } : undefined,
             }
         })
+        
+        console.log('user created or updated: ', user.email)
+        return user;
+    } catch (error: any) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            if (error.code === 'P2002') {
+                throw new Error('This user exists already. Please choose a different username or email.')
+            }
+          }
+        throw new Error(error)
+    }
+}
+
+export async function createDispensaryAdmin(userData: UserCreateType) {
+    try {
+        const user = await prisma.user.upsert({
+            where: {
+                email: userData.email,
+            },
+            create: {
+                email: userData.email,
+                emailVerified: false,
+                username: userData.username,
+                firstName: userData.firstName,
+                lastName: userData.lastName,
+                passwordHash: userData.passwordHash,
+                termsAccepted: true,
+                dialCode: userData.dialCode,
+                phone: userData.phone,
+                address: {
+                    connectOrCreate: {
+                        where: { id: userData.address.id },
+                        create: { ...userData.address },
+                    }
+                },
+                imageUser: userData.imageUser ? {
+                    create: {
+                        ...userData.imageUser
+                    }
+                } : undefined,
+                memberships: {
+                    create: {
+                        
+                    }
+                }
+            },
+            update: {
+                email: userData.email,
+                emailVerified: false,
+                username: userData.username,
+                firstName: userData.firstName,
+                lastName: userData.lastName,
+                passwordHash: userData.passwordHash || '',
+                termsAccepted: true,
+                dialCode: userData.dialCode,
+                phone: userData.phone,
+                address: userData.address ? {
+                    create: { 
+                        ...userData.address
+                    }
+                } : undefined,
+                imageUser: userData.imageUser ? {
+                    create: {
+                        ...userData.imageUser
+                    }
+                } : undefined,
+                memberships: userData.memberships ? {
+                    create: userData.memberships
+                } : undefined,
+            }
+        })
+        
+        console.log('user created or updated: ', user.email)
         return user;
     } catch (error: any) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -187,6 +263,7 @@ export type UserCreateType = {
     username: string;
     email: string;
     emailVerified: boolean;
+    passwordHash: string;
     // password: string;
     // re_password: string;
     phone: string;

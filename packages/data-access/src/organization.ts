@@ -92,6 +92,11 @@ export async function upsertOrganization(organization: OrganizationCreateType) {
                         create: { id: vendorId, name: organization.name, publicName: organization.name }
                     }
                 },
+            },
+            include: {
+                address: true,
+                subdomain: true,
+                vendor: true,
             }
         });
         return updateOrganization
@@ -158,7 +163,13 @@ export async function createOrganization(organization: OrganizationCreateType) {
  */
 export async function findOrganizationById(organizationId:string) {
     try {
-        const organization = await prisma.organization.findUnique({ where: { id: organizationId } }) || null
+        const organization = await prisma.organization.findUnique({ 
+            where: { id: organizationId },
+            include: {
+                address: true,
+                vendor: true,
+            }
+         }) || null
         return organization
     } catch (error: any) {
         console.error(error)

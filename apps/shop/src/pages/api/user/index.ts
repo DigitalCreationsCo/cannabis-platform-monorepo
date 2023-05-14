@@ -32,13 +32,23 @@ handler.get(async (req: ExtendRequest, res: NextApiResponse) => {
 
 handler.post(async (req: ExtendRequest, res: NextApiResponse) => {
     try {
-        const createUser: UserCreateType = req.body;
-        const { data } = await axios.post(urlBuilder.main.user(), createUser, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        return res.status(res.statusCode).json(data);
+        const {createUser, role}: {createUser: UserCreateType, role: "ADMIN" | "OWNER" | undefined} = req.body;
+        
+        let response;
+        if (role === ("ADMIN" || "OWNER")) {
+            response = await axios.post(urlBuilder.main.admin(), { createUser, role }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+        } else {
+            response = await axios.post(urlBuilder.main.user(), createUser, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        }
+        return res.status(res.statusCode).json(response.data);
     } catch (error: any) {
         console.error(error.message);
         return res.json(error);

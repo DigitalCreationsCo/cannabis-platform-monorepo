@@ -21,11 +21,16 @@ export const createToken = customAlphabet(alphanumericChars, 128);
  * Add passwordHash field to object, and remove password and re_password fields
  */
 export const createPasswordHash = (data: any) => {
-	const { password, re_password, ...rest } = data;
-	return {
-		...rest,
-		passwordHash: hashSync(password, Number(process.env.PASSWORD_SALT_ROUNDS)),
-	};
+	try {
+		const { password, re_password, ...rest } = data;
+		return {
+			...rest,
+			passwordHash: hashSync(password, Number(process.env.PASSWORD_SALT_ROUNDS)),
+		};
+	} catch (error) {
+		console.log('Password hash was not created.', error);
+		return data;
+	}
 }
 
 export const isPasswordMatch = (password: string, passwordHash: string) => {
