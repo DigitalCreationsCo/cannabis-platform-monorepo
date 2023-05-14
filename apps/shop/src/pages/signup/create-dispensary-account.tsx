@@ -12,6 +12,7 @@ import {
 
 function DispensarySignUpStepForm() {
     const [formStep, setFormStep] = useState(0);
+
     const nextFormStep = () => setFormStep((currentStep) => currentStep + 1);
     // const prevFormStep = () => setFormStep((currentStep) => currentStep - 1);
 

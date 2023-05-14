@@ -19,17 +19,21 @@ function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
 
     const onSubmit = async (values: typeof initialValues) => {
         try {
-            console.log('values');
             setLoadingButton(true);
+            
+            setFormValues({ newUser: values });
+
             const createUser = await axios.post(urlBuilder.shop + '/api/user/', {
                 user: values,
                 role: "OWNER",
                 dispensaryId: formData.organization?.id
             });
+            
             if (createUser.status === 200) {
                 toast.success('User is created succesfully.');
                 setLoadingButton(false);
                 nextFormStep();
+                
             } else {
                 throw new Error('Error creating user.');
             }

@@ -42,11 +42,15 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
     const onSubmit = async (values: typeof initialValues) => {
         try {
             setLoadingButton(true);
-            // setFormValues({ organization: { ...values } });
+            
+            setFormValues({ organization: { ...values } });
+
             const updateOrganization = await axios.put(urlBuilder.shop + '/api/organization', values)
+            
             if (updateOrganization.status === 200) {
                 toast.success('Dispensary Info is uploaded successfully.');
                 nextFormStep();
+                
             } else { 
                 throw new Error('Error adding Dispensary record.')
             }

@@ -2,14 +2,24 @@ import { urlBuilder } from '@cd/core-lib/utils';
 import { Button, FlexBox, Grid, H2, Paragraph, TextField } from '@cd/ui-lib';
 import axios from 'axios';
 import { useFormik } from 'formik';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import * as yup from 'yup';
 import { useFormContext } from '../StepFormProvider';
 
 function ProvideDispensaryKey({ nextFormStep }: { nextFormStep: () => void }) {
 
-    const { setFormValues } = useFormContext();
+    const { resetFormValues, setFormValues } = useFormContext();
+
+    useEffect(() => {
+        const createNewFormContext = () => {
+            console.info('creating new form context for Dispensary Sign Up Form')
+            resetFormValues()
+        }
+        createNewFormContext()
+    }, [])
+
+
     const [loadingButton, setLoadingButton] = useState(false);
 
     const initialValues = {
