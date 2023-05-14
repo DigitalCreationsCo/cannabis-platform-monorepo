@@ -6,21 +6,30 @@ import {
     DispensaryCreate,
     DispensaryReview,
     DispensarySignUpComplete,
-    DispensaryUserCreate
+    DispensaryUserCreate,
+    ProvideDispensaryKey
 } from '../../components';
 
 function DispensarySignUpStepForm() {
     const [formStep, setFormStep] = useState(0);
     const nextFormStep = () => setFormStep((currentStep) => currentStep + 1);
     // const prevFormStep = () => setFormStep((currentStep) => currentStep - 1);
-    const FormStepComponents = [DispensaryCreate, DispensaryUserCreate, DispensaryReview, DispensarySignUpComplete];
-    const styles = { gradient: ['bg-gradient-to-b', 'from-primary', 'to-secondary', 'p-0 lg:p-16 h-max'] };
+
+    const FormStepComponents = [
+        ProvideDispensaryKey,
+        DispensaryCreate, 
+        DispensaryUserCreate, 
+        DispensaryReview, 
+        DispensarySignUpComplete
+    ];
+
+    const styles = { gradient: ['bg-gradient-to-b', 'from-primary', 'to-secondary', ''] };
     return (
         <Page className={twMerge(styles.gradient)}>
             <Head>
                 <title>Create a Dispensary Account</title>
             </Head>
-            <FormCard currentStep={formStep} totalSteps={FormStepComponents.length}>
+            <FormCard className={"bg-inverse-soft m-auto"}>
                 {FormStepComponents.map((_fsc, index) => {
                     return (
                         formStep === index && <_fsc key={'form-step-component-' + index} nextFormStep={nextFormStep} />

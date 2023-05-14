@@ -1,0 +1,92 @@
+import { urlBuilder } from '@cd/core-lib/utils';
+import { Button, FlexBox, Grid, H2, Paragraph, TextField } from '@cd/ui-lib';
+import axios from 'axios';
+import { useFormik } from 'formik';
+import { useState } from 'react';
+import toast from 'react-hot-toast';
+import * as yup from 'yup';
+import { useFormContext } from '../StepFormProvider';
+
+function ProvideDispensaryKey({ nextFormStep }: { nextFormStep: () => void }) {
+
+    const { setFormValues } = useFormContext();
+    const [loadingButton, setLoadingButton] = useState(false);
+
+    const initialValues = {
+        dispensaryKey: ''
+    }
+
+    const downloadDispensary = async (dispensaryKey: string) => {
+        const { data } = await axios.get(urlBuilder.shop + `/api/organization/${dispensaryKey}`);
+        setFormValues({ organization: { ...data } });
+    }
+    const onSubmit = async (values: typeof initialValues) => {
+        try {
+            setLoadingButton(true);
+            await downloadDispensary(values.dispensaryKey);
+            nextFormStep();
+        } catch (error: any) {
+            console.log('Provide Dispensary Key Error: ', error);
+            toast.error(error.response.data.message || error.response.data.errors);
+            setLoadingButton(false);
+        }
+    };
+
+    const { values, errors, touched, handleBlur, handleChange, handleSubmit, validateForm } = useFormik({
+        initialValues,
+        onSubmit,
+        validationSchema
+    });
+
+    function notifyValidation() {
+        validateForm().then((errors) => {
+            if (Object.values(errors).length > 0) {
+                console.log('validation errors: ', errors);
+                toast.error(Object.values(errors)[0].toString());
+            }
+        });
+    }
+
+    return (
+            <form className={''} onSubmit={handleSubmit}>
+            <Grid className='h-[320px] items-center justify-center flex flex-col space-y-4'>
+                <FlexBox>
+                    <H2>Welcome to Gras</H2>
+                        {/* Welcome to our customers' favorite Cannabis marketplace.`} */}
+                    <Paragraph>Please enter the 24-digit Dispensary Key provided by the Gras team.</Paragraph>
+                </FlexBox>
+                <TextField
+                    name="dispensaryKey"
+                    maxLength={24}
+                    label="Dispensary Key"
+                    placeholder="**** **** **** ****"
+                    value={values?.dispensaryKey}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    error={!!touched.dispensaryKey && !!errors.dispensaryKey}
+                    // helperText={touched.dispensaryKey && errors.dispensaryKey}
+                />
+
+                <Button
+                    type="submit"
+                    loading={loadingButton}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        notifyValidation();
+                        handleSubmit();
+                    }}
+                >
+                    Next
+                </Button>
+
+            </Grid>
+        </form>
+    );
+}
+
+export default ProvideDispensaryKey;
+
+const validationSchema = yup.object().shape({
+    dispensaryKey: yup.string().required().length(24, 'Please provide your 24-digit dispensary key.')
+});

@@ -11,9 +11,30 @@ import { useFormContext } from '../StepFormProvider';
 // Add country picker to set Country and countryCode fields
 
 function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
-    const { setFormValues } = useFormContext();
+    const { formData, setFormValues } = useFormContext();
     const [loadingButton, setLoadingButton] = useState(false);
 
+    console.log('form data: ', formData)
+    const initialValues = {
+        name: formData.organization?.name || '',
+        email: formData.organization?.email || '',
+        address: {
+            street1: formData.organization?.address?.street1 || '',
+            street2: formData.organization?.address?.street2 || '',
+            city: formData.organization?.address?.city || '',
+            state: formData.organization?.address?.state || '',
+            zipcode: formData.organization?.address?.zipcode || '',
+            country: formData.organization?.address?.country || '',
+            countryCode: formData.organization?.address?.countryCode || '',
+            coordinateId: formData.organization?.address?.coordinates?.id || ''
+        },
+        dialCode: formData.organization?.dialCode || 1,
+        phone: formData.organization?.phone || '',
+        termsAccepted: false,
+        subdomainId: formData.organization?.subdomainId || '',
+        vendorId: formData.organization?.vendorId || ''
+    };
+    
     const onSubmit = async (values: typeof initialValues) => {
         try {
             setLoadingButton(true);
@@ -186,26 +207,6 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
         </form>
     );
 }
-
-const initialValues = {
-    name: 'Curaleaf',
-    email: 'makedreamsreal@email.com',
-    address: {
-        street1: '123 MLK Ave',
-        street2: 'Suite 900',
-        city: 'Philadelphia',
-        state: 'PA',
-        zipcode: '19130',
-        country: 'United States',
-        countryCode: 'US',
-        coordinateId: ''
-    },
-    dialCode: '1',
-    phone: '2343454567',
-    termsAccepted: false,
-    subdomainId: '',
-    vendorId: '2'
-};
 
 const validationSchema = yup.object().shape({
     name: yup.string().required('Dispensary name is required'),
