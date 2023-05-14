@@ -6,7 +6,9 @@ import { OrderWithDetails } from "./order";
 * User Data Access functions
 *
 * createOrUpdateUser
+* createorupdateDispensaryAdmin
 * findUserWithDetailsByEmail
+* findUserWithDetailsByPhone
 * findUserWithDetailsById
 * updateUserPasswordToken
 */
@@ -144,9 +146,6 @@ export async function createorupdateDispensaryAdmin(userData: UserCreateType, cr
                         ...userData.imageUser
                     }
                 } : undefined,
-                // memberships: userData.memberships ? {
-                //     create: userData.memberships
-                // } : undefined,
                 memberships: userData.memberships?.[0]?.id ? {
                     connectOrCreate: {
                         where: {
@@ -291,7 +290,7 @@ export type UserCreateType = {
     username: string;
     email: string;
     emailVerified: boolean;
-    passwordHash: string;
+    passwordHash?: string;
     // password: string;
     // re_password: string;
     phone: string;

@@ -24,8 +24,23 @@
 //     });
 // });
 
-describe('/api/users/1', () => {
-    test('get User - axios sends the correct server call', async () => {
+describe('/api/user/1', () => {
+    test('GET User - axios sends the correct server call', async () => {
         expect('1').toEqual('1');
     });
 });
+
+describe('/api/user/', () => {
+    test('POST User - axios sends the correct server call', async () => {
+        // expect('1').toEqual('1');
+        expect(axios.config.url).toEqual('http://localhost:6001/api/v1/user/')
+    });
+});
+
+describe('/api/user/', () => {
+    test('PUT User - axios sends the correct server call', async () => {
+        // expect('1').toEqual('1');
+        expect(axios.config.url).toEqual('http://localhost:6001/api/v1/user/')
+    });
+});
+
