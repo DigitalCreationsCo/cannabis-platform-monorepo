@@ -34,6 +34,7 @@ const urlBuilder = {
         // signup: () => urlBuilder.main.baseUrl + `/auth/user/signup`,
         // signout: () => urlBuilder.main.baseUrl + `/auth/signout`,
         user: () => urlBuilder.main.baseUrl + `/user`,
+        admin: () => urlBuilder.main.baseUrl + `/user/admin`,
         userById: (id: any) => urlBuilder.main.baseUrl + `/user/${id}`,
         usersByOrg: (id: any) => urlBuilder.main.baseUrl + `/organization/${id}/users`,
 

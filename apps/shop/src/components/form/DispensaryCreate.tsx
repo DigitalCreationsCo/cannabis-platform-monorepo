@@ -31,7 +31,6 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
             zipcode: formData.organization?.address?.zipcode || '',
             country: formData.organization?.address?.country || '',
             countryCode: formData.organization?.address?.countryCode || 'US',
-            coordinateId: formData.organization?.address?.coordinates?.id || ''
         },
         dialCode: formData.organization?.dialCode || 1,
         phone: formData.organization?.phone || '',

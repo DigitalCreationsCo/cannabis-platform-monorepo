@@ -53,6 +53,21 @@ export default class UserController {
         try {
             const user = req.body
             
+            console.log('user: ', user);
+            const data = await UserDA.createUser(user)
+            if (!data) return res.status(404).json('User could not be created.');
+
+            return res.status(200).json(data);
+        } catch (error: any) {
+            console.log('API error: ', error);
+            res.status(500).json({ error });
+        }
+    }
+
+    static async createDispensaryAdmin(req, res) {
+        try {
+            const {user, dispensaryId} = req.body
+            console.log('user: ', user);
             const data = await UserDA.createUser(user)
             if (!data) return res.status(404).json('User could not be created.');
 

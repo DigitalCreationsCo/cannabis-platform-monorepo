@@ -117,7 +117,18 @@ export default class UserDA {
             createUserData = await createPasswordHash(createUserData)
             const user = await createOrUpdateUser(createUserData)
 
-            console.log(`created user ${user.id}`)
+            return user
+        } catch (error:any) {
+            console.error('UserDA error: ', error.message);
+            throw new Error(error.message);
+        }
+    }
+
+    static async createDispensaryAdmin(createUserData: UserCreateType, dispensaryId: string) {
+        try {
+            createUserData = await createPasswordHash(createUserData)
+            const user = await createOrUpdateUser(createUserData)
+
             return user
         } catch (error:any) {
             console.error('UserDA error: ', error.message);
@@ -127,6 +138,7 @@ export default class UserDA {
 
     static async updateUser(createUserData: UserCreateType) {
         try {
+            console.log('createUser Data: ', createUserData)
             const user = await createOrUpdateUser(createUserData)
 
             console.log(`updated user ${user.id}`)

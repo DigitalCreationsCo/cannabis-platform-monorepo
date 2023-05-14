@@ -44,7 +44,7 @@ export default class OrganizationDA {
                 Accept: "application/json",
                 "Content-Type": "application/json",
             }})
-            console.log(`${organization.name} record is update.`)
+            console.log(`Dispensary record ${organization.name} is updated.`)
             return 'Your organization account is updated.';
         } catch (error:any) {
             console.error(error.message);
