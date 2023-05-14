@@ -1,4 +1,5 @@
 import { Address, CategoryList, Coordinates, ImageOrganization, Prisma, Schedule } from "@prisma/client";
+import { AddressCreateType } from "address";
 import prisma from "./db/prisma";
 
 /*
@@ -298,7 +299,7 @@ export async function getStripeAccountId(organizationId: string) {
 export type OrganizationCreateType = {
     id: string | undefined
     name: string
-    address: Prisma.AddressCreateArgs["data"] & { coordinates: Prisma.CoordinatesCreateArgs["data"] }
+    address: AddressCreateType & { coordinates: Prisma.CoordinatesCreateArgs["data"] }
     dialCode: string
     phone: string
     email: string
