@@ -23,6 +23,9 @@ export const createToken = customAlphabet(alphanumericChars, 128);
 export const createPasswordHash = (data: any) => {
 	try {
 		const { password, re_password, ...rest } = data;
+		if (!password || !re_password) {
+			throw new Error('Password is required');
+		}
 		return {
 			...rest,
 			passwordHash: hashSync(password, Number(process.env.PASSWORD_SALT_ROUNDS)),

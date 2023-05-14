@@ -1,4 +1,4 @@
-import { ImageUser, Membership, Prisma, User } from "@prisma/client";
+import { ImageUser, Membership, MembershipRole, Prisma, User } from "@prisma/client";
 import prisma from "./db/prisma";
 import { OrderWithDetails } from "./order";
 
@@ -13,6 +13,7 @@ import { OrderWithDetails } from "./order";
 
 export async function createOrUpdateUser(userData: UserCreateType) {
     try {
+
         const user = await prisma.user.upsert({
             where: {
                 email: userData.email,
@@ -38,11 +39,6 @@ export async function createOrUpdateUser(userData: UserCreateType) {
                         ...userData.imageUser
                     }
                 } : undefined,
-                memberships: {
-                    create: {
-                        
-                    }
-                }
             },
             update: {
                 email: userData.email,
@@ -82,7 +78,7 @@ export async function createOrUpdateUser(userData: UserCreateType) {
     }
 }
 
-export async function createDispensaryAdmin(userData: UserCreateType) {
+export async function createorupdateDispensaryAdmin(userData: UserCreateType, createParams: CreateUserParams) {
     try {
         const user = await prisma.user.upsert({
             where: {
@@ -98,22 +94,35 @@ export async function createDispensaryAdmin(userData: UserCreateType) {
                 termsAccepted: true,
                 dialCode: userData.dialCode,
                 phone: userData.phone,
-                address: {
-                    connectOrCreate: {
-                        where: { id: userData.address.id },
+                address: !!userData.address.id ? {
+                        connectOrCreate: {
+                            where: { id: userData.address.id },
+                            create: { ...userData.address },
+                        }
+                    } : {
                         create: { ...userData.address },
-                    }
-                },
+                    },
+                memberships: !!userData.memberships?.[0]?.id ? {
+                    connectOrCreate: {
+                        where: {
+                            id: userData?.memberships?.[0].id ?? undefined,
+                        },
+                        create: {
+                            role: createParams["role"] as MembershipRole,
+                            organizationId: createParams["dispensaryId"],
+                            },
+                        } 
+                    }: {
+                        create: {
+                            role: createParams["role"] as MembershipRole,
+                            organizationId: createParams["dispensaryId"],
+                        }
+                    },
                 imageUser: userData.imageUser ? {
                     create: {
                         ...userData.imageUser
                     }
                 } : undefined,
-                memberships: {
-                    create: {
-                        
-                    }
-                }
             },
             update: {
                 email: userData.email,
@@ -135,13 +144,32 @@ export async function createDispensaryAdmin(userData: UserCreateType) {
                         ...userData.imageUser
                     }
                 } : undefined,
-                memberships: userData.memberships ? {
-                    create: userData.memberships
-                } : undefined,
+                // memberships: userData.memberships ? {
+                //     create: userData.memberships
+                // } : undefined,
+                memberships: userData.memberships?.[0]?.id ? {
+                    connectOrCreate: {
+                        where: {
+                            id: userData?.memberships?.[0].id
+                        },
+                        create: {
+                            role: createParams["role"] as MembershipRole,
+                            organizationId: createParams["dispensaryId"],
+                        },
+                    }
+                    }: {
+                        create: {
+                            role: createParams["role"] as MembershipRole,
+                            organizationId: createParams["dispensaryId"],
+                        },
+                    }
+            },
+            include: {
+                memberships: true
             }
         })
         
-        console.log('user created or updated: ', user.email)
+        console.log('admin user created or updated: ', user.email)
         return user;
     } catch (error: any) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -273,11 +301,17 @@ export type UserCreateType = {
     isLegalAge: boolean;
     idVerified: boolean;
     address: Prisma.AddressCreateArgs[ "data" ];
+    memberships: Prisma.MembershipUpsertArgs["create"][];
 }
 
 export type UserLoginData = {
     email: string;
     password: string;
+}
+
+export type CreateUserParams = {
+    role: string;
+    dispensaryId: string;
 }
 
 // export type UserCreateType = Prisma.PromiseReturnType<typeof createUser>

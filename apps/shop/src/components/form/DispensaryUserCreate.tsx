@@ -1,6 +1,7 @@
 import { urlBuilder } from '@cd/core-lib';
 import { Button, FlexBox, Grid, H3, H6, Paragraph, Small, TermsAgreement, TextField } from '@cd/ui-lib';
 import axios from 'axios';
+import { useFormContext } from 'components/StepFormProvider';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
@@ -9,7 +10,7 @@ import * as yup from 'yup';
 
 // To Do: Add helpertext to textfields
 function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
-    // const { setFormValues } = useFormContext();
+    const { formData, setFormValues } = useFormContext();
     const [loadingButton, setLoadingButton] = useState(false);
     // const [passwordVisibility, setPasswordVisibility] = useState(false);
     // const togglePasswordVisibility = useCallback(() => {
@@ -21,8 +22,9 @@ function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
             console.log('values');
             setLoadingButton(true);
             const createUser = await axios.post(urlBuilder.shop + '/api/user/', {
-                createUser: values,
-                role: "OWNER"
+                user: values,
+                role: "OWNER",
+                dispensaryId: formData.organization?.id
             });
             if (createUser.status === 200) {
                 toast.success('User is created succesfully.');

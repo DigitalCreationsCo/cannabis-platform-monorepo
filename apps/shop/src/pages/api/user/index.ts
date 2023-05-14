@@ -32,17 +32,18 @@ handler.get(async (req: ExtendRequest, res: NextApiResponse) => {
 
 handler.post(async (req: ExtendRequest, res: NextApiResponse) => {
     try {
-        const {createUser, role}: {createUser: UserCreateType, role: "ADMIN" | "OWNER" | undefined} = req.body;
+        const {user, role}: {user: UserCreateType, role: "ADMIN" | "OWNER" | undefined} = req.body;
         
         let response;
         if (role === ("ADMIN" || "OWNER")) {
-            response = await axios.post(urlBuilder.main.admin(), { createUser, role }, {
+            let { dispensaryId } = req.body;
+            response = await axios.post(urlBuilder.main.admin(), { user, role, dispensaryId }, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             })
         } else {
-            response = await axios.post(urlBuilder.main.user(), createUser, {
+            response = await axios.post(urlBuilder.main.user(), user, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
