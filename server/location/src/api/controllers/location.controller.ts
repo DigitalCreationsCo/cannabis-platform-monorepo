@@ -55,7 +55,7 @@ export default class LocationController {
      */
     static async updateOrganizationLocationRecord(req, res) {
         try {
-            console.log('Location Controller: addOrganizationLocationRecord');
+            console.log('Location Controller: updateOrganizationLocationRecord :', req.body);
             const organization = req.body as OrganizationWithShopDetails;
             const data = await LocationDA.updateOrganizationMongoRecord(organization);
             if (!data) return res.status(404).json('Could not create the dispensary record.');

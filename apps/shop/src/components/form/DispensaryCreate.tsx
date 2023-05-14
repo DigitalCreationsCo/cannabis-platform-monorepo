@@ -16,11 +16,14 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
     const { formData, setFormValues } = useFormContext();
     const [loadingButton, setLoadingButton] = useState(false);
 
+    console.log('formData: ', formData);
+    
     const initialValues = {
         id: formData.organization?.id || '',
         name: formData.organization?.name || '',
         email: formData.organization?.email || '',
         address: {
+            id: formData.organization?.address?.id || '',
             street1: formData.organization?.address?.street1 || '',
             street2: formData.organization?.address?.street2 || '',
             city: formData.organization?.address?.city || '',

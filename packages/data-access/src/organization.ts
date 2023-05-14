@@ -2,7 +2,7 @@ import { Address, CategoryList, Coordinates, ImageOrganization, Prisma, Schedule
 import prisma from "./db/prisma";
 
 /*
-*   updateOrganization
+*   upsertOrganization
 *   createOrganization
 *   findOrganizationById
 *   findMultipleOrganizationsById
@@ -18,18 +18,18 @@ import prisma from "./db/prisma";
  * @param organization 
  * @returns the updated organization
  */
-export async function updateOrganization(organization: OrganizationCreateType) { 
+export async function upsertOrganization(organization: OrganizationCreateType) { 
     try {
+        console.log('updateOrganization: ', organization)
         organization.subdomainId = organization.subdomainId || organization.name.toLowerCase();
         
         const { vendorId, address, subdomainId, ...data } = organization
         const { coordinates, userId, ...addressData } = address
 
         const { latitude, longitude } = coordinates
-        console.log('coordinates here', coordinates)
-        const updateOrganization = await prisma.organization.update({
+        const updateOrganization = await prisma.organization.upsert({
             where: { id: organization.id },
-            data: {
+            create: {
                 ...data,
                 address: {
                     connectOrCreate: {
@@ -38,8 +38,43 @@ export async function updateOrganization(organization: OrganizationCreateType) {
                             ...addressData,
                             coordinates: {
                                 connectOrCreate: {
-                                    where: { id: coordinates.id },
-                                    create: { id: coordinates.id, latitude, longitude }
+                                    where: { 
+                                        id: coordinates.id,
+                                        addressId: address.id
+                                    },
+                                    create: { latitude: Number(latitude), longitude: Number(longitude) }
+                                }
+                            }
+                        }
+                    }
+                },
+                subdomain: {
+                    connectOrCreate: { 
+                        where: { id: organization.subdomainId },
+                        create: { id: subdomainId, isValid: true }
+                    }
+                },
+                vendor:{
+                    connectOrCreate: {
+                        where: { id: vendorId },
+                        create: { id: vendorId, name: organization.name, publicName: organization.name }
+                    }
+                },
+            },
+            update: {
+                ...data,
+                address: {
+                    connectOrCreate: {
+                        where: { id: address.id },
+                        create: {
+                            ...addressData,
+                            coordinates: {
+                                connectOrCreate: {
+                                    where: { 
+                                        id: coordinates.id,
+                                        addressId: address.id
+                                    },
+                                    create: { latitude: Number(latitude), longitude: Number(longitude) }
                                 }
                             }
                         }
@@ -252,7 +287,7 @@ export async function getStripeAccountId(organizationId: string) {
 export type OrganizationCreateType = {
     id: string | undefined
     name: string
-    address: Address & { coordinates: Coordinates }
+    address: Prisma.AddressCreateArgs["data"] & { coordinates: Prisma.CoordinatesCreateArgs["data"] }
     dialCode: string
     phone: string
     email: string

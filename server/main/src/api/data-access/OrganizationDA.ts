@@ -1,5 +1,5 @@
 import { urlBuilder } from '@cd/core-lib';
-import { createOrganization, findCategoryListByOrg, findOrganizationById, findUsersByOrganization, OrganizationCreateType, updateOrganization } from '@cd/data-access';
+import { createOrganization, findCategoryListByOrg, findOrganizationById, findUsersByOrganization, OrganizationCreateType, upsertOrganization } from '@cd/data-access';
 import axios from 'axios';
 /* =================================
 Organization Data Access - data class for organization table
@@ -39,7 +39,7 @@ export default class OrganizationDA {
     }
     static async updateOrganization(organization: OrganizationCreateType) {
         try {
-            const data = await updateOrganization(organization);
+            const data = await upsertOrganization(organization);
             await axios.put(urlBuilder.location.createorganizationLocationRecord(), { ...organization },{ headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",
