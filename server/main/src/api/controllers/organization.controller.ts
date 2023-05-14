@@ -1,5 +1,4 @@
 import { getGeoCoordinatesByAddress } from '@cd/core-lib';
-import { OrganizationCreateType } from '@cd/data-access';
 import { OrganizationDA } from '../data-access';
 const Busboy = require('busboy');
 
@@ -34,8 +33,11 @@ export default class OrganizationController {
     }
     static async updateOrganization(req, res) {
         try {
-            const organization: OrganizationCreateType = req.body;
+            const organization = req.body;
 
+            const coordinates = await getGeoCoordinatesByAddress(organization.address);
+            if (coordinates) organization.address.coordinates = coordinates;
+            
             const data = await OrganizationDA.updateOrganization(organization);
             if (!data) return res.status(404).json('Organization could not be created.');
 

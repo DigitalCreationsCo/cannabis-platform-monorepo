@@ -62,7 +62,7 @@ export default class LocationDA {
           const newOrganization = await organizations_geo.insertOne({ 
             id: organization.id,
             address: { ...organization.address,
-            coordinates: [organization.address.coordinates.longitude, organization.address.coordinates.latitude]},
+            coordinates: [Number(organization.address.coordinates.longitude), Number(organization.address.coordinates.latitude)]},
           })
           console.log('created mongo organization record: ', newOrganization.id)
           return newOrganization
@@ -74,11 +74,15 @@ export default class LocationDA {
 
   static async updateOrganizationMongoRecord(organization: OrganizationWithShopDetails) {
     try {
-        const updateOrganization = await organizations_geo.updateOne({ 
-          id: organization.id,
+
+      const updateOrganization = await organizations_geo.updateOne(
+        { id: organization.id },
+        { $set: {
+          ...organization,
           address: { ...organization.address,
-          coordinates: [organization.address.coordinates.longitude, organization.address.coordinates.latitude]},
-        })
+          coordinates: [Number(organization.address.coordinates.longitude), Number(organization.address.coordinates.latitude)]},
+        } });
+
         console.log('update mongo organization record: ', updateOrganization.id)
         return updateOrganization
     } catch (error: any) {
