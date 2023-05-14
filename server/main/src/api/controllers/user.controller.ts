@@ -66,9 +66,9 @@ export default class UserController {
 
     static async createDispensaryAdmin(req, res) {
         try {
-            const {user, dispensaryId} = req.body
-            console.log('user: ', user);
-            const data = await UserDA.createUser(user)
+            const {user, role, dispensaryId} = req.body
+
+            const data = await UserDA.createDispensaryAdmin(user, role, dispensaryId)
             if (!data) return res.status(404).json('User could not be created.');
 
             return res.status(200).json(data);

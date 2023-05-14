@@ -1,4 +1,4 @@
-import { createAddress, createOrUpdateUser, findAddressById, findUserWithDetailsByEmail, findUserWithDetailsById, removeAddressByIdAndUserId, updateUserPasswordToken, UserCreateType } from '@cd/data-access';
+import { createAddress, createorupdateDispensaryAdmin, createOrUpdateUser, findAddressById, findUserWithDetailsByEmail, findUserWithDetailsById, removeAddressByIdAndUserId, updateUserPasswordToken, UserCreateType } from '@cd/data-access';
 import { createPasswordHash } from '../../util/utility';
 
 /* =================================
@@ -124,10 +124,19 @@ export default class UserDA {
         }
     }
 
-    static async createDispensaryAdmin(createUserData: UserCreateType, dispensaryId: string) {
+    static async createDispensaryAdmin(createUserData: UserCreateType, role: string, dispensaryId: string) {
         try {
+
+            console.log('createUser Data: ', createUserData)
+            console.log('role: ', role)
+            console.log('dispensaryId: ', dispensaryId)
+
             createUserData = await createPasswordHash(createUserData)
-            const user = await createOrUpdateUser(createUserData)
+            
+            const user = await createorupdateDispensaryAdmin(createUserData, {
+                role, 
+                dispensaryId
+            })
 
             return user
         } catch (error:any) {

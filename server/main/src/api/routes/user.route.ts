@@ -18,7 +18,7 @@ router.route('/').post(userCtrl.createUser);
 
 router.route('/').put(userCtrl.updateUser);
 
-router.route('/admin').put(userCtrl.createDispensaryAdmin);
+router.route('/admin').post(userCtrl.createDispensaryAdmin);
 
 router.route('/:id').get(userCtrl.getUserById);
 
