@@ -13,5 +13,6 @@ Serve Local Data Routes
 router.route('/organizations').post(locationCtrl.getLocalOrganizations);
 
 router.route('/create-record').post(locationCtrl.addOrganizationLocationRecord);
+router.route('/create-record').put(locationCtrl.updateOrganizationLocationRecord);
 
 export default router;

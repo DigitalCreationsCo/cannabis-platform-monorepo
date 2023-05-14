@@ -1,4 +1,5 @@
 import { getGeoCoordinatesByAddress } from '@cd/core-lib';
+import { OrganizationCreateType } from '@cd/data-access';
 import { OrganizationDA } from '../data-access';
 const Busboy = require('busboy');
 
@@ -31,14 +32,27 @@ export default class OrganizationController {
             res.status(500).json({ error: error.message });
         }
     }
+    static async updateOrganization(req, res) {
+        try {
+            const organization: OrganizationCreateType = req.body;
+
+            const data = await OrganizationDA.updateOrganization(organization);
+            if (!data) return res.status(404).json('Organization could not be created.');
+
+            return res.status(201).json(data);
+        } catch (error:any) {
+            console.log('API error: ', error.message);
+            res.status(500).json({ error: error.message });
+        }
+    }
 
     static async getOrganizationById(req, res) {
         try {
             const organizationId = req.params.id || '';
-            console.log('getOrganizationById: ', organizationId);
             
-            const data = await OrganizationDA.getOrganizationById(organizationId);
-            if (!data) return res.status(404).json('Organization not found');
+            const data = await OrganizationDA.getOrganizationById(organizationId)
+            if (!data) return res.status(404).json(data);
+            
             return res.status(200).json(data);
         } catch (error:any) {
             console.log('API error: ', error);

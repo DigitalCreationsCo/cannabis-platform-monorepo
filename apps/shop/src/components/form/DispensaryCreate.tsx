@@ -1,4 +1,6 @@
-import { Button, FlexBox, Grid, H3, H6, Paragraph, TermsAgreement, TextField } from '@cd/ui-lib';
+import { urlBuilder } from '@cd/core-lib/utils';
+import { Button, FlexBox, Grid, H2, H3, H6, Paragraph, TermsAgreement, TextField } from '@cd/ui-lib';
+import axios from 'axios';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
@@ -14,8 +16,8 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
     const { formData, setFormValues } = useFormContext();
     const [loadingButton, setLoadingButton] = useState(false);
 
-    console.log('form data: ', formData)
     const initialValues = {
+        id: formData.organization?.id || '',
         name: formData.organization?.name || '',
         email: formData.organization?.email || '',
         address: {
@@ -25,7 +27,7 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
             state: formData.organization?.address?.state || '',
             zipcode: formData.organization?.address?.zipcode || '',
             country: formData.organization?.address?.country || '',
-            countryCode: formData.organization?.address?.countryCode || '',
+            countryCode: formData.organization?.address?.countryCode || 'US',
             coordinateId: formData.organization?.address?.coordinates?.id || ''
         },
         dialCode: formData.organization?.dialCode || 1,
@@ -38,9 +40,14 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
     const onSubmit = async (values: typeof initialValues) => {
         try {
             setLoadingButton(true);
-            setFormValues({ organization: { ...values } });
-            setLoadingButton(false);
-            nextFormStep();
+            // setFormValues({ organization: { ...values } });
+            const updateOrganization = await axios.put(urlBuilder.shop + '/api/organization', values)
+            if (updateOrganization.status === 200) {
+                toast.success('Dispensary Info is uploaded successfully.');
+                nextFormStep();
+            } else { 
+                throw new Error('Error adding Dispensary record.')
+            }
         } catch (error: any) {
             console.log('Dispensary Create Error: ', error);
             toast.error(error.response.data.message || error.response.data.errors);
@@ -48,11 +55,20 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
         }
     };
 
-    const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
+    const { values, errors, touched, handleBlur, handleChange, handleSubmit, validateForm } = useFormik({
         initialValues,
         onSubmit,
         validationSchema
     });
+
+    function notifyValidation() {
+        validateForm().then((errors) => {
+            if (Object.values(errors).length > 0) {
+                console.log('validation errors: ', errors);
+                toast.error(Object.values(errors)[0].toString());
+            }
+        });
+    }
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -60,9 +76,11 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
     return (
         <form className={'content relative'} onSubmit={handleSubmit}>
             <Grid>
-                <FlexBox className="flex-row space-x-2 pr-2 md:pr-0">
-                    <H3>{`Congratulations, you're joining Gras Cannabis. 
-                Welcome to our customers' favorite Cannabis marketplace.`}</H3>
+                <FlexBox className="justify-between flex-row space-x-2 pr-2 md:pr-0">
+                    <FlexBox>
+                    <H2>Welcome to Gras</H2>
+                    <H3>a one stop cannabis marketplace</H3>
+                    </FlexBox>
                     <Image
                         className="rounded-btn"
                         src={'/logo.png'}
@@ -197,6 +215,7 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
                     onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
+                        notifyValidation();
                         handleSubmit();
                     }}
                     disabled={values.termsAccepted === false}

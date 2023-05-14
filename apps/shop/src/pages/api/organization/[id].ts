@@ -9,11 +9,12 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
         res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
 
         const { id } = req.query;
-        const { data } = await axios.get(urlBuilder.main.organizationById(id));
+        const { data } = await axios.get(urlBuilder.main.organizationById(id), { validateStatus: status => (status >= 200 && status < 300) || status == 404 });
+        
         return res.status(res.statusCode).json(data);
     } catch (error: any) {
         console.error(error.message);
-        return res.json(error);
+        return res.status(res.statusCode).json(error);
     }
 });
 

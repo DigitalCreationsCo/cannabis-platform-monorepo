@@ -1,5 +1,5 @@
 import { urlBuilder } from '@cd/core-lib';
-import { createOrganization, findCategoryListByOrg, findOrganizationById, findUsersByOrganization, OrganizationCreateType } from '@cd/data-access';
+import { createOrganization, findCategoryListByOrg, findOrganizationById, findUsersByOrganization, OrganizationCreateType, updateOrganization } from '@cd/data-access';
 import axios from 'axios';
 /* =================================
 Organization Data Access - data class for organization table
@@ -32,6 +32,20 @@ export default class OrganizationDA {
             console.log('stripe account created.')
 
             return 'Your organization account is created';
+        } catch (error:any) {
+            console.error(error.message);
+            throw new Error(error.message);
+        }
+    }
+    static async updateOrganization(organization: OrganizationCreateType) {
+        try {
+            const data = await updateOrganization(organization);
+            await axios.put(urlBuilder.location.createorganizationLocationRecord(), { ...organization },{ headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            }})
+            console.log(`${organization.name} record is update.`)
+            return 'Your organization account is updated.';
         } catch (error:any) {
             console.error(error.message);
             throw new Error(error.message);

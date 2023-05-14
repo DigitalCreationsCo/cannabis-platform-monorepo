@@ -22,4 +22,19 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     }
 });
 
+handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
+    try {
+        const formData: OrganizationCreateType = req.body;
+        const { data } = await axios.put(urlBuilder.main.organization(), formData, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        return res.status(res.statusCode).json(data);
+    } catch (error: any) {
+        console.error(error.message);
+        return res.json(error);
+    }
+});
+
 export default handler;
