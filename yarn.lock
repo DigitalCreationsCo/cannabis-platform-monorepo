@@ -2958,6 +2958,7 @@ __metadata:
   resolution: "@cd/data-access@workspace:packages/data-access"
   dependencies:
     "@cd/eslint-config": "workspace:*"
+    "@paralleldrive/cuid2": ^2.2.0
     "@prisma/client": 4.14.0
     "@testing-library/jest-dom": 5.16.5
     "@types/jest": 29.2.4
@@ -3281,6 +3282,7 @@ __metadata:
     "@cd/eslint-config": "workspace:*"
     "@cd/ui-lib": "workspace:*"
     "@next/env": 13.2.4
+    "@paralleldrive/cuid2": ^2.2.0
     "@reduxjs/toolkit": 1.9.2
     "@tailwindcss/typography": 0.5.8
     "@types/formidable": 2.0.5

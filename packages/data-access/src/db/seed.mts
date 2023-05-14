@@ -1,3 +1,4 @@
+import { createId } from '@paralleldrive/cuid2';
 import { Address, Category, CategoryList, Driver, ImageOrganization, ImageProduct, ImageUser, ImageVendor, Membership, Order, Organization, PrismaClient, Product, ProductVariant, Purchase, Schedule, SiteSetting, SubDomain, User, Vendor } from "@prisma/client";
 
 const users: User[] = [
@@ -290,7 +291,7 @@ const orgs:Organization[] = [
     stripeOnboardingComplete:false
   },
   {
-    id: "4",
+    id: createId(),
     name: "McNuggz Dispensary",
     email: "McNuggz@grascannabis.org",
     stripeAccountId: null,
