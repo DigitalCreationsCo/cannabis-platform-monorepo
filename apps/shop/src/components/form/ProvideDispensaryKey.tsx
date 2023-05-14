@@ -16,18 +16,25 @@ function ProvideDispensaryKey({ nextFormStep }: { nextFormStep: () => void }) {
         dispensaryKey: ''
     }
 
-    const downloadDispensary = async (dispensaryKey: string) => {
-        const { data } = await axios.get(urlBuilder.shop + `/api/organization/${dispensaryKey}`);
-        setFormValues({ organization: { ...data } });
+    const downloadDispensaryData = async (dispensaryKey: string) => {
+        try {
+            const { data } = await axios.get(urlBuilder.shop + `/api/organization/${dispensaryKey}`, { validateStatus: status => (status >= 200 && status < 300) || status == 404 });
+            if (!data) throw new Error('Dispensary is not found.');
+
+            setFormValues({ organization: { ...data } });
+        } catch (error: any) {
+            throw new Error('Dispensary is not found.');
+            console.log('Error getting Dispensary: ', error);
+        }
     }
     const onSubmit = async (values: typeof initialValues) => {
         try {
             setLoadingButton(true);
-            await downloadDispensary(values.dispensaryKey);
+            await downloadDispensaryData(values.dispensaryKey);
             nextFormStep();
         } catch (error: any) {
             console.log('Provide Dispensary Key Error: ', error);
-            toast.error(error.response.data.message || error.response.data.errors);
+            toast.error(error.message);
             setLoadingButton(false);
         }
     };
@@ -52,7 +59,6 @@ function ProvideDispensaryKey({ nextFormStep }: { nextFormStep: () => void }) {
             <Grid className='h-[320px] items-center justify-center flex flex-col space-y-4'>
                 <FlexBox>
                     <H2>Welcome to Gras</H2>
-                        {/* Welcome to our customers' favorite Cannabis marketplace.`} */}
                     <Paragraph>Please enter the 24-digit Dispensary Key provided by the Gras team.</Paragraph>
                 </FlexBox>
                 <TextField

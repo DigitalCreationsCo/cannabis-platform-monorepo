@@ -1,4 +1,4 @@
-import { Button, CheckBox, FlexBox, H3, H6, Icons, Label, Paragraph, Small, TextField } from '@cd/ui-lib';
+import { Button, FlexBox, Grid, H3, H6, Icons, Paragraph, Small, TermsAgreement, TextField } from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import { useCallback, useEffect, useState } from 'react';
@@ -42,8 +42,9 @@ function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
 
     return (
         <form className={'content relative'} onSubmit={handleSubmit}>
+            <Grid>
             <Image src={'/logo.png'} alt="Gras Cannabis logo" height={63} width={63} priority />
-            <H3>{`Create your first User Account.`}</H3>
+            <H3>{`Create a Dispensary User Account.`}</H3>
             <Paragraph>{`Create an account to own and manage your dispensary's inventory, data, and other users. 
             This will be the account with the most access to view and change data in your dispensary.`}</Paragraph>
             <Small>Please fill the applicable fields to continue</Small>
@@ -193,20 +194,22 @@ function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
                 helperText={touched?.address?.zipcode && errors?.address?.zipcode}
             />
             <FlexBox>
-                <Label>
-                    By creating a User Account on Gras Cannabis Marketplace, you agree to our
-                    <a href="/" target="_blank" rel="noreferrer noopener">
-                        <H6 className={'border-b-2 inline-block'}>User Terms & Conditions</H6>
-                    </a>
-                </Label>
-                <CheckBox
-                    type="checkbox"
+                <TermsAgreement
                     name="termsAccepted"
                     onChange={handleChange}
                     checked={values?.termsAccepted || false}
+                    // helperText={touched.termsAccepted && errors.termsAccepted}
+                    error={!!touched.termsAccepted && !!errors.termsAccepted}
+                    description={
+                        <>
+                            {`Before creating an account for Gras Cannabis Marketplace, you will agree to our `}
+                            <a href="/" target="_blank" rel="noreferrer noopener">
+                                <H6 className={'border-b-2 inline-block'}>User Terms and Conditions</H6>.
+                            </a>
+                        </>
+                    }
+                    label={`I agree to the User Terms and Conditions`}
                 />
-                <Label>{touched.termsAccepted && errors.termsAccepted}</Label>
-                <Paragraph>I agree to the dispensary terms and conditions</Paragraph>
             </FlexBox>
             <Button
                 type="submit"
@@ -214,13 +217,13 @@ function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
                 onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    console.log('submit');
                     handleSubmit();
                 }}
                 disabled={values.termsAccepted === false}
             >
                 Next
             </Button>
+            </Grid>
         </form>
     );
 }

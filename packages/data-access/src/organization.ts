@@ -2,6 +2,7 @@ import { Address, CategoryList, Coordinates, ImageOrganization, Prisma, Schedule
 import prisma from "./db/prisma";
 
 /*
+*   updateOrganization
 *   createOrganization
 *   findOrganizationById
 *   findMultipleOrganizationsById
@@ -13,10 +14,61 @@ import prisma from "./db/prisma";
 */
 
 /**
- * Create new Organization record
+ * Update existing Organization record
  * @param organization 
- * @returns the created organization
+ * @returns the updated organization
  */
+export async function updateOrganization(organization: OrganizationCreateType) { 
+    try {
+        organization.subdomainId = organization.subdomainId || organization.name.toLowerCase();
+        
+        const { vendorId, address, subdomainId, ...data } = organization
+        const { coordinates, userId, ...addressData } = address
+
+        const { latitude, longitude } = coordinates
+        console.log('coordinates here', coordinates)
+        const updateOrganization = await prisma.organization.update({
+            where: { id: organization.id },
+            data: {
+                ...data,
+                address: {
+                    connectOrCreate: {
+                        where: { id: address.id },
+                        create: {
+                            ...addressData,
+                            coordinates: {
+                                connectOrCreate: {
+                                    where: { id: coordinates.id },
+                                    create: { id: coordinates.id, latitude, longitude }
+                                }
+                            }
+                        }
+                    }
+                },
+                subdomain: {
+                    connectOrCreate: { 
+                        where: { id: organization.subdomainId },
+                        create: { id: subdomainId, isValid: true }
+                    }
+                },
+                vendor:{
+                    connectOrCreate: {
+                        where: { id: vendorId },
+                        create: { id: vendorId, name: organization.name, publicName: organization.name }
+                    }
+                },
+            }
+        });
+        return updateOrganization
+    } catch (error: any) {
+        console.error('ERROR: ', error.message)
+        if (error.code === 'P2002') {
+            throw new Error('error creating organization, unique key exists')
+        }
+        else throw new Error('error updating organization')
+    }
+}
+
 export async function createOrganization(organization: OrganizationCreateType) { 
     try {
         organization.subdomainId = organization.name.toLowerCase();
@@ -71,7 +123,7 @@ export async function createOrganization(organization: OrganizationCreateType) {
  */
 export async function findOrganizationById(organizationId:string) {
     try {
-        const organization = await prisma.organization.findUnique({ where: { id: organizationId } }) || {}
+        const organization = await prisma.organization.findUnique({ where: { id: organizationId } }) || null
         return organization
     } catch (error: any) {
         console.error(error)

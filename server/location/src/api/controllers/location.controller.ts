@@ -28,11 +28,36 @@ export default class LocationController {
         }
     }
 
+    /**
+     * Create a dispensary record for geonear lookup
+     * @param req 
+     * @param res 
+     * @returns 
+     */
     static async addOrganizationLocationRecord(req, res) {
         try {
             console.log('Location Controller: addOrganizationLocationRecord');
             const organization = req.body as OrganizationWithShopDetails;
             const data = await LocationDA.addOrganizationMongoRecord(organization);
+            if (!data) return res.status(404).json('Could not create the dispensary record.');
+            return res.status(201).json(data);
+        } catch (error: any) {
+            console.log('API error: ', error);
+            res.status(500).json({ error });
+        }
+    }
+
+    /**
+     * Create a dispensary record for geonear lookup
+     * @param req 
+     * @param res 
+     * @returns 
+     */
+    static async updateOrganizationLocationRecord(req, res) {
+        try {
+            console.log('Location Controller: addOrganizationLocationRecord');
+            const organization = req.body as OrganizationWithShopDetails;
+            const data = await LocationDA.updateOrganizationMongoRecord(organization);
             if (!data) return res.status(404).json('Could not create the dispensary record.');
             return res.status(201).json(data);
         } catch (error: any) {
