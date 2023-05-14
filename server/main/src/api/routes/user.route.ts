@@ -14,7 +14,11 @@ User Routes
 
 ================================= */
 
-router.route('/user/:id').get(userCtrl.getUserById);
+router.route('/').post(userCtrl.createUser);
+
+router.route('/').put(userCtrl.updateUser);
+
+router.route('/:id').get(userCtrl.getUserById);
 
 router.route('/address').post(userCtrl.addAddressToUser);
 

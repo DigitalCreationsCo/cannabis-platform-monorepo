@@ -1,31 +1,36 @@
-import { Button, FlexBox, Grid, H3, H6, Icons, Paragraph, Small, TermsAgreement, TextField } from '@cd/ui-lib';
+import { urlBuilder } from '@cd/core-lib';
+import { Button, FlexBox, Grid, H3, H6, Paragraph, Small, TermsAgreement, TextField } from '@cd/ui-lib';
+import axios from 'axios';
 import { useFormik } from 'formik';
 import Image from 'next/image';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import * as yup from 'yup';
-import { useFormContext } from '../StepFormProvider';
 
 // To Do: Add helpertext to textfields
 function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
-    const { setFormValues } = useFormContext();
+    // const { setFormValues } = useFormContext();
     const [loadingButton, setLoadingButton] = useState(false);
-    const [passwordVisibility, setPasswordVisibility] = useState(false);
-    const togglePasswordVisibility = useCallback(() => {
-        setPasswordVisibility((visible) => !visible);
-    }, []);
+    // const [passwordVisibility, setPasswordVisibility] = useState(false);
+    // const togglePasswordVisibility = useCallback(() => {
+    //     setPasswordVisibility((visible) => !visible);
+    // }, []);
 
     const onSubmit = async (values: typeof initialValues) => {
         try {
             console.log('values');
             setLoadingButton(true);
-            setFormValues({ newUser: { ...values } });
-            setLoadingButton(false);
-            console.log('Dispensary User Create Values: ', values);
-            nextFormStep();
+            const createUser = await axios.post(urlBuilder.shop + '/api/users/', values);
+            if (createUser.status === 200) {
+                toast.success('User is created succesfully.');
+                setLoadingButton(false);
+                nextFormStep();
+            } else {
+                throw new Error('Error creating user.');
+            }
         } catch (error: any) {
-            console.log('Dispensary User Create Error: ', error);
-            toast.error(error.response.data.message || error.response.data.errors);
+            console.log('Dispensary User Error: ', error);
+            toast.error(error.message);
             setLoadingButton(false);
         }
     };
@@ -45,8 +50,9 @@ function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
             <Grid>
             <Image src={'/logo.png'} alt="Gras Cannabis logo" height={63} width={63} priority />
             <H3>{`Create a Dispensary User Account.`}</H3>
-            <Paragraph>{`Create an account to own and manage your dispensary's inventory, data, and other users. 
-            This will be the account with the most access to view and change data in your dispensary.`}</Paragraph>
+            <Paragraph>
+                Create an account to own and manage your dispensary's inventory, data, and other users. 
+            This will be the account with the most access to your dispensary.</Paragraph>
             <Small>Please fill the applicable fields to continue</Small>
             <TextField
                 name="firstName"
@@ -107,7 +113,7 @@ function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
                     error={!!touched.phone && !!errors.phone}
                 />
             </FlexBox>
-            <TextField
+            {/* <TextField
                 name="password"
                 label="Password"
                 placeholder="********"
@@ -132,7 +138,7 @@ function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
                 type={passwordVisibility ? 'text' : 'password'}
                 insertIcon={passwordVisibility ? Icons.View : Icons.ViewOff}
                 onClickIcon={togglePasswordVisibility}
-            />
+            /> */}
             <TextField
                 name="address.street1"
                 label="Street Line 1"
@@ -234,8 +240,8 @@ const initialValues = {
     username: 'bigchiefa1',
     email: 'bigchief@gmail.com',
     emailVerified: false,
-    password: 'asdfasdf',
-    re_password: 'asdfasdf',
+    // password: 'asdfasdf',
+    // re_password: 'asdfasdf',
     dialCode: '1',
     phone: '1232343456',
     address: {

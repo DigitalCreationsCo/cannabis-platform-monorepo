@@ -4,6 +4,8 @@ import { UserDA } from '../data-access';
 UserController - controller class for user business actions
 
 members:
+createUser
+updateUser
 signin                  not used
 signout                 not used 
 getUserById
@@ -46,6 +48,35 @@ export default class UserController {
     //     }
     // }
 
+
+    static async createUser(req, res) {
+        try {
+            const user = req.body
+            
+            const data = await UserDA.createUser(user)
+            if (!data) return res.status(404).json('User could not be created.');
+
+            return res.status(200).json(data);
+        } catch (error: any) {
+            console.log('API error: ', error);
+            res.status(500).json({ error });
+        }
+    }
+
+    static async updateUser(req, res) {
+        try {
+            const user = req.body
+            
+            const data = await UserDA.updateUser(user)
+            if (!data) return res.status(404).json('User record could not be updated.');
+
+            return res.status(200).json(data);
+        } catch (error: any) {
+            console.log('API error: ', error);
+            res.status(500).json({ error });
+        }
+    }
+    
     static async getUserById(req, res) {
         try {
             const id = req.params.id || '';
