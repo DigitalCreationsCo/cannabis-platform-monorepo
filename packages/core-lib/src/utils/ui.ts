@@ -19,11 +19,9 @@ export const renderAddress = ({
     );
 
 export const renderNestedDataObject = (data: any, Component: any, removeFields: any = []):any => {
-    console.log('data', data)
     const result = Object.keys({ ...data })
         .filter((field) => {
-            console.log('field', field);
-            return (removeFields && !removeFields.includes(field)) || true;
+            return (removeFields && !removeFields.includes(field))
         })
         .map((key, index) => {
             if (typeof data[key] === 'object') {
@@ -31,7 +29,6 @@ export const renderNestedDataObject = (data: any, Component: any, removeFields: 
             } else return Component({ key: key + index.toString(), children: [key] + ': ' + data[key] });
         })
         .flat();
-        console.log('result: ', result)
     return result;
 };
 

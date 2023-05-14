@@ -390,7 +390,7 @@ model Organization {
   address Address?
   dialCode String
   phone String
-  email String @unique
+  // email String @unique
   emailVerified Boolean @default(false)
   images ImageOrganization[]
   memberships Membership[]

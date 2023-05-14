@@ -1,16 +1,14 @@
 import { renderNestedDataObject } from '@cd/core-lib';
 import { FlexBox, H3, H5, Paragraph } from '@cd/ui-lib';
 import SignInButton from 'components/SignInButton';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { FormDataProps, useFormContext } from '../StepFormProvider';
 import DispensarySignUpComplete from './DispensarySignUpComplete';
 
 function DispensaryReview({ nextFormStep }: { nextFormStep: () => void }) {
 
-    const [loadingButton, setLoadingButton] = useState(false);
-    
     const { formData }: { formData: FormDataProps } = useFormContext();
-
+    console.log('formData: ', formData)
     // const handleFormSubmit = async () => {
     //     try {
     //         setLoadingButton(true);
@@ -81,7 +79,7 @@ function DispensaryReview({ nextFormStep }: { nextFormStep: () => void }) {
             <H3>Review Your Account Info</H3>
             <div className={styles.renderList}>
                 <H5>{formData?.organization?.name}</H5>
-                {renderNestedDataObject(formData?.organization, Paragraph, ['coordinateId', 'subdomainId'])}
+                {renderNestedDataObject(formData?.organization, Paragraph, ['vendor', 'id', 'createdAt', 'updatedAt', 'coordinateId', 'subdomainId'])}
             </div>
 
             <div className={styles.renderList}>

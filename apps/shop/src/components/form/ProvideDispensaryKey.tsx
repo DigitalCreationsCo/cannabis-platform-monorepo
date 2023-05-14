@@ -73,6 +73,7 @@ function ProvideDispensaryKey({ nextFormStep }: { nextFormStep: () => void }) {
                     <Paragraph>Please enter the 24-digit Dispensary Key provided by the Gras team.</Paragraph>
                 </FlexBox>
                 <TextField
+                    className='text-center'
                     name="dispensaryKey"
                     maxLength={24}
                     label="Dispensary Key"

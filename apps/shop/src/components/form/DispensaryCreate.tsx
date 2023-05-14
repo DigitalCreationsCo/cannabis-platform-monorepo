@@ -21,7 +21,7 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
     const initialValues = {
         id: formData.organization?.id || '',
         name: formData.organization?.name || '',
-        email: formData.organization?.email || '',
+        // email: formData.organization?.email || '',
         address: {
             id: formData.organization?.address?.id || '',
             street1: formData.organization?.address?.street1 || '',
@@ -107,7 +107,7 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
                     error={!!touched.name && !!errors.name}
                     helperText={touched.name && errors.name}
                 />
-                <TextField
+                {/* <TextField
                     name="email"
                     label="Email"
                     placeholder="you@yourdispensary.com"
@@ -116,7 +116,7 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
                     onChange={handleChange}
                     error={!!touched.email && !!errors.email}
                     helperText={touched.email && errors.email}
-                />
+                /> */}
                 <Paragraph>What is the phone number of your dispensary business?</Paragraph>
                 <FlexBox>
                     <TextField
@@ -235,7 +235,7 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
 
 const validationSchema = yup.object().shape({
     name: yup.string().required('Dispensary name is required'),
-    email: yup.string().email('invalid email').required('Email is required'),
+    // email: yup.string().email('invalid email').required('Email is required'),
     address: yup.object().shape({
         street1: yup.string().required('street line 1 is required'),
         street2: yup.string(),
