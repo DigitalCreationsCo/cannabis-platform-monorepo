@@ -30,6 +30,7 @@ handler.get(async (req: ExtendRequest, res: NextApiResponse) => {
     }
 });
 
+// create a user record
 handler.post(async (req: ExtendRequest, res: NextApiResponse) => {
     try {
         const {user, role}: {user: UserCreateType, role: "ADMIN" | "OWNER" | undefined} = req.body;
@@ -56,6 +57,7 @@ handler.post(async (req: ExtendRequest, res: NextApiResponse) => {
     }
 });
 
+// update a user record
 handler.put(async (req: ExtendRequest, res: NextApiResponse) => {
     try {
         const updateUser: UserCreateType = req.body;

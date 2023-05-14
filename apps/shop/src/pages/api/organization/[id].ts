@@ -4,6 +4,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
 
 const handler = nc();
+// get a single organization details
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');

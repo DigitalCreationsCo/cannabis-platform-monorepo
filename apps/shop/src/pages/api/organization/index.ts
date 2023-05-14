@@ -22,6 +22,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     }
 });
 
+// update organization details
 handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         const formData: OrganizationCreateType = req.body;
