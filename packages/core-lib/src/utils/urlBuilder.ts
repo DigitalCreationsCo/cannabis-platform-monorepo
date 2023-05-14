@@ -30,10 +30,11 @@ const urlBuilder = {
 
         categoryList: (id: any) => urlBuilder.main.baseUrl + `/organization/${id}/categories`,
 
-        signin: () => urlBuilder.main.baseUrl + `/auth/user/signin`,
-        signup: () => urlBuilder.main.baseUrl + `/auth/user/signup`,
-        signout: () => urlBuilder.main.baseUrl + `/auth/signout`,
-        userById: (id: any) => urlBuilder.main.baseUrl + `/auth/user/${id}`,
+        // signin: () => urlBuilder.main.baseUrl + `/auth/user/signin`,
+        // signup: () => urlBuilder.main.baseUrl + `/auth/user/signup`,
+        // signout: () => urlBuilder.main.baseUrl + `/auth/signout`,
+        user: () => urlBuilder.main.baseUrl + `/user`,
+        userById: (id: any) => urlBuilder.main.baseUrl + `/user/${id}`,
         usersByOrg: (id: any) => urlBuilder.main.baseUrl + `/organization/${id}/users`,
 
         address: () => urlBuilder.main.baseUrl + '/auth/address',

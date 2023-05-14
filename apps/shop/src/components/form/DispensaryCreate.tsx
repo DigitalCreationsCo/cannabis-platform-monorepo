@@ -49,8 +49,8 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
                 throw new Error('Error adding Dispensary record.')
             }
         } catch (error: any) {
-            console.log('Dispensary Create Error: ', error);
-            toast.error(error.response.data.message || error.response.data.errors);
+            console.log('Dispensary Account Error: ', error);
+            toast.error(error.message);
             setLoadingButton(false);
         }
     };

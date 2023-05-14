@@ -1,4 +1,4 @@
-import { createAddress, createUser, findAddressById, findUserWithDetailsByEmail, findUserWithDetailsById, removeAddressByIdAndUserId, updateUserPasswordToken, UserCreateType } from '@cd/data-access';
+import { createAddress, createOrUpdateUser, findAddressById, findUserWithDetailsByEmail, findUserWithDetailsById, removeAddressByIdAndUserId, updateUserPasswordToken, UserCreateType } from '@cd/data-access';
 import { createPasswordHash } from '../../util/utility';
 
 /* =================================
@@ -17,6 +17,7 @@ removeAddressFromUser
 
 updatePasswordToken
 createUser
+updateUser
 
 ================================= */
 
@@ -114,9 +115,21 @@ export default class UserDA {
     static async createUser(createUserData: UserCreateType) {
         try {
             createUserData = await createPasswordHash(createUserData)
-            const user = await createUser(createUserData)
+            const user = await createOrUpdateUser(createUserData)
 
             console.log(`created user ${user.id}`)
+            return user
+        } catch (error:any) {
+            console.error('UserDA error: ', error.message);
+            throw new Error(error.message);
+        }
+    }
+
+    static async updateUser(createUserData: UserCreateType) {
+        try {
+            const user = await createOrUpdateUser(createUserData)
+
+            console.log(`updated user ${user.id}`)
             return user
         } catch (error:any) {
             console.error('UserDA error: ', error.message);

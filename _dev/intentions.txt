@@ -109,10 +109,11 @@ add non-signed in bag state to user bag state
 handle new user checkout by prompt for sign in for signup
 5-10-2023
 [production/supertokens-passwordless e415d5501] passqwordless signon and signup mostly works, need to resolve some type erros, and handle the new user form flow, and write tests. And AUTH will be done!
-
-
+5-14-2023
+Dispensary signup forms 1/2 done
 
 To DO: 
+add unit tests for all dispensary api, server api, location api routes, and functions!
 
 add location provider
 add location middleware to dispatch for location and set location on signin

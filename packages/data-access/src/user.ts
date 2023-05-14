@@ -5,16 +5,19 @@ import { OrderWithDetails } from "./order";
 /*
 * User Data Access functions
 *
-* createUser
+* createOrUpdateUser
 * findUserWithDetailsByEmail
 * findUserWithDetailsById
 * updateUserPasswordToken
 */
 
-export async function createUser(userData: any) {
+export async function createOrUpdateUser(userData: any) {
     try {
-        const user = await prisma.user.create({
-            data: {
+        const user = await prisma.user.upsert({
+            where: {
+                id: userData.id
+            },
+            create: {
                 email: userData.email,
                 emailVerified: false,
                 username: userData.username,
@@ -38,7 +41,30 @@ export async function createUser(userData: any) {
                     create: userData.memberships
                 } : undefined,
             },
-            include: {address: true, imageUser: true, memberships: true}
+            update: {
+                email: userData.email,
+                emailVerified: false,
+                username: userData.username,
+                firstName: userData.firstName,
+                lastName: userData.lastName,
+                passwordHash: userData.passwordHash,
+                termsAccepted: true,
+                dialCode: userData.dialCode,
+                phone: userData.phone,
+                address: userData.address ? {
+                    create: { 
+                        ...userData.address
+                    }
+                } : undefined,
+                imageUser: userData.imageUser ? {
+                    create: {
+                        ...userData.imageUser
+                    }
+                } : undefined,
+                memberships: userData.memberships ? {
+                    create: userData.memberships
+                } : undefined,
+            }
         })
         return user;
     } catch (error: any) {
@@ -161,8 +187,8 @@ export type UserCreateType = {
     username: string;
     email: string;
     emailVerified: boolean;
-    password: string;
-    re_password: string;
+    // password: string;
+    // re_password: string;
     phone: string;
     dialCode: string;
     termsAccepted: boolean;
