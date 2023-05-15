@@ -1,0 +1,41 @@
+Http transmission is handled like this:
+
+GET, POST, PUT, DELETE requests
+
+1. Client Side:
+
+requests from client side next app will send to next backend.
+client side response will always be data object or null. NO EXCEPTIONS
+handle with:
+
+CLIENT SIDE CODE:
+-----------------
+const { data } = axios...
+if (!data) {
+    ...handle error
+}
+
+...success
+-----------------
+
+2. Server Side:
+
+Server side code will always handle the full response object.
+Handle errors by checking response status, and pass the status to downstream
+transmission.
+
+BACKEND CODE: 
+----------------
+try {
+    let response = await axios...
+
+    if (response.status === 404) throw new Error('Not found')   // 404 not found
+
+    return res.status(response.status).json(response.data);     // success
+
+} catch (error: any) {
+    return res.status(response.status).json(error); // return status and error
+}
+----------------
+
+To Do: Apply a global axios config to next app, to handle 300, 400, 500 code explicitly

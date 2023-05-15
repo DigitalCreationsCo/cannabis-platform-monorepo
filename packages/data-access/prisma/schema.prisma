@@ -391,7 +391,7 @@ model Organization {
   dialCode String
   phone String
   // email String @unique
-  emailVerified Boolean @default(false)
+  // emailVerified Boolean @default(false)
   images ImageOrganization[]
   memberships Membership[]
   products Product[]
