@@ -1,4 +1,4 @@
-import { Button, Center, H1, H5, LayoutContextProps, Page, Paragraph } from '@cd/ui-lib';
+import { Button, Center, FlexBox, H1, H5, LayoutContextProps, Page, Paragraph } from '@cd/ui-lib';
 import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import { PropsWithChildren } from 'react';
@@ -8,21 +8,20 @@ function WelcomePage() {
     return (
         <Page className="p-0 lg:p-0 border-b">
             <ImageBackDrop src={backdrop}>
-                <Center>
-                    <H1 color="light">Welcome to Gras</H1>
-                    <H5 color="light">Sign in to use this app</H5>
-                    <Button
-                        size="lg"
-                        bg="primary"
-                        transparent
-                        // FIX THIS
-                        disabled={false}
-                        className="hover:bg-[#0b7529]"
-                    >
-                        Sign In
-                    </Button>
-
-                    <H5 color="light">
+                <Center className='space-y-2'>
+                    <FlexBox className='items-center'>
+                        <H1 color="light">Welcome to Gras</H1>
+                        <H5 color="light">Sign in to use this app</H5>
+                        <Button
+                            size="lg"
+                            bg="primary"
+                            transparent
+                        >
+                            Sign In
+                        </Button>
+                        {/* <SignInButton /> */}
+                    </FlexBox>
+                    {/* <H5 color="light">
                         {`If you are a new dispensary, 
                         create a Dispensary Account here`}
                     </H5>
@@ -31,7 +30,21 @@ function WelcomePage() {
                             <Paragraph color="light">{`Create a
                              Dispensary Account`}</Paragraph>
                         </Button>
-                    </Link>
+                    </Link> */}
+                    <FlexBox className='items-center'>
+                        <H5 color="light">
+                        {`Are you a dispensary? Get started here.`}</H5>
+                        <Link href="/signup/create-dispensary-account">
+                            <Button size="lg" 
+                            bg="primary" 
+                            transparent
+                            className="p-4 hover:bg-primary-light"
+                            >
+                            <Paragraph color="light">
+                                {`Create a dispensary account`}</Paragraph>
+                            </Button>
+                        </Link>
+                    </FlexBox>
                 </Center>
             </ImageBackDrop>
         </Page>
