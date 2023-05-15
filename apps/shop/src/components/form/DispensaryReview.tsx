@@ -1,6 +1,5 @@
 import { renderNestedDataObject } from '@cd/core-lib';
-import { FlexBox, H3, H5, Paragraph } from '@cd/ui-lib';
-import SignInButton from 'components/SignInButton';
+import { FlexBox, H3, H5, Paragraph, SignInButton } from '@cd/ui-lib';
 import { useEffect } from 'react';
 import { FormDataProps, useFormContext } from '../StepFormProvider';
 import DispensarySignUpComplete from './DispensarySignUpComplete';
