@@ -1,5 +1,6 @@
 import { Modal } from '@cd/ui-lib';
-import CheckAge from 'components/CheckAge';
+import CheckAge from '../CheckAge';
+
 import { twMerge } from 'tailwind-merge';
 
 interface CheckAgeModalProps {

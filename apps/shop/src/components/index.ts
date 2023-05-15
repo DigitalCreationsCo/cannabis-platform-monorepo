@@ -1,7 +1,6 @@
 export * from './cart';
 export { default as CategoriesNavigation } from './CategoriesNavigation';
 export { default as CategoriesSelector } from './CategoriesSelector';
-export { default as CheckAge } from "./CheckAge";
 export { default as ConfirmOrder } from "./ConfirmOrder";
 export { default as DispensaryCard } from './DispensaryCard';
 export { default as DispensaryList } from './DispensaryList';
