@@ -2,6 +2,7 @@ export { default as Button } from './Button';
 export { default as Card } from './Card';
 export * from './cart';
 export { default as Center } from './Center';
+export { default as CheckAge } from './CheckAge';
 export * from './CheckBox';
 export { default as CheckBox } from './CheckBox';
 export { default as ClickableTags } from './ClickableTags';
