@@ -1,7 +1,6 @@
 Http transmission is handled like this:
 
 GET, POST, PUT, DELETE requests
-
 1. Client Side:
 
 requests from client side next app will send to next backend.
@@ -9,7 +8,6 @@ client side response will always be data object or null. NO EXCEPTIONS
 handle with:
 
 CLIENT SIDE CODE:
------------------
 const { data } = axios...
 if (!data) {
     ...handle error
@@ -25,7 +23,6 @@ Handle errors by checking response status, and pass the status to downstream
 transmission.
 
 BACKEND CODE: 
-----------------
 try {
     let response = await axios...
 
@@ -36,6 +33,37 @@ try {
 } catch (error: any) {
     return res.status(response.status).json(error); // return status and error
 }
-----------------
 
-To Do: Apply a global axios config to next app, to handle 300, 400, 500 code explicitly
+
+----------------
+Configuring Axios for better status handling:
+Try applying a global axios config to next app, to handle 300, 400, 500 code explicitly. 
+I like to allow valid responses for all http code, and handle the results explictly. Codes can be handled in ranges, such as 
+
+if (400 <= response.statusCode < 500) 
+    return res.status(response.statusCode).json('something happened')
+if (response.statusCode <= 500) throw new Error('oops')
+
+
+---------------
+thoughts on error handling:
+There are two ways of handling errors, and displaying to the client, any error messages. I will take notes on them here.
+
+1. chaining error messages.
+This is the first approach, one that I have used frequently, which is
+originating the error message at the source of the error, and returning the error message to the client through one or more reuqest transmission.
+
+Pros: the benefit is concise and effective messaging and informative errors, especially when using a rest api server, that is consumed by multiple products or teams. Having a single source of error messages is less confusing, and will follow an established api pattern.
+
+Cons: The cons are having the handle the message chain from request, to request, often having to pass error objects through multiple try catch blocks and functions. 
+This negative is mitigated by having an established pattern for handling request code.
+
+2. discrete success markers, and custom client side messages.
+This is an extensible pattern, that allows for more freedom with client side message, so long as the request consumers have a clear understanding of the api.
+The idea is you don't send any error messages, (you can if you want to).
+Instead, what you send is a clear representation of successful or failed request. for example, an object, such as:
+{ success: true, result: { ...data }, status: 200 }
+
+Pros: the benefit is the consumer knows exactly what happened with the request, they have the data result, and can use their own error messages, (or any supplied one) on their client side.
+
+Cons: the cons is, I can't think of any right now. ;p
