@@ -10,7 +10,7 @@ type DispensaryCardProps = {
     dispensary: {
         id?: string;
         name?: string;
-        address: Address & {
+        address?: Address & {
             coordinates: Coordinates;
         };
         dialCode?: string;
@@ -45,7 +45,15 @@ function DispensaryCard({ dispensary, className }: DispensaryCardProps) {
                     )}
                     <Paragraph>
                         {renderAddress({
-                            address: dispensary.address
+                            address: {
+                            street1: '1239 2nd st',
+                            street2: '',
+                            city: 'Baltimore',
+                            state: 'Maryland',
+                            zipcode: '23456',
+                            country: 'United States',
+                            countryCode: 'US',
+                            }
                         })}
                     </Paragraph>
                 </FlexBox>

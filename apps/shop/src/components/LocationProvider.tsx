@@ -1,25 +1,11 @@
 import { locationActions, selectSelectedLocationState, selectShopState, shopActions } from '@cd/core-lib';
 import { getGeoAddressByCoordinates } from '@cd/core-lib/src/utils/geo';
 import { AnyAction } from '@reduxjs/toolkit';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import { useCookies } from 'react-cookie';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 
 const LocationProvider = () => {
-    const router = useRouter()
-    const [enteredSite, setEnteredSite] = useState(false);
-    const [cookies, setCookie, removeCookie] = useCookies(['yesOver21']);
-
-    useEffect(() => {
-        function checkCheckAgeCookie(): boolean {
-            return cookies.yesOver21 || false
-        }
-        console.log('checkCheckAgeCookie: ', checkCheckAgeCookie());
-        checkCheckAgeCookie() ? setEnteredSite(true) : setEnteredSite(false);
-    }, [router])
-
     const dispatch = useAppDispatch();
 
     const getDispensaries = async () => {
@@ -33,8 +19,7 @@ const LocationProvider = () => {
     };
 
     useEffect(() => {
-        console.log('enteredSite: ', enteredSite)
-        if (typeof window !== 'undefined' && enteredSite) {
+        if (typeof window !== 'undefined') {
             if (navigator?.geolocation !== undefined) {
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
@@ -56,7 +41,7 @@ const LocationProvider = () => {
                 );
             }
         }
-    }, [enteredSite]);
+    }, []);
 
     const selectedLocation = useSelector(selectSelectedLocationState);
     const shopState = useAppSelector(selectShopState);
@@ -64,7 +49,7 @@ const LocationProvider = () => {
     const coordinates = selectedLocation?.address?.coordinates;
 
     useEffect(() => {
-        if (coordinates.latitude && coordinates.longitude && enteredSite) {
+        if (coordinates.latitude && coordinates.longitude) {
             if (!shopState.isLoading) {
                 getDispensaries();
             }
@@ -72,7 +57,7 @@ const LocationProvider = () => {
     }, [coordinates]);
 
     useEffect(() => {
-        if (!shopState.isLoading && shopState?.dispensaries?.length >= 1 && enteredSite) {
+        if (!shopState.isLoading && shopState?.dispensaries?.length >= 1) {
             getProducts();
         }
     }, [shopState]);

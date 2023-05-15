@@ -1,4 +1,4 @@
-import { createAddress, createDispensaryAdmin, createUser, findAddressById, findUserWithDetailsByEmail, findUserWithDetailsById, removeAddressByIdAndUserId, updateDispensaryAdmin, updateUser, updateUserPasswordToken, UserCreateType } from '@cd/data-access';
+import { createAddress, createUser, findAddressById, findUserWithDetailsByEmail, findUserWithDetailsById, removeAddressByIdAndUserId, updateUserPasswordToken, UserCreateType } from '@cd/data-access';
 import { createPasswordHash } from '../../util/utility';
 
 /* =================================
@@ -17,7 +17,6 @@ removeAddressFromUser
 
 updatePasswordToken
 createUser
-updateUser
 
 ================================= */
 
@@ -115,54 +114,9 @@ export default class UserDA {
     static async createUser(createUserData: UserCreateType) {
         try {
             createUserData = await createPasswordHash(createUserData)
-            
             const user = await createUser(createUserData)
 
-            return user
-        } catch (error:any) {
-            console.error('UserDA error: ', error.message);
-            throw new Error(error.message);
-        }
-    }
-
-    static async createDispensaryAdmin(createUserData: UserCreateType, role: string, dispensaryId: string) {
-        try {
-            createUserData = await createPasswordHash(createUserData)
-            
-            const user = await createDispensaryAdmin(createUserData, {
-                role, 
-                dispensaryId
-            })
-
-            return user
-        } catch (error:any) {
-            console.error('UserDA error: ', error.message);
-            throw new Error(error.message);
-        }
-    }
-
-    static async updateDispensaryAdmin(createUserData: UserCreateType, role: string, dispensaryId: string) {
-        try {
-            createUserData = await createPasswordHash(createUserData)
-            
-            const user = await updateDispensaryAdmin(createUserData, {
-                role, 
-                dispensaryId
-            })
-
-            return user
-        } catch (error:any) {
-            console.error('UserDA error: ', error.message);
-            throw new Error(error.message);
-        }
-    }
-
-    static async updateUser(createUserData: UserCreateType) {
-        try {
-            const user = await updateUser(createUserData)
-
-            console.log(`updated user ${user.id}`)
-            
+            console.log(`created user ${user.id}`)
             return user
         } catch (error:any) {
             console.error('UserDA error: ', error.message);

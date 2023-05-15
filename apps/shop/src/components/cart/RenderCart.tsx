@@ -18,7 +18,7 @@ function RenderCart() {
                     <div className='text-center col-span-2'>
                     <H5>
                         Your bag is empty</H5>
-                    <a href="/browse">
+                    <a href="/">
                         <H6 className={'cursor-pointer border-b-2 inline-block'}>Cure what ails you</H6>
                     </a>
                     </div>}

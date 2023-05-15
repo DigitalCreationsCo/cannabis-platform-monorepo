@@ -31,30 +31,12 @@ export default class OrganizationController {
             res.status(500).json({ error: error.message });
         }
     }
-    static async updateOrganization(req, res) {
-        try {
-            const organization = req.body;
-
-            const coordinates = await getGeoCoordinatesByAddress(organization.address);
-            if (coordinates) organization.address.coordinates = coordinates;
-            
-            const data = await OrganizationDA.updateOrganization(organization);
-            if (!data) return res.status(404).json('Organization could not be created.');
-
-            return res.status(201).json(data);
-        } catch (error:any) {
-            console.log('API error: ', error.message);
-            res.status(500).json({ error: error.message });
-        }
-    }
 
     static async getOrganizationById(req, res) {
         try {
             const organizationId = req.params.id || '';
-            
-            const data = await OrganizationDA.getOrganizationById(organizationId)
-            if (!data) return res.status(404).json(data);
-            
+            const data = await OrganizationDA.getOrganizationById(organizationId);
+            if (!data) return res.status(404).json('Organization not found');
             return res.status(200).json(data);
         } catch (error:any) {
             console.log('API error: ', error);

@@ -1,13 +1,14 @@
 datasource db {
-  provider          = "mysql"
-  url               = env("DATABASE_URL")
+  provider = "mysql"
+  url      = env("DATABASE_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
-  relationMode      = "prisma"
+  referentialIntegrity = "prisma"
 }
 
 generator client {
   provider          = "prisma-client-js"
-  binaryTargets     = ["native", "linux-musl"]
+  previewFeatures = ["referentialIntegrity"]
+  binaryTargets = ["native", "linux-musl"]
 }
 
 model Account {
@@ -389,8 +390,8 @@ model Organization {
   address Address?
   dialCode String
   phone String
-  // email String @unique
-  // emailVerified Boolean @default(false)
+  email String @unique
+  emailVerified Boolean @default(false)
   images ImageOrganization[]
   memberships Membership[]
   products Product[]

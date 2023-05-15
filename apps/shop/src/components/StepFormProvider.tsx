@@ -19,7 +19,7 @@ const FormContext = createContext<FormContextProps>({} as FormContextProps);
 const StepFormValuesProvider = ({ children }: PropsWithChildren) => {
     const [formData, setFormData] = useState<FormDataProps>({} as FormDataProps);
 
-    const setFormValues = (values: Record<string, any>) => {
+    const setFormValues = (values: FormDataProps) => {
         setFormData((previousValues: any) => {
             let mergedValues = previousValues;
             for (const [key, value] of Object.entries(values)) {

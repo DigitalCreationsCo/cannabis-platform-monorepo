@@ -1,16 +1,14 @@
 /// @ts-nocheck
-import { LayoutContextProps, LoadingPage } from "@cd/ui-lib";
+import { Center, FlexBox, LayoutContextProps, LoadingDots, ModalProvider, ToastProvider } from "@cd/ui-lib";
+import withRedux from 'next-redux-wrapper';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { Provider as ReduxProvider, useStore } from 'react-redux';
-// import { Persistor } from 'redux-persist';
-import withRedux from 'next-redux-wrapper';
-import { useRouter } from "next/router";
 import { PersistGate } from 'redux-persist/integration/react';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session, { SessionContextType } from 'supertokens-auth-react/recipe/session';
-import { LayoutContainer, LocationProvider, ModalProvider, StepFormValuesProvider, ToastProvider } from '../components';
+import { LayoutContainer, LocationProvider, StepFormValuesProvider } from '../components';
 import { frontendConfig } from '../config/frontendConfig';
 import reduxStore from '../redux/store';
 import '../styles/globals.css';
@@ -24,12 +22,6 @@ type CustomAppProps = AppProps & {
 };
 
 function App({ Component, pageProps }: CustomAppProps) {
-
-    const [routerLoading, setRouterLoading] = useState(true)
-    const router = useRouter()
-    useEffect(() => {
-        router.isReady && setRouterLoading(false)
-    }, [router]);
 
     useEffect(() => {
         async function doRefresh() {
@@ -45,33 +37,33 @@ function App({ Component, pageProps }: CustomAppProps) {
         }
         doRefresh();
     }, [pageProps.fromSupertokens]);
-
     if (pageProps.fromSupertokens === 'needs-refresh') {
         return null;
     }
-
-    const store = useStore()
-
+    
     const getLayoutContext = Component.getLayoutContext || (() => ({}));
+    
+    const store = useStore()
 
     return (
         <>
             <Head>
-                <title>Gras Cannabis Marketplace</title>
-                <meta name="Marketplace App" content="Property of Gras Cannabis Co." />
+                <title>Gras App</title>
+                <meta name="Marketplace App" content="Built by Gras Cannabis Co." />
             </Head>
             <SuperTokensWrapper>
                 <ReduxProvider store={store}>
                     <PersistGate
                         persistor={store._persistor}
-                        loading={<LoadingPage />}
-                        >
+                        loading={<FlexBox className="grow items-center min-h-screen"><Center>
+                            <LoadingDots /></Center></FlexBox>}
+                            >
                         <LocationProvider />
                         <ModalProvider />
                         <ToastProvider />
                         <LayoutContainer {...getLayoutContext()}>
                             <StepFormValuesProvider>
-                                { routerLoading ? <LoadingPage /> : <Component {...pageProps} />} 
+                                <Component {...pageProps} />
                             </StepFormValuesProvider>
                         </LayoutContainer>
                     </PersistGate>
