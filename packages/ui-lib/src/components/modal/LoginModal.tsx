@@ -96,7 +96,7 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
                     <Paragraph>Sign in with your email</Paragraph>
                     <TextField
                         containerClassName='w-2/3 m-auto lg:flex-col lg:items-start'
-                        className="my-2 shadow"
+                        className="my-2 shadow text-md"
                         autoComplete='off'
                         type='text'
                         name="emailOrPhone"
