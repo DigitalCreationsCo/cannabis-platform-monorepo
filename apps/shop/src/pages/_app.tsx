@@ -1,11 +1,10 @@
 /// @ts-nocheck
 import { Center, FlexBox, LayoutContextProps, LoadingDots, ToastProvider } from "@cd/ui-lib";
+import withRedux from 'next-redux-wrapper';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { Provider as ReduxProvider, useStore } from 'react-redux';
-// import { Persistor } from 'redux-persist';
-import withRedux from 'next-redux-wrapper';
 import { PersistGate } from 'redux-persist/integration/react';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session, { SessionContextType } from 'supertokens-auth-react/recipe/session';
@@ -41,10 +40,10 @@ function App({ Component, pageProps }: CustomAppProps) {
     if (pageProps.fromSupertokens === 'needs-refresh') {
         return null;
     }
-
-    const store = useStore()
-
+    
     const getLayoutContext = Component.getLayoutContext || (() => ({}));
+    
+    const store = useStore()
 
     return (
         <>

@@ -1,4 +1,4 @@
-import { selectModalState, userActions } from '@cd/core-lib/reduxDir';
+import { selectModalState, userActions } from '@cd/core-lib/src/reduxDir';
 import { Layout, LayoutContextProps } from '@cd/ui-lib';
 import { PropsWithChildren } from 'react';
 import { useSelector } from 'react-redux';

@@ -1,12 +1,11 @@
-import { selectModalState, userActions } from '@cd/core-lib/reduxDir';
+import { selectModalState, userActions } from '@cd/core-lib/src/reduxDir';
 import { Layout, LayoutContextProps } from '@cd/ui-lib';
 import { PropsWithChildren } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from 'redux/hooks';
 import Session from "supertokens-auth-react/recipe/session";
 import { RootState } from '../redux/store';
-import CategoriesNavigation from './CategoriesNavigation';
-import TopBar from './TopBar';
+import AdminTopBar from './AdminTopBar';
 
 const AdminLayoutContainer = (props: LayoutContextProps & PropsWithChildren) => {
     const user = useSelector((state: RootState) => state.user);
@@ -17,7 +16,7 @@ const AdminLayoutContainer = (props: LayoutContextProps & PropsWithChildren) => 
     const signOut = async () => {
         await Session.signOut(); 
         dispatch(userActions.signOutUserAsync())
-        // window.location.href = "/"
+        window.location.href = "/"
     };
 
     return (
@@ -25,7 +24,7 @@ const AdminLayoutContainer = (props: LayoutContextProps & PropsWithChildren) => 
             isModalVisible={modalVisible}
             showSideNavOnDesktop={false}
             SideNavComponent={CategoriesNavigation}
-            TopBarComponent={TopBar}
+            TopBarComponent={AdminTopBar}
             signOut={signOut}
             isSession={user.isSignedIn}
             {...props}

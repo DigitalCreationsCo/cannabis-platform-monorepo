@@ -1,13 +1,17 @@
+/// @ts-nocheck
 import { LayoutContextProps, ToastProvider } from "@cd/ui-lib";
+import withRedux from 'next-redux-wrapper';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { Dispatch, SetStateAction, useEffect } from 'react';
+import { Provider as ReduxProvider, useStore } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session, { SessionContextType } from 'supertokens-auth-react/recipe/session';
 import { frontendConfig } from '../../config/frontendConfig';
 import { LayoutContainer, ModalProvider, StepFormValuesProvider } from '../components';
+import reduxStore from '../redux/store';
 import '../styles/globals.css';
-
 
 if (typeof window !== 'undefined') {
     SuperTokensReact.init(frontendConfig());
@@ -38,6 +42,8 @@ function App({ Component, pageProps }: CustomAppProps) {
 
     const getLayoutContext = Component.getLayoutContext || (() => ({}));
 
+    const store = useStore()
+
     return (
         <>
             <Head>
@@ -45,18 +51,27 @@ function App({ Component, pageProps }: CustomAppProps) {
                 <meta name="Dispensary Experience App" content="Built by Gras Cannabis Co." />
             </Head>
             <SuperTokensWrapper>
-                <ModalProvider />
-                <ToastProvider />
-                <LayoutContainer {...getLayoutContext()}>
-                    <StepFormValuesProvider>
-                        <Component {...pageProps} />
-                    </StepFormValuesProvider>
-                </LayoutContainer>
+                <ReduxProvider store={store}>
+                    <PersistGate
+                    persistor={store._persistor}
+                    loading={<FlexBox className="grow items-center min-h-screen"><Center>
+                    <LoadingDots /></Center></FlexBox>}
+                    >
+                        <ModalProvider />
+                        <ToastProvider />
+                        <LayoutContainer {...getLayoutContext()}>
+                            <StepFormValuesProvider>
+                                <Component {...pageProps} />
+                            </StepFormValuesProvider>
+                        </LayoutContainer>
+                    </PersistGate>
+                </ReduxProvider>
             </SuperTokensWrapper>
         </>
     );
 }
 
+export default withRedux(reduxStore)(App)
 
 export type ExtendedPageComponent = {
     signIn: (input: {
@@ -116,5 +131,3 @@ export type ExtendedPageComponent = {
     doesSessionExist: boolean;
     fromSupertokens: string;
 };
-
-export default App;
