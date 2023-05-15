@@ -15,6 +15,7 @@ import IconWrapper from '../IconWrapper';
 import TextField from '../TextField';
 import { H1, H3, H5, Paragraph } from '../Typography';
 import Modal from './Modal';
+import logo from '/assets/images/logo.png';
 
 interface LoginModalProps {
     dispatchCloseModal: () => void;
@@ -273,7 +274,7 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
             <Modal className={twMerge(styles.responsive, styles.padd)} modalVisible={modalVisible} onClose={closeModalAndReset} {...props}>
                 <div className='m-auto'>
                 <FlexBox>
-                    <Image src={'/logo.png'} alt="Gras Cannabis logo" width={63} height={63} priority />
+                    <Image src={logo} alt="Gras Cannabis logo" width={63} height={63} priority />
                     <H3> Welcome to</H3>
                     <H1>Gras</H1>
                 </FlexBox>
