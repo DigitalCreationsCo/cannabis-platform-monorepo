@@ -1,15 +1,11 @@
 /// @ts-nocheck
 
 import {
-  cartReducer,
-  locationReducer,
   modalReducer,
-  shopReducer,
   userReducer
 } from '@cd/core-lib';
 import {
   crashMiddleware,
-  locationMiddleware,
   loggerMiddleware
 } from '@cd/core-lib/src/reduxDir/middleware';
 import { combineReducers, configureStore, Store } from '@reduxjs/toolkit';
@@ -25,9 +21,6 @@ import storage from 'redux-persist/lib/storage';
 const rootReducer = combineReducers({
     modal: modalReducer,
     user: userReducer,
-    location: locationReducer,
-    shop: shopReducer,
-    cart: cartReducer
 });
 
 const hydratableReducer = (state, action) => {
@@ -60,7 +53,7 @@ export default (initialState) => {
   if (isClient) {
     const persistConfig = {
       key: 'root',
-      blacklist: ['modal', ],
+      blacklist: ['modal'],
       storage
     };
 
@@ -103,80 +96,6 @@ export default (initialState) => {
 
   return store;
 };
-
-// const supertokens = () => {
-//     return { signIn, signUp, signOut };
-// };
-
-// export type PersistedStore = Store & { _persistor: Persistor };
-
-// // const bindMiddleware = (middleware) => {
-// //     if (process.env.NODE_ENV !== 'production') {
-// //         return composeWithDevTools(applyMiddleware(...middleware));
-// //     }
-// //     return applyMiddleware(...middleware);
-// // };
-
-// // const hydratableReducer = (state: ReturnType<typeof rootReducer>, action: AnyAction) => {
-// //     if (action.type === HYDRATE) {
-// //         const nextState = {
-// //             ...state, // use previous state
-// //             ...action.payload // apply delta from hydration
-// //         };
-// //         return nextState;
-// //     } else {
-// //         return rootReducer(state, action);
-// //     }
-// // };
-
-// const thunkArguments: {store: Store | null, supertokens: any } = { store: null, supertokens: supertokens() };
-
-// function makeStore() {
-//     function createConfiguredStore<T>(reducer:Reducer) {
-//         return configureStore({
-//             reducer,
-//             devTools: process.env.NODE_ENV !== 'production',
-//             // preloadedState:
-//             middleware: (getDefaultMiddleware) =>
-//                 getDefaultMiddleware({
-//                     thunk: {
-//                         extraArgument: thunkArguments
-//                     }
-//                 }).concat([crashMiddleware, loggerMiddleware])
-//         });
-//     }
-
-//     let store
-
-//     const isServer = typeof window === 'undefined';
-//     if (isServer) {
-//         // store = createConfiguredStore(hydratableReducer);
-//         store = createConfiguredStore<Store>(rootReducer);
-//     } else {
-//         const persistConfig = {
-//             key: 'nextjs',
-//             whitelist: ['user', 'modal', 'location'],
-//             storage
-//         };
-
-//         const persistedReducer = persistReducer(persistConfig, rootReducer);
-//         store = createConfiguredStore<PersistedStore>(persistedReducer) as PersistedStore;
-//         store._persistor = persistStore(store);
-//     }
-
-//     thunkArguments.store = store;
-
-//     return store;
-// }
-// const store = makeStore();
-
-// export const wrapper = createWrapper<AppStore>(makeStore, {
-//     debug: true,
-//     serializeState: (state) => serialize(state),
-//     deserializeState: (state) => deserialize(state)
-// });
-
-// export type AppStore = ReturnType<typeof makeStore>;
 
 export type RootState = ReturnType<typeof store.getState>;
 
