@@ -2861,10 +2861,7 @@ __metadata:
     autoprefixer: 10.4.13
     axios: 1.2.1
     busboy: 1.6.0
-    clsx: 1.2.1
     cors: 2.8.5
-    cross-env: 7.0.3
-    daisyui: 2.46.0
     date-fns: 2.29.3
     dotenv: 16.0.3
     dotenv-cli: 7.0.0
@@ -2890,6 +2887,7 @@ __metadata:
     node-mocks-http: 1.12.1
     npm-run-all: 4.1.5
     postcss: 8.4.21
+    postcss-cli: 10.1.0
     prettier: 2.8.0
     react: 18.2.0
     react-dom: 18.2.0
@@ -3308,7 +3306,8 @@ __metadata:
     eslint-plugin-react: 7.31.11
     eslint-plugin-react-hooks: 4.6.0
     eslint-plugin-simple-import-sort: 8.0.0
-    form-data: ^4.0.0
+    find-up: 5.0.0
+    form-data: 4.0.0
     formidable: 2.1.1
     formik: 2.2.9
     jest: 29.3.1
@@ -8510,13 +8509,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"clsx@npm:1.2.1":
-  version: 1.2.1
-  resolution: "clsx@npm:1.2.1"
-  checksum: 30befca8019b2eb7dbad38cff6266cf543091dae2825c856a62a8ccf2c3ab9c2907c4d12b288b73101196767f66812365400a227581484a05f968b0307cfaf12
-  languageName: node
-  linkType: hard
-
 "co-body@npm:6.1.0":
   version: 6.1.0
   resolution: "co-body@npm:6.1.0"
@@ -9427,21 +9419,6 @@ __metadata:
   version: 0.1.2
   resolution: "culvert@npm:0.1.2"
   checksum: 86446c95b86bb3dec71503755b578db370a00397a332f9fd507b3cbbf514146535b840d5abf52611dcc84318004cfff3f00ef30549a3624c489d03fe2c1b1ef1
-  languageName: node
-  linkType: hard
-
-"daisyui@npm:2.46.0":
-  version: 2.46.0
-  resolution: "daisyui@npm:2.46.0"
-  dependencies:
-    color: ^4.2
-    css-selector-tokenizer: ^0.8.0
-    postcss-js: ^4.0.0
-    tailwindcss: ^3
-  peerDependencies:
-    autoprefixer: ^10.0.2
-    postcss: ^8.1.6
-  checksum: 9fedcec550fd4aa33dfd424ba8e772f318f6367486cd2aaebc2eff83541c4b82d7f514ab123880b2b1b0b3f4b8ced2aab4bbd43dd1cd951c67253931411f2450
   languageName: node
   linkType: hard
 
@@ -11646,7 +11623,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"form-data@npm:^4.0.0":
+"form-data@npm:4.0.0, form-data@npm:^4.0.0":
   version: 4.0.0
   resolution: "form-data@npm:4.0.0"
   dependencies:

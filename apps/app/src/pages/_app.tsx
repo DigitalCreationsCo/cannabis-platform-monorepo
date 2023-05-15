@@ -1,18 +1,13 @@
-/// @ts-nocheck
-import { Center, FlexBox, LayoutContextProps, LoadingDots, ToastProvider } from "@cd/ui-lib";
-import type { AppProps } from 'next/app';
+import { LayoutContextProps, ToastProvider } from "@cd/ui-lib";
+import { AppProps } from 'next/app';
 import Head from 'next/head';
-import { Dispatch, SetStateAction, useEffect } from "react";
-import { Provider as ReduxProvider, useStore } from 'react-redux';
-// import { Persistor } from 'redux-persist';
-import withRedux from 'next-redux-wrapper';
-import { PersistGate } from 'redux-persist/integration/react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session, { SessionContextType } from 'supertokens-auth-react/recipe/session';
-import { LayoutContainer, LocationProvider, ModalProvider, StepFormValuesProvider } from '../components';
-import { frontendConfig } from '../config/frontendConfig';
-import reduxStore from '../redux/store';
+import { frontendConfig } from '../../config/frontendConfig';
+import { LayoutContainer, ModalProvider, StepFormValuesProvider } from '../components';
 import '../styles/globals.css';
+
 
 if (typeof window !== 'undefined') {
     SuperTokensReact.init(frontendConfig());
@@ -27,7 +22,6 @@ function App({ Component, pageProps }: CustomAppProps) {
     useEffect(() => {
         async function doRefresh() {
             if (pageProps.fromSupertokens === 'needs-refresh') {
-                console.log('needs refresh');
                 if (await Session.attemptRefreshingSession()) {
                     location.reload();
                 } else {
@@ -42,39 +36,27 @@ function App({ Component, pageProps }: CustomAppProps) {
         return null;
     }
 
-    const store = useStore()
-
     const getLayoutContext = Component.getLayoutContext || (() => ({}));
 
     return (
         <>
             <Head>
-                <title>Gras App</title>
-                <meta name="Marketplace App" content="Built by Gras Cannabis Co." />
+                <title>Delivery by Gras · Dashboard</title>
+                <meta name="Dispensary Experience App" content="Built by Gras Cannabis Co." />
             </Head>
             <SuperTokensWrapper>
-                <ReduxProvider store={store}>
-                    <PersistGate
-                        persistor={store._persistor}
-                        loading={<FlexBox className="grow items-center min-h-screen"><Center>
-                            <LoadingDots /></Center></FlexBox>}
-                            >
-                        <LocationProvider />
-                        <ModalProvider />
-                        <ToastProvider />
-                        <LayoutContainer {...getLayoutContext()}>
-                            <StepFormValuesProvider>
-                                <Component {...pageProps} />
-                            </StepFormValuesProvider>
-                        </LayoutContainer>
-                    </PersistGate>
-                </ReduxProvider>
+                <ModalProvider />
+                <ToastProvider />
+                <LayoutContainer {...getLayoutContext()}>
+                    <StepFormValuesProvider>
+                        <Component {...pageProps} />
+                    </StepFormValuesProvider>
+                </LayoutContainer>
             </SuperTokensWrapper>
         </>
-    )
+    );
 }
 
-export default withRedux(reduxStore)(App);
 
 export type ExtendedPageComponent = {
     signIn: (input: {
@@ -134,3 +116,5 @@ export type ExtendedPageComponent = {
     doesSessionExist: boolean;
     fromSupertokens: string;
 };
+
+export default App;
