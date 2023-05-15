@@ -1,151 +1,72 @@
-import { Order, Organization, ProductWithDetails, UserWithDetails } from '@cd/data-access';
-import { Card, Grid, Icons, OrderRow, Page, PageHeader } from '@cd/ui-lib';
-import axios from 'axios';
-import { ProductRow, ProtectedPage } from 'components';
-import { useMemo } from 'react';
-import Session from 'supertokens-node/recipe/session';
-import { getSession } from '../session';
-import { urlBuilder } from '../utils';
+import { Button, Center, H1, H5, LayoutContextProps, Page, Paragraph } from '@cd/ui-lib';
+import Image, { StaticImageData } from 'next/image';
+import Link from 'next/link';
+import { PropsWithChildren } from 'react';
+import backdrop from '/public/marijuana-backdrop.png';
 
-interface DashboardProps {
-    user: UserWithDetails;
-    organization: Organization;
-    products: ProductWithDetails[];
-    orders: Order[];
-}
-
-export default function Dashboard({ user, organization, products, orders }: DashboardProps) {
-    const todaysOrders = useMemo(() => {
-        const todaysOrders = Array.isArray(orders)
-            ? orders.filter((order) => {
-                  return (
-                      new Date(order.createdAt).getFullYear === new Date().getFullYear &&
-                      new Date(order.createdAt).getMonth() === new Date().getMonth() &&
-                      new Date(order.createdAt).getDate() === new Date().getDate()
-                  );
-              })
-            : [];
-        return todaysOrders;
-    }, []);
-
-    const lowStockVariants = findLowStockVariants(products);
-    const cardList = [
-        { title: 'Total Products', amount: products.length },
-        { title: 'Total Orders', amount: orders.length },
-        { title: "Today's Orders", amount: todaysOrders.length }
-    ];
-
+function WelcomePage() {
     return (
-        <ProtectedPage>
-            <Page>
-                <PageHeader
-                    title={`${organization?.name} Dashboard`}
-                    subTitle={`Welcome, ${user.firstName}`}
-                    Icon={Icons.ShoppingBagOutlined}
-                />
+        <Page className="p-0 lg:p-0 border-b">
+            <ImageBackDrop src={backdrop}>
+                <Center>
+                    <H1 color="light">Welcome to Gras</H1>
+                    <H5 color="light">Sign in to use this app</H5>
+                    <Button
+                        size="lg"
+                        bg="primary"
+                        transparent
+                        // FIX THIS
+                        disabled={false}
+                        className="hover:bg-[#0b7529]"
+                    >
+                        Sign In
+                    </Button>
 
-                <Grid>
-                    {cardList.map((item, ind) => (
-                        <Card key={`cardlist-${ind}`} title={item.title} amount={item.amount} />
-                    ))}
-                </Grid>
-
-                <Grid title="Orders">
-                    {orders.map((order) => (
-                        <OrderRow order={order} key={order.id} orderDetailsRoute="/orders" />
-                    ))}
-                </Grid>
-
-                <Grid title="Products">
-                    {products.map((product) => (
-                        <ProductRow key={product.id} product={product} />
-                    ))}
-                </Grid>
-
-                <Grid title="Recent Orders">
-                    {todaysOrders.length > 0 ? (
-                        todaysOrders.map((order) => (
-                            <OrderRow order={order} key={order.id} orderDetailsRoute="/orders" />
-                        ))
-                    ) : (
-                        <Card>There are no recent orders</Card>
-                    )}
-                </Grid>
-
-                <Grid title="Low Stock Products">
-                    {lowStockVariants.length > 0 ? (
-                        lowStockVariants.map((product) =>
-                            product.variants.map((variant) => (
-                                <ProductRow key={product.id} product={product} variant={variant} />
-                            ))
-                        )
-                    ) : (
-                        <Card>There are no low stock products</Card>
-                    )}
-                </Grid>
-            </Page>
-        </ProtectedPage>
+                    <H5 color="light">
+                        {`If you are a new dispensary, 
+                        create a Dispensary Account here`}
+                    </H5>
+                    <Link href="/signup/create-dispensary-account">
+                        <Button size="lg" bg="primary" transparent className="hover:bg-[#0b7529]">
+                            <Paragraph color="light">{`Create a
+                             Dispensary Account`}</Paragraph>
+                        </Button>
+                    </Link>
+                </Center>
+            </ImageBackDrop>
+        </Page>
     );
 }
 
-export const findLowStockVariants = (products) =>
-    products.map((product) => {
-        if (product.id && product.variants) {
-            return {
-                ...product,
-                variants: product.variants.filter((variant) => {
-                    return variant.stock < 7;
-                })
-            };
-        } else return [];
-    });
+const ImageBackDrop = ({ src, children }: { src: string | StaticImageData } & PropsWithChildren) => {
+    return (
+        <div
+            className="flex grow"
+            style={{
+                clipPath: 'inset(0 0 0 0)'
+            }}
+        >
+            <Image src={src} alt="" fill style={{ zIndex: -1, objectFit: 'cover', objectPosition: '80% 20%' }} />
+            <div
+                style={{
+                    zIndex: -1,
+                    backgroundColor: 'rgba(0,0,0,0.4)',
+                    position: 'absolute',
+                    height: '100%',
+                    width: '100%',
+                    left: '0',
+                    top: '0'
+                }}
+            ></div>
+            {children}
+        </div>
+    );
+};
 
-export async function getServerSideProps({ req, res }) {
-    try {
-        return { redirect: { destination: '/welcome', permanent: false } };
+export default WelcomePage;
 
-        const { session, user } = await getSession({ req, res });
-        if (!session || !user) {
-            console.log('No session or user');
-            return { redirect: { destination: '/welcome', permanent: false } };
-        }
-
-        const { organizationId } = user.memberships[0];
-        const organization = await (
-            await axios(urlBuilder.next + `/api/organization/${organizationId}`, {
-                headers: {
-                    Cookie: req.headers.cookie
-                }
-            })
-        ).data;
-        const products = await (
-            await axios(urlBuilder.next + '/api/products', {
-                headers: {
-                    Cookie: req.headers.cookie
-                }
-            })
-        ).data;
-        const orders = await (
-            await axios(urlBuilder.next + '/api/orders/', {
-                headers: {
-                    Cookie: req.headers.cookie
-                }
-            })
-        ).data;
-        if (!user || !organization || !products || !orders) {
-            return { notFound: true };
-        }
-        return {
-            props: { user, organization, products, orders }
-        };
-    } catch (error) {
-        console.log('SSR error: ', error.message);
-        if (error.type === Session.Error.TRY_REFRESH_TOKEN) {
-            console.log('needs refresh error: ', error);
-            return { props: { fromSupertokens: 'needs-refresh' } };
-        } else if (error.type === Session.Error.UNAUTHORISED) {
-            console.log('unauthorized error: ', error);
-            return res.status(200).json({ status: false, error });
-        } else return { redirect: { destination: '/welcome', permanent: false } };
-    }
-}
+WelcomePage.getLayoutContext = (): LayoutContextProps => ({
+    showHeader: false,
+    showTopBar: true,
+    showSideNav: false,
+});
