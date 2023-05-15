@@ -33,37 +33,35 @@ handler.get(async (req: ExtendRequest, res: NextApiResponse) => {
 // create a user record
 handler.post(async (req: ExtendRequest, res: NextApiResponse) => {
     try {
-        const user: UserCreateType = req.body;
+        const {user, dispensaryId, role}: {user: UserCreateType, role: "ADMIN" | "OWNER" | undefined, dispensaryId: string; } = req.body;
         
-        let response = await axios.post(urlBuilder.main.user(), user, {
+        let response = await axios.post(urlBuilder.main.admin(), { user, role, dispensaryId }, {
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            validateStatus: status => true
         })
-
-        console.log('next api response from server: user: ', response)
         
         return res.status(response.status).json(response.data);
-        
+    
     } catch (error: any) {
-        console.error(error.message);
-        return res.json(error);
+        throw new Error(error.message)
     }
 });
 
 // update a user record
 handler.put(async (req: ExtendRequest, res: NextApiResponse) => {
     try {
-        const updateUser: UserCreateType = req.body;
-        
-        const { data } = await axios.put(urlBuilder.main.user(), updateUser, {
+        const {user, dispensaryId, role}: {user: UserCreateType, role: "ADMIN" | "OWNER" | undefined, dispensaryId: string; } = req.body;
+
+        const response = await axios.put(urlBuilder.main.admin(), { user, role, dispensaryId }, {
             headers: {
                 'Content-Type': 'application/json'
             }
         });
         
         return res.status(res.statusCode).json(data);
-        
+
     } catch (error: any) {
         console.error(error.message);
         return res.json(error);

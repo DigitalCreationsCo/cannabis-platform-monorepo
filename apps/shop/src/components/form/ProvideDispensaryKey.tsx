@@ -29,7 +29,7 @@ function ProvideDispensaryKey({ nextFormStep }: { nextFormStep: () => void }) {
     const downloadDispensaryData = async (dispensaryKey: string) => {
         try {
             const { data } = await axios.get(urlBuilder.shop + `/api/organization/${dispensaryKey}`, { validateStatus: status => (status >= 200 && status < 300) || status == 404 });
-            if (!data) throw new Error('Dispensary is not found.');
+            if (!data || data.name==="AxiosError") throw new Error('Dispensary is not found.');
 
             console.log('set form values: data: ', data)
             setFormValues({ organization: { ...data } });

@@ -1,4 +1,3 @@
-import { createId } from '@paralleldrive/cuid2';
 import { Address, Category, CategoryList, Driver, ImageOrganization, ImageProduct, ImageUser, ImageVendor, Membership, Order, Organization, PrismaClient, Product, ProductVariant, Purchase, Schedule, SiteSetting, SubDomain, User, Vendor } from "@prisma/client";
 
 const users: User[] = [
@@ -250,7 +249,7 @@ const orgs:Organization[] = [
     name: "Gras",
     stripeAccountId: null,
     // email: "gras@grascannabis.org",
-    emailVerified: false,
+    // emailVerified: false,
     dialCode: "1",
     phone: "1232343456",
     vendorId: "1",
@@ -265,7 +264,7 @@ const orgs:Organization[] = [
     name: "Curaleaf",
     // email: "curaleaf@grascannabis.org",
     stripeAccountId: null,
-    emailVerified: false,
+    // emailVerified: false,
     dialCode: "1",
     phone: "1232343456",
     vendorId: "2",
@@ -280,7 +279,7 @@ const orgs:Organization[] = [
     name: "Sunnyside",
     // email: "sunnysidedispensaries@grascannabis.org",
     stripeAccountId: null,
-    emailVerified: true,
+    // emailVerified: true,
     dialCode: "1",
     phone: "1232343456",
     vendorId: "3",
@@ -291,11 +290,11 @@ const orgs:Organization[] = [
     stripeOnboardingComplete:false
   },
   {
-    id: createId(),
+    id: "bfhk6k4u7xq030rz7wvgiwao",
     name: "McNuggz Dispensary",
     // email: "McNuggz@grascannabis.org",
     stripeAccountId: null,
-    emailVerified: true,
+    // emailVerified: true,
     dialCode: "1",
     phone: "1232343456",
     vendorId: "3",

@@ -1,4 +1,4 @@
-import { createAddress, createorupdateDispensaryAdmin, createOrUpdateUser, findAddressById, findUserWithDetailsByEmail, findUserWithDetailsById, removeAddressByIdAndUserId, updateUserPasswordToken, UserCreateType } from '@cd/data-access';
+import { createAddress, createDispensaryAdmin, createUser, findAddressById, findUserWithDetailsByEmail, findUserWithDetailsById, removeAddressByIdAndUserId, updateDispensaryAdmin, updateUser, updateUserPasswordToken, UserCreateType } from '@cd/data-access';
 import { createPasswordHash } from '../../util/utility';
 
 /* =================================
@@ -115,7 +115,7 @@ export default class UserDA {
     static async createUser(createUserData: UserCreateType) {
         try {
             createUserData = await createPasswordHash(createUserData)
-            const user = await createOrUpdateUser(createUserData)
+            const user = await createUser(createUserData)
 
             return user
         } catch (error:any) {
@@ -133,7 +133,28 @@ export default class UserDA {
 
             createUserData = await createPasswordHash(createUserData)
             
-            const user = await createorupdateDispensaryAdmin(createUserData, {
+            const user = await createDispensaryAdmin(createUserData, {
+                role, 
+                dispensaryId
+            })
+
+            return user
+        } catch (error:any) {
+            console.error('UserDA error: ', error.message);
+            throw new Error(error.message);
+        }
+    }
+
+    static async updateDispensaryAdmin(createUserData: UserCreateType, role: string, dispensaryId: string) {
+        try {
+
+            console.log('createUser Data: ', createUserData)
+            console.log('role: ', role)
+            console.log('dispensaryId: ', dispensaryId)
+
+            createUserData = await createPasswordHash(createUserData)
+            
+            const user = await updateDispensaryAdmin(createUserData, {
                 role, 
                 dispensaryId
             })
@@ -148,7 +169,7 @@ export default class UserDA {
     static async updateUser(createUserData: UserCreateType) {
         try {
             console.log('createUser Data: ', createUserData)
-            const user = await createOrUpdateUser(createUserData)
+            const user = await updateUser(createUserData)
 
             console.log(`updated user ${user.id}`)
             return user

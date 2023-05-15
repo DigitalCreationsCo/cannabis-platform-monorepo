@@ -23,20 +23,20 @@ function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
             
             setFormValues({ newUser: values });
 
-            const createUser = await axios.post(urlBuilder.shop + '/api/user/', {
+            const response = await axios.post(urlBuilder.shop + '/api/user/admin', {
                 user: values,
                 role: "OWNER",
                 dispensaryId: formData.organization?.id
-            });
+            }, { validateStatus: () => true});
             
-            if (createUser.status === 200) {
-                toast.success('User is created succesfully.');
-                setLoadingButton(false);
-                nextFormStep();
-                
-            } else {
-                throw new Error('Error creating user.');
+            if (response.status !== 200) {
+                throw new Error(response.data);
             }
+
+            toast.success('User is created succesfully.');
+            setLoadingButton(false);
+            nextFormStep();
+            
         } catch (error: any) {
             console.log('Dispensary User Error: ', error);
             toast.error(error.message);
@@ -244,10 +244,10 @@ function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
 }
 
 const initialValues = {
-    firstName: 'Bryant',
-    lastName: 'Mehaffey',
+    firstName: 'initial',
+    lastName: 'values',
     username: 'bigchiefa1',
-    email: 'bigchief@gmail.com',
+    email: 'bmejiadeveloper2@gmail.com',
     emailVerified: false,
     // password: 'asdfasdf',
     // re_password: 'asdfasdf',

@@ -21,7 +21,6 @@ import prisma from "./db/prisma";
  */
 export async function upsertOrganization(organization: OrganizationCreateType) { 
     try {
-        console.log('updateOrganization: ', organization)
         organization.subdomainId = organization.subdomainId || organization.name.toLowerCase();
         
         const { vendorId, address, subdomainId, ...data } = organization
@@ -164,6 +163,7 @@ export async function createOrganization(organization: OrganizationCreateType) {
  */
 export async function findOrganizationById(organizationId:string) {
     try {
+        console.log('findOrganizationById: ', organizationId)
         const organization = await prisma.organization.findUnique({ 
             where: { id: organizationId },
             include: {
