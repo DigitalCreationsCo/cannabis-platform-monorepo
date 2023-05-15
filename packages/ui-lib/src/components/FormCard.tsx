@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 import Card from './Card';
@@ -15,11 +14,6 @@ function FormCard({ currentStep, totalSteps, className, children }: FormCardProp
     return (
         <Card className={twMerge('bg-inverse', className)}>
             {children}
-                <Image 
-                src={'/logo.png'} alt="Gras Cannabis logo" 
-                height={40} width={40} priority 
-                className='relative m-auto pt-8'
-                />
             <FlexBox className={styles.pageNumber}>
                 {currentStep && <H6>{currentStep + 1}</H6>}
             </FlexBox>
