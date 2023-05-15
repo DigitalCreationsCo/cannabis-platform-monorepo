@@ -32,6 +32,7 @@ export { default as ProductItem } from './ProductItem';
 export { default as Row } from './Row';
 export { default as SearchField } from './SearchField';
 export { default as SideNavContainer } from './SideNavContainer';
+export { default as SignInButton } from './SignInButton';
 export { default as Table } from './Table';
 export { default as Tag } from './Tag';
 export { default as TermsAgreement } from './TermsAgreement';

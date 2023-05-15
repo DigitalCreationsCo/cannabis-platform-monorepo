@@ -1,14 +1,13 @@
 import { modalActions } from "@cd/core-lib/src/reduxDir";
 import { modalTypes } from "@cd/core-lib/src/utils";
-import { Button } from "@cd/ui-lib";
-import { ButtonProps } from "@cd/ui-lib/components/Button";
-import { useAppDispatch } from "redux/hooks";
+import { useDispatch } from "react-redux";
+import Button, { ButtonProps } from "./Button";
 
 interface SignInButtonProps extends ButtonProps {}
 
 function SignInButton(props: SignInButtonProps) {
 
-    const dispatch = useAppDispatch();
+    const dispatch = useDispatch();
     function openLoginModal() {
         dispatch(
             modalActions.openModal({
