@@ -115,6 +115,7 @@ export default class UserDA {
     static async createUser(createUserData: UserCreateType) {
         try {
             createUserData = await createPasswordHash(createUserData)
+            
             const user = await createUser(createUserData)
 
             return user
@@ -126,11 +127,6 @@ export default class UserDA {
 
     static async createDispensaryAdmin(createUserData: UserCreateType, role: string, dispensaryId: string) {
         try {
-
-            console.log('createUser Data: ', createUserData)
-            console.log('role: ', role)
-            console.log('dispensaryId: ', dispensaryId)
-
             createUserData = await createPasswordHash(createUserData)
             
             const user = await createDispensaryAdmin(createUserData, {
@@ -147,11 +143,6 @@ export default class UserDA {
 
     static async updateDispensaryAdmin(createUserData: UserCreateType, role: string, dispensaryId: string) {
         try {
-
-            console.log('createUser Data: ', createUserData)
-            console.log('role: ', role)
-            console.log('dispensaryId: ', dispensaryId)
-
             createUserData = await createPasswordHash(createUserData)
             
             const user = await updateDispensaryAdmin(createUserData, {
@@ -168,10 +159,10 @@ export default class UserDA {
 
     static async updateUser(createUserData: UserCreateType) {
         try {
-            console.log('createUser Data: ', createUserData)
             const user = await updateUser(createUserData)
 
             console.log(`updated user ${user.id}`)
+            
             return user
         } catch (error:any) {
             console.error('UserDA error: ', error.message);

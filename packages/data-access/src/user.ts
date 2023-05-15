@@ -175,12 +175,13 @@ export async function createDispensaryAdmin(userData: UserCreateType, createPara
             // },
             include: {
                 memberships: true
-            }
+            },
         })
         
         console.log('admin user created: ', user.email)
         return user;
     } catch (error: any) {
+        console.log('create Dispensary Admin user error: ', error);
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             if (error.code === 'P2002') {
                 throw new Error('This user exists already. Please choose a different username or email.')
