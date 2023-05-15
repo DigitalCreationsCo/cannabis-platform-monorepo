@@ -50,15 +50,15 @@ function App({ Component, pageProps }: CustomAppProps) {
         return null;
     }
 
-    const store = useStore()
-
     const getLayoutContext = Component.getLayoutContext || (() => ({}));
+    
+    const store = useStore()
 
     return (
         <>
             <Head>
                 <title>Gras Cannabis Marketplace</title>
-                <meta name="Marketplace App" content="Property of Gras Cannabis Co." />
+                <meta name="Marketplace App" content="Built by Gras Cannabis Co." />
             </Head>
             <SuperTokensWrapper>
                 <ReduxProvider store={store}>

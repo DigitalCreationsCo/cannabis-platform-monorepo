@@ -119,6 +119,13 @@ test users login and signup
 Dispensary signup forms 1/2 done
 
 
+changes i need all in one branch:
+1 shop landing page, with sign in button in ui-lib,
+2 toastprovider, modal provider in ui-lib
+3 app-admin pages dir in src dir + plus index and dashboard pages
+4 app-admin nextconfig changes
+
+
 To DO: 
 DO THESE THINGS THIS WEEK! BE DONE BY SATURDAY -- I DID NOT DO BY SATURDAY. I AM MAKING 4/10 LEVEL PROGRESS WITH VELOCITY
 

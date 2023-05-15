@@ -1,7 +1,0 @@
-.next/
-.turbo
-
-node_modules/
-build/
-public/
-next-env.d.ts
