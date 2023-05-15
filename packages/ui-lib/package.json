@@ -7,6 +7,7 @@
     "@cd/core-lib": "workspace:*"
   },
   "devDependencies": {
+    "sync-directory": "6.0.4",
     "@cd/data-access": "workspace:*",
     "@cd/eslint-config": "workspace:*",
     "@types/carbon__icons-react": "11.16.0",
@@ -68,7 +69,8 @@
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx,.cjs,.mjs --cache --cache-location ../../.cache/eslint/ui-lib.eslintcache",
     "test": "run-s test-unit",
     "test-unit": "echo \"No unit tests yet\"",
-    "typecheck": "tsc --project ./tsconfig.json --noEmit"
+    "typecheck": "tsc --project ./tsconfig.json --noEmit",
+    "sync-assets": "rimraf ./public/assets && syncdir ../../static/assets ./public/assets --copy"
   },
   "version": "0.0.1"
 }
