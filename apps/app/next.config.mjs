@@ -3,14 +3,14 @@ import { PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_BUILD, PHASE_TEST } from 'ne
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// import { loadEnv } from '@cd/core-lib/config/loadEnv';
-// import { config } from 'dotenv';
-// import { expand } from 'dotenv-expand';
+import { config } from 'dotenv';
+import { expand } from 'dotenv-expand';
+import { loadEnv } from './src/config/loadEnv.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// expand(config({ path: loadEnv(process.env.NODE_ENV) }))
+expand(config({ path: loadEnv(process.env.NODE_ENV) }))
 
 /**
  * @type {import('next').NextConfig}

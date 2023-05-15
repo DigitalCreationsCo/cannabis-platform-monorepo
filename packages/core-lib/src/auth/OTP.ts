@@ -1,5 +1,5 @@
-import { PasswordlessResponseWithUserDetails } from "@cd/core-lib/reduxDir";
 import { consumeCode, createCode, resendCode } from "supertokens-auth-react/recipe/passwordless";
+import { PasswordlessResponseWithUserDetails } from "../reduxDir";
     
 async function sendOTPEmail(email: string) {
     try {

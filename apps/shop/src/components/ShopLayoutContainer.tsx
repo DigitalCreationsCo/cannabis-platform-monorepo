@@ -1,9 +1,9 @@
 import { selectModalState, userActions } from '@cd/core-lib/src/reduxDir';
 import { Layout, LayoutContextProps } from '@cd/ui-lib';
-import { PropsWithChildren } from 'react';
+import React, { PropsWithChildren } from 'react';
 import { useSelector } from 'react-redux';
-import { useAppDispatch } from 'redux/hooks';
 import Session from "supertokens-auth-react/recipe/session";
+import { useAppDispatch } from '../redux/hooks';
 import { RootState } from '../redux/store';
 import CategoriesNavigation from './CategoriesNavigation';
 import TopBar from './TopBar';

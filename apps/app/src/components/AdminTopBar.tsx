@@ -1,20 +1,32 @@
+import { modalActions, modalTypes, selectUserState } from '@cd/core-lib';
 import { Button, FlexBox, H2, Paragraph } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Dispatch, SetStateAction } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/logo.png';
 
 export type TopBarProps = {
     doesSessionExist?: boolean;
-    setModal: Dispatch<SetStateAction<boolean>>;
-    signedOut: () => void;
+    signOut: () => void;
 };
 
-function TopBar({ doesSessionExist, setModal, signedOut }: TopBarProps) {
-    const topbar = ['flex flex-row min-h-[66px] pr-4 lg:px-16 bg-inverse space-x-2 items-center shadow'];
+function AdminTopBar({ doesSessionExist, signOut }: TopBarProps) {
+    
+    const dispatch = useDispatch();
+    const user = useSelector(selectUserState);
+
+    function openLoginModal() {
+        console.log('dispatch: open Login Modal');
+        dispatch(
+            modalActions.openModal({
+                modalType: modalTypes.loginModal
+            })
+        );
+    }
+
     return (
-        <div className={twMerge(topbar)}>
+        <div className={twMerge(styles.topbar)}>
             <Link href="/" passHref>
                 <Image alt="Gras" width={50} height={50} src={logo} />
             </Link>
@@ -37,7 +49,7 @@ function TopBar({ doesSessionExist, setModal, signedOut }: TopBarProps) {
                 </Paragraph>
             </Link>
             <div className="flex-1"></div>
-            {doesSessionExist && (
+            {user.isSignedIn ? (
                 <>
                     <Link href="/support">
                         <Paragraph className={twMerge('pt-1', 'px-3', 'text-md', 'whitespace-nowrap')}>
@@ -45,17 +57,20 @@ function TopBar({ doesSessionExist, setModal, signedOut }: TopBarProps) {
                         </Paragraph>
                     </Link>
                     <FlexBox>
-                        <Button onClick={signedOut}>Sign Out</Button>
+                        <Button onClick={signOut}>Sign Out</Button>
                     </FlexBox>
                 </>
-            )}
-            {!doesSessionExist && (
+            ) : (
                 <FlexBox>
-                    <Button onClick={() => setModal(true)}>Sign In</Button>
+                    <Button onClick={openLoginModal}>Sign In</Button>
                 </FlexBox>
             )}
         </div>
     );
 }
 
-export default TopBar;
+export default AdminTopBar;
+
+const styles = {
+    topbar: ['flex flex-row min-h-[66px] pr-4 lg:px-16 bg-inverse space-x-2 items-center shadow'],
+};

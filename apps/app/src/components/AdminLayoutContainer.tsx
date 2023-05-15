@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { useAppDispatch } from 'redux/hooks';
 import Session from "supertokens-auth-react/recipe/session";
 import { RootState } from '../redux/store';
+import AdminDashboardNavigation from './AdminDashBoardNavigation';
 import AdminTopBar from './AdminTopBar';
 
 const AdminLayoutContainer = (props: LayoutContextProps & PropsWithChildren) => {
@@ -22,8 +23,8 @@ const AdminLayoutContainer = (props: LayoutContextProps & PropsWithChildren) => 
     return (
         <Layout
             isModalVisible={modalVisible}
-            showSideNavOnDesktop={false}
-            SideNavComponent={CategoriesNavigation}
+            showSideNavOnDesktop={true}
+            SideNavComponent={AdminDashboardNavigation}
             TopBarComponent={AdminTopBar}
             signOut={signOut}
             isSession={user.isSignedIn}
