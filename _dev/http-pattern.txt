@@ -66,4 +66,7 @@ Instead, what you send is a clear representation of successful or failed request
 
 Pros: the benefit is the consumer knows exactly what happened with the request, they have the data result, and can use their own error messages, (or any supplied one) on their client side.
 
-Cons: the cons is, I can't think of any right now. ;p
+Cons: a negative here is, you might be missing some key data from the error source, that can be useful for the end consumer.
+Such as if you have some database process that cant be completed, you will
+want to share that info in your api, for clear error handling,
+and clear end user experience.

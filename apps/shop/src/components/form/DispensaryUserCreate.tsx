@@ -44,11 +44,20 @@ function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
         }
     };
 
-    const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
+    const { values, errors, touched, handleBlur, handleChange, handleSubmit, validateForm } = useFormik({
         initialValues,
         onSubmit,
         validationSchema
     });
+
+    function notifyValidation() {
+        validateForm().then((errors) => {
+            if (Object.values(errors).length > 0) {
+                console.log('validation errors: ', errors);
+                toast.error(Object.values(errors)[0].toString());
+            }
+        });
+    }
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -232,6 +241,7 @@ function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
                 onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
+                    notifyValidation();
                     handleSubmit();
                 }}
                 disabled={values.termsAccepted === false}
