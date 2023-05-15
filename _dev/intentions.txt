@@ -120,10 +120,10 @@ Dispensary signup forms 1/2 done
 
 
 changes i need all in one branch:
-1 shop landing page, with sign in button in ui-lib,
-2 toastprovider, modal provider in ui-lib
-3 app-admin pages dir in src dir + plus index and dashboard pages
-4 app-admin nextconfig changes
+1 shop landing page, with sign in button in ui-lib, yes
+2 toastprovider, modal provider in ui-lib yes 
+3 app-admin pages dir in src dir + plus index and dashboard pages yes
+4 app-admin nextconfig changes yes
 
 
 To DO: 
