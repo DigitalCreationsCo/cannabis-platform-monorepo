@@ -1,5 +1,5 @@
 /// @ts-nocheck
-import { LayoutContextProps, LoadingPage } from "@cd/ui-lib";
+import { LayoutContextProps, LoadingPage, ModalProvider, ToastProvider } from "@cd/ui-lib";
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import { PersistGate } from 'redux-persist/integration/react';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session, { SessionContextType } from 'supertokens-auth-react/recipe/session';
-import { LayoutContainer, LocationProvider, ModalProvider, StepFormValuesProvider, ToastProvider } from '../components';
+import { LayoutContainer, LocationProvider, StepFormValuesProvider } from '../components';
 import { frontendConfig } from '../config/frontendConfig';
 import reduxStore from '../redux/store';
 import '../styles/globals.css';
