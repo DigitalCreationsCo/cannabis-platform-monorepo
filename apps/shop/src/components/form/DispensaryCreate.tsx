@@ -1,6 +1,4 @@
-import { urlBuilder } from '@cd/core-lib/utils';
-import { Button, FlexBox, Grid, H2, H3, H6, Paragraph, TermsAgreement, TextField } from '@cd/ui-lib';
-import axios from 'axios';
+import { Button, FlexBox, Grid, H3, H6, Paragraph, TermsAgreement, TextField } from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
@@ -13,68 +11,27 @@ import { useFormContext } from '../StepFormProvider';
 // Add country picker to set Country and countryCode fields
 
 function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
-    const { formData, setFormValues } = useFormContext();
+    const { setFormValues } = useFormContext();
     const [loadingButton, setLoadingButton] = useState(false);
 
-    console.log('formData: ', formData);
-    
-    const initialValues = {
-        id: formData.organization?.id || '',
-        name: formData.organization?.name || '',
-        // email: formData.organization?.email || '',
-        address: {
-            id: formData.organization?.address?.id || '',
-            street1: formData.organization?.address?.street1 || '',
-            street2: formData.organization?.address?.street2 || '',
-            city: formData.organization?.address?.city || '',
-            state: formData.organization?.address?.state || '',
-            zipcode: formData.organization?.address?.zipcode || '',
-            country: formData.organization?.address?.country || '',
-            countryCode: formData.organization?.address?.countryCode || 'US',
-        },
-        dialCode: formData.organization?.dialCode || 1,
-        phone: formData.organization?.phone || '',
-        termsAccepted: false,
-        subdomainId: formData.organization?.subdomainId || '',
-        vendorId: formData.organization?.vendorId || ''
-    };
-    
     const onSubmit = async (values: typeof initialValues) => {
         try {
             setLoadingButton(true);
-            
             setFormValues({ organization: { ...values } });
-
-            const updateOrganization = await axios.put(urlBuilder.shop + '/api/organization', values)
-            
-            if (updateOrganization.status === 200) {
-                toast.success('Dispensary Info is uploaded successfully.');
-                nextFormStep();
-                
-            } else { 
-                throw new Error('Error adding Dispensary record.')
-            }
+            setLoadingButton(false);
+            nextFormStep();
         } catch (error: any) {
-            console.log('Dispensary Account Error: ', error);
-            toast.error(error.message);
+            console.log('Dispensary Create Error: ', error);
+            toast.error(error.response.data.message || error.response.data.errors);
             setLoadingButton(false);
         }
     };
 
-    const { values, errors, touched, handleBlur, handleChange, handleSubmit, validateForm } = useFormik({
+    const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
         initialValues,
         onSubmit,
         validationSchema
     });
-
-    function notifyValidation() {
-        validateForm().then((errors) => {
-            if (Object.values(errors).length > 0) {
-                console.log('validation errors: ', errors);
-                toast.error(Object.values(errors)[0].toString());
-            }
-        });
-    }
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -82,11 +39,9 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
     return (
         <form className={'content relative'} onSubmit={handleSubmit}>
             <Grid>
-                <FlexBox className="justify-between flex-row space-x-2 pr-2 md:pr-0">
-                    <FlexBox>
-                    <H2>Welcome to Gras</H2>
-                    <H3>a one stop cannabis marketplace</H3>
-                    </FlexBox>
+                <FlexBox className="flex-row space-x-2 pr-2 md:pr-0">
+                    <H3>{`Congratulations, you're joining Gras Cannabis. 
+                Welcome to our customers' favorite Cannabis marketplace.`}</H3>
                     <Image
                         className="rounded-btn"
                         src={'/logo.png'}
@@ -107,7 +62,7 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
                     error={!!touched.name && !!errors.name}
                     helperText={touched.name && errors.name}
                 />
-                {/* <TextField
+                <TextField
                     name="email"
                     label="Email"
                     placeholder="you@yourdispensary.com"
@@ -116,7 +71,7 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
                     onChange={handleChange}
                     error={!!touched.email && !!errors.email}
                     helperText={touched.email && errors.email}
-                /> */}
+                />
                 <Paragraph>What is the phone number of your dispensary business?</Paragraph>
                 <FlexBox>
                     <TextField
@@ -221,7 +176,6 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
                     onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        notifyValidation();
                         handleSubmit();
                     }}
                     disabled={values.termsAccepted === false}
@@ -233,9 +187,29 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
     );
 }
 
+const initialValues = {
+    name: 'Curaleaf',
+    email: 'makedreamsreal@email.com',
+    address: {
+        street1: '123 MLK Ave',
+        street2: 'Suite 900',
+        city: 'Philadelphia',
+        state: 'PA',
+        zipcode: '19130',
+        country: 'United States',
+        countryCode: 'US',
+        coordinateId: ''
+    },
+    dialCode: '1',
+    phone: '2343454567',
+    termsAccepted: false,
+    subdomainId: '',
+    vendorId: '2'
+};
+
 const validationSchema = yup.object().shape({
     name: yup.string().required('Dispensary name is required'),
-    // email: yup.string().email('invalid email').required('Email is required'),
+    email: yup.string().email('invalid email').required('Email is required'),
     address: yup.object().shape({
         street1: yup.string().required('street line 1 is required'),
         street2: yup.string(),

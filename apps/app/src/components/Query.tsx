@@ -1,6 +1,6 @@
 import { useQuery } from '@cd/core-lib';
 import { AxiosResponse } from 'axios';
-import Page404 from '../../pages/404';
+import Page404 from '../pages/404';
 
 export default function Query({
     url,

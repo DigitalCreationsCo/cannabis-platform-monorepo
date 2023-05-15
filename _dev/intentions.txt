@@ -109,41 +109,23 @@ add non-signed in bag state to user bag state
 handle new user checkout by prompt for sign in for signup
 5-10-2023
 [production/supertokens-passwordless e415d5501] passqwordless signon and signup mostly works, need to resolve some type erros, and handle the new user form flow, and write tests. And AUTH will be done!
-5-12-2023
-add location middleware to dispatch for location and set location on signin
-add location provider
-test users login and signup
-5-13-2023
-!! Create landing page with shop app in a new branch. 
-5-14-2023
-Dispensary signup forms 1/2 done
+
 
 
 To DO: 
-DO THESE THINGS THIS WEEK! BE DONE BY SATURDAY -- I DID NOT DO BY SATURDAY. I AM MAKING 4/10 LEVEL PROGRESS WITH VELOCITY
+
+add location provider
+add location middleware to dispatch for location and set location on signin
 
 fix continue signup flow for quick-delivery and mybag
-complete signup process,
-
-** HANDLE A FORMDATA BUG IN DISPENSARY SIGNUP REVIEW.
-HANDLE REDIRECT FOR DISPENSARY ADMINS, TO THE DASHBOARD APP.
-GET THE DASHBOARD APP WORKING, POSSIBLY IN THE SAME DOMAIN. :P GET WHAT EXISTS TO WORK FIRST!!
-
-TEST STRIPE Checkout - Add stripe functionality NOW - do it next. Keep it simple!
-
-DOWNLOAD THE MOBILE client
-FIX THE DISPATCH SERVER.
-
 SETUP USER PROTECTED PAGES WITH SUPERTOKENS:
-
-GET ALL THIS STUFF ONLINE WITH TERRAFORM.
-USE AI LIKE A MOTHER FUCKER.
-WIN.
-
 Checkout, settings, support, admin pages,
 
-add unit tests for all dispensary api, server api, location api routes, and functions!
+complete signup process,
+test users login and signup
+test checkout
 
+!! Create landing page with shop app in a new branch. 
 Push it to linode so people can SEE OUR PRODUCT!
 Create short youtube videos explaining 
 1. How our network works
@@ -151,6 +133,7 @@ Create short youtube videos explaining
 3. How our software works
 4. How to install our software.
 
+DO THESE THINGS THIS WEEK! BE DONE BY SATURDAY
 
 Complete the regex match for cardreader, right now the match regex is turn offed,
 card reader will always return true. Turn it on before we have paying customers!
@@ -161,6 +144,7 @@ ConfirmOrder:
     // NOTE: Should encrypt this token in the future.
     // NOTE: Add the cart data to redux store at this point, and delete the cookie after this.
 
+Add stripe functionality NOW - do it next. Keep it simple!
 Test the widget in a react app as well.
 Host node servers.
 Launch this month. Win.

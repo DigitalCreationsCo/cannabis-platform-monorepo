@@ -1,4 +1,4 @@
-import { ImageUser, Membership, MembershipRole, Prisma, User } from "@prisma/client";
+import { ImageUser, Membership, Prisma, User } from "@prisma/client";
 import prisma from "./db/prisma";
 import { OrderWithDetails } from "./order";
 
@@ -6,16 +6,12 @@ import { OrderWithDetails } from "./order";
 * User Data Access functions
 *
 * createUser
-* updateUser
-* createDispensaryAdmin
-* updateDispensaryAdmin
 * findUserWithDetailsByEmail
-* findUserWithDetailsByPhone
 * findUserWithDetailsById
 * updateUserPasswordToken
 */
 
-export async function createUser(userData: UserCreateType) {
+export async function createUser(userData: any) {
     try {
         const user = await prisma.user.create({
             data: {
@@ -25,48 +21,6 @@ export async function createUser(userData: UserCreateType) {
                 firstName: userData.firstName,
                 lastName: userData.lastName,
                 passwordHash: userData.passwordHash,
-                termsAccepted: true,
-                dialCode: userData.dialCode,
-                phone: userData.phone,
-                address: {
-                    connectOrCreate: {
-                        where: { id: userData.address.id },
-                        create: { ...userData.address },
-                    }
-                },
-                imageUser: userData.imageUser ? {
-                    create: {
-                        ...userData.imageUser
-                    }
-                } : undefined,
-            },
-        })
-        
-        console.log('user created: ', user.email)
-        return user;
-    } catch (error: any) {
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-            if (error.code === 'P2002') {
-                throw new Error('This user exists already. Please choose a different username or email.')
-            }
-          }
-        throw new Error(error)
-    }
-}
-
-export async function updateUser(userData: UserCreateType) {
-    try {
-        const user = await prisma.user.update({
-            where: {
-                email: userData.email,
-            },
-            data: {
-                email: userData.email,
-                emailVerified: false,
-                username: userData.username,
-                firstName: userData.firstName,
-                lastName: userData.lastName,
-                passwordHash: userData.passwordHash || '',
                 termsAccepted: true,
                 dialCode: userData.dialCode,
                 phone: userData.phone,
@@ -83,164 +37,9 @@ export async function updateUser(userData: UserCreateType) {
                 memberships: userData.memberships ? {
                     create: userData.memberships
                 } : undefined,
-            }
+            },
+            include: {address: true, imageUser: true, memberships: true}
         })
-        
-        console.log('user updated: ', user.email)
-        return user;
-    } catch (error: any) {
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-            if (error.code === 'P2002') {
-                throw new Error('This user exists already. Please choose a different username or email.')
-            }
-          }
-        throw new Error(error)
-    }
-}
-
-export async function createDispensaryAdmin(userData: UserCreateType, createParams: CreateUserParams) {
-    try {
-        const user = await prisma.user.create({
-            data: {
-                email: userData.email,
-                emailVerified: false,
-                username: userData.username,
-                firstName: userData.firstName,
-                lastName: userData.lastName,
-                passwordHash: userData.passwordHash,
-                termsAccepted: true,
-                dialCode: userData.dialCode,
-                phone: userData.phone,
-                address: {
-                    create: { ...userData.address },
-                },
-                memberships: !!userData.memberships?.[0]?.id ? {
-                    connectOrCreate: {
-                        where: {
-                            id: userData?.memberships?.[0].id ?? undefined,
-                        },
-                        create: {
-                            role: createParams["role"] as MembershipRole,
-                            organizationId: createParams["dispensaryId"],
-                            },
-                        } 
-                    }: {
-                        create: {
-                            role: createParams["role"] as MembershipRole,
-                            organizationId: createParams["dispensaryId"],
-                        }
-                    },
-                // imageUser: userData?.imageUser?.length >= 1  ? {
-                //     create: {
-                //         ...userData.imageUser
-                //     }
-                // } : undefined,
-            },
-            // update: {
-            //     email: userData.email,
-            //     emailVerified: false,
-            //     username: userData.username,
-            //     firstName: userData.firstName,
-            //     lastName: userData.lastName,
-            //     passwordHash: userData.passwordHash || '',
-            //     termsAccepted: true,
-            //     dialCode: userData.dialCode,
-            //     phone: userData.phone,
-            //     address: userData.address ? {
-            //         create: { 
-            //             ...userData.address
-            //         }
-            //     } : undefined,
-            //     imageUser: userData.imageUser ? {
-            //         create: {
-            //             ...userData.imageUser
-            //         }
-            //     } : undefined,
-            //     memberships: userData.memberships?.[0]?.id ? {
-            //         connectOrCreate: {
-            //             where: {
-            //                 id: userData?.memberships?.[0].id
-            //             },
-            //             create: {
-            //                 role: createParams["role"] as MembershipRole,
-            //                 organizationId: createParams["dispensaryId"],
-            //             },
-            //         }
-            //         }: {
-            //             create: {
-            //                 role: createParams["role"] as MembershipRole,
-            //                 organizationId: createParams["dispensaryId"],
-            //             },
-            //         }
-            // },
-            include: {
-                memberships: true
-            },
-        })
-        
-        console.log('admin user created: ', user.email)
-        return user;
-    } catch (error: any) {
-        console.log('create Dispensary Admin user error: ', error);
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-            if (error.code === 'P2002') {
-                throw new Error('This user exists already. Please choose a different username or email.')
-            }
-          }
-        throw new Error(error)
-    }
-}
-
-export async function updateDispensaryAdmin(userData: any, createParams: CreateUserParams) {
-    try {
-        const user = await prisma.user.update({
-            where: {
-                id: userData.id,
-                email: userData.email,
-            },
-            data: {
-                email: userData.email,
-                emailVerified: false,
-                username: userData.username,
-                firstName: userData.firstName,
-                lastName: userData.lastName,
-                passwordHash: userData.passwordHash || '',
-                termsAccepted: true,
-                dialCode: userData.dialCode,
-                phone: userData.phone,
-                address: userData.address ? {
-                    create: { 
-                        ...userData.address
-                    }
-                } : undefined,
-                imageUser: userData.imageUser ? {
-                    create: {
-                        ...userData.imageUser
-                    }
-                } : undefined,
-                memberships: userData.memberships?.[0]?.id ? {
-                    connectOrCreate: {
-                        where: {
-                            id: userData?.memberships?.[0].id
-                        },
-                        create: {
-                            role: createParams["role"] as MembershipRole,
-                            organizationId: createParams["dispensaryId"],
-                        },
-                    }
-                    }: {
-                        create: {
-                            role: createParams["role"] as MembershipRole,
-                            organizationId: createParams["dispensaryId"],
-                        },
-                    }
-            },
-            include: {
-                memberships: true
-            }
-        })
-        
-        console.log('admin user updated: ', user.email)
         return user;
     } catch (error: any) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -362,27 +161,20 @@ export type UserCreateType = {
     username: string;
     email: string;
     emailVerified: boolean;
-    passwordHash?: string;
-    // password: string;
-    // re_password: string;
+    password: string;
+    re_password: string;
     phone: string;
     dialCode: string;
     termsAccepted: boolean;
-    imageUser: ImageUser[] | null;
+    imageUser: Prisma.ImageUserCreateArgs[ "data" ] | null;
     isLegalAge: boolean;
     idVerified: boolean;
     address: Prisma.AddressCreateArgs[ "data" ];
-    memberships: Prisma.MembershipUpsertArgs["create"][];
 }
 
 export type UserLoginData = {
     email: string;
     password: string;
-}
-
-export type CreateUserParams = {
-    role: string;
-    dispensaryId: string;
 }
 
 // export type UserCreateType = Prisma.PromiseReturnType<typeof createUser>

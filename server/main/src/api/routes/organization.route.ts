@@ -18,14 +18,12 @@ Organization Routes
 
 router.route('/').post(orgCtrl.createOrganization);
 
-router.route('/').put(orgCtrl.updateOrganization);
-
 router.route('/:id').get(orgCtrl.getOrganizationById);
 
 router.route('/:id/categories').get(orgCtrl.getCategoryList);
 
 router.route('/:id/users').get(orgCtrl.getUsersByOrganization);
 
-router.route('/product/:id/update-product').put(orgCtrl.updateProduct);
+router.route('/product/:id/update').put(orgCtrl.updateProduct);
 
 export default router;

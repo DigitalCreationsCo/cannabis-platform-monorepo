@@ -74,7 +74,7 @@ const launchTipModal = createAsyncThunk<boolean, modalActionPayload, {dispatch: 
   }
 );
 
-export type ModalType = "SHOW_MODAL" | "CONFIRM_MODAL" | "SELECT_MODAL" | "TIP_MODAL" | "MESSAGE_BANNER" | 'CART_MODAL' | 'LOGIN_MODAL' | 'CHECKOUT_MODAL' | 'CHECK_AGE_MODAL'
+export type ModalType = "SHOW_MODAL" | "CONFIRM_MODAL" | "SELECT_MODAL" | "TIP_MODAL" | "MESSAGE_BANNER" | 'CART_MODAL' | 'LOGIN_MODAL' | 'CHECKOUT_MODAL'
 
 export type ModalStateProps = {
   modalType: ModalType,

@@ -6,22 +6,22 @@ export const renderAddress = ({
     showState = true,
     showCountry = true,
     showZipcode = true,
-    breakLine = true,
 } : { 
     address : Omit<Address, "id" | "userId" | "organizationId" | "createdAt" | "updatedAt">;
     showCity?: boolean;
     showState?: boolean;
     showCountry?: boolean;
     showZipcode?: boolean;
-    breakLine?: boolean;
 }) => (
-    `${address.street1} ${address.street2}${breakLine?'\n':''}${showCity && address.city + ', ' || ''}${showState && address.state || ''}${breakLine?'\n':', '}${showCountry && address.country || ''} ${showZipcode && address.zipcode || ''}`
+    `${address.street1} ${address.street2}
+    ${showCity && address.city + ', ' || ''} ${showState && address.state || ''}
+    ${showCountry && address.country || ''} ${showZipcode && address.zipcode || ''}`
     );
 
-export const renderNestedDataObject = (data: any, Component: any, removeFields: any = []):any => {
+export const renderNestedDataObject = (data: any, Component: any, removeFields: any):any => {
     const result = Object.keys({ ...data })
         .filter((field) => {
-            return (removeFields && !removeFields.includes(field))
+            (removeFields && !removeFields.includes(field)) || true;
         })
         .map((key, index) => {
             if (typeof data[key] === 'object') {

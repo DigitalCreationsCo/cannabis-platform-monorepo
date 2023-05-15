@@ -25,7 +25,7 @@ const nextConfig = (phase) => {
     // when `test` command is used
     const isTest = phase === PHASE_TEST
 
-    console.log(`isDev:${isDev}  isProd:${isProd}   isStaging:${isStaging} isTest:${isTest}`);
+    console.log(`@cd/shop-app isDev:${isDev}  isProd:${isProd}   isStaging:${isStaging} isTest:${isTest}`);
     // const env_1 = {
     //     NEXT_PUBLIC_SHOP_APP_URL: (() => {
     //         if (isDev) return 'http://localhost:3000';
@@ -208,7 +208,7 @@ const nextConfig = (phase) => {
         
         //     return config;
         // },
-    })
+    });
 };
 
 export default nextConfig;

@@ -6,7 +6,7 @@ import http from 'http';
 import Supertokens from 'supertokens-node';
 import { errorHandler, middleware } from 'supertokens-node/framework/express';
 import { SessionInfo } from './api/controllers/session.controller';
-import { errorRoute, organization, shop, user } from './api/routes';
+import { errorRoute, organization, shop } from './api/routes';
 import { backendConfig } from './config/backendConfig';
 
 if (Supertokens) {
@@ -34,7 +34,7 @@ app.use('/api/v1/healthcheck', (req, res) => {
     return res.status(200).json('OK');
 });
 
-app.use('/api/v1/user', user);
+// app.use('/api/v1/auth', user);
 
 // app.use('/api/v1/driver', driver);
 
