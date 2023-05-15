@@ -7,7 +7,7 @@ import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session, { SessionContextType, signOut } from 'supertokens-auth-react/recipe/session';
 import { frontendConfig } from '../config/frontendConfig';
 import { AdminDashboardNavigation, StepFormValuesProvider, TopBar } from '../src/components';
-import '../styles/globals.css';
+import '../src/styles/globals.css';
 
 type CustomAppProps = AppProps & {
     Component: ExtendedPageComponent;
