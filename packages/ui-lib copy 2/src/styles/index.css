@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+
+  a * {
+    cursor: pointer;
+  }
+  
+  :root {
+    --font-weight-normal: 400;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 800; 
+    --font-weight-display: 900;
+    --font-weight-btn: 600;
+
+    --rounded-btn: 0.25rem;
+  }
+
+  /* .theme-dark {
+    --color-bg-primary: #847543;
+    --color-bg-secondary: #dcd0c0;
+    --color-bg-default: #f4f4f4;
+    --color-bg-inverse: #373737;
+
+    --color-text-primary: rgb(246, 244, 244);
+    --color-text-secondary: #927e7e;
+    --color-text-default: #373737;
+    --color-text-default-soft: #6a6a6a;
+    --color-text-inverse: #fff;
+    --color-text-inverse-soft: #bbb;
+
+    --font-weight-normal: 400;
+    --font-weight-bold: 800;
+    --font-weight-display: 400;
+    --font-weight-btn: 600;
+
+    --rounded-btn: 0;
+  } */
+}
+
+@layer utilities {
+  
+    .cursor-inherit {
+      cursor: inherit;
+    }
+
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .hide-scroll::-webkit-scrollbar {
+      display: none;
+    }
+  
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .hide-scroll {
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+    }
+}
