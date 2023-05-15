@@ -1,4 +1,4 @@
-import { Button, Center, FlexBox, H1, H5, LayoutContextProps, Page, Paragraph } from '@cd/ui-lib';
+import { Button, Center, FlexBox, H1, H5, LayoutContextProps, Page, Paragraph, SignInButton } from '@cd/ui-lib';
 import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import { PropsWithChildren } from 'react';
@@ -12,14 +12,10 @@ function WelcomePage() {
                     <FlexBox className='items-center'>
                         <H1 color="light">Welcome to Gras</H1>
                         <H5 color="light">Sign in to use this app</H5>
-                        <Button
+                        <SignInButton 
                             size="lg"
                             bg="primary"
-                            transparent
-                        >
-                            Sign In
-                        </Button>
-                        {/* <SignInButton /> */}
+                            hover='primary-light'/>
                     </FlexBox>
                     {/* <H5 color="light">
                         {`If you are a new dispensary, 
