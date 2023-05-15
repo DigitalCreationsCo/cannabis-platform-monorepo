@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "target": "ES2015",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "ES2015"
+    ],
+    "module": "esnext",
+    "jsx": "preserve",
+    "incremental": true,
+    "paths": {
+      "@cd/ui-lib/*": [
+        "../../../packages/ui-lib/src/*"
+      ],
+      "@cd/ui-lib": [
+        "../../../packages/ui-lib/src/index"
+      ],
+      "@cd/core-lib/*": [
+        "../../../packages/core-lib/src/*"
+      ],
+      "@cd/core-lib": [
+        "../../../packages/core-lib/src/index"
+      ],
+      "@cd/data-access": [
+        "../../../packages/data-access/src/index"
+      ],
+      "@cd/data-access/*": [
+        "../../../packages/data-access/src/*"
+      ],
+      "@cd/eslint-config": [
+        "../../../packages/eslint-config/src/index"
+      ],
+      "@cd/eslint-config/*": [
+        "../../../packages/eslint-config/src/*"
+      ]
+    }
+  },
+  "exclude": [
+    "**/node_modules",
+    "**/.*/"
+  ],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.mts",
+    "**/*.js",
+    "**/*.cjs",
+    "**/*.mjs",
+    "**/*.jsx",
+    "**/*.json"
+  ]
+}
