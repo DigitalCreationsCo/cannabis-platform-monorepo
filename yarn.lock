@@ -2841,11 +2841,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cd/app-app@workspace:apps/app":
+"@cd/admin-app@workspace:apps/app":
   version: 0.0.0-use.local
-  resolution: "@cd/app-app@workspace:apps/app"
+  resolution: "@cd/admin-app@workspace:apps/app"
   dependencies:
+    "@cd/core-lib": "workspace:*"
     "@cd/data-access": "workspace:*"
+    "@cd/eslint-config": "workspace:*"
+    "@cd/ui-lib": "workspace:*"
     "@reduxjs/toolkit": 1.9.2
     "@tailwindcss/typography": 0.5.8
     "@types/cors": 2.8.13
@@ -2864,6 +2867,7 @@ __metadata:
     daisyui: 2.46.0
     date-fns: 2.29.3
     dotenv: 16.0.3
+    dotenv-cli: 7.0.0
     dotenv-expand: 10.0.0
     eslint: 8.29.0
     eslint-config-next: 13.0.6
