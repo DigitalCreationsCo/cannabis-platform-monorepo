@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
+import logo from '../../../public/assets/images/logo.png';
 import Icons from "../../icons";
 import Button from '../Button';
 import FlexBox from '../FlexBox';
@@ -15,7 +16,6 @@ import IconWrapper from '../IconWrapper';
 import TextField from '../TextField';
 import { H1, H3, H5, Paragraph } from '../Typography';
 import Modal from './Modal';
-import logo from '/assets/images/logo.png';
 
 interface LoginModalProps {
     dispatchCloseModal: () => void;
