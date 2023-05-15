@@ -35,6 +35,7 @@ export { default as Table } from './Table';
 export { default as Tag } from './Tag';
 export { default as TermsAgreement } from './TermsAgreement';
 export { default as TextField } from './TextField';
+export { ToastProvider } from './ToastProvider';
 export * from './Typography';
 export { default as UploadImageBox } from './UploadImageBox';
 
