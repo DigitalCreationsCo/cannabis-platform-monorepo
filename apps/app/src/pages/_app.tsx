@@ -1,15 +1,15 @@
 /// @ts-nocheck
-import { LayoutContextProps, ToastProvider } from "@cd/ui-lib";
+import { Center, FlexBox, LayoutContextProps, LoadingDots, ModalProvider, ToastProvider } from "@cd/ui-lib";
 import withRedux from 'next-redux-wrapper';
-import { AppProps } from 'next/app';
+import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { Dispatch, SetStateAction, useEffect } from 'react';
 import { Provider as ReduxProvider, useStore } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session, { SessionContextType } from 'supertokens-auth-react/recipe/session';
-import { frontendConfig } from '../../config/frontendConfig';
-import { LayoutContainer, ModalProvider, StepFormValuesProvider } from '../components';
+import { LayoutContainer, StepFormValuesProvider } from '../components';
+import { frontendConfig } from '../config/frontendConfig';
 import reduxStore from '../redux/store';
 import '../styles/globals.css';
 
@@ -53,10 +53,10 @@ function App({ Component, pageProps }: CustomAppProps) {
             <SuperTokensWrapper>
                 <ReduxProvider store={store}>
                     <PersistGate
-                    persistor={store._persistor}
-                    loading={<FlexBox className="grow items-center min-h-screen"><Center>
-                    <LoadingDots /></Center></FlexBox>}
-                    >
+                        persistor={store._persistor}
+                        loading={<FlexBox className="grow items-center min-h-screen"><Center>
+                        <LoadingDots /></Center></FlexBox>}
+                        >
                         <ModalProvider />
                         <ToastProvider />
                         <LayoutContainer {...getLayoutContext()}>

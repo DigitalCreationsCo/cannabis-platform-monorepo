@@ -3,7 +3,7 @@ import { Button, Center, H1, H5, Page, Paragraph } from '@cd/ui-lib';
 import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import { PropsWithChildren } from 'react';
-import backdrop from '../public/marijuana-backdrop.png';
+import backdrop from '/public/marijuana-backdrop.png';
 
 function WelcomePage() {
     return (

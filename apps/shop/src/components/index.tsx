@@ -7,7 +7,6 @@ export { default as DispensaryCard } from './DispensaryCard';
 export { default as DispensaryList } from './DispensaryList';
 export * from './form';
 export { default as LocationProvider } from './LocationProvider';
-export * from './modal';
 export { default as LayoutContainer } from './ShopLayoutContainer';
 export * from "./StepFormProvider";
 export { default as TopBar } from './TopBar';

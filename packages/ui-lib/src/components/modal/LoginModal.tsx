@@ -1,85 +1,22 @@
-import { modalActions, ModalStateProps, selectCartState, selectModalState, userActions } from '@cd/core-lib';
-import {
-    Button, FlexBox,
-    Grid,
-    H1,
-    H3,
-    H5,
-    Icons,
-    IconWrapper, LoginModalProps,
-    Modal, Paragraph,
-    TextField
-} from '@cd/ui-lib';
+import { userActions } from '@cd/core-lib';
+import { handleOTPInput, resendOTP, sendOTPEmail, sendOTPPhone } from '@cd/core-lib/src/auth/OTP';
 import { useFormik } from 'formik';
 import Image from 'next/image';
-import { JSXElementConstructor, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
-import { connect, useSelector } from 'react-redux';
-import { handleOTPInput, resendOTP, sendOTPEmail, sendOTPPhone } from 'session/OTP';
+import { useDispatch } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
-import { useAppDispatch } from '../../redux/hooks';
-import CheckoutModal from './CheckoutModal';
+import Icons from "../../icons";
+import Button from '../Button';
+import FlexBox from '../FlexBox';
+import Grid from '../Grid';
+import IconWrapper from '../IconWrapper';
+import TextField from '../TextField';
+import { H1, H3, H5, Paragraph } from '../Typography';
+import Modal from './Modal';
 
-
-// import ConfirmModal from "./ConfirmModal";
-// import MessageBanner from "./MessageBanner";
-// import MessageModal from "./MessageModal";
-// import SelectModal from "./SelectModal";
-// import TipModal from "./TipModal";
-
-const MODAL_COMPONENTS = Object.freeze({
-    'SHOW_MODAL': () => <></>,
-    'CONFIRM_MODAL': () => <></>,
-    'SELECT_MODAL': () => <></>,
-    'TIP_MODAL': () => <></>,
-    'MESSAGE_BANNER': () => <></>,
-    'CHECKOUT_MODAL': CheckoutModal,
-    'CART_MODAL': CartModal,
-    'LOGIN_MODAL': LoginModal
-});
-
-type ModalContainerProps = ModalStateProps & LoginModalProps
-
-const ModalContainer = (props: ModalContainerProps) => {
-    const modalState = useSelector(selectModalState);
-    const ModalComponent = useMemo<JSXElementConstructor<ModalStateProps & LoginModalProps>>(() => MODAL_COMPONENTS[modalState.modalType], [modalState.modalType]);
-    if (!modalState.modalType && !modalState.modalVisible) return <></>;
-    return <ModalComponent {...modalState} {...props} />;
-};
-
-export { ModalContainer };
-const mapStateToProps = selectModalState;
-const mapDispatchToProps = { dispatchCloseModal: modalActions.closeModal };
-export default connect(mapStateToProps, mapDispatchToProps)(ModalContainer);
-
-function CartModal({ dispatchCloseModal, modalVisible, ...props }: CartModalProps) {
-    const { cart } = useSelector(selectCartState);
-    const closeModal = () => {
-        dispatchCloseModal();
-    };
-    const styles = {
-        cartModal: ['absolute', 'm-12', 'top-0 right-0 border-2 z-10']
-    };
-    return (
-        <Modal
-            isModalOverlay={false}
-            modalVisible={modalVisible}
-            onClose={closeModal}
-            {...props}
-            className={twMerge(styles.cartModal)}
-        >
-            <FlexBox>Cart Modal</FlexBox>
-            {cart.map((item) => (
-                <>{item.name}</>
-            ))}
-        </Modal>
-    );
-}
-
-// export default CartModal;
-
-interface CartModalProps {
+interface LoginModalProps {
     dispatchCloseModal: () => void;
     modalVisible: boolean;
 }
@@ -192,7 +129,7 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
     function EnterOTP () {
         const [loadingButton, setLoadingButton] = useState(false);
 
-        const dispatch = useAppDispatch();
+        const dispatch = useDispatch();
 
         const initialValues = { passcode: '' };
 
@@ -367,3 +304,5 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
         passcode: yup.string()
         .required('Invalid passcode.')
     });
+
+    export default LoginModal;

@@ -70,7 +70,7 @@ export default (initialState) => {
                 extraArgument: thunkArguments
             }
         })
-        .concat([crashMiddleware, loggerMiddleware, locationMiddleware])
+        .concat([crashMiddleware, loggerMiddleware])
     });
 
      store._persistor = persistStore(store);
@@ -88,7 +88,7 @@ export default (initialState) => {
                 extraArgument: thunkArguments
             }
         })
-        .concat([crashMiddleware, loggerMiddleware, locationMiddleware])
+        .concat([crashMiddleware, loggerMiddleware])
     });
   }
 

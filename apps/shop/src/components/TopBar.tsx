@@ -36,11 +36,6 @@ function TopBar({ signOut }: TopBarProps) {
     //     );
     // }
 
-    const styles = {
-        topbar: ['flex flex-row min-h-[66px] pr-4 lg:px-16 bg-inverse space-x-2 items-center shadow z-10'],
-        badge: 'indicator absolute inline-flex items-center justify-center w-6 h-6 text-sm text-light bg-primary -top-2 -right-2 rounded-full'
-    };
-
     return (
         <div className={twMerge(styles.topbar)}>
             <Link href="/" passHref>
@@ -96,3 +91,8 @@ function TopBar({ signOut }: TopBarProps) {
 }
 
 export default TopBar;
+
+const styles = {
+    topbar: ['flex flex-row min-h-[66px] pr-4 lg:px-16 bg-inverse space-x-2 items-center shadow z-10'],
+    badge: 'indicator absolute inline-flex items-center justify-center w-6 h-6 text-sm text-light bg-primary -top-2 -right-2 rounded-full'
+};

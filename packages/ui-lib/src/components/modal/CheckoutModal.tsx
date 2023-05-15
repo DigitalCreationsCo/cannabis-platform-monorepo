@@ -1,9 +1,12 @@
 import { modalActions, modalTypes, selectIsAddressAdded, selectUserState } from '@cd/core-lib';
-import { Button, Center, FlexBox, H4, Modal, Paragraph } from '@cd/ui-lib';
 import Router from 'next/router';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
-import { useAppDispatch } from '../../redux/hooks';
+import Button from '../Button';
+import Center from '../Center';
+import FlexBox from '../FlexBox';
+import { H4, Paragraph } from '../Typography';
+import Modal from './Modal';
 
 interface CheckoutModalProps {
     dispatchCloseModal: () => void;
@@ -11,7 +14,7 @@ interface CheckoutModalProps {
 }
 
 function CheckoutModal({ dispatchCloseModal, modalVisible, ...props }: CheckoutModalProps) {
-    const dispatch = useAppDispatch();
+    const dispatch = useDispatch();
 
     const user = useSelector(selectUserState)
     const isAddressAdded = useSelector(selectIsAddressAdded)
