@@ -121,6 +121,8 @@ Dispensary signup forms 1/2 done
 
 
 To DO: 
+fix middleware directs for domain zones
+
 Reconcile redux state and supertokens session across domains ! It's easy. 
 
 DO THESE THINGS THIS WEEK! BE DONE BY SATURDAY -- I DID NOT DO BY SATURDAY. I AM MAKING 4/10 LEVEL PROGRESS WITH VELOCITY
