@@ -45,13 +45,21 @@ function QuickDelivery() {
     const selectedLocation = useSelector(selectSelectedLocationState)
 
     useEffect(() => {
-        // console.log('simple Cart: ', simpleCart)
+        // Add the cart token data to redux state, and delete the cookie after this.
         if (simpleCart) dispatch(cartActions.saveSimpleCart(simpleCart) as unknown as AnyAction);
+        
+        // create order in redux state, with dispatch
+        
+        // dispatch: find dispensary record in shop state: dispensaries.
+        //  if ( !dispensary is not found in state,) download the record from database, add it to redux state,
+        //      add the record to the order, so we can see the dispensary during checkout. :)
+
+        // then push to checkout. 
+        // toast('prepping your order...')
         
         removeCookie('gras-cart-token')
         console.info('gras-cart-token cookie removed.')
         // NOTE: Should encrypt this token in the future.
-        // NOTE: Add the cart data to redux store at this point, and delete the cookie after this.
 
     }, [])
 
@@ -77,6 +85,14 @@ function QuickDelivery() {
     // }
 
     const checkout = () => {
+        // create order in redux state, with dispatch
+        
+        // dispatch: find dispensary record in shop state: dispensaries.
+        //  if ( !dispensary is not found in state,) download the record from database, add it to redux state,
+        //      add the record to the order, so we can see the dispensary during checkout. :)
+
+        // then push to checkout. 
+        // toast('prepping your order...')
         Router.push('/checkout');
     }
      
