@@ -11,11 +11,6 @@ import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { twMerge } from "tailwind-merge";
 
-type FormStepComponentProps = { 
-    nextFormStep: () => void; 
-    prevFormStep: () => void; 
-}
-
 function QuickDelivery() {
     const user = useSelector(selectUserState)
     const { isLegalAge, idVerified } = user.user
@@ -97,5 +92,5 @@ QuickDelivery.getLayoutContext = (): LayoutContextProps => ({
 })
 
 export default QuickDelivery
-export type { FormStepComponentProps };
+
 const styles = { gradient: ['bg-gradient-to-b', 'from-primary', 'to-secondary', 'p-0 lg:p-16 h-max'] };

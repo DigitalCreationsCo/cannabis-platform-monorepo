@@ -4,10 +4,9 @@ import { UserWithDetails } from "@cd/data-access";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 // import * as SecureStore from "expo-secure-store";
 import toast from 'react-hot-toast';
-import { pruneData } from "utils";
+import { pruneData } from "../../utils";
 import { AppState, ThunkArgumentsType } from "../types";
 import { locationActions } from './location.reducer';
-
 
 // import { messageActions } from "./message";
 // import { vendorActions } from "./vendors";

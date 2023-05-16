@@ -1,6 +1,11 @@
 import { OrganizationCreateType, UserCreateType } from '@cd/data-access';
 import { createContext, PropsWithChildren, useContext, useState } from 'react';
 
+type FormStepComponentProps = { 
+    nextFormStep: () => void; 
+    prevFormStep: () => void; 
+}
+
 type FormDataProps = {
     organization?: OrganizationCreateType;
     newUser: UserCreateType
@@ -11,6 +16,7 @@ interface FormContextProps extends PropsWithChildren {
     setFormValues: (values: Record<string, unknown>) => void;
     resetFormValues: () => void;
 }
+
 
 const FormContext = createContext<FormContextProps>({} as FormContextProps);
 
@@ -52,5 +58,5 @@ const StepFormValuesProvider = ({ children }: PropsWithChildren) => {
 const useFormContext = () => useContext<FormContextProps>(FormContext);
 
 export { useFormContext, StepFormValuesProvider };
-export type { FormContextProps, FormDataProps };
+export type { FormContextProps, FormDataProps, FormStepComponentProps };
 
