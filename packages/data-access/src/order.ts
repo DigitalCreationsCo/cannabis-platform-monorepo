@@ -1,4 +1,7 @@
 import { Address, Driver, Order, OrderStatus, Prisma, ProductVariant, User } from "@prisma/client";
+import { AddressWithDetails } from "address";
+import { OrganizationWithShopDetails } from "organization";
+import { UserWithDetails } from "user";
 import prisma from "./db/prisma";
 import { ProductVariantWithDetails } from "./product";
 
@@ -238,14 +241,26 @@ export type OrderCreate = {
     orderStatus?: OrderStatus
     purchaseId?: string | null
     addressId: string
+    destinationAddress: AddressWithDetails
+    
     customerId: string
+    customer: UserWithDetails | null
+    
     organizationId: string
+    organization: OrganizationWithShopDetails | null
+
     driverId?: string | null
-    isDelivered?: boolean
+    driver: Driver | null
+    
+    isDeliveredOrder: boolean
+    isCustomerReceivedOrder: boolean
+    isCompleted: boolean
+
     deliveredAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     items?: ProductVariantWithDetails[]
+    // purchase?: PurchaseCreateNestedOneWithoutOrderInput
   }
   
 export type PurchaseCreate = Prisma.PurchaseCreateArgs[ "data" ]

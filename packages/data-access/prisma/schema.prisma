@@ -239,7 +239,7 @@ model Order {
   subtotal Int
   total Int
   taxFactor Float
-  tax   Int
+  taxAmount   Int
   orderStatus OrderStatus @default(Pending)
   items ProductVariant[]
 
@@ -257,8 +257,16 @@ model Order {
   
   driverId String?
   driver Driver? @relation(fields: [driverId], references: [id],  onDelete: SetNull, onUpdate: SetNull)
-  isDelivered Boolean @default(false)
+
+  isDeliveredOrder Boolean @default(false)
+  isCustomerReceivedOrder Boolean @default(false)
+  isCompleted Boolean @default(false)
+  
   deliveredAt    DateTime?
+
+  // metadataId     String @unique
+  // metadata       OrderMetaData?
+
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
 
@@ -268,6 +276,12 @@ model Order {
   @@index([driverId])
   @@index([organizationId])
 }
+
+// model OrderMetaData {
+//   orderId String  @unique
+//   order   Order   @relation(fields: [orderId], references: [id])
+  
+// }
 
 // model Delivery {
 //   id            String @id
@@ -328,6 +342,7 @@ model Order {
 enum OrderStatus {
   Pending
   Processing
+  OnDelivery
   Delivered
   Cancelled
 }

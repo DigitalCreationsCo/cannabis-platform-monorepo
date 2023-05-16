@@ -7,7 +7,6 @@ import { AnyAction } from "@reduxjs/toolkit";
 import { ConfirmOrder, QuickSignUpUserForm, SubmitAddress, VerifyPhotoId } from "components";
 import Head from "next/head";
 import Router from 'next/router';
-import { FormStepComponentProps } from "pages/quick-delivery";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
