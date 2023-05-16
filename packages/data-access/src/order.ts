@@ -247,7 +247,7 @@ export type OrderCreate = {
     customer: UserWithDetails | null
     
     organizationId: string
-    organization: OrganizationWithShopDetails | null
+    organization: OrganizationWithShopDetails
 
     driverId?: string | null
     driver: Driver | null

@@ -30,10 +30,11 @@ export async function createUser(userData: UserCreateType) {
                 dialCode: userData.dialCode,
                 phone: userData.phone,
                 address: {
-                    connectOrCreate: {
-                        where: { id: userData.address.id },
-                        create: { ...userData.address },
-                    }
+                    create: { ...userData.address },
+                    // create: {
+                        
+                    //     // data: { ...userData.address },
+                    // }
                 },
                 imageUser: userData.imageUser ? {
                     create: {

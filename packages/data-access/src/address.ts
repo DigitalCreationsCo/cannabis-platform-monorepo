@@ -61,8 +61,8 @@ export async function removeAddressByIdAndUserId({ addressId, userId }: { addres
 // export type AddressCreateType = Prisma.AddressCreateInput
 // export type AddressCreateType = Prisma.PromiseReturnType<typeof createAddress>
 
-export type AddressCreateType = {
-    id: string;
+export type AddressCreateType ={
+    id: string | undefined;
     street1: string;
     street2: string | null;
     city: string;
@@ -71,7 +71,7 @@ export type AddressCreateType = {
     country: string;
     countryCode: string | null;
     coordinateId?: string;
-    coordinates: Coordinates;
+    // coordinates?: Coordinates;
     userId: string | undefined;
     organizationId: string | undefined;
 };
@@ -89,4 +89,5 @@ export type AddressUserCreateType = {
     // ^ userId used to connect with user
 }
 
-export type AddressWithDetails = Address & { coordinates: Coordinates }
+export type AddressWithDetails = Address & { coordinates: Coordinates | null }
+export type AddressWithCoordinates = Address & { coordinates: Coordinates | null }
