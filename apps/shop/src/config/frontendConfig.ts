@@ -5,12 +5,17 @@ import Session from 'supertokens-auth-react/recipe/session';
 const appName           = process.env.NEXT_PUBLIC_SHOP_APP_NAME;
 const baseDomain        = process.env.NEXT_PUBLIC_APP_DOMAIN || 'localhost';
 const shopDomain        = process.env.NEXT_PUBLIC_SHOP_APP_URL || 'http://localhost:3000';
-const dashboardDomain   = process.env.NEXT_PUBLIC_DASHBOARD_APP_URL || 'http://localhost:3001';
+const dashboardDomain   = process.env.NEXT_PUBLIC_DASHBOARD_APP_URL || 'http://app.localhost:3000';
 const apiDomain         = process.env.NEXT_PUBLIC_SERVER_MAIN_URL || 'http://localhost:6001';
 
-const appInfo = {
+const appInfo: {
+    appName: string | undefined;
+    websiteDomain: string;
+    apiDomain: string;
+    apiBasePath: string;
+} = {
     appName,
-    shopDomain,
+    websiteDomain: "http://localhost:3000",
     apiDomain,
     apiBasePath: '/api/v1/'
 };
@@ -43,7 +48,8 @@ export const frontendConfig = () => {
             //     }
             // }),
             Session.init({
-                sessionTokenFrontendDomain: baseDomain,
+                sessionTokenFrontendDomain: '.localhost:3000',
+                // sessionTokenBackendDomain: '.localhost:3000',
                 // override: {
                 //     functions: (originalImplementation) => {
                 //         return {

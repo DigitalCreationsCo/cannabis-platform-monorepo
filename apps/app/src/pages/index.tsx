@@ -55,7 +55,7 @@ const ImageBackDrop = ({ src, children }: { src: string | StaticImageData } & Pr
                 clipPath: 'inset(0 0 0 0)'
             }}
         >
-            <Image src={src} alt="" fill style={{ zIndex: -1, objectFit: 'cover', objectPosition: '80% 20%' }} />
+            <Image src={src} alt="" fill style={{ zIndex: -1, objectFit: 'cover', objectPosition: '80% 20%' }} priority />
             <div
                 style={{
                     zIndex: -1,

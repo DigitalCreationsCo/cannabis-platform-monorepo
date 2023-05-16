@@ -1,4 +1,4 @@
-import { websiteDomain } from '@cd/core-lib';
+// import { baseDomain, websiteDomain } from '@cd/core-lib';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
@@ -17,7 +17,7 @@ const app = express();
 
 app.use(
     cors({
-        origin: websiteDomain,
+        origin: ["http://localhost:3000", "http://app.localhost:3000"],
         allowedHeaders: ['content-type', ...Supertokens.getAllCORSHeaders()],
         methods: ["GET", "PUT", "POST", "DELETE"],
         credentials: true
