@@ -1,14 +1,14 @@
 import { Page } from '@cd/ui-lib';
+import Head from 'next/head';
+import { useState } from 'react';
+import { twMerge } from 'tailwind-merge';
 import {
     DispensaryCreate,
     DispensaryReview,
     DispensarySignUpComplete,
     DispensaryUserCreate,
     FormCard
-} from 'components';
-import Head from 'next/head';
-import { useState } from 'react';
-import { twMerge } from 'tailwind-merge';
+} from '../../components/form';
 
 function DispensarySignUpStepForm() {
     const [formStep, setFormStep] = useState(0);

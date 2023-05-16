@@ -1,7 +1,8 @@
-import { selectIsCartEmpty, selectSelectedLocationState, selectUserState } from '@cd/core-lib/reduxDir';
+import { selectCartState, selectIsCartEmpty, selectSelectedLocationState, selectUserState } from '@cd/core-lib/reduxDir';
 import { renderAddress } from '@cd/core-lib/utils';
+import { Address } from '@cd/data-access';
 import { Button, Paragraph } from '@cd/ui-lib';
-import { Card, H3, H4, H5, Page } from "@cd/ui-lib/components";
+import { Card, FlexBox, H3, H4, H5, Page } from "@cd/ui-lib/components";
 import { useState } from 'react';
 // import axios from 'axios';
 // import { useFormContext } from "components";
@@ -11,11 +12,7 @@ import { RenderCart } from '../../components';
 
 function Checkout() {
     const cartIsEmpty = useSelector(selectIsCartEmpty)
-
-    // const checkout = async () => { 
-    //     const order = createOrder()
-    //     await axios.post('/api/checkout-session', order)
-    // }
+    const { order } = useSelector(selectCartState)
     
     const createStripeCheckout = async () => { 
         // console.log(' client side formData: ', formData)
@@ -40,7 +37,16 @@ function Checkout() {
             </div>
             <div className='flex flex-col-reverse lg:flex-row justify-between'>
                 <RenderCart />
-                <ReviewDeliveryAddress />                    
+                <FlexBox className='flex-col md:space-y-8'>
+                    <div>
+                        <H5 className='text-primary text-center'>
+                            Order From {order?.organization?.name}</H5>
+                        <div className={styles.addressContainer}>
+                            {/* <Paragraph>{renderAddress({ address: order?.organization?.address!! })}</Paragraph> */}
+                        </div>
+                    </div>
+                    <ReviewDeliveryAddress orderAddress={order.destinationAddress} />      
+                </FlexBox>              
             </div>
             </Card>
         </Page>
@@ -49,26 +55,26 @@ function Checkout() {
 
 export default Checkout;
 
-function ReviewDeliveryAddress() {
+function ReviewDeliveryAddress({ orderAddress }: { orderAddress: Address}) {
     const {user} = useSelector(selectUserState)
     const selectedAddress = useSelector(selectSelectedLocationState)
     const [address, setAddress] = useState(selectedAddress['address'])
     const [showDropdown, setShowDropdown] = useState(false)
     
     return (
-        <div className="py-8 dropdown">
+        <div className="dropdown">
             <H5 className='text-primary text-center'>Delivery Address</H5>
             <div className={twMerge([styles.addressContainer,])}>
                 {!showDropdown &&
                 <Button
-                className='relative flex flex-col h-full w-[300px] m-auto text-center rounded justify-start'
+                className='relative flex flex-col h-full w-[300px] h-[224px] m-auto text-center rounded justify-start'
                 // onClick={() => setShowDropdown(true)}
                 borderColor='primary'
                 bg='transparent' 
                 hover='transparent'
                 border={true}>
                     <Paragraph>{user?.firstName} {user?.lastName}</Paragraph>
-                    <Paragraph>{renderAddress({ address })}</Paragraph>
+                    <Paragraph>{renderAddress({ address: orderAddress })}</Paragraph>
                 </Button>
                 }
                 
