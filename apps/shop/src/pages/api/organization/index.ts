@@ -6,7 +6,7 @@ import nc from 'next-connect';
 
 const handler = nc();
 
-// create organization
+// create organization, create location record, create stripe account
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         const formData: OrganizationCreateType = req.body;
@@ -22,7 +22,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     }
 });
 
-// update organization details
+// update organization, update location record
 handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         const formData: OrganizationCreateType = req.body;

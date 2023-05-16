@@ -5,7 +5,6 @@ import { Button, FlexBox, Paragraph } from '@cd/ui-lib';
 import { Card, H3, H4, LoadingPage, Page } from "@cd/ui-lib/components";
 import { useState } from 'react';
 // import axios from 'axios';
-// import { useFormContext } from "components";
 import { useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import { RenderCart } from '../../components';
@@ -16,10 +15,6 @@ function Checkout() {
 
     const cartIsEmpty = useSelector(selectIsCartEmpty)
 
-    // useEffect(() => {
-    //     if (order !== undefined) setLoading(false)
-    // }, [order])
-    
     const createStripeCheckout = async () => { 
         // console.log(' client side formData: ', formData)
         // await axios.post('/api/checkout-session', formData)
@@ -135,6 +130,6 @@ const styles = {
 
     container: 'w-[300px]',
     heading: 'text-primary pl-4',
-    box: 'border rounded p-4 h-fit',
+    box: 'border rounded py-4 h-fit',
     selectAddress: ''
 }

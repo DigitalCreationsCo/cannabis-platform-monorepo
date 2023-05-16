@@ -17,7 +17,7 @@ export default class OrganizationDA {
     static async createOrganization(organization: OrganizationCreateType) {
         try {
             const data = await createOrganization(organization);
-            await axios.post(urlBuilder.location.createorganizationLocationRecord(), { ...organization },{ headers: {
+            await axios.post(urlBuilder.location.organizationLocationRecord(), { ...organization },{ headers: {
                           Accept: "application/json",
                           "Content-Type": "application/json",
                         }})
@@ -40,7 +40,7 @@ export default class OrganizationDA {
     static async updateOrganization(organization: OrganizationCreateType) {
         try {
             const data = await upsertOrganization(organization);
-            await axios.put(urlBuilder.location.createorganizationLocationRecord(), { ...organization },{ headers: {
+            await axios.put(urlBuilder.location.organizationLocationRecord(), { ...organization },{ headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",
             }})

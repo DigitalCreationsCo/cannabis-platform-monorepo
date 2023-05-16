@@ -15,7 +15,7 @@ export default class AccountController {
      * Link a dispensary account (Organization) to a stripe account
      * 
      */
-    static async createDispensaryAccount(req, res: Response) {
+    static async createStripeDispensaryAccount(req, res: Response) {
         try {
             let dispensaryAccount:OrganizationCreateType & {stripeAccountId: string} = req.body;
             let accountId = dispensaryAccount.stripeAccountId;
@@ -71,7 +71,7 @@ export default class AccountController {
      * @param res 
      * @returns 
      */
-    static async checkOnboardDispensaryAccount (req, res: Response) {
+    static async checkOnboardStripeDispensaryAccount (req, res: Response) {
         try {
             let {id, stripeAccountId} = req.body;
             const account = await StripeService.getAccount(stripeAccountId);

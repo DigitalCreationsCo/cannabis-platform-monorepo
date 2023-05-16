@@ -39,6 +39,8 @@ export default class OrganizationController {
             const coordinates = await getGeoCoordinatesByAddress(organization.address);
             if (coordinates) organization.address.coordinates = coordinates;
             
+            // NOTE: this process is an upsert, should be changed to update only,
+            // so it doesnt interfere with account creation, and stripe account creation.
             const data = await OrganizationDA.updateOrganization(organization);
             if (!data) return res.status(404).json('Organization could not be created.');
 

@@ -8,8 +8,8 @@ POST    '/stripe/dispensary-account'            authorizeDispensaryAccount
 
 ================================= */
 
-router.route('/dispensary-account').post(accountCtrl.createDispensaryAccount);
+router.route('/dispensary-account').post(accountCtrl.createStripeDispensaryAccount);
 
-router.route('/check-onboard').post(accountCtrl.checkOnboardDispensaryAccount);
+router.route('/check-onboard').post(accountCtrl.checkOnboardStripeDispensaryAccount);
 
 export default router;

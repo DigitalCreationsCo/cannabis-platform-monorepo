@@ -118,6 +118,7 @@ Dispensary signup forms 1/2 done
 
 To DO: 
 Complete checkout and stripe data flow, end to end
+NOTE: PROVIDE A TEXTFIELD FOR DISPENSARIES TO INPUT THEIR EXISTING STRIPE ACCOUNTS, during onboarding.
 
 Complete 'continue sign up form' flow for users
 
@@ -149,6 +150,7 @@ USE AI LIKE A MOTHER FUCKER.
 WIN.
 
 Improvements:
+Take all the notes an add them into JSDOCS in the relevant files and functions ;P
 
 ! Should encrypt the widget cart token, when its save in cookie. in the future.
 
