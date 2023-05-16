@@ -12,6 +12,11 @@ import { RenderCart } from '../../components';
 function Checkout() {
     const cartIsEmpty = useSelector(selectIsCartEmpty)
 
+    // const checkout = async () => { 
+    //     const order = createOrder()
+    //     await axios.post('/api/checkout-session', order)
+    // }
+    
     const createStripeCheckout = async () => { 
         // console.log(' client side formData: ', formData)
         // await axios.post('/api/checkout-session', formData)

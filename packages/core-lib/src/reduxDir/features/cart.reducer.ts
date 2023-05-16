@@ -249,8 +249,6 @@ const initialState: CartStateProps = {
     isCustomerReceivedOrder: false,
     isCompleted: false,
     deliveredAt: null,
-    createdAt?: Date | string,
-    updatedAt?: Date | string,
     items: [],
   },
   dispensaryName: '',

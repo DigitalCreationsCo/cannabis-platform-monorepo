@@ -59,6 +59,7 @@ model User {
   emailVerified Boolean @default(false)
   isLegalAge Boolean?
   idVerified Boolean @default(false)
+  isSignUpComplete Boolean @default(false)
   passwordHash String?
   passwordResetToken String?
   dialCode String?

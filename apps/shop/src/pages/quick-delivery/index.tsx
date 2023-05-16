@@ -4,8 +4,8 @@ import { OrderCreate, ProductVariantWithDetails } from "@cd/data-access";
 import { Button, Center, CheckBox, H5, Paragraph, Price, SimpleCartItem } from "@cd/ui-lib";
 import { Card, H2, LayoutContextProps, Page } from "@cd/ui-lib/src/components";
 import { AnyAction } from "@reduxjs/toolkit";
-import { ConfirmOrder, QuickSignUpUserForm, SubmitAddress, VerifyPhotoId } from "components";
 import Head from "next/head";
+import Link from "next/link";
 import Router from 'next/router';
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
@@ -21,18 +21,7 @@ function QuickDelivery() {
     const user = useSelector(selectUserState)
     const { isLegalAge, idVerified } = user.user
 
-    if (!isLegalAge === false || (!isLegalAge && idVerified)) Router.push('/sorry-we-cant-serve-you')
-    
-    const [formStep, setFormStep] = useState(0);
-    const nextFormStep = () => setFormStep((currentStep) => currentStep + 1);
-    const prevFormStep = () => setFormStep((currentStep) => currentStep - 1);
-
-    const FormStepComponents = [
-        ConfirmOrder,
-        !idVerified && VerifyPhotoId || isLegalAge && idVerified && null, // if there is no user, or user is over21, not age verified, then verify photo id
-        !user.isSignedIn && QuickSignUpUserForm || null,
-        (user.user.address.length < 1 || !user.isSignedIn) && SubmitAddress || null,
-    ];
+    if (isLegalAge === false || (!isLegalAge && idVerified)) Router.push('/sorry-we-cant-serve-you')
     
     const dispatch = useDispatch();
     
@@ -46,20 +35,9 @@ function QuickDelivery() {
     useEffect(() => {
         // Add the cart token data to redux state, and delete the cookie after this.
         if (simpleCart) dispatch(cartActions.saveSimpleCart(simpleCart) as unknown as AnyAction);
-        
-        // create order in redux state, with dispatch
-        
-        // dispatch: find dispensary record in shop state: dispensaries.
-        //  if ( !dispensary is not found in state,) download the record from database, add it to redux state,
-        //      add the record to the order, so we can see the dispensary during checkout. :)
-
-        // then push to checkout. 
-        // toast('prepping your order...')
-        
         removeCookie('gras-cart-token')
         console.info('gras-cart-token cookie removed.')
         // NOTE: Should encrypt this token in the future.
-
     }, [])
 
     const createOrder = async () => {
@@ -78,11 +56,6 @@ function QuickDelivery() {
         return order;
     }
 
-    // const checkout = async () => { 
-    //     const order = createOrder()
-    //     await axios.post('/api/checkout-session', order)
-    // }
-
     const checkout = () => {
         // create order in redux state, with dispatch
         
@@ -96,6 +69,8 @@ function QuickDelivery() {
     }
      
     const [ confirmOrder, setConfirmOrder ] = useState(false)
+
+    const canProceed = !cartIsEmpty || confirmOrder
     return (
         <Page className={twMerge(styles.gradient, "pb-0 md:pb-24")}>
             <Head>
@@ -109,9 +84,11 @@ function QuickDelivery() {
                         <br />let's get it right</H5>
                     <div className="flex flex-col md:grid grid-cols-2 gap-2">
 
-                    {!cartIsEmpty &&
+                    {   !cartIsEmpty &&
                     cart.cart?.map((product: ProductVariantWithDetails, index: number) => 
-                    <SimpleCartItem key={`order-item-${index}`} product={product}/>) || 
+                    <SimpleCartItem key={`order-item-${index}`} product={product}/>)}
+                    
+                    {   cartIsEmpty &&
                     <Paragraph className="col-span-2">
                         You have no items in your order.</Paragraph> }
 
@@ -130,17 +107,19 @@ function QuickDelivery() {
                         <>
                         <Paragraph>Hit checkout to complete your delivery order.</Paragraph>
                         <Button onClick={checkout} 
-                        disabled={!!cartIsEmpty || !confirmOrder}>
+                        disabled={!canProceed}>
                             Checkout</Button>
                         </>
                         ) : (
                             <>
                         <Paragraph>We'll need your contact info and address so our delivery person can get to you.</Paragraph>
-                        <Paragraph>Hit Next to provide your info, or <i>sign in</i></Paragraph>
+                        {/* <Paragraph>Hit Next to provide your info, or <i>sign in</i></Paragraph> */}
+                        <Paragraph>Please <i>sign in</i></Paragraph>
+                        <Link href="/signup/continue">
                         <Button 
-                        disabled={!!cartIsEmpty}
-                        onClick={nextFormStep}
+                        disabled={!canProceed}
                         >Next</Button>
+                        </Link>
                         <Button onClick={openLoginModal}>
                             Sign In</Button>
                         </>
