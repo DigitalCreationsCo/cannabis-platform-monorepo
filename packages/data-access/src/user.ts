@@ -1,5 +1,5 @@
 import { ImageUser, Membership, MembershipRole, Prisma, User } from "@prisma/client";
-import { AddressCreateType, AddressWithDetails } from "address";
+import { AddressCreateType, AddressWithDetails } from "./address";
 import prisma from "./db/prisma";
 import { OrderWithDetails } from "./order";
 
