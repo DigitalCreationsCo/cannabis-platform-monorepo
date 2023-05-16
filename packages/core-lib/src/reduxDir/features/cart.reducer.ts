@@ -1,9 +1,12 @@
 // @ts-nocheck
 
 import { OrderCreate, ProductVariantWithDetails } from "@cd/data-access";
+import { createId } from "@paralleldrive/cuid2";
 import { AnyAction, createAsyncThunk, createSlice, Dispatch, PayloadAction } from "@reduxjs/toolkit";
-import { calcSalePrice } from "../../utils";
+import { calcSalePrice, pruneData } from "../../utils";
 import { AppState, ThunkArgumentsType } from "../types";
+import { LocationStateProps, LocationType } from "./location.reducer";
+import { UserStateProps } from "./user.reducer";
 // import { NavigationService } from "../../navigation";
 // import { AppScreen, TabScreen } from "../../navigation/navigationPaths";
 // import { messageActions } from "./message";
@@ -86,6 +89,58 @@ export const addItem = createAsyncThunk<ProductVariantWithDetails[], ProductVari
 //     }
 //   }
 // );
+
+export const createOrderForCheckout = createAsyncThunk<OrderCreate, void>(
+  "cart/createOrderForCheckout",
+  async (_, thunkAPI) => {
+    try {
+      const cart = thunkAPI.getState().cart as CartStateProps;
+      let { user } = thunkAPI.getState().user as UserStateProps;
+      user = pruneData(user, ["timeJoined", "address", "memberships", "idFrontImage", "idBackImage"]);
+      const location = thunkAPI.getState().location as LocationStateProps
+      const { selectLocationType } = location
+      const selectedLocation = location[selectLocationType] as LocationType
+      
+        const order:OrderCreate = {
+          id: createId(),
+          subtotal: cart.subTotal, 
+          total: cart.total, 
+          taxFactor: 0, 
+          tax: 0,
+          organizationId: cart.organizationId,
+          orderStatus: 'Pending',
+          purchaseId: null,
+          addressId: selectedLocation.address.id,
+          destinationAddress: selectedLocation.address,
+          customerId: user.id,
+          customer: user,
+          // should i contain the organization data in the order?
+          // yay: data is available for all clients (web, mobile, driver)
+          // if ( !dispensary is not found in state,) download the record from database, add it to redux state,
+          // add the record to the order, so we can see the dispensary during checkout. :)
+          // OR
+          // nay: server can get the data easily
+
+          // organization: OrganizationWithShopDetails | null
+          driverId: null,
+          driver: null,
+          
+          isDeliveredOrder: false,
+          isCustomerReceivedOrder: false,
+          isCompleted: false,
+          deliveredAt: null,
+          createdAt: Date.now(),
+
+          items: cart.cart
+        }
+
+        return thunkAPI.fulfillWithValue(order);
+    } catch (error) {
+      console.log("createOrderForCheckout error: ", error);
+      return thunkAPI.rejectWithValue("Could not create order for checkout");
+    }
+  }
+)
 
 // export const createOrderForCheckout = createAsyncThunk(
 //   "cart/createOrderForCheckout",
@@ -340,11 +395,6 @@ const cartSlice = createSlice({
       state.totalItems = countTotalItems(state.cart);
       state.subtotal = countCartSubtotal(state.cart);
     },
-
-    createOrder: (state, { payload }: PayloadAction<OrderCreate>) => {
-      const order = payload;
-      state.order = order;
-    },
   },
   extraReducers: (builder) => {
     builder.addCase(addItem.fulfilled, (state, { payload }) => {
@@ -384,6 +434,22 @@ const cartSlice = createSlice({
       builder.addCase(addItem.rejected, (state, { payload }) => {
         const error = payload as string;
         console.log('add item to cart error: ', error)
+
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.isError = true;
+        state.errorMessage = error
+      }),
+      builder.addCase(createOrderForCheckout.fulfilled, (state, { payload }) => {
+        state.order = payload
+      }),
+      builder.addCase(createOrderForCheckout.pending, (state) => {
+        state.isLoading = true;
+        state.isSuccess = false;
+        state.isError = false;
+      }),
+      builder.addCase(createOrderForCheckout.rejected, (state, { payload }) => {
+        const error = payload as string;
 
         state.isLoading = false;
         state.isSuccess = false;
@@ -441,7 +507,7 @@ function getItemDiscountPrice(item: ProductVariantWithDetails) {
 export const cartActions = {
   addItem,
   //   addOrderVendor,
-  //   createOrderForCheckout,
+  createOrderForCheckout,
   //   submitOrder,
   ...cartSlice.actions,
 };

@@ -2,7 +2,7 @@
 import React, { useRef } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { useOnClickOutside } from '../../hooks';
-import CloseButton from '../CloseButton';
+import CloseButton from '../button/CloseButton';
 import { H6 } from '../Typography';
 
 export type ModalProps = {

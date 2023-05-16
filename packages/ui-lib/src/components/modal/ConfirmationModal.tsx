@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import Button from '../Button';
+import Button from '../button/Button';
 import FlexBox from '../FlexBox';
 import Modal, { ModalProps } from './Modal';
 

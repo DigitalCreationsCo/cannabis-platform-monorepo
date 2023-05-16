@@ -23,7 +23,7 @@ export const locationTypes = {
     GIFT_LOCATION: 'giftLocation'
 }
 
-type LocationType = {
+export type LocationType = {
     locationType: string;
     address: {
         id: string;

@@ -2,6 +2,7 @@ export * from './constants';
 export * from './debounce';
 export * from './formatDispensaryUrl';
 export * from './geo';
+export * from './object';
 export * from './schedule';
 export * from './stripe-utils';
 export * from './transaction';

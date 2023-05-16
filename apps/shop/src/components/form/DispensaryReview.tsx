@@ -73,7 +73,7 @@ function DispensaryReview({ nextFormStep }: { nextFormStep: () => void }) {
 
             <FlexBox className='items-center'>
                 <H5>Sign In to view your account</H5>
-                <SignInButton bg={'secondary-light'} hover={'primary-light'} />
+                <SignInButton />
             </FlexBox>
             <H3>Review Your Account Info</H3>
             <div className={styles.renderList}>

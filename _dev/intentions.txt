@@ -131,6 +131,9 @@ Reconcile redux state and supertokens session across domains ! It's easy.
 
 DO THESE THINGS THIS WEEK! BE DONE BY SATURDAY -- I DID NOT DO BY SATURDAY. I AM MAKING 4/10 LEVEL PROGRESS WITH VELOCITY
 
+! HOW AM I GOING TO SEND THESE ORDERS TO THE DISPENSARY?
+UNDERSTAND THEIR BACKEND SYSTEMS, AND INTEGRATE WITH GRAS FOR AUTOMATION FULFILLMENT.
+
 fix continue signup flow for quick-delivery and mybag
 complete signup process,
 

@@ -1,11 +1,10 @@
-import { cartActions, modalActions, modalTypes, selectCartState, selectIsCartEmpty, selectSelectedLocationState, SimpleCart } from "@cd/core-lib";
+import { cartActions, selectCartState, selectIsCartEmpty, selectSelectedLocationState, SimpleCart } from "@cd/core-lib";
 import { selectUserState } from "@cd/core-lib/reduxDir";
-import { OrderCreate, ProductVariantWithDetails } from "@cd/data-access";
-import { Button, Center, CheckBox, H5, Paragraph, Price, SimpleCartItem } from "@cd/ui-lib";
-import { Card, H2, LayoutContextProps, Page } from "@cd/ui-lib/src/components";
+import { ProductVariantWithDetails } from "@cd/data-access";
+import { Center, CheckBox, H5, Paragraph, Price, SimpleCartItem } from "@cd/ui-lib";
+import { Card, CheckoutButton, H2, LayoutContextProps, Page, SignInButton } from "@cd/ui-lib/src/components";
 import { AnyAction } from "@reduxjs/toolkit";
 import Head from "next/head";
-import Link from "next/link";
 import Router from 'next/router';
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
@@ -39,40 +38,12 @@ function QuickDelivery() {
         console.info('gras-cart-token cookie removed.')
         // NOTE: Should encrypt this token in the future.
     }, [])
-
-    const createOrder = async () => {
-        const order:OrderCreate = {
-            subtotal: 0, 
-            total: cart.total, 
-            taxFactor: 0, 
-            tax: 0,
-            addressId: selectedLocation.address.id,
-            customerId: user.user.id,
-            organizationId: simpleCart.organizationId || '',
-            items: cart.cart,
-            isDelivered: false,
-        }
-        dispatch(cartActions.createOrder(order))
-        return order;
-    }
-
-    const checkout = () => {
-        // create order in redux state, with dispatch
-        
-        // dispatch: find dispensary record in shop state: dispensaries.
-        //  if ( !dispensary is not found in state,) download the record from database, add it to redux state,
-        //      add the record to the order, so we can see the dispensary during checkout. :)
-
-        // then push to checkout. 
-        // toast('prepping your order...')
-        Router.push('/checkout');
-    }
      
     const [ confirmOrder, setConfirmOrder ] = useState(false)
-
-    const canProceed = !cartIsEmpty || confirmOrder
+    
+    const canProceed = !cartIsEmpty && confirmOrder
     return (
-        <Page className={twMerge(styles.gradient, "pb-0 md:pb-24")}>
+        <Page className={twMerge(styles.gradient, "pb-0 md:pb-28")}>
             <Head>
                 <title>Delivery by Gras</title>
             </Head>
@@ -97,45 +68,28 @@ function QuickDelivery() {
                         <Price basePrice={cart.total || 0} /></H5>
                     </div>
                     
-                    <Paragraph>Is your order right?</Paragraph>
+                    <Paragraph>Is your order correct?</Paragraph>
                     <CheckBox className="w-[122px]"
                     checked={confirmOrder}
-                    label={confirmOrder ? `It's right` : `No, it's not`}
+                    label={confirmOrder ? `It's correct` : `No, it's not`}
                     onChange={() => setConfirmOrder(!confirmOrder)} />
 
-                    {user.isSignedIn ? (
-                        <>
+                    {user.isSignedIn && canProceed && <>
                         <Paragraph>Hit checkout to complete your delivery order.</Paragraph>
-                        <Button onClick={checkout} 
-                        disabled={!canProceed}>
-                            Checkout</Button>
+                        <CheckoutButton disabled={!canProceed} />
                         </>
-                        ) : (
-                            <>
-                        <Paragraph>We'll need your contact info and address so our delivery person can get to you.</Paragraph>
-                        {/* <Paragraph>Hit Next to provide your info, or <i>sign in</i></Paragraph> */}
-                        <Paragraph>Please <i>sign in</i></Paragraph>
-                        <Link href="/signup/continue">
-                        <Button 
-                        disabled={!canProceed}
-                        >Next</Button>
-                        </Link>
-                        <Button onClick={openLoginModal}>
-                            Sign In</Button>
+                        }
+                        
+                    {!user.isSignedIn && canProceed && <>
+                        <Paragraph>That's great, except we dont have your info. {'\n'}
+                        <b>Please sign in</b>, so our <span className="text-primary">Gras DeliveryPerson</span> can get to you.</Paragraph>
+                        <SignInButton />
                         </>
-                    )}
+                    }
                 </Center>
             </Card>
         </Page>
-        );
-
-    function openLoginModal() {
-        dispatch(
-            modalActions.openModal({
-                modalType: modalTypes.loginModal
-            })
-        );
-    }
+    );
 }
 
 QuickDelivery.getLayoutContext = (): LayoutContextProps => ({

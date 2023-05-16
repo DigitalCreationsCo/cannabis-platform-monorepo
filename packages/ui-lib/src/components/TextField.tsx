@@ -1,8 +1,8 @@
 import { CarbonIconType } from '@carbon/icons-react';
 import React, { ReactEventHandler, SVGAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
+import IconButton from './button/IconButton';
 import FlexBox from './FlexBox';
-import IconButton from './IconButton';
 
 type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
     className?: string;
