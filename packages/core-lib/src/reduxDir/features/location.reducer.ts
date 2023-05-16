@@ -1,6 +1,7 @@
 // @ts-nocheck
 
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { Address } from "../../../../data-access/src";
 import { getGeoAddressByCoordinates } from "../../utils/geo";
 import { AppState } from "../types";
 
@@ -56,7 +57,7 @@ export type LocationStateProps = {
     homeLocation: LocationType;
     currentLocation: LocationType;
     giftLocation: LocationType;
-    allLocations: LocationType[];
+    allLocations: Address[];
     isLoading: boolean;
     isSuccess: boolean;
     isError: boolean;
@@ -133,21 +134,33 @@ const locationSlice = createSlice({
           state.currentLocation.address.coordinates.latitude = payload.latitude
           state.currentLocation.address.coordinates.longitude = payload.longitude
         },
-        setCurrentAddress: (state, { payload }: { payload: AddressPayload }) => {
-          console.info('setCurrentLocation action')
-          state.currentLocation.address = payload
-        },
         setSelectLocationType: (state, {payload}: {payload: LocationStateProps['selectLocationType']}) => {
           console.info('setSelectLocationType action')
           state.selectLocationType = payload
         },
-        setHomeAddress: (state, {payload}: {payload: LocationType}) => {
-          console.info('setHomeAddress action')
-          state.homeLocation = {...state.homeLocation, ...payload }
+        setCurrentAddress: (state, { payload }: { payload: AddressPayload }) => {
+          console.info('setCurrentLocation action')
+          state.currentLocation.address = {
+            ...state.currentLocation.address, 
+            ...payload,
+            coordinates: payload.coordinates || state.currentLocation.address.coordinates
+          }
         },
-        setAllLocations: (state, {payload}: {payload: LocationType[]}) => {
+        setHomeAddress: (state, {payload}: {payload: AddressPayload}) => {
+          console.info('setHomeAddress action')
+          state.homeLocation.address = {
+            ...state.homeLocation.address, 
+            ...payload, 
+            coordinates: payload.coordinates || state.homeLocation.address.coordinates
+          }
+        },
+        setAllLocations: (state, {payload}: {payload: AddressPayload[]}) => {
           console.info('setAllLocations action')
-          state.allLocations = payload
+          const allAddresses = payload.reduce((all, address) => {
+            let _address = { ...address, coordinates: address.coordinates || {latitude: 0, longitude: 0} }
+            all.push(_address)
+          }, []);
+          state.allLocations = allAddresses
         },
         addAddress: (state, {payload}: {payload: LocationType}) => {
           console.info('addAddress action')

@@ -156,6 +156,8 @@ Improvements:
 
 ! Should encrypt the widget cart token, when its save in cookie. in the future.
 
+* Handle change order address in checkout
+
 Checkout, settings, support, admin pages,
 
 add unit tests for all dispensary api, server api, location api routes, and functions!
