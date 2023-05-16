@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import { OrderCreate, OrderStatus, ProductVariantWithDetails } from "@cd/data-access";
+import { OrderCreate, ProductVariantWithDetails } from "@cd/data-access";
 import { AnyAction, createAsyncThunk, createSlice, Dispatch, PayloadAction } from "@reduxjs/toolkit";
 import { calcSalePrice } from "../../utils";
 import { AppState, ThunkArgumentsType } from "../types";
@@ -23,7 +23,7 @@ import { AppState, ThunkArgumentsType } from "../types";
 //   urlList,
 // } from "@cannabis_delivery/component_dispensary.utils";
 
-export const addItem = createAsyncThunk<ProductVariantWithDetails[], ProductVariantWithDetails[], {dispatch: Dispatch<AnyAction>; extra: ThunkArgumentsType;}>(
+export const addItem = createAsyncThunk<ProductVariantWithDetails[], ProductVariantWithDetails[], { dispatch: Dispatch<AnyAction>; extra: ThunkArgumentsType; }>(
   "cart/addItem",
   async (addItem, { getState, dispatch, rejectWithValue }) => {
     try {
@@ -48,15 +48,15 @@ export const addItem = createAsyncThunk<ProductVariantWithDetails[], ProductVari
         //   console.log("Dont add to cart -- do nothing");
         //   return thunkAPI.rejectWithValue("user declined add to cart");
         // }
-        
+
         // return rejectWithValue("declined add to cart");
       } else {
         // NavigationService.goBack();
         return addItem;
       }
     } catch (error) {
-        console.log("add item to cart error: ", error);
-        return rejectWithValue("item was not added to cart");
+      console.log("add item to cart error: ", error);
+      return rejectWithValue("item was not added to cart");
     }
   }
 );
@@ -196,85 +196,113 @@ export const addItem = createAsyncThunk<ProductVariantWithDetails[], ProductVari
 // );
 
 export type CartStateProps = {
-    order: {
-        subtotal: number;
-        total: number;
-        taxFactor: number;
-        tax: number;
-        orderStatus: OrderStatus | null;
-        addressId: string;
-        customerId: string;
-        organizationId: string;
-    };
-    orderDispensaryName: string;
-    cart: ProductVariantWithDetails[];
-    totalItems: number;
-    subtotal: number;
-    total: number;
-    isLoading: boolean;
-    isSuccess: boolean;
-    isError: boolean;
-    errorMessage: string;
+  order: OrderCreate
+  dispensaryName: string | undefined;
+  organizationId: string | undefined;
+  cart: ProductVariantWithDetails[];
+  totalItems: number;
+  subtotal: number;
+  total: number;
+  taxFactor: number,
+  taxAmount: number,
+  isLoading: boolean;
+  isSuccess: boolean;
+  isError: boolean;
+  errorMessage: string;
 }
 
 const initialState: CartStateProps = {
-    order: {
-        subtotal: 0,
-        total: 0,
-        taxFactor: 0,
-        tax: 0,
-        orderStatus: null,
-        addressId: '',
-        customerId: '',
-        organizationId: '',
-    },
-    orderDispensaryName: '',
-    cart: [],
-    totalItems: 0,
+  order: {
+    id: '',
     subtotal: 0,
     total: 0,
-    isLoading: false,
-    isSuccess: false,
-    isError: false,
-    errorMessage: "",
-};
-
-// dummy cart
-const dummyState: CartStateProps = {
-  order: {
-      subtotal: 3140,
-      total: 0,
-      taxFactor: 0,
-      tax: 0,
-      orderStatus: null,
-      addressId: '',
-      customerId: '',
-      organizationId: '234',
+    taxFactor: 0,
+    taxAmount: 0,
+    orderStatus: null,
+    purchaseId: null,
+    customerId: '',
+    customer: null,
+    organizationId: '',
+    organization: null,
+    addressId: '',
+    destinationAddress: {
+      id: '',
+      street1: '',
+      street2: '',
+      city: '',
+      state: '',
+      zipcode: '',
+      country: '',
+      countryCode: '',
+      userId: '',
+      organizationId: '',
+      coordinates: {
+        id: '',
+        latitude: 0,
+        longitude: 0,
+        radius: 0,
+      }
+    },
+    driverId: '',
+    driver: null,
+    isDeliveredOrder: false,
+    isCustomerReceivedOrder: false,
+    isCompleted: false,
+    deliveredAt: null,
+    createdAt?: Date | string,
+    updatedAt?: Date | string,
+    items: [],
   },
-  orderDispensaryName: '',
-  cart: [{
-    id: '12355',
-    organizationId: '234',
-    organizationName: 'Curaleaf',
-    variantId: '1111',
-    productId: '234565',
-    name: "Edible Donka",
-    unit: 'g',
-    size: 3.5,
-    quantity: 1,
-    basePrice: 3488,
-    discount: 10,
-    isDiscount: true,
-    salePrice: 3140,
-    currency: 'USD',
-  }],
-  totalItems: 1,
-  subtotal: 3140,
+  dispensaryName: '',
+  organizationId: '',
+  cart: [],
+  totalItems: 0,
+  subtotal: 0,
+  total: 0,
+  taxFactor: 0,
+  taxAmount: 0,
   isLoading: false,
   isSuccess: false,
   isError: false,
   errorMessage: "",
 };
+
+// dummy cart
+// const dummyState: CartStateProps = {
+//   order: {
+//       subtotal: 3140,
+//       total: 0,
+//       taxFactor: 0,
+//       tax: 0,
+//       orderStatus: null,
+//       addressId: '',
+//       customerId: '',
+//       organizationId: '234',
+//   },
+//   orderDispensaryName: '',
+//   cart: [{
+//     id: '12355',
+//     organizationId: '234',
+//     organizationName: 'Curaleaf',
+//     variantId: '1111',
+//     productId: '234565',
+//     name: "Edible Donka",
+//     unit: 'g',
+//     size: 3.5,
+//     quantity: 1,
+//     basePrice: 3488,
+//     discount: 10,
+//     isDiscount: true,
+//     salePrice: 3140,
+//     currency: 'USD',
+//   }],
+//   totalItems: 1,
+//   subtotal: 3140,
+//   isLoading: false,
+//   isSuccess: false,
+//   isError: false,
+//   errorMessage: "",
+// };
 
 const cartSlice = createSlice({
   name: "cart",
@@ -284,7 +312,8 @@ const cartSlice = createSlice({
       const simpleCart = payload
       state.cart = simpleCart.cartItems;
       state.total = simpleCart.total;
-      state.orderDispensaryName = simpleCart.organizationName;
+      state.organizationId = simpleCart.organizationId
+      state.dispensaryName = simpleCart.organizationName;
       state.order.organizationId = simpleCart.organizationId;
 
       state.totalItems = countTotalItems(state.cart);
@@ -292,13 +321,13 @@ const cartSlice = createSlice({
     },
 
     clearState: () => initialState,
-    
-    updateItem: (state, {payload}: PayloadAction<ProductVariantWithDetails>) => {
+
+    updateItem: (state, { payload }: PayloadAction<ProductVariantWithDetails>) => {
       const itemInCart = state.cart.find(
         item => item.id == payload.id
       ) as ProductVariantWithDetails;
       const index = state.cart.indexOf(itemInCart);
-      
+
       if (index !== -1) {
         state.cart[index] = payload;
         state.totalItems = countTotalItems(state.cart);
@@ -307,13 +336,13 @@ const cartSlice = createSlice({
     },
 
     removeItem: (state, { payload }: PayloadAction<string>) => {
-        const removeId = payload
-        const newCart = state.cart.filter((item) => item.id !== removeId);
-        state.cart = newCart;
-        state.totalItems = countTotalItems(state.cart);
-        state.subtotal = countCartSubtotal(state.cart);
+      const removeId = payload
+      const newCart = state.cart.filter((item) => item.id !== removeId);
+      state.cart = newCart;
+      state.totalItems = countTotalItems(state.cart);
+      state.subtotal = countCartSubtotal(state.cart);
     },
-    
+
     createOrder: (state, { payload }: PayloadAction<OrderCreate>) => {
       const order = payload;
       state.order = order;
@@ -321,48 +350,48 @@ const cartSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(addItem.fulfilled, (state, { payload }) => {
-        const addItems = payload
-        if (state.order.organizationId === "") {
-            state.order.organizationId = addItem[0].organizationId;
-            state.orderDispensaryName = addItem[0].organizationName;
-        }
-        
-        addItems.forEach((addItem) => {
-          let item = state.cart.find(
-              item => item.id == addItem.id
-          );
-          // no item match -> add item
-          if (!item ) {
-              state.cart.push(addItem);
-          }
-          // item match and variant match -> add quantity
-          if (item && item.variantId === addItem.variantId) {
-              item.quantity += addItem.quantity;
-          }
-          // item match and variant dont match ( possibly due to lacking data ?? ) -> add item
-          if (item && item.variantId !== addItem.variantId) {
-            state.cart.push(addItem);
-          }
-        });
+      const addItems = payload
+      if (state.order.organizationId === "") {
+        state.order.organizationId = addItem[0].organizationId;
+        state.orderDispensaryName = addItem[0].organizationName;
+      }
 
-        state.totalItems = countTotalItems(state.cart);
-        state.subtotal = countCartSubtotal(state.cart);
-        
+      addItems.forEach((addItem) => {
+        let item = state.cart.find(
+          item => item.id == addItem.id
+        );
+        // no item match -> add item
+        if (!item) {
+          state.cart.push(addItem);
+        }
+        // item match and variant match -> add quantity
+        if (item && item.variantId === addItem.variantId) {
+          item.quantity += addItem.quantity;
+        }
+        // item match and variant dont match ( possibly due to lacking data ?? ) -> add item
+        if (item && item.variantId !== addItem.variantId) {
+          state.cart.push(addItem);
+        }
+      });
+
+      state.totalItems = countTotalItems(state.cart);
+      state.subtotal = countCartSubtotal(state.cart);
+
     }),
-    builder.addCase(addItem.pending, (state) => {
+      builder.addCase(addItem.pending, (state) => {
         state.isLoading = true;
         state.isSuccess = false;
         state.isError = false;
-    }),
-    builder.addCase(addItem.rejected, (state, { payload }) => {
+      }),
+      builder.addCase(addItem.rejected, (state, { payload }) => {
         const error = payload as string;
         console.log('add item to cart error: ', error)
-        
+
         state.isLoading = false;
         state.isSuccess = false;
         state.isError = true;
         state.errorMessage = error
-    })
+      })
 
     // [addOrderVendor.fulfilled]: (state) => {},
     // [addOrderVendor.pending]: (state) => {},
@@ -392,40 +421,40 @@ const cartSlice = createSlice({
 });
 
 function countTotalItems(itemList: ProductVariantWithDetails[]) {
-    const totalItems = itemList.reduce((sum, item) => sum + Number(item.quantity), 0);
-    console.log('count total items: ', totalItems)
-    return totalItems;
+  const totalItems = itemList.reduce((sum, item) => sum + Number(item.quantity), 0);
+  console.log('count total items: ', totalItems)
+  return totalItems;
 };
 
 function countCartSubtotal(itemList: ProductVariantWithDetails[]) {
-    const subtotal = itemList.reduce((sum, item) => sum + getItemDiscountPrice(item), 0);
-    return subtotal
+  const subtotal = itemList.reduce((sum, item) => sum + getItemDiscountPrice(item), 0);
+  return subtotal
 };
 
 function getItemDiscountPrice(item: ProductVariantWithDetails) {
-    let discount = 0;
-    if (item.discount !== discount || item.discount !== null|| item.discount !== undefined) {
-        discount = item.discount;
-        return calcSalePrice(item.basePrice, discount)
-    }
-    else return item.basePrice;
+  let discount = 0;
+  if (item.discount !== discount || item.discount !== null || item.discount !== undefined) {
+    discount = item.discount;
+    return calcSalePrice(item.basePrice, discount)
+  }
+  else return item.basePrice;
 }
-  
+
 export const cartActions = {
   addItem,
-//   addOrderVendor,
-//   createOrderForCheckout,
-//   submitOrder,
+  //   addOrderVendor,
+  //   createOrderForCheckout,
+  //   submitOrder,
   ...cartSlice.actions,
 };
 
 export const cartReducer = cartSlice.reducer;
 
 export const selectCartState = (state: AppState) => state.cart;
-export const selectIsCartEmpty = (state: AppState):Boolean => state.cart.totalItems < 1;
+export const selectIsCartEmpty = (state: AppState): Boolean => state.cart.totalItems < 1;
 
 export type SimpleCart = {
-  total: number; 
+  total: number;
   cartItems: ProductVariantWithDetails[];
   organizationId?: string;
   organizationName?: string;

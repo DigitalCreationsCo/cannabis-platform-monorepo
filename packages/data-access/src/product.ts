@@ -124,10 +124,12 @@ export type ProductWithDetails = Product & {
 export type ProductVariantWithDetails = ProductVariant & {
   images?: ImageProduct[];
 };
+
 export type ReviewWithDetails = Review & {
   user?: User & {
     imageUser?: ImageUser;
   };
 };
+
 export type ProductUpdate = Prisma.ProductUpdateArgs[ "data" ]
   
