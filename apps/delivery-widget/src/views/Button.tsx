@@ -1,5 +1,5 @@
 import { useCheckHrefIncludes } from '@cd/core-lib/src/utils/useCheckHrefIncludes'
-import CloseButton from "@cd/ui-lib/src/components/CloseButton"
+import CloseButton from "@cd/ui-lib/src/components/button/CloseButton"
 import { H4, Paragraph } from "@cd/ui-lib/src/components/Typography"
 import { getBreakpointValue } from "@cd/ui-lib/src/hooks/useBreakpoint"
 import { useEffect, useState } from "react"

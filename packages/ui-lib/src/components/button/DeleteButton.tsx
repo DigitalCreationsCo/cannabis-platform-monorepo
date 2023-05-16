@@ -1,6 +1,6 @@
 import { ReactEventHandler } from 'react';
 import { twMerge } from 'tailwind-merge';
-import Icons from '../icons';
+import Icons from '../../icons';
 import IconButton from './IconButton';
 
 type DeleteButtonProps = {

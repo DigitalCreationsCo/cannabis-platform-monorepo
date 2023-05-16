@@ -1,7 +1,7 @@
 import { CarbonIconType } from '@carbon/icons-react';
 import { ReactEventHandler, SVGAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
-import Icons from '../icons';
+import Icons from '../../icons';
 import IconButton from './IconButton';
 
 interface CloseButtonProps {

@@ -9,7 +9,7 @@ import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 import logo from '../../../public/assets/images/logo.png';
 import Icons from "../../icons";
-import Button from '../Button';
+import Button from '../button/Button';
 import FlexBox from '../FlexBox';
 import Grid from '../Grid';
 import IconWrapper from '../IconWrapper';

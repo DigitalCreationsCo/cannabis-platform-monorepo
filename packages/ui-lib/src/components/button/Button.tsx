@@ -1,11 +1,11 @@
 import React, { PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
-import Center from './Center';
-import LoadingDots from './LoadingDots';
+import Center from '../Center';
+import LoadingDots from '../LoadingDots';
 
 export interface ButtonProps extends PropsWithChildren {
     size?: 'lg' | 'sm' | 'md';
-    bg?: 'primary' | 'primary-light' | 'secondary' | 'accent-soft' | 'transparent';
+    bg?: 'primary' | 'primary-light' | 'secondary' | 'secondary-light' | 'accent-soft' | 'transparent';
     hover?: 'accent' | 'primary' | 'primary-light' | 'secondary' | 'transparent';
     transparent?: true | false;
     border?: boolean;

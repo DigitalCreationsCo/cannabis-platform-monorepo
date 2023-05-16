@@ -1,5 +1,5 @@
 import { modalActions, modalTypes, selectCartState, selectIsAddressAdded, selectUserState } from '@cd/core-lib';
-import { Button, Card, H3, Page } from '@cd/ui-lib';
+import { Card, CheckoutButton, H3, Page } from '@cd/ui-lib';
 import RenderCart from 'components/cart/RenderCart';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,12 +11,12 @@ function CartPage() {
     const isAddressAdded = useSelector(selectIsAddressAdded)
     
     const Router = useRouter()
-    const checkoutOrSignUp = (event: any) => { 
+    const checkoutOrSignUp = (event: any) => {
+        event.preventDefault();
+        event.stopPropagation();
         if (user.isSignedIn && isAddressAdded) { 
             Router.push("/checkout"); 
         } else { 
-            event.preventDefault();
-            event.stopPropagation();
             dispatch(modalActions.openModal({ modalType: modalTypes.checkoutModal }))
         }
     }
@@ -27,8 +27,7 @@ function CartPage() {
             <Card className={twMerge(styles.cartContainer)}>
                 <H3 className="px-8 absolute">My Bag</H3>
                 <RenderCart />
-                <Button onClick={checkoutOrSignUp}
-                disabled={totalItems < 1}>Checkout</Button>
+                <CheckoutButton onClick={checkoutOrSignUp} />
             </Card>
         </Page>
     );

@@ -1,6 +1,6 @@
 import { SimpleCart } from "@cd/core-lib/src/reduxDir/features"
-import Button from "@cd/ui-lib/src/components/Button"
-import CloseButton from "@cd/ui-lib/src/components/CloseButton"
+import Button from "@cd/ui-lib/src/components/button/Button"
+import CloseButton from "@cd/ui-lib/src/components/button/CloseButton"
 import { H4, Paragraph } from "@cd/ui-lib/src/components/Typography"
 import { useState } from "react"
 import { twMerge } from "tailwind-merge"
