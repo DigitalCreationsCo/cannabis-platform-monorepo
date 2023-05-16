@@ -70,7 +70,6 @@ create userSignup frontend page, api route, data function (with pw hashing), ove
 3-3-22
 signup flow OK
 get session flow OK
-
 4-9-22
 Continue building checkout widget
 4-11-22
@@ -100,8 +99,7 @@ Also, data is not accumulated from each formstep, only the recent form step data
 Keep going!
 Test the checkout flow. 
 Test many edge cases according to the stripe docs.
-
-5-5
+5-5-2023
 add cart cookie to bag state,
 sign up and in from quick-delivery
 add non-signed in bag state to user bag state
@@ -117,8 +115,6 @@ test users login and signup
 !! Create landing page with shop app in a new branch. 
 5-14-2023
 Dispensary signup forms 1/2 done
-
-
 
 To DO: 
 Complete checkout and stripe data flow, end to end
@@ -185,6 +181,8 @@ Launch this month. Win.
 
 IMPROVEMENTS:
 add cookie to sign up forms to persist data, if the tab, or app is closed
+
+*** Embed Calendly scheduling for dispensary onbarding! 
 
 What must I do next? 3-4-2023
 Lower the widget bundle size into modules.

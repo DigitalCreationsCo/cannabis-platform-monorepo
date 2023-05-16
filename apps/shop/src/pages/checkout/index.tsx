@@ -51,7 +51,7 @@ function Checkout() {
                         <H5 className='text-primary text-center'>
                             Order From {order?.organization?.name || ''}</H5>
                         <div className={styles.addressContainer}>
-                            {/* <Paragraph>{renderAddress({ address: order?.organization?.address })}</Paragraph> */}
+                            <Paragraph>{renderAddress({ address: order.organization.address })}</Paragraph>
                         </div>
                     </div>
                     <ReviewDeliveryAddress orderAddress={order.destinationAddress} />      
