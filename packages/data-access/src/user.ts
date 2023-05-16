@@ -1,5 +1,5 @@
 import { ImageUser, Membership, MembershipRole, Prisma, User } from "@prisma/client";
-import { AddressWithDetails } from "address";
+import { AddressCreateType, AddressWithDetails } from "address";
 import prisma from "./db/prisma";
 import { OrderWithDetails } from "./order";
 
@@ -371,7 +371,7 @@ export type UserCreateType = {
     imageUser: ImageUser[] | null;
     isLegalAge: boolean;
     idVerified: boolean;
-    address: Prisma.AddressCreateArgs[ "data" ];
+    address: AddressCreateType
     memberships: Prisma.MembershipUpsertArgs["create"][];
 }
 

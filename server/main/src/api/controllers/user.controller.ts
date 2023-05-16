@@ -1,3 +1,4 @@
+import { UserCreateType } from '@cd/data-access';
 import { UserDA } from '../data-access';
 
 /* =================================
@@ -53,8 +54,9 @@ export default class UserController {
 
     static async createUser(req, res) {
         try {
-            const user = req.body
-            
+            const user = req.body as UserCreateType
+            // const coordinates = user?.address.coordinates
+            // if (coordinates)
             console.log('user: ', user);
             const data = await UserDA.createUser(user)
             if (!data) return res.status(404).json('User could not be created.');

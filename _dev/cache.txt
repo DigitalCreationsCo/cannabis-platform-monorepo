@@ -1,0 +1,11 @@
+NOTES ON CACHEING:
+
+a cache is only effective if the data in the cache is valid.
+caching the result of a database function that retrieves regularly updated data, will not be reliable
+if the cache is not being invalidated on update.
+
+The current pattern of caching I use, to cache responses data on next server from backend server,
+is NOT effective, if there is no invalidating of the cache.
+
+Solutions:
+Set a TTL for cached objects, that reasonably fulfills the MOST RELEVANT cache requirements (use case)
