@@ -1,11 +1,13 @@
 // @ts-nocheck
 
-import { OrderCreate, ProductVariantWithDetails } from "@cd/data-access";
+import { OrderCreate, OrganizationWithShopDetails, ProductVariantWithDetails } from "@cd/data-access";
 import { createId } from "@paralleldrive/cuid2";
 import { AnyAction, createAsyncThunk, createSlice, Dispatch, PayloadAction } from "@reduxjs/toolkit";
-import { calcSalePrice, pruneData } from "../../utils";
+import axios from "axios";
+import { calcSalePrice, pruneData, urlBuilder } from "../../utils";
 import { AppState, ThunkArgumentsType } from "../types";
 import { LocationStateProps, LocationType } from "./location.reducer";
+import { ShopStateProps } from "./shop.reducer";
 import { UserStateProps } from "./user.reducer";
 // import { NavigationService } from "../../navigation";
 // import { AppScreen, TabScreen } from "../../navigation/navigationPaths";
@@ -94,9 +96,22 @@ export const createOrderForCheckout = createAsyncThunk<OrderCreate, void>(
   "cart/createOrderForCheckout",
   async (_, thunkAPI) => {
     try {
+
       const cart = thunkAPI.getState().cart as CartStateProps;
+
       let { user } = thunkAPI.getState().user as UserStateProps;
       user = pruneData(user, ["timeJoined", "address", "memberships", "idFrontImage", "idBackImage"]);
+
+      const { dispensaries } = thunkAPI.getState().shop as ShopStateProps
+
+      let organization = dispensaries.find(d => d.id === cart.organizationId)
+      console.log("organization? ", organization)
+
+      if (!organization)
+      axios.get(urlBuilder.shop + `/api/organization/${cart.organizationId}`)
+      .then((res) => organization = res.data as OrganizationWithShopDetails)
+      .then(console.log)
+
       const location = thunkAPI.getState().location as LocationStateProps
       const { selectLocationType } = location
       const selectedLocation = location[selectLocationType] as LocationType
@@ -107,13 +122,15 @@ export const createOrderForCheckout = createAsyncThunk<OrderCreate, void>(
           total: cart.total, 
           taxFactor: 0, 
           tax: 0,
-          organizationId: cart.organizationId,
           orderStatus: 'Pending',
           purchaseId: null,
           addressId: selectedLocation.address.id,
           destinationAddress: selectedLocation.address,
           customerId: user.id,
           customer: user,
+
+          organizationId: cart.organizationId,
+          organization,
           // should i contain the organization data in the order?
           // yay: data is available for all clients (web, mobile, driver)
           // if ( !dispensary is not found in state,) download the record from database, add it to redux state,
@@ -121,7 +138,6 @@ export const createOrderForCheckout = createAsyncThunk<OrderCreate, void>(
           // OR
           // nay: server can get the data easily
 
-          // organization: OrganizationWithShopDetails | null
           driverId: null,
           driver: null,
           
@@ -363,6 +379,7 @@ const cartSlice = createSlice({
   reducers: {
     saveSimpleCart: (state, { payload }: PayloadAction<SimpleCart>) => {
       const simpleCart = payload
+      console.log('simpleCart', simpleCart)
       state.cart = simpleCart.cartItems;
       state.total = simpleCart.total;
       state.organizationId = simpleCart.organizationId

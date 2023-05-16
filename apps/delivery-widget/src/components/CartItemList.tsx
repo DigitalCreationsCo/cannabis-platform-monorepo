@@ -15,6 +15,7 @@ function CartList({cart, cartError, setExpandWidget} : CartListProps) {
     function createCheckoutCookie() {
         if (cart && !cartError) {
             const cartAsString = JSON.stringify(cart)
+            console.log('cart as string: ', cartAsString)
             var expires = new Date();
             expires.setDate(expires.getDate() + 1);
 

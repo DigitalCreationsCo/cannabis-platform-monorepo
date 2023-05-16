@@ -54,7 +54,7 @@ function Checkout({ className, expandWidget, setExpandWidget, dispensaryKey }: W
       
     const runCrawler = () => {
         crawler()
-        .then(setCart)
+        .then(result => setCart({...cart, ...result}))
         .then(() => setExpandWidget(true))
         .catch((error) => {
             console.error(error); 

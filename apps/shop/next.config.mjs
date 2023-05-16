@@ -163,15 +163,17 @@ const nextConfig = (phase) => {
         return [
             {
                 source: '/:path*',
-                destination: '/:path*'
+                destination: '/:path*' 
             },
             {
                 source: '/app',
-                destination: `${process.env.NEXT_PUBLIC_DASHBOARD_APP_URL}/app`
+                // destination: `${process.env.NEXT_PUBLIC_DASHBOARD_APP_URL}/app`
+                destination: `http://localhost:3001/app`
             },
             {
                 source: '/app/:path*',
-                destination: `${process.env.NEXT_PUBLIC_DASHBOARD_APP_URL}/app/:path*`
+                // destination: `${process.env.NEXT_PUBLIC_DASHBOARD_APP_URL}/app/:path*`
+                destination: `http://localhost:3001/:path*`
             }
         ];
     };
