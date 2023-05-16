@@ -1,7 +1,7 @@
 import { cartActions, modalActions, modalTypes, selectCartState, selectIsCartEmpty, selectSelectedLocationState, SimpleCart } from "@cd/core-lib";
 import { selectUserState } from "@cd/core-lib/reduxDir";
 import { OrderCreate, ProductVariantWithDetails } from "@cd/data-access";
-import { Button, Center, H5, Paragraph, Price, SimpleCartItem } from "@cd/ui-lib";
+import { Button, Center, CheckBox, H5, Paragraph, Price, SimpleCartItem } from "@cd/ui-lib";
 import { Card, H2, LayoutContextProps, Page } from "@cd/ui-lib/src/components";
 import { AnyAction } from "@reduxjs/toolkit";
 import { ConfirmOrder, QuickSignUpUserForm, SubmitAddress, VerifyPhotoId } from "components";
@@ -80,53 +80,59 @@ function QuickDelivery() {
         Router.push('/checkout');
     }
      
+    const [ confirmOrder, setConfirmOrder ] = useState(false)
     return (
-            <Page className={twMerge(styles.gradient, "pb-0 md:pb-24")}>
-                <Head>
-                    <title>Delivery by Gras</title>
-                </Head>
-                <Card className='m-auto bg-inverse-soft space-y-2'>
-                    <H2>Quick Delivery</H2>
+        <Page className={twMerge(styles.gradient, "pb-0 md:pb-24")}>
+            <Head>
+                <title>Delivery by Gras</title>
+            </Head>
+            <Card className='m-auto bg-inverse-soft space-y-2'>
+                <H2>Delivery By Gras</H2>
                     
-        <Center className='space-y-2 w-3/4 m-auto pb-20 md:pb-0'>
-            <H5>Before you get your delivery,
-                <br />Let's double check your order here.</H5>
-            <div className="flex flex-col md:grid grid-cols-2 gap-2">
+                <Center className='space-y-2 w-3/4 m-auto pb-20 md:pb-0'>
+                    <H5>Before we deliver your order,
+                        <br />let's get it right</H5>
+                    <div className="flex flex-col md:grid grid-cols-2 gap-2">
 
-            {!cartIsEmpty &&
-            cart.cart?.map((product: ProductVariantWithDetails, index: number) => 
-            <SimpleCartItem key={`order-item-${index}`} product={product}/>) || 
-            <Paragraph className="col-span-2">
-                You have no items in your order.</Paragraph> }
+                    {!cartIsEmpty &&
+                    cart.cart?.map((product: ProductVariantWithDetails, index: number) => 
+                    <SimpleCartItem key={`order-item-${index}`} product={product}/>) || 
+                    <Paragraph className="col-span-2">
+                        You have no items in your order.</Paragraph> }
 
-            <H5 className="flex justify-end col-span-2">
-                Your total is 
-                <Price basePrice={cart.total || 0} /></H5>
-            </div>
-            
-            {user.isSignedIn ? (
-                <>
-                <Paragraph>Hit checkout to complete your delivery order.</Paragraph>
-                <Button onClick={checkout} 
-                disabled={!!cartIsEmpty}>
-                    Checkout</Button>
-                </>
-                ) : (
-                    <>
-                <Paragraph>We'll need your contact info and address so our delivery person can get to you.</Paragraph>
-                <Paragraph>Hit Next to provide your info, or <i>sign in</i></Paragraph>
-                <Button 
-                disabled={!!cartIsEmpty}
-                onClick={nextFormStep}
-                >Next</Button>
-                <Button onClick={openLoginModal}>
-                    Sign In</Button>
-                </>
-            )}
-        </Center>
+                    <H5 className="flex justify-end col-span-2">
+                        Your total is 
+                        <Price basePrice={cart.total || 0} /></H5>
+                    </div>
+                    
+                    <Paragraph>Is your order right?</Paragraph>
+                    <CheckBox className="w-[122px]"
+                    checked={confirmOrder}
+                    label={confirmOrder ? `It's right` : `No, it's not`}
+                    onChange={() => setConfirmOrder(!confirmOrder)} />
 
-                </Card>
-            </Page>
+                    {user.isSignedIn ? (
+                        <>
+                        <Paragraph>Hit checkout to complete your delivery order.</Paragraph>
+                        <Button onClick={checkout} 
+                        disabled={!!cartIsEmpty || !confirmOrder}>
+                            Checkout</Button>
+                        </>
+                        ) : (
+                            <>
+                        <Paragraph>We'll need your contact info and address so our delivery person can get to you.</Paragraph>
+                        <Paragraph>Hit Next to provide your info, or <i>sign in</i></Paragraph>
+                        <Button 
+                        disabled={!!cartIsEmpty}
+                        onClick={nextFormStep}
+                        >Next</Button>
+                        <Button onClick={openLoginModal}>
+                            Sign In</Button>
+                        </>
+                    )}
+                </Center>
+            </Card>
+        </Page>
         );
 
     function openLoginModal() {
