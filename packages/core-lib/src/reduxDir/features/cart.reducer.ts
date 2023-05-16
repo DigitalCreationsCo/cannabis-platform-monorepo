@@ -457,6 +457,10 @@ const cartSlice = createSlice({
       }),
       builder.addCase(createOrderForCheckout.fulfilled, (state, { payload }) => {
         state.order = payload
+
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
       }),
       builder.addCase(createOrderForCheckout.pending, (state) => {
         state.isLoading = true;
