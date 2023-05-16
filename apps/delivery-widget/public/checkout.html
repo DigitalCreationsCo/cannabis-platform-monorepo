@@ -13,9 +13,10 @@
     </head>
     <script>
       function initDeliveryWidget() {
-        // console.log('initDeliveryWidget called')
-        window.grasWidget().init();
-        // console.log('grasWidget initialized')
+        window.grasWidget().init({
+          // widget config options
+          dispensaryKey: 'bfhk6k4u7xq030rz7wvgiwao'
+        });
       }
       function initialize(i,t) {
           var e;

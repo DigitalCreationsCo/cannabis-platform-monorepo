@@ -4,14 +4,16 @@ import CloseButton from "@cd/ui-lib/src/components/CloseButton"
 import { H4, Paragraph } from "@cd/ui-lib/src/components/Typography"
 import { useState } from "react"
 import { twMerge } from "tailwind-merge"
+import { DeliveryWidgetConfigOptions } from "../.."
 import CartList from "../components/CartItemList"
 import { cheerioCrawler as crawler } from "../crawler"
-import WidgetView, { ViewProps } from "./WidgetView"
+import WidgetView, { WidgetViewProps } from "./WidgetView"
 
-function Checkout({ className, expandWidget, setExpandWidget }: ViewProps) {
+function Checkout({ className, expandWidget, setExpandWidget, dispensaryKey }: WidgetViewProps & DeliveryWidgetConfigOptions) {
     const [cart, setCart] = useState<SimpleCart>({
         cartItems: [],
-        total: 0
+        total: 0,
+        organizationId: dispensaryKey
     })
     const [cartError, setCartError] = useState('')
     

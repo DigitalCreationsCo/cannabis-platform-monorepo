@@ -5,9 +5,10 @@ import { getBreakpointValue } from "@cd/ui-lib/src/hooks/useBreakpoint"
 import { useEffect, useState } from "react"
 import { useNavigate } from 'react-router-dom'
 import { twMerge } from "tailwind-merge"
-import WidgetView, { ViewProps } from "./WidgetView"
+import { DeliveryWidgetConfigOptions } from '../..'
+import WidgetView, { WidgetViewProps } from "./WidgetView"
 
-function Button({ className, expandWidget, setExpandWidget }: ViewProps) {
+function Button({ className, expandWidget, setExpandWidget }: WidgetViewProps & DeliveryWidgetConfigOptions) {
     
     const openWidget = () => setExpandWidget(true)
 
