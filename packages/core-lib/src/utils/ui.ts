@@ -8,7 +8,7 @@ export const renderAddress = ({
     showZipcode = true,
     breakLine = true,
 } : { 
-    address : Omit<Address, "id" | "userId" | "organizationId" | "createdAt" | "updatedAt">;
+    address: Omit<Address, "id" | "userId" | "organizationId" | "createdAt" | "updatedAt">;
     showCity?: boolean;
     showState?: boolean;
     showCountry?: boolean;

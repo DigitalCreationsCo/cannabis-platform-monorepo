@@ -1,6 +1,7 @@
 // @ts-nocheck
 
 import { AnyAction, MiddlewareAPI } from "@reduxjs/toolkit";
+import { locationActions } from "../features";
 
 const locationMiddleware = (store: MiddlewareAPI) => (next) => (action: AnyAction) => {
     try {
@@ -9,6 +10,7 @@ const locationMiddleware = (store: MiddlewareAPI) => (next) => (action: AnyActio
             if ( user?.address) {
                 store.dispatch(locationActions.setAllLocations(user.address));
                 store.dispatch(locationActions.setHomeAddress(user.address[0]));
+                store.dispatch(locationActions.setCurrentAddress(user.address[0]));
             }
         }
 

@@ -3,7 +3,7 @@ import { renderAddress } from '@cd/core-lib/utils';
 import { Address } from '@cd/data-access';
 import { Button, Paragraph } from '@cd/ui-lib';
 import { Card, FlexBox, H3, H4, H5, Page } from "@cd/ui-lib/components";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // import axios from 'axios';
 // import { useFormContext } from "components";
 import { useSelector } from 'react-redux';
@@ -11,8 +11,16 @@ import { twMerge } from 'tailwind-merge';
 import { RenderCart } from '../../components';
 
 function Checkout() {
-    const cartIsEmpty = useSelector(selectIsCartEmpty)
+
     const { order } = useSelector(selectCartState)
+
+    const cartIsEmpty = useSelector(selectIsCartEmpty)
+
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        if (order !== undefined) setLoading(false)
+    }, [])
     
     const createStripeCheckout = async () => { 
         // console.log(' client side formData: ', formData)
@@ -21,7 +29,8 @@ function Checkout() {
 
     return (
         <Page className="items-center">
-            <Card className="min-w-full space-y-2">
+            {loading ? <div>Loading...</div> :
+            (<Card className="min-w-full space-y-2">
             <H3 className='text-primary'>Checkout</H3>
             <div className='flex flex-col space-y-2 md:space-y-0 md:flex-row md:space-x-5'>
                 <div><H4>You're ready for checkout</H4>
@@ -42,13 +51,13 @@ function Checkout() {
                         <H5 className='text-primary text-center'>
                             Order From {order?.organization?.name}</H5>
                         <div className={styles.addressContainer}>
-                            {/* <Paragraph>{renderAddress({ address: order?.organization?.address!! })}</Paragraph> */}
+                            <Paragraph>{renderAddress({ address: order?.organization?.address })}</Paragraph>
                         </div>
                     </div>
                     <ReviewDeliveryAddress orderAddress={order.destinationAddress} />      
                 </FlexBox>              
             </div>
-            </Card>
+            </Card>)}
         </Page>
     );
 }

@@ -105,12 +105,10 @@ export const createOrderForCheckout = createAsyncThunk<OrderCreate, void>(
       const { dispensaries } = thunkAPI.getState().shop as ShopStateProps
 
       let organization = dispensaries.find(d => d.id === cart.organizationId)
-      console.log("organization? ", organization)
 
       if (!organization)
-      axios.get(urlBuilder.shop + `/api/organization/${cart.organizationId}`)
+      await axios.get(urlBuilder.shop + `/api/organization/${cart.organizationId}`)
       .then((res) => organization = res.data as OrganizationWithShopDetails)
-      .then(console.log)
 
       const location = thunkAPI.getState().location as LocationStateProps
       const { selectLocationType } = location
