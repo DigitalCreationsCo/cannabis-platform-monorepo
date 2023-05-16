@@ -1,0 +1,31 @@
+The shop app has two entry points, which determine the user experience flow.
+Ill describe them here.
+
+/quick-delivery
+---------------
+This is the entry point for orders placed from the Delivery by Gras widget, from a 
+dispensary ecommerce store. The widget returns with the record of the dispensary that
+the order was placed from. 
+- this record is then available for placing the order from Gras web app. 
+
+1. the user is redirected from Delivery by Gras widget, to Gras app.
+2. the user confirms the order is correct,
+    if the user did not verify id or legal age, they can SIGN IN or complete the SIGNUP FORM.
+
+3. the user clicks the checkout button. an order data object is created and populated in the redux store. this order data is referenced during checkout, and used to process payment.
+
+/checkout
+--------------
+User can review the order items, the dispensary, the delivery address, and place the order.
+1. the page is redirected to stripe checkout, where the payment is processed.
+Payment is made to the dispensary stripe account. Gras applies a platform for the transaction.
+
+2. After the successful transaction, the user is redirected to Thank You (success screen), after where they can see the status of their order, including the delivery driver, the ETA, and the current step of the order.
+* the user also receives sms message for each step of the order.
+( 
+    step 1: driver is selected
+    step 2: driver pick up the order
+    step 3: driver is delivering
+    step 4: driver is arrived
+    step 5: Thank you.
+)

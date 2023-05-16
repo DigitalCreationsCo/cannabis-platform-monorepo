@@ -1,5 +1,5 @@
 import { Address, CategoryList, Coordinates, ImageOrganization, Prisma, Schedule } from "@prisma/client";
-import { AddressCreateType } from "address";
+import { AddressCreateType } from "./address";
 import prisma from "./db/prisma";
 
 /*

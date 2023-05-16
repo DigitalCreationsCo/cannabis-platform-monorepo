@@ -71,7 +71,7 @@ export const frontendConfig = () => {
                         ) {
                             window.location.href = dashboardDomain;
                         } else {
-                            window.location.href = shopDomain;
+                            window.location.reload()
                         }
                     }
                 },
