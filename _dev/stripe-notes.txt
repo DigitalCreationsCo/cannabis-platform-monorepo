@@ -1,0 +1,14 @@
+STRIPE NOTES: on the stripe related platform apis
+
+POST createStripeDispensaryAccount
+
+accepts POST request body of OrganizationCreateType object, with an optional stripeAccountId supplied from the client side form.
+
+current status: 
+1.
+    a. if there is no stripeId provided, a new stripe Connect account is created with the organization record.
+    b. The new stripe Connect account id is appended to organization record, and saved in mysql database.
+    c. a stripe account link is created for the account, with a link that is returned to client side. This account link can be used by the dispensary, or platform staff to complete the stripe Connect onboarding. The user is redirected to the account link.
+OR
+    a. if there is a stripeId provided, a stripe account link is created, that is returned to client side. This account link can be used by the dispensary, or platform staff to complete the stripe Connect onboarding. The user is redirected to the account link.
+

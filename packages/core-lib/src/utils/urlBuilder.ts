@@ -44,18 +44,15 @@ const urlBuilder = {
     },
     location: {
         baseUrl: locationUrl + '/api/v1',
-        organizationsLocal: () => urlBuilder.location.baseUrl + '/serveLocal/organizations',
-        createorganizationLocationRecord: () => urlBuilder.location.baseUrl + '/serveLocal/create-record',
+        organizationsLocal: () => urlBuilder.location.baseUrl + '/serve-local/organizations',
+        organizationLocationRecord: () => urlBuilder.location.baseUrl + '/serve-local/organizations/record',
     },
     payment: {
         baseUrl: paymentUrl + '/api/v1',
         purchase: () => urlBuilder.payment.baseUrl + '/payment/purchase',
         createDispensaryAccount: () => urlBuilder.payment.baseUrl + '/accounts/dispensary-account',
         checkOnboard: () => urlBuilder.payment.baseUrl + '/accounts/check-onboard',
-        checkout: () => {
-            console.log('payment url: ', paymentUrl)
-            return urlBuilder.payment.baseUrl + '/payment/checkout'
-        }
+        checkout: () => urlBuilder.payment.baseUrl + '/payment/checkout',
     },
     image: {
         baseUrl: imageUrl + '/api/v1',

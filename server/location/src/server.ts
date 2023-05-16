@@ -16,7 +16,7 @@ app.use('/api/v1/healthcheck', (req, res) => {
     return res.status(200).json('OK');
 });
 
-app.use('/api/v1/serveLocal', serveLocal);
+app.use('/api/v1/serve-local', serveLocal);
 
 app.use('*', (req, res) => res.status(404).json({ error: 'API not found' }));
 
