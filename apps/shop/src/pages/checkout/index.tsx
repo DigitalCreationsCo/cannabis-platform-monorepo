@@ -44,14 +44,14 @@ function Checkout() {
                 disabled={!!cartIsEmpty}>
                     Place my order</Button>
             </div>
-            <div className='flex flex-col-reverse lg:flex-row justify-between'>
+            <div className={styles.checkoutContainer}>
                 <RenderCart />
-                <FlexBox className='flex-col md:space-y-8'>
+                <FlexBox className={styles.info}>
                     <div>
                         <H5 className='text-primary text-center'>
                             Order From {order?.organization?.name}</H5>
                         <div className={styles.addressContainer}>
-                            <Paragraph>{renderAddress({ address: order?.organization?.address })}</Paragraph>
+                            {/* <Paragraph>{renderAddress({ address: order?.organization?.address })}</Paragraph> */}
                         </div>
                     </div>
                     <ReviewDeliveryAddress orderAddress={order.destinationAddress} />      
@@ -105,6 +105,8 @@ function ReviewDeliveryAddress({ orderAddress }: { orderAddress: Address}) {
 }
 
 const styles = {
-    addressContainer: 'relative flex flex-col h-full w-[300px] m-auto text-center rounded justify-start shadow border',
+    checkoutContainer: 'flex flex-col-reverse lg:flex-row justify-between space-y-4',
+    info: 'm-auto md:m-0 flex-col space-y-8 px-8 pb-12',
+    addressContainer: 'flex flex-col h-full w-[300px] m-auto text-center rounded justify-start shadow border',
     selectAddress: ''
 }
