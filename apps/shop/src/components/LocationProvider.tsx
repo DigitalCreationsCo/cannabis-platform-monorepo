@@ -38,6 +38,8 @@ const LocationProvider = () => {
             if (navigator?.geolocation !== undefined) {
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
+                        if (coordinates.latitude !== position.coords.latitude || 
+                            coordinates.longitude !== position.coords.longitude)
                         console.log('geolocating your position...', position);
                         dispatch(
                             locationActions.setCurrentCoordinates({
