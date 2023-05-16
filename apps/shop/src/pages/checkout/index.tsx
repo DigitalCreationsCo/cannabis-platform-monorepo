@@ -49,7 +49,7 @@ function Checkout() {
                 <FlexBox className={styles.info}>
                     <div>
                         <H5 className='text-primary text-center'>
-                            Order From {order?.organization?.name}</H5>
+                            Order From {order?.organization?.name || ''}</H5>
                         <div className={styles.addressContainer}>
                             {/* <Paragraph>{renderAddress({ address: order?.organization?.address })}</Paragraph> */}
                         </div>

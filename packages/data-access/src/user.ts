@@ -1,4 +1,5 @@
 import { ImageUser, Membership, MembershipRole, Prisma, User } from "@prisma/client";
+import { AddressWithDetails } from "address";
 import prisma from "./db/prisma";
 import { OrderWithDetails } from "./order";
 
@@ -259,7 +260,11 @@ export async function findUserWithDetailsByEmail(email: string): Promise<UserWit
                 email
             },
             include: {
-                address: true,
+                address: {
+                    include: {
+                        coordinates: true
+                    }
+                },
                 memberships: {
                     orderBy: {
                         role: 'asc',
@@ -282,7 +287,11 @@ export async function findUserWithDetailsByPhone(phone: string): Promise<UserWit
                 phone
             },
             include: {
-                address: true,
+                address: {
+                    include: {
+                        coordinates: true
+                    }
+                },
                 memberships: {
                     orderBy: {
                         role: 'asc',
@@ -305,7 +314,11 @@ export async function findUserWithDetailsById(id: string): Promise<UserWithDetai
                     id
                 },
                 include: {
-                    address: true,
+                    address: {
+                        include: {
+                            coordinates: true
+                        }
+                    },
                     memberships: {
                         orderBy: {
                             role: 'asc',
@@ -336,20 +349,7 @@ export async function updateUserPasswordToken(email: string, timeLimitedToken: s
 }
 
 export type UserWithDetails = User & Omit<User, "createdAt" | "updatedAt"> & {
-    address: {
-        id?: string
-        street1: string
-        street2: string | null
-        city: string
-        state: string
-        zipcode: string
-        country: string
-        countryCode: string | null
-        userId?: string | null
-        organizationId?: string | null
-        createdAt?: Date
-        updatedAt?: Date
-    }[];
+    address: AddressWithDetails[]
     imageUser?: ImageUser[] | null
     memberships?: Membership[] | null
     orders?: OrderWithDetails[]

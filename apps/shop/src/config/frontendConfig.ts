@@ -69,9 +69,9 @@ export const frontendConfig = () => {
                             event.userContext.memberships?.[0]?.role.toLocaleUpperCase() === 'ADMIN' ||
                             event.userContext.memberships?.[0]?.role.toLocaleUpperCase() === 'OWNER'
                         ) {
-                            window.location.href = dashboardDomain;
+                            // window.location.href = dashboardDomain;
                         } else {
-                            window.location.reload()
+                            // window.location.reload()
                         }
                     }
                 },
