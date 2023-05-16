@@ -1,10 +1,21 @@
-import { appInfo } from '@cd/core-lib';
 import Session from 'supertokens-node/recipe/session';
 // import { UserRoleClaim } from "supertokens-node/recipe/userroles";
-import { findUserWithDetailsByEmail, findUserWithDetailsByPhone } from '@cd/data-access';
+import { findUserWithDetailsByEmail, findUserWithDetailsByPhone, UserWithDetails } from '@cd/data-access';
 import Dashboard from "supertokens-node/recipe/dashboard";
 import Passwordless from "supertokens-node/recipe/passwordless";
 import { AuthConfig } from '../../interfaces';
+
+const port          = process.env.SHOP_APP_PORT || 3000;
+const baseDomain    = process.env.NEXT_PUBLIC_APP_DOMAIN || 'localhost';
+const websiteDomain = process.env.NEXT_PUBLIC_SHOP_APP_URL || `http://localhost:${port}`;
+const apiDomain     = process.env.SERVER_MAIN_URL || `http://localhost:6001`;
+
+const appInfo = {
+    appName: process.env.NEXT_PUBLIC_SHOP_APP_NAME || 'Gras',
+    apiDomain,
+    websiteDomain: "http://localhost:3000",
+    apiBasePath: '/api/v1'
+};
 
 export const backendConfig = (): AuthConfig => {
     console.log(' >> server/main backend config: ', appInfo);
@@ -243,11 +254,11 @@ export const backendConfig = (): AuthConfig => {
                                         if (response.user.email) {
                                             user = await findUserWithDetailsByEmail(response.user.email) || null;
                                             console.log('user found: ', user)
-                                            response.user = { ...response.user, ...user }
+                                            response.user = { ...response.user, ...user } as Passwordless.User & UserWithDetails
 
                                         } else if (response.user.phoneNumber) {
                                             user = await findUserWithDetailsByPhone(response.user.phoneNumber) || null;
-                                            response.user = { ...response.user, ...user }
+                                            response.user = { ...response.user, ...user } as Passwordless.User & UserWithDetails
 
                                         }
                                     }
@@ -283,7 +294,9 @@ export const backendConfig = (): AuthConfig => {
                     },
                 }
             }),
-            Session.init(), // initializes session features
+            Session.init({
+                cookieDomain: ".localhost:3000",
+            }),
             Dashboard.init({
                 apiKey: process.env.SUPERTOKENS_DASHBOARD_KEY
             })

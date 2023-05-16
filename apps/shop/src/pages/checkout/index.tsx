@@ -21,7 +21,7 @@ function Checkout() {
         <Page className="items-center">
             <Card className="min-w-full space-y-2">
             <H3 className='text-primary'>Checkout</H3>
-            <div className='flex flex-row justify-between'>
+            <div className='flex flex-col space-y-2 md:space-y-0 md:flex-row md:space-x-5'>
                 <div><H4>You're ready for checkout</H4>
                 <Paragraph>You can review your order here, and hit <b>Place my order</b> to start delivery.</Paragraph>
                 </div>
