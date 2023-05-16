@@ -20,7 +20,7 @@ function ProductItem({ product, className, handleConfirm }: ProductItemProps & P
 
     return (
         <>
-            <div className={twMerge('flex flex-row col-span-2 md:col-span-1', className)}
+            <div className={twMerge('flex flex-row col-span-2 md:col-span-1 lg:col-span-2 xl:col-span-1 justify-stretch', className)}
                 onClick={toggleConfirm}
             >
                 <img src={product?.images?.[0]?.location} style={{ height: 100, maxHeight: 100, width: 100, maxWidth: 100 }} className='rounded border object-cover place-self-center' />
