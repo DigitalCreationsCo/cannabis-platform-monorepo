@@ -171,6 +171,7 @@ export async function findOrganizationById(organizationId:string) {
                 vendor: true,
             }
          }) || null
+         console.log('findOrganizationById found: ', organization)
         return organization
     } catch (error: any) {
         console.error(error)

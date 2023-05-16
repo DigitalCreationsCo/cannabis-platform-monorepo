@@ -31,6 +31,7 @@ export default class OrganizationController {
             res.status(500).json({ error: error.message });
         }
     }
+    
     static async updateOrganization(req, res) {
         try {
             const organization = req.body;

@@ -1,5 +1,6 @@
 import { urlBuilder } from '@cd/core-lib/utils';
 import { Button, FlexBox, Grid, H2, H3, H6, Paragraph, TermsAgreement, TextField } from '@cd/ui-lib';
+import { createId } from '@paralleldrive/cuid2';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import Image from 'next/image';
@@ -23,7 +24,7 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
         name: formData.organization?.name || '',
         // email: formData.organization?.email || '',
         address: {
-            id: formData.organization?.address?.id || '',
+            id: formData.organization?.address?.id || createId(),
             street1: formData.organization?.address?.street1 || '',
             street2: formData.organization?.address?.street2 || '',
             city: formData.organization?.address?.city || '',

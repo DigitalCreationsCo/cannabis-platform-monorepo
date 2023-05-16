@@ -4,6 +4,8 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
 import NodeCache from 'node-cache';
 
+
+// Notes on caching in directory: /_dev/cache.txt
 const cache = new NodeCache({ stdTTL: 30 });
 
 // get a single organization details
