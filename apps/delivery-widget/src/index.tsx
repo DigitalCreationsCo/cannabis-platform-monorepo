@@ -1,10 +1,11 @@
 import * as ReactDOMClient from 'react-dom/client';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { DeliveryWidgetConfigOptions } from '..';
 import './styles/globals.css';
 import Button from './views/Button';
 import Checkout from './views/Checkout';
 
-const App = () => {
+const App = (configProps: DeliveryWidgetConfigOptions) => {
     // const [scrollHeight, setScrollHeight] = React.useState(0)
     
     // const setScroll = () => {
@@ -24,18 +25,19 @@ const App = () => {
         <div className='absolute flex h-20 md:h-0'>
         <div className="fixed bottom-0 h-auto md:right-0 md:m-4">
             <Routes>
-                <Route path="/" element={Button()} />
-                <Route path="/checkout" element={Checkout()} />
+                <Route path="/" element={Button(configProps)} />
+                
+                <Route path="/checkout" element={Checkout(configProps)} />
             </Routes>
         </div>
         </div>
     )
 }
 
-export default { init: async () => {
+export default { init: async (props: DeliveryWidgetConfigOptions) => {
     ReactDOMClient.createRoot(document.getElementById('gras-widget-root') as Element).render(
         <MemoryRouter>
-        <App />
+        <App { ...props }/>
         </MemoryRouter>
     )
 }}

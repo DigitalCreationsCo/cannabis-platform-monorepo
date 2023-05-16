@@ -3,14 +3,15 @@ import { useOnClickOutside } from "@cd/ui-lib/src/hooks";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { twMerge } from "tailwind-merge";
+import { DeliveryWidgetConfigOptions } from '../..';
 
-export type ViewProps = {
+export interface WidgetViewProps {
     className?: string | string[];
     expandWidget: boolean;
     setExpandWidget: (expandWidget: boolean) => void;
 }
 
-const WidgetView = (View:(props:ViewProps) => JSX.Element) => () => {
+const WidgetView = (View:(props:WidgetViewProps & DeliveryWidgetConfigOptions) => JSX.Element) => (props: DeliveryWidgetConfigOptions) => {
     const history = useNavigate()
     let pathname = location.pathname;
     useEffect(() => {
@@ -40,9 +41,11 @@ const WidgetView = (View:(props:ViewProps) => JSX.Element) => () => {
     return (
         <div ref={ref} className={twMerge([styles.container, styles.responsive])} >
         <View
+            {...props}
             expandWidget={expandWidget} 
             setExpandWidget={setExpandWidget} 
-            className={twMerge([styles.theme, styles.hover])} />
+            className={twMerge([styles.theme, styles.hover])}
+            />
         </div>
         )
     }

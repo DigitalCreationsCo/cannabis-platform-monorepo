@@ -1,11 +1,16 @@
 import App from './src';
-var init = async function (options: any) {
-    console.info('gras widget init, options: ', options);
+
+export type DeliveryWidgetConfigOptions = {
+    dispensaryKey: string
+}
+
+var init = async function (config: DeliveryWidgetConfigOptions) {
+    console.info('gras widget init, config options: ', config);
     var g = document.createElement("div")
     g.setAttribute("id", "gras-widget-root")
     g.setAttribute('class', "gras-widget-wrapper")
     document.body.appendChild(g);
-    await App.init();
+    await App.init(config);
 };
 
 function grasWidget() {
