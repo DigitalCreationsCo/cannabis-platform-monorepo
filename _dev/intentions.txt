@@ -121,6 +121,10 @@ Dispensary signup forms 1/2 done
 
 
 To DO: 
+Complete checkout and stripe data flow, end to end
+
+Complete 'continue sign up form' flow for users
+
 fix middleware directs for domain zones
 
 Reconcile redux state and supertokens session across domains ! It's easy. 
@@ -144,6 +148,10 @@ SETUP USER PROTECTED PAGES WITH SUPERTOKENS:
 GET ALL THIS STUFF ONLINE WITH TERRAFORM.
 USE AI LIKE A MOTHER FUCKER.
 WIN.
+
+Improvements:
+
+! Should encrypt the widget cart token, when its save in cookie. in the future.
 
 Checkout, settings, support, admin pages,
 
