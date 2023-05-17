@@ -48,6 +48,7 @@ export const frontendConfig = () => {
             //     }
             // }),
             Session.init({
+                // @ts-ignore
                 sessionTokenFrontendDomain: '.localhost:3000',
                 // sessionTokenBackendDomain: '.localhost:3000',
                 // override: {

@@ -1,5 +1,4 @@
-import { Page } from "@cd/ui-lib";
-import CheckAge from "components/CheckAge";
+import { CheckAge, Page } from "@cd/ui-lib";
 import { useRouter } from "next/router";
 
 function Welcome () {
@@ -7,7 +6,7 @@ function Welcome () {
     const redirect = router.query.redirect as string || '/'
     return (
     <Page>
-        <CheckAge redirect={redirect} />
+        <CheckAge onContinue={() => {}} redirect={redirect} />
     </Page>
 )}
 

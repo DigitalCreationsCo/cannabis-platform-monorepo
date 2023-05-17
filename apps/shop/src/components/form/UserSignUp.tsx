@@ -1,19 +1,15 @@
-import { userActions } from '@cd/core-lib';
 import { UserCreateType } from '@cd/data-access';
 import {
     Button,
     FlexBox, FormCard, Grid,
     H3,
-    H6,
-    Icons, Paragraph, TermsAgreement,
+    H6, Paragraph, TermsAgreement,
     TextField
 } from '@cd/ui-lib';
 import { useFormik } from 'formik';
-import Router from 'next/router';
 import { useCallback, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
-import { signUp } from 'supertokens-auth-react/recipe/emailpassword';
 import * as yup from 'yup';
 
 function UserSignUpForm() {
@@ -30,21 +26,29 @@ function UserSignUpForm() {
         lastName: 'Mejia',
         username: 'bigchiefa1111',
         email: 'bmejia2345@gmail.com',
-        password: '12323456',
-        re_password: '12323456',
+        // password: '12323456',
+        // re_password: '12323456',
         phone: '1233455678',
         dialCode: '1',
         termsAccepted: false,
         imageUser: null,
         address: {
+            id: '',
             street1: '123 MLK Ave',
             street2: 'Suite 900',
             city: 'Philadelphia',
             state: 'PA',
             zipcode: '19130',
             country: 'United States',
-            countryCode: 'US'
-        }
+            countryCode: 'US',
+            userId: '',
+            organizationId: '',
+            coordinateId: ''
+        },
+        emailVerified: false, 
+        isLegalAge: false,
+        idVerified: false,
+        memberships: []
     };
 
     const validationSchema = yup.object().shape({
@@ -94,55 +98,55 @@ function UserSignUpForm() {
 
     // TEST
     async function onSubmit(values: UserCreateType) {
-        const response = await signUpUser();
-        dispatch(userActions.signinUserSync({ user: response?.user }));
-        Router.push('/');
+        // const response = await signUpUser();
+        // dispatch(userActions.signinUserSync({ user: response?.user }));
+        // Router.push('/');
 
-        async function signUpUser() {
-            try {
-                if (!loadingButton) {
-                    setLoadingButton(true);
-                    const response = await signUp({
-                        formFields: [
-                            { id: 'email', value: values.email },
-                            { id: 'emailVerified', value: false.toString() },
-                            { id: 'password', value: values.password },
-                            { id: 're_password', value: values.re_password },
-                            { id: 'username', value: values.username },
-                            { id: 'firstName', value: values.firstName },
-                            { id: 'lastName', value: values.lastName },
-                            { id: 'dialCode', value: values.dialCode },
-                            { id: 'phone', value: values.phone },
-                            { id: 'termsAccepted', value: values.termsAccepted.toString() },
-                            { id: 'street1', value: values.address.street1 },
-                            { id: 'street2', value: values.address.street2 || '' },
-                            { id: 'city', value: values.address.city },
-                            { id: 'state', value: values.address.state },
-                            { id: 'zipcode', value: values.address.zipcode },
-                            { id: 'country', value: values.address.country },
-                            { id: 'countryCode', value: values.address.countryCode || '' },
-                            { id: 'isLegalAge', value: values.isLegalAge.toString() },
-                            { id: 'idVerified', value: values.idVerified.toString() },
-                        ]
-                    });
-                    if (response.status === 'FIELD_ERROR') {
-                        console.log('signup error: ', response.formFields[0].error);
-                        throw new Error(response.formFields[0].error);
-                    }
-                    console.log('signup error: ', response.status);
-                    if (response.status === 'OK') {
-                        console.log('signup ok');
-                        toast.success('Your account is created.', { duration: 5000 });
-                        return response;
-                    }
-                }
-            } catch (error: any) {
-                setLoadingButton(false);
-                console.error('create acount error: ', error);
-                toast.error(error.message);
-                return null;
-            }
-        }
+        // async function signUpUser() {
+        //     try {
+        //         if (!loadingButton) {
+        //             setLoadingButton(true);
+        //             const response = await signUp({
+        //                 formFields: [
+        //                     { id: 'email', value: values.email },
+        //                     { id: 'emailVerified', value: false.toString() },
+        //                     { id: 'password', value: values.password },
+        //                     { id: 're_password', value: values.re_password },
+        //                     { id: 'username', value: values.username },
+        //                     { id: 'firstName', value: values.firstName },
+        //                     { id: 'lastName', value: values.lastName },
+        //                     { id: 'dialCode', value: values.dialCode },
+        //                     { id: 'phone', value: values.phone },
+        //                     { id: 'termsAccepted', value: values.termsAccepted.toString() },
+        //                     { id: 'street1', value: values.address.street1 },
+        //                     { id: 'street2', value: values.address.street2 || '' },
+        //                     { id: 'city', value: values.address.city },
+        //                     { id: 'state', value: values.address.state },
+        //                     { id: 'zipcode', value: values.address.zipcode },
+        //                     { id: 'country', value: values.address.country },
+        //                     { id: 'countryCode', value: values.address.countryCode || '' },
+        //                     { id: 'isLegalAge', value: values.isLegalAge.toString() },
+        //                     { id: 'idVerified', value: values.idVerified.toString() },
+        //                 ]
+        //             });
+        //             if (response.status === 'FIELD_ERROR') {
+        //                 console.log('signup error: ', response.formFields[0].error);
+        //                 throw new Error(response.formFields[0].error);
+        //             }
+        //             console.log('signup error: ', response.status);
+        //             if (response.status === 'OK') {
+        //                 console.log('signup ok');
+        //                 toast.success('Your account is created.', { duration: 5000 });
+        //                 return response;
+        //             }
+        //         }
+        //     } catch (error: any) {
+        //         setLoadingButton(false);
+        //         console.error('create acount error: ', error);
+        //         toast.error(error.message);
+        //         return null;
+        //     }
+        // }
     }
 
     return (
@@ -162,7 +166,7 @@ function UserSignUpForm() {
                         error={!!touched.username && !!errors.username}
                         helperText={touched.username && errors.username}
                     />
-                    <TextField
+                    {/* <TextField
                         name="password"
                         label="Password"
                         placeholder="********"
@@ -187,7 +191,7 @@ function UserSignUpForm() {
                         type={passwordVisibility ? 'text' : 'password'}
                         insertIcon={passwordVisibility ? Icons.View : Icons.ViewOff}
                         onClickIcon={togglePasswordVisibility}
-                    />
+                    /> */}
                     <TextField
                         name="firstName"
                         label="First Name"

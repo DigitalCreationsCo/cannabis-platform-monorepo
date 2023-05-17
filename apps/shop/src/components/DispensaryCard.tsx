@@ -10,7 +10,7 @@ type DispensaryCardProps = {
     dispensary: {
         id?: string;
         name?: string;
-        address: Address & {
+        address?: Address & {
             coordinates: Coordinates;
         };
         dialCode?: string;

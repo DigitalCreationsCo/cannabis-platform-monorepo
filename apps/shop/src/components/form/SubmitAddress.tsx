@@ -1,4 +1,3 @@
-import { userActions } from '@cd/core-lib';
 import {
     Button, FlexBox, Grid,
     H3, H6, Paragraph, TermsAgreement, TextField
@@ -6,12 +5,11 @@ import {
 import { useFormContext } from 'components';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
-import { FormStepComponentProps } from 'pages/quick-delivery';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
-import { signUp } from 'supertokens-auth-react/recipe/emailpassword';
 import * as yup from 'yup';
+import { FormStepComponentProps } from "../StepFormProvider";
 
 function SubmitAddressForm({ prevFormStep }: FormStepComponentProps) {
     
@@ -64,68 +62,68 @@ function SubmitAddressForm({ prevFormStep }: FormStepComponentProps) {
 
 
     const onSubmit = async (values: typeof initialValues) => {
-        try {
-            setLoadingButton(true);
+    //     try {
+    //         setLoadingButton(true);
 
-            const response = await signUpUser();
-            dispatch(userActions.signinUserSync({ user: response?.user }));
-            // SUBMIT USER FORM HERE TO SIGNUP
+    //         const response = await signUpUser();
+    //         dispatch(userActions.signinUserSync({ user: response?.user }));
+    //         // SUBMIT USER FORM HERE TO SIGNUP
 
-            // setLoadingButton(false);
-            // router.push('/checkout')
+    //         // setLoadingButton(false);
+    //         // router.push('/checkout')
 
-            async function signUpUser() {
-                try {
-                    if (!loadingButton) {
-                        setLoadingButton(true);
+    //         async function signUpUser() {
+    //             try {
+    //                 if (!loadingButton) {
+    //                     setLoadingButton(true);
 
-                        const response = await signUp({
-                            formFields: [
-                                { id: 'email', value: formData.newUser.email },
-                                { id: 'emailVerified', value: false.toString() },
-                                { id: 'password', value: formData.newUser.password },
-                                { id: 're_password', value: formData.newUser.re_password },
-                                { id: 'username', value: formData.newUser.username },
-                                { id: 'firstName', value: formData.newUser.firstName },
-                                { id: 'lastName', value: formData.newUser.lastName },
-                                { id: 'dialCode', value: formData.newUser.dialCode },
-                                { id: 'phone', value: formData.newUser.phone },
-                                { id: 'termsAccepted', value: formData.newUser.termsAccepted.toString() },
-                                { id: 'isLegalAge', value: formData.newUser.isLegalAge.toString() },
-                                { id: 'idVerified', value: formData.newUser.idVerified.toString() },
-                                { id: 'street1', value: formData.newUser.address.street1 },
-                                { id: 'street2', value: formData.newUser.address.street2 || '' },
-                                { id: 'city', value: formData.newUser.address.city },
-                                { id: 'state', value: formData.newUser.address.state },
-                                { id: 'zipcode', value: formData.newUser.address.zipcode },
-                                { id: 'country', value: formData.newUser.address.country },
-                                { id: 'countryCode', value: formData.newUser.address.countryCode || '' }
-                            ]
-                        });
-                        if (response.status === 'FIELD_ERROR') {
-                            console.log('signup error: ', response.formFields[0].error);
-                            throw new Error(response.formFields[0].error);
-                        }
-                        console.log('signup error: ', response.status);
-                        if (response.status === 'OK') {
-                            console.log('signup ok');
-                            toast.success('Your account is created.', { duration: 5000 });
-                            return response;
-                        }
-                    }
-                } catch (error: any) {
-                    setLoadingButton(false);
-                    console.error('create acount error: ', error);
-                    toast.error(error.message);
-                    return null;
-                }
-            }
+    //                     const response = await signUp({
+    //                         formFields: [
+    //                             { id: 'email', value: formData.newUser.email },
+    //                             { id: 'emailVerified', value: false.toString() },
+    //                             { id: 'password', value: formData.newUser.password },
+    //                             { id: 're_password', value: formData.newUser.re_password },
+    //                             { id: 'username', value: formData.newUser.username },
+    //                             { id: 'firstName', value: formData.newUser.firstName },
+    //                             { id: 'lastName', value: formData.newUser.lastName },
+    //                             { id: 'dialCode', value: formData.newUser.dialCode },
+    //                             { id: 'phone', value: formData.newUser.phone },
+    //                             { id: 'termsAccepted', value: formData.newUser.termsAccepted.toString() },
+    //                             { id: 'isLegalAge', value: formData.newUser.isLegalAge.toString() },
+    //                             { id: 'idVerified', value: formData.newUser.idVerified.toString() },
+    //                             { id: 'street1', value: formData.newUser.address.street1 },
+    //                             { id: 'street2', value: formData.newUser.address.street2 || '' },
+    //                             { id: 'city', value: formData.newUser.address.city },
+    //                             { id: 'state', value: formData.newUser.address.state },
+    //                             { id: 'zipcode', value: formData.newUser.address.zipcode },
+    //                             { id: 'country', value: formData.newUser.address.country },
+    //                             { id: 'countryCode', value: formData.newUser.address.countryCode || '' }
+    //                         ]
+    //                     });
+    //                     if (response.status === 'FIELD_ERROR') {
+    //                         console.log('signup error: ', response.formFields[0].error);
+    //                         throw new Error(response.formFields[0].error);
+    //                     }
+    //                     console.log('signup error: ', response.status);
+    //                     if (response.status === 'OK') {
+    //                         console.log('signup ok');
+    //                         toast.success('Your account is created.', { duration: 5000 });
+    //                         return response;
+    //                     }
+    //                 }
+    //             } catch (error: any) {
+    //                 setLoadingButton(false);
+    //                 console.error('create acount error: ', error);
+    //                 toast.error(error.message);
+    //                 return null;
+    //             }
+    //         }
             
-        } catch (error: any) {
-            console.log('User Submit Address Error: ', error);
-            toast.error(error.response.data.message || error.response.data.errors);
-            setLoadingButton(false);
-        }
+    //     } catch (error: any) {
+    //         console.log('User Submit Address Error: ', error);
+    //         toast.error(error.response.data.message || error.response.data.errors);
+    //         setLoadingButton(false);
+    //     }
     };
 
     const { values, errors, touched, handleBlur, handleChange, handleSubmit, validateForm } = useFormik({

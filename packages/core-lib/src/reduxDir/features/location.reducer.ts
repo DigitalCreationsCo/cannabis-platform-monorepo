@@ -40,7 +40,7 @@ export type LocationType = {
 
 }
 
-type AddressPayload = { 
+export type AddressPayload = { 
     street1: string;
     street2: string | null;
     city: string;

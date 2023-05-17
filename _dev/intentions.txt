@@ -134,6 +134,9 @@ UNDERSTAND THEIR BACKEND SYSTEMS, AND INTEGRATE WITH GRAS FOR AUTOMATION FULFILL
 fix continue signup flow for quick-delivery and mybag
 complete signup process,
 
+**Populate main production branch database mysql.
+**Populate production mongo database.
+
 ** HANDLE A FORMDATA BUG IN DISPENSARY SIGNUP REVIEW.
 HANDLE REDIRECT FOR DISPENSARY ADMINS, TO THE DASHBOARD APP.
 GET THE DASHBOARD APP WORKING, POSSIBLY IN THE SAME DOMAIN. :P GET WHAT EXISTS TO WORK FIRST!!

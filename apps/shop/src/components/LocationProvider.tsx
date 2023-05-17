@@ -1,4 +1,4 @@
-import { locationActions, selectSelectedLocationState, selectShopState, shopActions } from '@cd/core-lib';
+import { AddressPayload, locationActions, selectSelectedLocationState, selectShopState, shopActions } from '@cd/core-lib';
 import { getGeoAddressByCoordinates } from '@cd/core-lib/src/utils/geo';
 import { AnyAction } from '@reduxjs/toolkit';
 import { useRouter } from 'next/router';
@@ -51,7 +51,7 @@ const LocationProvider = () => {
                             latitude: position.coords.latitude,
                             longitude: position.coords.longitude
                         })
-                        .then(address => dispatch(locationActions.setCurrentAddress(address)))
+                        .then(address => dispatch(locationActions.setCurrentAddress(address as AddressPayload)))
                         .catch(error => console.log("Location Provider getGeoAddressByCoordifdnates error: ", error));
                     },
                     () => console.log('Geolocation is not supported by this browser.')

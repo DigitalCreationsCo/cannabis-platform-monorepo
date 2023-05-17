@@ -1,5 +1,5 @@
-import { LayoutContextProps, modalActions, modalTypes } from '@cd/core-lib';
-import { Button, FlexBox, H1, H2, H4, H5, Page, Paragraph } from '@cd/ui-lib';
+import { modalActions, modalTypes } from '@cd/core-lib';
+import { Button, FlexBox, H1, H2, H4, H5, LayoutContextProps, Page, Paragraph } from '@cd/ui-lib';
 import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import { PropsWithChildren } from 'react';
