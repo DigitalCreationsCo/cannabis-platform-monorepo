@@ -1,6 +1,4 @@
-import { urlBuilder } from '@cd/core-lib';
 import { SessionPayload, User, UserWithDetails } from '@cd/data-access';
-import axios from 'axios';
 import { NextApiRequest } from 'next';
 import { SessionInformation } from 'supertokens-node/recipe/session';
 
@@ -16,16 +14,17 @@ export type ExtendRequest = NextApiRequest & {
     organizationId?: string;
 };
 
-export async function getSession({ req }: any): Promise<SessionInfo | null> {
+// export async function getSession({ req }: any): Promise<SessionInfo | null> {
+export async function getSession({ req }: any) {
     try {
-        const { data } = await axios(urlBuilder.next + '/api/session', {
-            headers: {
-                Cookie: req.headers.cookie
-            }
-        });
-        if (data.status) {
-            return data;
-        } else throw new Error(data.error);
+        // const { data } = await axios(urlBuilder.next + '/api/session', {
+        //     headers: {
+        //         Cookie: req.headers.cookie
+        //     }
+        // });
+        // if (data.status) {
+        //     return data;
+        // } else throw new Error(data.error);
     } catch (error: any) {
         console.log('get session error: ', error);
         throw new Error(error.message);

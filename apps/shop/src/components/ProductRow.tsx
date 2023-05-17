@@ -24,7 +24,7 @@ function ProductRow({ product, variant }: ProductRowProps) {
                             {variant.stock.toString().padStart(2, '0')} stock
                         </Paragraph>
                         <H6 className="flex justify-center w-[80px]">
-                            <Price price={variant.basePrice} />
+                            <Price basePrice={variant.basePrice} />
                         </H6>
                     </>
                 )}

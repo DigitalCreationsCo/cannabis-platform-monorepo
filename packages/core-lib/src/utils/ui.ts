@@ -8,15 +8,16 @@ export const renderAddress = ({
     showZipcode = true,
     breakLine = true,
 } : { 
-    address: Omit<Address, "id" | "userId" | "organizationId" | "createdAt" | "updatedAt">;
+    address?: Omit<Address, "id" | "userId" | "organizationId" | "createdAt" | "updatedAt">;
     showCity?: boolean;
     showState?: boolean;
     showCountry?: boolean;
     showZipcode?: boolean;
     breakLine?: boolean;
-}) => (
-    `${address.street1} ${address.street2}${breakLine?'\n':''}${showCity && address.city + ', ' || ''}${showState && address.state || ''}${breakLine?'\n':', '}${showCountry && address.country || ''} ${showZipcode && address.zipcode || ''}`
-    );
+}) => {
+    if (!address) return '';
+    return `${address.street1} ${address.street2}${breakLine?'\n':''}${showCity && address.city + ', ' || ''}${showState && address.state || ''}${breakLine?'\n':', '}${showCountry && address.country || ''} ${showZipcode && address.zipcode || ''}`
+};
 
 export const renderNestedDataObject = (data: any, Component: any, removeFields: any = []):any => {
     const result = Object.keys({ ...data })

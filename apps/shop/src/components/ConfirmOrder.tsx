@@ -1,12 +1,12 @@
 import { cartActions, modalActions, modalTypes, selectCartState, selectIsCartEmpty, selectSelectedLocationState, selectUserState, SimpleCart } from "@cd/core-lib";
-import { OrderCreate, ProductVariantWithDetails } from "@cd/data-access";
+import { ProductVariantWithDetails } from "@cd/data-access";
 import { Button, Center, H5, Paragraph, Price, SimpleCartItem } from "@cd/ui-lib";
 import { AnyAction } from "@reduxjs/toolkit";
 import Router from "next/router";
-import { FormStepComponentProps } from "pages/quick-delivery";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
+import { FormStepComponentProps } from "./StepFormProvider";
 
 function ConfirmOrder({ nextFormStep }: FormStepComponentProps) {
     const dispatch = useDispatch();
@@ -30,21 +30,21 @@ function ConfirmOrder({ nextFormStep }: FormStepComponentProps) {
 
     }, [])
 
-    const createOrder = async () => {
-        const order:OrderCreate = {
-            subtotal: 0, 
-            total: cart.total, 
-            taxFactor: 0, 
-            tax: 0,
-            addressId: selectedLocation.address.id,
-            customerId: user.user.id,
-            organizationId: simpleCart.organizationId || '',
-            items: cart.cart,
-            isDelivered: false,
-        }
-        dispatch(cartActions.createOrder(order))
-        return order;
-    }
+    // const createOrder = async () => {
+    //     const order:OrderCreate = {
+    //         subtotal: 0, 
+    //         total: cart.total, 
+    //         taxFactor: 0, 
+    //         tax: 0,
+    //         addressId: selectedLocation.address.id,
+    //         customerId: user.user.id,
+    //         organizationId: simpleCart.organizationId || '',
+    //         items: cart.cart,
+    //         isDelivered: false,
+    //     }
+    //     dispatch(cartActions.createOrder(order))
+    //     return order;
+    // }
 
     // const checkout = async () => { 
     //     const order = createOrder()

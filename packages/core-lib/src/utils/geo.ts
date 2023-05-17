@@ -51,7 +51,7 @@ export const getGeoAddressByCoordinates = async (coordinates: { latitude: number
 			})
         const { address } = data;
         
-        const formattedAddress = {
+        const formattedAddress: AddressWithDetails = {
             street1: address.house_number + ' ' + address.road,
             street2: '',
             city: address.city,

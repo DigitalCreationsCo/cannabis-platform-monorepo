@@ -1,6 +1,6 @@
 import {
     Button,
-    FlexBox, Grid, Icons, Paragraph, TextField
+    FlexBox, Grid, Paragraph, TextField
 } from '@cd/ui-lib';
 import { useFormContext } from 'components';
 import { useFormik } from 'formik';
@@ -30,8 +30,8 @@ function QuickSignUpUserForm({ nextFormStep, prevFormStep }: { nextFormStep: () 
     const initialValues = {
         username: formData?.newUser?.username || 'asdfsdfg',
         email: formData?.newUser?.email || 'bmej@dev.com',
-        password: formData?.newUser?.password || 'asdfasdf',
-        re_password: formData?.newUser?.re_password || 'asdfasdf',
+        // password: formData?.newUser?.password || 'asdfasdf',
+        // re_password: formData?.newUser?.re_password || 'asdfasdf',
         phone: formData?.newUser?.phone || '1232343456',
         dialCode: formData?.newUser?.dialCode || '1',
     };
@@ -114,7 +114,7 @@ function QuickSignUpUserForm({ nextFormStep, prevFormStep }: { nextFormStep: () 
                         error={!!touched.username && !!errors.username}
                         helperText={touched.username && errors.username}
                     />
-                    <TextField
+                    {/* <TextField
                         name="password"
                         label="* password"
                         placeholder="********"
@@ -139,7 +139,7 @@ function QuickSignUpUserForm({ nextFormStep, prevFormStep }: { nextFormStep: () 
                         type={re_passwordVisibility ? 'text' : 'password'}
                         insertIcon={re_passwordVisibility ? Icons.View : Icons.ViewOff}
                         onClickIcon={() => setRe_PasswordVisibility((visible) => !visible)}
-                    />
+                    /> */}
                     <TextField
                         name="email"
                         type="email"

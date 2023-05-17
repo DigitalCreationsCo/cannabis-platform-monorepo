@@ -3,12 +3,11 @@ import { Button, Center, FlexBox, H2, H5, UploadImageBox } from "@cd/ui-lib";
 import axios from "axios";
 import FormData from "form-data";
 import Image from "next/image";
-import { FormStepComponentProps } from "pages/quick-delivery";
 import { useEffect, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { toast } from "react-hot-toast";
 import DropZone from "./DropZone";
-import { useFormContext } from "./StepFormProvider";
+import { FormStepComponentProps, useFormContext } from "./StepFormProvider";
 
 type Image = {
 data: string;
