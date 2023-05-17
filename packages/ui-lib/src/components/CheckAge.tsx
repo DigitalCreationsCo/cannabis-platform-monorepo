@@ -1,7 +1,11 @@
-import { Button, Center, CheckBox, FlexBox, H1, H3 } from "@cd/ui-lib"
 import { useRouter } from "next/router"
 import { useState } from "react"
 import { useCookies } from "react-cookie"
+import Button from "./button/Button"
+import Center from "./Center"
+import CheckBox from "./CheckBox"
+import FlexBox from "./FlexBox"
+import { H1, H3 } from "./Typography"
 
 const CheckAge = ({ redirect, onContinue }: { onContinue: () => void; redirect?: string }) => {
     const router = useRouter()

@@ -12,7 +12,6 @@
     "supertokens-auth-react": "0.28.1"
   },
   "dependencies": {
-    "@paralleldrive/cuid2": "2.2.0",
     "@reduxjs/toolkit": "1.9.2",
     "axios": "1.2.1",
     "react-redux": "8.0.2",
@@ -21,6 +20,7 @@
   "devDependencies": {
     "@cd/data-access": "workspace:*",
     "@cd/eslint-config": "workspace:*",
+    "@paralleldrive/cuid2": "2.2.0",
     "@rollup/plugin-commonjs": "24.0.1",
     "@rollup/plugin-node-resolve": "15.0.1",
     "@rollup/plugin-typescript": "11.0.0",

@@ -1,5 +1,5 @@
-import { Modal } from '@cd/ui-lib';
 import CheckAge from '../CheckAge';
+import Modal from './Modal';
 
 import { twMerge } from 'tailwind-merge';
 
