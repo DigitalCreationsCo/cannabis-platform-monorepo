@@ -16,7 +16,7 @@ export default defineConfig({
     setupFiles: './config/test/setupVitest.ts',
     passWithNoTests: true,
     deps: {
-      external: ['fs', 'axios',],
+      external: ['fs', 'axios', '@paralleldrive/cuid2'],
       // experimentalOptimizer: {
       //   enabled: true,
       // },
