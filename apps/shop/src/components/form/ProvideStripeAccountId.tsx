@@ -12,6 +12,7 @@ function ProvideStripeAccountId({ nextFormStep }: { nextFormStep: () => void }) 
     const { formData, setFormValues } = useFormContext();
 
     const [loadingButton, setLoadingButton] = useState(false);
+    const [loadingButton2, setLoadingButton2] = useState(false);
 
     const initialValues = {
         stripeAccountId: ''
@@ -63,6 +64,8 @@ function ProvideStripeAccountId({ nextFormStep }: { nextFormStep: () => void }) 
 
     async function declineStripeIdAndCreateAccount () {
         try {
+            setLoadingButton2(true);
+
             let 
             organization = formData?.organization;
 
@@ -76,15 +79,20 @@ function ProvideStripeAccountId({ nextFormStep }: { nextFormStep: () => void }) 
                 stripeAccountId: values.stripeAccountId
             }, { validateStatus: status => (status >= 200 && status < 300) || status == 404 });
 
-            if (response.status !== 201) throw new Error('Error connecting stripe account to dispensary.')
+            if (response.status !== 201) throw new Error('Error creating stripe account.')
 
             let {stripeAccountId} = response.data;
             setFormValues({ organization: { stripeAccountId } });
             
+            setLoadingButton2(false);
+
             toast.success(`Stripe account connected to ${formData?.organization?.name}.`)
             
         } catch (error: any) {
             console.log('Error getting stripe account: ', error);
+            
+            setLoadingButton2(false);
+
             toast.error(error.message);
         }
     }
@@ -130,6 +138,7 @@ function ProvideStripeAccountId({ nextFormStep }: { nextFormStep: () => void }) 
 
                 <Button
                     type="submit"
+                    disabled={loadingButton || loadingButton2}
                     loading={loadingButton}
                     onClick={(e) => {
                         e.preventDefault();
@@ -142,8 +151,8 @@ function ProvideStripeAccountId({ nextFormStep }: { nextFormStep: () => void }) 
                 </Button>
 
                 <Button
-                    type="submit"
-                    loading={loadingButton}
+                    disabled={loadingButton || loadingButton2}
+                    loading={loadingButton2}
                     onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();

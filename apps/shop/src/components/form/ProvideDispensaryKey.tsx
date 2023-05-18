@@ -28,11 +28,14 @@ function ProvideDispensaryKey({ nextFormStep }: FormStepComponentProps) {
 
     const downloadDispensaryData = async (dispensaryKey: string) => {
         try {
-            const { data } = await axios.get(urlBuilder.shop + `/api/organization/${dispensaryKey}`, { validateStatus: status => (status >= 200 && status < 300) || status == 404 });
-            if (!data || data.name==="AxiosError") throw new Error('Dispensary is not found.');
+            const response = await axios.get
+            (urlBuilder.shop + `/api/organization/${dispensaryKey}`, { validateStatus: status => (status >= 200 && status < 300) || status == 404 });
 
-            console.log('set form values: data: ', data)
-            setFormValues({ organization: { ...data } });
+            if (response.status !== 200) 
+            throw new Error('Dispensary is not found.');
+
+            setFormValues({ organization: { ...response.data } });
+
         } catch (error: any) {
             throw new Error('Dispensary is not found.');
             console.log('Error getting Dispensary: ', error);
@@ -41,8 +44,10 @@ function ProvideDispensaryKey({ nextFormStep }: FormStepComponentProps) {
     const onSubmit = async (values: typeof initialValues) => {
         try {
             setLoadingButton(true);
+
             await downloadDispensaryData(values.dispensaryKey);
             nextFormStep();
+            
         } catch (error: any) {
             console.log('Provide Dispensary Key Error: ', error);
             toast.error(error.message);

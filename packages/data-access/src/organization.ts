@@ -163,7 +163,6 @@ export async function createOrganization(organization: OrganizationCreateType) {
  */
 export async function findOrganizationById(organizationId:string) {
     try {
-        console.log('findOrganizationById: ', organizationId)
         const organization = await prisma.organization.findUnique({ 
             where: { id: organizationId },
             include: {
@@ -171,7 +170,6 @@ export async function findOrganizationById(organizationId:string) {
                 vendor: true,
             }
          }) || null
-         console.log('findOrganizationById found: ', organization)
         return organization
     } catch (error: any) {
         console.error(error)

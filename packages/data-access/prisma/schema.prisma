@@ -139,7 +139,8 @@ model Address {
   zipcode String
   country String
   countryCode String?
-  coordinates Coordinates?
+  coordinateId String?
+  coordinates Coordinates? @relation(fields: [coordinateId], references: [id], onUpdate: SetNull, onDelete: SetNull)
   userId String?
   user User? @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   organizationId String? @unique
@@ -152,6 +153,7 @@ model Address {
   @@unique([userId, id])
   @@index([userId])
   @@index([organizationId])
+  @@index([coordinateId])
 }
 
 model ImageOrganization {
@@ -210,16 +212,13 @@ model Coordinates {
   latitude Float
   longitude Float
   radius Float?
-  addressId String @unique
-  addresses Address @relation(fields: [addressId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  addresses Address[]
   driverSession DriverSession?
   driverId String? @unique
   routes Route[]
 
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
-
-  @@index([addressId])
 }
 
 model Membership {
