@@ -77,12 +77,14 @@ function ProvideStripeAccountId({ nextFormStep }: { nextFormStep: () => void }) 
                 stripeAccountId: values.stripeAccountId
             }, { validateStatus: status => (status >= 200 && status < 300) || status == 404 });
 
-            if (response.status !== 201) throw new Error('Error creating stripe account.')
-
-            let {stripeAccountId} = response.data;
-            setFormValues({ organization: { stripeAccountId } });
+            console.log('response: ', response);
             
-            setLoadingButton2(false);
+            // if (response.status !== 201) throw new Error('Error creating stripe account.')
+
+            // let {stripeAccountId} = response.data;
+            // setFormValues({ organization: { stripeAccountId } });
+            
+            // setLoadingButton2(false);
 
             toast.success(`Stripe account connected to ${formData?.organization?.name}.`)
             
