@@ -28,6 +28,7 @@ export async function updateOrganization(organization: OrganizationCreateType) {
         const { coordinates, coordinateId, userId, ...addressData } 
         = address
 
+        console.log('organization: ', organization)
         const updateOrganization = await prisma.organization.update({
             where: { id: organization.id },
             // create: {
@@ -70,22 +71,28 @@ export async function updateOrganization(organization: OrganizationCreateType) {
                         create: {
                             ...addressData,
                             // coordinateId: coordinates?.id,
-                            coordinates: coordinates?.id ? {
+                            // coordinates: coordinates?.id ? ({
+                            //     connectOrCreate: {
+                            //         where: {
+                            //             id: coordinates?.id,
+                            //         },
+                            //         create: {
+                            //             id: coordinates?.id,
+                            //             latitude: Number(coordinates?.latitude),
+                            //             longitude: Number(coordinates?.longitude),
+                            //         }
+                            //     }
+                            // }) : ({
+                                coordinates: {
                                 connectOrCreate: {
-                                    where: {
-                                        id: coordinates?.id,
-                                    },
+                                    where: { id: coordinates?.id },
                                     create: {
                                         latitude: Number(coordinates?.latitude),
                                         longitude: Number(coordinates?.longitude),
                                     }
                                 }
-                            } : {
-                                create: {
-                                    latitude: Number(coordinates?.latitude),
-                                    longitude: Number(coordinates?.longitude),
-                                }
                             }
+                            // })
                         },
                     }
                 },
@@ -110,7 +117,7 @@ export async function updateOrganization(organization: OrganizationCreateType) {
         });
         return updateOrganization
     } catch (error: any) {
-        console.error('ERROR: ', error.message)
+        console.error('ERROR: ', error)
         if (error.code === 'P2002') {
             throw new Error('error updating organization, there was a unique key conflict.')
         }
@@ -316,7 +323,6 @@ export type OrganizationCreateType = {
     emailVerified?: boolean
     vendorId: string
     termsAccepted?: boolean
-    coordinates?: Coordinates
     subdomainId: string
 }
 
