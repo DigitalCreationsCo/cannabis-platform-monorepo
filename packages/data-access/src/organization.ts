@@ -333,6 +333,11 @@ export type OrganizationStripeDetail = {
     stripeAccountId: string;
 }
 
+export type OrganizationStripePayload = {
+    organization: OrganizationCreateType;
+    stripeAccountId: string;
+}
+
 export type UserLocation = {
     userLocation: Coordinates;
     proximityRadius: number;

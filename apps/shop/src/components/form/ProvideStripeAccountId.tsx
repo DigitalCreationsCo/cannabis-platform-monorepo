@@ -9,16 +9,7 @@ import { useFormContext } from '../StepFormProvider';
 
 function ProvideStripeAccountId({ nextFormStep }: { nextFormStep: () => void }) {
 
-    const { resetFormValues, setFormValues } = useFormContext();
-
-    // useEffect(() => {
-    //     const createNewFormContext = () => {
-    //         console.info('creating new form context for Dispensary Sign Up Form')
-    //         resetFormValues()
-    //     }
-    //     createNewFormContext()
-    // }, [])
-
+    const { formData, setFormValues } = useFormContext();
 
     const [loadingButton, setLoadingButton] = useState(false);
 
@@ -29,8 +20,13 @@ function ProvideStripeAccountId({ nextFormStep }: { nextFormStep: () => void }) 
     const onSubmit = async (values: typeof initialValues) => {
         try {
             setLoadingButton(true);
-            await connectStripeAccountToDispensary()
+
+            await 
+            connectStripeAccountToDispensary()
+
+            setLoadingButton(false);
             nextFormStep();
+
         } catch (error: any) {
             console.log('Provide Stripe Account Id Error: ', error);
             toast.error(error.message);
@@ -40,9 +36,24 @@ function ProvideStripeAccountId({ nextFormStep }: { nextFormStep: () => void }) 
 
     async function connectStripeAccountToDispensary () {
         try {
-            const response = await axios.get(urlBuilder.shop + `/api/stripe${values.stripeAccountId}`, { validateStatus: status => (status >= 200 && status < 300) || status == 404 });
+            let 
+            organization = formData?.organization;
 
+            console.log('organization: ', organization);
+
+            if (!organization) 
+            throw new Error('Dispensary is not found.');
+
+            const response = await axios.post(urlBuilder.shop + `/api/stripe/connect`, { 
+                organization, 
+                stripeAccountId: values.stripeAccountId
+            }, { validateStatus: status => (status >= 200 && status < 300) || status == 404 });
+
+            // if (response.status !== 200) throw new Error('Error connecting stripe account to dispensary.')
+            if (response.status === 200)
             setFormValues({ organization: { stripeAccountId: values.stripeAccountId } });
+            
+            toast.success(`Stripe account connected to ${formData?.organization?.name}.`)
             
         } catch (error: any) {
             throw new Error(error.message);
@@ -50,21 +61,32 @@ function ProvideStripeAccountId({ nextFormStep }: { nextFormStep: () => void }) 
         }
     }
 
-    // const downloadDispensaryData = async (stripeAccountId: string) => {
-    //     try {
-    //         const { data } = await axios.get(urlBuilder.shop + `/api/organization/${dispensaryKey}`, { validateStatus: status => (status >= 200 && status < 300) || status == 404 });
-    //         if (!data || data.name==="AxiosError") throw new Error('Dispensary is not found.');
+    async function declineStripeIdAndCreateAccount () {
+        try {
+            let 
+            organization = formData?.organization;
 
-    //         console.log('set form values: data: ', data)
-    //         setFormValues({ organization: { ...data } });
-    //     } catch (error: any) {
-    //         throw new Error('Dispensary is not found.');
-    //         console.log('Error getting Dispensary: ', error);
-    //     }
-    // }
+            console.log('organization: ', organization);
 
-    function declineStripeIdAndCreateAccount () {
-        
+            if (!organization) 
+            throw new Error('Dispensary is not found.');
+            
+            const response = await axios.post(urlBuilder.shop + `/api/stripe/create`, { 
+                organization, 
+                stripeAccountId: values.stripeAccountId
+            }, { validateStatus: status => (status >= 200 && status < 300) || status == 404 });
+
+            if (response.status !== 201) throw new Error('Error connecting stripe account to dispensary.')
+
+            let {stripeAccountId} = response.data;
+            setFormValues({ organization: { stripeAccountId } });
+            
+            toast.success(`Stripe account connected to ${formData?.organization?.name}.`)
+            
+        } catch (error: any) {
+            console.log('Error getting stripe account: ', error);
+            toast.error(error.message);
+        }
     }
 
     const { values, errors, touched, handleBlur, handleChange, handleSubmit, validateForm } = useFormik({
