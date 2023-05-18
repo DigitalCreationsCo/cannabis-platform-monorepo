@@ -36,7 +36,6 @@ export default class LocationController {
      */
     static async addOrganizationLocationRecord(req, res) {
         try {
-            console.log('Location Controller: addOrganizationLocationRecord');
             const organization = req.body as OrganizationWithShopDetails;
             const data = await LocationDA.addOrganizationMongoRecord(organization);
             if (!data) return res.status(404).json('Could not create the dispensary record.');
@@ -55,10 +54,9 @@ export default class LocationController {
      */
     static async updateOrganizationLocationRecord(req, res) {
         try {
-            console.log('Location Controller: updateOrganizationLocationRecord :', req.body);
             const organization = req.body as OrganizationWithShopDetails;
             const data = await LocationDA.updateOrganizationMongoRecord(organization);
-            if (!data) return res.status(404).json('Could not create the dispensary record.');
+            if (!data) return res.status(404).json('Could not update the dispensary record.');
             return res.status(201).json(data);
         } catch (error: any) {
             console.log('API error: ', error);

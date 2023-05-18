@@ -1,4 +1,4 @@
-import { addressHasValidCoordinates, getGeoCoordinatesByAddress } from '@cd/core-lib';
+import { getGeoCoordinatesByAddress } from '@cd/core-lib';
 import { OrganizationCreateType } from '@cd/data-access';
 import { OrganizationDA } from '../data-access';
 const Busboy = require('busboy');
@@ -36,18 +36,6 @@ export default class OrganizationController {
     static async updateOrganization(req, res) {
         try {
             const organization: OrganizationCreateType = req.body
-
-            let 
-            coordinates;
-            
-            console.log('coordinates? ', organization?.address?.coordinates)
-            if (!addressHasValidCoordinates(organization?.address))
-            coordinates = await getGeoCoordinatesByAddress(organization.address);
-            
-            if (coordinates.latitude !== 0) 
-            organization.address.coordinates = coordinates;
-            
-            console.log('coordinates: ', coordinates)
 
             const 
             data = await OrganizationDA.updateOrganization(organization);
