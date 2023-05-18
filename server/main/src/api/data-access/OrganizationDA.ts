@@ -1,5 +1,6 @@
-import { urlBuilder } from '@cd/core-lib';
+import { addressHasValidCoordinates, getGeoCoordinatesByAddress, urlBuilder } from '@cd/core-lib';
 import { createOrganization, findCategoryListByOrg, findOrganizationById, findUsersByOrganization, OrganizationCreateType, updateOrganization } from '@cd/data-access';
+import { createId } from '@paralleldrive/cuid2';
 import axios from 'axios';
 /* =================================
 Organization Data Access - data class for organization table
@@ -45,6 +46,21 @@ export default class OrganizationDA {
     }
     static async updateOrganization(organization: OrganizationCreateType) {
         try {
+            let 
+            coordinates;
+            
+            console.log('coordinates? ', organization?.address?.coordinates)
+            if (!addressHasValidCoordinates(organization?.address))
+            coordinates = await getGeoCoordinatesByAddress(organization.address);
+            
+            if (coordinates.latitude !== 0) 
+            organization.address.coordinates = { 
+                ...coordinates,
+                id: createId(), 
+            };
+            
+            console.log('coordinates: ', coordinates)
+            
             const 
             data = await updateOrganization(organization);
 

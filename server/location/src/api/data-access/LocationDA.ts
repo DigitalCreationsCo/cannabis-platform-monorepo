@@ -64,7 +64,6 @@ export default class LocationDA {
             address: { ...organization.address,
             coordinates: [Number(organization.address.coordinates.longitude), Number(organization.address.coordinates.latitude)]},
           })
-          console.log('created mongo organization record: ', newOrganization.id)
           return newOrganization
       } catch (error: any) {
           console.error('LocationDA error: ', error.message);
@@ -75,7 +74,6 @@ export default class LocationDA {
   static async updateOrganizationMongoRecord(organization: OrganizationWithShopDetails) {
     try {
 
-      console.log('organization: ', organization)
       const updateOrganization = await organizations_geo.updateOne(
         { id: organization.id },
         { $set: {
@@ -84,7 +82,6 @@ export default class LocationDA {
           coordinates: [Number(organization.address.coordinates.longitude), Number(organization.address.coordinates.latitude)]},
         } });
 
-        console.log('update mongo organization record: ', updateOrganization.id)
         return updateOrganization
     } catch (error: any) {
         console.error('LocationDA error: ', error.message);
