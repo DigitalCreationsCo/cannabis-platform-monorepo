@@ -75,6 +75,7 @@ export default class LocationDA {
   static async updateOrganizationMongoRecord(organization: OrganizationWithShopDetails) {
     try {
 
+      console.log('organization: ', organization)
       const updateOrganization = await organizations_geo.updateOne(
         { id: organization.id },
         { $set: {

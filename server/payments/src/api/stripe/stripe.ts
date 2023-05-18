@@ -138,9 +138,13 @@ class StripeService {
      */
     async createDispensaryAccount(accountParams: Stripe.CustomerCreateParams) {
         try {
-            if (!accountParams) throw new Error('Dispensary Stripe Account Params are required!');
+            if (!accountParams)
+            throw new Error('Dispensary Stripe Account Params are required!');
+            
             const account = await this.stripe.accounts.create(accountParams);
+            
             return account;
+            
         } catch (error: any) {
             console.error(error.message);
             throw new Error(error.message);
@@ -154,9 +158,13 @@ class StripeService {
      */
     async createDispensaryAccountLink(params: Stripe.AccountLinkCreateParams) {
         try {
-            if (!params || !params.account) throw new Error('Dispensary Stripe Account Link Params are required!');
+            if (!params || !params.account) 
+            throw new Error('Dispensary Stripe Account Link Params are required!');
+            
             const accountLink = await this.stripe.accountLinks.create(params);
+            
             return accountLink;
+            
         } catch (error: any) {
             console.error(error.message);
             throw new Error(error.message);
@@ -164,6 +172,6 @@ class StripeService {
     }
 }
 
-export default new StripeService(process.env.STRIPE_API_KEY, {
+export default new StripeService(process.env.STRIPE_API_KEY_SECRET, {
     apiVersion: process.env.STRIPE_API_VERSION || '2022-11-15'
 })

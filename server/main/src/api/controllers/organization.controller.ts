@@ -1,4 +1,5 @@
 import { getGeoCoordinatesByAddress } from '@cd/core-lib';
+import { Address, OrganizationCreateType } from '@cd/data-access';
 import { OrganizationDA } from '../data-access';
 const Busboy = require('busboy');
 
@@ -34,11 +35,13 @@ export default class OrganizationController {
     
     static async updateOrganization(req, res) {
         try {
-            const organization = req.body;
+            const organization: OrganizationCreateType = req.body
 
-            const coordinates = await getGeoCoordinatesByAddress(organization.address);
+            const coordinates = await getGeoCoordinatesByAddress(organization.address as unknown as Address);
+            console.log()
             if (coordinates) organization.address.coordinates = coordinates;
             
+            console.log('coordinates: ', coordinates)
             // NOTE: this process is an upsert, should be changed to update only,
             // so it doesnt interfere with account creation, and stripe account creation.
             const data = await OrganizationDA.updateOrganization(organization);

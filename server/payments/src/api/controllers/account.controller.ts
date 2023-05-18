@@ -40,10 +40,10 @@ export default class AccountController {
                     },
                     phone: dispensaryAccount.phone || undefined,
                 },
-                capabilities: {
-                    card_payments: {requested: true},
-                },
-                payoutsEnabled: true
+                // capabilities: {
+                //     card_payments: {requested: true},
+                // },
+                // payoutsEnabled: true
             };
 
             const account = await StripeService.createDispensaryAccount(accountParams)
@@ -57,6 +57,8 @@ export default class AccountController {
             // adds stripe account id to organization record
             await updateStripeAccountDispensary(dispensaryAccount.id, stripeAccountId)
 
+            console.log('hello')
+            
             return res.status(201).json({
                 success: true, 
                 message: 'Stripe account created successfully.',

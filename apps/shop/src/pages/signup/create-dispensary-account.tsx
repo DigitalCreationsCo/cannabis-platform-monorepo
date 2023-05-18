@@ -100,7 +100,7 @@ function DispensarySignUpStepForm() {
             <Head>
                 <title>Create a Dispensary Account</title>
             </Head>
-            <FormCard className={"bg-inverse-soft m-auto"}>
+            <FormCard className={"bg-inverse-soft m-auto items-center"}>
                 {FormStepComponents.map((_fsc, index) => {
                     return (
                         formStep === index && 

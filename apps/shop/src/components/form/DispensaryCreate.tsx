@@ -40,21 +40,33 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
         vendorId: formData.organization?.vendorId || ''
     };
     
+    const updateDispensaryRecord = async () => {
+        try {
+            
+            const 
+            response = await axios.put
+            (urlBuilder.shop + '/api/organization', values)
+            
+            if (response.status !== 200)
+            throw new Error()
+            
+            toast.success('Dispensary Info is uploaded successfully.');
+
+        } catch (error: any) {
+            console.log('Error getting Dispensary: ', error);
+            throw new Error('The Dispensary is not uploaded. Please try again.');
+        }
+    }
+
     const onSubmit = async (values: typeof initialValues) => {
         try {
             setLoadingButton(true);
             
             setFormValues({ organization: { ...values } });
 
-            const updateOrganization = await axios.put(urlBuilder.shop + '/api/organization', values)
+            await updateDispensaryRecord()
+            nextFormStep();
             
-            if (updateOrganization.status === 200) {
-                toast.success('Dispensary Info is uploaded successfully.');
-                nextFormStep();
-                
-            } else { 
-                throw new Error('Error adding Dispensary record.')
-            }
         } catch (error: any) {
             console.log('Dispensary Account Error: ', error);
             toast.error(error.message);
