@@ -1,4 +1,4 @@
-import { OrderWithDetails } from '@cd/data-access';
+import { getStripeAccountId, OrderWithDetails } from '@cd/data-access';
 import { PaymentDA } from '../data-access';
 import StripeService from '../stripe';
 
@@ -19,17 +19,32 @@ export default class PaymentController {
      */
     static async createCheckout(req, res) {
         try {
-            const order: OrderWithDetails = req.body
-            console.log('payment server createCheckout order: ', order)
-            // if (order && order.items.length > 0) {
-            //     const stripeAccountId = await getStripeAccountId(order.organizationId)
-            //     const checkout = await StripeService.createCheckout(order, stripeAccountId);
+            
+            const order: OrderWithDetails 
+            = req.body
+            
+            console.log('create checkout route')
+            if (order && order.items.length > 0) {
+                
+                let 
+                stripeAccountId = order.organization.stripeAccountId
 
-            //     return res.writeHead(302, {
-            //         'Location': checkout.url
-            //     })
-            // } else throw new Error('No items in order');
+                if (!stripeAccountId) 
+                stripeAccountId = await getStripeAccountId(order.organizationId)
+
+                if (!stripeAccountId) throw new Error('Sorry! Your order cannot be processed from this dispensary at the moment.')
+                console.log('stripeAccountId: ', stripeAccountId)
+
+                const checkout = await StripeService.createCheckout(order, stripeAccountId);
+                console.log('stripe checkout: ', checkout)
+
+                return res.writeHead(302, {
+                    'Location': checkout.url
+                })
+                
+            } else throw new Error('No items in order'); // should not see this
         } catch (error: any) {
+            console.log('create checkout error: ', error.message)
             res.status(500).json({ error });
         }
     }

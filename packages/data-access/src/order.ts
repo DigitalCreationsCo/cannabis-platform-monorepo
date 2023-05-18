@@ -1,7 +1,6 @@
-import { Address, Driver, Order, OrderStatus, Prisma, ProductVariant, User } from "@prisma/client";
+import { Address, Driver, Order, OrderStatus, Organization, Prisma, ProductVariant, User } from "@prisma/client";
 import { AddressWithDetails } from "./address";
 import prisma from "./db/prisma";
-import { OrganizationWithShopDetails } from "./organization";
 import { ProductVariantWithDetails } from "./product";
 import { UserWithDetails } from "./user";
 
@@ -115,6 +114,7 @@ export async function findOrderWithDetails(id: string) {
                 include: {
                     customer: true,
                     driver: true,
+                    organization: true,
                     destinationAddress: true,
                     items: { include: { images: true } }
                 }
@@ -221,15 +221,6 @@ export async function updateVariantQuantity(variantId:string, quantity:number, o
     }
 }
 
-// export type OrderWithDetails = Prisma.PromiseReturnType<typeof findOrderWithDetails>
-export type OrderWithDetails = Order & {
-    driver: Driver | null;
-    items?: ProductVariantWithDetails[];
-    customer: User;
-    destinationAddress: Address;
-    updatedAt?: any;
-}
-
 export type OrderUpdate = Prisma.OrderUpdateArgs[ "data" ]
 // export type OrderCreate = Prisma.OrderCreateArgs[ "data" ]
 export type OrderCreate = {
@@ -237,7 +228,7 @@ export type OrderCreate = {
     subtotal: number
     total: number
     taxFactor: number
-    tax: number
+    taxAmount: number
     orderStatus?: OrderStatus
     purchaseId?: string | null
     addressId: string
@@ -247,7 +238,8 @@ export type OrderCreate = {
     customer: UserWithDetails | null
     
     organizationId: string
-    organization: OrganizationWithShopDetails
+    organization: Organization
+    // organization: OrganizationWithShopDetails
 
     driverId?: string | null
     driver: Driver | null
@@ -261,6 +253,45 @@ export type OrderCreate = {
     updatedAt?: Date | string
     items?: ProductVariantWithDetails[]
     // purchase?: PurchaseCreateNestedOneWithoutOrderInput
-  }
+}
   
+// export type OrderWithDetails = Prisma.PromiseReturnType<typeof findOrderWithDetails>
+export type OrderWithDetails = Order & {
+    id?: string
+    subtotal: number
+    total: number
+    taxFactor: number
+    taxAmount: number
+    orderStatus?: OrderStatus
+    purchaseId?: string | null
+    addressId: string
+    destinationAddress: Address
+    
+    customerId: string
+    customer: User
+    
+    organizationId: string
+    organization: Organization
+    // organization: OrganizationWithShopDetails
+
+    driverId?: string | null
+    driver: Driver | null
+    
+    isDeliveredOrder: boolean
+    isCustomerReceivedOrder: boolean
+    isCompleted: boolean
+
+    deliveredAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    items?: ProductVariantWithDetails[]
+    // purchase?: PurchaseCreateNestedOneWithoutOrderInput
+
+    // driver: Driver | null;
+    // items?: ProductVariantWithDetails[];
+    // customer: User;
+    // destinationAddress: Address;
+    // updatedAt?: any;
+}
+
 export type PurchaseCreate = Prisma.PurchaseCreateArgs[ "data" ]

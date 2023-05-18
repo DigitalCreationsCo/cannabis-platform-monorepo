@@ -23,7 +23,7 @@ export default class OrganizationDA {
                         }})
             console.log(`${organization.name} record is created.`)
 
-            await axios.post(urlBuilder.payment.createDispensaryAccount(), { ...organization },{ 
+            await axios.post(urlBuilder.payment.createStripeConnectAccount(), { ...organization },{ 
                 headers: {
                     Accept: "application/json",
                     "Content-Type": "application/json",

@@ -313,6 +313,7 @@ export type OrganizationCreateType = {
 
 export type OrganizationWithShopDetails = {
     id: string
+    stripeAccountId: string
     name: string
     address: Address & { coordinates: Coordinates }
     dialCode: string

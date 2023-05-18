@@ -8,7 +8,9 @@ POST    '/stripe/dispensary-account'            authorizeDispensaryAccount
 
 ================================= */
 
-router.route('/dispensary-account').post(accountCtrl.createStripeDispensaryAccount);
+router.route('/:s').get(accountCtrl.createStripeDispensaryAccount);
+
+router.route('/create').post(accountCtrl.connectStripeToDispensaryAccount);
 
 router.route('/check-onboard').post(accountCtrl.checkOnboardStripeDispensaryAccount);
 

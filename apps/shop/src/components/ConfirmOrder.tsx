@@ -48,7 +48,7 @@ function ConfirmOrder({ nextFormStep }: FormStepComponentProps) {
 
     // const checkout = async () => { 
     //     const order = createOrder()
-    //     await axios.post('/api/checkout-session', order)
+    //     await axios.post('/api/stripe/checkout-session', order)
     // }
 
     const checkout = () => {

@@ -12,10 +12,29 @@ checkOnboardDispensaryAccount
 export default class AccountController {
 
     /**
-     * Link a dispensary account (Organization) to a stripe account
-     * 
+     * Connects a stripe account to a dispensary account
+     * @param req 
+     * @param res 
      */
     static async createStripeDispensaryAccount(req, res: Response) {
+        try {
+            const stripeAccountId = req.params['s'] || ''
+
+            if (stripeAccountId) {
+
+            }
+            else 
+            throw new Error('Stripe Account Id is required.')
+        } catch (error: any) {
+            res.status(500).json({ error });
+        }
+    }
+
+    /**
+     * Create a stripe account, and save the id to a dispensary record (Organization)
+     * 
+     */
+    static async connectStripeToDispensaryAccount(req, res: Response) {
         try {
             let dispensaryAccount:OrganizationCreateType & {stripeAccountId: string} = req.body;
             let accountId = dispensaryAccount.stripeAccountId;

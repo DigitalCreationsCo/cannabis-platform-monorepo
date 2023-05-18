@@ -40,7 +40,7 @@
     "install:playwright": "playwright install",
     "nuke:node_modules": "npx rimraf@3.0.1 '**/node_modules'",
     "packages:build": "yarn workspaces foreach -ptv --include '@cd/*' run build",
-    "packages:watch": "yarn workspaces foreach -ptv --include '@cd/*' run watch",
+    "packages:watch": "cd scripts && node watch.js",
     "packages:clean": "yarn workspaces foreach -ptv --include '@cd/*' run clean",
     "packages:lint": "yarn workspaces foreach -ptv --include '@cd/*' run lint",
     "packages:test:unit": "yarn workspaces foreach -ptv --include '@cd/*' run test-unit",
