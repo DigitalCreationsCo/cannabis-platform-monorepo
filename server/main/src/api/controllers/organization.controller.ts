@@ -1,5 +1,5 @@
-import { getGeoCoordinatesByAddress } from '@cd/core-lib';
-import { Address, OrganizationCreateType } from '@cd/data-access';
+import { addressHasValidCoordinates, getGeoCoordinatesByAddress } from '@cd/core-lib';
+import { OrganizationCreateType } from '@cd/data-access';
 import { OrganizationDA } from '../data-access';
 const Busboy = require('busboy');
 
@@ -37,17 +37,26 @@ export default class OrganizationController {
         try {
             const organization: OrganizationCreateType = req.body
 
-            const coordinates = await getGeoCoordinatesByAddress(organization.address as unknown as Address);
-            console.log()
-            if (coordinates) organization.address.coordinates = coordinates;
+            let 
+            coordinates;
+            
+            console.log('coordinates? ', organization?.address?.coordinates)
+            if (!addressHasValidCoordinates(organization?.address))
+            coordinates = await getGeoCoordinatesByAddress(organization.address);
+            
+            if (coordinates.latitude !== 0) 
+            organization.address.coordinates = coordinates;
             
             console.log('coordinates: ', coordinates)
-            // NOTE: this process is an upsert, should be changed to update only,
-            // so it doesnt interfere with account creation, and stripe account creation.
-            const data = await OrganizationDA.updateOrganization(organization);
-            if (!data) return res.status(404).json('Organization could not be created.');
+
+            const 
+            data = await OrganizationDA.updateOrganization(organization);
+            
+            if (!data) 
+            return res.status(404).json('Organization could not be created.');
 
             return res.status(201).json(data);
+            
         } catch (error:any) {
             console.log('API error: ', error.message);
             res.status(500).json({ error: error.message });

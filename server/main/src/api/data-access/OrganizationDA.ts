@@ -1,5 +1,5 @@
 import { urlBuilder } from '@cd/core-lib';
-import { createOrganization, findCategoryListByOrg, findOrganizationById, findUsersByOrganization, OrganizationCreateType, upsertOrganization } from '@cd/data-access';
+import { createOrganization, findCategoryListByOrg, findOrganizationById, findUsersByOrganization, OrganizationCreateType, updateOrganization } from '@cd/data-access';
 import axios from 'axios';
 /* =================================
 Organization Data Access - data class for organization table
@@ -16,8 +16,12 @@ updateProduct
 export default class OrganizationDA {
     static async createOrganization(organization: OrganizationCreateType) {
         try {
-            const data = await createOrganization(organization);
-            await axios.post(urlBuilder.location.organizationLocationRecord(), { ...organization },{ headers: {
+
+            const data = 
+            await createOrganization(organization);
+
+            await axios.post(
+                urlBuilder.location.organizationLocationRecord(), { ...organization },{ headers: {
                           Accept: "application/json",
                           "Content-Type": "application/json",
                         }})
@@ -33,6 +37,7 @@ export default class OrganizationDA {
             console.log('stripe account created.')
 
             return 'Your organization account is created';
+            
         } catch (error:any) {
             console.error(error.message);
             throw new Error(error.message);
@@ -40,13 +45,18 @@ export default class OrganizationDA {
     }
     static async updateOrganization(organization: OrganizationCreateType) {
         try {
-            const data = await upsertOrganization(organization);
-            await axios.put(urlBuilder.location.organizationLocationRecord(), { ...organization },{ headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
+            const 
+            data = await updateOrganization(organization);
+
+            await axios.put(
+                urlBuilder.location.organizationLocationRecord(), { ...organization },
+                { headers: { Accept: "application/json", "Content-Type": "application/json",
             }})
+
             console.log(`Dispensary record ${organization.name} is updated.`)
+
             return 'Your organization account is updated.';
+            
         } catch (error:any) {
             console.error(error.message);
             throw new Error(error.message);

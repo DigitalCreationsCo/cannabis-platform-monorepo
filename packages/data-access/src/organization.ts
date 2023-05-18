@@ -1,9 +1,8 @@
 import { Address, CategoryList, Coordinates, ImageOrganization, Prisma, Schedule } from "@prisma/client";
 import { AddressCreateType } from "./address";
 import prisma from "./db/prisma";
-
 /*
-*   upsertOrganization
+*   updateOrganization
 *   createOrganization
 *   findOrganizationById
 *   findMultipleOrganizationsById
@@ -19,65 +18,75 @@ import prisma from "./db/prisma";
  * @param organization 
  * @returns the updated organization
  */
-export async function upsertOrganization(organization: OrganizationCreateType) { 
+export async function updateOrganization(organization: OrganizationCreateType) { 
     try {
         organization.subdomainId = organization.subdomainId || organization.name.toLowerCase();
         
-        const { vendorId, address, subdomainId, ...data } = organization
-        const { coordinates, userId, ...addressData } = address
+        const { vendorId, address, subdomainId, ...data } 
+        = organization
+        
+        const { coordinates, coordinateId, userId, ...addressData } 
+        = address
 
-        const { latitude, longitude } = coordinates
-        const updateOrganization = await prisma.organization.upsert({
+        const updateOrganization = await prisma.organization.update({
             where: { id: organization.id },
-            create: {
+            // create: {
+            //     ...data,
+            //     address: {
+            //         connectOrCreate: {
+            //             where: { id: address.id },
+            //             create: {
+            //                 ...addressData,
+            //                 coordinates: {
+            //                     connectOrCreate: {
+            //                         where: { 
+            //                             id: coordinates.id,
+            //                             addressId: address.id
+            //                         },
+            //                         create: { latitude: Number(latitude), longitude: Number(longitude) }
+            //                     }
+            //                 }
+            //             }
+            //         }
+            //     },
+            //     subdomain: {
+            //         connectOrCreate: { 
+            //             where: { id: organization.subdomainId },
+            //             create: { id: subdomainId, isValid: true }
+            //         }
+            //     },
+            //     vendor:{
+            //         connectOrCreate: {
+            //             where: { id: vendorId },
+            //             create: { id: vendorId, name: organization.name, publicName: organization.name }
+            //         }
+            //     },
+            // },
+            data: {
                 ...data,
                 address: {
                     connectOrCreate: {
                         where: { id: address.id },
                         create: {
                             ...addressData,
-                            coordinates: {
+                            // coordinateId: coordinates?.id,
+                            coordinates: coordinates?.id ? {
                                 connectOrCreate: {
-                                    where: { 
-                                        id: coordinates.id,
-                                        addressId: address.id
+                                    where: {
+                                        id: coordinates?.id,
                                     },
-                                    create: { latitude: Number(latitude), longitude: Number(longitude) }
+                                    create: {
+                                        latitude: Number(coordinates?.latitude),
+                                        longitude: Number(coordinates?.longitude),
+                                    }
+                                }
+                            } : {
+                                create: {
+                                    latitude: Number(coordinates?.latitude),
+                                    longitude: Number(coordinates?.longitude),
                                 }
                             }
-                        }
-                    }
-                },
-                subdomain: {
-                    connectOrCreate: { 
-                        where: { id: organization.subdomainId },
-                        create: { id: subdomainId, isValid: true }
-                    }
-                },
-                vendor:{
-                    connectOrCreate: {
-                        where: { id: vendorId },
-                        create: { id: vendorId, name: organization.name, publicName: organization.name }
-                    }
-                },
-            },
-            update: {
-                ...data,
-                address: {
-                    connectOrCreate: {
-                        where: { id: address.id },
-                        create: {
-                            ...addressData,
-                            coordinates: {
-                                connectOrCreate: {
-                                    where: { 
-                                        id: coordinates.id,
-                                        addressId: address.id
-                                    },
-                                    create: { latitude: Number(latitude), longitude: Number(longitude) }
-                                }
-                            }
-                        }
+                        },
                     }
                 },
                 subdomain: {
@@ -103,7 +112,7 @@ export async function upsertOrganization(organization: OrganizationCreateType) {
     } catch (error: any) {
         console.error('ERROR: ', error.message)
         if (error.code === 'P2002') {
-            throw new Error('error creating organization, unique key exists')
+            throw new Error('error updating organization, there was a unique key conflict.')
         }
         else throw new Error('error updating organization')
     }
@@ -112,11 +121,13 @@ export async function upsertOrganization(organization: OrganizationCreateType) {
 export async function createOrganization(organization: OrganizationCreateType) { 
     try {
         organization.subdomainId = organization.name.toLowerCase();
-        const { vendorId, address, subdomainId, ...data } = organization
-        const { coordinates, userId, ...addressData } = address
+        
+        const { vendorId, address, subdomainId, ...data } 
+        = organization
 
-        const { latitude, longitude } = coordinates
-        console.log('coordinates here', coordinates)
+        const { coordinates, coordinateId, userId, ...addressData } 
+        = address
+        
         const createOrganization = await prisma.organization.create({
             data: {
                 ...data,
@@ -125,8 +136,8 @@ export async function createOrganization(organization: OrganizationCreateType) {
                         ...addressData,
                         coordinates: {
                             create: {
-                                latitude: Number(latitude),
-                                longitude: Number(longitude)
+                                latitude: Number(coordinates?.latitude),
+                                longitude: Number(coordinates?.longitude)
                             }
                         }
                     }
@@ -298,7 +309,7 @@ export async function getStripeAccountId(organizationId: string) {
 export type OrganizationCreateType = {
     id: string | undefined
     name: string
-    address: AddressCreateType & { coordinates: Prisma.CoordinatesCreateArgs["data"] }
+    address: AddressCreateType
     dialCode: string
     phone: string
     email: string
