@@ -49,17 +49,17 @@ export default class OrganizationDA {
             let 
             coordinates;
             
-            console.log('coordinates? ', organization?.address?.coordinates)
+            // console.log('coordinates? ', organization?.address?.coordinates)
             if (!addressHasValidCoordinates(organization?.address))
             coordinates = await getGeoCoordinatesByAddress(organization.address);
             
-            if (coordinates.latitude !== 0) 
+            if (coordinates && coordinates.latitude !== 0) 
             organization.address.coordinates = { 
                 ...coordinates,
                 id: createId(), 
             };
             
-            console.log('coordinates: ', coordinates)
+            // console.log('coordinates: ', coordinates)
             
             const 
             data = await updateOrganization(organization);

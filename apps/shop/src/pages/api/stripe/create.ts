@@ -24,6 +24,8 @@ handler.post(async (req: ExtendRequest, res: NextApiResponse) => {
         // } else {
             
             const response = await axios.post(urlBuilder.payment.createStripe(), req.body, { validateStatus: status => (status >= 200 && status < 300) || status == 404 });
+
+            console.log('create stripe account response: ', response);
             if (response.status == 404) {
                 throw new Error('Stripe account is not found.');
             }
