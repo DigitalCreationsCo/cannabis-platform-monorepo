@@ -69,8 +69,6 @@ function ProvideStripeAccountId({ nextFormStep }: { nextFormStep: () => void }) 
             let 
             organization = formData?.organization;
 
-            console.log('organization: ', organization);
-
             if (!organization) 
             throw new Error('Dispensary is not found.');
             

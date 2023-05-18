@@ -24,7 +24,7 @@ export default class AccountController {
             throw new Error('Dispensary is not found.')
             
             let accountParams = {
-                type: 'standard',
+                type: 'custom',
                 country: dispensaryAccount.address.countryCode || undefined,
                 email: dispensaryAccount.email || undefined,
                 business_type: 'company', 
@@ -40,13 +40,16 @@ export default class AccountController {
                     },
                     phone: dispensaryAccount.phone || undefined,
                 },
-                // capabilities: {
-                //     card_payments: {requested: true},
-                // },
+                capabilities: {
+                    card_payments: {requested: true},
+                    transfers: {requested: true},
+                },
                 // payoutsEnabled: true
             };
 
             const account = await StripeService.createDispensaryAccount(accountParams)
+
+            console.log('stripe account created: ', account);
 
             if (!account) 
             throw new Error('Stripe account is not created. Please try again.');
@@ -57,12 +60,26 @@ export default class AccountController {
             // adds stripe account id to organization record
             await updateStripeAccountDispensary(dispensaryAccount.id, stripeAccountId)
 
-            console.log('hello')
-            
-            return res.status(201).json({
-                success: true, 
-                message: 'Stripe account created successfully.',
-                stripeAccountId });
+            // const accountLink = await StripeService.createDispensaryAccountLink({
+            //     //     account: accountId,
+            //     //     // create react account Link page for stripe
+            //     //     // refresh_url: config.publicDomain + '/pilots/stripe/authorize',
+                    
+            //     //     // redirect to dispensary dashboard
+            //     //     return_url: 'app.' + process.env.SHOP_APP_URL,
+            //     //     type: 'account_onboarding'
+            //     // });
+            return res.writeHead(302, {
+                'Location': 'google.com'
+            })
+
+            // return res.writeHead(302, {
+            //     'Location': accountLink.url
+            // })
+            // return res.status(201).json({
+            //     success: true, 
+            //     message: 'Stripe account created successfully.',
+            //     stripeAccountId });
             
         } catch (error: any) {
             if (error.mesage === 'Dispensary is not found.')
