@@ -71,7 +71,7 @@ export type AddressCreateType ={
     country: string;
     countryCode: string | null;
     coordinateId?: string;
-    // coordinates?: Coordinates;
+    coordinates?: Coordinates;
     userId: string | undefined;
     organizationId: string | undefined;
 };

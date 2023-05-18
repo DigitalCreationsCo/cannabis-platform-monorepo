@@ -18,6 +18,7 @@ import { OrderWithDetails } from "./order";
 
 export async function createUser(userData: UserCreateType) {
     try {
+        const { organizationId, coordinates, coordinateId, ...addressData } = userData.address
         const user = await prisma.user.create({
             data: {
                 email: userData.email,
@@ -30,11 +31,15 @@ export async function createUser(userData: UserCreateType) {
                 dialCode: userData.dialCode,
                 phone: userData.phone,
                 address: {
-                    create: { ...userData.address },
-                    // create: {
-                        
-                    //     // data: { ...userData.address },
-                    // }
+                    create: { 
+                        ...addressData,
+                        coordinates: {
+                            create: {
+                                latitude: Number(coordinates?.latitude),
+                                longitude: Number(coordinates?.longitude)
+                            }
+                        }
+                    },
                 },
                 imageUser: userData.imageUser ? {
                     create: {
@@ -58,6 +63,8 @@ export async function createUser(userData: UserCreateType) {
 
 export async function updateUser(userData: UserCreateType) {
     try {
+        const { coordinateId, coordinates, organizationId, ...addressData } = userData.address
+
         const user = await prisma.user.update({
             where: {
                 email: userData.email,
@@ -72,11 +79,27 @@ export async function updateUser(userData: UserCreateType) {
                 termsAccepted: true,
                 dialCode: userData.dialCode,
                 phone: userData.phone,
-                address: userData.address ? {
-                    create: { 
-                        ...userData.address
+                address: {
+                    create: {
+                        ...addressData,
+                        coordinates: coordinates?.id ? {
+                            connectOrCreate: {
+                                where: {
+                                    id: coordinates?.id,
+                                },
+                                create: {
+                                    latitude: Number(coordinates?.latitude),
+                                    longitude: Number(coordinates?.longitude),
+                                }
+                            }
+                        } : {
+                            create: {
+                                latitude: Number(coordinates?.latitude),
+                                longitude: Number(coordinates?.longitude),
+                            }
+                        }
                     }
-                } : undefined,
+                },
                 imageUser: userData.imageUser ? {
                     create: {
                         ...userData.imageUser
@@ -102,6 +125,8 @@ export async function updateUser(userData: UserCreateType) {
 
 export async function createDispensaryAdmin(userData: UserCreateType, createParams: CreateUserParams) {
     try {
+        const { organizationId, coordinates, coordinateId, ...addressData } = userData.address
+
         const user = await prisma.user.create({
             data: {
                 email: userData.email,
@@ -114,7 +139,15 @@ export async function createDispensaryAdmin(userData: UserCreateType, createPara
                 dialCode: userData.dialCode,
                 phone: userData.phone,
                 address: {
-                    create: { ...userData.address },
+                    create: { 
+                        ...addressData,
+                        coordinates: {
+                            create: {
+                                latitude: Number(coordinates?.latitude),
+                                longitude: Number(coordinates?.longitude)
+                            }
+                        }
+                    },
                 },
                 memberships: !!userData.memberships?.[0]?.id ? {
                     connectOrCreate: {
@@ -195,6 +228,8 @@ export async function createDispensaryAdmin(userData: UserCreateType, createPara
 
 export async function updateDispensaryAdmin(userData: any, createParams: CreateUserParams) {
     try {
+        const { organizationId, coordinates, coordinateId, ...addressData } = userData.address
+
         const user = await prisma.user.update({
             where: {
                 id: userData.id,
@@ -212,7 +247,23 @@ export async function updateDispensaryAdmin(userData: any, createParams: CreateU
                 phone: userData.phone,
                 address: userData.address ? {
                     create: { 
-                        ...userData.address
+                        ...addressData,
+                        coordinates: coordinates?.id ? {
+                            connectOrCreate: {
+                                where: {
+                                    id: coordinates?.id,
+                                },
+                                create: {
+                                    latitude: Number(coordinates?.latitude),
+                                    longitude: Number(coordinates?.longitude),
+                                }
+                            }
+                        } : {
+                            create: {
+                                latitude: Number(coordinates?.latitude),
+                                longitude: Number(coordinates?.longitude),
+                            }
+                        }
                     }
                 } : undefined,
                 imageUser: userData.imageUser ? {
