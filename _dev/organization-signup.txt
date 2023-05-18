@@ -1,5 +1,9 @@
 Organization Signup happens on the shop-app for now. ( This api will be migrated to admin-app later. )
 
+Signup is currently handled by the Gras team initially. We create the user record with in house form.
+And Dispensary leadership can complete the signup process in the app, using the provideded Dispensary Key.
+
+
 POST: Create dispensary account record, create location record, create stripe account
 
 1.  POST client -> next api,

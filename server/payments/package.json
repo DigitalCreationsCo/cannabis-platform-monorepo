@@ -11,6 +11,7 @@
   },
   "devDependencies": {
     "@babel/cli": "7.20.7",
+    "babel-watch": "7.7.2",
     "@babel/core": "7.21.4",
     "@babel/node": "7.20.7",
     "@babel/preset-env": "7.21.4",
@@ -48,7 +49,7 @@
     "test": "../../node_modules/jest/bin/jest.js",
     "test:fix": "../../node_modules/jest/bin/jest.js --detectOpenHandles",
     "test:watch": "../../node_modules/jest/bin/jest.js --watchAll",
-    "watch": "rimraf ./node_modules/.cache && dotenv -e ../../.env.development -- babel-node -x .ts src/index.ts"
+    "watch": "rimraf ./node_modules/.cache && dotenv -e ../../.env.development -- babel-watch -e \".ts\" -c ./babel.config.js ./src/index.ts"
   },
   "version": "0.0.1"
 }

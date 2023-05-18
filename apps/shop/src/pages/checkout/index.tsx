@@ -1,8 +1,9 @@
 import { selectCartState, selectIsCartEmpty, selectSelectedLocationState, selectUserState } from '@cd/core-lib/reduxDir';
-import { renderAddress } from '@cd/core-lib/utils';
+import { renderAddress, urlBuilder } from '@cd/core-lib/utils';
 import { Address } from '@cd/data-access';
 import { Button, FlexBox, Paragraph } from '@cd/ui-lib';
 import { Card, H3, H4, LoadingPage, Page } from "@cd/ui-lib/components";
+import axios from 'axios';
 import { useState } from 'react';
 // import axios from 'axios';
 import { useSelector } from 'react-redux';
@@ -16,8 +17,8 @@ function Checkout() {
     const cartIsEmpty = useSelector(selectIsCartEmpty)
 
     const createStripeCheckout = async () => { 
-        // console.log(' client side formData: ', formData)
-        // await axios.post('/api/checkout-session', formData)
+        // validate the order with yup
+        const response = await axios.post(urlBuilder.shop + '/api/stripe/checkout-session', order)
      }
 
     return (

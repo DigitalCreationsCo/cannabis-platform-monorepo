@@ -50,7 +50,8 @@ const urlBuilder = {
     payment: {
         baseUrl: paymentUrl + '/api/v1',
         purchase: () => urlBuilder.payment.baseUrl + '/payment/purchase',
-        createDispensaryAccount: () => urlBuilder.payment.baseUrl + '/accounts/dispensary-account',
+        account: (id: any) => urlBuilder.payment.baseUrl + `/accounts/${id}`,
+        createStripeConnectAccount: () => urlBuilder.payment.baseUrl + `/accounts/create`,
         checkOnboard: () => urlBuilder.payment.baseUrl + '/accounts/check-onboard',
         checkout: () => urlBuilder.payment.baseUrl + '/payment/checkout',
     },
