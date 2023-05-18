@@ -151,7 +151,7 @@ model Address {
   updatedAt      DateTime         @updatedAt
 
   @@unique([userId, id])
-  @@index([userId])
+  // @@index([userId])
   @@index([organizationId])
   @@index([coordinateId])
 }
