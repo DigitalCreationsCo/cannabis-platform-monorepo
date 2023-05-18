@@ -1,15 +1,14 @@
 import { urlBuilder } from '@cd/core-lib';
 import axios from 'axios';
-import { NextApiResponse } from 'next';
+import { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
-import { ExtendRequest } from '../../../session/getSession';
 
 // const cache = new NodeCache({ stdTTL: 30 });
 
 const handler = nc();
 
 // create stripe account, connect to dispensary
-handler.post(async (req: ExtendRequest, res: NextApiResponse) => {
+handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         
         // res.setHeader('Cache-Control', 'public, s-maxage=30, stale-while-revalidate=59');
@@ -23,17 +22,22 @@ handler.post(async (req: ExtendRequest, res: NextApiResponse) => {
             
         // } else {
             
-            const response = await axios.post(urlBuilder.payment.createStripe(), req.body, { validateStatus: status => (status >= 200 && status < 300) || status == 404 });
+            const response = await axios.post(urlBuilder.payment.createStripe(), req.body, { validateStatus: status => (status >= 200 && status < 400) || status == 404 });
 
             console.log('create stripe account response: ', response);
-            if (response.status == 404) {
-                throw new Error('Stripe account is not found.');
-            }
-            if (response.status === 201) {
-                // cache.set(`stripeAccount/${stripeAccountId}`, data);
+
+            res.writeHead(302, { Location: '/' });
+            res.end();
+            
+            // return res.status(response.status).json(response.data);
+            // if (response.status == 404) {
+            //     throw new Error('Stripe account is not found.');
+            // }
+            // if (response.status === 201) {
+            //     // cache.set(`stripeAccount/${stripeAccountId}`, data);
                 
-                return res.status(res.statusCode);
-            }
+            //     // return res.status(res.statusCode);
+            // }
         // }
     } catch (error: any) {
         console.error('create stripe account error: ', error.message);

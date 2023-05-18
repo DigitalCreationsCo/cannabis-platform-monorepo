@@ -1,5 +1,6 @@
 import { OrganizationStripePayload, updateOrganizationRecord, updateStripeAccountDispensary } from '@cd/data-access';
 import { Response } from 'express';
+import Stripe from 'stripe';
 import StripeService from '../stripe';
 /* =================================
 AccountController - controller class for preworking data and calling stripe accounts functions
@@ -23,11 +24,21 @@ export default class AccountController {
             if (dispensaryAccount === undefined)
             throw new Error('Dispensary is not found.')
             
-            let accountParams = {
-                type: 'custom',
+            let accountParams: Stripe.AccountCreateParams = {
+                type: 'standard',
                 country: dispensaryAccount.address.countryCode || undefined,
                 email: dispensaryAccount.email || undefined,
                 business_type: 'company', 
+                // business_profile: {
+                //     product_description: dispensaryAccount.description || '',
+                //     support_phone: dispensaryAccount.phone || undefined,
+                //     url: dispensaryAccount.website || '',
+                // },
+                // external_account: ,
+                // tos_acceptance: {
+                //     date: Date.now(),
+                //     ip: req.ip
+                // },
                 company: {
                     name: dispensaryAccount.name || undefined,
                     address:{
@@ -40,10 +51,10 @@ export default class AccountController {
                     },
                     phone: dispensaryAccount.phone || undefined,
                 },
-                capabilities: {
-                    card_payments: {requested: true},
-                    transfers: {requested: true},
-                },
+                // capabilities: {
+                //     card_payments: {requested: true},
+                //     transfers: {requested: true},
+                // },
                 // payoutsEnabled: true
             };
 
@@ -69,10 +80,10 @@ export default class AccountController {
             //     //     return_url: 'app.' + process.env.SHOP_APP_URL,
             //     //     type: 'account_onboarding'
             //     // });
-            return res.writeHead(302, {
+            res.writeHead(302, {
                 'Location': 'google.com'
             })
-
+            res.end()
             // return res.writeHead(302, {
             //     'Location': accountLink.url
             // })
