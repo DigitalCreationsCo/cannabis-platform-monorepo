@@ -87,8 +87,8 @@ function DispensarySignUpStepForm() {
 
     const FormStepComponents = [
         ProvideDispensaryKey,
-        ProvideStripeAccountId,
         DispensaryCreate, 
+        ProvideStripeAccountId,
         DispensaryUserCreate, 
         DispensaryReview, 
         DispensarySignUpComplete

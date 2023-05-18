@@ -4,13 +4,15 @@ const router = Router();
 /* =================================
 API Routes for Stripe Account Creation, Editing, Updating, and Linking
 
-POST    '/stripe/dispensary-account'            authorizeDispensaryAccount
+POST    '/'                 createStripeDispensaryAccount
+PUT     '/'                 connectStripeToDispensaryAccount
+POST    '/check-onboard'    checkOnboardStripeDispensaryAccount
 
 ================================= */
 
-router.route('/:s').get(accountCtrl.createStripeDispensaryAccount);
+router.route('/connect').post(accountCtrl.connectStripeToDispensaryAccount);
 
-router.route('/create').post(accountCtrl.connectStripeToDispensaryAccount);
+router.route('/create').post(accountCtrl.createStripeDispensaryAccount);
 
 router.route('/check-onboard').post(accountCtrl.checkOnboardStripeDispensaryAccount);
 
