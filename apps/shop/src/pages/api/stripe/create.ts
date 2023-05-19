@@ -22,12 +22,16 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
             
         // } else {
             
-            const response = await axios.post(urlBuilder.payment.createStripe(), req.body, { validateStatus: status => (status >= 200 && status < 400) || status == 404 });
+            const response = await axios.post(urlBuilder.payment.createStripe(), req.body, { validateStatus: status => (status >= 200 && status < 404) || status == 404 });
 
             console.log('create stripe account response: ', response);
 
-            res.writeHead(302, { Location: '/' });
-            res.end();
+            // return res.redirect( 200, '/');
+            // res.redirect(302, response.headers);
+            // res.end(response.data);
+
+            return res.status(res.statusCode).json(response.data);
+
             
             // return res.status(response.status).json(response.data);
             // if (response.status == 404) {
@@ -40,7 +44,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
             // }
         // }
     } catch (error: any) {
-        console.error('create stripe account error: ', error.message);
+        console.error('next api create stripe account error: ', error.message);
         return res.status(res.statusCode).json(error);
     }
 });
