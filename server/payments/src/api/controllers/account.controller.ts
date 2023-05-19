@@ -60,7 +60,7 @@ export default class AccountController {
 
             const account = await StripeService.createDispensaryAccount(accountParams)
 
-            console.log('stripe account created: ', account);
+            console.log('stripe account created: ', account.id);
 
             if (!account) 
             throw new Error('Stripe account is not created. Please try again.');
@@ -80,19 +80,22 @@ export default class AccountController {
             //     //     return_url: 'app.' + process.env.SHOP_APP_URL,
             //     //     type: 'account_onboarding'
             //     // });
-            res.writeHead(302, {
-                'Location': 'google.com'
-            })
-            res.end()
+
             // return res.writeHead(302, {
-            //     'Location': accountLink.url
+                //     'Location': accountLink.url
+                // })
+            // res.writeHead(302, {    
+            //     'Location': 'google.com'
             // })
-            // return res.status(201).json({
-            //     success: true, 
-            //     message: 'Stripe account created successfully.',
-            //     stripeAccountId });
+            // res.redirect('https://www.google.com')
+            res.status(201).json({
+                success: true, 
+                message: 'Stripe account created successfully.',
+                stripeAccountId,
+            });
             
         } catch (error: any) {
+            console.log('stripe account create error: ', error);
             if (error.mesage === 'Dispensary is not found.')
             return res.status(404).json({ error });
             

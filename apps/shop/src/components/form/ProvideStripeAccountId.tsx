@@ -75,13 +75,17 @@ function ProvideStripeAccountId({ nextFormStep }: { nextFormStep: () => void }) 
             const response = await axios.post(urlBuilder.shop + `/api/stripe/create`, { 
                 organization, 
                 stripeAccountId: values.stripeAccountId
-            }, { validateStatus: status => (status >= 200 && status < 300) || status == 404 });
+            }, { validateStatus: status => (status >= 200 && status < 404) || status == 404 });
 
-            console.log('response: ', response);
-            
+            console.log('response: ', response)
+            if (response.headers.location !== undefined){
+            console.log('response.headers.location: ', response.headers.location)
+            window.location.href = response?.headers?.location;}
+
             // if (response.status !== 201) throw new Error('Error creating stripe account.')
 
             // let {stripeAccountId} = response.data;
+            
             // setFormValues({ organization: { stripeAccountId } });
             
             // setLoadingButton2(false);

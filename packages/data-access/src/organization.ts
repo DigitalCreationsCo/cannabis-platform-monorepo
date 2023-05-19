@@ -28,7 +28,6 @@ export async function updateOrganization(organization: OrganizationCreateType) {
         const { coordinates, coordinateId, userId, ...addressData } 
         = address
 
-        console.log('organization: ', organization)
         const updateOrganization = await prisma.organization.update({
             where: { id: organization.id },
             // create: {
