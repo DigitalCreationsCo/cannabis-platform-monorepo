@@ -13,6 +13,7 @@ function ProvideStripeAccountId({ nextFormStep }: { nextFormStep: () => void }) 
 
     const [loadingButton, setLoadingButton] = useState(false);
     const [loadingButton2, setLoadingButton2] = useState(false);
+    const [isRedirecting, setIsRedirecting] = useState(false);
 
     const initialValues = {
         stripeAccountId: ''
@@ -40,25 +41,31 @@ function ProvideStripeAccountId({ nextFormStep }: { nextFormStep: () => void }) 
             let 
             organization = formData?.organization;
 
-            console.log('organization: ', organization);
-
             if (!organization) 
             throw new Error('Dispensary is not found.');
 
-            const response = await axios.post(urlBuilder.shop + `/api/stripe/connect`, { 
+            const response = await axios.post(
+                urlBuilder.shop + `/api/stripe/connect`, { 
                 organization, 
                 stripeAccountId: values.stripeAccountId
-            }, { validateStatus: status => (status >= 200 && status < 300) || status == 404 });
+            }, { validateStatus: status => (status >= 200 && status <= 302) || status == 404 });
 
-            // if (response.status !== 200) throw new Error('Error connecting stripe account to dispensary.')
-            if (response.status === 200)
-            setFormValues({ organization: { stripeAccountId: values.stripeAccountId } });
+            console.log('response: ', response)
+
+            if (response.status === 404)
+            throw new Error('The stripe account is not found.')
+
+            // if (response.status === 200)
+            // setFormValues({ organization: { stripeAccountId: values.stripeAccountId } });
             
             toast.success(`Stripe account connected to ${formData?.organization?.name}.`)
             
         } catch (error: any) {
-            throw new Error(error.message);
             console.log('Error getting stripe account: ', error);
+            
+            toast.error(error.message);
+
+            setLoadingButton(false);
         }
     }
 
@@ -70,27 +77,34 @@ function ProvideStripeAccountId({ nextFormStep }: { nextFormStep: () => void }) 
             organization = formData?.organization;
 
             if (!organization) 
-            throw new Error('Dispensary is not found.');
+            throw new Error('Dispensary is not found.'); // should never happen
             
-            const response = await axios.post(urlBuilder.shop + `/api/stripe/create`, { 
+            const response = await axios.post(
+                urlBuilder.shop + `/api/stripe/create`, { 
                 organization, 
-                stripeAccountId: values.stripeAccountId
-            }, { validateStatus: status => (status >= 200 && status < 404) || status == 404 });
+                stripeAccountId: values.stripeAccountId }, 
+            { validateStatus: status => (status >= 200 && status <= 302) || status == 404 });
 
             console.log('response: ', response)
-            if (response.headers.location !== undefined){
-            console.log('response.headers.location: ', response.headers.location)
-            window.location.href = response?.headers?.location;}
 
+            // if (response.headers.location !== undefined) {
+            // window.location.href = response?.headers?.location; 
+            // }
+
+            if (response.status === 302) {
+                setIsRedirecting(true);
+                if (response.data.success)
+                window.location.href = response.data.redirect
+            }
             // if (response.status !== 201) throw new Error('Error creating stripe account.')
 
             // let {stripeAccountId} = response.data;
             
             // setFormValues({ organization: { stripeAccountId } });
             
-            // setLoadingButton2(false);
+            setLoadingButton2(false);
 
-            toast.success(`Stripe account connected to ${formData?.organization?.name}.`)
+            // toast.success(`Stripe account connected to ${formData?.organization?.name}.`)
             
         } catch (error: any) {
             console.log('Error getting stripe account: ', error);
@@ -117,10 +131,10 @@ function ProvideStripeAccountId({ nextFormStep }: { nextFormStep: () => void }) 
     }
 
     return (
-            <form className={''} onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
             <Grid className='h-[320px] items-center justify-center flex flex-col space-y-4'>
                 <FlexBox>
-                    <H3>Connect with your stripe account</H3>
+                    <H3>Connect your stripe account</H3>
                     <Small>
                         If your dispensary uses a stripe account for payment, you can provide the stripe account id here,
                         to connect with your stripe account.{'\n'}
@@ -128,10 +142,11 @@ function ProvideStripeAccountId({ nextFormStep }: { nextFormStep: () => void }) 
                     </Small>
                 </FlexBox>
                 <TextField
+                    containerClassName='w-[320px]'
                     className='text-center'
                     name="stripeAccountId"
                     maxLength={24}
-                    label="stripe id"
+                    label="Stripe Id"
                     placeholder="**** **** **** ****"
                     value={values?.stripeAccountId}
                     onBlur={handleBlur}
@@ -141,8 +156,9 @@ function ProvideStripeAccountId({ nextFormStep }: { nextFormStep: () => void }) 
                 />
 
                 <Button
+                className='w-[220px]'
                     type="submit"
-                    disabled={loadingButton || loadingButton2}
+                    disabled={loadingButton || loadingButton2 || isRedirecting}
                     loading={loadingButton}
                     onClick={(e) => {
                         e.preventDefault();
@@ -155,7 +171,8 @@ function ProvideStripeAccountId({ nextFormStep }: { nextFormStep: () => void }) 
                 </Button>
 
                 <Button
-                    disabled={loadingButton || loadingButton2}
+                className='w-[220px]'
+                    disabled={loadingButton || loadingButton2 || isRedirecting}
                     loading={loadingButton2}
                     onClick={(e) => {
                         e.preventDefault();
@@ -163,7 +180,7 @@ function ProvideStripeAccountId({ nextFormStep }: { nextFormStep: () => void }) 
                         declineStripeIdAndCreateAccount()
                     }}
                 >
-                    I don't have stripe
+                    { isRedirecting ? <div className='animate-pulse'>connecting to stripe...</div> : `I don't have stripe` }
                 </Button>
 
             </Grid>
@@ -174,5 +191,5 @@ function ProvideStripeAccountId({ nextFormStep }: { nextFormStep: () => void }) 
 export default ProvideStripeAccountId;
 
 const validationSchema = yup.object().shape({
-    stripeAccountId: yup.string().required().length(24, 'Please provide your stripe account id.')
+    stripeAccountId: yup.string().required('Please enter your stripe Id').length(21, 'The id is not valid.')
 });

@@ -71,7 +71,7 @@ export type AddressCreateType ={
     country: string;
     countryCode: string | null;
     coordinateId?: string;
-    coordinates?: Coordinates;
+    coordinates?: CoordinatesCreateType;
     userId: string | undefined;
     organizationId: string | undefined;
 };
@@ -87,6 +87,16 @@ export type AddressUserCreateType = {
     coordinateId: string;
     userId: string | undefined;
     // ^ userId used to connect with user
+}
+
+export type CoordinatesCreateType = {
+    id?: string
+    latitude: number
+    longitude: number
+    radius?: number | null
+    driverId?: string | null
+    createdAt?: Date
+    updatedAt?: Date
 }
 
 export type AddressWithDetails = Address & { coordinates: Coordinates | null }

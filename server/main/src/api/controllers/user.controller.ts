@@ -1,3 +1,4 @@
+import { getGeoCoordinatesByAddress } from '@cd/core-lib';
 import { UserCreateType } from '@cd/data-access';
 import { UserDA } from '../data-access';
 
@@ -55,13 +56,16 @@ export default class UserController {
     static async createUser(req, res) {
         try {
             const user = req.body as UserCreateType
-            // const coordinates = user?.address.coordinates
-            // if (coordinates)
-            console.log('user: ', user);
-            const data = await UserDA.createUser(user)
-            if (!data) return res.status(404).json('User could not be created.');
 
-            return res.status(200).json(data);
+            const coordinates = await getGeoCoordinatesByAddress(user.address[0]);
+            if (coordinates) user.address[0].coordinates = coordinates;
+            
+            const data = await UserDA.createUser(user)
+            
+            if (!data) 
+            return res.status(404).json('User could not be created.');
+
+            return res.status(201).json(data);
         } catch (error: any) {
             console.log('API error: ', error);
             if (error.message.includes('This user exists already')) {
@@ -76,7 +80,11 @@ export default class UserController {
 
             const data = await UserDA.createDispensaryAdmin(user, role, dispensaryId)
 
-            return res.status(200).json(data);
+            if (!data) 
+            return res.status(404).json('Dispensary user could not be created.');
+
+            return res.status(201).json(data);
+            
         } catch (error: any) {
             console.log('API error: ', error);
             if (error.message.includes('This user exists already')) {
@@ -93,6 +101,7 @@ export default class UserController {
             if (!data) return res.status(404).json('User could not be created.');
 
             return res.status(200).json(data);
+
         } catch (error: any) {
             console.log('API error: ', error);
             res.status(500).json({ error });

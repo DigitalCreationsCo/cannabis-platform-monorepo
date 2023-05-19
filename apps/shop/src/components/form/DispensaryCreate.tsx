@@ -1,5 +1,5 @@
 import { urlBuilder } from '@cd/core-lib/utils';
-import { Button, FlexBox, Grid, H2, H3, H6, Paragraph, TermsAgreement, TextField } from '@cd/ui-lib';
+import { Button, FlexBox, Grid, H2, H3, H6, Paragraph, Small, TermsAgreement, TextField } from '@cd/ui-lib';
 import { createId } from '@paralleldrive/cuid2';
 import axios from 'axios';
 import { useFormik } from 'formik';
@@ -17,8 +17,6 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
     const { formData, setFormValues } = useFormContext();
     const [loadingButton, setLoadingButton] = useState(false);
 
-    console.log('formData: ', formData);
-    
     const initialValues = {
         id: formData.organization?.id || '',
         name: formData.organization?.name || '',
@@ -94,7 +92,7 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
     }, []);
     return (
         <form className={'content relative'} onSubmit={handleSubmit}>
-            <Grid>
+            <Grid className="max-w-[525px]">
                 <FlexBox className="justify-between flex-row space-x-2 pr-2 md:pr-0">
                     <FlexBox>
                     <H2>Welcome to Gras</H2>
@@ -109,10 +107,10 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
                         priority
                     />
                 </FlexBox>
-                <Paragraph>Please fill all the fields and continue to create your dispensary account.</Paragraph>
+                <Small>* Please fill the required fields</Small>
                 <TextField
                     name="name"
-                    label="Dispensary Name"
+                    label="* Dispensary name"
                     placeholder="What is the name of your Dispensary?"
                     value={values?.name}
                     onBlur={handleBlur}
@@ -130,12 +128,12 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
                     error={!!touched.email && !!errors.email}
                     helperText={touched.email && errors.email}
                 /> */}
-                <Paragraph>What is the phone number of your dispensary business?</Paragraph>
+                <Small>What is your phone number?</Small>
                 <FlexBox>
                     <TextField
                         maxLength={3}
                         name="dialCode"
-                        label="DialCode"
+                        label="* dial code"
                         placeholder="DialCode"
                         value={values?.dialCode}
                         onBlur={handleBlur}
@@ -144,7 +142,7 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
                     />
                     <TextField
                         name="phone"
-                        label="Phone"
+                        label="* phone"
                         placeholder="Phone"
                         value={values?.phone}
                         onBlur={handleBlur}
@@ -152,10 +150,10 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
                         error={!!touched.phone && !!errors.phone}
                     />
                 </FlexBox>
-                <Paragraph>Where are you located?</Paragraph>
+                <Small>Where are you located?</Small>
                 <TextField
                     name="address.street1"
-                    label="Street Line 1"
+                    label="* street line 1"
                     placeholder="Street Line 1"
                     value={values?.address?.street1}
                     onBlur={handleBlur}
@@ -165,7 +163,7 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
                 />
                 <TextField
                     name="address.street2"
-                    label="Street Line 2"
+                    label="street line 2"
                     placeholder="Street Line 2"
                     value={values?.address?.street2}
                     onBlur={handleBlur}
@@ -175,7 +173,7 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
                 />{' '}
                 <TextField
                     name="address.city"
-                    label="City"
+                    label="* city"
                     placeholder="City"
                     value={values?.address?.city}
                     onBlur={handleBlur}
@@ -185,7 +183,7 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
                 />
                 <TextField
                     name="address.state"
-                    label="State"
+                    label="* state"
                     placeholder="State"
                     value={values?.address?.state}
                     onBlur={handleBlur}
@@ -195,7 +193,7 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
                 />
                 <TextField
                     name="address.country"
-                    label="Country"
+                    label="* country"
                     placeholder="Country"
                     value={values?.address?.country}
                     onBlur={handleBlur}
@@ -205,7 +203,7 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
                 />
                 <TextField
                     name="address.zipcode"
-                    label="Zipcode"
+                    label="* zipcode"
                     placeholder="Zipcode"
                     value={values?.address?.zipcode}
                     onBlur={handleBlur}
@@ -220,8 +218,8 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
                     helperText={touched.termsAccepted && errors.termsAccepted || ''}
                     description={
                         <>
-                            By signing up to be listed on Gras Cannabis Marketplace, you agree to our
-                            <a href="/" target="_blank" rel="noreferrer noopener">
+                            <Paragraph>By signing up for Gras, you agree to our{' '}</Paragraph>
+                            <a href="/termsandconditions/dispensaryterms" target="_blank" rel="noreferrer noopener">
                                 <H6 className={'border-b-2 inline-block'}>Dispensary Terms and Conditions</H6>.
                             </a>
                         </>
@@ -241,6 +239,16 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
                 >
                     Next
                 </Button>
+                {/* <FlexBox className='items-center pt-8'>
+                    <Image
+                    className="rounded-btn"
+                    src={'/logo.png'}
+                    alt="Gras Cannabis logo"
+                    height={44}
+                    width={44}
+                    priority
+                    />
+                    </FlexBox> */}
             </Grid>
         </form>
     );

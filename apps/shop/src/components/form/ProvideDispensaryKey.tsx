@@ -71,13 +71,14 @@ function ProvideDispensaryKey({ nextFormStep }: FormStepComponentProps) {
     }
 
     return (
-            <form className={''} onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
             <Grid className='h-[320px] items-center justify-center flex flex-col space-y-4'>
                 <FlexBox>
                     <H2>Welcome to Gras</H2>
                     <Paragraph>Please enter the 24-digit Dispensary Key provided by the Gras team.</Paragraph>
                 </FlexBox>
                 <TextField
+                    containerClassName='w-[320px]'
                     className='text-center'
                     name="dispensaryKey"
                     maxLength={24}
@@ -111,5 +112,5 @@ function ProvideDispensaryKey({ nextFormStep }: FormStepComponentProps) {
 export default ProvideDispensaryKey;
 
 const validationSchema = yup.object().shape({
-    dispensaryKey: yup.string().required().length(24, 'Please provide your 24-digit dispensary key.')
+    dispensaryKey: yup.string().required('Please enter your Dispensary Key.').length(24, 'Please enter your Dispensary Key.')
 });

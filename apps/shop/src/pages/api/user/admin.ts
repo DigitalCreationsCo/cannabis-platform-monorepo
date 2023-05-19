@@ -1,5 +1,8 @@
 // import { ExtendRequest } from 'middleware';
-import { NextApiResponse } from 'next';
+import { urlBuilder } from '@cd/core-lib';
+import { UserCreateType } from '@cd/data-access';
+import axios from 'axios';
+import { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
 import NodeCache from 'node-cache';
 // import { getSession } from '../../../src/session';
@@ -28,20 +31,24 @@ handler.get(async (req, res: NextApiResponse) => {
 });
 
 // create a user record
-handler.post(async (req, res: NextApiResponse) => {
+handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     try {
-        // const {user, dispensaryId, role}: {user: UserCreateType, role: "ADMIN" | "OWNER" | undefined, dispensaryId: string; } = req.body;
+        const {user, dispensaryId, role}: {user: UserCreateType, role: "ADMIN" | "OWNER", dispensaryId: string; }
+         = req.body;
         
-        // let response = await axios.post(urlBuilder.main.admin(), { user, role, dispensaryId }, {
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     validateStatus: status => true
-        // })
+         console.log('dispensaryId: ', dispensaryId)
+        let response = await axios.post(
+            urlBuilder.main.admin(), 
+            { user, role, dispensaryId }, 
+        {
+            headers: { 'Content-Type': 'application/json' },
+            validateStatus: status => true
+        });
         
-        // return res.status(response.status).json(response.data);
+        return res.status(response.status).json(response.data);
     
     } catch (error: any) {
+        console.log('next api create admin user error: ', error.message)
         throw new Error(error.message)
     }
 });

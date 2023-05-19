@@ -3,6 +3,7 @@ import React, { ReactEventHandler, SVGAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
 import IconButton from './button/IconButton';
 import FlexBox from './FlexBox';
+import { Small } from './Typography';
 
 type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
     className?: string;
@@ -44,13 +45,13 @@ function TextField({
     const inputProps: React.InputHTMLAttributes<HTMLInputElement> = { ...props };
     const [focus, setFocus] = React.useState(false);
     const styles = {
-        flexContainer: 'space-x-0 space-y-0 w-full lg:flex-row lg:items-center'
+        flexContainer: 'space-x-0 space-y-0 w-full'
     };
     return (
         <FlexBox className={twMerge(styles.flexContainer, containerClassName, 'text-dark')}>
             {label && (
-                <FlexBox className="min-w-[121px] justify-between">
-                    <label>{label}</label>
+                <FlexBox className="items-start w-full">
+                    <label className='pl-2'><Small>{label}</Small></label>
                 </FlexBox>
             )}
             <FlexBox className="grow w-full flex-row items-center">
@@ -88,7 +89,7 @@ function TextField({
                         'text-lg',
                         'bg-light',
                         'items-center',
-                        'p-4 mx-2 rounded-btn',
+                        'p-4 rounded-btn',
                         'wh-10',
                         'outline-none focus:outline-none w-full',
                         'shadow-inner',

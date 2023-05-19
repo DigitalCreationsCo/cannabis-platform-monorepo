@@ -44,7 +44,7 @@ export default function Button({
         ],
         noClickWhileLoading: loading && 'cursor-not-allowed',
         size: [
-            (size === 'lg' && 'text-xl min-w-[180px] h-[70px]') || (size === 'sm' && 'text-sm h-[30px]') || 'w-[140px] h-10'
+            (size === 'lg' && 'text-xl min-w-[180px] h-[70px]') || (size === 'sm' && 'text-sm h-[30px]') || 'min-w-[140px] h-10'
         ],
         bgColor: ['bg-' + bg],
         textColor: [
