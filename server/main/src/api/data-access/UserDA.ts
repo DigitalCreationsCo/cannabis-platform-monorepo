@@ -1,5 +1,5 @@
 import { createAddress, createDispensaryAdmin, createUser, findAddressById, findUserWithDetailsByEmail, findUserWithDetailsById, removeAddressByIdAndUserId, updateDispensaryAdmin, updateUser, updateUserPasswordToken, UserCreateType } from '@cd/data-access';
-import { createPasswordHash } from '../../util/utility';
+// import { createPasswordHash } from '../../util/utility';
 
 /* =================================
 User Data Access - data methods for User Controller
@@ -114,7 +114,7 @@ export default class UserDA {
 
     static async createUser(createUserData: UserCreateType) {
         try {
-            createUserData = await createPasswordHash(createUserData)
+            // createUserData = await createPasswordHash(createUserData)
             
             const user = await createUser(createUserData)
 
@@ -127,7 +127,7 @@ export default class UserDA {
 
     static async createDispensaryAdmin(createUserData: UserCreateType, role: string, dispensaryId: string) {
         try {
-            createUserData = await createPasswordHash(createUserData)
+            // createUserData = await createPasswordHash(createUserData)
             
             const user = await createDispensaryAdmin(createUserData, {
                 role, 
@@ -143,7 +143,7 @@ export default class UserDA {
 
     static async updateDispensaryAdmin(createUserData: UserCreateType, role: string, dispensaryId: string) {
         try {
-            createUserData = await createPasswordHash(createUserData)
+            // createUserData = await createPasswordHash(createUserData)
             
             const user = await updateDispensaryAdmin(createUserData, {
                 role, 

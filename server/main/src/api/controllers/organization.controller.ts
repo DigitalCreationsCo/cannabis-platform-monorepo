@@ -24,7 +24,9 @@ export default class OrganizationController {
             if (coordinates) organization.address.coordinates = coordinates;
 
             const data = await OrganizationDA.createOrganization(organization);
-            if (!data) return res.status(404).json('Organization could not be created.');
+            
+            if (!data) 
+            return res.status(404).json('Organization could not be created.');
 
             return res.status(201).json(data);
         } catch (error:any) {

@@ -8,7 +8,6 @@ import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import * as yup from 'yup';
 
-// To Do: Add helpertext to textfields
 function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
     const { formData, setFormValues } = useFormContext();
     const [loadingButton, setLoadingButton] = useState(false);
@@ -29,6 +28,8 @@ function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
                 dispensaryId: formData.organization?.id
             }, { validateStatus: () => true});
             
+            console.log('response: ', response);
+
             if (response.status !== 200) {
                 throw new Error(response.data);
             }
@@ -65,16 +66,21 @@ function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
 
     return (
         <form className={'content relative'} onSubmit={handleSubmit}>
-            <Grid>
-            <Image src={'/logo.png'} alt="Gras Cannabis logo" height={63} width={63} priority />
-            <H3>{`Create a Dispensary User Account.`}</H3>
-            <Paragraph>
-                Create an account to own and manage your dispensary's inventory, data, and other users. 
-            This will be the account with the most access to your dispensary.</Paragraph>
-            <Small>Please fill the applicable fields to continue</Small>
+            <Grid className="max-w-[525px]">
+                <FlexBox className="justify-between flex-row space-x-2 pr-2 md:pr-0">
+                    <FlexBox>
+                    <H3>{`Create a Dispensary User Account.`}</H3>
+                    <Small>
+                        {`Create an account to own and manage your dispensary's inventory, data, and other users. 
+                    This account will have the most access to your dispensary.`}</Small>
+                    </FlexBox>
+                <Image src={'/logo.png'} alt="Gras Cannabis logo" height={63} width={63} priority />
+
+                </FlexBox>
+            <Small>* Please fill the required fields</Small>
             <TextField
                 name="firstName"
-                label="First Name"
+                label="* first name"
                 placeholder="First Name"
                 value={values?.firstName}
                 onBlur={handleBlur}
@@ -84,7 +90,7 @@ function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
             />
             <TextField
                 name="lastName"
-                label="Last Name"
+                label="* last name"
                 placeholder="Last Name"
                 value={values?.lastName}
                 onBlur={handleBlur}
@@ -93,7 +99,7 @@ function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
             />
             <TextField
                 name="username"
-                label="UserName"
+                label="* username"
                 placeholder="UserName"
                 value={values?.username}
                 onBlur={handleBlur}
@@ -103,7 +109,7 @@ function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
             <TextField
                 name="email"
                 type="email"
-                label="Email"
+                label="* email"
                 placeholder="Email"
                 value={values?.email}
                 onBlur={handleBlur}
@@ -114,7 +120,7 @@ function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
                 <TextField
                     maxLength={3}
                     name="dialCode"
-                    label="DialCode"
+                    label="* dial code"
                     placeholder="DialCode"
                     value={values?.dialCode}
                     onBlur={handleBlur}
@@ -123,7 +129,7 @@ function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
                 />
                 <TextField
                     name="phone"
-                    label="Phone"
+                    label="* phone"
                     placeholder="Phone"
                     value={values?.phone}
                     onBlur={handleBlur}
@@ -159,7 +165,7 @@ function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
             /> */}
             <TextField
                 name="address.street1"
-                label="Street Line 1"
+                label="* street line 1"
                 placeholder="Street Line 1"
                 value={values?.address?.street1}
                 onBlur={handleBlur}
@@ -169,7 +175,7 @@ function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
             />
             <TextField
                 name="address.street2"
-                label="Street Line 2"
+                label="street line 2"
                 placeholder="Street Line 2"
                 value={values?.address?.street2}
                 onBlur={handleBlur}
@@ -179,7 +185,7 @@ function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
             />{' '}
             <TextField
                 name="address.city"
-                label="City"
+                label="* city"
                 placeholder="City"
                 value={values?.address?.city}
                 onBlur={handleBlur}
@@ -189,7 +195,7 @@ function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
             />
             <TextField
                 name="address.state"
-                label="State"
+                label="* state"
                 placeholder="State"
                 value={values?.address?.state}
                 onBlur={handleBlur}
@@ -199,7 +205,7 @@ function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
             />
             <TextField
                 name="address.country"
-                label="Country"
+                label="* country"
                 placeholder="Country"
                 value={values?.address?.country}
                 onBlur={handleBlur}
@@ -209,7 +215,7 @@ function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
             />
             <TextField
                 name="address.zipcode"
-                label="Zipcode"
+                label="* zipcode"
                 placeholder="Zipcode"
                 value={values?.address?.zipcode}
                 onBlur={handleBlur}
@@ -217,24 +223,22 @@ function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
                 error={!!touched?.address?.zipcode && !!errors?.address?.zipcode}
                 helperText={touched?.address?.zipcode && errors?.address?.zipcode}
             />
-            <FlexBox>
-                <TermsAgreement
-                    name="termsAccepted"
-                    onChange={handleChange}
-                    checked={values?.termsAccepted || false}
-                    // helperText={touched.termsAccepted && errors.termsAccepted}
-                    error={!!touched.termsAccepted && !!errors.termsAccepted}
-                    description={
-                        <>
-                            {`Before creating an account for Gras Cannabis Marketplace, you will agree to our `}
-                            <a href="/" target="_blank" rel="noreferrer noopener">
-                                <H6 className={'border-b-2 inline-block'}>User Terms and Conditions</H6>.
-                            </a>
-                        </>
-                    }
-                    label={`I agree to the User Terms and Conditions`}
-                />
-            </FlexBox>
+            <TermsAgreement
+                name="termsAccepted"
+                onChange={handleChange}
+                checked={values?.termsAccepted || false}
+                // helperText={touched.termsAccepted && errors.termsAccepted}
+                error={!!touched.termsAccepted && !!errors.termsAccepted}
+                description={
+                    <>
+                        <Paragraph>By creating an account with Gras, you agree to our</Paragraph>
+                        <a href="/termsandconditions/userterms" target="_blank" rel="noreferrer noopener">
+                            <H6 className={'border-b-2 inline-block'}>User Terms and Conditions</H6>.
+                        </a>
+                    </>
+                }
+                label={`I agree to the User Terms and Conditions`}
+            />
             <Button
                 type="submit"
                 loading={loadingButton}

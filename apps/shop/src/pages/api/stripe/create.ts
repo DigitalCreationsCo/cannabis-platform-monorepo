@@ -3,49 +3,38 @@ import axios from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
 
-// const cache = new NodeCache({ stdTTL: 30 });
-
 const handler = nc();
 
 // create stripe account, connect to dispensary
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     try {
-        
-        // res.setHeader('Cache-Control', 'public, s-maxage=30, stale-while-revalidate=59');
-
-        // if (cache.has(`stripeAccount/${stripeAccountId}`)) {
-
-        //     const account = 
-        //     cache.get(`stripeAccount/${stripeAccountId}`);
             
-        //     return res.status(200).json(account);
-            
-        // } else {
-            
-            const response = await axios.post(urlBuilder.payment.createStripe(), req.body, { validateStatus: status => (status >= 200 && status < 404) || status == 404 });
+        const response = await axios.post(
+            urlBuilder.payment.createStripe(),
+            req.body, 
+        { validateStatus: status => (status >= 200 && status <= 302) || status == 404 });
 
-            console.log('create stripe account response: ', response);
+        if (response.status == 404)
+        throw new Error('Stripe account is not found.');
 
-            // return res.redirect( 200, '/');
-            // res.redirect(302, response.headers);
-            // res.end(response.data);
+        if (response.status === 302){
+            console.log('302 redirect response')
+            return res.status(response.status).json(response.data);
+        }
 
-            return res.status(res.statusCode).json(response.data);
+        if (response.status === 201){
+            console.log('201 response')
+            return res.status(response.status).json(response.data);
+        }
+       
+        if (response.status === 200){
+            console.log('200 response')
+            return res.status(response.status).json(response.data);
+        }
 
-            
-            // return res.status(response.status).json(response.data);
-            // if (response.status == 404) {
-            //     throw new Error('Stripe account is not found.');
-            // }
-            // if (response.status === 201) {
-            //     // cache.set(`stripeAccount/${stripeAccountId}`, data);
-                
-            //     // return res.status(res.statusCode);
-            // }
-        // }
     } catch (error: any) {
         console.error('next api create stripe account error: ', error.message);
-        return res.status(res.statusCode).json(error);
+        throw new Error(error.message)
     }
 });
 

@@ -34,6 +34,11 @@ try {
     return res.status(response.status).json(error); // return status and error
 }
 
+! HANDLING REDIRECT ON THE BACKEND
+use res.writeHead for handling redirect.
+In nextapi, use res.writeHead as well, forward the response header from the server.
+The reason for this is to have the same functionality whether you are usign a next api,
+or not, in the case of mobile app.
 
 ----------------
 Configuring Axios for better status handling:

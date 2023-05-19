@@ -123,7 +123,9 @@ class StripeService {
      */
     async getAccount(stripeAccountId: string) {
         try {
-            const account = await this.stripe.accounts.retrieve(stripeAccountId);
+            const 
+            account = await this.stripe.accounts.retrieve(stripeAccountId);
+            
             return account
         } catch (error: any) {
             console.error(error.message);
@@ -165,6 +167,21 @@ class StripeService {
             
             return accountLink;
             
+        } catch (error: any) {
+            console.error(error.message);
+            throw new Error(error.message);
+        }
+    }
+
+    async checkOnboardAccount(stripeAccountId: string) {
+        try {
+            const 
+            account = await this.stripe.accounts.retrieve(stripeAccountId);
+            
+            if (!account) 
+            throw new Error('Stripe account is not found.');
+
+            return account.details_submitted
         } catch (error: any) {
             console.error(error.message);
             throw new Error(error.message);

@@ -11,7 +11,7 @@ const ToastProvider = () => {
             .forEach((t) => toast.dismiss(t.id));
     }, [toasts]);
 
-    return <Toaster position="top-center" />;
+    return <Toaster position="top-center" toastOptions={{ duration: 2000 }} />;
 };
 
 export { ToastProvider };

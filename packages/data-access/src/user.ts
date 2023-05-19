@@ -63,7 +63,7 @@ export async function createUser(userData: UserCreateType) {
 
 export async function updateUser(userData: UserCreateType) {
     try {
-        const { coordinateId, coordinates, organizationId, ...addressData } = userData.address
+        const { coordinateId, coordinates, organizationId, ...addressData } = userData.address[0]
 
         const user = await prisma.user.update({
             where: {
@@ -125,7 +125,10 @@ export async function updateUser(userData: UserCreateType) {
 
 export async function createDispensaryAdmin(userData: UserCreateType, createParams: CreateUserParams) {
     try {
-        const { organizationId, coordinates, coordinateId, ...addressData } = userData.address
+
+        console.log('user data: ', userData)
+        
+        const { coordinates, coordinateId, ...addressData } = userData.address[0]
 
         const user = await prisma.user.create({
             data: {
@@ -141,12 +144,6 @@ export async function createDispensaryAdmin(userData: UserCreateType, createPara
                 address: {
                     create: { 
                         ...addressData,
-                        coordinates: {
-                            create: {
-                                latitude: Number(coordinates?.latitude),
-                                longitude: Number(coordinates?.longitude)
-                            }
-                        }
                     },
                 },
                 memberships: !!userData.memberships?.[0]?.id ? {
@@ -171,43 +168,6 @@ export async function createDispensaryAdmin(userData: UserCreateType, createPara
                 //     }
                 // } : undefined,
             },
-            // update: {
-            //     email: userData.email,
-            //     emailVerified: false,
-            //     username: userData.username,
-            //     firstName: userData.firstName,
-            //     lastName: userData.lastName,
-            //     passwordHash: userData.passwordHash || '',
-            //     termsAccepted: true,
-            //     dialCode: userData.dialCode,
-            //     phone: userData.phone,
-            //     address: userData.address ? {
-            //         create: { 
-            //             ...userData.address
-            //         }
-            //     } : undefined,
-            //     imageUser: userData.imageUser ? {
-            //         create: {
-            //             ...userData.imageUser
-            //         }
-            //     } : undefined,
-            //     memberships: userData.memberships?.[0]?.id ? {
-            //         connectOrCreate: {
-            //             where: {
-            //                 id: userData?.memberships?.[0].id
-            //             },
-            //             create: {
-            //                 role: createParams["role"] as MembershipRole,
-            //                 organizationId: createParams["dispensaryId"],
-            //             },
-            //         }
-            //         }: {
-            //             create: {
-            //                 role: createParams["role"] as MembershipRole,
-            //                 organizationId: createParams["dispensaryId"],
-            //             },
-            //         }
-            // },
             include: {
                 memberships: true
             },
@@ -423,7 +383,7 @@ export type UserCreateType = {
     imageUser: ImageUser[] | null;
     isLegalAge: boolean;
     idVerified: boolean;
-    address: AddressCreateType
+    address: AddressCreateType[]
     memberships: Prisma.MembershipUpsertArgs["create"][];
 }
 
