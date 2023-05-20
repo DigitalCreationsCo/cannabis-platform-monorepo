@@ -53,42 +53,25 @@ export default function middleware(req: NextRequest, res: ServerResponse) {
             return NextResponse.redirect(url);
         }
         else 
-        return NextResponse.rewrite(`http://${subdomain}.localhost:3000`);
+        return NextResponse.redirect(`http://${subdomain}.localhost:3000`);
     }
 
     // rewrite to /_stores/*
     if (subdomain !== 'app' && subdomain !== 'grascannabis' && subdomain !== 'localhost') {
-        return NextResponse.rewrite(new URL(`/_stores/${subdomain}${url.pathname}`, req.nextUrl.origin));
+        console.log('stores path')
+        if (url.pathname !== '/') {
+            console.log('url pathname? ', url.pathname)
+            console.log('go to: ', `${req.nextUrl.origin}${url.pathname}`, )
+            
+            return NextResponse.redirect(`http://localhost:3000${url.pathname}`);
+        }
+
+        else if (url.pathname === '/'){
+            console.log('go to storefront')
+        return NextResponse.redirect(new URL(`/_stores/${subdomain}${url.pathname}`, req.nextUrl.origin));
+
+        }
     }
-
-//     // // redirect to /welcome if not over 21
-//     // if (subDomain.includes(shopAppUrl) && url.pathname !== '/welcome') {
-//     //     let over21 = req.cookies.get('yesOver21')?.value
-//     //     if (!over21) {
-
-//     //         if (url.pathname === '/quick-delivery') {
-//     //             return NextResponse.redirect(`http://${subDomain}/welcome?redirect=/quick-delivery`); 
-//     //         }
-
-//     //         return NextResponse.redirect(`http://${subDomain}/welcome?redirect=/`); 
-//     //     }
-//     // }
-
-    // redirect to / if not over 21
-    // if (subdomain === 'localhost' || subdomain === 'grascannabis' && url.pathname !== '/') {
-
-    //     let over21 = req.cookies.get('yesOver21')?.value
-    //     if (!over21) {
-
-    //         // if (url.pathname === '/quick-delivery') {
-    //         //     return NextResponse.redirect(`http://${subDomain}/welcome?redirect=/quick-delivery`); 
-    //         // }
-
-    //         return NextResponse.redirect(`localhost:3000`); 
-    //     }
-    //     // if (over21)
-    //     // return NextResponse.next()
-    // }
 
     // base url redirect to /browse if over21
     if (url.pathname === '/' && subdomain === 'localhost' || subdomain === 'grascannabis') {

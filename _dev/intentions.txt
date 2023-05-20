@@ -153,6 +153,8 @@ USE AI LIKE A MOTHER FUCKER.
 WIN.
 
 Improvements:
+save bag content to database, to recall it when the user sign in
+
 Take all the notes an add them into JSDOCS in the relevant files and functions ;P
 
 ! Should encrypt the widget cart token, when its save in cookie. in the future.
@@ -176,6 +178,8 @@ card reader will always return true. Turn it on before we have paying customers!
 
 
 must do: WRITE UNIT TESTS FOR WIDGET CRAWLER
+Write unit tests for middleware redirects
+Finish: resolve middleware redirect for /_stores/ path
 ConfirmOrder:
     // NOTE: Should encrypt this token in the future.
     // NOTE: Add the cart data to redux store at this point, and delete the cookie after this.

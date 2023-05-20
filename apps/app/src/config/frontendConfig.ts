@@ -40,25 +40,25 @@ export const frontendConfig = () => {
                 }
             }),
             Session.init({
+                // @ts-ignore
                 sessionTokenFrontendDomain: '.localhost:3000',
                 // sessionTokenBackendDomain: '.localhost:3000',
-                // onHandleEvent: (event) => {
-                //     console.log('session event: ', event)
-                //     if (event.action === 'UNAUTHORISED' || event.action === 'SIGN_OUT') {
-                //         window.location.href = '/';
-                //     }
-                //     if (event.action === 'SESSION_CREATED') {
-                //         console.log('event: ', event.action)
-                //         if (
-                //             event.userContext.memberships?.[0]?.role.toLocaleUpperCase() === 'ADMIN' ||
-                //             event.userContext.memberships?.[0]?.role.toLocaleUpperCase() === 'OWNER'
-                //         ) {
-                //             window.location.href = dashboardDomain + '/dashboard';
-                //         } else {
-                //             window.location.href = shopDomain;
-                //         }
-                //     }
-                // },
+                onHandleEvent: (event) => {
+                    if (event.action === 'UNAUTHORISED' || event.action === 'SIGN_OUT') {
+                        // window.location.href = '/';
+                    }
+                    if (event.action === 'SESSION_CREATED') {
+                        console.log('session created')
+                        if (
+                            event.userContext.memberships?.[0]?.role.toLocaleUpperCase() === 'ADMIN' ||
+                            event.userContext.memberships?.[0]?.role.toLocaleUpperCase() === 'OWNER'
+                        ) {
+                            window.location.href = dashboardDomain;
+                        } else {
+                            window.location.reload()
+                        }
+                    }
+                },
             })
         ],
         isInServerLessEnv: false

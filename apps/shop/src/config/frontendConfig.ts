@@ -26,53 +26,36 @@ export const frontendConfig = () => {
         recipeList: [
             Passwordless.init({
                 contactMethod: "EMAIL_OR_PHONE",
+                onHandleEvent: (event: any) => {
+                    console.log('passwordless event: ', event)
+                    if (event.action === 'SUCCESS') {
+                        console.log('role ? ', event.user && event.user.memberships?.[0]?.role.toLocaleUpperCase())
+                        if (event.user && event.user.memberships?.[0]?.role.toLocaleUpperCase() === 'ADMIN' ||
+                        event.user.memberships?.[0]?.role.toLocaleUpperCase() === 'OWNER') {
+                            window.location.href = dashboardDomain + '/dashboard';
+                        } else {
+                            window.location.href = shopDomain;
+                        }
+                    }
+                }
             }),
-            // EmailPassword.init({
-            //     override: {
-            //         functions: (originalImplementation) => {
-            //             return {
-            //                 ...originalImplementation,
-            //                 async signUp(input) {
-            //                     console.log('sign up input on frontend');
-            //                     const response = await originalImplementation.signUp(input);
-            //                     console.log('sign in event: ', response);
-            //                     return response;
-            //                 },
-            //                 async signIn(input) {
-            //                     const response = await originalImplementation.signIn(input);
-            //                     console.log('sign up event: ', response);
-            //                     return response;
-            //                 }
-            //             };
-            //         }
-            //     }
-            // }),
             Session.init({
                 // @ts-ignore
                 sessionTokenFrontendDomain: '.localhost:3000',
                 // sessionTokenBackendDomain: '.localhost:3000',
-                // override: {
-                //     functions: (originalImplementation) => {
-                //         return {
-                //             ...originalImplementation,
-                //             signOut(input) {
-                //                 return originalImplementation.signOut(input);
-                //             }
-                //         };
-                //     }
-                // }
                 onHandleEvent: (event) => {
                     if (event.action === 'UNAUTHORISED' || event.action === 'SIGN_OUT') {
-                        window.location.href = '/';
+                        // window.location.href = '/';
                     }
                     if (event.action === 'SESSION_CREATED') {
+                        console.log('session created')
                         if (
                             event.userContext.memberships?.[0]?.role.toLocaleUpperCase() === 'ADMIN' ||
                             event.userContext.memberships?.[0]?.role.toLocaleUpperCase() === 'OWNER'
                         ) {
-                            // window.location.href = dashboardDomain;
+                            window.location.href = dashboardDomain;
                         } else {
-                            // window.location.reload()
+                            window.location.reload()
                         }
                     }
                 },
