@@ -1,6 +1,6 @@
 import { ErrorMessage, Page } from '@cd/ui-lib';
 
-function _404({ code = 404 }: { code: number }) {
+function _404({ code }: { code: number }) {
     return (
         <Page>
             <ErrorMessage
