@@ -2,7 +2,9 @@ import { modalActions, modalTypes, selectUserState } from '@cd/core-lib';
 import { Button, FlexBox, H1, H2, H4, H5, LayoutContextProps, Page, Paragraph } from '@cd/ui-lib';
 import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
+import Router from 'next/router';
 import { PropsWithChildren } from 'react';
+import { useCookies } from 'react-cookie';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { twMerge } from 'tailwind-merge';
 import backdrop from '/public/marijuana-backdrop.png';
@@ -10,18 +12,21 @@ import backdrop from '/public/marijuana-backdrop.png';
 function LandingPage() {
 
     const 
-    { user, isSignedIn } = useAppSelector(selectUserState)
+    { isSignedIn } = useAppSelector(selectUserState);
+
     const dispatch = useAppDispatch();
+    const [cookies] = useCookies(['yesOver21'])
     
-    function openCheckAgeModal() {
-        dispatch(
-            modalActions.openModal({
-                modalType: modalTypes.checkAgeModal,
-                modalText: ''
+    function openCheckAgeModalOrEnterSite() {
+        cookies['yesOver21'] ? Router.push('/browse') : 
+            dispatch(
+                modalActions.openModal({
+                    modalType: modalTypes.checkAgeModal,
+                    modalText: ''
             })
         );
     }
-
+    
     const styles={
         hero: [
             "w-full pt-4 pb-8 md:pt-8 px-4 md:px-14 lg:px-32",
@@ -34,6 +39,8 @@ function LandingPage() {
             "bg-inverse",
         ]
     }
+
+    
     return (
         <Page className="p-0 lg:p-0">
             <ImageBackDrop src={backdrop}>
@@ -48,7 +55,7 @@ function LandingPage() {
                             bg="secondary"
                             transparent
                             className="hover:bg-primary-light"
-                            onClick={openCheckAgeModal}
+                            onClick={openCheckAgeModalOrEnterSite}
                         >
                             Enter
                         </Button>

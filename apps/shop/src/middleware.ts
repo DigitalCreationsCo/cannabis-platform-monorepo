@@ -21,7 +21,6 @@ export default function middleware(req: NextRequest, res: ServerResponse) {
     url = req.nextUrl;
 
     console.log('url', url);
-    
     console.log('subdomain', subdomain);
 
     // Redirect to /app if subdomain is app and path does not start with /app
@@ -75,15 +74,6 @@ export default function middleware(req: NextRequest, res: ServerResponse) {
 //     //     }
 //     // }
 
-//     // base url redirect to /browse
-//     if (subDomain.includes(shopAppUrl) && url.pathname === '/') {
-//         let over21 = req.cookies.get('yesOver21')?.value
-
-//         if (over21) {
-//             return NextResponse.redirect(`http://${subDomain}/browse`); 
-//         }
-//     }
-
     // redirect to / if not over 21
     // if (subdomain === 'localhost' || subdomain === 'grascannabis' && url.pathname !== '/') {
 
@@ -100,14 +90,27 @@ export default function middleware(req: NextRequest, res: ServerResponse) {
     //     // return NextResponse.next()
     // }
 
-    // base url redirect to /browse
-    // if (subdomain === 'localhost' || subdomain === 'grascannabis' && url.pathname === '/') {
-    //     let over21 = req.cookies.get('yesOver21')?.value
+    // base url redirect to /browse if over21
+    if (url.pathname === '/' && subdomain === 'localhost' || subdomain === 'grascannabis') {
+        let over21 = req.cookies.get('yesOver21')?.value
 
-    //     if (over21) {
-    //         console.log(url.pathname === '/')
-    //         console.log('REDIRECT ?')
-    //         return NextResponse.redirect(`localhost:3000/browse`); 
-    //     }
-    // }
+        if (over21) {
+            url.pathname = '/browse';
+            return NextResponse.redirect(url); 
+        }
+    }
+
+    // under21 redirect to base url
+    if (url.pathname !== '/' && subdomain === 'localhost' || subdomain === 'grascannabis') {
+        let over21 = req.cookies.get('yesOver21')?.value
+
+        if (url.pathname === '/about-gras')
+        return NextResponse.next()
+        
+        if (!over21) {
+            url.pathname = '/';
+            return NextResponse.redirect(url); 
+        }
+    }
+
 }
