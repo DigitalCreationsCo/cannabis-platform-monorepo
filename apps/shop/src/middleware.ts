@@ -1,45 +1,43 @@
 import { ServerResponse } from 'http';
 import { NextRequest } from 'next/server';
 
-// export const config = {
-//     matcher: [
-//         /*
-//          * Match all paths except for:
-//          * 1. /api routes
-//          * 2. /_next (Next.js internals)
-//          * 3. /examples (inside /public)
-//          * 4. all root files inside /public (e.g. /favicon.ico)
-//          */
-//         '/((?!api/|_next/|_static/|examples/|[\\w-]+\\.\\w+).*)'
-//     ]
-// };
+export const config = {
+    matcher: [
+        /*
+         * Match all paths except for:
+         * 1. /api routes
+         * 2. /_next (Next.js internals)
+         * 3. /examples (inside /public)
+         * 4. all root files inside /public (e.g. /favicon.ico)
+         */
+        '/((?!api/|_next/|_static/|examples/|[\\w-]+\\.\\w+).*)'
+    ]
+};
 
-// /**
-//  * @param req
-//  */
-
-// // the redirects are not designed well, but they work for now.
 export default function middleware(req: NextRequest, res: ServerResponse) {
-//     const shopAppUrl = process?.env?.NEXT_PUBLIC_SHOP_APP_URL && process?.env?.NEXT_PUBLIC_SHOP_APP_URL.split('//')[1].split(':')[0] || 'localhost';
-//     const url = req.nextUrl;
-//     console.log('url', url);
-//     const hostname = req.headers.get('host');
-//     console.log('hostname', hostname);
-//     const subDomain = hostname; // PUT YOUR DOMAIN HERE
-//     console.log('subDomain', subDomain);
-//     console.log('shopAppUrl', shopAppUrl);
+
+    // const
+    // subdomain = req.headers.get('host')?.split('.')[0].split(':')[0] || 'localhost',
+    // url = req.nextUrl;
+
+    // if (subdomain === 'app') {
+        
+    //     if (!url.pathname.startsWith('/app/')) {
+    //         url.pathname = `/app${url.pathname}`;
+            
+    //         return NextResponse.rewrite(url);
+    //     }
+    // }
 
 //     // Prevent security issues – users should not be able to canonically access
 //     // the pages/_stores folder, or /app directory and its respective contents. This can also be done
 //     // via rewrites to a custom 404 page
 
-//     if ( subDomain === null ) return
+    // if (subdomain !== ('app') && url.pathname.startsWith(`/app`)) {
+    //     url.pathname = '/404';
 
-//     if (!subDomain.startsWith('app') && url.pathname.startsWith(`/app`)) {
-//         url.pathname = '/404';
-
-//         return NextResponse.rewrite(url);
-//     }
+    //     return NextResponse.redirect(url);
+    // }
 
 //     if (subDomain.startsWith('app')) {
 //         // check cookies and sign in if session token exists

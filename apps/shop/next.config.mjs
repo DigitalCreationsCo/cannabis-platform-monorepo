@@ -162,19 +162,19 @@ const nextConfig = (phase) => {
     const rewrites = async () => {
         return [
             {
+                source: '/:path*',
+                destination: '/:path*' 
+            },
+            {
                 source: '/app',
-                // destination: `${process.env.NEXT_PUBLIC_DASHBOARD_APP_URL}/app`
-                destination: `http://localhost:3001/`
+                // destination: `${process.env.NEXT_PUBLIC_DASHBOARD_APP_URL}`
+                destination: `http://localhost:3001/app`
             },
             {
                 source: '/app/:path*',
                 // destination: `${process.env.NEXT_PUBLIC_DASHBOARD_APP_URL}/app/:path*`
-                destination: `http://localhost:3001/:path*`
+                destination: `http://localhost:3001/app/:path*`
             },
-            {
-                source: '/:path*',
-                destination: '/:path*' 
-            }
         ];
     };
 
