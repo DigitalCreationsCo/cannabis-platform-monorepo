@@ -19,7 +19,6 @@ function TopBar({ signOut }: TopBarProps) {
     const isCartEmpty = useSelector(selectIsCartEmpty);
 
     function openLoginModal() {
-        console.log('dispatch: open Login Modal');
         dispatch(
             modalActions.openModal({
                 modalType: modalTypes.loginModal
@@ -57,7 +56,8 @@ function TopBar({ signOut }: TopBarProps) {
                     'hidden',
                     'md:block',
                     'place-self-center',
-                    'text-primary font-semibold'
+                    'text-primary font-semibold',
+                    'cursor-default'
                 )}
             >
                 Cannabis Marketplace

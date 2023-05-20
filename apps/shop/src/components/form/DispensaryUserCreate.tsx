@@ -1,14 +1,14 @@
 import { urlBuilder } from '@cd/core-lib';
 import { Button, FlexBox, Grid, H3, H6, Paragraph, Small, TermsAgreement, TextField } from '@cd/ui-lib';
 import axios from 'axios';
-import { useFormContext } from 'components/StepFormProvider';
+import { FormStepComponentProps, useFormContext } from 'components/StepFormProvider';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import * as yup from 'yup';
 
-function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
+function DispensaryUserCreate({ prevFormStep, nextFormStep }: FormStepComponentProps) {
     const { formData, setFormValues } = useFormContext();
     const [loadingButton, setLoadingButton] = useState(false);
     // const [passwordVisibility, setPasswordVisibility] = useState(false);
@@ -29,8 +29,11 @@ function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
             }, { validateStatus: () => true});
             
             console.log('response: ', response);
+            if (response.status === 404) {
+                throw new Error(response.data);
+            }
 
-            if (response.status !== 200) {
+            if (response.status === 400) {
                 throw new Error(response.data);
             }
 
@@ -66,7 +69,7 @@ function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
 
     return (
         <form className={'content relative'} onSubmit={handleSubmit}>
-            <Grid className="max-w-[525px]">
+            <Grid className="max-w-[525px] mx-auto">
                 <FlexBox className="justify-between flex-row space-x-2 pr-2 md:pr-0">
                     <FlexBox>
                     <H3>{`Create a Dispensary User Account.`}</H3>
@@ -239,19 +242,27 @@ function DispensaryUserCreate({ nextFormStep }: { nextFormStep: () => void }) {
                 }
                 label={`I agree to the User Terms and Conditions`}
             />
-            <Button
-                type="submit"
-                loading={loadingButton}
-                onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    notifyValidation();
-                    handleSubmit();
-                }}
-                disabled={values.termsAccepted === false}
-            >
-                Next
-            </Button>
+            <FlexBox className='m-auto flex-row space-x-4 pb-20'>
+                <Button
+                    onClick={prevFormStep}
+                    disabled={loadingButton}
+                >
+                    back
+                </Button>
+                <Button
+                    type="submit"
+                    loading={loadingButton}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        notifyValidation();
+                        handleSubmit();
+                    }}
+                    disabled={values.termsAccepted === false}
+                >
+                    Next
+                </Button>
+            </FlexBox>
             </Grid>
         </form>
     );
@@ -274,8 +285,11 @@ const initialValues = {
         state: 'PA',
         zipcode: '17603',
         country: 'United States',
-        countryCode: 'US'
+        countryCode: 'US',
     },
+    isLegalAge: false,
+    idVerified: false, 
+    memberships: [],
     termsAccepted: false,
     imageUser: []
 };

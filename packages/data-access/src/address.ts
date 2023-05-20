@@ -84,8 +84,9 @@ export type AddressUserCreateType = {
     zipcode: string;
     country: string;
     countryCode: string | null;
-    coordinateId: string;
-    userId: string | undefined;
+    coordinateId?: string;
+    coordinates?: CoordinatesCreateType;
+    userId?: string | undefined;
     // ^ userId used to connect with user
 }
 

@@ -1,14 +1,16 @@
-import { modalActions, modalTypes } from '@cd/core-lib';
+import { modalActions, modalTypes, selectUserState } from '@cd/core-lib';
 import { Button, FlexBox, H1, H2, H4, H5, LayoutContextProps, Page, Paragraph } from '@cd/ui-lib';
 import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import { PropsWithChildren } from 'react';
-import { useAppDispatch } from 'redux/hooks';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { twMerge } from 'tailwind-merge';
 import backdrop from '/public/marijuana-backdrop.png';
 
 function LandingPage() {
 
+    const 
+    { user, isSignedIn } = useAppSelector(selectUserState)
     const dispatch = useAppDispatch();
     
     function openCheckAgeModal() {
@@ -59,7 +61,7 @@ function LandingPage() {
                                 by offering a bridge of communication, clarity and support.
                             </Paragraph>
 
-                            <FlexBox className='m-auto items-center space-y-2'>
+                            {!isSignedIn && <FlexBox className='m-auto items-center space-y-2'>
                                 <H4 className='text-xl'>
                                 {`Are you a dispensary? Get started here.`}</H4>
                                 <Link href="/signup/create-dispensary-account">
@@ -72,7 +74,7 @@ function LandingPage() {
                                         {`Create a dispensary account`}</Paragraph>
                                     </Button>
                                 </Link>
-                            </FlexBox>
+                            </FlexBox>}
                         </FlexBox>
                     {/* </FlexBox> */}
 

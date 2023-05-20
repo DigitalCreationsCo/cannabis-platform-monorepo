@@ -14,7 +14,7 @@ import FlexBox from '../FlexBox';
 import Grid from '../Grid';
 import IconWrapper from '../IconWrapper';
 import TextField from '../TextField';
-import { H1, H3, H5, Paragraph } from '../Typography';
+import { H1, H3, Paragraph, Small } from '../Typography';
 import Modal from './Modal';
 
 interface LoginModalProps {
@@ -36,6 +36,7 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
     const FormStepComponent = useMemo(() => FormStepComponents[formStep], [formStep]);
 
     const [inputValue, setInputValue] = useState('');
+    
     function SendOTP () {
         
         const initialValues = { emailOrPhone: 'bmejiadeveloper2@gmail.com' };
@@ -110,6 +111,7 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
                     />
                     <FlexBox className="py-2">
                         <Button
+                            type='submit'
                             loading={loading}
                             className="place-self-center"
                             onClick={(e) => {
@@ -215,7 +217,7 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
     
         return (
             <form>
-                <H5>Enter your one time passcode</H5>
+                <Small>A one time passcode was sent to {inputValue}.</Small>
                 <Grid className="relative space-y-2 w-2/3 m-auto">
                     <TextField
                         containerClassName='m-auto lg:flex-col lg:items-start'
@@ -232,6 +234,7 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
                     />
                     <FlexBox className="py-2 space-y-8">
                         <Button
+                            type='submit'
                             className="place-self-center"
                             loading={loadingButton}
                             onClick={(e) => {
@@ -248,7 +251,6 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
                             <Button 
                             bg={'transparent'}
                             hover={'transparent'}
-                            className="hover:border-b"
                             onClick={checkAndResendOTP}>
                                 {showResendOrCountdown}</Button>
 
@@ -292,13 +294,13 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
     const emailValidationSchema = yup.object().shape({
         emailOrPhone: yup.string()
         .email('Not a valid email.')
-        .required('Email or Phone number is required.'),
+        .required('Sign in with your email.'),
     });
     
     const phoneValidationSchema = yup.object().shape({
         emailOrPhone: yup.string()
         .length(11, 'Phone number must be 11 digits')
-        .required('Email or Phone number is required.'),
+        .required('Sign in with your phone number.'),
     });
     
     const passcodeValidationSchema = yup.object().shape({
