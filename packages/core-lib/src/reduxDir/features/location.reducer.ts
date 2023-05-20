@@ -155,11 +155,14 @@ const locationSlice = createSlice({
           }
         },
         setAllLocations: (state, {payload}: {payload: AddressPayload[]}) => {
-          console.info('setAllLocations action')
           const allAddresses = payload.reduce((all, address) => {
-            let _address = { ...address, coordinates: address.coordinates || {latitude: 0, longitude: 0} }
-            all.push(_address)
+            let 
+            _address = { ...address, coordinates: address.coordinates || {latitude: 0, longitude: 0} };
+            
+            all.push(_address); 
+            return all;
           }, []);
+          
           state.allLocations = allAddresses
         },
         addAddress: (state, {payload}: {payload: LocationType}) => {

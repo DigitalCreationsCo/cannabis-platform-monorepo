@@ -76,8 +76,21 @@ export default class UserController {
 
     static async createDispensaryAdmin(req, res) {
         try {
-            const {user, role, dispensaryId} = req.body
+            let 
+            {user, role, dispensaryId} = req.body
 
+            function addressObjectIntoArray (user): UserCreateType {
+                const
+                address = user.address
+
+                if (address)
+                user.address = [address]
+
+                return user;
+            }
+
+            user = addressObjectIntoArray(user)
+            
             const data = await UserDA.createDispensaryAdmin(user, role, dispensaryId)
 
             if (!data) 
@@ -88,7 +101,9 @@ export default class UserController {
         } catch (error: any) {
             console.log('API error: ', error);
             if (error.message.includes('This user exists already')) {
+                console.log('yes, EXIST ALREADY')
                 return res.status(400).json(error.message);
+
             } else res.status(500).json({ error });
         }
     }

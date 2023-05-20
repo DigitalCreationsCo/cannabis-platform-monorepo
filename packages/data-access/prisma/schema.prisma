@@ -232,6 +232,7 @@ model Membership {
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
   @@index([userId])
+  @@unique([id, organizationId])
 }
 
 model Order {

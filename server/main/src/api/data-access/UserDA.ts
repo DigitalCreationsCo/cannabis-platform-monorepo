@@ -1,4 +1,4 @@
-import { createAddress, createDispensaryAdmin, createUser, findAddressById, findUserWithDetailsByEmail, findUserWithDetailsById, removeAddressByIdAndUserId, updateDispensaryAdmin, updateUser, updateUserPasswordToken, UserCreateType } from '@cd/data-access';
+import { createAddress, createUser, findAddressById, findUserWithDetailsByEmail, findUserWithDetailsById, removeAddressByIdAndUserId, updateDispensaryAdmin, updateUser, updateUserPasswordToken, upsertDispensaryAdmin, UserCreateType } from '@cd/data-access';
 // import { createPasswordHash } from '../../util/utility';
 
 /* =================================
@@ -129,7 +129,7 @@ export default class UserDA {
         try {
             // createUserData = await createPasswordHash(createUserData)
             
-            const user = await createDispensaryAdmin(createUserData, {
+            const user = await upsertDispensaryAdmin(createUserData, {
                 role, 
                 dispensaryId
             })

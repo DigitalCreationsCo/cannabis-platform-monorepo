@@ -10,11 +10,6 @@ import {
     ProvideDispensaryKey
 } from '../../components';
 
-type FormStepComponentProps = { 
-    nextFormStep: () => void; 
-    prevFormStep: () => void; 
-}
-
 function DispensarySignUpStepForm() {
 
     const [formStep, setFormStep] = useState(0);
@@ -31,13 +26,13 @@ function DispensarySignUpStepForm() {
         // ProvideStripeAccountId,
     ];
 
-    const styles = { gradient: ['bg-gradient-to-b', 'from-primary', 'to-secondary', ''] };
+    const styles = { gradient: ['bg-gradient-to-b', 'from-primary', 'to-secondary'] };
     return (
         <Page className={twMerge(styles.gradient, 'md:pt-16')}>
             <Head>
                 <title>Create a Dispensary Account</title>
             </Head>
-            <FormCard className={"bg-inverse-soft flex justify-center m-auto items-center"}
+            <FormCard className={"bg-inverse-soft md:m-auto"}
             currentStep={formStep}
             totalSteps={FormStepComponents.length}
             >

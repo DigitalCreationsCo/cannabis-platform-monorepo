@@ -7,13 +7,13 @@ async function sendOTPEmail(email: string) {
             email
         });
     } catch (err: any) {
-        if (err.isSuperTokensGeneralError === true) {
-            // this may be a custom error message sent from the API by you,
-            // or if the input email / phone number is not valid.
-            throw new Error(err.message);
-        } else {
-            throw new Error("Something went wrong. Please try again.");
-        }
+        console.error('send otp error: ', err.message)
+
+        if (err.isSuperTokensGeneralError === true)
+        throw new Error(err.message);
+        
+        else
+        throw new Error("The Sign In server is not available. Please contact Gras team.");
     }
 }
 
@@ -24,15 +24,13 @@ async function sendOTPPhone(phoneNumber: string) {
             phoneNumber
         });
     } catch (err: any) {
-        if (err.isSuperTokensGeneralError === true) {
-            console.error(err)
-            // this may be a custom error message sent from the API by you,
-            // or if the input email / phone number is not valid.
-            throw new Error(err.message);
-        } else {
-            console.error(err)
-            throw new Error("Something went wrong. Please try again.");
-        }
+        console.error('send otp error: ', err.message)
+        
+        if (err.isSuperTokensGeneralError === true)
+        throw new Error(err.message);
+        
+        else
+        throw new Error("The Sign In server is not available. Please contact Gras team.");
     }
 }
 

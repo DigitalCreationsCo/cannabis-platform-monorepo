@@ -1,17 +1,18 @@
-import { Grid, H4, H5, Icons, Page, PageHeader } from '@cd/ui-lib';
+import { FlexBox, H4, Icons, Page, PageHeader, Paragraph } from '@cd/ui-lib';
 
 function Support() {
     return (
-        <Page className="md:max-w-1/2">
+        <Page>
+            <FlexBox className='w-[90%] md:w-2/3 mx-auto space-y-2'>
             <PageHeader title="Support" Icon={Icons.Shield} />
-            <Grid className="space-y-4 px-2">
-                <H5 className="whitespace-pre-line">{` 
-            Thanks for choosing Gras.
-            We're working around the clock to deliver a world class support service for you.
-            For software support, please dial the toll-free support phone number. `}</H5>
-                <H4 className="text-left whitespace-pre-line">{`24 / 7 Gras Support Phone Number: 
-                1-800-GREEN-35`}</H4>
-            </Grid>
+                <H4 className="whitespace-pre-line">
+                Thanks for choosing Gras.</H4>
+                <Paragraph>We're working around the clock to deliver a world class support service for you.{"\n"}
+                For software support, please dial the toll-free support phone number during business hours.</Paragraph>
+                <H4 className="m-auto whitespace-pre-line">
+                    Gras Support: {'\n'}
+                    570-790-1185</H4>
+                    </FlexBox>
         </Page>
     );
 }

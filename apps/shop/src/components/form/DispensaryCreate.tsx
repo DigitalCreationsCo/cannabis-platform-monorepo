@@ -7,13 +7,13 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import * as yup from 'yup';
-import { useFormContext } from '../StepFormProvider';
+import { FormStepComponentProps, useFormContext } from '../StepFormProvider';
 
 // ToDo:
 // Organization Search for SearchTextField
 // Add country picker to set Country and countryCode fields
 
-function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
+function DispensaryCreate({ prevFormStep, nextFormStep }: FormStepComponentProps) {
     const { formData, setFormValues } = useFormContext();
     const [loadingButton, setLoadingButton] = useState(false);
 
@@ -92,7 +92,7 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
     }, []);
     return (
         <form className={'content relative'} onSubmit={handleSubmit}>
-            <Grid className="max-w-[525px]">
+            <Grid className="max-w-[525px] mx-auto">
                 <FlexBox className="justify-between flex-row space-x-2 pr-2 md:pr-0">
                     <FlexBox>
                     <H2>Welcome to Gras</H2>
@@ -226,6 +226,14 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
                     }
                     label={`I agree to the Dispensary Terms and Conditions`}
                 />
+
+            <FlexBox className='m-auto flex-row space-x-4 pb-20'>
+                <Button
+                    onClick={prevFormStep}
+                    disabled={loadingButton}
+                >
+                    back
+                </Button>
                 <Button
                     type="submit"
                     loading={loadingButton}
@@ -239,16 +247,17 @@ function DispensaryCreate({ nextFormStep }: { nextFormStep: () => void }) {
                 >
                     Next
                 </Button>
-                {/* <FlexBox className='items-center pt-8'>
-                    <Image
-                    className="rounded-btn"
-                    src={'/logo.png'}
-                    alt="Gras Cannabis logo"
-                    height={44}
-                    width={44}
-                    priority
-                    />
-                    </FlexBox> */}
+            </FlexBox>
+            {/* <FlexBox className='items-center pt-8'>
+                <Image
+                className="rounded-btn"
+                src={'/logo.png'}
+                alt="Gras Cannabis logo"
+                height={44}
+                width={44}
+                priority
+                />
+                </FlexBox> */}
             </Grid>
         </form>
     );

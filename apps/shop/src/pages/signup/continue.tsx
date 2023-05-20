@@ -7,11 +7,6 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { twMerge } from "tailwind-merge";
 
-type FormStepComponentProps = { 
-    nextFormStep: () => void; 
-    prevFormStep: () => void; 
-}
-
 function ContinueSignUp() {
     const user = useSelector(selectUserState)
     const isAddressAdded = useSelector(selectIsAddressAdded)
@@ -53,5 +48,4 @@ ContinueSignUp.getLayoutContext = (): LayoutContextProps => ({
 })
 
 export default ContinueSignUp
-export type { FormStepComponentProps };
 const styles = { gradient: ['bg-gradient-to-b', 'from-primary', 'to-secondary', 'p-0 lg:p-16 h-max'] };
