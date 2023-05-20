@@ -85,20 +85,20 @@ export default function middleware(req: NextRequest, res: ServerResponse) {
 //     }
 
     // redirect to / if not over 21
-    if (subdomain === 'localhost' || subdomain === 'grascannabis' && url.pathname !== '/') {
+    // if (subdomain === 'localhost' || subdomain === 'grascannabis' && url.pathname !== '/') {
 
-        let over21 = req.cookies.get('yesOver21')?.value
-        if (!over21) {
+    //     let over21 = req.cookies.get('yesOver21')?.value
+    //     if (!over21) {
 
-            // if (url.pathname === '/quick-delivery') {
-            //     return NextResponse.redirect(`http://${subDomain}/welcome?redirect=/quick-delivery`); 
-            // }
+    //         // if (url.pathname === '/quick-delivery') {
+    //         //     return NextResponse.redirect(`http://${subDomain}/welcome?redirect=/quick-delivery`); 
+    //         // }
 
-            return NextResponse.redirect(`localhost:3000`); 
-        }
-        if (over21)
-        return NextResponse.next()
-    }
+    //         return NextResponse.redirect(`localhost:3000`); 
+    //     }
+    //     // if (over21)
+    //     // return NextResponse.next()
+    // }
 
     // base url redirect to /browse
     // if (subdomain === 'localhost' || subdomain === 'grascannabis' && url.pathname === '/') {
