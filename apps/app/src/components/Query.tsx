@@ -1,6 +1,5 @@
 import { useQuery } from '@cd/core-lib';
 import { AxiosResponse } from 'axios';
-import Page404 from '../pages/404';
 
 export default function Query({
     url,
@@ -10,7 +9,6 @@ export default function Query({
     children: ({ data }: { data: AxiosResponse['data'] }) => JSX.Element;
 }) {
     const { data, statusCode } = useQuery({ url });
-    if (statusCode) return <Page404 code={statusCode} />;
-
+    if (statusCode) return null;
     return children({ data });
 }
