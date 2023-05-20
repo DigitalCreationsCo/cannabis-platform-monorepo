@@ -1,7 +1,8 @@
 import App from './src';
 
 export type DeliveryWidgetConfigOptions = {
-    dispensaryKey: string
+    key: string;
+    name?: string;
 }
 
 var init = async function (config: DeliveryWidgetConfigOptions) {

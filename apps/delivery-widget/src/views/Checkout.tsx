@@ -9,11 +9,11 @@ import CartList from "../components/CartItemList"
 import { cheerioCrawler as crawler } from "../crawler"
 import WidgetView, { WidgetViewProps } from "./WidgetView"
 
-function Checkout({ className, expandWidget, setExpandWidget, dispensaryKey }: WidgetViewProps & DeliveryWidgetConfigOptions) {
+function Checkout({ className, expandWidget, setExpandWidget, key, name }: WidgetViewProps & DeliveryWidgetConfigOptions) {
     const [cart, setCart] = useState<SimpleCart>({
         cartItems: [],
         total: 0,
-        organizationId: dispensaryKey
+        organizationId: key
     })
     const [cartError, setCartError] = useState('')
     

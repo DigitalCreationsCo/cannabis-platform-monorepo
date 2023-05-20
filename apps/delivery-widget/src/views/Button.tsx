@@ -8,7 +8,7 @@ import { twMerge } from "tailwind-merge"
 import { DeliveryWidgetConfigOptions } from '../..'
 import WidgetView, { WidgetViewProps } from "./WidgetView"
 
-function Button({ className, expandWidget, setExpandWidget }: WidgetViewProps & DeliveryWidgetConfigOptions) {
+function Button({ className, expandWidget, setExpandWidget, key, name }: WidgetViewProps & DeliveryWidgetConfigOptions) {
     
     const openWidget = () => setExpandWidget(true)
 
@@ -37,15 +37,21 @@ function Button({ className, expandWidget, setExpandWidget }: WidgetViewProps & 
 
     const md = getBreakpointValue('md')
     return (
-    <div onClick={openWidget} className={twMerge([className, "relative", "cursor-pointer", "md:rounded-full"])}>
+    <div onClick={openWidget} className={twMerge([styles.capsule, className])}>
       {expandWidget ? 
-        <div className="flex flex-row justify-between m-auto place-items-center">
+        <div className="flex flex-row items-center">
             <div className="p-6"></div>
-            <div className="flex flex-col grow p-2">
-            <Paragraph className="m-auto" color="light">Your dispensary is teaming up with Gras for home delivery. </Paragraph>
-            <H4 className="m-auto" color="light">Click here during checkout to get started.</H4>
+            {/* <div className="flex flex-col w-full grow p-2"> */}
+            <div className="p-2">
+              <Paragraph className="m-auto" color="light">
+                {name || 'Your dispensary' } is teaming up with Gras for home delivery. </Paragraph>
+                
+              <H4 className="m-auto" color="light">
+                Click here during checkout to get started.</H4>
             </div>
-            <CloseButton theme={'dark'} className="relative p-4" onClick={closeWidget} />
+            <div>
+            <CloseButton theme={'light'} className="relative p-4 border" onClick={closeWidget} />
+            </div>
         </div> :
         <div className="flex flex-col items-center">
         <div className={twMerge("tooltip tooltip-open absolute top-0 tooltip-primary")} data-tip="Click to learn more!"></div>
@@ -60,3 +66,7 @@ function Button({ className, expandWidget, setExpandWidget }: WidgetViewProps & 
 }
 
 export default WidgetView(Button)
+
+const styles = {
+  capsule: ["relative", "cursor-pointer", "md:rounded-full"],
+}
