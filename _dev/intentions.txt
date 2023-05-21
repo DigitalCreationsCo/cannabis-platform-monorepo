@@ -124,6 +124,10 @@ Complete 'continue sign up form' flow for users
 
 fix middleware directs for domain zones
 
+Write unit tests for all functions in cart.reducer, and reducer files,
+move any functions to core-lib utils
+write unit tests for all core-lib utils functions.
+
 Reconcile redux state and supertokens session across domains ! It's easy. 
 
 DO THESE THINGS THIS WEEK! BE DONE BY SATURDAY -- I DID NOT DO BY SATURDAY. I AM MAKING 4/10 LEVEL PROGRESS WITH VELOCITY

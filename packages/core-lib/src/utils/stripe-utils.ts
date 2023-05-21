@@ -6,13 +6,7 @@ import { ProductVariantWithDetails } from "@cd/data-access";
  * @returns array of stripe line item objects
  */
 function generateCheckoutLineItemsFromOrderItems(items: ProductVariantWithDetails[]) {
-
-    const 
-    lineItems = items.map(item => {
-        
-        console.log('item: ', item);
-
-        return({
+    return items.map(item => ({
             price_data: {
                 unit_amount: item.salePrice,
                 currency: 'usd',
@@ -24,11 +18,8 @@ function generateCheckoutLineItemsFromOrderItems(items: ProductVariantWithDetail
                 },  
             },
             quantity: item.quantity,
-        });
-    });
-
-    return lineItems
-}
+        }));
+    }
 
 export { generateCheckoutLineItemsFromOrderItems };
 
