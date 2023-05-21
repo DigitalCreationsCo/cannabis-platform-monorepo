@@ -14,7 +14,8 @@ handler.post(async (req: ExtendRequest, res: NextApiResponse) => {
         const response = await axios.post(urlBuilder.payment.checkout(), checkoutOrder, {
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            validateStatus: (status) => status >= 200 && status <= 400 || status === 404
         });
         
         return res.status(response.status).json(response.data);

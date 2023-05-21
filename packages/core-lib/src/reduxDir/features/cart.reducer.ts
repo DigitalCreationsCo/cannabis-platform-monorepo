@@ -516,11 +516,11 @@ function countCartSubtotal(itemList: ProductVariantWithDetails[]) {
 
 function getItemDiscountPrice(item: ProductVariantWithDetails) {
   let discount = 0;
-  if (item.discount !== discount || item.discount !== null || item.discount !== undefined) {
+  if (item.discount !== discount && item.discount !== null && item.discount !== undefined) {
     discount = item.discount;
     return calcSalePrice(item.basePrice, discount)
   }
-  else return item.basePrice;
+  else return item.basePrice
 }
 
 async function processCartItemsForCheckout (items: ProductVariantWithDetails[]) {

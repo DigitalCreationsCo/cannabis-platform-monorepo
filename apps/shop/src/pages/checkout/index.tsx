@@ -21,7 +21,8 @@ function Checkout() {
             // validate the order with yup
             const response = await axios.post(
                 urlBuilder.shop + '/api/stripe/checkout-session', 
-                order);
+                order,
+            { validateStatus: () => true });
 
             if (response.status === 404) {
                 throw new Error(response.data);
@@ -31,6 +32,11 @@ function Checkout() {
                 throw new Error(response.data);
             }
             
+            if (response.status === 302) {
+                setLoadingButton(true);
+                if (response.data.success)
+                window.location.href = response.data.redirect
+            }
         }
         catch (error: any) {
             console.error(error)

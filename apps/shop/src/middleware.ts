@@ -57,21 +57,23 @@ export default function middleware(req: NextRequest, res: ServerResponse) {
     }
 
     // rewrite to /_stores/*
-    if (subdomain !== 'app' && subdomain !== 'grascannabis' && subdomain !== 'localhost') {
-        console.log('stores path')
-        if (url.pathname !== '/') {
-            console.log('url pathname? ', url.pathname)
-            console.log('go to: ', `${req.nextUrl.origin}${url.pathname}`, )
+    // if (subdomain !== 'app' && subdomain !== 'grascannabis' && subdomain !== 'localhost') {
+    // if (subdomain !== 'app' && subdomain !== 'grascannabis' && subdomain !== 'localhost') {
+    //     console.log('stores path')
+    //     // if (url.pathname !== '/') {
+    //     //     console.log('url pathname? ', url.pathname)
+    //     //     console.log('go to: ', `${req.nextUrl.origin}${url.pathname}`, )
             
-            return NextResponse.redirect(`http://localhost:3000${url.pathname}`);
-        }
+    //     //     return NextResponse.redirect(`http://localhost:3000${url.pathname}`);
+    //     // }
 
-        else if (url.pathname === '/'){
-            console.log('go to storefront')
-        return NextResponse.redirect(new URL(`/_stores/${subdomain}${url.pathname}`, req.nextUrl.origin));
+    //     // else if (url.pathname === '/'){
+    //         console.log('go to storefront')
+    //     // return NextResponse.redirect(new URL(`/_stores/${subdomain}${url.pathname}`, req.nextUrl.origin));
+    //     return NextResponse.rewrite(formatDispensaryUrl(subdomain));
 
-        }
-    }
+    //     // }
+    // }
 
     // base url redirect to /browse if over21
     if (url.pathname === '/' && subdomain === 'localhost' || subdomain === 'grascannabis') {

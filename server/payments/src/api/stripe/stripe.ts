@@ -29,9 +29,6 @@ class StripeService {
                     },
                 },
                 customer_email: order.customer.email,
-                shipping_address_collection: {
-                    allowed_countries: ['US'],
-                },
             });
             
             return session

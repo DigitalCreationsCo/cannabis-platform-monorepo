@@ -87,10 +87,6 @@ function ProvideStripeAccountId({ nextFormStep }: { nextFormStep: () => void }) 
 
             console.log('response: ', response)
 
-            // if (response.headers.location !== undefined) {
-            // window.location.href = response?.headers?.location; 
-            // }
-
             if (response.status === 302) {
                 setIsRedirecting(true);
                 if (response.data.success)

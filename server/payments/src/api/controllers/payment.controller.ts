@@ -43,7 +43,6 @@ export default class PaymentController {
             throw new Error(`We're sorry, but this dispensary is not accepting payments at this time.`)
 
             const checkout = await StripeService.createCheckout(order, stripeAccountId);
-            console.log('stripe checkout: ', checkout)
 
             return res.status(302).send({ 
                 success: true, 
