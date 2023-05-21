@@ -17,11 +17,11 @@ handler.post(async (req: ExtendRequest, res: NextApiResponse) => {
             }
         });
         
-        res.status(res.statusCode).json(response.data);
+        return res.status(response.status).json(response.data);
         
     } catch (error: any) {
-        console.log('next route: checkout-session error: ', error.data.message);
-        throw new Error(error);
+        console.log('next api checkout-session error: ', error.message);
+        throw new Error(error.message);
     }
 });
 

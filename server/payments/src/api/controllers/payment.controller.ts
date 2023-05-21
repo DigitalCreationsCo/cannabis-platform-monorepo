@@ -22,30 +22,50 @@ export default class PaymentController {
             
             const order: OrderWithDetails 
             = req.body
+
+            if (!order)
+            throw new Error('No order found.')
+
+            if (!order.items || order.items.length === 0)
+            throw new Error('No items in order')
             
-            console.log('create checkout route')
-            if (order && order.items.length > 0) {
+            console.log('payment controller, checkout order: ', order)
+            console.error('organization id: ', order.organizationId)
+            console.error('stripe account id: ', order.organization.stripeAccountId)
+            
+            let 
+            stripeAccountId = order.organization.stripeAccountId
+
+            if (!stripeAccountId) 
+            stripeAccountId = await getStripeAccountId(order.organizationId)
+
+            if (!stripeAccountId)
+            throw new Error(`We're sorry, but this dispensary is not accepting payments at this time.`)
+
+            const checkout = await StripeService.createCheckout(order, stripeAccountId);
+            console.log('stripe checkout: ', checkout)
+
+            return res.status(302).send({ 
+                success: true, 
+                message: 'Stripe checkout is created.',
+                redirect: checkout.url })
                 
-                let 
-                stripeAccountId = order.organization.stripeAccountId
-
-                if (!stripeAccountId) 
-                stripeAccountId = await getStripeAccountId(order.organizationId)
-
-                if (!stripeAccountId) throw new Error('Sorry! Your order cannot be processed from this dispensary at the moment.')
-                console.log('stripeAccountId: ', stripeAccountId)
-
-                const checkout = await StripeService.createCheckout(order, stripeAccountId);
-                console.log('stripe checkout: ', checkout)
-
-                return res.writeHead(302, {
-                    'Location': checkout.url
-                })
-                
-            } else throw new Error('No items in order'); // should not see this
         } catch (error: any) {
             console.log('create checkout error: ', error.message)
-            res.status(500).json({ error });
+            
+            if (error.message === 'No order found.')
+            return res.status(400).json({ error });
+
+            if (error.message === 'No items in order')
+            return res.status(400).json({ error });
+            
+            if (error.message === `We're sorry, but this dispensary is not accepting payments at this time.`)
+            return res.status(400).json({ error });
+
+            if (error.message === 'No items in order')
+            return res.status(400).json({ error });
+            
+            return res.status(500).json({ error });
         }
     }
     

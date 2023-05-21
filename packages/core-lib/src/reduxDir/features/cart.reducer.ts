@@ -145,7 +145,7 @@ export const createOrderForCheckout = createAsyncThunk<OrderCreate, void>(
           deliveredAt: null,
           createdAt: Date.now(),
 
-          items: cart.cart
+          items: await processCartItemsForCheckout(cart.cart)
         }
 
         return thunkAPI.fulfillWithValue(order);
@@ -521,6 +521,10 @@ function getItemDiscountPrice(item: ProductVariantWithDetails) {
     return calcSalePrice(item.basePrice, discount)
   }
   else return item.basePrice;
+}
+
+async function processCartItemsForCheckout (items: ProductVariantWithDetails[]) {
+  return items.map((item) => ({ ...item, salePrice: getItemDiscountPrice(item) }))
 }
 
 export const cartActions = {
