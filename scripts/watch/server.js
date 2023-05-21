@@ -1,6 +1,5 @@
 const child_process = require('child_process');
 
-// commands list
 const commands = [
     // {
     //     name: 'Test',
@@ -8,24 +7,6 @@ const commands = [
     //     args: ['hello'],
     //     cwd: "../packages/data-access"
     // },
-    {
-        name: 'data-access',
-        command: 'yarn',
-        args: ['watch'],
-        cwd: "../packages/data-access"
-    },
-    {
-        name: 'core-lib',
-        command: 'yarn',
-        args: ['watch'],
-        cwd: "../packages/core-lib"
-    },
-    {
-        name: 'ui-lib',
-        command: 'yarn',
-        args: ['watch'],
-        cwd: '../packages/ui-lib'
-    },
     {
         name: 'server-main',
         command: 'yarn',
