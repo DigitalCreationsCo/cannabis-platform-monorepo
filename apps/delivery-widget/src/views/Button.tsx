@@ -8,7 +8,7 @@ import { twMerge } from "tailwind-merge"
 import { DeliveryWidgetConfigOptions } from '../..'
 import WidgetView, { WidgetViewProps } from "./WidgetView"
 
-function Button({ className, expandWidget, setExpandWidget, key, name }: WidgetViewProps & DeliveryWidgetConfigOptions) {
+function Button({ className, expandWidget, setExpandWidget, name }: WidgetViewProps & DeliveryWidgetConfigOptions) {
     
     const openWidget = () => setExpandWidget(true)
 

@@ -21,6 +21,7 @@ function Checkout() {
         const response = await axios.post(urlBuilder.shop + '/api/stripe/checkout-session', order)
      }
 
+     console.log('order', order)
     return (
         <>
         { isLoading && <LoadingPage />}
@@ -54,7 +55,7 @@ function Checkout() {
                                 <div className={twMerge(styles.box)}>
                                     <H3 className={styles.heading}>
                                         {order?.organization?.name || ''}</H3>
-                                    <Paragraph className="text-center">{renderAddress({ address: order.organization.address })}</Paragraph>
+                                    <Paragraph className="text-center">{renderAddress({ address: order.organization })}</Paragraph>
                                 </div>
                             </div>
                             <ReviewDeliveryAddress orderAddress={order.destinationAddress} />      
