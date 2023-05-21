@@ -1,6 +1,6 @@
 import { useCheckHrefIncludes } from '@cd/core-lib/src/utils/useCheckHrefIncludes'
 import CloseButton from "@cd/ui-lib/src/components/button/CloseButton"
-import { H4, Paragraph } from "@cd/ui-lib/src/components/Typography"
+import { Paragraph, Small } from "@cd/ui-lib/src/components/Typography"
 import { getBreakpointValue } from "@cd/ui-lib/src/hooks/useBreakpoint"
 import { useEffect, useState } from "react"
 import { useNavigate } from 'react-router-dom'
@@ -35,31 +35,38 @@ function Button({ className, expandWidget, setExpandWidget, key, name }: WidgetV
       useCheckHrefIncludes('checkout') ? history('/checkout') : null 
     })
 
-    const md = getBreakpointValue('md')
+    const md = getBreakpointValue('md');
+    
     return (
     <div onClick={openWidget} className={twMerge([styles.capsule, className])}>
       {expandWidget ? 
         <div className="flex flex-row items-center">
             <div className="p-6"></div>
-            {/* <div className="flex flex-col w-full grow p-2"> */}
-            <div className="p-2">
+
+            <div className="flex flex-col p-2">
               <Paragraph className="m-auto" color="light">
                 {name || 'Your dispensary' } is teaming up with Gras for home delivery. </Paragraph>
                 
-              <H4 className="m-auto" color="light">
-                Click here during checkout to get started.</H4>
+              <Small className="m-auto" color="light">
+                Click here during checkout to get started.</Small>
             </div>
+            
             <div>
             <CloseButton theme={'light'} className="relative p-4 border" onClick={closeWidget} />
             </div>
+            
         </div> :
         <div className="flex flex-col items-center">
-        <div className={twMerge("tooltip tooltip-open absolute top-0 tooltip-primary")} data-tip="Click to learn more!"></div>
-          {
-          screenwidth <= md ? 
-          <H4 color="light">Delivery by Gras available at checkout</H4> : <>
-          <H4 color="light">Delivery by Gras</H4>
-          <Paragraph color="light">now at checkout</Paragraph></>}
+          <div className={twMerge("tooltip tooltip-open bg-primary absolute top-0 tooltip-primary")} 
+          data-tip="Click to learn more!"></div>
+
+          { screenwidth <= md ? 
+          <Paragraph color="light">
+            Delivery by Gras available at checkout</Paragraph> 
+            : <>
+          <Paragraph color="light">Delivery by Gras</Paragraph>
+          <Small color="light">now at checkout</Small></>}
+
         </div>}
     </div>
     )
