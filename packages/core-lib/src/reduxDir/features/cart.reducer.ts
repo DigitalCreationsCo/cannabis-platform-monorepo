@@ -390,6 +390,21 @@ const cartSlice = createSlice({
 
     clearState: () => initialState,
 
+    emptyCart: (state) => {
+      state.cart = [];
+      state.dispensaryName = '';
+      state.organizationId = '';
+      state.totalItems = 0;
+      state.subtotal = 0;
+      state.total = 0;
+      state.taxFactor = 0;
+      state.taxAmount = 0;
+      state.isLoading = false;
+      state.isSuccess = false;
+      state.isError = false;
+      state.errorMessage = "";
+    },
+
     updateItem: (state, { payload }: PayloadAction<ProductVariantWithDetails>) => {
       const itemInCart = state.cart.find(
         item => item.id == payload.id

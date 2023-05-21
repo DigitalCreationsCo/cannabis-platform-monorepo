@@ -1,13 +1,18 @@
-import { selectCartState } from '@cd/core-lib';
+import { cartActions, selectCartState } from '@cd/core-lib';
 import { Card, Center, H3, Page, Small } from "@cd/ui-lib";
-import { useState } from 'react';
+import { useEffect } from 'react';
 import Confetti from "react-confetti";
 import { useSelector } from 'react-redux';
+import { useAppDispatch } from 'redux/hooks';
 
 function CheckoutSuccess() {
-    const [loadingButton, setLoadingButton] = useState(false);
     
-    const { order, isLoading } = useSelector(selectCartState)
+    const dispatch = useAppDispatch()
+    const { order } = useSelector(selectCartState)
+
+    useEffect(() => {
+        dispatch(cartActions.emptyCart())
+    }, [])
     
     return (
         <Page>

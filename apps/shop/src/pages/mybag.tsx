@@ -1,4 +1,4 @@
-import { modalActions, modalTypes, selectCartState, selectIsAddressAdded, selectUserState } from '@cd/core-lib';
+import { modalActions, modalTypes, selectIsAddressAdded, selectIsCartEmpty, selectUserState } from '@cd/core-lib';
 import { Card, CheckoutButton, H3, Page } from '@cd/ui-lib';
 import RenderCart from 'components/cart/RenderCart';
 import { useRouter } from 'next/router';
@@ -21,13 +21,15 @@ function CartPage() {
         }
     }
     
-    const { totalItems } = useSelector(selectCartState);
+    const bagIsEmpty = useSelector(selectIsCartEmpty) as boolean;
     return (
         <Page>
             <Card className={twMerge(styles.cartContainer)}>
                 <H3 className="px-8 absolute">My Bag</H3>
                 <RenderCart />
-                <CheckoutButton onClick={checkoutOrSignUp} />
+                <CheckoutButton 
+                disabled={bagIsEmpty}
+                onClick={checkoutOrSignUp} />
             </Card>
         </Page>
     );
