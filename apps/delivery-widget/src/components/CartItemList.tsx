@@ -1,7 +1,7 @@
 import { SimpleCart } from '@cd/core-lib/src/reduxDir/features/cart.reducer';
 import SimpleCartItem from '@cd/ui-lib/src/components/cart/SimpleCartItem';
 import Price from "@cd/ui-lib/src/components/Price";
-import { H5, Paragraph } from "@cd/ui-lib/src/components/Typography";
+import { Paragraph, Small } from "@cd/ui-lib/src/components/Typography";
 import { useEffect } from "react";
 
 type CartListProps = {
@@ -29,29 +29,34 @@ function CartList({cart, cartError, setExpandWidget} : CartListProps) {
         createCheckoutCookie()
     }, [])
 
-    const styles = {
-        cartContainer: "w-2/3 m-auto flex flex-col grow items-stretch justify-stretch"
-    }
     return (
-        <div className='items-center space-y-1 w-3/4 m-auto'>
-        <Paragraph className='text-light text-lg'>
-            We can deliver your order straight to your home.
-            If you wish to make any changes, edit your{' '}
-            <a onClick={() => setExpandWidget(false)} className="cursor-pointer border-b-secondary">
-                Cart</a>
-                , and return here for checkout.
-            </Paragraph>
+        <div className={styles.container}>
+        <Small className='text-light'>
+            <b>Gras</b> will deliver your order straight to your door.
+            If you're ready to checkout, click the Checkout button below.
+            </Small>
+            
         <div className={styles.cartContainer}>
-            {cart.cartItems.length > 0 && cart.cartItems.map((cartItem, index) => (
-                <>
+            {cart.cartItems.length > 0 && 
+                cart.cartItems.map((cartItem, index) => (<>
                 {index > 0 && <hr className='border-secondary' />}
-                <SimpleCartItem key={`cart-item-${index}`} product={cartItem}/>
+                
+                <SimpleCartItem 
+                key={`cart-item-${index}`} 
+                product={cartItem}/>
                 </>
-            )) || <Paragraph className='text-light'>Your cart is empty.</Paragraph>
+                )) || 
+                
+                <Small className='text-light'>
+                    Your cart is empty.</Small>
             }
-            {cart && <H5 className='flex justify-end text-light'>
+            
+            {cart && 
+            <Paragraph className='flex justify-end text-light'>
                 Your total is
-            <Price className='pl-2 text-light' basePrice={cart.total} /></H5>}
+                <Price className='pl-2 text-light' 
+                basePrice={cart.total} />
+                </Paragraph>}
         </div>
         
         {cartError && <Paragraph>{cartError}</Paragraph>}
@@ -59,23 +64,9 @@ function CartList({cart, cartError, setExpandWidget} : CartListProps) {
     );
 }
 
-// const CartItem = ({ cartItem }: {cartItem: ProductVariantWithDetails}) => {
-//     return (
-//         // <div className='grid-item grow w-fit flex flex-col items-stretch justify-stretch grow'>
-//         //     <img src={cartItem.images[0].location} className="h-[80px] w-[80px] rounded" />
-//         //     <div className="flex flex-row justify-between space-x-2">
-//         //         <Paragraph className='text-light'>{cartItem.name}</Paragraph>
-//         //         <Paragraph className='text-light'>{cartItem.size}{cartItem.unit}</Paragraph>
-//         //     </div>
-//         //     <div className='text-light'><Price price={cartItem.basePrice} /></div>
-//         // </div>
-//         <div className='w-full flex flex-row space-x-2 justify-between grow'>
-//             {/* <img src={cartItem.images[0].location} className="h-[80px] w-[80px] rounded" /> */}
-//                 <Paragraph className='text-light'>{cartItem.name}</Paragraph>
-//                 <Paragraph className='text-light items-end grow'>{cartItem.size}{cartItem.unit}</Paragraph>
-//             <div className='text-light'><Price price={cartItem.basePrice} /></div>
-//         </div>
-//     )
-// }
-
 export default CartList;
+
+const styles = {
+    container: 'items-center space-y-1 w-full m-auto',
+    cartContainer: "w-2/3 m-auto flex flex-col grow items-stretch justify-stretch"
+}
