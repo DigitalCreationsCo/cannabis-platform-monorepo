@@ -1,6 +1,7 @@
 import { Address, Driver, Order, OrderStatus, Organization, Prisma, ProductVariant, User } from "@prisma/client";
 import { AddressWithDetails } from "./address";
 import prisma from "./db/prisma";
+import { OrganizationWithShopDetails } from "./organization";
 import { ProductVariantWithDetails } from "./product";
 import { UserWithDetails } from "./user";
 
@@ -238,8 +239,8 @@ export type OrderCreate = {
     customer: UserWithDetails | null
     
     organizationId: string
-    organization: Organization
-    // organization: OrganizationWithShopDetails
+    // organization: Organization
+    organization: OrganizationWithShopDetails
 
     driverId?: string | null
     driver: Driver | null

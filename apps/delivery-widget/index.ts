@@ -1,7 +1,7 @@
 import App from './src';
 
 export type DeliveryWidgetConfigOptions = {
-    key: string;
+    dispensaryKey: string;
     name?: string;
 }
 

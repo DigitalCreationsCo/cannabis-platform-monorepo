@@ -6,18 +6,6 @@ import Button from './views/Button';
 import Checkout from './views/Checkout';
 
 const App = (configProps: DeliveryWidgetConfigOptions) => {
-    // const [scrollHeight, setScrollHeight] = React.useState(0)
-    
-    // const setScroll = () => {
-    //     setScrollHeight(window.scrollY)
-    // }
-    
-    // useEffect(() => {
-    //     window.addEventListener('scroll', setScroll);
-    //     return () => {
-    //         window.removeEventListener('scroll', setScroll)
-    //     }
-    // }, [])
     return (
         // top div is used to keep the button at the bottom of the page, 
         // while also allowing the button to be sticky
@@ -26,7 +14,6 @@ const App = (configProps: DeliveryWidgetConfigOptions) => {
         <div className="fixed bottom-0 h-auto md:right-0 md:m-4">
             <Routes>
                 <Route path="/" element={Button(configProps)} />
-                
                 <Route path="/checkout" element={Checkout(configProps)} />
             </Routes>
         </div>
