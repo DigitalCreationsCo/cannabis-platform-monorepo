@@ -1,4 +1,4 @@
-import { ProductVariantWithDetails } from "@cd/data-access"
+import { ProductVariantWithDetails } from "@cd/data-access";
 
 /**
  * format order Items list into stripe line items list
@@ -6,23 +6,29 @@ import { ProductVariantWithDetails } from "@cd/data-access"
  * @returns array of stripe line item objects
  */
 function generateCheckoutLineItemsFromOrderItems(items: ProductVariantWithDetails[]) {
-    return items && items?.length > 0 && items?.map(item => {
-        return {
+
+    const 
+    lineItems = items.map(item => {
+        
+        console.log('item: ', item);
+
+        return({
             price_data: {
+                unit_amount: item.salePrice,
                 currency: 'usd',
                 product_data: {
                     name: item.name,
-                    unit_label: item.unit,
                     metadata: {
                         productId: item.productId,
                     }
                 },  
-                unit_amount: item.salePrice,
             },
             quantity: item.quantity,
-        }
-    }) || []
+        });
+    });
+
+    return lineItems
 }
 
-export { generateCheckoutLineItemsFromOrderItems }
+export { generateCheckoutLineItemsFromOrderItems };
 

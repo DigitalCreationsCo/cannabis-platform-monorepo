@@ -1,27 +1,59 @@
-import { selectCartState, selectIsCartEmpty, selectSelectedLocationState, selectUserState } from '@cd/core-lib/reduxDir';
-import { renderAddress, urlBuilder } from '@cd/core-lib/utils';
+import { renderAddress, selectCartState, selectIsCartEmpty, selectSelectedLocationState, selectUserState, urlBuilder } from '@cd/core-lib';
 import { Address } from '@cd/data-access';
-import { Button, FlexBox, Paragraph } from '@cd/ui-lib';
-import { Card, H3, H4, LoadingPage, Page } from "@cd/ui-lib/components";
+import { Button, Card, FlexBox, H3, H4, LoadingPage, Page, Paragraph } from '@cd/ui-lib';
 import axios from 'axios';
 import { useState } from 'react';
-// import axios from 'axios';
+import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import { RenderCart } from '../../components';
 
 function Checkout() {
 
+    const [loadingButton, setLoadingButton] = useState(false);
+    
     const { order, isLoading } = useSelector(selectCartState)
 
     const cartIsEmpty = useSelector(selectIsCartEmpty)
 
-    const createStripeCheckout = async () => { 
-        // validate the order with yup
-        const response = await axios.post(urlBuilder.shop + '/api/stripe/checkout-session', order)
-     }
+    async function createStripeCheckout () {
+        try {
+            // validate the order with yup
+            const response = await axios.post(
+                urlBuilder.shop + '/api/stripe/checkout-session', 
+                order);
 
-     console.log('order', order)
+            if (response.status === 404) {
+                throw new Error(response.data);
+            }
+
+            if (response.status === 400) {
+                throw new Error(response.data);
+            }
+            
+        }
+        catch (error: any) {
+            console.error(error)
+            throw new Error(error.message)
+        }
+    }
+
+    const onSubmit = async () => {
+        try {
+            setLoadingButton(true);
+            
+            createStripeCheckout();
+
+            toast.success('Success');
+            setLoadingButton(false);
+            
+        } catch (error: any) {
+            console.log('Checkout error ', error);
+            toast.error(error.message);
+            setLoadingButton(false);
+        }
+    };
+
     return (
         <>
         { isLoading && <LoadingPage />}
@@ -34,31 +66,43 @@ function Checkout() {
                     <div className={styles.banner}>
                         <div><H4>
                             You're ready for checkout</H4>
+                            
                         <Paragraph>
                             You can review your order here, and hit <b>Place my order</b> to start delivery.</Paragraph>
                         </div>
+                        
                         <div className="lg:w-[300px] h-fit">
                             <Button className='m-auto w-[200px]'
-                            size='lg' bg={'primary'} hover={'primary-light'}
-                            onClick={createStripeCheckout} 
-                            disabled={!!cartIsEmpty}>
+                            onClick={onSubmit} 
+                            loading={loadingButton}
+                            disabled={!!cartIsEmpty}
+                            size='lg' 
+                            bg={'primary'} 
+                            hover={'primary-light'}>
                                 Place my order</Button>
                         </div>
                     </div>
                     
                     <div className={styles.checkout}>
                         <RenderCart />
+                        
                         <FlexBox className={styles.review}>
                             <div className={styles.container}>
                                 <Paragraph className={styles.heading}>
                                     Order from</Paragraph>
+                                    
                                 <div className={twMerge(styles.box)}>
                                     <H3 className={styles.heading}>
                                         {order?.organization?.name || ''}</H3>
-                                    <Paragraph className="text-center">{renderAddress({ address: order.organization })}</Paragraph>
+                                        
+                                    <Paragraph className="text-center">
+                                        {renderAddress({ address: order.organization.address })}</Paragraph>
                                 </div>
                             </div>
-                            <ReviewDeliveryAddress orderAddress={order.destinationAddress} />      
+                            
+                            <ReviewDeliveryAddress 
+                            orderAddress={order.destinationAddress} 
+                            />      
                         </FlexBox>              
                     </div>
                     

@@ -13,25 +13,33 @@ class StripeService {
      * @param order
      * @param dispensaryStripeAccountId
      */
-    async createCheckout(order: OrderWithDetails, dispensaryStripeAccountId: string) {        
-        const session = await this.stripe.checkout.sessions.create({
-            mode: 'payment',
-            success_url: process.env.NEXT_PUBLIC_SHOP_APP_CHECKOUT_SUCCESS_URL,
-            cancel_url: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/checkout`,
-            line_items: generateCheckoutLineItemsFromOrderItems(order.items),
-            
-            payment_intent_data: {
-                application_fee_amount: calculatePlatformFeeForTransaction(123),
-                transfer_data: {
-                    destination: dispensaryStripeAccountId
+    async createCheckout(order: OrderWithDetails, dispensaryStripeAccountId: string) {      
+        try {
+            let
+            session = await this.stripe.checkout.sessions.create({
+                mode: 'payment',
+                success_url: process.env.NEXT_PUBLIC_SHOP_APP_CHECKOUT_SUCCESS_URL,
+                cancel_url: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/checkout`,
+                line_items: generateCheckoutLineItemsFromOrderItems(order.items),
+                
+                payment_intent_data: {
+                    application_fee_amount: calculatePlatformFeeForTransaction(123),
+                    transfer_data: {
+                        destination: dispensaryStripeAccountId
+                    },
                 },
-            },
-            customer_email: order.customer.email,
-            shipping_address_collection: {
-                allowed_countries: ['US'],
-            },
-        });
-        return session
+                customer_email: order.customer.email,
+                shipping_address_collection: {
+                    allowed_countries: ['US'],
+                },
+            });
+            
+            return session
+            
+        } catch (error: any) {
+            console.error('stripe create checkout error: ', error)
+            throw new Error(error.message)
+        }
     }
 
     /**
