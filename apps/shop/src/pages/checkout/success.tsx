@@ -17,12 +17,13 @@ function CheckoutSuccess() {
     return (
         <Page>
             <Confetti />
-            <Card className='m-auto md:max-w-[500px]'>
+            <Card className='m-auto md:max-w-[500px] cursor-default'>
             <Center className='space-y-2'>
-                <H3>Thank you for ordering Delivery&nbsp;by&nbsp;Gras.</H3>
-                <Small>From <b>{order.organization.name}</b> and <b>Gras</b>,
-                we appreciate your business and the opportunity to serve our community.</Small>
-
+                <H3 className='text-primary hover:text-primary-light transition'>
+                    Thank you for ordering Delivery&nbsp;by&nbsp;Gras.</H3>
+                <Small>
+                    <b>{order.organization.name}</b> and <b>Gras</b>{' '}
+                    appreciates your business and the opportunity to serve our community. ❤️</Small>
                 <Small>
                 Your order is being sent to a Gras Delivery Person, and will be delivered soon!{'\n'}
                 {/* You will receive an email with your order details. */}

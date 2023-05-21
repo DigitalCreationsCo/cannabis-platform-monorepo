@@ -49,7 +49,8 @@
     "test": "../../node_modules/jest/bin/jest.js",
     "test:fix": "../../node_modules/jest/bin/jest.js --detectOpenHandles",
     "test:watch": "../../node_modules/jest/bin/jest.js --watchAll",
-    "watch": "rimraf ./node_modules/.cache && dotenv -e ../../.env.development -- babel-watch -e \".ts\" -c ./babel.config.js ./src/index.ts"
+    "watch": "rimraf ./node_modules/.cache && dotenv -e ../../.env.development -- babel-watch -e \".ts\" -c ./babel.config.js ./src/index.ts",
+    "stripe:listen-dev": "stripe listen --forward-to localhost:6021/webhook"
   },
   "version": "0.0.1"
 }

@@ -192,8 +192,21 @@ class StripeService {
             throw new Error(error.message);
         }
     }
+
+    async constructEvent (payload, signature) {
+        try {
+            const
+            event = await this.stripe.webhooks.constructEvent(payload, signature, process.env.STRIPE_WEBHOOK_SECRET);
+            return event
+        } catch (error: any) {
+            console.error('StripeService: construct event: ', error.message);
+            throw new Error(error.message);
+        }
+    }
 }
 
-export default new StripeService(process.env.STRIPE_API_KEY_SECRET, {
+const stripeService = new StripeService(process.env.STRIPE_API_KEY_SECRET, {
     apiVersion: process.env.STRIPE_API_VERSION || '2022-11-15'
 })
+
+export default stripeService;

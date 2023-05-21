@@ -31,13 +31,16 @@ export default class PaymentController {
             
             console.log('payment controller, checkout order: ', order)
             console.error('organization id: ', order.organizationId)
-            console.error('stripe account id: ', order.organization.stripeAccountId)
+            console.error('stripe account id from order: ', order.organization.stripeAccountId)
             
             let 
             stripeAccountId = order.organization.stripeAccountId
 
             if (!stripeAccountId) 
             stripeAccountId = await getStripeAccountId(order.organizationId)
+
+            console.error('lookup stride account id')
+            console.error('stripe account id: ', stripeAccountId)
 
             if (!stripeAccountId)
             throw new Error(`We're sorry, but this dispensary is not accepting payments at this time.`)
