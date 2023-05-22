@@ -193,8 +193,11 @@ class StripeService {
         }
     }
 
-    async constructEvent (payload, signature) {
+    async constructEvent (payload: any, signature: string) {
         try {
+            
+            console.log('type of payload ', typeof payload)
+            
             const
             event = await this.stripe.webhooks.constructEvent(payload, signature, process.env.STRIPE_WEBHOOK_SECRET);
             return event

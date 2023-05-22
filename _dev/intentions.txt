@@ -159,6 +159,7 @@ WIN.
 Improvements:
 save bag content to database, to recall it when the user sign in
 
+Add global axios config for apps
 Take all the notes an add them into JSDOCS in the relevant files and functions ;P
 
 ! Should encrypt the widget cart token, when its save in cookie. in the future.
