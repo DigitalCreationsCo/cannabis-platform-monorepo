@@ -18,29 +18,35 @@ function Checkout() {
 
     async function createStripeCheckout () {
         try {
-            // validate the order with yup
-            const response = await axios.post(
+
+            const 
+            response = await axios.post(
                 urlBuilder.shop + '/api/stripe/checkout-session', 
                 order,
-            { validateStatus: () => true });
+            { validateStatus: () => true }
+            );
 
-            if (response.status === 404) {
-                throw new Error(response.data);
-            }
+            console.log('response: ', response)
 
-            if (response.status === 400) {
-                throw new Error(response.data);
-            }
+            if (response.status === 404)
+            throw new Error(response.data);
+
+            if (response.status === 400)
+            throw new Error(response.data);
+
+            if (response.status === 500)
+            throw new Error("We're sorry. Checkout is not available. Please try again later.");
             
             if (response.status === 302) {
                 setLoadingButton(true);
                 if (response.data.success)
                 window.location.href = response.data.redirect
             }
+            
         }
         catch (error: any) {
-            console.error(error)
-            throw new Error(error.message)
+            console.error('create checkout error:', error)
+            throw new Error(error.message )
         }
     }
 
@@ -48,13 +54,14 @@ function Checkout() {
         try {
             setLoadingButton(true);
             
+            await 
             createStripeCheckout();
 
             toast.success('Success');
             setLoadingButton(false);
             
         } catch (error: any) {
-            console.log('Checkout error ', error);
+            console.log('submit checkout error ', error);
             toast.error(error.message);
             setLoadingButton(false);
         }

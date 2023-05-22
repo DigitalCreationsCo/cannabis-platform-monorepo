@@ -22,11 +22,14 @@ app.use("/api/v1/payment", paymentRoutes);
 app.use("/api/v1/accounts", accountRoutes);
 
 app.post('/webhook', bodyParser.raw({type: 'application/json'}), (req, res) => {
+    
     const 
-    payload = req.body;
+    payload = req.body
+
+    console.log('type of payload ', typeof payload)
 
     const
-    _sig = req.headers['stripe-signature'];
+    _sig = req.headers['stripe-signature'] as string;
 
     let event;
 
