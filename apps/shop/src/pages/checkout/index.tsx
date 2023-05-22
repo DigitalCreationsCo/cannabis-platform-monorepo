@@ -1,5 +1,5 @@
 import { renderAddress, selectCartState, selectIsCartEmpty, selectSelectedLocationState, selectUserState, urlBuilder } from '@cd/core-lib';
-import { Address } from '@cd/data-access';
+import { Address, AddressUserCreateType } from '@cd/data-access';
 import { Button, Card, FlexBox, H3, H4, LoadingPage, Page, Paragraph } from '@cd/ui-lib';
 import axios from 'axios';
 import { useState } from 'react';
@@ -85,13 +85,16 @@ function Checkout() {
                         </div>
                         
                         <div className="lg:w-[300px] h-fit">
-                            <Button className='m-auto w-[200px]'
-                            onClick={onSubmit} 
+                            <Button 
+                            className={twMerge(
+                                loadingButton ? 'bg-primary-light' : 'bg-primary', 
+                                'm-auto w-[200px]' )}
                             loading={loadingButton}
                             disabled={!!cartIsEmpty}
+                            bg='primary'
                             size='lg' 
-                            bg={'primary'} 
-                            hover={'primary-light'}>
+                            hover={'primary-light'}
+                            onClick={onSubmit}>
                                 Place my order</Button>
                         </div>
                     </div>
@@ -127,7 +130,7 @@ function Checkout() {
 
 export default Checkout;
 
-function ReviewDeliveryAddress({ orderAddress }: { orderAddress: Address}) {
+function ReviewDeliveryAddress({ orderAddress }: { orderAddress: Address | AddressUserCreateType}) {
     const {user} = useSelector(selectUserState)
     const selectedAddress = useSelector(selectSelectedLocationState)
     const [address, setAddress] = useState(selectedAddress['address'])
@@ -174,7 +177,7 @@ function ReviewDeliveryAddress({ orderAddress }: { orderAddress: Address}) {
             className={twMerge([styles.box, 'flex-col w-full h-full'])}
             >
                 <Paragraph>{user?.firstName} {user?.lastName}</Paragraph>
-                <Paragraph>{renderAddress({ address: orderAddress })}</Paragraph>
+                <Paragraph>{renderAddress({ address: orderAddress as Address })}</Paragraph>
             </Button>
             }
         </div>
