@@ -1,7 +1,7 @@
 import { calculatePlatformFeeForTransaction, generateCheckoutLineItemsFromOrderItems } from "@cd/core-lib";
 import { OrderWithDetails } from "@cd/data-access";
-import { PaymentDA } from "api/data-access";
 import Stripe from "stripe";
+import { PaymentDA } from "../data-access";
 
 class StripeService {
     stripe: Stripe;
