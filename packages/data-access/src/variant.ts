@@ -1,6 +1,6 @@
-import { ImageProduct, Prisma, ProductVariant, Unit } from "@prisma/client";
-import { OrderCreate } from "order";
+import { CurrencyName, ImageProduct, Prisma, ProductVariant, Unit } from "@prisma/client";
 import prisma from "./db/prisma";
+import { OrderCreate } from "./order";
 
 /*
 *   updateVariantQuantity
@@ -12,7 +12,7 @@ export async function createProductVariantsWithoutId (items: ProductVariantCreat
         const 
         createItems = items?.filter((item) => !item.id).map((item) => ({
             name: item.name,
-            sku: item.sku || null,
+            sku: Number(item.sku) || null,
             organizationId: item.organizationId || order.organizationId,
             organizationName: item.organizationName || order.organization.name,
             // product: {
@@ -20,19 +20,30 @@ export async function createProductVariantsWithoutId (items: ProductVariantCreat
             // }
             productId: item.productId || '',
             unit: item.unit as Unit,
-            size: item.size,
-            quantity: 0,
-            basePrice: item.basePrice,
-            discount: item.discount || 0,
+            size: Number(item.size),
+            quantity: Number(0),
+            basePrice: Number(item.basePrice),
+            discount: Number(item.discount) || 0,
             isDiscount: item.isDiscount || false,
-            salePrice: item.salePrice,
+            salePrice: Number(item.salePrice),
             currency: item.currency || 'USD',
-            stock: item.stock || 0,
+            stock: Number(item.stock) || 0,
             order: {
                 connect: order.id
             },
-            images: item.images
         }));
+
+        const connectVariantImages = () => items?.filter((item) => !item.id).map((item) => {
+
+            item.images && 
+            await prisma.imageProduct.createMany({
+                    data: item?.images?.map((image: ImageProduct) => ({
+                        ...image,
+                        location: image.location,
+                        variantId: item?.id as string
+                    }));
+            }
+        });
 
         await prisma.productVariant.createMany({
             data: createItems
@@ -83,4 +94,25 @@ export type ProductVariantWithDetails = ProductVariant & {
     images?: ImageProduct[];
   };
 
-export type ProductVariantCreateType = Prisma.ProductVariantUncheckedCreateInput
+// export type ProductVariantCreateType = Prisma.ProductVariantUncheckedCreateInput
+export type ProductVariantCreateType = {
+    id?: string
+    name: string
+    sku?: number | null
+    organizationId: string
+    organizationName: string
+    productId: string
+    unit?: Unit
+    size: number
+    quantity: number
+    basePrice: number
+    discount: number
+    isDiscount: boolean
+    salePrice: number
+    currency: CurrencyName
+    stock: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    order?: Prisma.OrderUncheckedCreateNestedManyWithoutItemsInput
+    images?: ImageProduct[]
+  }
