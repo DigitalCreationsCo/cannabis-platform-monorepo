@@ -9,14 +9,14 @@ getLocalOrganizations // returns organizations within a specified proximity radi
 
 ================================= */
 
-let organizations_geo = null
-const GEO_DB_NS = process.env.GEO_DB_NS;
+let orgGeolocate = null
+const organizations_geo_namespace = process.env.ORG_GEOLOCATE_DB_NS;
 
 export default class LocationDA {
     static async useMongoDB(mongoClient: MongoClient){
-        if (organizations_geo) return
+        if (orgGeolocate) return
         try {
-            organizations_geo = await mongoClient.db(GEO_DB_NS).collection("organizations_geo");
+          orgGeolocate = await mongoClient.db(organizations_geo_namespace).collection("organizations_geolocate");
           } catch (e) {
             console.error(
               `Unable to establish collection handle in LocationDA: ${e}`
@@ -29,7 +29,7 @@ export default class LocationDA {
           console.log('coordinates: ', coordinates)
           console.log('proximityRadius: ', proximityRadius)
 
-            const local_organizations_ids = await organizations_geo
+            const local_organizations_ids = await orgGeolocate
         .aggregate([
           {
             $geoNear: {
@@ -59,7 +59,7 @@ export default class LocationDA {
 
     static async addOrganizationMongoRecord(organization: OrganizationWithShopDetails) {
       try {
-          const newOrganization = await organizations_geo.insertOne({ 
+          const newOrganization = await orgGeolocate.insertOne({ 
             id: organization.id,
             address: { ...organization.address,
             coordinates: [Number(organization.address.coordinates.longitude), Number(organization.address.coordinates.latitude)]},
@@ -74,7 +74,7 @@ export default class LocationDA {
   static async updateOrganizationMongoRecord(organization: OrganizationWithShopDetails) {
     try {
 
-      const updateOrganization = await organizations_geo.updateOne(
+      const updateOrganization = await orgGeolocate.updateOne(
         { id: organization.id },
         { $set: {
           ...organization,

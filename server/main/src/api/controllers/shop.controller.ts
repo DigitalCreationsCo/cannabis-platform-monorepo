@@ -1,4 +1,4 @@
-import { urlBuilder } from '@cd/core-lib/utils';
+import { urlBuilder } from '@cd/core-lib';
 import { OrderWithDetails } from '@cd/data-access';
 import axios from 'axios';
 import { OrderDA } from '../data-access';
@@ -52,7 +52,7 @@ export default class ShopController {
      * @param res 
      * @returns 
      */
-    static async fulfillOrderAndDispatch(req, res) {
+    static async fulfillOrderAndStartDispatch(req, res) {
         try {
             let 
             orderId: string = req.body

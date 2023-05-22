@@ -2,7 +2,8 @@ import prisma from '@cd/data-access';
 import { MongoClient } from "mongodb";
 import { LocationDA } from './api/data-access';
 import server from "./server";
-const mongoDBString = process.env.MONGODB_CREDENTIAL_STRING
+
+const mongoConnectUrl = process.env.MONGODB_SERVER_LOCATION_CLUSTER_URL
 // import { loadEnv } from '@cd/shared-config/config/loadEnv.js';
 // import { config } from 'dotenv';
 // import { expand } from 'dotenv-expand';
@@ -26,7 +27,7 @@ async function connectDb() {
   try {
     console.info(' ✈️ server-location running in ' + nodeEnv + ' mode.');
     console.info(' ✈️ server-location connecting to database... ');
-    await MongoClient.connect(mongoDBString)
+    await MongoClient.connect(mongoConnectUrl)
     .then(async (client) => {
       await LocationDA.useMongoDB(client)
       console.log(" ✈️ server-location: Mongo Database 👏 is ready for query.");

@@ -4,3 +4,19 @@ p11SAuMM4Usa0TKq
 
 dbDev1
 wYaMFDyhZJDy0i5y
+
+mongo db serverless
+organization: Delivery by Gras
+-------
+
+Project: server-dispatch
+u: deliveryByGrasmongoadmin
+p: eKdduDz4ISKRlUiS
+
+u: deliveryByGrasmongoUser1
+p :eOqjWKWk8mSewkt4
+-------
+Project: server-location
+
+u: deliveryByGraslocationadmin
+p: Cba5S9HOlBvGRveg
