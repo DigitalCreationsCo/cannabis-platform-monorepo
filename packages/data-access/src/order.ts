@@ -201,7 +201,7 @@ export async function updateOrderWithOrderItems(order: any) {
  */
 export async function updateOrder(id: string, data: Prisma.OrderUpdateArgs['data']) {
     try {
-        const update = await prisma.order.update({ where: { id }, data: {...data }})
+        const update = await prisma.order.update({ where: { id: id }, data: {...data }})
         return update
     } catch (error: any) {
         console.error(error)

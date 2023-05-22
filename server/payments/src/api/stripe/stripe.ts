@@ -131,26 +131,25 @@ class StripeService {
         }
     }
 
-    async handleWebhookEvents (event: Stripe.Event) {
-        if (event.type === 'checkout.session.completed') {
-            // Retrieve the session. If you require line items in the response, you may include them by expanding line_items.
+    async handleWebhookEvents (event: any) {
+        switch (event.type) {
+            case 'checkout.session.completed':
+                // Retrieve the session. If you require line items in the response, you may include them by expanding line_items.
+                // const 
+                // checkoutSessionWithOrderMetaData = 
+                // await this.stripe.checkout.sessions.retrieve(
+                //     event.data.object.id, 
+                //     { expand: ['lineItems'] }
+                // );
 
-            console.log('event object: ', event.data)
-            
-            const 
-            checkoutSessionWithOrderMetaData = 
-            await this.stripe.checkout.sessions.retrieve(
-                event.data.object.id, 
-                { expand: ['metadata'] }
-            );
+                const
+                order = event.data.object.metadata as CheckoutSessionMetaData
 
-            console.log(checkoutSessionWithOrderMetaData);
+                await PaymentDA.startFulfillment(order.id)
+            break;
 
-            const 
-            orderId = checkoutSessionWithOrderMetaData.metadata.id
-
-            await PaymentDA.startFulfillment(orderId)
-            
+            default:
+            console.log(`Unhandled stripe event type ${event.type}`);
         }
     }
 
@@ -241,3 +240,10 @@ const stripeService = new StripeService(process.env.STRIPE_API_KEY_SECRET, {
 })
 
 export default stripeService;
+
+type CheckoutSessionMetaData = {
+    organizationId: string;
+    addressId: string;
+    id: string;
+    customerId: string;
+}
