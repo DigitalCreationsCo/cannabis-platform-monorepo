@@ -30,7 +30,7 @@ export default class PaymentDA {
 
             await axios.post(
                 urlBuilder.main.fulfillOrder(),
-                orderId);
+                { orderId });
                 
         } catch (error: any) {
             console.error(error.message);

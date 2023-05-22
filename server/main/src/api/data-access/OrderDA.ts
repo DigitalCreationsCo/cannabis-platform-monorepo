@@ -116,6 +116,7 @@ export default class OrderDA {
 
     static async updateOrderFulfillmentStatus(orderId: string, orderStatus: OrderStatus) {
         try {
+            
             const data = await updateOrder(orderId, { orderStatus });
 
             return data;

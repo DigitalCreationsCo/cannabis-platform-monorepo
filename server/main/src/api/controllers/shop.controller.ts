@@ -55,7 +55,7 @@ export default class ShopController {
     static async fulfillOrderAndStartDispatch(req, res) {
         try {
             let 
-            orderId: string = req.body
+            orderId: string = req.body.orderId
 
             await OrderDA.updateOrderFulfillmentStatus(orderId, "Processing")
 

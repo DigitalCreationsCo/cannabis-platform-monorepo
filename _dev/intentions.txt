@@ -127,6 +127,8 @@ fix middleware directs for domain zones
 Write unit tests for all functions in cart.reducer, and reducer files,
 move any functions to core-lib utils
 write unit tests for all core-lib utils functions.
+Write unit tests for product variant data functions,
+Write unit tetst for order data functions.
 
 Reconcile redux state and supertokens session across domains ! It's easy. 
 
