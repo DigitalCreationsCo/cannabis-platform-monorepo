@@ -3,7 +3,7 @@ import { AddressUserCreateType } from "./address";
 import prisma from "./db/prisma";
 import { OrganizationWithShopDetails } from "./organization";
 import { UserWithDetails } from "./user";
-import { createProductVariantsWithoutId, ProductVariantWithDetails } from "./variant";
+import { connectVariantImages, createProductVariantsWithoutId, ProductVariantWithDetails } from "./variant";
 
 /*
 *   createOrder
@@ -19,8 +19,13 @@ export async function createOrder(order: any) {
     try {
 
         order.items = await createProductVariantsWithoutId(order?.items, order);
+
+        await 
+        connectVariantImages(order?.items);
         
         let { coordinates, userId, coordinateId, organizationId, ...destinationAddressData } = order.destinationAddress;
+
+        const itemsConnect = () => order.items?.map((item: ProductVariantWithDetails) => ({ id: item.id }))
 
         const createOrder = await prisma.order.create({
             data: { 
@@ -39,7 +44,9 @@ export async function createOrder(order: any) {
                 isCompleted: order.isCompleted,
                 deliveredAt: order.deliveredAt,
                 purchaseId: order.purchaseId,
-                items: order.items,
+                items: {
+                    connect: itemsConnect()
+                },
                 // customer: order.customer,
                 // organization: order.organization,
                 // destinationAddress: {

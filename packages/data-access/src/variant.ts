@@ -1,3 +1,4 @@
+import { createId } from '@paralleldrive/cuid2';
 import { CurrencyName, ImageProduct, Prisma, ProductVariant, Unit } from "@prisma/client";
 import prisma from "./db/prisma";
 import { OrderCreate } from "./order";
@@ -9,7 +10,7 @@ import { OrderCreate } from "./order";
  * 
  */
 
-const connectVariantImages = async (items: ProductVariantWithDetails[]) => items?.filter((item) => !item.id).forEach(async (item) => {
+export const connectVariantImages = async (items: ProductVariantWithDetails[]) => items?.filter((item) => !item.id).forEach(async (item) => {
 
     item.images && 
     await prisma.imageProduct.createMany({
@@ -23,9 +24,10 @@ const connectVariantImages = async (items: ProductVariantWithDetails[]) => items
 
 export async function createProductVariantsWithoutId (items: ProductVariantCreateType[], order: OrderCreate) {
     try {
-        
+
         const 
         createItems = items?.filter((item) => !item.id).map((item) => ({
+            id: item.id || createId(),
             name: item.name,
             sku: Number(item.sku) || null,
             organizationId: item.organizationId || order.organizationId,
@@ -43,17 +45,12 @@ export async function createProductVariantsWithoutId (items: ProductVariantCreat
             salePrice: Number(item.salePrice),
             currency: item.currency || 'USD',
             stock: Number(item.stock) || 0,
-            order: {
-                connect: order.id
-            },
         }));
 
-        await prisma.productVariant.createMany({
-            data: createItems
+        const result = await prisma.productVariant.createMany({
+            data: [...createItems]
         })
-
-        await connectVariantImages(order?.items as ProductVariantWithDetails[])
-
+        
         return createItems
         
     } catch (error: any) {
