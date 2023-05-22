@@ -4,9 +4,9 @@ import {
     findOrderWithDetails,
     findProductsByOrg,
     findProductsByText,
-    findProductWithDetails, OrderCreate, PurchaseCreate,
-    updateOrderWithOrderItems,
-    updateVariantQuantity
+    findProductWithDetails, OrderStatus, OrderWithDetails, PurchaseCreate,
+    updateOrder,
+    updateOrderWithOrderItems
 } from '@cd/data-access';
 
 /* =================================
@@ -24,12 +24,10 @@ getProductsByOrg
 getProductById
 searchProducts
 
-updateProductVariantQuantity
-
 ================================= */
 
 export default class OrderDA {
-    static async createOrder(order:OrderCreate) {
+    static async createOrder(order: OrderWithDetails): Promise<OrderWithDetails> {
         try {
             const data = await createOrder(order);
             return data;
@@ -116,9 +114,10 @@ export default class OrderDA {
         }
     }
 
-    static async updateProductVariantQuantity(variantId:string, quantity:number) {
+    static async updateOrderFulfillmentStatus(orderId: string, orderStatus: OrderStatus) {
         try {
-            const data = await updateVariantQuantity(variantId, quantity, '-')
+            const data = await updateOrder(orderId, { orderStatus });
+
             return data;
         } catch (error:any) {
             console.error(error.message);

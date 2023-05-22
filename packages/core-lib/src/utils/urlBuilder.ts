@@ -5,10 +5,13 @@ const mainUrl = process.env.NEXT_PUBLIC_SERVER_MAIN_URL;
 const locationUrl = process.env.NEXT_PUBLIC_SERVER_LOCATION_URL;
 const paymentUrl = process.env.NEXT_PUBLIC_SERVER_PAYMENTS_URL;
 const imageUrl = process.env.NEXT_PUBLIC_SERVER_IMAGE_URL;
+const dispatchUrl = process.env.NEXT_PUBLIC_SERVER_DISPATCH_URL;
 
 const urlBuilder = {
     shop,
+
     dashboard,
+
     main: {
         baseUrl: mainUrl + '/api/v1',
         healthCheck: () => urlBuilder.main.baseUrl + '/healthcheck',
@@ -18,6 +21,7 @@ const urlBuilder = {
         ordersByOrgId: (id: any) => urlBuilder.main.baseUrl + `/shop/orders/org/${id}`,
         orderById: (id: any) => urlBuilder.main.baseUrl + `/shop/orders/${id}`,
         orders: () => urlBuilder.main.baseUrl + `/shop/orders`,
+        fulfillOrder: () => urlBuilder.main.baseUrl + `/shop/orders-fulfill`,
 
         productsByOrgId: (id: any) => urlBuilder.main.baseUrl + `/shop/products/org/${id}`,
         productById: (id: any) => urlBuilder.main.baseUrl + `/shop/products/${id}`,
@@ -42,11 +46,13 @@ const urlBuilder = {
         addressByIdAndUser: (addressId: any, id: any) =>
             urlBuilder.main.baseUrl + `/auth/user/${id}/address/${addressId}`
     },
+
     location: {
         baseUrl: locationUrl + '/api/v1',
         organizationsLocal: () => urlBuilder.location.baseUrl + '/serve-local/organizations',
         organizationLocationRecord: () => urlBuilder.location.baseUrl + '/serve-local/organizations/record',
     },
+
     payment: {
         baseUrl: paymentUrl + '/api/v1',
         purchase: () => urlBuilder.payment.baseUrl + '/payment/purchase',
@@ -55,11 +61,17 @@ const urlBuilder = {
         checkOnboard: () => urlBuilder.payment.baseUrl + '/accounts/check-onboard',
         checkout: () => urlBuilder.payment.baseUrl + '/payment/checkout',
     },
+
     image: {
         baseUrl: imageUrl + '/api/v1',
         verifyIdentificationImageUpload: () => urlBuilder.image.baseUrl + '/image/scan-identification-upload',
         verifyIdentificationImageUri: () => urlBuilder.image.baseUrl + '/image/scan-identification-uri',
     },
+
+    dispatch: {
+        baseUrl: dispatchUrl + '/api/v1',
+        newOrder: () => urlBuilder.dispatch.baseUrl + '/dispatch/order/new',
+    }
 };
 
 

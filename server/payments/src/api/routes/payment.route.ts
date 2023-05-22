@@ -12,6 +12,6 @@ POST    '/purchase'             processPurchase
 
 router.route('/checkout').post(paymentCtrl.createCheckout);
 
-router.route('/purchase').post(paymentCtrl.processPurchase);
+// router.route('/purchase').post(paymentCtrl.processPurchase);
 
 export default router;

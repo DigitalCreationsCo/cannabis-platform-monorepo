@@ -26,16 +26,8 @@ export default class OrganizationDA {
                           Accept: "application/json",
                           "Content-Type": "application/json",
                         }})
+                        
             console.log(`${organization.name} record is created.`)
-
-            // comment this out because I separate this stripe account creation to a separate route
-            // await axios.put(urlBuilder.payment.c(), { ...organization },{ 
-            //     headers: {
-            //         Accept: "application/json",
-            //         "Content-Type": "application/json",
-            //     }
-            // })
-            console.log('stripe account created.')
 
             return 'Your organization account is created';
             

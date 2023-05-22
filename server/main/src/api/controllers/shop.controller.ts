@@ -1,4 +1,6 @@
-import { OrderCreate, OrderWithDetails } from '@cd/data-access';
+import { urlBuilder } from '@cd/core-lib/utils';
+import { OrderWithDetails } from '@cd/data-access';
+import axios from 'axios';
 import { OrderDA } from '../data-access';
 // import Stripe from "stripe";
 // import stipeNode from "stripe";
@@ -22,39 +24,16 @@ searchProducts
 ================================= */
 
 export default class ShopController {
-    static async processOrder(req, res) {
-        // self contained order handling function
-        // create Order record, add order to user record, add order to dispensary,
-        // decrement item stock
+
+    // create order record in database
+    static async createOrder(req, res) {
         try {
-            let orderPayload:OrderCreate = req.body.order
-            let order:OrderWithDetails
-            let charge = req.body.charge
+            
+            const
+            order :OrderWithDetails = req.body
 
-            // create payment record
-            // add order to user record, add order to dispensary,
-            // decrement item stock
-            const purchase = await OrderDA.createPurchase({
-                orderId: orderPayload.id,
-                gateway: "stripe",
-                type: charge.payment_method_details.type,
-                amount: charge.amount / 100,
-                token: charge.id,
-                createdAt: new Date(),
-                updatedAt: new Date(),
-            });
+            await OrderDA.createOrder(order)
 
-            order = await OrderDA.createOrder({
-                ...orderPayload,
-                purchaseId: purchase.id,
-                orderStatus: 'Processing'
-            })
-
-            // decrement the product stock
-            order.items.forEach(async (item) => {
-                const updateProductVariantQuantity = await OrderDA.updateProductVariantQuantity(item.variantId, item.quantity)
-            })
-    
             return res.status(201).json({ message: "Order created Successfully" });
             
         } catch (error: any) {
@@ -62,6 +41,77 @@ export default class ShopController {
             res.status(500).json({ error });
       }
     }
+
+
+    // MAKE THIS WORK FOR FULFILLMENT, and DISPATCH
+    // UPDATE ORDER TO DB USER AND ORGANIZATION, THEN SEND TO DISPATCH SERVER TO FULFILL
+    // SAVE ANY PROCESS THAT IS NOT BEING USED CURRENTLY, LIKE AFFECTING STOCK AND STRIPE PAYMENT / SENDING EMAIL, ETC.
+    /**
+     * Update OrderStatus and send to Dispatch server for delivery processing
+     * @param req 
+     * @param res 
+     * @returns 
+     */
+    static async fulfillOrderAndDispatch(req, res) {
+        try {
+            let 
+            orderId: string = req.body
+
+            await OrderDA.updateOrderFulfillmentStatus(orderId, "Processing")
+
+            const
+            order = await OrderDA.getOrderById(orderId)
+
+            await axios.post(urlBuilder.dispatch.newOrder(), order)
+
+            return res.status(201).json({ message: "Order created Successfully" });
+            
+        } catch (error: any) {
+            console.log('API Error Shop Controller: fulfillOrderAndDispatch: ', error);
+            res.status(500).json({ error });
+        }
+    }
+
+    // static async processOrder (req, res) {
+    //     // order fulfillment function
+    //     // create Order record, add order to user record, add order to dispensary,
+    //     // decrement item stock - NOT IMPLEMENT YET
+    //     try {
+    //         let orderPayload:OrderCreate = req.body.order
+    //         let order:OrderWithDetails
+    //         let charge = req.body.charge
+
+    //         // create payment record
+    //         // add order to user record, add order to dispensary,
+    //         // decrement item stock
+    //         const purchase = await OrderDA.createPurchase({
+    //             orderId: orderPayload.id,
+    //             gateway: "stripe",
+    //             type: charge.payment_method_details.type,
+    //             amount: charge.amount / 100,
+    //             token: charge.id,
+    //             createdAt: new Date(),
+    //             updatedAt: new Date(),
+    //         });
+
+    //         order = await OrderDA.createOrder({
+    //             ...orderPayload,
+    //             purchaseId: purchase.id,
+    //             orderStatus: 'Processing'
+    //         })
+
+    //         // decrement the product stock
+            // order.items.forEach(async (item) => {
+            //     const updateProductVariantQuantity = await ProductDA.updateProductVariantQuantity(item.variantId, item.quantity)
+            // })
+    
+    //         return res.status(201).json({ message: "Order created Successfully" });
+            
+    //     } catch (error: any) {
+    //         console.log('API error shopcontroller: createOrder: ', error);
+    //         res.status(500).json({ error });
+    //   }
+    // }
 
     static async getOrdersByOrg(req, res) {
         try {
