@@ -26,8 +26,6 @@ function Checkout() {
             { validateStatus: () => true }
             );
 
-            console.log('response: ', response)
-
             if (response.status === 404)
             throw new Error(response.data);
 

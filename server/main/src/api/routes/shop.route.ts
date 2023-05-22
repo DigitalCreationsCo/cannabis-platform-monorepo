@@ -5,19 +5,23 @@ const router = Router();
 /* =================================
 Shop Routes
 
-"/orders"           createOrder
+'/orders/org/:id                            getOrdersByOrg
 
-"/orders/org/:id"   getOrdersByOrg
+'/orders/:id                                getOrderById
 
-"/orders/:id"       getOrderById
+'/orders'                                   createOrder
 
-"/orders"           updateOrderById
+'/orders                                    updateOrderById
 
-"/products/org/:id" getProductsByOrg
+'/orders-fulfill'                           fulfillOrder
 
-"/products/:id"     getProductById
+'/products/org/:id                          getProductsByOrg
 
-"/products"         searchProducts
+'/products/:id                              getProductById
+
+'/products'                                 searchProducts
+
+'/products&_page=:page&_limit=:limit'       getProductsByMultipleOrgs
 
 ================================= */
 
@@ -25,9 +29,12 @@ router.route('/orders/org/:id').get(shopCtrl.getOrdersByOrg);
 
 router.route('/orders/:id').get(shopCtrl.getOrderById);
 
-router.route('/orders').post(shopCtrl.processOrder);
+router.route('/orders').post(shopCtrl.createOrder);
 
 router.route('/orders').put(shopCtrl.updateOrderById);
+
+router.route('/orders-fulfill').post(shopCtrl.fulfillOrderAndStartDispatch);
+
 
 router.route('/products/org/:id').get(shopCtrl.getProductsByOrg);
 

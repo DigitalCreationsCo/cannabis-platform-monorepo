@@ -2,8 +2,8 @@ import { Address, Driver, Order, OrderStatus, Organization, Prisma, ProductVaria
 import { AddressWithDetails } from "./address";
 import prisma from "./db/prisma";
 import { OrganizationWithShopDetails } from "./organization";
-import { ProductVariantWithDetails } from "./product";
 import { UserWithDetails } from "./user";
+import { ProductVariantWithDetails } from "./variant";
 
 /*
 *   createOrder
@@ -11,48 +11,14 @@ import { UserWithDetails } from "./user";
 *   findOrdersByOrg
 *   findOrderWithDetails
 *   updateOrderWithOrderItems
-*
-*   updateVariantQuantity
+*   updateOrder
 */
 
 
 export async function createOrder(order: any) {
     try {
-        const createOrder = await prisma.order.upsert({
-            where: {
-                id: order.id
-            },
-            update: { 
-                ...order,
-                purchase: {
-                    connect: {
-                        id: order.purchaseId
-                    }
-                },
-                destinationAddress: {
-                    connect: {
-                        id: order.addressId
-                    }
-                },
-                customer: {
-                    connect: {
-                        id: order.customerId
-                    }
-                },
-                organization: {
-                    connect: {
-                        id: order.organizationId
-                    }
-                }
-             },
-             create: { 
-                ...order,
-                purchase: {
-                    connect: {
-                        id: order.purchaseId
-                    }
-                }
-            },
+        const createOrder = await prisma.order.create({
+            data: { ...order }
         })
         return createOrder as OrderWithDetails
     } catch (error: any) {
@@ -180,6 +146,22 @@ export async function updateOrderWithOrderItems(order: any) {
     }
 }
 
+/**
+ * update Order
+ * @param id order id
+ * @param data fields to update
+ * @returns 
+ */
+export async function updateOrder(id: string, data: Prisma.OrderUpdateArgs['data']) {
+    try {
+        const update = await prisma.order.update({ where: { id }, data: {...data }})
+        return update
+    } catch (error: any) {
+        console.error(error)
+        throw new Error(error)
+    }
+}
+
 export async function deleteOrder() {
     // try {
 
@@ -187,39 +169,6 @@ export async function deleteOrder() {
     //     console.error(error.message)
     //     throw new Error(error.message)
     // }
-}
-
-export async function updateVariantQuantity(variantId:string, quantity:number, operation:'+'|'-') {
-    try {
-        let updateVariant
-        if (operation === '-') {
-             updateVariant = await prisma.productVariant.update({
-                where: {
-                    id: variantId
-                },
-                data: {
-                    stock: {
-                        decrement: quantity
-                    }
-                }
-            })
-        } else if (operation === '+') {
-            updateVariant = await prisma.productVariant.update({
-                where: {
-                    id: variantId
-                },
-                data: {
-                    stock: {
-                        increment: quantity
-                    }
-                }
-            })
-        }
-        return updateVariant
-    } catch (error: any) {
-        console.error(error)
-        throw new Error(error)
-    }
 }
 
 export type OrderUpdate = Prisma.OrderUpdateArgs[ "data" ]

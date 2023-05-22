@@ -1,4 +1,5 @@
-import { Category, ImageProduct, ImageUser, Organization, Prisma, Product, ProductVariant, Review, User } from "@prisma/client";
+import { Category, ImageUser, Organization, Prisma, Product, Review, User } from "@prisma/client";
+import { ProductVariantWithDetails } from "variant";
 import prisma from "./db/prisma";
 
 export async function createProduct() {
@@ -119,10 +120,6 @@ export type ProductWithDetails = Product & {
       imageUser?: ImageUser;
     };
   };
-};
-
-export type ProductVariantWithDetails = ProductVariant & {
-  images?: ImageProduct[];
 };
 
 export type ReviewWithDetails = Review & {
