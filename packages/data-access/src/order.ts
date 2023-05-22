@@ -1,9 +1,9 @@
 import { Address, Driver, Order, OrderStatus, Organization, Prisma, ProductVariant, User } from "@prisma/client";
-import { AddressWithDetails } from "./address";
+import { AddressUserCreateType } from "./address";
 import prisma from "./db/prisma";
 import { OrganizationWithShopDetails } from "./organization";
 import { UserWithDetails } from "./user";
-import { ProductVariantWithDetails } from "./variant";
+import { createProductVariantsWithoutId, ProductVariantWithDetails } from "./variant";
 
 /*
 *   createOrder
@@ -17,12 +17,52 @@ import { ProductVariantWithDetails } from "./variant";
 
 export async function createOrder(order: any) {
     try {
+
+        order.items = await createProductVariantsWithoutId(order?.items, order);
+        
+        let { coordinates, userId, coordinateId, organizationId, ...destinationAddressData } = order.destinationAddress;
+
         const createOrder = await prisma.order.create({
-            data: { ...order }
-        })
-        return createOrder as OrderWithDetails
+            data: { 
+                id: order.id,
+                subtotal: order.subtotal || order.total,
+                total: order.total,
+                taxFactor: order.taxFactor || 0,
+                taxAmount: order.taxAmount || 0,
+                orderStatus: order.orderStatus,
+                addressId: order.addressId,
+                customerId: order.customerId,
+                organizationId: order.organizationId,
+                driverId: order.driverId,
+                isDeliveredOrder: order.isDeliveredOrder,
+                isCustomerReceivedOrder: order.isCustomerReceivedOrder,
+                isCompleted: order.isCompleted,
+                deliveredAt: order.deliveredAt,
+                purchaseId: order.purchaseId,
+                items: order.items,
+                // customer: order.customer,
+                // organization: order.organization,
+                // destinationAddress: {
+                //     connectOrCreate: {
+                //         where: { id: order.destinationAddress.id },
+                //         create: {
+                //             ...destinationAddressData,
+                //             coordinates: {
+                //                 create: {
+                //                     latitude: Number(coordinates?.latitude),
+                //                     longitude: Number(coordinates?.longitude)
+                //                 }
+                //             }
+                //         }
+                //     }
+                // }
+            }
+        });
+        
+        return createOrder
+        
     } catch (error: any) {
-        console.error(error.message)
+        console.error('create order error: ', error.message)
         throw new Error(error.message)
     }
  }
@@ -179,10 +219,10 @@ export type OrderCreate = {
     total: number
     taxFactor: number
     taxAmount: number
-    orderStatus?: OrderStatus
-    purchaseId?: string | null
+    orderStatus: OrderStatus
+    purchaseId?: string
     addressId: string
-    destinationAddress: AddressWithDetails
+    destinationAddress: AddressUserCreateType
     
     customerId: string
     customer: UserWithDetails | null
@@ -191,7 +231,7 @@ export type OrderCreate = {
     // organization: Organization
     organization: OrganizationWithShopDetails
 
-    driverId?: string | null
+    driverId?: string
     driver: Driver | null
     
     isDeliveredOrder: boolean
@@ -199,8 +239,8 @@ export type OrderCreate = {
     isCompleted: boolean
 
     deliveredAt?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     items?: ProductVariantWithDetails[]
     // purchase?: PurchaseCreateNestedOneWithoutOrderInput
 }
@@ -232,8 +272,8 @@ export type OrderWithDetails = Order & {
     isCompleted: boolean
 
     deliveredAt?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     items?: ProductVariantWithDetails[]
     // purchase?: PurchaseCreateNestedOneWithoutOrderInput
 

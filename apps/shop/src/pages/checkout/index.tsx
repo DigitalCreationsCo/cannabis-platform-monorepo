@@ -19,6 +19,8 @@ function Checkout() {
     async function createStripeCheckout () {
         try {
 
+            console.log('preparing this order to checkout: ', order)
+            
             const 
             response = await axios.post(
                 urlBuilder.shop + '/api/stripe/checkout-session', 

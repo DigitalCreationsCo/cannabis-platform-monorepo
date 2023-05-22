@@ -119,9 +119,8 @@ export const createOrderForCheckout = createAsyncThunk<OrderCreate, void>(
           subtotal: cart.subTotal, 
           total: cart.total, 
           taxFactor: 0, 
-          tax: 0,
+          taxAmount: 0,
           orderStatus: 'Pending',
-          purchaseId: null,
           addressId: selectedLocation.address.id,
           destinationAddress: selectedLocation.address,
           customerId: user.id,
@@ -135,15 +134,10 @@ export const createOrderForCheckout = createAsyncThunk<OrderCreate, void>(
           // add the record to the order, so we can see the dispensary during checkout. :)
           // OR
           // nay: server can get the data easily
-
-          driverId: null,
-          driver: null,
           
           isDeliveredOrder: false,
           isCustomerReceivedOrder: false,
           isCompleted: false,
-          deliveredAt: null,
-          createdAt: Date.now(),
 
           items: await processCartItemsForCheckout(cart.cart)
         }
