@@ -2,9 +2,24 @@ import { CurrencyName, ImageProduct, Prisma, ProductVariant, Unit } from "@prism
 import prisma from "./db/prisma";
 import { OrderCreate } from "./order";
 
-/*
-*   updateVariantQuantity
-*/
+/**
+ * connectVariantImages
+ * createProductVariantsWithoutId
+ * updateVariantQuantity
+ * 
+ */
+
+const connectVariantImages = async (items: ProductVariantWithDetails[]) => items?.filter((item) => !item.id).forEach(async (item) => {
+
+    item.images && 
+    await prisma.imageProduct.createMany({
+        data: item?.images?.map((image: ImageProduct) => ({
+            ...image,
+            location: image.location,
+            variantId: item?.id as string
+        }))
+    });
+});
 
 export async function createProductVariantsWithoutId (items: ProductVariantCreateType[], order: OrderCreate) {
     try {
@@ -33,21 +48,11 @@ export async function createProductVariantsWithoutId (items: ProductVariantCreat
             },
         }));
 
-        const connectVariantImages = () => items?.filter((item) => !item.id).map((item) => {
-
-            item.images && 
-            await prisma.imageProduct.createMany({
-                    data: item?.images?.map((image: ImageProduct) => ({
-                        ...image,
-                        location: image.location,
-                        variantId: item?.id as string
-                    }));
-            }
-        });
-
         await prisma.productVariant.createMany({
             data: createItems
         })
+
+        await connectVariantImages(order?.items as ProductVariantWithDetails[])
 
         return createItems
         
