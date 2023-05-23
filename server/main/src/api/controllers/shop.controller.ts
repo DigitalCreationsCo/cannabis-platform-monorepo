@@ -1,6 +1,4 @@
-import { urlBuilder } from '@cd/core-lib';
 import { OrderWithDetails } from '@cd/data-access';
-import axios from 'axios';
 import { OrderDA } from '../data-access';
 // import Stripe from "stripe";
 // import stipeNode from "stripe";
@@ -62,7 +60,7 @@ export default class ShopController {
             const
             order = await OrderDA.getOrderById(orderId)
 
-            await axios.post(urlBuilder.dispatch.newOrder(), order)
+            await OrderDA.addDispatchRecordMongo(order)
 
             return res.status(201).json({ message: "Order created Successfully" });
             

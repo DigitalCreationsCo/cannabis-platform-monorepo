@@ -71,6 +71,7 @@ const urlBuilder = {
     dispatch: {
         baseUrl: dispatchUrl + '/api/v1',
         newOrder: () => urlBuilder.dispatch.baseUrl + '/dispatch/order/new',
+        connect: () => urlBuilder.dispatch.baseUrl + '/dispatch/connect',
     }
 };
 

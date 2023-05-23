@@ -8,6 +8,7 @@ import {
     updateOrder,
     updateOrderWithOrderItems
 } from '@cd/data-access';
+import { MongoClient } from 'mongodb';
 
 /* =================================
 Order Data Access - data class for order table
@@ -26,7 +27,22 @@ searchProducts
 
 ================================= */
 
+let dispatchOrders = null
+const dispatch_namespace = process.env.DISPATCH_DB_NS;
+
 export default class OrderDA {
+    static async useMongoDB (mongoClient: MongoClient) {
+        
+        if (dispatchOrders) 
+        return
+        
+        try {
+            dispatchOrders = await mongoClient.db(dispatch_namespace).collection("dispatch");
+        } catch (e) {
+            console.error(`Unable to establish collection handle in OrderDA: ${e}`);
+        }
+    }
+
     static async createOrder(order: OrderWithDetails): Promise<OrderWithDetails> {
         try {
             const data = await createOrder(order);
@@ -125,4 +141,20 @@ export default class OrderDA {
             throw new Error(error.message);
         }
     }
+
+    static async addDispatchRecordMongo(order: OrderWithDetails) {
+        try {
+            
+            const 
+            insertOrder = await dispatchOrders.insertOne({ 
+              ...order
+            });
+
+            return insertOrder;
+            
+        } catch (error: any) {
+            console.error('addDispatchRecordMongo error: ', error.message);
+            throw new Error(error.message);
+        }
+      }
 }
