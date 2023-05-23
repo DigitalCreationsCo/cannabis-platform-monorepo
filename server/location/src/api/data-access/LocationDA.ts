@@ -13,15 +13,16 @@ let orgGeolocate = null
 const organizations_geo_namespace = process.env.ORG_GEOLOCATE_DB_NS;
 
 export default class LocationDA {
-    static async useMongoDB(mongoClient: MongoClient){
-        if (orgGeolocate) return
-        try {
-          orgGeolocate = await mongoClient.db(organizations_geo_namespace).collection("organizations_geolocate");
-          } catch (e) {
-            console.error(
-              `Unable to establish collection handle in LocationDA: ${e}`
-            );
-          }
+    static async useMongoDB (mongoClient: MongoClient) {
+        
+      if (orgGeolocate) 
+      return
+      
+      try {
+        orgGeolocate = await mongoClient.db(organizations_geo_namespace).collection("organizations_geolocate");
+      } catch (e) {
+        console.error(`Unable to establish collection handle in LocationDA: ${e}`);
+      }
     }
 
     static async getLocalOrganizations(coordinates: number[], proximityRadius: number) {
@@ -69,7 +70,7 @@ export default class LocationDA {
           console.error('LocationDA error: ', error.message);
           throw new Error(error.message);
       }
-  }
+    }
 
   static async updateOrganizationMongoRecord(organization: OrganizationWithShopDetails) {
     try {

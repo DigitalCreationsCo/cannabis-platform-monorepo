@@ -66,7 +66,7 @@ export async function createOrder(order: any) {
             }
         });
         
-        return createOrder
+        return createOrder as OrderWithDetails
         
     } catch (error: any) {
         console.error('create order error: ', error.message)

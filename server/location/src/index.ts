@@ -35,7 +35,7 @@ async function connectDb() {
     .then(async () => {
       await prisma.$connect()
       console.log(" ✈️ server-location: Prisma Database 👏👏 is ready for query.");
-    })
+    });
   } catch(error:any) {
     console.error(" ✈️ server-location: Error connecting to database: ", error.stack);
     process.exit(1);

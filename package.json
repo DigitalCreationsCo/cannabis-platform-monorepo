@@ -56,6 +56,7 @@
     "permit-scripts": "node scripts/permit-scripts.js",
     "docker:supertokens": "scripts/docker/supertokens.sh",
     "docker:shadow-db": "scripts/docker/mysql.sh",
+    "docker:redis": "scripts/docker/redis.sh",
     "k8s:start": "terraform:apply && kubectl apply -f k8s/",
     "terraform:apply": "terraform -chdir='./terraform' apply -auto-approve",
     "terraform:destroy": "terraform -chdir='./terraform' destroy"
