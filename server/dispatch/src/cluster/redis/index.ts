@@ -1,4 +1,4 @@
-const { createClient } = require("redis");
+import { createClient } from "redis";
 
 const publishRedisClient = createClient({ host: "127.0.0.1", port: 6379 });
 publishRedisClient.on("error", (err) =>
@@ -40,7 +40,6 @@ class ConnectClientController {
         .then((socketId) => sockets.push(socketId))
         .catch((err) => console.log(err));
     }
-    // console.log("sockets: ", sockets);
     return sockets;
   }
 }
@@ -48,8 +47,8 @@ class ConnectClientController {
 const connectClientController = new ConnectClientController();
 
 export {
-    publishRedisClient,
-    subscribeRedisClient,
-    connectClientController,
+  publishRedisClient,
+  subscribeRedisClient,
+  connectClientController,
 };
 

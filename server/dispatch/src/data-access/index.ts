@@ -8,7 +8,7 @@ const
 mongoConnectUrl = process.env.MONGODB_SERVER_DISPATCH_CLUSTER_URL
 
 
-export default class DispatchDA {
+class DispatchDA {
 
   driverSessionsCollection;
   dispatchOrdersCollection;
@@ -20,23 +20,26 @@ export default class DispatchDA {
     this.dispatchOrdersChangeStream;
 
     if (cluster.isPrimary) {
-      (async () => {
+      return (async () => {
 
         await this.connectDb()
+        await this.createPendingOrdersChangeStream()
         .then(() => console.log(" 🚔 [Primary:" + process.pid + "] is connected to Mongo, and Prismadatabase. 👏"));
 
-        this.createPendingOrdersChangeStream();
         return this;
-      })();
+
+      })() as unknown as DispatchDA;
     }
 
     if (cluster.isWorker) {
-      (async () => {
+      return (async () => {
+        
         await this.connectDb()
         .then(() => console.log(" 🚔 [Worker-" + cluster.worker.id + ":" + process.pid + "] is connected to Mongo, and Prismadatabase. 👏"));
         
         return this;
-      })();
+        
+      })() as unknown as DispatchDA;
     }
   }
 
@@ -60,6 +63,8 @@ export default class DispatchDA {
       console.error(" 🚔 server-dispatch : Error connecting to prisma database: ", error.stack);
       process.exit(1);
     });
+    
+    return this;
   }
 
   async getDispatchOrderById(orderId) {
@@ -172,9 +177,7 @@ export default class DispatchDA {
     try {
 
       const 
-      changeStream = await this.dispatchOrdersCollection.watch({
-        fullDocument: "updateLookup",
-      });
+      changeStream = await this.dispatchOrdersCollection.watch([], { fullDocument: "updateLookup" });
 
       console.log(' 🚔 [Primary:' + process.pid + '] is watching ' + this.dispatchOrdersCollection.s.namespace.collection + '-collection for dispatch orders');
 
@@ -185,3 +188,5 @@ export default class DispatchDA {
     }
   }
 }
+
+export default new DispatchDA();

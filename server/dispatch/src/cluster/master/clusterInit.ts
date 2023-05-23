@@ -1,6 +1,5 @@
-import cluster from "cluster";
+import cluster from "node:cluster";
 import settings from "../../settings";
-
 const 
 workers = [];
 
@@ -8,7 +7,8 @@ class ClusterInit {
   constructor() {
     
     cluster.setupPrimary({
-      exec: settings.workerPath,
+      
+      exec: 'src/cluster/worker/index.mjs',
     });
 
     for (var i = 0; i < settings.numCPUs; i++) {

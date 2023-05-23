@@ -1,8 +1,18 @@
-import MasterRoomsControl from "../cluster/master/room.controller";
+import MasterRoomController from "../cluster/master/masterroom.controller";
 import { connectClientController } from "../cluster/redis";
 import { SocketEvents } from "./socketEvents";
+// import prisma from '@cd/data-access';
+import { createAdapter } from "@socket.io/redis-adapter";
+// import { MongoClient } from "mongodb";
+import { Server } from 'socket.io';
+import { publishRedisClient, subscribeRedisClient } from '../cluster/redis';
 
-global.io.on(SocketEvents.connection, async (socket) => {
+const 
+io = new Server();
+
+io.adapter(createAdapter(publishRedisClient, subscribeRedisClient));
+
+io.on(SocketEvents.connection, async (socket) => {
   // socket.leaveAll();
 
   // add conditional to subscribe to different rooms, possibly based on socket event
@@ -40,7 +50,7 @@ global.io.on(SocketEvents.connection, async (socket) => {
     console.log("MASTER ERROR: " + e);
   });
 
-  global.io.of("/").adapter.on("join-room", async (room) => {
+  io.of("/").adapter.on("join-room", async (room) => {
     if (room.startsWith("select-driver:")) {
       // const SelectDriverRoomEvents = require("./select-driver-room");
       // new SelectDriverRoomEvents(socket, room);
@@ -64,9 +74,9 @@ global.io.on(SocketEvents.connection, async (socket) => {
         roomWasOccupied = true;
         let orderId = getOrderIdFromRoom(room);
         // console.log("orderId: ", orderId);
-        const order = await MasterRoomsControl.getOrderById(orderId);
+        const order = await MasterRoomController.getOrderById(orderId);
         // console.log("order: ", order);
-        global.io.to(room).emit(SocketEvents.newOrder, {
+        io.to(room).emit(SocketEvents.newOrder, {
           message: "You have received a new order!",
           order: order,
         });
@@ -89,12 +99,12 @@ global.io.on(SocketEvents.connection, async (socket) => {
           socket.emit("order_assigned", {
             message: "Navigate to start delivering your order!",
           });
-          await MasterRoomsControl.addDriverToOrder(orderId, userId).then(
+          await MasterRoomController.addDriverToOrder(orderId, userId).then(
             () => {
               isDriverAdded = true;
               // add the selected Driver to the order Room.
               // create a new socket connection from client side, to join the room
-              global.io.in(room).socketsLeave(room);
+              io.in(room).socketsLeave(room);
             },
             (error) => {
               console.log(error);
@@ -126,7 +136,7 @@ global.io.on(SocketEvents.connection, async (socket) => {
   });
 });
 
-global.io.of(/^\/order:\w+$/).on(SocketEvents.connection, async (socket) => {
+io.of(/^\/order:\w+$/).on(SocketEvents.connection, async (socket) => {
   let namespace = socket.nsp.name;
   // console.log("socket connected to order namespace: ", namespace);
   let orderId = getOrderIdFromRoom(namespace);
@@ -146,9 +156,9 @@ global.io.of(/^\/order:\w+$/).on(SocketEvents.connection, async (socket) => {
 
     // console.log(
     //   "namespace room size: ",
-    //   global.io._nsps.get(namespace).adapter.rooms.get(room).size
+    //   io._nsps.get(namespace).adapter.rooms.get(room).size
     // );
-    const roomSize = global.io._nsps
+    const roomSize = io._nsps
       .get(namespace)
       .adapter.rooms.get(room).size;
     // console.log(room + " roomSize: ", roomSize);
@@ -243,4 +253,5 @@ function getOrderIdFromRoom(room) {
   return orderId;
 }
 
-export default global.io;
+export { io };
+
