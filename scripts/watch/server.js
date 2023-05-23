@@ -30,6 +30,12 @@ const commands = [
         command: 'yarn',
         args: ['watch'],
         cwd: '../server/image'
+    },
+    {
+        name: 'server-dispatch',
+        command: 'yarn',
+        args: ['watch'],
+        cwd: '../server/dispatch'
     }
 ];
 

@@ -26,43 +26,43 @@ class MasterRoomController {
           this.dispatchDataAccess = await DispatchDA;
         }).then(() => {
           console.log(!!this.dispatchDataAccess.dispatchOrdersChangeStream)
-          this.dispatchDataAccess.dispatchOrdersChangeStream.on("change", next => {
+          this.dispatchDataAccess.dispatchOrdersChangeStream.on("change", async (change) => {
             console.info("change event:");
 
-            // const 
-            // dispatchOrder = change.fullDocument;
+            const 
+            dispatchOrder = change.fullDocument;
 
-            // let
-            // { orderId, driver } = dispatchOrder;
+            let
+            { orderId, driver } = dispatchOrder;
 
-            // switch (change.operationType) {
+            switch (change.operationType) {
 
-            //   case "insert":
-            //   if (_.isEmpty(driver))
-            //       // get order
-            //       // select driver for order
-            //       // subscribe drivers to socket room
-            //       // determine the selected driver
-            //       // subscribe the selected driver to order socket room `delivery-<orderId>`
-            //       // console.log("order inserted");
-            //   this.createSelectDriverRoom(dispatchOrder);
+              case "insert":
+              if (_.isEmpty(driver))
+                  // get order
+                  // select driver for order
+                  // subscribe drivers to socket room
+                  // determine the selected driver
+                  // subscribe the selected driver to order socket room `delivery-<orderId>`
+                  // console.log("order inserted");
+              this.createSelectDriverRoom(dispatchOrder);
 
-            //   break;
+              break;
 
-            //   case "update":
-            //   if (!dispatchOrder.driver)
-            //   console.log("pending Order needs assigned driver.");
-            //       // ClusterInit.SendToWorker(
-            //       //   global.lastWorkerId,
-            //       //   "dispatch:SELECT_DRIVER",
-            //       //   { order }
-            //       // );
+              case "update":
+              if (!dispatchOrder.driver)
+              console.log("pending Order needs assigned driver.");
+                  // ClusterInit.SendToWorker(
+                  //   global.lastWorkerId,
+                  //   "dispatch:SELECT_DRIVER",
+                  //   { order }
+                  // );
               
-            //   break;
+              break;
 
-            //   default:
-            //   console.log("unhandled dispatch change event: ", change.operationType);
-            // }
+              default:
+              console.log("unhandled dispatch change event: ", change.operationType);
+            }
           });
         });
       }
