@@ -1,0 +1,14 @@
+Websocket functionality for locationserver:
+
+connection to socket
+open to 3 parties, initiator: Client, 2nd party: Driver, 3rd party: Vendor(observing)
+implement websocket broadcast with socket.io rooms
+
+Outline of the socket broadcast process:
+The driver client will broadcast the their user coordinates 
+as their client app updates with new coordinates 
+Each new updated coordinate pair will be sent through 
+the web socket pipe to the server the server will then 
+broadcast that in the web socket room so that data will 
+be picked up by the client customer app who will be tuned 
+into the same web socket room ID
