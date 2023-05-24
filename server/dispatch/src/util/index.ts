@@ -2,8 +2,17 @@ import { Coordinates } from "@cd/data-access";
 
 class util {
   
-  static isEmpty(obj: any) {
-    return obj === undefined || Object.keys(obj).length === 0;
+  static isEmpty(object: any) {
+    if (object === undefined)
+    return true;
+    
+    if (object === null)
+    return true;
+
+    if (Object.keys(object).length === 0)
+    return true;
+
+    return false;
   }
 
   static getGeoJsonPoint(coordinates: Coordinates) {

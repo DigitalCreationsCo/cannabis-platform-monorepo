@@ -32,7 +32,7 @@ export default class ShopController {
 
             await OrderDA.createOrder(order)
 
-            return res.status(201).json({ message: "Order created Successfully" });
+            return res.status(201).json({ message: "Order created Successfully", order });
             
         } catch (error: any) {
             console.log('API error shopcontroller: createOrder: ', error);
@@ -64,7 +64,7 @@ export default class ShopController {
 
             await OrderDA.addDispatchRecordMongo(order)
 
-            return res.status(201).json({ message: "Order created Successfully" });
+            return res.status(201).json({ message: "Order created Successfully", order });
             
         } catch (error: any) {
             console.log('API Error Shop Controller: fulfillOrderAndDispatch: ', error);
