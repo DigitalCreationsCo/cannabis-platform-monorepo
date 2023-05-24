@@ -16,6 +16,8 @@ class util {
   }
 
   static getGeoJsonPoint(coordinates: Coordinates) {
+    console.log('is coordinates? ', coordinates);
+    
     return coordinates.latitude && coordinates.longitude && {
       type: "Point",
       coordinates: [coordinates.longitude, coordinates.latitude],
