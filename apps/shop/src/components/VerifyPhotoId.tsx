@@ -48,46 +48,71 @@ const VerifyPhotoId = ({ nextFormStep, prevFormStep }: FormStepComponentProps) =
 
     const onSubmitUpload = async () => {
         try {
+
             if (frontImage && backImage) {
+
                 setLoadingButton(true);
-                toast('Verifying your photo id...')
-                const response: VerifyPhotoIDUploadResponse = await verifyLegalAgeImageUpload({frontImage, backImage})
+
+                const 
+                response: VerifyPhotoIDUploadResponse = await verifyLegalAgeImageUpload({frontImage, backImage})
+
                 console.log('response: ', response)
+
+                if (response.success === false)
+                throw new Error('Error verifying your photo id. Please try again.')
+
                 if (response.success) {
-                    toast('Thanks for verifying your id!')
-                    // GET IDENTIFICATION CONFIRM RESPONSE
-                    setFormValues({ newUser: {
+                    
+                    toast('Thanks for verifying your id!');
+
+                    setFormValues({ 
+                        newUser: {
                         ...response.result,
                         } 
                     })
-                    // set photo id link to user form data
+
                     nextFormStep();
-                } else if (response.success === false) {
-                    toast.error('Error verifying your photo id. Please try again.')
-                    setLoadingButton(false);
+
                 }
             }
         } catch (error: any) {
             console.log('error: ', error);
-            toast.error(error);
+            toast.error(error.message);
             setLoadingButton(false);
         }
     }
 
     const verifyLegalAgeImageUpload = async ({frontImage, backImage}: any) => {
+
+        toast('Verifying your photo id...');
+
         try {
-            const formData = new FormData();
+            const 
+            formData = new FormData();
+
             formData.append("idFrontImage", frontImage);
             formData.append("idBackImage", backImage);
-            const { data } = await axios.post(urlBuilder.image.verifyIdentificationImageUpload(), formData, {
+
+            const 
+            response = await axios.post(
+                urlBuilder.image.verifyIdentificationImageUpload(), 
+                formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
-                }
+                }, 
             });
-            return data;
-        } catch (error: any) {
-            console.log('verify id error: ', error)
+
+            if (response.status === 500)
             throw new Error(`We're having a problem verifying your image. Please try again.`)
+            
+            return response.data;
+
+        } catch (error: any) {
+            if (error.code === 'ERR_NETWORK')
+            throw new Error(`We're having a problem verifying your image. Please try again.`);
+            
+            console.log('verify id error: ', error)
+            throw new Error(error.message)
         }
     }
     

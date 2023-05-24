@@ -34,7 +34,7 @@ export const frontendConfig = () => {
                         event.user.memberships?.[0]?.role.toLocaleUpperCase() === 'OWNER') {
                             window.location.href = dashboardDomain + '/dashboard';
                         } else {
-                            window.location.href = shopDomain;
+                            window.location.href = `${shopDomain}${window.location.pathname}`;
                         }
                     }
                 }
