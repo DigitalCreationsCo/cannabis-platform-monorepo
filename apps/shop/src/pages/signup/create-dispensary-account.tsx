@@ -7,7 +7,8 @@ import {
     DispensaryReview,
     DispensarySignUpComplete,
     DispensaryUserCreate,
-    ProvideDispensaryKey
+    ProvideDispensaryKey,
+    ProvideStripeAccountId
 } from '../../components';
 
 function DispensarySignUpStepForm() {
@@ -22,11 +23,10 @@ function DispensarySignUpStepForm() {
         DispensaryCreate, 
         DispensaryUserCreate, 
         DispensaryReview, 
-        DispensarySignUpComplete
-        // ProvideStripeAccountId,
+        ProvideStripeAccountId,
+        DispensarySignUpComplete,
     ];
 
-    const styles = { gradient: ['bg-gradient-to-b', 'from-primary', 'to-secondary'] };
     return (
         <Page className={twMerge(styles.gradient, 'md:pt-16')}>
             <Head>
@@ -50,7 +50,10 @@ function DispensarySignUpStepForm() {
     );
 }
 
+const styles = { gradient: ['bg-gradient-to-b', 'from-primary', 'to-secondary'] };
+
 DispensarySignUpStepForm.getLayoutContext = (): LayoutContextProps => ({
     showHeader: false
 });
+
 export default DispensarySignUpStepForm;
