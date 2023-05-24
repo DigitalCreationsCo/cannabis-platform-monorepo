@@ -6,10 +6,12 @@ import { publishRedisClient, subscribeRedisClient } from '../redis';
 // const Server = require("socket.io");
 // const { createAdapter } = require("@socket.io/redis-adapter");
 
-global.io = new Server();
-global.io.adapter(createAdapter(publishRedisClient, subscribeRedisClient));
+const 
+io = new Server();
+io.adapter(createAdapter(publishRedisClient, subscribeRedisClient));
 
 // const WorkerClusterListeners = require("./modules/cluster/worker/worker-listeners");
 // new WorkerClusterListeners();
 
-export default global.io;
+// export default global.io = io;
+export default io;
