@@ -4,13 +4,13 @@ const router = Router();
 /* =================================
 User Routes
 
-"/user/:id"                     getUserById
+"/:id"                     getUserById
 
 "/address"                      addAddressToUser
 
-"/user/:id/address/:addressId"  getAddressById
+GET "/:id/address/:addressId"  getAddressById
 
-"/user/:id/address/:addressId"  deleteAddressById
+DELETE "/:id/address/:addressId"  deleteAddressById
 
 ================================= */
 
