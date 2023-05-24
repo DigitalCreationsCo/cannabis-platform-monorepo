@@ -9,7 +9,6 @@ import { publishRedisClient, subscribeRedisClient } from '../cluster/redis';
 
 const 
 io = new Server();
-
 io.adapter(createAdapter(publishRedisClient, subscribeRedisClient));
 
 io.on(SocketEvents.connection, async (socket) => {
@@ -50,14 +49,14 @@ io.on(SocketEvents.connection, async (socket) => {
     console.log("MASTER ERROR: " + e);
   });
 
-  io.of("/").adapter.on("join-room", async (room) => {
-    if (room.startsWith("select-driver:")) {
+  io.of("/").adapter.on("join-room", async (roomname: string) => {
+
+    if (roomname.startsWith("select-driver:")) {
       // const SelectDriverRoomEvents = require("./select-driver-room");
       // new SelectDriverRoomEvents(socket, room);
       // console.log("room joined: ", room);
       // console.log("socket in the room: ", socket.id);
 
-      const roomSize = io.sockets.adapter.rooms.get(room).size;
       // console.log(room + " roomSize: ", roomSize);
 
       // detect the number of sockets in the room
@@ -68,54 +67,74 @@ io.on(SocketEvents.connection, async (socket) => {
       // }
 
       // const isDriverSelected = false;
-      let roomWasOccupied = false;
-      let isDriverAdded = false;
-      if (roomSize > 0) {
+
+      let
+      roomWasOccupied = false,
+      isDriverAdded = false,
+      roomsize = io?.sockets?.adapter?.rooms?.get(roomname)?.size;
+
+      if (!roomsize)
+      throw new Error('sockethandler: join-room: roomsize is not defined.');
+
+      if (roomsize === 0 && !roomWasOccupied && isDriverAdded === false)
+      console.info('sockethandler: join-room: new room');
+
+      if (roomsize > 0) {
         roomWasOccupied = true;
-        let orderId = getOrderIdFromRoom(room);
-        // console.log("orderId: ", orderId);
-        const order = await MasterRoomController.getOrderById(orderId);
-        // console.log("order: ", order);
-        io.to(room).emit(SocketEvents.newOrder, {
+
+        let 
+        orderId = getOrderIdFromRoom(roomname);
+
+        const 
+        order = await MasterRoomController.getOrderById(orderId);
+
+        io.to(roomname).emit(
+          SocketEvents.newOrder, {
           message: "You have received a new order!",
           order: order,
         });
-        console.log(
-          "dispatching order:" + order + " to " + roomSize + " drivers."
-        );
+
+        console.info(`Sockethandler: Dispatching order ${order} to ${roomsize} drivers.`);
 
         socket.once("accept_delivery_order", async ({ data }) => {
-          // console.log("this socket claimed the order: ", socket.id);
-          socket.in(room).emit("order_assigned_to_another_driver", {
-            message:
-              "You did not claim the order in time! Stay online to receive another order.",
+
+          console.info(`Sockethandler: Socket ${socket.id} claimed order ${order}`);
+          
+          socket.in(roomname).emit(
+            "order_assigned_to_another_driver", {
+            message: "You did not claim the order in time! Stay online to receive another order.",
           });
-          console.log(
-            "server received accept order event for order: ",
-            orderId
-          );
+
+          console.info(`Dispatch: accept_delivery_order received for order ${orderId}`);
+
           const { userId } = data;
-          console.log(`driver:${userId} accepted the order:${orderId}.`);
-          socket.emit("order_assigned", {
-            message: "Navigate to start delivering your order!",
-          });
-          await MasterRoomController.addDriverToOrder(orderId, userId).then(
-            () => {
+
+          console.log(`Dispatch: Driver:${userId} accepted the order:${orderId}.`);
+
+          await 
+          MasterRoomController.addDriverToOrder(orderId, userId).then(() => {
               isDriverAdded = true;
-              // add the selected Driver to the order Room.
+
+              socket.emit(
+                "order_assigned", {
+                message: "Navigate to start delivering your order!",
+              });
+
+              // To DO: add the selected Driver to the order Room.
               // create a new socket connection from client side, to join the room
-              io.in(room).socketsLeave(room);
-            },
-            (error) => {
-              console.log(error);
-            }
-          );
-          console.log("room " + room + " closed");
+              io.in(roomname).socketsLeave(roomname);
+            })
+            .catch((error) => { throw new Error(`Sockethandler: Failed to add driver ${userId} to order ${orderId}.`); });
+          
+            console.log(`Dispatch: Room ${roomname} closed`);
         });
 
         socket.once("decline_delivery_order", () => {
-          console.log(`socket ${socket.id} denied the order.`);
-          socket.leave(room);
+
+          console.info(`Dispatch: Socket ${socket.id} denied the order.`);
+          
+          socket.leave(roomname);
+          
           // if (roomSize === 0) {
           //   // console.log("no driver selected for order. Relaunching dispatch..");
           //   // console.log("socketId: ", socket.id);
@@ -125,25 +144,25 @@ io.on(SocketEvents.connection, async (socket) => {
           // }
         });
       }
-      if (
-        roomSize == 0 &&
-        roomWasOccupied === true &&
-        isDriverAdded === false
-      ) {
-        console.log("select a new batch of drivers to dispatch order");
-      }
+
+      if (roomsize === 0 && roomWasOccupied === true && isDriverAdded === false)
+      throw new Error(`sockethandler: join-room: Failed to select a driver for room ${roomname}`);
+
     }
   });
 });
 
 io.of(/^\/order:\w+$/).on(SocketEvents.connection, async (socket) => {
-  let namespace = socket.nsp.name;
-  // console.log("socket connected to order namespace: ", namespace);
-  let orderId = getOrderIdFromRoom(namespace);
-  let room = `order:${orderId}`;
-  await socket.join(room);
+  
+  let 
+  namespace = socket.nsp.name,
+  orderId = getOrderIdFromRoom(namespace),
+  roomname = `order:${orderId}`;
 
-  if (room.startsWith("order:")) {
+  // console.log("socket connected to order namespace: ", namespace);
+  await socket.join(roomname);
+
+  if (roomname.startsWith("order:")) {
     // console.log("socket " + socket.id + " joined room: ", room);
 
     // TODO: When a client enters the room, the room
@@ -158,33 +177,36 @@ io.of(/^\/order:\w+$/).on(SocketEvents.connection, async (socket) => {
     //   "namespace room size: ",
     //   io._nsps.get(namespace).adapter.rooms.get(room).size
     // );
-    const roomSize = io._nsps
-      .get(namespace)
-      .adapter.rooms.get(room).size;
-    // console.log(room + " roomSize: ", roomSize);
-    // handle roomSize clause here
+    const 
+    roomsize = io?._nsps?.get(namespace)?.adapter?.rooms?.get(roomname)?.size;
 
-    if (roomSize > 1) {
-      console.log(roomSize + " clients have joined room:" + room);
-      let driverId;
-      // driver socket added to room
+    if (!roomsize)
+    throw new Error('Socket handler: Order: roomsize is not defined.')
+
+    if (roomsize > 1) {
+
       socket.on(SocketEvents.driverAdded, ({ data }) => {
-        let { userId } = data;
-        driverId = userId;
-        // console.log("driver:" + driverId + " added to order:" + orderId);
+
+        let 
+        { userId: driverId } = data;
+
         // navigate to vendor event emitted to driver client
-        socket.emit("navigate", {
+        socket.emit(
+          "navigate", {
           type: "NAVIGATE_TO_VENDOR",
         });
+
         // emit driver added event to customer and vendor clients
-        socket.broadcast.emit(SocketEvents.driverAdded, {
+        socket.broadcast.emit(
+          SocketEvents.driverAdded, {
           data: { driverId: driverId, orderId: orderId },
         });
       });
 
       socket.on(SocketEvents.sendLocation, ({ data }) => {
         // console.log("socket " + socket.id + " shared data: ", data);
-        socket.broadcast.emit(SocketEvents.sendLocation, {
+        socket.broadcast.emit(
+          SocketEvents.sendLocation, {
           data: data,
         });
       });
@@ -196,60 +218,77 @@ io.of(/^\/order:\w+$/).on(SocketEvents.connection, async (socket) => {
         // event is simply passing the orderId for clientside event handling for multiple orders
 
         // when driver arrives at vendor, send this socket event from client
-        console.log("navigate event: type: ", type, " data: ", data);
-        if (type === "ARRIVE_TO_VENDOR") {
-          console.log("driver arrived to vendor");
-          socket.broadcast.emit("message", {
-            type: "ARRIVE_TO_VENDOR",
-            data: data,
-          });
-        }
-        if (type === "PICKUP_PRODUCT") {
-          console.log("driver picked up the product");
-          socket.emit("navigate", {
-            type: "NAVIGATE_TO_CUSTOMER",
-          });
-          socket.broadcast.emit("message", {
-            type: "PICKUP_PRODUCT",
-            data: data,
-          });
-        }
-        if (type === "ARRIVE_TO_CUSTOMER") {
-          console.log("driver arrived to customer");
-          // handle different message on the client side
-          socket.broadcast.emit("message", {
-            type: "ARRIVE_TO_CUSTOMER",
-            data: data,
-            // message: "${driver.firstName} has arrived with the delivery!",
-          });
-        }
-        if (type === "DELIVER_PRODUCT") {
-          console.log("driver delivered a product to customer");
-          // this message may need to be configued to handle a list of orderId
-          // handle completing multiple orders on the client side
-          socket.broadcast.emit("message", {
-            type: "DELIVER_PRODUCT",
-            data: data,
-          });
-        }
+        console.info("Sockethandler: navigate event: '\n'type: ", type, "'\n'data: ", data);
+        switch(type) {
+          case "ARRIVE_TO_VENDOR":
 
-        // this maybe is not valid anymore V
-        // driver client:
-        // check for more deliveries in the driver queue
-        // note: create document watcher to watch driver distance from vendor,
-        // and send event to driver to allow PICKUP_PRODUCT if they are in range.
-        // send event to driver to allow ARRIVE_TO_CUSTOMER to allow delivery when in range
+            console.log("driver arrived to vendor");
+            socket.broadcast.emit(
+              "message", {
+              type: "ARRIVE_TO_VENDOR",
+              data: data,
+            });
+            break;
+
+          case "PICKUP_PRODUCT":
+
+            console.log("driver picked up the product");
+            socket.emit(
+              "navigate", {
+              type: "NAVIGATE_TO_CUSTOMER",
+            });
+            socket.broadcast.emit(
+              "message", {
+              type: "PICKUP_PRODUCT",
+              data: data,
+            });
+            break;
+
+          case "ARRIVE_TO_CUSTOMER":
+            console.log("driver arrived to customer");
+            // handle different message on the client side
+            socket.broadcast.emit(
+              "message", {
+              type: "ARRIVE_TO_CUSTOMER",
+              data: data,
+              // message: "${driver.firstName} has arrived with the delivery!",
+            });
+            break;
+
+          case "DELIVER_PRODUCT":
+            console.log("driver delivered a product to customer");
+            // this message may need to be configued to handle a list of orderId
+            // handle completing multiple orders on the client side
+            socket.broadcast.emit(
+              "message", {
+              type: "DELIVER_PRODUCT",
+              data: data,
+            });
+            break;
+          
+          default:
+            console.info('unhandled navigate event type: ', type);
+            break;
+
+          // this maybe is not valid anymore V
+          // driver client:
+          // check for more deliveries in the driver queue
+          // note: create document watcher to watch driver distance from vendor,
+          // and send event to driver to allow PICKUP_PRODUCT if they are in range.
+          // send event to driver to allow ARRIVE_TO_CUSTOMER to allow delivery when in range
+        }
       });
+      
     }
   }
 });
 
-function saveClient(userId, socketId) {
+function saveClient(userId: string, socketId: string) {
   connectClientController.saveConnectedClient(userId, socketId);
 }
 
-function getOrderIdFromRoom(room) {
-  let orderId = room.split(":")[1];
+function getOrderIdFromRoom(roomname: string): string {
+  let orderId = roomname.split(":")[1] || "";
   return orderId;
 }
 
