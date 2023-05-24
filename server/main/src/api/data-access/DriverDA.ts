@@ -1,11 +1,16 @@
+import { findDriverWithDetailsByEmail, findDriverWithDetailsById } from "@cd/data-access";
 import { MongoClient } from "mongodb";
+
 
 /* =================================
 Driver Data Access - data class for Driver SQL Table
 
 members:
 useMongoDB
+
 getDriverById
+getDriverByEmail
+
 ================================= */
 
 let 
@@ -28,13 +33,25 @@ export default class DriverDA {
     }
   }
 
-  static async getDriverById(id) {
+  static async getDriverById(id: string) {
     try {
-      const data = await findDriverWithDetailsById(id);
+      const 
+      data = await findDriverWithDetailsById(id);
       return data;
     } catch (error:any) {
       console.error(error.message);
       throw new Error(error.message);
     }
   }
+
+  static async getDriverByEmail(email: string) {
+    try {
+        const 
+        data = await findDriverWithDetailsByEmail(email);
+        return data;
+    } catch (error:any) {
+        console.error(error.message);
+        throw new Error(error.message);
+    }
+}
 }
