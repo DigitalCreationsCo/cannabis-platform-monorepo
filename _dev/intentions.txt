@@ -117,6 +117,8 @@ test users login and signup
 Dispensary signup forms 1/2 done
 
 To DO: 
+TO DO: add geosphere index, add schema for driverSessions collection, add process to bring driver online and offline, save a history of activity for drivers, implement the sql record for drivers, and keep winning. :) Also, get the driver app running on my iphone tomorrow. :D
+
 Complete checkout and stripe data flow, end to end
 NOTE: PROVIDE A TEXTFIELD FOR DISPENSARIES TO INPUT THEIR EXISTING STRIPE ACCOUNTS, during onboarding.
 
