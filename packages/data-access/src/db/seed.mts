@@ -63,6 +63,21 @@ const users: User[] = [
   },
 ];
 
+const drivers: Driver[] = [
+  {
+    id: "1",
+    email: "bmejiadeveloper2@gmail.com",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: "2",
+    email: "bob@gmail.com",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+];
+
 const memberships:Membership[]  = [
   {
     id: '1',
@@ -132,7 +147,7 @@ const addresses:Address[] = [
     country: "United States",
     countryCode: "US",
     userId: '3',
-    organizationId: null,
+    organizationId: 'bfhk6k4u7xq030rz7wvgiwao',
     coordinateId: '1',
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -310,7 +325,7 @@ const orgs:Organization[] = [
     createdAt: new Date(),
     updatedAt: new Date(),
     termsAccepted: true,    
-    stripeOnboardingComplete:true
+    stripeOnboardingComplete:true,
   },
 ];
 const siteSettings:SiteSetting[] = [
@@ -968,19 +983,6 @@ const CategoryLists: CategoryList[] = [
     updatedAt: new Date(),
   }
 ]
-
-const drivers: Driver[] = [
-  {
-    id: "1",
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    id: "2",
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-];
 
 const purchases: Purchase[] = [
 {

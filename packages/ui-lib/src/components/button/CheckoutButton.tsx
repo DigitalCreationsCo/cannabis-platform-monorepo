@@ -13,7 +13,7 @@ function CheckoutButton(props: CheckoutButtonProps) {
         const 
         response = await dispatch(cartActions.createOrderForCheckout() as any)
 
-        if (response.error.message === 'Rejected')
+        if (response?.error?.message === 'Rejected')
         throw new Error(response.payload);
         
         Router.push('/checkout');
