@@ -151,7 +151,15 @@ export async function findOrderWithDetails(id: string) {
                 include: {
                     customer: true,
                     driver: true,
-                    organization: true,
+                    organization: {
+                        include: {
+                            address: {
+                                include: {
+                                    coordinates: true
+                                }
+                            },
+                        }
+                    },
                     destinationAddress: true,
                     items: { include: { images: true } }
                 }

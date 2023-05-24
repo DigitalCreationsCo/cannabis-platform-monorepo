@@ -148,6 +148,14 @@ class StripeService {
                 await PaymentDA.startFulfillment(order.id)
             break;
 
+            case 'charge.succeeded':
+                // create sale record or Order record for dispensary
+            break;
+
+            case 'payment_intent.succeeded':
+                // generate customer invoice
+            break;
+
             default:
             console.log(`Unhandled stripe event type ${event.type}`);
         }

@@ -3,7 +3,7 @@
 import { connectClientController } from '../redis';
 // import { Client } from '../../types'
 import { OrderWithDetails } from '@cd/data-access';
-import { Client, RoomAction } from 'types';
+import { Client } from 'types';
 import DispatchDA from '../../data-access';
 import _ from '../../util';
 import ClusterInit from './clusterInit';
@@ -32,15 +32,16 @@ class MasterRoomController {
           
             this.dispatchDataAccess?.dispatchOrdersChangeStream?.on("change", async (change: any) => {
 
-            const 
+            let 
             order: OrderWithDetails = change.fullDocument;
 
-            let
-            { id, driver } = order;
-            
             switch (change.operationType) {
-
+              
               case "insert":
+
+              let
+              driver = order.driver;
+              
               // handle new dispatch order
               if (_.isEmpty(driver))
                   // get order
@@ -55,6 +56,7 @@ class MasterRoomController {
               break;
 
               case "update":
+                
               if (!order.driver)
               console.log("pending Order needs assigned driver.");
                   // ClusterInit.SendToWorker(
