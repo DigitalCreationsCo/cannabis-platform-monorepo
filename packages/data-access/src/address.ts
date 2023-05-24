@@ -48,7 +48,8 @@ export async function removeAddressByIdAndUserId({ addressId, userId }: { addres
                 id: addressId
             },
             data: {
-                user: { disconnect: true }
+                user: { disconnect: { id: userId }
+                }
             }
         })
         return `Address ${removeAddress?.id} is removed.`

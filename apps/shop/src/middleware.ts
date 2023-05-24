@@ -87,9 +87,13 @@ export default function middleware(req: NextRequest, res: ServerResponse) {
 
     // under21 redirect to base url
     if (url.pathname !== '/' && subdomain === 'localhost' || subdomain === 'grascannabis') {
+        
         let over21 = req.cookies.get('yesOver21')?.value
 
         if (url.pathname === '/about-gras')
+        return NextResponse.next()
+
+        if (url.pathname === '/signup/create-dispensary-account')
         return NextResponse.next()
         
         if (!over21) {
