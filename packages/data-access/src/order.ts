@@ -1,7 +1,7 @@
-import { Address, Driver, Order, OrderStatus, Organization, Prisma, ProductVariant, User } from "@prisma/client";
+import { Address, Driver, Order, OrderStatus, Prisma, ProductVariant, User } from "@prisma/client";
 import { AddressUserCreateType } from "./address";
 import prisma from "./db/prisma";
-import { OrganizationWithShopDetails } from "./organization";
+import { OrganizationWithAddress, OrganizationWithShopDetails } from "./organization";
 import { UserWithDetails } from "./user";
 import { connectVariantImages, createProductVariantsWithoutId, ProductVariantWithDetails } from "./variant";
 
@@ -27,8 +27,11 @@ export async function createOrder(order: any) {
 
         const itemsConnect = () => order.items?.map((item: ProductVariantWithDetails) => ({ id: item.id }))
 
-        const createOrder = await prisma.order.create({
-            data: { 
+        const createOrder = await prisma.order.upsert({
+            where: {
+                id: order.id
+            },
+            create: { 
                 id: order.id,
                 subtotal: order.subtotal || order.total,
                 total: order.total,
@@ -63,6 +66,26 @@ export async function createOrder(order: any) {
                 //         }
                 //     }
                 // }
+            },
+            update: {
+                id: order.id,
+                subtotal: order.subtotal || order.total,
+                total: order.total,
+                taxFactor: order.taxFactor || 0,
+                taxAmount: order.taxAmount || 0,
+                orderStatus: order.orderStatus,
+                addressId: order.addressId,
+                customerId: order.customerId,
+                organizationId: order.organizationId,
+                driverId: order.driverId,
+                isDeliveredOrder: order.isDeliveredOrder,
+                isCustomerReceivedOrder: order.isCustomerReceivedOrder,
+                isCompleted: order.isCompleted,
+                deliveredAt: order.deliveredAt,
+                purchaseId: order.purchaseId,
+                items: {
+                    connect: itemsConnect()
+                },
             }
         });
         
@@ -122,7 +145,7 @@ export async function findOrdersByOrg(organizationId: string) {
 
 export async function findOrderWithDetails(id: string) {
     try {
-        const order:OrderWithDetails|null = await prisma.order.findUnique(
+        const order: any = await prisma.order.findUnique(
             {
                 where: { id },
                 include: {
@@ -268,11 +291,11 @@ export type OrderWithDetails = Order & {
     customer: User
     
     organizationId: string
-    organization: Organization
+    organization: OrganizationWithAddress
     // organization: OrganizationWithShopDetails
 
     driverId?: string | null
-    driver: Driver | null
+    driver: Driver | undefined
     
     isDeliveredOrder: boolean
     isCustomerReceivedOrder: boolean

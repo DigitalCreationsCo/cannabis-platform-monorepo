@@ -1,18 +1,19 @@
 import cluster from "cluster";
 // import _ from '../util'
 // const { db_uri, db_ns } = process.env;
-import prisma from '@cd/data-access';
-import { MongoClient, ObjectId } from "mongodb";
+import prisma, { Coordinates } from '@cd/data-access';
+import { ChangeStream, Collection, MongoClient, ObjectId } from "mongodb";
+import _ from '../util';
 
 const 
-mongoConnectUrl = process.env.MONGODB_SERVER_DISPATCH_CLUSTER_URL
+mongoConnectUrl = process.env.MONGODB_SERVER_DISPATCH_CLUSTER_URL || ''
 
 
 class DispatchDA {
 
-  driverSessionsCollection;
-  dispatchOrdersCollection;
-  dispatchOrdersChangeStream;
+  driverSessionsCollection: Collection | undefined;
+  dispatchOrdersCollection: Collection | undefined;
+  dispatchOrdersChangeStream: ChangeStream | undefined;
 
   constructor() {
     this.driverSessionsCollection;
@@ -35,7 +36,7 @@ class DispatchDA {
       return (async () => {
         
         await this.connectDb()
-        .then(() => console.log(" 🚔 [Worker-" + cluster.worker.id + ":" + process.pid + "] is connected to Mongo, and Prismadatabase. 👏"));
+        .then(() => console.log(" 🚔 [Worker-" + cluster?.worker?.id + ":" + process.pid + "] is connected to Mongo, and Prismadatabase. 👏"));
         
         return this;
         
@@ -67,19 +68,22 @@ class DispatchDA {
     return this;
   }
 
-  async getDispatchOrderById(orderId) {
+  async getDispatchOrderById(id: string) {
     // need from mongo or prisma?
     // how to make it distinct in code and design?
     try {
-      return await this.dispatchOrdersCollection.findOne({
-        orderId: new ObjectId(orderId),
-      });
+      
+      const
+      order = await this.dispatchOrdersCollection?.findOne({ id: new ObjectId(id) });
+
+      return order;
+
     } catch (error) {
       console.error(`Error occurred while retrieving order, ${error}`);
     }
   }
 
-  async getDriverById(driverId) {
+  async getDriverUserRecordById(driverId: string) {
     // this will query prisma for the user object
     try {
       let query = { driverId: new ObjectId(driverId) };
@@ -95,19 +99,23 @@ class DispatchDA {
           orderHistory: 0,
         },
       };
-      return await this.driversCollection.findOne(query, projection);
+      // return await this.driversCollection?.findOne(query, projection);
     } catch (e) {
       console.error(`Error occurred while retrieving user session, ${e}`);
     }
   }
 
-  async findDriversWithinRange(geoJsonPoint) {
+  async findDriversWithinRange(coordinates: Coordinates) {
     // query mongo db
     // search within ~5 miles, increase the range if no drivers are found
     try {
-      // console.log("collection: ", this.driverSessionsCollection);
-      return await this.driverSessionsCollection
-        .aggregate([
+      let
+      geoJsonPoint = _.getGeoJsonPoint(coordinates)
+
+      if (!geoJsonPoint) 
+      throw new Error("No coordinates are valid.");
+      
+      return await this.driverSessionsCollection?.aggregate([
           {
             $geoNear: {
               near: geoJsonPoint,
@@ -125,12 +133,16 @@ class DispatchDA {
     }
   }
 
-  async findDriverIdsWithinRange(geoJsonPoint) {
+  async findDriverIdsWithinRange(coordinates: Coordinates) {
     // search within ~5 miles, increase the range if no drivers are found
     try {
-      // console.log("collection: ", this.driverSessionsCollection);
-      return await this.driverSessionsCollection
-        .aggregate([
+      let
+      geoJsonPoint = _.getGeoJsonPoint(coordinates)
+
+      if (!geoJsonPoint) 
+      throw new Error("No coordinates are valid.");
+
+      return await this.driverSessionsCollection?.aggregate([
           {
             $geoNear: {
               near: geoJsonPoint,
@@ -144,32 +156,41 @@ class DispatchDA {
           { $project: { _id: 0, driverId: 1 } },
         ])
         .toArray();
-    } catch (error) {
-      console.error(error);
+        
+    } catch (error: any) {
+      console.error('Dispatch: findDriverIdsWithinRange error: ', error);
+      throw new Error(error.message);
     }
   }
 
-  async addDriverToOrder(orderId, driverId) {
+  async addDriverToOrderRecord(orderId: string, driverId: string) {
     // query prisma to add to order,
     // and to mongo as well for the change stream
     try {
-      let query = { orderId: new ObjectId(orderId) };
-      let driver = await this.getDriverById(driverId);
-      let update = { $set: { driver: driver } };
-      const updatedOrder = await this.dispatchOrdersCollection.updateOne(
+      
+      let 
+      query = { orderId: new ObjectId(orderId) };
+      
+      let 
+      driver = await this.getDriverUserRecordById(driverId);
+      
+      let 
+      update = { $set: { driver: driver } };
+      
+      const 
+      updatedOrder = await this.dispatchOrdersCollection?.updateOne(
         query,
         update,
-        {
-          w: "majority",
-        }
+        { writeConcern: { w: "majority" }}
       );
-      // console.log("updated " + updatedOrder.modifiedCount + " record");
-      if (updatedOrder.modifiedCount === 0) {
-        throw new Error(`Did not update the record: ${orderId}`);
-      }
+
+      if (updatedOrder?.modifiedCount === 0)
+      throw new Error(`Did not update the record: ${orderId}`);
+
       return { success: true };
-    } catch (error) {
+    } catch (error: any) {
       console.error(`Error occurred while updating order, ${error}`);
+      throw new Error(error.message);
     }
   }
 
@@ -177,14 +198,15 @@ class DispatchDA {
     try {
 
       const 
-      changeStream = await this.dispatchOrdersCollection.watch([], { fullDocument: "updateLookup" });
+      changeStream = await this.dispatchOrdersCollection?.watch([], { fullDocument: "updateLookup" });
 
-      console.log(' 🚔 [Primary:' + process.pid + '] is watching ' + this.dispatchOrdersCollection.s.namespace.collection + '-collection for dispatch orders');
+      console.log(` 🚔 [Primary: ${process.pid}] is watching ${this.dispatchOrdersCollection?.namespace} collection for dispatch orders`);
 
       this.dispatchOrdersChangeStream = changeStream;
       
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      throw new Error(error.message);
     }
   }
 }

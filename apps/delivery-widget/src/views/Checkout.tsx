@@ -39,7 +39,7 @@ function Checkout({ className, expandWidget, setExpandWidget, dispensaryKey, nam
     }
 
     const styles = {
-        loading: [className, "md:!rounded", "flex flex-col items-center justify-center", "md:w-[440px] min-h-[440px]"],
+        loading: [className, "md:!rounded", "flex flex-col items-center justify-center", "md:w-[440px] min-h-[440px] cursor-default"],
         showCart: [className, "md:!rounded", "flex flex-col justify-between m-auto", "md:w-[440px] min-h-[440px] space-y-2"],
         capsule: [className, 'md:rounded-full', 'cursor-pointer']
     }

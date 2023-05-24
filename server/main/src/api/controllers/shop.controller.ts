@@ -55,6 +55,8 @@ export default class ShopController {
             let 
             orderId: string = req.body.orderId
 
+            console.log('received order fulfillment: ', orderId);
+
             await OrderDA.updateOrderFulfillmentStatus(orderId, "Processing")
 
             const
@@ -66,7 +68,7 @@ export default class ShopController {
             
         } catch (error: any) {
             console.log('API Error Shop Controller: fulfillOrderAndDispatch: ', error);
-            res.status(500).json({ error });
+            res.status(500).json({ error: error.message });
         }
     }
 
