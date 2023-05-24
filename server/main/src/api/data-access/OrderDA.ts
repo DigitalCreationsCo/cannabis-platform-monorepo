@@ -154,6 +154,10 @@ export default class OrderDA {
             
         } catch (error: any) {
             console.error('addDispatchRecordMongo error: ', error.message);
+
+            if (error.code === 11000)
+            throw new Error('Order exists already!');
+            
             throw new Error(error.message);
         }
       }

@@ -26,7 +26,7 @@ class ConnectClientController {
       .catch((err) => console.log("RedisConnectClientController ERROR: ", err));
   }
 
-  async getSocketFromDriverIds(idList) {
+  async getSocketsByDriverIds(idList) {
     const sockets = [];
     let id;
     for (id of idList) {

@@ -1,5 +1,5 @@
-import { Address, CategoryList, Coordinates, ImageOrganization, Prisma, Schedule } from "@prisma/client";
-import { AddressCreateType } from "./address";
+import { Address, CategoryList, Coordinates, ImageOrganization, Organization, Prisma, Schedule } from "@prisma/client";
+import { AddressCreateType, AddressWithCoordinates } from "./address";
 import prisma from "./db/prisma";
 /*
 *   updateOrganization
@@ -324,6 +324,8 @@ export type OrganizationCreateType = {
     termsAccepted?: boolean
     subdomainId: string
 }
+
+export type OrganizationWithAddress = Organization & { address: AddressWithCoordinates}
 
 export type OrganizationWithShopDetails = {
     id: string

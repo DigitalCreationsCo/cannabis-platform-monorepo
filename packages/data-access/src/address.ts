@@ -102,4 +102,4 @@ export type CoordinatesCreateType = {
 }
 
 export type AddressWithDetails = Address & { coordinates: Coordinates | null }
-export type AddressWithCoordinates = Address & { coordinates: Coordinates | null }
+export type AddressWithCoordinates = Address & { coordinates: Coordinates }
