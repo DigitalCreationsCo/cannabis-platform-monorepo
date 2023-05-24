@@ -5909,6 +5909,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/recluster@npm:^0.4.3":
+  version: 0.4.3
+  resolution: "@types/recluster@npm:0.4.3"
+  dependencies:
+    "@types/node": "*"
+  checksum: 8ed78a922b85678a3acf893fb43d03be31cb3a703436c1f04aa8dc2e417a4b2458b35ae1a2d8eccfe9dd9b401ac759a1176826ed54e54d775d528adf10b506af
+  languageName: node
+  linkType: hard
+
 "@types/resolve@npm:1.17.1":
   version: 1.17.1
   resolution: "@types/resolve@npm:1.17.1"
@@ -8251,6 +8260,7 @@ __metadata:
     "@types/node": 18.11.10
     "@types/prettier": 2.7.2
     "@types/react-dom": 18.0.11
+    "@types/recluster": ^0.4.3
     "@typescript-eslint/eslint-plugin": 5.45.0
     "@typescript-eslint/parser": 5.45.0
     autoprefixer: 10.4.13
