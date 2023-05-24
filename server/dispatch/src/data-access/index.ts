@@ -142,7 +142,8 @@ class DispatchDA {
       if (!geoJsonPoint) 
       throw new Error("No coordinates are valid.");
 
-      return await this.driverSessionsCollection?.aggregate([
+      const
+      driverIds = await this.driverSessionsCollection?.aggregate([
           {
             $geoNear: {
               near: geoJsonPoint,
@@ -156,6 +157,8 @@ class DispatchDA {
           { $project: { _id: 0, driverId: 1 } },
         ])
         .toArray();
+
+      return driverIds as unknown as { driverId: string }[] || [];
         
     } catch (error: any) {
       console.error('Dispatch: findDriverIdsWithinRange error: ', error);

@@ -30,7 +30,7 @@ class MasterRoomController {
         .then(
           async ({ default: DispatchDA }) => { this.dispatchDataAccess = await DispatchDA; }).then(() => {
           
-            this.dispatchDataAccess?.dispatchOrdersChangeStream.on("change", async (change: any) => {
+            this.dispatchDataAccess?.dispatchOrdersChangeStream?.on("change", async (change: any) => {
 
             const 
             order: OrderWithDetails = change.fullDocument;
@@ -168,6 +168,9 @@ class MasterRoomController {
       const 
       selectedDriverIds = await this.dispatchDataAccess?.findDriverIdsWithinRange(coordinates);
 
+      if (!selectedDriverIds) 
+      throw new Error("No drivers found within range.");
+      
       const 
       selectDriverSocketIdList = await connectClientController.getSocketsByDriverIds(selectedDriverIds);
       
@@ -177,7 +180,7 @@ class MasterRoomController {
       // then, return the selectDriverSocketIdList
       
       if (selectDriverSocketIdList.length > 0)
-        this.joinRoom(_roomname, selectDriverSocketIdList);
+      this.joinRoom(_roomname, selectDriverSocketIdList);
         
       else {
         // call again with greater range, until drivers are found.
