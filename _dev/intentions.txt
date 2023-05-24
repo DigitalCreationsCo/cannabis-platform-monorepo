@@ -127,6 +127,12 @@ provision production mongo database
 provision production prisma database branch
  - conditionally condition to dev or prod database, on node env variable
 
+DATA REINFORCEMNET/SECURITY/HARDENING/&& BACKUPS!!!
+save all organization data in a 6 hour backup, double backup.
+save all user data in a 6 hour backup, double backup.
+save all driver data in a 6 hour backup, double backup.
+save all route data in a 6 hour backup, double backup.
+save all address data in a 6 hour backup, double backup.
 
 To DO: 
 TO DO: add geosphere index, add schema for driverSessions collection, add process to bring driver online and offline, save a history of activity for drivers, implement the sql record for drivers, and keep winning. :) Also, get the driver app running on my iphone tomorrow. :D
