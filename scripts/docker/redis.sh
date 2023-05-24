@@ -1,1 +1,2 @@
-docker run --name dispatch-redis -d -p 6379:6379 redis redis-server --save 60 1 --loglevel warning
+docker run --name dispatch-publish-redis -d -p 6379:6379 redis redis-server --save 60 1 --loglevel warning
+docker run --name dispatch-connect-redis -d -p 6380:6379 redis redis-server --save 60 1 --loglevel warning

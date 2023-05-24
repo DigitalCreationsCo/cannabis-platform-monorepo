@@ -10,7 +10,7 @@ class ClusterInit {
     
     cluster.setupPrimary({
       
-      exec: 'src/cluster/worker/index.mjs',
+      // exec: 'src/cluster/worker/index.ts',
     });
 
     for (var i = 0; i < settings.numCPUs; i++) {
