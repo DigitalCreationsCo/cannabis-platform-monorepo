@@ -62,7 +62,7 @@ export default class ShopController {
             const
             order = await OrderDA.getOrderById(orderId)
 
-            await OrderDA.addDispatchRecordMongo(order)
+            await OrderDA.addDispatchOrderMongo(order)
 
             return res.status(201).json({ message: "Order created Successfully", order });
             

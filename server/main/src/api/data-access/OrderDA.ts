@@ -14,32 +14,38 @@ import { MongoClient } from 'mongodb';
 Order Data Access - data class for order table
 
 members: 
+useMongoDB
 createOrder
 createPurchase
 
 getOrdersByOrg
 getOrderById
 updateOrderById
+updateOrderFulfillmentStatus
+addDispatchOrderMongo
 
 getProductsByOrg
 getProductById
 searchProducts
-
 ================================= */
 
-let dispatchOrders = null
-const dispatch_namespace = process.env.DISPATCH_DB_NS;
+let 
+dispatchOrders;
+
+const 
+dispatch_namespace = process.env.DISPATCH_DB_NS;
 
 export default class OrderDA {
     static async useMongoDB (mongoClient: MongoClient) {
-        
-        if (dispatchOrders) 
-        return
-        
         try {
+            
+            if (!dispatchOrders)
             dispatchOrders = await mongoClient.db(dispatch_namespace).collection("dispatch");
-        } catch (e) {
+
+            return
+        } catch (e: any) {
             console.error(`Unable to establish collection handle in OrderDA: ${e}`);
+            throw new Error(`Unable to establish collection handle in OrderDA: ${e.message}`)
         }
     }
 
@@ -142,7 +148,7 @@ export default class OrderDA {
         }
     }
 
-    static async addDispatchRecordMongo(order: OrderWithDetails) {
+    static async addDispatchOrderMongo(order: OrderWithDetails) {
         try {
             
             const 
