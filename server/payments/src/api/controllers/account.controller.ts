@@ -79,6 +79,9 @@ export default class AccountController {
                 return_url: process.env.NEXT_PUBLIC_SHOP_APP_URL,
                 type: 'account_onboarding'
             });
+
+            // show confirmation of successful stripe connect, for connect or create account flows.
+            // redirect dispensary user back to complete the signup, and review their info.
             
             return res.status(302).send({ 
                 success: true, 

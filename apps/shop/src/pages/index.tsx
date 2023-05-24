@@ -47,7 +47,7 @@ function LandingPage() {
                 <FlexBox className='justify-between min-h-[555px] space-y-4'>
                     <FlexBox className={twMerge(styles.hero)} >
                         <FlexBox>
-                        <H1 color="light" className='pb-0 whitespace-normal'>Get Cannabis Delivered{'\xa0'}🌴</H1>
+                        <H1 color="light" className='pb-0 whitespace-normal'>Get&nbsp;Cannabis&nbsp;Delivered{'\xa0'}🌴</H1>
                         <H5 className="pt-0 whitespace-nowrap text-light">with Gras, a one stop cannabis marketplace</H5>
                         </FlexBox>
                         <Button
