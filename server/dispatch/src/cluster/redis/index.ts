@@ -1,25 +1,27 @@
 import { createClient } from "redis";
 
 const 
-redisPubClientUrl = process.env.DISPATCH_PUB_REDIS_URL,
+redisPubClientUrl = process.env.DISPATCH_PUB_REDIS_URL;
 
-publishRedisClient = createClient({ url: redisPubClientUrl });
-
-publishRedisClient.on("error", (err) => console.log("Publisher Redis Client Error: ", err))
-.connect();
+const
+publishRedisClient = createClient({ url: redisPubClientUrl }).on("error", (err) => console.log("Publisher Redis Client Error: ", err))
+// await
+publishRedisClient.connect();
 
 const 
 subscribeRedisClient = publishRedisClient.duplicate().on("error", (err) => console.log("Subscriber Redis Client Error: ", err))
-.connect();
+// await
+subscribeRedisClient.connect();
 
 
 const
-redisConnectClientUrl = process.env.DISPATCH_CONNECT_REDIS_URL,
+redisConnectClientUrl = process.env.DISPATCH_CONNECT_REDIS_URL;
 
+const
 connectRClient = createClient({ url: redisConnectClientUrl });
-
 connectRClient.on("error", (err) => console.log("Client Connnect Redis Client Error: ", err))
-.connect();
+// await
+connectRClient.connect();
 
 
 class ConnectClientController {
