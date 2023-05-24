@@ -51,7 +51,7 @@ class DispatchDA {
     await 
     MongoClient.connect(mongoConnectUrl)
     .then(async (client) => {
-      this.driverSessionsCollection = client.db(dispatch_namespace).collection('dispatch');
+      this.driverSessionsCollection = client.db(dispatch_namespace).collection('driverSessions');
       this.dispatchOrdersCollection = client.db(dispatch_namespace).collection('dispatch');
     })
     .catch(error => {
