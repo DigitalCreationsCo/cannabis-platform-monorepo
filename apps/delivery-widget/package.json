@@ -1,5 +1,5 @@
 {
-  "name": "@cd/delivery-widget",
+  "name": "@cd/delivery-widget-app",
   "private": true,
   "version": "0.0.1",
   "main": "./dist/index.js",
