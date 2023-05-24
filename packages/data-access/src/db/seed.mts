@@ -1,5 +1,8 @@
 import { Address, Category, CategoryList, Driver, ImageOrganization, ImageProduct, ImageUser, ImageVendor, Membership, Order, Organization, PrismaClient, Product, ProductVariant, Purchase, Schedule, SiteSetting, SubDomain, User, Vendor } from "@prisma/client";
 
+
+// rewrite functions to connect users with addresses
+
 const users: User[] = [
   {
     id: "1",
@@ -12,11 +15,11 @@ const users: User[] = [
     idVerified: false,
     isSignUpComplete: false,
     passwordHash: "",
-    passwordResetToken: null,
+    passwordResetToken: "null",
     dialCode: "1",
     phone: "1232343456",
-    idFrontImage: null,
-    idBackImage: null,
+    idFrontImage: "",
+    idBackImage: "",
     termsAccepted: false,
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -146,8 +149,6 @@ const addresses:Address[] = [
     zipcode: "17602",
     country: "United States",
     countryCode: "US",
-    userId: '3',
-    organizationId: 'bfhk6k4u7xq030rz7wvgiwao',
     coordinateId: '1',
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -160,8 +161,6 @@ const addresses:Address[] = [
     zipcode: "17602",
     country: "United States",
     countryCode: "US",
-    userId: null,
-    organizationId: '1',
     coordinateId: '1',
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -175,8 +174,6 @@ const addresses:Address[] = [
     zipcode: "17602",
     country: "United States",
     countryCode: "US",
-    userId: '2',
-    organizationId: null,
     coordinateId: '1',
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -190,8 +187,6 @@ const addresses:Address[] = [
     zipcode: "17602",
     country: "United States",
     countryCode: "US",
-    userId: '2',
-    organizationId: null,
     coordinateId: '1',
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -205,8 +200,6 @@ const addresses:Address[] = [
     zipcode: "17602",
     country: "United States",
     countryCode: "US",
-    userId: "1",
-    organizationId: null,
     coordinateId: '1',
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -280,7 +273,8 @@ const orgs:Organization[] = [
     createdAt: new Date(),
     updatedAt: new Date(),
     termsAccepted: true,    
-    stripeOnboardingComplete:false
+    stripeOnboardingComplete:false,
+    addressId: '1',
   },
   {
     id: "2",
@@ -295,7 +289,8 @@ const orgs:Organization[] = [
     createdAt: new Date(),
     updatedAt: new Date(),
     termsAccepted: true,    
-    stripeOnboardingComplete:false
+    stripeOnboardingComplete:false,
+    addressId: '2',
   },
   {
     id: "3",
@@ -310,7 +305,8 @@ const orgs:Organization[] = [
     createdAt: new Date(),
     updatedAt: new Date(),
     termsAccepted: true,    
-    stripeOnboardingComplete:false
+    stripeOnboardingComplete:false,
+    addressId: '3',
   },
   {
     id: "bfhk6k4u7xq030rz7wvgiwao",
@@ -326,6 +322,7 @@ const orgs:Organization[] = [
     updatedAt: new Date(),
     termsAccepted: true,    
     stripeOnboardingComplete:true,
+    addressId: '4',
   },
 ];
 const siteSettings:SiteSetting[] = [

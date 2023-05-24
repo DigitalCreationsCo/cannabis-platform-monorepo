@@ -407,20 +407,25 @@ export type UserWithDetails = User & Omit<User, "createdAt" | "updatedAt"> & {
 }
 
 export type UserCreateType = {
+    id?: string;
     firstName: string;
     lastName: string;
     username: string;
     email: string;
     emailVerified: boolean;
     passwordHash?: string;
+    passwordResetToken?: string;
     // password: string;
     // re_password: string;
     phone: string;
     dialCode: string;
     termsAccepted: boolean;
     imageUser: ImageUser[] | null;
-    isLegalAge: boolean;
+    idFrontImage?: string;
+    idBackImage?: string;
+    isLegalAge: boolean | null;
     idVerified: boolean;
+    isSignUpComplete: boolean;
     address: AddressUserCreateType[]
     memberships: Prisma.MembershipUpsertArgs["create"][];
 }
