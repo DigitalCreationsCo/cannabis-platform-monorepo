@@ -28,11 +28,10 @@ export default class PaymentController {
 
             if (!order.items || order.items.length === 0)
             throw new Error('No items in order')
-            
-            // console.log('payment controller, checkout order: ', order)
-            // console.error('organization id: ', order.organizationId)
-            // console.error('stripe account id from order: ', order.organization.stripeAccountId)
-            
+
+            if (!order.organization.id)
+            throw new Error('Sorry, your dispensary is not found.')
+
             let 
             stripeAccountId = order.organization.stripeAccountId
 
@@ -58,18 +57,18 @@ export default class PaymentController {
             console.log('create checkout error: ', error.message)
             
             if (error.message === 'No order found.')
-            return res.status(400).json({ error });
+            return res.status(400).json({ error: error.message });
 
-            if (error.message === 'No items in order')
-            return res.status(400).json({ error });
+            if (error.message === 'Sorry, your dispensary is not found.')
+            return res.status(400).json({ error: error.message });
             
             if (error.message === `We're sorry, but this dispensary is not accepting payments at this time.`)
-            return res.status(400).json({ error });
+            return res.status(400).json({ error: error.message });
 
             if (error.message === 'No items in order')
-            return res.status(400).json({ error });
+            return res.status(400).json({ error: error.message });
             
-            return res.status(500).json({ error });
+            return res.status(500).json({ error: error.message });
         }
     }
     

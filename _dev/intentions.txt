@@ -116,6 +116,18 @@ test users login and signup
 5-14-2023
 Dispensary signup forms 1/2 done
 
+PRODUCTION CHECKLIST:
+Host the delivery widget executable.
+Build a page, to intake drivers, (signup)
+build a page with a cms, for platform knowledge, for dispensaries, and drivers.
+host the driver app. ( where? )
+ios -app store,
+android, - online on cms website.
+provision production mongo database
+provision production prisma database branch
+ - conditionally condition to dev or prod database, on node env variable
+
+
 To DO: 
 TO DO: add geosphere index, add schema for driverSessions collection, add process to bring driver online and offline, save a history of activity for drivers, implement the sql record for drivers, and keep winning. :) Also, get the driver app running on my iphone tomorrow. :D
 

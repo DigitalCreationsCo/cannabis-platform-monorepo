@@ -19,20 +19,18 @@ function Checkout() {
     async function createStripeCheckout () {
         try {
 
-            console.log('preparing this order to checkout: ', order)
-            
+            // console.log('preparing this order to checkout: ', order)
             const 
             response = await axios.post(
                 urlBuilder.shop + '/api/stripe/checkout-session', 
                 order,
-            { validateStatus: () => true }
             );
 
             if (response.status === 404)
-            throw new Error(response.data);
+            throw new Error(response.data.error);
 
             if (response.status === 400)
-            throw new Error(response.data);
+            throw new Error(response.data.error);
 
             if (response.status === 500)
             throw new Error("We're sorry. Checkout is not available. Please try again later.");
@@ -45,8 +43,8 @@ function Checkout() {
             
         }
         catch (error: any) {
-            console.error('create checkout error:', error)
-            throw new Error(error.message )
+            // console.error('create checkout error:', error)
+            throw new Error(error.message)
         }
     }
 

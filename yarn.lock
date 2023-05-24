@@ -2994,9 +2994,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@cd/delivery-widget@workspace:apps/delivery-widget":
+"@cd/delivery-widget-app@workspace:apps/delivery-widget":
   version: 0.0.0-use.local
-  resolution: "@cd/delivery-widget@workspace:apps/delivery-widget"
+  resolution: "@cd/delivery-widget-app@workspace:apps/delivery-widget"
   dependencies:
     "@babel/core": 7.21.4
     "@babel/preset-env": 7.21.4

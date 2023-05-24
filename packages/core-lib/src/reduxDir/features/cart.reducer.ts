@@ -104,48 +104,60 @@ export const createOrderForCheckout = createAsyncThunk<OrderCreate, void>(
 
       const { dispensaries } = thunkAPI.getState().shop as ShopStateProps
 
-      let organization = dispensaries.find(d => d.id === cart.organizationId)
+      let organization = 
+      dispensaries.find(d => d.id === cart.organizationId)
 
-      if (!organization)
-      await axios.get(urlBuilder.shop + `/api/organization/${cart.organizationId}`)
-      .then((res) => organization = res.data as OrganizationWithShopDetails)
-
-      const location = thunkAPI.getState().location as LocationStateProps
-      const { selectLocationType } = location
-      const selectedLocation = location[selectLocationType] as LocationType
+      // if (!organization)
       
-        const order:OrderCreate = {
-          id: createId(),
-          subtotal: cart.subTotal, 
-          total: cart.total, 
-          taxFactor: 0, 
-          taxAmount: 0,
-          orderStatus: 'Pending',
-          addressId: selectedLocation.address.id,
-          destinationAddress: selectedLocation.address,
-          customerId: user.id,
-          customer: user,
+      const response = await axios.get(
+        urlBuilder.shop + `/api/organization/${cart.organizationId}`).then((result) => {
+        organization = result.data as OrganizationWithShopDetails;
+      })
+      .catch((error) => {
+        throw new Error('Could not get your Dispensary details')
+      });
 
-          organizationId: cart.organizationId,
-          organization,
-          // should i contain the organization data in the order?
-          // yay: data is available for all clients (web, mobile, driver)
-          // if ( !dispensary is not found in state,) download the record from database, add it to redux state,
-          // add the record to the order, so we can see the dispensary during checkout. :)
-          // OR
-          // nay: server can get the data easily
-          
-          isDeliveredOrder: false,
-          isCustomerReceivedOrder: false,
-          isCompleted: false,
+      const location = 
+      thunkAPI.getState().location as LocationStateProps
+      
+      const 
+      { selectLocationType } = location,
+      selectedLocation = location[selectLocationType] as LocationType
+      
+      const 
+      order:OrderCreate = {
+        id: createId(),
+        subtotal: cart.subTotal, 
+        total: cart.total, 
+        taxFactor: 0, 
+        taxAmount: 0,
+        orderStatus: 'Pending',
+        addressId: selectedLocation.address.id,
+        destinationAddress: selectedLocation.address,
+        customerId: user.id,
+        customer: user,
 
-          items: await processCartItemsForCheckout(cart.cart)
-        }
+        organizationId: cart.organizationId,
+        organization,
+        // should i contain the organization data in the order?
+        // yay: data is available for all clients (web, mobile, driver)
+        // if ( !dispensary is not found in state,) download the record from database, add it to redux state,
+        // add the record to the order, so we can see the dispensary during checkout. :)
+        // OR
+        // nay: server can get the data easily
+        
+        isDeliveredOrder: false,
+        isCustomerReceivedOrder: false,
+        isCompleted: false,
 
-        return thunkAPI.fulfillWithValue(order);
+        items: await processCartItemsForCheckout(cart.cart)
+      }
+
+      return thunkAPI.fulfillWithValue(order);
+      
     } catch (error) {
-      console.log("createOrderForCheckout error: ", error);
-      return thunkAPI.rejectWithValue("Could not create order for checkout");
+      // console.log("createOrderForCheckout error: ", error);
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 )
