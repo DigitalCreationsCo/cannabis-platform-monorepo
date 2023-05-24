@@ -55,15 +55,15 @@ model User {
   firstName          String
   lastName String
   username String @unique
-  email         String?  @unique
+  email         String  @unique
   emailVerified Boolean @default(false)
   isLegalAge Boolean?
   idVerified Boolean @default(false)
   isSignUpComplete Boolean @default(false)
   passwordHash String?
   passwordResetToken String?
-  dialCode String?
-  phone String? @unique
+  dialCode String
+  phone String @unique
   address Address[]
   termsAccepted Boolean @default(false)
   imageUser     ImageUser[]
@@ -88,7 +88,7 @@ model User {
 }
 
 model Driver {
-  id String @id @unique
+  id String @id
   email String @unique
   user User @relation(fields: [id, email], references: [id, email], onDelete:Restrict, onUpdate: Cascade)
   
@@ -157,7 +157,7 @@ model Address {
 
   @@unique([userId, id])
   // @@index([userId])
-  @@index([organizationId])
+  @@index([organizationId, id])
   @@index([coordinateId])
 }
 

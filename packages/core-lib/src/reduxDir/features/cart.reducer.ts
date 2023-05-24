@@ -107,15 +107,15 @@ export const createOrderForCheckout = createAsyncThunk<OrderCreate, void>(
       let organization = 
       dispensaries.find(d => d.id === cart.organizationId)
 
-      // if (!organization)
-      
-      const response = await axios.get(
+      if (!organization)
+      await axios.get(
         urlBuilder.shop + `/api/organization/${cart.organizationId}`).then((result) => {
+          console.log('get org reesult: ', result)
         organization = result.data as OrganizationWithShopDetails;
       })
-      .catch((error) => {
-        throw new Error('Could not get your Dispensary details')
-      });
+
+      if (!organization?.id)
+      throw new Error('Could not get your Dispensary details. Please try again.')
 
       const location = 
       thunkAPI.getState().location as LocationStateProps

@@ -36,7 +36,8 @@ function QuickDelivery() {
      
     const [ confirmOrder, setConfirmOrder ] = useState(false)
     
-    const canProceed = !cartIsEmpty && confirmOrder
+    const canProceed = !cartIsEmpty && confirmOrder;
+    
     return (
         <Page className={twMerge(styles.gradient, "pb-0 md:pb-28")}>
             <Head>

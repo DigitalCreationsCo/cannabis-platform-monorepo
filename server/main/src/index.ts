@@ -1,6 +1,6 @@
 import prisma from '@cd/data-access';
 import { MongoClient } from "mongodb";
-import { OrderDA } from './api/data-access';
+import { DriverDA, OrderDA } from './api/data-access';
 import server from "./server";
 
 // import { loadEnv } from '@cd/shared-config/config/loadEnv';
