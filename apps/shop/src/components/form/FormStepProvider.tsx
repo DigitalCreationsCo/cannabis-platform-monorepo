@@ -1,15 +1,14 @@
-import { useHashNavigate } from '@cd/core-lib/hooks';
+import { useEncryptCookies, useHashNavigate } from '@cd/core-lib';
 import { OrganizationCreateType, UserCreateType } from '@cd/data-access';
 import { ErrorMessage, FlexBox } from '@cd/ui-lib';
-import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
-import { useCookies } from 'react-cookie';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
 type FormDataProps = {
     organization?: OrganizationCreateType;
     newUser: UserCreateType
 };
 
-interface FormContextProps extends PropsWithChildren {
+interface FormContextProps {
     formData: FormDataProps;
     setFormValues: (values: Record<string, unknown>) => void;
     resetFormValues: () => void;
@@ -28,30 +27,21 @@ interface FormStepProviderProps {
 /**
  * A data provider component that can persist form values
  * over multiple components, allowing to access the values over multistepped forms.
+ * - uses hash navigation
+ * - persist form data in encrypted cookie
+ * - allows navigation with browser next and back buttons
  * @prop FormStepComponents
  */
-
-// CREATE STEPFORM PROVIDER COMPONENT, THAT CONTAINS FORM DATA CONTEXT,
-// USES HASH NAVIGATION
-// PERSISTS FORM DATA IN ENCRYPTED COOKIE
-// AND ALLOWS NAVIGATION WITH BROWSER NEXT AND BACK BUTTONS.
 function FormStepProvider ({ FormStepComponents }: FormStepProviderProps) {
-
-    // const [formStep, setFormStep] = useState(0); 
-    // const nextFormStep = () => setFormStep(formStep + 1)
-    // const prevFormStep = () => setFormStep(formStep - 1);
 
     const {canProceed, setCanProceed, formstep, nextFormStep, prevFormStep } = useHashNavigate()
     
-    // const [formData, setFormData] = useState<FormDataProps>({} as FormDataProps);
-    const [cookies, setCookie, removeCookie] = useCookies(['form-data-context']);
+    const [cookies, setCookie, removeCookie] = useEncryptCookies(['form-data-context']);
+
     const [formData, setFormData] = useState<FormDataProps>((cookies['form-data-context']) || {} as FormDataProps);
-    
-    console.log('formData', formData);
     
     useEffect(() => {
         setCookie('form-data-context', JSON.stringify(formData))
-        console.info('form-data-context cookie set.')
     }, [formData])
 
     function resetFormValues () {
@@ -62,24 +52,16 @@ function FormStepProvider ({ FormStepComponents }: FormStepProviderProps) {
         setFormData((previousValues: any) => {
             let mergedValues = previousValues;
             for (const [key, value] of Object.entries(values)) {
-                // if (previousValues.hasOwnProperty(key)) {
-                    mergedValues = {
-                        ...previousValues,
-                        [key]: {
-                            ...previousValues[key],
-                            ...value,
-                        },
-                    }
-                // } else {
-                //     mergedValues = {
-                //         ...previousValues,
-                //         [key]: value
-                //     }
-                // }
+                mergedValues = {
+                    ...previousValues,
+                    [key]: {
+                        ...previousValues[key],
+                        ...value,
+                    },
+                }
             }
             return { ...mergedValues }
         });
-        // console.log('set form context values');
     };
 
     const

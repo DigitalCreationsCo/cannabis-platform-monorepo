@@ -134,6 +134,10 @@ save all driver data in a 6 hour backup, double backup.
 save all route data in a 6 hour backup, double backup.
 save all address data in a 6 hour backup, double backup.
 
+PRIVATE SECURITY SECURITY/ROTATION
+Rotate crypto secret key
+Rotate api signing keys (not used yet)
+
 To DO: 
 TO DO: add geosphere index, add schema for driverSessions collection, add process to bring driver online and offline, save a history of activity for drivers, implement the sql record for drivers, and keep winning. :) Also, get the driver app running on my iphone tomorrow. :D
 

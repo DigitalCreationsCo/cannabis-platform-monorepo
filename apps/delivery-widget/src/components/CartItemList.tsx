@@ -14,14 +14,14 @@ function CartList({cart, cartError, setExpandWidget} : CartListProps) {
 
     function createCheckoutCookie() {
         if (cart && !cartError) {
-            const cartAsString = JSON.stringify(cart)
-            console.log('cart as string: ', cartAsString)
-            var expires = new Date();
+            const 
+            cartAsString = JSON.stringify(cart)
+
+            var 
+            expires = new Date();
             expires.setDate(expires.getDate() + 1);
 
-            // ENCRYPT THIS DATA IN THE FUTRE
             document.cookie = `gras-cart-token=${cartAsString};expires=${expires.toUTCString()};`
-            console.info('gras-cart-token cookie created.')
         }
     }
 
