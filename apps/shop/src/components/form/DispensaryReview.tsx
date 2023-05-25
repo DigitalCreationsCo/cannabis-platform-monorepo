@@ -1,6 +1,6 @@
 import { renderNestedDataObject } from '@cd/core-lib';
 import { Button, FlexBox, Grid, H2, H3, Paragraph } from '@cd/ui-lib';
-import { FormDataProps, FormStepComponentProps, useFormContext } from '../StepFormProvider';
+import { FormDataProps, FormStepComponentProps, useFormContext } from './FormStepProvider';
 
 function DispensaryReview({ prevFormStep, nextFormStep }: FormStepComponentProps) {
 

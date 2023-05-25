@@ -5,7 +5,7 @@ import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import * as yup from 'yup';
-import { FormStepComponentProps, useFormContext } from '../StepFormProvider';
+import { FormStepComponentProps, useFormContext } from './FormStepProvider';
 
 function ProvideDispensaryKey({ nextFormStep }: FormStepComponentProps) {
 

@@ -6,7 +6,7 @@ import Router from "next/router";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
-import { FormStepComponentProps } from "./StepFormProvider";
+import { FormStepComponentProps } from "./form/FormStepProvider";
 
 function ConfirmOrder({ nextFormStep }: FormStepComponentProps) {
     const dispatch = useDispatch();

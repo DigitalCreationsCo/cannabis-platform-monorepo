@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import * as yup from 'yup';
-import { FormStepComponentProps } from "../StepFormProvider";
+import { FormStepComponentProps } from "./FormStepProvider";
 
 function SubmitAddressForm({ prevFormStep }: FormStepComponentProps) {
     

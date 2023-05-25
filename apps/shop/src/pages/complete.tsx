@@ -2,7 +2,7 @@ import { renderAddress } from '@cd/core-lib/utils';
 import { Address } from '@cd/data-access';
 import { Center, FlexBox, Grid, H2, H4, Paragraph, SignInButton } from '@cd/ui-lib';
 import Image from 'next/image';
-import { FormDataProps, useFormContext } from '../components/StepFormProvider';
+import { FormDataProps, useFormContext } from '../components/form/FormStepProvider';
 
 function DispensarySignUpComplete () {
 

@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { toast } from "react-hot-toast";
 import DropZone from "./DropZone";
-import { FormStepComponentProps, useFormContext } from "./StepFormProvider";
+import { FormStepComponentProps, useFormContext } from "./form/FormStepProvider";
 
 type Image = {
 data: string;

@@ -1,7 +1,7 @@
 import { urlBuilder } from '@cd/core-lib';
 import { Button, FlexBox, Grid, H3, H6, Paragraph, Small, TermsAgreement, TextField } from '@cd/ui-lib';
 import axios from 'axios';
-import { FormStepComponentProps, useFormContext } from 'components/StepFormProvider';
+import { FormStepComponentProps, useFormContext } from 'components/form/FormStepProvider';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
