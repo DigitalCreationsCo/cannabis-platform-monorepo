@@ -101,12 +101,6 @@ export default function middleware(req: any, res: ServerResponse) {
         if (url.pathname === '/signup/create-dispensary-account')
         return NextResponse.next()
         
-        if (url.pathname === '/complete') {
-            // url.pathname = '/';
-            // return NextResponse.redirect(url); 
-            return NextResponse.next()
-        }
-        
         if (!over21) {
             url.pathname = '/';
             return NextResponse.redirect(url); 
