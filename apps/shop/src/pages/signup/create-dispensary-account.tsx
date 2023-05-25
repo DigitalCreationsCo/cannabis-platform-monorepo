@@ -16,8 +16,8 @@ FormStepComponents = [
     ProvideDispensaryKey,
     DispensaryCreate, 
     DispensaryUserCreate, 
-    DispensaryReview, 
     ProvideStripeAccountId,
+    DispensaryReview, 
     DispensarySignUpComplete,
 ];
 

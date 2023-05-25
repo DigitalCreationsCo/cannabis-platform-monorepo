@@ -1,10 +1,10 @@
 import { renderNestedDataObject } from '@cd/core-lib';
 import { Button, FlexBox, Grid, H2, H3, Paragraph } from '@cd/ui-lib';
-import { FormDataProps, FormStepComponentProps, useFormContext } from './FormStepProvider';
+import { useFormContext } from './FormStepProvider';
 
-function DispensaryReview({ prevFormStep, nextFormStep }: FormStepComponentProps) {
+function DispensaryReview () {
 
-    const { formData }: { formData: FormDataProps } = useFormContext();
+    const { formData, prevFormStep, nextFormStep } = useFormContext();
 
     return (
         <Grid className="max-w-[525px] mx-auto space-y-2">

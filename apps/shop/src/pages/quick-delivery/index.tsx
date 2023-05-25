@@ -34,9 +34,9 @@ function QuickDelivery() {
         // NOTE: Should encrypt this token in the future.
     }, [])
      
-    const [ confirmOrder, setConfirmOrder ] = useState(false)
+    const [ confirm, setConfirm ] = useState(false)
     
-    const canProceed = !cartIsEmpty && confirmOrder;
+    const canProceed = !cartIsEmpty && confirm;
     
     return (
         <Page className={twMerge(styles.gradient, "pb-0 md:pb-28")}>
@@ -66,9 +66,9 @@ function QuickDelivery() {
                     
                     <Paragraph>Is your order correct?</Paragraph>
                     <CheckBox className="w-[122px]"
-                    checked={confirmOrder}
-                    label={confirmOrder ? `It's correct` : `No, it's not`}
-                    onChange={() => setConfirmOrder(!confirmOrder)} />
+                    checked={confirm}
+                    label={confirm ? `It's correct` : `No, it's not`}
+                    onChange={() => setConfirm(!confirm)} />
 
                     {user.isSignedIn && canProceed && <>
                         <Paragraph>Hit checkout to complete your delivery order.</Paragraph>

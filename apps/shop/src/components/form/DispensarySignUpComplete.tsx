@@ -2,16 +2,18 @@ import { renderAddress } from '@cd/core-lib/utils';
 import { Address } from '@cd/data-access';
 import { Center, FlexBox, Grid, H2, H4, Paragraph, SignInButton } from '@cd/ui-lib';
 import Image from 'next/image';
-import { FormDataProps, useFormContext } from './FormStepProvider';
+import { useEffect } from 'react';
+import { useFormContext } from './FormStepProvider';
 
 function DispensarySignUpComplete () {
 
-    const { formData }: { formData: FormDataProps } = useFormContext();
+    const { formData, resetFormValues } = useFormContext();
     
     const
     name = formData?.organization?.name as string,
     address = formData?.organization?.address as unknown as Address;
 
+    useEffect(() => () => resetFormValues(), [])
     return (
         <Grid className="max-w-[525px] mx-auto space-y-2">
             <FlexBox className='flex-row justify-between'>

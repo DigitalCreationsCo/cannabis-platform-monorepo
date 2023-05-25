@@ -1,15 +1,15 @@
 import { urlBuilder } from '@cd/core-lib';
 import { Button, FlexBox, Grid, H3, H6, Paragraph, Small, TermsAgreement, TextField } from '@cd/ui-lib';
 import axios from 'axios';
-import { FormStepComponentProps, useFormContext } from 'components/form/FormStepProvider';
+import { useFormContext } from 'components/form/FormStepProvider';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import * as yup from 'yup';
 
-function DispensaryUserCreate({ prevFormStep, nextFormStep }: FormStepComponentProps) {
-    const { formData, setFormValues } = useFormContext();
+function DispensaryUserCreate () {
+    const { prevFormStep, nextFormStep, formData, setFormValues } = useFormContext();
     const [loadingButton, setLoadingButton] = useState(false);
     // const [passwordVisibility, setPasswordVisibility] = useState(false);
     // const togglePasswordVisibility = useCallback(() => {
