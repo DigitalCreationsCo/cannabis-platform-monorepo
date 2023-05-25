@@ -19,6 +19,26 @@ export const renderAddress = ({
     return `${address.street1} ${address.street2}${breakLine?'\n':''}${showCity && address.city + ', ' || ''}${showState && address.state || ''}${breakLine?'\n':', '}${showCountry && address.country || ''} ${showZipcode && address.zipcode || ''}`
 };
 
+const sensitiveFields = [
+    'password', 
+    're_password', 
+    'stripeAccountId'
+]
+
+const redactSensitiveFields = (key: string, value: string | number) => {
+    if (sensitiveFields.includes(key)) {
+
+        let 
+        length = value.toString().length,
+        last4characters = value.toString().slice(-4),
+        redacted = last4characters.padStart(length, '*')
+
+        return redacted;
+    }
+    else
+    return value;
+}
+
 export const renderNestedDataObject = (data: any, Component: any, removeFields: any = []):any => {
     const result = Object.keys({ ...data })
         .filter((field) => {
@@ -27,7 +47,8 @@ export const renderNestedDataObject = (data: any, Component: any, removeFields: 
         .map((key, index) => {
             if (typeof data[key] === 'object') {
                 return renderNestedDataObject(data[key], Component, removeFields);
-            } else return Component({ key: key + index.toString(), children: [key] + ': ' + data[key] });
+            } else 
+            return Component({ key: key + index.toString(), children: [key] + ': ' + redactSensitiveFields(key, data[key]) });
         })
         .flat();
     return result;

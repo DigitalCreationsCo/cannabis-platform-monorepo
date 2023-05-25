@@ -10,7 +10,7 @@ function DispensarySignUpComplete () {
     
     const
     name = formData?.organization?.name as string,
-    address = formData?.organization?.address as Address;
+    address = formData?.organization?.address as unknown as Address;
 
     return (
         <Grid className="max-w-[525px] mx-auto space-y-2">
