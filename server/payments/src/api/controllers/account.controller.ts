@@ -76,7 +76,7 @@ export default class AccountController {
                 account: stripeAccountId,
                 refresh_url: process.env.NEXT_PUBLIC_SHOP_APP_URL + '/signup/create-dispensary-account',
                 // return_url: 'app.' + process.env.SHOP_APP_URL,
-                return_url: process.env.NEXT_PUBLIC_SHOP_APP_URL,
+                return_url: process.env.NEXT_PUBLIC_SHOP_APP_URL + '/complete',
                 type: 'account_onboarding'
             });
 

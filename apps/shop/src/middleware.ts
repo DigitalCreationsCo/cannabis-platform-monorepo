@@ -1,5 +1,5 @@
 import { ServerResponse } from 'http';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
 export const config = {
     matcher: [
@@ -14,8 +14,13 @@ export const config = {
     ]
 };
 
-export default function middleware(req: NextRequest, res: ServerResponse) {
+const 
+appBaseUrl = process.env.NEXT_PUBLIC_SHOP_APP_URL || 'localhost:3000';
 
+export default function middleware(req: any, res: ServerResponse) {
+
+    console.log('req headers referer: ', req.headers.get('referer'));
+    
     const
     subdomain = req.headers.get('host')?.split('.')[0].split(':')[0] || 'localhost',
     url = req.nextUrl;
@@ -95,6 +100,11 @@ export default function middleware(req: NextRequest, res: ServerResponse) {
 
         if (url.pathname === '/signup/create-dispensary-account')
         return NextResponse.next()
+        
+        if (url.pathname === '/complete') {
+            url.pathname = '/';
+            return NextResponse.redirect(url); 
+        }
         
         if (!over21) {
             url.pathname = '/';
