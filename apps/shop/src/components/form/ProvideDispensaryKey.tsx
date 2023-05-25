@@ -5,11 +5,11 @@ import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import * as yup from 'yup';
-import { FormStepComponentProps, useFormContext } from './FormStepProvider';
+import { useFormContext } from './FormStepProvider';
 
-function ProvideDispensaryKey({ nextFormStep }: FormStepComponentProps) {
+function ProvideDispensaryKey () {
 
-    const { resetFormValues, setFormValues } = useFormContext();
+    const { resetFormValues, nextFormStep, setFormValues } = useFormContext();
 
     useEffect(() => {
         const createNewFormContext = () => {

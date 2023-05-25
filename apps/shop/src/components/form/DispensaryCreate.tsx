@@ -7,14 +7,14 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import * as yup from 'yup';
-import { FormStepComponentProps, useFormContext } from './FormStepProvider';
+import { useFormContext } from './FormStepProvider';
 
 // ToDo:
 // Organization Search for SearchTextField
 // Add country picker to set Country and countryCode fields
 
-function DispensaryCreate({ prevFormStep, nextFormStep }: FormStepComponentProps) {
-    const { formData, setFormValues } = useFormContext();
+function DispensaryCreate () {
+    const { prevFormStep, nextFormStep, formData, setFormValues } = useFormContext();
     const [loadingButton, setLoadingButton] = useState(false);
 
     const initialValues = {

@@ -7,9 +7,9 @@ import toast from 'react-hot-toast';
 import * as yup from 'yup';
 import { useFormContext } from './FormStepProvider';
 
-function ProvideStripeAccountId({ nextFormStep }: { nextFormStep: () => void }) {
+function ProvideStripeAccountId () {
 
-    const { formData, setFormValues } = useFormContext();
+    const { nextFormStep, setCanProceed, formData, setFormValues } = useFormContext();
 
     const [loadingButton, setLoadingButton] = useState(false);
     const [loadingButton2, setLoadingButton2] = useState(false);
@@ -55,8 +55,11 @@ function ProvideStripeAccountId({ nextFormStep }: { nextFormStep: () => void }) 
             if (response.status === 404)
             throw new Error('The stripe account is not found.')
 
-            // if (response.status === 200)
-            // setFormValues({ organization: { stripeAccountId: values.stripeAccountId } });
+            // allow form navigation using hash
+            setCanProceed(true);
+            
+            if (response.status === 200)
+            setFormValues({ organization: { stripeAccountId: values.stripeAccountId } });
             
             toast.success(`Stripe account connected to ${formData?.organization?.name}.`)
             
@@ -88,19 +91,24 @@ function ProvideStripeAccountId({ nextFormStep }: { nextFormStep: () => void }) 
             console.log('response: ', response)
 
             if (response.status === 302) {
+                // allow form navigation using hash
+                setCanProceed(true);
+
                 setIsRedirecting(true);
                 if (response.data.success)
                 window.location.href = response.data.redirect
             }
-            // if (response.status !== 201) throw new Error('Error creating stripe account.')
 
-            // let {stripeAccountId} = response.data;
-            
-            // setFormValues({ organization: { stripeAccountId } });
+            if (response.status !== 201) 
+            throw new Error('Error creating stripe account.')
+
+            let 
+            {stripeAccountId} = response.data;
+            setFormValues({ organization: { stripeAccountId } });
             
             setLoadingButton2(false);
 
-            // toast.success(`Stripe account connected to ${formData?.organization?.name}.`)
+            toast.success(`Stripe account connected to ${formData?.organization?.name}.`)
             
         } catch (error: any) {
             console.log('Error getting stripe account: ', error);
