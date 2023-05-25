@@ -52,7 +52,7 @@ function useHashNavigate (): HashNavigate {
     // }, [canProceed])
 
     
-    const [formstep, setFormstep] = useState(0);
+    const [formstep, setFormstep] = useState<number>((Number(window.location.hash.split('=')[1]) - 1 ) || 0);
     const nextFormStep = () => setFormstep(formstep + 1)
     const prevFormStep = () => setFormstep(formstep - 1);
 
@@ -71,22 +71,27 @@ function useHashNavigate (): HashNavigate {
 
         window.addEventListener('hashchange', event => {
             if (canProceed) {
-                console.log('can proceed')
+                console.log('formStep: ', formstep)
+                console.log('hash: ', hash)
+                console.log('canProceed: ', canProceed)
             let step = window.location.hash.split('=')[1]
             setFormstep(Number(step) - 1)
             console.log('hashchange: ', event)
             }
         })
         
-        if (window.location.hash !== hash) {
-            window.location.assign(hash)
+        window.location.assign(hash)
 
-            // window.onpopstate = () => {
-            //     // window.location.replace('#')
-            //     // window.history.back()
-            //     // prevFormStep()
-            // }
-        }
+        // if (window.location.hash !== hash) {
+        //     console.log('hash !== hash ', window.location.hash, hash)
+        //     window.location.assign(hash)
+
+        //     // window.onpopstate = () => {
+        //     //     // window.location.replace('#')
+        //     //     // window.history.back()
+        //     //     // prevFormStep()
+        //     // }
+        // }
     }, [formstep, hash, canProceed])
 
     return {formstep, nextFormStep, prevFormStep, canProceed, setCanProceed }

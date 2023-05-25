@@ -45,7 +45,7 @@ function FormStepProvider ({ FormStepComponents }: FormStepProviderProps) {
     
     // const [formData, setFormData] = useState<FormDataProps>({} as FormDataProps);
     const [cookies, setCookie, removeCookie] = useCookies(['form-data-context']);
-    const [formData, setFormData] = useState<FormDataProps>({} as FormDataProps);
+    const [formData, setFormData] = useState<FormDataProps>((cookies['form-data-context']) || {} as FormDataProps);
     
     console.log('formData', formData);
     
