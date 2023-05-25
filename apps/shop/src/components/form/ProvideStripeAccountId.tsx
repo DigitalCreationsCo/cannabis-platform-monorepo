@@ -137,7 +137,7 @@ function ProvideStripeAccountId({ nextFormStep }: { nextFormStep: () => void }) 
                         {'\n'}
                         If you don't have a stripe account, Gras will create one for you, and provide your stripe account details.
                     </Small>
-                    <Tiny>Gras will never share your account information. </Tiny>
+                    <Tiny>Gras will never share your account information with other parties. </Tiny>
                 </FlexBox>
                 <TextField
                     containerClassName='w-[320px]'
