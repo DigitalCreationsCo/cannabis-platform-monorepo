@@ -1,12 +1,21 @@
+import Router from 'next/router';
+import { Button } from './button';
 import Center from './Center';
 import CopyRight from './CopyRight';
-import { H1, H4, Paragraph } from './Typography';
+import FlexBox from './FlexBox';
+import { H1, H5, Paragraph } from './Typography';
 
 function ErrorMessage({ code, message }: { code: number; message: string }) {
     return (
-        <Center className="grow-0 xl:-ml-[188px] space-y-4">
-            <H1 className="whitespace-pre-line text-center">Our bad, Your request failed: <span className='text-error'>{code} Error</span></H1>
-            <H4 className="whitespace-pre-line text-center">{message}</H4>
+        <Center className="py-4 space-y-4">
+            <H1 className="whitespace-pre-line text-center">Our bad, your request failed</H1>
+            
+            <FlexBox className="flex-row space-x-2">
+            <H5 className='text-error'>{code} Error</H5>
+            <H5 className="whitespace-pre-line text-center">{message}</H5>
+            </FlexBox>
+            
+            <Button onClick={() => Router.back()}>go back</Button>
             <Paragraph className="pt-2">
                 <CopyRight />
             </Paragraph>

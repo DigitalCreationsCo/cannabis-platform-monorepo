@@ -7,13 +7,16 @@ import { useFormContext } from './FormStepProvider';
 
 function DispensarySignUpComplete () {
 
-    const { formData, resetFormValues } = useFormContext();
+    const { formData, setCanProceed, resetFormValues } = useFormContext();
     
     const
     name = formData?.organization?.name as string,
     address = formData?.organization?.address as unknown as Address;
 
-    useEffect(() => () => resetFormValues(), [])
+    useEffect(() => () => {
+        resetFormValues();
+        setCanProceed(false);
+    }, [])
     return (
         <Grid className="max-w-[525px] mx-auto space-y-2">
             <FlexBox className='flex-row justify-between'>

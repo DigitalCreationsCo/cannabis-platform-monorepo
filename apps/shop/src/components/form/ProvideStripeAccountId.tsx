@@ -2,7 +2,7 @@ import { urlBuilder } from '@cd/core-lib/utils';
 import { Button, FlexBox, Grid, H3, Small, TextField, Tiny } from '@cd/ui-lib';
 import axios from 'axios';
 import { useFormik } from 'formik';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import * as yup from 'yup';
 import { useFormContext } from './FormStepProvider';
@@ -10,6 +10,10 @@ import { useFormContext } from './FormStepProvider';
 function ProvideStripeAccountId () {
 
     const { nextFormStep, setCanProceed, formData, setFormValues } = useFormContext();
+    
+    useEffect(() => {
+        setCanProceed(true);
+    });
 
     const [loadingButton, setLoadingButton] = useState(false);
     const [loadingButton2, setLoadingButton2] = useState(false);

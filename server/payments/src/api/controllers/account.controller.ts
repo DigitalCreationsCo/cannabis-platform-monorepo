@@ -19,6 +19,7 @@ export default class AccountController {
      */
     static async createStripeDispensaryAccount(req, res: Response) {
         try {
+
             let { organization: dispensaryAccount }: OrganizationStripePayload = req.body;
 
             if (dispensaryAccount === undefined)
@@ -76,7 +77,7 @@ export default class AccountController {
                 account: stripeAccountId,
                 refresh_url: process.env.NEXT_PUBLIC_SHOP_APP_URL + '/signup/create-dispensary-account',
                 // return_url: 'app.' + process.env.SHOP_APP_URL,
-                return_url: process.env.NEXT_PUBLIC_SHOP_APP_URL,
+                return_url: process.env.NEXT_PUBLIC_SHOP_APP_URL + '/signup/create-dispensary-account#step=5',
                 type: 'account_onboarding'
             });
 

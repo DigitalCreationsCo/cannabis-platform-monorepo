@@ -27,7 +27,7 @@ import { useCookies } from 'react-cookie';
     
 
 type HashNavigate = {
-    formStep: number;
+    formstep: number;
     // setFormStep: (step:number) => void;
     nextFormStep: () => void;
     prevFormStep: () => void;
@@ -38,48 +38,59 @@ type HashNavigate = {
 function useHashNavigate (): HashNavigate {
 
     const [cookies, setCookie, removeCookie] = useCookies(['form-step-proceed']);
-
-    const [canProceed, setProceed] = useState<boolean>(false);
-    
-    const [formStep, setFormStep] = useState(0);
-    const nextFormStep = () => setFormStep(formStep + 1)
-    const prevFormStep = () => setFormStep(formStep - 1);
-
-    const hash = `#step=${formStep + 1}`
-
-    useEffect(() => {
-
-        if (window.location.hash !== hash) {
-            
-            window.location.assign(hash)
-
-            window.onpopstate = () => {
-                // window.location.replace('#')
-                // window.history.back()
-                // prevFormStep()
-            }
-        }
-        window.addEventListener('hashchange', event => {
-            if (canProceed) {
-            let step = window.location.hash.split('=')[1]
-            setFormStep(Number(step) - 1)
-            console.log('hashchange: ', event)
-            }
-        })
-        
-    }, [hash])
+    // const [canProceed, setProceed] = useState<boolean>(false);
+    const [canProceed, setProceed] = useState<boolean>(cookies['form-step-proceed']);
 
     function setCanProceed (bool: boolean) {
         setProceed(bool)
         // setCookie('form-step-proceed', bool, { path: '/' })
     }
+    
+    // useEffect(() => {
+    //     setCookie('form-step-proceed', JSON.stringify(canProceed))
+    //     console.info('form-step-proceed cookie updated.', canProceed)
+    // }, [canProceed])
+
+    
+    const [formstep, setFormstep] = useState(0);
+    const nextFormStep = () => setFormstep(formstep + 1)
+    const prevFormStep = () => setFormstep(formstep - 1);
+
+    // const [hash, setHash] = useState<string>(`#step=${formstep + 1}`);
+    
+    const 
+    hash = `#step=${formstep + 1}`;
+
+    console.log('formStep: ', formstep)
+    console.log('hash: ', hash)
+    console.log('canProceed: ', canProceed)
 
     useEffect(() => {
         setCookie('form-step-proceed', JSON.stringify(canProceed))
-        console.info('form-step-proceed cookie set.')
-    }, [canProceed])
+        console.info('form-step-proceed cookie updated.', canProceed)
 
-    return {formStep, nextFormStep, prevFormStep, canProceed, setCanProceed }
+        window.addEventListener('hashchange', event => {
+            if (canProceed) {
+                console.log('can proceed')
+            let step = window.location.hash.split('=')[1]
+            setFormstep(Number(step) - 1)
+            console.log('hashchange: ', event)
+            }
+        })
+        
+        if (window.location.hash !== hash) {
+            window.location.assign(hash)
+
+            // window.onpopstate = () => {
+            //     // window.location.replace('#')
+            //     // window.history.back()
+            //     // prevFormStep()
+            // }
+        }
+    }, [formstep, hash, canProceed])
+
+    return {formstep, nextFormStep, prevFormStep, canProceed, setCanProceed }
 }
+// nextformstep increments the formstep
 
 export { useHashNavigate };
