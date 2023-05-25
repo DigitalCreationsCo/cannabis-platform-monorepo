@@ -17,7 +17,8 @@
   "workspaces": [
     "apps/*",
     "packages/*",
-    "server/*"
+    "server/*",
+    "mobile/*"
   ],
   "scripts": {
     "g:build": "yarn workspaces foreach -p --topological-dev -v run build",
