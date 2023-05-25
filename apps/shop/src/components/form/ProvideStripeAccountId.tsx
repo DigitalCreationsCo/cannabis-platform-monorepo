@@ -1,5 +1,5 @@
 import { urlBuilder } from '@cd/core-lib/utils';
-import { Button, FlexBox, Grid, H3, Small, TextField } from '@cd/ui-lib';
+import { Button, FlexBox, Grid, H3, Small, TextField, Tiny } from '@cd/ui-lib';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import { useState } from 'react';
@@ -128,14 +128,16 @@ function ProvideStripeAccountId({ nextFormStep }: { nextFormStep: () => void }) 
 
     return (
             <form onSubmit={handleSubmit}>
-            <Grid className='h-[320px] items-center justify-center flex flex-col space-y-4'>
+            <Grid className='h-[320px] max-w-[525px] mx-auto items-center justify-center flex flex-col space-y-4'>
                 <FlexBox>
                     <H3>Connect your stripe account</H3>
                     <Small>
-                        If your dispensary uses a stripe account for payment, you can provide the stripe account id here,
-                        to connect with your stripe account.{'\n'}
-                        If you don't have an account, Gras will create one for you, and provide your stripe account details.
+                        If your dispensary uses a stripe account for payments, you can connect your stripe account here,
+                        by entering your stripe id. 
+                        {'\n'}
+                        If you don't have a stripe account, Gras will create one for you, and provide your stripe account details.
                     </Small>
+                    <Tiny>Gras will never share your account information. </Tiny>
                 </FlexBox>
                 <TextField
                     containerClassName='w-[320px]'
