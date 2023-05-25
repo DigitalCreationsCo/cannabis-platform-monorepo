@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import { PersistGate } from 'redux-persist/integration/react';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session, { SessionContextType } from 'supertokens-auth-react/recipe/session';
-import { LayoutContainer, LocationProvider, StepFormValuesProvider } from '../components';
+import { LayoutContainer, LocationProvider } from '../components';
 import { frontendConfig } from '../config/frontendConfig';
 import reduxStore from '../redux/store';
 import '../styles/globals.css';
@@ -70,9 +70,7 @@ function App({ Component, pageProps }: CustomAppProps) {
                         <ModalProvider />
                         <ToastProvider />
                         <LayoutContainer {...getLayoutContext()}>
-                            <StepFormValuesProvider>
-                                { routerLoading ? <LoadingPage /> : <Component {...pageProps} />} 
-                            </StepFormValuesProvider>
+                            { routerLoading ? <LoadingPage /> : <Component {...pageProps} />} 
                         </LayoutContainer>
                     </PersistGate>
                 </ReduxProvider>

@@ -102,8 +102,9 @@ export default function middleware(req: any, res: ServerResponse) {
         return NextResponse.next()
         
         if (url.pathname === '/complete') {
-            url.pathname = '/';
-            return NextResponse.redirect(url); 
+            // url.pathname = '/';
+            // return NextResponse.redirect(url); 
+            return NextResponse.next()
         }
         
         if (!over21) {

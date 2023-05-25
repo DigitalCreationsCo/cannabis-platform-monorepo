@@ -5,7 +5,7 @@ import { useFormik } from 'formik';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import * as yup from 'yup';
-import { useFormContext } from '../StepFormProvider';
+import { useFormContext } from './FormStepProvider';
 
 function ProvideStripeAccountId({ nextFormStep }: { nextFormStep: () => void }) {
 

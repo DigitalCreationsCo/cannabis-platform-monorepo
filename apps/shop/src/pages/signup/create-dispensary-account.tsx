@@ -1,50 +1,34 @@
 import { FormCard, LayoutContextProps, Page } from '@cd/ui-lib';
 import Head from 'next/head';
-import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import {
     DispensaryCreate,
     DispensaryReview,
     DispensarySignUpComplete,
     DispensaryUserCreate,
+    FormStepProvider,
     ProvideDispensaryKey,
     ProvideStripeAccountId
 } from '../../components';
 
+const 
+FormStepComponents = [
+    ProvideDispensaryKey,
+    DispensaryCreate, 
+    DispensaryUserCreate, 
+    DispensaryReview, 
+    ProvideStripeAccountId,
+    DispensarySignUpComplete,
+];
+
 function DispensarySignUpStepForm() {
-
-    const [formStep, setFormStep] = useState(0);
-
-    const nextFormStep = () => setFormStep(formStep + 1)
-    const prevFormStep = () => setFormStep(formStep - 1);
-
-    const FormStepComponents = [
-        ProvideDispensaryKey,
-        DispensaryCreate, 
-        DispensaryUserCreate, 
-        DispensaryReview, 
-        ProvideStripeAccountId,
-        DispensarySignUpComplete,
-    ];
-
     return (
         <Page className={twMerge(styles.gradient, 'md:pt-16')}>
             <Head>
                 <title>Create a Dispensary Account</title>
             </Head>
-            <FormCard className={"bg-inverse-soft md:m-auto"}
-            currentStep={formStep}
-            totalSteps={FormStepComponents.length}
-            >
-                {FormStepComponents.map((_fsc, index) => {
-                    return (
-                        formStep === index && 
-                        <_fsc key={'form-step-component-' + index} 
-                        nextFormStep={nextFormStep} 
-                        prevFormStep={prevFormStep}
-                        />
-                    );
-                })}
+            <FormCard className={"bg-inverse-soft md:m-auto"}>
+                <FormStepProvider FormStepComponents={FormStepComponents} />
             </FormCard>
         </Page>
     );
