@@ -1,17 +1,14 @@
-import path from 'path';
 import { defineConfig } from 'tsup';
 
 export default defineConfig((options) => ({
   entry: ['src/index.ts'],
-  splitting: true,
-  treeshake: true,
-  clean: true,
-  dts: true,
-  format: ['esm', 'cjs'],
-  external: ['react-native', '@paralleldrive/cuid2', 'path', 'react', 'react-dom'],
-  platform: 'browser',
-  target: ['es2015', 'chrome70', 'edge18', 'firefox70', 'node16'],
-  tsconfig: path.resolve('./tsconfig.build.json'),
-  sourcemap: !options.watch,
-  minify: !options.watch,
+  // splitting: true,
+  // treeshake: true,
+  // clean: true,
+  // dts: true,
+  // format: ['esm'],
+  external: ['react-native', '@paralleldrive/cuid2', 'http', 'stream', 'path', 'react', 'react-dom'],
+  // tsconfig: './tsconfig.build.json',
+  // sourcemap: !options.watch,
+  // minify: !options.watch,
 }));

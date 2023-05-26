@@ -9,9 +9,8 @@ import { Controller, useForm } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 // import { Images, Fonts, Colors, Sizes, Shadow, Icons } from "../constants";
 
-function LoginScreen(
-  // { navigation, route }
-  ) {
+function LoginScreen () {
+  
   const {
     control,
     handleSubmit,
