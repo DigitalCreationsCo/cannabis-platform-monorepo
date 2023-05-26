@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": "../../tsconfig.base.json",
+  "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "baseUrl": "./src",
     "target": "ES2015",
@@ -13,11 +13,11 @@
     "jsx": "react-native",
     "incremental": true,
     "paths": {
-      "@cd/ui-lib/*": [
-        "../../../packages/ui-lib/src/*"
+      "@cd/native-ui/*": [
+        "../../../packages/native-ui/src/*"
       ],
-      "@cd/ui-lib": [
-        "../../../packages/ui-lib/src/index"
+      "@cd/native-ui": [
+        "../../../packages/native-ui/src/index"
       ],
       "@cd/core-lib/*": [
         "../../../packages/core-lib/src/*"

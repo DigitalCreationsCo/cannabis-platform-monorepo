@@ -1,16 +1,15 @@
+import TextContent from "@cd/core-lib/src/constants/textContent";
 import React, { useRef } from "react";
-import {
-  SafeAreaView, Text, TextInput, TouchableOpacity, View
-} from "react-native";
-
+import { Text, TextInput, TouchableOpacity, View } from "react-native";
 // import { useDispatch, useSelector } from "react-redux";
 // import { userActions } from "../redux/features/user";
-
+import RNstyles from '@cd/core-lib/src/constants/RNstyles';
+import { Button, Center, H1, H5, Screen } from '@cd/native-ui';
 import { Controller, useForm } from "react-hook-form";
-
+import { twMerge } from "tailwind-merge";
 // import { Images, Fonts, Colors, Sizes, Shadow, Icons } from "../constants";
 
-export default function LoginScreen(
+function LoginScreen(
   // { navigation, route }
   ) {
   const {
@@ -26,9 +25,9 @@ export default function LoginScreen(
 
   const errorMessage = ''
   
-  const onSubmit = (data) => {
-    dispatch(userActions.clearErrorMessage());
-    dispatch(userActions.loginUser(data));
+  const onSubmit = (data: any) => {
+    // dispatch(userActions.clearErrorMessage());
+    // dispatch(userActions.loginUser(data));
   };
 
   // React.useEffect(() => {
@@ -56,14 +55,15 @@ export default function LoginScreen(
   const passwordRef = useRef(null);
 
   return (
-    <SafeAreaView>
-      <View>
+    <>
         <View>
           {/* <Icons.flower size={Sizes.icon} color={Colors.white} /> */}
-          <Text>
-            {" "}
-            Cannabis Delivery
-          </Text>
+          <H1 color="light">
+            {TextContent.info.COMPANY_NAME}
+          </H1>
+          <H5 color="light">
+            {TextContent.technical.DRIVER_APP}
+          </H5>
         </View>
 
         {/* <Image
@@ -75,8 +75,8 @@ export default function LoginScreen(
           }}
         /> */}
 
-        <View>
-          <View
+        <Center>
+          <View className={twMerge(RNstyles.textfield.inputContainer)}
             // onStartShouldSetResponder={() => emailRef.current.focus()}
             >
             <Text>email</Text>
@@ -86,7 +86,8 @@ export default function LoginScreen(
               rules={{ required: true }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
-                  autoCapitalize={"none"}
+                className={RNstyles.textfield.input}
+                autoCapitalize={"none"}
                   ref={emailRef}
                   placeholder={""}
                   onBlur={onBlur}
@@ -97,7 +98,7 @@ export default function LoginScreen(
             />
           </View>
 
-          <View
+          <View className={twMerge(RNstyles.textfield.inputContainer)}
             // onStartShouldSetResponder={() => passwordRef.current.focus()}
           >
             <Text>password</Text>
@@ -107,6 +108,7 @@ export default function LoginScreen(
               rules={{ required: true }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
+                className={RNstyles.textfield.input}
                   autoCapitalize={"none"}
                   secureTextEntry
                   ref={passwordRef}
@@ -125,7 +127,7 @@ export default function LoginScreen(
               errorMessage}
           </Text>
 
-          <TouchableOpacity
+          {/* <TouchableOpacity
             // title="Submit"
             onPress={handleSubmit(onSubmit)}
           >
@@ -138,7 +140,13 @@ export default function LoginScreen(
                 Login
               </Text>
             )}
-          </TouchableOpacity>
+          </TouchableOpacity> */}
+          <Button
+            onPress={handleSubmit(onSubmit)}
+            >
+
+          </Button>
+
 
           <Text>
             Don't have account?
@@ -157,8 +165,9 @@ export default function LoginScreen(
               Forgot your password?
             </Text>
           </TouchableOpacity>
-        </View>
-      </View>
-    </SafeAreaView>
+        </Center>
+    </>
   );
 }
+
+export default Screen(LoginScreen)

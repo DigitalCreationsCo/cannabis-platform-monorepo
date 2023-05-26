@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@cd/core-lib": "workspace:*",
+    "@cd/native-ui": "workspace:*",
     "@hookform/resolvers": "^3.1.0",
     "@react-navigation/bottom-tabs": "6.0.9",
     "@react-navigation/drawer": "6.1.8",
@@ -24,11 +25,12 @@
     "@reduxjs/toolkit": "1.9.2",
     "@types/react-native": "^0.72.2",
     "expo": "~48.0.15",
+    "expo-checkbox": "^2.3.1",
     "expo-location": "^15.1.1",
     "expo-secure-store": "^12.1.1",
     "expo-splash-screen": "~0.18.2",
     "expo-status-bar": "~1.4.4",
-    "nativewind": "^2.0.11",
+    "nativewind": "2.0.11",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.43.9",
@@ -43,6 +45,7 @@
     "react-redux": "8.0.2",
     "redux-persist-expo-securestore": "^2.0.0",
     "socket.io-client": "4.6.1",
+    "tailwind-merge": "1.8.0",
     "yup": "0.32.11"
   },
   "devDependencies": {
@@ -59,7 +62,7 @@
     "eslint-plugin-react": "7.31.11",
     "eslint-plugin-react-hooks": "4.6.0",
     "eslint-plugin-simple-import-sort": "8.0.0",
-    "tailwindcss": "^3.3.2",
+    "tailwindcss": "3.2.4",
     "typescript": "4.9.3"
   },
   "private": true
