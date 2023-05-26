@@ -9,7 +9,7 @@
     "module": "ES2015",
     "jsx": "react-native",
     "noEmit": false,
-    "incremental": true,
+    "incremental": false,
     "paths": {
       "@cd/data-access": ["../../../packages/data-access/src/index"],
       "@cd/data-access/*": ["../../../packages/data-access/src/*"],
