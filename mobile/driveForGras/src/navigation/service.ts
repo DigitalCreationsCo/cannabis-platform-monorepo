@@ -1,10 +1,13 @@
 import { createNavigationContainerRef } from "@react-navigation/native";
 
-export const navigationRef = createNavigationContainerRef();
+type RootStackParamList = Record<string, object | undefined>;
 
-const navigate = (routename: string, params: any) => {
-  if (navigationRef.isReady())
-  navigationRef??navigate(routename, params);
+export const navigationRef = createNavigationContainerRef<RootStackParamList>();
+
+const navigate = (routename: any, params: any) => {
+  if (navigationRef.isReady()){
+    navigationRef.navigate(routename, params)
+  }
 };
 
 const goBack = () => {
