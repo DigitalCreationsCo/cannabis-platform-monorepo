@@ -6,7 +6,7 @@ export default defineConfig((options) => ({
   // treeshake: true,
   // clean: true,
   // dts: true,
-  // format: ['esm'],
+  format: ['esm'],
   external: ['react-native', '@paralleldrive/cuid2', 'http', 'stream', 'path', 'react', 'react-dom'],
   // tsconfig: './tsconfig.build.json',
   // sourcemap: !options.watch,
