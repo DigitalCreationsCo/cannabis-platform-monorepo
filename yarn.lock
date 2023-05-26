@@ -6973,7 +6973,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-native@npm:^0.72.2":
+"@types/react-native@npm:0.72.2":
   version: 0.72.2
   resolution: "@types/react-native@npm:0.72.2"
   dependencies:
@@ -12197,7 +12197,7 @@ __metadata:
     "@reduxjs/toolkit": 1.9.2
     "@types/react": 18.0.34
     "@types/react-dom": 18.0.11
-    "@types/react-native": ^0.72.2
+    "@types/react-native": 0.72.2
     "@typescript-eslint/eslint-plugin": 5.45.0
     "@typescript-eslint/parser": 5.45.0
     babel-plugin-transform-inline-environment-variables: 0.4.4
@@ -12209,9 +12209,9 @@ __metadata:
     eslint-plugin-react-hooks: 4.6.0
     eslint-plugin-simple-import-sort: 8.0.0
     expo: ~48.0.15
-    expo-checkbox: ^2.3.1
-    expo-location: ^15.1.1
-    expo-secure-store: ^12.1.1
+    expo-checkbox: 2.3.1
+    expo-location: 15.1.1
+    expo-secure-store: 12.1.1
     expo-splash-screen: ~0.18.2
     expo-status-bar: ~1.4.4
     nativewind: 2.0.11
@@ -12220,7 +12220,7 @@ __metadata:
     react-hook-form: ^7.43.9
     react-native: 0.71.8
     react-native-country-codes-picker: ^2.3.3
-    react-native-gesture-handler: ^2.10.1
+    react-native-gesture-handler: 2.9.0
     react-native-maps: 1.3.2
     react-native-maps-directions: 1.9.0
     react-native-safe-area-context: 4.5.0
@@ -13503,10 +13503,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-checkbox@npm:^2.3.1":
-  version: 2.4.0
-  resolution: "expo-checkbox@npm:2.4.0"
-  checksum: d468a6d8d23ea4f34651f1817b9ee46fce714cfb32d6461d12ec8514e65fc441748ba4752b688c2aa83f0c728b111fa81560bb6064dac24917d600ec69b2916e
+"expo-checkbox@npm:2.3.1":
+  version: 2.3.1
+  resolution: "expo-checkbox@npm:2.3.1"
+  checksum: f096de7a84a9c940ba9fa80b30dd2247c2b4271e476428e4c8a3d95add3013bd35d4eb5a7190f4b6209ba2e877b6203c0b8da8271b738b15b3826bcb7e842a19
   languageName: node
   linkType: hard
 
@@ -13576,12 +13576,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-location@npm:^15.1.1":
-  version: 15.2.0
-  resolution: "expo-location@npm:15.2.0"
+"expo-location@npm:15.1.1":
+  version: 15.1.1
+  resolution: "expo-location@npm:15.1.1"
   peerDependencies:
     expo: "*"
-  checksum: d0294bb6cfcda162a12faaab8a20b04c4f62e10d987a28326ee22956cbaf6fb673035477394879b19cccfa6f08a2a7e7dfa7f502c966a1c65ab7d27b6886a19d
+  checksum: 96bf55821fbee5176d44fe81214923545d914860e7f769ee1380bdb5eeef0c98346bbcb759c29cba99488b3367498f57e3b750ad42cc1a5ae270640b7331d148
   languageName: node
   linkType: hard
 
@@ -13610,12 +13610,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-secure-store@npm:^12.1.1":
-  version: 12.2.0
-  resolution: "expo-secure-store@npm:12.2.0"
+"expo-secure-store@npm:12.1.1":
+  version: 12.1.1
+  resolution: "expo-secure-store@npm:12.1.1"
   peerDependencies:
     expo: "*"
-  checksum: 30701706ce90dd0643ab65805c54024a7bb2d51ddf4d877736e98accfe1c6ff6493dd0abeea6a7e69abcb2e676bfad5d4c5755a8b851130464206d1fa8adeed7
+  checksum: 02ee829686dcbfe69cdd2c14f2dd0d60b36509c20c928e1ae7c837b62401c2c070ceb5ca03bbb14b35644dd7cb7f18564f583346229a1fb92d33880f191cff9f
   languageName: node
   linkType: hard
 
@@ -22494,9 +22494,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-gesture-handler@npm:^2.10.1":
-  version: 2.10.1
-  resolution: "react-native-gesture-handler@npm:2.10.1"
+"react-native-gesture-handler@npm:2.9.0":
+  version: 2.9.0
+  resolution: "react-native-gesture-handler@npm:2.9.0"
   dependencies:
     "@egjs/hammerjs": ^2.0.17
     hoist-non-react-statics: ^3.3.0
@@ -22506,7 +22506,7 @@ __metadata:
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 8770c6590aca1947957aefc1979bae7263cac1814fd087f5d7c6f3ed0f8a0acda85136421fee814e4d8ec86a973190b206136a8e0e90659488f569373d3af117
+  checksum: 6bfdd9d23486193424dcfb0073dd821a216c2783dde746d73a3441e920602343f09efa10261c6f09fcbcb645d029a95305c86f61997053c01ad89751c8c6d236
   languageName: node
   linkType: hard
 
