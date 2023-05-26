@@ -1,5 +1,5 @@
 import React from "react";
-import { Text } from "react-native";
+import { Text, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 const App = () => {
@@ -26,7 +26,9 @@ const App = () => {
       // {/* <AuthSwitch authentication={authentication} /> */}
       <SafeAreaProvider>
         <SafeAreaView>
-      <Text>hello</Text>
+          <View className="m-auto bg-primary-light border items-center justify-center flex grow h-full w-full">
+      <Text className="text-2xl text-inverse font-bold">Gras</Text>
+      </View>
       </SafeAreaView>
       </SafeAreaProvider>
     // </Provider>
