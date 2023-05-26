@@ -1,5 +1,4 @@
 import { modalActions, modalTypes, selectIsAddressAdded, selectUserState } from '@cd/core-lib';
-import Router from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import Center from '../atomic/Center';
@@ -27,7 +26,8 @@ function CheckoutModal({ dispatchCloseModal, modalVisible, ...props }: CheckoutM
         closeModalAndReset()
         // this branch will likely never happen, 
         // because automatic redirect for new users is handled in the signin flow.
-        Router.push("/signup/continue");
+        
+        // Router.push("/signup/continue");
     }
 
     return (

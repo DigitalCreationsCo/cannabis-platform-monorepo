@@ -1,6 +1,5 @@
-import Router from 'next/router';
+// import Router from 'next/router';
 import Center from './atomic/Center';
-import { Button } from './button';
 import CopyRight from './CopyRight';
 import FlexBox from './FlexBox';
 import { H1, H5, Paragraph } from './Typography';
@@ -15,7 +14,7 @@ function ErrorMessage({ code, message }: { code: number; message: string }) {
             <H5 className="whitespace-pre-line text-center">{message}</H5>
             </FlexBox>
             
-            <Button onPress={() => Router.back()}>go back</Button>
+            {/* <Button onPress={() => Router.back()}>go back</Button> */}
             <Paragraph className="pt-2">
                 <CopyRight />
             </Paragraph>

@@ -23,7 +23,7 @@ function CheckBox({ LabelComponent, onChange, error, label, className, name, che
         helperText: error && 'input-error border-2',
     };
     return (
-        <View onResponderStart={onChange as unknown as (GestureResponderEvent) => void} className={twMerge(styles.checkboxContainer, className)}>
+        <View onResponderStart={onChange} className={twMerge(styles.checkboxContainer, className)}>
             <Checkbox
                 className='cursor-pointer'
                 style={{ height: '30px', width: '30px' }}

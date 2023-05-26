@@ -17,6 +17,8 @@ const MODAL_COMPONENTS = Object.freeze({
     'MESSAGE_BANNER': () => <></>,
     'CHECK_AGE_MODAL': CheckAgeModal,
     'CHECKOUT_MODAL': CheckoutModal,
+    'CART_MODAL': () => <></>,
+    'LOGIN_MODAL': () => <></>,
 });
 
     type ModalContainerProps = ModalStateProps & { 
