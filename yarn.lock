@@ -12130,6 +12130,7 @@ __metadata:
   resolution: "driveforgras@workspace:mobile/driveForGras"
   dependencies:
     "@babel/core": 7.21.4
+    "@cd/core-lib": "workspace:*"
     "@hookform/resolvers": ^3.1.0
     "@react-navigation/bottom-tabs": 6.0.9
     "@react-navigation/drawer": 6.1.8

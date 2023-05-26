@@ -1,29 +1,32 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { persistCombineReducers, persistStore } from "redux-persist";
+import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from "redux-persist";
 import createSecureStore from "redux-persist-expo-securestore";
+import cart from "./cart.slice";
+import message from "./message.slice";
 
-const rootReducer = combineReducers({});
+const rootReducer = combineReducers({
+  cart,
+  message
+});
 
-const storage = createSecureStore();
-
-const config = {
+const 
+storage = createSecureStore(),
+config = {
   key: "root",
   storage
 };
 
-const reducer = persistCombineReducers(config, rootReducer);
+const reducer = persistReducer(config, rootReducer);
 
-export default () => {
-    const
-    store = configureStore({
-        reducer: reducer,
-        // preloadedState: initialState,
-        middleware: getDefaultMiddleware => 
-        getDefaultMiddleware()
-        .concat([])
-    });
+export const store = configureStore({
+  reducer: reducer,
+  middleware: getDefaultMiddleware => 
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
+      },
+    })
+  .concat([])
+});
 
-    const persistor = persistStore(store);
-    
-    return { persistor, store };
-}
+export const persistor = persistStore(store);
