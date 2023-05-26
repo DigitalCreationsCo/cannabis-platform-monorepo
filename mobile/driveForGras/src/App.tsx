@@ -1,8 +1,12 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { Text } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { Provider } from "react-redux";
+import { PersistGate } from 'redux-persist/integration/react';
+import configureStore from "./redux/store";
 
 const App = () => {
+  const { store, persistor } = configureStore();
   // const [authentication, setAuth] = useState(null);
 
   // useEffect(() => {
@@ -19,19 +23,22 @@ const App = () => {
   //   "Rubik-Regular": require("./assets/fonts/Rubik-Regular.ttf"),
   //   "Rubik-Medium": require("./assets/fonts/Rubik-Medium.ttf"),
   // });
+  
   // if (!fontsLoaded) return <InitialLoading />;
 
   return (
-    // <Provider store={store}>
-      // {/* <AuthSwitch authentication={authentication} /> */}
+    <Provider store={store}>
+      <PersistGate persistor={persistor}
+      loading={<Text>Loading...</Text>}
+      >
+    // {/* <AuthSwitch authentication={authentication} /> */}
       <SafeAreaProvider>
         <SafeAreaView>
-          <View className="m-auto bg-primary-light border items-center justify-center flex grow h-full w-full">
-      <Text className="text-2xl text-inverse font-bold">Gras</Text>
-      </View>
+      <Text>Gras</Text>
       </SafeAreaView>
       </SafeAreaProvider>
-    // </Provider>
+      </PersistGate>
+    </Provider>
   );
 };
 
