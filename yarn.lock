@@ -12072,6 +12072,7 @@ __metadata:
     eslint-plugin-react-hooks: 4.6.0
     eslint-plugin-simple-import-sort: 8.0.0
     expo: ~48.0.15
+    expo-secure-store: ^12.1.1
     expo-splash-screen: ~0.18.2
     expo-status-bar: ~1.4.4
     react: 18.2.0
@@ -13444,6 +13445,15 @@ __metadata:
     compare-versions: ^3.4.0
     invariant: ^2.2.4
   checksum: e3f69a62ef3c8dd357e7e3c90d0009d0dd0cfeae93d86c5043580bd78d35c0be5fcd345bd9dfa7b6e58d0a945b823cb6cb8666ad00c86a06bb31fe409eaed7d5
+  languageName: node
+  linkType: hard
+
+"expo-secure-store@npm:^12.1.1":
+  version: 12.2.0
+  resolution: "expo-secure-store@npm:12.2.0"
+  peerDependencies:
+    expo: "*"
+  checksum: 30701706ce90dd0643ab65805c54024a7bb2d51ddf4d877736e98accfe1c6ff6493dd0abeea6a7e69abcb2e676bfad5d4c5755a8b851130464206d1fa8adeed7
   languageName: node
   linkType: hard
 
