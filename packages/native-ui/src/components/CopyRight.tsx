@@ -1,4 +1,4 @@
-import { TextContent } from "@cd/core-lib/src";
+import { TextContent } from "@cd/core-lib";
 
 function CopyRight() {
     return <>{TextContent.legal.COPYRIGHT}</>;
