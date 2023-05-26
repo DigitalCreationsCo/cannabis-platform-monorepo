@@ -3,13 +3,13 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "baseUrl": "./src",
-    "target": "ES2015",
+    "target": "ESNext",
     "lib": [
       "dom",
       "dom.iterable",
-      "ES2015"
+      "ESNext"
     ],
-    "module": "esnext",
+    "module": "ESNext",
     "jsx": "react-native",
     "incremental": true,
     "paths": {
