@@ -1,9 +1,10 @@
-import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
 import { Text } from "react-native";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Provider } from "react-redux";
 import { PersistGate } from 'redux-persist/integration/react';
+import { AuthNavigator, DriveNavigator, navigationRef } from "./navigation";
 import configureStore from "./redux/store";
+
 
 const App = () => {
   const { store, persistor } = configureStore();
@@ -26,17 +27,18 @@ const App = () => {
   
   // if (!fontsLoaded) return <InitialLoading />;
 
+  const 
+  isSignedIn = false;
+
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}
       loading={<Text>Loading...</Text>}
       >
-    // {/* <AuthSwitch authentication={authentication} /> */}
-      <SafeAreaProvider>
-        <SafeAreaView>
-      <Text>Gras</Text>
-      </SafeAreaView>
-      </SafeAreaProvider>
+        <NavigationContainer ref={navigationRef}>
+       // {/* <AuthSwitch authentication={authentication} /> */}
+          { isSignedIn ? <DriveNavigator /> : <AuthNavigator /> }
+        </NavigationContainer>
       </PersistGate>
     </Provider>
   );
