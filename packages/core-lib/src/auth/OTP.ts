@@ -1,6 +1,6 @@
 import { consumeCode, createCode, resendCode } from "supertokens-auth-react/recipe/passwordless";
 import { PasswordlessResponseWithUserDetails } from "../reduxDir";
-    
+
 async function sendOTPEmail(email: string) {
     try {
         let response = await createCode({
@@ -53,7 +53,7 @@ async function resendOTP() {
 }
 
 
-async function handleOTPInput(otp: string):PasswordlessResponseWithUserDetails {
+async function handleOTPInput(otp: string):Promise<PasswordlessResponseWithUserDetails> {
     try {
         let response = await consumeCode({
             userInputCode: otp
@@ -111,5 +111,6 @@ async function handleOTPInput(otp: string):PasswordlessResponseWithUserDetails {
     }
 }
 
+export type { PasswordlessResponseWithUserDetails };
 export { sendOTPEmail, sendOTPPhone, resendOTP, handleOTPInput };
 

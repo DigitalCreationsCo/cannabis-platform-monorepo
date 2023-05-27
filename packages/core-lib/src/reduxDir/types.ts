@@ -16,9 +16,9 @@ export type ThunkArgumentsType = {
 };
 
 // export type PasswordlessResponseWithUserDetails = PromiseReturnType<typeof passwordlessSignIn> & { user: UserWithDetails }
-export type PasswordlessResponseWithUserDetails = Promise<{
+export type PasswordlessResponseWithUserDetails = {
       status: "OK";
       createdNewUser: boolean;
       user: UserWithDetails;
       fetchResponse: Response;
-  }>
+  }
