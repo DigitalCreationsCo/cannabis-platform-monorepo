@@ -13,12 +13,6 @@
     "jsx": "react-native",
     "incremental": true,
     "paths": {
-      "@cd/native-ui/*": [
-        "../../../packages/native-ui/src/*"
-      ],
-      "@cd/native-ui": [
-        "../../../packages/native-ui/src/index"
-      ],
       "@cd/core-lib/*": [
         "../../../packages/core-lib/src/*"
       ],

@@ -116,6 +116,12 @@ test users login and signup
 5-14-2023
 Dispensary signup forms 1/2 done
 
+DRIVERCLIENT TO DO:
+pod install,
+submit to ios store
+Test in production with dispatch
+Write unit tests
+
 PRODUCTION CHECKLIST:
 Host the delivery widget executable.
 Build a page, to intake drivers, (signup)
