@@ -1,10 +1,10 @@
 const path = require("node:path");
 
 module.exports = function (config) {
-    config.cache(false);
+    config.cache(true);
 
     return {
-        presets: ['@babel/preset-typescript'],
+        presets: ['babel-preset-expo', '@babel/preset-typescript'],
         plugins: ["nativewind/babel"],
     };
 };
