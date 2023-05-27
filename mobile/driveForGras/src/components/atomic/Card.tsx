@@ -1,4 +1,4 @@
-import { RNstyles } from '@cd/core-lib/src';
+import { RNstyles } from '@cd/core-lib/src/constants';
 import { PropsWithChildren } from 'react';
 import { View } from 'react-native';
 import { twMerge } from 'tailwind-merge';

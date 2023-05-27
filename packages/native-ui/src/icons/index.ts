@@ -4,14 +4,20 @@ import AlarmClock from './AlarmClock';
 import AppleStore from './AppleStore';
 import BabyFeeder from './BabyFeeder';
 import BabyGirl from './BabyGirl';
+import Back from './Back';
+import BackFancy from './BackFancy';
+import Bag from './Bag';
 import BasketBall from './BasketBall';
 import BeautyProducts from './BeautyProducts';
 import Beer from './Beer';
 import Bottle from './Bottle';
 import Breakfast from './Breakfast';
+import Call from './Call';
 import Carrot from './Carrot';
 import CartIcon from './Cart';
 import CategoryOutlined from './CategoryOutline';
+import Checkmark from './Checkmark';
+import Close from './Close';
 import CreditCardVerified from './CreditCardVerified';
 import CustomerService from './CustomerService';
 import DeliveryBox from './DeliveryBox';
@@ -22,6 +28,7 @@ import Facebook from './Facebook';
 import FacebookFilled from './FacebookFilled';
 import FeedbackThumbsUp from './FeedbackThumbsUp';
 import Figma from './Figma';
+import Flower from './Flower';
 import Food from './Food';
 import FormalCloth from './FormalCloth';
 import Chair from './furniture-shop/Chair';
@@ -41,7 +48,7 @@ import Wardrobe from './furniture-shop/Wardrobe';
 import BabyToys from './gift-shop/BabyToys';
 import BirthdayCake from './gift-shop/BirthdayCake';
 import Children from './gift-shop/Children';
-import Flower from './gift-shop/Flower';
+import FlowerGiftShop from './gift-shop/Flower';
 import Football from './gift-shop/Football';
 import NewYearGift from './gift-shop/NewYearGift';
 import Robot from './gift-shop/Robot';
@@ -51,6 +58,7 @@ import ValentineGift from './gift-shop/ValentineGift';
 import WeddingGift from './gift-shop/WeddingGift';
 import GiftBox from './GiftBox';
 import Google from './Google';
+import GroupAdd from './GroupAdd';
 import AutoMotive from './health-and-beauty/Automotive';
 import HealthBeauty from './health-and-beauty/HealthBeauty';
 import LenseCase from './health-and-beauty/LenseCase';
@@ -77,6 +85,7 @@ import Pages from './Pages';
 import Pant from './Pant';
 import Payment from './Payment';
 import Pets from './Pets';
+import Phone from './Phone';
 import PickUpBox from './PickUpBox';
 import Picture from './Picture';
 import PlantPot from './PlantPot';
@@ -84,12 +93,17 @@ import PlayStore from './PlayStore';
 import Preview from './Preview';
 import Quote from './Quote';
 import RankBadge from './RankBadge';
+import Remove from './Remove';
 import Right from './Right';
+import Search from './Search';
+import Search2 from './Search2';
 import Shield from './Shield';
 import Shirt from './Shirt';
 import ShoppingBagOutlined from './ShoppingBagOutlined';
 import Skirt from './Skirt';
 import Snack from './Snack';
+import Star from './Star';
+import StarOutline from './StarOutline';
 import Telegram from './Telegram';
 import Tops from './Tops';
 import Truck from './Truck';
@@ -97,6 +111,7 @@ import TruckFilled from './TruckFilled';
 import Tshirt from './Tshirt';
 import Twitter from './Twitter';
 import TwitterFilled from './TwitterFilled';
+import User from './User';
 import User2 from './User2';
 import Wheel from './Wheel';
 import Woman from './Woman';
@@ -106,7 +121,22 @@ import Yogurt from './Yogurt';
 import Youtube from './Youtube';
 import YoutubeFilled from './YoutubeFilled';
 
+
 export default {
+    Star,
+    StarOutline,
+    User,
+    Back,
+    BackFancy,
+    Bag,
+    GroupAdd,
+    Call,
+    Remove,
+    Close,
+    Phone,
+    Checkmark,
+    Search,
+    Search2,
     Right,
     Beer,
     Milk,
@@ -135,6 +165,7 @@ export default {
     Chair,
     Stool,
     Dining,
+    FlowerGiftShop,
     Living,
     Popular,
     RoomSet,
@@ -228,7 +259,6 @@ export default {
     Woman,
     WomenDress,
     YoutubeFilled,
-    // Search,
     Shirt,
     Pant,
     Tops,

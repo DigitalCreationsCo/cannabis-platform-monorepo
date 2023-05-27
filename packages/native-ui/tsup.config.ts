@@ -14,4 +14,5 @@ export default defineConfig((options) => ({
   tsconfig: path.resolve('./tsconfig.build.json'),
   sourcemap: !options.watch,
   minify: !options.watch,
+  loader: { '.js': 'jsx' }
 }));

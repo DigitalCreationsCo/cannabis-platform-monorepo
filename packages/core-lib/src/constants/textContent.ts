@@ -42,14 +42,16 @@ const TextContent = Object.freeze({
         destination.address.state
       } ${destination.address.zipcode.split("-")[0]}`,
     LOADING: "Loading...",
-    LOGOUT: "logout",
+    SIGNOUT: "Sign out",
+    SIGNIN: "Sign In",
+    SIGNUP: "Sign Up",
 
   },
 
   technical: {
     SHOP_WEB_APP: '',
     ADMIN_APP: '',
-    DRIVER_APP: 'Deliver for Gras',
+    DRIVER_APP: 'Delivery by Gras ',
     DELIVERY_WIDGET: '',
     MOBILE_APP: ''
   },
@@ -65,6 +67,7 @@ const TextContent = Object.freeze({
   },
 
   delivery: {
+    DELIVER_FOR_GRAS: "Deliver for Gras",
     ALL_ORDERS: "Your Delivery Queue",
     CUSTOMER_ORDER_f: (customerName: string) => `${customerName} placed an order`,
     DELIVERING_TO_ADDRESS_f: (location: any) =>

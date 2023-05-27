@@ -1,10 +1,10 @@
-import React, { PropsWithChildren } from 'react';
-import { GestureResponderEvent, TouchableOpacity } from "react-native";
+import React from 'react';
+import { GestureResponderEvent, Pressable, Text } from "react-native";
 import { twMerge } from 'tailwind-merge';
 import Center from '../atomic/Center';
-import LoadingDots from '../LoadingDots';
+// import LoadingDots from '../LoadingDots';
 
-export interface ButtonProps extends PropsWithChildren {
+export interface ButtonProps {
     size?: 'lg' | 'sm' | 'md';
     bg?: 'primary' | 'primary-light' | 'secondary' | 'secondary-light' | 'accent-soft' | 'transparent';
     hover?: 'accent' | 'primary' | 'primary-light' | 'secondary' | 'transparent';
@@ -17,9 +17,10 @@ export interface ButtonProps extends PropsWithChildren {
     onPress?: (event: GestureResponderEvent) => void
     icon?: any;
     type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type'];
+    children: React.ReactNode;
 }
 
-export default function Button({
+export default function RNButton({
     size = 'md',
     bg = 'accent-soft',
     border = false,
@@ -57,19 +58,23 @@ export default function Button({
         border: [border ? 'border-' + (borderColor || hover) : 'border-transparent']
     };
     return (
-        <TouchableOpacity
+        <Pressable
             disabled={loading || disabled}
             onPress={onPress}
-            className={twMerge(Object.values(classes), className)}
+            className={twMerge(
+                Object.values(classes), 
+                ({ pressed }) => pressed && 'bg-accent',
+                className)}
             {...props}
         >
             {loading ? (
                 <Center>
-                    <LoadingDots />
+                    {/* <LoadingDots /> */}
+                    <Text>Loading</Text>
                 </Center>
             ) : (
                 children
             )}
-        </TouchableOpacity>
+        </Pressable>
     );
 }

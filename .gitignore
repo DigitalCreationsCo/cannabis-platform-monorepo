@@ -51,3 +51,6 @@ next-env.d.ts
 
 # notes folder
 # _dev
+
+# ignore all files
+.ignore/**
