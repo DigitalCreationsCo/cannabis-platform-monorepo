@@ -1,6 +1,6 @@
 import React from 'react';
-import { GestureResponderEvent, Pressable, Text } from "react-native";
-import { twMerge } from 'tailwind-merge';
+import { GestureResponderEvent, Pressable, Text, View } from 'react-native';
+import { twMerge as merge } from 'tailwind-merge';
 import Center from '../atomic/Center';
 // import LoadingDots from '../LoadingDots';
 
@@ -20,6 +20,13 @@ export interface ButtonProps {
     children: React.ReactNode;
 }
 
+ {/* CREATE GLOBAL BUTTON STYLES
+            STYLES.BUTTON.BASE
+            STYLES.BUTTON.PRESSED
+            APPLY HERE
+            ACCEPT ARGS
+             */}
+             
 export default function RNButton({
     size = 'md',
     bg = 'accent-soft',
@@ -61,20 +68,33 @@ export default function RNButton({
         <Pressable
             disabled={loading || disabled}
             onPress={onPress}
-            className={twMerge(
-                Object.values(classes), 
-                ({ pressed }) => pressed && 'bg-accent',
-                className)}
             {...props}
         >
-            {loading ? (
-                <Center>
-                    {/* <LoadingDots /> */}
-                    <Text>Loading</Text>
-                </Center>
-            ) : (
-                children
-            )}
+
+            {/* CREATE GLOBAL BUTTON STYLES
+            STYLES.BUTTON.BASE
+            STYLES.BUTTON.PRESSED
+            APPLY HERE
+            ACCEPT ARGS
+             */}
+            {({ pressed }) => 
+            <View className={
+                merge(
+                    Object.values(classes),
+                    merge(className), 
+                    pressed && merge(
+                    ['bg-accent'])
+                    )
+                }>
+                {loading ? (
+                    <Center>
+                        {/* <LoadingDots /> */}
+                        <Text>Loading</Text>
+                    </Center>
+                ) : (
+                    children
+                )}
+            </View>}
         </Pressable>
     );
 }

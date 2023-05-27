@@ -1,7 +1,7 @@
 import TextContent from "@cd/core-lib/src/constants/textContent";
 import React, { useRef } from "react";
 import { Text, TextInput, View } from "react-native";
-// import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 // import { userActions } from "../redux/features/user";
 import RNstyles from '@cd/core-lib/src/constants/RNstyles';
 import Icons from '@cd/native-ui/src/icons';
@@ -18,7 +18,7 @@ function LoginScreen () {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   // const { isFetching, isSuccess, isError, errorMessage } = useSelector(
   //   (state) => state.user
@@ -142,7 +142,6 @@ function LoginScreen () {
           loading={false}
           size='lg'
           hover="primary"
-          transparent={false}
             onPress={handleSubmit(onSubmit)}
             >
               <Text className="text-xl text-dark">
