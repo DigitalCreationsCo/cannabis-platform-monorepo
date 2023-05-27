@@ -1,10 +1,9 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { Text } from "react-native";
+import React from "react";
 import { Provider } from "react-redux";
 import { PersistGate } from 'redux-persist/integration/react';
-import { navigationRef } from "./navigation";
+import { AuthNavigator, DriveNavigator, navigationRef } from "./navigation";
 import { persistor, store } from "./redux/store";
-
 
 const App = () => {
   // const [authentication, setAuth] = useState(null);
@@ -33,8 +32,7 @@ const App = () => {
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <NavigationContainer ref={navigationRef}>
-          {/* { isSignedIn ? <DriveNavigator /> : <AuthNavigator /> } */}
-          <Text>hello</Text>
+          { isSignedIn ? <DriveNavigator /> : <AuthNavigator /> }
         </NavigationContainer>
       </PersistGate>
     </Provider>

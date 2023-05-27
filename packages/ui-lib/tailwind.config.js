@@ -8,6 +8,7 @@ module.exports = {
         '../../apps/app/**/*.{jsx,tsx}',
         '../../apps/delivery-widget/src/**/*.{jsx,tsx}',
         '../../packages/ui-lib/src/**/*.{jsx,tsx}',
+        '../../packages/native-ui/src/**/*.{jsx,tsx}',
     ],
     theme: {
         extend: {

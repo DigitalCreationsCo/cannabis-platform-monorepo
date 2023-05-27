@@ -3,7 +3,12 @@ const colors = require('tailwindcss/colors');
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    './src/**/*.{js,ts,jsx,tsx}'
+    './src/**/*.{js,ts,jsx,tsx}',
+    '../../apps/shop/**/*.{jsx,tsx}',
+    '../../apps/app/**/*.{jsx,tsx}',
+    '../../apps/delivery-widget/src/**/*.{jsx,tsx}',
+    '../../packages/ui-lib/src/**/*.{jsx,tsx}',
+    '../../packages/native-ui/src/**/*.{jsx,tsx}',
   ],
   theme: {
     extend: {

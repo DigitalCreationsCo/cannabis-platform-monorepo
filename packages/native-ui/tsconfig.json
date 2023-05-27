@@ -19,5 +19,5 @@
       "@cd/core-lib/*": ["../../../packages/core-lib/src/*"]
     }
   },
-  "exclude": ["**/node_modules", "**/.*/", "dist", "build"]
+  "exclude": ["**/node_modules", "dist", "build"]
 }

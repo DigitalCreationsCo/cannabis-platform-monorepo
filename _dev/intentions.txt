@@ -141,6 +141,9 @@ Rotate api signing keys (not used yet)
 To DO: 
 TO DO: add geosphere index, add schema for driverSessions collection, add process to bring driver online and offline, save a history of activity for drivers, implement the sql record for drivers, and keep winning. :) Also, get the driver app running on my iphone tomorrow. :D
 
+Create a standard pattern for handling client side stylgin and a central tailwind config, that centers
+around ui-lib, and watching for directories that are included in tailwindconfig sources.
+
 Complete checkout and stripe data flow, end to end
 NOTE: PROVIDE A TEXTFIELD FOR DISPENSARIES TO INPUT THEIR EXISTING STRIPE ACCOUNTS, during onboarding.
 
