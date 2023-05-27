@@ -18,6 +18,16 @@ config = {
 
 const reducer = persistReducer(config, rootReducer);
 
+// TEST HOW REDUX STORE REACTS IN HOT RELOADING
+// IF ISSUES, ADD THIS CODE
+
+// if (module.hot) {
+//   module.hot.accept(() => {
+//     const nextRootReducer = require('../reducers/index').default;
+//     store.replaceReducer(nextRootReducer);
+//   });
+// }
+
 export const store = configureStore({
   reducer: reducer,
   middleware: getDefaultMiddleware => 

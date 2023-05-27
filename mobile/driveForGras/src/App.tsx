@@ -1,5 +1,6 @@
 import { NavigationContainer } from "@react-navigation/native";
 import React from "react";
+// import 'react-native-devsettings';
 import { Provider } from "react-redux";
 import { PersistGate } from 'redux-persist/integration/react';
 import { AuthNavigator, DriveNavigator, navigationRef } from "./navigation";
