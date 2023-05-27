@@ -3,6 +3,7 @@ import React, { useRef } from "react";
 import { Text, TextInput, View } from "react-native";
 import { useDispatch } from "react-redux";
 // import { userActions } from "../redux/features/user";
+import { handleOTPInput, sendOTPEmail } from "@cd/core-lib/src/auth/OTP";
 import RNstyles from '@cd/core-lib/src/constants/RNstyles';
 import Icons from '@cd/native-ui/src/icons';
 import { Controller, useForm } from "react-hook-form";
@@ -12,7 +13,36 @@ import { Button, Center, FlexBox, H1, H5, Screen } from '../components';
 // import { Images, Fonts, Colors, Sizes, Shadow, Icons } from "../constants";
 
 function LoginScreen () {
-  
+
+  const getLoginCode = async (input:string) => {
+    try {
+      
+      await sendOTPEmail(input);
+    }
+    catch (error: any) {
+      console.log('get login code error: ', error);
+      throw new Error(error.message)
+    }
+  };
+
+  const handleOTPCode = async (input:string) => {
+    try {
+
+      const response  = await handleOTPInput(input);
+      
+      console.log('otp response: ', response);
+      if (response?.user) {
+          // dispatch(userActions.signinUserSync(response.user));
+          console.log('got user: ', response.user)
+      }
+      
+    }
+    catch (error: any) {
+      console.log('get login code error: ', error);
+      throw new Error(error.message)
+    }
+  }
+
   const {
     control,
     handleSubmit,
