@@ -26,8 +26,9 @@ const RNstyles = Object.freeze({
     },
 
     textfield: {
-        inputContainer: ['bg-light', 'w-full p-2 pb-4', 'rounded'],
-        input: "text-lg py-2 h-fit"
+        inputContainer: ['bg-light shadow', 'w-full p-2 flex flex-col space-y-4 justify-between', 'rounded'],
+        input: "text-lg h-10",
+        message: 'py-2',
     },
     
     modal: {

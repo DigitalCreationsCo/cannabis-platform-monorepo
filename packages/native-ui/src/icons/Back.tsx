@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 
-const Back = ({ size, color }) => (
+const Back = ({ size = 28, color = 'white' }) => (
   <Ionicons name="md-chevron-back-sharp" size={size} color={color} />
 );
 

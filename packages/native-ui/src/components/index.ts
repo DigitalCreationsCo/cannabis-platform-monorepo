@@ -19,6 +19,7 @@ export { default as Label } from './Label';
 export { default as LoadingDots } from './LoadingDots';
 export { default as LoadingPage } from './LoadingPage';
 export * from './modal';
+export { NativeToastProvider } from './NativeToastProvider';
 export { default as NavLink } from './NavLink';
 export { default as OrderRow } from './OrderRow';
 export { default as Padding } from './Padding';
@@ -30,6 +31,5 @@ export { default as Table } from './Table';
 export { default as Tag } from './Tag';
 export { default as TermsAgreement } from './TermsAgreement';
 export { default as TextField } from './TextField';
-export { ToastProvider } from './ToastProvider';
 export * from './Typography';
 

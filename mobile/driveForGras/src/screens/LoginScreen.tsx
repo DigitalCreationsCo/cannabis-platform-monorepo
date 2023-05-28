@@ -1,9 +1,13 @@
-import React from "react";
 // import { userActions } from "../redux/features/user";
 import { createStackNavigator, TransitionPresets } from "@react-navigation/stack";
 import { Screen } from '../components';
 import { LoginView, PasscodeView } from "../views";
 // import { Images, Fonts, Colors, Sizes, Shadow, Icons } from "../constants";
+import TextContent from "@cd/core-lib/src/constants/textContent";
+import { View } from "react-native";
+// import { userActions } from "../redux/features/user";
+import Icons from '@cd/native-ui/src/icons';
+import { FlexBox, H1, H5 } from '../components';
 
 const LoginScreen = () => {
 
@@ -11,25 +15,40 @@ const LoginScreen = () => {
   LoginStack = createStackNavigator();
 
   return (
-  <LoginStack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
-
-    <LoginStack.Screen 
-    name="Login" 
-    component={LoginView} 
-    options={{
-      ...TransitionPresets.FadeFromBottomAndroid,
-    }}
-    />
-
-    <LoginStack.Screen 
-    name="Passcode" 
-    component={PasscodeView} 
-    options={{
-      ...TransitionPresets.ModalSlideFromBottomIOS,
-    }}
-    />
+    <>
     
-  </LoginStack.Navigator>)
+    <View>
+      <FlexBox className="flex-row items-center">
+      <H1 color="light">
+        {TextContent.info.COMPANY_NAME}
+      </H1>
+      <Icons.Flower color="white" />
+      </FlexBox>
+      <H5 color="light">
+        {TextContent.technical.DRIVER_APP} DRIVER APP
+      </H5>
+    </View>
+
+    <LoginStack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
+
+      <LoginStack.Screen 
+      name="Login" 
+      component={LoginView} 
+      options={{
+        ...TransitionPresets.FadeFromBottomAndroid,
+      }}
+      />
+
+      <LoginStack.Screen 
+      name="Passcode" 
+      component={PasscodeView} 
+      options={{
+        ...TransitionPresets.ModalSlideFromBottomIOS,
+      }}
+      />
+      
+    </LoginStack.Navigator>
+  </>)
 }
 
 export default Screen(LoginScreen)

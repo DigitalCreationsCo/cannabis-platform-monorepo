@@ -5,58 +5,52 @@ import { useDispatch } from "react-redux";
 // import { userActions } from "../redux/features/user";
 import { toast } from '@backpackapp-io/react-native-toast';
 import { sendOTPEmailRaw } from "@cd/core-lib/src/auth/OTP";
-import RNstyles from '@cd/core-lib/src/constants/RNstyles';
-import Icons from '@cd/native-ui/src/icons';
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
 import { Controller, useForm } from "react-hook-form";
+import SuperTokens from 'supertokens-react-native';
 import { twMerge } from "tailwind-merge";
-import { Button, Center, FlexBox, H1, H5, Paragraph } from '../../components';
+import * as yup from 'yup';
+import { Button, Center, H5, Paragraph } from '../../components';
+import RNstyles from '../../styles/classes';
+SuperTokens.addAxiosInterceptors(axios);
 
 function LoginView () {
 
     const navigation = useNavigation();
     const dispatch = useDispatch();
   
+    const emailRef = useRef(null);
+
     const {
-        getValues,
       control,
       handleSubmit,
+      reset,
       formState: { errors },
-    } = useForm();
+    } = useForm({ mode: "onSubmit", resolver: yupResolver(emailValidationSchema) });
   
-    const errorMessage = ''
-    
     const onSubmit = async (data: any) => {
-        try {
-            
-        await sendOTPEmailRaw(getValues('email'));
-        // dispatch(userActions.clearErrorMessage());
-        // dispatch(userActions.loginUser(data));
-        
-        navigation.navigate('Passcode')
+      try {
 
-        } catch (error: any) {
-            console.info('login error: ', error);
-            toast(error.message)
-        }
+          await 
+          sendOTPEmailRaw(data.email);
+          
+          navigation.navigate('Passcode');
+
+          toast(TextContent.prompt.PASSCODE_SENT_f(data.email));
+          
+          reset();
+
+      } catch (error: any) {
+          console.info('login error: ', error);
+          toast(error.message)
+      }
     };
-  
-    const emailRef = useRef(null);
   
     return (
       <View className='bg-primary h-full'>
-          <View>
-            <FlexBox className="flex-row items-center">
-            <H1 color="light">
-              {TextContent.info.COMPANY_NAME}
-            </H1>
-            <Icons.Flower color="white" />
-            </FlexBox>
-            <H5 color="light">
-              {TextContent.technical.DRIVER_APP} DRIVER APP
-            </H5>
-          </View>
-  
+        
           {/* <FastImage source={{ uri: "../../public/images/weed.gif" }} className='border h-24 w-24' /> */}
           <Center className="w-[300px] m-auto">
             
@@ -70,11 +64,10 @@ function LoginView () {
               <Controller
                 name="email"
                 control={control}
-                // rules={{ required: true }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
                     className={RNstyles.textfield.input}
-                    autoCapitalize={"none"}
+                    autoCapitalize="none"
                     ref={emailRef}
                     placeholder={""}
                     onBlur={onBlur}
@@ -85,10 +78,8 @@ function LoginView () {
               />
             </View>
   
-            <Text>
-              {((errors.email || errors.password) &&
-                "Please enter the empty fields") ||
-                errorMessage}
+            <Text className={RNstyles.textfield.message}>
+              {errors.email && errors.email?.message.toString()}
             </Text>
   
             <Button
@@ -97,9 +88,9 @@ function LoginView () {
             hover="primary"
             onPress={handleSubmit(onSubmit)}
             >
-                <H5 color="light">
-                  {TextContent.ui.SIGNIN}
-                </H5>
+              <H5 color="light">
+                {TextContent.ui.SIGNIN}
+              </H5>
             </Button>
             
           </Center>
@@ -108,11 +99,11 @@ function LoginView () {
   }
 
 
-// const emailValidationSchema = yup.object().shape({
-//     emailOrPhone: yup.string()
-//     .email('Not a valid email.')
-//     .required('Sign in with your email.'),
-//   });
+const emailValidationSchema = yup.object().shape({
+    email: yup.string()
+    .required('Please enter your email')
+    .email('Please enter your email'),
+  });
   
 export default LoginView;
   

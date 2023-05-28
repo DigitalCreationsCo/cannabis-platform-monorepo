@@ -8,8 +8,8 @@ const TextContent = Object.freeze({
     SELECT_LOCATION_TYPE: "Where can we deliver your next order?",
     TIP_CAPTION: "You can leave a tip!",
     TIP_CUSTOM: "How would you like to tip?",
-    ENTER_PASSCODE: "Enter the one time passcode",
-    PASSCODE_SENT_f: (input: string) => `A one time passcode has been sent to ${input}`,
+    ENTER_PASSCODE: "Enter your one time passcode",
+    PASSCODE_SENT_f: (input: string) => `A one time passcode is sent to ${input}`,
   },
 
   success: {
