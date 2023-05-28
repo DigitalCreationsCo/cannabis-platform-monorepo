@@ -1,14 +1,17 @@
-import PickupProductView from "./PickupProductView";
-import DeliverOrderView from "./DeliverOrderView";
 import ContinueToCustomerView from "./ContinueToCustomerView";
-import VendorDeliveryView from "./VendorDeliveryView";
 import CustomerDeliveryView from "./CustomerDeliveryView";
+import DeliverOrderView from "./DeliverOrderView";
 import FinalizeDeliveryView from "./FinalizeDeliveryScreen";
+import PickupProductView from "./PickupProductView";
+import VendorDeliveryView from "./VendorDeliveryView";
+export { default as LoginView } from './login/LoginView';
+export { default as PasscodeView } from './login/PasscodeView';
 export {
   DeliverOrderView,
   PickupProductView,
   ContinueToCustomerView,
   VendorDeliveryView,
-  CustomerDeliveryView,
   FinalizeDeliveryView,
+  CustomerDeliveryView,
 };
+

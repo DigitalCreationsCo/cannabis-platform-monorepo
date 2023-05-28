@@ -2508,6 +2508,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/plugin-transform-object-assign@npm:^7.16.7":
+  version: 7.18.6
+  resolution: "@babel/plugin-transform-object-assign@npm:7.18.6"
+  dependencies:
+    "@babel/helper-plugin-utils": ^7.18.6
+  peerDependencies:
+    "@babel/core": ^7.0.0-0
+  checksum: a9738264cc996c54febafa0701c5a182d99afbddbfe9fbcc0b2536e3b2332b3318a8143aacd0368e31e18c24cd1b1980be7a3b0b2e5122efb520952d863a1203
+  languageName: node
+  linkType: hard
+
 "@babel/plugin-transform-object-rest-spread@npm:^7.22.0":
   version: 7.22.0
   resolution: "@babel/plugin-transform-object-rest-spread@npm:7.22.0"
@@ -3083,7 +3094,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/preset-typescript@npm:^7.13.0":
+"@babel/preset-typescript@npm:^7.13.0, @babel/preset-typescript@npm:^7.16.7":
   version: 7.21.5
   resolution: "@babel/preset-typescript@npm:7.21.5"
   dependencies:
@@ -3187,6 +3198,19 @@ __metadata:
     "@babel/helper-validator-identifier": ^7.19.1
     to-fast-properties: ^2.0.0
   checksum: 6ba43536f362170d1be58aa8f975210fc042729128e9db286c7a107a1ca3e096994ad741e1cda85b2ae10d02e363d189f826ceee6178a884cc638935c99e2003
+  languageName: node
+  linkType: hard
+
+"@backpackapp-io/react-native-toast@npm:^0.8.0":
+  version: 0.8.0
+  resolution: "@backpackapp-io/react-native-toast@npm:0.8.0"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+    react-native-gesture-handler: ^2.5.0
+    react-native-reanimated: 2.8.0
+    react-native-safe-area-context: 4.2.4
+  checksum: 66656d282e1c85dc1f23b8eb2742c4f6b9803e7e5608db71a9145f9b308d5a939da81885374b453aa33e0998a2f4e3c443d67df8db5ed473618c0c48cecc56cf
   languageName: node
   linkType: hard
 
@@ -12744,6 +12768,7 @@ __metadata:
   resolution: "driveforgras@workspace:mobile/driveForGras"
   dependencies:
     "@babel/core": 7.21.4
+    "@backpackapp-io/react-native-toast": ^0.8.0
     "@cd/core-lib": "workspace:*"
     "@expo/ngrok": ^4.1.0
     "@hookform/resolvers": 3.1.0
@@ -12772,17 +12797,20 @@ __metadata:
     expo-secure-store: 12.1.1
     expo-splash-screen: ~0.18.2
     expo-status-bar: ~1.4.4
+    formik: 2.2.9
     nativewind: 2.0.11
     react: 18.2.0
     react-dom: 18.2.0
     react-hook-form: 7.43.9
+    react-hot-toast: 2.4.0
     react-native: 0.71.8
     react-native-country-codes-picker: 2.3.3
     react-native-devsettings: 1.0.3
     react-native-fast-image: ^8.6.3
-    react-native-gesture-handler: 2.9.0
+    react-native-gesture-handler: ~2.9.0
     react-native-maps: 1.3.2
     react-native-maps-directions: 1.9.0
+    react-native-reanimated: ~2.14.4
     react-native-safe-area-context: 4.5.0
     react-native-svg: 13.4.0
     react-native-web: 0.18.10
@@ -12791,6 +12819,7 @@ __metadata:
     redux-persist-expo-securestore: 2.0.0
     remote-redux-devtools: 0.5.16
     socket.io-client: 4.6.1
+    supertokens-auth-react: 0.28.1
     supertokens-react-native: 4.0.2
     tailwind-merge: 1.8.0
     tailwindcss: 3.2.4
@@ -23207,7 +23236,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-gesture-handler@npm:2.9.0":
+"react-native-gesture-handler@npm:~2.9.0":
   version: 2.9.0
   resolution: "react-native-gesture-handler@npm:2.9.0"
   dependencies:
@@ -23257,6 +23286,25 @@ __metadata:
     react-native-web:
       optional: true
   checksum: ebade7b76a4fffe9a36e9ef5c874f4320334a2b69abfe7be5198b29ae75d211537edbf0aed865514b2b1a4abcc58c59e3e91a08a4ca0632de679f8517932e191
+  languageName: node
+  linkType: hard
+
+"react-native-reanimated@npm:~2.14.4":
+  version: 2.14.4
+  resolution: "react-native-reanimated@npm:2.14.4"
+  dependencies:
+    "@babel/plugin-transform-object-assign": ^7.16.7
+    "@babel/preset-typescript": ^7.16.7
+    convert-source-map: ^1.7.0
+    invariant: ^2.2.4
+    lodash.isequal: ^4.5.0
+    setimmediate: ^1.0.5
+    string-hash-64: ^1.0.3
+  peerDependencies:
+    "@babel/core": ^7.0.0-0
+    react: "*"
+    react-native: "*"
+  checksum: ec24225a145a8636065b464660256bed99ba5f50c7f6c74899838f5563e59a342ea217c285a06be8bdd5549e2faaf1ebdac6986011a767ba814a4cf469ed9bdb
   languageName: node
   linkType: hard
 
@@ -25754,6 +25802,13 @@ __metadata:
   version: 0.3.2
   resolution: "string-argv@npm:0.3.2"
   checksum: 8703ad3f3db0b2641ed2adbb15cf24d3945070d9a751f9e74a924966db9f325ac755169007233e8985a39a6a292f14d4fee20482989b89b96e473c4221508a0f
+  languageName: node
+  linkType: hard
+
+"string-hash-64@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "string-hash-64@npm:1.0.3"
+  checksum: 79de8431b4fa3e85a2429cd52a34f7948221ff167b7a094e05d6bcfd0173474b232e0c9845c96f74b0d7b6b0c8bbe2c3532a4cacb21635293ef0cf3cc8e77f06
   languageName: node
   linkType: hard
 

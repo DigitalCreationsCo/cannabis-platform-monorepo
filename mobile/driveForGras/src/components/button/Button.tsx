@@ -47,7 +47,7 @@ export default function RNButton({
             'rounded-btn',
             'whitespace-nowrap',
             'font-btn',
-            'shadow-md',
+            'shadow',
             'flex items-center place-self-center',
             'justify-center'
         ],
