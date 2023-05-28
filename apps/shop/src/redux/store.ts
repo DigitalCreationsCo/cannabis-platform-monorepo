@@ -15,11 +15,12 @@ import {
 import { combineReducers, configureStore, Store } from '@reduxjs/toolkit';
 // import { deserialize, serialize } from 'json-immutable';
 // import { createWrapper } from 'next-redux-wrapper';
+import { signInEmailPassword, signUpEmailPassword } from 'supertokens-auth-react/recipe/emailpassword';
+import { signOut } from 'supertokens-auth-react/recipe/session';
+
 import { HYDRATE } from 'next-redux-wrapper';
 import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import { signInEmailPassword, signUpEmailPassword } from 'supertokens-auth-react/recipe/emailpassword';
-import { signOut } from 'supertokens-auth-react/recipe/session';
 
 const rootReducer = combineReducers({
     modal: modalReducer,
@@ -91,7 +92,7 @@ export default (initialState) => {
                 ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
             },
             thunk: {
-                extraArgument: JSON.stringify(thunkArguments)
+                extraArgument: thunkArguments
             }
         })
         .concat([crashMiddleware, loggerMiddleware, locationMiddleware])
