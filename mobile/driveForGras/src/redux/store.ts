@@ -1,3 +1,4 @@
+import { userReducer } from "@cd/core-lib/src/reduxDir/features/user.reducer";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from "redux-persist";
 import createSecureStore from "redux-persist-expo-securestore";
@@ -6,7 +7,8 @@ import message from "./message.slice";
 
 const rootReducer = combineReducers({
   cart,
-  message
+  message,
+  user: userReducer
 });
 
 const 

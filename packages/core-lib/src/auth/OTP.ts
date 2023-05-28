@@ -25,6 +25,8 @@ async function sendOTPEmailRaw(email: string) {
         let 
         response = await axios.post(
             urlBuilder.main.getOTP(), { email })
+
+        return response;
             
     } catch (err: any) {
         console.info('send otp error: ', err)

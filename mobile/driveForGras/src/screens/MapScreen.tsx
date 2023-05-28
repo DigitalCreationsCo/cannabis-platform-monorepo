@@ -165,10 +165,13 @@
 // });
 
 import { Text, View } from 'react-native'
-export default function MapScreen() {
+import { Screen } from '../components'
+function MapScreen() {
   return (
     <View>
       <Text>MapScreen</Text>
     </View>
   )
 }
+
+export default Screen(MapScreen)

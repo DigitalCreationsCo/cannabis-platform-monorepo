@@ -3,7 +3,6 @@
 import { UserWithDetails } from "@cd/data-access";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 // import * as SecureStore from "expo-secure-store";
-import toast from 'react-hot-toast';
 import { pruneData } from "../../utils";
 import { AppState, ThunkArgumentsType } from "../types";
 import { locationActions } from './location.reducer';
@@ -139,7 +138,7 @@ export const signinUserAsyncEmailPassword = createAsyncThunk<UserWithDetails, {e
         ]
     });
     if (response.status === 'WRONG_CREDENTIALS_ERROR') {
-        toast.error('Email or Password is incorrect.');
+        // toast.error('Email or Password is incorrect.');
     }
     if (response.status === 'OK') {
         // await SecureStore.setItemAsync(
@@ -151,7 +150,7 @@ export const signinUserAsyncEmailPassword = createAsyncThunk<UserWithDetails, {e
           response.user.address.forEach(address => dispatch(locationActions.addAddress(response.user.address)))
         }
         window.location.href = '/';
-        toast.success('Signed in', { duration: 5000 });
+        // toast.success('Signed in', { duration: 5000 });
         return response.user
     }
         

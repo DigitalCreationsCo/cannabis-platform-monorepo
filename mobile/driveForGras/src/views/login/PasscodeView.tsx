@@ -1,25 +1,29 @@
-import TextContent from "@cd/core-lib/src/constants/textContent";
-import React, { useRef } from "react";
-import { Text, TextInput, TouchableWithoutFeedback, View } from "react-native";
-import { useDispatch } from "react-redux";
-// import { userActions } from "../redux/features/user";
 import { toast } from '@backpackapp-io/react-native-toast';
+import TextContent from "@cd/core-lib/src/constants/textContent";
+import { userActions } from '@cd/core-lib/src/reduxDir/features/user.reducer';
+// import { userActions } from '@cd/core-lib/src/reduxDir/features/user.reducer';
+import { urlBuilder } from "@cd/core-lib/src/utils/urlBuilder";
+import { UserWithDetails } from '@cd/data-access';
+// import { UserWithDetails } from '@cd/data-access';
 import Icons from "@cd/native-ui/src/icons";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
+import React, { useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { Text, TextInput, TouchableWithoutFeedback, View } from "react-native";
+import { useDispatch } from "react-redux";
+import SuperTokens from 'supertokens-react-native';
 import { twMerge } from "tailwind-merge";
 import * as yup from 'yup';
 import { Button, Center, H5, Paragraph } from '../../components';
 import RNstyles from '../../styles/classes';
-// import { Images, Fonts, Colors, Sizes, Shadow, Icons } from "../constants";
-import { urlBuilder } from "@cd/core-lib/src/utils/urlBuilder";
-import axios from "axios";
-import SuperTokens from 'supertokens-react-native';
 SuperTokens.addAxiosInterceptors(axios);
 
-const PasscodeView = () => {
+const PasscodeView = ({ route }) => {
 
+  const { deviceId, preAuthSessionId } = route.params;
+  
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -35,28 +39,21 @@ const PasscodeView = () => {
   const onSubmit = async (data: any) => {
     try {
 
-      // const 
-      // response  = await handleOTPInputRaw(data.passcode);
-
-      console.log('hello')
-      let response = await axios.post(urlBuilder.main.submitOTP(),
-        { userInputCode: data.passcode },
+      let 
+      response = await axios.post(urlBuilder.main.submitOTP(), { 
+        userInputCode: data.passcode,
+        preAuthSessionId: preAuthSessionId,
+        deviceId: deviceId,
+        },
         { headers: {
           'rid': 'passwordless'
         }});
 
-      console.log('handle otp client response: ', response);
-
-      if (!response?.data.user)
+        console.log('response: ', response)
+      if (!response.data.user)
       throw new Error('An error occured. No user found.');
       
-      // else
-      // dispatch(userActions.signinUserSync(response.user));
-
-      // dispatch(userActions.clearErrorMessage());
-      // dispatch(userActions.loginUser(data));
-      // dispatch(userActions.clearErrorMessage());
-      // dispatch(userActions.loginUser(data));
+      dispatch(userActions.signinUserSync(response.data.user as UserWithDetails));
 
     } catch (error: any) {
       console.info('passcode error: ', error);
