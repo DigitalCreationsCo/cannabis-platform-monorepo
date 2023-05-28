@@ -26,7 +26,7 @@ const RNstyles = Object.freeze({
     },
 
     textfield: {
-        inputContainer: ['w-1/2', 'bg-light', 'rounded', 'px-4 pb-4 pt-1', 'my-2'],
+        inputContainer: ['bg-light', 'w-full p-2', 'rounded'],
         input: "text-lg"
     },
     

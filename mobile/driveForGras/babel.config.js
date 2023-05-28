@@ -15,7 +15,10 @@ module.exports = function (config) {
 
     return {
         presets: ['babel-preset-expo', '@babel/preset-typescript'],
-        plugins: ["nativewind/babel"],
+        plugins: [
+            "nativewind/babel",
+            'react-native-reanimated/plugin',
+        ],
         env: {
             development: {
                 plugins: [
