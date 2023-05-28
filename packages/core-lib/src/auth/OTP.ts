@@ -1,11 +1,31 @@
+import axios from "axios";
 import { consumeCode, createCode, resendCode } from "supertokens-auth-react/recipe/passwordless";
 import { PasswordlessResponseWithUserDetails } from "../reduxDir";
+import { urlBuilder } from "../utils/urlBuilder";
 
 async function sendOTPEmail(email: string) {
     try {
         let response = await createCode({
             email
         });
+    } catch (err: any) {
+        console.error('send otp error: ', err.message)
+
+        if (err.isSuperTokensGeneralError === true)
+        throw new Error(err.message);
+        
+        else
+        throw new Error("The Sign In server is not available. Please contact Gras team.");
+    }
+}
+
+async function sendOTPEmailRaw(email: string) {
+    try {
+        
+        let 
+        response = await axios.post(
+            urlBuilder.main.getOTP(), { email })
+            
     } catch (err: any) {
         console.error('send otp error: ', err.message)
 
@@ -112,5 +132,5 @@ async function handleOTPInput(otp: string):Promise<PasswordlessResponseWithUserD
 }
 
 export type { PasswordlessResponseWithUserDetails };
-export { sendOTPEmail, sendOTPPhone, resendOTP, handleOTPInput };
+export { sendOTPEmail, sendOTPEmailRaw, sendOTPPhone, resendOTP, handleOTPInput };
 
