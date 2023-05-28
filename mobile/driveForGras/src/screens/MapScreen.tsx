@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import {
-  Dimensions, View
+  Dimensions, Text, View
 } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import { useDispatch, useSelector } from "react-redux";
@@ -35,7 +35,28 @@ const MapScreen = () => {
 
   // const isLoading = useSelector(Selector.isLoading);
   const 
-  { user, isOnline } = useSelector(selectUserState) as any;
+  { user } = useSelector(selectUserState) as any;
+
+  // TEST STATE
+  const 
+  isOnline = true,
+  isConnected = true,
+  isConnecting = false,
+  connectionError = '[ error ?? ]';
+  
+  const
+  showDriverStatus = isOnline ? "Looking for deliveries..." : isConnecting ? "Going online..." : "Go Online";
+
+  {/* {isLoading ? (
+            <Text style={styles.statusPending}>Loading..</Text>
+          ) : isOnline && isEstablishingConnection && !isConnected ? (
+            <Text style={styles.statusOnline}>Going Online..</Text>
+          ) : isOnline && isConnected ? (
+            <Text style={styles.statusOnline}>You are online</Text>
+          ) : (
+            <Text style={styles.statusOffline}>You are offline</Text>
+          )} */}
+          
 
   // const location = useSelector(Selector.currentCoordinates);
 
@@ -72,8 +93,18 @@ const MapScreen = () => {
 
   return (
     <>
+      <>
+        <Text>
+          ({isConnected
+            ? ` connected to websocket { web socket id } ` 
+            : " websocket no connection "})
+        </Text>
+        <Text>{connectionError}</Text>
+      </>
+
       <View className="grow">
-      <Greeting isLoading={true} />
+        <Greeting isLoading={true} />
+
         <MapView
         className='grow' 
           showsUserLocation
@@ -92,62 +123,13 @@ const MapScreen = () => {
             // onPress={toggleStatus}
             disabled={false}
           >
-            {updateStatus ? "Go Offline" : "Go Online"}
+            { showDriverStatus }
           </BannerButton>
-      </View>
 
-      <View className="">
-        {/* <Text>
-          {isConnected
-            ? " connected to websocket server"
-            : " websocket not connected."}
-        </Text>
-        <Text>{connectionError}</Text> */}
-
-        <View>
-
-          {/* {isLoading ? (
-            <Text style={styles.statusPending}>Loading..</Text>
-          ) : isOnline && isEstablishingConnection && !isConnected ? (
-            <Text style={styles.statusOnline}>Going Online..</Text>
-          ) : isOnline && isConnected ? (
-            <Text style={styles.statusOnline}>You are online</Text>
-          ) : (
-            <Text style={styles.statusOffline}>You are offline</Text>
-          )} */}
-
-          
-          
-        </View>
       </View>
       <StatusBar style="inverted" />
     </>
   );
 };
-
-// export default MapScreen;
-
-// const styles = StyleSheet.create({
-//   container: {
-//     alignItems: "center",
-//     justifyContent: "center",
-//   },
-//   statusPending: {
-//     ...Fonts.h5,
-//     fontSize: 20,
-//     color: "#e04d36",
-//   },
-//   statusOffline: {
-//     ...Fonts.h5,
-//     fontSize: 20,
-//     color: "#e04d36",
-//   },
-//   statusOnline: {
-//     ...Fonts.h5,
-//     fontSize: 20,
-//     color: "#11c852",
-//   },
-// });
-
 
 export default Screen(MapScreen)
