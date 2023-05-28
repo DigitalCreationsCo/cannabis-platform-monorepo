@@ -12,7 +12,11 @@ export type AppState = Readonly<{
 
 export type ThunkArgumentsType = {
     store: Store;
-    supertokens: { signUp: any; signIn: any; signOut: any}
+    supertokens: { 
+        signUp?: any; 
+        signIn?: any; 
+        signOut: any;
+    }
 };
 
 // export type PasswordlessResponseWithUserDetails = PromiseReturnType<typeof passwordlessSignIn> & { user: UserWithDetails }

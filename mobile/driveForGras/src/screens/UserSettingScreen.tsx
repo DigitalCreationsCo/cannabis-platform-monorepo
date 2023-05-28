@@ -1,66 +1,37 @@
-// import React, { useEffect } from "react";
-// import { SafeAreaView, View, Text, TouchableOpacity } from "react-native";
-// import { useDispatch, useSelector } from "react-redux";
-// import { userActions } from "../redux/features/user";
-// import { Colors, Fonts, Sizes } from "../constants";
-
-// const UserSettingScreen = () => {
-//   const dispatch = useDispatch();
-//   const user = useSelector((state) => state.user.user);
-
-//   const logoutHandle = () => {
-//     dispatch(userActions.logoutUser({ token, email }));
-//   };
-
-//   return (
-//     <SafeAreaView>
-//       <View
-//         style={{
-//           height: 50,
-//           backgroundColor: Colors.primary,
-//           flexDirection: "row",
-//           justifyContent: "space-between",
-//         }}
-//       >
-//         <Text
-//           style={{
-//             ...Fonts.h3,
-//             color: Colors.white,
-//             paddingHorizontal: Sizes.padding * 2,
-//             alignSelf: "center",
-//           }}
-//         >
-//           User
-//         </Text>
-//         <TouchableOpacity
-//           onPress={logoutHandle}
-//           style={{
-//             alignSelf: "center",
-//             padding: Sizes.padding * 2,
-//             borderRadius: Sizes.radius / 2,
-//           }}
-//         >
-//           <Text style={{ ...Fonts.h3Light, color: Colors.white }}>logout</Text>
-//         </TouchableOpacity>
-//       </View>
-//       <View>
-//         <Text>{`driverId: ${user.driverId}`}</Text>
-//         <Text>{`${user.firstName} ${user.lastName}`}</Text>
-//       </View>
-//     </SafeAreaView>
-//   );
-// };
-
-// export default UserSettingScreen;
-
-import { Text, View } from 'react-native'
-import { Screen } from '../components'
+import { selectUserState, userActions } from "@cd/core-lib/src/reduxDir/features/user.reducer";
+import { AnyAction } from "@reduxjs/toolkit";
+import React from "react";
+import { ScrollView } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { Button, FlexBox, H3, Paragraph, Screen } from '../components';
 
 function UserSettingScreen() {
+
+  const 
+  dispatch = useDispatch();
+  
+  const 
+  { user } = useSelector(selectUserState);
+
+  function signOut () {
+    dispatch(userActions.signOutUserAsync() as unknown as AnyAction)
+  }
+
   return (
-    <View>
-      <Text>UserSettingScreen</Text>
-    </View>
+    <ScrollView>
+      <FlexBox className="h-full">
+      <H3>
+        {user.firstName || 'Your Account'}</H3>
+
+        {/* <Text>{`driverId: ${user.id}`}</Text> */}
+        {/* <Text>{`${user.firstName} ${user.lastName}`}</Text> */}
+      </FlexBox>
+
+      <Button onPress={signOut}>
+        <Paragraph>logout</Paragraph>
+      </Button>
+
+    </ScrollView>
   )
 }
 

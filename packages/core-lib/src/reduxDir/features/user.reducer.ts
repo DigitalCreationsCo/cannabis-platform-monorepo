@@ -167,8 +167,13 @@ const signOutUserAsync = createAsyncThunk<void, void, {
   "user/signOutUserAsync",
   async (_, {dispatch, extra, rejectWithValue}) => {
     try {
-      const { signOut } = extra.supertokens
+
+      console.log('sign out async thunk')
+      console.log('extra: ', extra)
+      const { signOut } = extra.supertokens;
       await signOut()
+      console.log('sign out async thunk complete')
+
     } catch (error) {
       return rejectWithValue("signout error: " + error);
     }
