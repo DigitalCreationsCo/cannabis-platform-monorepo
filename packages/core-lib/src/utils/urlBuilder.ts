@@ -14,6 +14,10 @@ const urlBuilder = {
 
     main: {
         baseUrl: mainUrl + '/api/v1',
+
+        getOTP: () => urlBuilder.main.baseUrl + '/signinup/code',
+        submitOTP: () => urlBuilder.main.baseUrl + '/signinup/code/consume',
+
         healthCheck: () => urlBuilder.main.baseUrl + '/healthcheck',
 
         getSession: () => urlBuilder.main.baseUrl + '/session',

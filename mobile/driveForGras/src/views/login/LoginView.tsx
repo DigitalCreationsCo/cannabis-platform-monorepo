@@ -4,7 +4,7 @@ import { Text, TextInput, View } from "react-native";
 import { useDispatch } from "react-redux";
 // import { userActions } from "../redux/features/user";
 import { toast } from '@backpackapp-io/react-native-toast';
-import { sendOTPEmail } from "@cd/core-lib/src/auth/OTP";
+import { sendOTPEmailRaw } from "@cd/core-lib/src/auth/OTP";
 import RNstyles from '@cd/core-lib/src/constants/RNstyles';
 import Icons from '@cd/native-ui/src/icons';
 import { useNavigation } from "@react-navigation/native";
@@ -16,19 +16,6 @@ function LoginView () {
 
     const navigation = useNavigation();
     const dispatch = useDispatch();
-  
-    const getLoginCode = async (input:string) => {
-      try {
-        
-        console.log('send otp code to email')
-        await sendOTPEmail(input);
-        
-      }
-      catch (error: any) {
-        console.log('get login code error: ', error);
-        throw new Error(error.message)
-      }
-    };
   
     const {
         getValues,
@@ -42,7 +29,7 @@ function LoginView () {
     const onSubmit = async (data: any) => {
         try {
             
-        await getLoginCode(getValues('email'));
+        await sendOTPEmailRaw(getValues('email'));
         // dispatch(userActions.clearErrorMessage());
         // dispatch(userActions.loginUser(data));
         
