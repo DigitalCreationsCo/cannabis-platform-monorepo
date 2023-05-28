@@ -1,5 +1,5 @@
 import React from 'react';
-import { GestureResponderEvent, Pressable, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { twMerge as merge } from 'tailwind-merge';
 import Center from '../atomic/Center';
 // import LoadingDots from '../LoadingDots';
@@ -14,7 +14,7 @@ export interface ButtonProps {
     className?: string;
     disabled?: boolean;
     loading?: boolean;
-    onPress?: (event: GestureResponderEvent) => void
+    onPress?: () => void
     icon?: any;
     type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type'];
     children: React.ReactNode;

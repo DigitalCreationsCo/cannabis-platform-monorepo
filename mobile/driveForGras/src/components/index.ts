@@ -3,6 +3,7 @@ export * from './atomic';
 // export { default as Center } from './atomic/Center';
 // export { default as Row } from './atomic/Row';
 export * from './button';
+export { NativeToastProvider } from './NativeToastProvider';
 // export { default as CheckAge } from './CheckAge';
 // export * from './CheckBox';
 // export { default as CheckBox } from './CheckBox';
@@ -32,4 +33,5 @@ export * from './button';
 // export { default as TextField } from './TextField';
 // export { ToastProvider } from './ToastProvider';
 export * from './Typography';
+
 
