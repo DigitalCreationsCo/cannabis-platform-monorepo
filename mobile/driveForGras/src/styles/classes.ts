@@ -27,7 +27,7 @@ const RNstyles = Object.freeze({
 
     textfield: {
         inputContainer: ['bg-light shadow', 'w-full p-2 flex flex-col space-y-4 justify-between', 'rounded'],
-        input: "text-lg h-10",
+        input: "text-lg h-10 px-2",
         message: 'py-2',
     },
     

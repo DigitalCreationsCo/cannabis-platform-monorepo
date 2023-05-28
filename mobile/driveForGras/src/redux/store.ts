@@ -1,5 +1,6 @@
 import { userReducer } from "@cd/core-lib/src/reduxDir/features/user.reducer";
-import { combineReducers, configureStore, Store } from "@reduxjs/toolkit";
+import { ThunkArgumentsType } from "@cd/core-lib/src/reduxDir/types";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from "redux-persist";
 import createSecureStore from "redux-persist-expo-securestore";
 import { signOut } from 'supertokens-react-native';
@@ -34,28 +35,29 @@ const reducer = persistReducer(config, rootReducer);
 const 
 supertokens = { 
   // signOut: 'signout function here',
-  signOut: () => signOut()
+  signOut: () => signOut
 };
 
-// const 
-// thunkArguments: ThunkArgumentsType = { 
-//   store: null, supertokens };
 const 
-thunkArguments: {
-  store: Store;
-  // supertokens: { 
-  //     signUp?: any; 
-  //     signIn?: any; 
-  //     signOut: any;
-  // };
-  supertokens: any;
-  hello?: string;
-} = { 
-  store: null, 
-  supertokens: { 
-    signOut 
-  }
-};
+thunkArguments: ThunkArgumentsType = { 
+  store: null, supertokens };
+
+  // const 
+// thunkArguments: {
+//   store: Store;
+//   // supertokens: { 
+//   //     signUp?: any; 
+//   //     signIn?: any; 
+//   //     signOut: any;
+//   // };
+//   supertokens: any;
+//   hello?: string;
+// } = { 
+//   store: null, 
+//   supertokens: { 
+//     signOut 
+//   }
+// };
 
 function makeStore () {
 
@@ -75,13 +77,8 @@ function makeStore () {
 
   });
   thunkArguments.store = store;
-  thunkArguments.hello = 'hello'
-  // thunkArguments.supertokens = JSON.stringify(supertokens)
-  thunkArguments.supertokens = supertokens;
 
   const persistor = persistStore(store);
-
-  // thunkArguments.supertokens = supertokens();
 
   return { store, persistor }
 

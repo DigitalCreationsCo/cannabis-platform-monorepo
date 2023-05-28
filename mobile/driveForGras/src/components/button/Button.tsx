@@ -44,7 +44,7 @@ export default function RNButton({
 }: ButtonProps) {
     const classes = {
         button: [
-            'rounded-btn',
+            'rounded-md',
             'whitespace-nowrap',
             'font-btn',
             'shadow',
@@ -55,7 +55,7 @@ export default function RNButton({
         size: [
             (size === 'lg' && 'text-xl min-w-[180px] h-[70px]') || (size === 'sm' && 'text-sm h-[30px]') || 'min-w-[140px] h-10'
         ],
-        bgColor: ['bg-' + bg],
+        bgColor: [!disabled ? 'bg-' + bg : 'bg-accent'],
         textColor: [
             !disabled ? [(bg === 'transparent' && 'text-dark shadow-none') || (bg === 'accent-soft' && 'text-dark') || 'text-light'] : 'text-secondary'
         ],

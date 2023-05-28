@@ -1,16 +1,64 @@
-import { createStackNavigator } from "@react-navigation/stack";
-import { LoginScreen, SignUpScreen } from "../screens";
-
-const Stack = createStackNavigator();
+import { selectUserState } from "@cd/core-lib/src/reduxDir/features/user.reducer";
+import { createStackNavigator, TransitionPresets } from "@react-navigation/stack";
+import { useSelector } from "react-redux";
+import { CompleteDeliveryScreen, DeliveryOrderScreen, LoginScreen, NewOrderScreen, SignUpScreen } from "../screens";
+import { DriveScreens } from "./paths";
+import TabNavigator from "./TabNavigator";
 
 const AuthNavigator = () => {
+
+  const 
+  { isSignedIn } = useSelector(selectUserState)
+
+  const 
+  Stack = createStackNavigator();
+  
   return (
     <Stack.Navigator
-      initialRouteName={"LoginScreen"}
-      screenOptions={{ headerShown: false }}
+      initialRouteName={
+        // "Test"
+        DriveScreens.HOME
+      }
+      screenOptions={{
+        headerShown: false,
+      }}
     >
-      <Stack.Screen name="LoginScreen" component={LoginScreen} />
-      <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+      { isSignedIn ?
+      (
+        <>
+        <Stack.Screen name={DriveScreens.HOME} component={TabNavigator} 
+        options={{
+          ...TransitionPresets.FadeFromBottomAndroid,
+        }}/>
+        <Stack.Screen
+          name={DriveScreens.NEW_ORDER_SCREEN}
+          component={NewOrderScreen}
+          options={{
+            ...TransitionPresets.ModalSlideFromBottomIOS,
+          }}
+        />
+        <Stack.Screen
+          name={DriveScreens.DELIVERY_ORDER_SCREEN}
+          component={DeliveryOrderScreen}
+        />
+        <Stack.Screen
+          name={DriveScreens.COMPLETE_DELIVERY_SCREEN}
+          component={CompleteDeliveryScreen}
+          options={{
+            ...TransitionPresets.ModalSlideFromBottomIOS,
+          }}
+        />
+        </>
+      ) :
+      (
+        <>
+        <Stack.Screen name="LoginScreen" component={LoginScreen} 
+        options={{
+          ...TransitionPresets.FadeFromBottomAndroid,
+        }}/>
+        <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+        </>
+      )}
     </Stack.Navigator>
   );
 };

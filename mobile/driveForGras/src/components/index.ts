@@ -3,6 +3,7 @@ export * from './atomic';
 // export { default as Center } from './atomic/Center';
 // export { default as Row } from './atomic/Row';
 export * from './button';
+export { default as Greeting } from './Greeting';
 export { NativeToastProvider } from './NativeToastProvider';
 // export { default as CheckAge } from './CheckAge';
 // export * from './CheckBox';

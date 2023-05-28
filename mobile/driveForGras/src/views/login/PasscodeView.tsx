@@ -49,7 +49,6 @@ const PasscodeView = ({ route }) => {
           'rid': 'passwordless'
         }});
 
-        console.log('response: ', response)
       if (!response.data.user)
       throw new Error('An error occured. No user found.');
       
@@ -64,7 +63,7 @@ const PasscodeView = ({ route }) => {
   return (
     <View className="bg-primary h-full">
 
-      <TouchableWithoutFeedback 
+      <TouchableWithoutFeedback
       onPress={() => navigation.goBack()}
       >
         <Text className='text-md text-light'>

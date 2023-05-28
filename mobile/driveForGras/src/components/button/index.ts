@@ -1,3 +1,4 @@
+export { default as BannerButton } from './BannerButton';
 export { default as Button } from './Button';
 // export { default as CheckoutButton } from './CheckoutButton';
 // export { default as CloseButton } from './CloseButton';
