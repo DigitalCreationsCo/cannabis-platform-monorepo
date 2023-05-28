@@ -1,7 +1,6 @@
 import React from "react";
-import { SafeAreaView, View, Text, StyleSheet } from "react-native";
-
-import { useSelector } from "react-redux";
+import { SafeAreaView, StyleSheet, Text } from "react-native";
+import { Screen } from "../components";
 
 const HistoryScreen = () => {
   return (
@@ -19,4 +18,5 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HistoryScreen;
+export default Screen(HistoryScreen)
+

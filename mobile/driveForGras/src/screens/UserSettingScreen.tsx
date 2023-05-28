@@ -54,10 +54,14 @@
 // export default UserSettingScreen;
 
 import { Text, View } from 'react-native'
-export default function UserSettingScreen() {
+import { Screen } from '../components'
+
+function UserSettingScreen() {
   return (
     <View>
       <Text>UserSettingScreen</Text>
     </View>
   )
 }
+
+export default Screen(UserSettingScreen)

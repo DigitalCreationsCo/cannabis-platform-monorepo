@@ -9829,7 +9829,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"browser-tabs-lock@npm:^1.2.14":
+"browser-tabs-lock@npm:^1.2.14, browser-tabs-lock@npm:^1.3.0":
   version: 1.3.0
   resolution: "browser-tabs-lock@npm:1.3.0"
   dependencies:
@@ -12821,6 +12821,7 @@ __metadata:
     socket.io-client: 4.6.1
     supertokens-auth-react: 0.28.1
     supertokens-react-native: 4.0.2
+    supertokens-web-js: 0.5.0
     tailwind-merge: 1.8.0
     tailwindcss: 3.2.4
     typescript: 4.9.3
@@ -26290,6 +26291,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"supertokens-web-js@npm:0.5.0":
+  version: 0.5.0
+  resolution: "supertokens-web-js@npm:0.5.0"
+  dependencies:
+    supertokens-js-override: 0.0.4
+    supertokens-website: ^16.0.0
+  checksum: 7a3e23f29054fc8dd9b1dff64cd2f439a6769b86cb30aa9e02b4b616d5048d3783ba29f46a031788e54f15c054f8a34acb6d1290c7497f8b8a8085118dcd8252
+  languageName: node
+  linkType: hard
+
 "supertokens-web-js@npm:^0.3.0":
   version: 0.3.0
   resolution: "supertokens-web-js@npm:0.3.0"
@@ -26307,6 +26318,16 @@ __metadata:
     browser-tabs-lock: ^1.2.14
     supertokens-js-override: ^0.0.4
   checksum: e2e444255d90c33d45745b6e6896c67227a83f202dadac6f645e2049a9d737e8ee616518d488149912f80a47f9b3ce18453ccab5782ce8f33cbe45f52f3cce16
+  languageName: node
+  linkType: hard
+
+"supertokens-website@npm:^16.0.0":
+  version: 16.0.10
+  resolution: "supertokens-website@npm:16.0.10"
+  dependencies:
+    browser-tabs-lock: ^1.3.0
+    supertokens-js-override: ^0.0.4
+  checksum: b0cee02d1691707dccddd2fe7973bebde7d18ff83415017a6a7ef59038d5c427071aa10c26d39ef29650b11c607a14f81b86a79729d550afecf18febdc730ad3
   languageName: node
   linkType: hard
 

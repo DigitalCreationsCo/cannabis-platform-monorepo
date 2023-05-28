@@ -1,25 +1,23 @@
 import TextContent from "@cd/core-lib/src/constants/textContent";
 import React, { useRef } from "react";
 import { Text, TextInput, View } from "react-native";
-import { useDispatch } from "react-redux";
 // import { userActions } from "../redux/features/user";
 import { toast } from '@backpackapp-io/react-native-toast';
 import { sendOTPEmailRaw } from "@cd/core-lib/src/auth/OTP";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigation } from "@react-navigation/native";
-import axios from "axios";
+// import axios from "axios";
 import { Controller, useForm } from "react-hook-form";
-import SuperTokens from 'supertokens-react-native';
+// import SuperTokens from 'supertokens-react-native';
 import { twMerge } from "tailwind-merge";
 import * as yup from 'yup';
 import { Button, Center, H5, Paragraph } from '../../components';
 import RNstyles from '../../styles/classes';
-SuperTokens.addAxiosInterceptors(axios);
+// SuperTokens.addAxiosInterceptors(axios);
 
 function LoginView () {
 
     const navigation = useNavigation();
-    const dispatch = useDispatch();
   
     const emailRef = useRef(null);
 
@@ -33,10 +31,14 @@ function LoginView () {
     const onSubmit = async (data: any) => {
       try {
 
-          await 
+          const response = await 
           sendOTPEmailRaw(data.email);
           
-          navigation.navigate('Passcode');
+          if (response.data.status === 'OK')
+          navigation.navigate('Passcode', {
+            preAuthSessionId: response.data.preAuthSessionId,
+            deviceId: response.data.deviceId,
+          });
 
           toast(TextContent.prompt.PASSCODE_SENT_f(data.email));
           

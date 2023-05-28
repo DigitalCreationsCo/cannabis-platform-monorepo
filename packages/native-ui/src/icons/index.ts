@@ -1,4 +1,4 @@
-import * as CarbonIcons from '@carbon/icons-react';
+// import * as CarbonIcons from '@carbon/icons-react';
 
 import AlarmClock from './AlarmClock';
 import AppleStore from './AppleStore';
@@ -265,5 +265,5 @@ export default {
     Skirt,
     FormalCloth,
     XIcon,
-    ...CarbonIcons
+    // ...CarbonIcons
 };

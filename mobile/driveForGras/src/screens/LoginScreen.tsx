@@ -1,19 +1,14 @@
-// import { userActions } from "../redux/features/user";
-import { createStackNavigator, TransitionPresets } from "@react-navigation/stack";
-import { Screen } from '../components';
-import { LoginView, PasscodeView } from "../views";
-// import { Images, Fonts, Colors, Sizes, Shadow, Icons } from "../constants";
 import TextContent from "@cd/core-lib/src/constants/textContent";
-import { View } from "react-native";
-// import { userActions } from "../redux/features/user";
 import Icons from '@cd/native-ui/src/icons';
-import { FlexBox, H1, H5 } from '../components';
+import { createStackNavigator, TransitionPresets } from "@react-navigation/stack";
+import { View } from "react-native";
+import { FlexBox, H1, H5, Screen } from '../components';
+import { LoginView, PasscodeView } from "../views";
 
 const LoginScreen = () => {
 
   const 
   LoginStack = createStackNavigator();
-
   return (
     <>
     
@@ -29,7 +24,7 @@ const LoginScreen = () => {
       </H5>
     </View>
 
-    <LoginStack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
+    <LoginStack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }} >
 
       <LoginStack.Screen 
       name="Login" 
