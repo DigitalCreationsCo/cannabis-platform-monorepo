@@ -1,4 +1,4 @@
-import { Driver, DriverSession, User } from "@prisma/client";
+import { Coordinates, Driver, DriverSession, Route, User } from "@prisma/client";
 import prisma from "./db/prisma";
 
 /*
@@ -192,10 +192,15 @@ export type DriverWithDetails = Driver & {
     driverSession: DriverSession | null;
 }
 
+export type DriverWithSessionDetails = Driver & {
+    user: User;
+    driverSession: DriverSessionWithJoinedData | null;
+}
+
 export type DriverSessionWithJoinedData = DriverSession & {
     currentCoordinates: Coordinates | null;
     isOnline: boolean;
-    isOnActiveDelivery: boolean;
+    isActiveDelivery: boolean;
     currentRoute: Route | null;
     routeId: string | null;
 }

@@ -11,7 +11,7 @@ import {
 import { MongoClient } from 'mongodb';
 
 /* =================================
-Order Data Access - data class for order table
+Order Data Access - Data class for Order SQL Table and dispatchOrders Mongo Collection
 
 members: 
 useMongoDB

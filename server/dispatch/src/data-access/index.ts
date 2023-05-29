@@ -159,7 +159,7 @@ class DispatchDA {
           {
             $geoNear: {
               near: geoJsonPoint,
-              query: { isOnline: true, receiveDelivery: true },
+              query: { isOnline: true, isActiveDelivery: false },
               maxDistance: 25000000, // meters
               distanceField: "distanceToFirstStop",
               spherical: true,
@@ -191,7 +191,7 @@ class DispatchDA {
           {
             $geoNear: {
               near: geoJsonPoint,
-              query: { isOnline: true, receiveDelivery: true },
+              query: { isOnline: true, isActiveDelivery: false },
               maxDistance: 25000000, // meters
               distanceField: "distanceToFirstStop",
               spherical: true,

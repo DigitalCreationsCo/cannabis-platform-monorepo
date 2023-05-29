@@ -1,20 +1,21 @@
 import { findDriverWithDetailsByEmail, findDriverWithDetailsById } from "@cd/data-access";
-import { MongoClient } from "mongodb";
+import { Collection, MongoClient, ObjectId } from "mongodb";
 
 
 /* =================================
-Driver Data Access - data class for Driver SQL Table
+Driver Data Access - data class for Driver SQL Table and DriverSessions Mongo Collection
 
 members:
 useMongoDB
 
 getDriverById
 getDriverByEmail
+updateOnlineStatus
 
 ================================= */
 
 let 
-driverSessions;
+driverSessions: Collection | null = null
 
 const 
 dispatch_namespace = process.env.DISPATCH_DB_NS;
@@ -53,5 +54,26 @@ export default class DriverDA {
         console.error(error.message);
         throw new Error(error.message);
     }
-}
+  }
+
+  static async updateOnlineStatus(id, onlineStatus) {
+    try {
+      const
+      updateStatus = await driverSessions.updateOne(
+        { id: new ObjectId(id) },
+        { $set: { "isOnline": onlineStatus }},
+        { upsert: true });
+
+      if (!updateStatus.acknowledged) {
+        throw new Error(`Could not update status driver: ${id}`);
+      }
+
+      return { success: true };
+      
+    } catch (error:any) {
+      console.error(`Error update driver status, ${error}`);
+      throw new Error(error.message)
+    }
+  }
+
 }
