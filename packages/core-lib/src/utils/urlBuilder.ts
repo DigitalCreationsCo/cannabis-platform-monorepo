@@ -13,7 +13,7 @@ const urlBuilder = {
     dashboard,
 
     main: {
-        baseUrl: mainUrl + '/api/v1',
+        baseUrl: mainUrl + '/api/v1', 
 
         getOTP: () => urlBuilder.main.baseUrl + '/signinup/code',
         submitOTP: () => urlBuilder.main.baseUrl + '/signinup/code/consume',
@@ -48,7 +48,10 @@ const urlBuilder = {
 
         address: () => urlBuilder.main.baseUrl + '/auth/address',
         addressByIdAndUser: (addressId: any, id: any) =>
-            urlBuilder.main.baseUrl + `/auth/user/${id}/address/${addressId}`
+            urlBuilder.main.baseUrl + `/auth/user/${id}/address/${addressId}`,
+
+        driverById: (id: any) => urlBuilder.main.baseUrl + `/driver/${id}`,
+        driverUpdateStatus: () => urlBuilder.main.baseUrl + `/driver/status`,
     },
 
     location: {
