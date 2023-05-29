@@ -1,3 +1,8 @@
+QUESTIONS TO ANSWER
+// WHEN AN HOW TO CREATE A DRIVER RECORD FOR A USER?
+// WHAT IS THE LIMIT OF ACCESS FOR WHO CAN BECOME A DRIVER?
+// CREATE A BACKEND PROCESS THAT THE TEAM CAN USE FOR NOW, AND CAN BE AUTOMATED LATER.
+
 DRIVER ENROLLMENT
 Drivers are handpicked to drive for the Gras platform, for now.
 We need to make sure the starting team of deliveryPersons is high quality,
