@@ -2,6 +2,7 @@ import { driverReducer } from "@cd/core-lib/src/reduxDir/features/driver.reducer
 import { userReducer } from "@cd/core-lib/src/reduxDir/features/user.reducer";
 import { ThunkArgumentsType } from "@cd/core-lib/src/reduxDir/types";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from "redux-persist";
 import createSecureStore from "redux-persist-expo-securestore";
 import { signOut } from 'supertokens-react-native';
@@ -85,3 +86,9 @@ function makeStore () {
 const { store, persistor } = makeStore();
 
 export { store, persistor };
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+export const useAppDispatch: () => AppDispatch = useDispatch;

@@ -8,7 +8,7 @@ import { urlBuilder } from "../../utils";
 import { AppState, ThunkArgumentsType } from "../types";
 
 
-export const updateOnlineStatus = createAsyncThunk<{ success: boolean, isOnline: boolean }, {status: boolean}, {extra: ThunkArgumentsType}> (
+export const updateOnlineStatus = createAsyncThunk<{ success: boolean, isOnline: boolean }, boolean, {extra: ThunkArgumentsType}> (
     "driver/updateOnlineStatus",
     async (onlineStatus, thunkAPI) => {
         try {
@@ -90,7 +90,16 @@ export const driverSlice = createSlice({
   extraReducers: (builder) => {
 
     builder.addCase(updateOnlineStatus.fulfilled, (state, { payload })  => {
-        state.driver.driverSession
+      
+      const
+      { isOnline } = payload
+
+      state.driver.driverSession['isOnline'] = isOnline;
+
+      state.isSuccess = true;
+      state.isLoading = false;
+      state.isError = false;
+
     }),
     builder.addCase(updateOnlineStatus.pending, (state) => {
       state.isLoading = true;
