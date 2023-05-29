@@ -64,6 +64,7 @@ export default class DriverDA {
         { $set: { "isOnline": onlineStatus }},
         { upsert: true });
 
+        console.log('updateStatus: ', updateStatus)
       if (!updateStatus.acknowledged) {
         throw new Error(`Could not update status driver: ${id}`);
       }
