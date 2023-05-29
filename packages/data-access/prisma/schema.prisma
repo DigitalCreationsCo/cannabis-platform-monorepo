@@ -108,8 +108,10 @@ model DriverSession {
   // coordinates Coordinates @relation(fields: [coordinateDriverId], references: [driverId])
   // isOnline Boolean @default(false)
   // isActiveDelivery Boolean @default(false)
-  // currentRoute Route @relation(fields: [routeId], references: [id])
+  routeId String? @unique
+  currentRoute Route? @relation(fields: [routeId], references: [id])
   // routeId String @unique
+
 
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
@@ -117,11 +119,13 @@ model DriverSession {
   // @@index([routeId])
 }
 
-// model Route {
-//   id String @id
-//   coordinates Coordinates[]
-//   driverSession DriverSession?
-// }
+model Route {
+  id String @id
+  driverSession DriverSession?
+
+  orderId String @unique
+  order Order  @relation(fields: [orderId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
 
 model Vendor {
   id            String    @id @default(cuid())
@@ -266,6 +270,8 @@ model Order {
   
   deliveredAt    DateTime?
 
+  routeId String?
+  route Route?
   // metadataId     String @unique
   // metadata       OrderMetaData?
 

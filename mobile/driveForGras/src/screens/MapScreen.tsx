@@ -20,6 +20,10 @@ const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.00922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
+// add code to switch onlineStatus to false for unmount.
+    // as well as a handler in the auth service to change status
+    // from the server side, for disconnected users.
+    
 // separate the map functionality from the go online functionality
 const MapScreen = () => {
   
@@ -28,8 +32,25 @@ const MapScreen = () => {
 
   // useLocationWatch();
   
-  const [updateStatus, setUpdateStatus] = useState(false);
+  const [onlineStatus, setOnlineStatus] = useState(false);
   
+  function toggleStatus () { 
+    setOnlineStatus(!onlineStatus); 
+  }
+
+  useEffect(() => {
+
+    console.log('onlineStatus: ', onlineStatus);
+    
+    // dispatch(userActions.updateOnlineStatus(updateStatus)).then(() => {
+    //   console.log("updated status. finishing loading");
+    //   dispatch(moduleActions.finishLoading());
+    // });
+    // add code to switch onlineStatus to false for unmount.
+    // as well as a handler in the auth service to change status
+    // from the server side, for disconnected users.
+  }, [onlineStatus]);
+
     // const { isEstablishingConnection, isConnected, connectionError, message } =
     //   useSelector(Selector.socket);
 
@@ -41,11 +62,14 @@ const MapScreen = () => {
   const 
   isOnline = true,
   isConnected = true,
-  isConnecting = false,
-  connectionError = '[ error ?? ]';
+  isConnecting = true,
+  errorMessage = '';
   
+  // UI should show the status marker that matters, 
+  // which is the connection status, not the online status.
+  // the online status should copy the connection status.
   const
-  showDriverStatus = isOnline ? "Looking for deliveries..." : isConnecting ? "Going online..." : "Go Online";
+  showDriverStatus = isConnected ? "Looking for deliveries..." : isConnecting ? "Going online..." : "Go Online";
 
   {/* {isLoading ? (
             <Text style={styles.statusPending}>Loading..</Text>
@@ -65,20 +89,6 @@ const MapScreen = () => {
   { newOrder } = { newOrder: null}
   // const { isOnline } = user;
 
-  // const toggleStatus = () => {
-  //   setUpdateStatus((status) => !status);
-  // };
-
-  // useEffect(() => {
-  //   dispatch(userActions.updateOnlineStatus(updateStatus)).then(() => {
-  //     console.log("updated status. finishing loading");
-  //     dispatch(moduleActions.finishLoading());
-  //   });
-  //   // add code to switch onlineStatus to false for unmount.
-  //   // as well as a handler in the auth service to change status
-  //   // from the server side, for disconnected users.
-  // }, [updateStatus]);
-
   // useDidMountEffect(() => {
   //   isOnline
   //     ? dispatch(socketActions.openConnection())
@@ -94,12 +104,11 @@ const MapScreen = () => {
   return (
     <>
       <>
-        <Text>
-          ({isConnected
+        <Text> ({isConnected
             ? ` connected to websocket { web socket id } ` 
             : " websocket no connection "})
         </Text>
-        <Text>{connectionError}</Text>
+        <Text> error: {errorMessage || 'null'}</Text>
       </>
 
       <View className="grow">
@@ -120,7 +129,7 @@ const MapScreen = () => {
         />
 
           <BannerButton
-            // onPress={toggleStatus}
+            onPress={toggleStatus}
             disabled={false}
           >
             { showDriverStatus }

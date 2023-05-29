@@ -192,6 +192,14 @@ export type DriverWithDetails = Driver & {
     driverSession: DriverSession | null;
 }
 
+export type DriverSessionWithJoinedData = DriverSession & {
+    currentCoordinates: Coordinates | null;
+    isOnline: boolean;
+    isOnActiveDelivery: boolean;
+    currentRoute: Route | null;
+    routeId: string | null;
+}
+
 // export type UserCreateType = {
 //     firstName: string;
 //     lastName: string;
