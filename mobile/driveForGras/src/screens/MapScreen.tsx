@@ -12,10 +12,10 @@ import { DriveScreens } from "../navigation/paths";
 // import { moduleActions } from "../redux/features/module";
 // import { socketActions } from "../redux/features/socket";
 // import { userActions } from "../redux/features/user";
-import { driverActions } from "@cd/core-lib/reduxDir";
+import { selectDriverState } from "@cd/core-lib/src/reduxDir/features/driver.reducer";
 import { selectUserState } from "@cd/core-lib/src/reduxDir/features/user.reducer";
-import { useAppDispatch } from "redux/store";
 import { Screen } from '../components';
+import { useAppDispatch } from "../redux/store";
 
 const { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
@@ -29,51 +29,77 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 // separate the map functionality from the go online functionality
 const MapScreen = () => {
   
+  // useLocationWatch();
+  
   useEffect(() => {
     return () => {
       console.log('unmounting map screen');
       console.log('does minimize trigger unmount?');
     }
-  });
+  }, []);
 
   const dispatch = useAppDispatch();
   const navigation = useNavigation<any>();
-
-  // useLocationWatch();
   
-  const [onlineStatus, setOnlineStatus] = useState(false);
+  const 
+  { user } = useSelector(selectUserState),
+  isOnline = useSelector(selectDriverState)
+
+  const [updateStatus, setUpdateStatusStatus] = useState(false);
   
   function toggleStatus () { 
-    setOnlineStatus(!onlineStatus); 
+    setUpdateStatusStatus(!updateStatus); 
   }
+
+  
+
 
   useEffect(() => {
 
-    console.log('onlineStatus: ', onlineStatus);
-    
-    dispatch(driverActions.updateOnlineStatus(onlineStatus));
-    // add code to switch onlineStatus to false for unmount.
-    // as well as a handler in the auth service to change status
-    // from the server side, for disconnected users.
-  }, [onlineStatus]);
-
-    // const { isEstablishingConnection, isConnected, connectionError, message } =
-    //   useSelector(Selector.socket);
-
-  // const isLoading = useSelector(Selector.isLoading);
-  const 
-  { user } = useSelector(selectUserState) as any;
-
-  // TEST STATE
-  const 
-  isOnline = true,
-  isConnected = true,
-  isConnecting = true,
-  errorMessage = '';
-  
   // UI should show the status marker that matters, 
   // which is the connection status, not the online status.
   // the online status should copy the connection status.
+    console.log('onlineStatus: ', updateStatus);
+    console.log('isOnline: ', isOnline);
+    
+    // if (updateStatus !== isOnline)
+    // dispatch(driverActions.updateOnlineStatus(updateStatus));
+    // add code to switch onlineStatus to false for unmount.
+    // as well as a handler in the auth service to change status
+    // from the server side, for disconnected users.
+    
+  }, [updateStatus]);
+
+
+      // TEST STATE
+      const 
+      isConnected = true,
+      isConnecting = true,
+      errorMessage = '';
+      
+      // const { isEstablishingConnection, isConnected, connectionError, message } =
+      //   useSelector(Selector.socket);
+      // const location = useSelector(Selector.currentCoordinates);
+    // const { newOrder } = useSelector(Selector.incomingOrder);
+
+    
+    // useDidMountEffect(() => {
+  //   isOnline
+  //     ? dispatch(socketActions.openConnection())
+  //     : dispatch(socketActions.closeConnection());
+  // }, [isOnline]);
+
+
+  const 
+  { newOrder } = { newOrder: null}
+  // const { isOnline } = user;
+
+  useEffect(() => {
+    if (newOrder) {
+      navigation.navigate(DriveScreens.NEW_ORDER_SCREEN);
+    }
+  }, [newOrder]);
+
   const
   showDriverStatus = isConnected ? "Looking for deliveries..." : isConnecting ? "Going online..." : "Go Online";
 
@@ -86,26 +112,6 @@ const MapScreen = () => {
           ) : (
             <Text style={styles.statusOffline}>You are offline</Text>
           )} */}
-          
-
-  // const location = useSelector(Selector.currentCoordinates);
-
-  // const { newOrder } = useSelector(Selector.incomingOrder);
-  const 
-  { newOrder } = { newOrder: null}
-  // const { isOnline } = user;
-
-  // useDidMountEffect(() => {
-  //   isOnline
-  //     ? dispatch(socketActions.openConnection())
-  //     : dispatch(socketActions.closeConnection());
-  // }, [isOnline]);
-
-  useEffect(() => {
-    if (newOrder) {
-      navigation.navigate(DriveScreens.NEW_ORDER_SCREEN);
-    }
-  }, [newOrder]);
 
   return (
     <>

@@ -1,4 +1,4 @@
-import { selectIsAddressAdded, selectUserState } from "@cd/core-lib/reduxDir";
+import { selectIsAddressAdded, selectUserState } from "@cd/core-lib";
 import { Card, H2, LayoutContextProps, Page } from "@cd/ui-lib/src/components";
 import { QuickSignUpUserForm, SubmitAddress, VerifyPhotoId } from "components";
 import Head from "next/head";

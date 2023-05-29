@@ -1,5 +1,5 @@
 import { cartActions, selectCartState, selectIsCartEmpty, selectSelectedLocationState, SimpleCart } from "@cd/core-lib";
-import { selectUserState } from "@cd/core-lib/reduxDir";
+import { selectUserState } from "@cd/core-lib/src/reduxDir/features/user.reducer";
 import { ProductVariantWithDetails } from "@cd/data-access";
 import { Center, CheckBox, H5, Paragraph, Price, SimpleCartItem } from "@cd/ui-lib";
 import { Card, CheckoutButton, H2, LayoutContextProps, Page, SignInButton } from "@cd/ui-lib/src/components";
