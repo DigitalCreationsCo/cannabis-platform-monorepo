@@ -270,7 +270,7 @@ model Order {
   
   deliveredAt    DateTime?
 
-  routeId String?
+  routeId String? @unique
   route Route?
   // metadataId     String @unique
   // metadata       OrderMetaData?

@@ -17,12 +17,13 @@ async function clearRecords() {
 
     await prisma.order.deleteMany();
     // await prisma.orderItem.deleteMany();
-    await prisma.address.deleteMany();
-
+    
     await prisma.productVariant.deleteMany();
     await prisma.product.deleteMany();
-
+    
     await prisma.organization.deleteMany();
+    
+    await prisma.address.deleteMany();
     await prisma.vendor.deleteMany();
     await prisma.subDomain.deleteMany();
 
