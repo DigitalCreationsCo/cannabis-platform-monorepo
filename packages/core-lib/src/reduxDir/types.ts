@@ -1,10 +1,11 @@
 import { Store } from '@reduxjs/toolkit';
 import { UserWithDetails } from '../../../data-access/src';
-import { CartStateProps, LocationStateProps, ModalStateProps, ShopStateProps, UserStateProps } from './features';
+import { CartStateProps, DriverSessionState, LocationStateProps, ModalStateProps, ShopStateProps, UserStateProps } from './features';
 
 export type AppState = Readonly<{ 
     modal: ModalStateProps
     user: UserStateProps
+    driver: DriverSessionState
     location: LocationStateProps
     shop: ShopStateProps
     cart: CartStateProps

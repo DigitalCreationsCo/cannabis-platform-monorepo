@@ -95,7 +95,7 @@ import Quote from './Quote';
 import RankBadge from './RankBadge';
 import Remove from './Remove';
 import Right from './Right';
-import Search from './Search';
+// import Search from './Search';
 import Search2 from './Search2';
 import Shield from './Shield';
 import Shirt from './Shirt';
@@ -135,7 +135,7 @@ export default {
     Close,
     Phone,
     Checkmark,
-    Search,
+    // Search,
     Search2,
     Right,
     Beer,

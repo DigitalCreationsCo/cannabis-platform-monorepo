@@ -1,12 +1,10 @@
 // @ts-nocheck
 
 import { DriverWithSessionDetails } from "@cd/data-access";
-// import { UserWithDetails } from "@cd/data-access";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-// import * as SecureStore from "expo-secure-store";
+import axios from "axios";
 import { urlBuilder } from "../../utils";
 import { AppState, ThunkArgumentsType } from "../types";
-
 
 export const updateOnlineStatus = createAsyncThunk<{ success: boolean, isOnline: boolean }, boolean, {extra: ThunkArgumentsType}> (
     "driver/updateOnlineStatus",
@@ -91,10 +89,10 @@ export const driverSlice = createSlice({
 
     builder.addCase(updateOnlineStatus.fulfilled, (state, { payload })  => {
       
-      const
-      { isOnline } = payload
+      // const
+      // { isOnline } = payload
 
-      state.driver.driverSession['isOnline'] = isOnline;
+      // state.driver.driverSession['isOnline'] = isOnline;
 
       state.isSuccess = true;
       state.isLoading = false;
@@ -119,4 +117,4 @@ export const driverActions = {
 
 export const driverReducer = driverSlice.reducer;
 
-export const selectdriverState = (state: AppState) => state.driver;
+export const selectDriverState = (state: AppState) => state.driver;
