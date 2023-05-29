@@ -1,4 +1,4 @@
-import { findDriverWithDetailsByEmail, findDriverWithDetailsById, findDriverWithDetailsByPhone, UserCreateType } from "@cd/data-access";
+import { createDriver, findDriverWithDetailsByEmail, findDriverWithDetailsById, findDriverWithDetailsByPhone, updateDriver, UserCreateType } from "@cd/data-access";
 import { Collection, MongoClient, ObjectId } from "mongodb";
 
 
@@ -37,11 +37,11 @@ export default class DriverDA {
     }
   }
 
-  static async createDriver(createDriver: UserCreateType) {
+  static async createDriver(createDriverData: UserCreateType) {
     try {
       
         // createDriver = await createPasswordHash(createUserData)
-        const driver = await createDriver(createDriver)
+        const driver = await createDriver(createDriverData)
 
         return driver;
 
@@ -51,11 +51,11 @@ export default class DriverDA {
     }
   }
 
-  static async updateDriver(updateDriver: UserCreateType) {
+  static async updateDriver(updateDriverData: UserCreateType) {
     try {
 
         const 
-        driver = await updateDriver(updateDriver)
+        driver = await updateDriver(updateDriverData)
 
         console.log(`updated user ${driver.id}`)
         

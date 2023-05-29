@@ -15,7 +15,7 @@ updateStatus
 
 export default class DriverController {
 
-    static async createUser(req, res) {
+    static async createDriver(req, res) {
         try {
 
             const 
@@ -28,7 +28,7 @@ export default class DriverController {
             user.address[0].coordinates = coordinates;
             
             const 
-            data = await DriverDA.createUser(user)
+            data = await DriverDA.createDriver(user)
             
             if (!data) 
             return res.status(404).json('Driver could not be created.');
@@ -50,7 +50,7 @@ export default class DriverController {
             driver = req.body
             
             const 
-            data = await DriverDA.updateUser(driver)
+            data = await DriverDA.updateDriver(driver)
 
             if (!data) 
             return res.status(404).json('Driver record could not be updated.');

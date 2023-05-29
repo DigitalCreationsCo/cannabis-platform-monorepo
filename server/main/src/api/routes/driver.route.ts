@@ -6,6 +6,8 @@ Driver Routes
 
 "/"                        createDriver
 
+"/"                        updateDriver
+
 "/:id"                     getUserById
 
 "/status"                  updateStatus
@@ -13,6 +15,8 @@ Driver Routes
 ================================= */
 
 router.route('/').post(driverCtrl.createDriver);
+
+router.route('/').put(driverCtrl.updateDriver);
 
 router.route('/:id').post(driverCtrl.getDriverById);
 

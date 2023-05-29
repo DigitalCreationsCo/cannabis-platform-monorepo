@@ -1,30 +1,15 @@
-import { createId } from "@paralleldrive/cuid2";
-import { Address, Category, CategoryList, Driver, ImageOrganization, ImageProduct, ImageUser, ImageVendor, Membership, Order, Organization, PrismaClient, Product, ProductVariant, Purchase, Schedule, SiteSetting, SubDomain, User, Vendor } from "@prisma/client";
+// import { createId } from "@paralleldrive/cuid2";
+// import { PrismaClient } from "@prisma/client";
+// import { createDriver } from "../driver";
+const { createId } = require('@paralleldrive/cuid2')
+const { PrismaClient } = require('@prisma/client')
+const { createDriver } = require('../driver')
 
 
 // rewrite functions to connect users with addresses
 
-const users: User[] = [
-  {
-    id: createId(),
-    firstName: "Bryant",
-    lastName: "Mejia",
-    username: "BigChiefa",
-    email: "bmejiadeveloper2@gmail.com",
-    phone: "1232343456",
-    emailVerified: false,
-    isLegalAge: null,
-    idVerified: false,
-    isSignUpComplete: false,
-    passwordHash: "",
-    passwordResetToken: "null",
-    dialCode: "1",
-    idFrontImage: "",
-    idBackImage: "",
-    termsAccepted: false,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
+// const users: User[] = [
+const users = [
   {
     id: createId(),
     firstName: "Bob",
@@ -71,22 +56,23 @@ const users: User[] = [
 // WHAT IS THE LIMIT OF ACCESS FOR WHO CAN BECOME A DRIVER?
 // CREATE A BACKEND PROCESS THAT THE TEAM CAN USE FOR NOW, AND CAN BE AUTOMATED LATER.
 
-const drivers: Driver[] = [
-  {
-    id: "1",
-    email: "bmejiadeveloper2@gmail.com",
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    id: "2",
-    email: "bob@gmail.com",
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-];
+// const drivers: Driver[] = [
+//   {
+//     id: "1",
+//     email: "bmejiadeveloper2@gmail.com",
+//     createdAt: new Date(),
+//     updatedAt: new Date(),
+//   },
+//   {
+//     id: "2",
+//     email: "bob@gmail.com",
+//     createdAt: new Date(),
+//     updatedAt: new Date(),
+//   },
+// ];
 
-const memberships:Membership[]  = [
+// const memberships:Membership[]  = [
+const memberships = [
   {
     id: '1',
     role: "MEMBER",
@@ -144,7 +130,8 @@ const coordinates = [
   }
 ]
 
-const addresses:Address[] = [
+// const addresses:Address[] = [
+const addresses = [
   {
     id: "1",
     street1: "123 King St",
@@ -211,7 +198,8 @@ const addresses:Address[] = [
   },
 ];
 
-const vendors:Vendor[] = [
+// const vendors:Vendor[] = [
+const vendors = [
   {
     id: "1",
     name: "Gras",
@@ -235,7 +223,8 @@ const vendors:Vendor[] = [
   },
 ];
 
-const schedules:Schedule[] = [
+// const schedules:Schedule[] = [
+const schedules = [
   {
     id: "1",
     organizationId: "1",
@@ -264,7 +253,9 @@ const schedules:Schedule[] = [
   updatedAt: new Date(),
 }
 ]
-const orgs:Organization[] = [
+
+// const orgs:Organization[] = [
+const orgs = [
   {
     id: "1",
     name: "Gras",
@@ -330,7 +321,9 @@ const orgs:Organization[] = [
     addressId: '4',
   },
 ];
-const siteSettings:SiteSetting[] = [
+
+// const siteSettings:SiteSetting[] = [
+const siteSettings = [
   {
     title: "Cannabis Delivered To Your Door",
     description: "grascannabis.com",
@@ -486,7 +479,9 @@ const siteSettings:SiteSetting[] = [
 //     updatedAt: new Date(),
 //   },
 // ];
-const ImageProducts: ImageProduct[] = [
+
+// const ImageProducts: ImageProduct[] = [
+const ImageProducts = [
   {
     id: "1",
     location:
@@ -551,7 +546,9 @@ const ImageProducts: ImageProduct[] = [
     updatedAt: new Date(),
   },
 ];
-const variants: ProductVariant[] = [
+
+// const variants: ProductVariant[] = [
+const variants = [
   {
     id: "1",
     name: "King OG",
@@ -706,7 +703,8 @@ const variants: ProductVariant[] = [
   },
 ]
 
-const products:Product[] = [
+// const products:Product[] = [
+const products = [
   {
     id: "1",
     name: "King OG",
@@ -829,7 +827,9 @@ const products:Product[] = [
     updatedAt: new Date(),
   },
 ];
-const subdomains:SubDomain[] = [
+
+// const subdomains:SubDomain[] = [
+const subdomains = [
   {
     id: "",
     isValid: true,
@@ -849,7 +849,9 @@ const subdomains:SubDomain[] = [
     updatedAt: new Date(),
   },
 ];
-const ImageVendors: ImageVendor[] = [
+
+// const ImageVendors: ImageVendor[] = [
+const ImageVendors = [
   {
     id: "1",
     location:
@@ -859,7 +861,9 @@ const ImageVendors: ImageVendor[] = [
     updatedAt: new Date(),
   },
 ];
-const ImageUsers: ImageUser[] = [
+
+// const ImageUsers: ImageUser[] = [
+const ImageUsers = [
   {
     id: "1",
     location:
@@ -870,7 +874,9 @@ const ImageUsers: ImageUser[] = [
     updatedAt: new Date(),
   },
 ];
-const ImageOrganizations: ImageOrganization[] = [
+
+// const ImageOrganizations: ImageOrganization[] = [
+const ImageOrganizations = [
   {
     id: "1",
     location:
@@ -890,7 +896,9 @@ const ImageOrganizations: ImageOrganization[] = [
     updatedAt: new Date(),
   },
 ];
-const Categories: Category[] = [
+
+// const Categories: Category[] = [
+const Categories = [
   {
     id: "1",
     name: "Edibles",
@@ -965,7 +973,8 @@ const Categories: Category[] = [
   },
 ];
 
-const CategoryLists: CategoryList[] = [
+// const CategoryLists: CategoryList[] = [
+const CategoryLists = [
   {
     id: '1',
     organizationId: '1',
@@ -986,7 +995,8 @@ const CategoryLists: CategoryList[] = [
   }
 ]
 
-const purchases: Purchase[] = [
+// const purchases: Purchase[] = [
+const purchases = [
 {
     id: "1",
     paymentStatus: "Pending",
@@ -1013,7 +1023,8 @@ const purchases: Purchase[] = [
 }
 ]
 
-const orders: Order[] = [
+// const orders: Order[] = [
+const orders = [
   {
     id: "1",
     subtotal: 12000,
@@ -1181,9 +1192,53 @@ async function main() {
       }
     })
   })
-  await prisma.driver.createMany({
-    data: drivers,
-  });
+  // await prisma.driver.createMany({
+  //   data: drivers,
+  // });
+
+  await createDriver({
+    id: createId(),
+    firstName: "Bryant",
+    lastName: "Mejia",
+    username: "BigChiefa",
+    email: "bmejiadeveloper2@gmail.com",
+    phone: "1232343456",
+    emailVerified: false,
+    isLegalAge: null,
+    idVerified: false,
+    isSignUpComplete: false,
+    passwordHash: "",
+    passwordResetToken: "null",
+    dialCode: "1",
+    idFrontImage: "",
+    idBackImage: "",
+    termsAccepted: false,
+    address: [
+      {
+        id: "4",
+        street1: "999 Golden St.",
+        street2: "Suite A",
+        city: "Lancaster",
+        state: "PA",
+        zipcode: "17602",
+        country: "United States",
+        countryCode: "US",
+        coordinateId: '1',
+      },
+    ],
+    memberships: [],
+    imageUser: [
+      {
+        id: "1",
+        location:
+          "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
+        blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
+        userId: "1",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    ]
+  },)
 
   await prisma.order.createMany({
     data: orders,

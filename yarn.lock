@@ -1271,7 +1271,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:^7.11.6, @babel/core@npm:^7.12.10, @babel/core@npm:^7.12.3, @babel/core@npm:^7.13.16, @babel/core@npm:^7.20.0, @babel/core@npm:^7.20.12":
+"@babel/core@npm:^7.11.6, @babel/core@npm:^7.12.10, @babel/core@npm:^7.12.3, @babel/core@npm:^7.13.16, @babel/core@npm:^7.20.0, @babel/core@npm:^7.20.12, @babel/core@npm:^7.22.1":
   version: 7.22.1
   resolution: "@babel/core@npm:7.22.1"
   dependencies:
@@ -1613,6 +1613,24 @@ __metadata:
   bin:
     babel-node: ./bin/babel-node.js
   checksum: 3a5c307db92666bba1856d4fbf147df17332185a6cfbf4e9e2b3e08bc2fb1efa1ba963b88e05d0e0da4e1e5fd6cdb7a2e3e644c00a8e7dea883a900ad9f631e5
+  languageName: node
+  linkType: hard
+
+"@babel/node@npm:^7.22.1":
+  version: 7.22.1
+  resolution: "@babel/node@npm:7.22.1"
+  dependencies:
+    "@babel/register": ^7.21.0
+    commander: ^4.0.1
+    core-js: ^3.30.2
+    node-environment-flags: ^1.0.5
+    regenerator-runtime: ^0.13.11
+    v8flags: ^3.1.1
+  peerDependencies:
+    "@babel/core": ^7.0.0-0
+  bin:
+    babel-node: ./bin/babel-node.js
+  checksum: 1ef4b8be7de320fe0838451eca55508bd55830eb9b9d422e24cbccb85d7ab12224cf136211ef515217bfd94f416358980305a7660075982c5a39758edd3fd588
   languageName: node
   linkType: hard
 
@@ -3109,7 +3127,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/register@npm:^7.13.16, @babel/register@npm:^7.18.9":
+"@babel/register@npm:^7.13.16, @babel/register@npm:^7.18.9, @babel/register@npm:^7.21.0":
   version: 7.21.0
   resolution: "@babel/register@npm:7.21.0"
   dependencies:
@@ -3371,6 +3389,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cd/data-access@workspace:packages/data-access"
   dependencies:
+    "@babel/core": ^7.22.1
+    "@babel/node": ^7.22.1
     "@cd/eslint-config": "workspace:*"
     "@prisma/client": 4.14.0
     "@testing-library/jest-dom": 5.16.5
@@ -11430,7 +11450,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:^3.26.0, core-js@npm:^3.6.5":
+"core-js@npm:^3.26.0, core-js@npm:^3.30.2, core-js@npm:^3.6.5":
   version: 3.30.2
   resolution: "core-js@npm:3.30.2"
   checksum: 73d47e2b9d9f502800973982d08e995bbf04832e20b04e04be31dd7607247158271315e9328788a2408190e291c7ffbefad141167b1e57dea9f983e1e723541e
