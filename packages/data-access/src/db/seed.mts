@@ -511,6 +511,7 @@ async function main() {
             id: driver.id,
           },
           create: {
+            id: driver.id,
             firstName: "Bryant",
             lastName: "Mejia",
             username: "BigChiefa",
@@ -526,39 +527,39 @@ async function main() {
             idFrontImage: "",
             idBackImage: "",
             termsAccepted: false,
-          address: {
-            connectOrCreate: {
-              where: {
-                id: "4"
-              },
-              create: {
-                id: "4",
-                street1: "999 Golden St.",
-                street2: "Suite A",
-                city: "Lancaster",
-                state: "PA",
-                zipcode: "17602",
-                country: "United States",
-                countryCode: "US",
-                coordinateId: '1',
-              },
-            }
-          },
-          imageUser: {
-            connectOrCreate: {
-              where: {
-                id: "1"
-              },
-              create: {
-                id: "1",
-                location: "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
-                blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
-                // userId: "1",
-                createdAt: new Date(),
-                updatedAt: new Date(),
+            address: {
+              connectOrCreate: {
+                where: {
+                  id: "4"
+                },
+                create: {
+                  id: "4",
+                  street1: "999 Golden St.",
+                  street2: "Suite A",
+                  city: "Lancaster",
+                  state: "PA",
+                  zipcode: "17602",
+                  country: "United States",
+                  countryCode: "US",
+                  coordinateId: '1',
+                },
+              }
+            },
+            imageUser: {
+              connectOrCreate: {
+                where: {
+                  id: "1"
+                },
+                create: {
+                  id: "1",
+                  location: "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
+                  blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
+                  // userId: "1",
+                  createdAt: new Date(),
+                  updatedAt: new Date(),
+                }
               }
             }
-          }
           }
         }
       }
@@ -570,6 +571,7 @@ async function main() {
             id: driver.id,
           },
           create: {
+            id: driver.id,
             firstName: "Bryant",
             lastName: "Mejia",
             username: "BigChiefa",
@@ -585,39 +587,39 @@ async function main() {
             idFrontImage: "",
             idBackImage: "",
             termsAccepted: false,
-          address: {
-            connectOrCreate: {
-              where: {
-                id: "4"
-              },
-              create: {
-                id: "4",
-                street1: "999 Golden St.",
-                street2: "Suite A",
-                city: "Lancaster",
-                state: "PA",
-                zipcode: "17602",
-                country: "United States",
-                countryCode: "US",
-                coordinateId: '1',
-              },
-            }
-          },
-          imageUser: {
-            connectOrCreate: {
-              where: {
-                id: "1"
-              },
-              create: {
-                id: "1",
-                location: "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
-                blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
-                // userId: "1",
-                createdAt: new Date(),
-                updatedAt: new Date(),
+            address: {
+              connectOrCreate: {
+                where: {
+                  id: "4"
+                },
+                create: {
+                  id: "4",
+                  street1: "999 Golden St.",
+                  street2: "Suite A",
+                  city: "Lancaster",
+                  state: "PA",
+                  zipcode: "17602",
+                  country: "United States",
+                  countryCode: "US",
+                  coordinateId: '1',
+                },
+              }
+            },
+            imageUser: {
+              connectOrCreate: {
+                where: {
+                  id: "1"
+                },
+                create: {
+                  id: "1",
+                  location: "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
+                  blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
+                  // userId: "1",
+                  createdAt: new Date(),
+                  updatedAt: new Date(),
+                }
               }
             }
-          }
           }
         }
       }
