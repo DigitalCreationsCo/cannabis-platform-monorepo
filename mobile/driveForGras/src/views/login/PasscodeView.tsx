@@ -54,7 +54,7 @@ const PasscodeView = ({ route }) => {
         }})
 
       if (!response.data.user)
-      throw new Error('An error occured. No user found.');
+      throw new Error('No user found.');
       
       signIn(response.data.user);
 

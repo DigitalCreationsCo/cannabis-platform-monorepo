@@ -152,6 +152,9 @@ export async function findDriverWithDetailsByEmail(email: string): Promise<Drive
                 }
             },
         })
+
+        console.log('data function? ', driver);
+        
         return driver
     } catch (error: any) {
         console.error(error)

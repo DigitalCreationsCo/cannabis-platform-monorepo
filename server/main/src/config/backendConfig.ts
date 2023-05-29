@@ -59,6 +59,8 @@ export const backendConfig = (): AuthConfig => {
 
                                             let user;
 
+                                            console.log('input: ', input);
+                                            
                                             if (input.userContext.appUser === 'CUSTOMER' ||
                                             input.userContext.appUser === 'ADMIN') {
                                                 if (response.user.email) {
@@ -154,6 +156,8 @@ export const backendConfig = (): AuthConfig => {
                                 { appUser } = (await input.options.req.getJSONBody());
                                 
                                 input.userContext = { ...input.userContext, appUser };
+
+                                console.log('input: ', input);
 
                                 return originalImplementation.consumeCodePOST(input);
                             }
