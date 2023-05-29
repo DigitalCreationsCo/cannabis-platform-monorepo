@@ -1,4 +1,3 @@
-import { createId } from "@paralleldrive/cuid2";
 import { Address, Category, CategoryList, Driver, ImageOrganization, ImageProduct, ImageUser, ImageVendor, Membership, Order, Organization, PrismaClient, Product, ProductVariant, Purchase, Schedule, SiteSetting, SubDomain, User, Vendor } from "@prisma/client";
 // const { createId } = require('@paralleldrive/cuid2')
 // const { PrismaClient } = require('@prisma/client')
@@ -107,6 +106,7 @@ async function main() {
 
   await prisma.user.createMany({
     data: users,
+    skipDuplicates: true,
   });
 
 
@@ -180,6 +180,7 @@ async function main() {
 
   await prisma.address.createMany({
     data: addresses,
+    skipDuplicates: true,
   });
 
 
@@ -210,6 +211,7 @@ async function main() {
 
   await prisma.vendor.createMany({
     data: vendors,
+    skipDuplicates: true,
   });
 
 
@@ -237,6 +239,7 @@ async function main() {
 
   await prisma.siteSetting.createMany({
     data: siteSettings,
+    skipDuplicates: true,
   });
   
 
@@ -273,6 +276,7 @@ async function main() {
 
   await prisma.schedule.createMany({
     data: schedules,
+    skipDuplicates: true,
   });
 
 
@@ -346,6 +350,7 @@ async function main() {
 
   await prisma.organization.createMany({
     data: orgs,
+    skipDuplicates: true,
   });
 
 
@@ -373,6 +378,7 @@ async function main() {
 
   await prisma.subDomain.createMany({
     data: subdomains,
+    skipDuplicates: true,
   });
 
 
@@ -454,6 +460,7 @@ async function main() {
 
   await prisma.category.createMany({
     data: Categories,
+    skipDuplicates: true,
   });
 
 
@@ -479,100 +486,143 @@ async function main() {
     }
   ]
 
-  categoryLists.map(async (list) => {
-    await prisma.categoryList.create({
-      data: {
-        ...list,
-        categories: {
-          connect: [
-              { id: '1' },
-              { id: '2' },
-              { id: '3' },
-              { id: '9' }
-          ]
-        }
-      }
-    })
-  })
+  await prisma.categoryList.createMany({
+  data: categoryLists,
+  skipDuplicates: true,
+  });
 
+  
   // DRIVERS
   const drivers: Driver[] = [
     {
-      id: createId(),
+      id: 'bf346k4u7x2b2hhr6wvgiwao',
       email: "bmejiadeveloper2@gmail.com",
       createdAt: new Date(),
       updatedAt: new Date(),
     },      
   ];
 
-  // drivers.forEach(async (driver) => await prisma.driver.create({
-  //   data: {
-  //     id: driver.id,
-  //     email: driver.email,
-  //     user: {
-  //       connectOrCreate: {
-  //         where: {
-  //           id: driver.id,
-  //           email: driver.email,
-  //         },
-  //         create: {
-  //           firstName: "Bryant",
-  //           lastName: "Mejia",
-  //           username: "BigChiefa",
-  //           email: "bmejiadeveloper2@gmail.com",
-  //           phone: "1232343456",
-  //           emailVerified: false,
-  //           isLegalAge: null,
-  //           idVerified: false,
-  //           isSignUpComplete: false,
-  //           passwordHash: "",
-  //           passwordResetToken: "null",
-  //           dialCode: "1",
-  //           idFrontImage: "",
-  //           idBackImage: "",
-  //           termsAccepted: false,
-  //   //       address: {
-  //   //         connectOrCreate: {
-  //   //           where: {
-  //   //             id: "4"
-  //   //           },
-  //   //           create: {
-  //   //             id: "4",
-  //   //             street1: "999 Golden St.",
-  //   //             street2: "Suite A",
-  //   //             city: "Lancaster",
-  //   //             state: "PA",
-  //   //             zipcode: "17602",
-  //   //             country: "United States",
-  //   //             countryCode: "US",
-  //   //             coordinateId: '1',
-  //   //           },
-  //   //         }
-  //   //       },
-  //   //       // memberships: {
-  //   //       //   connectOrCreate: {
-  //   //       //   }
-  //   //       // }
-  //   //       imageUser: {
-  //   //         connectOrCreate: {
-  //   //           where: {
-  //   //             id: "1"
-  //   //           },
-  //   //           create: {
-  //   //             id: "1",
-  //   //             location: "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
-  //   //             blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
-  //   //             // userId: "1",
-  //   //             createdAt: new Date(),
-  //   //             updatedAt: new Date(),
-  //   //           }
-  //   //         }
-  //   //       }
-  //         }
-  //       }
-  //     }
-  //   }
-  // }));
+  drivers.forEach(async (driver) => await prisma.driver.upsert({
+    where: { id: driver.id },
+    create: {
+      user: {
+        connectOrCreate: {
+          where: {
+            id: driver.id,
+          },
+          create: {
+            firstName: "Bryant",
+            lastName: "Mejia",
+            username: "BigChiefa",
+            email: "bmejiadeveloper2@gmail.com",
+            phone: "1232343456",
+            emailVerified: false,
+            isLegalAge: null,
+            idVerified: false,
+            isSignUpComplete: false,
+            passwordHash: "",
+            passwordResetToken: "null",
+            dialCode: "1",
+            idFrontImage: "",
+            idBackImage: "",
+            termsAccepted: false,
+          address: {
+            connectOrCreate: {
+              where: {
+                id: "4"
+              },
+              create: {
+                id: "4",
+                street1: "999 Golden St.",
+                street2: "Suite A",
+                city: "Lancaster",
+                state: "PA",
+                zipcode: "17602",
+                country: "United States",
+                countryCode: "US",
+                coordinateId: '1',
+              },
+            }
+          },
+          imageUser: {
+            connectOrCreate: {
+              where: {
+                id: "1"
+              },
+              create: {
+                id: "1",
+                location: "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
+                blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
+                // userId: "1",
+                createdAt: new Date(),
+                updatedAt: new Date(),
+              }
+            }
+          }
+          }
+        }
+      }
+    },
+    update: {
+      user: {
+        connectOrCreate: {
+          where: {
+            id: driver.id,
+          },
+          create: {
+            firstName: "Bryant",
+            lastName: "Mejia",
+            username: "BigChiefa",
+            email: "bmejiadeveloper2@gmail.com",
+            phone: "1232343456",
+            emailVerified: false,
+            isLegalAge: null,
+            idVerified: false,
+            isSignUpComplete: false,
+            passwordHash: "",
+            passwordResetToken: "null",
+            dialCode: "1",
+            idFrontImage: "",
+            idBackImage: "",
+            termsAccepted: false,
+          address: {
+            connectOrCreate: {
+              where: {
+                id: "4"
+              },
+              create: {
+                id: "4",
+                street1: "999 Golden St.",
+                street2: "Suite A",
+                city: "Lancaster",
+                state: "PA",
+                zipcode: "17602",
+                country: "United States",
+                countryCode: "US",
+                coordinateId: '1',
+              },
+            }
+          },
+          imageUser: {
+            connectOrCreate: {
+              where: {
+                id: "1"
+              },
+              create: {
+                id: "1",
+                location: "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
+                blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
+                // userId: "1",
+                createdAt: new Date(),
+                updatedAt: new Date(),
+              }
+            }
+          }
+          }
+        }
+      }
+    },
+  }));
 
 
   // ORDER
@@ -701,6 +751,7 @@ async function main() {
 
   await prisma.order.createMany({
     data: orders,
+    skipDuplicates: true,
   });  
 
 
@@ -742,6 +793,7 @@ async function main() {
 
   await prisma.membership.createMany({
     data: memberships,
+    skipDuplicates: true,
   });
 
 
@@ -903,7 +955,6 @@ async function main() {
 
   await prisma.productVariant.createMany({
     data: variants,
-    // skipduplicates here from some reason, to prevent an error with seed command
     skipDuplicates: true,
   })
 
@@ -1064,6 +1115,7 @@ async function main() {
 
   await prisma.imageVendor.createMany({
     data: ImageVendors,
+    skipDuplicates: true,
   });
 
 
@@ -1091,6 +1143,7 @@ async function main() {
 
   await prisma.imageOrganization.createMany({
     data: ImageOrganizations,
+    skipDuplicates: true,
   });
 
   
@@ -1163,6 +1216,7 @@ async function main() {
 
   await prisma.imageProduct.createMany({
     data: ImageProducts,
+    skipDuplicates: true,
   });
 
 
@@ -1181,6 +1235,7 @@ async function main() {
 
   await prisma.imageUser.createMany({
     data: ImageUsers,
+    skipDuplicates: true,
   });
   
   console.log("inserted all records");
