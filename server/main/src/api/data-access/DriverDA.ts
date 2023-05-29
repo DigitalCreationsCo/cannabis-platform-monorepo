@@ -88,12 +88,10 @@ export default class DriverDA {
   static async getDriverByEmail<DriverWithDetails>(email: string) {
     try {
 
-      console.log('email: ', email)
       const 
       driver = await findDriverWithDetailsByEmail(email)
-
-      console.log('driver ', driver)
-      console.log('driver id: ', driver.id)
+      
+      console.log('driver: ', driver);
       
       const 
       driverSession = await driverSessions.findOneAndUpdate(
