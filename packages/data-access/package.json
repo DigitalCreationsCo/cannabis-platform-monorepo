@@ -32,12 +32,13 @@
   "main": "./dist/index.js",
   "name": "@cd/data-access",
   "prisma": {
-    "seed": "npx babel-node ./src/db/seed.js",
+    "seed": "node --loader ts-node/esm ./src/db/seed.mts",
     "schema": "./prisma/schema.prisma",
     "generate": "prisma generate"
   },
   "private": true,
   "scripts": {
+    "seed2": "npx babel-node ./src/db/seed.js",
     "seedOLD": "nnode --loader ts-node/esm ./src/db/seed.mts",
     "build": "rimraf ./dist && tsup",
     "clean": "rimraf ./dist ./coverage ./tsconfig.tsbuildinfo",
