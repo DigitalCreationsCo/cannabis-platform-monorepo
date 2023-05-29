@@ -97,7 +97,7 @@ export default class DriverDA {
       driverSession = await driverSessions.findOneAndUpdate(
         { email }, 
         { $set: {
-          "id": new ObjectId(driver.id),
+          "id": driver.id,
           "isOnline": true,
           "isActiveDelivery": false,
           "currentCoordinates": [],
