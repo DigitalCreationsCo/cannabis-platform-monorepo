@@ -5,14 +5,16 @@ import {
   Dimensions, Text, View
 } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { BannerButton, Greeting } from "../components";
 // import { useLocationWatch } from "../hooks";
 import { DriveScreens } from "../navigation/paths";
 // import { moduleActions } from "../redux/features/module";
 // import { socketActions } from "../redux/features/socket";
 // import { userActions } from "../redux/features/user";
+import { driverActions } from "@cd/core-lib/reduxDir";
 import { selectUserState } from "@cd/core-lib/src/reduxDir/features/user.reducer";
+import { useAppDispatch } from "redux/store";
 import { Screen } from '../components';
 
 const { width, height } = Dimensions.get("window");
@@ -27,7 +29,14 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 // separate the map functionality from the go online functionality
 const MapScreen = () => {
   
-  const dispatch = useDispatch();
+  useEffect(() => {
+    return () => {
+      console.log('unmounting map screen');
+      console.log('does minimize trigger unmount?');
+    }
+  });
+
+  const dispatch = useAppDispatch();
   const navigation = useNavigation<any>();
 
   // useLocationWatch();
@@ -42,10 +51,7 @@ const MapScreen = () => {
 
     console.log('onlineStatus: ', onlineStatus);
     
-    // dispatch(userActions.updateOnlineStatus(updateStatus)).then(() => {
-    //   console.log("updated status. finishing loading");
-    //   dispatch(moduleActions.finishLoading());
-    // });
+    dispatch(driverActions.updateOnlineStatus(onlineStatus));
     // add code to switch onlineStatus to false for unmount.
     // as well as a handler in the auth service to change status
     // from the server side, for disconnected users.
