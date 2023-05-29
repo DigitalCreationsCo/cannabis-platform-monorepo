@@ -1,3 +1,4 @@
+import { createId } from "@paralleldrive/cuid2";
 import { Address, Category, CategoryList, Driver, ImageOrganization, ImageProduct, ImageUser, ImageVendor, Membership, Order, Organization, PrismaClient, Product, ProductVariant, Purchase, Schedule, SiteSetting, SubDomain, User, Vendor } from "@prisma/client";
 
 
@@ -5,7 +6,7 @@ import { Address, Category, CategoryList, Driver, ImageOrganization, ImageProduc
 
 const users: User[] = [
   {
-    id: "1",
+    id: createId(),
     firstName: "Bryant",
     lastName: "Mejia",
     username: "BigChiefa",
@@ -25,7 +26,7 @@ const users: User[] = [
     updatedAt: new Date(),
   },
   {
-    id: "2",
+    id: createId(),
     firstName: "Bob",
     lastName: "Roberts",
     username: "BigChiefa22",
@@ -45,7 +46,7 @@ const users: User[] = [
     updatedAt: new Date(),
   },
   {
-    id: "3",
+    id: createId(),
     firstName: "Sam",
     lastName: "Samuels",
     username: "Sammy223",
@@ -65,6 +66,10 @@ const users: User[] = [
     updatedAt: new Date(),
   },
 ];
+
+// WHEN AN HOW TO CREATE A DRIVER RECORD FOR A USER?
+// WHAT IS THE LIMIT OF ACCESS FOR WHO CAN BECOME A DRIVER?
+// CREATE A BACKEND PROCESS THAT THE TEAM CAN USE FOR NOW, AND CAN BE AUTOMATED LATER.
 
 const drivers: Driver[] = [
   {

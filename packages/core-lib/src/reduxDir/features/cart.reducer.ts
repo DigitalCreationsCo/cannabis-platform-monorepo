@@ -5,7 +5,7 @@ import { createId } from "@paralleldrive/cuid2";
 import { AnyAction, createAsyncThunk, createSlice, Dispatch, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { calcSalePrice, pruneData, urlBuilder } from "../../utils";
-import { AppState, ThunkArgumentsType } from "../types";
+import { AppState, ThunkArgumentsType } from "../reduxTypes";
 import { LocationStateProps, LocationType } from "./location.reducer";
 import { ShopStateProps } from "./shop.reducer";
 import { UserStateProps } from "./user.reducer";

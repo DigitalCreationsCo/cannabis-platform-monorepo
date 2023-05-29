@@ -1,5 +1,4 @@
 import { Store } from '@reduxjs/toolkit';
-import { UserWithDetails } from '../../../data-access/src';
 import { CartStateProps, DriverSessionState, LocationStateProps, ModalStateProps, ShopStateProps, UserStateProps } from './features';
 
 export type AppState = Readonly<{ 
@@ -20,10 +19,4 @@ export type ThunkArgumentsType = {
     }
 };
 
-// export type PasswordlessResponseWithUserDetails = PromiseReturnType<typeof passwordlessSignIn> & { user: UserWithDetails }
-export type PasswordlessResponseWithUserDetails = {
-      status: "OK";
-      createdNewUser: boolean;
-      user: UserWithDetails;
-      fetchResponse: Response;
-  }
+

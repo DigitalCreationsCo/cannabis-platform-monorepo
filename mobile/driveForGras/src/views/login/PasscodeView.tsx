@@ -1,9 +1,11 @@
 import { toast } from '@backpackapp-io/react-native-toast';
+import { PasswordlessResponseWithDriverDetails } from '@cd/core-lib/src/auth/authTypes';
 import TextContent from "@cd/core-lib/src/constants/textContent";
+import { driverActions } from '@cd/core-lib/src/reduxDir/features/driver.reducer';
 import { userActions } from '@cd/core-lib/src/reduxDir/features/user.reducer';
 // import { userActions } from '@cd/core-lib/src/reduxDir/features/user.reducer';
 import { urlBuilder } from "@cd/core-lib/src/utils/urlBuilder";
-import { UserWithDetails } from '@cd/data-access';
+import { DriverWithDetails, UserWithDetails } from '@cd/data-access';
 // import { UserWithDetails } from '@cd/data-access';
 import Icons from "@cd/native-ui/src/icons";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -40,19 +42,21 @@ const PasscodeView = ({ route }) => {
     try {
 
       let 
-      response = await axios.post(urlBuilder.main.submitOTP(), { 
+      response = await axios.post<PasswordlessResponseWithDriverDetails>(urlBuilder.main.submitOTP(), { 
         userInputCode: data.passcode,
         preAuthSessionId: preAuthSessionId,
         deviceId: deviceId,
+        appUser: 'DRIVER',
         },
         { headers: {
-          'rid': 'passwordless'
-        }});
+          'Content-Type': 'application/json',
+          'rid': 'passwordless',
+        }})
 
       if (!response.data.user)
       throw new Error('An error occured. No user found.');
       
-      dispatch(userActions.signinUserSync(response.data.user as UserWithDetails));
+      signIn(response.data.user);
 
     } catch (error: any) {
       console.info('passcode error: ', error);
@@ -60,6 +64,10 @@ const PasscodeView = ({ route }) => {
     }
   };
     
+  function signIn (driver: DriverWithDetails) {
+    dispatch(driverActions.signinDriverSync(driver));
+    dispatch(userActions.signinUserSync(driver.user as UserWithDetails));
+  }
   return (
     <View className="bg-primary h-full">
 

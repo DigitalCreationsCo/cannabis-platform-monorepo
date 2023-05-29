@@ -3,7 +3,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Address } from "../../../../data-access/src";
 import { getGeoAddressByCoordinates } from "../../utils/geo";
-import { AppState } from "../types";
+import { AppState } from "../reduxTypes";
 
 export const getAddressByCoordinates = createAsyncThunk(
   "location/getAddressByCoordinates",

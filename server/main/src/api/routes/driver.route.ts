@@ -4,11 +4,15 @@ const router = Router();
 /* =================================
 Driver Routes
 
+"/"                        createDriver
+
 "/:id"                     getUserById
 
 "/status"                  updateStatus
 
 ================================= */
+
+router.route('/').post(driverCtrl.createDriver);
 
 router.route('/:id').post(driverCtrl.getDriverById);
 

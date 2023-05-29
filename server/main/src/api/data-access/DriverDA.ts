@@ -1,4 +1,4 @@
-import { findDriverWithDetailsByEmail, findDriverWithDetailsById } from "@cd/data-access";
+import { findDriverWithDetailsByEmail, findDriverWithDetailsById, findDriverWithDetailsByPhone, UserCreateType } from "@cd/data-access";
 import { Collection, MongoClient, ObjectId } from "mongodb";
 
 
@@ -7,6 +7,9 @@ Driver Data Access - data class for Driver SQL Table and DriverSessions Mongo Co
 
 members:
 useMongoDB
+
+createDriver
+updateDriver
 
 getDriverById
 getDriverByEmail
@@ -34,6 +37,36 @@ export default class DriverDA {
     }
   }
 
+  static async createDriver(createDriver: UserCreateType) {
+    try {
+      
+        // createDriver = await createPasswordHash(createUserData)
+        const driver = await createDriver(createDriver)
+
+        return driver;
+
+    } catch (error:any) {
+        console.error('UserDA error: ', error.message);
+        throw new Error(error.message);
+    }
+  }
+
+  static async updateDriver(updateDriver: UserCreateType) {
+    try {
+
+        const 
+        driver = await updateDriver(updateDriver)
+
+        console.log(`updated user ${driver.id}`)
+        
+        return driver;
+
+    } catch (error:any) {
+        console.error('UserDA error: ', error.message);
+        throw new Error(error.message);
+    }
+  }
+
   static async getDriverById(id: string) {
     try {
       const 
@@ -45,17 +78,62 @@ export default class DriverDA {
     }
   }
 
-  static async getDriverByEmail(email: string) {
+  /**
+   * Find driver record MYSQL by email,
+   * then find driver session record MONGO by email,
+   * then return both records in a single object
+   * @param email 
+   * @returns 
+   */
+  static async getDriverByEmail<DriverWithDetails>(email: string) {
+    try {
+
+      const 
+      driver = await findDriverWithDetailsByEmail(email)
+
+      console.log('driver id: ', driver.id)
+      
+      const 
+      driverSession = await driverSessions.findOneAndUpdate(
+        { email }, 
+        { $set: {
+          "id": new ObjectId(driver.id),
+          "isOnline": true,
+          "isActiveDelivery": false,
+          "currentCoordinates": [],
+          "currentRoute": [], }}, 
+        { upsert: true, returnDocument: "after" })
+        .then(
+          result => result.ok && result.value, 
+          error => { throw new Error(error.message) })
+
+      const 
+      data = {
+        ...driver,
+        driverSession
+      }
+
+      console.log('data: ', data)
+
+      return data;
+      
+    } catch (error:any) {
+        console.error(error.message);
+        throw new Error(error.message);
+    }
+  }
+  
+  static async getDriverByPhone(phone) {
     try {
         const 
-        data = await findDriverWithDetailsByEmail(email);
+        data = await findDriverWithDetailsByPhone(phone);
         return data;
     } catch (error:any) {
         console.error(error.message);
         throw new Error(error.message);
     }
   }
-
+  
   static async updateOnlineStatus(id, onlineStatus) {
     try {
       const

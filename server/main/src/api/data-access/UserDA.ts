@@ -1,4 +1,4 @@
-import { createAddress, createUser, findAddressById, findUserWithDetailsByEmail, findUserWithDetailsById, removeAddressByIdAndUserId, updateDispensaryAdmin, updateUser, updateUserPasswordToken, upsertDispensaryAdmin, UserCreateType } from '@cd/data-access';
+import { createAddress, createUser, findAddressById, findUserWithDetailsByEmail, findUserWithDetailsById, findUserWithDetailsByPhone, removeAddressByIdAndUserId, updateDispensaryAdmin, updateUser, updateUserPasswordToken, upsertDispensaryAdmin, UserCreateType } from '@cd/data-access';
 // import { createPasswordHash } from '../../util/utility';
 
 /* =================================
@@ -10,8 +10,9 @@ signout                 not used
 
 getUserById
 getUserByEmail
-getAddressById
+getUserByPhone
 
+getAddressById
 addAddressToUser
 removeAddressFromUser
 
@@ -64,6 +65,16 @@ export default class UserDA {
     static async getUserByEmail(email) {
         try {
             const data = await findUserWithDetailsByEmail(email);
+            return data;
+        } catch (error:any) {
+            console.error(error.message);
+            throw new Error(error.message);
+        }
+    }
+    
+    static async getUserByPhone(phone) {
+        try {
+            const data = await findUserWithDetailsByPhone(phone);
             return data;
         } catch (error:any) {
             console.error(error.message);
