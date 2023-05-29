@@ -339,10 +339,10 @@ export const userSlice = createSlice({
 });
 
 export const userActions = {
-//   signupUser,
+  ...userSlice.actions,
+  // signupUser,
   signinUserAsyncEmailPassword,
   signOutUserAsync,
-  ...userSlice.actions,
 };
 
 export const userReducer = userSlice.reducer;

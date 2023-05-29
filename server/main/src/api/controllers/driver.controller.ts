@@ -30,6 +30,7 @@ export default class DriverController {
 
     static async updateStatus(req, res) {
         try {
+            console.log('hello')
 
             let 
             { id, onlineStatus } = req.body,

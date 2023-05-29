@@ -11,23 +11,26 @@ export const updateOnlineStatus = createAsyncThunk<{ success: boolean, isOnline:
     async (onlineStatus, thunkAPI) => {
         try {
 
-            const 
-            { id } = thunkAPI.getState().driver as DriverSessionState['driver'];
+          const
+          id = await thunkAPI.extra.store.getState()
+          
+          console.log('hello')
+          console.log(id, onlineStatus)
+          const
+          response = await axios.post(
+              urlBuilder.main.driverUpdateStatus(), {
+                  id, onlineStatus
+              });
 
-            const
-            response = await axios.post(
-                urlBuilder.main.driverUpdateStatus(), {
-                    id, onlineStatus
-                });
+              console.log('response: ', response)
+          if (response.status !== 200)
+          throw new Error(response.data);
 
-            if (response.status !== 200)
-            throw new Error(response.data);
-
-            return { ...response.data, success: true, isOnline: onlineStatus };
+          return { ...response.data, success: true, isOnline: onlineStatus };
             
         } catch (error) {
             console.error('updateOnlineStatus error: ', error.message);
-            return thunkAPI.rejectWithValue(error.message);
+            return thunkAPI.rejectWithValue('Something went wrong. Please try again.');
         }
     }
 );
@@ -106,6 +109,7 @@ export const driverSlice = createSlice({
       state.isLoading = false;
       state.isError = true;
       state.errorMessage = payload as string
+      throw new Error(state.errorMessage)
     })
   }
 });

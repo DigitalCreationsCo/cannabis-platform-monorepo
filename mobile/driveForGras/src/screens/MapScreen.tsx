@@ -12,7 +12,8 @@ import { DriveScreens } from "../navigation/paths";
 // import { moduleActions } from "../redux/features/module";
 // import { socketActions } from "../redux/features/socket";
 // import { userActions } from "../redux/features/user";
-import { selectDriverState } from "@cd/core-lib/src/reduxDir/features/driver.reducer";
+import { toast } from "@backpackapp-io/react-native-toast";
+import { driverActions, selectDriverState } from "@cd/core-lib/src/reduxDir/features/driver.reducer";
 import { selectUserState } from "@cd/core-lib/src/reduxDir/features/user.reducer";
 import { Screen } from '../components';
 import { useAppDispatch } from "../redux/store";
@@ -43,7 +44,7 @@ const MapScreen = () => {
   
   const 
   { user } = useSelector(selectUserState),
-  isOnline = useSelector(selectDriverState)
+  { isOnline } = useSelector(selectDriverState).driver.driverSession;
 
   const [updateStatus, setUpdateStatusStatus] = useState(false);
   
@@ -52,30 +53,36 @@ const MapScreen = () => {
   }
 
   
-
-
   useEffect(() => {
-
-  // UI should show the status marker that matters, 
-  // which is the connection status, not the online status.
-  // the online status should copy the connection status.
-    console.log('onlineStatus: ', updateStatus);
-    console.log('isOnline: ', isOnline);
-    
-    // if (updateStatus !== isOnline)
-    // dispatch(driverActions.updateOnlineStatus(updateStatus));
-    // add code to switch onlineStatus to false for unmount.
-    // as well as a handler in the auth service to change status
-    // from the server side, for disconnected users.
-    
+    try {
+      // UI should show the status marker that matters, 
+      // which is the connection status, not the online status.
+      // the online status should copy the connection status.
+      console.log('onlineStatus: ', updateStatus);
+      console.log('isOnline: ', isOnline);
+      
+      let response
+      if (updateStatus !== isOnline)
+      response = dispatch(driverActions.updateOnlineStatus(updateStatus))
+      .catch((error) => {
+        toast.error(error.message);
+        toggleStatus();
+      });
+      // add code to switch onlineStatus to false for unmount.
+      // as well as a handler in the auth service to change status
+      // from the server side, for disconnected users.
+    } catch (error) {
+      console.log('error: ', error);
+      toggleStatus();
+    }
   }, [updateStatus]);
 
-
-      // TEST STATE
-      const 
-      isConnected = true,
-      isConnecting = true,
-      errorMessage = '';
+  // useDidMountEffect(() => {
+  //   isOnline
+  //     ? dispatch(socketActions.openConnection())
+  //     : dispatch(socketActions.closeConnection());
+  // }, [isOnline]);
+      
       
       // const { isEstablishingConnection, isConnected, connectionError, message } =
       //   useSelector(Selector.socket);
@@ -83,26 +90,32 @@ const MapScreen = () => {
     // const { newOrder } = useSelector(Selector.incomingOrder);
 
     
-    // useDidMountEffect(() => {
-  //   isOnline
-  //     ? dispatch(socketActions.openConnection())
-  //     : dispatch(socketActions.closeConnection());
-  // }, [isOnline]);
-
-
+  
+  // TEST STATE
   const 
-  { newOrder } = { newOrder: null}
-  // const { isOnline } = user;
-
-  useEffect(() => {
-    if (newOrder) {
-      navigation.navigate(DriveScreens.NEW_ORDER_SCREEN);
-    }
-  }, [newOrder]);
+  isConnected = false,
+  isConnecting = false,
+  errorMessage = '';
+ 
 
   const
-  showDriverStatus = isConnected ? "Looking for deliveries..." : isConnecting ? "Going online..." : "Go Online";
+  // isGoingOnline = false && false && !true || true;
+  isGoingOnline = updateStatus || !isConnected && isConnecting;
 
+  const
+  showOnlineStatus = 
+    isGoingOnline ? "Going Online..." : 
+    isConnected ? "Looking for deliveries..." : "Go Online";
+
+    const 
+    { newOrder } = { newOrder: null}
+    // const { isOnline } = user;
+  
+    useEffect(() => {
+      if (newOrder) {
+        navigation.navigate(DriveScreens.NEW_ORDER_SCREEN);
+      }
+    }, [newOrder]);
   {/* {isLoading ? (
             <Text style={styles.statusPending}>Loading..</Text>
           ) : isOnline && isEstablishingConnection && !isConnected ? (
@@ -144,7 +157,7 @@ const MapScreen = () => {
             onPress={toggleStatus}
             disabled={false}
           >
-            { showDriverStatus }
+            { showOnlineStatus }
           </BannerButton>
 
       </View>
