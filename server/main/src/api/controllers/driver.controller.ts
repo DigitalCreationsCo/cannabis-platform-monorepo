@@ -1,9 +1,12 @@
+import { getGeoCoordinatesByAddress } from "@cd/core-lib";
+import { UserCreateType } from "@cd/data-access";
 import { DriverDA } from "../data-access";
 
 /* =================================
 DriverController - controller class for driver user actions
 
 members:
+createDriver
 getDriverById
 updateStatus
 
@@ -11,6 +14,55 @@ updateStatus
 
 
 export default class DriverController {
+
+    static async createUser(req, res) {
+        try {
+
+            const 
+            user = req.body as UserCreateType
+
+            const 
+            coordinates = await getGeoCoordinatesByAddress(user.address[0]);
+            
+            if (coordinates) 
+            user.address[0].coordinates = coordinates;
+            
+            const 
+            data = await DriverDA.createUser(user)
+            
+            if (!data) 
+            return res.status(404).json('Driver could not be created.');
+
+            return res.status(201).json(data);
+            
+        } catch (error: any) {
+            console.log('API error: ', error);
+            if (error.message.includes('This User exists already')) {
+                return res.status(400).json({ error });
+            } else res.status(500).json({ error });
+        }
+    }
+
+    static async updateDriver(req, res) {
+        try {
+
+            const 
+            driver = req.body
+            
+            const 
+            data = await DriverDA.updateUser(driver)
+
+            if (!data) 
+            return res.status(404).json('Driver record could not be updated.');
+
+            return res.status(200).json(data);
+
+        } catch (error: any) {
+            console.log('API error: ', error);
+            res.status(500).json({ error });
+        }
+    }
+
     static async getDriverById(req, res) {
         try {
 

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { consumeCode, createCode, resendCode } from "supertokens-auth-react/recipe/passwordless";
-import { PasswordlessResponseWithUserDetails } from "../reduxDir";
 import { urlBuilder } from "../utils/urlBuilder";
+import { PasswordlessResponseWithUserDetails } from "./authTypes";
 
 async function sendOTPEmail(email: string) {
     try {

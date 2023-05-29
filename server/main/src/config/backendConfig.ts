@@ -1,9 +1,11 @@
 import Session from 'supertokens-node/recipe/session';
 // import { UserRoleClaim } from "supertokens-node/recipe/userroles";
-import { findUserWithDetailsByEmail, findUserWithDetailsByPhone, UserWithDetails } from '@cd/data-access';
+import { PasswordlessSignInRequestPayload } from '@cd/core-lib';
+import { DriverWithDetails, UserWithDetails } from '@cd/data-access';
 import Dashboard from "supertokens-node/recipe/dashboard";
 import Passwordless from "supertokens-node/recipe/passwordless";
 import { AuthConfig } from '../../interfaces';
+import { DriverDA, UserDA } from '../api/data-access';
 
 const port          = process.env.SHOP_APP_PORT || 3000;
 const baseDomain    = process.env.NEXT_PUBLIC_APP_DOMAIN || 'localhost';
@@ -25,204 +27,6 @@ export const backendConfig = (): AuthConfig => {
             connectionURI: process.env.SUPERTOKENS_CONNECTION_URI
         },
         appInfo,
-        // recipeList: [
-        //     EmailPassword.init({
-        //         signUpFeature: {
-        //             formFields: [
-        //                 { id: 'email' },
-        //                 { id: 'password' },
-        //                 { id: 're_password' },
-        //                 { id: 'username' },
-        //                 { id: 'firstName' },
-        //                 { id: 'lastName' },
-        //                 { id: 'phone' },
-        //                 { id: 'dialCode' },
-        //                 { id: 'countryCode' },
-        //                 { id: 'country' },
-        //                 { id: 'city' },
-        //                 { id: 'state' },
-        //                 { id: 'zipcode' },
-        //                 { id: 'street1' },
-        //                 { id: 'street2', optional: true },
-        //                 { id: 'termsAccepted' }
-        //             ]
-        //         },
-        //         override: {
-        //             functions(originalImplementation) {
-        //                 return {
-        //                     ...originalImplementation,
-        //                     async signIn(input: UserLoginData) {
-        //                         try {
-        //                             const user = await findUserWithDetailsByEmail(input.email);
-        //                             console.log('user: ', user);
-        //                             if (user === null) {
-        //                                 console.log('User does not exist');
-        //                                 throw new Error('User does not exist');
-        //                             }
-        //                             // if (userContext !== null && userContext.passwordHash === null) {
-        //                             //     throw new Error('Please reset your password');
-        //                             // }
-
-        //                             // if (userContext !== null && !isPasswordMatch(input.password, userContext.passwordHash)) {
-        //                             //     throw new Error('Invalid password')
-        //                             // }
-        //                             const response = await originalImplementation.signIn({
-        //                                 ...input,
-        //                                 userContext: user
-        //                             });
-        //                             console.log('backend signin reponse: ', response);
-        //                             return response;
-        //                         } catch (error: any) {
-        //                             console.log('backend signin error: ', error);
-        //                             // throw new Error(error)
-        //                             return {
-        //                                 status: 'WRONG_CREDENTIALS_ERROR',
-        //                                 message: error
-        //                             };
-        //                         }
-        //                     },
-
-        //                     async signUp(input) {
-        //                         try {
-        //                             const response = await originalImplementation.signUp(input);
-        //                             return response;
-        //                         } catch (error: any) {
-        //                             console.log('backend signup error: ', error);
-        //                             throw new Error(error);
-        //                         }
-        //                     }
-        //                 };
-        //             },
-        //             apis(originalImplementation) {
-        //                 return {
-        //                     ...originalImplementation,
-        //                     signInPOST: async function (input) {
-        //                         try {
-        //                             const response = await originalImplementation.signInPOST(input);
-        //                             console.log('sign in POST OK');
-        //                             return response;
-        //                         } catch (error: any) {
-        //                             console.log('backend signInPost error: ', error);
-        //                             throw new Error(error);
-        //                         }
-        //                     },
-        //                     signUpPOST: async function (input) {
-        //                         try {
-        //                             if (originalImplementation.signUpPOST === undefined) {
-        //                                 throw Error('backend signUp: Something went wrong.');
-        //                             }
-
-        //                             const formFieldsArr = Object.values(input.formFields);
-        //                             const formFields = formFieldsArr.map((_, index) => {
-        //                                 const id = formFieldsArr[index]['id'];
-        //                                 return { [id]: _['value'] };
-        //                             });
-
-        //                             const formFieldsTransformed = Object.assign({}, ...formFields);
-        //                             const createUserInput = {
-        //                                 ...formFieldsTransformed
-        //                             };
-
-        //                             const {
-        //                                 timeJoined,
-        //                                 street1,
-        //                                 street2,
-        //                                 city,
-        //                                 state,
-        //                                 zipcode,
-        //                                 country,
-        //                                 countryCode,
-        //                                 ...createUserData
-        //                             } = createUserInput;
-        //                             createUserData.address = {
-        //                                 street1,
-        //                                 street2,
-        //                                 city,
-        //                                 state,
-        //                                 zipcode,
-        //                                 country,
-        //                                 countryCode
-        //                             };
-        //                             createUserData.createdAt = new Date(timeJoined);
-
-        //                             const user = await UserDA.createUser(createUserData);
-
-        //                             input.userContext = { ...user };
-        //                             console.log('signup input with usercontext: ', input);
-
-        //                             const response = await originalImplementation.signUpPOST(input);
-
-        //                             if (response.status === 'OK') {
-        //                                 console.log('sign up POST OK');
-        //                                 // future note: drivers will have only session active on a device.
-        //                                 // Drivers will need their own session function for login
-
-        //                                 response.user = {
-        //                                     ...response.user,
-        //                                     ...response.session.getAccessTokenPayload()
-        //                                 };
-        //                             }
-        //                             return response;
-        //                         } catch (error: any) {
-        //                             console.log('backend signInPost error: ', error.message);
-        //                             return {
-        //                                 status: 'GENERAL_ERROR',
-        //                                 message: error.message
-        //                             };
-        //                         }
-        //                     }
-        //                 };
-        //             }
-        //         }
-        //     }),
-        //     Session.init({
-        //         override: {
-        //             functions: (originalImplementation) => {
-        //                 return {
-        //                     ...originalImplementation,
-        //                     createNewSession: async (input) => {
-        //                         const userId = input.userContext.id;
-        //                         input.userId = userId;
-        //                         input.accessTokenPayload = { ...input.accessTokenPayload, ...input.userContext };
-
-        //                         const session = await originalImplementation.createNewSession(input);
-
-        //                         const sessionPayload: SessionPayload = {
-        //                             userId: input.userId,
-        //                             username: input.accessTokenPayload.username,
-        //                             email: input.accessTokenPayload.email
-        //                         };
-
-        //                         await SessionDA.createUserSession(
-        //                             session.getHandle(),
-        //                             sessionPayload,
-        //                             await session.getExpiry()
-        //                         );
-
-        //                         return session;
-        //                     }
-        //                 };
-        //             },
-        //             apis: (originalImplementation) => {
-        //                 return {
-        //                     ...originalImplementation,
-        //                     refreshPOST: async (input) => {
-        //                         const session = await originalImplementation.refreshPOST(input);
-        //                         console.log('refresh session: ', session);
-        //                         await SessionDA.updateExpireSession(session.getHandle(), await session.getExpiry());
-        //                         return session;
-        //                     },
-        //                     signOutPOST: async (input) => {
-        //                         const response = await originalImplementation.signOutPOST(input);
-        //                         await SessionDA.deleteSession(input.session.getHandle());
-        //                         return response;
-        //                     }
-        //                 };
-        //             }
-        //         }
-        //     }),
-        //
-        // ],
         recipeList: [
             Passwordless.init({
                 flowType: "USER_INPUT_CODE",
@@ -244,26 +48,56 @@ export const backendConfig = (): AuthConfig => {
                             //     let user = await findUserWithDetailsById(input.userId) || null;
                             //     return user;
                             // },
-                            consumeCode: async (input) => {
-                                let response = await originalImplementation.consumeCode(input);
+                            consumeCode: async (input: PasswordlessSignInRequestPayload) => {
+                                try {
+                                    
+                                    let 
+                                    response = await originalImplementation.consumeCode(input);
 
-                                if (response.status === "OK") {
-                                    if (!response.createdNewUser) {
-                                        let user
+                                    if (response.status === "OK") {
+                                        if (!response.createdNewUser) {
 
-                                        if (response.user.email) {
-                                            user = await findUserWithDetailsByEmail(response.user.email) || null;
-                                            console.log('user found: ', user)
-                                            response.user = { ...response.user, ...user } as Passwordless.User & UserWithDetails
+                                            let user;
 
-                                        } else if (response.user.phoneNumber) {
-                                            user = await findUserWithDetailsByPhone(response.user.phoneNumber) || null;
-                                            response.user = { ...response.user, ...user } as Passwordless.User & UserWithDetails
+                                            if (input.userContext.appUser === 'CUSTOMER' ||
+                                            input.userContext.appUser === 'ADMIN') {
+                                                if (response.user.email) {
+                                                    user = await UserDA.getUserByEmail(response.user.email) || null;
+                                                    console.log('user found by email: ', user)
+                                                    response.user = { ...response.user, ...user } as Passwordless.User & UserWithDetails
 
+                                                } else if (response.user.phoneNumber) {
+                                                    user = await UserDA.getUserByPhone(response.user.phoneNumber) || null;
+                                                    console.log('user found by phone: ', user)
+                                                    response.user = { ...response.user, ...user } as Passwordless.User & UserWithDetails
+
+                                                }
+                                            }
+
+                                            if (input.userContext.appUser === 'DRIVER') {
+                                                if (response.user.email) {
+                                                    user = await DriverDA.getDriverByEmail(response.user.email) || null;
+                                                    console.log('driver found by email: ', user)
+                                                    response.user = { ...response.user, ...user } as Passwordless.User & DriverWithDetails
+
+                                                } else if (response.user.phoneNumber) {
+                                                    user = await DriverDA.getDriverByPhone(response.user.phoneNumber) || null;
+                                                    console.log('driver found by phone: ', user)
+                                                    response.user = { ...response.user, ...user } as Passwordless.User & DriverWithDetails
+
+                                                }
+                                            }
                                         }
                                     }
+                                    return { ...response, isFromDb: true };
+
+                                } catch (error: any) {
+                                    console.log('consumeCode error: ', error.message);
+                                    return {
+                                        status: 'RESTART_FLOW_ERROR',
+                                        message: error.message
+                                    };
                                 }
-                                return { ...response, isFromDb: true };
                             }
                         }
                         // apis: (originalImplementation) => {
@@ -292,10 +126,87 @@ export const backendConfig = (): AuthConfig => {
                         //     };
                         // }
                     },
-                }
+                    apis: (originalImplementation) => {
+                        
+                        return {
+                            ...originalImplementation,
+                            consumeCodePOST: async (input: PasswordlessSignInRequestPayload & { options: any }) => {
+
+                                // YES
+                                // await input.options.req.getJSONBody();
+
+                                // YES
+                                // console.log('post input: ' , input.options.req.original.headers);
+                                
+                                // YES
+                                // console.log('post input: ' , await input.options.req.getFormData());
+                                
+                                // NO
+                                // console.log('post input: ' , await input.options.req.getHeaderValue('appUser'));
+
+                                // NO
+                                // input.options.req.getHeaderValue('appUser')
+
+                                // NO
+                                // console.log('post app user? ', input.userContext.appUser)
+
+                                const 
+                                { appUser } = (await input.options.req.getJSONBody());
+                                
+                                input.userContext = { ...input.userContext, appUser };
+
+                                return originalImplementation.consumeCodePOST(input);
+                            }
+                        }
+                    },
+                },
             }),
             Session.init({
                 cookieDomain: ".localhost:3000",
+                // override: {
+                //                 functions: (originalImplementation) => {
+                //                     return {
+                //                         ...originalImplementation,
+                //                         createNewSession: async (input) => {
+                //                             const userId = input.userContext.id;
+                //                             input.userId = userId;
+                //                             input.accessTokenPayload = { ...input.accessTokenPayload, ...input.userContext };
+            
+                //                             const session = await originalImplementation.createNewSession(input);
+            
+                //                             const sessionPayload: SessionPayload = {
+                //                                 userId: input.userId,
+                //                                 username: input.accessTokenPayload.username,
+                //                                 email: input.accessTokenPayload.email
+                //                             };
+            
+                //                             await SessionDA.createUserSession(
+                //                                 session.getHandle(),
+                //                                 sessionPayload,
+                //                                 await session.getExpiry()
+                //                             );
+            
+                //                             return session;
+                //                         }
+                //                     };
+                //                 },
+                //                 apis: (originalImplementation) => {
+                //                     return {
+                //                         ...originalImplementation,
+                //                         refreshPOST: async (input) => {
+                //                             const session = await originalImplementation.refreshPOST(input);
+                //                             console.log('refresh session: ', session);
+                //                             await SessionDA.updateExpireSession(session.getHandle(), await session.getExpiry());
+                //                             return session;
+                //                         },
+                //                         signOutPOST: async (input) => {
+                //                             const response = await originalImplementation.signOutPOST(input);
+                //                             await SessionDA.deleteSession(input.session.getHandle());
+                //                             return response;
+                //                         }
+                //                     };
+                //                 }
+                //             }
             }),
             Dashboard.init({
                 apiKey: process.env.SUPERTOKENS_DASHBOARD_KEY

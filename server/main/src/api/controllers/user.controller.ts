@@ -55,17 +55,24 @@ export default class UserController {
 
     static async createUser(req, res) {
         try {
-            const user = req.body as UserCreateType
 
-            const coordinates = await getGeoCoordinatesByAddress(user.address[0]);
-            if (coordinates) user.address[0].coordinates = coordinates;
+            const 
+            user = req.body as UserCreateType
+
+            const 
+            coordinates = await getGeoCoordinatesByAddress(user.address[0]);
+
+            if (coordinates) 
+            user.address[0].coordinates = coordinates;
             
-            const data = await UserDA.createUser(user)
+            const 
+            data = await UserDA.createUser(user)
             
             if (!data) 
             return res.status(404).json('User could not be created.');
 
             return res.status(201).json(data);
+            
         } catch (error: any) {
             console.log('API error: ', error);
             if (error.message.includes('This user exists already')) {

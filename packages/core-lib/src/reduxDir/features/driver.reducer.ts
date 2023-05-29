@@ -1,10 +1,10 @@
 // @ts-nocheck
 
-import { DriverWithSessionDetails } from "@cd/data-access";
+import { DriverWithDetails, DriverWithSessionDetails } from "@cd/data-access";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { urlBuilder } from "../../utils";
-import { AppState, ThunkArgumentsType } from "../types";
+import { pruneData, urlBuilder } from "../../utils";
+import { AppState, ThunkArgumentsType } from "../reduxTypes";
 
 export const updateOnlineStatus = createAsyncThunk<{ success: boolean, isOnline: boolean }, boolean, {extra: ThunkArgumentsType}> (
     "driver/updateOnlineStatus",
@@ -14,19 +14,19 @@ export const updateOnlineStatus = createAsyncThunk<{ success: boolean, isOnline:
           const
           id = await thunkAPI.extra.store.getState()
           
-          console.log('hello')
-          console.log(id, onlineStatus)
           const
           response = await axios.post(
-              urlBuilder.main.driverUpdateStatus(), {
-                  id, onlineStatus
-              });
+            urlBuilder.main.driverUpdateStatus(), {
+              id, onlineStatus });
 
-              console.log('response: ', response)
           if (response.status !== 200)
           throw new Error(response.data);
 
-          return { ...response.data, success: true, isOnline: onlineStatus };
+          return { 
+            ...response.data, 
+            success: true, 
+            isOnline: onlineStatus 
+          };
             
         } catch (error) {
             console.error('updateOnlineStatus error: ', error.message);
@@ -78,6 +78,17 @@ export const driverSlice = createSlice({
   name: "driver",
   initialState,
   reducers: {
+    signinDriverSync: ((state, {payload}: {payload: DriverWithDetails }) => {
+
+      console.log('sign in driver, payload: ', payload)
+      
+      const driver = pruneData(payload, ['timeJoined', 'createdAt', 'updatedAt'])
+      state.driver = driver;
+      state.isSignedIn = true;
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.isError = false;
+    }),
     clearState: (state) => {
       state.isError = false;
       state.isSuccess = false;

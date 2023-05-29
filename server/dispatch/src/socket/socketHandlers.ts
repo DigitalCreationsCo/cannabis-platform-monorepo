@@ -14,6 +14,8 @@ io.adapter(createAdapter(publishRedisClient, subscribeRedisClient));
 io.on(SocketEvents.connection, async (socket) => {
   // socket.leaveAll();
 
+  // DISCONNECT USERS AFTER EXTENDED TIME WITH NO ACTIVITY (LAST JOINED ROOM GREATER THAN 1 HOURS)
+  
   // add conditional to subscribe to different rooms, possibly based on socket event
 
   // the client variable and the client_connect handler below
