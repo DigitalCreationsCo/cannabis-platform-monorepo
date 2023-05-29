@@ -1,5 +1,7 @@
 {
   "devDependencies": {
+    "@babel/core": "^7.22.1",
+    "@babel/node": "^7.22.1",
     "@cd/eslint-config": "workspace:*",
     "@testing-library/jest-dom": "5.16.5",
     "@types/jest": "29.2.4",
@@ -30,12 +32,13 @@
   "main": "./dist/index.js",
   "name": "@cd/data-access",
   "prisma": {
-    "seed": "node --loader ts-node/esm ./src/db/seed.mts",
+    "seed": "npx babel-node ./src/db/seed.js",
     "schema": "./prisma/schema.prisma",
     "generate": "prisma generate"
   },
   "private": true,
   "scripts": {
+    "seedOLD": "nnode --loader ts-node/esm ./src/db/seed.mts",
     "build": "rimraf ./dist && tsup",
     "clean": "rimraf ./dist ./coverage ./tsconfig.tsbuildinfo",
     "debug-test-e2e": "cross-env DEBUG=testcontainers vitest run $@",
