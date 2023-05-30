@@ -59,6 +59,8 @@ export const backendConfig = (): AuthConfig => {
 
                                             let user;
 
+                                            console.log('backend request from appUser ', input.userContext.appUser);
+                                            
                                             if (input.userContext.appUser === 'CUSTOMER' ||
                                             input.userContext.appUser === 'ADMIN') {
                                                 if (response.user.email) {
