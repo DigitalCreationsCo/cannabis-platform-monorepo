@@ -1,4 +1,4 @@
-import { selectUserState } from "@cd/core-lib/src/reduxDir/features/user.reducer";
+import { selectDriverState } from "@cd/core-lib/src/reduxDir/features/driver.reducer";
 import { createStackNavigator, TransitionPresets } from "@react-navigation/stack";
 import { useSelector } from "react-redux";
 import { CompleteDeliveryScreen, DeliveryOrderScreen, LoginScreen, NewOrderScreen, SignUpScreen } from "../screens";
@@ -8,7 +8,7 @@ import TabNavigator from "./TabNavigator";
 const AuthNavigator = () => {
 
   const 
-  { isSignedIn } = useSelector(selectUserState)
+  { isSignedIn } = useSelector(selectDriverState);
 
   const 
   Stack = createStackNavigator();

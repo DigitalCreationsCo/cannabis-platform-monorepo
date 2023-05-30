@@ -63,12 +63,10 @@ export const backendConfig = (): AuthConfig => {
                                             input.userContext.appUser === 'ADMIN') {
                                                 if (response.user.email) {
                                                     user = await UserDA.getUserByEmail(response.user.email) || null;
-                                                    console.log('user found by email: ', user)
                                                     response.user = { ...response.user, ...user } as Passwordless.User & UserWithDetails
 
                                                 } else if (response.user.phoneNumber) {
                                                     user = await UserDA.getUserByPhone(response.user.phoneNumber) || null;
-                                                    console.log('user found by phone: ', user)
                                                     response.user = { ...response.user, ...user } as Passwordless.User & UserWithDetails
 
                                                 }
@@ -77,12 +75,10 @@ export const backendConfig = (): AuthConfig => {
                                             if (input.userContext.appUser === 'DRIVER') {
                                                 if (response.user.email) {
                                                     user = await DriverDA.getDriverByEmail(response.user.email) || null;
-                                                    console.log('driver found by email: ', user)
                                                     response.user = { ...response.user, ...user } as Passwordless.User & DriverWithDetails
 
                                                 } else if (response.user.phoneNumber) {
                                                     user = await DriverDA.getDriverByPhone(response.user.phoneNumber) || null;
-                                                    console.log('driver found by phone: ', user)
                                                     response.user = { ...response.user, ...user } as Passwordless.User & DriverWithDetails
 
                                                 }

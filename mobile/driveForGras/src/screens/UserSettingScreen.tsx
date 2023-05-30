@@ -1,27 +1,27 @@
-import { selectUserState, userActions } from "@cd/core-lib/src/reduxDir/features/user.reducer";
-import { AnyAction } from "@reduxjs/toolkit";
+import { driverActions, selectDriverState } from "@cd/core-lib/src/reduxDir/features/driver.reducer";
 import React from "react";
 import { ScrollView } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Button, FlexBox, H3, Paragraph, Screen } from '../components';
+import { useAppDispatch } from "../redux/store";
 
 function UserSettingScreen() {
 
   const 
-  dispatch = useDispatch();
+  dispatch = useAppDispatch();
   
   const 
-  { user } = useSelector(selectUserState);
+  { driver } = useSelector(selectDriverState);
 
   function signOut () {
-    dispatch(userActions.signOutUserAsync() as unknown as AnyAction)
+    dispatch(driverActions.signOutUserAsync())
   }
 
   return (
     <ScrollView>
       <FlexBox className="h-full">
       <H3>
-        {user.firstName || 'Your Account'}</H3>
+        {driver.user.firstName || 'Your Account'}</H3>
 
         {/* <Text>{`driverId: ${user.id}`}</Text> */}
         {/* <Text>{`${user.firstName} ${user.lastName}`}</Text> */}

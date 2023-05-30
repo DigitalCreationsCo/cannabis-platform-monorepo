@@ -85,7 +85,11 @@ export default class DriverController {
             console.log('hello')
 
             let 
-            { id, onlineStatus } = req.body,
+            { id, onlineStatus } = req.body;
+            
+            console.log('req body: ', req.body);
+            
+            const
             data = await DriverDA.updateOnlineStatus(id, onlineStatus);
 
             // have a promise.all here, that updates the driver's status in the driverSessions collection

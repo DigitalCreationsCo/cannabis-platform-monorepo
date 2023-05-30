@@ -11,13 +11,16 @@ export const updateOnlineStatus = createAsyncThunk<{ success: boolean, isOnline:
     async (onlineStatus, thunkAPI) => {
         try {
 
+          console.log('update online status thunk')
           const
           id = await thunkAPI.extra.store.getState()
           
+          console.log('posting to ', urlBuilder.main.driverUpdateStatus());
           const
           response = await axios.post(
             urlBuilder.main.driverUpdateStatus(), {
-              id, onlineStatus });
+              id, onlineStatus },
+              { validateStatus: status => status < 500});
 
           if (response.status !== 200)
           throw new Error(response.data);
@@ -35,8 +38,26 @@ export const updateOnlineStatus = createAsyncThunk<{ success: boolean, isOnline:
     }
 );
 
+const signOutUserAsync = createAsyncThunk<void, void, {
+  // dispatch: Dispatch<AnyAction>; 
+  extra: ThunkArgumentsType
+}>(
+  "user/signOutUserAsync",
+  async (_, {dispatch, extra, rejectWithValue}) => {
+    try {
+
+      const { signOut } = extra.supertokens;
+      await signOut()
+
+    } catch (error) {
+      return rejectWithValue("signout error: " + error);
+    }
+  }
+)
+
 export type DriverSessionState = {
   driver: DriverWithSessionDetails;
+  isSignedIn: boolean;
   isLoading: boolean;
   isSuccess: boolean;
   isError: boolean;
@@ -68,6 +89,7 @@ const initialState: DriverSessionState = {
             currentRoute: [],
         }
     },
+    isSignedIn: false,
     isLoading: false,
     isSuccess: false,
     isError: false,
@@ -84,10 +106,12 @@ export const driverSlice = createSlice({
       
       const driver = pruneData(payload, ['timeJoined', 'createdAt', 'updatedAt'])
       state.driver = driver;
+
       state.isSignedIn = true;
       state.isLoading = false;
       state.isSuccess = true;
       state.isError = false;
+      
     }),
     clearState: (state) => {
       state.isError = false;
@@ -121,6 +145,17 @@ export const driverSlice = createSlice({
       state.isError = true;
       state.errorMessage = payload as string
       throw new Error(state.errorMessage)
+    }),
+
+    builder.addCase(signOutUserAsync.fulfilled, () => initialState),
+    builder.addCase(signOutUserAsync.pending, (state) => {
+      state.isLoading = true;
+    }),
+    builder.addCase(signOutUserAsync.rejected, (state, { payload }) => {
+      state.isSuccess = false;
+      state.isLoading = false;
+      state.isError = true;
+      state.errorMessage = payload as string
     })
   }
 });
@@ -128,6 +163,7 @@ export const driverSlice = createSlice({
 export const driverActions = {
     ...driverSlice.actions,
     updateOnlineStatus,
+    signOutUserAsync
 };
 
 export const driverReducer = driverSlice.reducer;

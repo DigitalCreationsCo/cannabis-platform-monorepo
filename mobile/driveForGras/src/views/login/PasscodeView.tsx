@@ -2,10 +2,9 @@ import { toast } from '@backpackapp-io/react-native-toast';
 import { PasswordlessResponseWithDriverDetails } from '@cd/core-lib/src/auth/authTypes';
 import TextContent from "@cd/core-lib/src/constants/textContent";
 import { driverActions } from '@cd/core-lib/src/reduxDir/features/driver.reducer';
-import { userActions } from '@cd/core-lib/src/reduxDir/features/user.reducer';
 // import { userActions } from '@cd/core-lib/src/reduxDir/features/user.reducer';
 import { urlBuilder } from "@cd/core-lib/src/utils/urlBuilder";
-import { DriverWithDetails, UserWithDetails } from '@cd/data-access';
+import { DriverWithDetails } from '@cd/data-access';
 // import { UserWithDetails } from '@cd/data-access';
 import Icons from "@cd/native-ui/src/icons";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -66,7 +65,7 @@ const PasscodeView = ({ route }) => {
     
   function signIn (driver: DriverWithDetails) {
     dispatch(driverActions.signinDriverSync(driver));
-    dispatch(userActions.signinUserSync(driver.user as UserWithDetails));
+    // dispatch(userActions.signinUserSync(driver.user as UserWithDetails));
   }
   return (
     <View className="bg-primary h-full">
