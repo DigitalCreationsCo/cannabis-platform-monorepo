@@ -176,6 +176,7 @@ const signOutUserAsync = createAsyncThunk<void, void, {
     }
   }
 )
+
 // export const logoutUser = createAsyncThunk(
 //   "user/logoutUser",
 //   async ({ token, email }, thunkAPI) => {
@@ -270,12 +271,15 @@ export const userSlice = createSlice({
     signinUserSync: ((state, {payload}: {payload: UserWithDetails }) => {
 
       console.log('signinUserSync payload', payload)
+      
       const user = pruneData(payload, ['timeJoined', 'createdAt', 'updatedAt'])
       state.user = user;
+      
       state.isSignedIn = true;
       state.isLoading = false;
       state.isSuccess = true;
       state.isError = false;
+      
     }),
     clearState: (state) => {
       state.isError = false;

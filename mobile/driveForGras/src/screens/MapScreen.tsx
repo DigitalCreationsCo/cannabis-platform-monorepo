@@ -47,7 +47,8 @@ const MapScreen = () => {
       // the online status should copy the connection status.
       console.log('onlineStatus: ', updateStatus);
       console.log('isOnline: ', isOnline);
-      
+    
+      console.log('updating status')
       if (updateStatus !== isOnline)
       dispatch(driverActions.updateOnlineStatus(updateStatus))
       .catch((error) => {

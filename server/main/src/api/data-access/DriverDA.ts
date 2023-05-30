@@ -1,5 +1,5 @@
 import { createDriver, findDriverWithDetailsByEmail, findDriverWithDetailsById, findDriverWithDetailsByPhone, updateDriver, UserCreateType } from "@cd/data-access";
-import { Collection, MongoClient, ObjectId } from "mongodb";
+import { Collection, MongoClient } from "mongodb";
 
 
 /* =================================
@@ -8,8 +8,8 @@ Driver Data Access - data class for Driver SQL Table and DriverSessions Mongo Co
 members:
 useMongoDB
 
-createDriver
-updateDriver
+createDriverRecord
+updateDriverRecord
 
 getDriverById
 getDriverByEmail
@@ -37,7 +37,7 @@ export default class DriverDA {
     }
   }
 
-  static async createDriver(createDriverData: UserCreateType) {
+  static async createDriverRecord(createDriverData: UserCreateType) {
     try {
       
         // createDriver = await createPasswordHash(createUserData)
@@ -51,7 +51,7 @@ export default class DriverDA {
     }
   }
 
-  static async updateDriver(updateDriverData: UserCreateType) {
+  static async updateDriverRecord(updateDriverData: UserCreateType) {
     try {
 
         const 
@@ -91,14 +91,12 @@ export default class DriverDA {
       const 
       driver = await findDriverWithDetailsByEmail(email)
       
-      console.log('driver: ', driver);
-      
       const 
       driverSession = await driverSessions.findOneAndUpdate(
         { email }, 
         { $set: {
           "id": driver.id,
-          "isOnline": true,
+          "isOnline": false,
           "isActiveDelivery": false,
           "currentCoordinates": [],
           "currentRoute": [], }}, 
@@ -112,8 +110,6 @@ export default class DriverDA {
         ...driver,
         driverSession
       }
-
-      console.log('data: ', data)
 
       return data;
       
@@ -138,7 +134,7 @@ export default class DriverDA {
     try {
       const
       updateStatus = await driverSessions.updateOne(
-        { id: new ObjectId(id) },
+        { id },
         { $set: { "isOnline": onlineStatus }},
         { upsert: true });
 

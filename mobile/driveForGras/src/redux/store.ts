@@ -1,6 +1,5 @@
 import { driverReducer } from "@cd/core-lib/src/reduxDir/features/driver.reducer";
-import { userReducer } from "@cd/core-lib/src/reduxDir/features/user.reducer";
-import { ThunkArgumentsType } from "@cd/core-lib/src/reduxDir/types";
+import { ThunkArgumentsType } from "@cd/core-lib/src/reduxDir/reduxTypes";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from "redux-persist";
@@ -8,7 +7,7 @@ import createSecureStore from "redux-persist-expo-securestore";
 import { signOut } from 'supertokens-react-native';
 
 const rootReducer = combineReducers({
-  user: userReducer,
+  // user: userReducer,
   driver: driverReducer
 });
 
