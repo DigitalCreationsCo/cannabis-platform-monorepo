@@ -18,7 +18,7 @@
     "@backpackapp-io/react-native-toast": "^0.8.0",
     "@cd/core-lib": "workspace:*",
     "@hookform/resolvers": "3.1.0",
-    "@react-native-async-storage/async-storage": "^1.18.1",
+    "@react-native-async-storage/async-storage": "1.17.11",
     "@react-navigation/bottom-tabs": "6.0.9",
     "@react-navigation/drawer": "6.1.8",
     "@react-navigation/native": "6.0.6",

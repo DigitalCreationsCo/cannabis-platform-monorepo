@@ -1,10 +1,10 @@
 import { driverReducer } from "@cd/core-lib/src/reduxDir/features/driver.reducer";
 import { socketReducer } from "@cd/core-lib/src/reduxDir/features/socket.reducer";
 import { ThunkArgumentsType } from "@cd/core-lib/src/reduxDir/reduxTypes";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from "redux-persist";
-import storage from 'redux-persist/lib/storage';
 import { signOut } from 'supertokens-react-native';
 import navigationService from "../navigation/service";
 
@@ -21,7 +21,7 @@ const rootReducer = combineReducers({
 const
 config = {
   key: "root",
-  storage
+  storage: AsyncStorage
 };
 
 const reducer = persistReducer(config, rootReducer);
