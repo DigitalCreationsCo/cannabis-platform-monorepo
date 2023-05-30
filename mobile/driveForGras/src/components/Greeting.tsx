@@ -1,4 +1,4 @@
-import { selectUserState } from "@cd/core-lib/src/reduxDir/features/user.reducer";
+import { selectDriverState } from "@cd/core-lib/src/reduxDir/features/driver.reducer";
 import Icons from "@cd/native-ui/src/icons";
 import { View } from "react-native";
 import { useSelector } from "react-redux";
@@ -11,7 +11,7 @@ type GreetingProps = {
 function Greeting ( props: GreetingProps ) {
   
   const 
-  { user } = useSelector(selectUserState);
+  { driver: { user } } = useSelector(selectDriverState);
 
   return (
     <View className='flex absolute top-0 left-0 z-10 rounded-md p-1 m-1 bg-primary shadow'>

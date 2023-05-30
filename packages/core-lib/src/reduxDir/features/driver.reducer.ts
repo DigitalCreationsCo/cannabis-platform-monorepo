@@ -114,6 +114,14 @@ export const driverSlice = createSlice({
       state.isError = false;
       
     }),
+    setActiveDelivery: (state, { payload }) => {
+      if (!state.driver.driverSession) 
+      throw new Error('Driver session is not defined.');
+      // return;
+      
+      state.driver.driverSession['isActiveDelivery'] = payload;
+      
+    },
     clearState: (state) => {
       state.isError = false;
       state.isSuccess = false;

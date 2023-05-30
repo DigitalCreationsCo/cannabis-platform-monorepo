@@ -12,9 +12,9 @@ import { DriveScreens } from "../navigation/paths";
 // import { moduleActions } from "../redux/features/module";
 // import { socketActions } from "../redux/features/socket";
 // import { userActions } from "../redux/features/user";
-import { toast } from "@backpackapp-io/react-native-toast";
-import { driverActions, selectDriverState } from "@cd/core-lib/src/reduxDir/features/driver.reducer";
-import { selectUserState } from "@cd/core-lib/src/reduxDir/features/user.reducer";
+import useAfterMount from '@cd/core-lib/src/hooks/useAfterMount';
+import { selectDriverState } from "@cd/core-lib/src/reduxDir/features/driver.reducer";
+import { selectSocketState } from "@cd/core-lib/src/reduxDir/features/socket.reducer";
 import { Screen } from '../components';
 import { useAppDispatch } from "../redux/store";
 
@@ -30,8 +30,11 @@ const MapScreen = () => {
   const dispatch = useAppDispatch();
   
   const 
-  { user } = useSelector(selectUserState),
-  { isOnline } = useSelector(selectDriverState).driver.driverSession;
+  { driver: { user }} = useSelector(selectDriverState),
+  { isOnline } = useSelector(selectDriverState).driver.driverSession,
+  { connectionOpenInit, isConnected, errorMessage } = useSelector(selectSocketState);
+  
+  console.log('isEstablishingConnection', connectionOpenInit);
   // useLocationWatch();
   // const location = useSelector(Selector.currentCoordinates);
 
@@ -42,23 +45,20 @@ const MapScreen = () => {
   }
   
   useEffect(() => {
-      // UI should show the status marker that matters, 
-      // which is the connection status, not the online status.
-      // the online status should copy the connection status.
-      console.log('onlineStatus: ', updateStatus);
-      console.log('isOnline: ', isOnline);
     
-      console.log('updating status')
-      if (updateStatus !== isOnline)
-      dispatch(driverActions.updateOnlineStatus(updateStatus))
-      .catch((error) => {
-        toast.error(error.message);
-        toggleStatus();
-      });
+      // if (updateStatus !== isOnline)
+      // dispatch(driverActions.updateOnlineStatus(updateStatus))
+      // .catch((error) => {
+      //   toast.error(error.message);
+      //   toggleStatus();
+      // });
       
   }, [updateStatus]);
 
-  useEffect(() => {
+  useAfterMount(() => {
+
+    console.log('isOnline changed', isOnline);
+    
     // isOnline
     //   ? dispatch(socketActions.openConnection())
     //   : dispatch(socketActions.closeConnection());
@@ -68,15 +68,8 @@ const MapScreen = () => {
   // const { isEstablishingConnection, isConnected, connectionError, message } =
   //   useSelector(Selector.socket);
 
-    
-  // TEST STATE
-  const 
-  isConnected = false,
-  isConnecting = false,
-  errorMessage = '';
- 
   const
-  isGoingOnline = updateStatus || !isConnected && isConnecting,
+  isGoingOnline = updateStatus || !isConnected && connectionOpenInit,
   
   showOnlineStatus = 
     isGoingOnline ? "Going Online..." : 
@@ -110,6 +103,9 @@ const MapScreen = () => {
             ? ` connected to websocket { web socket id } ` 
             : " websocket no connection "})
         </Text>
+
+        <Text> isOnline: {isOnline.toString()}</Text>
+        <Text> connectionOpenInit: {connectionOpenInit ? 'true' : 'false'}</Text>
         <Text> error: {errorMessage || 'null'}</Text>
       </>
 
