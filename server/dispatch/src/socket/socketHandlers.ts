@@ -12,6 +12,7 @@ io = new Server();
 io.adapter(createAdapter(publishRedisClient, subscribeRedisClient));
 
 io.on(SocketEvents.connection, async (socket) => {
+  console.log('dispatch: a connection event registered.')
   // socket.leaveAll();
 
   // DISCONNECT USERS AFTER EXTENDED TIME WITH NO ACTIVITY (LAST JOINED ROOM GREATER THAN 1 HOURS)
