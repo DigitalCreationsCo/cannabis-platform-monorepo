@@ -1,11 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { io } from "socket.io-client";
-import { NavigationService } from "../../navigation";
-import {
-  DeliveryScreens,
-  DriveScreens
-} from "../../navigation/navigationPaths";
-import { urlBuilder } from "../../utils";
 
 export const testAsyncAction = createAsyncThunk(
   "socket/testAsyncAction",
@@ -16,60 +9,46 @@ export const testAsyncAction = createAsyncThunk(
   }
 );
 
-// not used currently, socket connections are in middleware
-export const createOrderSocketConnection = createAsyncThunk(
-  "socket/createOrderSocketConnection",
-  async (orderId, thunkAPI) => {
-    // create socket connection with order namespace
-    console.log("socket url: ", urlTable.DISPATCH_CONNECT() + "/hello");
-    return io(urlBuilder.DISPATCH_CONNECT(), {
-      autoConnect: true,
-      transports: ["websocket"],
-      jsonp: false,
-    });
-  }
-);
+// export const orderAccepted = createAsyncThunk(
+//   "socket/orderAccepted",
+//   async ({ newOrder }, thunkAPI) => {
+//     try {
+//       let order = { ...newOrder };
+//       order.metadata = {
+//         isDriverAdded: false,
+//         isDriverArrivedToVendor: false,
+//         isProductPickup: false,
+//         isDriverArrivedToCustomer: false,
+//         isDeliveryComplete: false,
+//       };
+//       await thunkAPI.dispatch(
+//         socketActions.addOrderToDispatchOrders({ order })
+//       );
+//       const { dispatchOrders } = await thunkAPI.getState().socket;
+//       console.log("orderAccepted: dispatchOrders: ", dispatchOrders);
+//       await thunkAPI.dispatch(
+//         socketActions.sortDispatchRoute({ dispatchOrders })
+//       );
+//     } catch (err) {
+//       console.log("A general error occured: orderAccepted-", error);
+//       thunkAPI.rejectWithValue("A general error occured: orderAccepted- ");
+//     }
+//   }
+// );
 
-export const orderAccepted = createAsyncThunk(
-  "socket/orderAccepted",
-  async ({ newOrder }, thunkAPI) => {
-    try {
-      let order = { ...newOrder };
-      order.metadata = {
-        isDriverAdded: false,
-        isDriverArrivedToVendor: false,
-        isProductPickup: false,
-        isDriverArrivedToCustomer: false,
-        isDeliveryComplete: false,
-      };
-      await thunkAPI.dispatch(
-        socketActions.addOrderToDispatchOrders({ order })
-      );
-      const { dispatchOrders } = await thunkAPI.getState().socket;
-      console.log("orderAccepted: dispatchOrders: ", dispatchOrders);
-      await thunkAPI.dispatch(
-        socketActions.sortDispatchRoute({ dispatchOrders })
-      );
-    } catch (err) {
-      console.log("A general error occured: orderAccepted-", error);
-      thunkAPI.rejectWithValue("A general error occured: orderAccepted- ");
-    }
-  }
-);
-
-export const sortDispatchRoute = createAsyncThunk(
-  "socket/sortDispatchRoute",
-  async ({ dispatchOrders }, thunkAPI) => {
-    try {
-      const sortedRoute = await dispatchOrders;
-      console.log("sorted Dispatch Route: ", sortedRoute);
-      return { sortedRoute };
-    } catch (err) {
-      console.log("A general error occured: sortDispatchRoute-", error);
-      thunkAPI.rejectWithValue("A general error occured: sortDispatchRoute- ");
-    }
-  }
-);
+// export const sortDispatchRoute = createAsyncThunk(
+//   "socket/sortDispatchRoute",
+//   async ({ dispatchOrders }, thunkAPI) => {
+//     try {
+//       const sortedRoute = await dispatchOrders;
+//       console.log("sorted Dispatch Route: ", sortedRoute);
+//       return { sortedRoute };
+//     } catch (err) {
+//       console.log("A general error occured: sortDispatchRoute-", error);
+//       thunkAPI.rejectWithValue("A general error occured: sortDispatchRoute- ");
+//     }
+//   }
+// );
 
 /* 
 forEach order in orderList,
@@ -87,24 +66,17 @@ export const buildDestinationRoute = (orderList) => {
   };
 };
 
-export const completeDeliveryOrder = createAsyncThunk(
-  "socket/completeDeliveryOrder",
-  async ({ orderId }, thunkAPI) => {
-    thunkAPI.dispatch(socketActions.removeCompletedOrder({ orderId }));
-    const { remainingRoute } = thunkAPI.getState().socket;
-    if (remainingRoute.length >= 1) {
-      NavigationService.navigate(DeliveryScreens.DELIVERY_ORDER_VIEW);
-    } else {
-      NavigationService.navigate(DriveScreens.COMPLETE_DELIVERY_SCREEN);
-    }
-    return { orderId };
-  }
-);
-
-// export const resetDeliveryState = createAsyncThunk(
-//   "socket/resetDeliveryState",
-//   async (_, thunkAPI) => {
-//     NavigationService.navigate(DeliveryScreens.DELIVERY_ORDER_VIEW);
+// export const completeDeliveryOrder = createAsyncThunk(
+//   "socket/completeDeliveryOrder",
+//   async ({ orderId }, thunkAPI) => {
+//     thunkAPI.dispatch(socketActions.removeCompletedOrder({ orderId }));
+//     const { remainingRoute } = thunkAPI.getState().socket;
+//     if (remainingRoute.length >= 1) {
+//       NavigationService.navigate(DeliveryScreens.DELIVERY_ORDER_VIEW);
+//     } else {
+//       NavigationService.navigate(DriveScreens.COMPLETE_DELIVERY_SCREEN);
+//     }
+//     return { orderId };
 //   }
 // );
 
@@ -227,33 +199,33 @@ const socketSlice = createSlice({
     },
   },
   extraReducers: {
-    [testAsyncAction.fulfilled]: () => {},
-    [createOrderSocketConnection.fulfilled]: () => {},
-    [createOrderSocketConnection.pending]: () => {},
-    [createOrderSocketConnection.rejected]: () => {},
+    // [testAsyncAction.fulfilled]: () => {},
+    // [createOrderSocketConnection.fulfilled]: () => {},
+    // [createOrderSocketConnection.pending]: () => {},
+    // [createOrderSocketConnection.rejected]: () => {},
 
-    [orderAccepted.fulfilled]: () => {},
-    [orderAccepted.pending]: () => {},
-    [orderAccepted.rejected]: () => {},
+    // [orderAccepted.fulfilled]: () => {},
+    // [orderAccepted.pending]: () => {},
+    // [orderAccepted.rejected]: () => {},
 
-    [sortDispatchRoute.fulfilled]: (state, { payload }) => {
-      const { sortedRoute } = payload;
-      state.remainingRoute = sortedRoute;
-    },
-    [sortDispatchRoute.pending]: () => {},
-    [sortDispatchRoute.rejected]: () => {},
+    // [sortDispatchRoute.fulfilled]: (state, { payload }) => {
+    //   const { sortedRoute } = payload;
+    //   state.remainingRoute = sortedRoute;
+    // },
+    // [sortDispatchRoute.pending]: () => {},
+    // [sortDispatchRoute.rejected]: () => {},
 
-    [completeDeliveryOrder.fulfilled]: (state, { payload }) => {},
-    [completeDeliveryOrder.pending]: () => {},
-    [completeDeliveryOrder.rejected]: () => {},
+    // [completeDeliveryOrder.fulfilled]: (state, { payload }) => {},
+    // [completeDeliveryOrder.pending]: () => {},
+    // [completeDeliveryOrder.rejected]: () => {},
   },
 });
 
 export const socketActions = {
-  createOrderSocketConnection,
-  orderAccepted,
-  sortDispatchRoute,
-  completeDeliveryOrder,
+  // createOrderSocketConnection,
+  // orderAccepted,
+  // sortDispatchRoute,
+  // completeDeliveryOrder,
   ...socketSlice.actions,
 };
 export default socketSlice.reducer;
