@@ -1,5 +1,6 @@
 import { Store } from '@reduxjs/toolkit';
 import { CartStateProps, DriverSessionState, LocationStateProps, ModalStateProps, ShopStateProps, UserStateProps } from './features';
+import { SocketStateType } from './features/socket.reducer';
 
 export type AppState = Readonly<{ 
     modal: ModalStateProps
@@ -8,6 +9,7 @@ export type AppState = Readonly<{
     location: LocationStateProps
     shop: ShopStateProps
     cart: CartStateProps
+    socket: SocketStateType
 }>
 
 export type ThunkArgumentsType = {

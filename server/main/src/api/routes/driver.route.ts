@@ -18,8 +18,10 @@ router.route('/').post(driverCtrl.createDriver);
 
 router.route('/').put(driverCtrl.updateDriver);
 
-router.route('/:id').post(driverCtrl.getDriverById);
+router.route('/:id').get(driverCtrl.getDriverById);
 
 router.route("/status").post(driverCtrl.updateStatus);
+
+
 
 export default router;

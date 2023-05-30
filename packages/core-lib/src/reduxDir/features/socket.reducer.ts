@@ -1,4 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { OrderWithDetails } from "../../../../data-access/src";
+import { AppState } from "../reduxTypes";
+
+
+// ACTIONS TRIGGER EVENTS IN THE SOCKET MIDDLEWARE
 
 export const testAsyncAction = createAsyncThunk(
   "socket/testAsyncAction",
@@ -80,45 +85,84 @@ export const buildDestinationRoute = (orderList) => {
 //   }
 // );
 
+type IncomingOrder = {
+  newOrder: OrderWithDetails | null; 
+  message: string | null 
+}
+
+export type SocketStateType = {
+  connectionOpenInit: boolean;
+  connectionCloseInit: boolean;
+  isConnected: boolean;
+  errorMessage: string;
+  message: string;
+  dispatchOrders: OrderWithDetails[];
+  remainingRoute: OrderWithDetails[];
+  destinationType: "organization" | "customer";
+  incomingOrder: IncomingOrder;
+}
+
+const initialState: SocketStateType = {
+  connectionOpenInit: false,
+  connectionCloseInit: false,
+  isConnected: false,
+  errorMessage: "",
+  message: "",
+  dispatchOrders: [],
+  remainingRoute: [],
+  destinationType: 'organization',
+  incomingOrder: { newOrder: null, message: null },
+}
+
 const socketSlice = createSlice({
   name: "socket",
-  initialState: {
-    isEstablishingConnection: false,
-    isConnected: false,
-    connectionError: "",
-    dispatchOrders: [],
-    remainingRoute: [],
-    isActiveDelivery: false,
-    // move this flag to user metadata,
-    // create async thunk to change state in user reducer
-
-    destinationType: "vendor", // "VENDOR" || "CUSTOMER"
-    incomingOrder: { newOrder: null, message: null },
-    message: "",
-    isClosingConnection: false,
-  },
+  initialState,
   reducers: {
     openConnection: (state) => {
-      state.isEstablishingConnection = true;
+      state.connectionOpenInit = true;
+      console.log('open connection.');
+      state.errorMessage = 'something happened'
     },
+    
+    closeConnection: (state) => {
+      state.connectionCloseInit = true;
+      console.log('closing connection.');
+    },
+    
     connectionEstablished: (state) => {
+      
+      state.connectionOpenInit = false;
       state.isConnected = true;
-      state.isEstablishingConnection = false;
+      console.log('connection established. ready to send and receive data.');
     },
-    receiveNewOrderRequest: (state, { payload: { order, message } }) => {
-      console.log(message);
-      state.incomingOrder.newOrder = order;
-      state.incomingOrder.message = message;
+    connectionClosed: (state) => {
+      state.connectionCloseInit = false;
+      state.isConnected = false;
+      console.log("socket connection is closed.");
+    },
+    receiveNewOrderRequest: (state, { payload }: { payload: IncomingOrder}) => {
+
+      const
+      incomingOrder = payload;
+
+      state.incomingOrder = incomingOrder;
+      
     },
     clearOrderRequest: (state) => {
+
       state.incomingOrder.newOrder = null;
       state.incomingOrder.message = null;
+      
     },
     acceptOrder: (state) => {
+
       console.log("accept_order");
+
     },
     declineOrder: (state) => {
+      
       console.log("decline_order");
+
     },
     addOrderToDispatchOrders: (state, { payload }) => {
       let { order } = payload;
@@ -183,15 +227,6 @@ const socketSlice = createSlice({
     clearMessage: (state) => {
       state.message = "";
     },
-    closeConnection: (state) => {
-      state.isClosingConnection = true;
-    },
-    connectionClosed: (state) => {
-      console.log("socket connection is closed.");
-      state.isClosingConnection = false;
-      state.isEstablishingConnection = false;
-      state.isConnected = false;
-    },
     testAction: (state) => {
       setTimeout(() => {
         console.log("test-action");
@@ -222,10 +257,13 @@ const socketSlice = createSlice({
 });
 
 export const socketActions = {
+  ...socketSlice.actions,
   // createOrderSocketConnection,
   // orderAccepted,
   // sortDispatchRoute,
   // completeDeliveryOrder,
-  ...socketSlice.actions,
 };
-export default socketSlice.reducer;
+
+export const socketReducer = socketSlice.reducer;
+
+export const selectSocketState = (state: AppState) => state.socket;

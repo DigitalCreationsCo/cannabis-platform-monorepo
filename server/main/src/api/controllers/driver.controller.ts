@@ -68,6 +68,7 @@ export default class DriverController {
 
             const 
             id = req.params.id || '',
+            
             data = await DriverDA.getDriverById(id);
 
             if (!data) 
@@ -82,12 +83,9 @@ export default class DriverController {
 
     static async updateStatus(req, res) {
         try {
-            console.log('hello')
 
             let 
             { id, onlineStatus } = req.body;
-            
-            console.log('req body: ', req.body);
             
             const
             data = await DriverDA.updateOnlineStatus(id, onlineStatus);

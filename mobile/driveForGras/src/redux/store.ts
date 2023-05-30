@@ -1,18 +1,24 @@
 import { driverReducer } from "@cd/core-lib/src/reduxDir/features/driver.reducer";
+import { socketReducer } from "@cd/core-lib/src/reduxDir/features/socket.reducer";
 import { ThunkArgumentsType } from "@cd/core-lib/src/reduxDir/reduxTypes";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from "redux-persist";
-import createSecureStore from "redux-persist-expo-securestore";
+import storage from 'redux-persist/lib/storage';
 import { signOut } from 'supertokens-react-native';
+import navigationService from "../navigation/service";
+
+// import createSecureStore from "redux-persist-expo-securestore";
+// const 
+// storage = createSecureStore(),
 
 const rootReducer = combineReducers({
   // user: userReducer,
-  driver: driverReducer
+  driver: driverReducer,
+  socket: socketReducer
 });
 
-const 
-storage = createSecureStore(),
+const
 config = {
   key: "root",
   storage
@@ -38,7 +44,10 @@ supertokens = {
 
 const 
 thunkArguments: ThunkArgumentsType = { 
-  store: null, supertokens };
+  store: null, 
+  supertokens: supertokens,
+  navigation: navigationService
+};
 
   // const 
 // thunkArguments: {
