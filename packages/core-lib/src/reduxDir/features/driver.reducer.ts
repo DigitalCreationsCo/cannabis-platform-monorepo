@@ -11,11 +11,12 @@ export const updateOnlineStatus = createAsyncThunk<{ success: boolean, isOnline:
     async (onlineStatus, thunkAPI) => {
         try {
 
-          console.log('update online status thunk')
           const
-          id = await thunkAPI.extra.store.getState()
-          
-          console.log('posting to ', urlBuilder.main.driverUpdateStatus());
+          state = await thunkAPI.getState() as DriverSessionState
+
+          let
+          id = state.driver.driver.id;
+
           const
           response = await axios.post(
             urlBuilder.main.driverUpdateStatus(), {
@@ -127,10 +128,11 @@ export const driverSlice = createSlice({
 
     builder.addCase(updateOnlineStatus.fulfilled, (state, { payload })  => {
       
-      // const
-      // { isOnline } = payload
+      // console.log('update online status fulfilled, payload: ', payload);
+      const
+      { isOnline } = payload
 
-      // state.driver.driverSession['isOnline'] = isOnline;
+      state.driver.driverSession['isOnline'] = isOnline;
 
       state.isSuccess = true;
       state.isLoading = false;
