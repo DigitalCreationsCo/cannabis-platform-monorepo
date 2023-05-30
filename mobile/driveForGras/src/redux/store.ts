@@ -1,6 +1,7 @@
 import { driverReducer } from "@cd/core-lib/src/reduxDir/features/driver.reducer";
 import { socketReducer } from "@cd/core-lib/src/reduxDir/features/socket.reducer";
-import { ThunkArgumentsType } from "@cd/core-lib/src/reduxDir/reduxTypes";
+import socketMiddleware from "@cd/core-lib/src/reduxDir/middleware/socketMiddleware";
+import { ThunkArgumentsType } from "@cd/core-lib/src/reduxDir/types/reduxTypes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
@@ -80,7 +81,9 @@ function makeStore () {
           extraArgument: thunkArguments
         }
       })
-    .concat([]),
+    .concat([
+      socketMiddleware
+    ]),
 
   });
   thunkArguments.store = store;

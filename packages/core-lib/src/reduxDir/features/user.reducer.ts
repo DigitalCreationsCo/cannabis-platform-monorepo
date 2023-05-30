@@ -4,7 +4,7 @@ import { UserWithDetails } from "@cd/data-access";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 // import * as SecureStore from "expo-secure-store";
 import { pruneData } from "../../utils";
-import { AppState, ThunkArgumentsType } from "../reduxTypes";
+import { AppState, ThunkArgumentsType } from "../types/reduxTypes";
 import { locationActions } from './location.reducer';
 
 // import { messageActions } from "./message";

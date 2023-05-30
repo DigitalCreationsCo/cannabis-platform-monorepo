@@ -4,7 +4,7 @@ import { DriverWithDetails, DriverWithSessionDetails } from "@cd/data-access";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { pruneData, urlBuilder } from "../../utils";
-import { AppState, ThunkArgumentsType } from "../reduxTypes";
+import { AppState, ThunkArgumentsType } from "../types/reduxTypes";
 
 export const updateOnlineStatus = createAsyncThunk<{ success: boolean, isOnline: boolean }, boolean, {extra: ThunkArgumentsType}> (
     "driver/updateOnlineStatus",

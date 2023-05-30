@@ -6,15 +6,15 @@ import {
 } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import { useSelector } from "react-redux";
-import { BannerButton, Greeting } from "../components";
+import { BannerButton, Greeting, Paragraph } from "../components";
 // import { useLocationWatch } from "../hooks";
 import { DriveScreens } from "../navigation/paths";
 // import { moduleActions } from "../redux/features/module";
 // import { socketActions } from "../redux/features/socket";
 // import { userActions } from "../redux/features/user";
 import useAfterMount from '@cd/core-lib/src/hooks/useAfterMount';
-import { selectDriverState } from "@cd/core-lib/src/reduxDir/features/driver.reducer";
-import { selectSocketState } from "@cd/core-lib/src/reduxDir/features/socket.reducer";
+import { driverActions, selectDriverState } from "@cd/core-lib/src/reduxDir/features/driver.reducer";
+import { selectSocketState, socketActions } from "@cd/core-lib/src/reduxDir/features/socket.reducer";
 import { Screen } from '../components';
 import { useAppDispatch } from "../redux/store";
 
@@ -32,9 +32,8 @@ const MapScreen = () => {
   const 
   { driver: { user }} = useSelector(selectDriverState),
   { isOnline } = useSelector(selectDriverState).driver.driverSession,
-  { connectionOpenInit, isConnected, errorMessage } = useSelector(selectSocketState);
+  { connectionOpenInit, isConnected, errorMessage, incomingOrder } = useSelector(selectSocketState);
   
-  console.log('isEstablishingConnection', connectionOpenInit);
   // useLocationWatch();
   // const location = useSelector(Selector.currentCoordinates);
 
@@ -43,31 +42,50 @@ const MapScreen = () => {
   function toggleStatus () { 
     setUpdateStatusStatus(!updateStatus); 
   }
+
+  useEffect(() => {
+
+    // HANDLE updateStatus changes on component mount
+    
+  }, []);
   
   useEffect(() => {
+
+    // HANDLE updateStatus chamges when the button is clicked
+    console.log('updateStatus: ', updateStatus)
+    dispatch(driverActions.updateOnlineStatus(updateStatus))
     
-      // if (updateStatus !== isOnline)
+    // this line triggers the socket connection attempt when the user clicks the go online button.
+    // the button changes the state value 'updateStatus'
+      // if (isOnline === true && updateStatus === isOnline){
+      //   // do nothing
+      //   console.log('call updateOnlineStatus 1')
       // dispatch(driverActions.updateOnlineStatus(updateStatus))
       // .catch((error) => {
       //   toast.error(error.message);
       //   toggleStatus();
-      // });
-      
+      // });}
+
+      // else if (isOnline === true && updateStatus !== isOnline){
+      //   // change state
+      //   console.log('call updateOnlineStatus 2 ')
+      // }
+
+      // else if (isOnline === false && updateStatus !== isOnline){
+      //   // dispatch updateStatus
+      //   console.log('call updateOnlineStatus 3 ')
+
+      // }
   }, [updateStatus]);
 
   useAfterMount(() => {
 
-    console.log('isOnline changed', isOnline);
-    
-    // isOnline
-    //   ? dispatch(socketActions.openConnection())
-    //   : dispatch(socketActions.closeConnection());
+    console.log('useAfterMount: MapScreen')
+    isOnline
+      ? dispatch(socketActions.openConnection())
+      : dispatch(socketActions.closingConnection());
   }, [isOnline]);
       
-      
-  // const { isEstablishingConnection, isConnected, connectionError, message } =
-  //   useSelector(Selector.socket);
-
   const
   isGoingOnline = updateStatus || !isConnected && connectionOpenInit,
   
@@ -75,16 +93,11 @@ const MapScreen = () => {
     isGoingOnline ? "Going Online..." : 
     isConnected ? "Looking for deliveries..." : "Go Online";
 
-    // const { newOrder } = useSelector(Selector.incomingOrder);
-    const 
-    { newOrder } = { newOrder: null}
-    // const { isOnline } = user;
-  
     useEffect(() => {
-      if (newOrder) {
+      if (!isEmpty(incomingOrder?.newOrder)) {
         navigation.navigate(DriveScreens.NEW_ORDER_SCREEN);
       }
-    }, [newOrder]);
+    }, [incomingOrder]);
     
   {/* {isLoading ? (
             <Text style={styles.statusPending}>Loading..</Text>
@@ -110,6 +123,7 @@ const MapScreen = () => {
       </>
 
       <View className="grow">
+        <View className="absolute top-0 right-0 z-10 p-1"><Paragraph className="font-bold text-inverse">Gras</Paragraph></View>
         <Greeting isLoading={true} />
 
         <MapView
@@ -140,3 +154,16 @@ const MapScreen = () => {
 };
 
 export default Screen(MapScreen)
+
+function isEmpty(object: any) {
+  if (object === undefined)
+  return true;
+  
+  if (object === null)
+  return true;
+
+  if (Object.keys(object).length === 0)
+  return true;
+
+  return false;
+}

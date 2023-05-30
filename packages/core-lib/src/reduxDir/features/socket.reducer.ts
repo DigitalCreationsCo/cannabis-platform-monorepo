@@ -1,6 +1,6 @@
+import { OrderWithDetails } from "@cd/data-access";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { OrderWithDetails } from "../../../../data-access/src";
-import { AppState } from "../reduxTypes";
+import { AppState } from "../types/reduxTypes";
 
 
 // ACTIONS TRIGGER EVENTS IN THE SOCKET MIDDLEWARE
@@ -120,12 +120,15 @@ const socketSlice = createSlice({
   reducers: {
     openConnection: (state) => {
       state.connectionOpenInit = true;
+      state.connectionCloseInit = false;
+
       console.log('open connection.');
-      state.errorMessage = 'something happened'
     },
     
-    closeConnection: (state) => {
+    closingConnection: (state) => {
+      state.connectionOpenInit = false;
       state.connectionCloseInit = true;
+      
       console.log('closing connection.');
     },
     
@@ -133,11 +136,13 @@ const socketSlice = createSlice({
       
       state.connectionOpenInit = false;
       state.isConnected = true;
+      
       console.log('connection established. ready to send and receive data.');
     },
     connectionClosed: (state) => {
       state.connectionCloseInit = false;
       state.isConnected = false;
+      
       console.log("socket connection is closed.");
     },
     receiveNewOrderRequest: (state, { payload }: { payload: IncomingOrder}) => {
