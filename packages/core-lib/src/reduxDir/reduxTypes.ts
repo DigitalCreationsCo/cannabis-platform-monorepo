@@ -16,6 +16,10 @@ export type ThunkArgumentsType = {
         signUp?: any; 
         signIn?: any; 
         signOut: any;
+    },
+    navigation?: {
+        navigate: (routename: any, params: any) => void;
+        goBack: () => void;
     }
 };
 
