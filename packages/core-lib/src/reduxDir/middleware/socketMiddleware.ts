@@ -1,64 +1,96 @@
-import { io } from "socket.io-client";
+import { AnyAction } from "@reduxjs/toolkit";
+import { io, Socket } from "socket.io-client";
 import { urlBuilder } from '../../utils/urlBuilder';
 import { socketActions } from "../features/socket.reducer";
 import { userActions } from "../features/user.reducer";
 // import { driverActions } from "../features/driver.reducer";
-import { NavigateEvent, SocketEvent } from "../types/SocketEvent";
+import { Store } from "@reduxjs/toolkit";
+import { AppState } from "reduxDir/types";
+import { OrderWithDetails } from "../../../../data-access/src";
+import { NavigateEvent, SocketEvent, SocketEventPayload } from "../types/SocketEvent";
 
-const socketMiddleware = (store) => {
+const socketMiddleware = (store: Store<AppState>) => {
   // in the future, add this socket map to reducer socket ?
 
+  const
+  socketMap = new Map<string, Socket>();
   // include socket cleanup for finished orders as well!
-  let socketMap = new Map();
-  let dispatchSocket;
 
-  function getOrderSocket(orderId) {
+  let _dispatch_socket_connection: Socket | null;
+
+  /**
+   * Gets socket connection for a specific order
+   * @param orderId 
+   * @returns Socket
+   */
+  function getOrderSocket(orderId: string) {
     return socketMap.get("order:" + orderId);
   }
 
-  function getOrderIdFromSocketKey(socketKey) {
-    let orderId = socketKey.split(":")[1];
+  /**
+   * Gets orderId from socket key (socket.id) ?
+   * @param socketKey
+   * @returns orderId
+   */
+  function getOrderIdFromSocketKey(socketKey: string) {
+    let orderId = socketKey && socketKey.split(":")[1];
     return orderId;
   }
 
-  return (next) => (action) => {
+  return (next: any) => (action: AnyAction) => {
     next(action);
 
+
     // DISPATCH SOCKET EVENT HANDLERS
+
+    // if (open connection to dispatch)
     if (socketActions.openConnection.match(action)) {
+
       console.log("socket_middleware: connecting to dispatch server");
+      
       socketMap.set(
         "dispatchSocket",
         io(urlBuilder.dispatch.connect(), {
           autoConnect: true,
           transports: ["websocket"],
-          jsonp: false,
+          // jsonp: false,
         })
       );
-      dispatchSocket = socketMap.get("dispatchSocket");
 
-      dispatchSocket.on(SocketEvent.Connection, () => {
-        store.dispatch(socketActions.connectionEstablished());
-        const { driverId } = store.getState().user.user;
-        dispatchSocket.emit(SocketEvent.ClientConnect, {
-          data: { userId: driverId },
-        });
+      _dispatch_socket_connection = socketMap.get("dispatchSocket") || null;
+
+      // on dispatch socket connect, emit client connect event
+      _dispatch_socket_connection?.on(SocketEvent.Connection, async () => {
+          store.dispatch(socketActions.connectionEstablished());
+          const id = await store.getState().driver.driver.id;
+          
+          console.log('socket connect driverId: ', id);
+          _dispatch_socket_connection?.emit(SocketEvent.ClientConnect, {
+            data: { userId: id },
+          });
         console.log(
           "socket connection to dispatch server: socket id: ",
-          dispatchSocket.id
+          _dispatch_socket_connection?.id
         );
       });
 
-      dispatchSocket.on(SocketEvent.NewOrder, ({ message, order }) => {
+      // on new order event, save new order as incoming order
+      _dispatch_socket_connection?.on(SocketEvent.NewOrder, ({ message, data }:SocketEventPayload<OrderWithDetails>) => {
+
         console.log("new order event");
         console.log("message: ", message);
-        // console.log("order: ", order);
+        console.log("order: ", data);
         store.dispatch(
-          socketActions.receiveNewOrderRequest({ message, order })
+          socketActions.receiveNewOrderRequest({ message, data })
         );
+
       });
 
-      dispatchSocket.on(SocketEvent.OrderAssigned, ({ message }) => {
+      // on order assigned event, create order socket connection to connect to order room,
+      // and emit driver added event to order room
+      // display message to user
+      // save order in order queue state 
+      _dispatch_socket_connection?.on(SocketEvent.OrderAssignedToYou, ({ message }: SocketEventPayload<any>) => {
         const { newOrder } = store.getState().socket.incomingOrder;
         let { orderId } = newOrder;
         const { driverId } = store.getState().user.user;
@@ -75,7 +107,9 @@ const socketMiddleware = (store) => {
         store.dispatch(socketActions.clearOrderRequest());
       });
 
-      dispatchSocket.on(
+      // on order assigned to another driver event, clear incoming order state
+      // display message to user
+      _dispatch_socket_connection?.on(
         SocketEvent.OrderAssignedToAnotherDriver,
         ({ message }) => {
           console.log("order assigned to another driver", message);
@@ -84,58 +118,25 @@ const socketMiddleware = (store) => {
         }
       );
 
-      // handle from any socket
-      dispatchSocket.on(SocketEvent.Disconnect, () => {
+      // dispatch disconnnect event
+      _dispatch_socket_connection?.on(SocketEvent.Disconnect, () => {
         console.log("disconnecting from dispatch socket.");
       });
 
-      // if (userActions.currentLocationUpdate.fulfilled.match(action)) {
-      //   // frequency of this action call and subsequent socket event are in useLocationWatch hook
+    }
 
-      //   // there is an order delivery active,
-      //   // for every orderSocket that is active,
-      //   // orderSockets.forEach(socket => socket.emit(SocketEvent.LocationShare()))
-
-      //   // send the orderId to be discrete on receiving side
-      //   // socket transmisson will route to the room for the order,
-      //   // and received by any clients listening in that order room
-      //   const { isActiveDelivery, remainingRoute } = store.getState().socket;
-      //   if (isActiveDelivery === true) {
-      //     next(action);
-      //     const { currentLocation } = store.getState().user.user;
-
-      //     let order;
-      //     for (order of remainingRoute) {
-      //       // console.log("socketmiddleware orderId:", order.orderId);
-      //       let { orderId } = order;
-      //       let orderSocket = getOrderSocket(orderId);
-      //       // console.log("orderSocket: ", orderSocket);
-      //       console.log("sending location share event");
-      //       orderSocket.emit(SocketEvent.SendLocation, {
-      //         data: { orderId: orderId, geoLocation: currentLocation },
-      //       });
-      //     }
-
-      //     // handle with all order sockets
-      //     // if there is an ordersocket in the socketMap, send this event
-      //     // to the orderSockets
-      //     // send location to socket room for order *
-      //     // and save location in order Document *
-      //     // ...aaand, save location in driverSession document for driver, as well. :)
-      //   }
-      // }
-    } // DISPATCH SOCKET EVENT HANDLERS
-
+    // emit accept order event
     if (socketActions.acceptOrder.match(action)) {
       console.log("accept order event");
       const { driverId } = store.getState().user.user;
-      dispatchSocket.emit(SocketEvent.AcceptOrder, {
+      _dispatch_socket_connection?.emit(SocketEvent.AcceptOrder, {
         data: { userId: driverId },
       });
     }
 
+    // emit decline order event
     if (socketActions.declineOrder.match(action)) {
-      dispatchSocket.emit(SocketEvent.DeclineOrder);
+      _dispatch_socket_connection?.emit(SocketEvent.DeclineOrder);
       store.dispatch(
         // handle message in messageBanner
         socketActions.setMessage({
@@ -146,31 +147,41 @@ const socketMiddleware = (store) => {
       store.dispatch(socketActions.clearOrderRequest());
     }
 
-    // ORDER SOCKET EVENT HANDLERS
-    const { isActiveDelivery } = store.getState().socket;
-    if (isActiveDelivery === true) {
-      let socket;
-      for (socket of socketMap) {
-        // console.log("socket key: ", socket[0]);
-        if (socket[0].startsWith("order:")) {
-          let socketKey = socket[0];
-          // console.log("order socket: ", socketKey[0]);
-          let orderSocket = socket[1];
 
-          orderSocket.on(SocketEvent.Connection, () => {
+    // ORDER SOCKET EVENT HANDLERS
+    const 
+    isActiveDelivery = store.getState().driver.driver.driverSession?.isActiveDelivery;
+
+    if (isActiveDelivery === true) {
+
+      let 
+      socket: [string, Socket];
+
+      for (socket of socketMap) {
+
+        console.log('socket: ', socket);
+        
+        if (socket[0].startsWith("order:")) {
+
+          let 
+          socketKey = socket[0],
+          _order_socket_connection = socket[1] || null;
+
+          // on order socket connect
+          _order_socket_connection.on(SocketEvent.Connection, () => {
             console.log("socket connection for " + socketKey);
           });
 
-          // order socket connection, handle from any socket
-          orderSocket.on(SocketEvent.GetLocation, () => {
+          // on get location event, emit location
+          _order_socket_connection.on(SocketEvent.GetLocation, () => {
             const { geoLocation } = store.getState().user.user.location;
-            orderSocket.emit(SocketEvent.LocationShare, {
+            _order_socket_connection.emit(SocketEvent.LocationShare, {
               data: { location: geoLocation },
             });
           });
 
-          // handle from any socket
-          orderSocket.on(SocketEvent.Message, ({ type, message, data }) => {
+          // on message event
+          _order_socket_connection.on(SocketEvent.Message, ({ type, message, data }) => {
             console.log(
               `Message Event: 
               type: ${type},
@@ -179,7 +190,8 @@ const socketMiddleware = (store) => {
             );
           });
 
-          orderSocket.on(SocketEvent.Navigate, ({ type }) => {
+          // on navigate event, change destination type for delivery
+          _order_socket_connection.on(SocketEvent.Navigate, ({ type }) => {
             // receive navigation event for different stages of order delivery
             console.log("navigation event: ", type);
             switch (type) {
@@ -192,33 +204,42 @@ const socketMiddleware = (store) => {
             }
           });
 
+          // on location update, emit location to order room
+          // TO DO, move these actions into driver reducer V
+
           if (userActions.currentLocationUpdate.fulfilled.match(action)) {
+            // Save location in the Route record as well.
+            // connect route record to order record
+
             // frequency of this action call and subsequent socket event are in useLocationWatch hook
 
             // there is an order delivery active,
             // for every orderSocket that is active,
-            // orderSockets.forEach(socket => socket.emit(SocketEvent.LocationShare()))
 
-            // send the orderId to be discrete on receiving side
+            // send the orderId for discrete handling by dispatch
             // socket transmisson will route to the room for the order,
             // and received by any clients listening in that order room
             next(action);
             const { geoLocation } = store.getState().user.user.location;
             console.log("sending location share event");
             let orderId = getOrderIdFromSocketKey(socketKey);
-            orderSocket.emit(SocketEvent.SendLocation, {
+            _order_socket_connection.emit(SocketEvent.SendLocation, {
               data: { orderId: orderId, geoLocation },
             });
-            // send location to order socket room *
-            // and save location in order Document *
-            // ...aaand, save location in driverSession document for driver, as well. :)
           }
 
-          // pass orderId for discrete handling on server side
+          // if driver arrive to vendor for delivery,
+          // emit arrive event with a list of orderIds that match the vendorId
+          // the order Ids are used on delivery to emit the event to the applicable order socket rooms
           if (socketActions.arriveToVendor.match(action)) {
             console.log("middle arrive to vendor");
             const { vendorId } = action.payload;
             console.log("middleware arrive to vendor: ", vendorId);
+            // possible issue: this event is being emitted more than necessary to the socket rooms, and dispatch 
+            // is handling the event more than is needed. ??
+
+            // V this code checks if the order is in the remaining routes state,
+            // and uses the order id to emit the event to the order socket room
             let ordersListMatchVendor = store
               .getState()
               .socket.remainingRoute.filter((order) => {
@@ -235,7 +256,7 @@ const socketMiddleware = (store) => {
             );
             let orderId = getOrderIdFromSocketKey(socketKey);
             if (ordersListMatchVendor.includes(orderId)) {
-              orderSocket.emit(SocketEvent.Navigate, {
+              _order_socket_connection.emit(SocketEvent.Navigate, {
                 type: NavigateEvent.ArriveToVendor,
                 data: { orderIdList: ordersListMatchVendor },
               });
@@ -248,15 +269,14 @@ const socketMiddleware = (store) => {
             }
           }
 
-          // handle with matching order socket
-          // pass orderId for discrete handling
+          // if driver pickup products for delivery, emit pickup product to order socket room
           if (socketActions.pickupProducts.match(action)) {
             // send socket events to all orders based on a list input of orderId
             const { orderIdList } = action.payload;
             let orderId = getOrderIdFromSocketKey(socketKey);
             if (orderIdList.includes(orderId)) {
               console.log("sending pickup product event");
-              orderSocket.emit(SocketEvent.Navigate, {
+              _order_socket_connection.emit(SocketEvent.Navigate, {
                 type: NavigateEvent.PickupProduct,
                 data: { orderId: orderId },
               });
@@ -269,11 +289,11 @@ const socketMiddleware = (store) => {
             }
           }
 
-          // pass orderId for discrete handling on server side
+          // if driver arrive to customer for delivery, emit arrive event to order socket room
           if (socketActions.arriveToCustomer.match(action)) {
             const { orderId } = action.payload;
             if (getOrderIdFromSocketKey(socketKey) === orderId) {
-              orderSocket.emit(SocketEvent.Navigate, {
+              _order_socket_connection.emit(SocketEvent.Navigate, {
                 type: NavigateEvent.ArriveToCustomer,
                 data: { orderId: orderId },
               });
@@ -285,17 +305,24 @@ const socketMiddleware = (store) => {
               );
             }
           }
+          
+          // dispatch socket disconnect
+          _dispatch_socket_connection?.on(SocketEvent.Disconnect, () => {
+            console.log(" 2 disconnecting from dispatch socket 2.");
+          });
 
-          orderSocket.on(SocketEvent.Disconnect, () => {
+          // order socket disconnect
+          _order_socket_connection.on(SocketEvent.Disconnect, () => {
             console.log("disconnecting from socket room: " + socketKey);
           });
 
-          // handle middleware after the action is executed
-
+          // old comment: handle middleware after the action is executed
+          // if remove completed order, emit deliver order event to order socket room
+          // if remainingRoutes is empty, dispatch ordersCompletedAll action
           if (socketActions.removeCompletedOrder.match(action)) {
             let { orderId } = action.payload;
             if (getOrderIdFromSocketKey(socketKey) === orderId) {
-              orderSocket.emit(SocketEvent.Navigate, {
+              _order_socket_connection.emit(SocketEvent.Navigate, {
                 type: NavigateEvent.DeliverOrder,
                 data: { orderId: orderId },
               });
@@ -317,22 +344,25 @@ const socketMiddleware = (store) => {
             }
             // next(action);
           }
-        } // is a orderSocket
 
-        // handle for the proper connection, using orderId for discretion
+          // handle for the proper connection, using orderId for discretion
         if (socketActions.closeConnection.match(action)) {
           try {
-            if (dispatchSocket) {
+            if (_dispatch_socket_connection) {
               console.log("closing dispatch socket connection");
-              dispatchSocket.close();
-              dispatchSocket.destroy();
+              _dispatch_socket_connection.close();
+              // _dispatch_socket_connection.destroy();
             }
+            _order_socket_connection.close();
+            // _order_socket_connection.destroy();
             store.dispatch(socketActions.connectionClosed());
-            dispatchSocket = null;
+            _dispatch_socket_connection = null;
           } catch (error) {
             console.log("error closing connection: ", error);
           }
         }
+        } // is a orderSocket
+
       } // socketMap iterate
     } // isActiveDelivery
   };
