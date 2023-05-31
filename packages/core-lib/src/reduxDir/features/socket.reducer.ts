@@ -1,6 +1,7 @@
 import { OrderWithDetails } from "@cd/data-access";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AppState } from "../types/reduxTypes";
+import { IncomingOrder, SocketEventPayload } from "../types/SocketEvent";
 
 
 // ACTIONS TRIGGER EVENTS IN THE SOCKET MIDDLEWARE
@@ -85,11 +86,6 @@ export const buildDestinationRoute = (orderList) => {
 //   }
 // );
 
-type IncomingOrder = {
-  newOrder: OrderWithDetails | null; 
-  message: string | null 
-}
-
 export type SocketStateType = {
   connectionOpenInit: boolean;
   connectionCloseInit: boolean;
@@ -135,22 +131,22 @@ const socketSlice = createSlice({
     connectionEstablished: (state) => {
       
       state.connectionOpenInit = false;
+      state.connectionCloseInit = false;
       state.isConnected = true;
       
       console.log('connection established. ready to send and receive data.');
     },
     connectionClosed: (state) => {
+      state.connectionOpenInit = false;
       state.connectionCloseInit = false;
       state.isConnected = false;
       
       console.log("socket connection is closed.");
     },
-    receiveNewOrderRequest: (state, { payload }: { payload: IncomingOrder}) => {
+    receiveNewOrderRequest: (state, { payload }: { payload: SocketEventPayload<OrderWithDetails>}) => {
 
-      const
-      incomingOrder = payload;
-
-      state.incomingOrder = incomingOrder;
+      state.incomingOrder.message = payload.message;
+      state.incomingOrder.newOrder = payload.data;
       
     },
     clearOrderRequest: (state) => {

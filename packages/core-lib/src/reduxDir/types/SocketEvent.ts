@@ -1,3 +1,5 @@
+import { OrderWithDetails } from "@cd/data-access";
+
 const SocketEvent = Object.freeze({
   Connection: "connection",
   CustomerConnect: "customer_connect",
@@ -9,7 +11,7 @@ const SocketEvent = Object.freeze({
   NewOrder: "new_order",
   AcceptOrder: "accept_delivery_order",
   DeclineOrder: "decline_delivery_order",
-  OrderAssigned: "order_assigned",
+  OrderAssignedToYou: "order_assigned",
   OrderAssignedToAnotherDriver: "order_assigned_to_another_driver",
   GetLocation: "get_location",
 
@@ -29,5 +31,19 @@ const NavigateEvent = Object.freeze({
   DeliverOrder: "DELIVER_PRODUCT",
 });
 
+interface SocketEventPayload<T> {
+  message: string | null;
+  data?: T;
+}
+
+type IncomingOrder = {
+  newOrder: OrderWithDetails | null; 
+  message: string | null;
+}
+
 export { SocketEvent, NavigateEvent };
+export type {
+  SocketEventPayload,
+  IncomingOrder,
+};
 
