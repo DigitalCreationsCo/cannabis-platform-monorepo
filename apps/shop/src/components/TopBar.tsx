@@ -1,6 +1,6 @@
 // import { modalActions, modalTypes } from '@cd/core-lib';
 import { modalActions, modalTypes, selectCartState, selectIsCartEmpty, selectUserState } from '@cd/core-lib';
-import { Button, FlexBox, H2, Paragraph } from '@cd/ui-lib';
+import { H2, Paragraph } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
@@ -63,34 +63,13 @@ function TopBar({ signOut }: TopBarProps) {
                 Cannabis Marketplace
             </Paragraph>
             <div className="flex-1"></div>
-            <Link href="/mybag" passHref>
-                <Button
-                    className="indicator w-[100px]"
-                    // onClick={openCartModal}
-                >
-                    <>
-                        Bag
-                        {isCartEmpty || <div className={twMerge(styles.badge)}>{cart.totalItems}</div>}
-                    </>
-                </Button>
-            </Link>
+            
 
-            {user.isSignedIn ? (
-                <>
-                    <Link href="/support">
-                        <Paragraph className={twMerge('pt-1', 'px-3', 'text-md', 'whitespace-nowrap')}>
-                            Need Support?
-                        </Paragraph>
-                    </Link>
-                    <FlexBox>
-                        <Button onClick={signOut}>Sign Out</Button>
-                    </FlexBox>
-                </>
-            ) : (
-                <FlexBox>
-                    <Button onClick={openLoginModal}>Sign In</Button>
-                </FlexBox>
-            )}
+            <Link href="/support">
+                <Paragraph className={twMerge('pt-1', 'px-3', 'text-md', 'whitespace-nowrap')}>
+                    Need Support?
+                </Paragraph>
+            </Link>
         </div>
     );
 }

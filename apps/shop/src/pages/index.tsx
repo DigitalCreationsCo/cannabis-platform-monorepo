@@ -1,32 +1,17 @@
-import { modalActions, modalTypes, selectUserState } from '@cd/core-lib';
-import { Button, FlexBox, H1, H2, H4, H5, LayoutContextProps, Page, Paragraph } from '@cd/ui-lib';
+import { FlexBox, H1, H2, H5, LayoutContextProps, Page, Paragraph } from '@cd/ui-lib';
 import Image, { StaticImageData } from 'next/image';
-import Link from 'next/link';
-import Router from 'next/router';
 import { PropsWithChildren } from 'react';
-import { useCookies } from 'react-cookie';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { twMerge } from 'tailwind-merge';
 import backdrop from '/public/marijuana-backdrop.png';
 
+const
+getStartedEmail = 'growwithus@grascannabis.org';
+
+const
+EmailLink = ({email}: {email: string}) => (<a href="mailto:{email}"><b>{email}</b></a>)
+
 function LandingPage() {
 
-    const 
-    { isSignedIn } = useAppSelector(selectUserState);
-
-    const dispatch = useAppDispatch();
-    const [cookies] = useCookies(['yesOver21'])
-    
-    function openCheckAgeModalOrEnterSite() {
-        cookies['yesOver21'] ? Router.push('/browse') : 
-            dispatch(
-                modalActions.openModal({
-                    modalType: modalTypes.checkAgeModal,
-                    modalText: ''
-            })
-        );
-    }
-    
     const styles={
         hero: [
             "w-full pt-4 pb-8 md:pt-8 px-4 md:px-14 lg:px-32",
@@ -36,7 +21,7 @@ function LandingPage() {
         ],
         aboutContainer: "w-full md:w-1/3 m-auto min-h-[200px]",
         about: [
-            "bg-inverse",
+            "bg-inverse pb",
         ]
     }
 
@@ -44,34 +29,37 @@ function LandingPage() {
     return (
         <Page className="p-0 lg:p-0">
             <ImageBackDrop src={backdrop}>
-                <FlexBox className='justify-between min-h-[555px] space-y-4'>
+                <FlexBox className='justify-between min-h-[555px] space-y-8'>
                     <FlexBox className={twMerge(styles.hero)} >
                         <FlexBox>
                         <H1 color="light" className='pb-0 whitespace-normal'>Get&nbsp;Cannabis&nbsp;Delivered{'\xa0'}🌴</H1>
                         <H5 className="pt-0 whitespace-nowrap text-light">with Gras, a one stop cannabis marketplace</H5>
                         </FlexBox>
-                        <Button
-                            size="lg"
-                            bg="secondary"
-                            transparent
-                            className="hover:bg-primary-light"
-                            onClick={openCheckAgeModalOrEnterSite}
-                        >
-                            Enter
-                        </Button>
+                        
                     </FlexBox>
                     {/* <FlexBox className={twMerge(styles.aboutContainer, 'bg-primary p-4 rounded relative')}> */}
-                        <FlexBox className={twMerge(styles.about, 'opacity-95 cursor-default space-y-2 m-auto w-[440px] h-full p-8 rounded items-center shadow')}>
-                            <H2 className='text-secondary'>About Gras</H2>
+                            <H1 color='light' className='text-center m-auto whitespace-normal'>
+                            Gras is bringing delivery to you</H1>
+                        
+                        <FlexBox className={twMerge(styles.about, 'opacity-95 cursor-default w-[440px] space-y-8 m-auto h-full p-8 pb-12 rounded items-center shadow')}>
+                            <FlexBox className='m-auto items-center'><H2 className='text-secondary'>About Gras</H2>
                             <Paragraph>Gras is a home-grown service provider for cannabis lovers.
                                 We serve the people of our communities, that enjoy cannabis,
                                 by offering a bridge of communication, clarity and support.
                             </Paragraph>
+                            </FlexBox>
 
-                            {!isSignedIn && <FlexBox className='m-auto items-center space-y-2'>
-                                <H4 className='text-xl'>
-                                {`Are you a dispensary? Get started here.`}</H4>
-                                <Link href="/signup/create-dispensary-account">
+                            <FlexBox><FlexBox className='m-auto items-center'>
+                                <H2 className='text-secondary'>
+                                {`Are you a dispensary?`}</H2>
+                                <Paragraph>
+                                    <b>Your business will reach more customers with Gras. We guarantee high quality delivery fulfillment or your money back.</b>
+                                    {'\n'}
+                                    {'\n'}
+                                    Email us at <EmailLink email={getStartedEmail} /> to join our early access program.
+                                    
+                                </Paragraph>
+                                {/* <Link href="/signup/create-dispensary-account">
                                     <Button size="lg" 
                                     bg="primary" 
                                     transparent
@@ -80,8 +68,10 @@ function LandingPage() {
                                     <Paragraph color="light">
                                         {`Create a dispensary account`}</Paragraph>
                                     </Button>
-                                </Link>
-                            </FlexBox>}
+                                </Link> */}
+                            </FlexBox>
+                            </FlexBox>
+                            
                         </FlexBox>
                     {/* </FlexBox> */}
 
@@ -96,7 +86,7 @@ function LandingPage() {
 const ImageBackDrop = ({ src, children }: { src: string | StaticImageData } & PropsWithChildren) => {
     return (
         <div
-            className="relative min-h-screen w-screen overflow-hidden"
+            className="relative min-h-screen min-w-fit overflow-hidden"
             style={{
                 clipPath: 'inset(0 0 0 0)'
             }}
