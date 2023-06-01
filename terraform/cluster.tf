@@ -1,3 +1,4 @@
+# resource 'local_file' from terraform, named 'k8s_config'
 resource "local_file" "k8s_config" {
     content = "${nonsensitive(base64decode(linode_lke_cluster.terraform_k8s.kubeconfig))}"
     filename = "${local.k8s_config_file}"
