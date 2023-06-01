@@ -12,3 +12,6 @@ destroy
 
 console
 	terraform -chdir=./terraform console
+
+gras-nginx-ip
+	kubectl get service gras-nginx-service -0 "jsonpath={.status.loadBalancer.ingress[0].ip}"

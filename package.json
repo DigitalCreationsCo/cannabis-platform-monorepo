@@ -61,8 +61,9 @@
     "devops:init": "terraform -chdir=./terraform init --backend-config=backend",
     "devops:plan": "terraform -chdir='./terraform' plan",
     "devops:apply": "terraform -chdir='./terraform' apply -auto-approve",
-    "devops:destroy": "terraform -chdir='./terraform' destroy",
-    "devops:start": "terraform -chdir='./terraform' apply && kubectl apply -f k8s/deployment.yaml",
+    "devops:close": "terraform -chdir='./terraform' destroy",
+    "devops:start": "terraform -chdir='./terraform' apply && kubectl apply -f k8s/",
+    "devops:delete-all": "kubectl delete -f k8s/",
     "devops:nodes": "kubectl get nodes"
   },
   "engines": {

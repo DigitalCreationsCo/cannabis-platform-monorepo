@@ -7,8 +7,15 @@ spec:
   # replicas: 3
   selector:
     app: gras-nginx-deployment
+
+  # load balancer declarataion gives ip address to container
   type: LoadBalancer
+  # exposes port 80 for http traffic
   ports:
     - protocol: TCP
+      # port 80 mapped to deployment containerPort
       port: 80
+
+      # port 443 will require ssl cert, and use ingress controller with k8s for it.
+      # port: 443
       targetPort: gras-nginx-port
