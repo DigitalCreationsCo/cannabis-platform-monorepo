@@ -59,6 +59,7 @@
     "docker:shadow-db": "scripts/docker/mysql.sh",
     "docker:redis": "scripts/docker/redis.sh",
     "k8s:start": "terraform:apply && kubectl apply -f k8s/",
+    "terraform:init": "terraform -chdir=./terraform init --backend-config=backend",
     "terraform:apply": "terraform -chdir='./terraform' apply -auto-approve",
     "terraform:destroy": "terraform -chdir='./terraform' destroy"
   },
