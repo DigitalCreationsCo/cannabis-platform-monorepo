@@ -1,8 +1,0 @@
-skip_credentials_validation=true
-skip_region_validation=true
-bucket="gras-verify"
-key="gras-verify.tfstate"
-region="us-east-1"
-endpoint="us-east-1.linodeobjects.com"
-access_key="WKBDZGW96VUXFI4DMXKL"
-secret_key="JTHdWZTSbxxuBjdCLB3ewZQ5LuRgJ2Xv37dWfAjQ"
