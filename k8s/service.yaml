@@ -4,6 +4,7 @@ kind: Service
 metadata:
   name: gras-nginx-service
 spec:
+  # replicas: 3
   selector:
     app: gras-nginx-deployment
   type: LoadBalancer
