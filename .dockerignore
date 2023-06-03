@@ -1,16 +1,18 @@
 Dockerfile
 .dockerignore
 docker-compose.yml
-
+DOCKERSIM
+.git
+.ignore
+.kube
+k8s
+terraform
 **/node_modules
 npm-debug.log
 README.md
 
 **/build
 **/dist
-
 **/.next
 **/.turbo
-
-# **/.vscode
 **/_dev

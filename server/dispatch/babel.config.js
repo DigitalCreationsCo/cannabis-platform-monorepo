@@ -25,7 +25,7 @@ module.exports = function (config) {
                     [
                         'inline-dotenv',
                         {
-                            path: path.resolve(__dirname, '../../.env.' + nodeEnv)
+                            path: path.resolve(__dirname, './.env.' + nodeEnv)
                         }
                     ]
                 ],
