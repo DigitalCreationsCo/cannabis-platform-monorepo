@@ -1,0 +1,45 @@
+FROM node:16 as root
+
+WORKDIR /root
+
+COPY ./package.json .
+COPY ./yarn.lock .
+
+ENV YARN_VERSION "3.3.1"
+
+RUN yarn set version $YARN_VERSION
+RUN yarn plugin import workspace-tools
+
+
+COPY .yarnrc.yml .
+COPY tsconfig.base.json .
+COPY .env.production .
+
+COPY ./packages/eslint-config/package.json ./packages/eslint-config/package.json
+
+COPY ./packages/data-access/package.json ./packages/data-access/package.json
+WORKDIR /root/packages/data-access
+RUN yarn install
+
+
+COPY ./packages/core-lib/package.json ./packages/core-lib/package.json
+RUN yarn install
+
+ARG BUILD_CONTEXT
+
+WORKDIR /server/$BUILD_CONTEXT
+
+COPY ./server/$BUILD_CONTEXT/package.json .
+
+RUN yarn install --inline-builds --immutable --immutable-cache --check-cache --network-timeout 1000000
+
+# FROM node:16 as installer
+
+
+# COPY ./server/$BUILD_CONTEXT .
+
+# # RUN yarn test
+# RUN yarn build
+
+# EXPOSE 6001
+# CMD [ "yarn", "pm2", "start", "ecosystem.config.js", "--env", "production" ]

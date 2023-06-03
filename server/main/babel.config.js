@@ -1,5 +1,8 @@
 const path = require("node:path");
 
+// development path gets env from monorepo root
+// production path gets env from project root
+
 module.exports = function (config) {
     config.cache(true);
 
@@ -25,7 +28,7 @@ module.exports = function (config) {
                     [
                         'inline-dotenv',
                         {
-                            path: path.resolve(__dirname, '../../.env.' + nodeEnv)
+                            path: path.resolve(__dirname, './.env.' + nodeEnv)
                         }
                     ]
                 ],

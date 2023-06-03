@@ -58,6 +58,9 @@
     "docker:supertokens": "scripts/docker/supertokens.sh",
     "docker:shadow-db": "scripts/docker/mysql.sh",
     "docker:redis": "scripts/docker/redis.sh",
+    "docker:build": "TYPE=$0 CONTEXT=$1 make docker-build",
+    "docker:tag": "IMAGE=$0 TAG=$1 make docker-tag",
+    "docker:push": "IMAGE=$0 make docker-push",
     "devops:init": "terraform -chdir=./terraform init --backend-config=backend",
     "devops:plan": "terraform -chdir='./terraform' plan",
     "devops:apply": "terraform -chdir='./terraform' apply -auto-approve",
@@ -67,7 +70,7 @@
     "devops:nodes": "kubectl get nodes"
   },
   "engines": {
-    "node": "16.^16.0",
+    "node": "16.20.0",
     "yarn": ">=1.22.0",
     "npm": "please-use-yarn"
   },
@@ -151,7 +154,6 @@
     "node-mocks-http": "1.12.1",
     "nodemon": "2.0.20",
     "npm-run-all": "4.1.5",
-    "pm2": "5.2.2",
     "postcss": "8.4.21",
     "postcss-cli": "10.1.0",
     "prettier": "2.8.0",
