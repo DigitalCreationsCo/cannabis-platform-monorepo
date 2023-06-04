@@ -3,6 +3,16 @@ variable "linode_api_token" {
     sensitive   = true
 }
 
+variable access_key {
+    description = "Your Linode s3 access key. (required)"
+    sensitive   = true
+}
+
+variable secret_key {
+    description = "Your Linode s3 secret key. (required)"
+    sensitive   = true
+}
+
 variable "k8s_version" {
     description = "The kubernetes version to use for this cluster. (required)"
     default = "1.25"
@@ -16,6 +26,11 @@ variable "k8s_label" {
 variable "k8s_region" {
     description = "The region where your cluster will be located. (required)"
     default = "us-east"
+}
+
+variable "s3_bucket" {
+    description = "The identifier for object storage (required)"
+    default = "terraform-k8s"
 }
 
 variable "tags" {

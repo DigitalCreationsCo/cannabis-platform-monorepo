@@ -13,7 +13,7 @@ terraform {
         }
     }
 
-    # saves terraform state to s3 bucket
+    # saves backend terraform state to s3 bucket
     backend "s3" {}
 }
 
