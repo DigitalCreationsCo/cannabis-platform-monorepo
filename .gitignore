@@ -2,7 +2,6 @@
 _dev
 DOCKERSIM
 
-terraform/backend
 
 # dependencies
 **/node_modules
@@ -61,6 +60,9 @@ next-env.d.ts
 
 # Local .terraform directories
 **/.terraform/*
+
+**/terraform/backend
+
 
 # .tfstate files
 *.tfstate

@@ -17,7 +17,7 @@ gras-nginx-ip:
 	kubectl get service gras-nginx-service -0 "jsonpath={.status.loadBalancer.ingress[0].ip}"
 
 docker-build:
-	docker build -t $(TYPE)-$(CONTEXT) -f Dockerfile.$(TYPE) --build-arg BUILD_CONTEXT=$(CONTEXT) .
+	docker build -t $(TYPE)-$(CONTEXT) -f Dockerfile.$(TYPE) --build-arg=BUILD_CONTEXT=$(CONTEXT) .
 
 docker-tag:
 	docker tag $(IMAGE) graswebgoldenimages/$(IMAGE):$(TAG)
