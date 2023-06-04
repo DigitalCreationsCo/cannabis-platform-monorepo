@@ -19,3 +19,16 @@ resource "linode_lke_cluster" "terraform_k8s" {
         }
     }
 }
+
+# resource yarn_cache saved in linode s3 bucket
+
+# resource "linode_object_storage_object" "k8s_yarn_cache" {
+#     key     = "k8s_yarn_cache"
+#     cluster="us-southeast-1"
+#     bucket = "${var.s3_bucket}"
+#     # region = "us-southeast-1"
+#     source = "${local.yarn_cache_dir}"
+
+#     access_key = "${var.access_key}"
+#     secret_key = "${var.secret_key}"
+# }
