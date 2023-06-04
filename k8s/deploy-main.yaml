@@ -1,9 +1,10 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: gras-server-main-deployment
 spec:
-  replicas:3
+  replicas: 3
   selector:
     matchLabels:
       app: gras-server-main-deployment
@@ -21,7 +22,7 @@ spec:
           image: gras-server-main
           imagePullPolicy: Always
           ports:
-            - name: gras-server-main-port
+            - name: main-port
               containerPort: 6001
           volumeMounts:
             - name: yarn-cache
