@@ -1,45 +1,56 @@
-FROM node:16 as root
+FROM node:16 as BASE
+
+ENV NODE_ENV=production
+ENV YARN_VERSION "3.3.1"
 
 WORKDIR /root
-
 COPY ./package.json .
 COPY ./yarn.lock .
 
+RUN yarn set version $YARN_VERSION
+
+RUN yarn install
+# RUN yarn install --inline-builds --immutable --immutable-cache --check-cache --network-timeout 1000000
+
+FROM node:16 as BUILDER
+
+ENV NODE_ENV=production
 ENV YARN_VERSION "3.3.1"
+ARG BUILD_CONTEXT=$BUILD_CONTEXT
+
+# monorepo root
+WORKDIR /root
+# copy root files
+COPY ./package.json .
+COPY ./yarn.lock .
+COPY tsconfig.base.json .
+# COPY .yarnrc.yml .
+# COPY .env.production .
+COPY ./packages/eslint-config/package.json ./packages/eslint-config/package.json
+COPY ./packages/data-access/package.json ./packages/data-access/package.json
+COPY ./packages/core-lib/package.json ./packages/core-lib/package.json
 
 RUN yarn set version $YARN_VERSION
 RUN yarn plugin import workspace-tools
 
+RUN --mount=type=cache,from=BASE,source=./root/.yarn,target=./root/.yarn YARN_CACHE_FOLDER=/root/.yarn
 
-COPY .yarnrc.yml .
-COPY tsconfig.base.json .
-COPY .env.production .
-
-COPY ./packages/eslint-config/package.json ./packages/eslint-config/package.json
-
-COPY ./packages/data-access/package.json ./packages/data-access/package.json
-WORKDIR /root/packages/data-access
-RUN yarn install
-
-
-COPY ./packages/core-lib/package.json ./packages/core-lib/package.json
-RUN yarn install
-
-ARG BUILD_CONTEXT
-
+# workspace dir
 WORKDIR /server/$BUILD_CONTEXT
-
+# copy workspace packagejson
 COPY ./server/$BUILD_CONTEXT/package.json .
 
-RUN yarn install --inline-builds --immutable --immutable-cache --check-cache --network-timeout 1000000
-
-# FROM node:16 as installer
-
-
+# copy source code into workspace dir
 # COPY ./server/$BUILD_CONTEXT .
 
 # # RUN yarn test
 # RUN yarn build
+
+RUN yarn workspaces focus @cd/server-$BUILD_CONTEXT
+# RUN yarn install --focus --production
+
+# RUN apt update 
+# RUN apt install vim -y
 
 # EXPOSE 6001
 # CMD [ "yarn", "pm2", "start", "ecosystem.config.js", "--env", "production" ]
