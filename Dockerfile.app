@@ -36,6 +36,8 @@ COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/public ./root/apps/$BUILD_CONTEXT/
 
 WORKDIR /root/apps/$BUILD_CONTEXT
 
+RUN yarn add global pm2
+
 EXPOSE 3000
 
 CMD [ "yarn", "start" ]
