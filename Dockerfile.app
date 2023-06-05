@@ -20,7 +20,7 @@ COPY --from=INSTALLER ./root .
 ARG BUILD_CONTEXT=$BUILD_CONTEXT
 WORKDIR /apps/$BUILD_CONTEXT
 
-RUN next build
+RUN yarn build
 
 FROM node:16 AS RUNNER
 
