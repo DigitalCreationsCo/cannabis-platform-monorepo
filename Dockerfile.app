@@ -18,9 +18,10 @@ WORKDIR /root
 COPY --from=INSTALLER ./root . 
 
 ARG BUILD_CONTEXT=$BUILD_CONTEXT
-WORKDIR /root/apps/$BUILD_CONTEXT
+# WORKDIR /root/apps/$BUILD_CONTEXT
 
-RUN yarn build
+RUN yarn app:build $BUILD_CONTEXT
+# RUN yarn build
 
 FROM node:16 AS RUNNER
 
