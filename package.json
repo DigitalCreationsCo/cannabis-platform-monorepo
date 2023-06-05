@@ -62,6 +62,7 @@
     "docker:build": "TYPE=$0 CONTEXT=$1 make docker-build",
     "docker:tag": "IMAGE=$0 TAG=$1 make docker-tag",
     "docker:push": "IMAGE=$0 make docker-push",
+    "docker:image": "scripts/docker/createGoldenImage.sh",
     "devops:init": "terraform -chdir=./terraform init --backend-config=backend",
     "devops:plan": "terraform -chdir='./terraform' plan",
     "devops:apply": "terraform -chdir='./terraform' apply -auto-approve",
