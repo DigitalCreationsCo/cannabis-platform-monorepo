@@ -10,7 +10,6 @@
     "react-dom": "18.2.0",
     "react-redux": "8.0.2",
     "supertokens-auth-react": "0.28.1",
-    "socket.io-client": "4.6.1"
   },
   "dependencies": {
     "@reduxjs/toolkit": "1.9.2",
@@ -22,9 +21,11 @@
   },
   "devDependencies": {
     "@cd/data-access": "workspace:*",
+    "@types/socket.io-client": "3.0.0",
     "@cd/eslint-config": "workspace:*",
     "@paralleldrive/cuid2": "2.2.0",
     "@rollup/plugin-commonjs": "24.0.1",
+    "socket.io-client": "4.6.1",
     "@rollup/plugin-node-resolve": "15.0.1",
     "@rollup/plugin-typescript": "11.0.0",
     "@types/crypto-js": "4.1.1",
