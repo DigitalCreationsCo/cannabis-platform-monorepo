@@ -23,10 +23,6 @@ RUN yarn workspaces foreach -itR --from @cd/$BUILD_CONTEXT-app run build
 
 FROM node:16 AS RUNNER
 
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-USER nextjs
-
 ARG BUILD_CONTEXT=$BUILD_CONTEXT
 
 COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/next.config.mjs ./root
