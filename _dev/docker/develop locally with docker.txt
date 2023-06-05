@@ -1,1 +1,14 @@
 https://vsupalov.com/rebuilding-docker-image-development/
+
+How to do docker commands
+
+Use yarn docker: commands with args, 
+OR 
+use make file commands
+
+example: 
+TYPE=server CONTEXT=main make docker-build
+
+IMAGE=server-main make docker-tag
+
+IMAGE=server-main make docker-push
