@@ -3,10 +3,6 @@ import { MongoClient } from "mongodb";
 import { DriverDA, OrderDA } from './api/data-access';
 import server from "./server";
 
-// import { loadEnv } from '@cd/shared-config/config/loadEnv';
-// import { config } from 'dotenv';
-// import { expand } from 'dotenv-expand';
-// expand(config({ path: loadEnv(nodeEnv) }));
 const port = process.env.SERVER_MAIN_PORT || 'NO_PORT_FOUND';
 
 const mongoConnectUrl = process.env.MONGODB_SERVER_DISPATCH_CLUSTER_URL
@@ -26,15 +22,15 @@ connectDb()
 
 async function connectDb() {
   try {
-    console.info(` >> server-main start in ${process.env.NODE_ENV} mode.`);
+    console.info(` >> server-main starting in ${process.env.NODE_ENV} mode.`);
     await MongoClient.connect(mongoConnectUrl)
     .then(async (client) => {
       await OrderDA.useMongoDB(client)
       await DriverDA.useMongoDB(client)
       console.log(" >> server-main: Mongo Database 👏 is ready for query.");
     })
+    await prisma.$connect()
     .then(async () => {
-      await prisma.$connect()
       console.log(" >> server-main: Prisma Database 👏👏 is ready for query.");
     })
     .then(() => 

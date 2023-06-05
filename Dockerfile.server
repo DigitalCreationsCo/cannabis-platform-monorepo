@@ -10,7 +10,7 @@ ARG BUILD_CONTEXT=$BUILD_CONTEXT
 RUN yarn set version $YARN_VERSION
 RUN yarn plugin import workspace-tools
 RUN yarn workspaces focus @cd/server-$BUILD_CONTEXT
-# RUN yarn workspaces focus @cd/server-main && yarn cache clear
+# RUN yarn workspaces focus @cd/server-$BUILD_CONTEXT && yarn cache clear
 
 RUN yarn server:build $BUILD_CONTEXT
 

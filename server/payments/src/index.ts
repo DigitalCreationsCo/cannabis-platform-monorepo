@@ -1,17 +1,13 @@
 import prisma from '@cd/data-access';
 import server from "./server";
-// import { loadEnv } from '@cd/shared-config/config/loadEnv';
-// import { config } from 'dotenv';
-// import { expand } from 'dotenv-expand';
 
-const nodeEnv = process.env.NODE_ENV
-// expand(config({ path: loadEnv(nodeEnv) }));
 const port = process.env.SERVER_PAYMENTS_PORT || 'NO_PORT_FOUND';
 
-connectDb(prisma)
+connectDb()
     .then(() => {
         server.listen(port, () => {
             console.log(` 💰 server-payments is listening on port ${port}.`);
+            process.send('ready'); // ready signal pm2
         });
     })
     .catch((err) => {
@@ -20,15 +16,25 @@ connectDb(prisma)
     });
 
 
-async function connectDb(prisma) {
+async function connectDb() {
   try {
-    console.info(' 💰 server-payments start in ' + nodeEnv + ' mode.');
+    console.info(` 💰 server-payments starting in ${process.env.NODE_ENV} mode.`);
     await prisma.$connect()
-    console.log(" 💰 server-payments is connected to database.");
+    .then(async () => {
+      console.log(" 💰 server-payments: Prisma Database 👏👏 is ready for query.");
+    })
+    .then(() => 
+      console.info(" 💰 server-payments is connected to database."));
   } catch(error:any) {
-    console.error("Error connecting to database: ", error.stack);
+    console.error(" 💰 server-payments: Error connecting to database: ", error.stack);
     process.exit(1);
   }
 }
+
+process.on('SIGINT', async function() {
+  await prisma.$disconnect()
+  .then(process.exit(0))
+  .catch((error:any) => process.exit(1))
+});
 
 export { connectDb, server };
