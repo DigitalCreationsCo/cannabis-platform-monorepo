@@ -19,6 +19,9 @@ gras-nginx-ip:
 docker-build:
 	docker build -t $(TYPE)-$(CONTEXT) -f Dockerfile.$(TYPE) --build-arg=BUILD_CONTEXT=$(CONTEXT) .
 
+docker-build-debug:
+	docker build -t $(TYPE)-$(CONTEXT) -f Dockerfile.$(TYPE) --build-arg=BUILD_CONTEXT=$(CONTEXT) --progress=plain .
+
 docker-tag:
 	docker tag $(IMAGE) graswebgoldenimages/$(IMAGE):$(TAG)
 
