@@ -1,7 +1,7 @@
 import cluster from "cluster";
 // import _ from '../util'
 // const { db_uri, db_ns } = process.env;
-import prisma, { Coordinates } from '@cd/data-access';
+import prisma, { Coordinates, findDriverWithDetailsById } from '@cd/data-access';
 import { ChangeStream, Collection, MongoClient, ObjectId } from "mongodb";
 import _ from '../util';
 
@@ -63,6 +63,9 @@ class DispatchDA {
       });
       
       prisma.$connect()
+      .then(async () => {
+        console.log(" 🚔 server-dispatch : Prisma Database 👏👏 is ready for query.");
+      })
       .catch(error => {
         console.error(" 🚔 server-dispatch : Error connecting to prisma database: ", error.stack);
         process.exit(1);
@@ -70,8 +73,8 @@ class DispatchDA {
       
       return this;
     } catch (error: any) {
-      console.error('Dispatch: connectDb error: ', error);
-      throw new Error('Dispatch: connectDb error: ' + error.message);
+      console.error('🚔 server-dispatch : connectDb error: ', error);
+      throw new Error('🚔 server-dispatch : connectDb error: ' + error.message);
     }
   }
 
@@ -259,3 +262,9 @@ class DispatchDA {
 }
 
 export default new DispatchDA();
+
+process.on('SIGINT', async function() {
+  await prisma.$disconnect()
+  .then(process.exit(0))
+  .catch((error:any) => process.exit(1))
+});

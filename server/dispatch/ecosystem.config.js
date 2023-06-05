@@ -1,13 +1,11 @@
-module.exports = (hee) => { 
-  return {
-    apps: [
-      {
-        name: "server-dispatch",
-        script: ".dist",
-        env_production: {
-          NODE_ENV: "production",
-          PORT: 6041,
-        },
-      },
-    ],
-  }};
+module.exports = [
+  {
+    name: "server-dispatch",
+    script: "dist",
+    wait_ready: true,
+    env_production: {
+      NODE_ENV: "production",
+      PORT: 6041,
+    },
+  },
+]
