@@ -85,4 +85,8 @@ ENV YARN_VERSION "3.3.1"
 RUN yarn set version $YARN_VERSION
 RUN yarn plugin import workspace-tools
 RUN yarn workspaces focus @cd/server-main
-RUN yarn workspace @cd/server-main run watch
+
+WORKDIR /server/main
+# RUN yarn workspace @cd/server-main run start
+EXPOSE 6001
+CMD [ "yarn", "pm2", "start", "ecosystem.config.js", "--env", "production" ]
