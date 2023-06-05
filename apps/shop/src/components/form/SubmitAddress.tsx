@@ -9,14 +9,12 @@ import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import * as yup from 'yup';
-import { FormStepComponentProps } from "./FormStepProvider";
 
-function SubmitAddressForm({ prevFormStep }: FormStepComponentProps) {
-    
+function SubmitAddressForm() {
     const [loadingButton, setLoadingButton] = useState(false);
     const dispatch = useDispatch();
 
-    const { setFormValues, formData } = useFormContext();
+    const { prevFormStep, setFormValues, formData } = useFormContext();
     
     useEffect(() => {
         setFormValues({ newUser: { ...values }});

@@ -1,4 +1,4 @@
-import { UserCreateType } from '@cd/data-access';
+import { AddressUserCreateType, UserCreateType } from '@cd/data-access';
 import {
     Button,
     FlexBox, FormCard, Grid,
@@ -21,7 +21,7 @@ function UserSignUpForm() {
         setPasswordVisibility((visible) => !visible);
     }, []);
 
-    const initialValues: UserCreateType = {
+    const initialValues: Omit<UserCreateType, "address"> & { address: AddressUserCreateType } = {
         firstName: 'Bryant',
         lastName: 'Mejia',
         username: 'bigchiefa1111',
@@ -42,12 +42,12 @@ function UserSignUpForm() {
             country: 'United States',
             countryCode: 'US',
             userId: '',
-            organizationId: '',
             coordinateId: ''
         },
         emailVerified: false, 
         isLegalAge: false,
         idVerified: false,
+        isSignUpComplete: false,
         memberships: []
     };
 
@@ -97,7 +97,7 @@ function UserSignUpForm() {
     }
 
     // TEST
-    async function onSubmit(values: UserCreateType) {
+    async function onSubmit(values: any) {
         // const response = await signUpUser();
         // dispatch(userActions.signinUserSync({ user: response?.user }));
         // Router.push('/');

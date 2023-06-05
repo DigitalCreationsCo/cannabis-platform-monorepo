@@ -6,9 +6,10 @@ import Router from "next/router";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
-import { FormStepComponentProps } from "./form/FormStepProvider";
+import { useFormContext } from "./form/FormStepProvider";
 
-function ConfirmOrder({ nextFormStep }: FormStepComponentProps) {
+function ConfirmOrder() {
+    const { nextFormStep } = useFormContext()
     const dispatch = useDispatch();
     
     const [cookies, _, removeCookie] = useCookies(['gras-cart-token'])

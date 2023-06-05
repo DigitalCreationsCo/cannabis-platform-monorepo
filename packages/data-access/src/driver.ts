@@ -1,6 +1,6 @@
 import { Coordinates, Driver, DriverSession, Prisma, Route, User } from "@prisma/client";
-import { UserCreateType } from "user";
 import prisma from "./db/prisma";
+import { UserCreateType } from "./user";
 
 /*
 * Driver Data Access functions

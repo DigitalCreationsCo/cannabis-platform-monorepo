@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { toast } from "react-hot-toast";
 import DropZone from "./DropZone";
-import { FormStepComponentProps, useFormContext } from "./form/FormStepProvider";
+import { useFormContext } from "./form/FormStepProvider";
 
 type Image = {
 data: string;
@@ -20,9 +20,9 @@ size: number;
 type: string;
 }
 
-const VerifyPhotoId = ({ nextFormStep, prevFormStep }: FormStepComponentProps) => {
+const VerifyPhotoId = () => {
 
-    const { resetFormValues, setFormValues, formData } = useFormContext();
+    const { resetFormValues, nextFormStep, prevFormStep, setFormValues, formData } = useFormContext();
     
     console.log('formData: ', formData);
 
