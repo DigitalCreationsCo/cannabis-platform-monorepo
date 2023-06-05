@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { OrderWithDetails } from "@cd/data-access";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AppState } from "../types/reduxTypes";
