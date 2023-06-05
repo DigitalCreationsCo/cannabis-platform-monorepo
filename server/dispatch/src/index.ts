@@ -11,6 +11,7 @@ new ClusterInit();
 global.io = io
 global.io.listen(port)
 
+process.send && process?.send('ready') // pm2 ready signal
 console.log(` 🚔 server-dispatch is in ${process.env.NODE_ENV} mode on port ${port}.`)
 
 export { };
