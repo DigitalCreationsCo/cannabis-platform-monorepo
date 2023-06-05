@@ -23,6 +23,8 @@ RUN yarn workspaces foreach -itR --from @cd/$BUILD_CONTEXT-app run build
 
 FROM node:16 AS RUNNER
 
+COPY --from=INSTALLER ./root . 
+
 ARG BUILD_CONTEXT=$BUILD_CONTEXT
 
 COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/next.config.mjs ./root
@@ -35,8 +37,6 @@ COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/.next/static ./root/apps/$BUILD_CO
 COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/public ./root/apps/$BUILD_CONTEXT/public
 
 WORKDIR /root/apps/$BUILD_CONTEXT
-
-RUN yarn add global pm2
 
 EXPOSE 3000
 
