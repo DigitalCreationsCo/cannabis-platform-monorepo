@@ -29,6 +29,7 @@ function App({ Component, pageProps }: CustomAppProps) {
     const router = useRouter()
     useEffect(() => {
         router.isReady && setRouterLoading(false)
+        process.send('ready'); // pm2 ready signal
     }, [router]);
 
     useEffect(() => {
