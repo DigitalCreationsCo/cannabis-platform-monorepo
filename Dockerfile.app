@@ -17,6 +17,8 @@ WORKDIR /root
 
 COPY --from=INSTALLER ./root . 
 
+ARG BUILD_CONTEXT=$BUILD_CONTEXT
+
 RUN yarn app:build $BUILD_CONTEXT
 
 FROM node:16 AS RUNNER
@@ -25,16 +27,18 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 USER nextjs
 
-COPY --from=BUILDER /root/apps/shop/next.config.mjs ./root
-COPY --from=BUILDER /root/apps/shop/package.json ./root
+ARG BUILD_CONTEXT=$BUILD_CONTEXT
+
+COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/next.config.mjs ./root
+COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/package.json ./root
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=BUILDER /root/apps/shop/.next/standalone ./root
-COPY --from=BUILDER /root/apps/shop/.next/static ./root/apps/shop/.next/static
-COPY --from=BUILDER /root/apps/shop/public ./root/apps/shop/public
+COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/.next/standalone ./root
+COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/.next/static ./root/apps/$BUILD_CONTEXT/.next/static
+COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/public ./root/apps/$BUILD_CONTEXT/public
 
-WORKDIR /root/apps/shop
+WORKDIR /root/apps/$BUILD_CONTEXT
 
 EXPOSE 3000
 
