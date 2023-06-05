@@ -10,27 +10,25 @@ ARG BUILD_CONTEXT=$BUILD_CONTEXT
 RUN yarn set version $YARN_VERSION
 RUN yarn plugin import workspace-tools
 RUN yarn workspaces focus @cd/$BUILD_CONTEXT-app
-# RUN yarn workspaces focus @cd/$BUILD_CONTEXT-app && yarn cache clear
 
-# FROM node:16 as BUILDER
+FROM node:16 as BUILDER
 
-# WORKDIR /root
+WORKDIR /root
 
-# COPY --from=INSTALLER ./root . 
+COPY --from=INSTALLER ./root . 
 
-# ARG BUILD_CONTEXT=$BUILD_CONTEXT
+ARG BUILD_CONTEXT=$BUILD_CONTEXT
 WORKDIR /apps/$BUILD_CONTEXT
 
 RUN next build
-# RUN yarn app:build $BUILD_CONTEXT
 
-# FROM node:16 AS RUNNER
+FROM node:16 AS RUNNER
 
-# RUN addgroup --system --gid 1001 nodejs
-# RUN adduser --system --uid 1001 nextjs
-# USER nextjs
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+USER nextjs
 
-# ARG BUILD_CONTEXT=$BUILD_CONTEXT
+ARG BUILD_CONTEXT=$BUILD_CONTEXT
 
 COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/next.config.mjs ./root
 COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/package.json ./root
