@@ -87,7 +87,8 @@ RUN yarn plugin import workspace-tools
 RUN yarn workspaces focus @cd/server-main
 RUN yarn server:build main
 
-WORKDIR /server/main
-# RUN yarn workspace @cd/server-main run start
+WORKDIR /root/server/main
+
 EXPOSE 6001
-CMD [ "yarn", "pm2", "start", "ecosystem.config.js", "--env", "production" ]
+
+CMD [ "yarn", "pm2-runtime", "ecosystem.config.js", "--env", "production" ]
