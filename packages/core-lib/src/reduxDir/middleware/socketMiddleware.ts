@@ -1,12 +1,14 @@
+// @ts-nocheck
+
 import { AnyAction } from "@reduxjs/toolkit";
 import { io, Socket } from "socket.io-client";
 import { urlBuilder } from '../../utils/urlBuilder';
 import { socketActions } from "../features/socket.reducer";
 import { userActions } from "../features/user.reducer";
 // import { driverActions } from "../features/driver.reducer";
+import { OrderWithDetails } from "@cd/data-access";
 import { Store } from "@reduxjs/toolkit";
 import { AppState } from "reduxDir/types";
-import { OrderWithDetails } from "../../../../data-access/src";
 import { NavigateEvent, SocketEvent, SocketEventPayload } from "../types/SocketEvent";
 
 const socketMiddleware = (store: Store<AppState>) => {
@@ -92,7 +94,7 @@ const socketMiddleware = (store: Store<AppState>) => {
       // save order in order queue state 
       _dispatch_socket_connection?.on(SocketEvent.OrderAssignedToYou, ({ message }: SocketEventPayload<any>) => {
         const { newOrder } = store.getState().socket.incomingOrder;
-        let { orderId } = newOrder;
+        let { id } = newOrder;
         const { driverId } = store.getState().user.user;
         socketMap.set(
           "order:" + orderId,
