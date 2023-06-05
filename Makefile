@@ -23,7 +23,7 @@ docker-build-debug:
 	docker build -t $(TYPE)-$(CONTEXT) -f Dockerfile.$(TYPE) --build-arg=BUILD_CONTEXT=$(CONTEXT) --progress=plain .
 
 docker-tag:
-	docker tag $(IMAGE) graswebgoldenimages/$(IMAGE):$(TAG)
+	docker tag $(IMAGE) grasadmin/graswebgoldenimages/$(IMAGE):$(TAG)
 
 docker-push:
 	docker push grasadmin/graswebgoldenimages:$(IMAGE)
