@@ -47,6 +47,7 @@
     "packages:test:unit": "yarn workspaces foreach -ptv --include '@cd/*' run test-unit",
     "packages:typecheck": "yarn workspaces foreach -ptv --include '@cd/*' run typecheck",
     "postinstall": "is-ci || yarn husky install",
+    "server:build-all": "yarn workspaces foreach -ptv --include '@cd/server-*' run build",
     "server:build": "yarn workspaces foreach -itR --from @cd/server-$0 run build",
     "server:watch": "cd scripts && node watch/server.js",
     "server:clean": "yarn workspaces foreach -ptv --include '@cd/server-*' run clean",
