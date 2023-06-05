@@ -3498,6 +3498,7 @@ __metadata:
     eslint-plugin-react-hooks: 4.6.0
     eslint-plugin-regexp: 1.15.0
     eslint-plugin-sonarjs: 0.19.0
+    eslint-plugin-tailwindcss: ^3.12.1
     prettier: 2.8.0
     react: 18.2.0
     react-dom: 18.2.0
@@ -13805,6 +13806,18 @@ __metadata:
   peerDependencies:
     eslint: ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
   checksum: 893640583f62ce55584c6ddd481aa0fd6fa15fe0fffc32ac92b17f3fadde8eaf32414183bb80b612455212e9bb14400236398af6279ca04e8992f008e011926c
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-tailwindcss@npm:^3.12.1":
+  version: 3.12.1
+  resolution: "eslint-plugin-tailwindcss@npm:3.12.1"
+  dependencies:
+    fast-glob: ^3.2.5
+    postcss: ^8.4.4
+  peerDependencies:
+    tailwindcss: ^3.3.2
+  checksum: 516ed3167f26d389fcb13d115d201fa3882ec87742140da560ad560a2e9701e5d936ddac630991c1dc992f8249b5e58358c2aa3ebc8847162bc6351e58451255
   languageName: node
   linkType: hard
 
