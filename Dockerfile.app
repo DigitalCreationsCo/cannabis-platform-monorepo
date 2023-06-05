@@ -5,6 +5,7 @@ COPY . .
 
 ENV NODE_ENV=production
 ENV YARN_VERSION "3.3.1"
+ARG BUILD_CONTEXT=$BUILD_CONTEXT
 
 RUN yarn set version $YARN_VERSION
 RUN yarn plugin import workspace-tools
