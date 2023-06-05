@@ -1,79 +1,3 @@
-# FROM node:16 as BASE
-
-# ENV NODE_ENV=production
-# ENV YARN_VERSION "3.3.1"
-
-# WORKDIR /root
-# COPY ./package.json .
-# COPY ./yarn.lock .
-
-# RUN yarn set version $YARN_VERSION
-# RUN yarn plugin import workspace-tools
-
-# # copy yarnrc config
-# COPY ./.yarnrc.yml .
-
-# RUN yarn install
-# # RUN yarn install --inline-builds --immutable --immutable-cache --check-cache --network-timeout 1000000
-
-# FROM node:16 as BUILDER
-
-# ENV NODE_ENV=production
-# ENV YARN_VERSION "3.3.1"
-# ARG BUILD_CONTEXT=$BUILD_CONTEXT
-
-# # monorepo root
-# WORKDIR /root
-# # copy root files
-# COPY ./package.json .
-# COPY ./yarn.lock .
-# COPY tsconfig.base.json .
-# # COPY .yarnrc.yml .
-# # COPY .env.production .
-# COPY ./packages/eslint-config/package.json ./packages/eslint-config/package.json
-# COPY ./packages/data-access/package.json ./packages/data-access/package.json
-# COPY ./packages/core-lib/package.json ./packages/core-lib/package.json
-
-# RUN yarn set version $YARN_VERSION
-# RUN yarn plugin import workspace-tools
-
-# # copy yarnrc config
-# COPY ./.yarnrc.yml .
-
-# RUN --mount=type=cache,from=BASE,source=./root/.yarn,target=./root/.yarn YARN_CACHE_FOLDER=/root/.yarn
-
-# # workspace dir
-# # WORKDIR /server/$BUILD_CONTEXT
-# # copy workspace packagejson
-# # workspace dir
-# WORKDIR /server/$BUILD_CONTEXT
-# # copy workspace packagejson
-# COPY ./server/$BUILD_CONTEXT/package.json .
-
-# # copy source code into workspace dir
-# # COPY ./server/$BUILD_CONTEXT .
-
-# # # RUN yarn test
-# # RUN yarn build
-
-# RUN yarn workspaces focus @cd/server-$BUILD_CONTEXT
-# # RUN yarn install --focus --production
-
-# # RUN apt update 
-# # RUN apt install vim -y
-
-# # EXPOSE 6001
-# # CMD [ "yarn", "pm2", "start", "ecosystem.config.js", "--env", "production" ]
-
-# # RUN yarn install --focus --production
-
-# # RUN apt update 
-# # RUN apt install vim -y
-
-# # EXPOSE 6001
-# CMD [ "yarn", "pm2", "start", "ecosystem.config.js", "--env", "production" ]
-# RUN yarn workspace @cd/server-main run watch
-
 FROM node:16
 
 WORKDIR /root
@@ -81,13 +5,16 @@ COPY . .
 
 ENV NODE_ENV=production
 ENV YARN_VERSION "3.3.1"
+ARG BUILD_CONTEXT=$BUILD_CONTEXT
 
 RUN yarn set version $YARN_VERSION
 RUN yarn plugin import workspace-tools
-RUN yarn workspaces focus @cd/server-main
-RUN yarn server:build main
+RUN yarn workspaces focus @cd/server-$BUILD_CONTEXT
+# RUN yarn workspaces focus @cd/server-main && yarn cache clear
 
-WORKDIR /root/server/main
+RUN yarn server:build $BUILD_CONTEXT
+
+WORKDIR /root/server/$BUILD_CONTEXT
 
 EXPOSE 6001
 
