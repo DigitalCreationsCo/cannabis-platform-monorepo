@@ -34,7 +34,7 @@ COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/package.json ./root
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/.next/standalone ./root
+COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/.next/standalone ./root/apps/$BUILD_CONTEXT/.next/standalone
 COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/.next/static ./root/apps/$BUILD_CONTEXT/.next/static
 COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/public ./root/apps/$BUILD_CONTEXT/public
 
@@ -42,4 +42,4 @@ WORKDIR /root/apps/$BUILD_CONTEXT
 
 EXPOSE 3000
 
-CMD [ "node" "server.js" ]
+CMD [ "yarn", "start" ]
