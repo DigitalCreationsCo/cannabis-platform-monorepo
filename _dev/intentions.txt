@@ -116,6 +116,14 @@ test users login and signup
 5-14-2023
 Dispensary signup forms 1/2 done
 
+TODO:
+Optimize docker images, SHOP especially,
+Set up K8s load balancer, 
+set up nginx images to serve apps over web
+FInish end to end tests
+raise cluster over gras domain
+Stay vigilant! WORK HARD. Go to HACC campus. Go hard!
+
 DRIVERCLIENT TO DO:
 pod install,
 submit to ios store

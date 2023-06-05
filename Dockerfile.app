@@ -23,7 +23,7 @@ RUN yarn workspaces foreach -itR --from @cd/$BUILD_CONTEXT-app run build
 
 FROM node:16 AS RUNNER
 
-COPY --from=INSTALLER ./root . 
+COPY --from=BUILDER /root ./root
 
 ARG BUILD_CONTEXT=$BUILD_CONTEXT
 
