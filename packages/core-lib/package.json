@@ -10,7 +10,7 @@
     "react-dom": "18.2.0",
     "react-redux": "8.0.2",
     "supertokens-auth-react": "0.28.1",
-    "socket.io-client"
+    "socket.io-client": "4.6.1"
   },
   "dependencies": {
     "@reduxjs/toolkit": "1.9.2",
