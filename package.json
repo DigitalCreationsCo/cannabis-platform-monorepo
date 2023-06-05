@@ -52,7 +52,7 @@
     "server:watch": "cd scripts && node watch/server.js",
     "server:clean": "yarn workspaces foreach -ptv --include '@cd/server-*' run clean",
     "app:build-all": "yarn workspaces foreach -ptv --include '@cd/*-app' run build",
-    "app:build": "yarn workspaces foreach -itR --from @cd/$0-app run build",
+    "app:build": "yarn workspaces foreach -itR --from @cd/$0 run build",
     "app:clean": "yarn workspaces foreach -ptv --include '@cd/*-app' run clean",
     "app:dev": "yarn workspaces foreach -ptv --include '@cd/*-app' run dev",
     "dev": "concurrently \"yarn packages:watch\" \"yarn server:watch\" \"yarn apps:dev\"",

@@ -19,8 +19,10 @@ RUN yarn workspaces focus @cd/$BUILD_CONTEXT-app
 # COPY --from=INSTALLER ./root . 
 
 # ARG BUILD_CONTEXT=$BUILD_CONTEXT
+WORKDIR /apps/$BUILD_CONTEXT
 
-RUN yarn app:build $BUILD_CONTEXT
+RUN next build
+# RUN yarn app:build $BUILD_CONTEXT
 
 # FROM node:16 AS RUNNER
 
