@@ -4,6 +4,7 @@
   "types": "dist/index.d.ts",
   "name": "@cd/ui-lib",
   "depedencies": {
+    "@carbon/icons-react": "11.16.0",
     "@cd/core-lib": "workspace:*"
   },
   "devDependencies": {
