@@ -1,4 +1,3 @@
-// import { modalActions, modalTypes } from '@cd/core-lib';
 import { modalActions, modalTypes, selectCartState, selectIsCartEmpty, selectUserState } from '@cd/core-lib';
 import { Button, FlexBox, H2, Paragraph } from '@cd/ui-lib';
 import Image from 'next/image';

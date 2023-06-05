@@ -341,10 +341,6 @@ discounts are applied on order basis,
 
 * build swagger api for node main server
 
-Check the existing apps for some finished work (signup forms)
-start adding all components!
-migrate all mui components to tailwind
-
 Testing:
 prisma query, 
 Price, formatting, mutating data, adding, removing entries,
@@ -358,6 +354,7 @@ provision development and prod, preprod spaces
 add product details page, make it reusable for consumer app
 
 finish all admin dashboard pages, details pages, etc.
+Add socket event handling to admin app, for orders. :) Keep it simple and declarative! Easy! The admin client can receive events only, and does not send. 
 complete site settings page with data, and routes
 
 Fix the Order totals, and add backend code to update order rows for transactions
