@@ -3,19 +3,15 @@ import { MongoClient } from "mongodb";
 import { LocationDA } from './api/data-access';
 import server from "./server";
 
-const mongoConnectUrl = process.env.MONGODB_SERVER_LOCATION_CLUSTER_URL
-// import { loadEnv } from '@cd/shared-config/config/loadEnv.js';
-// import { config } from 'dotenv';
-// import { expand } from 'dotenv-expand';
-
-const nodeEnv = process.env.NODE_ENV;
-// expand(config({ path: loadEnv(nodeEnv) }));
 const port = process.env.SERVER_LOCATION_PORT || 'NO_PORT_FOUND';
+
+const mongoConnectUrl = process.env.MONGODB_SERVER_LOCATION_CLUSTER_URL
 
 connectDb()
 .then(() => {
     server.listen(port, () => {
       console.log(` ✈️ server-location listening on port ${port}.`);
+      process.send('ready'); // ready signal pm2
     });
 })
 .catch((err) => {
@@ -25,21 +21,28 @@ connectDb()
 
 async function connectDb() {
   try {
-    console.info(' ✈️ server-location running in ' + nodeEnv + ' mode.');
-    console.info(' ✈️ server-location connecting to database... ');
+    console.info(` ✈️ server-location starting in ${process.env.NODE_ENV} mode.`);
     await MongoClient.connect(mongoConnectUrl)
     .then(async (client) => {
       await LocationDA.useMongoDB(client)
       console.log(" ✈️ server-location: Mongo Database 👏 is ready for query.");
     })
+    await prisma.$connect()
     .then(async () => {
-      await prisma.$connect()
       console.log(" ✈️ server-location: Prisma Database 👏👏 is ready for query.");
-    });
+    })
+    .then(() => 
+      console.info(' ✈️ server-location is connected to database.'));
   } catch(error:any) {
     console.error(" ✈️ server-location: Error connecting to database: ", error.stack);
     process.exit(1);
   }
 }
+
+process.on('SIGINT', async function() {
+  await prisma.$disconnect()
+  .then(process.exit(0))
+  .catch((error:any) => process.exit(1))
+});
 
 export { connectDb, server };
