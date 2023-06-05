@@ -1,5 +1,5 @@
 import { modalActions, modalTypes, selectUserState } from '@cd/core-lib';
-import { Button, FlexBox, H1, H2, H4, H5, LayoutContextProps, Page, Paragraph } from '@cd/ui-lib';
+import { Button, FlexBox, H1, H2, H4, H6, LayoutContextProps, Page, Paragraph } from '@cd/ui-lib';
 import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import Router from 'next/router';
@@ -29,7 +29,7 @@ function LandingPage() {
     
     const styles={
         hero: [
-            "w-full pt-4 pb-8 md:pt-8 px-4 md:px-14 lg:px-32",
+            "w-full pt-4 pb-6 md:pt-4 px-4 md:px-14 lg:px-32",
             "md:flex-row items-start", 
             "space-y-8 md:space-y-0 md:space-x-8",
             "bg-secondary-light"
@@ -47,8 +47,8 @@ function LandingPage() {
                 <FlexBox className='justify-between min-h-[555px] space-y-4'>
                     <FlexBox className={twMerge(styles.hero)} >
                         <FlexBox>
-                        <H1 color="light" className='pb-0 whitespace-normal'>Get&nbsp;Cannabis&nbsp;Delivered{'\xa0'}🌴</H1>
-                        <H5 className="pt-0 whitespace-nowrap text-light">with Gras, a one stop cannabis marketplace</H5>
+                        <H1 color="light" className='pb-0 whitespace-normal font-semi-bold'>Cannabis,&nbsp;Delivered{'\xa0'}🌴</H1>
+                        <H6 className="pt-0 whitespace-nowrap text-light text-center w-full">Gras is a one stop cannabis marketplace</H6>
                         </FlexBox>
                         <Button
                             size="lg"
@@ -96,7 +96,7 @@ function LandingPage() {
 const ImageBackDrop = ({ src, children }: { src: string | StaticImageData } & PropsWithChildren) => {
     return (
         <div
-            className="relative min-h-screen w-screen overflow-hidden"
+            className="relative min-h-screen overflow-scroll-hidden"
             style={{
                 clipPath: 'inset(0 0 0 0)'
             }}
@@ -106,7 +106,7 @@ const ImageBackDrop = ({ src, children }: { src: string | StaticImageData } & Pr
             src={src} 
             alt="" 
             fill 
-            style={{ zIndex: -1, objectFit: 'cover', objectPosition: '80% 20%' }} 
+            style={{ zIndex: -1, objectFit: 'cover', objectPosition: '44% 20%' }} 
             />
             <div
                 style={{
