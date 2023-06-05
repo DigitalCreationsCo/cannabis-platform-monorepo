@@ -17,6 +17,6 @@ README.md
 
 **/build
 **/dist
-**/.next
+# **/.next
 **/.turbo
 **/_dev
