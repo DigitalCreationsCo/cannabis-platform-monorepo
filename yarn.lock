@@ -3346,10 +3346,12 @@ __metadata:
     "@rollup/plugin-node-resolve": 15.0.1
     "@rollup/plugin-typescript": 11.0.0
     "@types/crypto-js": 4.1.1
+    "@types/express": ^4.17.17
     "@types/jest": 29.2.4
     "@types/node": 18.11.10
     "@types/react": 18.0.34
     "@types/react-dom": 18.0.11
+    "@types/socket.io-client": 3.0.0
     "@vitejs/plugin-react": 3.1.0
     "@vitest/coverage-istanbul": 0.29.8
     "@vitest/ui": 0.29.8
@@ -3363,11 +3365,13 @@ __metadata:
     microbundle: 0.15.1
     prettier: 2.8.0
     react: 18.2.0
+    react-cookie: 4.1.1
     react-dom: 18.2.0
     react-hot-toast: 2.4.0
     react-redux: 8.0.2
     rimraf: 4.4.1
     rollup: 3.20.2
+    socket.io-client: 4.6.1
     supertokens-auth-react: 0.28.1
     ts-jest: 29.0.3
     typescript: 4.9.3
@@ -3392,6 +3396,7 @@ __metadata:
     "@babel/core": ^7.22.1
     "@babel/node": ^7.22.1
     "@cd/eslint-config": "workspace:*"
+    "@paralleldrive/cuid2": 2.2.0
     "@prisma/client": 4.14.0
     "@testing-library/jest-dom": 5.16.5
     "@types/jest": 29.2.4
@@ -3609,7 +3614,7 @@ __metadata:
     mongodb: 5.1.0
     nanoid: 3.3.4
     nodemon: 2.0.20
-    pm2: 5.2.2
+    pm2: ^5.2.2
     prettier: 2.8.0
     recluster: ^1.0.0
     redis: ^4.6.6
@@ -3661,7 +3666,7 @@ __metadata:
     jest: 29.3.1
     multer: 1.4.5-lts.1
     nodemon: 2.0.20
-    pm2: 5.2.2
+    pm2: ^5.2.2
     prettier: 2.8.0
     rimraf: 4.4.1
     stripe: 11.15.0
@@ -3711,7 +3716,7 @@ __metadata:
     mongodb: 5.1.0
     nanoid: 3.3.4
     nodemon: 2.0.20
-    pm2: 5.2.2
+    pm2: ^5.2.2
     prettier: 2.8.0
     rimraf: 4.4.1
     supertest: 6.3.3
@@ -3761,7 +3766,7 @@ __metadata:
     mongodb: 5.1.0
     nanoid: 3.3.4
     nodemon: 2.0.20
-    pm2: 5.2.2
+    pm2: ^5.2.2
     prettier: 2.8.0
     rimraf: 4.4.1
     supertest: 6.3.3
@@ -3782,6 +3787,7 @@ __metadata:
     "@babel/node": 7.20.7
     "@babel/preset-env": 7.21.4
     "@babel/preset-typescript": 7.18.6
+    "@cd/core-lib": "workspace:*"
     "@cd/data-access": "workspace:*"
     "@types/jest": 29.2.4
     "@types/node": 18.11.10
@@ -3805,7 +3811,7 @@ __metadata:
     find-up: 5.0.0
     jest: 29.3.1
     nodemon: 2.0.20
-    pm2: 5.2.2
+    pm2: ^5.2.2
     prettier: 2.8.0
     rimraf: 4.4.1
     stripe: 11.15.0
@@ -7168,7 +7174,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/express@npm:*, @types/express@npm:^4.17.13, @types/express@npm:^4.17.14":
+"@types/express@npm:*, @types/express@npm:^4.17.13, @types/express@npm:^4.17.14, @types/express@npm:^4.17.17":
   version: 4.17.17
   resolution: "@types/express@npm:4.17.17"
   dependencies:
@@ -7575,7 +7581,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/socket.io-client@npm:^3.0.0":
+"@types/socket.io-client@npm:3.0.0":
   version: 3.0.0
   resolution: "@types/socket.io-client@npm:3.0.0"
   dependencies:
@@ -12809,7 +12815,7 @@ __metadata:
     "@types/react": 18.0.34
     "@types/react-dom": 18.0.11
     "@types/react-native": 0.72.2
-    "@types/socket.io-client": ^3.0.0
+    "@types/socket.io-client": 3.0.0
     "@typescript-eslint/eslint-plugin": 5.45.0
     "@typescript-eslint/parser": 5.45.0
     babel-plugin-transform-inline-environment-variables: 0.4.4
@@ -21463,9 +21469,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pm2@npm:5.2.2":
-  version: 5.2.2
-  resolution: "pm2@npm:5.2.2"
+"pm2@npm:^5.2.2":
+  version: 5.3.0
+  resolution: "pm2@npm:5.3.0"
   dependencies:
     "@pm2/agent": ~2.0.0
     "@pm2/io": ~5.0.0
@@ -21505,7 +21511,7 @@ __metadata:
     pm2-dev: bin/pm2-dev
     pm2-docker: bin/pm2-docker
     pm2-runtime: bin/pm2-runtime
-  checksum: 091213dc7fc220b814e91dea35525f6b37f3d27081345be82b42873c605055f339bec67287ab70a3d41c62fe2d3edbd58722f4b2c4aa5a3d5479d5e4900b0057
+  checksum: ca1a655ab11b8aa8f7c10098578e7f0ed508fb19fae02694c5478f4167a75cb150eb2c305d734b7420696b70193bb765ffbbca498d2ce427f85ae9d25ef19842
   languageName: node
   linkType: hard
 
