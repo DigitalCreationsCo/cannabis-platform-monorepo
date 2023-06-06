@@ -27,3 +27,6 @@ docker-tag:
 
 docker-push:
 	docker push grasadmin/graswebgoldenimages:$(IMAGE)
+
+create-docker-secret:
+	scripts/docker/create_docker_secret.sh
