@@ -1,0 +1,26 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gras-next-deployment
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      component: gras-next-deployment
+  template:
+    metadata:
+      labels:
+        component: gras-next-deployment
+    spec:
+      containers:
+        - name: gras-next-container
+          image: grasadmin/app-shop:latest
+          ports:
+            - name: gras-next-port
+              containerPort: 3000
