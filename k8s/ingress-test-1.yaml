@@ -17,7 +17,6 @@ kind: Deployment
 metadata:
   name: gras-shop
 spec:
-  serviceAccountName: docker-sa
   replicas: 3
   selector:
     matchLabels:
@@ -35,5 +34,5 @@ spec:
         ports:
         - name: gras-shop-port
           containerPort: 3000
-      imagePullSecrets:
-        - name: dockerhub-secret
+      serviceAccountName: docker-sa
+      
