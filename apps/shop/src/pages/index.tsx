@@ -31,7 +31,7 @@ function LandingPage() {
         hero: [
             "w-full pt-4 pb-6 md:pt-4 px-4 md:px-14 lg:px-32",
             "md:flex-row items-start", 
-            "space-y-8 md:space-y-0 md:space-x-8",
+            "space-y-4 md:space-y-0 md:space-x-8",
             "bg-secondary-light"
         ],
         aboutContainer: "w-full md:w-1/3 m-auto min-h-[200px]",
