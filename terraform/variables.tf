@@ -23,11 +23,6 @@ variable "k8s_label" {
     default = "tf-k8s-cluster"
 }
 
-variable "k8s_region" {
-    description = "The region where your cluster will be located. (required)"
-    default = "us-east"
-}
-
 variable "region" {
     description = "The region of tf state. "
     default = "us-southeast-1"
