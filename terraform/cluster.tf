@@ -9,7 +9,7 @@ resource "local_file" "k8s_config" {
 resource "linode_lke_cluster" "terraform_k8s" {
     k8s_version = "${var.k8s_version}"
     label="${var.k8s_label}"
-    region="${var.k8s_region}"
+    region="${var.region}"
     tags="${var.tags}"
     dynamic "pool" {
         for_each = var.pools
