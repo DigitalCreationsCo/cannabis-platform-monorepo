@@ -16,13 +16,13 @@ spec:
             name: gras-service-hello
             port:
               number: 80
-  - host: shop.grascannabis.org
-    http:
-      paths:
-      - pathType: Prefix
-        path: "/"
-        backend:
-          service:
-            name: gras-service-shop
-            port:
-              number: 80
+  # - host: shop.grascannabis.org
+  #   http:
+  #     paths:
+  #     - pathType: Prefix
+  #       path: "/"
+  #       backend:
+  #         service:
+  #           name: gras-service-shop
+  #           port:
+  #             number: 80
