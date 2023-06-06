@@ -17,7 +17,7 @@ kind: Deployment
 metadata:
   name: gras-shop
 spec:
-  serviceAccountName: 
+  serviceAccountName: docker-sa
   replicas: 3
   selector:
     matchLabels:
