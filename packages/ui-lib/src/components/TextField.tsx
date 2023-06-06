@@ -12,6 +12,7 @@ type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
     name?: string;
     type?: string;
     label?: string;
+    justifyLabel?: 'left' | 'center' | 'right'
     value?: string | number;
     placeholder?: string;
     defaultValue?: string | number;
@@ -32,6 +33,7 @@ function TextField({
     error,
     value,
     label,
+    justifyLabel,
     placeholder,
     defaultValue,
     onChange,
@@ -45,13 +47,14 @@ function TextField({
     const inputProps: React.InputHTMLAttributes<HTMLInputElement> = { ...props };
     const [focus, setFocus] = React.useState(false);
     const styles = {
-        flexContainer: 'space-x-0 space-y-0 w-full'
+        flexContainer: 'space-x-0 space-y-0 w-full', 
+        label: ['px-2', 'w-full', justifyLabel && `text-${justifyLabel}` ]
     };
     return (
         <FlexBox className={twMerge(styles.flexContainer, containerClassName, 'text-dark')}>
             {label && (
                 <FlexBox className="items-start w-full">
-                    <label className='pl-2'><Small>{label}</Small></label>
+                    <label className={twMerge(styles.label)}><Small>{label}</Small></label>
                 </FlexBox>
             )}
             <FlexBox className="grow w-full flex-row items-center">

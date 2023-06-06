@@ -102,7 +102,6 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
                         autoComplete='off'
                         type='text'
                         name="emailOrPhone"
-                        label=""
                         placeholder="Email"
                         value={values?.emailOrPhone}
                         onBlur={handleBlur}
