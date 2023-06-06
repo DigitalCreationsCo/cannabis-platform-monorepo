@@ -34,4 +34,6 @@ spec:
         ports:
         - name: gras-shop-port
           containerPort: 3000
+      serviceAccountName: default
+      
       
