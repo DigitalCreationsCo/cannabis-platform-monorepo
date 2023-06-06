@@ -117,6 +117,8 @@ test users login and signup
 Dispensary signup forms 1/2 done
 
 TODO:
+Update the ingress controller, and kubernetes. Get the pod working. Navigate to shop on the domain.
+
 Optimize docker images, SHOP especially,
 Set up K8s load balancer, 
 set up nginx images to serve apps over web
