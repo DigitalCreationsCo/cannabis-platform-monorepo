@@ -23,10 +23,10 @@ spec:
           image: gras-server-main
           imagePullPolicy: Always
           ports:
-            - name: main-port
+            - name: dispatch-port
               containerPort: 6001
           volumeMounts:
             - name: yarn-cache
               mountPath: /root/.yarn/cache
         # deploy redis publisher containers as well
-        - name: gras-dispatch-redis
+        # - name: gras-dispatch-redis
