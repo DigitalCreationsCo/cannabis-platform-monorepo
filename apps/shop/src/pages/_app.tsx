@@ -17,7 +17,6 @@ import reduxStore from '../redux/store';
 
 if (typeof window !== 'undefined') {
     SuperTokensReact.init(frontendConfig())
-    process.send('ready'); // pm2 ready signal
 }
 
 type CustomAppProps = AppProps & {
