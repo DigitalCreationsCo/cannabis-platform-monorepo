@@ -28,7 +28,22 @@ variable "k8s_region" {
     default = "us-east"
 }
 
+variable "region" {
+    description = "The region of tf state. "
+    default = "us-southeast-1"
+}
+
+variable "endpoint" {
+    description = "storage endpoint for tf state"
+    default = "us-southeast-1.linodeobjects.com"
+}
+
 variable "s3_bucket" {
+    description = "The identifier for object storage (required)"
+    default = "terraform-k8s"
+}
+
+variable "bucket" {
     description = "The identifier for object storage (required)"
     default = "terraform-k8s"
 }

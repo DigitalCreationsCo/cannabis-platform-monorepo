@@ -16,7 +16,8 @@ import reduxStore from '../redux/store';
 // import '../styles/globals.css';
 
 if (typeof window !== 'undefined') {
-    SuperTokensReact.init(frontendConfig());
+    SuperTokensReact.init(frontendConfig())
+    process.send('ready'); // pm2 ready signal
 }
 
 type CustomAppProps = AppProps & {
@@ -29,7 +30,6 @@ function App({ Component, pageProps }: CustomAppProps) {
     const router = useRouter()
     useEffect(() => {
         router.isReady && setRouterLoading(false)
-        process.send('ready'); // pm2 ready signal
     }, [router]);
 
     useEffect(() => {

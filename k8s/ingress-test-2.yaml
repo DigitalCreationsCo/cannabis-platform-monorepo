@@ -1,0 +1,33 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gras-service-hello
+spec:
+  type: ClusterIP
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  selector:
+    app: gras-hello
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gras-hello
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: gras-hello
+  template:
+    metadata:
+      labels:
+        app: gras-hello
+    spec:
+      containers:
+      - name: hello-ingress
+        image: nginxdemos/hello
+        ports:
+        - containerPort: 80
