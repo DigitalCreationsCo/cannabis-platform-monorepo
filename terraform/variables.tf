@@ -25,7 +25,7 @@ variable "k8s_label" {
 
 variable "region" {
     description = "The region of tf state. "
-    default = "us-southeast-1"
+    default = "us-southeast"
 }
 
 variable "endpoint" {
