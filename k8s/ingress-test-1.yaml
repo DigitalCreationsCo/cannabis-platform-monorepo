@@ -29,7 +29,7 @@ spec:
       containers:
       - name: gras-shop
         image: grasadmin/app-shop:latest
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         terminationMessagePolicy: FallbackToLogsOnError
         ports:
         - name: gras-shop-port
