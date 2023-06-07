@@ -23,7 +23,7 @@ module.exports = {
       files: [...reactPatterns.files],
       extends: [
         // @see https://github.com/francoismassart/eslint-plugin-tailwindcss,
-        // 'plugin:tailwindcss/recommended',
+        'plugin:tailwindcss/recommended',
       ],
       rules: {
         'tailwindcss/no-custom-classname': 'off',
