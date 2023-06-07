@@ -4,12 +4,12 @@
   "types": "dist/index.d.ts",
   "name": "@cd/ui-lib",
   "depedencies": {
-    "@cd/core-lib": "workspace:*"
+    "@cd/core-lib": "workspace:*",
+    "@cd/data-access": "workspace:*",
+    "@cd/eslint-config": "workspace:*"
   },
   "devDependencies": {
     "@carbon/icons-react": "11.16.0",
-    "@cd/data-access": "workspace:*",
-    "@cd/eslint-config": "workspace:*",
     "@types/carbon__icons-react": "11.16.0",
     "@types/jest": "29.2.4",
     "@types/node": "18.11.10",
@@ -62,7 +62,7 @@
   },
   "private": true,
   "scripts": {
-    "build": "rimraf ./dist && tsup",
+    "build": "rimraf ./dist && tsup src/index.ts",
     "build:css": "npx tailwindcss -i ./src/styles/index.css -o ./dist/index.css --minify",
     "build:css-watch": "npx tailwindcss -i ./src/styles/index.css -o ./dist/index.css --minify --watch",
     "clean": "rimraf ./dist ./build ./tsconfig.tsbuildinfo ./node_modules/.cache",

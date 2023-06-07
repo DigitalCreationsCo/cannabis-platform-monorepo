@@ -3,10 +3,10 @@ import { defineConfig } from 'tsup';
 
 export default defineConfig((options) => ({
   entry: ['src/index.ts'],
-  splitting: true,
-  treeshake: true,
-  clean: true,
-  dts: true,
+  // splitting: true,
+  // treeshake: true,
+  // clean: true,
+  // dts: true,
   format: ['esm', 'cjs'],
   external: ['@paralleldrive/cuid2', 'path', 'react', 'react-dom', 'usehooks-ts'],
   platform: 'browser',
