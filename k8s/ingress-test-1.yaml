@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
       - name: gras-shop
-        image: grasadmin/app-shop:latest
+        image: docker.io/grasadmin/app-shop:latest
         imagePullPolicy: Always
         terminationMessagePolicy: FallbackToLogsOnError
         ports:
