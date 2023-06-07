@@ -8,7 +8,6 @@ DOCKERSIM
 
 .kube
 k8s
-
 terraform
 
 **/node_modules

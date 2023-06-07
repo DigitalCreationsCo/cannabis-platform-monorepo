@@ -18,9 +18,18 @@ FROM --platform=linux/amd64 node:16
 
 ARG BUILD_CONTEXT=$BUILD_CONTEXT
 
-COPY --from=BUILDER ./root/server/$BUILD_CONTEXT/ ./server
+COPY --from=BUILDER /root/yarn.lock         ./root
+COPY --from=BUILDER /root/package.json      ./root
+COPY --from=BUILDER /root/node_modules      ./root/node_modules
+COPY --from=BUILDER /root/packages          ./root/packages
+COPY --from=BUILDER /root/.yarn             ./root/.yarn
+COPY --from=BUILDER /root/.yarnrc.yml       ./root
+COPY --from=BUILDER /root/.env.development  ./root
+COPY --from=BUILDER /root/.env.production   ./root
 
-WORKDIR /server
+COPY --from=BUILDER /root/server/$BUILD_CONTEXT/ ./root/server/$BUILD_CONTEXT/
+
+WORKDIR /root/server/$BUILD_CONTEXT/
 
 EXPOSE 6001
 
