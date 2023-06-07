@@ -1,4 +1,5 @@
-FROM --platform=linux/amd64 node:16-bullseye AS INSTALLER
+# FROM --platform=linux/amd64 node:16-bullseye AS INSTALLER
+FROM node:16-bullseye AS INSTALLER
 
 WORKDIR /root
 COPY . .
@@ -11,7 +12,8 @@ RUN yarn set version $YARN_VERSION
 RUN yarn plugin import workspace-tools
 RUN yarn workspaces focus @cd/$BUILD_CONTEXT-app
 
-FROM --platform=linux/amd64 node:16-bullseye as BUILDER
+# FROM --platform=linux/amd64 node:16-bullseye as BUILDER
+FROM node:16-bullseye as BUILDER
 
 WORKDIR /root
 
