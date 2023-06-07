@@ -1,4 +1,4 @@
-FROM node:16 AS INSTALLER
+FROM --platform=linux/amd64 node:16 AS INSTALLER
 
 WORKDIR /root
 COPY . .
@@ -11,7 +11,7 @@ RUN yarn set version $YARN_VERSION
 RUN yarn plugin import workspace-tools
 RUN yarn workspaces focus @cd/$BUILD_CONTEXT-app
 
-FROM node:16 as BUILDER
+FROM --platform=linux/amd64 node:16 as BUILDER
 
 WORKDIR /root
 
@@ -21,7 +21,7 @@ ARG BUILD_CONTEXT=$BUILD_CONTEXT
 
 RUN yarn workspaces foreach -itR --from @cd/$BUILD_CONTEXT-app run build
 
-FROM node:16 AS RUNNER
+FROM --platform=linux/amd64 node:16 AS RUNNER
 
 COPY --from=BUILDER /root ./root
 
