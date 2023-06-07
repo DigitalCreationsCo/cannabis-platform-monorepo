@@ -3907,8 +3907,6 @@ __metadata:
   resolution: "@cd/ui-lib@workspace:packages/ui-lib"
   dependencies:
     "@carbon/icons-react": 11.16.0
-    "@cd/data-access": "workspace:*"
-    "@cd/eslint-config": "workspace:*"
     "@types/carbon__icons-react": 11.16.0
     "@types/jest": 29.2.4
     "@types/node": 18.11.10

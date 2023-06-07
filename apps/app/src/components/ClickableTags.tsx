@@ -1,6 +1,6 @@
 import { FlexBox, Icons } from '@cd/ui-lib';
 import { Dispatch, PropsWithChildren, SetStateAction, useState } from 'react';
-import { Tag } from '.';
+import Tag from './Tag';
 type ClickableTagProps = {
     valueKey: string;
     values: Set<unknown>;
