@@ -10,7 +10,7 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      targetPort: gras-main-port
+      targetPort: main-port
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -37,6 +37,6 @@ spec:
               cpu: "0.5"
               memory: "250M"
           ports:
-            - name: gras-main-port
+            - name: main-port
               containerPort: 6001
       

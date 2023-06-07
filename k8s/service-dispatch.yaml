@@ -10,7 +10,7 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      targetPort: gras-dispatch-port
+      targetPort: dispatch-port
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -37,6 +37,6 @@ spec:
               cpu: "0.5"
               memory: "250M"
           ports:
-            - name: gras-dispatch-port
+            - name: dispatch-port
               containerPort: 6041
       
