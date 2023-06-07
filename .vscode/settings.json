@@ -64,5 +64,8 @@
   },
   "terminal.integrated.env.windows": {
       "KUBECONFIG": "${workspaceFolder}\\.kube\\kubeconfig.yaml"
+  },
+  "vs-kubernetes": {
+    "vs-kubernetes.kubeconfig": "./.kube/kubeconfig.yaml",
   }
 }
