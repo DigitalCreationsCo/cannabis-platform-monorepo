@@ -19,9 +19,14 @@
     "source.fixAll.eslint": true,
     "source.organizeImports": true,
   },
+  "files.associations": {
+    "*.scss": "tailwindcss",
+    "*.css": "tailwindcss"
+  },
   "files.exclude": {
      "**/.git": false
   },
+  "css.validate": false,
   "cSpell.words": [
     "blurhash",
     "camelcase",
