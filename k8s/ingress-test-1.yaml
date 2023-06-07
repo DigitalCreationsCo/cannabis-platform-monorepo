@@ -28,9 +28,15 @@ spec:
     spec:
       containers:
       - name: gras-shop
-        image: docker.io/grasadmin/app-shop:latest
+        command: ["yarn"]
+        args: ["start"]
+        image: grasadmin/app-shop:latest
         imagePullPolicy: Always
         terminationMessagePolicy: FallbackToLogsOnError
+        resources:
+          limits: 
+            cpu: "0.5"
+            memory: "400M"
         ports:
         - name: gras-shop-port
           containerPort: 3000
