@@ -30,3 +30,9 @@ docker-push:
 
 create-docker-secret:
 	scripts/docker/create_docker_secret.sh
+
+get-deployment-env: 
+	kubectl get deployments $(DEPLOYMENT) -o jsonpath='{range.spec.template.spec.containers[*].env[*]}{@.name}{"="}{@.value}{"\n"}{end}'
+
+get-pod-env:
+	kubectl get deployments $(DEPLOYMENT) -o jsonpath='{range .spec.template.spec.containers[?(@.name=="$(POD)")].env[*]}{@.name}{"="}{@.value}{"\n"}{end}'

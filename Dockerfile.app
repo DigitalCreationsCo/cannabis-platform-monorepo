@@ -23,6 +23,7 @@ ARG BUILD_CONTEXT=$BUILD_CONTEXT
 
 RUN yarn workspaces foreach -itR --from @cd/$BUILD_CONTEXT-app run build
 
+# linux amd64 for ci
 FROM --platform=linux/amd64 node:16-bullseye AS RUNNER
 
 COPY --from=BUILDER /root ./root
