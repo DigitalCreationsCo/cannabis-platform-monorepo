@@ -28,8 +28,8 @@ spec:
     spec:
       containers:
       - name: gras-shop
-        command: ["yarn"]
-        args: ["start"]
+        # command: ["yarn"]
+        # args: ["start"]
         image: grasadmin/app-shop:latest
         imagePullPolicy: Always
         terminationMessagePolicy: FallbackToLogsOnError
