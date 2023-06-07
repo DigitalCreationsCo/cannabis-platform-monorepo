@@ -4,12 +4,12 @@ const
 redisPubClientUrl = process.env.DISPATCH_PUB_REDIS_URL;
 
 const
-publishRedisClient = createClient({ url: redisPubClientUrl }).on("error", (err) => console.log("Publisher Redis Client Error: ", err))
+publishRedisClient = createClient({ url: redisPubClientUrl }).on("error", (err) => {console.log("Publisher Redis Client Error: ", err);process.exit(1);})
 // await
 publishRedisClient.connect();
 
 const 
-subscribeRedisClient = publishRedisClient.duplicate().on("error", (err) => console.log("Subscriber Redis Client Error: ", err))
+subscribeRedisClient = publishRedisClient.duplicate().on("error", (err) => {console.log("Subscriber Redis Client Error: ", err);process.exit(1);})
 // await
 subscribeRedisClient.connect();
 
@@ -19,7 +19,7 @@ redisConnectClientUrl = process.env.DISPATCH_CONNECT_REDIS_URL;
 
 const
 connectRClient = createClient({ url: redisConnectClientUrl });
-connectRClient.on("error", (err) => console.log("Client Connnect Redis Client Error: ", err))
+connectRClient.on("error", (err) => {console.log("Client Connnect Redis Client Error: ", err);process.exit(1);})
 // await
 connectRClient.connect();
 
@@ -29,7 +29,9 @@ class ConnectClientController {
   async saveConnectedClient (userId: string, socketId: string) {
     await connectRClient
       .HSET(userId, { userId, socketId })
-      .catch((err) => console.log("RedisConnectClientController ERROR: ", err));
+      .catch((err) => {
+        console.log("RedisConnectClientController ERROR: ", err);
+      });
   }
 
   async getSocketsByDriverIds(idList: {driverId: string}[]) {
@@ -49,7 +51,7 @@ class ConnectClientController {
           return user.socketId;
         })
         .then(sockets.push)
-        .catch((err) => console.log(err));
+        .catch((err) => console.log('connectClient get user error: ', err));
     }
 
     return sockets;
