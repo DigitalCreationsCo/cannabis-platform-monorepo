@@ -12,7 +12,6 @@ terraform {
             source = "linode/linode"
         }
     }
-
     # saves backend terraform state to s3 bucket
     backend "s3" {}
 }

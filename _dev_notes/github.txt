@@ -1,0 +1,13 @@
+See github wiki @ github.com/..
+
+for notes on
+build,
+company,
+credentials,
+deploy,
+dispatch,
+docker,
+hosting,
+payments,
+shop, 
+and more

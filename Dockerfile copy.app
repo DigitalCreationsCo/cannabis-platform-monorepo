@@ -1,0 +1,46 @@
+# FROM --platform=linux/amd64 node:16-bullseye AS INSTALLER
+FROM node:16-bullseye AS INSTALLER
+
+WORKDIR /root
+COPY . .
+
+ENV NODE_ENV=production
+ENV YARN_VERSION "3.3.1"
+ARG BUILD_CONTEXT=$BUILD_CONTEXT
+
+RUN yarn set version $YARN_VERSION
+RUN yarn plugin import workspace-tools
+RUN yarn workspaces focus @cd/$BUILD_CONTEXT-app
+
+# FROM --platform=linux/amd64 node:16-bullseye as BUILDER
+FROM node:16-bullseye as BUILDER
+
+WORKDIR /root
+
+COPY --from=INSTALLER ./root . 
+
+ARG BUILD_CONTEXT=$BUILD_CONTEXT
+
+RUN yarn workspaces foreach -itR --from @cd/$BUILD_CONTEXT-app run build
+
+# linux amd64 for ci
+FROM --platform=linux/amd64 node:16-bullseye AS RUNNER
+
+ARG BUILD_CONTEXT=$BUILD_CONTEXT
+
+COPY --from=BUILDER /root/apps/$BUILD_CONTEXT ./app
+
+COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/next.config.mjs ./app
+COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/package.json ./app
+
+# Automatically leverage output traces to reduce image size
+# https://nextjs.org/docs/advanced-features/output-file-tracing
+COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/.next/standalone ./app
+COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/.next/static ./app/.next/static
+COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/public ./app/public
+
+WORKDIR /app
+
+EXPOSE 3000
+
+CMD [ "yarn", "start" ]
