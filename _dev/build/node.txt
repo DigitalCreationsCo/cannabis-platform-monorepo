@@ -1,3 +1,0 @@
-Here is the methodology for developing and building the node apps in server/ directory:
-the apps are build with babel.
-the build command will build with 

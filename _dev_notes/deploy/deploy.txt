@@ -1,0 +1,15 @@
+PRODUCTION DEPLOY PROCESS
+
+Uses mounted yarn cache in kubernetes deployment, to share with all containers.
+Install the yarn cahce locally first.
+
+TESTING PRACTICES FOR deployment
+
+1. test local development (does the app start, does it give a ready signal?)
+2. test suites must pass ( unit, integration )
+3. docker build image pass ?
+4. docker run pass ?
+5. local end to end ci test suite pass ?
+6. remote end to end test pass ?
+7. final check pass ?
+8. promote
