@@ -17,7 +17,7 @@ kind: Deployment
 metadata:
   name: gras-shop
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: gras-shop
@@ -26,6 +26,7 @@ spec:
       labels:
         app: gras-shop
     spec:
+      serviceAccountName: default
       containers:
       - name: gras-shop
         # command: ["yarn"]
@@ -40,6 +41,5 @@ spec:
         ports:
         - name: gras-shop-port
           containerPort: 3000
-      serviceAccountName: default
       
       

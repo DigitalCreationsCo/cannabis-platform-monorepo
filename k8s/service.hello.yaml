@@ -17,7 +17,7 @@ kind: Deployment
 metadata:
   name: gras-hello
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: gras-hello
