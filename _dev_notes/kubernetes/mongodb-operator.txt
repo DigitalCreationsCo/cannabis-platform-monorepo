@@ -9,12 +9,6 @@ kubectl create secret generic mongodb-atlas-operator-api-key \
          --from-literal='privateApiKey=<the_atlas_api_private_key>' \
          -n mongodb-atlas-system
 
-kubectl create secret generic mongodb-atlas-operator-api-key \
-         --from-literal='orgId=646aff6132514c381df8ac40' \
-         --from-literal='publicApiKey=ggfxtayz' \
-         --from-literal='privateApiKey=ca1c1e57-9e3b-4f00-bf52-d40147a6c914' \
-         -n mongodb-atlas-system
-
 kubectl label secret mongodb-atlas-operator-api-key atlas.mongodb.com/type=credentials -n mongodb-atlas-system
 
 2. Create AtlasProject resource in kubernetes:

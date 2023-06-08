@@ -1,22 +1,17 @@
-dbAdmin
-p11SAuMM4Usa0TKq
-
-
-dbDev1
-wYaMFDyhZJDy0i5y
-
-mongo db serverless
 organization: Delivery by Gras
--------
+--------------------
+project: gras-app-dev
 
-Project: server-dispatch
-u: deliveryByGrasmongoadmin
-p: eKdduDz4ISKRlUiS
+u: deliveryByGrasMongoAdmDev
+p: LVyq3tXQcC0X1mx2
 
-u: deliveryByGrasmongoUser1
-p :eOqjWKWk8mSewkt4
--------
-Project: server-location
+u: deliveryByGrasMongoDev
+p: mywKPl0KhBQlqVxu
+--------------------
+project: gras-app
 
-u: deliveryByGraslocationadmin
-p: Cba5S9HOlBvGRveg
+u: deliveryByGrasMongoAdm
+p: 5GwadRMR1FISWf6l
+
+u: deliveryByGrasMongo
+p: NZqmZHxkX6rKvgd3
