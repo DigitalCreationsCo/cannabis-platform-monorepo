@@ -115,18 +115,25 @@ test users login and signup
 !! Create landing page with shop app in a new branch. 
 5-14-2023
 Dispensary signup forms 1/2 done
+6-6-2023
+raise cluster over gras domain
+6-7-2023 
+setup on kubernetes
+shop route,
+dummy admin route,
+hello test route,
+backend route featuring:
+    server-main, server dispatch
+
 
 TODO:
-Update the ingress controller, and kubernetes. Get the pod working. Navigate to shop on the domain.
-
+Set up K8s load balancer for static external ip
 Optimize docker images, SHOP especially,
-Set up K8s load balancer, 
-set up nginx images to serve apps over web
 FInish end to end tests
-raise cluster over gras domain
 Stay vigilant! WORK HARD. Go to HACC campus. Go hard!
 
 DRIVERCLIENT TO DO:
+Test dispatch in production
 pod install,
 submit to ios store
 Test in production with dispatch
@@ -173,8 +180,6 @@ write unit tests for all core-lib utils functions.
 Write unit tests for product variant data functions,
 Write unit tetst for order data functions.
 Write unit test to check stripe webhook is live.
-
-Reconcile redux state and supertokens session across domains ! It's easy. 
 
 DO THESE THINGS THIS WEEK! BE DONE BY SATURDAY -- I DID NOT DO BY SATURDAY. I AM MAKING 4/10 LEVEL PROGRESS WITH VELOCITY
 
