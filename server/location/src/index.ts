@@ -26,8 +26,9 @@ async function connectDb() {
     .then(async (client) => {
       await LocationDA.useMongoDB(client)
       console.log(" ✈️ server-location: Mongo Database 👏 is ready for query.");
+      
+      await prisma.$connect()
     })
-    await prisma.$connect()
     .then(async () => {
       console.log(" ✈️ server-location: Prisma Database 👏👏 is ready for query.");
     })

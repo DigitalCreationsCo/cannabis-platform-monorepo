@@ -28,8 +28,9 @@ async function connectDb() {
       await OrderDA.useMongoDB(client)
       await DriverDA.useMongoDB(client)
       console.log(" >> server-main: Mongo Database 👏 is ready for query.");
+      
+      await prisma.$connect()
     })
-    await prisma.$connect()
     .then(async () => {
       console.log(" >> server-main: Prisma Database 👏👏 is ready for query.");
     })
