@@ -15,7 +15,7 @@ let
 orgGeolocate: Collection | null = null
 
 const 
-organizations_geo_namespace = process.env.ORG_GEOLOCATE_DB_NS;
+location_namespace = process.env.LOCATION_DB_NS;
 
 export default class LocationDA {
     static async useMongoDB (mongoClient: MongoClient) {
@@ -24,7 +24,7 @@ export default class LocationDA {
       return
       
       try {
-        orgGeolocate = await mongoClient.db(organizations_geo_namespace).collection("organizations_geolocate");
+        orgGeolocate = await mongoClient.db(location_namespace).collection("organizations_geolocate");
       } catch (e) {
         console.error(`Unable to establish collection handle in LocationDA: ${e}`);
       }

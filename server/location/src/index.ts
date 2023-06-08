@@ -5,7 +5,7 @@ import server from "./server";
 
 const port = process.env.SERVER_LOCATION_PORT || 'NO_PORT_FOUND';
 
-const mongoConnectUrl = process.env.MONGODB_SERVER_LOCATION_CLUSTER_URL
+const mongoConnectUrl = process.env.MONGODB_CONNECTION_URL
 
 connectDb()
 .then(() => {

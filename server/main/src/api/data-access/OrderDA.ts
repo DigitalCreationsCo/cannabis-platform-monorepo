@@ -40,7 +40,7 @@ export default class OrderDA {
         try {
             
             if (!dispatchOrders)
-            dispatchOrders = await mongoClient.db(dispatch_namespace).collection("dispatch");
+            dispatchOrders = await mongoClient.db(dispatch_namespace).collection("orders");
 
             return
         } catch (e: any) {
