@@ -19,6 +19,9 @@ gras-nginx-ip:
 docker-build:
 	docker build -t $(TYPE)-$(CONTEXT) -f Dockerfile.$(TYPE) --build-arg=BUILD_CONTEXT=$(CONTEXT) .
 
+docker-build-nocache:
+	docker build -t $(TYPE)-$(CONTEXT) -f Dockerfile.$(TYPE) --build-arg=BUILD_CONTEXT=$(CONTEXT) --no-cache .
+	
 docker-build-debug:
 	docker build -t $(TYPE)-$(CONTEXT) -f Dockerfile.$(TYPE) --build-arg=BUILD_CONTEXT=$(CONTEXT) --progress=plain .
 
