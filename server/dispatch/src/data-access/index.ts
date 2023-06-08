@@ -6,7 +6,7 @@ import { ChangeStream, Collection, MongoClient, ObjectId } from "mongodb";
 import _ from '../util';
 
 const 
-mongoConnectUrl = process.env.MONGODB_SERVER_DISPATCH_CLUSTER_URL || ''
+mongoConnectUrl = process.env.MONGODB_CONNECTION_URL || ''
 
 
 class DispatchDA {
@@ -55,7 +55,7 @@ class DispatchDA {
       MongoClient.connect(mongoConnectUrl)
       .then(async (client) => {
         this.driverSessionsCollection = client.db(dispatch_namespace).collection('driverSessions');
-        this.dispatchOrdersCollection = client.db(dispatch_namespace).collection('dispatch');
+        this.dispatchOrdersCollection = client.db(dispatch_namespace).collection('orders');
       })
       .catch(error => {
         console.error(" 🚔 server-dispatch : Error connecting to mongo database: ", error.stack);
