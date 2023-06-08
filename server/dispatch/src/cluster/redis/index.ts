@@ -4,12 +4,12 @@ const
 redisPubClientUrl = process.env.DISPATCH_PUB_REDIS_URL;
 
 const
-publishRedisClient = createClient({ url: redisPubClientUrl }).on("error", (err) => {console.log("Publisher Redis Client Error: ", err);process.exit(1);})
+publishRedisClient = createClient({ url: redisPubClientUrl }).on("error", (err) => {console.log("Publisher Redis Client Error: ", err);throw new Error("Publisher Redis Client Error: " + err.message);})
 // await
 publishRedisClient.connect();
 
 const 
-subscribeRedisClient = publishRedisClient.duplicate().on("error", (err) => {console.log("Subscriber Redis Client Error: ", err);process.exit(1);})
+subscribeRedisClient = publishRedisClient.duplicate().on("error", (err) => {console.log("Subscriber Redis Client Error: ", err);throw new Error("Subscriber Redis Client Error: " + err.message);})
 // await
 subscribeRedisClient.connect();
 
@@ -19,7 +19,7 @@ redisConnectClientUrl = process.env.DISPATCH_CONNECT_REDIS_URL;
 
 const
 connectRClient = createClient({ url: redisConnectClientUrl });
-connectRClient.on("error", (err) => {console.log("Client Connnect Redis Client Error: ", err);process.exit(1);})
+connectRClient.on("error", (err) => {console.log("Client Connnect Redis Client Error: ", err);throw new Error("Client Connnect Redis Client Error: " + err.message);})
 // await
 connectRClient.connect();
 
