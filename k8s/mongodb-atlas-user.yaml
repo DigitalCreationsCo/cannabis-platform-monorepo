@@ -6,9 +6,9 @@ metadata:
 spec:
   roles:
     - roleName: "readWriteAnyDatabase"
-      databaseName: "admin"
+      databaseName: gras-app
   projectRef:
     name: gras-app
-  username: theuser
+  username: "deliveryByGrasMongo"
   passwordSecretRef:
     name: mongodb-password
