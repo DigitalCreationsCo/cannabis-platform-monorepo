@@ -6,12 +6,17 @@ import { io } from './socket/socketHandlers';
 const
 port = process.env.SERVER_DISPATCH_PORT as unknown as number;
 
-new ClusterInit();
+try {
+    new ClusterInit();
 
-global.io = io
-global.io.listen(port)
+    global.io = io
+    global.io.listen(port)
 
-process.send && process?.send('ready') // pm2 ready signal
-console.log(` 🚔 server-dispatch is in ${process.env.NODE_ENV} mode on port ${port}.`)
+    process.send && process?.send('ready') // pm2 ready signal
+    console.log(` 🚔 server-dispatch is in ${process.env.NODE_ENV} mode on port ${port}.`)
+} catch (error) {
+    console.log('server-dispatch error: ', error);
+    process.exit(1);
+}
 
 export { };
