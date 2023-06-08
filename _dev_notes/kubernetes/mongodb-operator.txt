@@ -1,0 +1,58 @@
+https://github.com/mongodb/mongodb-atlas-kubernetes
+
+The MongoDB Atlas Operator provides a native integration between the Kubernetes orchestration platform and MongoDB Atlas
+
+1. Create mongo-atlas secret in kubernetes:
+kubectl create secret generic mongodb-atlas-operator-api-key \
+         --from-literal='orgId=<the_atlas_organization_id>' \
+         --from-literal='publicApiKey=<the_atlas_api_public_key>' \
+         --from-literal='privateApiKey=<the_atlas_api_private_key>' \
+         -n mongodb-atlas-system
+
+kubectl create secret generic mongodb-atlas-operator-api-key \
+         --from-literal='orgId=646aff6132514c381df8ac40' \
+         --from-literal='publicApiKey=ggfxtayz' \
+         --from-literal='privateApiKey=ca1c1e57-9e3b-4f00-bf52-d40147a6c914' \
+         -n mongodb-atlas-system
+
+kubectl label secret mongodb-atlas-operator-api-key atlas.mongodb.com/type=credentials -n mongodb-atlas-system
+
+2. Create AtlasProject resource in kubernetes:
+cat <<EOF | kubectl apply -f -
+apiVersion: atlas.mongodb.com/v1
+kind: AtlasProject
+metadata:
+  name: my-project
+spec:
+  name: Test Atlas Operator Project
+  projectIpAccessList:
+    - ipAddress: "192.0.2.15"
+      comment: "IP address for Application Server A"
+    - cidrBlock: "203.0.113.0/24"
+      comment: "CIDR block for Application Server B - D"
+EOF
+
+3. Create AtlasDeployment resource in kubernetes:
+cat <<EOF | kubectl apply -f -
+apiVersion: atlas.mongodb.com/v1
+kind: AtlasDeployment
+metadata:
+  name: my-atlas-deployment
+spec:
+  projectRef:
+    name: my-project
+  deploymentSpec:
+    name: test-deployment
+    providerSettings:
+      instanceSizeName: M10
+      providerName: AWS
+      regionName: US_EAST_1
+EOF
+
+4. Create a database user password Kubernetes Secret
+
+kubectl create secret generic the-user-password --from-literal='password=P@@sword%'
+kubectl label secret the-user-password atlas.mongodb.com/type=credentials
+
+or create x.509 user: https://github.com/mongodb/mongodb-atlas-kubernetes/blob/main/docs/x509-user.md
+
