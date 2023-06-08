@@ -12,7 +12,7 @@ RUN yarn plugin import workspace-tools
 RUN yarn workspaces focus @cd/server-$BUILD_CONTEXT
 # RUN yarn workspaces focus @cd/server-$BUILD_CONTEXT && yarn cache clear
 
-RUN yarn server:build $BUILD_CONTEXT
+RUN yarn workspaces foreach -itR --from @cd/server-$BUILD_CONTEXT run build
 
 FROM --platform=linux/amd64 node:16
 
