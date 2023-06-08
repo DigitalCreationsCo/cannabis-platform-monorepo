@@ -1,0 +1,13 @@
+apiVersion: atlas.mongodb.com/v1
+kind: AtlasDeployment
+metadata:
+  name: gras-app
+spec:
+  projectRef:
+    name: gras-app
+  deploymentSpec:
+    name: Cluster0
+    providerSettings:
+      instanceSizeName: M10
+      providerName: AWS
+      regionName: US_EAST_1
