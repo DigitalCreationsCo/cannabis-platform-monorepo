@@ -1,0 +1,14 @@
+---
+apiVersion: atlas.mongodb.com/v1
+kind: AtlasDatabaseUser
+metadata:
+  name: mongodb-user
+spec:
+  roles:
+    - roleName: "readWriteAnyDatabase"
+      databaseName: "admin"
+  projectRef:
+    name: gras-app
+  username: theuser
+  passwordSecretRef:
+    name: mongodb-password

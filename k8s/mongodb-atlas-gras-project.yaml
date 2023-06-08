@@ -1,0 +1,10 @@
+---
+apiVersion: atlas.mongodb.com/v1
+kind: AtlasProject
+metadata:
+  name: gras-app
+spec:
+  name: gras-app
+  projectIpAccessList:
+    - ipAddress: "139.144.164.93"
+      comment: "kubernetes linode cluster"
