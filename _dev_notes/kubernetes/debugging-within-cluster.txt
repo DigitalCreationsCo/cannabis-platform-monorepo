@@ -5,4 +5,6 @@ kubectl run -it --rm debug-pod --image=alpine --restart=Never -- sh
 sh into the debugging pod, and curl to your pod that you're troubleshooting to test a connection.
 
 apk update && apk add curl
-curl <service-name>:<port>/<path>
+curl <service-name>:<port>/<path> 
+or 
+curl <internal-ip>/<path>
