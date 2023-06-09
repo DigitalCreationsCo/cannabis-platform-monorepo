@@ -11,7 +11,7 @@ RUN yarn set version $YARN_VERSION
 RUN yarn plugin import workspace-tools
 RUN yarn workspaces focus @cd/server-$BUILD_CONTEXT
 
-WORKDIR /root/server/$BUILD_CONTEXT
+# WORKDIR /root/server/$BUILD_CONTEXT
 RUN yarn workspaces foreach -itR --from @cd/server-$BUILD_CONTEXT run build
 
 FROM --platform=linux/amd64 node:16
