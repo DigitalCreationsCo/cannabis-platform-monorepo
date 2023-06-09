@@ -2,12 +2,11 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ingress-gras
+  name: ingress-shop
   annotations:
     kubernetes.io/ingress.class: nginx
 spec:
   rules:
-
     - host: hello.grascannabis.org
       http:
         paths:
@@ -18,25 +17,6 @@ spec:
               name: gras-service-hello
               port:
                 number: 80
-
-    - host: backend.grascannabis.org
-      http:
-        paths:
-        - pathType: Prefix
-          path: /main
-          backend:
-            service:
-              name: gras-service-server-main
-              port:
-                number: 80
-        - pathType: Prefix
-          path: /dispatch
-          backend:
-            service:
-              name: gras-service-server-dispatch
-              port:
-                number: 80
-                
     # - host: app.grascannabis.org
     #   http:
     #     paths:
@@ -47,7 +27,6 @@ spec:
     #           name: gras-service-admin
     #           port:
     #             number: 80
-
     - http:
         paths:
         - pathType: Prefix
