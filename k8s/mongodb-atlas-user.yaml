@@ -9,6 +9,6 @@ spec:
       databaseName: gras-app
   projectRef:
     name: gras-app
-  username: "deliveryByGrasMongo"
+  username: "deliveryByGrasMongoAdm"
   passwordSecretRef:
     name: mongodb-password
