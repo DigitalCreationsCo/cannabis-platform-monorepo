@@ -24,6 +24,7 @@ export default function MarketPlace({ host }: { host: string}) {
             <Grid className="space-y-5">
                 <DispensaryList title={`Dispensaries Near You ( ${selectedLocation?.address?.city} )`} list={organizationsListDummy} />
                 <CategoriesSelector />
+                <DispensaryList title={`Dispensaries Near You ( ${selectedLocation?.address?.city} )`} list={organizationsListDummy} />
             </Grid>
             <Paragraph>
                 This page is the main shopping view. It displays a list of products and allows the user to add them to

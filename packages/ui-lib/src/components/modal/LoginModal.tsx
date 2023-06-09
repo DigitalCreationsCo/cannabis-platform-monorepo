@@ -2,6 +2,7 @@ import { userActions } from '@cd/core-lib';
 import { handleOTPInput, resendOTP, sendOTPEmail, sendOTPPhone } from '@cd/core-lib/src/auth/OTP';
 import { useFormik } from 'formik';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
@@ -14,7 +15,7 @@ import FlexBox from '../FlexBox';
 import Grid from '../Grid';
 import IconWrapper from '../IconWrapper';
 import TextField from '../TextField';
-import { H1, H3, Paragraph, Small } from '../Typography';
+import { H1, H3, H4, Paragraph, Small } from '../Typography';
 import Modal from './Modal';
 
 interface LoginModalProps {
@@ -122,6 +123,13 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
                         >
                             Continue
                         </Button>
+                    </FlexBox>
+                    <FlexBox className="flex-row space-x-2">
+                        <H4 className='text-xl'>
+                            Are you a dispensary?</H4>
+                        <Link href="/signup/create-dispensary-account" onClickCapture={dispatchCloseModal}>
+                            <H4 className="underline"> Sign up here!</H4>
+                        </Link>
                     </FlexBox>
                 </Grid>
             </form>
@@ -271,8 +279,13 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
             dispatchCloseModal();
         };
 
-        return (
-            <Modal className={twMerge(styles.responsive, styles.padd)} modalVisible={modalVisible} onClose={closeModalAndReset} {...props}>
+        const [openModal, setOpenModal] = useState(false);
+        useEffect(() => {
+            setOpenModal(modalVisible);
+        }, [modalVisible])
+        
+        return modalVisible ? (
+            <Modal className={twMerge(styles.responsive, styles.padd)} modalVisible={openModal} onClose={closeModalAndReset} {...props}>
                 <div className='m-auto'>
                 <FlexBox>
                     <Image src={logo} alt="Gras Cannabis logo" width={63} height={63} priority />
@@ -282,7 +295,7 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
                 <H3>a one stop cannabis marketplace</H3>
                 <FormStepComponent /></div>
             </Modal>
-        );
+        ) : <></>;
     }
     
     const styles = {

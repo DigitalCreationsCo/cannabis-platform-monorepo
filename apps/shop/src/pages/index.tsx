@@ -70,7 +70,7 @@ function LandingPage() {
 
                             {!isSignedIn && <FlexBox className='m-auto items-center space-y-2'>
                                 <H4 className='text-xl'>
-                                {`Are you a dispensary? Get started here.`}</H4>
+                                {`Dispensaries, Sign Up Here!`}</H4>
                                 <Link href="/signup/create-dispensary-account">
                                     <Button size="lg" 
                                     bg="primary" 
