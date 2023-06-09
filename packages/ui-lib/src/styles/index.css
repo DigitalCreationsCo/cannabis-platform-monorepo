@@ -4,6 +4,13 @@
 
 @layer base {
 
+  body::-webkit-scrollbar{
+    display: none;
+  }
+  body {
+    -ms-overflow-style: none;
+  }
+
   a * {
     cursor: pointer;
   }
@@ -42,18 +49,18 @@
 
 @layer utilities {
   
-    .cursor-inherit {
-      cursor: inherit;
-    }
+  .cursor-inherit {
+    cursor: inherit;
+  }
 
-    /* Hide scrollbar for Chrome, Safari and Opera */
-    .hide-scroll::-webkit-scrollbar {
-      display: none;
-    }
-  
-    /* Hide scrollbar for IE, Edge and Firefox */
-    .hide-scroll {
-      -ms-overflow-style: none; /* IE and Edge */
-      scrollbar-width: none; /* Firefox */
-    }
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .hide-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .hide-scroll {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
 }

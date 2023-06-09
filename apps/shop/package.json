@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "NODE_ENV=production next build",
-    "postcss": "postcss ./src/styles/globals.css -o ./src/styles/index.css",
+    "postcss": "postcss ./src/styles/index.css -o ./src/styles/index.css",
     "debug": "NODE_OPTIONS='--inspect' next dev",
     "dev": "next dev",
     "lint": "next lint",

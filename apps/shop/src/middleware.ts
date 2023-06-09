@@ -52,6 +52,7 @@ export default function middleware(req: any, res: ServerResponse) {
     // the pages/_stores folder and its respective contents.
     // Instead redirect to /404
     if (url.pathname.startsWith(`/_stores`)) {
+        console.log('stores path')
         if (subdomain === 'app' || subdomain === 'grascannabis' || subdomain === 'localhost') {
             
             url.pathname = '/404';
@@ -80,31 +81,39 @@ export default function middleware(req: any, res: ServerResponse) {
     //     // }
     // }
 
-    // base url redirect to /browse if over21
-    if (url.pathname === '/' && subdomain === 'localhost' || subdomain === 'grascannabis') {
-        let over21 = req.cookies.get('yesOver21')?.value
+    if (subdomain === 'localhost' || subdomain === 'grascannabis') {
 
-        if (over21) {
-            url.pathname = '/browse';
-            return NextResponse.redirect(url); 
+        let 
+        over21 = req.cookies.get('yesOver21')?.value,
+        allowGuest = [
+            '/about-gras',
+            '/signup/create-dispensary-account'
+        ]
+
+        // base url redirect to /browse if over21
+        if (url.pathname === '/') {
+
+            if (over21) {
+                url.pathname = '/browse';
+                return NextResponse.redirect(url); 
+            }
+        }
+
+        // under21 redirect to base url
+        if (url.pathname !== '/') {
+
+            console.log('path: ', url.pathname)
+            console.log('not root')
+
+            if (!over21) {
+
+                if (allowGuest.includes(url.pathname))
+                return NextResponse.next()
+
+                else
+                url.pathname = '/';
+                return NextResponse.redirect(url); 
+            }
         }
     }
-
-    // under21 redirect to base url
-    if (url.pathname !== '/' && subdomain === 'localhost' || subdomain === 'grascannabis') {
-        
-        let over21 = req.cookies.get('yesOver21')?.value
-
-        if (url.pathname === '/about-gras')
-        return NextResponse.next()
-
-        if (url.pathname === '/signup/create-dispensary-account')
-        return NextResponse.next()
-        
-        if (!over21) {
-            url.pathname = '/';
-            return NextResponse.redirect(url); 
-        }
-    }
-
 }
