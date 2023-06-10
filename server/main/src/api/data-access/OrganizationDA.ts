@@ -8,6 +8,7 @@ Organization Data Access - data class for organization table
 members:
 createOrganization
 getOrganizationById
+getOrganizationByZipcode
 getCategoryList
 getUsersByOrganization
 updateProduct
@@ -75,6 +76,16 @@ export default class OrganizationDA {
     static async getOrganizationById(organizationId) {
         try {
             const data = await findOrganizationById(organizationId);
+            return data;
+        } catch (error:any) {
+            console.error(error.message);
+            throw new Error(error.message);
+        }
+    }
+
+    static async getOrganizationsByZipcode(zipcode: number, limit: number) {
+        try {
+            const data = await findOrganizationsByZipcode(zipcode, limit);
             return data;
         } catch (error:any) {
             console.error(error.message);
