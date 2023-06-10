@@ -4,15 +4,17 @@ const router = Router();
 /* =================================
 Organization Routes
 
-"/"     createOrganization
+"/"                     createOrganization
 
-"/:id"     getOrganizationById
+"/:id"                  getOrganizationById
 
-"/:id/categories"     getCategoryList
+"/zipcode/:zipcode"     getOrganizationByZipcode
 
-"/:id/users"     getUsersByOrganization
+"/:id/categories"       getCategoryList
 
-"/product/:id/update"     updateProduct
+"/:id/users"            getUsersByOrganization
+
+"/product/:id/update"   updateProduct
 
 ================================= */
 
@@ -21,6 +23,8 @@ router.route('/').post(orgCtrl.createOrganization);
 router.route('/').put(orgCtrl.updateOrganization);
 
 router.route('/:id').get(orgCtrl.getOrganizationById);
+
+router.route('/zipcode/:zipcode_:limit').get(orgCtrl.getOrganizationsByZipcode)
 
 router.route('/:id/categories').get(orgCtrl.getCategoryList);
 

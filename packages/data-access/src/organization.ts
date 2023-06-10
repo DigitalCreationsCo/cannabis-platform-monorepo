@@ -6,6 +6,7 @@ import prisma from "./db/prisma";
 *   createOrganization
 *   findOrganizationById
 *   findMultipleOrganizationsById
+*   findOrganizationsByZipcode
 *   findUsersByOrganization
 *   findOrganizationBySubdomain
 *   updateOrganization
@@ -252,6 +253,42 @@ export async function findMultipleOrganizationsById(organizationIds: string[]) {
     try {
         const localOrganizations = await prisma.organization.findMany({ where: { id: { in: organizationIds } }, include: { address: true, images: true, products: true, siteSetting: true, categoryList: true }}) || []
         return localOrganizations
+    } catch (error: any) {
+        console.error(error)
+        throw new Error(error)
+    }
+}
+
+/**
+ * get zero or more Organization records using a zipcode
+ * @param zipcode area zipcode
+ * @param limit number of records to return
+ * @returns an array of detailed Organization records
+ */
+export async function findOrganizationsByZipcode(zipcode: number, limit: number) {
+    try {
+        const organizations = await prisma.address.groupBy({ 
+            include: { 
+                address: true, 
+                images: true, 
+                products: true, 
+                siteSetting: true, 
+                categoryList: true 
+            },
+            by: ['city'],
+            having: {
+                zipcode: {
+                    _min: {
+                        gt: zipcode - 1000,
+                    },
+                    _max: {
+                        lt: zipcode + 1000,
+                    }
+                }
+            },
+            take: limit,
+        }) || [];
+        return organizations;
     } catch (error: any) {
         console.error(error)
         throw new Error(error)

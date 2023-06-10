@@ -35,7 +35,8 @@ const urlBuilder = {
 
         organization: () => urlBuilder.main.baseUrl + `/organization`,
         organizationById: (id: any) => urlBuilder.main.baseUrl + `/organization/${id}`,
-
+        organizationsByZipCode: (zipcode: number, limit: number) => urlBuilder.main.baseUrl + `/organization/zipcode/${zipcode}_limit=${limit}`,
+        
         categoryList: (id: any) => urlBuilder.main.baseUrl + `/organization/${id}/categories`,
 
         // signin: () => urlBuilder.main.baseUrl + `/auth/user/signin`,

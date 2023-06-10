@@ -7,6 +7,29 @@ import { urlBuilder } from "../../utils";
 import { AppState } from "../types/reduxTypes";
 import { LocationStateProps } from './location.reducer';
 
+export const getInitialDispensaries = createAsyncThunk(
+  "shop/getDispensariesLocal",
+  async (_, {getState, rejectWithValue}) => {
+    try {
+      
+      const response = await axios.post(
+        urlBuilder.main.organizationsByZipCode(21037, 4), {
+          userLocation: coordinates,
+          proximityRadius: radius,
+        }, { 
+          headers: {
+            // Accept: "application/json",
+            // "Content-Type": "application/json",
+          }
+        });
+        return response.data
+    } catch (error) {
+      console.log("getDispensariesLocal: ", error);
+      return rejectWithValue("Could not get dispensaries");
+    }
+  }
+);
+
 export const getDispensariesLocal = createAsyncThunk<OrganizationWithDetailsAndMetadata[], void>(
   "shop/getDispensariesLocal",
   async (_, {getState, rejectWithValue}) => {
@@ -253,6 +276,7 @@ export const shopSlice = createSlice({
 })
 
 export const shopActions = {
+  getInitialDispensaries,
   getDispensariesLocal,
   getProductsFromLocal,
   // getVendorsExcluding,

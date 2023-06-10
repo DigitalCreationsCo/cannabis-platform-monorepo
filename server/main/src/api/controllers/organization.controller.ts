@@ -9,6 +9,7 @@ OrganizationController - controller class for organization management actions
 members:
 createOrganization
 getOrganizationById
+getOrganizationByZipcode
 getCategoryList
 getUsersByOrganization
 updateProduct
@@ -58,6 +59,20 @@ export default class OrganizationController {
             const organizationId = req.params.id || '';
             
             const data = await OrganizationDA.getOrganizationById(organizationId)
+            if (!data) return res.status(404).json(data);
+            
+            return res.status(200).json(data);
+        } catch (error:any) {
+            console.log('API error: ', error);
+            res.status(500).json({ error });
+        }
+    }
+    
+    static async getOrganizationsByZipcode(req, res) {
+        try {
+            const { zipcode, limit }: { zipcode: number, limit: number } = req.params;
+            
+            const data = await OrganizationDA.getOrganizationsByZipcode(zipcode, limit)
             if (!data) return res.status(404).json(data);
             
             return res.status(200).json(data);

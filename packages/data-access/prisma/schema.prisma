@@ -145,7 +145,7 @@ model Address {
   street2 String?
   city String
   state String
-  zipcode String
+  zipcode Int
   country String
   countryCode String?
   coordinateId String?
