@@ -50,7 +50,7 @@ function DispensaryCard({ dispensary, className }: DispensaryCardProps) {
                     </Paragraph>
                 </FlexBox>
                 {/* <Paragraph>{checkDispensaryIsOpen(dispensary.schedule)}</Paragraph> */}
-                <Paragraph className="badge -ml-2 p-3 self-end absolute">
+                <Paragraph className="badge -ml-2 p-3 text-primary self-end absolute">
                     {checkDispensaryIsOpen({
                         days: 6543210,
                         id: '1',
