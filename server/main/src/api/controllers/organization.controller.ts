@@ -72,7 +72,7 @@ export default class OrganizationController {
         try {
             const { zipcode, limit }: { zipcode: number, limit: number } = req.params;
             
-            const data = await OrganizationDA.getOrganizationsByZipcode(zipcode, limit)
+            const data = await OrganizationDA.getOrganizationsByZipcode(Number(zipcode), Number(limit))
             if (!data) return res.status(404).json(data);
             
             return res.status(200).json(data);

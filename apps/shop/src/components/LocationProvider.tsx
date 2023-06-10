@@ -6,16 +6,11 @@ import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useSelector } from 'react-redux';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { AppThunk } from '../redux/store';
 
 const LocationProvider = () => {
     const router = useRouter()
     const [enteredSite, setEnteredSite] = useState(false);
     const [cookies, setCookie, removeCookie] = useCookies(['yesOver21']);
-
-    useEffect(() => {
-        dispatch(shopActions.getInitialDispensaries() as AppThunk);
-    }, [])
 
     useEffect(() => {
         function checkCheckAgeCookie(): boolean {
@@ -67,7 +62,7 @@ const LocationProvider = () => {
     const shopState = useAppSelector(selectShopState);
 
     const coordinates = selectedLocation?.address?.coordinates;
-
+    
     useEffect(() => {
         if (coordinates.latitude && coordinates.longitude && enteredSite) {
             if (!shopState.isLoading) {

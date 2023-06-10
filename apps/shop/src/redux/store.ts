@@ -2,20 +2,20 @@
 
 import {
   cartReducer,
+  crashMiddleware,
+  locationMiddleware,
   locationReducer,
+  loggerMiddleware,
   modalReducer,
   shopReducer,
   userReducer
 } from '@cd/core-lib';
-import { combineReducers, configureStore, Store } from '@reduxjs/toolkit';
-// import { deserialize, serialize } from 'json-immutable';
-// import { createWrapper } from 'next-redux-wrapper';
+import { applyMiddleware, combineReducers, composeWithDevTools, configureStore, Store } from '@reduxjs/toolkit';
+import { createWrapper, FLUSH, HYDRATE, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE } from 'next-redux-wrapper';
+import { persistReducer, persistStore } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 import { signInEmailPassword, signUpEmailPassword } from 'supertokens-auth-react/recipe/emailpassword';
 import { signOut } from 'supertokens-auth-react/recipe/session';
-
-import { createWrapper, HYDRATE } from 'next-redux-wrapper';
-import { persistReducer, persistStore, REHYDRATE } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
 
 const rootReducer = combineReducers({
     modal: modalReducer,
@@ -41,6 +41,18 @@ const hydratableReducer = (state, action) => {
   }
 };
 
+const bindMiddleware = (middleware) => {
+    if (process.env.NODE_ENV !== 'production') {
+        return composeWithDevTools(applyMiddleware(...middleware));
+    }
+    return applyMiddleware(
+      ...middleware, 
+      locationMiddleware, 
+      crashMiddleware, 
+      loggerMiddleware
+    );
+};
+
 const supertokens = () => {
     return { signInEmailPassword, signUpEmailPassword, signOut };
 };
@@ -62,27 +74,41 @@ const makeStore = () => {
 
     store = configureStore({
       reducer: persistReducer(persistConfig, rootReducer),
-    });
+      middleware: getDefaultMiddleware =>
+        getDefaultMiddleware({
+          serializableCheck: {
+              ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
+          },
+          thunk: {
+              extraArgument: thunkArguments
+          },
+          bindMiddleware
+        })  
+      });
 
      store._persistor = persistStore(store);
      
-  } else {
+  } 
+  else {
     store = configureStore({
       reducer: hydratableReducer,
-    });
+      middleware: getDefaultMiddleware =>
+        getDefaultMiddleware({
+          serializableCheck: {
+              ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
+          },
+          thunk: {
+              extraArgument: thunkArguments
+          },
+          bindMiddleware
+        })
+      });
   }
 
   thunkArguments.store = store;
 
   return store;
 };
-
-// // const bindMiddleware = (middleware) => {
-// //     if (process.env.NODE_ENV !== 'production') {
-// //         return composeWithDevTools(applyMiddleware(...middleware));
-// //     }
-// //     return applyMiddleware(...middleware);
-// // };
 
 export type AppStore = ReturnType<typeof makeStore>;
 export type AppDispatch = typeof store.dispatch;

@@ -8,15 +8,11 @@ import { AppState } from "../types/reduxTypes";
 import { LocationStateProps } from './location.reducer';
 
 export const getInitialDispensaries = createAsyncThunk(
-  "shop/getDispensariesLocal",
-  async (_, {getState, rejectWithValue}) => {
+  "shop/getInitialDispensaries",
+  async (_, {rejectWithValue}) => {
     try {
-      
-      const response = await axios.post(
-        urlBuilder.main.organizationsByZipCode(21037, 4), {
-          userLocation: coordinates,
-          proximityRadius: radius,
-        }, { 
+      const response = await axios.get(
+        urlBuilder.main.organizationsByZipCode(21037, 4), { 
           headers: {
             // Accept: "application/json",
             // "Content-Type": "application/json",
@@ -24,8 +20,8 @@ export const getInitialDispensaries = createAsyncThunk(
         });
         return response.data
     } catch (error) {
-      console.log("getDispensariesLocal: ", error);
-      return rejectWithValue("Could not get dispensaries");
+      console.log("getInitialDispensaries: ", error);
+      return rejectWithValue("Could not get initial dispensaries");
     }
   }
 );
@@ -166,6 +162,34 @@ export const shopSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(getInitialDispensaries.fulfilled, (state, { payload }: PayloadAction<OrganizationWithDetailsAndMetadata[]>) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.isError = false;
+
+      // const dispensaries = payload
+      const dispensaries = organizationsListDummy;
+      dispensaries.forEach((disp) => {
+        disp.metadata = {
+          productsFetched: false,
+        };
+        state.dispensaries.push(disp)
+      });
+    }),
+    builder.addCase(getInitialDispensaries.pending, (state) => {
+      state.isLoading = true;
+    }),
+    builder.addCase(getInitialDispensaries.rejected, (state, { payload }) => {
+      state.isLoading = false;
+      state.isSuccess = false;
+      state.isError = true;
+
+      const error = payload;
+      state.errorMessage = error
+      console.error('get initial dispensaries error: ', error)
+      throw new Error(error.message)
+    }),
+    
     builder.addCase(getDispensariesLocal.fulfilled, (state, { payload }: PayloadAction<OrganizationWithDetailsAndMetadata[]>) => {
       state.isLoading = false;
       state.isSuccess = true;
@@ -189,8 +213,8 @@ export const shopSlice = createSlice({
 
       const error = payload;
       state.errorMessage = error
-      toast.error(error)
-      console.log('get dispensaries local error: ', error)
+      console.error('get dispensaries local error: ', error)
+      throw new Error(error.message)
     }),
     
     builder.addCase(getProductsFromLocal.fulfilled, (state, { payload }: PayloadAction<ProductWithDetails[]>) => {
@@ -287,3 +311,48 @@ export const shopActions = {
 export const shopReducer = shopSlice.reducer;
 
 export const selectShopState = (state: AppState) => state.shop;
+
+
+const organizationsListDummy = [
+  {   name: 'Curaleaf', 
+      subdomainId: 'curaleaf', 
+      id: '234', 
+      address: {
+          street1: '1239 2nd st',
+          street2: '',
+          city: 'Baltimore',
+          state: 'Maryland',
+          zipcode: '23456',
+          country: 'United States',
+          countryCode: 'US',
+      }
+  },
+  { 
+      name: 'Sunnyside', 
+      subdomainId: 'sunnyside', 
+      id: '345' ,
+      address: {
+          street1: '1239 2nd st',
+          street2: '',
+          city: 'Baltimore',
+          state: 'Maryland',
+          zipcode: '23456',
+          country: 'United States',
+          countryCode: 'US',
+      }
+  },
+  { 
+      name: 'McNuggz', 
+      subdomainId: 'mcnuggz', 
+      id: '456',
+      address: {
+          street1: '1239 2nd st',
+          street2: '',
+          city: 'Baltimore',
+          state: 'Maryland',
+          zipcode: '23456',
+          country: 'United States',
+          countryCode: 'US',
+      }
+  }
+];

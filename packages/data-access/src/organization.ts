@@ -283,7 +283,7 @@ export async function findOrganizationsByZipcode(zipcode: number, limit: number)
                     }
                 }
             },
-            take: limit,
+            take: Number(limit),
             
         }) || [];
         return organizations;
