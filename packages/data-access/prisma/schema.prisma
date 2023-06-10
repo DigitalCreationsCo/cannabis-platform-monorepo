@@ -151,7 +151,7 @@ model Address {
   coordinateId String?
   coordinates Coordinates? @relation(fields: [coordinateId], references: [id], onUpdate: SetNull, onDelete: SetNull)
   user User[]
-  organization Organization @relation("organizationAddress", fields: [id], references: [addressId], onDelete: NoAction, onUpdate: NoAction)
+  organization Organization? @relation("organizationAddress")
   orders Order[]
 
   createdAt      DateTime         @default(now())
@@ -348,7 +348,7 @@ model Organization {
   stripeAccountId String? @unique
   stripeOnboardingComplete Boolean @default(false)
   addressId     String @unique
-  address Address? @relation("organizationAddress")
+  address Address @relation("organizationAddress", fields: [addressId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   dialCode String
   phone String
   // email String @unique

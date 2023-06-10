@@ -68,7 +68,7 @@ export type AddressCreateType ={
     street2: string | null;
     city: string;
     state: string;
-    zipcode: string;
+    zipcode: number;
     country: string;
     countryCode: string | null;
     coordinateId?: string;
@@ -83,7 +83,7 @@ export type AddressUserCreateType = {
     street2: string | null;
     city: string;
     state: string;
-    zipcode: string;
+    zipcode: number;
     country: string;
     countryCode: string | null;
     coordinateId?: string;

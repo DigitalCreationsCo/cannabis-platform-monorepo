@@ -268,19 +268,6 @@ export async function findMultipleOrganizationsById(organizationIds: string[]) {
 export async function findOrganizationsByZipcode(zipcode: number, limit: number) {
     try {
         const organizations = await prisma.organization.findMany({ 
-            where: {
-                address: {
-                    zipcode: {
-                        _min: {
-                            gt: zipcode - 1000,
-                        },
-                        _max: {
-                            lt: zipcode + 1000,
-                        },
-                    }
-                }
-            },
-            take: limit,
             include: { 
                 address: true, 
                 images: true, 
@@ -288,28 +275,17 @@ export async function findOrganizationsByZipcode(zipcode: number, limit: number)
                 siteSetting: true, 
                 categoryList: true 
             },
+            where: {
+                address: {
+                    isNot: undefined,
+                    zipcode: {
+                        in: [zipcode - 1000, zipcode, zipcode + 1000]
+                    }
+                }
+            },
+            take: limit,
+            
         }) || [];
-        //     by: ['organizationId'],
-        //     having: {
-        //         address: {}
-        //         zipcode: {
-        //             _min: {
-        //                 gt: zipcode - 1000,
-        //             },
-        //             _max: {
-        //                 lt: zipcode + 1000,
-        //             }
-        //         }
-        //     },
-        //     take: limit,
-        //     include: { 
-        //         address: true, 
-        //         images: true, 
-        //         products: true, 
-        //         siteSetting: true, 
-        //         categoryList: true 
-        //     },
-        // }) || [];
         return organizations;
     } catch (error: any) {
         console.error(error)
