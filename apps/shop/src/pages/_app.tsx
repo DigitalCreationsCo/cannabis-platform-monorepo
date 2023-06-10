@@ -3,16 +3,15 @@ import { LayoutContextProps, LoadingPage, ModalProvider, ToastProvider } from "@
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { Provider as ReduxProvider, useStore } from 'react-redux';
+import { Provider as ReduxProvider } from 'react-redux';
 // import { Persistor } from 'redux-persist';
-import withRedux from 'next-redux-wrapper';
 import { useRouter } from "next/router";
 import { PersistGate } from 'redux-persist/integration/react';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session, { SessionContextType } from 'supertokens-auth-react/recipe/session';
 import { LayoutContainer, LocationProvider } from '../components';
 import { frontendConfig } from '../config/frontendConfig';
-import reduxStore from '../redux/store';
+import { wrapper } from '../redux/store';
 
 if (typeof window !== 'undefined') {
     SuperTokensReact.init(frontendConfig())
@@ -22,7 +21,10 @@ type CustomAppProps = AppProps & {
     Component: ExtendedPageComponent;
 };
 
-function App({ Component, pageProps }: CustomAppProps) {
+function App({ Component, ...rest }: CustomAppProps) {
+
+    const 
+    { store, props } = wrapper.useWrappedStore(rest)
 
     const [routerLoading, setRouterLoading] = useState(true)
     const router = useRouter()
@@ -32,7 +34,7 @@ function App({ Component, pageProps }: CustomAppProps) {
 
     useEffect(() => {
         async function doRefresh() {
-            if (pageProps.fromSupertokens === 'needs-refresh') {
+            if (props.pageProps.fromSupertokens === 'needs-refresh') {
                 console.log('needs refresh');
                 if (await Session.attemptRefreshingSession()) {
                     location.reload();
@@ -43,15 +45,13 @@ function App({ Component, pageProps }: CustomAppProps) {
             }
         }
         doRefresh();
-    }, [pageProps.fromSupertokens]);
+    }, [props.pageProps.fromSupertokens]);
 
-    if (pageProps.fromSupertokens === 'needs-refresh') {
+    if (props.pageProps.fromSupertokens === 'needs-refresh') {
         return null;
     }
 
     const getLayoutContext = Component.getLayoutContext || (() => ({}));
-    
-    const store = useStore()
 
     return (
         <>
@@ -69,7 +69,7 @@ function App({ Component, pageProps }: CustomAppProps) {
                         <ModalProvider />
                         <ToastProvider />
                         <LayoutContainer {...getLayoutContext()}>
-                            { routerLoading ? <LoadingPage /> : <Component {...pageProps} />} 
+                            { routerLoading ? <LoadingPage /> : <Component {...props.pageProps} />} 
                         </LayoutContainer>
                     </PersistGate>
                 </ReduxProvider>
@@ -78,7 +78,7 @@ function App({ Component, pageProps }: CustomAppProps) {
     )
 }
 
-export default withRedux(reduxStore)(App);
+export default wrapper.withRedux(App);
 
 export type ExtendedPageComponent = {
     signIn: (input: {
