@@ -11,6 +11,8 @@ export default function StoreFront({
     organization
     // products, categories
 }: StorefrontProps) {
+
+    
     return (
         <Page>
             <Head>

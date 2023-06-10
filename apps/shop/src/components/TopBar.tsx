@@ -1,4 +1,4 @@
-import { modalActions, modalTypes, selectCartState, selectIsCartEmpty, selectUserState } from '@cd/core-lib';
+import { getSiteUrl, modalActions, modalTypes, selectCartState, selectIsCartEmpty, selectUserState } from '@cd/core-lib';
 import { Button, FlexBox, H2, Paragraph } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -41,10 +41,10 @@ function TopBar({ signOut }: TopBarProps) {
 
     return (
         <div className={twMerge(styles.topbar)}>
-            <Link href="/" passHref>
+            <Link href={getSiteUrl("/")} passHref>
                 <Image alt="Gras" width={50} height={50} src={logo} />
             </Link>
-            <Link href="/">
+            <Link href={getSiteUrl("/")}>
                 <H2 className="pt-1">Gras</H2>
             </Link>
             <Paragraph
@@ -62,7 +62,7 @@ function TopBar({ signOut }: TopBarProps) {
                 Cannabis Marketplace
             </Paragraph>
             <div className="flex-1"></div>
-            <Link href="/mybag" passHref>
+            <Link href={getSiteUrl("/mybag")} passHref>
                 <Button
                     className="indicator w-[100px]"
                     // onClick={openCartModal}
@@ -76,7 +76,7 @@ function TopBar({ signOut }: TopBarProps) {
 
             {user.isSignedIn ? (
                 <>
-                    <Link href="/support">
+                    <Link href={getSiteUrl("/support")}>
                         <Paragraph className={twMerge('pt-1', 'px-3', 'text-md', 'whitespace-nowrap')}>
                             Need Support?
                         </Paragraph>

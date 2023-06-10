@@ -16,7 +16,6 @@ const LocationProvider = () => {
         function checkCheckAgeCookie(): boolean {
             return cookies.yesOver21 || false
         }
-        console.log('checkCheckAgeCookie: ', checkCheckAgeCookie());
         checkCheckAgeCookie() ? setEnteredSite(true) : setEnteredSite(false);
     }, [router])
 
@@ -33,7 +32,6 @@ const LocationProvider = () => {
     };
 
     useEffect(() => {
-        console.log('enteredSite: ', enteredSite)
         if (typeof window !== 'undefined' && enteredSite) {
             if (navigator?.geolocation !== undefined) {
                 navigator.geolocation.getCurrentPosition(
