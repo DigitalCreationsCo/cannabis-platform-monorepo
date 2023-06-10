@@ -19,13 +19,10 @@ appBaseUrl = process.env.NEXT_PUBLIC_SHOP_APP_URL || 'localhost:3000';
 
 export default function middleware(req: any, res: ServerResponse) {
 
-    console.log('req headers referer: ', req.headers.get('referer'));
-    
     const
     subdomain = req.headers.get('host')?.split('.')[0].split(':')[0] || 'localhost',
     url = req.nextUrl;
 
-    console.log('url', url);
     console.log('subdomain', subdomain);
 
     // Redirect to /app if subdomain is app and path does not start with /app
@@ -92,7 +89,7 @@ export default function middleware(req: any, res: ServerResponse) {
 
         // base url redirect to /browse if over21
         if (url.pathname === '/') {
-
+            console.log('root')
             if (over21) {
                 url.pathname = '/browse';
                 return NextResponse.redirect(url); 
@@ -101,8 +98,6 @@ export default function middleware(req: any, res: ServerResponse) {
 
         // under21 redirect to base url
         if (url.pathname !== '/') {
-
-            console.log('path: ', url.pathname)
             console.log('not root')
 
             if (!over21) {

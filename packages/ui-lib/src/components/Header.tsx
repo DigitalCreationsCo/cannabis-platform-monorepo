@@ -25,7 +25,6 @@ function Header({ onSearchChange, placeholder, drawerComponentId, children }: He
         <div className={twMerge(headerContainerStyle)}>
             <div className={twMerge(headerStyle)}>
                 <label htmlFor={drawerComponentId} className={twMerge(drawerButtonStyle)}>
-                    {/* // add this svg to ui-lib lib */}
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
