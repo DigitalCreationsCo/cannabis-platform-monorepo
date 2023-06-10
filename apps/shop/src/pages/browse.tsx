@@ -1,5 +1,5 @@
 import { selectSelectedLocationState, selectUserState } from '@cd/core-lib/src/reduxDir';
-import { Grid, H3, Page, Paragraph } from '@cd/ui-lib';
+import { Grid, H3, Page } from '@cd/ui-lib';
 import Head from 'next/head';
 import { useSelector } from 'react-redux';
 import Session from 'supertokens-node/recipe/session';
@@ -25,13 +25,13 @@ export default function MarketPlace({ host }: { host: string}) {
                 <DispensaryList title={`Dispensaries Near You ( ${selectedLocation?.address?.city} )`} list={organizationsListDummy} />
                 {/* <CategoriesSelector /> */}
                 {/* BUILD THIS OUT, AND ADD BACK IN ^ */}
-                <DispensaryList title={`Dispensaries Near You ( ${selectedLocation?.address?.city} )`} list={organizationsListDummy} />
             </Grid>
-            <Paragraph>
+            {/* HELP TEXT V USE IT IN A TUTORIAL VIEW */}
+            {/* <Paragraph>
                 This page is the main shopping view. It displays a list of products and allows the user to add them to
                 the cart. It also display list of nearby dispensaries and lets the user enter their storefront to view
                 merchandise and content.
-            </Paragraph>
+            </Paragraph> */}
         </Page>
     );
 }

@@ -5,13 +5,13 @@ function AboutGras() {
     return (
         <Page className={twMerge(styles.gradient)}>
             <FlexBox className={twMerge(styles.about)}>
-                <FlexBox className='sm:w-[400px]'>
+                <FlexBox className='max-w-[400px] m-auto'>
                 <H2 className='text-secondary'>About Gras</H2>
                 <Paragraph className='text-justify'>{`Gras is a home-grown service provider for cannabis lovers.
                     We serve the people of our communities, that enjoy cannabis, by offering a bridge of communication, clarity and support.`}
                 </Paragraph>
                 <Paragraph className='text-justify'>Gras is here to bring meaningful fulfillment to our customers and partners in the cannabis world,{' '}
-                <b>one&nbsp;delivery&nbsp;at&nbsp;a&nbsp;time. </b> ❤️ </Paragraph>
+                one&nbsp;delivery&nbsp;at&nbsp;a&nbsp;time. ❤️ </Paragraph>
             </FlexBox>
             </FlexBox>
         </Page>
@@ -30,7 +30,7 @@ const styles={
     about: [
         "bg-inverse md:rounded shadow", 
         "cursor-default",
-        "w-full md:w-auto mx-auto space-y-2 h-full pt-8 px-16 items-center"
+        "w-full md:w-auto mx-auto space-y-2 h-full px-16 items-center"
     ]
 }
 

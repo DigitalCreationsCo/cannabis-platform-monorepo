@@ -124,7 +124,7 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
                             Continue
                         </Button>
                     </FlexBox>
-                    <FlexBox className="flex-row space-x-2">
+                    <FlexBox className="flex-row space-x-2 m-auto">
                         <H4 className='text-xl'>
                             Are you a dispensary?</H4>
                         <Link href="/signup/create-dispensary-account" onClickCapture={dispatchCloseModal}>
