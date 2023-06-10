@@ -1,5 +1,5 @@
 import { Button, H5 } from '@cd/ui-lib';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import DispensaryCard from './DispensaryCard';
 
 type DispensaryListProps = {
@@ -11,6 +11,8 @@ type DispensaryListProps = {
     }[];
 };
 function DispensaryListCarousel({ title, list }: DispensaryListProps) {
+
+    const dispensaryList = useMemo(() => list, [list]);
 
     const [slideIndex, setSlideindex] = useState(0);
     const decrement = (e: any) => {
@@ -38,7 +40,7 @@ function DispensaryListCarousel({ title, list }: DispensaryListProps) {
                     </Button>
                 </a>
                 <div className="carousel items-center w-full p-2 space-x-4 rounded-box carousel-center">
-                    {list.map((dispensary, index) => (
+                    {dispensaryList.map((dispensary, index) => (
                         <div key={'dispensary-card-' + index} id={'dispensary-card-' + index} className="carousel-item">
                             <DispensaryCard key={'dispensary-' + dispensary.id} dispensary={dispensary as any} />
                         </div>
