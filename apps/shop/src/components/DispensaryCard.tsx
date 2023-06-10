@@ -1,13 +1,14 @@
 import { checkDispensaryIsOpen, formatDispensaryUrl, renderAddress } from '@cd/core-lib';
 import { Address, CategoryList, Coordinates, ImageOrganization, Schedule } from '@cd/data-access';
-import { Card, FlexBox, Paragraph } from '@cd/ui-lib';
+import { Card, FlexBox, LoadingDots, Paragraph } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 
 type DispensaryCardProps = {
     // V development prop type
-    dispensary: {
+    loading?: boolean;
+    dispensary?: {
         id?: string;
         name?: string;
         address?: Address & {
@@ -26,18 +27,19 @@ type DispensaryCardProps = {
     };
     className?: string | string[];
 };
-function DispensaryCard({ dispensary, className }: DispensaryCardProps) {
+function DispensaryCard({ dispensary, className, loading }: DispensaryCardProps) {
     const styles = {
         dispensarycard: ['min-w-[300px] md:w-[350px] p-4 md:p-4']
     };
     return (
-        <Link href={formatDispensaryUrl(dispensary.subdomainId)}>
-            <Card className={twMerge([styles.dispensarycard, className])} title={dispensary.name}>
-                <FlexBox className="items-end flex-row justify-between">
-                    {dispensary.images?.[0] && (
+        <Card className={twMerge([styles.dispensarycard, className])} title={dispensary?.name}>
+            <Link href={formatDispensaryUrl(dispensary?.subdomainId as string)} >
+                { loading ? 
+                (<><FlexBox className="items-end flex-row justify-between">
+                    {dispensary?.images?.[0] && (
                         <Image
-                            src={dispensary.images?.[0].location}
-                            alt={dispensary.name || ''}
+                            src={dispensary?.images?.[0].location}
+                            alt={dispensary?.name || ''}
                             height={100}
                             width={100}
                             className="border"
@@ -45,7 +47,7 @@ function DispensaryCard({ dispensary, className }: DispensaryCardProps) {
                     )}
                     <Paragraph>
                         {renderAddress({
-                            address: dispensary.address
+                            address: dispensary?.address
                         })}
                     </Paragraph>
                 </FlexBox>
@@ -63,8 +65,9 @@ function DispensaryCard({ dispensary, className }: DispensaryCardProps) {
                         ? 'open now'
                         : 'closed'}
                 </Paragraph>
-            </Card>
-        </Link>
+                </>) : (<FlexBox><LoadingDots /></FlexBox>)}
+            </Link>
+        </Card>
     );
 }
 

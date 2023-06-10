@@ -24,7 +24,7 @@ router.route('/').put(orgCtrl.updateOrganization);
 
 router.route('/:id').get(orgCtrl.getOrganizationById);
 
-router.route('/zipcode/:zipcode_:limit').get(orgCtrl.getOrganizationsByZipcode)
+router.route('/zipcode/:zipcode&_:limit').get(orgCtrl.getOrganizationsByZipcode)
 
 router.route('/:id/categories').get(orgCtrl.getCategoryList);
 

@@ -45,7 +45,7 @@ export type AddressPayload = {
     street2: string | null;
     city: string;
     state: string;
-    zipcode: string;
+    zipcode: number;
     country: string;
     countryCode: string | null;
     coordinates: {latitude: number; longitude: number};

@@ -1,5 +1,5 @@
 import { addressHasValidCoordinates, getGeoCoordinatesByAddress, urlBuilder } from '@cd/core-lib';
-import { createOrganization, findCategoryListByOrg, findOrganizationById, findUsersByOrganization, OrganizationCreateType, updateOrganization } from '@cd/data-access';
+import { createOrganization, findCategoryListByOrg, findOrganizationById, findOrganizationsByZipcode, findUsersByOrganization, OrganizationCreateType, updateOrganization } from '@cd/data-access';
 import { createId } from '@paralleldrive/cuid2';
 import axios from 'axios';
 /* =================================

@@ -40,11 +40,15 @@ function DispensaryListCarousel({ title, list }: DispensaryListProps) {
                     </Button>
                 </a>
                 <div className="carousel items-center w-full p-2 space-x-4 rounded-box carousel-center">
-                    {dispensaryList.map((dispensary, index) => (
+                    {dispensaryList.length > 0 ? 
+                        dispensaryList.map((dispensary, index) => (
                         <div key={'dispensary-card-' + index} id={'dispensary-card-' + index} className="carousel-item">
                             <DispensaryCard key={'dispensary-' + dispensary.id} dispensary={dispensary as any} />
                         </div>
-                    ))}
+                    )): [0,1,2,3].map((el) => (<div key={'loading-dispensary-card-' + el} className="carousel-item">
+                        <DispensaryCard key={'dispensary-' + el} loading />
+                        </div>))
+                    }
                 </div>
                 <a onClick={increment} href={'#dispensary-card-' + slideIndex}>
                     <Button bg="transparent" size="sm" className={styles.carouselButton} hover="transparent">

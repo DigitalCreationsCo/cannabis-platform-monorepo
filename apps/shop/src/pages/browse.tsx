@@ -1,13 +1,13 @@
-import { selectSelectedLocationState, selectUserState } from '@cd/core-lib/src/reduxDir';
+import { selectSelectedLocationState, selectShopState, selectUserState } from '@cd/core-lib/src/reduxDir';
 import { Grid, H3, Page } from '@cd/ui-lib';
 import Head from 'next/head';
 import { useSelector } from 'react-redux';
 import Session from 'supertokens-node/recipe/session';
-import organizationsListDummy from '../../data/organizationsList';
 import { DispensaryList } from '../components';
 
 export default function MarketPlace({ host }: { host: string}) {
 
+    const { dispensaries } = useSelector(selectShopState)
     const selectedLocation = useSelector(selectSelectedLocationState);
 
     const user = useSelector(selectUserState)
@@ -22,7 +22,7 @@ export default function MarketPlace({ host }: { host: string}) {
             </Head>
             <H3 className='px-4'>Good day{firstName && `, ${ firstName}`}!</H3>
             <Grid className="space-y-5">
-                <DispensaryList title={`Dispensaries Near You ( ${selectedLocation?.address?.city} )`} list={organizationsListDummy} />
+                <DispensaryList title={`Dispensaries Near You ( ${selectedLocation?.address?.city} )`} list={dispensaries} />
                 {/* <CategoriesSelector /> */}
                 {/* BUILD THIS OUT, AND ADD BACK IN ^ */}
             </Grid>
