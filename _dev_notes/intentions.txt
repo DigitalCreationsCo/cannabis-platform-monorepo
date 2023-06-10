@@ -132,6 +132,9 @@ Optimize docker images, SHOP especially,
 FInish end to end tests
 Stay vigilant! WORK HARD. Go to HACC campus. Go hard!
 
+BUGS: 
+cart bug when navigating to different storefronts, the cart changes in unexpected ways
+
 DRIVERCLIENT TO DO:
 Test dispatch in production
 pod install,

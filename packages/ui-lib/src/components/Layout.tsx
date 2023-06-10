@@ -55,7 +55,6 @@ function Layout({
         <div className={twMerge("flex flex-col min-h-screen", styles.isModalOverlay, className)}>
             <div className={styles.main}>
                 {showTopBar && <TopBarComponent signOut={signOut} doesSessionExist={isSession} />}
-                <div className="p-2"></div>
                 {/* {showHeader && (
                     <Header
                         placeholder={placeholder}
