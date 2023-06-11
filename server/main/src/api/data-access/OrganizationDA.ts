@@ -25,13 +25,13 @@ export default class OrganizationDA {
             const data = 
             await createOrganization(organization);
 
-            console.log(data)
+            console.log({...data, ...organization })
             console.info(
                 `successfully created organization record ${organization.name}: ${organization.id} 
                 now creating location record...`);
                 
             await axios.post(
-                urlBuilder.location.organizationLocationRecord(), { ...organization },{ headers: {
+                urlBuilder.location.organizationLocationRecord(), { ...data, ...organization },{ headers: {
                           Accept: "application/json",
                           "Content-Type": "application/json",
                         }})
