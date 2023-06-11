@@ -6,17 +6,17 @@ export const renderAddress = ({
     showState = true,
     showCountry = true,
     showZipcode = true,
-    breakLine = true,
+    lineBreak = true,
 } : { 
     address?: Omit<Address, "id" | "userId" | "organizationId" | "createdAt" | "updatedAt">;
     showCity?: boolean;
     showState?: boolean;
     showCountry?: boolean;
     showZipcode?: boolean;
-    breakLine?: boolean;
+    lineBreak?: boolean;
 }) => {
     if (!address) return '';
-    return `${address.street1} ${address.street2}${breakLine?'\n':''}${showCity && address.city + ', ' || ''}${showState && address.state || ''}${breakLine?'\n':', '}${showCountry && address.country || ''} ${showZipcode && address.zipcode || ''}`
+    return `${address.street1} ${address.street2}${lineBreak?'\n':''}${showCity && address.city + ', ' || ''}${showState && address.state || ''}${showCountry && ',' || ''}${lineBreak?'\n':''}${showCountry && address.country || ''} ${showZipcode && address.zipcode || ''}`
 };
 
 const sensitiveFields = [

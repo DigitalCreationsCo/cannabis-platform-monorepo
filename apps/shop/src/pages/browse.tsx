@@ -44,21 +44,3 @@ export default function MarketPlace({ host }: { host: string}) {
         </Page>
     );
 }
-
-// export async function getServerSideProps({ req, res }: any) {
-//     try {
-//         return {
-//             props: {
-//                 host: req.headers.host
-//             }
-//         };
-//     } catch (error: any) {
-//         console.log('SSR error marketplace place: ', error.message);
-//         if (error.type === Session.Error.TRY_REFRESH_TOKEN) {
-//             return { props: { fromSupertokens: 'needs-refresh' } };
-//         } else if (error.type === Session.Error.UNAUTHORISED) {
-//             console.log('unauthorized error: ', error);
-//             return res.status(200).json({ status: false, error });
-//         } else return { notFound: true };
-//     }
-// }

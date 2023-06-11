@@ -219,7 +219,7 @@ export default function useCarousel(length: number, options: UseCarouselOptions 
   const { 
     slidesPresented = 1, 
     transitionTime = 400,
-    interval = 5500 
+    interval = 4800 
   } = options;
 
   const

@@ -3,8 +3,8 @@ import icons from '@cd/ui-lib/icons';
 
 function Support() {
     return (
-        <Page>
-            <FlexBox className='w-[90%] md:w-2/3 mx-auto space-y-2'>
+        <Page className='pt-4'>
+            <FlexBox className='w-[80%] md:w-[440px] mx-auto space-y-2'>
             <PageHeader title="Support" Icon={Icons.Shield} />
                 <H4 className="whitespace-pre-line">
                 Thanks for choosing Gras.</H4>
