@@ -6,6 +6,7 @@ import axios from "axios";
 export const getGeoCoordinatesByAddress = async (address: Address | AddressCreateType | AddressUserCreateType) => {
 	const { street1, street2 ,city, state, country, zipcode,countryCode } = address;
 	const addressString = `${street1} ${street2} ${city} ${state} ${country} ${zipcode} ${countryCode}`;
+	console.log('getting coordinates for address: ', addressString);
 	const coordinates = await getCoordinatesByAddressString(addressString);
 	return coordinates
 }

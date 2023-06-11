@@ -1,9 +1,10 @@
 import { OrganizationWithShopDetails } from "@cd/data-access";
 
 const organizationsListDummy: OrganizationWithShopDetails[] = [
-    {   name: 'Curaleaf', 
-        subdomainId: 'curaleaf', 
-        id: '234', 
+    {
+        name: 'Curaleaf',
+        subdomainId: 'curaleaf',
+        id: '234',
         address: {
             id: '1',
             street1: '1239 2nd st',
@@ -18,10 +19,10 @@ const organizationsListDummy: OrganizationWithShopDetails[] = [
             updatedAt: new Date,
         }
     },
-    { 
-        name: 'Sunnyside', 
-        subdomainId: 'sunnyside', 
-        id: '345' ,
+    {
+        name: 'Sunnyside',
+        subdomainId: 'sunnyside',
+        id: '345',
         address: {
             id: '23',
             street1: '1239 2nd st',
@@ -36,15 +37,15 @@ const organizationsListDummy: OrganizationWithShopDetails[] = [
             updatedAt: new Date,
         }
     },
-    { 
+    {
         id: '456',
-        name: 'McNuggz', 
-        subdomainId: 'mcnuggz', 
+        name: 'McNuggz',
+        subdomainId: 'mcnuggz',
         stripeAccountId: 'acct_1JX2Zz2eZvKYlo2C',
         stripeOnboardingComplete: true,
-        dialCode: '1', 
-        phone: '1232343456', 
-        addressId: '2', 
+        dialCode: '1',
+        phone: '1232343456',
+        addressId: '2',
         termsAccepted: true,
         createdAt: new Date,
         updatedAt: new Date,
@@ -70,7 +71,7 @@ const organizationsListDummy: OrganizationWithShopDetails[] = [
                 updatedAt: new Date,
             }
         },
-        vendorId: '3', 
+        vendorId: '3',
         images: [
             {
                 id: '2345',
@@ -80,7 +81,7 @@ const organizationsListDummy: OrganizationWithShopDetails[] = [
                 createdAt: new Date,
                 updatedAt: new Date,
             }
-        ], 
+        ],
         categoryList: {
             id: '36',
             organizationId: '456',
@@ -88,7 +89,7 @@ const organizationsListDummy: OrganizationWithShopDetails[] = [
             createdAt: new Date,
             updatedAt: new Date,
         },
-        
+
         schedule: {
             id: '3',
             organizationId: '456',

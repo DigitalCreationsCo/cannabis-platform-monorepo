@@ -19,9 +19,17 @@ export default class OrganizationDA {
     static async createOrganization(organization: OrganizationCreateType) {
         try {
 
+            if (!organization.vendorId)
+            organization.vendorId = createId();
+            
             const data = 
             await createOrganization(organization);
 
+            console.log(data)
+            console.info(
+                `successfully created organization record ${organization.name}: ${organization.id} 
+                now creating location record...`);
+                
             await axios.post(
                 urlBuilder.location.organizationLocationRecord(), { ...organization },{ headers: {
                           Accept: "application/json",
@@ -85,6 +93,7 @@ export default class OrganizationDA {
 
     static async getOrganizationsByZipcode(zipcode: number, limit: number) {
         try {
+            console.log('getting organizations by zipcode: ', zipcode, limit)
             const data = await findOrganizationsByZipcode(zipcode, limit);
             return data;
         } catch (error:any) {

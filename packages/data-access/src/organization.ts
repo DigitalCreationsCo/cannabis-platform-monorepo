@@ -10,7 +10,6 @@ import prisma from "./db/prisma";
 *   findOrganizationsByZipcode
 *   findUsersByOrganization
 *   findOrganizationBySubdomain
-*   updateOrganization
 *   updateStripeAccountDispensary
 *   getStripeAccountId
 */
@@ -65,7 +64,12 @@ export async function updateOrganization(organization: OrganizationCreateType) {
             //     },
             // },
             data: {
-                ...data,
+                name: organization.name,
+                dialCode: organization.dialCode,
+                phone: organization.phone,
+                stripeAccountId: organization.stripeAccountId,
+                stripeOnboardingComplete: false,
+                termsAccepted: false,
                 address: {
                     connectOrCreate: {
                         where: { id: address.id },
@@ -128,26 +132,49 @@ export async function updateOrganization(organization: OrganizationCreateType) {
 
 export async function createOrganization(organization: OrganizationCreateType) { 
     try {
-        organization.subdomainId = organization.name.toLowerCase();
+        organization.subdomainId = organization.name.toLowerCase().split(' ').join('-');
         
-        const { vendorId, address, subdomainId, ...data } 
+        const { vendorId, address, subdomainId, schedule } 
         = organization
 
-        const { coordinates, coordinateId, userId, ...addressData } 
-        = address
-        
+        const
+        insertImages = organization.images.map((image) => ({ ...image }));
+
         const createOrganization = await prisma.organization.create({
             data: {
-                ...data,
+                name: organization.name,
+                dialCode: organization.dialCode,
+                phone: organization.phone,
+                stripeAccountId: organization.stripeAccountId,
+                stripeOnboardingComplete: false,
+                termsAccepted: false,
                 address: {
                     create: {
-                        ...addressData,
+                        street1: address.street1,
+                        street2: address.street2,
+                        city: address.city,
+                        state: address.state,
+                        country: address.country,
+                        zipcode: address.zipcode,
                         coordinates: {
                             create: {
-                                latitude: Number(coordinates?.latitude),
-                                longitude: Number(coordinates?.longitude)
+                                latitude: Number(address.coordinates?.latitude),
+                                longitude: Number(address.coordinates?.longitude)
                             }
                         }
+                    }
+                },
+                images: {
+                    create: {
+                        location: organization.images[0].location
+                    }
+                },
+                schedule:{
+                    create: {
+                        createdAt: schedule.createdAt,
+                        days: schedule.days,
+                        openAt: schedule.openAt,
+                        closeAt: schedule.closeAt,
                     }
                 },
                 subdomain: {
@@ -162,6 +189,13 @@ export async function createOrganization(organization: OrganizationCreateType) {
                         create: { id: vendorId, name: organization.name, publicName: organization.name }
                     }
                 },
+                siteSetting: {
+                    create: {
+                        title: '',
+                        description: '',
+                        bannerText: '',
+                    }
+                }
                 // add default site settings
             }
         });
@@ -295,22 +329,6 @@ export async function findOrganizationsByZipcode(zipcode: number, limit: number)
 }
 
 /**
- * update Organization Record
- * @param id organization id
- * @param data fields to update
- * @returns 
- */
-export async function updateOrganizationRecord(id: string, data: Prisma.OrganizationUpdateArgs['data']) {
-    try {
-        const update = await prisma.organization.update({ where: { id }, data: {...data }})
-        return update
-    } catch (error: any) {
-        console.error(error)
-        throw new Error(error)
-    }
-}
-
-/**
 * Adds stripe account id to organization record
 * @param id organization id
 * @param stripeAccountId stripe account id
@@ -348,17 +366,12 @@ export async function getStripeAccountId(organizationId: string) {
 // export type OrganizationCreateType = Prisma.PromiseReturnType<typeof createOrganization>
 // export type OrganizationC = Prisma.OrganizationCreateArgs["data"]
 
-export type OrganizationCreateType = {
-    id: string | undefined
-    name: string
+export type OrganizationCreateType = Organization & {
     address: AddressCreateType
-    dialCode: string
-    phone: string
-    // email: string
-    // emailVerified?: boolean
-    vendorId: string
-    termsAccepted?: boolean
-    subdomainId: string
+    schedule: Prisma.ScheduleCreateInput
+    images: Prisma.ImageOrganizationCreateInput[]
+    products: Prisma.ProductCreateInput[]
+    categoryList: Prisma.CategoryListCreateInput
 }
 
 export type OrganizationWithAddress = Organization & { address: AddressWithCoordinates}
