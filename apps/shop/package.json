@@ -52,7 +52,9 @@
     "react-google-recaptcha": "2.1.0",
     "react-hot-toast": "2.4.0",
     "react-redux": "8.0.2",
-    "tailwind-merge": "1.8.0"
+    "react-responsive-carousel": "3.2.23",
+    "tailwind-merge": "1.8.0",
+    "use-carousel-hook": "^0.2.1"
   },
   "devDependencies": {
     "@next/env": "13.2.4",

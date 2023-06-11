@@ -9,8 +9,9 @@ type DispensaryListProps = {
         id: string; 
         subdomainId: string;
     }[];
+    loading: boolean;
 };
-function DispensaryListCarousel({ title, list }: DispensaryListProps) {
+function DispensaryListCarousel({ title, list, loading }: DispensaryListProps) {
 
     const dispensaryList = useMemo(() => list, [list]);
 
@@ -46,7 +47,7 @@ function DispensaryListCarousel({ title, list }: DispensaryListProps) {
                             <DispensaryCard key={'dispensary-' + dispensary.id} dispensary={dispensary as any} />
                         </div>
                     )): [0,1,2,3].map((el) => (<div key={'loading-dispensary-card-' + el} className="carousel-item">
-                        <DispensaryCard key={'dispensary-' + el} loading />
+                        <DispensaryCard key={'dispensary-' + el} />
                         </div>))
                     }
                 </div>

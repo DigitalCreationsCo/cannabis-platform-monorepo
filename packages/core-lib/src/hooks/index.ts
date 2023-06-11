@@ -1,4 +1,5 @@
 export { default as useAfterMount } from './useAfterMount';
+export { default as useCarousel } from './useCarousel';
 export { default as useCategory } from './useCategory';
 export { default as useEncryptCookies } from './useEncryptCookies';
 export * from './useHash';

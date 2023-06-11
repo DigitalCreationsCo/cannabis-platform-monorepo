@@ -19,7 +19,6 @@ appBaseUrl = process.env.NEXT_PUBLIC_SHOP_APP_URL || 'localhost:3000';
 
 export default function middleware(req: NextRequest, res: ServerResponse) {
 
-    console.log('host: ', req.headers.get('host'))
     let
     subdomain = req.headers.get('host')?.split('.')[0].split(':')[0] || 'localhost';
     
@@ -48,7 +47,7 @@ export default function middleware(req: NextRequest, res: ServerResponse) {
     url;
     switch (true) {
         case subdomain === 'app':
-            console.log('admin path')
+            // console.log('admin path')
             url = req.nextUrl.clone();
 
             // Redirect to admin app if subdomain is app and path does not start with /app
@@ -66,7 +65,7 @@ export default function middleware(req: NextRequest, res: ServerResponse) {
             }
             break;
         case (subdomain === 'localhost' || subdomain === 'grascannabis'):
-            console.log('shop path')
+            // console.log('shop path')
             url = req.nextUrl.clone();
 
              // Prevent security issues – users should not be able to canonically access the pages/_stores folder and its respective contents.
@@ -103,7 +102,6 @@ export default function middleware(req: NextRequest, res: ServerResponse) {
                 }
             }
             if (shopPages.includes(url.pathname)) {
-                console.log('happy')
                 return NextResponse.next();
             }
             break;

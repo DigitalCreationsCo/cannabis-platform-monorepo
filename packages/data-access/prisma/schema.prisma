@@ -374,7 +374,7 @@ model Organization {
   @@index([subdomainId])
 }
 
-// days is flat integer of numbers from 6-0, 0 is monday, 6 is sunday
+// days is integer of numbers from 6-0, 0 is Sunday, 6 is Saturday, representing the days of the week the dispensary is open
 // 0 cannot be first digit, because of javscript octal literals parsing
 model Schedule {
   id String @id @default(cuid()) @unique
@@ -444,7 +444,7 @@ model Category {
     slug           String
     icon           String
     products       Product[]
-    categoryLists  CategoryList[]
+    categoryLists  ProductCategories[]
 
     createdAt      DateTime         @default(now())
     updatedAt      DateTime         @updatedAt
@@ -452,9 +452,20 @@ model Category {
     @@index([name])
 }
 
+model ProductCategories {
+  categoryListId String
+  categoryList CategoryList @relation(fields: [categoryListId], references: [id])
+  categoryId String
+  category Category @relation(fields: [categoryId], references: [id])
+
+  @@id([categoryListId, categoryId])
+  @@index([categoryListId])
+  @@index([categoryId])
+}
+
 model CategoryList {
     id             String    @id @default(cuid()) @unique
-    categories     Category[]
+    categories     ProductCategories[]
     organizationId String @unique
     organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 

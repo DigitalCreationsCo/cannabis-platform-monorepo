@@ -1,5 +1,6 @@
 export * from './button';
 export { default as Card } from './Card';
+export { default as Carousel } from './Carousel';
 export * from './cart';
 export { default as Center } from './Center';
 export { default as CheckAge } from './CheckAge';
