@@ -26,10 +26,10 @@ const LocationProvider = () => {
         console.log('getDispensaries');
     };
 
-    const getProducts = async () => {
-        dispatch(shopActions.getProductsFromLocal() as unknown as AnyAction);
-        console.log('getProducts');
-    };
+    // const getProducts = async () => {
+    //     dispatch(shopActions.getProductsFromLocal() as unknown as AnyAction);
+    //     console.log('getProducts');
+    // };
 
     useEffect(() => {
         if (typeof window !== 'undefined' && enteredSite) {
@@ -65,17 +65,17 @@ const LocationProvider = () => {
     
     useEffect(() => {
         if (coordinates.latitude && coordinates.longitude && enteredSite) {
-            if (!shopState.isLoading) {
+            if (!shopState.isLoading && !shopState.isError) {
                 getDispensaries();
             }
         }
     }, [coordinates]);
 
-    useEffect(() => {
-        if (!shopState.isLoading && shopState?.dispensaries?.length >= 1 && enteredSite) {
-            getProducts();
-        }
-    }, [shopState]);
+    // useEffect(() => {
+    //     if (!shopState.isLoading && !shopState.isError && shopState?.dispensaries?.length >= 1 && enteredSite) {
+    //         getProducts();
+    //     }
+    // }, [shopState]);
 };
 
 export default LocationProvider;

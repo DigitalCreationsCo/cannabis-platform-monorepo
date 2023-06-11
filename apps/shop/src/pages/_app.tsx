@@ -55,8 +55,9 @@ function App({ Component, ...rest }: CustomAppProps) {
     const getLayoutContext = Component.getLayoutContext || (() => ({}));
 
     useEffect(() => {
-        store.getState().shop.dispensaries.length === 0 && store.dispatch(shopActions.getInitialDispensaries() as AppThunk);
-        console.log('get initial dispensaries')
+        !store.getState().shop.isLoading && 
+            store.getState().shop.dispensaries.length === 0 && 
+            store.dispatch(shopActions.getInitialDispensaries() as AppThunk);
     }, [])
     return (
         <>

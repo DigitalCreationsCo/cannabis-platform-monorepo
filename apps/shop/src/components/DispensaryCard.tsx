@@ -1,41 +1,24 @@
 import { checkDispensaryIsOpen, formatDispensaryUrl, renderAddress } from '@cd/core-lib';
-import { Address, CategoryList, Coordinates, ImageOrganization, Schedule } from '@cd/data-access';
-import { Card, FlexBox, LoadingDots, Paragraph } from '@cd/ui-lib';
+import { OrganizationWithShopDetails } from '@cd/data-access';
+import { Card, FlexBox, Paragraph } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 
 type DispensaryCardProps = {
-    // V development prop type
+    data: OrganizationWithShopDetails;
     loading?: boolean;
-    dispensary?: {
-        id?: string;
-        name?: string;
-        address?: Address & {
-            coordinates: Coordinates;
-        };
-        dialCode?: string;
-        phone?: string;
-        email?: string;
-        emailVerified?: boolean;
-        vendorId?: string;
-        termsAccepted?: boolean;
-        subdomainId: string;
-        images?: ImageOrganization[];
-        categoryList?: CategoryList[];
-        schedule?: Schedule;
-    };
     className?: string | string[];
 };
-function DispensaryCard({ dispensary, className, loading }: DispensaryCardProps) {
+function DispensaryCard({ data: dispensary, loading, className }: DispensaryCardProps) {
     const styles = {
-        dispensarycard: ['min-w-[300px] md:w-[350px] p-4 md:p-4']
+        dispensarycard: ['min-w-[340px] w-[340px] h-[220px] p-4 !rounded']
     };
+    // console.log('image: ', dispensary?.images?.[0]?.location)
     return (
-        <Card className={twMerge([styles.dispensarycard, className])} title={dispensary?.name}>
-            <Link href={formatDispensaryUrl(dispensary?.subdomainId as string)} >
-                { loading ? 
-                (<><FlexBox className="items-end flex-row justify-between">
+        <Link href={formatDispensaryUrl(dispensary?.subdomainId as string)} >
+            <Card className={twMerge([styles.dispensarycard, className])} title={dispensary?.name}>
+                <FlexBox className="items-end flex-row justify-between">
                     {dispensary?.images?.[0] && (
                         <Image
                             src={dispensary?.images?.[0].location}
@@ -51,8 +34,8 @@ function DispensaryCard({ dispensary, className, loading }: DispensaryCardProps)
                         })}
                     </Paragraph>
                 </FlexBox>
-                {/* <Paragraph>{checkDispensaryIsOpen(dispensary.schedule)}</Paragraph> */}
-                <Paragraph className="badge -ml-2 p-3 text-primary self-end absolute">
+                <Paragraph>{checkDispensaryIsOpen(dispensary.schedule)}</Paragraph>
+                {/* <Paragraph className="badge -ml-2 p-3 text-primary self-end absolute">
                     {checkDispensaryIsOpen({
                         days: 6543210,
                         id: '1',
@@ -64,10 +47,9 @@ function DispensaryCard({ dispensary, className, loading }: DispensaryCardProps)
                     })
                         ? 'open now'
                         : 'closed'}
-                </Paragraph>
-                </>) : (<FlexBox><LoadingDots /></FlexBox>)}
-            </Link>
-        </Card>
+                </Paragraph> */}
+            </Card>
+        </Link>
     );
 }
 

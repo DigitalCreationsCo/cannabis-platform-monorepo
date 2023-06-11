@@ -1,4 +1,5 @@
-import { Address, CategoryList, Coordinates, ImageOrganization, Organization, Prisma, Schedule } from "@prisma/client";
+import { CategoryList, Coordinates, ImageOrganization, Organization, Prisma, Schedule } from "@prisma/client";
+import { ProductWithDetails } from "product";
 import { AddressCreateType, AddressWithCoordinates } from "./address";
 import prisma from "./db/prisma";
 /*
@@ -353,8 +354,8 @@ export type OrganizationCreateType = {
     address: AddressCreateType
     dialCode: string
     phone: string
-    email: string
-    emailVerified?: boolean
+    // email: string
+    // emailVerified?: boolean
     vendorId: string
     termsAccepted?: boolean
     subdomainId: string
@@ -362,20 +363,11 @@ export type OrganizationCreateType = {
 
 export type OrganizationWithAddress = Organization & { address: AddressWithCoordinates}
 
-export type OrganizationWithShopDetails = {
-    id: string
-    stripeAccountId: string
-    name: string
-    address: Address & { coordinates: Coordinates }
-    dialCode: string
-    phone: string
-    email: string
-    emailVerified?: boolean
-    vendorId: string
-    termsAccepted?: boolean
-    subdomainId: string
-    images: ImageOrganization[]
-    categoryList: CategoryList[]
+export type OrganizationWithShopDetails = Organization & Omit<Organization, "stripeAccountId" | "createdAt" | "updatedAt"> & {
+    address: AddressWithCoordinates,
+    images: ImageOrganization[],
+    products: ProductWithDetails[],
+    categoryList: CategoryList
     schedule: Schedule
 }
 

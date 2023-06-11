@@ -132,6 +132,8 @@ Optimize docker images, SHOP especially,
 FInish end to end tests
 Stay vigilant! WORK HARD. Go to HACC campus. Go hard!
 
+Separate stripe account Id from orgniazation record, to hide this data
+
 BUGS: 
 cart bug when navigating to different storefronts, the cart changes in unexpected ways
 

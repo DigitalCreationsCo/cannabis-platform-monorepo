@@ -116,6 +116,7 @@ export const getProductsFromLocal = createAsyncThunk<ProductWithDetails[], void>
   "shop/getProductsFromLocal",
   async (_, thunkAPI) => {
     try {
+      console.log('get products from local, action')
       const { shop } = thunkAPI.getState() as { shop: ShopStateProps };
       const { dispensaries } = shop;
       
@@ -187,7 +188,6 @@ export const shopSlice = createSlice({
       const error = payload;
       state.errorMessage = error
       console.error('get initial dispensaries error: ', error)
-      throw new Error(error.message)
     }),
     
     builder.addCase(getDispensariesLocal.fulfilled, (state, { payload }: PayloadAction<OrganizationWithDetailsAndMetadata[]>) => {
@@ -209,12 +209,11 @@ export const shopSlice = createSlice({
     builder.addCase(getDispensariesLocal.rejected, (state, { payload }) => {
       state.isLoading = false;
       state.isSuccess = false;
-      state.isError = true;
+      // state.isError = true;
 
       const error = payload;
       state.errorMessage = error
       console.error('get dispensaries local error: ', error)
-      throw new Error(error.message)
     }),
     
     builder.addCase(getProductsFromLocal.fulfilled, (state, { payload }: PayloadAction<ProductWithDetails[]>) => {
@@ -242,7 +241,6 @@ export const shopSlice = createSlice({
 
       const error = payload as string
       state.errorMessage = error
-      toast.error(error)
       console.log('get products local error: ', error)
     })
 

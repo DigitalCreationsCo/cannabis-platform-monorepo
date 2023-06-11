@@ -42,7 +42,7 @@ function LandingPage() {
 
     
     return (
-        <Page className="p-0 lg:p-0">
+        <Page className="p-0 md:pt-0 md:pb-0 lg:p-0">
             <ImageBackDrop src={backdrop}>
                 <FlexBox className='justify-between min-h-[555px] space-y-4'>
                     <FlexBox className={twMerge(styles.hero)} >
