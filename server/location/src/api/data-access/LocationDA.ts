@@ -41,9 +41,6 @@ export default class LocationDA {
      */
     static async getLocalOrganizations(coordinates: number[], proximityRadius: number) {
       try {
-        console.log('coordinates: ', coordinates)
-        console.log('proximityRadius: ', proximityRadius)
-
         const 
         local_organizations_ids = await orgGeolocate
         .aggregate([
