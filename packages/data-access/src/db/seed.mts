@@ -247,7 +247,6 @@ async function main() {
   const schedules:Schedule[] = [
     {
       id: "1",
-      organizationId: "1",
       days: 6543210,
       openAt: 800,
       closeAt: 2000,
@@ -256,7 +255,6 @@ async function main() {
     },
     {
       id: "2",
-      organizationId: "2",
       days: 54321,
       openAt: 800,
       closeAt: 2000,
@@ -265,7 +263,14 @@ async function main() {
     },
     {
       id: "3",
-      organizationId: "3",
+      days: 54321,
+      openAt: 1100,
+      closeAt: 2400,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      id: "4",
       days: 54321,
       openAt: 1100,
       closeAt: 2400,
@@ -290,6 +295,7 @@ async function main() {
       // emailVerified: false,
       dialCode: "1",
       phone: "1232343456",
+      scheduleId: '1',
       vendorId: "1",
       subdomainId: "",
       createdAt: new Date(),
@@ -305,6 +311,7 @@ async function main() {
       stripeAccountId: null,
       // emailVerified: false,
       dialCode: "1",
+      scheduleId: '2',
       phone: "1232343456",
       vendorId: "2",
       subdomainId: "curaleaf",
@@ -321,6 +328,7 @@ async function main() {
       stripeAccountId: null,
       // emailVerified: true,
       dialCode: "1",
+      scheduleId: '3',
       phone: "1232343456",
       vendorId: "3",
       subdomainId: "sunnyside",
@@ -338,6 +346,7 @@ async function main() {
       // emailVerified: true,
       dialCode: "1",
       phone: "1232343456",
+      scheduleId: '4',
       vendorId: "3",
       subdomainId: "mcnuggz",
       createdAt: new Date(),

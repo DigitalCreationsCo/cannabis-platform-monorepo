@@ -18,6 +18,7 @@ export const getInitialDispensaries = createAsyncThunk(
             // "Content-Type": "application/json",
           }
         });
+        console.log('getInitialDispensaries: ', response.data);
         return response.data
     } catch (error) {
       console.log("getInitialDispensaries: ", error);

@@ -350,14 +350,15 @@ model Organization {
   addressId     String @unique
   address Address @relation("organizationAddress", fields: [addressId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   dialCode String
-  phone String
+  phone String @unique
   // email String @unique
   // emailVerified Boolean @default(false)
   images ImageOrganization[]
   memberships Membership[]
   products Product[]
   vendorId String
-  schedule Schedule?
+  scheduleId String @unique
+  schedule Schedule @relation(fields: [scheduleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   vendor Vendor @relation(fields: [vendorId], references: [id], onDelete: Restrict, onUpdate:  Restrict)
   termsAccepted Boolean @default(false)
   subdomainId String
@@ -378,8 +379,7 @@ model Organization {
 // 0 cannot be first digit, because of javscript octal literals parsing
 model Schedule {
   id String @id @default(cuid()) @unique
-  organizationId String @unique
-  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  organization Organization?
   days Int
   openAt Int?
   closeAt Int?
@@ -388,7 +388,6 @@ model Schedule {
   updatedAt      DateTime         @updatedAt
 
   @@index([id])
-  @@index([organizationId])
 }
 
 model Product {
