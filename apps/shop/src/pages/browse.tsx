@@ -22,8 +22,6 @@ export default function MarketPlace({ host }: { host: string}) {
             <Grid className="space-y-5">
                 { isError && <Center className='m-auto grow border'>
                     There's a problem loading your Gras shop. Please contact support for help.</Center>}
-                    
-                {/* { !isLoading && isSuccess &&  */}
                 { <Carousel 
                     title={`Dispensaries Near You ( ${selectedLocation?.address?.city} )`} 
                     Component={DispensaryCard}
@@ -32,6 +30,7 @@ export default function MarketPlace({ host }: { host: string}) {
                     dataKey='dispensary'
                     slidesPresented={3}
                     /> }
+                { isLoading }
                 {/* <CategoriesSelector /> */}
                 {/* BUILD THIS OUT, AND ADD BACK IN ^ */}
             </Grid>

@@ -68,7 +68,7 @@ const ImageBackDrop = ({ src, children }: { src: string} & PropsWithChildren) =>
             <div 
             className='rounded'
                 style={{
-                    backgroundColor: 'rgba(0,0,0,0.2)',
+                    backgroundColor: 'rgba(1,12,2,0.38)',
                     position: 'absolute',
                     height: '100%',
                     width: '100%',
