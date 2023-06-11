@@ -36,44 +36,49 @@ function Carousel({
     data, 
     dataKey, 
     axis = "horizontal", 
-    interval = 5000,
-    slidesPresented = 3,
+    interval = 1500,
+    slidesPresented = 1,
     }: CarouselProps) {
 
     const length = data.length;
     const numActive = Math.min(length, slidesPresented);
-    const [active, setActive, handlers, style] = useCarousel(length, interval, { slidesPresented: numActive });
+    const [active, setActive, handlers, style] = useCarousel(length, { slidesPresented: numActive });
     const beforeIndices = makeIndices(data.length - 1, -1, numActive);
     const afterIndices = makeIndices(0, +1, numActive);
 
     const 
     styles = {
         carousel: [
-            'overflow-hidden', 'relative',
+            'overflow-visible', 'relative',
         ],
         carouselContent: [
-            'flex',
+            'flex', 
             'p-2',
             axis === 'horizontal' ? 'flex-row space-x-6' : 'flex-col space-y-6', 
-            'overflow-hidden', 'w-full', 'relative'
+            'overflow-visible', 'relative', 'min-w-full'
         ]
     }
     return (
         <div 
-        className='px-4 overflow-hidden'
+        className='px-4 overflow-hidden w-full'
         >
             {title && <H5>{title}</H5>}
+            
             <div { ...handlers } style={style} className={twMerge(styles.carousel)}>
                 <div className={twMerge(styles.carouselContent)} >
                 { beforeIndices.map(i => 
-                <div className="w-fit">
-                <Component key={i} data={data[i]} /></div> )}
+                <div key={'before-' + i} className="max-w-fit carousel-item">
+                <Component key={dataKey + '-before-' + i} data={data[i]} /></div> )}
+                {/* <div className="w-fit border carousel-item">
+                <Component data={data[active]} /></div> */}
                 { data.map((el, index) => 
-                    <div key={index} className="w-fit">
-                    <Component key={dataKey + index} data={el} /></div> )}
+                    <div key={dataKey + '-container-' + index} className="max-w-fit carousel-item">
+                    <Component key={dataKey + '-' + index} data={el} /></div> )}
                 { afterIndices.map(i => 
-                <div className="w-fit">
-                <Component key={i} data={data[i]} /></div> )}
+                <div key={'after-' + i} className="max-w-fit carousel-item">
+                <Component key={dataKey + '-after-' + i} data={data[i]} /></div> )}
+                {/* <div className="w-fit border carousel-item">
+                <Component data={data[0]} /></div> */}
                 </div>
             </div>
         </div>
