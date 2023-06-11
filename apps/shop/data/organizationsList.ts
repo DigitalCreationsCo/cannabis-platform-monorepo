@@ -101,4 +101,4 @@ const organizationsListDummy: OrganizationWithShopDetails[] = [
     }
 ];
 
-export default organizationsListDummy;
+export { organizationsListDummy };
