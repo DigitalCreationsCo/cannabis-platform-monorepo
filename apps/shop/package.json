@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "build": "NODE_ENV=production next build",
+    "build:css": "npx tailwindcss -o ./src/index.css --minify",
     "postcss": "postcss ./src/styles/index.css -o ./src/styles/index.css",
     "debug": "NODE_OPTIONS='--inspect' next dev",
     "dev": "next dev",

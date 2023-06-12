@@ -70,9 +70,9 @@ export default class OrganizationController {
     
     static async getOrganizationsByZipcode(req, res) {
         try {
-            const { zipcode, limit }: { zipcode: number, limit: number } = req.params;
+            const { zipcode, limit, radius }: { zipcode: number, limit: number, radius: number } = req.params;
             
-            const data = await OrganizationDA.getOrganizationsByZipcode(Number(zipcode), Number(limit))
+            const data = await OrganizationDA.getOrganizationsByZipcode(Number(zipcode), Number(limit), Number(radius))
             if (!data) return res.status(404).json(data);
             
             console.info(`Found ${data.length} organizations for zipcode ${zipcode}`);

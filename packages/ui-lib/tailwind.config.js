@@ -50,6 +50,15 @@ module.exports = {
                 bold: 'var(--font-weight-bold)',
                 display: 'var(--font-weight-display)',
                 btn: 'var(--font-weight-btn)'
+            },
+            scale: {
+                '1005': '1.005',
+                '101': '1.01',
+                '102': '1.02',
+            },
+            transitionDuration: {
+                '2000': '2000ms',
+                '3000': '3000ms',
             }
         }
     },

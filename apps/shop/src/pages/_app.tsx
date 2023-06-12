@@ -62,8 +62,8 @@ function App({ Component, ...rest }: CustomAppProps) {
     return (
         <>
             <Head>
-                <title>Gras Cannabis Marketplace</title>
-                <meta name="Marketplace App" content="Built by Gras Cannabis Co." />
+                <title>Gras - Cannabis, Delivered</title>
+                <meta name="Gras App" content="Built by Gras Cannabis Co." />
             </Head>
             <SuperTokensWrapper>
                 <ReduxProvider store={store}>
