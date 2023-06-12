@@ -45,7 +45,7 @@ function Carousel({
 
     const length = data.length;
     const numActive = Math.min(length, slidesPresented);
-    const [active, setActive, handlers, style] = useCarousel(length, { slidesPresented: numActive, interval: 20000000 });
+    const [active, setActive, handlers, style] = useCarousel(length, { slidesPresented: numActive, interval: 6000 });
     const beforeIndices = makeIndices(data.length - 1, -1, numActive);
     const afterIndices = makeIndices(0, +1, numActive);
 
