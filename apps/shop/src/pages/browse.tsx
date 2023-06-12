@@ -1,5 +1,5 @@
 import { selectSelectedLocationState, selectShopState, selectUserState } from '@cd/core-lib/src/reduxDir';
-import { Carousel, Center, FlexBox, Grid, H1, H2, H3, H4, H5, Page } from '@cd/ui-lib';
+import { Carousel, FlexBox, Grid, H1, H2, H3, H4, H5, Page } from '@cd/ui-lib';
 import { StaticImageData } from 'next/image';
 import { PropsWithChildren, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -20,8 +20,8 @@ export default function MarketPlace({ host }: { host: string}) {
             <Ticker text={'Delivery by Gras now available in Baltimore, Maryland!'} />
             <H3 className='px-4 text-inverse'>Good day{user.firstName && `, ${ user.firstName}`}!</H3>
             <Grid className="space-y-5 relative">
-                { isError && <Center className='m-auto grow border'>
-                    There's a problem loading your Gras shop. Please contact support for help.</Center>}
+                {/* { isError && <Center className='m-auto grow border'>
+                    There's a problem loading your Gras shop. Please contact support for help.</Center>} */}
                 { <Carousel 
                     title={`Dispensaries Near You ( ${'Baltimore'} )`} 
                     Component={DispensaryCard}

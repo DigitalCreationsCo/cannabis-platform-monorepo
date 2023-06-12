@@ -49,7 +49,7 @@ function LandingPage() {
                     <FlexBox className={twMerge(styles.hero)} >
                         <FlexBox>
                         <H1 color="light" className='pb-0 whitespace-normal font-semi-bold'>Cannabis,&nbsp;Delivered{'\xa0'}🌴</H1>
-                        <H6 className="pt-0 whitespace-nowrap text-light text-center w-full">Gras is a one stop cannabis marketplace</H6>
+                        <H6 className="pt-0 whitespace-nowrap text-light text-center w-full">Gras is your one stop cannabis community.</H6>
                         </FlexBox>
                         <Button
                             size="lg"
