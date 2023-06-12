@@ -59,7 +59,7 @@ function DispensaryCard({ data: dispensary, loading, className }: DispensaryCard
 const ImageBackDrop = ({ src, children }: { src: string} & PropsWithChildren) => {
     return (
         <div 
-        className="hover:scale-1005 transition duration-3000 absolute rounded h-full top-0 left-0 w-full"
+        className="hover:scale-102 transition duration-4000 absolute rounded h-full top-0 left-0 w-full"
         style={{ clipPath: 'inset(0 0 0 0)' }}
         >
             <img 

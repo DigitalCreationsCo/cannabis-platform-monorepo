@@ -101,7 +101,6 @@ export default class OrganizationDA {
 
     static async getOrganizationsByZipcode(zipcode: number, limit: number, radius: number) {
         try {
-            console.log('getting organizations by zipcode: ', zipcode, limit, radius)
             const data = await findOrganizationsByZipcode(zipcode, limit, radius);
             return data;
         } catch (error:any) {
