@@ -1,36 +1,81 @@
 import { PrismaClient } from '@prisma/client';
+import { Collection, MongoClient } from 'mongodb';
 // import client from "./generated/prisma-client/index.js"
 
 const prisma = new PrismaClient();
 
 async function clearRecords() {
-    console.log('clearing tables...');
-    await prisma.imageVendor.deleteMany();
-    await prisma.imageOrganization.deleteMany();
-    await prisma.imageProduct.deleteMany();
-    await prisma.imageUser.deleteMany();
+    let 
+    organizations_geolocate: Collection | null = null;
 
-    await prisma.siteSetting.deleteMany();
-    await prisma.category.deleteMany();
-    await prisma.categoryList.deleteMany();
-    await prisma.driver.deleteMany();
+    await prisma.$connect().then(() => console.log('connected to db'));
+    await MongoClient.connect(process?.env?.MONGODB_CONNECTION_URL as string)
+    .then(async(client) => {
+        organizations_geolocate = await client.db(process?.env?.LOCATION_DB_NS as string).collection("organizations_geolocate");
 
-    await prisma.order.deleteMany();
-    // await prisma.orderItem.deleteMany();
-    
-    await prisma.productVariant.deleteMany();
-    await prisma.product.deleteMany();
-    
-    await prisma.organization.deleteMany();
-    
-    await prisma.address.deleteMany();
-    await prisma.vendor.deleteMany();
-    await prisma.subDomain.deleteMany();
+        console.log('clearing tables...');
 
-    await prisma.membership.deleteMany();
-    await prisma.user.deleteMany();
+        await prisma.imageVendor.deleteMany();
+        console.info('clear prisma.imageVendor')
+        
+        await prisma.imageOrganization.deleteMany();
+        console.info('clear prisma.imageOrganization')
 
-    console.log('cleared all tables');
+        await prisma.imageProduct.deleteMany();
+        console.info('clear prisma.imageProduct')
+
+        await prisma.imageUser.deleteMany();
+        console.info('clear prisma.imageUser')
+
+        await prisma.siteSetting.deleteMany();
+        console.info('clear prisma.siteSetting')
+
+        await prisma.category.deleteMany();
+        console.info('clear prisma.category')
+
+        await prisma.categoryList.deleteMany();
+        console.info('clear prisma.categoryList')
+
+        await prisma.driver.deleteMany();
+        console.info('clear prisma.driver');
+
+        await prisma.order.deleteMany();
+        console.info('clear prisma.order');
+        
+        await prisma.productVariant.deleteMany();
+        console.info('clear prisma.productVariant');
+
+        await prisma.product.deleteMany();
+        console.info('clear prisma.product');
+        
+        await prisma.organization.deleteMany();
+        console.info('clear prisma.organization');
+
+        organizations_geolocate?.deleteMany({});
+        console.info('clear mongo.organizations_geolocate');
+
+        await prisma.address.deleteMany();
+        console.info('clear prisma.address');
+
+        await prisma.vendor.deleteMany();
+        console.info('clear prisma.vendor');
+
+        await prisma.subDomain.deleteMany();
+        console.info('clear prisma.subDomain');
+
+        await prisma.membership.deleteMany();
+        console.info('clear prisma.membership');
+
+        await prisma.user.deleteMany();
+        console.info('clear prisma.user');
+
+    })
+    .catch((err) => { console.error('Clear Records Error: ', err.message);process.exit(1); })
+    .finally(() => {
+        console.log('cleared all tables');
+        prisma.$disconnect();
+        process.exit(0);
+    })
 }
 
 export default clearRecords();

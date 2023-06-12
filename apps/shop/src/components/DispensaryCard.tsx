@@ -22,10 +22,10 @@ function DispensaryCard({ data: dispensary, loading, className }: DispensaryCard
             <ImageBackDrop
             src={dispensary?.images?.[0].location}
             >
-                <H2 className='whitespace-normal z-5 p-2 tracking-wide absolute top-0 left-0 text-inverse'>
+                <H2 className='whitespace-normal drop-shadow z-5 p-2 tracking-wide absolute top-0 left-0 text-inverse'>
                     {dispensary?.name}</H2>
                 <FlexBox className="z-5 p-2 absolute bottom-0 left-0 items-end flex-row justify-between">
-                    <Paragraph className='text-inverse'>
+                    <Paragraph className='text-inverse drop-shadow'>
                         {renderAddress({
                             address: dispensary?.address,
                             showCountry: false,
@@ -59,7 +59,7 @@ function DispensaryCard({ data: dispensary, loading, className }: DispensaryCard
 const ImageBackDrop = ({ src, children }: { src: string} & PropsWithChildren) => {
     return (
         <div 
-        className="absolute rounded h-full top-0 left-0 w-full"
+        className="hover:scale-1005 transition duration-3000 absolute rounded h-full top-0 left-0 w-full"
         style={{ clipPath: 'inset(0 0 0 0)' }}
         >
             <img 

@@ -65,7 +65,7 @@ export type LocationStateProps = {
 }
 
 const initialState: LocationStateProps = {
-    radius: 100000000,
+    radius: 10000,
     selectLocationType: locationTypes.CURRENT_LOCATION,
     homeLocation: {
         locationType: locationTypes.HOME_LOCATION,

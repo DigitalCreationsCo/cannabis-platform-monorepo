@@ -269,10 +269,32 @@ export async function findUsersByOrganization(organizationId:string) {
  * @param subdomainId 
  * @returns detailed organization record
  */
-export async function findOrganizationBySubdomain(subdomainId:string) {
+export async function findOrganizationBySubdomain(subdomainId:string): Promise<OrganizationWithShopDetails> {
     try {
-        const organization = await prisma.subDomain.findUnique({ where: { id: subdomainId }, include: {organization: {include: {address: true, images: true, products: true, siteSetting: true, categoryList: true}}} }) || {}
-        return organization
+        const 
+        organization = await prisma.subDomain.findUnique({ 
+            where: { 
+                id: subdomainId 
+            }, 
+            include: {
+                organization: {
+                    include: { 
+                        address: {
+                            include: {
+                                coordinates: true
+                            }
+                        }, 
+                        images: true, 
+                        products: true, 
+                        siteSetting: true, 
+                        categoryList: true,
+                        schedule: true,
+                        subdomain: true,
+                    },
+                }
+            }
+        }) || {};
+        return organization as unknown as OrganizationWithShopDetails;
     } catch (error: any) {
         console.error(error)
         throw new Error(error)
@@ -286,6 +308,8 @@ export async function findOrganizationBySubdomain(subdomainId:string) {
  */
 export async function findMultipleOrganizationsById(organizationIds: string[]): Promise<OrganizationWithShopDetails[]> {
     try {
+        
+        console.log('organizationIds: ', organizationIds);
         const 
         localOrganizations = await prisma.organization.findMany({
             where: 
@@ -318,28 +342,35 @@ export async function findMultipleOrganizationsById(organizationIds: string[]): 
  * @param limit number of records to return
  * @returns an array of detailed Organization records
  */
-export async function findOrganizationsByZipcode(zipcode: number, limit: number) {
+export async function findOrganizationsByZipcode(zipcode: number, limit: number, radius: number): Promise<OrganizationWithShopDetails[]> {
     try {
         const organizations = await prisma.organization.findMany({ 
             include: { 
-                address: true, 
+                address: {
+                    include: {
+                        coordinates: true
+                    }
+                }, 
                 images: true, 
                 products: true, 
                 siteSetting: true, 
-                categoryList: true 
+                categoryList: true,
+                schedule: true,
+                subdomain: true,
             },
             where: {
                 address: {
-                    isNot: undefined,
-                    zipcode: {
-                        in: [zipcode - 1000, zipcode, zipcode + 1000]
+                    is: { 
+                        zipcode: {
+                            gte: zipcode - radius,
+                            lte: zipcode + radius,
+                        }
                     }
                 }
             },
             take: Number(limit),
-            
         }) || [];
-        return organizations;
+        return organizations as unknown as OrganizationWithShopDetails[];
     } catch (error: any) {
         console.error(error)
         throw new Error(error)

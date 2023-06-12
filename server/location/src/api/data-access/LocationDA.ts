@@ -65,13 +65,13 @@ export default class LocationDA {
           }
         ])
         .toArray()
-        console.log('mongo local_organizations_ids: ', localOrganizationsIdDocuments)
     
         const localOrganizationIds:string[] = []
         for (let i=0;i<localOrganizationsIdDocuments.length;i++) {
           localOrganizationIds.push(localOrganizationsIdDocuments[i].id)
         }
 
+        console.log('localOrganizationIds: ', localOrganizationIds)
         const 
         localOrganizations = await findMultipleOrganizationsById(localOrganizationIds);
         

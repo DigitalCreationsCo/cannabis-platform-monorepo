@@ -357,9 +357,9 @@ model Organization {
   memberships Membership[]
   products Product[]
   vendorId String
+  vendor Vendor @relation(fields: [vendorId], references: [id], onDelete: Restrict, onUpdate:  Restrict)
   scheduleId String @unique
   schedule Schedule @relation(fields: [scheduleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  vendor Vendor @relation(fields: [vendorId], references: [id], onDelete: Restrict, onUpdate:  Restrict)
   termsAccepted Boolean @default(false)
   subdomainId String
   subdomain SubDomain @relation(fields: [subdomainId], references: [id])

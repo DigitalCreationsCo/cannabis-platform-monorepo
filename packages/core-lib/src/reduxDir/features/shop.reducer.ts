@@ -9,10 +9,13 @@ import { LocationStateProps } from './location.reducer';
 
 export const getInitialDispensaries = createAsyncThunk(
   "shop/getInitialDispensaries",
-  async (_, {rejectWithValue}) => {
+  async (_, {getState, rejectWithValue}) => {
     try {
+
+      const { location } = getState() as { location: LocationStateProps},
+      { radius } = location;
       const response = await axios.get(
-        urlBuilder.main.organizationsByZipCode(21037, 4), { 
+        urlBuilder.main.organizationsByZipCode(21037, 4, radius), { 
           headers: {
             // Accept: "application/json",
             // "Content-Type": "application/json",
