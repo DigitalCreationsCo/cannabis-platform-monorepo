@@ -47,7 +47,7 @@ function App({ Component, pageProps }: CustomAppProps) {
     return (
         <>
             <Head>
-                <title>Delivery by Gras · Dashboard</title>
+                <title>Grascannabis.org Dashboard</title>
                 <meta name="Dispensary Experience App" content="Built by Gras Cannabis Co." />
             </Head>
             <SuperTokensWrapper>

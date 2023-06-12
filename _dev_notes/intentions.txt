@@ -137,6 +137,11 @@ Separate stripe account Id from orgniazation record, to hide this data
 BUGS: 
 cart bug when navigating to different storefronts, the cart changes in unexpected ways
 
+FORTIFY:
+Add jtw tokens
+encrypt redux state
+put secrets in vault
+
 DRIVERCLIENT TO DO:
 Test dispatch in production
 pod install,

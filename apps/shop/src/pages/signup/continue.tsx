@@ -1,7 +1,6 @@
 import { selectIsAddressAdded, selectUserState } from "@cd/core-lib";
 import { Card, H2, LayoutContextProps, Page } from "@cd/ui-lib/src/components";
 import { QuickSignUpUserForm, SubmitAddress, VerifyPhotoId } from "components";
-import Head from "next/head";
 import Router from 'next/router';
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -27,9 +26,6 @@ function ContinueSignUp() {
     
     return (
         <Page className={twMerge(styles.gradient, "pb-0 md:pb-24")}>
-            <Head>
-                <title>Welcome to Delivery by Gras</title>
-            </Head>
             <Card className='m-auto bg-inverse-soft space-y-2'>
                 <H2>Welcome to Gras</H2>
                 {FormStepComponents

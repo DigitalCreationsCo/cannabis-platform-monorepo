@@ -25,7 +25,8 @@ function DispensarySignUpStepForm() {
     return (
         <Page className={twMerge(styles.gradient, 'md:pt-16')}>
             <Head>
-                <title>Create a Dispensary Account</title>
+                <title>Grascannabis.org - Create a Dispensary Account</title>
+                <meta name="Gras App" content="Built by Gras Cannabis Co." />
             </Head>
             <FormCard className={"bg-inverse-soft md:m-auto"}>
                 <FormStepProvider FormStepComponents={FormStepComponents} />
