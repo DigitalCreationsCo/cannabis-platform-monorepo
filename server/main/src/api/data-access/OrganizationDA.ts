@@ -25,18 +25,26 @@ export default class OrganizationDA {
             const data = 
             await createOrganization(organization);
 
-            console.log({...data, ...organization })
             console.info(
-                `successfully created organization record ${organization.name}: ${organization.id} 
+                `successfully created organization record ${organization.name}: ${data.id} 
                 now creating location record...`);
                 
             await axios.post(
-                urlBuilder.location.organizationLocationRecord(), { ...data, ...organization },{ headers: {
+                urlBuilder.location.organizationLocationRecord(), { 
+                    id: data.id,
+                    name: organization.name,
+                    dialCode: organization.dialCode,
+                    phone: organization.phone,
+                    address: organization.address,
+                    vendorId: organization.vendorId,
+                    subdomain: organization.subdomainId,
+                 },
+                 { headers: {
                           Accept: "application/json",
                           "Content-Type": "application/json",
                         }})
                         
-            console.log(`${organization.name} record is created.`)
+            console.log(`${organization.name} record create is completed.`)
 
             return 'Your organization account is created';
             

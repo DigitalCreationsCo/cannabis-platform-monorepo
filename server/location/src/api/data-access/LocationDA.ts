@@ -42,7 +42,7 @@ export default class LocationDA {
     static async getLocalOrganizations(coordinates: number[], proximityRadius: number) {
       try {
         const 
-        local_organizations_ids = await orgGeolocate
+        localOrganizationsIdDocuments = await orgGeolocate
         .aggregate([
           {
             $geoNear: {
@@ -57,16 +57,27 @@ export default class LocationDA {
               vendorDistanceFromUser: 1,
             },
           },
+          {
+            $project: {
+              _id: 0,
+              id: 1,
+            }
+          }
         ])
         .toArray()
-        console.log('mongo local_organizations_ids: ', local_organizations_ids)
+        console.log('mongo local_organizations_ids: ', localOrganizationsIdDocuments)
     
+        const localOrganizationIds:string[] = []
+        for (let i=0;i<localOrganizationsIdDocuments.length;i++) {
+          localOrganizationIds.push(localOrganizationsIdDocuments[i].id)
+        }
+
         const 
-        local_organizations = await findMultipleOrganizationsById(local_organizations_ids as unknown as string[]);
+        localOrganizations = await findMultipleOrganizationsById(localOrganizationIds);
         
-        console.log(`Found ${local_organizations.length} local organizations.`);
+        console.log(`Found ${localOrganizations.length} local organizations.`);
         
-        return local_organizations;
+        return localOrganizations;
           
       } catch (error: any) {
           console.error('LocationDA error: ', error.message);
@@ -81,11 +92,17 @@ export default class LocationDA {
     static async addOrganizationMongoRecord(organization: OrganizationWithShopDetails) {
       try {
         
+        let
+        { address, ...rest } = organization;
+
         const 
         newOrganization = await orgGeolocate.insertOne({ 
           id: organization.id,
-          address: { ...organization.address,
-          coordinates: [Number(organization.address.coordinates.longitude), Number(organization.address.coordinates.latitude)]},
+          address: { 
+            ...address,
+            coordinates: [Number(organization.address.coordinates.longitude), Number(organization.address.coordinates.latitude)]
+          },
+          ...rest
         })
 
         return newOrganization

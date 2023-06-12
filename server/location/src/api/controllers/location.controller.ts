@@ -14,10 +14,10 @@ export default class LocationController {
         try {
             const { userLocation, proximityRadius } = req.body;
 
-            const coordinates = getCoordinatePairFromUserLocation(userLocation);
+            const _geoJson = getCoordinatePairFromUserLocation(userLocation);
 
             const data = await LocationDA.getLocalOrganizations(
-                coordinates,
+                _geoJson,
                 proximityRadius
             );
             if (!data) return res.status(404).json('Local organizations were not found.');

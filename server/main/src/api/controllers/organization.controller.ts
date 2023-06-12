@@ -75,6 +75,7 @@ export default class OrganizationController {
             const data = await OrganizationDA.getOrganizationsByZipcode(Number(zipcode), Number(limit))
             if (!data) return res.status(404).json(data);
             
+            console.info(`Found ${data.length} organizations for zipcode ${zipcode}`);
             return res.status(200).json(data);
         } catch (error:any) {
             console.log('API error: ', error);

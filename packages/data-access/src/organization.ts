@@ -137,8 +137,8 @@ export async function createOrganization(organization: OrganizationCreateType) {
         const { vendorId, address, subdomainId, schedule } 
         = organization
 
-        const
-        insertImages = organization.images.map((image) => ({ ...image }));
+        // const
+        // insertImages = organization.images.map((image) => ({ ...image }));
 
         const createOrganization = await prisma.organization.create({
             data: {
@@ -284,10 +284,28 @@ export async function findOrganizationBySubdomain(subdomainId:string) {
  * @param organizationIds 
  * @returns an array of detailed Organization records
  */
-export async function findMultipleOrganizationsById(organizationIds: string[]) {
+export async function findMultipleOrganizationsById(organizationIds: string[]): Promise<OrganizationWithShopDetails[]> {
     try {
-        const localOrganizations = await prisma.organization.findMany({ where: { id: { in: organizationIds } }, include: { address: true, images: true, products: true, siteSetting: true, categoryList: true }}) || []
-        return localOrganizations
+        const 
+        localOrganizations = await prisma.organization.findMany({
+            where: 
+                { id: 
+                    { in: organizationIds } 
+                }, 
+                include: { 
+                    address: {
+                        include: {
+                            coordinates: true
+                        }
+                    }, 
+                    images: true, 
+                    products: true, 
+                    siteSetting: true, 
+                    categoryList: true,
+                    schedule: true,
+                    subdomain: true,
+                }})
+        return localOrganizations as unknown as OrganizationWithShopDetails[]
     } catch (error: any) {
         console.error(error)
         throw new Error(error)
@@ -369,7 +387,7 @@ export async function getStripeAccountId(organizationId: string) {
 export type OrganizationCreateType = Organization & {
     address: AddressCreateType
     schedule: Prisma.ScheduleCreateInput
-    images: Prisma.ImageOrganizationCreateInput[]
+    images: Prisma.ImageOrganizationCreateManyOrganizationInput[]
     products: Prisma.ProductCreateInput[]
     categoryList: Prisma.CategoryListCreateInput
 }
