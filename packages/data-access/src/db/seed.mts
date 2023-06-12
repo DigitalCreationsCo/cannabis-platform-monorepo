@@ -1,64 +1,59 @@
 import { Address, Category, CategoryList, Driver, ImageOrganization, ImageProduct, ImageUser, ImageVendor, Membership, Order, PrismaClient, Product, ProductVariant, Purchase, Schedule, SiteSetting, SubDomain, User, Vendor } from "@prisma/client";
-// const { createId } = require('@paralleldrive/cuid2')
-// const { PrismaClient } = require('@prisma/client')
-// const { createDriver } = require('../driver')
-
-
-// COORDINATE
-const coordinates = [
-  {
-    latitude: 40.046,
-    longitude: -76.302,
-    addressId: '1'
-  },
-  {
-    latitude: 20.046,
-    longitude: -36.302,
-    addressId: '2'
-  },
-  {
-    latitude: 50.046,
-    longitude: -16.302,
-    addressId: '3'
-  },
-  {
-    latitude: 5.046,
-    longitude: -36.302,
-    addressId: '4'
-  }
-]
-
-// PURCHASE
-const purchases: Purchase[] = [
-  {
-    id: "1",
-    paymentStatus: "Pending",
-    gateway: "stripe",
-    type: "card",
-    amount: 12399,
-    token: '12345',
-    customerId: "1",
-    orderId: "1",
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    id: "2",
-    paymentStatus: "Paid",
-    gateway: "stripe",
-    type: "card",
-    amount: 23444,
-    token: '12345',
-    customerId: "2",
-    orderId: "2",
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  }
-]
 
 const prisma = new PrismaClient();
 
 async function main() {
+  // COORDINATE
+  const coordinates = [
+    {
+      latitude: 40.046,
+      longitude: -76.302,
+      addressId: '1'
+    },
+    {
+      latitude: 20.046,
+      longitude: -36.302,
+      addressId: '2'
+    },
+    {
+      latitude: 50.046,
+      longitude: -16.302,
+      addressId: '3'
+    },
+    {
+      latitude: 5.046,
+      longitude: -36.302,
+      addressId: '4'
+    }
+  ]
+
+  // PURCHASE
+  const purchases: Purchase[] = [
+    {
+      id: "1",
+      paymentStatus: "Pending",
+      gateway: "stripe",
+      type: "card",
+      amount: 12399,
+      token: '12345',
+      customerId: "1",
+      orderId: "1",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      id: "2",
+      paymentStatus: "Paid",
+      gateway: "stripe",
+      type: "card",
+      amount: 23444,
+      token: '12345',
+      customerId: "2",
+      orderId: "2",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    }
+  ]
 
   // USERS
   const users: User[] = [
@@ -108,7 +103,7 @@ async function main() {
     data: users,
     skipDuplicates: true,
   });
-
+  console.info('create prisma.user records');
 
   // ADDRESS
   const addresses:Address[] = [
@@ -182,7 +177,7 @@ async function main() {
     data: addresses,
     skipDuplicates: true,
   });
-
+  console.info('create prisma.address records');
 
   // VENDOR
   const vendors:Vendor[] = [
@@ -213,7 +208,7 @@ async function main() {
     data: vendors,
     skipDuplicates: true,
   });
-
+  console.info('create prisma.vendor records');
 
   // SITE SETTINGS
   const siteSettings:SiteSetting[] = [
@@ -241,7 +236,7 @@ async function main() {
     data: siteSettings,
     skipDuplicates: true,
   });
-  
+  console.info('create prisma.siteSetting records');
 
   // SCHEDULES
   const schedules:Schedule[] = [
@@ -283,7 +278,7 @@ async function main() {
     data: schedules,
     skipDuplicates: true,
   });
-
+  console.info('create prisma.schedule records');
 
   // ORGANIZATION
   const orgs: any[]
@@ -510,7 +505,7 @@ async function main() {
   orgs.forEach(async(org) => await prisma.organization.create({
     data: org
   }));
-
+  console.info('create prisma.organization records');
 
   // SUBDOMAIN
   const subdomains:SubDomain[] = [
@@ -538,7 +533,7 @@ async function main() {
     data: subdomains,
     skipDuplicates: true,
   });
-
+  console.info('create prisma.subDomain records');
 
   // CATEGORY
   const Categories: Category[] = [
@@ -620,7 +615,7 @@ async function main() {
     data: Categories,
     skipDuplicates: true,
   });
-
+  console.info('create prisma.category records');
 
   // CATEGORYLIST
   const categoryLists: CategoryList[] = [
@@ -648,7 +643,7 @@ async function main() {
   data: categoryLists,
   skipDuplicates: true,
   });
-
+  console.info('create prisma.categoryList records');
   
   // DRIVERS
   const drivers: Driver[] = [
@@ -783,7 +778,7 @@ async function main() {
       }
     },
   }));
-
+  console.info('create prisma.driver records');
 
   // ORDER
   const orders: Order[] = [
@@ -913,7 +908,7 @@ async function main() {
     data: orders,
     skipDuplicates: true,
   });  
-
+  console.info('create prisma.order records');
 
   // MEMBERSHIP
   const memberships:Membership[]  = [
@@ -955,7 +950,7 @@ async function main() {
     data: memberships,
     skipDuplicates: true,
   });
-
+  console.info('create prisma.membership records');
 
   // PRODUCTVARIANT
   const variants: ProductVariant[] = [
@@ -1117,7 +1112,7 @@ async function main() {
     data: variants,
     skipDuplicates: true,
   })
-
+  console.info('create prisma.productVariant records');
 
   // PRODUCT
   const products:Product[] = [
@@ -1259,7 +1254,7 @@ async function main() {
     }
   })
   });
-  
+  console.info('create prisma.product records');
 
   // IMAGEVENDOR
   const ImageVendors: ImageVendor[] = [
@@ -1305,7 +1300,7 @@ async function main() {
     data: ImageOrganizations,
     skipDuplicates: true,
   });
-
+  console.info('create prisma.imageOrganization records');
   
   // IMAGEPRODUCT
   const ImageProducts: ImageProduct[] = [
@@ -1378,7 +1373,7 @@ async function main() {
     data: ImageProducts,
     skipDuplicates: true,
   });
-
+  console.info('create prisma.imageProduct records');
 
   // IMAGEUSER
   const ImageUsers: ImageUser[] = [
@@ -1397,8 +1392,7 @@ async function main() {
     data: ImageUsers,
     skipDuplicates: true,
   });
-  
-  console.log("inserted all records");
+  console.info('create prisma.imageUser records');
 }
 
 main()
