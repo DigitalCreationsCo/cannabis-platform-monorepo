@@ -1,4 +1,4 @@
-import { Address, Category, CategoryList, Driver, ImageOrganization, ImageProduct, ImageUser, ImageVendor, Membership, Order, Organization, PrismaClient, Product, ProductVariant, Purchase, Schedule, SiteSetting, SubDomain, User, Vendor } from "@prisma/client";
+import { Address, Category, CategoryList, Driver, ImageOrganization, ImageProduct, ImageUser, ImageVendor, Membership, Order, PrismaClient, Product, ProductVariant, Purchase, Schedule, SiteSetting, SubDomain, User, Vendor } from "@prisma/client";
 // const { createId } = require('@paralleldrive/cuid2')
 // const { PrismaClient } = require('@prisma/client')
 // const { createDriver } = require('../driver')
@@ -286,81 +286,203 @@ async function main() {
 
 
   // ORGANIZATION
-  const orgs:Organization[] = [
+  const orgs: any[]
+//   [OrganizationCreateType & {
+//     address: AddressCreateType
+//     schedule: Prisma.ScheduleCreateInput
+//     images: Prisma.ImageOrganizationCreateManyOrganizationInput[]
+//     products: Prisma.ProductCreateInput[]
+//     categoryList: Prisma.CategoryListCreateInput
+// }] 
+= [
     {
-      id: "1",
-      name: "Gras",
-      stripeAccountId: null,
-      // email: "gras@grascannabis.org",
-      // emailVerified: false,
-      dialCode: "1",
-      phone: "1232343456",
-      scheduleId: '1',
-      vendorId: "1",
-      subdomainId: "",
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      termsAccepted: true,    
-      stripeOnboardingComplete:false,
-      addressId: '1',
+      "name":"Curaleaf",
+      "stripeAccountId":null,
+      "stripeOnboardingComplete":false,
+      "dialCode":"1",
+      "phone":"1232356456",
+      "subdomain": {
+        "connectOrCreate": {
+          "where": {
+            "id": "curaleaf"
+          },
+          "create": {
+            "id": "curaleaf",
+            "isValid": true,
+            "createdAt": new Date(),
+            "updatedAt": new Date()
+          }
+        }
+      },
+      "vendor": {
+        "connectOrCreate": {
+          "where": {
+            "id": "2"
+          },
+          "create": {
+            "id": "2",
+            "name": "Curaleaf",
+            "publicName": "Curaleaf",
+            "createdAt": new Date(),
+            "updatedAt": new Date()
+          }
+        }
+      },
+      "termsAccepted":false,
+      "address":{
+        "create": {
+          "street1":"1213 N Central Ave",
+          "street2":"",
+          "city":"Baltimore",
+          "state":"Maryland",
+          "zipcode":21202,
+          "country":"United States",
+          "countryCode":"US"
+        }
+      },
+      "images": {
+        "create" : [
+         {
+             "location": "https://mgmagazine.com/wp-content/uploads/2021/05/CURALEAF_logo_mg_Magazine_mgretailler-e1675120877801.jpg",
+            "blurhash":""
+         }
+        ]
+      },
+      "schedule": {
+        "create": {
+          "days":1234,
+          "openAt":10,
+          "closeAt":18
+        }
+      }
+   },
+    {
+      "name":"SunnySide",
+      "stripeAccountId":null,
+      "stripeOnboardingComplete":false,
+      "dialCode":"1",
+      "phone":"1232343456",
+      "vendor": {
+        "connectOrCreate": {
+          "where": {
+            "id": "3"
+          },
+          "create": {
+            "id": "3",
+            "name": "SunnySide",
+            "publicName": "SunnySide",
+            "createdAt": new Date(),
+            "updatedAt": new Date()
+          }
+        }
+      },
+      "subdomain": {
+        "connectOrCreate": {
+          "where": {
+            "id": "sunnyside"
+          },
+          "create": {
+            "id": "sunnyside",
+            "isValid": true,
+            "createdAt": new Date(),
+            "updatedAt": new Date()
+          }
+        }
+      },
+      "termsAccepted":false,
+      "address":{
+        "create": {
+         "street1":"1618 E Oliver St",
+         "street2":"",
+         "city":"Baltimore",
+         "state":"Maryland",
+         "zipcode":21213,
+         "country":"United States",
+         "countryCode":"US"
+        }
+      },
+      "images":{
+        "create": [
+          {
+              "location": "https://images.prismic.io/sunnyside/87e74ff1-f496-4705-a5a5-0aca361a82cc_SS_FB_OpenGraph_2x.jpg?auto=compress,format",
+              "blurhash":""
+          }
+        ],
+      },
+      "schedule": {
+        "create": {
+         "days":1234560,
+         "openAt":9,
+         "closeAt":24
+        }
+      }
     },
     {
-      id: "2",
-      name: "Curaleaf",
-      // email: "curaleaf@grascannabis.org",
-      stripeAccountId: null,
-      // emailVerified: false,
-      dialCode: "1",
-      scheduleId: '2',
-      phone: "1232343456",
-      vendorId: "2",
-      subdomainId: "curaleaf",
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      termsAccepted: true,    
-      stripeOnboardingComplete:false,
-      addressId: '2',
-    },
-    {
-      id: "3",
-      name: "Sunnyside",
-      // email: "sunnysidedispensaries@grascannabis.org",
-      stripeAccountId: null,
-      // emailVerified: true,
-      dialCode: "1",
-      scheduleId: '3',
-      phone: "1232343456",
-      vendorId: "3",
-      subdomainId: "sunnyside",
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      termsAccepted: true,    
-      stripeOnboardingComplete:false,
-      addressId: '3',
-    },
-    {
-      id: "bfhk6k4u7xq030rz7wvgiwao",
-      name: "McNuggz Dispensary",
-      // email: "McNuggz@grascannabis.org",
-      stripeAccountId: null,
-      // emailVerified: true,
-      dialCode: "1",
-      phone: "1232343456",
-      scheduleId: '4',
-      vendorId: "3",
-      subdomainId: "mcnuggz",
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      termsAccepted: true,    
-      stripeOnboardingComplete:true,
-      addressId: '4',
-    },
+      "name":"McNuggs",
+      "stripeAccountId":"acct_1JX2Zz2eZvKYlo2C",
+      "stripeOnboardingComplete":true,
+      "dialCode":"1",
+      "phone":"2475895745",
+      "termsAccepted":false,
+      "subdomain": {
+        "connectOrCreate": {
+          "where": {
+            "id": "mcnuggs"
+          },
+          "create": {
+            "id": "mcnuggs",
+            "isValid": true,
+            "createdAt": new Date(),
+            "updatedAt": new Date()
+          }
+        }
+      },
+      "vendor": {
+        "connectOrCreate": {
+          "where": {
+            "id": "4"
+          },
+          "create": {
+            "id": "4",
+            "name": "McNuggs",
+            "publicName": "McNuggs",
+            "createdAt": new Date(),
+            "updatedAt": new Date()
+          }
+        }
+      },
+      "address":{
+        "create": {
+         "street1":"2667 Solomons Island Rd",
+         "street2":"",
+         "city":"Annapolis",
+         "state":"Maryland",
+         "zipcode":21037,
+         "country":"United States",
+         "countryCode":"US"
+        }
+      },
+      "images": {
+        "create": [
+           {
+             "location": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxzNuI7e1ZEcBvNPke7da5pcvomN-21e2-zERnn0Z6p2ed4AvkOFXPoSEqtIK1V6tl8wY&usqp=CAU",
+            "blurhash":""
+           }
+        ],
+      },
+      "schedule":{
+        "create": {
+         "days":1234560,
+         "openAt":9,
+         "closeAt":24
+        }
+      }
+    }
   ];
 
-  await prisma.organization.createMany({
-    data: orgs,
-    skipDuplicates: true,
-  });
+  orgs.forEach(async(org) => await prisma.organization.create({
+    data: org
+  }));
 
 
   // SUBDOMAIN
