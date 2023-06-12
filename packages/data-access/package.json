@@ -1,4 +1,12 @@
 {
+  "peerDependencies": {
+    "axios": "1.2.1"
+  },
+  "peerDependenciesMeta": {
+    "axios": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "@babel/core": "^7.22.1",
     "@babel/node": "^7.22.1",
@@ -11,6 +19,7 @@
     "@types/react-dom": "18.0.11",
     "@typescript-eslint/eslint-plugin": "5.45.0",
     "@typescript-eslint/parser": "5.45.0",
+    "axios": "1.2.1",
     "cross-env": "7.0.3",
     "dotenv-cli": "7.0.0",
     "dotenv-flow-cli": "1.0.0",

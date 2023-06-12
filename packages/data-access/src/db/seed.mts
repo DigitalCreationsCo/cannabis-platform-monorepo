@@ -1,4 +1,5 @@
 import { Address, Category, CategoryList, Driver, ImageOrganization, ImageProduct, ImageUser, ImageVendor, Membership, Order, PrismaClient, Product, ProductVariant, Purchase, Schedule, SiteSetting, SubDomain, User, Vendor } from "@prisma/client";
+import axios from "axios";
 
 const prisma = new PrismaClient();
 
@@ -502,9 +503,32 @@ async function main() {
     }
   ];
 
-  orgs.forEach(async(org) => await prisma.organization.create({
-    data: org
-  }));
+  orgs.forEach(async(org) => {
+    try {
+      
+      const 
+      organization = await prisma.organization.create({
+        data: org
+      });
+      console.info('create prisma.organization record: ' + org.name + ': ' + organization.id);
+
+      await axios.post(process?.env?.SERVER_LOCATION_URL + '/api/v1/serve-local/organizations/record' as string, {
+        id: organization.id,
+        name: organization.name,
+        dialCode: organization.dialCode,
+        phone: organization.phone,
+        address: org.address,
+        vendorId: organization.vendorId,
+        subdomain: organization.subdomainId,
+      });
+      console.info('create mongo.organization_geolocate record: ' + organization.name + ': ' + organization.id);
+      
+      } catch (error) {
+        console.error(error);
+        throw new Error('Seed Error: Organization' + org.name);
+      }
+    }
+  );
   console.info('create prisma.organization records');
 
   // SUBDOMAIN
