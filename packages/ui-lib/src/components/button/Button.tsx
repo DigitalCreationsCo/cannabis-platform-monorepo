@@ -14,6 +14,7 @@ export interface ButtonProps extends PropsWithChildren {
     disabled?: boolean;
     loading?: boolean;
     onClick?: React.EventHandler<React.MouseEvent<HTMLButtonElement>>;
+    onClickCapture?: React.EventHandler<React.MouseEvent<HTMLButtonElement>>;
     icon?: any;
     type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type'];
 }
@@ -30,6 +31,7 @@ export default function Button({
     disabled,
     loading,
     onClick,
+    onClickCapture,
     children,
     ...props
 }: ButtonProps) {

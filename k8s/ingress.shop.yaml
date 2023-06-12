@@ -27,7 +27,8 @@ spec:
     #           name: gras-service-admin
     #           port:
     #             number: 80
-    - http:
+    - host: grascannabis.org
+      http:
         paths:
         - pathType: Prefix
           path: "/"
