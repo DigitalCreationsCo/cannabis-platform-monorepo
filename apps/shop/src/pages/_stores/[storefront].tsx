@@ -19,9 +19,8 @@ export default function StoreFront({
         <div className='anim_gradient h-full w-full'>
         <Page className='sm:pt-12 md:pt-12 bg-transparent w-full'>
             <Head>
-                <title>{organization}</title>
-                <meta name={`Gras - ${organization}`} content="Build by Gras Cannabis Co." />
-                <link rel="icon" href="/favicon.ico" />
+                <title>Grascannabis.org - Cannabis, Delivered.</title>
+                <meta name="Gras App" content="Built by Gras Cannabis Co." />
             </Head>
             <Grid>
                 <Center className='bg-transparent sm:bg-inverse w-[450px] rounded sm:shadow-md space-y-4 p-16 m-auto justify-center'>

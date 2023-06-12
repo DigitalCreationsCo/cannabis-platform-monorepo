@@ -10,7 +10,8 @@ function CreateUserAccount() {
     return (
         <Page className={twMerge(styles.gradient)}>
             <Head>
-                <title>Create your account</title>
+                <title>Grascannabis.org Create your account</title>
+                <meta name="Gras App" content="Built by Gras Cannabis Co." />
             </Head>
             <UserSignUp />
         </Page>

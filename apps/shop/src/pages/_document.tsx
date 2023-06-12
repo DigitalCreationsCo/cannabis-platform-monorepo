@@ -20,8 +20,8 @@ export default class MainDocument extends Document {
     render() {
         return (
             <Html data-theme="cannabis">
-                <Head title="Gras Cannabis">
-                    <meta name="vendor experience application" content="Property of Gras Cannabis Co." />
+                <Head title="Grascannabis.org - Cannabis, Delivered.">
+                <meta name="Gras App" content="Built by Gras Cannabis Co." />
                     {process.env.NODE_ENV !== 'production' && (
                         <script dangerouslySetInnerHTML={{ __html: noOverlayWorkaroundScript }} />
                     )}

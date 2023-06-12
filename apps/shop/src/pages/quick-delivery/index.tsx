@@ -41,7 +41,8 @@ function QuickDelivery() {
     return (
         <Page className={twMerge(styles.gradient, "pb-0 md:pb-28")}>
             <Head>
-                <title>Delivery by Gras</title>
+                <title>Grascannabis.org - Cannabis, Delivered.</title>
+                <meta name="Delivery by Gras App" content="Built by Gras Cannabis Co." />
             </Head>
             <Card className='m-auto bg-inverse-soft space-y-2'>
                 <H2>Delivery By Gras</H2>

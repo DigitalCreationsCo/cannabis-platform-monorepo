@@ -63,7 +63,7 @@ function App({ Component, ...rest }: CustomAppProps) {
     return (
         <>
             <Head>
-                <title>Gras - Cannabis, Delivered</title>
+                <title>Grascannabis.org - Cannabis, Delivered.</title>
                 <meta name="Gras App" content="Built by Gras Cannabis Co." />
             </Head>
             <SuperTokensWrapper>
