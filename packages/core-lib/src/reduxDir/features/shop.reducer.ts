@@ -171,13 +171,17 @@ export const shopSlice = createSlice({
       state.isSuccess = true;
       state.isError = false;
 
-      const dispensaries = payload
+      const 
+      dispensaries = payload;
+
       dispensaries.forEach((disp) => {
         disp.metadata = {
           productsFetched: false,
         };
-        state.dispensaries.push(disp)
       });
+
+      state = reconcileStateNoDuplicates(state.dispensaries, dispensaries);
+      console.log('get initial dispensaries fulfilled: ', state);
     }),
     builder.addCase(getInitialDispensaries.pending, (state) => {
       state.isLoading = true;
@@ -188,8 +192,8 @@ export const shopSlice = createSlice({
       state.isError = true;
 
       const error = payload;
-      state.errorMessage = error
-      console.error('get initial dispensaries error: ', error)
+      state.errorMessage = error;
+      console.error('get initial dispensaries error: ', error);
     }),
     
     builder.addCase(getDispensariesLocal.fulfilled, (state, { payload }: PayloadAction<OrganizationWithDetailsAndMetadata[]>) => {
@@ -197,13 +201,16 @@ export const shopSlice = createSlice({
       state.isSuccess = true;
       state.isError = false;
 
-      const dispensaries = payload
+      const 
+      dispensaries = payload;
       dispensaries.forEach((disp) => {
         disp.metadata = {
           productsFetched: false,
         };
-        state.dispensaries.push(disp)
       });
+      
+      state = reconcileStateNoDuplicates(state.dispensaries, dispensaries);
+      console.log('get local dispensaries fulfilled: ', state);
     }),
     builder.addCase(getDispensariesLocal.pending, (state) => {
       state.isLoading = true;
@@ -211,7 +218,7 @@ export const shopSlice = createSlice({
     builder.addCase(getDispensariesLocal.rejected, (state, { payload }) => {
       state.isLoading = false;
       state.isSuccess = false;
-      // state.isError = true;
+      state.isError = true;
 
       const error = payload;
       state.errorMessage = error
@@ -229,7 +236,7 @@ export const shopSlice = createSlice({
       // can we use this V global products data to populate the products for each dispensary?
 
       const products = payload;
-      state.products.push(...products);
+      state = reconcileStateNoDuplicates(state.products, products)
     }),
     builder.addCase(getProductsFromLocal.pending, (state) => {
       state.isLoading = true;
@@ -311,3 +318,15 @@ export const shopActions = {
 export const shopReducer = shopSlice.reducer;
 
 export const selectShopState = (state: AppState) => state.shop;
+
+function reconcileStateNoDuplicates (state: any[], payload: any[]) {
+  payload.forEach((item) => {
+    const 
+    index = state.findIndex((i) => i.id === item.id);
+    if (index === -1)
+    state.push(item);
+    else
+    state[index] = item;
+  })
+  return state; 
+}
