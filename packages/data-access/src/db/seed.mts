@@ -331,13 +331,22 @@ async function main() {
       "termsAccepted":false,
       "address":{
         "create": {
-          "street1":"1213 N Central Ave",
+          "street1":"407 W Chestnut St",
           "street2":"",
-          "city":"Baltimore",
-          "state":"Maryland",
-          "zipcode":21202,
+          "city":"Lancaster",
+          "state":"Pennsylvania",
+          "zipcode":17603,
           "country":"United States",
-          "countryCode":"US"
+          "countryCode":"US",
+          "coordinates": {
+            "create": {
+              "radius": 10000,
+              "latitude": 40.0411,
+              "longitude": -76.3133,
+              "createdAt": new Date(),
+              "updatedAt": new Date()
+            }
+          },
         }
       },
       "images": {
@@ -398,7 +407,16 @@ async function main() {
          "state":"Maryland",
          "zipcode":21213,
          "country":"United States",
-         "countryCode":"US"
+         "countryCode":"US",
+         "coordinates": {
+            "create": {
+              "radius": 10000,
+              "latitude": 39.3077, 
+              "longitude": -76.5958,
+              "createdAt": new Date(),
+              "updatedAt": new Date()
+            }
+          }
         }
       },
       "images":{
@@ -459,7 +477,16 @@ async function main() {
          "state":"Maryland",
          "zipcode":21037,
          "country":"United States",
-         "countryCode":"US"
+         "countryCode":"US",
+         "coordinates": {
+            "create": {
+              "radius": 10000,
+              "latitude": 39.2904,
+              "longitude": -76.6122,
+              "createdAt": new Date,
+              "updatedAt": new Date,
+            }
+          }
         }
       },
       "images": {
