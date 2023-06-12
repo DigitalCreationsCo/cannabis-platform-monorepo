@@ -508,41 +508,41 @@ async function main() {
   orgs.forEach(async(org) => {
     try {
       
-      const 
-      organization = await prisma.organization.create({
+      await prisma.organization.create({
         data: org
+      })
+      .then(async(organization) => {
+        console.info('create prisma.organization record: ' + org.name + ': ' + organization.id);
+        
+        await axios.post<Organization>(process?.env?.SERVER_LOCATION_URL + '/api/v1/serve-local/organizations/record' as string, {
+          id: organization.id,
+          name: organization.name,
+          dialCode: organization.dialCode,
+          phone: organization.phone,
+          address: {
+            street1: org.address.create?.street1,
+            street2: org.address.create?.street2,
+            city: org.address.create?.city,
+            state: org.address.create?.state,
+            zipcode: org.address.create?.zipcode,
+            country: org.address.create?.country,
+            countryCode: org.address.create?.countryCode,
+            coordinates: {
+              latitude: org.address.create?.coordinates?.create?.latitude,
+              longitude: org.address.create?.coordinates?.create?.longitude,
+            }
+          },
+          vendorId: organization.vendorId,
+          subdomain: organization.subdomainId,
+        });
+        console.info('create mongo.organization_geolocate record: ' + organization.name + ': ' + organization.id);
       });
-      console.info('create prisma.organization record: ' + org.name + ': ' + organization.id);
-
-      await axios.post<Organization>(process?.env?.SERVER_LOCATION_URL + '/api/v1/serve-local/organizations/record' as string, {
-        id: organization.id,
-        name: organization.name,
-        dialCode: organization.dialCode,
-        phone: organization.phone,
-        address: {
-          street1: org.address.create?.street1,
-          street2: org.address.create?.street2,
-          city: org.address.create?.city,
-          state: org.address.create?.state,
-          zipcode: org.address.create?.zipcode,
-          country: org.address.create?.country,
-          countryCode: org.address.create?.countryCode,
-          coordinates: {
-            latitude: org.address.create?.coordinates?.create?.latitude,
-            longitude: org.address.create?.coordinates?.create?.longitude,
-          }
-        },
-        vendorId: organization.vendorId,
-        subdomain: organization.subdomainId,
-      });
-      console.info('create mongo.organization_geolocate record: ' + organization.name + ': ' + organization.id);
-      
-      } catch (error) {
-        console.error(error);
-        throw new Error('Seed Error: Organization' + org.name);
-      }
+        
+    } catch (error) {
+      console.error(error);
+      throw new Error('Seed Error: Organization' + org.name);
     }
-  );
+  });
   console.info('create prisma.organization records');
 
   // SUBDOMAIN
