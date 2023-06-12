@@ -1,6 +1,7 @@
 import { modalActions, modalTypes, selectIsAddressAdded, selectIsCartEmpty, selectUserState } from '@cd/core-lib';
 import { Card, CheckoutButton, H3, Page } from '@cd/ui-lib';
 import RenderCart from 'components/cart/RenderCart';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
@@ -24,6 +25,10 @@ function CartPage() {
     const bagIsEmpty = useSelector(selectIsCartEmpty) as boolean;
     return (
         <Page>
+            <Head>
+                <title>Grascannabis.org My Shopping Bag</title>
+                <meta name="Gras App" content="Built by Gras Cannabis Co." />
+            </Head>
             <Card className={twMerge(styles.cartContainer)}>
                 <H3 className="px-8 absolute">My Bag</H3>
                 <RenderCart />
