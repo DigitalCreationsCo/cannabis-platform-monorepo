@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import CopyRight from './CopyRight';
 import FlexBox from './FlexBox';
-import { Small, Span } from './Typography';
+import { Small, Span, Tiny } from './Typography';
 
-export default function Footer() {
+export default function Footer({ appVersion }: { appVersion: string; }) {
     return (
         <FlexBox className={styles.container}>
             <Link href='about-gras'>
@@ -19,6 +19,7 @@ export default function Footer() {
             <Small className="text-inverse">
                 <CopyRight />
             </Small>
+            <Tiny className="absolute px-2 bottom-0 right-0 text-accent-soft">{ appVersion }</Tiny>
         </FlexBox>
     );
 }
