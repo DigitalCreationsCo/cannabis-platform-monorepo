@@ -237,7 +237,7 @@ function DispensaryCreate () {
                 <Button
                     type="submit"
                     loading={loadingButton}
-                    onClick={(e) => {
+                    onClick={(e:any) => {
                         e.preventDefault();
                         e.stopPropagation();
                         notifyValidation();

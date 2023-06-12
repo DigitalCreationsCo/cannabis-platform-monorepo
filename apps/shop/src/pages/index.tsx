@@ -32,7 +32,7 @@ function LandingPage() {
             "w-full pt-4 pb-6 md:pt-4 px-4 md:px-14 lg:px-32",
             "md:flex-row items-start", 
             "space-y-4 md:space-y-0 md:space-x-8",
-            "bg-secondary-light"
+            "bg-transparent"
         ],
         aboutContainer: "w-full md:w-1/3 m-auto min-h-[200px]",
         about: [
@@ -45,6 +45,7 @@ function LandingPage() {
         <Page className="p-0 md:pt-0 md:pb-0 lg:p-0">
             <ImageBackDrop src={backdrop}>
                 <FlexBox className='justify-between min-h-[555px] space-y-4'>
+                    <div className='green_gradient w-full'>
                     <FlexBox className={twMerge(styles.hero)} >
                         <FlexBox>
                         <H1 color="light" className='pb-0 whitespace-normal font-semi-bold'>Cannabis,&nbsp;Delivered{'\xa0'}🌴</H1>
@@ -60,6 +61,7 @@ function LandingPage() {
                             Enter
                         </Button>
                     </FlexBox>
+                        </div>
                     {/* <FlexBox className={twMerge(styles.aboutContainer, 'bg-primary p-4 rounded relative')}> */}
                         <FlexBox className={twMerge(styles.about, 'opacity-95 cursor-default space-y-2 m-auto w-[440px] h-full p-8 rounded items-center shadow')}>
                             <H2 className='text-secondary'>About Gras</H2>

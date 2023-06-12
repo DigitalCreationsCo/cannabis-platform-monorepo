@@ -3,7 +3,7 @@ import IconWrapper, { IconProps } from '../IconWrapper';
 import Button from './Button';
 export interface IconButtonProps extends IconProps {
     type?: 'button' | 'submit' | 'reset';
-    onClick?: () => void;
+    onClick?: React.EventHandler<React.MouseEvent<HTMLButtonElement>>;
     className?: string;
     size?: number;
     theme?: 'light' | 'dark';

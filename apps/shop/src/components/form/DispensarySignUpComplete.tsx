@@ -34,7 +34,7 @@ function DispensarySignUpComplete () {
             <Center>
                 <H4 className='py-4 cursor-default'>What's next?</H4>
                 <Paragraph className='m-auto text-left'>
-                    You're now ready to receive delivery orders to{' '}{ name && <b>{name}</b> || ' your business'}{address && `, located at ${renderAddress({ address, breakLine: false, showCountry: false })}` }.
+                    You're now ready to receive delivery orders to{' '}{ name && <b>{name}</b> || ' your business'}{address && `, located at ${renderAddress({ address, lineBreak: false, showCountry: false })}` }.
                     {'\n'}Sign in to <b>view your account, connect with your customers, and get orders delivered by Gras.</b>
                 </Paragraph>
             </Center>

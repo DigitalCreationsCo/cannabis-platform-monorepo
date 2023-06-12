@@ -17,8 +17,8 @@ function DispensaryCard({ data: dispensary, loading, className }: DispensaryCard
     };
     // console.log('image: ', dispensary?.images?.[0]?.location)
     return (
-        <Link href={formatDispensaryUrl(dispensary?.subdomainId as string)} className='shadow-lg my-3 rounded'>
-        <Card className={twMerge([styles.dispensarycard, className])}>
+        <Link href={formatDispensaryUrl(dispensary?.subdomainId as string)} className='rounded shadow-lg my-3 rounded'>
+        <Card className={twMerge([styles.dispensarycard, 'rounded hover:scale-101 transition duration-500', className])}>
             <ImageBackDrop
             src={dispensary?.images?.[0].location}
             >
@@ -59,19 +59,19 @@ function DispensaryCard({ data: dispensary, loading, className }: DispensaryCard
 const ImageBackDrop = ({ src, children }: { src: string} & PropsWithChildren) => {
     return (
         <div 
-        className="hover:scale-102 transition duration-4000 absolute rounded h-full top-0 left-0 w-full"
+        className="absolute rounded max-h-full w-fit top-0 left-0"
         style={{ clipPath: 'inset(0 0 0 0)' }}
         >
             <img 
-            className='h-full rounded'
+            className='w-full min-h-full rounded'
             src={src} 
             alt="" 
-            style={{ objectFit: 'cover', objectPosition: '44% 20%' }} 
+            style={{ objectFit: 'contain', objectPosition: '44% 20%' }} 
             />
             <div 
             className='rounded'
                 style={{
-                    backgroundColor: 'rgba(1,12,2,0.38)',
+                    backgroundColor: 'rgba(1,12,2,0.22)',
                     position: 'absolute',
                     height: '100%',
                     width: '100%',

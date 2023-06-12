@@ -1,12 +1,12 @@
 import { CarbonIconType } from '@carbon/icons-react';
-import { ReactEventHandler, SVGAttributes } from 'react';
+import { SVGAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
 import Icons from '../../icons';
 import IconButton from './IconButton';
 
 interface CloseButtonProps {
     Icon?: ((props: SVGAttributes<SVGElement>) => JSX.Element) | CarbonIconType;
-    onClick?: ReactEventHandler;
+    onClick?: () => void;
     theme?: 'light' | 'dark';
     className?: string;
 }

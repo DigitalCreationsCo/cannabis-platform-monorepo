@@ -13,6 +13,7 @@ import Session, { SessionContextType } from 'supertokens-auth-react/recipe/sessi
 import { LayoutContainer, LocationProvider } from '../components';
 import { frontendConfig } from '../config/frontendConfig';
 import { AppThunk, wrapper } from '../redux/store';
+import '../styles/animate-gradient.css';
 
 if (typeof window !== 'undefined') {
     SuperTokensReact.init(frontendConfig())

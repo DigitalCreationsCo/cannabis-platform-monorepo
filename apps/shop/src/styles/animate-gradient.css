@@ -1,0 +1,23 @@
+.anim_gradient {
+    background: linear-gradient(90deg, hsla(335, 91%, 70%, 1) 0%, hsla(49, 89%, 61%, 1) 100%);
+            backgroundSize : "400% 400%";
+            animation : "gradient 25s ease infinite";
+        }
+          
+.green_gradient {
+  background: linear-gradient(132deg, #F4D03F  0%, #16A085 100%);
+          backgroundSize : "400% 400%";
+          animation : "gradient 25s ease infinite";
+        }
+                
+    @keyframes gradient {
+      0% {
+          background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    };

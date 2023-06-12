@@ -13,7 +13,7 @@ export interface ButtonProps extends PropsWithChildren {
     className?: string;
     disabled?: boolean;
     loading?: boolean;
-    onClick?: React.MouseEventHandler<HTMLButtonElement>;
+    onClick?: React.EventHandler<React.MouseEvent<HTMLButtonElement>>;
     icon?: any;
     type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type'];
 }
