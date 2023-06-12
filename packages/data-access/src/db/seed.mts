@@ -1,4 +1,4 @@
-import { Address, Category, CategoryList, Driver, ImageOrganization, ImageProduct, ImageUser, ImageVendor, Membership, Order, PrismaClient, Product, ProductVariant, Purchase, Schedule, SiteSetting, SubDomain, User, Vendor } from "@prisma/client";
+import { Address, Category, CategoryList, Driver, ImageOrganization, ImageProduct, ImageUser, ImageVendor, Membership, Order, Organization, Prisma, PrismaClient, Product, ProductVariant, Purchase, Schedule, SiteSetting, SubDomain, User, Vendor } from "@prisma/client";
 import axios from "axios";
 
 const prisma = new PrismaClient();
@@ -282,14 +282,14 @@ async function main() {
   console.info('create prisma.schedule records');
 
   // ORGANIZATION
-  const orgs: any[]
-//   [OrganizationCreateType & {
-//     address: AddressCreateType
-//     schedule: Prisma.ScheduleCreateInput
-//     images: Prisma.ImageOrganizationCreateManyOrganizationInput[]
-//     products: Prisma.ProductCreateInput[]
-//     categoryList: Prisma.CategoryListCreateInput
-// }] 
+  const orgs:
+  (Prisma.OrganizationCreateInput & {
+    address: Prisma.AddressCreateNestedOneWithoutOrganizationInput;
+    schedule: Prisma.ScheduleCreateNestedOneWithoutOrganizationInput;
+    images: Prisma.ImageOrganizationCreateNestedManyWithoutOrganizationInput;
+    // products: Prisma.ProductCreateInput[];
+    // categoryList: Prisma.CategoryListCreateInput;
+})[]
 = [
     {
       "name":"Curaleaf",
@@ -346,12 +346,14 @@ async function main() {
         }
       },
       "images": {
-        "create" : [
-         {
-             "location": "https://mgmagazine.com/wp-content/uploads/2021/05/CURALEAF_logo_mg_Magazine_mgretailler-e1675120877801.jpg",
-            "blurhash":""
-         }
-        ]
+        "createMany": {
+          "data": [
+            {
+              "location": "https://mgmagazine.com/wp-content/uploads/2021/05/CURALEAF_logo_mg_Magazine_mgretailler-e1675120877801.jpg",
+              "blurhash":""
+            }
+          ]
+        }
       },
       "schedule": {
         "create": {
@@ -512,12 +514,24 @@ async function main() {
       });
       console.info('create prisma.organization record: ' + org.name + ': ' + organization.id);
 
-      await axios.post(process?.env?.SERVER_LOCATION_URL + '/api/v1/serve-local/organizations/record' as string, {
+      await axios.post<Organization>(process?.env?.SERVER_LOCATION_URL + '/api/v1/serve-local/organizations/record' as string, {
         id: organization.id,
         name: organization.name,
         dialCode: organization.dialCode,
         phone: organization.phone,
-        address: org.address,
+        address: {
+          street1: org.address.create?.street1,
+          street2: org.address.create?.street2,
+          city: org.address.create?.city,
+          state: org.address.create?.state,
+          zipcode: org.address.create?.zipcode,
+          country: org.address.create?.country,
+          countryCode: org.address.create?.countryCode,
+          coordinates: {
+            latitude: org.address.create?.coordinates?.create?.latitude,
+            longitude: org.address.create?.coordinates?.create?.longitude,
+          }
+        },
         vendorId: organization.vendorId,
         subdomain: organization.subdomainId,
       });

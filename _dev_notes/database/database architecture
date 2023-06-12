@@ -16,7 +16,10 @@ id: data.id,                        unique index
 name: organization.name,
 dialCode: organization.dialCode,
 phone: organization.phone,          unique index
-address: organization.address,      2sphere index : address.coordinates
+address: {
+    ...address,
+    coordinates                     2sphere index : address.coordinates
+},      
 vendorId: organization.vendorId,
 subdomain: organization.subdomainId,
 
