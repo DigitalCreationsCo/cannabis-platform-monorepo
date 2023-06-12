@@ -3,7 +3,7 @@ import CopyRight from './CopyRight';
 import FlexBox from './FlexBox';
 import { Small, Span, Tiny } from './Typography';
 
-export default function Footer({ appVersion }: { appVersion: string; }) {
+export default function Footer({ appVersion = "0.1.0" }: { appVersion?: string; }) {
     return (
         <FlexBox className={styles.container}>
             <Link href='about-gras'>
@@ -19,11 +19,11 @@ export default function Footer({ appVersion }: { appVersion: string; }) {
             <Small className="text-inverse">
                 <CopyRight />
             </Small>
-            <Tiny className="absolute px-2 bottom-0 right-0 text-accent-soft">{ appVersion }</Tiny>
+            <Tiny className="cursor-default absolute px-2 bottom-0 right-0 text-accent-soft">{ appVersion }</Tiny>
         </FlexBox>
     );
 }
 
 const styles = {
-    container: "space-y-2 flex-col min-h-[188px] p-12 pb-24 lg:px-[248px] bg-secondary min-w-full bottom-0"
+    container: "space-y-2 flex-col min-h-[188px] p-12 pb-24 lg:px-[248px] bg-secondary min-w-full bottom-0 shadow-lg"
 }

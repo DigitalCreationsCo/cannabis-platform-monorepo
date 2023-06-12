@@ -67,7 +67,7 @@ function Carousel({
     }
     return (
         <div className="relative overflow-hidden">
-            {title && <H5 className='px-4'>{title}</H5>}
+            {title && <H5 className='px-4 whitespace-normal'>{title}</H5>}
             <div className='px-4 overflow-hidden w-full h-full relative'>
                 <Button onClick={() => setActive(active > 1 ? active - 1 : active)} className={twMerge(styles.carouselButton, 'left-0')}>
                     <IconWrapper Icon={Icons.ChevronLeft}/></Button>

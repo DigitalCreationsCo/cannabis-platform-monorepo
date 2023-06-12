@@ -38,7 +38,7 @@ function UserSignUpForm() {
             street2: 'Suite 900',
             city: 'Philadelphia',
             state: 'PA',
-            zipcode: '19130',
+            zipcode: 19130,
             country: 'United States',
             countryCode: 'US',
             userId: '',

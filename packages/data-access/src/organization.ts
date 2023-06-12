@@ -1,7 +1,7 @@
 import { CategoryList, Coordinates, ImageOrganization, Organization, Prisma, Schedule } from "@prisma/client";
-import { ProductWithDetails } from "product";
 import { AddressCreateType, AddressWithCoordinates } from "./address";
 import prisma from "./db/prisma";
+import { ProductWithDetails } from "./product";
 /*
 *   updateOrganization
 *   createOrganization
