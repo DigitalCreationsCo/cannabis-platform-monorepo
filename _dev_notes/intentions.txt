@@ -125,16 +125,28 @@ hello test route,
 backend route featuring:
     server-main, server dispatch
 
+CUSTOMER SUCCESS:
+1. BUILD KNOWLEDGE PAGES!
+
+2. FIGURE OUT A WAY TO HAVE A TWO STEP ONBOARDING PROCESS. NO MORE THAN TWO STEPS!
+( SENDING ONE EMAIL DOES NOT COUNT AS A STEP ).
+
+3.
+
 
 TODO:
 Set up K8s load balancer for static external ip
-Optimize docker images, SHOP especially,
+
+Optimize docker images, SHOP especially, Lower binary size TO save costs at scale!! GREATLY IMPORTANT
+
 FInish end to end tests
 Stay vigilant! WORK HARD. Go to HACC campus. Go hard!
+Optimize graphic images,
 
 Separate stripe account Id from orgniazation record, to hide this data
 
 BUGS: 
+Fix footer links with absolute paths
 cart bug when navigating to different storefronts, the cart changes in unexpected ways
 
 FORTIFY:

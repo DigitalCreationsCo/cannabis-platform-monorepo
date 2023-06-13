@@ -1,10 +1,10 @@
-.anim_gradient {
+.anim8-pink-gradient {
     background: linear-gradient(90deg, hsla(335, 91%, 70%, 1) 0%, hsla(49, 89%, 61%, 1) 100%);
             backgroundSize : "400% 400%";
             animation : "gradient 25s ease infinite";
         }
           
-.green_gradient {
+.anim8-green-gradient {
   background: linear-gradient(132deg, #F4D03F  0%, #16A085 100%);
           backgroundSize : "400% 400%";
           animation : "gradient 25s ease infinite";

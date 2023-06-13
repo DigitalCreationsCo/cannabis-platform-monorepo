@@ -34,10 +34,10 @@ spec:
         image: grasadmin/app-shop:latest
         imagePullPolicy: Always
         terminationMessagePolicy: FallbackToLogsOnError
-        resources:
-          limits: 
-            cpu: "0.5"
-            memory: "400M"
+        # resources:
+        #   limits: 
+        #     cpu: "1"
+        #     memory: "600M"
         ports:
         - name: shop-port
           containerPort: 3000
