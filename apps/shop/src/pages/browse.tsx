@@ -15,7 +15,7 @@ export default function MarketPlace({ host }: { host: string}) {
     const { user } = useSelector(selectUserState)
     
     return (
-        <Page className='pt-2 bg-transparent anim8-pink-gradient'>
+        <Page gradient='pink'>
             <Ticker text={'Delivery by Gras now available in Baltimore, Maryland!'} />
             <H3 className='px-4 text-inverse'>
                 Good day{user.firstName && `, ${ user.firstName}`}!</H3>
