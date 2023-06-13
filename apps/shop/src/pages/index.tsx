@@ -45,7 +45,7 @@ function LandingPage() {
         <Page className="p-0 md:pt-0 md:pb-0 lg:p-0">
             <ImageBackDrop src={backdrop}>
                 <FlexBox className='justify-between min-h-[555px] space-y-4'>
-                    <div className='green_gradient w-full'>
+                    <div className='anim8-green-gradient w-full'>
                     <FlexBox className={twMerge(styles.hero)} >
                         <FlexBox>
                         <H1 color="light" className='pb-0 whitespace-normal font-semi-bold'>Cannabis,&nbsp;Delivered{'\xa0'}🌴</H1>

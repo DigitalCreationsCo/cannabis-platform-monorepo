@@ -16,7 +16,7 @@ export default function StoreFront({
 
     const tagline = useRandom(expressivePhrases(orgName));
     return (
-        <div className='anim_gradient h-full w-full'>
+        <div className='anim8-pink-gradient h-full w-full'>
         <Page className='sm:pt-12 md:pt-12 bg-transparent w-full'>
             <Head>
                 <title>Grascannabis.org - Cannabis, Delivered.</title>

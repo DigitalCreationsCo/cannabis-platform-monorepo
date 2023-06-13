@@ -15,10 +15,11 @@ export default function MarketPlace({ host }: { host: string}) {
     const { user } = useSelector(selectUserState)
     
     return (
-        <div className='anim_gradient'>
+        <div className='anim8-pink-gradient'>
         <Page className='pt-2 bg-transparent'>
             <Ticker text={'Delivery by Gras now available in Baltimore, Maryland!'} />
-            <H3 className='px-4 text-inverse'>Good day{user.firstName && `, ${ user.firstName}`}!</H3>
+            <H3 className='px-4 text-inverse'>
+                Good day{user.firstName && `, ${ user.firstName}`}!</H3>
             <Grid className="space-y-5 relative">
                 {/* { isError && <Center className='m-auto grow border'>
                     There's a problem loading your Gras shop. Please contact support for help.</Center>} */}
@@ -30,15 +31,19 @@ export default function MarketPlace({ host }: { host: string}) {
                     dataKey='dispensary'
                     slidesPresented={3}
                     /> }
-            <FlexBox className="cursor-default bg-inverse shadow shadow-md shadow-lg hover:shadow-xl hover:scale-101 duration-500 p-12 rounded w-[559px] margin-auto place-self-center space-y-2">
-            <H2 className='font-black'>
-                What is Gras?</H2>
-            <H5>{`Gras is a home-grown service provider for cannabis lovers.
+            <FlexBox className="cursor-default bg-inverse shadow shadow-md shadow-lg hover:shadow-xl hover:scale-101 duration-500 p-12 rounded max-w-[559px] margin-auto place-self-center space-y-2">
+                <H2 className='font-black text-gray'>
+                    What is Gras?</H2>
+                <H5>{`Gras is a home-grown service provider for cannabis lovers.
                     We serve the people of our communities, that enjoy cannabis, by offering a bridge of communication, clarity and support.`}</H5>
                     </FlexBox>
 
             </Grid>
-            <H1 color="light" className='absolute bottom-10 left-0 p-4 whitespace-normal font-semi-bold'>Cannabis,&nbsp;Delivered{'\xa0'}🌴</H1>
+            
+            <div className='relative cursor-default'>
+            <H1 color="light" className='absolute whitespace-normal font-semi-bold'>
+                Cannabis,&nbsp;Delivered{'\xa0'}🌴</H1>
+            </div>
         </Page>
         </div>
     );
@@ -49,7 +54,7 @@ const Ticker =(props: {text: string}) => {
     [ticker, setTicker] = useState(0);
 
     let
-    length = 800,
+    length = 600,
     speed = 10;
     // position = 0;
     // let shift = length + speed;
@@ -64,14 +69,14 @@ const Ticker =(props: {text: string}) => {
         setTicker(1);
         setTimeout(() => {
             setTicker(0);
-        }, 14000);
+        }, 13000);
     }
 
     useEffect(() => {
         if (ticker === 0){
             setTimeout(() => {
                 runTicker();
-            }, 2000);
+            }, 1000);
         }
     }, [ticker]);
 
