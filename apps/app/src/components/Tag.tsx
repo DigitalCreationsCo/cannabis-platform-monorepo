@@ -8,7 +8,7 @@ function Tag({ Icon, onClick, children }: TagProps) {
     return (
         <div onClick={onClick} onKeyUp={onClick} className="cursor-default badge badge-primary m-2 gap-2 w-[112px]">
             <Small>{children}</Small>
-            {Icon && <IconWrapper Icon={Icon} className="fill-light" size={11} />}
+            {Icon && <IconWrapper Icon={Icon} className="fill-light" iconSize={11} />}
         </div>
     );
 }
