@@ -35,13 +35,21 @@ const Modal = ({
 
     const styles = {
         modal: [isModalOverlay && 'modal', modalVisible && 'modal-open'],
-        responsive: 'min-w-full min-h-screen sm:!rounded-none md:min-w-min md:min-h-min md:!rounded px-12 py-8'
+        content: [
+            'modal-box',
+            'bg-inverse-soft'
+        ],
+        responsive: [
+            'mx-auto',
+            'rounded-none',
+            // 'min-w-full min-h-screen sm:!rounded-none md:min-w-min md:min-h-min md:!rounded px-12 py-8'
+        ]
     };
     return (
         <div className={twMerge(styles.modal)}>
-            <div className={twMerge('modal-box rounded-btn bg-inverse-soft', className)} ref={ref}>
+            <div className={twMerge(styles.content, styles.responsive, className)} ref={ref}>
                 {showCloseButton && <CloseButton onClick={onClose} />}
-                <H6 className={twMerge('pb-2')}>{description}</H6>
+                {description && <H6 className={twMerge('pb-2')}>{description}</H6>}
                 {children}
             </div>
         </div>
