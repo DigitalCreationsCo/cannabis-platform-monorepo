@@ -1,5 +1,5 @@
 function formatDispensaryUrl(subdomainId: string) {
-    switch(process.env.NODE_ENV) {
+    switch (process.env.NODE_ENV) {
         case 'development':
             return `http://${subdomainId}.localhost:3000`;
         case 'test':
@@ -9,14 +9,16 @@ function formatDispensaryUrl(subdomainId: string) {
     }
 }
 
-function getSiteUrl(path: string) {
-    switch(process.env.NODE_ENV) {
+function getSiteUrl(path: string): string {
+    switch (process.env.NODE_ENV as string) {
         case 'development':
             return `http://localhost:3000${path}`;
         case 'test':
             return `http://localhost:3000${path}`;
         case 'production':
             return `http://grascannabis.org${path}`;
+        default:
+            return `http://localhost:3000`;
     }
 }
 

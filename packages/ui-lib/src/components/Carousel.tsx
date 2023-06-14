@@ -40,7 +40,7 @@ export default function Carousel({
     const 
     styles = {
         overFlowContainer: ['relative overflow-hidden'],
-        container: ['relative cursor-default h-20 border'],
+        container: ['relative cursor-default max-h-20'],
         title: [
             'flex pt-1 px-8 bottom-0 whitespace-nowrap justify-center',
             'cursor-default',
