@@ -20,7 +20,6 @@ function DispensaryCard({ data: dispensary, loading, className }: DispensaryCard
             "text-inverse border-2 tracking-wider z-5 top-0 right-0 p-3 m-3 badge absolute"
         ]
     };
-    // console.log('image: ', dispensary?.images?.[0]?.location)
     return (
         <Link href={formatDispensaryUrl(dispensary?.subdomainId as string)} className='z-0 relative rounded shadow-lg rounded'>
         <Card className={twMerge([styles.dispensarycard, 'rounded hover:scale-101 transition duration-500', className])}>
