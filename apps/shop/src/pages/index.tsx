@@ -1,5 +1,5 @@
-import { modalActions, modalTypes, selectUserState } from '@cd/core-lib';
-import { Button, FlexBox, H1, H2, H4, H6, LayoutContextProps, Page, Paragraph } from '@cd/ui-lib';
+import { modalActions, modalTypes, selectUserState, TextContent } from '@cd/core-lib';
+import { Button, FlexBox, H1, H4, H6, LayoutContextProps, Page, Paragraph } from '@cd/ui-lib';
 import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import Router from 'next/router';
@@ -30,65 +30,71 @@ function LandingPage() {
     const styles={
         hero: [
             "w-full pt-4 pb-6 md:pt-4 px-4 md:px-14 lg:px-32",
+            "justify-center",
+            "opacity-80",
+            "anim8-green-gradient"
+        ],
+        heroContent: [
+            'mx-auto',
             "md:flex-row items-start", 
             "space-y-4 md:space-y-0 md:space-x-8",
-            "bg-transparent"
         ],
-        aboutContainer: "w-full md:w-1/3 m-auto min-h-[200px]",
+        responsiveHeading: ['text-2xl md:text-4xl pb-0 whitespace-normal font-semi-bold'],
         about: [
-            "bg-inverse",
+            "bg-inverse opacity-90 md:rounded ", 
+            'space-y-2',
+            'mx-auto',
+            'cursor-default w-full md:max-w-[440px] h-fit p-8 items-center shadow'
         ]
     }
 
-    
     return (
         <Page className="p-0 md:pt-0 md:pb-0 lg:p-0">
             <ImageBackDrop src={backdrop}>
-                <FlexBox className='justify-between min-h-[555px] space-y-4'>
-                    <div className='anim8-green-gradient w-full'>
-                    <FlexBox className={twMerge(styles.hero)} >
-                        <FlexBox>
-                        <H1 color="light" className='pb-0 whitespace-normal font-semi-bold'>Cannabis,&nbsp;Delivered{'\xa0'}🌴</H1>
-                        <H6 className="pt-0 whitespace-nowrap text-light text-center w-full">Gras is your one stop cannabis community.</H6>
-                        </FlexBox>
-                        <Button
-                            size="lg"
-                            bg="secondary"
-                            transparent
-                            className="hover:bg-primary-light"
-                            onClick={openCheckAgeModalOrEnterSite}
-                        >
-                            Enter
-                        </Button>
-                    </FlexBox>
-                        </div>
-                    {/* <FlexBox className={twMerge(styles.aboutContainer, 'bg-primary p-4 rounded relative')}> */}
-                        <FlexBox className={twMerge(styles.about, 'opacity-95 cursor-default space-y-2 m-auto w-[440px] h-full p-8 rounded items-center shadow')}>
-                            <H2 className='text-secondary'>About Gras</H2>
-                            <Paragraph>Gras is a home-grown service provider for cannabis lovers.
-                                We serve the people of our communities, that enjoy cannabis,
-                                by offering a bridge of communication, clarity and support.
-                            </Paragraph>
-
-                            {!isSignedIn && <FlexBox className='m-auto items-center space-y-2'>
-                                <H4 className='text-xl'>
-                                {`Dispensaries, Sign Up Here!`}</H4>
-                                <Link href="/signup/create-dispensary-account">
-                                    <Button size="lg" 
-                                    bg="primary" 
+                <FlexBox className='md:space-y-8'>
+                    <div className='w-full'>
+                        <FlexBox className={twMerge(styles.hero)} >
+                            <FlexBox className={twMerge(styles.heroContent)}>
+                                <FlexBox className='m-auto'>
+                                    <H1 color="light" className={twMerge(styles.responsiveHeading)}>
+                                        Cannabis,&nbsp;Delivered{'\xa0'}🌴</H1>
+                                    <H6 className="max-w-[360px] text-light text-justify w-full whitespace-pre-line">
+                                        Welcome to Gras. {'\n'}
+                                        We are team of cannabis lovers providing a 
+                                        home-grown service provider for cannabis lovers.
+                                        We are serving our cannabis communities by providing a service 
+                                        as a bridge of communication, clarity and support.
+                                    </H6>
+                                    </FlexBox>
+                                <Button
+                                    size="lg"
+                                    bg="secondary"
                                     transparent
-                                    className="p-4 hover:bg-primary-light"
-                                    >
-                                    <Paragraph color="light">
-                                        {`Create a dispensary account`}</Paragraph>
-                                    </Button>
-                                </Link>
-                            </FlexBox>}
+                                    className="hover:bg-primary-light"
+                                    onClick={openCheckAgeModalOrEnterSite}
+                                >
+                                    Enter
+                                </Button>
+                            </FlexBox>
                         </FlexBox>
-                    {/* </FlexBox> */}
-
-                    
-
+                    </div>
+                    <FlexBox className={twMerge(styles.about)}>
+                        {!isSignedIn && 
+                        <FlexBox className='m-auto items-center space-y-2'>
+                            <H4 className='text-xl'>
+                            {`Dispensaries, Sign Up Here!`}</H4>
+                            <Link href="/signup/create-dispensary-account">
+                                <Button size="lg" 
+                                bg="primary" 
+                                transparent
+                                className="p-4 hover:bg-primary-light"
+                                >
+                                <Paragraph color="light">
+                                    {TextContent.prompt.CREATE_DISPENSARY_ACCOUNT}</Paragraph>
+                                </Button>
+                            </Link>
+                        </FlexBox>}
+                    </FlexBox>
                 </FlexBox>
             </ImageBackDrop>
         </Page>
@@ -132,3 +138,27 @@ LandingPage.getLayoutContext = (): LayoutContextProps => ({
     showTopBar: true
 });
 export default LandingPage;
+
+
+{/* <FlexBox className={twMerge(styles.about)}>
+                        <H3 className='text-secondary'>Welcome to Gras</H3>
+                        <Paragraph>Gras is a home-grown service provider for cannabis lovers.
+                            We are serving our cannabis communities by providing a service 
+                            as a bridge of communication, clarity and support.
+                        </Paragraph>
+
+                        {!isSignedIn && <FlexBox className='m-auto items-center space-y-2'>
+                            <H4 className='text-xl'>
+                            {`Dispensaries, Sign Up Here!`}</H4>
+                            <Link href="/signup/create-dispensary-account">
+                                <Button size="lg" 
+                                bg="primary" 
+                                transparent
+                                className="p-4 hover:bg-primary-light"
+                                >
+                                <Paragraph color="light">
+                                    {`Create a dispensary account`}</Paragraph>
+                                </Button>
+                            </Link>
+                        </FlexBox>}
+                    </FlexBox> */}

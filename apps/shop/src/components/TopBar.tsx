@@ -67,6 +67,7 @@ function TopBar({ signOut }: TopBarProps) {
             </Paragraph>
             <div className="flex-1"></div>
             
+            {window?.location?.pathname === '/' ||
             <Link href={getSiteUrl("/mybag")} passHref>
                 <IconButton 
                 className='bg-transparent shadow-none px-4' 
@@ -83,7 +84,7 @@ function TopBar({ signOut }: TopBarProps) {
                         {isCartEmpty || <div className={twMerge(styles.badge)}>{cart.totalItems}</div>}
                     </>
                 </Button> */}
-            </Link>
+            </Link>}
 
             {user.isSignedIn ? (
                 <>
