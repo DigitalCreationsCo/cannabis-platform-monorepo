@@ -30,11 +30,11 @@ function CartPage() {
                 <meta name="Gras App" content="Built by Gras Cannabis Co." />
             </Head>
             <Card className={twMerge(styles.cartContainer)}>
-                <H3 className="px-8 absolute">My Bag</H3>
+                <H3 className="px-8 absolute">Bag</H3>
                 <RenderCart />
-                <CheckoutButton 
+                {bagIsEmpty || <CheckoutButton 
                 disabled={bagIsEmpty}
-                onClick={checkoutOrSignUp} />
+                onClick={checkoutOrSignUp} />}
             </Card>
         </Page>
     );
@@ -43,5 +43,5 @@ function CartPage() {
 export default CartPage;
 
 const styles = {
-    cartContainer: 'min-w-full flex flex-col lg:px-8 py-4 space-y-4',
+    cartContainer: 'bg-transparent mx-auto shadow-none md:shadow md:bg-light min-w-[440px] flex flex-col lg:px-8 py-4 space-y-4',
 };

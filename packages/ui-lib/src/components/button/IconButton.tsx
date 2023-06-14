@@ -1,11 +1,11 @@
 import { PropsWithChildren } from 'react';
 import IconWrapper, { IconProps } from '../IconWrapper';
-import Button from './Button';
-export interface IconButtonProps extends IconProps {
+import Button, { ButtonProps } from './Button';
+export interface IconButtonProps extends ButtonProps, IconProps {
     type?: 'button' | 'submit' | 'reset';
     onClick?: React.EventHandler<React.MouseEvent<HTMLButtonElement>>;
     className?: string;
-    size?: number;
+    iconSize?: number;
     theme?: 'light' | 'dark';
 }
 export default function IconButton({
@@ -13,14 +13,14 @@ export default function IconButton({
     type,
     onClick,
     className,
-    size = 20,
+    iconSize = 20,
     children,
     theme = 'light',
     ...props
 }: IconButtonProps & PropsWithChildren) {
     return (
         <Button type={type} onClick={onClick} className={className} {...props}>
-            <IconWrapper theme={theme} size={size} Icon={Icon} />
+            <IconWrapper theme={theme} iconSize={iconSize} Icon={Icon} />
             {children}
         </Button>
     );
