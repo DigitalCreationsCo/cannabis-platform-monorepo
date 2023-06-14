@@ -11,7 +11,7 @@ spec:
     http:
       paths:
         - path: /
-          pathType: Prefix
+          pathType: ImplementationSpecific
           backend:
             service:
               name: gras-service-shop
@@ -21,7 +21,7 @@ spec:
     http:
       paths:
         - path: /
-          pathType: Prefix
+          pathType: ImplementationSpecific
           backend:
             service:
               name: gras-service-shop
@@ -31,7 +31,7 @@ spec:
     http: 
       paths: 
         - path: /_stores
-          pathType: Prefix
+          pathType: ImplementationSpecific
           backend:
             service:
               name: gras-service-shop
