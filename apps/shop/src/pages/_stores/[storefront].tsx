@@ -12,25 +12,28 @@ export default function StoreFront({
     organization
     // products, categories
 }: StorefrontProps) {
-    const orgName = 'your favorite dispensary'
+    const orgName = 'your favorite Dispensary'
 
     const tagline = useRandom(expressivePhrases(orgName));
     return (
-        <div className='anim8-pink-gradient h-full w-full'>
-        <Page className='sm:pt-12 md:pt-12 bg-transparent w-full'>
+        <Page gradient='pink' 
+        className='sm:pt-12 md:pt-12 bg-transparent w-full'>
             <Head>
                 <title>Grascannabis.org - Cannabis, Delivered.</title>
                 <meta name="Gras App" content="Built by Gras Cannabis Co." />
             </Head>
             <Grid>
-                <Center className='bg-transparent sm:bg-inverse w-[450px] rounded sm:shadow-md space-y-4 p-16 m-auto justify-center'>
-                    <H2 className='whitespace-normal text-gray drop-shadow-lg sm:drop-shadow-none'>
+                <Center className='bg-transparent sm:bg-inverse md:w-[450px] rounded sm:shadow-md space-y-4 p-16 m-auto justify-center'>
+                    
+                    <H2 className='whitespace-normal text-yellow drop-shadow-lg sm:drop-shadow-none'>
                         The Gras Store is coming soon.. </H2>
+                    
                     <Paragraph className='font-semibold text-secondary'>
-                        {tagline}</Paragraph></Center>
-                    </Grid>
+                        {tagline}</Paragraph>
+                
+                </Center>
+            </Grid>
         </Page>
-        </div>
     );
 }
 
