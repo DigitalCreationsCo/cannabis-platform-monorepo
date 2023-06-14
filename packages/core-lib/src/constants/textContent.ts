@@ -5,6 +5,7 @@ const TextContent = Object.freeze({
     Do you want to empty the bag and add this item instead?`,
     CREATE_ACCOUNT: "",
     CREATE_DISPENSARY_ACCOUNT: 'Create a Dispensary account',
+    FIND_DISPENSARY: "Find a Dispensary",
     READ_REVIEWS: "Read Reviews",
     REVIEWS_CAPTION: "What's the word on this product?",
     SELECT_LOCATION_TYPE: "Where can we deliver your next order?",

@@ -1,5 +1,5 @@
 import { selectSelectedLocationState, selectShopState, selectUserState } from '@cd/core-lib/src/reduxDir';
-import { Carousel, FlexBox, Grid, H1, H2, H3, H4, H5, Page } from '@cd/ui-lib';
+import { Carousel, Grid, H1, H3, H4, Page } from '@cd/ui-lib';
 import { StaticImageData } from 'next/image';
 import { PropsWithChildren, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -14,11 +14,21 @@ export default function MarketPlace({ host }: { host: string}) {
 
     const { user } = useSelector(selectUserState)
     
+    const
+    styles = {
+        responsiveHeading: [
+            'text-2xl md:text-4xl pb-0 whitespace-normal font-semi-bold'
+        ],
+    }
+    
     return (
         <Page gradient='pink' className="lg:px-0">
+            
             <div className='relative cursor-default lg:px-8'>
-                <H1 color="light" className='px-2 whitespace-normal'>
+                <H1 color="light" 
+                className={twMerge(styles.responsiveHeading)}>
                     Cannabis,&nbsp;Delivered{'\xa0'}🌴</H1>
+
                 {/* <Ticker text={'Delivery by Gras now available in Baltimore, Maryland!'} /> */}
                 <H3 className='px-4 text-inverse'>
                     Good day{user.firstName && `, ${ user.firstName}`}!</H3>
@@ -34,6 +44,7 @@ export default function MarketPlace({ host }: { host: string}) {
                 dataKey='dispensary'
                 slidesPresented={3}
                 />
+                {/* {[].length > 0 &&  */}
                 <Carousel 
                 title={`Dispensaries Near You ( ${selectedLocation.address.city} )`} 
                 Component={DispensaryCard}
@@ -42,20 +53,26 @@ export default function MarketPlace({ host }: { host: string}) {
                 dataKey='dispensary'
                 slidesPresented={3}
                 interval={10000}
-                />
-                
-            <FlexBox className="cursor-default bg-inverse shadow shadow-md shadow-lg hover:shadow-xl hover:scale-101 duration-500 p-12 rounded max-w-[559px] margin-auto place-self-center space-y-2">
+                /> 
+                {/* || <Center>
+                    <H6 color='light' className='whitespace-pre-line'>
+                        Want to see your favorite Dispensary?{'\n'}
+                        Ask them to start a Gras account!</H6>
+                    <Link className='mx-auto' 
+                    href="/find-my-dispensary">
+                        <H6 className="underline text-lg text-center">
+                            {TextContent.prompt.FIND_DISPENSARY}</H6>
+                    </Link>
+                </Center>
+                } */}
+            {/* <FlexBox className="cursor-default bg-inverse shadow shadow-md shadow-lg hover:shadow-xl hover:scale-101 duration-500 p-12 rounded max-w-[559px] margin-auto place-self-center space-y-2">
                 <H2 className='font-black text-gray'>
                     What is Gras?</H2>
                 <H5>{`Gras is a home-grown service provider for cannabis lovers.
                     We serve the people of our communities, that enjoy cannabis, by offering a bridge of communication, clarity and support.`}</H5>
-                    </FlexBox>
-
+                    </FlexBox> */}
             </Grid>
-            
-            
         </Page>
-
     );
 }
 
