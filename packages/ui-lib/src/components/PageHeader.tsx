@@ -18,7 +18,7 @@ export default function PageHeader({ title, iconColor, subTitle, Button, Icon }:
                 <FlexBox className="flex-row">
                     <H3>{title}</H3>
                     {Icon && (
-                        <IconWrapper iconColor={iconColor} className={twMerge('sm:block')} Icon={Icon} size={24} />
+                        <IconWrapper iconColor={iconColor} className={twMerge('sm:block')} Icon={Icon} iconSize={24} />
                     )}
                 </FlexBox>
                 {subTitle && <Span className="self-start text-primary">{subTitle}</Span>}
