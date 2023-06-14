@@ -11,13 +11,18 @@ type DispensaryCardProps = {
     className?: string | string[];
 };
 function DispensaryCard({ data: dispensary, loading, className }: DispensaryCardProps) {
+
     const styles = {
-        dispensarycard: ['relative', 'min-w-[340px] w-[340px] h-[220px] p-4 !rounded'],
-        isOpenBadge: ["text-inverse border-2 tracking-wider z-5 top-0 right-0 p-3 m-3 badge absolute"]
+        dispensarycard: [
+            'relative', 'min-w-[340px] w-[340px] h-[220px] p-4 !rounded'
+        ],
+        isOpenBadge: [
+            "text-inverse border-2 tracking-wider z-5 top-0 right-0 p-3 m-3 badge absolute"
+        ]
     };
     // console.log('image: ', dispensary?.images?.[0]?.location)
     return (
-        <Link href={formatDispensaryUrl(dispensary?.subdomainId as string)} className='rounded shadow-lg my-3 rounded'>
+        <Link href={formatDispensaryUrl(dispensary?.subdomainId as string)} className='z-0 relative rounded shadow-lg rounded'>
         <Card className={twMerge([styles.dispensarycard, 'rounded hover:scale-101 transition duration-500', className])}>
             <ImageBackDrop
             src={dispensary?.images?.[0].location}

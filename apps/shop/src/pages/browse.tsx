@@ -15,21 +15,35 @@ export default function MarketPlace({ host }: { host: string}) {
     const { user } = useSelector(selectUserState)
     
     return (
-        <Page gradient='pink'>
-            <Ticker text={'Delivery by Gras now available in Baltimore, Maryland!'} />
-            <H3 className='px-4 text-inverse'>
-                Good day{user.firstName && `, ${ user.firstName}`}!</H3>
+        <Page gradient='pink' className="lg:px-0">
+            <div className='relative cursor-default lg:px-8'>
+                <H1 color="light" className='px-2 whitespace-normal'>
+                    Cannabis,&nbsp;Delivered{'\xa0'}🌴</H1>
+                {/* <Ticker text={'Delivery by Gras now available in Baltimore, Maryland!'} /> */}
+                <H3 className='px-4 text-inverse'>
+                    Good day{user.firstName && `, ${ user.firstName}`}!</H3>
+            </div>
             <Grid className="space-y-5 relative">
                 {/* { isError && <Center className='m-auto grow border'>
                     There's a problem loading your Gras shop. Please contact support for help.</Center>} */}
-                { <Carousel 
-                    title={`Dispensaries Near You ( ${'Baltimore'} )`} 
-                    Component={DispensaryCard}
-                    loading={isLoading}
-                    data={DispensaryCardMockData}
-                    dataKey='dispensary'
-                    slidesPresented={3}
-                    /> }
+                <Carousel
+                title={'Gras is now available in Baltimore, Maryland!'} 
+                Component={DispensaryCard}
+                loading={isLoading}
+                data={DispensaryCardMockData}
+                dataKey='dispensary'
+                slidesPresented={3}
+                />
+                <Carousel 
+                title={`Dispensaries Near You ( ${selectedLocation.address.city} )`} 
+                Component={DispensaryCard}
+                loading={isLoading}
+                data={dispensaries}
+                dataKey='dispensary'
+                slidesPresented={3}
+                interval={10000}
+                />
+                
             <FlexBox className="cursor-default bg-inverse shadow shadow-md shadow-lg hover:shadow-xl hover:scale-101 duration-500 p-12 rounded max-w-[559px] margin-auto place-self-center space-y-2">
                 <H2 className='font-black text-gray'>
                     What is Gras?</H2>
@@ -39,10 +53,7 @@ export default function MarketPlace({ host }: { host: string}) {
 
             </Grid>
             
-            <div className='relative cursor-default'>
-            <H1 color="light" className='absolute whitespace-normal font-semi-bold'>
-                Cannabis,&nbsp;Delivered{'\xa0'}🌴</H1>
-            </div>
+            
         </Page>
 
     );
@@ -92,7 +103,7 @@ const Ticker =(props: {text: string}) => {
 }
 
 const styles = {
-    container: ["w-[340px] m-0 md:w-[600px] lg:mr-[120px] place-self-center lg:place-self-end relative h-12 overflow-hidden shadow shadow-md rounded"]
+    container: ["border w-[340px] m-0 md:w-[600px] lg:mr-[120px] place-self-center lg:place-self-end relative h-12 overflow-hidden shadow shadow-md rounded"]
 }
 
 const ImageBackDrop = ({ src, children }: { src: string | StaticImageData } & PropsWithChildren) => {
