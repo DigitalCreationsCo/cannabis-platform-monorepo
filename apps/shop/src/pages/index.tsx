@@ -51,8 +51,7 @@ function LandingPage() {
     return (
         <Page className="p-0 md:pt-0 md:pb-0 lg:p-0">
             <ImageBackDrop src={backdrop}>
-                <FlexBox className='md:space-y-8'>
-                    <div className='w-full'>
+                <FlexBox className='w-full md:space-y-8'>
                         <FlexBox className={twMerge(styles.hero)} >
                             <FlexBox className={twMerge(styles.heroContent)}>
                                 <FlexBox className='m-auto'>
@@ -77,7 +76,6 @@ function LandingPage() {
                                 </Button>
                             </FlexBox>
                         </FlexBox>
-                    </div>
                     <FlexBox className={twMerge(styles.about)}>
                         {!isSignedIn && 
                         <FlexBox className='m-auto items-center space-y-2'>
@@ -104,7 +102,7 @@ function LandingPage() {
 const ImageBackDrop = ({ src, children }: { src: string | StaticImageData } & PropsWithChildren) => {
     return (
         <div
-            className="relative min-h-screen overflow-scroll-hidden"
+            className="flex grow"
             style={{
                 clipPath: 'inset(0 0 0 0)'
             }}
