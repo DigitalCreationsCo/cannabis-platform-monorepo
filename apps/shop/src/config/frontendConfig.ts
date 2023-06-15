@@ -2,11 +2,11 @@
 import Passwordless from "supertokens-auth-react/recipe/passwordless";
 import Session from 'supertokens-auth-react/recipe/session';
 
-const appName           = process.env.NEXT_PUBLIC_SHOP_APP_NAME;
-const baseDomain        = process.env.NEXT_PUBLIC_APP_DOMAIN || 'localhost';
-const shopDomain        = process.env.NEXT_PUBLIC_SHOP_APP_URL || 'http://localhost:3000';
-const dashboardDomain   = process.env.NEXT_PUBLIC_DASHBOARD_APP_URL || 'http://app.localhost:3000';
-const apiDomain         = process.env.NEXT_PUBLIC_SERVER_MAIN_URL || 'http://localhost:6001';
+const appName = process.env.NEXT_PUBLIC_SHOP_APP_NAME;
+const baseDomain = process.env.NEXT_PUBLIC_APP_DOMAIN || 'localhost';
+const shopDomain = process.env.NEXT_PUBLIC_SHOP_APP_URL || 'http://localhost:3000';
+const dashboardDomain = process.env.NEXT_PUBLIC_DASHBOARD_APP_URL || 'http://app.localhost:3000';
+const apiDomain = process.env.NEXT_PUBLIC_SERVER_MAIN_URL || 'http://localhost:6001';
 
 const appInfo: {
     appName: string | undefined;
@@ -15,7 +15,7 @@ const appInfo: {
     apiBasePath: string;
 } = {
     appName,
-    websiteDomain: "http://localhost:3000",
+    websiteDomain: shopDomain,
     apiDomain,
     apiBasePath: '/api/v1/'
 };
@@ -31,7 +31,7 @@ export const frontendConfig = () => {
                     if (event.action === 'SUCCESS') {
                         console.log('role ? ', event.user && event.user.memberships?.[0]?.role.toLocaleUpperCase())
                         if (event.user && event.user.memberships?.[0]?.role.toLocaleUpperCase() === 'ADMIN' ||
-                        event.user.memberships?.[0]?.role.toLocaleUpperCase() === 'OWNER') {
+                            event.user.memberships?.[0]?.role.toLocaleUpperCase() === 'OWNER') {
                             window.location.href = dashboardDomain + '/dashboard';
                         } else {
                             window.location.href = `${shopDomain}${window.location.pathname}`;
