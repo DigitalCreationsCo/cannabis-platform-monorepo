@@ -1,34 +1,27 @@
+import { renderAddress, urlBuilder } from '@cd/core-lib';
 import { Address, ImageUser, User, UserWithDetails } from '@cd/data-access';
 import {
     AddAddressUserModal,
     Button,
     Card,
     ConfirmationModal,
-    DeleteButton,
-    FlexBox,
+    DeleteButton, DropZone, FlexBox,
     Grid,
     H6,
-    Icons,
-    LoadingDots,
-    Modal,
-    Padding,
-    Page,
+    Icons, Modal, Page,
     PageHeader,
     Paragraph,
     TextField,
     UploadImageBox
 } from '@cd/ui-lib';
 import axios from 'axios';
-import { DropZone, ProtectedPage } from 'components';
 import { format } from 'date-fns';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { renderAddress, urlBuilder } from 'utils';
 import * as yup from 'yup';
-import { useAppState } from '../../context/AppProvider';
 
 // Will need to test admin level privelege for some api routes, like users/[id]
 // will use this component to protect those routes from non-admin users
@@ -75,7 +68,6 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
         validationSchema,
         onSubmit: handleFormSubmit
     });
-    const { isLoading } = useAppState();
     const [files, setFiles] = useState<unknown[]>([]);
     const [loadingButton, setLoadingButton] = useState(false);
     const [existingImage, setExistingImage] = useState<ImageUser[]>(user?.imageUser || []);
@@ -85,8 +77,8 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
     const [addressAddModal, setAddressAddModal] = useState(false);
 
     const [addressUpdate, setAddressUpdate] = useState<Address>();
-    const handleAddressUpdate = (event, fieldName) =>
-        setAddressUpdate((prev) => ({ ...prev, fieldName: event.target.value }));
+    const handleAddressUpdate = (event: any, fieldName: any) =>
+        setAddressUpdate((prev: any) => ({ ...prev, fieldName: event.target.value }));
     const [addressUpdateIndex, setAddressUpdateIndex] = useState<number>();
     const [addressUpdateModal, setAddressUpdateModal] = useState(false);
     const [addressDeleteIndex, setAddressDeleteIndex] = useState<number>();
@@ -114,12 +106,12 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
                 formData.append('memberships', values.memberships);
                 formData.append('deleteImages', JSON.stringify(deletedImage));
                 files.forEach((file: any) => formData.append('files', file));
-                const { data } = await axios.put(urlBuilder.next + `/api/product-upload/${user?.id}`, formData);
+                const { data } = await axios.put(urlBuilder.dashboard + `/api/product-upload/${user?.id}`, formData);
                 setLoadingButton(false);
                 toast.success(data);
                 location.reload();
             }
-        } catch (error) {
+        } catch (error: any) {
             setLoadingButton(false);
             console.error(error);
             toast.error(error.response.statusText);
@@ -129,10 +121,10 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
 
     async function handleAddressDelete({ addressId, userId }: { addressId: Address['id']; userId: User['id'] }) {
         try {
-            const { data } = await axios.delete(urlBuilder.next + `/api/users/${userId}/address/${addressId}`);
+            const { data } = await axios.delete(urlBuilder.dashboard + `/api/users/${userId}/address/${addressId}`);
             setAddress(address.filter((address) => address.id !== addressId));
             toast.success(data);
-        } catch (error) {
+        } catch (error: any) {
             console.error(error);
             toast.error(error.response.statusText);
         }
@@ -145,13 +137,12 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
     };
 
     /* eslint-disable */
-    const handleFileDelete = (deleteFile) => {
-        setFiles((files) => files.filter((file: {id: string}) => file.id !== deleteFile.id));
+    const handleFileDelete = (deleteFile: any) => {
+        setFiles((files: any[]) => files.filter((file: {id: string}) => file.id !== deleteFile.id));
     };
     /* eslint-disable */
 
     return (
-        <ProtectedPage>
             <Page>
                 <PageHeader
                     title={`User: ${user?.firstName}`}
@@ -162,23 +153,22 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
                         </Link>
                     }
                 />
-                {isLoading ? (
-                    <Padding>
-                        <LoadingDots />
-                    </Padding>
-                ) : user ? (
+                { user && (
                         <Grid className="md:max-w-fit px-3">
                             <>
-                                
                                 {/* check admin privelege for these modals */}
-                                <AddAddressUserModal description={'Add a new address'} userId={user?.id} setState={setAddress} open={ addressAddModal} onClose={ () => setAddressAddModal(false)} />
+                                <AddAddressUserModal description={'Add a new address'} userId={user?.id} 
+                                setState={setAddress} 
+                                modalVisible={ addressAddModal} 
+                                onClose={ () => setAddressAddModal(false)}
+                                />
 
                                 <Modal className="px-10 border"
                                     description={ `Edit Address` }
-                                    open={ addressUpdateModal }
+                                    modalVisible={ addressUpdateModal }
                                     onClose={ () => {
                                         setAddressUpdateModal(false);
-                                        setAddressUpdateIndex(null);
+                                        setAddressUpdateIndex(undefined);
                                     } }>
                                     <Grid className='space-y-4'>
                                         <FlexBox className='flex-col space-x-0 space-y-1'>
@@ -190,7 +180,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
                                             
                                     <TextField
                                         name={ `address[${addressUpdateIndex}].street2` } label="Street Line 2" placeholder="Street Line 2"
-                                        value={addressUpdate?.street2}
+                                        value={addressUpdate?.street2 as any}
                                         onBlur={handleBlur}
                                                 onChange={ e => handleAddressUpdate(e, 'street2') } />
                                             
@@ -221,7 +211,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
                                         <FlexBox className="justify-center">
                                             <Button onClick={ () => {
                                                 setFieldValue('address', addressUpdate);
-                                                setAddressUpdate(null)
+                                                setAddressUpdate(undefined)
                                                 setAddressUpdateModal(false); toast.success('Please save your changes.');
                                             } }>Close</Button></FlexBox>
                                     </Grid>
@@ -229,9 +219,9 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
                                 
                                 <ConfirmationModal
                                     showCloseButton={false}
-                                    onClose={ () => { setAddressDeleteModal(false); setAddressDeleteIndex(null); }}
-                                    open={ addressDeleteModal }
-                                    handleConfirm={() => handleAddressDelete({ addressId: address?.[addressDeleteIndex]?.id, userId: user?.id })}
+                                    onClose={ () => { setAddressDeleteModal(false); setAddressDeleteIndex(undefined); }}
+                                    modalVisible={ addressDeleteModal }
+                                    handleConfirm={() => handleAddressDelete({ addressId: address?.[addressDeleteIndex as number]?.id, userId: user?.id })}
                                     description={ "Delete this address? You can't undo this action." } />
                                 <form
                                     onSubmit={(e) => {
@@ -319,7 +309,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
                                         </FlexBox>
                                         {address.length > 0 ? address.map((address, index) => (
                                             <Card key={`address-${index}`} className={'w-full px-3 flex-row justify-between items-center'}>
-                                                { renderAddress(address) }
+                                                { renderAddress({ address }) }
 
                                                 <FlexBox className="max-w-fit">
                                                     <Button className={"w-1/2"} onClick={(e) => {
@@ -362,7 +352,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
                                                     </UploadImageBox>
                                                 );
                                             })}
-                                            {files.map((file: { id: string; preview: string }, index) => {
+                                            {files.map((file: any | { id: string; preview: string }, index) => {
                                                 return (
                                                     <UploadImageBox
                                                         key={index}
@@ -374,7 +364,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
                                             })}
                                         </FlexBox>
                                         <DropZone
-                                            onChange={(files) => {
+                                            onChange={(files: any[]) => {
                                                 const uploadFiles = files.map((file) =>
                                                     Object.assign(file, { preview: URL.createObjectURL(file) })
                                                 );
@@ -398,17 +388,14 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
                                 </form>
                             </>
                     </Grid>
-                ) : (
-                    <Paragraph>The User is not found</Paragraph>
-                )}
-            </Page>
-        </ProtectedPage>
+                ) }
+        </Page>
     );
 }
 
-export async function getServerSideProps({ req, params }) {
+export async function getServerSideProps({ req, params }: { req: any; params: any }) {
     try {
-        const userData = await (await axios(urlBuilder.next + `/api/users/${params.id}`,{
+        const userData = await (await axios(urlBuilder.dashboard + `/api/users/${params.id}`,{
             headers: {
                 Cookie: req.headers.cookie
             }
@@ -418,7 +405,7 @@ export async function getServerSideProps({ req, params }) {
         return {
             props: { user: userData },
         };
-    } catch (error) {
+    } catch (error: any) {
         console.log('SSR error: ', error.message);
         throw new Error(error);
     }

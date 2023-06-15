@@ -18,7 +18,7 @@ handler.post(async (req: ExtendRequest, res: NextApiResponse) => {
             }
         });
         return res.status(res.statusCode).json(data);
-    } catch (error) {
+    } catch (error: any) {
         console.error(error.message);
         return res.json(error);
     }

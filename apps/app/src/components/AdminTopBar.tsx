@@ -1,5 +1,5 @@
 import { modalActions, modalTypes, selectUserState } from '@cd/core-lib';
-import { Button, FlexBox, H2, Paragraph } from '@cd/ui-lib';
+import { Button, FlexBox, H2, Paragraph, styles } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,17 +7,15 @@ import { twMerge } from 'tailwind-merge';
 import logo from '../../public/logo.png';
 
 export type TopBarProps = {
-    doesSessionExist?: boolean;
     signOut: () => void;
 };
 
-function AdminTopBar({ doesSessionExist, signOut }: TopBarProps) {
+function AdminTopBar({ signOut }: TopBarProps) {
     
     const dispatch = useDispatch();
     const user = useSelector(selectUserState);
 
     function openLoginModal() {
-        console.log('dispatch: open Login Modal');
         dispatch(
             modalActions.openModal({
                 modalType: modalTypes.loginModal
@@ -26,29 +24,24 @@ function AdminTopBar({ doesSessionExist, signOut }: TopBarProps) {
     }
 
     return (
-        <div className={twMerge(styles.topbar)}>
-            <Link href="/" passHref>
-                <Image alt="Gras" width={50} height={50} src={logo} />
-            </Link>
-            <Link href="/">
-                <H2 className="pt-1">Gras</H2>
-            </Link>
+        <div className={twMerge(styles.TOPBAR.topbar)}>
+            <div className='pl-2 flex items-center'>
+                <Link href="/" passHref>
+                    <Image alt="Gras" width={50} height={50} src={logo} />
+                </Link>
+                <Link href="/">
+                    <H2 className="pt-1">Gras</H2>
+                </Link>
+            </div>
             <Link href="/">
                 <Paragraph
-                    className={twMerge(
-                        'pt-2',
-                        'pl-2',
-                        'text-lg',
-                        'hidden',
-                        'md:block',
-                        'place-self-center',
-                        'text-primary font-semibold'
-                    )}
+                    className={twMerge(styles.TOPBAR.tagline)}
                 >
                     Cannabis Marketplace
                 </Paragraph>
             </Link>
             <div className="flex-1"></div>
+            
             {user.isSignedIn ? (
                 <>
                     <Link href="/support">
@@ -62,7 +55,13 @@ function AdminTopBar({ doesSessionExist, signOut }: TopBarProps) {
                 </>
             ) : (
                 <FlexBox>
-                    <Button onClick={openLoginModal}>Sign In</Button>
+                    <Button 
+                    className='px-4'
+                    size='sm' 
+                    bg='transparent' 
+                    hover='transparent'
+                    onClick={openLoginModal}>
+                        Sign In</Button>
                 </FlexBox>
             )}
         </div>
@@ -70,7 +69,3 @@ function AdminTopBar({ doesSessionExist, signOut }: TopBarProps) {
 }
 
 export default AdminTopBar;
-
-const styles = {
-    topbar: ['flex flex-row min-h-[66px] pr-4 lg:px-16 bg-inverse space-x-2 items-center shadow'],
-};

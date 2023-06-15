@@ -33,7 +33,7 @@ const nextConfig = (phase) => {
         '@cd/eslint-config',
         '@cd/core-lib'
     ])({
-        basePath: '/app',
+        basePath: '',
         reactStrictMode: true,
         swcMinify: true,
         output: 'standalone',

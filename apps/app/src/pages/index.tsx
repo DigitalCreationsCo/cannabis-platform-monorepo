@@ -6,7 +6,7 @@ import backdrop from '/public/marijuana-backdrop.png';
 
 function WelcomePage() {
     return (
-        <Page className="p-0 lg:p-0 border-b">
+        <Page className="p-0 md:pt-0 lg:p-0 border-b">
             <ImageBackDrop src={backdrop}>
                 <Center className='space-y-2'>
                     <FlexBox className='items-center'>
@@ -30,7 +30,7 @@ function WelcomePage() {
                     <FlexBox className='items-center'>
                         <H5 color="light">
                         {`Are you a dispensary? Get started here.`}</H5>
-                        <Link href="/signup/create-dispensary-account">
+                        <Link href={"/signup/create-dispensary-account"}>
                             <Button size="lg" 
                             bg="primary" 
                             transparent

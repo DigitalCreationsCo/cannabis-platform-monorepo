@@ -1,6 +1,11 @@
 import { urlBuilder } from '@cd/core-lib';
 import { AddressUserCreateType } from '@cd/data-access';
-import { Button, FlexBox, Grid, Modal, ModalProps, TextField } from '@cd/ui-lib';
+import { Button } from '../button';
+import FlexBox from '../FlexBox';
+import Grid from '../Grid';
+import { Modal, ModalProps } from '../modal';
+import TextField from '../TextField';
+
 import axios from 'axios';
 import { useFormik } from 'formik';
 import { Dispatch, SetStateAction, useState } from 'react';
@@ -9,7 +14,8 @@ import * as Yup from 'yup';
 
 interface AddAddressModalProps extends ModalProps {
     userId: string;
-    setState?: Dispatch<SetStateAction<unknown>>;
+    setState?: Dispatch<SetStateAction<any>>;
+    onClose: () => void;
 }
 function AddAddressUserModal({ userId, onClose, setState, ...props }: AddAddressModalProps) {
     const [loadingButton, setLoadingButton] = useState(false);
@@ -19,7 +25,7 @@ function AddAddressUserModal({ userId, onClose, setState, ...props }: AddAddress
         street2: '',
         city: '',
         state: '',
-        zipcode: '',
+        zipcode: 0,
         country: '',
         // set Country on the backend, or with a picker UI element for country and country Code
         countryCode: 'US',
@@ -33,7 +39,7 @@ function AddAddressUserModal({ userId, onClose, setState, ...props }: AddAddress
         street2: Yup.string(),
         city: Yup.string().required('City is required'),
         state: Yup.string().required('State is required'),
-        zipcode: Yup.string().required('Zipcode is required'),
+        zipcode: Yup.number().required('Zipcode is required'),
         country: Yup.string().required('Country is required'),
         countryCode: Yup.string().required('Country Code is required'),
         userId: Yup.string().required('User Id is required')
@@ -57,26 +63,26 @@ function AddAddressUserModal({ userId, onClose, setState, ...props }: AddAddress
                 setLoadingButton(true);
                 const formData = new FormData();
                 formData.append('street1', values.street1);
-                formData.append('street2', values.street2);
+                formData.append('street2', values.street2 as string);
                 formData.append('city', values.city);
                 formData.append('state', values.state);
-                formData.append('zipcode', values.zipcode);
+                formData.append('zipcode', values.zipcode as unknown as string);
                 formData.append('country', values.country);
-                formData.append('countryCode', values.countryCode);
-                formData.append('userId', values.userId);
+                formData.append('countryCode', values.countryCode as string);
+                formData.append('userId', values.userId as string);
 
-                const { data } = await axios.post(urlBuilder.next + `/api/users/${userId}/address`, formData, {
+                const { data } = await axios.post(urlBuilder.dashboard + `/api/users/${userId}/address`, formData, {
                     headers: {
                         'Content-Type': 'application/json'
                     }
                 });
                 console.log('address created: ', data);
                 setLoadingButton(false);
-                if (setState) setState((prev) => [...prev, data]);
+                if (setState) setState((prev: any) => [...prev, data]);
                 toast.success('Address is created.');
                 closeModalAndReset();
             }
-        } catch (error) {
+        } catch (error: any) {
             setLoadingButton(false);
             console.error(error);
             toast.error(error.response.statusText);
@@ -109,7 +115,7 @@ function AddAddressUserModal({ userId, onClose, setState, ...props }: AddAddress
                             name={`street2`}
                             label="Street Line 2"
                             placeholder="Street Line 2"
-                            value={values?.street2}
+                            value={values?.street2 as string}
                             onBlur={handleBlur}
                             onChange={handleChange}
                             error={!!touched.street2 && !!errors.street2}
@@ -159,7 +165,7 @@ function AddAddressUserModal({ userId, onClose, setState, ...props }: AddAddress
                             <Button
                                 type="submit"
                                 loading={loadingButton}
-                                onClick={(e) => {
+                                onClick={(e: any) => {
                                     e.preventDefault();
                                     e.stopPropagation();
                                     handleSubmit();

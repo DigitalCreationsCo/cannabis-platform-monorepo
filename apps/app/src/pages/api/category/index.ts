@@ -14,8 +14,8 @@ handler.use(authMiddleware).use(healthCheckMiddleware);
 handler.get(async (req: ExtendRequest, res: NextApiResponse) => {
     try {
         res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
-        const { user } = await getSession({ req, res });
-        const { organizationId } = user.memberships[0];
+        const user = (await getSession({ req, res }))?.user
+        const organizationId = user?.memberships?.[0]?.organizationId;
         req.organizationId = organizationId;
         if (cache.has('categories')) {
             console.log('cache found');
@@ -26,7 +26,7 @@ handler.get(async (req: ExtendRequest, res: NextApiResponse) => {
         cache.set('categories', data);
         console.log('setting cache');
         return res.status(res.statusCode).json(data);
-    } catch (error) {
+    } catch (error: any) {
         // throw new error to handle any error discrepancy between frontend and next api
         throw new Error(error.response.data);
     }

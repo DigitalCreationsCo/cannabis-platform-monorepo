@@ -1,9 +1,9 @@
+import { urlBuilder } from '@cd/core-lib';
 import { AddressCreateType } from '@cd/data-access';
 import axios from 'axios';
 import { authMiddleware, healthCheckMiddleware } from 'middleware';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
-import { urlBuilder } from '../../../../../utils';
 
 const handler = nc();
 handler.use(authMiddleware).use(healthCheckMiddleware);
@@ -19,7 +19,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
             }
         });
         return res.status(res.statusCode).json(data);
-    } catch (error) {
+    } catch (error: any) {
         console.error(error.message);
         return res.json(error);
     }

@@ -1,7 +1,7 @@
+import { urlBuilder } from '@cd/core-lib';
 import { SessionPayload, UserWithDetails } from '@cd/data-access';
 import axios from 'axios';
 import { SessionInformation } from 'supertokens-node/recipe/session';
-import { urlBuilder } from '../utils';
 
 type SessionInfo = {
     session: SessionInformation;
@@ -9,9 +9,9 @@ type SessionInfo = {
     accessTokenPayload: SessionPayload;
 };
 
-export async function getSession({ req, res }): Promise<SessionInfo | null> {
+export async function getSession({ req, res }: { req: any; res: any }): Promise<SessionInfo | null> {
     try {
-        const { data } = await axios(urlBuilder.next + '/api/session', {
+        const { data } = await axios(urlBuilder.dashboard + '/api/session', {
             headers: {
                 Cookie: req.headers.cookie
             }
@@ -19,7 +19,7 @@ export async function getSession({ req, res }): Promise<SessionInfo | null> {
         if (data.status) {
             return data;
         } else throw new Error(data.error);
-    } catch (error) {
+    } catch (error: any) {
         console.log('get session error: ', error);
         throw new Error(error.message);
     }

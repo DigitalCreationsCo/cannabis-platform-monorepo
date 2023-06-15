@@ -1,7 +1,8 @@
-import { Button, H6, Small } from '@cd/ui-lib';
 import { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { twMerge } from 'tailwind-merge';
+import { Button } from './button';
+import { H6, Small } from './Typography';
 
 export interface DropZoneProps {
     onChange?: any;

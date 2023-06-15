@@ -1,4 +1,4 @@
-import { modalActions, modalTypes, selectUserState, TextContent } from '@cd/core-lib';
+import { getDashboardSite, modalActions, modalTypes, selectUserState, TextContent } from '@cd/core-lib';
 import { Button, FlexBox, H1, H4, H6, LayoutContextProps, Page, Paragraph } from '@cd/ui-lib';
 import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
@@ -83,7 +83,7 @@ function LandingPage() {
                         <FlexBox className='m-auto items-center space-y-2'>
                             <H4 className='text-xl'>
                             {`Dispensaries, Sign Up Here!`}</H4>
-                            <Link href="/signup/create-dispensary-account">
+                            <Link href={getDashboardSite("/signup/create-dispensary-account")}>
                                 <Button size="lg" 
                                 bg="primary" 
                                 transparent

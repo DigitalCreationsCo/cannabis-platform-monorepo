@@ -13,8 +13,8 @@ handler.use(authMiddleware).use(healthCheckMiddleware);
 handler.get(async (req: ExtendRequest, res: NextApiResponse) => {
     try {
         res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
-        const { user } = await getSession({ req, res });
-        const { organizationId } = user.memberships[0];
+        const user = (await getSession({ req, res }))?.user
+        const organizationId = user?.memberships?.[0]?.organizationId;
         req.organizationId = organizationId;
         if (cache.has(`orders/org/${organizationId}`)) {
             const orders = cache.get(`orders/org/${organizationId}`);
@@ -23,7 +23,7 @@ handler.get(async (req: ExtendRequest, res: NextApiResponse) => {
         const { data } = await axios(urlBuilder.main.ordersByOrgId(organizationId));
         cache.set(`orders/org/${organizationId}`, data);
         return res.status(res.statusCode).json(data);
-    } catch (error) {
+    } catch (error: any) {
         console.error(error.message);
         return res.json(error);
     }

@@ -1,13 +1,11 @@
 import { urlBuilder } from "@cd/core-lib/src/utils";
-import { Button, Center, FlexBox, H2, H5, UploadImageBox } from "@cd/ui-lib";
+import { Button, Center, DropZone, FlexBox, H2, H5, UploadImageBox, useFormContext } from "@cd/ui-lib";
 import axios from "axios";
 import FormData from "form-data";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { toast } from "react-hot-toast";
-import DropZone from "./DropZone";
-import { useFormContext } from "./form/FormStepProvider";
 
 type Image = {
 data: string;

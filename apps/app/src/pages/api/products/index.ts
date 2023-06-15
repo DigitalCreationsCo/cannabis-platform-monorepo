@@ -1,9 +1,9 @@
+import { urlBuilder } from '@cd/core-lib';
 import axios from 'axios';
 import { authMiddleware, ExtendRequest, healthCheckMiddleware } from 'middleware';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
 import NodeCache from 'node-cache';
-import { urlBuilder } from 'utils';
 import { getSession } from '../../../session';
 
 const cache = new NodeCache({ stdTTL: 20 });
@@ -13,8 +13,8 @@ handler.use(authMiddleware).use(healthCheckMiddleware);
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
-        const { user } = await getSession({ req, res });
-        const { organizationId } = user.memberships[0];
+        const user = (await getSession({ req, res }))?.user
+        const organizationId = user?.memberships?.[0]?.organizationId;
         if (cache.has(`products/org/${organizationId}`)) {
             const products = cache.get(`products/org/${organizationId}`);
             return res.status(200).json(products);
@@ -22,7 +22,7 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
         const { data } = await axios(urlBuilder.main.productsByOrgId(organizationId));
         cache.set(`products/org/${organizationId}`, data);
         return res.status(res.statusCode).json(data);
-    } catch (error) {
+    } catch (error: any) {
         console.error('/products GET error: ', error.message);
         return res.json(error);
     }
@@ -31,8 +31,8 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 // search products
 handler.post(async (req: ExtendRequest, res: NextApiResponse) => {
     try {
-        const { user } = await getSession({ req, res });
-        const { organizationId } = user.memberships[0];
+        const user = (await getSession({ req, res }))?.user
+        const organizationId = user?.memberships?.[0]?.organizationId;
         req.organizationId = organizationId;
         const { search } = req.body;
         if (search) {
@@ -43,7 +43,7 @@ handler.post(async (req: ExtendRequest, res: NextApiResponse) => {
             return res.status(res.statusCode).json(data);
         }
         return res.status(200).json([]);
-    } catch (error) {
+    } catch (error: any) {
         console.error(error.message);
         return res.json(error);
     }

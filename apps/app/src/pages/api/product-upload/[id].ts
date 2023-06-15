@@ -1,9 +1,9 @@
+import { urlBuilder } from '@cd/core-lib';
 import { ImageProduct } from '@cd/data-access';
 import axios from 'axios';
 import { authMiddleware, healthCheckMiddleware } from 'middleware';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
-import { urlBuilder } from '../../../utils';
 
 // const form = formidable({ multiples: true })
 // async function parseMultipartForm(req, res, next) {
@@ -41,7 +41,8 @@ handler.put(async (req: ExtendApiRequest, res: NextApiResponse) => {
             }
         });
         data.pipe(res);
-    } catch (error) {
+    } catch (error: any) {
+        console.error('product-upload-api error: ', error.message);
         throw new Error(error.message);
     }
 });

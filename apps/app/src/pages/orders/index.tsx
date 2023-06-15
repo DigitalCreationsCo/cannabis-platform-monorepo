@@ -1,9 +1,7 @@
+import { urlBuilder, usePagination } from '@cd/core-lib';
 import { Order } from '@cd/data-access';
 import { Card, Grid, H6, Icons, OrderRow, Page, PageHeader, Row } from '@cd/ui-lib';
-import { ProtectedPage } from 'components';
 import { useState } from 'react';
-import { usePagination } from '../../hooks';
-import { urlBuilder } from '../../utils';
 
 interface OrdersDashboardProps {
     orders: Order[];
@@ -14,7 +12,6 @@ export default function Orders({ orders }: OrdersDashboardProps) {
     const currentOrders = usePagination(currentPage, orders);
 
     return (
-        <ProtectedPage>
             <Page>
                 <PageHeader title="Orders" Icon={Icons.ShoppingBagOutlined} />
                 <Grid>
@@ -43,13 +40,12 @@ export default function Orders({ orders }: OrdersDashboardProps) {
           />
         </FlexBox> */}
             </Page>
-        </ProtectedPage>
     );
 }
 
-export async function getServerSideProps({ req }) {
+export async function getServerSideProps({ req }: { req: any }) {
     const orders: Order[] = await (
-        await fetch(urlBuilder.next + '/api/orders', {
+        await fetch(urlBuilder.dashboard + '/api/orders', {
             headers: {
                 Cookie: req.headers.cookie
             }

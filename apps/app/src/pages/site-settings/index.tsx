@@ -12,7 +12,6 @@
 // import SocialLinks from "components/site-settings/SocialLinks";
 // import TopbarSetting from "components/site-settings/TopbarSetting";
 import { Card, Icons, Page, PageHeader } from '@cd/ui-lib';
-import { ProtectedPage } from 'components';
 import { useState } from 'react';
 
 type SiteSettingsDashboardProps = Record<string, unknown>;
@@ -21,7 +20,6 @@ export default function SiteSettings() {
     const [selectTab, setSelectTab] = useState('general');
 
     return (
-        <ProtectedPage>
             <Page>
                 <PageHeader
                     title="Site Settings"
@@ -42,6 +40,5 @@ export default function SiteSettings() {
         </Box> */}
                 </Card>
             </Page>
-        </ProtectedPage>
     );
 }

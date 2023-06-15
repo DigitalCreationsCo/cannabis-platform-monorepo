@@ -1,10 +1,8 @@
 import { Button, FlexBox, Grid, Icons, Page, PageHeader, Row, TextField } from '@cd/ui-lib';
-import { ProtectedPage } from 'components';
 import Link from 'next/link';
 
 export default function AddUser() {
     return (
-        <ProtectedPage>
             <Page>
                 <PageHeader
                     title="Add Dispensary Staff"
@@ -58,6 +56,5 @@ export default function AddUser() {
                     </FlexBox>
                 </Grid>
             </Page>
-        </ProtectedPage>
     );
 }

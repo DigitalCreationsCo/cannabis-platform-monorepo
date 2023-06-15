@@ -1,8 +1,8 @@
+import { urlBuilder } from '@cd/core-lib';
 import axios from 'axios';
 import { ExtendRequest } from 'middleware';
 import { NextApiResponse } from 'next';
 import nc from 'next-connect';
-import { urlBuilder } from '../../utils';
 
 const handler = nc();
 
@@ -15,7 +15,7 @@ handler.get(async (req: ExtendRequest, res: NextApiResponse) => {
             }
         });
         res.status(res.statusCode).json(data);
-    } catch (error) {
+    } catch (error: any) {
         console.log('next api session error: ', error.data.message);
         throw new Error(error);
     }
