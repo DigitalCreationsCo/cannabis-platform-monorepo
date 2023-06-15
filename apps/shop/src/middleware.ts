@@ -14,14 +14,14 @@ export const config = {
     ]
 };
 
-const 
-appBaseUrl = process.env.NEXT_PUBLIC_SHOP_APP_URL || 'localhost:3000';
+const
+    appBaseUrl = process.env.NEXT_PUBLIC_SHOP_APP_URL || 'localhost:3000';
 
 export default function middleware(req: NextRequest, res: ServerResponse) {
 
     let
-    subdomain = req.headers.get('host')?.split('.')[0].split(':')[0] || 'localhost';
-    
+        subdomain = req.headers.get('host')?.split('.')[0].split(':')[0] || 'localhost';
+
     console.log('subdomain', subdomain);
 
     const allowAllVisitors = [
@@ -44,7 +44,7 @@ export default function middleware(req: NextRequest, res: ServerResponse) {
     ])
 
     let
-    url;
+        url;
     switch (true) {
         case subdomain === 'app':
             // console.log('admin path')
@@ -68,8 +68,8 @@ export default function middleware(req: NextRequest, res: ServerResponse) {
             // console.log('shop path')
             url = req.nextUrl.clone();
 
-             // Prevent security issues – users should not be able to canonically access the pages/_stores folder and its respective contents.
-             if (url.pathname.startsWith(`/_stores`)) {
+            // Prevent security issues – users should not be able to canonically access the pages/_stores folder and its respective contents.
+            if (url.pathname.startsWith(`/_stores`)) {
                 console.error('accessing stores directly is forbidden')
                 url.pathname = '/404';
                 console.log('REDIRECT')
@@ -81,23 +81,23 @@ export default function middleware(req: NextRequest, res: ServerResponse) {
                 console.log('REDIRECT')
                 return NextResponse.redirect(url);
             }
-            let 
-            over21 = req.cookies.get('yesOver21')?.value;
+            let
+                over21 = req.cookies.get('yesOver21')?.value;
             // base url redirect to /browse if over21
             if (url.pathname === '/') {
                 if (over21) {
                     url.pathname = '/browse';
                     console.log('REDIRECT')
-                    return NextResponse.redirect(url); 
+                    return NextResponse.redirect(url);
                 }
             }
             // redirect under21 to homepage
             if (url.pathname !== '/') {
                 if (!over21) {
-                    if (!allowAllVisitors.includes(url.pathname)){
+                    if (!allowAllVisitors.includes(url.pathname)) {
                         url.pathname = '/';
                         console.log('REDIRECT')
-                        return NextResponse.redirect(url); 
+                        return NextResponse.redirect(url);
                     }
                 }
             }
