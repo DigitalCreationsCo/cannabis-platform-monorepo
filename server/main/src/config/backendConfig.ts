@@ -7,10 +7,10 @@ import Passwordless from "supertokens-node/recipe/passwordless";
 import { AuthConfig } from '../../interfaces';
 import { DriverDA, UserDA } from '../api/data-access';
 
-const port          = process.env.SHOP_APP_PORT || 3000;
-const baseDomain    = process.env.NEXT_PUBLIC_APP_DOMAIN || 'localhost';
+const port = process.env.SHOP_APP_PORT || 3000;
+const baseDomain = process.env.NEXT_PUBLIC_APP_DOMAIN || 'localhost';
 const websiteDomain = process.env.NEXT_PUBLIC_SHOP_APP_URL || `http://localhost:${port}`;
-const apiDomain     = process.env.SERVER_MAIN_URL || `http://localhost:6001`;
+const apiDomain = process.env.SERVER_MAIN_URL || `http://localhost:6001`;
 
 const appInfo = {
     appName: process.env.NEXT_PUBLIC_SHOP_APP_NAME || 'Gras',
@@ -50,9 +50,9 @@ export const backendConfig = (): AuthConfig => {
                             // },
                             consumeCode: async (input: PasswordlessSignInRequestPayload) => {
                                 try {
-                                    
-                                    let 
-                                    response = await originalImplementation.consumeCode(input);
+
+                                    let
+                                        response = await originalImplementation.consumeCode(input);
 
                                     if (response.status === "OK") {
                                         if (!response.createdNewUser) {
@@ -60,19 +60,6 @@ export const backendConfig = (): AuthConfig => {
                                             let user;
 
                                             console.log('backend request from appUser ', input.userContext.appUser);
-                                            
-                                            if (input.userContext.appUser === 'CUSTOMER' ||
-                                            input.userContext.appUser === 'ADMIN') {
-                                                if (response.user.email) {
-                                                    user = await UserDA.getUserByEmail(response.user.email) || null;
-                                                    response.user = { ...response.user, ...user } as Passwordless.User & UserWithDetails
-
-                                                } else if (response.user.phoneNumber) {
-                                                    user = await UserDA.getUserByPhone(response.user.phoneNumber) || null;
-                                                    response.user = { ...response.user, ...user } as Passwordless.User & UserWithDetails
-
-                                                }
-                                            }
 
                                             if (input.userContext.appUser === 'DRIVER') {
                                                 if (response.user.email) {
@@ -84,6 +71,20 @@ export const backendConfig = (): AuthConfig => {
                                                     response.user = { ...response.user, ...user } as Passwordless.User & DriverWithDetails
 
                                                 }
+                                            }
+                                            else {
+                                                // if (input.userContext.appUser === 'CUSTOMER' ||
+                                                //     input.userContext.appUser === 'ADMIN') {
+                                                if (response.user.email) {
+                                                    user = await UserDA.getUserByEmail(response.user.email) || null;
+                                                    response.user = { ...response.user, ...user } as Passwordless.User & UserWithDetails
+
+                                                } else if (response.user.phoneNumber) {
+                                                    user = await UserDA.getUserByPhone(response.user.phoneNumber) || null;
+                                                    response.user = { ...response.user, ...user } as Passwordless.User & UserWithDetails
+
+                                                }
+                                                // }
                                             }
                                         }
                                     }
@@ -105,13 +106,13 @@ export const backendConfig = (): AuthConfig => {
                         //             if (originalImplementation.consumeCodePOST === undefined) {
                         //                 throw Error("Something went wrong.");
                         //             }
-                                    
+
                         //             let response = await originalImplementation.consumeCodePOST(input);
                         //             let user
                         //             // Post sign up response, we check if it was successful
                         //             if (response.status === "OK") {
                         //                 let { id, email, phoneNumber } = response.user;
-        
+
                         //                 if (response.createdNewUser) {
                         //                     // TODO: post sign up logic
                         //                 } else {
@@ -125,7 +126,7 @@ export const backendConfig = (): AuthConfig => {
                         // }
                     },
                     apis: (originalImplementation) => {
-                        
+
                         return {
                             ...originalImplementation,
                             consumeCodePOST: async (input: PasswordlessSignInRequestPayload & { options: any }) => {
@@ -135,10 +136,10 @@ export const backendConfig = (): AuthConfig => {
 
                                 // YES
                                 // console.log('post input: ' , input.options.req.original.headers);
-                                
+
                                 // YES
                                 // console.log('post input: ' , await input.options.req.getFormData());
-                                
+
                                 // NO
                                 // console.log('post input: ' , await input.options.req.getHeaderValue('appUser'));
 
@@ -148,9 +149,9 @@ export const backendConfig = (): AuthConfig => {
                                 // NO
                                 // console.log('post app user? ', input.userContext.appUser)
 
-                                const 
-                                { appUser } = (await input.options.req.getJSONBody());
-                                
+                                const
+                                    { appUser } = (await input.options.req.getJSONBody());
+
                                 input.userContext = { ...input.userContext, appUser };
 
                                 return originalImplementation.consumeCodePOST(input);
@@ -169,21 +170,21 @@ export const backendConfig = (): AuthConfig => {
                 //                             const userId = input.userContext.id;
                 //                             input.userId = userId;
                 //                             input.accessTokenPayload = { ...input.accessTokenPayload, ...input.userContext };
-            
+
                 //                             const session = await originalImplementation.createNewSession(input);
-            
+
                 //                             const sessionPayload: SessionPayload = {
                 //                                 userId: input.userId,
                 //                                 username: input.accessTokenPayload.username,
                 //                                 email: input.accessTokenPayload.email
                 //                             };
-            
+
                 //                             await SessionDA.createUserSession(
                 //                                 session.getHandle(),
                 //                                 sessionPayload,
                 //                                 await session.getExpiry()
                 //                             );
-            
+
                 //                             return session;
                 //                         }
                 //                     };

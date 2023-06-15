@@ -69,52 +69,89 @@ function TopBar({ signOut }: TopBarProps) {
                 </Paragraph>
             </Link>
             <div className="flex-1"></div>
-            
-            {window?.location?.pathname === '/' ||
-            <Link href={getShopSite("/mybag")} passHref>
-                <IconButton 
-                className='bg-transparent shadow-none px-4' 
-                size='sm' 
-                hover='transparent'
-                Icon={icons.ShoppingBag}
-                >
-                    { isCartEmpty && <></> || <div className={twMerge(styles.TOPBAR.badge)}>{cart.totalItems}</div> }
-                </IconButton>
-                {/* <Button
-                    className="indicator w-[100px]"
-                    // onClick={openCartModal}
-                >
-                    <>
-                        Bag
-                        {isCartEmpty || <div className={twMerge(styles.badge)}>{cart.totalItems}</div>}
-                    </>
-                </Button> */}
-            </Link>}
 
-            {isSignedIn ? (
-                <>
+            <FlexBox className='flex flex-row items-center space-x-12 pr-4'>
+                { isSignedIn && 
                     <Link href={getShopSite("/support")}>
-                        <Paragraph className={twMerge('pt-1', 'px-3', 'text-md', 'whitespace-nowrap')}>
-                            Need Support?
+                        <Paragraph className={twMerge('whitespace-nowrap')}>
+                            Get Support
                         </Paragraph>
                     </Link>
-                    <FlexBox>
-                        <Button onClick={signOut}>Sign Out</Button>
-                    </FlexBox>
-                </>
-            ) : (
-                <FlexBox>
-                    <Button 
-                    className='px-4'
+                }
+
+                {window?.location?.pathname === '/' ||
+                <Link href={getShopSite("/mybag")} passHref>
+                    <IconButton 
+                    className='bg-transparent shadow-none' 
                     size='sm' 
-                    bg='transparent' 
                     hover='transparent'
-                    onClick={openLoginModal}>
-                        Sign In</Button>
-                </FlexBox>
-            )}
+                    Icon={icons.ShoppingBag}
+                    >
+                        { isCartEmpty && <></> || <div className={twMerge(styles.TOPBAR.badge)}>{cart.totalItems}</div> }
+                    </IconButton>
+                    {/* <Button
+                        className="indicator w-[100px]"
+                        // onClick={openCartModal}
+                    >
+                        <>
+                            Bag
+                            {isCartEmpty || <div className={twMerge(styles.badge)}>{cart.totalItems}</div>}
+                        </>
+                    </Button> */}
+                </Link>}
+
+                {isSignedIn ? (
+                    <AccountDropDown />
+                ) : (
+                    <FlexBox>
+                        <Button 
+                        size='sm' 
+                        bg='transparent' 
+                        hover='transparent'
+                        onClick={openLoginModal}>
+                            Sign In</Button>
+                    </FlexBox>
+                )}
+            </FlexBox>
         </div>
     );
+    
+    
+    function AccountDropDown () {
+        return (
+
+        <div className="dropdown dropdown-bottom relative">
+            <Button
+            className='btn focus:outline-none px-0 outline-none border-none'
+            size='sm'
+            border={false}
+            bg='transparent' 
+            hover='transparent'
+            >
+                <Image 
+                src={user?.imageUser?.[0].location || ''}
+                alt={user.username} 
+                width={90}
+                height={90}
+                className="rounded-full border-2"
+                priority
+                />
+            </Button>
+            <ul className="shadow border menu dropdown-content bg-inverse rounded w-48 relative right-0 bottom-0 mt-2">
+                <FlexBox>
+                    <Button 
+                    size='md' 
+                    bg='transparent' 
+                    hover='transparent'
+                    onClick={signOut}>
+                        Sign Out</Button>
+                </FlexBox>
+            </ul>
+        </div>
+        )
+    }
 }
 
 export default TopBar;
+
+

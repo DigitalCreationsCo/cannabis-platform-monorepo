@@ -46,6 +46,11 @@ export default function middleware(req: NextRequest, res: ServerResponse) {
     let
         url;
     switch (true) {
+        case subdomain === 'www':
+            url = req.nextUrl.clone();
+            url.host = url.host.replace('www.', '');
+            return NextResponse.redirect(url.host);
+            break;
         case subdomain === 'app':
             // console.log('admin path')
             url = req.nextUrl.clone();
@@ -85,7 +90,7 @@ export default function middleware(req: NextRequest, res: ServerResponse) {
                 over21 = req.cookies.get('yesOver21')?.value;
             // base url redirect to /browse if over21
             if (url.pathname === '/') {
-                if (over21) {
+                if (over21 === 'true') {
                     url.pathname = '/browse';
                     console.log('REDIRECT')
                     return NextResponse.redirect(url);
@@ -93,10 +98,13 @@ export default function middleware(req: NextRequest, res: ServerResponse) {
             }
             // redirect under21 to homepage
             if (url.pathname !== '/') {
-                if (!over21) {
+                console.log('hello')
+                if (over21 !== 'true') {
+                    console.log('hello2')
                     if (!allowAllVisitors.includes(url.pathname)) {
+                        console.log('hello3')
                         url.pathname = '/';
-                        console.log('REDIRECT')
+                        console.log('REDIRECT, ', url)
                         return NextResponse.redirect(url);
                     }
                 }

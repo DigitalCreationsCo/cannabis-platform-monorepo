@@ -18,7 +18,7 @@ function LandingPage() {
     const [cookies] = useCookies(['yesOver21'])
     
     function openCheckAgeModalOrEnterSite() {
-        cookies['yesOver21'] ? Router.push('/browse') : 
+        cookies['yesOver21']==='true' ? Router.push('/browse') : 
             dispatch(
                 modalActions.openModal({
                     modalType: modalTypes.checkAgeModal,
@@ -76,8 +76,8 @@ function LandingPage() {
                                 </Button>
                             </FlexBox>
                         </FlexBox>
-                    <FlexBox className={twMerge(styles.about)}>
                         {!isSignedIn && 
+                    <FlexBox className={twMerge(styles.about)}>
                         <FlexBox className='m-auto items-center space-y-2'>
                             <H4 className='text-xl'>
                             {`Dispensaries, Sign Up Here!`}</H4>
@@ -91,8 +91,9 @@ function LandingPage() {
                                     {TextContent.prompt.CREATE_DISPENSARY_ACCOUNT}</Paragraph>
                                 </Button>
                             </Link>
-                        </FlexBox>}
+                        </FlexBox>
                     </FlexBox>
+                    }
                 </FlexBox>
             </ImageBackDrop>
         </Page>
