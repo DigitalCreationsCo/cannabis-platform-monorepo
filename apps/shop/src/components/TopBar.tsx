@@ -1,4 +1,4 @@
-import { getShopSite, modalActions, modalTypes, selectCartState, selectIsCartEmpty, selectUserState } from '@cd/core-lib';
+import { getDashboardSite, getShopSite, modalActions, modalTypes, selectCartState, selectIsCartEmpty, selectUserState } from '@cd/core-lib';
 import { Button, FlexBox, H2, IconButton, Paragraph, styles } from '@cd/ui-lib';
 import icons from '@cd/ui-lib/icons';
 import Image from 'next/image';
@@ -13,8 +13,9 @@ export type TopBarProps = {
 };
 
 function TopBar({ signOut }: TopBarProps) {
+    
     const dispatch = useDispatch();
-    const user = useSelector(selectUserState);
+    const { user, isSignedIn } = useSelector(selectUserState);
     const cart = useSelector(selectCartState);
     const isCartEmpty = useSelector(selectIsCartEmpty);
 
@@ -34,18 +35,31 @@ function TopBar({ signOut }: TopBarProps) {
     //         })
     //     );
     // }
+    function getUserHome() {
+        const 
+        dashboardDomain = process.env.NEXT_PUBLIC_DASHBOARD_APP_URL;
+        
+        if (user.memberships?.[0]?.role.toLocaleUpperCase() === 'ADMIN' ||
+            user.memberships?.[0]?.role.toLocaleUpperCase() === 'OWNER')
+            return getDashboardSite('/dashboard');
+        else
+        if (window.location.href.startsWith(dashboardDomain || 'app'))
+        return getDashboardSite('/');
+        else 
+        return getShopSite('/');
+    }
 
     return (
         <div className={twMerge(styles.TOPBAR.topbar)}>
             <div className='pl-2 flex items-center'>
-                <Link href={getShopSite("/")} passHref>
+                <Link href={getUserHome()} passHref>
                     <Image alt="Gras" width={50} height={50} src={logo} />
                 </Link>
-                <Link href={getShopSite("/")}>
+                <Link href={getUserHome()}>
                     <H2 className="pt-1">Gras</H2>
                 </Link>
             </div>
-            <Link href="/">
+            <Link href={getUserHome()}>
                 <Paragraph
                     className={twMerge(
                         styles.TOPBAR.tagline
@@ -77,7 +91,7 @@ function TopBar({ signOut }: TopBarProps) {
                 </Button> */}
             </Link>}
 
-            {user.isSignedIn ? (
+            {isSignedIn ? (
                 <>
                     <Link href={getShopSite("/support")}>
                         <Paragraph className={twMerge('pt-1', 'px-3', 'text-md', 'whitespace-nowrap')}>

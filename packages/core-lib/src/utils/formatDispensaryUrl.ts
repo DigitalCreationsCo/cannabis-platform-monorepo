@@ -1,3 +1,5 @@
+import { UserWithDetails } from "../../../data-access/src";
+
 function formatDispensaryUrl(subdomainId: string) {
     switch (process.env.NODE_ENV) {
         case 'development':
@@ -33,6 +35,14 @@ function getDashboardSite(path: string): string {
         default:
             return `http://localhost:3001`;
     }
+}
+
+function getUserHome(user: UserWithDetails) {
+    if (user.memberships?.[0]?.role.toLocaleUpperCase() === 'ADMIN' ||
+        user.memberships?.[0]?.role.toLocaleUpperCase() === 'OWNER')
+        return getDashboardSite('/dashboard');
+    else
+        return getShopSite('/');
 }
 
 export {
