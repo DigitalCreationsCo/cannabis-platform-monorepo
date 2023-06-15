@@ -1,4 +1,4 @@
-import { modalActions, modalTypes, selectUserState } from '@cd/core-lib';
+import { getDashboardSite, getShopSite, modalActions, modalTypes, selectUserState } from '@cd/core-lib';
 import { Button, FlexBox, H2, Paragraph, styles } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -13,7 +13,7 @@ export type TopBarProps = {
 function AdminTopBar({ signOut }: TopBarProps) {
     
     const dispatch = useDispatch();
-    const user = useSelector(selectUserState);
+    const { user, isSignedIn } = useSelector(selectUserState);
 
     function openLoginModal() {
         dispatch(
@@ -23,17 +23,25 @@ function AdminTopBar({ signOut }: TopBarProps) {
         );
     }
 
+    function getUserHome() {
+        if (user.memberships?.[0]?.role.toLocaleUpperCase() === 'ADMIN' ||
+            user.memberships?.[0]?.role.toLocaleUpperCase() === 'OWNER')
+            return getDashboardSite('/dashboard');
+        else
+            return getShopSite('/');
+    }
+
     return (
         <div className={twMerge(styles.TOPBAR.topbar)}>
             <div className='pl-2 flex items-center'>
-                <Link href="/" passHref>
+                <Link href={getUserHome()} passHref>
                     <Image alt="Gras" width={50} height={50} src={logo} />
                 </Link>
-                <Link href="/">
+                <Link href={getUserHome()}>
                     <H2 className="pt-1">Gras</H2>
                 </Link>
             </div>
-            <Link href="/">
+            <Link href={getUserHome()}>
                 <Paragraph
                     className={twMerge(styles.TOPBAR.tagline)}
                 >
@@ -42,7 +50,7 @@ function AdminTopBar({ signOut }: TopBarProps) {
             </Link>
             <div className="flex-1"></div>
             
-            {user.isSignedIn ? (
+            { isSignedIn ? (
                 <>
                     <Link href="/support">
                         <Paragraph className={twMerge('pt-1', 'px-3', 'text-md', 'whitespace-nowrap')}>
