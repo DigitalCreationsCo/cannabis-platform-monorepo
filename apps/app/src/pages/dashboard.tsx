@@ -1,6 +1,6 @@
 import { Order, Organization, ProductWithDetails, UserWithDetails } from '@cd/data-access';
 import { Card, Grid, Icons, OrderRow, Page, PageHeader } from '@cd/ui-lib';
-import { ProductRow, ProtectedPage } from 'components';
+import { ProductRow } from 'components';
 import { useMemo } from 'react';
 
 interface DashboardProps {
@@ -32,7 +32,6 @@ export default function Dashboard({ user, organization, products, orders }: Dash
     ];
 
     return (
-        <ProtectedPage>
             <Page>
                 <PageHeader
                     title={`${organization?.name} Dashboard`}
@@ -70,7 +69,7 @@ export default function Dashboard({ user, organization, products, orders }: Dash
 
                 <Grid title="Low Stock Products">
                     {lowStockVariants.length > 0 ? (
-                        lowStockVariants.map((product) =>
+                        lowStockVariants.map((product: ProductWithDetails) =>
                             product.variants.map((variant) => (
                                 <ProductRow key={product.id} product={product} variant={variant} />
                             ))
@@ -80,11 +79,10 @@ export default function Dashboard({ user, organization, products, orders }: Dash
                     )}
                 </Grid>
             </Page>
-        </ProtectedPage>
     );
 }
 
-export const findLowStockVariants = (products) =>
+export const findLowStockVariants = (products: ProductWithDetails[]): any[] =>
     products.map((product) => {
         if (product.id && product.variants) {
             return {

@@ -10,7 +10,7 @@ type ProductRowProps = {
 };
 
 function ProductRow({ product, variant }: ProductRowProps) {
-    const imageSrc = product.variants?.[0].images[0]?.location || variant?.images?.[0]?.location || false;
+    const imageSrc = product?.variants?.[0]?.images?.[0]?.location || variant?.images?.[0]?.location || null;
     return (
         <Link href={`products/${product.id}`}>
             <Row className="h-[44px]">
@@ -24,7 +24,13 @@ function ProductRow({ product, variant }: ProductRowProps) {
                             {variant.stock.toString().padStart(2, '0')} stock
                         </Paragraph>
                         <H6 className="flex justify-center w-[80px]">
-                            <Price price={variant.basePrice} />
+                            <Price 
+                            basePrice={variant.basePrice} 
+                            salePrice={variant.salePrice}
+                            discount={variant.discount}
+                            showDiscount={true}
+                            showOriginalPrice={true}
+                            />
                         </H6>
                     </>
                 )}

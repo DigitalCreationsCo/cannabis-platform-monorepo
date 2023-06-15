@@ -1,17 +1,17 @@
 /// @ts-nocheck
-import { Center, FlexBox, LayoutContextProps, LoadingDots, ModalProvider, ToastProvider } from "@cd/ui-lib";
+import { LayoutContextProps, LoadingPage, ModalProvider, ToastProvider } from "@cd/ui-lib";
 import withRedux from 'next-redux-wrapper';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { useRouter } from "next/router";
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Provider as ReduxProvider, useStore } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session, { SessionContextType } from 'supertokens-auth-react/recipe/session';
-import { LayoutContainer, StepFormValuesProvider } from '../components';
+import { LayoutContainer } from '../components';
 import { frontendConfig } from '../config/frontendConfig';
 import reduxStore from '../redux/store';
-import '../styles/globals.css';
 
 if (typeof window !== 'undefined') {
     SuperTokensReact.init(frontendConfig());
@@ -22,6 +22,17 @@ type CustomAppProps = AppProps & {
 };
 
 function App({ Component, pageProps }: CustomAppProps) {
+
+    const 
+    store = useStore();
+
+    const 
+    [routerLoading, setRouterLoading] = useState(true),
+    router = useRouter();
+
+    useEffect(() => {
+        router.isReady && setRouterLoading(false)
+    }, [router]);
 
     useEffect(() => {
         async function doRefresh() {
@@ -42,8 +53,6 @@ function App({ Component, pageProps }: CustomAppProps) {
 
     const getLayoutContext = Component.getLayoutContext || (() => ({}));
 
-    const store = useStore()
-
     return (
         <>
             <Head>
@@ -54,15 +63,12 @@ function App({ Component, pageProps }: CustomAppProps) {
                 <ReduxProvider store={store}>
                     <PersistGate
                         persistor={store._persistor}
-                        loading={<FlexBox className="grow items-center min-h-screen"><Center>
-                        <LoadingDots /></Center></FlexBox>}
+                        loading={<LoadingPage />}
                         >
                         <ModalProvider />
                         <ToastProvider />
                         <LayoutContainer {...getLayoutContext()}>
-                            <StepFormValuesProvider>
-                                <Component {...pageProps} />
-                            </StepFormValuesProvider>
+                            { routerLoading ? <LoadingPage /> : <Component {...pageProps} />} 
                         </LayoutContainer>
                     </PersistGate>
                 </ReduxProvider>

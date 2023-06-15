@@ -1,13 +1,11 @@
+import { urlBuilder, usePagination } from '@cd/core-lib';
 import { UserWithDetails } from '@cd/data-access';
 import { Button, Card, DeleteButton, Grid, H6, Icons, Page, PageHeader, Paragraph, Row } from '@cd/ui-lib';
 import axios from 'axios';
-import { ProtectedPage } from 'components';
-import { usePagination } from 'hooks';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
-import { urlBuilder } from '../../utils';
 
 type UsersDashboardProps = {
     users: UserWithDetails[];
@@ -32,7 +30,7 @@ export default function Users({ users }: UsersDashboardProps) {
                 setDeleteId('');
                 setDialogOpen(false);
                 toast.success('User deleted Successfully');
-            } catch (error) {
+            } catch (error: any) {
                 console.error(error);
                 toast.error(error.response.statusText);
             }
@@ -40,7 +38,6 @@ export default function Users({ users }: UsersDashboardProps) {
     };
 
     return (
-        <ProtectedPage>
             <Page>
                 <PageHeader
                     title="Users"
@@ -67,7 +64,7 @@ export default function Users({ users }: UsersDashboardProps) {
                                     <Row className="h-[54px] py-0">
                                         <Image
                                             className="hidden sm:block"
-                                            src={user.imageUser?.[0]?.location}
+                                            src={user?.imageUser?.[0]?.location || ''}
                                             alt=""
                                             height={100}
                                             width={100}
@@ -82,8 +79,8 @@ export default function Users({ users }: UsersDashboardProps) {
                                             {user.phone || '-'}
                                         </Paragraph>
                                         <Paragraph className="flex justify-center w-[100px]">
-                                            {user.memberships[0]?.role.substring(0, 1).toLocaleUpperCase() +
-                                                user.memberships[0]?.role.slice(1).toLocaleLowerCase()}{' '}
+                                            {user?.memberships?.length && user?.memberships?.[0]?.role.substring(0, 1).toLocaleUpperCase() +
+                                                user.memberships[0].role.slice(1).toLocaleLowerCase()}{' '}
                                         </Paragraph>
                                         <DeleteButton
                                             onClick={() => {
@@ -114,14 +111,13 @@ export default function Users({ users }: UsersDashboardProps) {
           />
         </FlexBox> */}
             </Page>
-        </ProtectedPage>
     );
 }
 
-export async function getServerSideProps({ req, res }) {
+export async function getServerSideProps({ req, res }: { req: any; res: any }) {
     res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
     const users: UserWithDetails[] = await (
-        await fetch(urlBuilder.next + '/api/users', {
+        await fetch(urlBuilder.dashboard + '/api/users', {
             headers: {
                 Cookie: req.headers.cookie
             }

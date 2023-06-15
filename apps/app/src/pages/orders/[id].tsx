@@ -1,6 +1,5 @@
+import { calcSalePrice, orderStatusList, renderAddress, urlBuilder, useProductSearch } from '@cd/core-lib';
 import {
-    OrderItem,
-    OrderItemWithDetails,
     OrderStatus,
     OrderWithDetails,
     ProductVariantWithDetails
@@ -16,33 +15,23 @@ import {
     H5,
     H6,
     Icons,
-    LoadingDots,
-    Padding,
-    Page,
+    LoadingDots, Page,
     PageHeader,
     Paragraph,
     PhoneNumber,
-    Price,
-    Row,
-    Span,
-    TextField
+    Price, ProductItem, Row, Select, Span, TextField, useOnClickOutside
 } from '@cd/ui-lib';
 import axios from 'axios';
-import { ProductItem, ProtectedPage, Select } from 'components';
 import { format } from 'date-fns';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRef, useState } from 'react';
+import { Dispatch, SetStateAction, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { twMerge } from 'tailwind-merge';
-import { calcSalePrice, orderStatusList, renderAddress, urlBuilder } from 'utils';
-import { useAppState } from '../../context/AppProvider';
-import { useOnClickOutside, useProductSearch } from '../../hooks';
 
 export default function OrderDetails({ order }: { order: OrderWithDetails }) {
-    const { isLoading, setIsLoading } = useAppState();
     const [updateOrder, setUpdateOrder] = useState<OrderWithDetails>();
-    const [orderStatus, setOrderStatus] = useState<OrderStatus>(order.status);
+    const [orderStatus, setOrderStatus] = useState<OrderStatus>(order.orderStatus);
     const [searchProductTerms, setSearchProductTerms] = useState('');
     const [loadingButton, setLoadingButton] = useState(false);
     const [openAddProduct, setOpenAddProduct] = useState(false);
@@ -58,13 +47,13 @@ export default function OrderDetails({ order }: { order: OrderWithDetails }) {
     const { notFoundResult, doSearchProducts, productSearchResult } = useProductSearch();
 
     function removeRelatedFields(order: OrderWithDetails) {
-        delete order['driver'];
-        delete order['customer'];
-        delete order.destinationAddress;
+        // delete order['driver'];
+        // delete order['customer'];
+        // delete order.destinationAddress;
         return order;
     }
 
-    function removeProductsFromItems(items: OrderItemWithDetails[]) {
+    function removeProductsFromItems(items: any[]) {
         return (
             items &&
             items.map((item) => {
@@ -77,12 +66,12 @@ export default function OrderDetails({ order }: { order: OrderWithDetails }) {
         setLoadingButton(true);
         try {
             if (order) {
-                setIsLoading(true);
+                // setIsLoading(true);
                 setUpdateOrder(removeRelatedFields({ ...order }));
-                const response = await axios.put(urlBuilder.next + '/api/orders', {
+                const response = await axios.put(urlBuilder.dashboard + '/api/orders', {
                     ...updateOrder,
                     id: order.id,
-                    items: removeProductsFromItems(order.items),
+                    items: removeProductsFromItems(order.items as any[]),
                     status: orderStatus
                 });
                 if (response.status !== 200) throw Error('Could not save record');
@@ -90,42 +79,42 @@ export default function OrderDetails({ order }: { order: OrderWithDetails }) {
             }
             setLoadingButton(false);
             location.reload();
-        } catch (error) {
+        } catch (error: any) {
             setLoadingButton(false);
-            setIsLoading(false);
+            // setIsLoading(false);
             console.error(error);
-            toast.error(error.response.statusText);
+            toast.error(error.message);
             // toast.error(error.message);
             location.reload();
         }
     };
 
     // calculate order total price
-    const calculateTotal = (items: OrderItemWithDetails[]) => {
+    const calculateTotal = (items: any[]) => {
         const subtotal = items.reduce((prev, curr) => prev + curr.salePrice * curr.quantity, 0);
-        const total = subtotal + order.tax;
-        setUpdateOrder((state) => ({ ...state, subtotal, total }));
+        const total = subtotal + order.taxAmount;
+        // setUpdateOrder((state) => ({ ...state, subtotal, total }));
     };
 
     // change the quantity for a item
     const handleQuantityChange = (quantity: number, variantId: string) => {
-        const items = order.items.map((item: OrderItemWithDetails) => {
+        const items = order?.items?.map((item: any) => {
             return item.variantId === variantId ? { ...item, quantity } : item;
         });
-        calculateTotal(items);
+        calculateTotal(items as any[]);
     };
 
     // delete item from order
     const handleDeleteItem = (variantId: string) => {
-        const items = order.items.filter((item: OrderItem) => item.variantId !== variantId);
-        calculateTotal(items);
+        const items = order?.items?.filter((item: any) => item.variantId !== variantId);
+        calculateTotal(items as any[]);
     };
 
     // add new item in order
     const handleAddItem = (variant: ProductVariantWithDetails, quantity: number) => {
         const salePrice = calcSalePrice(variant.basePrice, variant.discount);
 
-        const addItem: OrderItemWithDetails = {
+        const addItem: any = {
             discount: variant.discount,
             currency: variant.currency,
             createdAt: variant.createdAt,
@@ -149,16 +138,8 @@ export default function OrderDetails({ order }: { order: OrderWithDetails }) {
     };
 
     return (
-        <ProtectedPage>
             <Page>
-                {isLoading ? (
-                    <Center>
-                        <Padding>
-                            <LoadingDots />
-                        </Padding>
-                    </Center>
-                ) : (
-                    (order && (
+                    { order && (
                         <Grid className="md:max-w-fit">
                             <PageHeader
                                 title={`Order #${order?.id}`}
@@ -171,16 +152,16 @@ export default function OrderDetails({ order }: { order: OrderWithDetails }) {
                             />
                             <AddProductModal
                                 className="z-100 w-screen"
-                                open={openAddProduct}
+                                modalVisible={openAddProduct}
                                 onClose={toggleAddProduct}
                                 description="Add Product"
                             >
                                 <TextField
                                     className="shadow"
                                     value={searchProductTerms}
-                                    onChange={(e) => {
+                                    onChange={(e: any) => {
                                         doSearchProducts(e);
-                                        setSearchProductTerms(e.target.value);
+                                        setSearchProductTerms(e.target?.value);
                                     }}
                                     placeholder="Search Products"
                                 />
@@ -214,7 +195,7 @@ export default function OrderDetails({ order }: { order: OrderWithDetails }) {
                                         <Select
                                             defaultValue={orderStatus}
                                             values={[orderStatus, ...orderStatusList]}
-                                            setOption={setOrderStatus}
+                                            setOption={setOrderStatus as Dispatch<SetStateAction<string | number>>}
                                         />
                                     </FlexBox>
                                 </Row>
@@ -227,7 +208,7 @@ export default function OrderDetails({ order }: { order: OrderWithDetails }) {
                                     <Paragraph>
                                         <PhoneNumber phone={order.customer.dialCode + '-' + order.customer.phone} />
                                     </Paragraph>
-                                    {renderAddress(order.destinationAddress)}
+                                    {renderAddress({ address: order.destinationAddress })}
                                 </Card>
 
                                 <FlexBox className="flex-col space-x-0 items-stretch">
@@ -241,7 +222,7 @@ export default function OrderDetails({ order }: { order: OrderWithDetails }) {
                                         </Button>
                                     </Row>
 
-                                    {order.items.map((item: OrderItemWithDetails, index: number) => (
+                                    {order.items.map((item: any, index: number) => (
                                         <Row key={index} className="h-[66px] flex md:space-x-4">
                                             <Image
                                                 src={item.productVariant?.images[0]?.location}
@@ -255,7 +236,10 @@ export default function OrderDetails({ order }: { order: OrderWithDetails }) {
                                             </FlexBox>
 
                                             <H6 className="">
-                                                <Price price={item.salePrice} />
+                                                <Price 
+                                                basePrice={item.basePrice}
+                                                discount={item.discount}
+                                                salePrice={item.salePrice} />
                                             </H6>
                                             {orderStatus === 'Pending' ? (
                                                 <TextField
@@ -263,7 +247,7 @@ export default function OrderDetails({ order }: { order: OrderWithDetails }) {
                                                     className="w-[66px] font-semibold"
                                                     type="number"
                                                     defaultValue={item.quantity}
-                                                    onChange={(e) =>
+                                                    onChange={(e: any) =>
                                                         handleQuantityChange(e.target.value, item.variantId)
                                                     }
                                                 />
@@ -283,28 +267,28 @@ export default function OrderDetails({ order }: { order: OrderWithDetails }) {
                                         <FlexBox>
                                             <H5>Subtotal</H5>
                                             <H6>
-                                                <Price price={order.subtotal} />
+                                                <Price basePrice={order.subtotal} />
                                             </H6>
                                         </FlexBox>
 
                                         <FlexBox>
                                             <H5>Delivery Fee</H5>
                                             <H6>
-                                                <Price price={0} />
+                                                <Price basePrice={0} />
                                             </H6>
                                         </FlexBox>
 
                                         <FlexBox>
                                             <H5>Tax</H5>
                                             <H6>
-                                                <Price price={order.tax} />
+                                                <Price basePrice={order.taxAmount} />
                                             </H6>
                                         </FlexBox>
 
                                         <FlexBox>
                                             <H5>Total</H5>
                                             <H6>
-                                                <Price price={order.total} />
+                                                <Price basePrice={order.total} />
                                             </H6>
                                         </FlexBox>
                                     </Grid>
@@ -317,17 +301,16 @@ export default function OrderDetails({ order }: { order: OrderWithDetails }) {
                                 </FlexBox>
                             </Grid>
                         </Grid>
-                    )) || <Paragraph>The order is not found</Paragraph>
-                )}
-            </Page>
-        </ProtectedPage>
+                    )
+                } 
+        </Page>
     );
 }
 
-export async function getServerSideProps({ req, params }) {
+export async function getServerSideProps({ req, params }: { req: any; params: any }) {
     try {
         const order = await (
-            await axios(urlBuilder.next + `/api/orders/${params.id}`, {
+            await axios(urlBuilder.dashboard + `/api/orders/${params.id}`, {
                 headers: {
                     Cookie: req.headers.cookie
                 }
@@ -337,8 +320,8 @@ export async function getServerSideProps({ req, params }) {
         return {
             props: { order }
         };
-    } catch (error) {
-        console.log('SSR error: ', error.message);
+    } catch (error: any) {
+        console.log('Orders/[id] SSR error: ', error.message);
         throw new Error(error);
     }
 }

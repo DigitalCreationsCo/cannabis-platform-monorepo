@@ -1,13 +1,13 @@
+import { urlBuilder } from '@cd/core-lib';
 import axios from 'axios';
-import { urlBuilder } from '../utils';
 
-export default async function HealthCheck(req, res, next) {
+export default async function HealthCheck(req: any, res: any, next: any) {
     try {
         console.log(' healthcheck at', process.env.SERVER_MAIN_URL + '/api/v1' + '/healthcheck');
         await axios(urlBuilder.main.healthCheck());
         next();
-    } catch (error) {
+    } catch (error: any) {
         console.log('healthcheck error: ', error.message);
-        throw new Error(error);
+        throw new Error(error.message);
     }
 }

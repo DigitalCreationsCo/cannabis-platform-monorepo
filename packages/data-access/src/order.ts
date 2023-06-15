@@ -20,9 +20,9 @@ export async function createOrder(order: any) {
 
         order.items = await createProductVariantsWithoutId(order?.items, order);
 
-        await 
-        connectVariantImages(order?.items);
-        
+        await
+            connectVariantImages(order?.items);
+
         let { coordinates, userId, coordinateId, organizationId, ...destinationAddressData } = order.destinationAddress;
 
         const itemsConnect = () => order.items?.map((item: ProductVariantWithDetails) => ({ id: item.id }))
@@ -31,7 +31,7 @@ export async function createOrder(order: any) {
             where: {
                 id: order.id
             },
-            create: { 
+            create: {
                 id: order.id,
                 subtotal: order.subtotal || order.total,
                 total: order.total,
@@ -88,14 +88,14 @@ export async function createOrder(order: any) {
                 },
             }
         });
-        
+
         return createOrder as OrderWithDetails
-        
+
     } catch (error: any) {
         console.error('create order error: ', error.message)
         throw new Error(error.message)
     }
- }
+}
 
 export async function createPurchase(purchase: any) {
     try {
@@ -104,7 +104,7 @@ export async function createPurchase(purchase: any) {
                 id: purchase.id
             },
             update: { ...purchase, order: { connect: { id: purchase.orderId } } },
-            create: { 
+            create: {
                 ...purchase,
                 order: {
                     connect: {
@@ -129,13 +129,13 @@ export async function findOrdersByOrg(organizationId: string) {
     try {
         const order = await prisma.order.findMany(
             {
-            where:
-                { organizationId },
-            orderBy: [
-                { updatedAt: 'desc' }
-            ]
+                where:
+                    { organizationId },
+                orderBy: [
+                    { updatedAt: 'desc' }
+                ]
             }
-            ) || [];
+        ) || [];
         return order;
     } catch (error: any) {
         console.error(error.message)
@@ -180,7 +180,8 @@ export async function updateOrderWithOrderItems(order: any) {
             let variantId = item.id
             const update = prisma.productVariant.upsert({
                 where: { id: variantId },
-                create: { ...rest, 
+                create: {
+                    ...rest,
                     sku: Number(item.sku),
                     size: Number(item.size),
                     quantity: Number(item.quantity),
@@ -189,7 +190,8 @@ export async function updateOrderWithOrderItems(order: any) {
                     salePrice: Number(item.salePrice),
                     stock: Number(item.stock),
                 },
-                update: { ...rest,
+                update: {
+                    ...rest,
                     sku: Number(item.sku),
                     size: Number(item.size),
                     quantity: Number(item.quantity),
@@ -203,7 +205,7 @@ export async function updateOrderWithOrderItems(order: any) {
         });
         const connectOrderItems = !!order.items && order.items.map(
             (item: ProductVariant) => ({ id: item.id })) || []
-        delete order[ 'items' ];
+        delete order['items'];
         let id = order.id;
         const updateOrderOp = prisma.order.update({
             where: { id },
@@ -214,8 +216,8 @@ export async function updateOrderWithOrderItems(order: any) {
                 }
             },
         });
-        await prisma.$transaction([ ...updateOrderItemsOp ]);
-        const updateOrder = await prisma.$transaction([ updateOrderOp ]);
+        await prisma.$transaction([...updateOrderItemsOp]);
+        const updateOrder = await prisma.$transaction([updateOrderOp]);
         return updateOrder[0]
         return updateOrder[0]
     } catch (error: any) {
@@ -232,7 +234,7 @@ export async function updateOrderWithOrderItems(order: any) {
  */
 export async function updateOrder(id: string, data: Prisma.OrderUpdateArgs['data']) {
     try {
-        const update = await prisma.order.update({ where: { id: id }, data: {...data }})
+        const update = await prisma.order.update({ where: { id: id }, data: { ...data } })
         return update
     } catch (error: any) {
         console.error(error)
@@ -249,7 +251,7 @@ export async function deleteOrder() {
     // }
 }
 
-export type OrderUpdate = Prisma.OrderUpdateArgs[ "data" ]
+export type OrderUpdate = Prisma.OrderUpdateArgs["data"]
 // export type OrderCreate = Prisma.OrderCreateArgs[ "data" ]
 export type OrderCreate = {
     id?: string
@@ -261,17 +263,17 @@ export type OrderCreate = {
     purchaseId?: string
     addressId: string
     destinationAddress: AddressUserCreateType
-    
+
     customerId: string
     customer: UserWithDetails | null
-    
+
     organizationId: string
     // organization: Organization
     organization: OrganizationWithShopDetails
 
     driverId?: string
     driver: Driver | null
-    
+
     isDeliveredOrder: boolean
     isCustomerReceivedOrder: boolean
     isCompleted: boolean
@@ -282,7 +284,7 @@ export type OrderCreate = {
     items?: ProductVariantWithDetails[]
     // purchase?: PurchaseCreateNestedOneWithoutOrderInput
 }
-  
+
 // export type OrderWithDetails = Prisma.PromiseReturnType<typeof findOrderWithDetails>
 export type OrderWithDetails = Order & {
     id?: string
@@ -294,17 +296,17 @@ export type OrderWithDetails = Order & {
     purchaseId?: string | null
     addressId: string
     destinationAddress: Address
-    
+
     customerId: string
     customer: User
-    
+
     organizationId: string
     organization: OrganizationWithAddress
     // organization: OrganizationWithShopDetails
 
     driverId?: string | null
     driver: Driver | undefined
-    
+
     isDeliveredOrder: boolean
     isCustomerReceivedOrder: boolean
     isCompleted: boolean
@@ -312,7 +314,7 @@ export type OrderWithDetails = Order & {
     deliveredAt?: Date | string | null
     createdAt?: Date | string | null
     updatedAt?: Date | string | null
-    items?: ProductVariantWithDetails[]
+    items: ProductVariantWithDetails[]
     // purchase?: PurchaseCreateNestedOneWithoutOrderInput
 
     // driver: Driver | null;
@@ -322,4 +324,4 @@ export type OrderWithDetails = Order & {
     // updatedAt?: any;
 }
 
-export type PurchaseCreate = Prisma.PurchaseCreateArgs[ "data" ]
+export type PurchaseCreate = Prisma.PurchaseCreateArgs["data"]

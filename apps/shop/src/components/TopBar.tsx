@@ -1,5 +1,5 @@
-import { getSiteUrl, modalActions, modalTypes, selectCartState, selectIsCartEmpty, selectUserState } from '@cd/core-lib';
-import { Button, FlexBox, H2, IconButton, Paragraph } from '@cd/ui-lib';
+import { getShopSite, modalActions, modalTypes, selectCartState, selectIsCartEmpty, selectUserState } from '@cd/core-lib';
+import { Button, FlexBox, H2, IconButton, Paragraph, styles } from '@cd/ui-lib';
 import icons from '@cd/ui-lib/icons';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -35,46 +35,37 @@ function TopBar({ signOut }: TopBarProps) {
     //     );
     // }
 
-    const styles = {
-        topbar: ['flex flex-row min-h-[66px] pr-4 lg:pr-16 bg-inverse items-center shadow z-10'],
-        badge: 'indicator absolute inline-flex items-center justify-center w-6 h-6 text-sm text-light bg-primary -top-2 -right-2 rounded-full'
-    };
-
     return (
-        <div className={twMerge(styles.topbar)}>
+        <div className={twMerge(styles.TOPBAR.topbar)}>
             <div className='pl-2 flex items-center'>
-            <Link href={getSiteUrl("/")} passHref>
-                <Image alt="Gras" width={50} height={50} src={logo} />
-            </Link>
-            <Link href={getSiteUrl("/")}>
-                <H2 className="pt-1">Gras</H2>
-            </Link>
+                <Link href={getShopSite("/")} passHref>
+                    <Image alt="Gras" width={50} height={50} src={logo} />
+                </Link>
+                <Link href={getShopSite("/")}>
+                    <H2 className="pt-1">Gras</H2>
+                </Link>
             </div>
-            <Paragraph
-                className={twMerge(
-                    'pt-2',
-                    'pl-2',
-                    'text-lg',
-                    'hidden',
-                    'md:block',
-                    'place-self-center',
-                    'text-primary font-semibold',
-                    'cursor-default',
-                    'md:cursor-default'
-                )}
-            >
-                Cannabis Marketplace
-            </Paragraph>
+            <Link href="/">
+                <Paragraph
+                    className={twMerge(
+                        styles.TOPBAR.tagline
+                    )}
+                >
+                    Cannabis Marketplace
+                </Paragraph>
+            </Link>
             <div className="flex-1"></div>
             
             {window?.location?.pathname === '/' ||
-            <Link href={getSiteUrl("/mybag")} passHref>
+            <Link href={getShopSite("/mybag")} passHref>
                 <IconButton 
                 className='bg-transparent shadow-none px-4' 
                 size='sm' 
                 hover='transparent'
                 Icon={icons.ShoppingBag}
-                />
+                >
+                    { isCartEmpty && <></> || <div className={twMerge(styles.TOPBAR.badge)}>{cart.totalItems}</div> }
+                </IconButton>
                 {/* <Button
                     className="indicator w-[100px]"
                     // onClick={openCartModal}
@@ -88,7 +79,7 @@ function TopBar({ signOut }: TopBarProps) {
 
             {user.isSignedIn ? (
                 <>
-                    <Link href={getSiteUrl("/support")}>
+                    <Link href={getShopSite("/support")}>
                         <Paragraph className={twMerge('pt-1', 'px-3', 'text-md', 'whitespace-nowrap')}>
                             Need Support?
                         </Paragraph>

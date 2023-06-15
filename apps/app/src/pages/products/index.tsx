@@ -1,16 +1,11 @@
-/* eslint-disable */
-import axios from 'axios';
-import { useState } from 'react';
-// import toast from "react-hot-toast";
-import { LayoutContextProps } from '@cd/core-lib';
+import { calcSalePrice, urlBuilder, usePagination } from '@cd/core-lib';
 import { Product } from '@cd/data-access';
 import { Button, Card, DeleteButton, Grid, H6, Icons, Page, PageHeader, Row } from '@cd/ui-lib';
-import { ProtectedPage } from 'components';
-import { usePagination } from 'hooks';
+import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 import { toast } from 'react-hot-toast';
-import { calcSalePrice, urlBuilder } from '../../utils';
 
 interface ProductsDashboardProps {
     products: Product[];
@@ -28,7 +23,7 @@ export default function Products({ products }: ProductsDashboardProps) {
     const [deleteId, setDeleteId] = useState('');
     const [searchValue, setSearchValue] = useState('');
 
-    ProductsSetSearchDispatch.setSearchValue = setSearchValue;
+    // ProductsSetSearchDispatch.setSearchValue = setSearchValue;
 
     const filteredProducts = products.filter((product) =>
         product.name.toLowerCase().includes(searchValue.toLowerCase())
@@ -52,7 +47,7 @@ export default function Products({ products }: ProductsDashboardProps) {
                 setDeleteName('');
                 setDialogOpen(false);
                 toast.success('Product deleted Successfully');
-            } catch (error) {
+            } catch (error: any) {
                 setDeleteId('');
                 setDeleteName('');
                 setDialogOpen(false);
@@ -63,7 +58,6 @@ export default function Products({ products }: ProductsDashboardProps) {
     };
 
     return (
-        <ProtectedPage>
             <Page>
                 <PageHeader
                     title="Products"
@@ -138,23 +132,23 @@ export default function Products({ products }: ProductsDashboardProps) {
             <Pagination count={pageCount} onChange={(_, value) => setCurrentPage(value)} />
           </FlexBox> */}
             </Page>
-        </ProtectedPage>
     );
 }
 
-Products.getLayoutContext = ():LayoutContextProps => ({
-    placeholder: 'Search Products', 
-    onSearchChange: (e) => {
-            if (e?.target) {
-                ProductsSetSearchDispatch.setSearchValue((e.target as HTMLInputElement).value);
-            }
-        }
-    }
-);
+// Products.getLayoutContext = ():LayoutContextProps => ({
+//     placeholder: 'Search Products', 
+//     onSearchChange: (e) => {
+//             if (e?.target) {
+//                 ProductsSetSearchDispatch.setSearchValue((e.target as HTMLInputElement).value);
+//             }
+//         }
+//     }
+// );
 
-export async function getServerSideProps({ req, res }) {
+
+export async function getServerSideProps({ req, res }: { req: any; res: any }) {
     res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
-    const products = await (await fetch(urlBuilder.next + '/api/products', {
+    const products = await (await fetch(urlBuilder.dashboard + '/api/products', {
         headers: {
             Cookie: req.headers.cookie
         }

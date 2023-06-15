@@ -1,10 +1,9 @@
 import { renderAddress } from '@cd/core-lib/utils';
 import { Address } from '@cd/data-access';
-import { Center, FlexBox, Grid, H2, H4, Paragraph, SignInButton } from '@cd/ui-lib';
+import { Center, FlexBox, Grid, H2, H4, Paragraph, SignInButton, useFormContext } from '@cd/ui-lib';
 import Image from 'next/image';
 import { useEffect } from 'react';
 import Confetti from 'react-confetti';
-import { useFormContext } from './FormStepProvider';
 
 function DispensarySignUpComplete () {
 

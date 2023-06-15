@@ -32,7 +32,7 @@ export const frontendConfig = () => {
                         console.log('role ? ', event.user && event.user.memberships?.[0]?.role.toLocaleUpperCase())
                         if (event.user && event.user.memberships?.[0]?.role.toLocaleUpperCase() === 'ADMIN' ||
                             event.user.memberships?.[0]?.role.toLocaleUpperCase() === 'OWNER') {
-                            window.location.href = dashboardDomain + '/dashboard';
+                            window.location.href = `${dashboardDomain}/dashboard`;
                         } else {
                             window.location.href = `${shopDomain}${window.location.pathname}`;
                         }
@@ -48,14 +48,14 @@ export const frontendConfig = () => {
                         // window.location.href = '/';
                     }
                     if (event.action === 'SESSION_CREATED') {
-                        console.log('session created')
                         if (
                             event.userContext.memberships?.[0]?.role.toLocaleUpperCase() === 'ADMIN' ||
                             event.userContext.memberships?.[0]?.role.toLocaleUpperCase() === 'OWNER'
                         ) {
-                            window.location.href = dashboardDomain;
+                            window.location.href = `${dashboardDomain}/dashboard`;
                         } else {
-                            window.location.reload()
+                            // window.location.href = `${shopDomain}${window.location.pathname}`;
+                            window.location.href = `${shopDomain}`;
                         }
                     }
                 },

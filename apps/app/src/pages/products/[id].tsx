@@ -1,3 +1,4 @@
+import { urlBuilder, useCategory } from '@cd/core-lib';
 import {
     Category,
     ImageOrganization,
@@ -8,33 +9,22 @@ import {
     ProductWithDetails
 } from '@cd/data-access';
 import {
-    Button,
-    FlexBox,
+    Button, ClickableTags, DropZone, FlexBox,
     Grid,
-    Icons,
-    LoadingDots,
-    Modal,
-    Padding,
-    Page,
+    Icons, Modal, Page,
     PageHeader,
-    Paragraph,
-    Row,
-    TextField,
-    UploadImageBox
+    Paragraph, Row,
+    TextField, UploadImageBox, useOnClickOutside
 } from '@cd/ui-lib';
 import axios from 'axios';
-import { ClickableTags, DropZone, ProtectedPage } from 'components';
 import { Formik } from 'formik';
-import { useCategory, useOnClickOutside } from 'hooks';
 import Image from 'next/image';
 import Link from 'next/link';
 import Router from 'next/router';
 import { useRef, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { twMerge } from 'tailwind-merge';
-import { urlBuilder } from 'utils';
 import * as yup from 'yup';
-import { useAppState } from '../../context/AppProvider';
 
 const checkoutSchema = yup.object().shape({
     name: yup.string().required('required'),
@@ -58,9 +48,8 @@ export type ProductUpdatePayload = Product & {
 };
 
 export default function ProductDetails({ product }: { product: ProductWithDetails }) {
-    const { isLoading } = useAppState();
     const [productCategories, setProductCategories] = useState<Set<Category>>(new Set());
-    const [files, setFiles] = useState<unknown[]>([]);
+    const [files, setFiles] = useState<any[]>([]);
     const [loadingButton, setLoadingButton] = useState(false);
     const [existingImage, setExistingImage] = useState<ImageAny[]>(product?.variants[0]?.images || []);
     const [deletedImage, setDeletedImage] = useState<ImageAny[]>([]);
@@ -124,12 +113,12 @@ export default function ProductDetails({ product }: { product: ProductWithDetail
                 formData.append('tags', values.tags);
                 formData.append('deleteImages', JSON.stringify(deletedImage));
                 files.forEach((file: any) => formData.append('files', file));
-                const { data } = await axios.put(urlBuilder.next + `/api/product-upload/${product.id}`, formData);
+                const { data } = await axios.put(urlBuilder.dashboard + `/api/product-upload/${product.id}`, formData);
                 setLoadingButton(false);
                 toast.success(data);
                 Router.push('/products');
             }
-        } catch (error) {
+        } catch (error: any) {
             setLoadingButton(false);
             console.error(error);
             toast.error(error.response.statusText);
@@ -143,13 +132,12 @@ export default function ProductDetails({ product }: { product: ProductWithDetail
     };
 
     /* eslint-disable */
-    const handleFileDelete = (deleteFile) => {
-        setFiles((files) => files.filter((file: {id: string}) => file.id !== deleteFile.id));
+    const handleFileDelete = (deleteFile: any) => {
+        setFiles((files: any[]) => files.filter((file: {id: string}) => file.id !== deleteFile.id));
     };
     /* eslint-disable */
 
     return (
-        <ProtectedPage>
             <Page>
                 <PageHeader
                     title="Edit Product"
@@ -174,11 +162,7 @@ export default function ProductDetails({ product }: { product: ProductWithDetail
                     }
                 />
 
-                {isLoading ? (
-                    <Padding>
-                        <LoadingDots />
-                    </Padding>
-                ) : product ? (
+                { product && (
                         <Grid className="md:w-2/3 px-3">
                             <Formik
                                 initialValues={initialValues}
@@ -188,7 +172,7 @@ export default function ProductDetails({ product }: { product: ProductWithDetail
                                 {({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
                                     <>
                                         <Modal
-                                            open={openModal}
+                                            modalVisible={openModal}
                                             onClose={toggleModal}
                                             description="Product Variants"
                                         className="w-screen
@@ -294,8 +278,8 @@ export default function ProductDetails({ product }: { product: ProductWithDetail
                                             <FlexBox className="items-start">
                                                 <label className="min-w-[111px] mt-2">Categories</label>
                                                 <ClickableTags
-                                                    values={productCategories}
-                                                    setValues={setProductCategories}
+                                                    values={productCategories as any}
+                                                    setValues={setProductCategories as any}
                                                     valueKey="name"
                                                 />
                                             </FlexBox>
@@ -310,7 +294,7 @@ export default function ProductDetails({ product }: { product: ProductWithDetail
                                                             setOpenDropDown(true);
                                                         } }
                                                         // onBlur={ () => setOpenDropDown(false) }
-                                                        onChange={ (e) => {
+                                                        onChange={ (e: any) => {
                                                             setSearchCategoryTerms(e.target.value);
                                                             doSearchCategories(e);
                                                             setOpenDropDown(true);
@@ -395,7 +379,7 @@ export default function ProductDetails({ product }: { product: ProductWithDetail
                                                     })}
                                                 </FlexBox>
                                                 <DropZone
-                                                    onChange={(files) => {
+                                                    onChange={(files: any[]) => {
                                                         const uploadFiles = files.map((file) =>
                                                             Object.assign(file, { preview: URL.createObjectURL(file) })
                                                         );
@@ -422,15 +406,15 @@ export default function ProductDetails({ product }: { product: ProductWithDetail
                                 )}
                             </Formik>
                         </Grid>
-                    ) : <Paragraph>The product is not found</Paragraph>}
+                    )
+                }
             </Page>
-        </ProtectedPage>
     );
 }
 
-export async function getServerSideProps({ req, params }) {
+export async function getServerSideProps({ req, params }: { req: any, params: any }) {
     try {
-        const product = await (await axios(urlBuilder.next + `/api/products/${params.id}`, {
+        const product = await (await axios(urlBuilder.dashboard + `/api/products/${params.id}`, {
             headers: {
                 Cookie: req.headers.cookie
             }
@@ -439,8 +423,8 @@ export async function getServerSideProps({ req, params }) {
         return {
             props: { product },
         };
-    } catch (error) {
-        console.log('SSR error: ', error.message);
+    } catch (error: any) {
+        console.log('Products SSR error: ', error.message);
         throw new Error(error);
     }
 }
