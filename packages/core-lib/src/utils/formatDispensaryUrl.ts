@@ -27,9 +27,9 @@ function getShopSite(path: string): string {
 function getDashboardSite(path: string): string {
     switch (process.env.NODE_ENV as string) {
         case 'development':
-            return `http://localhost:3001${path}`;
+            return `http://app.localhost:3000${path}`;
         case 'test':
-            return `http://localhost:3001${path}`;
+            return `http://app.localhost:3000${path}`;
         case 'production':
             return `http://app.grascannabis.org${path}`;
         default:

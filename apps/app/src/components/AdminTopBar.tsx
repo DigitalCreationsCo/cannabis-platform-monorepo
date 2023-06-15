@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/logo.png';
 
-export type TopBarProps = {
+export type TopBarProps = {  
     signOut: () => void;
 };
 
@@ -24,11 +24,17 @@ function AdminTopBar({ signOut }: TopBarProps) {
     }
 
     function getUserHome() {
+        const 
+        dashboardDomain = process.env.NEXT_PUBLIC_DASHBOARD_APP_URL;
+        
         if (user.memberships?.[0]?.role.toLocaleUpperCase() === 'ADMIN' ||
             user.memberships?.[0]?.role.toLocaleUpperCase() === 'OWNER')
             return getDashboardSite('/dashboard');
         else
-            return getShopSite('/');
+        if (window.location.href.startsWith(dashboardDomain || 'app'))
+        return getDashboardSite('/');
+        else 
+        return getShopSite('/');
     }
 
     return (
