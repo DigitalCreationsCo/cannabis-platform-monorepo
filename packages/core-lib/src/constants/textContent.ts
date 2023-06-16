@@ -15,6 +15,11 @@ const TextContent = Object.freeze({
     PASSCODE_SENT_f: (input: string) => `A one time passcode is sent to ${input}`,
   },
 
+  account: {
+    ACCOUNT_IS_CREATED: 'Your accounted is created!',
+    ENTER_OR_GO_TO_ACCOUNT: 'You can enter the Gras site, or view your account.',
+  },
+
   success: {
     PAYMENT_SUCCESSFUL:
       "Your order has been placed! A driver is being called for your delivery",

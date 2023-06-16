@@ -3,13 +3,13 @@ import { OrganizationCreateType, UserCreateType } from '@cd/data-access';
 import { ErrorMessage, FlexBox } from '@cd/ui-lib';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
-type FormDataProps = {
+type FormValuesType = {
     organization?: OrganizationCreateType;
-    newUser: UserCreateType
+    newUser?: UserCreateType
 };
 
 interface FormContextProps {
-    formData: FormDataProps;
+    formValues: FormValuesType;
     setFormValues: (values: Record<string, unknown>) => void;
     resetFormValues: () => void;
     canProceed: boolean;
@@ -18,44 +18,72 @@ interface FormContextProps {
     prevFormStep: () => void; 
 }
 
-const initialValues = {
-    formData: {} as FormDataProps,
+const FormContext = createContext<FormContextProps>({
+    formValues: {},
     setFormValues: () => {},
     resetFormValues: () => {},
     canProceed: false,
     setCanProceed: () => {},
     nextFormStep: () => {},
     prevFormStep: () => {},
-}
+});
 
-const FormContext = createContext(initialValues);
-
-interface FormStepProviderProps {
-    FormStepComponents: React.FC[];
-}
+const useFormContext = () => useContext(FormContext);
 
 /**
+ * FormStepProvider
  * A data provider component that can persist form values
  * over multiple components, allowing to access the values over multistepped forms.
  * - uses hash navigation
- * - persist form data in encrypted cookie
+ * - persist form data in encrypted cookie for when user leaves and returns to form
  * - allows navigation with browser next and back buttons
- * @prop FormStepComponents
+ * @property formId is used to generate a unique cookie key
+ * @property FormStepComponents accepts a list of components, or expressions that evaluate to components or null, and filters out null values
  */
-function FormStepProvider ({ FormStepComponents }: FormStepProviderProps) {
+interface FormStepProviderProps {
+    FormStepComponents: (React.FC | null)[];
+    formId: string;
+}
 
-    const {canProceed, setCanProceed, formstep, nextFormStep, prevFormStep } = useHashNavigate()
+function FormStepProvider ({ FormStepComponents, formId }: FormStepProviderProps) {
     
-    const [cookies, setCookie, removeCookie] = useEncryptCookies(['form-data-context']);
+    const
+    validFormSteps = FormStepComponents.filter((component) => component !== null);
 
-    const [formData, setFormData] = useState<FormDataProps>((cookies['form-data-context']) || {} as FormDataProps);
+    const [cookies, setCookie, removeCookie] = useEncryptCookies([`form-data-context-${formId}`] || {} as FormValuesType);
+    
+    const [formValues, setFormData] = useState<FormValuesType>((cookies[`form-data-context-${formId}`]) || {});
     
     useEffect(() => {
-        setCookie('form-data-context', JSON.stringify(formData))
-    }, [formData])
+        setCookie(`form-data-context-${formId}`, JSON.stringify(formValues))
+    }, [formValues]) 
+    
+    const {canProceed, setCanProceed, formstep, nextFormStep, prevFormStep } = useHashNavigate(formId)
+
+    const
+    currentStep = formstep,
+    totalSteps = validFormSteps.length,
+    showStepNumber = currentStep !== undefined && totalSteps !== undefined 
+    && `step ${currentStep + 1} of ${totalSteps}`
+    
+    const FormStepComponent = useMemo(() => validFormSteps[formstep], [formstep]);
+
+    if (!FormStepComponent) 
+    return <ErrorMessage code={404} message="Page not found" />
+
+    return (
+        <FormContext.Provider value={{ nextFormStep, prevFormStep, canProceed, setCanProceed, formValues, setFormValues, resetFormValues }}>
+            <FormStepComponent />
+            <div className='relative right-0 pt-4'>
+            <FlexBox className={styles.stepNumber}>
+                {showStepNumber}
+            </FlexBox>
+            </div>
+        </FormContext.Provider>
+    );
 
     function resetFormValues () {
-        setFormData({} as FormDataProps);
+        setFormData({} as FormValuesType);
     };
 
     function setFormValues (values: Record<string, any>) {
@@ -73,31 +101,12 @@ function FormStepProvider ({ FormStepComponents }: FormStepProviderProps) {
             return { ...mergedValues }
         });
     };
-
-    const
-    currentStep = formstep,
-    totalSteps = FormStepComponents.length,
-    showStepNumber = currentStep !== undefined && totalSteps !== undefined 
-    && `step ${currentStep + 1} of ${totalSteps}`
-    
-    const FormStepComponent = useMemo(() => FormStepComponents[formstep], [formstep]);
-
-    if (!FormStepComponent) 
-    return <ErrorMessage code={404} message="Page not found" />
-
-    return (<FormContext.Provider value={{ nextFormStep, prevFormStep, canProceed, setCanProceed, formData, setFormValues, resetFormValues }}>
-            <FormStepComponent />
-            <FlexBox className={styles.stepNumber}>
-                {showStepNumber}
-            </FlexBox>
-        </FormContext.Provider>);
 };
-
-const useFormContext = () => useContext<FormContextProps>(FormContext);
-
-export { useFormContext, FormStepProvider };
-export type { FormContextProps, FormDataProps };
 
 const styles = { 
-    stepNumber: 'fixed bottom-0 right-0 p-12 cursor-default'
+    stepNumber: 'absolute bottom-0 right-0 pr-8 cursor-default'
 };
+
+export { useFormContext, FormStepProvider };
+export type { FormContextProps, FormValuesType };
+

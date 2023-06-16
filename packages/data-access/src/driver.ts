@@ -26,12 +26,11 @@ export async function createDriver(userData: UserCreateType) {
                 username: userData.username,
                 firstName: userData.firstName,
                 lastName: userData.lastName,
-                passwordHash: userData.passwordHash,
                 termsAccepted: true,
                 dialCode: userData.dialCode,
                 phone: userData.phone,
                 address: {
-                    create: { 
+                    create: {
                         ...addressData,
                         coordinates: {
                             create: {
@@ -61,15 +60,15 @@ export async function createDriver(userData: UserCreateType) {
                 }
             }
         });
-        
+
         return user;
-        
+
     } catch (error: any) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             if (error.code === 'P2002') {
                 throw new Error('This user exists already. Please choose a different username or email.')
             }
-          }
+        }
         throw new Error(error)
     }
 }
@@ -88,7 +87,6 @@ export async function updateDriver(userData: UserCreateType) {
                 username: userData.username,
                 firstName: userData.firstName,
                 lastName: userData.lastName,
-                passwordHash: userData.passwordHash || '',
                 termsAccepted: true,
                 dialCode: userData.dialCode,
                 phone: userData.phone,
@@ -123,7 +121,7 @@ export async function updateDriver(userData: UserCreateType) {
                 } : undefined,
             }
         })
-        
+
         console.log('user updated: ', user.email)
         return user;
     } catch (error: any) {
@@ -131,7 +129,7 @@ export async function updateDriver(userData: UserCreateType) {
             if (error.code === 'P2002') {
                 throw new Error('This user exists already. Please choose a different username or email.')
             }
-          }
+        }
         throw new Error(error)
     }
 }
@@ -154,7 +152,7 @@ export async function findDriverWithDetailsByEmail(email: string): Promise<Drive
         })
 
         return driver
-        
+
     } catch (error: any) {
         console.error(error)
         throw new Error(error)
@@ -182,20 +180,20 @@ export async function findDriverWithDetailsByPhone(phone: string): Promise<Drive
                 imageUser: true,
             },
         });
-        
+
         if (!user || !user.driver)
-        throw new Error("Sorry, we couldn't find you. Please try again.");
+            throw new Error("Sorry, we couldn't find you. Please try again.");
 
         const { driver, ...userData } = user;
-        
+
         const
-        driverShape = {
-            ...user?.driver,
-            user: {
-                ...userData
-            },
-            driverSession: driver.driverSession ? driver.driverSession : null,
-        }
+            driverShape = {
+                ...user?.driver,
+                user: {
+                    ...userData
+                },
+                driverSession: driver.driverSession ? driver.driverSession : null,
+            }
 
         return driverShape
     } catch (error: any) {
@@ -206,21 +204,21 @@ export async function findDriverWithDetailsByPhone(phone: string): Promise<Drive
 
 export async function findDriverWithDetailsById(id: string): Promise<DriverWithDetails | null> {
     try {
-        const 
-        driver = await prisma.driver.findUnique({
-            where: {
-                id
-            },
-            include: {
-                driverSession: true,
-                user: {
-                    include: {
-                        address: true,
-                        imageUser: true,
+        const
+            driver = await prisma.driver.findUnique({
+                where: {
+                    id
+                },
+                include: {
+                    driverSession: true,
+                    user: {
+                        include: {
+                            address: true,
+                            imageUser: true,
+                        }
                     }
-                }
-            },
-        })
+                },
+            })
 
         return driver
     } catch (error: any) {

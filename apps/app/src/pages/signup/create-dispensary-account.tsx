@@ -1,12 +1,12 @@
-import { FormCard, FormStepProvider, LayoutContextProps, Page } from '@cd/ui-lib';
+import { FormCard, LayoutContextProps, Page } from '@cd/ui-lib';
 import Head from 'next/head';
 import { twMerge } from 'tailwind-merge';
+
 import {
     DispensaryCreate,
     DispensaryReview,
     DispensarySignUpComplete,
-    DispensaryUserCreate,
-    ProvideDispensaryKey,
+    DispensaryUserCreate, FormStepProvider, ProvideDispensaryKey,
     ProvideStripeAccountId
 } from '../../components/form';
 
