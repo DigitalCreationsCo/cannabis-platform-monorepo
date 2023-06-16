@@ -1,8 +1,7 @@
 import { useEncryptCookies, useHashNavigate } from '@cd/core-lib';
 import { OrganizationCreateType, UserCreateType } from '@cd/data-access';
+import { ErrorMessage, FlexBox } from '@cd/ui-lib';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import ErrorMessage from './ErrorMessage';
-import FlexBox from './FlexBox';
 
 type FormDataProps = {
     organization?: OrganizationCreateType;
@@ -19,7 +18,17 @@ interface FormContextProps {
     prevFormStep: () => void; 
 }
 
-const FormContext = createContext<FormContextProps>({} as FormContextProps);
+const initialValues = {
+    formData: {} as FormDataProps,
+    setFormValues: () => {},
+    resetFormValues: () => {},
+    canProceed: false,
+    setCanProceed: () => {},
+    nextFormStep: () => {},
+    prevFormStep: () => {},
+}
+
+const FormContext = createContext(initialValues);
 
 interface FormStepProviderProps {
     FormStepComponents: React.FC[];
@@ -76,12 +85,12 @@ function FormStepProvider ({ FormStepComponents }: FormStepProviderProps) {
     if (!FormStepComponent) 
     return <ErrorMessage code={404} message="Page not found" />
 
-    return <FormContext.Provider value={{ nextFormStep, prevFormStep, canProceed, setCanProceed, formData, setFormValues, resetFormValues }}>
-        <FormStepComponent />
-        <FlexBox className={styles.stepNumber}>
+    return (<FormContext.Provider value={{ nextFormStep, prevFormStep, canProceed, setCanProceed, formData, setFormValues, resetFormValues }}>
+            <FormStepComponent />
+            <FlexBox className={styles.stepNumber}>
                 {showStepNumber}
             </FlexBox>
-        </FormContext.Provider>;
+        </FormContext.Provider>);
 };
 
 const useFormContext = () => useContext<FormContextProps>(FormContext);

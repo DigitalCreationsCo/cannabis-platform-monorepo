@@ -39,37 +39,46 @@ function QuickDelivery() {
     const canProceed = !cartIsEmpty && confirm;
     
     return (
-        <Page className={twMerge(styles.gradient, "pb-0 md:pb-28")}>
+        <Page className={twMerge(styles.gradient, "flex h-full pb-0 md:pb-28")}>
             <Head>
                 <title>Grascannabis.org - Cannabis, Delivered.</title>
                 <meta name="Delivery by Gras App" content="Built by Gras Cannabis Co." />
             </Head>
+            <div className="flex grow">
             <Card className='m-auto bg-inverse-soft space-y-2'>
                 <H2>Delivery By Gras</H2>
                     
                 <Center className='space-y-2 w-3/4 m-auto pb-20 md:pb-0'>
-                    <H5>Before we deliver your order,
-                        <br />let's get it right</H5>
-                    <div className="flex flex-col md:grid grid-cols-2 gap-2">
+                    { !cartIsEmpty && (
+                        <>
+                        <H5>Before we deliver your order,
+                            <br />let's get it right</H5>
+                        <div className="flex flex-col md:grid grid-cols-2 gap-2">
 
-                    {   !cartIsEmpty &&
-                    cart.cart?.map((product: ProductVariantWithDetails, index: number) => 
-                    <SimpleCartItem key={`order-item-${index}`} product={product}/>)}
+                        
+                        { cart.cart?.map((product: ProductVariantWithDetails, index: number) => 
+                            <SimpleCartItem key={`order-item-${index}`} product={product}/> )}
+                        </div>
+                        </>
+                        )}
                     
-                    {   cartIsEmpty &&
+                    { cartIsEmpty &&
                     <Paragraph className="col-span-2">
-                        You have no items in your order.</Paragraph> }
+                        You have no items in your order. {'\n'}
+                        Visit your Dispensary store to place an order.</Paragraph> }
 
+                    { !cartIsEmpty && <>
                     <H5 className="flex justify-end col-span-2">
                         Your total is 
                         <Price basePrice={cart.total || 0} /></H5>
-                    </div>
                     
                     <Paragraph>Is your order correct?</Paragraph>
                     <CheckBox className="w-[122px]"
                     checked={confirm}
                     label={confirm ? `It's correct` : `No, it's not`}
                     onChange={() => setConfirm(!confirm)} />
+                    </>
+                    }
 
                     {user.isSignedIn && canProceed && <>
                         <Paragraph>Hit checkout to complete your delivery order.</Paragraph>
@@ -85,6 +94,7 @@ function QuickDelivery() {
                     }
                 </Center>
             </Card>
+            </div>
         </Page>
     );
 }

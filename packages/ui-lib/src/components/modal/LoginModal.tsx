@@ -184,7 +184,8 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
 
         const handleOTPAndSignIn = async () => {
             try {
-                const response  = await handleOTPInput(values.passcode);
+                const 
+                response  = await handleOTPInput(values.passcode);
 
                 if (response?.user) {
                     dispatch(userActions.signinUserSync(response.user));

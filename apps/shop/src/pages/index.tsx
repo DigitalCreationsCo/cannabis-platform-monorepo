@@ -7,12 +7,20 @@ import { PropsWithChildren } from 'react';
 import { useCookies } from 'react-cookie';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { twMerge } from 'tailwind-merge';
+import { newUserTour } from '../tour/NewUserTour';
 import backdrop from '/public/marijuana-backdrop.png';
 
 function LandingPage() {
 
     const 
-    { isSignedIn } = useAppSelector(selectUserState);
+    { isSignedIn, user } = useAppSelector(selectUserState);
+
+    function startNewUserTour () {
+        newUserTour.start();
+    }
+
+    // if (!user.isSignUpComplete)
+    // startNewUserTour();
 
     const dispatch = useAppDispatch();
     const [cookies] = useCookies(['yesOver21'])
