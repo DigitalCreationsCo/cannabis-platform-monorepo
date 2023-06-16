@@ -26,7 +26,8 @@ export default function middleware(req: NextRequest, res: ServerResponse) {
 
     const allowAllVisitors = [
         '/about-gras',
-        '/signup/create-dispensary-account'
+        '/signup/create-dispensary-account',
+        '/signup/create-account',
     ]
 
     const shopPages = allowAllVisitors.concat([
@@ -98,13 +99,9 @@ export default function middleware(req: NextRequest, res: ServerResponse) {
             }
             // redirect under21 to homepage
             if (url.pathname !== '/') {
-                console.log('hello')
                 if (over21 !== 'true') {
-                    console.log('hello2')
                     if (!allowAllVisitors.includes(url.pathname)) {
-                        console.log('hello3')
                         url.pathname = '/';
-                        console.log('REDIRECT, ', url)
                         return NextResponse.redirect(url);
                     }
                 }

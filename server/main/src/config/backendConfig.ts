@@ -87,8 +87,14 @@ export const backendConfig = (): AuthConfig => {
                                                 // }
                                             }
                                         }
+
+                                        return {
+                                            ...response,
+                                            createdNewUser: response.createdNewUser,
+                                            isFromDb: true
+                                        };
                                     }
-                                    return { ...response, isFromDb: true };
+                                    return response;
 
                                 } catch (error: any) {
                                     console.log('consumeCode error: ', error.message);

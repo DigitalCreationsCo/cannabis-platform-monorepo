@@ -100,9 +100,8 @@ function TopBar({ signOut }: TopBarProps) {
                     </Button> */}
                 </Link>}
 
-                {isSignedIn ? (
-                    <AccountDropDown />
-                ) : (
+                { isSignedIn && <AccountDropDown /> }
+                { !isSignedIn && (
                     <FlexBox>
                         <Button 
                         size='sm' 
@@ -131,8 +130,8 @@ function TopBar({ signOut }: TopBarProps) {
                 <Image 
                 src={user?.imageUser?.[0].location || ''}
                 alt={user.username} 
-                width={90}
-                height={90}
+                width={40}
+                height={40}
                 className="rounded-full border-2"
                 priority
                 />

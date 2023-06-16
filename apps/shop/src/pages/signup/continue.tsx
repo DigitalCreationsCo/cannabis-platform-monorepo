@@ -1,10 +1,10 @@
 import { selectIsAddressAdded, selectUserState } from "@cd/core-lib";
 import { Card, H2, LayoutContextProps, Page } from "@cd/ui-lib/src/components";
-import { QuickSignUpUserForm, SubmitAddress, VerifyPhotoId } from "components";
 import Router from 'next/router';
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { twMerge } from "tailwind-merge";
+import { QuickSignUpUser, SubmitAddress, VerifyPhotoId } from "../../components";
 
 function ContinueSignUp() {
     const user = useSelector(selectUserState)
@@ -20,7 +20,7 @@ function ContinueSignUp() {
 
     const FormStepComponents = [
         !idVerified && VerifyPhotoId || isLegalAge && idVerified && null, // if there is no user, or user is over21, not age verified, then verify photo id
-        !user.isSignedIn && QuickSignUpUserForm || null,
+        !user.isSignedIn && QuickSignUpUser || null,
         !isAddressAdded || !user.isSignedIn && SubmitAddress || null,
     ];
     

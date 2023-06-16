@@ -31,11 +31,13 @@ export const frontendConfig = () => {
                     if (event.action === 'SUCCESS') {
                         console.log('role ? ', event.user && event.user.memberships?.[0]?.role.toLocaleUpperCase())
                         if (event.user && event.user.memberships?.[0]?.role.toLocaleUpperCase() === 'ADMIN' ||
-                            event.user.memberships?.[0]?.role.toLocaleUpperCase() === 'OWNER') {
+                            event.user.memberships?.[0]?.role.toLocaleUpperCase() === 'OWNER')
                             window.location.href = `${dashboardDomain}/dashboard`;
-                        } else {
-                            window.location.href = `${shopDomain}${window.location.pathname}`;
-                        }
+                        else
+                            if (event.isNewUser || !event.user.isSignUpComplete)
+                                window.location.href = `${shopDomain}/signup/create-account`;
+                            else
+                                window.location.href = `${shopDomain}${window.location.pathname}`;
                     }
                 }
             }),
@@ -43,22 +45,23 @@ export const frontendConfig = () => {
                 // @ts-ignore
                 sessionTokenFrontendDomain: '.localhost:3000',
                 // sessionTokenBackendDomain: '.localhost:3000',
-                onHandleEvent: (event) => {
-                    if (event.action === 'UNAUTHORISED' || event.action === 'SIGN_OUT') {
-                        // window.location.href = '/';
-                    }
-                    if (event.action === 'SESSION_CREATED') {
-                        if (
-                            event.userContext.memberships?.[0]?.role.toLocaleUpperCase() === 'ADMIN' ||
-                            event.userContext.memberships?.[0]?.role.toLocaleUpperCase() === 'OWNER'
-                        ) {
-                            window.location.href = `${dashboardDomain}/dashboard`;
-                        } else {
-                            // window.location.href = `${shopDomain}${window.location.pathname}`;
-                            window.location.href = `${shopDomain}`;
-                        }
-                    }
-                },
+                // onHandleEvent: (event) => {
+                //     if (event.action === 'UNAUTHORISED' || event.action === 'SIGN_OUT') {
+                //         // window.location.href = '/';
+                //     }
+                //     if (event.action === 'SESSION_CREATED') {
+                //         console.log('session created event: ', event)
+                //         if (
+                //             event.userContext.memberships?.[0]?.role.toLocaleUpperCase() === 'ADMIN' ||
+                //             event.userContext.memberships?.[0]?.role.toLocaleUpperCase() === 'OWNER'
+                //         ) {
+                //             // window.location.href = `${dashboardDomain}/dashboard`;
+                //         } else {
+                //             // window.location.href = `${shopDomain}${window.location.pathname}`;
+                //             // window.location.href = `${shopDomain}`;
+                //         }
+                //     }
+                // },
             })
         ],
         isInServerLessEnv: false

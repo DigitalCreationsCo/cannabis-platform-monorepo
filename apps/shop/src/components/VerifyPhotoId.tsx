@@ -1,11 +1,12 @@
 import { urlBuilder } from "@cd/core-lib/src/utils";
-import { Button, Center, DropZone, FlexBox, H2, H5, UploadImageBox, useFormContext } from "@cd/ui-lib";
+import { Button, Center, DropZone, FlexBox, H2, H5, UploadImageBox } from "@cd/ui-lib";
 import axios from "axios";
 import FormData from "form-data";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { toast } from "react-hot-toast";
+import { useFormContext } from './form/FormStepProvider';
 
 type Image = {
 data: string;
@@ -22,10 +23,8 @@ const VerifyPhotoId = () => {
 
     const { resetFormValues, nextFormStep, prevFormStep, setFormValues, formData } = useFormContext();
     
-    console.log('formData: ', formData);
-
     useEffect(() => {
-        const createNewFormContext = () => {
+        function createNewFormContext () {
             console.info('creating new form context for Quick Delivery Form')
             resetFormValues()
         }
@@ -81,9 +80,6 @@ const VerifyPhotoId = () => {
     }
 
     const verifyLegalAgeImageUpload = async ({frontImage, backImage}: any) => {
-
-        toast('Verifying your photo id...');
-
         try {
             const 
             formData = new FormData();
