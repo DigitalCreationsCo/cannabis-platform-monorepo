@@ -7,7 +7,7 @@ import { PropsWithChildren } from 'react';
 import { useCookies } from 'react-cookie';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { twMerge } from 'tailwind-merge';
-import { newUserTour } from '../tour/NewUserTour';
+import { newUserTour } from '../tour/newUserTour';
 import backdrop from '/public/marijuana-backdrop.png';
 
 function LandingPage() {

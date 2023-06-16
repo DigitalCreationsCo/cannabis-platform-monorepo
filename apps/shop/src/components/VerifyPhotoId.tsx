@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { toast } from "react-hot-toast";
+import { verifyPhotoIdTour } from "tour/verifyPhotoIdTour";
 import { useFormContext } from './form/FormStepProvider';
 
 type Image = {
@@ -21,18 +22,25 @@ type: string;
 
 const VerifyPhotoId = () => {
 
-    const { resetFormValues, nextFormStep, prevFormStep, setFormValues, formData } = useFormContext();
+    function startTour () {
+        if (!verifyPhotoIdTour.isActivated)
+        verifyPhotoIdTour.start();
+    }
+
+    useEffect(() => {
+    startTour()
+    }, [])
+    
+    const { resetFormValues, nextFormStep, prevFormStep, setFormValues, formValues } = useFormContext();
     
     useEffect(() => {
         function createNewFormContext () {
-            console.info('creating new form context for Quick Delivery Form')
             resetFormValues()
         }
-        // MAKE SURE THIS IS NOT RENDERING REPEATEDLY, CLEANNING UP THE FORM CONTEXT
         createNewFormContext()
     }, [])
 
-
+    
     const [frontImage, setFrontImage] = useState<Image | null>(null);
     const [backImage, setBackImage] = useState<Image | null>(null);
     
@@ -53,23 +61,24 @@ const VerifyPhotoId = () => {
                 const 
                 response: VerifyPhotoIDUploadResponse = await verifyLegalAgeImageUpload({frontImage, backImage})
 
-                console.log('response: ', response)
-
                 if (response.success === false)
                 throw new Error('Error verifying your photo id. Please try again.')
 
-                if (response.success) {
+                if (response.success === true) {
                     
-                    toast('Thanks for verifying your id!');
+                    toast.success('Thanks for verifying!');
 
                     setFormValues({ 
                         newUser: {
-                        ...response.result,
+                            idVerified: response.result.idVerified,
+                            isLegalAge: response.result.isLegalAge,
+                            idFrontImage:  response.images.idFrontImage,
+                            idBackImage: response.images.idBackImage,
                         } 
                     })
 
                     nextFormStep();
-
+                    setLoadingButton(false);
                 }
             }
         } catch (error: any) {
@@ -125,13 +134,13 @@ const VerifyPhotoId = () => {
             console.log(error);
         }
     }
-
+    
     return (
-        <form onSubmit={handleCaptcha}>
-            <Center className='space-y-4 w-3/4 m-auto pb-20 md:pb-0'>
-                <H2>Please verify your id</H2>
+        <form onSubmit={(e) => {e.preventDefault();e.stopPropagation();handleCaptcha(e);}}>
+            <Center className='space-y-4 w-3/4 m-auto md:pb-0'>
+                <H2 id="verify-id-step-2">Please verify your id</H2>
                 <H5>Please upload a picture of the front and back of your state's photo id card.</H5>
-                <div className="h-[200px] w-[240px]">
+                <div id='verify-id-step-3' className="h-[200px] w-[240px]">
                 {frontImage ? 
                     <UploadImageBox
                     fill={true}
@@ -218,13 +227,22 @@ const VerifyPhotoId = () => {
                 <FlexBox className='flex-row space-x-4 py-2'>
                     <Button 
                     disabled={loadingButton}
-                    onClick={prevFormStep}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        prevFormStep();
+                    }}
                     >go back</Button>
-                    
                     <Button 
+                    id='verify-id-step-4'
+                    type='submit'
                     disabled={!uploaded || !captchaRef.current.getValue()}
                     loading={loadingButton}
-                    // onClick={onSubmitUpload}
+                    onClick={(e) => { 
+                        e.preventDefault();
+                        e.stopPropagation();
+                        onSubmitUpload();
+                    }}
                     >Verify ID</Button>
                 </FlexBox>
         </Center>
@@ -239,7 +257,10 @@ type VerifyPhotoIDUploadResponse = {
         isLegalAge: boolean, 
         idVerified: boolean
     },
-    images: Record<string, string> | null
+    images: {
+        idFrontImage: string,
+        idBackImage: string,
+    },
     isUploaded: boolean,
     error?: string,
 }

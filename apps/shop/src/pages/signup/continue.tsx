@@ -1,39 +1,37 @@
-import { selectIsAddressAdded, selectUserState } from "@cd/core-lib";
+import { getShopSite, selectIsAddressAdded, selectUserState } from "@cd/core-lib";
 import { Card, H2, LayoutContextProps, Page } from "@cd/ui-lib/src/components";
 import Router from 'next/router';
-import { useState } from "react";
 import { useSelector } from "react-redux";
 import { twMerge } from "tailwind-merge";
-import { QuickSignUpUser, SubmitAddress, VerifyPhotoId } from "../../components";
+import { FormStepProvider, SubmitAddress, UserSignUpQuick, UserSignUpReview, VerifyPhotoId } from "../../components";
 
 function ContinueSignUp() {
-    const user = useSelector(selectUserState)
-    const isAddressAdded = useSelector(selectIsAddressAdded)
     
-    const { isLegalAge, idVerified } = user?.user
+    const 
+    { user } = useSelector(selectUserState),
+    { isLegalAge, idVerified, isSignUpComplete } = user;
 
-    if (!isLegalAge === false || (!isLegalAge && idVerified)) Router.push('/sorry-we-cant-serve-you')
+    const 
+    isAddressAdded = useSelector(selectIsAddressAdded)
+
+    if (!isLegalAge === false || (!isLegalAge && idVerified)) Router.push(getShopSite('/sorry-we-cant-serve-you'))
     
-    const [formStep, setFormStep] = useState(0);
-    const nextFormStep = () => setFormStep((currentStep) => currentStep + 1);
-    const prevFormStep = () => setFormStep((currentStep) => currentStep - 1);
-
+    // optional formstep components
     const FormStepComponents = [
-        !idVerified && VerifyPhotoId || isLegalAge && idVerified && null, // if there is no user, or user is over21, not age verified, then verify photo id
-        !user.isSignedIn && QuickSignUpUser || null,
-        !isAddressAdded || !user.isSignedIn && SubmitAddress || null,
+        !idVerified ? VerifyPhotoId : null, 
+        !isSignUpComplete ? UserSignUpQuick : null,
+        !isAddressAdded ? SubmitAddress : null,
+        UserSignUpReview
     ];
     
     return (
         <Page className={twMerge(styles.gradient, "pb-0 md:pb-24")}>
             <Card className='m-auto bg-inverse-soft space-y-2'>
-                <H2>Welcome to Gras</H2>
-                {FormStepComponents
-                .filter(_fsc => _fsc !== null)
-                .map((Fsc: any, index) => {
-                    if (Fsc === null) return null;
-                    return formStep === index && <Fsc key={'form-step-component-' + index} nextFormStep={nextFormStep} prevFormStep={prevFormStep} />
-                })}
+                <H2 id='verify-id-step-1'>Welcome to Gras</H2>
+                <FormStepProvider 
+                FormStepComponents={FormStepComponents}
+                formId='signup-form'
+                />
             </Card>
         </Page>
     );

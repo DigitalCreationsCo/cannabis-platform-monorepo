@@ -26,12 +26,12 @@ export async function createUser(userData: UserCreateType) {
                 username: userData.username,
                 firstName: userData.firstName,
                 lastName: userData.lastName,
-                passwordHash: userData.passwordHash,
+                // passwordHash: userData.passwordHash,
                 termsAccepted: true,
                 dialCode: userData.dialCode,
                 phone: userData.phone,
                 address: {
-                    create: { 
+                    create: {
                         ...addressData,
                         coordinates: {
                             create: {
@@ -48,7 +48,7 @@ export async function createUser(userData: UserCreateType) {
                 } : undefined,
             },
         })
-        
+
         console.log('user created: ', user.email)
         return user;
     } catch (error: any) {
@@ -56,7 +56,7 @@ export async function createUser(userData: UserCreateType) {
             if (error.code === 'P2002') {
                 throw new Error('This user exists already. Please choose a different username or email.')
             }
-          }
+        }
         throw new Error(error)
     }
 }
@@ -75,7 +75,7 @@ export async function updateUser(userData: UserCreateType) {
                 username: userData.username,
                 firstName: userData.firstName,
                 lastName: userData.lastName,
-                passwordHash: userData.passwordHash || '',
+                // passwordHash: userData.passwordHash || '',
                 termsAccepted: true,
                 dialCode: userData.dialCode,
                 phone: userData.phone,
@@ -110,7 +110,7 @@ export async function updateUser(userData: UserCreateType) {
                 } : undefined,
             }
         })
-        
+
         console.log('user updated: ', user.email)
         return user;
     } catch (error: any) {
@@ -118,7 +118,7 @@ export async function updateUser(userData: UserCreateType) {
             if (error.code === 'P2002') {
                 throw new Error('This user exists already. Please choose a different username or email.')
             }
-          }
+        }
         throw new Error(error)
     }
 }
@@ -138,13 +138,12 @@ export async function upsertDispensaryAdmin(userData: UserCreateType, createPara
                 username: userData.username,
                 firstName: userData.firstName,
                 lastName: userData.lastName,
-                passwordHash: userData.passwordHash,
                 termsAccepted: true,
                 dialCode: userData.dialCode,
                 phone: userData.phone,
                 address: {
                     create: [
-                        {...addressData},
+                        { ...addressData },
                     ],
                 },
                 memberships: {
@@ -170,13 +169,12 @@ export async function upsertDispensaryAdmin(userData: UserCreateType, createPara
                 username: userData.username,
                 firstName: userData.firstName,
                 lastName: userData.lastName,
-                passwordHash: userData.passwordHash,
                 termsAccepted: true,
                 dialCode: userData.dialCode,
                 phone: userData.phone,
                 address: {
                     create: [
-                        {...addressData},
+                        { ...addressData },
                     ],
                 },
                 memberships: !!userData.memberships?.[0]?.id ? {
@@ -187,14 +185,14 @@ export async function upsertDispensaryAdmin(userData: UserCreateType, createPara
                         create: {
                             role: createParams["role"] as MembershipRole,
                             organizationId: createParams["dispensaryId"],
-                            },
-                        } 
-                    }: {
-                        create: {
-                            role: createParams["role"] as MembershipRole,
-                            organizationId: createParams["dispensaryId"],
-                        }
-                    },
+                        },
+                    }
+                } : {
+                    create: {
+                        role: createParams["role"] as MembershipRole,
+                        organizationId: createParams["dispensaryId"],
+                    }
+                },
                 // imageUser: userData?.imageUser?.length >= 1  ? {
                 //     connectOrCreate: {
                 //         where: {
@@ -210,7 +208,7 @@ export async function upsertDispensaryAdmin(userData: UserCreateType, createPara
                 memberships: true
             }
         })
-        
+
         console.log('admin user upsert: ', user.email)
         return user;
     } catch (error: any) {
@@ -219,7 +217,7 @@ export async function upsertDispensaryAdmin(userData: UserCreateType, createPara
             if (error.code === 'P2002') {
                 throw new Error('This user exists already. Please choose a different username or email.')
             }
-          }
+        }
         throw new Error(error)
     }
 }
@@ -239,12 +237,11 @@ export async function updateDispensaryAdmin(userData: any, createParams: CreateU
                 username: userData.username,
                 firstName: userData.firstName,
                 lastName: userData.lastName,
-                passwordHash: userData.passwordHash || '',
                 termsAccepted: true,
                 dialCode: userData.dialCode,
                 phone: userData.phone,
                 address: userData.address ? {
-                    create: { 
+                    create: {
                         ...addressData,
                         coordinates: coordinates?.id ? {
                             connectOrCreate: {
@@ -279,18 +276,18 @@ export async function updateDispensaryAdmin(userData: any, createParams: CreateU
                             organizationId: createParams["dispensaryId"],
                         },
                     }
-                    }: {
-                        create: {
-                            role: createParams["role"] as MembershipRole,
-                            organizationId: createParams["dispensaryId"],
-                        },
-                    }
+                } : {
+                    create: {
+                        role: createParams["role"] as MembershipRole,
+                        organizationId: createParams["dispensaryId"],
+                    },
+                }
             },
             include: {
                 memberships: true
             }
         })
-        
+
         console.log('admin user updated: ', user.email)
         return user;
     } catch (error: any) {
@@ -298,7 +295,7 @@ export async function updateDispensaryAdmin(userData: any, createParams: CreateU
             if (error.code === 'P2002') {
                 throw new Error('This user exists already. Please choose a different username or email.')
             }
-          }
+        }
         throw new Error(error)
     }
 }
@@ -360,22 +357,22 @@ export async function findUserWithDetailsByPhone(phone: string): Promise<UserWit
 export async function findUserWithDetailsById(id: string): Promise<UserWithDetails | null> {
     try {
         const user = await prisma.user.findUnique({
-                where: {
-                    id
+            where: {
+                id
+            },
+            include: {
+                address: {
+                    include: {
+                        coordinates: true
+                    }
                 },
-                include: {
-                    address: {
-                        include: {
-                            coordinates: true
-                        }
+                memberships: {
+                    orderBy: {
+                        role: 'asc',
                     },
-                    memberships: {
-                        orderBy: {
-                            role: 'asc',
-                        },
-                    },
-                    imageUser: true,
                 },
+                imageUser: true,
+            },
         })
         return user
     } catch (error: any) {
@@ -413,8 +410,8 @@ export type UserCreateType = {
     username: string;
     email: string;
     emailVerified: boolean;
-    passwordHash?: string;
-    passwordResetToken?: string;
+    // passwordHash?: string;
+    // passwordResetToken?: string;
     // password: string;
     // re_password: string;
     phone: string;

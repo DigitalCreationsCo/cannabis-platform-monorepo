@@ -14,7 +14,8 @@ function SubmitAddressForm() {
     const [loadingButton, setLoadingButton] = useState(false);
     const dispatch = useDispatch();
 
-    const { prevFormStep, setFormValues, formData } = useFormContext();
+    const { resetFormValues, nextFormStep, prevFormStep, setFormValues, formValues } = useFormContext();
+    
     
     useEffect(() => {
         setFormValues({ newUser: { ...values }});
@@ -140,7 +141,7 @@ function SubmitAddressForm() {
     }
 
     return (
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={(e) => {e.preventDefault();e.stopPropagation();handleSubmit();}}>
                 <H3>{`Where is your delivery going?`}</H3>
                 <Paragraph>* Please fill the required fields.</Paragraph>
                 <Grid className="space-y-2">
@@ -224,7 +225,11 @@ function SubmitAddressForm() {
                     <FlexBox className='justify-center flex-row space-x-4 py-2'>
                         <Button 
                         loading={loadingButton}
-                        onClick={prevFormStep}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            prevFormStep();
+                        }}
                         >go back</Button>
                         <Button
                             className="place-self-center"
