@@ -40,11 +40,11 @@ export async function createDriver(userData: DriverCreateType) {
                         }
                     },
                 },
-                imageUser: userData.imageUser ? {
+                profilePicture: {
                     create: {
-                        ...userData.imageUser
+                        location: userData.profilePicture?.location,
                     }
-                } : undefined,
+                },
                 driver: {
                     connectOrCreate: {
                         where: {
@@ -107,9 +107,9 @@ export async function updateDriver(userData: UserCreateType) {
                         }
                     }
                 },
-                imageUser: userData.imageUser ? {
+                profilePicture: userData.profilePicture ? {
                     create: {
-                        ...userData.imageUser
+                        ...userData.profilePicture
                     }
                 } : undefined,
                 memberships: userData.memberships ? {
@@ -141,7 +141,7 @@ export async function findDriverWithDetailsByEmail(email: string): Promise<Drive
                 user: {
                     include: {
                         address: true,
-                        imageUser: true,
+                        profilePicture: true,
                     }
                 }
             },
@@ -173,7 +173,7 @@ export async function findDriverWithDetailsByPhone(phone: string): Promise<Drive
                         role: 'asc',
                     },
                 },
-                imageUser: true,
+                profilePicture: true,
             },
         });
 
@@ -210,7 +210,7 @@ export async function findDriverWithDetailsById(id: string): Promise<DriverWithD
                     user: {
                         include: {
                             address: true,
-                            imageUser: true,
+                            profilePicture: true,
                         }
                     }
                 },
@@ -246,6 +246,6 @@ export type DriverCreateType = Prisma.UserUncheckedCreateWithoutDriverInput & {
     address: (Prisma.AddressCreateWithoutOrganizationInput & {
         coordinates: Prisma.CoordinatesCreateInput
     })[];
-    imageUser: Prisma.ImageUserUncheckedCreateWithoutUserInput[];
+    profilePicture: Prisma.ImageUserUncheckedCreateInput;
     memberships: Prisma.MembershipUpsertArgs["create"][];
 }

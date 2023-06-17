@@ -48,11 +48,11 @@ export async function createUser(userData: UserCreateType) {
                 address: {
                     create: userData.address.map((address: any) => address)
                 },
-                imageUser: userData.imageUser ? {
+                profilePicture: {
                     create: {
-                        ...userData.imageUser
+                        location: userData.profilePicture?.location,
                     }
-                } : undefined,
+                }
             },
         })
 
@@ -109,9 +109,9 @@ export async function upsertUser(userData: UserCreateType) {
                 //         }
                 //     }
                 // },
-                imageUser: userData.imageUser ? {
+                profilePicture: userData.profilePicture ? {
                     create: {
-                        ...userData.imageUser
+                        ...userData.profilePicture
                     }
                 } : undefined,
             },
@@ -145,9 +145,9 @@ export async function upsertUser(userData: UserCreateType) {
                 address: {
                     create: userData.address.map((address: any) => address)
                 },
-                imageUser: userData.imageUser ? {
+                profilePicture: userData.profilePicture ? {
                     create: {
-                        ...userData.imageUser
+                        ...userData.profilePicture
                     }
                 } : undefined,
             }
@@ -186,9 +186,9 @@ export async function updateUser(userData: UserCreateType) {
                     create: userData.address.map((address: any) => address)
                 }
                 ,
-                imageUser: userData.imageUser ? {
+                profilePicture: userData.profilePicture ? {
                     create: {
-                        ...userData.imageUser
+                        ...userData.profilePicture
                     }
                 } : undefined,
                 memberships: userData.memberships ? {
@@ -347,9 +347,9 @@ export async function updateDispensaryAdmin(userData: any, createParams: CreateU
                         }
                     }
                 } : undefined,
-                imageUser: userData.imageUser ? {
+                profilePicture: userData.profilePicture ? {
                     create: {
-                        ...userData.imageUser
+                        ...userData.profilePicture
                     }
                 } : undefined,
                 memberships: userData.memberships?.[0]?.id ? {
@@ -403,7 +403,7 @@ export async function findUserWithDetailsByEmail(email: string): Promise<UserWit
                         role: 'asc',
                     },
                 },
-                imageUser: true,
+                profilePicture: true,
             },
         })
         return user
@@ -430,7 +430,7 @@ export async function findUserWithDetailsByPhone(phone: string): Promise<UserWit
                         role: 'asc',
                     },
                 },
-                imageUser: true,
+                profilePicture: true,
             },
         })
         return user
@@ -457,7 +457,7 @@ export async function findUserWithDetailsById(id: string): Promise<UserWithDetai
                         role: 'asc',
                     },
                 },
-                imageUser: true,
+                profilePicture: true,
             },
         })
         return user
@@ -515,7 +515,7 @@ export type UserWithDetails = User & Omit<User, "createdAt" | "updatedAt"> & {
 
 export type UserCreateType = Prisma.UserCreateInput & {
     address: any;
-    imageUser: Prisma.ImageUserUncheckedCreateWithoutUserInput[];
+    profilePicture: Prisma.ImageUserUncheckedCreateInput
     memberships: Prisma.MembershipUpsertArgs["create"][];
 }
 

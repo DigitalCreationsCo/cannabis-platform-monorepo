@@ -66,7 +66,7 @@ model User {
   idFrontImage      String?
   idBackImage       String?
   
-  imageUser         ImageUser[]
+  profilePicture    ImageUser?
   address Address[]
   passwordHash String?
   passwordResetToken String?
