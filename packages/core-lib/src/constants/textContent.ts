@@ -16,7 +16,7 @@ const TextContent = Object.freeze({
   },
 
   account: {
-    ACCOUNT_IS_CREATED: 'Your accounted is created!',
+    ACCOUNT_IS_CREATED: 'Your account is created!',
     ENTER_OR_GO_TO_ACCOUNT: 'You can enter the Gras site, or view your account.',
   },
 
