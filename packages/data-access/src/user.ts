@@ -17,7 +17,6 @@ import { OrderWithDetails } from "./order";
 */
 export async function createUser(userData: UserCreateType) {
     try {
-        const { coordinates, ...addressData } = userData.address[0]
         const user = await prisma.user.create({
             data: {
                 email: userData.email,
@@ -29,16 +28,25 @@ export async function createUser(userData: UserCreateType) {
                 termsAccepted: true,
                 dialCode: userData.dialCode,
                 phone: userData.phone,
+                // address: userData.address.map(address => ({
+                //     create: {
+                //         street1: address.street1,
+                //         street2: address.street2,
+                //         city: address.city,
+                //         state: address.state,
+                //         zipcode: address.zipcode,
+                //         country: address.country,
+                //         countryCode: address.countryCode,
+                //         coordinates: {
+                //             create: {
+                //                 latitude: Number(address.coordinates?.latitude),
+                //                 longitude: Number(address.coordinates?.longitude)
+                //             }
+                //         }
+                //     }
+                // })),
                 address: {
-                    create: {
-                        ...addressData,
-                        coordinates: {
-                            create: {
-                                latitude: Number(coordinates?.latitude),
-                                longitude: Number(coordinates?.longitude)
-                            }
-                        }
-                    },
+                    create: userData.address.map((address: any) => address)
                 },
                 imageUser: userData.imageUser ? {
                     create: {
@@ -60,9 +68,105 @@ export async function createUser(userData: UserCreateType) {
     }
 }
 
+export async function upsertUser(userData: UserCreateType) {
+    try {
+        const user = await prisma.user.upsert({
+            where: {
+                email: userData.email,
+            },
+            create: {
+                email: userData.email,
+                emailVerified: false,
+                username: userData.username,
+                firstName: userData.firstName,
+                lastName: userData.lastName,
+                termsAccepted: true,
+                dialCode: userData.dialCode,
+                phone: userData.phone,
+                // address: userData.address.map(address => ({
+                //     create: {
+                //         street1: address.street1,
+                //         street2: address.street2,
+                //         city: address.city,
+                //         state: address.state,
+                //         zipcode: address.zipcode,
+                //         country: address.country,
+                //         countryCode: address.countryCode,
+                //         coordinates: {
+                //             latitude: Number(address.coordinates?.latitude),
+                //             longitude: Number(address.coordinates?.longitude)
+                //         }
+                //     }
+                // })),
+                address: userData.address.map((address: any) => address)
+                ,
+                // create: {
+                //     ...addressData,
+                //     coordinates: {
+                //         create: {
+                //             latitude: Number(coordinates?.latitude),
+                //             longitude: Number(coordinates?.longitude)
+                //         }
+                //     }
+                // },
+                imageUser: userData.imageUser ? {
+                    create: {
+                        ...userData.imageUser
+                    }
+                } : undefined,
+            },
+            update: {
+                email: userData.email,
+                emailVerified: false,
+                username: userData.username,
+                firstName: userData.firstName,
+                lastName: userData.lastName,
+                // passwordHash: userData.passwordHash,
+                termsAccepted: true,
+                dialCode: userData.dialCode,
+                phone: userData.phone,
+                // address: userData.address.map(address => ({
+                //     create: {
+                //         street1: address.street1,
+                //         street2: address.street2,
+                //         city: address.city,
+                //         state: address.state,
+                //         zipcode: address.zipcode,
+                //         country: address.country,
+                //         countryCode: address.countryCode,
+                //         coordinates: {
+                //             create: {
+                //                 latitude: Number(address.coordinates?.latitude),
+                //                 longitude: Number(address.coordinates?.longitude)
+                //             }
+                //         }
+                //     }
+                // })),
+                address: {
+                    create: userData.address.map((address: any) => address)
+                },
+                imageUser: userData.imageUser ? {
+                    create: {
+                        ...userData.imageUser
+                    }
+                } : undefined,
+            }
+        })
+
+        console.log('user created: ', user.email)
+        return user;
+    } catch (error: any) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            if (error.code === 'P2002') {
+                throw new Error('This user exists already. Please choose a different username or email.')
+            }
+        }
+        throw new Error(error)
+    }
+}
+
 export async function updateUser(userData: UserCreateType) {
     try {
-        const { coordinates, ...addressData } = userData.address[0]
 
         const user = await prisma.user.update({
             where: {
@@ -79,26 +183,9 @@ export async function updateUser(userData: UserCreateType) {
                 dialCode: userData.dialCode,
                 phone: userData.phone,
                 address: {
-                    create: {
-                        ...addressData,
-                        coordinates: coordinates?.id ? {
-                            connectOrCreate: {
-                                where: {
-                                    id: coordinates?.id,
-                                },
-                                create: {
-                                    latitude: Number(coordinates?.latitude),
-                                    longitude: Number(coordinates?.longitude),
-                                }
-                            }
-                        } : {
-                            create: {
-                                latitude: Number(coordinates?.latitude),
-                                longitude: Number(coordinates?.longitude),
-                            }
-                        }
-                    }
-                },
+                    create: userData.address.map((address: any) => address)
+                }
+                ,
                 imageUser: userData.imageUser ? {
                     create: {
                         ...userData.imageUser
@@ -427,9 +514,7 @@ export type UserWithDetails = User & Omit<User, "createdAt" | "updatedAt"> & {
 // }
 
 export type UserCreateType = Prisma.UserCreateInput & {
-    address: (Prisma.AddressCreateWithoutOrganizationInput & {
-        coordinates: Prisma.CoordinatesCreateInput
-    })[];
+    address: any;
     imageUser: Prisma.ImageUserUncheckedCreateWithoutUserInput[];
     memberships: Prisma.MembershipUpsertArgs["create"][];
 }

@@ -20,7 +20,7 @@ function ContinueSignUp() {
     const FormStepComponents = [
         !idVerified ? VerifyPhotoId : null, 
         !isSignUpComplete ? UserSignUpQuick : null,
-        !isAddressAdded ? SubmitAddress : null,
+        SubmitAddress,
         UserSignUpReview
     ];
     

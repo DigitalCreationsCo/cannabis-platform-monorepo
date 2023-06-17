@@ -10,21 +10,19 @@ import * as yup from 'yup';
 
 function SubmitAddressForm() {
 
-    const { resetFormValues, nextFormStep, prevFormStep, setFormValues, formValues } = useFormContext();
+    const { nextFormStep, prevFormStep, setFormValues, formValues } = useFormContext();
     
     const [loadingButton, setLoadingButton] = useState(false);
     
     const initialValues = {
         address: {
-            street1: '123 MLK Ave',
-            street2: 'Suite 900',
-            city: 'Philadelphia',
-            state: 'PA',
-            zipcode: '19130',
+            street1: '',
+            street2: '',
+            city: '',
+            state: '',
+            zipcode: '',
             country: 'United States',
             countryCode: 'US',
-            coordinateId: '',
-            userId: '',
         }
     };
 
@@ -34,7 +32,7 @@ function SubmitAddressForm() {
             street2: yup.string(),
             city: yup.string().required('city is required'),
             state: yup.string().required('state is required'),
-            zipcode: yup.string().required('zipcode is required').length(5, 'zipcode must be 5 digits'),
+            zipcode: yup.number().required('zipcode is required').test('len', 'zipcode is required', val => val?.toString().length === 5),
             country: yup.string().required('country is required'),
             countryCode: yup.string().required('country code is required')
         })
@@ -43,7 +41,7 @@ function SubmitAddressForm() {
     const onSubmit = async (values: typeof initialValues) => {
         try {
             setLoadingButton(true);
-            setFormValues({ newUser: { ...values }});
+            setFormValues({ newUser: { address: { ...values.address } }});
             setLoadingButton(false);
             nextFormStep();
         } catch (error: any) {
@@ -124,16 +122,7 @@ function SubmitAddressForm() {
                         error={!!touched?.address?.state && !!errors?.address?.state}
                         helperText={touched?.address?.state && errors?.address?.state}
                     />
-                    <TextField
-                        name="address.country"
-                        label="* country"
-                        placeholder="Country"
-                        value={values?.address?.country}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        error={!!touched?.address?.country && !!errors?.address?.country}
-                        helperText={touched?.address?.country && errors?.address?.country}
-                    />
+                    
                     <TextField
                         name="address.zipcode"
                         label="* zipcode"
@@ -144,6 +133,16 @@ function SubmitAddressForm() {
                         error={!!touched?.address?.zipcode && !!errors?.address?.zipcode}
                         helperText={touched?.address?.zipcode && errors?.address?.zipcode}
                     />
+                    {/* <TextField
+                        name="address.country"
+                        label="* country"
+                        placeholder="Country"
+                        value={values?.address?.country}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        error={!!touched?.address?.country && !!errors?.address?.country}
+                        helperText={touched?.address?.country && errors?.address?.country}
+                    /> */}
                     <FlexBox className='justify-center flex-row space-x-4 py-2'>
                         <Button 
                         loading={loadingButton}

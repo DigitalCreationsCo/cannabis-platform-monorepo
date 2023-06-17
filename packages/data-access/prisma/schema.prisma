@@ -56,19 +56,22 @@ model User {
   lastName String
   username String @unique
   email         String  @unique
-  emailVerified Boolean @default(false)
-  isLegalAge Boolean?
-  idVerified Boolean @default(false)
-  isSignUpComplete Boolean @default(false)
+
+  emailVerified     Boolean @default(false)
+  isLegalAge        Boolean?
+  isSignUpComplete  Boolean @default(false)
+  termsAccepted     Boolean @default(false)
+  idVerified        Boolean @default(false)
+  scannedDOB        DateTime?
+  idFrontImage      String?
+  idBackImage       String?
+  
+  imageUser         ImageUser[]
+  address Address[]
   passwordHash String?
   passwordResetToken String?
   dialCode String
   phone String @unique
-  address Address[]
-  termsAccepted Boolean @default(false)
-  imageUser     ImageUser[]
-  idFrontImage  String?
-  idBackImage   String?
   accounts      Account[]
   sessions      Session[]
   reviews Review[]

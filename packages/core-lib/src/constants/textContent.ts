@@ -72,8 +72,9 @@ const TextContent = Object.freeze({
   legal: {
     COPYRIGHT: "© 2023 Gras. All rights reserved.",
     PRIVACY_POLICY: "Privacy Policy",
-    USER_TERMS_OF_SERVICE: "User Terms of Service",
-    DISPENSARY_TERMS_OF_SERVICE: "Dispensary Terms of Service",
+    AGREE_TO_TERMS: "Before creating an account with Gras, please agree to our ",
+    USER_TERMS_OF_SERVICE: "User Terms and Conditions",
+    DISPENSARY_TERMS_OF_SERVICE: "Dispensary Terms and Conditions",
 
   },
 

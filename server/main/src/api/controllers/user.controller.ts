@@ -30,9 +30,9 @@ export default class UserController {
     //         const sessionPayload:SessionPayload = { userId: user.id, username: user.username, email: user.email };
 
     //         const session = await STSession.createNewSession(res, user.id, sessionPayload, { data: 'SESSION TEST DATA' }, user)
-            
+
     //         // create session here
-            
+
     //         return res.status(200).json(session);
     //     } catch (error: any) {
     //         console.log('API error: ', error);
@@ -56,23 +56,30 @@ export default class UserController {
     static async createUser(req, res) {
         try {
 
-            const 
-            user = req.body as UserCreateType
+            const
+                rawUser = req.body
 
-            const 
-            coordinates = await getGeoCoordinatesByAddress(user.address[0]);
+            // address data comes as an object, but we need it as an array per data schema
+            const user: UserCreateType = { ...rawUser, address: [rawUser.address] }
 
-            if (coordinates) 
-            user.address[0].coordinates = coordinates;
-            
-            const 
-            data = await UserDA.createUser(user)
-            
-            if (!data) 
-            return res.status(404).json('User could not be created.');
+            console.log('user: ', user)
+
+            const
+                coordinates = await getGeoCoordinatesByAddress(user.address[0]);
+
+            if (coordinates)
+                user.address[0].coordinates = coordinates;
+
+            console.log('coordinates: ', coordinates)
+
+            const
+                data = await UserDA.upsertUser(user)
+
+            if (!data)
+                return res.status(404).json('User could not be created.');
 
             return res.status(201).json(data);
-            
+
         } catch (error: any) {
             console.log('API error: ', error);
             if (error.message.includes('This user exists already')) {
@@ -83,28 +90,28 @@ export default class UserController {
 
     static async createDispensaryAdmin(req, res) {
         try {
-            let 
-            {user, role, dispensaryId} = req.body
+            let
+                { user, role, dispensaryId } = req.body
 
-            function addressObjectIntoArray (user): UserCreateType {
+            function addressObjectIntoArray(user): UserCreateType {
                 const
-                address = user.address
+                    address = user.address
 
                 if (address)
-                user.address = [address]
+                    user.address = [address]
 
                 return user;
             }
 
             user = addressObjectIntoArray(user)
-            
+
             const data = await UserDA.createDispensaryAdmin(user, role, dispensaryId)
 
-            if (!data) 
-            return res.status(404).json('Dispensary user could not be created.');
+            if (!data)
+                return res.status(404).json('Dispensary user could not be created.');
 
             return res.status(201).json(data);
-            
+
         } catch (error: any) {
             console.log('API error: ', error);
             if (error.message.includes('This user exists already')) {
@@ -117,7 +124,7 @@ export default class UserController {
 
     static async updateDispensaryAdmin(req, res) {
         try {
-            const {user, role, dispensaryId} = req.body
+            const { user, role, dispensaryId } = req.body
 
             const data = await UserDA.updateDispensaryAdmin(user, role, dispensaryId)
             if (!data) return res.status(404).json('User could not be created.');
@@ -134,7 +141,7 @@ export default class UserController {
     static async updateUser(req, res) {
         try {
             const user = req.body
-            
+
             const data = await UserDA.updateUser(user)
             if (!data) return res.status(404).json('User record could not be updated.');
 
@@ -144,7 +151,7 @@ export default class UserController {
             res.status(500).json({ error });
         }
     }
-    
+
     static async getUserById(req, res) {
         try {
             const id = req.params.id || '';
@@ -203,14 +210,14 @@ export default class UserController {
 
     //         // // access token payload
     //         const sessionPayload:SessionPayload = { userId: user.id, username: user.username, email: user.email };
-            
+
     //         // // create supertokens session
     //         const sessionToken = await STSession.createNewSession(res, user.id, sessionPayload, { data: 'SESSION TEST DATA' }, user);
-            
+
     //         // // future note: drivers will have only session active on a device.
     //         // // Drivers will need their own session function for login
     //         const session = await UserDA.createUserSession(sessionToken.getHandle(), sessionPayload, await sessionToken.getExpiry())
-            
+
     //         const signedUp = await signUp(user.email, user.passwordHash, user)
     //         return res.status(200).json({
     //             status: true,
@@ -230,7 +237,7 @@ export default class UserController {
     //         // return res.status(500).json(error:any);
     //     }
     // }
-    
+
 }
 
-export type SessionResponsePayload = { status: boolean; message: string; session: any}
+export type SessionResponsePayload = { status: boolean; message: string; session: any }

@@ -70,6 +70,7 @@ const VerifyPhotoId = () => {
 
                     setFormValues({ 
                         newUser: {
+                            scannedDOB: response.result.scannedDOB,
                             idVerified: response.result.idVerified,
                             isLegalAge: response.result.isLegalAge,
                             idFrontImage:  response.images.idFrontImage,
@@ -252,15 +253,18 @@ const VerifyPhotoId = () => {
 export default VerifyPhotoId
 
 type VerifyPhotoIDUploadResponse = {
-    success: boolean,
+    success: true,
     result: { 
         isLegalAge: boolean, 
-        idVerified: boolean
+        idVerified: boolean,
+        scannedDOB: Date,
     },
     images: {
         idFrontImage: string,
         idBackImage: string,
     },
     isUploaded: boolean,
-    error?: string,
+} | {
+    success: false, 
+    error: string
 }

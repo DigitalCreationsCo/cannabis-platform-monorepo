@@ -43,5 +43,5 @@ function CartPage() {
 export default CartPage;
 
 const styles = {
-    cartContainer: 'bg-transparent mx-auto shadow-none md:shadow bg-light min-w-[440px] flex flex-col lg:px-8 py-4 space-y-4',
+    cartContainer: 'bg-transparent mx-auto shadow-none bg-transparent sm:shadow sm:bg-light sm:w-[440px] flex flex-col lg:px-8 py-4 space-y-4',
 };
