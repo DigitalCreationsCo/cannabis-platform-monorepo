@@ -9,20 +9,26 @@ const handler = nc();
 // create organization, create location record, create stripe account
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     try {
-        const formData: OrganizationCreateType = req.body;
-        const { data } = await axios.post(urlBuilder.main.organization(), formData, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        return res.status(res.statusCode).json(data);
+
+        const
+            organization: OrganizationCreateType = req.body;
+
+        const
+            response = await axios.post(urlBuilder.main.organization(), organization, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+        return res.status(response.status).json(response.data);
+
     } catch (error: any) {
         console.error(error.message);
         return res.json(error);
     }
 });
 
-// update organization, update location record
+// update organization prisma record, update mongodb location record
 handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         const formData: OrganizationCreateType = req.body;

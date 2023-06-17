@@ -1,5 +1,5 @@
 import { ImageUser, Membership, MembershipRole, Prisma, User } from "@prisma/client";
-import { AddressUserCreateType, AddressWithDetails } from "./address";
+import { AddressWithDetails } from "./address";
 import prisma from "./db/prisma";
 import { OrderWithDetails } from "./order";
 
@@ -15,10 +15,9 @@ import { OrderWithDetails } from "./order";
 * findUserWithDetailsById
 * updateUserPasswordToken
 */
-
 export async function createUser(userData: UserCreateType) {
     try {
-        const { coordinates, coordinateId, ...addressData } = userData.address[0]
+        const { coordinates, ...addressData } = userData.address[0]
         const user = await prisma.user.create({
             data: {
                 email: userData.email,
@@ -63,7 +62,7 @@ export async function createUser(userData: UserCreateType) {
 
 export async function updateUser(userData: UserCreateType) {
     try {
-        const { coordinateId, coordinates, ...addressData } = userData.address[0]
+        const { coordinates, ...addressData } = userData.address[0]
 
         const user = await prisma.user.update({
             where: {
@@ -403,27 +402,35 @@ export type UserWithDetails = User & Omit<User, "createdAt" | "updatedAt"> & {
     preferences?: null
 }
 
-export type UserCreateType = {
-    id?: string;
-    firstName: string;
-    lastName: string;
-    username: string;
-    email: string;
-    emailVerified: boolean;
-    // passwordHash?: string;
-    // passwordResetToken?: string;
-    // password: string;
-    // re_password: string;
-    phone: string;
-    dialCode: string;
-    termsAccepted: boolean;
-    imageUser: ImageUser[] | null;
-    idFrontImage?: string;
-    idBackImage?: string;
-    isLegalAge: boolean | null;
-    idVerified: boolean;
-    isSignUpComplete: boolean;
-    address: AddressUserCreateType[]
+// export type UserCreateType = {
+//     id?: string;
+//     firstName: string;
+//     lastName: string;
+//     username: string;
+//     email: string;
+//     emailVerified: boolean;
+//     // passwordHash?: string;
+//     // passwordResetToken?: string;
+//     // password: string;
+//     // re_password: string;
+//     phone: string;
+//     dialCode: string;
+//     termsAccepted: boolean;
+//     imageUser: ImageUser[] | null;
+//     idFrontImage?: string;
+//     idBackImage?: string;
+//     isLegalAge: boolean | null;
+//     idVerified: boolean;
+//     isSignUpComplete: boolean;
+//     address: AddressUserCreateType[]
+//     memberships: Prisma.MembershipUpsertArgs["create"][];
+// }
+
+export type UserCreateType = Prisma.UserCreateInput & {
+    address: (Prisma.AddressCreateWithoutOrganizationInput & {
+        coordinates: Prisma.CoordinatesCreateInput
+    })[];
+    imageUser: Prisma.ImageUserUncheckedCreateWithoutUserInput[];
     memberships: Prisma.MembershipUpsertArgs["create"][];
 }
 

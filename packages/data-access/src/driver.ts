@@ -16,9 +16,9 @@ import { UserCreateType } from "./user";
 /**
  * CREATE DRIVER RECORD ALONG WITH SESSION RECORD
  */
-export async function createDriver(userData: UserCreateType) {
+export async function createDriver(userData: DriverCreateType) {
     try {
-        const { coordinates, coordinateId, ...addressData } = userData.address[0]
+        const { coordinates, ...addressData } = userData.address[0]
         const user = await prisma.user.create({
             data: {
                 email: userData.email,
@@ -51,10 +51,6 @@ export async function createDriver(userData: UserCreateType) {
                             id: userData.id
                         },
                         create: {
-                            ...userData,
-                            driverSession: {
-                                create: {}
-                            }
                         },
                     }
                 }
@@ -75,7 +71,7 @@ export async function createDriver(userData: UserCreateType) {
 
 export async function updateDriver(userData: UserCreateType) {
     try {
-        const { coordinateId, coordinates, ...addressData } = userData.address[0]
+        const { coordinates, ...addressData } = userData.address[0]
 
         const user = await prisma.user.update({
             where: {
@@ -245,53 +241,11 @@ export type DriverSessionWithJoinedData = DriverSession & {
     routeId: string | null;
 }
 
-// export type UserCreateType = {
-//     firstName: string;
-//     lastName: string;
-//     username: string;
-//     email: string;
-//     emailVerified: boolean;
-//     passwordHash?: string;
-//     // password: string;
-//     // re_password: string;
-//     phone: string;
-//     dialCode: string;
-//     termsAccepted: boolean;
-//     imageUser: ImageUser[] | null;
-//     isLegalAge: boolean;
-//     idVerified: boolean;
-//     address: AddressUserCreateType[]
-//     memberships: Prisma.MembershipUpsertArgs["create"][];
-// }
-
-// export type UserLoginData = {
-//     email: string;
-//     password: string;
-// }
-
-// export type CreateUserParams = {
-//     role: string;
-//     dispensaryId: string;
-// }
-
-// export type UserCreateType = Prisma.PromiseReturnType<typeof createUser>
-// export type UserWithDetails = Prisma.PromiseReturnType<typeof findUserWithDetails>
-
-// type UserWithDetails = (User & {
-//     address: Address[];
-//     imageUser: ImageUser[];
-//     memberships: Membership[];
-// }) | null
-
-// export type OrderWithDetails = Order & {
-//     driver: Driver | null;
-//     items?: OrderItemWithDetails[];
-//     customer: User;
-//     deliveryInfo: Address;
-//     updatedAt?: any;
-// }
-
-// export type OrderItemWithDetails = OrderItem & {
-//     productVariant: ProductVariantWithDetails
-//     }
-// export type OrderUpdate = Prisma.OrderUpdateArgs[ "data" ]
+export type DriverCreateType = Prisma.UserUncheckedCreateWithoutDriverInput & {
+    driver: Prisma.DriverUncheckedCreateInput;
+    address: (Prisma.AddressCreateWithoutOrganizationInput & {
+        coordinates: Prisma.CoordinatesCreateInput
+    })[];
+    imageUser: Prisma.ImageUserUncheckedCreateWithoutUserInput[];
+    memberships: Prisma.MembershipUpsertArgs["create"][];
+}
