@@ -1,5 +1,5 @@
 function CopyRight() {
-    const companyName = 'Gras Cannabis Distribution Co.';
+    const companyName = 'Gras';
     return <>{companyName} &#169; 2023</>;
 }
 

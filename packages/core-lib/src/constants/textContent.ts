@@ -3,8 +3,7 @@ const TextContent = Object.freeze({
     ACCEPT_ORDER: "Do you want to accept the order?",
     CONFIRM_ADD_TO_CART: `Your bag contains an item from another shop.
     Do you want to empty the bag and add this item instead?`,
-    CREATE_ACCOUNT: "",
-    CREATE_DISPENSARY_ACCOUNT: 'Create a Dispensary account',
+    FORM_FIELDS: "Please fill out the required fields.",
     FIND_DISPENSARY: "Find a Dispensary",
     READ_REVIEWS: "Read Reviews",
     REVIEWS_CAPTION: "What's the word on this product?",
@@ -16,7 +15,12 @@ const TextContent = Object.freeze({
   },
 
   account: {
+    CREATE_AN_ACCOUNT: "Create an account",
+    CREATE_YOUR_ACCOUNT: "Create your account",
+    CREATE_DISPENSARY_ACCOUNT: 'Create a Dispensary account',
     ACCOUNT_IS_CREATED: 'Your account is created!',
+    CHOOSE_PROFILE_PICTURE: "Choose a profile picture.",
+    CHOOSE_PROFILE_PICTURE_OR_UPLOAD: "Choose a profile picture, or upload your own.",
     ENTER_OR_GO_TO_ACCOUNT: 'You can enter the Gras site, or view your account.',
   },
 

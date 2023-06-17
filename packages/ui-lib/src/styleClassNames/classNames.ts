@@ -11,6 +11,9 @@ const styles = Object.freeze({
             'md:cursor-default',
         ],
         badge: ['indicator absolute inline-flex items-center justify-center w-6 h-6 text-sm text-light bg-primary -top-2 -right-2 rounded-full']
+    },
+    BUTTON: {
+        'round-image-btn': ['btn focus:!border-primary focus:!ring-primary focus:!outline-primary h-32 w-32 col-span-1 !rounded-full p-0 m-0 overflow-hidden']
     }
 });
 

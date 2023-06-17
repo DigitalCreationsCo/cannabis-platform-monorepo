@@ -39,7 +39,7 @@ verifyPhotoIdTour.defineSteps(
         element: '#verify-id-step-3',
         popover: {
             title: 'Upload Photos of your ID',
-            description: `Upload a picture of the front and back of your state's photo id card.`,
+            description: `Upload a picture of the front and back of your state drivers license or photo id card.`,
         },
     },
     {

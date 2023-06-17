@@ -30,7 +30,7 @@ const styles={
     about: [
         "bg-inverse md:rounded shadow", 
         "cursor-default",
-        "w-full md:w-auto mx-auto space-y-2 h-full px-16 items-center"
+        "w-full md:w-auto mx-auto space-y-2 h-full p-16 items-center"
     ]
 }
 

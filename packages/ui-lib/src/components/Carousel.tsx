@@ -11,18 +11,18 @@ type CarouselComponent = {
 
 interface CarouselProps {
     Component: React.FC<CarouselComponent>;
-    loading: boolean;
     title?: string;
     data: any[];
     dataKey: string;
     axis?: 'horizontal' | 'vertical';
     interval?: number;
     slidesPresented: number;
+    infinite?: boolean;
+    run?: boolean;
 }
 
 export default function Carousel({ 
     Component, 
-    loading = true, 
     title, 
     data, 
     dataKey, 
