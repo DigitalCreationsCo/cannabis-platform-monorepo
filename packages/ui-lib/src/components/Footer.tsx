@@ -1,24 +1,25 @@
 import Link from 'next/link';
 import CopyRight from './CopyRight';
 import FlexBox from './FlexBox';
-import { Small, Span } from './Typography';
+import { H4, Small, Span } from './Typography';
 
 export default function Footer() {
     return (
         <FlexBox className={styles.container}>
-            <Link href='about-gras'>
+            <Link href='/about-gras'>
             <Small className="text-inverse font-semibold">
                 about Gras
                 </Small>
             </Link>
-            <Link href='support'>
+            <Link href='/support'>
             <Small className="text-inverse font-semibold">
-                Need help? <Span className="underline">Get Support</Span>
+                <Span className="underline">Get Support</Span>
                 </Small>
             </Link>
             <Small className="text-inverse">
                 <CopyRight />
             </Small>
+            <H4 color='light'>{`Cannabis, Delivered. 🌴🔥`}</H4>
         </FlexBox>
     );
 }

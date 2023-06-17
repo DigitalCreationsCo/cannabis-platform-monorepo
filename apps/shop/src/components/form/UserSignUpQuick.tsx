@@ -1,14 +1,19 @@
 import { TextContent } from '@cd/core-lib/constants';
+import { shuffle } from '@cd/core-lib/utils';
 import {
-    Button,
-    FlexBox, Grid, H3, H6, Paragraph, TermsAgreement, TextField
+    Button, FlexBox, Grid, H4, H6, Paragraph, styles, TermsAgreement, TextField
 } from '@cd/ui-lib';
 import { useFormContext } from 'components';
+import { profilePictures } from 'data/profilePicture';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { twMerge } from 'tailwind-merge';
 import { userSignUpTour } from 'tour/userSignUpTour';
 import * as yup from 'yup';
+
+// test the record create in db
+// test the profile picture is appearing
 
 function UserSignUpQuickForm() {
     
@@ -24,6 +29,7 @@ function UserSignUpQuickForm() {
     const { nextFormStep, prevFormStep, setFormValues, formValues } = useFormContext();
     
     const [loadingButton, setLoadingButton] = useState(false);
+    const [profilePicture, setProfilePicture] = useState<string | null>(null);
 
     const initialValues = {
         firstName: formValues?.newUser?.firstName || '',
@@ -33,6 +39,7 @@ function UserSignUpQuickForm() {
         phone: formValues?.newUser?.phone || '',
         dialCode: formValues?.newUser?.dialCode || '1',
         termsAccepted: false,
+        images: [],
     };
 
     const validationSchema = yup.object().shape({
@@ -49,12 +56,22 @@ function UserSignUpQuickForm() {
                 'Please read and agree to our User Terms and Conditions.',
                 (value) => value === true
             ),
+        
     });
 
     const onSubmit = async (values: typeof initialValues) => {
         try {
             setLoadingButton(true);
-            setFormValues({ newUser: { ...values }});
+            setFormValues({ 
+                newUser: { 
+                    ...values, 
+                    images: profilePicture ? 
+                    [{
+                        location: profilePicture,
+                        blurhash: ''
+                    }] : []
+                 }
+                });
             setLoadingButton(false);
             nextFormStep();
         } catch (error: any) {
@@ -90,13 +107,28 @@ function UserSignUpQuickForm() {
         return () => document.removeEventListener('keydown', keyDownHandler);
     }, []);
 
+    let shuffled = profilePictures;
+    useEffect(() => {
+        shuffled = shuffle(profilePictures);
+    }, [])
+    
     return (
             <form onSubmit={(e) => {e.preventDefault();e.stopPropagation();handleSubmit();}}>
-                <Paragraph id='user-signup-step-1'>Create your account</Paragraph>
-                <H3>{`Get Cannabis Delivered 🌴🔥`}</H3>
-                <Grid className="space-y-4">
-                <Paragraph>* Please fill the required fields.</Paragraph>
-                <FlexBox id='user-signup-step-2' className="flex-row space-x-4">
+                <H4 
+                id='user-signup-step-1'>
+                    Create your account
+                    </H4>
+                
+                <Grid className="grid-cols-2 space-y-4">
+                <Paragraph 
+                className='col-span-2'
+                id='user-signup-step-2'
+                >
+                    * Please fill the required fields.</Paragraph>
+
+                <FlexBox 
+                
+                className="col-span-2 flex-row space-x-4">
                     <TextField
                         name="dialCode"
                         label="* dial code"
@@ -118,7 +150,7 @@ function UserSignUpQuickForm() {
                         helperText={touched.phone && errors.phone}
                     />
                 </FlexBox>
-                <FlexBox className="flex-row space-x-4">
+                <FlexBox className="flex-row space-x-4 col-span-2">
                     <TextField
                         name="firstName"
                         label="* your first name"
@@ -141,6 +173,7 @@ function UserSignUpQuickForm() {
                     />
                 </FlexBox>
                 <TextField
+                containerClassName='col-span-2'
                     name="email"
                     type="email"
                     label="* your email address"
@@ -151,7 +184,47 @@ function UserSignUpQuickForm() {
                     error={!!touched.email && !!errors.email}
                     helperText={touched.email && errors.email}
                 />
+                
+                <Paragraph 
+                id='user-signup-step-1'
+                className='col-span-2'>
+                    {TextContent.account.CHOOSE_PROFILE_PICTURE}
+                    </Paragraph>
+
+                <Grid className="grid-cols-2 sm:grid-cols-3 col-span-2 space-y-4">
+                    {/* <IconButton
+                    id='user-signup-step-2'
+                    Icon={icons.User} 
+                    iconSize={100} 
+                    size="sm"
+                    className={twMerge(styles.BUTTON['round-image-btn'])}
+                    iconClass='!rounded-full'
+                    onClick={(e) => e.preventDefault();e.stopPropagation();}
+                    /> */}
+                    
+                    { shuffled.map((pic:string, index: number) => {
+                        return (
+                            <Button
+                            onClick={(e) => {e.preventDefault();e.stopPropagation();setProfilePicture(pic)}}
+                            id={`avatar-button-${index}`}
+                            key={`avatar-button-${index}`} 
+                            size="sm"
+                            bg='transparent'
+                            className={twMerge(styles.BUTTON['round-image-btn'])}>
+                                <img
+                                className="object-cover  rounded-full, h-32 w-32"
+                                key={`avatar-${index}`}
+                                src={pic} 
+                                alt={`avatar-${index}`} />
+                                </Button>
+                            );
+                        })
+                    }
+                </Grid>
+
                 <TextField
+                id='user-signup-step-3'
+                    containerClassName='col-span-2'
                     name="username"
                     label="* Choose a username"
                     placeholder="Choose a username"
@@ -161,7 +234,9 @@ function UserSignUpQuickForm() {
                     error={!!touched.username && !!errors.username}
                     helperText={touched.username && errors.username}
                 />
+                
                 <TermsAgreement
+                        className='col-span-2'
                         name="termsAccepted"
                         onChange={(e) => handleChange(e)}
                         checked={values.termsAccepted}
@@ -170,14 +245,15 @@ function UserSignUpQuickForm() {
                         description={
                             <>
                                 { TextContent.legal.AGREE_TO_TERMS }
-                                <a href="/" target="_blank" rel="noreferrer noopener">
+                                <a id='user-signup-step-4' href="/" target="_blank" rel="noreferrer noopener">
                                     <H6 className={'border-b-2 inline-block'}>{TextContent.legal.USER_TERMS_OF_SERVICE}</H6>.
                                 </a>
                             </>
                         }
                         label={`I agree to the User Terms and Conditions`}
                     />
-                <FlexBox className='justify-center flex-row space-x-4 py-2'>
+                <FlexBox className='justify-center flex-row space-x-4 py-2 col-span-2'>
+                    
                     <Button 
                     loading={loadingButton}
                     onClick={(e) => {
@@ -186,8 +262,9 @@ function UserSignUpQuickForm() {
                         prevFormStep();
                     }}
                     >go back</Button>
+                    
                     <Button
-                    id='user-signup-step-3'
+                    id='user-signup-step-5'
                     type='submit'
                     className="place-self-center"
                     loading={loadingButton}
