@@ -21,20 +21,22 @@ function UserSignUpReview () {
     
     async function createNewUser () {
         try {
-
             setFormValues({ 
                 newUser: { 
-                    sSignUpComplete: true,
+                    isSignUpComplete: true,
+                    emailVerified: true,
+                    
                 }
             });
 
+            console.log('form values: ', formValues)
             const response = await axios.post(
                 urlBuilder.shop + '/api/user', 
                 formValues?.newUser,
                 { validateStatus: status => (status >= 200 && status < 300) || status == 404 }
                 );
 
-                console.log('response: ', response)
+                console.log('response data: ', response.data)
 
                 if (response.status !== 201)
                 throw new Error(response.data);
@@ -53,15 +55,26 @@ function UserSignUpReview () {
         }
     }
     
+    let loading = false;
     useEffect(() => {
         async function createNewUserAndUpdateUserState () {
-            const user = await createNewUser()
-            resetFormValues();
+            try {
+                loading = true;
 
-            dispatch(userActions.signinUserSync(user));
-            toast.success(TextContent.account.ACCOUNT_IS_CREATED);
+                const 
+                user = await createNewUser()
+                resetFormValues();
+
+                dispatch(userActions.signinUserSync(user));
+                toast.success(TextContent.account.ACCOUNT_IS_CREATED);
+            } 
+            catch (error: any) {
+                console.log('User Create Error: ', error);
+                toast.error(error.message);
+            }
         }
 
+        if (loading === false)
         createNewUserAndUpdateUserState();
     }, [])
 
@@ -104,7 +117,7 @@ function UserSignUpReview () {
                 { renderNestedDataObject(user, Paragraph, ['createdAt', 'updatedAt', 'emailVerified', 'imageUser', 'idFrontImage', 'idBackImage']) }
                 </>
                 }
-                { !account && <Paragraph className='animate-pulse'>Creating your account...</Paragraph>}
+                { !account && <Paragraph className='animate-bounce pt-1'>Creating your account...</Paragraph>}
             </div>
 
             { isSignedIn ? <FlexBox className='m-auto flex-row space-x-4 pb-20'>

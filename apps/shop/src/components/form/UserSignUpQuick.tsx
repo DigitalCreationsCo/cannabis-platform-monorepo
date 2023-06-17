@@ -1,3 +1,4 @@
+import { TextContent } from '@cd/core-lib/constants';
 import {
     Button,
     FlexBox, Grid, H3, H6, Paragraph, TermsAgreement, TextField
@@ -25,7 +26,9 @@ function UserSignUpQuickForm() {
     const [loadingButton, setLoadingButton] = useState(false);
 
     const initialValues = {
-        username: formValues?.newUser?.username,
+        firstName: formValues?.newUser?.firstName || '',
+        lastName: formValues?.newUser?.lastName || '',
+        username: formValues?.newUser?.username || '',
         email: formValues?.newUser?.email || '',
         phone: formValues?.newUser?.phone || '',
         dialCode: formValues?.newUser?.dialCode || '1',
@@ -33,7 +36,9 @@ function UserSignUpQuickForm() {
     };
 
     const validationSchema = yup.object().shape({
-        username: yup.string().required('Username is required'),
+        firstName: yup.string().required('First name is required').min(3, 'First name is required'),
+        lastName: yup.string().required('Last name is required').min(3, 'Last name is required'),
+        username: yup.string().required('Username is required').min(6, 'Username is required'),
         email: yup.string().email('invalid email').required('Email is required'),
         phone: yup.string().required('Phone number is required').length(10, 'Phone number must be 10 digits'),
         dialCode: yup.string().required('Dialing code is required'),
@@ -89,9 +94,9 @@ function UserSignUpQuickForm() {
             <form onSubmit={(e) => {e.preventDefault();e.stopPropagation();handleSubmit();}}>
                 <Paragraph id='user-signup-step-1'>Create your account</Paragraph>
                 <H3>{`Get Cannabis Delivered 🌴🔥`}</H3>
-                <Grid id='user-signup-step-2' className="space-y-4">
+                <Grid className="space-y-4">
                 <Paragraph>* Please fill the required fields.</Paragraph>
-                <FlexBox className="flex-row space-x-4">
+                <FlexBox id='user-signup-step-2' className="flex-row space-x-4">
                     <TextField
                         name="dialCode"
                         label="* dial code"
@@ -104,18 +109,51 @@ function UserSignUpQuickForm() {
                     />
                     <TextField
                         name="phone"
-                        label="* phone"
-                        placeholder="phone"
-                        value={values?.phone}
+                        label="* your phone number"
+                        placeholder="your phone number"
+                        value={values.phone}
                         onBlur={handleBlur}
                         onChange={handleChange}
                         error={!!touched.phone && !!errors.phone}
                         helperText={touched.phone && errors.phone}
                     />
                 </FlexBox>
+                <FlexBox className="flex-row space-x-4">
+                    <TextField
+                        name="firstName"
+                        label="* your first name"
+                        placeholder="your first name"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        value={values.firstName}
+                        error={!!touched.firstName && !!errors.firstName}
+                        helperText={touched.firstName && errors.firstName}
+                    />
+                    <TextField
+                        name="lastName"
+                        label="* your last name"
+                        placeholder="your last name"
+                        value={values.lastName}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        error={!!touched.lastName && !!errors.lastName}
+                        helperText={touched.lastName && errors.lastName}
+                    />
+                </FlexBox>
+                <TextField
+                    name="email"
+                    type="email"
+                    label="* your email address"
+                    onBlur={handleBlur}
+                    value={values.email}
+                    onChange={handleChange}
+                    placeholder="your email address"
+                    error={!!touched.email && !!errors.email}
+                    helperText={touched.email && errors.email}
+                />
                 <TextField
                     name="username"
-                    label="* username"
+                    label="* Choose a username"
                     placeholder="Choose a username"
                     onBlur={handleBlur}
                     onChange={handleChange}
@@ -123,28 +161,17 @@ function UserSignUpQuickForm() {
                     error={!!touched.username && !!errors.username}
                     helperText={touched.username && errors.username}
                 />
-                <TextField
-                    name="email"
-                    type="email"
-                    label="* email"
-                    onBlur={handleBlur}
-                    value={values.email}
-                    onChange={handleChange}
-                    placeholder="email address"
-                    error={!!touched.email && !!errors.email}
-                    helperText={touched.email && errors.email}
-                />
                 <TermsAgreement
                         name="termsAccepted"
-                        onChange={handleChange}
-                        checked={values?.termsAccepted || false}
-                        helperText={touched.termsAccepted && errors.termsAccepted || ''}
+                        onChange={(e) => handleChange(e)}
+                        checked={values.termsAccepted}
+                        helperText={touched.termsAccepted && errors.termsAccepted}
                         error={!!touched.termsAccepted && !!errors.termsAccepted}
                         description={
                             <>
-                                {`Before creating an account for Gras Cannabis Marketplace, you will agree to our `}
+                                { TextContent.legal.AGREE_TO_TERMS }
                                 <a href="/" target="_blank" rel="noreferrer noopener">
-                                    <H6 className={'border-b-2 inline-block'}>User Terms and Conditions</H6>.
+                                    <H6 className={'border-b-2 inline-block'}>{TextContent.legal.USER_TERMS_OF_SERVICE}</H6>.
                                 </a>
                             </>
                         }

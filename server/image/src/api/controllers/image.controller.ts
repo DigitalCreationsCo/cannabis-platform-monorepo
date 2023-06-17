@@ -10,48 +10,50 @@ verifyIdentificationImageFromUpload
 
 ================================= */
 export default class ImageController {
-  
+
   // IMPROVEMENTS: set a size limit for the images, and a file type limit, and a number of images limit
 
   // verify Identification could be one function, I keep as two for now, for easier testing, and to not break it. ;P
   static async verifyIdentificationImageFromUpload(req, res) {
-    let isUploaded = false
-
     try {
-      let images = req.files
-      
-      let uploadedImages
-      let isLegalAge
-      let idVerified
-      
-      if (images) {
-        uploadedImages = await uploadImageToS3ObjectStore(images, process.env.VERIFY_ID_BUCKET_NAME)
-        isUploaded = true
-        
-        // NOTE: checkLegalAgeFromIdImage is turned off! Must be turned on and working for paying customers!!
-        // const idFrontImage = getObjectStorageUri(uploadedImages['idFrontImage'], process.env.VERIFY_ID_BUCKET_NAME, process.env.OBJECT_STORAGE_REGION)
-        // isLegalAge = await checkLegalAgeFromIdImage(idFrontImage)
-        isLegalAge = true
 
-        idVerified = true
-        
-      } else {
-        throw new Error("The server didn't receive images.")
-      }
-      return res.status(200).json({
+      let
+        uploadedImages: ImagePaths,
+        isUploaded = false;
+
+      const
+        images: File[] = req.files;
+
+      if (images) {
+        const
+          idFrontImage = images.find(image => image.fieldname === 'idFrontImage');
+
+        const
+          { isLegalAge, scannedDOB } = await ImageDAO.checkLegalAgeFromIdImage(idFrontImage.buffer);
+
+        uploadedImages = await uploadImageToS3ObjectStore(images, process.env.VERIFY_ID_BUCKET_NAME);
+        isUploaded = true;
+
+
+        return res.status(200).json({
           success: true,
-          result: { isLegalAge, idVerified },
+          result: {
+            isLegalAge,
+            scannedDOB,
+            idVerified: true
+          },
           images: uploadedImages,
           isUploaded,
-      });
-    } catch (error:any) {
+        });
+      }
+      else
+        throw new Error("The server didn't receive images. Please try again.")
+    } catch (error: any) {
       console.log('Sorry, we could not verify the image. Please upload a different image.')
       console.log(error);
       res.status(200).json({
-          success: false,
-          error: error.message,
-          images: null,
-          isUploaded
+        success: false,
+        error: error.message,
       });
     }
   }
@@ -64,7 +66,7 @@ export default class ImageController {
       let idVerified
 
       if (imgUri) {
-        isLegalAge = await checkLegalAgeFromIdImage(imgUri)
+        isLegalAge = await ImageDAO.checkLegalAgeFromIdImage(imgUri)
         idVerified = true
       }
       return res.status(200).json({
@@ -79,24 +81,10 @@ export default class ImageController {
   }
 }
 
-
-function getObjectStorageUri (key: string, bucketName: string, region: string, ) { 
-  const uri = `https://${bucketName}.${region}.linodeobjects.com/${key}`; 
+function getObjectStorageUri(key: string, bucketName: string, region: string,) {
+  const uri = `https://${bucketName}.${region}.linodeobjects.com/${key}`;
   console.info('create object storage uri: ', uri)
   return uri;
-}
-
-async function checkLegalAgeFromIdImage(imgUri: string): Promise<{ isLegalAge: boolean }> {
-  // NEXT: Pass the images to tesseract to process  the text, and return a boolean value to database,
-  // and response to front end :)
-  // return idscan response, and uploaded links to front end, to add to formdata, and save in user signup :)
-  try {
-    const isLegalAge = await ImageDAO.checkLegalAgeFromIdImage(imgUri)
-    return { isLegalAge }
-  } catch (error: any) {
-    console.error(error.message)
-    throw new Error(error.message)
-  }
 }
 
 function getExtensionFromMimeType(mimeType: string) {
@@ -109,44 +97,46 @@ function getExtensionFromMimeType(mimeType: string) {
   return extensionMap[mimeType] || '';
 }
 
-async function uploadImageToS3ObjectStore(files: any[], bucketName: string): Promise<ImagePath> {
+async function uploadImageToS3ObjectStore(files: any[], bucketName: string): Promise<ImagePaths> {
   // IMPROVEMENTS: not awaiting the s3 response, may need to do it to check for upload errors
   try {
     const s3Client = new S3Client({
-      endpoint: `http://${process.env.OBJECT_STORAGE_ENDPOINT}`,
+      endpoint: `https://${process.env.OBJECT_STORAGE_ENDPOINT}`,
       region: process.env.OBJECT_STORAGE_REGION,
       credentials: {
         accessKeyId: process.env.OSTORE_KEY,
         secretAccessKey: process.env.OSTORE_SEC,
       },
     });
-    
-    let uploadedFiles = {}
-    await Promise.all(files.map(async (file): Promise<ImagePath> => {
-      
-        const fileBuffer = await file.buffer
-        const fileExtension = getExtensionFromMimeType(file.mimetype);
-        const key = `${createId()}-${file.fieldname}${fileExtension}`
-        const putObjectCommand = new PutObjectCommand({
-          Bucket: bucketName,
-          ACL: "public-read",
-          Key: key,
-          Body: fileBuffer,
-          ContentType: file.mimetype,
-        });
 
-        console.info('uploading to s3 object storage..')
-        await s3Client.send(putObjectCommand);
-        
-        console.info(`Uploaded ${key} to ${bucketName}/${key}`)
-        return { [file.fieldname]: key };
-        
-      })
+    let uploadedFiles = {}
+    await Promise.all(files.map(async (file): Promise<ImagePaths> => {
+
+      const fileBuffer = await file.buffer
+      const fileExtension = getExtensionFromMimeType(file.mimetype);
+      const key = `${createId()}-${file.fieldname}${fileExtension}`
+      const putObjectCommand = new PutObjectCommand({
+        Bucket: bucketName,
+        ACL: "public-read",
+        Key: key,
+        Body: fileBuffer,
+        ContentType: file.mimetype,
+      });
+
+      console.info('uploading to s3 object storage..')
+
+      // NOT AWAITING THE RESPONSE, MAY NEED TO DO IT TO CHECK FOR UPLOAD ERRORS
+      s3Client.send(putObjectCommand);
+
+      console.info(`Uploaded ${key} to ${bucketName}/${key}`)
+      return { [file.fieldname]: getObjectStorageUri(key, bucketName, process.env.OBJECT_STORAGE_REGION) };
+
+    })
     ).then(
-        _uploadedFiles => {
-          _uploadedFiles.forEach(file => Object.assign(uploadedFiles, file))
+      _uploadedFiles => {
+        _uploadedFiles.forEach(file => Object.assign(uploadedFiles, file))
       })
-    
+
     return uploadedFiles
 
   } catch (error: any) {
@@ -155,4 +145,13 @@ async function uploadImageToS3ObjectStore(files: any[], bucketName: string): Pro
   }
 }
 
-type ImagePath = Record<string, string>
+type ImagePaths = Record<string, string>
+
+type File = {
+  fieldname: string;
+  originalname: string;
+  encoding: string;
+  mimetype: string;
+  buffer: Buffer;
+  size: number;
+}

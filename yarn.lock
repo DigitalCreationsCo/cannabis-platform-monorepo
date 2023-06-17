@@ -3686,6 +3686,7 @@ __metadata:
     pm2: ^5.2.2
     prettier: 2.8.0
     rimraf: 4.4.1
+    sharp: 0.32.1
     stripe: 11.15.0
     supertest: 6.3.3
     tesseract.js: 3.0.2
@@ -3860,13 +3861,12 @@ __metadata:
     "@typescript-eslint/parser": 5.45.0
     autoprefixer: 10.4.13
     axios: 1.2.1
-    boarding.js: ^3.5.2
+    boarding.js: 3.5.2
     cors: 2.8.5
     date-fns: 2.29.3
     dotenv: 16.0.3
     dotenv-cli: 7.0.0
     dotenv-expand: 10.0.0
-    driver.js: 0.9.8
     eslint: 8.29.0
     eslint-config-next: 13.0.6
     eslint-plugin-import: 2.26.0
@@ -9688,7 +9688,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"boarding.js@npm:^3.5.2":
+"boarding.js@npm:3.5.2":
   version: 3.5.2
   resolution: "boarding.js@npm:3.5.2"
   checksum: 197411cfede93624d90d8f2c803840701437ccbfd19b98f8c5154d00bfbdeafedadb3397863c56d7740530064d3288a36cf1cbaf6c1b708b9effeccb9b1f32f0
@@ -12993,13 +12993,6 @@ __metadata:
     yup: 0.32.11
   languageName: unknown
   linkType: soft
-
-"driver.js@npm:0.9.8":
-  version: 0.9.8
-  resolution: "driver.js@npm:0.9.8"
-  checksum: 6a98cfef195aa536df9a6b906e9084e73d4206cdaabee56d4aa75797329ea2574c01d417a88d876ef6913e328899a9b39321a3283d09835f36c10d20c7266af6
-  languageName: node
-  linkType: hard
 
 "dts-bundle@npm:0.7.3":
   version: 0.7.3
