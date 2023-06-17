@@ -17,12 +17,11 @@ function UserSignUpQuickForm() {
     }
     
     useEffect(() => {
-        // startTour()
+        startTour()
     }, [])
     
     const { nextFormStep, prevFormStep, setFormValues, formValues } = useFormContext();
     
-    console.log('formvalues: ', formValues);
     const [loadingButton, setLoadingButton] = useState(false);
 
     const initialValues = {

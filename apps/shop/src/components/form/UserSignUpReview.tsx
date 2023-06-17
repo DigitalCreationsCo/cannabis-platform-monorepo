@@ -2,7 +2,6 @@ import { getShopSite, renderNestedDataObject, selectUserState, TextContent } fro
 import { Button, FlexBox, Grid, H2, H3, Paragraph, SignInButton } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
-import Router from 'next/router';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
@@ -15,9 +14,12 @@ function UserSignUpReview () {
     const { formValues, resetFormValues } = useFormContext();
 
     async function createNewUser () {
-        // send signupcomplete flag and other bool flags
+        // if there is a valid form state, send the create POST request
 
+        // send signupcomplete flag and other bool flags
         // send any required memberships
+
+        // if successful, clear the form state
     }
     
     useEffect(() => {
@@ -26,21 +28,26 @@ function UserSignUpReview () {
     }, [])
 
     useEffect(() => {
-        resetFormValues();
-    }, [])
+        // prevent user from going back to previous page ( build this into the formstepprovider )
+        const handleBeforeUnload = (event: any) => {
+            event.preventDefault();
+            event.returnValue = '';
+          };
+      
+          const handlePopstate = () => {
+            window.history.pushState(null, document.title, window.location.href);
+          };
+      
+          // Disable going back to previous form/page
+          window.addEventListener('beforeunload', handleBeforeUnload);
+          window.addEventListener('popstate', handlePopstate);
+      
+          return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+            window.removeEventListener('popstate', handlePopstate);
+          };
+    }, []);
 
-    useEffect(() => {
-        // Disable going back to previous form/page
-        // history.block((location, action) => {
-        //   if (action === 'POP') {
-        //     return false;
-        //   }
-        // });
-        Router.beforePopState(() => false);
-        // Test this
-      }, []);
-
-    console.log('formvalues', formValues);
     const 
     imageSrc = formValues?.newUser?.imageUser?.[0].location;
 
