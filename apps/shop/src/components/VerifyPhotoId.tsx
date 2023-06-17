@@ -75,7 +75,7 @@ const VerifyPhotoId = () => {
                             idFrontImage:  response.images.idFrontImage,
                             idBackImage: response.images.idBackImage,
                         } 
-                    })
+                    });
 
                     nextFormStep();
                     setLoadingButton(false);

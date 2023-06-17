@@ -1,6 +1,6 @@
 import {
     Button,
-    FlexBox, Grid, H3, Paragraph, TextField
+    FlexBox, Grid, H3, H6, Paragraph, TermsAgreement, TextField
 } from '@cd/ui-lib';
 import { useFormContext } from 'components';
 import { useFormik } from 'formik';
@@ -29,6 +29,7 @@ function UserSignUpQuickForm() {
         email: formValues?.newUser?.email || '',
         phone: formValues?.newUser?.phone || '',
         dialCode: formValues?.newUser?.dialCode || '1',
+        termsAccepted: false,
     };
 
     const validationSchema = yup.object().shape({
@@ -36,6 +37,13 @@ function UserSignUpQuickForm() {
         email: yup.string().email('invalid email').required('Email is required'),
         phone: yup.string().required('Phone number is required').length(10, 'Phone number must be 10 digits'),
         dialCode: yup.string().required('Dialing code is required'),
+        termsAccepted: yup
+            .bool()
+            .test(
+                'termsAccepted',
+                'Please read and agree to our User Terms and Conditions.',
+                (value) => value === true
+            ),
     });
 
     const onSubmit = async (values: typeof initialValues) => {
@@ -126,6 +134,22 @@ function UserSignUpQuickForm() {
                     error={!!touched.email && !!errors.email}
                     helperText={touched.email && errors.email}
                 />
+                <TermsAgreement
+                        name="termsAccepted"
+                        onChange={handleChange}
+                        checked={values?.termsAccepted || false}
+                        helperText={touched.termsAccepted && errors.termsAccepted || ''}
+                        error={!!touched.termsAccepted && !!errors.termsAccepted}
+                        description={
+                            <>
+                                {`Before creating an account for Gras Cannabis Marketplace, you will agree to our `}
+                                <a href="/" target="_blank" rel="noreferrer noopener">
+                                    <H6 className={'border-b-2 inline-block'}>User Terms and Conditions</H6>.
+                                </a>
+                            </>
+                        }
+                        label={`I agree to the User Terms and Conditions`}
+                    />
                 <FlexBox className='justify-center flex-row space-x-4 py-2'>
                     <Button 
                     loading={loadingButton}

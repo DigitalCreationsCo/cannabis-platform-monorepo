@@ -7,19 +7,13 @@ import {
     TextField
 } from '@cd/ui-lib';
 import { useFormik } from 'formik';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
 import * as yup from 'yup';
 
 function UserSignUpForm() {
-    const dispatch = useDispatch();
 
     const [loadingButton, setLoadingButton] = useState(false);
-    const [passwordVisibility, setPasswordVisibility] = useState(false);
-    const togglePasswordVisibility = useCallback(() => {
-        setPasswordVisibility((visible) => !visible);
-    }, []);
 
     const initialValues: Omit<UserCreateType, "address"> & { address: AddressUserCreateType } = {
         firstName: 'Bryant',

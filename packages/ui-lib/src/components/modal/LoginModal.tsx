@@ -98,7 +98,7 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
                 <Grid className="space-y-2">
 
                     <TextField
-                        containerClassName='w-2/3 m-auto lg:flex-col lg:items-start shadow'
+                        containerClassName='w-2/3 m-auto lg:flex-col lg:items-start'
                         className="my-2 border text-md"
                         autoComplete='off'
                         type='text'

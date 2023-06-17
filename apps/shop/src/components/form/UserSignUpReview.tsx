@@ -1,30 +1,68 @@
-import { getShopSite, renderNestedDataObject, selectUserState, TextContent } from '@cd/core-lib';
+import { getShopSite, renderNestedDataObject, selectUserState, TextContent, urlBuilder, userActions } from '@cd/core-lib';
 import { Button, FlexBox, Grid, H2, H3, Paragraph, SignInButton } from '@cd/ui-lib';
+import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
+import { useAppDispatch } from 'redux/hooks';
 import { useFormContext } from './FormStepProvider';
 
 function UserSignUpReview () {
 
-    const { user, isSignedIn } = useSelector(selectUserState)
+    const 
+    dispatch = useAppDispatch(),
+    { user, isSignedIn } = useSelector(selectUserState)
+
+    const [account, setAccount] = useState(null);
+
+    const { formValues, setFormValues, resetFormValues } = useFormContext();
     
-    const { formValues, resetFormValues } = useFormContext();
-
     async function createNewUser () {
-        // if there is a valid form state, send the create POST request
+        try {
 
-        // send signupcomplete flag and other bool flags
-        // send any required memberships
+            setFormValues({ 
+                newUser: { 
+                    sSignUpComplete: true,
+                }
+            });
 
-        // if successful, clear the form state
+            const response = await axios.post(
+                urlBuilder.shop + '/api/user', 
+                formValues?.newUser,
+                { validateStatus: status => (status >= 200 && status < 300) || status == 404 }
+                );
+
+                console.log('response: ', response)
+
+                if (response.status !== 201)
+                throw new Error(response.data);
+
+                const
+                createdAccount = response.data;
+
+                setAccount(createdAccount);
+
+                return createdAccount;
+
+        }
+        catch (error: any) {
+            console.log('User Create Error: ', error);
+            toast.error(error.message);
+        }
     }
     
     useEffect(() => {
-        createNewUser()
-        toast.success(TextContent.account.ACCOUNT_IS_CREATED);
+        async function createNewUserAndUpdateUserState () {
+            const user = await createNewUser()
+            resetFormValues();
+
+            dispatch(userActions.signinUserSync(user));
+            toast.success(TextContent.account.ACCOUNT_IS_CREATED);
+        }
+
+        createNewUserAndUpdateUserState();
     }, [])
 
     useEffect(() => {
@@ -57,12 +95,16 @@ function UserSignUpReview () {
 
             <Paragraph>{`Welcome to Gras. ${TextContent.account.ENTER_OR_GO_TO_ACCOUNT}`}</Paragraph>
             <div className={styles.renderList}>
+                { account &&
+                <>
                 <FlexBox>
-                    <H3>{formValues?.newUser?.username}</H3>
-                    {imageSrc && <Image src={imageSrc} alt={formValues.newUser?.username as string} />}
-                </FlexBox>
-
-                {renderNestedDataObject(formValues?.newUser, Paragraph, ['createdAt', 'updatedAt', 'emailVerified', 'imageUser', 'idFrontImage', 'idBackImage'])}
+                    <H3>{user.username}</H3>
+                    {imageSrc && <Image src={imageSrc} alt={user.username} />}
+                    </FlexBox>
+                { renderNestedDataObject(user, Paragraph, ['createdAt', 'updatedAt', 'emailVerified', 'imageUser', 'idFrontImage', 'idBackImage']) }
+                </>
+                }
+                { !account && <Paragraph className='animate-pulse'>Creating your account...</Paragraph>}
             </div>
 
             { isSignedIn ? <FlexBox className='m-auto flex-row space-x-4 pb-20'>
