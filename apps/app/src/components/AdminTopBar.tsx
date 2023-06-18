@@ -70,7 +70,7 @@ function AdminTopBar({ signOut }: TopBarProps) {
             ) : (
                 <FlexBox>
                     <Button 
-                    className='px-4'
+                    className='px-4 pt-1'
                     size='sm' 
                     bg='transparent' 
                     hover='transparent'

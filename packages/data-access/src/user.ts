@@ -302,14 +302,9 @@ export async function upsertDispensaryAdmin(userData: UserCreateType, createPara
                     ],
                 },
                 memberships: {
-                    connectOrCreate: {
-                        where: {
-                            id: userData?.memberships?.[0].id ?? undefined,
-                        },
-                        create: {
-                            role: createParams["role"] as MembershipRole,
-                            organizationId: createParams["dispensaryId"],
-                        }
+                    create: {
+                        role: createParams["role"] as MembershipRole,
+                        organizationId: createParams["dispensaryId"],
                     }
                 },
             },
@@ -327,27 +322,17 @@ export async function upsertDispensaryAdmin(userData: UserCreateType, createPara
                         { ...addressData },
                     ],
                 },
-                memberships: !!userData.memberships?.[0]?.id ? {
-                    connectOrCreate: {
-                        where: {
-                            id: userData?.memberships?.[0].id ?? undefined,
-                        },
-                        create: {
-                            role: createParams["role"] as MembershipRole,
-                            organizationId: createParams["dispensaryId"],
-                        },
-                    }
-                } : {
+                memberships: {
                     create: {
                         role: createParams["role"] as MembershipRole,
                         organizationId: createParams["dispensaryId"],
-                    }
-                },
+                    },
+                }
             },
             include: {
                 memberships: true
             }
-        })
+        });
 
         console.log('admin user upsert: ', user.email)
         return user;
