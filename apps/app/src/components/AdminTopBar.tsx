@@ -44,7 +44,7 @@ function AdminTopBar({ signOut }: TopBarProps) {
                     <Image alt="Gras" width={50} height={50} src={logo} />
                 </Link>
                 <Link href={getUserHome()}>
-                    <H2 className="pt-1">Gras</H2>
+                    <H2 className="pt-0.5">Gras</H2>
                 </Link>
             </div>
             <Link href={getUserHome()}>

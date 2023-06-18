@@ -10,45 +10,55 @@ import {
 } from '@cd/core-lib/src/reduxDir/middleware';
 import { combineReducers, configureStore, Store } from '@reduxjs/toolkit';
 // import { deserialize, serialize } from 'json-immutable';
-// import { createWrapper } from 'next-redux-wrapper';
+import { createWrapper, HYDRATE } from 'next-redux-wrapper';
+import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 import { signInEmailPassword, signUpEmailPassword } from 'supertokens-auth-react/recipe/emailpassword';
 import { signOut } from 'supertokens-auth-react/recipe/session';
 
-import { HYDRATE } from 'next-redux-wrapper';
-import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
-
 const rootReducer = combineReducers({
-    modal: modalReducer,
-    user: userReducer,
+  modal: modalReducer,
+  user: userReducer,
 });
 
 const hydratableReducer = (state, action) => {
   if (action.type === HYDRATE) {
-      return {
-        ...state, // use previous state
-        // ...action.payload // apply delta from hydration
+    return {
+      ...state, // use previous state
+      // ...action.payload // apply delta from hydration
     };
-  } else if(action.type === REHYDRATE) {
-      return { 
-        ...state,
-        // ...action.payload // apply delta from hydration
+  } else if (action.type === REHYDRATE) {
+    return {
+      ...state,
+      // ...action.payload // apply delta from hydration
     };
   } else {
-      return rootReducer(state, action);
+    return rootReducer(state, action);
   }
 };
 
-const supertokens = () => {
-    return { signInEmailPassword, signUpEmailPassword, signOut };
+const bindMiddleware = (middleware) => {
+  if (process.env.NODE_ENV !== 'production') {
+    return composeWithDevTools(applyMiddleware(...middleware));
+  }
+  return applyMiddleware(
+    ...middleware,
+    locationMiddleware,
+    crashMiddleware,
+    loggerMiddleware
+  );
 };
 
-export default (initialState) => {
+const supertokens = () => {
+  return { signInEmailPassword, signUpEmailPassword, signOut };
+};
+
+const makeStore = () => {
   let store;
 
   const isClient = typeof window !== 'undefined';
 
-  const thunkArguments: {store: Store | null, supertokens: any } = { store: null, supertokens: supertokens() };
+  const thunkArguments: { store: Store | null, supertokens: any } = { store: null, supertokens: supertokens() };
 
   if (isClient) {
     const persistConfig = {
@@ -57,38 +67,35 @@ export default (initialState) => {
       storage
     };
 
-
     store = configureStore({
       reducer: persistReducer(persistConfig, rootReducer),
-      preloadedState: initialState,
       middleware: getDefaultMiddleware =>
         getDefaultMiddleware({
-            serializableCheck: {
-                ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
-            },
-            thunk: {
-                extraArgument: thunkArguments
-            }
+          serializableCheck: {
+            ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
+          },
+          thunk: {
+            extraArgument: thunkArguments
+          },
+          bindMiddleware
         })
-        .concat([crashMiddleware, loggerMiddleware])
     });
 
-     store._persistor = persistStore(store);
-     
+    store._persistor = persistStore(store);
+
   } else {
     store = configureStore({
       reducer: hydratableReducer,
-      preloadedState: initialState,
       middleware: getDefaultMiddleware =>
         getDefaultMiddleware({
-            serializableCheck: {
-                ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
-            },
-            thunk: {
-                extraArgument: thunkArguments
-            }
+          serializableCheck: {
+            ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
+          },
+          thunk: {
+            extraArgument: thunkArguments
+          },
+          bindMiddleware
         })
-        .concat([crashMiddleware, loggerMiddleware])
     });
   }
 
@@ -97,6 +104,18 @@ export default (initialState) => {
   return store;
 };
 
-export type RootState = ReturnType<typeof store.getState>;
-
+export type AppStore = ReturnType<typeof makeStore>;
 export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>;
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  RootState,
+  unknown,
+  Action<string>
+>;
+
+export const wrapper = createWrapper<AppStore>(makeStore, {
+  // debug: process.env.NODE_ENV !== 'production',
+  // serializeState: (state) => serialize(state),
+  // deserializeState: (state) => deserialize(state)
+});
