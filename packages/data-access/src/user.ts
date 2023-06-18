@@ -523,7 +523,7 @@ export async function findUserWithDetailsById(id: string): Promise<UserWithDetai
 
 export type UserWithDetails = User & Omit<User, "createdAt" | "updatedAt"> & {
     address: AddressWithDetails[]
-    imageUser?: ImageUser[] | null
+    profilePicture: ImageUser | null
     memberships?: Membership[] | null
     orders?: OrderWithDetails[]
     preferences?: null

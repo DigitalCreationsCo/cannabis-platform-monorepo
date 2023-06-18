@@ -24,7 +24,7 @@ function CartPage() {
     
     const bagIsEmpty = useSelector(selectIsCartEmpty) as boolean;
     return (
-        <Page className='bg-inverse-soft'>
+        <Page className='pt-8 bg-inverse-soft'>
             <Head>
                 <title>Grascannabis.org My Shopping Bag</title>
                 <meta name="Gras App" content="Built by Gras Cannabis Co." />

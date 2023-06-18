@@ -52,7 +52,7 @@ function Button({ className, expandWidget, setExpandWidget, name }: WidgetViewPr
             </div>
             
             <div>
-            <CloseButton theme={'light'} className="relative p-4 border" onClick={closeWidget} />
+            <CloseButton theme={'light'} className="relative p-4 border" onClick={(e) => closeWidget(e)} />
             </div>
             
         </div> :

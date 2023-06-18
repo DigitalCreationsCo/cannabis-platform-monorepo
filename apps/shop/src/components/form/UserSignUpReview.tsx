@@ -30,6 +30,7 @@ function UserSignUpReview () {
             });
 
             console.log('form values: ', formValues)
+            console.log('form values stringify: ', JSON.stringify(formValues));
             const response = await axios.post(
                 urlBuilder.shop + '/api/user', 
                 formValues?.newUser,
@@ -51,6 +52,8 @@ function UserSignUpReview () {
         }
         catch (error: any) {
             console.log('User Create Error: ', error);
+            throw new Error(error.message);
+            
             toast.error(error.message);
         }
     }
@@ -78,21 +81,21 @@ function UserSignUpReview () {
 
     useEffect(() => {
         // prevent user from going back to previous page ( build this into the formstepprovider )
-        const handleBeforeUnload = (event: any) => {
-            event.preventDefault();
-            event.returnValue = '';
-          };
+        // const handleBeforeUnload = (event: any) => {
+        //     event.preventDefault();
+        //     event.returnValue = '';
+        //   };
       
           const handlePopstate = () => {
             window.history.pushState(null, document.title, window.location.href);
           };
       
           // Disable going back to previous form/page
-          window.addEventListener('beforeunload', handleBeforeUnload);
+        //   window.addEventListener('beforeunload', handleBeforeUnload);
           window.addEventListener('popstate', handlePopstate);
       
           return () => {
-            window.removeEventListener('beforeunload', handleBeforeUnload);
+            // window.removeEventListener('beforeunload', handleBeforeUnload);
             window.removeEventListener('popstate', handlePopstate);
           };
     }, []);
@@ -112,7 +115,7 @@ function UserSignUpReview () {
                     <H3>{user.username}</H3>
                     {imageSrc && <Image src={imageSrc} alt={user.username} />}
                     </FlexBox>
-                { renderNestedDataObject(user, Paragraph, ['createdAt', 'id', 'updatedAt', 'emailVerified', 'imageUser', 'idFrontImage', 'idBackImage']) }
+                { renderNestedDataObject(account, Paragraph, ['coordinateId', 'latitude', 'longitude', 'location', 'userId', 'scannedDOB', 'createdAt', 'id', 'updatedAt', 'emailVerified', 'imageUser', 'idFrontImage', 'idBackImage']) }
                 </>
                 }
                 { !account && <Paragraph className='animate-bounce pt-1'>Creating your account...</Paragraph>}
@@ -131,7 +134,7 @@ function UserSignUpReview () {
                         </Button>
                     </Link>
                     </>) : 
-                <SignInButton />
+                <SignInButton bg='primary' />
                 }
             </FlexBox> 
             
