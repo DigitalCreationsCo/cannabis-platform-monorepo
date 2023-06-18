@@ -16,17 +16,23 @@ const getCoordinatesByAddressString = async (addressString: string): Promise<{
 	longitude: any;
 } | null> => {
 	try {
-		const geocodeUrl = process.env.NEXT_PUBLIC_LOCATION_IQ_GEOCODE_URL
+		const
+			geocodeUrl = process.env.NEXT_PUBLIC_LOCATION_IQ_GEOCODE_URL
 
-		const { data } = await axios(geocodeUrl, {
-			params: {
-				key: process.env.NEXT_PUBLIC_LOCATION_IQ_API_KEY,
-				q: addressString,
-				format: 'json',
-			}
-		})
-		const { lat: latitude, lon: longitude } = data[0];
-		const coordinates = { latitude, longitude };
+		const
+			response = await axios(geocodeUrl, {
+				params: {
+					key: process.env.NEXT_PUBLIC_LOCATION_IQ_API_KEY,
+					q: addressString,
+					format: 'json',
+				}
+			});
+
+		const
+			{ lat: latitude, lon: longitude } = response.data[0],
+
+			coordinates = { latitude, longitude };
+
 		return coordinates || null;
 	} catch (error) {
 		console.log('Error getting coordinates: ', error);

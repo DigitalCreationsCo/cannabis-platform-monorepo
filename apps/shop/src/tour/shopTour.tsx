@@ -1,9 +1,8 @@
 import { Boarding } from "boarding.js";
 import "boarding.js/styles/main.css";
-// optionally include the base theme
 import "boarding.js/styles/themes/basic.css";
 
-const newUserTour = new Boarding();
+const shopTour = new Boarding();
 const tourSteps = [
   {
     element: '#step1',
@@ -21,6 +20,6 @@ const tourSteps = [
   },
   // Add more steps as needed
 ];
-newUserTour.defineSteps(tourSteps);
+shopTour.defineSteps(tourSteps);
 
-export { newUserTour };
+export { shopTour };

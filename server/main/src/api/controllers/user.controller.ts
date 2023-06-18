@@ -21,37 +21,6 @@ signup                  not used
 ================================= */
 
 export default class UserController {
-    // static async signin(req, res) {
-    //     try {
-    //         const userLoginData = req.body;
-    //         const user = await UserDA.signin(userLoginData);
-
-    //         // create a data func to save this session.userDataInAccessToken in db
-    //         const sessionPayload:SessionPayload = { userId: user.id, username: user.username, email: user.email };
-
-    //         const session = await STSession.createNewSession(res, user.id, sessionPayload, { data: 'SESSION TEST DATA' }, user)
-
-    //         // create session here
-
-    //         return res.status(200).json(session);
-    //     } catch (error: any) {
-    //         console.log('API error: ', error);
-    //         res.status(500).json({ error });
-    //     }
-    // }
-
-    // untested
-    // static async signout(req, res) {
-    //     try {
-    //         const session = req.body;
-    //         await UserDA.signout(session);
-    //         return res.status(200);
-    //     } catch (error: any) {
-    //         console.log('API error: ', error);
-    //         res.status(500).json({ error });
-    //     }
-    // }
-
 
     static async createUser(req, res) {
         try {
@@ -62,19 +31,16 @@ export default class UserController {
             // address data comes as an object, but we need it as an array per data schema
             const user: UserCreateType = { ...rawUser, address: [rawUser.address] }
 
-            console.log('user: ', user)
-
             const
                 coordinates = await getGeoCoordinatesByAddress(user.address[0]);
 
             if (coordinates)
                 user.address[0].coordinates = coordinates;
 
-            console.log('coordinates: ', coordinates)
-
             const
                 data = await UserDA.upsertUser(user)
 
+            console.log('user created: ', data);
             if (!data)
                 return res.status(404).json('User could not be created.');
 

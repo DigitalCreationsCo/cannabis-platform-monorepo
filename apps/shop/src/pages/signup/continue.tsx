@@ -26,7 +26,7 @@ function ContinueSignUp() {
     
     return (
         <Page className={twMerge(styles.gradient, "pb-0 md:pb-24")}>
-            <Card className='m-auto bg-inverse-soft space-y-2'>
+            <Card className='m-auto bg-inverse-soft space-y-2 h-full'>
                 <H2 id='verify-id-step-1'>Welcome to Gras</H2>
                 <FormStepProvider 
                 FormStepComponents={FormStepComponents}

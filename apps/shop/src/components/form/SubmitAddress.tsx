@@ -6,9 +6,19 @@ import { useFormContext } from 'components';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { submitAddressTour } from 'tour/submitAddressTour';
 import * as yup from 'yup';
 
 function SubmitAddressForm() {
+
+    function startTour () {
+        if (!submitAddressTour.isActivated)
+        submitAddressTour.start();
+    }
+    
+    useEffect(() => {
+        startTour()
+    }, [])
 
     const { nextFormStep, prevFormStep, setFormValues, formValues } = useFormContext();
     
@@ -20,7 +30,7 @@ function SubmitAddressForm() {
             street2: '',
             city: '',
             state: '',
-            zipcode: '',
+            zipcode: null,
             country: 'United States',
             countryCode: 'US',
         }
@@ -76,10 +86,14 @@ function SubmitAddressForm() {
         document.addEventListener('keydown', keyDownHandler);
         return () => document.removeEventListener('keydown', keyDownHandler);
     }, []);
+
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, []);
     
     return (
             <form onSubmit={(e) => {e.preventDefault();e.stopPropagation();handleSubmit();}}>
-                <H3>{`Tell us where to deliver`}</H3>
+                <H3 id="submit-address-step-1">{`Tell us where to deliver`}</H3>
                 <Grid className="space-y-4">
                 <Paragraph>* Please fill the required fields.</Paragraph>
                     <TextField
@@ -127,7 +141,8 @@ function SubmitAddressForm() {
                         name="address.zipcode"
                         label="* zipcode"
                         placeholder="Zipcode"
-                        value={values?.address?.zipcode}
+                        type='number'
+                        value={values?.address?.zipcode || ''}
                         onBlur={handleBlur}
                         onChange={handleChange}
                         error={!!touched?.address?.zipcode && !!errors?.address?.zipcode}
@@ -153,6 +168,7 @@ function SubmitAddressForm() {
                         }}
                         >go back</Button>
                         <Button
+                        id="submit-address-step-2"
                             className="place-self-center"
                             loading={loadingButton}
                             onClick={(e) => {

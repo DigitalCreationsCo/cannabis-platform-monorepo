@@ -49,8 +49,6 @@
   },
   "private": true,
   "scripts": {
-    "seed2": "npx babel-node ./src/db/seed.js",
-    "seedOLD": "nnode --loader ts-node/esm ./src/db/seed.mts",
     "build": "rimraf ./dist && tsup",
     "clean": "rimraf ./dist ./coverage ./tsconfig.tsbuildinfo",
     "debug-test-e2e": "cross-env DEBUG=testcontainers vitest run $@",
@@ -61,7 +59,7 @@
     "db-clear": "dotenv -e ../../.env.development -- node --loader ts-node/esm ./src/db/clear.mts",
     "db-push": "dotenv -e ../../.env.development -- yarn prisma db push",
     "db-seed": "npx prisma generate && dotenv -e ../../.env.development -- yarn prisma db seed",
-    "db-migrate": "dotenv -e ../../.env.development  -- yarn prisma migrate dev",
+    "db-migrate": "dotenv -e ../../.env.development -- yarn prisma migrate dev",
     "db-migrate-reset": "dotenv -e ../../.env.development -- yarn prisma migrate reset",
     "prisma-studio": "dotenv -e ../../.env.development -- yarn prisma studio",
     "test": "run-s test:unit",

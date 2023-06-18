@@ -10,7 +10,6 @@ type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
     containerClassName?: string;
     maxNumber?: number;
     name?: string;
-    type?: string;
     label?: string;
     justifyLabel?: 'left' | 'center' | 'right'
     value?: string | number;

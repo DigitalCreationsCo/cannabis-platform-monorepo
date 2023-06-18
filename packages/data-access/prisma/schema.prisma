@@ -68,8 +68,6 @@ model User {
   
   profilePicture    ImageUser?
   address Address[]
-  passwordHash String?
-  passwordResetToken String?
   dialCode String
   phone String @unique
   accounts      Account[]
@@ -194,7 +192,7 @@ model ImageUser {
   id String @id @default(cuid()) @unique
   location String
   userId String @unique
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   blurhash String?
 
   createdAt      DateTime         @default(now())
@@ -354,8 +352,6 @@ model Organization {
   address Address @relation("organizationAddress", fields: [addressId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   dialCode String
   phone String @unique
-  // email String @unique
-  // emailVerified Boolean @default(false)
   images ImageOrganization[]
   memberships Membership[]
   products Product[]

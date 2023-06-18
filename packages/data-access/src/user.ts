@@ -1,3 +1,4 @@
+import { createId } from "@paralleldrive/cuid2";
 import { ImageUser, Membership, MembershipRole, Prisma, User } from "@prisma/client";
 import { AddressWithDetails } from "./address";
 import prisma from "./db/prisma";
@@ -17,48 +18,71 @@ import { OrderWithDetails } from "./order";
 */
 export async function createUser(userData: UserCreateType) {
     try {
-        const user = await prisma.user.create({
-            data: {
-                email: userData.email,
-                emailVerified: false,
-                username: userData.username,
-                firstName: userData.firstName,
-                lastName: userData.lastName,
-                // passwordHash: userData.passwordHash,
-                termsAccepted: true,
-                dialCode: userData.dialCode,
-                phone: userData.phone,
-                // address: userData.address.map(address => ({
-                //     create: {
-                //         street1: address.street1,
-                //         street2: address.street2,
-                //         city: address.city,
-                //         state: address.state,
-                //         zipcode: address.zipcode,
-                //         country: address.country,
-                //         countryCode: address.countryCode,
-                //         coordinates: {
-                //             create: {
-                //                 latitude: Number(address.coordinates?.latitude),
-                //                 longitude: Number(address.coordinates?.longitude)
-                //             }
-                //         }
-                //     }
-                // })),
-                address: {
-                    create: userData.address.map((address: any) => address)
-                },
-                profilePicture: {
-                    create: {
-                        location: userData.profilePicture?.location,
+
+        let
+            newId = createId();
+
+        const
+            user = await prisma.user.create({
+                data: {
+                    id: userData.id ?? newId,
+                    email: userData.email,
+                    emailVerified: userData.emailVerified ?? false,
+                    username: userData.username,
+                    firstName: userData.firstName,
+                    lastName: userData.lastName,
+                    termsAccepted: true,
+                    dialCode: userData.dialCode,
+                    phone: userData.phone,
+                    isLegalAge: userData.isLegalAge,
+                    idVerified: userData.idVerified,
+                    idBackImage: userData.idBackImage,
+                    idFrontImage: userData.idFrontImage,
+                    isSignUpComplete: true,
+                    scannedDOB: userData.scannedDOB,
+                    address: {
+                        create: userData.address.map((address: any) => ({
+                            street1: address.street1,
+                            street2: address.street2,
+                            city: address.city,
+                            state: address.state,
+                            zipcode: address.zipcode,
+                            country: address.country,
+                            countryCode: address.countryCode,
+                            coordinates: {
+                                create: {
+                                    latitude: Number(address.coordinates?.latitude),
+                                    longitude: Number(address.coordinates?.longitude)
+                                }
+                            }
+                        }))
+                    },
+                    profilePicture: {
+                        connectOrCreate: {
+                            where: {
+                                userId: userData.id ?? newId,
+                            },
+                            create: {
+                                id: userData.id ?? newId,
+                                location: userData.profilePicture?.location,
+                            }
+                        }
                     }
+                },
+                include: {
+                    address: {
+                        include: {
+                            coordinates: true
+                        }
+                    },
+                    profilePicture: true,
                 }
-            },
-        })
+            })
 
         console.log('user created: ', user.email)
         return user;
     } catch (error: any) {
+        console.info('upsert user error: ', error);
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             if (error.code === 'P2002') {
                 throw new Error('This user exists already. Please choose a different username or email.')
@@ -70,92 +94,121 @@ export async function createUser(userData: UserCreateType) {
 
 export async function upsertUser(userData: UserCreateType) {
     try {
-        const user = await prisma.user.upsert({
-            where: {
-                email: userData.email,
-            },
-            create: {
-                email: userData.email,
-                emailVerified: false,
-                username: userData.username,
-                firstName: userData.firstName,
-                lastName: userData.lastName,
-                termsAccepted: true,
-                dialCode: userData.dialCode,
-                phone: userData.phone,
-                // address: userData.address.map(address => ({
-                //     create: {
-                //         street1: address.street1,
-                //         street2: address.street2,
-                //         city: address.city,
-                //         state: address.state,
-                //         zipcode: address.zipcode,
-                //         country: address.country,
-                //         countryCode: address.countryCode,
-                //         coordinates: {
-                //             latitude: Number(address.coordinates?.latitude),
-                //             longitude: Number(address.coordinates?.longitude)
-                //         }
-                //     }
-                // })),
-                address: userData.address.map((address: any) => address)
-                ,
-                // create: {
-                //     ...addressData,
-                //     coordinates: {
-                //         create: {
-                //             latitude: Number(coordinates?.latitude),
-                //             longitude: Number(coordinates?.longitude)
-                //         }
-                //     }
-                // },
-                profilePicture: userData.profilePicture ? {
-                    create: {
-                        ...userData.profilePicture
-                    }
-                } : undefined,
-            },
-            update: {
-                email: userData.email,
-                emailVerified: false,
-                username: userData.username,
-                firstName: userData.firstName,
-                lastName: userData.lastName,
-                // passwordHash: userData.passwordHash,
-                termsAccepted: true,
-                dialCode: userData.dialCode,
-                phone: userData.phone,
-                // address: userData.address.map(address => ({
-                //     create: {
-                //         street1: address.street1,
-                //         street2: address.street2,
-                //         city: address.city,
-                //         state: address.state,
-                //         zipcode: address.zipcode,
-                //         country: address.country,
-                //         countryCode: address.countryCode,
-                //         coordinates: {
-                //             create: {
-                //                 latitude: Number(address.coordinates?.latitude),
-                //                 longitude: Number(address.coordinates?.longitude)
-                //             }
-                //         }
-                //     }
-                // })),
-                address: {
-                    create: userData.address.map((address: any) => address)
-                },
-                profilePicture: userData.profilePicture ? {
-                    create: {
-                        ...userData.profilePicture
-                    }
-                } : undefined,
-            }
-        })
 
-        console.log('user created: ', user.email)
+        let
+            newId = createId();
+
+        const
+            user = await prisma.user.upsert({
+                where: {
+                    email: userData.email,
+                },
+                create: {
+                    id: userData.id ?? newId,
+                    email: userData.email,
+                    emailVerified: userData.emailVerified ?? false,
+                    username: userData.username,
+                    firstName: userData.firstName,
+                    lastName: userData.lastName,
+                    termsAccepted: true,
+                    dialCode: userData.dialCode,
+                    phone: userData.phone,
+                    isLegalAge: userData.isLegalAge,
+                    idVerified: userData.idVerified,
+                    idBackImage: userData.idBackImage,
+                    idFrontImage: userData.idFrontImage,
+                    isSignUpComplete: true,
+                    scannedDOB: userData.scannedDOB,
+                    address: {
+                        create: userData.address.map((address: any) => ({
+                            street1: address.street1,
+                            street2: address.street2,
+                            city: address.city,
+                            state: address.state,
+                            zipcode: address.zipcode,
+                            country: address.country,
+                            countryCode: address.countryCode,
+                            coordinates: {
+                                create: {
+                                    latitude: Number(address.coordinates?.latitude),
+                                    longitude: Number(address.coordinates?.longitude)
+                                }
+                            }
+                        }))
+                    },
+                    profilePicture: {
+                        connectOrCreate: {
+                            where: {
+                                userId: userData.id ?? newId,
+                            },
+                            create: {
+                                id: userData.id ?? newId,
+                                location: userData.profilePicture?.location,
+                            }
+                        }
+                    }
+                },
+                update: {
+                    email: userData.email,
+                    emailVerified: userData.emailVerified ?? false,
+                    username: userData.username,
+                    firstName: userData.firstName,
+                    lastName: userData.lastName,
+                    termsAccepted: true,
+                    dialCode: userData.dialCode,
+                    phone: userData.phone,
+                    isLegalAge: userData.isLegalAge,
+                    idVerified: userData.idVerified,
+                    idBackImage: userData.idBackImage,
+                    idFrontImage: userData.idFrontImage,
+                    isSignUpComplete: true,
+                    scannedDOB: userData.scannedDOB,
+                    address: {
+                        create: userData.address.map((address: any) => ({
+                            street1: address.street1,
+                            street2: address.street2,
+                            city: address.city,
+                            state: address.state,
+                            zipcode: address.zipcode,
+                            country: address.country,
+                            countryCode: address.countryCode,
+                            coordinates: {
+                                create: {
+                                    latitude: Number(address.coordinates?.latitude),
+                                    longitude: Number(address.coordinates?.longitude)
+                                }
+                            }
+                        }))
+                    },
+                    profilePicture: {
+                        connectOrCreate: {
+                            where: {
+                                userId: userData.id ?? newId,
+                            },
+                            create: {
+                                id: userData.id ?? newId,
+                                location: userData.profilePicture?.location,
+                            }
+                        }
+                    }
+                },
+                include: {
+                    address: {
+                        include: {
+                            coordinates: true
+                        }
+                    },
+                    profilePicture: true,
+                    memberships: true,
+                    orders: true,
+                    purchases: true,
+                }
+            });
+
+        console.log('user upserted: ', user.email)
         return user;
     } catch (error: any) {
+        console.info('upsert user error: ', error);
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             if (error.code === 'P2002') {
                 throw new Error('This user exists already. Please choose a different username or email.')
@@ -168,32 +221,48 @@ export async function upsertUser(userData: UserCreateType) {
 export async function updateUser(userData: UserCreateType) {
     try {
 
+        let
+            newId = createId();
+
         const user = await prisma.user.update({
             where: {
                 email: userData.email,
             },
             data: {
+                id: userData.id ?? newId,
                 email: userData.email,
-                emailVerified: false,
+                emailVerified: userData.emailVerified ?? false,
                 username: userData.username,
                 firstName: userData.firstName,
                 lastName: userData.lastName,
-                // passwordHash: userData.passwordHash || '',
                 termsAccepted: true,
                 dialCode: userData.dialCode,
                 phone: userData.phone,
                 address: {
                     create: userData.address.map((address: any) => address)
-                }
-                ,
-                profilePicture: userData.profilePicture ? {
-                    create: {
-                        ...userData.profilePicture
+                },
+                profilePicture: {
+                    connectOrCreate: {
+                        where: {
+                            userId: userData.id ?? newId,
+                        },
+                        create: {
+                            id: userData.id ?? newId,
+                            location: userData.profilePicture?.location,
+                        }
                     }
-                } : undefined,
-                memberships: userData.memberships ? {
-                    create: userData.memberships
-                } : undefined,
+                }
+            },
+            include: {
+                address: {
+                    include: {
+                        coordinates: true
+                    }
+                },
+                profilePicture: true,
+                memberships: true,
+                orders: true,
+                purchases: true,
             }
         })
 
@@ -243,11 +312,6 @@ export async function upsertDispensaryAdmin(userData: UserCreateType, createPara
                         }
                     }
                 },
-                // imageUser: userData?.imageUser?.length >= 1  ? {
-                //     create: {
-                //         ...userData.imageUser
-                //     }
-                // } : undefined,
             },
             update: {
                 email: userData.email,
@@ -279,16 +343,6 @@ export async function upsertDispensaryAdmin(userData: UserCreateType, createPara
                         organizationId: createParams["dispensaryId"],
                     }
                 },
-                // imageUser: userData?.imageUser?.length >= 1  ? {
-                //     connectOrCreate: {
-                //         where: {
-                //             id: userData?.imageUser?.[0].id ?? undefined,
-                //         },
-                //         create: {
-                //             ...userData.imageUser?.[0]
-                //         }
-                //     }
-                // } : undefined,
             },
             include: {
                 memberships: true
@@ -467,20 +521,6 @@ export async function findUserWithDetailsById(id: string): Promise<UserWithDetai
     }
 }
 
-export async function updateUserPasswordToken(email: string, timeLimitedToken: string) {
-    try {
-        const user = await prisma.user.update({
-            where: { email },
-            data: { passwordResetToken: timeLimitedToken },
-            select: { email: true, id: true }
-        });
-        return user;
-    } catch (error: any) {
-        console.error(error)
-        throw new Error(error)
-    }
-}
-
 export type UserWithDetails = User & Omit<User, "createdAt" | "updatedAt"> & {
     address: AddressWithDetails[]
     imageUser?: ImageUser[] | null
@@ -489,33 +529,9 @@ export type UserWithDetails = User & Omit<User, "createdAt" | "updatedAt"> & {
     preferences?: null
 }
 
-// export type UserCreateType = {
-//     id?: string;
-//     firstName: string;
-//     lastName: string;
-//     username: string;
-//     email: string;
-//     emailVerified: boolean;
-//     // passwordHash?: string;
-//     // passwordResetToken?: string;
-//     // password: string;
-//     // re_password: string;
-//     phone: string;
-//     dialCode: string;
-//     termsAccepted: boolean;
-//     imageUser: ImageUser[] | null;
-//     idFrontImage?: string;
-//     idBackImage?: string;
-//     isLegalAge: boolean | null;
-//     idVerified: boolean;
-//     isSignUpComplete: boolean;
-//     address: AddressUserCreateType[]
-//     memberships: Prisma.MembershipUpsertArgs["create"][];
-// }
-
 export type UserCreateType = Prisma.UserCreateInput & {
     address: any;
-    profilePicture: Prisma.ImageUserUncheckedCreateInput
+    profilePicture: Prisma.ImageUserCreateWithoutUserInput;
     memberships: Prisma.MembershipUpsertArgs["create"][];
 }
 
@@ -528,25 +544,3 @@ export type CreateUserParams = {
     role: string;
     dispensaryId: string;
 }
-
-// export type UserCreateType = Prisma.PromiseReturnType<typeof createUser>
-// export type UserWithDetails = Prisma.PromiseReturnType<typeof findUserWithDetails>
-
-// type UserWithDetails = (User & {
-//     address: Address[];
-//     imageUser: ImageUser[];
-//     memberships: Membership[];
-// }) | null
-
-// export type OrderWithDetails = Order & {
-//     driver: Driver | null;
-//     items?: OrderItemWithDetails[];
-//     customer: User;
-//     deliveryInfo: Address;
-//     updatedAt?: any;
-// }
-
-// export type OrderItemWithDetails = OrderItem & {
-//     productVariant: ProductVariantWithDetails
-//     }
-// export type OrderUpdate = Prisma.OrderUpdateArgs[ "data" ]

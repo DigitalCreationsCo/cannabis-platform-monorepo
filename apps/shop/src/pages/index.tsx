@@ -7,7 +7,7 @@ import { PropsWithChildren } from 'react';
 import { useCookies } from 'react-cookie';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { twMerge } from 'tailwind-merge';
-import { newUserTour } from '../tour/newUserTour';
+import { newUserTour } from '../tour/shopTour';
 import backdrop from '/public/marijuana-backdrop.png';
 
 function LandingPage() {
@@ -96,7 +96,7 @@ function LandingPage() {
                                 className="p-4 hover:bg-primary-light"
                                 >
                                 <Paragraph color="light">
-                                    {TextContent.prompt.CREATE_DISPENSARY_ACCOUNT}</Paragraph>
+                                    {TextContent.account.CREATE_DISPENSARY_ACCOUNT}</Paragraph>
                                 </Button>
                             </Link>
                         </FlexBox>
