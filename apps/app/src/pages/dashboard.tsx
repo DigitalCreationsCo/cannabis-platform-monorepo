@@ -139,9 +139,17 @@ export async function getServerSideProps({ req, res }) {
         console.log('SSR error: ', error.message);
 
         if (error.type === Session.Error.TRY_REFRESH_TOKEN)
-            return { props: { fromSupertokens: 'needs-refresh' } }
-        else if (error.type === Session.Error.UNAUTHORISED)
-            console.log('unauthorized error: ', error);
-            return res.status(200).json({ status: false, error });
-        else return { redirect: { destination: '/welcome', permanent: false } };
+        return { props: { fromSupertokens: 'needs-refresh' } }
+        else 
+        if (error.type === Session.Error.UNAUTHORISED)
+        console.log('unauthorized error: ', error);
+        return res.status(200).json({ status: false, error });
+        else 
+        return { redirect: { destination: '/welcome', permanent: false } };
+    }
 }
+
+
+// add redux wrapper.getServerSideProps
+// seed dispensary data
+// handle dispensary data in dashboard using redux ( use redux to store only data that is needed for server requests (org data))

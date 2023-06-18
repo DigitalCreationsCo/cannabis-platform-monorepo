@@ -6,7 +6,6 @@ import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/logo.png';
-
 export type TopBarProps = {
     doesSessionExist?: boolean;
     signOut: () => void;
@@ -84,12 +83,12 @@ function TopBar({ signOut }: TopBarProps) {
                             <IconButton
                             // onClick={openCartModal}
                             iconSize={28}
-                            className='bg-transparent shadow-none p-0 m-0 indicator btn focus:outline-none border-none pt-1' 
+                            className='capitalize    bg-transparent shadow-none p-0 m-0 indicator btn focus:outline-none border-none pt-1' 
                             size='sm' 
                             hover='transparent'
-                            Icon={icons.ShoppingBag}
+                            Icon={icons.Satchel}
                             >
-                                {`Bag`}
+                                <Paragraph className='hidden md:block'>{`Bag`}</Paragraph>
                                 { isCartEmpty && <></> || <div className={twMerge(styles.TOPBAR.badge)}>{cart.totalItems}</div> }
                             </IconButton>
                     </Link>}
