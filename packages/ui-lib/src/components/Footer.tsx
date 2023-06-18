@@ -13,7 +13,7 @@ export default function Footer() {
             </Link>
             <Link href='/support'>
             <Small className="text-inverse font-semibold">
-                <Span className="underline">Get Support</Span>
+                <Span className="underline">get support</Span>
                 </Small>
             </Link>
             <Small className="text-inverse">

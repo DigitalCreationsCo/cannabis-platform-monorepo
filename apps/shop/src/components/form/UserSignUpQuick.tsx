@@ -1,4 +1,5 @@
 import { TextContent } from '@cd/core-lib/constants';
+import { selectUserState } from '@cd/core-lib/reduxDir';
 import { shuffle } from '@cd/core-lib/utils';
 import {
     Button, FlexBox, Grid, H4, H6, Paragraph, styles, TermsAgreement, TextField
@@ -8,6 +9,7 @@ import { profilePictures } from 'data/profilePicture';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import { userSignUpTour } from 'tour/userSignUpTour';
 import * as yup from 'yup';
@@ -17,6 +19,9 @@ import * as yup from 'yup';
 
 function UserSignUpQuickForm() {
     
+    const 
+    user = useSelector(selectUserState).user
+
     function startTour () {
         if (!userSignUpTour.isActivated)
         userSignUpTour.start();
@@ -29,17 +34,16 @@ function UserSignUpQuickForm() {
     const { nextFormStep, prevFormStep, setFormValues, formValues } = useFormContext();
     
     const [loadingButton, setLoadingButton] = useState(false);
-    const [profilePicture, setProfilePicture] = useState<string | null>(null);
 
     const initialValues = {
         firstName: formValues?.newUser?.firstName || '',
         lastName: formValues?.newUser?.lastName || '',
         username: formValues?.newUser?.username || '',
-        email: formValues?.newUser?.email || '',
+        email: user?.email || formValues?.newUser?.email || '',
         phone: formValues?.newUser?.phone || '',
         dialCode: formValues?.newUser?.dialCode || '1',
         termsAccepted: false,
-        images: [],
+        profilePicture: {},
     };
 
     const validationSchema = yup.object().shape({
@@ -56,6 +60,7 @@ function UserSignUpQuickForm() {
                 'Please read and agree to our User Terms and Conditions.',
                 (value) => value === true
             ),
+        profilePicture: yup.string().required(`You didn't select a profile picture`).typeError(`You didn't select a profile picture`),
         
     });
 
@@ -65,11 +70,9 @@ function UserSignUpQuickForm() {
             setFormValues({ 
                 newUser: { 
                     ...values, 
-                    images: profilePicture ? 
-                    [{
-                        location: profilePicture,
-                        blurhash: ''
-                    }] : []
+                    profilePicture: {
+                        location: values.profilePicture
+                    }
                  }
                 });
             setLoadingButton(false);
@@ -81,7 +84,7 @@ function UserSignUpQuickForm() {
         }
     };
 
-    const { values, errors, touched, handleBlur, handleChange, handleSubmit, validateForm } = useFormik({
+    const { values, errors, touched, handleBlur, handleChange, handleSubmit, validateForm, setFieldValue } = useFormik({
         initialValues,
         onSubmit,
         validationSchema
@@ -180,6 +183,7 @@ function UserSignUpQuickForm() {
                     onBlur={handleBlur}
                     value={values.email}
                     onChange={handleChange}
+                    disabled={!!user?.email}
                     placeholder="your email address"
                     error={!!touched.email && !!errors.email}
                     helperText={touched.email && errors.email}
@@ -205,7 +209,7 @@ function UserSignUpQuickForm() {
                     { shuffled.map((pic:string, index: number) => {
                         return (
                             <Button
-                            onClick={(e) => {e.preventDefault();e.stopPropagation();setProfilePicture(pic)}}
+                            onClick={(e) => {e.preventDefault();e.stopPropagation();setFieldValue('profilePicture', pic)}}
                             id={`avatar-button-${index}`}
                             key={`avatar-button-${index}`} 
                             size="sm"

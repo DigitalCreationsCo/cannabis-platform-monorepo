@@ -1,4 +1,4 @@
-import { getShopSite, renderNestedDataObject, selectUserState, TextContent, urlBuilder, userActions } from '@cd/core-lib';
+import { getShopSite, renderNestedDataObject, selectUserState, TextContent, urlBuilder } from '@cd/core-lib';
 import { Button, FlexBox, Grid, H2, H3, Paragraph, SignInButton } from '@cd/ui-lib';
 import axios from 'axios';
 import Image from 'next/image';
@@ -64,8 +64,6 @@ function UserSignUpReview () {
                 const 
                 user = await createNewUser()
                 resetFormValues();
-
-                dispatch(userActions.signinUserSync(user));
                 toast.success(TextContent.account.ACCOUNT_IS_CREATED);
             } 
             catch (error: any) {
@@ -100,13 +98,13 @@ function UserSignUpReview () {
     }, []);
 
     const 
-    imageSrc = formValues?.newUser?.imageUser?.[0].location;
+    imageSrc = formValues?.newUser?.profilePicture.location;
 
     return (
-        <Grid className="max-w-[525px] mx-auto space-y-2">
-            <H2 className='whitespace-normal'>{TextContent.account.ACCOUNT_IS_CREATED}</H2>
+    <Grid className="max-w-[525px] mx-auto space-y-2">
+            <H2 className='whitespace-normal'>{ account && TextContent.account.ACCOUNT_IS_CREATED || 'Creating your account...'}</H2>
 
-            <Paragraph>{`Welcome to Gras. ${TextContent.account.ENTER_OR_GO_TO_ACCOUNT}`}</Paragraph>
+            <Paragraph className="h-12">{account && `Welcome to Gras. ${TextContent.account.ENTER_OR_GO_TO_ACCOUNT}` || <></>}</Paragraph>
             <div className={styles.renderList}>
                 { account &&
                 <>
@@ -114,27 +112,29 @@ function UserSignUpReview () {
                     <H3>{user.username}</H3>
                     {imageSrc && <Image src={imageSrc} alt={user.username} />}
                     </FlexBox>
-                { renderNestedDataObject(user, Paragraph, ['createdAt', 'updatedAt', 'emailVerified', 'imageUser', 'idFrontImage', 'idBackImage']) }
+                { renderNestedDataObject(user, Paragraph, ['createdAt', 'id', 'updatedAt', 'emailVerified', 'imageUser', 'idFrontImage', 'idBackImage']) }
                 </>
                 }
                 { !account && <Paragraph className='animate-bounce pt-1'>Creating your account...</Paragraph>}
             </div>
 
-            { isSignedIn ? <FlexBox className='m-auto flex-row space-x-4 pb-20'>
-                <Link href={getShopSite("/browse")}>
-                    <Button>
-                        Go to Gras
-                    </Button>
-                </Link>
-                <Link href={getShopSite("/account")}>
-                    <Button>
-                        Go to my account
-                    </Button>
-                </Link>
+            <FlexBox className='m-auto flex-row space-x-4 pb-20'>
+                { isSignedIn ? 
+                (<><Link href={getShopSite("/browse")}>
+                        <Button>
+                            Go to Gras
+                        </Button>
+                    </Link>
+                    <Link href={getShopSite("/account")}>
+                        <Button>
+                            Go to my account
+                        </Button>
+                    </Link>
+                    </>) : 
+                <SignInButton />
+                }
             </FlexBox> 
-            : 
-            <SignInButton />
-            }
+            
 
             
         </Grid>
