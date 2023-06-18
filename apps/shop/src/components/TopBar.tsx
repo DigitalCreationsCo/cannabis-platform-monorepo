@@ -56,7 +56,7 @@ function TopBar({ signOut }: TopBarProps) {
                     <Image alt="Gras" width={50} height={50} src={logo} />
                 </Link>
                 <Link href={getUserHome()}>
-                    <H2 className="pt-1">Gras</H2>
+                    <H2 className="pt-0.5">Gras</H2>
                 </Link>
             </div>
             <Link href={getUserHome()}>
@@ -70,40 +70,35 @@ function TopBar({ signOut }: TopBarProps) {
             </Link>
             <div className="flex-1"></div>
 
-            <FlexBox className='flex flex-row items-center space-x-12 pr-4'>
+            <FlexBox className='flex flex-row items-center space-x-8 pr-0'>
                 { isSignedIn && 
-                    <Link href={getShopSite("/support")}>
-                        <Paragraph className={twMerge('whitespace-nowrap')}>
+                    <Link className='hidden sm:block' href={getShopSite("/support")}>
+                        <Paragraph className={twMerge('whitespace-nowrap pt-2')}>
                             Get Support
                         </Paragraph>
                     </Link>
                 }
 
                 {window?.location?.pathname === '/' ||
-                <Link href={getShopSite("/mybag")} passHref>
-                    <IconButton 
-                    className='bg-transparent shadow-none' 
-                    size='sm' 
-                    hover='transparent'
-                    Icon={icons.ShoppingBag}
-                    >
-                        { isCartEmpty && <></> || <div className={twMerge(styles.TOPBAR.badge)}>{cart.totalItems}</div> }
-                    </IconButton>
-                    {/* <Button
-                        className="indicator w-[100px]"
-                        // onClick={openCartModal}
-                    >
-                        <>
-                            Bag
-                            {isCartEmpty || <div className={twMerge(styles.badge)}>{cart.totalItems}</div>}
-                        </>
-                    </Button> */}
-                </Link>}
+                    <Link href={getShopSite("/mybag")} passHref>
+                            <IconButton
+                            // onClick={openCartModal}
+                            iconSize={28}
+                            className='bg-transparent shadow-none p-0 m-0 indicator btn focus:outline-none border-none pt-1' 
+                            size='sm' 
+                            hover='transparent'
+                            Icon={icons.ShoppingBag}
+                            >
+                                {`Bag`}
+                                { isCartEmpty && <></> || <div className={twMerge(styles.TOPBAR.badge)}>{cart.totalItems}</div> }
+                            </IconButton>
+                    </Link>}
 
                 { isSignedIn && <AccountDropDown /> }
                 { !isSignedIn && (
                     <FlexBox>
                         <Button 
+                        className='pt-1'
                         size='sm' 
                         bg='transparent' 
                         hover='transparent'
@@ -118,7 +113,6 @@ function TopBar({ signOut }: TopBarProps) {
     
     function AccountDropDown () {
         return (
-
         <div className="dropdown dropdown-bottom relative">
             <Button
             className='btn focus:outline-none px-0 outline-none border-none'
@@ -127,13 +121,13 @@ function TopBar({ signOut }: TopBarProps) {
             bg='transparent' 
             hover='transparent'
             >
-                <Image 
-                src={user?.imageUser?.[0].location || ''}
+                <img 
+                // src={user.profilePicture || '/user.png'}
+                src={ user.profilePicture?.location as string }
                 alt={user.username} 
-                width={40}
-                height={40}
+                width={80}
+                height={80}
                 className="rounded-full border-2"
-                priority
                 />
             </Button>
             <ul className="shadow border menu dropdown-content bg-inverse rounded w-48 relative right-0 bottom-0 mt-2">

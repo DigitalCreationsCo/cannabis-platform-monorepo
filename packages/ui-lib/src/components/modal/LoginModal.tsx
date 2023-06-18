@@ -138,7 +138,7 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
                         onClickCapture={dispatchCloseModal}>
                             
                             <H4 className="underline text-lg text-center">
-                                {TextContent.prompt.CREATE_DISPENSARY_ACCOUNT}</H4>
+                                {TextContent.account.CREATE_DISPENSARY_ACCOUNT}</H4>
                         </Link>
 
                     </FlexBox>
@@ -337,8 +337,7 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
     });
     
     const passcodeValidationSchema = yup.object().shape({
-        passcode: yup.string()
-        .required('Invalid passcode.')
+        passcode: yup.string().required('Invalid passcode.').length(6, 'Invalid passcode.')
     });
 
     export default LoginModal;

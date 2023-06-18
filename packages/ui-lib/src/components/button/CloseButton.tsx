@@ -6,7 +6,7 @@ import IconButton from './IconButton';
 
 interface CloseButtonProps {
     Icon?: ((props: SVGAttributes<SVGElement>) => JSX.Element) | CarbonIconType;
-    onClick?: () => void;
+    onClick?: (e: any) => void;
     theme?: 'light' | 'dark';
     className?: string;
 }
