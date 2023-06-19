@@ -8,7 +8,7 @@ import * as yup from 'yup';
 
 function ProvideStripeAccountId () {
 
-    const { nextFormStep, setCanProceed, formData, setFormValues } = useFormContext();
+    const { nextFormStep, setCanProceed, formValues, setFormValues } = useFormContext();
     
     useEffect(() => {
         setCanProceed(true);
@@ -42,7 +42,7 @@ function ProvideStripeAccountId () {
     async function connectStripeAccountToDispensary () {
         try {
             let 
-            organization = formData?.organization;
+            organization = formValues?.organization;
 
             if (!organization) 
             throw new Error('Dispensary is not found.');
@@ -64,7 +64,7 @@ function ProvideStripeAccountId () {
             if (response.status === 200)
             setFormValues({ organization: { stripeAccountId: values.stripeAccountId } });
             
-            toast.success(`Stripe account connected to ${formData?.organization?.name}.`)
+            toast.success(`Stripe account connected to ${formValues?.organization?.name}.`)
             
         } catch (error: any) {
             console.log('Error getting stripe account: ', error);
@@ -80,7 +80,7 @@ function ProvideStripeAccountId () {
             setLoadingButton2(true);
 
             let 
-            organization = formData?.organization;
+            organization = formValues?.organization;
 
             if (!organization) 
             throw new Error('Dispensary is not found.'); // should never happen
@@ -111,7 +111,7 @@ function ProvideStripeAccountId () {
             
             setLoadingButton2(false);
 
-            toast.success(`Stripe account connected to ${formData?.organization?.name}.`)
+            toast.success(`Stripe account connected to ${formValues?.organization?.name}.`)
             
         } catch (error: any) {
             console.log('Error getting stripe account: ', error);

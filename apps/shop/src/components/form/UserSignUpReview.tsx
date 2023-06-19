@@ -1,5 +1,5 @@
 import { getShopSite, renderNestedDataObject, selectUserState, TextContent, urlBuilder } from '@cd/core-lib';
-import { Button, FlexBox, Grid, H2, H3, Paragraph, SignInButton } from '@cd/ui-lib';
+import { Button, FlexBox, Grid, H2, H3, Paragraph, SignInButton, useFormContext } from '@cd/ui-lib';
 import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -7,7 +7,6 @@ import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from 'redux/hooks';
-import { useFormContext } from './FormStepProvider';
 
 function UserSignUpReview () {
 

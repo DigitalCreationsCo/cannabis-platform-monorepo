@@ -6,7 +6,8 @@ import {
     DispensaryCreate,
     DispensaryReview,
     DispensarySignUpComplete,
-    DispensaryUserCreate, ProvideDispensaryKey,
+    DispensaryUserCreate,
+    ProvideDispensaryKey,
     ProvideStripeAccountId
 } from '../../components/form';
 
@@ -40,7 +41,8 @@ function DispensarySignUpStepForm() {
 const styles = { gradient: ['bg-gradient-to-b', 'from-primary', 'to-secondary'] };
 
 DispensarySignUpStepForm.getLayoutContext = (): LayoutContextProps => ({
-    showHeader: false
+    showHeader: false,
+    showSideNav: false,
 });
 
 export default DispensarySignUpStepForm;

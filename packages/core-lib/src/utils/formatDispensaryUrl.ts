@@ -37,6 +37,19 @@ function getDashboardSite(path: string): string {
     }
 }
 
+function getCurrentSite(path: string): string {
+    switch (process.env.NODE_ENV as string) {
+        case 'development':
+            return `http://app.localhost:3000${path}`;
+        case 'test':
+            return `http://app.localhost:3000${path}`;
+        case 'production':
+            return `http://app.grascannabis.org${path}`;
+        default:
+            return `http://localhost:3001`;
+    }
+}
+
 function getUserHome(user: UserWithDetails) {
     if (user.memberships?.[0]?.role.toLocaleUpperCase() === 'ADMIN' ||
         user.memberships?.[0]?.role.toLocaleUpperCase() === 'OWNER')
@@ -48,5 +61,7 @@ function getUserHome(user: UserWithDetails) {
 export {
     formatDispensaryUrl,
     getShopSite,
-    getDashboardSite
+    getDashboardSite,
+    getCurrentSite,
+    getUserHome
 };

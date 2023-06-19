@@ -13,28 +13,28 @@ import * as yup from 'yup';
 // Add country picker to set Country and countryCode fields
 
 function DispensaryCreate () {
-    const { prevFormStep, nextFormStep, formData, setFormValues } = useFormContext();
+    const { prevFormStep, nextFormStep, formValues, setFormValues } = useFormContext();
     const [loadingButton, setLoadingButton] = useState(false);
 
     const initialValues = {
-        id: formData.organization?.id || '',
-        name: formData.organization?.name || '',
-        // email: formData.organization?.email || '',
+        id: formValues.organization?.id || '',
+        name: formValues.organization?.name || '',
+        // email: formValues.organization?.email || '',
         address: {
-            id: formData.organization?.address?.id || createId(),
-            street1: formData.organization?.address?.street1 || '',
-            street2: formData.organization?.address?.street2 || '',
-            city: formData.organization?.address?.city || '',
-            state: formData.organization?.address?.state || '',
-            zipcode: formData.organization?.address?.zipcode || '',
-            country: formData.organization?.address?.country || '',
-            countryCode: formData.organization?.address?.countryCode || 'US',
+            id: formValues.organization?.address?.id || createId(),
+            street1: formValues.organization?.address?.street1 || '',
+            street2: formValues.organization?.address?.street2 || '',
+            city: formValues.organization?.address?.city || '',
+            state: formValues.organization?.address?.state || '',
+            zipcode: formValues.organization?.address?.zipcode || '',
+            country: formValues.organization?.address?.country || '',
+            countryCode: formValues.organization?.address?.countryCode || 'US',
         },
-        dialCode: formData.organization?.dialCode || 1,
-        phone: formData.organization?.phone || '',
+        dialCode: formValues.organization?.dialCode || 1,
+        phone: formValues.organization?.phone || '',
         termsAccepted: false,
-        subdomainId: formData.organization?.subdomainId || '',
-        vendorId: formData.organization?.vendorId || ''
+        subdomainId: formValues.organization?.subdomainId || '',
+        vendorId: formValues.organization?.vendorId || ''
     };
     
     const updateDispensaryRecord = async () => {
