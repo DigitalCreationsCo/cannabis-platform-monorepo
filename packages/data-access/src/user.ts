@@ -1,6 +1,6 @@
 import { createId } from "@paralleldrive/cuid2";
 import { ImageUser, Membership, MembershipRole, Prisma, User } from "@prisma/client";
-import { AddressWithDetails } from "./address";
+import { AddressWithCoordinates } from "./address";
 import prisma from "./db/prisma";
 import { OrderWithDetails } from "./order";
 
@@ -507,7 +507,7 @@ export async function findUserWithDetailsById(id: string): Promise<UserWithDetai
 }
 
 export type UserWithDetails = User & Omit<User, "createdAt" | "updatedAt"> & {
-    address: AddressWithDetails[]
+    address: AddressWithCoordinates[]
     profilePicture: ImageUser | null
     memberships?: Membership[] | null
     orders?: OrderWithDetails[]

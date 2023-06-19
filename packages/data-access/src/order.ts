@@ -1,5 +1,7 @@
-import { Driver, Order, Organization, Prisma, ProductVariant, User } from "@prisma/client";
+import { Order, Organization, Prisma, ProductVariant, Purchase, User } from "@prisma/client";
+import { AddressWithCoordinates } from "./address";
 import prisma from "./db/prisma";
+import { DriverWithDetails, RouteWithCoordinates } from "./driver";
 import { connectVariantImages, createProductVariantsWithoutId, ProductVariantWithDetails } from "./variant";
 
 /*
@@ -266,7 +268,6 @@ export type OrderCreateType = Prisma.OrderUncheckedCreateInput & {
 export type OrderWithDetails = Order & {
     items: ProductVariantWithDetails[];
     customer: User;
-    driver?: Driver;
     // purchase?: Prisma.PurchaseCreateNestedOneWithoutOrderInput
     // destinationAddress: Address;
 }
@@ -274,10 +275,11 @@ export type OrderWithDetails = Order & {
 export type OrderWithDashboardDetails = Order & {
     items: ProductVariantWithDetails[];
     customer: User;
-    driver?: Driver;
-    // route?: Route;
-    // purchase?: Prisma.PurchaseCreateNestedOneWithoutOrderInput
-    // destinationAddress: Address;
+    driver: DriverWithDetails | null;
+    route: RouteWithCoordinates;
+    // purchase: Prisma.PurchaseCreateNestedOneWithoutOrderInput
+    purchase: Purchase
+    destinationAddress: AddressWithCoordinates;
 }
 
 export type PurchaseCreate = Prisma.PurchaseCreateArgs["data"]
