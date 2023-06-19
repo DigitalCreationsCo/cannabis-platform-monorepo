@@ -1,4 +1,4 @@
-import { Address, Category, CategoryList, Driver, ImageOrganization, ImageProduct, ImageUser, ImageVendor, Membership, Order, Organization, Prisma, PrismaClient, Product, ProductVariant, Purchase, Schedule, SiteSetting, SubDomain, User, Vendor } from "@prisma/client";
+import { Address, Category, CategoryList, Driver, ImageOrganization, ImageProduct, ImageUser, ImageVendor, Membership, Order, Organization, Prisma, PrismaClient, Product, ProductVariant, Purchase, Route, Schedule, SiteSetting, SubDomain, User, Vendor } from "@prisma/client";
 import axios from "axios";
 
 const prisma = new PrismaClient();
@@ -812,6 +812,31 @@ async function main() {
   }));
   console.info('create prisma.driver records');
 
+  // ROUTES
+  const routes: Route[] = [
+    {
+      id: '1',
+      driverId: 'bf346k4u7x2b2hhr6wvgiwao',
+      orderId: '1',
+    },
+    {
+      id: '2',
+      driverId: 'bf346k4u7x2b2hhr6wvgiwao',
+      orderId: '2',
+    },
+    {
+      id: '3',
+      driverId: 'bf346k4u7x2b2hhr6wvgiwao',
+      orderId: '3',
+    }
+  ]
+
+  await prisma.route.createMany({
+    data: routes,
+    skipDuplicates: true,
+  });
+  console.info('create prisma.route records');
+
   // ORDER
   const orders: Order[] = [
     {
@@ -1427,6 +1452,7 @@ async function main() {
   console.info('create prisma.imageUser records');
 
 
+  // REVIEWS
   // need to update this seed for user information, will fail seed as it is now - 06182023
   const reviews = [
     {

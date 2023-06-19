@@ -1,8 +1,5 @@
-import { Address, Driver, Order, OrderStatus, Prisma, ProductVariant, User } from "@prisma/client";
-import { AddressUserCreateType } from "./address";
+import { Driver, Order, Organization, Prisma, ProductVariant, User } from "@prisma/client";
 import prisma from "./db/prisma";
-import { OrganizationWithAddress, OrganizationWithShopDetails } from "./organization";
-import { UserWithDetails } from "./user";
 import { connectVariantImages, createProductVariantsWithoutId, ProductVariantWithDetails } from "./variant";
 
 /*
@@ -232,96 +229,55 @@ export async function updateOrderWithOrderItems(order: any) {
  * @param data fields to update
  * @returns 
  */
-export async function updateOrder(id: string, data: Prisma.OrderUpdateArgs['data']) {
+export async function updateOrder(id: string, data: OrderUpdateType) {
     try {
-        const update = await prisma.order.update({ where: { id: id }, data: { ...data } })
-        return update
+        const updated = await prisma.order.update({ where: { id: id }, data: { ...data } })
+        return updated
     } catch (error: any) {
         console.error(error)
         throw new Error(error)
     }
 }
 
-export async function deleteOrder() {
-    // try {
-
-    // } catch (error) {
-    //     console.error(error.message)
-    //     throw new Error(error.message)
-    // }
+/**
+ * delete Order
+ * @param id order id
+ * @returns 
+ */
+export async function deleteOrder(id: string) {
+    try {
+        const deleted = await prisma.order.delete({
+            where: {
+                id
+            }
+        });
+        return deleted;
+    } catch (error: any) {
+        console.error(error.message)
+        throw new Error(error.message)
+    }
 }
 
-export type OrderUpdate = Prisma.OrderUpdateArgs["data"]
-// export type OrderCreate = Prisma.OrderCreateArgs[ "data" ]
-export type OrderCreate = {
-    id?: string
-    subtotal: number
-    total: number
-    taxFactor: number
-    taxAmount: number
-    orderStatus: OrderStatus
-    purchaseId?: string
-    addressId: string
-    destinationAddress: AddressUserCreateType
-
-    customerId: string
-    customer: UserWithDetails | null
-
-    organizationId: string
-    // organization: Organization
-    organization: OrganizationWithShopDetails
-
-    driverId?: string
-    driver: Driver | null
-
-    isDeliveredOrder: boolean
-    isCustomerReceivedOrder: boolean
-    isCompleted: boolean
-
-    deliveredAt?: Date | string | null
-    createdAt?: Date | string | null
-    updatedAt?: Date | string | null
-    items?: ProductVariantWithDetails[]
-    // purchase?: PurchaseCreateNestedOneWithoutOrderInput
+export type OrderUpdateType = Prisma.OrderUpdateArgs["data"]
+export type OrderCreateType = Prisma.OrderUncheckedCreateInput & {
+    organization: Organization
 }
 
-// export type OrderWithDetails = Prisma.PromiseReturnType<typeof findOrderWithDetails>
 export type OrderWithDetails = Order & {
-    id?: string
-    subtotal: number
-    total: number
-    taxFactor: number
-    taxAmount: number
-    orderStatus?: OrderStatus
-    purchaseId?: string | null
-    addressId: string
-    destinationAddress: Address
-
-    customerId: string
-    customer: User
-
-    organizationId: string
-    organization: OrganizationWithAddress
-    // organization: OrganizationWithShopDetails
-
-    driverId?: string | null
-    driver: Driver | undefined
-
-    isDeliveredOrder: boolean
-    isCustomerReceivedOrder: boolean
-    isCompleted: boolean
-
-    deliveredAt?: Date | string | null
-    createdAt?: Date | string | null
-    updatedAt?: Date | string | null
-    items: ProductVariantWithDetails[]
-    // purchase?: PurchaseCreateNestedOneWithoutOrderInput
-
-    // driver: Driver | null;
-    // items?: ProductVariantWithDetails[];
-    // customer: User;
+    items: ProductVariantWithDetails[];
+    customer: User;
+    driver?: Driver;
+    // purchase?: Prisma.PurchaseCreateNestedOneWithoutOrderInput
     // destinationAddress: Address;
-    // updatedAt?: any;
+}
+
+export type OrderWithDashboardDetails = Order & {
+    items: ProductVariantWithDetails[];
+    customer: User;
+    driver?: Driver;
+    // route?: Route;
+    // purchase?: Prisma.PurchaseCreateNestedOneWithoutOrderInput
+    // destinationAddress: Address;
 }
 
 export type PurchaseCreate = Prisma.PurchaseCreateArgs["data"]

@@ -1,4 +1,4 @@
-import { OrganizationWithDashboardDetails, ProductWithDashboardDetails, UserDispensaryAdmin, UserWithProfilePicture } from "@cd/data-access";
+import { OrderWithDetails, OrganizationWithDashboardDetails, ProductWithDashboardDetails, UserDispensaryAdmin, UserWithProfilePicture } from "@cd/data-access";
 
 const userDispensaryAdmin: UserDispensaryAdmin = {
     id: 'bf346k4u7xq030hr6wvgiwao',
@@ -280,7 +280,87 @@ const products: ProductWithDashboardDetails[] = [
     },
 ];
 
-const orders: any[] = [];
+const orders: OrderWithDetails[] = [
+    {
+        id: "1",
+        subtotal: 12000,
+        total: 12399,
+        taxFactor: 0.6,
+        taxAmount: 1239,
+        orderStatus: "Pending",
+        customerId: "1",
+        addressId: '5',
+        driverId: "2",
+        organizationId: "2",
+        purchaseId: '1',
+        routeId: null,
+        isDeliveredOrder: false,
+        isCustomerReceivedOrder: false,
+        isCompleted: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        deliveredAt: new Date(),
+        items: [
+            {
+                id: "3",
+                name: "Blackberry Kush",
+                unit: "g",
+                size: 3.5,
+                currency: "USD",
+                basePrice: 6999,
+                discount: 5,
+                stock: 5,
+                productId: '2',
+                organizationId: '2',
+                organizationName: 'Curaleaf',
+                quantity: 3,
+                isDiscount: true,
+                salePrice: 6499,
+                sku: 1234567,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            },
+            {
+                id: "4",
+                name: "Blackberry Nuggs",
+                unit: "g",
+                size: 3.5,
+                currency: "USD",
+                basePrice: 6999,
+                discount: 5,
+                stock: 5,
+                productId: '3',
+                organizationId: '2',
+                organizationName: 'Curaleaf',
+                quantity: 3,
+                isDiscount: true,
+                salePrice: 6499,
+                sku: 1234567,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            },
+        ],
+        customer: {
+            id: 'bf346k4u7xq030hr6wvgiwao',
+            firstName: "Sam",
+            lastName: "Samuels",
+            username: "Sammy223",
+            email: "sam@gmail.com",
+            phone: "1232343452",
+            emailVerified: true,
+            isLegalAge: true,
+            idVerified: true,
+            scannedDOB: new Date(),
+            isSignUpComplete: true,
+            dialCode: "1",
+            idFrontImage: null,
+            idBackImage: null,
+            termsAccepted: true,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        }
+    },
+];
 
 export {
     userDispensaryAdmin,
