@@ -94,7 +94,9 @@ model Driver {
   user User @relation(fields: [id, email], references: [id, email], onDelete:Restrict, onUpdate: Cascade)
   
   orders Order[]
-  driverSession DriverSession?
+  // driverSession DriverSession?
+
+  routes Route[]
 
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
@@ -102,30 +104,42 @@ model Driver {
   @@unique([id, email])
 }
 
-model DriverSession {
-  id String @id @default(cuid()) @unique
-  driver Driver @relation(fields: [id], references: [id])
-  // coordinateDriverId String @unique
+// this driverSession is used in mongodb,
+// the prisma record is not kept, this model is here for schema reference.
+
+// model DriverSession {
+  // id references the driver
+
+  // id String @id @default(cuid()) @unique
+  // driver Driver @relation(fields: [id], references: [id])
+  
+  // current location of the driver
+
+  // currentCoordinates String @unique
   // coordinates Coordinates @relation(fields: [coordinateDriverId], references: [driverId])
+
   // isOnline Boolean @default(false)
   // isActiveDelivery Boolean @default(false)
-  routeId String? @unique
-  currentRoute Route? @relation(fields: [routeId], references: [id])
-  // routeId String @unique
+  
+  // routeId String? @unique
+  // route Route? @relation(fields: [routeId], references: [id])
 
+  // createdAt      DateTime         @default(now())
+  // updatedAt      DateTime         @updatedAt
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
-
+  // @@index([id])
   // @@index([routeId])
-}
+// }
 
 model Route {
   id String @id @default(cuid()) @unique
-  driverSession DriverSession?
+  driverId String
+  driver Driver @relation(fields: [driverId], references: [id], onDelete: NoAction, onUpdate: Cascade)
 
   orderId String @unique
   order Order  @relation(fields: [orderId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([driverId])
 }
 
 model Vendor {
