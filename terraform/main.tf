@@ -96,7 +96,7 @@ resource "linode_domain_record" "gras_cannabis_domain_mx1" {
     port        = 0
     priority    = 1
     record_type = "MX"
-    target      = "139.144.164.21"
+    target      = "aspmx.l.google.com"
     ttl_sec     = 60
     weight      = 0
 }
@@ -106,7 +106,7 @@ resource "linode_domain_record" "gras_cannabis_domain_mx2" {
     port        = 0
     priority    = 5
     record_type = "MX"
-    target      = "139.144.164.21"
+    target      = "alt1.aspmx.l.google.com"
     ttl_sec     = 60
     weight      = 0
 }
@@ -116,7 +116,7 @@ resource "linode_domain_record" "gras_cannabis_domain_mx3" {
     port        = 0
     priority    = 5
     record_type = "MX"
-    target      = "139.144.164.21"
+    target      = "alt2.aspmx.l.google.com"
     ttl_sec     = 60
     weight      = 0
 }
@@ -126,7 +126,7 @@ resource "linode_domain_record" "gras_cannabis_domain_mx4" {
     port        = 0
     priority    = 10
     record_type = "MX"
-    target      = "139.144.164.21"
+    target      = "alt3.aspmx.l.google.com"
     ttl_sec     = 60
     weight      = 0
 }
@@ -136,7 +136,7 @@ resource "linode_domain_record" "gras_cannabis_domain_mx5" {
     port        = 0
     priority    = 10
     record_type = "MX"
-    target      = "139.144.164.21"
+    target      = "alt4.aspmx.l.google.com"
     ttl_sec     = 60
     weight      = 0
 }
