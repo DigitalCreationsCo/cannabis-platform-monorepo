@@ -20,29 +20,29 @@ const AdminDashboardNavigation = () => {
 
 const links = [
     {
-        href: '/',
-        title: 'Dashboard',
-        icon: Icons.Home
+        href: '/dashboard',
+        title: 'Home',
+        icon: Icons.WatsonHealthDicomOverlay
     },
     {
         href: '/products',
         title: 'Products',
-        icon: Icons.PackageBox
+        icon: Icons.Product
     },
     {
         href: '/orders',
         title: 'Orders',
-        icon: Icons.Payment
+        icon: Icons.DeliveryTruck
     },
     {
         href: '/users',
         title: 'Users',
-        icon: Icons.User2
+        icon: Icons.UserAvatarFilledAlt
     },
     {
         href: '/site-settings',
         title: 'Site Settings',
-        icon: Icons.Wheel
+        icon: Icons.SettingsAdjust
     }
     // {
     //   href: "/delivery-time",
