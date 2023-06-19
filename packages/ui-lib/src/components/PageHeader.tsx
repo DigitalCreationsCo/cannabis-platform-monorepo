@@ -11,11 +11,11 @@ export interface PageHeaderProps {
     Icon?: any;
     iconColor?: string;
 }
-export default function PageHeader({ title, iconColor, subTitle, Button, Icon }: PageHeaderProps) {
+export default function PageHeader({ title, iconColor = 'primary', subTitle, Button, Icon }: PageHeaderProps) {
     return (
-        <FlexBox className="pb-6 lg:pt-6 z-10 top-[66px] min-h-[54px] flex space-x-4">
+        <FlexBox className="lg:py-6 top-[66px] min-h-[54px] flex space-x-4">
             <FlexBox className="flex-col">
-                <FlexBox className="flex-row">
+                <FlexBox className="flex-row items-center space-x-1">
                     <H3>{title}</H3>
                     {Icon && (
                         <IconWrapper iconColor={iconColor} className={twMerge('sm:block')} Icon={Icon} iconSize={24} />

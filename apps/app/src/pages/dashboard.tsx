@@ -1,98 +1,149 @@
-import { Order, Organization, ProductWithDashboardDetails, UserWithDetails } from '@cd/data-access';
-import { Card, Grid, Icons, OrderRow, Page, PageHeader } from '@cd/ui-lib';
-import { ProductRow } from 'components';
+import { OrderWithDashboardDetails, OrganizationWithDashboardDetails, ProductWithDashboardDetails, UserDispensaryAdmin } from '@cd/data-access';
+import { Card, Grid, Icons, OrderRow, Page, PageHeader, Paragraph } from '@cd/ui-lib';
+import { orders, organization, products, userDispensaryAdmin as user } from 'data/dummyData';
+import { NextRequest, NextResponse } from 'next/server';
 import { useMemo } from 'react';
+import { twMerge } from 'tailwind-merge';
+import { ProductRow } from '../components';
 
 interface DashboardProps {
-    organization: Organization;
-    user: UserWithDetails;
+    organization: OrganizationWithDashboardDetails;
+    user: UserDispensaryAdmin;
     products: ProductWithDashboardDetails[];
-    orders: Order[];
+    orders: OrderWithDashboardDetails[];
 }
 
 export default function Dashboard({ user, organization, products, orders }: DashboardProps) {
-    const todaysOrders = useMemo(() => {
-        const todaysOrders = Array.isArray(orders)
-            ? orders.filter((order) => {
-                  return (
-                      new Date(order.createdAt).getFullYear === new Date().getFullYear &&
-                      new Date(order.createdAt).getMonth() === new Date().getMonth() &&
-                      new Date(order.createdAt).getDate() === new Date().getDate()
-                  );
-              })
-            : [];
-        return todaysOrders;
-    }, []);
+    
+    const 
+    todaysOrders = useMemo(() => orders.filter((order) => {
+        return (
+            new Date(order.createdAt).getFullYear === new Date().getFullYear &&
+            new Date(order.createdAt).getMonth() === new Date().getMonth() &&
+            new Date(order.createdAt).getDate() === new Date().getDate()
+        );
+    }), []);
 
-    const lowStockVariants = findLowStockVariants(products);
-    const cardList = [
-        { title: 'Total Products', amount: products.length },
-        { title: 'Total Orders', amount: orders.length },
-        { title: "Today's Orders", amount: todaysOrders.length }
+    const { lowStockVariants, totalVariants } = useProductVariants(products)
+
+    const 
+    keyIndicatorsList = [
+        { name: 'todays-orders', title: "Today's Orders", amount: todaysOrders.length },
+        { name: 'total-orders', title: 'Orders', amount: orders.length },
+        { name: 'low-stock-variants', title: 'Low Stock Variants', amount: totalVariants.length },
+        { name: 'total-skus', title: 'Products', amount: lowStockVariants.length },
     ];
 
     return (
-            <Page>
-                <PageHeader
-                    title={`${organization?.name} Dashboard`}
-                    subTitle={`Welcome, ${user.firstName}`}
-                    Icon={Icons.ShoppingBagOutlined}
-                />
+        <Page className={twMerge("sm:px-4 md:pt-0")}>
+            <PageHeader
+                title={`${organization.name}`}
+                subTitle={`storefront dashboard`}
+                Icon={Icons.ShoppingCartArrowUp}
+            />
 
-                <Grid>
-                    {cardList.map((item, ind) => (
-                        <Card key={`cardlist-${ind}`} title={item.title} amount={item.amount} />
-                    ))}
-                </Grid>
+            <Paragraph>
+                {`Welcome, ${user.firstName}`}</Paragraph>
 
-                <Grid title="Orders">
-                    {orders.map((order) => (
-                        <OrderRow order={order} key={order.id} orderDetailsRoute="/orders" />
-                    ))}
-                </Grid>
+            <Grid className='grid-cols-2 lg:grid-cols-3 gap-4'>
+                {keyIndicatorsList.map((item, ind) => (
+                    <Card
+                    key={`key-indicator-${item.title}`} 
+                    title={item.title} 
+                    amount={item.amount} 
+                    />
+                ))}
+            </Grid>
+            
+            <Grid title="Recent Orders">
+                { todaysOrders.length > 0 ? (
+                    todaysOrders.map((order) => (
+                        <OrderRow 
+                        key={order.id} 
+                        order={order} 
+                        orderDetailsRoute="/orders" 
+                        />
+                    ))
+                ) : (
+                    <Card>There are no orders today.</Card>
+                )}
+            </Grid>
 
-                <Grid title="Products">
-                    {products.map((product) => (
-                        <ProductRow key={product.id} product={product} />
-                    ))}
-                </Grid>
+            <Grid title="Low Stock Products">
+                {lowStockVariants.length > 0 ? (
+                    lowStockVariants.map(variant =>
+                        <ProductRow 
+                        key={variant.id} 
+                        variant={variant} />
+                    )
+                ) : (
+                    <Card>There are no low stock products</Card>
+                )}
+            </Grid>
+            
+            {/* <Grid title="Orders">
+                {orders.map((order) => (
+                    <OrderRow order={order} key={order.id} orderDetailsRoute="/orders" />
+                ))}
+            </Grid> */}
 
-                <Grid title="Recent Orders">
-                    {todaysOrders.length > 0 ? (
-                        todaysOrders.map((order) => (
-                            <OrderRow order={order} key={order.id} orderDetailsRoute="/orders" />
-                        ))
-                    ) : (
-                        <Card>There are no recent orders</Card>
-                    )}
-                </Grid>
+            {/* <Grid title="Products">
+                {products.map((product) => (
+                    <ProductRow key={product.id} product={product} />
+                ))}
+            </Grid> */}
 
-                <Grid title="Low Stock Products">
-                    {lowStockVariants.length > 0 ? (
-                        lowStockVariants.map((product: ProductWithDashboardDetails) =>
-                            product.variants.map((variant) => (
-                                <ProductRow key={product.id} product={product} variant={variant} />
-                            ))
-                        )
-                    ) : (
-                        <Card>There are no low stock products</Card>
-                    )}
-                </Grid>
-            </Page>
+            
+        </Page>
     );
 }
 
-export const findLowStockVariants = (products: ProductWithDashboardDetails[]): any[] =>
-    products.map((product) => {
-        if (product.id && product.variants) {
-            return {
-                ...product,
-                variants: product.variants.filter((variant) => {
-                    return variant.stock < 7;
-                })
-            };
-        } else return [];
-    });
+function useProductVariants (products: ProductWithDashboardDetails[]) {
+
+    const 
+    lowStockThreshold = 7;
+
+    const 
+    _totalVariants = products.map((product: ProductWithDashboardDetails) => product.variants).flat();
+
+    const
+    _lowStockVariants = _totalVariants.filter(variant => variant.stock < lowStockThreshold)
+
+    return {
+        totalVariants: _totalVariants,
+        lowStockVariants: _lowStockVariants
+    }
+}
+
+export async function getServerSideProps({ req, res }: { req: NextRequest, res: NextResponse }) {
+    return {
+        props: { 
+            user: dateToString(user), 
+            organization: dateToString(organization), 
+            products: dateToString(products) || [], 
+            orders: dateToString(orders) || [], 
+        }
+    };
+}
+
+export function dateToString(doc: any) {
+    
+    if (doc != null || doc != undefined) {
+        
+        Object.keys(doc).forEach((key) => {
+            // console.log("key pair: ", doc[key]); 
+            if (typeof doc[key] === 'object' && doc[key] !== null)
+                // console.log("object found: ", key);
+                dateToString(doc[key]);
+            if (key === 'scannedDOB' ||
+                key === 'createdAt' ||
+                key === 'updatedAt' ||
+                key === 'deliveredAt')
+                doc[key] = JSON.parse(JSON.stringify(doc[key]));
+        });
+    }
+    return doc;
+}
 
 // export async function getServerSideProps({ req, res }) {
 //     try {

@@ -35,6 +35,7 @@ export async function createProductVariantsWithoutId(items: ProductVariantCreate
                 //     create: 
                 // }
                 productId: item.productId || '',
+                rating: item.rating,
                 unit: item.unit as Unit,
                 size: Number(item.size),
                 quantity: Number(0),
@@ -106,6 +107,7 @@ export type ProductVariantCreateType = {
     unit?: Unit
     size: number
     quantity: number
+    rating: number;
     basePrice: number
     discount: number
     isDiscount: boolean

@@ -11,7 +11,7 @@ export type IconProps = {
 };
 export default function IconWrapper({ theme, Icon, className, iconSize = 20, iconColor = theme === 'dark' ? 'light' : 'primary', ...props }: IconProps) {
     const styles = {
-        fill: 'fill-' + iconColor
+        fill: `fill-${iconColor}`
     };
     return (
         <div className={twMerge('align-items', className)}>
