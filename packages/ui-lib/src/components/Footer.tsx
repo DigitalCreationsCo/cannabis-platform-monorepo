@@ -1,19 +1,25 @@
+import { TextContent } from '@cd/core-lib/src';
 import Link from 'next/link';
 import CopyRight from './CopyRight';
 import FlexBox from './FlexBox';
-import { H4, Small, Span } from './Typography';
+import { H4, Small } from './Typography';
 
 export default function Footer() {
     return (
         <FlexBox className={styles.container}>
-            <Link href='/about-gras'>
-            <Small className="text-inverse font-semibold">
-                about Gras
+            <Link href='/signup/create-dispensary-account'>
+            <Small className="text-inverse hover:underline font-semibold">
+                {TextContent.account.DISPENSARIES_START_HERE}
                 </Small>
             </Link>
             <Link href='/support'>
-            <Small className="text-inverse font-semibold">
-                <Span className="underline">get support</Span>
+            <Small className="text-inverse hover:underline font-semibold">
+                get support
+                </Small>
+            </Link>
+            <Link href='/about-gras'>
+            <Small className="text-inverse hover:underline font-semibold">
+                about Gras
                 </Small>
             </Link>
             <Small className="text-inverse">
@@ -25,5 +31,5 @@ export default function Footer() {
 }
 
 const styles = {
-    container: "space-y-2 flex-col min-h-[188px] p-12 pb-24 lg:px-[248px] bg-secondary min-w-full bottom-0 shadow-lg"
+    container: "cursor-default space-y-2 flex-col min-h-[188px] p-8 pb-24 lg:px-[248px] bg-secondary min-w-full bottom-0 shadow-lg"
 }

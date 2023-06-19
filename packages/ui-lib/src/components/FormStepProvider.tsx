@@ -1,7 +1,8 @@
 import { useEncryptCookies, useHashNavigate } from '@cd/core-lib';
 import { OrganizationCreateType, UserCreateType } from '@cd/data-access';
-import { ErrorMessage, FlexBox } from '@cd/ui-lib';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import ErrorMessage from './ErrorMessage';
+import FlexBox from './FlexBox';
 
 type FormValuesType = {
     organization?: OrganizationCreateType;
@@ -47,16 +48,16 @@ interface FormStepProviderProps {
 
 function FormStepProvider ({ FormStepComponents, formId }: FormStepProviderProps) {
     
-    const
-    validFormSteps = FormStepComponents.filter((component) => component !== null);
-
     const [cookies, setCookie, removeCookie] = useEncryptCookies([`form-data-context-${formId}`] || {} as FormValuesType);
-    
     const [formValues, setFormData] = useState<FormValuesType>((cookies[`form-data-context-${formId}`]) || {});
     
     useEffect(() => {
         setCookie(`form-data-context-${formId}`, JSON.stringify(formValues))
     }, [formValues]) 
+    
+
+    const
+    validFormSteps = FormStepComponents.filter((component) => component !== null);
     
     const {canProceed, setCanProceed, formstep, nextFormStep, prevFormStep } = useHashNavigate(formId)
 
@@ -64,10 +65,9 @@ function FormStepProvider ({ FormStepComponents, formId }: FormStepProviderProps
     currentStep = formstep,
     totalSteps = validFormSteps.length,
     showStepNumber = currentStep !== undefined && totalSteps !== undefined 
-    && `step ${currentStep + 1} of ${totalSteps}`
+    && `step ${currentStep + 1} of ${totalSteps}`;
     
     const FormStepComponent = useMemo(() => validFormSteps[formstep], [formstep]);
-
     if (!FormStepComponent) 
     return <ErrorMessage code={404} message="Page not found" />
 

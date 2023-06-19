@@ -1,9 +1,9 @@
 import { getShopSite, selectIsAddressAdded, selectUserState } from "@cd/core-lib";
-import { Card, H2, LayoutContextProps, Page } from "@cd/ui-lib/src/components";
+import { Card, FormStepProvider, H2, LayoutContextProps, Page } from "@cd/ui-lib/src/components";
 import Router from 'next/router';
 import { useSelector } from "react-redux";
 import { twMerge } from "tailwind-merge";
-import { FormStepProvider, SubmitAddress, UserSignUpQuick, UserSignUpReview, VerifyPhotoId } from "../../components";
+import { SubmitAddress, UserSignUpQuick, UserSignUpReview, VerifyPhotoId } from "../../components";
 
 function ContinueSignUp() {
     
