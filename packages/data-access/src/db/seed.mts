@@ -815,17 +815,14 @@ async function main() {
   // ROUTES
   const routes: Route[] = [
     {
-      id: '1',
       driverId: 'bf346k4u7x2b2hhr6wvgiwao',
       orderId: '1',
     },
     {
-      id: '2',
       driverId: 'bf346k4u7x2b2hhr6wvgiwao',
       orderId: '2',
     },
     {
-      id: '3',
       driverId: 'bf346k4u7x2b2hhr6wvgiwao',
       orderId: '3',
     }

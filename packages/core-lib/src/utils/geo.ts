@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import { Address, AddressCreateType, AddressWithDetails, Coordinates, Prisma } from "@cd/data-access";
+import { Address, AddressCreateType, AddressWithCoordinates, Coordinates, Prisma } from "@cd/data-access";
 import axios from "axios";
 
 export const getGeoCoordinatesByAddress = async (address: Prisma.AddressCreateWithoutOrganizationInput) => {
@@ -35,7 +35,7 @@ const getCoordinatesByAddressString = async (addressString: string): Promise<{
 	}
 }
 
-export const getGeoAddressByCoordinates = async (coordinates: { latitude: number; longitude: number }): Promise<AddressWithDetails> => {
+export const getGeoAddressByCoordinates = async (coordinates: { latitude: number; longitude: number }): Promise<AddressWithCoordinates> => {
 	try {
 		const
 			format = 'json'
@@ -48,7 +48,7 @@ export const getGeoAddressByCoordinates = async (coordinates: { latitude: number
 			{ address } = response.data;
 
 		const
-			formattedAddress: AddressWithDetails = {
+			formattedAddress: AddressWithCoordinates = {
 				street1: address.house_number + ' ' + address.road,
 				street2: '',
 				city: address.city,

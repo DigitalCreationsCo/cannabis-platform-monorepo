@@ -1,7 +1,7 @@
 import { Address, Coordinates } from "@prisma/client";
 import prisma from "./db/prisma";
 
-export async function createAddress(address:any) {
+export async function createAddress(address: any) {
     try {
         const createAddress = await prisma.address.create({
             data: address
@@ -11,7 +11,7 @@ export async function createAddress(address:any) {
         console.error(error)
         throw new Error(error)
     }
- }
+}
 
 export async function findAddressById(id: string) {
     try {
@@ -48,7 +48,8 @@ export async function removeAddressByIdAndUserId({ addressId, userId }: { addres
                 id: addressId
             },
             data: {
-                user: { disconnect: { id: userId }
+                user: {
+                    disconnect: { id: userId }
                 }
             }
         })
@@ -62,7 +63,7 @@ export async function removeAddressByIdAndUserId({ addressId, userId }: { addres
 // export type AddressCreateType = Prisma.AddressCreateInput
 // export type AddressCreateType = Prisma.PromiseReturnType<typeof createAddress>
 
-export type AddressCreateType ={
+export type AddressCreateType = {
     id?: string;
     street1: string;
     street2: string | null;
@@ -102,5 +103,4 @@ export type CoordinatesCreateType = {
     updatedAt?: Date
 }
 
-export type AddressWithDetails = Address & { coordinates: Coordinates | null }
-export type AddressWithCoordinates = Address & { coordinates: Coordinates }
+export type AddressWithCoordinates = Address & { coordinates: Coordinates | null }

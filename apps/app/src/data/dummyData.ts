@@ -1,4 +1,4 @@
-import { OrderWithDetails, OrganizationWithDashboardDetails, ProductWithDashboardDetails, UserDispensaryAdmin, UserWithProfilePicture } from "@cd/data-access";
+import { OrderWithDashboardDetails, OrganizationWithDashboardDetails, ProductWithDashboardDetails, UserDispensaryAdmin, UserWithProfilePicture } from "@cd/data-access";
 
 const userDispensaryAdmin: UserDispensaryAdmin = {
     id: 'bf346k4u7xq030hr6wvgiwao',
@@ -280,7 +280,7 @@ const products: ProductWithDashboardDetails[] = [
     },
 ];
 
-const orders: OrderWithDetails[] = [
+const orders: OrderWithDashboardDetails[] = [
     {
         id: "1",
         subtotal: 12000,
@@ -356,6 +356,77 @@ const orders: OrderWithDetails[] = [
             idFrontImage: null,
             idBackImage: null,
             termsAccepted: true,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        },
+        driver: {
+            id: 'bf346k4u7x2b2hhr6wvgiwao',
+            email: "bmejiadeveloper2@gmail.com",
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            user: {
+                id: 'bf346k4u7x2b2hhr6wvgiwao',
+                firstName: "Bryant",
+                lastName: "Mejia",
+                username: "BigChiefa",
+                email: "bmejiadeveloper2@gmail.com",
+                phone: "1232343456",
+                emailVerified: false,
+                isLegalAge: null,
+                idVerified: false,
+                isSignUpComplete: false,
+                dialCode: "1",
+                idFrontImage: "",
+                idBackImage: "",
+                termsAccepted: false,
+                scannedDOB: new Date(),
+                createdAt: new Date(),
+                updatedAt: new Date()
+            },
+        },
+        route: {
+            driverId: 'bf346k4u7x2b2hhr6wvgiwao',
+            orderId: '1',
+            coordinates: [
+                [35, 75],
+                [37, 78],
+                [37, 79],
+                [37, 80],
+                [36, 80],
+                [34, 81],
+                [33, 81],
+            ]
+        },
+        destinationAddress: {
+            id: "1",
+            street1: "123 King St",
+            street2: "Suite 200",
+            city: "Lancaster",
+            state: "PA",
+            zipcode: 17602,
+            country: "United States",
+            countryCode: "US",
+            coordinateId: '1',
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            coordinates: {
+                id: '1',
+                latitude: 33,
+                longitude: 81,
+                radius: 1000000,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            }
+        },
+        purchase: {
+            id: "2",
+            paymentStatus: "Paid",
+            gateway: "stripe",
+            type: "card",
+            amount: 23444,
+            token: '12345',
+            customerId: "2",
+            orderId: "2",
             createdAt: new Date(),
             updatedAt: new Date(),
         }
