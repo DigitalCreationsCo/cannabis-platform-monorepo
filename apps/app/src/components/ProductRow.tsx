@@ -1,5 +1,5 @@
 import { ProductVariantWithDetails } from '@cd/data-access';
-import { FlexBox, H6, Icons, IconWrapper, Paragraph, Price, Row } from '@cd/ui-lib';
+import { FlexBox, Icons, IconWrapper, Price, Row, Small } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
@@ -24,33 +24,32 @@ export default function ProductVariantRow({ variant }: ProductVariantRowProps) {
                 width={40} 
                 height={40} />
 
-                <H6 className="grow">
-                    {variant.name}</H6>
+                <Small className="min-w-[166px]">
+                    {variant.name}</Small>
+                
+                <FlexBox className='flex-row items-center space-x-1 sm:grow'>
+                    <IconWrapper iconColor='yellow' Icon={Icons.StarFilled} />
+                    <Small>{variant.rating}</Small>
+                </FlexBox>
 
-                <Paragraph
+                <Small
                     className={twMerge(
                         'flex flex-row justify-center w-max', 
                         variant.stock < (process.env.LOW_STOCK_THRESHOLD || 7) && 'text-error'
                         )}
                         >
                     {variant.stock.toString().padStart(2, '0')} in stock
-                </Paragraph>
+                </Small>
                 
-                <H6 className="">
-                    <Price className='border'
-                    basePrice={variant.basePrice} 
-                    salePrice={variant.salePrice}
-                    discount={variant.discount}
-                    showDiscount={true}
-                    showOriginalPrice={true}
-                    />
-                </H6>
-
-                <FlexBox className='flex-row'>
-                    <IconWrapper iconColor='yellow' Icon={Icons.StarFilled} />
-                    <H6>{variant.rating} / 5</H6>
-                </FlexBox>
-                <IconWrapper Icon={Icons.Right} />
+                <Price
+                basePrice={variant.basePrice} 
+                salePrice={variant.salePrice}
+                discount={variant.discount}
+                showDiscount={true}
+                showOriginalPrice={true}
+                />
+                
+                {/* <IconWrapper Icon={Icons.Right} /> */}
             </Row>
         </Link>
     );
