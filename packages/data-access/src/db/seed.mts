@@ -1425,6 +1425,38 @@ async function main() {
     skipDuplicates: true,
   });
   console.info('create prisma.imageUser records');
+
+
+  // need to update this seed for user information, will fail seed as it is now - 06182023
+  const reviews = [
+    {
+      id: '1',
+      rating: 5,
+      comment: 'Great thing!',
+      productId: '1',
+      userId: 'bf346k4u7xq030hr6wvgiwao',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      user: {
+        id: 'bf346k4u7xq030hr6wvgiwao',
+        username: "Sammy223",
+        profilePicture: {
+          id: "2",
+          userId: "bf346k4u7xq030hr6wvgiwao",
+          location: "https://www.baltimoremagazine.com/wp-content/uploads/2019/12/baltimore-oriole-s52-11-018-l-0.jpg",
+          blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      }
+    }
+  ]
+
+  await prisma.review.createMany({
+    data: reviews,
+    skipDuplicates: true,
+  });
+  console.info('create prisma.review records');
 }
 
 main()

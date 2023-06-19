@@ -6,7 +6,7 @@ import {
     ImageUser,
     ImageVendor,
     Product,
-    ProductWithDetails
+    ProductWithDashboardDetails
 } from '@cd/data-access';
 import {
     Button, ClickableTags, DropZone, FlexBox,
@@ -47,7 +47,7 @@ export type ProductUpdatePayload = Product & {
     files?: ImageProduct[] | string;
 };
 
-export default function ProductDetails({ product }: { product: ProductWithDetails }) {
+export default function ProductDetails({ product }: { product: ProductWithDashboardDetails }) {
     const [productCategories, setProductCategories] = useState<Set<Category>>(new Set());
     const [files, setFiles] = useState<any[]>([]);
     const [loadingButton, setLoadingButton] = useState(false);
