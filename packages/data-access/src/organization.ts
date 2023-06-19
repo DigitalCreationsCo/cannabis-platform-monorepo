@@ -1,7 +1,7 @@
-import { CategoryList, Coordinates, ImageOrganization, Organization, Prisma, Schedule } from "@prisma/client";
+import { CategoryList, Coordinates, ImageOrganization, Organization, Prisma, Schedule, SubDomain, Vendor } from "@prisma/client";
 import { AddressCreateType, AddressWithCoordinates } from "./address";
 import prisma from "./db/prisma";
-import { ProductWithDetails } from "./product";
+import { ProductWithShopDetails } from "./product";
 /*
 *   updateOrganization
 *   createOrganization
@@ -430,9 +430,18 @@ export type OrganizationWithAddress = Organization & { address: AddressWithCoord
 export type OrganizationWithShopDetails = Organization & Omit<Organization, "stripeAccountId" | "createdAt" | "updatedAt"> & {
     address: AddressWithCoordinates,
     images: ImageOrganization[],
-    products: ProductWithDetails[],
+    products: ProductWithShopDetails[],
     categoryList: CategoryList
     schedule: Schedule
+    vendor: Vendor
+}
+
+export type OrganizationWithDashboardDetails = Organization & {
+    address: AddressWithCoordinates,
+    images: ImageOrganization[],
+    schedule: Schedule
+    vendor: Vendor
+    subdomain: SubDomain
 }
 
 export type OrganizationStripeDetail = {

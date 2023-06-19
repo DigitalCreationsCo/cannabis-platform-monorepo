@@ -1,12 +1,12 @@
-import { Order, Organization, ProductWithDetails, UserWithDetails } from '@cd/data-access';
+import { Order, Organization, ProductWithDashboardDetails, UserWithDetails } from '@cd/data-access';
 import { Card, Grid, Icons, OrderRow, Page, PageHeader } from '@cd/ui-lib';
 import { ProductRow } from 'components';
 import { useMemo } from 'react';
 
 interface DashboardProps {
-    user: UserWithDetails;
     organization: Organization;
-    products: ProductWithDetails[];
+    user: UserWithDetails;
+    products: ProductWithDashboardDetails[];
     orders: Order[];
 }
 
@@ -69,7 +69,7 @@ export default function Dashboard({ user, organization, products, orders }: Dash
 
                 <Grid title="Low Stock Products">
                     {lowStockVariants.length > 0 ? (
-                        lowStockVariants.map((product: ProductWithDetails) =>
+                        lowStockVariants.map((product: ProductWithDashboardDetails) =>
                             product.variants.map((variant) => (
                                 <ProductRow key={product.id} product={product} variant={variant} />
                             ))
@@ -82,7 +82,7 @@ export default function Dashboard({ user, organization, products, orders }: Dash
     );
 }
 
-export const findLowStockVariants = (products: ProductWithDetails[]): any[] =>
+export const findLowStockVariants = (products: ProductWithDashboardDetails[]): any[] =>
     products.map((product) => {
         if (product.id && product.variants) {
             return {
@@ -94,62 +94,63 @@ export const findLowStockVariants = (products: ProductWithDetails[]): any[] =>
         } else return [];
     });
 
-export async function getServerSideProps({ req, res }) {
-    try {
-        return { redirect: { destination: '/welcome', permanent: false } };
+// export async function getServerSideProps({ req, res }) {
+//     try {
+//         return { redirect: { destination: '/welcome', permanent: false } };
 
-        const { session, user } = await getSession({ req, res });
-        if (!session || !user) {
-            console.log('No session or user');
-            return { redirect: { destination: '/welcome', permanent: false } };
-        }
+//         const { session, user } = await getSession({ req, res });
+//         if (!session || !user) {
+//             console.log('No session or user');
+//             return { redirect: { destination: '/welcome', permanent: false } };
+//         }
 
-        const { organizationId } = user.memberships[0];
-        const organization = await (
-            await axios(urlBuilder.next + `/api/organization/${organizationId}`, {
-                headers: {
-                    Cookie: req.headers.cookie
-                }
-            })
-        ).data;
-        const products = await (
-            await axios(urlBuilder.next + '/api/products', {
-                headers: {
-                    Cookie: req.headers.cookie
-                }
-            })
-        ).data;
-        const orders = await (
-            await axios(urlBuilder.next + '/api/orders/', {
-                headers: {
-                    Cookie: req.headers.cookie
-                }
-            })
-        ).data;
-        if (!user || !organization || !products || !orders) {
-            return { notFound: true };
-        }
-        return {
-            props: { user, organization, products, orders }
-        };
+//         const { organizationId } = user.memberships[0];
+//         const organization = await (
+//             await axios(urlBuilder.next + `/api/organization/${organizationId}`, {
+//                 headers: {
+//                     Cookie: req.headers.cookie
+//                 }
+//             })
+//         ).data;
+//         const products = await (
+//             await axios(urlBuilder.next + '/api/products', {
+//                 headers: {
+//                     Cookie: req.headers.cookie
+//                 }
+//             })
+//         ).data;
+//         const orders = await (
+//             await axios(urlBuilder.next + '/api/orders/', {
+//                 headers: {
+//                     Cookie: req.headers.cookie
+//                 }
+//             })
+//         ).data;
+//         if (!user || !organization || !products || !orders) {
+//             return { notFound: true };
+//         }
+//         return {
+//             props: { user, organization, products, orders }
+//         };
         
-    } 
-    catch (error) {
+//     } 
+//     catch (error) {
 
-        console.log('SSR error: ', error.message);
+//         console.log('SSR error: ', error.message);
 
-        if (error.type === Session.Error.TRY_REFRESH_TOKEN)
-        return { props: { fromSupertokens: 'needs-refresh' } }
-        else 
-        if (error.type === Session.Error.UNAUTHORISED)
-        console.log('unauthorized error: ', error);
-        return res.status(200).json({ status: false, error });
-        else 
-        return { redirect: { destination: '/welcome', permanent: false } };
-    }
-}
+//         if (error.type === Session.Error.TRY_REFRESH_TOKEN)
+//         return { props: { fromSupertokens: 'needs-refresh' } }
+//         else 
+//         if (error.type === Session.Error.UNAUTHORISED)
+//         console.log('unauthorized error: ', error);
+//         return res.status(200).json({ status: false, error });
+//         else 
+//         return { redirect: { destination: '/welcome', permanent: false } };
+//     }
+// }
 
 
 // add redux wrapper.getServerSideProps
 // seed dispensary data
 // handle dispensary data in dashboard using redux ( use redux to store only data that is needed for server requests (org data))
+// fix dispensary create and sign in

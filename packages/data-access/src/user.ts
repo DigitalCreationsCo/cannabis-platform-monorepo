@@ -520,6 +520,17 @@ export type UserCreateType = Prisma.UserCreateInput & {
     memberships: Prisma.MembershipUpsertArgs["create"][];
 }
 
+export type UserDispensaryAdmin = User & {
+    profilePicture: Prisma.ImageUserCreateWithoutUserInput;
+    memberships: Prisma.MembershipUpsertArgs["create"][];
+}
+
+export type UserWithProfilePictureBlob = {
+    id: string;
+    username: string;
+    profilePicture: ImageUser;
+}
+
 export type UserLoginData = {
     email: string;
     password: string;
