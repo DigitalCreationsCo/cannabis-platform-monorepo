@@ -8,7 +8,7 @@ import toast from 'react-hot-toast';
 import * as yup from 'yup';
 
 function DispensaryUserCreate () {
-    const { prevFormStep, nextFormStep, formData, setFormValues } = useFormContext();
+    const { prevFormStep, nextFormStep, formValues, setFormValues } = useFormContext();
     const [loadingButton, setLoadingButton] = useState(false);
     // const [passwordVisibility, setPasswordVisibility] = useState(false);
     // const togglePasswordVisibility = useCallback(() => {
@@ -24,7 +24,7 @@ function DispensaryUserCreate () {
             const response = await axios.post(urlBuilder.shop + '/api/user/admin', {
                 user: values,
                 role: "OWNER",
-                dispensaryId: formData.organization?.id
+                dispensaryId: formValues.organization?.id
             }, { validateStatus: () => true});
             
             console.log('response: ', response);

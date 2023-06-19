@@ -7,11 +7,11 @@ import Confetti from 'react-confetti';
 
 function DispensarySignUpComplete () {
 
-    const { formData, setCanProceed, resetFormValues } = useFormContext();
+    const { formValues, setCanProceed, resetFormValues } = useFormContext();
     
     const
-    name = formData?.organization?.name as string,
-    address = formData?.organization?.address as unknown as Address;
+    name = formValues?.organization?.name as string,
+    address = formValues?.organization?.address as unknown as Address;
 
     useEffect(() => () => {
         resetFormValues();

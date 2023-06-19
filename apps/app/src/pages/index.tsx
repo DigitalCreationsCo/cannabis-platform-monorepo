@@ -1,3 +1,4 @@
+import { getDashboardSite } from '@cd/core-lib/utils';
 import { Button, Center, FlexBox, H1, H5, LayoutContextProps, Page, Paragraph, SignInButton } from '@cd/ui-lib';
 import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
@@ -30,7 +31,7 @@ function WelcomePage() {
                     <FlexBox className='items-center'>
                         <H5 color="light">
                         {`Are you a dispensary? Get started here.`}</H5>
-                        <Link href={"/signup/create-dispensary-account"}>
+                        <Link href={getDashboardSite("/signup/create-dispensary-account")}>
                             <Button size="lg" 
                             bg="primary" 
                             transparent

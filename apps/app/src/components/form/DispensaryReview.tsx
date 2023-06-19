@@ -1,10 +1,9 @@
 import { renderNestedDataObject } from '@cd/core-lib';
-import { Button, FlexBox, Grid, H2, H3, Paragraph } from '@cd/ui-lib';
-import { useFormContext } from './FormStepProvider';
+import { Button, FlexBox, Grid, H2, H3, Paragraph, useFormContext } from '@cd/ui-lib';
 
 function DispensaryReview () {
 
-    const { formData, prevFormStep, nextFormStep } = useFormContext();
+    const { formValues, prevFormStep, nextFormStep } = useFormContext();
 
     
     return (
@@ -13,13 +12,13 @@ function DispensaryReview () {
 
             <Paragraph>{`Review your account. If you want to make any changes, press back.`}</Paragraph>
             <div className={styles.renderList}>
-                <H3>Dispensary Account: {formData?.organization?.name}</H3>
-                {renderNestedDataObject(formData?.organization, Paragraph, ['vendor', 'id', 'createdAt', 'updatedAt', 'coordinateId', 'subdomainId'])}
+                <H3>Dispensary Account: {formValues?.organization?.name}</H3>
+                {renderNestedDataObject(formValues?.organization, Paragraph, ['vendor', 'id', 'createdAt', 'updatedAt', 'coordinateId', 'subdomainId'])}
             </div>
 
             <div className={styles.renderList}>
                 <H3>My User Account</H3>
-                {renderNestedDataObject(formData?.newUser, Paragraph, ['emailVerified', 'password', 're_password'])}
+                {renderNestedDataObject(formValues?.newUser, Paragraph, ['emailVerified', 'password', 're_password'])}
             </div>
 
             <FlexBox className='m-auto flex-row space-x-4 pb-20'>

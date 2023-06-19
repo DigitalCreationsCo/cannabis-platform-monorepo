@@ -71,10 +71,18 @@ function ProvideDispensaryKey () {
 
     return (
             <form onSubmit={handleSubmit}>
-            <Grid className='h-[320px] items-center justify-center flex flex-col space-y-4'>
+            <Grid className='min-h-[320px] items-center justify-center flex flex-col space-y-4'>
                 <FlexBox>
                     <H2>Welcome to Gras</H2>
-                    <Paragraph>Please enter the 24-digit Dispensary Key provided by the Gras team.</Paragraph>
+
+                    <Paragraph>
+                        We're happy you're joining us on a journey to serve the world of cannabis! {'\n'}
+                        You'll need a <b>dispensary code</b> to get started.</Paragraph>
+                    <Paragraph className="text-primary">
+                        Please email our team at <a className='underline' href='mailto::support@grascannabis.org'>
+                            support@grascannabis.org</a> to claim your <b>dispensary code.</b></Paragraph>
+                        <br />
+                    <Paragraph>Please enter the 24-digit <b>dispensary code</b> provided by the Gras team.</Paragraph>
                 </FlexBox>
                 <TextField
                     containerClassName='w-[320px]'
