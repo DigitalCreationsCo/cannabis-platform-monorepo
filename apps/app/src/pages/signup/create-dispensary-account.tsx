@@ -1,4 +1,4 @@
-import { FormCard, LayoutContextProps, Page } from '@cd/ui-lib';
+import { FormCard, FormStepProvider, LayoutContextProps, Page } from '@cd/ui-lib';
 import Head from 'next/head';
 import { twMerge } from 'tailwind-merge';
 
@@ -6,7 +6,7 @@ import {
     DispensaryCreate,
     DispensaryReview,
     DispensarySignUpComplete,
-    DispensaryUserCreate, FormStepProvider, ProvideDispensaryKey,
+    DispensaryUserCreate, ProvideDispensaryKey,
     ProvideStripeAccountId
 } from '../../components/form';
 
@@ -28,7 +28,10 @@ function DispensarySignUpStepForm() {
                 <meta name="Gras App" content="Built by Gras Cannabis Co." />
             </Head>
             <FormCard className={"bg-inverse-soft md:m-auto"}>
-                <FormStepProvider FormStepComponents={FormStepComponents} />
+                <FormStepProvider 
+                formId='dispensary-signup-form'
+                FormStepComponents={FormStepComponents} 
+                />
             </FormCard>
         </Page>
     );

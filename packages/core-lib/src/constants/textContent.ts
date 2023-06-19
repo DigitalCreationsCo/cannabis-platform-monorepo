@@ -15,12 +15,13 @@ const TextContent = Object.freeze({
   },
 
   account: {
-    CREATE_AN_ACCOUNT: "Create an account",
-    CREATE_YOUR_ACCOUNT: "Create your account",
-    CREATE_DISPENSARY_ACCOUNT: 'Create a Dispensary account',
     ACCOUNT_IS_CREATED: 'Your account is created!',
     CHOOSE_PROFILE_PICTURE: "Choose a profile picture.",
     CHOOSE_PROFILE_PICTURE_OR_UPLOAD: "Choose a profile picture, or upload your own.",
+    CREATE_AN_ACCOUNT: "Create an account",
+    CREATE_YOUR_ACCOUNT: "Create your account",
+    CREATE_DISPENSARY_ACCOUNT: 'Create a Dispensary account',
+    DISPENSARIES_START_HERE: "Dispensaries, get started here",
     ENTER_OR_GO_TO_ACCOUNT: 'You can enter the Gras site, or view your account.',
   },
 
