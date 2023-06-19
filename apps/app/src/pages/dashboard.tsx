@@ -35,7 +35,7 @@ export default function Dashboard({ user, organization, products, orders }: Dash
     ];
 
     return (
-        <Page className={twMerge("sm:px-4 md:pt-0")}>
+        <Page className={twMerge("sm:px-4 md:pt-0 md:pr-16")}>
             <PageHeader
                 title={`${organization.name}`}
                 subTitle={`storefront dashboard`}
@@ -48,6 +48,7 @@ export default function Dashboard({ user, organization, products, orders }: Dash
             <Grid className='grid-cols-2 lg:grid-cols-3 gap-4'>
                 {keyIndicatorsList.map((item, ind) => (
                     <Card
+                    className="md:!w-full"
                     key={`key-indicator-${item.title}`} 
                     title={item.title} 
                     amount={item.amount} 
@@ -69,7 +70,7 @@ export default function Dashboard({ user, organization, products, orders }: Dash
                 )}
             </Grid>
 
-            <Grid title="Low Stock Products">
+            <Grid title="Low Stock Products" className='gap-2'>
                 {lowStockVariants.length > 0 ? (
                     lowStockVariants.map(variant =>
                         <ProductRow 
