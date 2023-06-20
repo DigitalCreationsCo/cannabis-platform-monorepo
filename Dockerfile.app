@@ -10,7 +10,7 @@ ARG BUILD_CONTEXT=$BUILD_CONTEXT
 
 RUN yarn set version $YARN_VERSION
 RUN yarn plugin import workspace-tools
-RUN yarn workspaces focus @cd/$BUILD_CONTEXT-app
+RUN yarn workspaces focus @cd/$BUILD_CONTEXT
 
 # FROM --platform=linux/amd64 node:16-bullseye as BUILDER
 FROM node:16-bullseye as BUILDER
@@ -21,7 +21,7 @@ COPY --from=INSTALLER ./root .
 
 ARG BUILD_CONTEXT=$BUILD_CONTEXT
 
-RUN yarn workspaces foreach -itR --from @cd/$BUILD_CONTEXT-app run build
+RUN yarn workspaces foreach -itR --from @cd/$BUILD_CONTEXT run build
 
 # linux amd64 for ci
 FROM --platform=linux/amd64 node:16-bullseye AS RUNNER
