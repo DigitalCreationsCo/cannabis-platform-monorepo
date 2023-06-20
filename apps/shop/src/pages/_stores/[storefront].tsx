@@ -1,5 +1,5 @@
 import { useRandom } from '@cd/core-lib/hooks';
-import { Center, Grid, H2, Page, Paragraph } from '@cd/ui-lib';
+import { Center, Grid, H2, LayoutContextProps, Page, Paragraph } from '@cd/ui-lib';
 import { NodeNextRequest } from 'next/dist/server/base-http/node';
 import Head from 'next/head';
 
@@ -80,3 +80,7 @@ expressivePhrases = (dispensary: string) => [
     `Check back in August 2023 for a new budding online experience from ${dispensary} & Gras.`,
     `Check back in August 2023 for this new, sprouting shopping experience from ${dispensary} & Gras.`,
 ]
+
+StoreFront.getLayoutContext = () : LayoutContextProps => ({
+    showHeader: false,
+});

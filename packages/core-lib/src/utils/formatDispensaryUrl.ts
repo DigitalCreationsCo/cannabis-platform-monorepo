@@ -38,15 +38,18 @@ function getDashboardSite(path: string): string {
 }
 
 function getCurrentSite(path: string): string {
+    console.log(`${window.location.host}${path}`);
+    console.log('path here');
+
     switch (process.env.NODE_ENV as string) {
         case 'development':
-            return `http://app.localhost:3000${path}`;
+            return `http://${window.location.host}${path}`;
         case 'test':
-            return `http://app.localhost:3000${path}`;
+            return `http://${window.location.host}${path}`;
         case 'production':
-            return `http://app.grascannabis.org${path}`;
+            return `http://${window.location.host}${path}`;
         default:
-            return `http://localhost:3001`;
+            return `http://${window.location.host}`;
     }
 }
 
