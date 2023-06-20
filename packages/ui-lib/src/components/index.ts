@@ -30,6 +30,7 @@ export { default as PageHeader } from './PageHeader';
 export { default as PhoneNumber } from './PhoneNumber';
 export { default as Price } from './Price';
 export { default as ProductItem } from './ProductItem';
+export { default as ProductRow } from './ProductRow';
 export { default as Row } from './Row';
 export { default as SearchField } from './SearchField';
 export { default as Select } from './Select';
@@ -41,4 +42,5 @@ export { default as TextField } from './TextField';
 export { ToastProvider } from './ToastProvider';
 export * from './Typography';
 export { default as UploadImageBox } from './UploadImageBox';
+export { default as VariantRow } from './VariantRow';
 

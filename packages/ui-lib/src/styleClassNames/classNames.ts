@@ -1,6 +1,6 @@
 const styles = Object.freeze({
     TOPBAR: {
-        topbar: ['flex flex-row h-18 pr-8 lg:pr-16 bg-inverse items-center shadow z-10 md:h-[150px]'],
+        topbar: ['flex flex-row h-18 px-4 md:pr-16 bg-inverse items-center shadow z-10 md:h-[150px]'],
         tagline: ['pt-2 pl-2',
             'text-lg',
             'hidden',

@@ -1,10 +1,9 @@
 import { OrderWithDashboardDetails, OrganizationWithDashboardDetails, ProductWithDashboardDetails, UserDispensaryAdmin } from '@cd/data-access';
-import { Card, Grid, Icons, OrderRow, Page, PageHeader, Paragraph } from '@cd/ui-lib';
+import { Card, Grid, Icons, LayoutContextProps, OrderRow, Page, PageHeader, Paragraph, VariantRow } from '@cd/ui-lib';
 import { orders, organization, products, userDispensaryAdmin as user } from 'data/dummyData';
 import { NextRequest, NextResponse } from 'next/server';
 import { useMemo } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { ProductRow } from '../components';
 
 interface DashboardProps {
     organization: OrganizationWithDashboardDetails;
@@ -29,14 +28,15 @@ export default function Dashboard({ user, organization, products, orders }: Dash
     const 
     keyIndicatorsList = [
         { name: 'todays-orders', title: "Today's Orders", amount: todaysOrders.length },
-        { name: 'total-orders', title: 'Orders', amount: orders.length },
         { name: 'low-stock-variants', title: 'Low Stock Variants', amount: totalVariants.length },
         { name: 'total-skus', title: 'Products', amount: lowStockVariants.length },
+        { name: 'total-orders', title: 'Orders', amount: orders.length },
     ];
 
     return (
-        <Page className={twMerge("sm:px-4 md:pt-0 md:pr-16")}>
+        <Page className={twMerge("sm:px-4 !pt-0 md:pr-16")}>
             <PageHeader
+                iconColor={'primary'}
                 title={`${organization.name}`}
                 subTitle={`storefront dashboard`}
                 Icon={Icons.ShoppingCartArrowUp}
@@ -45,10 +45,11 @@ export default function Dashboard({ user, organization, products, orders }: Dash
             <Paragraph>
                 {`Welcome, ${user.firstName}`}</Paragraph>
 
-            <Grid className='grid-cols-2 lg:grid-cols-3 gap-4'>
+            <Grid className='grid-cols-2 md:grid-cols-3 gap-4'>
                 {keyIndicatorsList.map((item, ind) => (
                     <Card
-                    className="md:!w-full"
+                    className="col-span-auto md:!w-full lg:!w-full"
+                    amountClassName='text-primary'
                     key={`key-indicator-${item.title}`} 
                     title={item.title} 
                     amount={item.amount} 
@@ -73,7 +74,7 @@ export default function Dashboard({ user, organization, products, orders }: Dash
             <Grid title="Low Stock Products" className='gap-2'>
                 {lowStockVariants.length > 0 ? (
                     lowStockVariants.map(variant =>
-                        <ProductRow 
+                        <VariantRow 
                         key={variant.id} 
                         variant={variant} />
                     )
@@ -206,3 +207,8 @@ export function dateToString(doc: any) {
 // seed dispensary data
 // handle dispensary data in dashboard using redux ( use redux to store only data that is needed for server requests (org data))
 // fix dispensary create and sign in
+
+Dashboard.getLayoutContext = (): LayoutContextProps => ({
+    showHeader: true,
+    showSideNav: true,
+});

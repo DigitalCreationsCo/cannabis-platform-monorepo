@@ -36,27 +36,54 @@ function SideNavContainer({
 
     // dont mess with these styles unless youre prepared for pain
     const classes = {
-        container: ['drawer drawer-mobile', 'grow h-full'],
+        container: [
+            'drawer drawer-mobile', 
+            'grow h-full'
+        ],
+
         pageContentShifted: [
             'drawer-content',
             // isFixed && 'pl-[188px]',
             'w-full flex'
         ],
-        sideNavDrawer: [!showSideNavOnDesktop && 'lg:!hidden', 'drawer-side', isFixed && 'fixed', 'min-h-full'],
-        drawerOverlay: ['drawer-overlay h-full lg:hidden'],
+        sideNavDrawer: [
+            isFixed && 'fixed', 
+            !showSideNavOnDesktop && 'lg:!hidden', 
+            'drawer-side', 
+            'min-h-full'],
+        
+        drawerOverlay: [
+            'drawer-overlay h-full lg:hidden'
+        ],
+        
         sideNavComponentContainer: [
             !showSideNav && 'hidden',
-            'bg-light h-fit shadow drop-shadow',
-            'lg:w-[188px] lg:mt-4'
+            'bg-inverse-soft ',
+            'lg:w-[188px] h-fit', 
+            'pt-4 lg:ml-2 py-4'
         ]
     };
     return (
-        <div id={fixedComponentId} className={twMerge(classes.container)}>
-            <input id={drawerComponentId} type="checkbox" className="drawer-toggle" />
-            <div className={twMerge(classes.pageContentShifted)}>{children}</div>
+        <div 
+        id={fixedComponentId} 
+        className={twMerge(classes.container)}
+        >
+            <input 
+            id={drawerComponentId} 
+            type="checkbox" 
+            className="drawer-toggle" 
+            />
+            
+            <div className={twMerge(classes.pageContentShifted)}>
+                {children}</div>
 
             <div className={twMerge(classes.sideNavDrawer)}>
-                <label htmlFor={drawerComponentId} className={twMerge(classes.drawerOverlay)}></label>
+                <label 
+                htmlFor={drawerComponentId} 
+                className={twMerge(classes.drawerOverlay)}>
+
+                </label>
+
                 <div className={twMerge(classes.sideNavComponentContainer)}>
                     <SideNavComponent />
                 </div>

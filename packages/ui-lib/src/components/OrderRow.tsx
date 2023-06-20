@@ -1,11 +1,12 @@
 import { Order } from '@cd/data-access';
 import { format } from 'date-fns';
+import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 import Icons from '../icons';
 import IconWrapper from './IconWrapper';
 import Price from './Price';
 import Row from './Row';
-import { H6, Paragraph } from './Typography';
+import { H6, Paragraph, Small } from './Typography';
 type OrderRowProps = {
     order: Order;
     orderDetailsRoute: string;
@@ -28,21 +29,30 @@ function OrderRow({ order, orderDetailsRoute }: OrderRowProps) {
     };
 
     return (
-        <a href={`${orderDetailsRoute}/${order.id}`}>
-            <Row className="h-[48px] justify-between">
-                <H6 className="w-[100px]">{order.id}</H6>
+        <Link href={`${orderDetailsRoute}/${order.id}`}>
+            <Row className="h-[48px]">
+                <H6 className="w-[100px]">
+                    {order.id}</H6>
+
                 <Paragraph className={twMerge('grow', `text-${getColor(order.orderStatus)}`)}>
                     {order.orderStatus}
                 </Paragraph>
-                <Paragraph className="w-[140px] flex justify-center">
-                    {format(new Date(order.createdAt), 'MMM dd, yyyy')}
-                </Paragraph>
-                <H6 className="w-[80px] flex justify-center">
-                    <Price basePrice={order.total} />
-                </H6>
-                <IconWrapper Icon={Icons.Right} />
+
+                <Small>
+                    {format(new Date(order.createdAt), 'MMM dd, yyyy, hh:mm a')}
+                </Small>
+                    
+                <Price 
+                basePrice={order.total} 
+                />
+                
+                <IconWrapper 
+                className="hidden sm:block" 
+                iconSize={16} 
+                Icon={Icons.Right} 
+                />
             </Row>
-        </a>
+        </Link>
     );
 }
 

@@ -10,25 +10,27 @@ HOURS_SLEPT: THE NUMBER OF HOURS SLEPT THE NIGHT BEFORE
 EFFECIENCY_SCORE: SUBJECTIVE SCORE FROM 0 TO 10 OF MY PRODUCTION/TIME THAT DAY
 
 DATE
-                            06162023                        06172023
-COMMITS                     4                               2
-HOURS_WORKED                12                              12
-VSCODE_BACKGROUND_COLOR     TOMORROW NIGHT BLUE             RED
-HOURS_SLEPT                 10                              0
-EFFECIENCY_SCORE            6                               4
-ACHIEVEMENTS                USER TOURS, 
-                            FRONTEND CONFIG LOGIN FLOW,
-                            REFACTOR FORM STEP
+                            06162023                        06172023                        06182023                            06192023
+COMMITS                     4                               2                               5                                   6
+HOURS_WORKED                12                              12                              6pm - 5am                           8am - 11pm,
+                                                                                                                                12 - 4pm
+                                                                                                                                6pm - 9pm
+VSCODE_BACKGROUND_COLOR     TOMORROW NIGHT BLUE             RED                             RED                                 RED
+HOURS_SLEPT                 10                              0                               10                                  1
+EFFECIENCY_SCORE            6                               4                               5                                   3
+ACHIEVEMENTS                USER TOURS,                                                     DASHBOARD SCHEMA                    TERRAFORM CONFIG    
+                            FRONTEND CONFIG LOGIN FLOW,                                     DUMMY DATA                          APP MIDDLEWARE REDIRECT
+                            REFACTOR FORM STEP                                              DASHBOARD UI                        DASHBOARD UI
                             REFACTOR ENC. COOKIE
                             CREATE USER API 1/2 DONE
 
-MUSIC                       SCHUMAN RESONANCE               SCHUMAN RESONANCE
-                            BLACK SCREEN 7 CHAKRA           FFVII SHINRA THEME
-                            RECEIVE UNEXPECTED WEALTH       OCEAN HEART
+MUSIC                       SCHUMAN RESONANCE               SCHUMAN RESONANCE               FRONTAL CORTEX                      SCHUMAN RESONANCE
+                            BLACK SCREEN 7 CHAKRA           FFVII SHINRA THEME                                                  FFVIII UNABRIDGED OST
+                            RECEIVE UNEXPECTED WEALTH       OCEAN HEART                                                         FF PIANO THEMES
                                                             MULTIMILLIONAIRE FREQUENCY
                                                             REFRESH LIMBIC SYSTEM
                                                             NEURAL HEALING
 
-MEDITATION                  NO                              NO
-EXERCISE                    TRICEP AND SHOULDERS 3/5        NOT YET
+MEDITATION                  NO                              NO                              NO                                  NO
+EXERCISE                    TRICEP AND SHOULDERS 3/5        NOT YET                         CHEST                               CHEST
 NOTES                       
