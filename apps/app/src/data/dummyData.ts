@@ -304,6 +304,12 @@ const orders: OrderWithDashboardDetails[] = [
         createdAt: new Date(),
         updatedAt: new Date(),
         deliveredAt: new Date(),
+        isDriverAssigned: false,
+        driverAssignedAt: new Date(),
+        isProductPickedUp: false,
+        productPickedUpAt: new Date(),
+        customerReceivedOrderAt: new Date(),
+        completedAt: new Date(),
         items: [
             {
                 id: "3",

@@ -71,10 +71,11 @@ export default function Products({ products }: ProductsDashboardProps) {
                     title="Products"
                     Icon={Icons.Product}
                     >
-                        <Button className="place-self-start">
                         <Link href={getDashboardSite("/add-product")}>
-                            <Button className="bg-inverse hover:bg-inverse active:bg-accent-soft">Add Product</Button>
-                        </Link></Button>
+                            <Button 
+                            className="place-self-start bg-inverse hover:bg-inverse active:bg-accent-soft">
+                                Add Product</Button>
+                        </Link>
                         </PageHeader>
                         
                 <Grid className='pt-2 gap-2'>
@@ -124,20 +125,24 @@ Products.getLayoutContext = ():LayoutContextProps => ({
 
 
 export async function getServerSideProps({ req, res }: { req: any; res: any }) {
+    try {
+        res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
 
-    res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
-
-    // const products = await (await fetch(urlBuilder.dashboard + '/api/products', {
-    //     headers: {
-    //         Cookie: req.headers.cookie
-    //     }
-    // })).json();
-    return {
-        props: { 
-            user: dateToString(user), 
-            organization: dateToString(organization), 
-            products: dateToString(products) || [], 
-            orders: dateToString(orders) || [], 
-        }
-    };
+        // const products = await (await fetch(urlBuilder.dashboard + '/api/products', {
+        //     headers: {
+        //         Cookie: req.headers.cookie
+        //     }
+        // })).json();
+        return {
+            props: { 
+                user: dateToString(user), 
+                organization: dateToString(organization), 
+                products: dateToString(products) || [], 
+                orders: dateToString(orders) || [], 
+            }
+        };
+    } catch (error: any) {
+        console.log('Orders/[id] SSR error: ', error.message);
+        throw new Error(error);
+    }
 }

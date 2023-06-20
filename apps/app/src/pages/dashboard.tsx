@@ -118,14 +118,27 @@ function useProductVariants (products: ProductWithDashboardDetails[]) {
 }
 
 export async function getServerSideProps({ req, res }: { req: NextRequest, res: NextResponse }) {
-    return {
-        props: { 
-            user: dateToString(user), 
-            organization: dateToString(organization), 
-            products: dateToString(products) || [], 
-            orders: dateToString(orders) || [], 
-        }
-    };
+    try {
+        // const order = await (
+        //     await axios(urlBuilder.dashboard + `/api/orders/${params.id}`, {
+        //         headers: {
+        //             Cookie: req.headers.cookie
+        //         }
+        //     })
+        // ).data;
+        // if (!order) return { notFound: true };
+        return {
+            props: { 
+                user: dateToString(user), 
+                organization: dateToString(organization), 
+                products: dateToString(products) || [], 
+                orders: dateToString(orders) || [], 
+            }
+        };
+    } catch (error: any) {
+        console.log('Orders/[id] SSR error: ', error.message);
+        throw new Error(error);
+    }
 }
 
 export function dateToString(doc: any) {

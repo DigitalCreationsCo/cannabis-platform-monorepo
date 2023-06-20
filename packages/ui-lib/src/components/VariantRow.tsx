@@ -1,3 +1,4 @@
+import { getDashboardSite } from '@cd/core-lib/src';
 import { ProductVariantWithDetails } from '@cd/data-access';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -19,28 +20,28 @@ export default function ProductVariantRow({ variant }: ProductVariantRowProps) {
     imageSrc = variant.images?.[0]?.location || logo;
 
     return (
-        <Link href={`products/${variant.productId}`}>
-            <Row className="h-[44px]">
+        <Link href={getDashboardSite(`products/${variant.productId}`)}>
+            <Row className="grid grid-cols-12 h-[44px]">
                 
                 <Image 
-                className="hidden sm:block" 
+                className="hidden sm:block col-span-1" 
                 src={imageSrc} 
                 alt={variant.name} 
                 width={40} 
                 height={40} 
                 />
 
-                <Small className="min-w-[144px]">
+                <Small className="col-span-3">
                     {variant.name}</Small>
                 
-                <FlexBox className='flex-row items-center space-x-0 md:space-x-2 sm:grow'>
+                <FlexBox className='flex-row items-center space-x-0 md:space-x-2 sm:grow col-span-2 sm:col-span-1'>
                     <IconWrapper iconColor='yellow' Icon={Icons.StarFilled} />
                     <Small>{variant.rating}</Small>
                 </FlexBox>
 
                 <Small
                     className={twMerge(
-                        'flex flex-row justify-center w-max', 
+                        'flex flex-row col-span-2', 
                         variant.stock < (process.env.LOW_STOCK_THRESHOLD || 7) && 'text-error'
                         )}
                         >
@@ -49,6 +50,7 @@ export default function ProductVariantRow({ variant }: ProductVariantRowProps) {
                 </Small>
                 
                 <Price
+                className="col-span-4 justify-self-end"
                 basePrice={variant.basePrice} 
                 salePrice={variant.salePrice}
                 discount={variant.discount}
@@ -57,7 +59,7 @@ export default function ProductVariantRow({ variant }: ProductVariantRowProps) {
                 />
                 
                 <IconWrapper
-                className="hidden sm:block" 
+                className="hidden sm:block col-span-1 justify-self-end"
                 iconSize={16} 
                 Icon={Icons.Right}
                 />

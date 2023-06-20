@@ -11,12 +11,16 @@ type SelectProps = {
 export default function Select({ multiple, values, defaultValue = values[0], className, setOption }: SelectProps) {
     return (
         <select
-            className={twMerge('select focus:outline-none shadow border w-full', className)}
+            className={twMerge('select focus:outline-none w-fit border', className)}
             multiple={multiple}
             defaultValue={defaultValue}
         >
             {values?.map((value, index) => (
-                <option value={value} onClick={() => setOption(value)} key={'option-' + index}>
+                <option 
+                key={'option-' + index}
+                value={value} 
+                onClick={() => setOption(value)}
+                >
                     {value}
                 </option>
             ))}

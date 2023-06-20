@@ -31,25 +31,26 @@ function OrderRow({ order, orderDetailsRoute }: OrderRowProps) {
 
     return (
         <Link href={getDashboardSite(`${orderDetailsRoute}/${order.id}`)}>
-            <Row className="h-[48px]">
-                <H6 className="w-[100px]">
+            <Row className="grid grid-cols-12 h-[48px]">
+                
+                <H6 className="col-span-1">
                     {order.id}</H6>
 
-                <Paragraph className={twMerge('grow', `text-${getColor(order.orderStatus)}`)}>
+                <Paragraph className={twMerge('col-span-4', `text-${getColor(order.orderStatus)}`)}>
                     {order.orderStatus}
                 </Paragraph>
 
-                <Small className='w-[99px] sm:w-[168px] flex justify-left p-0'>
-                    {format(new Date(order.createdAt), 'MMM dd, yyyy, hh:mm a')}
+                <Small className='col-span-3'>
+                    {format(new Date(order.createdAt), 'MMM dd, yyyy, hh:mm')}
                 </Small>
                     
                 <Price
-                className="w-[80px] flex justify-left space-x-0 p-0"
+                className="col-span-3 justify-self-end"
                 basePrice={order.total} 
                 />
                 
                 <IconWrapper 
-                className="hidden sm:block" 
+                className="hidden sm:block col-span-1 justify-self-end" 
                 iconSize={16} 
                 Icon={Icons.Right} 
                 />
