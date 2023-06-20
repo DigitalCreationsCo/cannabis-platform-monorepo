@@ -1,9 +1,14 @@
 import { ProductVariantWithDetails } from '@cd/data-access';
-import { FlexBox, Icons, IconWrapper, Price, Row, Small } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
-import logo from '../../public/logo.png';
+import logo from '../../public/assets/images/logo.png';
+import Icons from '../icons';
+import FlexBox from './FlexBox';
+import IconWrapper from './IconWrapper';
+import Price from './Price';
+import Row from './Row';
+import { Small, Span } from './Typography';
 
 type ProductVariantRowProps = {
     variant: ProductVariantWithDetails;
@@ -22,12 +27,13 @@ export default function ProductVariantRow({ variant }: ProductVariantRowProps) {
                 src={imageSrc} 
                 alt={variant.name} 
                 width={40} 
-                height={40} />
+                height={40} 
+                />
 
-                <Small className="min-w-[166px]">
+                <Small className="min-w-[144px]">
                     {variant.name}</Small>
                 
-                <FlexBox className='flex-row items-center space-x-1 sm:grow'>
+                <FlexBox className='flex-row items-center space-x-0 md:space-x-2 sm:grow'>
                     <IconWrapper iconColor='yellow' Icon={Icons.StarFilled} />
                     <Small>{variant.rating}</Small>
                 </FlexBox>
@@ -38,7 +44,8 @@ export default function ProductVariantRow({ variant }: ProductVariantRowProps) {
                         variant.stock < (process.env.LOW_STOCK_THRESHOLD || 7) && 'text-error'
                         )}
                         >
-                    {variant.stock.toString().padStart(2, '0')} in stock
+                    {variant.stock.toString().padStart(2, '0')}&nbsp;
+                    <Span className="hidden sm:block">in stock</Span>
                 </Small>
                 
                 <Price
@@ -49,7 +56,11 @@ export default function ProductVariantRow({ variant }: ProductVariantRowProps) {
                 showOriginalPrice={true}
                 />
                 
-                {/* <IconWrapper Icon={Icons.Right} /> */}
+                <IconWrapper
+                className="hidden sm:block" 
+                iconSize={16} 
+                Icon={Icons.Right}
+                />
             </Row>
         </Link>
     );

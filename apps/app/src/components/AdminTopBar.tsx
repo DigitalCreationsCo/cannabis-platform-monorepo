@@ -68,15 +68,13 @@ function AdminTopBar({ signOut }: TopBarProps) {
                     </FlexBox>
                 </>
             ) : (
-                <FlexBox>
                     <Button 
-                    className='px-4 pt-1'
+                    className='pt-1'
                     size='sm' 
                     bg='transparent' 
                     hover='transparent'
                     onClick={openLoginModal}>
                         Sign In</Button>
-                </FlexBox>
             )}
         </div>
     );

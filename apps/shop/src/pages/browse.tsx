@@ -1,5 +1,5 @@
 import { selectSelectedLocationState, selectShopState, selectUserState } from '@cd/core-lib/src/reduxDir';
-import { Carousel, Grid, H1, H3, H4, Page } from '@cd/ui-lib';
+import { Carousel, Grid, H1, H3, H4, LayoutContextProps, Page } from '@cd/ui-lib';
 import { StaticImageData } from 'next/image';
 import { PropsWithChildren, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -39,7 +39,6 @@ export default function MarketPlace({ host }: { host: string}) {
                 <Carousel
                 title={'Gras is now available in Baltimore, Maryland!'} 
                 Component={DispensaryCard}
-                loading={isLoading}
                 data={DispensaryCardMockData}
                 dataKey='dispensary'
                 slidesPresented={3}
@@ -48,7 +47,6 @@ export default function MarketPlace({ host }: { host: string}) {
                 <Carousel 
                 title={`Dispensaries Near You ( ${selectedLocation.address.city} )`} 
                 Component={DispensaryCard}
-                loading={isLoading}
                 data={dispensaries}
                 dataKey='dispensary'
                 slidesPresented={3}
@@ -144,3 +142,7 @@ const ImageBackDrop = ({ src, children }: { src: string | StaticImageData } & Pr
         </div>
     );
 };
+
+MarketPlace.getLayoutContext = () : LayoutContextProps => ({
+    showHeader: false,
+})

@@ -11,7 +11,7 @@ function Header({ onSearchChange, placeholder, drawerComponentId, children }: He
     const headerContainerStyle = [
         'flex flex-row',
         'lg:ml-[188px]',
-        'py-6 sm:px-5 lg:px-16 xl:pl-0 xl:pr-16',
+        'pb-6 sm:py-6 sm:px-5 md:pr-16 lg:px-16 xl:pl-0 xl:pr-16',
         'lg:justify-end lg:right-0'
     ];
     const headerStyle = [
