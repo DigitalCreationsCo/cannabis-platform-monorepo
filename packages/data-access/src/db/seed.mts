@@ -1,5 +1,6 @@
-import { Address, Category, CategoryList, Driver, ImageOrganization, ImageProduct, ImageUser, ImageVendor, Membership, Order, Organization, Prisma, PrismaClient, Product, ProductVariant, Purchase, Route, Schedule, SiteSetting, SubDomain, User, Vendor } from "@prisma/client";
+import { Address, Category, CategoryList, Driver, ImageOrganization, ImageProduct, ImageUser, ImageVendor, Membership, Order, Prisma, PrismaClient, Product, ProductVariant, Purchase, Route, Schedule, SiteSetting, SubDomain, User, Vendor } from "@prisma/client";
 import axios from "axios";
+import { ReviewWithUserDetails } from "product";
 
 const prisma = new PrismaClient();
 
@@ -512,7 +513,11 @@ async function main() {
         .then(async (organization) => {
           console.info('create prisma.organization record: ' + org.name + ': ' + organization.id);
 
-          await axios.post<Organization>(process?.env?.SERVER_LOCATION_URL + '/api/v1/serve-local/organizations/record' as string, {
+          await axios.post<Prisma.OrganizationCreateInput & {
+            address: Prisma.AddressCreateNestedOneWithoutOrganizationInput;
+            schedule: Prisma.ScheduleCreateNestedOneWithoutOrganizationInput;
+            images: Prisma.ImageOrganizationCreateNestedManyWithoutOrganizationInput;
+          }>(process?.env?.SERVER_LOCATION_URL + '/api/v1/serve-local/organizations/record' as string, {
             id: organization.id,
             name: organization.name,
             dialCode: organization.dialCode,
@@ -854,6 +859,12 @@ async function main() {
       isCompleted: false,
       createdAt: new Date(),
       updatedAt: new Date(),
+      isDriverAssigned: false,
+      driverAssignedAt: new Date(),
+      isProductPickedUp: false,
+      productPickedUpAt: new Date(),
+      customerReceivedOrderAt: new Date(),
+      completedAt: new Date(),
       deliveredAt: new Date(),
     },
     {
@@ -874,6 +885,12 @@ async function main() {
       isCompleted: false,
       createdAt: new Date(),
       updatedAt: new Date(),
+      isDriverAssigned: false,
+      driverAssignedAt: new Date(),
+      isProductPickedUp: false,
+      productPickedUpAt: new Date(),
+      customerReceivedOrderAt: new Date(),
+      completedAt: new Date(),
       deliveredAt: new Date(),
     },
     {
@@ -894,6 +911,12 @@ async function main() {
       routeId: null,
       createdAt: new Date(),
       updatedAt: new Date(),
+      isDriverAssigned: false,
+      driverAssignedAt: new Date(),
+      isProductPickedUp: false,
+      productPickedUpAt: new Date(),
+      customerReceivedOrderAt: new Date(),
+      completedAt: new Date(),
       deliveredAt: new Date(),
     },
     {
@@ -914,6 +937,12 @@ async function main() {
       isCompleted: false,
       createdAt: new Date(),
       updatedAt: new Date(),
+      isDriverAssigned: false,
+      driverAssignedAt: new Date(),
+      isProductPickedUp: false,
+      productPickedUpAt: new Date(),
+      customerReceivedOrderAt: new Date(),
+      completedAt: new Date(),
       deliveredAt: new Date(),
     },
     {
@@ -934,6 +963,12 @@ async function main() {
       isCompleted: false,
       createdAt: new Date(),
       updatedAt: new Date(),
+      isDriverAssigned: false,
+      driverAssignedAt: new Date(),
+      isProductPickedUp: false,
+      productPickedUpAt: new Date(),
+      customerReceivedOrderAt: new Date(),
+      completedAt: new Date(),
       deliveredAt: new Date(),
     },
     {
@@ -954,6 +989,12 @@ async function main() {
       routeId: null,
       createdAt: new Date(),
       updatedAt: new Date(),
+      isDriverAssigned: false,
+      driverAssignedAt: new Date(),
+      isProductPickedUp: false,
+      productPickedUpAt: new Date(),
+      customerReceivedOrderAt: new Date(),
+      completedAt: new Date(),
       deliveredAt: new Date(),
     },
   ];
@@ -1019,6 +1060,7 @@ async function main() {
       stock: 5,
       productId: '1',
       organizationId: '2',
+      rating: 4.5,
       organizationName: 'Curaleaf',
       quantity: 3,
       isDiscount: true,
@@ -1035,6 +1077,7 @@ async function main() {
       currency: "USD",
       basePrice: 17999,
       discount: 5,
+      rating: 4.5,
       stock: 9,
       productId: '1',
       organizationId: '2',
@@ -1057,6 +1100,7 @@ async function main() {
       stock: 5,
       productId: '2',
       organizationId: '2',
+      rating: 4.5,
       organizationName: 'Curaleaf',
       quantity: 3,
       isDiscount: true,
@@ -1079,6 +1123,7 @@ async function main() {
       organizationName: 'Curaleaf',
       quantity: 3,
       isDiscount: true,
+      rating: 4.5,
       salePrice: 6499,
       sku: 1234567,
       createdAt: new Date(),
@@ -1092,6 +1137,7 @@ async function main() {
       currency: "USD",
       basePrice: 6999,
       discount: 5,
+      rating: 4.5,
       stock: 5,
       productId: '4',
       organizationId: '2',
@@ -1115,6 +1161,7 @@ async function main() {
       productId: '5',
       organizationId: '2',
       quantity: 3,
+      rating: 4.5,
       isDiscount: true,
       salePrice: 6499,
       organizationName: 'Curaleaf',
@@ -1129,6 +1176,7 @@ async function main() {
       size: 3.5,
       currency: "USD",
       basePrice: 6999,
+      rating: 4.5,
       discount: 5,
       stock: 5,
       productId: '6',
@@ -1150,6 +1198,7 @@ async function main() {
       basePrice: 6999,
       discount: 5,
       stock: 5,
+      rating: 4.5,
       productId: '7',
       organizationId: '2',
       organizationName: 'Curaleaf',
@@ -1451,7 +1500,7 @@ async function main() {
 
   // REVIEWS
   // need to update this seed for user information, will fail seed as it is now - 06182023
-  const reviews = [
+  const reviews: ReviewWithUserDetails[] = [
     {
       id: '1',
       rating: 5,
@@ -1473,7 +1522,7 @@ async function main() {
         },
       }
     }
-  ]
+  ];
 
   await prisma.review.createMany({
     data: reviews,

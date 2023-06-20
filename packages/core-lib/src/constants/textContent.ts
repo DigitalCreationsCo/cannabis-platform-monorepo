@@ -51,11 +51,12 @@ const TextContent = Object.freeze({
   },
 
   ui: {
-    ADD_TO_CART_f: (qty: number) => `Add ${qty} to Bag`,
     ADDRESS_BLOCK_f: (destination: any) =>
       `${destination.address.street1} ${destination.address.street2}\n${destination.address.city}, ${destination.address.state
       } ${destination.address.zipcode.split("-")[0]}`,
+    ITEMS: 'Items',
     LOADING: "Loading...",
+    SAVE_CHANGES: 'Save Changes',
     SIGNOUT: "Sign out",
     SIGNIN: "Sign In",
     SIGNIN_EMAIL: "Sign in with your email",
@@ -90,6 +91,7 @@ const TextContent = Object.freeze({
     DELIVERING_TO_ADDRESS_f: (location: any) =>
       `Delivering to ${location?.street}, ${location?.city}, ${location?.state}`,
     DELIVERY_COMPLETE: "Your order was delivered!",
+    DELIVER_FOR_f: (user: string) => `Delivery for ${user}`,
     DRIVER_ADDED: "A driver has started your delivery!",
     DRIVER_ARRIVED_TO_VENDOR_f: (driverName: string) =>
       `${driverName} has arrived to the vendor!`,
@@ -107,6 +109,7 @@ const TextContent = Object.freeze({
   },
 
   products: {
+    ADD_PRODUCT: 'Add Product',
     FAVORITE_PRODUCTS: "Your Favorites",
     FAVORITE_PRODUCTS_LIST_TITLE: "Your Favorites",
     FAVORITES_TEXT: "Your favorite items will list here",
@@ -115,6 +118,7 @@ const TextContent = Object.freeze({
   },
 
   shop: {
+    ADD_TO_CART_f: (qty: number) => `Add ${qty} to Bag`,
     BROWSE_DISPENSARY_f: (vendorName: string) => `Browse ${vendorName}`,
     CART_TITLE: "My Bag",
     CHECKOUT: "checkout",

@@ -59,20 +59,25 @@ export default function Orders({ orders }: OrdersDashboardProps) {
 }
 
 export async function getServerSideProps({ req }: { req: any }) {
-    // const orders: Order[] = await (
-    //     await fetch(urlBuilder.dashboard + '/api/orders', {
-    //         headers: {
-    //             Cookie: req.headers.cookie
-    //         }
-    //     })
-    // ).json();
+    try {
+        // const orders: Order[] = await (
+        //     await fetch(urlBuilder.dashboard + '/api/orders', {
+        //         headers: {
+        //             Cookie: req.headers.cookie
+        //         }
+        //     })
+        // ).json();
 
-    return {
-        props: { 
-            user: dateToString(user), 
-            organization: dateToString(organization), 
-            products: dateToString(products) || [], 
-            orders: dateToString(orders) || [], 
+        return {
+            props: { 
+                user: dateToString(user), 
+                organization: dateToString(organization), 
+                products: dateToString(products) || [], 
+                orders: dateToString(orders) || [], 
+            }
         }
-    };
+    } catch (error: any) {
+        console.log('Orders/[id] SSR error: ', error.message);
+        throw new Error(error);
+    }
 }

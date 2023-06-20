@@ -278,19 +278,31 @@ model Order {
   driverId String?
   driver Driver? @relation(fields: [driverId], references: [id],  onDelete: SetNull, onUpdate: SetNull)
 
-  isDeliveredOrder Boolean @default(false)
-  isCustomerReceivedOrder Boolean @default(false)
-  isCompleted Boolean @default(false)
   
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  
+  isDriverAssigned Boolean @default(false)
+  driverAssignedAt DateTime?
+  
+  isProductPickedUp Boolean @default(false)
+  productPickedUpAt DateTime?
+  
+  isDeliveredOrder Boolean @default(false)
   deliveredAt    DateTime?
 
+  isCustomerReceivedOrder Boolean @default(false)
+  customerReceivedOrderAt DateTime?
+
+  isCompleted Boolean @default(false)
+  completedAt DateTime?
+  
+  
   routeId String? @unique
   route Route?
   // metadataId     String @unique
   // metadata       OrderMetaData?
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
 
   @@index([purchaseId])
   @@index([addressId])
