@@ -19,20 +19,8 @@ function SideNavContainer({
     drawerComponentId,
     children
 }: SideNavContainerProps) {
-    // const { modalOpen } = useModal();
-    const [isFixed, setIsFixed] = useState<boolean>(false);
-    // const scrollListener = useCallback(() => {
-    //     const element: any = document.getElementById(navFixedComponentID);
-    //     const top = element.getBoundingClientRect().top + layoutConstant.headerHeight;
-    //     console.log('window.pageYOffset ', window.pageYOffset);
-    //     console.log('top ', top);
-    //     setSidenavFixed(window.pageYOffset > top);
-    // }, []);
 
-    // useEffect(() => {
-    //     window.addEventListener('scroll', scrollListener);
-    //     return () => window.removeEventListener('scroll', scrollListener);
-    // }, []);
+    const [isFixed, setIsFixed] = useState<boolean>(false);
 
     // dont mess with these styles unless youre prepared for pain
     const classes = {
@@ -43,7 +31,6 @@ function SideNavContainer({
 
         pageContentShifted: [
             'drawer-content',
-            // isFixed && 'pl-[188px]',
             'w-full flex'
         ],
         sideNavDrawer: [

@@ -1,3 +1,4 @@
+import { getDashboardSite } from '@cd/core-lib/src';
 import { Order } from '@cd/data-access';
 import { format } from 'date-fns';
 import Link from 'next/link';
@@ -29,7 +30,7 @@ function OrderRow({ order, orderDetailsRoute }: OrderRowProps) {
     };
 
     return (
-        <Link href={`${orderDetailsRoute}/${order.id}`}>
+        <Link href={getDashboardSite(`${orderDetailsRoute}/${order.id}`)}>
             <Row className="h-[48px]">
                 <H6 className="w-[100px]">
                     {order.id}</H6>
@@ -38,11 +39,12 @@ function OrderRow({ order, orderDetailsRoute }: OrderRowProps) {
                     {order.orderStatus}
                 </Paragraph>
 
-                <Small>
+                <Small className='w-[99px] sm:w-[168px] flex justify-left p-0'>
                     {format(new Date(order.createdAt), 'MMM dd, yyyy, hh:mm a')}
                 </Small>
                     
-                <Price 
+                <Price
+                className="w-[80px] flex justify-left space-x-0 p-0"
                 basePrice={order.total} 
                 />
                 

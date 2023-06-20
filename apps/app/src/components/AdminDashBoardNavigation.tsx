@@ -25,14 +25,14 @@ const links = [
         icon: Icons.WatsonHealthDicomOverlay
     },
     {
-        href: '/products',
-        title: 'Products',
-        icon: Icons.Product
-    },
-    {
         href: '/orders',
         title: 'Orders',
         icon: Icons.DeliveryTruck
+    },
+    {
+        href: '/products',
+        title: 'Products',
+        icon: Icons.Product
     },
     {
         href: '/users',

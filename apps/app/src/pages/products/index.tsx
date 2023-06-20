@@ -69,9 +69,9 @@ export default function Products({ products }: ProductsDashboardProps) {
                 
                 <PageHeader
                     title="Products"
-                    Icon={Icons.Delivery}
+                    Icon={Icons.Product}
                     >
-                        <Button className="m-0 p-0 place-self-start">
+                        <Button className="place-self-start">
                         <Link href={getDashboardSite("/add-product")}>
                             <Button className="bg-inverse hover:bg-inverse active:bg-accent-soft">Add Product</Button>
                         </Link></Button>
