@@ -76,7 +76,7 @@
             "last 1 safari version"
         ]
     },
-    "name": "@cd/admin-app",
+    "name": "@cd/dashboard",
     "private": true,
     "scripts": {
         "build": "NODE_ENV=production next build",

@@ -1,7 +1,6 @@
 import { calcSalePrice, getDashboardSite, renderAddress, TextContent, urlBuilder, useProductSearch } from '@cd/core-lib';
 import {
-    OrderStatus,
-    OrderWithDetails,
+    OrderStatus, OrderWithDashboardDetails, OrderWithDetails,
     ProductVariantWithDetails
 } from '@cd/data-access';
 import {
@@ -27,7 +26,6 @@ import { dateToString } from 'pages/dashboard';
 import { useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { twMerge } from 'tailwind-merge';
-import { OrderWithDashboardDetails } from '../../../../../packages/data-access/dist';
 import logo from '../../../public/logo.png';
 
 export default function OrderDetails({ order }: { order: OrderWithDashboardDetails }) {
