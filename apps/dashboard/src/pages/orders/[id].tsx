@@ -14,7 +14,7 @@ import {
     Icons,
     LoadingDots, Page,
     PageHeader,
-    Paragraph, Price, ProductItem, Row, Select, Span, TextField, useOnClickOutside
+    Paragraph, Price, ProductItem, Row, Span, TextField, useOnClickOutside
 } from '@cd/ui-lib';
 import renderPhoneNumber from '@cd/ui-lib/components/PhoneNumber';
 import axios from 'axios';
@@ -200,13 +200,16 @@ export default function OrderDetails({ order }: { order: OrderWithDashboardDetai
                         <FlexBox className='flex-row items-center'>
                             <H6 className='hidden sm:block col-span-2 justify-self-end'>
                                 Status</H6>
-                            <Select
+                            <Paragraph>
+                                { orderStatus }
+                            </Paragraph>
+                            {/* <Select
                                 className='col-span-2'
                                 defaultValue={orderStatus}
                                 values={[ orderStatus ]}
                                 // values={[orderStatus, ...orderStatusList]}
                                 // setOption={setOrderStatus as Dispatch<SetStateAction<string | number>>}
-                            />
+                            /> */}
                         </FlexBox>
                     </Row>
                     

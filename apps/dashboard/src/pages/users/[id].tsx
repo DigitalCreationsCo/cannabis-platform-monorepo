@@ -48,7 +48,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
         phone: user?.phone || '',
         address: user?.address || [],
         termsAccepted: user?.termsAccepted || false,
-        imageUser: user?.imageUser || [],
+        profilePicture: user?.profilePicture || [],
         memberships: user?.memberships || [],
         createdAt: user?.createdAt || new Date(),
         updatedAt: user?.updatedAt || new Date()
@@ -70,7 +70,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
     });
     const [files, setFiles] = useState<unknown[]>([]);
     const [loadingButton, setLoadingButton] = useState(false);
-    const [existingImage, setExistingImage] = useState<ImageUser[]>(user?.imageUser || []);
+    const [existingImage, setExistingImage] = useState<ImageUser | null>(user?.profilePicture);
     const [deletedImage, setDeletedImage] = useState<ImageUser[]>([]);
 
     const [address, setAddress] = useState<Address[]>(values.address || []);
@@ -132,7 +132,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
 
     const handleDeleteExistingImage = (image: ImageUser) => {
         const id = image.id;
-        setExistingImage((state) => state.filter((image) => id !== image.id));
+        setExistingImage(null);
         setDeletedImage((state) => [...state, image]);
     };
 
@@ -336,22 +336,16 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
                                     </FlexBox>
                                     <Grid title="Images" className="space-y-2">
                                         <FlexBox>
-                                            {existingImage.map((image: any, index) => {
-                                                return (
-                                                    <UploadImageBox
-                                                        key={index}
-                                                        onClick={() => handleDeleteExistingImage(image)}
-                                                        // onKeyUp={() => {}}
-                                                    >
-                                                        <Image
-                                                            key={'product-image-' + index}
-                                                            src={image.location}
-                                                            alt=""
-                                                            fill={true}
-                                                        />
-                                                    </UploadImageBox>
-                                                );
-                                            })}
+                                            <UploadImageBox
+                                                onClick={() => handleDeleteExistingImage(user?.profilePicture as ImageUser)}
+                                                // onKeyUp={() => {}}
+                                                >
+                                                <Image
+                                                    src={user?.profilePicture?.location as string}
+                                                    alt=""
+                                                    fill={true}
+                                                />
+                                            </UploadImageBox>
                                             {files.map((file: any | { id: string; preview: string }, index) => {
                                                 return (
                                                     <UploadImageBox

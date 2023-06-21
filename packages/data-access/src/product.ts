@@ -1,6 +1,6 @@
 import { Category, Organization, Prisma, Product, Review } from "@prisma/client";
-import { UserWithProfilePictureBlob } from "user";
 import prisma from "./db/prisma";
+import { UserWithProfilePictureBlob } from "./user";
 import { ProductVariantWithDetails } from "./variant";
 
 export async function createProduct() {
