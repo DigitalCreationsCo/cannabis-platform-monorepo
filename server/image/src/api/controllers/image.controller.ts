@@ -31,7 +31,7 @@ export default class ImageController {
         const
           { isLegalAge, scannedDOB } = await ImageDAO.checkLegalAgeFromIdImage(idFrontImage.buffer);
 
-        uploadedImages = await uploadImageToS3ObjectStore(images, process.env.VERIFY_ID_BUCKET_NAME);
+        uploadedImages = await uploadImageToS3ObjectStore(images, process.env.ID_VERIFY_BUCKET_NAME);
         isUploaded = true;
 
 
@@ -104,8 +104,8 @@ async function uploadImageToS3ObjectStore(files: any[], bucketName: string): Pro
       endpoint: `https://${process.env.OBJECT_STORAGE_ENDPOINT}`,
       region: process.env.OBJECT_STORAGE_REGION,
       credentials: {
-        accessKeyId: process.env.OSTORE_KEY,
-        secretAccessKey: process.env.OSTORE_SEC,
+        accessKeyId: process.env.ID_VERIFY_KEY,
+        secretAccessKey: process.env.ID_VERIFY_SEC,
       },
     });
 
@@ -117,7 +117,7 @@ async function uploadImageToS3ObjectStore(files: any[], bucketName: string): Pro
       const key = `${createId()}-${file.fieldname}${fileExtension}`
       const putObjectCommand = new PutObjectCommand({
         Bucket: bucketName,
-        ACL: "public-read",
+        ACL: "authenticated-read",
         Key: key,
         Body: fileBuffer,
         ContentType: file.mimetype,

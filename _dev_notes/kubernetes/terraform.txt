@@ -4,7 +4,7 @@ terraform is installed, and kubectl runs k8s commands on lke.
 - currently using hashicorp terraform vscode xtension
 
 state: 
-terraform state is kept in linode object storage. bucket: terraform-k8s.us-southeast-1.linodeobjects.com
+terraform state is kept in linode object storage. bucket: gras-terraform-k8s.us-southeast-1.linodeobjects.com
 linode api token is in terraform.tfvars.
 
 terraform init cmd: "terraform -chdir=./terraform init --backend-config=backend",
