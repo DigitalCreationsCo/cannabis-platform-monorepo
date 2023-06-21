@@ -48,7 +48,15 @@ export default function Button({
         size: [
             (size === 'lg' && 'text-xl min-w-[180px] h-[70px]') || (size === 'sm' && 'text-sm h-[30px]') || 'min-w-[140px] h-10'
         ],
-        bgColor: [`bg-${bg}`],
+        bgColor: [
+            bg === 'primary' && 'bg-primary',
+            bg === 'primary-light' && 'bg-primary-light',
+            bg === 'secondary' && 'bg-secondary',
+            bg === 'secondary-light' && 'bg-secondary-light',
+            bg === 'accent' && 'bg-accent',
+            bg === 'accent-soft' && 'bg-accent-soft',
+            bg === 'transparent' && 'bg-transparent'
+        ],
         textColor: [
             !disabled ? [(bg === 'transparent' && 'text-dark shadow-none') || (bg === 'accent-soft' && 'text-dark') || 'text-light'] : 'text-secondary'
         ],
