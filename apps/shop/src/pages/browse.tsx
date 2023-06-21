@@ -18,20 +18,20 @@ export default function MarketPlace({ host }: { host: string}) {
     const
     styles = {
         responsiveHeading: [
-            'text-2xl md:text-4xl pb-0 whitespace-normal font-semi-bold'
+            'text-2xl md:text-4xl pb-0 px-4 lg:px-0 whitespace-normal font-semi-bold hidden sm:block'
         ],
     }
     
     return (
         <Page gradient='pink' className="lg:px-0">
             
-            <div className='cursor-default lg:px-8 absolute'>
+            <div className='cursor-default lg:px-8 xl:absolute pt-2 md:pt-0'>
                 <H1 color="light" 
                 className={twMerge(styles.responsiveHeading)}>
                     {TextContent.info.CANNABIS_DELIVERED}</H1>
 
                 {/* <Ticker text={'Delivery by Gras now available in Baltimore, Maryland!'} /> */}
-                <H3 className='px-4 text-inverse'>
+                <H3 className='px-4 text-inverse '>
                     Good day{user.firstName && `, ${ user.firstName}`}!</H3>
             </div>
             <Grid className="space-y-5 relative">
@@ -40,7 +40,7 @@ export default function MarketPlace({ host }: { host: string}) {
                     There's a problem loading your Gras shop. Please contact support for help.</Center>} */}
 
                 <Carousel
-                title={'Gras is now available in Baltimore, Maryland!'} 
+                title={'Gras is now available in Baltimore!'} 
                 Component={DispensaryCard}
                 data={DispensaryCardMockData}
                 dataKey='dispensary'
