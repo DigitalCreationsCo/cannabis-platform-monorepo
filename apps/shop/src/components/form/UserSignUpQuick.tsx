@@ -2,9 +2,8 @@ import { TextContent } from '@cd/core-lib/constants';
 import { selectUserState } from '@cd/core-lib/reduxDir';
 import { shuffle } from '@cd/core-lib/utils';
 import {
-    Button, FlexBox, Grid, H4, H6, Paragraph, styles, TermsAgreement, TextField
+    Button, FlexBox, Grid, H4, H6, Paragraph, styles, TermsAgreement, TextField, useFormContext
 } from '@cd/ui-lib';
-import { useFormContext } from 'components';
 import { profilePictures } from 'data/profilePicture';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';

@@ -159,6 +159,8 @@ const nextConfig = (phase) => {
     //     })()
     // };
 
+    // rewrites IN theory are for development phase only.
+    // in production, we should be using nginx to proxy requests to the dashboard app
     const rewrites = async () => {
         return [
             {

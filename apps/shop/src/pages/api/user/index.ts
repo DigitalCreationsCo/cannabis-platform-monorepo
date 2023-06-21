@@ -54,7 +54,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 });
 
 // update a user record
-handler.put(async (req: ExtendRequest, res: NextApiResponse) => {
+handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
     try {
 
         const

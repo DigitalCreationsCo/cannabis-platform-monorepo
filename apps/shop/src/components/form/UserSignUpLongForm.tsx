@@ -25,7 +25,10 @@ function UserSignUpForm() {
         phone: '1233455678',
         dialCode: '1',
         termsAccepted: false,
-        imageUser: null,
+        profilePicture: {
+            id: '',
+            location: ''
+        },
         address: {
             id: '',
             street1: '123 MLK Ave',

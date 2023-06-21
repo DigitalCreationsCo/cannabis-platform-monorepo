@@ -3,7 +3,7 @@ import { Button, FlexBox, H1, H4, H6, LayoutContextProps, Page, Paragraph } from
 import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import Router from 'next/router';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { twMerge } from 'tailwind-merge';
@@ -16,11 +16,13 @@ function LandingPage() {
     { isSignedIn, user } = useAppSelector(selectUserState);
 
     function startNewUserTour () {
-        newUserTour.start();
+        // newUserTour.start();
     }
 
-    // if (!user.isSignUpComplete)
-    // startNewUserTour();
+    useEffect(() => {
+        // if (!user.isSignUpComplete)
+        // startNewUserTour();
+    }, [user.isSignUpComplete])
 
     const dispatch = useAppDispatch();
     const [cookies] = useCookies(['yesOver21'])
