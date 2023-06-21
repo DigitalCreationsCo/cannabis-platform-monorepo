@@ -36,14 +36,15 @@ export default class LocationController {
      */
     static async addOrganizationLocationRecord(req, res) {
         try {
-            const 
-            organization = req.body as OrganizationWithShopDetails;
+            const
+                organization = req.body as OrganizationWithShopDetails;
 
-            const 
-            data = await LocationDA.addOrganizationMongoRecord(organization);
+            console.log('organization to add: ', organization.name, ': ', organization.id);
+            const
+                data = await LocationDA.addOrganizationMongoRecord(organization);
 
-            if (!data) 
-            return res.status(404).json('Could not create the dispensary record.');
+            if (!data)
+                return res.status(404).json('Could not create the dispensary record.');
 
             console.log('successfully created dispensary location record: ', organization.name, ': ', organization.id);
 

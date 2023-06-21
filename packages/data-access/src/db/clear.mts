@@ -36,11 +36,11 @@ async function clearRecords() {
             await prisma.categoryList.deleteMany();
             console.info('clear prisma.categoryList')
 
-            await prisma.driver.deleteMany();
-            console.info('clear prisma.driver');
-
             await prisma.route.deleteMany();
             console.info('clear prisma.route');
+
+            await prisma.driver.deleteMany();
+            console.info('clear prisma.driver');
 
             await prisma.order.deleteMany();
             console.info('clear prisma.order');

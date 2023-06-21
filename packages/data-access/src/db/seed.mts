@@ -292,7 +292,7 @@ async function main() {
     = [
       {
         "name": "Curaleaf",
-        "stripeAccountId": null,
+        "stripeAccountId": '1345',
         "stripeOnboardingComplete": false,
         "dialCode": "1",
         "phone": "1232356456",
@@ -326,7 +326,7 @@ async function main() {
         "termsAccepted": false,
         "address": {
           "create": {
-            "street1": "407 W Chestnut St",
+            "street1": "407 W Chest St",
             "street2": "",
             "city": "Lancaster",
             "state": "Pennsylvania",
@@ -367,7 +367,7 @@ async function main() {
         "stripeAccountId": null,
         "stripeOnboardingComplete": false,
         "dialCode": "1",
-        "phone": "1232343456",
+        "phone": "1232343333",
         "vendor": {
           "connectOrCreate": {
             "where": {
@@ -506,47 +506,59 @@ async function main() {
 
   orgs.forEach(async (org) => {
     try {
+      const
+        organization = await prisma.organization.create({
+          data: {
+            "name": org.name,
+            "stripeAccountId": org.stripeAccountId,
+            "stripeOnboardingComplete": org.stripeOnboardingComplete,
+            "dialCode": org.dialCode,
+            "phone": org.phone,
+            "vendor": org.vendor,
+            "subdomain": org.subdomain,
+            "termsAccepted": org.termsAccepted,
+            "address": org.address,
+            "images": org.images,
+            "schedule": org.schedule,
+          },
+        })
 
-      await prisma.organization.create({
-        data: org
-      })
-        .then(async (organization) => {
-          console.info('create prisma.organization record: ' + org.name + ': ' + organization.id);
+      console.info('create prisma.organization record: ' + organization.name + ': ' + organization.id);
 
-          await axios.post<Prisma.OrganizationCreateInput & {
-            address: Prisma.AddressCreateNestedOneWithoutOrganizationInput;
-            schedule: Prisma.ScheduleCreateNestedOneWithoutOrganizationInput;
-            images: Prisma.ImageOrganizationCreateNestedManyWithoutOrganizationInput;
-          }>(process?.env?.SERVER_LOCATION_URL + '/api/v1/serve-local/organizations/record' as string, {
-            id: organization.id,
-            name: organization.name,
-            dialCode: organization.dialCode,
-            phone: organization.phone,
-            address: {
-              street1: org.address.create?.street1,
-              street2: org.address.create?.street2,
-              city: org.address.create?.city,
-              state: org.address.create?.state,
-              zipcode: org.address.create?.zipcode,
-              country: org.address.create?.country,
-              countryCode: org.address.create?.countryCode,
-              coordinates: {
-                latitude: org.address.create?.coordinates?.create?.latitude,
-                longitude: org.address.create?.coordinates?.create?.longitude,
-              }
-            },
-            vendorId: organization.vendorId,
-            subdomain: organization.subdomainId,
-          });
-          console.info('create mongo.organization_geolocate record: ' + organization.name + ': ' + organization.id);
-        });
+      await axios.post<Prisma.OrganizationCreateInput & {
+        address: Prisma.AddressCreateNestedOneWithoutOrganizationInput;
+        schedule: Prisma.ScheduleCreateNestedOneWithoutOrganizationInput;
+        images: Prisma.ImageOrganizationCreateNestedManyWithoutOrganizationInput;
+      }>(process?.env?.SERVER_LOCATION_URL + '/api/v1/serve-local/organizations/record' as string, {
+        id: organization.id,
+        name: organization.name,
+        dialCode: organization.dialCode,
+        phone: organization.phone,
+        address: {
+          street1: org.address.create?.street1,
+          street2: org.address.create?.street2,
+          city: org.address.create?.city,
+          state: org.address.create?.state,
+          zipcode: org.address.create?.zipcode,
+          country: org.address.create?.country,
+          countryCode: org.address.create?.countryCode,
+          coordinates: {
+            latitude: org.address.create?.coordinates?.create?.latitude,
+            longitude: org.address.create?.coordinates?.create?.longitude,
+          }
+        },
+        vendorId: organization.vendorId,
+        subdomain: organization.subdomainId,
+      },
+        { validateStatus: status => (status >= 200 && status <= 302) || status == 404 });
+
+      console.info('create mongo.organization_geolocate record: ' + organization.name + ': ' + organization.id);
 
     } catch (error) {
       console.error(error);
       throw new Error('Seed Error: Organization' + org.name);
     }
   });
-  console.info('create prisma.organization records');
 
   // SUBDOMAIN
   const subdomains: SubDomain[] = [
@@ -1509,6 +1521,7 @@ async function main() {
       userId: 'bf346k4u7xq030hr6wvgiwao',
       createdAt: new Date(),
       updatedAt: new Date(),
+
       user: {
         id: 'bf346k4u7xq030hr6wvgiwao',
         username: "Sammy223",
@@ -1524,10 +1537,24 @@ async function main() {
     }
   ];
 
-  await prisma.review.createMany({
-    data: reviews,
-    skipDuplicates: true,
-  });
+  reviews.forEach(async (review) => await prisma.review.create({
+    data: {
+      id: review.id,
+      rating: review.rating,
+      comment: review.comment,
+      user: {
+        connect: {
+          id: review.userId
+        }
+      },
+      product: {
+        connect: {
+          id: review.productId
+        }
+      }
+    }
+  }));
+
   console.info('create prisma.review records');
 }
 
