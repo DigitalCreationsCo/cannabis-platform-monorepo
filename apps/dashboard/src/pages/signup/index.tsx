@@ -24,8 +24,10 @@ function SignUpStart() {
                         <FlexBox className='m-auto items-center space-y-2'>
                             <H4 className='text-xl'>
                             {`Are you a dispensary? Get started here.`}</H4>
+
                             <Link href="/signup/create-dispensary-account">
-                                <Button size="lg" 
+                                <Button 
+                                size="lg" 
                                 bg="primary" 
                                 transparent
                                 className="p-4 hover:bg-primary-light"
@@ -34,6 +36,7 @@ function SignUpStart() {
                                     {`Create a dispensary account`}</Paragraph>
                                 </Button>
                             </Link>
+                            
                         </FlexBox>
                     </Center>
                 </Padding>
@@ -43,7 +46,8 @@ function SignUpStart() {
 }
 
 SignUpStart.getLayoutContext = (): LayoutContextProps => ({
-    showHeader: false
+    showHeader: false,
+    showSideNav: false
 });
 
 export default SignUpStart;

@@ -17,7 +17,9 @@ function SignInButton(props: SignInButtonProps) {
     }
 
     return (
-        <Button bg={'secondary-light'} hover={'primary-light'}
+        <Button 
+        bg={'secondary-light'} 
+        hover={'primary-light'}
         { ...props }
         className="place-self-center mb-4"
         onClick={openLoginModal}>
