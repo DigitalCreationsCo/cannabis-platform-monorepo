@@ -3,8 +3,8 @@
 // const s3Client = new S3Client({
 //   region: process.env.OBJECT_STORAGE_REGION,
 //   credentials: {
-//     accessKeyId: process.env.OSTORE_KEY,
-//     secretAccessKey: process.env.OSTORE_SEC,
+//     accessKeyId: process.env.ID_VERIFY_KEY,
+//     secretAccessKey: process.env.ID_VERIFY_SEC,
 //   },
 // });
 
