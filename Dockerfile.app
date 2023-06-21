@@ -29,7 +29,7 @@ FROM --platform=linux/amd64 node:16-bullseye AS RUNNER
 COPY --from=BUILDER /root ./root
 
 ARG BUILD_CONTEXT=$BUILD_CONTEXT
-ARG APP_PORT=$APP_PORT
+ARG PORT=$PORT
 
 COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/next.config.mjs ./root
 COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/package.json ./root
@@ -42,6 +42,6 @@ COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/public ./root/apps/$BUILD_CONTEXT/
 
 WORKDIR /root/apps/$BUILD_CONTEXT
 
-EXPOSE $APP_PORT
+EXPOSE $PORT
 
 CMD [ "yarn", "start" ]
