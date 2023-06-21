@@ -33,20 +33,20 @@ variable "endpoint" {
     default = "us-southeast-1.linodeobjects.com"
 }
 
-variable "s3_bucket" {
-    description = "The identifier for object storage (required)"
-    default = "terraform-k8s"
+variable "cluster" {
+    description = "the cluster where resource is located"
+    default = "us-southeast-1"
 }
 
 variable "bucket" {
-    description = "The identifier for object storage (required)"
-    default = "terraform-k8s"
+    description = "The identifier for terraform state storage (required)"
+    default = "gras-terraform-k8s"
 }
 
 variable "tags" {
     description = "Tags to apply to your cluster for organizational purposes. "
     type = list(string)
-    default = ["terraform-k8s-cluster"]
+    default = ["gras-terraform-k8s-cluster"]
 }
 
 variable "pools" {
