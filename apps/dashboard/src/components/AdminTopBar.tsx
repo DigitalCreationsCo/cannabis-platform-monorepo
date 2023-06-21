@@ -40,25 +40,19 @@ function AdminTopBar({ signOut }: TopBarProps) {
     return (
         <div className={twMerge(styles.TOPBAR.topbar)}>
             <div className='pl-2 flex items-center'>
-                <Link href={getUserHome()} passHref>
+                <Link href={getDashboardSite("/")} passHref>
                     <Image alt="Gras" width={50} height={50} src={logo} />
                 </Link>
-                <Link href={getUserHome()}>
+                <Link href={getDashboardSite("/")}>
                     <H2 className="pt-0.5">Gras</H2>
                 </Link>
             </div>
-            <Link href={getUserHome()}>
-                <Paragraph
-                    className={twMerge(styles.TOPBAR.tagline)}
-                >
-                    Cannabis Marketplace
-                </Paragraph>
-            </Link>
+            
             <div className="flex-1"></div>
             
             { isSignedIn ? (
                 <>
-                    <Link href="/support">
+                    <Link href={getDashboardSite("/support")}>
                         <Paragraph className={twMerge('pt-1', 'px-3', 'text-md', 'whitespace-nowrap')}>
                             Need Support?
                         </Paragraph>
