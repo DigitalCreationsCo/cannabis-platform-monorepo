@@ -46,6 +46,7 @@ const TextContent = Object.freeze({
   info: {
     COMPANY_NAME: "Gras",
     GET_CANNABIS_DELIVERED: `Get&nbsp;Cannabis&nbsp;Delivered`,
+    CANNABIS_DELIVERED: `Cannabis,${'\xa0'}Delivered${'\xa0'}🌴`,
     ONE_STOP: "a one stop cannabis marketplace",
     EMAIL: "Email",
   },
