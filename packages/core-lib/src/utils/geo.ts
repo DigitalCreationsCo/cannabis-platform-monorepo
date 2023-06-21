@@ -42,10 +42,10 @@ export const getGeoAddressByCoordinates = async (coordinates: { latitude: number
 		const
 			{ latitude, longitude } = coordinates;
 		const
-			response = await axios.get(`${process.env.NEXT_PUBLIC_LOCATION_IQ_REVERSE_GEOCODE_URL}?key=${process.env.NEXT_PUBLIC_LOCATION_IQ_API_KEY}&lat=${latitude}&long=${longitude}&format=${format}`);
+			response = await axios.get(`${process.env.NEXT_PUBLIC_LOCATION_IQ_REVERSE_GEOCODE_URL}?key=${process.env.NEXT_PUBLIC_LOCATION_IQ_API_KEY}&lat=${latitude}&lon=${longitude}&format=${format}`);
 
 		const
-			{ address } = response.data;
+			{ address, lat, lon } = response.data;
 
 		const
 			formattedAddress: AddressWithCoordinates = {
@@ -57,8 +57,8 @@ export const getGeoAddressByCoordinates = async (coordinates: { latitude: number
 				country: address.country,
 				countryCode: 'US',
 				coordinates: {
-					latitude: data.lat,
-					longitude: data.lon
+					latitude: lat,
+					longitude: lon
 				}
 			}
 

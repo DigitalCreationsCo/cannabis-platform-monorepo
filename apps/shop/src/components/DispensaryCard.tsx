@@ -1,7 +1,6 @@
 import { checkDispensaryIsOpen, formatDispensaryUrl, renderAddress } from '@cd/core-lib';
 import { OrganizationWithShopDetails } from '@cd/data-access';
 import { Card, FlexBox, H2, Paragraph } from '@cd/ui-lib';
-import { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import { PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
@@ -25,14 +24,20 @@ function DispensaryCard({ data: dispensary, loading, className }: DispensaryCard
     };
 
     return (
-        <Link href={formatDispensaryUrl(dispensary?.subdomainId as string)} 
-        className='z-0 relative rounded shadow-lg rounded'>
+        <Link 
+        href={formatDispensaryUrl(dispensary?.subdomainId as string)} 
+        className='z-0 relative rounded shadow-lg rounded'
+        >
+
             <Card className={twMerge([styles.dispensarycard, 'rounded hover:scale-101 transition duration-500', className])}>
+
                 <ImageBackDrop
-                src={dispensary?.images?.[0]?.location || logo}
+                src={dispensary?.images?.[0]?.location || logo.src}
                 >
+
                     <H2 className='whitespace-normal drop-shadow z-5 p-2 tracking-wide absolute top-0 left-0 text-inverse'>
                         {dispensary?.name}</H2>
+
                     <FlexBox className="z-5 p-2 absolute bottom-0 left-0 items-end flex-row justify-between">
                         <Paragraph className='text-inverse drop-shadow'>
                             {renderAddress({
@@ -43,21 +48,10 @@ function DispensaryCard({ data: dispensary, loading, className }: DispensaryCard
                             })}
                         </Paragraph>
                     </FlexBox>
+
                     <Paragraph className={twMerge(styles.isOpenBadge)}>
                         {checkDispensaryIsOpen(dispensary.schedule)}</Paragraph>
-                    {/* <Paragraph className="badge -ml-2 p-3 text-primary self-end absolute">
-                        {checkDispensaryIsOpen({
-                            days: 6543210,
-                            id: '1',
-                            organizationId: '2',
-                            openAt: 8,
-                            closeAt: 20,
-                            createdAt: new Date(),
-                            updatedAt: new Date()
-                        })
-                            ? 'open now'
-                            : 'closed'}
-                    </Paragraph> */}
+                        
                 </ImageBackDrop>
             </Card>
         </Link>
@@ -65,7 +59,7 @@ function DispensaryCard({ data: dispensary, loading, className }: DispensaryCard
 }
 
 
-const ImageBackDrop = ({ src, children }: { src: string | StaticImageData} & PropsWithChildren) => {
+const ImageBackDrop = ({ src, children }: { src: string } & PropsWithChildren) => {
     return (
         <div 
         className="absolute rounded max-h-full w-fit top-0 left-0"
@@ -73,7 +67,7 @@ const ImageBackDrop = ({ src, children }: { src: string | StaticImageData} & Pro
         >
             <img 
             className='w-full min-h-full rounded'
-            src={src as string} 
+            src={src} 
             alt="" 
             style={{ objectFit: 'contain', objectPosition: '44% 20%' }} 
             />

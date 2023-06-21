@@ -96,9 +96,9 @@ export default function Carousel({
                 {/* <div className="w-fit border carousel-item">
                 <Component data={data[active]} /></div> */}
 
-                { data.map((el, index) => 
-                    <div key={dataKey + '-container-' + index} className="max-w-fit carousel-item">
-                    <Component key={dataKey + '-' + index} data={el} /></div> )}
+                { data.map((el, index) => <div key={dataKey + '-container-' + index} className="max-w-fit carousel-item">
+                    <Component key={dataKey + '-' + index} data={el} /></div>
+                )}
                     
                 { afterIndices.map(i => 
                 <div key={'after-' + i} className="max-w-fit carousel-item">
