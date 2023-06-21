@@ -135,6 +135,8 @@ CUSTOMER SUCCESS:
 
 
 TODO:
+Add testing for s3 buckets, to check for correct env vars, urls, valid buckets, etc.
+
 Set up K8s load balancer for static external ip
 
 Optimize docker images, SHOP especially, Lower binary size TO save costs at scale!! GREATLY IMPORTANT
