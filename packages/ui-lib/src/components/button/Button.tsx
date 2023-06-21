@@ -5,8 +5,8 @@ import LoadingDots from '../LoadingDots';
 
 export interface ButtonProps extends PropsWithChildren<React.HTMLAttributes<HTMLButtonElement>> {
     size?: 'lg' | 'sm' | 'md';
-    bg?: 'primary' | 'primary-light' | 'secondary' | 'secondary-light' | 'accent-soft' | 'transparent';
-    hover?: 'accent' | 'primary' | 'primary-light' | 'secondary' | 'transparent';
+    bg?: 'primary' | 'primary-light' | 'secondary' | 'secondary-light' | 'accent-soft' | 'accent' | 'transparent';
+    hover?: 'accent' | 'accent-soft' | 'primary' | 'primary-light' | 'secondary' | 'transparent';
     transparent?: true | false;
     border?: boolean;
     borderColor?: string;
@@ -48,7 +48,7 @@ export default function Button({
         size: [
             (size === 'lg' && 'text-xl min-w-[180px] h-[70px]') || (size === 'sm' && 'text-sm h-[30px]') || 'min-w-[140px] h-10'
         ],
-        bgColor: ['bg-' + bg],
+        bgColor: [`bg-${bg}`],
         textColor: [
             !disabled ? [(bg === 'transparent' && 'text-dark shadow-none') || (bg === 'accent-soft' && 'text-dark') || 'text-light'] : 'text-secondary'
         ],
