@@ -25,7 +25,7 @@ const nextConfig = (phase) => {
     // when `test` command is used
     const isTest = phase === PHASE_TEST
     
-    console.log(`@cd/admin-app isDev:${isDev}  isProd:${isProd}   isStaging:${isStaging} isTest:${isTest}`);
+    console.log(`@cd/dashboard isDev:${isDev}  isProd:${isProd}   isStaging:${isStaging} isTest:${isTest}`);
 
     return withTranspiledModules([
         '@cd/ui-lib',
