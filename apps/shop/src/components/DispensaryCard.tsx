@@ -1,9 +1,11 @@
 import { checkDispensaryIsOpen, formatDispensaryUrl, renderAddress } from '@cd/core-lib';
 import { OrganizationWithShopDetails } from '@cd/data-access';
 import { Card, FlexBox, H2, Paragraph } from '@cd/ui-lib';
+import { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import { PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
+import logo from '../../public/logo.png';
 
 type DispensaryCardProps = {
     data: OrganizationWithShopDetails;
@@ -27,7 +29,7 @@ function DispensaryCard({ data: dispensary, loading, className }: DispensaryCard
         className='z-0 relative rounded shadow-lg rounded'>
             <Card className={twMerge([styles.dispensarycard, 'rounded hover:scale-101 transition duration-500', className])}>
                 <ImageBackDrop
-                src={dispensary?.images?.[0].location}
+                src={dispensary?.images?.[0]?.location || logo}
                 >
                     <H2 className='whitespace-normal drop-shadow z-5 p-2 tracking-wide absolute top-0 left-0 text-inverse'>
                         {dispensary?.name}</H2>
@@ -63,7 +65,7 @@ function DispensaryCard({ data: dispensary, loading, className }: DispensaryCard
 }
 
 
-const ImageBackDrop = ({ src, children }: { src: string} & PropsWithChildren) => {
+const ImageBackDrop = ({ src, children }: { src: string | StaticImageData} & PropsWithChildren) => {
     return (
         <div 
         className="absolute rounded max-h-full w-fit top-0 left-0"
@@ -71,7 +73,7 @@ const ImageBackDrop = ({ src, children }: { src: string} & PropsWithChildren) =>
         >
             <img 
             className='w-full min-h-full rounded'
-            src={src} 
+            src={src as string} 
             alt="" 
             style={{ objectFit: 'contain', objectPosition: '44% 20%' }} 
             />
