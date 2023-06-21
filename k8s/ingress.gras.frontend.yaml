@@ -27,6 +27,16 @@ spec:
               name: gras-service-shop
               port:
                 number: 80
+  - host: "app.grascannabis.org"
+    http:
+      paths:
+        - path: /app
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: gras-service-dashboard
+              port:
+                number: 80                
   - host: "*.grascannabis.org"
     http: 
       paths: 
