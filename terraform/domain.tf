@@ -11,7 +11,18 @@ resource "linode_domain_record" "gras_cannabis_domain_root" {
     port        = 80
     priority    = 0
     record_type = "A"
-    target      = "139.144.164.21"
+    target      = "139.144.255.55"
+    ttl_sec     = 60
+    weight      = 0
+}
+
+resource "linode_domain_record" "gras_cannabis_domain_dashboard" {
+    domain_id   = linode_domain.gras_cannabis.id
+    name        = "app"
+    port        = 80
+    priority    = 0
+    record_type = "A"
+    target      = "139.144.255.55"
     ttl_sec     = 60
     weight      = 0
 }
@@ -32,7 +43,7 @@ resource "linode_domain_record" "gras_cannabis_domain_wildcard" {
     port        = 80
     priority    = 0
     record_type = "A"
-    target      = "139.144.164.21"
+    target      = "139.144.255.55"
     ttl_sec     = 60
     weight      = 0
 }
@@ -43,7 +54,7 @@ resource "linode_domain_record" "gras_cannabis_domain_backend" {
     port        = 80
     priority    = 0
     record_type = "A"
-    target      = "139.144.164.21"
+    target      = "139.144.255.55"
     ttl_sec     = 60
     weight      = 0
 }
@@ -65,7 +76,7 @@ resource "linode_domain_record" "gras_cannabis_domain_www" {
     port        = 80
     priority    = 0
     record_type = "A"
-    target      = "139.144.164.21"
+    target      = "139.144.255.55"
     ttl_sec     = 60
     weight      = 0
 }
