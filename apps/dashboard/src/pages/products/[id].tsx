@@ -83,7 +83,6 @@ export default function ProductDetails({ product }: { product: ProductWithDashbo
         // discount: product?.discount || 0,
         // stock: product?.stock || 0,
         organizationId: product?.organizationId || '',
-        organization: product?.organization,
         rating: product?.rating || 0,
         reviews: product?.reviews || [],
         tags: product?.tags || '',

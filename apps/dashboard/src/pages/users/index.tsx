@@ -64,7 +64,7 @@ export default function Users({ users }: UsersDashboardProps) {
                                     <Row className="h-[54px] py-0">
                                         <Image
                                             className="hidden sm:block"
-                                            src={user?.imageUser?.[0]?.location || ''}
+                                            src={user?.profilePicture?.location || ''}
                                             alt=""
                                             height={100}
                                             width={100}
