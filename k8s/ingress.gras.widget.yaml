@@ -1,0 +1,19 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-widget
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+    - host: widget.grascannabis.org
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: gras-service-widget
+                port:
+                  number: 80
