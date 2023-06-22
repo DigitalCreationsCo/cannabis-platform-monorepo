@@ -1,6 +1,6 @@
 import * as ReactDOMClient from 'react-dom/client';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { DeliveryWidgetConfigOptions } from '..';
+import { DeliveryWidgetConfigOptions } from '.';
 import './styles/globals.css';
 import Button from './views/Button';
 import Checkout from './views/Checkout';
