@@ -28,7 +28,8 @@ function DispensarySignUpStepForm() {
                 <title>Grascannabis.org - Create a Dispensary Account</title>
                 <meta name="Gras App" content="Built by Gras Cannabis Co." />
             </Head>
-            <FormCard className={"bg-inverse-soft md:m-auto"}>
+            
+            <FormCard className={"bg-inverse-soft mx-auto"}>
                 <FormStepProvider 
                 formId='dispensary-signup-form'
                 FormStepComponents={FormStepComponents} 

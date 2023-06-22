@@ -71,7 +71,7 @@ function ProvideDispensaryKey () {
 
     return (
             <form onSubmit={handleSubmit}>
-            <Grid className='min-h-[320px] items-center justify-center flex flex-col space-y-4'>
+            <Grid className='min-h-[320px] w-full items-center justify-center flex flex-col space-y-4'>
                 <FlexBox>
                     <H2>Welcome to Gras</H2>
 
@@ -85,8 +85,8 @@ function ProvideDispensaryKey () {
                     <Paragraph>Please enter the 24-digit <b>dispensary code</b> provided by the Gras team.</Paragraph>
                 </FlexBox>
                 <TextField
-                    containerClassName='w-[320px]'
-                    className='text-center'
+                    containerClassName='w-[300px]'
+                    className='mx-auto text-center'
                     name="dispensaryKey"
                     maxLength={24}
                     label="Dispensary Key"
@@ -119,5 +119,5 @@ function ProvideDispensaryKey () {
 export default ProvideDispensaryKey;
 
 const validationSchema = yup.object().shape({
-    dispensaryKey: yup.string().required('Please enter your Dispensary Key.').length(24, 'Please enter your Dispensary Key.')
+    dispensaryKey: yup.string().required('Please enter a valid Dispensary Key.').length(24, 'Please enter a valid Dispensary Key.')
 });
