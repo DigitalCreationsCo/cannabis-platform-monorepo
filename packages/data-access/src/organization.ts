@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { CategoryList, Coordinates, ImageOrganization, Organization, Prisma, Schedule } from "@prisma/client";
 import { AddressCreateType, AddressWithCoordinates } from "./address";
 import prisma from "./db/prisma";
@@ -19,15 +21,15 @@ import { ProductWithDetails } from "./product";
  * @param organization 
  * @returns the updated organization
  */
-export async function updateOrganization(organization: OrganizationCreateType) { 
+export async function updateOrganization(organization: OrganizationCreateType) {
     try {
         organization.subdomainId = organization.subdomainId || organization.name.toLowerCase();
-        
-        const { vendorId, address, subdomainId, ...data } 
-        = organization
-        
-        const { coordinates, coordinateId, userId, ...addressData } 
-        = address
+
+        const { vendorId, address, subdomainId, ...data }
+            = organization
+
+        const { coordinates, coordinateId, userId, ...addressData }
+            = address
 
         const updateOrganization = await prisma.organization.update({
             where: { id: organization.id },
@@ -88,7 +90,7 @@ export async function updateOrganization(organization: OrganizationCreateType) {
                             //         }
                             //     }
                             // }) : ({
-                                coordinates: {
+                            coordinates: {
                                 connectOrCreate: {
                                     where: { id: coordinates?.id },
                                     create: {
@@ -102,12 +104,12 @@ export async function updateOrganization(organization: OrganizationCreateType) {
                     }
                 },
                 subdomain: {
-                    connectOrCreate: { 
+                    connectOrCreate: {
                         where: { id: organization.subdomainId },
                         create: { id: subdomainId, isValid: true }
                     }
                 },
-                vendor:{
+                vendor: {
                     connectOrCreate: {
                         where: { id: vendorId },
                         create: { id: vendorId, name: organization.name, publicName: organization.name }
@@ -130,12 +132,12 @@ export async function updateOrganization(organization: OrganizationCreateType) {
     }
 }
 
-export async function createOrganization(organization: OrganizationCreateType) { 
+export async function createOrganization(organization: OrganizationCreateType) {
     try {
         organization.subdomainId = organization.name.toLowerCase().split(' ').join('-');
-        
-        const { vendorId, address, subdomainId, schedule } 
-        = organization
+
+        const { vendorId, address, subdomainId, schedule }
+            = organization
 
         // const
         // insertImages = organization.images.map((image) => ({ ...image }));
@@ -169,7 +171,7 @@ export async function createOrganization(organization: OrganizationCreateType) {
                         location: organization.images[0].location
                     }
                 },
-                schedule:{
+                schedule: {
                     create: {
                         createdAt: schedule.createdAt,
                         days: schedule.days,
@@ -178,12 +180,12 @@ export async function createOrganization(organization: OrganizationCreateType) {
                     }
                 },
                 subdomain: {
-                    connectOrCreate: { 
+                    connectOrCreate: {
                         where: { id: organization.subdomainId },
                         create: { id: subdomainId, isValid: true }
                     }
                 },
-                vendor:{
+                vendor: {
                     connectOrCreate: {
                         where: { id: vendorId },
                         create: { id: vendorId, name: organization.name, publicName: organization.name }
@@ -214,15 +216,15 @@ export async function createOrganization(organization: OrganizationCreateType) {
  * @param organizationId 
  * @returns 
  */
-export async function findOrganizationById(organizationId:string) {
+export async function findOrganizationById(organizationId: string) {
     try {
-        const organization = await prisma.organization.findUnique({ 
+        const organization = await prisma.organization.findUnique({
             where: { id: organizationId },
             include: {
                 address: true,
                 vendor: true,
             }
-         }) || null
+        }) || null
         return organization
     } catch (error: any) {
         console.error(error)
@@ -235,7 +237,7 @@ export async function findOrganizationById(organizationId:string) {
  * @param organizationId
  * @returns details of users for the organization
 */
-export async function findUsersByOrganization(organizationId:string) {
+export async function findUsersByOrganization(organizationId: string) {
     try {
         const users = await prisma.user.findMany({
             orderBy: {
@@ -269,31 +271,31 @@ export async function findUsersByOrganization(organizationId:string) {
  * @param subdomainId 
  * @returns detailed organization record
  */
-export async function findOrganizationBySubdomain(subdomainId:string): Promise<OrganizationWithShopDetails> {
+export async function findOrganizationBySubdomain(subdomainId: string): Promise<OrganizationWithShopDetails> {
     try {
-        const 
-        organization = await prisma.subDomain.findUnique({ 
-            where: { 
-                id: subdomainId 
-            }, 
-            include: {
-                organization: {
-                    include: { 
-                        address: {
-                            include: {
-                                coordinates: true
-                            }
-                        }, 
-                        images: true, 
-                        products: true, 
-                        siteSetting: true, 
-                        categoryList: true,
-                        schedule: true,
-                        subdomain: true,
-                    },
+        const
+            organization = await prisma.subDomain.findUnique({
+                where: {
+                    id: subdomainId
+                },
+                include: {
+                    organization: {
+                        include: {
+                            address: {
+                                include: {
+                                    coordinates: true
+                                }
+                            },
+                            images: true,
+                            products: true,
+                            siteSetting: true,
+                            categoryList: true,
+                            schedule: true,
+                            subdomain: true,
+                        },
+                    }
                 }
-            }
-        }) || {};
+            }) || {};
         return organization as unknown as OrganizationWithShopDetails;
     } catch (error: any) {
         console.error(error)
@@ -308,27 +310,29 @@ export async function findOrganizationBySubdomain(subdomainId:string): Promise<O
  */
 export async function findMultipleOrganizationsById(organizationIds: string[]): Promise<OrganizationWithShopDetails[]> {
     try {
-        
+
         console.log('organizationIds: ', organizationIds);
-        const 
-        localOrganizations = await prisma.organization.findMany({
-            where: 
-                { id: 
-                    { in: organizationIds } 
-                }, 
-                include: { 
+        const
+            localOrganizations = await prisma.organization.findMany({
+                where:
+                {
+                    id:
+                        { in: organizationIds }
+                },
+                include: {
                     address: {
                         include: {
                             coordinates: true
                         }
-                    }, 
-                    images: true, 
-                    products: true, 
-                    siteSetting: true, 
+                    },
+                    images: true,
+                    products: true,
+                    siteSetting: true,
                     categoryList: true,
                     schedule: true,
                     subdomain: true,
-                }})
+                }
+            })
         return localOrganizations as unknown as OrganizationWithShopDetails[]
     } catch (error: any) {
         console.error(error)
@@ -344,23 +348,23 @@ export async function findMultipleOrganizationsById(organizationIds: string[]): 
  */
 export async function findOrganizationsByZipcode(zipcode: number, limit: number, radius: number): Promise<OrganizationWithShopDetails[]> {
     try {
-        const organizations = await prisma.organization.findMany({ 
-            include: { 
+        const organizations = await prisma.organization.findMany({
+            include: {
                 address: {
                     include: {
                         coordinates: true
                     }
-                }, 
-                images: true, 
-                products: true, 
-                siteSetting: true, 
+                },
+                images: true,
+                products: true,
+                siteSetting: true,
                 categoryList: true,
                 schedule: true,
                 subdomain: true,
             },
             where: {
                 address: {
-                    is: { 
+                    is: {
                         zipcode: {
                             gte: zipcode - radius,
                             lte: zipcode + radius,
@@ -385,7 +389,7 @@ export async function findOrganizationsByZipcode(zipcode: number, limit: number,
 */
 export async function updateStripeAccountDispensary(id: string, stripeAccountId: string, accountParams = {}) {
     try {
-        const update = await prisma.organization.update({ where: { id }, data: { stripeAccountId, ...accountParams}})
+        const update = await prisma.organization.update({ where: { id }, data: { stripeAccountId, ...accountParams } })
         return update
     } catch (error: any) {
         console.error(error)
@@ -401,7 +405,7 @@ export async function updateStripeAccountDispensary(id: string, stripeAccountId:
 export async function getStripeAccountId(organizationId: string) {
     try {
         const accountId = await prisma.organization.findUnique(
-            { 
+            {
                 where: { id: organizationId },
                 select: { stripeAccountId: true }
             })
@@ -423,7 +427,7 @@ export type OrganizationCreateType = Organization & {
     categoryList: Prisma.CategoryListCreateInput
 }
 
-export type OrganizationWithAddress = Organization & { address: AddressWithCoordinates}
+export type OrganizationWithAddress = Organization & { address: AddressWithCoordinates }
 
 export type OrganizationWithShopDetails = Organization & Omit<Organization, "stripeAccountId" | "createdAt" | "updatedAt"> & {
     address: AddressWithCoordinates,

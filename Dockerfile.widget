@@ -24,9 +24,16 @@ RUN yarn workspaces foreach -itR --from @cd/delivery-widget-app run build
 # linux amd64 for ci
 # FROM  node:16-bullseye AS SERVER
 
-FROM --platform=linux/amd64 nginx:latest
+# FROM --platform=linux/amd64 nginx:latest
+FROM nginx:latest
 
-COPY --from=BUILDER /root /usr/share/nginx/html/widget
+WORKDIR /usr/share/nginx/html
+
+RUN rm -rf ./*
+
+COPY --from=BUILDER /root/apps/delivery-widget/dist .
+
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
 
 # COPY --from=BUILDER /root ./root
 
