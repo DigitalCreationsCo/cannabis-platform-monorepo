@@ -8,10 +8,11 @@ interface CloseButtonProps {
     Icon?: ((props: SVGAttributes<SVGElement>) => JSX.Element) | CarbonIconType;
     onClick?: (e: any) => void;
     theme?: 'light' | 'dark';
+    iconSize?: number;
     className?: string;
 }
 
-function CloseButton({ Icon = Icons.XIcon, className, ...props }: CloseButtonProps) {
+function CloseButton({ Icon = Icons.Close, iconSize = 20, className, ...props }: CloseButtonProps) {
     
     const 
     closeButtonStyle = [
@@ -21,7 +22,7 @@ function CloseButton({ Icon = Icons.XIcon, className, ...props }: CloseButtonPro
     return (
         <div className={twMerge("relative top-0 right-0")}>
             <IconButton 
-            iconSize={16} 
+            iconSize={iconSize} 
             className={twMerge(closeButtonStyle, className)} 
             {...props} 
             Icon={Icon} />
