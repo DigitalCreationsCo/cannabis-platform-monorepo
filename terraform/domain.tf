@@ -129,4 +129,15 @@ resource "linode_domain_record" "gras_cannabis_domain_mx5" {
     target      = "alt4.aspmx.l.google.com"
     ttl_sec     = 60
     weight      = 0
+
+}
+resource "linode_domain_record" "widget" {
+    domain_id   = linode_domain.gras_cannabis.id
+    name        = "widget"
+    port        = 80
+    priority    = 0
+    record_type = "A"
+    target      = "139.144.255.55"
+    ttl_sec     = 60
+    weight      = 0
 }
