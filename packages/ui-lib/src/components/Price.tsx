@@ -11,6 +11,7 @@ type PriceProps = {
     locale?: string; // country
     showDiscount?: boolean;
     showOriginalPrice?: boolean;
+    color?: 'light' | 'dark';
 };
 
 function Price({ 
@@ -21,6 +22,7 @@ function Price({
     className, 
     showDiscount = false,
     showOriginalPrice = false,
+    color = 'dark',
     locale = 'en-us' }: PriceProps) {
     const _currencySymbol: any = { 'en-us': '$' };
 
@@ -30,21 +32,39 @@ function Price({
 
     // discount is a flat number representing percentage off
     function computeSalePrice() {
-        let _salePrice: number
-        let _discount = discount
-            if (salePrice) {
-                _salePrice = salePrice * quantity;
-            } else {
-                _salePrice = calcSalePrice(basePrice, _discount) * quantity;
-            }
+        let 
+        _salePrice: number,
+
+        _discount = discount;
+
+        if (salePrice)
+        _salePrice = salePrice * quantity;
+
+        else
+        _salePrice = (calcSalePrice(basePrice, _discount) * quantity);
+        
         return _salePrice
     }
 
-    return <div className={twMerge("flex flex-row space-x-2 pl-2", className)}>
-        {showOriginalPrice && <Paragraph className="text-accent line-through">{_currencySymbol[locale] + toDollars(base)}</Paragraph>}
-        {showDiscount && discount > 0 && <Paragraph className="text-accent">`${discount}% off`</Paragraph> }
-        <Paragraph className="text-dark">{_currencySymbol[locale] + toDollars(computeSalePrice())}</Paragraph>
-        </div>;
+    return (
+    <div className={twMerge("flex flex-row space-x-2 pl-2", className)}>
+        
+        { showOriginalPrice && 
+            <Paragraph 
+            color={color} 
+            className="text-accent line-through">
+            {_currencySymbol[locale] + toDollars(base)}</Paragraph> }
+
+        { showDiscount && discount > 0 && 
+            <Paragraph 
+            color={color} 
+            className="text-accent">
+            `${discount}% off`</Paragraph> }
+
+        <Paragraph 
+        color={color}>
+            {_currencySymbol[locale] + toDollars(computeSalePrice())}</Paragraph>
+        </div>);
 }
 
 export default Price;

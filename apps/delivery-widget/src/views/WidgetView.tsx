@@ -35,8 +35,8 @@ const WidgetView = (View:(props:WidgetViewProps & DeliveryWidgetConfigOptions) =
     const styles = {
         container: ["relative"],
         responsive: ["w-screen md:w-auto"],
-        theme: ["ring-2 ring-offset-2 bg-primary", "p-4 w-full"],
-        hover: [!expandWidget && `hover:bg-primary-light transition`]
+        theme: ["p-0 bg-secondary ring ring-primary", "w-full"],
+        hover: [!expandWidget && `hover:bg-primary-light transition duration-50`]
     }
     return (
         <div ref={ref} className={twMerge([styles.container, styles.responsive])} >
