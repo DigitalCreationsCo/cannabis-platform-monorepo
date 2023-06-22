@@ -25,13 +25,3 @@ spec:
                 name: gras-service-server-dispatch
                 port:
                   number: 80
-    - host: widget.grascannabis.org
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: gras-service-widget
-                port:
-                  number: 80
