@@ -7,7 +7,7 @@ import { useEffect, useState } from "react"
 import { useNavigate } from 'react-router-dom'
 import { twMerge } from "tailwind-merge"
 import { DeliveryWidgetConfigOptions } from '..'
-import logo from '../../public/logo120.png'
+import logo from '../assets/logo120.png'
 import WidgetView, { WidgetViewProps } from "./WidgetView"
 
 function Button({ className, expandWidget, setExpandWidget, dispensaryName }: WidgetViewProps & DeliveryWidgetConfigOptions) {
