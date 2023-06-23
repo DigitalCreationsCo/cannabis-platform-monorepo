@@ -148,6 +148,7 @@ Optimize graphic images,
 Separate stripe account Id from orgniazation record, to hide this data
 
 BUGS: 
+Resend OTP does not work.
 Fix footer links with absolute paths
 cart bug when navigating to different storefronts, the cart changes in unexpected ways
 
