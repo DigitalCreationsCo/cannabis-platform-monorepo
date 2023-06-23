@@ -121,9 +121,15 @@ raise cluster over gras domain
 setup on kubernetes
 shop route,
 dummy admin route,
-hello test route,
 backend route featuring:
     server-main, server dispatch
+6-23-2023
+dashboard app CORS, shop app CORS
+
+TO DO:
+move applicable next api routes to dashboard app. 
+
+
 
 CUSTOMER SUCCESS:
 1. BUILD KNOWLEDGE PAGES!
