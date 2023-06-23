@@ -17,7 +17,7 @@ const appInfo: {
     appName,
     websiteDomain: shopDomain,
     apiDomain,
-    apiBasePath: '/api/v1/'
+    apiBasePath: '/api/v1'
 };
 
 export const frontendConfig = () => {
@@ -27,24 +27,34 @@ export const frontendConfig = () => {
             Passwordless.init({
                 contactMethod: "EMAIL_OR_PHONE",
                 onHandleEvent: (event: any) => {
+
                     console.log('passwordless event: ', event)
                     if (event.action === 'SUCCESS') {
                         console.log('role ? ', event.user && event.user.memberships?.[0]?.role.toLocaleUpperCase())
+
                         if (event.user && event.user.memberships?.[0]?.role.toLocaleUpperCase() === 'ADMIN' ||
                             event.user.memberships?.[0]?.role.toLocaleUpperCase() === 'OWNER')
-                            window.location.href = `${dashboardDomain}/dashboard`;
+                            // window.location.href = `${dashboardDomain}/dashboard`;
+                            throw new Error('An admin cannot login to the shop.')
                         else
                             if (event.isNewUser || !event.user.isSignUpComplete)
                                 window.location.href = `${shopDomain}/signup/create-account`;
-                            else
+                            else {
                                 window.location.href = `${shopDomain}${window.location.pathname}`;
+                            }
                     }
                 }
             }),
             Session.init({
-                // @ts-ignore
-                sessionTokenFrontendDomain: '.localhost:3000',
-                // sessionTokenBackendDomain: '.localhost:3000',
+
+                // tokenTransferMethod: "cookie",
+
+                // sessionTokenFrontendDomain: `.${baseDomain}`,
+
+                // define common top level domain
+                // sessionTokenBackendDomain: `.${baseDomain}`,
+                cookieDomain: `.${baseDomain}`,
+
                 // onHandleEvent: (event) => {
                 //     if (event.action === 'UNAUTHORISED' || event.action === 'SIGN_OUT') {
                 //         // window.location.href = '/';
