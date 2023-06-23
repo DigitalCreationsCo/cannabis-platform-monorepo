@@ -1,9 +1,9 @@
 // @ts-nocheck
 
-import { Address, AddressCreateType, AddressWithCoordinates, Coordinates, Prisma } from "@cd/data-access";
+import { AddressCreateType, AddressWithCoordinates, Coordinates, Prisma } from "@cd/data-access";
 import axios from "axios";
 
-export const getGeoCoordinatesByAddress = async (address: Prisma.AddressCreateWithoutOrganizationInput) => {
+export const getGeoCoordinatesByAddress = async (address: typeof Prisma.AddressCreateWithoutOrganizationInput) => {
 	const { street1, street2, city, state, country, zipcode, countryCode } = address;
 	const addressString = `${street1} ${street2}, ${city}, ${state}, ${country}, ${zipcode}`;
 	console.log('getting coordinates for address: ', addressString);
@@ -14,7 +14,7 @@ export const getGeoCoordinatesByAddress = async (address: Prisma.AddressCreateWi
 const getCoordinatesByAddressString = async (addressString: string): Promise<{
 	latitude: any;
 	longitude: any;
-} | null> => {
+}> => {
 	try {
 		const
 			format = 'json'
@@ -28,7 +28,7 @@ const getCoordinatesByAddressString = async (addressString: string): Promise<{
 
 			coordinates = { latitude, longitude };
 
-		return coordinates || null;
+		return coordinates;
 	} catch (error) {
 		console.log('Error getting coordinates: ', error);
 		return null
@@ -77,6 +77,10 @@ export function getCoordinatePairFromUserLocation(userlocation: Coordinates) {
 		throw new Error('Invalid user location')
 }
 
-export const addressHasValidCoordinates = (address: Address | AddressCreateType) => {
-	return address?.coordinates?.latitude && address?.coordinates?.longitude != 0
+export const coordinatesIsEmpty = (address: AddressCreateType) => {
+
+	const
+		latitude = address?.coordinates?.latitude;
+
+	return latitude === 0 || latitude === undefined || latitude === null;
 }

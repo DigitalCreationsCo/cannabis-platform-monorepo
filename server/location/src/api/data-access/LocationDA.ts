@@ -128,6 +128,7 @@ export default class LocationDA {
           }
         });
 
+      console.log('Mongo Update Dispensary Record: ', organization.name);
       return updateOrganization;
 
     } catch (error: any) {

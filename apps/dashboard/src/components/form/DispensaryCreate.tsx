@@ -42,7 +42,7 @@ function DispensaryCreate () {
             
             const 
             response = await axios.put
-            (urlBuilder.shop + '/api/organization', values)
+            (`${urlBuilder.dashboard}/api/organization`, values)
             
             if (response.status !== 200)
             throw new Error()
