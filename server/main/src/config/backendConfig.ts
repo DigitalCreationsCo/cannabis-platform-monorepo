@@ -15,7 +15,7 @@ const apiDomain = process.env.SERVER_MAIN_URL || `http://localhost:6001`;
 const appInfo = {
     appName: process.env.NEXT_PUBLIC_SHOP_APP_NAME || 'Gras',
     apiDomain,
-    websiteDomain: "http://localhost:3000",
+    websiteDomain: "http://app.localhost:3000",
     apiBasePath: '/api/v1'
 };
 
@@ -167,7 +167,16 @@ export const backendConfig = (): AuthConfig => {
                 },
             }),
             Session.init({
-                cookieDomain: ".localhost:3000",
+
+                cookieSecure: true,
+                cookieDomain: `.${baseDomain}`,
+                // getTokenTransferMethod: () => "cookie",
+
+                // expose jwt to the frontend, used for websocket authentication
+                jwt: {
+                    enable: true
+                },
+
                 // override: {
                 //                 functions: (originalImplementation) => {
                 //                     return {
