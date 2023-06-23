@@ -28,7 +28,7 @@ function DispensaryUserCreate () {
             
             setFormValues({ newUser: values });
 
-            const response = await axios.post(urlBuilder.shop + '/api/user/admin', {
+            const response = await axios.post(urlBuilder.dashboard + '/api/organization/admin', {
                 user: values,
                 role: "OWNER",
                 dispensaryId: formValues.organization?.id

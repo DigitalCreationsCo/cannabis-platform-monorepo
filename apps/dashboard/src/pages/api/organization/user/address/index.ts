@@ -1,12 +1,12 @@
-import { urlBuilder } from '@cd/core-lib';
 import { AddressCreateType } from '@cd/data-access';
 import axios from 'axios';
-import { authMiddleware, healthCheckMiddleware } from 'middleware';
+// import { authMiddleware, healthCheckMiddleware } from 'middleware';
+import { urlBuilder } from '@cd/core-lib';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
 
 const handler = nc();
-handler.use(authMiddleware).use(healthCheckMiddleware);
+// handler.use(authMiddleware).use(healthCheckMiddleware);
 // handler.use(adminMiddleware);
 
 // create new address
