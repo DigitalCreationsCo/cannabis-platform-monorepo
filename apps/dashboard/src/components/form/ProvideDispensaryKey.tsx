@@ -27,17 +27,22 @@ function ProvideDispensaryKey () {
 
     const downloadDispensaryData = async (dispensaryKey: string) => {
         try {
-            const response = await axios.get
-            (urlBuilder.shop + `/api/organization/${dispensaryKey}`, { validateStatus: status => (status >= 200 && status < 300) || status == 404 });
-
-            if (response.status !== 200) 
-            throw new Error('Dispensary is not found.');
+            const response = await axios
+            (urlBuilder.dashboard + `/api/organization/${dispensaryKey}`, { validateStatus: status => (status >= 200 && status < 300) || status == 404 });
 
             setFormValues({ organization: { ...response.data } });
 
         } catch (error: any) {
-            throw new Error('Dispensary is not found.');
             console.log('Error getting Dispensary: ', error);
+            
+            if (error.response.status === 404) 
+            throw new Error('Dispensary is not found.');
+
+            if (error.response.status === 500) 
+            throw new Error('There was an error getting Dispensary. Please try again.');
+
+            else
+            throw new Error(error.message);
         }
     }
     const onSubmit = async (values: typeof initialValues) => {

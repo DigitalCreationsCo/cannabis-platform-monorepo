@@ -23,8 +23,9 @@ export default function middleware(req: NextRequest, res: ServerResponse) {
     let
         subdomain = req.headers.get('host')?.split('.')[0].split(':')[0] || 'localhost';
 
-    console.log('subdomain', subdomain);
+    console.log('shopBaseUrl', appBaseUrl);
     console.log('dashboardBaseUrl', dashboardBaseUrl);
+    console.log('subdomain', subdomain);
 
     const allowAllVisitors = [
         '/about-gras',
@@ -50,7 +51,7 @@ export default function middleware(req: NextRequest, res: ServerResponse) {
         url;
     switch (true) {
         case subdomain === 'www':
-            console.log('www')
+            console.log('middleware detected: www')
 
             url = req.nextUrl.clone();
             url.host = url.host.replace('www.', '');
@@ -58,14 +59,13 @@ export default function middleware(req: NextRequest, res: ServerResponse) {
             break;
 
         case subdomain === 'app':
-            console.log('app path')
+            console.log('middleware detected: app path')
             url = req.nextUrl.clone();
 
             // Prevent security issues – users should not be able to canonically access the pages/_stores folder and its respective contents.
             if (url.pathname.startsWith(`/_stores`)) {
                 console.error('accessing stores directly is forbidden')
                 url.pathname = '/404';
-                console.log('REDIRECT')
                 return NextResponse.redirect(url);
             }
 
@@ -73,20 +73,18 @@ export default function middleware(req: NextRequest, res: ServerResponse) {
             break;
 
         case (subdomain === 'localhost' || subdomain === 'grascannabis'):
-            console.log('shop path')
+            console.log('middleware detected: shop path')
             url = req.nextUrl.clone();
 
             // Prevent security issues – users should not be able to canonically access the pages/_stores folder and its respective contents.
             if (url.pathname.startsWith(`/_stores`)) {
                 console.error('accessing stores directly is forbidden')
                 url.pathname = '/404';
-                console.log('REDIRECT')
                 return NextResponse.redirect(url);
             }
             // Prevent security issues – users should not be able to canonically access /app path.
             if (url.pathname.startsWith(`/app`)) {
                 url.pathname = '/404';
-                console.log('REDIRECT')
                 return NextResponse.redirect(url);
             }
             let
@@ -95,7 +93,6 @@ export default function middleware(req: NextRequest, res: ServerResponse) {
             if (url.pathname === '/') {
                 if (over21 === 'true') {
                     url.pathname = '/browse';
-                    console.log('REDIRECT')
                     return NextResponse.redirect(url);
                 }
             }
@@ -114,13 +111,11 @@ export default function middleware(req: NextRequest, res: ServerResponse) {
             break;
 
         default:
-            console.log('storefront path')
+            console.log('middleware detected: storefront path')
             url = req.nextUrl.clone();
 
             // if path is not a root shop page, rewrite to storefront
             if (!shopPages.includes(url.pathname)) {
-                // console.log('path: ', `/_stores/${subdomain}${url.pathname}`, req.nextUrl.origin)
-                console.log('REWRITE')
                 return NextResponse.rewrite(new URL(`/_stores/${subdomain}${url.pathname}`, req.nextUrl.origin));
             }
             break;

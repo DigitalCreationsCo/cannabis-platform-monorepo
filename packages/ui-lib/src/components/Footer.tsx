@@ -5,26 +5,36 @@ import FlexBox from './FlexBox';
 import { H4, Small } from './Typography';
 
 export default function Footer() {
+
+    const 
+    aboutLink = getCurrentSite('/about-gras'),
+    supportLink = getCurrentSite('/support');
+
     return (
         <FlexBox className={styles.container}>
+
             <Link href={getDashboardSite('/signup/create-dispensary-account')}>
             <Small className="text-inverse hover:underline font-semibold">
                 {TextContent.account.DISPENSARIES_START_HERE}
                 </Small>
             </Link>
-            <Link href={getCurrentSite('/support')}>
+
+            <Link href={supportLink}>
             <Small className="text-inverse hover:underline font-semibold">
                 get support
                 </Small>
             </Link>
-            <Link href={getCurrentSite('/about-gras')}>
+
+            <Link href={aboutLink}>
             <Small className="text-inverse hover:underline font-semibold">
                 about Gras
                 </Small>
             </Link>
+
             <Small className="text-inverse">
                 <CopyRight />
             </Small>
+
             <H4 color='light'>{`Cannabis, Delivered. 🌴🔥`}</H4>
         </FlexBox>
     );
