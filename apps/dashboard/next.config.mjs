@@ -33,7 +33,6 @@ const nextConfig = (phase) => {
         '@cd/eslint-config',
         '@cd/core-lib'
     ])({
-        basePath: '/app',
         reactStrictMode: true,
         swcMinify: true,
         output: 'standalone',
@@ -41,7 +40,9 @@ const nextConfig = (phase) => {
             outputFileTracingRoot: path.join(__dirname, '../../'),
         },
         images: {
-            domains: ['cdn-cashy-static-assets.lucidchart.com']
+            domains: [
+                'cdn-cashy-static-assets.lucidchart.com'
+            ]
         }
     });
 };
