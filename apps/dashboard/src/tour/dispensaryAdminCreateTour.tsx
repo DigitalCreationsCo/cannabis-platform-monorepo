@@ -4,7 +4,7 @@ import "boarding.js/styles/main.css";
 import "boarding.js/styles/themes/basic.css";
 
 const 
-dispensaryCreateTour = new Boarding({
+dispensaryAdminCreateTour = new Boarding({
     animate: true,
     opacity: 0.15,
     allowClose: false,
@@ -20,31 +20,31 @@ dispensaryCreateTour = new Boarding({
     }
 })
 
-dispensaryCreateTour.defineSteps(
+dispensaryAdminCreateTour.defineSteps(
     [
         {
-        element: '#dispensary-create-step-1',
+        element: '#dispensary-admin-create-step-1',
         popover: {
-            title: 'Welcome to Gras!',
-            description: ''
+            title: TextContent.account.CREATE_YOUR_ACCOUNT,
+            description: TextContent.account.ABOUT_DISPENSARY_ADMIN_ACCOUNT
         },
     },
     {
-        element: '#dispensary-create-step-2',
+        element: '#dispensary-admin-create-step-2',
         popover: {
-            title: `Create A Dispensary Account`,
-            description: "Fill out this quick form to create your Dispensary account.",
+            title: TextContent.prompt.FORM_FIELDS,
+            description: "",
         },
     },
         {
-        element: '#dispensary-create-step-3',
+        element: '#dispensary-admin-create-step-3',
         popover: {
-            title: TextContent.legal.READ_DISPENSARY_TERMS_OF_SERVICE,
+            title: TextContent.legal.READ_USER_TERMS_OF_SERVICE,
             description: ''
         },
     },
     {
-        element: '#dispensary-create-step-4',
+        element: '#dispensary-admin-create-step-4',
         popover: {
             title: TextContent.prompt.CONTINUE,
             description: ``,
@@ -52,4 +52,4 @@ dispensaryCreateTour.defineSteps(
     },
 ]);
 
-export { dispensaryCreateTour };
+export { dispensaryAdminCreateTour };

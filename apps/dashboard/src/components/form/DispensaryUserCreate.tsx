@@ -1,19 +1,26 @@
-import { urlBuilder } from '@cd/core-lib';
+import { TextContent, urlBuilder } from '@cd/core-lib';
 import { Button, FlexBox, Grid, H3, H6, Paragraph, Small, TermsAgreement, TextField, useFormContext } from '@cd/ui-lib';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { dispensaryAdminCreateTour } from 'tour/dispensaryAdminCreateTour';
 import * as yup from 'yup';
 
 function DispensaryUserCreate () {
+
+    function startTour () {
+        if (!dispensaryAdminCreateTour.isActivated)
+        dispensaryAdminCreateTour.start();
+    }
+    
+    useEffect(() => {
+        startTour()
+    }, [])
+
     const { prevFormStep, nextFormStep, formValues, setFormValues } = useFormContext();
     const [loadingButton, setLoadingButton] = useState(false);
-    // const [passwordVisibility, setPasswordVisibility] = useState(false);
-    // const togglePasswordVisibility = useCallback(() => {
-    //     setPasswordVisibility((visible) => !visible);
-    // }, []);
 
     const onSubmit = async (values: typeof initialValues) => {
         try {
@@ -71,15 +78,16 @@ function DispensaryUserCreate () {
             <Grid className="max-w-[525px] mx-auto">
                 <FlexBox className="justify-between flex-row space-x-2 pr-2 md:pr-0">
                     <FlexBox>
-                    <H3>{`Create a Dispensary User Account.`}</H3>
-                    <Small>
-                        {`Create an account to own and manage your dispensary's inventory, data, and other users. 
-                    This account will have the most access to your dispensary.`}</Small>
+
+                    <H3 id="dispensary-admin-create-step-1">
+                        {`Create a Dispensary User Account.`}</H3>
+
                     </FlexBox>
                 <Image src={'/logo.png'} alt="Gras Cannabis logo" height={63} width={63} priority />
 
                 </FlexBox>
-            <Small>* Please fill the required fields</Small>
+                <Small id="dispensary-admin-create-step-2">
+                    {TextContent.ui.FORM_FIELDS}</Small>
             <TextField
                 name="firstName"
                 label="* first name"
@@ -139,32 +147,6 @@ function DispensaryUserCreate () {
                     error={!!touched.phone && !!errors.phone}
                 />
             </FlexBox>
-            {/* <TextField
-                name="password"
-                label="Password"
-                placeholder="********"
-                value={values?.password}
-                onBlur={handleBlur}
-                onChange={handleChange}
-                error={!!touched.password && !!errors.password}
-                helperText={touched.password && errors.password}
-                type={passwordVisibility ? 'text' : 'password'}
-                insertIcon={passwordVisibility ? Icons.View : Icons.ViewOff}
-                onClickIcon={togglePasswordVisibility}
-            />
-            <TextField
-                name="re_password"
-                label="Confirm Password"
-                placeholder="********"
-                value={values?.re_password}
-                onBlur={handleBlur}
-                onChange={handleChange}
-                error={!!touched.re_password && !!errors.re_password}
-                helperText={touched.re_password && errors.re_password}
-                type={passwordVisibility ? 'text' : 'password'}
-                insertIcon={passwordVisibility ? Icons.View : Icons.ViewOff}
-                onClickIcon={togglePasswordVisibility}
-            /> */}
             <TextField
                 name="address.street1"
                 label="* street line 1"
@@ -205,7 +187,7 @@ function DispensaryUserCreate () {
                 error={!!touched?.address?.state && !!errors?.address?.state}
                 helperText={touched?.address?.state && errors?.address?.state}
             />
-            <TextField
+            {/* <TextField
                 name="address.country"
                 label="* country"
                 placeholder="Country"
@@ -214,18 +196,20 @@ function DispensaryUserCreate () {
                 onChange={handleChange}
                 error={!!touched?.address?.country && !!errors?.address?.country}
                 helperText={touched?.address?.country && errors?.address?.country}
-            />
+            /> */}
             <TextField
                 name="address.zipcode"
                 label="* zipcode"
                 placeholder="Zipcode"
-                value={values?.address?.zipcode}
+                type={'number'}
+                value={values?.address?.zipcode || ''}
                 onBlur={handleBlur}
                 onChange={handleChange}
                 error={!!touched?.address?.zipcode && !!errors?.address?.zipcode}
                 helperText={touched?.address?.zipcode && errors?.address?.zipcode}
             />
             <TermsAgreement
+                id="dispensary-admin-create-step-3"
                 name="termsAccepted"
                 onChange={handleChange}
                 checked={values?.termsAccepted || false}
@@ -249,6 +233,7 @@ function DispensaryUserCreate () {
                     back
                 </Button>
                 <Button
+                    id="dispensary-admin-create-step-4"
                     type="submit"
                     loading={loadingButton}
                     onClick={(e) => {
@@ -259,7 +244,7 @@ function DispensaryUserCreate () {
                     }}
                     disabled={values.termsAccepted === false}
                 >
-                    Next
+                    {TextContent.ui.CONTINUE}
                 </Button>
             </FlexBox>
             </Grid>
@@ -268,21 +253,19 @@ function DispensaryUserCreate () {
 }
 
 const initialValues = {
-    firstName: 'initial',
-    lastName: 'values',
-    username: 'bigchiefa1',
-    email: 'bmejiadeveloper2@gmail.com',
+    firstName: '',
+    lastName: '',
+    username: '',
+    email: '',
     emailVerified: false,
-    // password: 'asdfasdf',
-    // re_password: 'asdfasdf',
     dialCode: '1',
-    phone: '1232343456',
+    phone: '',
     address: {
-        street1: '313 West St',
+        street1: '',
         street2: '',
-        city: 'Philadelphia',
-        state: 'PA',
-        zipcode: '17603',
+        city: '',
+        state: '',
+        zipcode: null,
         country: 'United States',
         countryCode: 'US',
     },
@@ -303,7 +286,7 @@ const validationSchema = yup.object().shape({
         street2: yup.string(),
         city: yup.string().required('city is required'),
         state: yup.string().required('state is required'),
-        zipcode: yup.string().required('zipcode is required').length(5, 'zipcode must be 5 digits'),
+        zipcode: yup.number().required('zipcode is required').test('len', 'zipcode is required', val => val?.toString().length === 5),
         country: yup.string().required('country is required'),
         countryCode: yup.string().required('country code is required')
     }),
