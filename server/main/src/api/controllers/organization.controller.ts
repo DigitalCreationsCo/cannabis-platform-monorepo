@@ -25,30 +25,30 @@ export default class OrganizationController {
             if (coordinates) organization.address.coordinates = coordinates;
 
             const data = await OrganizationDA.createOrganization(organization);
-            
-            if (!data) 
-            return res.status(404).json('Organization could not be created.');
+
+            if (!data)
+                return res.status(404).json('Organization could not be created.');
 
             return res.status(201).json(data);
-        } catch (error:any) {
+        } catch (error: any) {
             console.log('API error: ', error.message);
             res.status(500).json({ error: error.message });
         }
     }
-    
+
     static async updateOrganization(req, res) {
         try {
             const organization: OrganizationCreateType = req.body
 
-            const 
-            data = await OrganizationDA.updateOrganization(organization);
-            
-            if (!data) 
-            return res.status(404).json('Organization could not be created.');
+            const
+                data = await OrganizationDA.updateOrganization(organization);
+
+            if (!data)
+                return res.status(404).json('Organization could not be created.');
 
             return res.status(201).json(data);
-            
-        } catch (error:any) {
+
+        } catch (error: any) {
             console.log('API error: ', error.message);
             res.status(500).json({ error: error.message });
         }
@@ -57,27 +57,38 @@ export default class OrganizationController {
     static async getOrganizationById(req, res) {
         try {
             const organizationId = req.params.id || '';
-            
+
             const data = await OrganizationDA.getOrganizationById(organizationId)
-            if (!data) return res.status(404).json(data);
-            
-            return res.status(200).json(data);
-        } catch (error:any) {
-            console.log('API error: ', error);
-            res.status(500).json({ error });
+
+            if (!data)
+                return res.status(404).json({
+                    success: false,
+                    message: 'Dispensary not found',
+                });
+
+            return res.status(200).json({
+                success: true,
+                payload: data,
+            });
+
+        } catch (error: any) {
+            res.status(500).json({
+                success: false,
+                message: error.message
+            });
         }
     }
-    
+
     static async getOrganizationsByZipcode(req, res) {
         try {
             const { zipcode, limit, radius }: { zipcode: number, limit: number, radius: number } = req.params;
-            
+
             const data = await OrganizationDA.getOrganizationsByZipcode(Number(zipcode), Number(limit), Number(radius))
             if (!data) return res.status(404).json(data);
-            
+
             console.info(`Found ${data.length} organizations for zipcode ${zipcode}`);
             return res.status(200).json(data);
-        } catch (error:any) {
+        } catch (error: any) {
             console.log('API error: ', error);
             res.status(500).json({ error });
         }
@@ -89,7 +100,7 @@ export default class OrganizationController {
             const data = await OrganizationDA.getCategoryList(organizationId);
             if (!data) return res.status(404).json('Categories not found');
             return res.status(200).json(data);
-        } catch (error:any) {
+        } catch (error: any) {
             console.log('API error: ', error);
             res.status(500).json({ error });
         }
@@ -119,13 +130,13 @@ export default class OrganizationController {
             busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
                 console.log(
                     'File [' +
-                        fieldname +
-                        ']: filename: ' +
-                        filename +
-                        ', encoding: ' +
-                        encoding +
-                        ', mimetype: ' +
-                        mimetype
+                    fieldname +
+                    ']: filename: ' +
+                    filename +
+                    ', encoding: ' +
+                    encoding +
+                    ', mimetype: ' +
+                    mimetype
                 );
 
                 // var s3 = new AWS.S3({

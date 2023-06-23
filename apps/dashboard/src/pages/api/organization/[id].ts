@@ -1,14 +1,17 @@
 import { urlBuilder } from '@cd/core-lib';
-import axios from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
 import NodeCache from 'node-cache';
+import { axios } from '../../../config';
 
 
 // Notes on caching in directory: /_dev/cache.txt
 const cache = new NodeCache({ stdTTL: 30 });
 
 const handler = nc();
+
+// THIS IS THE CORRECT RESPONSE HANDLING PATTERN WITH AXIOS CONFIG! VVV
+
 
 // get a single organization details
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
@@ -24,21 +27,28 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
             const
                 org = cache.get(`organization/${id}`);
 
-            return res.status(200).json(org);
+            return res.status(200).json({
+                success: true,
+                payload: org,
+                fromCache: true
+            });
 
         } else {
             const
-                response = await axios.get(urlBuilder.main.organizationById(id), { validateStatus: status => (status >= 200 && status < 300) || status == 404 });
+                response = await axios.get(urlBuilder.main.organizationById(id));
 
-            cache.set(`organization/${id}`, response.data);
+            if (response.data.success === true)
+                cache.set(`organization/${id}`, response.data.payload);
 
-            return res.status(res.statusCode).json(response.data);
-
+            return res.status(response.status).json(response.data);
         }
     } catch (error: any) {
         console.error('next-api organization[id] Error: ', error.message);
-        return res.status(500).json(error.message);
 
+        return res.json({
+            success: false,
+            message: error.message
+        });
     }
 });
 

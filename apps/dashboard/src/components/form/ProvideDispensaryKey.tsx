@@ -28,20 +28,14 @@ function ProvideDispensaryKey () {
     const downloadDispensaryData = async (dispensaryKey: string) => {
         try {
             const response = await axios
-            (urlBuilder.dashboard + `/api/organization/${dispensaryKey}`, { validateStatus: status => (status >= 200 && status < 300) || status == 404 });
+            (urlBuilder.dashboard + `/api/organization/${dispensaryKey}`);
 
-            setFormValues({ organization: { ...response.data } });
+            if (!response.data.success) 
+            throw new Error(response.data.message);
+
+            setFormValues({ organization: { ...response.data.payload } });
 
         } catch (error: any) {
-            console.log('Error getting Dispensary: ', error);
-            
-            if (error.response.status === 404) 
-            throw new Error('Dispensary is not found.');
-
-            if (error.response.status === 500) 
-            throw new Error('There was an error getting Dispensary. Please try again.');
-
-            else
             throw new Error(error.message);
         }
     }
@@ -53,7 +47,6 @@ function ProvideDispensaryKey () {
             nextFormStep();
             
         } catch (error: any) {
-            console.log('Provide Dispensary Key Error: ', error);
             toast.error(error.message);
             setLoadingButton(false);
         }
@@ -87,14 +80,14 @@ function ProvideDispensaryKey () {
                         Please email our team at <a className='underline' href='mailto::support@grascannabis.org'>
                             support@grascannabis.org</a> to claim your <b>dispensary code.</b></Paragraph>
                         <br />
-                    <Paragraph>Please enter the 24-digit <b>dispensary code</b> provided by the Gras team.</Paragraph>
+                    <Paragraph>Please enter your <b>dispensary code</b> provided by the Gras team.</Paragraph>
                 </FlexBox>
                 <TextField
                     containerClassName='w-[300px]'
                     className='mx-auto text-center'
                     name="dispensaryKey"
-                    maxLength={24}
-                    label="Dispensary Key"
+                    maxLength={25}
+                    label="Dispensary Code"
                     placeholder="**** **** **** ****"
                     value={values?.dispensaryKey}
                     onBlur={handleBlur}
@@ -124,5 +117,5 @@ function ProvideDispensaryKey () {
 export default ProvideDispensaryKey;
 
 const validationSchema = yup.object().shape({
-    dispensaryKey: yup.string().required('Please enter a valid Dispensary Key.').length(24, 'Please enter a valid Dispensary Key.')
+    dispensaryKey: yup.string().required('Please enter a valid Dispensary Key.').max(25, 'Please enter a valid Dispensary Key.')
 });
