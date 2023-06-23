@@ -14,11 +14,11 @@ function formatDispensaryUrl(subdomainId: string) {
 function getShopSite(path: string): string {
     switch (process.env.NODE_ENV as string) {
         case 'development':
-            return `http://localhost:3000${path}`;
+            return `${process.env.NEXT_PUBLIC_SHOP_APP_URL}${path}`;
         case 'test':
-            return `http://localhost:3000${path}`;
+            return `${process.env.NEXT_PUBLIC_SHOP_APP_URL}${path}`;
         case 'production':
-            return `http://grascannabis.org${path}`;
+            return `${process.env.NEXT_PUBLIC_SHOP_APP_URL}${path}`;
         default:
             return `http://localhost:3000`;
     }
@@ -27,20 +27,17 @@ function getShopSite(path: string): string {
 function getDashboardSite(path: string): string {
     switch (process.env.NODE_ENV as string) {
         case 'development':
-            return `http://app.localhost:3000${path}`;
+            return `${process.env.NEXT_PUBLIC_DASHBOARD_APP_URL}${path}`;
         case 'test':
-            return `http://app.localhost:3000${path}`;
+            return `${process.env.NEXT_PUBLIC_DASHBOARD_APP_URL}${path}`;
         case 'production':
-            return `http://app.grascannabis.org${path}`;
+            return `${process.env.NEXT_PUBLIC_DASHBOARD_APP_URL}${path}`;
         default:
             return `http://localhost:3001`;
     }
 }
 
 function getCurrentSite(path: string): string {
-    console.log(`${window.location.host}${path}`);
-    console.log('path here');
-
     switch (process.env.NODE_ENV as string) {
         case 'development':
             return `http://${window.location.host}${path}`;

@@ -28,15 +28,15 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 
         } else {
             const
-                { data } = await axios.get(urlBuilder.main.organizationById(id), { validateStatus: status => (status >= 200 && status < 300) || status == 404 });
+                response = await axios.get(urlBuilder.main.organizationById(id), { validateStatus: status => (status >= 200 && status < 300) || status == 404 });
 
-            cache.set(`organization/${id}`, data);
+            cache.set(`organization/${id}`, response.data);
 
-            return res.status(res.statusCode).json(data);
+            return res.status(res.statusCode).json(response.data);
 
         }
     } catch (error: any) {
-        console.error('next api getOrganization: ', error.message);
+        console.error('next-api organization[id] Error: ', error.message);
         return res.status(500).json(error.message);
 
     }
