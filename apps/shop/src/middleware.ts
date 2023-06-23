@@ -14,12 +14,17 @@ export const config = {
     ]
 };
 
+const
+    appBaseUrl = process.env.NEXT_PUBLIC_SHOP_APP_URL || 'localhost:3000',
+    dashboardBaseUrl = process.env.NEXT_PUBLIC_DASHBOARD_APP_URL || 'localhost:3001';
+
 export default function middleware(req: NextRequest, res: ServerResponse) {
 
     let
         subdomain = req.headers.get('host')?.split('.')[0].split(':')[0] || 'localhost';
 
     console.log('subdomain', subdomain);
+    console.log('dashboardBaseUrl', dashboardBaseUrl);
 
     const allowAllVisitors = [
         '/about-gras',
@@ -44,6 +49,29 @@ export default function middleware(req: NextRequest, res: ServerResponse) {
     let
         url;
     switch (true) {
+        case subdomain === 'www':
+            console.log('www')
+
+            url = req.nextUrl.clone();
+            url.host = url.host.replace('www.', '');
+            return NextResponse.redirect(url.host);
+            break;
+
+        case subdomain === 'app':
+            console.log('app path')
+            url = req.nextUrl.clone();
+
+            // Prevent security issues – users should not be able to canonically access the pages/_stores folder and its respective contents.
+            if (url.pathname.startsWith(`/_stores`)) {
+                console.error('accessing stores directly is forbidden')
+                url.pathname = '/404';
+                console.log('REDIRECT')
+                return NextResponse.redirect(url);
+            }
+
+            return NextResponse.redirect(dashboardBaseUrl);
+            break;
+
         case (subdomain === 'localhost' || subdomain === 'grascannabis'):
             console.log('shop path')
             url = req.nextUrl.clone();
@@ -84,10 +112,11 @@ export default function middleware(req: NextRequest, res: ServerResponse) {
                 return NextResponse.next();
             }
             break;
+
         default:
             console.log('storefront path')
-
             url = req.nextUrl.clone();
+
             // if path is not a root shop page, rewrite to storefront
             if (!shopPages.includes(url.pathname)) {
                 // console.log('path: ', `/_stores/${subdomain}${url.pathname}`, req.nextUrl.origin)
