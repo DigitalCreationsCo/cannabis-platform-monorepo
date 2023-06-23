@@ -37,8 +37,10 @@ export const frontendConfig = () => {
                             window.location.href = dashboardDomain + '/dashboard';
                         }
                         else {
-                            throw new Error(`Sorry, you don't have admin persmissions.`)
-                            window.location.href = shopDomain;
+                            throw new Error(
+                                `You don't have the admin permissions to sign in here. 
+                                Please contact Gras support.`);
+                            // window.location.href = shopDomain;
                         }
                     }
                 }

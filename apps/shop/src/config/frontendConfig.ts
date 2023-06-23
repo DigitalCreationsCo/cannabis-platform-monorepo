@@ -35,7 +35,9 @@ export const frontendConfig = () => {
                         if (event.user && event.user.memberships?.[0]?.role.toLocaleUpperCase() === 'ADMIN' ||
                             event.user.memberships?.[0]?.role.toLocaleUpperCase() === 'OWNER')
                             // window.location.href = `${dashboardDomain}/dashboard`;
-                            throw new Error('An admin cannot login to the shop.')
+                            throw new Error(`
+                            Admin permissions are not allowed here. 
+                            Please contact Gras support.`);
                         else
                             if (event.isNewUser || !event.user.isSignUpComplete)
                                 window.location.href = `${shopDomain}/signup/create-account`;

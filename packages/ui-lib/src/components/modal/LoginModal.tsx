@@ -196,7 +196,7 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
                 
             } catch (error: any) {
                 setLoadingButton(false);
-                toast.error(error.message);
+                toast.error(error.message, { duration: 10000 });
             }
         }
 

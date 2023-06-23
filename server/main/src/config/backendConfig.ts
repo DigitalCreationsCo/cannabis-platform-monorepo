@@ -35,19 +35,6 @@ export const backendConfig = (): AuthConfig => {
                     functions: (originalImplementation) => {
                         return {
                             ...originalImplementation,
-                            // async getUserByEmail(input) {
-
-                            //     let user = await findUserWithDetailsByEmail(input.email) || null;
-                            //     return user;
-                            // },
-                            // async getUserByPhoneNumber(input) {
-                            //     let user = await findUserWithDetailsByPhone(input.phoneNumber) || null;
-                            //     return user;
-                            // },
-                            // async getUserById(input) {
-                            //     let user = await findUserWithDetailsById(input.userId) || null;
-                            //     return user;
-                            // },
                             consumeCode: async (input: PasswordlessSignInRequestPayload) => {
                                 try {
 
