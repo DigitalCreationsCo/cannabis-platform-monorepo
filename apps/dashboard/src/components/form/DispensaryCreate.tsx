@@ -1,3 +1,4 @@
+import { TextContent } from '@cd/core-lib/constants';
 import { urlBuilder } from '@cd/core-lib/utils';
 import { Button, FlexBox, Grid, H2, H3, H6, Paragraph, Small, TermsAgreement, TextField, useFormContext } from '@cd/ui-lib';
 import { createId } from '@paralleldrive/cuid2';
@@ -7,12 +8,23 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import * as yup from 'yup';
+import { dispensaryCreateTour } from '../../tour';
 
 // ToDo:
 // Organization Search for SearchTextField
 // Add country picker to set Country and countryCode fields
 
 function DispensaryCreate () {
+
+    function startTour () {
+        if (!dispensaryCreateTour.isActivated)
+        dispensaryCreateTour.start();
+    }
+    
+    useEffect(() => {
+        startTour()
+    }, [])
+
     const { prevFormStep, nextFormStep, formValues, setFormValues } = useFormContext();
     const [loadingButton, setLoadingButton] = useState(false);
 
@@ -94,7 +106,7 @@ function DispensaryCreate () {
             <Grid className="max-w-[525px] mx-auto">
                 <FlexBox className="justify-between flex-row space-x-2 pr-2 md:pr-0">
                     <FlexBox>
-                    <H2>Welcome to Gras</H2>
+                    <H2 id="dispensary-create-step-1">Welcome to Gras</H2>
                     <H3>a one stop cannabis marketplace</H3>
                     </FlexBox>
                     <Image
@@ -106,7 +118,8 @@ function DispensaryCreate () {
                         priority
                     />
                 </FlexBox>
-                <Small>* Please fill the required fields</Small>
+                <Small id="dispensary-admin-create-step-2">
+                    {TextContent.ui.FORM_FIELDS}</Small>
                 <TextField
                     name="name"
                     label="* Dispensary name"
@@ -190,7 +203,7 @@ function DispensaryCreate () {
                     error={!!touched?.address?.state && !!errors?.address?.state}
                     helperText={touched?.address?.state && errors?.address?.state}
                 />
-                <TextField
+                {/* <TextField
                     name="address.country"
                     label="* country"
                     placeholder="Country"
@@ -199,7 +212,7 @@ function DispensaryCreate () {
                     onChange={handleChange}
                     error={!!touched?.address?.country && !!errors?.address?.country}
                     helperText={touched?.address?.country && errors?.address?.country}
-                />
+                /> */}
                 <TextField
                     name="address.zipcode"
                     label="* zipcode"
@@ -211,6 +224,7 @@ function DispensaryCreate () {
                     helperText={touched?.address?.zipcode && errors?.address?.zipcode}
                 />
                 <TermsAgreement
+                    id='dispensary-admin-create-step-3' 
                     name="termsAccepted"
                     onChange={handleChange}
                     checked={values?.termsAccepted || false}
@@ -234,6 +248,7 @@ function DispensaryCreate () {
                     back
                 </Button>
                 <Button
+                    id='dispensary-create-step-4' 
                     type="submit"
                     loading={loadingButton}
                     onClick={(e:any) => {
@@ -244,7 +259,7 @@ function DispensaryCreate () {
                     }}
                     disabled={values.termsAccepted === false}
                 >
-                    Next
+                    {TextContent.ui.CONTINUE}
                 </Button>
             </FlexBox>
             {/* <FlexBox className='items-center pt-8'>

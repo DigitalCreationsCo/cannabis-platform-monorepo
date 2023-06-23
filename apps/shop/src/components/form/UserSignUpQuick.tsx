@@ -239,6 +239,7 @@ function UserSignUpQuickForm() {
                 />
                 
                 <TermsAgreement
+                        id='user-signup-step-4' 
                         className='col-span-2'
                         name="termsAccepted"
                         onChange={(e) => handleChange(e)}
@@ -248,7 +249,7 @@ function UserSignUpQuickForm() {
                         description={
                             <>
                                 { TextContent.legal.AGREE_TO_TERMS }
-                                <a id='user-signup-step-4' href="/" target="_blank" rel="noreferrer noopener">
+                                <a href="/" target="_blank" rel="noreferrer noopener">
                                     <H6 className={'border-b-2 inline-block'}>{TextContent.legal.USER_TERMS_OF_SERVICE}</H6>.
                                 </a>
                             </>

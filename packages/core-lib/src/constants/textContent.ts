@@ -3,9 +3,13 @@ const TextContent = Object.freeze({
     ACCEPT_ORDER: "Do you want to accept the order?",
     CONFIRM_ADD_TO_CART: `Your bag contains an item from another shop.
     Do you want to empty the bag and add this item instead?`,
-    FORM_FIELDS: "Please fill out the required fields.",
+    CONTINUE: `When you're ready, click continue.`,
     FIND_DISPENSARY: "Find a Dispensary",
     READ_REVIEWS: "Read Reviews",
+
+    FORM_FIELDS: "Please fill out the required fields.",
+
+
     REVIEWS_CAPTION: "What's the word on this product?",
     SELECT_LOCATION_TYPE: "Where can we deliver your next order?",
     TIP_CAPTION: "You can leave a tip!",
@@ -20,7 +24,11 @@ const TextContent = Object.freeze({
     CHOOSE_PROFILE_PICTURE_OR_UPLOAD: "Choose a profile picture, or upload your own.",
     CREATE_AN_ACCOUNT: "Create an account",
     CREATE_YOUR_ACCOUNT: "Create your account",
+
     CREATE_DISPENSARY_ACCOUNT: 'Create a Dispensary account',
+    ABOUT_DISPENSARY_ADMIN_ACCOUNT: `Create an account to own and manage your dispensary's inventory, data, and other users. 
+    This account will have the most access to your dispensary.`,
+
     DISPENSARIES_START_HERE: "Dispensaries, get started here",
     ENTER_OR_GO_TO_ACCOUNT: 'You can enter the Gras site, or view your account.',
   },
@@ -55,6 +63,9 @@ const TextContent = Object.freeze({
     ADDRESS_BLOCK_f: (destination: any) =>
       `${destination.address.street1} ${destination.address.street2}\n${destination.address.city}, ${destination.address.state
       } ${destination.address.zipcode.split("-")[0]}`,
+
+    FORM_FIELDS: "Please fill out the required fields.",
+
     ITEMS: 'Items',
     LOADING: "Loading...",
     SAVE_CHANGES: 'Save Changes',
@@ -62,7 +73,7 @@ const TextContent = Object.freeze({
     SIGNIN: "Sign In",
     SIGNIN_EMAIL: "Sign in with your email",
     SIGNUP: "Sign Up",
-    CONTINUE: "Continue",
+    CONTINUE: "continue",
 
   },
 
@@ -81,8 +92,9 @@ const TextContent = Object.freeze({
     PRIVACY_POLICY: "Privacy Policy",
     AGREE_TO_TERMS: "Before creating an account with Gras, please agree to our ",
     USER_TERMS_OF_SERVICE: "User Terms and Conditions",
+    READ_USER_TERMS_OF_SERVICE: "Please read the Gras Terms and Conditions policy.",
     DISPENSARY_TERMS_OF_SERVICE: "Dispensary Terms and Conditions",
-
+    READ_DISPENSARY_TERMS_OF_SERVICE: "Please read the Gras Dispensary Terms and Conditions policy.",
   },
 
   delivery: {
