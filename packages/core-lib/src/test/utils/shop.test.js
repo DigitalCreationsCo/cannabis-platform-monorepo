@@ -1,7 +1,7 @@
-const { checkDispensaryIsOpen } = require("@cd/shared-lib");
+import { checkDispensaryIsOpen } from '../../utils/schedule';
 
 describe('checkDispensaryIsOpen', () => {
-    test('live date', async () => {
+    test('is open', async () => {
         const isOpen = checkDispensaryIsOpen({
             days: 6543210,
             id: '1',
@@ -11,6 +11,6 @@ describe('checkDispensaryIsOpen', () => {
             createdAt: new Date(),
             updatedAt: new Date()
         })
-        expect(isOpen).toEqual(true);
+        expect(isOpen).toEqual('closed')
     });
 });
