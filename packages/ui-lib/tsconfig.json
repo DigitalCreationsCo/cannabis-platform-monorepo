@@ -12,11 +12,8 @@
     "incremental": true,
     "paths": {
       "@cd/data-access": ["../../../packages/data-access/src/index"],
-      "@cd/data-access/*": ["../../../packages/data-access/src/*"],
       "@cd/eslint-config": ["../../../packages/eslint-config/src/index"],
-      "@cd/eslint-config/*": ["../../../packages/eslint-config/src/*"],
-      "@cd/core-lib": ["../../../packages/core-lib/src/index"],
-      "@cd/core-lib/*": ["../../../packages/core-lib/src/*"]
+      "@cd/core-lib": ["../../../packages/core-lib/src/index"]
     }
   },
   "exclude": ["**/node_modules", "**/.*/", "dist", "build"]
