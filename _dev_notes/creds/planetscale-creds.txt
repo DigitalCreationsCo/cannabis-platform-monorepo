@@ -1,8 +1,8 @@
-supertokens-dev - dev admin
+supertokens - dev admin
 database: cannabis_delivery_v1
-username: 4af8mcs8kg8ty8rzyapg
+username: i6nudrro7avfjzy15vaf
 host: aws.connect.psdb.cloud
-password: pscale_pw_pxpFbwk2ziXzlthQeoEMkkpr4BuWdgg1aSqBgw6zGqm
+password: pscale_pw_xUkxaaIiN7evWAYOghNnwZ7nTvXyFKQIuzf5WFF34AW
 
 dev - dev admin
 database: cannabis_delivery_v1
@@ -16,8 +16,8 @@ username: rn35430jypizd9airakv
 host: aws.connect.psdb.cloud
 password: pscale_pw_SXkgbxC8mXQve33MQvkpxbEt0sl3lL004qEQZc9OYct
 
-supertokens(prod) - production admin
+supertokens - production admin
 database: cannabis_delivery_v1
-username: bmzp7aho4upnia3dx94z
+username: hjl13pett5q5hdb0b6vs
 host: aws.connect.psdb.cloud
-password: pscale_pw_PWdidZtuH04pAv71gJZg01BmxberioPhfDbyezeUpys
+password: pscale_pw_Dl9qggUnN02NIVAWDXa19Rsrcv8yCELmjNw1jSaMdb3
