@@ -3369,6 +3369,7 @@ __metadata:
     formidable: 2.1.1
     formik: 2.2.9
     jest: 29.3.1
+    jest-mock-axios: ^4.7.2
     jest-mock-extended: 3.0.1
     json-immutable: 0.5.0
     next: 13.1.0
@@ -17974,7 +17975,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-cli@npm:^29.3.1":
+"jest-cli@npm:^29.3.1, jest-cli@npm:^29.5.0":
   version: 29.5.0
   resolution: "jest-cli@npm:29.5.0"
   dependencies:
@@ -18181,6 +18182,17 @@ __metadata:
     slash: ^3.0.0
     stack-utils: ^2.0.3
   checksum: daddece6bbf846eb6a2ab9be9f2446e54085bef4e5cecd13d2a538fa9c01cb89d38e564c6b74fd8e12d37ed9eface8a362240ae9f21d68b214590631e7a0d8bf
+  languageName: node
+  linkType: hard
+
+"jest-mock-axios@npm:^4.7.2":
+  version: 4.7.2
+  resolution: "jest-mock-axios@npm:4.7.2"
+  dependencies:
+    "@jest/globals": ^29.5.0
+    jest: ~29.5.0
+    synchronous-promise: ^2.0.17
+  checksum: 8040f3b9d8ecf40b811f39d82d8754ba49183e158010a68783862d4b936364954248fe831c9951443f6666797caa9f76911d2a2de1f84d23957edc89c908c025
   languageName: node
   linkType: hard
 
@@ -18489,6 +18501,25 @@ __metadata:
   bin:
     jest: bin/jest.js
   checksum: 613f4ec657b14dd84c0056b2fef1468502927fd551bef0b19d4a91576a609678fb316c6a5b5fc6120dd30dd4ff4569070ffef3cb507db9bb0260b28ddaa18d7a
+  languageName: node
+  linkType: hard
+
+"jest@npm:~29.5.0":
+  version: 29.5.0
+  resolution: "jest@npm:29.5.0"
+  dependencies:
+    "@jest/core": ^29.5.0
+    "@jest/types": ^29.5.0
+    import-local: ^3.0.2
+    jest-cli: ^29.5.0
+  peerDependencies:
+    node-notifier: ^8.0.1 || ^9.0.0 || ^10.0.0
+  peerDependenciesMeta:
+    node-notifier:
+      optional: true
+  bin:
+    jest: bin/jest.js
+  checksum: a8ff2eb0f421623412236e23cbe67c638127fffde466cba9606bc0c0553b4c1e5cb116d7e0ef990b5d1712851652c8ee461373b578df50857fe635b94ff455d5
   languageName: node
   linkType: hard
 
@@ -27950,6 +27981,13 @@ __metadata:
   bin:
     syncdir: cmd.js
   checksum: 9333a649d96a0c91644331de752425e81fb9329e84e7d83d776a4fca56a0e1d68b23cc3313a94a95e230d2e36670acda3c4b94801a5b2997e31d6b1e321b666f
+  languageName: node
+  linkType: hard
+
+"synchronous-promise@npm:^2.0.17":
+  version: 2.0.17
+  resolution: "synchronous-promise@npm:2.0.17"
+  checksum: 7b1342c93741f3f92ebde1edf5d6ce8dde2278de948d84e9bd85e232c16c0d77c90c4940f9975be3effcb20f047cfb0f16fa311c3b4e092c22f3bf2889fb0fb4
   languageName: node
   linkType: hard
 
