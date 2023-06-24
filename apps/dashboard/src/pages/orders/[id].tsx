@@ -1,24 +1,46 @@
-import { calcSalePrice, getDashboardSite, renderAddress, TextContent, urlBuilder, useProductSearch } from '@cd/core-lib';
 import {
-    OrderStatus, OrderWithDashboardDetails, OrderWithDetails,
-    ProductVariantWithDetails
+  calcSalePrice,
+  getDashboardSite,
+  renderAddress,
+  TextContent,
+  urlBuilder,
+  useProductSearch,
+} from '@cd/core-lib';
+import {
+  OrderStatus,
+  OrderWithDashboardDetails,
+  OrderWithDetails,
+  ProductVariantWithDetails,
 } from '@cd/data-access';
 import {
-    AddProductModal,
-    Button,
-    Card,
-    Center, FlexBox,
-    Grid,
-    H5,
-    H6,
-    Icons,
-    LoadingDots, Page,
-    PageHeader,
-    Paragraph, Price, ProductItem, Row, Span, TextField, useOnClickOutside
+  AddProductModal,
+  Button,
+  Card,
+  Center,
+  FlexBox,
+  Grid,
+  H5,
+  H6,
+  Icons,
+  LoadingDots,
+  Page,
+  PageHeader,
+  Paragraph,
+  PhoneNumber,
+  Price,
+  ProductItem,
+  Row,
+  Span,
+  TextField,
+  useOnClickOutside,
 } from '@cd/ui-lib';
-import renderPhoneNumber from '@cd/ui-lib/components/PhoneNumber';
 import axios from 'axios';
-import { orders, organization, products, userDispensaryAdmin as user } from 'data/dummyData';
+import {
+  orders,
+  organization,
+  products,
+  userDispensaryAdmin as user,
+} from 'data/dummyData';
 import { format } from 'date-fns';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -28,247 +50,254 @@ import toast from 'react-hot-toast';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../../public/logo.png';
 
-export default function OrderDetails({ order }: { order: OrderWithDashboardDetails }) {
+export default function OrderDetails({
+  order,
+}: {
+  order: OrderWithDashboardDetails;
+}) {
+  const [updateOrder, setUpdateOrder] = useState<OrderWithDetails>();
+  const [orderStatus, setOrderStatus] = useState<OrderStatus>(
+    order.orderStatus
+  );
 
-    const [updateOrder, setUpdateOrder] = useState<OrderWithDetails>();
-    const [orderStatus, setOrderStatus] = useState<OrderStatus>(order.orderStatus);
-    
-    const [searchProductTerms, setSearchProductTerms] = useState('');
-    const [loadingButton, setLoadingButton] = useState(false);
-    
-    const [openAddProduct, setOpenAddProduct] = useState(false);
-    
-    const toggleAddProduct = () => setOpenAddProduct((state) => !state);
+  const [searchProductTerms, setSearchProductTerms] = useState('');
+  const [loadingButton, setLoadingButton] = useState(false);
 
-    const [openDropDown, setOpenDropDown] = useState(true);
-    const dropDownRef = useRef(null);
-    
-    useOnClickOutside(dropDownRef, () => {
-        setOpenDropDown(false);
-    });
+  const [openAddProduct, setOpenAddProduct] = useState(false);
 
-    const { notFoundResult, doSearchProducts, productSearchResult } = useProductSearch();
+  const toggleAddProduct = () => setOpenAddProduct((state) => !state);
 
-    function removeRelatedFields(order: OrderWithDetails) {
-        // delete order['driver'];
-        // delete order['customer'];
-        // delete order.destinationAddress;
-        return order;
-    }
+  const [openDropDown, setOpenDropDown] = useState(true);
+  const dropDownRef = useRef(null);
 
-    function removeProductsFromItems(items: any[]) {
-        return (
-            items &&
-            items.map((item) => {
-                delete item['product'];
-                return item;
-            })
-        );
-    }
-    const handleUpdate = async () => {
-        setLoadingButton(true);
-        try {
-            if (order) {
-                // setIsLoading(true);
-                setUpdateOrder(removeRelatedFields({ ...order }));
-                const response = await axios.put(urlBuilder.dashboard + '/api/orders', {
-                    ...updateOrder,
-                    id: order.id,
-                    items: removeProductsFromItems(order.items as any[]),
-                    status: orderStatus
-                });
-                if (response.status !== 200) throw Error('Could not save record');
-                toast.success('Order Updated Successfully');
-            }
-            setLoadingButton(false);
-            location.reload();
-        } catch (error: any) {
-            setLoadingButton(false);
-            // setIsLoading(false);
-            console.error(error);
-            toast.error(error.message);
-            // toast.error(error.message);
-            location.reload();
-        }
-    };
+  useOnClickOutside(dropDownRef, () => {
+    setOpenDropDown(false);
+  });
 
-    // calculate order total price
-    const calculateTotal = (items: any[]) => {
-        const subtotal = items.reduce((prev, curr) => prev + curr.salePrice * curr.quantity, 0);
-        const total = subtotal + order.taxAmount;
-        // setUpdateOrder((state) => ({ ...state, subtotal, total }));
-    };
+  const { notFoundResult, doSearchProducts, productSearchResult } =
+    useProductSearch();
 
-    // change the quantity for a item
-    const handleQuantityChange = (quantity: number, variantId: string) => {
-        const items = order?.items?.map((item: any) => {
-            return item.variantId === variantId ? { ...item, quantity } : item;
-        });
-        calculateTotal(items as any[]);
-    };
+  function removeRelatedFields(order: OrderWithDetails) {
+    // delete order['driver'];
+    // delete order['customer'];
+    // delete order.destinationAddress;
+    return order;
+  }
 
-    // delete item from order
-    const handleDeleteItem = (variantId: string) => {
-        const items = order?.items?.filter((item: any) => item.variantId !== variantId);
-        calculateTotal(items as any[]);
-    };
-
-    // add new item in order
-    const handleAddItem = (variant: ProductVariantWithDetails, quantity: number) => {
-        const salePrice = calcSalePrice(variant.basePrice, variant.discount);
-
-        const addItem: any = {
-            discount: variant.discount,
-            currency: variant.currency,
-            createdAt: variant.createdAt,
-            updatedAt: variant.updatedAt,
-            productVariant: variant,
-            name: variant.name,
-            unit: variant.unit,
-            size: variant.size,
-            basePrice: variant.basePrice,
-            variantId: variant.id,
-            salePrice,
-            quantity,
-            orderId: order.id
-        };
-
-        const items = [...order.items, addItem];
-        calculateTotal(items);
-
-        setSearchProductTerms('');
-        doSearchProducts(null);
-    };
-
+  function removeProductsFromItems(items: any[]) {
     return (
-            <Page>
+      items &&
+      items.map((item) => {
+        delete item['product'];
+        return item;
+      })
+    );
+  }
+  const handleUpdate = async () => {
+    setLoadingButton(true);
+    try {
+      if (order) {
+        // setIsLoading(true);
+        setUpdateOrder(removeRelatedFields({ ...order }));
+        const response = await axios.put(urlBuilder.dashboard + '/api/orders', {
+          ...updateOrder,
+          id: order.id,
+          items: removeProductsFromItems(order.items as any[]),
+          status: orderStatus,
+        });
+        if (response.status !== 200) throw Error('Could not save record');
+        toast.success('Order Updated Successfully');
+      }
+      setLoadingButton(false);
+      location.reload();
+    } catch (error: any) {
+      setLoadingButton(false);
+      // setIsLoading(false);
+      console.error(error);
+      toast.error(error.message);
+      // toast.error(error.message);
+      location.reload();
+    }
+  };
 
-                <PageHeader
-                    title={`Order #${order.id}`}
-                    Icon={Icons.DeliveryTruck}>
-                        <Link href={getDashboardSite("/orders")}>
-                            <Button 
-                            className="place-self-start bg-inverse hover:bg-inverse active:bg-accent-soft">
-                                Back to Orders</Button>
-                        </Link>
-                    </PageHeader>
+  // calculate order total price
+  const calculateTotal = (items: any[]) => {
+    const subtotal = items.reduce(
+      (prev, curr) => prev + curr.salePrice * curr.quantity,
+      0
+    );
+    const total = subtotal + order.taxAmount;
+    // setUpdateOrder((state) => ({ ...state, subtotal, total }));
+  };
 
-                <AddProductModal
-                    className="z-100 w-screen"
-                    modalVisible={openAddProduct}
-                    onClose={toggleAddProduct}
-                    description="Add Product"
-                >
-                    <TextField
-                        className="shadow"
-                        value={searchProductTerms}
-                        onChange={(e: any) => {
-                            doSearchProducts(e);
-                            setSearchProductTerms(e.target?.value);
-                        }}
-                        placeholder="Search Products"
-                    />
-                    {productSearchResult.length > 0 ? (
-                        <FlexBox className="pb-4 overflow-scroll space-x-3 flex flex-row grow">
-                            {productSearchResult.map((product) => (
-                                <ProductItem
-                                    key={product.id}
-                                    product={product}
-                                    handleConfirm={handleAddItem}
-                                />
-                            ))}
-                        </FlexBox>
-                    ) : (
-                        <Center>
-                            <LoadingDots />
-                        </Center>
-                    )}
+  // change the quantity for a item
+  const handleQuantityChange = (quantity: number, variantId: string) => {
+    const items = order?.items?.map((item: any) => {
+      return item.variantId === variantId ? { ...item, quantity } : item;
+    });
+    calculateTotal(items as any[]);
+  };
 
-                    {notFoundResult && (
-                        // <SearchResultCard elevation={2}>
-                        <Paragraph>No Products Found</Paragraph>
-                        // </SearchResultCard>
-                    )}
-                </AddProductModal>
+  // delete item from order
+  const handleDeleteItem = (variantId: string) => {
+    const items = order?.items?.filter(
+      (item: any) => item.variantId !== variantId
+    );
+    calculateTotal(items as any[]);
+  };
 
-                <Grid className='pt-2 gap-2'>
-                    <Row className="h-[55px] grid grid-cols-12 flex justify-between">
-                        
-                        <H6 className='col-span-4'>
-                            {`Ordered on ${format(new Date(order.createdAt), 'MMM dd, yyyy')}`}</H6>
+  // add new item in order
+  const handleAddItem = (
+    variant: ProductVariantWithDetails,
+    quantity: number
+  ) => {
+    const salePrice = calcSalePrice(variant.basePrice, variant.discount);
 
-                        <FlexBox className='flex-row items-center'>
-                            <H6 className='hidden sm:block col-span-2 justify-self-end'>
-                                Status</H6>
-                            <Paragraph>
-                                { orderStatus }
-                            </Paragraph>
-                            {/* <Select
+    const addItem: any = {
+      discount: variant.discount,
+      currency: variant.currency,
+      createdAt: variant.createdAt,
+      updatedAt: variant.updatedAt,
+      productVariant: variant,
+      name: variant.name,
+      unit: variant.unit,
+      size: variant.size,
+      basePrice: variant.basePrice,
+      variantId: variant.id,
+      salePrice,
+      quantity,
+      orderId: order.id,
+    };
+
+    const items = [...order.items, addItem];
+    calculateTotal(items);
+
+    setSearchProductTerms('');
+    doSearchProducts(null);
+  };
+
+  return (
+    <Page>
+      <PageHeader title={`Order #${order.id}`} Icon={Icons.DeliveryTruck}>
+        <Link href={getDashboardSite('/orders')}>
+          <Button className="place-self-start bg-inverse hover:bg-inverse active:bg-accent-soft">
+            Back to Orders
+          </Button>
+        </Link>
+      </PageHeader>
+
+      <AddProductModal
+        className="z-100 w-screen"
+        modalVisible={openAddProduct}
+        onClose={toggleAddProduct}
+        description="Add Product"
+      >
+        <TextField
+          className="shadow"
+          value={searchProductTerms}
+          onChange={(e: any) => {
+            doSearchProducts(e);
+            setSearchProductTerms(e.target?.value);
+          }}
+          placeholder="Search Products"
+        />
+        {productSearchResult.length > 0 ? (
+          <FlexBox className="pb-4 overflow-scroll space-x-3 flex flex-row grow">
+            {productSearchResult.map((product) => (
+              <ProductItem
+                key={product.id}
+                product={product}
+                handleConfirm={handleAddItem}
+              />
+            ))}
+          </FlexBox>
+        ) : (
+          <Center>
+            <LoadingDots />
+          </Center>
+        )}
+
+        {notFoundResult && (
+          // <SearchResultCard elevation={2}>
+          <Paragraph>No Products Found</Paragraph>
+          // </SearchResultCard>
+        )}
+      </AddProductModal>
+
+      <Grid className="pt-2 gap-2">
+        <Row className="h-[55px] grid grid-cols-12 flex justify-between">
+          <H6 className="col-span-4">
+            {`Ordered on ${format(new Date(order.createdAt), 'MMM dd, yyyy')}`}
+          </H6>
+
+          <FlexBox className="flex-row items-center">
+            <H6 className="hidden sm:block col-span-2 justify-self-end">
+              Status
+            </H6>
+            <Paragraph>{orderStatus}</Paragraph>
+            {/* <Select
                                 className='col-span-2'
                                 defaultValue={orderStatus}
                                 values={[ orderStatus ]}
                                 // values={[orderStatus, ...orderStatusList]}
                                 // setOption={setOrderStatus as Dispatch<SetStateAction<string | number>>}
                             /> */}
-                        </FlexBox>
-                    </Row>
-                    
-                    <Card className='border'>
-                        <Paragraph className="whitespace-nowrap">
-                            {TextContent.delivery.DELIVER_FOR_f(order.customer.username)}
-                            <br />
-                            <Span className="whitespace-nowrap font-semibold">
-                                {`${order.customer.firstName} ${order.customer.lastName}`}</Span>
-                        </Paragraph>
-                        
-                        <Paragraph>
-                            {order.customer.email}</Paragraph>
-                        
-                        <Paragraph>
-                            { renderPhoneNumber({ dialCode: user.dialCode, phone: user.phone }) }
-                        </Paragraph>
-                        
-                        <Paragraph>
-                            {renderAddress({ address: order.destinationAddress })}</Paragraph>
-                            
-                    </Card>
+          </FlexBox>
+        </Row>
 
-                    <FlexBox className="flex-col space-x-0 items-stretch">
-                        <Row className="h-[44px] items-center justify-start items-center">
-                            <H6>
-                                {TextContent.ui.ITEMS}</H6>
+        <Card className="border">
+          <Paragraph className="whitespace-nowrap">
+            {TextContent.delivery.DELIVER_FOR_f(order.customer.username)}
+            <br />
+            <Span className="whitespace-nowrap font-semibold">
+              {`${order.customer.firstName} ${order.customer.lastName}`}
+            </Span>
+          </Paragraph>
 
-                            {/* <Button
+          <Paragraph>{order.customer.email}</Paragraph>
+
+          <Paragraph>
+            {PhoneNumber({ dialCode: user.dialCode, phone: user.phone })}
+          </Paragraph>
+
+          <Paragraph>
+            {renderAddress({ address: order.destinationAddress })}
+          </Paragraph>
+        </Card>
+
+        <FlexBox className="flex-col space-x-0 items-stretch">
+          <Row className="h-[44px] items-center justify-start items-center">
+            <H6>{TextContent.ui.ITEMS}</H6>
+
+            {/* <Button
                                 className="place-self-start bg-inverse hover:bg-inverse active:bg-accent-soft"
                                 onClick={toggleAddProduct}
                             >
                                 {TextContent.products.ADD_PRODUCT}
                             </Button> */}
-                        </Row>  
+          </Row>
 
-                        {order.items.map((item, index: number) => (
-                            <Row 
-                            key={index} 
-                            className="h-[66px] flex md:space-x-4">
+          {order.items.map((item, index: number) => (
+            <Row key={index} className="h-[66px] flex md:space-x-4">
+              <Image
+                src={item.images?.[0]?.location || logo}
+                className={twMerge('hidden sm:block sm:visible ')}
+                alt={`order-item-${item.id}`}
+                height={64}
+                width={64}
+              />
 
-                                <Image
-                                    src={item.images?.[0]?.location || logo}
-                                    className={twMerge('hidden sm:block sm:visible ')}
-                                    alt={`order-item-${item.id}`}
-                                    height={64}
-                                    width={64}
-                                />
-                                
-                                <FlexBox className="grow ">
-                                    <Paragraph>{item.name}</Paragraph>
-                                </FlexBox>
+              <FlexBox className="grow ">
+                <Paragraph>{item.name}</Paragraph>
+              </FlexBox>
 
-                                <Price 
-                                basePrice={item.basePrice}
-                                discount={item.discount}
-                                salePrice={item.salePrice} />
-                                
-                                {/* {orderStatus === 'Pending' ? (
+              <Price
+                basePrice={item.basePrice}
+                discount={item.discount}
+                salePrice={item.salePrice}
+              />
+
+              {/* {orderStatus === 'Pending' ? (
                                     <TextField
                                         containerClassName=" w-fit"
                                         className="w-[66px]"
@@ -279,51 +308,47 @@ export default function OrderDetails({ order }: { order: OrderWithDashboardDetai
                                         }
                                     />
                                 ) : ( */}
-                                    <Paragraph>
-                                        qty {item.quantity}</Paragraph>
-                                {/* )} */}
+              <Paragraph>qty {item.quantity}</Paragraph>
+              {/* )} */}
 
-                                {/* <DeleteButton
+              {/* <DeleteButton
                                     onClick={() => handleDeleteItem(item.variantId)}
                                 ></DeleteButton> */}
-                            </Row>
-                        ))}
-                    </FlexBox>
+            </Row>
+          ))}
+        </FlexBox>
 
-                    <Grid className="grid-cols-6">
-                        <FlexBox className='col-start-2 col-span-2'>
-                            <H5>
-                                Subtotal</H5>
-                            <H6>
-                                <Price basePrice={order.subtotal} />
-                            </H6>
-                        </FlexBox>
+        <Grid className="grid-cols-6">
+          <FlexBox className="col-start-2 col-span-2">
+            <H5>Subtotal</H5>
+            <H6>
+              <Price basePrice={order.subtotal} />
+            </H6>
+          </FlexBox>
 
-                        {/* <FlexBox>
+          {/* <FlexBox>
                             <H5>Delivery Fee</H5>
                             <H6>
                                 <Price basePrice={0} />
                             </H6>
                         </FlexBox> */}
 
-                        <FlexBox className='col-span-2'>
-                            <H5>
-                                Tax</H5>
-                            <H6>
-                                <Price basePrice={order.taxAmount} />
-                            </H6>
-                        </FlexBox>
+          <FlexBox className="col-span-2">
+            <H5>Tax</H5>
+            <H6>
+              <Price basePrice={order.taxAmount} />
+            </H6>
+          </FlexBox>
 
-                        <FlexBox className='col-span-2'>
-                            <H5>
-                                Total</H5>
-                            <H6>
-                                <Price basePrice={order.total} />
-                            </H6>
-                        </FlexBox>
-                    </Grid>
+          <FlexBox className="col-span-2">
+            <H5>Total</H5>
+            <H6>
+              <Price basePrice={order.total} />
+            </H6>
+          </FlexBox>
+        </Grid>
 
-                    {/* <FlexBox className="justify-center items-stretch">
+        {/* <FlexBox className="justify-center items-stretch">
                         <Button 
                         size='lg'
                         className="flex grow" 
@@ -332,32 +357,38 @@ export default function OrderDetails({ order }: { order: OrderWithDashboardDetai
                             {TextContent.ui.SAVE_CHANGES}
                         </Button>
                     </FlexBox> */}
-                </Grid>
-        </Page>
-    );
+      </Grid>
+    </Page>
+  );
 }
 
-export async function getServerSideProps({ req, params }: { req: any; params: any }) {
-    try {
-        // const order = await (
-        //     await axios(urlBuilder.dashboard + `/api/orders/${params.id}`, {
-        //         headers: {
-        //             Cookie: req.headers.cookie
-        //         }
-        //     })
-        // ).data;
-        // if (!order) return { notFound: true };
-        return {
-            props: { 
-                user: dateToString(user), 
-                organization: dateToString(organization), 
-                products: dateToString(products) || [], 
-                orders: dateToString(orders) || [], 
-                order: dateToString(orders[0]) || {},
-            }
-        };
-    } catch (error: any) {
-        console.log('Orders/[id] SSR error: ', error.message);
-        throw new Error(error);
-    }
+export async function getServerSideProps({
+  req,
+  params,
+}: {
+  req: any;
+  params: any;
+}) {
+  try {
+    // const order = await (
+    //     await axios(urlBuilder.dashboard + `/api/orders/${params.id}`, {
+    //         headers: {
+    //             Cookie: req.headers.cookie
+    //         }
+    //     })
+    // ).data;
+    // if (!order) return { notFound: true };
+    return {
+      props: {
+        user: dateToString(user),
+        organization: dateToString(organization),
+        products: dateToString(products) || [],
+        orders: dateToString(orders) || [],
+        order: dateToString(orders[0]) || {},
+      },
+    };
+  } catch (error: any) {
+    console.log('Orders/[id] SSR error: ', error.message);
+    throw new Error(error);
+  }
 }
