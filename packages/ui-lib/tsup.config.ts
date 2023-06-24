@@ -8,7 +8,17 @@ export default defineConfig((options) => ({
   // clean: true,
   // dts: true,
   format: ['esm', 'cjs'],
-  external: ['@paralleldrive/cuid2', 'path', 'react', 'react-dom', 'usehooks-ts'],
+  external: [
+    '@paralleldrive/cuid2',
+    'path',
+    'react',
+    'react-dom',
+    'usehooks-ts',
+    'next/link',
+    'next/image',
+    'next/router',
+    'formik'
+  ],
   platform: 'browser',
   target: ['es2015', 'chrome70', 'edge18', 'firefox70', 'node16'],
   tsconfig: path.resolve('./tsconfig.build.json'),

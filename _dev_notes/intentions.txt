@@ -139,10 +139,23 @@ CUSTOMER SUCCESS:
 
 3.
 
+TODO: Resolve logo image in delivery-widget
 
+TODO: for Production (July, August)
+Encrypt all external visible web code -
+    - delivery widget
+    - front end code entrypoints
+    - server entry points
+    - encrypt all server responses
+    - lock all web end points behind a protective wall (jwt token, header authorization, encryption)
+
+
+<<<<<<< HEAD
+=======
 TODO:
 Add testing for s3 buckets, to check for correct env vars, urls, valid buckets, etc.
 
+>>>>>>> main
 Set up K8s load balancer for static external ip
 
 Optimize docker images, SHOP especially, Lower binary size TO save costs at scale!! GREATLY IMPORTANT

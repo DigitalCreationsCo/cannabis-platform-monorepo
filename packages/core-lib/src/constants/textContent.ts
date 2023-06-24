@@ -3,6 +3,11 @@ const TextContent = Object.freeze({
     ACCEPT_ORDER: "Do you want to accept the order?",
     CONFIRM_ADD_TO_CART: `Your bag contains an item from another shop.
     Do you want to empty the bag and add this item instead?`,
+    CREATE_ACCOUNT: "",
+
+    CHECKOUT_READY: "When you're ready, click the checkout button.",
+
+    CREATE_DISPENSARY_ACCOUNT: 'Create a Dispensary account',
     CONTINUE: `When you're ready, click continue.`,
     FIND_DISPENSARY: "Find a Dispensary",
     READ_REVIEWS: "Read Reviews",
@@ -60,6 +65,8 @@ const TextContent = Object.freeze({
   },
 
   ui: {
+    ADD_TO_CART_f: (qty: number) => `Add ${qty} to Bag`,
+
     ADDRESS_BLOCK_f: (destination: any) =>
       `${destination.address.street1} ${destination.address.street2}\n${destination.address.city}, ${destination.address.state
       } ${destination.address.zipcode.split("-")[0]}`,
@@ -98,7 +105,9 @@ const TextContent = Object.freeze({
   },
 
   delivery: {
+    GRAS_WILL_DELIVER: 'Gras will deliver your order straight to your door.',
     DELIVER_FOR_GRAS: "Deliver for Gras",
+
     ALL_ORDERS: "Your Delivery Queue",
     CUSTOMER_ORDER_f: (customerName: string) => `${customerName} placed an order`,
     DELIVERING_TO_ADDRESS_f: (location: any) =>
@@ -148,6 +157,10 @@ const TextContent = Object.freeze({
   social: {
     FRIENDS_LIST_TITLE: "Your friends",
 
+  },
+
+  char: {
+    NBSP: '\xa0'
   }
 });
 

@@ -60,6 +60,7 @@
     "docker:supertokens": "scripts/docker/supertokens.sh",
     "docker:shadow-db": "scripts/docker/mysql.sh",
     "docker:redis": "scripts/docker/redis.sh",
+    "docker:delivery-widget-demo": "scripts/docker/launch-widget-demo.sh",
     "docker:build": "TYPE=$0 CONTEXT=$1 make docker-build",
     "docker:tag": "IMAGE=$0 TAG=$1 make docker-tag",
     "docker:push": "IMAGE=$0 make docker-push",
