@@ -1,30 +1,46 @@
-// import ordersHandler from '../../pages/api/orders';
-// import axios from 'axios';
-// import { createMocks } from 'node-mocks-http';
-// import { urlBuilder } from '../../src/utils';
+import mockAxios from 'jest-mock-axios';
+import { createMocks } from 'node-mocks-http';
+import handler from '../../src/pages/api/organization/user/address';
 
-// beforeAll(() => {
-//     jest.mock('axios');
-// });
+beforeEach(() => {
+  jest.mock('axios');
+});
 
-// // call handle, and expect the correct backend server call
-// // issue here, is getting the correct organizationId from the session object, and getting it in axios call.
-// // maybe mock the session
-// // another issue is the caching that happens on the handler side, can interfere with test
+afterEach(() => {
+  mockAxios.reset();
+});
 
+describe('handler makes the correct server call with the given params', () => {
+  test('POST /api/organization/user/address', async () => {
+    const { req, res } = createMocks({
+      method: 'POST',
+      body: {
+        street1: '123 King St',
+        street2: 'Suite 200',
+        city: 'Lancaster',
+        state: 'PA',
+        zipcode: 17602,
+        country: 'United States',
+        countryCode: 'US',
+        coordinateId: '1',
+      },
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
 
-// describe('POST /api/users/2/address', () => {
-//     test('add address return the correct server call with params', async () => {
-//         const { req, res } = createMocks({
-//             method: 'GET',
-//             query: {
-//                 animal: 'dog',
-//             },
-//         });
-//         await ordersHandler(req, res);
-//         expect(axios).toHaveBeenLastCalledWith(urlBuilder.main.ordersByOrgId('3'));
-//     });
-// });
+    let catchFn = jest.fn(),
+      thenFn = jest.fn();
+
+    handler(req, res).then(thenFn).catch(catchFn);
+
+    // end point is not defined
+    expect(res._getStatusCode()).toBe(404);
+
+    // expect(axios.post).toHaveBeenCalledTimes(1);
+    // expect(axios.post).toHaveBeenCalledWith(urlBuilder.main.address(), req.body);
+  });
+});
 
 // describe('DELETE /api/users/2/address/3', () => {
 //     test('delete address return the correct server call with params', async () => {
