@@ -1,6 +1,4 @@
-// @ts-nocheck
-
-import { Coordinates, Driver, DriverSession, Prisma, Route, User } from "@prisma/client";
+import { Driver, DriverSession, Prisma, Route, User } from "@prisma/client";
 import prisma from "./db/prisma";
 import { UserCreateType } from "./user";
 
@@ -18,9 +16,9 @@ import { UserCreateType } from "./user";
 /**
  * CREATE DRIVER RECORD ALONG WITH SESSION RECORD
  */
-export async function createDriver(userData: UserCreateType) {
+export async function createDriver(userData: DriverCreateType) {
     try {
-        const { coordinates, coordinateId, ...addressData } = userData.address[0]
+        const { coordinates, ...addressData } = userData.address[0]
         const user = await prisma.user.create({
             data: {
                 email: userData.email,
@@ -28,7 +26,6 @@ export async function createDriver(userData: UserCreateType) {
                 username: userData.username,
                 firstName: userData.firstName,
                 lastName: userData.lastName,
-                passwordHash: userData.passwordHash,
                 termsAccepted: true,
                 dialCode: userData.dialCode,
                 phone: userData.phone,
@@ -43,21 +40,17 @@ export async function createDriver(userData: UserCreateType) {
                         }
                     },
                 },
-                imageUser: userData.imageUser ? {
+                profilePicture: {
                     create: {
-                        ...userData.imageUser
+                        location: userData.profilePicture?.location,
                     }
-                } : undefined,
+                },
                 driver: {
                     connectOrCreate: {
                         where: {
                             id: userData.id
                         },
                         create: {
-                            ...userData,
-                            driverSession: {
-                                create: {}
-                            }
                         },
                     }
                 }
@@ -78,7 +71,7 @@ export async function createDriver(userData: UserCreateType) {
 
 export async function updateDriver(userData: UserCreateType) {
     try {
-        const { coordinateId, coordinates, ...addressData } = userData.address[0]
+        const { coordinates, ...addressData } = userData.address[0]
 
         const user = await prisma.user.update({
             where: {
@@ -90,7 +83,6 @@ export async function updateDriver(userData: UserCreateType) {
                 username: userData.username,
                 firstName: userData.firstName,
                 lastName: userData.lastName,
-                passwordHash: userData.passwordHash || '',
                 termsAccepted: true,
                 dialCode: userData.dialCode,
                 phone: userData.phone,
@@ -115,9 +107,9 @@ export async function updateDriver(userData: UserCreateType) {
                         }
                     }
                 },
-                imageUser: userData.imageUser ? {
+                profilePicture: userData.profilePicture ? {
                     create: {
-                        ...userData.imageUser
+                        ...userData.profilePicture
                     }
                 } : undefined,
                 memberships: userData.memberships ? {
@@ -145,11 +137,10 @@ export async function findDriverWithDetailsByEmail(email: string): Promise<Drive
                 email
             },
             include: {
-                driverSession: true,
                 user: {
                     include: {
                         address: true,
-                        imageUser: true,
+                        profilePicture: true,
                     }
                 }
             },
@@ -171,9 +162,6 @@ export async function findDriverWithDetailsByPhone(phone: string): Promise<Drive
             },
             include: {
                 driver: {
-                    include: {
-                        driverSession: true,
-                    }
                 },
                 address: true,
                 memberships: {
@@ -181,7 +169,7 @@ export async function findDriverWithDetailsByPhone(phone: string): Promise<Drive
                         role: 'asc',
                     },
                 },
-                imageUser: true,
+                profilePicture: true,
             },
         });
 
@@ -196,7 +184,6 @@ export async function findDriverWithDetailsByPhone(phone: string): Promise<Drive
                 user: {
                     ...userData
                 },
-                driverSession: driver.driverSession ? driver.driverSession : null,
             }
 
         return driverShape
@@ -214,11 +201,10 @@ export async function findDriverWithDetailsById(id: string): Promise<DriverWithD
                     id
                 },
                 include: {
-                    driverSession: true,
                     user: {
                         include: {
                             address: true,
-                            imageUser: true,
+                            profilePicture: true,
                         }
                     }
                 },
@@ -231,71 +217,33 @@ export async function findDriverWithDetailsById(id: string): Promise<DriverWithD
     }
 }
 
+// used for querying driver record with full user info
 export type DriverWithDetails = Driver & {
     user: User;
-    driverSession: DriverSession | null;
 }
 
+// used for querying driver for current session details and location
 export type DriverWithSessionDetails = Driver & {
     user: User;
-    driverSession: DriverSessionWithJoinedData | null;
+    driverSession: DriverSessionWithJoinedData;
 }
 
+// represents joined driver session data from prisma and mongodb
 export type DriverSessionWithJoinedData = DriverSession & {
-    currentCoordinates: Coordinates | null;
-    isOnline: boolean;
-    isActiveDelivery: boolean;
-    currentRoute: Route | null;
-    routeId: string | null;
+    currentCoordinates: number[];
+    routeId: string;
+    route: Route;
 }
 
-// export type UserCreateType = {
-//     firstName: string;
-//     lastName: string;
-//     username: string;
-//     email: string;
-//     emailVerified: boolean;
-//     passwordHash?: string;
-//     // password: string;
-//     // re_password: string;
-//     phone: string;
-//     dialCode: string;
-//     termsAccepted: boolean;
-//     imageUser: ImageUser[] | null;
-//     isLegalAge: boolean;
-//     idVerified: boolean;
-//     address: AddressUserCreateType[]
-//     memberships: Prisma.MembershipUpsertArgs["create"][];
-// }
+export type DriverCreateType = Prisma.UserUncheckedCreateWithoutDriverInput & {
+    driver: Prisma.DriverUncheckedCreateInput;
+    address: (Prisma.AddressCreateWithoutOrganizationInput & {
+        coordinates: Prisma.CoordinatesCreateInput
+    })[];
+    profilePicture: Prisma.ImageUserUncheckedCreateInput;
+    memberships: Prisma.MembershipUpsertArgs["create"][];
+}
 
-// export type UserLoginData = {
-//     email: string;
-//     password: string;
-// }
-
-// export type CreateUserParams = {
-//     role: string;
-//     dispensaryId: string;
-// }
-
-// export type UserCreateType = Prisma.PromiseReturnType<typeof createUser>
-// export type UserWithDetails = Prisma.PromiseReturnType<typeof findUserWithDetails>
-
-// type UserWithDetails = (User & {
-//     address: Address[];
-//     imageUser: ImageUser[];
-//     memberships: Membership[];
-// }) | null
-
-// export type OrderWithDetails = Order & {
-//     driver: Driver | null;
-//     items?: OrderItemWithDetails[];
-//     customer: User;
-//     deliveryInfo: Address;
-//     updatedAt?: any;
-// }
-
-// export type OrderItemWithDetails = OrderItem & {
-//     productVariant: ProductVariantWithDetails
-//     }
-// export type OrderUpdate = Prisma.OrderUpdateArgs[ "data" ]
+export type RouteWithCoordinates = Route & {
+    coordinates: number[][]
+}

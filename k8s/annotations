@@ -1,0 +1,7 @@
+ # nginx.ingress.kubernetes.io/configuration-snippet: ""
+    # nginx.ingress.kubernetes.io/server-snippet: ""
+    # nginx.ingress.kubernetes.io/app-root: ""
+    # nginx.ingress.kubernetes.io/use-regex: "false"
+    # nginx.ingress.kubernetes.io/rewrite-target: "/"
+    # nginx.ingress.kubernetes.io/proxy-redirect-from: ""
+    # nginx.ingress.kubernetes.io/proxy-redirect-to: ""

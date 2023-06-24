@@ -1,5 +1,5 @@
 {
-  "name": "@cd/shop-app",
+  "name": "@cd/shop",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -13,7 +13,8 @@
     "clean": "rimraf ./.next ./out ./coverage ./tsconfig.tsbuildinfo ./node_modules/.cache",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "test": "jest --config ./jest.config.js",
-    "test-watch": "jest --config ./jest.config.js --watchAll",
+    "test:coverage": "jest --config ./jest.config.js --coverage",
+    "test:watch": "jest --config ./jest.config.js --watchAll",
     "start": "pm2-runtime ecosystem.config.js"
   },
   "browserslist": {
@@ -37,9 +38,10 @@
     "@paralleldrive/cuid2": "^2.2.0",
     "@reduxjs/toolkit": "1.9.2",
     "axios": "1.2.1",
+    "boarding.js": "3.5.2",
     "cors": "2.8.5",
     "date-fns": "2.29.3",
-    "form-data": "^4.0.0",
+    "form-data": "4.0.0",
     "json-immutable": "0.5.0",
     "next": "13.0.6",
     "next-connect": "0.13.0",
@@ -55,12 +57,18 @@
     "react-hot-toast": "2.4.0",
     "react-redux": "8.0.2",
     "react-responsive-carousel": "3.2.23",
+    "sharp": "0.32.1",
+    "swr": "2.1.5",
     "tailwind-merge": "1.8.0",
     "use-carousel-hook": "^0.2.1"
   },
   "devDependencies": {
     "@next/env": "13.2.4",
     "@tailwindcss/typography": "0.5.8",
+    "@testing-library/dom": "9.3.1",
+    "@testing-library/jest-dom": "5.16.5",
+    "@testing-library/react": "14.0.0",
+    "@testing-library/user-event": "14.4.3",
     "@types/formidable": "2.0.5",
     "@types/jest": "29.2.4",
     "@types/node": "18.11.10",
@@ -69,6 +77,7 @@
     "@typescript-eslint/eslint-plugin": "5.45.0",
     "@typescript-eslint/parser": "5.45.0",
     "autoprefixer": "10.4.13",
+    "babel-jest": "29.5.0",
     "dotenv": "16.0.3",
     "dotenv-cli": "7.0.0",
     "dotenv-expand": "10.0.0",

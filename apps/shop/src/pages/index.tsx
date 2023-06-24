@@ -1,24 +1,34 @@
-import { modalActions, modalTypes, selectUserState, TextContent } from '@cd/core-lib';
+import { getDashboardSite, modalActions, modalTypes, selectUserState, TextContent } from '@cd/core-lib';
 import { Button, FlexBox, H1, H4, H6, LayoutContextProps, Page, Paragraph } from '@cd/ui-lib';
 import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import Router from 'next/router';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { twMerge } from 'tailwind-merge';
+// import { shopTour } from '../tour/shopTour';
 import backdrop from '/public/marijuana-backdrop.png';
 
 function LandingPage() {
 
     const 
-    { isSignedIn } = useAppSelector(selectUserState);
+    { isSignedIn, user } = useAppSelector(selectUserState);
+
+    function startNewUserTour () {
+        // newUserTour.start();
+    }
+
+    useEffect(() => {
+        // if (!user.isSignUpComplete)
+        // startNewUserTour();
+    }, [user.isSignUpComplete])
 
     const dispatch = useAppDispatch();
     const [cookies] = useCookies(['yesOver21'])
     
     function openCheckAgeModalOrEnterSite() {
-        cookies['yesOver21'] ? Router.push('/browse') : 
+        cookies['yesOver21']==='true' ? Router.push('/browse') : 
             dispatch(
                 modalActions.openModal({
                     modalType: modalTypes.checkAgeModal,
@@ -51,8 +61,7 @@ function LandingPage() {
     return (
         <Page className="p-0 md:pt-0 md:pb-0 lg:p-0">
             <ImageBackDrop src={backdrop}>
-                <FlexBox className='md:space-y-8'>
-                    <div className='w-full'>
+                <FlexBox className='w-full md:space-y-8'>
                         <FlexBox className={twMerge(styles.hero)} >
                             <FlexBox className={twMerge(styles.heroContent)}>
                                 <FlexBox className='m-auto'>
@@ -77,24 +86,24 @@ function LandingPage() {
                                 </Button>
                             </FlexBox>
                         </FlexBox>
-                    </div>
-                    <FlexBox className={twMerge(styles.about)}>
                         {!isSignedIn && 
+                    <FlexBox className={twMerge(styles.about)}>
                         <FlexBox className='m-auto items-center space-y-2'>
                             <H4 className='text-xl'>
                             {`Dispensaries, Sign Up Here!`}</H4>
-                            <Link href="/signup/create-dispensary-account">
+                            <Link href={getDashboardSite("/signup/create-dispensary-account")}>
                                 <Button size="lg" 
                                 bg="primary" 
                                 transparent
                                 className="p-4 hover:bg-primary-light"
                                 >
                                 <Paragraph color="light">
-                                    {TextContent.prompt.CREATE_DISPENSARY_ACCOUNT}</Paragraph>
+                                    {TextContent.account.CREATE_DISPENSARY_ACCOUNT}</Paragraph>
                                 </Button>
                             </Link>
-                        </FlexBox>}
+                        </FlexBox>
                     </FlexBox>
+                    }
                 </FlexBox>
             </ImageBackDrop>
         </Page>
@@ -104,7 +113,7 @@ function LandingPage() {
 const ImageBackDrop = ({ src, children }: { src: string | StaticImageData } & PropsWithChildren) => {
     return (
         <div
-            className="relative min-h-screen overflow-scroll-hidden"
+            className="flex grow"
             style={{
                 clipPath: 'inset(0 0 0 0)'
             }}

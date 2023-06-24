@@ -99,7 +99,7 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
 
                     <TextField
                         containerClassName='w-2/3 m-auto lg:flex-col lg:items-start'
-                        className="my-2 shadow text-md"
+                        className="my-2 border text-md"
                         autoComplete='off'
                         type='text'
                         name="emailOrPhone"
@@ -138,7 +138,7 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
                         onClickCapture={dispatchCloseModal}>
                             
                             <H4 className="underline text-lg text-center">
-                                {TextContent.prompt.CREATE_DISPENSARY_ACCOUNT}</H4>
+                                {TextContent.account.CREATE_DISPENSARY_ACCOUNT}</H4>
                         </Link>
 
                     </FlexBox>
@@ -184,7 +184,8 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
 
         const handleOTPAndSignIn = async () => {
             try {
-                const response  = await handleOTPInput(values.passcode);
+                const 
+                response  = await handleOTPInput(values.passcode);
 
                 if (response?.user) {
                     dispatch(userActions.signinUserSync(response.user));
@@ -195,7 +196,7 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
                 
             } catch (error: any) {
                 setLoadingButton(false);
-                toast.error(error.message);
+                toast.error(error.message, { duration: 10000 });
             }
         }
 
@@ -235,11 +236,11 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
     
         return (
             <form>
-                <Small>A one time passcode was sent to {inputValue}.</Small>
                 <Grid className="relative space-y-2 w-2/3 m-auto">
+                <Small>A one time passcode was sent to {inputValue}.</Small>
                     <TextField
                         containerClassName='m-auto lg:flex-col lg:items-start'
-                        className="my-2 shadow text-center"
+                        className="my-2 border text-center"
                         autoComplete='off'
                         type='text'
                         name="passcode"
@@ -319,7 +320,7 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
     }
     
     const styles = {
-        responsive: 'min-w-full min-h-screen sm:!rounded-none md:min-w-min md:min-h-min md:!rounded px-12',
+        responsive: 'bg-inverse min-w-full min-h-screen sm:!rounded-none md:min-w-min md:min-h-min md:!rounded px-12',
         padd: 'py-12'
     };
 
@@ -336,8 +337,7 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
     });
     
     const passcodeValidationSchema = yup.object().shape({
-        passcode: yup.string()
-        .required('Invalid passcode.')
+        passcode: yup.string().required('Invalid passcode.').length(6, 'Invalid passcode.')
     });
 
     export default LoginModal;

@@ -1,9 +1,7 @@
-// @ts-nocheck
-
-import { CategoryList, Coordinates, ImageOrganization, Organization, Prisma, Schedule } from "@prisma/client";
+import { CategoryList, Coordinates, ImageOrganization, Organization, Prisma, Schedule, SubDomain, Vendor } from "@prisma/client";
 import { AddressCreateType, AddressWithCoordinates } from "./address";
 import prisma from "./db/prisma";
-import { ProductWithDetails } from "./product";
+import { ProductWithShopDetails } from "./product";
 /*
 *   updateOrganization
 *   createOrganization
@@ -25,46 +23,8 @@ export async function updateOrganization(organization: OrganizationCreateType) {
     try {
         organization.subdomainId = organization.subdomainId || organization.name.toLowerCase();
 
-        const { vendorId, address, subdomainId, ...data }
-            = organization
-
-        const { coordinates, coordinateId, userId, ...addressData }
-            = address
-
         const updateOrganization = await prisma.organization.update({
             where: { id: organization.id },
-            // create: {
-            //     ...data,
-            //     address: {
-            //         connectOrCreate: {
-            //             where: { id: address.id },
-            //             create: {
-            //                 ...addressData,
-            //                 coordinates: {
-            //                     connectOrCreate: {
-            //                         where: { 
-            //                             id: coordinates.id,
-            //                             addressId: address.id
-            //                         },
-            //                         create: { latitude: Number(latitude), longitude: Number(longitude) }
-            //                     }
-            //                 }
-            //             }
-            //         }
-            //     },
-            //     subdomain: {
-            //         connectOrCreate: { 
-            //             where: { id: organization.subdomainId },
-            //             create: { id: subdomainId, isValid: true }
-            //         }
-            //     },
-            //     vendor:{
-            //         connectOrCreate: {
-            //             where: { id: vendorId },
-            //             create: { id: vendorId, name: organization.name, publicName: organization.name }
-            //         }
-            //     },
-            // },
             data: {
                 name: organization.name,
                 dialCode: organization.dialCode,
@@ -73,56 +33,54 @@ export async function updateOrganization(organization: OrganizationCreateType) {
                 stripeOnboardingComplete: false,
                 termsAccepted: false,
                 address: {
-                    connectOrCreate: {
-                        where: { id: address.id },
-                        create: {
-                            ...addressData,
-                            // coordinateId: coordinates?.id,
-                            // coordinates: coordinates?.id ? ({
-                            //     connectOrCreate: {
-                            //         where: {
-                            //             id: coordinates?.id,
-                            //         },
-                            //         create: {
-                            //             id: coordinates?.id,
-                            //             latitude: Number(coordinates?.latitude),
-                            //             longitude: Number(coordinates?.longitude),
-                            //         }
-                            //     }
-                            // }) : ({
-                            coordinates: {
-                                connectOrCreate: {
-                                    where: { id: coordinates?.id },
-                                    create: {
-                                        latitude: Number(coordinates?.latitude),
-                                        longitude: Number(coordinates?.longitude),
-                                    }
+                    update: {
+                        street1: organization.address.street1,
+                        street2: organization.address.street2,
+                        city: organization.address.city,
+                        state: organization.address.state,
+                        country: organization.address.country,
+                        zipcode: organization.address.zipcode,
+                        countryCode: organization.address.countryCode,
+                        coordinates: {
+                            upsert: {
+                                update: {
+                                    latitude: Number(organization.address.coordinates?.latitude),
+                                    longitude: Number(organization.address.coordinates?.longitude),
+                                },
+                                create: {
+                                    latitude: Number(organization.address.coordinates?.latitude),
+                                    longitude: Number(organization.address.coordinates?.longitude),
                                 }
                             }
-                            // })
-                        },
-                    }
+                        }
+                    },
                 },
                 subdomain: {
                     connectOrCreate: {
                         where: { id: organization.subdomainId },
-                        create: { id: subdomainId, isValid: true }
+                        create: { id: organization.subdomainId, isValid: true }
                     }
                 },
                 vendor: {
                     connectOrCreate: {
-                        where: { id: vendorId },
-                        create: { id: vendorId, name: organization.name, publicName: organization.name }
+                        where: { id: organization.vendorId },
+                        create: { id: organization.vendorId, name: organization.name, publicName: organization.name }
                     }
                 },
             },
             include: {
-                address: true,
+                address: {
+                    include: {
+                        coordinates: true
+                    }
+                },
                 subdomain: true,
                 vendor: true,
             }
         });
+
         return updateOrganization
+
     } catch (error: any) {
         console.error('ERROR: ', error)
         if (error.code === 'P2002') {
@@ -221,11 +179,16 @@ export async function findOrganizationById(organizationId: string) {
         const organization = await prisma.organization.findUnique({
             where: { id: organizationId },
             include: {
-                address: true,
+                address: {
+                    include: {
+                        coordinates: true,
+                    }
+                },
+                images: true,
                 vendor: true,
             }
-        }) || null
-        return organization
+        })
+        return organization || null;
     } catch (error: any) {
         console.error(error)
         throw new Error(error)
@@ -256,7 +219,7 @@ export async function findUsersByOrganization(organizationId: string) {
                         role: 'asc',
                     },
                 },
-                imageUser: true,
+                profilePicture: true,
             },
         }) || [];
         return users
@@ -432,9 +395,18 @@ export type OrganizationWithAddress = Organization & { address: AddressWithCoord
 export type OrganizationWithShopDetails = Organization & Omit<Organization, "stripeAccountId" | "createdAt" | "updatedAt"> & {
     address: AddressWithCoordinates,
     images: ImageOrganization[],
-    products: ProductWithDetails[],
+    products: ProductWithShopDetails[],
     categoryList: CategoryList
     schedule: Schedule
+    vendor: Vendor
+}
+
+export type OrganizationWithDashboardDetails = Organization & {
+    address: AddressWithCoordinates,
+    images: ImageOrganization[],
+    schedule: Schedule
+    vendor: Vendor
+    subdomain: SubDomain
 }
 
 export type OrganizationStripeDetail = {

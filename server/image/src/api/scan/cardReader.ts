@@ -15,7 +15,7 @@ export default class IdCardReader {
     private _text: string;
     private _stateName: USState;
     private _stateAbbreviation: StateAbbreviation;
-    
+
     constructor(text: string) {
         this._text = text;
         this._stateName = this.getIssuedState();
@@ -24,47 +24,57 @@ export default class IdCardReader {
 
     isLegalAge() {
         const _dob = this.getDateOfBirth()
-        console.log('date of birth: ', _dob)
         const isLegalAge = this.checkLegalAge(_dob)
-        return isLegalAge;
+        return {
+            isLegalAge,
+            scannedDOB: _dob
+        };
     }
 
     private checkLegalAge(dateOfBirth: Date): boolean {
-        const now = new Date();
-        const diff = now.getTime() - dateOfBirth.getTime();
-        const years = diff / (1000 * 60 * 60 * 24 * 365.25);
-        console.log('years', years)
+        const
+            now = new Date(),
+            diff = now.getTime() - dateOfBirth.getTime(),
+            years = diff / (1000 * 60 * 60 * 24 * 365.25);
 
-        const stateLegalAge = stateMap[this._stateName].legalAge;
-        console.log('stateLegalAge', stateLegalAge)
+        const
+            stateLegalAge = stateMap[this._stateName].legalAge;
 
         return years >= stateLegalAge;
     }
-    
+
     private getDateOfBirth(): Date {
-        const dobFieldRegex = this.getDOBRegex();
-        console.log('dobFieldRegex', dobFieldRegex)
-        
-        const dobString = this._text.match(dobFieldRegex);
-        console.log('dobString', dobString)
-        if (dobString) {
-            const _date = new Date(dobString[0]);
-            return _date;
+
+        const
+            dobRegex = this.getDOBRegex(),
+            dates = this._text.match(dobRegex);
+
+        if (dates && dates.length > 0) {
+
+            // reduce to the oldest date - assumed to be the date of birth
+            const dateOfBirth: Date = dates.reduce((oldestDate, date) => {
+                const
+                    _date = new Date(date);
+                if (_date < oldestDate)
+                    return _date
+                else
+                    return oldestDate
+            }, new Date());
+
+            return dateOfBirth;
         }
-        else throw new Error('No date of birth found in text')
+        else
+            throw new Error('No date of birth found in text')
     }
-    
-    private getIssuedState() {
-        console.log('text', this._text)
-        const stateName = Object.keys(stateMap).find((state) => {
-            if (this._text.match(state)) {
-                console.log('state found', state)
-                return state;
-            }
-        })
-        if (!stateName) {
+
+    getIssuedState() {
+
+        const
+            stateName = Object.keys(stateMap).find(state => this._text.toUpperCase().match(state))
+
+        if (!stateName)
             throw new Error(`Invalid state name: ${stateName}`);
-        }
+
         return stateName as USState;
     }
 
@@ -78,239 +88,236 @@ export default class IdCardReader {
         // Maryland
         switch (this._stateAbbreviation) {
             case "AL":
-                return /\bAL\b/i;
+                return /\bAL\b/gi;
             case "AK":
-                return /\bAK\b/i;
+                return /\bAK\b/gi;
             case "AZ":
-                return /\bAZ\b/i;
+                return /\bAZ\b/gi;
             case "AR":
-                return /\bAR\b/i;
+                return /\bAR\b/gi;
             case "CA":
-                return /\bCA\b/i;
+                return /\bCA\b/gi;
             case "CO":
-                return /\bCO\b/i;
+                return /\bCO\b/gi;
             case "CT":
-                return /\bCT\b/i;
+                return /\bCT\b/gi;
             case "DE":
-                return /\bDE\b/i;
+                return /\bDE\b/gi;
             case "FL":
-                return /\bFL\b/i;
+                return /\bFL\b/gi;
             case "GA":
-                return /\bGA\b/i;
+                return /\bGA\b/gi;
             case "HI":
-                return /\bHI\b/i;
+                return /\bHI\b/gi;
             case "ID":
-                return /\bID\b/i;
+                return /\bID\b/gi;
             case "IL":
-                return /\bIL\b/i;
+                return /\bIL\b/gi;
             case "IN":
-                return /\bIN\b/i;
+                return /\bIN\b/gi;
             case "IA":
-                return /\bIA\b/i;
+                return /\bIA\b/gi;
             case "KS":
-                return /\bKS\b/i;
+                return /\bKS\b/gi;
             case "KY":
-                return /\bKY\b/i;
+                return /\bKY\b/gi;
             case "LA":
-                return /\bLA\b/i;
+                return /\bLA\b/gi;
+            case "MA":
+                return /\bMA\b/gi;
             case "ME":
-                return /\bME\b/i;
+                return /\bME\b/gi;
 
             case "MD":
-                return /\bMD\b/i;
+                return /\d{2}\/\d{2}\/\d{4}/gi;
 
-            case "MA":
-                return /\bMA\b/i;
             case "MI":
-                return /\bMI\b/i;
+                return /\bMI\b/gi;
             case "MN":
-                return /\bMN\b/i;
+                return /\bMN\b/gi;
             case "MS":
-                return /\bMS\b/i;
+                return /\bMS\b/gi;
             case "MO":
-                return /\bMO\b/i;
+                return /\bMO\b/gi;
             case "MT":
-                return /\bMT\b/i;
+                return /\bMT\b/gi;
             case "NE":
-                return /\bNE\b/i;
+                return /\bNE\b/gi;
             case "NV":
-                return /\bNV\b/i;
+                return /\bNV\b/gi;
             case "NH":
-                return /\bNH\b/i;
+                return /\bNH\b/gi;
             case "NJ":
-                return /\bNJ\b/i;
+                return /\bNJ\b/gi;
             case "NM":
-                return /\bNM\b/i;
+                return /\bNM\b/gi;
             case "NY":
-                return /\bNY\b/i;
+                return /\bNY\b/gi;
             case "NC":
-                return /\bNC\b/i;
+                return /\bNC\b/gi;
             case "ND":
-                return /\bND\b/i;
+                return /\bND\b/gi;
             case "OH":
-                return /\bOH\b/i;
+                return /\bOH\b/gi;
             case "OK":
-                return /\bOK\b/i;
+                return /\bOK\b/gi;
             case "OR":
-                return /\bOR\b/i;
+                return /\bOR\b/gi;
 
             case "PA":
                 return /([DOB]+\S\s\d+)/g;
 
             case "RI":
-                return /\bRI\b/i;
+                return /\bRI\b/gi;
             case "SC":
-                return /\bSC\b/i;
+                return /\bSC\b/gi;
             case "SD":
-                return /\bSD\b/i;
+                return /\bSD\b/gi;
             case "TN":
-                return /\bTN\b/i;
+                return /\bTN\b/gi;
             case "TX":
-                return /\bTX\b/i;
+                return /\bTX\b/gi;
             case "UT":
-                return /\bUT\b/i;
+                return /\bUT\b/gi;
             case "VT":
-                return /\bVT\b/i;
+                return /\bVT\b/gi;
             case "VA":
-                return /\bVA\b/i;
+                return /\bVA\b/gi;
             case "WA":
-                return /\bWA\b/i;
+                return /\bWA\b/gi;
             case "WV":
-                return /\bWV\b/i;
+                return /\bWV\b/gi;
             case "WI":
-                return /\bWI\b/i;
+                return /\bWI\b/gi;
             case "WY":
-                return /\bWY\b/i;
+                return /\bWY\b/gi;
             default:
                 return undefined;
         }
     }
 }
 
-    //   const dobRegex = /([DOB]+\S\s\d+)/g;
-    //   const dobString = text.match(dobRegex).toString().split(" ")[1].split("");
-    //   console.log("dob string: ", dobString);
-    //   dobString[2] = "-";
-    //   dobString[5] = "-";
-    //   dobString.join("");
-    //   console.log("dob string: ", dobString);
-    //   return { text };
-    // } catch (error) {
-    //   return { error };
+//   const dobRegex = /([DOB]+\S\s\d+)/g;
+//   const dobString = text.match(dobRegex).toString().split(" ")[1].split("");
+//   console.log("dob string: ", dobString);
+//   dobString[2] = "-";
+//   dobString[5] = "-";
+//   dobString.join("");
+//   console.log("dob string: ", dobString);
+//   return { text };
+// } catch (error) {
+//   return { error };
 
 
-type StateMap = Record<USState, { abbreviation: StateAbbreviation; legalAge: number}>
+type StateMap = Record<USState, { abbreviation: StateAbbreviation; legalAge: number }>
 
 const stateMap: StateMap = {
-    "Alabama": { 
-        abbreviation: "AL", 
-        legalAge: 21 
-    },
-    "Alaska": { abbreviation: "AK", legalAge: 21 },
-    "Arizona": { abbreviation: "AZ", legalAge: 21 },
-    "Arkansas": { abbreviation: "AR", legalAge: 21 },
-    "California": { abbreviation: "CA", legalAge: 21 },
-    "Colorado": { abbreviation: "CO", legalAge: 21 },
-    "Connecticut": { abbreviation: "CT", legalAge: 21 },
-    "Delaware": { abbreviation: "DE", legalAge: 21 },
-    "Florida": { abbreviation: "FL", legalAge: 21 },
-    "Georgia": { abbreviation: "GA", legalAge: 21 },
-    "Hawaii": { abbreviation: "HI", legalAge: 21 },
-    "Idaho": { abbreviation: "ID", legalAge: 21 },
-    "Illinois": { abbreviation: "IL", legalAge: 21 },
-    "Indiana": { abbreviation: "IN", legalAge: 21 },
-    "Iowa": { abbreviation: "IA", legalAge: 21 },
-    "Kansas": { abbreviation: "KS", legalAge: 21 },
-    "Kentucky": { abbreviation: "KY", legalAge: 21 },
-    "Louisiana": { abbreviation: "LA", legalAge: 21 },
-    "Maine": { abbreviation: "ME", legalAge: 21 },
-    "Maryland": { abbreviation: "MD", legalAge: 21 },
-    "Massachusetts": { abbreviation: "MA", legalAge: 21 },
-    "Michigan": { abbreviation: "MI", legalAge: 21 },
-    "Minnesota": { abbreviation: "MN", legalAge: 21 },
-    "Mississippi": { abbreviation: "MS", legalAge: 21 },
-    "Missouri": { abbreviation: "MO", legalAge: 21 },
-    "Montana": { abbreviation: "MT", legalAge: 21 },
-    "Nebraska": { abbreviation: "NE", legalAge: 21 },
-    "Nevada": { abbreviation: "NV", legalAge: 21 },
-    "New Hampshire": { abbreviation: "NH", legalAge: 21 },
-    "New Jersey": { abbreviation: "NJ", legalAge: 21 },
-    "New Mexico": { abbreviation: "NM", legalAge: 21 },
-    "New York": { abbreviation: "NY", legalAge: 21 },
-    "North Carolina": { abbreviation: "NC", legalAge: 21 },
-    "North Dakota": { abbreviation: "ND", legalAge: 21 },
-    "Ohio": { abbreviation: "OH", legalAge: 21 },
-    "Oklahoma": { abbreviation: "OK", legalAge: 21 },
-    "Oregon": { abbreviation: "OR", legalAge: 21 },
-    "Pennsylvania": { abbreviation: "PA", legalAge: 21 },
-    "Rhode Island": { abbreviation: "RI", legalAge: 21 },
-    "South Carolina": { abbreviation: "SC", legalAge: 21 },
-    "South Dakota": { abbreviation: "SD", legalAge: 21 },
-    "Tennessee": { abbreviation: "TN", legalAge: 21 },
-    "Texas": { abbreviation: "TX", legalAge: 21 },
-    "Utah": { abbreviation: "UT", legalAge: 21 },
-    "Vermont": { abbreviation: "VT", legalAge: 21 },
-    "Virginia": { abbreviation: "VA", legalAge: 21 },
-    "Washington": { abbreviation: "WA", legalAge: 21 },
-    "West Virginia": { abbreviation: "WV", legalAge: 21 },
-    "Wisconsin": { abbreviation: "WI", legalAge: 21 },
-    "Wyoming": { abbreviation: "WY", legalAge: 21 }
-};  
+    "ALABAMA": { abbreviation: "AL", legalAge: 21 },
+    "ALASKA": { abbreviation: "AK", legalAge: 21 },
+    "ARIZONA": { abbreviation: "AZ", legalAge: 21 },
+    "ARKANSAS": { abbreviation: "AR", legalAge: 21 },
+    "CALIFORNIA": { abbreviation: "CA", legalAge: 21 },
+    "COLORADO": { abbreviation: "CO", legalAge: 21 },
+    "CONNECTICUT": { abbreviation: "CT", legalAge: 21 },
+    "DELAWARE": { abbreviation: "DE", legalAge: 21 },
+    "FLORIDA": { abbreviation: "FL", legalAge: 21 },
+    "GEORGIA": { abbreviation: "GA", legalAge: 21 },
+    "HAWAII": { abbreviation: "HI", legalAge: 21 },
+    "IDAHO": { abbreviation: "ID", legalAge: 21 },
+    "ILLINOIS": { abbreviation: "IL", legalAge: 21 },
+    "INDIANA": { abbreviation: "IN", legalAge: 21 },
+    "IOWA": { abbreviation: "IA", legalAge: 21 },
+    "KANSAS": { abbreviation: "KS", legalAge: 21 },
+    "KENTUCKY": { abbreviation: "KY", legalAge: 21 },
+    "LOUISIANA": { abbreviation: "LA", legalAge: 21 },
+    "MAINE": { abbreviation: "ME", legalAge: 21 },
+    "MARYLAND": { abbreviation: "MD", legalAge: 21 },
+    "MASSACHUSETTS": { abbreviation: "MA", legalAge: 21 },
+    "MICHIGAN": { abbreviation: "MI", legalAge: 21 },
+    "MINNESOTA": { abbreviation: "MN", legalAge: 21 },
+    "MISSISSIPPI": { abbreviation: "MS", legalAge: 21 },
+    "MISSOURI": { abbreviation: "MO", legalAge: 21 },
+    "MONTANA": { abbreviation: "MT", legalAge: 21 },
+    "NEBRASKA": { abbreviation: "NE", legalAge: 21 },
+    "NEVADA": { abbreviation: "NV", legalAge: 21 },
+    "NEW HAMPSHIRE": { abbreviation: "NH", legalAge: 21 },
+    "NEW JERSEY": { abbreviation: "NJ", legalAge: 21 },
+    "NEW MEXICO": { abbreviation: "NM", legalAge: 21 },
+    "NEW YORK": { abbreviation: "NY", legalAge: 21 },
+    "NORTH CAROLINA": { abbreviation: "NC", legalAge: 21 },
+    "NORTH DAKOTA": { abbreviation: "ND", legalAge: 21 },
+    "OHIO": { abbreviation: "OH", legalAge: 21 },
+    "OKLAHOMA": { abbreviation: "OK", legalAge: 21 },
+    "OREGON": { abbreviation: "OR", legalAge: 21 },
+    "PENNSYLVANIA": { abbreviation: "PA", legalAge: 21 },
+    "RHODE ISLAND": { abbreviation: "RI", legalAge: 21 },
+    "SOUTH CAROLINA": { abbreviation: "SC", legalAge: 21 },
+    "SOUTH DAKOTA": { abbreviation: "SD", legalAge: 21 },
+    "TENNESSEE": { abbreviation: "TN", legalAge: 21 },
+    "TEXAS": { abbreviation: "TX", legalAge: 21 },
+    "UTAH": { abbreviation: "UT", legalAge: 21 },
+    "VERMONT": { abbreviation: "VT", legalAge: 21 },
+    "VIRGINIA": { abbreviation: "VA", legalAge: 21 },
+    "WASHINGTON": { abbreviation: "WA", legalAge: 21 },
+    "WEST VIRGINIA": { abbreviation: "WV", legalAge: 21 },
+    "WISCONSIN": { abbreviation: "WI", legalAge: 21 },
+    "WYOMING": { abbreviation: "WY", legalAge: 21 }
+};
 
-type USState =
-'Alabama'
-| 'Alaska'
-| 'Arizona'
-| 'Arkansas'
-| 'California'
-| 'Colorado'
-| 'Connecticut'
-| 'Delaware'
-| 'Florida'
-| 'Georgia'
-| 'Hawaii'
-| 'Idaho'
-| 'Illinois'
-| 'Indiana'
-| 'Iowa'
-| 'Kansas'
-| 'Kentucky'
-| 'Louisiana'
-| 'Maine'
-| 'Maryland'
-| 'Massachusetts'
-| 'Michigan'
-| 'Minnesota'
-| 'Mississippi'
-| 'Missouri'
-| 'Montana'
-| 'Nebraska'
-| 'Nevada'
-| 'New Hampshire'
-| 'New Jersey'
-| 'New Mexico'
-| 'New York'
-| 'North Carolina'
-| 'North Dakota'
-| 'Ohio'
-| 'Oklahoma'
-| 'Oregon'
-| 'Pennsylvania'
-| 'Rhode Island'
-| 'South Carolina'
-| 'South Dakota'
-| 'Tennessee'
-| 'Texas'
-| 'Utah'
-| 'Vermont'
-| 'Virginia'
-| 'Washington'
-| 'West Virginia'
-| 'Wisconsin'
-| 'Wyoming';
+export type USState =
+    'ALABAMA'
+    | 'ALASKA'
+    | 'ARIZONA'
+    | 'ARKANSAS'
+    | 'CALIFORNIA'
+    | 'COLORADO'
+    | 'CONNECTICUT'
+    | 'DELAWARE'
+    | 'FLORIDA'
+    | 'GEORGIA'
+    | 'HAWAII'
+    | 'IDAHO'
+    | 'ILLINOIS'
+    | 'INDIANA'
+    | 'IOWA'
+    | 'KANSAS'
+    | 'KENTUCKY'
+    | 'LOUISIANA'
+    | 'MAINE'
+    | 'MARYLAND'
+    | 'MASSACHUSETTS'
+    | 'MICHIGAN'
+    | 'MINNESOTA'
+    | 'MISSISSIPPI'
+    | 'MISSOURI'
+    | 'MONTANA'
+    | 'NEBRASKA'
+    | 'NEVADA'
+    | 'NEW HAMPSHIRE'
+    | 'NEW JERSEY'
+    | 'NEW MEXICO'
+    | 'NEW YORK'
+    | 'NORTH CAROLINA'
+    | 'NORTH DAKOTA'
+    | 'OHIO'
+    | 'OKLAHOMA'
+    | 'OREGON'
+    | 'PENNSYLVANIA'
+    | 'RHODE ISLAND'
+    | 'SOUTH CAROLINA'
+    | 'SOUTH DAKOTA'
+    | 'TENNESSEE'
+    | 'TEXAS'
+    | 'UTAH'
+    | 'VERMONT'
+    | 'VIRGINIA'
+    | 'WASHINGTON'
+    | 'WEST VIRGINIA'
+    | 'WISCONSIN'
+    | 'WYOMING';
 
 type StateAbbreviation = "AL" | "AK" | "AZ" | "AR" | "CA" | "CO" | "CT" | "DE" | "FL" | "GA" |
-"HI" | "ID" | "IL" | "IN" | "IA" | "KS" | "KY" | "LA" | "ME" | "MD" |
-"MA" | "MI" | "MN" | "MS" | "MO" | "MT" | "NE" | "NV" | "NH" | "NJ" |
-"NM" | "NY" | "NC" | "ND" | "OH" | "OK" | "OR" | "PA" | "RI" | "SC" |
-"SD" | "TN" | "TX" | "UT" | "VT" | "VA" | "WA" | "WV" | "WI" | "WY";
+    "HI" | "ID" | "IL" | "IN" | "IA" | "KS" | "KY" | "LA" | "ME" | "MD" |
+    "MA" | "MI" | "MN" | "MS" | "MO" | "MT" | "NE" | "NV" | "NH" | "NJ" |
+    "NM" | "NY" | "NC" | "ND" | "OH" | "OK" | "OR" | "PA" | "RI" | "SC" |
+    "SD" | "TN" | "TX" | "UT" | "VT" | "VA" | "WA" | "WV" | "WI" | "WY";

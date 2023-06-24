@@ -1,12 +1,11 @@
 import { cartActions, modalActions, modalTypes, selectCartState, selectIsCartEmpty, selectSelectedLocationState, selectUserState, SimpleCart } from "@cd/core-lib";
 import { ProductVariantWithDetails } from "@cd/data-access";
-import { Button, Center, H5, Paragraph, Price, SimpleCartItem } from "@cd/ui-lib";
+import { Button, Center, H5, Paragraph, Price, SimpleCartItem, useFormContext } from "@cd/ui-lib";
 import { AnyAction } from "@reduxjs/toolkit";
 import Router from "next/router";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
-import { useFormContext } from "./form/FormStepProvider";
 
 function ConfirmOrder() {
     const { nextFormStep } = useFormContext()

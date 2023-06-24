@@ -1,72 +1,69 @@
 // @ts-nocheck
 
-import { Address, AddressCreateType, AddressUserCreateType, AddressWithDetails, Coordinates } from "@cd/data-access";
+import { AddressCreateType, AddressWithCoordinates, Coordinates, Prisma } from "@cd/data-access";
 import axios from "axios";
 
-export const getGeoCoordinatesByAddress = async (address: Address | AddressCreateType | AddressUserCreateType) => {
-	const { street1, street2 ,city, state, country, zipcode,countryCode } = address;
-	const addressString = `${street1} ${street2} ${city} ${state} ${country} ${zipcode} ${countryCode}`;
+export const getGeoCoordinatesByAddress = async (address: typeof Prisma.AddressCreateWithoutOrganizationInput) => {
+	const { street1, street2, city, state, country, zipcode, countryCode } = address;
+	const addressString = `${street1} ${street2}, ${city}, ${state}, ${country}, ${zipcode}`;
 	console.log('getting coordinates for address: ', addressString);
 	const coordinates = await getCoordinatesByAddressString(addressString);
 	return coordinates
 }
 
-const getCoordinatesByAddressString = async (addressString: string):Promise<{
-    latitude: any;
-    longitude: any;
-}| null> => {
+const getCoordinatesByAddressString = async (addressString: string): Promise<{
+	latitude: any;
+	longitude: any;
+}> => {
 	try {
-		const geocodeUrl = process.env.NEXT_PUBLIC_LOCATION_IQ_GEOCODE_URL
+		const
+			format = 'json'
+		const
+			response = await axios.get(`${process.env.NEXT_PUBLIC_LOCATION_IQ_GEOCODE_URL}?key=${process.env.NEXT_PUBLIC_LOCATION_IQ_API_KEY}&q=${addressString}&format=${format}`);
 
-		const {data } = await axios(geocodeUrl, {
-			params: {
-				key: process.env.NEXT_PUBLIC_LOCATION_IQ_API_KEY,
-				q: addressString,
-				format: 'json',
-				}
-			})
-		const { lat: latitude, lon: longitude } = data[0];
-		const coordinates = { latitude, longitude };
-		return coordinates || null;
+		console.log('geolocate response: ', response.data);
+
+		const
+			{ lat: latitude, lon: longitude } = response.data[0],
+
+			coordinates = { latitude, longitude };
+
+		return coordinates;
 	} catch (error) {
 		console.log('Error getting coordinates: ', error);
 		return null
 	}
 }
 
-export const getGeoAddressByCoordinates = async (coordinates: { latitude: number; longitude: number }): Promise<AddressWithDetails> => {
+export const getGeoAddressByCoordinates = async (coordinates: { latitude: number; longitude: number }): Promise<AddressWithCoordinates> => {
 	try {
+		const
+			format = 'json'
+		const
+			{ latitude, longitude } = coordinates;
+		const
+			response = await axios.get(`${process.env.NEXT_PUBLIC_LOCATION_IQ_REVERSE_GEOCODE_URL}?key=${process.env.NEXT_PUBLIC_LOCATION_IQ_API_KEY}&lat=${latitude}&lon=${longitude}&format=${format}`);
 
-		const mainUrl = process.env.NEXT_PUBLIC_LOCATION_IQ_REVERSE_GEOCODE_URL
-		
-		const reverseGeocodeUrl = process.env.NEXT_PUBLIC_LOCATION_IQ_REVERSE_GEOCODE_URL
+		const
+			{ address, lat, lon } = response.data;
 
-		const { latitude, longitude } = coordinates;
-		const {data } = await axios(reverseGeocodeUrl, {
-			params: {
-				key: process.env.NEXT_PUBLIC_LOCATION_IQ_API_KEY,
-                lat: latitude,
-                lon: longitude,
-				format: 'json',
+		const
+			formattedAddress: AddressWithCoordinates = {
+				street1: address.house_number + ' ' + address.road,
+				street2: '',
+				city: address.city,
+				state: address.state,
+				zipcode: address.postcode,
+				country: address.country,
+				countryCode: 'US',
+				coordinates: {
+					latitude: lat,
+					longitude: lon
 				}
-			})
-        const { address } = data;
-        
-        const formattedAddress: AddressWithDetails = {
-            street1: address.house_number + ' ' + address.road,
-            street2: '',
-            city: address.city,
-            state: address.state,
-            zipcode: address.postcode,
-            country: address.country,
-            countryCode: 'US',
-            coordinates: {
-                latitude: data.lat,
-                longitude: data.lon
-            }
-        }
+			}
 
-        return formattedAddress
+		return formattedAddress
+
 	} catch (error) {
 		console.log('Error getting address using coordinates: ', error);
 		return null
@@ -74,11 +71,16 @@ export const getGeoAddressByCoordinates = async (coordinates: { latitude: number
 }
 
 export function getCoordinatePairFromUserLocation(userlocation: Coordinates) {
-    if (userlocation.latitude && userlocation.longitude) { 
-        return [Number(userlocation.longitude), Number(userlocation.latitude)];
-    } else throw new Error('Invalid user location')
+	if (userlocation.latitude && userlocation.longitude)
+		return [Number(userlocation.longitude), Number(userlocation.latitude)];
+	else
+		throw new Error('Invalid user location')
 }
 
-export const addressHasValidCoordinates = (address: Address | AddressCreateType) => {
-	return address?.coordinates?.latitude && address?.coordinates?.longitude != 0
+export const coordinatesIsEmpty = (address: AddressCreateType) => {
+
+	const
+		latitude = address?.coordinates?.latitude;
+
+	return latitude === 0 || latitude === undefined || latitude === null;
 }

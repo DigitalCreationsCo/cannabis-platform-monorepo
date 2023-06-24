@@ -1,4 +1,4 @@
-import { createAddress, createUser, findAddressById, findUserWithDetailsByEmail, findUserWithDetailsById, findUserWithDetailsByPhone, removeAddressByIdAndUserId, updateDispensaryAdmin, updateUser, updateUserPasswordToken, upsertDispensaryAdmin, UserCreateType } from '@cd/data-access';
+import { createAddress, createUser, findAddressById, findUserWithDetailsByEmail, findUserWithDetailsById, findUserWithDetailsByPhone, removeAddressByIdAndUserId, updateDispensaryAdmin, updateUser, updateUserPasswordToken, upsertDispensaryAdmin, upsertUser, UserCreateType } from '@cd/data-access';
 // import { createPasswordHash } from '../../util/utility';
 
 /* =================================
@@ -27,14 +27,14 @@ export default class UserDA {
     //     try {
     //     const user = await findUserWithDetailsByEmail(userLoginData.email)
 
-	// 	if (user !== null && user.passwordHash === null) {
-	// 		throw new Error('Please reset your password');
-	// 	}
+    // 	if (user !== null && user.passwordHash === null) {
+    // 		throw new Error('Please reset your password');
+    // 	}
 
-	// 	// if (user !== null && !(await compare(userLoginData.password, user.hashedPassword ?? ''))) {
+    // 	// if (user !== null && !(await compare(userLoginData.password, user.hashedPassword ?? ''))) {
     //     //     throw new Error('Invalid password')
     //     // }
-	// 		return user;
+    // 		return user;
     //     } catch (error:any) {
     //         console.error(error.message);
     //         throw new Error(error:any);
@@ -56,7 +56,7 @@ export default class UserDA {
         try {
             const data = await findUserWithDetailsById(id);
             return data;
-        } catch (error:any) {
+        } catch (error: any) {
             console.error(error.message);
             throw new Error(error.message);
         }
@@ -66,17 +66,17 @@ export default class UserDA {
         try {
             const data = await findUserWithDetailsByEmail(email);
             return data;
-        } catch (error:any) {
+        } catch (error: any) {
             console.error(error.message);
             throw new Error(error.message);
         }
     }
-    
+
     static async getUserByPhone(phone) {
         try {
             const data = await findUserWithDetailsByPhone(phone);
             return data;
-        } catch (error:any) {
+        } catch (error: any) {
             console.error(error.message);
             throw new Error(error.message);
         }
@@ -86,7 +86,7 @@ export default class UserDA {
         try {
             const data = await findAddressById(addressId);
             return data;
-        } catch (error:any) {
+        } catch (error: any) {
             console.error(error.message);
             throw new Error(error.message);
         }
@@ -97,7 +97,7 @@ export default class UserDA {
             address.coordinateId = '';
             const data = await createAddress(address);
             return data;
-        } catch (error:any) {
+        } catch (error: any) {
             console.error(error.message);
             throw new Error(error.message);
         }
@@ -107,7 +107,7 @@ export default class UserDA {
         try {
             const data = await removeAddressByIdAndUserId({ addressId, userId });
             return data;
-        } catch (error:any) {
+        } catch (error: any) {
             console.error(error.message);
             throw new Error(error.message);
         }
@@ -117,7 +117,7 @@ export default class UserDA {
         try {
             const data = await updateUserPasswordToken(email, timeLimitedToken)
             return data;
-        } catch (error:any) {
+        } catch (error: any) {
             console.error(error.message);
             throw new Error(error.message);
         }
@@ -126,11 +126,24 @@ export default class UserDA {
     static async createUser(createUserData: UserCreateType) {
         try {
             // createUserData = await createPasswordHash(createUserData)
-            
+
             const user = await createUser(createUserData)
 
             return user
-        } catch (error:any) {
+        } catch (error: any) {
+            console.error('UserDA error: ', error.message);
+            throw new Error(error.message);
+        }
+    }
+
+    static async upsertUser(upsertUserData: UserCreateType) {
+        try {
+            // createUserData = await createPasswordHash(createUserData)
+
+            const user = await upsertUser(upsertUserData)
+
+            return user
+        } catch (error: any) {
             console.error('UserDA error: ', error.message);
             throw new Error(error.message);
         }
@@ -139,14 +152,14 @@ export default class UserDA {
     static async createDispensaryAdmin(createUserData: UserCreateType, role: string, dispensaryId: string) {
         try {
             // createUserData = await createPasswordHash(createUserData)
-            
+
             const user = await upsertDispensaryAdmin(createUserData, {
-                role, 
+                role,
                 dispensaryId
             })
 
             return user
-        } catch (error:any) {
+        } catch (error: any) {
             console.error('UserDA error: ', error.message);
             throw new Error(error.message);
         }
@@ -155,14 +168,14 @@ export default class UserDA {
     static async updateDispensaryAdmin(createUserData: UserCreateType, role: string, dispensaryId: string) {
         try {
             // createUserData = await createPasswordHash(createUserData)
-            
+
             const user = await updateDispensaryAdmin(createUserData, {
-                role, 
+                role,
                 dispensaryId
             })
 
             return user
-        } catch (error:any) {
+        } catch (error: any) {
             console.error('UserDA error: ', error.message);
             throw new Error(error.message);
         }
@@ -173,9 +186,9 @@ export default class UserDA {
             const user = await updateUser(createUserData)
 
             console.log(`updated user ${user.id}`)
-            
+
             return user
-        } catch (error:any) {
+        } catch (error: any) {
             console.error('UserDA error: ', error.message);
             throw new Error(error.message);
         }

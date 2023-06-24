@@ -7,6 +7,7 @@ import { useCookies } from 'react-cookie';
 import { useSelector } from 'react-redux';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 
+// ADD SWR FOR DATA FETCH
 const LocationProvider = () => {
     const router = useRouter()
     const [enteredSite, setEnteredSite] = useState(false);

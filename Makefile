@@ -17,13 +17,13 @@ gras-nginx-ip:
 	kubectl get service gras-nginx-service -0 "jsonpath={.status.loadBalancer.ingress[0].ip}"
 
 docker-build:
-	docker build -t $(TYPE)-$(CONTEXT) -f Dockerfile.$(TYPE) --build-arg=BUILD_CONTEXT=$(CONTEXT) .
+	docker build -t grasadmin/$(CONTEXT) -f Dockerfile.$(TYPE) --build-arg=BUILD_CONTEXT=$(CONTEXT) --build-arg=PORT=$(PORT) .
 
 docker-build-nocache:
-	docker build -t $(TYPE)-$(CONTEXT) -f Dockerfile.$(TYPE) --build-arg=BUILD_CONTEXT=$(CONTEXT) --no-cache .
+	docker build -t grasadmin/$(CONTEXT) -f Dockerfile.$(TYPE) --build-arg=BUILD_CONTEXT=$(CONTEXT) --build-arg=PORT=$(PORT) --no-cache .
 	
 docker-build-debug:
-	docker build -t $(TYPE)-$(CONTEXT) -f Dockerfile.$(TYPE) --build-arg=BUILD_CONTEXT=$(CONTEXT) --progress=plain .
+	docker build -t grasadmin/$(CONTEXT) -f Dockerfile.$(TYPE) --build-arg=BUILD_CONTEXT=$(CONTEXT) --build-arg=PORT=$(PORT) --progress=plain .
 
 docker-tag:
 	docker tag $(IMAGE) grasadmin/graswebgoldenimages/$(IMAGE):$(TAG)

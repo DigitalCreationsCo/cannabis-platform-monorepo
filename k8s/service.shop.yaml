@@ -29,7 +29,7 @@ spec:
       serviceAccountName: default
       containers:
       - name: gras-shop
-        image: grasadmin/app-shop:latest
+        image: grasadmin/shop:latest
         imagePullPolicy: Always
         terminationMessagePolicy: FallbackToLogsOnError
         # resources:

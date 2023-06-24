@@ -85,6 +85,7 @@ import Preview from './Preview';
 import Quote from './Quote';
 import RankBadge from './RankBadge';
 import Right from './Right';
+import Satchel from './Satchel';
 import Shield from './Shield';
 import Shirt from './Shirt';
 import ShoppingBagOutlined from './ShoppingBagOutlined';
@@ -107,6 +108,7 @@ import Youtube from './Youtube';
 import YoutubeFilled from './YoutubeFilled';
 
 export default {
+    Satchel,
     Right,
     Beer,
     Milk,
