@@ -1,4 +1,4 @@
-{ 
+{
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
@@ -9,14 +9,10 @@
     "module": "ES2015",
     "jsx": "preserve",
     "paths": {
-      "@cd/ui-lib/*": ["../../../packages/ui-lib/src/*"],
       "@cd/ui-lib": ["../../../packages/ui-lib/src/index"],
-      "@cd/core-lib/*": ["../../../packages/core-lib/src/*"],
       "@cd/core-lib": ["../../../packages/core-lib/src/index"],
       "@cd/data-access": ["../../../packages/data-access/src/index"],
-      "@cd/data-access/*": [ "../../../packages/data-access/src/*"],
-      "@cd/eslint-config": ["../../../packages/eslint-config/src/index"],
-      "@cd/eslint-config/*": ["../../../packages/eslint-config/src/*"]
+      "@cd/eslint-config": ["../../../packages/eslint-config/src/index"]
     }
   },
   "include": [
