@@ -1,4 +1,8 @@
-import { checkDispensaryIsOpen, formatDispensaryUrl, renderAddress } from '@cd/core-lib';
+import {
+  checkIsDispensaryOpen,
+  formatDispensaryUrl,
+  renderAddress,
+} from '@cd/core-lib';
 import { OrganizationWithShopDetails } from '@cd/data-access';
 import { Card, FlexBox, H2, Paragraph } from '@cd/ui-lib';
 import Link from 'next/link';
@@ -7,81 +11,87 @@ import { twMerge } from 'tailwind-merge';
 import logo from '../../public/logo.png';
 
 type DispensaryCardProps = {
-    data: OrganizationWithShopDetails;
-    loading?: boolean;
-    className?: string | string[];
+  data: OrganizationWithShopDetails;
+  loading?: boolean;
+  className?: string | string[];
 };
-function DispensaryCard({ data: dispensary, loading, className }: DispensaryCardProps) {
+function DispensaryCard({
+  data: dispensary,
+  loading,
+  className,
+}: DispensaryCardProps) {
+  const styles = {
+    dispensarycard: [
+      'relative',
+      'w-[200px] md:min-w-[340px] md:w-[340px] h-[220px] p-4 !rounded',
+    ],
+    isOpenBadge: [
+      'text-inverse border-2 tracking-wider z-5 top-0 right-0 p-3 m-3 badge absolute',
+    ],
+  };
 
-    const 
-    styles = {
-        dispensarycard: [
-            'relative', 'w-[200px] md:min-w-[340px] md:w-[340px] h-[220px] p-4 !rounded'
-        ],
-        isOpenBadge: [
-            "text-inverse border-2 tracking-wider z-5 top-0 right-0 p-3 m-3 badge absolute"
-        ]
-    };
+  return (
+    <Link
+      href={formatDispensaryUrl(dispensary?.subdomainId as string)}
+      className="z-0 relative shadow-lg rounded"
+    >
+      <Card
+        className={twMerge([
+          styles.dispensarycard,
+          'rounded hover:scale-101 transition duration-500',
+          className,
+        ])}
+      >
+        <ImageBackDrop src={dispensary?.images?.[0]?.location || logo.src}>
+          <H2 className="whitespace-normal drop-shadow z-5 p-2 tracking-wide absolute top-0 left-0 text-inverse">
+            {dispensary?.name}
+          </H2>
 
-    return (
-        <Link 
-        href={formatDispensaryUrl(dispensary?.subdomainId as string)} 
-        className='z-0 relative shadow-lg rounded'
-        >
+          <FlexBox className="z-5 p-2 absolute bottom-0 left-0 items-end flex-row justify-between">
+            <Paragraph className="text-inverse drop-shadow">
+              {renderAddress({
+                address: dispensary?.address,
+                showCountry: false,
+                showZipcode: false,
+                lineBreak: true,
+              })}
+            </Paragraph>
+          </FlexBox>
 
-            <Card className={twMerge([styles.dispensarycard, 'rounded hover:scale-101 transition duration-500', className])}>
-
-                <ImageBackDrop
-                src={dispensary?.images?.[0]?.location || logo.src}
-                >
-
-                    <H2 className='whitespace-normal drop-shadow z-5 p-2 tracking-wide absolute top-0 left-0 text-inverse'>
-                        {dispensary?.name}</H2>
-
-                    <FlexBox className="z-5 p-2 absolute bottom-0 left-0 items-end flex-row justify-between">
-                        <Paragraph className='text-inverse drop-shadow'>
-                            {renderAddress({
-                                address: dispensary?.address,
-                                showCountry: false,
-                                showZipcode: false,
-                                lineBreak: true,
-                            })}
-                        </Paragraph>
-                    </FlexBox>
-
-                    <Paragraph className={twMerge(styles.isOpenBadge)}>
-                        {checkDispensaryIsOpen(dispensary.schedule)}</Paragraph>
-                        
-                </ImageBackDrop>
-            </Card>
-        </Link>
-    );
+          <Paragraph className={twMerge(styles.isOpenBadge)}>
+            {checkIsDispensaryOpen(dispensary.schedule) ? 'open now' : 'closed'}
+          </Paragraph>
+        </ImageBackDrop>
+      </Card>
+    </Link>
+  );
 }
 
-
-const ImageBackDrop = ({ src, children }: { src: string } & PropsWithChildren) => {
-    return (
-        <div 
-        className="absolute top-0 left-0 h-full w-full"
-        >
-            <img 
-            className="rounded object-cover w-full h-full"
-            src={src} 
-            alt="card-backdrop" 
-            />
-            <div className='rounded'
-                style={{
-                    backgroundColor: 'rgba(1,12,2,0.22)',
-                    position: 'absolute',
-                    height: '100%',
-                    width: '100%',
-                    left: '0',
-                    top: '0'
-                }}
-            ></div>
-            {children}
-        </div>
-    );
+const ImageBackDrop = ({
+  src,
+  children,
+}: { src: string } & PropsWithChildren) => {
+  return (
+    <div className="absolute top-0 left-0 h-full w-full">
+      <img
+        className="rounded object-cover w-full h-full"
+        src={src}
+        alt="card-backdrop"
+      />
+      <div
+        className="rounded"
+        style={{
+          backgroundColor: 'rgba(1,12,2,0.22)',
+          position: 'absolute',
+          height: '100%',
+          width: '100%',
+          left: '0',
+          top: '0',
+        }}
+      ></div>
+      {children}
+    </div>
+  );
 };
 
 export default DispensaryCard;
