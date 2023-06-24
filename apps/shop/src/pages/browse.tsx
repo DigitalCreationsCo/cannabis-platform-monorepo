@@ -1,5 +1,6 @@
+import { TextContent } from '@cd/core-lib/constants';
 import { selectSelectedLocationState, selectShopState, selectUserState } from '@cd/core-lib/src/reduxDir';
-import { Carousel, Grid, H1, H3, H4, Page } from '@cd/ui-lib';
+import { Carousel, Grid, H1, H3, H4, LayoutContextProps, Page } from '@cd/ui-lib';
 import { StaticImageData } from 'next/image';
 import { PropsWithChildren, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -17,43 +18,44 @@ export default function MarketPlace({ host }: { host: string}) {
     const
     styles = {
         responsiveHeading: [
-            'text-2xl md:text-4xl pb-0 whitespace-normal font-semi-bold'
+            'text-2xl md:text-4xl pb-0 px-4 lg:px-0 whitespace-normal font-semi-bold hidden sm:block'
         ],
     }
     
     return (
         <Page gradient='pink' className="lg:px-0">
             
-            <div className='relative cursor-default lg:px-8'>
+            <div className='cursor-default lg:px-8 xl:absolute pt-2 md:pt-0'>
                 <H1 color="light" 
                 className={twMerge(styles.responsiveHeading)}>
-                    Cannabis,&nbsp;Delivered{'\xa0'}🌴</H1>
+                    {TextContent.info.CANNABIS_DELIVERED}</H1>
 
                 {/* <Ticker text={'Delivery by Gras now available in Baltimore, Maryland!'} /> */}
-                <H3 className='px-4 text-inverse'>
+                <H3 className='px-4 text-inverse '>
                     Good day{user.firstName && `, ${ user.firstName}`}!</H3>
             </div>
             <Grid className="space-y-5 relative">
+
                 {/* { isError && <Center className='m-auto grow border'>
                     There's a problem loading your Gras shop. Please contact support for help.</Center>} */}
+
                 <Carousel
-                title={'Gras is now available in Baltimore, Maryland!'} 
+                title={'Gras is now available in Baltimore!'} 
                 Component={DispensaryCard}
-                loading={isLoading}
                 data={DispensaryCardMockData}
                 dataKey='dispensary'
                 slidesPresented={3}
                 />
-                {/* {[].length > 0 &&  */}
+                
                 <Carousel 
                 title={`Dispensaries Near You ( ${selectedLocation.address.city} )`} 
                 Component={DispensaryCard}
-                loading={isLoading}
                 data={dispensaries}
                 dataKey='dispensary'
                 slidesPresented={3}
                 interval={10000}
                 /> 
+
                 {/* || <Center>
                     <H6 color='light' className='whitespace-pre-line'>
                         Want to see your favorite Dispensary?{'\n'}
@@ -65,12 +67,14 @@ export default function MarketPlace({ host }: { host: string}) {
                     </Link>
                 </Center>
                 } */}
+
             {/* <FlexBox className="cursor-default bg-inverse shadow shadow-md shadow-lg hover:shadow-xl hover:scale-101 duration-500 p-12 rounded max-w-[559px] margin-auto place-self-center space-y-2">
                 <H2 className='font-black text-gray'>
                     What is Gras?</H2>
                 <H5>{`Gras is a home-grown service provider for cannabis lovers.
                     We serve the people of our communities, that enjoy cannabis, by offering a bridge of communication, clarity and support.`}</H5>
                     </FlexBox> */}
+                    
             </Grid>
         </Page>
     );
@@ -144,3 +148,7 @@ const ImageBackDrop = ({ src, children }: { src: string | StaticImageData } & Pr
         </div>
     );
 };
+
+MarketPlace.getLayoutContext = () : LayoutContextProps => ({
+    showHeader: false,
+})

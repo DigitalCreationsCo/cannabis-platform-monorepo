@@ -1,12 +1,11 @@
 /// @ts-nocheck
+import { shopActions } from "@cd/core-lib/src/reduxDir";
 import { LayoutContextProps, LoadingPage, ModalProvider, ToastProvider } from "@cd/ui-lib";
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
+import { useRouter } from "next/router";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Provider as ReduxProvider } from 'react-redux';
-// import { Persistor } from 'redux-persist';
-import { shopActions } from "@cd/core-lib/src/reduxDir";
-import { useRouter } from "next/router";
 import { PersistGate } from 'redux-persist/integration/react';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session, { SessionContextType } from 'supertokens-auth-react/recipe/session';
@@ -26,10 +25,12 @@ type CustomAppProps = AppProps & {
 function App({ Component, ...rest }: CustomAppProps) {
 
     const 
-    { store, props } = wrapper.useWrappedStore(rest)
+    { store, props } = wrapper.useWrappedStore(rest);
 
-    const [routerLoading, setRouterLoading] = useState(true)
-    const router = useRouter()
+    const 
+    [routerLoading, setRouterLoading] = useState(true),
+    router = useRouter();
+
     useEffect(() => {
         router.isReady && setRouterLoading(false)
     }, [router]);
@@ -60,6 +61,7 @@ function App({ Component, ...rest }: CustomAppProps) {
             store.getState().shop.dispensaries.length === 0 && 
             store.dispatch(shopActions.getInitialDispensaries() as AppThunk);
     }, [])
+    
     return (
         <>
             <Head>

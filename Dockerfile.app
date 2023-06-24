@@ -10,7 +10,7 @@ ARG BUILD_CONTEXT=$BUILD_CONTEXT
 
 RUN yarn set version $YARN_VERSION
 RUN yarn plugin import workspace-tools
-RUN yarn workspaces focus @cd/$BUILD_CONTEXT-app
+RUN yarn workspaces focus @cd/$BUILD_CONTEXT
 
 # FROM --platform=linux/amd64 node:16-bullseye as BUILDER
 FROM node:16-bullseye as BUILDER
@@ -21,7 +21,7 @@ COPY --from=INSTALLER ./root .
 
 ARG BUILD_CONTEXT=$BUILD_CONTEXT
 
-RUN yarn workspaces foreach -itR --from @cd/$BUILD_CONTEXT-app run build
+RUN yarn workspaces foreach -itR --from @cd/$BUILD_CONTEXT run build
 
 # linux amd64 for ci
 FROM --platform=linux/amd64 node:16-bullseye AS RUNNER
@@ -29,6 +29,7 @@ FROM --platform=linux/amd64 node:16-bullseye AS RUNNER
 COPY --from=BUILDER /root ./root
 
 ARG BUILD_CONTEXT=$BUILD_CONTEXT
+ARG PORT=$PORT
 
 COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/next.config.mjs ./root
 COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/package.json ./root
@@ -41,6 +42,6 @@ COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/public ./root/apps/$BUILD_CONTEXT/
 
 WORKDIR /root/apps/$BUILD_CONTEXT
 
-EXPOSE 3000
+EXPOSE $PORT
 
 CMD [ "yarn", "start" ]

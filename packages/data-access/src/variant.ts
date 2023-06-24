@@ -3,7 +3,7 @@
 import { createId } from '@paralleldrive/cuid2';
 import { CurrencyName, ImageProduct, Prisma, ProductVariant, Unit } from "@prisma/client";
 import prisma from "./db/prisma";
-import { OrderCreate } from "./order";
+import { OrderCreateType } from "./order";
 
 /**
  * connectVariantImages
@@ -24,20 +24,20 @@ export const connectVariantImages = async (items: ProductVariantWithDetails[]) =
         });
 });
 
-export async function createProductVariantsWithoutId(items: ProductVariantCreateType[], order: OrderCreate) {
+export async function createProductVariantsWithoutId(items: ProductVariantCreateType[], order: OrderCreateType) {
     try {
-
         const
             createItems = items?.filter((item) => !item.id).map((item) => ({
                 id: item.id || createId(),
                 name: item.name,
                 sku: Number(item.sku) || null,
                 organizationId: item.organizationId || order.organizationId,
-                organizationName: item.organizationName || order.organization.name,
+                organizationName: item.organizationName || order?.organization?.name,
                 // product: {
                 //     create: 
                 // }
                 productId: item.productId || '',
+                rating: item.rating,
                 unit: item.unit as Unit,
                 size: Number(item.size),
                 quantity: Number(0),
@@ -109,6 +109,7 @@ export type ProductVariantCreateType = {
     unit?: Unit
     size: number
     quantity: number
+    rating: number;
     basePrice: number
     discount: number
     isDiscount: boolean

@@ -1,7 +1,6 @@
-// @ts-nocheck
-
-import { Category, ImageUser, Organization, Prisma, Product, Review, User } from "@prisma/client";
+import { Category, Organization, Prisma, Product, Review } from "@prisma/client";
 import prisma from "./db/prisma";
+import { UserWithProfilePictureBlob } from "./user";
 import { ProductVariantWithDetails } from "./variant";
 
 export async function createProduct() {
@@ -44,7 +43,7 @@ export async function findProductWithDetails(id: string) {
           categories: true,
           organization: true,
           reviews: {
-            include: { user: { include: { imageUser: true } } }
+            include: { user: { include: { profilePicture: true } } }
           },
           variants: {
             include: { images: true }
@@ -112,22 +111,21 @@ export async function deleteProduct() {
   // }
 }
 
-// export type ProductWithDetails = Prisma.PromiseReturnType<typeof findProductWithDetails>
-export type ProductWithDetails = Product & {
+export type ProductWithDashboardDetails = Product & {
+  variants: ProductVariantWithDetails[];
+  categories: Category[];
+  reviews: ReviewWithUserDetails[]
+}
+
+export type ProductWithShopDetails = Product & {
   organization: Organization;
   variants: ProductVariantWithDetails[];
   categories: Category[];
-  reviews?: Review & {
-    user?: User & {
-      imageUser?: ImageUser;
-    };
-  };
+  reviews?: ReviewWithUserDetails;
 };
 
-export type ReviewWithDetails = Review & {
-  user?: User & {
-    imageUser?: ImageUser;
-  };
+export type ReviewWithUserDetails = Review & {
+  user: UserWithProfilePictureBlob
 };
 
 export type ProductUpdate = Prisma.ProductUpdateArgs["data"]

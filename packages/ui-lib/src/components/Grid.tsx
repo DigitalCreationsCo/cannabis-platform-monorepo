@@ -2,7 +2,7 @@ import { PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { H6 } from './Typography';
 
-type GridProps = {
+interface GridProps extends React.HTMLAttributes<HTMLDivElement> {
     title?: string;
     className?: string;
     cols?: string | number;
@@ -13,7 +13,7 @@ type GridProps = {
     xl?: string | number;
     gap?: string;
 };
-function Grid({ gap, title, className, cols, rows, sm, md, lg, xl, children }: GridProps & PropsWithChildren) {
+function Grid({ gap, title, className, cols, rows, sm, md, lg, xl, children, ...props }: GridProps & PropsWithChildren) {
     return (
         <div
             className={twMerge(
@@ -27,6 +27,7 @@ function Grid({ gap, title, className, cols, rows, sm, md, lg, xl, children }: G
                 gap && 'gap-' + gap,
                 className
             )}
+            { ...props }
         >
             {title && <H6 className="py-2">{title}</H6>}
             {children}

@@ -1,4 +1,5 @@
 import { Address } from '@cd/data-access';
+import { isArray } from './object';
 
 export const renderAddress = ({
     address,
@@ -7,7 +8,7 @@ export const renderAddress = ({
     showCountry = true,
     showZipcode = true,
     lineBreak = true,
-} : { 
+}: {
     address?: Omit<Address, "id" | "userId" | "organizationId" | "createdAt" | "updatedAt">;
     showCity?: boolean;
     showState?: boolean;
@@ -16,41 +17,45 @@ export const renderAddress = ({
     lineBreak?: boolean;
 }) => {
     if (!address) return '';
-    return `${address.street1} ${address.street2}${lineBreak?'\n':''}${showCity && address.city + ', ' || ''}${showState && address.state || ''}${showCountry && ',' || ''}${lineBreak?'\n':''}${showCountry && address.country || ''} ${showZipcode && address.zipcode || ''}`
+    return `${address.street1} ${address.street2}${lineBreak ? '\n' : ''}${showCity && address.city + ', ' || ''}${showState && address.state || ''}${showCountry && ',' || ''}${lineBreak ? '\n' : ''}${showCountry && address.country || ''} ${showZipcode && address.zipcode || ''}`
 };
 
 const sensitiveFields = [
-    'password', 
-    're_password', 
+    'password',
+    're_password',
     'stripeAccountId'
 ]
 
 const redactSensitiveFields = (key: string, value: string | number) => {
     if (sensitiveFields.includes(key)) {
 
-        let 
-        length = value.toString().length,
-        last4characters = value.toString().slice(-4),
-        redacted = last4characters.padStart(length, '*')
+        let
+            length = value.toString().length,
+            last4characters = value.toString().slice(-4),
+            redacted = last4characters.padStart(length, '*')
 
         return redacted;
     }
     else
-    return value;
+        return value;
 }
 
-export const renderNestedDataObject = (data: any, Component: any, removeFields: any = []):any => {
+export const renderNestedDataObject = (data: any, Component: any, removeFields: any = []): any => {
     const result = Object.keys({ ...data })
         .filter((field) => {
             return (removeFields && !removeFields.includes(field))
         })
         .map((key, index) => {
-            if (typeof data[key] === 'object') {
+            if (typeof data[key] === 'object')
                 return renderNestedDataObject(data[key], Component, removeFields);
-            } else 
+            else
+                if (isArray(data[key]) && data[key].length > 0)
+                    // can map
+                    return data[key].map((item: Record<string, string>, index: number) => renderNestedDataObject(item, Component, removeFields).flat());
+
             return Component({ key: key + index.toString(), children: [key] + ': ' + redactSensitiveFields(key, data[key]) });
         })
-        .flat();
+        .flat(2);
     return result;
 };
 

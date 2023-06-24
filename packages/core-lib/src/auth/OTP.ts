@@ -12,30 +12,30 @@ async function sendOTPEmail(email: string) {
         console.info('send otp error: ', err)
 
         if (err.isSuperTokensGeneralError === true)
-        throw new Error(err.message);
-        
+            throw new Error(err.message);
+
         else
-        throw new Error("The Sign In server is not available. Please contact Gras team.");
+            throw new Error("The Sign In server is not available. Please contact Gras team.");
     }
 }
 
 async function sendOTPEmailRaw(email: string) {
     try {
-        
-        let 
-        response = await axios.post(
-            urlBuilder.main.getOTP(), { email })
+
+        let
+            response = await axios.post(
+                urlBuilder.main.getOTP(), { email })
 
         return response;
-            
+
     } catch (err: any) {
         console.info('send otp error: ', err)
 
         if (err.isSuperTokensGeneralError === true)
-        throw new Error(err.message);
-        
+            throw new Error(err.message);
+
         else
-        throw new Error("The Sign In server is not available. Please contact Gras team.");
+            throw new Error("The Sign In server is not available. Please contact Gras team.");
     }
 }
 
@@ -47,12 +47,12 @@ async function sendOTPPhone(phoneNumber: string) {
         });
     } catch (err: any) {
         console.error('send otp error: ', err.message)
-        
+
         if (err.isSuperTokensGeneralError === true)
-        throw new Error(err.message);
-        
+            throw new Error(err.message);
+
         else
-        throw new Error("The Sign In server is not available. Please contact Gras team.");
+            throw new Error("The Sign In server is not available. Please contact Gras team.");
     }
 }
 
@@ -75,32 +75,32 @@ async function resendOTP() {
 }
 
 
-async function handleOTPInput(otp: string):Promise<PasswordlessResponseWithUserDetails> {
+async function handleOTPInput(otp: string): Promise<PasswordlessResponseWithUserDetails> {
     try {
         let response = await consumeCode({
             userInputCode: otp
         });
 
         console.log('handle otp input response: ', response);
-        
+
         if (response.status === "OK") {
             // if (response.createdNewUser) {
             //     // user sign up success : new user
-                
+
             //     // navigate to form input for user and address, verify id
             //     Router.push("/create-account")
             //     return null
             // } else if (!response.createdNewUser) {
             //     // user sign in success : existing user
-                // if (response.user) { 
-                //     return response.user as unknown as UserWithDetails 
-                // } else { throw new Error('User not found')}
-                return response as unknown as PasswordlessResponseWithUserDetails
+            // if (response.user) { 
+            //     return response.user as unknown as UserWithDetails 
+            // } else { throw new Error('User not found')}
+            return response as unknown as PasswordlessResponseWithUserDetails
             // }
             // window.location.assign("/")
         } else if (response.status === "INCORRECT_USER_INPUT_CODE_ERROR") {
             // the user entered an invalid OTP
-            
+
             throw new Error(`Wrong passcode. Please try again. 
             You have ${(response.maximumCodeInputAttempts - response.failedCodeInputAttemptCount)} attempts left.`);
 
@@ -113,16 +113,16 @@ async function handleOTPInput(otp: string):Promise<PasswordlessResponseWithUserD
 
         } else {
             // this can happen if the user tried an incorrect OTP too many times.
-            
+
             // window.alert("Login failed. Please try again");
             throw new Error("Login failed. Please try again")
             window.location.assign("/")
-            
+
         }
     } catch (err: any) {
         if (err.isSuperTokensGeneralError === true) {
             // this may be a custom error message sent from the API by you.
-            
+
             console.error(err)
             // window.alert(err.message);
             throw new Error(err.message)
@@ -135,17 +135,17 @@ async function handleOTPInput(otp: string):Promise<PasswordlessResponseWithUserD
     }
 }
 
-async function handleOTPInputRaw(otp: string):Promise<PasswordlessResponseWithUserDetails> {
+async function handleOTPInputRaw(otp: string): Promise<PasswordlessResponseWithUserDetails> {
     try {
         let response = await axios.post(urlBuilder.main.submitOTP(),
-        { userInputCode: otp });
+            { userInputCode: otp });
 
         console.log('handle otp input response: ', response);
         return response.data;
         // if (response.status === "OK") {
         //     // if (response.createdNewUser) {
         //     //     // user sign up success : new user
-                
+
         //     //     // navigate to form input for user and address, verify id
         //     //     Router.push("/create-account")
         //     //     return null
@@ -159,7 +159,7 @@ async function handleOTPInputRaw(otp: string):Promise<PasswordlessResponseWithUs
         //     // window.location.assign("/")
         // } else if (response.status. === "INCORRECT_USER_INPUT_CODE_ERROR") {
         //     // the user entered an invalid OTP
-            
+
         //     throw new Error(`Wrong passcode. Please try again. 
         //     You have ${(response.maximumCodeInputAttempts - response.failedCodeInputAttemptCount)} attempts left.`);
 
@@ -172,16 +172,16 @@ async function handleOTPInputRaw(otp: string):Promise<PasswordlessResponseWithUs
 
         // } else {
         //     // this can happen if the user tried an incorrect OTP too many times.
-            
+
         //     // window.alert("Login failed. Please try again");
         //     throw new Error("Login failed. Please try again")
         //     window.location.assign("/")
-            
+
         // }
     } catch (err: any) {
         if (err.isSuperTokensGeneralError === true) {
             // this may be a custom error message sent from the API by you.
-            
+
             console.error(err)
             // window.alert(err.message);
             throw new Error(err.message)

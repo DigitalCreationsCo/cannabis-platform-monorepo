@@ -17,7 +17,9 @@ function Page ({ gradient, children, className = '' }: PropsWithChildren<PagePro
     styles:Styles = Object.values({
         page: ['bg-inverse-soft', 'flex flex-col grow', 'min-w-screen', 'md:pt-8 pb-24', 'lg:px-16'],
         gradient: [gradient && 'anim8-' + gradient + '-gradient' || ''],
+        cursor: ['cursor-default'],
         // hideOverflow: ['overflow-hidden'],
+
         className
     });
 
