@@ -36,6 +36,7 @@
     "g:share-static-symlink": "yarn workspaces foreach -pv --include '*-app' run share-static-symlink",
     "g:test-e2e": "yarn workspaces foreach -tv run test-e2e",
     "g:test-unit": "yarn workspaces foreach -ptv run test-unit",
+    "g:test-unit-changed": "yarn workspaces foreach --since -R run test-unit",
     "g:typecheck": "yarn workspaces foreach -ptv run typecheck",
     "install:playwright": "playwright install",
     "nuke:node_modules": "npx rimraf@3.0.1 '**/node_modules'",
