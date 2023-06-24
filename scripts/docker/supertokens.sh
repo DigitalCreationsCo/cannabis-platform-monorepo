@@ -2,5 +2,5 @@ docker run \
   --name supertokens-mysql \
   -p 3567:3567 \
   --network=bridge \
-  -e MYSQL_CONNECTION_URI="mysql://5rym7hkijdnzxdirhiw8:pscale_pw_k7kY1HvI5XnaRKePgW52jv01EQXj8FxJFAhL43YCTzP@us-east.connect.psdb.cloud/cannabis_delivery_v1?ssl={"rejectUnauthorized":true}" \
-  -d registry.supertokens.io/supertokens/supertokens-mysql
+  -e MYSQL_CONNECTION_URI='mysql://4af8mcs8kg8ty8rzyapg:pscale_pw_pxpFbwk2ziXzlthQeoEMkkpr4BuWdgg1aSqBgw6zGqm@aws.connect.psdb.cloud/cannabis_delivery_v1?sslaccept=strict' \
+  -d registry.supertokens.io/supertokens/supertokens-mysql:latest
