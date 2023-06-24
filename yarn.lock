@@ -3349,6 +3349,7 @@ __metadata:
     autoprefixer: 10.4.13
     axios: 1.2.1
     babel-jest: 29.5.0
+    boarding.js: 3.5.2
     busboy: 1.6.0
     cors: 2.8.5
     date-fns: 2.29.3
@@ -3467,7 +3468,7 @@ __metadata:
     css-loader: 6.7.3
     express: 4.18.2
     file-loader: 6.2.0
-    html-webpack-plugin: ^5.5.3
+    html-webpack-plugin: 5.5.3
     postcss: 8.4.21
     postcss-cli: 10.1.0
     postcss-import: 15.1.0
@@ -16162,7 +16163,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"html-webpack-plugin@npm:^5.5.3":
+"html-webpack-plugin@npm:5.5.3":
   version: 5.5.3
   resolution: "html-webpack-plugin@npm:5.5.3"
   dependencies:
