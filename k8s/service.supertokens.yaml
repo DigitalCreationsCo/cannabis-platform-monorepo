@@ -50,10 +50,12 @@ spec:
             #   - ALL
             # readOnlyRootFilesystem: true
             runAsNonRoot: true
-            # runAsUser: 1000
-          image: supertokens/supertokens-mysql:3.12.0
+            runAsUser: 1000
+          image: supertokens/supertokens-mysql:3.12
           imagePullPolicy: IfNotPresent
           env:
+            - name: 'MYSQL_CONNECTION_URI'
+              value: 'mysql://hjl13pett5q5hdb0b6vs:pscale_pw_Dl9qggUnN02NIVAWDXa19Rsrcv8yCELmjNw1jSaMdb3@aws.connect.psdb.cloud/cannabis_delivery_v1?sslaccept=strict'
             - name: 'MYSQL_DATABASE_NAME'
               value: 'cannabis_delivery_v1'
             - name: 'MYSQL_PORT'
@@ -61,9 +63,9 @@ spec:
             - name: 'MYSQL_HOST'
               value: 'aws.connect.psdb.cloud'
             - name: 'MYSQL_PASSWORD'
-              value: 'pscale_pw_pxpFbwk2ziXzlthQeoEMkkpr4BuWdgg1aSqBgw6zGqm'
+              value: 'pscale_pw_Dl9qggUnN02NIVAWDXa19Rsrcv8yCELmjNw1jSaMdb3'
             - name: 'MYSQL_USER'
-              value: '4af8mcs8kg8ty8rzyapg'
+              value: 'hjl13pett5q5hdb0b6vs'
             - name: 'SUPERTOKENS_PORT'
               value: '3567'
             - name: 'MYSQL_CONNECTION_POOL_SIZE'
