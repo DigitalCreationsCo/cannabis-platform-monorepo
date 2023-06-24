@@ -12,7 +12,7 @@
     "lint": "next lint",
     "clean": "rimraf ./.next ./out ./coverage ./tsconfig.tsbuildinfo ./node_modules/.cache",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
-    "test": "jest --config ./jest.config.js",
+    "test:unit": "jest --config ./jest.config.js",
     "test:coverage": "jest --config ./jest.config.js --coverage",
     "test:watch": "jest --config ./jest.config.js --watchAll",
     "start": "pm2-runtime ecosystem.config.js"

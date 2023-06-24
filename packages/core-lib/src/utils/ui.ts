@@ -1,23 +1,22 @@
 import { Address } from '@cd/data-access';
-import { isArray } from './object';
 
 export const renderAddress = ({
     address,
     showCity = true,
     showState = true,
-    showCountry = true,
     showZipcode = true,
+    showCountry = false,
     lineBreak = true,
 }: {
     address?: Omit<Address, "id" | "userId" | "organizationId" | "createdAt" | "updatedAt">;
     showCity?: boolean;
     showState?: boolean;
-    showCountry?: boolean;
     showZipcode?: boolean;
+    showCountry?: boolean;
     lineBreak?: boolean;
 }) => {
     if (!address) return '';
-    return `${address.street1} ${address.street2}${lineBreak ? '\n' : ''}${showCity && address.city + ', ' || ''}${showState && address.state || ''}${showCountry && ',' || ''}${lineBreak ? '\n' : ''}${showCountry && address.country || ''} ${showZipcode && address.zipcode || ''}`
+    return `${address.street1 + ' '}${address.street2 || ''}${showCity && ' ' || ''}${showCity && showState && lineBreak && '\n' || ''}${showCity && address.city || ''}${showCity && showState && (', ' + address.state) || ''}${showCity && showState && showZipcode && (' ' + address.zipcode) || ''}${showCountry && (' ' + address.country) || ''}`;
 };
 
 const sensitiveFields = [
@@ -49,7 +48,7 @@ export const renderNestedDataObject = (data: any, Component: any, removeFields: 
             if (typeof data[key] === 'object')
                 return renderNestedDataObject(data[key], Component, removeFields);
             else
-                if (isArray(data[key]) && data[key].length > 0)
+                if (Array.isArray(data[key]) && data[key].length > 0)
                     // can map
                     return data[key].map((item: Record<string, string>, index: number) => renderNestedDataObject(item, Component, removeFields).flat());
 

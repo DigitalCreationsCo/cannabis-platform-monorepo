@@ -1,9 +1,9 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} */
-export default {
+module.export = {
     verbose: true,
     preset: 'ts-jest',
-    testEnvironment: 'node'
-    // moduleNameMapper: {
-    //   '\\.(css|less)$': '<rootDir>/**/*.css',
-    // }
+    testEnvironment: 'node',
+    setupFilesAfterEnv: [
+        '<rootDir>/jest.setup.mjs',
+    ],
 };

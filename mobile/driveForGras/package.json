@@ -11,7 +11,6 @@
     "web": "NODE_ENV='development' npx expo start --web",
     "lint": "echo lint",
     "lint-fix": "echo lint-fix",
-    "test": "echo test",
     "test-unit": "echo test-unit"
   },
   "dependencies": {
