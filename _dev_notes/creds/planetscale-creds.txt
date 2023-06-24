@@ -1,47 +1,23 @@
-dev-admin - dev admin
-database: cannabis_delivery_v1
-username: jb9if8nvve9l9g0399cs
-host: us-east.connect.psdb.cloud
-password: pscale_pw_bMnzYmBLzWe2McbF8Nb1kH8cSRjyfvYZtU3G9678WEv
-
-dev - dev rw
-database: cannabis_delivery_v1
-username: 3lye41h59tjh9bty4q8m
-host: us-east.connect.psdb.cloud
-password: pscale_pw_7o2cGrMJcWUcltkf0OoPxAZRnMvhePL9nh50of4eyOP
-
 supertokens-dev - dev admin
 database: cannabis_delivery_v1
-username: 5rym7hkijdnzxdirhiw8
-host: us-east.connect.psdb.cloud
-password: pscale_pw_k7kY1HvI5XnaRKePgW52jv01EQXj8FxJFAhL43YCTzP
+username: 4af8mcs8kg8ty8rzyapg
+host: aws.connect.psdb.cloud
+password: pscale_pw_pxpFbwk2ziXzlthQeoEMkkpr4BuWdgg1aSqBgw6zGqm
 
-docker-dev - dev rw
+dev - dev admin
 database: cannabis_delivery_v1
-username: wri4e38fd9d12ao3r6az
-host: us-east.connect.psdb.cloud
-password: pscale_pw_KTjejdcT7n2ZSsdsbqbqDsRqHDkIk45ZydaP3VkrsyG
+username: qqvgb5w6smymbpzsco7q
+host: aws.connect.psdb.cloud
+password: pscale_pw_KEmQE4TgbHADhhV6oT1wi5u7pZuCiyGoNzSQhLcmBiT
 
-dev-2023-05-10 - dev admin
-qqvgb5w6smymbpzsco7q
-pscale_pw_KEmQE4TgbHADhhV6oT1wi5u7pZuCiyGoNzSQhLcmBiT
-
-
-prod-admin - main admin
+production - production admin
 database: cannabis_delivery_v1
-username: 9zr5koln0y91fhumaiit
-host: us-east.connect.psdb.cloud
-password: pscale_pw_rP9RqnT4pAkmmUawnaX67bkYr6AUAWJ2pBqhO9qVBpV
+username: rn35430jypizd9airakv
+host: aws.connect.psdb.cloud
+password: pscale_pw_SXkgbxC8mXQve33MQvkpxbEt0sl3lL004qEQZc9OYct
 
-production - main rw
+supertokens(prod) - production admin
 database: cannabis_delivery_v1
-username: 1udopknyc3qq5brdb32m
-host: us-east.connect.psdb.cloud
-password: pscale_pw_OR3mr1bdGg4yFiGcVfQSvar5GH6UW87irLfnzHNaWiR
-
-supertokens-prod - main admin
-database: cannabis_delivery_v1
-username: 7urqtubzoq8b14bip9uc
-host: us-east.connect.psdb.cloud
-password: pscale_pw_OKk5FbmiY0dLKZFOATQUssrtLVcUsoFI8zUHmenDDY4
-
+username: bmzp7aho4upnia3dx94z
+host: aws.connect.psdb.cloud
+password: pscale_pw_PWdidZtuH04pAv71gJZg01BmxberioPhfDbyezeUpys

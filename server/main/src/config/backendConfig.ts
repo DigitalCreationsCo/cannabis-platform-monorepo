@@ -9,13 +9,14 @@ import { DriverDA, UserDA } from '../api/data-access';
 
 const port = process.env.SHOP_APP_PORT || 3000;
 const baseDomain = process.env.NEXT_PUBLIC_APP_DOMAIN || 'localhost';
-const websiteDomain = process.env.NEXT_PUBLIC_SHOP_APP_URL || `http://localhost:${port}`;
+const shopDomain = process.env.NEXT_PUBLIC_SHOP_APP_URL || 'http://localhost:3000';
+const dashboardDomain = process.env.NEXT_PUBLIC_DASHBOARD_APP_URL || 'http://localhost:3001';
 const apiDomain = process.env.SERVER_MAIN_URL || `http://localhost:6001`;
 
 const appInfo = {
     appName: process.env.NEXT_PUBLIC_SHOP_APP_NAME || 'Gras',
     apiDomain,
-    websiteDomain: "http://app.localhost:3000",
+    websiteDomain: dashboardDomain,
     apiBasePath: '/api/v1'
 };
 

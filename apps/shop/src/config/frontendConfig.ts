@@ -5,7 +5,7 @@ import Session from 'supertokens-auth-react/recipe/session';
 const appName = process.env.NEXT_PUBLIC_SHOP_APP_NAME;
 const baseDomain = process.env.NEXT_PUBLIC_APP_DOMAIN || 'localhost';
 const shopDomain = process.env.NEXT_PUBLIC_SHOP_APP_URL || 'http://localhost:3000';
-const dashboardDomain = process.env.NEXT_PUBLIC_DASHBOARD_APP_URL || 'http://app.localhost:3000';
+const dashboardDomain = process.env.NEXT_PUBLIC_DASHBOARD_APP_URL || 'http://localhost:3001';
 const apiDomain = process.env.NEXT_PUBLIC_SERVER_MAIN_URL || 'http://localhost:6001';
 
 const appInfo: {
