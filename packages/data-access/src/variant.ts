@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { createId } from '@paralleldrive/cuid2';
 import { CurrencyName, ImageProduct, Prisma, ProductVariant, Unit } from "@prisma/client";
 import prisma from "./db/prisma";

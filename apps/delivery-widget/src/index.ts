@@ -1,8 +1,8 @@
-import App from './src';
+import App from './App';
 
 export type DeliveryWidgetConfigOptions = {
     dispensaryKey: string;
-    name?: string;
+    dispensaryName?: string;
 }
 
 var init = async function (config: DeliveryWidgetConfigOptions) {
@@ -12,6 +12,9 @@ var init = async function (config: DeliveryWidgetConfigOptions) {
     g.setAttribute('class', "gras-widget-wrapper")
     document.body.appendChild(g);
     await App.init(config);
+
+    // need es2020 for dynamic import
+    // import('./App').then(async ({ default: App }) => await App.init(config));
 };
 
 function grasWidget() {
