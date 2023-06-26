@@ -58,7 +58,7 @@
     "dev": "concurrently \"yarn packages:watch\" \"yarn server:watch\" \"yarn apps:dev\"",
     "permit-scripts": "node scripts/permit-scripts.js",
     "docker:supertokens": "scripts/docker/supertokens.sh",
-    "docker:shadow-db": "scripts/docker/mysql.sh",
+    "docker:shadow-db": "scripts/docker/shadow-db-mysql.sh",
     "docker:redis": "scripts/docker/redis.sh",
     "docker:delivery-widget-demo": "scripts/docker/launch-widget-demo.sh",
     "docker:build": "TYPE=$0 CONTEXT=$1 make docker-build",
