@@ -65,7 +65,7 @@ function TopBar({ signOut }: TopBarProps) {
     <div className={twMerge(styles.TOPBAR.topbar)}>
       <div className="pl-2 flex items-center">
         <Link href={getUserHome()} passHref>
-          <Image alt="Gras" width={50} height={50} src={logo} />
+          <Image alt="Gras" width={45} height={45} src={logo} />
         </Link>
         <Link href={getUserHome()}>
           <H2 className="pt-0.5">Gras</H2>
@@ -78,10 +78,10 @@ function TopBar({ signOut }: TopBarProps) {
       </Link>
       <div className="flex-1"></div>
 
-      <FlexBox className="flex flex-row items-center space-x-8 pr-0">
+      <FlexBox className="flex flex-row items-center space-x-6 md:space-x-8 pr-0">
         {isSignedIn && (
           <Link className="hidden sm:block" href={getShopSite('/support')}>
-            <Paragraph className={twMerge('whitespace-nowrap pt-2')}>
+            <Paragraph className={twMerge('whitespace-nowrap pt-1')}>
               Get Support
             </Paragraph>
           </Link>
@@ -92,10 +92,11 @@ function TopBar({ signOut }: TopBarProps) {
             <IconButton
               // onClick={openCartModal}
               iconSize={28}
-              className="capitalize    bg-transparent shadow-none p-0 m-0 indicator btn focus:outline-none border-none pt-1"
+              className="capitalize bg-transparent shadow-none p-0 m-0 indicator btn focus:outline-none border-none"
               size="sm"
               hover="transparent"
               Icon={Icons.Satchel}
+              iconColor={'dark'}
             >
               <Paragraph className="hidden md:block">{`Bag`}</Paragraph>
               {(isCartEmpty && <></>) || (
