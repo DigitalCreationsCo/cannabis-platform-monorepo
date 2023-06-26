@@ -1,3 +1,5 @@
+# run `helm repo update` before running terraform apply
+
 terraform {
     required_version = ">= 0.15"
     required_providers {
