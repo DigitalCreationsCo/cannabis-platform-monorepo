@@ -2,6 +2,9 @@
 _dev
 DOCKERSIM
 
+ca.crt
+ca.key
+
 # credentials files
 **/docker_creds
 
