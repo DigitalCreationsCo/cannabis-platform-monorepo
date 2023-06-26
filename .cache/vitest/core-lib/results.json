@@ -4,7 +4,7 @@
     ["/src/test/utils/shop.test.js", { "duration": 3, "failed": false }],
     [
       "/src/test/constants/textContent.test.js",
-      { "duration": 5, "failed": false }
+      { "duration": 2, "failed": false }
     ],
     ["/src/test/utils/ui.test.ts", { "duration": 3, "failed": false }]
   ]
