@@ -29,7 +29,7 @@ spec:
       serviceAccountName: default
       containers:
       - name: gras-dashboard
-        image: grasadmin/dashboard:latest
+        image: grasadmin/dashboard:0.0.1
         imagePullPolicy: Always
         terminationMessagePolicy: FallbackToLogsOnError
         # resources:
