@@ -10,11 +10,24 @@ resource "linode_lke_cluster" "terraform_k8s" {
     label="${var.k8s_label}"
     region="${var.region}"
     tags="${var.tags}"
+    
     dynamic "pool" {
         for_each = var.pools
         content { 
+
             type = pool.value["type"]
             count = pool.value["count"]
+
+            autoscaler {
+              min = 1
+              max = 3
+            }
         }
+    }
+
+    lifecycle {
+        ignore_changes = [
+            pool.0.count
+        ]
     }
 }
