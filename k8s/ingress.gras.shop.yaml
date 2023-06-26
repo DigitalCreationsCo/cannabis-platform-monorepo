@@ -5,35 +5,36 @@ metadata:
   name: ingress-shop
   annotations:
     kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/service-upstream: 'true'
 spec:
   rules:
-  - host: "grascannabis.org"
-    http:
-      paths:
-        - path: /
-          pathType: ImplementationSpecific
-          backend:
-            service:
-              name: gras-service-shop
-              port:
-                number: 80
-  - host: "www.grascannabis.org"
-    http:
-      paths:
-        - path: /
-          pathType: ImplementationSpecific
-          backend:
-            service:
-              name: gras-service-shop
-              port:
-                number: 80
-  - host: "*.grascannabis.org"
-    http: 
-      paths: 
-        - path: /_stores
-          pathType: ImplementationSpecific
-          backend:
-            service:
-              name: gras-service-shop
-              port:
-                number: 80
+    - host: 'grascannabis.org'
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: gras-service-shop
+                port:
+                  number: 80
+    - host: 'www.grascannabis.org'
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: gras-service-shop
+                port:
+                  number: 80
+    - host: '*.grascannabis.org'
+      http:
+        paths:
+          - path: /_stores
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: gras-service-shop
+                port:
+                  number: 80
