@@ -32,7 +32,8 @@ spec:
       app.kubernetes.io/instance: supertokens
   template:
     metadata:
-      annotations: {}
+      annotations:
+        config.linkerd.io/enable-external-profiles: 'true'
       labels:
         app.kubernetes.io/name: supertokens
         app.kubernetes.io/instance: supertokens
@@ -55,7 +56,7 @@ spec:
           imagePullPolicy: Always
           env:
             - name: 'MYSQL_CONNECTION_URI'
-              value: 'mysql://hjl13pett5q5hdb0b6vs:pscale_pw_Dl9qggUnN02NIVAWDXa19Rsrcv8yCELmjNw1jSaMdb3@aws.connect.psdb.cloud:3306/cannabis_delivery_v1?sslcert=/etc/ssl/certs/ca-certificates.crt&sslaccept=strict'
+              value: 'mysql://hjl13pett5q5hdb0b6vs:pscale_pw_Dl9qggUnN02NIVAWDXa19Rsrcv8yCELmjNw1jSaMdb3@aws.connect.psdb.cloud:3306/cannabis_delivery_v1?sslaccept=strict&sslcert=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt'
             # - name: 'MYSQL_DATABASE_NAME'
             #   value: 'cannabis_delivery_v1'
             # - name: 'MYSQL_PORT'
