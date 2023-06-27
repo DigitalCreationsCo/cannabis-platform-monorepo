@@ -4,7 +4,7 @@ import {
   modalTypes,
   selectCartState,
   selectIsCartEmpty,
-  selectUserState,
+  selectUserState
 } from '@cd/core-lib';
 import {
   Button,
@@ -13,7 +13,7 @@ import {
   IconButton,
   Icons,
   Paragraph,
-  styles,
+  styles
 } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -42,14 +42,14 @@ function TopBar({ signOut }: TopBarProps) {
   return (
     <div className={twMerge(styles.TOPBAR.topbar)}>
       <div className="pl-2 flex items-center">
-        <Link href={'/'} passHref>
+        <Link href={getShopSite('/')}>
           <Image alt="Gras" width={45} height={45} src={logo} />
         </Link>
-        <Link href={'/'}>
+        <Link href={getShopSite('/')}>
           <H2 className="pt-0.5">Gras</H2>
         </Link>
       </div>
-      <Link href={'/'}>
+      <Link href={getShopSite('/')}>
         <Paragraph className={twMerge(styles.TOPBAR.tagline)}>
           Cannabis Marketplace
         </Paragraph>
@@ -66,7 +66,7 @@ function TopBar({ signOut }: TopBarProps) {
         )}
 
         {window?.location?.pathname === '/' || (
-          <Link href={getShopSite('/mybag')} passHref>
+          <Link href={getShopSite('/mybag')}>
             <IconButton
               // onClick={openCartModal}
               iconSize={28}
