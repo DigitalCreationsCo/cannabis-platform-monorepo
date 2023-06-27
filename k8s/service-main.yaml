@@ -34,8 +34,11 @@ spec:
           terminationMessagePolicy: FallbackToLogsOnError
           resources:
             limits: 
-              cpu: "0.5"
-              memory: "250M"
+              cpu: "100m"
+              memory: "120Mi"
+            requests:
+              cpu: "100m"
+              memory: "120Mi"
           ports:
             - name: main-port
               containerPort: 6001
