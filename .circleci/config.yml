@@ -21,7 +21,7 @@ jobs:
   build-and-publish-docker-image:
     executor: docker  
     environment: 
-      REGISTRY: ${CONTEXT_DOCKER_REGISTRY}
+      PARAM_REGISTRY: ${CONTEXT_DOCKER_REGISTRY}
       DOCKER_REPOSITORY: ${CONTEXT_DOCKER_REPOSITORY}
       PARAM_DOCKER_USERNAME: ${CONTEXT_PARAM_DOCKER_USERNAME}
       PARAM_DOCKER_PASSWORD: ${PARAM_DOCKER_PASSWORD}
@@ -35,8 +35,7 @@ workflows:
       - test-node
       - docker/publish:
           dockerfile: Dockerfile.app
+          extra_build_args: '--build-arg BUILD_CONTEXT=shop --build-arg PORT=3000'
           image: $DOCKER_REPOSITORY/$IMAGE:$TAG
-          path: /home/circleci/project/Dockerfile.app
-          registry: $REGISTRY
           requires:
             - test-node
