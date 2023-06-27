@@ -1,14 +1,15 @@
-import { Category, ImageUser, Organization, Prisma, Product, Review, User } from "@prisma/client";
+import { Category, Organization, Prisma, Product, Review } from "@prisma/client";
 import prisma from "./db/prisma";
+import { UserWithProfilePictureBlob } from "./user";
 import { ProductVariantWithDetails } from "./variant";
 
 export async function createProduct() {
-    // try {
-    // } catch (error) {
-    //     console.error(error.message)
-    //     throw new Error(error.message)
-    // }
- }
+  // try {
+  // } catch (error) {
+  //     console.error(error.message)
+  //     throw new Error(error.message)
+  // }
+}
 
 export async function findProductsByOrg(organizationIdList: string[], page: number, limit: number) {
   try {
@@ -19,42 +20,42 @@ export async function findProductsByOrg(organizationIdList: string[], page: numb
         where: { organizationId: { in: organizationIdList } },
         orderBy: [
           { rating: 'desc' },
-        // { sales: 'desc' }
+          // { sales: 'desc' }
         ],
         include: {
           variants: true,
           categories: true,
         }
       }) || [];
-      return products;
-    } catch (error: any) {
-        console.error(error.message)
-        throw new Error(error.message)
-    }
+    return products;
+  } catch (error: any) {
+    console.error(error.message)
+    throw new Error(error.message)
+  }
 }
 
 export async function findProductWithDetails(id: string) {
-    try {
-        const product = await prisma.product.findUnique(
-            {
-                where: { id },
-                include: {
-                    categories: true,
-                    organization: true,
-                    reviews: {
-                      include: { user: { include: { imageUser: true }} }
-                    },
-                    variants: {
-                      include: { images: true }
-                    },
-                }
-            }
-        )
-        return product
-    } catch (error: any) {
-        console.error(error)
-        throw new Error(error)
-    }
+  try {
+    const product = await prisma.product.findUnique(
+      {
+        where: { id },
+        include: {
+          categories: true,
+          organization: true,
+          reviews: {
+            include: { user: { include: { profilePicture: true } } }
+          },
+          variants: {
+            include: { images: true }
+          },
+        }
+      }
+    )
+    return product
+  } catch (error: any) {
+    console.error(error)
+    throw new Error(error)
+  }
 }
 
 export async function findProductsByText(search: string, organizationId: string) {
@@ -86,7 +87,7 @@ export async function findProductsByText(search: string, organizationId: string)
         ],
       },
       orderBy: [
-          { rating: 'desc' },
+        { rating: 'desc' },
       ],
       include: {
         variants: {
@@ -94,39 +95,37 @@ export async function findProductsByText(search: string, organizationId: string)
         },
       }
     }) || [];
-      return products;
-    } catch (error: any) {
-      console.error(error.message)
-      throw new Error(error.message)
-    }
+    return products;
+  } catch (error: any) {
+    console.error(error.message)
+    throw new Error(error.message)
+  }
 }
 
 export async function deleteProduct() {
-    // try {
+  // try {
 
-    // } catch (error) {
-    //     console.error(error.message)
-    //     throw new Error(error.message)
-    // }
+  // } catch (error) {
+  //     console.error(error.message)
+  //     throw new Error(error.message)
+  // }
 }
 
-// export type ProductWithDetails = Prisma.PromiseReturnType<typeof findProductWithDetails>
-export type ProductWithDetails = Product & {
+export type ProductWithDashboardDetails = Product & {
+  variants: ProductVariantWithDetails[];
+  categories: Category[];
+  reviews: ReviewWithUserDetails[]
+}
+
+export type ProductWithShopDetails = Product & {
   organization: Organization;
   variants: ProductVariantWithDetails[];
   categories: Category[];
-  reviews?: Review & {
-    user?: User & {
-      imageUser?: ImageUser;
-    };
-  };
+  reviews?: ReviewWithUserDetails;
 };
 
-export type ReviewWithDetails = Review & {
-  user?: User & {
-    imageUser?: ImageUser;
-  };
+export type ReviewWithUserDetails = Review & {
+  user: UserWithProfilePictureBlob
 };
 
-export type ProductUpdate = Prisma.ProductUpdateArgs[ "data" ]
-  
+export type ProductUpdate = Prisma.ProductUpdateArgs["data"]

@@ -1,3 +1,4 @@
+import TextContent from "@cd/core-lib/src/constants/textContent"
 import { useCheckHrefIncludes } from '@cd/core-lib/src/utils/useCheckHrefIncludes'
 import CloseButton from "@cd/ui-lib/src/components/button/CloseButton"
 import { Paragraph, Small } from "@cd/ui-lib/src/components/Typography"
@@ -5,10 +6,11 @@ import { getBreakpointValue } from "@cd/ui-lib/src/hooks/useBreakpoint"
 import { useEffect, useState } from "react"
 import { useNavigate } from 'react-router-dom'
 import { twMerge } from "tailwind-merge"
-import { DeliveryWidgetConfigOptions } from '../..'
+import { DeliveryWidgetConfigOptions } from '..'
+import logo from '../assets/logo120.png'
 import WidgetView, { WidgetViewProps } from "./WidgetView"
 
-function Button({ className, expandWidget, setExpandWidget, name }: WidgetViewProps & DeliveryWidgetConfigOptions) {
+function Button({ className, expandWidget, setExpandWidget, dispensaryName }: WidgetViewProps & DeliveryWidgetConfigOptions) {
     
     const openWidget = () => setExpandWidget(true)
 
@@ -22,6 +24,8 @@ function Button({ className, expandWidget, setExpandWidget, name }: WidgetViewPr
     const setWindowDimensions = () => {
       setScreenwidth(window.innerWidth)
     }
+    
+    const md = getBreakpointValue('md');
 
     useEffect(() => {
       window.addEventListener('resize', setWindowDimensions);
@@ -29,14 +33,23 @@ function Button({ className, expandWidget, setExpandWidget, name }: WidgetViewPr
         window.removeEventListener('resize', setWindowDimensions)
       }
     }, [])
-
+    
     const history = useNavigate()
     useEffect(() => {
       useCheckHrefIncludes('checkout') ? history('/checkout') : null 
     })
-
-    const md = getBreakpointValue('md');
     
+    
+    const styles = {
+      capsule: [
+        "relative", 
+        expandWidget ? "cursor-default" : 'cursor-pointer', 
+        'min-h-[44px]',
+        'self-center',
+        "md:rounded-full"
+      ],
+    }
+
     return (
     <div onClick={openWidget} className={twMerge([styles.capsule, className])}>
       {expandWidget ? 
@@ -45,27 +58,43 @@ function Button({ className, expandWidget, setExpandWidget, name }: WidgetViewPr
 
             <div className="flex flex-col p-2">
               <Paragraph className="m-auto" color="light">
-                {name || 'Your dispensary' } is teaming up with Gras for home delivery. </Paragraph>
+                {dispensaryName || 'Your dispensary' } is teaming up with Gras for home delivery. </Paragraph>
                 
-              <Small className="m-auto" color="light">
-                Click here during checkout to get started.</Small>
+              <Small className="m-auto text-primary-light" color="light">
+                Get started at checkout!</Small>
             </div>
             
             <div>
-            <CloseButton theme={'light'} className="relative p-4 border" onClick={closeWidget} />
+            <CloseButton 
+            iconSize={32}
+            className="relative p-2 pr-4 text-light"
+            theme={'light'} 
+            onClick={closeWidget} 
+            />
             </div>
             
         </div> :
-        <div className="flex flex-col items-center">
-          <div className={twMerge("tooltip tooltip-open bg-primary absolute top-0 tooltip-primary")} 
-          data-tip="Click to learn more!"></div>
+        <div className="justify-center flex items-center h-full">
+
+          { screenwidth >= md && 
+          <img 
+          src={logo} 
+          alt="Delivery By Gras" 
+          height={40} 
+          width={40}
+          className='object-contain'
+          /> }
 
           { screenwidth <= md ? 
-          <Paragraph color="light">
-            Delivery by Gras available at checkout</Paragraph> 
+          <Small color="light" className='items-center'>
+            Delivery by Gras available at checkout !</Small> 
             : <>
-          <Paragraph color="light">Delivery by Gras</Paragraph>
-          <Small color="light">now at checkout</Small></>}
+          <Small color="light" className='items-center'>
+            Delivery by Gras{TextContent.char.NBSP}</Small>
+          <Small color="light" className='items-center'>
+            now at checkout</Small></>}
+            
+          <div className="w-[20px]"></div>
 
         </div>}
     </div>
@@ -73,7 +102,3 @@ function Button({ className, expandWidget, setExpandWidget, name }: WidgetViewPr
 }
 
 export default WidgetView(Button)
-
-const styles = {
-  capsule: ["relative", "cursor-pointer", "md:rounded-full"],
-}

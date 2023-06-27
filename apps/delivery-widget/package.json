@@ -4,14 +4,13 @@
   "version": "0.0.1",
   "main": "./dist/index.js",
   "scripts": {
+    "build": "rimraf ./dist && webpack --mode production && yarn postcss",
     "clean": "rimraf ./dist ./build ./node_modules/.cache",
-    "build": "rimraf ./dist && yarn postcss && webpack --mode production",
+    "dev": "webpack-dev-server --mode development --hot",
     "postcss": "node ./postcss.js",
     "postcss2": "postcss ./src/styles/globals.css -o ./dist/index.css",
-    "build:css": "tailwindcss build -i ./src/styles/globals.css -o ./dist/index.css",
-    "serve": "webpack serve --mode development --hot",
-    "dev": "webpack-dev-server",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "tailwind": "tailwindcss build -i ./src/styles/globals.css -o ./dist/index.css",
+    "test-unit": "echo \"Error: no test specified\" && exit 0"
   },
   "dependencies": {
     "@cd/core-lib": "workspace:*",
@@ -40,6 +39,7 @@
     "copyfiles": "2.4.1",
     "css-loader": "6.7.3",
     "file-loader": "6.2.0",
+    "html-webpack-plugin": "5.5.3",
     "postcss": "8.4.21",
     "postcss-cli": "10.1.0",
     "postcss-import": "15.1.0",

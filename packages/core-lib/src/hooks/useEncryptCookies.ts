@@ -1,26 +1,31 @@
 import { CookieOptions } from "express";
-import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { crypto } from '../utils';
 
+const useEncryptCookies = (cookieKeys: string[]): [typeof cookies, typeof setCookie, typeof removeCookie] => {
+    const [cookies, setCookie, removeCookie,] = useCookies(cookieKeys);
 
-const useEncryptCookies = (cookieArgs: string[]): [typeof cookies, typeof setCookie, typeof removeCookie] => {
-    const [cookies, setCookie, removeCookie, ] = useCookies(cookieArgs);
-    
-    const encryptCookies = Object.keys(cookies).reduce((encrypted, key) => {
-        const 
-        _cookie = cookies[key];
+    const
+        encryptCookies = cookieKeys.reduce((encrypted, key) => {
 
-        return { ...encrypted, [key]: crypto.decrypt(_cookie) }
-    }, {})
+            const
+                _cookie = cookies[key];
 
-    const setEncryptCookie = (cookieArg: string, data: string, options: CookieOptions | undefined) => {
-        setCookie(cookieArg, crypto.encrypt(data), options);
-    }
+            if (!_cookie)
+                return encrypted
+            else
+                return { ...encrypted, [key]: crypto.decrypt(_cookie) }
 
-    useEffect(() => {}, [cookies]);
+        }, {})
 
-    return [ encryptCookies, setEncryptCookie, removeCookie ]
+    const
+        setEncryptCookie = (cookieArg: string, data: string, options: CookieOptions | undefined) => {
+            setCookie(cookieArg, crypto.encrypt(data), options);
+        }
+
+    // useEffect(() => { }, [cookies]);
+
+    return [encryptCookies, setEncryptCookie, removeCookie]
 }
 
 export default useEncryptCookies

@@ -56,19 +56,20 @@ model User {
   lastName String
   username String @unique
   email         String  @unique
-  emailVerified Boolean @default(false)
-  isLegalAge Boolean?
-  idVerified Boolean @default(false)
-  isSignUpComplete Boolean @default(false)
-  passwordHash String?
-  passwordResetToken String?
+
+  emailVerified     Boolean @default(false)
+  isLegalAge        Boolean?
+  isSignUpComplete  Boolean @default(false)
+  termsAccepted     Boolean @default(false)
+  idVerified        Boolean @default(false)
+  scannedDOB        DateTime?
+  idFrontImage      String?
+  idBackImage       String?
+  
+  profilePicture    ImageUser?
+  address Address[]
   dialCode String
   phone String @unique
-  address Address[]
-  termsAccepted Boolean @default(false)
-  imageUser     ImageUser[]
-  idFrontImage  String?
-  idBackImage   String?
   accounts      Account[]
   sessions      Session[]
   reviews Review[]
@@ -95,36 +96,49 @@ model Driver {
   orders Order[]
   driverSession DriverSession?
 
+  routes Route[]
+
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
 
   @@unique([id, email])
 }
 
+// this driverSession is used in mongodb,
+// the prisma record is not kept congruent, this model is here for schema reference.
 model DriverSession {
+  // id references the driver
+
   id String @id @default(cuid()) @unique
   driver Driver @relation(fields: [id], references: [id])
-  // coordinateDriverId String @unique
-  // coordinates Coordinates @relation(fields: [coordinateDriverId], references: [driverId])
-  // isOnline Boolean @default(false)
-  // isActiveDelivery Boolean @default(false)
-  routeId String? @unique
-  currentRoute Route? @relation(fields: [routeId], references: [id])
-  // routeId String @unique
+  
+  // current location of the driver
 
+  // currentCoordinates String @unique
+  // coordinates Coordinates @relation(fields: [coordinateDriverId], references: [driverId])
+
+  isOnline Boolean @default(false)
+  isActiveDelivery Boolean @default(false)
+  
+  routeId String? @unique
+  // route Route? @relation(fields: [routeId], references: [id])
 
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
 
-  // @@index([routeId])
+  @@index([id])
+  @@index([routeId])
 }
 
 model Route {
-  id String @id @default(cuid()) @unique
-  driverSession DriverSession?
+  driverId String
+  driver Driver @relation(fields: [driverId], references: [id], onDelete: NoAction, onUpdate: Cascade)
 
   orderId String @unique
   order Order  @relation(fields: [orderId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([driverId])
+  @@index([orderId])
 }
 
 model Vendor {
@@ -163,8 +177,8 @@ model Address {
 
 model ImageOrganization {
   id            String    @id @default(cuid()) @unique
-  location String
-  organizationId String
+  location String         @db.LongText
+  organizationId String 
   organization Organization @relation(fields: [organizationId], references: [id])
   blurhash String?
 
@@ -176,7 +190,7 @@ model ImageOrganization {
 
 model ImageProduct {
   id String @id @default(cuid()) @unique
-  location String
+  location String @db.LongText
   variantId String
   variant ProductVariant @relation("images", fields: [variantId], references: [id])
   blurhash String?
@@ -189,9 +203,9 @@ model ImageProduct {
 
 model ImageUser {
   id String @id @default(cuid()) @unique
-  location String
+  location String @db.LongText
   userId String @unique
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   blurhash String?
 
   createdAt      DateTime         @default(now())
@@ -202,7 +216,7 @@ model ImageUser {
 
 model ImageVendor {
   id String @id @default(cuid()) @unique
-  location String
+  location String @db.LongText
   // vendor Vendor?
   blurhash String?
 
@@ -264,19 +278,31 @@ model Order {
   driverId String?
   driver Driver? @relation(fields: [driverId], references: [id],  onDelete: SetNull, onUpdate: SetNull)
 
-  isDeliveredOrder Boolean @default(false)
-  isCustomerReceivedOrder Boolean @default(false)
-  isCompleted Boolean @default(false)
   
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  
+  isDriverAssigned Boolean @default(false)
+  driverAssignedAt DateTime?
+  
+  isProductPickedUp Boolean @default(false)
+  productPickedUpAt DateTime?
+  
+  isDeliveredOrder Boolean @default(false)
   deliveredAt    DateTime?
 
+  isCustomerReceivedOrder Boolean @default(false)
+  customerReceivedOrderAt DateTime?
+
+  isCompleted Boolean @default(false)
+  completedAt DateTime?
+  
+  
   routeId String? @unique
   route Route?
   // metadataId     String @unique
   // metadata       OrderMetaData?
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
 
   @@index([purchaseId])
   @@index([addressId])
@@ -351,8 +377,6 @@ model Organization {
   address Address @relation("organizationAddress", fields: [addressId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   dialCode String
   phone String @unique
-  // email String @unique
-  // emailVerified Boolean @default(false)
   images ImageOrganization[]
   memberships Membership[]
   products Product[]
@@ -400,7 +424,7 @@ model Product {
   organizationId String
   organization Organization @relation(fields: [organizationId], references: [id])
   reviews Review[]
-  rating Float?
+  rating Float
   tags String?
 
   createdAt      DateTime         @default(now())
@@ -408,6 +432,7 @@ model Product {
 
   @@index([id])
   @@index([organizationId])
+  @@unique([id, rating])
 }
 
 model ProductVariant {
@@ -418,7 +443,8 @@ model ProductVariant {
   organizationId String
   organizationName String
   productId     String
-  product       Product @relation(fields: [productId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  product       Product @relation(fields: [productId, rating], references: [id, rating], onDelete: NoAction, onUpdate: NoAction)
+  rating        Float
   unit Unit @default(g)
   size Float
   quantity Int
@@ -435,6 +461,7 @@ model ProductVariant {
 
   @@index([id])
   @@index([productId])
+  @@index([productId, rating])
 }
 
 model Category {

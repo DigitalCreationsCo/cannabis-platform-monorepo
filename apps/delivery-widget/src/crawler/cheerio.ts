@@ -1,4 +1,4 @@
-import { SimpleCart } from '@cd/core-lib/reduxDir/features'
+import { SimpleCart } from '@cd/core-lib/reduxDir/features/cart.reducer'
 import { convertDollarsToWholeNumber } from '@cd/core-lib/src/utils/transaction'
 import { ProductVariantWithDetails } from '@cd/data-access'
 import * as cheerio from 'cheerio'
@@ -17,10 +17,10 @@ const cheerioCrawler = async () => {
         'sunnyside': '[data-cy=CartTotal]',
         'manasupply': '[data-testid=cart-dropdown-subtotal]'
     }
-    
+
     type DomData = {
         'cart-item': string;
-        'total':     string;
+        'total': string;
         'name': string;
         'label': string;
         'basePrice': string;
@@ -31,10 +31,10 @@ const cheerioCrawler = async () => {
             location: string;
         };
     }
-    const _domDataSelector:Record<string, DomData> = {
+    const _domDataSelector: Record<string, DomData> = {
         'localhost': {
             'cart-item': '[data-item=cart-item]',
-            'total':     '[data-item=cart-total]',
+            'total': '[data-item=cart-total]',
             'name': '[data-item=cart-item-name]',
             'label': '[data-item=cart-item-brand]',
             'basePrice': '[data-item=cart-item-price]',
@@ -47,7 +47,7 @@ const cheerioCrawler = async () => {
         },
         'sunnyside': {
             'cart-item': '[data-cy=CartItem]',
-            'total':     '[data-cy=CartTotal]',
+            'total': '[data-cy=CartTotal]',
             'name': '.item__Name',
             'label': '.item__Brand',
             'basePrice': '.item__Price',
@@ -58,9 +58,9 @@ const cheerioCrawler = async () => {
                 location: '.product-image',
             },
         },
-        'manasupply':{
+        'manasupply': {
             'cart-item': '[data-testid=cart-item-container]',
-            'total':     '[data-testid=cart-dropdown-subtotal]',
+            'total': '[data-testid=cart-dropdown-subtotal]',
             'name': '.item__Name',
             'label': '.item__Brand',
             'basePrice': '.item__Price',
@@ -74,10 +74,10 @@ const cheerioCrawler = async () => {
     }
 
 
-    
+
     try {
         if (typeof window === 'undefined') throw new Error('window is not available')
-        
+
         const _url = window.location.href
         console.log('get url: ', _url)
 
@@ -94,16 +94,16 @@ const cheerioCrawler = async () => {
         const $ = cheerio.load(html)
         const data = parseData('cart')
         return data;
-        
+
         function parseData(dataKey: DOMDataKey) {
-            switch (dataKey){
+            switch (dataKey) {
                 case 'cart':
                     return parseCartHtml()
                 default:
                     return parseCartHtml()
             }
         }
-        
+
         function parseCartHtml() {
             const _domain = getDispensaryDomain()
             console.log('domain: ', _domain)
@@ -118,11 +118,11 @@ const cheerioCrawler = async () => {
 
             const _cartTotal = $(getDomData(_domain)['total']).text() as unknown as number
             console.info('cart total: ', _cartTotal)
-            
+
             const _cartData = createCartData(_cartItemHtml, _cartTotal)
             return _cartData;
 
-            function getDomData(domain:string) {
+            function getDomData(domain: string) {
                 return _domDataSelector[domain] || _domDataSelector['localhost']
             }
             function getCartItemSelector() {
@@ -133,10 +133,10 @@ const cheerioCrawler = async () => {
                 return _cartTotalSelector[_domain] || _cartTotalSelector['localhost']
             }
 
-            function createCartData(html: cheerio.AnyNode[], total: number):SimpleCart {
+            function createCartData(html: cheerio.AnyNode[], total: number): SimpleCart {
                 console.log('create cart data input: ', html)
-                const cartItems:ProductVariantWithDetails[] = []
-                
+                const cartItems: ProductVariantWithDetails[] = []
+
                 const cartData: SimpleCart = {
                     cartItems: cartItems,
                     total: convertDollarsToWholeNumber(total)
@@ -175,7 +175,7 @@ const cheerioCrawler = async () => {
 }
 
 function getDispensaryDomain() {
-    switch(true) {
+    switch (true) {
         case window.location.href.includes('sunnyside'):
             return 'sunnyside'
         case window.location.href.includes('manasupply'):

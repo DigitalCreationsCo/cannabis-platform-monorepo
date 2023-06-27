@@ -1,6 +1,7 @@
 import { ChangeEventHandler, PropsWithChildren, ReactEventHandler } from 'react';
 import { twMerge } from 'tailwind-merge';
 import Footer from './Footer';
+import Header from './Header';
 import SideNavContainer from './SideNavContainer';
 
 interface LayoutContextProps {
@@ -55,13 +56,13 @@ function Layout({
         <div className={twMerge("flex flex-col min-h-screen", styles.isModalOverlay, className)}>
             <div className={styles.main}>
                 {showTopBar && <TopBarComponent signOut={signOut} doesSessionExist={isSession} />}
-                {/* {showHeader && (
+                {showHeader && (
                     <Header
                         placeholder={placeholder}
                         onSearchChange={onSearchChange}
                         drawerComponentId={drawerComponentId}
                     />
-                )} */}
+                )}
                 <SideNavContainer
                     showSideNavOnDesktop={showSideNavOnDesktop}
                     showSideNav={showSideNav}

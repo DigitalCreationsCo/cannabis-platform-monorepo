@@ -1,4 +1,4 @@
-import { userActions } from '@cd/core-lib';
+import { TextContent, userActions } from '@cd/core-lib';
 import { handleOTPInput, resendOTP, sendOTPEmail, sendOTPPhone } from '@cd/core-lib/src/auth/OTP';
 import { useFormik } from 'formik';
 import Image from 'next/image';
@@ -40,7 +40,7 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
     
     function SendOTP () {
         
-        const initialValues = { emailOrPhone: 'bmejiadeveloper2@gmail.com' };
+        const initialValues = { emailOrPhone: '' };
 
         const { values, errors, touched, handleBlur, handleChange, handleSubmit, resetForm, validateForm } = useFormik({
             initialValues,
@@ -96,19 +96,22 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
         return (
             <form>
                 <Grid className="space-y-2">
-                    <Paragraph>Sign in with your email</Paragraph>
+
                     <TextField
                         containerClassName='w-2/3 m-auto lg:flex-col lg:items-start'
-                        className="my-2 shadow text-md"
+                        className="my-2 border text-md"
                         autoComplete='off'
                         type='text'
                         name="emailOrPhone"
-                        placeholder="Email"
+                        placeholder="you@email"
+                        label={TextContent.ui.SIGNIN_EMAIL}
+                        justifyLabel='center'
                         value={values?.emailOrPhone}
                         onBlur={handleBlur}
                         onChange={handleChange}
                         error={!!touched.emailOrPhone && !!errors.emailOrPhone}
                     />
+                    
                     <FlexBox className="py-2">
                         <Button
                             type='submit'
@@ -123,13 +126,21 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
                         >
                             Continue
                         </Button>
-                    </FlexBox>
-                    <FlexBox className="flex-row space-x-2 m-auto">
-                        <H4 className='text-xl'>
-                            Are you a dispensary?</H4>
-                        <Link href="/signup/create-dispensary-account" onClickCapture={dispatchCloseModal}>
-                            <H4 className="underline"> Sign up here!</H4>
+                        </FlexBox>
+                    
+                    <FlexBox className="flex-col mx-auto justify-center">
+                        
+                        <Paragraph className='text-lg mx-auto text-center'>
+                            Are you a dispensary?</Paragraph>
+
+                        <Link className='mx-auto'
+                        href="/signup/create-dispensary-account" 
+                        onClickCapture={dispatchCloseModal}>
+                            
+                            <H4 className="underline text-lg text-center">
+                                {TextContent.account.CREATE_DISPENSARY_ACCOUNT}</H4>
                         </Link>
+
                     </FlexBox>
                 </Grid>
             </form>
@@ -173,7 +184,8 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
 
         const handleOTPAndSignIn = async () => {
             try {
-                const response  = await handleOTPInput(values.passcode);
+                const 
+                response  = await handleOTPInput(values.passcode);
 
                 if (response?.user) {
                     dispatch(userActions.signinUserSync(response.user));
@@ -184,7 +196,7 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
                 
             } catch (error: any) {
                 setLoadingButton(false);
-                toast.error(error.message);
+                toast.error(error.message, { duration: 10000 });
             }
         }
 
@@ -224,11 +236,11 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
     
         return (
             <form>
-                <Small>A one time passcode was sent to {inputValue}.</Small>
                 <Grid className="relative space-y-2 w-2/3 m-auto">
+                <Small>A one time passcode was sent to {inputValue}.</Small>
                     <TextField
                         containerClassName='m-auto lg:flex-col lg:items-start'
-                        className="my-2 shadow text-center"
+                        className="my-2 border text-center"
                         autoComplete='off'
                         type='text'
                         name="passcode"
@@ -285,22 +297,31 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
         }, [modalVisible])
         
         return modalVisible ? (
-            <Modal className={twMerge(styles.responsive, styles.padd)} modalVisible={openModal} onClose={closeModalAndReset} {...props}>
-                <div className='m-auto'>
-                <FlexBox>
-                    <Image src={logo} alt="Gras Cannabis logo" width={63} height={63} priority />
-                    <H3> Welcome to</H3>
-                    <H1>Gras</H1>
-                </FlexBox>
-                <H3>a one stop cannabis marketplace</H3>
-                <FormStepComponent /></div>
+            <Modal 
+            className={twMerge(styles.responsive, styles.padd)} 
+            modalVisible={openModal} 
+            onClose={closeModalAndReset} 
+            {...props}>
+                <div className='mx-auto p-2'>
+                    
+                    <FlexBox className='mx-auto'>
+                        <Image src={logo} alt="Gras Cannabis logo" width={63} height={63} priority />
+                        <H3> Welcome to</H3>
+                        <H1>Gras</H1>
+                    </FlexBox>
+
+                    <H3 className="mx-auto">
+                        a one stop cannabis marketplace</H3>
+
+                    <FormStepComponent />
+                </div>
             </Modal>
         ) : <></>;
     }
     
     const styles = {
-        responsive: 'min-w-full min-h-screen sm:!rounded-none md:min-w-min md:min-h-min md:!rounded px-12 py-8 flex flex-col',
-        padd: 'pt-8 pb-12'
+        responsive: 'bg-inverse min-w-full min-h-screen sm:!rounded-none md:min-w-min md:min-h-min md:!rounded px-12',
+        padd: 'py-12'
     };
 
     const emailValidationSchema = yup.object().shape({
@@ -316,8 +337,7 @@ function LoginModal({ dispatchCloseModal, modalVisible, ...props }: LoginModalPr
     });
     
     const passcodeValidationSchema = yup.object().shape({
-        passcode: yup.string()
-        .required('Invalid passcode.')
+        passcode: yup.string().required('Invalid passcode.').length(6, 'Invalid passcode.')
     });
 
     export default LoginModal;

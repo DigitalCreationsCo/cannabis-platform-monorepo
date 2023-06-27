@@ -1,6 +1,5 @@
 import { Button, H5 } from '@cd/ui-lib';
 import { useMemo, useState } from 'react';
-import DispensaryCard from './DispensaryCard';
 
 type DispensaryListProps = {
     title: string;
@@ -44,10 +43,10 @@ function DispensaryListCarousel({ title, list, loading }: DispensaryListProps) {
                     {dispensaryList.length > 0 ? 
                         dispensaryList.map((dispensary, index) => (
                         <div key={'dispensary-card-' + index} id={'dispensary-card-' + index} className="carousel-item">
-                            <DispensaryCard key={'dispensary-' + dispensary.id} dispensary={dispensary as any} />
+                            {/* <DispensaryCard key={'dispensary-' + dispensary.id} dispensary={dispensary as any} /> */}
                         </div>
                     )): [0,1,2,3].map((el) => (<div key={'loading-dispensary-card-' + el} className="carousel-item">
-                        <DispensaryCard key={'dispensary-' + el} />
+                        {/* <DispensaryCard key={'dispensary-' + el} /> */}
                         </div>))
                     }
                 </div>

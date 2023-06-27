@@ -1,5 +1,6 @@
-import { Address, Category, CategoryList, Driver, ImageOrganization, ImageProduct, ImageUser, ImageVendor, Membership, Order, Organization, Prisma, PrismaClient, Product, ProductVariant, Purchase, Schedule, SiteSetting, SubDomain, User, Vendor } from "@prisma/client";
+import { Address, Category, CategoryList, Driver, ImageOrganization, ImageProduct, ImageUser, ImageVendor, Membership, Order, Prisma, PrismaClient, Product, ProductVariant, Purchase, Route, Schedule, SiteSetting, SubDomain, User, Vendor } from "@prisma/client";
 import axios from "axios";
+import { ReviewWithUserDetails } from "product";
 
 const prisma = new PrismaClient();
 
@@ -66,11 +67,10 @@ async function main() {
       email: "bob@gmail.com",
       phone: "1232343453",
       emailVerified: false,
+      scannedDOB: new Date(),
       isLegalAge: false,
       idVerified: false,
       isSignUpComplete: false,
-      passwordHash: "",
-      passwordResetToken: null,
       dialCode: "1",
       idFrontImage: null,
       idBackImage: null,
@@ -88,9 +88,8 @@ async function main() {
       emailVerified: true,
       isLegalAge: false,
       idVerified: false,
+      scannedDOB: new Date(),
       isSignUpComplete: false,
-      passwordHash: "",
-      passwordResetToken: null,
       dialCode: "1",
       idFrontImage: null,
       idBackImage: null,
@@ -107,7 +106,7 @@ async function main() {
   console.info('create prisma.user records');
 
   // ADDRESS
-  const addresses:Address[] = [
+  const addresses: Address[] = [
     {
       id: "1",
       street1: "123 King St",
@@ -120,7 +119,7 @@ async function main() {
       coordinateId: '1',
       createdAt: new Date(),
       updatedAt: new Date(),
-    },{
+    }, {
       id: "2",
       street1: "345 Marietta St",
       street2: "Suite 200",
@@ -181,7 +180,7 @@ async function main() {
   console.info('create prisma.address records');
 
   // VENDOR
-  const vendors:Vendor[] = [
+  const vendors: Vendor[] = [
     {
       id: "1",
       name: "Gras",
@@ -212,7 +211,7 @@ async function main() {
   console.info('create prisma.vendor records');
 
   // SITE SETTINGS
-  const siteSettings:SiteSetting[] = [
+  const siteSettings: SiteSetting[] = [
     {
       title: "Cannabis Delivered To Your Door",
       description: "grascannabis.com",
@@ -240,7 +239,7 @@ async function main() {
   console.info('create prisma.siteSetting records');
 
   // SCHEDULES
-  const schedules:Schedule[] = [
+  const schedules: Schedule[] = [
     {
       id: "1",
       days: 6543210,
@@ -283,270 +282,286 @@ async function main() {
 
   // ORGANIZATION
   const orgs:
-  (Prisma.OrganizationCreateInput & {
-    address: Prisma.AddressCreateNestedOneWithoutOrganizationInput;
-    schedule: Prisma.ScheduleCreateNestedOneWithoutOrganizationInput;
-    images: Prisma.ImageOrganizationCreateNestedManyWithoutOrganizationInput;
-    // products: Prisma.ProductCreateInput[];
-    // categoryList: Prisma.CategoryListCreateInput;
-})[]
-= [
-    {
-      "name":"Curaleaf",
-      "stripeAccountId":null,
-      "stripeOnboardingComplete":false,
-      "dialCode":"1",
-      "phone":"1232356456",
-      "subdomain": {
-        "connectOrCreate": {
-          "where": {
-            "id": "curaleaf"
-          },
-          "create": {
-            "id": "curaleaf",
-            "isValid": true,
-            "createdAt": new Date(),
-            "updatedAt": new Date()
-          }
-        }
-      },
-      "vendor": {
-        "connectOrCreate": {
-          "where": {
-            "id": "2"
-          },
-          "create": {
-            "id": "2",
-            "name": "Curaleaf",
-            "publicName": "Curaleaf",
-            "createdAt": new Date(),
-            "updatedAt": new Date()
-          }
-        }
-      },
-      "termsAccepted":false,
-      "address":{
-        "create": {
-          "street1":"407 W Chestnut St",
-          "street2":"",
-          "city":"Lancaster",
-          "state":"Pennsylvania",
-          "zipcode":17603,
-          "country":"United States",
-          "countryCode":"US",
-          "coordinates": {
+    (Prisma.OrganizationCreateInput & {
+      address: Prisma.AddressCreateNestedOneWithoutOrganizationInput;
+      schedule: Prisma.ScheduleCreateNestedOneWithoutOrganizationInput;
+      images: Prisma.ImageOrganizationCreateNestedManyWithoutOrganizationInput;
+      // products: Prisma.ProductCreateInput[];
+      // categoryList: Prisma.CategoryListCreateInput;
+    })[]
+    = [
+      {
+        "name": "Curaleaf",
+        "stripeAccountId": '1345',
+        "stripeOnboardingComplete": false,
+        "dialCode": "1",
+        "phone": "1232356456",
+        "subdomain": {
+          "connectOrCreate": {
+            "where": {
+              "id": "curaleaf"
+            },
             "create": {
-              "radius": 10000,
-              "latitude": 40.0411,
-              "longitude": -76.3133,
+              "id": "curaleaf",
+              "isValid": true,
               "createdAt": new Date(),
               "updatedAt": new Date()
             }
-          },
+          }
+        },
+        "vendor": {
+          "connectOrCreate": {
+            "where": {
+              "id": "2"
+            },
+            "create": {
+              "id": "2",
+              "name": "Curaleaf",
+              "publicName": "Curaleaf",
+              "createdAt": new Date(),
+              "updatedAt": new Date()
+            }
+          }
+        },
+        "termsAccepted": false,
+        "address": {
+          "create": {
+            "street1": "407 W Chest St",
+            "street2": "",
+            "city": "Lancaster",
+            "state": "Pennsylvania",
+            "zipcode": 17603,
+            "country": "United States",
+            "countryCode": "US",
+            "coordinates": {
+              "create": {
+                "radius": 10000,
+                "latitude": 40.0411,
+                "longitude": -76.3133,
+                "createdAt": new Date(),
+                "updatedAt": new Date()
+              }
+            },
+          }
+        },
+        "images": {
+          "createMany": {
+            "data": [
+              {
+                "location": "https://mgmagazine.com/wp-content/uploads/2021/05/CURALEAF_logo_mg_Magazine_mgretailler-e1675120877801.jpg",
+                "blurhash": ""
+              }
+            ]
+          }
+        },
+        "schedule": {
+          "create": {
+            "days": 1234,
+            "openAt": 10,
+            "closeAt": 18
+          }
         }
       },
-      "images": {
-        "createMany": {
-          "data": [
+      {
+        "name": "SunnySide",
+        "stripeAccountId": null,
+        "stripeOnboardingComplete": false,
+        "dialCode": "1",
+        "phone": "1232343333",
+        "vendor": {
+          "connectOrCreate": {
+            "where": {
+              "id": "3"
+            },
+            "create": {
+              "id": "3",
+              "name": "SunnySide",
+              "publicName": "SunnySide",
+              "createdAt": new Date(),
+              "updatedAt": new Date()
+            }
+          }
+        },
+        "subdomain": {
+          "connectOrCreate": {
+            "where": {
+              "id": "sunnyside"
+            },
+            "create": {
+              "id": "sunnyside",
+              "isValid": true,
+              "createdAt": new Date(),
+              "updatedAt": new Date()
+            }
+          }
+        },
+        "termsAccepted": false,
+        "address": {
+          "create": {
+            "street1": "1618 E Oliver St",
+            "street2": "",
+            "city": "Baltimore",
+            "state": "Maryland",
+            "zipcode": 21213,
+            "country": "United States",
+            "countryCode": "US",
+            "coordinates": {
+              "create": {
+                "radius": 10000,
+                "latitude": 39.3077,
+                "longitude": -76.5958,
+                "createdAt": new Date(),
+                "updatedAt": new Date()
+              }
+            }
+          }
+        },
+        "images": {
+          "create": [
             {
-              "location": "https://mgmagazine.com/wp-content/uploads/2021/05/CURALEAF_logo_mg_Magazine_mgretailler-e1675120877801.jpg",
-              "blurhash":""
+              "location": "https://images.prismic.io/sunnyside/87e74ff1-f496-4705-a5a5-0aca361a82cc_SS_FB_OpenGraph_2x.jpg?auto=compress,format",
+              "blurhash": ""
             }
-          ]
-        }
-      },
-      "schedule": {
-        "create": {
-          "days":1234,
-          "openAt":10,
-          "closeAt":18
-        }
-      }
-   },
-    {
-      "name":"SunnySide",
-      "stripeAccountId":null,
-      "stripeOnboardingComplete":false,
-      "dialCode":"1",
-      "phone":"1232343456",
-      "vendor": {
-        "connectOrCreate": {
-          "where": {
-            "id": "3"
-          },
+          ],
+        },
+        "schedule": {
           "create": {
-            "id": "3",
-            "name": "SunnySide",
-            "publicName": "SunnySide",
-            "createdAt": new Date(),
-            "updatedAt": new Date()
+            "days": 1234560,
+            "openAt": 9,
+            "closeAt": 24
           }
         }
       },
-      "subdomain": {
-        "connectOrCreate": {
-          "where": {
-            "id": "sunnyside"
-          },
-          "create": {
-            "id": "sunnyside",
-            "isValid": true,
-            "createdAt": new Date(),
-            "updatedAt": new Date()
-          }
-        }
-      },
-      "termsAccepted":false,
-      "address":{
-        "create": {
-         "street1":"1618 E Oliver St",
-         "street2":"",
-         "city":"Baltimore",
-         "state":"Maryland",
-         "zipcode":21213,
-         "country":"United States",
-         "countryCode":"US",
-         "coordinates": {
+      {
+        "name": "McNuggs",
+        "stripeAccountId": "acct_1JX2Zz2eZvKYlo2C",
+        "stripeOnboardingComplete": true,
+        "dialCode": "1",
+        "phone": "2475895745",
+        "termsAccepted": false,
+        "subdomain": {
+          "connectOrCreate": {
+            "where": {
+              "id": "mcnuggs"
+            },
             "create": {
-              "radius": 10000,
-              "latitude": 39.3077, 
-              "longitude": -76.5958,
+              "id": "mcnuggs",
+              "isValid": true,
               "createdAt": new Date(),
               "updatedAt": new Date()
             }
           }
-        }
-      },
-      "images":{
-        "create": [
-          {
-              "location": "https://images.prismic.io/sunnyside/87e74ff1-f496-4705-a5a5-0aca361a82cc_SS_FB_OpenGraph_2x.jpg?auto=compress,format",
-              "blurhash":""
-          }
-        ],
-      },
-      "schedule": {
-        "create": {
-         "days":1234560,
-         "openAt":9,
-         "closeAt":24
-        }
-      }
-    },
-    {
-      "name":"McNuggs",
-      "stripeAccountId":"acct_1JX2Zz2eZvKYlo2C",
-      "stripeOnboardingComplete":true,
-      "dialCode":"1",
-      "phone":"2475895745",
-      "termsAccepted":false,
-      "subdomain": {
-        "connectOrCreate": {
-          "where": {
-            "id": "mcnuggs"
-          },
-          "create": {
-            "id": "mcnuggs",
-            "isValid": true,
-            "createdAt": new Date(),
-            "updatedAt": new Date()
-          }
-        }
-      },
-      "vendor": {
-        "connectOrCreate": {
-          "where": {
-            "id": "4"
-          },
-          "create": {
-            "id": "4",
-            "name": "McNuggs",
-            "publicName": "McNuggs",
-            "createdAt": new Date(),
-            "updatedAt": new Date()
-          }
-        }
-      },
-      "address":{
-        "create": {
-         "street1":"2667 Solomons Island Rd",
-         "street2":"",
-         "city":"Annapolis",
-         "state":"Maryland",
-         "zipcode":21037,
-         "country":"United States",
-         "countryCode":"US",
-         "coordinates": {
+        },
+        "vendor": {
+          "connectOrCreate": {
+            "where": {
+              "id": "4"
+            },
             "create": {
-              "radius": 10000,
-              "latitude": 39.2904,
-              "longitude": -76.6122,
-              "createdAt": new Date,
-              "updatedAt": new Date,
+              "id": "4",
+              "name": "McNuggs",
+              "publicName": "McNuggs",
+              "createdAt": new Date(),
+              "updatedAt": new Date()
             }
           }
-        }
-      },
-      "images": {
-        "create": [
-           {
-             "location": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxzNuI7e1ZEcBvNPke7da5pcvomN-21e2-zERnn0Z6p2ed4AvkOFXPoSEqtIK1V6tl8wY&usqp=CAU",
-            "blurhash":""
-           }
-        ],
-      },
-      "schedule":{
-        "create": {
-         "days":1234560,
-         "openAt":9,
-         "closeAt":24
+        },
+        "address": {
+          "create": {
+            "street1": "2667 Solomons Island Rd",
+            "street2": "",
+            "city": "Annapolis",
+            "state": "Maryland",
+            "zipcode": 21037,
+            "country": "United States",
+            "countryCode": "US",
+            "coordinates": {
+              "create": {
+                "radius": 10000,
+                "latitude": 39.2904,
+                "longitude": -76.6122,
+                "createdAt": new Date,
+                "updatedAt": new Date,
+              }
+            }
+          }
+        },
+        "images": {
+          "create": [
+            {
+              "location": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxzNuI7e1ZEcBvNPke7da5pcvomN-21e2-zERnn0Z6p2ed4AvkOFXPoSEqtIK1V6tl8wY&usqp=CAU",
+              "blurhash": ""
+            }
+          ],
+        },
+        "schedule": {
+          "create": {
+            "days": 1234560,
+            "openAt": 9,
+            "closeAt": 24
+          }
         }
       }
-    }
-  ];
+    ];
 
-  orgs.forEach(async(org) => {
+  orgs.forEach(async (org) => {
     try {
-      
-      await prisma.organization.create({
-        data: org
-      })
-      .then(async(organization) => {
-        console.info('create prisma.organization record: ' + org.name + ': ' + organization.id);
-        
-        await axios.post<Organization>(process?.env?.SERVER_LOCATION_URL + '/api/v1/serve-local/organizations/record' as string, {
-          id: organization.id,
-          name: organization.name,
-          dialCode: organization.dialCode,
-          phone: organization.phone,
-          address: {
-            street1: org.address.create?.street1,
-            street2: org.address.create?.street2,
-            city: org.address.create?.city,
-            state: org.address.create?.state,
-            zipcode: org.address.create?.zipcode,
-            country: org.address.create?.country,
-            countryCode: org.address.create?.countryCode,
-            coordinates: {
-              latitude: org.address.create?.coordinates?.create?.latitude,
-              longitude: org.address.create?.coordinates?.create?.longitude,
-            }
+      const
+        organization = await prisma.organization.create({
+          data: {
+            "name": org.name,
+            "stripeAccountId": org.stripeAccountId,
+            "stripeOnboardingComplete": org.stripeOnboardingComplete,
+            "dialCode": org.dialCode,
+            "phone": org.phone,
+            "vendor": org.vendor,
+            "subdomain": org.subdomain,
+            "termsAccepted": org.termsAccepted,
+            "address": org.address,
+            "images": org.images,
+            "schedule": org.schedule,
           },
-          vendorId: organization.vendorId,
-          subdomain: organization.subdomainId,
-        });
-        console.info('create mongo.organization_geolocate record: ' + organization.name + ': ' + organization.id);
-      });
-        
+        })
+
+      console.info('create prisma.organization record: ' + organization.name + ': ' + organization.id);
+
+      await axios.post<Prisma.OrganizationCreateInput & {
+        address: Prisma.AddressCreateNestedOneWithoutOrganizationInput;
+        schedule: Prisma.ScheduleCreateNestedOneWithoutOrganizationInput;
+        images: Prisma.ImageOrganizationCreateNestedManyWithoutOrganizationInput;
+      }>(process?.env?.SERVER_LOCATION_URL + '/api/v1/serve-local/organizations/record' as string, {
+        id: organization.id,
+        name: organization.name,
+        dialCode: organization.dialCode,
+        phone: organization.phone,
+        address: {
+          street1: org.address.create?.street1,
+          street2: org.address.create?.street2,
+          city: org.address.create?.city,
+          state: org.address.create?.state,
+          zipcode: org.address.create?.zipcode,
+          country: org.address.create?.country,
+          countryCode: org.address.create?.countryCode,
+          coordinates: {
+            latitude: org.address.create?.coordinates?.create?.latitude,
+            longitude: org.address.create?.coordinates?.create?.longitude,
+          }
+        },
+        vendorId: organization.vendorId,
+        subdomain: organization.subdomainId,
+      },
+        { validateStatus: status => (status >= 200 && status <= 302) || status == 404 });
+
+      console.info('create mongo.organization_geolocate record: ' + organization.name + ': ' + organization.id);
+
     } catch (error) {
       console.error(error);
       throw new Error('Seed Error: Organization' + org.name);
     }
   });
-  console.info('create prisma.organization records');
 
   // SUBDOMAIN
-  const subdomains:SubDomain[] = [
+  const subdomains: SubDomain[] = [
     {
       id: "",
       isValid: true,
@@ -678,11 +693,11 @@ async function main() {
   ]
 
   await prisma.categoryList.createMany({
-  data: categoryLists,
-  skipDuplicates: true,
+    data: categoryLists,
+    skipDuplicates: true,
   });
   console.info('create prisma.categoryList records');
-  
+
   // DRIVERS
   const drivers: Driver[] = [
     {
@@ -690,7 +705,7 @@ async function main() {
       email: "bmejiadeveloper2@gmail.com",
       createdAt: new Date(),
       updatedAt: new Date(),
-    },      
+    },
   ];
 
   drivers.forEach(async (driver) => await prisma.driver.upsert({
@@ -712,8 +727,6 @@ async function main() {
             isLegalAge: null,
             idVerified: false,
             isSignUpComplete: false,
-            passwordHash: "",
-            passwordResetToken: "null",
             dialCode: "1",
             idFrontImage: "",
             idBackImage: "",
@@ -736,7 +749,7 @@ async function main() {
                 },
               }
             },
-            imageUser: {
+            profilePicture: {
               connectOrCreate: {
                 where: {
                   id: "1"
@@ -772,8 +785,6 @@ async function main() {
             isLegalAge: null,
             idVerified: false,
             isSignUpComplete: false,
-            passwordHash: "",
-            passwordResetToken: "null",
             dialCode: "1",
             idFrontImage: "",
             idBackImage: "",
@@ -796,7 +807,7 @@ async function main() {
                 },
               }
             },
-            imageUser: {
+            profilePicture: {
               connectOrCreate: {
                 where: {
                   id: "1"
@@ -818,6 +829,28 @@ async function main() {
   }));
   console.info('create prisma.driver records');
 
+  // ROUTES
+  const routes: Route[] = [
+    {
+      driverId: 'bf346k4u7x2b2hhr6wvgiwao',
+      orderId: '1',
+    },
+    {
+      driverId: 'bf346k4u7x2b2hhr6wvgiwao',
+      orderId: '2',
+    },
+    {
+      driverId: 'bf346k4u7x2b2hhr6wvgiwao',
+      orderId: '3',
+    }
+  ]
+
+  await prisma.route.createMany({
+    data: routes,
+    skipDuplicates: true,
+  });
+  console.info('create prisma.route records');
+
   // ORDER
   const orders: Order[] = [
     {
@@ -834,10 +867,16 @@ async function main() {
       purchaseId: '1',
       routeId: null,
       isDeliveredOrder: false,
-      isCustomerReceivedOrder: false, 
-      isCompleted: false, 
+      isCustomerReceivedOrder: false,
+      isCompleted: false,
       createdAt: new Date(),
       updatedAt: new Date(),
+      isDriverAssigned: false,
+      driverAssignedAt: new Date(),
+      isProductPickedUp: false,
+      productPickedUpAt: new Date(),
+      customerReceivedOrderAt: new Date(),
+      completedAt: new Date(),
       deliveredAt: new Date(),
     },
     {
@@ -854,10 +893,16 @@ async function main() {
       purchaseId: '2',
       routeId: null,
       isDeliveredOrder: false,
-      isCustomerReceivedOrder: false, 
-      isCompleted: false, 
+      isCustomerReceivedOrder: false,
+      isCompleted: false,
       createdAt: new Date(),
       updatedAt: new Date(),
+      isDriverAssigned: false,
+      driverAssignedAt: new Date(),
+      isProductPickedUp: false,
+      productPickedUpAt: new Date(),
+      customerReceivedOrderAt: new Date(),
+      completedAt: new Date(),
       deliveredAt: new Date(),
     },
     {
@@ -872,12 +917,18 @@ async function main() {
       driverId: "1",
       organizationId: "2",
       isDeliveredOrder: false,
-      isCustomerReceivedOrder: false, 
-      isCompleted: false, 
+      isCustomerReceivedOrder: false,
+      isCompleted: false,
       purchaseId: null,
       routeId: null,
       createdAt: new Date(),
       updatedAt: new Date(),
+      isDriverAssigned: false,
+      driverAssignedAt: new Date(),
+      isProductPickedUp: false,
+      productPickedUpAt: new Date(),
+      customerReceivedOrderAt: new Date(),
+      completedAt: new Date(),
       deliveredAt: new Date(),
     },
     {
@@ -894,10 +945,16 @@ async function main() {
       purchaseId: null,
       routeId: null,
       isDeliveredOrder: false,
-      isCustomerReceivedOrder: false, 
-      isCompleted: false, 
+      isCustomerReceivedOrder: false,
+      isCompleted: false,
       createdAt: new Date(),
       updatedAt: new Date(),
+      isDriverAssigned: false,
+      driverAssignedAt: new Date(),
+      isProductPickedUp: false,
+      productPickedUpAt: new Date(),
+      customerReceivedOrderAt: new Date(),
+      completedAt: new Date(),
       deliveredAt: new Date(),
     },
     {
@@ -914,10 +971,16 @@ async function main() {
       routeId: null,
       organizationId: "2",
       isDeliveredOrder: false,
-      isCustomerReceivedOrder: false, 
-      isCompleted: false, 
+      isCustomerReceivedOrder: false,
+      isCompleted: false,
       createdAt: new Date(),
       updatedAt: new Date(),
+      isDriverAssigned: false,
+      driverAssignedAt: new Date(),
+      isProductPickedUp: false,
+      productPickedUpAt: new Date(),
+      customerReceivedOrderAt: new Date(),
+      completedAt: new Date(),
       deliveredAt: new Date(),
     },
     {
@@ -932,12 +995,18 @@ async function main() {
       driverId: "2",
       organizationId: "2",
       isDeliveredOrder: false,
-      isCustomerReceivedOrder: false, 
-      isCompleted: false, 
+      isCustomerReceivedOrder: false,
+      isCompleted: false,
       purchaseId: null,
       routeId: null,
       createdAt: new Date(),
       updatedAt: new Date(),
+      isDriverAssigned: false,
+      driverAssignedAt: new Date(),
+      isProductPickedUp: false,
+      productPickedUpAt: new Date(),
+      customerReceivedOrderAt: new Date(),
+      completedAt: new Date(),
       deliveredAt: new Date(),
     },
   ];
@@ -945,11 +1014,11 @@ async function main() {
   await prisma.order.createMany({
     data: orders,
     skipDuplicates: true,
-  });  
+  });
   console.info('create prisma.order records');
 
   // MEMBERSHIP
-  const memberships:Membership[]  = [
+  const memberships: Membership[] = [
     {
       id: '1',
       role: "MEMBER",
@@ -1003,6 +1072,7 @@ async function main() {
       stock: 5,
       productId: '1',
       organizationId: '2',
+      rating: 4.5,
       organizationName: 'Curaleaf',
       quantity: 3,
       isDiscount: true,
@@ -1019,9 +1089,10 @@ async function main() {
       currency: "USD",
       basePrice: 17999,
       discount: 5,
+      rating: 4.5,
       stock: 9,
       productId: '1',
-          organizationId: '2',
+      organizationId: '2',
       organizationName: 'Curaleaf',
       quantity: 3,
       isDiscount: true,
@@ -1041,6 +1112,7 @@ async function main() {
       stock: 5,
       productId: '2',
       organizationId: '2',
+      rating: 4.5,
       organizationName: 'Curaleaf',
       quantity: 3,
       isDiscount: true,
@@ -1063,6 +1135,7 @@ async function main() {
       organizationName: 'Curaleaf',
       quantity: 3,
       isDiscount: true,
+      rating: 4.5,
       salePrice: 6499,
       sku: 1234567,
       createdAt: new Date(),
@@ -1076,6 +1149,7 @@ async function main() {
       currency: "USD",
       basePrice: 6999,
       discount: 5,
+      rating: 4.5,
       stock: 5,
       productId: '4',
       organizationId: '2',
@@ -1099,6 +1173,7 @@ async function main() {
       productId: '5',
       organizationId: '2',
       quantity: 3,
+      rating: 4.5,
       isDiscount: true,
       salePrice: 6499,
       organizationName: 'Curaleaf',
@@ -1113,6 +1188,7 @@ async function main() {
       size: 3.5,
       currency: "USD",
       basePrice: 6999,
+      rating: 4.5,
       discount: 5,
       stock: 5,
       productId: '6',
@@ -1134,6 +1210,7 @@ async function main() {
       basePrice: 6999,
       discount: 5,
       stock: 5,
+      rating: 4.5,
       productId: '7',
       organizationId: '2',
       organizationName: 'Curaleaf',
@@ -1153,7 +1230,7 @@ async function main() {
   console.info('create prisma.productVariant records');
 
   // PRODUCT
-  const products:Product[] = [
+  const products: Product[] = [
     {
       id: "1",
       name: "King OG",
@@ -1278,19 +1355,19 @@ async function main() {
   ];
 
   products.map(async (product) => {
-  await prisma.product.create({
-    data: {
-      ...product,
-      categories: {
-        connect: [
-          { id: '9' }
-        ]
-      },
-      // variants: {
-      //   connect: variants.filter(variant => variant.productId === product.id).map(variant => ({ id: variant.id }))
-      // }
-    }
-  })
+    await prisma.product.create({
+      data: {
+        ...product,
+        categories: {
+          connect: [
+            { id: '9' }
+          ]
+        },
+        // variants: {
+        //   connect: variants.filter(variant => variant.productId === product.id).map(variant => ({ id: variant.id }))
+        // }
+      }
+    })
   });
   console.info('create prisma.product records');
 
@@ -1339,7 +1416,7 @@ async function main() {
     skipDuplicates: true,
   });
   console.info('create prisma.imageOrganization records');
-  
+
   // IMAGEPRODUCT
   const ImageProducts: ImageProduct[] = [
     {
@@ -1431,6 +1508,54 @@ async function main() {
     skipDuplicates: true,
   });
   console.info('create prisma.imageUser records');
+
+
+  // REVIEWS
+  // need to update this seed for user information, will fail seed as it is now - 06182023
+  const reviews: ReviewWithUserDetails[] = [
+    {
+      id: '1',
+      rating: 5,
+      comment: 'Great thing!',
+      productId: '1',
+      userId: 'bf346k4u7xq030hr6wvgiwao',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+
+      user: {
+        id: 'bf346k4u7xq030hr6wvgiwao',
+        username: "Sammy223",
+        profilePicture: {
+          id: "2",
+          userId: "bf346k4u7xq030hr6wvgiwao",
+          location: "https://www.baltimoremagazine.com/wp-content/uploads/2019/12/baltimore-oriole-s52-11-018-l-0.jpg",
+          blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      }
+    }
+  ];
+
+  reviews.forEach(async (review) => await prisma.review.create({
+    data: {
+      id: review.id,
+      rating: review.rating,
+      comment: review.comment,
+      user: {
+        connect: {
+          id: review.userId
+        }
+      },
+      product: {
+        connect: {
+          id: review.productId
+        }
+      }
+    }
+  }));
+
+  console.info('create prisma.review records');
 }
 
 main()

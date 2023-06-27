@@ -6,13 +6,13 @@ import { Paragraph } from './Typography';
 export interface CheckBoxProps extends React.InputHTMLAttributes<HTMLInputElement> {
     LabelComponent?: ({children}: {children: string}) => JSX.Element;
     className?: string;
-    helperText?: string;
+    helperText?: string | false;
     label?: string;
     error?: boolean;
     onChange: React.ChangeEventHandler<HTMLInputElement>;
 }
 
-function CheckBox({ LabelComponent, onChange, error, label, className, name, checked, helperText }: CheckBoxProps) {
+function CheckBox({ LabelComponent, onChange, error, label, className, helperText, ...inputProps }: CheckBoxProps) {
 
     const styles = {
         checkboxContainer: 'flex flex-row items-center space-x-2 py-8 md:py-2 m-auto self-center md:self-start cursor-pointer',
@@ -24,9 +24,8 @@ function CheckBox({ LabelComponent, onChange, error, label, className, name, che
                 className='cursor-pointer'
                 style={{ height: '30px', width: '30px' }}
                 type="checkbox"
-                name={name}
                 onChange={onChange}
-                checked={checked}
+                { ...inputProps }
             />
             <FlexBox className={twMerge('flex-col', styles.helperText)}>
                 {/* <Label>{helperText || label}</Label> */}

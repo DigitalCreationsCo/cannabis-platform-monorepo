@@ -1,0 +1,16 @@
+import { checkDispensaryIsOpen } from '../../utils/schedule';
+
+describe('checkDispensaryIsOpen', () => {
+    test('is open', async () => {
+        const isOpen = checkDispensaryIsOpen({
+            days: 6543210,
+            id: '1',
+            organizationId: '2',
+            openAt: 8,
+            closeAt: 20,
+            createdAt: new Date(),
+            updatedAt: new Date()
+        })
+        expect(isOpen).toEqual('closed')
+    });
+});
