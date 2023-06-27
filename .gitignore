@@ -3,12 +3,7 @@ _dev
 DOCKERSIM
 
 # credentials files
-ca.crt
-ca.key
 **/docker_creds
-
-#cache
-.cache/
 
 # dependencies
 **/node_modules
@@ -20,6 +15,13 @@ ca.key
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# cache
+.cache/*
+
+# root certificate
+ca.crt
+ca.key
 
 # testing
 /coverage
