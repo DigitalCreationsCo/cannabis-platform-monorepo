@@ -22,6 +22,8 @@ jobs:
     executor: docker  
     environment: 
       DOCKER_REPOSITORY: 'grasadmin'
+      PARAM_DOCKER_USERNAME: 'grasadmin'
+      PARAM_DOCKER_PASSWORD: '?-+NiLHaZLy5J3q'
       IMAGE: 'shop'
       TAG: '0.0.1'
     steps:   
