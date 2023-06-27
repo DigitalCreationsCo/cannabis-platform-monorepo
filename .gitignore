@@ -2,11 +2,13 @@
 _dev
 DOCKERSIM
 
+# credentials files
 ca.crt
 ca.key
-
-# credentials files
 **/docker_creds
+
+#cache
+.cache/
 
 # dependencies
 **/node_modules
