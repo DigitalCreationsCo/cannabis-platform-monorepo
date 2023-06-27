@@ -20,13 +20,6 @@ jobs:
           path: ./test-results/
   build-and-publish-docker-image:
     executor: docker  
-    environment: 
-      PARAM_REGISTRY: ${CONTEXT_DOCKER_REGISTRY}
-      DOCKER_REPOSITORY: ${CONTEXT_DOCKER_REPOSITORY}
-      PARAM_DOCKER_USERNAME: ${CONTEXT_PARAM_DOCKER_USERNAME}
-      PARAM_DOCKER_PASSWORD: ${PARAM_DOCKER_PASSWORD}
-      IMAGE: 'shop'
-      TAG: '0.0.1'
     steps:   
       - docker/publish
 workflows:
@@ -36,9 +29,10 @@ workflows:
       - docker/publish:
           dockerfile: Dockerfile.app
           image: 'grasadmin/shop'
-          docker-username: PARAM_CONTEXT_DOCKER_USERNAME
-          docker-password: PARAM_CONTEXT_DOCKER_PASSWORD
-          registry: PARAM_CONTEXT_DOCKER_REGISTRY
+          tag: '0.0.1'
+          docker-username: CONTEXT_PARAM_DOCKER_USERNAME
+          docker-password: CONTEXT_PARAM_DOCKER_PASSWORD
+          registry: $CONTEXT_DOCKER_REGISTRY
           extra_build_args: '--build-arg BUILD_CONTEXT=shop --build-arg PORT=3000'
           requires:
             - test-node
