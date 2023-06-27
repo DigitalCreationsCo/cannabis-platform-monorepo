@@ -1,5 +1,4 @@
 import {
-  getDashboardSite,
   getShopSite,
   modalActions,
   modalTypes,
@@ -40,38 +39,17 @@ function TopBar({ signOut }: TopBarProps) {
     );
   }
 
-  // function openCartModal() {
-  //     console.log('dispatch: open cart Modal');
-  //     dispatch(
-  //         modalActions.openModal({
-  //             modalType: modalTypes.cartModal
-  //         })
-  //     );
-  // }
-  function getUserHome() {
-    const dashboardDomain = process.env.NEXT_PUBLIC_DASHBOARD_APP_URL;
-
-    if (
-      user.memberships?.[0]?.role.toLocaleUpperCase() === 'ADMIN' ||
-      user.memberships?.[0]?.role.toLocaleUpperCase() === 'OWNER'
-    )
-      return getDashboardSite('/dashboard');
-    else if (window.location.href.startsWith(dashboardDomain || 'app'))
-      return getDashboardSite('/');
-    else return getShopSite('/');
-  }
-
   return (
     <div className={twMerge(styles.TOPBAR.topbar)}>
       <div className="pl-2 flex items-center">
-        <Link href={getUserHome()} passHref>
+        <Link href={'/'} passHref>
           <Image alt="Gras" width={45} height={45} src={logo} />
         </Link>
-        <Link href={getUserHome()}>
+        <Link href={'/'}>
           <H2 className="pt-0.5">Gras</H2>
         </Link>
       </div>
-      <Link href={getUserHome()}>
+      <Link href={'/'}>
         <Paragraph className={twMerge(styles.TOPBAR.tagline)}>
           Cannabis Marketplace
         </Paragraph>
@@ -161,5 +139,14 @@ function TopBar({ signOut }: TopBarProps) {
     );
   }
 }
+
+// function openCartModal() {
+//     console.log('dispatch: open cart Modal');
+//     dispatch(
+//         modalActions.openModal({
+//             modalType: modalTypes.cartModal
+//         })
+//     );
+// }
 
 export default TopBar;

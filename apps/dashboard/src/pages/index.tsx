@@ -1,9 +1,10 @@
-import { getDashboardSite } from '@cd/core-lib';
+import { getDashboardSite, TextContent } from '@cd/core-lib';
 import {
   Button,
   Center,
   FlexBox,
   H1,
+  H3,
   H5,
   LayoutContextProps,
   Page,
@@ -17,26 +18,22 @@ import backdrop from '/public/marijuana-backdrop.png';
 
 function WelcomePage() {
   return (
-    <Page className="p-0 md:pt-0 lg:p-0 border-b">
-      <ImageBackDrop src={backdrop}>
+    <ImageBackDrop src={backdrop}>
+      <Page className="bg-transparent m-0 p-0 md:p-0 lg:p-0 border-b">
         <Center className="space-y-2">
           <FlexBox className="items-center">
-            <H1 color="light">Welcome to Gras</H1>
+            <FlexBox className="md:flex-row">
+              <H3 className="whitespace-pre md:text-4xl" color="light">
+                {`Welcome to `}
+              </H3>
+              <H1 color="light">Gras</H1>
+            </FlexBox>
             <H5 color="light">Sign in to use this app</H5>
             <SignInButton size="lg" bg="primary" hover="primary-light" />
           </FlexBox>
-          {/* <H5 color="light">
-                        {`If you are a new dispensary, 
-                        create a Dispensary Account here`}
-                    </H5>
-                    <Link href="/signup/create-dispensary-account">
-                        <Button size="lg" bg="primary" transparent className="hover:bg-[#0b7529]">
-                            <Paragraph color="light">{`Create a
-                             Dispensary Account`}</Paragraph>
-                        </Button>
-                    </Link> */}
-          <FlexBox className="items-center">
-            <H5 color="light">{`Are you a dispensary? Get started here.`}</H5>
+
+          <FlexBox className="items-center pb-4">
+            <H5 color="light">{TextContent.account.ARE_YOU_A_DISPENSARY}</H5>
             <Link href={getDashboardSite('/signup/create-dispensary-account')}>
               <Button
                 size="lg"
@@ -51,8 +48,8 @@ function WelcomePage() {
             </Link>
           </FlexBox>
         </Center>
-      </ImageBackDrop>
-    </Page>
+      </Page>
+    </ImageBackDrop>
   );
 }
 
@@ -61,12 +58,7 @@ const ImageBackDrop = ({
   children,
 }: { src: string | StaticImageData } & PropsWithChildren) => {
   return (
-    <div
-      className="flex grow"
-      style={{
-        clipPath: 'inset(0 0 0 0)',
-      }}
-    >
+    <div className="flex grow border h-full relative">
       <Image
         src={src}
         alt=""
@@ -75,6 +67,7 @@ const ImageBackDrop = ({
         priority
       />
       <div
+        className="flex grow h-full"
         style={{
           zIndex: -1,
           backgroundColor: 'rgba(0,0,0,0.4)',
