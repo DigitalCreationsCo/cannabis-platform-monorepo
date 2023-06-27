@@ -21,9 +21,10 @@ jobs:
   build-and-publish-docker-image:
     executor: docker  
     environment: 
-      DOCKER_REPOSITORY: 'grasadmin'
-      PARAM_DOCKER_USERNAME: 'grasadmin'
-      PARAM_DOCKER_PASSWORD: '?-+NiLHaZLy5J3q'
+      REGISTRY: ${CONTEXT_DOCKER_REGISTRY}
+      DOCKER_REPOSITORY: ${CONTEXT_DOCKER_REPOSITORY}
+      PARAM_DOCKER_USERNAME: ${CONTEXT_PARAM_DOCKER_USERNAME}
+      PARAM_DOCKER_PASSWORD: ${PARAM_DOCKER_PASSWORD}
       IMAGE: 'shop'
       TAG: '0.0.1'
     steps:   
@@ -36,6 +37,6 @@ workflows:
           dockerfile: Dockerfile.app
           image: $DOCKER_REPOSITORY/$IMAGE:$TAG
           path: /home/circleci/project/Dockerfile.app
-          registry: docker.io
+          registry: $REGISTRY
           requires:
             - test-node
