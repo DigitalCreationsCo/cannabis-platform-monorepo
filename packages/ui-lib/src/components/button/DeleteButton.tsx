@@ -5,11 +5,11 @@ import IconButton from './IconButton';
 
 type DeleteButtonProps = {
     className?: string;
-    size?: number;
+    iconSize?: number;
     onClick: ReactEventHandler;
     label?: boolean;
 };
-export default function DeleteButton({ className, onClick, size = 12, label = true }: DeleteButtonProps) {
+export default function DeleteButton({ className, onClick, iconSize = 12, label = true }: DeleteButtonProps) {
     return (
         <IconButton
             Icon={Icons.XIcon}
@@ -17,7 +17,7 @@ export default function DeleteButton({ className, onClick, size = 12, label = tr
                 'max-w-[50px] md:max-w-[120px] text-primary sm:space-x-2 min-h-full sm:min-h-max',
                 className
             )}
-            size={size}
+            iconSize={iconSize}
             type="button"
             onClick={onClick}
         >

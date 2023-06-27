@@ -1,15 +1,14 @@
-import { Center, H1, H3, Page } from "@cd/ui-lib/components";
+import { Center, H3, H6, Page } from "@cd/ui-lib/components";
 
 function AgeNotEnough() {
     return (
         <Page>
-            <Center>
-                <H1>Thanks for checking out Delivery by Gras!</H1>
-                <H3>
+            <Center className="px-4 sm:w-[440px] mx-auto">
+                <H3>Thank you for choosing Delivery by Gras!</H3>
+                <H6>
                     Unfortunately, you're not old enough to enjoy cannabis and hemp products, according to federal and state laws.
-                    Thanks for your interest in Delivery by Gras.
-                    Please check back when you're 21 years or older.
-                </H3>
+                    Please come back when you're 21 years or older. 
+                </H6>
             </Center>
         </Page>
     );

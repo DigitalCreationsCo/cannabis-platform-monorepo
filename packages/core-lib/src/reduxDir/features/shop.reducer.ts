@@ -9,19 +9,19 @@ import { LocationStateProps } from './location.reducer';
 
 export const getInitialDispensaries = createAsyncThunk(
   "shop/getInitialDispensaries",
-  async (_, {getState, rejectWithValue}) => {
+  async (_, { getState, rejectWithValue }) => {
     try {
 
-      const { location } = getState() as { location: LocationStateProps},
-      { radius } = location;
+      const { location } = getState() as { location: LocationStateProps },
+        { radius } = location;
       const response = await axios.get(
-        urlBuilder.main.organizationsByZipCode(21037, 4, radius), { 
-          headers: {
-            // Accept: "application/json",
-            // "Content-Type": "application/json",
-          }
-        });
-        return response.data
+        urlBuilder.main.organizationsByZipCode(21037, 4, radius), {
+        headers: {
+          // Accept: "application/json",
+          // "Content-Type": "application/json",
+        }
+      });
+      return response.data
     } catch (error) {
       console.error("getInitialDispensaries: ", error);
       return rejectWithValue("Could not get initial dispensaries");
@@ -32,25 +32,25 @@ export const getInitialDispensaries = createAsyncThunk(
 // TODO: IMPROVE THIS, SO IT ONLY FETCHES FOR DATA THAT IS NOT ALREADY IN STATE
 export const getDispensariesLocal = createAsyncThunk<OrganizationWithDetailsAndMetadata[], void>(
   "shop/getDispensariesLocal",
-  async (_, {getState, rejectWithValue}) => {
+  async (_, { getState, rejectWithValue }) => {
     try {
-      
-      const { location } = getState() as { location: LocationStateProps};
-      
+
+      const { location } = getState() as { location: LocationStateProps };
+
       const { selectLocationType, radius } = location;
-      const {coordinates} = location[selectLocationType].address
-        
+      const { coordinates } = location[selectLocationType].address
+
       const response = await axios.post(
         urlBuilder.location.organizationsLocal(), {
-          userLocation: coordinates,
-          proximityRadius: radius,
-        }, { 
-          headers: {
-            // Accept: "application/json",
-            // "Content-Type": "application/json",
-          }
-        });
-        return response.data
+        userLocation: coordinates,
+        proximityRadius: radius,
+      }, {
+        headers: {
+          // Accept: "application/json",
+          // "Content-Type": "application/json",
+        }
+      });
+      return response.data
     } catch (error) {
       console.error("getDispensariesLocal: ", error);
       return rejectWithValue("Could not get dispensaries");
@@ -123,10 +123,10 @@ export const getProductsFromLocal = createAsyncThunk<ProductWithDetails[], void>
     try {
       const { shop } = thunkAPI.getState() as { shop: ShopStateProps };
       const { dispensaries } = shop;
-      
+
       const dispensaryIdList = dispensaries.map((disp) => disp.id);
 
-      const {data} = await axios.post(urlBuilder.main.productsByMultipleOrgs(1, 20), {
+      const { data } = await axios.post(urlBuilder.main.productsByMultipleOrgs(1, 20), {
         ...dispensaryIdList
       }, {
         headers: {
@@ -142,23 +142,23 @@ export const getProductsFromLocal = createAsyncThunk<ProductWithDetails[], void>
   }
 );
 
-type OrganizationWithDetailsAndMetadata = OrganizationWithShopDetails & { metadata?: { productsFetched?: boolean }}
+type OrganizationWithDetailsAndMetadata = OrganizationWithShopDetails & { metadata?: { productsFetched?: boolean } }
 export type ShopStateProps = {
-    dispensaries: OrganizationWithDetailsAndMetadata[];
-    products: ProductWithDetails[];
-    isLoading: boolean;
-    isSuccess: boolean;
-    isError: boolean;
-    errorMessage: string;
+  dispensaries: OrganizationWithDetailsAndMetadata[];
+  products: ProductWithDetails[];
+  isLoading: boolean;
+  isSuccess: boolean;
+  isError: boolean;
+  errorMessage: string;
 }
 
 const initialState: ShopStateProps = {
-    dispensaries: [],
-    products: [],
-    isLoading: false,
-    isSuccess: false,
-    isError: false,
-    errorMessage: ""
+  dispensaries: [],
+  products: [],
+  isLoading: false,
+  isSuccess: false,
+  isError: false,
+  errorMessage: ""
 }
 
 export const shopSlice = createSlice({
@@ -171,8 +171,8 @@ export const shopSlice = createSlice({
       state.isSuccess = true;
       state.isError = false;
 
-      const 
-      dispensaries = payload;
+      const
+        dispensaries = payload;
 
       dispensaries.forEach((disp) => {
         disp.metadata = {
@@ -181,77 +181,77 @@ export const shopSlice = createSlice({
       });
 
       state = reconcileStateNoDuplicates(state.dispensaries, dispensaries);
-      console.log('get initial dispensaries fulfilled: ', state);
     }),
-    builder.addCase(getInitialDispensaries.pending, (state) => {
-      state.isLoading = true;
-    }),
-    builder.addCase(getInitialDispensaries.rejected, (state, { payload }) => {
-      state.isLoading = false;
-      state.isSuccess = false;
-      state.isError = true;
+      builder.addCase(getInitialDispensaries.pending, (state) => {
+        state.isLoading = true;
+      }),
+      builder.addCase(getInitialDispensaries.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.isError = true;
 
-      const error = payload;
-      state.errorMessage = error;
-      console.error('get initial dispensaries error: ', error);
-    }),
-    
-    builder.addCase(getDispensariesLocal.fulfilled, (state, { payload }: PayloadAction<OrganizationWithDetailsAndMetadata[]>) => {
-      state.isLoading = false;
-      state.isSuccess = true;
-      state.isError = false;
+        const error = payload;
+        state.errorMessage = error;
+        console.error('get initial dispensaries error: ', error);
+      }),
 
-      const 
-      dispensaries = payload;
-      dispensaries.forEach((disp) => {
-        disp.metadata = {
-          productsFetched: false,
-        };
-      });
-      
-      state = reconcileStateNoDuplicates(state.dispensaries, dispensaries);
-      console.log('get local dispensaries fulfilled: ', state);
-    }),
-    builder.addCase(getDispensariesLocal.pending, (state) => {
-      state.isLoading = true;
-    }),
-    builder.addCase(getDispensariesLocal.rejected, (state, { payload }) => {
-      state.isLoading = false;
-      state.isSuccess = false;
-      state.isError = true;
+      builder.addCase(getDispensariesLocal.fulfilled, (state, { payload }: PayloadAction<OrganizationWithDetailsAndMetadata[]>) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
 
-      const error = payload;
-      state.errorMessage = error
-      console.error('get dispensaries local error: ', error)
-    }),
-    
-    builder.addCase(getProductsFromLocal.fulfilled, (state, { payload }: PayloadAction<ProductWithDetails[]>) => {
-      state.isLoading = false;
-      state.isSuccess = true;
-      state.isError = false;
+        const
+          dispensaries = payload;
 
-      // are products returned for individual dispensaries?
-      // if so, where is the data stored?
+        dispensaries.forEach((disp) => {
+          disp.metadata = {
+            productsFetched: false,
+          };
+        });
 
-      // can we use this V global products data to populate the products for each dispensary?
+        const newState = reconcileStateNoDuplicates(state.dispensaries, dispensaries);
+        state = newState
+      }),
+      builder.addCase(getDispensariesLocal.pending, (state) => {
+        state.isLoading = true;
+      }),
+      builder.addCase(getDispensariesLocal.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.isError = true;
 
-      const products = payload;
-      state = reconcileStateNoDuplicates(state.products, products)
-    }),
-    builder.addCase(getProductsFromLocal.pending, (state) => {
-      state.isLoading = true;
-      state.isSuccess = false;
-      state.isError = false;
-    }),
-    builder.addCase(getProductsFromLocal.rejected, (state, { payload }) => {
-      state.isLoading = false;
-      state.isSuccess = false;
-      state.isError = true;
+        const error = payload;
+        state.errorMessage = error
+        console.error('get dispensaries local error: ', error)
+      }),
 
-      const error = payload as string
-      state.errorMessage = error
-      console.error('get products local error: ', error)
-    })
+      builder.addCase(getProductsFromLocal.fulfilled, (state, { payload }: PayloadAction<ProductWithDetails[]>) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+
+        // are products returned for individual dispensaries?
+        // if so, where is the data stored?
+
+        // can we use this V global products data to populate the products for each dispensary?
+
+        const products = payload;
+        state = reconcileStateNoDuplicates(state.products, products)
+      }),
+      builder.addCase(getProductsFromLocal.pending, (state) => {
+        state.isLoading = true;
+        state.isSuccess = false;
+        state.isError = false;
+      }),
+      builder.addCase(getProductsFromLocal.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.isError = true;
+
+        const error = payload as string
+        state.errorMessage = error
+        console.error('get products local error: ', error)
+      })
 
     // [getVendorsExcluding.fulfilled]: (state, { payload }) => {
     //   const { vendors } = payload;
@@ -319,14 +319,14 @@ export const shopReducer = shopSlice.reducer;
 
 export const selectShopState = (state: AppState) => state.shop;
 
-function reconcileStateNoDuplicates (state: any[], payload: any[]) {
+function reconcileStateNoDuplicates<T>(state: T[], payload: T[]) {
   payload.forEach((item) => {
-    const 
-    index = state.findIndex((i) => i.id === item.id);
+    const
+      index = state.findIndex((i) => i.id === item.id);
     if (index === -1)
-    state.push(item);
+      state.push(item);
     else
-    state[index] = item;
+      state[index] = item;
   })
-  return state; 
+  return state;
 }

@@ -121,21 +121,60 @@ raise cluster over gras domain
 setup on kubernetes
 shop route,
 dummy admin route,
-hello test route,
 backend route featuring:
     server-main, server dispatch
+6-23-2023
+dashboard app CORS, shop app CORS
+
+TO DO:
+move applicable next api routes to dashboard app. 
 
 
+
+CUSTOMER SUCCESS:
+1. BUILD KNOWLEDGE PAGES!
+
+2. FIGURE OUT A WAY TO HAVE A TWO STEP ONBOARDING PROCESS. NO MORE THAN TWO STEPS!
+( SENDING ONE EMAIL DOES NOT COUNT AS A STEP ).
+
+3.
+
+TODO: Resolve logo image in delivery-widget
+
+TODO: for Production (July, August)
+Encrypt all external visible web code -
+    - delivery widget
+    - front end code entrypoints
+    - server entry points
+    - encrypt all server responses
+    - lock all web end points behind a protective wall (jwt token, header authorization, encryption)
+
+
+<<<<<<< HEAD
+=======
 TODO:
+Add testing for s3 buckets, to check for correct env vars, urls, valid buckets, etc.
+
+>>>>>>> main
 Set up K8s load balancer for static external ip
-Optimize docker images, SHOP especially,
+
+Optimize docker images, SHOP especially, Lower binary size TO save costs at scale!! GREATLY IMPORTANT
+
 FInish end to end tests
 Stay vigilant! WORK HARD. Go to HACC campus. Go hard!
+Optimize graphic images,
 
 Separate stripe account Id from orgniazation record, to hide this data
 
 BUGS: 
+Resend OTP does not work.
+Fix footer links with absolute paths
 cart bug when navigating to different storefronts, the cart changes in unexpected ways
+
+FORTIFY:
+Add jtw tokens
+encrypt redux state
+put secrets in vault
 
 DRIVERCLIENT TO DO:
 Test dispatch in production

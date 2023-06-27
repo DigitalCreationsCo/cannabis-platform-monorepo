@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "strict": true,
-    "useUnknownInCatchVariables": true,
+    "useUnknownInCatchVariables": false,
     "allowJs": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,

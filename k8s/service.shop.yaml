@@ -29,15 +29,13 @@ spec:
       serviceAccountName: default
       containers:
       - name: gras-shop
-        # command: ["yarn"]
-        # args: ["start"]
-        image: grasadmin/app-shop:latest
+        image: grasadmin/shop:latest
         imagePullPolicy: Always
         terminationMessagePolicy: FallbackToLogsOnError
-        resources:
-          limits: 
-            cpu: "0.5"
-            memory: "400M"
+        # resources:
+        #   limits: 
+        #     cpu: "1"
+        #     memory: "600M"
         ports:
         - name: shop-port
           containerPort: 3000

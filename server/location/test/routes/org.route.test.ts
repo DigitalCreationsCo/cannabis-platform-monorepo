@@ -1,11 +1,10 @@
-import prisma from '@cd/data-access';
 import request from 'supertest';
 import { connectDb, server } from '../../src';
 
 let app = request(server);
 
 beforeAll(() => {
-    connectDb(prisma);
+    connectDb();
 });
 
 // test get queries only

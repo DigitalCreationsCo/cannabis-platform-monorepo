@@ -5,8 +5,16 @@ import { useSelector } from 'react-redux';
 function RenderTotal() {
     const { total } = useSelector(selectCartState);
     
-    return <H4 className={styles.total}>
-    Your total is <Price basePrice={total} /></H4>
+    return (
+        <div className='h-8'>
+            { total > 0 ? 
+            <H4 className={styles.total}>
+                Your total is 
+                <Price basePrice={total} /></H4>
+                : null
+            }
+        </div>
+    );
 }
 
 export default RenderTotal

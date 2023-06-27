@@ -10,7 +10,7 @@ const styleUploadWindow = [fill ? 'h-full w-full' : 'h-[80px w-[80px]', 'border 
 return (
     <div onClick={onClick} onKeyUp={onKeyUp} className={twMerge(styleUploadWindow, 'indicator')}>
         <span className="indicator-item badge bg-primary">
-            <IconWrapper Icon={Icons.XIcon} size={12} className={'fill-light'} />
+            <IconWrapper Icon={Icons.XIcon} iconSize={12} className={'fill-light'} />
         </span>
         {children}
     </div>

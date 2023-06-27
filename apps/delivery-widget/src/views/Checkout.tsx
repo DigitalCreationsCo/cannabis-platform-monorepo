@@ -1,15 +1,19 @@
-import { SimpleCart } from "@cd/core-lib/src/reduxDir/features"
+import TextContent from "@cd/core-lib/src/constants/textContent"
+import { SimpleCart } from "@cd/core-lib/src/reduxDir/features/cart.reducer"
 import Button from "@cd/ui-lib/src/components/button/Button"
 import CloseButton from "@cd/ui-lib/src/components/button/CloseButton"
+import FlexBox from "@cd/ui-lib/src/components/FlexBox"
 import { Paragraph, Small } from "@cd/ui-lib/src/components/Typography"
-import { useState } from "react"
+import { getBreakpointValue } from "@cd/ui-lib/src/hooks/useBreakpoint"
+import { useEffect, useState } from "react"
 import { twMerge } from "tailwind-merge"
-import { DeliveryWidgetConfigOptions } from "../.."
+import { DeliveryWidgetConfigOptions } from ".."
+import logo from '../assets/logo120.png'
 import CartList from "../components/CartItemList"
 import { cheerioCrawler as crawler } from "../crawler"
 import WidgetView, { WidgetViewProps } from "./WidgetView"
 
-function Checkout({ className, expandWidget, setExpandWidget, dispensaryKey, name }: WidgetViewProps & DeliveryWidgetConfigOptions) {
+function Checkout({ className, expandWidget, setExpandWidget, dispensaryKey, dispensaryName }: WidgetViewProps & DeliveryWidgetConfigOptions) {
     const [cart, setCart] = useState<SimpleCart>({
         cartItems: [],
         total: 0,
@@ -38,50 +42,123 @@ function Checkout({ className, expandWidget, setExpandWidget, dispensaryKey, nam
         runCrawler()
     }
 
+    const [screenwidth, setScreenwidth] = useState(window.innerWidth)
+
+    const setWindowDimensions = () => {
+      setScreenwidth(window.innerWidth)
+    }
+    
+    const md = getBreakpointValue('md');
+
+    useEffect(() => {
+      window.addEventListener('resize', setWindowDimensions);
+      return () => {
+        window.removeEventListener('resize', setWindowDimensions)
+      }
+    }, [])
+
     const styles = {
-        loading: [className, "md:!rounded", "flex flex-col items-center justify-center", "md:w-[440px] min-h-[440px] cursor-default"],
-        showCart: [className, "md:!rounded", "flex flex-col justify-between m-auto", "md:w-[440px] min-h-[440px] space-y-2"],
-        capsule: [className, 'md:rounded-full', 'cursor-pointer']
+
+        loading: [
+            "md:!rounded", 
+            "flex flex-col items-center justify-center", 
+            "md:w-[440px] h-[440px]",
+            "cursor-default",
+            className
+        ],
+        showCart: [
+            "md:!rounded",
+            "flex flex-col justify-between m-auto", 
+            "md:w-[440px] h-[440px] space-y-2",
+            "cursor-default",
+            className
+        ],
+        capsule: [
+            'justify-center',
+            'flex flex-row',
+            'md:rounded-full', 
+            'cursor-pointer',
+            'min-h-[44px]',
+            className
+        ]
     }
     return (
-        <>
-            {
-                expandWidget ? loadingCheckout &&
-                <div className={twMerge(styles.loading)}>
-                    <Paragraph color="light" className="animate-bounce text-lg">
-                        Checking out...</Paragraph>
-                    
-                    <Small color="light">
-                        moving to Gras</Small>
-                </div> ||
+        <>{
+            expandWidget ? loadingCheckout &&
+            <div className={twMerge(styles.loading)}>
+                <Paragraph color="light" className="animate-bounce text-lg">
+                    Checking out...</Paragraph>
                 
-                <div className={twMerge(styles.showCart)}>
-                    
-                    <CloseButton className="p-4" onClick={() => setExpandWidget(false)} />
+                <Small color="light">
+                    moving to Gras</Small>
+            </div> ||
+            
+            <div className={twMerge(styles.showCart)}>
+                
+                <CloseButton 
+                iconSize={32}
+                className="pr-4 text-light"
+                theme={'light'} 
+                onClick={() => setExpandWidget(false)} 
+                />
 
-                    <CartList 
-                    setExpandWidget={setExpandWidget} 
-                    cart={cart} 
-                    cartError={cartError} />
+                <Paragraph className='text-light m-auto'>
+                {TextContent.delivery.GRAS_WILL_DELIVER}
+                </Paragraph>
 
-                    <Small className="text-light m-auto">
-                        If you're ready for checkout, hit the button below.</Small>
+                <CartList 
+                cart={cart} 
+                cartError={cartError} 
+                setExpandWidget={setExpandWidget} 
+                />
 
-                    <Button className="p-4 bg-inverse hover:bg-accent hover:text-inverse"
-                    onClick={handleCheckout}>
-                        Checkout</Button>
-                </div> :
-                <button className={twMerge(styles.capsule)}
-                    onClick={getCartData}>
+                <FlexBox className="mx-auto pb-2">
+                    <Small className="text-light m-auto pb-2">
+                    {TextContent.prompt.CHECKOUT_READY}</Small>
 
-                    <Paragraph color="light" className="m-auto">
+                    <Button 
+                    className="p-4 mx-auto bg-inverse"
+                    hover="accent"
+                    onClick={handleCheckout}
+                    disabled={cart.cartItems.length === 0 || loadingCheckout}
+                    >
+                        Checkout
+                    </Button>
+                </FlexBox>
+            </div> :
+            
+            <button 
+            className={twMerge(styles.capsule)}
+            onClick={getCartData}
+            >
+
+                { screenwidth >= md && 
+                <img 
+                src={logo} 
+                alt="Delivery By Gras" 
+                height={40} 
+                width={40}
+                className='object-contain'
+                /> }
+
+                <FlexBox className='flex-col mx-auto'>
+                    <Paragraph 
+                    color="light" 
+                    className="m-auto"
+                    >
                         Delivery by Gras to your door</Paragraph>
                         
-                    <Small className="cursor-pointer m-auto w-fit border-b-2" color="light">
-                        Click here to start your delivery</Small>
-                </button>
-            }
-        </>
+                    <Small 
+                    className="cursor-pointer m-auto w-fit border-b-2" 
+                    color="light"
+                    >
+                        Click here to order</Small>
+                </FlexBox>
+                
+                { screenwidth >= md && <div className="w-[20px]"></div> }
+                
+            </button>
+        }</>
     )
 }
 

@@ -1,6 +1,7 @@
+import { } from '@carbon/icons-react';
 import { selectCartState } from '@cd/core-lib';
 import { ProductVariantWithDetails } from '@cd/data-access';
-import { Grid, H5, H6, ProductItem } from '@cd/ui-lib';
+import { Grid, Paragraph, ProductItem } from '@cd/ui-lib';
 import { useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import RenderTotal from './RenderTotal';
@@ -16,10 +17,10 @@ function RenderCart() {
                     <ProductItem key={`bag-item-${index}`} product={item as unknown as ProductVariantWithDetails} />
                     )) :
                     <div className='text-center col-span-2'>
-                    <H5>
-                        Your bag is empty</H5>
+                    <Paragraph>
+                        Your bag is empty</Paragraph>
                     <a href="/browse">
-                        <H6 className={'cursor-pointer border-b-2 inline-block'}>Cure what ails you</H6>
+                        <Paragraph className={'cursor-pointer border-b-2 inline-block'}>Cure what ails you</Paragraph>
                     </a>
                     </div>}
             </Grid>

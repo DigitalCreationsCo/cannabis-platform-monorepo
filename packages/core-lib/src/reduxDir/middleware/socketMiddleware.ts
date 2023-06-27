@@ -15,7 +15,7 @@ const socketMiddleware = (store: Store<AppState>) => {
   // in the future, add this socket map to reducer socket ?
 
   const
-  socketMap = new Map<string, Socket>();
+    socketMap = new Map<string, Socket>();
   // include socket cleanup for finished orders as well!
 
   let _dispatch_socket_connection: Socket | null;
@@ -42,17 +42,30 @@ const socketMiddleware = (store: Store<AppState>) => {
   return (next: any) => (action: AnyAction) => {
     next(action);
 
-
     // DISPATCH SOCKET EVENT HANDLERS
-
     // if (open connection to dispatch)
     if (socketActions.openConnection.match(action)) {
 
       console.log("socket_middleware: connecting to dispatch server");
-      
+
+
+      // GET JWT FROM ST SESSION, THEN SEND JWT TO DISPATCH SERVER
+
+      // const token = await Session.getAccessToken();
+      // if (token === undefined) {
+      //     throw new Error("User is not logged in");
+      // }
+      // const socket = io.connect('http://localhost:3000', {
+      //     query: { token }
+      // });
+
+      // IF SUCCESS, SAVE SOCKET CONNECTION TO DISPATCH SERVER
+      // IMPLEMENT ASYNC FUNCTION
+      // IMPLEMENT ERROR HANDLING!
       socketMap.set(
         "dispatchSocket",
         io(urlBuilder.dispatch.connect(), {
+          // query: { token },
           autoConnect: true,
           transports: ["websocket"],
           // jsonp: false,
@@ -63,13 +76,13 @@ const socketMiddleware = (store: Store<AppState>) => {
 
       // on dispatch socket connect, emit client connect event
       _dispatch_socket_connection?.on(SocketEvent.Connection, async () => {
-          store.dispatch(socketActions.connectionEstablished());
-          const id = await store.getState().driver.driver.id;
-          
-          console.log('socket connect driverId: ', id);
-          _dispatch_socket_connection?.emit(SocketEvent.ClientConnect, {
-            data: { userId: id },
-          });
+        store.dispatch(socketActions.connectionEstablished());
+        const id = await store.getState().driver.driver.id;
+
+        console.log('socket connect driverId: ', id);
+        _dispatch_socket_connection?.emit(SocketEvent.ClientConnect, {
+          data: { userId: id },
+        });
         console.log(
           "socket connection to dispatch server: socket id: ",
           _dispatch_socket_connection?.id
@@ -77,7 +90,7 @@ const socketMiddleware = (store: Store<AppState>) => {
       });
 
       // on new order event, save new order as incoming order
-      _dispatch_socket_connection?.on(SocketEvent.NewOrder, ({ message, data }:SocketEventPayload<OrderWithDetails>) => {
+      _dispatch_socket_connection?.on(SocketEvent.NewOrder, ({ message, data }: SocketEventPayload<OrderWithDetails>) => {
 
         console.log("new order event");
         console.log("message: ", message);
@@ -96,10 +109,27 @@ const socketMiddleware = (store: Store<AppState>) => {
         const { newOrder } = store.getState().socket.incomingOrder;
         let { id } = newOrder;
         const { driverId } = store.getState().user.user;
+
+
+        // GET JWT FROM ST SESSION, THEN SEND JWT TO DISPATCH SERVER
+
+        // const token = await Session.getAccessToken();
+        // if (token === undefined) {
+        //     throw new Error("User is not logged in");
+        // }
+        // const socket = io.connect('http://localhost:3000', {
+        //     query: { token }
+        // });
+
+        // IF SUCCESS, SAVE SOCKET CONNECTION TO DISPATCH SERVER
+        // IMPLEMENT ASYNC FUNCTION
+        // IMPLEMENT ERROR HANDLING!
+
         socketMap.set(
           "order:" + orderId,
           io(urlBuilder.DISPATCH_CONNECT() + "/order:" + orderId)
         );
+
         getOrderSocket(orderId).emit(SocketEvent.DriverAdded, {
           data: { userId: driverId, orderId: orderId },
         });
@@ -151,23 +181,23 @@ const socketMiddleware = (store: Store<AppState>) => {
 
 
     // ORDER SOCKET EVENT HANDLERS
-    const 
-    isActiveDelivery = store.getState().driver.driver.driverSession?.isActiveDelivery;
+    const
+      isActiveDelivery = store.getState().driver.driver.driverSession?.isActiveDelivery;
 
     if (isActiveDelivery === true) {
 
-      let 
-      socket: [string, Socket];
+      let
+        socket: [string, Socket];
 
       for (socket of socketMap) {
 
         console.log('socket: ', socket);
-        
+
         if (socket[0].startsWith("order:")) {
 
-          let 
-          socketKey = socket[0],
-          _order_socket_connection = socket[1] || null;
+          let
+            socketKey = socket[0],
+            _order_socket_connection = socket[1] || null;
 
           // on order socket connect
           _order_socket_connection.on(SocketEvent.Connection, () => {
@@ -307,7 +337,7 @@ const socketMiddleware = (store: Store<AppState>) => {
               );
             }
           }
-          
+
           // dispatch socket disconnect
           _dispatch_socket_connection?.on(SocketEvent.Disconnect, () => {
             console.log(" 2 disconnecting from dispatch socket 2.");
@@ -348,21 +378,21 @@ const socketMiddleware = (store: Store<AppState>) => {
           }
 
           // handle for the proper connection, using orderId for discretion
-        if (socketActions.closeConnection.match(action)) {
-          try {
-            if (_dispatch_socket_connection) {
-              console.log("closing dispatch socket connection");
-              _dispatch_socket_connection.close();
-              // _dispatch_socket_connection.destroy();
+          if (socketActions.closeConnection.match(action)) {
+            try {
+              if (_dispatch_socket_connection) {
+                console.log("closing dispatch socket connection");
+                _dispatch_socket_connection.close();
+                // _dispatch_socket_connection.destroy();
+              }
+              _order_socket_connection.close();
+              // _order_socket_connection.destroy();
+              store.dispatch(socketActions.connectionClosed());
+              _dispatch_socket_connection = null;
+            } catch (error) {
+              console.log("error closing connection: ", error);
             }
-            _order_socket_connection.close();
-            // _order_socket_connection.destroy();
-            store.dispatch(socketActions.connectionClosed());
-            _dispatch_socket_connection = null;
-          } catch (error) {
-            console.log("error closing connection: ", error);
           }
-        }
         } // is a orderSocket
 
       } // socketMap iterate
@@ -371,3 +401,43 @@ const socketMiddleware = (store: Store<AppState>) => {
 };
 
 export default socketMiddleware
+
+
+// THIS GOES IN DISPATCH SERVER TO VERIFY JWT VVVV
+
+// import jwt, { JwtHeader, SigningKeyCallback } from 'jsonwebtoken';
+// import jwksClient from 'jwks-rsa';
+
+// // functions to fetch jwks
+// var client = jwksClient({
+//   jwksUri: 'http://localhost:6001/api/v1/jwt/jwks.json'
+// });
+
+// function getKey(header: JwtHeader, callback: SigningKeyCallback) {
+//   client.getSigningKey(header.kid, function (err, key) {
+//     var signingKey = key!.getPublicKey();
+//     callback(err, signingKey);
+//   });
+// }
+
+// // socket io connection
+// io.use(function (socket: any, next: any) {
+//   // we first try and verify the jwt from the token param.
+//   if (socket.handshake.query && socket.handshake.query.token) {
+//     jwt.verify(socket.handshake.query.token, getKey, {}, function (err, decoded) {
+//       if (err) return next(new Error('Authentication error'));
+//       socket.decoded = decoded;
+//       next();
+//     });
+//   }
+//   else {
+//     next(new Error('Authentication error'));
+//   }
+// })
+//   .on('connection', function (socket: any) {
+//     // Connection now authenticated to receive further events
+
+//     socket.on('message', function (message: string) {
+//       io.emit('message', message);
+//     });
+//   });

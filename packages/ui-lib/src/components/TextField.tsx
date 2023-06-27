@@ -10,7 +10,6 @@ type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
     containerClassName?: string;
     maxNumber?: number;
     name?: string;
-    type?: string;
     label?: string;
     justifyLabel?: 'left' | 'center' | 'right'
     value?: string | number;
@@ -99,6 +98,7 @@ function TextField({
                         'input-md',
                         focus && 'shadow-md',
                         error && 'input-error border-2',
+                        'border',
                         className
                     )}
                     {...inputProps}

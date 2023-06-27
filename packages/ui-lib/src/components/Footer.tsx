@@ -1,29 +1,45 @@
+import { getCurrentSite, getDashboardSite, TextContent } from '@cd/core-lib/src';
 import Link from 'next/link';
 import CopyRight from './CopyRight';
 import FlexBox from './FlexBox';
-import { Small, Span, Tiny } from './Typography';
+import { H4, Small } from './Typography';
 
-export default function Footer({ appVersion }: { appVersion: string; }) {
+export default function Footer() {
+
+    const 
+    aboutLink = getCurrentSite('/about-gras'),
+    supportLink = getCurrentSite('/support');
+
     return (
         <FlexBox className={styles.container}>
-            <Link href='about-gras'>
-            <Small className="text-inverse font-semibold">
+
+            <Link href={getDashboardSite('/signup/create-dispensary-account')}>
+            <Small className="text-inverse hover:underline font-semibold">
+                {TextContent.account.DISPENSARIES_START_HERE}
+                </Small>
+            </Link>
+
+            <Link href={supportLink}>
+            <Small className="text-inverse hover:underline font-semibold">
+                get support
+                </Small>
+            </Link>
+
+            <Link href={aboutLink}>
+            <Small className="text-inverse hover:underline font-semibold">
                 about Gras
                 </Small>
             </Link>
-            <Link href='support'>
-            <Small className="text-inverse font-semibold">
-                Need help? <Span className="underline">get support</Span>
-                </Small>
-            </Link>
+
             <Small className="text-inverse">
                 <CopyRight />
             </Small>
-            <Tiny className="absolute px-2 bottom-0 right-0 text-accent-soft">{ appVersion }</Tiny>
+
+            <H4 color='light'>{`Cannabis, Delivered. 🌴🔥`}</H4>
         </FlexBox>
     );
 }
 
 const styles = {
-    container: "space-y-2 flex-col min-h-[188px] p-12 pb-24 lg:px-[248px] bg-secondary min-w-full bottom-0"
+    container: "cursor-default space-y-2 flex-col min-h-[188px] p-8 pb-24 lg:px-[248px] bg-secondary min-w-full bottom-0 shadow-lg"
 }
