@@ -9,6 +9,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.22.1",
+    "jest-junit": "16.0.0",
     "@babel/node": "^7.22.1",
     "@cd/eslint-config": "workspace:*",
     "@paralleldrive/cuid2": "2.2.0",
