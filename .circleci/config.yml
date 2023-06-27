@@ -34,6 +34,9 @@ workflows:
     jobs:
       - test-node
       - docker/publish:
+          docker-username: CONTEXT_DOCKER_USERNAME
+          docker-password: CONTEXT_DOCKER_PASSWORD
+          registry: CONTEXT_DOCKER_REGISTRY
           dockerfile: Dockerfile.app
           extra_build_args: '--build-arg BUILD_CONTEXT=shop --build-arg PORT=3000'
           image: $DOCKER_REPOSITORY/$IMAGE:$TAG
