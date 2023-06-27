@@ -3,6 +3,7 @@ import {
   H4,
   Icons,
   IconWrapper,
+  LayoutContextProps,
   Page,
   PageHeader,
   Paragraph,
@@ -36,5 +37,9 @@ function Support() {
     </Page>
   );
 }
+
+Support.getLayoutContext = (): LayoutContextProps => ({
+  showHeader: false,
+});
 
 export default Support;

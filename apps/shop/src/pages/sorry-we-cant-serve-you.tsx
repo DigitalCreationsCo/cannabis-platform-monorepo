@@ -1,4 +1,4 @@
-import { Center, H3, H6, Page } from '@cd/ui-lib';
+import { Center, H3, H6, LayoutContextProps, Page } from '@cd/ui-lib';
 
 function AgeNotEnough() {
   return (
@@ -14,5 +14,9 @@ function AgeNotEnough() {
     </Page>
   );
 }
+
+AgeNotEnough.getLayoutContext = (): LayoutContextProps => ({
+  showHeader: false,
+});
 
 export default AgeNotEnough;
