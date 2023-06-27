@@ -14,7 +14,7 @@ jobs:
           pkg-manager: yarn
       - run:
           name: Run unit-tests for changed packages
-          command: g:test-unit-ci
+          command: yarn g:test-unit-ci
       - store_test_results:
           path: ./test-results/
   deploy:
