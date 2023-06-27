@@ -72,6 +72,7 @@
     "lint-fix": "eslint . --ext .ts,.tsx,.js,.jsx,.cjs,.mjs --fix",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx,.cjs,.mjs --cache --cache-location ../../.cache/eslint/ui-lib.eslintcache",
     "test-unit": "echo \"No unit tests yet\" && exit 0",
+    "test-unit-ci": "echo \"No unit tests yet\" && exit 0",
     "typecheck": "tsc --project ./tsconfig.json --noEmit",
     "sync-assets": "rimraf ./public/assets && syncdir ../../static/assets ./public/assets --copy"
   },

@@ -55,7 +55,7 @@
     "build:prod": "rm -rf dist && cross-env NODE_ENV=production BABEL_ENV=production babel . --out-dir dist --extensions \".ts\"",
     "start": "dotenv -e ../../.env.production -- pm2-runtime ecosystem.config.js",
     "test-unit": "echo \"Tests are not ready for use.\" && exit 0",
-    "test-unit-broken": "../../node_modules/jest/bin/jest.js",
+    "test-unit-ci": "echo \"Tests are not ready for use.\" && exit 0",
     "test:fix": "../../node_modules/jest/bin/jest.js --detectOpenHandles",
     "test:watch": "../../node_modules/jest/bin/jest.js --watchAll",
     "watch": "rimraf ./node_modules/.cache && dotenv -e ../../.env.development -- babel-watch -e \".ts\" -c ./babel.config.js ./src/index.ts"
