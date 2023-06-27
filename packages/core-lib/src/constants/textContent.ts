@@ -58,6 +58,7 @@ const TextContent = Object.freeze({
       'Payments are not available now. Please try again later. Thank you!',
     CONNECTION_ISSUE:
       "We're having trouble connecting you. Please try again later. Thank you!",
+    REQUEST_FAILED: 'Our bad, your request failed',
   },
 
   info: {
@@ -88,6 +89,7 @@ const TextContent = Object.freeze({
     SIGNIN_EMAIL: 'Sign in with your email',
     SIGNUP: 'Sign Up',
     CONTINUE: 'continue',
+    BACK: 'back',
   },
 
   technical: {

@@ -34,9 +34,18 @@ function Page({
   return (
     <div className={twMerge(styles)}>
       {children}
-      <Tiny className="fixed bottom-0 right-0 pr-1 cursor-default text-accent-soft">
-        {appVersion}
-      </Tiny>
+
+      <div className="fixed flex items-center bottom-0 right-0 cursor-default text-accent-soft space-x-1 pr-1">
+        <div
+          className={twMerge([
+            'hidden',
+            process.env.NEXT_PUBLIC_IS_LOCAL == '1' && 'flex items-center',
+          ])}
+        >
+          <Tiny>localhost</Tiny>
+        </div>
+        <Tiny>{appVersion}</Tiny>
+      </div>
     </div>
   );
 }

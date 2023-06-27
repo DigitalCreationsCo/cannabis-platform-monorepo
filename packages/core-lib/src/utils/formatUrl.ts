@@ -18,7 +18,7 @@ function getShopSite(path: string): string {
     case 'production':
       return `${process.env.NEXT_PUBLIC_SHOP_APP_URL}${path}`;
     default:
-      return `http://localhost:3000`;
+      return `grascannabis.org`;
   }
 }
 
@@ -31,20 +31,20 @@ function getDashboardSite(path: string): string {
     case 'production':
       return `${process.env.NEXT_PUBLIC_DASHBOARD_APP_URL}${path}`;
     default:
-      return `http://localhost:3001`;
+      return `app.grascannabis.org`;
   }
 }
 
 function getCurrentSite(path: string): string {
   switch (process.env.NODE_ENV as string) {
     case 'development':
-      return `${window.location.host}${path}`;
+      return `http://${window.location.host}${path}`;
     case 'test':
-      return `${window.location.host}${path}`;
+      return `http://${window.location.host}${path}`;
     case 'production':
-      return `${window.location.host}${path}`;
+      return `http://${window.location.host}${path}`;
     default:
-      return `${window.location.host}`;
+      return `http://${window.location.host}`;
   }
 }
 
