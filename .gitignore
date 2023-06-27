@@ -17,7 +17,7 @@ DOCKERSIM
 !.yarn/versions
 
 # cache
-.cache/**/*
+.cache/*
 
 # root certificate
 ca.crt
