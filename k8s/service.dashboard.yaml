@@ -32,10 +32,13 @@ spec:
         image: grasadmin/dashboard:0.0.1
         imagePullPolicy: Always
         terminationMessagePolicy: FallbackToLogsOnError
-        # resources:
-        #   limits: 
-        #     cpu: "1"
-        #     memory: "600M"
+        resources:
+          limits:
+            cpu: "150m"
+            memory: "150Mi"
+          requests:
+            cpu: "150m"
+            memory: "150Mi"
         ports:
         - name: dashboard-port
           containerPort: 3001
