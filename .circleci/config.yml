@@ -3,6 +3,7 @@
 version: 2.1
 orbs:
   node: circleci/node@5
+  docker: circleci/docker@2.2.0
 jobs:
   test-node:
     executor: node/default
@@ -17,19 +18,22 @@ jobs:
           command: yarn g:test-unit-ci
       - store_test_results:
           path: ./test-results/
-  deploy:
-    # This is an example deploy job, not actually used by the workflow
-    docker:
-      - image: cimg/base:stable
-    steps:
-      # Replace this with steps to deploy to users
-      - run:
-          name: deploy
-          command: '#e.g. ./deploy.sh'
+  build-and-publish-docker-image:
+    executor: docker  
+    environment: 
+      DOCKER_REPOSITORY: 'grasadmin'
+      IMAGE: 'shop'
+      TAG: '0.0.1'
+    steps:   
+      - docker/publish
 workflows:
-  build-and-test:
+  test-and-build:
     jobs:
       - test-node
-    # - deploy:
-    #     requires:
-    #       - test-node
+      - docker/publish:
+          dockerfile: Dockerfile.app
+          image: $DOCKER_REPOSITORY/$IMAGE:$TAG
+          path: /home/circleci/project/Dockerfile.app
+          registry: docker.io
+          requires:
+            - test-node
