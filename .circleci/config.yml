@@ -30,9 +30,9 @@ workflows:
           dockerfile: Dockerfile.app
           image: 'grasadmin/shop'
           tag: '0.0.1'
-          docker-username: $PARAM_DOCKER_USERNAME
-          docker-password: $PARAM_DOCKER_PASSWORD
-          registry: $DOCKER_REGISTRY
+          docker-username: PARAM_DOCKER_USERNAME
+          docker-password: PARAM_DOCKER_PASSWORD
+          registry: DOCKER_REGISTRY
           extra_build_args: '--build-arg BUILD_CONTEXT=shop --build-arg PORT=3000'
           requires:
             - test-node
