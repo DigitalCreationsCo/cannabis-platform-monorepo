@@ -1,0 +1,4 @@
+PACKAGES
+Packages are built in each module in the build process.
+There is no shared build for the modules.
+    Question: How can the packages be a shared module that is imported (mounted) in the module containers?
