@@ -4,6 +4,22 @@ version: 2.1
 orbs:
   node: circleci/node@5
   docker: circleci/docker@2.2.0
+workflows:
+  test-and-build:
+    jobs:
+      - test-node
+      - docker/publish:
+          requires:
+            - test-node
+          context: 
+            - docker_registry
+          docker-username: DOCKER_USERNAME
+          docker-password: DOCKER_PASSWORD
+          registry: DOCKER_REGISTRY
+          dockerfile: Dockerfile.app
+          extra_build_args: '--build-arg BUILD_CONTEXT=shop --build-arg PORT=3000'
+          image: 'grasadmin/shop'
+          tag: '0.0.1'
 jobs:
   test-node:
     executor: node/default
@@ -22,17 +38,3 @@ jobs:
     executor: docker  
     steps:   
       - docker/publish
-workflows:
-  test-and-build:
-    jobs:
-      - test-node
-      - docker/publish:
-          dockerfile: Dockerfile.app
-          image: 'grasadmin/shop'
-          tag: '0.0.1'
-          docker-username: PARAM_DOCKER_USERNAME
-          docker-password: PARAM_DOCKER_PASSWORD
-          registry: DOCKER_REGISTRY
-          extra_build_args: '--build-arg BUILD_CONTEXT=shop --build-arg PORT=3000'
-          requires:
-            - test-node
