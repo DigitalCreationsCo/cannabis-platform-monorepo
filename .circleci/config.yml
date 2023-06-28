@@ -13,9 +13,9 @@ workflows:
             - test-node
           context: 
             - docker_registry
-          docker-username: $DOCKER_USERNAME
-          docker-password: $DOCKER_PASSWORD
-          registry: $DOCKER_REGISTRY
+          docker-username: DOCKER_USERNAME
+          docker-password: DOCKER_PASSWORD
+          registry: DOCKER_REGISTRY
           dockerfile: Dockerfile.app
           extra_build_args: '--build-arg BUILD_CONTEXT=shop --build-arg PORT=3000'
           image: 'grasadmin/shop'
