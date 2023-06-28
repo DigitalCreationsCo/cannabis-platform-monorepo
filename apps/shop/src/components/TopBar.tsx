@@ -45,11 +45,11 @@ function TopBar({ signOut }: TopBarProps) {
         <Link href={getShopSite('/')}>
           <Image alt="Gras" width={45} height={45} src={logo} />
         </Link>
-        <Link href={getShopSite('/')}>
+        <Link href={'/'}>
           <H2 className="pt-0.5">Gras</H2>
         </Link>
       </div>
-      <Link href={getShopSite('/')}>
+      <Link href={'/'}>
         <Paragraph className={twMerge(styles.TOPBAR.tagline)}>
           Cannabis Marketplace
         </Paragraph>
@@ -58,7 +58,7 @@ function TopBar({ signOut }: TopBarProps) {
 
       <FlexBox className="flex flex-row items-center space-x-6 md:space-x-8 pr-0">
         {isSignedIn && (
-          <Link className="hidden sm:block" href={getShopSite('/support')}>
+          <Link className="hidden sm:block" href={'/support'}>
             <Paragraph className={twMerge('whitespace-nowrap pt-1')}>
               Get Support
             </Paragraph>
@@ -66,7 +66,7 @@ function TopBar({ signOut }: TopBarProps) {
         )}
 
         {window?.location?.pathname === '/' || (
-          <Link href={getShopSite('/mybag')}>
+          <Link href={'/mybag'}>
             <IconButton
               // onClick={openCartModal}
               iconSize={28}
