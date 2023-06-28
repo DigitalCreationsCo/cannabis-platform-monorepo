@@ -8,9 +8,9 @@ spec:
   selector:
     app: gras-shop
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: shop-port
+    - protocol: TCP
+      port: 80
+      targetPort: shop-port
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -28,19 +28,17 @@ spec:
     spec:
       serviceAccountName: default
       containers:
-      - name: gras-shop
-        image: grasadmin/shop:0.0.1
-        imagePullPolicy: Always
-        terminationMessagePolicy: FallbackToLogsOnError
-        resources:
-          limits:
-            cpu: "150m"
-            memory: "150Mi"
-          requests:
-            cpu: "150m"
-            memory: "150Mi"
-        ports:
-        - name: shop-port
-          containerPort: 3000
-      
-      
+        - name: gras-shop
+          image: grasadmin/shop:0.0.1
+          imagePullPolicy: Always
+          terminationMessagePolicy: FallbackToLogsOnError
+          resources:
+            limits:
+              cpu: '200m'
+              memory: '250Mi'
+            requests:
+              cpu: '200m'
+              memory: '250Mi'
+          ports:
+            - name: shop-port
+              containerPort: 3000
