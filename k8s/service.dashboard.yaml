@@ -8,9 +8,9 @@ spec:
   selector:
     app: gras-dashboard
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: dashboard-port
+    - protocol: TCP
+      port: 80
+      targetPort: dashboard-port
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -28,19 +28,17 @@ spec:
     spec:
       serviceAccountName: default
       containers:
-      - name: gras-dashboard
-        image: grasadmin/dashboard:0.0.1
-        imagePullPolicy: Always
-        terminationMessagePolicy: FallbackToLogsOnError
-        resources:
-          limits:
-            cpu: "150m"
-            memory: "150Mi"
-          requests:
-            cpu: "150m"
-            memory: "150Mi"
-        ports:
-        - name: dashboard-port
-          containerPort: 3001
-      
-      
+        - name: gras-dashboard
+          image: grasadmin/dashboard:0.0.1
+          imagePullPolicy: Always
+          terminationMessagePolicy: FallbackToLogsOnError
+          resources:
+            limits:
+              cpu: '200m'
+              memory: '250Mi'
+            requests:
+              cpu: '200m'
+              memory: '250Mi'
+          ports:
+            - name: dashboard-port
+              containerPort: 3001
