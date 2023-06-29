@@ -55,7 +55,6 @@ orbs:
     # Dependencies
     orbs:
       continuation: circleci/continuation@0.1.2
-      docker: circleci/docker@2.2.0
     # Commands for the setup workflow
     commands:
       list-changed-modules:
@@ -172,7 +171,7 @@ orbs:
               configuration_path: << parameters.continue-config >>
               parameters: '{"run-setup":false}'
   test-and-build:
-    orbs: 
+    executors:
       docker: circleci/docker@2.2.0
     jobs:
       run-tests:
@@ -197,7 +196,7 @@ orbs:
           - store_test_results:
               path: ./test-results/
       build-and-publish-docker-image:
-        executor: docker/default
+        executor: docker
         steps:
           - docker/check
           # - docker/publish: 
