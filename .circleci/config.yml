@@ -240,7 +240,8 @@ orbs:
       kubernetes: circleci/kubernetes@1.3.1
     jobs: 
       update-deployment-image:
-        executor: kubernetes/default
+        docker:
+          - image: cimg/node:16.20.0
         parameters:
           container-image-updates: 
             description: "Specify a list of container image updates (space-delimited name value pairs in the form CONTAINER_NAME_1=CONTAINER_IMAGE_1 ... CONTAINER_NAME_N=CONTAINER_IMAGE_N) to be applied to the resource via `kubectl set image`"
