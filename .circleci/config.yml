@@ -41,8 +41,6 @@ workflows:
             server/image
             server/dispatch
             # packages are rebuilt in the module build, for now
-  test:
-    jobs:
       - test-and-build/run-tests
 
 orbs:
