@@ -3,6 +3,7 @@
 version: 2.1
 setup: << pipeline.parameters.run-setup >>
 
+
 # All pipeline parameters need to be defined equally both for the setup workflow and main workflows
 # These parameters will be passed to both of them
 parameters:
@@ -24,6 +25,8 @@ workflows:
   setup-workflow:
     when: << pipeline.parameters.run-setup >>
     jobs:
+      - test-and-build/run-tests:
+          context: yarn
       - config-splitting/setup-dynamic-config:
           force-all: << pipeline.parameters.force-all >>
           base-revision: master
@@ -40,10 +43,9 @@ workflows:
             server/image
             server/dispatch
             # packages are rebuilt in the module build, for now
-      - test-and-build/run-tests:
-          requires: 
-            - config-splitting/setup-dynamic-config
-          context: yarn
+          requires:
+            - test-and-build/run-tests
+      
 
 orbs:
   # An "embedded" orb to facilitate config splitting
@@ -170,10 +172,11 @@ orbs:
     jobs:
       run-tests:
         docker:
-          - image: cimg/node:20.3.1
+          - image: cimg/node:16.20.0
         environment:
           JEST_JUNIT_OUTPUT_DIR: ./test-results/
         steps:
+          - checkout
           - run:
               name: Echo Yarn Version
               command: echo upgrading yarn to $CONTEXT_YARN_VERSION
