@@ -75,12 +75,8 @@ orbs:
     orbs:
       docker: circleci/docker@2.2.0
       node: circleci/node@5
-    jobs:
-      test-node:
-        machine:
-          image: circleci/node@5
-        environment:
-          JEST_JUNIT_OUTPUT_DIR: ./test-results/
+    commands:
+      test:
         steps:
           - node/install-packages:
               pkg-manager: yarn
@@ -89,6 +85,16 @@ orbs:
               command: yarn g:test-unit-ci
           - store_test_results:
               path: ./test-results/
+    jobs:
+      test-node:
+        machine:
+          image: node
+          # docker_layer_caching: true
+        environment:
+          JEST_JUNIT_OUTPUT_DIR: ./test-results/
+        steps:
+          - test
+          
 
   # An "embedded" orb to facilitate config splitting
   config-splitting:
