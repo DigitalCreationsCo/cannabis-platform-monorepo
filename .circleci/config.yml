@@ -241,6 +241,47 @@ orbs:
     jobs: 
       update-deployment-image:
         executor: kubernetes/default
+        parameters:
+          container-image-updates: 
+            description: "Specify a list of container image updates (space-delimited name value pairs in the form CONTAINER_NAME_1=CONTAINER_IMAGE_1 ... CONTAINER_NAME_N=CONTAINER_IMAGE_N) to be applied to the resource via `kubectl set image`"
+            type: string
+            required: true
+          dry-run: 
+            description: Whether the kubectl command will be executed in dry-run mode.
+            type: string
+            default: ''
+          namespace: 
+            description: The kubernetes namespace
+            type: string
+            default: default
+          get-rollout-status: 
+            description: Get the status of the rollout. This can only be used for resource types that are valid for usage with `kubectl rollout` subcommands.
+            type: boolean
+            default: false
+          watch-rollout-status: 
+            description: Whether to watch the status of the latest rollout until it's done. Only effective if get-rollout-status is set to true.
+            type: boolean
+            default: true
+          watch-timeout: 
+            description: The length of time to wait before ending the watch, zero means never. Any other values should contain a corresponding time unit (e.g. 1s, 2m, 3h). Only effective if get-rollout-status is set to true.
+            type: string
+            default: ''
+          pinned-revision-to-watch: 
+            description: Pin a specific revision to be watched and abort watching if it is rolled over by another revision. Only effective if get-rollout-status is set to true.
+            type: string
+            default: ''
+          resource-file-path: 
+            description: Path to file used to update the resource. Either resource-file-path or resource-name need to be specified.
+            type: string
+            default: ''
+          resource-name: 
+            description: Resource name in the format TYPE/NAME e.g. deployment/nginx-deployment Either resource-file-path or resource-name need to be specified. This is required if get-rollout-status is set to true.
+            type: string
+            default: ''
+          show-kubectl-command: 
+            description: Whether to show the kubectl command used.
+            type: string
+            default: ''
         steps:
           - *attach_workspace
           - run: 
