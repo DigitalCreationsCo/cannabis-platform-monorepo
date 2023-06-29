@@ -221,12 +221,12 @@ orbs:
               use-docker-credentials-store: true
           - docker/build: 
               dockerfile: Dockerfile.$BUILD_TYPE
-              image: $DOCKER_USERNAME/$BUILD_CONTEXT
+              image: $DOCKER_LOGIN/$BUILD_CONTEXT
               path: '.'
               extra_build_args: '--build-arg=BUILD_CONTEXT=$BUILD_CONTEXT --build-arg=PORT=$PORT --no-cache --progress=plain'
           - docker/push:
               digest-path: /tmp/workspace/digest.txt
-              image: $DOCKER_USERNAME/$BUILD_CONTEXT
+              image: $DOCKER_LOGIN/$BUILD_CONTEXT
           - run:
               command: |
                 echo "Digest is: $(</tmp/workspace/digest.txt)"
