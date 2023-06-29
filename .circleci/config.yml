@@ -19,17 +19,6 @@ parameters:
     type: string
     default: ''
 
-# Custom commands aimed for the main workflows and jobs
-commands:
-  common-say-hello:
-    parameters:
-      to:
-        description: To whom you say hello
-        type: string
-        default: you anonymous
-    steps:
-      - run: echo 'Greetings to << parameters.to >> from the shared command!'
-      - run: echo 'The value of `custom-parameter` was "<< pipeline.parameters.custom-parameter >>"'
 
 workflows:
   # The setup workflow
@@ -42,7 +31,6 @@ workflows:
           # If A is modified, the job for A will run
           # Similarly if B is modified, the job for B will run
           # If C is modified, then the jobs for both C and B (as a dependency) will run
-
           modules: |
             apps/shop
             apps/dashboard
@@ -53,49 +41,11 @@ workflows:
             server/image
             server/dispatch
             # packages are rebuilt in the module build, for now
-  unit-test:
+  test:
     jobs:
-      - docker/test-node
-  # this job will be run individually from module configs
-  # build-modules:
-  #   jobs:
-  #     - docker/build
-
-# Common jobs for the main workflows
-jobs:
-  common-pre:
-    docker:
-      - image: alpine
-    steps:
-      - common-say-hello
-      - run: echo 'Jobs with `common-` prefix are intended to be shared among modules'
+      - test-and-build/run-tests
 
 orbs:
-  docker:
-    orbs:
-      docker: circleci/docker@2.2.0
-      node: circleci/node@5
-    commands:
-      test:
-        steps:
-          - node/install-packages:
-              pkg-manager: yarn
-          - run:
-              name: Run unit-tests for changed modules
-              command: yarn g:test-unit-ci
-          - store_test_results:
-              path: ./test-results/
-    jobs:
-      test-node:
-        machine:
-          image: node
-          # docker_layer_caching: true
-        environment:
-          JEST_JUNIT_OUTPUT_DIR: ./test-results/
-        steps:
-          - test
-          
-
   # An "embedded" orb to facilitate config splitting
   config-splitting:
     # Dependencies
@@ -216,3 +166,53 @@ orbs:
           - continuation/continue:
               configuration_path: << parameters.continue-config >>
               parameters: '{"run-setup":false}'
+  test-and-build:
+    jobs:
+      run-tests:
+        machine:
+          image: node
+          docker_layer_caching: true
+        environment:
+          JEST_JUNIT_OUTPUT_DIR: ./test-results/
+        steps:
+          - run:
+              name: Run Unit Tests
+              command: yarn g:test-unit-ci
+          - store_test_results:
+              path: ./test-results/
+
+
+# executors: 
+#   docker: 
+#     description: | 
+#       The docker image to use for docker build
+#     docker: 
+#       - image: circleci/docker@2.2.0
+#   node: 
+#     description: | 
+#       The docker image to use for node
+#     docker: 
+#       - image: circleci/node@5
+
+
+# Custom commands aimed for the main workflows and jobs
+commands:
+  common-say-hello:
+    parameters:
+      to:
+        description: To whom you say hello
+        type: string
+        default: you anonymous
+    steps:
+      - run: echo 'Greetings to << parameters.to >> from the shared command!'
+      - run: echo 'The value of `custom-parameter` was "<< pipeline.parameters.custom-parameter >>"'
+
+
+# Common jobs for the main workflows
+jobs:
+  common-pre:
+    docker:
+      - image: alpine
+    steps:
+      - common-say-hello
+      - run: echo 'Jobs with `common-` prefix are intended to be shared among modules'
