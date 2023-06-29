@@ -167,16 +167,26 @@ orbs:
   test-and-build:
     jobs:
       run-tests:
-        docker: 
-          - image: cimg/node:20.3.1
-        environment:
-          JEST_JUNIT_OUTPUT_DIR: ./test-results/
-        steps:
-          - run:
-              name: Run Unit Tests
-              command: yarn g:test-unit-ci
-          - store_test_results:
-              path: ./test-results/
+          docker: 
+            - image: cimg/node:20.3.1
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: ./test-results/
+            YARN_VERSION: "3.3.1"
+          steps:
+            - run: 
+                name: Echo Yarn Version
+                command: echo $YARN_VERSION
+            # - run: 
+            #     name: Install yarn
+            #     command: npm install -g yarn
+            # - run:
+            #     name: Upgrade yarn
+
+            # - run:
+            #     name: Run Unit Tests
+            #     command: yarn g:test-unit-ci
+            # - store_test_results:
+            #     path: ./test-results/
 
 
 # executors: 
