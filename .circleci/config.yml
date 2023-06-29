@@ -211,10 +211,16 @@ orbs:
           DOCKER_LOGIN: $DOCKER_USERNAME
           DOCKER_PASSWORD: $DOCKER_PASSWORD
         steps:
+          - run:
+              name: Print DOCKER_LOGIN
+              command: echo $DOCKER_LOGIN
+          - run:
+              name: Print DOCKER_PASSWORD
+              command: echo $DOCKER_PASSWORD
           - checkout
           - docker/check:
               # add credentials store to workflow workspace
-              use-docker-credentials-store: true
+              # use-docker-credentials-store: true
           - docker/build: 
               dockerfile: Dockerfile.$BUILD_TYPE
               image: $DOCKER_USERNAME/$BUILD_CONTEXT
