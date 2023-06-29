@@ -28,11 +28,6 @@ references:
   attach_workspace: &attach_workspace
     attach_workspace:
       at: *workspace_root
-  digest: &digest
-    /tmp/workspace/digest
-  attach_digest: &attach_digest
-    attach_digest:
-      at: *digest
 
 
 workflows:
@@ -226,11 +221,11 @@ orbs:
               path: '.'
               extra_build_args: '--build-arg=BUILD_CONTEXT=$BUILD_CONTEXT --build-arg=PORT=$PORT --no-cache --progress=plain'
           - docker/push:
-              digest-path: digest.txt
+              digest-path: /tmp/workspace/digest.txt
               image: $DOCKER_USERNAME/$BUILD_CONTEXT
           - run:
               command: |
-                echo "Digest is: $(<digest.txt)"
+                echo "Digest is: $(</tmp/workspace/digest.txt)"
           - persist_to_workspace:
               root: *workspace_root
               paths: 
@@ -286,9 +281,9 @@ orbs:
           - *attach_workspace
           - run: 
               name: "Print New Image"
-              command: "Update image: gras-shop=grasadmin/shop:$(</tmp/digest.txt)"
+              command: "Update image: gras-shop=grasadmin/shop:$(</tmp/workspace/digest.txt)"
           - kubernetes/update-container-image:
-              container-image-updates: "gras-shop=grasadmin/shop:$(</tmp/digest.txt)"
+              container-image-updates: "gras-shop=grasadmin/shop:$(</tmp/workspace/digest.txt)"
               dry-run: << parameters.dry-run >>
               namespace: << parameters.namespace >>
               get-rollout-status: << parameters.get-rollout-status >>
