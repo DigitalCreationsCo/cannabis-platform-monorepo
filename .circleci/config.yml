@@ -74,10 +74,10 @@ orbs:
   docker:
     orbs:
       docker: circleci/docker@2.2.0
+      node: circleci/node@5
     jobs:
       test-node:
-        executor:
-          name: node
+        machine:
           image: circleci/node@5
         environment:
           JEST_JUNIT_OUTPUT_DIR: ./test-results/
