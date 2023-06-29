@@ -20,4 +20,6 @@ Figure out how to run external scripts in the config.yml,
     Need a script to increment docker image tag for kubernetes deployment
 
 LIST-CHANGED-MODULES
-This is not working correctly, need to resolve it.
+* This is not working correctly, need to resolve it.
+
+* handle different digests for multiple module builds
