@@ -36,6 +36,7 @@ workflows:
             - "test-and-build/build-and-publish-docker-image"
           context:
             - kubernetes
+          container-image-updates: "gras-dashboard=$(</tmp/workspace/dashboard-digest.txt)"
           dry-run: ''
           namespace: default
           get-rollout-status: true
