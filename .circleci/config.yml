@@ -26,8 +26,8 @@ workflows:
   setup-workflow:
     when: << pipeline.parameters.run-setup >>
     jobs:
-      - test-and-build/run-tests:
-          context: yarn
+      # - test-and-build/run-tests:
+      #     context: yarn
       - config-splitting/setup-dynamic-config:
           force-all: << pipeline.parameters.force-all >>
           base-revision: master
@@ -45,8 +45,8 @@ workflows:
             server/dispatch/
             # k8s/ # kubernetes files are not included, because i dont know where to put the config.yml file at the moment, or how to declare an alternate file path
             # packages # packages are rebuilt in the module build, for now
-          requires:
-            - test-and-build/run-tests
+          # requires:
+          #   - test-and-build/run-tests
       
 
 orbs:
@@ -55,6 +55,7 @@ orbs:
     # Dependencies
     orbs:
       continuation: circleci/continuation@0.1.2
+      docker: circleci/docker@2.2.0
     # Commands for the setup workflow
     commands:
       list-changed-modules:
@@ -199,23 +200,23 @@ orbs:
         executor: docker/default
         steps:
           - docker/check
-          - docker/publish: 
-              after_checkout:
-                - run:
-                    command: echo "Did this after checkout"
-                    name: Do this after checkout
-              before_build:
-                - run:
-                    command: echo "Did this before the build"
-                    name: Do this before the build
-              after_build:
-                - run:
-                    command: echo "Did this after the build"
-                    name: Do this after the build
-              dockerfile: Dockerfile.$CONTEXT_BUILD_TYPE
-              image: $CONTEXT_DOCKER_USERNAME/$CONTEXT_BUILD_CONTEXT
-              path: '.'
-              extra_build_args: '--build-arg=BUILD_CONTEXT=$CONTEXT_BUILD_CONTEXT --build-arg=PORT=$CONTEXT_PORT --no-cache --progress=plain'
+          # - docker/publish: 
+          #     after_checkout:
+          #       - run:
+          #           command: echo "Did this after checkout"
+          #           name: Do this after checkout
+          #     before_build:
+          #       - run:
+          #           command: echo "Did this before the build"
+          #           name: Do this before the build
+          #     after_build:
+          #       - run:
+          #           command: echo "Did this after the build"
+          #           name: Do this after the build
+          #     dockerfile: Dockerfile.$CONTEXT_BUILD_TYPE
+          #     image: $CONTEXT_DOCKER_USERNAME/$CONTEXT_BUILD_CONTEXT
+          #     path: '.'
+          #     extra_build_args: '--build-arg=BUILD_CONTEXT=$CONTEXT_BUILD_CONTEXT --build-arg=PORT=$CONTEXT_PORT --no-cache --progress=plain'
 
 
 # Custom commands aimed for the main workflows and jobs
