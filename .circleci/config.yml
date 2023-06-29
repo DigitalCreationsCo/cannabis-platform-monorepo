@@ -29,7 +29,7 @@ references:
     attach_workspace:
       at: *workspace_root
   digest: &digest
-    /tmp/digest
+    /tmp/workspace/digest
   attach_digest: &attach_digest
     attach_digest:
       at: *digest
@@ -226,11 +226,11 @@ orbs:
               path: '.'
               extra_build_args: '--build-arg=BUILD_CONTEXT=$BUILD_CONTEXT --build-arg=PORT=$PORT --no-cache --progress=plain'
           - docker/push:
-              digest-path: /tmp/digest.txt
+              digest-path: digest.txt
               image: $DOCKER_USERNAME/$BUILD_CONTEXT
           - run:
               command: |
-                echo "Digest is: $(</tmp/digest.txt)"
+                echo "Digest is: $(<digest.txt)"
           - persist_to_workspace:
               root: *workspace_root
               paths: 
