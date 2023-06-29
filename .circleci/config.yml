@@ -202,9 +202,8 @@ orbs:
         # parallelism: 2 # parall builds for multiple modules
         steps:
           - docker/check:
-              parameters:
-                docker-username: $CONTEXT_DOCKER_USERNAME
-                docker-password: $CONTEXT_DOCKER_PASSWORD
+              docker-username: $CONTEXT_DOCKER_USERNAME
+              docker-password: $CONTEXT_DOCKER_PASSWORD
           # - docker/publish: 
           #     after_checkout:
           #       - run:
