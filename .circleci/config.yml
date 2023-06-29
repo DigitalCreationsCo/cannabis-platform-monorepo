@@ -201,19 +201,10 @@ orbs:
           DOCKER_LOGIN: $DOCKER_USERNAME
         # parallelism: 2 # parall builds for multiple modules
         steps:
-          - run:
-              name: Print Docker Login
-              command: echo DOCKER_LOGIN
-          - run:
-              name: Print Docker Password
-              command: echo DOCKER_PASSWORD
-          - run:
-              name: Print Docker Registry
-              command: echo $REGISTRY
-          - run:
-              name: Print Docker Registry
-              command: echo REGISTRY
-          - docker/check
+          - docker/check:
+              parameters:
+                docker-username: $CONTEXT_DOCKER_USERNAME
+                docker-password: $CONTEXT_DOCKER_PASSWORD
           # - docker/publish: 
           #     after_checkout:
           #       - run:
