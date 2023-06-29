@@ -42,7 +42,7 @@ workflows:
           namespace: default
           get-rollout-status: true
           watch-rollout-status: true
-          watch-timeout: 10s
+          watch-timeout: 30s
           pinned-revision-to-watch: ''
           resource-file-path: ''
           resource-name: deployment/gras-shop

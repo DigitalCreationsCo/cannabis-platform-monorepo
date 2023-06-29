@@ -264,7 +264,7 @@ orbs:
           watch-timeout: 
             description: The length of time to wait before ending the watch, zero means never. Any other values should contain a corresponding time unit (e.g. 1s, 2m, 3h). Only effective if get-rollout-status is set to true.
             type: string
-            default: ''
+            default: 30s
           pinned-revision-to-watch: 
             description: Pin a specific revision to be watched and abort watching if it is rolled over by another revision. Only effective if get-rollout-status is set to true.
             type: string
