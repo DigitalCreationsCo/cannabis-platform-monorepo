@@ -39,11 +39,11 @@ workflows:
           #   - "test-and-build/build-and-publish-docker-image"
           container-image-updates: gras-shop=
           dry-run: ''
-          namespace: 'default'
+          namespace: default
           get-rollout-status: true
           watch-rollout-status: true
           watch-timeout: 10s
           pinned-revision-to-watch: ''
           resource-file-path: ''
-          resource-name: 'gras-shop'
+          resource-name: deployment/gras-shop
           show-kubectl-command: true
