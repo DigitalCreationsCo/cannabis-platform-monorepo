@@ -279,7 +279,7 @@ orbs:
             default: ''
           show-kubectl-command: 
             description: Whether to show the kubectl command used.
-            type: string
+            type: boolean
             default: ''
         steps:
           - *attach_workspace
