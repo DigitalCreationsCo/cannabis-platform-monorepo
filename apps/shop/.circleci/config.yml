@@ -36,6 +36,7 @@ workflows:
           requires:
             - "test-and-build/build-and-publish-docker-image"
           context:
+            - shop
             - kubernetes
           container-image-updates: "gras-shop=$(</tmp/workspace/shop-digest.txt)"
           dry-run: ''
