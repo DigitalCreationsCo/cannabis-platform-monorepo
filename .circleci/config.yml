@@ -199,7 +199,7 @@ orbs:
         executor: docker/docker
         environment:
           DOCKER_LOGIN: ${CONTEXT_DOCKER_USERNAME}
-          DOCKER_PASSWORD: $CONTEXT_DOCKER_PASSWORD
+          DOCKER_PASSWORD: $PARAM_CONTEXT_DOCKER_PASSWORD
           PARAM_REGISRY: $CONTEXT_DOCKER_REGISTRY
         # parallelism: 2 # parall builds for multiple modules
         steps:
@@ -208,7 +208,7 @@ orbs:
               command: echo $DOCKER_LOGIN
           - run:
               name: Print Docker Password
-              command: echo $PARAM_DOCKER_PASSWORD
+              command: echo $DOCKER_PASSWORD
           - run:
               name: Print Docker Registry
               command: echo $PARAM_REGISTRY
