@@ -207,13 +207,13 @@ orbs:
               # add credentials store to workflow workspace
               use-docker-credentials-store: true
           - docker/build: 
-              dockerfile: Dockerfile.$CONTEXT_BUILD_TYPE
-              image: $CONTEXT_DOCKER_USERNAME/$CONTEXT_BUILD_CONTEXT
+              dockerfile: Dockerfile.$BUILD_TYPE
+              image: $DOCKER_USERNAME/$BUILD_CONTEXT
               path: '.'
-              extra_build_args: '--build-arg=BUILD_CONTEXT=$CONTEXT_BUILD_CONTEXT --build-arg=PORT=$CONTEXT_PORT --no-cache --progress=plain'
+              extra_build_args: '--build-arg=BUILD_CONTEXT=$BUILD_CONTEXT --build-arg=PORT=$PORT --no-cache --progress=plain'
           - docker/push:
               digest-path: /tmp/digest.txt
-              image: $CONTEXT_DOCKER_USERNAME/$CONTEXT_BUILD_CONTEXT
+              image: $DOCKER_USERNAME/$BUILD_CONTEXT
           - run:
               command: |
                 echo "Digest is: $(</tmp/digest.txt)"
