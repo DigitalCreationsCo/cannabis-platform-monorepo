@@ -171,7 +171,7 @@ orbs:
               configuration_path: << parameters.continue-config >>
               parameters: '{"run-setup":false}'
   test-and-build:
-    executors:
+    orbs:
       docker: circleci/docker@2.2.0
     jobs:
       run-tests:
@@ -196,7 +196,7 @@ orbs:
           - store_test_results:
               path: ./test-results/
       build-and-publish-docker-image:
-        executor: docker/default
+        executor: docker/docker
         steps:
           - docker/check
           # - docker/publish: 
