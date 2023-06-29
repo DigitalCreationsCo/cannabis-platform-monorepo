@@ -168,8 +168,7 @@ orbs:
     jobs:
       run-tests:
         machine:
-          image: node
-          docker_layer_caching: true
+          image: circleci/node@5
         environment:
           JEST_JUNIT_OUTPUT_DIR: ./test-results/
         steps:
