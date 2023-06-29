@@ -1,6 +1,5 @@
 # Config for the setup workflow and common resources (jobs, commands) for main workflows
 # `common-` prefix is added for common resources (to avoid conflicts with module resources)
-
 version: 2.1
 setup: << pipeline.parameters.run-setup >>
 
@@ -32,15 +31,6 @@ commands:
       - run: echo 'Greetings to << parameters.to >> from the shared command!'
       - run: echo 'The value of `custom-parameter` was "<< pipeline.parameters.custom-parameter >>"'
 
-# Common jobs for the main workflows
-jobs:
-  common-pre:
-    docker:
-      - image: alpine
-    steps:
-      - common-say-hello
-      - run: echo 'Jobs with `common-` prefix are intended to be shared among modules'
-
 workflows:
   # The setup workflow
   setup-workflow:
@@ -63,8 +53,47 @@ workflows:
             server/image
             server/dispatch
             # packages are rebuilt in the module build, for now
+      - docker/test-node
+  # this job will be run individually from module configs
+  # build-modules:
+  #   jobs:
+  #     - docker/build
+
+# Common jobs for the main workflows
+jobs:
+  common-pre:
+    docker:
+      - image: alpine
+    steps:
+      - common-say-hello
+      - run: echo 'Jobs with `common-` prefix are intended to be shared among modules'
 
 orbs:
+  docker:
+    orbs:
+      docker: circleci/docker@2.2.0
+    commands:
+      test:
+        description: Run unit-tests
+        steps:
+          - docker/install-packages:
+              pkg-manager: yarn
+          - run:
+              name: Run unit-tests for changed modules
+              command: yarn g:test-unit-ci
+          - store_test_results:
+              path: ./test-results/
+    jobs:
+      test-node:
+        executor:
+          name: docker/docker
+          image: circleci/node@5
+        environment:
+          JEST_JUNIT_OUTPUT_DIR: ./test-results/
+        steps:
+          - docker
+          - test
+
   # An "embedded" orb to facilitate config splitting
   config-splitting:
     # Dependencies
@@ -103,7 +132,6 @@ orbs:
                 cat \<< EOD | sed -e '/^$/d' | while read row; do module="$(echo "$row" | awk '{ print $1 }')"; if [ << parameters.force-all >> == 'true' ] || [ $(git diff --name-only << parameters.base-revision >> "$module" | wc -l) -gt 0 ] || (! git rev-parse --verify HEAD~1) || [ $(git diff --name-only HEAD~1 "$module" | wc -l) -gt 0 ]; then echo "$row" | sed -e 's/ /\n/g' >> << parameters.modules-filtered >>; fi; done
                 << parameters.modules >>
                 EOD
-
       merge-modular-configs:
         parameters:
           modules:
@@ -140,7 +168,6 @@ orbs:
                 fi
 
                 xargs -a "<< parameters.modules >>" yq -y -s 'reduce .[] as $item ({}; . * $item)' | tee "<< parameters.continue-config >>"
-
     jobs:
       # The job for the setup workflow
       setup-dynamic-config:

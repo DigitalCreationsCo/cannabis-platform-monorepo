@@ -2,3 +2,9 @@ PACKAGES
 Packages are built in each module in the build process.
 There is no shared build for the modules.
     Question: How can the packages be a shared module that is imported (mounted) in the module containers?
+
+    Use docker cache from initial build layer, to inline dependency packages to module builds:
+    https://circleci.com/developer/orbs/orb/circleci/docker#usage-with-cache-from
+
+    Builder layer => withcachefrom Builderlayer/packages/ => mount into module build as a volume.
+    (will have to alter Dockerfiles as well for this config) :)

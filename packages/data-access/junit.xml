@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="13" failures="0" errors="0" time="1.562">
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2023-06-28T23:31:02" time="1.147" tests="4">
+    <testcase classname=" find organization with the given organizationId" name=" find organization with the given organizationId" time="0.001">
+    </testcase>
+    <testcase classname=" find multiple organization with the list of organizationId" name=" find multiple organization with the list of organizationId" time="0">
+    </testcase>
+    <testcase classname=" update stripe account for dispensary" name=" update stripe account for dispensary" time="0">
+    </testcase>
+    <testcase classname=" get stripe account id for dispensary" name=" get stripe account id for dispensary" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2023-06-28T23:31:03" time="0.14" tests="5">
+    <testcase classname=" add address with userId" name=" add address with userId" time="0.001">
+    </testcase>
+    <testcase classname=" find address with the given addressId" name=" find address with the given addressId" time="0.001">
+    </testcase>
+    <testcase classname=" find address with the given userId" name=" find address with the given userId" time="0">
+    </testcase>
+    <testcase classname=" find address with the given addressId and userId" name=" find address with the given addressId and userId" time="0">
+    </testcase>
+    <testcase classname=" delete address with the given addressId and userId" name=" delete address with the given addressId and userId" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2023-06-28T23:31:03" time="0.072" tests="1">
+    <testcase classname=" create or update a dispensary admin user fails with incomplete data" name=" create or update a dispensary admin user fails with incomplete data" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2023-06-28T23:31:03" time="0.08" tests="2">
+    <testcase classname=" create or update a dispensary admin user" name=" create or update a dispensary admin user" time="0.001">
+    </testcase>
+    <testcase classname=" create or update a dispensary admin user fails with incomplete data" name=" create or update a dispensary admin user fails with incomplete data" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2023-06-28T23:31:03" time="0.081" tests="1">
+    <testcase classname=" update an order with the given values" name=" update an order with the given values" time="0.001">
+    </testcase>
+  </testsuite>
+</testsuites>
