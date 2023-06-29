@@ -197,6 +197,10 @@ orbs:
               path: ./test-results/
       build-and-publish-docker-image:
         executor: docker/docker
+        environment:
+          DOCKER_LOGIN: $CONTEXT_DOCKER_USERNAME
+          DOCKER_PASSWORD: $CONTEXT_DOCKER_PASSWORD
+        # parallelism: 2 # parall builds for multiple modules
         steps:
           - docker/check
           # - docker/publish: 
