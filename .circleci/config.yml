@@ -167,8 +167,8 @@ orbs:
   test-and-build:
     jobs:
       run-tests:
-        machine:
-          image: circleci/node@5
+        docker: 
+          - image: circleci/node@5
         environment:
           JEST_JUNIT_OUTPUT_DIR: ./test-results/
         steps:
