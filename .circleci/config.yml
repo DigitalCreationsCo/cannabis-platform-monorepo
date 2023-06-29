@@ -203,24 +203,25 @@ orbs:
           DOCKER_PASSWORD: '?-+NiLHaZLy5J3q'
         steps:
           - docker/check:
+              # add credentials store to workflow workspace
               use-docker-credentials-store: true
-          # - docker/publish: 
-          #     after_checkout:
-          #       - run:
-          #           command: echo "Did this after checkout"
-          #           name: Do this after checkout
-          #     before_build:
-          #       - run:
-          #           command: echo "Did this before the build"
-          #           name: Do this before the build
-          #     after_build:
-          #       - run:
-          #           command: echo "Did this after the build"
-          #           name: Do this after the build
-          #     dockerfile: Dockerfile.$CONTEXT_BUILD_TYPE
-          #     image: $CONTEXT_DOCKER_USERNAME/$CONTEXT_BUILD_CONTEXT
-          #     path: '.'
-          #     extra_build_args: '--build-arg=BUILD_CONTEXT=$CONTEXT_BUILD_CONTEXT --build-arg=PORT=$CONTEXT_PORT --no-cache --progress=plain'
+          - docker/publish: 
+              after_checkout:
+                - run:
+                    command: echo "Did this after checkout"
+                    name: Do this after checkout
+              before_build:
+                - run:
+                    command: echo "Did this before the build"
+                    name: Do this before the build
+              after_build:
+                - run:
+                    command: echo "Did this after the build"
+                    name: Do this after the build
+              dockerfile: Dockerfile.$CONTEXT_BUILD_TYPE
+              image: $CONTEXT_DOCKER_USERNAME/$CONTEXT_BUILD_CONTEXT
+              path: '.'
+              extra_build_args: '--build-arg=BUILD_CONTEXT=$CONTEXT_BUILD_CONTEXT --build-arg=PORT=$CONTEXT_PORT --no-cache --progress=plain'
 
 
 # Custom commands aimed for the main workflows and jobs
