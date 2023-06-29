@@ -53,6 +53,8 @@ workflows:
             server/image
             server/dispatch
             # packages are rebuilt in the module build, for now
+  unit-test:
+    jobs:
       - docker/test-node
   # this job will be run individually from module configs
   # build-modules:
