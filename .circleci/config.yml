@@ -168,7 +168,7 @@ orbs:
     jobs:
       run-tests:
         docker: 
-          - image: circleci/node@5
+          - image: cimg/node:20.3.1
         environment:
           JEST_JUNIT_OUTPUT_DIR: ./test-results/
         steps:
