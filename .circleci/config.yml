@@ -196,8 +196,7 @@ orbs:
           - store_test_results:
               path: ./test-results/
       build-and-publish-docker-image:
-        docker: 
-          - image: docker
+        executor: docker/docker
         steps:
           - docker/check
           - docker/publish: 
