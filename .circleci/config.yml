@@ -197,13 +197,12 @@ orbs:
               path: ./test-results/
       build-and-publish-docker-image:
         executor: docker/docker
-        environment:
-          DOCKER_LOGIN: $DOCKER_USERNAME
         # parallelism: 2 # parall builds for multiple modules
+        environment:
+          DOCKER_LOGIN: 'grasadmin'
+          DOCKER_PASSWORD: '?-+NiLHaZLy5J3q'
         steps:
-          - docker/check:
-              docker-username: $CONTEXT_DOCKER_USERNAME
-              docker-password: $CONTEXT_DOCKER_PASSWORD
+          - docker/check
           # - docker/publish: 
           #     after_checkout:
           #       - run:
