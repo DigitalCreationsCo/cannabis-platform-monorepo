@@ -19,7 +19,6 @@ parameters:
     type: string
     default: ''
 
-
 workflows:
   # The setup workflow
   setup-workflow:
@@ -167,40 +166,38 @@ orbs:
   test-and-build:
     jobs:
       run-tests:
-          docker: 
-            - image: cimg/node:20.3.1
-          environment:
-            JEST_JUNIT_OUTPUT_DIR: ./test-results/
-            YARN_VERSION: "3.3.1"
-          steps:
-            - run: 
-                name: Echo Yarn Version
-                command: echo upgrading yarn to $YARN_VERSION
-            - run:
-                name: Upgrade Yarn
-                command: yarn set version $YARN_VERSION
-            - run: 
-                name: Install Dependencies
-                command: yarn install
-            - run:
-                name: Run Unit Tests
-                command: yarn g:test-unit-ci
-            - store_test_results:
-                path: ./test-results/
+        docker:
+          - image: cimg/node:20.3.1
+        environment:
+          JEST_JUNIT_OUTPUT_DIR: ./test-results/
+          YARN_VERSION: '3.3.1'
+        steps:
+          - run:
+              name: Echo Yarn Version
+              command: echo upgrading yarn to $YARN_VERSION
+          - run:
+              name: Upgrade Yarn
+              command: yarn set version $YARN_VERSION
+          - run:
+              name: Install Dependencies, Frozen Lockfile
+              command: yarn install --frozen-lockfile
+          - run:
+              name: Run Unit Tests
+              command: yarn g:test-unit-ci
+          - store_test_results:
+              path: ./test-results/
 
-
-# executors: 
-#   docker: 
-#     description: | 
+# executors:
+#   docker:
+#     description: |
 #       The docker image to use for docker build
-#     docker: 
+#     docker:
 #       - image: circleci/docker@2.2.0
-#   node: 
-#     description: | 
+#   node:
+#     description: |
 #       The docker image to use for node
-#     docker: 
+#     docker:
 #       - image: circleci/node@5
-
 
 # Custom commands aimed for the main workflows and jobs
 commands:
@@ -213,7 +210,6 @@ commands:
     steps:
       - run: echo 'Greetings to << parameters.to >> from the shared command!'
       - run: echo 'The value of `custom-parameter` was "<< pipeline.parameters.custom-parameter >>"'
-
 
 # Common jobs for the main workflows
 jobs:
