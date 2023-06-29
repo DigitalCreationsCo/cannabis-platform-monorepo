@@ -291,9 +291,9 @@ orbs:
           - run: 
               name: "Print New Image"
               command: | 
-                echo "Update image: gras-shop=grasadmin/shop:$(</tmp/workspace/digest.txt)"
+                echo "Update image: $(</tmp/workspace/digest.txt)"
           - kubernetes/update-container-image:
-              container-image-updates: "gras-shop=grasadmin/shop:$(</tmp/workspace/digest.txt)"
+              container-image-updates: "gras-shop=$(</tmp/workspace/digest.txt)"
               dry-run: << parameters.dry-run >>
               namespace: << parameters.namespace >>
               get-rollout-status: << parameters.get-rollout-status >>
