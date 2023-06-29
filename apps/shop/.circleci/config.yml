@@ -29,3 +29,4 @@ workflows:
       - test-and-build/build-and-publish-docker-image:
           context: 
             - shop
+            - docker_registry
