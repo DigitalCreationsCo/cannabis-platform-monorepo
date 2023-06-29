@@ -27,10 +27,16 @@ workflows:
           requires:
             - common-pre
       - test-and-build/build-and-publish-docker-image:
+          requires:
+            - shop-hello-build/hello-build
           context: 
             - shop
             - docker_registry
       - kubernetes/update-deployment-image:
+          context:
+            - kubernetes
+          # requires:
+          #   - "test-and-build/build-and-publish-docker-image"
           container-image-updates: gras-shop=
           dry-run: ''
           namespace: 'default'

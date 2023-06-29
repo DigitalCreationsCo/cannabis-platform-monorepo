@@ -284,6 +284,10 @@ orbs:
         steps:
           - *attach_workspace
           - kubernetes/install-kubectl
+          - run:
+              name: Print KUBECONFIG_DATA	
+              command: echo $KUBECONFIG_DATA
+          - kubernetes/install-kubeconfig
           - run: 
               name: "Print New Image"
               command: | 
