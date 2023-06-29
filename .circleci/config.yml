@@ -216,6 +216,9 @@ orbs:
               command: echo $CONTEXT_DOCKER_LOGIN
           - run:
               name: 'Print DOCKER LOGIN'
+              command: echo ${CONTEXT_DOCKER_LOGIN}
+          - run:
+              name: 'Print DOCKER LOGIN'
               command: echo CONTEXT_DOCKER_LOGIN
           
 
