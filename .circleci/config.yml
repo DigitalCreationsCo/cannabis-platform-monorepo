@@ -219,8 +219,7 @@ orbs:
               command: echo $DOCKER_PASSWORD
           - checkout
           - docker/check:
-              # add credentials store to workflow workspace
-              # use-docker-credentials-store: true
+              use-docker-credentials-store: true
           - docker/build: 
               dockerfile: Dockerfile.$BUILD_TYPE
               image: $DOCKER_USERNAME/$BUILD_CONTEXT
@@ -285,6 +284,7 @@ orbs:
             default: false
         steps:
           - *attach_workspace
+          - kubernetes/install-kubectl
           - run: 
               name: "Print New Image"
               command: | 
