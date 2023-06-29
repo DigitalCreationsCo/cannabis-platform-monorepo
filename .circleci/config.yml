@@ -28,9 +28,10 @@ references:
   attach_workspace: &attach_workspace
     attach_workspace:
       at: *workspace_root
-  digest: /tmp/digest
+  digest: &digest
+    /tmp/digest
   attach_digest: &attach_digest
-    attach_workspace:
+    attach_digest:
       at: *digest
 
 
