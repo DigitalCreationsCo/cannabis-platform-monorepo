@@ -175,18 +175,18 @@ orbs:
           steps:
             - run: 
                 name: Echo Yarn Version
-                command: echo $YARN_VERSION
-            # - run: 
-            #     name: Install yarn
-            #     command: npm install -g yarn
-            # - run:
-            #     name: Upgrade yarn
-
-            # - run:
-            #     name: Run Unit Tests
-            #     command: yarn g:test-unit-ci
-            # - store_test_results:
-            #     path: ./test-results/
+                command: echo upgrading yarn to $YARN_VERSION
+            - run:
+                name: Upgrade Yarn
+                command: yarn set version $YARN_VERSION
+            - run: 
+                name: Install Dependencies
+                command: yarn install
+            - run:
+                name: Run Unit Tests
+                command: yarn g:test-unit-ci
+            - store_test_results:
+                path: ./test-results/
 
 
 # executors: 
