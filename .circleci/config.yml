@@ -182,7 +182,7 @@ orbs:
         steps:
           - checkout
           - run:
-              name: Echo Yarn Version
+              name: Print Yarn Version
               command: echo upgrading yarn to $CONTEXT_YARN_VERSION
           - run:
               name: Upgrade Yarn
@@ -202,6 +202,23 @@ orbs:
           DOCKER_LOGIN: 'grasadmin'
           DOCKER_PASSWORD: '?-+NiLHaZLy5J3q'
         steps:
+          - run:
+              name: 'Print DOCKER LOGIN'
+              command: echo DOCKER_LOGIN
+          - run:
+              name: 'Print DOCKER LOGIN'
+              command: echo $DOCKER_LOGIN
+          - run:
+              name: 'Print DOCKER LOGIN'
+              command: echo ${DOCKER_LOGIN}
+          - run:
+              name: 'Print DOCKER LOGIN'
+              command: echo $CONTEXT_DOCKER_LOGIN
+          - run:
+              name: 'Print DOCKER LOGIN'
+              command: echo CONTEXT_DOCKER_LOGIN
+          
+
           - docker/check
           # - docker/publish: 
           #     after_checkout:
