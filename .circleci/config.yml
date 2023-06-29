@@ -198,28 +198,19 @@ orbs:
       build-and-publish-docker-image:
         executor: docker/machine
         # parallelism: 2 # parall builds for multiple modules
-        environment:
-          DOCKER_LOGIN: 'grasadmin'
-          DOCKER_PASSWORD: '?-+NiLHaZLy5J3q'
         steps:
-          - run:
-              name: Print Docker Login
-              command: echo $DOCKER_LOGIN
-          - run:
-              name: Print Docker Login
-              command: echo $DOCKER_USERNAME
           - checkout
           - docker/check:
               # add credentials store to workflow workspace
               use-docker-credentials-store: true
           - docker/build: 
               dockerfile: Dockerfile.$BUILD_TYPE
-              image: grasadmin/$BUILD_CONTEXT
+              image: $DOCKER_USERNAME/$BUILD_CONTEXT
               path: '.'
               extra_build_args: '--build-arg=BUILD_CONTEXT=$BUILD_CONTEXT --build-arg=PORT=$PORT --no-cache --progress=plain'
           - docker/push:
               digest-path: /tmp/digest.txt
-              image: grasadmin/$BUILD_CONTEXT
+              image: $DOCKER_USERNAME/$BUILD_CONTEXT
           - run:
               command: |
                 echo "Digest is: $(</tmp/digest.txt)"
