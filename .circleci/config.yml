@@ -203,6 +203,15 @@ orbs:
           REGISRY: $CONTEXT_DOCKER_REGISTRY
         # parallelism: 2 # parall builds for multiple modules
         steps:
+          - run:
+              name: Print Docker Login
+              command: echo $DOCKER_LOGIN
+          - run:
+              name: Print Docker Password
+              command: echo $DOCKER_PASSWORD
+          - run:
+              name: Print Docker Registry
+              command: echo $REGISTRY
           - docker/check
           # - docker/publish: 
           #     after_checkout:
