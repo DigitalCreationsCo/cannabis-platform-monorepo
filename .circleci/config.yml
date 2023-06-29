@@ -77,7 +77,7 @@ orbs:
     jobs:
       test-node:
         executor:
-          name: docker/docker
+          name: node
           image: circleci/node@5
         environment:
           JEST_JUNIT_OUTPUT_DIR: ./test-results/
