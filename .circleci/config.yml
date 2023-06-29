@@ -93,7 +93,6 @@ orbs:
         environment:
           JEST_JUNIT_OUTPUT_DIR: ./test-results/
         steps:
-          - docker
           - test
 
   # An "embedded" orb to facilitate config splitting
