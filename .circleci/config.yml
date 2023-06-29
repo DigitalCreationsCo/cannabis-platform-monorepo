@@ -281,7 +281,8 @@ orbs:
           - *attach_workspace
           - run: 
               name: "Print New Image"
-              command: "Update image: gras-shop=grasadmin/shop:$(</tmp/workspace/digest.txt)"
+              command: | 
+                echo "Update image: gras-shop=grasadmin/shop:$(</tmp/workspace/digest.txt)"
           - kubernetes/update-container-image:
               container-image-updates: "gras-shop=grasadmin/shop:$(</tmp/workspace/digest.txt)"
               dry-run: << parameters.dry-run >>
