@@ -74,17 +74,6 @@ orbs:
   docker:
     orbs:
       docker: circleci/docker@2.2.0
-    commands:
-      test:
-        description: Run unit-tests
-        steps:
-          - docker/install-packages:
-              pkg-manager: yarn
-          - run:
-              name: Run unit-tests for changed modules
-              command: yarn g:test-unit-ci
-          - store_test_results:
-              path: ./test-results/
     jobs:
       test-node:
         executor:
@@ -93,7 +82,13 @@ orbs:
         environment:
           JEST_JUNIT_OUTPUT_DIR: ./test-results/
         steps:
-          - test
+          - node/install-packages:
+              pkg-manager: yarn
+          - run:
+              name: Run unit-tests for changed modules
+              command: yarn g:test-unit-ci
+          - store_test_results:
+              path: ./test-results/
 
   # An "embedded" orb to facilitate config splitting
   config-splitting:
