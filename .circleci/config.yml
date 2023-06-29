@@ -198,9 +198,9 @@ orbs:
       build-and-publish-docker-image:
         executor: docker/docker
         # parallelism: 2 # parall builds for multiple modules
-        environment:
-          DOCKER_LOGIN: 'grasadmin'
-          DOCKER_PASSWORD: '?-+NiLHaZLy5J3q'
+        # environment:
+        #   DOCKER_LOGIN: 'grasadmin'
+        #   DOCKER_PASSWORD: '?-+NiLHaZLy5J3q'
         steps:
           - run:
               name: 'Print DOCKER LOGIN'
