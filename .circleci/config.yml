@@ -280,7 +280,7 @@ orbs:
           show-kubectl-command: 
             description: Whether to show the kubectl command used.
             type: boolean
-            default: ''
+            default: false
         steps:
           - *attach_workspace
           - run: 
