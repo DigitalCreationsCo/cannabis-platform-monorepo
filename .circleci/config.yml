@@ -245,7 +245,6 @@ orbs:
           container-image-updates: 
             description: "Specify a list of container image updates (space-delimited name value pairs in the form CONTAINER_NAME_1=CONTAINER_IMAGE_1 ... CONTAINER_NAME_N=CONTAINER_IMAGE_N) to be applied to the resource via `kubectl set image`"
             type: string
-            required: true
           dry-run: 
             description: Whether the kubectl command will be executed in dry-run mode.
             type: string
