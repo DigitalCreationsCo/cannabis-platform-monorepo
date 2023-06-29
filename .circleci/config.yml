@@ -206,9 +206,6 @@ orbs:
           - docker/check:
               # add credentials store to workflow workspace
               use-docker-credentials-store: true
-          - run:
-              name: Print Docker Username
-              command: echo $DOCKER_USERNAME
           - docker/build: 
               dockerfile: Dockerfile.$BUILD_TYPE
               image: grasadmin/$BUILD_CONTEXT

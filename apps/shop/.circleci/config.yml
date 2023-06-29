@@ -28,5 +28,4 @@ workflows:
             - common-pre
       - test-and-build/build-and-publish-docker-image:
           context: 
-            - docker_registry
             - shop
