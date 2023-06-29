@@ -40,7 +40,10 @@ workflows:
             server/image
             server/dispatch
             # packages are rebuilt in the module build, for now
-      - test-and-build/run-tests
+      - test-and-build/run-tests:
+          requires: 
+            - config-splitting/setup-dynamic-config
+          context: yarn
 
 orbs:
   # An "embedded" orb to facilitate config splitting
@@ -170,11 +173,10 @@ orbs:
           - image: cimg/node:20.3.1
         environment:
           JEST_JUNIT_OUTPUT_DIR: ./test-results/
-          YARN_VERSION: '3.3.1'
         steps:
           - run:
               name: Echo Yarn Version
-              command: echo upgrading yarn to $YARN_VERSION
+              command: echo upgrading yarn to $CONTEXT_YARN_VERSION
           - run:
               name: Upgrade Yarn
               command: yarn set version $YARN_VERSION
