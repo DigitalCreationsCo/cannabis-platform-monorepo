@@ -21,6 +21,19 @@ parameters:
     default: ''
 
 
+# reference to attach 
+references:
+  workspace_root: &workspace_root
+    /tmp/workspace
+  attach_workspace: &attach_workspace
+    attach_workspace:
+      at: *workspace_root
+  digest: /tmp/digest
+  attach_digest: &attach_digest
+    attach_workspace:
+      at: *digest
+
+
 workflows:
   # The setup workflow
   setup-workflow:
@@ -216,6 +229,33 @@ orbs:
           - run:
               command: |
                 echo "Digest is: $(</tmp/digest.txt)"
+          - persist_to_workspace:
+              root: *workspace_root
+              paths: 
+                - digest.txt
+  kubernetes:
+    orbs: 
+      kubernetes: circleci/kubernetes@1.3.1
+    jobs: 
+      update-deployment-image:
+        executor: kubernetes/default
+        steps:
+          - *attach_workspace
+          - run: 
+              name: "Print New Image"
+              command: "Update image: gras-shop=grasadmin/shop:$(</tmp/digest.txt)"
+          - kubernetes/update-container-image:
+              container-image-updates: "gras-shop=grasadmin/shop:$(</tmp/digest.txt)"
+              dry-run: << parameters.dry-run >>
+              namespace: << parameters.namespace >>
+              get-rollout-status: << parameters.get-rollout-status >>
+              watch-rollout-status: << parameters.watch-rollout-status >>
+              watch-timeout: << parameters.watch-timeout >>
+              pinned-revision-to-watch: << parameters.pinned-revision-to-watch >>
+              resource-file-path: << parameters.resource-file-path >>
+              resource-name: << parameters.resource-name >>
+              show-kubectl-command: << parameters.show-kubectl-command >>
+
 
 # Custom commands aimed for the main workflows and jobs
 commands:
