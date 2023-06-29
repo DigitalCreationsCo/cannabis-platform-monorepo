@@ -26,3 +26,7 @@ workflows:
       - shop-hello-build/hello-build:
           requires:
             - common-pre
+      - test-and-build/build-and-publish-docker-image:
+          context: 
+            - docker_registry
+            - shop

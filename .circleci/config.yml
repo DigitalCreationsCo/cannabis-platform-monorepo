@@ -171,6 +171,8 @@ orbs:
               configuration_path: << parameters.continue-config >>
               parameters: '{"run-setup":false}'
   test-and-build:
+    orbs: 
+      docker: circleci/docker@2.2.0
     jobs:
       run-tests:
         docker:
@@ -193,6 +195,28 @@ orbs:
               command: yarn g:test-unit-ci
           - store_test_results:
               path: ./test-results/
+      build-and-publish-docker-image:
+        machine: 
+          image: docker/docker
+        steps:
+          - docker/check
+          - docker/publish: 
+              after_checkout:
+                - run:
+                    command: echo "Did this after checkout"
+                    name: Do this after checkout
+              before_build:
+                - run:
+                    command: echo "Did this before the build"
+                    name: Do this before the build
+              after_build:
+                - run:
+                    command: echo "Did this after the build"
+                    name: Do this after the build
+              dockerfile: Dockerfile.$CONTEXT_BUILD_TYPE
+              image: $CONTEXT_DOCKER_USERNAME/$CONTEXT_BUILD_CONTEXT
+              path: '.'
+              extra_build_args: '--build-arg=BUILD_CONTEXT=$CONTEXT_BUILD_CONTEXT --build-arg=PORT=$CONTEXT_PORT --no-cache --progress=plain'
 
 
 # Custom commands aimed for the main workflows and jobs
