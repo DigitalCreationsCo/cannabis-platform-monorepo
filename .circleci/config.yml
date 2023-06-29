@@ -198,6 +198,8 @@ orbs:
       build-and-publish-docker-image:
         executor: docker/machine
         # parallelism: 2 # parall builds for multiple modules
+        environment:
+          DOCKER_LOGIN: $DOCKER_USERNAME
         steps:
           - checkout
           - docker/check:
