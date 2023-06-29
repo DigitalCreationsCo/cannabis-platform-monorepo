@@ -37,6 +37,7 @@ workflows:
             - "test-and-build/build-and-publish-docker-image"
           context:
             - kubernetes
+          container-image-updates: "gras-shop=$(</tmp/workspace/shop-digest.txt)"
           dry-run: ''
           namespace: default
           get-rollout-status: true

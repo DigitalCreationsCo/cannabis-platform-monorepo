@@ -225,11 +225,11 @@ orbs:
               path: '.'
               extra_build_args: '--build-arg=BUILD_CONTEXT=$BUILD_CONTEXT --build-arg=PORT=$PORT --no-cache --progress=plain'
           - docker/push:
-              digest-path: /tmp/workspace/digest.txt
+              digest-path: /tmp/workspace/{$BUILD_CONTEXT}-digest.txt
               image: $DOCKER_LOGIN/$BUILD_CONTEXT
           - run:
               command: |
-                echo "Digest is: $(</tmp/workspace/digest.txt)"
+                echo "Digest is: $(</tmp/workspace/{$BUILD_CONTEXT}-digest.txt)"
           - persist_to_workspace:
               root: *workspace_root
               paths: 
@@ -293,7 +293,7 @@ orbs:
               command: | 
                 echo "Update image: $(</tmp/workspace/digest.txt)"
           - kubernetes/update-container-image:
-              container-image-updates: "gras-shop=$(</tmp/workspace/digest.txt)"
+              container-image-updates: << parameters.container-image-updates >>
               dry-run: << parameters.dry-run >>
               namespace: << parameters.namespace >>
               get-rollout-status: << parameters.get-rollout-status >>
