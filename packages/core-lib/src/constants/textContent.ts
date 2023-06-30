@@ -64,7 +64,8 @@ const TextContent = Object.freeze({
   info: {
     COMPANY_NAME: 'Gras',
     GET_CANNABIS_DELIVERED: `Get&nbsp;Cannabis&nbsp;Delivered`,
-    CANNABIS_DELIVERED: `Cannabis,${'\xa0'}Delivered${'\xa0'}🌴`,
+    CANNABIS_DELIVERED: `Cannabis,${'\xa0'}Delivered.${'\xa0'}🌴🔥`,
+    CANNABIS_DELIVERED_TODAY: `Cannabis,${'\xa0'}Delivered${'\xa0'}Today🌴`,
     ONE_STOP: 'a one stop cannabis marketplace',
     EMAIL: 'Email',
   },
@@ -73,10 +74,8 @@ const TextContent = Object.freeze({
     ADD_TO_CART_f: (qty: number) => `Add ${qty} to Bag`,
 
     ADDRESS_BLOCK_f: (destination: any) =>
-      `${destination.address.street1} ${destination.address.street2}\n${
-        destination.address.city
-      }, ${destination.address.state} ${
-        destination.address.zipcode.split('-')[0]
+      `${destination.address.street1} ${destination.address.street2}\n${destination.address.city
+      }, ${destination.address.state} ${destination.address.zipcode.split('-')[0]
       }`,
 
     FORM_FIELDS: 'Please fill out the required fields.',

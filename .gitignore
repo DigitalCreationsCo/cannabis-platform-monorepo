@@ -3,6 +3,7 @@ _dev
 DOCKERSIM
 
 # credentials files
+_dev_notes/creds
 **/docker_creds
 
 # dependencies
