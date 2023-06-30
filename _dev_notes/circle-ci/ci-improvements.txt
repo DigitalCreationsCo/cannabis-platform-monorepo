@@ -14,6 +14,7 @@ Modules are applied in kubernetes cluster using container-image-updates method.
 passing a syntax of value pairs: 
 CONTAINER_NAME_1=CONTAINER_IMAGE_1 CONTAINER_NAME_2=CONTAINER_IMAGE_2 etc
 Improve: handle dynamic data using context for differnet modules.
+Improve: update the service yaml file whenever an image push is made in ci. 
 
 SCRIPTING
 Figure out how to run external scripts in the config.yml, 

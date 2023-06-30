@@ -38,7 +38,7 @@ workflows:
           context:
             - shop
             - kubernetes
-          container-image-updates: "gras-shop=$(</tmp/workspace/shop-digest.txt)"
+          container-image-updates: "gras-shop=gras-shop:$CIRCLE_SHA1"
           dry-run: ''
           namespace: default
           get-rollout-status: true
