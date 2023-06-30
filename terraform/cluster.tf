@@ -20,7 +20,7 @@ resource "linode_lke_cluster" "terraform_k8s" {
 
             autoscaler {
               min = 1
-              max = 3
+              max = 2
             }
         }
     }
