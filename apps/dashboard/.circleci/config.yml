@@ -1,0 +1,49 @@
+# Config dedicated for Dashboard nextjs app
+# All the resources must be prefixed with `dashboard-` to avoid conflicts
+
+version: 2.1
+
+orbs:
+  dashboard-hello-build: circleci/hello-build@0.0.14
+
+jobs:
+  dashboard-build:
+    docker:
+      - image: alpine
+    steps:
+      - common-say-hello:
+          to: A
+      - run: echo 'Hello world from dashboard app! :3'
+
+workflows:
+  dashboard-workflow:
+    jobs:
+      - common-pre
+      - dashboard-build:
+          requires:
+            - common-pre
+      - dashboard-hello-build/hello-build:
+          requires:
+            - common-pre
+      - test-and-build/build-and-publish-docker-image:
+          requires:
+            - dashboard-hello-build/hello-build
+          context: 
+            - dashboard
+            - docker_registry
+      - kubernetes/update-deployment-image:
+          requires:
+            - "test-and-build/build-and-publish-docker-image"
+          context:
+            - dashboard
+            - kubernetes
+          container-image-updates: "gras-dashboard=gras-dashboard:$CIRCLE_SHA1"
+          dry-run: ''
+          namespace: default
+          get-rollout-status: true
+          watch-rollout-status: true
+          watch-timeout: 30s
+          pinned-revision-to-watch: ''
+          resource-file-path: ''
+          resource-name: deployment/gras-dashboard
+          show-kubectl-command: true

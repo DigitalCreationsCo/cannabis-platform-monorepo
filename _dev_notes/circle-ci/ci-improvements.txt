@@ -1,0 +1,26 @@
+PACKAGES
+Packages are built in each module in the build process.
+There is no shared build for the modules.
+    Question: How can the packages be a shared module that is imported (mounted) in the module containers?
+
+    Use docker cache from initial build layer, to inline dependency packages to module builds:
+    https://circleci.com/developer/orbs/orb/circleci/docker#usage-with-cache-from
+
+    Builder layer => withcachefrom Builderlayer/packages/ => mount into module build as a volume.
+    (will have to alter Dockerfiles as well for this config) :)
+
+KUBERNETES DEPLOYMENT IMAGE APPLY
+Modules are applied in kubernetes cluster using container-image-updates method.
+passing a syntax of value pairs: 
+CONTAINER_NAME_1=CONTAINER_IMAGE_1 CONTAINER_NAME_2=CONTAINER_IMAGE_2 etc
+Improve: handle dynamic data using context for differnet modules.
+Improve: update the service yaml file whenever an image push is made in ci. 
+
+SCRIPTING
+Figure out how to run external scripts in the config.yml, 
+    Need a script to increment docker image tag for kubernetes deployment
+
+LIST-CHANGED-MODULES
+* This is not working correctly, need to resolve it.
+
+* handle different digests for multiple module builds
