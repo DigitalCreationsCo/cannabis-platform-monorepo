@@ -16,6 +16,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: gras-shop
+  annotations:
+    linkerd.io/inject: enabled
 spec:
   replicas: 1
   selector:
@@ -25,8 +27,6 @@ spec:
     metadata:
       labels:
         app: gras-shop
-    annotations:
-      linkerd.io/inject: enabled
     spec:
       serviceAccountName: default
       containers:
