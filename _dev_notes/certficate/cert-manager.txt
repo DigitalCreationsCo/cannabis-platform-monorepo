@@ -1,0 +1,4 @@
+kubernetes clusters uses cert-manager service for PKI certification and rotation.
+
+resolving dns zones with dns-01 solver:
+https://cert-manager.io/docs/configuration/acme/dns01/acme-dns/
