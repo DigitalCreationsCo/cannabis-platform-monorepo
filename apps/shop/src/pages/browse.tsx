@@ -50,7 +50,8 @@ export default function MarketPlace({ host }: { host: string }) {
                     There's a problem loading your Gras shop. Please contact support for help.</Center>} */}
 
         <Carousel
-          title={'Gras is now available in Baltimore!'}
+          title={'Gras is now delivering in Baltimore!'}
+          titleSize="lg"
           Component={DispensaryCard}
           data={DispensaryCardMockData}
           dataKey="dispensary"

@@ -12,6 +12,7 @@ type CarouselComponent = {
 interface CarouselProps {
     Component: React.FC<CarouselComponent>;
     title?: string;
+    titleSize?: 'md' | 'lg';
     data: any[];
     dataKey: string;
     axis?: 'horizontal' | 'vertical';
@@ -24,6 +25,7 @@ interface CarouselProps {
 export default function Carousel({ 
     Component, 
     title, 
+    titleSize = 'md',
     data, 
     dataKey, 
     axis = "horizontal", // not implemented for vertical
@@ -44,7 +46,9 @@ export default function Carousel({
         title: [
             'flex pt-1 px-8 bottom-0 whitespace-nowrap justify-center',
             'cursor-default',
-            'h-fit'
+            'h-fit',
+            titleSize === 'lg' && 'text-xl',
+            titleSize === 'md' && 'text-lg'
         ],
         control: [
             'flex space-x-4 justify-center',
