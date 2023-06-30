@@ -35,4 +35,5 @@ resource "linode_lke_cluster" "terraform_k8s" {
 resource "linode_nodebalancer" "gras-nodebalancer" {
     label                = "gras-nodebalancer"
     region               = "${var.region}"
+    client_conn_throttle = 20
 }
