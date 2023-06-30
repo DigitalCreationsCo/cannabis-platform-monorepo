@@ -24,6 +24,8 @@ spec:
     metadata:
       labels:
         app: gras-widget
+    annotations:
+      linkerd.io/inject: enabled
     spec:
       serviceAccountName: default
       containers:
@@ -31,6 +33,13 @@ spec:
         image: grasadmin/delivery-widget:latest
         imagePullPolicy: Always
         terminationMessagePolicy: FallbackToLogsOnError
+        resources: {}
+            # limits:
+            #   cpu: '200m'
+            #   memory: '250Mi'
+            # requests:
+            #   cpu: '200m'
+            #   memory: '250Mi'
         ports:
         - name: widget-port
           containerPort: 80

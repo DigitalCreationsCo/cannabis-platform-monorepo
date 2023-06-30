@@ -25,6 +25,8 @@ spec:
     metadata:
       labels:
         app: gras-dashboard
+    annotations:
+      linkerd.io/inject: enabled
     spec:
       serviceAccountName: default
       containers:
