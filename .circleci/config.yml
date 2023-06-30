@@ -40,9 +40,6 @@ workflows:
       - config-splitting/setup-dynamic-config:
           force-all: << pipeline.parameters.force-all >>
           base-revision: master
-          # If A is modified, the job for A will run
-          # Similarly if B is modified, the job for B will run
-          # If C is modified, then the jobs for both C and B (as a dependency) will run
           modules: |
             apps/shop
             apps/dashboard
@@ -217,12 +214,17 @@ orbs:
           - run:
               name: Print DOCKER_PASSWORD
               command: echo $DOCKER_PASSWORD
-          - docker/publish: 
+          - checkout
+          - docker/check:
               use-docker-credentials-store: true
-              remote-docker-dlc: true
+          - docker/build: 
               dockerfile: Dockerfile.$BUILD_TYPE
               image: $DOCKER_LOGIN/$BUILD_CONTEXT
+              path: '.'
               extra_build_args: '--build-arg=BUILD_CONTEXT=$BUILD_CONTEXT --build-arg=PORT=$PORT --no-cache --progress=plain'
+          - docker/push:
+              digest-path: /tmp/workspace/$BUILD_CONTEXT-digest.txt
+              image: $DOCKER_LOGIN/$BUILD_CONTEXT
               tag: $CIRCLE_SHA1, latest
           - run:
               name: Print Docker Image Tag
