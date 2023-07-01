@@ -9,7 +9,7 @@ spec:
     privateKeySecretRef:
       name: letsencrypt-staging
     solvers:
-      - dns01:
+    - dns01:
         selector:
           dnsZones:
             - 'grascannabis.org'

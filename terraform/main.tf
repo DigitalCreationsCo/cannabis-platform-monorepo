@@ -27,7 +27,7 @@ provider "linode" {
 
 provider "kubernetes" {
     config_path = local.k8s_config_file
-    cluster_ca_certificate = base64decode(local.ca_certificate)
+    cluster_ca_certificate = local.ca_certificate
 
     # ensure the Kubernetes provider is receiving valid credentials, an exec-based plugin can be used to fetch a new token before initializing the provider
     # exec {

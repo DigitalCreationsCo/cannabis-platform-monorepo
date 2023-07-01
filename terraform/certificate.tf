@@ -4,7 +4,7 @@ resource "helm_release" "cert_manager" {
     repository  = "https://charts.jetstack.io"
     chart       = "cert-manager"
     namespace   = "cert-manager"
-    version     = "v1.12.0"
+    version     = "v1.11.0"
     create_namespace = true
 
     set {
@@ -16,8 +16,7 @@ resource "helm_release" "cert_manager" {
 resource "helm_release" "cert_manager_webhook_linode" {
     depends_on  = [ helm_release.cert_manager ]
     name        = "cert-manager-webhook-linode"
-    repository  = "https://slicen.github.io/cert-manager-webhook-linode"
-    chart       = "cert-manager-webhook-linode"
+    chart       = "https://github.com/slicen/cert-manager-webhook-linode/releases/download/v0.2.0/cert-manager-webhook-linode-v0.2.0.tgz"
     namespace   = "cert-manager"
     version     = "v0.2.0"
 }

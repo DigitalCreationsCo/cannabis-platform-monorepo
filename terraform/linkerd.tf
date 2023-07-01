@@ -48,17 +48,17 @@ resource "helm_release" "linkerd_control_plane" {
 
     set {
         name    = "identityTrustAnchorsPEM"
-        value   = file(local.ca_certificate)
+        value   = local.ca_certificate
     }
 
     set {
         name    = "identity.issuer.tls.crtPEM"
-        value   = file(local.issuer_certificate)
+        value   = local.issuer_certificate
     }
 
     set {
         name    = "identity.issuer.tls.keyPEM"
-        value   = file(local.issuer_key)
+        value   = local.issuer_key
     }
 
     atomic      = true
