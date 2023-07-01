@@ -29,6 +29,9 @@ then,                  run yarn:devops-configure
 
 all other k8s resources are defined in k8s/ directory
 
+# TO DO
+Add a linode config file to reference static Ip / host
+
 ###
 HELM 
 helm is used almost exclusively as helm_release in terraform module

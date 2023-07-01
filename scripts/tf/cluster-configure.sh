@@ -1,1 +1,5 @@
-terraform -chdir='./terraform' -target=*.configure.tf apply -auto-approve
+helm repo update
+helm search repo linkerd2-cni
+helm repo add linkerd https://helm.linkerd.io/stable
+
+terraform -chdir='./terraform/cluster-providers' apply -auto-approve
