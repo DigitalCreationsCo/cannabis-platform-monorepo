@@ -4,6 +4,12 @@ resource "local_file" "k8s_config" {
     file_permission = "0600"
 }
 
+resource "linode_nodebalancer" "gras-nodebalancer" {
+    label                = "gras-nodebalancer"
+    region               = "${var.region}"
+    client_conn_throttle = 20
+}
+
 # 139.144.164.21 node balancer ip
 resource "linode_lke_cluster" "terraform_k8s" {
     k8s_version = "${var.k8s_version}"
@@ -30,10 +36,4 @@ resource "linode_lke_cluster" "terraform_k8s" {
             pool.0.count
         ]
     }
-}
-
-resource "linode_nodebalancer" "gras-nodebalancer" {
-    label                = "gras-nodebalancer"
-    region               = "${var.region}"
-    client_conn_throttle = 20
 }
