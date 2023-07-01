@@ -1,10 +1,9 @@
-# run `helm repo update` before running terraform apply
-
 terraform {
     required_version = ">= 0.15"
     required_providers {
         linode = {
-            source = "linode/linode"
+            source  = "linode/linode"
+            version = "2.5.1"
         }
 
         kubernetes = {

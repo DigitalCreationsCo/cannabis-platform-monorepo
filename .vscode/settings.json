@@ -57,13 +57,16 @@
     "editor.defaultFormatter": "vscode.typescript-language-features"
   },
   "terminal.integrated.env.osx": {
-    "KUBECONFIG": "${workspaceFolder}/.kube/kubeconfig.yaml"
+    "KUBECONFIG": "${workspaceFolder}/.kube/kubeconfig.yaml",
+    "TF_DATA_DIR": "${workspaceFolder}/terraform/.terraform"
   },
   "terminal.integrated.env.linux": {
-      "KUBECONFIG": "${workspaceFolder}/.kube/kubeconfig.yaml"
+    "KUBECONFIG": "${workspaceFolder}/.kube/kubeconfig.yaml",
+    "TF_DATA_DIR": "${workspaceFolder}/terraform/.terraform"
   },
   "terminal.integrated.env.windows": {
-      "KUBECONFIG": "${workspaceFolder}\\.kube\\kubeconfig.yaml"
+    "KUBECONFIG": "${workspaceFolder}\\.kube\\kubeconfig.yaml",
+    "TF_DATA_DIR": "${workspaceFolder}/terraform/.terraform"
   },
   "vs-kubernetes": {
     "vs-kubernetes.kubeconfig": "./.kube/kubeconfig.yaml",

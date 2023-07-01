@@ -1,7 +1,28 @@
 # note: terraform may fail to install linkerd with helm if namespace is not create in advance
-
 # note: if there is an issue with service account or secrets relating to linkerd, check this issue: https://www.reddit.com/r/devops/comments/gbo3pc/how_to_use_linkerd_with_terraform/
-# run `helm repo add linkerd https://helm.linkerd.io/stable`
+
+# this secret is used to automatically rotate Linkerd's identity certificate
+
+# TO DO: verify the tf syntax for this secret:
+# Add a linode config file to reference static Ip / host
+# create the cluster
+# create this secret in the cluster
+# run `$ terraform import kubernetes_secret.example default/my-secret` to get the tf state
+# update here
+# Continue to set up Linkerd & Linkerd trust secret & global trust secret
+
+resource "kubernetes_secret" "tls" {
+    metadata {
+        name      = "linkerd-trust-anchor"
+        namespace = "linkerd"
+    }
+
+    type      = "tls"
+
+    data = {
+        token = var.linode_api_token
+    }
+}
 
 resource "helm_release" "linkerd_cni" {
     name        = "linkerd-cni"

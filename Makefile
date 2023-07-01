@@ -7,12 +7,6 @@ docker-build-nocache:
 docker-build-debug:
 	docker build -t grasadmin/$(CONTEXT) -f Dockerfile.$(TYPE) --build-arg=BUILD_CONTEXT=$(CONTEXT) --build-arg=PORT=$(PORT) --progress=plain .
 
-docker-tag:
-	docker tag $(IMAGE) grasadmin/$(IMAGE):$(TAG)
-
-docker-push:
-	docker push grasadmin/$(IMAGE):$(TAG)
-
 create-docker-secret:
 	scripts/docker/create_docker_secret.sh
 	

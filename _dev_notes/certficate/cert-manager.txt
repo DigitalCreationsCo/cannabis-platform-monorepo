@@ -1,4 +1,9 @@
-kubernetes clusters uses cert-manager service for PKI certification and rotation.
+kubernetes clusters uses cert-manager service for PKI certification and rotation of internal certificate used by Linkerd, and ingress, and some outbound traffic to external databases
 
-resolving dns zones with dns-01 solver:
+* Creating Root certificate
+from the monorepo root
+run `step certificate create root.cluster.local ca.crt ca.key --profile root-ca`
+
+
+* Resolving Dns Zones With Dns-01 Solver:
 https://cert-manager.io/docs/configuration/acme/dns01/acme-dns/

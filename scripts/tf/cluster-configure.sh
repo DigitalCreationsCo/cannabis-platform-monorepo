@@ -1,0 +1,1 @@
+terraform -chdir='./terraform' -target=*.configure.tf apply -auto-approve
