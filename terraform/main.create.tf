@@ -1,7 +1,3 @@
-
-# see this guide before upgrading helm charts
-# https://linkerd.io/2.13/tasks/install-helm/#upgrading-with-helm
-
 terraform {
     required_version = ">= 0.15"
     required_providers {

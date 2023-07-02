@@ -1,15 +1,15 @@
-# resource "local_file" "k8s_config" {
-#     depends_on = [ linode_lke_cluster.terraform_k8s ]
-#     content = "${nonsensitive(base64decode(linode_lke_cluster.terraform_k8s.kubeconfig))}"
-#     filename = "${local.k8s_config_file}"
-#     file_permission = "0600"
-# }
+resource "local_file" "k8s_config" {
+    depends_on = [ linode_lke_cluster.terraform_k8s ]
+    content = "${nonsensitive(base64decode(linode_lke_cluster.terraform_k8s.kubeconfig))}"
+    filename = "${local.k8s_config_file}"
+    file_permission = "0600"
+}
 
-# resource "linode_nodebalancer" "gras-nodebalancer" {
-#     label                = "gras-nodebalancer"
-#     region               = "${var.region}"
-#     client_conn_throttle = 20
-# }
+resource "linode_nodebalancer" "gras-nodebalancer" {
+    label                = "gras-nodebalancer"
+    region               = "${var.region}"
+    client_conn_throttle = 20
+}
 
 # 139.144.164.21 node balancer ip
 resource "linode_lke_cluster" "terraform_k8s" {

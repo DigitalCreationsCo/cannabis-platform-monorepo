@@ -7,7 +7,7 @@ locals {
     # issuer_key = file("${local.root_dir}/issuer.key")
     
     # Path to the kubeconfig directory
-    # k8s_config_dir = "${local.root_dir}/.kube/"
+    k8s_config_dir = "${local.root_dir}/.kube/"
     # Path to the kubeconfig file
-    # k8s_config_file = "${local.root_dir}/.kube/kubeconfig.yaml"
+    k8s_config_file = "${local.root_dir}/.kube/kubeconfig.yaml"
 }

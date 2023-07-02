@@ -21,13 +21,32 @@ LOCATION SERVER IS RESPONSIBLE FOR GEOSPATIAL QUERIES. IT USES MONGODB SERVER TO
 
 ###
 TERRAFORM
-terraform is used for k8s cluster creation and configuration of cluster-config related resources (secrets, certificates, cert-manager)
+Terraform is used for k8s cluster creation and configuration of cluster-config related resources (secrets, certificates, cert-manager)
+All other k8s resources are defined in k8s/ directory
 
-to create k8s cluster, run yarn:devops-create
+1. Add backend file 
+`
+skip_credentials_validation=true
+skip_region_validation=true
+bucket="(storage bucket)"
+key="(file key)"
+region="(s3 region)"
+endpoint="(cloud endpoint)"
+access_key="(storage access key)"
+secret_key="(storage secret key)"
+`
+
+2. Add terraform.tfvars file
+`
+linode_api_token=""
+access_key="(storage access key)"
+secret_key="(storage secret key)"
+`
+
+3. create k8s cluster, run yarn:devops-create
 then,                  run yarn:devops-configure
-* vscode workspace uses TF_DATA_DIR to harmonize module state
 
-all other k8s resources are defined in k8s/ directory
+* vscode workspace uses TF_DATA_DIR to harmonize module state
 
 # TO DO
 Add a linode config file to reference static Ip / host

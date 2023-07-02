@@ -13,6 +13,9 @@ create-docker-secret:
 init:
 	terraform -chdir=./terraform init --backend-config=backend
 
+reconfigure:
+	terraform -chdir=./terraform init --backend-config=backend --reconfigure
+
 plan:
 	terraform -chdir=./terraform plan
 
