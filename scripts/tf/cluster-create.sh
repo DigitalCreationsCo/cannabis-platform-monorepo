@@ -1,1 +1,1 @@
-terraform -chdir='./terraform' plan # apply -auto-approve
+terraform -chdir='./terraform' apply -target=linode_lke_cluster.terraform_k8s

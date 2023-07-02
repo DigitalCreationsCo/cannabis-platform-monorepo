@@ -16,6 +16,9 @@ init:
 reconfigure:
 	terraform -chdir=./terraform init --backend-config=backend --reconfigure
 
+migrate-state:
+	terraform -chdir=./terraform init --backend-config=backend --migrate-state
+
 plan:
 	terraform -chdir=./terraform plan
 
