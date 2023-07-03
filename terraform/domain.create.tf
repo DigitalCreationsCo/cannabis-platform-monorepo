@@ -1,3 +1,5 @@
+# CHANGE THESE RECORDS TO USE GOOGLE CLOUD DOMAIN RESOURCE
+
 # resource "linode_domain" "gras_cannabis" {
 #     domain      = "grascannabis.org"
 #     soa_email   = "bmejiadeveloper2@gmail.com"
