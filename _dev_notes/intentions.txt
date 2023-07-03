@@ -126,6 +126,16 @@ backend route featuring:
 6-23-2023
 dashboard app CORS, shop app CORS
 
+7-2-2023
+TO DO:
+Use self signed certificate for mtls in Linkerd,
+use certificate from google ca for external traffic.
+set up google tf provider, and the required cert and cert request resources
+Test for success
+PROFIT
+
+
+
 TO DO:
 move applicable next api routes to dashboard app. 
 

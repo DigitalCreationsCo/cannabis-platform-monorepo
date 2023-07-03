@@ -1,18 +1,18 @@
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: letsencrypt-staging
+  name: google-dnsauth
 spec:
   acme:
     email: bryantmejia@grascannabis.org
     server: https://acme-staging-v02.api.letsencrypt.org/directory
+    # server: https://acme-v02.api.letsencrypt.org/directory # prod server
     privateKeySecretRef:
-      name: letsencrypt-staging
+      name: google-dnsauth
     solvers:
     - dns01:
-        selector:
-          dnsZones:
-            - 'grascannabis.org'
-        webhook:
-          solverName: linode
-          groupName: acme.slicen.me
+        cloudDNS:
+          project: gras-cannabis
+          serviceAccountSecretRef:
+            name: clouddns-dns01-solver-svc-acct
+            key: dns-service-account.json

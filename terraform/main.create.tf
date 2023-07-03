@@ -9,10 +9,13 @@ terraform {
             source = "hashicorp/kubernetes"
             version = "2.21.1"
         }
-
         helm = {
             source = "hashicorp/helm"
             version = "2.10.1"
+        }
+        google = {
+            source = "hashicorp/google"
+            version = "4.71.0"
         }
     }
 
@@ -40,4 +43,10 @@ provider "helm" {
     kubernetes {
         config_path = local.k8s_config_file
     }
+}
+
+provider "google" {
+  project     = "gras-cannabis"
+#   region      = "us-southeast-1"
+#   zone        = "us-central1-c"
 }

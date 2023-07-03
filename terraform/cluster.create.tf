@@ -19,7 +19,7 @@ resource "linode_lke_cluster" "terraform_k8s" {
     tags="${var.tags}"
     
     dynamic "pool" {
-        for_each = var.pools
+        for_each = "${var.pools}"
         content { 
 
             type = pool.value["type"]
@@ -32,9 +32,9 @@ resource "linode_lke_cluster" "terraform_k8s" {
         }
     }
 
-    lifecycle {
-        ignore_changes = [
-            pool.0.count
-        ]
-    }
+    # lifecycle {
+    #     ignore_changes = [
+    #         pool.0.count
+    #     ]
+    # }
 }
