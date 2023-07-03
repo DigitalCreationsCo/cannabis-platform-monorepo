@@ -14,7 +14,6 @@ spec:
       - 'www.grascannabis.org'
       - 'grascannabis.org'
       - '*.grascannabis.org'
-      secretName: gras-tls-secret
   rules:
     - host: 'www.grascannabis.org'
       http:

@@ -29,7 +29,6 @@
 #     weight      = 0
 # }
 
-
 resource "helm_release" "cert_manager" {
     depends_on  = [ linode_lke_cluster.terraform_k8s ]
     name        = "cert-manager"
@@ -42,6 +41,11 @@ resource "helm_release" "cert_manager" {
     set {
         name    = "installCRDs"
         value   = true
+    }
+
+    set_list {
+        name    = "extraArgs"
+        value   = ["--dns01-recursive-nameservers-only", "--dns01-recursive-nameservers=8.8.8.8:53,8.8.4.4:53"]
     }
 }
 

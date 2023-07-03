@@ -11,4 +11,3 @@ spec:
     group: cert-manager.io
   dnsNames:
   - grascannabis.org
-  # - .grascannabis.org
