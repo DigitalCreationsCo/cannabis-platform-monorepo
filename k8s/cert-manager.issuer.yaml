@@ -5,8 +5,7 @@ metadata:
 spec:
   acme:
     email: bryantmejia@grascannabis.org
-    server: https://acme-staging-v02.api.letsencrypt.org/directory
-    # server: https://acme-v02.api.letsencrypt.org/directory # prod server
+    server: https://acme-v02.api.letsencrypt.org/directory # prod server
     privateKeySecretRef:
       name: google-dnsauth
     solvers:

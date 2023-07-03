@@ -74,7 +74,6 @@
     "devops:configure": "scripts/tf/cluster-configure.sh",
     "devops:start": "make apply && kubectl apply -f k8s/",
     "devops:nodes": "kubectl get nodes",
-    "devops:delete-nodes": "kubectl delete -f k8s/",
     "devops:close": "make destroy",
     "devops:console": "make console",
     
