@@ -9,10 +9,4 @@ locals {
     k8s_config_dir = "${local.root_dir}/.kube/"
     # Path to the kubeconfig file
     k8s_config_file = "${local.root_dir}/.kube/kubeconfig.yaml"
-
-
-    issuer_linkerd_identity = file("${local.root_dir}/terraform/yaml/issuer.linkerd-identity.yaml")
-    certificate_linkerd_identity = file("${local.root_dir}/terraform/yaml/certificate.linkerd-identity.yaml")
-
-    domain = "grascannabis.org"
 }

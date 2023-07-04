@@ -70,8 +70,8 @@
 
     "tf:init": "make init",
     "tf:plan": "make plan",
-    "tf:create": "scripts/tf/create.sh",
-    "tf:configure": "scripts/tf/configure.sh",
+    "tf:create": "terraform/scripts/create.sh",
+    "tf:configure": "terraform/scripts/configure.sh",
     "tf:close": "make destroy",
     "tf:console": "make console",
 
