@@ -62,45 +62,12 @@ helm install \
 # to uninstall cert-manager, see here:
 # https://cert-manager.io/docs/installation/helm/#uninstalling-with-helm
 
+# TODO:
+Resolve Dns Zones With Dns-01 Solver:
+https://cert-manager.io/docs/configuration/acme/dns01/acme-dns/
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# example secret for cloud dns dns-01 solver
 # kubectl create secret generic clouddns-dns01-solver-svc-acct \
 #    --from-file=dns-service-account.json -n cert-manager
 # kubectl apply -f k8s
-
