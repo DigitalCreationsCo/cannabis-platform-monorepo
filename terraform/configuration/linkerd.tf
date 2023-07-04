@@ -1,3 +1,5 @@
+# PREFER TO USE scripts/tf/linkerd.sh for helm install
+
 # note: terraform may fail to install linkerd with helm if namespace is not create in advance
 
 # note: if there is an issue with service account or secrets relating to linkerd, check this issue: https://www.reddit.com/r/devops/comments/gbo3pc/how_to_use_linkerd_with_terraform/

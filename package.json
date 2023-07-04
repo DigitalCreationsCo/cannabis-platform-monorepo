@@ -70,14 +70,13 @@
 
     "tf:init": "make init",
     "tf:plan": "make plan",
-    "tf:create": "scripts/tf/cluster-create.sh",
-    "tf:configure": "scripts/tf/cluster-configure.sh",
+    "tf:create": "scripts/tf/create.sh",
+    "tf:configure": "scripts/tf/configure.sh",
     "tf:close": "make destroy",
     "tf:console": "make console",
 
     "cluster:start": "make apply && kubectl apply -f k8s/",
     "cluster:nodes": "kubectl get nodes",
-    "create-trust-anchor": "scripts/tf/create-trust-anchor.sh",
     
     "install:playwright": "playwright install",
     "nuke:node_modules": "npx rimraf@3.0.1 '**/node_modules'",

@@ -20,7 +20,7 @@ variable "k8s_version" {
 
 variable "k8s_label" {
     description = "The unique label to assign for this cluster. (required)"
-    default = "tf-k8s-cluster"
+    default = "gras-terraform-k8"
 }
 
 variable "region" {
@@ -46,7 +46,7 @@ variable "bucket" {
 variable "tags" {
     description = "Tags to apply to your cluster for organizational purposes. "
     type = list(string)
-    default = ["gras-terraform-k8s-cluster"]
+    default = ["gras-terraform-k8s", "gras"]
 }
 
 variable "pools" {
