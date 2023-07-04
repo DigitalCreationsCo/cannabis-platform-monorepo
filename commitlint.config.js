@@ -19,6 +19,7 @@ module.exports = {
         'dispatch',
         'image',
         'payments',
+        'git'
       ],
     ],
   },
