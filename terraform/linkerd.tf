@@ -3,6 +3,42 @@
 # note: if there is an issue with service account or secrets relating to linkerd, check this issue: https://www.reddit.com/r/devops/comments/gbo3pc/how_to_use_linkerd_with_terraform/
 # run `helm repo add linkerd https://helm.linkerd.io/stable`
 
+resource "kubernetes_secret" "linkerd_trust_anchor" {
+    metadata {
+        name      = "linkerd-trust-anchor"
+        namespace = "linkerd"
+    }
+
+    type          = "tls"
+
+    data = {
+        "tls.cert"  = local.ca_certificate
+        "tls.key"   = local.ca_key
+    }
+}
+
+resource "kubernetes_manifest" "linkerd_identity_issuer" {
+    depends_on = [ kubernetes_secret.linkerd_trust_anchor ]
+    manifest = {
+        "apiVersion" = "cert-manager.io/v1"
+        "kind"       = "Issuer"
+        "metadata" = {
+        "name"      = "linkerd-identity-issuer"
+        "namespace" = "linkerd"
+        }
+        "spec" = {
+            ca = {
+                secretName = "linkerd-trust-anchor"
+            }
+        }
+    }
+}
+
+resource "kubernetes_manifest" "linkerd_trust_anchor_certificate" {
+    depends_on = [ kubernetes_manifest.linkerd_identity_issuer ]
+    manifest = yamldecode(local.linkerd_trust_anchor_certificate)
+}
+
 resource "helm_release" "linkerd_cni" {
     name        = "linkerd-cni"
 
@@ -48,21 +84,19 @@ resource "helm_release" "linkerd_control_plane" {
 
     set {
         name    = "identityTrustAnchorsPEM"
-        value   = file("${local.root_dir}/ca.crt")
+        value   = local.ca_certificate
     }
 
     set {
-        name    = "identity.issuer.tls.crtPEM"
-        value   = file("${local.root_dir}/issuer.crt")
-    }
-
-    set {
-        name    = "identity.issuer.tls.keyPEM"
-        value   = file("${local.root_dir}/issuer.key")
+        name    = "identity.issuer.scheme"
+        value   = "kubernetes.io/tls"
     }
 
     atomic      = true
-    depends_on = [ helm_release.linkerd_crds ]
+    depends_on = [ 
+        helm_release.linkerd_crds, 
+        kubernetes_manifest.linkerd_trust_anchor_certificate 
+    ]
 }
 
 resource "helm_release" "linkerd_viz" {

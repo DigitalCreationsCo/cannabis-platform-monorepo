@@ -25,14 +25,14 @@ resource "linode_lke_cluster" "terraform_k8s" {
         }
     }
 
-    lifecycle {
-        ignore_changes = [
-            pool.0.count
-        ]
-    }
+    # lifecycle {
+    #     ignore_changes = [
+    #         pool.0.count
+    #     ]
+    # }
 }
 
-resource "linode_nodebalancer" "gras-nodebalancer" {
-    label                = "gras-nodebalancer"
-    region               = "${var.region}"
-}
+# resource "linode_nodebalancer" "gras-nodebalancer" {
+#     label                = "gras-nodebalancer"
+#     region               = "${var.region}"
+# }
