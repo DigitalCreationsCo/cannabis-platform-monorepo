@@ -70,4 +70,4 @@ helm install linkerd-viz -n linkerd-viz --create-namespace linkerd/linkerd-viz
 
 # TODO: 
 # Linkerd webhook certificates must be rotated as well, eventually
-https://linkerd.io/2.13/tasks/automatically-rotating-webhook-tls-credentials/
+# https://linkerd.io/2.13/tasks/automatically-rotating-webhook-tls-credentials/

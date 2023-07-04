@@ -1,5 +1,3 @@
-rm -rf .terraform
-
 terraform -chdir='./terraform' init -backend-config='backend'
 
 echo 'creating cluster plan..' 

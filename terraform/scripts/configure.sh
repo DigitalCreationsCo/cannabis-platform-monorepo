@@ -1,8 +1,10 @@
+yarn permit-scripts
+
 echo 'installing cert-manager resources..'
-./cert-manager.sh
+terraform/scripts/cert-manager.sh
 
 echo 'installing linkerd resources..'
-./linkerd.sh
+terraform/scripts/linkerd.sh
 
 echo 'creating configuration plan..'
 terraform -chdir='./terraform' plan -out='terraform.tfplan'
