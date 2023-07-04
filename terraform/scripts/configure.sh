@@ -1,4 +1,11 @@
-script/tf/cert-manager.sh
-scripts/tf/linkerd.sh
+echo 'installing cert-manager resources..'
+./cert-manager.sh
 
-terraform -chdir='./terraform' apply -state="../terraform.tfstate"
+echo 'installing linkerd resources..'
+./linkerd.sh
+
+echo 'creating configuration plan..'
+terraform -chdir='./terraform' plan -out='terraform.tfplan'
+
+echo 'applying configuration plan..'
+terraform -chdir='./terraform' apply 'terraform.tfplan'
