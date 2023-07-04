@@ -1,14 +1,14 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: linkerd-trust-anchor-certificate
+  name: linkerd-identity
   namespace: linkerd
 spec:
-  secretName: linkerd-identity-issuer
+  secretName: linkerd-identity
   duration: 48h
   renewBefore: 25h
   issuerRef:
-    name: linkerd-identity-issuer
+    name: linkerd-identity
     kind: Issuer
   commonName: identity.cluster.local
   dnsNames:

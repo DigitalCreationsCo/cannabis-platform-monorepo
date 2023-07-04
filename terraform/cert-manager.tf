@@ -25,7 +25,6 @@ resource "helm_release" "cert_manager" {
 #     namespace   = "cert-manager"
 # }
 
-
 # run helm command for cert-manager-linode
 # helm install cert-manager-webhook-linode \
 #   --namespace cert-manager \
