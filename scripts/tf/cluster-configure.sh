@@ -1,9 +1,7 @@
-helm repo update
-helm search repo linkerd2-cni
-helm repo add linkerd https://helm.linkerd.io/stable
+# Run scripts/tf/create-trust-anchor.sh to create the trust anchor and install linkerd using helm
 
-terraform -chdir='./terraform' apply -auto-approve
+terraform -chdir='./terraform' apply
 
-kubectl create secret generic clouddns-dns01-solver-svc-acct \
-   --from-file=dns-service-account.json -n cert-manager
-kubectl apply -f k8s
+# kubectl create secret generic clouddns-dns01-solver-svc-acct \
+#    --from-file=dns-service-account.json -n cert-manager
+# kubectl apply -f k8s
