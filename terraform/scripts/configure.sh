@@ -1,3 +1,6 @@
+# exit on error
+set -e
+
 yarn permit-scripts
 
 echo 'installing cert-manager resources..'

@@ -63,8 +63,8 @@ helm install \
 # https://cert-manager.io/docs/installation/helm/#uninstalling-with-helm
 
 # TODO:
-Resolve Dns Zones With Dns-01 Solver:
-https://cert-manager.io/docs/configuration/acme/dns01/acme-dns/
+# Resolve Dns Zones With Dns-01 Solver:
+# https://cert-manager.io/docs/configuration/acme/dns01/acme-dns/
 
 
 # example secret for cloud dns dns-01 solver

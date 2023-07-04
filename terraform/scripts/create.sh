@@ -1,3 +1,8 @@
+# note: clear local terraform state and object storage state, or you'll have issues with this command
+
+# exit on error
+set -e
+
 terraform -chdir='./terraform' init -backend-config='backend'
 
 echo 'creating cluster plan..' 

@@ -72,7 +72,7 @@
     "tf:plan": "make plan",
     "tf:create": "terraform/scripts/create.sh",
     "tf:configure": "terraform/scripts/configure.sh",
-    "tf:close": "make destroy",
+    "tf:close": "terraform -chdir=./terraform destroy",
     "tf:console": "make console",
 
     "cluster:start": "make apply && kubectl apply -f k8s/",
