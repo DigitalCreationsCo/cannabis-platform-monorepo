@@ -10,39 +10,39 @@ metadata:
     cert-manager.io/cluster-issuer: "google-dnsauth"
 spec:
   tls:
-    - hosts:
-      - 'grascannabis.org'
-      # - 'www.grascannabis.org'
-      # - '*.grascannabis.org'
-      secretName: gras-cannabis-org
+  - hosts:
+    - 'grascannabis.org'
+    # - 'www.grascannabis.org'
+    # - '*.grascannabis.org'
+    secretName: gras-cannabis-org
   rules:
-    - host: 'www.grascannabis.org'
-      http:
-        paths:
-          - path: /(.*)
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: gras-service-shop
-                port:
-                  number: 80
-    - host: 'grascannabis.org'
-      http:
-        paths:
-          - path: /(.*)
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: gras-service-shop
-                port:
-                  number: 80
-    - host: '*.grascannabis.org'
-      http:
-        paths:
-          - path: /(.*)
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: gras-service-shop
-                port:
-                  number: 80
+  - host: 'www.grascannabis.org'
+    http:
+      paths:
+        - path: /(.*)
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: gras-service-shop
+              port:
+                number: 80
+  - host: 'grascannabis.org'
+    http:
+      paths:
+        - path: /(.*)
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: gras-service-shop
+              port:
+                number: 80
+  - host: '*.grascannabis.org'
+    http:
+      paths:
+        - path: /(.*)
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: gras-service-shop
+              port:
+                number: 80

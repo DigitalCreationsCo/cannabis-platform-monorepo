@@ -43,30 +43,29 @@ spec:
       securityContext:
         {}
         # fsGroup: 2000
+      volumes:  
+        - name: gras-tls-secret
+          secret:  
+            secretName: gras-cannabis-org
       containers:
         - name: supertokens
-          securityContext: # {}
+          securityContext: {}
             # capabilities:
             #   drop:
             #   - ALL
             # readOnlyRootFilesystem: true
-            runAsNonRoot: true
-            runAsUser: 1000
+            # runAsNonRoot: true
+            # runAsUser: 1000
           image: grasadmin/supertokens-mysql:1.0
           imagePullPolicy: Always
+          volumeMounts:  
+            - name: gras-tls-secret
+              mountPath: "/mnt/tls.crt"
+              subPath: tls.crt
           env:
-            - name: 'MYSQL_CONNECTION_URI'
-              value: 'mysql://hjl13pett5q5hdb0b6vs:pscale_pw_Dl9qggUnN02NIVAWDXa19Rsrcv8yCELmjNw1jSaMdb3@aws.connect.psdb.cloud:3306/cannabis_delivery_v1?sslaccept=strict&sslcert=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt'
-            # - name: 'MYSQL_DATABASE_NAME'
-            #   value: 'cannabis_delivery_v1'
-            # - name: 'MYSQL_PORT'
-            #   value: '3306'
-            # - name: 'MYSQL_HOST'
-            #   value: 'aws.connect.psdb.cloud'
-            # - name: 'MYSQL_PASSWORD'
-            #   value: 'pscale_pw_Dl9qggUnN02NIVAWDXa19Rsrcv8yCELmjNw1jSaMdb3'
-            # - name: 'MYSQL_USER'
-            #   value: 'hjl13pett5q5hdb0b6vs'
+            - name: "MYSQL_CONNECTION_URI"
+              # value: "mysql://hjl13pett5q5hdb0b6vs:pscale_pw_Dl9qggUnN02NIVAWDXa19Rsrcv8yCELmjNw1jSaMdb3@aws.connect.psdb.cloud:3306/cannabis_delivery_v1?ssl={\"rejectUnauthorized\":true}"
+              value: "mysql://hjl13pett5q5hdb0b6vs:pscale_pw_Dl9qggUnN02NIVAWDXa19Rsrcv8yCELmjNw1jSaMdb3@aws.connect.psdb.cloud:3306/cannabis_delivery_v1?sslaccept=strict&sslcert=/mnt/tls.cert"
             - name: 'SUPERTOKENS_PORT'
               value: '3567'
             - name: 'MYSQL_CONNECTION_POOL_SIZE'

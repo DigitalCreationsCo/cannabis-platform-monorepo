@@ -137,6 +137,9 @@ PROFIT
 
 
 TO DO:
+Set up k8s healthchecks for all application pods
+https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
+
 move applicable next api routes to dashboard app. 
 
 

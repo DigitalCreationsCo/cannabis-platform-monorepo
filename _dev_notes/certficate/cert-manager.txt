@@ -21,6 +21,3 @@ https://cert-manager.io/docs/configuration/acme/dns01/google/
 secret for certificate Issuer:
 kubectl create secret generic clouddns-dns01-solver-svc-acct \
    --from-file=dns-service-account.json -n cert-manager
-
-open a debugging pod for nslookup:
-kubectl run -n cert-manager -it --rm --restart=Never busybox --image=busybox:1.28 -- nslookup

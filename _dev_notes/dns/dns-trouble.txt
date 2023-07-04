@@ -1,0 +1,3 @@
+open a debugging pod for nslookup:
+
+kubectl run -n cert-manager -it --rm --restart=Never busybox --image=busybox:1.28 -- nslookup
