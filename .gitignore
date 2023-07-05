@@ -5,6 +5,7 @@ DOCKERSIM
 # credentials files
 _dev_notes/creds
 **/docker_creds
+gcp_service_account.json
 
 # dependencies
 **/node_modules

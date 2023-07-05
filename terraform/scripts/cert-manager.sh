@@ -71,8 +71,3 @@ helm install \
 # kubectl create secret generic clouddns-dns01-solver-svc-acct \
 #    --from-file=dns-service-account.json -n cert-manager
 # kubectl apply -f k8s
-
-# INSTALL CERT-MANAGER WEBHOOK LINODE
-helm install cert-manager-webhook-linode \
-  --namespace cert-manager \
-  https://github.com/slicen/cert-manager-webhook-linode/releases/download/v0.2.0/cert-manager-webhook-linode-v0.2.0.tgz

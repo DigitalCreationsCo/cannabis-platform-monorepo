@@ -1,9 +1,9 @@
 terraform {
     required_version = ">= 0.15"
     required_providers {
-        linode = {
-            source = "linode/linode"
-            version = "2.5.1"
+        google = {
+            source = "hashicorp/google"
+            version = "4.72.0"
         }
 
         local = {
@@ -12,10 +12,13 @@ terraform {
         }
     }
 
-    backend "s3" {}
+    backend "gsc" {}
 }
 
 
-provider "linode" {
-    token = var.linode_api_token
+provider "google" {
+  project     = "gras-cannabis"
+  region      = var.region
+  zone        = var.zone
+  credentials = local.credentials
 }

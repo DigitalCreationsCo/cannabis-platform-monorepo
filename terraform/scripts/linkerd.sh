@@ -77,3 +77,6 @@ linkerd viz install | kubectl apply -f -
 # TODO: 
 # Linkerd webhook certificates must be rotated as well, eventually
 # https://linkerd.io/2.13/tasks/automatically-rotating-webhook-tls-credentials/
+
+# set gcp firewall rules for linkerd:
+# https://linkerd.io/2.13/reference/cluster-configuration/

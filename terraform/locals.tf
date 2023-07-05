@@ -5,6 +5,8 @@ locals {
     ca_certificate = file("${local.root_dir}/ca.crt")
     ca_key = file("${local.root_dir}/ca.key")
     
+    credentials = file("${local.root_dir}/gcp_service-account.json")
+
     # Path to the kubeconfig directory
     k8s_config_dir = "${local.root_dir}/.kube/"
     # Path to the kubeconfig file
