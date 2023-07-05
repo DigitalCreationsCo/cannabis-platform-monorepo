@@ -66,7 +66,13 @@ helm install linkerd-control-plane -n linkerd \
   --set cniEnabled=true \
   linkerd/linkerd-control-plane
 
-helm install linkerd-viz -n linkerd-viz --create-namespace linkerd/linkerd-viz
+echo 'checking Linkerd installation..'
+
+linkerd check
+
+# echo 'installing Linkerd Viz..'
+# helm install linkerd-viz -n linkerd-viz --create-namespace linkerd/linkerd-viz
+linkerd viz install | kubectl apply -f -
 
 # TODO: 
 # Linkerd webhook certificates must be rotated as well, eventually
