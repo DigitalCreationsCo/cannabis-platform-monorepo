@@ -2,7 +2,7 @@ import { TextContent } from '@cd/core-lib';
 import {
   selectSelectedLocationState,
   selectShopState,
-  selectUserState,
+  selectUserState
 } from '@cd/core-lib/src/reduxDir';
 import {
   Carousel,
@@ -11,7 +11,7 @@ import {
   H3,
   H4,
   LayoutContextProps,
-  Page,
+  Page
 } from '@cd/ui-lib';
 import InfoCard from 'components/InfoCard';
 import { StaticImageData } from 'next/image';
@@ -57,7 +57,7 @@ export default function MarketPlace({ host }: { host: string }) {
           titleSize="lg"
           data={_infoCardMockData}
           dataKey="dispensary"
-          slidesPresented={3}
+          autoplaySpeed={5000}
         />
 
         <Carousel
@@ -66,8 +66,18 @@ export default function MarketPlace({ host }: { host: string }) {
           // data={dispensaries}
           data={_dispensaryCardMockData}
           dataKey="dispensary"
-          slidesPresented={1}
+          autoplaySpeed={7000}
         />
+
+        {/* <Carousel
+          title={`Recommended Products`}
+          Component={ProductItem}
+          // data={dispensaries}
+          // data={_dispensaryCardMockData[0]}
+          data={_dispensaryCardMockData[0].products.map(product => product.variants[0])}
+          dataKey="dispensary"
+          autoplaySpeed={7000}
+        /> */}
 
         {/* || <Center>
                     <H6 color='light' className='whitespace-pre-line'>
