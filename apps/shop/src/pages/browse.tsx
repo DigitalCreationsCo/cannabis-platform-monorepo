@@ -13,11 +13,13 @@ import {
   LayoutContextProps,
   Page,
 } from '@cd/ui-lib';
+import InfoCard from 'components/InfoCard';
 import { StaticImageData } from 'next/image';
 import { PropsWithChildren, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
-import DispensaryCardMockData from 'uat/dispensaryCardMock';
+import { _dispensaryCardMockData } from 'uat/dispensaryCardMock';
+import { _infoCardMockData } from 'uat/infoCardMock';
 import { DispensaryCard } from '../components';
 import backdrop from '/public/marijuana-backdrop.png';
 export default function MarketPlace({ host }: { host: string }) {
@@ -50,10 +52,10 @@ export default function MarketPlace({ host }: { host: string }) {
                     There's a problem loading your Gras shop. Please contact support for help.</Center>} */}
 
         <Carousel
+          Component={InfoCard}
           title={'Gras is now delivering in Baltimore!'}
           titleSize="lg"
-          Component={DispensaryCard}
-          data={DispensaryCardMockData}
+          data={_infoCardMockData}
           dataKey="dispensary"
           slidesPresented={3}
         />
@@ -61,10 +63,10 @@ export default function MarketPlace({ host }: { host: string }) {
         <Carousel
           title={`Dispensaries Near You ( ${selectedLocation.address.city} )`}
           Component={DispensaryCard}
-          data={dispensaries}
+          // data={dispensaries}
+          data={_dispensaryCardMockData}
           dataKey="dispensary"
-          slidesPresented={3}
-          interval={10000}
+          slidesPresented={1}
         />
 
         {/* || <Center>
