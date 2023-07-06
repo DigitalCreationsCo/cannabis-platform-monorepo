@@ -6,14 +6,14 @@
 # Subnet reserved for Regional External HTTP Load Balancers that use a managed Envoy proxy.
 # More information is available here: https://cloud.google.com/load-balancing/docs/https/proxy-only-subnets
 resource "google_compute_subnetwork" "proxy" {
-  depends_on = [google_compute_network.default]
+  depends_on = [google_compute_network.gras-network]
   provider = google-beta
   name          = "proxy-only-subnet"
   # This CIDR doesn't conflict with GKE's subnet
   ip_cidr_range = "11.129.0.0/23"
-  project       = google_compute_network.default.project
+  project       = google_compute_network.gras-network.project
   region        = var.region
-  network       = google_compute_network.default.id
+  network       = google_compute_network.gras-network.id
   purpose       = "REGIONAL_MANAGED_PROXY"
   role          = "ACTIVE"
 }
@@ -21,7 +21,7 @@ resource "google_compute_subnetwork" "proxy" {
 # https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_region_backend_service
 resource "google_compute_region_backend_service" "default" {
   # This cannot be deployed until the ingress gateway is deployed and the standalone NEG is automatically created
-  depends_on = [null_resource.gloo, null_resource.delete_ingressgateway]
+  # depends_on = [null_resource.gloo, null_resource.delete_ingressgateway]
   project = google_compute_subnetwork.default.project
   region  = google_compute_subnetwork.default.region
   name        = "l7-xlb-backend-service-http"
@@ -57,13 +57,13 @@ resource "google_compute_region_backend_service" "default" {
   }
 }
 
-resource "null_resource" "delete_ingressgateway" {
-  provisioner "local-exec" {
-    when    = destroy
-    # Delete ingressgateway on destroy
-    command = "gcloud compute network-endpoint-groups delete ingressgateway --quiet"
-  }
-}
+# resource "null_resource" "delete_ingressgateway" {
+#   provisioner "local-exec" {
+#     when    = destroy
+#     # Delete ingressgateway on destroy
+#     command = "gcloud compute network-endpoint-groups delete ingressgateway --quiet --zone=us-west4-a"
+#   }
+# }
 
 # https://registry.terraform.io/providers/hashicorp/google-beta/latest/docs/resources/compute_region_health_check
 resource "google_compute_region_health_check" "default" {
@@ -91,8 +91,8 @@ resource "google_compute_address" "default" {
 
 resource "google_compute_firewall" "default" {
   name = "fw-allow-health-check-and-proxy"
-  network = google_compute_network.default.id
-  project = google_compute_network.default.project
+  network = google_compute_network.gras-network.id
+  project = google_compute_network.gras-network.project
   # Allow for ingress from the health checks and the managed Envoy proxy. For more information, see:
   # https://cloud.google.com/load-balancing/docs/https#target-proxies
   source_ranges = ["130.211.0.0/22", "35.191.0.0/16", "11.129.0.0/23"]

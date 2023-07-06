@@ -78,6 +78,11 @@ gcloud services enable container.googleapis.com
 gcloud services enable storage.googleapis.com
 ```
 
+## Enable the DNS API
+```
+gcloud services enable dns.googleapis.com
+```
+
 ## Deploy the GKE Cluster
 
 Now you can run Terraform to deploy GKE and all of the supporting components needed for this solution to work.

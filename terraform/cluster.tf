@@ -1,6 +1,4 @@
-data "google_client_config" "provider" {}
-
-resource "google_compute_network" "default" {
+resource "google_compute_network" "gras-network" {
   name                    = var.network_name
   auto_create_subnetworks = "false"
   project = var.project_id
@@ -9,11 +7,11 @@ resource "google_compute_network" "default" {
 }
 
 resource "google_compute_subnetwork" "default" {
-  depends_on    = [google_compute_network.default]
+  depends_on    = [google_compute_network.gras-network]
   name          = "${var.cluster_name}-subnet"
-  project       = google_compute_network.default.project
+  project       = google_compute_network.gras-network.project
   region        = var.region
-  network       = google_compute_network.default.name
+  network       = google_compute_network.gras-network.name
   ip_cidr_range = "10.0.0.0/24"
 }
 
@@ -27,7 +25,7 @@ resource "google_container_cluster" "gras_cluster" {
   initial_node_count = var.num_nodes
   # More info on the VPC native cluster: https://cloud.google.com/kubernetes-engine/docs/how-to/standalone-neg#create_a-native_cluster
   networking_mode = "VPC_NATIVE"
-  network         = google_compute_network.default.name
+  network         = google_compute_network.gras-network.name
   subnetwork      = google_compute_subnetwork.default.name
   # Disable the Google Cloud Logging service because you may overrun the Logging free tier allocation, and it may be expensive
   logging_service = "none"

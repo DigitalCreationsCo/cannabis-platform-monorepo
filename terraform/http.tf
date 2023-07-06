@@ -9,7 +9,7 @@ resource "google_compute_forwarding_rule" "http" {
   load_balancing_scheme = "EXTERNAL_MANAGED"
   port_range            = "80"
   target                = google_compute_region_target_http_proxy.default.id
-  network               = google_compute_network.default.id
+  network               = google_compute_network.gras-network.id
   ip_address            = google_compute_address.default.id
   network_tier          = "STANDARD"
 }

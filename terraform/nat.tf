@@ -11,7 +11,7 @@ resource "google_compute_router" "router" {
   name    = "nat-router"
   project = google_compute_subnetwork.default.project
   region  = google_compute_subnetwork.default.region
-  network = google_compute_network.default.id
+  network = google_compute_network.gras-network.id
 }
 
 resource "google_compute_router_nat" "nat" {

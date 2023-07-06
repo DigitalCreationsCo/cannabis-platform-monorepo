@@ -8,7 +8,7 @@ locals {
     ssl_cert_crt = file("${local.root_dir}/ssl.key")
     ssl_cert_key = file("${local.root_dir}/ssl.crt")
     
-    credentials = file("${local.root_dir}/gcp_service-account.json")
+    credentials = file("${local.root_dir}/gcp_service_account.json")
 
     # Path to the kubeconfig directory
     k8s_config_dir = "${local.root_dir}/.kube/"
