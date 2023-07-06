@@ -4,6 +4,9 @@ locals {
 
     ca_certificate = file("${local.root_dir}/ca.crt")
     ca_key = file("${local.root_dir}/ca.key")
+
+    ssl_cert_crt = file("${local.root_dir}/ssl.key")
+    ssl_cert_key = file("${local.root_dir}/ssl.crt")
     
     credentials = file("${local.root_dir}/gcp_service-account.json")
 

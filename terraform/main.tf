@@ -1,9 +1,8 @@
 terraform {
-    required_version = ">= 0.15"
     required_providers {
         google = {
-            source = "hashicorp/google"
-            version = "4.72.0"
+            source = "hashicorp/google-beta"
+            version = "4.5.0"
         }
 
         local = {
@@ -12,12 +11,16 @@ terraform {
         }
     }
 
-    backend "gsc" {}
+    backend "gsc" {
+        bucket = "tf-state"
+        prefix = "terraform/prod"
+    }
+    required_version = ">= 0.15"
 }
 
 
-provider "google" {
-  project     = "gras-cannabis"
+provider "google-beta" {
+  project     = var.project_id
   region      = var.region
   zone        = var.zone
   credentials = local.credentials
