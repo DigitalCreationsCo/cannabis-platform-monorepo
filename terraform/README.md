@@ -63,6 +63,14 @@ gcloud config set compute/region REPLACE_WITH_YOUR_REGION
 
 If you choose to enable HTTPS (with HTTP redirect) at the load balancer, you can enable this in the `terraform.tfvars` by setting `https` to `true`. With the default configuration, a self-signed certificate is used. You can also use your own certificate as well by adding your own `.crt` and `.key` and configuring with the path to the files in `terraform.tfvars`.
 
+This guide is used to create self-signed certificates
+https://cloud.google.com/load-balancing/docs/ssl-certificates/self-managed-certs
+
+This guide is used to create certificate for helm
+https://medium.com/google-cloud/install-secure-helm-in-gke-254d520061f7
+
+** Use 4096 byte length
+
 **Note:** To continue the cheap theme, you can purchase a domain name and a 1-year SSL certificate from [NameCheap](http://namecheap.com) for only $11 in total.
 
 ## Enable the GKE API
