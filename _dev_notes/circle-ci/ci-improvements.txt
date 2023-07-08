@@ -24,3 +24,7 @@ LIST-CHANGED-MODULES
 * This is not working correctly, need to resolve it.
 
 * handle different digests for multiple module builds
+
+TODO: (NECESSARY)
+docker image builds should only happen for master branch, not for pull requests.
+1. add a parameter to publish builds, and deploy to cluster

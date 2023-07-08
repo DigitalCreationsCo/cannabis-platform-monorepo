@@ -10,21 +10,18 @@ import { driver, errorRoute, organization, shop, user } from './api/routes';
 import { backendConfig } from './config/backendConfig';
 
 if (Supertokens) {
-    Supertokens.init(backendConfig());
+  Supertokens.init(backendConfig());
 } else throw Error('Supertokens is not available.');
 
 const app = express();
 
 app.use(
-    cors({
-        origin: [
-            "http://localhost:3000",
-            "http://app.localhost:3000"
-        ],
-        allowedHeaders: ['content-type', ...Supertokens.getAllCORSHeaders()],
-        methods: ["GET", "PUT", "POST", "DELETE"],
-        credentials: true
-    })
+  cors({
+    origin: ['http://localhost:3000', 'http://app.localhost:3000'],
+    allowedHeaders: ['content-type', ...Supertokens.getAllCORSHeaders()],
+    methods: ['GET', 'PUT', 'POST', 'DELETE'],
+    credentials: true,
+  })
 );
 
 app.use(middleware());
@@ -33,8 +30,8 @@ app.use(middleware());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use('/api/v1/healthcheck', (req, res) => {
-    return res.status(200).json('OK');
+app.use('/api/v1/healthcheck', (_, res) => {
+  return res.status(200).json({ status: 'ok' });
 });
 
 app.use('/api/v1/user', user);
@@ -88,15 +85,22 @@ app.use('/api/v1/error', errorRoute);
 // supertokens errorhandler
 app.use(errorHandler());
 
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.use(
+  (
+    err: any,
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+  ) => {
     if (err.message === 'Please reset your password') {
-        return res.status(401).send(err.message)
+      return res.status(401).send(err.message);
     }
     if (err.message === 'Invalid password') {
-        return res.status(401).send(err.message)
+      return res.status(401).send(err.message);
     }
-    res.status(500).send(err.message)
-})
+    res.status(500).send(err.message);
+  }
+);
 
 // app.use((err: unknown, req: Request, res: Response, next: NextFunction) => { /* ... */ });
 
@@ -106,6 +110,6 @@ const server = http.createServer(app);
 export default server;
 
 export type SessionResponse = {
-    status: boolean;
-    session: SessionInfo;
-}
+  status: boolean;
+  session: SessionInfo;
+};

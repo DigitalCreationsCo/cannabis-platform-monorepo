@@ -7,6 +7,7 @@ module.exports = {
       [
         'terraform',
         'cluster',
+        'pipe',
         'dashboard',
         'shop',
         'widget',
