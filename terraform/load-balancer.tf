@@ -21,7 +21,7 @@ resource "google_compute_subnetwork" "proxy" {
 # https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_region_backend_service
 resource "google_compute_region_backend_service" "default" {
   # This cannot be deployed until the ingress gateway is deployed and the standalone NEG is automatically created
-  # depends_on = [null_resource.gloo, null_resource.delete_ingressgateway]
+  depends_on = [null_resource.gloo, null_resource.delete_ingressgateway]
   project = google_compute_subnetwork.default.project
   region  = google_compute_subnetwork.default.region
   name        = "l7-xlb-backend-service-http"
@@ -57,13 +57,13 @@ resource "google_compute_region_backend_service" "default" {
   }
 }
 
-# resource "null_resource" "delete_ingressgateway" {
-#   provisioner "local-exec" {
-#     when    = destroy
-#     # Delete ingressgateway on destroy
-#     command = "gcloud compute network-endpoint-groups delete ingressgateway --quiet --project=gras-cannabis --zone=asia-east2-a"
-#   }
-# }
+resource "null_resource" "delete_ingressgateway" {
+  provisioner "local-exec" {
+    when    = destroy
+    # Delete ingressgateway on destroy
+    command = "gcloud compute network-endpoint-groups delete ingressgateway --quiet --project=gras-cannabis --zone=asia-east2-a"
+  }
+}
 
 # https://registry.terraform.io/providers/hashicorp/google-beta/latest/docs/resources/compute_region_health_check
 resource "google_compute_region_health_check" "default" {
