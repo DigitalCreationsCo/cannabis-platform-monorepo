@@ -95,12 +95,3 @@ resource "null_resource" "local_k8s_context" {
     command = "for i in 1 2 3 4 5; do gcloud container clusters get-credentials ${var.cluster_name} --project=${var.project_id} --location=${var.region} && break || sleep 60; done"
   }
 }
-
-provider "kubernetes" {
-  host  = "https://${google_container_cluster.gras_cluster.endpoint}"
-  token = data.google_client_config.provider.access_token
-  cluster_ca_certificate = base64decode(
-    data.google_container_cluster.gras_cluster.master_auth[0].cluster_ca_certificate,
-  )
-}
-

@@ -62,5 +62,6 @@ resource "google_compute_region_target_https_proxy" "default" {
   region  = google_compute_subnetwork.default.region
   name    = "l7-xlb-proxy-https"
   url_map = google_compute_region_url_map.default.id
+  depends_on = [google_compute_region_ssl_certificate.default]
   ssl_certificates = [google_compute_region_ssl_certificate.default.id]
 }

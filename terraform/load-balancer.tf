@@ -61,7 +61,7 @@ resource "google_compute_region_backend_service" "default" {
 #   provisioner "local-exec" {
 #     when    = destroy
 #     # Delete ingressgateway on destroy
-#     command = "gcloud compute network-endpoint-groups delete ingressgateway --quiet --zone=us-west4-b"
+#     command = "gcloud compute network-endpoint-groups delete ingressgateway --quiet --project=gras-cannabis --zone=asia-east2-a"
 #   }
 # }
 
