@@ -15,15 +15,14 @@ spec:
     servicePort: 8080
   # ----- Health Check (a.k.a. active health checks) -------
   healthChecks:
-  - healthyThreshold: 1
-    httpHealthCheck:
-      # path: /
-      path: "200"
-    interval: 3s
-    timeout: 1s
-    unhealthyThreshold: 1
-    reuseConnection: false
-    noTrafficInterval: 5s # Start sending health checks after 5 seconds (default is 60)
+    - healthyThreshold: 1
+      httpHealthCheck:
+        path: /api/healthcheck
+      interval: 3s
+      timeout: 1s
+      unhealthyThreshold: 1
+      reuseConnection: false
+      noTrafficInterval: 5s # Start sending health checks after 5 seconds (default is 60)
   # ----- Outlier Detection  (a.k.a. passive health checks) ------
   outlierDetection:
     consecutive5xx: 3
