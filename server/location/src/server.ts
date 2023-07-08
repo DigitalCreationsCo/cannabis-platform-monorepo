@@ -12,8 +12,8 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use('/api/v1/healthcheck', (req, res) => {
-    return res.status(200).json('OK');
+app.use('/api/v1/healthcheck', (_, res) => {
+  return res.status(200).json({ status: 'ok' });
 });
 
 app.use('/api/v1/serve-local', serveLocal);
