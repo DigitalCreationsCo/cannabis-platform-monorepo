@@ -13,6 +13,7 @@ spec:
     - matchers:
       - exact: /
       options:
+        prefixRewrite: /api/healthcheck
         retries:
           retryOn: 'connect-failure,5xx'
           numRetries: 5

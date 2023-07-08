@@ -1,3 +1,5 @@
+# check service and app selectors, check the given configuration from gloo
+
 apiVersion: gloo.solo.io/v1
 kind: Upstream
 metadata:
