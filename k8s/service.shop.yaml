@@ -3,8 +3,11 @@ apiVersion: v1
 kind: Service
 metadata:
   name: gras-shop
+  namespace: default
+  labels:
+    service: gras-shop
 spec:
-  type: ClusterIP
+  # type: ClusterIP
   selector:
     app: gras-shop
   ports:
@@ -16,6 +19,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: gras-shop
+  labels:
+    app: gras-shop
+  namespace: default
 spec:
   replicas: 2
   selector:

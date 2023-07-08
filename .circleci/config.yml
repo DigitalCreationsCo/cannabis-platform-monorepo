@@ -3,6 +3,8 @@
 version: 2.1
 setup: << pipeline.parameters.run-setup >>
 
+# WILL NEED TO SWITCH TO GCP ORB FOR DEPLOYMENT:
+# https://circleci.com/developer/orbs/orb/circleci/gcp-gke
 
 # All pipeline parameters need to be defined equally both for the setup workflow and main workflows
 # These parameters will be passed to both of them

@@ -7,21 +7,20 @@ metadata:
 spec:
   virtualHost:
     domains:
-      - '*'
+    - '*'
     routes:
-      - matchers:
-        - exact: /
-        options:
-          retries:
-            retryOn: 'connect-failure,5xx'
-            numRetries: 5
-            perTryTimeout: 1s
-        routeAction:
-          single:
-            upstream:
-              name: gras-shop-8080
-              namespace: gloo-system
-              
+    - matchers:
+      - exact: /
+      options:
+        retries:
+          retryOn: 'connect-failure,5xx'
+          numRetries: 5
+          perTryTimeout: 1s
+      routeAction:
+        single:
+          upstream:
+            name: gras-shop-8080
+            namespace: gloo-system
 # ---
 # apiVersion: gateway.solo.io/v1
 # kind: VirtualService
