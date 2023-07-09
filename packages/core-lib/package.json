@@ -54,7 +54,6 @@
     "supertokens-auth-react": "0.28.1",
     "ts-jest": "29.0.3",
     "typescript": "4.9.3",
-    "use-carousel-hook": "0.2.1",
     "vite-tsconfig-paths": "4.0.7",
     "vitest": "0.29.8"
   },
