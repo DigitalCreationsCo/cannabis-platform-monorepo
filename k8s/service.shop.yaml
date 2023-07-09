@@ -37,7 +37,8 @@ spec:
           image: grasadmin/shop:latest
           imagePullPolicy: Always
           terminationMessagePolicy: FallbackToLogsOnError
-          resources: {}
+          resources:
+            {}
             # limits:
             #   cpu: '200m'
             #   memory: '250Mi'
@@ -47,15 +48,15 @@ spec:
           ports:
             - name: shop-port
               containerPort: 3000
-      affinity:
-        # Because the cluster uses spot nodes that can be shut down at any time, having at least
-        # 2 replicas with antiAffinity is recommended for application resilency when a node shuts down
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: "app"
-                operator: In
-                values:
-                - gras-shop
-            topologyKey: "kubernetes.io/hostname"
+      # affinity:
+      #   # Because the cluster uses spot nodes that can be shut down at any time, having at least
+      #   # 2 replicas with antiAffinity is recommended for application resilency when a node shuts down
+      #   podAntiAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #     - labelSelector:
+      #         matchExpressions:
+      #         - key: "app"
+      #           operator: In
+      #           values:
+      #           - gras-shop
+      #       topologyKey: "kubernetes.io/hostname"

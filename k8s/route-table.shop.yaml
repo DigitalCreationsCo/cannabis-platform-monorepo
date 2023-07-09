@@ -1,15 +1,14 @@
 apiVersion: gateway.solo.io/v1
 kind: RouteTable
 metadata:
-  name: 'gras-shop'
-  namespace: 'gloo-system'
+  name: gras-shop
+  namespace: gloo-system
   labels:
-    domain: grascannabis.org
+    domain: 'grascannabis.org'
 spec:
-  weight: 20
   routes:
     - matchers:
-       - prefix: '/'
+        - prefix: /
       routeAction:
         single:
           upstream:
