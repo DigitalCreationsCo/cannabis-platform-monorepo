@@ -1,29 +1,34 @@
-import {
-  checkIsDispensaryOpen,
-  formatDispensaryUrl,
-  renderAddress,
-} from '@cd/core-lib';
-import { OrganizationWithShopDetails } from '@cd/data-access';
-import { Card, FlexBox, H2, Paragraph } from '@cd/ui-lib';
+import { formatBlogUrl } from '@cd/core-lib';
+import { Card, FlexBox, H3, Paragraph } from '@cd/ui-lib';
 import Link from 'next/link';
 import { PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/logo.png';
 
+export type BlogBlurb = {
+  id: string;
+  name: string;
+  title: string;
+  description: string;
+  href: string;
+  image: {
+    id: string;
+    location: string;
+    blurhash: string;
+  };
+};
+
 type DispensaryCardProps = {
-  data: OrganizationWithShopDetails;
+  data: BlogBlurb;
   loading?: boolean;
   className?: string | string[];
 };
-function DispensaryCard({
-  data: dispensary,
-  loading,
-  className,
-}: DispensaryCardProps) {
+
+function InfoCard({ data: info, loading, className }: DispensaryCardProps) {
   const styles = {
     dispensarycard: [
       'relative',
-      'w-[240px] md:min-w-[340px] md:w-[340px] h-[220px] p-4 !rounded',
+      'w-[200px] md:min-w-[264px] md:w-[340px] h-[220px] p-4 !rounded',
     ],
     isOpenBadge: [
       'text-inverse border-2 tracking-wider z-5 top-0 right-0 p-3 m-3 badge absolute',
@@ -32,7 +37,7 @@ function DispensaryCard({
 
   return (
     <Link
-      href={formatDispensaryUrl(dispensary?.subdomainId as string)}
+      href={formatBlogUrl(info.href)}
       className="z-0 relative shadow-lg rounded"
     >
       <Card
@@ -42,25 +47,16 @@ function DispensaryCard({
           className,
         ])}
       >
-        <ImageBackDrop src={dispensary?.images?.[0]?.location || logo.src}>
-          <H2 className="whitespace-normal drop-shadow z-5 p-2 tracking-wide absolute top-0 left-0 text-inverse">
-            {dispensary?.name}
-          </H2>
+        <ImageBackDrop src={info.image.location || logo.src}>
+          <H3 className="whitespace-normal drop-shadow z-5 p-2 tracking-wide absolute top-0 left-0 text-inverse">
+            {info.title}
+          </H3>
 
           <FlexBox className="z-5 p-2 absolute bottom-0 left-0 items-end flex-row justify-between">
             <Paragraph className="text-inverse drop-shadow">
-              {renderAddress({
-                address: dispensary?.address,
-                showCountry: false,
-                showZipcode: false,
-                lineBreak: true,
-              })}
+              {info.description}
             </Paragraph>
           </FlexBox>
-
-          <Paragraph className={twMerge(styles.isOpenBadge)}>
-            {checkIsDispensaryOpen(dispensary.schedule) ? 'open now' : 'closed'}
-          </Paragraph>
         </ImageBackDrop>
       </Card>
     </Link>
@@ -94,4 +90,4 @@ const ImageBackDrop = ({
   );
 };
 
-export default DispensaryCard;
+export default InfoCard;
