@@ -9,6 +9,7 @@
     "react-slick": "0.29.0",
     "@cd/data-access": "workspace:*",
     "use-carousel-hook": "^0.2.1",
+    "slick-carousel": "1.8.1",
     "@cd/eslint-config": "workspace:*"
   },
   "devDependencies": {
