@@ -4,16 +4,25 @@ const router = Router();
 /* =================================
 Serve Local Data Routes
 
-/organizations      getLocalOrganizations
-
-/create             addOrganizationLocationRecord
+/organizations          POST    getLocalOrganizations
+/organizations/record   POST    createOrganizationLocationRecord
+/organizations/record   PUT     updateOrganizationLocationRecord
+/organizations/record   DELETE  deleteOrganizationLocationRecord
 
 ================================= */
 
 router.route('/organizations').post(locationCtrl.getLocalOrganizations);
 
-router.route('/organizations/record').post(locationCtrl.addOrganizationLocationRecord);
+router
+  .route('/organizations/record')
+  .post(locationCtrl.createOrganizationLocationRecord);
 
-router.route('/organizations/record').put(locationCtrl.updateOrganizationLocationRecord);
+router
+  .route('/organizations/record')
+  .put(locationCtrl.updateOrganizationLocationRecord);
+
+router
+  .route('/organizations/:id')
+  .delete(locationCtrl.deleteOrganizationLocationRecord);
 
 export default router;
