@@ -1,52 +1,36 @@
-variable "linode_api_token" {
-    description = "Your Linode API Personal Access Token. (required)"
-    sensitive   = true
-}
-
-variable access_key {
-    description = "Your Linode s3 access key. (required)"
-    sensitive   = true
-}
-
-variable secret_key {
-    description = "Your Linode s3 secret key. (required)"
-    sensitive   = true
+variable "project_id" {
+    description = "The project ID to deploy to. (required)"
 }
 
 variable "k8s_version" {
     description = "The kubernetes version to use for this cluster. (required)"
-    default = "1.25"
 }
 
-variable "k8s_label" {
+variable "cluster_name" {
     description = "The unique label to assign for this cluster. (required)"
-    default = "tf-k8s-cluster"
+}
+
+variable "network_name" {
+  description = "The name of the network"
 }
 
 variable "region" {
     description = "The region of tf state. "
-    default = "us-southeast"
 }
 
-variable "endpoint" {
-    description = "storage endpoint for tf state"
-    default = "us-southeast-1.linodeobjects.com"
+variable "zone" {
+    description = "the region endpoint"
 }
 
-variable "cluster" {
-    description = "the cluster where resource is located"
-    default = "us-southeast-1"
-}
-
-variable "bucket" {
+variable "tf_state" {
     description = "The identifier for terraform state storage (required)"
-    default = "gras-terraform-k8s"
+    default = "tf-state"
 }
 
 variable "tags" {
     description = "Tags to apply to your cluster for organizational purposes. "
     type = list(string)
-    default = ["gras-terraform-k8s-cluster"]
+    default = ["gras-cluster", "terraform"]
 }
 
 variable "pools" {
@@ -58,7 +42,35 @@ variable "pools" {
     default = [
         {
             type = "g6-standard-1"
-            count = 3
+            count = 2
         }
     ]
+}
+
+variable "num_nodes" {
+  description = "The number of cluster nodes"
+}
+
+variable "machine_type" {
+  description = "The machine type of the cluster nodes"
+}
+
+variable "disk_size" {
+  description = "The disk size of the cluster nodes"
+}
+
+variable "https" {
+  description = "Whether to set up the load balancer with HTTPS or not"
+}
+
+variable "ip_address_name" {
+  description = "The name of the static IP Address for the load balancer"
+}
+
+variable "ssl_cert_name" {
+  description = "The name of the SSL certificate for the load balancer"
+}
+
+variable "domain_name" {
+  description = "Domain name for the load balancer"
 }
