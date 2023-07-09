@@ -7,11 +7,10 @@ metadata:
 spec:
   virtualHost:
     domains:
-    - 'grascannabis.org'
-    - '*.grascannabis.org'
+    - '*'
     routes:
     - matchers:
-      - exact: /
+      - prefix: /
       options:
         retries:
           retryOn: 'connect-failure,5xx'
