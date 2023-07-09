@@ -163,7 +163,7 @@ model Address {
   country String
   countryCode String?
   coordinateId String?
-  coordinates Coordinates? @relation(fields: [coordinateId], references: [id], onUpdate: SetNull, onDelete: SetNull)
+  coordinates Coordinates? @relation(fields: [coordinateId], references: [id], onUpdate: SetNull, onDelete: Cascade)
   user User[]
   organization Organization? @relation("organizationAddress")
   orders Order[]
@@ -270,13 +270,13 @@ model Order {
   destinationAddress Address @relation(fields: [addressId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   
   customerId String
-  customer User @relation(fields: [customerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  customer User @relation(fields: [customerId], references: [id], onDelete: NoAction, onUpdate: Cascade)
   
   organizationId String
-  organization Organization @relation(fields: [organizationId], references: [id],  onDelete: Cascade, onUpdate: Cascade)
+  organization Organization @relation(fields: [organizationId], references: [id],  onDelete: NoAction, onUpdate: Cascade)
   
   driverId String?
-  driver Driver? @relation(fields: [driverId], references: [id],  onDelete: SetNull, onUpdate: SetNull)
+  driver Driver? @relation(fields: [driverId], references: [id],  onDelete: NoAction, onUpdate: Cascade)
 
   
   createdAt      DateTime         @default(now())
@@ -374,7 +374,7 @@ model Organization {
   stripeAccountId String? @unique
   stripeOnboardingComplete Boolean @default(false)
   addressId     String @unique
-  address Address @relation("organizationAddress", fields: [addressId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  address Address @relation("organizationAddress", fields: [addressId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   dialCode String
   phone String @unique
   images ImageOrganization[]
@@ -386,7 +386,7 @@ model Organization {
   schedule Schedule @relation(fields: [scheduleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   termsAccepted Boolean @default(false)
   subdomainId String
-  subdomain SubDomain @relation(fields: [subdomainId], references: [id])
+  subdomain SubDomain @relation(fields: [subdomainId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   siteSetting SiteSetting?
   orders Order[]
   categoryList CategoryList?
@@ -422,7 +422,7 @@ model Product {
   variants ProductVariant[]
   categories Category[]
   organizationId String
-  organization Organization @relation(fields: [organizationId], references: [id])
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: NoAction, onUpdate: Cascade)
   reviews Review[]
   rating Float
   tags String?
@@ -548,7 +548,7 @@ model SiteSetting {
   title          String
   bannerText     String? @db.Text
   organizationId String @unique
-  organization   Organization @relation(fields: [organizationId], references: [id])
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
