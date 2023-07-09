@@ -1,16 +1,17 @@
 apiVersion: gateway.solo.io/v1
 kind: RouteTable
 metadata:
-  name: gras-dashboard
+  name: gras-backend-server-routes
   namespace: gloo-system
   labels:
-    domain: 'app.grascannabis.org'
+    domain: 'backend.grascannabis.org'
 spec:
   routes:
     - matchers:
-        - prefix: /
+        - prefix: /main
+      inheritablePathMatchers: true
       routeAction:
         single:
           upstream:
-            name: default-gras-dashboard-8080
+            name: default-gras-server-main-8080
             namespace: gloo-system
