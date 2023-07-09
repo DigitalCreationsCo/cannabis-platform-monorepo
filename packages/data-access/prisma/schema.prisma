@@ -179,7 +179,7 @@ model ImageOrganization {
   id            String    @id @default(cuid()) @unique
   location String         @db.LongText
   organizationId String 
-  organization Organization @relation(fields: [organizationId], references: [id])
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   blurhash String?
 
   createdAt      DateTime         @default(now())

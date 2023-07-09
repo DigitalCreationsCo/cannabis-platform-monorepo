@@ -3312,7 +3312,6 @@ __metadata:
     supertokens-auth-react: 0.28.1
     ts-jest: 29.0.3
     typescript: 4.9.3
-    use-carousel-hook: 0.2.1
     vite: 4.2.1
     vite-tsconfig-paths: 4.0.7
     vitest: 0.29.8
@@ -3933,7 +3932,6 @@ __metadata:
     tailwindcss: 3.2.4
     ts-jest: 29.0.3
     typescript: 4.9.3
-    use-carousel-hook: ^0.2.1
     yup: 0.32.11
   languageName: unknown
   linkType: soft
@@ -29511,16 +29509,6 @@ __metadata:
     punycode: ^1.4.1
     qs: ^6.11.0
   checksum: a7de4b37bbcbe60ef199acda4ce437ef843c0ef3a4b34ec3e3d97e0446a5f50dc7bfeafbe33ad118cf4e5aa04805e1328f0d0126e254f2b77bb8498fa395c596
-  languageName: node
-  linkType: hard
-
-"use-carousel-hook@npm:0.2.1, use-carousel-hook@npm:^0.2.1":
-  version: 0.2.1
-  resolution: "use-carousel-hook@npm:0.2.1"
-  peerDependencies:
-    "@use-effect/did-update": ^0.0.3
-    react: ^16 || ^17.0.0
-  checksum: 3daf732f176bee3d6c1e02a4f59ca41acb86ec99d83afd75ee9dfc051d3f928466a822377cf36f9ea8508fe2a7b2842de7be6b4c7902dc046f01df584516c21f
   languageName: node
   linkType: hard
 
