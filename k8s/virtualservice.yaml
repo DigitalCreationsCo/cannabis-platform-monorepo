@@ -40,3 +40,26 @@ spec:
         retryOn: 'connect-failure,5xx'
         numRetries: 5
         perTryTimeout: 1s
+---
+apiVersion: gateway.solo.io/v1
+kind: VirtualService
+metadata:
+  name: default-backend
+  namespace: gloo-system
+spec:
+  virtualHost:
+    domains:
+      - 'backend.grascannabis.org'
+    routes:
+      - delegateAction:
+          ref:
+            name: gras-backend-server-routes
+            namespace: gloo-system
+        matchers:
+          - prefix: /
+        inheritablePathMatchers: true
+    options:
+      retries:
+        retryOn: 'connect-failure,5xx'
+        numRetries: 5
+        perTryTimeout: 1s
