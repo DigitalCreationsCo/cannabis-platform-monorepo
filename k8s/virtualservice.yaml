@@ -18,7 +18,16 @@ spec:
           perTryTimeout: 1s
       delegateAction:
         selector:
-          labels:
-            domain: grascannabis.org
+          # labels:
+          #   domain: grascannabis.org
+          expressions:
+            - key: domain
+              operator: In
+              values: 
+                - grascannabis.org
+                - app.grascannabis.org
+                - backend.grascannabis.org
+                - widget.grascannabis.org
+                - *.grascannabis.org
           namespaces:
           - gloo-system
