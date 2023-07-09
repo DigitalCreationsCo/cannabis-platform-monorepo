@@ -3,7 +3,7 @@ import {
   locationActions,
   selectSelectedLocationState,
   selectShopState,
-  shopActions,
+  shopActions
 } from '@cd/core-lib';
 import { getGeoAddressFromCoordinates } from '@cd/core-lib/src/utils/geo';
 import { AnyAction } from '@reduxjs/toolkit';
@@ -30,12 +30,10 @@ const LocationProvider = () => {
 
   const getDispensaries = async () => {
     dispatch(shopActions.getDispensariesLocal() as unknown as AnyAction);
-    console.log('getDispensaries');
   };
 
   // const getProducts = async () => {
   //     dispatch(shopActions.getProductsFromLocal() as unknown as AnyAction);
-  //     console.log('getProducts');
   // };
 
   useEffect(() => {
