@@ -206,7 +206,7 @@ export default function OrderDetails({
             {productSearchResult.map((product) => (
               <ProductItem
                 key={product.id}
-                product={product}
+                data={product}
                 handleConfirm={handleAddItem}
               />
             ))}

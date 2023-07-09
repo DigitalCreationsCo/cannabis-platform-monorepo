@@ -6,10 +6,7 @@
   "depedencies": {
     "@cd/core-lib": "workspace:*",
     "react-responsive-carousel": "3.2.23",
-    "react-slick": "0.29.0",
     "@cd/data-access": "workspace:*",
-    "use-carousel-hook": "^0.2.1",
-    "slick-carousel": "1.8.1",
     "@cd/eslint-config": "workspace:*"
   },
   "devDependencies": {
@@ -34,9 +31,11 @@
     "prettier": "2.8.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-slick": "0.29.0",
     "rimraf": "4.4.1",
     "rollup": "3.20.2",
     "rollup-plugin-postcss": "4.0.2",
+    "slick-carousel": "1.8.1",
     "style-loader": "3.3.2",
     "sync-directory": "6.0.4",
     "tailwind-merge": "1.8.0",
