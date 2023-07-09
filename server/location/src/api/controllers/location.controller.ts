@@ -1,5 +1,5 @@
 import { getCoordinatePairFromUserLocation } from '@cd/core-lib';
-import { OrganizationWithShopDetails } from '@cd/data-access';
+import { Coordinates, OrganizationWithShopDetails } from '@cd/data-access';
 import { LocationDA } from '../data-access';
 /* =================================
 Locationontroller - controller class for location-based actions
@@ -14,9 +14,14 @@ deleteOrganizationLocationRecord
 export default class LocationController {
   static async getLocalOrganizations(req, res) {
     try {
-      const { userLocation, proximityRadius } = req.body;
+      console.log(`server-location: get local dispensaries.`);
 
+      const { userLocation, proximityRadius }: { userLocation: Coordinates; proximityRadius: number; } = req.body;
+
+      console.log(`server-location: get local dispensaries from ${userLocation} with the radius ${proximityRadius}.`);
       const _geoJson = getCoordinatePairFromUserLocation(userLocation);
+
+      console.log('geoJson: ', _geoJson);
 
       const data = await LocationDA.getLocalOrganizations(
         _geoJson,
