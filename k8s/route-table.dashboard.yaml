@@ -1,0 +1,17 @@
+apiVersion: gateway.solo.io/v1
+kind: RouteTable
+metadata:
+  name: 'gras-dashboard'
+  namespace: 'gloo-system'
+  labels:
+    domain: app.grascannabis.org
+spec:
+  weight: 20
+  routes:
+    - matchers:
+       - prefix: '/'
+      routeAction:
+        single:
+          upstream:
+            name: default-gras-dashboard-8080
+            namespace: gloo-system
