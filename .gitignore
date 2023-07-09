@@ -5,6 +5,7 @@ DOCKERSIM
 # credentials files
 _dev_notes/creds
 **/docker_creds
+gcp_service_account.json
 
 # dependencies
 **/node_modules
@@ -23,6 +24,7 @@ _dev_notes/creds
 # root certificate
 ca.crt
 ca.key
+certs/*
 
 # testing
 /coverage
@@ -100,7 +102,7 @@ override.tf.json
 # !example_override.tf
 
 # Include tfplan files to ignore the plan output of command: terraform plan -out=tfplan
-# example: *tfplan*
+**/*.tfplan
 
 # Ignore CLI configuration files
 .terraformrc
@@ -177,7 +179,7 @@ network_closure.sh
 /third_party/protoc*
 
 # User cluster configs
-.kube/kubeconfig.yaml
+.kube
 
 .tags*
 

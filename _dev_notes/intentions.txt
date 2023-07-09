@@ -127,9 +127,10 @@ backend route featuring:
 dashboard app CORS, shop app CORS
 
 TO DO:
+Set up k8s healthchecks for all application pods
+https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
+
 move applicable next api routes to dashboard app. 
-
-
 
 CUSTOMER SUCCESS:
 1. BUILD KNOWLEDGE PAGES!

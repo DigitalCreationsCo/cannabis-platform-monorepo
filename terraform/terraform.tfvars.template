@@ -1,0 +1,14 @@
+project_id       = ""
+k8s_version      = ""
+cluster_name     = ""
+network_name     = ""
+region           = ""
+zone             = ""
+num_nodes        = ""
+machine_type     = ""
+disk_size        = ""
+ip_address_name  = ""
+ssl_cert_name    = ""
+
+# Change to true to enable HTTPS and HTTP redirect for the load balancer
+https            = false
