@@ -9,6 +9,17 @@ function formatDispensaryUrl(subdomainId: string) {
   }
 }
 
+function formatBlogUrl(href: string) {
+  switch (process.env.NODE_ENV) {
+    case 'development':
+      return `http://localhost:3000/blog/${href}`;
+    case 'test':
+      return `http://localhost:3000/blog/${href}`;
+    case 'production':
+      return `https://grascannabis.org/blog/${href}`;
+  }
+}
+
 function getShopSite(path: string): string {
   switch (process.env.NODE_ENV as string) {
     case 'development':
@@ -63,4 +74,10 @@ function getCurrentSite(path: string): string {
 //       return getShopSite('/');
 //   }
 
-export { formatDispensaryUrl, getShopSite, getDashboardSite, getCurrentSite };
+export {
+  formatDispensaryUrl,
+  formatBlogUrl,
+  getShopSite,
+  getDashboardSite,
+  getCurrentSite,
+};
