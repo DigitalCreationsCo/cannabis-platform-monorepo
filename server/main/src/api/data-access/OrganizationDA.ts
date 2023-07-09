@@ -108,6 +108,8 @@ export default class OrganizationDA {
     try {
       const _deleted = await deleteOrganizationById(organizationId);
 
+      console.log('_deleted: ', _deleted);
+
       await axios.delete(
         urlBuilder.location.getOrganizationRecord(_deleted.id)
       );

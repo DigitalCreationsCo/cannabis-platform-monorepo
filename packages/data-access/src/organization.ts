@@ -204,7 +204,6 @@ export async function deleteOrganizationById(id: string) {
       where: { id },
     });
 
-    console.log('deleted Dispensary: ' + deleted);
     return deleted;
   } catch (error: any) {
     throw new Error(error);

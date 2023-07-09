@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  // "extends": "./tsconfig.json",
+  "extends": "./tsconfig.json",
   "compilerOptions": {
     "declaration": true,
     "target": "ES2015",
@@ -9,10 +9,10 @@
     "jsxFactory": "",
     "jsxFragmentFactory": "",
     "noEmit": false,
-    "declarationMap": false,
+    "declarationMap": true,
     "declarationDir": "./dist",
-    "emitDeclarationOnly": true,
-    "sourceMap": false
+    "emitDeclarationOnly": false,
+    "sourceMap": true
   },
-  "exclude": ["dist", "**/__tests__/*", "**/test/*"]
+  "exclude": ["**/node_modules", "dist", "**/__tests__/*", "**/test/*"]
 }
