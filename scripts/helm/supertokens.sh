@@ -1,2 +1,0 @@
-# not used in favor of yaml file
-helm upgrade --install --kubeconfig .kube/kubeconfig.yaml supertokens ../supertokens-docker-mysql/helm-chart -f ../supertokens-docker-mysql/helm-chart/service.values.yaml

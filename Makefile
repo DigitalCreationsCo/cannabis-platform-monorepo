@@ -26,7 +26,7 @@ apply:
 	terraform -chdir=./terraform apply
 
 destroy:
-   	terraform -chdir=./terraform destroy
+	terraform -chdir=./terraform destroy
 
 console:
 	terraform -chdir=./terraform console
