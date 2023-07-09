@@ -7,7 +7,6 @@ metadata:
   labels:
     service: gras-shop
 spec:
-  # type: ClusterIP
   selector:
     app: gras-shop
   ports:
@@ -18,15 +17,15 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gras-shop
   labels:
     app: gras-shop
+  name: gras-shop
   namespace: default
 spec:
-  replicas: 2
   selector:
     matchLabels:
       app: gras-shop
+  replicas: 2
   template:
     metadata:
       labels:

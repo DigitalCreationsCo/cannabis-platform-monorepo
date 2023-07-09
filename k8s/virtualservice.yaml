@@ -13,7 +13,6 @@ spec:
     - matchers:
       - exact: /
       options:
-        prefixRewrite: /api/healthcheck
         retries:
           retryOn: 'connect-failure,5xx'
           numRetries: 5
@@ -21,7 +20,7 @@ spec:
       routeAction:
         single:
           upstream:
-            name: gras-shop-8080
+            name: default-gras-shop-8080
             namespace: gloo-system
 # ---
 # apiVersion: gateway.solo.io/v1

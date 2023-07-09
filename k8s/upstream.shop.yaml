@@ -1,9 +1,7 @@
-# check service and app selectors, check the given configuration from gloo
-
 apiVersion: gloo.solo.io/v1
 kind: Upstream
 metadata:
-  name: gras-shop-8080
+  name: default-gras-shop-8080
   namespace: gloo-system
 spec:
   discoveryMetadata:
