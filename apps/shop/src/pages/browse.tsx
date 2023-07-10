@@ -36,15 +36,16 @@ export default function MarketPlace({ host }: { host: string }) {
 
   return (
     <Page gradient="pink" className="lg:px-0">
-      <div className="cursor-default lg:px-8 xl:absolute pt-2 md:pt-0">
-        <H1 color="light" className={twMerge(styles.responsiveHeading)}>
-          {TextContent.info.CANNABIS_DELIVERED}
-        </H1>
-
-        {/* <Ticker text={'Delivery by Gras now available in Baltimore, Maryland!'} /> */}
-        <H3 className="px-4 text-inverse ">
-          Good day{user.firstName && `, ${user.firstName}`}!
-        </H3>
+      <div className="cursor-default lg:px-8 xl:absolute pt-2 md:pt-0 xl:w-5/12">
+        <div className="xl:m-auto lg:w-fit">
+          <H1 color="light" className={twMerge(styles.responsiveHeading)}>
+            {TextContent.info.CANNABIS_DELIVERED}
+          </H1>
+          {/* <Ticker text={'Delivery by Gras now available in Baltimore, Maryland!'} /> */}
+          <H3 className="px-4 text-inverse ">
+            Good day{user.firstName && `, ${user.firstName}`}!
+          </H3>
+        </div>
       </div>
       <Grid className="space-y-5 relative">
         {/* { isError && <Center className='m-auto grow border'>

@@ -1,6 +1,6 @@
-import { BlogBlurb } from 'components/InfoCard';
-
-const _infoCardMockData: BlogBlurb[] = [
+// @ts-nocheck
+import { Article, ImageArticle } from '@cd/data-access';
+const _infoCardMockData: (Article & { image: ImageArticle })[] = [
   {
     id: '1',
     name: 'we-support-your-dispensary',

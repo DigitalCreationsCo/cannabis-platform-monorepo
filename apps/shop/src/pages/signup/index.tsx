@@ -19,21 +19,17 @@ function SignUpStart() {
     <Page>
       <Grid>
         <Padding>
-          <Center>
+          <Center className="space-y-4">
             <H1 className="text-center text-primary whitespace-pre-line font-display">
               Welcome to Gras
             </H1>
-            <Padding>
-              <FlexBox className="max-w-[400px]">
-                <Paragraph className="whitespace-pre-line">
-                  To browse for cannabis products, you must be 21 years of age
-                  or older. Please sign in.
-                </Paragraph>
-              </FlexBox>
-            </Padding>
-          </Center>
+            <FlexBox className="max-w-[400px]">
+              <Paragraph className="whitespace-pre-line">
+                To browse our site, you must be 21 years or older. Please sign
+                in.
+              </Paragraph>
+            </FlexBox>
 
-          <Center>
             <SignInButton size="lg" />
 
             <FlexBox className="m-auto items-center space-y-2">

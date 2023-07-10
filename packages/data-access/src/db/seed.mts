@@ -291,11 +291,11 @@ async function main() {
     })[]
     = [
       {
-        "name": "Curaleaf",
-        "stripeAccountId": '1345',
+        "name": "Curaleaf MD Reisterstown",
+        "stripeAccountId": null,
         "stripeOnboardingComplete": false,
         "dialCode": "1",
-        "phone": "1232356456",
+        "phone": "",
         "subdomain": {
           "connectOrCreate": {
             "where": {
@@ -312,11 +312,11 @@ async function main() {
         "vendor": {
           "connectOrCreate": {
             "where": {
-              "id": "2"
+              name: 'curaleaf'
             },
             "create": {
               "id": "2",
-              "name": "Curaleaf",
+              "name": "curaleaf",
               "publicName": "Curaleaf",
               "createdAt": new Date(),
               "updatedAt": new Date()
@@ -326,18 +326,18 @@ async function main() {
         "termsAccepted": false,
         "address": {
           "create": {
-            "street1": "407 W Chest St",
+            "street1": "11722 Reisterstown Rd",
             "street2": "",
-            "city": "Lancaster",
-            "state": "Pennsylvania",
-            "zipcode": 17603,
+            "city": "Reisterstown",
+            "state": "Maryland",
+            "zipcode": 21136,
             "country": "United States",
             "countryCode": "US",
             "coordinates": {
               "create": {
                 "radius": 10000,
-                "latitude": 40.0411,
-                "longitude": -76.3133,
+                "latitude": 39.445438,
+                "longitude": -76.809394,
                 "createdAt": new Date(),
                 "updatedAt": new Date()
               }
@@ -348,7 +348,7 @@ async function main() {
           "createMany": {
             "data": [
               {
-                "location": "https://mgmagazine.com/wp-content/uploads/2021/05/CURALEAF_logo_mg_Magazine_mgretailler-e1675120877801.jpg",
+                "location": "https://storage.cloud.google.com/image-dispensary/curaleaf/logo-1200.jpg?authuser=2",
                 "blurhash": ""
               }
             ]
@@ -356,9 +356,9 @@ async function main() {
         },
         "schedule": {
           "create": {
-            "days": 1234,
-            "openAt": 10,
-            "closeAt": 18
+            "days": 1234560,
+            "openAt": 9,
+            "closeAt": 21
           }
         }
       },
@@ -367,11 +367,11 @@ async function main() {
         "stripeAccountId": null,
         "stripeOnboardingComplete": false,
         "dialCode": "1",
-        "phone": "1232343333",
+        "phone": "",
         "vendor": {
           "connectOrCreate": {
             "where": {
-              "id": "3"
+              id: '3'
             },
             "create": {
               "id": "3",
@@ -398,11 +398,11 @@ async function main() {
         "termsAccepted": false,
         "address": {
           "create": {
-            "street1": "1618 E Oliver St",
+            "street1": "1866 Fruitville Pike",
             "street2": "",
-            "city": "Baltimore",
-            "state": "Maryland",
-            "zipcode": 21213,
+            "city": "Lancaster",
+            "state": "Pennsylvania",
+            "zipcode": 17601,
             "country": "United States",
             "countryCode": "US",
             "coordinates": {
@@ -419,7 +419,7 @@ async function main() {
         "images": {
           "create": [
             {
-              "location": "https://images.prismic.io/sunnyside/87e74ff1-f496-4705-a5a5-0aca361a82cc_SS_FB_OpenGraph_2x.jpg?auto=compress,format",
+              "location": "https://storage.cloud.google.com/image-dispensary/sunnyside/logo-1200.jpeg?authuser=2",
               "blurhash": ""
             }
           ],
@@ -428,24 +428,24 @@ async function main() {
           "create": {
             "days": 1234560,
             "openAt": 9,
-            "closeAt": 24
+            "closeAt": 19
           }
         }
       },
       {
-        "name": "McNuggs",
-        "stripeAccountId": "acct_1JX2Zz2eZvKYlo2C",
-        "stripeOnboardingComplete": true,
+        "name": "Remedy Baltimore",
+        "stripeAccountId": null,
+        "stripeOnboardingComplete": false,
         "dialCode": "1",
-        "phone": "2475895745",
+        "phone": "",
         "termsAccepted": false,
         "subdomain": {
           "connectOrCreate": {
             "where": {
-              "id": "mcnuggs"
+              "id": "remedy"
             },
             "create": {
-              "id": "mcnuggs",
+              "id": "remedy",
               "isValid": true,
               "createdAt": new Date(),
               "updatedAt": new Date()
@@ -459,8 +459,8 @@ async function main() {
             },
             "create": {
               "id": "4",
-              "name": "McNuggs",
-              "publicName": "McNuggs",
+              "name": "remedy",
+              "publicName": "remedy",
               "createdAt": new Date(),
               "updatedAt": new Date()
             }
@@ -468,18 +468,18 @@ async function main() {
         },
         "address": {
           "create": {
-            "street1": "2667 Solomons Island Rd",
+            "street1": "7165 Security Blvd Suite C",
             "street2": "",
-            "city": "Annapolis",
+            "city": "Windsor Mill",
             "state": "Maryland",
-            "zipcode": 21037,
+            "zipcode": 21244,
             "country": "United States",
             "countryCode": "US",
             "coordinates": {
               "create": {
                 "radius": 10000,
-                "latitude": 39.2904,
-                "longitude": -76.6122,
+                "latitude": 39.313284,
+                "longitude": -76.757832,
                 "createdAt": new Date,
                 "updatedAt": new Date,
               }
@@ -489,7 +489,7 @@ async function main() {
         "images": {
           "create": [
             {
-              "location": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxzNuI7e1ZEcBvNPke7da5pcvomN-21e2-zERnn0Z6p2ed4AvkOFXPoSEqtIK1V6tl8wY&usqp=CAU",
+              "location": "https://storage.cloud.google.com/image-dispensary/remedy/logo-1000.jpeg?authuser=2",
               "blurhash": ""
             }
           ],
@@ -497,8 +497,8 @@ async function main() {
         "schedule": {
           "create": {
             "days": 1234560,
-            "openAt": 9,
-            "closeAt": 24
+            "openAt": 10,
+            "closeAt": 21
           }
         }
       }
