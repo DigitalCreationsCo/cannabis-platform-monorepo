@@ -62,8 +62,7 @@
     "react-slick": "^0.29.0",
     "sharp": "0.32.1",
     "swr": "2.1.5",
-    "tailwind-merge": "1.8.0",
-    "use-carousel-hook": "^0.2.1"
+    "tailwind-merge": "1.8.0"
   },
   "devDependencies": {
     "@next/env": "13.2.4",

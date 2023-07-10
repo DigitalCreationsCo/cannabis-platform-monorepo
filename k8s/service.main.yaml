@@ -2,27 +2,28 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: gras-service-server-main
+  name: gras-server-main
 spec:
   type: ClusterIP
   selector:
     app: gras-server-main
   ports:
     - protocol: TCP
-      port: 80
+      port: 8080
       targetPort: main-port
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    app: gras-server-main
   name: gras-server-main
-  annotations:
-    linkerd.io/inject: enabled
+  namespace: default
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: gras-server-main
+  replicas: 2
   template:
     metadata:
       labels:
@@ -35,13 +36,22 @@ spec:
           imagePullPolicy: Always
           terminationMessagePolicy: FallbackToLogsOnError
           resources:
-            limits: 
-              cpu: "100m"
-              memory: "120Mi"
+            limits:
+              cpu: '100m'
+              memory: '120Mi'
             requests:
-              cpu: "100m"
-              memory: "120Mi"
+              cpu: '100m'
+              memory: '120Mi'
           ports:
             - name: main-port
               containerPort: 6001
-      
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: 'app'
+                    operator: In
+                    values:
+                      - gras-server-main
+              topologyKey: 'kubernetes.io/hostname'
