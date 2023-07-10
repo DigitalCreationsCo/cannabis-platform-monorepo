@@ -53,7 +53,7 @@ function InfoCard({ data: info, loading, className }: DispensaryCardProps) {
           </H3>
 
           <FlexBox className="z-5 p-2 absolute bottom-0 left-0 items-end flex-row justify-between">
-            <Paragraph className="text-inverse drop-shadow">
+            <Paragraph className="text-inverse text-lg font-semibold drop-shadow">
               {info.description}
             </Paragraph>
           </FlexBox>

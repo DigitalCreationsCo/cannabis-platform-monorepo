@@ -26,8 +26,8 @@ export const getInitialDispensaries = createAsyncThunk(
         }
       );
 
-      console.info('getInitialDispensaries: ', response.data);
-      return response.data;
+      // ADD AXIOS REPSONSE TYPE TO INSTANCE CONFIG!
+      if (response.data.success) return response.data.payload;
     } catch (error) {
       console.error('getInitialDispensaries: ', error);
       return rejectWithValue('Could not get initial dispensaries');
@@ -60,7 +60,8 @@ export const getDispensariesLocal = createAsyncThunk<
       }
     );
 
-    return response.data;
+    // ADD AXIOS REPSONSE TYPE TO INSTANCE CONFIG!
+    if (response.data.success) return response.data.payload;
   } catch (error) {
     console.error('getDispensariesLocal failed: ', error);
     return rejectWithValue('Could not get dispensaries');
@@ -136,7 +137,7 @@ export const getProductsFromLocal = createAsyncThunk<
 
     const dispensaryIdList = dispensaries.map((disp) => disp.id);
 
-    const { data } = await axios.post(
+    const response = await axios.post(
       urlBuilder.main.productsByMultipleOrgs(1, 20),
       {
         ...dispensaryIdList,
@@ -149,7 +150,8 @@ export const getProductsFromLocal = createAsyncThunk<
       }
     );
 
-    return data;
+    // ADD AXIOS REPSONSE TYPE TO INSTANCE CONFIG!
+    if (response.data.success) return response.data.payload;
   } catch (err) {
     return thunkAPI.rejectWithValue('A general error occured. ');
   }
@@ -188,15 +190,20 @@ export const shopSlice = createSlice({
         { payload }: PayloadAction<OrganizationWithDetailsAndMetadata[]>
       ) => {
         const dispensaries = payload;
-
         if (dispensaries.length > 0) {
-          dispensaries.forEach((disp) => {
-            disp.metadata = {
+          dispensaries.forEach((d) => {
+            d.metadata = {
               productsFetched: false,
             };
-          });
 
-          state = reconcileStateNoDuplicates(state.dispensaries, dispensaries);
+            console.log('state before reconcile: ', state.dispensaries);
+
+            const index = state.dispensaries.findIndex((i) => i.id === d.id);
+            if (index === -1) state.dispensaries = [...state.dispensaries, d];
+            else state.dispensaries[index] = item;
+
+            console.log('state after reconcile: ', state.dispensaries);
+          });
         }
         state.isLoading = false;
         state.isSuccess = true;
@@ -229,10 +236,13 @@ export const shopSlice = createSlice({
               };
             });
 
-            state = reconcileStateNoDuplicates(
-              state.dispensaries,
-              dispensaries
-            );
+            console.log('state before reconcile: ', state.dispensaries);
+
+            const index = state.dispensaries.findIndex((i) => i.id === d.id);
+            if (index === -1) state.dispensaries = [...state.dispensaries, d];
+            else state.dispensaries[index] = item;
+
+            console.log('state after reconcile: ', state.dispensaries);
           }
           state.isLoading = false;
           state.isSuccess = true;
@@ -257,12 +267,21 @@ export const shopSlice = createSlice({
           // if so, where is the data stored?
 
           // can we use this V global products data to populate the products for each dispensary?
-
           const products = payload;
-          state = reconcileStateNoDuplicates(state.products, products);
-          state.isLoading = false;
-          state.isSuccess = true;
-          state.isError = false;
+          if (products.length > 0) {
+            // products.forEach((d) => {
+            //   d.metadata = {
+            //     productsFetched: false,
+            //   };
+            // });
+            // console.log('state before reconcile: ', state.dispensaries)
+            // const index = state.dispensaries.findIndex((i) => i.id === d.id);
+            // if (index === -1)
+            //   state.dispensaries = [...state.dispensaries, d]
+            // else
+            //   state.dispensaries[index] = item;
+            // console.log('state after reconcile: ', state.dispensaries)
+          }
         }
       ),
       builder.addCase(getProductsFromLocal.pending, (state) => {
@@ -346,10 +365,11 @@ export const shopReducer = shopSlice.reducer;
 export const selectShopState = (state: AppState) => state.shop;
 
 function reconcileStateNoDuplicates<T>(state: T[], payload: T[]) {
+  let s = state;
   payload.forEach((item) => {
-    const index = state.findIndex((i) => i.id === item.id);
-    if (index === -1) state.push(item);
-    else state[index] = item;
+    const index = s.findIndex((i) => i.id === item.id);
+    if (index === -1) s = [...s, item];
+    else s[index] = item;
   });
-  return state;
+  return s;
 }
