@@ -62,6 +62,8 @@
     "db:seed": "npx prisma generate && dotenv -e ../../.env.development -- yarn prisma db seed",
     "db:migrate": "dotenv -e ../../.env.development -- yarn prisma migrate dev",
     "db:migrate-reset": "dotenv -e ../../.env.development -- yarn prisma migrate reset",
+    "db:baseline": "make baseline",
+    "db:deploy-production": "dotenv -e ../../.env.production -- npx prisma migrate deploy",
     "prisma-studio": "dotenv -e ../../.env.development -- yarn prisma studio",
     "test": "run-s test:unit",
     "test-e2e": "dotenv -e ../../.env.development -- yarn vitest run",
