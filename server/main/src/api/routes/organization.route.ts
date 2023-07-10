@@ -8,6 +8,8 @@ Organization Routes
 
 "/:id"                  getOrganizationById
 
+"/:id"                  deleteOrganizationById
+
 "/zipcode/:zipcode"     getOrganizationByZipcode
 
 "/:id/categories"       getCategoryList
@@ -24,12 +26,14 @@ router.route('/').put(orgCtrl.updateOrganization);
 
 router.route('/:id').get(orgCtrl.getOrganizationById);
 
-router.route('/zipcode/:zipcode&_:limit&_:radius').get(orgCtrl.getOrganizationsByZipcode)
+router.route('/:id').delete(orgCtrl.deleteOrganizationById);
+
+router
+  .route('/zipcode/:zipcode&_:limit&_:radius')
+  .get(orgCtrl.getOrganizationsByZipcode);
 
 router.route('/:id/categories').get(orgCtrl.getCategoryList);
 
 router.route('/:id/users').get(orgCtrl.getUsersByOrganization);
-
-router.route('/product/:id/update-product').put(orgCtrl.updateProduct);
 
 export default router;

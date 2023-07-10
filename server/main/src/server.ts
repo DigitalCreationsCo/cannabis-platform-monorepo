@@ -1,4 +1,3 @@
-// import { baseDomain, websiteDomain } from '@cd/core-lib';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
@@ -9,15 +8,17 @@ import { SessionInfo } from './api/controllers/session.controller';
 import { driver, errorRoute, organization, shop, user } from './api/routes';
 import { backendConfig } from './config/backendConfig';
 
+const shopDomain = process.env.NEXT_PUBLIC_SHOP_APP_URL;
+const dashboardDomain = process.env.NEXT_PUBLIC_DASHBOARD_APP_URL;
+
 if (Supertokens) {
   Supertokens.init(backendConfig());
 } else throw Error('Supertokens is not available.');
 
 const app = express();
-
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'http://app.localhost:3000'],
+    origin: [shopDomain, dashboardDomain],
     allowedHeaders: ['content-type', ...Supertokens.getAllCORSHeaders()],
     methods: ['GET', 'PUT', 'POST', 'DELETE'],
     credentials: true,
@@ -73,7 +74,6 @@ app.use('/api/v1/driver', driver);
 //         res.status(200).json({ status: false, error });
 //     }
 // });
-// app.use('/api/v1/session', session);
 
 app.use('/api/v1/shop', shop);
 
@@ -82,7 +82,6 @@ app.use('/api/v1/organization', organization);
 // error handling test routes
 app.use('/api/v1/error', errorRoute);
 
-// supertokens errorhandler
 app.use(errorHandler());
 
 app.use(
@@ -101,10 +100,6 @@ app.use(
     res.status(500).send(err.message);
   }
 );
-
-// app.use((err: unknown, req: Request, res: Response, next: NextFunction) => { /* ... */ });
-
-// app.use('*', (req, res) => res.status(404).json({ error: 'API not found' }));
 
 const server = http.createServer(app);
 export default server;
