@@ -3,6 +3,8 @@
 version: 2.1
 setup: << pipeline.parameters.run-setup >>
 
+# WILL NEED TO SWITCH TO GCP ORB FOR DEPLOYMENT:
+# https://circleci.com/developer/orbs/orb/circleci/gcp-gke
 
 # All pipeline parameters need to be defined equally both for the setup workflow and main workflows
 # These parameters will be passed to both of them
@@ -221,6 +223,7 @@ orbs:
               dockerfile: Dockerfile.$BUILD_TYPE
               image: $DOCKER_LOGIN/$BUILD_CONTEXT
               path: '.'
+              tag: "$CIRCLE_SHA1, latest"
               extra_build_args: '--build-arg=BUILD_CONTEXT=$BUILD_CONTEXT --build-arg=PORT=$PORT --no-cache --progress=plain'
           - docker/push:
               digest-path: /tmp/workspace/$BUILD_CONTEXT-digest.txt

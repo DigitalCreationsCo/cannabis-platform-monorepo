@@ -1,143 +1,102 @@
+# resource "google_dns_managed_zone" "gras_cannabis_org" {
+#   name     = var.project_id
+#   dns_name = "${var.domain_name}."
+#   project  = var.project_id
+# }
 
-resource "linode_domain" "gras_cannabis" {
-    domain      = "grascannabis.org"
-    soa_email   = "bmejiadeveloper2@gmail.com"
-    status      = "active"
-    type        = "master"
-}
+# resource "google_dns_record_set" "gras_cannabis_org_root" {
+#   managed_zone = google_dns_managed_zone.gras_cannabis_org.name
 
-resource "linode_domain_record" "gras_cannabis_domain_root" {
-    domain_id   = linode_domain.gras_cannabis.id
-    port        = 80
-    priority    = 0
-    record_type = "A"
-    target      = "139.144.255.55"
-    ttl_sec     = 60
-    weight      = 0
-}
+#   name    = "${google_dns_managed_zone.gras_cannabis_org.dns_name}"
+#   type    = "A"
+#   rrdatas = ["${google_compute_address.default.address}"]
+#   ttl     = 60
 
-resource "linode_domain_record" "gras_cannabis_domain_dashboard" {
-    domain_id   = linode_domain.gras_cannabis.id
-    name        = "app"
-    port        = 80
-    priority    = 0
-    record_type = "A"
-    target      = "139.144.255.55"
-    ttl_sec     = 60
-    weight      = 0
-}
+#   project = google_dns_managed_zone.gras_cannabis_org.project
+# }
 
-resource "linode_domain_record" "gras_cannabis_domain_spf" {
-    domain_id   = linode_domain.gras_cannabis.id
-    port        = 0
-    priority    = 50
-    record_type = "TXT"
-    target      = "v=spf1 a ~all"
-    ttl_sec     = 60
-    weight      = 0
-}
+# resource "google_dns_record_set" "gras_cannabis_org_dashboard" {
+#   managed_zone = google_dns_managed_zone.gras_cannabis_org.name
 
-resource "linode_domain_record" "gras_cannabis_domain_wildcard" {
-    domain_id   = linode_domain.gras_cannabis.id
-    name        = "*"
-    port        = 80
-    priority    = 0
-    record_type = "A"
-    target      = "139.144.255.55"
-    ttl_sec     = 60
-    weight      = 0
-}
+#   name    = "app.${google_dns_managed_zone.gras_cannabis_org.dns_name}"
+#   type    = "A"
+#   rrdatas = ["${google_compute_address.default.address}"]
+#   ttl     = 60
 
-resource "linode_domain_record" "gras_cannabis_domain_backend" {
-    domain_id   = linode_domain.gras_cannabis.id
-    name        = "backend"
-    port        = 80
-    priority    = 0
-    record_type = "A"
-    target      = "139.144.255.55"
-    ttl_sec     = 60
-    weight      = 0
-}
+#   project = google_dns_managed_zone.gras_cannabis_org.project
+# }
 
-resource "linode_domain_record" "gras_cannabis_domain_dkim" {
-    domain_id   = linode_domain.gras_cannabis.id
-    name        = "google._domainkey"
-    port        = 0
-    priority    = 50
-    record_type = "TXT"
-    target      = "v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAni7JZWAHi0Bs08rYHItXq3IjoWtDeuo/yOu/jvIxxCTIUWIlUn8EWHDyBQP8klTTCYtJl6bWV3ucMQNKrQ1BmjKZgYF/axv31PyfW2oFRiiNGj/hfCcZjOW2E9A/AyJYoeYIkkV/GOO3c59xTjUF0c/KTytpp8WQovyIPueUHpvgYKlygkpRgDPU4pWSwUodxUgngbFaKUbpUwtzYFWypDkDkxWtaneEXTViJ+pS5x5ePlB2piiet45C1Aty2YeUgrGqavIcyd5/g4R6JwemMaXXF9Rgo66Fo9HSr8tYWXAvsccKCP8CGlG4gOwrCRUrRL64aBkdeIm5u1TyDpRw+wIDAQAB"
-    ttl_sec     = 60
-    weight      = 0
-}
+# resource "google_dns_record_set" "gras_cannabis_org_wildcard" {
+#   managed_zone = google_dns_managed_zone.gras_cannabis_org.name
 
-resource "linode_domain_record" "gras_cannabis_domain_www" {
-    domain_id   = linode_domain.gras_cannabis.id
-    name        = "www"
-    port        = 80
-    priority    = 0
-    record_type = "A"
-    target      = "139.144.255.55"
-    ttl_sec     = 60
-    weight      = 0
-}
+#   name    = "*.${google_dns_managed_zone.gras_cannabis_org.dns_name}"
+#   type    = "A"
+#   rrdatas = ["${google_compute_address.default.address}"]
+#   ttl     = 60
 
-resource "linode_domain_record" "gras_cannabis_domain_mx1" {
-    domain_id   = linode_domain.gras_cannabis.id
-    port        = 0
-    priority    = 1
-    record_type = "MX"
-    target      = "aspmx.l.google.com"
-    ttl_sec     = 60
-    weight      = 0
-}
+#   project = google_dns_managed_zone.gras_cannabis_org.project
+# }
 
-resource "linode_domain_record" "gras_cannabis_domain_mx2" {
-    domain_id   = linode_domain.gras_cannabis.id
-    port        = 0
-    priority    = 5
-    record_type = "MX"
-    target      = "alt1.aspmx.l.google.com"
-    ttl_sec     = 60
-    weight      = 0
-}
+# resource "google_dns_record_set" "gras_cannabis_org_backend" {
+#   managed_zone = google_dns_managed_zone.gras_cannabis_org.name
 
-resource "linode_domain_record" "gras_cannabis_domain_mx3" {
-    domain_id   = linode_domain.gras_cannabis.id
-    port        = 0
-    priority    = 5
-    record_type = "MX"
-    target      = "alt2.aspmx.l.google.com"
-    ttl_sec     = 60
-    weight      = 0
-}
+#   name    = "backend.${google_dns_managed_zone.gras_cannabis_org.dns_name}"
+#   type    = "A"
+#   rrdatas = ["${google_compute_address.default.address}"]
+#   ttl     = 60
 
-resource "linode_domain_record" "gras_cannabis_domain_mx4" {
-    domain_id   = linode_domain.gras_cannabis.id
-    port        = 0
-    priority    = 10
-    record_type = "MX"
-    target      = "alt3.aspmx.l.google.com"
-    ttl_sec     = 60
-    weight      = 0
-}
+#   project = google_dns_managed_zone.gras_cannabis_org.project
+# }
 
-resource "linode_domain_record" "gras_cannabis_domain_mx5" {
-    domain_id   = linode_domain.gras_cannabis.id
-    port        = 0
-    priority    = 10
-    record_type = "MX"
-    target      = "alt4.aspmx.l.google.com"
-    ttl_sec     = 60
-    weight      = 0
+# resource "google_dns_record_set" "gras_cannabis_org_www" {
+#   managed_zone = google_dns_managed_zone.gras_cannabis_org.name
 
-}
-resource "linode_domain_record" "widget" {
-    domain_id   = linode_domain.gras_cannabis.id
-    name        = "widget"
-    port        = 80
-    priority    = 0
-    record_type = "A"
-    target      = "139.144.255.55"
-    ttl_sec     = 60
-    weight      = 0
-}
+#   name    = "www.${google_dns_managed_zone.gras_cannabis_org.dns_name}"
+#   type    = "A"
+#   rrdatas = ["${google_compute_address.default.address}"]
+#   ttl     = 60
+
+#   project = google_dns_managed_zone.gras_cannabis_org.project
+# }
+
+# resource "google_dns_record_set" "gras_cannabis_org_widget" {
+#   managed_zone = google_dns_managed_zone.gras_cannabis_org.name
+
+#   name    = "widget.${google_dns_managed_zone.gras_cannabis_org.dns_name}"
+#   type    = "A"
+#   rrdatas = ["${google_compute_address.default.address}"]
+#   ttl     = 60
+
+#   project = google_dns_managed_zone.gras_cannabis_org.project
+# }
+
+# resource "google_dns_record_set" "mx" {
+#   name         = google_dns_managed_zone.gras_cannabis_org.dns_name
+#   managed_zone = google_dns_managed_zone.gras_cannabis_org.name
+#   type         = "MX"
+#   ttl          = 60
+
+#   project = google_dns_managed_zone.gras_cannabis_org.project
+
+#   rrdatas = [
+#     "1 aspmx.l.google.com.",
+#     "5 alt1.aspmx.l.google.com.",
+#     "5 alt2.aspmx.l.google.com.",
+#     "10 alt3.aspmx.l.google.com.",
+#     "10 alt4.aspmx.l.google.com.",
+#   ]
+# }
+
+# resource "google_dns_record_set" "spf" {
+#   name         = google_dns_managed_zone.gras_cannabis_org.dns_name
+#   managed_zone = google_dns_managed_zone.gras_cannabis_org.name
+#   type         = "TXT"
+#   ttl          = 60
+
+#   project = google_dns_managed_zone.gras_cannabis_org.project
+
+#   rrdatas = [
+#     "\"v=spf1 a ~all\"",
+#     "\"v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAni7JZWAHi0Bs08rYHItXq3IjoWtDeuo/yOu/jvIxxCTIUWIlUn8EWHDyBQP8klTTCYtJl6bWV3ucMQNKrQ1BmjKZgYF/axv31PyfW2oFRiiNGj/hfCcZjOW2E\"9A/AyJYoeYIkkV/GOO3c59xTjUF0c/KTytpp8WQovyIPueUHpvgYKlygkpRgDPU4pWSwUodxUgngbFaKUbpUwtzYFWypDkDkxWtaneEXTViJ+pS5x5ePlB2piiet45C1Aty2YeUgrGqavIcyd5/g4R6JwemMaXXF9Rgo66Fo9HSr8tYWXAvsccKCP8CGlG4gOwrCRUrRL64aBkdeIm5u1TyDpRw+wIDAQAB",
+#     ]
+# }
