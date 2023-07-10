@@ -3,9 +3,9 @@ import { Article, ImageArticle } from '@cd/data-access';
 const _infoCardMockData: (Article & { image: ImageArticle })[] = [
   {
     id: '1',
-    name: 'we-support-your-dispensary',
-    title: `Your Dispensary Thrives With Gras`,
-    description: 'Connect with customers who love what you do.',
+    name: 'dispensaries-thrive-with-gras',
+    title: `Dispensaries Thrive With Gras`,
+    description: 'Connect with people who love what you do.',
     href: '12345',
     image: {
       id: '1',
@@ -18,7 +18,7 @@ const _infoCardMockData: (Article & { image: ImageArticle })[] = [
     id: '2',
     name: 'offering-delivery-service',
     title: 'Fast and Safe Delivery',
-    description: 'Delivery By Our Trained Delivery Team',
+    description: 'Delivered By Our Trained Professionals',
     href: '123457',
     image: {
       id: '2',
@@ -31,7 +31,7 @@ const _infoCardMockData: (Article & { image: ImageArticle })[] = [
     id: '3',
     title: 'Gras Is Here To Serve',
     name: 'gras-is-here',
-    description: 'Sign Up Your Dispensary for Home Delivery',
+    description: 'Sign Up For Home Delivery',
     href: '12377456',
     image: {
       id: '3',
