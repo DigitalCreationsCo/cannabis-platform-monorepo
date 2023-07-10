@@ -3,9 +3,9 @@ import { BlogBlurb } from 'components/InfoCard';
 const _infoCardMockData: BlogBlurb[] = [
   {
     id: '1',
-    name: 'your-dispensary-thrives-here',
-    title: `Your Dispensary Thrives Here`,
-    description: 'Blog Description',
+    name: 'we-support-your-dispensary',
+    title: `Your Dispensary Thrives With Gras`,
+    description: 'Connect with customers who love what you do.',
     href: '12345',
     image: {
       id: '1',
@@ -16,9 +16,9 @@ const _infoCardMockData: BlogBlurb[] = [
   },
   {
     id: '2',
-    name: 'need-delivery-service',
-    title: 'Need Delivery Service',
-    description: 'Blog Description',
+    name: 'offering-delivery-service',
+    title: 'Fast and Safe Delivery',
+    description: 'Delivery By Our Trained Delivery Team',
     href: '123457',
     image: {
       id: '2',
@@ -29,9 +29,9 @@ const _infoCardMockData: BlogBlurb[] = [
   },
   {
     id: '3',
-    title: 'Gras Is Here',
+    title: 'Gras Is Here To Serve',
     name: 'gras-is-here',
-    description: 'Blog Description',
+    description: 'Sign Up Your Dispensary for Home Delivery',
     href: '12377456',
     image: {
       id: '3',

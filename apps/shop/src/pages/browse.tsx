@@ -2,7 +2,7 @@ import { TextContent } from '@cd/core-lib';
 import {
   selectSelectedLocationState,
   selectShopState,
-  selectUserState
+  selectUserState,
 } from '@cd/core-lib/src/reduxDir';
 import {
   Carousel,
@@ -11,14 +11,13 @@ import {
   H3,
   H4,
   LayoutContextProps,
-  Page
+  Page,
 } from '@cd/ui-lib';
 import InfoCard from 'components/InfoCard';
 import { StaticImageData } from 'next/image';
 import { PropsWithChildren, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
-import { _dispensaryCardMockData } from 'uat/dispensaryCardMock';
 import { _infoCardMockData } from 'uat/infoCardMock';
 import { DispensaryCard } from '../components';
 import backdrop from '/public/marijuana-backdrop.png';
@@ -63,8 +62,7 @@ export default function MarketPlace({ host }: { host: string }) {
         <Carousel
           title={`Dispensaries Near You ( ${selectedLocation.address.city} )`}
           Component={DispensaryCard}
-          // data={dispensaries}
-          data={_dispensaryCardMockData}
+          data={dispensaries}
           dataKey="dispensary"
           autoplaySpeed={7000}
         />
