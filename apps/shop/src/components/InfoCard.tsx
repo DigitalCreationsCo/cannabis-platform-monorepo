@@ -1,30 +1,18 @@
 import { formatBlogUrl } from '@cd/core-lib';
+import { Article } from '@cd/data-access';
 import { Card, FlexBox, H3, Paragraph } from '@cd/ui-lib';
 import Link from 'next/link';
 import { PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/logo.png';
 
-export type BlogBlurb = {
-  id: string;
-  name: string;
-  title: string;
-  description: string;
-  href: string;
-  image: {
-    id: string;
-    location: string;
-    blurhash: string;
-  };
-};
-
-type DispensaryCardProps = {
-  data: BlogBlurb;
+type InfoCardProps = {
+  data: Article;
   loading?: boolean;
   className?: string | string[];
 };
 
-function InfoCard({ data: info, loading, className }: DispensaryCardProps) {
+function InfoCard({ data: info, loading, className }: InfoCardProps) {
   const styles = {
     dispensarycard: [
       'relative',
