@@ -319,7 +319,6 @@ export async function findMultipleOrganizationsById(
   organizationIds: string[]
 ): Promise<OrganizationWithShopDetails[]> {
   try {
-    console.log('organizationIds: ', organizationIds);
     const localOrganizations = await prisma.organization.findMany({
       where: {
         id: { in: organizationIds },

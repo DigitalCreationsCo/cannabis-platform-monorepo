@@ -7,7 +7,7 @@ Serve Local Data Routes
 /organizations          POST    getLocalOrganizations
 /organizations/record   POST    createOrganizationLocationRecord
 /organizations/record   PUT     updateOrganizationLocationRecord
-/organizations/record   DELETE  deleteOrganizationLocationRecord
+/organizations/:id      DELETE  deleteOrganizationLocationRecord
 
 ================================= */
 
