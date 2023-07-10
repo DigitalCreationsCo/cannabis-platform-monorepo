@@ -74,7 +74,6 @@ app.use('/api/v1/driver', driver);
 //         res.status(200).json({ status: false, error });
 //     }
 // });
-// app.use('/api/v1/session', session);
 
 app.use('/api/v1/shop', shop);
 
@@ -83,7 +82,6 @@ app.use('/api/v1/organization', organization);
 // error handling test routes
 app.use('/api/v1/error', errorRoute);
 
-// supertokens errorhandler
 app.use(errorHandler());
 
 app.use(

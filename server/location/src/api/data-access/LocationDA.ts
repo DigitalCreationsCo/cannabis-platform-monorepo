@@ -72,11 +72,13 @@ export default class LocationDA {
         ])
         .toArray();
 
+      // aggregate the ids of matching dispensaries
       const localOrganizationIds: string[] = [];
       for (let i = 0; i < localOrganizationsIdDocuments.length; i++) {
         localOrganizationIds.push(localOrganizationsIdDocuments[i].id);
       }
 
+      // search for the records in prisma db
       console.log('localOrganizationIds: ', localOrganizationIds);
       const localOrganizations = await findMultipleOrganizationsById(
         localOrganizationIds

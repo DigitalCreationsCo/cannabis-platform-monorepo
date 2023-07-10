@@ -16,12 +16,15 @@ export default class LocationController {
     try {
       console.log(`server-location: get local dispensaries.`);
 
-      const { userLocation, proximityRadius }: { userLocation: Coordinates; proximityRadius: number; } = req.body;
+      const {
+        userLocation,
+        proximityRadius,
+      }: { userLocation: Coordinates; proximityRadius: number } = req.body;
 
-      console.log(`server-location: get local dispensaries from ${userLocation} with the radius ${proximityRadius}.`);
+      console.log(
+        `server-location: get local dispensaries from ${userLocation} with the radius ${proximityRadius}.`
+      );
       const _geoJson = getCoordinatePairFromUserLocation(userLocation);
-
-      console.log('geoJson: ', _geoJson);
 
       const data = await LocationDA.getLocalOrganizations(
         _geoJson,
