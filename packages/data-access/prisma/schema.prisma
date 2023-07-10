@@ -226,6 +226,20 @@ model ImageVendor {
   @@index([id])
 }
 
+
+model ImageArticle {
+  id String @id @default(cuid()) @unique
+  location String @db.LongText
+  articleId String @unique
+  article Article  @relation(fields: [articleId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  blurhash String?
+
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([articleId])
+}
+
 model Coordinates {
   id String @id @default(cuid()) @unique
   latitude Float
@@ -565,4 +579,20 @@ model SubDomain {
   updatedAt      DateTime         @updatedAt
 
   @@index([id])
+}
+
+model Article {
+  id          String @id @default(cuid()) @unique
+  name        String
+  title       String
+  description String @db.LongText
+  href        String
+  image       ImageArticle?
+  content     String
+  author      String
+
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  @@index([id])
+  @@index([title])
 }

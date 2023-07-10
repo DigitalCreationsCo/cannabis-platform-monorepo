@@ -27,6 +27,12 @@ async function clearRecords() {
             await prisma.imageUser.deleteMany();
             console.info('clear prisma.imageUser')
 
+            await prisma.article.deleteMany();
+            console.info('clear prisma.article')
+
+            await prisma.imageArticle.deleteMany();
+            console.info('clear prisma.imageArticle')
+
             await prisma.siteSetting.deleteMany();
             console.info('clear prisma.siteSetting')
 

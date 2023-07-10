@@ -1,4 +1,4 @@
-import { Address, Category, CategoryList, Driver, ImageOrganization, ImageProduct, ImageUser, ImageVendor, Membership, Order, Prisma, PrismaClient, Product, ProductVariant, Purchase, Route, Schedule, SiteSetting, SubDomain, User, Vendor } from "@prisma/client";
+import { Address, Article, Category, CategoryList, Driver, ImageArticle, ImageOrganization, ImageProduct, ImageUser, ImageVendor, Membership, Order, Prisma, PrismaClient, Product, ProductVariant, Purchase, Route, Schedule, SiteSetting, SubDomain, User, Vendor } from "@prisma/client";
 import axios from "axios";
 import { ReviewWithUserDetails } from "product";
 
@@ -1483,12 +1483,12 @@ async function main() {
       updatedAt: new Date(),
     },
   ];
-
   await prisma.imageProduct.createMany({
     data: ImageProducts,
     skipDuplicates: true,
   });
   console.info('create prisma.imageProduct records');
+
 
   // IMAGEUSER
   const ImageUsers: ImageUser[] = [
@@ -1502,12 +1502,100 @@ async function main() {
       updatedAt: new Date(),
     },
   ];
-
   await prisma.imageUser.createMany({
     data: ImageUsers,
     skipDuplicates: true,
   });
   console.info('create prisma.imageUser records');
+
+
+  // ARTICLES
+  const articles: Article[] = [
+    {
+      id: '1',
+      name: 'we-support-your-dispensary',
+      title: `Your Dispensary Thrives With Gras`,
+      description: 'Connect with customers who love what you do.',
+      href: '12345',
+      content: "",
+      author: "",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      id: '2',
+      name: 'offering-delivery-service',
+      title: 'Fast and Safe Delivery',
+      description: 'Delivery By Our Trained Delivery Team',
+      href: '123457',
+      content: "",
+      author: "",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      id: '3',
+      title: 'Gras Is Here To Serve',
+      name: 'gras-is-here',
+      description: 'Sign Up Your Dispensary for Home Delivery',
+      href: '12377456',
+      content: "",
+      author: "",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+  ];
+
+  articles.forEach(async (article) => await prisma.article.create({
+    data: {
+      id: article.id,
+      title: article.title,
+      name: article.name,
+      description: article.description,
+      href: article.href,
+      content: article.content,
+      author: article.author,
+    }
+  }));
+  console.info('create prisma.article records');
+
+
+  // IMAGEARTICLE
+  const ImageArticles: ImageArticle[] = [
+    {
+      id: '1',
+      location:
+        'https://greenstocknews.com/images/placeholder/cannabis/medicinal/md1.jpg',
+      blurhash: '',
+      articleId: '1',
+
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      id: '2',
+      location:
+        'https://img.freepik.com/premium-photo/delivery-person-holding-parcel-with-food-delivery-against-yellow-surface_93675-111653.jpg',
+      blurhash: 'LTMrO.]mvO11}9FZNer_M#odXRnj',
+      articleId: '2',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      id: '3',
+      location:
+        'https://gras-dispensary-images.us-southeast-1.linodeobjects.com/loveweed.png',
+      blurhash: 'LTMrO.]mvO11}9FZNer_M#odXRnj',
+      articleId: '3',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+  ];
+  await prisma.imageArticle.createMany({
+    data: ImageArticles,
+    skipDuplicates: true,
+  });
+  console.info('create prisma.imageArticle records');
 
 
   // REVIEWS
@@ -1521,7 +1609,6 @@ async function main() {
       userId: 'bf346k4u7xq030hr6wvgiwao',
       createdAt: new Date(),
       updatedAt: new Date(),
-
       user: {
         id: 'bf346k4u7xq030hr6wvgiwao',
         username: "Sammy223",
@@ -1536,7 +1623,6 @@ async function main() {
       }
     }
   ];
-
   reviews.forEach(async (review) => await prisma.review.create({
     data: {
       id: review.id,
@@ -1554,9 +1640,9 @@ async function main() {
       }
     }
   }));
-
   console.info('create prisma.review records');
 }
+
 
 main()
   .then(async () => {
