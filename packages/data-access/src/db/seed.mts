@@ -344,6 +344,8 @@ async function main() {
                 "updatedAt": new Date()
               }
             },
+            "createdAt": new Date(),
+            "updatedAt": new Date()
           }
         },
         "images": {
@@ -351,7 +353,9 @@ async function main() {
             "data": [
               {
                 "location": "https://storage.cloud.google.com/image-dispensary/curaleaf/logo-1200.jpg?authuser=2",
-                "blurhash": ""
+                "blurhash": "",
+                "createdAt": new Date(),
+                "updatedAt": new Date()
               }
             ]
           }
@@ -360,9 +364,13 @@ async function main() {
           "create": {
             "days": 1234560,
             "openAt": 9,
-            "closeAt": 21
+            "closeAt": 21,
+            "createdAt": new Date(),
+            "updatedAt": new Date()
           }
-        }
+        },
+        "createdAt": new Date(),
+        "updatedAt": new Date()
       },
       {
         "name": "SunnySide",
@@ -415,14 +423,18 @@ async function main() {
                 "createdAt": new Date(),
                 "updatedAt": new Date()
               }
-            }
+            },
+            "createdAt": new Date(),
+            "updatedAt": new Date()
           }
         },
         "images": {
           "create": [
             {
               "location": "https://storage.cloud.google.com/image-dispensary/sunnyside/logo-1200.jpeg?authuser=2",
-              "blurhash": ""
+              "blurhash": "",
+              "createdAt": new Date(),
+              "updatedAt": new Date()
             }
           ],
         },
@@ -430,9 +442,13 @@ async function main() {
           "create": {
             "days": 1234560,
             "openAt": 9,
-            "closeAt": 19
+            "closeAt": 19,
+            "createdAt": new Date(),
+            "updatedAt": new Date()
           }
-        }
+        },
+        "createdAt": new Date(),
+        "updatedAt": new Date()
       },
       {
         "name": "Remedy Baltimore",
@@ -485,14 +501,18 @@ async function main() {
                 "createdAt": new Date,
                 "updatedAt": new Date,
               }
-            }
+            },
+            "createdAt": new Date(),
+            "updatedAt": new Date()
           }
         },
         "images": {
           "create": [
             {
               "location": "https://storage.cloud.google.com/image-dispensary/remedy/logo-1000.jpeg?authuser=2",
-              "blurhash": ""
+              "blurhash": "",
+              "createdAt": new Date(),
+              "updatedAt": new Date()
             }
           ],
         },
@@ -500,9 +520,13 @@ async function main() {
           "create": {
             "days": 1234560,
             "openAt": 10,
-            "closeAt": 21
+            "closeAt": 21,
+            "createdAt": new Date(),
+            "updatedAt": new Date()
           }
-        }
+        },
+        "createdAt": new Date(),
+        "updatedAt": new Date()
       }
     ];
 
@@ -522,6 +546,8 @@ async function main() {
             "address": org.address,
             "images": org.images,
             "schedule": org.schedule,
+            "createdAt": new Date(),
+            "updatedAt": new Date()
           },
         })
 
@@ -713,12 +739,16 @@ async function main() {
   drivers.forEach(async (driver) => await prisma.driver.upsert({
     where: { id: driver.id },
     create: {
+      createdAt: driver.createdAt,
+      updatedAt: driver.updatedAt,
       user: {
         connectOrCreate: {
           where: {
             id: driver.id,
           },
           create: {
+            createdAt: new Date(),
+            updatedAt: new Date(),
             id: driver.id,
             firstName: "Bryant",
             lastName: "Mejia",
@@ -747,7 +777,8 @@ async function main() {
                   zipcode: 17602,
                   country: "United States",
                   countryCode: "US",
-                  coordinateId: '1',
+                  createdAt: new Date(),
+                  updatedAt: new Date(),
                 },
               }
             },
@@ -760,12 +791,11 @@ async function main() {
                   id: "1",
                   location: "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
                   blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
-                  // userId: "1",
                   createdAt: new Date(),
                   updatedAt: new Date(),
                 }
               }
-            }
+            },
           }
         }
       }
@@ -805,7 +835,8 @@ async function main() {
                   zipcode: 17602,
                   country: "United States",
                   countryCode: "US",
-                  coordinateId: '1',
+                  createdAt: new Date(),
+                  updatedAt: new Date(),
                 },
               }
             },
@@ -818,12 +849,13 @@ async function main() {
                   id: "1",
                   location: "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
                   blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
-                  // userId: "1",
                   createdAt: new Date(),
                   updatedAt: new Date(),
                 }
               }
-            }
+            },
+            createdAt: new Date(),
+            updatedAt: new Date(),
           }
         }
       }
@@ -1557,6 +1589,8 @@ async function main() {
       href: article.href,
       content: article.content,
       author: article.author,
+      createdAt: article.createdAt,
+      updatedAt: article.updatedAt,
     }
   }));
   console.info('create prisma.article records');
@@ -1639,7 +1673,9 @@ async function main() {
         connect: {
           id: review.productId
         }
-      }
+      },
+      createdAt: review.createdAt,
+      updatedAt: review.updatedAt,
     }
   }));
   console.info('create prisma.review records');

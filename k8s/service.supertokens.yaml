@@ -68,11 +68,11 @@ spec:
             - name: 'POSTGRESQL_PORT'
               value: '5432'
             - name: 'POSTGRESQL_HOST'
-              value: 'db.ahxytltcuydeyhunpahd.supabase.co'
+              value: 'db.apcnayhzxaforyeoqdjq.supabase.co'
             - name: 'POSTGRESQL_USER'
               value: 'postgres'
             - name: 'POSTGRESQL_PASSWORD'
-              value: 'RRJV@y_CK-jz9rj'
+              value: 'TdRI1pIMnTkBHKRq'
             - name: 'PASSWORDLESS_MAX_CODE_INPUT_ATTEMPTS'
               value: '5'
             - name: 'DISABLE_TELEMETRY'
@@ -101,13 +101,13 @@ spec:
             periodSeconds: 5
             timeoutSeconds: 50
 
-          # resources:
-          #   limits:
-          #     cpu: 100m
-          #     memory: 128Mi
-          #   requests:
-          #     cpu: 100m
-          #     memory: 128Mi
+          resources:
+            limits:
+              cpu: 200m
+              memory: 256Mi
+            requests:
+              cpu: 128m
+              memory: 175Mi
 
       affinity:
         {}
@@ -122,12 +122,3 @@ spec:
         #               values:
         #                 - supertokens
         #         topologyKey: kubernetes.io/hostname
-# ---
-# apiVersion: v1
-# kind: ServiceAccount
-# metadata:
-#   name: supertokens-default
-#   labels:
-#     app.kubernetes.io/version: 3.14.0
-#     app.kubernetes.io/managed-by: supertokens
-#   annotations: {}

@@ -2,7 +2,7 @@ datasource db {
   provider          = "postgresql"
   url               = env("DATABASE_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
-  relationMode      = "prisma"
+  relationMode      = "foreignKeys"
 }
 
 generator client {
@@ -27,8 +27,8 @@ model Account {
   oauth_token        String?
   user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  createdAt      DateTime         @db.DateTime()
-  updatedAt      DateTime         @db.DateTime()
+  createdAt DateTime
+  updatedAt DateTime
 
   @@unique([provider, providerAccountId])
   @@index([userId])
@@ -43,8 +43,8 @@ model Session {
   userId       String
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime
+  updatedAt DateTime
 
   @@index([userId])
   @@index([sessionHandle])
@@ -79,8 +79,8 @@ model User {
 
   purchases Purchase[]
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime
+  updatedAt DateTime
 
   @@index([id])
   @@index([email])
@@ -98,8 +98,8 @@ model Driver {
 
   routes Route[]
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime
+  updatedAt DateTime
 
   @@unique([id, email])
 }
@@ -123,8 +123,8 @@ model DriverSession {
   routeId String? @unique
   // route Route? @relation(fields: [routeId], references: [id])
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime
+  updatedAt DateTime
 
   @@index([id])
   @@index([routeId])
@@ -147,8 +147,8 @@ model Vendor {
   publicName    String  @unique
   organizations Organization[]
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime
+  updatedAt DateTime
 
   @@index([id])
   @@index([name])
@@ -170,8 +170,8 @@ model Address {
   organization Organization? @relation("organizationAddress")
   orders Order[]
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime
+  updatedAt DateTime
 
   @@index([id])
   @@index([coordinateId])
@@ -179,51 +179,51 @@ model Address {
 
 model ImageOrganization {
   id            String    @id @default(cuid()) @unique
-  location String         @db.LongText
+  location String         @db.Text
   organizationId String 
   organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   blurhash String?
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime
+  updatedAt DateTime
 
   @@index([organizationId])
 }
 
 model ImageProduct {
   id String @id @default(cuid()) @unique
-  location String @db.LongText
+  location String @db.Text
   variantId String
   variant ProductVariant @relation("images", fields: [variantId], references: [id])
   blurhash String?
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime
+  updatedAt DateTime
 
   @@index([variantId])
 }
 
 model ImageUser {
   id String @id @default(cuid()) @unique
-  location String @db.LongText
+  location String @db.Text
   userId String @unique
   user User @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   blurhash String?
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime
+  updatedAt DateTime
 
   @@index([userId])
 }
 
 model ImageVendor {
   id String @id @default(cuid()) @unique
-  location String @db.LongText
+  location String @db.Text
   // vendor Vendor?
   blurhash String?
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime
+  updatedAt DateTime
 
   @@index([id])
 }
@@ -231,13 +231,13 @@ model ImageVendor {
 
 model ImageArticle {
   id String @id @default(cuid()) @unique
-  location String @db.LongText
+  location String @db.Text
   articleId String @unique
   article Article  @relation(fields: [articleId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   blurhash String?
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime
+  updatedAt DateTime
 
   @@index([articleId])
 }
@@ -248,12 +248,9 @@ model Coordinates {
   longitude Float
   radius Float?
   addresses Address[]
-  // driverSession DriverSession?
-  // driverId String? @unique
-  // routes Route[]
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime
+  updatedAt DateTime
 }
 
 model Membership {
@@ -264,8 +261,8 @@ model Membership {
   userId String?
   user User? @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime
+  updatedAt DateTime
   @@index([userId])
   @@unique([id, organizationId])
 }
@@ -295,8 +292,8 @@ model Order {
   driver Driver? @relation(fields: [driverId], references: [id],  onDelete: NoAction, onUpdate: Cascade)
 
   
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime
+  updatedAt DateTime
   
   isDriverAssigned Boolean @default(false)
   driverAssignedAt DateTime?
@@ -353,8 +350,8 @@ model Purchase {
   orderId       String
   order         Order?
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime
+  updatedAt DateTime
 
   @@index([orderId])
   @@index([customerId])
@@ -407,8 +404,8 @@ model Organization {
   orders Order[]
   categoryList CategoryList?
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime
+  updatedAt DateTime
 
   @@index([id])
   @@index([vendorId])
@@ -424,8 +421,8 @@ model Schedule {
   openAt Int?
   closeAt Int?
   
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime
+  updatedAt DateTime
 
   @@index([id])
 }
@@ -443,8 +440,8 @@ model Product {
   rating Float
   tags String?
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime
+  updatedAt DateTime
 
   @@index([id])
   @@index([organizationId])
@@ -472,8 +469,8 @@ model ProductVariant {
   stock Int
   images ImageProduct[] @relation("images")
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime
+  updatedAt DateTime
 
   @@index([id])
   @@index([productId])
@@ -488,8 +485,8 @@ model Category {
     products       Product[]
     categoryLists  ProductCategories[]
 
-    createdAt      DateTime         @default(now())
-    updatedAt      DateTime         @updatedAt
+    createdAt DateTime
+    updatedAt DateTime
 
     @@index([name])
 }
@@ -511,8 +508,8 @@ model CategoryList {
     organizationId String @unique
     organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-    createdAt      DateTime         @default(now())
-    updatedAt      DateTime         @updatedAt
+    createdAt DateTime
+    updatedAt DateTime
 }
 
 model ServiceList {
@@ -521,8 +518,8 @@ model ServiceList {
   slug           String @unique
   services       Service[]
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime
+  updatedAt DateTime
 
   @@index([slug])
 }
@@ -535,8 +532,8 @@ model Service {
   icon String
   serviceLists ServiceList[]
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime
+  updatedAt DateTime
 
   @@index([title])
   @@index([slug])
@@ -551,8 +548,8 @@ model Review {
   userId String
   user User @relation(fields: [userId], references: [id])
 
-createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+createdAt DateTime
+  updatedAt DateTime
 
   @@index([userId])
   @@index([productId])
@@ -566,8 +563,8 @@ model SiteSetting {
   organizationId String @unique
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime
+  updatedAt DateTime
 
   @@index([id])
 }
@@ -577,8 +574,8 @@ model SubDomain {
   organization Organization[]
   isValid Boolean @default(true) // This boolean is always true, doesn't serve any purpose yet
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime
+  updatedAt DateTime
 
   @@index([id])
 }
@@ -587,14 +584,14 @@ model Article {
   id          String @id @default(cuid()) @unique
   name        String
   title       String
-  description String @db.LongText
+  description String @db.Text
   href        String
   image       ImageArticle?
   content     String
   author      String
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime
+  updatedAt DateTime
   @@index([id])
   @@index([title])
 }
