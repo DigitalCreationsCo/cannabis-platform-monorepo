@@ -1,1 +1,1 @@
-export DATABASE_URL='postgresql://postgres:RRJV@y_CK-jz9rj@db.ahxytltcuydeyhunpahd.supabase.co:5432/postgres'
+export DATABASE_URL='postgresql://postgres:TdRI1pIMnTkBHKRq@db.apcnayhzxaforyeoqdjq.supabase.co:5432/postgres'

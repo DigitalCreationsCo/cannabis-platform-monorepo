@@ -81,7 +81,7 @@ describe('Env ', () => {
     //         if (isDev)
     //             return 'postgresql://postgres:RRJV@y_CK-jz9rj@db.runhqicnmxfwlzwllswi.supabase.co:5432/postgres';
     //         if (isProd)
-    //             return 'postgresql://postgres:RRJV@y_CK-jz9rj@db.ahxytltcuydeyhunpahd.supabase.co:5432/postgres';
+    //             return 'postgresql://postgres:TdRI1pIMnTkBHKRq@db.apcnayhzxaforyeoqdjq.supabase.co:5432/postgres';
     //         if (isStaging)
     //             return 'postgresql://postgres:RRJV@y_CK-jz9rj@db.runhqicnmxfwlzwllswi.supabase.co:5432/postgres';
     //         return 'DATABASE_URL:not (isDev,isProd && !isStaging,isProd && isStaging)';
