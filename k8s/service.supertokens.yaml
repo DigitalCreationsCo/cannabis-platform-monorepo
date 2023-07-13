@@ -62,7 +62,7 @@ spec:
             - name: 'BASE_PATH'
               value: ''
             - name: 'POSTGRESQL_CONNECTION_URI'
-              value: 'postgresql://postgres:RRJV@y_CK-jz9rj@db.ahxytltcuydeyhunpahd.supabase.co:5432/postgres'
+              value: 'postgresql://postgres:TdRI1pIMnTkBHKRq@db.apcnayhzxaforyeoqdjq.supabase.co:5432/postgres'
             - name: 'POSTGRESQL_DATABASE_NAME'
               value: 'postgres'
             - name: 'POSTGRESQL_PORT'
