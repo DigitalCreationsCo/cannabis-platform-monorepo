@@ -28,5 +28,5 @@ socketmiddleware is in the app
 DISPATCH SERVER
 needs a connection path? idk if there is one
 needs to test redis client connector and pub sub
-needs to query mongo db to update records, and mysql also.
+needs to query mongo db to update records, and pg db also.
 needs to implement sms messaging to customers

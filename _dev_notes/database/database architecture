@@ -1,6 +1,6 @@
 GrasApp uses two database technologies.
-prisma MYSQL database for most records, for users and entities, and ecommerce.
-MYSQL is also used for authentication.
+prisma Postgresql database for most records, for users and entities, and ecommerce.
+prisma Postgresql is also used for authentication.
 
 ---
 # MONGODB database is used for geospatial querie and some data agrregation, like watching database records in real time.

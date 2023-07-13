@@ -1,1 +1,0 @@
-DATABASE_URL='#%#^' SHADOW_DATABASE_URL='mysql://shadow-db-1:4eyKYN+C#?&n3%R@139-144-253-195.ip.linodeusercontent.com:3306/shadow_db'

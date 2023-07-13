@@ -1,6 +1,6 @@
 import {
   findMultipleOrganizationsById,
-  OrganizationWithShopDetails,
+  OrganizationWithShopDetails
 } from '@cd/data-access';
 import { Collection, MongoClient } from 'mongodb';
 
@@ -9,7 +9,7 @@ Location Data Access - data methods regarding location, address, and geosptial q
 
 members:
 useMongoDB
-getLocalOrganizations // returns organizations within a specified proximity radius of a user's location (this method queries mongodb, and subsequent query to mysql)
+getLocalOrganizations // returns organizations within a specified proximity radius of a user's location (this method queries mongodb, and subsequent query to postgres)
 createOrganizationMongoRecord
 updateOrganizationMongoRecord
 deleteOrganizationMongoRecord
@@ -38,7 +38,7 @@ export default class LocationDA {
    * Returns organization records (dispensaries) within a specified proximity
    * radius of a user's location
    * - this method queries mongodb for geospatial query,
-   * - and subsequent query to mysql for organization details
+   * - and subsequent query to postgres for organization details
    * @param coordinates
    * @param proximityRadius
    * @returns

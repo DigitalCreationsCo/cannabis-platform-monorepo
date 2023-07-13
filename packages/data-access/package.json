@@ -58,9 +58,10 @@
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx,.cjs,.mjs --cache --cache-location ../../.cache/eslint/db-main-prisma.eslintcache",
     "postinstall": "prisma generate",
     "prisma-studio": "dotenv -e ../../.env.development -- yarn prisma studio",
-    "shadow-db": "../../scripts/docker/shadow-db-mysql.sh",
+    "shadow-db": "../../scripts/docker/shadow-db.sh",
 
     "push": "dotenv -e ../../.env.development -- yarn prisma db push",
+    "pull": "dotenv -e ../../.env.development -- npx prisma db pull",
     "seed": "npx prisma generate && dotenv -e ../../.env.development -- yarn prisma db seed",
     "clear": "dotenv -e ../../.env.development -- node --loader ts-node/esm ./src/db/clear.mts",
     "baseline": "make baseline",
