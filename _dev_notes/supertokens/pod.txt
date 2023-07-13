@@ -1,4 +1,1 @@
-# kubernetes pod uses kube-proxy in gke.
-kube-proxy pod is in kube-system ns, so the kubelet is not able to 
-query the super tokens pod for probe. That's why its reporting a connection refused,
-even though it's observed that health is OK.
+need to pass env secrets from secrets store to supertokens pod
