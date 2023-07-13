@@ -5,6 +5,8 @@ import { ReviewWithUserDetails } from "product";
 const prisma = new PrismaClient();
 
 async function main() {
+  console.info(`\nPerforming seed in ${process.env.DATABASE_ENV} environment.`)
+
   // COORDINATE
   const coordinates = [
     {
