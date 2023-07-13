@@ -2,9 +2,7 @@
   "json.schemas": [
     {
       "url": "https://cdn.jsdelivr.net/npm/tsup/schema.json",
-      "fileMatch": [
-        "**/tsup.config.json"
-      ]
+      "fileMatch": ["**/tsup.config.json"]
     }
   ],
   "editor.defaultFormatter": "dbaeumer.vscode-eslint",
@@ -17,14 +15,14 @@
   ],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true,
-    "source.organizeImports": true,
+    "source.organizeImports": true
   },
   "files.associations": {
     "*.scss": "tailwindcss",
     "*.css": "tailwindcss"
   },
   "files.exclude": {
-     "**/.git": false
+    "**/.git": false
   },
   "css.validate": false,
   "cSpell.words": [
@@ -36,7 +34,6 @@
     "Formik",
     "healthcheck",
     "nocheck",
-    "pscale",
     "purgecss",
     "reduxjs",
     "signin",
@@ -57,13 +54,13 @@
     "editor.defaultFormatter": "vscode.typescript-language-features"
   },
   "terminal.integrated.env.osx": {
-    "KUBECONFIG": "${workspaceFolder}/.kube/kubeconfig.yaml",
+    "KUBECONFIG": "${workspaceFolder}/.kube/kubeconfig.yaml"
   },
   "terminal.integrated.env.linux": {
-    "KUBECONFIG": "${workspaceFolder}/.kube/kubeconfig.yaml",
+    "KUBECONFIG": "${workspaceFolder}/.kube/kubeconfig.yaml"
   },
   "terminal.integrated.env.windows": {
-    "KUBECONFIG": "${workspaceFolder}/.kube/kubeconfig.yaml",
+    "KUBECONFIG": "${workspaceFolder}/.kube/kubeconfig.yaml"
   },
   "vs-kubernetes": {
     // "vs-kubernetes.kubeconfig": "./.kube/kubeconfig.yaml",

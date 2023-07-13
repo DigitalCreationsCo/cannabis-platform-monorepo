@@ -333,7 +333,7 @@ update UI components to show session status (Layout, topbar, pages, dont couple 
 why? because people have to know if they are signed in, be able to signin
 
 What am I doing now?
-- testing docker with mysql image, for planetscale migrate with shadowdb
+- testing docker with mysql image, for prisma db migrate with shadowdb
 why? So I can push changes to my db
 why? So I can promote up to date shema to production
 why? So I can host a production environment
