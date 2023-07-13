@@ -87,10 +87,9 @@ describe('Env ', () => {
     //         return 'DATABASE_URL:not (isDev,isProd && !isStaging,isProd && isStaging)';
     //     })(),
     //     SHADOW_DATABASE_URL: (() => {
-    //         if (isDev) return 'mysql://root:secret@localhost:6603/shadowdb';
-    //         if (isProd)
-    //             return 'mysql://shadow-db-1:4eyKYN+C#?&n3%R@139-144-253-195.ip.linodeusercontent.com:3306/shadow_db';
-    //         if (isStaging) return 'mysql://root:secret@localhost:6603/shadowdb';
+    //         if (isDev) return 'postgresql://postgres:shadowdbrocks@0.0.0.0:5432/postgres';
+    //         if (isProd) return 'postgresql://postgres:shadowdbrocks@0.0.0.0:5432/postgres';
+    //         if (isStaging) return 'postgresql://postgres:shadowdbrocks@0.0.0.0:5432/postgres';
     //         return 'SHADOW_DATABASE_URL:not (isDev,isProd && !isStaging,isProd && isStaging)';
     //     })(),
     //     LOCATION_IQ_GEOCODE_URL: (() => {

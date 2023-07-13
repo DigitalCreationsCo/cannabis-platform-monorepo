@@ -118,7 +118,7 @@ async function main() {
       zipcode: 17602,
       country: "United States",
       countryCode: "US",
-      coordinateId: '1',
+      coordinateId: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     }, {
@@ -130,7 +130,7 @@ async function main() {
       zipcode: 17602,
       country: "United States",
       countryCode: "US",
-      coordinateId: '1',
+      coordinateId: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     },
@@ -143,7 +143,7 @@ async function main() {
       zipcode: 17602,
       country: "United States",
       countryCode: "US",
-      coordinateId: '1',
+      coordinateId: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     },
@@ -156,7 +156,7 @@ async function main() {
       zipcode: 17602,
       country: "United States",
       countryCode: "US",
-      coordinateId: '1',
+      coordinateId: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     },
@@ -169,7 +169,7 @@ async function main() {
       zipcode: 17602,
       country: "United States",
       countryCode: "US",
-      coordinateId: '1',
+      coordinateId: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     },
@@ -212,33 +212,6 @@ async function main() {
   });
   console.info('create prisma.vendor records');
 
-  // SITE SETTINGS
-  const siteSettings: SiteSetting[] = [
-    {
-      title: "Cannabis Delivered To Your Door",
-      description: "grascannabis.com",
-      bannerText: "Welcome to Gras",
-      organizationId: "1",
-      id: "1",
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    {
-      title: "CuraLeaf Dispensary",
-      description: "CuraLeaf Dispensaries in Lancaster, PA",
-      bannerText: "Store-wide sale on Cbd 10% discount",
-      organizationId: "2",
-      id: "2",
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-  ];
-
-  await prisma.siteSetting.createMany({
-    data: siteSettings,
-    skipDuplicates: true,
-  });
-  console.info('create prisma.siteSetting records');
 
   // SCHEDULES
   const schedules: Schedule[] = [
@@ -530,7 +503,7 @@ async function main() {
       }
     ];
 
-  orgs.forEach(async (org) => {
+  const createOrgs = () => orgs.forEach(async (org) => {
     try {
       const
         organization = await prisma.organization.create({
@@ -587,6 +560,7 @@ async function main() {
       throw new Error('Seed Error: Organization' + org.name);
     }
   });
+  await createOrgs();
 
   // SUBDOMAIN
   const subdomains: SubDomain[] = [
@@ -615,6 +589,36 @@ async function main() {
     skipDuplicates: true,
   });
   console.info('create prisma.subDomain records');
+
+
+  // SITE SETTINGS
+  const siteSettings: SiteSetting[] = [
+    {
+      title: "Cannabis Delivered To Your Door",
+      description: "grascannabis.com",
+      bannerText: "Welcome to Gras",
+      organizationId: "1",
+      id: "1",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      title: "CuraLeaf Dispensary",
+      description: "CuraLeaf Dispensaries in Lancaster, PA",
+      bannerText: "Store-wide sale on Cbd 10% discount",
+      organizationId: "2",
+      id: "2",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+  ];
+
+  await prisma.siteSetting.createMany({
+    data: siteSettings,
+    skipDuplicates: true,
+  });
+  console.info('create prisma.siteSetting records');
+
 
   // CATEGORY
   const Categories: Category[] = [
