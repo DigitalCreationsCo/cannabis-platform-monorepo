@@ -10,6 +10,11 @@ terraform {
             version = "4.5.0"
         }
 
+        kubernetes = {
+            source = "hashicorp/kubernetes"
+            version = "2.21.1"
+        }
+
         local = {
             source = "hashicorp/local"
             version = "2.4.0"
@@ -41,6 +46,18 @@ provider "kubernetes" {
   cluster_ca_certificate = base64decode(
     data.google_container_cluster.gras_cluster.master_auth[0].cluster_ca_certificate,
   )
+}
+
+resource "kubernetes_secret" "ssl_secret" {
+  metadata {
+    name = "ssl-certificate"
+  }
+
+  data = {
+    tls.crt = file(local.ssl_cert)
+  }
+
+  type = "kubernetes.io/tls"
 }
 
 resource "google_compute_network" "gras-network" {
