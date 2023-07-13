@@ -56,11 +56,13 @@
     "app:build-all": "yarn workspaces foreach -ptv --include '@cd/*-app' run build",
     "app:clean": "yarn workspaces foreach -ptv --include '@cd/*-app' run clean",
     "dev-all": "concurrently \"yarn packages:watch\" \"yarn server:watch\" \"yarn apps:dev\"",
+    
     "docker:supertokens": "scripts/docker/supertokens.sh",
     "docker:shadow-db": "scripts/docker/shadow-db-mysql.sh",
     "docker:redis": "scripts/docker/redis.sh",
     "docker:delivery-widget-demo": "scripts/docker/launch-widget-demo.sh",
     "docker:build": "TYPE=$0 CONTEXT=$1 PORT=$2 make docker-build-nocache",
+
     "tf:init": "make init",
     "tf:plan": "make plan",
     "tf:create": "terraform/scripts/create.sh",
@@ -69,6 +71,7 @@
     "tf:console": "make console",
     "cluster:start": "make apply && kubectl apply -f k8s/",
     "cluster:nodes": "kubectl get nodes",
+    
     "install:playwright": "playwright install",
     "nuke:node_modules": "npx rimraf@3.0.1 '**/node_modules'",
     "postinstall": "is-ci || yarn husky install",
