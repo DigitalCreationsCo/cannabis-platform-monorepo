@@ -1,8 +1,0 @@
-FROM --platform=linux/amd64 registry.supertokens.io/supertokens/supertokens-mysql:3.12 as base
-
-RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates
-RUN chmod 644 /etc/ssl/certs/ca-certificates.crt
-RUN update-ca-certificates
-
-EXPOSE 3567
-CMD ["supertokens", "start"]
