@@ -78,21 +78,18 @@ model User {
   orders Order[]
   driver Driver?
 
-  purchases Purchase[]
-
   createdAt DateTime
   updatedAt DateTime
 
   @@index([id])
   @@index([email])
-  @@unique([id, email])
   @@index([phone])
 }
 
 model Driver {
-  id String @id @default(cuid()) @unique
-  email String @unique
-  user User @relation(fields: [id, email], references: [id, email], onDelete:Restrict, onUpdate: Cascade)
+  id    String     @id @default(cuid())
+  email String     @unique
+  user  User       @relation(fields: [id], references: [id], onDelete:Restrict, onUpdate: Cascade)
   
   orders Order[]
   driverSession DriverSession?
@@ -102,7 +99,8 @@ model Driver {
   createdAt DateTime
   updatedAt DateTime
 
-  @@unique([id, email])
+  @@index([id])
+  @@index([email])
 }
 
 // this driverSession is used in mongodb,
@@ -277,7 +275,7 @@ model Order {
   items ProductVariant[]
 
   purchaseId String? @unique
-  purchase Purchase? @relation(fields: [purchaseId], references: [id], onDelete: NoAction, onUpdate: Cascade)
+  purchase Purchase?
 
   addressId String
   destinationAddress Address @relation(fields: [addressId], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -345,16 +343,13 @@ model Purchase {
   type          String  @default("card")
   amount        Float
   token         String
-  customerId    String?
-  customer      User? @relation(fields: [customerId], references: [id], onDelete: NoAction, onUpdate: Cascade)
-  orderId       String
-  order         Order?
+  orderId       String @unique
+  order         Order @relation(fields: [orderId], references: [id], onDelete: NoAction, onUpdate: Cascade)
 
   createdAt DateTime
   updatedAt DateTime
 
   @@index([orderId])
-  @@index([customerId])
 }
 
 enum MembershipRole {
@@ -445,7 +440,6 @@ model Product {
 
   @@index([id])
   @@index([organizationId])
-  @@unique([id, rating])
 }
 
 model ProductVariant {
@@ -456,7 +450,7 @@ model ProductVariant {
   organizationId String
   organizationName String
   productId     String
-  product       Product @relation(fields: [productId, rating], references: [id, rating], onDelete: NoAction, onUpdate: NoAction)
+  product       Product @relation(fields: [productId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   rating        Float
   unit Unit @default(g)
   size Float
@@ -474,7 +468,6 @@ model ProductVariant {
 
   @@index([id])
   @@index([productId])
-  @@index([productId, rating])
 }
 
 model Category {
@@ -541,14 +534,14 @@ model Service {
 
 model Review {
   id            String    @id @default(cuid()) @unique
-  rating Int
+  rating Float
   comment String? @db.Text
   productId String @unique
   product Product @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId String
   user User @relation(fields: [userId], references: [id])
 
-createdAt DateTime
+  createdAt DateTime
   updatedAt DateTime
 
   @@index([userId])
