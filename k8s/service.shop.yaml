@@ -48,6 +48,24 @@ spec:
           ports:
             - name: shop-port
               containerPort: 3000
+              
+          livenessProbe:
+            httpGet:
+              path: /api/healthcheck
+              port: http
+            failureThreshold: 2
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            timeoutSeconds: 3
+
+          readinessProbe:
+            httpGet:
+              path: /api/healthcheck
+              port: http
+            failureThreshold: 2
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            timeoutSeconds: 3
       affinity:
         # Because the cluster uses spot nodes that can be shut down at any time, having at least
         # 2 replicas with antiAffinity is recommended for application resilency when a node shuts down
