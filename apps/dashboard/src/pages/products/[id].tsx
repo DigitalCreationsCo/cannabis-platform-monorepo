@@ -58,7 +58,7 @@ export default function ProductDetails({ product }: { product: ProductWithDashbo
 
     const [openModal, setModal] = useState(false);
     const toggleModal = () => {
-        console.log('toggle');
+        console.info('toggle');
         setModal((state) => !state);
     };
 
@@ -149,7 +149,7 @@ export default function ProductDetails({ product }: { product: ProductWithDashbo
                             { product && <Button
                                 // type="button"
                                 onClick={(e) => {
-                                    console.log('click');
+                                    console.info('click');
                                     e.preventDefault();
                                     e.stopPropagation();
                                     setModal(true);
@@ -423,7 +423,7 @@ export async function getServerSideProps({ req, params }: { req: any, params: an
             props: { product },
         };
     } catch (error: any) {
-        console.log('Products SSR error: ', error.message);
+        console.info('Products SSR error: ', error.message);
         throw new Error(error);
     }
 }

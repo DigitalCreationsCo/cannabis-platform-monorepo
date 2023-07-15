@@ -40,7 +40,7 @@ export default class OrganizationController {
         payload: data,
       });
     } catch (error: any) {
-      console.log('API error: ', error.message);
+      console.info('API error: ', error.message);
       res.status(500).json({
         success: false,
         message: error.message,
@@ -65,7 +65,7 @@ export default class OrganizationController {
         payload: data,
       });
     } catch (error: any) {
-      console.log('API error: ', error.message);
+      console.info('API error: ', error.message);
       res.status(500).json({
         success: false,
         message: error.message,
@@ -90,7 +90,7 @@ export default class OrganizationController {
         payload: data,
       });
     } catch (error: any) {
-      console.log('API error: ', error.message);
+      console.info('API error: ', error.message);
       res.status(500).json({
         success: false,
         message: error.message,
@@ -148,7 +148,7 @@ export default class OrganizationController {
         payload: data,
       });
     } catch (error: any) {
-      console.log('API error: ', error);
+      console.info('API error: ', error);
       res.status(500).json({
         success: false,
         message: error.message,
@@ -173,7 +173,7 @@ export default class OrganizationController {
         payload: data,
       });
     } catch (error: any) {
-      console.log('API error: ', error);
+      console.info('API error: ', error);
       res.status(500).json({
         success: false,
         message: error.message,
@@ -198,7 +198,7 @@ export default class OrganizationController {
         payload: data,
       });
     } catch (error: any) {
-      console.log('API error: ', error);
+      console.info('API error: ', error);
       res.status(500).json({
         success: false,
         message: error.message,

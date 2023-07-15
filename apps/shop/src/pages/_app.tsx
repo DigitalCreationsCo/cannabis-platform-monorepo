@@ -38,7 +38,7 @@ function App({ Component, ...rest }: CustomAppProps) {
     useEffect(() => {
         async function doRefresh() {
             if (props.pageProps.fromSupertokens === 'needs-refresh') {
-                console.log('needs refresh');
+                console.info('needs refresh');
                 if (await Session.attemptRefreshingSession()) {
                     location.reload();
                 } else {

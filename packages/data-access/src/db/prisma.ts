@@ -11,7 +11,7 @@ function dateToString(doc: any) {
     Object.keys(doc).forEach((key) => {
       // if type is non-null object
       if (typeof doc[key] === 'object' && doc[key] !== null) {
-        // console.log("object found");
+        // console.info("object found");
         dateToString(doc[key]);
       }
 

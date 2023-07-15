@@ -388,7 +388,7 @@ export async function getServerSideProps({
       },
     };
   } catch (error: any) {
-    console.log('Orders/[id] SSR error: ', error.message);
+    console.info('Orders/[id] SSR error: ', error.message);
     throw new Error(error);
   }
 }

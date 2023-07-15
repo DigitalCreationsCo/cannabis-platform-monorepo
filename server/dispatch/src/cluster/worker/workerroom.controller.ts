@@ -20,19 +20,19 @@ class WorkerRoomController {
     }
 
     async JoinRoom(room, socketIdList) {
-        console.log("socket list: ", socketIdList);
+        console.info("socket list: ", socketIdList);
         let socketId;
-        console.log("sockets from adapter: ", await global.io.sockets.adapter);
+        console.info("sockets from adapter: ", await global.io.sockets.adapter);
         for (socketId of socketIdList) {
-        console.log("socket id to join: ", socketId);
-        console.log("room to join: ", room);
+            console.info("socket id to join: ", socketId);
+            console.info("room to join: ", room);
 
-        // await global.io.sockets.adapter.remoteJoin(socketId, room);
-        await global.io.sockets.adapter.sockets;
+            // await global.io.sockets.adapter.remoteJoin(socketId, room);
+            await global.io.sockets.adapter.sockets;
         }
     }
 
-    static DeleteRoom(_roomId) {}
+    static DeleteRoom(_roomId) { }
 }
 
 export default new WorkerRoomController();

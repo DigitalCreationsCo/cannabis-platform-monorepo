@@ -87,7 +87,7 @@ function UserSignUpForm() {
     function notifyValidation() {
         validateForm().then((errors) => {
             if (Object.values(errors).length > 0) {
-                console.log('validation errors: ', errors);
+                console.info('validation errors: ', errors);
                 toast.error(Object.values(errors)[0].toString());
             }
         });
@@ -127,12 +127,12 @@ function UserSignUpForm() {
         //                 ]
         //             });
         //             if (response.status === 'FIELD_ERROR') {
-        //                 console.log('signup error: ', response.formFields[0].error);
+        //                 console.info('signup error: ', response.formFields[0].error);
         //                 throw new Error(response.formFields[0].error);
         //             }
-        //             console.log('signup error: ', response.status);
+        //             console.info('signup error: ', response.status);
         //             if (response.status === 'OK') {
-        //                 console.log('signup ok');
+        //                 console.info('signup ok');
         //                 toast.success('Your account is created.', { duration: 5000 });
         //                 return response;
         //             }

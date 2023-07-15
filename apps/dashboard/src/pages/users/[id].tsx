@@ -395,12 +395,12 @@ export async function getServerSideProps({ req, params }: { req: any; params: an
             }
         })).data;
         if (!userData) return { notFound: true };
-        // console.log('SSR user: ', userData)
+        // console.info('SSR user: ', userData)
         return {
             props: { user: userData },
         };
     } catch (error: any) {
-        console.log('SSR error: ', error.message);
+        console.info('SSR error: ', error.message);
         throw new Error(error);
     }
 }

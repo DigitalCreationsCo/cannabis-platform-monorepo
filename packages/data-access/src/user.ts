@@ -79,7 +79,7 @@ export async function createUser(userData: UserCreateType) {
                 }
             })
 
-        console.log('user created: ', user.email)
+        console.info('user created: ', user.email)
         return user;
     } catch (error: any) {
         console.info('upsert user error: ', error);
@@ -201,11 +201,10 @@ export async function upsertUser(userData: UserCreateType) {
                     profilePicture: true,
                     memberships: true,
                     orders: true,
-                    purchases: true,
                 }
             });
 
-        console.log('user upserted: ', user.email)
+        console.info('user upserted: ', user.email)
         return user;
     } catch (error: any) {
         console.info('upsert user error: ', error);
@@ -262,11 +261,10 @@ export async function updateUser(userData: UserCreateType) {
                 profilePicture: true,
                 memberships: true,
                 orders: true,
-                purchases: true,
             }
         })
 
-        console.log('user updated: ', user.email)
+        console.info('user updated: ', user.email)
         return user;
     } catch (error: any) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -334,10 +332,10 @@ export async function upsertDispensaryAdmin(userData: UserCreateType, createPara
             }
         });
 
-        console.log('admin user upsert: ', user.email)
+        console.info('admin user upsert: ', user.email)
         return user;
     } catch (error: any) {
-        console.log('create Dispensary Admin user error: ', error);
+        console.info('create Dispensary Admin user error: ', error);
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             if (error.code === 'P2002') {
                 throw new Error('This user exists already. Please choose a different username or email.')
@@ -413,7 +411,7 @@ export async function updateDispensaryAdmin(userData: any, createParams: CreateU
             }
         })
 
-        console.log('admin user updated: ', user.email)
+        console.info('admin user updated: ', user.email)
         return user;
     } catch (error: any) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {

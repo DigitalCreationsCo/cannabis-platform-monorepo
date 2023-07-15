@@ -96,7 +96,7 @@ function UserSignUpQuickForm() {
       setLoadingButton(false);
       nextFormStep();
     } catch (error: any) {
-      console.log('User Create Error: ', error);
+      console.info('User Create Error: ', error);
       toast.error(error.response.data.message || error.response.data.errors);
       setLoadingButton(false);
     }

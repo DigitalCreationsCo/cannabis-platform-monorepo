@@ -31,7 +31,7 @@ export const createPasswordHash = (data: any) => {
 			passwordHash: hashSync(password, Number(process.env.PASSWORD_SALT_ROUNDS)),
 		};
 	} catch (error) {
-		console.log('Password hash was not created.', error);
+		console.info('Password hash was not created.', error);
 		return data;
 	}
 }

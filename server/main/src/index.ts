@@ -10,7 +10,7 @@ const mongoConnectUrl = process.env.MONGODB_CONNECTION_URL;
 connectDb()
   .then(() => {
     server.listen(port, () => {
-      console.log(` >> server-main is listening on port ${port}.`);
+      console.info(` >> server-main is listening on port ${port}.`);
       process.send('ready'); // ready signal pm2
     });
   })
@@ -26,12 +26,12 @@ async function connectDb() {
       .then(async (client) => {
         await OrderDA.useMongoDB(client);
         await DriverDA.useMongoDB(client);
-        console.log(' >> server-mdain: Mongo Database 👏 is ready for query.');
+        console.info(' >> server-mdain: Mongo Database 👏 is ready for query.');
 
         await prisma.$connect();
       })
       .then(async () => {
-        console.log(
+        console.info(
           ' >> server-main: Prisma Database 👏👏 is ready for query.'
         );
       })

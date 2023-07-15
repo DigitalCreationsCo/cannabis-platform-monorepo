@@ -45,7 +45,7 @@ const LocationProvider = () => {
               coordinates.latitude !== position.coords.latitude ||
               coordinates.longitude !== position.coords.longitude
             )
-              console.log('geolocating your position...', position);
+              console.info('geolocating your position...', position);
             dispatch(
               locationActions.setCurrentCoordinates({
                 latitude: position.coords.latitude,
@@ -62,13 +62,13 @@ const LocationProvider = () => {
                 )
               )
               .catch((error) =>
-                console.log(
+                console.info(
                   'Location Provider getGeoAddressByCoordifdnates error: ',
                   error
                 )
               );
           },
-          () => console.log('Geolocation is not supported by this browser.')
+          () => console.info('Geolocation is not supported by this browser.')
         );
       }
     }

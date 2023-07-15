@@ -19,7 +19,7 @@ function Checkout() {
     async function createStripeCheckout () {
         try {
 
-            // console.log('preparing this order to checkout: ', order)
+            // console.info('preparing this order to checkout: ', order)
             const 
             response = await axios.post(
                 urlBuilder.shop + '/api/stripe/checkout-session', 
@@ -59,7 +59,7 @@ function Checkout() {
             setLoadingButton(false);
             
         } catch (error: any) {
-            console.log('submit checkout error ', error);
+            console.info('submit checkout error ', error);
             toast.error(error.message);
             setLoadingButton(false);
         }

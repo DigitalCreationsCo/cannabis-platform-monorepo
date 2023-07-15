@@ -77,7 +77,7 @@
 //   };
 
 //   const sendLocation = () => {
-//     console.log("sharing location ", locationIndex);
+//     console.info("sharing location ", locationIndex);
 //     dispatchSocket.emit("locationShare", {
 //       type: "LOCATION_SHARE",
 //       data: {
@@ -88,11 +88,11 @@
 //       },
 //     });
 //     locationIndex++;
-//     console.log("location list length: ", locationList.length);
+//     console.info("location list length: ", locationList.length);
 //     if (locationIndex > locationList.length) {
 //       locationIndex = 0;
 //     }
-//     console.log("location index after sharing: ", locationIndex);
+//     console.info("location index after sharing: ", locationIndex);
 //   };
 
 //   useEffect(() => {
@@ -120,7 +120,7 @@
 //           }
 //         },
 //         (err) => {
-//           console.log("ERROR THROWN: ", err);
+//           console.info("ERROR THROWN: ", err);
 //           setConnectionError(err.message);
 //           if (updateStatus === true) {
 //             setConnectionError("An error occured while going online.");
@@ -137,17 +137,17 @@
 
 //   useEffect(() => {
 //     if (onlineStatus === OnlineStatus.ONLINE) {
-//       console.log("connecting to dispatch server..");
+//       console.info("connecting to dispatch server..");
 //       createSocket();
 
 //       dispatchSocket.on("connection", (message) => {
-//         console.log(message);
+//         console.info(message);
 //         setWebsocketConnectionStatus(true);
 //         dispatchSocket.emit("driverConnect", { driverId });
 //       });
 
 //       dispatchSocket.on("new_order", ({ message, order }) => {
-//         console.log(message);
+//         console.info(message);
 //         navigation.navigate("NewOrderScreen", {
 //           message,
 //           order,
@@ -156,7 +156,7 @@
 //       });
 
 //       dispatchSocket.on("order_assigned", ({ message }) => {
-//         console.log(message);
+//         console.info(message);
 //         setMessage(message);
 //       });
 
@@ -171,27 +171,27 @@
 //       });
 
 //       dispatchSocket.on("navigate", ({ type }) => {
-//         console.log("navigation event: ", type);
+//         console.info("navigation event: ", type);
 //       });
 
 //       dispatchSocket.on("message", ({ type, message, data }) => {
-//         console.log(
+//         console.info(
 //           `type: ${type},
 //           message: ${message},
 //           data: ${data}`
 //         );
 //       });
 //       dispatchSocket.on("disconnect", () => {
-//         console.log("disconnecting from room");
+//         console.info("disconnecting from room");
 //       });
 //     }
 //   }, [onlineStatus === OnlineStatus.ONLINE]);
 
 //   useEffect(() => {
 //     if (dispatchSocket) {
-//       console.log("disconnecting from dispatch..");
+//       console.info("disconnecting from dispatch..");
 //       dispatchSocket.close();
-//       console.log("disconnected");
+//       console.info("disconnected");
 //       dispatchSocket = null;
 //       setWebsocketConnectionStatus(false);
 //     }
@@ -201,14 +201,14 @@
 //     // put location coords in the state
 //     let { status } = await Location.requestForegroundPermissionsAsync();
 //     if (status !== "granted") {
-//       console.log("Location permission was denied.");
+//       console.info("Location permission was denied.");
 //       return;
 //     }
 //     const position = await Location.getCurrentPositionAsync();
 //     let {
 //       coords: { longitude, latitude },
 //     } = position;
-//     // console.log("long: ", longitude, " lat: ", latitude);
+//     // console.info("long: ", longitude, " lat: ", latitude);
 //     // setLocation([longitude, latitude]);
 //     setLocation([-122.408417, 37.79]);
 //   }, []);

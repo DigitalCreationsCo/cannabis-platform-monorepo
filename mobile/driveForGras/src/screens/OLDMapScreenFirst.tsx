@@ -95,7 +95,7 @@
 //   };
 
 //   const sendLocation = () => {
-//     console.log("sharing location ", locationIndex);
+//     console.info("sharing location ", locationIndex);
 //     socket.emit("locationShare", {
 //       type: "LOCATION_SHARE",
 //       data: {
@@ -106,43 +106,43 @@
 //       },
 //     });
 //     locationIndex++;
-//     console.log("location list length: ", locationList.length);
+//     console.info("location list length: ", locationList.length);
 //     if (locationIndex > locationList.length) {
 //       locationIndex = 0;
 //     }
-//     console.log("location index after sharing: ", locationIndex);
+//     console.info("location index after sharing: ", locationIndex);
 //   };
 
 //   const arriveToVendor = () => {
-//     console.log("arrive to vendor");
+//     console.info("arrive to vendor");
 //     socket.emit("navigate", {
 //       type: "ARRIVE_TO_VENDOR",
 //       // update order document
 //     });
 //   };
 //   const pickupProduct = () => {
-//     console.log("pickup product");
+//     console.info("pickup product");
 //     socket.emit("navigate", {
 //       type: "PICKUP_PRODUCT",
 //       // update order document
 //     });
 //   };
 //   const arriveToCustomer = () => {
-//     console.log("arrive to customer");
+//     console.info("arrive to customer");
 //     socket.emit("navigate", {
 //       type: "ARRIVE_TO_CUSTOMER",
 //       // update order document
 //     });
 //   };
 //   const deliverProduct = () => {
-//     console.log("deliver product");
+//     console.info("deliver product");
 //     socket.emit("navigate", {
 //       type: "DELIVER_PRODUCT",
 //       // update order document
 //     });
 //   };
 //   const completeDelivery = () => {
-//     console.log("complete delivery");
+//     console.info("complete delivery");
 //   };
 
 //   useEffect(() => {
@@ -170,7 +170,7 @@
 //           }
 //         },
 //         (err) => {
-//           console.log("ERROR THROWN: ", err);
+//           console.info("ERROR THROWN: ", err);
 //           setConnectionError(err.message);
 //         }
 //       );
@@ -182,24 +182,24 @@
 
 //   useEffect(() => {
 //     if (onlineStatus === OnlineStatus.ONLINE) {
-//       console.log("connecting to dispatch server..");
+//       console.info("connecting to dispatch server..");
 //       createSocket();
 
 //       socket.on("connection", (message) => {
-//         console.log(message);
+//         console.info(message);
 //         setWebsocketConnectionStatus(true);
 //         socket.emit("driverConnect", { driverId });
 //       });
 
 //       socket.on("newOrder", ({ message, order }) => {
-//         console.log(message);
+//         console.info(message);
 //         setCurrentOrder(order);
 //         setRespondToOrder(true);
 //         setMessage(message);
 //       });
 
 //       socket.on("orderAssigned", ({ message }) => {
-//         console.log(message);
+//         console.info(message);
 //         setMessage(message);
 //         setNavigation(true);
 //       });
@@ -214,27 +214,27 @@
 //         sendLocation();
 //       });
 //       socket.on("navigate", ({ type }) => {
-//         console.log("navigation event: ", type);
+//         console.info("navigation event: ", type);
 //       });
 
 //       socket.on("message", ({ type, message, data }) => {
-//         console.log(
+//         console.info(
 //           `type: ${type},
 //           message: ${message},
 //           data: ${data}`
 //         );
 //       });
 //       socket.on("disconnect", () => {
-//         console.log("disconnecting from room");
+//         console.info("disconnecting from room");
 //       });
 //     }
 //   }, [onlineStatus === OnlineStatus.ONLINE]);
 
 //   useEffect(() => {
 //     if (socket) {
-//       console.log("disconnecting from dispatch..");
+//       console.info("disconnecting from dispatch..");
 //       socket.close();
-//       console.log("disconnected");
+//       console.info("disconnected");
 //       socket = null;
 //       setWebsocketConnectionStatus(false);
 //     }
@@ -244,14 +244,14 @@
 //     // put location coords in the state
 //     let { status } = await Location.requestForegroundPermissionsAsync();
 //     if (status !== "granted") {
-//       console.log("Location permission was denied.");
+//       console.info("Location permission was denied.");
 //       return;
 //     }
 //     const position = await Location.getCurrentPositionAsync();
 //     let {
 //       coords: { longitude, latitude },
 //     } = position;
-//     // console.log("long: ", longitude, " lat: ", latitude);
+//     // console.info("long: ", longitude, " lat: ", latitude);
 //     // setLocation([longitude, latitude]);
 //     setLocation([-122.408417, 37.79]);
 //   }, []);

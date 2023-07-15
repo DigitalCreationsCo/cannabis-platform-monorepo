@@ -23,11 +23,11 @@ export type SessionInfo = {
 export default class SessionController {
     static async getSession(req, res) {
         try {
-            console.log(' 👋 backend get session here')
+            console.info(' 👋 backend get session here')
             let sessionData = Session.getSession(req, res);
-            console.log('session data: ', sessionData)
-            
-            // console.log('Session available?: ', req.session)
+            console.info('session data: ', sessionData)
+
+            // console.info('Session available?: ', req.session)
             // return res.status(200).json({
             //     note: "Fetch any data from your application for authenticated user after using verifySession middleware",
             //     session: req.session.getSessionData(),
@@ -39,13 +39,13 @@ export default class SessionController {
             };
             return res.status(200).json({ session, user: session.user })
         } catch (error: any) {
-            console.log('API error: ', error);
+            console.info('API error: ', error);
             res.status(500).json({ error });
         }
     }
 
     static async sendPasswordResetTokenEmail(req, res) {
-        try{
+        try {
             const email = req.body
             const token = createToken();
             const timeLimitedToken = `${sha265hex(token)}#${(Date.now() + Number(process.env.PASSWORD_RESET_EXPIRY_MINS) * 60_000).toString()}`;
@@ -58,13 +58,13 @@ export default class SessionController {
                 // });
             }
 
-            console.log(`User ${user.id} requested password reset`);
+            console.info(`User ${user.id} requested password reset`);
         } catch (error: any) {
-            console.log('API error: ', error);
+            console.info('API error: ', error);
             res.status(500).json({ error });
         }
-	}
-    
+    }
+
     // NOT FINISHED
     static async doResetPassword(req, res) {
         try {
@@ -81,10 +81,10 @@ export default class SessionController {
             //     data: { passwordHash: await hash(newPassword, appConfig.PASSWORD_SALT_ROUNDS), passwordResetToken: null }
             // });
 
-            // console.log(`User ${user.id} successfully performed password reset`);
-            console.log(`User successfully performed password reset`);
+            // console.info(`User ${user.id} successfully performed password reset`);
+            console.info(`User successfully performed password reset`);
         } catch (error: any) {
-            console.log('API error: ', error);
+            console.info('API error: ', error);
             res.status(500).json({ error });
         }
     }

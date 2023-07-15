@@ -84,7 +84,7 @@ export default function Users({ users }: UsersDashboardProps) {
                                         </Paragraph>
                                         <DeleteButton
                                             onClick={() => {
-                                                console.log('do nothing');
+                                                console.info('do nothing');
                                             }}
                                         ></DeleteButton>
                                     </Row>
@@ -123,7 +123,7 @@ export async function getServerSideProps({ req, res }: { req: any; res: any }) {
             }
         })
     ).json();
-    console.log('users page: ', users[0].memberships);
+    console.info('users page: ', users[0].memberships);
     return {
         props: {
             users

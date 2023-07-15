@@ -172,7 +172,7 @@ export async function getServerSideProps({
       },
     };
   } catch (error: any) {
-    console.log('Orders/[id] SSR error: ', error.message);
+    console.info('Orders/[id] SSR error: ', error.message);
     throw new Error(error);
   }
 }
@@ -183,7 +183,7 @@ export async function getServerSideProps({
 
 //         const { session, user } = await getSession({ req, res });
 //         if (!session || !user) {
-//             console.log('No session or user');
+//             console.info('No session or user');
 //             return { redirect: { destination: '/welcome', permanent: false } };
 //         }
 
@@ -219,13 +219,13 @@ export async function getServerSideProps({
 //     }
 //     catch (error) {
 
-//         console.log('SSR error: ', error.message);
+//         console.info('SSR error: ', error.message);
 
 //         if (error.type === Session.Error.TRY_REFRESH_TOKEN)
 //         return { props: { fromSupertokens: 'needs-refresh' } }
 //         else
 //         if (error.type === Session.Error.UNAUTHORISED)
-//         console.log('unauthorized error: ', error);
+//         console.info('unauthorized error: ', error);
 //         return res.status(200).json({ status: false, error });
 //         else
 //         return { redirect: { destination: '/welcome', permanent: false } };
