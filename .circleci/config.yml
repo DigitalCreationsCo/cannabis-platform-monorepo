@@ -45,14 +45,13 @@ workflows:
           modules: |
             apps/shop
             apps/dashboard
+            server/main
 
             # apps/delivery-widget/ # config is not ready
-            # server/main/
             # server/location/
             # server/payments/
             # server/image/
             # server/dispatch/
-
             # k8s/ # kubernetes files are not included, because i dont know where to put the config.yml file at the moment, or how to declare an alternate file path
             # packages # packages are rebuilt in the module build, for now
           # requires:
