@@ -21,13 +21,13 @@
 //     try {
 //       navigation.popToTop();
 //     } catch (E) {
-//       console.log(E);
+//       console.info(E);
 //     }
 //   };
 
 //   useEffect(() => {
 //     return () => {
-//       console.log(" unmount CompleteDeliveryScreen");
+//       console.info(" unmount CompleteDeliveryScreen");
 //       dispatch(socketActions.resetDeliveryState());
 //     };
 //   }, []);

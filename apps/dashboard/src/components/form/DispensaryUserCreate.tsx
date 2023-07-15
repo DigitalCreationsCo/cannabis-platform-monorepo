@@ -34,7 +34,7 @@ function DispensaryUserCreate () {
                 dispensaryId: formValues.organization?.id
             }, { validateStatus: () => true});
             
-            console.log('response: ', response);
+            console.info('response: ', response);
             if (response.status === 404) {
                 throw new Error(response.data);
             }
@@ -48,7 +48,7 @@ function DispensaryUserCreate () {
             nextFormStep();
             
         } catch (error: any) {
-            console.log('Dispensary User Error: ', error);
+            console.info('Dispensary User Error: ', error);
             toast.error(error.message);
             setLoadingButton(false);
         }
@@ -63,7 +63,7 @@ function DispensaryUserCreate () {
     function notifyValidation() {
         validateForm().then((errors) => {
             if (Object.values(errors).length > 0) {
-                console.log('validation errors: ', errors);
+                console.info('validation errors: ', errors);
                 toast.error(Object.values(errors)[0].toString());
             }
         });

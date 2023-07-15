@@ -61,7 +61,7 @@ export default class OrganizationDA {
         }
       );
 
-      console.log(`${data.name} record create is completed.`);
+      console.info(`${data.name} record create is completed.`);
       return `${data.name} record create is completed. Your id is ${data.id}`;
     } catch (error: any) {
       console.error(error.message);
@@ -95,7 +95,7 @@ export default class OrganizationDA {
         }
       );
 
-      console.log(`Dispensary record ${organization.name} is updated.`);
+      console.info(`Dispensary record ${organization.name} is updated.`);
 
       return 'Your organization account is updated.';
     } catch (error: any) {
@@ -108,13 +108,13 @@ export default class OrganizationDA {
     try {
       const _deleted = await deleteOrganizationById(organizationId);
 
-      console.log('_deleted: ', _deleted);
+      console.info('_deleted: ', _deleted);
 
       await axios.delete(
         urlBuilder.location.getOrganizationRecord(_deleted.id)
       );
 
-      console.log(`Dispensary record ${_deleted.name} is deleted OK.`);
+      console.info(`Dispensary record ${_deleted.name} is deleted OK.`);
       return `Dispensary record ${_deleted.name} is deleted OK.`;
     } catch (error: any) {
       console.error(error.message);

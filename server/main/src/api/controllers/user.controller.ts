@@ -34,12 +34,12 @@ export default class UserController {
 
       const data = await UserDA.upsertUser(user);
 
-      console.log('user created: ', data);
+      console.info('user created: ', data);
       if (!data) return res.status(404).json('User could not be created.');
 
       return res.status(201).json(data);
     } catch (error: any) {
-      console.log('API error: ', error);
+      console.info('API error: ', error);
       if (error.message.includes('This user exists already')) {
         return res.status(400).json({ error });
       } else res.status(500).json({ error });
@@ -67,9 +67,9 @@ export default class UserController {
 
       return res.status(201).json(data);
     } catch (error: any) {
-      console.log('API error: ', error);
+      console.info('API error: ', error);
       if (error.message.includes('This user exists already')) {
-        console.log('yes, EXIST ALREADY');
+        console.info('yes, EXIST ALREADY');
         return res.status(400).json(error.message);
       } else res.status(500).json({ error });
     }
@@ -84,7 +84,7 @@ export default class UserController {
 
       return res.status(200).json(data);
     } catch (error: any) {
-      console.log('API error: ', error);
+      console.info('API error: ', error);
       res.status(500).json({ error });
     }
   }
@@ -99,7 +99,7 @@ export default class UserController {
 
       return res.status(200).json(data);
     } catch (error: any) {
-      console.log('API error: ', error);
+      console.info('API error: ', error);
       res.status(500).json({ error });
     }
   }
@@ -111,7 +111,7 @@ export default class UserController {
       if (!data) return res.status(404).json('User not found');
       return res.status(200).json(data);
     } catch (error: any) {
-      console.log('API error: ', error);
+      console.info('API error: ', error);
       res.status(500).json({ error });
     }
   }
@@ -123,7 +123,7 @@ export default class UserController {
       if (!data) return res.status(404).json('Address not found');
       return res.status(200).json(data);
     } catch (error: any) {
-      console.log('API error: ', error);
+      console.info('API error: ', error);
       res.status(500).json({ error });
     }
   }
@@ -135,7 +135,7 @@ export default class UserController {
       if (!data) return res.status(404).json('Address was not created');
       return res.status(200).json(data);
     } catch (error: any) {
-      console.log('API error: ', error);
+      console.info('API error: ', error);
       res.status(500).json({ error });
     }
   }
@@ -150,7 +150,7 @@ export default class UserController {
       if (!data) return res.status(404).json('Address not found');
       return res.status(200).json(data);
     } catch (error: any) {
-      console.log('API error: ', error);
+      console.info('API error: ', error);
       res.status(500).json({ error });
     }
   }
@@ -188,7 +188,7 @@ export default class UserController {
   //         // if (error.message === 'This user exists already. Please choose a different username or email.') {
   //         //     return res.status(400).json(error:any)
   //         // }
-  //         // console.log('API error: ', error.message);
+  //         // console.info('API error: ', error.message);
   //         // return res.status(500).json(error:any);
   //     }
   // }

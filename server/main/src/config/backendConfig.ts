@@ -21,7 +21,7 @@ const appInfo = {
 };
 
 export const backendConfig = (): AuthConfig => {
-    console.log(' >> server/main backend config: ', appInfo);
+    console.info(' >> server/main backend config: ', appInfo);
     return {
         framework: 'express',
         supertokens: {
@@ -47,7 +47,7 @@ export const backendConfig = (): AuthConfig => {
 
                                             let user;
 
-                                            console.log('backend request from appUser ', input.userContext.appUser);
+                                            console.info('backend request from appUser ', input.userContext.appUser);
 
                                             if (input.userContext.appUser === 'DRIVER') {
                                                 if (response.user.email) {
@@ -85,7 +85,7 @@ export const backendConfig = (): AuthConfig => {
                                     return response;
 
                                 } catch (error: any) {
-                                    console.log('consumeCode error: ', error.message);
+                                    console.info('consumeCode error: ', error.message);
                                     return {
                                         status: 'RESTART_FLOW_ERROR',
                                         message: error.message
@@ -129,19 +129,19 @@ export const backendConfig = (): AuthConfig => {
                                 // await input.options.req.getJSONBody();
 
                                 // YES
-                                // console.log('post input: ' , input.options.req.original.headers);
+                                // console.info('post input: ' , input.options.req.original.headers);
 
                                 // YES
-                                // console.log('post input: ' , await input.options.req.getFormData());
+                                // console.info('post input: ' , await input.options.req.getFormData());
 
                                 // NO
-                                // console.log('post input: ' , await input.options.req.getHeaderValue('appUser'));
+                                // console.info('post input: ' , await input.options.req.getHeaderValue('appUser'));
 
                                 // NO
                                 // input.options.req.getHeaderValue('appUser')
 
                                 // NO
-                                // console.log('post app user? ', input.userContext.appUser)
+                                // console.info('post app user? ', input.userContext.appUser)
 
                                 const
                                     { appUser } = (await input.options.req.getJSONBody());
@@ -197,7 +197,7 @@ export const backendConfig = (): AuthConfig => {
                 //                         ...originalImplementation,
                 //                         refreshPOST: async (input) => {
                 //                             const session = await originalImplementation.refreshPOST(input);
-                //                             console.log('refresh session: ', session);
+                //                             console.info('refresh session: ', session);
                 //                             await SessionDA.updateExpireSession(session.getHandle(), await session.getExpiry());
                 //                             return session;
                 //                         },

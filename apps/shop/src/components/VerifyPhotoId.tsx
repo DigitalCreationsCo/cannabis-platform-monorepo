@@ -82,7 +82,7 @@ const VerifyPhotoId = () => {
                 }
             }
         } catch (error: any) {
-            console.log('error: ', error);
+            console.info('error: ', error);
             toast.error(error.message);
             setLoadingButton(false);
         }
@@ -114,7 +114,7 @@ const VerifyPhotoId = () => {
             if (error.code === 'ERR_NETWORK')
             throw new Error(`We're having a problem verifying your image. Please try again.`);
             
-            console.log('verify id error: ', error)
+            console.info('verify id error: ', error)
             throw new Error(error.message)
         }
     }
@@ -131,7 +131,7 @@ const VerifyPhotoId = () => {
             const response = await axios.post('/api/recaptcha', { inputVal, token });
             if (response.status === 200) await onSubmitUpload()
         } catch (error) {
-            console.log(error);
+            console.info(error);
         }
     }
     

@@ -82,7 +82,7 @@ function LoginModal({
     function notifyValidation() {
       validateForm().then((errors) => {
         if (Object.values(errors).length > 0) {
-          console.log('validation errors: ', errors);
+          console.info('validation errors: ', errors);
           toast.error(Object.values(errors)[0].toString());
         }
       });
@@ -197,7 +197,7 @@ function LoginModal({
     function notifyValidation() {
       validateForm().then((errors) => {
         if (Object.values(errors).length > 0) {
-          console.log('validation errors: ', errors);
+          console.info('validation errors: ', errors);
           toast.error(Object.values(errors)[0].toString());
         }
       });

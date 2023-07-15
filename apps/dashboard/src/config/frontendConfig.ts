@@ -28,9 +28,9 @@ export const frontendConfig = () => {
                 contactMethod: "EMAIL_OR_PHONE",
                 onHandleEvent: (event: any) => {
 
-                    console.log('passwordless event: ', event)
+                    console.info('passwordless event: ', event)
                     if (event.action === 'SUCCESS') {
-                        console.log('role ? ', event.user && event.user.memberships?.[0]?.role.toLocaleUpperCase())
+                        console.info('role ? ', event.user && event.user.memberships?.[0]?.role.toLocaleUpperCase())
 
                         if (event.user && event.user.memberships?.[0]?.role.toLocaleUpperCase() === 'ADMIN' ||
                             event.user.memberships?.[0]?.role.toLocaleUpperCase() === 'OWNER') {
@@ -60,7 +60,7 @@ export const frontendConfig = () => {
                         // window.location.href = '/';
                     }
                     if (event.action === 'SESSION_CREATED') {
-                        console.log('session created')
+                        console.info('session created')
                         if (
                             event.userContext.memberships?.[0]?.role.toLocaleUpperCase() === 'ADMIN' ||
                             event.userContext.memberships?.[0]?.role.toLocaleUpperCase() === 'OWNER'

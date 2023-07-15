@@ -77,7 +77,7 @@ export default function HomeScreen() {
 //   useEffect(async () => {
 //     let { status } = await Location.requestForegroundPermissionsAsync();
 //     if (status !== "granted") {
-//       console.log("Location permission was denied.");
+//       console.info("Location permission was denied.");
 //       return;
 //     }
 

@@ -9,7 +9,7 @@ import prisma from "./db/prisma";
 * deleteSessionByHandle
 */
 
-export async function findSessionByHandle(sessionHandle:string) {
+export async function findSessionByHandle(sessionHandle: string) {
     try {
         const data = await prisma.session.findUnique({
             where: {
@@ -26,9 +26,9 @@ export async function findSessionByHandle(sessionHandle:string) {
     }
 }
 
-export async function createSession(sessionHandle:string, sessionPayload: SessionPayload, expires:number) {
+export async function createSession(sessionHandle: string, sessionPayload: SessionPayload, expires: number) {
     try {
-        console.log('create session args: ', sessionHandle, sessionPayload, expires)
+        console.info('create session args: ', sessionHandle, sessionPayload, expires)
         const session = await prisma.session.create({
             data: {
                 sessionHandle,
@@ -47,7 +47,7 @@ export async function createSession(sessionHandle:string, sessionPayload: Sessio
     }
 }
 
-export async function updateExpireSession(sessionHandle:string, expires: number) {
+export async function updateExpireSession(sessionHandle: string, expires: number) {
     try {
         const data = await prisma.session.update({
             where: {
@@ -64,7 +64,7 @@ export async function updateExpireSession(sessionHandle:string, expires: number)
     }
 }
 
-export async function deleteSessionByHandle(sessionHandle:string) {
+export async function deleteSessionByHandle(sessionHandle: string) {
     try {
         const data = await prisma.session.delete({
             where: {

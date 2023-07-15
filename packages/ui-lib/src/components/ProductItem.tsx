@@ -16,7 +16,7 @@ function ProductItem({ data: product, className, handleConfirm }: ProductItemPro
     const [quantity, setQuantity] = useState(1);
     const toggleConfirm = () => setOpenConfirm((state) => !state);
 
-    // console.log('product image source: ', product?.images?.[0]?.location)
+    // console.info('product image source: ', product?.images?.[0]?.location)
 
     return (
         <>

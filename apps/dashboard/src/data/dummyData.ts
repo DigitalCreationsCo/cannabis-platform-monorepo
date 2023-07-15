@@ -437,7 +437,6 @@ const orders: OrderWithDashboardDetails[] = [
             type: "card",
             amount: 23444,
             token: '12345',
-            customerId: "2",
             orderId: "2",
             createdAt: new Date(),
             updatedAt: new Date(),

@@ -9,8 +9,8 @@ const locationMiddleware = (store: MiddlewareAPI) => (next) => (action: AnyActio
     next(action);
     try {
         if (action.type === "user/signinUserSync") {
-            const 
-            user = action.payload as UserWithDetails
+            const
+                user = action.payload as UserWithDetails
             if (user?.address !== undefined) {
                 store.dispatch(locationActions.setAllLocations(user.address));
                 store.dispatch(locationActions.setHomeAddress(user.address[0]));
@@ -18,12 +18,12 @@ const locationMiddleware = (store: MiddlewareAPI) => (next) => (action: AnyActio
             }
         }
 
-        
+
     } catch (error) {
-        console.log("Location Middleware: Caught an exception: ");
-        console.log(error); 
+        console.info("Location Middleware: Caught an exception: ");
+        console.info(error);
         throw error;
     }
-  };
-  
+};
+
 export default locationMiddleware
