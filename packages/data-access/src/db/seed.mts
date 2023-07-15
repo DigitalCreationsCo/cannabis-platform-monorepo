@@ -2074,6 +2074,7 @@ const createArticles = async () => {
       href: '12345',
       content: "",
       author: "",
+      tags: ['news', 'dispensary'],
       image: {
         create: {
           id: '1',
@@ -2094,6 +2095,7 @@ const createArticles = async () => {
       description: 'Delivery By Our Trained Delivery Team',
       href: '123457',
       content: "",
+      tags: ['news'],
       author: "",
       image: {
         create: {
@@ -2115,6 +2117,7 @@ const createArticles = async () => {
       description: 'Sign Up Your Dispensary for Home Delivery',
       href: '12377456',
       content: "",
+      tags: ['news'],
       author: "",
       image: {
         create: {

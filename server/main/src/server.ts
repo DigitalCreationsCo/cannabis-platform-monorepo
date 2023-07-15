@@ -5,7 +5,7 @@ import http from 'http';
 import Supertokens from 'supertokens-node';
 import { errorHandler, middleware } from 'supertokens-node/framework/express';
 import { SessionInfo } from './api/controllers/session.controller';
-import { driver, errorRoute, organization, shop, user } from './api/routes';
+import { blog, driver, errorRoute, organization, shop, user } from './api/routes';
 import { backendConfig } from './config/backendConfig';
 
 const shopDomain = process.env.NEXT_PUBLIC_SHOP_APP_URL;
@@ -78,6 +78,9 @@ app.use('/api/v1/driver', driver);
 app.use('/api/v1/shop', shop);
 
 app.use('/api/v1/organization', organization);
+
+app.use('/api/v1/blog', blog);
+
 
 // error handling test routes
 app.use('/api/v1/error', errorRoute);
