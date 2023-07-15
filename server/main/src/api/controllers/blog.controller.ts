@@ -25,7 +25,7 @@ export default class BlogController {
                     message: 'Blog could not be created.',
                 });
 
-            return res.status(201).json({
+            return res.status(200).json({
                 success: true,
                 payload: data,
             });
@@ -39,7 +39,7 @@ export default class BlogController {
     }
     static async getDispensaryGuides(req, res) {
         try {
-            const data = await ArticleDA.getArticles(["dispensary"]);
+            const data = await ArticleDA.getArticles("dispensary");
 
             if (!data)
                 return res.status(404).json({
@@ -47,7 +47,7 @@ export default class BlogController {
                     message: 'Blog could not be created.',
                 });
 
-            return res.status(201).json({
+            return res.status(200).json({
                 success: true,
                 payload: data,
             });
@@ -61,7 +61,7 @@ export default class BlogController {
     }
     static async getDriverGuides(req, res) {
         try {
-            const data = await ArticleDA.getArticles(["driver"]);
+            const data = await ArticleDA.getArticles("driver");
 
             if (!data)
                 return res.status(404).json({
@@ -69,7 +69,7 @@ export default class BlogController {
                     message: 'Blog could not be created.',
                 });
 
-            return res.status(201).json({
+            return res.status(200).json({
                 success: true,
                 payload: data,
             });
@@ -144,7 +144,7 @@ export default class BlogController {
                     message: 'Blog could not be deleted.',
                 });
 
-            return res.status(201).json({
+            return res.status(200).json({
                 success: true,
                 payload: data,
             });

@@ -17,9 +17,9 @@ deleteArticle
 
 
 export default class ArticleDA {
-    static async getArticles(tags: ArticleType[] = ["news"]) {
+    static async getArticles(tag: ArticleType = "news") {
         try {
-            const data = await findArticlesByType(tags);
+            const data = await findArticlesByType(tag);
             return data;
         } catch (error: any) {
             console.error(error.message);
@@ -29,7 +29,7 @@ export default class ArticleDA {
 
     static async getArticlesDispensaryGuides() {
         try {
-            const data = await findArticlesByType(["dispensary"]);
+            const data = await findArticlesByType("dispensary");
             return data;
         } catch (error: any) {
             console.error(error.message);
@@ -39,7 +39,7 @@ export default class ArticleDA {
 
     static async getArticlesDriverGuides() {
         try {
-            const data = await findArticlesByType(["driver"]);
+            const data = await findArticlesByType("driver");
             return data;
         } catch (error: any) {
             console.error(error.message);
@@ -47,9 +47,9 @@ export default class ArticleDA {
         }
     }
 
-    static async getArticlesByTags(tags: ArticleType[]) {
+    static async getArticlesByTags(tag: ArticleType) {
         try {
-            const data = await findArticlesByType(tags);
+            const data = await findArticlesByType(tag);
             return data;
         } catch (error: any) {
             console.error(error.message);

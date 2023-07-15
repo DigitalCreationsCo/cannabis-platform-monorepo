@@ -1,22 +1,20 @@
-import { Article, ImageArticle, Prisma } from "@prisma/client";
+import { Article, ArticleType, ImageArticle, Prisma } from "@prisma/client";
 import prisma from "./db/prisma";
 
-export async function findArticlesByType(tags: Article['tags']): Promise<ArticleWithDetails[]> {
+export async function findArticlesByType(tag: ArticleType): Promise<ArticleWithDetails[]> {
     try {
+
         const articles = await prisma.article.findMany({
-            where: {
-                tags: {
-                    hasSome: tags
-                }
-            },
+            where: { tag },
             include: {
-                image: true
+                image: true,
             },
             orderBy: {
                 updatedAt: 'desc',
             }
         })
-        return articles
+
+        return articles as ArticleWithDetails[]
     } catch (error: any) {
         console.error(error)
         throw new Error(error)
