@@ -35,13 +35,13 @@ spec:
           image: grasadmin/server-main:latest
           imagePullPolicy: Always
           terminationMessagePolicy: FallbackToLogsOnError
-          resources:
-            limits:
-              cpu: '100m'
-              memory: '120Mi'
-            requests:
-              cpu: '100m'
-              memory: '120Mi'
+          resources: {}
+            # limits:
+            #   cpu: '100m'
+            #   memory: '120Mi'
+            # requests:
+            #   cpu: '100m'
+            #   memory: '120Mi'
           ports:
             - name: main-port
               containerPort: 6001
@@ -49,7 +49,7 @@ spec:
           livenessProbe:
             httpGet:
               path: /api/v1/healthcheck
-              port: http
+              port: main-port
             failureThreshold: 2
             initialDelaySeconds: 20
             periodSeconds: 10
@@ -58,7 +58,7 @@ spec:
           readinessProbe:
             httpGet:
               path: /api/v1/healthcheck
-              port: http
+              port: main-port
             failureThreshold: 2
             initialDelaySeconds: 20
             periodSeconds: 10
