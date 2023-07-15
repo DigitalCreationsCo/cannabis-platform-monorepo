@@ -13,3 +13,27 @@ resource "google_storage_bucket" "tf_state" {
     enabled = true
   }
 }
+
+resource "google_storage_bucket" "image_id_verify" {
+  name          = "image-id-verify"
+  force_destroy = false
+  location      = var.region
+  storage_class = "REGIONAL"
+  project = var.project_id
+
+  versioning {
+    enabled = false
+  }
+}
+
+resource "google_storage_bucket" "image_dispensary" {
+  name          = "image-dispensary"
+  force_destroy = false
+  location      = var.region
+  storage_class = "REGIONAL"
+  project = var.project_id
+
+  versioning {
+    enabled = false
+  }
+}

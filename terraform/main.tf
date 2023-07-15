@@ -40,26 +40,6 @@ provider "google-beta" {
   zone        = var.zone
 }
 
-provider "kubernetes" {
-  host  = "https://${google_container_cluster.gras_cluster.endpoint}"
-  token = data.google_client_config.provider.access_token
-  cluster_ca_certificate = base64decode(
-    data.google_container_cluster.gras_cluster.master_auth[0].cluster_ca_certificate,
-  )
-}
-
-resource "kubernetes_secret" "ssl_secret" {
-  metadata {
-    name = "ssl-certificate"
-  }
-
-  data = {
-    tls.crt = file(local.ssl_cert)
-  }
-
-  type = "kubernetes.io/tls"
-}
-
 resource "google_compute_network" "gras-network" {
   name                    = var.network_name
   auto_create_subnetworks = "false"
