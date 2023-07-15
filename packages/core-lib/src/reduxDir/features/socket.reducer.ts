@@ -12,7 +12,7 @@ export const testAsyncAction = createAsyncThunk(
   "socket/testAsyncAction",
   async (_, thunkAPI) => {
     setTimeout(() => {
-      return console.log("test-action");
+      return console.info("test-action");
     }, 2000);
   }
 );
@@ -33,12 +33,12 @@ export const testAsyncAction = createAsyncThunk(
 //         socketActions.addOrderToDispatchOrders({ order })
 //       );
 //       const { dispatchOrders } = await thunkAPI.getState().socket;
-//       console.log("orderAccepted: dispatchOrders: ", dispatchOrders);
+//       console.info("orderAccepted: dispatchOrders: ", dispatchOrders);
 //       await thunkAPI.dispatch(
 //         socketActions.sortDispatchRoute({ dispatchOrders })
 //       );
 //     } catch (err) {
-//       console.log("A general error occured: orderAccepted-", error);
+//       console.info("A general error occured: orderAccepted-", error);
 //       thunkAPI.rejectWithValue("A general error occured: orderAccepted- ");
 //     }
 //   }
@@ -49,10 +49,10 @@ export const testAsyncAction = createAsyncThunk(
 //   async ({ dispatchOrders }, thunkAPI) => {
 //     try {
 //       const sortedRoute = await dispatchOrders;
-//       console.log("sorted Dispatch Route: ", sortedRoute);
+//       console.info("sorted Dispatch Route: ", sortedRoute);
 //       return { sortedRoute };
 //     } catch (err) {
-//       console.log("A general error occured: sortDispatchRoute-", error);
+//       console.info("A general error occured: sortDispatchRoute-", error);
 //       thunkAPI.rejectWithValue("A general error occured: sortDispatchRoute- ");
 //     }
 //   }
@@ -120,51 +120,51 @@ const socketSlice = createSlice({
       state.connectionOpenInit = true;
       state.connectionCloseInit = false;
 
-      console.log('open connection.');
+      console.info('open connection.');
     },
-    
+
     closingConnection: (state) => {
       state.connectionOpenInit = false;
       state.connectionCloseInit = true;
-      
-      console.log('closing connection.');
+
+      console.info('closing connection.');
     },
-    
+
     connectionEstablished: (state) => {
-      
+
       state.connectionOpenInit = false;
       state.connectionCloseInit = false;
       state.isConnected = true;
-      
-      console.log('connection established. ready to send and receive data.');
+
+      console.info('connection established. ready to send and receive data.');
     },
     connectionClosed: (state) => {
       state.connectionOpenInit = false;
       state.connectionCloseInit = false;
       state.isConnected = false;
-      
-      console.log("socket connection is closed.");
+
+      console.info("socket connection is closed.");
     },
-    receiveNewOrderRequest: (state, { payload }: { payload: SocketEventPayload<OrderWithDetails>}) => {
+    receiveNewOrderRequest: (state, { payload }: { payload: SocketEventPayload<OrderWithDetails> }) => {
 
       state.incomingOrder.message = payload.message;
       state.incomingOrder.newOrder = payload.data;
-      
+
     },
     clearOrderRequest: (state) => {
 
       state.incomingOrder.newOrder = null;
       state.incomingOrder.message = null;
-      
+
     },
     acceptOrder: (state) => {
 
-      console.log("accept_order");
+      console.info("accept_order");
 
     },
     declineOrder: (state) => {
-      
-      console.log("decline_order");
+
+      console.info("decline_order");
 
     },
     addOrderToDispatchOrders: (state, { payload }) => {
@@ -182,13 +182,13 @@ const socketSlice = createSlice({
     // beginOrder: () => {},
     arriveToVendor: (state, { payload }) => {
       let { vendorId } = payload;
-      console.log("arrive to vendor : ", vendorId);
+      console.info("arrive to vendor : ", vendorId);
       NavigationService.navigate(DeliveryScreens.PICKUP_PRODUCT_VIEW);
     },
     // navigateToCustomer: () => {},
     arriveToCustomer: (state, { payload }) => {
       let { orderId } = payload;
-      console.log("arrive to customer orderId: ", orderId);
+      console.info("arrive to customer orderId: ", orderId);
       NavigationService.navigate(DeliveryScreens.FINALIZE_DELIVERY_VIEW);
     },
     // completeOrder: () => {},
@@ -232,7 +232,7 @@ const socketSlice = createSlice({
     },
     testAction: (state) => {
       setTimeout(() => {
-        console.log("test-action");
+        console.info("test-action");
       }, 2000);
     },
   },

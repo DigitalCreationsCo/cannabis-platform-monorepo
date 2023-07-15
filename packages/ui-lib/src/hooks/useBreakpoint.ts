@@ -6,8 +6,8 @@ import tailwindConfig from '../../tailwind.config'; // Fix the path
 const fullConfig = resolveConfig(tailwindConfig);
 
 export const getBreakpointValue = (value: string): number => {
-    // console.log('value', value)
-    // console.log(fullConfig?.theme?.screens?.[value]?.slice(0, fullConfig.theme.screens[value].indexOf('px')));
+    // console.info('value', value)
+    // console.info(fullConfig?.theme?.screens?.[value]?.slice(0, fullConfig.theme.screens[value].indexOf('px')));
     return +fullConfig?.theme?.screens?.[value]?.slice(0, fullConfig.theme.screens[value].indexOf('px'));
 }
 
@@ -21,7 +21,7 @@ export const useBreakpoint = (): string => {
             currentBreakpoint = breakpoint;
         }
     }
-    return {currentBreakpoint, biggestBreakpointValue};
+    return { currentBreakpoint, biggestBreakpointValue };
 };
 
 // export const useThemeValue = (): string => {

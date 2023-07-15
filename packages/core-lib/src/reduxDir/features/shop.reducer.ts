@@ -93,7 +93,7 @@ export const getDispensariesLocal = createAsyncThunk<
 //         return { vendors };
 //       }
 //     } catch (err) {
-//       console.log("A general error occured: getVendorsExcluding-");
+//       console.info("A general error occured: getVendorsExcluding-");
 //       return thunkAPI.rejectWithValue(
 //         "A general error occured: getVendorsExcluding-"
 //       );
@@ -117,7 +117,7 @@ export const getDispensariesLocal = createAsyncThunk<
 //       );
 //       if (response.status === 200) {
 //         let data = await response.json();
-//         // console.log("getProducts by vendor data: ", data);
+//         // console.info("getProducts by vendor data: ", data);
 //         return { data, index };
 //       }
 //     } catch (err) {
@@ -196,13 +196,13 @@ export const shopSlice = createSlice({
               productsFetched: false,
             };
 
-            console.log('state before reconcile: ', state.dispensaries);
+            console.info('state before reconcile: ', state.dispensaries);
 
             const index = state.dispensaries.findIndex((i) => i.id === d.id);
             if (index === -1) state.dispensaries = [...state.dispensaries, d];
             else state.dispensaries[index] = item;
 
-            console.log('state after reconcile: ', state.dispensaries);
+            console.info('state after reconcile: ', state.dispensaries);
           });
         }
         state.isLoading = false;
@@ -236,13 +236,13 @@ export const shopSlice = createSlice({
               };
             });
 
-            console.log('state before reconcile: ', state.dispensaries);
+            console.info('state before reconcile: ', state.dispensaries);
 
             const index = state.dispensaries.findIndex((i) => i.id === d.id);
             if (index === -1) state.dispensaries = [...state.dispensaries, d];
             else state.dispensaries[index] = item;
 
-            console.log('state after reconcile: ', state.dispensaries);
+            console.info('state after reconcile: ', state.dispensaries);
           }
           state.isLoading = false;
           state.isSuccess = true;
@@ -274,13 +274,13 @@ export const shopSlice = createSlice({
             //     productsFetched: false,
             //   };
             // });
-            // console.log('state before reconcile: ', state.dispensaries)
+            // console.info('state before reconcile: ', state.dispensaries)
             // const index = state.dispensaries.findIndex((i) => i.id === d.id);
             // if (index === -1)
             //   state.dispensaries = [...state.dispensaries, d]
             // else
             //   state.dispensaries[index] = item;
-            // console.log('state after reconcile: ', state.dispensaries)
+            // console.info('state after reconcile: ', state.dispensaries)
           }
         }
       ),
@@ -309,14 +309,14 @@ export const shopSlice = createSlice({
     //   state.isFetching = false;
     //   state.isSuccess = true;
     //   state.vendors.push(...vendors);
-    //   console.log("getVendors excluding success");
+    //   console.info("getVendors excluding success");
     // },
 
     // [getVendorsExcluding.pending]: (state) => {
     //   state.isFetching = true;
     // },
     // [getVendorsExcluding.rejected]: (state, { payload }) => {
-    //   console.log("get vendors excluding rejected");
+    //   console.info("get vendors excluding rejected");
     //   state.isFetching = false;
     //   state.isError = true;
     // },
@@ -332,7 +332,7 @@ export const shopSlice = createSlice({
 
     //   // * update to use filter for discretion
     //   // let { vendorId, data } = payload;
-    //   // console.log("get products by vendor payload: ", data);
+    //   // console.info("get products by vendor payload: ", data);
     //   // const updatedVendor = state.vendors.filter(
     //   //   (vendor) => vendor.vendorId === vendorId
     //   // )[0];

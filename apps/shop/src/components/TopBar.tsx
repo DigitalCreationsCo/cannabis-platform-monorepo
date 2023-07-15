@@ -141,7 +141,7 @@ function TopBar({ signOut }: TopBarProps) {
 }
 
 // function openCartModal() {
-//     console.log('dispatch: open cart Modal');
+//     console.info('dispatch: open cart Modal');
 //     dispatch(
 //         modalActions.openModal({
 //             modalType: modalTypes.cartModal

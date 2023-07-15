@@ -18,7 +18,7 @@ const WidgetView = (View:(props:WidgetViewProps & DeliveryWidgetConfigOptions) =
         function checkPath() {
             if (location.pathname != pathname) {
                 pathname = location.pathname;
-                // console.log('is checkout? ', useCheckHrefIncludes('checkout'))
+                // console.info('is checkout? ', useCheckHrefIncludes('checkout'))
                 useCheckHrefIncludes('checkout') ? history('/checkout') : history('/')
             }
         }

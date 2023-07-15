@@ -14,14 +14,14 @@ deleteOrganizationLocationRecord
 export default class LocationController {
   static async getLocalOrganizations(req, res) {
     try {
-      console.log(`server-location: get local dispensaries.`);
+      console.info(`server-location: get local dispensaries.`);
 
       const {
         userLocation,
         proximityRadius,
       }: { userLocation: Coordinates; proximityRadius: number } = req.body;
 
-      console.log(
+      console.info(
         `server-location: get local dispensaries from ${userLocation} with the radius ${proximityRadius}.`
       );
       const _geoJson = getCoordinatePairFromUserLocation(userLocation);
@@ -37,7 +37,7 @@ export default class LocationController {
         payload: data,
       });
     } catch (error: any) {
-      console.log('API error: ', error);
+      console.info('API error: ', error);
       res.status(500).json({ error });
     }
   }
@@ -52,7 +52,7 @@ export default class LocationController {
     try {
       const organization = req.body as OrganizationWithShopDetails;
 
-      console.log(
+      console.info(
         'organization to add: ',
         organization.name,
         ': ',
@@ -63,7 +63,7 @@ export default class LocationController {
       if (!data)
         return res.status(404).json('Could not create the dispensary record.');
 
-      console.log(
+      console.info(
         'successfully created dispensary location record: ',
         organization.name,
         ': ',
@@ -75,7 +75,7 @@ export default class LocationController {
         payload: data,
       });
     } catch (error: any) {
-      console.log('API error: ', error);
+      console.info('API error: ', error);
       res.status(500).json({ error });
     }
   }
@@ -97,7 +97,7 @@ export default class LocationController {
         payload: data,
       });
     } catch (error: any) {
-      console.log('API error: ', error);
+      console.info('API error: ', error);
       res.status(500).json({ error });
     }
   }
@@ -121,7 +121,7 @@ export default class LocationController {
         payload: data,
       });
     } catch (error: any) {
-      console.log('API error: ', error);
+      console.info('API error: ', error);
       res.status(500).json({ error });
     }
   }

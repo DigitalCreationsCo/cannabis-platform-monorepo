@@ -13,7 +13,7 @@ export async function getGeoCoordinatesFromAddress(
   const { street1, street2, city, state, country, zipcode, countryCode } =
     address;
   const addressString = `${street1} ${street2}, ${city}, ${state}, ${country}, ${zipcode}`;
-  console.log('getting coordinates for address: ', addressString);
+  console.info('getting coordinates for address: ', addressString);
   const coordinates = await getCoordinatesByAddressString(addressString);
   return coordinates;
 }
@@ -28,14 +28,14 @@ async function getCoordinatesByAddressString(addressString: string): Promise<{
       `${process.env.NEXT_PUBLIC_LOCATION_IQ_GEOCODE_URL}?key=${process.env.NEXT_PUBLIC_LOCATION_IQ_API_KEY}&q=${addressString}&format=${format}`
     );
 
-    console.log('geolocate response: ', response.data);
+    console.info('geolocate response: ', response.data);
 
     const { lat: latitude, lon: longitude } = response.data[0],
       coordinates = { latitude, longitude };
 
     return coordinates;
   } catch (error) {
-    console.log('Error getting coordinates: ', error);
+    console.info('Error getting coordinates: ', error);
     return null;
   }
 }
@@ -69,7 +69,7 @@ export async function getGeoAddressFromCoordinates(coordinates: {
 
     return formattedAddress;
   } catch (error) {
-    console.log('Error getting address using coordinates: ', error);
+    console.info('Error getting address using coordinates: ', error);
     return null;
   }
 }

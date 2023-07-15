@@ -25,9 +25,9 @@ export const shuffle = (array: any[]) => {
 export function dateToString(doc: any) {
   if (doc != null || doc != undefined) {
     Object.keys(doc).forEach((key) => {
-      // console.log("key pair: ", doc[key]);
+      // console.info("key pair: ", doc[key]);
       if (typeof doc[key] === 'object' && doc[key] !== null) {
-        // console.log("object found");
+        // console.info("object found");
         dateToString(doc[key]);
       }
       // if type is date

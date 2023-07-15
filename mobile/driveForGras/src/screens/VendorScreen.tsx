@@ -31,7 +31,7 @@
 
 //   // useEffect(() => {
 //   //   if (!vendor.productsFetched && vendor.products.length > 0) {
-//   //     console.log("dispatching action...");
+//   //     console.info("dispatching action...");
 //   //     dispatch(getProductsByVendor({ vendorId, index }));
 //   //   }
 //   // }, []);

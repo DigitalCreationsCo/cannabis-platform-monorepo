@@ -23,9 +23,9 @@ export default function middleware(req: NextRequest, res: ServerResponse) {
     let
         subdomain = req.headers.get('host')?.split('.')[0].split(':')[0] || 'localhost';
 
-    console.log('shopBaseUrl', appBaseUrl);
-    console.log('dashboardBaseUrl', dashboardBaseUrl);
-    console.log('subdomain', subdomain);
+    console.info('shopBaseUrl', appBaseUrl);
+    console.info('dashboardBaseUrl', dashboardBaseUrl);
+    console.info('subdomain', subdomain);
 
     const allowAllVisitors = [
         '/about-gras',
@@ -51,7 +51,7 @@ export default function middleware(req: NextRequest, res: ServerResponse) {
         url;
     switch (true) {
         case subdomain === 'www':
-            console.log('middleware detected: www')
+            console.info('middleware detected: www')
 
             url = req.nextUrl.clone();
             url.host = url.host.replace('www.', '');
@@ -59,7 +59,7 @@ export default function middleware(req: NextRequest, res: ServerResponse) {
             break;
 
         case subdomain === 'app':
-            console.log('middleware detected: app path')
+            console.info('middleware detected: app path')
             url = req.nextUrl.clone();
 
             // Prevent security issues – users should not be able to canonically access the pages/_stores folder and its respective contents.
@@ -73,7 +73,7 @@ export default function middleware(req: NextRequest, res: ServerResponse) {
             break;
 
         case (subdomain === 'localhost' || subdomain === 'grascannabis'):
-            console.log('middleware detected: shop path')
+            console.info('middleware detected: shop path')
             url = req.nextUrl.clone();
 
             // Prevent security issues – users should not be able to canonically access the pages/_stores folder and its respective contents.
@@ -111,7 +111,7 @@ export default function middleware(req: NextRequest, res: ServerResponse) {
             break;
 
         default:
-            console.log('middleware detected: storefront path')
+            console.info('middleware detected: storefront path')
             url = req.nextUrl.clone();
 
             // if path is not a root shop page, rewrite to storefront

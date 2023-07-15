@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 function debounce(func: Function, timeout: number = 300) {
-    let timer: NodeJS.Timeout ;
+    let timer: NodeJS.Timeout;
     return (...args: any) => {
         clearTimeout(timer);
         timer = setTimeout(() => {
@@ -10,7 +10,7 @@ function debounce(func: Function, timeout: number = 300) {
     };
 }
 function saveInput() {
-    console.log('Saving data');
+    console.info('Saving data');
 }
 const processChange = debounce(() => saveInput());
 

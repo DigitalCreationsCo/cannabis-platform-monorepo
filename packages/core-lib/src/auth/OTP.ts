@@ -81,7 +81,7 @@ async function handleOTPInput(otp: string): Promise<PasswordlessResponseWithUser
             userInputCode: otp
         });
 
-        console.log('handle otp input response: ', response);
+        console.info('handle otp input response: ', response);
 
         if (response.status === "OK") {
             // if (response.createdNewUser) {
@@ -140,7 +140,7 @@ async function handleOTPInputRaw(otp: string): Promise<PasswordlessResponseWithU
         let response = await axios.post(urlBuilder.main.submitOTP(),
             { userInputCode: otp });
 
-        console.log('handle otp input response: ', response);
+        console.info('handle otp input response: ', response);
         return response.data;
         // if (response.status === "OK") {
         //     // if (response.createdNewUser) {

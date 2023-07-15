@@ -16,11 +16,11 @@ Session Routes
 
 router.get('/', (req: SessionRequest, res) => {
     try {
-        // console.log(' 👋 backend get session here')
+        // console.info(' 👋 backend get session here')
         // let sessionData = Session.getSession(req, res);
-        // console.log('session data: ', sessionData)
+        // console.info('session data: ', sessionData)
 
-        // console.log('Session available?: ', req.session)
+        // console.info('Session available?: ', req.session)
         // return res.status(200).json({
         //     note: "Fetch any data from your application for authenticated user after using verifySession middleware",
         //     session: req.session.getSessionData(),
@@ -37,7 +37,7 @@ router.get('/', (req: SessionRequest, res) => {
         };
         return res.status(200).json({ session, user: session.user });
     } catch (error: any) {
-        console.log('API error: ', error);
+        console.info('API error: ', error);
         res.status(500).json({ error });
     }
 });
