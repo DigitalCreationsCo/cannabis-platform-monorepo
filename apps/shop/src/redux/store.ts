@@ -1,6 +1,7 @@
 /// @ts-nocheck
 
 import {
+  blogReducer,
   cartReducer,
   crashMiddleware,
   locationMiddleware,
@@ -22,7 +23,8 @@ const rootReducer = combineReducers({
   user: userReducer,
   location: locationReducer,
   shop: shopReducer,
-  cart: cartReducer
+  cart: cartReducer,
+  blog: blogReducer
 });
 
 const hydratableReducer = (state, action) => {
