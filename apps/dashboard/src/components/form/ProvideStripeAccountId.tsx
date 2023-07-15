@@ -40,7 +40,7 @@ function ProvideStripeAccountId() {
       setLoadingButton(false);
       nextFormStep();
     } catch (error: any) {
-      console.log('Provide Stripe Account Id Error: ', error);
+      console.info('Provide Stripe Account Id Error: ', error);
       toast.error(error.message);
       setLoadingButton(false);
     }
@@ -64,7 +64,7 @@ function ProvideStripeAccountId() {
         }
       );
 
-      console.log('response: ', response);
+      console.info('response: ', response);
 
       if (response.status === 404)
         throw new Error('The stripe account is not found.');
@@ -81,7 +81,7 @@ function ProvideStripeAccountId() {
         `Stripe account connected to ${formValues?.organization?.name}.`
       );
     } catch (error: any) {
-      console.log('Error getting stripe account: ', error);
+      console.info('Error getting stripe account: ', error);
 
       toast.error(error.message);
 
@@ -109,7 +109,7 @@ function ProvideStripeAccountId() {
         }
       );
 
-      console.log('response: ', response);
+      console.info('response: ', response);
 
       if (response.status === 302) {
         // allow form navigation using hash
@@ -132,7 +132,7 @@ function ProvideStripeAccountId() {
         `Stripe account connected to ${formValues?.organization?.name}.`
       );
     } catch (error: any) {
-      console.log('Error getting stripe account: ', error);
+      console.info('Error getting stripe account: ', error);
 
       setLoadingButton2(false);
 
@@ -157,7 +157,7 @@ function ProvideStripeAccountId() {
   function notifyValidation() {
     validateForm().then((errors) => {
       if (Object.values(errors).length > 0) {
-        console.log('validation errors: ', errors);
+        console.info('validation errors: ', errors);
         toast.error(Object.values(errors)[0].toString());
       }
     });

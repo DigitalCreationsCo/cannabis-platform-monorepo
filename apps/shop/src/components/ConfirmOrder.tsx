@@ -20,7 +20,7 @@ function ConfirmOrder() {
     const selectedLocation = useSelector(selectSelectedLocationState)
 
     useEffect(() => {
-        // console.log('simple Cart: ', simpleCart)
+        // console.info('simple Cart: ', simpleCart)
         if (simpleCart) dispatch(cartActions.saveSimpleCart(simpleCart) as unknown as AnyAction);
         
         removeCookie('gras-cart-token')

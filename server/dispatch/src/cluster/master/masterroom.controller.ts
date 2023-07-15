@@ -12,67 +12,67 @@ global.rooms = {};
 global.lastWorkerId = 0;
 
 class MasterRoomController {
-    
-    dispatchDataAccess: typeof DispatchDA | undefined;
-    
-    constructor() {
-      return (async () => {
-        this.dispatchDataAccess = DispatchDA;
-        this.initDispatchDataAccessModule()
-        // .then(() => 
-        // this.dispatchDataAccess.dispatchOrdersChangeStream);
-        
-      })() as unknown as MasterRoomController;
-      }
 
-      async initDispatchDataAccessModule () {
-        import('../../data-access')
-        .then(
-          async ({ default: DispatchDA }) => { this.dispatchDataAccess = await DispatchDA; }).then(() => {
-          
-            this.dispatchDataAccess?.dispatchOrdersChangeStream?.on("change", async (change: any) => {
+  dispatchDataAccess: typeof DispatchDA | undefined;
 
-            let 
-            order: OrderWithDetails = change.fullDocument;
+  constructor() {
+    return (async () => {
+      this.dispatchDataAccess = DispatchDA;
+      this.initDispatchDataAccessModule()
+      // .then(() => 
+      // this.dispatchDataAccess.dispatchOrdersChangeStream);
+
+    })() as unknown as MasterRoomController;
+  }
+
+  async initDispatchDataAccessModule() {
+    import('../../data-access')
+      .then(
+        async ({ default: DispatchDA }) => { this.dispatchDataAccess = await DispatchDA; }).then(() => {
+
+          this.dispatchDataAccess?.dispatchOrdersChangeStream?.on("change", async (change: any) => {
+
+            let
+              order: OrderWithDetails = change.fullDocument;
 
             switch (change.operationType) {
-              
+
               case "insert":
 
-              let
-              driver = order.driver;
-              
-              // handle new dispatch order
-              if (_.isEmpty(driver))
+                let
+                  driver = order.driver;
+
+                // handle new dispatch order
+                if (_.isEmpty(driver))
                   // get order
                   // select driver for order
                   // subscribe drivers to socket room
                   // determine the selected driver
                   // subscribe the selected driver to order socket room `delivery-<orderId>`
-                  // console.log("order inserted");
-              this.createSelectDriverRoom(order);
-              // else get socket id for driver, send to socket room for order.
+                  // console.info("order inserted");
+                  this.createSelectDriverRoom(order);
+                // else get socket id for driver, send to socket room for order.
 
-              break;
+                break;
 
               case "update":
-                
-              if (!order.driver)
-              console.log("pending Order needs assigned driver.");
-                  // ClusterInit.SendToWorker(
-                  //   global.lastWorkerId,
-                  //   "dispatch:SELECT_DRIVER",
-                  //   { order }
-                  // );
-              
-              break;
+
+                if (!order.driver)
+                  console.info("pending Order needs assigned driver.");
+                // ClusterInit.SendToWorker(
+                //   global.lastWorkerId,
+                //   "dispatch:SELECT_DRIVER",
+                //   { order }
+                // );
+
+                break;
 
               default:
-              console.log("unhandled dispatch change event: ", change.operationType);
+                console.info("unhandled dispatch change event: ", change.operationType);
             }
           });
         });
-      }
+  }
 
   // static SubscribeToRoom(
   //   _socketId,
@@ -109,13 +109,13 @@ class MasterRoomController {
   //       clients: {},
   //     };
   //     global.rooms[roomId].clients[_client.socketId] = _client;
-  //     console.log(
+  //     console.info(
   //       "MASTER: create new room " +
   //         roomId +
   //         " on worker " +
   //         global.lastWorkerId
   //     );
-  //     console.log("global rooms? ", global.rooms);
+  //     console.info("global rooms? ", global.rooms);
   //   });
   // }
 
@@ -138,9 +138,9 @@ class MasterRoomController {
   //     // _namespace,
   //     function (err) {
   //       if (err) {
-  //         console.log("Error MASTER: remote join client " + _socketId);
+  //         console.info("Error MASTER: remote join client " + _socketId);
   //       } else {
-  //         console.log("MASTER: client " + _socketId + " join in " + _roomId);
+  //         console.info("MASTER: client " + _socketId + " join in " + _roomId);
   //         _callback(client);
   //       }
   //     }
@@ -150,43 +150,43 @@ class MasterRoomController {
 
   async createSelectDriverRoom(order: OrderWithDetails) {
     try {
-      let { 
-        organization, 
+      let {
+        organization,
         id: orderId } = order,
-      _roomname = `select-driver:${orderId}`;
+        _roomname = `select-driver:${orderId}`;
 
-      // console.log(
+      // console.info(
       //   "data access: ",
       //   await this.dispatchDataAccess.findDriverIdsWithinRange(location)
       // );
-      // console.log(
+      // console.info(
       //   "selected drivers: ",
       //   await this.dispatchDataAccess.findDriverIdsWithinRange(location)
       // );
 
       let
-      coordinates = organization.address.coordinates;
+        coordinates = organization.address.coordinates;
 
-      const 
-      selectedDriverIds = await this.dispatchDataAccess?.findDriverIdsWithinRange(coordinates);
+      const
+        selectedDriverIds = await this.dispatchDataAccess?.findDriverIdsWithinRange(coordinates);
 
-      if (!selectedDriverIds) 
-      throw new Error("No drivers found within range.");
-      
-      const 
-      selectDriverSocketIdList = await connectClientController.getSocketsByDriverIds(selectedDriverIds);
-      
+      if (!selectedDriverIds)
+        throw new Error("No drivers found within range.");
+
+      const
+        selectDriverSocketIdList = await connectClientController.getSocketsByDriverIds(selectedDriverIds);
+
       // abstract this section VVV and this line above ^^^, 
       // and move into one function (findDriverIdsWithinRange), 
       // that can call recursively, with greater range each call.
       // then, return the selectDriverSocketIdList
-      
+
       if (selectDriverSocketIdList.length > 0)
-      this.joinRoom(_roomname, selectDriverSocketIdList);
-        
+        this.joinRoom(_roomname, selectDriverSocketIdList);
+
       else {
         // call again with greater range, until drivers are found.
-        // console.log("MASTER: " + process.pid + " dispatch order to 0 drivers ");
+        // console.info("MASTER: " + process.pid + " dispatch order to 0 drivers ");
         // possible recursive call here
       }
     } catch (error: any) {
@@ -196,37 +196,37 @@ class MasterRoomController {
   }
 
   async joinRoom(roomname: string, socketIdList: string[]) {
-    
+
     let
-    socketId;
-    
+      socketId;
+
     for (socketId of socketIdList) {
-      console.log("socket id to join: ", socketId);
-      console.log("room to join: ", roomname);
-      console.log("sockets to join room: ", await global.io);
-      
-      const 
-      socket = await global.io.sockets.sockets.get(socketId);
+      console.info("socket id to join: ", socketId);
+      console.info("room to join: ", roomname);
+      console.info("sockets to join room: ", await global.io);
+
+      const
+        socket = await global.io.sockets.sockets.get(socketId);
       // const socket = await global.io.of("/").adapter.sids.get(socketId);
-      
-      await 
-      socket?.join(roomname);
-      
+
+      await
+        socket?.join(roomname);
+
     }
   }
 
   static disconnectClientFromRoom(_client: Client) {
     if (!global.rooms[_client.roomId])
-    return;
-      
+      return;
+
     ClusterInit.SendToWorker(
-    global.rooms[_client.roomId].workerId,
-    "leaveUser",
-    _client
+      global.rooms[_client.roomId].workerId,
+      "leaveUser",
+      _client
     );
     this.deleteClientFromMasterRoom(_client);
 
-    console.log(`MASTER: client ${_client.socketId} was successfully disconnected from room ${_client.roomId}.`);
+    console.info(`MASTER: client ${_client.socketId} was successfully disconnected from room ${_client.roomId}.`);
   }
 
   static sendToWorker(_client: Client, _action: RoomAction, _data: any) {
@@ -242,12 +242,12 @@ class MasterRoomController {
     try {
 
       if (!global.rooms[_client.roomId])
-      throw new Error(`MASTER Error: room ${_client.roomId} does not exist.`)
+        throw new Error(`MASTER Error: room ${_client.roomId} does not exist.`)
 
       delete global.rooms[_client.roomId].clients[_client.socketId];
-      
+
     } catch (error: any) {
-      console.log('deleteClientFromMasterRoom error: ', error);
+      console.info('deleteClientFromMasterRoom error: ', error);
       throw new Error(error.message);
     }
   }
@@ -260,7 +260,7 @@ class MasterRoomController {
     try {
       await this.dispatchDataAccess?.addDriverToOrderRecord(orderId, driverId);
     } catch (error: any) {
-      console.log(error);
+      console.info(error);
       throw new Error(error.message);
     }
   }

@@ -87,10 +87,10 @@
 //   };
 
 //   const getDirections = () => {
-//     console.log("getting navigation directions... X");
+//     console.info("getting navigation directions... X");
 //   };
 //   const dialPhone = () => {
-//     console.log("dialing phone... X");
+//     console.info("dialing phone... X");
 //   };
 
 //   const DeliveryInfoComponent = (props) => {

@@ -15,7 +15,7 @@ export const getAddressByCoordinates = createAsyncThunk(
       const address = await getGeoAddressFromCoordinates(coordinates);
       return address;
     } catch (error) {
-      console.log('getAddressByCoordinates: ', error);
+      console.info('getAddressByCoordinates: ', error);
       return rejectWithValue('Could not get address');
     }
   }
@@ -56,9 +56,9 @@ export type AddressPayload = {
 export type LocationStateProps = {
   radius: number;
   selectLocationType:
-    | typeof locationTypes.HOME_LOCATION
-    | typeof locationTypes.CURRENT_LOCATION
-    | typeof locationTypes.GIFT_LOCATION;
+  | typeof locationTypes.HOME_LOCATION
+  | typeof locationTypes.CURRENT_LOCATION
+  | typeof locationTypes.GIFT_LOCATION;
   homeLocation: LocationType;
   currentLocation: LocationType;
   giftLocation: LocationType;
@@ -208,7 +208,7 @@ const locationSlice = createSlice({
         (state, { payload }) => {
           console.info('getAddressByCoordinates rejected');
           const error = payload;
-          console.log('getAddressByCoordinates error: ', error);
+          console.info('getAddressByCoordinates error: ', error);
           state.isLoading = false;
           state.isSuccess = false;
           state.isError = true;

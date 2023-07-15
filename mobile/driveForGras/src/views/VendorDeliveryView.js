@@ -18,8 +18,8 @@
 //   getDirections,
 //   dialPhone,
 // }) {
-//   console.log("vendor delivery view render");
-//   // console.log("remaining route: ", remainingRoute);
+//   console.info("vendor delivery view render");
+//   // console.info("remaining route: ", remainingRoute);
 //   const dispatch = useDispatch();
 //   const navigation = useNavigation();
 //   const currentCoordinates = useSelector(Selector.currentCoordinates);
@@ -36,7 +36,7 @@
 //   const moveToVendorLocation = () => {
 //     // move to dynamic vendor coordinates
 //     const coordinates = currentOrder[destinationType].location.coordinates;
-//     // console.log("coordinates to move: ", coordinates);
+//     // console.info("coordinates to move: ", coordinates);
 //     let geoLocation = {
 //       type: "Point",
 //       coordinates,

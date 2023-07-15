@@ -37,7 +37,7 @@ export const addItem = createAsyncThunk<ProductVariantWithDetails[], ProductVari
       const itemDispensaryAndCartDispensaryConflict =
         !(cart.order.organizationId === addItem[0].organizationId || cart.order.organizationId === "");
       if (itemDispensaryAndCartDispensaryConflict) {
-        console.log("item and cart dispensary conflict");
+        console.info("item and cart dispensary conflict");
         // const confirmAddToCart = await dispatch(
         //   modalActions.launchConfirmModal({
         //     modalType: modalTypes.confirmationModal,
@@ -45,12 +45,12 @@ export const addItem = createAsyncThunk<ProductVariantWithDetails[], ProductVari
         //   })
         // );
         // if (confirmAddToCart.payload) {
-        //   console.log("* clear cart state and add the new items");
+        //   console.info("* clear cart state and add the new items");
         //   await thunkAPI.dispatch(cartActions.clearCartState());
         //   NavigationService.goBack();
         //   return addingItem;
         // } else {
-        //   console.log("Dont add to cart -- do nothing");
+        //   console.info("Dont add to cart -- do nothing");
         //   return thunkAPI.rejectWithValue("user declined add to cart");
         // }
 
@@ -60,7 +60,7 @@ export const addItem = createAsyncThunk<ProductVariantWithDetails[], ProductVari
         return addItem;
       }
     } catch (error) {
-      console.log("add item to cart error: ", error);
+      console.info("add item to cart error: ", error);
       return rejectWithValue("item was not added to cart");
     }
   }
@@ -79,11 +79,11 @@ export const addItem = createAsyncThunk<ProductVariantWithDetails[], ProductVari
 //       });
 //       if (response.status === 200) {
 //         let data = await response.json();
-//         // console.log("orderVendor data? ", data);
+//         // console.info("orderVendor data? ", data);
 //         return data;
 //       }
 //     } catch (error) {
-//       console.log("A general error occured: addOrderVendor-", error);
+//       console.info("A general error occured: addOrderVendor-", error);
 //       thunkAPI.rejectWithValue(
 //         "A general error occured: addOrderVendor-",
 //         error
@@ -104,59 +104,59 @@ export const createOrderForCheckout = createAsyncThunk<OrderCreate, void>(
 
       const { dispensaries } = thunkAPI.getState().shop as ShopStateProps
 
-      let organization = 
-      dispensaries.find(d => d.id === cart.organizationId)
+      let organization =
+        dispensaries.find(d => d.id === cart.organizationId)
 
       if (!organization)
-      await axios.get(
-        urlBuilder.shop + `/api/organization/${cart.organizationId}`).then((result) => {
-          console.log('get org reesult: ', result)
-        organization = result.data as OrganizationWithShopDetails;
-      })
+        await axios.get(
+          urlBuilder.shop + `/api/organization/${cart.organizationId}`).then((result) => {
+            console.info('get org reesult: ', result)
+            organization = result.data as OrganizationWithShopDetails;
+          })
 
       if (!organization?.id)
-      throw new Error('Could not get your Dispensary details. Please try again.')
+        throw new Error('Could not get your Dispensary details. Please try again.')
 
-      const location = 
-      thunkAPI.getState().location as LocationStateProps
-      
-      const 
-      { selectLocationType } = location,
-      selectedLocation = location[selectLocationType] as LocationType
-      
-      const 
-      order:OrderCreate = {
-        id: createId(),
-        subtotal: cart.subTotal, 
-        total: cart.total, 
-        taxFactor: 0, 
-        taxAmount: 0,
-        orderStatus: 'Pending',
-        addressId: selectedLocation.address.id,
-        destinationAddress: selectedLocation.address,
-        customerId: user.id,
-        customer: user,
+      const location =
+        thunkAPI.getState().location as LocationStateProps
 
-        organizationId: cart.organizationId,
-        organization,
-        // should i contain the organization data in the order?
-        // yay: data is available for all clients (web, mobile, driver)
-        // if ( !dispensary is not found in state,) download the record from database, add it to redux state,
-        // add the record to the order, so we can see the dispensary during checkout. :)
-        // OR
-        // nay: server can get the data easily
-        
-        isDeliveredOrder: false,
-        isCustomerReceivedOrder: false,
-        isCompleted: false,
+      const
+        { selectLocationType } = location,
+        selectedLocation = location[selectLocationType] as LocationType
 
-        items: await processCartItemsForCheckout(cart.cart)
-      }
+      const
+        order: OrderCreate = {
+          id: createId(),
+          subtotal: cart.subTotal,
+          total: cart.total,
+          taxFactor: 0,
+          taxAmount: 0,
+          orderStatus: 'Pending',
+          addressId: selectedLocation.address.id,
+          destinationAddress: selectedLocation.address,
+          customerId: user.id,
+          customer: user,
+
+          organizationId: cart.organizationId,
+          organization,
+          // should i contain the organization data in the order?
+          // yay: data is available for all clients (web, mobile, driver)
+          // if ( !dispensary is not found in state,) download the record from database, add it to redux state,
+          // add the record to the order, so we can see the dispensary during checkout. :)
+          // OR
+          // nay: server can get the data easily
+
+          isDeliveredOrder: false,
+          isCustomerReceivedOrder: false,
+          isCompleted: false,
+
+          items: await processCartItemsForCheckout(cart.cart)
+        }
 
       return thunkAPI.fulfillWithValue(order);
-      
+
     } catch (error) {
-      // console.log("createOrderForCheckout error: ", error);
+      // console.info("createOrderForCheckout error: ", error);
       return thunkAPI.rejectWithValue(error.message);
     }
   }
@@ -195,7 +195,7 @@ export const createOrderForCheckout = createAsyncThunk<OrderCreate, void>(
 //       // remove products field from this vendor in backend
 //       const { products, rating, tag, ...vendor } = payload;
 //       if (payload.error) {
-//         console.log(
+//         console.info(
 //           "A general error occured retreiving vendor: addOrderVendor-",
 //           payload.error
 //         );
@@ -205,9 +205,9 @@ export const createOrderForCheckout = createAsyncThunk<OrderCreate, void>(
 //         );
 //       }
 //       const orderId = ObjectID().toString();
-//       console.log("new order Id? ", orderId);
-//       console.log("order vendor ? ", vendor);
-//       // console.log("order subtotal ? ", subTotal);
+//       console.info("new order Id? ", orderId);
+//       console.info("order vendor ? ", vendor);
+//       // console.info("order subtotal ? ", subTotal);
 //       return {
 //         order: {
 //           orderId,
@@ -218,7 +218,7 @@ export const createOrderForCheckout = createAsyncThunk<OrderCreate, void>(
 //         },
 //       };
 //     } catch (error) {
-//       console.log("A general error occured: createOrderForCheckout-", error);
+//       console.info("A general error occured: createOrderForCheckout-", error);
 //       thunkAPI.rejectWithValue(
 //         "A general error occured: createOrderForCheckout-",
 //         error
@@ -237,7 +237,7 @@ export const createOrderForCheckout = createAsyncThunk<OrderCreate, void>(
 //       // from a customer!
 
 //       const { order } = thunkAPI.getState().cart;
-//       // console.log("submitting order: ", order);
+//       // console.info("submitting order: ", order);
 //       let { orderId } = order;
 //       // create socket connection to dispatch server
 //       thunkAPI.dispatch(socketActions.startConnecting(orderId));
@@ -264,7 +264,7 @@ export const createOrderForCheckout = createAsyncThunk<OrderCreate, void>(
 //       // navigate to HomeScreen
 //       // NavigationService.navigate("HomeScreen");
 //     } catch (error) {
-//       console.log("A general error occured: submitOrder-", error);
+//       console.info("A general error occured: submitOrder-", error);
 //       thunkAPI.rejectWithValue("A general error occured: submitOrder-", error);
 //     }
 //   }
@@ -383,7 +383,7 @@ const cartSlice = createSlice({
   reducers: {
     saveSimpleCart: (state, { payload }: PayloadAction<SimpleCart>) => {
       const simpleCart = payload
-      console.log('simpleCart', simpleCart)
+      console.info('simpleCart', simpleCart)
       state.cart = simpleCart.cartItems;
       state.total = simpleCart.total;
       state.organizationId = simpleCart.organizationId
@@ -469,7 +469,7 @@ const cartSlice = createSlice({
       }),
       builder.addCase(addItem.rejected, (state, { payload }) => {
         const error = payload as string;
-        console.log('add item to cart error: ', error)
+        console.info('add item to cart error: ', error)
 
         state.isLoading = false;
         state.isSuccess = false;
@@ -502,11 +502,11 @@ const cartSlice = createSlice({
     // [addOrderVendor.rejected]: (state) => {},
 
     // [createOrderForCheckout.fulfilled]: (state, { payload }) => {
-    //   // console.log("checkout payload ? ", payload);
+    //   // console.info("checkout payload ? ", payload);
     //   const { order } = payload;
-    //   // console.log("created order for checkout ? ", order);
-    //   // console.log("created checkout order fulfilled");
-    //   // console.log("order customer ? ", order.customer);
+    //   // console.info("created order for checkout ? ", order);
+    //   // console.info("created checkout order fulfilled");
+    //   // console.info("order customer ? ", order.customer);
     //   state.order = order;
     // },
     // [createOrderForCheckout.pending]: (state) => {},
@@ -526,7 +526,7 @@ const cartSlice = createSlice({
 
 function countTotalItems(itemList: ProductVariantWithDetails[]) {
   const totalItems = itemList.reduce((sum, item) => sum + Number(item.quantity), 0);
-  console.log('count total items: ', totalItems)
+  console.info('count total items: ', totalItems)
   return totalItems;
 };
 
@@ -544,7 +544,7 @@ function getItemDiscountPrice(item: ProductVariantWithDetails) {
   else return item.basePrice
 }
 
-async function processCartItemsForCheckout (items: ProductVariantWithDetails[]) {
+async function processCartItemsForCheckout(items: ProductVariantWithDetails[]) {
   return items.map((item) => ({ ...item, salePrice: getItemDiscountPrice(item) }))
 }
 

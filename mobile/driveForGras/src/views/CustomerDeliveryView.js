@@ -18,7 +18,7 @@
 //   dialPhone,
 // }) {
 //   useEffect(() => {
-//     console.log(" DeliverOrderView currentOrder changed");
+//     console.info(" DeliverOrderView currentOrder changed");
 //   }, [currentOrder]);
 //   const navigation = useNavigation();
 //   const dispatch = useDispatch();
@@ -38,10 +38,10 @@
 
 //   // test func
 //   const moveToCustomerLocation = () => {
-//     console.log(" current order: ", currentOrder);
+//     console.info(" current order: ", currentOrder);
 //     let customerCoordinates =
 //       currentOrder[destinationType].location.geoLocation.coordinates;
-//     console.log(" customer coordinates: ", customerCoordinates);
+//     console.info(" customer coordinates: ", customerCoordinates);
 //     let geoLocation = {
 //       type: "Point",
 //       coordinates: customerCoordinates,
@@ -50,9 +50,9 @@
 //   };
 
 //   const arriveToCustomer = () => {
-//     // console.log("customer delivery view order: ", currentOrder);
+//     // console.info("customer delivery view order: ", currentOrder);
 //     let { orderId } = currentOrder;
-//     console.log("customer delivery view orderId: ", orderId);
+//     console.info("customer delivery view orderId: ", orderId);
 //     dispatch(socketActions.arriveToCustomer({ orderId }));
 //   };
 //   return (

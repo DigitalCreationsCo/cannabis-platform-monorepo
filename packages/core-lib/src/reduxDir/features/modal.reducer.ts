@@ -8,9 +8,9 @@ import { AppState, ThunkArgumentsType } from "../types/reduxTypes";
 // export type AsyncThunkAction = AsyncThunkAction<unknown, {}, {}>;
 // export type AllActions = AsyncThunkAction<unknown, {}, {}> & AnyAction;
 
-const launchConfirmModal = createAsyncThunk<boolean, modalActionPayload, {dispatch: Dispatch<AnyAction>; extra: ThunkArgumentsType}>(
+const launchConfirmModal = createAsyncThunk<boolean, modalActionPayload, { dispatch: Dispatch<AnyAction>; extra: ThunkArgumentsType }>(
   "modal/confirmModal",
-  async (modalProps, {dispatch, extra}) => {
+  async (modalProps, { dispatch, extra }) => {
     const store = extra.store;
     dispatch(modalActions.openModal(modalProps));
     return new Promise<boolean>((resolve) => {
@@ -29,7 +29,7 @@ const launchConfirmModal = createAsyncThunk<boolean, modalActionPayload, {dispat
   }
 );
 
-const launchSelectModalLocationType = createAsyncThunk<boolean, modalActionPayload, {dispatch: Dispatch<AnyAction>; extra: ThunkArgumentsType}>(
+const launchSelectModalLocationType = createAsyncThunk<boolean, modalActionPayload, { dispatch: Dispatch<AnyAction>; extra: ThunkArgumentsType }>(
   "modal/selectModalLocationType",
   async (modalProps, { dispatch, extra }) => {
     const store = extra.store;
@@ -39,7 +39,7 @@ const launchSelectModalLocationType = createAsyncThunk<boolean, modalActionPaylo
       const unsubscribe = store.subscribe(() => {
         const { selectedLocationType } =
           store.getState().user.user.locationData;
-        // console.log("location type in select modal action ? ", locationType);
+        // console.info("location type in select modal action ? ", locationType);
         const { isSelected } = store.getState().modal;
         if (isSelected && selectedLocationType) {
           unsubscribe();
@@ -51,7 +51,7 @@ const launchSelectModalLocationType = createAsyncThunk<boolean, modalActionPaylo
   }
 );
 
-const launchTipModal = createAsyncThunk<boolean, modalActionPayload, {dispatch: Dispatch<AnyAction>; extra: ThunkArgumentsType}>(
+const launchTipModal = createAsyncThunk<boolean, modalActionPayload, { dispatch: Dispatch<AnyAction>; extra: ThunkArgumentsType }>(
   "modal/launchTipModal",
   async (modalProps, { dispatch, extra }) => {
     dispatch(modalActions.openModal(modalProps));
@@ -61,7 +61,7 @@ const launchTipModal = createAsyncThunk<boolean, modalActionPayload, {dispatch: 
         const { isSelected } = store.getState().modal;
         if (isSelected) {
           const { tipPercentage } = store.getState().payment;
-          console.log(
+          console.info(
             "launch modal tip percentage from modal: ",
             tipPercentage
           );
@@ -87,7 +87,7 @@ export type ModalStateProps = {
   errorMessage: string
 }
 
-const initialState:ModalStateProps = {
+const initialState: ModalStateProps = {
   modalType: "SHOW_MODAL",
   modalVisible: false,
   modalText: "",
@@ -107,9 +107,9 @@ const modalSlice = createSlice({
   name: "modal",
   initialState,
   reducers: {
-    openModal: (state, { payload }: {payload: modalActionPayload} ) => {
-      console.log("modaltype: ", payload.modalType);
-      console.log("modalText: ", payload.modalText);
+    openModal: (state, { payload }: { payload: modalActionPayload }) => {
+      console.info("modaltype: ", payload.modalType);
+      console.info("modalText: ", payload.modalText);
       state.modalType = payload.modalType || state.modalType
       state.modalText = payload.modalText || state.modalText
       state.modalVisible = true;
@@ -140,20 +140,20 @@ const modalSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(launchConfirmModal.fulfilled, (state, { payload }) => {
-      console.log("confirm modal payload: ", payload);
+      console.info("confirm modal payload: ", payload);
     }),
-    builder.addCase(launchConfirmModal.pending, (state) => {}),
-    builder.addCase(launchConfirmModal.rejected, (state) => {}),
+      builder.addCase(launchConfirmModal.pending, (state) => { }),
+      builder.addCase(launchConfirmModal.rejected, (state) => { }),
 
-    builder.addCase(launchSelectModalLocationType.fulfilled, (state, { payload }) => {}),
-    builder.addCase(launchSelectModalLocationType.pending, (state) => {}),
-    builder.addCase(launchSelectModalLocationType.rejected, (state) => {}),
-    
-    builder.addCase(launchTipModal.fulfilled, (state, { payload }) => {
-      console.log("tip modal payload: ", payload);
-    }),
-    builder.addCase(launchTipModal.pending, (state) => {}),
-    builder.addCase(launchTipModal.rejected, (state) => {})
+      builder.addCase(launchSelectModalLocationType.fulfilled, (state, { payload }) => { }),
+      builder.addCase(launchSelectModalLocationType.pending, (state) => { }),
+      builder.addCase(launchSelectModalLocationType.rejected, (state) => { }),
+
+      builder.addCase(launchTipModal.fulfilled, (state, { payload }) => {
+        console.info("tip modal payload: ", payload);
+      }),
+      builder.addCase(launchTipModal.pending, (state) => { }),
+      builder.addCase(launchTipModal.rejected, (state) => { })
   },
 });
 
@@ -166,4 +166,4 @@ export const modalActions = {
 
 export const modalReducer = modalSlice.reducer;
 
-export const selectModalState = (state:AppState) => state.modal;
+export const selectModalState = (state: AppState) => state.modal;

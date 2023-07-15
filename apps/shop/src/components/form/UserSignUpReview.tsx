@@ -28,15 +28,15 @@ function UserSignUpReview () {
                 }
             });
 
-            console.log('form values: ', formValues)
-            console.log('form values stringify: ', JSON.stringify(formValues));
+            console.info('form values: ', formValues)
+            console.info('form values stringify: ', JSON.stringify(formValues));
             const response = await axios.post(
                 urlBuilder.shop + '/api/user', 
                 formValues?.newUser,
                 { validateStatus: status => (status >= 200 && status < 300) || status == 404 }
                 );
 
-                console.log('response data: ', response.data)
+                console.info('response data: ', response.data)
 
                 if (response.status !== 201)
                 throw new Error(response.data);
@@ -50,7 +50,7 @@ function UserSignUpReview () {
 
         }
         catch (error: any) {
-            console.log('User Create Error: ', error);
+            console.info('User Create Error: ', error);
             throw new Error(error.message);
             
             toast.error(error.message);
@@ -69,7 +69,7 @@ function UserSignUpReview () {
                 toast.success(TextContent.account.ACCOUNT_IS_CREATED);
             } 
             catch (error: any) {
-                console.log('User Create Error: ', error);
+                console.info('User Create Error: ', error);
                 toast.error(error.message);
             }
         }

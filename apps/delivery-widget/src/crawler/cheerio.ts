@@ -77,7 +77,7 @@ const cheerioCrawler = async () => {
       throw new Error('window is not available');
 
     const _url = window.location.href;
-    console.log('get url: ', _url);
+    console.info('get url: ', _url);
 
     const response = await fetch(_url, {
       headers: {
@@ -85,10 +85,10 @@ const cheerioCrawler = async () => {
           'Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile/12A4345d Safari/600.1.4',
       },
     });
-    console.log('response: ', response);
+    console.info('response: ', response);
 
     const html = await response.text();
-    console.log('html found: ', html);
+    console.info('html found: ', html);
 
     const $ = cheerio.load(html);
     const data = parseData('cart');
@@ -105,7 +105,7 @@ const cheerioCrawler = async () => {
 
     function parseCartHtml() {
       const _domain = getDispensaryDomain();
-      console.log('domain: ', _domain);
+      console.info('domain: ', _domain);
       // const cartItemSelector = getCartItemSelector()
       // const _cartItemHtml = $(cartItemSelector).get()
 
@@ -138,7 +138,7 @@ const cheerioCrawler = async () => {
         html: cheerio.AnyNode[],
         total: number
       ): SimpleCart {
-        console.log('create cart data input: ', html);
+        console.info('create cart data input: ', html);
         const cartItems: ProductVariantWithDetails[] = [];
 
         const cartData: SimpleCart = {
@@ -170,17 +170,17 @@ const cheerioCrawler = async () => {
             ],
           };
 
-          console.log('item created from parseHtml: ', _item);
+          console.info('item created from parseHtml: ', _item);
           cartData.cartItems.push(
             _item as unknown as ProductVariantWithDetails
           );
         });
-        console.log('cartData', cartData);
+        console.info('cartData', cartData);
         return cartData;
       }
     }
   } catch (error) {
-    console.log(error);
+    console.info(error);
     const cart: SimpleCart = {
       cartItems: [],
       total: 0,

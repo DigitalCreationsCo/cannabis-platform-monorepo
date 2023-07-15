@@ -1,5 +1,6 @@
 export * from '@prisma/client';
 export * from './address';
+export * from './article';
 export * from './category';
 export { default } from './db/prisma';
 export * from './driver';

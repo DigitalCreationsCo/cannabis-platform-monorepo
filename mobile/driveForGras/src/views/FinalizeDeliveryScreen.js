@@ -18,7 +18,7 @@
 //       let { orderId } = currentOrder;
 //       dispatch(socketActions.completeDeliveryOrder({ orderId }));
 //     } catch (err) {
-//       console.log(err);
+//       console.info(err);
 //     }
 //   };
 //   return (

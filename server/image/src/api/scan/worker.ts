@@ -51,7 +51,7 @@ class ImageWorker {
 }
 
 const imageParseWorker = createWorker({
-  // logger: (m) => console.log(m),
+  // logger: (m) => console.info(m),
 });
 const imageWorker = new ImageWorker(imageParseWorker);
 imageWorker.buildImageWorker();

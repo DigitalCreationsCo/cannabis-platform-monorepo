@@ -46,7 +46,7 @@ const socketMiddleware = (store: Store<AppState>) => {
     // if (open connection to dispatch)
     if (socketActions.openConnection.match(action)) {
 
-      console.log("socket_middleware: connecting to dispatch server");
+      console.info("socket_middleware: connecting to dispatch server");
 
 
       // GET JWT FROM ST SESSION, THEN SEND JWT TO DISPATCH SERVER
@@ -79,11 +79,11 @@ const socketMiddleware = (store: Store<AppState>) => {
         store.dispatch(socketActions.connectionEstablished());
         const id = await store.getState().driver.driver.id;
 
-        console.log('socket connect driverId: ', id);
+        console.info('socket connect driverId: ', id);
         _dispatch_socket_connection?.emit(SocketEvent.ClientConnect, {
           data: { userId: id },
         });
-        console.log(
+        console.info(
           "socket connection to dispatch server: socket id: ",
           _dispatch_socket_connection?.id
         );
@@ -92,9 +92,9 @@ const socketMiddleware = (store: Store<AppState>) => {
       // on new order event, save new order as incoming order
       _dispatch_socket_connection?.on(SocketEvent.NewOrder, ({ message, data }: SocketEventPayload<OrderWithDetails>) => {
 
-        console.log("new order event");
-        console.log("message: ", message);
-        console.log("order: ", data);
+        console.info("new order event");
+        console.info("message: ", message);
+        console.info("order: ", data);
         store.dispatch(
           socketActions.receiveNewOrderRequest({ message, data })
         );
@@ -133,7 +133,7 @@ const socketMiddleware = (store: Store<AppState>) => {
         getOrderSocket(orderId).emit(SocketEvent.DriverAdded, {
           data: { userId: driverId, orderId: orderId },
         });
-        console.log("you are assigned the order: ", message);
+        console.info("you are assigned the order: ", message);
         store.dispatch(socketActions.setMessage({ message }));
         store.dispatch(socketActions.orderAccepted({ newOrder }));
         store.dispatch(socketActions.clearOrderRequest());
@@ -144,7 +144,7 @@ const socketMiddleware = (store: Store<AppState>) => {
       _dispatch_socket_connection?.on(
         SocketEvent.OrderAssignedToAnotherDriver,
         ({ message }) => {
-          console.log("order assigned to another driver", message);
+          console.info("order assigned to another driver", message);
           store.dispatch(socketActions.setMessage({ message }));
           store.dispatch(socketActions.clearOrderRequest());
         }
@@ -152,14 +152,14 @@ const socketMiddleware = (store: Store<AppState>) => {
 
       // dispatch disconnnect event
       _dispatch_socket_connection?.on(SocketEvent.Disconnect, () => {
-        console.log("disconnecting from dispatch socket.");
+        console.info("disconnecting from dispatch socket.");
       });
 
     }
 
     // emit accept order event
     if (socketActions.acceptOrder.match(action)) {
-      console.log("accept order event");
+      console.info("accept order event");
       const { driverId } = store.getState().user.user;
       _dispatch_socket_connection?.emit(SocketEvent.AcceptOrder, {
         data: { userId: driverId },
@@ -191,7 +191,7 @@ const socketMiddleware = (store: Store<AppState>) => {
 
       for (socket of socketMap) {
 
-        console.log('socket: ', socket);
+        console.info('socket: ', socket);
 
         if (socket[0].startsWith("order:")) {
 
@@ -201,7 +201,7 @@ const socketMiddleware = (store: Store<AppState>) => {
 
           // on order socket connect
           _order_socket_connection.on(SocketEvent.Connection, () => {
-            console.log("socket connection for " + socketKey);
+            console.info("socket connection for " + socketKey);
           });
 
           // on get location event, emit location
@@ -214,7 +214,7 @@ const socketMiddleware = (store: Store<AppState>) => {
 
           // on message event
           _order_socket_connection.on(SocketEvent.Message, ({ type, message, data }) => {
-            console.log(
+            console.info(
               `Message Event: 
               type: ${type},
               message: ${message},
@@ -225,7 +225,7 @@ const socketMiddleware = (store: Store<AppState>) => {
           // on navigate event, change destination type for delivery
           _order_socket_connection.on(SocketEvent.Navigate, ({ type }) => {
             // receive navigation event for different stages of order delivery
-            console.log("navigation event: ", type);
+            console.info("navigation event: ", type);
             switch (type) {
               case NavigateEvent.ToVendor:
                 store.dispatch(socketActions.updateDestinationType("vendor"));
@@ -253,7 +253,7 @@ const socketMiddleware = (store: Store<AppState>) => {
             // and received by any clients listening in that order room
             next(action);
             const { geoLocation } = store.getState().user.user.location;
-            console.log("sending location share event");
+            console.info("sending location share event");
             let orderId = getOrderIdFromSocketKey(socketKey);
             _order_socket_connection.emit(SocketEvent.SendLocation, {
               data: { orderId: orderId, geoLocation },
@@ -264,9 +264,9 @@ const socketMiddleware = (store: Store<AppState>) => {
           // emit arrive event with a list of orderIds that match the vendorId
           // the order Ids are used on delivery to emit the event to the applicable order socket rooms
           if (socketActions.arriveToVendor.match(action)) {
-            console.log("middle arrive to vendor");
+            console.info("middle arrive to vendor");
             const { vendorId } = action.payload;
-            console.log("middleware arrive to vendor: ", vendorId);
+            console.info("middleware arrive to vendor: ", vendorId);
             // possible issue: this event is being emitted more than necessary to the socket rooms, and dispatch 
             // is handling the event more than is needed. ??
 
@@ -275,14 +275,14 @@ const socketMiddleware = (store: Store<AppState>) => {
             let ordersListMatchVendor = store
               .getState()
               .socket.remainingRoute.filter((order) => {
-                console.log(
+                console.info(
                   "vendorId match order? ",
                   order.vendor.vendorId === vendorId
                 );
                 return order.vendor.vendorId === vendorId;
               })
               .map((order) => order.orderId);
-            console.log(
+            console.info(
               "orderLists from vendor length: ",
               ordersListMatchVendor.length
             );
@@ -292,7 +292,7 @@ const socketMiddleware = (store: Store<AppState>) => {
                 type: NavigateEvent.ArriveToVendor,
                 data: { orderIdList: ordersListMatchVendor },
               });
-              console.log(
+              console.info(
                 "event: ",
                 SocketEvent.Navigate,
                 "type: ",
@@ -307,12 +307,12 @@ const socketMiddleware = (store: Store<AppState>) => {
             const { orderIdList } = action.payload;
             let orderId = getOrderIdFromSocketKey(socketKey);
             if (orderIdList.includes(orderId)) {
-              console.log("sending pickup product event");
+              console.info("sending pickup product event");
               _order_socket_connection.emit(SocketEvent.Navigate, {
                 type: NavigateEvent.PickupProduct,
                 data: { orderId: orderId },
               });
-              console.log(
+              console.info(
                 "event: ",
                 SocketEvent.Navigate,
                 "type: ",
@@ -329,7 +329,7 @@ const socketMiddleware = (store: Store<AppState>) => {
                 type: NavigateEvent.ArriveToCustomer,
                 data: { orderId: orderId },
               });
-              console.log(
+              console.info(
                 "event: ",
                 SocketEvent.Navigate,
                 "type: ",
@@ -340,12 +340,12 @@ const socketMiddleware = (store: Store<AppState>) => {
 
           // dispatch socket disconnect
           _dispatch_socket_connection?.on(SocketEvent.Disconnect, () => {
-            console.log(" 2 disconnecting from dispatch socket 2.");
+            console.info(" 2 disconnecting from dispatch socket 2.");
           });
 
           // order socket disconnect
           _order_socket_connection.on(SocketEvent.Disconnect, () => {
-            console.log("disconnecting from socket room: " + socketKey);
+            console.info("disconnecting from socket room: " + socketKey);
           });
 
           // old comment: handle middleware after the action is executed
@@ -358,7 +358,7 @@ const socketMiddleware = (store: Store<AppState>) => {
                 type: NavigateEvent.DeliverOrder,
                 data: { orderId: orderId },
               });
-              console.log(
+              console.info(
                 "event: ",
                 SocketEvent.Navigate,
                 "type: ",
@@ -366,12 +366,12 @@ const socketMiddleware = (store: Store<AppState>) => {
               );
             }
             const remainingRoute = store.getState().socket.remainingRoute;
-            console.log(
+            console.info(
               "middleWare remainingRoute length: ",
               remainingRoute.length
             );
             if (remainingRoute.length === 0) {
-              console.log("all orders completed!");
+              console.info("all orders completed!");
               store.dispatch(socketActions.ordersCompletedAll());
             }
             // next(action);
@@ -381,7 +381,7 @@ const socketMiddleware = (store: Store<AppState>) => {
           if (socketActions.closeConnection.match(action)) {
             try {
               if (_dispatch_socket_connection) {
-                console.log("closing dispatch socket connection");
+                console.info("closing dispatch socket connection");
                 _dispatch_socket_connection.close();
                 // _dispatch_socket_connection.destroy();
               }
@@ -390,7 +390,7 @@ const socketMiddleware = (store: Store<AppState>) => {
               store.dispatch(socketActions.connectionClosed());
               _dispatch_socket_connection = null;
             } catch (error) {
-              console.log("error closing connection: ", error);
+              console.info("error closing connection: ", error);
             }
           }
         } // is a orderSocket

@@ -29,8 +29,8 @@ function calcSalePrice(price: number, discount: number) {
  */
 function getCurrencySymbol(currency: any) {
     const currencySymbol = new Intl.NumberFormat('en', {
-      currency,
-      style: 'currency' 
+        currency,
+        style: 'currency'
     }).formatToParts(0).find(part => part.type === 'currency');
     return currencySymbol && currencySymbol.value;
 }
@@ -41,9 +41,9 @@ function getCurrencySymbol(currency: any) {
  * @returns converted dollar value with 2 decimal values
  */
 function convertCentsToDollars(cents: number) {
-    // console.log('cents: ', cents)
+    // console.info('cents: ', cents)
     const dollarValue = Number(((cents / 100) * 100) / 100);
-    // console.log('dollarValue: ', dollarValue.toFixed(2))
+    // console.info('dollarValue: ', dollarValue.toFixed(2))
     return dollarValue.toFixed(2);
     // V Beware: this statement interrupts React hydration
     // return number.toLocaleString(locale, { maximumFractionDigits: 2, minimumFractionDigits: 2 });
@@ -75,7 +75,7 @@ function calculateDeliveryFee(amount: number) {
 
     return amount;
 }
-    
+
 
 export {
     orderStatusList,

@@ -27,7 +27,7 @@ export default class DriverController {
 
       return res.status(201).json(data);
     } catch (error: any) {
-      console.log('API error: ', error);
+      console.info('API error: ', error);
       if (error.message.includes('This User exists already')) {
         return res.status(400).json({ error });
       } else res.status(500).json({ error });
@@ -45,7 +45,7 @@ export default class DriverController {
 
       return res.status(200).json(data);
     } catch (error: any) {
-      console.log('API error: ', error);
+      console.info('API error: ', error);
       res.status(500).json({ error });
     }
   }
@@ -59,7 +59,7 @@ export default class DriverController {
 
       return res.status(200).json(data);
     } catch (error: any) {
-      console.log('API error: ', error);
+      console.info('API error: ', error);
       res.status(500).json({ error: error.message });
     }
   }
@@ -83,7 +83,7 @@ export default class DriverController {
 
       return res.status(200).json(data);
     } catch (error: any) {
-      console.log('API error: ', error);
+      console.info('API error: ', error);
       res.status(500).json({ error: error.message });
     }
   }
