@@ -16,7 +16,7 @@ function BlogArticle ({ blog }: { blog: ArticleWithDetails }) {
 
 export async function getStaticPaths() {
     const 
-    response = await axios(urlBuilder.shop + 'api/blog');
+    response = await axios(urlBuilder.shop + '/api/blog');
 
     const
     blogs = response.data; 
@@ -28,7 +28,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }: { params: { id: string }} ) {
-    const response = await axios(urlBuilder.shop + `api/blog/${params.id}`)
+    const response = await axios(urlBuilder.shop + `/api/blog/${params.id}`)
     const
     blog = response.data;
     return { props: { blog } }

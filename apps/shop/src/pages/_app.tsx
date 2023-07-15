@@ -1,5 +1,5 @@
 /// @ts-nocheck
-import { shopActions } from "@cd/core-lib/src/reduxDir";
+import { blogActions, shopActions } from "@cd/core-lib/src/reduxDir";
 import { LayoutContextProps, LoadingPage, ModalProvider, ToastProvider } from "@cd/ui-lib";
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
@@ -60,6 +60,7 @@ function App({ Component, ...rest }: CustomAppProps) {
         !store.getState().shop.isLoading && 
             store.getState().shop.dispensaries.length === 0 && 
             store.dispatch(shopActions.getInitialDispensaries() as AppThunk);
+            store.dispatch(blogActions.getLatestNews());
     }, [])
     
     return (

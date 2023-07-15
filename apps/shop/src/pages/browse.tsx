@@ -1,8 +1,9 @@
 import { TextContent } from '@cd/core-lib';
 import {
+  selectBlogState,
   selectSelectedLocationState,
   selectShopState,
-  selectUserState,
+  selectUserState
 } from '@cd/core-lib/src/reduxDir';
 import {
   Carousel,
@@ -11,22 +12,22 @@ import {
   H3,
   H4,
   LayoutContextProps,
-  Page,
+  Page
 } from '@cd/ui-lib';
 import InfoCard from 'components/InfoCard';
 import { StaticImageData } from 'next/image';
 import { PropsWithChildren, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
-import { _infoCardMockData } from 'uat/infoCardMock';
 import { DispensaryCard } from '../components';
 import backdrop from '/public/marijuana-backdrop.png';
-export default function MarketPlace({ host }: { host: string }) {
-  const { dispensaries, isLoading, isError, isSuccess } =
-    useSelector(selectShopState);
-  const selectedLocation = useSelector(selectSelectedLocationState);
 
+export default function MarketPlace({ host }: { host: string }) {
+
+  const { dispensaries, isLoading, isError, isSuccess } = useSelector(selectShopState);
+  const selectedLocation = useSelector(selectSelectedLocationState);
   const { user } = useSelector(selectUserState);
+  const { news } = useSelector(selectBlogState);
 
   const styles = {
     responsiveHeading: [
@@ -55,8 +56,8 @@ export default function MarketPlace({ host }: { host: string }) {
           Component={InfoCard}
           title={'Gras is now delivering in Baltimore!'}
           titleSize="lg"
-          data={_infoCardMockData}
-          dataKey="dispensary"
+          data={news}
+          dataKey="news"
           autoplaySpeed={5000}
         />
 

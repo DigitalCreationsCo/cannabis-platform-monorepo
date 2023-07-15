@@ -2077,7 +2077,6 @@ const createArticles = async () => {
       tag: "news",
       image: {
         create: {
-          id: '1',
           location:
             'https://greenstocknews.com/images/placeholder/cannabis/medicinal/md1.jpg',
           blurhash: '',
@@ -2099,7 +2098,6 @@ const createArticles = async () => {
       tag: "news",
       image: {
         create: {
-          id: '2',
           location:
             'https://img.freepik.com/premium-photo/delivery-person-holding-parcel-with-food-delivery-against-yellow-surface_93675-111653.jpg',
           blurhash: 'LTMrO.]mvO11}9FZNer_M#odXRnj',
@@ -2121,7 +2119,6 @@ const createArticles = async () => {
       tag: "news",
       image: {
         create: {
-          id: '3',
           location:
             'https://gras-dispensary-images.us-southeast-1.linodeobjects.com/loveweed.png',
           blurhash: 'LTMrO.]mvO11}9FZNer_M#odXRnj',

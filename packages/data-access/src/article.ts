@@ -31,7 +31,7 @@ export async function findArticleById(id: string): Promise<ArticleWithDetails | 
                 image: true
             },
         })
-        return article
+        return article as ArticleWithDetails
     } catch (error: any) {
         console.error(error)
         throw new Error(error)
@@ -46,7 +46,7 @@ export async function createArticle(article: Prisma.ArticleCreateInput): Promise
                 image: true
             },
         })
-        return _article
+        return _article as ArticleWithDetails
     } catch (error: any) {
         console.error(error)
         throw new Error(error)
@@ -83,4 +83,4 @@ export async function deleteArticle(id: string) {
     }
 }
 
-export type ArticleWithDetails = Article & { image: ImageArticle | null }
+export type ArticleWithDetails = Article & { image: ImageArticle }
