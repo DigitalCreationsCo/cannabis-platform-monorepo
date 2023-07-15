@@ -12,7 +12,7 @@ Blog Routes
 
 ================================= */
 
-router.route('/').get(blogCtrl.getLatestBlogs);
+router.route('/').get(blogCtrl.getLatestNews);
 router.route('/').post(blogCtrl.createBlog);
 router.route('/:id').get(blogCtrl.getBlogById);
 router.route('/:id').delete(blogCtrl.deleteBlogById);

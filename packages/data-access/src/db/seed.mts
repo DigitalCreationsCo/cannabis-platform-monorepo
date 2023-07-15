@@ -2074,7 +2074,7 @@ const createArticles = async () => {
       href: '12345',
       content: "",
       author: "",
-      tags: ['news', 'dispensary'],
+      tag: "news",
       image: {
         create: {
           id: '1',
@@ -2095,8 +2095,8 @@ const createArticles = async () => {
       description: 'Delivery By Our Trained Delivery Team',
       href: '123457',
       content: "",
-      tags: ['news'],
       author: "",
+      tag: "news",
       image: {
         create: {
           id: '2',
@@ -2117,8 +2117,8 @@ const createArticles = async () => {
       description: 'Sign Up Your Dispensary for Home Delivery',
       href: '12377456',
       content: "",
-      tags: ['news'],
       author: "",
+      tag: "news",
       image: {
         create: {
           id: '3',
@@ -2142,6 +2142,7 @@ const createArticles = async () => {
       description: article.description,
       href: article.href,
       content: article.content,
+      tag: article.tag,
       author: article.author,
       createdAt: article.createdAt,
       updatedAt: article.updatedAt,

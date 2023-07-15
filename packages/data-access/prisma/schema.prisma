@@ -580,7 +580,7 @@ model Article {
   description String @db.Text
   href        String
   image       ImageArticle?
-  tags        ArticleType[]
+  tag         ArticleType
   content     String
   author      String
 
