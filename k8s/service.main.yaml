@@ -45,6 +45,24 @@ spec:
           ports:
             - name: main-port
               containerPort: 6001
+
+          livenessProbe:
+            httpGet:
+              path: /api/v1/healthcheck
+              port: http
+            failureThreshold: 2
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            timeoutSeconds: 3
+
+          readinessProbe:
+            httpGet:
+              path: /api/v1/healthcheck
+              port: http
+            failureThreshold: 2
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            timeoutSeconds: 3
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
