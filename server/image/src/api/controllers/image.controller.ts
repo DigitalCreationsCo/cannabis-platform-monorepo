@@ -31,7 +31,7 @@ export default class ImageController {
         const
           { isLegalAge, scannedDOB } = await ImageDAO.checkLegalAgeFromIdImage(idFrontImage.buffer);
 
-        uploadedImages = await uploadImageToS3ObjectStore(images, process.env.ID_VERIFY_BUCKET_NAME);
+        uploadedImages = await uploadImageToS3ObjectStore(images, process.env.ID_VERIFY_BUCKET);
         isUploaded = true;
 
 
