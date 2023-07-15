@@ -580,6 +580,7 @@ model Article {
   description String @db.Text
   href        String
   image       ImageArticle?
+  tags        ArticleType[]
   content     String
   author      String
 
@@ -587,6 +588,12 @@ model Article {
   updatedAt DateTime @updatedAt
   @@index([id])
   @@index([title])
+}
+
+enum ArticleType {
+  dispensary
+  driver
+  news
 }
 
 model all_auth_recipe_users {
