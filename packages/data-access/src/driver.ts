@@ -51,6 +51,7 @@ export async function createDriver(userData: DriverCreateType) {
                             id: userData.id
                         },
                         create: {
+                            email: userData.email,
                         },
                     }
                 }
@@ -118,7 +119,7 @@ export async function updateDriver(userData: UserCreateType) {
             }
         })
 
-        console.log('user updated: ', user.email)
+        console.info('user updated: ', user.email)
         return user;
     } catch (error: any) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {

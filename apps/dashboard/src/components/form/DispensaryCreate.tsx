@@ -70,7 +70,7 @@ function DispensaryCreate() {
 
       toast.success('Dispensary Info is uploaded successfully.');
     } catch (error: any) {
-      console.log('Error getting Dispensary: ', error);
+      console.info('Error getting Dispensary: ', error);
       throw new Error('The Dispensary is not uploaded. Please try again.');
     }
   };
@@ -84,7 +84,7 @@ function DispensaryCreate() {
       await updateDispensaryRecord();
       nextFormStep();
     } catch (error: any) {
-      console.log('Dispensary Account Error: ', error);
+      console.info('Dispensary Account Error: ', error);
       toast.error(error.message);
       setLoadingButton(false);
     }
@@ -107,7 +107,7 @@ function DispensaryCreate() {
   function notifyValidation() {
     validateForm().then((errors) => {
       if (Object.values(errors).length > 0) {
-        console.log('validation errors: ', errors);
+        console.info('validation errors: ', errors);
         toast.error(Object.values(errors)[0].toString());
       }
     });

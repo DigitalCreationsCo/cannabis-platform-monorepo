@@ -82,7 +82,7 @@
 //   );
 
 //   const orderIdList = ordersMatchCurrentVendor.map((order) => order.orderId);
-//   console.log("pickup order view orderIdList: ", orderIdList);
+//   console.info("pickup order view orderIdList: ", orderIdList);
 
 //   const isPickedUpState = ordersMatchCurrentVendor.map(
 //     (order) => (order.isPickedUp = false)

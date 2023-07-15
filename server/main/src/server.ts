@@ -41,7 +41,7 @@ app.use('/api/v1/driver', driver);
 
 // app.get('/api/v1/session', verifySession(), async (req:SessionRequest, res) => {
 //     try{
-//         console.log('session route')
+//         console.info('session route')
 //         // const session = {
 //         //     user: {
 //         //         username: 'kbarnes',
@@ -56,19 +56,19 @@ app.use('/api/v1/driver', driver);
 //         //     sessionData: await session.getSessionData(),
 //         //   });s
 //         const _session =  req.session;
-//         console.log(_session)
+//         console.info(_session)
 //         const sessionFromDb = await SessionDA.getSession(_session.getHandle());
-//         console.log('session from db: ', sessionFromDb)
+//         console.info('session from db: ', sessionFromDb)
 //         const { user, ...session } = sessionFromDb;
 //         res.status(200).json({ status: true, session: {session}, user });
 //     } catch (error: any) {
-//         console.log('API error: ', error);
+//         console.info('API error: ', error);
 //         // if (error.type === Session.Error.TRY_REFRESH_TOKEN) {
-//         //     console.log('try refresh token error: ', error);
+//         //     console.info('try refresh token error: ', error);
 //         //     return res.status(200).json({ status: false, error });
 //         //     // return { props: { fromSupertokens: 'needs-refresh' } }
 //         // } else if (error.type === Session.Error.UNAUTHORISED) {
-//         //     console.log('unauthorized error: ', error)
+//         //     console.info('unauthorized error: ', error)
 //         //     return res.status(200).json({ status: false, error });
 //         // }
 //         res.status(200).json({ status: false, error });

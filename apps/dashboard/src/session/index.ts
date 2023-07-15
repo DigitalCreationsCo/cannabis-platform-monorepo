@@ -20,7 +20,7 @@ export async function getSession({ req, res }: { req: any; res: any }): Promise<
             return data;
         } else throw new Error(data.error);
     } catch (error: any) {
-        console.log('get session error: ', error);
+        console.info('get session error: ', error);
         throw new Error(error.message);
     }
 }

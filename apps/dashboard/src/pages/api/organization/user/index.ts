@@ -33,22 +33,22 @@ handler.get(async (req, res: NextApiResponse) => {
 // create a user record
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     try {
-        const {user, dispensaryId, role}: {user: UserCreateType, role: "ADMIN" | "OWNER", dispensaryId: string; }
-         = req.body;
-        
-         console.log('dispensaryId: ', dispensaryId)
+        const { user, dispensaryId, role }: { user: UserCreateType, role: "ADMIN" | "OWNER", dispensaryId: string; }
+            = req.body;
+
+        console.info('dispensaryId: ', dispensaryId)
         let response = await axios.post(
-            urlBuilder.main.admin(), 
-            { user, role, dispensaryId }, 
-        {
-            headers: { 'Content-Type': 'application/json' },
-            validateStatus: status => true
-        });
-        
+            urlBuilder.main.admin(),
+            { user, role, dispensaryId },
+            {
+                headers: { 'Content-Type': 'application/json' },
+                validateStatus: status => true
+            });
+
         return res.status(response.status).json(response.data);
-    
+
     } catch (error: any) {
-        console.log('next api create admin user error: ', error.message)
+        console.info('next api create admin user error: ', error.message)
         throw new Error(error.message)
     }
 });
@@ -63,7 +63,7 @@ handler.put(async (req, res: NextApiResponse) => {
         //         'Content-Type': 'application/json'
         //     }
         // });
-        
+
         // return res.status(res.statusCode).json(response.data);
 
     } catch (error: any) {

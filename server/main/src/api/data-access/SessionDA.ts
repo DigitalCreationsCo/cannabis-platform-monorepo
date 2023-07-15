@@ -12,11 +12,11 @@ deleteSession
 ================================= */
 
 export default class SessionDA {
-    static async getSession(handle:string) {
+    static async getSession(handle: string) {
         try {
             const data = await findSessionByHandle(handle);
             return data;
-        } catch (error:any) {
+        } catch (error: any) {
             console.error(error);
             throw new Error(error);
         }
@@ -24,31 +24,31 @@ export default class SessionDA {
 
     static async createUserSession(sessionHandle: string, sessionPayload: SessionPayload, expires: number) {
         try {
-            console.log('creating user session for user: ', sessionPayload)
+            console.info('creating user session for user: ', sessionPayload)
             const session = await createSession(sessionHandle, sessionPayload, expires)
             return session;
-        } catch (error:any) {
+        } catch (error: any) {
             console.error(error.message);
             throw new Error(error);
         }
     }
 
-    static async updateExpireSession(handle:string, expires: number) {
+    static async updateExpireSession(handle: string, expires: number) {
         try {
-            console.log('updating session expire for session: ', handle, expires)
+            console.info('updating session expire for session: ', handle, expires)
             const data = await updateExpireSession(handle, expires);
             return data;
-        } catch (error:any) {
+        } catch (error: any) {
             console.error(error);
             throw new Error(error);
         }
     }
 
-    static async deleteSession(handle:string) {
+    static async deleteSession(handle: string) {
         try {
             const data = await deleteSessionByHandle(handle);
             return data;
-        } catch (error:any) {
+        } catch (error: any) {
             console.error(error);
             throw new Error(error);
         }

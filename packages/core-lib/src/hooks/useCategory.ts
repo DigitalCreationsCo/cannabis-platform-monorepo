@@ -35,7 +35,7 @@ export default function useCategory() {
         getCategories();
     }, []);
 
-    // console.log('categoryList ', categoryList);
+    // console.info('categoryList ', categoryList);
 
     const doSearchCategories = debounce(async (event: any) => {
         // if (categoryList.length === 0) {

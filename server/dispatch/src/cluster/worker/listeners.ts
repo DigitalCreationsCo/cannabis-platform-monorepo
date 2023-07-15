@@ -6,12 +6,12 @@ import { ClusterMessage } from "types";
 class WorkerListeners {
   constructor() {
     process.on("message", (_msg: ClusterMessage) => {
-      console.log("message: ", _msg);
+      console.info("message: ", _msg);
       let { roomId, clients, order } = _msg.data;
       let client;
       switch (_msg.action) {
         case "test":
-          console.log("room on worker redis test: ", global.rooms);
+          console.info("room on worker redis test: ", global.rooms);
           break;
         // case "dispatch:SELECT_DRIVER":
         //   WorkerRoomsControl.CreateSelectDriverRoom(order);

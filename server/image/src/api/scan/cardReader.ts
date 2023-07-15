@@ -199,11 +199,11 @@ export default class IdCardReader {
 
 //   const dobRegex = /([DOB]+\S\s\d+)/g;
 //   const dobString = text.match(dobRegex).toString().split(" ")[1].split("");
-//   console.log("dob string: ", dobString);
+//   console.info("dob string: ", dobString);
 //   dobString[2] = "-";
 //   dobString[5] = "-";
 //   dobString.join("");
-//   console.log("dob string: ", dobString);
+//   console.info("dob string: ", dobString);
 //   return { text };
 // } catch (error) {
 //   return { error };

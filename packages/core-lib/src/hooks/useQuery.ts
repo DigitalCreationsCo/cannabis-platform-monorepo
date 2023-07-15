@@ -18,7 +18,7 @@ export default function useQuery({ url }: { url: string }) {
                 setStatusText(statusText);
             })
             .catch((error) => {
-                console.log(' useQuery error: ', error);
+                console.info(' useQuery error: ', error);
                 // setStatusText();
                 // setStatusCode();
             });

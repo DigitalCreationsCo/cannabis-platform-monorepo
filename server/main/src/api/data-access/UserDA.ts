@@ -45,7 +45,7 @@ export default class UserDA {
     // static async signout(session: SessionContainer) {
     //     try {
     //         await session.revokeSession()
-    //         console.log(`session ${session.getUserId()} is revoked.`)
+    //         console.info(`session ${session.getUserId()} is revoked.`)
     //     } catch (error:any) {
     //         console.error(error.message);
     //         throw new Error('Logout failed.');
@@ -185,7 +185,7 @@ export default class UserDA {
         try {
             const user = await updateUser(createUserData)
 
-            console.log(`updated user ${user.id}`)
+            console.info(`updated user ${user.id}`)
 
             return user
         } catch (error: any) {

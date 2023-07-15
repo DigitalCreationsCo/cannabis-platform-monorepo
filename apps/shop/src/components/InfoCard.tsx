@@ -1,5 +1,5 @@
 import { formatBlogUrl } from '@cd/core-lib';
-import { Article } from '@cd/data-access';
+import { ArticleWithDetails } from '@cd/data-access';
 import { Card, FlexBox, H3, Paragraph } from '@cd/ui-lib';
 import Link from 'next/link';
 import { PropsWithChildren } from 'react';
@@ -7,7 +7,7 @@ import { twMerge } from 'tailwind-merge';
 import logo from '../../public/logo.png';
 
 type InfoCardProps = {
-  data: Article;
+  data: ArticleWithDetails;
   loading?: boolean;
   className?: string | string[];
 };

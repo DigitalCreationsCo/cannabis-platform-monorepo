@@ -18,13 +18,13 @@ handler.get(async (req: ExtendRequest, res: NextApiResponse) => {
         const organizationId = user?.memberships?.[0]?.organizationId;
         req.organizationId = organizationId;
         if (cache.has('categories')) {
-            console.log('cache found');
+            console.info('cache found');
             const categories = cache.get('categories');
             return res.status(200).json(categories);
         }
         const { data } = await axios(urlBuilder.main.categoryList(organizationId));
         cache.set('categories', data);
-        console.log('setting cache');
+        console.info('setting cache');
         return res.status(res.statusCode).json(data);
     } catch (error: any) {
         // throw new error to handle any error discrepancy between frontend and next api

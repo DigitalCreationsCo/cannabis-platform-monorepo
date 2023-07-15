@@ -56,11 +56,11 @@ import { locationActions } from './location.reducer';
 //         await SecureStore.setItemAsync(
 //           "authentication",
 //           serializedUserData
-//         ).catch((err) => console.log(err));
+//         ).catch((err) => console.info(err));
 //         // if (storage) {
-//         //   console.log("token stored in local storage: ", storage);
+//         //   console.info("token stored in local storage: ", storage);
 //         // } else {
-//         //   console.log("No values stored under that key.");
+//         //   console.info("No values stored under that key.");
 //         // }
 
 //         // how will the secure storage work to log a user in, ??
@@ -117,34 +117,34 @@ import { locationActions } from './location.reducer';
 //   }
 // );
 
-export const signinUserAsyncEmailPassword = createAsyncThunk<UserWithDetails, {email: string; password: string}, { 
+export const signinUserAsyncEmailPassword = createAsyncThunk<UserWithDetails, { email: string; password: string }, {
   // dispatch: Dispatch<AnyAction>; 
-  extra: ThunkArgumentsType 
+  extra: ThunkArgumentsType
 }>(
   "user/signinUserAsyncEmailPassword",
-  async ({ email, password }, {dispatch, extra, rejectWithValue}) => {
+  async ({ email, password }, { dispatch, extra, rejectWithValue }) => {
     const { signIn } = extra.supertokens;
     try {
       const response = await signIn({
         formFields: [
-            {
-                id: 'email',
-                value: email
-            },
-            {
-                id: 'password',
-                value: password
-            }
+          {
+            id: 'email',
+            value: email
+          },
+          {
+            id: 'password',
+            value: password
+          }
         ]
-    });
-    if (response.status === 'WRONG_CREDENTIALS_ERROR') {
+      });
+      if (response.status === 'WRONG_CREDENTIALS_ERROR') {
         // toast.error('Email or Password is incorrect.');
-    }
-    if (response.status === 'OK') {
+      }
+      if (response.status === 'OK') {
         // await SecureStore.setItemAsync(
         //   "authentication",
         //   serializedUserData
-        // ).catch((err) => console.log(err));
+        // ).catch((err) => console.info(err));
 
         if (response.user.address !== undefined && Array.isArray(response.user.addresss)) {
           response.user.address.forEach(address => dispatch(locationActions.addAddress(response.user.address)))
@@ -152,8 +152,8 @@ export const signinUserAsyncEmailPassword = createAsyncThunk<UserWithDetails, {e
         window.location.href = '/';
         // toast.success('Signed in', { duration: 5000 });
         return response.user
-    }
-        
+      }
+
     } catch (error) {
       return rejectWithValue("signin error: " + error);
     }
@@ -165,7 +165,7 @@ const signOutUserAsync = createAsyncThunk<void, void, {
   extra: ThunkArgumentsType
 }>(
   "user/signOutUserAsync",
-  async (_, {dispatch, extra, rejectWithValue}) => {
+  async (_, { dispatch, extra, rejectWithValue }) => {
     try {
 
       const { signOut } = extra.supertokens;
@@ -199,7 +199,7 @@ const signOutUserAsync = createAsyncThunk<void, void, {
 //         let data = await response.json();
 
 //         await SecureStore.deleteItemAsync("authentication").catch((err) =>
-//           console.log(err)
+//           console.info(err)
 //         );
 //         return;
 //       }
@@ -226,7 +226,7 @@ export type UserStateProps = {
   errorMessage: string;
 }
 
-const initialState:UserStateProps = {
+const initialState: UserStateProps = {
   token: "",
   user: {
     id: "",
@@ -250,10 +250,10 @@ const initialState:UserStateProps = {
     phone: '',
     orders: [],
     // preferences: {},
-    emailVerified: false, 
+    emailVerified: false,
     isLegalAge: null,
     idVerified: false,
-    passwordHash: '', 
+    passwordHash: '',
     passwordResetToken: '',
     termsAccepted: false
   },
@@ -268,18 +268,18 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    signinUserSync: ((state, {payload}: {payload: UserWithDetails }) => {
+    signinUserSync: ((state, { payload }: { payload: UserWithDetails }) => {
 
-      console.log('signinUserSync payload', payload)
-      
+      console.info('signinUserSync payload', payload)
+
       const user = pruneData(payload, ['timeJoined', 'createdAt', 'updatedAt'])
       state.user = user;
-      
+
       state.isSignedIn = true;
       state.isLoading = false;
       state.isSuccess = true;
       state.isError = false;
-      
+
     }),
     clearState: (state) => {
       state.isError = false;
@@ -298,7 +298,7 @@ export const userSlice = createSlice({
 
     //   state.user = payload.info;
     //   state.token = payload.auth_token;
-    //   // console.log("signup payload ", payload);
+    //   // console.info("signup payload ", payload);
     // }),
     // builder.addCase(signupUser.pending, (state) => {
     //   state.isFetching = true;
@@ -314,7 +314,7 @@ export const userSlice = createSlice({
     builder.addCase(signinUserAsyncEmailPassword.fulfilled, (state, { payload }) => {
       const user = payload
       if (user !== undefined) {
-        state.user = {...state.user, ...user}
+        state.user = { ...state.user, ...user }
       }
       state.isLoading = false;
       state.isSignedIn = true;
@@ -322,25 +322,25 @@ export const userSlice = createSlice({
       state.isError = false
       state.errorMessage = ""
     }),
-    builder.addCase(signinUserAsyncEmailPassword.pending, (state) => {
-      state.isLoading = true;
-    }),
-    builder.addCase(signinUserAsyncEmailPassword.rejected, (state, { payload }) => {
-      state.isLoading = false;
-      state.isError = true;
-      state.errorMessage = payload as string
-    }),
+      builder.addCase(signinUserAsyncEmailPassword.pending, (state) => {
+        state.isLoading = true;
+      }),
+      builder.addCase(signinUserAsyncEmailPassword.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.errorMessage = payload as string
+      }),
 
-    builder.addCase(signOutUserAsync.fulfilled, () => initialState),
-    builder.addCase(signOutUserAsync.pending, (state) => {
-      state.isLoading = true;
-    }),
-    builder.addCase(signOutUserAsync.rejected, (state, { payload }) => {
-      state.isSuccess = false;
-      state.isLoading = false;
-      state.isError = true;
-      state.errorMessage = payload as string
-    })
+      builder.addCase(signOutUserAsync.fulfilled, () => initialState),
+      builder.addCase(signOutUserAsync.pending, (state) => {
+        state.isLoading = true;
+      }),
+      builder.addCase(signOutUserAsync.rejected, (state, { payload }) => {
+        state.isSuccess = false;
+        state.isLoading = false;
+        state.isError = true;
+        state.errorMessage = payload as string
+      })
   }
 });
 

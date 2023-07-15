@@ -52,14 +52,14 @@ const MapScreen = () => {
   useEffect(() => {
 
     // HANDLE updateStatus chamges when the button is clicked
-    console.log('updateStatus: ', updateStatus)
+    console.info('updateStatus: ', updateStatus)
     dispatch(driverActions.updateOnlineStatus(updateStatus))
     
     // this line triggers the socket connection attempt when the user clicks the go online button.
     // the button changes the state value 'updateStatus'
       // if (isOnline === true && updateStatus === isOnline){
       //   // do nothing
-      //   console.log('call updateOnlineStatus 1')
+      //   console.info('call updateOnlineStatus 1')
       // dispatch(driverActions.updateOnlineStatus(updateStatus))
       // .catch((error) => {
       //   toast.error(error.message);
@@ -68,19 +68,19 @@ const MapScreen = () => {
 
       // else if (isOnline === true && updateStatus !== isOnline){
       //   // change state
-      //   console.log('call updateOnlineStatus 2 ')
+      //   console.info('call updateOnlineStatus 2 ')
       // }
 
       // else if (isOnline === false && updateStatus !== isOnline){
       //   // dispatch updateStatus
-      //   console.log('call updateOnlineStatus 3 ')
+      //   console.info('call updateOnlineStatus 3 ')
 
       // }
   }, [updateStatus]);
 
   useAfterMount(() => {
 
-    console.log('useAfterMount: MapScreen')
+    console.info('useAfterMount: MapScreen')
     isOnline
       ? dispatch(socketActions.openConnection())
       : dispatch(socketActions.closingConnection());

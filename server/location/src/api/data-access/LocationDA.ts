@@ -79,12 +79,12 @@ export default class LocationDA {
       }
 
       // search for the records in prisma db
-      console.log('localOrganizationIds: ', localOrganizationIds);
+      console.info('localOrganizationIds: ', localOrganizationIds);
       const localOrganizations = await findMultipleOrganizationsById(
         localOrganizationIds
       );
 
-      console.log(`Found ${localOrganizations.length} local organizations.`);
+      console.info(`Found ${localOrganizations.length} local organizations.`);
 
       return localOrganizations;
     } catch (error: any) {
@@ -142,7 +142,7 @@ export default class LocationDA {
         }
       );
 
-      console.log('Mongo Update Dispensary Record: ', organization.name);
+      console.info('Mongo Update Dispensary Record: ', organization.name);
       return updateOrganization;
     } catch (error: any) {
       console.error('LocationDA error: ', error.message);
@@ -154,7 +154,7 @@ export default class LocationDA {
     try {
       const _deleted = await orgGeolocate.deleteOne({ id });
 
-      console.log(`Mongo Delete ${_deleted.deletedCount} Dispensary Record.`);
+      console.info(`Mongo Delete ${_deleted.deletedCount} Dispensary Record.`);
       return _deleted;
     } catch (error: any) {
       console.error('LocationDA error: ', error.message);

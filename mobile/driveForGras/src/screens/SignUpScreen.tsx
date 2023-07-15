@@ -52,7 +52,7 @@
 //   //   });
 //   //   errorValues
 //   //     .then((prop) => JSON.stringify(Object.values(prop)))
-//   //     .then((obj) => console.log(obj));
+//   //     .then((obj) => console.info(obj));
 //   // };
 
 //   const onSubmit = (data) => {
