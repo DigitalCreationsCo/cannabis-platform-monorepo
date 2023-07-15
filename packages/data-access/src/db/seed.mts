@@ -2132,18 +2132,7 @@ const createArticles = async () => {
   ];
 
   articles.forEach(async (article) => await prisma.article.create({
-    data: {
-      id: article.id,
-      title: article.title,
-      name: article.name,
-      description: article.description,
-      href: article.href,
-      content: article.content,
-      tag: article.tag,
-      author: article.author,
-      createdAt: article.createdAt,
-      updatedAt: article.updatedAt,
-    }
+    data: article
   }));
   console.info('create prisma.article records');
 };
