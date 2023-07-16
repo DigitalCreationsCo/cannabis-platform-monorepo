@@ -32,10 +32,11 @@ spec:
       serviceAccountName: default
       containers:
         - name: gras-server-main
-          image: grasadmin/server-main:latest
+          image: grasadmin/main:latest
           imagePullPolicy: Always
           terminationMessagePolicy: FallbackToLogsOnError
-          resources: {}
+          resources:
+            {}
             # limits:
             #   cpu: '100m'
             #   memory: '120Mi'
