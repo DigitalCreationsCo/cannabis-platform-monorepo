@@ -46,9 +46,9 @@ workflows:
             apps/shop
             apps/dashboard
             server/main
+            server/location/
 
             # apps/delivery-widget/ # config is not ready
-            # server/location/
             # server/payments/
             # server/image/
             # server/dispatch/
