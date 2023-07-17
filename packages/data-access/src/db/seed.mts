@@ -636,7 +636,7 @@ const createOrganizations = async () => {
         address: Prisma.AddressCreateNestedOneWithoutOrganizationInput;
         schedule: Prisma.ScheduleCreateNestedOneWithoutOrganizationInput;
         images: Prisma.ImageOrganizationCreateNestedManyWithoutOrganizationInput;
-      }>(process?.env?.SERVER_LOCATION_URL + '/api/v1/serve-local/organizations/record' as string, {
+      }>(process?.env?.NEXT_PUBLIC_SERVER_LOCATION_URL + '/api/v1/serve-local/organizations/record' as string, {
         id: organization.id,
         name: organization.name,
         dialCode: organization.dialCode,
