@@ -51,13 +51,12 @@ spec:
     domains:
       - 'backend.grascannabis.org'
     routes:
-      - delegateAction:
+      - matchers:
+          - prefix: /
+        delegateAction:
           ref:
             name: gras-backend-server-routes
             namespace: gloo-system
-        matchers:
-          - prefix: /
-        inheritablePathMatchers: true
     options:
       retries:
         retryOn: 'connect-failure,5xx'

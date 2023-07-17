@@ -9,7 +9,11 @@ spec:
   routes:
     - matchers:
         - prefix: /main
-      inheritablePathMatchers: true
+      options:
+        regexRewrite:
+          pattern:
+            regex: ^/main(/.*)$
+          substitution: \1
       routeAction:
         single:
           upstream:
