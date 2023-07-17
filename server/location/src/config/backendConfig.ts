@@ -26,8 +26,6 @@ export const backendConfig = (): AuthConfig => {
       Session.init({
         cookieSecure: true,
         cookieDomain: `.${baseDomain}`,
-        // getTokenTransferMethod: () => "cookie",
-        // expose jwt to the frontend, used for websocket authentication
         jwt: { enable: true },
       }),
       Dashboard.init({
