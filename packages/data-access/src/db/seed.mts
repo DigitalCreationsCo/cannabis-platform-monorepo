@@ -658,7 +658,7 @@ const createOrganizations = async () => {
         subdomain: organization.subdomainId,
       },
         { validateStatus: status => (status >= 200 && status <= 302) || status == 404 }
-      ).catch(error => { throw new Error(error) });
+      ).catch(error => { console.error(error); throw new Error(error); });
 
       console.info('create mongo.organization_geolocate record: ' + organization.name + ': ' + organization.id);
     } catch (error) {

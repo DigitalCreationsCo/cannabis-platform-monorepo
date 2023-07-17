@@ -50,7 +50,11 @@ const nextConfig = (phase) => {
       outputFileTracingRoot: path.join(__dirname, '../../'),
     },
     images: {
-      domains: ['cdn-cashy-static-assets.lucidchart.com'],
+      domains: [
+        'storage.cloud.google.com',
+        'www.storage.cloud.google.com',
+        'https://storage.cloud.google.com',
+      ],
     },
     // webpack: (config, { isServer }) => {
     //     if (!isServer) {

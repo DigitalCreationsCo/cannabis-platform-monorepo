@@ -5,6 +5,7 @@ import {
 } from '@cd/core-lib';
 import { OrganizationWithShopDetails } from '@cd/data-access';
 import { Card, FlexBox, H2, Paragraph } from '@cd/ui-lib';
+import Image from 'next/image';
 import Link from 'next/link';
 import { PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
@@ -72,8 +73,9 @@ const ImageBackDrop = ({
 }: { src: string } & PropsWithChildren) => {
   return (
     <div className="absolute top-0 left-0 h-full w-full">
-      <img
+      <Image
         className="rounded object-cover w-full h-full"
+        fill
         src={src}
         alt="card-backdrop"
       />
