@@ -1,4 +1,3 @@
-// import EmailPassword from 'supertokens-auth-react/recipe/emailpassword';
 import Passwordless from 'supertokens-auth-react/recipe/passwordless';
 import Session from 'supertokens-auth-react/recipe/session';
 
@@ -21,6 +20,7 @@ const appInfo: {
 };
 
 export const frontendConfig = () => {
+  console.info('shop frontend config: ', appInfo);
   return {
     appInfo,
     recipeList: [
@@ -32,13 +32,13 @@ export const frontendConfig = () => {
             console.info(
               'role ? ',
               event.user &&
-                event.user.memberships?.[0]?.role.toLocaleUpperCase()
+              event.user.memberships?.[0]?.role.toLocaleUpperCase()
             );
 
             if (
               (event.user &&
                 event.user.memberships?.[0]?.role.toLocaleUpperCase() ===
-                  'ADMIN') ||
+                'ADMIN') ||
               event.user.memberships?.[0]?.role.toLocaleUpperCase() === 'OWNER'
             )
               // window.location.href = `${dashboardDomain}/dashboard`;
