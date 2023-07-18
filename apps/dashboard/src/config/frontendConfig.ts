@@ -65,10 +65,9 @@ export const frontendConfig = () => {
 
         onHandleEvent: (event) => {
           if (event.action === 'UNAUTHORISED' || event.action === 'SIGN_OUT') {
-            // window.location.href = '/';
+            window.location.href = '/';
           }
           if (event.action === 'SESSION_CREATED') {
-            console.info('session created');
             if (
               event.userContext.memberships?.[0]?.role.toLocaleUpperCase() ===
               'ADMIN' ||
