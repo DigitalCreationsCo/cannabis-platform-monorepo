@@ -131,9 +131,16 @@ seed production database
 
 TO DO:::          Priority: *** most, ** less, * least
 
+EXTERNAL NETWORK LOAD BALANCER:
+Configure to use all zonal NEGS. Read _dev_notes/kubernetes/backendXLBHTTPUseRegionNEGs.txt
+Deploy permanents vm for failover.
+
 END TO END TESTS
 FInish end to end tests
 Create test automation for end to end
+
+SUPERTOKENS:
+update docker image to use postgresql connection pooling url
 
 DELIVERY WIDGET: 
 Create docs for Delivery Widget, 
@@ -196,6 +203,9 @@ UNIT TESTS:
     SIGNIN OTP UNIT TESTS
     SIGNOUT UNIT TESTS
 
+FRONTEND: 
+    add page transition animations: https://reacthustle.com/blog/next-js-page-transition-tailwind
+    
 DASHBOARD:
     add some real time functionality for orders table, notify Dispesary users with event, notification
     The admin client can receive events only, and does not send. 

@@ -6,13 +6,13 @@ import { AuthConfig } from '../../interfaces';
 const baseDomain = process.env.NEXT_PUBLIC_APP_DOMAIN || 'localhost';
 const dashboardDomain =
   process.env.NEXT_PUBLIC_DASHBOARD_APP_URL || 'http://localhost:3001';
-const apiDomain = process.env.NEXT_PUBLIC_SERVER_MAIN_URL || `http://localhost:6001`;
+const apiDomain = process.env.BACKEND_URL || `http://localhost:6001`;
 
 const appInfo = {
   appName: process.env.NEXT_PUBLIC_SHOP_APP_NAME || 'Gras',
   apiDomain,
   websiteDomain: dashboardDomain,
-  apiBasePath: '/api/v1',
+  apiBasePath: '/main/api/v1',
 };
 
 export const backendConfig = (): AuthConfig => {
