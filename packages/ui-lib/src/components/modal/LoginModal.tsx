@@ -70,7 +70,6 @@ function LoginModal({
 
     // DISABLED FOR NOW TO USE ONLY EMAIL LOGIN
     const [isInputPhone, setIsInputPhone] = useState(false);
-
     // DISABLED FOR NOW TO USE ONLY EMAIL LOGIN
     // useEffect(() => {
     //     const checkInputEmailOrPhone = () => {

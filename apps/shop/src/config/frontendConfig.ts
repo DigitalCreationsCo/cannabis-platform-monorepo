@@ -32,22 +32,15 @@ export const frontendConfig = () => {
         onHandleEvent: (event: any) => {
           console.info('passwordless event: ', event);
           if (event.action === 'SUCCESS') {
-            console.info(
-              'role ? ',
-              event.user &&
-              event.user.memberships?.[0]?.role.toLocaleUpperCase()
-            );
-
             if (
               (event.user &&
                 event.user.memberships?.[0]?.role.toLocaleUpperCase() ===
                 'ADMIN') ||
               event.user.memberships?.[0]?.role.toLocaleUpperCase() === 'OWNER'
             )
-              // window.location.href = `${dashboardDomain}/dashboard`;
               throw new Error(`
                             Admin permissions are not allowed here. 
-                            Please contact Gras support.`);
+                            Please sign in at Dispensary portal. Thank you.`);
             else if (event.isNewUser || !event.user.isSignUpComplete)
               window.location.href = `${shopDomain}/signup/create-account`;
             else {
@@ -57,31 +50,7 @@ export const frontendConfig = () => {
         },
       }),
       Session.init({
-        // tokenTransferMethod: "cookie",
-
-        // sessionTokenFrontendDomain: `.${baseDomain}`,
-
-        // define common top level domain
-        // sessionTokenBackendDomain: `.${baseDomain}`,
         cookieDomain: `.${baseDomain}`,
-
-        // onHandleEvent: (event) => {
-        //     if (event.action === 'UNAUTHORISED' || event.action === 'SIGN_OUT') {
-        //         // window.location.href = '/';
-        //     }
-        //     if (event.action === 'SESSION_CREATED') {
-        //         console.info('session created event: ', event)
-        //         if (
-        //             event.userContext.memberships?.[0]?.role.toLocaleUpperCase() === 'ADMIN' ||
-        //             event.userContext.memberships?.[0]?.role.toLocaleUpperCase() === 'OWNER'
-        //         ) {
-        //             // window.location.href = `${dashboardDomain}/dashboard`;
-        //         } else {
-        //             // window.location.href = `${shopDomain}${window.location.pathname}`;
-        //             // window.location.href = `${shopDomain}`;
-        //         }
-        //     }
-        // },
       }),
     ],
     isInServerLessEnv: false,
