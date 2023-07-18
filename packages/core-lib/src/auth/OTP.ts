@@ -8,6 +8,8 @@ async function sendOTPEmail(email: string) {
         let response = await createCode({
             email
         });
+
+        console.log('send OTP email response: ', response);
     } catch (err: any) {
         console.info('send otp error: ', err)
 
@@ -24,7 +26,7 @@ async function sendOTPEmailRaw(email: string) {
 
         let
             response = await axios.post(
-                urlBuilder.main.getOTP(), { email })
+                urlBuilder.main.getOTP(), { email });
 
         return response;
 
