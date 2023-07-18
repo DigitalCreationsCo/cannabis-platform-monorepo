@@ -3,7 +3,7 @@ import {
   handleOTPInput,
   resendOTP,
   sendOTPEmail,
-  sendOTPPhone,
+  sendOTPPhone
 } from '@cd/core-lib/src/auth/OTP';
 import { useFormik } from 'formik';
 import Image from 'next/image';
@@ -368,7 +368,7 @@ function LoginModal({
 
 const styles = {
   responsive: [
-    'bg-inverse min-h-full w-full sm:!rounded-none md:min-w-min md:min-h-min md:!rounded px-12',
+    'bg-inverse min-h-full min-w-full sm:!rounded-none md:min-w-min md:min-h-min md:!rounded px-12',
   ],
   padd: 'md:pt-12 md:pb-14',
 };

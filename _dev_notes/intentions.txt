@@ -193,6 +193,7 @@ Encrypt all external visible web code ***
     - Rotate secret keys, (crypto, jwt)
 
 UNIT TESTS:
+    CONFIGURE A TEST ENV FOR ALL MODULES
     OBJECT STORAGE TESTS
     Add testing for s3 buckets, *
     to check for correct env vars, urls, valid buckets, etc. *

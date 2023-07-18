@@ -6,6 +6,8 @@ const baseDomain = process.env.NEXT_PUBLIC_APP_DOMAIN || 'localhost';
 const shopDomain =
   process.env.NEXT_PUBLIC_SHOP_APP_URL || 'http://localhost:3000';
 const apiDomain = process.env.BACKEND_URL || `http://localhost:6001`;
+// this v makes no sense, I don't understand the result is inverted in localhost
+const apiBasePath = process.env.IS_LOCAL && '/main/api/v1' || '/api/v1';
 
 const appInfo: {
   appName: string | undefined;
@@ -16,7 +18,8 @@ const appInfo: {
   appName,
   websiteDomain: shopDomain,
   apiDomain,
-  apiBasePath: '/main/api/v1',
+  // query this path for all auth requests
+  apiBasePath,
 };
 
 export const frontendConfig = () => {
