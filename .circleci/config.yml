@@ -22,15 +22,12 @@ parameters:
     type: string
     default: ''
 
-
-# reference to attach 
+# reference to attach
 references:
-  workspace_root: &workspace_root
-    /tmp/workspace
+  workspace_root: &workspace_root /tmp/workspace
   attach_workspace: &attach_workspace
     attach_workspace:
       at: *workspace_root
-
 
 workflows:
   # The setup workflow
@@ -47,16 +44,15 @@ workflows:
             apps/dashboard
             server/main
             server/location/
+            server/image/
+            server/payments/
 
             # apps/delivery-widget/ # config is not ready
-            # server/payments/
-            # server/image/
             # server/dispatch/
             # k8s/ # kubernetes files are not included, because i dont know where to put the config.yml file at the moment, or how to declare an alternate file path
             # packages # packages are rebuilt in the module build, for now
           # requires:
           #   - test-and-build/run-tests
-      
 
 orbs:
   # An "embedded" orb to facilitate config splitting
@@ -208,7 +204,7 @@ orbs:
         executor: docker/machine
         environment:
           DOCKER_LOGIN: grasadmin
-        steps: 
+        steps:
           - run:
               name: Print DOCKER_LOGIN
               command: echo $DOCKER_LOGIN
@@ -218,70 +214,70 @@ orbs:
           - checkout
           - docker/check:
               use-docker-credentials-store: true
-          - docker/build: 
+          - docker/build:
               dockerfile: Dockerfile.$BUILD_TYPE
               image: $DOCKER_LOGIN/$BUILD_CONTEXT
               path: '.'
-              tag: "$CIRCLE_SHA1,latest"
+              tag: '$CIRCLE_SHA1,latest'
               extra_build_args: '--build-arg=BUILD_CONTEXT=$BUILD_CONTEXT --build-arg=PORT=$PORT --no-cache --progress=plain'
           - docker/push:
               digest-path: /tmp/workspace/$BUILD_CONTEXT-digest.txt
               image: $DOCKER_LOGIN/$BUILD_CONTEXT
-              tag: "$CIRCLE_SHA1,latest"
+              tag: '$CIRCLE_SHA1,latest'
           - run:
               name: Print Docker Image Tag
               command: echo "Pushed image $DOCKER_LOGIN/$BUILD_CONTEXT:$CIRCLE_SHA1, latest to registry."
   kubernetes:
-    orbs: 
+    orbs:
       kubernetes: circleci/kubernetes@1.3.1
-    jobs: 
+    jobs:
       update-deployment-image:
         docker:
           - image: cimg/node:16.20.0
         parameters:
-          container-image-updates: 
-            description: "Specify a list of container image updates (space-delimited name value pairs in the form CONTAINER_NAME_1=CONTAINER_IMAGE_1 ... CONTAINER_NAME_N=CONTAINER_IMAGE_N) to be applied to the resource via `kubectl set image`"
+          container-image-updates:
+            description: 'Specify a list of container image updates (space-delimited name value pairs in the form CONTAINER_NAME_1=CONTAINER_IMAGE_1 ... CONTAINER_NAME_N=CONTAINER_IMAGE_N) to be applied to the resource via `kubectl set image`'
             type: string
-          dry-run: 
+          dry-run:
             description: Whether the kubectl command will be executed in dry-run mode.
             type: string
             default: ''
-          namespace: 
+          namespace:
             description: The kubernetes namespace
             type: string
             default: default
-          get-rollout-status: 
+          get-rollout-status:
             description: Get the status of the rollout. This can only be used for resource types that are valid for usage with `kubectl rollout` subcommands.
             type: boolean
             default: false
-          watch-rollout-status: 
+          watch-rollout-status:
             description: Whether to watch the status of the latest rollout until it's done. Only effective if get-rollout-status is set to true.
             type: boolean
             default: true
-          watch-timeout: 
+          watch-timeout:
             description: The length of time to wait before ending the watch, zero means never. Any other values should contain a corresponding time unit (e.g. 1s, 2m, 3h). Only effective if get-rollout-status is set to true.
             type: string
             default: 30s
-          pinned-revision-to-watch: 
+          pinned-revision-to-watch:
             description: Pin a specific revision to be watched and abort watching if it is rolled over by another revision. Only effective if get-rollout-status is set to true.
             type: string
             default: ''
-          resource-file-path: 
+          resource-file-path:
             description: Path to file used to update the resource. Either resource-file-path or resource-name need to be specified.
             type: string
             default: ''
-          resource-name: 
+          resource-name:
             description: Resource name in the format TYPE/NAME e.g. deployment/nginx-deployment Either resource-file-path or resource-name need to be specified. This is required if get-rollout-status is set to true.
             type: string
             default: ''
-          show-kubectl-command: 
+          show-kubectl-command:
             description: Whether to show the kubectl command used.
             type: boolean
             default: false
         steps:
           - kubernetes/install-kubectl
           - run:
-              name: Print KUBECONFIG_DATA	
+              name: Print KUBECONFIG_DATA
               command: echo $KUBECONFIG_DATA
           - kubernetes/install-kubeconfig
           - kubernetes/update-container-image:
@@ -296,7 +292,6 @@ orbs:
               resource-name: << parameters.resource-name >>
               show-kubectl-command: << parameters.show-kubectl-command >>
 
-
 # Custom commands aimed for the main workflows and jobs
 commands:
   common-say-hello:
@@ -308,7 +303,6 @@ commands:
     steps:
       - run: echo 'Greetings to << parameters.to >> from the shared command!'
       - run: echo 'The value of `custom-parameter` was "<< pipeline.parameters.custom-parameter >>"'
-
 
 # Common jobs for the main workflows
 jobs:
