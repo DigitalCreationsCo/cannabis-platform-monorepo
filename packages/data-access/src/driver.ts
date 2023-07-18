@@ -16,7 +16,7 @@ import { UserCreateType } from "./user";
 /**
  * CREATE DRIVER RECORD ALONG WITH SESSION RECORD
  */
-export async function createDriver(userData: DriverCreateType) {
+export async function createDriver(userData: UserCreateType) {
     try {
         const { coordinates, ...addressData } = userData.address[0]
         const user = await prisma.user.create({

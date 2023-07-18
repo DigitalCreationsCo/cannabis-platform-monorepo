@@ -29,18 +29,18 @@ getProductById
 searchProducts
 ================================= */
 
-let 
-dispatchOrders;
+let
+    dispatchOrders;
 
-const 
-dispatch_namespace = process.env.DISPATCH_DB_NS;
+const
+    dispatch_namespace = process.env.DISPATCH_DB_NS;
 
 export default class OrderDA {
-    static async useMongoDB (mongoClient: MongoClient) {
+    static async useMongoDB(mongoClient: MongoClient) {
         try {
-            
+
             if (!dispatchOrders)
-            dispatchOrders = await mongoClient.db(dispatch_namespace).collection("orders");
+                dispatchOrders = await mongoClient.db(dispatch_namespace).collection("dispatch_orders");
 
             return
         } catch (e: any) {
@@ -53,17 +53,17 @@ export default class OrderDA {
         try {
             const data = await createOrder(order);
             return data;
-        } catch (error:any) {
+        } catch (error: any) {
             console.error(error.message);
             throw new Error(error.message);
         }
     }
 
-    static async createPurchase(purchase:PurchaseCreate) {
+    static async createPurchase(purchase: PurchaseCreate) {
         try {
             const data = await createPurchase(purchase);
             return data;
-        } catch (error:any) {
+        } catch (error: any) {
             console.error(error.message);
             throw new Error(error.message);
         }
@@ -73,7 +73,7 @@ export default class OrderDA {
         try {
             const data = await findOrdersByOrg(organizationId);
             return data;
-        } catch (error:any) {
+        } catch (error: any) {
             console.error(error.message);
             throw new Error(error.message);
         }
@@ -83,7 +83,7 @@ export default class OrderDA {
         try {
             const data = await findOrderWithDetails(id);
             return data;
-        } catch (error:any) {
+        } catch (error: any) {
             console.error(error.message);
             throw new Error(error.message);
         }
@@ -93,24 +93,24 @@ export default class OrderDA {
         try {
             const data = await updateOrderWithOrderItems(order);
             return data;
-        } catch (error:any) {
+        } catch (error: any) {
             console.error(error.message);
             throw new Error(error.message);
         }
     }
 
     static async getProductsByOrg(
-        organizationIdList: string | string[], 
-        page: number = 1, 
+        organizationIdList: string | string[],
+        page: number = 1,
         limit: number = 20
-        ) {
+    ) {
         try {
-            
+
             const idList = Array.isArray(organizationIdList) ? organizationIdList : [organizationIdList];
 
             const data = await findProductsByOrg(idList, page, limit);
             return data;
-        } catch (error:any) {
+        } catch (error: any) {
             console.error(error.message);
             throw new Error(error.message);
         }
@@ -120,7 +120,7 @@ export default class OrderDA {
         try {
             const data = await findProductWithDetails(id);
             return data;
-        } catch (error:any) {
+        } catch (error: any) {
             console.error(error.message);
             throw new Error(error.message);
         }
@@ -130,7 +130,7 @@ export default class OrderDA {
         try {
             const data = await findProductsByText(search, organizationId);
             return data;
-        } catch (error:any) {
+        } catch (error: any) {
             console.error(error.message);
             throw new Error(error.message);
         }
@@ -138,11 +138,11 @@ export default class OrderDA {
 
     static async updateOrderFulfillmentStatus(orderId: string, orderStatus: OrderStatus) {
         try {
-            
+
             const data = await updateOrder(orderId, { orderStatus });
 
             return data;
-        } catch (error:any) {
+        } catch (error: any) {
             console.error(error.message);
             throw new Error(error.message);
         }
@@ -150,21 +150,21 @@ export default class OrderDA {
 
     static async addDispatchOrderMongo(order: OrderWithDetails) {
         try {
-            
-            const 
-            insertOrder = await dispatchOrders.insertOne({ 
-              ...order
-            });
+
+            const
+                insertOrder = await dispatchOrders.insertOne({
+                    ...order
+                });
 
             return insertOrder;
-            
+
         } catch (error: any) {
             console.error('addDispatchRecordMongo error: ', error.message);
 
             if (error.code === 11000)
-            throw new Error('Order exists already!');
-            
+                throw new Error('Order exists already!');
+
             throw new Error(error.message);
         }
-      }
+    }
 }

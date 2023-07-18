@@ -48,7 +48,7 @@ const Modal = ({
     return (
         <div className={twMerge(styles.modal)}>
             <div className={twMerge(styles.content, styles.responsive, className)} ref={ref}>
-                {showCloseButton && <CloseButton onClick={onClose} />}
+                {showCloseButton && <CloseButton iconSize={28} onClick={onClose} />}
                 {description && <H6 className={twMerge('pb-2')}>{description}</H6>}
                 {children}
             </div>

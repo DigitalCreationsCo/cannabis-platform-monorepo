@@ -9,9 +9,25 @@ spec:
   routes:
     - matchers:
         - prefix: /main
-      inheritablePathMatchers: true
+      options:
+        regexRewrite:
+          pattern:
+            regex: ^/main(/.*)$
+          substitution: \1
       routeAction:
         single:
           upstream:
             name: default-gras-server-main-8080
+            namespace: gloo-system
+    - matchers:
+        - prefix: /location
+      options:
+        regexRewrite:
+          pattern:
+            regex: ^/location(/.*)$
+          substitution: \1
+      routeAction:
+        single:
+          upstream:
+            name: default-gras-server-location-8080
             namespace: gloo-system

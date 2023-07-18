@@ -15,17 +15,12 @@ export const config = {
 };
 
 const
-    appBaseUrl = process.env.NEXT_PUBLIC_SHOP_APP_URL || 'localhost:3000',
     dashboardBaseUrl = process.env.NEXT_PUBLIC_DASHBOARD_APP_URL || 'localhost:3001';
 
 export default function middleware(req: NextRequest, res: ServerResponse) {
 
     let
         subdomain = req.headers.get('host')?.split('.')[0].split(':')[0] || 'localhost';
-
-    console.info('shopBaseUrl', appBaseUrl);
-    console.info('dashboardBaseUrl', dashboardBaseUrl);
-    console.info('subdomain', subdomain);
 
     const allowAllVisitors = [
         '/about-gras',

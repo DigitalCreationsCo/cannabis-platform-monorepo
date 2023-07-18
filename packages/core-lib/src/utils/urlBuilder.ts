@@ -58,6 +58,9 @@ const urlBuilder = {
 
     driverById: (id: any) => urlBuilder.main.baseUrl + `/driver/${id}`,
     driverUpdateStatus: () => urlBuilder.main.baseUrl + `/driver/status`,
+
+    blog: () => urlBuilder.main.baseUrl + `/blog`,
+    blogById: (id: string) => urlBuilder.main.baseUrl + `/blog/${id}`,
   },
 
   location: {

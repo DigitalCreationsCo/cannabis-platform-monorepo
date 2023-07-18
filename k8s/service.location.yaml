@@ -2,37 +2,37 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: gras-server-main
+  name: gras-server-location
 spec:
   type: ClusterIP
   selector:
-    app: gras-server-main
+    app: gras-server-location
   ports:
     - protocol: TCP
       port: 8080
-      targetPort: main-port
+      targetPort: location-port
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: gras-server-main
-  name: gras-server-main
+    app: gras-server-location
+  name: gras-server-location
   namespace: default
 spec:
   selector:
     matchLabels:
-      app: gras-server-main
+      app: gras-server-location
   replicas: 2
   template:
     metadata:
       labels:
-        app: gras-server-main
+        app: gras-server-location
     spec:
       serviceAccountName: default
       containers:
-        - name: gras-server-main
-          image: grasadmin/main:latest
+        - name: gras-server-location
+          image: grasadmin/location:latest
           imagePullPolicy: Always
           terminationMessagePolicy: FallbackToLogsOnError
           resources:
@@ -44,13 +44,13 @@ spec:
             #   cpu: '100m'
             #   memory: '120Mi'
           ports:
-            - name: main-port
-              containerPort: 6001
+            - name: location-port
+              containerPort: 6011
 
           livenessProbe:
             httpGet:
               path: /api/v1/healthcheck
-              port: main-port
+              port: location-port
             failureThreshold: 2
             initialDelaySeconds: 20
             periodSeconds: 10
@@ -59,7 +59,7 @@ spec:
           readinessProbe:
             httpGet:
               path: /api/v1/healthcheck
-              port: main-port
+              port: location-port
             failureThreshold: 2
             initialDelaySeconds: 20
             periodSeconds: 10
@@ -72,5 +72,5 @@ spec:
                   - key: 'app'
                     operator: In
                     values:
-                      - gras-server-main
+                      - gras-server-location
               topologyKey: 'kubernetes.io/hostname'

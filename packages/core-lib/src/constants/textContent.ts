@@ -68,6 +68,8 @@ const TextContent = Object.freeze({
     CANNABIS_DELIVERED_TODAY: `Cannabis,${'\xa0'}Delivered${'\xa0'}Today🌴`,
     ONE_STOP: 'a one stop cannabis marketplace',
     EMAIL: 'Email',
+    THANK_YOU: `Thank you for choosing Gras!`,
+    MORE_CONTENT_COMING_SOON: `Our Team is bringing you more news and content from the world of cannabis.`
   },
 
   ui: {
