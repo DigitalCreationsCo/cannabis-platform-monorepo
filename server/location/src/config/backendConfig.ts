@@ -12,7 +12,7 @@ const appInfo = {
   appName: process.env.NEXT_PUBLIC_SHOP_APP_NAME || 'Gras',
   apiDomain,
   websiteDomain: dashboardDomain,
-  apiBasePath: '/main/api/v1',
+  apiBasePath: '/api/v1',
 };
 
 export const backendConfig = (): AuthConfig => {
