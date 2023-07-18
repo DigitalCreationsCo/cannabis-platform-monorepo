@@ -209,7 +209,7 @@ function LoginModal({
           handleOTPAndSignIn();
         }
       } catch (error: any) {
-        setLoadingButton(false);
+        setLoadingButton(false);m
         console.error(error);
         toast.error(error.message);
       }

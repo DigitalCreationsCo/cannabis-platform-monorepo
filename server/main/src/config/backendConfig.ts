@@ -37,65 +37,54 @@ export const backendConfig = (): AuthConfig => {
               ...originalImplementation,
               consumeCode: async (input: PasswordlessSignInRequestPayload) => {
                 try {
+                  console.info('consume-code provided input: ', input);
+
                   let response = await originalImplementation.consumeCode(
                     input
                   );
+
+                  console.info('consume-code response: ', response);
                   if (response.status === 'OK') {
                     if (response.createdNewUser === false) {
                       let user;
-
-                      console.info(
-                        'backend request from appUser ',
-                        input.userContext.appUser
-                      );
-
                       if (input.userContext.appUser === 'DRIVER') {
                         if (response.user.email) {
-                          user =
-                            (await DriverDA.getDriverByEmail(
-                              response.user.email
-                            )) || null;
+                          user = await DriverDA.getDriverByEmail(response.user.email) || null;
                           response.user = {
                             ...response.user,
                             ...user,
                           } as Passwordless.User & DriverWithDetails;
+
                         } else if (response.user.phoneNumber) {
-                          user =
-                            (await DriverDA.getDriverByPhone(
-                              response.user.phoneNumber
-                            )) || null;
+                          user = await DriverDA.getDriverByPhone(response.user.phoneNumber) || null;
                           response.user = {
                             ...response.user,
                             ...user,
                           } as Passwordless.User & DriverWithDetails;
+
                         }
                       } else {
                         if (response.user.email) {
-                          user =
-                            (await UserDA.getUserByEmail(
-                              response.user.email
-                            )) || null;
+                          user = await UserDA.getUserByEmail(response.user.email) || null;
                           response.user = {
                             ...response.user,
                             ...user,
                           } as Passwordless.User & UserWithDetails;
+
                         } else if (response.user.phoneNumber) {
-                          user =
-                            (await UserDA.getUserByPhone(
-                              response.user.phoneNumber
-                            )) || null;
+                          user = await UserDA.getUserByPhone(response.user.phoneNumber) || null;
                           response.user = {
                             ...response.user,
                             ...user,
                           } as Passwordless.User & UserWithDetails;
+
                         }
                       }
                     }
-
                     return {
                       ...response,
                       createdNewUser: response.createdNewUser,
-                      isFromDb: true,
+                      fromDB: true,
                     };
                   }
                   return response;
