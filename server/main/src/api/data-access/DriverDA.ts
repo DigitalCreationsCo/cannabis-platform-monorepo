@@ -28,7 +28,7 @@ export default class DriverDA {
     try {
 
       if (!driverSessions)
-        driverSessions = await mongoClient.db(dispatch_namespace).collection("driverSessions");
+        driverSessions = await mongoClient.db(dispatch_namespace).collection("driver_sessions");
 
       return
     } catch (e: any) {

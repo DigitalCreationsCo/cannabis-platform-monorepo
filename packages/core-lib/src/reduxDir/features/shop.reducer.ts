@@ -2,7 +2,7 @@
 
 import {
   OrganizationWithShopDetails,
-  ProductWithDetails,
+  ProductWithDetails
 } from '@cd/data-access';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
@@ -200,7 +200,7 @@ export const shopSlice = createSlice({
 
             const index = state.dispensaries.findIndex((i) => i.id === d.id);
             if (index === -1) state.dispensaries = [...state.dispensaries, d];
-            else state.dispensaries[index] = item;
+            else state.dispensaries[index] = d;
 
             console.info('state after reconcile: ', state.dispensaries);
           });

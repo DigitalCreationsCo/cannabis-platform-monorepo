@@ -4,43 +4,6 @@ import { ReviewWithUserDetails } from "product";
 
 const prisma = new PrismaClient();
 
-// const createPurchases = async () => {
-//   const purchases: Prisma.PurchaseCreateWithoutOrderInput[] = [
-//     {
-//       'id': '1',
-//       paymentStatus: "Pending",
-//       gateway: "stripe",
-//       type: "card",
-//       amount: 12399,
-//       token: '12345',
-//       createdAt: new Date(),
-//       updatedAt: new Date(),
-//     }, {
-//       'id': '2',
-//       paymentStatus: "Paid",
-//       gateway: "stripe",
-//       type: "card",
-//       amount: 23444,
-//       token: '12345',
-//       createdAt: new Date(),
-//       updatedAt: new Date(),
-//     }, {
-//       'id': '3',
-//       paymentStatus: "Paid",
-//       gateway: "stripe",
-//       type: "card",
-//       amount: 23444,
-//       token: '12345',
-//       createdAt: new Date(),
-//       updatedAt: new Date(),
-//     },
-//   ];
-//   purchases.forEach(async (purchase) => await prisma.purchase.create({
-//     data: purchase
-//   }));
-//   console.info('create prisma.purchase records');
-// };
-
 const createCoordinates = async () => {
   const coordinates: Coordinates[] = [
     {
@@ -121,7 +84,7 @@ const createOrganizations = async () => {
         "vendor": {
           "connectOrCreate": {
             "where": {
-              name: 'curaleaf'
+              "name": 'curaleaf'
             },
             "create": {
               "name": "curaleaf",
@@ -168,7 +131,6 @@ const createOrganizations = async () => {
         },
         products: {
           create: {
-            id: "1",
             name: "King OG",
             description: "turpentines all day baby",
             features: "fresh, without formaline",
@@ -211,7 +173,6 @@ const createOrganizations = async () => {
         },
         orders: {
           create: {
-            id: "1",
             subtotal: 12000,
             total: 12399,
             taxFactor: 0.6,
@@ -220,7 +181,6 @@ const createOrganizations = async () => {
             customerId: "bfhk6k4u7xq030hr6wvgiwao",
             addressId: "5",
             driverId: "bf346k4u7x2b2hhr6wvgiwao",
-            purchaseId: '1',
             purchase: {
               create: {
                 id: '1',
@@ -340,7 +300,6 @@ const createOrganizations = async () => {
         },
         products: {
           create: {
-            id: "5",
             name: "Eagle cbd oil",
             description: "Satisfying Liquid Goochy",
             features: "fresh, relaxing",
@@ -348,7 +307,6 @@ const createOrganizations = async () => {
             rating: 2.5,
             variants: {
               create: {
-                id: "6",
                 name: "Eagle cbd oil",
                 unit: "g",
                 size: 3.5,
@@ -383,7 +341,6 @@ const createOrganizations = async () => {
         },
         orders: {
           create: {
-            id: "2",
             subtotal: 12000,
             total: 23444,
             taxFactor: 0.6,
@@ -406,7 +363,6 @@ const createOrganizations = async () => {
             },
             purchase: {
               create: {
-                id: '2',
                 paymentStatus: "Paid",
                 gateway: "stripe",
                 type: "card",
@@ -523,7 +479,6 @@ const createOrganizations = async () => {
         },
         products: {
           create: {
-            id: "10",
             name: "Razmatazz",
             description: "sweet and sour",
             features: "fresh, relaxing",
@@ -535,7 +490,6 @@ const createOrganizations = async () => {
         },
         orders: {
           create: {
-            id: "3",
             subtotal: 12000,
             total: 1244,
             taxFactor: 0.6,
@@ -558,7 +512,6 @@ const createOrganizations = async () => {
             },
             purchase: {
               create: {
-                id: '3',
                 paymentStatus: "Paid",
                 gateway: "stripe",
                 type: "card",
@@ -613,21 +566,7 @@ const createOrganizations = async () => {
     try {
       const
         organization = await prisma.organization.create({
-          data: {
-            "name": org.name,
-            "stripeAccountId": org.stripeAccountId,
-            "stripeOnboardingComplete": org.stripeOnboardingComplete,
-            "dialCode": org.dialCode,
-            "phone": org.phone,
-            "vendor": org.vendor,
-            "subdomain": org.subdomain,
-            "termsAccepted": org.termsAccepted,
-            "address": org.address,
-            "images": org.images,
-            "schedule": org.schedule,
-            "createdAt": new Date(),
-            "updatedAt": new Date()
-          },
+          data: org,
         }).catch(error => { throw new Error(error) });
 
       console.info('create prisma.organization record: ' + organization.name + ': ' + organization.id);
@@ -636,7 +575,7 @@ const createOrganizations = async () => {
         address: Prisma.AddressCreateNestedOneWithoutOrganizationInput;
         schedule: Prisma.ScheduleCreateNestedOneWithoutOrganizationInput;
         images: Prisma.ImageOrganizationCreateNestedManyWithoutOrganizationInput;
-      }>(process?.env?.SERVER_LOCATION_URL + '/api/v1/serve-local/organizations/record' as string, {
+      }>(process?.env?.NEXT_PUBLIC_SERVER_LOCATION_URL + '/api/v1/serve-local/organizations/record' as string, {
         id: organization.id,
         name: organization.name,
         dialCode: organization.dialCode,
@@ -823,7 +762,6 @@ const createAddresses = async () => {
       updatedAt: new Date(),
     },
   ];
-
   await prisma.address.createMany({
     data: addresses,
     skipDuplicates: true,
@@ -1066,7 +1004,6 @@ const createDrivers = async () => {
           },
           profilePicture: {
             create: {
-              id: '3',
               location: "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
               blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
               createdAt: new Date(),
@@ -1094,7 +1031,6 @@ const createOrders = async () => {
   // ORDER
   const orders: Prisma.OrderCreateInput[] = [
     {
-      id: "1",
       subtotal: 12000,
       total: 12399,
       taxFactor: 0.6,
@@ -1146,7 +1082,6 @@ const createOrders = async () => {
       deliveredAt: new Date(),
     },
     {
-      id: "2",
       subtotal: 12000,
       total: 23444,
       taxFactor: 0.6,
@@ -1198,7 +1133,6 @@ const createOrders = async () => {
       deliveredAt: new Date(),
     },
     {
-      id: "3",
       subtotal: 12000,
       total: 1244,
       taxFactor: 0.6,
@@ -1239,7 +1173,6 @@ const createOrders = async () => {
       deliveredAt: new Date(),
     },
     {
-      id: "4",
       subtotal: 12000,
       total: 6999,
       taxFactor: 0.6,
@@ -1280,7 +1213,6 @@ const createOrders = async () => {
       deliveredAt: new Date(),
     },
     {
-      id: "5",
       subtotal: 12000,
       total: 12999,
       taxFactor: 0.6,
@@ -1321,7 +1253,6 @@ const createOrders = async () => {
       deliveredAt: new Date(),
     },
     {
-      id: "6",
       subtotal: 12000,
       total: 14599,
       taxFactor: 0.6,
@@ -1362,7 +1293,6 @@ const createOrders = async () => {
       deliveredAt: new Date(),
     },
   ];
-
   orders.map(async (order) =>
     await prisma.order.create({
       data: order,
@@ -2074,9 +2004,9 @@ const createArticles = async () => {
       href: '12345',
       content: "",
       author: "",
+      tag: "news",
       image: {
         create: {
-          id: '1',
           location:
             'https://greenstocknews.com/images/placeholder/cannabis/medicinal/md1.jpg',
           blurhash: '',
@@ -2095,9 +2025,9 @@ const createArticles = async () => {
       href: '123457',
       content: "",
       author: "",
+      tag: "news",
       image: {
         create: {
-          id: '2',
           location:
             'https://img.freepik.com/premium-photo/delivery-person-holding-parcel-with-food-delivery-against-yellow-surface_93675-111653.jpg',
           blurhash: 'LTMrO.]mvO11}9FZNer_M#odXRnj',
@@ -2116,9 +2046,9 @@ const createArticles = async () => {
       href: '12377456',
       content: "",
       author: "",
+      tag: "news",
       image: {
         create: {
-          id: '3',
           location:
             'https://gras-dispensary-images.us-southeast-1.linodeobjects.com/loveweed.png',
           blurhash: 'LTMrO.]mvO11}9FZNer_M#odXRnj',
@@ -2132,17 +2062,7 @@ const createArticles = async () => {
   ];
 
   articles.forEach(async (article) => await prisma.article.create({
-    data: {
-      id: article.id,
-      title: article.title,
-      name: article.name,
-      description: article.description,
-      href: article.href,
-      content: article.content,
-      author: article.author,
-      createdAt: article.createdAt,
-      updatedAt: article.updatedAt,
-    }
+    data: article
   }));
   console.info('create prisma.article records');
 };

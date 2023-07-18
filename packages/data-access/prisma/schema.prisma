@@ -287,7 +287,7 @@ model Order {
   organization Organization @relation(fields: [organizationId], references: [id],  onDelete: NoAction, onUpdate: Cascade)
   
   driverId String?
-  driver Driver? @relation(fields: [driverId], references: [id],  onDelete: NoAction, onUpdate: Cascade)
+  driver Driver? @relation(fields: [driverId], references: [id],  onDelete: SetNull, onUpdate: Cascade)
 
   
   createdAt DateTime @default(now())
@@ -315,7 +315,6 @@ model Order {
   // metadata       OrderMetaData?
 
 
-  @@index([purchaseId])
   @@index([addressId])
   @@index([customerId])
   @@index([driverId])
@@ -344,7 +343,7 @@ model Purchase {
   amount        Float
   token         String
   orderId       String @unique
-  order         Order @relation(fields: [orderId], references: [id], onDelete: NoAction, onUpdate: Cascade)
+  order         Order @relation(fields: [orderId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -580,6 +579,7 @@ model Article {
   description String @db.Text
   href        String
   image       ImageArticle?
+  tag         ArticleType
   content     String
   author      String
 
@@ -587,6 +587,12 @@ model Article {
   updatedAt DateTime @updatedAt
   @@index([id])
   @@index([title])
+}
+
+enum ArticleType {
+  dispensary
+  driver
+  news
 }
 
 model all_auth_recipe_users {

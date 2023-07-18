@@ -24,29 +24,22 @@ verifyPhotoIdTour.defineSteps(
         {
         element: '#verify-id-step-1',
         popover: {
-            title: `Welcome to Gras!`,
-            description: ''
-        },
-    },
-    {
-        element: '#verify-id-step-2',
-        popover: {
-            title: 'Please verify your id',
-            description: 'It looks like this is your first time using <b>Gras</b>, so we need to verify your identity. ',
+            title: `<span style="color: #14a33d;">Welcome to Gras!</span>`,
+            description: '<span style="color: #3e3a3a;">It looks like this is your first time using <b>Gras</b>, so we need to verify your identity.</span>'
         },
     },
     {
         element: '#verify-id-step-3',
         popover: {
-            title: 'Upload Photos of your ID',
-            description: `Upload a picture of the front and back of your state drivers license or photo id card.`,
+            title: '<span style="color: #14a33d;">Upload Photos of your ID</span>',
+            description: `<span style="color: #3e3a3a;">Upload a picture of the front and back of your state drivers license or photo id card.</span>`,
         },
     },
     {
         element: '#verify-id-step-4',
         popover: {
-            title: `When you're ready, click Verify ID`,
-            description: `Upload a picture of the front and back of your state's photo id card.`,
+            title: `<span style="color: #14a33d;">When you're ready, click Verify ID</span>`,
+            description: ``,
         },
     },
 ]);

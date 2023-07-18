@@ -25,7 +25,7 @@ function InfoCard({ data: info, loading, className }: InfoCardProps) {
 
   return (
     <Link
-      href={formatBlogUrl(info.href)}
+      href={formatBlogUrl(info.id)}
       className="z-0 relative shadow-lg rounded"
     >
       <Card

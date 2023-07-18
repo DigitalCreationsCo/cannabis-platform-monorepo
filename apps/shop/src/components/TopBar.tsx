@@ -4,7 +4,7 @@ import {
   modalTypes,
   selectCartState,
   selectIsCartEmpty,
-  selectUserState,
+  selectUserState
 } from '@cd/core-lib';
 import {
   Button,
@@ -13,7 +13,7 @@ import {
   IconButton,
   Icons,
   Paragraph,
-  styles,
+  styles
 } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -41,14 +41,14 @@ function TopBar({ signOut }: TopBarProps) {
 
   return (
     <div className={twMerge(styles.TOPBAR.topbar)}>
-      <div className="pl-2 flex items-center">
-        <Link href={getShopSite('/')}>
-          <Image alt="Gras" width={45} height={45} src={logo} />
-        </Link>
-        <Link href={getShopSite('/')}>
-          <H2 className="pt-0.5">Gras</H2>
-        </Link>
-      </div>
+      <Link href={getShopSite('/')} className="pr-2">
+        <Image alt="Gras" width={45} height={45} src={logo} />
+      </Link>
+
+      <Link href={getShopSite('/')}>
+        <H2 className="pt-0.5 text-secondary">Gras</H2>
+      </Link>
+      
       <Link href={getShopSite('/')}>
         <Paragraph className={twMerge(styles.TOPBAR.tagline)}>
           Cannabis Marketplace
@@ -56,9 +56,9 @@ function TopBar({ signOut }: TopBarProps) {
       </Link>
       <div className="flex-1"></div>
 
-      <FlexBox className="flex flex-row items-center space-x-6 md:space-x-8 pr-0">
+      <FlexBox className="flex flex-row space-x-2 items-center pr-0">
         {isSignedIn && (
-          <Link className="hidden sm:block" href={getShopSite('/support')}>
+          <Link className={twMerge("hidden sm:block", styles.BUTTON.highlight)} href={getShopSite('/support')}>
             <Paragraph className={twMerge('whitespace-nowrap pt-1')}>
               Get Support
             </Paragraph>
@@ -67,22 +67,27 @@ function TopBar({ signOut }: TopBarProps) {
 
         {window?.location?.pathname === '/' || (
           <Link href={getShopSite('/mybag')}>
-            <IconButton
-              // onClick={openCartModal}
-              iconSize={28}
-              className="capitalize bg-transparent shadow-none p-0 m-0 indicator btn focus:outline-none border-none"
-              size="sm"
+            <Button size="sm"
+              bg="transparent"
               hover="transparent"
-              Icon={Icons.Satchel}
-              iconColor={'dark'}
-            >
-              <Paragraph className="hidden md:block">{`Bag`}</Paragraph>
-              {(isCartEmpty && <></>) || (
-                <div className={twMerge(styles.TOPBAR.badge)}>
-                  {cart.totalItems}
-                </div>
-              )}
-            </IconButton>
+              className={twMerge(styles.BUTTON.highlight)}>
+              <IconButton
+                // onClick={openCartModal}
+                iconSize={24}
+                className="capitalize bg-transparent shadow-none px-4 pt-1 m-0 indicator btn focus:outline-none border-none"
+                size="sm"
+                hover="transparent"
+                Icon={Icons.ShoppingBag}
+                iconColor={'dark'}
+              >
+                {/* <Paragraph className="hidden md:block">{`Bag`}</Paragraph> */}
+                {(isCartEmpty && <></>) || (
+                  <div className={twMerge(styles.TOPBAR.badge)}>
+                    {cart.totalItems}
+                  </div>
+                )}
+              </IconButton>
+              </Button>
           </Link>
         )}
 
@@ -90,7 +95,7 @@ function TopBar({ signOut }: TopBarProps) {
         {!isSignedIn && (
           <FlexBox>
             <Button
-              className="pt-1"
+              className={twMerge(styles.BUTTON.highlight, "pt-1 px-4")}
               size="sm"
               bg="transparent"
               hover="transparent"
