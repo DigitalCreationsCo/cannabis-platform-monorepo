@@ -171,6 +171,9 @@ Create short videos:
 3. How our software works ***
 4. How to install our software. ***
 
+SIGNIN:
+add phone signin for passwordless
+
 EMAIL:
 configure smtp server to send emails based on user actions register, reset password
 
