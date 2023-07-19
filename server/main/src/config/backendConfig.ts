@@ -39,6 +39,7 @@ export const backendConfig = (): AuthConfig => {
                 try {
                   console.info('consume-code provided input: ', input);
 
+                  // RESTART FLOW ERROR OCCURS SOMEWHERE IN THIS SEQUENCE, not after
                   let response = await originalImplementation.consumeCode(
                     input
                   );
@@ -89,6 +90,7 @@ export const backendConfig = (): AuthConfig => {
                   }
                   return response;
                 } catch (error: any) {
+                  console.log('backend config: consumer code error: ', error);
                   return {
                     status: 'RESTART_FLOW_ERROR',
                     message: error.message,
