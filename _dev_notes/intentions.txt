@@ -125,312 +125,125 @@ backend route featuring:
     server-main, server dispatch
 6-23-2023
 dashboard app CORS, shop app CORS
+7-17-2023
+Loginmodal mobile view fix,
+seed production database
+7-18-2023
+resolved: OTP in production does not work for new user
 
-TO DO:
-Set up k8s healthchecks for all application pods
-https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
 
-move applicable next api routes to dashboard app. 
+TO DO:::          Priority: *** most, ** less, * least
+
+EXTERNAL NETWORK LOAD BALANCER:
+Configure to use all zonal NEGS. Read _dev_notes/kubernetes/backendXLBHTTPUseRegionNEGs.txt
+Deploy permanents vm for failover.
+
+END TO END TESTS
+FInish end to end tests
+Create test automation for end to end
+
+DELIVERY WIDGET: 
+Create docs for Delivery Widget, 
+Lower the widget bundle size into modules.
+    - widget carttoken cookie is encrypted at rest
+Deploy encrypted delivery widget module ***
+Resolve logo in delivery widget *
+Have a testing site for Delivery Widget, hosted for demoing.
+
+VERIFY ID:
+Test verify Id,
+add verify Id on each order in DRIVERCLIENT
+
+BUGS: 
+Resend OTP does not work. ***
+Resolve subdomain links in the frontend apps. ***
+cart bug when navigating to different storefronts, the cart changes in unexpected ways
+
+CI:
+Migrate to Gitlab CI free account
 
 CUSTOMER SUCCESS:
-1. BUILD KNOWLEDGE PAGES!
+1. BUILD KNOWLEDGE PAGES! *
+2. BUILD EASY DISPENSARY SIGNUP! *
+Create short videos: 
+1. How our network works ***
+2. How our product works ***
+3. How our software works ***
+4. How to install our software. ***
 
-2. FIGURE OUT A WAY TO HAVE A TWO STEP ONBOARDING PROCESS. NO MORE THAN TWO STEPS!
-( SENDING ONE EMAIL DOES NOT COUNT AS A STEP ).
+EMAIL:
+configure smtp server to send emails based on user actions register, reset password
 
-3.
+DISPENSARY ONBOARDING:
+Embed Calendly scheduling for dispensary onbarding
+add search function to dispensary create to find existing vendor brands,
+why? so dispensaries can be tracked under their umbrella franchise
 
-TODO: Resolve logo image in delivery-widget
-
-TODO: for Production (July, August)
-Encrypt all external visible web code -
+PRODUCTION HARDENING: (July, August)
+Encrypt all external visible web code ***
     - delivery widget
     - front end code entrypoints
     - server entry points
     - encrypt all server responses
-    - lock all web end points behind a protective wall (jwt token, header authorization, encryption)
+    - lock all web end points behind a protective wall (jwt token, header authorization, encryption) ***
+    encrypt redux state
+    env secrets in gitlab vault
+    Ensure production database backups, 6 hour backup for both database.
+    - Rotate secret keys, (crypto, jwt)
 
+UNIT TESTS:
+    CONFIGURE A TEST ENV FOR ALL MODULES
+    OBJECT STORAGE TESTS
+    Add testing for s3 buckets, *
+    to check for correct env vars, urls, valid buckets, etc. *
 
-<<<<<<< HEAD
-=======
-TODO:
-Add testing for s3 buckets, to check for correct env vars, urls, valid buckets, etc.
+    REDUX REDUCER UNIT TESTS
+    STRIPE WEBHOOK UNIT TESTS
+    WIDGET CRAWLER UNIT TESTS
+    SIGNIN OTP UNIT TESTS
+    SIGNOUT UNIT TESTS
 
->>>>>>> main
-Set up K8s load balancer for static external ip
+FRONTEND: 
+    add page transition animations: https://reacthustle.com/blog/next-js-page-transition-tailwind
+    
+DASHBOARD:
+    add some real time functionality for orders table, notify Dispesary users with event, notification
+    The admin client can receive events only, and does not send. 
+    complete site settings page with data
 
-Optimize docker images, SHOP especially, Lower binary size TO save costs at scale!! GREATLY IMPORTANT
+DOCKER IMAGE:
+Optimize docker images, SHOP especially, Lower binary size TO save costs at scale *
 
-FInish end to end tests
-Stay vigilant! WORK HARD. Go to HACC campus. Go hard!
+CHECKOUT:
+Handle change order address in checkout **
+
+IMAGE LOADING OPTIMIZING
 Optimize graphic images,
+use next/image component
+imagekit.io ?
 
-Separate stripe account Id from orgniazation record, to hide this data
+DISPATCH SERVER:
+Test dispatch in production ***
 
-BUGS: 
-Resend OTP does not work.
-Fix footer links with absolute paths
-cart bug when navigating to different storefronts, the cart changes in unexpected ways
-
-FORTIFY:
-Add jtw tokens
-encrypt redux state
-put secrets in vault
-
-DRIVERCLIENT TO DO:
-Test dispatch in production
-pod install,
+DRIVER DELIVERY CLIENT:
+cocoapod install
 submit to ios store
-Test in production with dispatch
+Test in production with dispatch ***
 Write unit tests
+- Build a page, to intake drivers, (signup)
 
-PRODUCTION CHECKLIST:
-Host the delivery widget executable.
-Build a page, to intake drivers, (signup)
-build a page with a cms, for platform knowledge, for dispensaries, and drivers.
-host the driver app. ( where? )
-ios -app store,
-android, - online on cms website.
-provision production mongo database
-provision production prisma database branch
- - conditionally condition to dev or prod database, on node env variable
+SUPPORT:
+Add support chat with support pages ( FAQ, connect to team slack for live support )
 
-DATA REINFORCEMNET/SECURITY/HARDENING/&& BACKUPS!!!
-save all organization data in a 6 hour backup, double backup.
-save all user data in a 6 hour backup, double backup.
-save all driver data in a 6 hour backup, double backup.
-save all route data in a 6 hour backup, double backup.
-save all address data in a 6 hour backup, double backup.
+UI:
+Country picker for forms *
 
-PRIVATE SECURITY SECURITY/ROTATION
-Rotate crypto secret key
-Rotate api signing keys (not used yet)
+DOCS:
+create swagger api docs for node servers
 
-To DO: 
-TO DO: add geosphere index, add schema for driverSessions collection, add process to bring driver online and offline, save a history of activity for drivers, implement the sql record for drivers, and keep winning. :) Also, get the driver app running on my iphone tomorrow. :D
-
-Create a standard pattern for handling client side stylgin and a central tailwind config, that centers
-around ui-lib, and watching for directories that are included in tailwindconfig sources.
-
-Complete checkout and stripe data flow, end to end
-NOTE: PROVIDE A TEXTFIELD FOR DISPENSARIES TO INPUT THEIR EXISTING STRIPE ACCOUNTS, during onboarding.
-
-Complete 'continue sign up form' flow for users
-
-fix middleware directs for domain zones
-
-Write unit tests for all functions in cart.reducer, and reducer files,
-move any functions to core-lib utils
-write unit tests for all core-lib utils functions.
-Write unit tests for product variant data functions,
-Write unit tetst for order data functions.
-Write unit test to check stripe webhook is live.
-
-DO THESE THINGS THIS WEEK! BE DONE BY SATURDAY -- I DID NOT DO BY SATURDAY. I AM MAKING 4/10 LEVEL PROGRESS WITH VELOCITY
-
-! HOW AM I GOING TO SEND THESE ORDERS TO THE DISPENSARY?
-UNDERSTAND THEIR BACKEND SYSTEMS, AND INTEGRATE WITH GRAS FOR AUTOMATION FULFILLMENT.
-
-fix continue signup flow for quick-delivery and mybag
-complete signup process,
-
-**Populate main production branch database mysql.
-**Populate production mongo database.
-
-** HANDLE A FORMDATA BUG IN DISPENSARY SIGNUP REVIEW.
-HANDLE REDIRECT FOR DISPENSARY ADMINS, TO THE DASHBOARD APP.
-GET THE DASHBOARD APP WORKING, POSSIBLY IN THE SAME DOMAIN. :P GET WHAT EXISTS TO WORK FIRST!!
-
-TEST STRIPE Checkout - Add stripe functionality NOW - do it next. Keep it simple!
-
-DOWNLOAD THE MOBILE client
-FIX THE DISPATCH SERVER.
-
-SETUP USER PROTECTED PAGES WITH SUPERTOKENS:
-
-GET ALL THIS STUFF ONLINE WITH TERRAFORM.
-USE AI LIKE A MOTHER FUCKER.
-WIN.
-
-Improvements:
-save bag content to database, to recall it when the user sign in
-
-Add global axios config for apps
-Take all the notes an add them into JSDOCS in the relevant files and functions ;P
-
-! Should encrypt the widget cart token, when its save in cookie. in the future.
-
-* Handle change order address in checkout
-
-Checkout, settings, support, admin pages,
-
-add unit tests for all dispensary api, server api, location api routes, and functions!
-
-Push it to linode so people can SEE OUR PRODUCT!
-Create short youtube videos explaining 
-1. How our network works
-2. How our product works
-3. How our software works
-4. How to install our software.
-
-
-Complete the regex match for cardreader, right now the match regex is turn offed,
-card reader will always return true. Turn it on before we have paying customers!
-
-
-must do: WRITE UNIT TESTS FOR WIDGET CRAWLER
-Write unit tests for middleware redirects
-Finish: resolve middleware redirect for /_stores/ path
-ConfirmOrder:
-    // NOTE: Should encrypt this token in the future.
-    // NOTE: Add the cart data to redux store at this point, and delete the cookie after this.
-
-Test the widget in a react app as well.
-Host node servers.
-Launch this month. Win.
-
-IMPROVEMENTS:
-add cookie to sign up forms to persist data, if the tab, or app is closed
-
-*** Embed Calendly scheduling for dispensary onbarding! 
-
-What must I do next? 3-4-2023
-Lower the widget bundle size into modules.
-signin flow
-production environment testing: {
-    upload the latest repo
-    test with supertokens, mysql containers
-    write a docker compose file (or whatever kubernetes uses)
-    test in the cloud,
-    create hte k8s config, so I can save money in between deployments. ;)
-    Message Kalifa SATURDAY to have a call on Monday.
-}
-
-
-TO DO
-CREATE PYTHON GEOCODE SERVER, SERVE WITH NGINX SCRIPT, OR DOCKER?
-TEST THE LOCAL_ORGANIZATION ROUTE, SAVE THE COORDINATES IN BOTH DB, MYSQL AND MONGO
-INITIALIZE BACKUPS IN mongodb
-CONNECT WITH KALIPHA TO FACILIATE THE DOCKER COMPOSE JOB
-KEEP GOING. BRIDGE THE GAPS NOW.
-IM DOING A GOOD JOB.
-
-check modal use hook
-// TODO update session db record with new expiry
-                                // TODO delete session db record
-                                
-1. Test db migrate with local shadow db
-why ? to have a baseline and saved database schema for recovery
-why? to have a one command deployment process for scalability that WORKS
-2. test linode shadow db instance in prod environemnt.
-why ? to run migrations locally and in production.
-Do this tomorrow. First thing in the morning.
-
-BUILD SHOPPING EXPERIENCE APP xD
-why? because the customers need an app to buy
-
-update UI components to show session status (Layout, topbar, pages, dont couple the state)
-why? because people have to know if they are signed in, be able to signin
-
-What am I doing now?
-- testing docker with mysql image, for prisma db migrate with shadowdb
-why? So I can push changes to my db
-why? So I can promote up to date shema to production
-why? So I can host a production environment
-why? So Matthew and I can demo the software to a client in MD
-why? So we can get paying customers
-why? Because we are launching a profitable company
-
-create server/main route for new organizations, and new users
-why? so dispensaries and users can register
-
-make sure duplicate records are not created
-why? so every use has a unique username
-
-add search function to dispensary create to find existing vendor brands,
-why? so dispensaries can be tracked under their umbrella franchise
-
-Write test cases for signup, signin, signout route
-why? to test and make sure the server is always functioning properly
-
-create password reset, and sendpwresettoken routes
-why? because users need to reset their password, so customer service is not occupied with this
-
-configure mailserver with linode
-why? to send emails to users based on user actions (reset password, verify email) to automate
-Test: Mailserver with linode stmp client
-
-get the site working for client demos.
-why? to host our site, so clients can see our product live, in action
-
-setup nginx with https on linode
-why? for hosting, security
-
-Harden security in linode
-Have Matthew review and give feedback
-Profit :)
-
--host supertokens on linode with docker, use dockercompose, k8s for container deployments
--Deploy supertokens in linode container, add to env
-why? to have scalable backend services
-why? because there MAY be a bottleneck with requests to supertokens
-there isnt now, though.
-How can we know the bottleneck in the future?
-(TEST RESPOND TO AND FROM BACKEND SERVICES,
-MEASURE HTTP REQUEST LATENCY WITH SOME MEASURING PACKAGE, HTTP-(MEASURE???), LOGROCKET? FOR ALL REQUESTS)
-
-
-product upload, wasabi s3 storage, imagekit.io image handling ;D
-Why? Because we MUST verify customer age and identification, and conduct background check for drivers and customers, dispensary employess
-
-Add country picker to address forms, add country code
-Why? UX usability
-
-configure nextapp and nginx with docker,
-- use nodebalancer
-
-Revise dockerfile to build fast and lean
-https://dev.to/jonlauridsen/exploring-the-monorepo-5-perfect-docker-52aj
-
-discount and pricing model:
+DISCOUNT AND PRICING: (dont worry about this now)
 discounts are applied on order basis, 
     applied from a product discount, if it exists,
     inherited to orderItem from product
     salePrice exist in db records: 
         OrderItem, is calculated from basePrice and discount
-
-* build swagger api for node main server
-
-Testing:
-prisma query, 
-Price, formatting, mutating data, adding, removing entries,
-write nextjs api route tests, to test the proper http request is sent to server. :)
-unit test debounce func
-Write a unit test suite for addproductshandle
-Write test for updateProducts page funcs
-test the correct env is loaded (dev, or production)
-provision development and prod, preprod spaces
-
-add product details page, make it reusable for consumer app
-
-finish all admin dashboard pages, details pages, etc.
-Add socket event handling to admin app, for orders. :) Keep it simple and declarative! Easy! The admin client can receive events only, and does not send. 
-complete site settings page with data, and routes
-
-Fix the Order totals, and add backend code to update order rows for transactions
-build consumer web app (Easy!!)
-
-auth middleware with supertokens sessions from database :)
-
-add incremental build to ui-lib lib
-tie up loose ends in the dashboard - dead code, unfinished components
-cycle reusable comps to ui-lib for using consumer app :)
-
-* organization and product lookup needs to check the users membership org on the backend, for security ocnfirmation
-
-Production fine details:
-add static landing page that shows isolated from server activity, make it always available
-
-Improve Dev Experience:
-frontend: component generators, to automate file creation
-, use less tailwind classes, and more components for frontend styling, { Grid, GridwithPadding, Grid gradient={}, etc}

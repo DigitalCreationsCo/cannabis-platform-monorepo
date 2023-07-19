@@ -59,13 +59,11 @@
     "postinstall": "prisma generate",
     "prisma-studio": "dotenv -e ../../.env.development -- yarn prisma studio",
     "shadow-db": "../../scripts/docker/shadow-db.sh",
-
     "push": "dotenv -e ../../.env.development -- yarn prisma db push",
     "pull": "dotenv -e ../../.env.development -- npx prisma db pull",
     "seed": "npx prisma generate && dotenv -e ../../.env.development -- yarn prisma db seed",
     "clear": "dotenv -e ../../.env.development -- node --loader ts-node/esm ./src/db/clear.mts",
     "baseline": "make baseline",
-
     "migrate-status": "dotenv -e ../../.env.development -- npx prisma migrate status",
     "migrate": "dotenv -e ../../.env.development -- yarn prisma migrate dev",
     "deploy": "dotenv -e ../../.env.development -- npx prisma migrate deploy",
@@ -73,7 +71,6 @@
     "migrate-rollback": "dotenv -e ../../.env.development -- yarn prisma migrate resolve --rolled-back",
     "migrate-reset": "dotenv -e ../../.env.development -- yarn prisma migrate reset",
     "migrate-reset-production": "dotenv -e ../../.env.production -- yarn prisma migrate reset",
-
     "test": "run-s test:unit",
     "test-e2e": "dotenv -e ../../.env.development -- yarn vitest run",
     "test-unit": "jest --config ./jest.config.ts",

@@ -26,7 +26,7 @@ app.use(cors());
 // app.use(bodyParser.json());
 
 app.use('/api/v1/healthcheck', (_, res) => {
-  return res.status(200).json({ status: 'ok' });
+  return res.status(200).json({ status: 'ok', server: 'image' });
 });
 
 app.post(

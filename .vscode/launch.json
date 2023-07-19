@@ -23,6 +23,20 @@
         "uriFormat": "%s",
         "action": "debugWithChrome"
       }
-    }
+    },
+    {
+      "name": "debug server-main",
+      "type": "node-terminal",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/server/main",
+      "command": "yarn watch",
+      "serverReadyAction": {
+        "pattern": "started server on .+, url: (https?://.+)",
+        "uriFormat": "%s",
+        "action": "openExternally"
+      },
+      "sourceMaps": true
+    },
+
   ]
 }

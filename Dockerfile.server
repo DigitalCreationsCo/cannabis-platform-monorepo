@@ -11,7 +11,6 @@ RUN yarn set version $YARN_VERSION
 RUN yarn plugin import workspace-tools
 RUN yarn workspaces focus @cd/server-$BUILD_CONTEXT
 
-# WORKDIR /root/server/$BUILD_CONTEXT
 RUN yarn workspaces foreach -itR --from @cd/server-$BUILD_CONTEXT run build
 
 FROM --platform=linux/amd64 node:16
@@ -26,8 +25,10 @@ COPY --from=BUILDER /root/.yarn             ./root/.yarn
 COPY --from=BUILDER /root/.yarnrc.yml       ./root
 COPY --from=BUILDER /root/.env.development  ./root
 COPY --from=BUILDER /root/.env.production   ./root
-
 COPY --from=BUILDER /root/server/$BUILD_CONTEXT/ ./root/server/$BUILD_CONTEXT/
+
+WORKDIR /root
+RUN if [ "$BUILD_CONTEXT" = "image" ] ; then yarn add sharp ; fi
 
 WORKDIR /root/server/$BUILD_CONTEXT/
 
