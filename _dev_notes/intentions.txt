@@ -128,6 +128,9 @@ dashboard app CORS, shop app CORS
 7-17-2023
 Loginmodal mobile view fix,
 seed production database
+7-18-2023
+resolved: OTP in production does not work for new user
+
 
 TO DO:::          Priority: *** most, ** less, * least
 
@@ -138,9 +141,6 @@ Deploy permanents vm for failover.
 END TO END TESTS
 FInish end to end tests
 Create test automation for end to end
-
-SUPERTOKENS:
-update docker image to use postgresql connection pooling url
 
 DELIVERY WIDGET: 
 Create docs for Delivery Widget, 
@@ -155,7 +155,6 @@ Test verify Id,
 add verify Id on each order in DRIVERCLIENT
 
 BUGS: 
-OTP in production does not work for new user ***
 Resend OTP does not work. ***
 Resolve subdomain links in the frontend apps. ***
 cart bug when navigating to different storefronts, the cart changes in unexpected ways

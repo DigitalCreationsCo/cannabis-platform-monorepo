@@ -45,7 +45,7 @@ spec:
             #   memory: '120Mi'
           ports:
             - name: image-port
-              containerPort: 6011
+              containerPort: 6031
 
           livenessProbe:
             httpGet:
