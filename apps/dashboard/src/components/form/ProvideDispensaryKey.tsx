@@ -6,7 +6,7 @@ import {
   H2,
   Paragraph,
   TextField,
-  useFormContext,
+  useFormContext
 } from '@cd/ui-lib';
 import axios from 'axios';
 import { useFormik } from 'formik';
@@ -36,9 +36,8 @@ function ProvideDispensaryKey() {
       const response = await axios(
         urlBuilder.dashboard + `/api/organization/${dispensaryKey}`
       );
-
-      if (!response.data.success) throw new Error(response.data.message);
-
+      if (response.data.success == false)
+        throw new Error(response.data.message);
       setFormValues({ organization: { ...response.data.payload } });
     } catch (error: any) {
       throw new Error(error.message);
