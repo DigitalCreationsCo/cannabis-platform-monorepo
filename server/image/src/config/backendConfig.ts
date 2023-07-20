@@ -15,7 +15,7 @@ const appInfo = {
 };
 
 export const backendConfig = (): AuthConfig => {
-  console.info(' ✈️ server/location backend config: ', appInfo);
+  console.info(' 🌠 server/location backend config: ', appInfo);
   return {
     framework: 'express',
     supertokens: {

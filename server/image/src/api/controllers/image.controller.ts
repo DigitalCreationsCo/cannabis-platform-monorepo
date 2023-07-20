@@ -23,6 +23,7 @@ export default class ImageController {
 
       const
         images: File[] = req.files;
+      console.info('images uploaded: ', images);
 
       if (images) {
         const

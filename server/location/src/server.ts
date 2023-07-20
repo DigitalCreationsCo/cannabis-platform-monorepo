@@ -23,7 +23,6 @@ app.use(
     credentials: true,
   })
 );
-
 app.use(middleware());
 
 app.use(bodyParser.urlencoded({ extended: true }));

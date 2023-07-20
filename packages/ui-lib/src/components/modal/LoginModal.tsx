@@ -1,16 +1,14 @@
 import { TextContent, userActions } from '@cd/core-lib';
-import {
-  handleOTPInput,
-  resendOTP,
-  sendOTPEmail,
-  sendOTPPhone
-} from '@cd/core-lib/src/auth/OTP';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
+import {
+  consumeCode,
+  createCode
+} from 'supertokens-auth-react/recipe/passwordless';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 import logo from '../../../public/assets/images/logo.png';
@@ -95,12 +93,12 @@ function LoginModal({
           setLoading(true);
           setInputValue(values.emailOrPhone);
           if (isInputPhone) {
-            await sendOTPPhone(values.emailOrPhone);
+            await createCode({ phoneNumber: values.emailOrPhone });
             toast.success(
               'Please check your mobile messages for the one time passcode.'
             );
           } else {
-            await sendOTPEmail(values.emailOrPhone);
+            await createCode({ email: values.emailOrPhone });
             toast.success(
               `A one time passcode has been sent to ${values.emailOrPhone}.`,
               { duration: 5000 }
@@ -209,7 +207,7 @@ function LoginModal({
           handleOTPAndSignIn();
         }
       } catch (error: any) {
-        setLoadingButton(false);m
+        setLoadingButton(false);
         console.error(error);
         toast.error(error.message);
       }
@@ -217,9 +215,9 @@ function LoginModal({
 
     const handleOTPAndSignIn = async () => {
       try {
-        const response = await handleOTPInput(values.passcode);
+        const response = await consumeCode({ userInputCode: values.passcode });
 
-        if (response?.user) {
+        if (response.status === 'OK') {
           dispatch(userActions.signinUserSync(response.user));
         }
 

@@ -176,6 +176,7 @@ add phone signin for passwordless
 
 EMAIL:
 configure smtp server to send emails based on user actions register, reset password
+customize signin signup code email
 
 DISPENSARY ONBOARDING:
 Embed Calendly scheduling for dispensary onbarding
