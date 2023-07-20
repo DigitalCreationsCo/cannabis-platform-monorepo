@@ -19,7 +19,7 @@ import { StaticImageData } from 'next/image';
 import { PropsWithChildren, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
-import { DispensaryCard } from '../components';
+import { DispensaryCard } from '../../components';
 import backdrop from '/public/marijuana-backdrop.png';
 
 export default function MarketPlace({ host }: { host: string }) {

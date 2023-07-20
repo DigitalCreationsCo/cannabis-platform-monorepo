@@ -5,7 +5,7 @@ import {
   H2,
   LayoutContextProps,
   Page,
-  Paragraph,
+  Paragraph
 } from '@cd/ui-lib';
 import { NodeNextRequest } from 'next/dist/server/base-http/node';
 import Head from 'next/head';
@@ -79,11 +79,12 @@ export async function getServerSideProps({ req }: { req: NodeNextRequest }) {
 }
 
 const expressivePhrases = (dispensary: string) => [
-  `Check back in August 2023 for the greenest, cleanest shopping experience from ${dispensary} & Gras.`,
+  `Check back in August 2023 for a green shopping experience from ${dispensary} & Gras.`,
   `Check back in August 2023 for a fresh shopping experience from ${dispensary} & Gras.`,
   `Check back in August 2023 for a lush shopping experience from ${dispensary} & Gras.`,
   `Check back in August 2023 for a new budding online experience from ${dispensary} & Gras.`,
-  `Check back in August 2023 for this new, sprouting shopping experience from ${dispensary} & Gras.`,
+  `Check back in August 2023 for a sprouting shopping experience from ${dispensary} & Gras.`,
+  `Check back in August 2023 for the new shopping experience taking roots from ${dispensary} & Gras.`,
 ];
 
 StoreFront.getLayoutContext = (): LayoutContextProps => ({

@@ -39,7 +39,6 @@ export default function middleware(req: NextRequest, res: ServerResponse) {
     '/quick-delivery',
     '/browse',
     '/welcome',
-    '/stores'
   ]);
 
   let url;

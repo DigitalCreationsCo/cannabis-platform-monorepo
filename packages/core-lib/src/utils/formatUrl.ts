@@ -1,13 +1,17 @@
 function formatDispensaryUrl(subdomainId: string, organizationId: string) {
   switch (process.env.NODE_ENV) {
     case 'development':
-      return `http://localhost:3000/stores/${subdomainId}/${organizationId}`;
+      // return `http://localhost:3000/browse/${subdomainId}/${organizationId}`;
+      return `http://localhost:3000/browse/${subdomainId}`;
     case 'test':
-      return `http://localhost:3000/stores/${subdomainId}/${organizationId}`;
+      // return `http://localhost:3000/browse/${subdomainId}/${organizationId}`;
+      return `http://localhost:3000/browse/${subdomainId}`;
     case 'production':
-      return `https://grascannabis.org/stores/${subdomainId}/${organizationId}`;
+      // return `https://grascannabis.org/browse/${subdomainId}/${organizationId}`;
+      return `https://grascannabis.org/browse/${subdomainId}`;
     default:
-      return `http://localhost:3000/stores/${subdomainId}/${organizationId}`;
+      // return `http://localhost:3000/browse/${subdomainId}/${organizationId}`;
+      return `http://localhost:3000/browse/${subdomainId}`;
   }
 }
 

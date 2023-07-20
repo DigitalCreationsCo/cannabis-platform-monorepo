@@ -32,7 +32,7 @@ function DispensaryCard({
 
   return (
     <Link
-      href={formatDispensaryUrl(dispensary?.vendor.name as string, dispensary?.id)}
+      href={formatDispensaryUrl(dispensary?.subdomainId as string, dispensary?.id)}
       className="z-0 relative shadow-lg rounded"
     >
       <Card
