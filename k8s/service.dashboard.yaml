@@ -37,6 +37,9 @@ spec:
           image: grasadmin/dashboard:latest
           imagePullPolicy: Always
           terminationMessagePolicy: FallbackToLogsOnError
+          env: 
+            - name: SUPERTOKENS_DEBUG
+              value: 'true'
           resources:
             {}
             # limits:
