@@ -134,6 +134,17 @@ function TopBar({ signOut }: TopBarProps) {
               size="md"
               bg="transparent"
               hover="transparent"
+            >
+            <Link href={getShopSite('/account')}>
+              my account
+            </Link>
+            </Button>
+          </FlexBox>
+          <FlexBox>
+            <Button
+              size="md"
+              bg="transparent"
+              hover="transparent"
               onClick={signOut}
             >
               Sign Out

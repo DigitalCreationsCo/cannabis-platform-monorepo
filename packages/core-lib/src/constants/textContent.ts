@@ -40,6 +40,8 @@ const TextContent = Object.freeze({
     DISPENSARIES_START_HERE: 'Dispensaries, get started here',
     ENTER_OR_GO_TO_ACCOUNT:
       'You can enter the Gras site, or view your account.',
+    MY_ACCOUNT:
+      'My Account',
   },
 
   success: {
