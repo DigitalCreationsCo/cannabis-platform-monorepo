@@ -1,5 +1,5 @@
 import { getDashboardSite, modalActions, modalTypes, selectUserState, TextContent } from '@cd/core-lib';
-import { Button, FlexBox, H1, H4, H6, LayoutContextProps, Page, Paragraph } from '@cd/ui-lib';
+import { Button, FlexBox, H1, H4, H6, LayoutContextProps, Page, Paragraph, Span } from '@cd/ui-lib';
 import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import Router from 'next/router';
@@ -70,9 +70,9 @@ function LandingPage() {
                                     <H6 className="max-w-[360px] text-light text-justify w-full whitespace-pre-line">
                                         Welcome to Gras. {'\n'}
                                         We are team of cannabis lovers providing a 
-                                        home-grown service provider for cannabis lovers.
-                                        We are serving our cannabis communities by providing a service 
-                                        as a bridge of communication, clarity and support.
+                                        home-grown service in our community.
+                                        We serve by empowering the voices of our community through clarity and support. {'\n'}
+                                        <Span className='text-center m-auto font-bold'>We welcome everyone 21 years or older.</Span>
                                     </H6>
                                     </FlexBox>
                                 <Button

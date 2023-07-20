@@ -37,8 +37,8 @@ function SideNavContainer({
             isFixed && 'fixed', 
             !showSideNavOnDesktop && 'lg:!hidden', 
             'drawer-side', 
-            'min-h-full'],
-        
+            'h-full'
+        ],
         drawerOverlay: [
             'drawer-overlay h-full lg:hidden'
         ],

@@ -28,6 +28,7 @@ export default async function middleware(req: NextRequest, res: ServerResponse) 
     '/about-gras',
     '/signup/create-dispensary-account',
     '/signup/create-account',
+    '/survey'
   ];
 
   const shopPages = allowAllVisitors.concat([

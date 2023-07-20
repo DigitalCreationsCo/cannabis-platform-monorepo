@@ -49,23 +49,13 @@ describe('Page', () => {
         expect('1').toBe('1');
     });
 
-    it(' [store].url redirects to storefront page', async () => {
+    it(' /browse/[] redirects to storefront page', async () => {
+        expect('1').toBe('1');
+    });
+    
+    it(' unverified users can access /survey', async () => {
         expect('1').toBe('1');
     });
 
-    it(' [store].url/... redirects to not found page', async () => {
-        expect('1').toBe('1');
-    });
 
-    it(' [store].url/app redirects to not found page', async () => {
-        expect('1').toBe('1');
-    });
-
-    it(' url/_stores redirects to not found', async () => {
-        expect('1').toBe('1');
-    });
-
-    it(' url/_stores/[store] redirects to not found', async () => {
-        expect('1').toBe('1');
-    });
 });
