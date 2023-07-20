@@ -71,7 +71,7 @@ export const blogSlice = createSlice({
             if (index === -1) state.news = [...state.news, article];
             else state.news[index] = article;
 
-            console.info('state after reconcile: ', state.dispensaries);
+            console.info('state after reconcile: ', state.news);
           });
         }
         state.isLoading = false;
