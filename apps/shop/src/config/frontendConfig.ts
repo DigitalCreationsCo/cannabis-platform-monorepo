@@ -41,11 +41,11 @@ export const frontendConfig = () => {
               throw new Error(`
                             Admin permissions are not allowed here. 
                             Please sign in at Dispensary portal. Thank you.`);
-            // else if (event.isNewUser || !event.user.isSignUpComplete)
-            // window.location.href = `${shopDomain}/signup/create-account`;
-            // else {
-            // window.location.href = `${shopDomain}${window.location.pathname}`;
-            // }
+            else if (event.isNewUser || !event.user.isSignUpComplete)
+            window.location.href = `${shopDomain}/signup/create-account`;
+            else {
+            window.location.href = `${shopDomain}${window.location.pathname}`;
+            }
           }
         },
       }),
