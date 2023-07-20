@@ -14,10 +14,13 @@ export const config = {
   ],
 };
 
+const shopDomain =
+  process.env.NEXT_PUBLIC_SHOP_APP_URL || 'http://localhost:3000';
 const dashboardBaseUrl =
-  process.env.NEXT_PUBLIC_DASHBOARD_APP_URL || 'localhost:3001';
+  process.env.NEXT_PUBLIC_DASHBOARD_APP_URL || 'http://localhost:3001';
 
-export default function middleware(req: NextRequest, res: ServerResponse) {
+export default async function middleware(req: NextRequest, res: ServerResponse) {
+
   let subdomain =
     req.headers.get('host')?.split('.')[0].split(':')[0] || 'localhost';
 

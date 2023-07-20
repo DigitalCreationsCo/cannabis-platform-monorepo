@@ -3,7 +3,7 @@ import {
   modalTypes,
   selectIsAddressAdded,
   selectIsCartEmpty,
-  selectUserState,
+  selectUserState
 } from '@cd/core-lib';
 import { Card, CheckoutButton, H3, LayoutContextProps, Page } from '@cd/ui-lib';
 import RenderCart from 'components/cart/RenderCart';
@@ -21,7 +21,7 @@ function CartPage() {
   const checkoutOrSignUp = (event: any) => {
     event.preventDefault();
     event.stopPropagation();
-    if (user.isSignedIn && isAddressAdded) {
+    if (user.isSignedIn && isAddressAdded && user.user.isSignUpComplete) {
       Router.push('/checkout');
     } else {
       dispatch(modalActions.openModal({ modalType: modalTypes.checkoutModal }));

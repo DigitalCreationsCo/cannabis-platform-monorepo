@@ -36,7 +36,7 @@ export const frontendConfig = () => {
             if (
               (event.user &&
                 event.user.memberships?.[0]?.role.toLocaleUpperCase() ===
-                  'ADMIN') ||
+                'ADMIN') ||
               event.user.memberships?.[0]?.role.toLocaleUpperCase() === 'OWNER'
             )
               throw new Error(`
