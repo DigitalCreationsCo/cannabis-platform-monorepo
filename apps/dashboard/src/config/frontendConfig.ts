@@ -25,6 +25,7 @@ export const frontendConfig = () => {
   console.info('dashboard frontend config: ', appInfo);
   return {
     appInfo,
+    enableDebugLogs: process.env.SUPERTOKENS_DEBUG === 'true',
     recipeList: [
       Passwordless.init({
         contactMethod: 'EMAIL_OR_PHONE',

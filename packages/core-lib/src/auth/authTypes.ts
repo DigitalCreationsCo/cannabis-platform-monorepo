@@ -10,9 +10,7 @@ export type ApiContext = {
 export type AppUser = 'DRIVER' | 'CUSTOMER' | 'ADMIN';
 
 export type PasswordlessSignInRequestPayload = {
-  userContext: {
-    appUser: AppUser
-  },
+  userContext: any;
   appUser: AppUser,
   userInputCode: string,
   preAuthSessionId: string,

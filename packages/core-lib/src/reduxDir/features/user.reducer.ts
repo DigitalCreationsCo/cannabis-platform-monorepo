@@ -3,6 +3,7 @@
 import { UserWithDetails } from "@cd/data-access";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 // import * as SecureStore from "expo-secure-store";
+import Passwordless from 'supertokens-node/recipe/passwordless';
 import { pruneData } from "../../utils";
 import { AppState, ThunkArgumentsType } from "../types/reduxTypes";
 import { locationActions } from './location.reducer';
@@ -217,7 +218,7 @@ const signOutUserAsync = createAsyncThunk<void, void, {
 
 export type UserStateProps = {
   token: string | null;
-  user: UserWithDetails;
+  user: UserWithDetails
   // friendList: any[];
   isSignedIn: boolean;
   isLoading: boolean;
@@ -268,7 +269,7 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    signinUserSync: ((state, { payload }: { payload: UserWithDetails }) => {
+    signinUserSync: ((state, { payload }: { payload: UserWithDetails | Passwordless.User }) => {
 
       console.info('signinUserSync payload', payload)
 

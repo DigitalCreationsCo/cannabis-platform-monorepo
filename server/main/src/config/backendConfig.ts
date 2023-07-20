@@ -35,15 +35,50 @@ export const backendConfig = (): AuthConfig => {
           functions: (originalImplementation) => {
             return {
               ...originalImplementation,
+              createCode: async (input) => {
+                try {
+
+                  console.info('create-code input: ', input);
+                  let response = await originalImplementation.createCode(
+                    input
+                  );
+                  console.info('create-code response: ', response);
+
+                  return response;
+                } catch (error) {
+                  console.log(' create code error: ', error);
+                  throw new Error('The Sign In server is not available. Please contact Gras team.');
+                }
+              },
+
               consumeCode: async (input: PasswordlessSignInRequestPayload) => {
                 try {
-                  console.info('consume-code provided input: ', input);
 
+                  console.info('consume-code input: ', input);
                   let response = await originalImplementation.consumeCode(
                     input
                   );
-
                   console.info('consume-code response: ', response);
+
+                  if (response.status === 'INCORRECT_USER_INPUT_CODE_ERROR') {
+                    throw new Error(`Invalid passcode. Please try again. 
+                          You have ${response.maximumCodeInputAttempts -
+                      response.failedCodeInputAttemptCount
+                      } attempts left.`);
+                  }
+
+                  if (response.status === 'EXPIRED_USER_INPUT_CODE_ERROR') {
+                    throw new Error(`Invalid passcode. Please try again. 
+                          You have ${response.maximumCodeInputAttempts -
+                      response.failedCodeInputAttemptCount
+                      } attempts left.`);
+                  }
+
+                  if (response.status === 'RESTART_FLOW_ERROR') {
+                    console.error(response.status);
+                    throw new Error('There was an error. Please try again.');
+                  }
+
                   if (response.status === 'OK') {
                     if (response.createdNewUser === false) {
                       let user;
@@ -81,18 +116,11 @@ export const backendConfig = (): AuthConfig => {
                         }
                       }
                     }
-                    return {
-                      ...response,
-                      createdNewUser: response.createdNewUser,
-                      fromDB: true,
-                    };
                   }
                   return response;
                 } catch (error: any) {
-                  return {
-                    status: 'RESTART_FLOW_ERROR',
-                    message: error.message,
-                  };
+                  console.error(' consume code error: ', error);
+                  throw new Error(error.message);
                 }
               },
             };

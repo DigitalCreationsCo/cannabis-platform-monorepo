@@ -12,7 +12,7 @@ class ImageWorker {
     await this.imageWorker.loadLanguage("eng");
     await this.imageWorker.initialize("eng");
     await this.imageWorker.setParameters({
-      user_defined_dpi: "300",
+      user_defined_dpi: "70",
     })
   }
 

@@ -191,16 +191,16 @@ export const shopSlice = createSlice({
       ) => {
         const dispensaries = payload;
         if (dispensaries.length > 0) {
-          dispensaries.forEach((d) => {
-            d.metadata = {
+          dispensaries.forEach((dispensary) => {
+            dispensary.metadata = {
               productsFetched: false,
             };
 
             console.info('state before reconcile: ', state.dispensaries);
 
-            const index = state.dispensaries.findIndex((i) => i.id === d.id);
-            if (index === -1) state.dispensaries = [...state.dispensaries, d];
-            else state.dispensaries[index] = d;
+            const index = state.dispensaries.findIndex((d) => d.id === dispensary.id);
+            if (index === -1) state.dispensaries = [...state.dispensaries, dispensary];
+            else state.dispensaries[index] = dispensary;
 
             console.info('state after reconcile: ', state.dispensaries);
           });
@@ -230,19 +230,19 @@ export const shopSlice = createSlice({
           const dispensaries = payload;
 
           if (dispensaries.length > 0) {
-            dispensaries.forEach((disp) => {
-              disp.metadata = {
+            dispensaries.forEach((dispensary) => {
+              dispensary.metadata = {
                 productsFetched: false,
               };
+
+              console.info('state before reconcile: ', state.dispensaries);
+
+              const index = state.dispensaries.findIndex((d) => d.id === dispensary.id);
+              if (index === -1) state.dispensaries = [...state.dispensaries, dispensary];
+              else state.dispensaries[index] = dispensary;
+
+              console.info('state after reconcile: ', state.dispensaries);
             });
-
-            console.info('state before reconcile: ', state.dispensaries);
-
-            const index = state.dispensaries.findIndex((i) => i.id === d.id);
-            if (index === -1) state.dispensaries = [...state.dispensaries, d];
-            else state.dispensaries[index] = item;
-
-            console.info('state after reconcile: ', state.dispensaries);
           }
           state.isLoading = false;
           state.isSuccess = true;
