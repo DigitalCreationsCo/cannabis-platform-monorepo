@@ -96,6 +96,10 @@ const VerifyPhotoId = () => {
             formData.append("idFrontImage", frontImage);
             formData.append("idBackImage", backImage);
 
+            console.info('verify identification: formdata: ');
+            for (var pair of formData.entries()) {
+                console.info(pair[0], pair[1]); 
+            }
             const 
             response = await axios.post(
                 urlBuilder.image.verifyIdentificationImageUpload(), 
