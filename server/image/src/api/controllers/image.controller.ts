@@ -12,17 +12,15 @@ verifyIdentificationImageFromUpload
 export default class ImageController {
 
   // IMPROVEMENTS: set a size limit for the images, and a file type limit, and a number of images limit
-
-  // verify Identification could be one function, I keep as two for now, for easier testing, and to not break it. ;P
   static async verifyIdentificationImageFromUpload(req, res) {
     try {
 
       let
-        uploadedImages: ImagePaths,
-        isUploaded = false;
+        _uploaded: ImagePaths,
 
       const
         images: File[] = req.files;
+
       console.info('images uploaded: ', images);
 
       if (images) {
@@ -30,28 +28,24 @@ export default class ImageController {
           idFrontImage = images.find(image => image.fieldname === 'idFrontImage');
 
         const
-          { isLegalAge, scannedDOB } = await ImageDAO.checkLegalAgeFromIdImage(idFrontImage.buffer);
-
-        uploadedImages = await uploadImageToS3ObjectStore(images, process.env.ID_VERIFY_BUCKET);
-        isUploaded = true;
-
+          _verified = await ImageDAO.checkLegalAgeFromIdImage(idFrontImage.buffer);
+        _uploaded = await uploadImageToS3ObjectStore(images, process.env.ID_VERIFY_BUCKET);
 
         return res.status(200).json({
           success: true,
           result: {
-            isLegalAge,
-            scannedDOB,
+            isLegalAge: _verified.isLegalAge,
+            scannedDOB: _verified.scannedDOB,
             idVerified: true
           },
-          images: uploadedImages,
-          isUploaded,
+          images: _uploaded,
+          isUploaded: true,
         });
       }
       else
         throw new Error("The server didn't receive images. Please try again.")
     } catch (error: any) {
-      console.info('Sorry, we could not verify the image. Please upload a different image.')
-      console.info(error);
+      console.error(error);
       res.status(200).json({
         success: false,
         error: error.message,
