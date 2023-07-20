@@ -1,7 +1,7 @@
 import {
   checkIsDispensaryOpen,
   formatDispensaryUrl,
-  renderAddress,
+  renderAddress
 } from '@cd/core-lib';
 import { OrganizationWithShopDetails } from '@cd/data-access';
 import { Card, FlexBox, H2, Paragraph } from '@cd/ui-lib';
@@ -32,7 +32,7 @@ function DispensaryCard({
 
   return (
     <Link
-      href={formatDispensaryUrl(dispensary?.subdomainId as string)}
+      href={formatDispensaryUrl(dispensary?.vendor.name as string, dispensary?.id)}
       className="z-0 relative shadow-lg rounded"
     >
       <Card
