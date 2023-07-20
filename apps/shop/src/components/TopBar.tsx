@@ -4,7 +4,7 @@ import {
   modalTypes,
   selectCartState,
   selectIsCartEmpty,
-  selectUserState,
+  selectUserState
 } from '@cd/core-lib';
 import {
   Button,
@@ -13,7 +13,7 @@ import {
   IconButton,
   Icons,
   Paragraph,
-  styles,
+  styles
 } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -45,11 +45,11 @@ function TopBar({ signOut }: TopBarProps) {
         <Link href={getShopSite('/')}>
           <Image alt="Gras" width={45} height={45} src={logo} />
         </Link>
-        <Link href={'/'}>
+        <Link href={getShopSite('/')}>
           <H2 className="pt-0.5">Gras</H2>
         </Link>
       </div>
-      <Link href={'/'}>
+      <Link href={getShopSite('/')}>
         <Paragraph className={twMerge(styles.TOPBAR.tagline)}>
           Cannabis Marketplace
         </Paragraph>
@@ -58,7 +58,7 @@ function TopBar({ signOut }: TopBarProps) {
 
       <FlexBox className="flex flex-row items-center space-x-6 md:space-x-8 pr-0">
         {isSignedIn && (
-          <Link className="hidden sm:block" href={'/support'}>
+          <Link className="hidden sm:block" href={getShopSite('/support')}>
             <Paragraph className={twMerge('whitespace-nowrap pt-1')}>
               Get Support
             </Paragraph>

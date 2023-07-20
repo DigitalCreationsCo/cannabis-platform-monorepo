@@ -48,11 +48,7 @@ export const frontendConfig = () => {
                 }
             }),
             Session.init({
-
                 // tokenTransferMethod: "cookie",
-
-                // sessionTokenFrontendDomain: `.${baseDomain}`,
-
                 // define common top level domain
                 // sessionTokenBackendDomain: `.${baseDomain}`,
                 cookieDomain: `.${baseDomain}`,
