@@ -1,9 +1,7 @@
-
 describe('Env ', () => {
-
-    it(' check valid env vars', () => {
-        expect(process.env.NEXT_PUBLIC_SHOP_APP_URL).toBeDefined();
-        expect(process.env.NEXT_PUBLIC_SHOP_APP_NAME).toBeDefined();
+  it(' check valid env vars', () => {
+    expect(process.env.NEXT_PUBLIC_SHOP_APP_URL).toBeDefined();
+    expect(process.env.NEXT_PUBLIC_SHOP_APP_NAME).toBeDefined();
     //     expect('1').toBe('1');
     //     expect('1').toBe('1');
     //     expect('1').toBe('1');
@@ -81,18 +79,17 @@ describe('Env ', () => {
     //     })(),
     //     DATABASE_URL: (() => {
     //         if (isDev)
-    //             return 'mysql://jb9if8nvve9l9g0399cs:pscale_pw_bMnzYmBLzWe2McbF8Nb1kH8cSRjyfvYZtU3G9678WEv@us-east.connect.psdb.cloud/cannabis_delivery_v1?sslaccept=strict';
+    //             return 'postgresql://postgres:RRJV@y_CK-jz9rj@db.runhqicnmxfwlzwllswi.supabase.co:5432/postgres';
     //         if (isProd)
-    //             return 'mysql://9zr5koln0y91fhumaiit:pscale_pw_rP9RqnT4pAkmmUawnaX67bkYr6AUAWJ2pBqhO9qVBpV@us-east.connect.psdb.cloud/cannabis_delivery_v1?sslaccept=strict';
+    //             return 'postgresql://postgres:TdRI1pIMnTkBHKRq@db.apcnayhzxaforyeoqdjq.supabase.co:5432/postgres';
     //         if (isStaging)
-    //             return 'mysql://jb9if8nvve9l9g0399cs:pscale_pw_bMnzYmBLzWe2McbF8Nb1kH8cSRjyfvYZtU3G9678WEv@us-east.connect.psdb.cloud/cannabis_delivery_v1?sslaccept=strict';
+    //             return 'postgresql://postgres:RRJV@y_CK-jz9rj@db.runhqicnmxfwlzwllswi.supabase.co:5432/postgres';
     //         return 'DATABASE_URL:not (isDev,isProd && !isStaging,isProd && isStaging)';
     //     })(),
     //     SHADOW_DATABASE_URL: (() => {
-    //         if (isDev) return 'mysql://root:secret@localhost:6603/shadowdb';
-    //         if (isProd)
-    //             return 'mysql://shadow-db-1:4eyKYN+C#?&n3%R@139-144-253-195.ip.linodeusercontent.com:3306/shadow_db';
-    //         if (isStaging) return 'mysql://root:secret@localhost:6603/shadowdb';
+    //         if (isDev) return 'postgresql://postgres:shadowdbrocks@0.0.0.0:5432/postgres';
+    //         if (isProd) return 'postgresql://postgres:shadowdbrocks@0.0.0.0:5432/postgres';
+    //         if (isStaging) return 'postgresql://postgres:shadowdbrocks@0.0.0.0:5432/postgres';
     //         return 'SHADOW_DATABASE_URL:not (isDev,isProd && !isStaging,isProd && isStaging)';
     //     })(),
     //     LOCATION_IQ_GEOCODE_URL: (() => {
@@ -141,5 +138,5 @@ describe('Env ', () => {
     //     PASSWORD_SALT_ROUNDS: (() => {
     //         return 12;
     //     })()
-    });
+  });
 });

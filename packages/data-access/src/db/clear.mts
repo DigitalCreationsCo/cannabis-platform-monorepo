@@ -8,12 +8,12 @@ async function clearRecords() {
     let
         organizations_geolocate: Collection | null = null;
 
-    await prisma.$connect().then(() => console.log('connected to db'));
+    await prisma.$connect().then(() => console.info('connected to db'));
     await MongoClient.connect(process?.env?.MONGODB_CONNECTION_URL as string)
         .then(async (client) => {
             organizations_geolocate = await client.db(process?.env?.LOCATION_DB_NS as string).collection("organizations_geolocate");
 
-            console.log('clearing tables...');
+            console.info('clearing tables...');
 
             await prisma.imageVendor.deleteMany();
             console.info('clear prisma.imageVendor')
@@ -26,6 +26,12 @@ async function clearRecords() {
 
             await prisma.imageUser.deleteMany();
             console.info('clear prisma.imageUser')
+
+            await prisma.article.deleteMany();
+            console.info('clear prisma.article')
+
+            await prisma.imageArticle.deleteMany();
+            console.info('clear prisma.imageArticle')
 
             await prisma.siteSetting.deleteMany();
             console.info('clear prisma.siteSetting')
@@ -41,6 +47,9 @@ async function clearRecords() {
 
             await prisma.driver.deleteMany();
             console.info('clear prisma.driver');
+
+            await prisma.purchase.deleteMany();
+            console.info('clear prisma.purchase');
 
             await prisma.order.deleteMany();
             console.info('clear prisma.order');
@@ -75,7 +84,7 @@ async function clearRecords() {
         })
         .catch((err) => { console.error('Clear Records Error: ', err.message); process.exit(1); })
         .finally(() => {
-            console.log('cleared all tables');
+            console.info('cleared all tables');
             prisma.$disconnect();
             process.exit(0);
         })

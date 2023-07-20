@@ -1,21 +1,49 @@
+# certificate 
+ca.crt
+ca.key
+issuer.crt
+issuer.key
+
+# monorepo
+lint-staged.config.js
+commitlint.config.js
+.husky
+# **/.circleci
+
+# docker
 Dockerfile
 .dockerignore
 docker-compose.yml
-DOCKERSIM
 
+# test cache
+.cache/*
+
+# git
 .git
 .ignore
+.gitignore
 
+# vscode
+.vscode
+
+# kubernetes
 .kube
 k8s
+
+# terraform
 terraform
 
+# node
 **/node_modules
 npm-debug.log
-README.md
 
+# developer files
+README.md
+_dev_notes
+_productivity
+_blog
+
+# bundles
 **/build
 **/dist
 # **/.next
-**/.turbo
-**/_dev

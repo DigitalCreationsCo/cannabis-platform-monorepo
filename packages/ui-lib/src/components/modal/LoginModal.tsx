@@ -3,7 +3,7 @@ import {
   handleOTPInput,
   resendOTP,
   sendOTPEmail,
-  sendOTPPhone,
+  sendOTPPhone
 } from '@cd/core-lib/src/auth/OTP';
 import { useFormik } from 'formik';
 import Image from 'next/image';
@@ -70,7 +70,6 @@ function LoginModal({
 
     // DISABLED FOR NOW TO USE ONLY EMAIL LOGIN
     const [isInputPhone, setIsInputPhone] = useState(false);
-
     // DISABLED FOR NOW TO USE ONLY EMAIL LOGIN
     // useEffect(() => {
     //     const checkInputEmailOrPhone = () => {
@@ -82,7 +81,7 @@ function LoginModal({
     function notifyValidation() {
       validateForm().then((errors) => {
         if (Object.values(errors).length > 0) {
-          console.log('validation errors: ', errors);
+          console.info('validation errors: ', errors);
           toast.error(Object.values(errors)[0].toString());
         }
       });
@@ -197,7 +196,7 @@ function LoginModal({
     function notifyValidation() {
       validateForm().then((errors) => {
         if (Object.values(errors).length > 0) {
-          console.log('validation errors: ', errors);
+          console.info('validation errors: ', errors);
           toast.error(Object.values(errors)[0].toString());
         }
       });
@@ -210,7 +209,7 @@ function LoginModal({
           handleOTPAndSignIn();
         }
       } catch (error: any) {
-        setLoadingButton(false);
+        setLoadingButton(false);m
         console.error(error);
         toast.error(error.message);
       }
@@ -367,9 +366,10 @@ function LoginModal({
 }
 
 const styles = {
-  responsive:
-    'bg-inverse min-w-full min-h-screen sm:!rounded-none md:min-w-min md:min-h-min md:!rounded px-12',
-  padd: 'md:py-12',
+  responsive: [
+    'bg-inverse min-h-full min-w-full sm:!rounded-none md:min-w-min md:min-h-min md:!rounded px-12',
+  ],
+  padd: 'md:pt-12 md:pb-14',
 };
 
 const emailValidationSchema = yup.object().shape({

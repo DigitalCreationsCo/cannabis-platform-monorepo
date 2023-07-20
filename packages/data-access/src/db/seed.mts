@@ -1,64 +1,617 @@
-import { Address, Category, CategoryList, Driver, ImageOrganization, ImageProduct, ImageUser, ImageVendor, Membership, Order, Prisma, PrismaClient, Product, ProductVariant, Purchase, Route, Schedule, SiteSetting, SubDomain, User, Vendor } from "@prisma/client";
+import { Address, Category, Coordinates, ImageArticle, ImageOrganization, ImageProduct, ImageUser, ImageVendor, Membership, Prisma, PrismaClient, ProductVariant, Schedule, SubDomain, Vendor } from "@prisma/client";
 import axios from "axios";
 import { ReviewWithUserDetails } from "product";
 
 const prisma = new PrismaClient();
 
-async function main() {
-  // COORDINATE
-  const coordinates = [
+const createCoordinates = async () => {
+  const coordinates: Coordinates[] = [
     {
+      id: '1',
+      radius: 10000,
       latitude: 40.046,
       longitude: -76.302,
-      addressId: '1'
+      createdAt: new Date(),
+      updatedAt: new Date()
     },
     {
+      id: '2',
+      radius: 10000,
       latitude: 20.046,
       longitude: -36.302,
-      addressId: '2'
+      createdAt: new Date(),
+      updatedAt: new Date()
     },
     {
+      id: '3',
+      radius: 10000,
       latitude: 50.046,
       longitude: -16.302,
-      addressId: '3'
+      createdAt: new Date(),
+      updatedAt: new Date()
     },
     {
+      id: '4',
+      radius: 10000,
       latitude: 5.046,
       longitude: -36.302,
-      addressId: '4'
+      createdAt: new Date(),
+      updatedAt: new Date()
     }
   ]
+  await prisma.coordinates.createMany({
+    data: coordinates,
+    skipDuplicates: true,
+  });
+  console.info('create prisma.coordinates records');
+}
 
-  // PURCHASE
-  const purchases: Purchase[] = [
-    {
-      id: "1",
-      paymentStatus: "Pending",
-      gateway: "stripe",
-      type: "card",
-      amount: 12399,
-      token: '12345',
-      customerId: "1",
-      orderId: "1",
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    {
-      id: "2",
-      paymentStatus: "Paid",
-      gateway: "stripe",
-      type: "card",
-      amount: 23444,
-      token: '12345',
-      customerId: "2",
-      orderId: "2",
-      createdAt: new Date(),
-      updatedAt: new Date(),
+
+/**
+ * insert dispensary records into pg db, and POST geolocate records to mongo db
+ */
+const createOrganizations = async () => {
+  // ORGANIZATION
+  const orgs:
+    (Prisma.OrganizationCreateInput & {
+      address: Prisma.AddressCreateNestedOneWithoutOrganizationInput;
+      schedule: Prisma.ScheduleCreateNestedOneWithoutOrganizationInput;
+      images: Prisma.ImageOrganizationCreateNestedManyWithoutOrganizationInput;
+      // products: Prisma.ProductCreateInput[];
+      // categoryList: Prisma.CategoryListCreateInput;
+    })[]
+    = [
+      {
+        "id": "bf346k4u7x2b2hhr6wvgippp",
+        "name": "Curaleaf MD Reisterstown",
+        "stripeAccountId": null,
+        "stripeOnboardingComplete": false,
+        "dialCode": "1",
+        "phone": "",
+        "subdomain": {
+          "connectOrCreate": {
+            "where": {
+              "id": "curaleaf"
+            },
+            "create": {
+              "id": "curaleaf",
+              "isValid": true,
+              "createdAt": new Date(),
+              "updatedAt": new Date()
+            }
+          }
+        },
+        "vendor": {
+          "connectOrCreate": {
+            "where": {
+              "name": 'curaleaf'
+            },
+            "create": {
+              "name": "curaleaf",
+              "publicName": "Curaleaf",
+              "createdAt": new Date(),
+              "updatedAt": new Date()
+            }
+          }
+        },
+        "termsAccepted": false,
+        "address": {
+          "create": {
+            "street1": "11722 Reisterstown Rd",
+            "street2": "",
+            "city": "Reisterstown",
+            "state": "Maryland",
+            "zipcode": 21136,
+            "country": "United States",
+            "countryCode": "US",
+            "coordinates": {
+              "create": {
+                "radius": 10000,
+                "latitude": 39.445438,
+                "longitude": -76.809394,
+                "createdAt": new Date(),
+                "updatedAt": new Date()
+              }
+            },
+            "createdAt": new Date(),
+            "updatedAt": new Date()
+          }
+        },
+        "images": {
+          "createMany": {
+            "data": [
+              {
+                "location": "https://storage.cloud.google.com/image-dispensary/curaleaf/logo-1200.jpg?authuser=2",
+                "blurhash": "",
+                "createdAt": new Date(),
+                "updatedAt": new Date()
+              }
+            ]
+          }
+        },
+        products: {
+          create: {
+            name: "King OG",
+            description: "turpentines all day baby",
+            features: "fresh, without formaline",
+            tags: "mini, flower, og",
+            rating: 4.5,
+            variants: {
+              create: {
+                id: "1",
+                name: "King OG",
+                unit: "g",
+                size: 3.5,
+                currency: "USD",
+                basePrice: 6999,
+                discount: 10,
+                stock: 5,
+                organizationId: 'bf346k4u7x2b2hhr6wvgippp',
+                rating: 4.5,
+                organizationName: 'Curaleaf',
+                quantity: 3,
+                isDiscount: true,
+                salePrice: 6499,
+                sku: 1234567,
+                images: {
+                  create: {
+                    id: "2",
+                    location:
+                      "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
+                    blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
+                  },
+                },
+                createdAt: new Date(),
+                updatedAt: new Date(),
+              },
+            },
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          },
+        },
+        orders: {
+          create: {
+            subtotal: 12000,
+            total: 12399,
+            taxFactor: 0.6,
+            taxAmount: 1239,
+            orderStatus: "Pending",
+            customerId: "bfhk6k4u7xq030hr6wvgiwao",
+            addressId: "5",
+            driverId: "bf346k4u7x2b2hhr6wvgiwao",
+            purchase: {
+              create: {
+                id: '1',
+                paymentStatus: "Pending",
+                gateway: "stripe",
+                type: "card",
+                amount: 12399,
+                token: '12345',
+                createdAt: new Date(),
+                updatedAt: new Date(),
+              }
+            },
+            routeId: null,
+            isDeliveredOrder: false,
+            isCustomerReceivedOrder: false,
+            isCompleted: false,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            isDriverAssigned: false,
+            driverAssignedAt: new Date(),
+            isProductPickedUp: false,
+            productPickedUpAt: new Date(),
+            customerReceivedOrderAt: new Date(),
+            completedAt: new Date(),
+            deliveredAt: new Date(),
+          }
+        },
+        "schedule": {
+          "create": {
+            "days": 1234560,
+            "openAt": 9,
+            "closeAt": 21,
+            "createdAt": new Date(),
+            "updatedAt": new Date()
+          }
+        },
+        siteSetting: {
+          create: {
+            title: "Curaleaf MD Reisterstown",
+            description: "CuraLeaf MD Description text",
+            bannerText: "Curaleaf MD Banner Text",
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          },
+        },
+        categoryList: {
+          create: {} as any,
+        },
+        "createdAt": new Date(),
+        "updatedAt": new Date()
+      },
+      {
+        "id": "bf346k4u7x2b2hhr6wvgdddp",
+        "name": "SunnySide",
+        "stripeAccountId": null,
+        "stripeOnboardingComplete": false,
+        "dialCode": "1",
+        "phone": "",
+        "vendor": {
+          "connectOrCreate": {
+            "where": {
+              "name": "sunnyside",
+            },
+            "create": {
+              "name": "sunnyside",
+              "publicName": "SunnySide",
+              "createdAt": new Date(),
+              "updatedAt": new Date()
+            }
+          }
+        },
+        "subdomain": {
+          "connectOrCreate": {
+            "where": {
+              "id": "sunnyside"
+            },
+            "create": {
+              "id": "sunnyside",
+              "isValid": true,
+              "createdAt": new Date(),
+              "updatedAt": new Date()
+            }
+          }
+        },
+        "termsAccepted": false,
+        "address": {
+          "create": {
+            "street1": "1866 Fruitville Pike",
+            "street2": "",
+            "city": "Lancaster",
+            "state": "Pennsylvania",
+            "zipcode": 17601,
+            "country": "United States",
+            "countryCode": "US",
+            "coordinates": {
+              "create": {
+                "radius": 10000,
+                "latitude": 39.3077,
+                "longitude": -76.5958,
+                "createdAt": new Date(),
+                "updatedAt": new Date()
+              }
+            },
+            "createdAt": new Date(),
+            "updatedAt": new Date()
+          }
+        },
+        "images": {
+          "create": [
+            {
+              "location": "https://storage.cloud.google.com/image-dispensary/sunnyside/logo-1200.jpeg?authuser=2",
+              "blurhash": "",
+              "createdAt": new Date(),
+              "updatedAt": new Date()
+            }
+          ],
+        },
+        products: {
+          create: {
+            name: "Eagle cbd oil",
+            description: "Satisfying Liquid Goochy",
+            features: "fresh, relaxing",
+            tags: "cbd, og",
+            rating: 2.5,
+            variants: {
+              create: {
+                name: "Eagle cbd oil",
+                unit: "g",
+                size: 3.5,
+                currency: "USD",
+                basePrice: 6999,
+                discount: 5,
+                stock: 5,
+                organizationId: 'bf346k4u7x2b2hhr6wvgdddp',
+                quantity: 3,
+                rating: 4.5,
+                isDiscount: true,
+                salePrice: 6499,
+                organizationName: 'Curaleaf',
+                sku: 1234567,
+                images: {
+                  create: {
+                    id: "1",
+                    location:
+                      "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
+                    blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
+                  },
+                },
+                createdAt: new Date(),
+                updatedAt: new Date(),
+              },
+            },
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          }
+        },
+        orders: {
+          create: {
+            subtotal: 12000,
+            total: 23444,
+            taxFactor: 0.6,
+            taxAmount: 1239,
+            orderStatus: "Processing",
+            customer: {
+              connect: {
+                id: "bfhk6k4u7xq030hr6wvgiwao",
+              },
+            },
+            destinationAddress: {
+              connect: {
+                id: "5",
+              },
+            },
+            driver: {
+              connect: {
+                id: "bf346k4u7x2b2hhr6wvgiwao",
+              },
+            },
+            purchase: {
+              create: {
+                paymentStatus: "Paid",
+                gateway: "stripe",
+                type: "card",
+                amount: 23444,
+                token: '12345',
+                createdAt: new Date(),
+                updatedAt: new Date(),
+              },
+            },
+            routeId: null,
+            isDeliveredOrder: false,
+            isCustomerReceivedOrder: false,
+            isCompleted: false,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            isDriverAssigned: false,
+            driverAssignedAt: new Date(),
+            isProductPickedUp: false,
+            productPickedUpAt: new Date(),
+            customerReceivedOrderAt: new Date(),
+            completedAt: new Date(),
+            deliveredAt: new Date(),
+          },
+        },
+        "schedule": {
+          "create": {
+            "days": 1234560,
+            "openAt": 9,
+            "closeAt": 19,
+            "createdAt": new Date(),
+            "updatedAt": new Date()
+          }
+        },
+        "siteSetting": {
+          create: {
+            title: "Sunnyside",
+            description: "Sunnyside Description text",
+            bannerText: "Sunnyside Banner Text",
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          },
+        },
+        categoryList: {
+          create: {} as any,
+        },
+        "createdAt": new Date(),
+        "updatedAt": new Date()
+      },
+      {
+        "id": "bf346k4u7x2b2hhr6wvgaaap",
+        "name": "Remedy Baltimore",
+        "stripeAccountId": null,
+        "stripeOnboardingComplete": false,
+        "dialCode": "1",
+        "phone": "",
+        "termsAccepted": false,
+        "subdomain": {
+          "connectOrCreate": {
+            "where": {
+              "id": "remedy"
+            },
+            "create": {
+              "id": "remedy",
+              "isValid": true,
+              "createdAt": new Date(),
+              "updatedAt": new Date()
+            }
+          }
+        },
+        "vendor": {
+          "connectOrCreate": {
+            "where": {
+              "name": "remedy"
+            },
+            "create": {
+              "name": "remedy",
+              "publicName": "Remedy",
+              "createdAt": new Date(),
+              "updatedAt": new Date()
+            }
+          }
+        },
+        "address": {
+          "create": {
+            "street1": "7165 Security Blvd Suite C",
+            "street2": "",
+            "city": "Windsor Mill",
+            "state": "Maryland",
+            "zipcode": 21244,
+            "country": "United States",
+            "countryCode": "US",
+            "coordinates": {
+              "create": {
+                "radius": 10000,
+                "latitude": 39.313284,
+                "longitude": -76.757832,
+                "createdAt": new Date,
+                "updatedAt": new Date,
+              }
+            },
+            "createdAt": new Date(),
+            "updatedAt": new Date()
+          }
+        },
+        "images": {
+          "create": [
+            {
+              "location": "https://storage.cloud.google.com/image-dispensary/remedy/logo-1000.jpeg?authuser=2",
+              "blurhash": "",
+              "createdAt": new Date(),
+              "updatedAt": new Date()
+            }
+          ],
+        },
+        products: {
+          create: {
+            name: "Razmatazz",
+            description: "sweet and sour",
+            features: "fresh, relaxing",
+            tags: "flower, og",
+            rating: 4.0,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          },
+        },
+        orders: {
+          create: {
+            subtotal: 12000,
+            total: 1244,
+            taxFactor: 0.6,
+            taxAmount: 1239,
+            orderStatus: "Delivered",
+            customer: {
+              connect: {
+                id: "bfhk6k4u7xq030hr6wvgiwao",
+              },
+            },
+            destinationAddress: {
+              connect: {
+                id: "3",
+              },
+            },
+            driver: {
+              connect: {
+                id: "bf346k4u7x2b2hhr6wvgiwao",
+              },
+            },
+            purchase: {
+              create: {
+                paymentStatus: "Paid",
+                gateway: "stripe",
+                type: "card",
+                amount: 12399,
+                token: '12345',
+                createdAt: new Date(),
+                updatedAt: new Date(),
+              }
+            },
+            isDeliveredOrder: false,
+            isCustomerReceivedOrder: false,
+            isCompleted: false,
+            routeId: null,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            isDriverAssigned: false,
+            driverAssignedAt: new Date(),
+            isProductPickedUp: false,
+            productPickedUpAt: new Date(),
+            customerReceivedOrderAt: new Date(),
+            completedAt: new Date(),
+            deliveredAt: new Date(),
+          },
+        },
+        "schedule": {
+          "create": {
+            "days": 1234560,
+            "openAt": 10,
+            "closeAt": 21,
+            "createdAt": new Date(),
+            "updatedAt": new Date()
+          }
+        },
+        siteSetting: {
+          create: {
+            title: "Remedy Baltimore",
+            description: "Remedy Description text",
+            bannerText: "Remedy Banner Text",
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          },
+        },
+        categoryList: {
+          create: {} as any,
+        },
+        "createdAt": new Date(),
+        "updatedAt": new Date()
+      }
+    ];
+
+  orgs.forEach(async (org) => {
+    try {
+      const
+        organization = await prisma.organization.create({
+          data: org,
+        }).catch(error => { throw new Error(error) });
+
+      console.info('create prisma.organization record: ' + organization.name + ': ' + organization.id);
+
+      axios.post<Prisma.OrganizationCreateInput & {
+        address: Prisma.AddressCreateNestedOneWithoutOrganizationInput;
+        schedule: Prisma.ScheduleCreateNestedOneWithoutOrganizationInput;
+        images: Prisma.ImageOrganizationCreateNestedManyWithoutOrganizationInput;
+      }>(process?.env?.NEXT_PUBLIC_SERVER_LOCATION_URL + '/api/v1/serve-local/organizations/record' as string, {
+        id: organization.id,
+        name: organization.name,
+        dialCode: organization.dialCode,
+        phone: organization.phone,
+        address: {
+          street1: org.address.create?.street1,
+          street2: org.address.create?.street2,
+          city: org.address.create?.city,
+          state: org.address.create?.state,
+          zipcode: org.address.create?.zipcode,
+          country: org.address.create?.country,
+          countryCode: org.address.create?.countryCode,
+          coordinates: {
+            latitude: org.address.create?.coordinates?.create?.latitude,
+            longitude: org.address.create?.coordinates?.create?.longitude,
+          }
+        },
+        vendorId: organization.vendorId,
+        subdomain: organization.subdomainId,
+      },
+        { validateStatus: status => (status >= 200 && status <= 302) || status == 404 }
+      ).catch(error => { throw new Error(error) });
+
+      console.info('create mongo.organization_geolocate record: ' + organization.name + ': ' + organization.id);
+    } catch (error) {
+      throw new Error(
+        `${org.name} was not created. ${error.message}`
+      );
     }
-  ]
+  });
+  console.info('create prisma.organization records');
+};
 
+const createUsers = async () => {
   // USERS
-  const users: User[] = [
+  const users: Prisma.UserCreateInput[] = [
     {
       id: 'bfhk6k4u7xq030hr6wvgiwao',
       firstName: "Bob",
@@ -75,11 +628,30 @@ async function main() {
       idFrontImage: null,
       idBackImage: null,
       termsAccepted: true,
+      memberships: {
+        create: {
+          id: '1',
+          role: "MEMBER",
+          organizationId: 'bf346k4u7x2b2hhr6wvgippp',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }
+      },
+      profilePicture: {
+        create: {
+          id: "1",
+          location:
+            "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
+          blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      },
       createdAt: new Date(),
       updatedAt: new Date(),
     },
     {
-      id: 'bf346k4u7xq030hr6wvgiwao',
+      id: 'pf346k4u7xq030hr6wvgiwap',
       firstName: "Sam",
       lastName: "Samuels",
       username: "Sammy223",
@@ -94,17 +666,35 @@ async function main() {
       idFrontImage: null,
       idBackImage: null,
       termsAccepted: true,
+      memberships: {
+        create: {
+          id: '2',
+          role: "ADMIN",
+          organizationId: 'bf346k4u7x2b2hhr6wvgippp',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }
+      },
+      profilePicture: {
+        create: {
+          id: "2",
+          location:
+            "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
+          blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      },
       createdAt: new Date(),
       updatedAt: new Date(),
     },
   ];
 
-  await prisma.user.createMany({
-    data: users,
-    skipDuplicates: true,
-  });
+  users.forEach(async (user) => await prisma.user.create({ data: user }));
   console.info('create prisma.user records');
+};
 
+const createAddresses = async () => {
   // ADDRESS
   const addresses: Address[] = [
     {
@@ -116,7 +706,7 @@ async function main() {
       zipcode: 17602,
       country: "United States",
       countryCode: "US",
-      coordinateId: '1',
+      coordinateId: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     }, {
@@ -128,7 +718,7 @@ async function main() {
       zipcode: 17602,
       country: "United States",
       countryCode: "US",
-      coordinateId: '1',
+      coordinateId: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     },
@@ -141,7 +731,7 @@ async function main() {
       zipcode: 17602,
       country: "United States",
       countryCode: "US",
-      coordinateId: '1',
+      coordinateId: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     },
@@ -154,7 +744,7 @@ async function main() {
       zipcode: 17602,
       country: "United States",
       countryCode: "US",
-      coordinateId: '1',
+      coordinateId: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     },
@@ -167,37 +757,38 @@ async function main() {
       zipcode: 17602,
       country: "United States",
       countryCode: "US",
-      coordinateId: '1',
+      coordinateId: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     },
   ];
-
   await prisma.address.createMany({
     data: addresses,
     skipDuplicates: true,
   });
   console.info('create prisma.address records');
+};
 
+const createVendors = async () => {
   // VENDOR
   const vendors: Vendor[] = [
     {
       id: "1",
-      name: "Gras",
+      name: "gras",
       publicName: "Gras",
       createdAt: new Date(),
       updatedAt: new Date(),
     },
     {
       id: "2",
-      name: "Curaleaf",
+      name: "curaleaf",
       publicName: "Curaleaf",
       createdAt: new Date(),
       updatedAt: new Date(),
     },
     {
       id: "3",
-      name: "SunnySide",
+      name: "sunnyside",
       publicName: "SunnySide",
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -209,34 +800,9 @@ async function main() {
     skipDuplicates: true,
   });
   console.info('create prisma.vendor records');
+};
 
-  // SITE SETTINGS
-  const siteSettings: SiteSetting[] = [
-    {
-      title: "Cannabis Delivered To Your Door",
-      description: "grascannabis.com",
-      bannerText: "Welcome to Gras",
-      organizationId: "1",
-      id: "1",
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    {
-      title: "CuraLeaf Dispensary",
-      description: "CuraLeaf Dispensaries in Lancaster, PA",
-      bannerText: "Store-wide sale on Cbd 10% discount",
-      organizationId: "2",
-      id: "2",
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-  ];
-
-  await prisma.siteSetting.createMany({
-    data: siteSettings,
-    skipDuplicates: true,
-  });
-  console.info('create prisma.siteSetting records');
+const createSchedules = async () => {
 
   // SCHEDULES
   const schedules: Schedule[] = [
@@ -279,286 +845,9 @@ async function main() {
     skipDuplicates: true,
   });
   console.info('create prisma.schedule records');
+};
 
-  // ORGANIZATION
-  const orgs:
-    (Prisma.OrganizationCreateInput & {
-      address: Prisma.AddressCreateNestedOneWithoutOrganizationInput;
-      schedule: Prisma.ScheduleCreateNestedOneWithoutOrganizationInput;
-      images: Prisma.ImageOrganizationCreateNestedManyWithoutOrganizationInput;
-      // products: Prisma.ProductCreateInput[];
-      // categoryList: Prisma.CategoryListCreateInput;
-    })[]
-    = [
-      {
-        "name": "Curaleaf",
-        "stripeAccountId": '1345',
-        "stripeOnboardingComplete": false,
-        "dialCode": "1",
-        "phone": "1232356456",
-        "subdomain": {
-          "connectOrCreate": {
-            "where": {
-              "id": "curaleaf"
-            },
-            "create": {
-              "id": "curaleaf",
-              "isValid": true,
-              "createdAt": new Date(),
-              "updatedAt": new Date()
-            }
-          }
-        },
-        "vendor": {
-          "connectOrCreate": {
-            "where": {
-              "id": "2"
-            },
-            "create": {
-              "id": "2",
-              "name": "Curaleaf",
-              "publicName": "Curaleaf",
-              "createdAt": new Date(),
-              "updatedAt": new Date()
-            }
-          }
-        },
-        "termsAccepted": false,
-        "address": {
-          "create": {
-            "street1": "407 W Chest St",
-            "street2": "",
-            "city": "Lancaster",
-            "state": "Pennsylvania",
-            "zipcode": 17603,
-            "country": "United States",
-            "countryCode": "US",
-            "coordinates": {
-              "create": {
-                "radius": 10000,
-                "latitude": 40.0411,
-                "longitude": -76.3133,
-                "createdAt": new Date(),
-                "updatedAt": new Date()
-              }
-            },
-          }
-        },
-        "images": {
-          "createMany": {
-            "data": [
-              {
-                "location": "https://mgmagazine.com/wp-content/uploads/2021/05/CURALEAF_logo_mg_Magazine_mgretailler-e1675120877801.jpg",
-                "blurhash": ""
-              }
-            ]
-          }
-        },
-        "schedule": {
-          "create": {
-            "days": 1234,
-            "openAt": 10,
-            "closeAt": 18
-          }
-        }
-      },
-      {
-        "name": "SunnySide",
-        "stripeAccountId": null,
-        "stripeOnboardingComplete": false,
-        "dialCode": "1",
-        "phone": "1232343333",
-        "vendor": {
-          "connectOrCreate": {
-            "where": {
-              "id": "3"
-            },
-            "create": {
-              "id": "3",
-              "name": "SunnySide",
-              "publicName": "SunnySide",
-              "createdAt": new Date(),
-              "updatedAt": new Date()
-            }
-          }
-        },
-        "subdomain": {
-          "connectOrCreate": {
-            "where": {
-              "id": "sunnyside"
-            },
-            "create": {
-              "id": "sunnyside",
-              "isValid": true,
-              "createdAt": new Date(),
-              "updatedAt": new Date()
-            }
-          }
-        },
-        "termsAccepted": false,
-        "address": {
-          "create": {
-            "street1": "1618 E Oliver St",
-            "street2": "",
-            "city": "Baltimore",
-            "state": "Maryland",
-            "zipcode": 21213,
-            "country": "United States",
-            "countryCode": "US",
-            "coordinates": {
-              "create": {
-                "radius": 10000,
-                "latitude": 39.3077,
-                "longitude": -76.5958,
-                "createdAt": new Date(),
-                "updatedAt": new Date()
-              }
-            }
-          }
-        },
-        "images": {
-          "create": [
-            {
-              "location": "https://images.prismic.io/sunnyside/87e74ff1-f496-4705-a5a5-0aca361a82cc_SS_FB_OpenGraph_2x.jpg?auto=compress,format",
-              "blurhash": ""
-            }
-          ],
-        },
-        "schedule": {
-          "create": {
-            "days": 1234560,
-            "openAt": 9,
-            "closeAt": 24
-          }
-        }
-      },
-      {
-        "name": "McNuggs",
-        "stripeAccountId": "acct_1JX2Zz2eZvKYlo2C",
-        "stripeOnboardingComplete": true,
-        "dialCode": "1",
-        "phone": "2475895745",
-        "termsAccepted": false,
-        "subdomain": {
-          "connectOrCreate": {
-            "where": {
-              "id": "mcnuggs"
-            },
-            "create": {
-              "id": "mcnuggs",
-              "isValid": true,
-              "createdAt": new Date(),
-              "updatedAt": new Date()
-            }
-          }
-        },
-        "vendor": {
-          "connectOrCreate": {
-            "where": {
-              "id": "4"
-            },
-            "create": {
-              "id": "4",
-              "name": "McNuggs",
-              "publicName": "McNuggs",
-              "createdAt": new Date(),
-              "updatedAt": new Date()
-            }
-          }
-        },
-        "address": {
-          "create": {
-            "street1": "2667 Solomons Island Rd",
-            "street2": "",
-            "city": "Annapolis",
-            "state": "Maryland",
-            "zipcode": 21037,
-            "country": "United States",
-            "countryCode": "US",
-            "coordinates": {
-              "create": {
-                "radius": 10000,
-                "latitude": 39.2904,
-                "longitude": -76.6122,
-                "createdAt": new Date,
-                "updatedAt": new Date,
-              }
-            }
-          }
-        },
-        "images": {
-          "create": [
-            {
-              "location": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxzNuI7e1ZEcBvNPke7da5pcvomN-21e2-zERnn0Z6p2ed4AvkOFXPoSEqtIK1V6tl8wY&usqp=CAU",
-              "blurhash": ""
-            }
-          ],
-        },
-        "schedule": {
-          "create": {
-            "days": 1234560,
-            "openAt": 9,
-            "closeAt": 24
-          }
-        }
-      }
-    ];
-
-  orgs.forEach(async (org) => {
-    try {
-      const
-        organization = await prisma.organization.create({
-          data: {
-            "name": org.name,
-            "stripeAccountId": org.stripeAccountId,
-            "stripeOnboardingComplete": org.stripeOnboardingComplete,
-            "dialCode": org.dialCode,
-            "phone": org.phone,
-            "vendor": org.vendor,
-            "subdomain": org.subdomain,
-            "termsAccepted": org.termsAccepted,
-            "address": org.address,
-            "images": org.images,
-            "schedule": org.schedule,
-          },
-        })
-
-      console.info('create prisma.organization record: ' + organization.name + ': ' + organization.id);
-
-      await axios.post<Prisma.OrganizationCreateInput & {
-        address: Prisma.AddressCreateNestedOneWithoutOrganizationInput;
-        schedule: Prisma.ScheduleCreateNestedOneWithoutOrganizationInput;
-        images: Prisma.ImageOrganizationCreateNestedManyWithoutOrganizationInput;
-      }>(process?.env?.SERVER_LOCATION_URL + '/api/v1/serve-local/organizations/record' as string, {
-        id: organization.id,
-        name: organization.name,
-        dialCode: organization.dialCode,
-        phone: organization.phone,
-        address: {
-          street1: org.address.create?.street1,
-          street2: org.address.create?.street2,
-          city: org.address.create?.city,
-          state: org.address.create?.state,
-          zipcode: org.address.create?.zipcode,
-          country: org.address.create?.country,
-          countryCode: org.address.create?.countryCode,
-          coordinates: {
-            latitude: org.address.create?.coordinates?.create?.latitude,
-            longitude: org.address.create?.coordinates?.create?.longitude,
-          }
-        },
-        vendorId: organization.vendorId,
-        subdomain: organization.subdomainId,
-      },
-        { validateStatus: status => (status >= 200 && status <= 302) || status == 404 });
-
-      console.info('create mongo.organization_geolocate record: ' + organization.name + ': ' + organization.id);
-
-    } catch (error) {
-      console.error(error);
-      throw new Error('Seed Error: Organization' + org.name);
-    }
-  });
+const createSubdomains = async () => {
 
   // SUBDOMAIN
   const subdomains: SubDomain[] = [
@@ -587,7 +876,9 @@ async function main() {
     skipDuplicates: true,
   });
   console.info('create prisma.subDomain records');
+};
 
+const createCategories = async () => {
   // CATEGORY
   const Categories: Category[] = [
     {
@@ -669,202 +960,113 @@ async function main() {
     skipDuplicates: true,
   });
   console.info('create prisma.category records');
+};
 
-  // CATEGORYLIST
-  const categoryLists: CategoryList[] = [
-    {
-      id: '1',
-      organizationId: '1',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    {
-      id: '2',
-      organizationId: '2',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    {
-      id: '3',
-      organizationId: '3',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }
-  ]
-
-  await prisma.categoryList.createMany({
-    data: categoryLists,
-    skipDuplicates: true,
-  });
-  console.info('create prisma.categoryList records');
-
+const createDrivers = async () => {
   // DRIVERS
-  const drivers: Driver[] = [
-    {
-      id: 'bf346k4u7x2b2hhr6wvgiwao',
+  const driver = await prisma.driver.upsert({
+    where: {
+      email: "bmejiadeveloper2@gmail.com",
+    },
+    create: {
       email: "bmejiadeveloper2@gmail.com",
       createdAt: new Date(),
       updatedAt: new Date(),
-    },
-  ];
-
-  drivers.forEach(async (driver) => await prisma.driver.upsert({
-    where: { id: driver.id },
-    create: {
       user: {
-        connectOrCreate: {
-          where: {
-            id: driver.id,
-          },
-          create: {
-            id: driver.id,
-            firstName: "Bryant",
-            lastName: "Mejia",
-            username: "BigChiefa",
-            email: "bmejiadeveloper2@gmail.com",
-            phone: "1232343456",
-            emailVerified: false,
-            isLegalAge: null,
-            idVerified: false,
-            isSignUpComplete: false,
-            dialCode: "1",
-            idFrontImage: "",
-            idBackImage: "",
-            termsAccepted: false,
-            address: {
-              connectOrCreate: {
-                where: {
-                  id: "4"
-                },
-                create: {
-                  id: "4",
-                  street1: "999 Golden St.",
-                  street2: "Suite A",
-                  city: "Lancaster",
-                  state: "PA",
-                  zipcode: 17602,
-                  country: "United States",
-                  countryCode: "US",
-                  coordinateId: '1',
-                },
-              }
-            },
-            profilePicture: {
-              connectOrCreate: {
-                where: {
-                  id: "1"
-                },
-                create: {
-                  id: "1",
-                  location: "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
-                  blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
-                  // userId: "1",
-                  createdAt: new Date(),
-                  updatedAt: new Date(),
-                }
-              }
+        create: {
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          id: 'bf346k4u7x2b2hhr6wvgiwao',
+          firstName: "Bryant",
+          lastName: "Mejia",
+          username: "BigChiefa",
+          email: "bmejiadeveloper2@gmail.com",
+          phone: "1232343456",
+          emailVerified: false,
+          isLegalAge: null,
+          idVerified: false,
+          isSignUpComplete: false,
+          dialCode: "1",
+          idFrontImage: "",
+          idBackImage: "",
+          termsAccepted: false,
+          address: {
+            create: {
+              street1: "1234 Main St",
+              city: "Baltimore",
+              state: "MD",
+              zipcode: 21202,
+              country: "USA",
+              countryCode: "US",
+              createdAt: new Date(),
+              updatedAt: new Date(),
             }
-          }
+          },
+          profilePicture: {
+            create: {
+              location: "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
+              blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
+              createdAt: new Date(),
+              updatedAt: new Date(),
+            }
+          },
         }
       }
     },
     update: {
+      email: "bmejiadeveloper2@gmail.com",
+      createdAt: new Date(),
+      updatedAt: new Date(),
       user: {
-        connectOrCreate: {
-          where: {
-            id: driver.id,
-          },
-          create: {
-            id: driver.id,
-            firstName: "Bryant",
-            lastName: "Mejia",
-            username: "BigChiefa",
-            email: "bmejiadeveloper2@gmail.com",
-            phone: "1232343456",
-            emailVerified: false,
-            isLegalAge: null,
-            idVerified: false,
-            isSignUpComplete: false,
-            dialCode: "1",
-            idFrontImage: "",
-            idBackImage: "",
-            termsAccepted: false,
-            address: {
-              connectOrCreate: {
-                where: {
-                  id: "4"
-                },
-                create: {
-                  id: "4",
-                  street1: "999 Golden St.",
-                  street2: "Suite A",
-                  city: "Lancaster",
-                  state: "PA",
-                  zipcode: 17602,
-                  country: "United States",
-                  countryCode: "US",
-                  coordinateId: '1',
-                },
-              }
-            },
-            profilePicture: {
-              connectOrCreate: {
-                where: {
-                  id: "1"
-                },
-                create: {
-                  id: "1",
-                  location: "https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png",
-                  blurhash: "dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH",
-                  // userId: "1",
-                  createdAt: new Date(),
-                  updatedAt: new Date(),
-                }
-              }
-            }
-          }
+        connect: {
+          email: "bmejiadeveloper2@gmail.com",
         }
       }
     },
-  }));
-  console.info('create prisma.driver records');
-
-  // ROUTES
-  const routes: Route[] = [
-    {
-      driverId: 'bf346k4u7x2b2hhr6wvgiwao',
-      orderId: '1',
-    },
-    {
-      driverId: 'bf346k4u7x2b2hhr6wvgiwao',
-      orderId: '2',
-    },
-    {
-      driverId: 'bf346k4u7x2b2hhr6wvgiwao',
-      orderId: '3',
-    }
-  ]
-
-  await prisma.route.createMany({
-    data: routes,
-    skipDuplicates: true,
   });
-  console.info('create prisma.route records');
+  console.info('create prisma.driver records');
+};
 
+const createOrders = async () => {
   // ORDER
-  const orders: Order[] = [
+  const orders: Prisma.OrderCreateInput[] = [
     {
-      id: "1",
       subtotal: 12000,
       total: 12399,
       taxFactor: 0.6,
       taxAmount: 1239,
       orderStatus: "Pending",
-      customerId: "1",
-      addressId: '5',
-      driverId: "2",
-      organizationId: "2",
-      purchaseId: '1',
+      customer: {
+        connect: {
+          id: "bfhk6k4u7xq030hr6wvgiwao",
+        },
+      },
+      destinationAddress: {
+        connect: {
+          id: "5",
+        },
+      },
+      driver: {
+        connect: {
+          id: "bf346k4u7x2b2hhr6wvgiwao",
+        },
+      },
+      organization: {
+        connect: {
+          id: "bf346k4u7x2b2hhr6wvgippp",
+        },
+      },
+      purchase: {
+        create: {
+          paymentStatus: "Pending",
+          gateway: "stripe",
+          type: "card",
+          amount: 12399,
+          token: '12345',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      },
       routeId: null,
       isDeliveredOrder: false,
       isCustomerReceivedOrder: false,
@@ -880,17 +1082,42 @@ async function main() {
       deliveredAt: new Date(),
     },
     {
-      id: "2",
       subtotal: 12000,
       total: 23444,
       taxFactor: 0.6,
       taxAmount: 1239,
       orderStatus: "Processing",
-      customerId: "1",
-      addressId: '5',
-      driverId: "2",
-      organizationId: "2",
-      purchaseId: '2',
+      customer: {
+        connect: {
+          id: "bfhk6k4u7xq030hr6wvgiwao",
+        },
+      },
+      destinationAddress: {
+        connect: {
+          id: "5",
+        },
+      },
+      driver: {
+        connect: {
+          id: "bf346k4u7x2b2hhr6wvgiwao",
+        },
+      },
+      organization: {
+        connect: {
+          id: "bf346k4u7x2b2hhr6wvgippp",
+        },
+      },
+      purchase: {
+        create: {
+          paymentStatus: "Paid",
+          gateway: "stripe",
+          type: "card",
+          amount: 23444,
+          token: '12345',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      },
       routeId: null,
       isDeliveredOrder: false,
       isCustomerReceivedOrder: false,
@@ -906,20 +1133,34 @@ async function main() {
       deliveredAt: new Date(),
     },
     {
-      id: "3",
       subtotal: 12000,
       total: 1244,
       taxFactor: 0.6,
       taxAmount: 1239,
       orderStatus: "Delivered",
-      customerId: "2",
-      addressId: '3',
-      driverId: "1",
-      organizationId: "2",
+      customer: {
+        connect: {
+          id: "bfhk6k4u7xq030hr6wvgiwao",
+        },
+      },
+      destinationAddress: {
+        connect: {
+          id: "3",
+        },
+      },
+      driver: {
+        connect: {
+          id: "bf346k4u7x2b2hhr6wvgiwao",
+        },
+      },
+      organization: {
+        connect: {
+          id: "bf346k4u7x2b2hhr6wvgippp",
+        },
+      },
       isDeliveredOrder: false,
       isCustomerReceivedOrder: false,
       isCompleted: false,
-      purchaseId: null,
       routeId: null,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -932,17 +1173,31 @@ async function main() {
       deliveredAt: new Date(),
     },
     {
-      id: "4",
       subtotal: 12000,
       total: 6999,
       taxFactor: 0.6,
       taxAmount: 1239,
       orderStatus: "Delivered",
-      customerId: "1",
-      addressId: '5',
-      driverId: "2",
-      organizationId: "2",
-      purchaseId: null,
+      customer: {
+        connect: {
+          id: "bfhk6k4u7xq030hr6wvgiwao",
+        },
+      },
+      destinationAddress: {
+        connect: {
+          id: "5",
+        },
+      },
+      driver: {
+        connect: {
+          id: "bf346k4u7x2b2hhr6wvgiwao",
+        },
+      },
+      organization: {
+        connect: {
+          id: "bf346k4u7x2b2hhr6wvgippp",
+        },
+      },
       routeId: null,
       isDeliveredOrder: false,
       isCustomerReceivedOrder: false,
@@ -958,18 +1213,32 @@ async function main() {
       deliveredAt: new Date(),
     },
     {
-      id: "5",
       subtotal: 12000,
       total: 12999,
       taxFactor: 0.6,
       taxAmount: 1239,
       orderStatus: "Cancelled",
-      customerId: "2",
-      addressId: '3',
-      driverId: "1",
-      purchaseId: null,
+      customer: {
+        connect: {
+          id: "bfhk6k4u7xq030hr6wvgiwao",
+        },
+      },
+      destinationAddress: {
+        connect: {
+          id: "3",
+        },
+      },
+      driver: {
+        connect: {
+          id: "bf346k4u7x2b2hhr6wvgiwao",
+        },
+      },
+      organization: {
+        connect: {
+          "id": "bf346k4u7x2b2hhr6wvgdddp",
+        },
+      },
       routeId: null,
-      organizationId: "2",
       isDeliveredOrder: false,
       isCustomerReceivedOrder: false,
       isCompleted: false,
@@ -984,20 +1253,34 @@ async function main() {
       deliveredAt: new Date(),
     },
     {
-      id: "6",
       subtotal: 12000,
       total: 14599,
       taxFactor: 0.6,
       taxAmount: 1239,
       orderStatus: "Pending",
-      customerId: "1",
-      addressId: '4',
-      driverId: "2",
-      organizationId: "2",
+      customer: {
+        connect: {
+          id: "bfhk6k4u7xq030hr6wvgiwao",
+        },
+      },
+      destinationAddress: {
+        connect: {
+          id: "4",
+        },
+      },
+      driver: {
+        connect: {
+          id: "bf346k4u7x2b2hhr6wvgiwao",
+        },
+      },
+      organization: {
+        connect: {
+          "id": "bf346k4u7x2b2hhr6wvgaaap",
+        },
+      },
       isDeliveredOrder: false,
       isCustomerReceivedOrder: false,
       isCompleted: false,
-      purchaseId: null,
       routeId: null,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -1010,20 +1293,22 @@ async function main() {
       deliveredAt: new Date(),
     },
   ];
-
-  await prisma.order.createMany({
-    data: orders,
-    skipDuplicates: true,
-  });
+  orders.map(async (order) =>
+    await prisma.order.create({
+      data: order,
+    })
+  );
   console.info('create prisma.order records');
+};
 
+async function createMemberships() {
   // MEMBERSHIP
   const memberships: Membership[] = [
     {
       id: '1',
       role: "MEMBER",
       organizationId: '2',
-      userId: '2',
+      userId: 'bfhk6k4u7xq030hr6wvgiwao',
       createdAt: new Date(),
       updatedAt: new Date(),
     },
@@ -1058,7 +1343,9 @@ async function main() {
     skipDuplicates: true,
   });
   console.info('create prisma.membership records');
+};
 
+async function createVariants() {
   // PRODUCTVARIANT
   const variants: ProductVariant[] = [
     {
@@ -1228,17 +1515,57 @@ async function main() {
     skipDuplicates: true,
   })
   console.info('create prisma.productVariant records');
-
+};
+const createProducts = async () => {
   // PRODUCT
-  const products: Product[] = [
+  const products: Prisma.ProductCreateInput[] = [
     {
       id: "1",
       name: "King OG",
       description: "turpentines all day baby",
       features: "fresh, without formaline",
       tags: "mini, flower, og",
-      organizationId: "2",
+      organization: {
+        connect: {
+          id: "bf346k4u7x2b2hhr6wvgippp",
+        },
+      },
       rating: 4.5,
+      reviews: {
+        create: {
+          id: '1',
+          rating: 5,
+          comment: 'Great thing!',
+          user: {
+            connect: {
+              id: 'bf346k4u7xq030hr6wvgiwao',
+            },
+          },
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      },
+      variants: {
+        create: {
+          id: "1",
+          name: "King OG",
+          unit: "g",
+          size: 3.5,
+          currency: "USD",
+          basePrice: 6999,
+          discount: 10,
+          stock: 5,
+          organizationId: 'bf346k4u7x2b2hhr6wvgippp',
+          rating: 4.5,
+          organizationName: 'Curaleaf',
+          quantity: 3,
+          isDiscount: true,
+          salePrice: 6499,
+          sku: 1234567,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      },
       createdAt: new Date(),
       updatedAt: new Date(),
     },
@@ -1248,8 +1575,33 @@ async function main() {
       description: "Satisfying Liquid Goochy",
       features: "fresh, relaxing",
       tags: "flower, og",
-      organizationId: "2",
+      organization: {
+        connect: {
+          id: "bf346k4u7x2b2hhr6wvgippp",
+        },
+      },
       rating: 4.5,
+      variants: {
+        create: {
+          id: "3",
+          name: "Blackberry Kush",
+          unit: "g",
+          size: 3.5,
+          currency: "USD",
+          basePrice: 6999,
+          discount: 5,
+          stock: 5,
+          organizationId: 'bf346k4u7x2b2hhr6wvgippp',
+          rating: 4.5,
+          organizationName: 'Curaleaf',
+          quantity: 3,
+          isDiscount: true,
+          salePrice: 6499,
+          sku: 1234567,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      },
       createdAt: new Date(),
       updatedAt: new Date(),
     },
@@ -1259,8 +1611,33 @@ async function main() {
       description: "check out these nuggs",
       features: "fresh, relaxing",
       tags: "flower, og",
-      organizationId: "2",
+      organization: {
+        connect: {
+          id: "bf346k4u7x2b2hhr6wvgippp",
+        },
+      },
       rating: 3.3,
+      variants: {
+        create: {
+          id: "4",
+          name: "Blackberry Nuggs",
+          unit: "g",
+          size: 3.5,
+          currency: "USD",
+          basePrice: 6999,
+          discount: 5,
+          stock: 5,
+          organizationId: 'bf346k4u7x2b2hhr6wvgippp',
+          organizationName: 'Curaleaf',
+          quantity: 3,
+          isDiscount: true,
+          rating: 4.5,
+          salePrice: 6499,
+          sku: 1234567,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      },
       createdAt: new Date(),
       updatedAt: new Date(),
     },
@@ -1270,8 +1647,33 @@ async function main() {
       description: "Wonderfuly for you",
       features: "fresh, relaxing",
       tags: "flower, og",
-      organizationId: "2",
+      organization: {
+        connect: {
+          id: "bf346k4u7x2b2hhr6wvgippp",
+        },
+      },
       rating: 4.0,
+      variants: {
+        create: {
+          id: "5",
+          name: "Red Taffy Firetruck",
+          unit: "g",
+          size: 3.5,
+          currency: "USD",
+          basePrice: 6999,
+          discount: 5,
+          rating: 4.5,
+          stock: 5,
+          organizationId: 'bf346k4u7x2b2hhr6wvgippp',
+          organizationName: 'Curaleaf',
+          quantity: 3,
+          isDiscount: true,
+          salePrice: 6499,
+          sku: 1234567,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      },
       createdAt: new Date(),
       updatedAt: new Date(),
     },
@@ -1281,8 +1683,33 @@ async function main() {
       description: "Satisfying Liquid Goochy",
       features: "fresh, relaxing",
       tags: "cbd, og",
-      organizationId: "2",
+      organization: {
+        connect: {
+          id: "bf346k4u7x2b2hhr6wvgdddp",
+        },
+      },
       rating: 2.5,
+      variants: {
+        create: {
+          id: "6",
+          name: "Eagle cbd oil",
+          unit: "g",
+          size: 3.5,
+          currency: "USD",
+          basePrice: 6999,
+          discount: 5,
+          stock: 5,
+          organizationId: 'bf346k4u7x2b2hhr6wvgdddp',
+          quantity: 3,
+          rating: 4.5,
+          isDiscount: true,
+          salePrice: 6499,
+          organizationName: 'Curaleaf',
+          sku: 1234567,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      },
       createdAt: new Date(),
       updatedAt: new Date(),
     },
@@ -1292,8 +1719,33 @@ async function main() {
       description: "helpful for your heart",
       features: "fresh, relaxing",
       tags: "flower, og",
-      organizationId: "2",
+      organization: {
+        connect: {
+          id: "bf346k4u7x2b2hhr6wvgdddp",
+        },
+      },
       rating: 5.0,
+      variants: {
+        create: {
+          id: "7",
+          name: "Magic Mountain Bush",
+          unit: "g",
+          size: 3.5,
+          currency: "USD",
+          basePrice: 6999,
+          rating: 4.5,
+          discount: 5,
+          stock: 5,
+          organizationId: 'bf346k4u7x2b2hhr6wvgdddp',
+          organizationName: 'Curaleaf',
+          quantity: 3,
+          isDiscount: true,
+          salePrice: 6499,
+          sku: 1234567,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      },
       createdAt: new Date(),
       updatedAt: new Date(),
     },
@@ -1303,8 +1755,33 @@ async function main() {
       description: "sweet and sour",
       features: "fresh, relaxing",
       tags: "flower, og",
-      organizationId: "2",
+      organization: {
+        connect: {
+          id: "bf346k4u7x2b2hhr6wvgdddp",
+        },
+      },
       rating: 4.0,
+      variants: {
+        create: {
+          id: "8",
+          name: "Razmatazz",
+          unit: "g",
+          size: 3.5,
+          currency: "USD",
+          basePrice: 6999,
+          discount: 5,
+          stock: 5,
+          rating: 4.5,
+          organizationId: 'bf346k4u7x2b2hhr6wvgdddp',
+          organizationName: 'Curaleaf',
+          quantity: 3,
+          isDiscount: true,
+          salePrice: 6499,
+          sku: 1234567,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      },
       createdAt: new Date(),
       updatedAt: new Date(),
     },
@@ -1314,7 +1791,11 @@ async function main() {
       description: "Satisfying Liquid Goochy",
       features: "fresh, relaxing",
       tags: "cbd, og",
-      organizationId: "3",
+      organization: {
+        connect: {
+          id: "bf346k4u7x2b2hhr6wvgaaap",
+        },
+      },
       rating: 2.5,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -1325,7 +1806,11 @@ async function main() {
       description: "helpful for your heart",
       features: "fresh, relaxing",
       tags: "flower, og",
-      organizationId: "3",
+      organization: {
+        connect: {
+          id: "bf346k4u7x2b2hhr6wvgaaap",
+        },
+      },
       rating: 5.0,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -1336,18 +1821,11 @@ async function main() {
       description: "sweet and sour",
       features: "fresh, relaxing",
       tags: "flower, og",
-      organizationId: "3",
-      rating: 4.0,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    {
-      id: "11",
-      name: "Razmatazz",
-      description: "sweet and sour",
-      features: "fresh, relaxing",
-      tags: "flower, og",
-      organizationId: "4",
+      organization: {
+        connect: {
+          id: "bf346k4u7x2b2hhr6wvgaaap",
+        },
+      },
       rating: 4.0,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -1370,8 +1848,9 @@ async function main() {
     })
   });
   console.info('create prisma.product records');
+};
 
-  // IMAGEVENDOR
+const createVendorImages = async () => {// IMAGEVENDOR
   const ImageVendors: ImageVendor[] = [
     {
       id: "1",
@@ -1387,8 +1866,9 @@ async function main() {
     data: ImageVendors,
     skipDuplicates: true,
   });
+};
 
-
+const createOrganizationImages = async () => {
   // IMAGEORGANIZATION
   const ImageOrganizations: ImageOrganization[] = [
     {
@@ -1416,7 +1896,9 @@ async function main() {
     skipDuplicates: true,
   });
   console.info('create prisma.imageOrganization records');
+};
 
+const createProductImages = async () => {
   // IMAGEPRODUCT
   const ImageProducts: ImageProduct[] = [
     {
@@ -1483,13 +1965,14 @@ async function main() {
       updatedAt: new Date(),
     },
   ];
-
   await prisma.imageProduct.createMany({
     data: ImageProducts,
     skipDuplicates: true,
   });
   console.info('create prisma.imageProduct records');
+};
 
+const createUserImages = async () => {
   // IMAGEUSER
   const ImageUsers: ImageUser[] = [
     {
@@ -1502,14 +1985,128 @@ async function main() {
       updatedAt: new Date(),
     },
   ];
-
   await prisma.imageUser.createMany({
     data: ImageUsers,
     skipDuplicates: true,
   });
   console.info('create prisma.imageUser records');
+};
 
+const createArticles = async () => {
 
+  // ARTICLES
+  const articles: Prisma.ArticleCreateInput[] = [
+    {
+      id: '1',
+      name: 'we-support-your-dispensary',
+      title: `Your Dispensary Thrives With Gras`,
+      description: 'Connect with customers who love what you do.',
+      href: '12345',
+      content: "",
+      author: "",
+      tag: "news",
+      image: {
+        create: {
+          location:
+            'https://greenstocknews.com/images/placeholder/cannabis/medicinal/md1.jpg',
+          blurhash: '',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      },
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      id: '2',
+      name: 'offering-delivery-service',
+      title: 'Fast and Safe Delivery',
+      description: 'Delivery By Our Trained Delivery Team',
+      href: '123457',
+      content: "",
+      author: "",
+      tag: "news",
+      image: {
+        create: {
+          location:
+            'https://img.freepik.com/premium-photo/delivery-person-holding-parcel-with-food-delivery-against-yellow-surface_93675-111653.jpg',
+          blurhash: 'LTMrO.]mvO11}9FZNer_M#odXRnj',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      },
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      id: '3',
+      title: 'Gras Is Here To Serve',
+      name: 'gras-is-here',
+      description: 'Sign Up Your Dispensary for Home Delivery',
+      href: '12377456',
+      content: "",
+      author: "",
+      tag: "news",
+      image: {
+        create: {
+          location:
+            'https://gras-dispensary-images.us-southeast-1.linodeobjects.com/loveweed.png',
+          blurhash: 'LTMrO.]mvO11}9FZNer_M#odXRnj',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      },
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+  ];
+
+  articles.forEach(async (article) => await prisma.article.create({
+    data: article
+  }));
+  console.info('create prisma.article records');
+};
+
+const createArticleImages = async () => {
+  // IMAGEARTICLE
+  const ImageArticles: ImageArticle[] = [
+    {
+      id: '1',
+      location:
+        'https://greenstocknews.com/images/placeholder/cannabis/medicinal/md1.jpg',
+      blurhash: '',
+      articleId: '1',
+
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      id: '2',
+      location:
+        'https://img.freepik.com/premium-photo/delivery-person-holding-parcel-with-food-delivery-against-yellow-surface_93675-111653.jpg',
+      blurhash: 'LTMrO.]mvO11}9FZNer_M#odXRnj',
+      articleId: '2',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      id: '3',
+      location:
+        'https://gras-dispensary-images.us-southeast-1.linodeobjects.com/loveweed.png',
+      blurhash: 'LTMrO.]mvO11}9FZNer_M#odXRnj',
+      articleId: '3',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+  ];
+  await prisma.imageArticle.createMany({
+    data: ImageArticles,
+    skipDuplicates: true,
+  });
+  console.info('create prisma.imageArticle records');
+}
+
+const createReviews = async () => {
   // REVIEWS
   // need to update this seed for user information, will fail seed as it is now - 06182023
   const reviews: ReviewWithUserDetails[] = [
@@ -1521,7 +2118,6 @@ async function main() {
       userId: 'bf346k4u7xq030hr6wvgiwao',
       createdAt: new Date(),
       updatedAt: new Date(),
-
       user: {
         id: 'bf346k4u7xq030hr6wvgiwao',
         username: "Sammy223",
@@ -1536,7 +2132,6 @@ async function main() {
       }
     }
   ];
-
   reviews.forEach(async (review) => await prisma.review.create({
     data: {
       id: review.id,
@@ -1551,17 +2146,47 @@ async function main() {
         connect: {
           id: review.productId
         }
-      }
+      },
+      createdAt: review.createdAt,
+      updatedAt: review.updatedAt,
     }
   }));
-
   console.info('create prisma.review records');
+};
+
+async function main() {
+  console.info(`\nPerforming seed in ${process.env.DATABASE_ENV} environment.`)
+
+  await createDrivers();
+
+  await createVendors();
+  await createCoordinates();
+  await createOrganizations();
+  await createUsers();
+
+  await createAddresses();
+  await createSchedules();
+  await createSubdomains();
+  await createCategories();
+
+  // await createOrders(); // appended to organization seed
+  // await createMemberships(); // appended to user seed
+
+  // await createProducts(); // appended to organization seed
+  // await createVariants(); // appended to product seed
+  // await createReviews(); // appended to product seed
+
+  await createVendorImages();
+  // await createOrganizationImages();
+  // await createProductImages();
+  // await createUserImages(); // appended to user seed
+
+  await createArticles();
+  // await createArticleImages(); // appended to article seed
 }
 
 main()
-  .then(async () => {
-    await prisma.$disconnect();
-  })
+  .then(async () => await prisma.$disconnect())
   .catch(async (e) => {
     console.error(e);
     await prisma.$disconnect();

@@ -1,0 +1,76 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gras-server-main
+spec:
+  type: ClusterIP
+  selector:
+    app: gras-server-main
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: main-port
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: gras-server-main
+  name: gras-server-main
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: gras-server-main
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: gras-server-main
+    spec:
+      serviceAccountName: default
+      containers:
+        - name: gras-server-main
+          image: grasadmin/main:latest
+          imagePullPolicy: Always
+          terminationMessagePolicy: FallbackToLogsOnError
+          resources:
+            {}
+            # limits:
+            #   cpu: '100m'
+            #   memory: '120Mi'
+            # requests:
+            #   cpu: '100m'
+            #   memory: '120Mi'
+          ports:
+            - name: main-port
+              containerPort: 6001
+
+          livenessProbe:
+            httpGet:
+              path: /api/v1/healthcheck
+              port: main-port
+            failureThreshold: 2
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            timeoutSeconds: 3
+
+          readinessProbe:
+            httpGet:
+              path: /api/v1/healthcheck
+              port: main-port
+            failureThreshold: 2
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            timeoutSeconds: 3
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: 'app'
+                    operator: In
+                    values:
+                      - gras-server-main
+              topologyKey: 'kubernetes.io/hostname'

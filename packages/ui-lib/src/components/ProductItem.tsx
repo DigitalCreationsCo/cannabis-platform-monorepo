@@ -8,15 +8,15 @@ import { H6, Paragraph } from './Typography';
 
 type ProductItemProps = {
     className?: string;
-    product: ProductVariantWithDetails;
+    data: ProductVariantWithDetails;
     handleConfirm?: any;
 };
-function ProductItem({ product, className, handleConfirm }: ProductItemProps & PropsWithChildren) {
+function ProductItem({ data: product, className, handleConfirm }: ProductItemProps & PropsWithChildren) {
     const [openConfirm, setOpenConfirm] = useState(false);
     const [quantity, setQuantity] = useState(1);
     const toggleConfirm = () => setOpenConfirm((state) => !state);
 
-    // console.log('product image source: ', product?.images?.[0]?.location)
+    // console.info('product image source: ', product?.images?.[0]?.location)
 
     return (
         <>

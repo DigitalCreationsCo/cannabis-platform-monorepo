@@ -4,4 +4,4 @@
 yarn g:lint-staged-files --debug
 
 yarn g:test-unit-changed
-yarn g:build
+yarn g:build-changed

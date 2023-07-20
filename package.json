@@ -22,10 +22,11 @@
   ],
   "scripts": {
     "g:test-unit": "yarn workspaces foreach -ptv run test-unit",
-    "g:test-unit-changed": "yarn workspaces foreach --since=origin/master run test-unit",
+    "g:test-unit-changed": "yarn workspaces foreach --since=HEAD~1 run test-unit",
     "g:test-unit-ci": "yarn workspaces foreach --since=origin/master run test-unit-ci",
     "g:test-e2e": "yarn workspaces foreach -tv run test-e2e",
     "g:build": "yarn workspaces foreach -p --topological-dev -v run build",
+    "g:build-changed": "yarn workspaces foreach --topological-dev --no-private -v --since run build",
     "g:build-all": "yarn workspaces foreach -ptv --include '@cd/*' run build",
     "g:build-ci": "yarn workspaces foreach --topological-dev --no-private -v --since=origin/master run build",
     "g:changeset": "changeset",
@@ -55,22 +56,23 @@
     "app:build-all": "yarn workspaces foreach -ptv --include '@cd/*-app' run build",
     "app:clean": "yarn workspaces foreach -ptv --include '@cd/*-app' run clean",
     "dev-all": "concurrently \"yarn packages:watch\" \"yarn server:watch\" \"yarn apps:dev\"",
+    
     "docker:supertokens": "scripts/docker/supertokens.sh",
-    "docker:shadow-db": "scripts/docker/shadow-db-mysql.sh",
+    "docker:shadow-db": "scripts/docker/shadow-db.sh",
     "docker:redis": "scripts/docker/redis.sh",
     "docker:delivery-widget-demo": "scripts/docker/launch-widget-demo.sh",
-    "docker:build": "TYPE=$0 CONTEXT=$1 make docker-build",
-    "docker:tag": "IMAGE=$0 TAG=$1 make docker-tag",
-    "docker:push": "IMAGE=$0 make docker-push",
-    "docker:image": "scripts/docker/createGoldenImage.sh",
-    "devops:init": "terraform -chdir=./terraform init --backend-config=backend",
-    "devops:plan": "terraform -chdir='./terraform' plan",
-    "devops:apply": "terraform -chdir='./terraform' apply -auto-approve",
-    "devops:start": "terraform -chdir='./terraform' apply && kubectl apply -f k8s/",
-    "devops:nodes": "kubectl get nodes",
-    "devops:delete-nodes": "kubectl delete -f k8s/",
-    "devops:close": "terraform -chdir='./terraform' destroy",
-    "devops:create-cache": "kubectl create configmap yarn-cache --from-file=.yarn/cache/ --save-config=true",
+    "docker:build": "TYPE=$0 CONTEXT=$1 PORT=$2 make docker-build-nocache",
+    "docker:build2": "TYPE=$0 CONTEXT=$1 PORT=$2 make echoit",
+
+    "tf:init": "make init",
+    "tf:plan": "make plan",
+    "tf:create": "terraform/scripts/create.sh",
+    "tf:configure": "terraform/scripts/configure.sh",
+    "tf:close": "make destroy",
+    "tf:console": "make console",
+    "cluster:start": "make apply && kubectl apply -f k8s/",
+    "cluster:nodes": "kubectl get nodes",
+    
     "install:playwright": "playwright install",
     "nuke:node_modules": "npx rimraf@3.0.1 '**/node_modules'",
     "postinstall": "is-ci || yarn husky install",
@@ -109,6 +111,7 @@
     "@types/node": "18.11.10",
     "@types/prettier": "2.7.2",
     "@types/react-dom": "18.0.11",
+    "@types/react-slick": "^0.23.10",
     "@types/recluster": "^0.4.3",
     "@typescript-eslint/eslint-plugin": "5.45.0",
     "@typescript-eslint/parser": "5.45.0",
@@ -202,6 +205,7 @@
     "postcss-js": "4.0.1"
   },
   "dependencies": {
-    "global": "^4.4.0"
+    "global": "^4.4.0",
+    "slick-carousel": "^1.8.1"
   }
 }

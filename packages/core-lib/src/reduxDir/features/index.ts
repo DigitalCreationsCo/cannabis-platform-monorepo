@@ -1,3 +1,4 @@
+export * from './blog.reducer';
 export * from './cart.reducer';
 export * from './driver.reducer';
 export * from './location.reducer';

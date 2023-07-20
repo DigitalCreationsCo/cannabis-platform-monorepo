@@ -17,18 +17,18 @@ updateOnlineStatus
 
 ================================= */
 
-let 
-driverSessions: Collection | null = null
+let
+  driverSessions: Collection | null = null
 
-const 
-dispatch_namespace = process.env.DISPATCH_DB_NS;
+const
+  dispatch_namespace = process.env.DISPATCH_DB_NS;
 
 export default class DriverDA {
-  static async useMongoDB (mongoClient: MongoClient) {
+  static async useMongoDB(mongoClient: MongoClient) {
     try {
 
       if (!driverSessions)
-      driverSessions = await mongoClient.db(dispatch_namespace).collection("driverSessions");
+        driverSessions = await mongoClient.db(dispatch_namespace).collection("driver_sessions");
 
       return
     } catch (e: any) {
@@ -39,40 +39,40 @@ export default class DriverDA {
 
   static async createDriverRecord(createDriverData: UserCreateType) {
     try {
-      
-        // createDriver = await createPasswordHash(createUserData)
-        const driver = await createDriver(createDriverData)
 
-        return driver;
+      // createDriver = await createPasswordHash(createUserData)
+      const driver = await createDriver(createDriverData)
 
-    } catch (error:any) {
-        console.error('UserDA error: ', error.message);
-        throw new Error(error.message);
+      return driver;
+
+    } catch (error: any) {
+      console.error('UserDA error: ', error.message);
+      throw new Error(error.message);
     }
   }
 
   static async updateDriverRecord(updateDriverData: UserCreateType) {
     try {
 
-        const 
+      const
         driver = await updateDriver(updateDriverData)
 
-        console.log(`updated user ${driver.id}`)
-        
-        return driver;
+      console.info(`updated user ${driver.id}`)
 
-    } catch (error:any) {
-        console.error('UserDA error: ', error.message);
-        throw new Error(error.message);
+      return driver;
+
+    } catch (error: any) {
+      console.error('UserDA error: ', error.message);
+      throw new Error(error.message);
     }
   }
 
   static async getDriverById(id: string) {
     try {
-      const 
-      data = await findDriverWithDetailsById(id);
+      const
+        data = await findDriverWithDetailsById(id);
       return data;
-    } catch (error:any) {
+    } catch (error: any) {
       console.error(error.message);
       throw new Error(error.message);
     }
@@ -88,64 +88,67 @@ export default class DriverDA {
   static async getDriverByEmail<DriverWithDetails>(email: string) {
     try {
 
-      const 
-      driver = await findDriverWithDetailsByEmail(email)
-      
-      const 
-      driverSession = await driverSessions.findOneAndUpdate(
-        { email }, 
-        { $set: {
-          "id": driver.id,
-          "isOnline": false,
-          "isActiveDelivery": false,
-          "currentCoordinates": [],
-          "currentRoute": [], }}, 
-        { upsert: true, returnDocument: "after" })
-        .then(
-          result => result.ok && result.value, 
-          error => { throw new Error(error.message) })
+      const
+        driver = await findDriverWithDetailsByEmail(email)
 
-      const 
-      data = {
-        ...driver,
-        driverSession
-      }
+      const
+        driverSession = await driverSessions.findOneAndUpdate(
+          { email },
+          {
+            $set: {
+              "id": driver.id,
+              "isOnline": false,
+              "isActiveDelivery": false,
+              "currentCoordinates": [],
+              "currentRoute": [],
+            }
+          },
+          { upsert: true, returnDocument: "after" })
+          .then(
+            result => result.ok && result.value,
+            error => { throw new Error(error.message) })
+
+      const
+        data = {
+          ...driver,
+          driverSession
+        }
 
       return data;
-      
-    } catch (error:any) {
-        console.error(error.message);
-        throw new Error(error.message);
+
+    } catch (error: any) {
+      console.error(error.message);
+      throw new Error(error.message);
     }
   }
-  
+
   static async getDriverByPhone(phone) {
     try {
-        const 
+      const
         data = await findDriverWithDetailsByPhone(phone);
-        return data;
-    } catch (error:any) {
-        console.error(error.message);
-        throw new Error(error.message);
+      return data;
+    } catch (error: any) {
+      console.error(error.message);
+      throw new Error(error.message);
     }
   }
-  
+
   static async updateOnlineStatus(id, onlineStatus) {
     try {
-      
+
       const
-      updateStatus = await driverSessions.updateOne(
-        { id },
-        { $set: { "isOnline": onlineStatus }},
-        { upsert: true });
+        updateStatus = await driverSessions.updateOne(
+          { id },
+          { $set: { "isOnline": onlineStatus } },
+          { upsert: true });
 
       if (!updateStatus.acknowledged) {
         throw new Error(`Could not update status driver: ${id}`);
       }
 
       return { success: true };
-      
-    } catch (error:any) {
+
+    } catch (error: any) {
       console.error(`Error update driver status, ${error}`);
       throw new Error(error.message)
     }

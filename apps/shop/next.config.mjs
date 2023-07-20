@@ -1,48 +1,41 @@
+import { config } from 'dotenv';
+import { expand } from 'dotenv-expand';
 import withTranspiledModules from 'next-transpile-modules';
 import {
   PHASE_DEVELOPMENT_SERVER,
   PHASE_PRODUCTION_BUILD,
-  PHASE_TEST,
+  PHASE_TEST
 } from 'next/constants.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
-
-import { config } from 'dotenv';
-import { expand } from 'dotenv-expand';
 import { loadEnv } from './src/config/loadEnv.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
 const _env = process.env.IS_LOCAL ? 'development' : process.env.NODE_ENV;
-
 expand(config({ path: loadEnv(_env) }));
 
 /**
  * @type {import('next').NextConfig}
  */
 const nextConfig = (phase) => {
-  // when started in development mode `next dev` or `npm run dev` regardless of the value of STAGING environment variable
-  const isDev = phase === PHASE_DEVELOPMENT_SERVER;
-  // when `next build` or `npm run build` is used
-  const isProd =
-    phase === PHASE_PRODUCTION_BUILD && process.env.STAGING !== '1';
-  // when `next build` or `npm run build` is used
-  const isStaging =
-    phase === PHASE_PRODUCTION_BUILD && process.env.STAGING === '1';
-  // when `test` command is used
-  const isTest = phase === PHASE_TEST;
 
-  console.log(
-    `isDev:${isDev}  isProd:${isProd}   isStaging:${isStaging} isTest:${isTest}`
-  );
+  const isDev     = phase === PHASE_DEVELOPMENT_SERVER;
+  const isProd    = phase === PHASE_PRODUCTION_BUILD && process.env.STAGING !== '1';
+  const isStaging = phase === PHASE_PRODUCTION_BUILD && process.env.STAGING === '1';
+  const isTest    = phase === PHASE_TEST;
 
-  return withTranspiledModules([
-    '@cd/ui-lib',
-    '@cd/data-access',
-    '@cd/eslint-config',
-    '@cd/core-lib',
-  ])({
+  console.info(`isDev:${isDev}  isProd:${isProd}   isStaging:${isStaging} isTest:${isTest}`);
+
+  const config = {
+    env: {
+      BACKEND_URL: (() => {
+        if (isDev) return 'http://localhost:6001';
+        if (isProd) return 'https://backend.grascannabis.org';
+        if (isStaging) return 'http://localhost:6001';
+        if (isTest) return 'http://localhost:6001';
+      })(),
+    },
     reactStrictMode: true,
     swcMinify: true,
     output: 'standalone',
@@ -52,16 +45,14 @@ const nextConfig = (phase) => {
     images: {
       domains: ['cdn-cashy-static-assets.lucidchart.com'],
     },
-    // webpack: (config, { isServer }) => {
-    //     if (!isServer) {
-    //       // Fixes npm packages that depend on `fs` module
-    //       // @link https://github.com/vercel/next.js/issues/36514#issuecomment-1112074589
-    //       config.resolve.fallback = { ...config.resolve.fallback, fs: false };
-    //     }
-
-    //     return config;
-    // },
-  });
+  };
+  
+  return withTranspiledModules([
+    '@cd/eslint-config',
+    '@cd/data-access',
+    '@cd/core-lib',
+    '@cd/ui-lib',
+  ])(config);
 };
 
 export default nextConfig;

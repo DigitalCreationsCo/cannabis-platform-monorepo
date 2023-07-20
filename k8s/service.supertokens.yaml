@@ -4,7 +4,7 @@ kind: Service
 metadata:
   name: supertokens
   labels:
-    app.kubernetes.io/version: 3.12.0
+    app.kubernetes.io/version: 3.14.0
     app.kubernetes.io/managed-by: supertokens
 spec:
   type: ClusterIP
@@ -22,147 +22,103 @@ kind: Deployment
 metadata:
   name: supertokens
   labels:
-    app.kubernetes.io/version: 3.12.0
+    app.kubernetes.io/version: 3.14.0
     app.kubernetes.io/managed-by: supertokens
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app.kubernetes.io/name: supertokens
       app.kubernetes.io/instance: supertokens
   template:
     metadata:
-      annotations:
-        config.linkerd.io/enable-external-profiles: 'true'
       labels:
         app.kubernetes.io/name: supertokens
         app.kubernetes.io/instance: supertokens
     spec:
-      imagePullSecrets: []
-      serviceAccountName: default
       securityContext:
         {}
         # fsGroup: 2000
       containers:
         - name: supertokens
-          securityContext: # {}
+          securityContext:
+            {}
             # capabilities:
             #   drop:
             #   - ALL
             # readOnlyRootFilesystem: true
-            runAsNonRoot: true
-            runAsUser: 1000
-          image: grasadmin/supertokens-mysql:1.0
+            # runAsNonRoot: true
+            # runAsUser: 1000
+            
+          image: grasadmin/supertokens-postgres:3.14
           imagePullPolicy: Always
           env:
-            - name: 'MYSQL_CONNECTION_URI'
-              value: 'mysql://hjl13pett5q5hdb0b6vs:pscale_pw_Dl9qggUnN02NIVAWDXa19Rsrcv8yCELmjNw1jSaMdb3@aws.connect.psdb.cloud:3306/cannabis_delivery_v1?sslaccept=strict&sslcert=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt'
-            # - name: 'MYSQL_DATABASE_NAME'
-            #   value: 'cannabis_delivery_v1'
-            # - name: 'MYSQL_PORT'
-            #   value: '3306'
-            # - name: 'MYSQL_HOST'
-            #   value: 'aws.connect.psdb.cloud'
-            # - name: 'MYSQL_PASSWORD'
-            #   value: 'pscale_pw_Dl9qggUnN02NIVAWDXa19Rsrcv8yCELmjNw1jSaMdb3'
-            # - name: 'MYSQL_USER'
-            #   value: 'hjl13pett5q5hdb0b6vs'
+            # - name: 'SUPERTOKENS_HOST'
+            #   value: '0.0.0.0'
             - name: 'SUPERTOKENS_PORT'
               value: '3567'
-            - name: 'MYSQL_CONNECTION_POOL_SIZE'
+            - name: 'POSTGRESQL_CONNECTION_POOL_SIZE'
               value: '5'
-            - name: 'ACCESS_TOKEN_VALIDITY'
-              value: '3600'
-            - name: 'ACCESS_TOKEN_BLACKLISTING'
-              value: 'false'
-            - name: 'ACCESS_TOKEN_SIGNING_KEY_DYNAMIC'
-              value: 'true'
-            - name: 'ACCESS_TOKEN_SIGNING_KEY_UPDATE_INTERVAL'
-              value: '168'
-            - name: 'REFRESH_TOKEN_VALIDITY'
-              value: '144000'
-            - name: 'PASSWORD_RESET_TOKEN_LIFETIME'
-              value: '3600000'
-            - name: 'EMAIL_VERIFICATION_TOKEN_LIFETIME'
-              value: '86400000'
-            - name: 'PASSWORDLESS_MAX_CODE_INPUT_ATTEMPTS'
-              value: '5'
-            - name: 'PASSWORDLESS_CODE_LIFETIME'
-              value: '900000'
             - name: 'BASE_PATH'
               value: ''
+            - name: 'POSTGRESQL_CONNECTION_URI'
+              value: 'postgresql://postgres:TdRI1pIMnTkBHKRq@db.apcnayhzxaforyeoqdjq.supabase.co:5432/postgres'
+            - name: 'POSTGRESQL_DATABASE_NAME'
+              value: 'postgres'
+            - name: 'POSTGRESQL_PORT'
+              value: '5432'
+            - name: 'POSTGRESQL_HOST'
+              value: 'db.apcnayhzxaforyeoqdjq.supabase.co'
+            - name: 'POSTGRESQL_USER'
+              value: 'postgres'
+            - name: 'POSTGRESQL_PASSWORD'
+              value: 'TdRI1pIMnTkBHKRq'
+            - name: 'PASSWORDLESS_MAX_CODE_INPUT_ATTEMPTS'
+              value: '5'
             - name: 'DISABLE_TELEMETRY'
               value: 'false'
-            - name: 'MAX_SERVER_POOL_SIZE'
-              value: '10'
+
           ports:
-            - name: http
-              containerPort: 3567
+            - containerPort: 3567
               protocol: TCP
+              name: http
+
           livenessProbe:
             httpGet:
               path: /hello
               port: http
+            failureThreshold: 2
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 50
+
           readinessProbe:
             httpGet:
               path: /hello
               port: http
+            failureThreshold: 2
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 50
+
           resources:
-            # We usually recommend not to specify default resources and to leave this as a conscious
-            # choice for the user. This also increases chances charts run on environments with little
-            # resources, such as Minikube. If you do want to specify resources, uncomment the following
-            # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
             limits:
-              cpu: 100m
-              memory: 128Mi
+              cpu: 200m
+              memory: 256Mi
             requests:
-              cpu: 100m
-              memory: 128Mi
-      nodeSelector: {}
-      # affinity: {}
-      # podAntiAffinity:
-      #   preferredDuringSchedulingIgnoredDuringExecution:
-      #     - weight: 1
-      #       podAffinityTerm:
-      #         labelSelector:
-      #           matchExpressions:
-      #             - key: "app.kubernetes.io/name"
-      #               operator: In
-      #               values:
-      #                 - supertokens
-      #         topologyKey: kubernetes.io/hostname
-      tolerations: []
-# ---
-# # apply for autoscaling
-# apiVersion: autoscaling/v2beta1
-# kind: HorizontalPodAutoscaler
-# metadata:
-#   name: supertokens
-#   labels:
-#     app.kubernetes.io/version: 3.12.0
-#     app.kubernetes.io/managed-by: supertokens
-# spec:
-#   scaleTargetRef:
-#     apiVersion: apps/v1
-#     kind: Deployment
-#     name: supertokens
-#   minReplicas: 1
-#   maxReplicas: 1
-#   metrics:
-#     - type: Resource
-#       resource:
-#         name: cpu
-#         targetAverageUtilization: 80
-#     - type: Resource
-#       resource:
-#         name: memory
-#         targetAverageUtilization: 80
-# ---
-# apiVersion: v1
-# kind: ServiceAccount
-# metadata:
-#   name: supertokens-default
-#   labels:
-#     app.kubernetes.io/version: 3.12.0
-#     app.kubernetes.io/managed-by: supertokens
-#   annotations: {}
+              cpu: 128m
+              memory: 175Mi
+
+      affinity:
+        {}
+        # podAntiAffinity:
+        #   preferredDuringSchedulingIgnoredDuringExecution:
+        #     - weight: 1
+        #       podAffinityTerm:
+        #         labelSelector:
+        #           matchExpressions:
+        #             - key: "app.kubernetes.io/name"
+        #               operator: In
+        #               values:
+        #                 - supertokens
+        #         topologyKey: kubernetes.io/hostname

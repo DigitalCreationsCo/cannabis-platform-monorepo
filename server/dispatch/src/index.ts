@@ -4,7 +4,7 @@ import { io } from './socket/socketHandlers';
 // import { MongoClient } from "mongodb";
 
 const
-port = process.env.SERVER_DISPATCH_PORT as unknown as number;
+    port = process.env.SERVER_DISPATCH_PORT as unknown as number;
 
 try {
     new ClusterInit();
@@ -13,9 +13,9 @@ try {
     global.io.listen(port)
 
     process.send && process?.send('ready') // pm2 ready signal
-    console.log(` 🚔 server-dispatch is in ${process.env.NODE_ENV} mode on port ${port}.`)
+    console.info(` 🚔 server-dispatch is in ${process.env.NODE_ENV} mode on port ${port}.`)
 } catch (error) {
-    console.log('server-dispatch error: ', error);
+    console.info('server-dispatch error: ', error);
     process.exit(1);
 }
 

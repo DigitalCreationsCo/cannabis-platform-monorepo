@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# dockerSecret is k8s/secret.docker.yaml
+# this file is here for reference
+
+# place credential values here
 . scripts/docker/docker_creds 
 
 kubectl create secret docker-registry $NAME \

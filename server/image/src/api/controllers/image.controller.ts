@@ -31,7 +31,7 @@ export default class ImageController {
         const
           { isLegalAge, scannedDOB } = await ImageDAO.checkLegalAgeFromIdImage(idFrontImage.buffer);
 
-        uploadedImages = await uploadImageToS3ObjectStore(images, process.env.ID_VERIFY_BUCKET_NAME);
+        uploadedImages = await uploadImageToS3ObjectStore(images, process.env.ID_VERIFY_BUCKET);
         isUploaded = true;
 
 
@@ -49,8 +49,8 @@ export default class ImageController {
       else
         throw new Error("The server didn't receive images. Please try again.")
     } catch (error: any) {
-      console.log('Sorry, we could not verify the image. Please upload a different image.')
-      console.log(error);
+      console.info('Sorry, we could not verify the image. Please upload a different image.')
+      console.info(error);
       res.status(200).json({
         success: false,
         error: error.message,
@@ -75,7 +75,7 @@ export default class ImageController {
         images: [imgUri]
       });
     } catch (error: any) {
-      console.log(error);
+      console.info(error);
       res.status(500).json(error.message);
     }
   }

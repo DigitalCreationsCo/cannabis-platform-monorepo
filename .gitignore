@@ -3,7 +3,9 @@ _dev
 DOCKERSIM
 
 # credentials files
+_dev_notes/creds
 **/docker_creds
+gcp_service_account.json
 
 # dependencies
 **/node_modules
@@ -22,6 +24,7 @@ DOCKERSIM
 # root certificate
 ca.crt
 ca.key
+certs/*
 
 # testing
 /coverage
@@ -98,8 +101,8 @@ override.tf.json
 # Include override files you do wish to add to version control using negated pattern
 # !example_override.tf
 
-# Include tfplan files to ignore the plan output of command: terraform plan -out=tfplan
-# example: *tfplan*
+# Ignore the plan output of command: terraform plan -out=tfplan
+**/*.tfplan
 
 # Ignore CLI configuration files
 .terraformrc
@@ -176,7 +179,7 @@ network_closure.sh
 /third_party/protoc*
 
 # User cluster configs
-.kube/kubeconfig.yaml
+.kube
 
 .tags*
 

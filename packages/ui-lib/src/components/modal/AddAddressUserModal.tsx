@@ -76,7 +76,7 @@ function AddAddressUserModal({ userId, onClose, setState, ...props }: AddAddress
                         'Content-Type': 'application/json'
                     }
                 });
-                console.log('address created: ', data);
+                console.info('address created: ', data);
                 setLoadingButton(false);
                 if (setState) setState((prev: any) => [...prev, data]);
                 toast.success('Address is created.');

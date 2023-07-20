@@ -55,7 +55,7 @@
 //     >
 //       {/* Product Info */}
 //       <BackButton />
-//       {console.log(product.medImage)}
+//       {console.info(product.medImage)}
 //       <Image
 //         source={{ uri: product.medImage }}
 //         resizeMode="contain"

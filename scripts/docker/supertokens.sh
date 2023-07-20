@@ -1,7 +1,10 @@
-# supertokens dev database credentials
-
+#  Local development image for supertokens
 docker run \
- -p 3567:3567 \
- --network=bridge \
- -e MYSQL_CONNECTION_URI='mysql://i6nudrro7avfjzy15vaf:pscale_pw_xUkxaaIiN7evWAYOghNnwZ7nTvXyFKQIuzf5WFF34AW@aws.connect.psdb.cloud/cannabis_delivery_v1?sslaccept=strict&sslcert=/etc/ssl/certs/ca-certificates.crt' \
- -d registry.supertokens.io/supertokens/supertokens-mysql
+	-p 3567:3567 \
+	-e POSTGRESQL_USER=postgres \
+	-e POSTGRESQL_PASSWORD=RRJV@y_CK-jz9rj \
+	-e POSTGRESQL_HOST=db.runhqicnmxfwlzwllswi.supabase.co \
+	-e POSTGRESQL_PORT=5432 \
+	-e POSTGRESQL_DATABASE_NAME=postgres \
+	-e POSTGRESQL_CONNECTION_URI="postgresql://postgres:RRJV@y_CK-jz9rj@db.runhqicnmxfwlzwllswi.supabase.co:5432/postgres" \
+	-d registry.supertokens.io/supertokens/supertokens-postgresql:3.14

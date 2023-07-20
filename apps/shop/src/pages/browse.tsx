@@ -1,8 +1,9 @@
 import { TextContent } from '@cd/core-lib';
 import {
+  selectBlogState,
   selectSelectedLocationState,
   selectShopState,
-  selectUserState,
+  selectUserState
 } from '@cd/core-lib/src/reduxDir';
 import {
   Carousel,
@@ -11,21 +12,22 @@ import {
   H3,
   H4,
   LayoutContextProps,
-  Page,
+  Page
 } from '@cd/ui-lib';
+import InfoCard from 'components/InfoCard';
 import { StaticImageData } from 'next/image';
 import { PropsWithChildren, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
-import DispensaryCardMockData from 'uat/dispensaryCardMock';
 import { DispensaryCard } from '../components';
 import backdrop from '/public/marijuana-backdrop.png';
-export default function MarketPlace({ host }: { host: string }) {
-  const { dispensaries, isLoading, isError, isSuccess } =
-    useSelector(selectShopState);
-  const selectedLocation = useSelector(selectSelectedLocationState);
 
+export default function MarketPlace({ host }: { host: string }) {
+
+  const { dispensaries, isLoading, isError, isSuccess } = useSelector(selectShopState);
+  const selectedLocation = useSelector(selectSelectedLocationState);
   const { user } = useSelector(selectUserState);
+  const { news } = useSelector(selectBlogState);
 
   const styles = {
     responsiveHeading: [
@@ -35,26 +37,28 @@ export default function MarketPlace({ host }: { host: string }) {
 
   return (
     <Page gradient="pink" className="lg:px-0">
-      <div className="cursor-default lg:px-8 xl:absolute pt-2 md:pt-0">
-        <H1 color="light" className={twMerge(styles.responsiveHeading)}>
-          {TextContent.info.CANNABIS_DELIVERED}
-        </H1>
-
-        {/* <Ticker text={'Delivery by Gras now available in Baltimore, Maryland!'} /> */}
-        <H3 className="px-4 text-inverse ">
-          Good day{user.firstName && `, ${user.firstName}`}!
-        </H3>
+      <div className="cursor-default lg:px-8 xl:absolute pt-2 md:pt-0 xl:w-5/12">
+        <div className="xl:m-auto lg:w-fit">
+          <H1 color="light" className={twMerge(styles.responsiveHeading)}>
+            {TextContent.info.CANNABIS_DELIVERED}
+          </H1>
+          {/* <Ticker text={'Delivery by Gras now available in Baltimore, Maryland!'} /> */}
+          <H3 className="px-4 text-inverse ">
+            Good day{user.firstName && `, ${user.firstName}`}!
+          </H3>
+        </div>
       </div>
       <Grid className="space-y-5 relative">
         {/* { isError && <Center className='m-auto grow border'>
                     There's a problem loading your Gras shop. Please contact support for help.</Center>} */}
 
         <Carousel
-          title={'Gras is now available in Baltimore!'}
-          Component={DispensaryCard}
-          data={DispensaryCardMockData}
-          dataKey="dispensary"
-          slidesPresented={3}
+          Component={InfoCard}
+          title={'Gras is now delivering in Baltimore!'}
+          titleSize="lg"
+          data={news}
+          dataKey="news"
+          autoplaySpeed={5000}
         />
 
         <Carousel
@@ -62,9 +66,18 @@ export default function MarketPlace({ host }: { host: string }) {
           Component={DispensaryCard}
           data={dispensaries}
           dataKey="dispensary"
-          slidesPresented={3}
-          interval={10000}
+          autoplaySpeed={7000}
         />
+
+        {/* <Carousel
+          title={`Recommended Products`}
+          Component={ProductItem}
+          // data={dispensaries}
+          // data={_dispensaryCardMockData[0]}
+          data={_dispensaryCardMockData[0].products.map(product => product.variants[0])}
+          dataKey="dispensary"
+          autoplaySpeed={7000}
+        /> */}
 
         {/* || <Center>
                     <H6 color='light' className='whitespace-pre-line'>

@@ -78,7 +78,7 @@ export async function getServerSideProps({ req }: { req: any }) {
       },
     };
   } catch (error: any) {
-    console.log('Orders/[id] SSR error: ', error.message);
+    console.info('Orders/[id] SSR error: ', error.message);
     throw new Error(error);
   }
 }

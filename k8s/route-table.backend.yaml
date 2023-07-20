@@ -1,0 +1,33 @@
+apiVersion: gateway.solo.io/v1
+kind: RouteTable
+metadata:
+  name: gras-backend-server-routes
+  namespace: gloo-system
+  labels:
+    domain: 'backend.grascannabis.org'
+spec:
+  routes:
+    - matchers:
+        - prefix: /main
+      options:
+        regexRewrite:
+          pattern:
+            regex: ^/main(/.*)$
+          substitution: \1
+      routeAction:
+        single:
+          upstream:
+            name: default-gras-server-main-8080
+            namespace: gloo-system
+    - matchers:
+        - prefix: /location
+      options:
+        regexRewrite:
+          pattern:
+            regex: ^/location(/.*)$
+          substitution: \1
+      routeAction:
+        single:
+          upstream:
+            name: default-gras-server-location-8080
+            namespace: gloo-system

@@ -29,7 +29,7 @@ export default function Footer() {
         <CopyRight />
       </Small>
 
-      <H4 color="light">{`Cannabis, Delivered. 🌴🔥`}</H4>
+      <H4 color='light'>{TextContent.info.CANNABIS_DELIVERED}</H4>
     </FlexBox>
   );
 }

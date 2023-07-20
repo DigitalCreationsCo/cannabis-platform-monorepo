@@ -42,7 +42,7 @@ export default function ProductVariantRow({ variant }: ProductVariantRowProps) {
                 <Small
                     className={twMerge(
                         'flex flex-row col-span-2', 
-                        variant.stock < (process.env.LOW_STOCK_THRESHOLD || 7) && 'text-error'
+                        variant.stock < (process.env.NEXT_PUBLIC_LOW_STOCK_THRESHOLD || 7) && 'text-error'
                         )}
                         >
                     {variant.stock.toString().padStart(2, '0')}&nbsp;

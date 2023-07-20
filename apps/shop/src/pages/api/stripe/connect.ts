@@ -9,27 +9,27 @@ const handler = nc();
 // connect dispensary to an existing stripe account
 handler.post(async (req: ExtendRequest, res: NextApiResponse) => {
     try {
-            
+
         const response = await axios.post(
-            urlBuilder.payment.connectStripe(), 
-            req.body, 
-        { validateStatus: status => (status >= 200 && status <= 302) || status == 404 });
-        
+            urlBuilder.payment.connectStripe(),
+            req.body,
+            { validateStatus: status => (status >= 200 && status <= 302) || status == 404 });
+
         if (response.status == 404)
-        throw new Error('Stripe account is not found.');
+            throw new Error('Stripe account is not found.');
 
-        if (response.status === 302){
-            console.log('302 redirect response')
+        if (response.status === 302) {
+            console.info('302 redirect response')
             return res.status(response.status).json(response.data);
         }
 
-        if (response.status === 201){
-            console.log('201 response')
+        if (response.status === 201) {
+            console.info('201 response')
             return res.status(response.status).json(response.data);
         }
-       
-        if (response.status === 200){
-            console.log('200 response')
+
+        if (response.status === 200) {
+            console.info('200 response')
             return res.status(response.status).json(response.data);
         }
 

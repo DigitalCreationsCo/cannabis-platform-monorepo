@@ -1,0 +1,64 @@
+---
+apiVersion: gateway.solo.io/v1
+kind: VirtualService
+metadata:
+  name: default
+  namespace: gloo-system
+spec:
+  virtualHost:
+    domains:
+      - '*'
+    routes:
+      - routeAction:
+          single:
+            upstream:
+              name: default-gras-shop-8080
+              namespace: gloo-system
+    options:
+      retries:
+        retryOn: 'connect-failure,5xx'
+        numRetries: 5
+        perTryTimeout: 1s
+---
+apiVersion: gateway.solo.io/v1
+kind: VirtualService
+metadata:
+  name: default-dashboard
+  namespace: gloo-system
+spec:
+  virtualHost:
+    domains:
+      - 'app.grascannabis.org'
+    routes:
+      - routeAction:
+          single:
+            upstream:
+              name: default-gras-dashboard-8080
+              namespace: gloo-system
+    options:
+      retries:
+        retryOn: 'connect-failure,5xx'
+        numRetries: 5
+        perTryTimeout: 1s
+---
+apiVersion: gateway.solo.io/v1
+kind: VirtualService
+metadata:
+  name: default-backend
+  namespace: gloo-system
+spec:
+  virtualHost:
+    domains:
+      - 'backend.grascannabis.org'
+    routes:
+      - matchers:
+          - prefix: /
+        delegateAction:
+          ref:
+            name: gras-backend-server-routes
+            namespace: gloo-system
+    options:
+      retries:
+        retryOn: 'connect-failure,5xx'
+        numRetries: 5
+        perTryTimeout: 1s

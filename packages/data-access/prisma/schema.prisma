@@ -1,14 +1,15 @@
-datasource db {
-  provider          = "mysql"
-  url               = env("DATABASE_URL")
-  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
-  relationMode      = "prisma"
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl", "debian-openssl-1.1.x"]
 }
 
-generator client {
-  provider          = "prisma-client-js"
-  binaryTargets     = ["native", "linux-musl", "debian-openssl-1.1.x"]
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+  relationMode      = "foreignKeys"
 }
+
 
 model Account {
   id                 String  @id @default(cuid()) @unique
@@ -27,8 +28,8 @@ model Account {
   oauth_token        String?
   user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  createdAt      DateTime         @db.DateTime()
-  updatedAt      DateTime         @db.DateTime()
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@unique([provider, providerAccountId])
   @@index([userId])
@@ -43,8 +44,8 @@ model Session {
   userId       String
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([userId])
   @@index([sessionHandle])
@@ -77,31 +78,29 @@ model User {
   orders Order[]
   driver Driver?
 
-  purchases Purchase[]
-
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([id])
   @@index([email])
-  @@unique([id, email])
   @@index([phone])
 }
 
 model Driver {
-  id String @id @default(cuid()) @unique
-  email String @unique
-  user User @relation(fields: [id, email], references: [id, email], onDelete:Restrict, onUpdate: Cascade)
+  id    String     @id @default(cuid())
+  email String     @unique
+  user  User       @relation(fields: [id], references: [id], onDelete:Restrict, onUpdate: Cascade)
   
   orders Order[]
   driverSession DriverSession?
 
   routes Route[]
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  @@unique([id, email])
+  @@index([id])
+  @@index([email])
 }
 
 // this driverSession is used in mongodb,
@@ -123,8 +122,8 @@ model DriverSession {
   routeId String? @unique
   // route Route? @relation(fields: [routeId], references: [id])
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([id])
   @@index([routeId])
@@ -142,15 +141,17 @@ model Route {
 }
 
 model Vendor {
-  id            String    @id @default(cuid()) @unique
-  name          String
-  publicName    String
+  id            String  @id @default(cuid()) @unique
+  name          String  @unique
+  publicName    String  @unique
   organizations Organization[]
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([id])
+  @@index([name])
+  @@index([publicName])
 }
 
 model Address {
@@ -163,67 +164,80 @@ model Address {
   country String
   countryCode String?
   coordinateId String?
-  coordinates Coordinates? @relation(fields: [coordinateId], references: [id], onUpdate: SetNull, onDelete: SetNull)
+  coordinates Coordinates? @relation(fields: [coordinateId], references: [id], onUpdate: SetNull, onDelete: Cascade)
   user User[]
   organization Organization? @relation("organizationAddress")
   orders Order[]
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([id])
-  @@index([coordinateId])
 }
 
 model ImageOrganization {
   id            String    @id @default(cuid()) @unique
-  location String         @db.LongText
+  location String         @db.Text
   organizationId String 
-  organization Organization @relation(fields: [organizationId], references: [id])
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   blurhash String?
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([organizationId])
 }
 
 model ImageProduct {
   id String @id @default(cuid()) @unique
-  location String @db.LongText
+  location String @db.Text
   variantId String
   variant ProductVariant @relation("images", fields: [variantId], references: [id])
   blurhash String?
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([variantId])
 }
 
 model ImageUser {
   id String @id @default(cuid()) @unique
-  location String @db.LongText
+  location String @db.Text
   userId String @unique
   user User @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   blurhash String?
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([userId])
 }
 
 model ImageVendor {
   id String @id @default(cuid()) @unique
-  location String @db.LongText
+  location String @db.Text
   // vendor Vendor?
   blurhash String?
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([id])
+}
+
+
+model ImageArticle {
+  id String @id @default(cuid()) @unique
+  location String @db.Text
+  articleId String @unique
+  article Article  @relation(fields: [articleId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  blurhash String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([articleId])
 }
 
 model Coordinates {
@@ -232,12 +246,9 @@ model Coordinates {
   longitude Float
   radius Float?
   addresses Address[]
-  // driverSession DriverSession?
-  // driverId String? @unique
-  // routes Route[]
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Membership {
@@ -248,8 +259,8 @@ model Membership {
   userId String?
   user User? @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   @@index([userId])
   @@unique([id, organizationId])
 }
@@ -264,23 +275,23 @@ model Order {
   items ProductVariant[]
 
   purchaseId String? @unique
-  purchase Purchase? @relation(fields: [purchaseId], references: [id], onDelete: NoAction, onUpdate: Cascade)
+  purchase Purchase?
 
   addressId String
   destinationAddress Address @relation(fields: [addressId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   
   customerId String
-  customer User @relation(fields: [customerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  customer User @relation(fields: [customerId], references: [id], onDelete: NoAction, onUpdate: Cascade)
   
   organizationId String
-  organization Organization @relation(fields: [organizationId], references: [id],  onDelete: Cascade, onUpdate: Cascade)
+  organization Organization @relation(fields: [organizationId], references: [id],  onDelete: NoAction, onUpdate: Cascade)
   
   driverId String?
-  driver Driver? @relation(fields: [driverId], references: [id],  onDelete: SetNull, onUpdate: SetNull)
+  driver Driver? @relation(fields: [driverId], references: [id],  onDelete: SetNull, onUpdate: Cascade)
 
   
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   
   isDriverAssigned Boolean @default(false)
   driverAssignedAt DateTime?
@@ -304,7 +315,6 @@ model Order {
   // metadata       OrderMetaData?
 
 
-  @@index([purchaseId])
   @@index([addressId])
   @@index([customerId])
   @@index([driverId])
@@ -332,16 +342,13 @@ model Purchase {
   type          String  @default("card")
   amount        Float
   token         String
-  customerId    String?
-  customer      User? @relation(fields: [customerId], references: [id], onDelete: NoAction, onUpdate: Cascade)
-  orderId       String
-  order         Order?
+  orderId       String @unique
+  order         Order @relation(fields: [orderId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([orderId])
-  @@index([customerId])
 }
 
 enum MembershipRole {
@@ -374,9 +381,9 @@ model Organization {
   stripeAccountId String? @unique
   stripeOnboardingComplete Boolean @default(false)
   addressId     String @unique
-  address Address @relation("organizationAddress", fields: [addressId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  address Address @relation("organizationAddress", fields: [addressId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   dialCode String
-  phone String @unique
+  phone String?
   images ImageOrganization[]
   memberships Membership[]
   products Product[]
@@ -386,13 +393,13 @@ model Organization {
   schedule Schedule @relation(fields: [scheduleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   termsAccepted Boolean @default(false)
   subdomainId String
-  subdomain SubDomain @relation(fields: [subdomainId], references: [id])
+  subdomain SubDomain @relation(fields: [subdomainId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   siteSetting SiteSetting?
   orders Order[]
   categoryList CategoryList?
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([id])
   @@index([vendorId])
@@ -408,8 +415,8 @@ model Schedule {
   openAt Int?
   closeAt Int?
   
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([id])
 }
@@ -422,17 +429,16 @@ model Product {
   variants ProductVariant[]
   categories Category[]
   organizationId String
-  organization Organization @relation(fields: [organizationId], references: [id])
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: NoAction, onUpdate: Cascade)
   reviews Review[]
   rating Float
   tags String?
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([id])
   @@index([organizationId])
-  @@unique([id, rating])
 }
 
 model ProductVariant {
@@ -443,7 +449,7 @@ model ProductVariant {
   organizationId String
   organizationName String
   productId     String
-  product       Product @relation(fields: [productId, rating], references: [id, rating], onDelete: NoAction, onUpdate: NoAction)
+  product       Product @relation(fields: [productId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   rating        Float
   unit Unit @default(g)
   size Float
@@ -456,12 +462,11 @@ model ProductVariant {
   stock Int
   images ImageProduct[] @relation("images")
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([id])
   @@index([productId])
-  @@index([productId, rating])
 }
 
 model Category {
@@ -472,8 +477,8 @@ model Category {
     products       Product[]
     categoryLists  ProductCategories[]
 
-    createdAt      DateTime         @default(now())
-    updatedAt      DateTime         @updatedAt
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
     @@index([name])
 }
@@ -495,8 +500,8 @@ model CategoryList {
     organizationId String @unique
     organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-    createdAt      DateTime         @default(now())
-    updatedAt      DateTime         @updatedAt
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 model ServiceList {
@@ -505,8 +510,8 @@ model ServiceList {
   slug           String @unique
   services       Service[]
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([slug])
 }
@@ -519,8 +524,8 @@ model Service {
   icon String
   serviceLists ServiceList[]
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([title])
   @@index([slug])
@@ -528,15 +533,15 @@ model Service {
 
 model Review {
   id            String    @id @default(cuid()) @unique
-  rating Int
+  rating Float
   comment String? @db.Text
   productId String @unique
   product Product @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId String
   user User @relation(fields: [userId], references: [id])
 
-createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([userId])
   @@index([productId])
@@ -548,10 +553,10 @@ model SiteSetting {
   title          String
   bannerText     String? @db.Text
   organizationId String @unique
-  organization   Organization @relation(fields: [organizationId], references: [id])
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([id])
 }
@@ -561,8 +566,171 @@ model SubDomain {
   organization Organization[]
   isValid Boolean @default(true) // This boolean is always true, doesn't serve any purpose yet
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([id])
+}
+
+model Article {
+  id          String @id @default(cuid()) @unique
+  name        String
+  title       String
+  description String @db.Text
+  href        String
+  image       ImageArticle?
+  tag         ArticleType
+  content     String
+  author      String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([id])
+  @@index([title])
+}
+
+enum ArticleType {
+  dispensary
+  driver
+  news
+}
+
+model all_auth_recipe_users {
+  user_id     String @id @db.Char(36)
+  recipe_id   String @db.VarChar(128)
+  time_joined BigInt
+
+  @@index([time_joined(sort: Desc), user_id(sort: Desc)], map: "all_auth_recipe_users_pagination_index")
+}
+
+model emailpassword_pswd_reset_tokens {
+  user_id             String              @db.Char(36)
+  token               String              @unique @db.VarChar(128)
+  token_expiry        BigInt
+  emailpassword_users emailpassword_users @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+
+  @@id([user_id, token])
+  @@index([token_expiry], map: "emailpassword_password_reset_token_expiry_index")
+}
+
+model emailpassword_users {
+  user_id                         String                            @id @db.Char(36)
+  email                           String                            @unique @db.VarChar(256)
+  password_hash                   String                            @db.VarChar(128)
+  time_joined                     BigInt
+  emailpassword_pswd_reset_tokens emailpassword_pswd_reset_tokens[]
+}
+
+model emailverification_tokens {
+  user_id      String @db.VarChar(128)
+  email        String @db.VarChar(256)
+  token        String @unique @db.VarChar(128)
+  token_expiry BigInt
+
+  @@id([user_id, email, token])
+  @@index([token_expiry], map: "emailverification_tokens_index")
+}
+
+model emailverification_verified_emails {
+  user_id String @db.VarChar(128)
+  email   String @db.VarChar(256)
+
+  @@id([user_id, email])
+}
+
+model jwt_signing_keys {
+  key_id     String  @id @db.VarChar(255)
+  key_string String
+  algorithm  String  @db.VarChar(10)
+  created_at BigInt?
+}
+
+model key_value {
+  name            String  @id @db.VarChar(128)
+  value           String?
+  created_at_time BigInt?
+}
+
+model passwordless_codes {
+  code_id              String               @id @db.Char(36)
+  device_id_hash       String               @db.Char(44)
+  link_code_hash       String               @unique @db.Char(44)
+  created_at           BigInt
+  passwordless_devices passwordless_devices @relation(fields: [device_id_hash], references: [device_id_hash], onDelete: Cascade)
+
+  @@index([created_at], map: "passwordless_codes_created_at_index")
+  @@index([device_id_hash], map: "passwordless_codes_device_id_hash_index")
+}
+
+model passwordless_devices {
+  device_id_hash     String               @id @db.Char(44)
+  email              String?              @db.VarChar(256)
+  phone_number       String?              @db.VarChar(256)
+  link_code_salt     String               @db.Char(44)
+  failed_attempts    Int
+  passwordless_codes passwordless_codes[]
+
+  @@index([email], map: "passwordless_devices_email_index")
+  @@index([phone_number], map: "passwordless_devices_phone_number_index")
+}
+
+model passwordless_users {
+  user_id      String  @id @db.Char(36)
+  email        String? @unique @db.VarChar(256)
+  phone_number String? @unique @db.VarChar(256)
+  time_joined  BigInt
+}
+
+model role_permissions {
+  role       String @db.VarChar(255)
+  permission String @db.VarChar(255)
+  roles      roles  @relation(fields: [role], references: [role], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([role, permission])
+  @@index([permission], map: "role_permissions_permission_index")
+}
+
+model roles {
+  role             String             @id @db.VarChar(255)
+  role_permissions role_permissions[]
+  user_roles       user_roles[]
+}
+
+model session_access_token_signing_keys {
+  created_at_time BigInt  @id
+  value           String?
+}
+
+model session_info {
+  session_handle       String  @id @db.VarChar(255)
+  user_id              String  @db.VarChar(128)
+  refresh_token_hash_2 String  @db.VarChar(128)
+  session_data         String?
+  expires_at           BigInt
+  created_at_time      BigInt
+  jwt_user_payload     String?
+}
+
+model thirdparty_users {
+  third_party_id      String @db.VarChar(28)
+  third_party_user_id String @db.VarChar(128)
+  user_id             String @unique @db.Char(36)
+  email               String @db.VarChar(256)
+  time_joined         BigInt
+
+  @@id([third_party_id, third_party_user_id])
+}
+
+model user_metadata {
+  user_id       String @id @db.VarChar(128)
+  user_metadata String
+}
+
+model user_roles {
+  user_id String @db.VarChar(128)
+  role    String @db.VarChar(255)
+  roles   roles  @relation(fields: [role], references: [role], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([user_id, role])
+  @@index([role], map: "user_roles_role_index")
 }

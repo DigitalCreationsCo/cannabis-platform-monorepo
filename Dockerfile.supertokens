@@ -1,0 +1,4 @@
+FROM --platform=linux/amd64 registry.supertokens.io/supertokens/supertokens-postgresql:3.14
+
+EXPOSE 3567
+CMD ["supertokens", "start"]

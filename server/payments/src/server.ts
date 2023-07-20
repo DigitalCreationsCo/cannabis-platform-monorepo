@@ -6,49 +6,48 @@ import { accountRoutes, paymentRoutes } from './api/routes';
 import StripeService from './api/stripe';
 
 const app = express();
-app.use(
-    cors()
-);
+app.use(cors());
 
-app.post('/webhook', express.raw({type: '*/*'}), async (req, res) => {
-    
-    const 
-    payload = req.body
+app.post('/webhook', express.raw({ type: '*/*' }), async (req, res) => {
+  const payload = req.body;
 
-    const
-    sig = req.headers['stripe-signature'];
+  const sig = req.headers['stripe-signature'];
 
-    try {
+  try {
+    let event;
 
-        let event;
+    event = StripeService.constructStripeEvent(payload, sig);
 
-        event = 
-        StripeService.constructStripeEvent(payload, sig);
-        
-        await 
-        StripeService.handleWebhookEvents(event);
+    await StripeService.handleWebhookEvents(event);
 
-        res.status(200).end();
-    } catch (error: any) {
-        console.error('stripe weebook error: ', error.message);
-        return res.status(400).json({ error: `Webhook Error: ${error.message}` });
-    }
+    res.status(200).end();
+  } catch (error: any) {
+    console.error('stripe weebook error: ', error.message);
+    return res.status(400).json({ error: `Webhook Error: ${error.message}` });
+  }
 });
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use('/api/v1/healthcheck', (req, res) => {
-    return res.status(200).json('OK');
+app.use('/api/v1/healthcheck', (_, res) => {
+  return res.status(200).json({ status: 'ok', server: 'payments' });
 });
 
-app.use("/api/v1/payment", paymentRoutes);
+app.use('/api/v1/payment', paymentRoutes);
 
-app.use("/api/v1/accounts", accountRoutes);
+app.use('/api/v1/accounts', accountRoutes);
 
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-    res.status(500).send(err.message)
-})
+app.use(
+  (
+    err: any,
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+  ) => {
+    res.status(500).send(err.message);
+  }
+);
 
 app.use('*', (req, res) => res.status(404).json({ error: 'API not found' }));
 

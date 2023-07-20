@@ -1,8 +1,9 @@
 GrasApp uses two database technologies.
-prisma MYSQL database for most records, for users and entities, and ecommerce.
-MYSQL is also used for authentication.
+prisma Postgresql database for most records, for users and entities, and ecommerce.
+prisma Postgresql is also used for authentication.
 
-mongodb database is used for geospatial querie and some data agrregation, like watching database records in real time.
+---
+# MONGODB database is used for geospatial querie and some data agrregation, like watching database records in real time.
 
 mongodatabase has two databases: with collections in each database
 
@@ -11,6 +12,9 @@ location > organizations_geolocate
 
 organizations_geolocate is used to store organizations with address and coordinate info,
 has the following schema:
+
+# note: address.coordinates field is a array with two number values,
+# The coordinates field requires a 2dsphere index to function properly.
 
 id: data.id,                        unique index
 name: organization.name,

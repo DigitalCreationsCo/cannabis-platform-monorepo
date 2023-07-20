@@ -1,27 +1,49 @@
-# run `helm repo update` before running terraform apply
-
 terraform {
-    required_version = ">= 0.15"
     required_providers {
-        linode = {
-            source = "linode/linode"
+        google = {
+            source = "hashicorp/google"
+            version = "4.5.0"
         }
 
-        helm = {
-            source = "hashicorp/helm"
-            version = "2.10.1"
+        google-beta = {
+            source = "hashicorp/google-beta"
+            version = "4.5.0"
+        }
+
+        kubernetes = {
+            source = "hashicorp/kubernetes"
+            version = "2.21.1"
+        }
+
+        local = {
+            source = "hashicorp/local"
+            version = "2.4.0"
         }
     }
 
-    backend "s3" {}
+    # backend "gcs" {
+    #     bucket = "tf-state"
+    #     prefix = "terraform/prod"
+    # }
+    required_version = ">= 1.0"
 }
 
-provider "linode" {
-    token = var.linode_api_token
+provider "google" {
+  project     = var.project_id
+  region      = var.region
+  zone        = var.zone
 }
 
-provider "helm" {
-    kubernetes {
-        config_path = local.k8s_config_file
-    }
+provider "google-beta" {
+  project     = var.project_id
+  region      = var.region
+  zone        = var.zone
+}
+
+resource "google_compute_network" "gras-network" {
+  name                    = var.network_name
+  auto_create_subnetworks = "false"
+  project = var.project_id
+  # Everything in this solution is deployed regionally
+  routing_mode = "REGIONAL"
 }

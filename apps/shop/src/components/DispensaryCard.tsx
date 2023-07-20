@@ -23,7 +23,7 @@ function DispensaryCard({
   const styles = {
     dispensarycard: [
       'relative',
-      'w-[200px] md:min-w-[340px] md:w-[340px] h-[220px] p-4 !rounded',
+      'w-[240px] md:min-w-[340px] md:w-[340px] h-[220px] p-4 !rounded',
     ],
     isOpenBadge: [
       'text-inverse border-2 tracking-wider z-5 top-0 right-0 p-3 m-3 badge absolute',
@@ -43,12 +43,15 @@ function DispensaryCard({
         ])}
       >
         <ImageBackDrop src={dispensary?.images?.[0]?.location || logo.src}>
-          <H2 className="whitespace-normal drop-shadow z-5 p-2 tracking-wide absolute top-0 left-0 text-inverse">
+          <H2 className="whitespace-normal drop-shadow z-5 p-2 max-w-[248px] tracking-wide absolute top-0 left-0 text-inverse">
             {dispensary?.name}
           </H2>
+          <Paragraph className={twMerge(styles.isOpenBadge)}>
+            {checkIsDispensaryOpen(dispensary.schedule) ? 'open now' : 'closed'}
+          </Paragraph>
 
           <FlexBox className="z-5 p-2 absolute bottom-0 left-0 items-end flex-row justify-between">
-            <Paragraph className="text-inverse drop-shadow">
+            <Paragraph className="text-inverse drop-shadow font-semibold">
               {renderAddress({
                 address: dispensary?.address,
                 showCountry: false,
@@ -57,10 +60,6 @@ function DispensaryCard({
               })}
             </Paragraph>
           </FlexBox>
-
-          <Paragraph className={twMerge(styles.isOpenBadge)}>
-            {checkIsDispensaryOpen(dispensary.schedule) ? 'open now' : 'closed'}
-          </Paragraph>
         </ImageBackDrop>
       </Card>
     </Link>
@@ -81,7 +80,7 @@ const ImageBackDrop = ({
       <div
         className="rounded"
         style={{
-          backgroundColor: 'rgba(1,12,2,0.22)',
+          backgroundColor: 'rgba(1,12,2,0.32)',
           position: 'absolute',
           height: '100%',
           width: '100%',
