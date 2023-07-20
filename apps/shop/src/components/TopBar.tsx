@@ -135,8 +135,8 @@ function TopBar({ signOut }: TopBarProps) {
               bg="transparent"
               hover="transparent"
             >
-            <Link href={getShopSite('/account')}>
-              my account
+            <Link href={getShopSite('/settings')}>
+              Settings
             </Link>
             </Button>
           </FlexBox>

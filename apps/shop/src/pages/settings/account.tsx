@@ -16,6 +16,6 @@ function AccountPage() {
 
 AccountPage.getLayoutContext = (): LayoutContextProps => ({
     showHeader: false,
-  });
+});
 
 export default AccountPage;
