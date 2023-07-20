@@ -40,7 +40,7 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
             if (response.data.success === true)
                 cache.set(`organization/${id}`, response.data.payload);
 
-            return res.status(response.status).json(response.data);
+            return response;
         }
     } catch (error: any) {
         console.error('next-api organization[id] Error: ', error.message);

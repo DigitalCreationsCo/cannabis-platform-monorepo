@@ -10,7 +10,7 @@ import {
   Small,
   TermsAgreement,
   TextField,
-  useFormContext,
+  useFormContext
 } from '@cd/ui-lib';
 import { createId } from '@paralleldrive/cuid2';
 import axios from 'axios';
@@ -65,9 +65,8 @@ function DispensaryCreate() {
         `${urlBuilder.dashboard}/api/organization`,
         values
       );
-
-      if (response.status !== 200) throw new Error();
-
+      if (response.data.success == false) 
+        throw new Error(response.data.message);
       toast.success('Dispensary Info is uploaded successfully.');
     } catch (error: any) {
       console.info('Error getting Dispensary: ', error);
