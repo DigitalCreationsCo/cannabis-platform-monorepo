@@ -59,6 +59,12 @@ const supertokens = () => {
   return { signInEmailPassword, signUpEmailPassword, signOut };
 };
 
+export const persistConfig = {
+  key: 'root',
+  blacklist: ['modal'],
+  storage
+};
+
 const makeStore = () => {
   let store;
 
@@ -67,11 +73,6 @@ const makeStore = () => {
   const thunkArguments: { store: Store | null, supertokens: any } = { store: null, supertokens: supertokens() };
 
   if (isClient) {
-    const persistConfig = {
-      key: 'root',
-      blacklist: ['modal'],
-      storage
-    };
 
     store = configureStore({
       reducer: persistReducer(persistConfig, rootReducer),
