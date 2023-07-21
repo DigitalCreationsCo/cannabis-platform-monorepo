@@ -1,4 +1,3 @@
-import Dashboard from 'supertokens-node/recipe/dashboard';
 import Session from 'supertokens-node/recipe/session';
 import { AuthConfig } from '../../interfaces';
 
@@ -27,9 +26,6 @@ export const backendConfig = (): AuthConfig => {
         cookieSecure: true,
         cookieDomain: `.${baseDomain}`,
         jwt: { enable: true },
-      }),
-      Dashboard.init({
-        apiKey: process.env.SUPERTOKENS_DASHBOARD_KEY,
       }),
     ],
     isInServerlessEnv: false,

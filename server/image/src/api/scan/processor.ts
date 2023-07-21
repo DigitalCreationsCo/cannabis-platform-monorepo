@@ -6,7 +6,7 @@ export default class ImageProcessor {
         try {
             const
                 metadata = await sharp(input).metadata();
-            console.info('metadata: ', metadata);
+            console.info(' image metadata: ', metadata);
         }
         catch (error: any) {
             console.error(error);
@@ -14,16 +14,24 @@ export default class ImageProcessor {
         }
     }
 
-    static async enhanceStateIdImage(input: Input, stateOfIssue: USState) {
+    /**
+     * apply context-sensitive image processing to enhance the image for better results
+     * @param input
+     * @param stateOfIssue 
+     * @returns 
+     */
+    static async enhance(input: Input, stateOfIssue: USState) {
         try {
-
             switch (stateOfIssue) {
                 case 'MARYLAND':
                     return await sharp(input)
                         .resize({ width: 1600 })
                         .toFormat('jpeg')
+                        .toBuffer();
                 default:
                     return await sharp(input)
+                        .toFormat('jpeg')
+                        .toBuffer();
             }
         }
         catch (error: any) {

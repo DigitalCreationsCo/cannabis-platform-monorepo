@@ -1,5 +1,4 @@
-import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
-import { createId } from '@paralleldrive/cuid2';
+import { ImageFile, ImagePaths } from 'types/image-types';
 // import s3Client from '../../s3/verifyIdClient';
 import ImageDAO from '../data-access/imageDAO';
 /* =================================
@@ -15,28 +14,23 @@ export default class ImageController {
   static async verifyIdentificationImageFromUpload(req, res) {
     try {
 
-      let
-        _uploaded: ImagePaths,
-
       const
-        images: File[] = req.files;
-
-      console.info('images uploaded: ', images);
+        images: ImageFile[] = req.files;
 
       if (images) {
         const
           idFrontImage = images.find(image => image.fieldname === 'idFrontImage');
 
         const
-          _verified = await ImageDAO.checkLegalAgeFromIdImage(idFrontImage.buffer);
-        _uploaded = await uploadImageToS3ObjectStore(images, process.env.ID_VERIFY_BUCKET);
+          _verified = await ImageDAO.checkIdForLegalAge(idFrontImage.buffer),
+          _uploaded: ImagePaths = await ImageDAO.uploadToS3({ files: images, bucket: process.env.ID_VERIFY_BUCKET });
 
         return res.status(200).json({
           success: true,
           result: {
             isLegalAge: _verified.isLegalAge,
             scannedDOB: _verified.scannedDOB,
-            idVerified: true
+            idVerified: !!_verified
           },
           images: _uploaded,
           isUploaded: true,
@@ -57,18 +51,23 @@ export default class ImageController {
     try {
       let { imgUri } = req.body
 
-      let isLegalAge
-      let idVerified
-
       if (imgUri) {
-        isLegalAge = await ImageDAO.checkLegalAgeFromIdImage(imgUri)
-        idVerified = true
+
+        const
+          _verified = await ImageDAO.checkIdForLegalAge(imgUri);
+
+        return res.status(200).json({
+          success: true,
+          result: {
+            isLegalAge: _verified.isLegalAge,
+            scannedDOB: _verified.scannedDOB,
+            idVerified: !!_verified
+          },
+          images: [imgUri],
+          isUploaded: false,
+        });
       }
-      return res.status(200).json({
-        success: true,
-        result: { isLegalAge, idVerified },
-        images: [imgUri]
-      });
+
     } catch (error: any) {
       console.info(error);
       res.status(500).json(error.message);
@@ -76,77 +75,3 @@ export default class ImageController {
   }
 }
 
-function getObjectStorageUri(key: string, bucketName: string, region: string,) {
-  const uri = `https://${bucketName}.${region}.linodeobjects.com/${key}`;
-  console.info('create object storage uri: ', uri)
-  return uri;
-}
-
-function getExtensionFromMimeType(mimeType: string) {
-  const extensionMap = {
-    'image/jpeg': '.jpg',
-    'image/png': '.png',
-    'image/gif': '.gif',
-    'image/bmp': '.bmp'
-  };
-  return extensionMap[mimeType] || '';
-}
-
-async function uploadImageToS3ObjectStore(files: any[], bucketName: string): Promise<ImagePaths> {
-  // IMPROVEMENTS: not awaiting the s3 response, may need to do it to check for upload errors
-  try {
-    const s3Client = new S3Client({
-      endpoint: `https://${process.env.OBJECT_STORAGE_ENDPOINT}`,
-      region: process.env.OBJECT_STORAGE_REGION,
-      credentials: {
-        accessKeyId: process.env.ID_VERIFY_KEY,
-        secretAccessKey: process.env.ID_VERIFY_SEC,
-      },
-    });
-
-    let uploadedFiles = {}
-    await Promise.all(files.map(async (file): Promise<ImagePaths> => {
-
-      const fileBuffer = await file.buffer
-      const fileExtension = getExtensionFromMimeType(file.mimetype);
-      const key = `${createId()}-${file.fieldname}${fileExtension}`
-      const putObjectCommand = new PutObjectCommand({
-        Bucket: bucketName,
-        ACL: "authenticated-read",
-        Key: key,
-        Body: fileBuffer,
-        ContentType: file.mimetype,
-      });
-
-      console.info('uploading to s3 object storage..')
-
-      // NOT AWAITING THE RESPONSE, MAY NEED TO DO IT TO CHECK FOR UPLOAD ERRORS
-      s3Client.send(putObjectCommand);
-
-      console.info(`Uploaded ${key} to ${bucketName}/${key}`)
-      return { [file.fieldname]: getObjectStorageUri(key, bucketName, process.env.OBJECT_STORAGE_REGION) };
-
-    })
-    ).then(
-      _uploadedFiles => {
-        _uploadedFiles.forEach(file => Object.assign(uploadedFiles, file))
-      })
-
-    return uploadedFiles
-
-  } catch (error: any) {
-    console.error(error)
-    throw new Error(error.message)
-  }
-}
-
-type ImagePaths = Record<string, string>
-
-type File = {
-  fieldname: string;
-  originalname: string;
-  encoding: string;
-  mimetype: string;
-  buffer: Buffer;
-  size: number;
-}
