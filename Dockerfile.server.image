@@ -33,14 +33,17 @@ WORKDIR /root
 RUN yarn add sharp
 RUN apt-get update \
 && apt-get install python$PYTHON_VERSION \
-&& apt-get -y install python3-pip \
-&& apt-get install python3-dev python3-setuptools \
+&& apt-get install \ 
+python3-dev \ 
+python3-setuptools \ 
+python3-numpy \
+python3-tk \
+python3-pip \
 && python3 -m pip install --upgrade pip \
 && python3 -m pip install --upgrade Pillow
 
 WORKDIR /root/server/$BUILD_CONTEXT/
 
-EXPOSE 6031
 EXPOSE $PORT
 
 CMD [ "yarn", "start", "--env", "production" ]

@@ -61,7 +61,7 @@
     "docker:redis": "scripts/docker/redis.sh",
     "docker:delivery-widget-demo": "scripts/docker/launch-widget-demo.sh",
     "docker:build": "TYPE=$0 CONTEXT=$1 PORT=$2 make docker-build-nocache",
-    "docker:build2": "TYPE=$0 CONTEXT=$1 PORT=$2 make echoit",
+    "docker:build-server-image": "TYPE=\"server.image\" CONTEXT=image PORT=6031 make docker-build-server-image",
     "tf:init": "make init",
     "tf:plan": "make plan",
     "tf:create": "terraform/scripts/create.sh",
