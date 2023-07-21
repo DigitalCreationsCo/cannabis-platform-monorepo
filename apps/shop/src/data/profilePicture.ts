@@ -6,4 +6,6 @@ export const
         process.env.NEXT_PUBLIC_AVATAR_4 as string,
         process.env.NEXT_PUBLIC_AVATAR_5 as string,
         process.env.NEXT_PUBLIC_AVATAR_6 as string,
+        process.env.NEXT_PUBLIC_AVATAR_7 as string,
+        process.env.NEXT_PUBLIC_AVATAR_8 as string,
     ];
