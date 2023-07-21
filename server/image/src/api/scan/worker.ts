@@ -1,4 +1,5 @@
 import { createWorker, ImageLike, Worker } from "tesseract.js";
+import { Input } from "../scan/processor";
 
 class ImageWorker {
   imageWorker: Worker
@@ -20,32 +21,38 @@ class ImageWorker {
     await this.imageWorker.terminate();
   }
 
-  async detectAndCorrectImage(image: ImageLike) {
+  /**
+   * detects image properties, and processes the image to correct for best results
+   * @param image
+   */
+  async detectAndCorrectImage(image: ImageLike & Input) {
     try {
-
       const
-        result = await this.imageWorker.detect(image);
+        detectData = await this.imageWorker.detect(image);
+      console.info(' detected image data: ', detectData);
+      console.info(' applying image corrections..');
 
-      console.info('Detecting image correction');
-      // rotate image if needed, return image
-      // use image processor to rotate image and adjust image quality
-
+      // if needed, use image processor to rotate image and apply corrections
+      return image;
     } catch (error) {
-      console.error('Image Worker: detect error: ', error);
-      throw new Error("the uri is not a supported image");
+      console.error('Image Worker: detectAndCorrectImage: ', error);
+      throw new Error("The image is not supported.");
     }
   }
 
-  async parseImageToText(image: ImageLike) {
+  /**
+   * detects text from image
+   * @param image 
+   * @returns 
+   */
+  async parseImageToText(image: ImageLike): Promise<string> {
     try {
       const
         result = await this.imageWorker.recognize(image);
-      console.info('text: ', result.data.text);
-
       return result.data.text
     } catch (error) {
-      console.error('Image Worker: parse image error: ', error);
-      throw new Error("the uri is not a supported image");
+      console.error('Image Worker parseImageToText: ', error);
+      throw new Error("The image is not supported.");
     }
   }
 }
