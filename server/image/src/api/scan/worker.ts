@@ -30,7 +30,7 @@ class ImageWorker {
       const
         detectData = await this.imageWorker.detect(image);
       console.info(' detected image data: ', detectData);
-      console.info(' applying image corrections..');
+      console.info(' applying image corrections.');
 
       // if needed, use image processor to rotate image and apply corrections
       return image;

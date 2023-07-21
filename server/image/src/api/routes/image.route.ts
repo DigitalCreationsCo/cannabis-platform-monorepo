@@ -20,5 +20,7 @@ router.route("/scan-identification-upload").post(upload.any(), imageCtrl.verifyI
 
 router.route('/test-ocr').get(imageCtrl.testOcr);
 
+router.route('/test-py').get(imageCtrl.testPy);
+
 export default router;
 

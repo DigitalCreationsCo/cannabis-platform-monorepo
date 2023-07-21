@@ -29,6 +29,8 @@ COPY --from=BUILDER /root/server/$BUILD_CONTEXT/ ./root/server/$BUILD_CONTEXT/
 
 WORKDIR /root
 RUN if [ "$BUILD_CONTEXT" = "image" ] ; then yarn add sharp ; fi
+RUN if [ "$BUILD_CONTEXT" = "image" ] ; then apt-get update || : && apt-get -y install python-pip ; fi
+RUN pip install easyocr 
 
 WORKDIR /root/server/$BUILD_CONTEXT/
 

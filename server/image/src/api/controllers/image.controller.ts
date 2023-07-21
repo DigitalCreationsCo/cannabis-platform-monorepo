@@ -85,5 +85,15 @@ export default class ImageController {
       res.status(500).json(error.message);
     }
   }
+
+  static async testPy(req, res) {
+    try {
+      await pyWorker.testPy();
+      return res.status(200).json('OK');
+    } catch (error: any) {
+      console.info(error);
+      res.status(500).json(error.message);
+    }
+  }
 }
 
