@@ -78,21 +78,35 @@ export default class ImageController {
 
   static async testOcr(req, res) {
     try {
-      await pyWorker.parseImageToText();
-      return res.status(200).json('OK');
+      const
+        result = await pyWorker.parseImageToText();
+      return res.status(200).json({
+        success: true,
+        result,
+      });
     } catch (error: any) {
       console.info(error);
-      res.status(500).json(error.message);
+      res.status(500).json({
+        success: false,
+        error: error.message,
+      });
     }
   }
 
   static async testPy(req, res) {
     try {
-      await pyWorker.testPy();
-      return res.status(200).json('OK');
+      const
+        result = await pyWorker.testPy();
+      return res.status(200).json({
+        success: true,
+        result,
+      });
     } catch (error: any) {
       console.info(error);
-      res.status(500).json(error.message);
+      res.status(500).json({
+        success: false,
+        error: error.message,
+      });
     }
   }
 }

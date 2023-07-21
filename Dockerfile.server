@@ -15,7 +15,9 @@ RUN yarn workspaces foreach -itR --from @cd/server-$BUILD_CONTEXT run build
 
 FROM --platform=linux/amd64 node:16
 
+ENV PYTHON_VERSION "3.8"
 ARG BUILD_CONTEXT=$BUILD_CONTEXT
+ARG PORT=$PORT
 
 COPY --from=BUILDER /root/yarn.lock         ./root
 COPY --from=BUILDER /root/package.json      ./root
@@ -27,13 +29,16 @@ COPY --from=BUILDER /root/.env.development  ./root
 COPY --from=BUILDER /root/.env.production   ./root
 COPY --from=BUILDER /root/server/$BUILD_CONTEXT/ ./root/server/$BUILD_CONTEXT/
 
+<<<<<<< Updated upstream
+=======
 WORKDIR /root
 RUN if [ "$BUILD_CONTEXT" = "image" ] ; then yarn add sharp ; fi
-RUN if [ "$BUILD_CONTEXT" = "image" ] ; then apt-get update || : && apt-get -y install python-pip ; fi
-RUN pip install easyocr 
+RUN if [ "$BUILD_CONTEXT" = "image" ] ; then apt-get update || : && apt-get install python$PYTHON_VERSION && apt-get -y install python3-pip && apt-get install python3-dev python3-setuptools ; fi
 
+>>>>>>> Stashed changes
 WORKDIR /root/server/$BUILD_CONTEXT/
 
-EXPOSE 6001
+# EXPOSE 6001
+EXPOSE $PORT
 
 CMD [ "yarn", "start", "--env", "production" ]

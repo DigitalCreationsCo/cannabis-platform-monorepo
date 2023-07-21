@@ -1,0 +1,46 @@
+FROM node:16 AS BUILDER
+
+WORKDIR /root
+COPY . .
+
+ENV NODE_ENV=production
+ENV YARN_VERSION "3.3.1"
+ARG BUILD_CONTEXT=$BUILD_CONTEXT
+
+RUN yarn set version $YARN_VERSION
+RUN yarn plugin import workspace-tools
+RUN yarn workspaces focus @cd/server-$BUILD_CONTEXT
+
+RUN yarn workspaces foreach -itR --from @cd/server-$BUILD_CONTEXT run build
+
+FROM --platform=linux/amd64 node:16
+
+ENV PYTHON_VERSION "3.8"
+ARG BUILD_CONTEXT=$BUILD_CONTEXT
+ARG PORT=$PORT
+
+COPY --from=BUILDER /root/yarn.lock         ./root
+COPY --from=BUILDER /root/package.json      ./root
+COPY --from=BUILDER /root/node_modules      ./root/node_modules
+COPY --from=BUILDER /root/packages          ./root/packages
+COPY --from=BUILDER /root/.yarn             ./root/.yarn
+COPY --from=BUILDER /root/.yarnrc.yml       ./root
+COPY --from=BUILDER /root/.env.development  ./root
+COPY --from=BUILDER /root/.env.production   ./root
+COPY --from=BUILDER /root/server/$BUILD_CONTEXT/ ./root/server/$BUILD_CONTEXT/
+
+WORKDIR /root
+RUN yarn add sharp
+RUN apt-get update \
+&& apt-get install python$PYTHON_VERSION \
+&& apt-get -y install python3-pip \
+&& apt-get install python3-dev python3-setuptools \
+&& python3 -m pip install --upgrade pip \
+&& python3 -m pip install --upgrade Pillow
+
+WORKDIR /root/server/$BUILD_CONTEXT/
+
+EXPOSE 6031
+EXPOSE $PORT
+
+CMD [ "yarn", "start", "--env", "production" ]
