@@ -27,7 +27,6 @@ app.use(
 
 app.use(middleware());
 
-// IF I HAVE ISSUES WITH MULTIPARTFORM IN THE FUTURE, CHECK THIS SETTING AGAIN!
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -81,12 +80,10 @@ app.use('/api/v1/organization', organization);
 
 app.use('/api/v1/blog', blog);
 
-
 // error handling test routes
 app.use('/api/v1/error', errorRoute);
 
 app.use(errorHandler());
-
 app.use(
   (
     err: any,

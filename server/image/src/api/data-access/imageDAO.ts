@@ -14,7 +14,6 @@ class ImageDAO {
         this.imageWorker = imageWorker;
     }
 
-
     /**
      * IMPROVEMENTS: this function checks the users state from the uploaded Id Image,
      * in the future, we should check the users state from the users address to confirm the legal age requirement, 

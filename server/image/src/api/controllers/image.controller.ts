@@ -1,6 +1,7 @@
 import { ImageFile, ImagePaths } from 'types/image-types';
-// import s3Client from '../../s3/verifyIdClient';
 import ImageDAO from '../data-access/imageDAO';
+import pyWorker from '../scan/py-worker';
+
 /* =================================
 ImageController - controller class for Image Uploading, and Processing
 
@@ -16,6 +17,7 @@ export default class ImageController {
 
       const
         images: ImageFile[] = req.files;
+      console.info('images', images);
 
       if (images) {
         const
@@ -68,6 +70,16 @@ export default class ImageController {
         });
       }
 
+    } catch (error: any) {
+      console.info(error);
+      res.status(500).json(error.message);
+    }
+  }
+
+  static async testOcr(req, res) {
+    try {
+      await pyWorker.parseImageToText();
+      return res.status(200).json('OK');
     } catch (error: any) {
       console.info(error);
       res.status(500).json(error.message);
