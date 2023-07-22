@@ -97,6 +97,8 @@ const VerifyPhotoId = () => {
             formData.append("idBackImage", backImage);
 
             console.info('verify identification: formdata: ');
+            
+            // @ts-ignore
             for (var pair of formData.entries()) {
                 console.info(pair[0], pair[1]); 
             }
