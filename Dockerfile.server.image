@@ -1,4 +1,4 @@
-FROM node:16 AS BUILDER
+FROM nikolaik/python-nodejs:python3.8-nodejs16 AS BUILDER
 
 WORKDIR /root
 COPY . .
@@ -13,9 +13,8 @@ RUN yarn workspaces focus @cd/server-$BUILD_CONTEXT
 
 RUN yarn workspaces foreach -itR --from @cd/server-$BUILD_CONTEXT run build
 
-FROM --platform=linux/amd64 node:16
+FROM --platform=linux/amd64 nikolaik/python-nodejs:python3.8-nodejs16 
 
-ENV PYTHON_VERSION "3.8"
 ARG BUILD_CONTEXT=$BUILD_CONTEXT
 ARG PORT=$PORT
 
@@ -30,17 +29,20 @@ COPY --from=BUILDER /root/.env.production   ./root
 COPY --from=BUILDER /root/server/$BUILD_CONTEXT/ ./root/server/$BUILD_CONTEXT/
 
 WORKDIR /root
+
 RUN yarn add sharp
+
 RUN apt-get update \
-&& apt-get install python$PYTHON_VERSION \
-&& apt-get install \ 
+&& apt-get install -y \ 
 python3-dev \ 
 python3-setuptools \ 
 python3-numpy \
 python3-tk \
-python3-pip \
 && python3 -m pip install --upgrade pip \
-&& python3 -m pip install --upgrade Pillow
+&& python3 -m pip install --upgrade Pillow \
+pip --no-cache-dir install torchvision
+
+# TODO: use python as non-root user
 
 WORKDIR /root/server/$BUILD_CONTEXT/
 

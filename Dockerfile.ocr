@@ -1,0 +1,80 @@
+FROM node:16 AS BUILDER
+
+WORKDIR /root
+COPY . .
+
+ENV NODE_ENV=production
+ENV YARN_VERSION "3.3.1"
+ARG BUILD_CONTEXT=$BUILD_CONTEXT
+
+RUN yarn set version $YARN_VERSION
+RUN yarn plugin import workspace-tools
+RUN yarn workspaces focus @cd/server-$BUILD_CONTEXT
+
+RUN yarn workspaces foreach -itR --from @cd/server-$BUILD_CONTEXT run build
+
+FROM pytorch/pytorch
+
+RUN apt-get update -y && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
+    libgl1-mesa-dev \
+    git \
+    wget \
+    # cleanup
+    && apt-get autoremove -y \
+    && apt-get clean -y \
+    && rm -rf /var/lib/apt/lists
+
+ENV POETRY_HOME=/usr/local
+
+RUN \
+  echo "deb https://deb.nodesource.com/setup_16.x bullseye main" > /etc/apt/sources.list.d/nodesource.list && \
+  wget -qO- https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - && \
+  echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list && \
+  wget -qO- https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
+  apt-get update && \
+  apt-get upgrade -yqq && \
+  apt-get install -yqq nodejs yarn && \
+  pip install -U pip && pip install pipenv && \
+  curl -sSL https://install.python-poetry.org | python - && \
+  rm -rf /var/lib/apt/lists/*
+
+ARG BUILD_CONTEXT=$BUILD_CONTEXT
+ARG PORT=$PORT
+RUN yarn set version $YARN_VERSION
+RUN yarn plugin import workspace-tools
+
+COPY --from=BUILDER /root/yarn.lock         ./root
+COPY --from=BUILDER /root/package.json      ./root
+COPY --from=BUILDER /root/node_modules      ./root/node_modules
+COPY --from=BUILDER /root/packages          ./root/packages
+COPY --from=BUILDER /root/.yarn             ./root/.yarn
+COPY --from=BUILDER /root/.yarnrc.yml       ./root
+COPY --from=BUILDER /root/.env.production   ./root
+COPY --from=BUILDER /root/server/$BUILD_CONTEXT/ ./root/server/$BUILD_CONTEXT/
+
+ARG gh_username=JaidedAI
+ARG service_home=/root/server/$BUILD_CONTEXT/src/ocr/easyocr
+
+RUN mkdir "$service_home" \
+    && git clone "https://github.com/$gh_username/EasyOCR.git" "$service_home" \
+    && cd "$service_home" \
+    && git remote add upstream "https://github.com/JaidedAI/EasyOCR.git" \
+    && git pull upstream master
+
+RUN cd "$service_home" \
+    && python setup.py build_ext --inplace -j 4 \
+    && python -m pip install -e .
+
+WORKDIR /root/server/$BUILD_CONTEXT/
+
+RUN yarn add sharp
+
+ARG PORT=$PORT
+EXPOSE $PORT
+
+CMD [ "yarn", "start", "--env", "production" ]

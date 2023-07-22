@@ -3683,7 +3683,7 @@ __metadata:
     bcryptjs: 2.4.3
     body-parser: 1.20.2
     busboy: 1.6.0
-    child_process: ^1.0.2
+    child_process: 1.0.2
     cloudinary: 1.32.0
     cors: 2.8.5
     cross-env: 7.0.3
@@ -11077,7 +11077,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"child_process@npm:^1.0.2":
+"child_process@npm:1.0.2":
   version: 1.0.2
   resolution: "child_process@npm:1.0.2"
   checksum: bd814d82bc8c6e85ed6fb157878978121cd03b5296c09f6135fa3d081fd9a6a617a6d509c50397711df713af403331241a9c0397a7fad30672051485e156c2a1

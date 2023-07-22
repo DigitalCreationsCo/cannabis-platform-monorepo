@@ -1,5 +1,11 @@
 Monorepo project
 
+### Image
+Notes: Be aware of support end date for Node16. Look to update to Node 18 / 20 before EOY 2023!
+nikolaik/python-nodejs docker image, is used. Check the source code to create the image from scratch, 
+or use python image instead. DOnt rely on this nikolaik/python-nodejs image past 2023.
+https://hub.docker.com/r/nikolaik/python-nodejs
+
 run build command to build the dependency packages
 
 ------
@@ -20,3 +26,4 @@ MAIN SERVER IS RESPONSIBLE FOR AUTHENTICATION SESSIONS, AND QUERY FOR ENTITY DAT
 
 LOCATION
 LOCATION SERVER IS RESPONSIBLE FOR GEOSPATIAL QUERIES. IT USES MONGODB SERVER TO QUERY GEOJSON DATA, AND RELAYS TO MAIN SERVER. 
+
