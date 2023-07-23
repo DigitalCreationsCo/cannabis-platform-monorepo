@@ -1,10 +1,9 @@
 import cors from 'cors';
 import express from 'express';
 import http from 'http';
-import multer from 'multer';
 import Supertokens from 'supertokens-node';
 import { errorHandler, middleware } from 'supertokens-node/framework/express';
-import { imageCtrl } from './api/controllers';
+import { image } from './api/routes';
 import { backendConfig } from './config/backendConfig';
 
 const shopDomain = process.env.NEXT_PUBLIC_SHOP_APP_URL;
@@ -14,21 +13,6 @@ if (Supertokens) {
   Supertokens.init(backendConfig());
 } else throw Error('Supertokens is not available.');
 
-const upload = multer({
-  // limits: {
-  //     fieldNameSize: 100,
-  //     fileSize: 2000000, // 2MB
-  //     fieldSize: 2000000, // 2MB
-  // },
-  // fileFilter: (req, file, cb) => {
-  //     if (file.mimetype === "image/png" || file.mimetype === "image/jpeg") {
-  //         cb(null, true);
-  //     } else {
-  //         cb(new Error("Only .png, .jpg and .jpeg format allowed!"));
-  //     }
-  // }
-});
-
 const app = express();
 app.use(cors({
   origin: [shopDomain, dashboardDomain],
@@ -36,25 +20,14 @@ app.use(cors({
   methods: ['GET', 'PUT', 'POST', 'DELETE'],
   credentials: true,
 }));
-app.use(middleware());
 
-// app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(bodyParser.json());
+app.use(middleware());
 
 app.use('/api/v1/healthcheck', (_, res) => {
   return res.status(200).json({ status: 'ok', server: 'image' });
 });
 
-app.post(
-  '/api/v1/image/scan-identification-upload',
-  upload.any(),
-  imageCtrl.verifyIdentificationImageFromUpload
-);
-
-app.post(
-  '/api/v1/image/scan-identification-uri',
-  imageCtrl.verifyIdentificationImageFromUri
-);
+app.use('/api/v1/image', image);
 
 app.use(errorHandler());
 app.use(
