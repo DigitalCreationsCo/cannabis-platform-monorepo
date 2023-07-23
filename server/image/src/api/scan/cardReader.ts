@@ -16,9 +16,9 @@ export default class IdCardReader {
     private _stateName: USState;
     private _stateAbbreviation: StateAbbreviation;
 
-    constructor(text: string) {
+    constructor(text: string, state: USState = undefined) {
         this._text = text;
-        this._stateName = this.getIssuedState();
+        this._stateName = state || this.getIssuedState();
         this._stateAbbreviation = stateMap[this._stateName].abbreviation;
     }
 

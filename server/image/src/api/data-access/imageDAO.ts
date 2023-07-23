@@ -26,11 +26,11 @@ class ImageDAO {
     async checkIdForLegalAge(image: (ImageLike & Input)): Promise<{ isLegalAge: boolean, scannedDOB: Date }> {
         try {
             await ImageProcessor.getMetaData(image);
-            image = await this.imageWorker.detectAndCorrectImage(image);
+            // image = await this.imageWorker.detectAndCorrectImage(image);
 
-            const
-                _text = await this.imageWorker.parseImageToText(image);
-            console.info(' checkId text: ', _text);
+            const baseEnhance = await ImageProcessor.baseEnhance(image);
+            const _text = await this.imageWorker.parseImageToText(image);
+            console.info(' checkId original text: ', _text);
 
             const _stateOfIssue = new IdCardReader(_text).getIssuedState(),
 
@@ -38,7 +38,7 @@ class ImageDAO {
                 _enhancedText = await this.imageWorker.parseImageToText(enhancedImage);
 
             console.info(' checkId enhanced text: ', _enhancedText);
-            const { isLegalAge, scannedDOB } = new IdCardReader(_enhancedText).isLegalAge();
+            const { isLegalAge, scannedDOB } = new IdCardReader(_enhancedText, _stateOfIssue).isLegalAge();
 
             return {
                 isLegalAge,

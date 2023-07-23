@@ -15,6 +15,26 @@ export default class ImageProcessor {
     }
 
     /**
+     * apply base resize and image processing to enhance the image for first read
+     * @param input
+     * @param stateOfIssue 
+     * @returns 
+     */
+    static async baseEnhance(input: Input) {
+        try {
+            return await sharp(input)
+                .threshold(100)
+                .resize({ height: 2000 })
+                .toFormat('jpeg')
+                .toBuffer();
+        }
+        catch (error: any) {
+            console.error(error);
+            throw new Error(error.message);
+        }
+    }
+
+    /**
      * apply context-sensitive image processing to enhance the image for better results
      * @param input
      * @param stateOfIssue 
@@ -25,7 +45,11 @@ export default class ImageProcessor {
             switch (stateOfIssue) {
                 case 'MARYLAND':
                     return await sharp(input)
-                        .resize({ width: 1600 })
+                        .ensureAlpha()
+                        .resize({ width: 1400, height: 900, fit: 'inside' })
+                        // .toColourspace('cmyk')
+                        // .extract({ width: 1400, height: 900, left: 100, top: 100 })
+                        .threshold(100)
                         .toFormat('jpeg')
                         .toBuffer();
                 default:

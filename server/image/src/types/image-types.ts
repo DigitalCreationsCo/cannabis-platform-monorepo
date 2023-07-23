@@ -8,3 +8,9 @@ export type ImageFile = {
     buffer: Buffer;
     size: number;
 }
+
+export type OcrJsonPayload = {
+    "secret_key": string,
+    "image_url"?: string,
+    "image_data"?: string,
+}
