@@ -7,8 +7,11 @@ docker-build-nocache:
 docker-build-debug:
 	docker build -t grasadmin/$(CONTEXT) -f Dockerfile.$(TYPE) --build-arg=BUILD_CONTEXT=$(CONTEXT) --build-arg=PORT=$(PORT) --progress=plain .
 
-docker-build-server-image:
+docker-build-server-image-nocache:
 	docker build -t grasadmin/image -f Dockerfile.ocr --build-arg=BUILD_CONTEXT=image --build-arg=PORT=6031 --no-cache .
+
+docker-build-server-image:
+	docker build -t grasadmin/image -f Dockerfile.ocr --build-arg=BUILD_CONTEXT=image --build-arg=PORT=6031 .
 	
 docker-tag:
 	docker tag $(IMAGE) grasadmin/$(IMAGE):$(TAG)

@@ -4,14 +4,14 @@ ca.key
 issuer.crt
 issuer.key
 
-# monorepo
+# monorepo ci files
 lint-staged.config.js
 commitlint.config.js
 .husky
-# **/.circleci
+**/.circleci
 
 # docker
-Dockerfile
+**/Dockerfile*
 .dockerignore
 docker-compose.yml
 
@@ -47,3 +47,15 @@ _blog
 **/build
 **/dist
 # **/.next
+
+# prettier
+.prettierignore
+.prettierrc.js
+
+# mobile
+mobile
+packages/native-ui
+
+# Supabase
+supabase
+

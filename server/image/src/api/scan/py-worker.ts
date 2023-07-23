@@ -1,66 +1,70 @@
-import { spawn } from "child_process";
-import { once } from "events";
-import { ImageLike } from "tesseract.js";
+import { spawn } from 'child_process';
+import { once } from 'events';
 
 class ImageWorker {
+  /**
+   * detects text from image
+   * @param image
+   * @returns
+   */
+  async parseImageToText(image: Buffer): Promise<string> {
+    try {
+      let data = image.toString('binary'),
+        result: string;
 
-    /**
-     * detects text from image
-     * @param image 
-     * @returns 
-     */
-    async parseImageToText(image: ImageLike): Promise<string> {
-        try {
+      const ocr = spawn('python3', ['src/ocr/ocr.py', data]);
 
-            let result: string;
-            // const ocr = spawn('python3', ['src/py/ocr/test.py', image]);
-            const ocr = spawn('python3', ['src/ocr/ocr.py']);
+      ocr.stdout.on('data', (data) => {
+        result += data.toString();
+        console.debug('data was generated: ', result);
+      });
 
-            ocr.stdout.on('data', (data) => {
-                process.send(data.toString());
-            })
+      ocr.stderr.on('data', (error) => {
+        console.error(`ocr script error: ${error}`);
+        throw new Error(error.message);
+      });
 
-            ocr.stderr.on('data', (data) => {
-                console.error(`ocr script error: ${data}`);
-            });
+      ocr.on('close', (code) => {
+        console.info('ocr script exited with result: ', result);
+        console.log(`ocr script exited with code ${code}`);
+      });
 
-            ocr.on('close', (code) => {
-                console.log(`ocr script exited with code ${code}`);
-            });
-            return result;
-        } catch (error) {
-            console.error('Py Worker parseImageToText: ', error);
-            throw new Error(error.message);
-        }
+      await once(ocr, 'close');
+      return result;
+    } catch (error) {
+      console.error('Py Worker parseImageToText: ', error);
+      throw new Error(error.message);
     }
+  }
 
-    async testPy(): Promise<string> {
-        try {
-            const py = spawn('python3', ['src/ocr/test.py']);
+  async testPy(): Promise<string> {
+    try {
+      const py = spawn('python3', ['src/ocr/test.py']);
 
-            let result: string = "";
-            py.stdout.on('data', async (data) => {
-                result += await data.toString();
-                console.debug('data was generated: ', result);
-            });
+      let result: string = '';
 
-            py.stderr.on('data', (error) => {
-                console.error(`testPy script error: ${error}`);
-                throw new Error(error.message);
-            });
+      py.stdout.on('data', async (data) => {
+        result += await data.toString();
+        console.debug('data was generated: ', result);
+      });
 
-            py.on('close', (code) => {
-                console.debug('testPy exited with result: ', result);
-                console.log(`testPy exited with code ${code}`);
-            });
+      py.stderr.on('data', (error) => {
+        console.error(`testPy script error: ${error}`);
+        throw new Error(error.message);
+      });
 
-            await once(py, 'close');
-            return result;
-        } catch (error) {
-            console.error('Py Worker testPy: ', error);
-            throw new Error(error.message);
-        }
+      py.on('close', (code) => {
+        console.info('testPy exited with result: ', result);
+        console.info(`testPy exited with code ${code}`);
+      });
+
+      await once(py, 'close');
+      return result;
+    } catch (error) {
+      console.error('Py Worker testPy: ', error);
+      throw new Error(error.message);
     }
+  }
 }
 
 const imageWorker = new ImageWorker();

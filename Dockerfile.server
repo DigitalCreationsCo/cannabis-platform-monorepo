@@ -29,13 +29,6 @@ COPY --from=BUILDER /root/.env.development  ./root
 COPY --from=BUILDER /root/.env.production   ./root
 COPY --from=BUILDER /root/server/$BUILD_CONTEXT/ ./root/server/$BUILD_CONTEXT/
 
-<<<<<<< Updated upstream
-=======
-WORKDIR /root
-RUN if [ "$BUILD_CONTEXT" = "image" ] ; then yarn add sharp ; fi
-RUN if [ "$BUILD_CONTEXT" = "image" ] ; then apt-get update || : && apt-get install python$PYTHON_VERSION && apt-get -y install python3-pip && apt-get install python3-dev python3-setuptools ; fi
-
->>>>>>> Stashed changes
 WORKDIR /root/server/$BUILD_CONTEXT/
 
 # EXPOSE 6001

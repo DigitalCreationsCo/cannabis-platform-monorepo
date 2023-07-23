@@ -14,13 +14,17 @@ POST    "/scan-identification-upload"   uploadImage
 
 const upload = multer();
 
-router.route("/scan-identification-uri").post(imageCtrl.verifyIdentificationImageFromUri);
+// router.route("/scan-identification-upload").post(upload.any(), imageCtrl.verifyIdentificationImageFromUpload);
+router
+  .route('/scan-identification-upload')
+  .post(upload.any(), imageCtrl.testOcr);
 
-router.route("/scan-identification-upload").post(upload.any(), imageCtrl.verifyIdentificationImageFromUpload);
+router
+  .route('/scan-identification-uri')
+  .post(imageCtrl.verifyIdentificationImageFromUri);
 
-router.route('/test-ocr').get(imageCtrl.testOcr);
+router.route('/test-ocr').post(upload.any(), imageCtrl.testOcr);
 
 router.route('/test-py').get(imageCtrl.testPy);
 
 export default router;
-

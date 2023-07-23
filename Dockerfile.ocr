@@ -1,6 +1,8 @@
+
 FROM node:16 AS BUILDER
 
-WORKDIR /root
+ENV HOME=/home
+WORKDIR $HOME
 COPY . .
 
 ENV NODE_ENV=production
@@ -15,10 +17,12 @@ RUN yarn workspaces foreach -itR --from @cd/server-$BUILD_CONTEXT run build
 
 FROM pytorch/pytorch
 
+ENV HOME=/home
 ENV POETRY_HOME=/usr/local
 
 RUN apt-get update -y && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    gnupg \
     libglib2.0-0 \
     libsm6 \
     libxext6 \
@@ -26,13 +30,14 @@ RUN apt-get update -y && \
     libgl1-mesa-dev \
     git \
     wget \
-    && echo "deb https://deb.nodesource.com/setup_16.x bullseye main" > /etc/apt/sources.list.d/nodesource.list \
-    && wget -qO- https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - \
+    curl \
+    && curl -o- -fsSL https://deb.nodesource.com/setup_16.x | bash - \
+    && apt-get install -y nodejs \
+    && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
     && echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list \
-    && wget -qO- https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
     && apt-get update \
     && apt-get upgrade -yqq \
-    && apt-get install -yqq nodejs yarn \
+    && apt-get install -y yarn \
     && pip install -U pip && pip install pipenv \
     && curl -sSL https://install.python-poetry.org | python - \
     # cleanup
@@ -40,23 +45,25 @@ RUN apt-get update -y && \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
 
-ARG BUILD_CONTEXT=$BUILD_CONTEXT
 ARG PORT=$PORT
+ARG BUILD_CONTEXT=$BUILD_CONTEXT
+ENV NODE_ENV=production
+ENV YARN_VERSION "3.3.1"
+
 RUN yarn set version $YARN_VERSION
 RUN yarn plugin import workspace-tools
 
-COPY --from=BUILDER /root/yarn.lock         ./root
-COPY --from=BUILDER /root/package.json      ./root
-COPY --from=BUILDER /root/node_modules      ./root/node_modules
-COPY --from=BUILDER /root/packages          ./root/packages
-COPY --from=BUILDER /root/.yarn             ./root/.yarn
-COPY --from=BUILDER /root/.yarnrc.yml       ./root
-COPY --from=BUILDER /root/.env.production   ./root
-COPY --from=BUILDER /root/server/$BUILD_CONTEXT/ ./root/server/$BUILD_CONTEXT/
+COPY --from=BUILDER $HOME/yarn.lock              $HOME/
+COPY --from=BUILDER $HOME/package.json           $HOME/
+COPY --from=BUILDER $HOME/node_modules           $HOME/node_modules
+COPY --from=BUILDER $HOME/packages               $HOME/packages
+COPY --from=BUILDER $HOME/.yarn                  $HOME/.yarn
+COPY --from=BUILDER $HOME/.yarnrc.yml            $HOME/
+COPY --from=BUILDER $HOME/.env.production        $HOME/
+COPY --from=BUILDER $HOME/server/$BUILD_CONTEXT/ $HOME/server/$BUILD_CONTEXT/
 
 ARG gh_username=JaidedAI
-ARG service_home=/root/server/$BUILD_CONTEXT/src/ocr/easyocr
-
+ARG service_home=$HOME/server/$BUILD_CONTEXT/src/ocr/easyocr
 RUN mkdir "$service_home" \
     && git clone "https://github.com/$gh_username/EasyOCR.git" "$service_home" \
     && cd "$service_home" \
@@ -67,7 +74,7 @@ RUN cd "$service_home" \
     && python setup.py build_ext --inplace -j 4 \
     && python -m pip install -e .
 
-WORKDIR /root/server/$BUILD_CONTEXT/
+WORKDIR $HOME/server/$BUILD_CONTEXT/
 
 RUN yarn add sharp
 
