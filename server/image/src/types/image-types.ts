@@ -8,3 +8,20 @@ export type ImageFile = {
     buffer: Buffer;
     size: number;
 }
+
+type VerifyIdentificationResponse = {
+    success: true,
+    result: {
+        isLegalAge: boolean,
+        idVerified: boolean,
+        scannedDOB: Date,
+    },
+    images: {
+        idFrontImage: string,
+        idBackImage: string,
+    },
+    isUploaded: boolean,
+} | {
+    success: false,
+    error: string
+}

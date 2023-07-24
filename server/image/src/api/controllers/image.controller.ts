@@ -27,9 +27,22 @@ export default class ImageController {
         const
           idFrontImage = images.find(image => image.fieldname === 'idFrontImage');
 
-        const
-          _verified = await ImageDAO.verifyIdentificationImage(idFrontImage.buffer),
-          _uploaded: ImagePaths = await ImageDAO.uploadToS3({ files: images, bucket: process.env.ID_VERIFY_BUCKET });
+        let
+          _verified: { isLegalAge: boolean, scannedDOB: Date },
+          _uploaded: ImagePaths;
+
+        // make requests to AWS in production only
+        if (process.env.NODE_ENV === 'production') {
+          _verified = await ImageDAO.verifyIdentificationImage(idFrontImage.buffer);
+          _uploaded = await ImageDAO.uploadToS3({ files: images, bucket: process.env.ID_VERIFY_BUCKET });
+        }
+        else {
+          _verified = { isLegalAge: true, scannedDOB: new Date() };
+          _uploaded = {};
+
+          // for testing purposes
+          // throw new Error("The server didn't receive images. Please try again.")
+        }
 
         return res.status(200).json({
           success: true,

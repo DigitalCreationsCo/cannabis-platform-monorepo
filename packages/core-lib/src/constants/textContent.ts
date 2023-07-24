@@ -42,6 +42,9 @@ const TextContent = Object.freeze({
       'You can enter the Gras site, or view your account.',
     MY_ACCOUNT:
       'My Account',
+
+    VERIFY_ID_PROCESSING: "Verifying your ID..",
+    VERIFY_ID_COMPLETE: "Thanks for verifying!",
   },
 
   success: {
@@ -116,6 +119,7 @@ const TextContent = Object.freeze({
     DISPENSARY_TERMS_OF_SERVICE: 'Dispensary Terms and Conditions',
     READ_DISPENSARY_TERMS_OF_SERVICE:
       'Please read the Gras Dispensary Terms and Conditions policy.',
+
   },
 
   delivery: {
