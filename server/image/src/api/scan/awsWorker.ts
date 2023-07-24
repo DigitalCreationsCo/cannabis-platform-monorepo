@@ -1,9 +1,12 @@
-import AWS from "@aws-sdk/client-rekognition";
+import * as AWS from "@aws-sdk/client-rekognition";
+import { DetectTextCommand, RekognitionClient } from "@aws-sdk/client-rekognition";
+
+const client = new RekognitionClient({ region: "REGION" });
 
 class AWSRekognitionWorker {
-    imageWorker: AWS.Rekognition
+    imageWorker: AWS.RekognitionClient
 
-    constructor(imageWorker: AWS.Rekognition) {
+    constructor(imageWorker: AWS.RekognitionClient) {
         this.imageWorker = imageWorker;
     }
 
@@ -15,15 +18,16 @@ class AWSRekognitionWorker {
     async parseImageToText(image: Buffer) {
         try {
 
+            const result: string[] = []
+
             const params = {
                 Image: {
                     Bytes: image
                 },
             }
+            const command = new DetectTextCommand(params);
 
-            const result: string[] = []
-
-            this.imageWorker.detectText(params, function (err, response) {
+            this.imageWorker.send(command, function (err, response) {
                 if (err) {
                     console.log(err, err.stack); // handle error if an error occurred
                     throw new Error('The image could not be verified. Please try again.');
@@ -53,6 +57,4 @@ class AWSRekognitionWorker {
     }
 }
 
-export default new AWSRekognitionWorker(new AWS.Rekognition({
-    region: 'us-east-2'
-}));
+export default new AWSRekognitionWorker(client);
