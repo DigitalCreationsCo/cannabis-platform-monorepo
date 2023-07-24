@@ -4,9 +4,7 @@ import axios from "axios";
 import FormData from "form-data";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import ReCAPTCHA from "react-google-recaptcha";
 import { toast } from "react-hot-toast";
-import { verifyPhotoIdTour } from "tour/verifyPhotoIdTour";
 
 type Image = {
 data: string;
@@ -22,8 +20,8 @@ type: string;
 const VerifyPhotoId = () => {
 
     function startTour () {
-        if (!verifyPhotoIdTour.isActivated)
-        verifyPhotoIdTour.start();
+        // if (!verifyPhotoIdTour.isActivated)
+        // verifyPhotoIdTour.start();
     }
 
     useEffect(() => {
@@ -77,7 +75,7 @@ const VerifyPhotoId = () => {
                         } 
                     });
 
-                    nextFormStep();
+                    // nextFormStep();
                     setLoadingButton(false);
                 }
             }
@@ -222,11 +220,11 @@ const VerifyPhotoId = () => {
                 }
                 </div>
 
-                <ReCAPTCHA
+                {/* <ReCAPTCHA
                 ref={captchaRef}
                 sitekey={captchaSiteKey}
                 onChange={(token) => setCaptchaToken(token)}
-                />
+                /> */}
                 
                 <FlexBox className='flex-row space-x-4 py-2'>
                     <Button 
@@ -240,7 +238,7 @@ const VerifyPhotoId = () => {
                     <Button 
                     id='verify-id-step-4'
                     type='submit'
-                    disabled={!uploaded || !captchaRef.current.getValue()}
+                    // disabled={!uploaded || !captchaRef.current.getValue()}
                     loading={loadingButton}
                     onClick={(e) => { 
                         e.preventDefault();
