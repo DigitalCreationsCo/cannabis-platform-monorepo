@@ -16,9 +16,9 @@ export default class IdCardReader {
     private _stateName: USState;
     private _stateAbbreviation: StateAbbreviation;
 
-    constructor(text: string) {
+    constructor(text: string, state?: USState) {
         this._text = text;
-        this._stateName = this.getIssuedState();
+        this._stateName = state || this.getIssuedState();
         this._stateAbbreviation = stateMap[this._stateName].abbreviation;
     }
 
@@ -51,6 +51,7 @@ export default class IdCardReader {
             dates = this._text.match(dobRegex);
 
         if (dates && dates.length > 0) {
+            console.info('dates found: ', dates);
             // reduce to the oldest date - assumed to be the date of birth
             const dateOfBirth: Date = dates.reduce((oldestDate, date) => {
                 const

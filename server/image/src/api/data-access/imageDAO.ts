@@ -29,15 +29,8 @@ class ImageDAO {
 
             const
                 _text = await this.imageWorker.parseImageToText(image as Buffer);
-            console.info(' checkId text: ', _text);
 
-            const _stateOfIssue = new IdCardReader(_text).getIssuedState(),
-
-                enhancedImage = await ImageProcessor.enhance(image, _stateOfIssue),
-                _enhancedText = await this.imageWorker.parseImageToText(enhancedImage);
-
-            console.info(' checkId enhanced text: ', _enhancedText);
-            const { isLegalAge, scannedDOB } = new IdCardReader(_enhancedText).isLegalAge();
+            const { isLegalAge, scannedDOB } = new IdCardReader(_text).isLegalAge();
 
             return {
                 isLegalAge,
