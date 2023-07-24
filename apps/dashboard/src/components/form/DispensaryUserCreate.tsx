@@ -217,9 +217,9 @@ function DispensaryUserCreate () {
                 error={!!touched.termsAccepted && !!errors.termsAccepted}
                 description={
                     <>
-                        <Paragraph>By creating an account with Gras, you agree to our</Paragraph>
+                        <Paragraph>{TextContent.legal.AGREE_TO_TERMS}</Paragraph>
                         <a href="/termsandconditions/userterms" target="_blank" rel="noreferrer noopener">
-                            <H6 className={'border-b-2 inline-block'}>User Terms and Conditions</H6>.
+                            <H6 className={'border-b-2 inline-block'}>{TextContent.legal.USER_TERMS_OF_SERVICE}</H6>.
                         </a>
                     </>
                 }
