@@ -1,5 +1,5 @@
 import { createWorker, ImageLike, Worker } from "tesseract.js";
-import { Input } from "../scan/processor";
+import { Input } from "./processor";
 
 class ImageWorker {
   imageWorker: Worker

@@ -3,9 +3,9 @@ import { createId } from '@paralleldrive/cuid2';
 import { ImageLike } from "tesseract.js";
 import { ImageFile, ImagePaths } from 'types/image-types';
 import s3 from '../../s3/s3Client';
+import { default as worker } from "../scan/awsWorker";
 import IdCardReader from "../scan/cardReader";
 import ImageProcessor, { Input } from "../scan/processor";
-import { default as worker } from "../scan/worker";
 
 class ImageDAO {
     imageWorker: typeof worker
@@ -13,7 +13,6 @@ class ImageDAO {
     constructor(imageWorker) {
         this.imageWorker = imageWorker;
     }
-
 
     /**
      * IMPROVEMENTS: this function checks the users state from the uploaded Id Image,
@@ -24,10 +23,9 @@ class ImageDAO {
      * @param image 
      * @returns 
      */
-    async checkIdForLegalAge(image: (ImageLike & Input)): Promise<{ isLegalAge: boolean, scannedDOB: Date }> {
+    async verifyIdentificationImage(image: (ImageLike & Input)): Promise<{ isLegalAge: boolean, scannedDOB: Date }> {
         try {
             await ImageProcessor.getMetaData(image);
-            image = await this.imageWorker.detectAndCorrectImage(image);
 
             const
                 _text = await this.imageWorker.parseImageToText(image);
