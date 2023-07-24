@@ -3,7 +3,7 @@ import {
   AddressCreateType,
   AddressWithCoordinates,
   Coordinates,
-  Prisma,
+  Prisma
 } from '@cd/data-access';
 import axios from 'axios';
 
@@ -30,13 +30,16 @@ async function getCoordinatesByAddressString(addressString: string): Promise<{
 
     console.info('geolocate response: ', response.data);
 
-    const { lat: latitude, lon: longitude } = response.data[0],
+    if (!response?.data?.[0])
+      throw new Error('No coordinates found for address');
+
+    const { lat: latitude, lon: longitude } = response?.data?.[0],
       coordinates = { latitude, longitude };
 
     return coordinates;
   } catch (error) {
-    console.info('Error getting coordinates: ', error);
-    return null;
+    console.info('getCoordinatesByAddressString: ', error);
+    throw new Error(error.message);
   }
 }
 
@@ -69,7 +72,7 @@ export async function getGeoAddressFromCoordinates(coordinates: {
 
     return formattedAddress;
   } catch (error) {
-    console.info('Error getting address using coordinates: ', error);
+    console.info('getGeoAddressFromCoordinates: ', error);
     return null;
   }
 }

@@ -1,7 +1,7 @@
 import {
   coordinatesIsEmpty,
   getGeoCoordinatesFromAddress,
-  urlBuilder,
+  urlBuilder
 } from '@cd/core-lib';
 import {
   createOrganization,
@@ -11,7 +11,7 @@ import {
   findOrganizationsByZipcode,
   findUsersByOrganization,
   OrganizationCreateType,
-  updateOrganization,
+  updateOrganization
 } from '@cd/data-access';
 import { createId } from '@paralleldrive/cuid2';
 import axios from 'axios';
@@ -33,13 +33,14 @@ updateProduct
 export default class OrganizationDA {
   static async createOrganization(organization: OrganizationCreateType) {
     try {
+      // connect an existing vendor, or leave blank.
       if (!organization.vendorId) organization.vendorId = createId();
 
       const data = await createOrganization(organization);
 
       console.info(
-        `successfully created organization record ${organization.name}: ${data.id} 
-                now creating location record...`
+        ` successfully created organization record ${organization.name}: ${data.id} 
+          creating location record...`
       );
 
       await axios.post(
@@ -61,8 +62,8 @@ export default class OrganizationDA {
         }
       );
 
-      console.info(`${data.name} record create is completed.`);
-      return `${data.name} record create is completed. Your id is ${data.id}`;
+      console.info(`${data.name} organization create is completed.`);
+      return { ...data };
     } catch (error: any) {
       console.error(error.message);
       throw new Error(error.message);

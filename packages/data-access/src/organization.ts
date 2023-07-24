@@ -6,7 +6,7 @@ import {
   Prisma,
   Schedule,
   SubDomain,
-  Vendor,
+  Vendor
 } from '@prisma/client';
 import { AddressCreateType, AddressWithCoordinates } from './address';
 import prisma from './db/prisma';
@@ -100,12 +100,8 @@ export async function updateOrganization(organization: OrganizationCreateType) {
 
     return updateOrganization;
   } catch (error: any) {
-    console.error('ERROR: ', error);
-    if (error.code === 'P2002') {
-      throw new Error(
-        'error updating organization, there was a unique key conflict.'
-      );
-    } else throw new Error('error updating organization');
+    console.error('updateOrganization error: ', error);
+    throw new Error(error.message);
   }
 }
 
@@ -118,9 +114,7 @@ export async function createOrganization(organization: OrganizationCreateType) {
 
     const { vendorId, address, subdomainId, schedule } = organization;
 
-    // const
-    // insertImages = organization.images.map((image) => ({ ...image }));
-
+    console.info('creating organization');
     const createOrganization = await prisma.organization.create({
       data: {
         name: organization.name,
@@ -145,11 +139,11 @@ export async function createOrganization(organization: OrganizationCreateType) {
             },
           },
         },
-        images: {
+        images: organization.images?.length > 0 ? {
           create: {
-            location: organization.images[0].location,
-          },
-        },
+            location: organization.images?.[0]?.location
+          }
+        } : undefined,
         schedule: {
           create: {
             createdAt: schedule.createdAt,
@@ -182,14 +176,13 @@ export async function createOrganization(organization: OrganizationCreateType) {
           },
         },
         // add default site settings
-      },
+      }
     });
+
     return createOrganization;
   } catch (error: any) {
-    console.error('ERROR: ', error.message);
-    if (error.code === 'P2002') {
-      throw new Error('error creating organization, unique key exists');
-    } else throw new Error('error creating organization');
+    console.error('createOrganization error: ', error.message);
+    throw new Error(error.message);
   }
 }
 
@@ -206,7 +199,8 @@ export async function deleteOrganizationById(id: string) {
 
     return deleted;
   } catch (error: any) {
-    throw new Error(error);
+    console.error('delete organization error: ', error);
+    throw new Error(error.message);
   }
 }
 
