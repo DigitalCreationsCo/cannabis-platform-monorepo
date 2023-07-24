@@ -16,19 +16,12 @@ var create_organization_payload = {
         "openAt": inputData.openAt,
         "closeAt": inputData.closeAt
     }
-}
+};
 
-let output;
-
-await fetch('https://backend.grascannabis.org/main/api/v1/organization',
-    {
-        method: 'POST', body: create_organization_payload,
-        headers: { 'Content-Type': 'application/json' }
-    }).then(function (res) {
+fetch('https://backend.grascannabis.org/main/api/v1/organization',
+    { method: 'POST', body: create_organization_payload }).then(function (res) {
         return res.json()
     }).then(function (json) {
-        output = json
-    }).catch(function (error) {
-        return;
-    })
-
+        var output = json;
+        callback(null, output);
+    }).catch(callback)
