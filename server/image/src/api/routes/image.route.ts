@@ -14,7 +14,9 @@ POST    "/scan-identification-upload"   uploadImage
 
 const upload = multer();
 
-router.route("/scan-identification-upload").post(upload.any(), imageCtrl.verifyIdentificationImageFromUpload);
+router.route("/scan-identification-upload").post(upload.any(), imageCtrl.verifyIdentificationAWS);
+
+router.route("/scan-identification-upload-tesseract").post(upload.any(), imageCtrl.verifyIdentificationImageFromUpload);
 
 router
     .route('/scan-identification-uri')
