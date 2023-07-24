@@ -9,7 +9,7 @@ import {
   styles,
   TermsAgreement,
   TextField,
-  useFormContext,
+  useFormContext
 } from '@cd/ui-lib';
 import { profilePictures } from 'data/profilePicture';
 import { useFormik } from 'formik';
@@ -45,7 +45,7 @@ function UserSignUpQuickForm() {
     username: formValues?.newUser?.username || '',
     email: user?.email || formValues?.newUser?.email || '',
     phone: formValues?.newUser?.phone || '',
-    dialCode: formValues?.newUser?.dialCode || '1',
+    dialCode: '1',
     termsAccepted: false,
     profilePicture: {},
   };
@@ -68,7 +68,6 @@ function UserSignUpQuickForm() {
       .string()
       .required('Phone number is required')
       .length(10, 'Phone number must be 10 digits'),
-    dialCode: yup.string().required('Dialing code is required'),
     termsAccepted: yup
       .bool()
       .test(
@@ -142,6 +141,9 @@ function UserSignUpQuickForm() {
     shuffled = shuffle(profilePictures);
   }, []);
 
+
+  const [selected, setSelected] = useState(0);
+  
   return (
     <form
       onSubmit={(e) => {
@@ -159,18 +161,8 @@ function UserSignUpQuickForm() {
 
         <FlexBox className="col-span-2 flex-row space-x-4">
           <TextField
-            name="dialCode"
-            label="* dial code"
-            placeholder="+1"
-            onBlur={handleBlur}
-            onChange={handleChange}
-            value={values.dialCode}
-            error={!!touched.dialCode && !!errors.dialCode}
-            helperText={touched.dialCode && errors.dialCode}
-          />
-          <TextField
             name="phone"
-            label="* your phone number"
+            label="* phone number"
             placeholder="your phone number"
             value={values.phone}
             onBlur={handleBlur}
@@ -182,7 +174,7 @@ function UserSignUpQuickForm() {
         <FlexBox className="flex-row space-x-4 col-span-2">
           <TextField
             name="firstName"
-            label="* your first name"
+            label="* first name"
             placeholder="your first name"
             onBlur={handleBlur}
             onChange={handleChange}
@@ -192,7 +184,7 @@ function UserSignUpQuickForm() {
           />
           <TextField
             name="lastName"
-            label="* your last name"
+            label="* last name"
             placeholder="your last name"
             value={values.lastName}
             onBlur={handleBlur}
@@ -205,7 +197,7 @@ function UserSignUpQuickForm() {
           containerClassName="col-span-2"
           name="email"
           type="email"
-          label="* your email address"
+          label="* email address"
           onBlur={handleBlur}
           value={values.email}
           onChange={handleChange}
@@ -220,29 +212,20 @@ function UserSignUpQuickForm() {
         </Paragraph>
 
         <Grid className="grid-cols-2 sm:grid-cols-3 col-span-2 space-y-4">
-          {/* <IconButton
-                    id='user-signup-step-2'
-                    Icon={icons.User} 
-                    iconSize={100} 
-                    size="sm"
-                    className={twMerge(styles.BUTTON['round-image-btn'])}
-                    iconClass='!rounded-full'
-                    onClick={(e) => e.preventDefault();e.stopPropagation();}
-                    /> */}
-
           {shuffled.map((pic: string, index: number) => {
             return (
               <Button
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
+                  setSelected(index);
                   setFieldValue('profilePicture', pic);
                 }}
                 id={`avatar-button-${index}`}
                 key={`avatar-button-${index}`}
                 size="sm"
                 bg="transparent"
-                className={twMerge(styles.BUTTON['round-image-btn'])}
+                className={twMerge(styles.BUTTON['highlight'], styles.BUTTON['round-image-btn'], index === selected ? ['border-2 border-primary']: ['border-2 border-transparent'])}
               >
                 <img
                   className="object-cover  rounded-full, h-32 w-32"
@@ -279,7 +262,7 @@ function UserSignUpQuickForm() {
           description={
             <>
               {TextContent.legal.AGREE_TO_TERMS}
-              <a href="/" target="_blank" rel="noreferrer noopener">
+              <a href="/termsandconditions/userterms" target="_blank" rel="noreferrer noopener">
                 <H6 className={'border-b-2 inline-block'}>
                   {TextContent.legal.USER_TERMS_OF_SERVICE}
                 </H6>

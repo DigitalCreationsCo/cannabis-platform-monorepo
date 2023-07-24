@@ -16,18 +16,19 @@ export default class IdCardReader {
     private _stateName: USState;
     private _stateAbbreviation: StateAbbreviation;
 
-    constructor(text: string) {
+    constructor(text: string, state?: USState) {
         this._text = text;
-        this._stateName = this.getIssuedState();
+        this._stateName = state || this.getIssuedState();
         this._stateAbbreviation = stateMap[this._stateName].abbreviation;
     }
 
     isLegalAge() {
-        const _dob = this.getDateOfBirth()
-        const isLegalAge = this.checkLegalAge(_dob)
+        const
+            _dob = this.getDateOfBirth(),
+            _isLegalAge = this.checkLegalAge(_dob)
         return {
-            isLegalAge,
-            scannedDOB: _dob
+            scannedDOB: _dob,
+            isLegalAge: _isLegalAge
         };
     }
 
@@ -35,22 +36,22 @@ export default class IdCardReader {
         const
             now = new Date(),
             diff = now.getTime() - dateOfBirth.getTime(),
-            years = diff / (1000 * 60 * 60 * 24 * 365.25);
+            years = diff / (1000 * 60 * 60 * 24 * 365.25),
 
-        const
-            stateLegalAge = stateMap[this._stateName].legalAge;
+            stateLegalAge = stateMap[this._stateName].legalAge,
+            isLegalAge = years >= stateLegalAge;
 
-        return years >= stateLegalAge;
+        console.info(' detected isLegalAge: ', isLegalAge);
+        return isLegalAge;
     }
 
     private getDateOfBirth(): Date {
-
         const
             dobRegex = this.getDOBRegex(),
             dates = this._text.match(dobRegex);
 
         if (dates && dates.length > 0) {
-
+            console.info('dates found: ', dates);
             // reduce to the oldest date - assumed to be the date of birth
             const dateOfBirth: Date = dates.reduce((oldestDate, date) => {
                 const
@@ -61,14 +62,14 @@ export default class IdCardReader {
                     return oldestDate
             }, new Date());
 
+            console.info(' detected date of birth: ', dateOfBirth);
             return dateOfBirth;
         }
         else
-            throw new Error('No date of birth found in text')
+            throw new Error('No date of birth detected')
     }
 
     getIssuedState() {
-
         const
             stateName = Object.keys(stateMap).find(state => this._text.toUpperCase().match(state))
 

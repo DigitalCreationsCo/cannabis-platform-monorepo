@@ -1,4 +1,5 @@
 import {
+  getShopSite,
   modalActions,
   modalTypes,
   selectIsAddressAdded,
@@ -22,8 +23,12 @@ function CartPage() {
     event.preventDefault();
     event.stopPropagation();
     if (user.isSignedIn && isAddressAdded && user.user.isSignUpComplete) {
-      Router.push('/checkout');
-    } else {
+      if (!user.user.isLegalAge === false || (!user.user.isLegalAge && user.user.idVerified))
+        Router.push(getShopSite('/sorry-we-cant-serve-you'));
+      else
+        Router.push('/checkout');
+    } 
+    else {
       dispatch(modalActions.openModal({ modalType: modalTypes.checkoutModal }));
     }
   };
