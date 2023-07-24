@@ -1,5 +1,4 @@
-import AWS from "aws-sdk";
-import { ImageLike } from 'tesseract.js';
+import AWS from "@aws-sdk/client-rekognition";
 
 class AWSRekognitionWorker {
     imageWorker: AWS.Rekognition
@@ -13,14 +12,17 @@ class AWSRekognitionWorker {
      * @param image 
      * @returns 
      */
-    async parseImageToText(image: ImageLike): Promise<string[]> {
+    async parseImageToText(image: Buffer) {
         try {
+
             const params = {
                 Image: {
                     Bytes: image
                 },
             }
+
             const result: string[] = []
+
             this.imageWorker.detectText(params, function (err, response) {
                 if (err) {
                     console.log(err, err.stack); // handle error if an error occurred
@@ -42,7 +44,8 @@ class AWSRekognitionWorker {
             });
 
             console.info('Returned the result: ', result);
-            return result
+
+            return "TEST";
         } catch (error) {
             console.error('AWS Image Worker parseImageToText: ', error);
             throw new Error(error.message);
