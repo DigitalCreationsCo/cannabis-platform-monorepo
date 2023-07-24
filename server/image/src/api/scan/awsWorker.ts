@@ -21,10 +21,10 @@ class AWSRekognitionWorker {
      * @param image 
      * @returns 
      */
-    async parseImageToText(image: Buffer) {
+    async parseImageToText(image: Buffer): Promise<string> {
         try {
 
-            const result: string[] = []
+            let result: string[] = []
 
             const params = {
                 Image: {
@@ -33,29 +33,25 @@ class AWSRekognitionWorker {
             }
             const command = new DetectTextCommand(params);
 
-            await client.send(command, function (err, response) {
-                if (err) {
-                    console.log(err, err.stack); // handle error if an error occurred
-                    throw new Error('The image could not be verified. Please try again.');
-                } else {
-                    console.log('detect response: ', response);
+            const promiseText = await this.imageWorker.send(command)
+                .then((response) => {
                     response.TextDetections.forEach(label => {
-                        console.log(`Detected Text: ${label.DetectedText}`),
-                            console.log(`Type: ${label.Type}`),
-                            console.log(`ID: ${label.Id}`),
-                            console.log(`Parent ID: ${label.ParentId}`),
-                            console.log(`Confidence: ${label.Confidence}`),
-                            console.log(`Polygon: `)
-                        console.log(label.Geometry.Polygon);
+                        // console.log(`Detected Text: ${label.DetectedText}`),
+                        //     console.log(`Type: ${label.Type}`),
+                        //     console.log(`ID: ${label.Id}`),
+                        //     console.log(`Parent ID: ${label.ParentId}`),
+                        //     console.log(`Confidence: ${label.Confidence}`),
+                        //     console.log(`Polygon: `)
+                        // console.log(label.Geometry.Polygon);
                         result.push(label.DetectedText);
-                    }
-                    )
-                }
-            });
+                    });
+                }, (error) => {
+                    console.log(error, error.stack); // handle error if an error occurred
+                    throw new Error('The image could not be verified. Please try again.');
+                });
+            Promise.resolve(promiseText);
 
-            console.info('Returned the result: ', result);
-
-            return "TEST";
+            return result.join(' ');
         } catch (error) {
             console.error('AWS Image Worker parseImageToText: ', error);
             throw new Error(error.message);

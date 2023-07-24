@@ -59,7 +59,7 @@ const VerifyPhotoId = () => {
                 response: VerifyPhotoIDUploadResponse = await verifyLegalAgeImageUpload({frontImage, backImage})
 
                 if (response.success === false)
-                throw new Error('Error verifying your photo id. Please try again.')
+                throw new Error(response.error)
 
                 if (response.success === true) {
                     
