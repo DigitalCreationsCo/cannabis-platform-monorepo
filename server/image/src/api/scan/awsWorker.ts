@@ -1,7 +1,13 @@
 import * as AWS from "@aws-sdk/client-rekognition";
 import { DetectTextCommand, RekognitionClient } from "@aws-sdk/client-rekognition";
 
-const client = new RekognitionClient({ region: "REGION" });
+const client = new RekognitionClient({
+    region: "REGION",
+    credentials: {
+        accessKeyId: process.env.REKOGNITION_ACCESS_KEY,
+        secretAccessKey: process.env.REKOGNITION_SECRET_KEY
+    }
+});
 
 class AWSRekognitionWorker {
     imageWorker: AWS.RekognitionClient
@@ -27,7 +33,7 @@ class AWSRekognitionWorker {
             }
             const command = new DetectTextCommand(params);
 
-            this.imageWorker.send(command, function (err, response) {
+            await this.imageWorker.send(command, function (err, response) {
                 if (err) {
                     console.log(err, err.stack); // handle error if an error occurred
                     throw new Error('The image could not be verified. Please try again.');
