@@ -246,14 +246,14 @@ function DispensaryCreate() {
           helperText={(touched.termsAccepted && errors.termsAccepted) || ''}
           description={
             <>
-              <Paragraph>By signing up for Gras, you agree to our </Paragraph>
+              <Paragraph>{TextContent.legal.AGREE_TO_TERMS}</Paragraph>
               <a
                 href="/termsandconditions/dispensaryterms"
                 target="_blank"
                 rel="noreferrer noopener"
               >
                 <H6 className={'border-b-2 inline-block'}>
-                  Dispensary Terms and Conditions
+                  {TextContent.legal.DISPENSARY_TERMS_OF_SERVICE}
                 </H6>
                 .
               </a>

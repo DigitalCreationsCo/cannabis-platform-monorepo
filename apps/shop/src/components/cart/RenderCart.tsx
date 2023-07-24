@@ -1,7 +1,8 @@
-import {} from '@carbon/icons-react';
+import { } from '@carbon/icons-react';
 import { selectCartState } from '@cd/core-lib';
 import { ProductVariantWithDetails } from '@cd/data-access';
 import { Grid, Paragraph, ProductItem } from '@cd/ui-lib';
+import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import RenderTotal from './RenderTotal';
@@ -23,11 +24,11 @@ function RenderCart() {
         ) : (
           <div className="text-center col-span-2">
             <Paragraph>Your bag is empty</Paragraph>
-            <a href="/browse">
+            <Link href="/browse">
               <Paragraph className={'cursor-pointer border-b-2 inline-block'}>
                 Cure what ails you
               </Paragraph>
-            </a>
+            </Link>
           </div>
         )}
       </Grid>

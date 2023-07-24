@@ -52,6 +52,7 @@ function Layout({
 
     const navLinkContainerId = 'dashboard-links-container';
     const drawerComponentId = 'dashboard-links-drawer';
+
     return (
         <div className={twMerge("flex flex-col min-h-screen", styles.isModalOverlay, className)}>
             <div className={styles.main}>
@@ -80,4 +81,5 @@ function Layout({
 
 export { Layout };
 export type { LayoutContextProps };
+
 

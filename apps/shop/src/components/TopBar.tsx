@@ -17,9 +17,11 @@ import {
 } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/logo.png';
+
 export type TopBarProps = {
   doesSessionExist?: boolean;
   signOut: () => void;
@@ -38,7 +40,9 @@ function TopBar({ signOut }: TopBarProps) {
       })
     );
   }
-
+  
+  const MemoizedDropDown = useCallback(AccountDropDown, [user]);
+  
   return (
     <div className={twMerge(styles.TOPBAR.topbar)}>
       <Link href={getShopSite('/')} className="pr-2">
@@ -90,8 +94,7 @@ function TopBar({ signOut }: TopBarProps) {
               </Button>
           </Link>
         )}
-
-        {isSignedIn && <AccountDropDown />}
+        {isSignedIn && <MemoizedDropDown />}
         {!isSignedIn && (
           <FlexBox>
             <Button
@@ -110,6 +113,9 @@ function TopBar({ signOut }: TopBarProps) {
   );
 
   function AccountDropDown() {
+    const loaderProp =({ src }: any) => {
+      return src;
+    }
     return (
       <div className="dropdown dropdown-bottom relative">
         <Button
@@ -119,13 +125,14 @@ function TopBar({ signOut }: TopBarProps) {
           bg="transparent"
           hover="transparent"
         >
-          <img
-            // src={user.profilePicture || '/user.png'}
+          <Image
             src={user.profilePicture?.location as string}
             alt={user.username}
-            width={80}
-            height={80}
-            className="rounded-full border-2"
+            width={40}
+            height={40}
+            className="rounded-full border"
+            loader={({ src }) => src }
+            priority
           />
         </Button>
         <ul className="shadow border menu dropdown-content bg-inverse rounded w-48 relative right-0 bottom-0 mt-2">
@@ -156,13 +163,6 @@ function TopBar({ signOut }: TopBarProps) {
   }
 }
 
-// function openCartModal() {
-//     console.info('dispatch: open cart Modal');
-//     dispatch(
-//         modalActions.openModal({
-//             modalType: modalTypes.cartModal
-//         })
-//     );
-// }
+
 
 export default TopBar;

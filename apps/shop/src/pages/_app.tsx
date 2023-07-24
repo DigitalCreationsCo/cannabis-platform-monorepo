@@ -4,11 +4,11 @@ import { LayoutContextProps, LoadingPage, ModalProvider, ToastProvider } from "@
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from "next/router";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Provider as ReduxProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
-import Session, { SessionContextType } from 'supertokens-auth-react/recipe/session';
+import Session from 'supertokens-auth-react/recipe/session';
 import { LayoutContainer, LocationProvider } from '../components';
 import { frontendConfig } from '../config/frontendConfig';
 import { AppThunk, wrapper } from '../redux/store';
@@ -76,8 +76,8 @@ function App({ Component, ...rest }: CustomAppProps) {
                         loading={<LoadingPage />}
                         >
                         <LocationProvider />
-                        <ModalProvider />
                         <ToastProvider />
+                        <ModalProvider />
                         <LayoutContainer {...getLayoutContext()}>
                             { routerLoading ? <LoadingPage /> : <Component {...props.pageProps} />} 
                         </LayoutContainer>
@@ -91,60 +91,6 @@ function App({ Component, ...rest }: CustomAppProps) {
 export default wrapper.withRedux(App);
 
 export type ExtendedPageComponent = {
-    signIn: (input: {
-        formFields: {
-            id: string;
-            value: string;
-        }[];
-        options?: unknown;
-        userContext?: unknown;
-    }) => Promise<
-    | {
-          status: "OK";
-          user: { id: string; email: string; timeJoined: number };
-          fetchResponse: Response;
-      }
-    | {
-          status: "FIELD_ERROR";
-          formFields: {
-              id: string;
-              error: string;
-          }[];
-          fetchResponse: Response;
-      }
-    | {
-          status: "WRONG_CREDENTIALS_ERROR";
-          
-            fetchResponse: Response;
-      }
->;
-    signOut: () => Promise<void>;
-    signUp: (input: {
-        formFields: {
-            id: string;
-            value: string;
-        }[];
-        options?: unknown;
-        userContext?: unknown;
-    }) => Promise<
-    | {
-          status: "OK";
-          user: { id: string; email: string; timeJoined: number };
-          fetchResponse: Response;
-      }
-    | {
-          status: "FIELD_ERROR";
-          formFields: {
-              id: string;
-              error: string;
-          }[];
-          fetchResponse: Response;
-      }
->;
     getLayoutContext?: () => LayoutContextProps;
-    isLoading: boolean;
-    setIsLoading: Dispatch<SetStateAction<boolean>>;
-    session: SessionContextType;
-    doesSessionExist: boolean;
     fromSupertokens: string;
 };
