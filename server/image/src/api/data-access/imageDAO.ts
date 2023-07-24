@@ -28,7 +28,7 @@ class ImageDAO {
             await ImageProcessor.getMetaData(image);
 
             const
-                _text = await this.imageWorker.parseImageToText(image);
+                _text = await this.imageWorker.parseImageToText(image as Buffer);
             console.info(' checkId text: ', _text);
 
             const _stateOfIssue = new IdCardReader(_text).getIssuedState(),
