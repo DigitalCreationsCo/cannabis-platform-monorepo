@@ -14,7 +14,7 @@ export const H1 = ({ className, color = 'dark', children, ...props }: Props) => 
         <h1
             className={twMerge(
                 styles['cursor-inherit'],
-                'text-4xl font-bold whitespace-nowrap',
+                'text-4xl font-bold whitespace-normal',
                 (color === 'light' && 'text-inverse') || 'text-dark',
                 className
             )}
@@ -30,7 +30,7 @@ export const H2 = ({ className, color = 'dark', children, ...props }: Props ) =>
         <h2
             className={twMerge(
                 styles['cursor-inherit'],
-                'font-bold text-3xl whitespace-nowrap',
+                'font-bold text-3xl whitespace-normal',
                 (color === 'light' && 'text-inverse') || 'text-dark',
                 className
             )}

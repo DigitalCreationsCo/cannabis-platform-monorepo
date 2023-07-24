@@ -1,4 +1,3 @@
-import Dashboard from 'supertokens-node/recipe/dashboard';
 import Session from 'supertokens-node/recipe/session';
 import { AuthConfig } from '../../interfaces';
 
@@ -15,7 +14,7 @@ const appInfo = {
 };
 
 export const backendConfig = (): AuthConfig => {
-  console.info(' 🌠 server/location backend config: ', appInfo);
+  console.info(' 🌠 server/image backend config: ', appInfo);
   return {
     framework: 'express',
     supertokens: {
@@ -27,9 +26,6 @@ export const backendConfig = (): AuthConfig => {
         cookieSecure: true,
         cookieDomain: `.${baseDomain}`,
         jwt: { enable: true },
-      }),
-      Dashboard.init({
-        apiKey: process.env.SUPERTOKENS_DASHBOARD_KEY,
       }),
     ],
     isInServerlessEnv: false,

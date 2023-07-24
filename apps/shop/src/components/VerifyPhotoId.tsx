@@ -1,12 +1,14 @@
+import { TextContent } from "@cd/core-lib";
 import { urlBuilder } from "@cd/core-lib/src/utils";
 import { Button, Center, DropZone, FlexBox, H2, H5, UploadImageBox, useFormContext } from "@cd/ui-lib";
 import axios from "axios";
 import FormData from "form-data";
 import Image from "next/image";
+import Router from "next/router";
 import { useEffect, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { toast } from "react-hot-toast";
-import { verifyPhotoIdTour } from "tour/verifyPhotoIdTour";
+import { verifyPhotoIdTour } from "tour";
 
 type Image = {
 data: string;
@@ -58,14 +60,19 @@ const VerifyPhotoId = () => {
                 setLoadingButton(true);
 
                 const 
-                response: VerifyPhotoIDUploadResponse = await verifyLegalAgeImageUpload({frontImage, backImage})
+                response: VerifyIdentificationResponse = await verifyLegalAgeImageUpload({frontImage, backImage})
+
+                toast(TextContent.account.VERIFY_ID_PROCESSING);
 
                 if (response.success === false)
-                throw new Error('Error verifying your photo id. Please try again.')
+                throw new Error(response.error)
 
                 if (response.success === true) {
                     
-                    toast.success('Thanks for verifying!');
+                    toast.success(TextContent.account.VERIFY_ID_COMPLETE);
+                    
+                    if (response.result.idVerified === true && response.result.isLegalAge === false)
+                    Router.push('/sorry-we-cant-serve-you');
 
                     setFormValues({ 
                         newUser: {
@@ -96,6 +103,11 @@ const VerifyPhotoId = () => {
             formData.append("idFrontImage", frontImage);
             formData.append("idBackImage", backImage);
 
+            console.info('verify identification: formdata: ');
+            // @ts-ignore
+            for (var pair of formData.entries()) {
+                console.info(pair[0], pair[1]); 
+            }
             const 
             response = await axios.post(
                 urlBuilder.image.verifyIdentificationImageUpload(), 
@@ -226,14 +238,6 @@ const VerifyPhotoId = () => {
                 
                 <FlexBox className='flex-row space-x-4 py-2'>
                     <Button 
-                    disabled={loadingButton}
-                    onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        prevFormStep();
-                    }}
-                    >go back</Button>
-                    <Button 
                     id='verify-id-step-4'
                     type='submit'
                     disabled={!uploaded || !captchaRef.current.getValue()}
@@ -251,10 +255,10 @@ const VerifyPhotoId = () => {
 
 export default VerifyPhotoId
 
-type VerifyPhotoIDUploadResponse = {
+type VerifyIdentificationResponse = {
     success: true,
-    result: { 
-        isLegalAge: boolean, 
+    result: {
+        isLegalAge: boolean,
         idVerified: boolean,
         scannedDOB: Date,
     },
@@ -264,6 +268,6 @@ type VerifyPhotoIDUploadResponse = {
     },
     isUploaded: boolean,
 } | {
-    success: false, 
+    success: false,
     error: string
 }

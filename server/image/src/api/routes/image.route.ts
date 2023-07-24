@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import multer from 'multer';
 import { imageCtrl } from '../controllers';
 
 const router = Router();
@@ -7,11 +8,12 @@ API Routes for Image Uploading, and Processing
 
 POST    "/scan-identification-uri"      verifyIdentificationImageFromUri
 
-POST    '/upload'                   uploadImage
+POST    "/scan-identification-upload"   uploadImage
 
 ================================= */
-router.route("/scan-identification-uri").post(imageCtrl.verifyIdentificationImageFromUri);
 
-// router.route("/upload").post(imageCtrl.uploadImage);
+const upload = multer();
+
+router.route("/scan-identification-upload").post(upload.any(), imageCtrl.verifyIdentificationAWS);
 
 export default router;

@@ -43,7 +43,11 @@ const nextConfig = (phase) => {
       outputFileTracingRoot: path.join(__dirname, '../../'),
     },
     images: {
-      domains: ['cdn-cashy-static-assets.lucidchart.com'],
+      minimumCacheTTL: 60 * 60,
+      domains: [
+        "https://storage.cloud.google.com",
+        "storage.cloud.google.com",
+      ],
     },
   };
   

@@ -24,15 +24,13 @@ function CheckoutButton(props: CheckoutButtonProps) {
     }
 
     return (
-        // <Link href='/checkout' className='place-self-center mb-4'>
-            <Button
-            onClick={checkout}
-            bg={'secondary-light'} 
-            hover={'primary-light'}
-            { ...props }
-            >
-            Checkout</Button>
-        // </Link>
+        <Button
+        onClick={checkout}
+        bg={'secondary-light'} 
+        hover={'primary-light'}
+        { ...props }
+        >
+        Checkout</Button>
     );
 }
 

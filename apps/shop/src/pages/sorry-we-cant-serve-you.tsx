@@ -1,13 +1,21 @@
-import { Center, H3, H6, LayoutContextProps, Page } from '@cd/ui-lib';
-
+import { Center, H1, H6, LayoutContextProps, Page } from '@cd/ui-lib';
+import Image from 'next/image';
+import meadow from '../../public/meadow.jpg';
 function AgeNotEnough() {
   return (
     <Page>
-      <Center className="px-4 sm:w-[440px] mx-auto">
-        <H3>Thank you for choosing Delivery by Gras!</H3>
+      <Center className="p-4 w-[300px] sm:w-[440px] m-auto space-y-4">
+        <H1 className='text-primary'>Sorry, we can't serve you at this time.</H1>
+        <Image
+        className='rounded'
+        src={meadow} 
+        alt="Come back when you're 21" 
+        height={250}
+        />
         <H6>
+          Thank you for choosing Delivery by Gras.
           Unfortunately, you're not old enough to enjoy cannabis and hemp
-          products, according to federal and state laws. Please come back when
+          products, according to federal and state laws. Come back when
           you're 21 years or older.
         </H6>
       </Center>

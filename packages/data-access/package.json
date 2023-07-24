@@ -57,7 +57,7 @@
     "lint-fix": "eslint . --ext .ts,.tsx,.js,.jsx,.cjs,.mjs --fix",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx,.cjs,.mjs --cache --cache-location ../../.cache/eslint/db-main-prisma.eslintcache",
     "postinstall": "prisma generate",
-    "prisma-studio": "dotenv -e ../../.env.development -- yarn prisma studio",
+    "studio": "dotenv -e ../../.env.development -- yarn prisma studio",
     "shadow-db": "../../scripts/docker/shadow-db.sh",
     "push": "dotenv -e ../../.env.development -- yarn prisma db push",
     "pull": "dotenv -e ../../.env.development -- npx prisma db pull",
