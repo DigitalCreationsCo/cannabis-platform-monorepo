@@ -107,12 +107,16 @@ export async function updateOrganization(organization: OrganizationCreateType) {
 
 export async function createOrganization(organization: OrganizationCreateType) {
   try {
+
+    // valid vendorId or null string.
+    organization.vendorId ?? ""
+
     organization.subdomainId = organization.name
       .toLowerCase()
       .split(' ')
       .join('-');
 
-    const { vendorId, address, subdomainId, schedule } = organization;
+    const { address, subdomainId, schedule } = organization;
 
     console.info('creating organization');
     const createOrganization = await prisma.organization.create({
@@ -159,13 +163,8 @@ export async function createOrganization(organization: OrganizationCreateType) {
           },
         },
         vendor: {
-          connectOrCreate: {
-            where: { id: vendorId },
-            create: {
-              id: vendorId,
-              name: organization.name,
-              publicName: organization.name,
-            },
+          connect: {
+            id: organization.vendorId,
           },
         },
         siteSetting: {

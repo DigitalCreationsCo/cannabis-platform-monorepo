@@ -33,8 +33,6 @@ updateProduct
 export default class OrganizationDA {
   static async createOrganization(organization: OrganizationCreateType) {
     try {
-      // connect an existing vendor, or leave blank.
-      if (!organization.vendorId) organization.vendorId = createId();
 
       const data = await createOrganization(organization);
 
