@@ -163,9 +163,13 @@ export async function createOrganization(organization: OrganizationCreateType) {
           },
         },
         vendor: {
-          connect: {
-            id: organization.vendorId,
-          },
+          connectOrCreate: {
+            where: { id: organization.vendorId },
+            create: {
+              publicName: organization.name,
+              name: organization.name,
+            }
+          }
         },
         siteSetting: {
           create: {
