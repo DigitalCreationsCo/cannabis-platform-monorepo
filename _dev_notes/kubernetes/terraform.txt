@@ -1,5 +1,8 @@
 NOTES ON TERRAFORM, AND THE TERRAFORM BACKEND CONFIGURATION FOR LKE
 
+To authenticate with cli:
+gcloud auth application-default login
+
 terraform is installed, and kubectl runs k8s commands on lke.
 - currently using hashicorp terraform vscode xtension
 
