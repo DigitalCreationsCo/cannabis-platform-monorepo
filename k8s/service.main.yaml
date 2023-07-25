@@ -39,13 +39,12 @@ spec:
             - name: DEBUG
               value: com.supertokens
           resources:
-            {}
-            # limits:
-            #   cpu: '100m'
-            #   memory: '120Mi'
-            # requests:
-            #   cpu: '100m'
-            #   memory: '120Mi'
+            limits:
+              cpu: '100m'
+              memory: '120Mi'
+            requests:
+              cpu: '100m'
+              memory: '120Mi'
           ports:
             - name: main-port
               containerPort: 6001
