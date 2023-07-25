@@ -1,3 +1,4 @@
+import { createId } from '@paralleldrive/cuid2';
 import {
   CategoryList,
   Coordinates,
@@ -108,8 +109,7 @@ export async function updateOrganization(organization: OrganizationCreateType) {
 export async function createOrganization(organization: OrganizationCreateType) {
   try {
 
-    // valid vendorId or null string.
-    organization.vendorId ?? ""
+    organization.vendorId = organization.vendorId ?? createId();
 
     organization.subdomainId = organization.name
       .toLowerCase()
@@ -166,6 +166,7 @@ export async function createOrganization(organization: OrganizationCreateType) {
           connectOrCreate: {
             where: { id: organization.vendorId },
             create: {
+              id: organization.vendorId,
               publicName: organization.name,
               name: organization.name,
             }
@@ -185,6 +186,7 @@ export async function createOrganization(organization: OrganizationCreateType) {
     return createOrganization;
   } catch (error: any) {
     console.error('createOrganization error: ', error.message);
+    console.log('code: ', error.code);
     throw new Error(error.message);
   }
 }
