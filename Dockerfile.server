@@ -1,37 +1,35 @@
-FROM node:16 AS BUILDER
-
-WORKDIR /root
-COPY . .
+FROM node:16-alpine as node_modules
 
 ENV NODE_ENV=production
 ENV YARN_VERSION "3.3.1"
-ARG BUILD_CONTEXT=$BUILD_CONTEXT
-
+ARG BUILD_TYPE
+ARG BUILD_CONTEXT
+WORKDIR /root
+COPY . .
 RUN yarn set version $YARN_VERSION
 RUN yarn plugin import workspace-tools
 RUN yarn workspaces focus @cd/server-$BUILD_CONTEXT
 
-RUN yarn workspaces foreach -itR --from @cd/server-$BUILD_CONTEXT run build
 
-FROM --platform=linux/amd64 node:16
+FROM node_modules as builder
 
-ARG BUILD_CONTEXT=$BUILD_CONTEXT
-
-COPY --from=BUILDER /root/yarn.lock         ./root
-COPY --from=BUILDER /root/package.json      ./root
-COPY --from=BUILDER /root/node_modules      ./root/node_modules
-COPY --from=BUILDER /root/packages          ./root/packages
-COPY --from=BUILDER /root/.yarn             ./root/.yarn
-COPY --from=BUILDER /root/.yarnrc.yml       ./root
-COPY --from=BUILDER /root/.env.development  ./root
-COPY --from=BUILDER /root/.env.production   ./root
-COPY --from=BUILDER /root/server/$BUILD_CONTEXT/ ./root/server/$BUILD_CONTEXT/
-
+ENV NODE_ENV=production
+ENV YARN_VERSION "3.3.1"
+ARG BUILD_TYPE
+ARG BUILD_CONTEXT
+COPY /root ./root
 WORKDIR /root
-RUN if [ "$BUILD_CONTEXT" = "image" ] ; then yarn add sharp ; fi
+RUN yarn set version $YARN_VERSION
+RUN yarn plugin import workspace-tools
+RUN yarn workspaces foreach -itR --from @cd/$BUILD_TYPE-$BUILD_CONTEXT run build:ci
 
+FROM node:16-alpine
+
+ARG BUILD_TYPE
+ARG BUILD_CONTEXT
+ARG PORT
+COPY --from=builder /root/server/$BUILD_CONTEXT/dist ./root/server/$BUILD_CONTEXT/dist
 WORKDIR /root/server/$BUILD_CONTEXT/
-
-EXPOSE 6001
-
+RUN if [ "$BUILD_CONTEXT" = "image" ] ; then yarn add sharp ; fi
+EXPOSE $PORT
 CMD [ "yarn", "start", "--env", "production" ]
