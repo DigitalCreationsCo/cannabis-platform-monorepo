@@ -1,46 +1,38 @@
-# FROM --platform=linux/amd64 node:16-bullseye AS INSTALLER
-FROM node:16-bullseye AS INSTALLER
-
-WORKDIR /root
-COPY . .
+FROM node:16-alpine as node_modules
 
 ENV NODE_ENV=production
 ENV YARN_VERSION "3.3.1"
 ARG BUILD_CONTEXT=$BUILD_CONTEXT
-
+WORKDIR /root
+COPY . .
 RUN yarn set version $YARN_VERSION
 RUN yarn plugin import workspace-tools
-RUN yarn workspaces focus @cd/$BUILD_CONTEXT
+RUN yarn --frozen-lockfile
 
-# FROM --platform=linux/amd64 node:16-bullseye as BUILDER
-FROM node:16-bullseye as BUILDER
 
-WORKDIR /root
+FROM node_modules as builder
 
-COPY --from=INSTALLER ./root . 
-
+ENV NODE_ENV=production
+ENV YARN_VERSION "3.3.1"
 ARG BUILD_CONTEXT=$BUILD_CONTEXT
+WORKDIR /root
+COPY . . 
+RUN yarn set version $YARN_VERSION
+RUN yarn plugin import workspace-tools
+RUN yarn workspace @cd/$BUILD_CONTEXT run build:ci
 
-RUN yarn workspaces foreach -itR --from @cd/$BUILD_CONTEXT run build
 
-# linux amd64 for ci
-FROM --platform=linux/amd64 node:16-bullseye AS RUNNER
+FROM node:16-alpine
 
-COPY --from=BUILDER /root ./root
-
+WORKDIR /root 
 ARG BUILD_CONTEXT=$BUILD_CONTEXT
 ARG PORT=$PORT
-
-COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/next.config.mjs ./root
-COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/package.json ./root
-
-# Automatically leverage output traces to reduce image size
-# https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/.next/standalone ./root
-COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/.next/static ./root/apps/$BUILD_CONTEXT/.next/static
-COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/public ./root/apps/$BUILD_CONTEXT/public
-
-WORKDIR /root/apps/$BUILD_CONTEXT
+COPY --from=builder /root/apps/$BUILD_CONTEXT/package.json .
+COPY --from=builder /root/apps/$BUILD_CONTEXT/ecosystem.config.js .
+COPY --from=builder /root/apps/$BUILD_CONTEXT/public ./public
+COPY --from=builder /root/apps/$BUILD_CONTEXT/.next/standalone .
+COPY --from=builder /root/apps/$BUILD_CONTEXT/.next/standalone/apps/$BUILD_CONTEXT .
+COPY --from=builder /root/apps/$BUILD_CONTEXT/.next/static ./.next/static
 
 EXPOSE $PORT
 

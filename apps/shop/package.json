@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "build": "NODE_ENV=production rimraf ./.next && next build",
+    "build": "NODE_ENV=production ISLOCAL=1 SKIP_BUILD_STATIC_GENERATION=1 rimraf ./.next && next build",
+    "build:ci": "NODE_ENV=production rimraf ./.next && next build",
     "build:css": "npx tailwindcss -o ./src/index.css --minify",
     "postcss": "postcss ./src/styles/index.css -o ./src/styles/index.css",
     "debug": "NODE_OPTIONS='--inspect' next dev",
@@ -49,7 +50,7 @@
     "next-connect": "0.13.0",
     "next-redux-wrapper": "8.1.0",
     "next-transpile-modules": "10.0.0",
-    "pm2": "^5.2.2",
+    "pm2": "5.2.2",
     "react": "18.2.0",
     "react-confetti": "6.1.0",
     "react-cookie": "4.1.1",

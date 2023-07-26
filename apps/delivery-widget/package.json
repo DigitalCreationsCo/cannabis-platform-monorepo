@@ -5,6 +5,7 @@
   "main": "./dist/index.js",
   "scripts": {
     "build": "rimraf ./dist && webpack --mode production && yarn postcss",
+    "build:ci": "rimraf ./dist && webpack --mode production && yarn postcss",
     "clean": "rimraf ./dist ./build ./node_modules/.cache",
     "dev": "webpack-dev-server --mode development --hot",
     "postcss": "node ./postcss.js",
