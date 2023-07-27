@@ -1,0 +1,45 @@
+variables:
+  DOCKER_DRIVER: overlay2
+  REGISTRY: ${REGISTRY}
+  REGISTRY_USERNAME: "grasadmin"
+  REGISTRY_PASSWORD: "?-+NiLHaZLy5J3q"
+
+stages:
+  - build
+
+.build:
+  image: docker:latest
+  stage: build
+  when: manual
+  before_script:
+    - docker info
+    - docker login -u ${REGISTRY_USERNAME} -p ${REGISTRY_PASSWORD} ${REGISTRY}
+  script:
+    # Default branch leaves tag empty (= latest tag)
+    # All other branches are tagged with the escaped branch name (commit ref slug)
+    # - |
+    #   if [[ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]]; then
+    #     tag=""
+    #     echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = 'latest'"
+    #   else
+    #     tag=":$CI_COMMIT_REF_SLUG"
+    #     echo "Running on branch '$CI_COMMIT_BRANCH': tag = $tag"
+    #   fi
+    - docker buildx bake --progress tty --push -f bake.hcl $BUILD
+
+
+build:
+  extends: .build
+  parallel:
+    matrix:
+      - BUILD: [
+          "shop",
+          "dashboard",
+          "widget",
+          "main",
+          "location",
+          "image",
+          "payments",
+          "supertokens",
+        ]
+
