@@ -1,0 +1,20 @@
+# Ci Strategy
+
+Master branch is production branch.
+Main branch is default development. ( rename to promote )
+
+Master branch and Promote are protected branch, only can merge PRs. No push allowed.
+
+## PR process
+Create PR from PR branch -> Main
+Approved -> merge to main
+
+### Promote to Master
+Merge to main will start automatic pipeline to run test suites, and merge to master.
+Master branch will run a job to check for changed project modules.
+Any changed modules will trigger image rebuild, and deploy updated images to vm.
+
+#### Current Status
+* All packages will build images with docker buildx bake.
+* Images build with `latest` tag.
+* There is no test suite in ci yet.
