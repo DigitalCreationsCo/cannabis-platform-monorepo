@@ -24,7 +24,6 @@ app.use(
     credentials: true,
   })
 );
-
 app.use(middleware());
 
 // IF I HAVE ISSUES WITH MULTIPARTFORM IN THE FUTURE, CHECK THIS SETTING AGAIN!
