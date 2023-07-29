@@ -93,7 +93,7 @@
     "build:ci": "NODE_ENV=production next build",
     "debug": "NODE_OPTIONS='--inspect' next dev",
     "dev": "next dev -p 3001",
-    "clean": "rimraf ./.next ./out ./coverage ./tsconfig.tsbuildinfo ./node_modules/.cache",
+    "clean": "rimraf ./.next ./out ./dist ./build ./node_modules ./coverage ./tsconfig.tsbuildinfo ./node_modules/.cache",
     "lint": "next lint",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "postcss": "postcss ./src/styles/globals.css -o ./src/styles/index.css",

@@ -4,14 +4,12 @@ import { LocationDA } from './api/data-access';
 import server from "./server";
 
 const port = process.env.SERVER_PORT || 6011;
-
 const mongoConnectUrl = process.env.MONGODB_CONNECTION_URL
 
 connectDb()
   .then(() => {
     server.listen(port, () => {
       console.info(` ✈️ server-location listening on port ${port}.`);
-      process.send('ready'); // ready signal pm2
     });
   })
   .catch((err) => {
