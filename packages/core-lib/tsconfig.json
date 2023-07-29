@@ -9,7 +9,6 @@
     "module": "ES2015",
     "jsx": "react-jsx",
     "paths": {
-      "@cd/ui-lib": ["../../../packages/ui-lib/src/index"],
       "@cd/data-access": ["../../../packages/data-access/src/index"],
       "@cd/eslint-config": ["../../../packages/eslint-config/src/index"]
     }

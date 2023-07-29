@@ -1,4 +1,4 @@
-FROM node:16-alpine as node_modules
+FROM --platform=$BUILDPLATFORM node:16-alpine as node_modules
 
 ENV NODE_ENV=production
 ENV YARN_VERSION "3.3.1"
@@ -23,7 +23,7 @@ RUN rm -rf node_modules
 RUN yarn workspaces focus @cd/$BUILD_TYPE-$BUILD_CONTEXT --production
 
 
-FROM node:16-alpine
+FROM --platform=$BUILDPLATFORM node:16-alpine
 
 ENV NODE_ENV=production
 ENV YARN_VERSION "3.3.1"
@@ -31,9 +31,9 @@ ARG BUILD_TYPE
 ARG BUILD_CONTEXT
 ARG PORT
 ENV SERVER_PORT=$PORT
-COPY --from=builder /root/node_modules ./root/node_modules
-COPY --from=builder /root/package.json ./root/package.json
-COPY --from=builder /root/.env.production ./root/.env.production
+COPY --from=builder /root/node_modules                          ./root/node_modules
+COPY --from=builder /root/package.json                          ./root/package.json
+COPY --from=builder /root/.env.production                       ./root/.env.production
 COPY --from=builder /root/packages/data-access/dist             ./root/packages/data-access/dist
 COPY --from=builder /root/packages/data-access/package.json     ./root/packages/data-access/package.json
 COPY --from=builder /root/packages/core-lib/dist                ./root/packages/core-lib/dist
@@ -41,7 +41,6 @@ COPY --from=builder /root/packages/core-lib/package.json        ./root/packages/
 COPY --from=builder /root/server/$BUILD_CONTEXT/package.json    ./root/server/$BUILD_CONTEXT/package.json
 COPY --from=builder /root/server/$BUILD_CONTEXT/dist            ./root/server/$BUILD_CONTEXT/dist
 WORKDIR /root/server/$BUILD_CONTEXT/
-RUN if [ "$BUILD_CONTEXT" = "image" ] ; then yarn add sharp ; fi
 ENV NEXT_PUBLIC_APP_DOMAIN="grascannabis.org"
 ENV NEXT_PUBLIC_SHOP_APP_URL="https://grascannabis.org"
 ENV NEXT_PUBLIC_DASHBOARD_APP_URL="https://app.grascannabis.org"

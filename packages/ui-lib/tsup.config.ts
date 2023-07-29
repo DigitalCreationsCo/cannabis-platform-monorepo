@@ -17,7 +17,8 @@ export default defineConfig((options) => ({
     'next/link',
     'next/image',
     'next/router',
-    'formik'
+    'formik',
+    'find-up'
   ],
   platform: 'browser',
   target: ['es2015', 'chrome70', 'edge18', 'firefox70', 'node16'],
