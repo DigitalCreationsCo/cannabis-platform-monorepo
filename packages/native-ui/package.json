@@ -66,7 +66,7 @@
     "build:ci": "rimraf ./dist && tsup",
     "build:css": "npx tailwindcss -i ./src/styles/index.css -o ./dist/index.css --minify",
     "build:css-watch": "npx tailwindcss -i ./src/styles/index.css -o ./dist/index.css --minify --watch",
-    "clean": "rimraf ./dist ./build ./tsconfig.tsbuildinfo ./node_modules/.cache",
+    "clean": "rimraf ./.next ./out ./dist ./build ./node_modules ./coverage ./tsconfig.tsbuildinfo ./node_modules/.cache",
     "watch": "rimraf ./dist && tsup --watch",
     "lint-fix": "eslint . --ext .ts,.tsx,.js,.jsx,.cjs,.mjs --fix",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx,.cjs,.mjs --cache --cache-location ../../.cache/eslint/ui-lib.eslintcache",

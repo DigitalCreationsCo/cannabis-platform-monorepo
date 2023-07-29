@@ -5,13 +5,13 @@ interface ClientType {
     userId: string;
 }
 
-class Client implements ClientType{
+class Client implements ClientType {
     socketId: string;
     workerId: number;
     roomId: string;
     userId: string;
 
-    constructor(_socketId, _workerId, _roomId, _userId) {
+    constructor(_socketId: any, _workerId: any, _roomId: any, _userId: any) {
         this.socketId = _socketId;
         this.workerId = _workerId;
         this.roomId = _roomId;
@@ -23,7 +23,7 @@ class WorkerRoom {
     id: string;
     clients: any;
     workerId: number;
-    
+
     constructor(_id, _client, _workerId) {
         this.id = _id;
         this.clients = _client;
@@ -40,7 +40,7 @@ type RoomAction = "test" | "joinUsers" | "leaveUser"
 
 type ClusterMessagePayload = {
     roomId?: any;
-    clients?: any; 
+    clients?: any;
     order?: any;
 }
 
