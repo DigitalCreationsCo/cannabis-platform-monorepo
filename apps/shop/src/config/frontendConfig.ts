@@ -1,13 +1,13 @@
 import Passwordless from 'supertokens-auth-react/recipe/passwordless';
 import Session from 'supertokens-auth-react/recipe/session';
 
-const appName = process.env.NEXT_PUBLIC_SHOP_APP_NAME;
+const appName = process.env.NEXT_PUBLIC_SHOP_APP_NAME || 'Gras';
 const baseDomain = process.env.NEXT_PUBLIC_APP_DOMAIN || 'localhost';
 const shopDomain =
   process.env.NEXT_PUBLIC_SHOP_APP_URL || 'http://localhost:3000';
 const apiDomain = process.env.BACKEND_URL || `http://localhost:6001`;
 // this v makes no sense, I don't understand the result is inverted in localhost
-const apiBasePath = (process.env.IS_LOCAL && '/main/api/v1') || '/api/v1';
+const apiBasePath = (process.env.NEXT_PUBLIC_IS_LOCAL_BUILD && '/main/api/v1') || '/api/v1';
 
 const appInfo: {
   appName: string | undefined;

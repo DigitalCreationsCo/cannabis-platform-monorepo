@@ -99,6 +99,7 @@ function TextField({
                         focus && 'shadow-md',
                         error && 'input-error border-2',
                         'border',
+                        'transition',
                         className
                     )}
                     {...inputProps}

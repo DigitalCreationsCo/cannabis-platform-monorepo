@@ -12,13 +12,13 @@ processPurchase
 
 export default class PaymentDA {
 
-    static async saveOrder(order:OrderWithDetails) {
+    static async saveOrder(order: OrderWithDetails) {
         try {
-            
+
             await axios.post(
-                urlBuilder.main.orders(), 
+                urlBuilder.main.orders(),
                 order);
-                
+
         } catch (error: any) {
             console.error(error.message);
             throw new Error(error.message);
@@ -31,7 +31,7 @@ export default class PaymentDA {
             await axios.post(
                 urlBuilder.main.fulfillOrder(),
                 { orderId });
-                
+
         } catch (error: any) {
             console.error(error.message);
             throw new Error(error.message);
@@ -48,7 +48,7 @@ export default class PaymentDA {
     // static async processPurchase(order:Order, charge) {
     //     try {
     //         // send proxy request to main server to process order
-    //         const createOrder = await axios.post(process.env.SERVER_MAIN_URL + '/api/v1/shop/orders', { order, charge });
+    //         const createOrder = await axios.post(process.env.NEXT_PUBLIC_SERVER_MAIN_URL + '/api/v1/shop/orders', { order, charge });
 
     //         return createOrder;
     //     } catch (error: any) {

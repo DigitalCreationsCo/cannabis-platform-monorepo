@@ -1,4 +1,4 @@
-import { getDashboardSite, getShopSite, modalActions, modalTypes, selectUserState } from '@cd/core-lib';
+import { getDashboardSite, modalActions, modalTypes, selectUserState } from '@cd/core-lib';
 import { Button, FlexBox, H2, Paragraph, styles } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -21,20 +21,6 @@ function AdminTopBar({ signOut }: TopBarProps) {
                 modalType: modalTypes.loginModal
             })
         );
-    }
-
-    function getUserHome() {
-        const 
-        dashboardDomain = process.env.NEXT_PUBLIC_DASHBOARD_APP_URL;
-        
-        if (user.memberships?.[0]?.role.toLocaleUpperCase() === 'ADMIN' ||
-            user.memberships?.[0]?.role.toLocaleUpperCase() === 'OWNER')
-            return getDashboardSite('/dashboard');
-        else
-        if (window.location.href.startsWith(dashboardDomain || 'app'))
-        return getDashboardSite('/');
-        else 
-        return getShopSite('/');
     }
 
     return (

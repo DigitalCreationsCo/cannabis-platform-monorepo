@@ -1,17 +1,17 @@
 import prisma from '@cd/data-access';
 import { MongoClient } from 'mongodb';
 import { DriverDA, OrderDA } from './api/data-access';
+import { loadEnv } from './config';
 import server from './server';
 
-const port = process.env.SERVER_MAIN_PORT || 'NO_PORT_FOUND';
-
+loadEnv();
+const port = process.env.SERVER_PORT || 6001;
 const mongoConnectUrl = process.env.MONGODB_CONNECTION_URL;
 
 connectDb()
   .then(() => {
     server.listen(port, () => {
       console.info(` >> server-main is listening on port ${port}.`);
-      process.send('ready'); // ready signal pm2
     });
   })
   .catch((err) => {

@@ -1,7 +1,7 @@
 import prisma from '@cd/data-access';
 import server from "./server";
 
-const port = process.env.SERVER_PAYMENTS_PORT || 'NO_PORT_FOUND';
+const port = process.env.SERVER_PORT || 6021;
 
 connectDb()
   .then(() => {

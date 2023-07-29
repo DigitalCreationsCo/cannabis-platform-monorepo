@@ -36,6 +36,7 @@ const TextContent = Object.freeze({
     CREATE_DISPENSARY_ACCOUNT: 'Create a Dispensary account',
     ABOUT_DISPENSARY_ADMIN_ACCOUNT: `Create an account to own and manage your dispensary's inventory, data, and other users. 
     This account will have the most access to your dispensary.`,
+    DISPENSARY_JOINING: `We're happy you're joining us on our journey to serve the world of cannabis!`,
 
     DISPENSARIES_START_HERE: 'Dispensaries, get started here',
     ENTER_OR_GO_TO_ACCOUNT:
