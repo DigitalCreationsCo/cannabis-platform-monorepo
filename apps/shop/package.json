@@ -1,11 +1,11 @@
 {
-  "name": "@cd/shop",
+  "name": "@cd/app-shop",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "build": "NODE_ENV=production next build",
+    "build": "NODE_ENV=production NEXT_PUBLIC_IS_LOCAL_BUILD=1 SKIP_BUILD_STATIC_GENERATION=1 rimraf ./.next && next build",
+    "build:ci": "NODE_ENV=production rimraf ./.next && next build",
     "build:css": "npx tailwindcss -o ./src/index.css --minify",
-    "build-local": "IS_LOCAL=1 yarn build && yarn next start",
     "postcss": "postcss ./src/styles/index.css -o ./src/styles/index.css",
     "debug": "NODE_OPTIONS='--inspect' next dev",
     "dev": "next dev",
@@ -17,7 +17,7 @@
     "test:unit-ci": "jest --config ./jest.config.js --ci --runInBand --reporters=default --reporters=jest-junit",
     "test:coverage": "jest --config ./jest.config.js --coverage",
     "test:watch": "jest --config ./jest.config.js --watchAll",
-    "start": "pm2-runtime ecosystem.config.js"
+    "start": "node server.js"
   },
   "browserslist": {
     "production": [
@@ -50,7 +50,6 @@
     "next-connect": "0.13.0",
     "next-redux-wrapper": "8.1.0",
     "next-transpile-modules": "10.0.0",
-    "pm2": "^5.2.2",
     "react": "18.2.0",
     "react-confetti": "6.1.0",
     "react-cookie": "4.1.1",

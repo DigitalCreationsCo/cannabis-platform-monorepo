@@ -1,7 +1,7 @@
 import Passwordless from 'supertokens-auth-react/recipe/passwordless';
 import Session from 'supertokens-auth-react/recipe/session';
 
-const appName = process.env.NEXT_PUBLIC_SHOP_APP_NAME;
+const appName = process.env.NEXT_PUBLIC_SHOP_APP_NAME || 'Gras';
 const baseDomain = process.env.NEXT_PUBLIC_APP_DOMAIN || 'localhost';
 const shopDomain =
   process.env.NEXT_PUBLIC_SHOP_APP_URL || 'http://localhost:3000';

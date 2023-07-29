@@ -7,6 +7,7 @@ DriverController - controller class for driver user actions
 
 members:
 createDriver
+updateDriver
 getDriverById
 updateStatus
 

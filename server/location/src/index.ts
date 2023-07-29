@@ -3,7 +3,7 @@ import { MongoClient } from "mongodb";
 import { LocationDA } from './api/data-access';
 import server from "./server";
 
-const port = process.env.SERVER_LOCATION_PORT || 'NO_PORT_FOUND';
+const port = process.env.SERVER_PORT || 6011;
 
 const mongoConnectUrl = process.env.MONGODB_CONNECTION_URL
 

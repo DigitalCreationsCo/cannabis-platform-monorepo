@@ -1,7 +1,5 @@
 // @ts-nocheck
-
 import { OrderCreate, OrganizationWithShopDetails, ProductVariantWithDetails } from "@cd/data-access";
-import { createId } from "@paralleldrive/cuid2";
 import { AnyAction, createAsyncThunk, createSlice, Dispatch, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { calcSalePrice, pruneData, urlBuilder } from "../../utils";
@@ -126,7 +124,6 @@ export const createOrderForCheckout = createAsyncThunk<OrderCreate, void>(
 
       const
         order: OrderCreate = {
-          id: createId(),
           subtotal: cart.subTotal,
           total: cart.total,
           taxFactor: 0,
@@ -145,6 +142,7 @@ export const createOrderForCheckout = createAsyncThunk<OrderCreate, void>(
           // add the record to the order, so we can see the dispensary during checkout. :)
           // OR
           // nay: server can get the data easily
+          // fetch it from the initial get, duh
 
           isDeliveredOrder: false,
           isCustomerReceivedOrder: false,

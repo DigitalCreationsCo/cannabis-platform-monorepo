@@ -7,13 +7,12 @@ import {
   LayoutContextProps,
   Page,
   Paragraph,
-  Small,
+  Small
 } from '@cd/ui-lib';
 import axios from 'axios';
 import logo from '../../../public/logo.png';
 
 function BlogArticle({ blog }: { blog: ArticleWithDetails }) {
-  console.info('blog: ', blog);
   return (
     <Page className="mx-auto">
       <FlexBox className="grow m-auto">
@@ -38,23 +37,33 @@ function BlogArticle({ blog }: { blog: ArticleWithDetails }) {
 }
 
 export async function getStaticPaths() {
-  const response = await axios(urlBuilder.main.blog());
 
-  if (response.data.success === false) return { paths: [], fallback: false };
+  if (process.env.SKIP_BUILD_STATIC_GENERATION) {
+    return {
+      paths: [],
+      fallback: 'blocking',
+    }
+  };
+  
+  const response = await axios(urlBuilder.shop + '/api/blog');
+  if (response.data.success === false) 
+    return { paths: [], fallback: false };
 
   const blogs = response.data.payload;
-
   const paths = blogs?.map((blog: ArticleWithDetails) => ({
     params: { id: blog.id.toString() },
   }));
+
   return { paths, fallback: false };
+  
 }
 
 export async function getStaticProps({ params }: { params: { id: string } }) {
-  const response = await axios(urlBuilder.main.blogById(params.id));
-
+  
+  const response = await axios(urlBuilder.shop + `/api/blog/${params.id}`);
   const blog = response.data.payload;
   return { props: { blog } };
+  
 }
 
 BlogArticle.getLayoutContext = (): LayoutContextProps => ({

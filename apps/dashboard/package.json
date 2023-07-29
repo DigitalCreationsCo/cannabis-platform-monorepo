@@ -86,10 +86,11 @@
       "last 1 safari version"
     ]
   },
-  "name": "@cd/dashboard",
+  "name": "@cd/app-dashboard",
   "private": true,
   "scripts": {
     "build": "NODE_ENV=production next build",
+    "build:ci": "NODE_ENV=production next build",
     "debug": "NODE_OPTIONS='--inspect' next dev",
     "dev": "next dev -p 3001",
     "clean": "rimraf ./.next ./out ./coverage ./tsconfig.tsbuildinfo ./node_modules/.cache",
@@ -99,7 +100,7 @@
     "test:unit": "jest --config ./jest.config.js",
     "test:coverage": "jest --config ./jest.config.js --coverage",
     "test:watch": "jest --config ./jest.config.js --watchAll",
-    "start": "next start -p 3001"
+    "start": "PORT=3001 node server.js"
   },
   "version": "0.0.1"
 }
