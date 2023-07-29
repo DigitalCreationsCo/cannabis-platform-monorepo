@@ -7,13 +7,13 @@ import {
     DispensaryReview,
     DispensarySignUpComplete,
     DispensaryUserCreate,
-    ProvideDispensaryKey,
+    ProvideDispensaryCode,
     ProvideStripeAccountId
 } from '../../components/form';
 
 const 
 FormStepComponents = [
-    ProvideDispensaryKey,
+    ProvideDispensaryCode,
     DispensaryCreate, 
     DispensaryUserCreate, 
     ProvideStripeAccountId,

@@ -39,7 +39,7 @@ function Page({
         <div
           className={twMerge([
             'hidden',
-            process.env.NEXT_PUBLIC_IS_LOCAL == '1' && 'flex items-center',
+            process.env.NEXT_PUBLIC_IS_LOCAL_BUILD == '1' && 'flex items-center',
           ])}
         >
           <Tiny>localhost</Tiny>

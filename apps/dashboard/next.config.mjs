@@ -8,7 +8,7 @@ import { loadEnv } from './src/config/loadEnv.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const _env = process.env.IS_LOCAL ? 'development' : process.env.NODE_ENV;
+const _env = process.env.NEXT_PUBLIC_IS_LOCAL_BUILD=='1' ? 'development' : process.env.NODE_ENV;
 expand(config({ path: loadEnv(process.env.NODE_ENV) }))
 
 /**
@@ -31,6 +31,8 @@ const nextConfig = (phase) => {
                 if (isStaging) return 'http://localhost:6001';
                 if (isTest) return 'http://localhost:6001';
             })(),
+
+            NEXT_PUBLIC_LOW_STOCK_THRESHOLD: 7,
         },
         reactStrictMode: true,
         swcMinify: true,

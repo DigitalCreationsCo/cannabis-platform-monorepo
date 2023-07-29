@@ -9,7 +9,7 @@ ENV YARN_VERSION "3.3.1"
 
 RUN yarn set version $YARN_VERSION
 RUN yarn plugin import workspace-tools
-RUN yarn workspaces focus @cd/delivery-widget-app
+RUN yarn workspaces focus @cd/app-delivery-widget
 
 # FROM --platform=linux/amd64 node:16-bullseye as BUILDER
 FROM node:16-bullseye as BUILDER
@@ -19,7 +19,7 @@ WORKDIR /root
 COPY --from=INSTALLER ./root . 
 
 
-RUN yarn workspaces foreach -itR --from @cd/delivery-widget-app run build
+RUN yarn workspaces foreach -itR --from @cd/app-delivery-widget run build
 
 # linux amd64 for ci
 # FROM  node:16-bullseye AS SERVER

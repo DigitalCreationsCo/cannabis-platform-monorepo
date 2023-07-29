@@ -244,7 +244,7 @@ class StripeService {
 }
 
 const stripeService = new StripeService(process.env.STRIPE_API_KEY_SECRET, {
-    apiVersion: process.env.STRIPE_API_VERSION || '2022-11-15'
+    apiVersion: process.env.STRIPE_API_VERSION
 })
 
 export default stripeService;
