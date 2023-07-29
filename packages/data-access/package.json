@@ -52,7 +52,7 @@
   "scripts": {
     "build": "dotenv -e ../../.env.development -- rm -rf dist && tsup",
     "build:ci": "dotenv -e ../../.env.production -- rm -rf dist && tsup",
-    "clean": "rm -rf dist ./coverage ./tsconfig.tsbuildinfo",
+    "clean": "rimraf ./.next ./out ./dist ./build ./node_modules ./coverage ./tsconfig.tsbuildinfo ./node_modules/.cache",
     "debug-test-e2e": "cross-env DEBUG=testcontainers vitest run $@",
     "watch": "rimraf ./dist && tsup --watch",
     "lint-fix": "eslint . --ext .ts,.tsx,.js,.jsx,.cjs,.mjs --fix",

@@ -11,7 +11,7 @@
     "dev": "next dev",
     "uat": "NODE_ENV=uat next build && NODE_ENV=uat next start",
     "lint": "next lint",
-    "clean": "rimraf ./.next ./out ./coverage ./tsconfig.tsbuildinfo ./node_modules/.cache",
+    "clean": "rimraf ./.next ./out ./dist ./build ./node_modules ./coverage ./tsconfig.tsbuildinfo ./node_modules/.cache",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "test:unit": "jest --config ./jest.config.js",
     "test:unit-ci": "jest --config ./jest.config.js --ci --runInBand --reporters=default --reporters=jest-junit",

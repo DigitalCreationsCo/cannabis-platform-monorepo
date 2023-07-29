@@ -7,7 +7,6 @@ connectDb()
   .then(() => {
     server.listen(port, () => {
       console.info(` 💰 server-payments is listening on port ${port}.`);
-      process.send('ready'); // ready signal pm2
     });
   })
   .catch((err) => {
