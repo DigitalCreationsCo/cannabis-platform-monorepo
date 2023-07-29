@@ -3,6 +3,7 @@
     "@aws-sdk/client-rekognition": "3.370.0",
     "@aws-sdk/client-s3": "3.326.0",
     "@aws-sdk/s3-request-presigner": "3.326.0",
+    "@cd/core-lib": "workspace:*",
     "@paralleldrive/cuid2": "^2.2.0",
     "axios": "1.2.1",
     "bcryptjs": "2.4.3",

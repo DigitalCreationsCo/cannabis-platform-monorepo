@@ -1,4 +1,4 @@
-FROM node:16-alpine as node_modules
+FROM --platform=$BUILDPLATFORM node:16-alpine as node_modules
 
 ENV NODE_ENV=production
 ENV YARN_VERSION "3.3.1"
@@ -23,7 +23,7 @@ RUN yarn plugin import workspace-tools
 RUN yarn workspaces foreach -itR --from @cd/$BUILD_TYPE-$BUILD_CONTEXT run build:ci
 
 
-FROM node:16-alpine
+FROM --platform=$BUILDPLATFORM node:16-alpine
 
 ARG BUILD_TYPE
 ARG BUILD_CONTEXT

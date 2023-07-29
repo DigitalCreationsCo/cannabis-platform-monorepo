@@ -10,5 +10,5 @@
     "jsxFactory": "",
     "jsxFragmentFactory": ""
   },
-  "exclude": ["dist", "**/__tests__/*", "**/test/*"]
+  "exclude": ["**/node_modules", "**/.*/", "dist", "build", "**/test/*"]
 }
