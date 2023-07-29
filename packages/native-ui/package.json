@@ -63,6 +63,7 @@
   "scripts": {
     "postcss": "postcss ./src/styles/index.css -o ./dist/index.css",
     "build": "rimraf ./dist && tsup",
+    "build:ci": "rimraf ./dist && tsup",
     "build:css": "npx tailwindcss -i ./src/styles/index.css -o ./dist/index.css --minify",
     "build:css-watch": "npx tailwindcss -i ./src/styles/index.css -o ./dist/index.css --minify --watch",
     "clean": "rimraf ./dist ./build ./tsconfig.tsbuildinfo ./node_modules/.cache",

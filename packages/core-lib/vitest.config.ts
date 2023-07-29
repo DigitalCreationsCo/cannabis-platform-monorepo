@@ -13,10 +13,10 @@ export default defineConfig({
   ],
   test: {
     globals: true,
-    setupFiles: './config/test/setupVitest.ts',
+    setupFiles: './test/setupVitest.ts',
     passWithNoTests: true,
     deps: {
-      external: ['fs', 'axios', '@paralleldrive/cuid2', 'react-hot-toast', 'socket.io-client', "@types/socket.io-client", '@cd/data-access'],
+      external: ['fs', 'axios', 'react-hot-toast', 'socket.io-client', "@types/socket.io-client", '@cd/data-access'],
       // experimentalOptimizer: {
       //   enabled: true,
       // },

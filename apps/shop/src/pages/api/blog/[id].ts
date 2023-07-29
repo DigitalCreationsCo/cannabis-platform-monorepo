@@ -1,5 +1,4 @@
-import { urlBuilder } from '@cd/core-lib';
-import axios from 'axios';
+import prisma from '@cd/data-access';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
 
@@ -15,13 +14,25 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 
     const id = req.query.id as string;
 
-    const response = await axios(urlBuilder.main.blogById(id));
+    const response = await prisma.article.findUnique({
+      where: {
+        id
+      },
+      include: {
+        image: true
+      },
+    });
 
-    if (response.data.success)
-      return res.status(res.statusCode).json(response.data.payload);
+    return res.status(res.statusCode).json({
+      success: true,
+      payload: response
+    });
   } catch (error: any) {
     console.error(error.message);
-    return res.json(error);
+    return res.json({
+      success: false,
+      error: error.message
+    });
   }
 });
 

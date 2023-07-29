@@ -67,6 +67,7 @@
   "private": true,
   "scripts": {
     "build": "rimraf ./dist && tsup src/index.ts",
+    "build:ci": "tsup src/index.ts",
     "build:css": "npx tailwindcss -i ./src/styles/index.css -o ./dist/index.css --minify",
     "build:css-watch": "npx tailwindcss -i ./src/styles/index.css -o ./dist/index.css --minify --watch",
     "clean": "rimraf ./dist ./build ./tsconfig.tsbuildinfo ./node_modules/.cache",

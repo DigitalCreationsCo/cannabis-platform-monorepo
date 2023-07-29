@@ -7,7 +7,8 @@ import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import {
   consumeCode,
-  createCode
+  createCode,
+  resendCode
 } from 'supertokens-auth-react/recipe/passwordless';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
@@ -255,7 +256,7 @@ function LoginModal({
       if (canSend) {
         setCounter(15);
         setCanSend(false);
-        await resendOTP();
+        await resendCode();
         toast.success(`A one time passcode has been sent to ${inputValue}.`, {
           duration: 5000,
         });

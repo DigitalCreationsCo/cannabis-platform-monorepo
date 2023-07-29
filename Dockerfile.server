@@ -1,37 +1,57 @@
-FROM node:16 AS BUILDER
-
-WORKDIR /root
-COPY . .
+FROM node:16-alpine as node_modules
 
 ENV NODE_ENV=production
 ENV YARN_VERSION "3.3.1"
-ARG BUILD_CONTEXT=$BUILD_CONTEXT
-
+ARG BUILD_TYPE
+ARG BUILD_CONTEXT
+WORKDIR /root
+COPY . .
 RUN yarn set version $YARN_VERSION
 RUN yarn plugin import workspace-tools
-RUN yarn workspaces focus @cd/server-$BUILD_CONTEXT
+RUN yarn workspaces focus --all
 
-RUN yarn workspaces foreach -itR --from @cd/server-$BUILD_CONTEXT run build
 
-FROM --platform=linux/amd64 node:16
+FROM node_modules as builder
 
-ARG BUILD_CONTEXT=$BUILD_CONTEXT
-
-COPY --from=BUILDER /root/yarn.lock         ./root
-COPY --from=BUILDER /root/package.json      ./root
-COPY --from=BUILDER /root/node_modules      ./root/node_modules
-COPY --from=BUILDER /root/packages          ./root/packages
-COPY --from=BUILDER /root/.yarn             ./root/.yarn
-COPY --from=BUILDER /root/.yarnrc.yml       ./root
-COPY --from=BUILDER /root/.env.development  ./root
-COPY --from=BUILDER /root/.env.production   ./root
-COPY --from=BUILDER /root/server/$BUILD_CONTEXT/ ./root/server/$BUILD_CONTEXT/
-
+ENV NODE_ENV=production
+ARG BUILD_TYPE
+ARG BUILD_CONTEXT
 WORKDIR /root
-RUN if [ "$BUILD_CONTEXT" = "image" ] ; then yarn add sharp ; fi
+COPY --from=node_modules /root .
+RUN yarn workspaces foreach -itR --from @cd/$BUILD_TYPE-$BUILD_CONTEXT run build:ci
+RUN rm -rf node_modules
+RUN yarn workspaces focus @cd/$BUILD_TYPE-$BUILD_CONTEXT --production
 
+
+FROM node:16-alpine
+
+ENV NODE_ENV=production
+ENV YARN_VERSION "3.3.1"
+ARG BUILD_TYPE
+ARG BUILD_CONTEXT
+ARG PORT
+ENV SERVER_PORT=$PORT
+COPY --from=builder /root/node_modules ./root/node_modules
+COPY --from=builder /root/package.json ./root/package.json
+COPY --from=builder /root/.env.production ./root/.env.production
+COPY --from=builder /root/packages/data-access/dist             ./root/packages/data-access/dist
+COPY --from=builder /root/packages/data-access/package.json     ./root/packages/data-access/package.json
+COPY --from=builder /root/packages/core-lib/dist                ./root/packages/core-lib/dist
+COPY --from=builder /root/packages/core-lib/package.json        ./root/packages/core-lib/package.json
+COPY --from=builder /root/server/$BUILD_CONTEXT/package.json    ./root/server/$BUILD_CONTEXT/package.json
+COPY --from=builder /root/server/$BUILD_CONTEXT/dist            ./root/server/$BUILD_CONTEXT/dist
 WORKDIR /root/server/$BUILD_CONTEXT/
-
-EXPOSE 6001
-
+RUN if [ "$BUILD_CONTEXT" = "image" ] ; then yarn add sharp ; fi
+ENV NEXT_PUBLIC_APP_DOMAIN="grascannabis.org"
+ENV NEXT_PUBLIC_SHOP_APP_URL="https://grascannabis.org"
+ENV NEXT_PUBLIC_DASHBOARD_APP_URL="https://app.grascannabis.org"
+ENV NEXT_PUBLIC_SHOP_APP_CHECKOUT_SUCCESS_URL="https://grascannabis.org/checkout/success"
+ENV BACKEND_URL=https://backend.grascannabis.org
+ENV NEXT_PUBLIC_SERVER_MAIN_URL="https://backend.grascannabis.org/main"
+ENV NEXT_PUBLIC_SERVER_LOCATION_URL="https://backend.grascannabis.org/location"
+ENV NEXT_PUBLIC_SERVER_PAYMENTS_URL="https://backend.grascannabis.org/payments"
+ENV NEXT_PUBLIC_SERVER_IMAGE_URL="https://backend.grascannabis.org/image"
+ENV NEXT_PUBLIC_SERVER_DISPATCH_URL="https://backend.grascannabis.org/dispatch"
+ENV SUPERTOKENS_CONNECTION_URI=http://supertokens:3567
+EXPOSE $SERVER_PORT
 CMD [ "yarn", "start", "--env", "production" ]

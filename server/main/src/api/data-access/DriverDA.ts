@@ -8,8 +8,8 @@ Driver Data Access - data class for Driver SQL Table and DriverSessions Mongo Co
 members:
 useMongoDB
 
-createDriverRecord
-updateDriverRecord
+createDriver
+updateDriver
 
 getDriverById
 getDriverByEmail
@@ -37,7 +37,7 @@ export default class DriverDA {
     }
   }
 
-  static async createDriverRecord(createDriverData: UserCreateType) {
+  static async createDriver(createDriverData: UserCreateType) {
     try {
 
       // createDriver = await createPasswordHash(createUserData)
@@ -51,7 +51,7 @@ export default class DriverDA {
     }
   }
 
-  static async updateDriverRecord(updateDriverData: UserCreateType) {
+  static async updateDriver(updateDriverData: UserCreateType) {
     try {
 
       const
