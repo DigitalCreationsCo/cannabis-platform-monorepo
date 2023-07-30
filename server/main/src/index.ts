@@ -1,10 +1,8 @@
 import prisma from '@cd/data-access';
 import { MongoClient } from 'mongodb';
 import { DriverDA, OrderDA } from './api/data-access';
-import { loadEnv } from './config';
 import server from './server';
 
-loadEnv();
 const port = process.env.SERVER_PORT || 6001;
 const mongoConnectUrl = process.env.MONGODB_CONNECTION_URL;
 
