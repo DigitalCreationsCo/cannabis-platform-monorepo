@@ -59,9 +59,9 @@ function LandingPage() {
     }
 
     return (
-        <Page className="p-0 md:pt-0 md:pb-0 lg:p-0">
+        <Page className="p-0 sm:p-0 md:p-0 lg:p-0">
             <ImageBackDrop src={backdrop}>
-                <FlexBox className='w-full md:space-y-8'>
+                <FlexBox className='w-full md:space-y-8 md:pb-8'>
                         <FlexBox className={twMerge(styles.hero)} >
                             <FlexBox className={twMerge(styles.heroContent)}>
                                 <FlexBox className='m-auto'>
