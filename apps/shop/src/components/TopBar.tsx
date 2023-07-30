@@ -46,7 +46,7 @@ function TopBar({ signOut }: TopBarProps) {
   return (
     <div className={twMerge(styles.TOPBAR.topbar)}>
       <Link href={getShopSite('/')} className="pr-2">
-        <Image alt="Gras" width={45} height={45} src={logo} />
+        <Image alt="Gras" width={50} height={50} src={logo} />
       </Link>
 
       <Link href={getShopSite('/')}>
@@ -60,7 +60,7 @@ function TopBar({ signOut }: TopBarProps) {
       </Link>
       <div className="flex-1"></div>
 
-      <FlexBox className="flex flex-row space-x-2 items-center pr-0">
+      <FlexBox className="flex flex-row space-x-2 items-center pr-0 px-4">
         {isSignedIn && (
           <Link className={twMerge("hidden sm:block", styles.BUTTON.highlight)} href={getShopSite('/support')}>
             <Paragraph className={twMerge('whitespace-nowrap pt-1')}>
@@ -98,7 +98,7 @@ function TopBar({ signOut }: TopBarProps) {
         {!isSignedIn && (
           <FlexBox>
             <Button
-              className={twMerge(styles.BUTTON.highlight, "pt-1 px-4")}
+              className={twMerge(styles.BUTTON.highlight, "pt-1")}
               size="sm"
               bg="transparent"
               hover="transparent"

@@ -25,16 +25,23 @@ function AdminTopBar({ signOut }: TopBarProps) {
 
     return (
         <div className={twMerge(styles.TOPBAR.topbar)}>
-            <div className='pl-2 flex items-center'>
                 <Link href={getDashboardSite("/")} passHref>
                     <Image alt="Gras" width={50} height={50} src={logo} />
                 </Link>
                 <Link href={getDashboardSite("/")}>
                     <H2 className="pt-0.5">Gras</H2>
                 </Link>
-            </div>
             
             <div className="flex-1"></div>
+      
+        <FlexBox className="flex flex-row space-x-2 items-center pr-0 px-4">
+            {isSignedIn && (
+            <Link className={twMerge("hidden sm:block", styles.BUTTON.highlight)} href={getDashboardSite('/support')}>
+                <Paragraph className={twMerge('whitespace-nowrap pt-1')}>
+                Get Support
+                </Paragraph>
+            </Link>
+            )}
             
             { isSignedIn ? (
                 <>
@@ -56,6 +63,7 @@ function AdminTopBar({ signOut }: TopBarProps) {
                     onClick={openLoginModal}>
                         Sign In</Button>
             )}
+        </FlexBox>
         </div>
     );
 }
