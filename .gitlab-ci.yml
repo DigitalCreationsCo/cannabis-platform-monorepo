@@ -1,36 +1,16 @@
-# modules list
-.modules:
-  - MODULE: "shop"
-    PATH: "apps/shop"
-  - MODULE: "dashboard"
-    PATH: "apps/dashboard"
-  - MODULE: "widget"
-    PATH: "apps/widget"
-  - MODULE: "main"
-    PATH: "server/main"
-  - MODULE: "location"
-    PATH: "server/location"
-  - MODULE: "image"
-    PATH: "server/image"
-  - MODULE: "payments"
-    PATH: "server/payments"
-  - MODULE: "supertokens"
-    PATH: "Dockerfile.supertokens"
+stages:
+  - cache
+  - lint
+  - test
 
-test-protocols:
-  stage: test
-  rules:
-    - changes:
-      - mods/${PATH_NAME}/**/*.py
-  script:
-    - cd "${CI_PROJECT_DIR}/mods/${PATH_NAME}"
-    - ~/task venv
-    - ~/task init
-    - ~/task test
-  parallel:
-    matrix: !reference [.mod_list]
-
-deploy-protocols:
-  stage: deploy
-  rules:
-    - changes:
+include:
+  - ".test-ci.yml"
+  - ".lint-ci.yml"
+  - ".cache-ci.yml"
+  - "shop/.gitlab-ci.yml"
+  - "dashboard/.gitlab-ci.yml"
+  - "main/.gitlab-ci.yml"
+  - "location/.gitlab-ci.yml"
+  - "payments/.gitlab-ci.yml"
+  - "image/.gitlab-ci.yml"
+  # - "dispatch/.gitlab-ci.yml"

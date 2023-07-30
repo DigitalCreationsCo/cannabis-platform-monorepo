@@ -103,9 +103,9 @@
     "watch": "tsup --watch",
     "lint-fix": "eslint . --ext .ts,.tsx,.js,.jsx,.cjs,.mjs --fix",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx,.cjs,.mjs --cache --cache-location ../../.cache/eslint/core-lib.eslintcache",
-    "test-unit": "vitest run",
-    "test-unit-ci": "vitest run --reporter=junit",
-    "test-unit-watch": "vitest watch --ui",
+    "test:unit": "vitest run",
+    "test:unit-ci": "vitest run --reporter=junit",
+    "test:unit-watch": "vitest watch --ui",
     "typecheck": "tsc --project ./tsconfig.json --noEmit"
   },
   "version": "0.0.1"

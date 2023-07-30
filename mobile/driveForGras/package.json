@@ -11,9 +11,9 @@
     "web": "NODE_ENV='development' npx expo start --web",
     "lint": "echo lint",
     "lint-fix": "echo lint-fix",
-    "test-unit": "echo test-unit",
+    "test:unit": "echo test:unit",
     "clean": "rimraf ./.next ./out ./dist ./build ./node_modules ./coverage ./tsconfig.tsbuildinfo ./node_modules/.cache",
-    "test-unit-ci": "echo \"Error: no test specified\" && exit 0"
+    "test:unit-ci": "echo \"Error: no test specified\" && exit 0"
   },
   "dependencies": {
     "@backpackapp-io/react-native-toast": "^0.8.0",

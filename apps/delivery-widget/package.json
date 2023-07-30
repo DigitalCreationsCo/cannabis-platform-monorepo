@@ -11,8 +11,8 @@
     "postcss": "node ./postcss.js",
     "postcss2": "postcss ./src/styles/globals.css -o ./dist/index.css",
     "tailwind": "tailwindcss build -i ./src/styles/globals.css -o ./dist/index.css",
-    "test-unit": "echo \"Error: no test specified\" && exit 0",
-    "test-unit-ci": "echo \"Error: no test specified\" && exit 0"
+    "test:unit": "echo \"Error: no test specified\" && exit 0",
+    "test:unit-ci": "echo \"Error: no test specified\" && exit 0"
   },
   "dependencies": {
     "@cd/core-lib": "workspace:*",
