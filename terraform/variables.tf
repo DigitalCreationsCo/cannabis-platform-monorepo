@@ -51,6 +51,10 @@ variable "num_nodes" {
   description = "The number of cluster nodes"
 }
 
+variable "spot" {
+  description = "Whether to use spot VMs or not"
+}
+
 variable "machine_type" {
   description = "The machine type of the cluster nodes"
 }
