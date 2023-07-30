@@ -49,8 +49,6 @@ export default function MarketPlace({ host }: { host: string }) {
         </div>
       </div>
       <Grid className="space-y-5 relative">
-        {/* { isError && <Center className='m-auto grow border'>
-                    There's a problem loading your Gras shop. Please contact support for help.</Center>} */}
 
         <Carousel
           Component={InfoCard}
