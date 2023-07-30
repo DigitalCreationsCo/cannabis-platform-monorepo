@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM node:16-alpine as node_modules
+FROM --platform=linux/amd64 node:16-alpine as node_modules
 
 ENV NODE_ENV=production
 ENV YARN_VERSION "3.3.1"
@@ -11,7 +11,7 @@ RUN yarn plugin import workspace-tools
 RUN yarn workspaces focus --all
 
 
-FROM node_modules as builder
+FROM --platform=linux/amd64 node_modules as builder
 
 ENV NODE_ENV=production
 ENV YARN_VERSION "3.3.1"
@@ -23,14 +23,14 @@ RUN yarn plugin import workspace-tools
 RUN yarn workspaces foreach -itR --from @cd/$BUILD_TYPE-$BUILD_CONTEXT run build:ci
 
 
-FROM --platform=$BUILDPLATFORM node:16-alpine
+FROM --platform=linux/amd64 node:16-alpine
 
 ARG BUILD_TYPE
 ARG BUILD_CONTEXT
 ARG PORT
-COPY --from=builder /root/apps/$BUILD_CONTEXT/.next/standalone ./root
-COPY --from=builder /root/apps/$BUILD_CONTEXT/.next/static ./root/apps/$BUILD_CONTEXT/.next/static
-COPY --from=builder /root/apps/$BUILD_CONTEXT/public ./root/apps/$BUILD_CONTEXT/public
+COPY --from=builder /root/apps/$BUILD_CONTEXT/.next/standalone  ./root
+COPY --from=builder /root/apps/$BUILD_CONTEXT/.next/static      ./root/apps/$BUILD_CONTEXT/.next/static
+COPY --from=builder /root/apps/$BUILD_CONTEXT/public            ./root/apps/$BUILD_CONTEXT/public
 WORKDIR /root/apps/$BUILD_CONTEXT
 
 ENV NEXT_PUBLIC_APP_DOMAIN="grascannabis.org"
