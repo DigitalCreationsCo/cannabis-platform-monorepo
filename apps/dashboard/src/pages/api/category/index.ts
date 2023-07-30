@@ -1,6 +1,6 @@
 import { urlBuilder } from '@cd/core-lib';
 import axios from 'axios';
-import { authMiddleware, ExtendRequest, healthCheckMiddleware } from 'middleware';
+import { authMiddleware, ExtendRequest } from 'middleware';
 import { NextApiResponse } from 'next';
 import nc from 'next-connect';
 import NodeCache from 'node-cache';
@@ -8,7 +8,7 @@ import { getSession } from '../../../session';
 
 const cache = new NodeCache({ stdTTL: 30 });
 const handler = nc();
-handler.use(authMiddleware).use(healthCheckMiddleware);
+handler.use(authMiddleware)
 
 // get all categories route
 handler.get(async (req: ExtendRequest, res: NextApiResponse) => {

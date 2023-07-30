@@ -1,7 +1,7 @@
 import { urlBuilder } from '@cd/core-lib';
 import { ImageProduct } from '@cd/data-access';
 import axios from 'axios';
-import { authMiddleware, healthCheckMiddleware } from 'middleware';
+// import { authMiddleware, healthCheckMiddleware } from 'middleware';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
 
@@ -26,7 +26,7 @@ interface ExtendApiRequest extends NextApiRequest {
 }
 
 const handler = nc();
-handler.use(authMiddleware).use(healthCheckMiddleware);
+// handler.use(authMiddleware).use(healthCheckMiddleware);
 // .use(parseMultipartForm)
 
 // update product route

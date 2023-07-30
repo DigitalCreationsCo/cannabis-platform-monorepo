@@ -1,11 +1,11 @@
 import { urlBuilder } from '@cd/core-lib';
 import axios from 'axios';
-import { authMiddleware, healthCheckMiddleware } from 'middleware';
+import { authMiddleware } from 'middleware';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
 
 const handler = nc();
-handler.use(authMiddleware).use(healthCheckMiddleware);
+handler.use(authMiddleware)
 // get a single order
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
     try {

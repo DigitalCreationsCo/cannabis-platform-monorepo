@@ -8,3 +8,10 @@ gatewayProxies:
       deployment:
         replicas: 2
     antiAffinity: true
+settings:
+  replaceInvalidRoutes: true
+  invalidConfigPolicy:
+    invalidRouteResponseBody: Gloo Edge has invalid configuration. Administrators
+      should run `glooctl check` to find and fix config errors.
+    invalidRouteResponseCode: 404
+    replaceInvalidRoutes: true

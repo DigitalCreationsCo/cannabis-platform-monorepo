@@ -1,6 +1,7 @@
 import { urlBuilder } from '@cd/core-lib';
 import axios from 'axios';
-import { authMiddleware, ExtendRequest, healthCheckMiddleware } from 'middleware';
+import { ExtendRequest } from 'middleware';
+// import { authMiddleware, ExtendRequest, healthCheckMiddleware } from 'middleware';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
 import NodeCache from 'node-cache';
@@ -8,7 +9,7 @@ import { getSession } from '../../../session';
 
 const cache = new NodeCache({ stdTTL: 20 });
 const handler = nc();
-handler.use(authMiddleware).use(healthCheckMiddleware);
+// handler.use(authMiddleware).use(healthCheckMiddleware);
 // get products from an organization
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
     try {

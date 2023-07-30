@@ -1,4 +1,4 @@
-# FROM --platform=$BUILDPLATFORM node:16-bullseye AS INSTALLER
+# FROM node:16-bullseye AS INSTALLER
 FROM node:16-bullseye AS INSTALLER
 
 WORKDIR /root
@@ -12,7 +12,7 @@ RUN yarn plugin import workspace-tools
 RUN yarn workspaces focus @cd/app-delivery-widget
 
 # FROM --platform=linux/amd64 node:16-bullseye as BUILDER
-FROM --platform=$BUILDPLATFORM node:16-bullseye as BUILDER
+FROM --platform=linux/amd64 node:16-bullseye as BUILDER
 
 WORKDIR /root
 

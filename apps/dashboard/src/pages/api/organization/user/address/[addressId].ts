@@ -1,12 +1,9 @@
-import axios from 'axios';
-// import { authMiddleware, healthCheckMiddleware } from 'middleware';
 import { urlBuilder } from '@cd/core-lib';
+import axios from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
 
 const handler = nc();
-// handler.use(authMiddleware).use(healthCheckMiddleware);
-// delete a user address
 handler.delete(async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         const { id, addressId } = req.query;
