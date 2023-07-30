@@ -24,7 +24,7 @@ resource "google_container_cluster" "gras_cluster" {
 
   node_config {
     # More info on Spot VMs with GKE https://cloud.google.com/kubernetes-engine/docs/how-to/spot-vms#create_a_cluster_with_enabled
-    spot = false
+    spot = var.spot
     machine_type = var.machine_type
     disk_size_gb = var.disk_size
     tags = var.tags
