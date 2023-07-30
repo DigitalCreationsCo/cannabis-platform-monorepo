@@ -54,8 +54,8 @@
   "scripts": {
     "build": "rimraf ./dist && dotenv -e ../../.env.production -- babel ./src --out-dir dist --extensions \".ts,.tsx\"",
     "build:ci": "dotenv -e ../../.env.production -- babel ./src --out-dir dist --extensions \".ts,.tsx\"",
-    "test-unit": "echo \"Tests are not ready for use.\" && exit 0",
-    "test-unit-ci": "echo \"Tests are not ready for use.\" && exit 0",
+    "test:unit": "echo \"Tests are not ready for use.\" && exit 0",
+    "test:unit-ci": "echo \"Tests are not ready for use.\" && exit 0",
     "clean": "rimraf ./.next ./out ./dist ./build ./node_modules ./coverage ./tsconfig.tsbuildinfo ./node_modules/.cache",
     "test:fix": "../../node_modules/jest/bin/jest.js --detectOpenHandles",
     "test:watch": "../../node_modules/jest/bin/jest.js --watchAll",

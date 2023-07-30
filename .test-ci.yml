@@ -1,0 +1,23 @@
+.type-tests:
+  stage: test
+  before_script:
+    - cd $MODULE_PATH
+  script:
+    - yarn run typecheck
+  retry:
+    max: 2
+    when:
+      - runner_system_failure
+      - stuck_or_timeout_failure
+      
+.unit-tests:
+  stage: test
+  before_script:
+    - cd $MODULE_PATH
+  script:
+    - npm run test:unit
+  retry:
+    max: 2
+    when:
+      - runner_system_failure
+      - stuck_or_timeout_failure

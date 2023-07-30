@@ -74,9 +74,9 @@
     "migrate-reset-production": "dotenv -e ../../.env.production -- yarn prisma migrate reset",
     "test": "run-s test:unit",
     "test-e2e": "dotenv -e ../../.env.development -- yarn vitest run",
-    "test-unit": "jest --config ./jest.config.ts",
-    "test-unit-ci": "jest --config ./jest.config.ts --ci --runInBand --reporters=default --reporters=jest-junit",
-    "test-unit-coverage": "yarn test-unit --collect-coverage=true",
+    "test:unit": "jest --config ./jest.config.ts",
+    "test:unit-ci": "jest --config ./jest.config.ts --ci --runInBand --reporters=default --reporters=jest-junit",
+    "test:unit-coverage": "yarn test:unit --collect-coverage=true",
     "typecheck": "tsc --project ./tsconfig.json --noEmit"
   },
   "version": "0.0.1",
