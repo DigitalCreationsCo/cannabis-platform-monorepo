@@ -1,4 +1,4 @@
-FROM node:16-alpine as node_modules
+FROM --platform=linux/amd64 node:16-alpine as node_modules
 
 ENV NODE_ENV=production
 ENV YARN_VERSION "3.3.1"

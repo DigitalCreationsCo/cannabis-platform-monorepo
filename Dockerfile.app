@@ -11,7 +11,7 @@ RUN yarn plugin import workspace-tools
 RUN yarn workspaces focus --all
 
 
-FROM --platform=linux/amd64 node_modules as builder
+FROM node_modules as builder
 
 ENV NODE_ENV=production
 ENV YARN_VERSION "3.3.1"
