@@ -1,16 +1,10 @@
-stages:
-  - cache
-  - lint
-  - test
-
-include:
-  - ".test-ci.yml"
-  - ".lint-ci.yml"
-  - ".cache-ci.yml"
-  - "shop/.gitlab-ci.yml"
-  - "dashboard/.gitlab-ci.yml"
-  - "main/.gitlab-ci.yml"
-  - "location/.gitlab-ci.yml"
-  - "payments/.gitlab-ci.yml"
-  - "image/.gitlab-ci.yml"
-  # - "dispatch/.gitlab-ci.yml"
+install-deps:
+  image: node:16
+  script:
+    - yarn
+  cache:
+    key:
+      files:
+        - yarn.lock
+    paths:
+      - .yarn/cache/
