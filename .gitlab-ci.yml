@@ -1,4 +1,10 @@
-test-job:
+install-deps:
+  image: node:16
   script:
-    - echo "This is my first job!"
-    - date
+    - yarn
+  cache:
+    key:
+      files:
+        - yarn.lock
+    paths:
+      - .yarn/cache/
