@@ -4300,7 +4300,6 @@ __metadata:
     "@types/node": 18.11.10
     "@typescript-eslint/eslint-plugin": 5.45.0
     "@typescript-eslint/parser": 5.45.0
-    D: ^1.0.0
     awesome-typescript-loader: ^5.2.1
     axios: 1.2.1
     babel-core: 6.26.3
@@ -9455,13 +9454,6 @@ __metadata:
   version: 2.29.0
   resolution: "@zeit/schemas@npm:2.29.0"
   checksum: 3cea06bb67d790336aca0cc17580fd492ff3fc66ef4d180dce7053ff7ff54ab81b56bf718ba6f537148c581161d06306a481ec218d540bff922e0e009844ffd1
-  languageName: node
-  linkType: hard
-
-"D@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "D@npm:1.0.0"
-  checksum: c7aefb83af9b98a04b31b3708a32f5f332183face1b2a6d9eed28b64688d863ca269e04f8b352fba0a8b893ff2aa858c7709352f372f4dd90dfb474a37d2a78d
   languageName: node
   linkType: hard
 
