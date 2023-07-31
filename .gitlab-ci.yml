@@ -1,7 +1,7 @@
 install-deps:
   image: node:16
   script:
-    - yarn
+    - yarn --immutable-cache
   cache:
     key:
       files:
