@@ -3,3 +3,5 @@
   token = TOKEN
   executor = "shell"
   shell = "sh"
+  [runners.docker]
+    privileged = true
