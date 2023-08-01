@@ -1,3 +1,6 @@
+variable "REGISTRY" {}
+variable "CI_COMMIT_SHA" {}
+
 group "default" {
   targets = [
     "shop",
@@ -37,7 +40,8 @@ target "shop" {
         "${REGISTRY}/shop:${CI_COMMIT_SHA}",
     ]
     cache-from = [
-        "type=registry,ref=${REGISTRY}/shop:${CI_COMMIT_SHA
+        "type=registry,ref=${REGISTRY}/shop:${CI_COMMIT_SHA}"
+    ]
     cache-to=[
         "type=registry,ref=${REGISTRY}/shop:${CI_COMMIT_SHA}"
     ]
