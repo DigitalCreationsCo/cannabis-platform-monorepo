@@ -27,7 +27,7 @@ publish-image:
     - docker info
     - echo ${REGISTRY_PASSWORD}| docker login -u ${REGISTRY_USERNAME} --password-stdin
   script:
-    - REGISTRY=${REGISTRY}/ docker buildx bake --progress tty --push -f docker-bake.hcl $BUILD
+    - docker buildx bake --progress tty --push -f docker-bake.hcl $BUILD
   parallel:
     matrix:
       - BUILD: [
