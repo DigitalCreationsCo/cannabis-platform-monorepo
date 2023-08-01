@@ -27,15 +27,15 @@ publish-image:
     - docker:23.0.5-dind
   before_script:
     - docker info
-    - echo ${REGISTRY_PASSWORD}| docker login -u ${REGISTRY_USERNAME} --password-stdin
   script:
+    - echo ${REGISTRY_PASSWORD}| docker login -u ${REGISTRY_USERNAME} --password-stdin
     - REGISTRY=${REGISTRY} TAG=${CI_COMMIT_SHA} / docker buildx bake --progress --push -f bake.hcl $BUILD
   parallel:
     matrix:
       - BUILD: [
           "shop",
           "dashboard",
-          "widget",
+          # "widget",
           "main",
           "location",
           "image",
