@@ -1,11 +1,19 @@
 import App from './App';
 
-export type DeliveryWidgetConfigOptions = {
+type DispensaryParameters = {
     dispensaryKey: string;
     dispensaryName?: string;
 }
 
-var init = async function (config: DeliveryWidgetConfigOptions) {
+type WidgetOptions = {
+
+}
+
+export type CheckoutWidgetConfigOptions =
+    DispensaryParameters &
+    WidgetOptions;
+
+var init = async function (config: CheckoutWidgetConfigOptions) {
     console.info('gras widget init, config options: ', config);
     var g = document.createElement("div")
     g.setAttribute("id", "gras-widget-root")

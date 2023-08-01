@@ -3682,9 +3682,59 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cd/app-dashboard@workspace:apps/dashboard":
+"@cd/app-checkout-widget@workspace:app/checkout-widget":
   version: 0.0.0-use.local
-  resolution: "@cd/app-dashboard@workspace:apps/dashboard"
+  resolution: "@cd/app-checkout-widget@workspace:app/checkout-widget"
+  dependencies:
+    "@babel/core": 7.21.4
+    "@babel/preset-env": 7.21.4
+    "@babel/preset-react": 7.18.6
+    "@babel/preset-typescript": 7.18.6
+    "@cd/core-lib": "workspace:*"
+    "@cd/ui-lib": "workspace:*"
+    "@formkit/auto-animate": 1.0.0-beta.6
+    "@types/react": 18.0.34
+    "@types/react-dom": 18.0.11
+    babel-loader: 9.1.2
+    babel-runtime: 6.26.0
+    browser-sync: 2.29.1
+    browserify: 17.0.0
+    cheerio: 1.0.0-rc.12
+    concurrently: 8.0.1
+    copyfiles: 2.4.1
+    css-loader: 6.7.3
+    express: 4.18.2
+    file-loader: 6.2.0
+    html-webpack-plugin: 5.5.3
+    postcss: 8.4.21
+    postcss-cli: 10.1.0
+    postcss-import: 15.1.0
+    postcss-loader: 7.2.4
+    postcss-namespace: 1.1.1
+    postcss-plugin-namespace: 0.0.3
+    postcss-preset-env: 8.3.1
+    react: 18.2.0
+    react-cookie: 4.1.1
+    react-dom: 18.2.0
+    react-router-dom: 6.10.0
+    rimraf: 4.4.1
+    serve: 14.2.0
+    style-loader: 3.3.2
+    tailwind-merge: 1.8.0
+    tailwindcss: 3.2.4
+    ts-loader: 9.4.2
+    typescript: 4.9.3
+    webpack: 5.78.0
+    webpack-cli: 5.0.1
+    webpack-dev-server: 4.13.2
+  peerDependencies:
+    postcss: 8.4.21
+  languageName: unknown
+  linkType: soft
+
+"@cd/app-dashboard@workspace:app/dashboard":
+  version: 0.0.0-use.local
+  resolution: "@cd/app-dashboard@workspace:app/dashboard"
   dependencies:
     "@cd/core-lib": "workspace:*"
     "@cd/data-access": "workspace:*"
@@ -3759,59 +3809,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@cd/app-delivery-widget@workspace:apps/delivery-widget":
+"@cd/app-shop@workspace:app/shop":
   version: 0.0.0-use.local
-  resolution: "@cd/app-delivery-widget@workspace:apps/delivery-widget"
-  dependencies:
-    "@babel/core": 7.21.4
-    "@babel/preset-env": 7.21.4
-    "@babel/preset-react": 7.18.6
-    "@babel/preset-typescript": 7.18.6
-    "@cd/core-lib": "workspace:*"
-    "@cd/ui-lib": "workspace:*"
-    "@formkit/auto-animate": 1.0.0-beta.6
-    "@types/react": 18.0.34
-    "@types/react-dom": 18.0.11
-    babel-loader: 9.1.2
-    babel-runtime: 6.26.0
-    browser-sync: 2.29.1
-    browserify: 17.0.0
-    cheerio: 1.0.0-rc.12
-    concurrently: 8.0.1
-    copyfiles: 2.4.1
-    css-loader: 6.7.3
-    express: 4.18.2
-    file-loader: 6.2.0
-    html-webpack-plugin: 5.5.3
-    postcss: 8.4.21
-    postcss-cli: 10.1.0
-    postcss-import: 15.1.0
-    postcss-loader: 7.2.4
-    postcss-namespace: 1.1.1
-    postcss-plugin-namespace: 0.0.3
-    postcss-preset-env: 8.3.1
-    react: 18.2.0
-    react-cookie: 4.1.1
-    react-dom: 18.2.0
-    react-router-dom: 6.10.0
-    rimraf: 4.4.1
-    serve: 14.2.0
-    style-loader: 3.3.2
-    tailwind-merge: 1.8.0
-    tailwindcss: 3.2.4
-    ts-loader: 9.4.2
-    typescript: 4.9.3
-    webpack: 5.78.0
-    webpack-cli: 5.0.1
-    webpack-dev-server: 4.13.2
-  peerDependencies:
-    postcss: 8.4.21
-  languageName: unknown
-  linkType: soft
-
-"@cd/app-shop@workspace:apps/shop":
-  version: 0.0.0-use.local
-  resolution: "@cd/app-shop@workspace:apps/shop"
+  resolution: "@cd/app-shop@workspace:app/shop"
   dependencies:
     "@cd/core-lib": "workspace:*"
     "@cd/data-access": "workspace:*"

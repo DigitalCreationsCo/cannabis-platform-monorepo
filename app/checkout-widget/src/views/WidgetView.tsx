@@ -3,7 +3,7 @@ import { useOnClickOutside } from "@cd/ui-lib/src/hooks";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { twMerge } from "tailwind-merge";
-import { DeliveryWidgetConfigOptions } from '..';
+import { CheckoutWidgetConfigOptions } from '..';
 
 export interface WidgetViewProps {
     className?: string | string[];
@@ -11,7 +11,7 @@ export interface WidgetViewProps {
     setExpandWidget: (expandWidget: boolean) => void;
 }
 
-const WidgetView = (View:(props:WidgetViewProps & DeliveryWidgetConfigOptions) => JSX.Element) => (props: DeliveryWidgetConfigOptions) => {
+const WidgetView = (View:(props:WidgetViewProps & CheckoutWidgetConfigOptions) => JSX.Element) => (props: CheckoutWidgetConfigOptions) => {
     const history = useNavigate()
     let pathname = location.pathname;
     useEffect(() => {

@@ -1,11 +1,11 @@
 # modules list
 .modules:
   - MODULE: "shop"
-    PATH: "apps/shop"
+    PATH: "app/shop"
   - MODULE: "dashboard"
-    PATH: "apps/dashboard"
+    PATH: "app/dashboard"
   - MODULE: "widget"
-    PATH: "apps/widget"
+    PATH: "app/widget"
   - MODULE: "main"
     PATH: "server/main"
   - MODULE: "location"

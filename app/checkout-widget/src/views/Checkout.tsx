@@ -7,13 +7,13 @@ import { Paragraph, Small } from "@cd/ui-lib/src/components/Typography"
 import { getBreakpointValue } from "@cd/ui-lib/src/hooks/useBreakpoint"
 import { useEffect, useState } from "react"
 import { twMerge } from "tailwind-merge"
-import { DeliveryWidgetConfigOptions } from ".."
+import { CheckoutWidgetConfigOptions } from ".."
 import logo from '../assets/logo120.png'
 import CartList from "../components/CartItemList"
 import { cheerioCrawler as crawler } from "../crawler"
 import WidgetView, { WidgetViewProps } from "./WidgetView"
 
-function Checkout({ className, expandWidget, setExpandWidget, dispensaryKey, dispensaryName }: WidgetViewProps & DeliveryWidgetConfigOptions) {
+function Checkout({ className, expandWidget, setExpandWidget, dispensaryKey, dispensaryName }: WidgetViewProps & CheckoutWidgetConfigOptions) {
     const [cart, setCart] = useState<SimpleCart>({
         cartItems: [],
         total: 0,

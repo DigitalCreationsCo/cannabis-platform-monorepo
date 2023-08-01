@@ -103,7 +103,7 @@ const TextContent = Object.freeze({
     SHOP_WEB_APP: '',
     ADMIN_APP: '',
     DRIVER_APP: 'Delivery by Gras ',
-    DELIVERY_WIDGET: '',
+    CHECKOUT_WIDGET: '',
     MOBILE_APP: '',
   },
 

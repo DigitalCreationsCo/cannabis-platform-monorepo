@@ -51,7 +51,7 @@ const plugin = require('tailwindcss/plugin')
 //     //     //     });
 //     //     // })
 //     // ],
-//     // content: ["../../apps/delivery-widget/**/*.{js,ts,jsx,tsx}"],
+//     // content: ["../../app/delivery-widget/**/*.{js,ts,jsx,tsx}"],
 //     prefix: ".gras-widget-wrapper ",
 //     // important: '.gras-widget-wrapper',
 //     // base: {
@@ -133,9 +133,9 @@ const plugin = require('tailwindcss/plugin')
 // //     plugins: [require('daisyui')],
 // //     content: [
 // //         // './src/**/*.{js,ts,jsx,tsx}',
-// //         '../../apps/shop/**/*.{jsx,tsx}',
-// //         '../../apps/app/**/*.{jsx,tsx}',
-// //         '../../apps/delivery-widget/src/**/*.{jsx,tsx}',
+// //         '../../app/shop/**/*.{jsx,tsx}',
+// //         '../../app/app/**/*.{jsx,tsx}',
+// //         '../../app/delivery-widget/src/**/*.{jsx,tsx}',
 // //         '../../packages/ui-lib/src/**/*.{jsx,tsx}',
 // //     ],
 // //     theme: {
@@ -216,9 +216,9 @@ module.exports = {
     plugins: [require('daisyui')],
     content: [
         './src/**/*.{js,ts,jsx,tsx}',
-        // '../../apps/shop/**/*.{jsx,tsx}',
-        // '../../apps/app/**/*.{jsx,tsx}',
-        // '../../apps/delivery-widget/src/**/*.{jsx,tsx}',
+        // '../../app/shop/**/*.{jsx,tsx}',
+        // '../../app/app/**/*.{jsx,tsx}',
+        // '../../app/delivery-widget/src/**/*.{jsx,tsx}',
         '../../packages/ui-lib/src/**/*.{jsx,tsx}',
     ],
     theme: {
