@@ -11,6 +11,8 @@
     PORT: ""
     ROOTDIR: "."
     TAG: $CI_COMMIT_SHA
+  before_script:
+    - apk --no-cache add git
   script: |
     echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin "${CI_REGISTRY}"
     
