@@ -2,9 +2,9 @@ stages:
   # - yarn-cache
   - build
 
-# variables:
-#   DOCKER_TLS_CERTDIR: "/certs"
-#   DOCKER_DRIVER: overlay2
+variables:
+  DOCKER_TLS_CERTDIR: "/certs"
+  DOCKER_DRIVER: overlay2
 
 # adopt these good caching practices: https://docs.gitlab.com/ee/ci/caching/#good-caching-practices
 # yarn-cache:
@@ -22,9 +22,9 @@ stages:
 
 publish-image:
   stage: build
-  # image: docker:23.0.5
-  # services:
-  #   - docker:23.0.5-dind
+  image: docker:23.0.5
+  services:
+    - docker:23.0.5-dind
   before_script:
     - docker info
   script:
@@ -35,7 +35,6 @@ publish-image:
       - BUILD: [
           "shop",
           "dashboard",
-          # "widget",
           "main",
           "location",
           "image",
