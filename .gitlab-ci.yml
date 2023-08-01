@@ -25,7 +25,7 @@ publish-image:
     - docker info
     - echo ${REGISTRY_PASSWORD}| docker login -u ${REGISTRY_USERNAME} --password-stdin
   script:
-    - REGISTRY=${REGISTRY}/ docker buildx bake --progress tty --push -f bake.hcl $BUILD
+    - REGISTRY=${REGISTRY}/ docker buildx bake --progress tty --push -f docker-bake.hcl $BUILD
   variables:
     REGISTRY_USERNAME: ${CI_DOCKER_REGISTRY_USERNAME}
     REGISTRY_PASSWORD: ${CI_DOCKER_REGISTRY_PASSWORD}
