@@ -1,7 +1,7 @@
 default:
   image: docker:23.0.5
-  # services:
-  #   - docker:23.0.5-dind
+  services:
+    - docker:23.0.5-dind
 
 stages:
   # - yarn-cache
