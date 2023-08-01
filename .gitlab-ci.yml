@@ -1,4 +1,8 @@
 ---
+include:
+  - .gitlab/ci/cache.gitlab-ci.yml
+  - .gitlab/ci/module.gitlab-ci.yml
+
 .modules:
   - MODULE: 
     - app/shop
@@ -9,10 +13,6 @@
     - server/payments
     - server/image
     # - supertokens
-
-include:
-  - .gitlab/ci/cache.gitlab-ci.yml
-  - .gitlab/ci/module.gitlab-ci.yml
 
 stages:
   # - cache
@@ -27,15 +27,15 @@ build:
     matrix: !reference [.modules]
   rules:
     # MR
-    # - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    #   changes: 
-    #     - node_modules
-    #     - ${MODULE}/**/*
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes: 
+        - node_modules
+        - ${MODULE}/**/*
 
-publish:
-  extends: .module_publish
-  parallel:
-    matrix: !reference [.modules]
+# publish:
+#   extends: .module_publish
+#   parallel:
+#     matrix: !reference [.modules]
 
 # optimize: create build rules for modules,
 # such as each module job can run depending on changes of the module path, and the node_modules dependencies

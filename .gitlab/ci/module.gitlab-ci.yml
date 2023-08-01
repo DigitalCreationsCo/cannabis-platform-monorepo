@@ -10,6 +10,7 @@
     MODULE: ""
     PORT: ""
     ROOTDIR: "."
+    TAG: $CI_COMMIT_SHA
   script: |
     echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin "${CI_REGISTRY}"
     
@@ -17,12 +18,62 @@
     if [ -n "${MODULE}" ]; then
       BUILD_TYPE="$(echo "${MODULE}" | sed "s|/.*||")"
       BUILD_CONTEXT="$(echo "${MODULE}" | sed "s|^.*\(/[^/]*\)$|\1|")"
-      PORT=$(${BUILD_CONTEXT}_PORT)
+      PORT="$(echo "${BUILD_CONTEXT}_PORT" | tr "[:lower:]" "[:upper:]")"
       else
         echo "[ERROR] MODULE variable must be set."
         exit 1
     fi
 
-    # docker build
+    # Build
+    make docker-build-nocache-output
 
+    # Push
+    image_tag="${CI_REGISTRY}/${BUILD_CONTEXT}:${TAG}"
+    if [ -n "${TAG}" ]; then
+      echo -e "\033[0;34m## Pushing ${image_tag} ##\033[0m"
+      docker push "${image_tag}"
+    fi
 
+    # # Push MR tag
+    # if [ -n "${CI_MERGE_REQUEST_IID}" ]; then
+    #   mr_tag="${CI_REGISTRY_IMAGE}/${IMAGE}:mr_${CI_MERGE_REQUEST_IID}"
+    #   docker tag "${variable_tag}" "${mr_tag}"
+    #   echo -e "\033[0;34m## Pushing ${mr_tag} ##\033[0m"
+    #   docker push "${mr_tag}"
+    # fi
+
+    # # Push COMMIT_TAG
+    # if [ -n "${CI_COMMIT_TAG}" ]; then
+    #   # Release/version Tag, strip the prefix "${IMAGE}-v"
+    #   release_tag="${CI_REGISTRY_IMAGE}/${IMAGE}:$(echo "${CI_COMMIT_TAG}" | sed -e "s/^${IMAGE}-v//")"
+    #   # Version
+    #   docker tag "${variable_tag}" "${release_tag}"
+    #   echo -e "\033[0;34m## Pushing ${release_tag} ##\033[0m"
+    #   docker push "${release_tag}"
+    #   # Latest
+    #   latest_tag="${CI_REGISTRY_IMAGE}/${IMAGE}:latest"
+    #   docker tag "${variable_tag}" "${latest_tag}"
+    #   echo -e "\033[0;34m## Pushing ${latest_tag} ##\033[0m"
+    #   docker push "${latest_tag}"
+    # fi
+
+# # Repo Tag
+# .image_tag_version:
+#   stage: tag
+#   image: node:lts-alpine3.17
+#   variables:
+#     IMAGE: ""
+#     ROOTDIR: "."
+#   before_script:
+#     - apk --no-cache add git
+#     - npm install
+#   script:
+#     - cd "${ROOTDIR}/${IMAGE}"
+#     - npx semantic-release
+
+# Build with commit tag
+# .image_publish:
+#   extends: .image_build
+#   stage: release
+#   variables:
+#     TAG: ${CI_COMMIT_TAG}
