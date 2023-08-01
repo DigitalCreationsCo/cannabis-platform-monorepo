@@ -1,3 +1,5 @@
+# check out this configuration in the origin repo, check out the config files in the modules, paste it all in here, and review with pipeline editor??
+
 stages:
 - test
 - build
