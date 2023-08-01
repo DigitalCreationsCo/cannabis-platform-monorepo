@@ -19,10 +19,12 @@ yarn-cache:
 publish-image:
   stage: build
   image: docker:23.0.5
+  services:
+    - docker:dind
   before_script:
     - docker info
-  script:
     - docker login -u ${REGISTRY_USERNAME} -p ${REGISTRY_PASSWORD} ${REGISTRY}
+  script:
     - REGISTRY=${REGISTRY}/ docker buildx bake --progress tty --push -f bake.hcl $BUILD
   variables:
     REGISTRY_USERNAME: ${CI_DOCKER_REGISTRY_USERNAME}
