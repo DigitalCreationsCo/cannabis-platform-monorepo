@@ -6,17 +6,17 @@ stages:
   - build
 
 # adopt these good caching practices: https://docs.gitlab.com/ee/ci/caching/#good-caching-practices
-yarn-cache:
-  stage: yarn-cache
-  script:
-    - yarn --immutable
-  cache:
-    key:
-      files:
-        - yarn.lock
-    paths:
-      - .yarn/cache/
-      - node_modules/
+# yarn-cache:
+#   stage: yarn-cache
+#   script:
+#     - yarn --immutable
+#   cache:
+#     key:
+#       files:
+#         - yarn.lock
+#     paths:
+#       - .yarn/cache/
+#       - node_modules/
 
 publish-image:
   stage: build
