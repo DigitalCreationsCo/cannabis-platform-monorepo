@@ -5,7 +5,7 @@ group "default" {
   targets = [
     "shop",
     "dashboard",
-    "widget",
+    "checkout-widget",
     "main",
     "location",
     "image",

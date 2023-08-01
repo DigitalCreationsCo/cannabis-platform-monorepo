@@ -6,11 +6,11 @@ import { getBreakpointValue } from "@cd/ui-lib/src/hooks/useBreakpoint"
 import { useEffect, useState } from "react"
 import { useNavigate } from 'react-router-dom'
 import { twMerge } from "tailwind-merge"
-import { DeliveryWidgetConfigOptions } from '..'
+import { CheckoutWidgetConfigOptions } from '..'
 import logo from '../assets/logo120.png'
 import WidgetView, { WidgetViewProps } from "./WidgetView"
 
-function Button({ className, expandWidget, setExpandWidget, dispensaryName }: WidgetViewProps & DeliveryWidgetConfigOptions) {
+function Button({ className, expandWidget, setExpandWidget, dispensaryName }: WidgetViewProps & CheckoutWidgetConfigOptions) {
     
     const openWidget = () => setExpandWidget(true)
 

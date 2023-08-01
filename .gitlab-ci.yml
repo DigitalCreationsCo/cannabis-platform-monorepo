@@ -1,52 +1,41 @@
+---
+.modules:
+  - MODULE: 
+    - app/shop
+    - app/dashboard
+    # - app/checkout-widget
+    - server/main
+    - server/location
+    - server/payments
+    - server/image
+    # - supertokens
+
+include:
+  - .gitlab/ci/cache.gitlab-ci.yml
+  - .gitlab/ci/module.gitlab-ci.yml
+
 stages:
-  # - yarn-cache
+  # - cache
   - build
 
-variables:
-  DOCKER_TLS_CERTDIR: "/certs"
-  DOCKER_DRIVER: overlay2
+# cache: 
+#   extends: .yarn-cache
 
-# adopt these good caching practices: https://docs.gitlab.com/ee/ci/caching/#good-caching-practices
-# yarn-cache:
-#   stage: yarn-cache
-#   image: node:16
-#   script:
-#     - yarn --immutable
-#   cache:
-#     key:
-#       files:
-#         - yarn.lock
-#     paths:
-#       - .yarn/cache/
-#       - node_modules/
-
-publish-image:
-  stage: build
-  image: docker:23.0.5
-  services:
-    - docker:23.0.5-dind
-  before_script:
-    - docker info
-  script:
-    - echo ${REGISTRY_PASSWORD}| docker login -u ${REGISTRY_USERNAME} --password-stdin
-    - REGISTRY=${REGISTRY} TAG=${CI_COMMIT_SHA} / docker buildx bake --progress --push -f bake.hcl $BUILD
+build:
+  extends: .module_build
   parallel:
-    matrix:
-      - BUILD: [
-          "shop",
-          "dashboard",
-          "main",
-          "location",
-          "image",
-          "payments",
-          "supertokens",
-        ]
-        REGISTRY: ${REGISTRY}
-  variables:
-    REGISTRY_USERNAME: ${CI_DOCKER_REGISTRY_USERNAME}
-    REGISTRY_PASSWORD: ${CI_DOCKER_REGISTRY_PASSWORD}
-    REGISTRY: ${CI_DOCKER_REGISTRY}
-    CI_COMMIT_SHA: ${CI_COMMIT_SHA}
+    matrix: !reference [.modules]
+  rules:
+    # MR
+    # - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    #   changes: 
+    #     - node_modules
+    #     - ${MODULE}/**/*
+
+publish:
+  extends: .module_publish
+  parallel:
+    matrix: !reference [.modules]
 
 # optimize: create build rules for modules,
 # such as each module job can run depending on changes of the module path, and the node_modules dependencies

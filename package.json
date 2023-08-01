@@ -15,7 +15,7 @@
     "url": "DigitalCreationsCo/cannabis-platform-monorepo"
   },
   "workspaces": [
-    "apps/*",
+    "app/*",
     "packages/*",
     "server/*",
     "mobile/*"
@@ -55,11 +55,11 @@
     "app:build": "yarn workspaces foreach -itR --from @cd/app-$0 run build",
     "app:build-all": "yarn workspaces foreach -ptv --include '@cd/app-*' run build",
     "app:clean": "yarn workspaces foreach -ptv --include '@cd/app-*' run clean",
-    "dev-all": "concurrently \"yarn packages:watch\" \"yarn server:watch\" \"yarn apps:dev\"",
+    "dev-all": "concurrently \"yarn packages:watch\" \"yarn server:watch\" \"yarn app:dev\"",
     "docker:supertokens-dev": "scripts/docker/supertokens.sh",
     "docker:shadow-db": "scripts/docker/shadow-db.sh",
     "docker:redis": "scripts/docker/redis.sh",
-    "docker:delivery-widget-demo": "scripts/docker/launch-widget-demo.sh",
+    "docker:checkout-widget-demo": "scripts/docker/launch-checkout-widget-demo.sh",
     "docker:build": "BUILD_TYPE=$0 BUILD_CONTEXT=$1 PORT=$2 make docker-build",
     "docker:build-nocache": "BUILD_TYPE=$0 BUILD_CONTEXT=$1 PORT=$2 make docker-build-nocache",
     "docker:build-output": "BUILD_TYPE=$0 BUILD_CONTEXT=$1 PORT=$2 make docker-build-nocache-output",

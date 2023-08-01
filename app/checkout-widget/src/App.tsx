@@ -1,11 +1,11 @@
 import * as ReactDOMClient from 'react-dom/client';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { DeliveryWidgetConfigOptions } from '.';
+import { CheckoutWidgetConfigOptions } from '.';
 import './styles/globals.css';
 import Button from './views/Button';
 import Checkout from './views/Checkout';
 
-const App = (configProps: DeliveryWidgetConfigOptions) => {
+const App = (configProps: CheckoutWidgetConfigOptions) => {
     return (
         // top div is used to keep the button at the bottom of the page, 
         // while also allowing the button to be sticky
@@ -21,7 +21,7 @@ const App = (configProps: DeliveryWidgetConfigOptions) => {
     )
 }
 
-export default { init: async (props: DeliveryWidgetConfigOptions) => {
+export default { init: async (props: CheckoutWidgetConfigOptions) => {
     ReactDOMClient.createRoot(document.getElementById('gras-widget-root') as Element).render(
         <MemoryRouter>
         <App { ...props }/>

@@ -1,0 +1,28 @@
+---
+# Build
+.module_build:
+  stage: build
+  image: docker:23.0.5
+  services:
+    - docker:23.0.5-dind
+  variables: 
+    DOCKER_DRIVER: overlay2
+    MODULE: ""
+    PORT: ""
+    ROOTDIR: "."
+  script: |
+    echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin "${CI_REGISTRY}"
+    
+    # Check if module name was set
+    if [ -n "${MODULE}" ]; then
+      BUILD_TYPE="$(echo "${MODULE}" | sed "s|/.*||")"
+      BUILD_CONTEXT="$(echo "${MODULE}" | sed "s|^.*\(/[^/]*\)$|\1|")"
+      PORT=$(${BUILD_CONTEXT}_PORT)
+      else
+        echo "[ERROR] MODULE variable must be set."
+        exit 1
+    fi
+
+    # docker build
+
+

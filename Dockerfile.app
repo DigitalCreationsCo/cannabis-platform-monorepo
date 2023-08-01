@@ -28,10 +28,10 @@ FROM --platform=linux/amd64 node:16-alpine
 ARG BUILD_TYPE
 ARG BUILD_CONTEXT
 ARG PORT
-COPY --from=builder /root/apps/$BUILD_CONTEXT/.next/standalone  ./root
-COPY --from=builder /root/apps/$BUILD_CONTEXT/.next/static      ./root/apps/$BUILD_CONTEXT/.next/static
-COPY --from=builder /root/apps/$BUILD_CONTEXT/public            ./root/apps/$BUILD_CONTEXT/public
-WORKDIR /root/apps/$BUILD_CONTEXT
+COPY --from=builder /root/$BUILD_TYPE/$BUILD_CONTEXT/.next/standalone  ./root
+COPY --from=builder /root/$BUILD_TYPE/$BUILD_CONTEXT/.next/static      ./root/$BUILD_TYPE/$BUILD_CONTEXT/.next/static
+COPY --from=builder /root/$BUILD_TYPE/$BUILD_CONTEXT/public            ./root/$BUILD_TYPE/$BUILD_CONTEXT/public
+WORKDIR /root/$BUILD_TYPE/$BUILD_CONTEXT
 
 ENV NEXT_PUBLIC_APP_DOMAIN="grascannabis.org"
 ENV NEXT_PUBLIC_SHOP_APP_URL="https://grascannabis.org"

@@ -4,9 +4,9 @@ module.exports = {
     plugins: [require('daisyui')],
     content: [
         // './src/**/*.{js,ts,jsx,tsx}',
-        '../../apps/shop/**/*.{jsx,tsx}',
-        '../../apps/app/**/*.{jsx,tsx}',
-        '../../apps/delivery-widget/src/**/*.{jsx,tsx}',
+        '../../app/shop/**/*.{jsx,tsx}',
+        '../../app/app/**/*.{jsx,tsx}',
+        '../../app/checkout-widget/src/**/*.{jsx,tsx}',
         '../../packages/ui-lib/src/**/*.{jsx,tsx}',
         '../../packages/native-ui/src/**/*.{jsx,tsx}',
     ],
