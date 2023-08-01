@@ -45,3 +45,21 @@ publish-image:
         ]
         REGISTRY: ${REGISTRY}
 
+# optimize: create build rules for modules,
+# such as each module job can run depending on changes of the module path, and the node_modules dependencies
+# changes: 
+  # - $MODULE_CHANGES_PATH
+  # - node_modules
+# Consider: Almost any change in the monorepo will make a change to node_modules. Maybe a script is preferable to detemine changes, such as `yarn workspaces -R ${MODULE_NAME} --since HEAD/previousCOMMITSHA`.
+# I'm not sure, brainstorming out loud.
+# check this example for an idea: https://how-to.dev/how-to-set-up-monorepo-build-in-gitlab-ci
+
+# TODO: Understand the parallel matrix: https://docs.gitlab.com/ee/ci/yaml/#parallelmatrix
+# Run a one-dimensional matrix of parallel jobs: 
+# https://docs.gitlab.com/ee/ci/jobs/job_control.html#run-a-one-dimensional-matrix-of-parallel-jobs
+
+# Run a matrix of parallel trigger jobs
+# https://docs.gitlab.com/ee/ci/jobs/job_control.html#run-a-matrix-of-parallel-trigger-jobs
+
+# Select different runner tags for each parallel matrix job
+# https://docs.gitlab.com/ee/ci/jobs/job_control.html#select-different-runner-tags-for-each-parallel-matrix-job
