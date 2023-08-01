@@ -1,4 +1,6 @@
-image: node:16
+default:
+  image: node:16
+  
 stages:
   - yarn-cache
   - build
