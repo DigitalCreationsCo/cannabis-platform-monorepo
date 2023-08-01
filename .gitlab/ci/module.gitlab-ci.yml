@@ -30,8 +30,8 @@
     make docker-build-debug
 
     # Push
-    image_tag="${CI_REGISTRY}/${BUILD_CONTEXT}:${TAG}"
     if [ -n "${TAG}" ]; then
+      image_tag="${CI_REGISTRY}/${BUILD_CONTEXT}:${TAG}"
       echo -e "\033[0;34m## Pushing ${image_tag} ##\033[0m"
       docker push "${image_tag}"
     fi
