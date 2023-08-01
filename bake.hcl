@@ -1,5 +1,5 @@
 variable "REGISTRY" {}
-variable "CI_COMMIT_SHA" {}
+variable "TAG" {}
 
 group "default" {
   targets = [
@@ -17,10 +17,10 @@ group "default" {
 target "node_modules" {
   target = "node_modules"
   cache-from = [
-    "type=registry,ref=${REGISTRY}/node_modules:${CI_COMMIT_SHA}"
+    "type=registry,ref=${REGISTRY}/node_modules:${TAG}"
   ]
   cache-to=[
-    "type=registry,ref=${REGISTRY}/node_modules:${CI_COMMIT_SHA}"
+    "type=registry,ref=${REGISTRY}/node_modules:${TAG}"
   ]
 }
 
@@ -37,13 +37,13 @@ target "shop" {
         PORT = 3000
     }
     tags = [
-        "${REGISTRY}/shop:${CI_COMMIT_SHA}",
+        "${REGISTRY}/shop:${TAG}",
     ]
     cache-from = [
-        "type=registry,ref=${REGISTRY}/shop:${CI_COMMIT_SHA}"
+        "type=registry,ref=${REGISTRY}/shop:${TAG}"
     ]
     cache-to=[
-        "type=registry,ref=${REGISTRY}/shop:${CI_COMMIT_SHA}"
+        "type=registry,ref=${REGISTRY}/shop:${TAG}"
     ]
 }
 
@@ -60,13 +60,13 @@ target "dashboard" {
         PORT = 3001
     }
     tags = [
-        "${REGISTRY}/dashboard:${CI_COMMIT_SHA}",
+        "${REGISTRY}/dashboard:${TAG}",
     ]
     cache-from = [
-        "type=registry,ref=${REGISTRY}/dashboard:${CI_COMMIT_SHA}"
+        "type=registry,ref=${REGISTRY}/dashboard:${TAG}"
     ]
     cache-to=[
-        "type=registry,ref=${REGISTRY}/dashboard:${CI_COMMIT_SHA}"
+        "type=registry,ref=${REGISTRY}/dashboard:${TAG}"
     ]
 }
 
@@ -83,13 +83,13 @@ target "widget" {
         PORT = 3000
     }
     tags = [
-        "${REGISTRY}/widget:${CI_COMMIT_SHA}",
+        "${REGISTRY}/widget:${TAG}",
     ]
     cache-from = [
-        "type=registry,ref=${REGISTRY}/widget:${CI_COMMIT_SHA}"
+        "type=registry,ref=${REGISTRY}/widget:${TAG}"
     ]
     cache-to=[
-        "type=registry,ref=${REGISTRY}/widget:${CI_COMMIT_SHA}"
+        "type=registry,ref=${REGISTRY}/widget:${TAG}"
     ]
 }
 target "main" {
@@ -105,13 +105,13 @@ target "main" {
         PORT = 6001
     }
     tags = [
-        "${REGISTRY}/main:${CI_COMMIT_SHA}",
+        "${REGISTRY}/main:${TAG}",
     ]
     cache-from = [
-        "type=registry,ref=${REGISTRY}/main:${CI_COMMIT_SHA}"
+        "type=registry,ref=${REGISTRY}/main:${TAG}"
     ]
     cache-to=[
-        "type=registry,ref=${REGISTRY}/main:${CI_COMMIT_SHA}"
+        "type=registry,ref=${REGISTRY}/main:${TAG}"
     ]
 }
 target "location" {
@@ -127,13 +127,13 @@ target "location" {
         PORT = 6011
     }
     tags = [
-        "${REGISTRY}/location:${CI_COMMIT_SHA}",
+        "${REGISTRY}/location:${TAG}",
     ]
     cache-from = [
-        "type=registry,ref=${REGISTRY}/location:${CI_COMMIT_SHA}"
+        "type=registry,ref=${REGISTRY}/location:${TAG}"
     ]
     cache-to=[
-        "type=registry,ref=${REGISTRY}/location:${CI_COMMIT_SHA}"
+        "type=registry,ref=${REGISTRY}/location:${TAG}"
     ]
 }
 target "image" {
@@ -149,13 +149,13 @@ target "image" {
         PORT = 6031
     }
     tags = [
-        "${REGISTRY}/image:${CI_COMMIT_SHA}",
+        "${REGISTRY}/image:${TAG}",
     ]
     cache-from = [
-        "type=registry,ref=${REGISTRY}/image:${CI_COMMIT_SHA}"
+        "type=registry,ref=${REGISTRY}/image:${TAG}"
     ]
     cache-to=[
-        "type=registry,ref=${REGISTRY}/image:${CI_COMMIT_SHA}"
+        "type=registry,ref=${REGISTRY}/image:${TAG}"
     ]
 }
 target "payments" {
@@ -171,13 +171,13 @@ target "payments" {
         PORT = 6021
     }
     tags = [
-        "${REGISTRY}/payments:${CI_COMMIT_SHA}",
+        "${REGISTRY}/payments:${TAG}",
     ]
     cache-from = [
-        "type=registry,ref=${REGISTRY}/payments:${CI_COMMIT_SHA}"
+        "type=registry,ref=${REGISTRY}/payments:${TAG}"
     ]
     cache-to=[
-        "type=registry,ref=${REGISTRY}/payments:${CI_COMMIT_SHA}"
+        "type=registry,ref=${REGISTRY}/payments:${TAG}"
     ]
 }
 target "supertokens" {

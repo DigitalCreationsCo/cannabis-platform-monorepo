@@ -5,7 +5,7 @@ stages:
 variables:
   DOCKER_TLS_CERTDIR: "/certs"
   DOCKER_DRIVER: overlay2
-  
+
 # adopt these good caching practices: https://docs.gitlab.com/ee/ci/caching/#good-caching-practices
 # yarn-cache:
 #   stage: yarn-cache
@@ -29,7 +29,7 @@ publish-image:
     - docker info
     - echo ${REGISTRY_PASSWORD}| docker login -u ${REGISTRY_USERNAME} --password-stdin
   script:
-    - REGISTRY=${REGISTRY}/ docker buildx bake --progress --push -f bake.hcl $BUILD
+    - REGISTRY=${REGISTRY} TAG=${CI_COMMIT_SHA} / docker buildx bake --progress --push -f bake.hcl $BUILD
   parallel:
     matrix:
       - BUILD: [
