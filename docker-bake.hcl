@@ -44,10 +44,9 @@ target "shop" {
         "${REGISTRY}/shop:${CI_COMMIT_SHA}",
     ]
     cache-from = [
-        "type=registry,ref=${REGISTRY_NAME}/shop:${CI_COMMIT_SHA}"
-    ]
+        "type=registry,ref=${REGISTRY}/shop:${CI_COMMIT_SHA
     cache-to=[
-        "type=registry,ref=${REGISTRY_NAME}/shop:${CI_COMMIT_SHA}"
+        "type=registry,ref=${REGISTRY}/shop:${CI_COMMIT_SHA}"
     ]
 }
 
@@ -66,10 +65,10 @@ target "dashboard" {
         "${REGISTRY}/dashboard:${CI_COMMIT_SHA}",
     ]
     cache-from = [
-        "type=registry,ref=${REGISTRY_NAME}/dashboard:${CI_COMMIT_SHA}"
+        "type=registry,ref=${REGISTRY}/dashboard:${CI_COMMIT_SHA}"
     ]
     cache-to=[
-        "type=registry,ref=${REGISTRY_NAME}/dashboard:${CI_COMMIT_SHA}"
+        "type=registry,ref=${REGISTRY}/dashboard:${CI_COMMIT_SHA}"
     ]
 }
 
@@ -88,10 +87,10 @@ target "widget" {
         "${REGISTRY}/widget:${CI_COMMIT_SHA}",
     ]
     cache-from = [
-        "type=registry,ref=${REGISTRY_NAME}/widget:${CI_COMMIT_SHA}"
+        "type=registry,ref=${REGISTRY}/widget:${CI_COMMIT_SHA}"
     ]
     cache-to=[
-        "type=registry,ref=${REGISTRY_NAME}/widget:${CI_COMMIT_SHA}"
+        "type=registry,ref=${REGISTRY}/widget:${CI_COMMIT_SHA}"
     ]
 }
 target "main" {
@@ -109,10 +108,10 @@ target "main" {
         "${REGISTRY}/main:${CI_COMMIT_SHA}",
     ]
     cache-from = [
-        "type=registry,ref=${REGISTRY_NAME}/main:${CI_COMMIT_SHA}"
+        "type=registry,ref=${REGISTRY}/main:${CI_COMMIT_SHA}"
     ]
     cache-to=[
-        "type=registry,ref=${REGISTRY_NAME}/main:${CI_COMMIT_SHA}"
+        "type=registry,ref=${REGISTRY}/main:${CI_COMMIT_SHA}"
     ]
 }
 target "location" {
@@ -130,10 +129,10 @@ target "location" {
         "${REGISTRY}/location:${CI_COMMIT_SHA}",
     ]
     cache-from = [
-        "type=registry,ref=${REGISTRY_NAME}/location:${CI_COMMIT_SHA}"
+        "type=registry,ref=${REGISTRY}/location:${CI_COMMIT_SHA}"
     ]
     cache-to=[
-        "type=registry,ref=${REGISTRY_NAME}/location:${CI_COMMIT_SHA}"
+        "type=registry,ref=${REGISTRY}/location:${CI_COMMIT_SHA}"
     ]
 }
 target "image" {
@@ -151,10 +150,10 @@ target "image" {
         "${REGISTRY}/image:${CI_COMMIT_SHA}",
     ]
     cache-from = [
-        "type=registry,ref=${REGISTRY_NAME}/image:${CI_COMMIT_SHA}"
+        "type=registry,ref=${REGISTRY}/image:${CI_COMMIT_SHA}"
     ]
     cache-to=[
-        "type=registry,ref=${REGISTRY_NAME}/image:${CI_COMMIT_SHA}"
+        "type=registry,ref=${REGISTRY}/image:${CI_COMMIT_SHA}"
     ]
 }
 target "payments" {
@@ -172,10 +171,10 @@ target "payments" {
         "${REGISTRY}/payments:${CI_COMMIT_SHA}",
     ]
     cache-from = [
-        "type=registry,ref=${REGISTRY_NAME}/payments:${CI_COMMIT_SHA}"
+        "type=registry,ref=${REGISTRY}/payments:${CI_COMMIT_SHA}"
     ]
     cache-to=[
-        "type=registry,ref=${REGISTRY_NAME}/payments:${CI_COMMIT_SHA}"
+        "type=registry,ref=${REGISTRY}/payments:${CI_COMMIT_SHA}"
     ]
 }
 target "supertokens" {
@@ -186,9 +185,9 @@ target "supertokens" {
         "${REGISTRY}/supertokens:3.14",
     ]
     cache-from = [
-        "type=registry,ref=${REGISTRY_NAME}/supertokens:3.14"
+        "type=registry,ref=${REGISTRY}/supertokens:3.14"
     ]
     cache-to=[
-        "type=registry,ref=${REGISTRY_NAME}/supertokens:3.14"
+        "type=registry,ref=${REGISTRY}/supertokens:3.14"
     ]
 }
