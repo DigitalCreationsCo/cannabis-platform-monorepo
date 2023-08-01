@@ -1,8 +1,7 @@
 [[runners]]
   url = "https://gitlab.com/"
   token = TOKEN
-  executor = "shell"
-  shell = "sh"
+  executor = "docker"
   [runners.docker]
     tls_verify = false
     image = "docker:23.0.5"
