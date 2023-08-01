@@ -4,6 +4,8 @@ stages:
 
 variables:
   DOCKER_TLS_CERTDIR: "/certs"
+  DOCKER_DRIVER: overlay2
+  
 # adopt these good caching practices: https://docs.gitlab.com/ee/ci/caching/#good-caching-practices
 # yarn-cache:
 #   stage: yarn-cache
