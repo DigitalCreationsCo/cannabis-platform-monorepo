@@ -27,8 +27,11 @@ build:
     matrix: !reference [.modules]
   rules:
     # MR
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-      changes: 
+    # - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    #   changes: 
+    #     - node_modules
+    #     - ${MODULE}/**/*
+    - changes: 
         - node_modules
         - ${MODULE}/**/*
 
