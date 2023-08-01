@@ -1,8 +1,7 @@
 image: node:16
-
 stages:
   - yarn-cache
-  - node-modules
+  - build
 
 # adopt these good caching practices: https://docs.gitlab.com/ee/ci/caching/#good-caching-practices
 yarn-cache:
@@ -16,3 +15,30 @@ yarn-cache:
     paths:
       - .yarn/cache/
       - node_modules/
+
+publish-image:
+  stage: build
+  image: docker:23.0.5
+  before_script:
+    - docker info
+  script:
+    - docker login -u ${REGISTRY_USERNAME} -p ${REGISTRY_PASSWORD} ${REGISTRY}
+    - REGISTRY=${REGISTRY}/ docker buildx bake --progress tty --push -f bake.hcl $BUILD
+  variables:
+    REGISTRY_USERNAME: ${CI_DOCKER_REGISTRY_USERNAME}
+    REGISTRY_PASSWORD: ${CI_DOCKER_REGISTRY_PASSWORD}
+    REGISTRY: ${CI_DOCKER_REGISTRY}
+  parallel:
+    matrix:
+      - BUILD: [
+          "shop",
+          "dashboard",
+          "widget",
+          "main",
+          "location",
+          "image",
+          "payments",
+          "supertokens",
+        ]
+        REGISTRY: ${REGISTRY}
+
