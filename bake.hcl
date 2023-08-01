@@ -16,9 +16,6 @@ group "default" {
 
 target "node_modules" {
   target = "node_modules"
-  cache-from = [
-    "type=registry,ref=${REGISTRY}/node_modules:${TAG}"
-  ]
   cache-to=[
     "type=registry,ref=${REGISTRY}/node_modules:${TAG}"
   ]
@@ -70,28 +67,6 @@ target "dashboard" {
     ]
 }
 
-target "widget" {
-    platforms = ["linux/amd64", "linux/arm64"]
-    dockerfile = "Dockerfile.widget"
-    output = ["type=registry"]
-    contexts = {
-        node_modules = "target:node_modules",
-    }
-    args = {
-        BUILD_TYPE = "app"
-        BUILD_CONTEXT = "widget"
-        PORT = 3000
-    }
-    tags = [
-        "${REGISTRY}/widget:${TAG}",
-    ]
-    cache-from = [
-        "type=registry,ref=${REGISTRY}/widget:${TAG}"
-    ]
-    cache-to=[
-        "type=registry,ref=${REGISTRY}/widget:${TAG}"
-    ]
-}
 target "main" {
     platforms = ["linux/amd64", "linux/arm64"]
     dockerfile = "Dockerfile.server"
