@@ -1,11 +1,3 @@
-variable "REGISTRY" {
-    default = "docker.io/grasadmin"
-}
-
-variable "CI_COMMIT_SHA" {
-    default = "latest"
-}
-
 group "default" {
   targets = [
     "shop",
@@ -37,6 +29,7 @@ target "shop" {
         node_modules = "target:node_modules",
     }
     args = {
+        BUILD_TYPE = "app"
         BUILD_CONTEXT = "shop"
         PORT = 3000
     }
@@ -58,6 +51,7 @@ target "dashboard" {
         node_modules = "target:node_modules",
     }
     args = {
+        BUILD_TYPE = "app"
         BUILD_CONTEXT = "dashboard"
         PORT = 3001
     }
@@ -80,6 +74,7 @@ target "widget" {
         node_modules = "target:node_modules",
     }
     args = {
+        BUILD_TYPE = "app"
         BUILD_CONTEXT = "widget"
         PORT = 3000
     }
@@ -101,6 +96,7 @@ target "main" {
         node_modules = "target:node_modules",
     }
     args = {
+        BUILD_TYPE = "server"
         BUILD_CONTEXT = "main"
         PORT = 6001
     }
@@ -122,6 +118,7 @@ target "location" {
         node_modules = "target:node_modules",
     }
     args = {
+        BUILD_TYPE = "server"
         BUILD_CONTEXT = "location"
         PORT = 6011
     }
@@ -143,6 +140,7 @@ target "image" {
         node_modules = "target:node_modules",
     }
     args = {
+        BUILD_TYPE = "server"
         BUILD_CONTEXT = "image"
         PORT = 6031
     }
@@ -164,6 +162,7 @@ target "payments" {
         node_modules = "target:node_modules",
     }
     args = {
+        BUILD_TYPE = "server"
         BUILD_CONTEXT = "payments"
         PORT = 6021
     }
