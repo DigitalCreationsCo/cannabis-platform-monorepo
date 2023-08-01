@@ -1,0 +1,2 @@
+[runners.docker]
+  image = "docker:23.0.5"
