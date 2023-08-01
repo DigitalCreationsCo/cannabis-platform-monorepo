@@ -2,7 +2,7 @@ default:
   image: node:16
   
 stages:
-  - yarn-cache
+  # - yarn-cache
   - build
 
 # adopt these good caching practices: https://docs.gitlab.com/ee/ci/caching/#good-caching-practices
