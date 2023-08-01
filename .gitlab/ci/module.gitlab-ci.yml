@@ -27,7 +27,7 @@
     fi
 
     # Build
-    make --directory ../../ docker-build-nocache-output
+    make docker-build-debug
 
     # Push
     image_tag="${CI_REGISTRY}/${BUILD_CONTEXT}:${TAG}"
