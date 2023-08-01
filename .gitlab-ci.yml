@@ -1,6 +1,8 @@
 default:
-  image: node:16
-  
+  image: docker:23.0.5
+  # services:
+  #   - docker:23.0.5-dind
+
 stages:
   # - yarn-cache
   - build
@@ -8,6 +10,7 @@ stages:
 # adopt these good caching practices: https://docs.gitlab.com/ee/ci/caching/#good-caching-practices
 # yarn-cache:
 #   stage: yarn-cache
+#   image: node:16
 #   script:
 #     - yarn --immutable
 #   cache:
@@ -20,9 +23,6 @@ stages:
 
 publish-image:
   stage: build
-  image: docker:23.0.5
-  services:
-    - docker:23.0.5-dind
   before_script:
     - docker info
     - echo ${REGISTRY_PASSWORD}| docker login -u ${REGISTRY_USERNAME} --password-stdin
@@ -45,7 +45,7 @@ publish-image:
     REGISTRY_USERNAME: ${CI_DOCKER_REGISTRY_USERNAME}
     REGISTRY_PASSWORD: ${CI_DOCKER_REGISTRY_PASSWORD}
     REGISTRY: ${CI_DOCKER_REGISTRY}
-    DOCKER_TLS_CERTDIR: "/certs"
+    # DOCKER_TLS_CERTDIR: "/certs"
 
 # optimize: create build rules for modules,
 # such as each module job can run depending on changes of the module path, and the node_modules dependencies
