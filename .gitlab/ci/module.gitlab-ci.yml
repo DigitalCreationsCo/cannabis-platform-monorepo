@@ -26,9 +26,8 @@
       # BUILD_CONTEXT="$(echo "${MODULE}" | sed "s|^.*\(/[^/]*\)$|\1|")"
       PORT_NAME="$(echo "${BUILD_CONTEXT}_PORT" | tr "[:lower:]" "[:upper:]")"
       echo "${PORT_NAME}"
-      echo "${$PORT_NAME}"
-      $(echo "${PORT_NAME}")
-      PORT="$PORT_NAME"
+      echo "$(echo "${PORT_NAME}")"
+      PORT="$(echo "${PORT_NAME}")"
       else
         echo "[ERROR] MODULE variable must be set."
         exit 1
