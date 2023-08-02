@@ -10,7 +10,7 @@
     MODULE: ""
     BUILD_TYPE: ""
     BUILD_CONTEXT: ""
-    PORT: ""
+    PORT: ${PORT}
     ROOTDIR: "."
     TAG: $CI_COMMIT_SHA
   before_script:
@@ -24,7 +24,7 @@
       BUILD_TYPE="$(echo "${MODULE}" | sed "s|/.*||")"
       BUILD_CONTEXT="$(echo "${MODULE}" | sed "s|.*/||")"
       if [ -n "${BUILD_CONTEXT}" ]; then
-        PORT=eval "$(echo "${BUILD_CONTEXT}_PORT" | tr "[:lower:]" "[:upper:]")"
+        PORT="$(echo "${BUILD_CONTEXT}_PORT" | tr "[:lower:]" "[:upper:]")"
         echo "${PORT}"
       else
         echo "[ERROR] Error building MODULE variables."
