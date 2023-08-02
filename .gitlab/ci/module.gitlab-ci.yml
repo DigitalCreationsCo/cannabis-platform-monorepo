@@ -36,7 +36,9 @@
 
     # Push
     if [ -n "${TAG}" ]; then
-      image_tag="${CI_REGISTRY}/${BUILD_CONTEXT}:${TAG}"
+      echo "${CI_REGISTRY}"
+      echo "${CI_REGISTRY_IMAGE}"
+      image_tag="${CI_REGISTRY_IMAGE}/${BUILD_CONTEXT}:${TAG}"
       echo -e "\033[0;34m## Pushing ${image_tag} ##\033[0m"
       docker push "${image_tag}"
     fi
