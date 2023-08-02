@@ -1,7 +1,7 @@
 # TEST VARIABLES
 ---
 # Build
-.test-variables:
+test-variables:
   stage: build
   image: busybox:latest
   variables: 
