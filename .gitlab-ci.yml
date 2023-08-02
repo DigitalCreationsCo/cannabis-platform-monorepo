@@ -24,16 +24,13 @@ test-variables:
       BUILD_TYPE="$(echo "${MODULE}" | sed "s|/.*||")"
       BUILD_CONTEXT="$(echo "${MODULE}" | sed "s|.*/||")"
       if [ -n "${BUILD_CONTEXT}" ]; then
-        PORT="$(echo "${BUILD_CONTEXT}_PORT" | tr "[:lower:]" "[:upper:]")"
+        PORT=echo "$(echo "${BUILD_CONTEXT}_PORT" | tr "[:lower:]" "[:upper:]")"
         
         echo "MODULE=${MODULE}"
         echo "BUILD_TYPE=${BUILD_TYPE}"
         echo "BUILD_CONTEXT=${BUILD_CONTEXT}"
         echo "PORT=${PORT}"
         echo "TAG=${TAG}"
-
-        PORT=echo "$(echo "${BUILD_CONTEXT}_PORT" | tr "[:lower:]" "[:upper:]")"
-        echo "PORT=${PORT}"
       else
         echo "[ERROR] Error building MODULE variables."
         exit 1
