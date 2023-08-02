@@ -31,7 +31,7 @@ test-variables:
         echo "PORT=${PORT}"
         echo "TAG=${TAG}"
 
-        PORT="$(echo "$(echo "$"${BUILD_CONTEXT}_PORT"" | tr "[:lower:]" "[:upper:]")")"
+        PORT="$(eval "$(echo "${BUILD_CONTEXT}_PORT" | tr "[:lower:]" "[:upper:]")")"
         echo "PORT=${PORT}"
       else
         echo "[ERROR] Error building MODULE variables."
