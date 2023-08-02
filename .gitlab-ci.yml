@@ -6,12 +6,12 @@ include:
 .modules:
   - MODULE: 
     - app/shop
-    - app/dashboard
+    # - app/dashboard
     # - app/checkout-widget
-    - server/main
-    - server/location
-    - server/payments
-    - server/image
+    # - server/main
+    # - server/location
+    # - server/payments
+    # - server/image
     # - supertokens
 
 stages:
