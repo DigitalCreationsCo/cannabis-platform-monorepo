@@ -24,7 +24,8 @@
       BUILD_TYPE="$(echo "${MODULE}" | sed "s|/.*||")"
       BUILD_CONTEXT="$(echo "${MODULE}" | sed "s|.*/||")"
       # BUILD_CONTEXT="$(echo "${MODULE}" | sed "s|^.*\(/[^/]*\)$|\1|")"
-      PORT="$(echo "${BUILD_CONTEXT}_PORT" | tr "[:lower:]" "[:upper:]")"
+      PORT_NAME="$(echo "${BUILD_CONTEXT}_PORT" | tr "[:lower:]" "[:upper:]")"
+      PORT="$PORT_NAME"
       else
         echo "[ERROR] MODULE variable must be set."
         exit 1
