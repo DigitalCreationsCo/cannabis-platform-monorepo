@@ -26,13 +26,12 @@ test-variables:
       if [ -n "${BUILD_CONTEXT}" ]; then
 
         # eval "result=\${$variable_name}"
-        # PORT="$(echo "${BUILD_CONTEXT}_PORT" | tr "[:lower:]" "[:upper:]")"
 
-        eval "PORT=\$(echo "\${BUILD_CONTEXT}_PORT" | tr "[:lower:]" "[:upper:]")"
+        eval "PORT=("\${BUILD_CONTEXT}_PORT" | tr "[:lower:]" "[:upper:]")"
         echo "MODULE=${MODULE}"
         echo "BUILD_TYPE=${BUILD_TYPE}"
         echo "BUILD_CONTEXT=${BUILD_CONTEXT}"
-        echo "PORT=${PORT}"
+        echo "${PORT}"
         echo "TAG=${TAG}"
       else
         echo "[ERROR] Error building MODULE variables."
