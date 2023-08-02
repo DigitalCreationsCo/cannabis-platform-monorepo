@@ -16,9 +16,8 @@
   before_script:
     - apk --no-cache add make
     - apk --no-cache add git
+    - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin "${CI_REGISTRY}"
   script: |
-    echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin "${CI_REGISTRY}"
-    
     # Check if module name was set
     if [ -n "${MODULE}" ]; then
       BUILD_TYPE="$(echo "${MODULE}" | sed "s|/.*||")"
