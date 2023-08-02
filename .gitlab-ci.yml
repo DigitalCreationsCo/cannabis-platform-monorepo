@@ -1,96 +1,57 @@
-# TEST VARIABLES
 ---
-# Build
-test-variables:
-  stage: build
-  image: busybox:latest
-  variables: 
-    MODULE: "app/shop"
-    BUILD_TYPE: ""
-    BUILD_CONTEXT: ""
-    PORT: "${PORT}"
-    TAG: $CI_COMMIT_SHA
-  script: |
-    printenv
+include:
+  - .gitlab/ci/cache.gitlab-ci.yml
+  - .gitlab/ci/module.gitlab-ci.yml
 
-    echo "MODULE=${MODULE}"
-    echo "BUILD_TYPE=${BUILD_TYPE}"
-    echo "BUILD_CONTEXT=${BUILD_CONTEXT}"
-    echo "PORT=${PORT}"
-    echo "TAG=${TAG}"
+.modules:
+  - MODULE: 
+    - app/shop
+    - app/dashboard
+    # - app/checkout-widget
+    - server/main
+    - server/location
+    - server/payments
+    - server/image
+    # - supertokens
 
-    # Check if module name was set
-    if [ -n "${MODULE}" ]; then
-      BUILD_TYPE="$(echo "${MODULE}" | sed "s|/.*||")"
-      BUILD_CONTEXT="$(echo "${MODULE}" | sed "s|.*/||")"
-      if [ -n "${BUILD_CONTEXT}" ]; then
-        eval PORT="\$$(echo "${BUILD_CONTEXT}_PORT" | tr "[:lower:]" "[:upper:]")"
-        echo "MODULE=${MODULE}"
-        echo "BUILD_TYPE=${BUILD_TYPE}"
-        echo "BUILD_CONTEXT=${BUILD_CONTEXT}"
-        echo "PORT=${PORT}"
-        echo "TAG=${TAG}"
-      else
-        echo "[ERROR] Error building MODULE variables."
-        exit 1
-      fi
-    fi
+stages:
+  # - cache
+  - build
 
+# cache: 
+#   extends: .yarn-cache
 
-# ---
-# include:
-#   - .gitlab/ci/cache.gitlab-ci.yml
-#   - .gitlab/ci/module.gitlab-ci.yml
+build:
+  extends: .module_build
+  parallel:
+    matrix: !reference [.modules]
+  # rules:
+  #   # MR
+  #   - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  #     changes: 
+  #       - node_modules
+  #       - ${MODULE}/**/*
 
-# .modules:
-#   - MODULE: 
-#     - app/shop
-#     - app/dashboard
-#     # - app/checkout-widget
-#     - server/main
-#     - server/location
-#     - server/payments
-#     - server/image
-#     # - supertokens
-
-# stages:
-#   # - cache
-#   - build
-
-# # cache: 
-# #   extends: .yarn-cache
-
-# build:
-#   extends: .module_build
+# publish:
+#   extends: .module_publish
 #   parallel:
 #     matrix: !reference [.modules]
-#   # rules:
-#   #   # MR
-#   #   - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-#   #     changes: 
-#   #       - node_modules
-#   #       - ${MODULE}/**/*
 
-# # publish:
-# #   extends: .module_publish
-# #   parallel:
-# #     matrix: !reference [.modules]
+# optimize: create build rules for modules,
+# such as each module job can run depending on changes of the module path, and the node_modules dependencies
+# changes: 
+  # - $MODULE_CHANGES_PATH
+  # - node_modules
+# Consider: Almost any change in the monorepo will make a change to node_modules. Maybe a script is preferable to detemine changes, such as `yarn workspaces -R ${MODULE_NAME} --since HEAD/previousCOMMITSHA`.
+# I'm not sure, brainstorming out loud.
+# check this example for an idea: https://how-to.dev/how-to-set-up-monorepo-build-in-gitlab-ci
 
-# # optimize: create build rules for modules,
-# # such as each module job can run depending on changes of the module path, and the node_modules dependencies
-# # changes: 
-#   # - $MODULE_CHANGES_PATH
-#   # - node_modules
-# # Consider: Almost any change in the monorepo will make a change to node_modules. Maybe a script is preferable to detemine changes, such as `yarn workspaces -R ${MODULE_NAME} --since HEAD/previousCOMMITSHA`.
-# # I'm not sure, brainstorming out loud.
-# # check this example for an idea: https://how-to.dev/how-to-set-up-monorepo-build-in-gitlab-ci
+# TODO: Understand the parallel matrix: https://docs.gitlab.com/ee/ci/yaml/#parallelmatrix
+# Run a one-dimensional matrix of parallel jobs: 
+# https://docs.gitlab.com/ee/ci/jobs/job_control.html#run-a-one-dimensional-matrix-of-parallel-jobs
 
-# # TODO: Understand the parallel matrix: https://docs.gitlab.com/ee/ci/yaml/#parallelmatrix
-# # Run a one-dimensional matrix of parallel jobs: 
-# # https://docs.gitlab.com/ee/ci/jobs/job_control.html#run-a-one-dimensional-matrix-of-parallel-jobs
+# Run a matrix of parallel trigger jobs
+# https://docs.gitlab.com/ee/ci/jobs/job_control.html#run-a-matrix-of-parallel-trigger-jobs
 
-# # Run a matrix of parallel trigger jobs
-# # https://docs.gitlab.com/ee/ci/jobs/job_control.html#run-a-matrix-of-parallel-trigger-jobs
-
-# # Select different runner tags for each parallel matrix job
-# # https://docs.gitlab.com/ee/ci/jobs/job_control.html#select-different-runner-tags-for-each-parallel-matrix-job
+# Select different runner tags for each parallel matrix job
+# https://docs.gitlab.com/ee/ci/jobs/job_control.html#select-different-runner-tags-for-each-parallel-matrix-job
