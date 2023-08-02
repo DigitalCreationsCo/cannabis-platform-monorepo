@@ -3,6 +3,7 @@
   token = TOKEN
   executor = "docker"
   [runners.docker]
+    host = "https://index.docker.io"
     tls_verify = false
     image = "docker:23.0.5"
     privileged = true
