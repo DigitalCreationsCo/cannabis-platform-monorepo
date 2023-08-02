@@ -23,14 +23,13 @@
     if [ -n "${MODULE}" ]; then
       BUILD_TYPE="$(echo "${MODULE}" | sed "s|/.*||")"
       BUILD_CONTEXT="$(echo "${MODULE}" | sed "s|.*/||")"
-      # BUILD_CONTEXT="$(echo "${MODULE}" | sed "s|^.*\(/[^/]*\)$|\1|")"
-      PORT_NAME="$(echo "${BUILD_CONTEXT}_PORT" | tr "[:lower:]" "[:upper:]")"
-      echo "${PORT_NAME}"
-      echo "$(echo "${PORT_NAME}")"
-      PORT="$(echo "${PORT_NAME}")"
+      if [ -n "${BUILD_CONTEXT}" ]; then
+        PORT=eval "$(echo "${BUILD_CONTEXT}_PORT" | tr "[:lower:]" "[:upper:]")"
+        echo "${PORT}"
       else
-        echo "[ERROR] MODULE variable must be set."
+        echo "[ERROR] Error building MODULE variables."
         exit 1
+      fi
     fi
 
     # Build
