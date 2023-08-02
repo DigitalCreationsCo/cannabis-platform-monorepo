@@ -32,7 +32,7 @@
     fi
 
     # Build
-    make docker-build-debug
+    make docker-build
 
     # Push
     if [ -n "${TAG}" ]; then
