@@ -3,9 +3,9 @@ import {
   AddressCreateType,
   AddressWithCoordinates,
   Coordinates,
-  Prisma,
+  Prisma
 } from '@cd/data-access';
-import axios from 'axios';
+import { axios } from 'axiosInstance';
 
 export async function getGeoCoordinatesFromAddress(
   address: typeof Prisma.AddressCreateWithoutOrganizationInput
@@ -25,7 +25,7 @@ async function getCoordinatesByAddressString(addressString: string): Promise<{
   try {
     const format = 'json';
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_LOCATION_IQ_GEOCODE_URL}?key=${process.env.NEXT_PUBLIC_LOCATION_IQ_API_KEY}&q=${addressString}&format=${format}`
+      `${process.env.NEXT_PUBLIC_LOCATION_IQ_GEOCODE_URL}?key=${process.env.NEXT_PUBLIC_LOCATION_IQ_API_KEY}&q=${addressString}&format=${format}`,
     );
 
     console.info('geolocate response: ', response.data);
