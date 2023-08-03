@@ -8,7 +8,7 @@ import {
 	H2,
 	H5,
 	UploadImageBox,
-	useFormContext
+	useFormContext,
 } from '@cd/ui-lib';
 import axios from 'axios';
 import FormData from 'form-data';
@@ -83,8 +83,8 @@ const VerifyPhotoId = () => {
 							idVerified: response.result.idVerified,
 							isLegalAge: response.result.isLegalAge,
 							idFrontImage: response.images.idFrontImage,
-							idBackImage: response.images.idBackImage
-						}
+							idBackImage: response.images.idBackImage,
+						},
 					});
 
 					nextFormStep();
@@ -100,7 +100,7 @@ const VerifyPhotoId = () => {
 
 	const verifyLegalAgeImageUpload = async ({
 		frontImage,
-		backImage
+		backImage,
 	}: any) => {
 		try {
 			const formData = new FormData();
@@ -118,8 +118,8 @@ const VerifyPhotoId = () => {
 				formData,
 				{
 					headers: {
-						'Content-Type': 'multipart/form-data'
-					}
+						'Content-Type': 'multipart/form-data',
+					},
 				}
 			);
 
@@ -151,7 +151,7 @@ const VerifyPhotoId = () => {
 			captchaRef.current.reset();
 			const response = await axios.post('/api/recaptcha', {
 				inputVal,
-				token
+				token,
 			});
 			if (response.status === 200) await onSubmitUpload();
 		} catch (error) {
@@ -213,7 +213,7 @@ const VerifyPhotoId = () => {
 											Object.assign(file, {
 												preview:
 													URL.createObjectURL(file),
-												data: data || null
+												data: data || null,
 											})
 										);
 									}
@@ -267,7 +267,7 @@ const VerifyPhotoId = () => {
 											Object.assign(file, {
 												preview:
 													URL.createObjectURL(file),
-												data: data || null
+												data: data || null,
 											})
 										);
 									}

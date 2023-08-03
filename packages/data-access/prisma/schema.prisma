@@ -152,6 +152,7 @@ model Vendor {
   @@index([id])
   @@index([name])
   @@index([publicName])
+  @@unique([id, name])
 }
 
 model Address {
@@ -388,7 +389,8 @@ model Organization {
   memberships Membership[]
   products Product[]
   vendorId String
-  vendor Vendor @relation(fields: [vendorId], references: [id], onDelete: Restrict, onUpdate:  Restrict)
+  vendorName String
+  vendor Vendor @relation(fields: [vendorId, vendorName], references: [id, name], onDelete: Restrict, onUpdate: Cascade)
   scheduleId String @unique
   schedule Schedule @relation(fields: [scheduleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   termsAccepted Boolean @default(false)

@@ -16,22 +16,22 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 
 		const response = await prisma.article.findUnique({
 			where: {
-				id
+				id,
 			},
 			include: {
-				image: true
-			}
+				image: true,
+			},
 		});
 
 		return res.status(res.statusCode).json({
 			success: true,
-			payload: response
+			payload: response,
 		});
 	} catch (error: any) {
 		console.error(error.message);
 		return res.json({
 			success: false,
-			error: error.message
+			error: error.message,
 		});
 	}
 });

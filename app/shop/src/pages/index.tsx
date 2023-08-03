@@ -3,7 +3,7 @@ import {
 	modalActions,
 	modalTypes,
 	selectUserState,
-	TextContent
+	TextContent,
 } from '@cd/core-lib';
 import {
 	Button,
@@ -14,7 +14,7 @@ import {
 	Page,
 	Paragraph,
 	Span,
-	type LayoutContextProps
+	type LayoutContextProps,
 } from '@cd/ui-lib';
 import Image, { type StaticImageData } from 'next/image';
 import Link from 'next/link';
@@ -46,7 +46,7 @@ function LandingPage() {
 			: dispatch(
 					modalActions.openModal({
 						modalType: modalTypes.checkAgeModal,
-						modalText: ''
+						modalText: '',
 					})
 			  );
 	}
@@ -56,22 +56,22 @@ function LandingPage() {
 			'w-full pt-4 pb-6 md:pt-4 px-4 md:px-14 lg:px-32',
 			'justify-center',
 			'opacity-80',
-			'anim8-green-gradient'
+			'anim8-green-gradient',
 		],
 		heroContent: [
 			'mx-auto',
 			'md:flex-row items-start',
-			'space-y-4 md:space-y-0 md:space-x-8'
+			'space-y-4 md:space-y-0 md:space-x-8',
 		],
 		responsiveHeading: [
-			'text-2xl md:text-4xl pb-0 whitespace-normal font-semi-bold'
+			'text-2xl md:text-4xl pb-0 whitespace-normal font-semi-bold',
 		],
 		about: [
 			'bg-inverse opacity-90 md:rounded ',
 			'space-y-2',
 			'mx-auto',
-			'cursor-default w-full md:max-w-[440px] h-fit p-8 items-center shadow'
-		]
+			'cursor-default w-full md:max-w-[440px] h-fit p-8 items-center shadow',
+		],
 	};
 
 	return (
@@ -146,13 +146,13 @@ function LandingPage() {
 
 const ImageBackDrop = ({
 	src,
-	children
+	children,
 }: { src: string | StaticImageData } & PropsWithChildren) => {
 	return (
 		<div
 			className="flex grow"
 			style={{
-				clipPath: 'inset(0 0 0 0)'
+				clipPath: 'inset(0 0 0 0)',
 			}}
 		>
 			<Image
@@ -163,7 +163,7 @@ const ImageBackDrop = ({
 				style={{
 					zIndex: -1,
 					objectFit: 'cover',
-					objectPosition: '44% 20%'
+					objectPosition: '44% 20%',
 				}}
 			/>
 			<div
@@ -174,7 +174,7 @@ const ImageBackDrop = ({
 					height: '100%',
 					width: '100%',
 					left: '0',
-					top: '0'
+					top: '0',
 				}}
 			></div>
 			{children}
@@ -184,7 +184,7 @@ const ImageBackDrop = ({
 
 LandingPage.getLayoutContext = (): LayoutContextProps => ({
 	showHeader: false,
-	showTopBar: true
+	showTopBar: true,
 });
 export default LandingPage;
 

@@ -6,28 +6,28 @@
 module.exports = {
 	env: {
 		es6: true,
-		node: true
+		node: true,
 	},
 	parser: '@typescript-eslint/parser',
 	parserOptions: {
 		ecmaFeatures: {
 			jsx: true,
-			globalReturn: false
+			globalReturn: false,
 		},
 		ecmaVersion: 2020,
 		project: ['tsconfig.json'],
-		sourceType: 'module'
+		sourceType: 'module',
 	},
 	settings: {
 		'import/resolver': {
-			typescript: {}
-		}
+			typescript: {},
+		},
 	},
 	extends: [
 		'eslint:recommended',
 		'plugin:import/recommended',
 		'plugin:import/typescript',
-		'plugin:@typescript-eslint/recommended'
+		'plugin:@typescript-eslint/recommended',
 	],
 	rules: {
 		// https://medium.com/@steven-lemon182/are-typescript-barrel-files-an-anti-pattern-72a713004250
@@ -40,14 +40,14 @@ module.exports = {
 			{
 				line: {
 					markers: ['/'],
-					exceptions: ['-', '+']
+					exceptions: ['-', '+'],
 				},
 				block: {
 					markers: ['!'],
 					exceptions: ['*'],
-					balanced: true
-				}
-			}
+					balanced: true,
+				},
+			},
 		],
 		'linebreak-style': ['error', 'unix'],
 		'no-empty-function': 'off',
@@ -68,10 +68,10 @@ module.exports = {
 					'parent',
 					'sibling',
 					'index',
-					'object'
+					'object',
 				],
-				alphabetize: { order: 'asc', caseInsensitive: true }
-			}
+				alphabetize: { order: 'asc', caseInsensitive: true },
+			},
 		],
 		'@typescript-eslint/ban-tslint-comment': ['error'],
 		'@typescript-eslint/ban-ts-comment': [
@@ -81,25 +81,25 @@ module.exports = {
 				minimumDescriptionLength: 10,
 				'ts-ignore': false,
 				'ts-nocheck': true,
-				'ts-check': false
-			}
+				'ts-check': false,
+			},
 		],
 		'@typescript-eslint/no-explicit-any': [
 			'off',
-			{ ignoreRestArgs: false }
+			{ ignoreRestArgs: false },
 		],
 		'@typescript-eslint/no-empty-function': [
 			'error',
-			{ allow: ['private-constructors'] }
+			{ allow: ['private-constructors'] },
 		],
 		'@typescript-eslint/no-unused-vars': [
 			'warn',
-			{ argsIgnorePattern: '^_', ignoreRestSiblings: true }
+			{ argsIgnorePattern: '^_', ignoreRestSiblings: true },
 		],
 		'@typescript-eslint/consistent-type-exports': 'error',
 		'@typescript-eslint/consistent-type-imports': [
 			'error',
-			{ prefer: 'type-imports', fixStyle: 'inline-type-imports' }
+			{ prefer: 'type-imports', fixStyle: 'inline-type-imports' },
 		],
 		'@typescript-eslint/naming-convention': [
 			'error',
@@ -110,26 +110,26 @@ module.exports = {
 				trailingUnderscore: 'forbid',
 				filter: {
 					regex: '^(Content-Type)$',
-					match: false
-				}
+					match: false,
+				},
 			},
 			{
 				selector: 'variable',
 				format: ['camelCase'],
-				leadingUnderscore: 'allow'
+				leadingUnderscore: 'allow',
 			},
 			{
 				selector: ['function'],
-				format: ['camelCase']
+				format: ['camelCase'],
 			},
 			{
 				selector: 'parameter',
 				format: ['camelCase'],
-				leadingUnderscore: 'allow'
+				leadingUnderscore: 'allow',
 			},
 			{
 				selector: 'class',
-				format: ['PascalCase']
+				format: ['PascalCase'],
 			},
 			{
 				selector: 'classProperty',
@@ -137,8 +137,8 @@ module.exports = {
 				leadingUnderscore: 'allow',
 				filter: {
 					regex: '^(Content-Type)$',
-					match: false
-				}
+					match: false,
+				},
 			},
 			{
 				selector: 'objectLiteralProperty',
@@ -149,18 +149,18 @@ module.exports = {
 					// Env variables are generally uppercase
 					'UPPER_CASE',
 					// DB / Graphql might use PascalCase for relationships
-					'PascalCase'
+					'PascalCase',
 				],
 				leadingUnderscore: 'allowSingleOrDouble',
 				trailingUnderscore: 'allowSingleOrDouble',
 				filter: {
 					regex: '^(Content-Type)$',
-					match: false
-				}
+					match: false,
+				},
 			},
 			{
 				selector: ['typeAlias', 'interface'],
-				format: ['PascalCase']
+				format: ['PascalCase'],
 			},
 			{
 				selector: ['typeProperty'],
@@ -169,35 +169,35 @@ module.exports = {
 				leadingUnderscore: 'allowDouble',
 				filter: {
 					regex: '^(Content-Type)$',
-					match: false
-				}
+					match: false,
+				},
 			},
 			{
 				selector: ['typeParameter'],
-				format: ['PascalCase']
-			}
-		]
+				format: ['PascalCase'],
+			},
+		],
 	},
 	overrides: [
 		{
 			files: ['*.mjs'],
 			parserOptions: {
 				ecmaVersion: 'latest',
-				sourceType: 'module'
+				sourceType: 'module',
 			},
 			rules: {
 				'@typescript-eslint/naming-convention': 'off',
 				'@typescript-eslint/explicit-module-boundary-types': 'off',
 				'@typescript-eslint/consistent-type-exports': 'off',
-				'@typescript-eslint/consistent-type-imports': 'off'
-			}
+				'@typescript-eslint/consistent-type-imports': 'off',
+			},
 		},
 		{
 			// commonjs or assumed
 			files: ['*.js', '*.cjs'],
 			parser: 'espree',
 			parserOptions: {
-				ecmaVersion: 2020
+				ecmaVersion: 2020,
 			},
 			rules: {
 				'@typescript-eslint/naming-convention': 'off',
@@ -207,8 +207,8 @@ module.exports = {
 				'@typescript-eslint/explicit-module-boundary-types': 'off',
 				'@typescript-eslint/consistent-type-exports': 'off',
 				'@typescript-eslint/consistent-type-imports': 'off',
-				'import/order': 'off'
-			}
-		}
-	]
+				'import/order': 'off',
+			},
+		},
+	],
 };

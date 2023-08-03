@@ -3,7 +3,7 @@ import {
 	LoadingPage,
 	ModalProvider,
 	ToastProvider,
-	type LayoutContextProps
+	type LayoutContextProps,
 } from '@cd/ui-lib';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';

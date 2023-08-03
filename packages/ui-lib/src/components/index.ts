@@ -44,4 +44,3 @@ export { ToastProvider } from './ToastProvider';
 export * from './Typography';
 export { default as UploadImageBox } from './UploadImageBox';
 export { default as VariantRow } from './VariantRow';
-

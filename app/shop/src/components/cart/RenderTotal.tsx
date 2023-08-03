@@ -20,5 +20,5 @@ function RenderTotal() {
 export default RenderTotal;
 
 const styles = {
-	total: 'flex flex-row col-span-2 justify-end'
+	total: 'flex flex-row col-span-2 justify-end',
 };

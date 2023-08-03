@@ -7,6 +7,6 @@ module.exports = {
 	rules: {
 		'prettier/prettier': ['error', prettierConfig],
 		'arrow-body-style': 'off',
-		'prefer-arrow-callback': 'off'
-	}
+		'prefer-arrow-callback': 'off',
+	},
 };

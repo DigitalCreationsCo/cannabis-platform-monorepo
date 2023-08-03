@@ -9,7 +9,7 @@ function CategoriesSelector() {
 				'Concentrates',
 				'Edibles',
 				'Topicals',
-				'Vapes'
+				'Vapes',
 			].map((category) => (
 				<Button key={category}>
 					<li className="list-none">{category}</li>

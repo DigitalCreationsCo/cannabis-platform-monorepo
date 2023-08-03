@@ -11,18 +11,18 @@ const handler = nc();
 
 // create new address
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
-    try {
-        const formData: AddressCreateType = req.body;
-        const { data } = await axios.post(urlBuilder.main.address(), formData, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        return res.status(res.statusCode).json(data);
-    } catch (error: any) {
-        console.error(error.message);
-        return res.json(error);
-    }
+	try {
+		const formData: AddressCreateType = req.body;
+		const { data } = await axios.post(urlBuilder.main.address(), formData, {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
+		return res.status(res.statusCode).json(data);
+	} catch (error: any) {
+		console.error(error.message);
+		return res.json(error);
+	}
 });
 
 export default handler;

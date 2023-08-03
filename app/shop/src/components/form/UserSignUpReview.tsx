@@ -3,7 +3,7 @@ import {
 	renderNestedDataObject,
 	selectUserState,
 	TextContent,
-	urlBuilder
+	urlBuilder,
 } from '@cd/core-lib';
 import {
 	Button,
@@ -13,7 +13,7 @@ import {
 	H3,
 	Paragraph,
 	SignInButton,
-	useFormContext
+	useFormContext,
 } from '@cd/ui-lib';
 import axios from 'axios';
 import Image from 'next/image';
@@ -36,8 +36,8 @@ function UserSignUpReview() {
 				setFormValues({
 					newUser: {
 						isSignUpComplete: true,
-						emailVerified: true
-					}
+						emailVerified: true,
+					},
 				});
 				console.info('form values: ', formValues);
 				console.info(
@@ -49,7 +49,7 @@ function UserSignUpReview() {
 					formValues?.newUser,
 					{
 						validateStatus: (status) =>
-							(status >= 200 && status < 300) || status == 404
+							(status >= 200 && status < 300) || status == 404,
 					}
 				);
 				console.info('response data: ', response.data);
@@ -136,7 +136,7 @@ function UserSignUpReview() {
 							'emailVerified',
 							'imageUser',
 							'idFrontImage',
-							'idBackImage'
+							'idBackImage',
 						])}
 					</>
 				)}
@@ -168,5 +168,5 @@ function UserSignUpReview() {
 export default UserSignUpReview;
 
 const styles = {
-	renderList: 'border rounded p-4 w-full'
+	renderList: 'border rounded p-4 w-full',
 };

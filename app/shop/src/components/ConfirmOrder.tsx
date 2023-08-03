@@ -5,7 +5,7 @@ import {
 	selectCartState,
 	selectIsCartEmpty,
 	selectUserState,
-	type SimpleCart
+	type SimpleCart,
 } from '@cd/core-lib';
 import { type ProductVariantWithDetails } from '@cd/data-access';
 import {
@@ -15,7 +15,7 @@ import {
 	Paragraph,
 	Price,
 	SimpleCartItem,
-	useFormContext
+	useFormContext,
 } from '@cd/ui-lib';
 import { type AnyAction } from '@reduxjs/toolkit';
 import router from 'next/router';
@@ -111,7 +111,7 @@ function ConfirmOrder() {
 	function openLoginModal() {
 		dispatch(
 			modalActions.openModal({
-				modalType: modalTypes.loginModal
+				modalType: modalTypes.loginModal,
 			})
 		);
 	}

@@ -25,7 +25,7 @@
 // });
 
 describe('/api/users/1', () => {
-    test('get User - axios sends the correct server call', async () => {
-        expect('1').toEqual('1');
-    });
+	test('get User - axios sends the correct server call', async () => {
+		expect('1').toEqual('1');
+	});
 });

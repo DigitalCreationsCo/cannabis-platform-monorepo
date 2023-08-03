@@ -43,6 +43,7 @@ export default class OrganizationController {
       console.info('API error: ', error.message);
       res.status(500).json({
         success: false,
+        error: error.message,
         message: error.message,
       });
     }
@@ -68,6 +69,7 @@ export default class OrganizationController {
       console.info('API error: ', error.message);
       res.status(500).json({
         success: false,
+        error: error.message,
         message: error.message,
       });
     }
@@ -93,6 +95,7 @@ export default class OrganizationController {
       console.info('API error: ', error.message);
       res.status(500).json({
         success: false,
+        error: error.message,
         message: error.message,
       });
     }
@@ -117,6 +120,7 @@ export default class OrganizationController {
     } catch (error: any) {
       res.status(500).json({
         success: false,
+        error: error.message,
         message: error.message,
       });
     }
@@ -151,6 +155,7 @@ export default class OrganizationController {
       console.info('API error: ', error);
       res.status(500).json({
         success: false,
+        error: error.message,
         message: error.message,
       });
     }
@@ -176,6 +181,7 @@ export default class OrganizationController {
       console.info('API error: ', error);
       res.status(500).json({
         success: false,
+        error: error.message,
         message: error.message,
       });
     }
@@ -201,6 +207,7 @@ export default class OrganizationController {
       console.info('API error: ', error);
       res.status(500).json({
         success: false,
+        error: error.message,
         message: error.message,
       });
     }

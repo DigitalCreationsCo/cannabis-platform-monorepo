@@ -1,14 +1,14 @@
 {
-  "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "baseUrl": "./src",
-    "declaration": true,
-    "target": "ES2015",
-    "module": "ES2015",
-    "jsx": "react-jsx",
-    "jsxFactory": "",
-    "jsxFragmentFactory": ""
-  },
-  "exclude": ["**/node_modules", "**/.*/", "dist", "build", "**/test/*"]
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		"baseUrl": "./src",
+		"declaration": true,
+		"target": "ES2015",
+		"module": "ES2015",
+		"jsx": "react-jsx",
+		"jsxFactory": "",
+		"jsxFragmentFactory": ""
+	},
+	"exclude": ["**/node_modules", "**/.*/", "dist", "build", "**/test/*"]
 }

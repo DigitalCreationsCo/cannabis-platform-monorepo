@@ -4,7 +4,7 @@ import {
 	FormStepProvider,
 	H2,
 	Page,
-	type LayoutContextProps
+	type LayoutContextProps,
 } from '@cd/ui-lib/src/components';
 import router from 'next/router';
 import { useSelector } from 'react-redux';
@@ -13,7 +13,7 @@ import {
 	SubmitAddress,
 	UserSignUpQuick,
 	UserSignUpReview,
-	VerifyPhotoId
+	VerifyPhotoId,
 } from '../../components';
 
 function ContinueSignUp() {
@@ -30,7 +30,7 @@ function ContinueSignUp() {
 		!idVerified ? VerifyPhotoId : null,
 		!isSignUpComplete ? UserSignUpQuick : null,
 		SubmitAddress,
-		UserSignUpReview
+		UserSignUpReview,
 	];
 
 	return (
@@ -47,7 +47,7 @@ function ContinueSignUp() {
 }
 
 ContinueSignUp.getLayoutContext = (): LayoutContextProps => ({
-	showHeader: false
+	showHeader: false,
 });
 
 export default ContinueSignUp;
@@ -56,6 +56,6 @@ const styles = {
 		'bg-gradient-to-b',
 		'from-primary',
 		'to-secondary',
-		'p-0 lg:p-16 h-max'
-	]
+		'p-0 lg:p-16 h-max',
+	],
 };

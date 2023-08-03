@@ -4,7 +4,7 @@ import {
 	modalTypes,
 	selectCartState,
 	selectIsCartEmpty,
-	selectUserState
+	selectUserState,
 } from '@cd/core-lib';
 import {
 	Button,
@@ -13,7 +13,7 @@ import {
 	IconButton,
 	Icons,
 	Paragraph,
-	styles
+	styles,
 } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
