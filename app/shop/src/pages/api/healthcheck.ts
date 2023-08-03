@@ -1,4 +1,4 @@
-import { NextApiResponse } from 'next';
+import { type NextApiResponse } from 'next';
 import nc from 'next-connect';
 
 const handler = nc();

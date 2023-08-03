@@ -1,11 +1,17 @@
-import { FlexBox, H2, LayoutContextProps, Page, Paragraph } from '@cd/ui-lib';
+import {
+	FlexBox,
+	H2,
+	Page,
+	Paragraph,
+	type LayoutContextProps,
+} from '@cd/ui-lib';
 import { twMerge } from 'tailwind-merge';
 
 function AboutGras() {
 	return (
 		<Page className={twMerge(styles.gradient)}>
 			<FlexBox className={twMerge(styles.about)}>
-				<FlexBox className="max-w-[400px] m-auto">
+				<FlexBox className="m-auto max-w-[400px]">
 					<H2 className="text-secondary">About Gras</H2>
 					<Paragraph className="text-justify">
 						{`Gras is a home-grown service provider for cannabis lovers.

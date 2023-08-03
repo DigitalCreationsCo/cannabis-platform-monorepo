@@ -1,4 +1,5 @@
 import { TextContent } from '@cd/core-lib/src';
+import router from 'next/router';
 import { Button } from './button';
 import Center from './Center';
 import CopyRight from './CopyRight';
@@ -17,7 +18,7 @@ function ErrorMessage({ code, message }: { code: number; message: string }) {
 				{code && <H5 className="text-error">{code} Error</H5>}
 			</FlexBox>
 
-			<Button onClick={() => Router.back()}>{TextContent.ui.BACK}</Button>
+			<Button onClick={() => router.back()}>{TextContent.ui.BACK}</Button>
 
 			<Paragraph className="pt-2">
 				<CopyRight />

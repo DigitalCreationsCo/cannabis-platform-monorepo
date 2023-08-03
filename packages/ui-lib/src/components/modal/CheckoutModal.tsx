@@ -2,8 +2,9 @@ import {
 	modalActions,
 	modalTypes,
 	selectIsAddressAdded,
-	selectUserState,
+	selectUserState
 } from '@cd/core-lib';
+import router from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import Button from '../button/Button';

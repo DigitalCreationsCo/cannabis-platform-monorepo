@@ -41,9 +41,7 @@ const nextConfig = (phase) => {
 				if (isStaging) return 'http://localhost:6001';
 				if (isTest) return 'http://localhost:6001';
 			})(),
-
 			NEXT_PUBLIC_LOW_STOCK_THRESHOLD: 7,
-
 			NEXT_PUBLIC_AVATAR_1:
 				'https://storage.cloud.google.com/image-user/avatar1.png?authuser=0',
 			NEXT_PUBLIC_AVATAR_2:

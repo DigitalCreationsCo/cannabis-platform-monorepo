@@ -5,17 +5,18 @@
 			"fileMatch": ["**/tsup.config.json"]
 		}
 	],
+	"editor.formatOnSave": true,
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": true
+	},
 	"eslint.validate": [
 		"javascript",
 		"javascriptreact",
 		"typescript",
 		"typescriptreact"
 	],
-	"editor.codeActionsOnSave": {
-		"source.fixAll.eslint": true,
-		"source.organizeImports": true
-	},
+	"eslint.alwaysShowStatus": true,
 	"files.associations": {
 		"*.scss": "tailwindcss",
 		"*.css": "tailwindcss"
