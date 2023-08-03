@@ -1,14 +1,14 @@
-// @ts-nocheck
 import {
 	AddressCreateType,
 	AddressWithCoordinates,
 	Coordinates,
-	Prisma,
+	Prisma
 } from '@cd/data-access';
-import { axios } from 'axiosInstance';
+import { AddressPayload } from 'reduxDir';
+import { axios } from '../axiosInstance';
 
 export async function getGeoCoordinatesFromAddress(
-	address: typeof Prisma.AddressCreateWithoutOrganizationInput
+	address: AddressPayload
 ) {
 	const { street1, street2, city, state, country, zipcode, countryCode } =
 		address;
@@ -21,7 +21,7 @@ export async function getGeoCoordinatesFromAddress(
 async function getCoordinatesByAddressString(addressString: string): Promise<{
 	latitude: any;
 	longitude: any;
-}> {
+} | null> {
 	try {
 		const format = 'json';
 		const response = await axios.get(
@@ -40,7 +40,7 @@ async function getCoordinatesByAddressString(addressString: string): Promise<{
 export async function getGeoAddressFromCoordinates(coordinates: {
 	latitude: number;
 	longitude: number;
-}): Promise<AddressWithCoordinates> {
+}): Promise<AddressPayload | null> {
 	try {
 		const format = 'json';
 		const { latitude, longitude } = coordinates;
@@ -50,7 +50,7 @@ export async function getGeoAddressFromCoordinates(coordinates: {
 
 		const { address, lat, lon } = response.data;
 
-		const formattedAddress: AddressWithCoordinates = {
+		const formattedAddress: AddressPayload = {
 			street1: address.house_number + ' ' + address.road,
 			street2: '',
 			city: address.city,

@@ -16,7 +16,7 @@ describe('Middleware Redirect Test', () => {
 	const redirectSpy = jest.spyOn(NextResponse, 'redirect');
 
 	const shopUrl = process.env.NEXT_PUBLIC_SHOP_APP_URL;
-	const dashboardUrl = process.env.NEXT_PUBLIC_DASHBOARD_APP_URL;
+	// const dashboardUrl = process.env.NEXT_PUBLIC_DASHBOARD_APP_URL;
 
 	afterEach(() => {
 		redirectSpy.mockReset();

@@ -36,7 +36,7 @@ module.exports = {
 			},
 		},
 		{
-			files: ['src/pages/\\_*.{ts,tsx}'],
+			files: ['src/**/*.{ts,tsx}'],
 			rules: {
 				'react/display-name': 'off',
 			},

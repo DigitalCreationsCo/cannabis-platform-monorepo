@@ -36,7 +36,7 @@
 		"@cd/data-access": "workspace:*",
 		"@cd/eslint-config": "workspace:*",
 		"@cd/ui-lib": "workspace:*",
-		"@paralleldrive/cuid2": "^2.2.0",
+		"@paralleldrive/cuid2": "2.2.0",
 		"@reduxjs/toolkit": "1.9.2",
 		"@typeform/embed-react": "^2.28.0",
 		"axios": "1.2.1",

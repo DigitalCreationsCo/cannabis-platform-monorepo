@@ -67,7 +67,7 @@ const bindMiddleware = (middleware: any) => {
 		...middleware,
 		locationMiddleware,
 		crashMiddleware,
-		loggerMiddleware
+		loggerMiddleware,
 	);
 };
 
