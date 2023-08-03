@@ -27,7 +27,7 @@ function CheckoutModal({ dispatchCloseModal, modalVisible, ...props }: CheckoutM
         // this branch will likely never happen, 
         // because automatic redirect for new users is handled in the signin flow.
         
-        // Router.push("/signup/continue");
+        // router.push("/signup/continue");
     }
 
     return (

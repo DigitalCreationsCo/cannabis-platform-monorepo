@@ -7,11 +7,10 @@
     "build:ci": "NODE_ENV=production rimraf ./.next && next build",
     "build:css": "npx tailwindcss -o ./src/index.css --minify",
     "postcss": "postcss ./src/styles/index.css -o ./src/styles/index.css",
+    "clean": "rimraf ./.next ./out ./dist ./build ./node_modules ./coverage ./tsconfig.tsbuildinfo ./node_modules/.cache",
     "debug": "NODE_OPTIONS='--inspect' next dev",
     "dev": "next dev",
-    "uat": "NODE_ENV=uat next build && NODE_ENV=uat next start",
     "lint": "next lint",
-    "clean": "rimraf ./.next ./out ./dist ./build ./node_modules ./coverage ./tsconfig.tsbuildinfo ./node_modules/.cache",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "test:unit": "jest --config ./jest.config.js",
     "test:unit-ci": "jest --config ./jest.config.js --ci --runInBand --reporters=default --reporters=jest-junit",
@@ -66,6 +65,8 @@
     "tailwind-merge": "1.8.0"
   },
   "devDependencies": {
+    "@babel/preset-env": "7.21.4",
+    "@babel/preset-react": "^7.22.5",
     "@next/env": "13.2.4",
     "@tailwindcss/typography": "0.5.8",
     "@testing-library/dom": "9.3.1",
@@ -99,6 +100,7 @@
     "jest-mock-extended": "3.0.1",
     "jest-transform-stub": "^2.0.0",
     "node-cache": "5.1.2",
+    "node-fetch": "^3.3.2",
     "node-mocks-http": "1.12.1",
     "npm-run-all": "4.1.5",
     "postcss": "8.4.21",
@@ -109,7 +111,7 @@
     "rimraf": "4.4.1",
     "supertokens-auth-react": "0.28.1",
     "supertokens-node": "12.1.3",
-    "tailwindcss": "3.2.4",
+    "tailwindcss": "3.3.2",
     "ts-jest": "29.0.3",
     "typescript": "4.9.3",
     "yup": "0.32.11"

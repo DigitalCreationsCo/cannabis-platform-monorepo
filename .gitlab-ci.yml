@@ -37,6 +37,7 @@ build:
 #   parallel:
 #     matrix: !reference [.modules]
 
+# ========================================
 # optimize: create build rules for modules,
 # such as each module job can run depending on changes of the module path, and the node_modules dependencies
 # changes: 
@@ -55,3 +56,67 @@ build:
 
 # Select different runner tags for each parallel matrix job
 # https://docs.gitlab.com/ee/ci/jobs/job_control.html#select-different-runner-tags-for-each-parallel-matrix-job
+
+# Here's a more declarative approach to dynamic module builds
+# include:
+  # - ".test-ci.yml"
+  # - ".lint-ci.yml"
+  # - ".cache-ci.yml"
+  # - "shop/.gitlab-ci.yml"
+  # - "dashboard/.gitlab-ci.yml"
+  # - "delivery-widget/.gitlab-ci.yml"
+  # - "main/.gitlab-ci.yml"
+  # - "location/.gitlab-ci.yml"
+  # - "payments/.gitlab-ci.yml"
+  # - "image/.gitlab-ci.yml"
+  # # - "dispatch/.gitlab-ci.yml"
+
+# .publish-rules:
+#   stage: publish
+#   rules:
+#     # start jobs for when there are changes in the path defined
+#     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+#       changes:
+#         - $CHANGES_PATH
+#     - when: manual
+#       allow_failure: true
+
+# .shop:
+#   extends: .publish-rules
+#   variables:
+#     CHANGES_PATH: "shop/**/*"
+
+# .dashboard:
+#   extends: .publish-rules
+#   variables:
+#     CHANGES_PATH: "dashboard/**/*"
+
+# .main:
+#   extends: .publish-rules
+#   variables:
+#     CHANGES_PATH: "main/**/*"
+
+# .location:
+#   extends: .publish-rules
+#   variables:
+#     CHANGES_PATH: "location/**/*"
+
+# .image:
+#   extends: .publish-rules
+#   variables:
+#     CHANGES_PATH: "image/**/*"
+
+# .payments:
+#   extends: .publish-rules
+#   variables:
+#     CHANGES_PATH: "payments/**/*"
+
+# .dispatch:
+#   extends: .publish-rules
+#   variables:
+#     CHANGES_PATH: "dispatch/**/*"
+
+# .widget:
+#   extends: .publish-rules
+#   variables:
+#     CHANGES_PATH: "widget/**/*"

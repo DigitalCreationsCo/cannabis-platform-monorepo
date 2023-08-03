@@ -1,37 +1,62 @@
-
 const packageJson = require('./package.json');
-const tsConfigFile = './tsconfig.json';
+const { getJestCachePath } = require('../../cache.config');
+
+const getTestMatchers = ({
+	api = true,
+	components = true,
+	env = true,
+	middleware = true,
+}) => {
+	const matchers = [
+		api && '<rootDir>/src/**/test/api/**/*.{js,jsx,ts,tsx}',
+		components && '<rootDir>/src/**/test/components/**/*.{js,jsx,ts,tsx}',
+		env && '<rootDir>/src/**/test/env/**/*.{js,jsx,ts,tsx}',
+		middleware && '<rootDir>/src/**/test/middleware/**/*.{js,jsx,ts,tsx}',
+	];
+	return matchers.filter(Boolean);
+};
 
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 const config = {
-    displayName: `${packageJson.name}:unit`,
-    verbose: true,
-    preset: 'ts-jest',
-    rootDir: './',
-    testEnvironment: 'jsdom',
-    testEnvironmentOptions: {
-        NODE_ENV: 'test',
-    },
-    testMatch: ['<rootDir>/src/**/test/**/*.{js,jsx,ts,tsx}'],
-    setupFilesAfterEnv: [
-        '<rootDir>/jest.setup.mjs',
-        '@testing-library/jest-dom/extend-expect'
-    ],
-    testPathIgnorePatterns: ['**/node_modules/', '/.next/'], // Don't test any next tests or tests in the modules
-    transform: {
-        '^.+\\.(js|jsx)$': '../../node_modules/babel-jest', // babel .js or .jsx files
-        "^.+.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "jest-transform-stub", // anything style related is ignored and mapped to jest-transform-stub module
-        'ts-jest': {
-            tsconfig: tsConfigFile,
-        },
-    },
-    collectCoverage: false,
-    coverageDirectory: '<rootDir>/coverage',
-    collectCoverageFrom: [
-        '<rootDir>/**/*.{ts,tsx,js,jsx}',
-        '!**/*.test.{js,ts,tsx,jsx}',
-        '!**/__mock__/*',
-    ],
+	displayName: `${packageJson.name}:unit`,
+	verbose: true,
+	preset: 'ts-jest',
+	rootDir: './',
+	cacheDirectory: getJestCachePath(packageJson.name),
+	testEnvironment: 'jsdom',
+	testEnvironmentOptions: {
+		NODE_ENV: 'test',
+	},
+	setupFilesAfterEnv: [
+		'<rootDir>/jest.setup.ts',
+		'@testing-library/jest-dom/extend-expect',
+	],
+	globalSetup: '<rootDir>/jest.globals.mjs',
+
+	testMatch: [
+		...getTestMatchers({
+			api: false,
+			components: false,
+			middleware: false,
+		}),
+	],
+
+	testPathIgnorePatterns: ['\\**/node_modules/', '\\/.next/'],
+
+	transform: {
+		'^.+\\.(ts|tsx)$': 'ts-jest',
+		'^.+\\.(mjs|js|jsx)$': 'babel-jest',
+		'^.+.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$':
+			'jest-transform-stub', // anything style related is ignored and mapped to jest-transform-stub module
+	},
+
+	collectCoverage: false,
+	coverageDirectory: '<rootDir>/coverage',
+	collectCoverageFrom: [
+		'<rootDir>/**/*.{ts,tsx,js,jsx}',
+		'!**/*.test.{js,ts}',
+		'!**/__mock__/*',
+	],
 };
 
 module.exports = config;

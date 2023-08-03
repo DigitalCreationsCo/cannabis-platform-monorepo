@@ -5,3 +5,6 @@ yarn g:lint-staged-files --debug
 
 yarn g:test:unit-changed
 yarn g:build-changed
+
+# generate changed modules-sha for gitlab ci
+. "$(dirname -- "$0")/generate_modules_sha.sh"

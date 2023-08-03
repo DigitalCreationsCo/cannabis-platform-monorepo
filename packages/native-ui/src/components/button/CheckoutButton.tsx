@@ -15,7 +15,7 @@ function CheckoutButton(props: CheckoutButtonProps) {
         if (response?.error?.message === 'Rejected')
         throw new Error(response.payload);
         
-        // Router.push('/checkout');
+        // router.push('/checkout');
         }
         catch (error: any) {
             toast.error(error.message)

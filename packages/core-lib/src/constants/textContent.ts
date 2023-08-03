@@ -162,6 +162,8 @@ const TextContent = Object.freeze({
 
   shop: {
     ADD_TO_CART_f: (qty: number) => `Add ${qty} to Bag`,
+    BAG_GET_WHAT_YOU_WANT: 'Get what you want',
+
     BROWSE_DISPENSARY_f: (vendorName: string) => `Browse ${vendorName}`,
     CART_TITLE: 'My Bag',
     CHECKOUT: 'checkout',
