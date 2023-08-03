@@ -76,7 +76,7 @@ spec:
             - name: 'PASSWORDLESS_MAX_CODE_INPUT_ATTEMPTS'
               value: '5'
             - name: 'DISABLE_TELEMETRY'
-              value: 'false'
+              value: 'true'
 
           ports:
             - containerPort: 3567

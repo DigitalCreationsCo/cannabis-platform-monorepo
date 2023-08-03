@@ -28,12 +28,9 @@ async function getCoordinatesByAddressString(addressString: string): Promise<{
       `${process.env.NEXT_PUBLIC_LOCATION_IQ_GEOCODE_URL}?key=${process.env.NEXT_PUBLIC_LOCATION_IQ_API_KEY}&q=${addressString}&format=${format}`,
     );
 
-    console.info('geolocate response: ', response.data);
+    const { lat: latitude, lon: longitude } = response.data[0];
 
-    const { lat: latitude, lon: longitude } = response.data[0],
-      coordinates = { latitude, longitude };
-
-    return coordinates;
+    return { latitude, longitude };
   } catch (error) {
     console.info('Error getting coordinates: ', error);
     return null;

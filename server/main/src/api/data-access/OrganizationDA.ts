@@ -1,7 +1,7 @@
 import {
   coordinatesIsEmpty,
   getGeoCoordinatesFromAddress,
-  urlBuilder,
+  urlBuilder
 } from '@cd/core-lib';
 import {
   createOrganization,
@@ -11,7 +11,7 @@ import {
   findOrganizationsByZipcode,
   findUsersByOrganization,
   OrganizationCreateType,
-  updateOrganization,
+  updateOrganization
 } from '@cd/data-access';
 import { createId } from '@paralleldrive/cuid2';
 import axios from 'axios';
@@ -38,11 +38,11 @@ export default class OrganizationDA {
       const data = await createOrganization(organization);
 
       console.info(
-        `successfully created organization record ${organization.name}: ${data.id} 
-                now creating location record...`
+        `successfully created organization record: ${organization.name}. id: ${data.id}
+        now creating location record...`
       );
 
-      await axios.post(
+      const response = await axios.post(
         urlBuilder.location.organizationLocationRecord(),
         {
           id: data.id,
@@ -61,10 +61,12 @@ export default class OrganizationDA {
         }
       );
 
+      if (response.data.success != true) throw new Error(response.data.error)
+
       console.info(`${data.name} record create is completed.`);
       return `${data.name} record create is completed. Your id is ${data.id}`;
     } catch (error: any) {
-      console.error(error.message);
+      console.error("OrganizationDA: error creating Organization record: ", error.message);
       throw new Error(error.message);
     }
   }

@@ -6,7 +6,7 @@ import {
   Prisma,
   Schedule,
   SubDomain,
-  Vendor,
+  Vendor
 } from '@prisma/client';
 import { AddressCreateType, AddressWithCoordinates } from './address';
 import prisma from './db/prisma';
@@ -166,6 +166,7 @@ export async function createOrganization(organization: OrganizationCreateType) {
         },
         vendor: {
           connectOrCreate: {
+            // where: { name: vendorName },
             where: { id: vendorId },
             create: {
               id: vendorId,
