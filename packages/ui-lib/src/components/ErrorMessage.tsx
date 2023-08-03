@@ -1,5 +1,4 @@
 import { TextContent } from '@cd/core-lib/src';
-import Router from 'next/router';
 import { Button } from './button';
 import Center from './Center';
 import CopyRight from './CopyRight';

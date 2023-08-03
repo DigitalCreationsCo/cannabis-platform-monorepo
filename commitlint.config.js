@@ -6,13 +6,12 @@ module.exports = {
       'always',
       [
         'terraform',
-        'cluster',
-        'pipe',
         'dashboard',
         'shop',
         'widget',
-        'mobile',
+        'drive',
         'ui',
+        'native-ui',
         'core',
         'db',
         'main',
@@ -20,7 +19,6 @@ module.exports = {
         'dispatch',
         'image',
         'payments',
-        'git'
       ],
     ],
   },

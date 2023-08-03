@@ -50,7 +50,10 @@
     "dotenv": "16.0.3",
     "dotenv-cli": "7.0.0",
     "dotenv-expand": "10.0.0",
+<<<<<<< HEAD
     "find-up": "5.0.0",
+=======
+>>>>>>> d71af557a (chore(ci): gitlabci.yml multi module config WIP, push server image to docker)
     "react": "18.2.0",
     "react-cookie": "4.1.1",
     "react-dom": "18.2.0",

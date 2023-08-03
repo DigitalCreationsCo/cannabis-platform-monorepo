@@ -1,5 +1,4 @@
 import { cartActions, getShopSite } from '@cd/core-lib/src';
-import Router from 'next/router';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import Button, { ButtonProps } from "./Button";
@@ -16,7 +15,7 @@ function CheckoutButton(props: CheckoutButtonProps) {
         if (response?.error?.message === 'Rejected')
         throw new Error(response.payload);
         
-        Router.push(getShopSite('/checkout'));
+        router.push(getShopSite('/checkout'));
         }
         catch (error: any) {
             toast.error(error.message)
