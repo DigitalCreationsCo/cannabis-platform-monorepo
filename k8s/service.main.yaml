@@ -35,9 +35,10 @@ spec:
           image: grasadmin/main:latest
           imagePullPolicy: Always
           terminationMessagePolicy: FallbackToLogsOnError
-          env: 
-            - name: DEBUG
-              value: com.supertokens
+          # env: 
+          # debug logs
+            # - name: DEBUG
+            #   value: com.supertokens
           resources:
             {}
             # limits:
