@@ -34,5 +34,3 @@ export { NativeToastProvider } from './NativeToastProvider';
 // export { default as TextField } from './TextField';
 // export { ToastProvider } from './ToastProvider';
 export * from './Typography';
-
-

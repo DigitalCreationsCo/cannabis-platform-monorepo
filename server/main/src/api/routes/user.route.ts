@@ -28,6 +28,8 @@ router.route('/address').post(userCtrl.addAddressToUser);
 
 router.route('/user/:id/address/:addressId').get(userCtrl.getAddressById);
 
-router.route('/user/:id/address/:addressId').delete(userCtrl.removeAddressFromUser);
+router
+	.route('/user/:id/address/:addressId')
+	.delete(userCtrl.removeAddressFromUser);
 
 export default router;

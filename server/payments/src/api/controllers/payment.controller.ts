@@ -12,95 +12,97 @@ processPurchase
 ================================= */
 
 export default class PaymentController {
+	/**
+	 * Create a checkout session for frontend to use
+	 *
+	 */
+	static async createCheckout(req, res) {
+		try {
+			const order: OrderWithDetails = req.body;
 
-    /**
-     * Create a checkout session for frontend to use
-     * 
-     */
-    static async createCheckout(req, res) {
-        try {
+			if (!order) throw new Error('No order found.');
 
-            const order: OrderWithDetails
-                = req.body
+			if (!order.items || order.items.length === 0)
+				throw new Error('No items in order');
 
-            if (!order)
-                throw new Error('No order found.')
+			if (!order.organization.id)
+				throw new Error('Sorry, your dispensary is not found.');
 
-            if (!order.items || order.items.length === 0)
-                throw new Error('No items in order')
+			let stripeAccountId = order.organization.stripeAccountId;
 
-            if (!order.organization.id)
-                throw new Error('Sorry, your dispensary is not found.')
+			if (!stripeAccountId)
+				stripeAccountId = await getStripeAccountId(order.organizationId);
 
-            let
-                stripeAccountId = order.organization.stripeAccountId
+			// console.error('lookup stride account id')
+			// console.error('stripe account id: ', stripeAccountId)
 
-            if (!stripeAccountId)
-                stripeAccountId = await getStripeAccountId(order.organizationId)
+			if (!stripeAccountId)
+				throw new Error(
+					`We're sorry, but this dispensary is not accepting payments at this time.`
+				);
 
-            // console.error('lookup stride account id')
-            // console.error('stripe account id: ', stripeAccountId)
+			const checkout = await StripeService.createCheckout(
+				order,
+				stripeAccountId
+			);
 
-            if (!stripeAccountId)
-                throw new Error(`We're sorry, but this dispensary is not accepting payments at this time.`)
+			await PaymentDA.saveOrder(order);
 
-            const checkout = await StripeService.createCheckout(order, stripeAccountId);
+			return res.status(302).send({
+				success: true,
+				message: 'Stripe checkout is created.',
+				redirect: checkout.url,
+			});
+		} catch (error: any) {
+			console.info('create checkout error: ', error.message);
 
-            await PaymentDA.saveOrder(order)
+			if (error.message === 'No order found.')
+				return res.status(400).json({ error: error.message });
 
-            return res.status(302).send({
-                success: true,
-                message: 'Stripe checkout is created.',
-                redirect: checkout.url
-            })
+			if (error.message === 'Sorry, your dispensary is not found.')
+				return res.status(400).json({ error: error.message });
 
-        } catch (error: any) {
-            console.info('create checkout error: ', error.message)
+			if (
+				error.message ===
+				`We're sorry, but this dispensary is not accepting payments at this time.`
+			)
+				return res.status(400).json({ error: error.message });
 
-            if (error.message === 'No order found.')
-                return res.status(400).json({ error: error.message });
+			if (error.message === 'No items in order')
+				return res.status(400).json({ error: error.message });
 
-            if (error.message === 'Sorry, your dispensary is not found.')
-                return res.status(400).json({ error: error.message });
+			return res.status(500).json({ error: error.message });
+		}
+	}
 
-            if (error.message === `We're sorry, but this dispensary is not accepting payments at this time.`)
-                return res.status(400).json({ error: error.message });
+	/**
+	 * Process a customer purchase on the backend
+	 * This function uses the stripe api to create a charge for the customer,
+	 * it does not use stripe checkout api.
+	 *
+	 * This function also creates a new order record, and updates product stock levels.
+	 * Not necessary to use at the moment, but we are not tracking customer product stock levels
+	 *
+	 */
 
-            if (error.message === 'No items in order')
-                return res.status(400).json({ error: error.message });
+	// static async processPurchase(req, res) {
+	//     // input: userid, organizationid, { ...order }
+	//     try {
+	//         let { userId, organization, order } = req.body;
+	//         // const charge = await StripeService.chargeBuyerPurchase(buyer, seller, transaction);
 
-            return res.status(500).json({ error: error.message });
-        }
-    }
+	//         // create checkout session
+	//         // createOrder record in database
+	//         // create stripe charge
+	//         // on success, update order record
+	//         // update the dispensary record with the order
+	//         // update user record with the order.
+	//         // return something to the client
 
-    /**
-     * Process a customer purchase on the backend
-     * This function uses the stripe api to create a charge for the customer,
-     * it does not use stripe checkout api.
-     * 
-     * This function also creates a new order record, and updates product stock levels.
-     * Not necessary to use at the moment, but we are not tracking customer product stock levels
-     * 
-     */
-
-    // static async processPurchase(req, res) {
-    //     // input: userid, organizationid, { ...order }
-    //     try {
-    //         let { userId, organization, order } = req.body;
-    //         // const charge = await StripeService.chargeBuyerPurchase(buyer, seller, transaction);
-
-    //         // create checkout session
-    //         // createOrder record in database
-    //         // create stripe charge
-    //         // on success, update order record
-    //         // update the dispensary record with the order
-    //         // update user record with the order.
-    //         // return something to the client
-
-    //         const charge = await StripeService.chargeCustomerPurchase();
-    //         const processOrder = await PaymentDA.processPurchase(order, charge);
-    //     } catch (error: any) {
-    //         res.status(500).json({ error });
-    //     }
-    // }
+	//         const charge = await StripeService.chargeCustomerPurchase();
+	//         const processOrder = await PaymentDA.processPurchase(order, charge);
+	//     } catch (error: any) {
+	//         res.status(500).json({ error });
+	//     }
+	// }
 }

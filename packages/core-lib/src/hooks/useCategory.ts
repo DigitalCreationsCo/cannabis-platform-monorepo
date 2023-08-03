@@ -13,59 +13,66 @@ import { debounce } from '../utils';
 // search is performed outside of use effect
 
 export default function useCategory() {
-    const [categoryList, setCategoryList] = useState<Category[]>([]);
-    const [categorySearchResult, setSearchResult] = useState<Category[]>([]);
-    const [notFoundCategories, setNotFound] = useState(false);
+	const [categoryList, setCategoryList] = useState<Category[]>([]);
+	const [categorySearchResult, setSearchResult] = useState<Category[]>([]);
+	const [notFoundCategories, setNotFound] = useState(false);
 
-    useEffect(() => {
-        const getCategories = async () => {
-            try {
-                const { data } = await axios('/api/category');
-                if (data.categories?.length !== undefined) {
-                    setCategoryList(data.categories);
-                    setNotFound(false);
-                }
-            } catch (error: any) {
-                setCategoryList([]);
-                setNotFound(true);
-                toast.error(error.response.data);
-            }
-        };
+	useEffect(() => {
+		const getCategories = async () => {
+			try {
+				const { data } = await axios('/api/category');
+				if (data.categories?.length !== undefined) {
+					setCategoryList(data.categories);
+					setNotFound(false);
+				}
+			} catch (error: any) {
+				setCategoryList([]);
+				setNotFound(true);
+				toast.error(error.response.data);
+			}
+		};
 
-        getCategories();
-    }, []);
+		getCategories();
+	}, []);
 
-    // console.info('categoryList ', categoryList);
+	// console.info('categoryList ', categoryList);
 
-    const doSearchCategories = debounce(async (event: any) => {
-        // if (categoryList.length === 0) {
-        //     try {
-        //         const { data } = await axios('/api/category');
-        //         if (data.categories?.length === 0) {
-        //             setSearchResult([]);
-        //             setNotFound(true);
-        //         } else {
-        //             setCategoryList(data.categories);
-        //             setNotFound(false);
-        //         }
-        //     } catch (error) {
-        //         setNotFound(true);
-        //         toast.error(error.response.data);
-        //     }
-        // }
-        const value = event?.target?.value.toLowerCase() || null;
-        // if (value) {
-        searchCategories(value);
-        // }
-    }, 200);
+	const doSearchCategories = debounce(async (event: any) => {
+		// if (categoryList.length === 0) {
+		//     try {
+		//         const { data } = await axios('/api/category');
+		//         if (data.categories?.length === 0) {
+		//             setSearchResult([]);
+		//             setNotFound(true);
+		//         } else {
+		//             setCategoryList(data.categories);
+		//             setNotFound(false);
+		//         }
+		//     } catch (error) {
+		//         setNotFound(true);
+		//         toast.error(error.response.data);
+		//     }
+		// }
+		const value = event?.target?.value.toLowerCase() || null;
+		// if (value) {
+		searchCategories(value);
+		// }
+	}, 200);
 
-    function searchCategories(value: string) {
-        if (value) {
-            setSearchResult(categoryList.filter((c) => c.name.toLowerCase().match(value)));
-        } else {
-            setSearchResult(categoryList);
-        }
-    }
+	function searchCategories(value: string) {
+		if (value) {
+			setSearchResult(
+				categoryList.filter((c) => c.name.toLowerCase().match(value))
+			);
+		} else {
+			setSearchResult(categoryList);
+		}
+	}
 
-    return { categoryList, categorySearchResult, notFoundCategories, doSearchCategories };
+	return {
+		categoryList,
+		categorySearchResult,
+		notFoundCategories,
+		doSearchCategories,
+	};
 }

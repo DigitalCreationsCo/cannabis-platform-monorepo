@@ -36,13 +36,12 @@ spec:
           imagePullPolicy: Always
           terminationMessagePolicy: FallbackToLogsOnError
           resources:
-            {}
-            # limits:
-            #   cpu: '100m'
-            #   memory: '120Mi'
-            # requests:
-            #   cpu: '100m'
-            #   memory: '120Mi'
+            limits:
+              cpu: '100m'
+              memory: '120Mi'
+            requests:
+              cpu: '100m'
+              memory: '120Mi'
           ports:
             - name: image-port
               containerPort: 6031

@@ -121,12 +121,12 @@
 
 // export default CompleteDeliveryScreen;
 
-import { Text, View } from 'react-native'
+import { Text, View } from 'react-native';
 const CompleteDeliveryScreen = () => {
-  return (
-    <View>
-      <Text>CompleteDeliveryScreen</Text>
-    </View>
-  )
-}
-export default CompleteDeliveryScreen
+	return (
+		<View>
+			<Text>CompleteDeliveryScreen</Text>
+		</View>
+	);
+};
+export default CompleteDeliveryScreen;

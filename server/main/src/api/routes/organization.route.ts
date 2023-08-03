@@ -29,8 +29,8 @@ router.route('/:id').get(orgCtrl.getOrganizationById);
 router.route('/:id').delete(orgCtrl.deleteOrganizationById);
 
 router
-  .route('/zipcode/:zipcode&_:limit&_:radius')
-  .get(orgCtrl.getOrganizationsByZipcode);
+	.route('/zipcode/:zipcode&_:limit&_:radius')
+	.get(orgCtrl.getOrganizationsByZipcode);
 
 router.route('/:id/categories').get(orgCtrl.getCategoryList);
 

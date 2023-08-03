@@ -10,29 +10,32 @@ import CheckoutModal from './CheckoutModal';
 // import TipModal from "./TipModal";
 
 const MODAL_COMPONENTS = Object.freeze({
-    'SHOW_MODAL': () => <></>,
-    'CONFIRM_MODAL': () => <></>,
-    'SELECT_MODAL': () => <></>,
-    'TIP_MODAL': () => <></>,
-    'MESSAGE_BANNER': () => <></>,
-    'CHECK_AGE_MODAL': CheckAgeModal,
-    'CHECKOUT_MODAL': CheckoutModal,
-    'CART_MODAL': () => <></>,
-    'LOGIN_MODAL': () => <></>,
+	SHOW_MODAL: () => <></>,
+	CONFIRM_MODAL: () => <></>,
+	SELECT_MODAL: () => <></>,
+	TIP_MODAL: () => <></>,
+	MESSAGE_BANNER: () => <></>,
+	CHECK_AGE_MODAL: CheckAgeModal,
+	CHECKOUT_MODAL: CheckoutModal,
+	CART_MODAL: () => <></>,
+	LOGIN_MODAL: () => <></>,
 });
 
-    type ModalContainerProps = ModalStateProps & { 
-        dispatchCloseModal: () => void;
-    }
+type ModalContainerProps = ModalStateProps & {
+	dispatchCloseModal: () => void;
+};
 
 const ModalContainer = (props: ModalContainerProps) => {
-    const modalState = useSelector(selectModalState);
-    
-    const ModalComponent = useMemo<JSXElementConstructor<ModalContainerProps>>(() => MODAL_COMPONENTS[modalState.modalType], [modalState.modalType]);
+	const modalState = useSelector(selectModalState);
 
-    if (!modalState.modalType && !modalState.modalVisible) return <></>;
-    
-    return <ModalComponent {...modalState} {...props} />;
+	const ModalComponent = useMemo<JSXElementConstructor<ModalContainerProps>>(
+		() => MODAL_COMPONENTS[modalState.modalType],
+		[modalState.modalType]
+	);
+
+	if (!modalState.modalType && !modalState.modalVisible) return <></>;
+
+	return <ModalComponent {...modalState} {...props} />;
 };
 
 const mapStateToProps = selectModalState;

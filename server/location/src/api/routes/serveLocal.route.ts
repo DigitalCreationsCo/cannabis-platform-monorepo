@@ -14,15 +14,15 @@ Serve Local Data Routes
 router.route('/organizations').post(locationCtrl.getLocalOrganizations);
 
 router
-  .route('/organizations/record')
-  .post(locationCtrl.createOrganizationLocationRecord);
+	.route('/organizations/record')
+	.post(locationCtrl.createOrganizationLocationRecord);
 
 router
-  .route('/organizations/record')
-  .put(locationCtrl.updateOrganizationLocationRecord);
+	.route('/organizations/record')
+	.put(locationCtrl.updateOrganizationLocationRecord);
 
 router
-  .route('/organizations/:id')
-  .delete(locationCtrl.deleteOrganizationLocationRecord);
+	.route('/organizations/:id')
+	.delete(locationCtrl.deleteOrganizationLocationRecord);
 
 export default router;

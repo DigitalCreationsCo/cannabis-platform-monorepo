@@ -1,6 +1,6 @@
 function CopyRight() {
-    const companyName = 'Gras';
-    return <>{companyName} &#169; 2023</>;
+	const companyName = 'Gras';
+	return <>{companyName} &#169; 2023</>;
 }
 
 export default CopyRight;

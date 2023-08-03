@@ -15,8 +15,8 @@ config.watchFolders = [workspaceRoot];
 // config.resolver.extraNodeModules = appDependencyPackages;
 
 config.resolver.nodeModulesPaths = [
-    path.resolve(projectRoot, 'node_modules'),
-    path.resolve(workspaceRoot, 'node_modules'),
+	path.resolve(projectRoot, 'node_modules'),
+	path.resolve(workspaceRoot, 'node_modules'),
 ];
 
 config.resolver.disableHierarchicalLookup = true;

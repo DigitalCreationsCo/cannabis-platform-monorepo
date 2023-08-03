@@ -57,11 +57,11 @@
 //   );
 // }
 
-import { Text, View } from 'react-native'
+import { Text, View } from 'react-native';
 export default function PickupView() {
-  return (
-    <View>
-      <Text>PickupView</Text>
-    </View>
-  )
+	return (
+		<View>
+			<Text>PickupView</Text>
+		</View>
+	);
 }

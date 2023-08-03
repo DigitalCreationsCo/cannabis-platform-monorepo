@@ -6,40 +6,37 @@
 //   };
 // };
 
-const path = require("node:path");
+const path = require('node:path');
 
 module.exports = function (config) {
-    config.cache(true);
+	config.cache(true);
 
-    const nodeEnv = process.env.NODE_ENV || 'development';
+	const nodeEnv = process.env.NODE_ENV || 'development';
 
-    return {
-        presets: ['babel-preset-expo', '@babel/preset-typescript'],
-        plugins: [
-            "nativewind/babel",
-            'react-native-reanimated/plugin',
-        ],
-        env: {
-            development: {
-                plugins: [
-                    [
-                        'inline-dotenv',
-                        {
-                            path: path.resolve(__dirname, '../../.env.' + nodeEnv)
-                        }
-                    ]
-                ],
-            },
-            production: {
-                plugins: [
-                    [
-                        'inline-dotenv',
-                        {
-                            path: path.resolve(__dirname, '../../.env.' + nodeEnv)
-                        }
-                    ]
-                ],
-            }
-        }
-    };
+	return {
+		presets: ['babel-preset-expo', '@babel/preset-typescript'],
+		plugins: ['nativewind/babel', 'react-native-reanimated/plugin'],
+		env: {
+			development: {
+				plugins: [
+					[
+						'inline-dotenv',
+						{
+							path: path.resolve(__dirname, '../../.env.' + nodeEnv),
+						},
+					],
+				],
+			},
+			production: {
+				plugins: [
+					[
+						'inline-dotenv',
+						{
+							path: path.resolve(__dirname, '../../.env.' + nodeEnv),
+						},
+					],
+				],
+			},
+		},
+	};
 };

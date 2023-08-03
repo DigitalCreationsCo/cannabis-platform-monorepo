@@ -62,11 +62,11 @@
 //   },
 // });
 
-import { Text, View } from 'react-native'
+import { Text, View } from 'react-native';
 export default function ContinueToCustomerView() {
-  return (
-    <View>
-      <Text>ContinueToCustomerView</Text>
-    </View>
-  )
+	return (
+		<View>
+			<Text>ContinueToCustomerView</Text>
+		</View>
+	);
 }

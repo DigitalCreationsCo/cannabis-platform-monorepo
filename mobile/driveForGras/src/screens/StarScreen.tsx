@@ -26,12 +26,12 @@
 
 // export default StarScreen;
 
-import { Text, View } from 'react-native'
+import { Text, View } from 'react-native';
 const StarScreen = () => {
-  return (
-    <View>
-      <Text>StarScreen</Text>
-    </View>
-  )
-}
-export default StarScreen
+	return (
+		<View>
+			<Text>StarScreen</Text>
+		</View>
+	);
+};
+export default StarScreen;

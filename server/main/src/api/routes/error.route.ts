@@ -1,5 +1,5 @@
-import { Router } from "express";
-import { orgCtrl } from "../controllers";
+import { Router } from 'express';
+import { orgCtrl } from '../controllers';
 const router = Router();
 /* =================================
 Error Handling Test Routes
@@ -10,17 +10,17 @@ Error Handling Test Routes
 "/200"              200 Ok
 
 ================================= */
-router.route("/badParam/:id").get((req, res) => {
-    res.status(404).json("Bad query parameter.");
-})
-router.route("/500").get((req, res) => {
-    res.status(500).json("An error occurred.");
+router.route('/badParam/:id').get((req, res) => {
+	res.status(404).json('Bad query parameter.');
 });
-router.route("/200WithError").get((req, res) => {
-    res.status(200).json("An error occurred.");
-})
-router.route("/200").get((req, res) => {
-    res.status(200).json("ok");
-})
+router.route('/500').get((req, res) => {
+	res.status(500).json('An error occurred.');
+});
+router.route('/200WithError').get((req, res) => {
+	res.status(200).json('An error occurred.');
+});
+router.route('/200').get((req, res) => {
+	res.status(200).json('ok');
+});
 
 export default router;

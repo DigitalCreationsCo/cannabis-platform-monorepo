@@ -21,9 +21,9 @@
 // });
 
 test('create or update a dispensary admin user fails with incomplete data', async () => {
-  // const result = await prismaMock.organization.findUnique.mockResolvedValue(_orgUpsert)
-  // await expect(createorupdateDispensaryAdmin(_incompleteUserCreate, {})).resolves.toEqual(_orgUpsert);
-  await expect(Promise.resolve(1)).resolves.toEqual(1);
+	// const result = await prismaMock.organization.findUnique.mockResolvedValue(_orgUpsert)
+	// await expect(createorupdateDispensaryAdmin(_incompleteUserCreate, {})).resolves.toEqual(_orgUpsert);
+	await expect(Promise.resolve(1)).resolves.toEqual(1);
 });
 
 export {};

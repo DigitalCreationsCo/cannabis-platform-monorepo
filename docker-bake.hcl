@@ -183,12 +183,12 @@ target "supertokens" {
     dockerfile = "Dockerfile.supertokens"
     output = ["type=registry"]
     tags = [
-        "${REGISTRY}/supertokens-postgres:${CI_COMMIT_SHA}",
+        "${REGISTRY}/supertokens:3.14",
     ]
     cache-from = [
-        "type=registry,ref=${REGISTRY_NAME}/supertokens-postgres:${CI_COMMIT_SHA}"
+        "type=registry,ref=${REGISTRY_NAME}/supertokens:3.14"
     ]
     cache-to=[
-        "type=registry,ref=${REGISTRY_NAME}/supertokens-postgres:${CI_COMMIT_SHA}"
+        "type=registry,ref=${REGISTRY_NAME}/supertokens:3.14"
     ]
 }

@@ -1,8 +1,12 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const Flower = ({ size = 28, color = 'green' }) => (
-  <MaterialCommunityIcons name="flower" size={size} color={color} fill={color} />
+	<MaterialCommunityIcons
+		name="flower"
+		size={size}
+		color={color}
+		fill={color}
+	/>
 );
 
-
-export default Flower 
+export default Flower;

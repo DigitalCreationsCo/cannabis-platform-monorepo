@@ -1,5 +1,5 @@
-import { Router } from "express";
-import { driverCtrl } from "../controllers";
+import { Router } from 'express';
+import { driverCtrl } from '../controllers';
 const router = Router();
 /* =================================
 Driver Routes
@@ -20,8 +20,6 @@ router.route('/').put(driverCtrl.updateDriver);
 
 router.route('/:id').get(driverCtrl.getDriverById);
 
-router.route("/status").post(driverCtrl.updateStatus);
-
-
+router.route('/status').post(driverCtrl.updateStatus);
 
 export default router;
