@@ -54,6 +54,7 @@ export default class ImageController {
       console.info(error);
       res.status(200).json({
         success: false,
+        message: error.message,
         error: error.message,
       });
     }

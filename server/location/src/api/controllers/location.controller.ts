@@ -75,8 +75,12 @@ export default class LocationController {
         payload: data,
       });
     } catch (error: any) {
-      console.info('API error: ', error);
-      res.status(500).json({ error });
+      console.info("createOrganizationLocationRecord error: ", error);
+      res.status(500).json({
+        success: false,
+        message: error.message,
+        error: error.message
+      });
     }
   }
 
@@ -98,7 +102,11 @@ export default class LocationController {
       });
     } catch (error: any) {
       console.info('API error: ', error);
-      res.status(500).json({ error });
+      res.status(500).json({
+        success: false,
+        message: error.message,
+        error: error.message
+      });
     }
   }
 
@@ -122,7 +130,11 @@ export default class LocationController {
       });
     } catch (error: any) {
       console.info('API error: ', error);
-      res.status(500).json({ error });
+      res.status(500).json({
+        success: false,
+        message: error.message,
+        error: error.message
+      });
     }
   }
 }
