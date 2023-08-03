@@ -1,10 +1,6 @@
 import {
-	AddressCreateType,
-	AddressWithCoordinates,
-	Coordinates,
-	Prisma
+	AddressCreateType, AddressPayload, Coordinates
 } from '@cd/data-access';
-import { AddressPayload } from 'reduxDir';
 import { axios } from '../axiosInstance';
 
 export async function getGeoCoordinatesFromAddress(

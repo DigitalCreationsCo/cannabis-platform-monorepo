@@ -42,23 +42,12 @@ export type LocationType = {
 	};
 };
 
-export type AddressPayload = {
-	street1: string;
-	street2: string | null;
-	city: string;
-	state: string;
-	zipcode: number;
-	country: string;
-	countryCode: string | null;
-	coordinates: { latitude: number; longitude: number };
-};
-
 export type LocationStateProps = {
 	radius: number;
 	selectLocationType:
-		| typeof locationTypes.HOME_LOCATION
-		| typeof locationTypes.CURRENT_LOCATION
-		| typeof locationTypes.GIFT_LOCATION;
+	| typeof locationTypes.HOME_LOCATION
+	| typeof locationTypes.CURRENT_LOCATION
+	| typeof locationTypes.GIFT_LOCATION;
 	homeLocation: LocationType;
 	currentLocation: LocationType;
 	giftLocation: LocationType;
