@@ -17,30 +17,30 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 			const blogs = cache.get(`blogs/latest`);
 			return res.status(200).json({
 				success: true,
-				payload: blogs
+				payload: blogs,
 			});
 		}
 
 		const blogs = await prisma.article.findMany({
 			where: { tag: 'news' },
 			include: {
-				image: true
+				image: true,
 			},
 			orderBy: {
-				updatedAt: 'desc'
-			}
+				updatedAt: 'desc',
+			},
 		});
 
 		cache.set(`blogs/latest`, blogs);
 		return res.status(res.statusCode).json({
 			success: true,
-			payload: blogs
+			payload: blogs,
 		});
 	} catch (error: any) {
 		console.error('/blog GET error: ', error.message);
 		return res.json({
 			success: false,
-			error: error.message
+			error: error.message,
 		});
 	}
 });

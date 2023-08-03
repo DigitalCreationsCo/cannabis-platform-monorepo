@@ -7,10 +7,10 @@ const getDefaultIgnorePatterns = () => {
 		'**/build',
 		'**/dist',
 		'**/.storybook',
-		'**/storybook-static'
+		'**/storybook-static',
 	];
 };
 
 module.exports = {
-	getDefaultIgnorePatterns
+	getDefaultIgnorePatterns,
 };

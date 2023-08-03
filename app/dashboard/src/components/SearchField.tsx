@@ -20,7 +20,7 @@ function SearchBar({ placeholder = 'Search', onChange }: SearchBarProps) {
 				'h-[51px]',
 				'bg-light lg:shadow-md',
 				'py-2 pl-4',
-				isFocused ? focused : 'border border-transparent'
+				isFocused ? focused : 'border border-transparent',
 			])}
 		>
 			<IconWrapper Icon={Icons.Search} />

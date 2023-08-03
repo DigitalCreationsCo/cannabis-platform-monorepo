@@ -13,7 +13,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 			req.body,
 			{
 				validateStatus: (status) =>
-					(status >= 200 && status <= 302) || status == 404
+					(status >= 200 && status <= 302) || status == 404,
 			}
 		);
 

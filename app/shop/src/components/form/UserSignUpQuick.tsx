@@ -9,7 +9,7 @@ import {
 	styles,
 	TermsAgreement,
 	TextField,
-	useFormContext
+	useFormContext,
 } from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import { useEffect, useRef, useState } from 'react';
@@ -47,7 +47,7 @@ function UserSignUpQuickForm() {
 		phone: formValues?.newUser?.phone || '',
 		dialCode: '1',
 		termsAccepted: false,
-		profilePicture: {}
+		profilePicture: {},
 	};
 
 	const validationSchema = yup.object().shape({
@@ -81,7 +81,7 @@ function UserSignUpQuickForm() {
 		profilePicture: yup
 			.string()
 			.required(`You didn't select a profile picture`)
-			.typeError(`You didn't select a profile picture`)
+			.typeError(`You didn't select a profile picture`),
 	});
 
 	const onSubmit = async (values: typeof initialValues) => {
@@ -91,9 +91,9 @@ function UserSignUpQuickForm() {
 				newUser: {
 					...values,
 					profilePicture: {
-						location: values.profilePicture
-					}
-				}
+						location: values.profilePicture,
+					},
+				},
 			});
 			setLoadingButton(false);
 			nextFormStep();
@@ -114,11 +114,11 @@ function UserSignUpQuickForm() {
 		handleChange,
 		handleSubmit,
 		validateForm,
-		setFieldValue
+		setFieldValue,
 	} = useFormik({
 		initialValues,
 		onSubmit,
-		validationSchema
+		validationSchema,
 	});
 
 	function notifyValidation() {

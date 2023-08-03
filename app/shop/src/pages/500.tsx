@@ -14,7 +14,7 @@ function _500() {
 }
 
 _500.getLayoutContext = (): LayoutContextProps => ({
-	showHeader: false
+	showHeader: false,
 });
 
 export default _500;

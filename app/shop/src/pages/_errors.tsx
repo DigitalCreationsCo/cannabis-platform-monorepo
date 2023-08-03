@@ -4,7 +4,7 @@ import { type NextPageContext } from 'next';
 
 function Error({
 	statusCode,
-	message
+	message,
 }: {
 	statusCode: number;
 	message: string;
@@ -44,7 +44,7 @@ Error.getInitialProps = ({ res, err }: NextPageContext) => {
 };
 
 Error.getLayoutContext = (): LayoutContextProps => ({
-	showHeader: false
+	showHeader: false,
 });
 
 export default Error;

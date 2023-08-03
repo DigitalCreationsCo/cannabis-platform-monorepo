@@ -25,7 +25,7 @@
 // // });
 
 describe('/api/products', () => {
-    test('getProducts - axios sends the correct server call', async () => {
-        expect('1').toEqual('1');
-    });
+	test('getProducts - axios sends the correct server call', async () => {
+		expect('1').toEqual('1');
+	});
 });

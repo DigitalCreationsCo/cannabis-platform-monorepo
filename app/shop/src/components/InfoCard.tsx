@@ -16,11 +16,11 @@ function InfoCard({ data: info, className }: InfoCardProps) {
 	const styles = {
 		dispensarycard: [
 			'relative',
-			'w-[200px] md:min-w-[264px] md:w-[340px] h-[220px] p-4 !rounded'
+			'w-[200px] md:min-w-[264px] md:w-[340px] h-[220px] p-4 !rounded',
 		],
 		isOpenBadge: [
-			'text-inverse border-2 tracking-wider z-5 top-0 right-0 p-3 m-3 badge absolute'
-		]
+			'text-inverse border-2 tracking-wider z-5 top-0 right-0 p-3 m-3 badge absolute',
+		],
 	};
 
 	return (
@@ -32,7 +32,7 @@ function InfoCard({ data: info, className }: InfoCardProps) {
 				className={twMerge([
 					styles.dispensarycard,
 					'rounded hover:scale-101 transition duration-500',
-					className
+					className,
 				])}
 			>
 				<ImageBackDrop src={info.image.location || logo.src}>
@@ -53,7 +53,7 @@ function InfoCard({ data: info, className }: InfoCardProps) {
 
 const ImageBackDrop = ({
 	src,
-	children
+	children,
 }: { src: string } & PropsWithChildren) => {
 	return (
 		<div className="absolute left-0 top-0 h-full w-full">
@@ -70,7 +70,7 @@ const ImageBackDrop = ({
 					height: '100%',
 					width: '100%',
 					left: '0',
-					top: '0'
+					top: '0',
 				}}
 			></div>
 			{children}

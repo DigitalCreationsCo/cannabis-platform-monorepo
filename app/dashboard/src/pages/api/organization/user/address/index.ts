@@ -15,8 +15,8 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 		const formData: AddressCreateType = req.body;
 		const { data } = await axios.post(urlBuilder.main.address(), formData, {
 			headers: {
-				'Content-Type': 'application/json'
-			}
+				'Content-Type': 'application/json',
+			},
 		});
 		return res.status(res.statusCode).json(data);
 	} catch (error: any) {

@@ -1,4 +1,4 @@
-import { } from '@carbon/icons-react';
+import {} from '@carbon/icons-react';
 import { selectCartState, TextContent } from '@cd/core-lib';
 import { type ProductVariantWithDetails } from '@cd/data-access';
 import { Grid, Paragraph, ProductItem } from '@cd/ui-lib';
@@ -46,5 +46,5 @@ export default RenderCart;
 const styles = {
 	// cartContainer: 'min-w-full flex flex-col lg:px-8',
 	cartContainer: 'px-8 pb-4 space-y-4',
-	cartGrid: 'grid grid-cols-2 items-stretch gap-2 md:gap-8 md:w-full m-auto'
+	cartGrid: 'grid grid-cols-2 items-stretch gap-2 md:gap-8 md:w-full m-auto',
 };

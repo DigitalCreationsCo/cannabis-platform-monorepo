@@ -1,4 +1,4 @@
-function formatDispensaryUrl(subdomainId: string, organizationId: string) {
+function formatDispensaryUrl(subdomainId: string, organizationId?: string) {
   switch (process.env.NODE_ENV) {
     case 'development':
       // return `http://localhost:3000/browse/${subdomainId}/${organizationId}`;

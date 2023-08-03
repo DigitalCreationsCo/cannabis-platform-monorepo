@@ -21,8 +21,8 @@ import nc from 'next-connect';
 // }
 
 interface ExtendApiRequest extends NextApiRequest {
-    // files: Express.MulterS3.File[];
-    files: ImageProduct[];
+	// files: Express.MulterS3.File[];
+	files: ImageProduct[];
 }
 
 const handler = nc();
@@ -31,25 +31,32 @@ const handler = nc();
 
 // update product route
 handler.put(async (req: ExtendApiRequest, res: NextApiResponse) => {
-    try {
-        res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
-        const { id } = req.query;
-        const { data } = await axios.put(urlBuilder.main.productUpdate(id), req, {
-            responseType: 'stream',
-            headers: {
-                'Content-Type': req.headers['content-type']
-            }
-        });
-        data.pipe(res);
-    } catch (error: any) {
-        console.error('product-upload-api error: ', error.message);
-        throw new Error(error.message);
-    }
+	try {
+		res.setHeader(
+			'Cache-Control',
+			'public, s-maxage=10, stale-while-revalidate=59'
+		);
+		const { id } = req.query;
+		const { data } = await axios.put(
+			urlBuilder.main.productUpdate(id),
+			req,
+			{
+				responseType: 'stream',
+				headers: {
+					'Content-Type': req.headers['content-type'],
+				},
+			}
+		);
+		data.pipe(res);
+	} catch (error: any) {
+		console.error('product-upload-api error: ', error.message);
+		throw new Error(error.message);
+	}
 });
 
 export const config = {
-    api: {
-        bodyParser: false
-    }
+	api: {
+		bodyParser: false,
+	},
 };
 export default handler;

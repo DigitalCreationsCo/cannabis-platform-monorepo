@@ -5,7 +5,7 @@ import {
 	H2,
 	type LayoutContextProps,
 	Page,
-	Small
+	Small,
 } from '@cd/ui-lib';
 import { twMerge } from 'tailwind-merge';
 
@@ -49,11 +49,11 @@ function UserTermsAndConditions() {
 }
 
 UserTermsAndConditions.getLayoutContext = (): LayoutContextProps => ({
-	showHeader: false
+	showHeader: false,
 });
 
 export default UserTermsAndConditions;
 
 const styles = {
-	gradient: ['bg-gradient-to-b', 'from-primary', 'to-secondary']
+	gradient: ['bg-gradient-to-b', 'from-primary', 'to-secondary'],
 };

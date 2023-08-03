@@ -1,7 +1,7 @@
 import {
 	checkIsDispensaryOpen,
 	formatDispensaryUrl,
-	renderAddress
+	renderAddress,
 } from '@cd/core-lib';
 import { type OrganizationWithShopDetails } from '@cd/data-access';
 import { Card, FlexBox, H2, Paragraph } from '@cd/ui-lib';
@@ -19,11 +19,11 @@ function DispensaryCard({ data: dispensary, className }: DispensaryCardProps) {
 	const styles = {
 		dispensarycard: [
 			'relative',
-			'w-[240px] md:min-w-[340px] md:w-[340px] h-[220px] p-4 !rounded'
+			'w-[240px] md:min-w-[340px] md:w-[340px] h-[220px] p-4 !rounded',
 		],
 		isOpenBadge: [
-			'text-inverse border-2 tracking-wider z-5 top-0 right-0 p-3 m-3 badge absolute'
-		]
+			'text-inverse border-2 tracking-wider z-5 top-0 right-0 p-3 m-3 badge absolute',
+		],
 	};
 
 	return (
@@ -38,7 +38,7 @@ function DispensaryCard({ data: dispensary, className }: DispensaryCardProps) {
 				className={twMerge([
 					styles.dispensarycard,
 					'rounded hover:scale-101 transition duration-500',
-					className
+					className,
 				])}
 			>
 				<ImageBackDrop
@@ -59,7 +59,7 @@ function DispensaryCard({ data: dispensary, className }: DispensaryCardProps) {
 								address: dispensary?.address,
 								showCountry: false,
 								showZipcode: false,
-								lineBreak: true
+								lineBreak: true,
 							})}
 						</Paragraph>
 					</FlexBox>
@@ -71,7 +71,7 @@ function DispensaryCard({ data: dispensary, className }: DispensaryCardProps) {
 
 const ImageBackDrop = ({
 	src,
-	children
+	children,
 }: { src: string } & PropsWithChildren) => {
 	return (
 		<div className="absolute left-0 top-0 h-full w-full">
@@ -88,7 +88,7 @@ const ImageBackDrop = ({
 					height: '100%',
 					width: '100%',
 					left: '0',
-					top: '0'
+					top: '0',
 				}}
 			></div>
 			{children}

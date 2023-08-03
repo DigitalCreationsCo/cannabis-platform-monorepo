@@ -2,9 +2,9 @@ import { config } from 'dotenv';
 import { expand } from 'dotenv-expand';
 import withTranspiledModules from 'next-transpile-modules';
 import {
-  PHASE_DEVELOPMENT_SERVER,
-  PHASE_PRODUCTION_BUILD,
-  PHASE_TEST
+	PHASE_DEVELOPMENT_SERVER,
+	PHASE_PRODUCTION_BUILD,
+	PHASE_TEST,
 } from 'next/constants.js';
 import path from 'path';
 import { fileURLToPath } from 'url';

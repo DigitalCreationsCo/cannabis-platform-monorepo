@@ -15,7 +15,7 @@ function CategoriesSelector() {
 				'Concentrates',
 				'Edibles',
 				'Topicals',
-				'Vapes'
+				'Vapes',
 			].map((category, index) => (
 				<Button
 					key={category + index}

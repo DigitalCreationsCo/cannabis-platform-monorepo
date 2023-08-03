@@ -1,36 +1,36 @@
 .image:
-  variables:
-    MODULE_PATH: server/image
+    variables:
+        MODULE_PATH: server/image
 
 lint-image:
-  extends:
-    - .image
-    - .lint
-  only:
-    changes:
-      - server/image/**/*
-    refs:
-      - merge_requests
-      - master
+    extends:
+        - .image
+        - .lint
+    only:
+        changes:
+            - server/image/**/*
+        refs:
+            - merge_requests
+            - master
 
 test-image:type:
-  extends:
-    - .image
-    - .type-tests
-  only:
-    changes:
-      - server/image/**/*
-    refs:
-      - merge_requests
-      - master
-      
+    extends:
+        - .image
+        - .type-tests
+    only:
+        changes:
+            - server/image/**/*
+        refs:
+            - merge_requests
+            - master
+
 test-image:unit:
-  extends:
-    - .image
-    - .unit-tests
-  only:
-    changes:
-      - server/image/**/*
-    refs:
-      - merge_requests
-      - master
+    extends:
+        - .image
+        - .unit-tests
+    only:
+        changes:
+            - server/image/**/*
+        refs:
+            - merge_requests
+            - master

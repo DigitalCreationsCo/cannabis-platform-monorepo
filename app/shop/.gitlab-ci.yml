@@ -1,36 +1,36 @@
 .shop:
-  variables:
-    MODULE_PATH: apps/shop
+    variables:
+        MODULE_PATH: apps/shop
 
 lint-shop:
-  extends:
-    - .shop
-    - .lint
-  only:
-    changes:
-      - apps/shop/**/*
-    refs:
-      - merge_requests
-      - master
+    extends:
+        - .shop
+        - .lint
+    only:
+        changes:
+            - apps/shop/**/*
+        refs:
+            - merge_requests
+            - master
 
 test-shop:type:
-  extends:
-    - .shop
-    - .type-tests
-  only:
-    changes:
-      - apps/shop/**/*
-    refs:
-      - merge_requests
-      - master
-      
+    extends:
+        - .shop
+        - .type-tests
+    only:
+        changes:
+            - apps/shop/**/*
+        refs:
+            - merge_requests
+            - master
+
 test-shop:unit:
-  extends:
-    - .shop
-    - .unit-tests
-  only:
-    changes:
-      - apps/shop/**/*
-    refs:
-      - merge_requests
-      - master
+    extends:
+        - .shop
+        - .unit-tests
+    only:
+        changes:
+            - apps/shop/**/*
+        refs:
+            - merge_requests
+            - master

@@ -13,7 +13,7 @@ type CartItemProps = {
 
 function CartItem({
 	product,
-	className
+	className,
 }: // editable = false,
 // handleConfirm
 CartItemProps & PropsWithChildren) {

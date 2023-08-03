@@ -26,7 +26,7 @@ function AgeNotEnough() {
 }
 
 AgeNotEnough.getLayoutContext = (): LayoutContextProps => ({
-	showHeader: false
+	showHeader: false,
 });
 
 export default AgeNotEnough;
