@@ -1,13 +1,13 @@
 # # adopt these good caching practices: https://docs.gitlab.com/ee/ci/caching/#good-caching-practices
-# .yarn-cache:
-#     stage: cache
-#     image: node:16
-#     script:
-#         - yarn --immutable
-#     cache:
-#         key:
-#             files:
-#                 - yarn.lock
-#         paths:
-#             - .yarn/cache/
-#             - node_modules/
+.yarn-cache:
+    stage: cache
+    image: node:16
+    script:
+        - yarn --immutable
+    cache:
+        key:
+            files:
+                - yarn.lock
+        paths:
+            - .yarn/cache/
+            - node_modules/
