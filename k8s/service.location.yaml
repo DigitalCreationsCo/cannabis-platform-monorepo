@@ -2,77 +2,77 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: gras-server-location
+    name: gras-server-location
 spec:
-  type: ClusterIP
-  selector:
-    app: gras-server-location
-  ports:
-    - protocol: TCP
-      port: 8080
-      targetPort: location-port
+    type: ClusterIP
+    selector:
+        app: gras-server-location
+    ports:
+        - protocol: TCP
+          port: 8080
+          targetPort: location-port
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app: gras-server-location
-  name: gras-server-location
-  namespace: default
-spec:
-  selector:
-    matchLabels:
-      app: gras-server-location
-  replicas: 2
-  template:
-    metadata:
-      labels:
+    labels:
         app: gras-server-location
-    spec:
-      serviceAccountName: default
-      containers:
-        - name: gras-server-location
-          image: grasadmin/location:latest
-          imagePullPolicy: Always
-          terminationMessagePolicy: FallbackToLogsOnError
-          env: 
-            - name: DEBUG
-              value: com.supertokens
-          resources:
-            limits:
-              cpu: '100m'
-              memory: '120Mi'
-            requests:
-              cpu: '100m'
-              memory: '120Mi'
-          ports:
-            - name: location-port
-              containerPort: 6011
+    name: gras-server-location
+    namespace: default
+spec:
+    selector:
+        matchLabels:
+            app: gras-server-location
+    replicas: 2
+    template:
+        metadata:
+            labels:
+                app: gras-server-location
+        spec:
+            serviceAccountName: default
+            containers:
+                - name: gras-server-location
+                  image: grasadmin/location:latest
+                  imagePullPolicy: Always
+                  terminationMessagePolicy: FallbackToLogsOnError
+                  # env:
+                  #   - name: DEBUG
+                  #     value: com.supertokens
+                  resources:
+                      limits:
+                          cpu: '100m'
+                          memory: '120Mi'
+                      requests:
+                          cpu: '100m'
+                          memory: '120Mi'
+                  ports:
+                      - name: location-port
+                        containerPort: 6011
 
-          livenessProbe:
-            httpGet:
-              path: /api/v1/healthcheck
-              port: location-port
-            failureThreshold: 2
-            initialDelaySeconds: 20
-            periodSeconds: 10
-            timeoutSeconds: 3
+                  livenessProbe:
+                      httpGet:
+                          path: /api/v1/healthcheck
+                          port: location-port
+                      failureThreshold: 2
+                      initialDelaySeconds: 20
+                      periodSeconds: 10
+                      timeoutSeconds: 3
 
-          readinessProbe:
-            httpGet:
-              path: /api/v1/healthcheck
-              port: location-port
-            failureThreshold: 2
-            initialDelaySeconds: 20
-            periodSeconds: 10
-            timeoutSeconds: 3
-      affinity:
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
-                matchExpressions:
-                  - key: 'app'
-                    operator: In
-                    values:
-                      - gras-server-location
-              topologyKey: 'kubernetes.io/hostname'
+                  readinessProbe:
+                      httpGet:
+                          path: /api/v1/healthcheck
+                          port: location-port
+                      failureThreshold: 2
+                      initialDelaySeconds: 20
+                      periodSeconds: 10
+                      timeoutSeconds: 3
+            affinity:
+                podAntiAffinity:
+                    requiredDuringSchedulingIgnoredDuringExecution:
+                        - labelSelector:
+                              matchExpressions:
+                                  - key: 'app'
+                                    operator: In
+                                    values:
+                                        - gras-server-location
+                          topologyKey: 'kubernetes.io/hostname'

@@ -5,5 +5,5 @@ const getPrettierConfig = () => {
 };
 
 module.exports = {
-	getPrettierConfig
+	getPrettierConfig,
 };

@@ -17,18 +17,19 @@ import { useState } from 'react';
 type SiteSettingsDashboardProps = Record<string, unknown>;
 
 export default function SiteSettings() {
-    const [selectTab, setSelectTab] = useState('general');
+	const [selectTab, setSelectTab] = useState('general');
 
-    return (
-            <Page>
-                <PageHeader
-                    title="Site Settings"
-                    Icon={Icons.CategoryOutlined}
-                    // navigation={ <AdminDashboardNavigation /> }
-                />
-                <Card className="h-[200px]">
-                    Dispensary staff can edit their storefront and site settings here
-                    {/* <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+	return (
+		<Page>
+			<PageHeader
+				title="Site Settings"
+				Icon={Icons.CategoryOutlined}
+				// navigation={ <AdminDashboardNavigation /> }
+			/>
+			<Card className="h-[200px]">
+				Dispensary staff can edit their storefront and site settings
+				here
+				{/* <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <TabList onChange={(_, value) => setSelectTab(value)} variant="scrollable">
                 <Tab label="General" value="general" disableRipple />
                 <Tab label="Topbar" value="topbar" disableRipple />
@@ -38,7 +39,7 @@ export default function SiteSettings() {
                 <Tab label="Shipping & Vat" value="shipping-vat" disableRipple />
             </TabList>
         </Box> */}
-                </Card>
-            </Page>
-    );
+			</Card>
+		</Page>
+	);
 }

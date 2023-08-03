@@ -7,7 +7,7 @@ import {
 	type LayoutContextProps,
 	Page,
 	Paragraph,
-	Small
+	Small,
 } from '@cd/ui-lib';
 import axios from 'axios';
 import logo from '../../../public/logo.png';
@@ -40,7 +40,7 @@ export async function getStaticPaths() {
 	if (process.env.SKIP_BUILD_STATIC_GENERATION) {
 		return {
 			paths: [],
-			fallback: 'blocking'
+			fallback: 'blocking',
 		};
 	}
 
@@ -49,7 +49,7 @@ export async function getStaticPaths() {
 
 	const blogs = response.data.payload;
 	const paths = blogs?.map((blog: ArticleWithDetails) => ({
-		params: { id: blog.id.toString() }
+		params: { id: blog.id.toString() },
 	}));
 
 	return { paths, fallback: false };
@@ -62,7 +62,7 @@ export async function getStaticProps({ params }: { params: { id: string } }) {
 }
 
 BlogArticle.getLayoutContext = (): LayoutContextProps => ({
-	showHeader: false
+	showHeader: false,
 });
 
 export default BlogArticle;

@@ -24,7 +24,7 @@ function DispensaryListCarousel({ title, list }: DispensaryListProps) {
 	};
 
 	const styles = {
-		carouselButton: 'px-6 hidden sm:block'
+		carouselButton: 'px-6 hidden sm:block',
 	};
 	return (
 		<>

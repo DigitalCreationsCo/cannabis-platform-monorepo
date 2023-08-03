@@ -28,7 +28,7 @@
 // //     test('PUT /organization return the correct server call', async () => {
 // //         const { req, res } = createMocks({
 // //             method: 'PUT',
-// //             
+// //
 // //         });
 // //         await organizationHandler(req, res);
 // //         expect(axios).toHaveBeenLastCalledWith(urlBuilder.main.organizationById('2'));
@@ -49,7 +49,7 @@
 // // });
 
 describe('/api/organization', () => {
-    test('getOrganizationById - axios sends the correct server call', async () => {
-        expect('1').toEqual('1');
-    });
+	test('getOrganizationById - axios sends the correct server call', async () => {
+		expect('1').toEqual('1');
+	});
 });

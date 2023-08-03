@@ -3,7 +3,7 @@ import {
 	selectSelectedLocationState,
 	selectShopState,
 	shopActions,
-	type AddressPayload
+	type AddressPayload,
 } from '@cd/core-lib';
 import { getGeoAddressFromCoordinates } from '@cd/core-lib/src/utils/geo';
 import { type AnyAction } from '@reduxjs/toolkit';
@@ -48,12 +48,12 @@ const LocationProvider = () => {
 					dispatch(
 						locationActions.setCurrentCoordinates({
 							latitude: position.coords.latitude,
-							longitude: position.coords.longitude
+							longitude: position.coords.longitude,
 						})
 					);
 					getGeoAddressFromCoordinates({
 						latitude: position.coords.latitude,
-						longitude: position.coords.longitude
+						longitude: position.coords.longitude,
 					})
 						.then((address) =>
 							dispatch(
@@ -98,7 +98,7 @@ const LocationProvider = () => {
 		dispatch,
 		enteredSite,
 		shopState.isError,
-		shopState.isLoading
+		shopState.isLoading,
 	]);
 	return <></>;
 };

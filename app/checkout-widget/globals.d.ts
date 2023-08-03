@@ -1,7 +1,7 @@
 interface Window {
-  grasWidget: any;
-  attachEvent(event: string, callback: () => void): void;
+	grasWidget: any;
+	attachEvent(event: string, callback: () => void): void;
 }
 
 declare module 'dist/index.css';
-declare module '*.png'
+declare module '*.png';

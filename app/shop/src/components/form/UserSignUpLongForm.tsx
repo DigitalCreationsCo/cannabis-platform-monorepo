@@ -1,6 +1,6 @@
 import {
 	type AddressUserCreateType,
-	type UserCreateType
+	type UserCreateType,
 } from '@cd/data-access';
 import {
 	Button,
@@ -11,7 +11,7 @@ import {
 	H6,
 	Paragraph,
 	TermsAgreement,
-	TextField
+	TextField,
 } from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import { useState } from 'react';
@@ -33,7 +33,7 @@ function UserSignUpForm() {
 		termsAccepted: false,
 		profilePicture: {
 			id: '',
-			location: ''
+			location: '',
 		},
 		address: {
 			id: '',
@@ -45,13 +45,13 @@ function UserSignUpForm() {
 			country: 'United States',
 			countryCode: 'US',
 			userId: '',
-			coordinateId: ''
+			coordinateId: '',
 		},
 		emailVerified: false,
 		isLegalAge: false,
 		idVerified: false,
 		isSignUpComplete: false,
-		memberships: []
+		memberships: [],
 	};
 
 	const validationSchema = yup.object().shape({
@@ -92,8 +92,8 @@ function UserSignUpForm() {
 				.required('zipcode is required')
 				.length(5, 'zipcode must be 5 digits'),
 			country: yup.string().required('country is required'),
-			countryCode: yup.string().required('country code is required')
-		})
+			countryCode: yup.string().required('country code is required'),
+		}),
 	});
 
 	const {
@@ -103,11 +103,11 @@ function UserSignUpForm() {
 		handleBlur,
 		handleChange,
 		handleSubmit,
-		validateForm
+		validateForm,
 	} = useFormik({
 		initialValues,
 		onSubmit,
-		validationSchema
+		validationSchema,
 	});
 
 	function notifyValidation() {

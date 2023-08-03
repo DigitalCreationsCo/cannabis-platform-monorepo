@@ -8,7 +8,7 @@ function SurveyPage() {
 
 	const surveys = {
 		'green-survey': 'NQO1838X',
-		'test-embed': 'xdfP8Tia'
+		'test-embed': 'xdfP8Tia',
 	};
 	return (
 		<Page className="m-0 !p-0 sm:!p-0 md:!p-0 lg:!p-0">
@@ -28,7 +28,7 @@ function SurveyPage() {
 
 SurveyPage.getLayoutContext = (): LayoutContextProps => ({
 	showHeader: false,
-	showSideNav: false
+	showSideNav: false,
 });
 
 export default SurveyPage;

@@ -5,7 +5,7 @@ import {
 	type LayoutContextProps,
 	Padding,
 	Page,
-	Paragraph
+	Paragraph,
 } from '@cd/ui-lib';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
@@ -51,11 +51,11 @@ function SettingsPage() {
 
 const styles = {
 	settings_button: 'flex justify-center h-20 w-full sm:w-40 border rounded',
-	active: 'hover:shadow'
+	active: 'hover:shadow',
 };
 
 SettingsPage.getLayoutContext = (): LayoutContextProps => ({
-	showHeader: false
+	showHeader: false,
 });
 
 export default SettingsPage;

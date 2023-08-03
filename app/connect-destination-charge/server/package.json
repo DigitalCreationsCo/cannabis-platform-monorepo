@@ -1,19 +1,19 @@
 {
-  "name": "stripe-sample-connect-destination-charge",
-  "version": "1.0.0",
-  "description": "Accept a payment with destination charges.",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 0"
-  },
-  "author": "stripe-samples",
-  "license": "ISC",
-  "dependencies": {
-    "body-parser": "^1.20.0",
-    "dotenv": "^16.0.2",
-    "express": "^4.18.1",
-    "express-session": "^1.17.0",
-    "stripe": "^10.17.0"
-  }
+	"name": "stripe-sample-connect-destination-charge",
+	"version": "1.0.0",
+	"description": "Accept a payment with destination charges.",
+	"main": "server.js",
+	"scripts": {
+		"start": "node server.js",
+		"test": "echo \"Error: no test specified\" && exit 0"
+	},
+	"author": "stripe-samples",
+	"license": "ISC",
+	"dependencies": {
+		"body-parser": "^1.20.0",
+		"dotenv": "^16.0.2",
+		"express": "^4.18.1",
+		"express-session": "^1.17.0",
+		"stripe": "^10.17.0"
+	}
 }

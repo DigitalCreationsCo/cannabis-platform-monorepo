@@ -14,8 +14,8 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 		);
 		const { data } = await axios(urlBuilder.main.getSession(), {
 			headers: {
-				Cookie: req.headers.cookie
-			}
+				Cookie: req.headers.cookie,
+			},
 		});
 		res.status(res.statusCode).json(data);
 	} catch (error: any) {

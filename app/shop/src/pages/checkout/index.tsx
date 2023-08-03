@@ -3,7 +3,7 @@ import {
 	selectCartState,
 	selectIsCartEmpty,
 	selectUserState,
-	urlBuilder
+	urlBuilder,
 } from '@cd/core-lib';
 import { type Address, type AddressUserCreateType } from '@cd/data-access';
 import {
@@ -14,7 +14,7 @@ import {
 	H4,
 	LoadingPage,
 	Page,
-	Paragraph
+	Paragraph,
 } from '@cd/ui-lib';
 import axios from 'axios';
 import { useState } from 'react';
@@ -128,7 +128,7 @@ function Checkout() {
 										<Paragraph className="text-center">
 											{renderAddress({
 												address:
-													order.organization.address
+													order.organization.address,
 											})}
 										</Paragraph>
 									</div>
@@ -149,7 +149,7 @@ function Checkout() {
 export default Checkout;
 
 function ReviewDeliveryAddress({
-	orderAddress
+	orderAddress,
 }: {
 	orderAddress: Address | AddressUserCreateType;
 }) {
@@ -221,5 +221,5 @@ const styles = {
 	container: 'w-[300px]',
 	heading: 'text-primary pl-4',
 	box: 'border rounded py-4 h-fit',
-	selectAddress: ''
+	selectAddress: '',
 };

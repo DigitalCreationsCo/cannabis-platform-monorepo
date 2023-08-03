@@ -4,15 +4,15 @@ The delivery-widget is a react app, that is designed to be injected to client si
 for use on dispensary webpages such as ecommerce page.
 
 How does it work?
-    init script is loaded into any html page intended for Gras Delivery Widget
-    init script will init the widget, or create a script that loads from app url.
+init script is loaded into any html page intended for Gras Delivery Widget
+init script will init the widget, or create a script that loads from app url.
 
     app url will serve:
     the entry file appending the widget to window
     the widget javascript bundle
 
 Developer notes: (sensitive)
-    How to serve the widget to any html document:
+How to serve the widget to any html document:
 
     include the initDeliveryWidget script on html document, before the body.
     the script will hit localhost:8080, or the server url that serves the widget files.
@@ -24,7 +24,7 @@ Developer notes: (sensitive)
     create a dom element in the document that will render the view from express app
     add the static js bundle to graswidget script
 
-Next steps: Development: - 
+Next steps: Development: -
 Redirect user to stripe checkout on our webpage, or preloaded stripe checkout page.
 Handle user info such as identification and age, collect address for delivery,
 confirm the checkout, confirm the destination,

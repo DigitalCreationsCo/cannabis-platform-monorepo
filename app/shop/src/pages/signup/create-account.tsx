@@ -17,7 +17,7 @@ function CreateUserAccount() {
 
 CreateUserAccount.getLayoutContext = (): LayoutContextProps => ({
 	showHeader: false,
-	showTopBar: true
+	showTopBar: true,
 });
 export default CreateUserAccount;
 
@@ -26,6 +26,6 @@ const styles = {
 		'bg-gradient-to-b',
 		'from-primary',
 		'to-secondary',
-		'p-0 lg:p-16 h-max'
-	]
+		'p-0 lg:p-16 h-max',
+	],
 };

@@ -5,7 +5,7 @@ import {
 	H3,
 	Paragraph,
 	TextField,
-	useFormContext
+	useFormContext,
 } from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
@@ -34,8 +34,8 @@ function SubmitAddressForm() {
 			state: '',
 			zipcode: null,
 			country: 'United States',
-			countryCode: 'US'
-		}
+			countryCode: 'US',
+		},
 	};
 
 	const validationSchema = yup.object().shape({
@@ -53,8 +53,8 @@ function SubmitAddressForm() {
 					(val) => val?.toString().length === 5
 				),
 			country: yup.string().required('country is required'),
-			countryCode: yup.string().required('country code is required')
-		})
+			countryCode: yup.string().required('country code is required'),
+		}),
 	});
 
 	const onSubmit = async (values: typeof initialValues) => {
@@ -79,11 +79,11 @@ function SubmitAddressForm() {
 		handleBlur,
 		handleChange,
 		handleSubmit,
-		validateForm
+		validateForm,
 	} = useFormik({
 		initialValues,
 		onSubmit,
-		validationSchema
+		validationSchema,
 	});
 
 	function notifyValidation() {

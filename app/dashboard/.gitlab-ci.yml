@@ -1,36 +1,36 @@
 .dashboard:
-  variables:
-    MODULE_PATH: apps/dashboard
+    variables:
+        MODULE_PATH: apps/dashboard
 
 lint-dashboard:
-  extends:
-    - .dashboard
-    - .lint
-  only:
-    changes:
-      - apps/dashboard/**/*
-    refs:
-      - merge_requests
-      - master
+    extends:
+        - .dashboard
+        - .lint
+    only:
+        changes:
+            - apps/dashboard/**/*
+        refs:
+            - merge_requests
+            - master
 
 test-dashboard:type:
-  extends:
-    - .dashboard
-    - .type-tests
-  only:
-    changes:
-      - apps/dashboard/**/*
-    refs:
-      - merge_requests
-      - master
-      
+    extends:
+        - .dashboard
+        - .type-tests
+    only:
+        changes:
+            - apps/dashboard/**/*
+        refs:
+            - merge_requests
+            - master
+
 test-dashboard:unit:
-  extends:
-    - .dashboard
-    - .unit-tests
-  only:
-    changes:
-      - apps/dashboard/**/*
-    refs:
-      - merge_requests
-      - master
+    extends:
+        - .dashboard
+        - .unit-tests
+    only:
+        changes:
+            - apps/dashboard/**/*
+        refs:
+            - merge_requests
+            - master

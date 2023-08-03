@@ -20,7 +20,7 @@ const appInfo: {
 	websiteDomain: shopDomain,
 	apiDomain,
 	// query this path for all auth requests
-	apiBasePath
+	apiBasePath,
 };
 
 export const frontendConfig = () => {
@@ -53,12 +53,12 @@ export const frontendConfig = () => {
 							window.location.href = `${shopDomain}${window.location.pathname}`;
 						}
 					}
-				}
+				},
 			}),
 			Session.init({
-				cookieDomain: `.${baseDomain}`
-			})
+				cookieDomain: `.${baseDomain}`,
+			}),
 		],
-		isInServerLessEnv: false
+		isInServerLessEnv: false,
 	};
 };

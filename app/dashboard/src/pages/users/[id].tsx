@@ -1,27 +1,27 @@
 import { renderAddress, urlBuilder } from '@cd/core-lib';
 import {
-    type Address,
-    type ImageUser,
-    type User,
-    type UserWithDetails
+	type Address,
+	type ImageUser,
+	type User,
+	type UserWithDetails,
 } from '@cd/data-access';
 import {
-    AddAddressUserModal,
-    Button,
-    Card,
-    ConfirmationModal,
-    DeleteButton,
-    DropZone,
-    FlexBox,
-    Grid,
-    H6,
-    Icons,
-    Modal,
-    Page,
-    PageHeader,
-    Paragraph,
-    TextField,
-    UploadImageBox
+	AddAddressUserModal,
+	Button,
+	Card,
+	ConfirmationModal,
+	DeleteButton,
+	DropZone,
+	FlexBox,
+	Grid,
+	H6,
+	Icons,
+	Modal,
+	Page,
+	PageHeader,
+	Paragraph,
+	TextField,
+	UploadImageBox,
 } from '@cd/ui-lib';
 import axios from 'axios';
 import { format } from 'date-fns';
@@ -60,7 +60,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
 		profilePicture: user?.profilePicture || [],
 		memberships: user?.memberships || [],
 		createdAt: user?.createdAt || new Date(),
-		updatedAt: user?.updatedAt || new Date()
+		updatedAt: user?.updatedAt || new Date(),
 	};
 
 	const validationSchema = yup.object().shape({
@@ -70,7 +70,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
 		email: yup.string().required('required'),
 		dialCode: yup.number().required('required'),
 		phone: yup.number().required('required'),
-		address: yup.array().min(1).required('required')
+		address: yup.array().min(1).required('required'),
 	});
 	const {
 		values,
@@ -79,11 +79,11 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
 		handleChange,
 		handleBlur,
 		handleSubmit,
-		setFieldValue
+		setFieldValue,
 	} = useFormik({
 		initialValues,
 		validationSchema,
-		onSubmit: handleFormSubmit
+		onSubmit: handleFormSubmit,
 	});
 	const [files, setFiles] = useState<unknown[]>([]);
 	const [loadingButton, setLoadingButton] = useState(false);
@@ -99,7 +99,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
 	const handleAddressUpdate = (event: any, fieldName: any) =>
 		setAddressUpdate((prev: any) => ({
 			...prev,
-			fieldName: event.target.value
+			fieldName: event.target.value,
 		}));
 	const [addressUpdateIndex, setAddressUpdateIndex] = useState<number>();
 	const [addressUpdateModal, setAddressUpdateModal] = useState(false);
@@ -149,7 +149,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
 
 	async function handleAddressDelete({
 		addressId,
-		userId
+		userId,
 	}: {
 		addressId: Address['id'];
 		userId: User['id'];
@@ -174,270 +174,412 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
 	};
 
 	/* eslint-disable */
-    const handleFileDelete = (deleteFile: any) => {
-        setFiles((files: any[]) => files.filter((file: {id: string}) => file.id !== deleteFile.id));
-    };
-    /* eslint-disable */
+	const handleFileDelete = (deleteFile: any) => {
+		setFiles((files: any[]) =>
+			files.filter((file: { id: string }) => file.id !== deleteFile.id)
+		);
+	};
+	/* eslint-disable */
 
-    return (
-            <Page>
-                <PageHeader
-                    title={`User: ${user?.firstName}`}
-                    Icon={Icons.ShoppingBagOutlined}
-                    Button={
-                        <Link href="/users">
-                            <Button>Back to Users</Button>
-                        </Link>
-                    }
-                />
-                { user && (
-                        <Grid className="md:max-w-fit px-3">
-                            <>
-                                {/* check admin privelege for these modals */}
-                                <AddAddressUserModal description={'Add a new address'} userId={user?.id} 
-                                setState={setAddress} 
-                                modalVisible={ addressAddModal} 
-                                onClose={ () => setAddressAddModal(false)}
-                                />
+	return (
+		<Page>
+			<PageHeader
+				title={`User: ${user?.firstName}`}
+				Icon={Icons.ShoppingBagOutlined}
+				Button={
+					<Link href="/users">
+						<Button>Back to Users</Button>
+					</Link>
+				}
+			/>
+			{user && (
+				<Grid className="md:max-w-fit px-3">
+					<>
+						{/* check admin privelege for these modals */}
+						<AddAddressUserModal
+							description={'Add a new address'}
+							userId={user?.id}
+							setState={setAddress}
+							modalVisible={addressAddModal}
+							onClose={() => setAddressAddModal(false)}
+						/>
 
-                                <Modal className="px-10 border"
-                                    description={ `Edit Address` }
-                                    modalVisible={ addressUpdateModal }
-                                    onClose={ () => {
-                                        setAddressUpdateModal(false);
-                                        setAddressUpdateIndex(undefined);
-                                    } }>
-                                    <Grid className='space-y-4'>
-                                        <FlexBox className='flex-col space-x-0 space-y-1'>
-                                    <TextField
-                                        name={ `addressUpdate.street1` } label="Street Line 1" placeholder="Street Line 1"
-                                        value={addressUpdate?.street1}
-                                        onBlur={handleBlur}
-                                                onChange={ e => handleAddressUpdate(e, 'street1') } />
-                                            
-                                    <TextField
-                                        name={ `address[${addressUpdateIndex}].street2` } label="Street Line 2" placeholder="Street Line 2"
-                                        value={addressUpdate?.street2 as any}
-                                        onBlur={handleBlur}
-                                                onChange={ e => handleAddressUpdate(e, 'street2') } />
-                                            
-                                        <TextField
-                                        name={ `address[${addressUpdateIndex}].city` } label="City" placeholder="City"
-                                        value={addressUpdate?.city}
-                                        onBlur={handleBlur}
-                                                onChange={ e => handleAddressUpdate(e, 'city') } />
-                                            
-                                        <TextField
-                                        name={ `state` } label="State" placeholder="State"
-                                        value={addressUpdate?.state}
-                                        onBlur={handleBlur}
-                                                onChange={ e => handleAddressUpdate(e, 'state') } />
-                                            
-                                        <TextField
-                                        name={ `address[${addressUpdateIndex}].country` } label="Country" placeholder="Country"
-                                        value={addressUpdate?.country}
-                                        onBlur={handleBlur}
-                                                onChange={ e => handleAddressUpdate(e, 'country') } />
-                                            
-                                        <TextField
-                                        name={ `address[${addressUpdateIndex}].zipcode` } label="Zipcode" placeholder="Zipcode"
-                                        value={addressUpdate?.zipcode}
-                                        onBlur={handleBlur}
-                                        onChange={ e => handleAddressUpdate(e, 'zipcode') } />
-                                        </FlexBox>
-                                        <FlexBox className="justify-center">
-                                            <Button onClick={ () => {
-                                                setFieldValue('address', addressUpdate);
-                                                setAddressUpdate(undefined)
-                                                setAddressUpdateModal(false); toast.success('Please save your changes.');
-                                            } }>Close</Button></FlexBox>
-                                    </Grid>
-                                </Modal>
-                                
-                                <ConfirmationModal
-                                    showCloseButton={false}
-                                    onClose={ () => { setAddressDeleteModal(false); setAddressDeleteIndex(undefined); }}
-                                    modalVisible={ addressDeleteModal }
-                                    handleConfirm={() => handleAddressDelete({ addressId: address?.[addressDeleteIndex as number]?.id, userId: user?.id })}
-                                    description={ "Delete this address? You can't undo this action." } />
-                                <form
-                                    onSubmit={(e) => {
-                                        e.preventDefault();
-                                        e.stopPropagation();
-                                        handleSubmit();
-                                    }}
-                                >
-                                    <FlexBox className="flex-col space-x-0 space-y-2 items-stretch">
-                                        <H6>{`Member since ${format(new Date(user?.createdAt!), 'MMM dd, yyyy')}`}</H6>
-                                        <TextField
-                                            name="firstName"
-                                            label="First Name"
-                                            placeholder="First Name"
-                                            value={values?.firstName}
-                                            onBlur={handleBlur}
-                                            onChange={handleChange}
-                                            error={!!touched.firstName && !!errors.firstName}
-                                        />
-                                        <TextField
-                                            name="lastName"
-                                            label="Last Name"
-                                            placeholder="Last Name"
-                                            value={values?.lastName}
-                                            onBlur={handleBlur}
-                                            onChange={handleChange}
-                                            error={!!touched.lastName && !!errors.lastName}
-                                        />
-                                        <TextField
-                                            name="username"
-                                            label="UserName"
-                                            placeholder="UserName"
-                                            value={values?.username}
-                                            onBlur={handleBlur}
-                                            onChange={handleChange}
-                                            error={!!touched.username && !!errors.username}
-                                        />
-                                        <TextField
-                                            name="email"
-                                            label="Email"
-                                            placeholder="Email"
-                                            value={values?.email}
-                                            onBlur={handleBlur}
-                                            onChange={handleChange}
-                                            error={!!touched.email && !!errors.email}
-                                        />
-                                        <FlexBox>
-                                            <TextField
-                                                maxLength={3}
-                                                name="dialCode"
-                                                label="DialCode"
-                                                placeholder="DialCode"
-                                                value={values?.dialCode}
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                error={!!touched.dialCode && !!errors.dialCode}
-                                            />
-                                            <TextField
-                                                name="phone"
-                                                label="Phone"
-                                                placeholder="Phone"
-                                                value={values?.phone}
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                error={!!touched.phone && !!errors.phone}
-                                            />
-                                        </FlexBox>
-                                                
-                                        <FlexBox>
-                                            <FlexBox className="min-w-[111px] items-start">
-                                                <label>Addresses</label>
-                                                </FlexBox>
-                                            <Button
-                                                onClick={ (e) => {
-                                                    e.preventDefault();
-                                                        e.stopPropagation();
-                                                    setAddressAddModal(true);
-                                                } }
-                                                size='sm'
-                                                transparent
-                                                border
-                                            >
-                                                Add Address
-                                            </Button>
-                                        </FlexBox>
-                                        {address.length > 0 ? address.map((address, index) => (
-                                            <Card key={`address-${index}`} className={'w-full px-3 flex-row justify-between items-center'}>
-                                                { renderAddress({ address }) }
+						<Modal
+							className="px-10 border"
+							description={`Edit Address`}
+							modalVisible={addressUpdateModal}
+							onClose={() => {
+								setAddressUpdateModal(false);
+								setAddressUpdateIndex(undefined);
+							}}
+						>
+							<Grid className="space-y-4">
+								<FlexBox className="flex-col space-x-0 space-y-1">
+									<TextField
+										name={`addressUpdate.street1`}
+										label="Street Line 1"
+										placeholder="Street Line 1"
+										value={addressUpdate?.street1}
+										onBlur={handleBlur}
+										onChange={(e) =>
+											handleAddressUpdate(e, 'street1')
+										}
+									/>
 
-                                                <FlexBox className="max-w-fit">
-                                                    <Button className={"w-1/2"} onClick={(e) => {
-                                                        e.preventDefault();
-                                                        e.stopPropagation();
-                                                        setAddressUpdate(values.address[index])
-                                                        setAddressUpdateIndex(index);
-                                                        setAddressUpdateModal(true);
-                                                    }}>Edit</Button>
-                                                    <DeleteButton className={ "w-1/2" } label={ false } onClick={ (e) => {
-                                                        e.preventDefault();
-                                                        e.stopPropagation();
-                                                        setAddressDeleteIndex(index)
-                                                        setAddressDeleteModal(true)
-                                                    } } />
-                                                </FlexBox>
-                                            </Card>
-                                        )): <Card>This user has no address listed.</Card>}
-                                        <FlexBox>
-                                            <Paragraph>{`Are the Terms Of Use accepted? ${
-                                                user.termsAccepted ? 'Yes' : 'No'
-                                            }`}</Paragraph>
-                                        </FlexBox>
-                                    </FlexBox>
-                                    <Grid title="Images" className="space-y-2">
-                                        <FlexBox>
-                                            <UploadImageBox
-                                                onClick={() => handleDeleteExistingImage(user?.profilePicture as ImageUser)}
-                                                // onKeyUp={() => {}}
-                                                >
-                                                <Image
-                                                    src={user?.profilePicture?.location as string}
-                                                    alt=""
-                                                    fill={true}
-                                                />
-                                            </UploadImageBox>
-                                            {files.map((file: any | { id: string; preview: string }, index) => {
-                                                return (
-                                                    <UploadImageBox
-                                                        key={index}
-                                                        onClick={() => handleFileDelete(file)}
-                                                    >
-                                                        <Image src={file.preview} alt="" height={100} width={100} />
-                                                    </UploadImageBox>
-                                                );
-                                            })}
-                                        </FlexBox>
-                                        <DropZone
-                                            onChange={(files: any[]) => {
-                                                const uploadFiles = files.map((file) =>
-                                                    Object.assign(file, { preview: URL.createObjectURL(file) })
-                                                );
-                                                setFiles(uploadFiles);
-                                            }}
-                                        />
-                                    </Grid>
-                                    <FlexBox className="justify-center py-2 items-stretch">
-                                        <Button
-                                            className="flex grow"
-                                            onClick={(e) => {
-                                                e.preventDefault();
-                                                e.stopPropagation();
-                                                handleSubmit();
-                                            }}
-                                            loading={loadingButton}
-                                        >
-                                            Save Changes
-                                        </Button>
-                                    </FlexBox>
-                                </form>
-                            </>
-                    </Grid>
-                ) }
-        </Page>
-    );
+									<TextField
+										name={`address[${addressUpdateIndex}].street2`}
+										label="Street Line 2"
+										placeholder="Street Line 2"
+										value={addressUpdate?.street2 as any}
+										onBlur={handleBlur}
+										onChange={(e) =>
+											handleAddressUpdate(e, 'street2')
+										}
+									/>
+
+									<TextField
+										name={`address[${addressUpdateIndex}].city`}
+										label="City"
+										placeholder="City"
+										value={addressUpdate?.city}
+										onBlur={handleBlur}
+										onChange={(e) =>
+											handleAddressUpdate(e, 'city')
+										}
+									/>
+
+									<TextField
+										name={`state`}
+										label="State"
+										placeholder="State"
+										value={addressUpdate?.state}
+										onBlur={handleBlur}
+										onChange={(e) =>
+											handleAddressUpdate(e, 'state')
+										}
+									/>
+
+									<TextField
+										name={`address[${addressUpdateIndex}].country`}
+										label="Country"
+										placeholder="Country"
+										value={addressUpdate?.country}
+										onBlur={handleBlur}
+										onChange={(e) =>
+											handleAddressUpdate(e, 'country')
+										}
+									/>
+
+									<TextField
+										name={`address[${addressUpdateIndex}].zipcode`}
+										label="Zipcode"
+										placeholder="Zipcode"
+										value={addressUpdate?.zipcode}
+										onBlur={handleBlur}
+										onChange={(e) =>
+											handleAddressUpdate(e, 'zipcode')
+										}
+									/>
+								</FlexBox>
+								<FlexBox className="justify-center">
+									<Button
+										onClick={() => {
+											setFieldValue(
+												'address',
+												addressUpdate
+											);
+											setAddressUpdate(undefined);
+											setAddressUpdateModal(false);
+											toast.success(
+												'Please save your changes.'
+											);
+										}}
+									>
+										Close
+									</Button>
+								</FlexBox>
+							</Grid>
+						</Modal>
+
+						<ConfirmationModal
+							showCloseButton={false}
+							onClose={() => {
+								setAddressDeleteModal(false);
+								setAddressDeleteIndex(undefined);
+							}}
+							modalVisible={addressDeleteModal}
+							handleConfirm={() =>
+								handleAddressDelete({
+									addressId:
+										address?.[addressDeleteIndex as number]
+											?.id,
+									userId: user?.id,
+								})
+							}
+							description={
+								"Delete this address? You can't undo this action."
+							}
+						/>
+						<form
+							onSubmit={(e) => {
+								e.preventDefault();
+								e.stopPropagation();
+								handleSubmit();
+							}}
+						>
+							<FlexBox className="flex-col space-x-0 space-y-2 items-stretch">
+								<H6>{`Member since ${format(
+									new Date(user?.createdAt!),
+									'MMM dd, yyyy'
+								)}`}</H6>
+								<TextField
+									name="firstName"
+									label="First Name"
+									placeholder="First Name"
+									value={values?.firstName}
+									onBlur={handleBlur}
+									onChange={handleChange}
+									error={
+										!!touched.firstName &&
+										!!errors.firstName
+									}
+								/>
+								<TextField
+									name="lastName"
+									label="Last Name"
+									placeholder="Last Name"
+									value={values?.lastName}
+									onBlur={handleBlur}
+									onChange={handleChange}
+									error={
+										!!touched.lastName && !!errors.lastName
+									}
+								/>
+								<TextField
+									name="username"
+									label="UserName"
+									placeholder="UserName"
+									value={values?.username}
+									onBlur={handleBlur}
+									onChange={handleChange}
+									error={
+										!!touched.username && !!errors.username
+									}
+								/>
+								<TextField
+									name="email"
+									label="Email"
+									placeholder="Email"
+									value={values?.email}
+									onBlur={handleBlur}
+									onChange={handleChange}
+									error={!!touched.email && !!errors.email}
+								/>
+								<FlexBox>
+									<TextField
+										maxLength={3}
+										name="dialCode"
+										label="DialCode"
+										placeholder="DialCode"
+										value={values?.dialCode}
+										onBlur={handleBlur}
+										onChange={handleChange}
+										error={
+											!!touched.dialCode &&
+											!!errors.dialCode
+										}
+									/>
+									<TextField
+										name="phone"
+										label="Phone"
+										placeholder="Phone"
+										value={values?.phone}
+										onBlur={handleBlur}
+										onChange={handleChange}
+										error={
+											!!touched.phone && !!errors.phone
+										}
+									/>
+								</FlexBox>
+
+								<FlexBox>
+									<FlexBox className="min-w-[111px] items-start">
+										<label>Addresses</label>
+									</FlexBox>
+									<Button
+										onClick={(e) => {
+											e.preventDefault();
+											e.stopPropagation();
+											setAddressAddModal(true);
+										}}
+										size="sm"
+										transparent
+										border
+									>
+										Add Address
+									</Button>
+								</FlexBox>
+								{address.length > 0 ? (
+									address.map((address, index) => (
+										<Card
+											key={`address-${index}`}
+											className={
+												'w-full px-3 flex-row justify-between items-center'
+											}
+										>
+											{renderAddress({ address })}
+
+											<FlexBox className="max-w-fit">
+												<Button
+													className={'w-1/2'}
+													onClick={(e) => {
+														e.preventDefault();
+														e.stopPropagation();
+														setAddressUpdate(
+															values.address[
+																index
+															]
+														);
+														setAddressUpdateIndex(
+															index
+														);
+														setAddressUpdateModal(
+															true
+														);
+													}}
+												>
+													Edit
+												</Button>
+												<DeleteButton
+													className={'w-1/2'}
+													label={false}
+													onClick={(e) => {
+														e.preventDefault();
+														e.stopPropagation();
+														setAddressDeleteIndex(
+															index
+														);
+														setAddressDeleteModal(
+															true
+														);
+													}}
+												/>
+											</FlexBox>
+										</Card>
+									))
+								) : (
+									<Card>
+										This user has no address listed.
+									</Card>
+								)}
+								<FlexBox>
+									<Paragraph>{`Are the Terms Of Use accepted? ${
+										user.termsAccepted ? 'Yes' : 'No'
+									}`}</Paragraph>
+								</FlexBox>
+							</FlexBox>
+							<Grid title="Images" className="space-y-2">
+								<FlexBox>
+									<UploadImageBox
+										onClick={() =>
+											handleDeleteExistingImage(
+												user?.profilePicture as ImageUser
+											)
+										}
+										// onKeyUp={() => {}}
+									>
+										<Image
+											src={
+												user?.profilePicture
+													?.location as string
+											}
+											alt=""
+											fill={true}
+										/>
+									</UploadImageBox>
+									{files.map(
+										(
+											file:
+												| any
+												| {
+														id: string;
+														preview: string;
+												  },
+											index
+										) => {
+											return (
+												<UploadImageBox
+													key={index}
+													onClick={() =>
+														handleFileDelete(file)
+													}
+												>
+													<Image
+														src={file.preview}
+														alt=""
+														height={100}
+														width={100}
+													/>
+												</UploadImageBox>
+											);
+										}
+									)}
+								</FlexBox>
+								<DropZone
+									onChange={(files: any[]) => {
+										const uploadFiles = files.map((file) =>
+											Object.assign(file, {
+												preview:
+													URL.createObjectURL(file),
+											})
+										);
+										setFiles(uploadFiles);
+									}}
+								/>
+							</Grid>
+							<FlexBox className="justify-center py-2 items-stretch">
+								<Button
+									className="flex grow"
+									onClick={(e) => {
+										e.preventDefault();
+										e.stopPropagation();
+										handleSubmit();
+									}}
+									loading={loadingButton}
+								>
+									Save Changes
+								</Button>
+							</FlexBox>
+						</form>
+					</>
+				</Grid>
+			)}
+		</Page>
+	);
 }
 
-export async function getServerSideProps({ req, params }: { req: any; params: any }) {
-    try {
-        const userData = await (await axios(urlBuilder.dashboard + `/api/users/${params.id}`,{
-            headers: {
-                Cookie: req.headers.cookie
-            }
-        })).data;
-        if (!userData) return { notFound: true };
-        // console.info('SSR user: ', userData)
-        return {
-            props: { user: userData },
-        };
-    } catch (error: any) {
-        console.info('SSR error: ', error.message);
-        throw new Error(error);
-    }
+export async function getServerSideProps({
+	req,
+	params,
+}: {
+	req: any;
+	params: any;
+}) {
+	try {
+		const userData = await (
+			await axios(urlBuilder.dashboard + `/api/users/${params.id}`, {
+				headers: {
+					Cookie: req.headers.cookie,
+				},
+			})
+		).data;
+		if (!userData) return { notFound: true };
+		// console.info('SSR user: ', userData)
+		return {
+			props: { user: userData },
+		};
+	} catch (error: any) {
+		console.info('SSR error: ', error.message);
+		throw new Error(error);
+	}
 }

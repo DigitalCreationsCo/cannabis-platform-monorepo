@@ -1,17 +1,17 @@
 import {
-  coordinatesIsEmpty,
-  getGeoCoordinatesFromAddress,
-  urlBuilder
+	coordinatesIsEmpty,
+	getGeoCoordinatesFromAddress,
+	urlBuilder,
 } from '@cd/core-lib';
 import {
-  createOrganization,
-  deleteOrganizationById,
-  findCategoryListByOrg,
-  findOrganizationById,
-  findOrganizationsByZipcode,
-  findUsersByOrganization,
-  OrganizationCreateType,
-  updateOrganization
+	createOrganization,
+	deleteOrganizationById,
+	findCategoryListByOrg,
+	findOrganizationById,
+	findOrganizationsByZipcode,
+	findUsersByOrganization,
+	OrganizationCreateType,
+	updateOrganization,
 } from '@cd/data-access';
 import { createId } from '@paralleldrive/cuid2';
 import axios from 'axios';
@@ -31,150 +31,161 @@ updateProduct
 ================================= */
 
 export default class OrganizationDA {
-  static async createOrganization(organization: OrganizationCreateType) {
-    try {
+	static async createOrganization(organization: OrganizationCreateType) {
+		try {
+			const data = await createOrganization(organization);
 
-      const data = await createOrganization(organization);
+			console.info(
+				`successfully created organization record: ${organization.name}. id: ${data.id}
+        now creating location record...`
+			);
 
-      console.info(
-        ` successfully created organization record ${organization.name}: ${data.id} 
-          creating location record...`
-      );
+			const response = await axios.post(
+				urlBuilder.location.organizationLocationRecord(),
+				{
+					id: data.id,
+					name: organization.name,
+					dialCode: organization.dialCode,
+					phone: organization.phone,
+					address: organization.address,
+					vendorId: organization.vendorId,
+					subdomain: organization.subdomainId,
+				},
+				{
+					headers: {
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
+					},
+				}
+			);
 
-      await axios.post(
-        urlBuilder.location.organizationLocationRecord(),
-        {
-          id: data.id,
-          name: organization.name,
-          dialCode: organization.dialCode,
-          phone: organization.phone,
-          address: organization.address,
-          vendorId: organization.vendorId,
-          subdomain: organization.subdomainId,
-        },
-        {
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+			if (response.data.success != true)
+				throw new Error(response.data.error);
 
-      console.info(`${data.name} organization create is completed.`);
-      return { ...data };
-    } catch (error: any) {
-      console.error(error.message);
-      throw new Error(error.message);
-    }
-  }
-  static async updateOrganization(organization: OrganizationCreateType) {
-    try {
-      let coordinates;
+			console.info(`${data.name} record create is completed.`);
+			return { ...data };
+		} catch (error: any) {
+			console.error(
+				'OrganizationDA: error creating Organization record: ',
+				error.message
+			);
+			throw new Error(error.message);
+		}
+	}
+	static async updateOrganization(organization: OrganizationCreateType) {
+		try {
+			let coordinates;
 
-      if (coordinatesIsEmpty(organization?.address)) {
-        coordinates = await getGeoCoordinatesFromAddress(organization.address);
+			if (coordinatesIsEmpty(organization?.address)) {
+				coordinates = await getGeoCoordinatesFromAddress(
+					organization.address
+				);
 
-        if (coordinates && coordinates.latitude !== 0)
-          organization.address.coordinates = {
-            ...coordinates,
-            id: createId(),
-          };
-      }
+				if (coordinates && coordinates.latitude !== 0)
+					organization.address.coordinates = {
+						...coordinates,
+						id: createId(),
+					};
+			}
 
-      const data = await updateOrganization(organization);
+			const data = await updateOrganization(organization);
 
-      await axios.put(
-        urlBuilder.location.organizationLocationRecord(),
-        { ...organization },
-        {
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+			await axios.put(
+				urlBuilder.location.organizationLocationRecord(),
+				{ ...organization },
+				{
+					headers: {
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
+					},
+				}
+			);
 
-      console.info(`Dispensary record ${organization.name} is updated.`);
+			console.info(`Dispensary record ${organization.name} is updated.`);
 
-      return 'Your organization account is updated.';
-    } catch (error: any) {
-      console.error(error.message);
-      throw new Error(error.message);
-    }
-  }
+			return 'Your organization account is updated.';
+		} catch (error: any) {
+			console.error(error.message);
+			throw new Error(error.message);
+		}
+	}
 
-  static async deleteOrganization(organizationId: string) {
-    try {
-      const _deleted = await deleteOrganizationById(organizationId);
+	static async deleteOrganization(organizationId: string) {
+		try {
+			const _deleted = await deleteOrganizationById(organizationId);
 
-      console.info('_deleted: ', _deleted);
+			console.info('_deleted: ', _deleted);
 
-      await axios.delete(
-        urlBuilder.location.getOrganizationRecord(_deleted.id)
-      );
+			await axios.delete(
+				urlBuilder.location.getOrganizationRecord(_deleted.id)
+			);
 
-      console.info(`Dispensary record ${_deleted.name} is deleted OK.`);
-      return `Dispensary record ${_deleted.name} is deleted OK.`;
-    } catch (error: any) {
-      console.error(error.message);
-      throw new Error(error.message);
-    }
-  }
+			console.info(`Dispensary record ${_deleted.name} is deleted OK.`);
+			return `Dispensary record ${_deleted.name} is deleted OK.`;
+		} catch (error: any) {
+			console.error(error.message);
+			throw new Error(error.message);
+		}
+	}
 
-  // find organization by organizationId
-  static async getOrganizationById(organizationId) {
-    try {
-      const data = await findOrganizationById(organizationId);
-      return data;
-    } catch (error: any) {
-      console.error(error.message);
-      throw new Error(error.message);
-    }
-  }
+	// find organization by organizationId
+	static async getOrganizationById(organizationId) {
+		try {
+			const data = await findOrganizationById(organizationId);
+			return data;
+		} catch (error: any) {
+			console.error(error.message);
+			throw new Error(error.message);
+		}
+	}
 
-  static async getOrganizationsByZipcode(
-    zipcode: number,
-    limit: number,
-    radius: number
-  ) {
-    try {
-      const data = await findOrganizationsByZipcode(zipcode, limit, radius);
-      return data;
-    } catch (error: any) {
-      console.error(error.message);
-      throw new Error(error.message);
-    }
-  }
+	static async getOrganizationsByZipcode(
+		zipcode: number,
+		limit: number,
+		radius: number
+	) {
+		try {
+			const data = await findOrganizationsByZipcode(
+				zipcode,
+				limit,
+				radius
+			);
+			return data;
+		} catch (error: any) {
+			console.error(error.message);
+			throw new Error(error.message);
+		}
+	}
 
-  // find CategoryList by organizationId, default arg is 1 for platform wide CategoryList
-  static async getCategoryList(organizationId = '1') {
-    try {
-      const data = await findCategoryListByOrg(organizationId);
-      return data;
-    } catch (error: any) {
-      console.error(error.message);
-      throw new Error(error.message);
-    }
-  }
+	// find CategoryList by organizationId, default arg is 1 for platform wide CategoryList
+	static async getCategoryList(organizationId = '1') {
+		try {
+			const data = await findCategoryListByOrg(organizationId);
+			return data;
+		} catch (error: any) {
+			console.error(error.message);
+			throw new Error(error.message);
+		}
+	}
 
-  static async getUsersByOrganization(organizationId) {
-    try {
-      const data = await findUsersByOrganization(organizationId);
-      return data;
-    } catch (error: any) {
-      console.error(error.message);
-      throw new Error(error.message);
-    }
-  }
+	static async getUsersByOrganization(organizationId) {
+		try {
+			const data = await findUsersByOrganization(organizationId);
+			return data;
+		} catch (error: any) {
+			console.error(error.message);
+			throw new Error(error.message);
+		}
+	}
 
-  static async updateProduct(product) {
-    try {
-      return 'TEST: product was updated OK';
-      // const data = await updateProduct(product);
-      // return data
-    } catch (error: any) {
-      console.error(error.message);
-      throw new Error(error.message);
-    }
-  }
+	static async updateProduct(product) {
+		try {
+			return 'TEST: product was updated OK';
+			// const data = await updateProduct(product);
+			// return data
+		} catch (error: any) {
+			console.error(error.message);
+			throw new Error(error.message);
+		}
+	}
 }

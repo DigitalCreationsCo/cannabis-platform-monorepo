@@ -15,10 +15,10 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 			checkoutOrder,
 			{
 				headers: {
-					'Content-Type': 'application/json'
+					'Content-Type': 'application/json',
 				},
 				validateStatus: (status) =>
-					(status >= 200 && status <= 400) || status === 404
+					(status >= 200 && status <= 400) || status === 404,
 			}
 		);
 

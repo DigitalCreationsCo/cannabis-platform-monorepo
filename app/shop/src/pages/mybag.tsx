@@ -4,14 +4,14 @@ import {
 	modalTypes,
 	selectIsAddressAdded,
 	selectIsCartEmpty,
-	selectUserState
+	selectUserState,
 } from '@cd/core-lib';
 import {
 	Card,
 	CheckoutButton,
 	H3,
 	Page,
-	type LayoutContextProps
+	type LayoutContextProps,
 } from '@cd/ui-lib';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -64,12 +64,12 @@ function CartPage() {
 }
 
 CartPage.getLayoutContext = (): LayoutContextProps => ({
-	showHeader: false
+	showHeader: false,
 });
 
 export default CartPage;
 
 const styles = {
 	cartContainer:
-		'bg-transparent mx-auto shadow-none bg-transparent sm:shadow sm:bg-light sm:w-[440px] flex flex-col lg:px-8 py-4 space-y-4'
+		'bg-transparent mx-auto shadow-none bg-transparent sm:shadow sm:bg-light sm:w-[440px] flex flex-col lg:px-8 py-4 space-y-4',
 };

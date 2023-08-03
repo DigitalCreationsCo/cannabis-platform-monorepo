@@ -10,7 +10,7 @@ import {
 	Padding,
 	Page,
 	Paragraph,
-	SignInButton
+	SignInButton,
 } from '@cd/ui-lib';
 import Link from 'next/link';
 
@@ -64,7 +64,7 @@ function SignUpStart() {
 }
 
 SignUpStart.getLayoutContext = (): LayoutContextProps => ({
-	showHeader: false
+	showHeader: false,
 });
 
 export default SignUpStart;
