@@ -1,14 +1,14 @@
 import {
 	renderNestedDataObject,
 	selectUserState,
-	TextContent
+	TextContent,
 } from '@cd/core-lib';
 import {
 	FlexBox,
 	H2,
 	type LayoutContextProps,
 	Page,
-	Paragraph
+	Paragraph,
 } from '@cd/ui-lib';
 import { useSelector } from 'react-redux';
 
@@ -28,7 +28,7 @@ function AccountPage() {
 					'blurhash',
 					'location',
 					'idFrontImage',
-					'idBackImage'
+					'idBackImage',
 				])}
 			</FlexBox>
 		</Page>
@@ -36,7 +36,7 @@ function AccountPage() {
 }
 
 AccountPage.getLayoutContext = (): LayoutContextProps => ({
-	showHeader: false
+	showHeader: false,
 });
 
 export default AccountPage;

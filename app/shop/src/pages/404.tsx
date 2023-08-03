@@ -14,7 +14,7 @@ function _404({ code }: { code: number }) {
 }
 
 _404.getLayoutContext = (): LayoutContextProps => ({
-	showHeader: false
+	showHeader: false,
 });
 
 export default _404;

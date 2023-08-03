@@ -13,7 +13,7 @@ export default class MainDocument extends Document {
 	static async getInitialProps(ctx: any) {
 		const initialProps = await Document.getInitialProps(ctx);
 		return {
-			...initialProps
+			...initialProps,
 		};
 	}
 
@@ -28,7 +28,7 @@ export default class MainDocument extends Document {
 					{process.env.NODE_ENV !== 'production' && (
 						<script
 							dangerouslySetInnerHTML={{
-								__html: noOverlayWorkaroundScript
+								__html: noOverlayWorkaroundScript,
 							}}
 						/>
 					)}

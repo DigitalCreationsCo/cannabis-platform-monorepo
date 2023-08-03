@@ -4,14 +4,14 @@
  */
 
 const storybookPatterns = {
-	files: ['**/*.stories.{ts,tsx,mdx}']
+	files: ['**/*.stories.{ts,tsx,mdx}'],
 };
 
 module.exports = {
 	env: {
 		browser: true,
 		es6: true,
-		node: true
+		node: true,
 	},
 	overrides: [
 		{
@@ -25,19 +25,19 @@ module.exports = {
 					'warn',
 					{
 						selector: 'variable',
-						format: ['camelCase', 'PascalCase']
+						format: ['camelCase', 'PascalCase'],
 					},
 					{
 						selector: ['function'],
-						format: ['camelCase', 'PascalCase']
+						format: ['camelCase', 'PascalCase'],
 					},
 					{
 						selector: 'parameter',
 						format: ['camelCase', 'PascalCase'],
-						leadingUnderscore: 'allow'
-					}
-				]
-			}
-		}
-	]
+						leadingUnderscore: 'allow',
+					},
+				],
+			},
+		},
+	],
 };

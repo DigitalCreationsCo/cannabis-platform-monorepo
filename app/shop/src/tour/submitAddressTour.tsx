@@ -11,11 +11,11 @@ const submitAddressTour = new Boarding({
 	nextBtnText: '',
 	showButtons: false,
 	scrollIntoViewOptions: {
-		behavior: 'smooth'
+		behavior: 'smooth',
 	},
 	onReset: () => {
 		window.scrollTo({ top: 0, behavior: 'smooth' });
-	}
+	},
 });
 
 const tourSteps = [
@@ -23,16 +23,16 @@ const tourSteps = [
 		element: '#submit-address-step-1',
 		popover: {
 			title: 'Tell us where you want your order delivered.',
-			description: ''
-		}
+			description: '',
+		},
 	},
 	{
 		element: '#submit-address-step-2',
 		popover: {
 			title: `When you're ready, click Next.`,
-			description: ''
-		}
-	}
+			description: '',
+		},
+	},
 ];
 submitAddressTour.defineSteps(tourSteps);
 

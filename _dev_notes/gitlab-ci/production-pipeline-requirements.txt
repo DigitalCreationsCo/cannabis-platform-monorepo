@@ -1,0 +1,20 @@
+# watch module directories, and rebuild images for the projects, and if dependencies have changed.
+modules:
+    - app/shop
+    - app/dashboard
+    - app/checkout-widget
+    - server/main
+    - server/location
+    - server/payments
+    - server/image
+    - supertokens
+
+# if any package is updated, every docker image that uses the package will build.
+dependencies:
+    - packages/core-lib
+    - packages/data-access
+    - packages/ui-lib
+    - packages/native-ui
+    - packages/eslint-config
+
+# pipeline runs for every merge request to main branch.

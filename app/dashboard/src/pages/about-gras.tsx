@@ -3,7 +3,7 @@ import {
 	H2,
 	type LayoutContextProps,
 	Page,
-	Paragraph
+	Paragraph,
 } from '@cd/ui-lib';
 import { twMerge } from 'tailwind-merge';
 
@@ -32,7 +32,7 @@ export default AboutGras;
 
 AboutGras.getLayoutContext = (): LayoutContextProps => ({
 	showHeader: false,
-	showTopBar: true
+	showTopBar: true,
 });
 
 const styles = {
@@ -40,6 +40,6 @@ const styles = {
 	about: [
 		'bg-inverse md:rounded shadow',
 		'cursor-default',
-		'w-full md:w-auto mx-auto space-y-2 h-full p-16 items-center'
-	]
+		'w-full md:w-auto mx-auto space-y-2 h-full p-16 items-center',
+	],
 };

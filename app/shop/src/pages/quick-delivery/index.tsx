@@ -2,7 +2,7 @@ import {
 	cartActions,
 	selectCartState,
 	selectIsCartEmpty,
-	type SimpleCart
+	type SimpleCart,
 } from '@cd/core-lib';
 import { selectUserState } from '@cd/core-lib/src/reduxDir/features/user.reducer';
 import { type ProductVariantWithDetails } from '@cd/data-access';
@@ -12,7 +12,7 @@ import {
 	H5,
 	Paragraph,
 	Price,
-	SimpleCartItem
+	SimpleCartItem,
 } from '@cd/ui-lib';
 import {
 	Card,
@@ -20,7 +20,7 @@ import {
 	H2,
 	Page,
 	SignInButton,
-	type LayoutContextProps
+	type LayoutContextProps,
 } from '@cd/ui-lib/src/components';
 import { type AnyAction } from '@reduxjs/toolkit';
 import Head from 'next/head';
@@ -159,7 +159,7 @@ function QuickDelivery() {
 }
 
 QuickDelivery.getLayoutContext = (): LayoutContextProps => ({
-	showHeader: false
+	showHeader: false,
 });
 
 export default QuickDelivery;
@@ -169,6 +169,6 @@ const styles = {
 		'bg-gradient-to-b',
 		'from-primary',
 		'to-secondary',
-		'p-0 lg:p-16 h-max'
-	]
+		'p-0 lg:p-16 h-max',
+	],
 };

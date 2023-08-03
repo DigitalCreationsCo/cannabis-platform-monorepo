@@ -1,5 +1,0 @@
-1. watch all changed files, and rebuild images for the projects.
-ie server-main, server-location, shop.
-
-2. if any package is updated, every docker image that uses the package must be updated.
-ie all apps that use the dependency.

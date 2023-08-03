@@ -7,7 +7,7 @@ import {
 	loggerMiddleware,
 	modalReducer,
 	shopReducer,
-	userReducer
+	userReducer,
 } from '@cd/core-lib';
 import {
 	applyMiddleware,
@@ -16,7 +16,7 @@ import {
 	type Action,
 	type AnyAction,
 	type Store,
-	type ThunkAction
+	type ThunkAction,
 } from '@reduxjs/toolkit';
 import { composeWithDevTools } from '@reduxjs/toolkit/dist/devtoolsExtension';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
@@ -28,7 +28,7 @@ import {
 	persistStore,
 	PURGE,
 	REGISTER,
-	REHYDRATE
+	REHYDRATE,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { signOut } from 'supertokens-auth-react/recipe/session';
@@ -39,19 +39,19 @@ const rootReducer = combineReducers({
 	location: locationReducer,
 	shop: shopReducer,
 	cart: cartReducer,
-	blog: blogReducer
+	blog: blogReducer,
 });
 
 const hydratableReducer = (state: RootState, action: AnyAction) => {
 	if (action.type === HYDRATE) {
 		return {
-			...state // use previous state
+			...state, // use previous state
 			// ...action.payload // apply delta from hydration
 		};
 	}
 	if (action.type === REHYDRATE) {
 		return {
-			...state
+			...state,
 			// ...action.payload // apply delta from hydration
 		};
 	} else {
@@ -78,7 +78,7 @@ const supertokens = () => {
 export const persistConfig = {
 	key: 'root',
 	blacklist: ['modal'],
-	storage
+	storage,
 };
 
 const makeStore = () => {
@@ -88,7 +88,7 @@ const makeStore = () => {
 
 	const thunkArguments: { store: Store | null; supertokens: any } = {
 		store: null,
-		supertokens: supertokens()
+		supertokens: supertokens(),
 	};
 
 	if (isClient) {
@@ -103,14 +103,14 @@ const makeStore = () => {
 							PAUSE,
 							PERSIST,
 							PURGE,
-							REGISTER
-						]
+							REGISTER,
+						],
 					},
 					thunk: {
-						extraArgument: thunkArguments
+						extraArgument: thunkArguments,
 					},
-					bindMiddleware
-				})
+					bindMiddleware,
+				}),
 		});
 
 		// @ts-ignore
@@ -127,14 +127,14 @@ const makeStore = () => {
 							PAUSE,
 							PERSIST,
 							PURGE,
-							REGISTER
-						]
+							REGISTER,
+						],
 					},
 					thunk: {
-						extraArgument: thunkArguments
+						extraArgument: thunkArguments,
 					},
-					bindMiddleware
-				})
+					bindMiddleware,
+				}),
 		});
 	}
 

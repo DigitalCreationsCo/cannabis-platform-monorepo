@@ -6,7 +6,7 @@ import {
 	type LayoutContextProps,
 	Page,
 	PageHeader,
-	Paragraph
+	Paragraph,
 } from '@cd/ui-lib';
 import Head from 'next/head';
 
@@ -49,7 +49,7 @@ function Support() {
 }
 
 Support.getLayoutContext = (): LayoutContextProps => ({
-	showHeader: false
+	showHeader: false,
 });
 
 export default Support;

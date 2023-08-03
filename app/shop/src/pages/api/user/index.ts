@@ -12,8 +12,8 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 		const user: UserCreateType = req.body,
 			response = await axios.post(urlBuilder.main.user(), user, {
 				headers: {
-					'Content-Type': 'application/json'
-				}
+					'Content-Type': 'application/json',
+				},
 			});
 
 		return res.status(response.status).json(response.data);
@@ -30,8 +30,8 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
 
 		const response = await axios.put(urlBuilder.main.user(), updateUser, {
 			headers: {
-				'Content-Type': 'application/json'
-			}
+				'Content-Type': 'application/json',
+			},
 		});
 
 		return res.status(response.status).json(response.data);

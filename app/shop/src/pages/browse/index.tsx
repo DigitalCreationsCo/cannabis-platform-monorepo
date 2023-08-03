@@ -3,7 +3,7 @@ import {
 	selectBlogState,
 	selectSelectedLocationState,
 	selectShopState,
-	selectUserState
+	selectUserState,
 } from '@cd/core-lib/src/reduxDir';
 import {
 	Carousel,
@@ -11,7 +11,7 @@ import {
 	H1,
 	H3,
 	Page,
-	type LayoutContextProps
+	type LayoutContextProps,
 } from '@cd/ui-lib';
 import { useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
@@ -25,8 +25,8 @@ export default function MarketPlace() {
 
 	const styles = {
 		responsiveHeading: [
-			'text-2xl md:text-4xl pb-0 px-4 lg:px-0 whitespace-normal font-semi-bold hidden sm:block'
-		]
+			'text-2xl md:text-4xl pb-0 px-4 lg:px-0 whitespace-normal font-semi-bold hidden sm:block',
+		],
 	};
 
 	return (
@@ -97,5 +97,5 @@ export default function MarketPlace() {
 }
 
 MarketPlace.getLayoutContext = (): LayoutContextProps => ({
-	showHeader: false
+	showHeader: false,
 });

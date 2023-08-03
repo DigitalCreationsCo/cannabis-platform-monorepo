@@ -1,11 +1,11 @@
 const jestPatterns = {
-	files: ['**/?(*.)+(test).{js,jsx,ts,tsx}']
+	files: ['**/?(*.)+(test).{js,jsx,ts,tsx}'],
 };
 
 module.exports = {
 	env: {
 		es6: true,
-		node: true
+		node: true,
 	},
 	overrides: [
 		{
@@ -31,8 +31,8 @@ module.exports = {
 				'@typescript-eslint/no-object-literal-type-assertion': 'off',
 				'@typescript-eslint/no-empty-function': 'off',
 				'@typescript-eslint/no-explicit-any': 'off',
-				'@typescript-eslint/ban-ts-comment': 'off'
-			}
-		}
-	]
+				'@typescript-eslint/ban-ts-comment': 'off',
+			},
+		},
+	],
 };

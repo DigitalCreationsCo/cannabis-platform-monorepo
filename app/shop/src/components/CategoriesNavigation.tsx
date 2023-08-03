@@ -29,23 +29,23 @@ const links = [
 	{
 		href: '/',
 		title: 'All Products',
-		icon: Icons.Home
+		icon: Icons.Home,
 	},
 	{
 		href: '/edibles',
 		title: 'Edibles',
-		icon: Icons.PackageBox
+		icon: Icons.PackageBox,
 	},
 	{
 		href: '/flower',
 		title: 'Flower',
-		icon: Icons.Payment
+		icon: Icons.Payment,
 	},
 	{
 		href: '/cbd',
 		title: 'CBD',
-		icon: Icons.User2
-	}
+		icon: Icons.User2,
+	},
 ];
 
 export default CategoriesNavigation;

@@ -12,5 +12,5 @@ module.exports = {
 	bracketSameLine: false,
 	useTabs: true,
 	endOfLine: 'lf',
-	overrides: []
+	overrides: [],
 };

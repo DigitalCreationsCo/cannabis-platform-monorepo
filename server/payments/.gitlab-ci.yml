@@ -1,36 +1,36 @@
 .payments:
-  variables:
-    MODULE_PATH: server/payments
+    variables:
+        MODULE_PATH: server/payments
 
 lint-payments:
-  extends:
-    - .payments
-    - .lint
-  only:
-    changes:
-      - server/payments/**/*
-    refs:
-      - merge_requests
-      - master
+    extends:
+        - .payments
+        - .lint
+    only:
+        changes:
+            - server/payments/**/*
+        refs:
+            - merge_requests
+            - master
 
 test-payments:type:
-  extends:
-    - .payments
-    - .type-tests
-  only:
-    changes:
-      - server/payments/**/*
-    refs:
-      - merge_requests
-      - master
-      
+    extends:
+        - .payments
+        - .type-tests
+    only:
+        changes:
+            - server/payments/**/*
+        refs:
+            - merge_requests
+            - master
+
 test-payments:unit:
-  extends:
-    - .payments
-    - .unit-tests
-  only:
-    changes:
-      - server/payments/**/*
-    refs:
-      - merge_requests
-      - master
+    extends:
+        - .payments
+        - .unit-tests
+    only:
+        changes:
+            - server/payments/**/*
+        refs:
+            - merge_requests
+            - master
