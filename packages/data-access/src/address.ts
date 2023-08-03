@@ -112,3 +112,14 @@ export type CoordinatesCreateType = {
 export type AddressWithCoordinates = Address & {
 	coordinates: Coordinates | null;
 };
+
+export type AddressPayload = {
+	street1: string;
+	street2: string | null;
+	city: string;
+	state: string;
+	zipcode: number;
+	country: string;
+	countryCode: string | null;
+	coordinates: { latitude: number; longitude: number };
+};
