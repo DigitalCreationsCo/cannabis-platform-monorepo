@@ -5,9 +5,17 @@ import {
 	crashMiddleware,
 	loggerMiddleware,
 } from '@cd/core-lib/src/reduxDir/middleware';
-import { combineReducers, configureStore, Store } from '@reduxjs/toolkit';
-// import { deserialize, serialize } from 'json-immutable';
+import {
+	applyMiddleware,
+	combineReducers,
+	configureStore,
+	type Action,
+	type AnyAction,
+	type Store,
+	type ThunkAction,
+} from '@reduxjs/toolkit';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import {
 	FLUSH,
 	PAUSE,
@@ -30,7 +38,7 @@ const rootReducer = combineReducers({
 	user: userReducer,
 });
 
-const hydratableReducer = (state, action) => {
+const hydratableReducer = (state: RootState, action: AnyAction) => {
 	if (action.type === HYDRATE) {
 		return {
 			...state, // use previous state

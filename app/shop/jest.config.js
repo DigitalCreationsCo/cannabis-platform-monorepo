@@ -21,9 +21,9 @@ const config = {
 	displayName: `${packageJson.name}:unit`,
 	verbose: true,
 	preset: 'ts-jest',
+	testEnvironment: 'jsdom',
 	rootDir: './',
 	cacheDirectory: getJestCachePath(packageJson.name),
-	testEnvironment: 'jsdom',
 	testEnvironmentOptions: {
 		NODE_ENV: 'test',
 	},
@@ -44,7 +44,12 @@ const config = {
 	testPathIgnorePatterns: ['\\**/node_modules/', '\\/.next/'],
 
 	transform: {
-		'^.+\\.(ts|tsx)$': 'ts-jest',
+		'^.+\\.m?[tj]sx?$': [
+			'ts-jest',
+			{
+				tsconfig: './tsconfig.json',
+			},
+		],
 		'^.+\\.(mjs|js|jsx)$': 'babel-jest',
 		'^.+.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$':
 			'jest-transform-stub', // anything style related is ignored and mapped to jest-transform-stub module

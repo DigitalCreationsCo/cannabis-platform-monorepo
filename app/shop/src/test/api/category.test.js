@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 // import ordersHandler from "../../pages/api/category"
 // import axios from 'axios';
 // import { createMocks } from 'node-mocks-http';

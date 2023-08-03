@@ -24,7 +24,7 @@ describe('DELETE /api/users/2/address/3', () => {
 	it('delete address calls the correct api with params', async () => {
 		const mockGetHandler = jest.fn(async (req, res) => {
 			const { id } = req.query;
-			const response = await axios(urlBuilder.main.userById(id));
+			await axios(urlBuilder.main.userById(id));
 			res.end();
 		});
 
