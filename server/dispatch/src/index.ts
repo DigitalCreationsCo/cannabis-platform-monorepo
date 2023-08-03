@@ -12,7 +12,7 @@ try {
 	global.io.listen(port);
 
 	console.info(
-		` 🚔 server-dispatch is in ${process.env.NODE_ENV} mode on port ${port}.`
+		` 🚔 server-dispatch is in ${process.env.NODE_ENV} mode on port ${port}.`,
 	);
 } catch (error) {
 	console.info('server-dispatch error: ', error);

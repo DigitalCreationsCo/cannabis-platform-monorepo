@@ -9,7 +9,7 @@ function ClickableTags({ values, setValues, valueKey }: ClickableTagProps) {
 		if (editMode) {
 			setValues((state: any) => {
 				const filterValues = [...state].filter(
-					(item) => item[valueKey] !== c[valueKey]
+					(item) => item[valueKey] !== c[valueKey],
 				);
 				return new Set([...filterValues]);
 			});

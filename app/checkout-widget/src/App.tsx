@@ -24,11 +24,11 @@ const App = (configProps: CheckoutWidgetConfigOptions) => {
 export default {
 	init: async (props: CheckoutWidgetConfigOptions) => {
 		ReactDOMClient.createRoot(
-			document.getElementById('gras-widget-root') as Element
+			document.getElementById('gras-widget-root') as Element,
 		).render(
 			<MemoryRouter>
 				<App {...props} />
-			</MemoryRouter>
+			</MemoryRouter>,
 		);
 	},
 };

@@ -63,7 +63,7 @@ function Layout({
 			className={twMerge(
 				'flex flex-col min-h-screen',
 				styles.isModalOverlay,
-				className
+				className,
 			)}
 		>
 			<div className={styles.main}>

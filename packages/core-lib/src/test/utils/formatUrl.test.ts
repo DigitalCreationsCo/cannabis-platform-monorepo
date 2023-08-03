@@ -35,15 +35,15 @@ describe('formatUrt.test', () => {
 			switch (process.env.NODE_ENV) {
 				case 'development':
 					return expect(formatDispensaryUrl(subdomainId)).toEqual(
-						`http://${subdomainId}.localhost:3000`
+						`http://${subdomainId}.localhost:3000`,
 					);
 				case 'test':
 					return expect(formatDispensaryUrl(subdomainId)).toEqual(
-						`http://${subdomainId}.localhost:3000`
+						`http://${subdomainId}.localhost:3000`,
 					);
 				case 'production':
 					return expect(formatDispensaryUrl(subdomainId)).toEqual(
-						`http://${subdomainId}.grascannabis.org`
+						`http://${subdomainId}.grascannabis.org`,
 					);
 			}
 		});
@@ -63,15 +63,15 @@ describe('formatUrt.test', () => {
 			switch (process.env.NODE_ENV) {
 				case 'development':
 					expect(getDashboardSite('/home')).toEqual(
-						`http://localhost:3001/home`
+						`http://localhost:3001/home`,
 					);
 				case 'test':
 					expect(getDashboardSite('/home')).toEqual(
-						`http://localhost:3001/home`
+						`http://localhost:3001/home`,
 					);
 				case 'production':
 					expect(getDashboardSite('/home')).toEqual(
-						`app.grascannabis.org/home`
+						`app.grascannabis.org/home`,
 					);
 			}
 		});

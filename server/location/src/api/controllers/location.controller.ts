@@ -22,13 +22,13 @@ export default class LocationController {
 			}: { userLocation: Coordinates; proximityRadius: number } = req.body;
 
 			console.info(
-				`server-location: get local dispensaries from ${userLocation} with the radius ${proximityRadius}.`
+				`server-location: get local dispensaries from ${userLocation} with the radius ${proximityRadius}.`,
 			);
 			const _geoJson = getCoordinatePairFromUserLocation(userLocation);
 
 			const data = await LocationDA.getLocalOrganizations(
 				_geoJson,
-				proximityRadius
+				proximityRadius,
 			);
 			if (!data)
 				return res.status(404).json('Local organizations were not found.');
@@ -56,7 +56,7 @@ export default class LocationController {
 				'organization to add: ',
 				organization.name,
 				': ',
-				organization.id
+				organization.id,
 			);
 			const data = await LocationDA.createOrganizationMongoRecord(organization);
 
@@ -67,7 +67,7 @@ export default class LocationController {
 				'successfully created dispensary location record: ',
 				organization.name,
 				': ',
-				organization.id
+				organization.id,
 			);
 
 			return res.status(201).json({
@@ -120,7 +120,7 @@ export default class LocationController {
 		try {
 			const organizationId = req.params.id || '';
 			const data = await LocationDA.deleteOrganizationMongoRecord(
-				organizationId
+				organizationId,
 			);
 			if (!data)
 				return res.status(404).json('Could not delete the dispensary record.');

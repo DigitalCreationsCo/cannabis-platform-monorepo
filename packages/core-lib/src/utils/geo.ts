@@ -1,11 +1,11 @@
 import {
-	AddressCreateType, AddressPayload, Coordinates
+	AddressCreateType,
+	AddressPayload,
+	Coordinates,
 } from '@cd/data-access';
 import { axios } from '../axiosInstance';
 
-export async function getGeoCoordinatesFromAddress(
-	address: AddressPayload
-) {
+export async function getGeoCoordinatesFromAddress(address: AddressPayload) {
 	const { street1, street2, city, state, country, zipcode, countryCode } =
 		address;
 	const addressString = `${street1} ${street2}, ${city}, ${state}, ${country}, ${zipcode}`;
@@ -21,7 +21,7 @@ async function getCoordinatesByAddressString(addressString: string): Promise<{
 	try {
 		const format = 'json';
 		const response = await axios.get(
-			`${process.env.NEXT_PUBLIC_LOCATION_IQ_GEOCODE_URL}?key=${process.env.NEXT_PUBLIC_LOCATION_IQ_API_KEY}&q=${addressString}&format=${format}`
+			`${process.env.NEXT_PUBLIC_LOCATION_IQ_GEOCODE_URL}?key=${process.env.NEXT_PUBLIC_LOCATION_IQ_API_KEY}&q=${addressString}&format=${format}`,
 		);
 
 		const { lat: latitude, lon: longitude } = response.data[0];
@@ -41,7 +41,7 @@ export async function getGeoAddressFromCoordinates(coordinates: {
 		const format = 'json';
 		const { latitude, longitude } = coordinates;
 		const response = await axios.get(
-			`${process.env.NEXT_PUBLIC_LOCATION_IQ_REVERSE_GEOCODE_URL}?key=${process.env.NEXT_PUBLIC_LOCATION_IQ_API_KEY}&lat=${latitude}&lon=${longitude}&format=${format}`
+			`${process.env.NEXT_PUBLIC_LOCATION_IQ_REVERSE_GEOCODE_URL}?key=${process.env.NEXT_PUBLIC_LOCATION_IQ_API_KEY}&lat=${latitude}&lon=${longitude}&format=${format}`,
 		);
 
 		const { address, lat, lon } = response.data;

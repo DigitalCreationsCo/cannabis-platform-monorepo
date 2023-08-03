@@ -116,7 +116,7 @@ const cheerioCrawler = async () => {
 			console.info('cart items: ', _cartItemHtml);
 
 			const _cartTotal = $(
-				getDomData(_domain)['total']
+				getDomData(_domain)['total'],
 			).text() as unknown as number;
 			console.info('cart total: ', _cartTotal);
 
@@ -136,7 +136,7 @@ const cheerioCrawler = async () => {
 
 			function createCartData(
 				html: cheerio.AnyNode[],
-				total: number
+				total: number,
 			): SimpleCart {
 				console.info('create cart data input: ', html);
 				const cartItems: ProductVariantWithDetails[] = [];
@@ -150,7 +150,7 @@ const cheerioCrawler = async () => {
 					const _item = {
 						name: $item.find(getDomData(_domain).name).text(),
 						basePrice: convertDollarsToWholeNumber(
-							$item.find(getDomData(_domain).basePrice).text()
+							$item.find(getDomData(_domain).basePrice).text(),
 						),
 						quantity: $item
 							.find(getDomData(_domain).quantity)
@@ -172,7 +172,7 @@ const cheerioCrawler = async () => {
 
 					console.info('item created from parseHtml: ', _item);
 					cartData.cartItems.push(
-						_item as unknown as ProductVariantWithDetails
+						_item as unknown as ProductVariantWithDetails,
 					);
 				});
 				console.info('cartData', cartData);

@@ -65,7 +65,7 @@ export default class ShopController {
 		} catch (error: any) {
 			console.info(
 				'API Error Shop Controller: fulfillOrderAndDispatch: ',
-				error
+				error,
 			);
 			res.status(500).json({ error: error.message });
 		}

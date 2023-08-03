@@ -51,7 +51,7 @@ axios.interceptors.response.use(
 		} else {
 			return Promise.reject(error);
 		}
-	}
+	},
 );
 
 // handle ECONNREFUSED error code
@@ -68,7 +68,7 @@ instance.interceptors.response.use(
 			});
 
 		return Promise.reject(error);
-	}
+	},
 );
 
 export { instance as axios };

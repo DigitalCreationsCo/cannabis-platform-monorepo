@@ -51,10 +51,10 @@ function FormStepProvider({
 	formId,
 }: FormStepProviderProps) {
 	const [cookies, setCookie, removeCookie] = useEncryptCookies(
-		[`form-data-context-${formId}`] || ({} as FormValuesType)
+		[`form-data-context-${formId}`] || ({} as FormValuesType),
 	);
 	const [formValues, setFormData] = useState<FormValuesType>(
-		cookies[`form-data-context-${formId}`] || {}
+		cookies[`form-data-context-${formId}`] || {},
 	);
 
 	useEffect(() => {
@@ -62,7 +62,7 @@ function FormStepProvider({
 	}, [formValues]);
 
 	const validFormSteps = FormStepComponents.filter(
-		(component) => component !== null
+		(component) => component !== null,
 	);
 
 	const { canProceed, setCanProceed, formstep, nextFormStep, prevFormStep } =

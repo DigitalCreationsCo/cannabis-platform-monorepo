@@ -89,7 +89,7 @@ export async function createUser(userData: UserCreateType) {
 		if (error instanceof Prisma.PrismaClientKnownRequestError) {
 			if (error.code === 'P2002') {
 				throw new Error(
-					'This user exists already. Please choose a different username or email.'
+					'This user exists already. Please choose a different username or email.',
 				);
 			}
 		}
@@ -213,7 +213,7 @@ export async function upsertUser(userData: UserCreateType) {
 		if (error instanceof Prisma.PrismaClientKnownRequestError) {
 			if (error.code === 'P2002') {
 				throw new Error(
-					'This user exists already. Please choose a different username or email.'
+					'This user exists already. Please choose a different username or email.',
 				);
 			}
 		}
@@ -272,7 +272,7 @@ export async function updateUser(userData: UserCreateType) {
 		if (error instanceof Prisma.PrismaClientKnownRequestError) {
 			if (error.code === 'P2002') {
 				throw new Error(
-					'This user exists already. Please choose a different username or email.'
+					'This user exists already. Please choose a different username or email.',
 				);
 			}
 		}
@@ -282,7 +282,7 @@ export async function updateUser(userData: UserCreateType) {
 
 export async function upsertDispensaryAdmin(
 	userData: UserCreateType,
-	createParams: CreateUserParams
+	createParams: CreateUserParams,
 ) {
 	try {
 		const { ...addressData } = userData.address[0];
@@ -341,7 +341,7 @@ export async function upsertDispensaryAdmin(
 		if (error instanceof Prisma.PrismaClientKnownRequestError) {
 			if (error.code === 'P2002') {
 				throw new Error(
-					'This user exists already. Please choose a different username or email.'
+					'This user exists already. Please choose a different username or email.',
 				);
 			}
 		}
@@ -351,7 +351,7 @@ export async function upsertDispensaryAdmin(
 
 export async function updateDispensaryAdmin(
 	userData: any,
-	createParams: CreateUserParams
+	createParams: CreateUserParams,
 ) {
 	try {
 		const { organizationId, coordinates, coordinateId, ...addressData } =
@@ -433,7 +433,7 @@ export async function updateDispensaryAdmin(
 		if (error instanceof Prisma.PrismaClientKnownRequestError) {
 			if (error.code === 'P2002') {
 				throw new Error(
-					'This user exists already. Please choose a different username or email.'
+					'This user exists already. Please choose a different username or email.',
 				);
 			}
 		}
@@ -442,7 +442,7 @@ export async function updateDispensaryAdmin(
 }
 
 export async function findUserWithDetailsByEmail(
-	email: string
+	email: string,
 ): Promise<UserWithDetails | null> {
 	try {
 		const user = await prisma.user.findUnique({
@@ -471,7 +471,7 @@ export async function findUserWithDetailsByEmail(
 }
 
 export async function findUserWithDetailsByPhone(
-	phone: string
+	phone: string,
 ): Promise<UserWithDetails | null> {
 	try {
 		const user = await prisma.user.findUnique({
@@ -500,7 +500,7 @@ export async function findUserWithDetailsByPhone(
 }
 
 export async function findUserWithDetailsById(
-	id: string
+	id: string,
 ): Promise<UserWithDetails | null> {
 	try {
 		const user = await prisma.user.findUnique({

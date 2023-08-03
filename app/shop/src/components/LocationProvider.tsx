@@ -3,9 +3,9 @@ import {
 	selectSelectedLocationState,
 	selectShopState,
 	shopActions,
-	type AddressPayload,
 } from '@cd/core-lib';
 import { getGeoAddressFromCoordinates } from '@cd/core-lib/src/utils/geo';
+import { type AddressPayload } from '@cd/data-access';
 import { type AnyAction } from '@reduxjs/toolkit';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -49,7 +49,7 @@ const LocationProvider = () => {
 						locationActions.setCurrentCoordinates({
 							latitude: position.coords.latitude,
 							longitude: position.coords.longitude,
-						})
+						}),
 					);
 					getGeoAddressFromCoordinates({
 						latitude: position.coords.latitude,
@@ -57,17 +57,17 @@ const LocationProvider = () => {
 					})
 						.then((address) =>
 							dispatch(
-								locationActions.setCurrentAddress(address as AddressPayload)
-							)
+								locationActions.setCurrentAddress(address as AddressPayload),
+							),
 						)
 						.catch((error) =>
 							console.info(
 								'Location Provider getGeoAddressByCoordifdnates error: ',
-								error
-							)
+								error,
+							),
 						);
 				},
-				() => console.info('Geolocation is not supported by this browser.')
+				() => console.info('Geolocation is not supported by this browser.'),
 			);
 		}
 	}, [coordinates.latitude, coordinates.longitude, dispatch, enteredSite]);

@@ -13,7 +13,7 @@ export interface WidgetViewProps {
 
 const WidgetView =
 	(
-		View: (props: WidgetViewProps & CheckoutWidgetConfigOptions) => JSX.Element
+		View: (props: WidgetViewProps & CheckoutWidgetConfigOptions) => JSX.Element,
 	) =>
 	(props: CheckoutWidgetConfigOptions) => {
 		const history = useNavigate();

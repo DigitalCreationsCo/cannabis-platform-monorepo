@@ -23,7 +23,7 @@ export default class ImageController {
 
 			if (images) {
 				const idFrontImage = images.find(
-					(image) => image.fieldname === 'idFrontImage'
+					(image) => image.fieldname === 'idFrontImage',
 				);
 
 				let _verified: { isLegalAge: boolean; scannedDOB: Date },
@@ -32,7 +32,7 @@ export default class ImageController {
 				// make requests to AWS in production only
 				if (process.env.NODE_ENV === 'production') {
 					_verified = await ImageDAO.verifyIdentificationImage(
-						idFrontImage.buffer
+						idFrontImage.buffer,
 					);
 					_uploaded = await ImageDAO.uploadToS3({
 						files: images,

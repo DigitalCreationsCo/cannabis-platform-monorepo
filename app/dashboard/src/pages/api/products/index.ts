@@ -15,7 +15,7 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 	try {
 		res.setHeader(
 			'Cache-Control',
-			'public, s-maxage=10, stale-while-revalidate=59'
+			'public, s-maxage=10, stale-while-revalidate=59',
 		);
 		const user = (await getSession({ req, res }))?.user;
 		const organizationId = user?.memberships?.[0]?.organizationId;
@@ -24,7 +24,7 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 			return res.status(200).json(products);
 		}
 		const { data } = await axios(
-			urlBuilder.main.productsByOrgId(organizationId)
+			urlBuilder.main.productsByOrgId(organizationId),
 		);
 		cache.set(`products/org/${organizationId}`, data);
 		return res.status(res.statusCode).json(data);

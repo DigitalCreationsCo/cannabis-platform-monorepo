@@ -42,7 +42,7 @@ export default function Products({ products }: ProductsDashboardProps) {
 	useEffect(() => {}, [searchValue]);
 
 	const searchedProducts = products.filter((product) =>
-		product.name.toLowerCase().includes(searchValue.toLowerCase())
+		product.name.toLowerCase().includes(searchValue.toLowerCase()),
 	);
 
 	const currentProducts = usePagination(currentPage, searchedProducts);
@@ -128,7 +128,7 @@ export async function getServerSideProps({ req, res }: { req: any; res: any }) {
 	try {
 		res.setHeader(
 			'Cache-Control',
-			'public, s-maxage=10, stale-while-revalidate=59'
+			'public, s-maxage=10, stale-while-revalidate=59',
 		);
 
 		// const products = await (await fetch(urlBuilder.dashboard + '/api/products', {

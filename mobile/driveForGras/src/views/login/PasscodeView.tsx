@@ -54,7 +54,7 @@ const PasscodeView = ({ route }) => {
 						'Content-Type': 'application/json',
 						rid: 'passwordless',
 					},
-				}
+				},
 			);
 
 			if (!response.data.user) throw new Error('No user found.');

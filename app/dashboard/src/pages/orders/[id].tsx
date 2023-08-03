@@ -57,7 +57,7 @@ export default function OrderDetails({
 }) {
 	const [updateOrder, setUpdateOrder] = useState<OrderWithDetails>();
 	const [orderStatus, setOrderStatus] = useState<OrderStatus>(
-		order.orderStatus
+		order.orderStatus,
 	);
 
 	const [searchProductTerms, setSearchProductTerms] = useState('');
@@ -124,7 +124,7 @@ export default function OrderDetails({
 	const calculateTotal = (items: any[]) => {
 		const subtotal = items.reduce(
 			(prev, curr) => prev + curr.salePrice * curr.quantity,
-			0
+			0,
 		);
 		const total = subtotal + order.taxAmount;
 		// setUpdateOrder((state) => ({ ...state, subtotal, total }));
@@ -141,7 +141,7 @@ export default function OrderDetails({
 	// delete item from order
 	const handleDeleteItem = (variantId: string) => {
 		const items = order?.items?.filter(
-			(item: any) => item.variantId !== variantId
+			(item: any) => item.variantId !== variantId,
 		);
 		calculateTotal(items as any[]);
 	};
@@ -149,7 +149,7 @@ export default function OrderDetails({
 	// add new item in order
 	const handleAddItem = (
 		variant: ProductVariantWithDetails,
-		quantity: number
+		quantity: number,
 	) => {
 		const salePrice = calcSalePrice(variant.basePrice, variant.discount);
 

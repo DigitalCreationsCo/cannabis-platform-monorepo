@@ -6,7 +6,7 @@ import { ProductVariantWithDetails } from '@cd/data-access';
  * @returns array of stripe line item objects
  */
 function generateCheckoutLineItemsFromOrderItems(
-	items: ProductVariantWithDetails[]
+	items: ProductVariantWithDetails[],
 ) {
 	return items.map((item) => ({
 		price_data: {

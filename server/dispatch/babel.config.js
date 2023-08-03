@@ -7,7 +7,7 @@ module.exports = function (config) {
 
 	console.info(
 		' 🚔 server-dispatch env loaded from ',
-		path.resolve(__dirname, '../../.env.' + nodeEnv)
+		path.resolve(__dirname, '../../.env.' + nodeEnv),
 	);
 
 	return {

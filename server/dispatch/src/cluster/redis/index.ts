@@ -7,7 +7,7 @@ const publishRedisClient = createClient({ url: redisPubClientUrl }).on(
 	(err) => {
 		console.info('Publisher Redis Client Error: ', err);
 		throw new Error('Publisher Redis Client Error: ' + err.message);
-	}
+	},
 );
 // await
 publishRedisClient.connect();

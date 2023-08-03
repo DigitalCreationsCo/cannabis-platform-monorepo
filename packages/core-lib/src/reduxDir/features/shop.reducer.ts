@@ -23,7 +23,7 @@ export const getInitialDispensaries = createAsyncThunk(
 						Accept: 'application/json',
 						'Content-Type': 'application/json',
 					},
-				}
+				},
 			);
 
 			// ADD AXIOS REPSONSE TYPE TO INSTANCE CONFIG!
@@ -32,7 +32,7 @@ export const getInitialDispensaries = createAsyncThunk(
 			console.error('getInitialDispensaries: ', error);
 			return rejectWithValue('Could not get initial dispensaries');
 		}
-	}
+	},
 );
 
 // TODO: IMPROVE THIS, SO IT ONLY FETCHES FOR DATA THAT IS NOT ALREADY IN STATE
@@ -57,7 +57,7 @@ export const getDispensariesLocal = createAsyncThunk<
 					Accept: 'application/json',
 					'Content-Type': 'application/json',
 				},
-			}
+			},
 		);
 
 		// ADD AXIOS REPSONSE TYPE TO INSTANCE CONFIG!
@@ -147,7 +147,7 @@ export const getProductsFromLocal = createAsyncThunk<
 					Accept: 'application/json',
 					'Content-Type': 'application/json',
 				},
-			}
+			},
 		);
 
 		// ADD AXIOS REPSONSE TYPE TO INSTANCE CONFIG!
@@ -187,7 +187,7 @@ export const shopSlice = createSlice({
 			getInitialDispensaries.fulfilled,
 			(
 				state,
-				{ payload }: PayloadAction<OrganizationWithDetailsAndMetadata[]>
+				{ payload }: PayloadAction<OrganizationWithDetailsAndMetadata[]>,
 			) => {
 				const dispensaries = payload;
 				if (dispensaries.length > 0) {
@@ -199,7 +199,7 @@ export const shopSlice = createSlice({
 						console.info('state before reconcile: ', state.dispensaries);
 
 						const index = state.dispensaries.findIndex(
-							(d) => d.id === dispensary.id
+							(d) => d.id === dispensary.id,
 						);
 						if (index === -1)
 							state.dispensaries = [...state.dispensaries, dispensary];
@@ -211,7 +211,7 @@ export const shopSlice = createSlice({
 				state.isLoading = false;
 				state.isSuccess = true;
 				state.isError = false;
-			}
+			},
 		),
 			builder.addCase(getInitialDispensaries.pending, (state) => {
 				state.isLoading = true;
@@ -228,7 +228,7 @@ export const shopSlice = createSlice({
 				getDispensariesLocal.fulfilled,
 				(
 					state,
-					{ payload }: PayloadAction<OrganizationWithDetailsAndMetadata[]>
+					{ payload }: PayloadAction<OrganizationWithDetailsAndMetadata[]>,
 				) => {
 					const dispensaries = payload;
 
@@ -241,7 +241,7 @@ export const shopSlice = createSlice({
 							console.info('state before reconcile: ', state.dispensaries);
 
 							const index = state.dispensaries.findIndex(
-								(d) => d.id === dispensary.id
+								(d) => d.id === dispensary.id,
 							);
 							if (index === -1)
 								state.dispensaries = [...state.dispensaries, dispensary];
@@ -253,7 +253,7 @@ export const shopSlice = createSlice({
 					state.isLoading = false;
 					state.isSuccess = true;
 					state.isError = false;
-				}
+				},
 			),
 			builder.addCase(getDispensariesLocal.pending, (state) => {
 				state.isLoading = true;
@@ -288,7 +288,7 @@ export const shopSlice = createSlice({
 						//   state.dispensaries[index] = item;
 						// console.info('state after reconcile: ', state.dispensaries)
 					}
-				}
+				},
 			),
 			builder.addCase(getProductsFromLocal.pending, (state) => {
 				state.isLoading = true;

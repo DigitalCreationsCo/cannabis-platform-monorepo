@@ -73,7 +73,7 @@ function UserSignUpQuickForm() {
 			.test(
 				'termsAccepted',
 				'Please read and agree to our User Terms and Conditions.',
-				(value) => value === true
+				(value) => value === true,
 			),
 		profilePicture: yup
 			.string()
@@ -229,7 +229,7 @@ function UserSignUpQuickForm() {
 									styles.BUTTON['round-image-btn'],
 									index === selected
 										? ['border-2 border-primary']
-										: ['border-2 border-transparent']
+										: ['border-2 border-transparent'],
 								)}
 							>
 								<img

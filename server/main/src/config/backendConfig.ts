@@ -46,7 +46,7 @@ export const backendConfig = (): AuthConfig => {
 								} catch (error) {
 									console.log(' create code error: ', error);
 									throw new Error(
-										'The Sign In server is not available. Please contact Gras team.'
+										'The Sign In server is not available. Please contact Gras team.',
 									);
 								}
 							},
@@ -55,7 +55,7 @@ export const backendConfig = (): AuthConfig => {
 								try {
 									console.info('consume-code input: ', input);
 									let response = await originalImplementation.consumeCode(
-										input
+										input,
 									);
 									console.info('consume-code response: ', response);
 
@@ -87,7 +87,7 @@ export const backendConfig = (): AuthConfig => {
 												if (response.user.email) {
 													user =
 														(await DriverDA.getDriverByEmail(
-															response.user.email
+															response.user.email,
 														)) || null;
 													response.user = {
 														...response.user,
@@ -96,7 +96,7 @@ export const backendConfig = (): AuthConfig => {
 												} else if (response.user.phoneNumber) {
 													user =
 														(await DriverDA.getDriverByPhone(
-															response.user.phoneNumber
+															response.user.phoneNumber,
 														)) || null;
 													response.user = {
 														...response.user,
@@ -107,7 +107,7 @@ export const backendConfig = (): AuthConfig => {
 												if (response.user.email) {
 													user =
 														(await UserDA.getUserByEmail(
-															response.user.email
+															response.user.email,
 														)) || null;
 													response.user = {
 														...response.user,
@@ -116,7 +116,7 @@ export const backendConfig = (): AuthConfig => {
 												} else if (response.user.phoneNumber) {
 													user =
 														(await UserDA.getUserByPhone(
-															response.user.phoneNumber
+															response.user.phoneNumber,
 														)) || null;
 													response.user = {
 														...response.user,
@@ -138,7 +138,7 @@ export const backendConfig = (): AuthConfig => {
 						return {
 							...originalImplementation,
 							consumeCodePOST: async (
-								input: PasswordlessSignInRequestPayload & { options: any }
+								input: PasswordlessSignInRequestPayload & { options: any },
 							) => {
 								const { appUser } = await input.options.req.getJSONBody();
 								input.userContext = { ...input.userContext, appUser };

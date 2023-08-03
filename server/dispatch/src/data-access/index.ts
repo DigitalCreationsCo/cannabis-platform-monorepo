@@ -27,8 +27,8 @@ class DispatchDA {
 					console.info(
 						' 🚔 [Primary:' +
 							process.pid +
-							'] is connected to Mongo, and Prismadatabase. 👏'
-					)
+							'] is connected to Mongo, and Prismadatabase. 👏',
+					),
 				);
 				return this;
 			})() as unknown as DispatchDA;
@@ -42,8 +42,8 @@ class DispatchDA {
 							cluster?.worker?.id +
 							':' +
 							process.pid +
-							'] is connected to Mongo, and Prismadatabase. 👏'
-					)
+							'] is connected to Mongo, and Prismadatabase. 👏',
+					),
 				);
 				return this;
 			})() as unknown as DispatchDA;
@@ -71,7 +71,7 @@ class DispatchDA {
 				.catch((error) => {
 					console.error(
 						' 🚔 server-dispatch : Error connecting to mongo database: ',
-						error.stack
+						error.stack,
 					);
 					process.exit(1);
 				});
@@ -80,13 +80,13 @@ class DispatchDA {
 				.$connect()
 				.then(async () => {
 					console.info(
-						' 🚔 server-dispatch : Prisma Database 👏👏 is ready for query.'
+						' 🚔 server-dispatch : Prisma Database 👏👏 is ready for query.',
 					);
 				})
 				.catch((error) => {
 					console.error(
 						' 🚔 server-dispatch : Error connecting to prisma database: ',
-						error.stack
+						error.stack,
 					);
 					process.exit(1);
 				});
@@ -238,7 +238,7 @@ class DispatchDA {
 			const updatedOrder = await this.dispatchOrdersCollection?.updateOne(
 				query,
 				update,
-				{ writeConcern: { w: 'majority' } }
+				{ writeConcern: { w: 'majority' } },
 			);
 
 			if (updatedOrder?.modifiedCount === 0)
@@ -258,7 +258,7 @@ class DispatchDA {
 			});
 
 			console.info(
-				` 🚔 [Primary: ${process.pid}] is watching ${this.dispatchOrdersCollection?.namespace} collection for dispatch orders`
+				` 🚔 [Primary: ${process.pid}] is watching ${this.dispatchOrdersCollection?.namespace} collection for dispatch orders`,
 			);
 
 			this.dispatchOrdersChangeStream = changeStream;

@@ -11,7 +11,7 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 	try {
 		res.setHeader(
 			'Cache-Control',
-			'public, s-maxage=10, stale-while-revalidate=59'
+			'public, s-maxage=10, stale-while-revalidate=59',
 		);
 		if (cache.has(`blogs/latest`)) {
 			const blogs = cache.get(`blogs/latest`);

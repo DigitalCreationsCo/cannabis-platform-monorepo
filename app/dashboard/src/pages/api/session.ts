@@ -10,7 +10,7 @@ handler.get(async (req: ExtendRequest, res: NextApiResponse) => {
 	try {
 		res.setHeader(
 			'Cache-Control',
-			'public, s-maxage=10, stale-while-revalidate=10'
+			'public, s-maxage=10, stale-while-revalidate=10',
 		);
 		const { data } = await axios(urlBuilder.main.getSession(), {
 			headers: {

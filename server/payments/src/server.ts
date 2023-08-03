@@ -25,7 +25,7 @@ app.use(
 		allowedHeaders: ['content-type', ...Supertokens.getAllCORSHeaders()],
 		methods: ['GET', 'PUT', 'POST', 'DELETE'],
 		credentials: true,
-	})
+	}),
 );
 app.use(middleware());
 
@@ -64,10 +64,10 @@ app.use(
 		err: any,
 		req: express.Request,
 		res: express.Response,
-		next: express.NextFunction
+		next: express.NextFunction,
 	) => {
 		res.status(500).send(err.message);
-	}
+	},
 );
 app.use('*', (req, res) => res.status(404).json({ error: 'API not found' }));
 

@@ -58,13 +58,13 @@ export async function updateOrganization(organization: OrganizationCreateType) {
 								update: {
 									latitude: Number(organization.address.coordinates?.latitude),
 									longitude: Number(
-										organization.address.coordinates?.longitude
+										organization.address.coordinates?.longitude,
 									),
 								},
 								create: {
 									latitude: Number(organization.address.coordinates?.latitude),
 									longitude: Number(
-										organization.address.coordinates?.longitude
+										organization.address.coordinates?.longitude,
 									),
 								},
 							},
@@ -279,7 +279,7 @@ export async function findUsersByOrganization(organizationId: string) {
  * @returns detailed organization record
  */
 export async function findOrganizationBySubdomain(
-	subdomainId: string
+	subdomainId: string,
 ): Promise<OrganizationWithShopDetails> {
 	try {
 		const organization =
@@ -318,7 +318,7 @@ export async function findOrganizationBySubdomain(
  * @returns an array of detailed Organization records
  */
 export async function findMultipleOrganizationsById(
-	organizationIds: string[]
+	organizationIds: string[],
 ): Promise<OrganizationWithShopDetails[]> {
 	try {
 		const localOrganizations = await prisma.organization.findMany({
@@ -355,7 +355,7 @@ export async function findMultipleOrganizationsById(
 export async function findOrganizationsByZipcode(
 	zipcode: number,
 	limit: number,
-	radius: number
+	radius: number,
 ): Promise<OrganizationWithShopDetails[]> {
 	try {
 		const organizations =
@@ -401,7 +401,7 @@ export async function findOrganizationsByZipcode(
 export async function updateStripeAccountDispensary(
 	id: string,
 	stripeAccountId: string,
-	accountParams = {}
+	accountParams = {},
 ) {
 	try {
 		const update = await prisma.organization.update({

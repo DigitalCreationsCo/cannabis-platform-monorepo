@@ -592,7 +592,7 @@ const createOrganizations = async () => {
 				'create prisma.organization record: ' +
 					organization.name +
 					': ' +
-					organization.id
+					organization.id,
 			);
 
 			axios
@@ -629,7 +629,7 @@ const createOrganizations = async () => {
 					{
 						validateStatus: (status) =>
 							(status >= 200 && status <= 302) || status == 404,
-					}
+					},
 				)
 				.catch((error) => {
 					throw new Error(error);
@@ -639,7 +639,7 @@ const createOrganizations = async () => {
 				'create mongo.organization_geolocate record: ' +
 					organization.name +
 					': ' +
-					organization.id
+					organization.id,
 			);
 		} catch (error) {
 			throw new Error(`${org.name} was not created. ${error.message}`);
@@ -1336,7 +1336,7 @@ const createOrders = async () => {
 		async (order) =>
 			await prisma.order.create({
 				data: order,
-			})
+			}),
 	);
 	console.info('create prisma.order records');
 };
@@ -2103,7 +2103,7 @@ const createArticles = async () => {
 		async (article) =>
 			await prisma.article.create({
 				data: article,
-			})
+			}),
 	);
 	console.info('create prisma.article records');
 };
@@ -2194,7 +2194,7 @@ const createReviews = async () => {
 					createdAt: review.createdAt,
 					updatedAt: review.updatedAt,
 				},
-			})
+			}),
 	);
 	console.info('create prisma.review records');
 };

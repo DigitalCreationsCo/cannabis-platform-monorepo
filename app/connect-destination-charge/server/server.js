@@ -15,7 +15,7 @@ app.use(
 		secret: 'Set this to a random string that is kept secure',
 		resave: false,
 		saveUninitialized: true,
-	})
+	}),
 );
 
 // Use JSON parser for all non-webhook routes
@@ -91,7 +91,7 @@ app.get('/express-dashboard-link', async (req, res) => {
 				});
 			}
 			return res.send({ url: loginLink.url });
-		}
+		},
 	);
 });
 
@@ -109,7 +109,7 @@ app.post(
 			event = stripe.webhooks.constructEvent(
 				req.body,
 				sig,
-				process.env.STRIPE_WEBHOOK_SECRET
+				process.env.STRIPE_WEBHOOK_SECRET,
 			);
 		} catch (err) {
 			return res.status(400).send(`Webhook Error: ${err.message}`);
@@ -121,7 +121,7 @@ app.post(
 		}
 
 		res.json({ received: true });
-	}
+	},
 );
 
 const handleSuccessfulPaymentIntent = (paymentIntent) => {

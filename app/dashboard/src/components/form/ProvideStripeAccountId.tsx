@@ -61,7 +61,7 @@ function ProvideStripeAccountId() {
 				{
 					validateStatus: (status) =>
 						(status >= 200 && status <= 302) || status == 404,
-				}
+				},
 			);
 
 			console.info('response: ', response);
@@ -78,7 +78,7 @@ function ProvideStripeAccountId() {
 				});
 
 			toast.success(
-				`Stripe account connected to ${formValues?.organization?.name}.`
+				`Stripe account connected to ${formValues?.organization?.name}.`,
 			);
 		} catch (error: any) {
 			console.info('Error getting stripe account: ', error);
@@ -106,7 +106,7 @@ function ProvideStripeAccountId() {
 				{
 					validateStatus: (status) =>
 						(status >= 200 && status <= 302) || status == 404,
-				}
+				},
 			);
 
 			console.info('response: ', response);
@@ -129,7 +129,7 @@ function ProvideStripeAccountId() {
 			setLoadingButton2(false);
 
 			toast.success(
-				`Stripe account connected to ${formValues?.organization?.name}.`
+				`Stripe account connected to ${formValues?.organization?.name}.`,
 			);
 		} catch (error: any) {
 			console.info('Error getting stripe account: ', error);

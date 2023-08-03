@@ -92,12 +92,12 @@ io.on(SocketEvents.connection, async (socket) => {
 				});
 
 				console.info(
-					`Sockethandler: Dispatching order ${order} to ${roomsize} drivers.`
+					`Sockethandler: Dispatching order ${order} to ${roomsize} drivers.`,
 				);
 
 				socket.once('accept_delivery_order', async ({ data }) => {
 					console.info(
-						`Sockethandler: Socket ${socket.id} claimed order ${order}`
+						`Sockethandler: Socket ${socket.id} claimed order ${order}`,
 					);
 
 					socket.in(roomname).emit('order_assigned_to_another_driver', {
@@ -106,13 +106,13 @@ io.on(SocketEvents.connection, async (socket) => {
 					});
 
 					console.info(
-						`Dispatch: accept_delivery_order received for order ${orderId}`
+						`Dispatch: accept_delivery_order received for order ${orderId}`,
 					);
 
 					const { userId } = data;
 
 					console.info(
-						`Dispatch: Driver:${userId} accepted the order:${orderId}.`
+						`Dispatch: Driver:${userId} accepted the order:${orderId}.`,
 					);
 
 					await MasterRoomController.addDriverToOrder(orderId, userId)
@@ -129,7 +129,7 @@ io.on(SocketEvents.connection, async (socket) => {
 						})
 						.catch((error) => {
 							throw new Error(
-								`Sockethandler: Failed to add driver ${userId} to order ${orderId}.`
+								`Sockethandler: Failed to add driver ${userId} to order ${orderId}.`,
 							);
 						});
 
@@ -153,7 +153,7 @@ io.on(SocketEvents.connection, async (socket) => {
 
 			if (roomsize === 0 && roomWasOccupied === true && isDriverAdded === false)
 				throw new Error(
-					`sockethandler: join-room: Failed to select a driver for room ${roomname}`
+					`sockethandler: join-room: Failed to select a driver for room ${roomname}`,
 				);
 		}
 	});
@@ -222,7 +222,7 @@ io.of(/^\/order:\w+$/).on(SocketEvents.connection, async (socket) => {
 					"Sockethandler: navigate event: '\n'type: ",
 					type,
 					"'\n'data: ",
-					data
+					data,
 				);
 				switch (type) {
 					case 'ARRIVE_TO_VENDOR':

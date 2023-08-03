@@ -1,7 +1,7 @@
 const usePagination = <P>(
 	currentPage: number,
 	data: P[],
-	pageSize = 10
+	pageSize = 10,
 ): P[] => {
 	const indexOfLastTodo = currentPage * pageSize;
 	const indexOfFirstTodo = indexOfLastTodo - pageSize;

@@ -158,7 +158,7 @@ const modalSlice = createSlice({
 			builder.addCase(launchConfirmModal.rejected, (state) => {}),
 			builder.addCase(
 				launchSelectModalLocationType.fulfilled,
-				(state, { payload }) => {}
+				(state, { payload }) => {},
 			),
 			builder.addCase(launchSelectModalLocationType.pending, (state) => {}),
 			builder.addCase(launchSelectModalLocationType.rejected, (state) => {}),

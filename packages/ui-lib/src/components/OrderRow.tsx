@@ -37,7 +37,7 @@ function OrderRow({ order, orderDetailsRoute }: OrderRowProps) {
 				<Paragraph
 					className={twMerge(
 						'col-span-4',
-						`text-${getColor(order.orderStatus)}`
+						`text-${getColor(order.orderStatus)}`,
 					)}
 				>
 					{order.orderStatus}

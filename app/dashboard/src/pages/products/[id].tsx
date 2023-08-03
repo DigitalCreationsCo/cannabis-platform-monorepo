@@ -64,12 +64,12 @@ export default function ProductDetails({
 	product: ProductWithDashboardDetails;
 }) {
 	const [productCategories, setProductCategories] = useState<Set<Category>>(
-		new Set()
+		new Set(),
 	);
 	const [files, setFiles] = useState<any[]>([]);
 	const [loadingButton, setLoadingButton] = useState(false);
 	const [existingImage, setExistingImage] = useState<ImageAny[]>(
-		product?.variants[0]?.images || []
+		product?.variants[0]?.images || [],
 	);
 	const [deletedImage, setDeletedImage] = useState<ImageAny[]>([]);
 	const [searchCategoryTerms, setSearchCategoryTerms] = useState('');
@@ -133,7 +133,7 @@ export default function ProductDetails({
 				files.forEach((file: any) => formData.append('files', file));
 				const { data } = await axios.put(
 					urlBuilder.dashboard + `/api/product-upload/${product.id}`,
-					formData
+					formData,
 				);
 				setLoadingButton(false);
 				toast.success(data);
@@ -147,7 +147,7 @@ export default function ProductDetails({
 	}
 
 	const handleDeleteExistingImage = (
-		image: ImageOrganization | ImageProduct | ImageUser | ImageVendor
+		image: ImageOrganization | ImageProduct | ImageUser | ImageVendor,
 	) => {
 		const id = image.id;
 		setExistingImage((state) => state.filter((image) => id !== image.id));
@@ -157,7 +157,7 @@ export default function ProductDetails({
 	/* eslint-disable */
 	const handleFileDelete = (deleteFile: any) => {
 		setFiles((files: any[]) =>
-			files.filter((file: { id: string }) => file.id !== deleteFile.id)
+			files.filter((file: { id: string }) => file.id !== deleteFile.id),
 		);
 	};
 	/* eslint-disable */
@@ -236,7 +236,7 @@ export default function ProductDetails({
 												<Row
 													className={twMerge(
 														'px-0 mx-0 justify-between',
-														!!touched.variants && 'bg-accent'
+														!!touched.variants && 'bg-accent',
 													)}
 													key={'variant-' + index}
 												>
@@ -357,11 +357,11 @@ export default function ProductDetails({
 																	onClick={() => {
 																		if (
 																			![...productCategories].some(
-																				(cat) => cat.name === v.name
+																				(cat) => cat.name === v.name,
 																			)
 																		) {
 																			setProductCategories(
-																				(state) => new Set([...state, v])
+																				(state) => new Set([...state, v]),
 																			);
 																		}
 																	}}
@@ -411,7 +411,7 @@ export default function ProductDetails({
 														id: string;
 														preview: string;
 													},
-													index
+													index,
 												) => {
 													return (
 														<UploadImageBox
@@ -426,7 +426,7 @@ export default function ProductDetails({
 															/>
 														</UploadImageBox>
 													);
-												}
+												},
 											)}
 										</FlexBox>
 										<DropZone
@@ -434,7 +434,7 @@ export default function ProductDetails({
 												const uploadFiles = files.map((file) =>
 													Object.assign(file, {
 														preview: URL.createObjectURL(file),
-													})
+													}),
 												);
 												setFiles(uploadFiles);
 											}}

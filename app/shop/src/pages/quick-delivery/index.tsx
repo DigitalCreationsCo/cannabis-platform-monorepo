@@ -88,7 +88,7 @@ function QuickDelivery() {
 												key={`order-item-${index}`}
 												product={product}
 											/>
-										)
+										),
 									)}
 								</div>
 							</>

@@ -91,7 +91,7 @@ function AddAddressUserModal({
 						headers: {
 							'Content-Type': 'application/json',
 						},
-					}
+					},
 				);
 				console.info('address created: ', data);
 				setLoadingButton(false);

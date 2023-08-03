@@ -63,7 +63,7 @@ function ConfirmOrder() {
 					cart.cart?.map(
 						(product: ProductVariantWithDetails, index: number) => (
 							<SimpleCartItem key={`order-item-${index}`} product={product} />
-						)
+						),
 					)) || (
 					<Paragraph className="col-span-2">
 						You have no items in your order.
@@ -105,7 +105,7 @@ function ConfirmOrder() {
 		dispatch(
 			modalActions.openModal({
 				modalType: modalTypes.loginModal,
-			})
+			}),
 		);
 	}
 }

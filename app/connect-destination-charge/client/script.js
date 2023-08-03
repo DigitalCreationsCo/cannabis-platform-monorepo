@@ -253,5 +253,5 @@ expressDashboardForm.addEventListener(
 				}
 			});
 	},
-	false
+	false,
 );

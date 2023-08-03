@@ -17,22 +17,22 @@ connectDb()
 async function connectDb() {
 	try {
 		console.info(
-			` 💰 server-payments starting in ${process.env.NODE_ENV} mode.`
+			` 💰 server-payments starting in ${process.env.NODE_ENV} mode.`,
 		);
 		await prisma
 			.$connect()
 			.then(async () => {
 				console.info(
-					' 💰 server-payments: Prisma Database 👏👏 is ready for query.'
+					' 💰 server-payments: Prisma Database 👏👏 is ready for query.',
 				);
 			})
 			.then(() =>
-				console.info(' 💰 server-payments is connected to database.')
+				console.info(' 💰 server-payments is connected to database.'),
 			);
 	} catch (error: any) {
 		console.error(
 			' 💰 server-payments: Error connecting to database: ',
-			error.stack
+			error.stack,
 		);
 		process.exit(1);
 	}

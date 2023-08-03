@@ -23,7 +23,7 @@ export default class OrganizationController {
 			const organization = req.body;
 
 			const coordinates = await getGeoCoordinatesFromAddress(
-				organization.address
+				organization.address,
 			);
 			if (coordinates) organization.address.coordinates = coordinates;
 
@@ -137,7 +137,7 @@ export default class OrganizationController {
 			const data = await OrganizationDA.getOrganizationsByZipcode(
 				Number(zipcode),
 				Number(limit),
-				Number(radius)
+				Number(radius),
 			);
 
 			if (!data)

@@ -32,7 +32,7 @@ const ModalContainer = (props: ModalContainerProps) => {
 
 	const ModalComponent = useMemo<JSXElementConstructor<ModalContainerProps>>(
 		() => MODAL_COMPONENTS[modalState.modalType],
-		[modalState.modalType]
+		[modalState.modalType],
 	);
 
 	if (!modalState.modalType && !modalState.modalVisible) return <></>;

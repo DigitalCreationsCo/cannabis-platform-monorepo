@@ -36,7 +36,7 @@ export default function DropZone({
 					'min-h-[200px] items-center border rounded-btn bg-light border-accent flex flex-col justify-center',
 					isDragActive ? 'bg-accent' : 'transparent',
 					'transition outline-none',
-					'dropzone'
+					'dropzone',
 				),
 			})}
 		>

@@ -10,7 +10,7 @@ function CartButton({ totalItems }: { totalItems: number }) {
 				{totalItems >= 1 && (
 					<div
 						className={twMerge(
-							'absolute inline-flex items-center justify-center w-6 h-6 text-sm text-light bg-primary -top-2 -right-2 rounded-full'
+							'absolute inline-flex items-center justify-center w-6 h-6 text-sm text-light bg-primary -top-2 -right-2 rounded-full',
 						)}
 					>
 						{totalItems}

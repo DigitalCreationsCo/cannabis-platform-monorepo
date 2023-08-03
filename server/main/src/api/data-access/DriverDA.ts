@@ -39,7 +39,7 @@ export default class DriverDA {
 		} catch (e: any) {
 			console.error(`Unable to establish collection handle in DriverDA: ${e}`);
 			throw new Error(
-				`Unable to establish collection handle in DriverDA: ${e.message}`
+				`Unable to establish collection handle in DriverDA: ${e.message}`,
 			);
 		}
 	}
@@ -102,13 +102,13 @@ export default class DriverDA {
 							currentRoute: [],
 						},
 					},
-					{ upsert: true, returnDocument: 'after' }
+					{ upsert: true, returnDocument: 'after' },
 				)
 				.then(
 					(result) => result.ok && result.value,
 					(error) => {
 						throw new Error(error.message);
-					}
+					},
 				);
 
 			const data = {
@@ -138,7 +138,7 @@ export default class DriverDA {
 			const updateStatus = await driverSessions.updateOne(
 				{ id },
 				{ $set: { isOnline: onlineStatus } },
-				{ upsert: true }
+				{ upsert: true },
 			);
 
 			if (!updateStatus.acknowledged) {

@@ -8,7 +8,7 @@ function CategoriesSelector() {
 					<Button key={category}>
 						<li className="list-none">{category}</li>
 					</Button>
-				)
+				),
 			)}
 		</FlexBox>
 	);

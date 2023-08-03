@@ -63,7 +63,7 @@ function DispensaryCreate() {
 		try {
 			const response = await axios.put(
 				`${urlBuilder.dashboard}/api/organization`,
-				values
+				values,
 			);
 			if (response.data.success == false)
 				throw new Error(response.data.message);
@@ -320,7 +320,7 @@ const validationSchema = yup.object().shape({
 		.test(
 			'termsAccepted',
 			'Please read and agree to our Dispensary Terms and Conditions.',
-			(value) => value === true
+			(value) => value === true,
 		),
 });
 

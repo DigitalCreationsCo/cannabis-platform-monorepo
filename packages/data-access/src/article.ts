@@ -2,7 +2,7 @@ import { Article, ArticleType, ImageArticle, Prisma } from '@prisma/client';
 import prisma from './db/prisma';
 
 export async function findArticlesByType(
-	tag: ArticleType
+	tag: ArticleType,
 ): Promise<ArticleWithDetails[]> {
 	try {
 		const articles = await prisma.article.findMany({
@@ -23,7 +23,7 @@ export async function findArticlesByType(
 }
 
 export async function findArticleById(
-	id: string
+	id: string,
 ): Promise<ArticleWithDetails | null> {
 	try {
 		const article = await prisma.article.findUnique({
@@ -42,7 +42,7 @@ export async function findArticleById(
 }
 
 export async function createArticle(
-	article: Prisma.ArticleCreateInput
+	article: Prisma.ArticleCreateInput,
 ): Promise<ArticleWithDetails | null> {
 	try {
 		const _article = await prisma.article.create({
@@ -59,7 +59,7 @@ export async function createArticle(
 }
 
 export async function updateArticle(
-	article: Prisma.ArticleUpdateInput
+	article: Prisma.ArticleUpdateInput,
 ): Promise<ArticleWithDetails | null> {
 	try {
 		const _update = await prisma.article.update({

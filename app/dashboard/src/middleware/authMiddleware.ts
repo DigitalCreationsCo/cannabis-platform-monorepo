@@ -12,7 +12,7 @@ export type ExtendRequest = NextApiRequest & {
 export default async function authMiddleware(
 	req: ExtendRequest,
 	res: NextApiResponse,
-	next: any
+	next: any,
 ) {
 	try {
 		// const token = await getToken({ req });

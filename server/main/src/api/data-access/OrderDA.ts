@@ -49,7 +49,7 @@ export default class OrderDA {
 		} catch (e: any) {
 			console.error(`Unable to establish collection handle in OrderDA: ${e}`);
 			throw new Error(
-				`Unable to establish collection handle in OrderDA: ${e.message}`
+				`Unable to establish collection handle in OrderDA: ${e.message}`,
 			);
 		}
 	}
@@ -107,7 +107,7 @@ export default class OrderDA {
 	static async getProductsByOrg(
 		organizationIdList: string | string[],
 		page: number = 1,
-		limit: number = 20
+		limit: number = 20,
 	) {
 		try {
 			const idList = Array.isArray(organizationIdList)
@@ -144,7 +144,7 @@ export default class OrderDA {
 
 	static async updateOrderFulfillmentStatus(
 		orderId: string,
-		orderStatus: OrderStatus
+		orderStatus: OrderStatus,
 	) {
 		try {
 			const data = await updateOrder(orderId, { orderStatus });

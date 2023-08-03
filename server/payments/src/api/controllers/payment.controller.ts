@@ -38,12 +38,12 @@ export default class PaymentController {
 
 			if (!stripeAccountId)
 				throw new Error(
-					`We're sorry, but this dispensary is not accepting payments at this time.`
+					`We're sorry, but this dispensary is not accepting payments at this time.`,
 				);
 
 			const checkout = await StripeService.createCheckout(
 				order,
-				stripeAccountId
+				stripeAccountId,
 			);
 
 			await PaymentDA.saveOrder(order);

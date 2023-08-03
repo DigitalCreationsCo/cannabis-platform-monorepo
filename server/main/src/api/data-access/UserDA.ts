@@ -157,7 +157,7 @@ export default class UserDA {
 	static async createDispensaryAdmin(
 		createUserData: UserCreateType,
 		role: string,
-		dispensaryId: string
+		dispensaryId: string,
 	) {
 		try {
 			// createUserData = await createPasswordHash(createUserData)
@@ -177,7 +177,7 @@ export default class UserDA {
 	static async updateDispensaryAdmin(
 		createUserData: UserCreateType,
 		role: string,
-		dispensaryId: string
+		dispensaryId: string,
 	) {
 		try {
 			// createUserData = await createPasswordHash(createUserData)

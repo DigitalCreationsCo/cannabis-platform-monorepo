@@ -117,19 +117,19 @@ const VerifyPhotoId = () => {
 					headers: {
 						'Content-Type': 'multipart/form-data',
 					},
-				}
+				},
 			);
 
 			if (response.status === 500)
 				throw new Error(
-					`We're having a problem verifying your image. Please try again.`
+					`We're having a problem verifying your image. Please try again.`,
 				);
 
 			return response.data;
 		} catch (error: any) {
 			if (error.code === 'ERR_NETWORK')
 				throw new Error(
-					`We're having a problem verifying your image. Please try again.`
+					`We're having a problem verifying your image. Please try again.`,
 				);
 
 			console.info('verify id error: ', error);
@@ -198,7 +198,7 @@ const VerifyPhotoId = () => {
 										Object.assign(file, {
 											preview: URL.createObjectURL(file),
 											data: data || null,
-										})
+										}),
 									);
 								});
 
@@ -236,7 +236,7 @@ const VerifyPhotoId = () => {
 										Object.assign(file, {
 											preview: URL.createObjectURL(file),
 											data: data || null,
-										})
+										}),
 									);
 								});
 

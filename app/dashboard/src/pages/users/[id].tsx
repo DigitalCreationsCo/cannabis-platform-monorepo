@@ -88,7 +88,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
 	const [files, setFiles] = useState<unknown[]>([]);
 	const [loadingButton, setLoadingButton] = useState(false);
 	const [existingImage, setExistingImage] = useState<ImageUser | null>(
-		user?.profilePicture
+		user?.profilePicture,
 	);
 	const [deletedImage, setDeletedImage] = useState<ImageUser[]>([]);
 
@@ -130,7 +130,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
 				files.forEach((file: any) => formData.append('files', file));
 				const { data } = await axios.put(
 					urlBuilder.dashboard + `/api/product-upload/${user?.id}`,
-					formData
+					formData,
 				);
 				setLoadingButton(false);
 				toast.success(data);
@@ -153,7 +153,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
 	}) {
 		try {
 			const { data } = await axios.delete(
-				urlBuilder.dashboard + `/api/users/${userId}/address/${addressId}`
+				urlBuilder.dashboard + `/api/users/${userId}/address/${addressId}`,
 			);
 			setAddress(address.filter((address) => address.id !== addressId));
 			toast.success(data);
@@ -172,7 +172,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
 	/* eslint-disable */
 	const handleFileDelete = (deleteFile: any) => {
 		setFiles((files: any[]) =>
-			files.filter((file: { id: string }) => file.id !== deleteFile.id)
+			files.filter((file: { id: string }) => file.id !== deleteFile.id),
 		);
 	};
 	/* eslint-disable */
@@ -305,7 +305,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
 							<FlexBox className="flex-col space-x-0 space-y-2 items-stretch">
 								<H6>{`Member since ${format(
 									new Date(user?.createdAt!),
-									'MMM dd, yyyy'
+									'MMM dd, yyyy',
 								)}`}</H6>
 								<TextField
 									name="firstName"
@@ -432,7 +432,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
 									<UploadImageBox
 										onClick={() =>
 											handleDeleteExistingImage(
-												user?.profilePicture as ImageUser
+												user?.profilePicture as ImageUser,
 											)
 										}
 										// onKeyUp={() => {}}
@@ -451,7 +451,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
 														id: string;
 														preview: string;
 												  },
-											index
+											index,
 										) => {
 											return (
 												<UploadImageBox
@@ -466,7 +466,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
 													/>
 												</UploadImageBox>
 											);
-										}
+										},
 									)}
 								</FlexBox>
 								<DropZone
@@ -474,7 +474,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
 										const uploadFiles = files.map((file) =>
 											Object.assign(file, {
 												preview: URL.createObjectURL(file),
-											})
+											}),
 										);
 										setFiles(uploadFiles);
 									}}

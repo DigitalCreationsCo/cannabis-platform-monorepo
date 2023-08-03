@@ -23,7 +23,7 @@ function AdminTopBar({ signOut }: TopBarProps) {
 		dispatch(
 			modalActions.openModal({
 				modalType: modalTypes.loginModal,
-			})
+			}),
 		);
 	}
 
@@ -58,7 +58,7 @@ function AdminTopBar({ signOut }: TopBarProps) {
 									'pt-1',
 									'px-3',
 									'text-md',
-									'whitespace-nowrap'
+									'whitespace-nowrap',
 								)}
 							>
 								Need Support?

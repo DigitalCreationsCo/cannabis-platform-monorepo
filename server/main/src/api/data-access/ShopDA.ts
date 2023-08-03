@@ -10,7 +10,7 @@ members:
 export default class ShopDA {
 	static async updateProductVariantQuantity(
 		variantId: string,
-		quantity: number
+		quantity: number,
 	) {
 		try {
 			const data = await updateVariantQuantity(variantId, quantity, '-');

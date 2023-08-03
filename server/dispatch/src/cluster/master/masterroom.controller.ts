@@ -65,10 +65,10 @@ class MasterRoomController {
 							default:
 								console.info(
 									'unhandled dispatch change event: ',
-									change.operationType
+									change.operationType,
 								);
 						}
-					}
+					},
 				);
 			});
 	}
@@ -210,12 +210,12 @@ class MasterRoomController {
 		ClusterInit.SendToWorker(
 			global.rooms[_client.roomId].workerId,
 			'leaveUser',
-			_client
+			_client,
 		);
 		this.deleteClientFromMasterRoom(_client);
 
 		console.info(
-			`MASTER: client ${_client.socketId} was successfully disconnected from room ${_client.roomId}.`
+			`MASTER: client ${_client.socketId} was successfully disconnected from room ${_client.roomId}.`,
 		);
 	}
 

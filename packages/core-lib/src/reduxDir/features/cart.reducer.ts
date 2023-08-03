@@ -132,7 +132,7 @@ export const createOrderForCheckout = createAsyncThunk<OrderCreate, void>(
 
 			if (!organization?.id)
 				throw new Error(
-					'Could not get your Dispensary details. Please try again.'
+					'Could not get your Dispensary details. Please try again.',
 				);
 
 			const location = thunkAPI.getState().location as LocationStateProps;
@@ -173,7 +173,7 @@ export const createOrderForCheckout = createAsyncThunk<OrderCreate, void>(
 			// console.info("createOrderForCheckout error: ", error);
 			return thunkAPI.rejectWithValue(error.message);
 		}
-	}
+	},
 );
 
 // export const createOrderForCheckout = createAsyncThunk(
@@ -427,10 +427,10 @@ const cartSlice = createSlice({
 
 		updateItem: (
 			state,
-			{ payload }: PayloadAction<ProductVariantWithDetails>
+			{ payload }: PayloadAction<ProductVariantWithDetails>,
 		) => {
 			const itemInCart = state.cart.find(
-				(item) => item.id == payload.id
+				(item) => item.id == payload.id,
 			) as ProductVariantWithDetails;
 			const index = state.cart.indexOf(itemInCart);
 
@@ -498,7 +498,7 @@ const cartSlice = createSlice({
 					state.isLoading = false;
 					state.isSuccess = true;
 					state.isError = false;
-				}
+				},
 			),
 			builder.addCase(createOrderForCheckout.pending, (state) => {
 				state.isLoading = true;
@@ -544,7 +544,7 @@ const cartSlice = createSlice({
 function countTotalItems(itemList: ProductVariantWithDetails[]) {
 	const totalItems = itemList.reduce(
 		(sum, item) => sum + Number(item.quantity),
-		0
+		0,
 	);
 	console.info('count total items: ', totalItems);
 	return totalItems;
@@ -553,7 +553,7 @@ function countTotalItems(itemList: ProductVariantWithDetails[]) {
 function countCartSubtotal(itemList: ProductVariantWithDetails[]) {
 	const subtotal = itemList.reduce(
 		(sum, item) => sum + getItemDiscountPrice(item),
-		0
+		0,
 	);
 	return subtotal;
 }

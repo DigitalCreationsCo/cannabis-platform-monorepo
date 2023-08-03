@@ -72,7 +72,7 @@ function UserSignUpForm() {
 			.test(
 				'termsAccepted',
 				'Please read and agree to our User Terms and Conditions.',
-				(value) => value === true
+				(value) => value === true,
 			),
 		phone: yup
 			.string()

@@ -32,7 +32,7 @@ app.use(
 		allowedHeaders: ['content-type', ...Supertokens.getAllCORSHeaders()],
 		methods: ['GET', 'PUT', 'POST', 'DELETE'],
 		credentials: true,
-	})
+	}),
 );
 app.use(middleware());
 
@@ -57,7 +57,7 @@ app.use(
 		err: any,
 		req: express.Request,
 		res: express.Response,
-		next: express.NextFunction
+		next: express.NextFunction,
 	) => {
 		if (err.message === 'Please reset your password') {
 			return res.status(401).send(err.message);
@@ -66,7 +66,7 @@ app.use(
 			return res.status(401).send(err.message);
 		}
 		res.status(500).send(err.message);
-	}
+	},
 );
 
 const server = http.createServer(app);
