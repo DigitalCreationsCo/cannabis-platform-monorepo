@@ -13,6 +13,9 @@ docker-build-debug:
 docker-build-supertokens:
 	docker build -t grasadmin/supertokens:3.14 -f Dockerfile.supertokens .
 
+docker-build-supertokens:
+	docker build -t grasadmin/supertokens:3.14 -f Dockerfile.supertokens .
+
 docker-tag:
 	docker tag $(IMAGE) grasadmin/$(IMAGE):$(TAG)
 

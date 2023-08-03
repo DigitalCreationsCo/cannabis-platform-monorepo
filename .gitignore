@@ -21,6 +21,7 @@ gcp_service_account.json
 
 # cache
 .cache/*
+!.cache/modules-sha
 
 # root certificate
 ca.crt

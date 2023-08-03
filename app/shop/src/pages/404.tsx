@@ -1,19 +1,20 @@
-import { ErrorMessage, LayoutContextProps, Page } from '@cd/ui-lib';
+import { ErrorMessage, Page, type LayoutContextProps } from '@cd/ui-lib';
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 function _404({ code }: { code: number }) {
-  return (
-    <Page>
-      <ErrorMessage
-        code={code}
-        message={`This resource is not found.  
+	return (
+		<Page>
+			<ErrorMessage
+				code={code}
+				message={`This resource is not found.  
                    Please try again later, or call our support phone number. Thank you.`}
-      />
-    </Page>
-  );
+			/>
+		</Page>
+	);
 }
 
 _404.getLayoutContext = (): LayoutContextProps => ({
-  showHeader: false,
+	showHeader: false
 });
 
 export default _404;

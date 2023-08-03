@@ -3497,7 +3497,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/preset-react@npm:^7.12.10":
+"@babel/preset-react@npm:^7.12.10, @babel/preset-react@npm:^7.22.5":
   version: 7.22.5
   resolution: "@babel/preset-react@npm:7.22.5"
   dependencies:
@@ -3721,7 +3721,7 @@ __metadata:
     serve: 14.2.0
     style-loader: 3.3.2
     tailwind-merge: 1.8.0
-    tailwindcss: 3.2.4
+    tailwindcss: 3.3.2
     ts-loader: 9.4.2
     typescript: 4.9.3
     webpack: 5.78.0
@@ -3802,7 +3802,7 @@ __metadata:
     supertokens-node: 12.1.3
     swr: 2.1.5
     tailwind-merge: 1.8.0
-    tailwindcss: 3.2.4
+    tailwindcss: 3.3.2
     ts-jest: 29.0.3
     typescript: 4.9.3
     yup: 0.32.11
@@ -3813,6 +3813,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cd/app-shop@workspace:app/shop"
   dependencies:
+    "@babel/preset-env": 7.21.4
+    "@babel/preset-react": ^7.22.5
     "@cd/core-lib": "workspace:*"
     "@cd/data-access": "workspace:*"
     "@cd/eslint-config": "workspace:*"
@@ -3864,6 +3866,7 @@ __metadata:
     next-redux-wrapper: 8.1.0
     next-transpile-modules: 10.0.0
     node-cache: 5.1.2
+    node-fetch: ^3.3.2
     node-mocks-http: 1.12.1
     npm-run-all: 4.1.5
     postcss: 8.4.21
@@ -3887,7 +3890,7 @@ __metadata:
     supertokens-node: 12.1.3
     swr: 2.1.5
     tailwind-merge: 1.8.0
-    tailwindcss: 3.2.4
+    tailwindcss: 3.3.2
     ts-jest: 29.0.3
     typescript: 4.9.3
     yup: 0.32.11
@@ -4054,14 +4057,13 @@ __metadata:
     react: 18.2.0
     react-dom: 18.2.0
     rimraf: 4.4.1
-    tailwindcss: 3.2.4
+    tailwindcss: 3.3.2
     typescript: 4.9.3
   peerDependencies:
     eslint: 8.29.0
     prettier: 2.8.0
     react: 18.2.0
     react-dom: 18.2.0
-    tailwindcss: 3.2.4
     typescript: 4.9.3
   peerDependenciesMeta:
     prettier:
@@ -4069,8 +4071,6 @@ __metadata:
     react:
       optional: true
     react-dom:
-      optional: true
-    tailwindcss:
       optional: true
     typescript:
       optional: true
@@ -4107,7 +4107,7 @@ __metadata:
     rollup-plugin-postcss: 4.0.2
     sync-directory: 6.0.4
     tailwind-merge: 1.8.0
-    tailwindcss: 3.2.4
+    tailwindcss: 3.3.2
     ts-jest: 29.0.3
     ts-loader: 9.4.2
     tsup: 6.7.0
@@ -4422,7 +4422,7 @@ __metadata:
     style-loader: 3.3.2
     sync-directory: 6.0.4
     tailwind-merge: 1.8.0
-    tailwindcss: 3.2.4
+    tailwindcss: 3.3.2
     ts-jest: 29.0.3
     ts-loader: 9.4.2
     tsup: 6.7.0
@@ -11950,7 +11950,7 @@ __metadata:
     supertokens-auth-react: 0.28.1
     supertokens-node: 12.1.3
     tailwind-merge: 1.8.0
-    tailwindcss: 3.2.4
+    tailwindcss: 3.3.2
     ts-jest: 29.0.3
     ts-loader: 9.4.2
     ts-node: 10.9.1
@@ -12475,7 +12475,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"color-name@npm:^1.0.0, color-name@npm:^1.1.4, color-name@npm:~1.1.4":
+"color-name@npm:^1.0.0, color-name@npm:~1.1.4":
   version: 1.1.4
   resolution: "color-name@npm:1.1.4"
   checksum: b0445859521eb4021cd0fb0cc1a75cecf67fceecae89b63f62b201cca8d345baf8b952c966862a9d9a2632987d4f6581f0ec8d957dfacece86f0a7919316f610
@@ -13627,6 +13627,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"data-uri-to-buffer@npm:^4.0.0":
+  version: 4.0.1
+  resolution: "data-uri-to-buffer@npm:4.0.1"
+  checksum: 0d0790b67ffec5302f204c2ccca4494f70b4e2d940fea3d36b09f0bb2b8539c2e86690429eb1f1dc4bcc9e4df0644193073e63d9ee48ac9fce79ec1506e4aa4c
+  languageName: node
+  linkType: hard
+
 "data-urls@npm:^3.0.2":
   version: 3.0.2
   resolution: "data-urls@npm:3.0.2"
@@ -14118,7 +14125,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"detective@npm:^5.2.0, detective@npm:^5.2.1":
+"detective@npm:^5.2.0":
   version: 5.2.1
   resolution: "detective@npm:5.2.1"
   dependencies:
@@ -14501,7 +14508,7 @@ __metadata:
     supertokens-react-native: 4.0.2
     supertokens-web-js: 0.5.0
     tailwind-merge: 1.8.0
-    tailwindcss: 3.2.4
+    tailwindcss: 3.3.2
     typescript: 4.9.3
     yup: 0.32.11
   languageName: unknown
@@ -16367,6 +16374,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fetch-blob@npm:^3.1.2, fetch-blob@npm:^3.1.4":
+  version: 3.2.0
+  resolution: "fetch-blob@npm:3.2.0"
+  dependencies:
+    node-domexception: ^1.0.0
+    web-streams-polyfill: ^3.0.3
+  checksum: f19bc28a2a0b9626e69fd7cf3a05798706db7f6c7548da657cbf5026a570945f5eeaedff52007ea35c8bcd3d237c58a20bf1543bc568ab2422411d762dd3d5bf
+  languageName: node
+  linkType: hard
+
 "fetch-retry@npm:^4.1.1":
   version: 4.1.1
   resolution: "fetch-retry@npm:4.1.1"
@@ -16697,6 +16714,15 @@ __metadata:
     combined-stream: ^1.0.8
     mime-types: ^2.1.12
   checksum: b019e8d35c8afc14a2bd8a7a92fa4f525a4726b6d5a9740e8d2623c30e308fbb58dc8469f90415a856698933c8479b01646a9dff33c87cc4e76d72aedbbf860d
+  languageName: node
+  linkType: hard
+
+"formdata-polyfill@npm:^4.0.10":
+  version: 4.0.10
+  resolution: "formdata-polyfill@npm:4.0.10"
+  dependencies:
+    fetch-blob: ^3.1.2
+  checksum: 82a34df292afadd82b43d4a740ce387bc08541e0a534358425193017bf9fb3567875dc5f69564984b1da979979b70703aa73dee715a17b6c229752ae736dd9db
   languageName: node
   linkType: hard
 
@@ -20408,7 +20434,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lilconfig@npm:2.1.0, lilconfig@npm:^2.0.3, lilconfig@npm:^2.0.5, lilconfig@npm:^2.0.6, lilconfig@npm:^2.1.0":
+"lilconfig@npm:2.1.0, lilconfig@npm:^2.0.3, lilconfig@npm:^2.0.5, lilconfig@npm:^2.1.0":
   version: 2.1.0
   resolution: "lilconfig@npm:2.1.0"
   checksum: 8549bb352b8192375fed4a74694cd61ad293904eee33f9d4866c2192865c44c4eb35d10782966242634e0cbc1e91fe62b1247f148dc5514918e3a966da7ea117
@@ -22696,6 +22722,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"node-domexception@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "node-domexception@npm:1.0.0"
+  checksum: ee1d37dd2a4eb26a8a92cd6b64dfc29caec72bff5e1ed9aba80c294f57a31ba4895a60fd48347cf17dd6e766da0ae87d75657dfd1f384ebfa60462c2283f5c7f
+  languageName: node
+  linkType: hard
+
 "node-environment-flags@npm:^1.0.5":
   version: 1.0.6
   resolution: "node-environment-flags@npm:1.0.6"
@@ -22717,6 +22750,17 @@ __metadata:
     encoding:
       optional: true
   checksum: 249d0666a9497553384d46b5ab296ba223521ac88fed4d8a17d6ee6c2efb0fc890f3e8091cafe7f9fba8151a5b8d925db2671543b3409a56c3cd522b468b47b3
+  languageName: node
+  linkType: hard
+
+"node-fetch@npm:^3.3.2":
+  version: 3.3.2
+  resolution: "node-fetch@npm:3.3.2"
+  dependencies:
+    data-uri-to-buffer: ^4.0.0
+    fetch-blob: ^3.1.4
+    formdata-polyfill: ^4.0.10
+  checksum: 06a04095a2ddf05b0830a0d5302699704d59bda3102894ea64c7b9d4c865ecdff2d90fd042df7f5bc40337266961cb6183dcc808ea4f3000d024f422b462da92
   languageName: node
   linkType: hard
 
@@ -24429,19 +24473,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-import@npm:^14.1.0":
-  version: 14.1.0
-  resolution: "postcss-import@npm:14.1.0"
-  dependencies:
-    postcss-value-parser: ^4.0.0
-    read-cache: ^1.0.0
-    resolve: ^1.1.7
-  peerDependencies:
-    postcss: ^8.0.0
-  checksum: cd45d406e90f67cdab9524352e573cc6b4462b790934a05954e929a6653ebd31288ceebc8ce3c3ed7117ae672d9ebbec57df0bceec0a56e9b259c2e71d47ca86
-  languageName: node
-  linkType: hard
-
 "postcss-initial@npm:^4.0.1":
   version: 4.0.1
   resolution: "postcss-initial@npm:4.0.1"
@@ -24740,17 +24771,6 @@ __metadata:
     lodash: ^4.13.1
     postcss: ^5.0.10
   checksum: 6fc30b99aa51718320992563f45bd32cf12a8db668bcfb37452c12cff02673a7593dac2ed4f3e0434f20678e43516512353e15b23418c121a10b793a7417e418
-  languageName: node
-  linkType: hard
-
-"postcss-nested@npm:6.0.0":
-  version: 6.0.0
-  resolution: "postcss-nested@npm:6.0.0"
-  dependencies:
-    postcss-selector-parser: ^6.0.10
-  peerDependencies:
-    postcss: ^8.2.14
-  checksum: 2105dc52cd19747058f1a46862c9e454b5a365ac2e7135fc1015d67a8fe98ada2a8d9ee578e90f7a093bd55d3994dd913ba5ff1d5e945b4ed9a8a2992ecc8f10
   languageName: node
   linkType: hard
 
@@ -29432,7 +29452,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwindcss@npm:*, tailwindcss@npm:^3":
+"tailwindcss@npm:*, tailwindcss@npm:3.3.2, tailwindcss@npm:^3":
   version: 3.3.2
   resolution: "tailwindcss@npm:3.3.2"
   dependencies:
@@ -29463,42 +29483,6 @@ __metadata:
     tailwind: lib/cli.js
     tailwindcss: lib/cli.js
   checksum: 4897c70e671c885e151f57434d87ccb806f468a11900f028245b351ffbca5245ff0c10ca5dbb6eb4c7c4df3de8a15a05fe08c2aea4b152cb07bee9bb1d8a14a8
-  languageName: node
-  linkType: hard
-
-"tailwindcss@npm:3.2.4":
-  version: 3.2.4
-  resolution: "tailwindcss@npm:3.2.4"
-  dependencies:
-    arg: ^5.0.2
-    chokidar: ^3.5.3
-    color-name: ^1.1.4
-    detective: ^5.2.1
-    didyoumean: ^1.2.2
-    dlv: ^1.1.3
-    fast-glob: ^3.2.12
-    glob-parent: ^6.0.2
-    is-glob: ^4.0.3
-    lilconfig: ^2.0.6
-    micromatch: ^4.0.5
-    normalize-path: ^3.0.0
-    object-hash: ^3.0.0
-    picocolors: ^1.0.0
-    postcss: ^8.4.18
-    postcss-import: ^14.1.0
-    postcss-js: ^4.0.0
-    postcss-load-config: ^3.1.4
-    postcss-nested: 6.0.0
-    postcss-selector-parser: ^6.0.10
-    postcss-value-parser: ^4.2.0
-    quick-lru: ^5.1.1
-    resolve: ^1.22.1
-  peerDependencies:
-    postcss: ^8.0.9
-  bin:
-    tailwind: lib/cli.js
-    tailwindcss: lib/cli.js
-  checksum: ec187d180c722ec4f57537f2216c7b21269b525f12aaf353cea464d939c3e6286a1221eb3e1206e45d1f015f296171309ad4d9952899b0245cd07d9500a9401f
   languageName: node
   linkType: hard
 
@@ -31355,6 +31339,13 @@ __metadata:
   version: 1.0.8
   resolution: "weak-map@npm:1.0.8"
   checksum: ce030b3c6b1a461bda6eac88b3b3be57245ce26330c6ddb98d821d85c0636117ca94693ef8292407066fd367740ec6a1ef6cd9027111453d7ced43f4f78b327a
+  languageName: node
+  linkType: hard
+
+"web-streams-polyfill@npm:^3.0.3":
+  version: 3.2.1
+  resolution: "web-streams-polyfill@npm:3.2.1"
+  checksum: b119c78574b6d65935e35098c2afdcd752b84268e18746606af149e3c424e15621b6f1ff0b42b2676dc012fc4f0d313f964b41a4b5031e525faa03997457da02
   languageName: node
   linkType: hard
 

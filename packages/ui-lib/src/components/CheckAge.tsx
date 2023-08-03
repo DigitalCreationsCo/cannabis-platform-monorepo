@@ -7,7 +7,7 @@ import CheckBox from "./CheckBox"
 import FlexBox from "./FlexBox"
 import { H1, H3 } from "./Typography"
 
-const CheckAge = ({ redirect, onContinue }: { onContinue: () => void; redirect?: string }) => {
+const CheckAge = ({ redirect, onContinue }: { onContinue?: () => void; redirect?: string }) => {
     const router = useRouter()
     const [cookies, setCookie] = useCookies(['yesOver21'])
 

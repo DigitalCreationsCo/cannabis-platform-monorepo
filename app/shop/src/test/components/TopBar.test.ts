@@ -1,17 +1,19 @@
-import { TopBar } from 'components';
+/* eslint-disable jest/no-commented-out-tests */
+import TopBar from '../../components/TopBar';
+
 describe('Top Bar', () => {
-  test('should be defined', () => {
-    expect(TopBar).toBeDefined();
-  });
-  test('should render FormStepComponents correctly', () => {});
-  test('should initilizae form data context correctly', () => {});
-  test('should save form data context in cookie', () => {});
-  test('should set component state from cookie correctly', () => {});
-  test('should persist cookie form data from reload', () => {});
-  test('should render step hash in the url', () => {});
-  test('should change step hash in the url', () => {});
-  test('should set canProceed cookie to allow hash change', () => {});
-  test('should reset form data', () => {});
-  test('should clear form data cookie', () => {});
-  test('should clear canProceed cookie', () => {});
+	it('should be defined', () => {
+		expect(TopBar).toBeDefined();
+	});
+	// it('should render FormStepComponents correctly', () => {});
+	// it('should initilizae form data context correctly', () => {});
+	// it('should save form data context in cookie', () => {});
+	// it('should set component state from cookie correctly', () => {});
+	// it('should persist cookie form data from reload', () => {});
+	// it('should render step hash in the url', () => {});
+	// it('should change step hash in the url', () => {});
+	// it('should set canProceed cookie to allow hash change', () => {});
+	// it('should reset form data', () => {});
+	// it('should clear form data cookie', () => {});
+	// it('should clear canProceed cookie', () => {});
 });

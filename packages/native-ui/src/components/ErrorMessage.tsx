@@ -1,4 +1,4 @@
-// import Router from 'next/router';
+// import router from 'next/router';
 import Center from './atomic/Center';
 import CopyRight from './CopyRight';
 import FlexBox from './FlexBox';

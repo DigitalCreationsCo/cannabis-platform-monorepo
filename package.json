@@ -55,6 +55,7 @@
     "app:build": "yarn workspaces foreach -itR --from @cd/app-$0 run build",
     "app:build-all": "yarn workspaces foreach -ptv --include '@cd/app-*' run build",
     "app:clean": "yarn workspaces foreach -ptv --include '@cd/app-*' run clean",
+<<<<<<< HEAD
     "dev-all": "concurrently \"yarn packages:watch\" \"yarn server:watch\" \"yarn app:dev\"",
     "docker:supertokens-dev": "scripts/docker/supertokens.sh",
     "docker:shadow-db": "scripts/docker/shadow-db.sh",
@@ -63,6 +64,16 @@
     "docker:build": "TAG=\"latest\" BUILD_TYPE=$0 BUILD_CONTEXT=$1 PORT=$2 make docker-build",
     "docker:build-nocache": "TAG=\"latest\" BUILD_TYPE=$0 BUILD_CONTEXT=$1 PORT=$2 make docker-build-nocache",
     "docker:build-output": "TAG=\"latest\" BUILD_TYPE=$0 BUILD_CONTEXT=$1 PORT=$2 make docker-build-nocache-output",
+=======
+    "dev-all": "concurrently \"yarn packages:watch\" \"yarn server:watch\" \"yarn apps:dev\"",
+    "docker:supertokens-dev": "scripts/docker/supertokens.sh",
+    "docker:shadow-db": "scripts/docker/shadow-db.sh",
+    "docker:redis": "scripts/docker/redis.sh",
+    "docker:delivery-widget-demo": "scripts/docker/launch-widget-demo.sh",
+    "docker:build": "BUILD_TYPE=$0 BUILD_CONTEXT=$1 PORT=$2 make docker-build",
+    "docker:build-nocache": "BUILD_TYPE=$0 BUILD_CONTEXT=$1 PORT=$2 make docker-build-nocache",
+    "docker:build-output": "BUILD_TYPE=$0 BUILD_CONTEXT=$1 PORT=$2 make docker-build-nocache-output",
+>>>>>>> 417ca28be (chore: makefile: docker build supertokens)
     "docker:build-supertokens": "make docker-build-supertokens",
     "tf:init": "make init",
     "tf:plan": "make plan",
@@ -180,7 +191,7 @@
     "supertokens-auth-react": "0.28.1",
     "supertokens-node": "12.1.3",
     "tailwind-merge": "1.8.0",
-    "tailwindcss": "3.2.4",
+    "tailwindcss": "3.3.2",
     "ts-jest": "29.0.3",
     "ts-loader": "9.4.2",
     "ts-node": "10.9.1",

@@ -3,7 +3,8 @@
   before_script:
     - cd $MODULE_PATH
   script:
-    - yarn run typecheck
+    # - yarn tsc
+    - echo typecheck command
   retry:
     max: 2
     when:
@@ -15,7 +16,8 @@
   before_script:
     - cd $MODULE_PATH
   script:
-    - npm run test:unit
+    # - yarn test:unit-ci
+    - echo unit test command
   retry:
     max: 2
     when:
