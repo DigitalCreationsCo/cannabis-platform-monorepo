@@ -10,27 +10,34 @@ const noOverlayWorkaroundScript = `
   })
 `;
 export default class MainDocument extends Document {
-    static async getInitialProps(ctx: any) {
-        const initialProps = await Document.getInitialProps(ctx);
-        return {
-            ...initialProps
-        };
-    }
+	static async getInitialProps(ctx: any) {
+		const initialProps = await Document.getInitialProps(ctx);
+		return {
+			...initialProps
+		};
+	}
 
-    render() {
-        return (
-            <Html data-theme="cannabis">
-                <Head title="Grascannabis.org - Cannabis, Delivered.">
-                <meta name="Gras App" content="Built by Gras Cannabis Co." />
-                    {process.env.NODE_ENV !== 'production' && (
-                        <script dangerouslySetInnerHTML={{ __html: noOverlayWorkaroundScript }} />
-                    )}
-                </Head>
-                <body>
-                    <Main />
-                    <NextScript />
-                </body>
-            </Html>
-        );
-    }
+	render() {
+		return (
+			<Html data-theme="cannabis">
+				<Head title="Grascannabis.org - Cannabis, Delivered.">
+					<meta
+						name="Gras App"
+						content="Built by Gras Cannabis Co."
+					/>
+					{process.env.NODE_ENV !== 'production' && (
+						<script
+							dangerouslySetInnerHTML={{
+								__html: noOverlayWorkaroundScript
+							}}
+						/>
+					)}
+				</Head>
+				<body>
+					<Main />
+					<NextScript />
+				</body>
+			</Html>
+		);
+	}
 }

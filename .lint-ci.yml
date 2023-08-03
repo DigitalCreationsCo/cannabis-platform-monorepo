@@ -1,0 +1,12 @@
+.lint:
+  stage: lint
+  before_script:
+    - cd $MODULE_PATH
+  script:
+    # - yarn lint
+    - echo lint command
+  retry:
+    max: 2
+    when:
+      - runner_system_failure
+      - stuck_or_timeout_failure
