@@ -18,8 +18,8 @@ import {
 	type Store,
 	type ThunkAction,
 } from '@reduxjs/toolkit';
-import { composeWithDevTools } from '@reduxjs/toolkit/dist/devtoolsExtension';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import {
 	FLUSH,
 	PAUSE,

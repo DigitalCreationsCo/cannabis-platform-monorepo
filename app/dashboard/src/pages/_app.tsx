@@ -1,6 +1,6 @@
 /// @ts-nocheck
 import {
-	LayoutContextProps,
+	type LayoutContextProps,
 	LoadingPage,
 	ModalProvider,
 	ToastProvider,
@@ -8,12 +8,12 @@ import {
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { type Dispatch, type SetStateAction, useEffect, useState } from 'react';
 import { Provider as ReduxProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session, {
-	SessionContextType,
+	type SessionContextType,
 } from 'supertokens-auth-react/recipe/session';
 import { LayoutContainer } from '../components';
 import { frontendConfig } from '../config/frontendConfig';

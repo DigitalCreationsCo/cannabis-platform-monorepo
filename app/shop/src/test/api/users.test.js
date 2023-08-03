@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { urlBuilder } from '@cd/core-lib';
 import axios from 'axios';
 import { createMocks } from 'node-mocks-http';
