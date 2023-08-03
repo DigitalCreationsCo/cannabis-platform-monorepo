@@ -2,48 +2,76 @@
 include:
   - .gitlab/ci/cache.gitlab-ci.yml
   - .gitlab/ci/module.gitlab-ci.yml
+  # - .gitlab/ci/deploy.gitlab-ci.yml
 
 .modules:
   - MODULE:
       - app/shop
-    # - app/dashboard
-    # - app/checkout-widget
-    # - server/main
-    # - server/location
-    # - server/payments
-    # - server/image
-    # - supertokens
+      # - app/dashboard
+      # - app/checkout-widget
+      # - server/main
+      # - server/location
+      # - server/payments
+      # - server/image
+      # - supertokens
 
 stages:
   # - cache
   - build
+  # - tag # Future TODO: Add Semantic Versioning to Images
+  # https://github.com/semantic-release/semantic-release
+
+  # - release
+  # - deploy
 
 # cache:
 #   extends: .yarn-cache
+# add cache rules
 
 build:
   extends: .module_build
   parallel:
     matrix: !reference [.modules]
-  # rules:
-  #   # MR
-  #   - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-  #     changes:
-  #       - node_modules
-  #       - ${MODULE}/**/*
-# publish:
-#   extends: .module_publish
-#   parallel:
-#     matrix: !reference [.modules]
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        - node_modules
+        - ${MODULE}/**/*
 
+tag:
+  extends: .module_tag_version
+  parallel:
+    matrix: !reference [.modules]
+  rules:
+    # Default branch
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      changes:
+        - node_modules
+        - ${MODULE}/**/*
+
+publish:
+  extends: .module_publish
+  parallel:
+    matrix: !reference [.modules]
+  rules:
+    # Tags
+    # - if: $CI_COMMIT_TAG =~ /^$IMAGE-v[0-9]+\.[0-9]+\.[0-9]+$/
+    - if: $CI_COMMIT_TAG =~ /.+-v[0-9]+\.[0-9]+\.[0-9]+$/
+
+deploy:
+  extends: .module_deploy
+  parallel:
+    matrix: !reference [.modules]
+  rules:
+    # is production branch
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      changes:
+        - node_modules
+        - ${MODULE}/**/*
 # ========================================
-# optimize: create build rules for modules,
+# optimized CI for module builds
 # such as each module job can run depending on changes of the module path, and the node_modules dependencies
-# changes:
-# - $MODULE_CHANGES_PATH
-# - node_modules
-# Consider: Almost any change in the monorepo will make a change to node_modules. Maybe a script is preferable to detemine changes, such as `yarn workspaces -R ${MODULE_NAME} --since HEAD/previousCOMMITSHA`.
-# I'm not sure, brainstorming out loud.
+
 # check this example for an idea: https://how-to.dev/how-to-set-up-monorepo-build-in-gitlab-ci
 
 # TODO: Understand the parallel matrix: https://docs.gitlab.com/ee/ci/yaml/#parallelmatrix
@@ -55,67 +83,3 @@ build:
 
 # Select different runner tags for each parallel matrix job
 # https://docs.gitlab.com/ee/ci/jobs/job_control.html#select-different-runner-tags-for-each-parallel-matrix-job
-
-# Here's a more declarative approach to dynamic module builds
-# include:
-# - ".test-ci.yml"
-# - ".lint-ci.yml"
-# - ".cache-ci.yml"
-# - "shop/.gitlab-ci.yml"
-# - "dashboard/.gitlab-ci.yml"
-# - "delivery-widget/.gitlab-ci.yml"
-# - "main/.gitlab-ci.yml"
-# - "location/.gitlab-ci.yml"
-# - "payments/.gitlab-ci.yml"
-# - "image/.gitlab-ci.yml"
-# # - "dispatch/.gitlab-ci.yml"
-
-# .publish-rules:
-#   stage: publish
-#   rules:
-#     # start jobs for when there are changes in the path defined
-#     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-#       changes:
-#         - $CHANGES_PATH
-#     - when: manual
-#       allow_failure: true
-
-# .shop:
-#   extends: .publish-rules
-#   variables:
-#     CHANGES_PATH: "shop/**/*"
-
-# .dashboard:
-#   extends: .publish-rules
-#   variables:
-#     CHANGES_PATH: "dashboard/**/*"
-
-# .main:
-#   extends: .publish-rules
-#   variables:
-#     CHANGES_PATH: "main/**/*"
-
-# .location:
-#   extends: .publish-rules
-#   variables:
-#     CHANGES_PATH: "location/**/*"
-
-# .image:
-#   extends: .publish-rules
-#   variables:
-#     CHANGES_PATH: "image/**/*"
-
-# .payments:
-#   extends: .publish-rules
-#   variables:
-#     CHANGES_PATH: "payments/**/*"
-
-# .dispatch:
-#   extends: .publish-rules
-#   variables:
-#     CHANGES_PATH: "dispatch/**/*"
-
-# .widget:
-#   extends: .publish-rules
-#   variables:
-#     CHANGES_PATH: "widget/**/*"

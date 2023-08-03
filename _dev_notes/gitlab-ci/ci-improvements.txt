@@ -28,3 +28,67 @@ LIST-CHANGED-MODULES
 TODO: (NECESSARY)
 docker image builds should only happen for master branch, not for pull requests.
 1. add a parameter to publish builds, and deploy to cluster
+
+Efficient CI To Build Modules and Dependencies
+
+1. include a gitlab-ci.yml file in each module.
+
+2. <module>/gitlab-ci.yml contains:
+jobs that extend a base module job, that is dependent on changes from node_modules,
+and the path of the module itself.
+
+3. when changes are detected,
+the module jobs will run.
+lint
+test
+build
+deploy
+
+How can I make this modular? Without adding a configuration file to each module?
+# BASE_CONFIG
+
+.modules-list:
+  - MODULE:
+      - app/shop
+      - app/dashboard
+      - app/checkout-widget
+      - server/main
+      - server/location
+      - server/payments
+      - server/image
+    # - supertokens
+
+# .module:
+#   rules:
+#     # start jobs for when there are changes in the path defined
+#     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+#       changes:
+#         - $CHANGES_PATH
+#     - when: manual
+#       allow_failure: true
+#   
+
+
+lint:
+extends: .module_lint
+...
+
+test:
+extends: .module_test
+...
+
+build:
+  extends: .module_build
+  parallel:
+    matrix: !reference [.modules]
+  # rules:
+  #   # MR
+  #   - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  #     changes:
+  #       - node_modules
+  #       - ${MODULE}/**/*
+
+# deploy:
+#   extends: .module_deploy
+#   parallel:
+#     matrix: !reference [.modules]
