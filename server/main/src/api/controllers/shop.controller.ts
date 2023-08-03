@@ -22,185 +22,184 @@ searchProducts
 ================================= */
 
 export default class ShopController {
+	// create order record in database
+	static async createOrder(req, res) {
+		try {
+			const order: OrderWithDetails = req.body;
 
-    // create order record in database
-    static async createOrder(req, res) {
-        try {
+			await OrderDA.createOrder(order);
 
-            const
-                order: OrderWithDetails = req.body
+			return res
+				.status(201)
+				.json({ message: 'Order created Successfully', order });
+		} catch (error: any) {
+			console.info('API error shopcontroller: createOrder: ', error);
+			res.status(500).json({ error });
+		}
+	}
 
-            await OrderDA.createOrder(order)
+	// MAKE THIS WORK FOR FULFILLMENT, and DISPATCH
+	// UPDATE ORDER TO DB USER AND ORGANIZATION, THEN SEND TO DISPATCH SERVER TO FULFILL
+	// SAVE ANY PROCESS THAT IS NOT BEING USED CURRENTLY, LIKE AFFECTING STOCK AND STRIPE PAYMENT / SENDING EMAIL, ETC.
+	/**
+	 * Update OrderStatus and send to Dispatch server for delivery processing
+	 * @param req
+	 * @param res
+	 * @returns
+	 */
+	static async fulfillOrderAndStartDispatch(req, res) {
+		try {
+			let orderId: string = req.body.orderId;
 
-            return res.status(201).json({ message: "Order created Successfully", order });
+			console.info('received order fulfillment: ', orderId);
 
-        } catch (error: any) {
-            console.info('API error shopcontroller: createOrder: ', error);
-            res.status(500).json({ error });
-        }
-    }
+			await OrderDA.updateOrderFulfillmentStatus(orderId, 'Processing');
 
+			const order = await OrderDA.getOrderById(orderId);
 
-    // MAKE THIS WORK FOR FULFILLMENT, and DISPATCH
-    // UPDATE ORDER TO DB USER AND ORGANIZATION, THEN SEND TO DISPATCH SERVER TO FULFILL
-    // SAVE ANY PROCESS THAT IS NOT BEING USED CURRENTLY, LIKE AFFECTING STOCK AND STRIPE PAYMENT / SENDING EMAIL, ETC.
-    /**
-     * Update OrderStatus and send to Dispatch server for delivery processing
-     * @param req 
-     * @param res 
-     * @returns 
-     */
-    static async fulfillOrderAndStartDispatch(req, res) {
-        try {
-            let
-                orderId: string = req.body.orderId
+			await OrderDA.addDispatchOrderMongo(order);
 
-            console.info('received order fulfillment: ', orderId);
+			return res
+				.status(201)
+				.json({ message: 'Order created Successfully', order });
+		} catch (error: any) {
+			console.info(
+				'API Error Shop Controller: fulfillOrderAndDispatch: ',
+				error
+			);
+			res.status(500).json({ error: error.message });
+		}
+	}
 
-            await OrderDA.updateOrderFulfillmentStatus(orderId, "Processing")
+	// static async processOrder (req, res) {
+	//     // order fulfillment function
+	//     // create Order record, add order to user record, add order to dispensary,
+	//     // decrement item stock - NOT IMPLEMENT YET
+	//     try {
+	//         let orderPayload:OrderCreate = req.body.order
+	//         let order:OrderWithDetails
+	//         let charge = req.body.charge
 
-            const
-                order = await OrderDA.getOrderById(orderId)
+	//         // create payment record
+	//         // add order to user record, add order to dispensary,
+	//         // decrement item stock
+	//         const purchase = await OrderDA.createPurchase({
+	//             orderId: orderPayload.id,
+	//             gateway: "stripe",
+	//             type: charge.payment_method_details.type,
+	//             amount: charge.amount / 100,
+	//             token: charge.id,
+	//             createdAt: new Date(),
+	//             updatedAt: new Date(),
+	//         });
 
-            await OrderDA.addDispatchOrderMongo(order)
+	//         order = await OrderDA.createOrder({
+	//             ...orderPayload,
+	//             purchaseId: purchase.id,
+	//             orderStatus: 'Processing'
+	//         })
 
-            return res.status(201).json({ message: "Order created Successfully", order });
+	//         // decrement the product stock
+	// order.items.forEach(async (item) => {
+	//     const updateProductVariantQuantity = await ProductDA.updateProductVariantQuantity(item.variantId, item.quantity)
+	// })
 
-        } catch (error: any) {
-            console.info('API Error Shop Controller: fulfillOrderAndDispatch: ', error);
-            res.status(500).json({ error: error.message });
-        }
-    }
+	//         return res.status(201).json({ message: "Order created Successfully" });
 
-    // static async processOrder (req, res) {
-    //     // order fulfillment function
-    //     // create Order record, add order to user record, add order to dispensary,
-    //     // decrement item stock - NOT IMPLEMENT YET
-    //     try {
-    //         let orderPayload:OrderCreate = req.body.order
-    //         let order:OrderWithDetails
-    //         let charge = req.body.charge
+	//     } catch (error: any) {
+	//         console.info('API error shopcontroller: createOrder: ', error);
+	//         res.status(500).json({ error });
+	//   }
+	// }
 
-    //         // create payment record
-    //         // add order to user record, add order to dispensary,
-    //         // decrement item stock
-    //         const purchase = await OrderDA.createPurchase({
-    //             orderId: orderPayload.id,
-    //             gateway: "stripe",
-    //             type: charge.payment_method_details.type,
-    //             amount: charge.amount / 100,
-    //             token: charge.id,
-    //             createdAt: new Date(),
-    //             updatedAt: new Date(),
-    //         });
+	static async getOrdersByOrg(req, res) {
+		try {
+			const organizationId = req.params.id || {};
+			const data = await OrderDA.getOrdersByOrg(organizationId);
+			if (!data) return res.status(404).json('Orders not found');
+			return res.status(200).json(data);
+		} catch (error: any) {
+			console.info('API error: ', error);
+			res.status(500).json({ error });
+		}
+	}
 
-    //         order = await OrderDA.createOrder({
-    //             ...orderPayload,
-    //             purchaseId: purchase.id,
-    //             orderStatus: 'Processing'
-    //         })
+	static async getOrderById(req, res) {
+		try {
+			const id = req.params.id || '';
+			const data = await OrderDA.getOrderById(id);
+			// this is the preferred pattern for controller responses VV
+			// across ALL apps and systems
+			if (!data) return res.status(404).json('Order not found');
+			return res.status(200).json(data);
+		} catch (error: any) {
+			console.info('API error: ', error);
+			res.status(500).json({ error });
+		}
+	}
 
-    //         // decrement the product stock
-    // order.items.forEach(async (item) => {
-    //     const updateProductVariantQuantity = await ProductDA.updateProductVariantQuantity(item.variantId, item.quantity)
-    // })
+	static async updateOrderById(req, res) {
+		try {
+			const order = req.body;
+			const data = await OrderDA.updateOrderById(order);
+			if (!data) return res.status(400).json('Could not update');
+			return res.status(200).json(data);
+		} catch (error: any) {
+			console.info('API error: ', error);
+			res.status(500).json({ error });
+		}
+	}
 
-    //         return res.status(201).json({ message: "Order created Successfully" });
+	static async getProductsByOrg(req, res) {
+		try {
+			const organizationId = req.params.id || {};
 
-    //     } catch (error: any) {
-    //         console.info('API error shopcontroller: createOrder: ', error);
-    //         res.status(500).json({ error });
-    //   }
-    // }
+			const data = await OrderDA.getProductsByOrg(organizationId);
+			if (!data) return res.status(404).json('Products not found');
+			return res.status(200).json(data);
+		} catch (error: any) {
+			console.info('API error: ', error);
+			res.status(500).json({ error });
+		}
+	}
 
-    static async getOrdersByOrg(req, res) {
-        try {
-            const organizationId = req.params.id || {};
-            const data = await OrderDA.getOrdersByOrg(organizationId);
-            if (!data) return res.status(404).json('Orders not found');
-            return res.status(200).json(data);
-        } catch (error: any) {
-            console.info('API error: ', error);
-            res.status(500).json({ error });
-        }
-    }
+	static async getProductsByMultipleOrgs(req, res) {
+		try {
+			const idList = req.body || [];
+			const { page, limit } = req.params;
 
-    static async getOrderById(req, res) {
-        try {
-            const id = req.params.id || '';
-            const data = await OrderDA.getOrderById(id);
-            // this is the preferred pattern for controller responses VV
-            // across ALL apps and systems
-            if (!data) return res.status(404).json('Order not found');
-            return res.status(200).json(data);
-        } catch (error: any) {
-            console.info('API error: ', error);
-            res.status(500).json({ error });
-        }
-    }
+			const data = await OrderDA.getProductsByOrg(idList, page, limit);
+			if (!data) return res.status(404).json('Products not found');
+			return res.status(200).json(data);
+		} catch (error: any) {
+			console.info('API error: ', error);
+			res.status(500).json({ error });
+		}
+	}
 
-    static async updateOrderById(req, res) {
-        try {
-            const order = req.body;
-            const data = await OrderDA.updateOrderById(order);
-            if (!data) return res.status(400).json('Could not update');
-            return res.status(200).json(data);
-        } catch (error: any) {
-            console.info('API error: ', error);
-            res.status(500).json({ error });
-        }
-    }
+	static async getProductById(req, res) {
+		try {
+			const id = req.params.id || '';
+			const data = await OrderDA.getProductById(id);
+			// this is the preferred pattern for controller responses VV
+			// across ALL apps and systems
+			if (!data) return res.status(404).json('Product not found');
+			return res.status(200).json(data);
+		} catch (error: any) {
+			console.info('API error: ', error);
+			res.status(500).json({ error });
+		}
+	}
 
-    static async getProductsByOrg(req, res) {
-        try {
-            const organizationId = req.params.id || {};
-
-            const data = await OrderDA.getProductsByOrg(organizationId);
-            if (!data) return res.status(404).json('Products not found');
-            return res.status(200).json(data);
-        } catch (error: any) {
-            console.info('API error: ', error);
-            res.status(500).json({ error });
-        }
-    }
-
-    static async getProductsByMultipleOrgs(req, res) {
-        try {
-            const idList = req.body || [];
-            const { page, limit } = req.params;
-
-            const data = await OrderDA.getProductsByOrg(idList, page, limit);
-            if (!data) return res.status(404).json('Products not found');
-            return res.status(200).json(data);
-        } catch (error: any) {
-            console.info('API error: ', error);
-            res.status(500).json({ error });
-        }
-    }
-
-    static async getProductById(req, res) {
-        try {
-            const id = req.params.id || '';
-            const data = await OrderDA.getProductById(id);
-            // this is the preferred pattern for controller responses VV
-            // across ALL apps and systems
-            if (!data) return res.status(404).json('Product not found');
-            return res.status(200).json(data);
-        } catch (error: any) {
-            console.info('API error: ', error);
-            res.status(500).json({ error });
-        }
-    }
-
-    static async searchProducts(req, res) {
-        try {
-            const { search, organizationId } = req.body;
-            const data = await OrderDA.searchProducts(search, organizationId);
-            if (!data) return res.status(404).json('Products Not Found');
-            return res.status(200).json(data);
-        } catch (error: any) {
-            console.info('API error: ', error);
-            res.status(500).json({ error });
-        }
-    }
+	static async searchProducts(req, res) {
+		try {
+			const { search, organizationId } = req.body;
+			const data = await OrderDA.searchProducts(search, organizationId);
+			if (!data) return res.status(404).json('Products Not Found');
+			return res.status(200).json(data);
+		} catch (error: any) {
+			console.info('API error: ', error);
+			res.status(500).json({ error });
+		}
+	}
 }

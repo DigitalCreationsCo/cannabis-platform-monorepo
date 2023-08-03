@@ -49,8 +49,7 @@ spec:
             # readOnlyRootFilesystem: true
             # runAsNonRoot: true
             # runAsUser: 1000
-            
-          image: grasadmin/supertokens-postgres:3.14
+          image: grasadmin/supertokens:3.14
           imagePullPolicy: Always
           env:
             # - name: 'SUPERTOKENS_HOST'
@@ -109,16 +108,16 @@ spec:
               cpu: 128m
               memory: 175Mi
 
-      affinity:
-        {}
-        # podAntiAffinity:
-        #   preferredDuringSchedulingIgnoredDuringExecution:
-        #     - weight: 1
-        #       podAffinityTerm:
-        #         labelSelector:
-        #           matchExpressions:
-        #             - key: "app.kubernetes.io/name"
-        #               operator: In
-        #               values:
-        #                 - supertokens
-        #         topologyKey: kubernetes.io/hostname
+    affinity:
+      {}
+      # podAntiAffinity:
+      #   preferredDuringSchedulingIgnoredDuringExecution:
+      #     - weight: 1
+      #       podAffinityTerm:
+      #         labelSelector:
+      #           matchExpressions:
+      #             - key: "app.kubernetes.io/name"
+      #               operator: In
+      #               values:
+      #                 - supertokens
+      #         topologyKey: kubernetes.io/hostname

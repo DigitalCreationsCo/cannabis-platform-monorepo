@@ -1,6 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-_dev
-DOCKERSIM
+
+# developer files
+_dev_notes
 
 # credentials files
 _dev_notes/creds
@@ -20,6 +21,7 @@ gcp_service_account.json
 
 # cache
 .cache/*
+!.cache/modules-sha
 
 # root certificate
 ca.crt

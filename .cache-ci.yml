@@ -1,0 +1,38 @@
+cache:
+  key:
+    files:
+      - .cache/modules-sha
+  paths:
+    - node_modules/
+    - '**/node_modules/'
+  policy: pull
+
+.build_cache:
+  stage: cache
+  cache:
+    key:
+      files:
+        - .cache/modules-sha
+    paths:
+      - node_modules/
+      - '**/node_modules/'
+    policy: push # Override the global setting, this is the only job that pushes caches
+  script:
+    # - npm ci --no-progress --no-optional --no-audit --ignore-scripts --prefer-offline
+    # - lerna bootstrap --no-progress --hoist --concurrency 2 -- --no-audit
+  only:
+    changes:
+      - .cache/modules-sha
+  retry:
+    max: 2
+    when:
+      - runner_system_failure
+      - stuck_or_timeout_failure
+
+build-cache:example:
+  extends:
+    - .build_cache
+  only:
+    refs:
+      - main
+      - merge_requests

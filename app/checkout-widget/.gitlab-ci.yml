@@ -1,0 +1,36 @@
+.delivery-widget:
+  variables:
+    MODULE_PATH: apps/delivery-widget
+
+lint-delivery-widget:
+  extends:
+    - .delivery-widget
+    - .lint
+  only:
+    changes:
+      - apps/delivery-widget/**/*
+    refs:
+      - merge_requests
+      - master
+
+test-delivery-widget:type:
+  extends:
+    - .delivery-widget
+    - .type-tests
+  only:
+    changes:
+      - apps/delivery-widget/**/*
+    refs:
+      - merge_requests
+      - master
+
+test-delivery-widget:unit:
+  extends:
+    - .delivery-widget
+    - .unit-tests
+  only:
+    changes:
+      - apps/delivery-widget/**/*
+    refs:
+      - merge_requests
+      - master

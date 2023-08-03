@@ -133,7 +133,7 @@
 //         >
 //           {/* <Text style={{ ...Fonts.h1Light, alignSelf: 'center', color: Colors.white, marginBottom: Sizes.padding2 }}>
 //                     Add your account</Text>
-                    
+
 //                 <View style={{ flexDirection: 'row', alignSelf: 'center', }}>
 
 //                     <TouchableOpacity style={{
@@ -619,13 +619,12 @@
 //   );
 // }
 
-
-import { Text, View } from 'react-native'
+import { Text, View } from 'react-native';
 const SignUpScreen = () => {
-  return (
-    <View>
-      <Text>SignUpScreen</Text>
-    </View>
-  )
-}
-export default SignUpScreen
+	return (
+		<View>
+			<Text>SignUpScreen</Text>
+		</View>
+	);
+};
+export default SignUpScreen;

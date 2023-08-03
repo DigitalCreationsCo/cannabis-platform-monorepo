@@ -1,28 +1,36 @@
-import { driverReducer } from "@cd/core-lib/src/reduxDir/features/driver.reducer";
-import { socketReducer } from "@cd/core-lib/src/reduxDir/features/socket.reducer";
-import socketMiddleware from "@cd/core-lib/src/reduxDir/middleware/socketMiddleware";
-import { ThunkArgumentsType } from "@cd/core-lib/src/reduxDir/types/reduxTypes";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from "redux-persist";
+import { driverReducer } from '@cd/core-lib/src/reduxDir/features/driver.reducer';
+import { socketReducer } from '@cd/core-lib/src/reduxDir/features/socket.reducer';
+import socketMiddleware from '@cd/core-lib/src/reduxDir/middleware/socketMiddleware';
+import { ThunkArgumentsType } from '@cd/core-lib/src/reduxDir/types/reduxTypes';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import {
+	FLUSH,
+	PAUSE,
+	PERSIST,
+	persistReducer,
+	persistStore,
+	PURGE,
+	REGISTER,
+	REHYDRATE,
+} from 'redux-persist';
 import { signOut } from 'supertokens-react-native';
-import navigationService from "../navigation/service";
+import navigationService from '../navigation/service';
 
 // import createSecureStore from "redux-persist-expo-securestore";
-// const 
+// const
 // storage = createSecureStore(),
 
 const rootReducer = combineReducers({
-  // user: userReducer,
-  driver: driverReducer,
-  socket: socketReducer
+	// user: userReducer,
+	driver: driverReducer,
+	socket: socketReducer,
 });
 
-const
-config = {
-  key: "root",
-  storage: AsyncStorage
+const config = {
+	key: 'root',
+	storage: AsyncStorage,
 };
 
 const reducer = persistReducer(config, rootReducer);
@@ -37,61 +45,52 @@ const reducer = persistReducer(config, rootReducer);
 //   });
 // }
 
-const 
-supertokens = { 
-  // signOut: 'signout function here',
-  signOut: () => signOut
+const supertokens = {
+	// signOut: 'signout function here',
+	signOut: () => signOut,
 };
 
-const 
-thunkArguments: ThunkArgumentsType = { 
-  store: null, 
-  supertokens: supertokens,
-  navigation: navigationService
+const thunkArguments: ThunkArgumentsType = {
+	store: null,
+	supertokens: supertokens,
+	navigation: navigationService,
 };
 
-  // const 
+// const
 // thunkArguments: {
 //   store: Store;
-//   // supertokens: { 
-//   //     signUp?: any; 
-//   //     signIn?: any; 
+//   // supertokens: {
+//   //     signUp?: any;
+//   //     signIn?: any;
 //   //     signOut: any;
 //   // };
 //   supertokens: any;
 //   hello?: string;
-// } = { 
-//   store: null, 
-//   supertokens: { 
-//     signOut 
+// } = {
+//   store: null,
+//   supertokens: {
+//     signOut
 //   }
 // };
 
-function makeStore () {
+function makeStore() {
+	const store = configureStore({
+		reducer: reducer,
+		middleware: (getDefaultMiddleware) =>
+			getDefaultMiddleware({
+				serializableCheck: {
+					ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+				},
+				thunk: {
+					extraArgument: thunkArguments,
+				},
+			}).concat([socketMiddleware]),
+	});
+	thunkArguments.store = store;
 
-  const 
-  store = configureStore({
-    reducer: reducer,
-    middleware: getDefaultMiddleware => 
-      getDefaultMiddleware({
-        serializableCheck: {
-          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
-        },
-        thunk: {
-          extraArgument: thunkArguments
-        }
-      })
-    .concat([
-      socketMiddleware
-    ]),
+	const persistor = persistStore(store);
 
-  });
-  thunkArguments.store = store;
-
-  const persistor = persistStore(store);
-
-  return { store, persistor }
-
+	return { store, persistor };
 }
 
 const { store, persistor } = makeStore();

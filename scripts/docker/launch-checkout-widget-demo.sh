@@ -1,0 +1,1 @@
+docker run -p 8080:80 --name checkout-widget-demo -v $(pwd)/app/test-widget-site/build:/usr/share/nginx/html  nginx

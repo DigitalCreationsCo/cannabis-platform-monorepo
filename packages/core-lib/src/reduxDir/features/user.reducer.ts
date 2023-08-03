@@ -1,11 +1,11 @@
 // @ts-nocheck
 
-import { UserWithDetails } from "@cd/data-access";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { UserWithDetails } from '@cd/data-access';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 // import * as SecureStore from "expo-secure-store";
 import Passwordless from 'supertokens-node/recipe/passwordless';
-import { pruneData } from "../../utils";
-import { AppState, ThunkArgumentsType } from "../types/reduxTypes";
+import { pruneData } from '../../utils';
+import { AppState, ThunkArgumentsType } from '../types/reduxTypes';
 import { locationActions } from './location.reducer';
 
 // import { messageActions } from "./message";
@@ -118,65 +118,72 @@ import { locationActions } from './location.reducer';
 //   }
 // );
 
-export const signinUserAsyncEmailPassword = createAsyncThunk<UserWithDetails, { email: string; password: string }, {
-  // dispatch: Dispatch<AnyAction>; 
-  extra: ThunkArgumentsType
-}>(
-  "user/signinUserAsyncEmailPassword",
-  async ({ email, password }, { dispatch, extra, rejectWithValue }) => {
-    const { signIn } = extra.supertokens;
-    try {
-      const response = await signIn({
-        formFields: [
-          {
-            id: 'email',
-            value: email
-          },
-          {
-            id: 'password',
-            value: password
-          }
-        ]
-      });
-      if (response.status === 'WRONG_CREDENTIALS_ERROR') {
-        // toast.error('Email or Password is incorrect.');
-      }
-      if (response.status === 'OK') {
-        // await SecureStore.setItemAsync(
-        //   "authentication",
-        //   serializedUserData
-        // ).catch((err) => console.info(err));
+export const signinUserAsyncEmailPassword = createAsyncThunk<
+	UserWithDetails,
+	{ email: string; password: string },
+	{
+		// dispatch: Dispatch<AnyAction>;
+		extra: ThunkArgumentsType;
+	}
+>(
+	'user/signinUserAsyncEmailPassword',
+	async ({ email, password }, { dispatch, extra, rejectWithValue }) => {
+		const { signIn } = extra.supertokens;
+		try {
+			const response = await signIn({
+				formFields: [
+					{
+						id: 'email',
+						value: email,
+					},
+					{
+						id: 'password',
+						value: password,
+					},
+				],
+			});
+			if (response.status === 'WRONG_CREDENTIALS_ERROR') {
+				// toast.error('Email or Password is incorrect.');
+			}
+			if (response.status === 'OK') {
+				// await SecureStore.setItemAsync(
+				//   "authentication",
+				//   serializedUserData
+				// ).catch((err) => console.info(err));
 
-        if (response.user.address !== undefined && Array.isArray(response.user.addresss)) {
-          response.user.address.forEach(address => dispatch(locationActions.addAddress(response.user.address)))
-        }
-        window.location.href = '/';
-        // toast.success('Signed in', { duration: 5000 });
-        return response.user
-      }
-
-    } catch (error) {
-      return rejectWithValue("signin error: " + error);
-    }
-  }
+				if (
+					response.user.address !== undefined &&
+					Array.isArray(response.user.addresss)
+				) {
+					response.user.address.forEach((address) =>
+						dispatch(locationActions.addAddress(response.user.address))
+					);
+				}
+				window.location.href = '/';
+				// toast.success('Signed in', { duration: 5000 });
+				return response.user;
+			}
+		} catch (error) {
+			return rejectWithValue('signin error: ' + error);
+		}
+	}
 );
 
-const signOutUserAsync = createAsyncThunk<void, void, {
-  // dispatch: Dispatch<AnyAction>; 
-  extra: ThunkArgumentsType
-}>(
-  "user/signOutUserAsync",
-  async (_, { dispatch, extra, rejectWithValue }) => {
-    try {
-
-      const { signOut } = extra.supertokens;
-      await signOut()
-
-    } catch (error) {
-      return rejectWithValue("signout error: " + error);
-    }
-  }
-)
+const signOutUserAsync = createAsyncThunk<
+	void,
+	void,
+	{
+		// dispatch: Dispatch<AnyAction>;
+		extra: ThunkArgumentsType;
+	}
+>('user/signOutUserAsync', async (_, { dispatch, extra, rejectWithValue }) => {
+	try {
+		const { signOut } = extra.supertokens;
+		await signOut();
+	} catch (error) {
+		return rejectWithValue('signout error: ' + error);
+	}
+});
 
 // export const logoutUser = createAsyncThunk(
 //   "user/logoutUser",
@@ -217,142 +224,149 @@ const signOutUserAsync = createAsyncThunk<void, void, {
 // );
 
 export type UserStateProps = {
-  token: string | null;
-  user: UserWithDetails
-  // friendList: any[];
-  isSignedIn: boolean;
-  isLoading: boolean;
-  isSuccess: boolean;
-  isError: boolean;
-  errorMessage: string;
-}
+	token: string | null;
+	user: UserWithDetails;
+	// friendList: any[];
+	isSignedIn: boolean;
+	isLoading: boolean;
+	isSuccess: boolean;
+	isError: boolean;
+	errorMessage: string;
+};
 
 const initialState: UserStateProps = {
-  token: "",
-  user: {
-    id: "",
-    email: "",
-    username: "",
-    firstName: "",
-    lastName: "",
-    dialCode: '',
-    address: [
-      {
-        id: '',
-        street1: '',
-        street2: '',
-        city: '',
-        state: '',
-        zipcode: '',
-        country: '',
-        countryCode: '',
-      }
-    ],
-    phone: '',
-    orders: [],
-    // preferences: {},
-    emailVerified: false,
-    isLegalAge: null,
-    idVerified: false,
-    passwordHash: '',
-    passwordResetToken: '',
-    termsAccepted: false
-  },
-  isSignedIn: false,
-  isLoading: false,
-  isSuccess: false,
-  isError: false,
-  errorMessage: "",
+	token: '',
+	user: {
+		id: '',
+		email: '',
+		username: '',
+		firstName: '',
+		lastName: '',
+		dialCode: '',
+		address: [
+			{
+				id: '',
+				street1: '',
+				street2: '',
+				city: '',
+				state: '',
+				zipcode: '',
+				country: '',
+				countryCode: '',
+			},
+		],
+		phone: '',
+		orders: [],
+		// preferences: {},
+		emailVerified: false,
+		isLegalAge: null,
+		idVerified: false,
+		passwordHash: '',
+		passwordResetToken: '',
+		termsAccepted: false,
+	},
+	isSignedIn: false,
+	isLoading: false,
+	isSuccess: false,
+	isError: false,
+	errorMessage: '',
 };
 
 export const userSlice = createSlice({
-  name: "user",
-  initialState,
-  reducers: {
-    signinUserSync: ((state, { payload }: { payload: UserWithDetails | Passwordless.User }) => {
+	name: 'user',
+	initialState,
+	reducers: {
+		signinUserSync: (
+			state,
+			{ payload }: { payload: UserWithDetails | Passwordless.User }
+		) => {
+			console.info('signinUserSync payload', payload);
 
-      console.info('signinUserSync payload', payload)
+			const user = pruneData(payload, ['timeJoined', 'createdAt', 'updatedAt']);
+			state.user = user;
 
-      const user = pruneData(payload, ['timeJoined', 'createdAt', 'updatedAt'])
-      state.user = user;
+			state.isSignedIn = true;
+			state.isLoading = false;
+			state.isSuccess = true;
+			state.isError = false;
+		},
+		clearState: (state) => {
+			state.isError = false;
+			state.isSuccess = false;
+			state.isLoading = false;
+			return state;
+		},
+		clearErrorMessage: (state) => {
+			state.errorMessage = '';
+		},
+	},
+	extraReducers: (builder) => {
+		// builder.addCase(signupUser.fulfilled, (state, { payload }) => {
+		//   state.isFetching = false;
+		//   state.isSuccess = true;
 
-      state.isSignedIn = true;
-      state.isLoading = false;
-      state.isSuccess = true;
-      state.isError = false;
+		//   state.user = payload.info;
+		//   state.token = payload.auth_token;
+		//   // console.info("signup payload ", payload);
+		// }),
+		// builder.addCase(signupUser.pending, (state) => {
+		//   state.isFetching = true;
+		//   state.errorMessage = "";
+		// }),
+		// builder.addCase(signupUser.rejected, (state, { payload }) => {
+		//   state.isFetching = false;
 
-    }),
-    clearState: (state) => {
-      state.isError = false;
-      state.isSuccess = false;
-      state.isLoading = false;
-      return state;
-    },
-    clearErrorMessage: (state) => {
-      state.errorMessage = "";
-    },
-  },
-  extraReducers: (builder) => {
-    // builder.addCase(signupUser.fulfilled, (state, { payload }) => {
-    //   state.isFetching = false;
-    //   state.isSuccess = true;
+		//   state.errorMessage = payload;
+		//   state.isError = true;
+		// }),
 
-    //   state.user = payload.info;
-    //   state.token = payload.auth_token;
-    //   // console.info("signup payload ", payload);
-    // }),
-    // builder.addCase(signupUser.pending, (state) => {
-    //   state.isFetching = true;
-    //   state.errorMessage = "";
-    // }),
-    // builder.addCase(signupUser.rejected, (state, { payload }) => {
-    //   state.isFetching = false;
-
-    //   state.errorMessage = payload;
-    //   state.isError = true;
-    // }),
-
-    builder.addCase(signinUserAsyncEmailPassword.fulfilled, (state, { payload }) => {
-      const user = payload
-      if (user !== undefined) {
-        state.user = { ...state.user, ...user }
-      }
-      state.isLoading = false;
-      state.isSignedIn = true;
-      state.isSuccess = true;
-      state.isError = false
-      state.errorMessage = ""
-    }),
-      builder.addCase(signinUserAsyncEmailPassword.pending, (state) => {
-        state.isLoading = true;
-      }),
-      builder.addCase(signinUserAsyncEmailPassword.rejected, (state, { payload }) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.errorMessage = payload as string
-      }),
-
-      builder.addCase(signOutUserAsync.fulfilled, () => initialState),
-      builder.addCase(signOutUserAsync.pending, (state) => {
-        state.isLoading = true;
-      }),
-      builder.addCase(signOutUserAsync.rejected, (state, { payload }) => {
-        state.isSuccess = false;
-        state.isLoading = false;
-        state.isError = true;
-        state.errorMessage = payload as string
-      })
-  }
+		builder.addCase(
+			signinUserAsyncEmailPassword.fulfilled,
+			(state, { payload }) => {
+				const user = payload;
+				if (user !== undefined) {
+					state.user = { ...state.user, ...user };
+				}
+				state.isLoading = false;
+				state.isSignedIn = true;
+				state.isSuccess = true;
+				state.isError = false;
+				state.errorMessage = '';
+			}
+		),
+			builder.addCase(signinUserAsyncEmailPassword.pending, (state) => {
+				state.isLoading = true;
+			}),
+			builder.addCase(
+				signinUserAsyncEmailPassword.rejected,
+				(state, { payload }) => {
+					state.isLoading = false;
+					state.isError = true;
+					state.errorMessage = payload as string;
+				}
+			),
+			builder.addCase(signOutUserAsync.fulfilled, () => initialState),
+			builder.addCase(signOutUserAsync.pending, (state) => {
+				state.isLoading = true;
+			}),
+			builder.addCase(signOutUserAsync.rejected, (state, { payload }) => {
+				state.isSuccess = false;
+				state.isLoading = false;
+				state.isError = true;
+				state.errorMessage = payload as string;
+			});
+	},
 });
 
 export const userActions = {
-  ...userSlice.actions,
-  // signupUser,
-  signinUserAsyncEmailPassword,
-  signOutUserAsync,
+	...userSlice.actions,
+	// signupUser,
+	signinUserAsyncEmailPassword,
+	signOutUserAsync,
 };
 
 export const userReducer = userSlice.reducer;
 
 export const selectUserState = (state: AppState) => state.user;
-export const selectIsAddressAdded = (state: AppState) => state.user?.user?.address?.length > 0;
+export const selectIsAddressAdded = (state: AppState) =>
+	state.user?.user?.address?.length > 0;

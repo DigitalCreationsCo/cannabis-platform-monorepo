@@ -1,10 +1,10 @@
-import { Text, View } from 'react-native'
+import { Text, View } from 'react-native';
 export default function HomeScreen() {
-  return (
-    <View>
-      <Text>HomeScreen</Text>
-    </View>
-  )
+	return (
+		<View>
+			<Text>HomeScreen</Text>
+		</View>
+	);
 }
 
 // import * as Location from "expo-location";
@@ -115,7 +115,7 @@ export default function HomeScreen() {
 //         Cannabis Delivery
 //       </Text>
 
-//       {/* FOR TESTING ASYNC LOADING 
+//       {/* FOR TESTING ASYNC LOADING
 //       {vendors ? <Text>Vendors Fetched</Text> : <Text>No Vendors</Text>}
 //       <Text>{location?.join(", ")}</Text>
 //       <Text>isLoading? {isLoading ? "true" : "false"}</Text> */}

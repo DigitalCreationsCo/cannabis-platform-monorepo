@@ -1,52 +1,61 @@
 import { OrderStatus, OrderWithDetails } from '@cd/data-access';
 
-const orderStatusList: OrderStatus[] = ['Pending', 'Processing', 'Delivered', 'Cancelled'];
+const orderStatusList: OrderStatus[] = [
+	'Pending',
+	'Processing',
+	'Delivered',
+	'Cancelled',
+];
 
 /**
  * returns the order status as a boolean
- * @param order 
- * @returns 
+ * @param order
+ * @returns
  */
 const checkOrderIsCompleteOrCanceled = (order: OrderWithDetails) =>
-    order.orderStatus === 'Cancelled' || order.orderStatus === 'Delivered';
+	order.orderStatus === 'Cancelled' || order.orderStatus === 'Delivered';
 
 /**
  * calculates the price of an item after discount
- * @param price 
+ * @param price
  * @param discount a flat number representing percentage off
- * @returns 
+ * @returns
  */
 function calcSalePrice(price: number, discount: number) {
-    let _discountPercentage = discount / 100;
-    let _price = price
-    return _price === discount * price ? _price : _price - ((price * _discountPercentage));
+	let _discountPercentage = discount / 100;
+	let _price = price;
+	return _price === discount * price
+		? _price
+		: _price - price * _discountPercentage;
 }
 
 /**
  * gets the currency symbol for a given currency code
- * @param currency 
- * @returns 
+ * @param currency
+ * @returns
  */
 function getCurrencySymbol(currency: any) {
-    const currencySymbol = new Intl.NumberFormat('en', {
-        currency,
-        style: 'currency'
-    }).formatToParts(0).find(part => part.type === 'currency');
-    return currencySymbol && currencySymbol.value;
+	const currencySymbol = new Intl.NumberFormat('en', {
+		currency,
+		style: 'currency',
+	})
+		.formatToParts(0)
+		.find((part) => part.type === 'currency');
+	return currencySymbol && currencySymbol.value;
 }
 
 /**
  * Converts a price from cents to decimal value
- * @param cents 
+ * @param cents
  * @returns converted dollar value with 2 decimal values
  */
 function convertCentsToDollars(cents: number) {
-    // console.info('cents: ', cents)
-    const dollarValue = Number(((cents / 100) * 100) / 100);
-    // console.info('dollarValue: ', dollarValue.toFixed(2))
-    return dollarValue.toFixed(2);
-    // V Beware: this statement interrupts React hydration
-    // return number.toLocaleString(locale, { maximumFractionDigits: 2, minimumFractionDigits: 2 });
+	// console.info('cents: ', cents)
+	const dollarValue = Number(((cents / 100) * 100) / 100);
+	// console.info('dollarValue: ', dollarValue.toFixed(2))
+	return dollarValue.toFixed(2);
+	// V Beware: this statement interrupts React hydration
+	// return number.toLocaleString(locale, { maximumFractionDigits: 2, minimumFractionDigits: 2 });
 }
 
 /**
@@ -55,35 +64,32 @@ function convertCentsToDollars(cents: number) {
  * @returns a whole number conversion
  */
 function convertDollarsToWholeNumber(value: number | string) {
-    // regex to remove all non-numeric characters, and joins the numbers
-    const number = value.toString().match(/\d*/g)?.join('')
-    return Number(number)
+	// regex to remove all non-numeric characters, and joins the numbers
+	const number = value.toString().match(/\d*/g)?.join('');
+	return Number(number);
 }
 
 /**
  * Determines the platform fee for every transaction
  * note: HARD CODE THIS VALUE
- * @param amount 
- * @returns 
+ * @param amount
+ * @returns
  */
 function calculatePlatformFeeForTransaction(amount: number) {
-    //   return Math.round(amount * 0.1)
-    return amount
+	//   return Math.round(amount * 0.1)
+	return amount;
 }
 
 function calculateDeliveryFee(amount: number) {
-
-    return amount;
+	return amount;
 }
 
-
 export {
-    orderStatusList,
-    checkOrderIsCompleteOrCanceled,
-    calcSalePrice,
-    getCurrencySymbol,
-    convertCentsToDollars,
-    convertDollarsToWholeNumber,
-    calculatePlatformFeeForTransaction
+	orderStatusList,
+	checkOrderIsCompleteOrCanceled,
+	calcSalePrice,
+	getCurrencySymbol,
+	convertCentsToDollars,
+	convertDollarsToWholeNumber,
+	calculatePlatformFeeForTransaction,
 };
-

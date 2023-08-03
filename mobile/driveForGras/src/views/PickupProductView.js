@@ -173,11 +173,11 @@
 //   },
 // });
 
-import { Text, View } from 'react-native'
+import { Text, View } from 'react-native';
 export default function PickupProductView() {
-  return (
-    <View>
-      <Text>PickupProductView</Text>
-    </View>
-  )
+	return (
+		<View>
+			<Text>PickupProductView</Text>
+		</View>
+	);
 }

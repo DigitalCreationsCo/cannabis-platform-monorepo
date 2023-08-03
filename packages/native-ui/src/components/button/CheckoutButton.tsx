@@ -1,38 +1,39 @@
 import { cartActions } from '@cd/core-lib/src';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
-import Button, { ButtonProps } from "./Button";
+import Button, { ButtonProps } from './Button';
 
 type CheckoutButtonProps = ButtonProps;
 
 function CheckoutButton(props: CheckoutButtonProps) {
-    const dispatch = useDispatch();
-    const checkout = async () => {
-        try {
-        const 
-        response = await dispatch(cartActions.createOrderForCheckout() as any)
+	const dispatch = useDispatch();
+	const checkout = async () => {
+		try {
+			const response = await dispatch(
+				cartActions.createOrderForCheckout() as any
+			);
 
-        if (response?.error?.message === 'Rejected')
-        throw new Error(response.payload);
-        
-        // Router.push('/checkout');
-        }
-        catch (error: any) {
-            toast.error(error.message)
-        }
-    }
+			if (response?.error?.message === 'Rejected')
+				throw new Error(response.payload);
 
-    return (
-        // <Link href='/checkout' className='place-self-center mb-4'>
-            <Button
-            onPress={checkout}
-            bg={'secondary-light'} 
-            hover={'primary-light'}
-            { ...props }
-            >
-            Checkout</Button>
-        // </Link>
-    );
+			// router.push('/checkout');
+		} catch (error: any) {
+			toast.error(error.message);
+		}
+	};
+
+	return (
+		// <Link href='/checkout' className='place-self-center mb-4'>
+		<Button
+			onPress={checkout}
+			bg={'secondary-light'}
+			hover={'primary-light'}
+			{...props}
+		>
+			Checkout
+		</Button>
+		// </Link>
+	);
 }
 
 export default CheckoutButton;

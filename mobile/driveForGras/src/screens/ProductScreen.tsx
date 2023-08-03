@@ -185,12 +185,12 @@
 
 // export default ProductScreen;
 
-import { Text, View } from 'react-native'
+import { Text, View } from 'react-native';
 const ProductScreen = () => {
-  return (
-    <View>
-      <Text>ProductScreen</Text>
-    </View>
-  )
-}
-export default ProductScreen
+	return (
+		<View>
+			<Text>ProductScreen</Text>
+		</View>
+	);
+};
+export default ProductScreen;

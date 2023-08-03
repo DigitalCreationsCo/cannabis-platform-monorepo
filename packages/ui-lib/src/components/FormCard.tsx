@@ -3,15 +3,10 @@ import { twMerge } from 'tailwind-merge';
 import Card from './Card';
 
 type FormCardProps = {
-    className?: string;
+	className?: string;
 } & PropsWithChildren;
 function FormCard({ className, children }: FormCardProps) {
-
-    return (
-        <Card className={twMerge('bg-inverse', className)}>
-            {children}
-        </Card>
-    );
+	return <Card className={twMerge('bg-inverse', className)}>{children}</Card>;
 }
 
 export default FormCard;

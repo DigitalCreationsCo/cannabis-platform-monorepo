@@ -157,11 +157,11 @@
 //   },
 // });
 
-import { Text, View } from 'react-native'
+import { Text, View } from 'react-native';
 export default function DeliverOrderView() {
-  return (
-    <View>
-      <Text>DeliverOrderView</Text>
-    </View>
-  )
+	return (
+		<View>
+			<Text>DeliverOrderView</Text>
+		</View>
+	);
 }

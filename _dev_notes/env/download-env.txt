@@ -1,0 +1,6 @@
+(WRITE SCRIPT TO DOWNLOAD FROM REMOTE ENV STORE)
+
+Script must download prod and dev env vars and secrets, and put them into env file.
+Prod files are needed on disk for database package, to use commands locally.
+
+Env vars can be downloaded from remote store, and stored in .env file that is created.

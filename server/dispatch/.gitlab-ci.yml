@@ -1,0 +1,36 @@
+.dispatch:
+  variables:
+    MODULE_PATH: server/dispatch
+
+lint-dispatch:
+  extends:
+    - .dispatch
+    - .lint
+  only:
+    changes:
+      - server/dispatch/**/*
+    refs:
+      - merge_requests
+      - master
+
+test-dispatch:type:
+  extends:
+    - .dispatch
+    - .type-tests
+  only:
+    changes:
+      - server/dispatch/**/*
+    refs:
+      - merge_requests
+      - master
+
+test-dispatch:unit:
+  extends:
+    - .dispatch
+    - .unit-tests
+  only:
+    changes:
+      - server/dispatch/**/*
+    refs:
+      - merge_requests
+      - master

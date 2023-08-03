@@ -1,2 +1,1 @@
-export { default as imageRoutes } from './image.route';
-
+export { default as image } from './image.route';

@@ -217,12 +217,12 @@
 
 // export default NewOrderScreen;
 
-import { Text, View } from 'react-native'
+import { Text, View } from 'react-native';
 const NewOrderScreen = () => {
-  return (
-    <View>
-      <Text>NewOrderScreen</Text>
-    </View>
-  )
-}
-export default NewOrderScreen
+	return (
+		<View>
+			<Text>NewOrderScreen</Text>
+		</View>
+	);
+};
+export default NewOrderScreen;

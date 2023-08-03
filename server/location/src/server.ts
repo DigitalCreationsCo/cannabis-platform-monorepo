@@ -11,17 +11,17 @@ const shopDomain = process.env.NEXT_PUBLIC_SHOP_APP_URL;
 const dashboardDomain = process.env.NEXT_PUBLIC_DASHBOARD_APP_URL;
 
 if (Supertokens) {
-  Supertokens.init(backendConfig());
+	Supertokens.init(backendConfig());
 } else throw Error('Supertokens is not available.');
 
 const app = express();
 app.use(
-  cors({
-    origin: [shopDomain, dashboardDomain],
-    allowedHeaders: ['content-type', ...Supertokens.getAllCORSHeaders()],
-    methods: ['GET', 'PUT', 'POST', 'DELETE'],
-    credentials: true,
-  })
+	cors({
+		origin: [shopDomain, dashboardDomain],
+		allowedHeaders: ['content-type', ...Supertokens.getAllCORSHeaders()],
+		methods: ['GET', 'PUT', 'POST', 'DELETE'],
+		credentials: true,
+	})
 );
 app.use(middleware());
 
@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use('/api/v1/healthcheck', (_, res) => {
-  return res.status(200).json({ status: 'ok', server: 'location' });
+	return res.status(200).json({ status: 'ok', server: 'location' });
 });
 
 app.use('/api/v1/serve-local', serveLocal);

@@ -112,11 +112,11 @@
 //   );
 // }
 
-import { Text, View } from 'react-native'
+import { Text, View } from 'react-native';
 export default function CustomerDeliveryView() {
-  return (
-    <View>
-      <Text>CustomerDeliveryView</Text>
-    </View>
-  )
+	return (
+		<View>
+			<Text>CustomerDeliveryView</Text>
+		</View>
+	);
 }

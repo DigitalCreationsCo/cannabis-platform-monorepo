@@ -35,13 +35,14 @@ router.route('/orders').put(shopCtrl.updateOrderById);
 
 router.route('/orders-fulfill').post(shopCtrl.fulfillOrderAndStartDispatch);
 
-
 router.route('/products/org/:id').get(shopCtrl.getProductsByOrg);
 
 router.route('/products/:id').get(shopCtrl.getProductById);
 
 router.route('/products').post(shopCtrl.searchProducts);
 
-router.route('/products&_page=:page&_limit=:limit').post(shopCtrl.getProductsByMultipleOrgs);
+router
+	.route('/products&_page=:page&_limit=:limit')
+	.post(shopCtrl.getProductsByMultipleOrgs);
 
 export default router;

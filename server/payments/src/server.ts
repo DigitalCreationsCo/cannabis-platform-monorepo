@@ -2,53 +2,73 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
 import http from 'http';
+import Supertokens from 'supertokens-node';
+import {
+	errorHandler as STerror,
+	middleware,
+} from 'supertokens-node/framework/express';
 import { accountRoutes, paymentRoutes } from './api/routes';
 import StripeService from './api/stripe';
+import backendConfig from './config';
+
+const shopDomain = process.env.NEXT_PUBLIC_SHOP_APP_URL;
+const dashboardDomain = process.env.NEXT_PUBLIC_DASHBOARD_APP_URL;
+
+if (Supertokens) {
+	Supertokens.init(backendConfig());
+} else throw Error('Supertokens is not available.');
 
 const app = express();
-app.use(cors());
+app.use(
+	cors({
+		origin: [shopDomain, dashboardDomain],
+		allowedHeaders: ['content-type', ...Supertokens.getAllCORSHeaders()],
+		methods: ['GET', 'PUT', 'POST', 'DELETE'],
+		credentials: true,
+	})
+);
+app.use(middleware());
 
 app.post('/webhook', express.raw({ type: '*/*' }), async (req, res) => {
-  const payload = req.body;
+	const payload = req.body;
 
-  const sig = req.headers['stripe-signature'];
+	const sig = req.headers['stripe-signature'];
 
-  try {
-    let event;
+	try {
+		let event;
 
-    event = StripeService.constructStripeEvent(payload, sig);
+		event = StripeService.constructStripeEvent(payload, sig);
 
-    await StripeService.handleWebhookEvents(event);
+		await StripeService.handleWebhookEvents(event);
 
-    res.status(200).end();
-  } catch (error: any) {
-    console.error('stripe weebook error: ', error.message);
-    return res.status(400).json({ error: `Webhook Error: ${error.message}` });
-  }
+		res.status(200).end();
+	} catch (error: any) {
+		console.error('stripe weebook error: ', error.message);
+		return res.status(400).json({ error: `Webhook Error: ${error.message}` });
+	}
 });
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use('/api/v1/healthcheck', (_, res) => {
-  return res.status(200).json({ status: 'ok', server: 'payments' });
+	return res.status(200).json({ status: 'ok', server: 'payments' });
 });
 
 app.use('/api/v1/payment', paymentRoutes);
-
 app.use('/api/v1/accounts', accountRoutes);
 
+app.use(STerror());
 app.use(
-  (
-    err: any,
-    req: express.Request,
-    res: express.Response,
-    next: express.NextFunction
-  ) => {
-    res.status(500).send(err.message);
-  }
+	(
+		err: any,
+		req: express.Request,
+		res: express.Response,
+		next: express.NextFunction
+	) => {
+		res.status(500).send(err.message);
+	}
 );
-
 app.use('*', (req, res) => res.status(404).json({ error: 'API not found' }));
 
 const server = http.createServer(app);

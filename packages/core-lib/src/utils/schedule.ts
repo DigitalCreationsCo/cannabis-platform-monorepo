@@ -1,31 +1,31 @@
 import { Schedule } from '@cd/data-access';
 
 const parseDaysFromSchedule = (days: number) =>
-  String(days).split('').map(Number);
+	String(days).split('').map(Number);
 
 function checkIsDispensaryOpen(schedule: Schedule): boolean | null {
-  try {
-    const now = new Date();
+	try {
+		const now = new Date();
 
-    const { openAt, closeAt } = schedule;
-    if (!openAt || !closeAt) {
-      return null;
-    }
+		const { openAt, closeAt } = schedule;
+		if (!openAt || !closeAt) {
+			return null;
+		}
 
-    const openTime = new Date();
-    openTime.setHours(openAt);
+		const openTime = new Date();
+		openTime.setHours(openAt);
 
-    const closeTime = new Date();
-    closeTime.setHours(closeAt);
+		const closeTime = new Date();
+		closeTime.setHours(closeAt);
 
-    const days = parseDaysFromSchedule(schedule.days);
-    const result =
-      days.includes(now.getDay()) && now > openTime && now < closeTime;
+		const days = parseDaysFromSchedule(schedule.days);
+		const result =
+			days.includes(now.getDay()) && now > openTime && now < closeTime;
 
-    return result;
-  } catch (error) {
-    return null;
-  }
+		return result;
+	} catch (error) {
+		return null;
+	}
 }
 
 export { checkIsDispensaryOpen };

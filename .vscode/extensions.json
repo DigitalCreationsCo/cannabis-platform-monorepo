@@ -1,8 +1,8 @@
 {
-  "recommendations": [
-    "dbaeumer.vscode-eslint",
-    "pulkitgangwar.nextjs-snippets",
-    "formulahendry.auto-complete-tag",
-    "circleci.circleci"
-  ]
+	"recommendations": [
+		"dbaeumer.vscode-eslint",
+		"pulkitgangwar.nextjs-snippets",
+		"formulahendry.auto-complete-tag",
+		"circleci.circleci"
+	]
 }

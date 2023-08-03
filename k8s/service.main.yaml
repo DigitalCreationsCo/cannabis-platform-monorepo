@@ -17,8 +17,8 @@ kind: Deployment
 metadata:
   labels:
     app: gras-server-main
-  name: gras-server-main
-  namespace: default
+    name: gras-server-main
+    namespace: default
 spec:
   selector:
     matchLabels:
@@ -35,10 +35,10 @@ spec:
           image: grasadmin/main:latest
           imagePullPolicy: Always
           terminationMessagePolicy: FallbackToLogsOnError
-          # env: 
+          # env:
           # debug logs
-            # - name: DEBUG
-            #   value: com.supertokens
+          # - name: DEBUG
+          #   value: com.supertokens
           resources:
             {}
             # limits:
@@ -50,7 +50,6 @@ spec:
           ports:
             - name: main-port
               containerPort: 6001
-
           livenessProbe:
             httpGet:
               path: /api/v1/healthcheck

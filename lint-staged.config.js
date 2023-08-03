@@ -23,6 +23,6 @@
 // };
 
 module.exports = {
-  '*.{json,md,mdx,css,html,yml,yaml,scss,ts,js,tsx,jsx,mjs}':
-    'prettier --write',
+	'*.{json,md,mdx,css,html,yml,yaml,scss,ts,js,tsx,jsx,mjs}':
+		'prettier --write',
 };

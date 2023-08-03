@@ -1,29 +1,29 @@
 {
-  "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "baseUrl": "./src",
-    "strict": false,
-    "target": "ES2015",
-    "lib": ["dom", "dom.iterable", "ES2015"],
-    "module": "ES2015",
-    "jsx": "preserve",
-    "paths": {
-      "@cd/ui-lib": ["../../../packages/ui-lib/src/index"],
-      "@cd/core-lib": ["../../../packages/core-lib/src/index"],
-      "@cd/data-access": ["../../../packages/data-access/src/index"],
-      "@cd/eslint-config": ["../../../packages/eslint-config/src/index"]
-    }
-  },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.mts",
-    "**/*.js",
-    "**/*.cjs",
-    "**/*.mjs",
-    "**/*.jsx",
-    "**/*.json"
-  ],
-  "exclude": ["**/node_modules", "**/.*/"]
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"extends": "../../tsconfig.base.json",
+	"compilerOptions": {
+		"baseUrl": "./src",
+		"strict": false,
+		"module": "ES2015",
+		"paths": {
+			"@cd/core-lib": ["../../../packages/core-lib/src/index"],
+			"@cd/data-access": ["../../../packages/data-access/src/index"],
+			"@cd/eslint-config": ["../../../packages/eslint-config/src/index"]
+		},
+		"noEmit": false,
+		"outDir": "./dist",
+		"target": "ES2015",
+		"lib": ["ES2015"]
+	},
+	"include": [
+		"**/*.ts",
+		"**/*.tsx",
+		"**/*.mts",
+		"**/*.js",
+		"**/*.cjs",
+		"**/*.mjs",
+		"**/*.jsx",
+		"**/*.json"
+	],
+	"exclude": ["**/.*/", "dist"]
 }

@@ -32,4 +32,3 @@ export { default as Tag } from './Tag';
 export { default as TermsAgreement } from './TermsAgreement';
 export { default as TextField } from './TextField';
 export * from './Typography';
-

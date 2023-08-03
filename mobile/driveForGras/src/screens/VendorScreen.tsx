@@ -170,11 +170,11 @@
 
 // export default VendorScreen;
 
-import { Text, View } from 'react-native'
+import { Text, View } from 'react-native';
 export default function VendorScreen() {
-  return (
-    <View>
-      <Text>VendorScreen</Text>
-    </View>
-  )
+	return (
+		<View>
+			<Text>VendorScreen</Text>
+		</View>
+	);
 }

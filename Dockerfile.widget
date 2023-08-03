@@ -1,4 +1,4 @@
-# FROM --platform=linux/amd64 node:16-bullseye AS INSTALLER
+# FROM node:16-bullseye AS INSTALLER
 FROM node:16-bullseye AS INSTALLER
 
 WORKDIR /root
@@ -9,17 +9,17 @@ ENV YARN_VERSION "3.3.1"
 
 RUN yarn set version $YARN_VERSION
 RUN yarn plugin import workspace-tools
-RUN yarn workspaces focus @cd/delivery-widget-app
+RUN yarn workspaces focus @cd/app-delivery-widget
 
 # FROM --platform=linux/amd64 node:16-bullseye as BUILDER
-FROM node:16-bullseye as BUILDER
+FROM --platform=linux/amd64 node:16-bullseye as BUILDER
 
 WORKDIR /root
 
 COPY --from=INSTALLER ./root . 
 
 
-RUN yarn workspaces foreach -itR --from @cd/delivery-widget-app run build
+RUN yarn workspaces foreach -itR --from @cd/app-delivery-widget run build
 
 # linux amd64 for ci
 # FROM  node:16-bullseye AS SERVER
@@ -31,7 +31,7 @@ WORKDIR /usr/share/nginx/html
 
 RUN rm -rf ./*
 
-COPY --from=BUILDER /root/apps/delivery-widget/dist .
+COPY --from=BUILDER /root/app/delivery-widget/dist .
 
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
 
@@ -39,16 +39,16 @@ ENTRYPOINT ["nginx", "-g", "daemon off;"]
 
 # ARG BUILD_CONTEXT=$BUILD_CONTEXT
 
-# COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/next.config.mjs ./root
-# COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/package.json ./root
+# COPY --from=BUILDER /root/app/$BUILD_CONTEXT/next.config.mjs ./root
+# COPY --from=BUILDER /root/app/$BUILD_CONTEXT/package.json ./root
 
 # # Automatically leverage output traces to reduce image size
 # # https://nextjs.org/docs/advanced-features/output-file-tracing
-# COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/.next/standalone ./root
-# COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/.next/static ./root/apps/$BUILD_CONTEXT/.next/static
-# COPY --from=BUILDER /root/apps/$BUILD_CONTEXT/public ./root/apps/$BUILD_CONTEXT/public
+# COPY --from=BUILDER /root/app/$BUILD_CONTEXT/.next/standalone ./root
+# COPY --from=BUILDER /root/app/$BUILD_CONTEXT/.next/static ./root/app/$BUILD_CONTEXT/.next/static
+# COPY --from=BUILDER /root/app/$BUILD_CONTEXT/public ./root/app/$BUILD_CONTEXT/public
 
-# WORKDIR /root/apps/$BUILD_CONTEXT
+# WORKDIR /root/app/$BUILD_CONTEXT
 
 # EXPOSE 3000
 

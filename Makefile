@@ -1,11 +1,20 @@
 docker-build:
-	docker build -t grasadmin/$(CONTEXT) -f Dockerfile.$(TYPE) --build-arg=BUILD_CONTEXT=$(CONTEXT) --build-arg=PORT=$(PORT) .
+	docker build -t grasadmin/$(BUILD_CONTEXT):$(TAG) -f Dockerfile.$(BUILD_TYPE) --build-arg=BUILD_TYPE=$(BUILD_TYPE) --build-arg=BUILD_CONTEXT=$(BUILD_CONTEXT) --build-arg=PORT=$(PORT) .
 
 docker-build-nocache:
-	docker build -t grasadmin/$(CONTEXT) -f Dockerfile.$(TYPE) --build-arg=BUILD_CONTEXT=$(CONTEXT) --build-arg=PORT=$(PORT) --no-cache .
+	docker build -t grasadmin/$(BUILD_CONTEXT):$(TAG) -f Dockerfile.$(BUILD_TYPE) --build-arg=BUILD_TYPE=$(BUILD_TYPE) --build-arg=BUILD_CONTEXT=$(BUILD_CONTEXT) --build-arg=PORT=$(PORT) --no-cache .
+	
+docker-build-nocache-output:
+	docker build -t grasadmin/$(BUILD_CONTEXT):$(TAG) -f Dockerfile.$(BUILD_TYPE) --build-arg=BUILD_TYPE=$(BUILD_TYPE) --build-arg=BUILD_CONTEXT=$(BUILD_CONTEXT) --build-arg=PORT=$(PORT) --no-cache . 2>&1 | tee build.log
 	
 docker-build-debug:
-	docker build -t grasadmin/$(CONTEXT) -f Dockerfile.$(TYPE) --build-arg=BUILD_CONTEXT=$(CONTEXT) --build-arg=PORT=$(PORT) --progress=plain .
+	docker build -t grasadmin/$(BUILD_CONTEXT):$(TAG) -f Dockerfile.$(BUILD_TYPE) --build-arg=BUILD_TYPE=$(BUILD_TYPE) --build-arg=BUILD_CONTEXT=$(BUILD_CONTEXT) --build-arg=PORT=$(PORT) --progress=plain .
+
+docker-build-supertokens:
+	docker build -t grasadmin/supertokens:3.14 -f Dockerfile.supertokens .
+
+docker-build-supertokens:
+	docker build -t grasadmin/supertokens:3.14 -f Dockerfile.supertokens .
 
 docker-tag:
 	docker tag $(IMAGE) grasadmin/$(IMAGE):$(TAG)

@@ -16,22 +16,22 @@
 // });
 
 test('create or update a dispensary admin user', async () => {
-  // const result = await prismaMock.organization.findUnique.mockResolvedValue(_orgUpsert)
-  // await expect(
-  //   updateDispensaryAdmin(_userAdminCreatePayload.user, {
-  //     role: _userAdminCreatePayload.role,
-  //     dispensaryId: _userAdminCreatePayload.dispensaryId,
-  //   })
-  // ).resolves.toEqual(_orgUpsert);
-  await expect(Promise.resolve(1)).resolves.toEqual(1);
+	// const result = await prismaMock.organization.findUnique.mockResolvedValue(_orgUpsert)
+	// await expect(
+	//   updateDispensaryAdmin(_userAdminCreatePayload.user, {
+	//     role: _userAdminCreatePayload.role,
+	//     dispensaryId: _userAdminCreatePayload.dispensaryId,
+	//   })
+	// ).resolves.toEqual(_orgUpsert);
+	await expect(Promise.resolve(1)).resolves.toEqual(1);
 });
 
 test('create or update a dispensary admin user fails with incomplete data', async () => {
-  // const result = await prismaMock.organization.findUnique.mockResolvedValue(_orgUpsert)
-  // await expect(
-  //   updateDispensaryAdmin(_incompleteUserCreate, { role: '', dispensaryId: '' })
-  // ).resolves.toEqual(_orgUpsert);
-  await expect(Promise.resolve(1)).resolves.toEqual(1);
+	// const result = await prismaMock.organization.findUnique.mockResolvedValue(_orgUpsert)
+	// await expect(
+	//   updateDispensaryAdmin(_incompleteUserCreate, { role: '', dispensaryId: '' })
+	// ).resolves.toEqual(_orgUpsert);
+	await expect(Promise.resolve(1)).resolves.toEqual(1);
 });
 
 export {};

@@ -14,6 +14,8 @@ router.route('/connect').post(accountCtrl.connectStripeToDispensaryAccount);
 
 router.route('/create').post(accountCtrl.createStripeDispensaryAccount);
 
-router.route('/check-onboard').post(accountCtrl.checkOnboardStripeDispensaryAccount);
+router
+	.route('/check-onboard')
+	.post(accountCtrl.checkOnboardStripeDispensaryAccount);
 
 export default router;

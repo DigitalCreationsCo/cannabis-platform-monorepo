@@ -32,12 +32,12 @@
 
 // export default DeliveryOrderScreen;
 
-import { Text, View } from 'react-native'
+import { Text, View } from 'react-native';
 const DeliveryOrderScreen = () => {
-  return (
-    <View>
-      <Text>DeliveryOrderScreen</Text>
-    </View>
-  )
-}
-export default DeliveryOrderScreen
+	return (
+		<View>
+			<Text>DeliveryOrderScreen</Text>
+		</View>
+	);
+};
+export default DeliveryOrderScreen;

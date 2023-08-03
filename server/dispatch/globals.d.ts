@@ -1,8 +1,8 @@
-import { Server } from "socket.io";
-import { WorkerRoom } from "types";
+import { Server } from 'socket.io';
+import { WorkerRoom } from 'types';
 
 declare global {
-    var io: Server;
-    var rooms: Record<string, WorkerRoom>;
-    var lastWorkerId: number;
+	var io: Server;
+	var rooms: Record<string, WorkerRoom>;
+	var lastWorkerId: number;
 }

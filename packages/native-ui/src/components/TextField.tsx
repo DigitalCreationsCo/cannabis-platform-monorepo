@@ -53,7 +53,7 @@
 //     return (
 //         <View
 //             // onStartShouldSetResponder={() => emailRef.current.focus()}
-            
+
 //             >
 //             <Text>email</Text>
 //             <Controller
@@ -77,12 +77,12 @@
 
 // export default TextField;
 
-import { Text, View } from 'react-native'
+import { Text, View } from 'react-native';
 const RNTextField = () => {
-  return (
-    <View>
-      <Text>RNTextField</Text>
-    </View>
-  )
-}
-export default RNTextField
+	return (
+		<View>
+			<Text>RNTextField</Text>
+		</View>
+	);
+};
+export default RNTextField;
