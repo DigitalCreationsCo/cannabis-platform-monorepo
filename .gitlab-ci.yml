@@ -7,26 +7,22 @@ include:
 .modules:
   - MODULE:
       - app/shop
-      # - app/dashboard
-      # - app/checkout-widget
-      # - server/main
-      # - server/location
-      # - server/payments
-      # - server/image
+      - app/dashboard
+      - app/checkout-widget
+      - server/main
+      - server/location
+      - server/payments
+      - server/image
       # - supertokens
 
 stages:
-  # - cache
+  - cache
   - build
-  - tag # Future TODO: Add Semantic Versioning to Images
+  # - tag # Future TODO: Add Semantic Versioning to Images
   # https://github.com/semantic-release/semantic-release
 
   - release
   - deploy
-
-# cache:
-#   extends: .yarn-cache
-# add cache rules
 
 build:
   extends: .module_build
@@ -44,9 +40,9 @@ build:
 #   rules:
 #     # Default branch
 #     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-#       changes:
-#         - node_modules
-#         - ${MODULE}/**/*
+# changes:
+# - node_modules
+# - ${MODULE}/**/*
 
 # publish:
 #   extends: .module_publish
@@ -65,7 +61,6 @@ build:
 #     # is production branch
 #     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 #       changes:
-#         - node_modules
 #         - ${MODULE}/**/*
 # ========================================
 # optimized CI for module builds
