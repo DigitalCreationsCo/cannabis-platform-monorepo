@@ -18,11 +18,11 @@ include:
 stages:
   # - cache
   - build
-  # - tag # Future TODO: Add Semantic Versioning to Images
+  - tag # Future TODO: Add Semantic Versioning to Images
   # https://github.com/semantic-release/semantic-release
 
-  # - release
-  # - deploy
+  - release
+  - deploy
 
 # cache:
 #   extends: .yarn-cache
@@ -37,37 +37,36 @@ build:
       changes:
         - node_modules
         - ${MODULE}/**/*
+# tag:
+#   extends: .module_tag_version
+#   parallel:
+#     matrix: !reference [.modules]
+#   rules:
+#     # Default branch
+#     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+#       changes:
+#         - node_modules
+#         - ${MODULE}/**/*
 
-tag:
-  extends: .module_tag_version
-  parallel:
-    matrix: !reference [.modules]
-  rules:
-    # Default branch
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      changes:
-        - node_modules
-        - ${MODULE}/**/*
+# publish:
+#   extends: .module_publish
+#   parallel:
+#     matrix: !reference [.modules]
+#   rules:
+#     # Tags
+#     # - if: $CI_COMMIT_TAG =~ /^$IMAGE-v[0-9]+\.[0-9]+\.[0-9]+$/
+#     - if: $CI_COMMIT_TAG =~ /.+-v[0-9]+\.[0-9]+\.[0-9]+$/
 
-publish:
-  extends: .module_publish
-  parallel:
-    matrix: !reference [.modules]
-  rules:
-    # Tags
-    # - if: $CI_COMMIT_TAG =~ /^$IMAGE-v[0-9]+\.[0-9]+\.[0-9]+$/
-    - if: $CI_COMMIT_TAG =~ /.+-v[0-9]+\.[0-9]+\.[0-9]+$/
-
-deploy:
-  extends: .module_deploy
-  parallel:
-    matrix: !reference [.modules]
-  rules:
-    # is production branch
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      changes:
-        - node_modules
-        - ${MODULE}/**/*
+# deploy:
+#   extends: .module_deploy
+#   parallel:
+#     matrix: !reference [.modules]
+#   rules:
+#     # is production branch
+#     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+#       changes:
+#         - node_modules
+#         - ${MODULE}/**/*
 # ========================================
 # optimized CI for module builds
 # such as each module job can run depending on changes of the module path, and the node_modules dependencies
