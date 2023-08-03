@@ -64,23 +64,23 @@
     #   docker push "${latest_tag}"
     # fi
 
-# # Repo Tag
-# .image_tag_version:
+# # Tag
+# .module_tag_version:
 #   stage: tag
-#   image: node:lts-alpine3.17
+#   image: node:16-alpine
 #   variables:
-#     IMAGE: ""
+#     MODULE: ""
 #     ROOTDIR: "."
 #   before_script:
 #     - apk --no-cache add git
-#     - npm install
+# - yarn # not needed due to caching??
 #   script:
-#     - cd "${ROOTDIR}/${IMAGE}"
+#     - cd "${ROOTDIR}/${MODULE}"
 #     - npx semantic-release
 
-# Build with commit tag
-# .image_publish:
-#   extends: .image_build
+# # Build with commit tag
+# .module_publish:
+#   extends: .module_build
 #   stage: release
 #   variables:
 #     TAG: ${CI_COMMIT_TAG}
