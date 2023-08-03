@@ -19,7 +19,7 @@ import { OrderCreateType } from './order';
  */
 
 export const connectVariantImages = async (
-	items: ProductVariantWithDetails[]
+	items: ProductVariantWithDetails[],
 ) =>
 	items
 		?.filter((item) => !item.id)
@@ -36,7 +36,7 @@ export const connectVariantImages = async (
 
 export async function createProductVariantsWithoutId(
 	items: ProductVariantCreateType[],
-	order: OrderCreateType
+	order: OrderCreateType,
 ) {
 	try {
 		const createItems = items
@@ -71,7 +71,7 @@ export async function createProductVariantsWithoutId(
 	} catch (error: any) {
 		console.error(
 			'error create product variants during create order error: ',
-			error
+			error,
 		);
 		throw new Error(error.message);
 	}
@@ -80,7 +80,7 @@ export async function createProductVariantsWithoutId(
 export async function updateVariantQuantity(
 	variantId: string,
 	quantity: number,
-	operation: '+' | '-'
+	operation: '+' | '-',
 ) {
 	try {
 		let updateVariant;

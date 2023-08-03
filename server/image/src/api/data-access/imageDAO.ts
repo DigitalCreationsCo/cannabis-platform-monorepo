@@ -24,7 +24,7 @@ class ImageDAO {
 	 * @returns
 	 */
 	async verifyIdentificationImage(
-		image: ImageLike & Input
+		image: ImageLike & Input,
 	): Promise<{ isLegalAge: boolean; scannedDOB: Date }> {
 		try {
 			await ImageProcessor.getMetaData(image);
@@ -96,7 +96,7 @@ class ImageDAO {
 					return {
 						[file.fieldname]: this.getObjectStorageLocation(key, bucket),
 					};
-				})
+				}),
 			).then((_uploadedFiles) => {
 				_uploadedFiles.forEach((file) => Object.assign(uploadedFiles, file));
 			});

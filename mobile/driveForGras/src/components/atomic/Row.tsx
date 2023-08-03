@@ -7,7 +7,7 @@ function Row({ className, children }: { className?: string } & ViewProps) {
 		<View
 			className={twMerge(
 				'flex flex-row justify-between items-center',
-				className
+				className,
 			)}
 		>
 			{children}

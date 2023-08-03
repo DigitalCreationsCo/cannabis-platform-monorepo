@@ -10,7 +10,7 @@ function Row({
 		<Card
 			className={twMerge(
 				'flex flex-row justify-between items-center space-x-4',
-				className
+				className,
 			)}
 		>
 			{children}

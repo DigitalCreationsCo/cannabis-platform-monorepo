@@ -50,7 +50,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 			{
 				headers: { 'Content-Type': 'application/json' },
 				validateStatus: (status) => true,
-			}
+			},
 		);
 
 		return res.status(response.status).json(response.data);

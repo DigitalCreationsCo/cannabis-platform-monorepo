@@ -61,7 +61,7 @@ export default class IdCardReader {
 
 	getIssuedState() {
 		const stateName = Object.keys(stateMap).find((state) =>
-			this._text.toUpperCase().match(state)
+			this._text.toUpperCase().match(state),
 		);
 
 		if (!stateName) throw new Error(`Invalid state name: ${stateName}`);

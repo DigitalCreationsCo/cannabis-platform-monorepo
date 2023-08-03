@@ -22,7 +22,7 @@ export const H1 = ({
 				styles['cursor-inherit'],
 				'text-4xl font-bold whitespace-normal',
 				(color === 'light' && 'text-inverse') || 'text-dark',
-				className
+				className,
 			)}
 			{...props}
 		>
@@ -43,7 +43,7 @@ export const H2 = ({
 				styles['cursor-inherit'],
 				'font-bold text-3xl whitespace-normal',
 				(color === 'light' && 'text-inverse') || 'text-dark',
-				className
+				className,
 			)}
 			{...props}
 		>
@@ -64,7 +64,7 @@ export const H3 = ({
 				styles['cursor-inherit'],
 				'font-bold text-2xl whitespace-normal',
 				(color === 'light' && 'text-inverse') || 'text-dark',
-				className
+				className,
 			)}
 			{...props}
 		>
@@ -85,7 +85,7 @@ export const H4 = ({
 				styles['cursor-inherit'],
 				'font-semibold text-xl whitespace-normal',
 				(color === 'light' && 'text-inverse') || 'text-dark',
-				className
+				className,
 			)}
 			{...props}
 		>
@@ -106,7 +106,7 @@ export const H5 = ({
 				styles['cursor-inherit'],
 				'font-semibold text-lg whitespace-normal',
 				(color === 'light' && 'text-inverse') || 'text-dark',
-				className
+				className,
 			)}
 			{...props}
 		>
@@ -127,7 +127,7 @@ export const H6 = ({
 				styles['cursor-inherit'],
 				'font-semibold text-md whitespace-normal',
 				(color === 'light' && 'text-inverse') || 'text-dark',
-				className
+				className,
 			)}
 			{...props}
 		>
@@ -148,7 +148,7 @@ export const Paragraph = ({
 				styles['cursor-inherit'],
 				'whitespace-pre-line',
 				(color === 'light' && 'text-inverse') || 'text-dark',
-				className
+				className,
 			)}
 			{...props}
 		>
@@ -169,7 +169,7 @@ export const Small = ({
 				styles['cursor-inherit'],
 				(color === 'light' && 'text-inverse') || 'text-dark',
 				'text-sm whitespace-pre-line',
-				className
+				className,
 			)}
 			{...props}
 		>
@@ -184,7 +184,7 @@ export const Span = ({ className, children, ...props }: Props) => {
 			className={twMerge(
 				styles['cursor-inherit'],
 				'text-md inline whitespace-normal',
-				className
+				className,
 			)}
 			{...props}
 		>
@@ -199,7 +199,7 @@ export const Tiny = ({ className, children, ...props }: Props) => {
 			className={twMerge(
 				styles['cursor-inherit'],
 				'text-xs whitespace-normal',
-				className
+				className,
 			)}
 		>
 			{children}

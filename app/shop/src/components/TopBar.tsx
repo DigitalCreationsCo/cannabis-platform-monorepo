@@ -37,7 +37,7 @@ function TopBar({ signOut }: TopBarProps) {
 		dispatch(
 			modalActions.openModal({
 				modalType: modalTypes.loginModal,
-			})
+			}),
 		);
 	}
 

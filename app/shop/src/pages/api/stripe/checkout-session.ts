@@ -19,7 +19,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 				},
 				validateStatus: (status) =>
 					(status >= 200 && status <= 400) || status === 404,
-			}
+			},
 		);
 
 		return res.status(response.status).json(response.data);

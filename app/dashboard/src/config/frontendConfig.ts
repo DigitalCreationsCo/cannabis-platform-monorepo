@@ -35,7 +35,7 @@ export const frontendConfig = () => {
 						console.info(
 							'role ? ',
 							event.user &&
-								event.user.memberships?.[0]?.role.toLocaleUpperCase()
+								event.user.memberships?.[0]?.role.toLocaleUpperCase(),
 						);
 
 						if (
@@ -48,7 +48,7 @@ export const frontendConfig = () => {
 						} else {
 							throw new Error(
 								`You don't have the admin permissions to sign in here. 
-                                Please contact Gras support.`
+                                Please contact Gras support.`,
 							);
 							// window.location.href = shopDomain;
 						}

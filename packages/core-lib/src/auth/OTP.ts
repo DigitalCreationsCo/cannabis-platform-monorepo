@@ -12,13 +12,13 @@ async function sendOTPEmailRaw(email: string) {
 		if (err.isSuperTokensGeneralError === true) throw new Error(err.message);
 		else
 			throw new Error(
-				'The Sign In server is not available. Please contact Gras team.'
+				'The Sign In server is not available. Please contact Gras team.',
 			);
 	}
 }
 
 async function handleOTPInputRaw(
-	otp: string
+	otp: string,
 ): Promise<PasswordlessResponseWithUserDetails> {
 	try {
 		let response = await axios.post(urlBuilder.main.submitOTP(), {

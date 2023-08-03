@@ -22,31 +22,31 @@ const address: Address = {
 describe('renderAddress', () => {
 	test(' displays a correct address', () => {
 		expect(renderAddress({ address })).toEqual(
-			`123 Main St Apt 1 \nDenver, CO 80202`
+			`123 Main St Apt 1 \nDenver, CO 80202`,
 		);
 	});
 
 	test(' displays a correct address - no show zipcode', () => {
 		expect(renderAddress({ address, showZipcode: false })).toEqual(
-			`123 Main St Apt 1 \nDenver, CO`
+			`123 Main St Apt 1 \nDenver, CO`,
 		);
 	});
 
 	test(' displays a correct address - no show country', () => {
 		expect(renderAddress({ address, showCountry: false })).toEqual(
-			'123 Main St Apt 1 \nDenver, CO 80202'
+			'123 Main St Apt 1 \nDenver, CO 80202',
 		);
 	});
 
 	test(' displays a correct address - no show state', () => {
 		expect(renderAddress({ address, showState: false })).toEqual(
-			`123 Main St Apt 1 Denver`
+			`123 Main St Apt 1 Denver`,
 		);
 	});
 
 	test(' displays a correct address - no show city', () => {
 		expect(renderAddress({ address, showCity: false })).toEqual(
-			'123 Main St Apt 1'
+			'123 Main St Apt 1',
 		);
 	});
 });
@@ -77,7 +77,7 @@ describe('renderNestedDataObject ', () => {
 			'zipcode: 80202',
 		];
 		expect(renderNestedDataObject(data, Component, removeFields)).toEqual(
-			result
+			result,
 		);
 	});
 

@@ -99,7 +99,7 @@ export default function RNButton({
 					className={merge(
 						Object.values(classes),
 						merge(className),
-						pressed && merge(['bg-accent'])
+						pressed && merge(['bg-accent']),
 					)}
 				>
 					{loading ? (

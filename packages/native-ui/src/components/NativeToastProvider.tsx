@@ -38,7 +38,7 @@ const NativeToastProvider = () => {
 							<Paragraph>{toast.message as any}</Paragraph>
 						</View>
 					),
-				})
+				}),
 			);
 	}, [toasts]);
 

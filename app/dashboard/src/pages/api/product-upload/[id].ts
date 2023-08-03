@@ -34,7 +34,7 @@ handler.put(async (req: ExtendApiRequest, res: NextApiResponse) => {
 	try {
 		res.setHeader(
 			'Cache-Control',
-			'public, s-maxage=10, stale-while-revalidate=59'
+			'public, s-maxage=10, stale-while-revalidate=59',
 		);
 		const { id } = req.query;
 		const { data } = await axios.put(urlBuilder.main.productUpdate(id), req, {

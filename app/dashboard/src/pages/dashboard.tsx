@@ -48,7 +48,7 @@ export default function Dashboard({
 					new Date(order.createdAt).getDate() === new Date().getDate()
 				);
 			}),
-		[]
+		[],
 	);
 
 	const { lowStockVariants, totalVariants } = useProductVariants(products);
@@ -142,7 +142,7 @@ function useProductVariants(products: ProductWithDashboardDetails[]) {
 		.flat();
 
 	const _lowStockVariants = _totalVariants.filter(
-		(variant) => variant.stock < lowStockThreshold
+		(variant) => variant.stock < lowStockThreshold,
 	);
 
 	return {

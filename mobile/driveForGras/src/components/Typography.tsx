@@ -16,7 +16,7 @@ export const H1 = ({ className, color = 'dark', children }: Props) => {
 				styles['cursor-inherit'],
 				'text-4xl font-bold whitespace-nowrap',
 				(color === 'light' && 'text-inverse') || 'text-dark',
-				className
+				className,
 			)}
 		>
 			{children}
@@ -31,7 +31,7 @@ export const H2 = ({ className, color = 'dark', children }: Props) => {
 				styles['cursor-inherit'],
 				'font-bold text-3xl whitespace-nowrap',
 				(color === 'light' && 'text-inverse') || 'text-dark',
-				className
+				className,
 			)}
 		>
 			{children}
@@ -46,7 +46,7 @@ export const H3 = ({ className, color = 'dark', children }: Props) => {
 				styles['cursor-inherit'],
 				'font-bold text-2xl whitespace-normal',
 				(color === 'light' && 'text-inverse') || 'text-dark',
-				className
+				className,
 			)}
 		>
 			{children}
@@ -61,7 +61,7 @@ export const H4 = ({ className, color = 'dark', children }: Props) => {
 				styles['cursor-inherit'],
 				'font-semibold text-xl whitespace-normal',
 				(color === 'light' && 'text-inverse') || 'text-dark',
-				className
+				className,
 			)}
 		>
 			{children}
@@ -76,7 +76,7 @@ export const H5 = ({ className, color = 'dark', children }: Props) => {
 				styles['cursor-inherit'],
 				'font-semibold text-lg whitespace-normal',
 				(color === 'light' && 'text-inverse') || 'text-dark',
-				className
+				className,
 			)}
 		>
 			{children}
@@ -91,7 +91,7 @@ export const H6 = ({ className, color = 'dark', children }: Props) => {
 				styles['cursor-inherit'],
 				'font-semibold text-md whitespace-normal',
 				(color === 'light' && 'text-inverse') || 'text-dark',
-				className
+				className,
 			)}
 		>
 			{children}
@@ -106,7 +106,7 @@ export const Paragraph = ({ className, color = 'dark', children }: Props) => {
 				styles['cursor-inherit'],
 				'whitespace-pre-line',
 				(color === 'light' && 'text-inverse') || 'text-dark',
-				className
+				className,
 			)}
 		>
 			{children}
@@ -121,7 +121,7 @@ export const Small = ({ className, color = 'dark', children }: Props) => {
 				styles['cursor-inherit'],
 				(color === 'light' && 'text-inverse') || 'text-dark',
 				'text-sm whitespace-pre-line',
-				className
+				className,
 			)}
 		>
 			{children}
@@ -135,7 +135,7 @@ export const Span = ({ className, children, ...props }: Props) => {
 			className={twMerge(
 				styles['cursor-inherit'],
 				'text-md inline whitespace-normal',
-				className
+				className,
 			)}
 			{...props}
 		>
@@ -150,7 +150,7 @@ export const Tiny = ({ className, children }: Props) => {
 			className={twMerge(
 				styles['cursor-inherit'],
 				'text-xs whitespace-normal',
-				className
+				className,
 			)}
 		>
 			{children}

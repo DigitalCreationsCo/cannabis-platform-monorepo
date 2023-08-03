@@ -63,7 +63,7 @@ export default class AccountController {
 			};
 
 			const account = await StripeService.createDispensaryAccount(
-				accountParams
+				accountParams,
 			);
 
 			console.info('stripe account created: ', account.id);
@@ -76,7 +76,7 @@ export default class AccountController {
 			// adds stripe account id to organization record
 			await updateStripeAccountDispensary(
 				dispensaryAccount.id,
-				stripeAccountId
+				stripeAccountId,
 			);
 
 			const accountLink = await StripeService.createDispensaryAccountLink({
@@ -132,7 +132,7 @@ export default class AccountController {
 				throw new Error('Stripe Id is not provided.');
 
 			const stripeOnboardingComplete = await StripeService.checkOnboardAccount(
-				stripeAccountId
+				stripeAccountId,
 			);
 
 			if (stripeOnboardingComplete) {
@@ -196,7 +196,7 @@ export default class AccountController {
 			let { id, stripeAccountId } = req.body;
 
 			const stripeOnboardingComplete = await StripeService.checkOnboardAccount(
-				stripeAccountId
+				stripeAccountId,
 			);
 
 			if (stripeOnboardingComplete) {

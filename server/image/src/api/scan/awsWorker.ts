@@ -51,7 +51,7 @@ class AWSRekognitionWorker {
 				(error) => {
 					console.log(error, error.stack); // handle error if an error occurred
 					throw new Error('The image could not be verified. Please try again.');
-				}
+				},
 			);
 			Promise.resolve(promiseText);
 

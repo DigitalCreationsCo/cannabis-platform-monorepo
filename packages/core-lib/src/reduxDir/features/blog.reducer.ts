@@ -23,7 +23,7 @@ export const getLatestNews = createAsyncThunk(
 			console.error('getLatestNews: ', error);
 			return rejectWithValue('Could not get latest news articles');
 		}
-	}
+	},
 );
 
 export type BlogStateProps = {
@@ -69,7 +69,7 @@ export const blogSlice = createSlice({
 				state.isLoading = false;
 				state.isSuccess = true;
 				state.isError = false;
-			}
+			},
 		),
 			builder.addCase(getLatestNews.pending, (state) => {
 				state.isLoading = true;

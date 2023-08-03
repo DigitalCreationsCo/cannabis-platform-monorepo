@@ -21,7 +21,7 @@ app.use(
 		allowedHeaders: ['content-type', ...Supertokens.getAllCORSHeaders()],
 		methods: ['GET', 'PUT', 'POST', 'DELETE'],
 		credentials: true,
-	})
+	}),
 );
 app.use(middleware());
 

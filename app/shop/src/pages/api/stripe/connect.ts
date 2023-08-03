@@ -14,7 +14,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 			{
 				validateStatus: (status) =>
 					(status >= 200 && status <= 302) || status == 404,
-			}
+			},
 		);
 
 		if (response.status == 404) throw new Error('Stripe account is not found.');

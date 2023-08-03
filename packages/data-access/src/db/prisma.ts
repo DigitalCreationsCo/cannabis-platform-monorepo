@@ -37,7 +37,7 @@ prisma.$use(async (params: any, next: any) => {
 	const after = Date.now();
 
 	console.info(
-		`Total Query ${params.model}.${params.action} took ${after - before}ms`
+		`Total Query ${params.model}.${params.action} took ${after - before}ms`,
 	);
 	return results;
 });

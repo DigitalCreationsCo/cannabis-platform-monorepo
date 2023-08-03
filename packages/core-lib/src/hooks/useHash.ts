@@ -17,10 +17,10 @@ function useHashNavigate(formId: string): HashNavigateProps {
 		`form-step-${formId}-proceed`,
 	]);
 	const [canProceed, setProceed] = useState<boolean>(
-		cookies[`form-step-${formId}-proceed`]
+		cookies[`form-step-${formId}-proceed`],
 	);
 	const [formstep, setFormstep] = useState<number>(
-		Number(window.location.hash.split('=')[1]) - 1 || 0
+		Number(window.location.hash.split('=')[1]) - 1 || 0,
 	);
 	const nextFormStep = () => setFormstep(formstep + 1);
 	const prevFormStep = () => setFormstep(formstep - 1);

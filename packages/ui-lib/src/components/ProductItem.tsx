@@ -27,7 +27,7 @@ function ProductItem({
 			<div
 				className={twMerge(
 					'flex flex-row col-span-2 md:col-span-1 lg:col-span-2 xl:col-span-1 justify-stretch',
-					className
+					className,
 				)}
 				onClick={toggleConfirm}
 			>
@@ -74,7 +74,7 @@ function ProductItem({
 					value={quantity}
 					onChange={(event) =>
 						setQuantity(
-							(event.target as HTMLInputElement).value as unknown as number
+							(event.target as HTMLInputElement).value as unknown as number,
 						)
 					}
 				/>

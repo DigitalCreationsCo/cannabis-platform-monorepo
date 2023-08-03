@@ -30,7 +30,7 @@ const nextConfig = (phase) => {
 	const isTest = phase === PHASE_TEST;
 
 	console.info(
-		`isDev:${isDev}  isProd:${isProd}   isStaging:${isStaging} isTest:${isTest}`
+		`isDev:${isDev}  isProd:${isProd}   isStaging:${isStaging} isTest:${isTest}`,
 	);
 
 	const config = {

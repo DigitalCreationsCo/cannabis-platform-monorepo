@@ -10,7 +10,7 @@ interface UseCarouselOptions {
 // swiped function does not handle vertical swipes
 export default function useCarousel(
 	length: number,
-	options: UseCarouselOptions = {}
+	options: UseCarouselOptions = {},
 ): [number, (n: number) => void, SwipeableHandlers, React.CSSProperties] {
 	const [state, dispatch] = useReducer(carouselReducer, initialCarouselState),
 		[container, setContainer] = useState<HTMLElement | null>(null);
@@ -46,7 +46,7 @@ export default function useCarousel(
 	useEffect(() => {
 		const id = setTimeout(
 			() => dispatch({ type: 'next', length: length }),
-			interval
+			interval,
 		);
 		return () => clearTimeout(id);
 	}, [state.dragOffset, state.active]);
@@ -119,7 +119,7 @@ export default function useCarousel(
 			dispatch(
 				direction > 0
 					? { type: 'next', length: length }
-					: { type: 'prev', length: length }
+					: { type: 'prev', length: length },
 			);
 		} else dispatch({ type: 'drag', dragOffset: 0 });
 	}
@@ -142,7 +142,7 @@ export default function useCarousel(
 
 function carouselReducer(
 	state: CarouselState,
-	action: CarouselAction
+	action: CarouselAction,
 ): CarouselState {
 	switch (action.type) {
 		case 'prev':

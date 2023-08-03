@@ -11,7 +11,7 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 	try {
 		res.setHeader(
 			'Cache-Control',
-			'public, s-maxage=10, stale-while-revalidate=59'
+			'public, s-maxage=10, stale-while-revalidate=59',
 		);
 		const { id } = req.query;
 		// this is the preferred pattern for handling server response VV

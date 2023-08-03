@@ -35,7 +35,7 @@ function Checkout() {
 			// console.info('preparing this order to checkout: ', order)
 			const response = await axios.post(
 				urlBuilder.shop + '/api/stripe/checkout-session',
-				order
+				order,
 			);
 
 			if (response.status === 404) throw new Error(response.data.error);
@@ -44,7 +44,7 @@ function Checkout() {
 
 			if (response.status === 500)
 				throw new Error(
-					"We're sorry. Checkout is not available. Please try again later."
+					"We're sorry. Checkout is not available. Please try again later.",
 				);
 
 			if (response.status === 302) {
@@ -95,7 +95,7 @@ function Checkout() {
 								<Button
 									className={twMerge(
 										loadingButton ? 'bg-primary-light' : 'bg-primary',
-										'm-auto w-[200px]'
+										'm-auto w-[200px]',
 									)}
 									loading={loadingButton}
 									disabled={!!cartIsEmpty}

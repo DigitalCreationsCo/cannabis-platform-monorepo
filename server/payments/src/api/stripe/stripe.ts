@@ -19,7 +19,7 @@ class StripeService {
 	 */
 	async createCheckout(
 		order: OrderWithDetails,
-		dispensaryStripeAccountId: string
+		dispensaryStripeAccountId: string,
 	) {
 		try {
 			let session = await this.stripe.checkout.sessions.create({
@@ -121,7 +121,7 @@ class StripeService {
 			const event = this.stripe.webhooks.constructEvent(
 				payload,
 				sig,
-				process.env.STRIPE_WEBHOOK_SECRET
+				process.env.STRIPE_WEBHOOK_SECRET,
 			);
 
 			return event;

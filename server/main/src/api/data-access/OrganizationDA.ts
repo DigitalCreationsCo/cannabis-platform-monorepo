@@ -37,12 +37,12 @@ export default class OrganizationDA {
 
 			console.info(
 				`successfully created organization record: ${organization.name}. id: ${data.id}
-        now creating location record...`
+        now creating location record...`,
 			);
 
 			console.info(
 				`successfully created organization record: ${organization.name}. id: ${data.id}
-        now creating location record...`
+        now creating location record...`,
 			);
 
 			const response = await axios.post(
@@ -61,7 +61,7 @@ export default class OrganizationDA {
 						Accept: 'application/json',
 						'Content-Type': 'application/json',
 					},
-				}
+				},
 			);
 
 			if (response.data.success != true) throw new Error(response.data.error);
@@ -71,7 +71,7 @@ export default class OrganizationDA {
 		} catch (error: any) {
 			console.error(
 				'OrganizationDA: error creating Organization record: ',
-				error.message
+				error.message,
 			);
 			throw new Error(error.message);
 		}
@@ -100,7 +100,7 @@ export default class OrganizationDA {
 						Accept: 'application/json',
 						'Content-Type': 'application/json',
 					},
-				}
+				},
 			);
 
 			console.info(`Dispensary record ${organization.name} is updated.`);
@@ -119,7 +119,7 @@ export default class OrganizationDA {
 			console.info('_deleted: ', _deleted);
 
 			await axios.delete(
-				urlBuilder.location.getOrganizationRecord(_deleted.id)
+				urlBuilder.location.getOrganizationRecord(_deleted.id),
 			);
 
 			console.info(`Dispensary record ${_deleted.name} is deleted OK.`);
@@ -144,7 +144,7 @@ export default class OrganizationDA {
 	static async getOrganizationsByZipcode(
 		zipcode: number,
 		limit: number,
-		radius: number
+		radius: number,
 	) {
 		try {
 			const data = await findOrganizationsByZipcode(zipcode, limit, radius);

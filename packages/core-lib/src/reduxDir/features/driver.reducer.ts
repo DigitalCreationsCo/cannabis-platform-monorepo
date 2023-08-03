@@ -22,7 +22,7 @@ export const updateOnlineStatus = createAsyncThunk<
 				id,
 				onlineStatus,
 			},
-			{ validateStatus: (status) => status < 500 }
+			{ validateStatus: (status) => status < 500 },
 		);
 
 		if (response.status !== 200) throw new Error(response.data);

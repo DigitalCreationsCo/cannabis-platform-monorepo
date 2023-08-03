@@ -29,14 +29,14 @@ export async function findSessionByHandle(sessionHandle: string) {
 export async function createSession(
 	sessionHandle: string,
 	sessionPayload: SessionPayload,
-	expires: number
+	expires: number,
 ) {
 	try {
 		console.info(
 			'create session args: ',
 			sessionHandle,
 			sessionPayload,
-			expires
+			expires,
 		);
 		const session = await prisma.session.create({
 			data: {
@@ -58,7 +58,7 @@ export async function createSession(
 
 export async function updateExpireSession(
 	sessionHandle: string,
-	expires: number
+	expires: number,
 ) {
 	try {
 		const data = await prisma.session.update({

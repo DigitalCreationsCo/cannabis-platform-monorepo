@@ -5,7 +5,7 @@ module.exports = function (config) {
 	const nodeEnv = process.env.NODE_ENV || 'development';
 	console.info(
 		' 💰 server/payments env loaded from ',
-		path.resolve(__dirname, '../../.env.' + nodeEnv)
+		path.resolve(__dirname, '../../.env.' + nodeEnv),
 	);
 	return {
 		presets: ['@babel/preset-env', '@babel/preset-typescript'],

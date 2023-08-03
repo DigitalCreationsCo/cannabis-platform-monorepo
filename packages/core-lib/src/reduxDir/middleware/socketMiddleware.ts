@@ -70,7 +70,7 @@ const socketMiddleware = (store: Store<AppState>) => {
 					autoConnect: true,
 					transports: ['websocket'],
 					// jsonp: false,
-				})
+				}),
 			);
 
 			_dispatch_socket_connection = socketMap.get('dispatchSocket') || null;
@@ -86,7 +86,7 @@ const socketMiddleware = (store: Store<AppState>) => {
 				});
 				console.info(
 					'socket connection to dispatch server: socket id: ',
-					_dispatch_socket_connection?.id
+					_dispatch_socket_connection?.id,
 				);
 			});
 
@@ -98,9 +98,9 @@ const socketMiddleware = (store: Store<AppState>) => {
 					console.info('message: ', message);
 					console.info('order: ', data);
 					store.dispatch(
-						socketActions.receiveNewOrderRequest({ message, data })
+						socketActions.receiveNewOrderRequest({ message, data }),
 					);
-				}
+				},
 			);
 
 			// on order assigned event, create order socket connection to connect to order room,
@@ -130,7 +130,7 @@ const socketMiddleware = (store: Store<AppState>) => {
 
 					socketMap.set(
 						'order:' + orderId,
-						io(urlBuilder.DISPATCH_CONNECT() + '/order:' + orderId)
+						io(urlBuilder.DISPATCH_CONNECT() + '/order:' + orderId),
 					);
 
 					getOrderSocket(orderId).emit(SocketEvent.DriverAdded, {
@@ -140,7 +140,7 @@ const socketMiddleware = (store: Store<AppState>) => {
 					store.dispatch(socketActions.setMessage({ message }));
 					store.dispatch(socketActions.orderAccepted({ newOrder }));
 					store.dispatch(socketActions.clearOrderRequest());
-				}
+				},
 			);
 
 			// on order assigned to another driver event, clear incoming order state
@@ -151,7 +151,7 @@ const socketMiddleware = (store: Store<AppState>) => {
 					console.info('order assigned to another driver', message);
 					store.dispatch(socketActions.setMessage({ message }));
 					store.dispatch(socketActions.clearOrderRequest());
-				}
+				},
 			);
 
 			// dispatch disconnnect event
@@ -177,7 +177,7 @@ const socketMiddleware = (store: Store<AppState>) => {
 				socketActions.setMessage({
 					message:
 						'You declined this order. Stay online to receive more delivery orders!',
-				})
+				}),
 			);
 			store.dispatch(socketActions.clearOrderRequest());
 		}
@@ -217,9 +217,9 @@ const socketMiddleware = (store: Store<AppState>) => {
 								`Message Event: 
               type: ${type},
               message: ${message},
-              data: ${data}`
+              data: ${data}`,
 							);
-						}
+						},
 					);
 
 					// on navigate event, change destination type for delivery
@@ -277,14 +277,14 @@ const socketMiddleware = (store: Store<AppState>) => {
 							.socket.remainingRoute.filter((order) => {
 								console.info(
 									'vendorId match order? ',
-									order.vendor.vendorId === vendorId
+									order.vendor.vendorId === vendorId,
 								);
 								return order.vendor.vendorId === vendorId;
 							})
 							.map((order) => order.orderId);
 						console.info(
 							'orderLists from vendor length: ',
-							ordersListMatchVendor.length
+							ordersListMatchVendor.length,
 						);
 						let orderId = getOrderIdFromSocketKey(socketKey);
 						if (ordersListMatchVendor.includes(orderId)) {
@@ -296,7 +296,7 @@ const socketMiddleware = (store: Store<AppState>) => {
 								'event: ',
 								SocketEvent.Navigate,
 								'type: ',
-								NavigateEvent.ArriveToVendor
+								NavigateEvent.ArriveToVendor,
 							);
 						}
 					}
@@ -316,7 +316,7 @@ const socketMiddleware = (store: Store<AppState>) => {
 								'event: ',
 								SocketEvent.Navigate,
 								'type: ',
-								NavigateEvent.PickupProduct
+								NavigateEvent.PickupProduct,
 							);
 						}
 					}
@@ -333,7 +333,7 @@ const socketMiddleware = (store: Store<AppState>) => {
 								'event: ',
 								SocketEvent.Navigate,
 								'type: ',
-								NavigateEvent.ArriveToCustomer
+								NavigateEvent.ArriveToCustomer,
 							);
 						}
 					}
@@ -362,13 +362,13 @@ const socketMiddleware = (store: Store<AppState>) => {
 								'event: ',
 								SocketEvent.Navigate,
 								'type: ',
-								NavigateEvent.DeliverOrder
+								NavigateEvent.DeliverOrder,
 							);
 						}
 						const remainingRoute = store.getState().socket.remainingRoute;
 						console.info(
 							'middleWare remainingRoute length: ',
-							remainingRoute.length
+							remainingRoute.length,
 						);
 						if (remainingRoute.length === 0) {
 							console.info('all orders completed!');

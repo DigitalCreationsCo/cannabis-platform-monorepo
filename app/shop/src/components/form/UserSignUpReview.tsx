@@ -47,7 +47,7 @@ function UserSignUpReview() {
 					{
 						validateStatus: (status) =>
 							(status >= 200 && status < 300) || status == 404,
-					}
+					},
 				);
 				console.info('response data: ', response.data);
 				if (response.status !== 201) throw new Error(response.data);

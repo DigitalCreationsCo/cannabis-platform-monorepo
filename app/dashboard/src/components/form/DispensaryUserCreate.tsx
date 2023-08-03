@@ -46,7 +46,7 @@ function DispensaryUserCreate() {
 					role: 'OWNER',
 					dispensaryId: formValues.organization?.id,
 				},
-				{ validateStatus: () => true }
+				{ validateStatus: () => true },
 			);
 
 			console.info('response: ', response);
@@ -323,7 +323,7 @@ const validationSchema = yup.object().shape({
 			.test(
 				'len',
 				'zipcode is required',
-				(val) => val?.toString().length === 5
+				(val) => val?.toString().length === 5,
 			),
 		country: yup.string().required('country is required'),
 		countryCode: yup.string().required('country code is required'),
@@ -338,7 +338,7 @@ const validationSchema = yup.object().shape({
 		.test(
 			'termsAccepted',
 			'Please read and agree to our User Terms and Conditions.',
-			(value) => value === true
+			(value) => value === true,
 		),
 });
 

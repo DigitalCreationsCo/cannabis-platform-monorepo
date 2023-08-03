@@ -133,7 +133,7 @@ export default function Users({ users }: UsersDashboardProps) {
 export async function getServerSideProps({ req, res }: { req: any; res: any }) {
 	res.setHeader(
 		'Cache-Control',
-		'public, s-maxage=10, stale-while-revalidate=59'
+		'public, s-maxage=10, stale-while-revalidate=59',
 	);
 	const users: UserWithDetails[] = await (
 		await fetch(urlBuilder.dashboard + '/api/users', {

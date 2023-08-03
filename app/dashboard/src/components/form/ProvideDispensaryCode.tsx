@@ -34,7 +34,7 @@ function ProvideDispensaryKey() {
 	const downloadDispensaryData = async (dispensaryKey: string) => {
 		try {
 			const response = await axios(
-				urlBuilder.dashboard + `/api/organization/${dispensaryKey}`
+				urlBuilder.dashboard + `/api/organization/${dispensaryKey}`,
 			);
 			if (response.data.success == false)
 				throw new Error(response.data.message);

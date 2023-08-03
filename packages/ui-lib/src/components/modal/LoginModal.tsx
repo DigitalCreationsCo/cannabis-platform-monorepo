@@ -35,7 +35,7 @@ function LoginModal({
 	const [formStep, setFormStep] = useState(0);
 	const nextFormStep = () =>
 		setFormStep((currentStep) =>
-			currentStep <= 1 ? currentStep + 1 : currentStep
+			currentStep <= 1 ? currentStep + 1 : currentStep,
 		);
 	const prevFormStep = () => setFormStep((currentStep) => currentStep - 1);
 
@@ -43,7 +43,7 @@ function LoginModal({
 
 	const FormStepComponent = useMemo(
 		() => FormStepComponents[formStep],
-		[formStep]
+		[formStep],
 	);
 
 	const [inputValue, setInputValue] = useState('');
@@ -96,13 +96,13 @@ function LoginModal({
 					if (isInputPhone) {
 						await createCode({ phoneNumber: values.emailOrPhone });
 						toast.success(
-							'Please check your mobile messages for the one time passcode.'
+							'Please check your mobile messages for the one time passcode.',
 						);
 					} else {
 						await createCode({ email: values.emailOrPhone });
 						toast.success(
 							`A one time passcode has been sent to ${values.emailOrPhone}.`,
-							{ duration: 5000 }
+							{ duration: 5000 },
 						);
 					}
 					nextFormStep();

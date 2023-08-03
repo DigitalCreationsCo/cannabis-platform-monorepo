@@ -20,7 +20,7 @@ export async function createProduct() {
 export async function findProductsByOrg(
 	organizationIdList: string[],
 	page: number,
-	limit: number
+	limit: number,
 ) {
 	try {
 		const products =
@@ -68,7 +68,7 @@ export async function findProductWithDetails(id: string) {
 
 export async function findProductsByText(
 	search: string,
-	organizationId: string
+	organizationId: string,
 ) {
 	try {
 		const products =

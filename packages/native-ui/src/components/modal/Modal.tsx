@@ -30,7 +30,7 @@ const Modal = ({
 		<View
 			className={twMerge(
 				RNstyles.modal.modalClass,
-				RNstyles.modal.isModalOpen_f(modalVisible)
+				RNstyles.modal.isModalOpen_f(modalVisible),
 			)}
 		>
 			<View className={twMerge(RNstyles.modal.modalBox, className)}>

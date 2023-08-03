@@ -13,7 +13,7 @@ export const testAsyncAction = createAsyncThunk(
 		setTimeout(() => {
 			return console.info('test-action');
 		}, 2000);
-	}
+	},
 );
 
 // export const orderAccepted = createAsyncThunk(
@@ -145,7 +145,7 @@ const socketSlice = createSlice({
 		},
 		receiveNewOrderRequest: (
 			state,
-			{ payload }: { payload: SocketEventPayload<OrderWithDetails> }
+			{ payload }: { payload: SocketEventPayload<OrderWithDetails> },
 		) => {
 			state.incomingOrder.message = payload.message;
 			state.incomingOrder.newOrder = payload.data;
@@ -199,11 +199,11 @@ const socketSlice = createSlice({
 		removeCompletedOrder: (state, { payload }) => {
 			const { orderId } = payload;
 			const updateRemainingRoute = state.remainingRoute.filter(
-				(destination) => destination.orderId !== orderId
+				(destination) => destination.orderId !== orderId,
 			);
 			state.remainingRoute = updateRemainingRoute;
 			const updateDispatchOrders = state.dispatchOrders.filter(
-				(order) => order.orderId !== order
+				(order) => order.orderId !== order,
 			);
 			state.dispatchOrders = updateDispatchOrders;
 		},

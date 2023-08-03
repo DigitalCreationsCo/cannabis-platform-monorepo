@@ -87,7 +87,7 @@ function CheckoutModal({
 		dispatch(
 			modalActions.openModal({
 				modalType: modalTypes.loginModal,
-			})
+			}),
 		);
 	}
 }

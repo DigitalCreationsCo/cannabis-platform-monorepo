@@ -18,7 +18,7 @@ function SearchBar({ placeholder = 'Search', onChange }: SearchBarProps) {
 			onResponderStart={() => setFocused(true)}
 			className={twMerge(
 				RNstyles.searchField.container,
-				RNstyles.searchField.isFocused_f(isFocused)
+				RNstyles.searchField.isFocused_f(isFocused),
 			)}
 		>
 			<IconWrapper Icon={Icons.Search} />

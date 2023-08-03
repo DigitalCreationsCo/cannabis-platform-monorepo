@@ -31,7 +31,7 @@ export const createPasswordHash = (data: any) => {
 			...rest,
 			passwordHash: hashSync(
 				password,
-				Number(process.env.PASSWORD_SALT_ROUNDS)
+				Number(process.env.PASSWORD_SALT_ROUNDS),
 			),
 		};
 	} catch (error) {

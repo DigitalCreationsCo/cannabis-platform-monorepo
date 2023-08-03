@@ -30,14 +30,14 @@ async function connectDb() {
 			})
 			.then(async () => {
 				console.info(
-					' >> server-main: Prisma Database 👏👏 is ready for query.'
+					' >> server-main: Prisma Database 👏👏 is ready for query.',
 				);
 			})
 			.then(() => console.info(' >> server-main is connected to database.'));
 	} catch (error: any) {
 		console.error(
 			' >> server-main: Error connecting to database: ',
-			error.stack
+			error.stack,
 		);
 		process.exit(1);
 	}

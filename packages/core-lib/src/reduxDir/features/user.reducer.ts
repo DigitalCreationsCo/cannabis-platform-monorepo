@@ -156,7 +156,7 @@ export const signinUserAsyncEmailPassword = createAsyncThunk<
 					Array.isArray(response.user.addresss)
 				) {
 					response.user.address.forEach((address) =>
-						dispatch(locationActions.addAddress(response.user.address))
+						dispatch(locationActions.addAddress(response.user.address)),
 					);
 				}
 				window.location.href = '/';
@@ -166,7 +166,7 @@ export const signinUserAsyncEmailPassword = createAsyncThunk<
 		} catch (error) {
 			return rejectWithValue('signin error: ' + error);
 		}
-	}
+	},
 );
 
 const signOutUserAsync = createAsyncThunk<
@@ -278,7 +278,7 @@ export const userSlice = createSlice({
 	reducers: {
 		signinUserSync: (
 			state,
-			{ payload }: { payload: UserWithDetails | Passwordless.User }
+			{ payload }: { payload: UserWithDetails | Passwordless.User },
 		) => {
 			console.info('signinUserSync payload', payload);
 
@@ -332,7 +332,7 @@ export const userSlice = createSlice({
 				state.isSuccess = true;
 				state.isError = false;
 				state.errorMessage = '';
-			}
+			},
 		),
 			builder.addCase(signinUserAsyncEmailPassword.pending, (state) => {
 				state.isLoading = true;
@@ -343,7 +343,7 @@ export const userSlice = createSlice({
 					state.isLoading = false;
 					state.isError = true;
 					state.errorMessage = payload as string;
-				}
+				},
 			),
 			builder.addCase(signOutUserAsync.fulfilled, () => initialState),
 			builder.addCase(signOutUserAsync.pending, (state) => {

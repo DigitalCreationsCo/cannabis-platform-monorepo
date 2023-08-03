@@ -50,7 +50,7 @@ function SubmitAddressForm() {
 				.test(
 					'len',
 					'zipcode is required',
-					(val) => val?.toString().length === 5
+					(val) => val?.toString().length === 5,
 				),
 			country: yup.string().required('country is required'),
 			countryCode: yup.string().required('country code is required'),

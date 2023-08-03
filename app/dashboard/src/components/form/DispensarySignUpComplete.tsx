@@ -25,7 +25,7 @@ function DispensarySignUpComplete() {
 			resetFormValues();
 			setCanProceed(false);
 		},
-		[]
+		[],
 	);
 	return (
 		<div>

@@ -15,7 +15,7 @@ class Crypto {
 		if (typeof data === 'object')
 			cipherText = cryptoJs.AES.encrypt(
 				JSON.stringify(data),
-				this.secret
+				this.secret,
 			).toString();
 		else cipherText = cryptoJs.AES.encrypt(data, this.secret).toString();
 

@@ -82,7 +82,7 @@ function run(element, func) {
 				console.log('stdout: ', stdout);
 				func(null, stdout);
 			}
-		}
+		},
 	);
 }
 

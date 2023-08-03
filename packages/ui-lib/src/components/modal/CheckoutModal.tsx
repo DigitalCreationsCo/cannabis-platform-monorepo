@@ -2,7 +2,7 @@ import {
 	modalActions,
 	modalTypes,
 	selectIsAddressAdded,
-	selectUserState
+	selectUserState,
 } from '@cd/core-lib';
 import router from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
@@ -87,7 +87,7 @@ function CheckoutModal({
 		dispatch(
 			modalActions.openModal({
 				modalType: modalTypes.loginModal,
-			})
+			}),
 		);
 	}
 }

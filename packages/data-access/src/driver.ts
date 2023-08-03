@@ -63,7 +63,7 @@ export async function createDriver(userData: UserCreateType) {
 		if (error instanceof Prisma.PrismaClientKnownRequestError) {
 			if (error.code === 'P2002') {
 				throw new Error(
-					'This user exists already. Please choose a different username or email.'
+					'This user exists already. Please choose a different username or email.',
 				);
 			}
 		}
@@ -132,7 +132,7 @@ export async function updateDriver(userData: UserCreateType) {
 		if (error instanceof Prisma.PrismaClientKnownRequestError) {
 			if (error.code === 'P2002') {
 				throw new Error(
-					'This user exists already. Please choose a different username or email.'
+					'This user exists already. Please choose a different username or email.',
 				);
 			}
 		}
@@ -141,7 +141,7 @@ export async function updateDriver(userData: UserCreateType) {
 }
 
 export async function findDriverWithDetailsByEmail(
-	email: string
+	email: string,
 ): Promise<DriverWithDetails | null> {
 	try {
 		const driver = await prisma.driver.findUnique({
@@ -166,7 +166,7 @@ export async function findDriverWithDetailsByEmail(
 }
 
 export async function findDriverWithDetailsByPhone(
-	phone: string
+	phone: string,
 ): Promise<DriverWithDetails | null> {
 	try {
 		const user = await prisma.user.findUnique({
@@ -205,7 +205,7 @@ export async function findDriverWithDetailsByPhone(
 }
 
 export async function findDriverWithDetailsById(
-	id: string
+	id: string,
 ): Promise<DriverWithDetails | null> {
 	try {
 		const driver = await prisma.driver.findUnique({

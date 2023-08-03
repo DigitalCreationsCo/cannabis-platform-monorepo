@@ -29,7 +29,7 @@ export default class LocationDA {
 				.collection('organizations_geolocate');
 		} catch (e) {
 			console.error(
-				`Unable to establish collection handle in LocationDA: ${e}`
+				`Unable to establish collection handle in LocationDA: ${e}`,
 			);
 		}
 	}
@@ -45,7 +45,7 @@ export default class LocationDA {
 	 */
 	static async getLocalOrganizations(
 		coordinates: number[],
-		proximityRadius: number
+		proximityRadius: number,
 	) {
 		try {
 			const localOrganizationsIdDocuments = await orgGeolocate
@@ -81,7 +81,7 @@ export default class LocationDA {
 			// search for the records in prisma db
 			console.info('localOrganizationIds: ', localOrganizationIds);
 			const localOrganizations = await findMultipleOrganizationsById(
-				localOrganizationIds
+				localOrganizationIds,
 			);
 
 			console.info(`Found ${localOrganizations.length} local organizations.`);
@@ -98,7 +98,7 @@ export default class LocationDA {
 	 * which is used to query for local organizations based on a user's location
 	 */
 	static async createOrganizationMongoRecord(
-		organization: OrganizationWithShopDetails
+		organization: OrganizationWithShopDetails,
 	) {
 		try {
 			let { address, id, ...rest } = organization;
@@ -123,7 +123,7 @@ export default class LocationDA {
 	}
 
 	static async updateOrganizationMongoRecord(
-		organization: OrganizationWithShopDetails
+		organization: OrganizationWithShopDetails,
 	) {
 		try {
 			const updateOrganization = await orgGeolocate.updateOne(
@@ -139,7 +139,7 @@ export default class LocationDA {
 							],
 						},
 					},
-				}
+				},
 			);
 
 			console.info('Mongo Update Dispensary Record: ', organization.name);

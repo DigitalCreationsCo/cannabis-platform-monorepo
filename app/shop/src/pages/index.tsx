@@ -47,7 +47,7 @@ function LandingPage() {
 					modalActions.openModal({
 						modalType: modalTypes.checkAgeModal,
 						modalText: '',
-					})
+					}),
 			  );
 	}
 

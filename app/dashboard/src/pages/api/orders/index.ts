@@ -13,7 +13,7 @@ handler.get(async (req: ExtendRequest, res: NextApiResponse) => {
 	try {
 		res.setHeader(
 			'Cache-Control',
-			'public, s-maxage=10, stale-while-revalidate=59'
+			'public, s-maxage=10, stale-while-revalidate=59',
 		);
 		const user = (await getSession({ req, res }))?.user;
 		const organizationId = user?.memberships?.[0]?.organizationId;

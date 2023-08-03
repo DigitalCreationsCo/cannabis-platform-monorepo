@@ -11,7 +11,7 @@ updateProductVariantQuantity
 export default class OrderDA {
 	static async updateProductVariantQuantity(
 		variantId: string,
-		quantity: number
+		quantity: number,
 	) {
 		try {
 			const data = await updateVariantQuantity(variantId, quantity, '-');
