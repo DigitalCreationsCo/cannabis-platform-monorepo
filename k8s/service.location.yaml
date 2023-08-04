@@ -32,7 +32,11 @@ spec:
       serviceAccountName: default
       containers:
         - name: gras-server-location
+<<<<<<< HEAD
           image: grasadmin/location:TAG
+=======
+          image: grasadmin/location:latest
+>>>>>>> d689d738c (ci(terraform): gitlab.tf resouce file, separated scripts into folders,...)
           imagePullPolicy: Always
           terminationMessagePolicy: FallbackToLogsOnError
           # env:

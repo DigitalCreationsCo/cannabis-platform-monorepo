@@ -18,6 +18,7 @@ include:
   - .gitlab/ci/deploy.gitlab-ci.yml
 >>>>>>> 5a8ea0f77 (ci(terraform): gitlab.tf resouce file, separated scripts into folders,...)
 
+<<<<<<< HEAD
 build_cache:
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
@@ -118,6 +119,15 @@ build_docker_node_modules:
 
 build_module:
 =======
+=======
+stages:
+  - cache
+  - build
+  # - tag # Future TODO: Add Semantic Versioning to Images
+  # https://github.com/semantic-release/semantic-release
+  # - lint
+  # - test
+>>>>>>> d689d738c (ci(terraform): gitlab.tf resouce file, separated scripts into folders,...)
   # - release
   - deploy
 
@@ -166,6 +176,9 @@ build:
       # ^ONE OTHER PROBLEM WITH THIS SETUP IS THE NODE_MODULES IS ALL DEPENDENCIES, AND MAY NOT INCLUDE
       # DEPENDENCIES OF A MODULE. SO MODULES WILL BE POSSIBLY BE BUILT WITH NO DEPENDENCY CHANGE, OR MODULE CHANGE.
       # ONE SOLUTION IS TO WATCH CHANGES FOR NODE_MODULES HERE, AND RUN A SCRIPT IN THE EXTENDED JOB.
+
+      # WHAT IM THINKING IS THIS, FOR EACH MODULE BUILD, RUN A COMMAND THAT WILL CHECK THE MODULE AND DEPENDENCIES FOR CHANGES FROM PREVIOUS REF. SOMETHING LIKE: yarn workspaces foreach checklockfile ${MODULE}. (IF IT EXISTS). 
+      # THE IDEA IS FOR EACH MODULE, THE JOB WILL CHECK IF THERE ARE CHANGES IN SOURCE FOR MODULE AND ANY DEPENDENCY PACKAGE. IF SO, THE IMAGE WILL BUILD. IF NOT, THE COMMAND WILL RETURN A CODE, AND THE JOB WILL FAIL, STOPPING THE DOWNSTREAM JOBS FOR THAT PARALLEL. :D
 
 # tag:
 #   extends: .module_tag_version
