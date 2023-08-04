@@ -1,4 +1,4 @@
-import { Schedule } from '@cd/data-access';
+import { type Schedule } from '@cd/data-access';
 
 const parseDaysFromSchedule = (days: number) =>
 	String(days).split('').map(Number);
@@ -19,10 +19,7 @@ function checkIsDispensaryOpen(schedule: Schedule): boolean | null {
 		closeTime.setHours(closeAt);
 
 		const days = parseDaysFromSchedule(schedule.days);
-		const result =
-			days.includes(now.getDay()) && now > openTime && now < closeTime;
-
-		return result;
+		return days.includes(now.getDay()) && now > openTime && now < closeTime;
 	} catch (error) {
 		return null;
 	}

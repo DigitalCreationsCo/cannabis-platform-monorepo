@@ -226,7 +226,7 @@ function UserSignUpQuickForm() {
 								bg="transparent"
 								className={twMerge(
 									styles.BUTTON['highlight'],
-									styles.BUTTON['round-image-btn'],
+									styles.BUTTON['round_image_btn'],
 									index === selected
 										? ['border-2 border-primary']
 										: ['border-2 border-transparent'],

@@ -1,5 +1,9 @@
-import { modalActions, ModalStateProps, selectModalState } from '@cd/core-lib';
-import { JSXElementConstructor, useMemo } from 'react';
+import {
+	modalActions,
+	selectModalState,
+	type ModalStateProps,
+} from '@cd/core-lib';
+import { useMemo, type JSXElementConstructor } from 'react';
 import { connect, useSelector } from 'react-redux';
 import CartModal from './CartModal';
 import CheckAgeModal from './CheckAgeModal';
@@ -11,6 +15,7 @@ import LoginModal from './LoginModal';
 // import SelectModal from "./SelectModal";
 // import TipModal from "./TipModal";
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 const MODAL_COMPONENTS = Object.freeze({
 	SHOW_MODAL: () => <></>,
 	CONFIRM_MODAL: () => <></>,

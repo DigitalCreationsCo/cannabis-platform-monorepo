@@ -1,4 +1,4 @@
-import { ProductWithDashboardDetails } from '@cd/data-access';
+import { type ProductWithDashboardDetails } from '@cd/data-access';
 import Image from 'next/image';
 import Link from 'next/link';
 import logo from '../../public/assets/images/logo.png';

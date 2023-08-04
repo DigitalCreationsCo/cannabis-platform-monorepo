@@ -1,9 +1,9 @@
 import {
-	OrderWithDashboardDetails,
-	OrganizationWithDashboardDetails,
-	ProductWithDashboardDetails,
-	UserDispensaryAdmin,
-	UserWithProfilePicture,
+	type OrderWithDashboardDetails,
+	type OrganizationWithDashboardDetails,
+	type ProductWithDashboardDetails,
+	type UserDispensaryAdmin,
+	type UserWithProfilePicture,
 } from '@cd/data-access';
 
 const userDispensaryAdmin: UserDispensaryAdmin = {
@@ -28,6 +28,7 @@ const userDispensaryAdmin: UserDispensaryAdmin = {
 		id: '1',
 		location:
 			'https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png',
+		// eslint-disable-next-line sonarjs/no-duplicate-string
 		blurhash: 'dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH',
 		createdAt: new Date(),
 		updatedAt: new Date(),
@@ -128,6 +129,7 @@ const organization: OrganizationWithDashboardDetails = {
 		createdAt: new Date(),
 		updatedAt: new Date(),
 	},
+	vendorName: 'McNuggs',
 	vendorId: '4',
 	vendor: {
 		id: '4',
@@ -230,6 +232,7 @@ const products: ProductWithDashboardDetails[] = [
 	},
 	{
 		id: '2',
+		// eslint-disable-next-line sonarjs/no-duplicate-string
 		name: 'Blackberry Kush',
 		description: 'Satisfying Liquid Goochy',
 		features: 'fresh, relaxing',

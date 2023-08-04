@@ -7,6 +7,7 @@ import {
 import { Button, FlexBox, H2, Paragraph, styles } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/logo.png';
@@ -27,6 +28,12 @@ function AdminTopBar({ signOut }: TopBarProps) {
 		);
 	}
 
+	const _AccountDropDown = useCallback(DispensaryAccountDropDown, [
+		signOut,
+		user.profilePicture?.location,
+		user.username,
+	]);
+
 	return (
 		<div className={twMerge(styles.TOPBAR.topbar)}>
 			<Link href={getDashboardSite('/')} passHref>
@@ -38,7 +45,7 @@ function AdminTopBar({ signOut }: TopBarProps) {
 
 			<div className="flex-1"></div>
 
-			<FlexBox className="flex flex-row space-x-2 items-center pr-0 px-4">
+			<FlexBox className="flex flex-row items-center space-x-2 px-4 pr-0">
 				{isSignedIn && (
 					<Link
 						className={twMerge('hidden sm:block', styles.BUTTON.highlight)}
@@ -50,7 +57,7 @@ function AdminTopBar({ signOut }: TopBarProps) {
 					</Link>
 				)}
 
-				{isSignedIn ? (
+				{/* {isSignedIn ? (
 					<>
 						<Link href={getDashboardSite('/support')}>
 							<Paragraph
@@ -78,10 +85,64 @@ function AdminTopBar({ signOut }: TopBarProps) {
 					>
 						Sign In
 					</Button>
+				)} */}
+				{isSignedIn && <_AccountDropDown />}
+				{!isSignedIn && (
+					<FlexBox>
+						<Button
+							className={twMerge(styles.BUTTON.highlight, 'pt-1')}
+							size="sm"
+							bg="transparent"
+							hover="transparent"
+							onClick={openLoginModal}
+						>
+							Sign In
+						</Button>
+					</FlexBox>
 				)}
 			</FlexBox>
 		</div>
 	);
+	function DispensaryAccountDropDown() {
+		return (
+			<div className="dropdown dropdown-bottom relative">
+				<Button
+					className="btn border-none px-0 outline-none focus:outline-none"
+					size="sm"
+					border={false}
+					bg="transparent"
+					hover="transparent"
+				>
+					<Image
+						src={user.profilePicture?.location as string}
+						alt={user.username}
+						width={40}
+						height={40}
+						className="rounded-full border"
+						loader={({ src }) => src}
+						priority
+					/>
+				</Button>
+				<ul className="menu dropdown-content bg-inverse relative bottom-0 right-0 mt-2 w-48 rounded border shadow">
+					<FlexBox>
+						<Button size="md" bg="transparent" hover="transparent">
+							<Link href={getDashboardSite('/settings')}>Settings</Link>
+						</Button>
+					</FlexBox>
+					<FlexBox>
+						<Button
+							size="md"
+							bg="transparent"
+							hover="transparent"
+							onClick={signOut}
+						>
+							Sign Out
+						</Button>
+					</FlexBox>
+				</ul>
+			</div>
+		);
+	}
 }
 
 export default AdminTopBar;

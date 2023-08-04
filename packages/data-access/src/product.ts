@@ -1,13 +1,13 @@
 import {
-	Category,
-	Organization,
-	Prisma,
-	Product,
-	Review,
+	type Category,
+	type Organization,
+	type Prisma,
+	type Product,
+	type Review,
 } from '@prisma/client';
 import prisma from './db/prisma';
-import { UserWithProfilePictureBlob } from './user';
-import { ProductVariantWithDetails } from './variant';
+import { type UserWithProfilePictureBlob } from './user';
+import { type ProductVariantWithDetails } from './variant';
 
 export async function createProduct() {
 	// try {
@@ -23,7 +23,7 @@ export async function findProductsByOrg(
 	limit: number,
 ) {
 	try {
-		const products =
+		return (
 			(await prisma.product.findMany({
 				skip: (page > 0 ? page - 1 : 0) * limit,
 				take: limit,
@@ -36,8 +36,8 @@ export async function findProductsByOrg(
 					variants: true,
 					categories: true,
 				},
-			})) || [];
-		return products;
+			})) || []
+		);
 	} catch (error: any) {
 		console.error(error.message);
 		throw new Error(error.message);
@@ -46,7 +46,7 @@ export async function findProductsByOrg(
 
 export async function findProductWithDetails(id: string) {
 	try {
-		const product = await prisma.product.findUnique({
+		return await prisma.product.findUnique({
 			where: { id },
 			include: {
 				categories: true,
@@ -59,7 +59,6 @@ export async function findProductWithDetails(id: string) {
 				},
 			},
 		});
-		return product;
 	} catch (error: any) {
 		console.error(error);
 		throw new Error(error);
@@ -71,7 +70,7 @@ export async function findProductsByText(
 	organizationId: string,
 ) {
 	try {
-		const products =
+		return (
 			(await prisma.product.findMany({
 				where: {
 					organizationId,
@@ -104,8 +103,8 @@ export async function findProductsByText(
 						include: { images: true },
 					},
 				},
-			})) || [];
-		return products;
+			})) || []
+		);
 	} catch (error: any) {
 		console.error(error.message);
 		throw new Error(error.message);

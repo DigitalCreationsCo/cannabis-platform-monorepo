@@ -1,6 +1,6 @@
-import { ReactNode } from 'react';
+import { type ReactNode } from 'react';
 import { twMerge } from 'tailwind-merge';
-import CheckBox, { CheckBoxProps } from './CheckBox';
+import CheckBox, { type CheckBoxProps } from './CheckBox';
 import FlexBox from './FlexBox';
 import Label from './Label';
 

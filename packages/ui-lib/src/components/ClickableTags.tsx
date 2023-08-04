@@ -1,4 +1,9 @@
-import { Dispatch, PropsWithChildren, SetStateAction, useState } from 'react';
+import {
+	type Dispatch,
+	type PropsWithChildren,
+	type SetStateAction,
+	useState,
+} from 'react';
 import Icons from '../icons';
 import FlexBox from './FlexBox';
 import Tag from './Tag';

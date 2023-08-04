@@ -1,5 +1,5 @@
-import { PropsWithChildren } from 'react';
-import IconWrapper, { IconProps } from '../IconWrapper';
+import { type PropsWithChildren } from 'react';
+import IconWrapper, { type IconProps } from '../IconWrapper';
 import Button from './Button';
 export interface IconButtonProps extends IconProps {
 	type?: 'button' | 'submit' | 'reset';

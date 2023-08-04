@@ -37,7 +37,8 @@ module.exports = {
 					'warn',
 					{
 						selector: 'variable',
-						format: ['camelCase', 'PascalCase'],
+						format: ['camelCase', 'PascalCase', 'UPPER_CASE'],
+						leadingUnderscore: 'allow',
 					},
 					{
 						selector: ['function'],

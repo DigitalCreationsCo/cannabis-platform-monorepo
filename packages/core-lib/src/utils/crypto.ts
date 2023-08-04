@@ -25,9 +25,7 @@ class Crypto {
 	decrypt(data: string): string {
 		const bytes = cryptoJs.AES.decrypt(data, this.secret);
 
-		const plainText = bytes.toString(cryptoJs.enc.Utf8);
-
-		return plainText;
+		return bytes.toString(cryptoJs.enc.Utf8);
 	}
 }
 

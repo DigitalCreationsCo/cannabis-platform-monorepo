@@ -1,4 +1,4 @@
-import { Order } from '@cd/data-access';
+import { type Order } from '@cd/data-access';
 import { format } from 'date-fns';
 import { twMerge } from 'tailwind-merge';
 import Icons from '../icons';

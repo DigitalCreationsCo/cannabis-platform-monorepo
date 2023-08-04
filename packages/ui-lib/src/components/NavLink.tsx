@@ -1,4 +1,4 @@
-import { AnchorHTMLAttributes, PropsWithChildren } from 'react';
+import { type AnchorHTMLAttributes, type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 import IconWrapper from './IconWrapper';
 import { Paragraph } from './Typography';
@@ -31,7 +31,7 @@ const NavLink = ({
 };
 
 const StyledLink = ({
-	isActive,
+	// isActive,
 	className,
 	children,
 }: { isActive: boolean; className?: string } & PropsWithChildren) => {

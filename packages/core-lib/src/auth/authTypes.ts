@@ -1,4 +1,7 @@
-import { DriverWithDetails, UserWithDetails } from '../../../data-access/src';
+import {
+	type DriverWithDetails,
+	type UserWithDetails,
+} from '../../../data-access/src';
 
 export type ApiContext = {
 	action: 'SIGN_OUT' | 'REFRESH_SESSION';

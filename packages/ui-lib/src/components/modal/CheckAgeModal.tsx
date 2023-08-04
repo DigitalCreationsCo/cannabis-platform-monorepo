@@ -1,7 +1,6 @@
+import { twMerge } from 'tailwind-merge';
 import CheckAge from '../CheckAge';
 import Modal from './Modal';
-
-import { twMerge } from 'tailwind-merge';
 
 interface CheckAgeModalProps {
 	dispatchCloseModal: () => void;

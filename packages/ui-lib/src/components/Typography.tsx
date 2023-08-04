@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react';
+import { type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 interface Props
@@ -201,6 +201,7 @@ export const Tiny = ({ className, children, ...props }: Props) => {
 				'text-xs whitespace-normal',
 				className,
 			)}
+			{...props}
 		>
 			{children}
 		</span>

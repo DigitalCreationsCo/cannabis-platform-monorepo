@@ -1,8 +1,9 @@
-//Modal.tsx
-import { RNstyles } from '@cd/core-lib';
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
 import React from 'react';
 import { View } from 'react-native';
 import { twMerge } from 'tailwind-merge';
+// import { classNames } from '@cd/native-ui';
 import CloseButton from '../button/CloseButton';
 import { H6 } from '../Typography';
 
@@ -19,7 +20,6 @@ export type ModalProps = {
 
 const Modal = ({
 	children,
-	isModalOverlay = true,
 	modalVisible,
 	onClose,
 	description,

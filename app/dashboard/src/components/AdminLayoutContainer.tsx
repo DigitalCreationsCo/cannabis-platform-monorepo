@@ -1,10 +1,10 @@
 import { selectModalState, userActions } from '@cd/core-lib/src/reduxDir';
-import { Layout, LayoutContextProps } from '@cd/ui-lib';
-import { PropsWithChildren } from 'react';
+import { Layout, type LayoutContextProps } from '@cd/ui-lib';
+import { type PropsWithChildren } from 'react';
 import { useSelector } from 'react-redux';
-import { useAppDispatch } from 'redux/hooks';
 import Session from 'supertokens-auth-react/recipe/session';
-import { RootState } from '../redux/store';
+import { useAppDispatch } from '../redux/hooks';
+import { type RootState } from '../redux/store';
 import AdminDashboardNavigation from './AdminDashBoardNavigation';
 import AdminTopBar from './AdminTopBar';
 

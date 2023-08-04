@@ -17,9 +17,12 @@ export default function DropZone({
 	imageSize = 'Upload 280*280 image',
 	maxFiles = 3,
 }: DropZoneProps) {
-	const onDrop = useCallback((acceptedFiles: any) => {
-		if (onChange) onChange(acceptedFiles);
-	}, []);
+	const onDrop = useCallback(
+		(acceptedFiles: any) => {
+			if (onChange) onChange(acceptedFiles);
+		},
+		[onChange],
+	);
 	const { getRootProps, getInputProps, open, isDragActive } = useDropzone({
 		onDrop,
 		maxFiles: maxFiles,

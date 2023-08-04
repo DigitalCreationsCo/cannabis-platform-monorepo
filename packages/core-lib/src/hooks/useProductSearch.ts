@@ -1,6 +1,6 @@
 import {
-	ProductVariantWithDetails,
-	ProductWithShopDetails,
+	type ProductVariantWithDetails,
+	type ProductWithShopDetails,
 } from '@cd/data-access';
 import axios from 'axios';
 import { useState } from 'react';

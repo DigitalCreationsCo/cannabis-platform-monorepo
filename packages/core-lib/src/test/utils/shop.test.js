@@ -11,7 +11,7 @@ describe('checkIsDispensaryOpen', () => {
 	const _isOpenCurrenTime =
 		[6, 5, 4, 3, 2, 1, 0].includes(now.getDay()) && now > open && now < close;
 
-	test('is open', async () => {
+	it('is open', async () => {
 		const isOpen = checkIsDispensaryOpen({
 			days: 6543210,
 			id: '1',

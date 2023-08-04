@@ -1,18 +1,17 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
-
-import { AnyAction } from '@reduxjs/toolkit';
-import { io, Socket } from 'socket.io-client';
+import { type OrderWithDetails } from '@cd/data-access';
+import { type AnyAction, type Store } from '@reduxjs/toolkit';
+import { io, type Socket } from 'socket.io-client';
 import { urlBuilder } from '../../utils/urlBuilder';
 import { socketActions } from '../features/socket.reducer';
 import { userActions } from '../features/user.reducer';
+import { type AppState } from '../types';
 // import { driverActions } from "../features/driver.reducer";
-import { OrderWithDetails } from '@cd/data-access';
-import { Store } from '@reduxjs/toolkit';
-import { AppState } from 'reduxDir/types';
 import {
 	NavigateEvent,
 	SocketEvent,
-	SocketEventPayload,
+	type SocketEventPayload,
 } from '../types/SocketEvent';
 
 const socketMiddleware = (store: Store<AppState>) => {
@@ -38,10 +37,10 @@ const socketMiddleware = (store: Store<AppState>) => {
 	 * @returns orderId
 	 */
 	function getOrderIdFromSocketKey(socketKey: string) {
-		let orderId = socketKey && socketKey.split(':')[1];
-		return orderId;
+		return socketKey && socketKey.split(':')[1];
 	}
 
+	// eslint-disable-next-line sonarjs/cognitive-complexity
 	return (next: any) => (action: AnyAction) => {
 		next(action);
 
@@ -111,7 +110,8 @@ const socketMiddleware = (store: Store<AppState>) => {
 				SocketEvent.OrderAssignedToYou,
 				({ message }: SocketEventPayload<any>) => {
 					const { newOrder } = store.getState().socket.incomingOrder;
-					let { id } = newOrder;
+					// eslint-disable-next-line @typescript-eslint/no-unused-vars
+					const { id } = newOrder;
 					const { driverId } = store.getState().user.user;
 
 					// GET JWT FROM ST SESSION, THEN SEND JWT TO DISPATCH SERVER
@@ -193,7 +193,7 @@ const socketMiddleware = (store: Store<AppState>) => {
 				console.info('socket: ', socket);
 
 				if (socket[0].startsWith('order:')) {
-					let socketKey = socket[0],
+					const socketKey = socket[0],
 						_order_socket_connection = socket[1] || null;
 
 					// on order socket connect
@@ -254,7 +254,7 @@ const socketMiddleware = (store: Store<AppState>) => {
 						next(action);
 						const { geoLocation } = store.getState().user.user.location;
 						console.info('sending location share event');
-						let orderId = getOrderIdFromSocketKey(socketKey);
+						const orderId = getOrderIdFromSocketKey(socketKey);
 						_order_socket_connection.emit(SocketEvent.SendLocation, {
 							data: { orderId: orderId, geoLocation },
 						});
@@ -272,7 +272,7 @@ const socketMiddleware = (store: Store<AppState>) => {
 
 						// V this code checks if the order is in the remaining routes state,
 						// and uses the order id to emit the event to the order socket room
-						let ordersListMatchVendor = store
+						const ordersListMatchVendor = store
 							.getState()
 							.socket.remainingRoute.filter((order) => {
 								console.info(
@@ -286,7 +286,7 @@ const socketMiddleware = (store: Store<AppState>) => {
 							'orderLists from vendor length: ',
 							ordersListMatchVendor.length,
 						);
-						let orderId = getOrderIdFromSocketKey(socketKey);
+						const orderId = getOrderIdFromSocketKey(socketKey);
 						if (ordersListMatchVendor.includes(orderId)) {
 							_order_socket_connection.emit(SocketEvent.Navigate, {
 								type: NavigateEvent.ArriveToVendor,
@@ -305,7 +305,7 @@ const socketMiddleware = (store: Store<AppState>) => {
 					if (socketActions.pickupProducts.match(action)) {
 						// send socket events to all orders based on a list input of orderId
 						const { orderIdList } = action.payload;
-						let orderId = getOrderIdFromSocketKey(socketKey);
+						const orderId = getOrderIdFromSocketKey(socketKey);
 						if (orderIdList.includes(orderId)) {
 							console.info('sending pickup product event');
 							_order_socket_connection.emit(SocketEvent.Navigate, {
@@ -352,7 +352,7 @@ const socketMiddleware = (store: Store<AppState>) => {
 					// if remove completed order, emit deliver order event to order socket room
 					// if remainingRoutes is empty, dispatch ordersCompletedAll action
 					if (socketActions.removeCompletedOrder.match(action)) {
-						let { orderId } = action.payload;
+						const { orderId } = action.payload;
 						if (getOrderIdFromSocketKey(socketKey) === orderId) {
 							_order_socket_connection.emit(SocketEvent.Navigate, {
 								type: NavigateEvent.DeliverOrder,
