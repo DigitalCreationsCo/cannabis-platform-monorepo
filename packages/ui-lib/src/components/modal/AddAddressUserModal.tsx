@@ -1,16 +1,15 @@
 import { urlBuilder } from '@cd/core-lib';
-import { AddressUserCreateType } from '@cd/data-access';
+import { type AddressUserCreateType } from '@cd/data-access';
+import axios from 'axios';
+import { useFormik } from 'formik';
+import { useState, type Dispatch, type SetStateAction } from 'react';
+import { toast } from 'react-hot-toast';
+import * as Yup from 'yup';
 import { Button } from '../button';
 import FlexBox from '../FlexBox';
 import Grid from '../Grid';
-import { Modal, ModalProps } from '../modal';
+import { Modal, type ModalProps } from '../modal';
 import TextField from '../TextField';
-
-import axios from 'axios';
-import { useFormik } from 'formik';
-import { Dispatch, SetStateAction, useState } from 'react';
-import toast from 'react-hot-toast';
-import * as Yup from 'yup';
 
 interface AddAddressModalProps extends ModalProps {
 	userId: string;
@@ -111,7 +110,7 @@ function AddAddressUserModal({
 		<Modal {...props} onClose={closeModalAndReset}>
 			<Grid className="space-y-4">
 				<form
-					onSubmit={(e) => {
+					onSubmit={() => {
 						// e.preventDefault();
 						// e.stopPropagation();
 						handleSubmit();

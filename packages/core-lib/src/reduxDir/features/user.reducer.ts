@@ -1,11 +1,11 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
-
-import { UserWithDetails } from '@cd/data-access';
+import { type UserWithDetails } from '@cd/data-access';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 // import * as SecureStore from "expo-secure-store";
-import Passwordless from 'supertokens-node/recipe/passwordless';
+import type Passwordless from 'supertokens-node/recipe/passwordless';
 import { pruneData } from '../../utils';
-import { AppState, ThunkArgumentsType } from '../types/reduxTypes';
+import { type AppState, type ThunkArgumentsType } from '../types/reduxTypes';
 import { locationActions } from './location.reducer';
 
 // import { messageActions } from "./message";
@@ -156,7 +156,7 @@ export const signinUserAsyncEmailPassword = createAsyncThunk<
 					Array.isArray(response.user.addresss)
 				) {
 					response.user.address.forEach((address) =>
-						dispatch(locationActions.addAddress(response.user.address)),
+						dispatch(locationActions.addAddress(address)),
 					);
 				}
 				window.location.href = '/';
@@ -176,6 +176,7 @@ const signOutUserAsync = createAsyncThunk<
 		// dispatch: Dispatch<AnyAction>;
 		extra: ThunkArgumentsType;
 	}
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 >('user/signOutUserAsync', async (_, { dispatch, extra, rejectWithValue }) => {
 	try {
 		const { signOut } = extra.supertokens;

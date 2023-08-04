@@ -13,7 +13,7 @@ function DispensaryReview() {
 	const { formValues, prevFormStep, nextFormStep } = useFormContext();
 
 	return (
-		<Grid className="max-w-[525px] mx-auto space-y-2">
+		<Grid className="mx-auto max-w-[525px] space-y-2">
 			<H2 className="whitespace-normal">
 				Please review your Dispensary, and account information
 			</H2>

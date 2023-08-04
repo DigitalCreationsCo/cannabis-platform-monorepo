@@ -1,5 +1,9 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { useEncryptCookies, useHashNavigate } from '@cd/core-lib';
-import { OrganizationCreateType, UserCreateType } from '@cd/data-access';
+import {
+	type OrganizationCreateType,
+	type UserCreateType,
+} from '@cd/data-access';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import ErrorMessage from './ErrorMessage';
 import FlexBox from './FlexBox';
@@ -50,7 +54,7 @@ function FormStepProvider({
 	FormStepComponents,
 	formId,
 }: FormStepProviderProps) {
-	const [cookies, setCookie, removeCookie] = useEncryptCookies(
+	const [cookies, setCookie] = useEncryptCookies(
 		[`form-data-context-${formId}`] || ({} as FormValuesType),
 	);
 	const [formValues, setFormData] = useState<FormValuesType>(
@@ -59,7 +63,7 @@ function FormStepProvider({
 
 	useEffect(() => {
 		setCookie(`form-data-context-${formId}`, JSON.stringify(formValues));
-	}, [formValues]);
+	}, [formId, formValues, setCookie]);
 
 	const validFormSteps = FormStepComponents.filter(
 		(component) => component !== null,
@@ -75,7 +79,10 @@ function FormStepProvider({
 			totalSteps !== undefined &&
 			`step ${currentStep + 1} of ${totalSteps}`;
 
-	const FormStepComponent = useMemo(() => validFormSteps[formstep], [formstep]);
+	const FormStepComponent = useMemo(
+		() => validFormSteps[formstep],
+		[formstep, validFormSteps],
+	);
 	if (!FormStepComponent)
 		return <ErrorMessage code={404} message="Page not found" />;
 

@@ -1,7 +1,7 @@
 import {
-	ChangeEventHandler,
-	PropsWithChildren,
-	ReactEventHandler,
+	type ChangeEventHandler,
+	type PropsWithChildren,
+	type ReactEventHandler,
 } from 'react';
 import { twMerge } from 'tailwind-merge';
 import Footer from './Footer';

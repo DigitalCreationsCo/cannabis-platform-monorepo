@@ -1,9 +1,9 @@
 import { modalActions } from '@cd/core-lib/src/reduxDir';
 import { modalTypes } from '@cd/core-lib/src/utils';
 import { useDispatch } from 'react-redux';
-import Button, { ButtonProps } from './Button';
+import Button, { type ButtonProps } from './Button';
 
-interface SignInButtonProps extends ButtonProps {}
+type SignInButtonProps = ButtonProps;
 
 function SignInButton(props: SignInButtonProps) {
 	const dispatch = useDispatch();

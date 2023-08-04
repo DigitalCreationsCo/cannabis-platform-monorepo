@@ -1,12 +1,11 @@
-import { Address, Coordinates } from '@prisma/client';
+import { type Address, type Coordinates } from '@prisma/client';
 import prisma from './db/prisma';
 
 export async function createAddress(address: any) {
 	try {
-		const createAddress = await prisma.address.create({
+		return await prisma.address.create({
 			data: address,
 		});
-		return createAddress;
 	} catch (error: any) {
 		console.error(error);
 		throw new Error(error);
@@ -15,12 +14,11 @@ export async function createAddress(address: any) {
 
 export async function findAddressById(id: string) {
 	try {
-		const address = await prisma.address.findUnique({
+		return await prisma.address.findUnique({
 			where: {
 				id,
 			},
 		});
-		return address;
 	} catch (error: any) {
 		console.error(error);
 		throw new Error(error);

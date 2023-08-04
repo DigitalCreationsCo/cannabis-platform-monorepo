@@ -1,8 +1,8 @@
-import axios, { AxiosError, AxiosRequestConfig } from 'axios';
+import axios, { type AxiosError, type AxiosRequestConfig } from 'axios';
 
-let MAX_RETRIES = 5;
+const MAX_RETRIES = 5;
 // three seconds
-let WAIT_RETRY = 3 * 1000;
+const WAIT_RETRY = 3 * 1000;
 
 interface AxiosConfig extends AxiosRequestConfig {
 	retryCount?: number;
@@ -18,7 +18,7 @@ interface AxiosErrorCustom extends AxiosError {
 const instance = axios.create({
 	timeout: 3000,
 	// validateStatus: (status: number) => (status >= 200 && status < 300) || status === 404
-	validateStatus: (status: number) => true,
+	validateStatus: () => true,
 });
 
 axios.interceptors.response.use(
@@ -71,4 +71,9 @@ instance.interceptors.response.use(
 	},
 );
 
-export { instance as axios };
+const applicationHeaders = {
+	Accept: 'application/json',
+	'Content-Type': 'application/json',
+};
+
+export { instance as axios, applicationHeaders };

@@ -1,5 +1,5 @@
-import { PropsWithChildren, SVGAttributes } from 'react';
-import { GestureResponderEvent, View } from 'react-native';
+import { type PropsWithChildren, type SVGAttributes } from 'react';
+import { type GestureResponderEvent, View } from 'react-native';
 import IconWrapper from './IconWrapper';
 import { Small } from './Typography';
 

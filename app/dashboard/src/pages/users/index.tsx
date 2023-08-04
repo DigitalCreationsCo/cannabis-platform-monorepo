@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { urlBuilder, usePagination } from '@cd/core-lib';
-import { UserWithDetails } from '@cd/data-access';
+import { type UserWithDetails } from '@cd/data-access';
 import {
 	Button,
 	Card,
@@ -22,8 +23,8 @@ type UsersDashboardProps = {
 	users: UserWithDetails[];
 };
 export default function Users({ users }: UsersDashboardProps) {
-	const [currentPage, setCurrentPage] = useState(1);
-	const [dialogOpen, setDialogOpen] = useState(false);
+	const [currentPage] = useState(1);
+	const [, setDialogOpen] = useState(false);
 	const [deleteId, setDeleteId] = useState('');
 
 	const currentUsers: UserWithDetails[] = usePagination(currentPage, users);
@@ -61,11 +62,11 @@ export default function Users({ users }: UsersDashboardProps) {
 			/>
 			<Grid>
 				<Row className="h-[44px]">
-					<div className="hidden sm:block w-[100px]"></div>
+					<div className="hidden w-[100px] sm:block"></div>
 					<H6 className="grow">Name</H6>
-					<H6 className="hidden lg:flex justify-start w-[240px]">Email</H6>
-					<H6 className="flex justify-center w-[120px]">Phone</H6>
-					<H6 className="flex justify-center w-[100px]">Role</H6>
+					<H6 className="hidden w-[240px] justify-start lg:flex">Email</H6>
+					<H6 className="flex w-[120px] justify-center">Phone</H6>
+					<H6 className="flex w-[100px] justify-center">Role</H6>
 					<div className="min-w-[50px] md:w-[120px]"></div>
 				</Row>
 				{users && currentUsers.length > 0 ? (
@@ -83,13 +84,13 @@ export default function Users({ users }: UsersDashboardProps) {
 									<H6 className="grow">
 										{user.firstName} {user.lastName}
 									</H6>
-									<Paragraph className="hidden lg:flex justify-start w-[240px]">
+									<Paragraph className="hidden w-[240px] justify-start lg:flex">
 										{user.email}
 									</Paragraph>
-									<Paragraph className="flex justify-center w-[120px]">
+									<Paragraph className="flex w-[120px] justify-center">
 										{user.phone || '-'}
 									</Paragraph>
-									<Paragraph className="flex justify-center w-[100px]">
+									<Paragraph className="flex w-[100px] justify-center">
 										{user?.memberships?.length &&
 											user?.memberships?.[0]?.role
 												.substring(0, 1)

@@ -1,5 +1,7 @@
-import { ProductVariantWithDetails } from '@cd/data-access';
-import { PropsWithChildren, useState } from 'react';
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+import { type ProductVariantWithDetails } from '@cd/data-access';
+import { useState, type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { ConfirmationModal } from './modal';
 import Price from './Price';
@@ -33,6 +35,7 @@ function ProductItem({
 			>
 				<img
 					src={product?.images?.[0]?.location}
+					alt={product.name}
 					style={{ height: 100, maxHeight: 100, width: 100, maxWidth: 100 }}
 					className="rounded border object-cover place-self-center"
 				/>

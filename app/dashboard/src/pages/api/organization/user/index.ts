@@ -1,13 +1,8 @@
-// import { ExtendRequest } from 'middleware';
-import { urlBuilder } from '@cd/core-lib';
-import { UserCreateType } from '@cd/data-access';
-import axios from 'axios';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { applicationHeaders, axios, urlBuilder } from '@cd/core-lib';
+import { type UserCreateType } from '@cd/data-access';
+import { type NextApiRequest, type NextApiResponse } from 'next';
 import nc from 'next-connect';
-import NodeCache from 'node-cache';
-// import { getSession } from '../../../src/session';
 
-const cache = new NodeCache({ stdTTL: 20 });
 const handler = nc();
 // handler.use(authMiddleware).use(healthCheckMiddleware);
 // get users from an organization
@@ -44,12 +39,11 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 		} = req.body;
 
 		console.info('dispensaryId: ', dispensaryId);
-		let response = await axios.post(
+		const response = await axios.post(
 			urlBuilder.main.admin(),
 			{ user, role, dispensaryId },
 			{
-				headers: { 'Content-Type': 'application/json' },
-				validateStatus: (status) => true,
+				headers: { ...applicationHeaders },
 			},
 		);
 

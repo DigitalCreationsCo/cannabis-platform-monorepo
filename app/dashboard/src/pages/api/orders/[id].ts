@@ -1,8 +1,8 @@
 import { urlBuilder } from '@cd/core-lib';
 import axios from 'axios';
-import { authMiddleware } from 'middleware';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { type NextApiRequest, type NextApiResponse } from 'next';
 import nc from 'next-connect';
+import { authMiddleware } from '../../../middleware';
 
 const handler = nc();
 handler.use(authMiddleware);

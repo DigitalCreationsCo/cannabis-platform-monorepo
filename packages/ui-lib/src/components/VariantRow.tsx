@@ -1,5 +1,5 @@
 import { getDashboardSite } from '@cd/core-lib/src';
-import { ProductVariantWithDetails } from '@cd/data-access';
+import { type ProductVariantWithDetails } from '@cd/data-access';
 import Image from 'next/image';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';

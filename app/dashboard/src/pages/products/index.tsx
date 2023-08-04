@@ -1,28 +1,30 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { dateToString, getDashboardSite, usePagination } from '@cd/core-lib';
-import { ProductWithDashboardDetails } from '@cd/data-access';
+import { type ProductWithDashboardDetails } from '@cd/data-access';
 import {
 	Button,
 	Card,
 	Grid,
 	H6,
 	Icons,
-	LayoutContextProps,
 	Page,
 	PageHeader,
 	ProductRow,
 	Row,
+	type LayoutContextProps,
 } from '@cd/ui-lib';
 import axios from 'axios';
+import Link from 'next/link';
+import { useState, type Dispatch, type SetStateAction } from 'react';
+import { toast } from 'react-hot-toast';
+import { twMerge } from 'tailwind-merge';
 import {
 	orders,
 	organization,
 	products,
 	userDispensaryAdmin as user,
-} from 'data/dummyData';
-import Link from 'next/link';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { toast } from 'react-hot-toast';
-import { twMerge } from 'tailwind-merge';
+} from '../../data/dummyData';
 
 interface ProductsDashboardProps {
 	products: ProductWithDashboardDetails[];
@@ -39,7 +41,6 @@ export default function Products({ products }: ProductsDashboardProps) {
 	const [searchValue, setSearchValue] = useState('');
 
 	useSetProductSearch = setSearchValue;
-	useEffect(() => {}, [searchValue]);
 
 	const searchedProducts = products.filter((product) =>
 		product.name.toLowerCase().includes(searchValue.toLowerCase()),
@@ -78,17 +79,17 @@ export default function Products({ products }: ProductsDashboardProps) {
 		<Page className={twMerge('sm:px-4 !pt-0 md:pr-16')}>
 			<PageHeader title="Products" Icon={Icons.Product}>
 				<Link href={getDashboardSite('/add-product')}>
-					<Button className="place-self-start bg-inverse hover:bg-inverse active:bg-accent-soft">
+					<Button className="bg-inverse hover:bg-inverse active:bg-accent-soft place-self-start">
 						Add Product
 					</Button>
 				</Link>
 			</PageHeader>
 
-			<Grid className="pt-2 gap-2">
-				<Row className="h-[44px] md:pl-1 justify-start">
+			<Grid className="gap-2 pt-2">
+				<Row className="h-[44px] justify-start md:pl-1">
 					<div className="w-[60px]"></div>
 					<H6 className="min-w-[144px]">product</H6>
-					<H6 className="flex justify-center w-[60px] ">rating</H6>
+					<H6 className="flex w-[60px] justify-center ">rating</H6>
 					{/* <H6 className="flex justify-center w-[80px] ">Price</H6> */}
 					{/* <H6 className="flex justify-center w-[100px]">Sale</H6> */}
 					<div className="min-w-[50px] sm:w-[120px]"></div>

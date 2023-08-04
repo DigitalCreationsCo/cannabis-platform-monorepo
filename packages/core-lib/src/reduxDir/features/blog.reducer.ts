@@ -1,14 +1,20 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 
-import { ArticleWithDetails } from '@cd/data-access';
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { type ArticleWithDetails } from '@cd/data-access';
+import {
+	createAsyncThunk,
+	createSlice,
+	type PayloadAction,
+} from '@reduxjs/toolkit';
 import axios from 'axios';
 import { urlBuilder } from '../../utils';
-import { AppState } from '../types/reduxTypes';
+import { type AppState } from '../types/reduxTypes';
 
 export const getLatestNews = createAsyncThunk(
 	'blog/getLatestNews',
-	async (_, { getState, rejectWithValue }) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	async (_, { dispatch, rejectWithValue }) => {
 		try {
 			const response = await axios.get(urlBuilder.main.blog(), {
 				headers: {
@@ -28,8 +34,8 @@ export const getLatestNews = createAsyncThunk(
 
 export type BlogStateProps = {
 	news: ArticleWithDetails[];
-	dispensary_guides: ArticleWithDetails[];
-	driver_guides: ArticleWithDetails[];
+	dispensaryGuides: ArticleWithDetails[];
+	driverGuides: ArticleWithDetails[];
 	isLoading: boolean;
 	isSuccess: boolean;
 	isError: boolean;
@@ -38,8 +44,8 @@ export type BlogStateProps = {
 
 const initialState: BlogStateProps = {
 	news: [],
-	dispensary_guides: [],
-	driver_guides: [],
+	dispensaryGuides: [],
+	driverGuides: [],
 	isLoading: false,
 	isSuccess: false,
 	isError: false,

@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react';
+import React, { type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 import Center from '../Center';
 import LoadingDots from '../LoadingDots';
@@ -33,6 +33,7 @@ export interface ButtonProps
 	type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type'];
 }
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export default function Button({
 	size = 'md',
 	bg = 'accent-soft',

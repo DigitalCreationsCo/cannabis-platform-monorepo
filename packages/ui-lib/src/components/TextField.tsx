@@ -1,5 +1,9 @@
-import { CarbonIconType } from '@carbon/icons-react';
-import React, { ReactEventHandler, SVGAttributes } from 'react';
+import { type CarbonIconType } from '@carbon/icons-react';
+import React, {
+	useState,
+	type ReactEventHandler,
+	type SVGAttributes,
+} from 'react';
 import { twMerge } from 'tailwind-merge';
 import IconButton from './button/IconButton';
 import FlexBox from './FlexBox';
@@ -48,7 +52,7 @@ function TextField({
 	const inputProps: React.InputHTMLAttributes<HTMLInputElement> = {
 		...props,
 	};
-	const [focus, setFocus] = React.useState(false);
+	const [focus, setFocus] = useState(false);
 	const styles = {
 		flexContainer: 'space-x-0 space-y-0 w-full',
 		label: ['px-2', 'w-full', justifyLabel && `text-${justifyLabel}`],

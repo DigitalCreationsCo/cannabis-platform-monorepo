@@ -1,7 +1,7 @@
-import { ReactNode } from 'react';
+import { type ReactNode } from 'react';
 import Button from '../button/Button';
 import FlexBox from '../FlexBox';
-import Modal, { ModalProps } from './Modal';
+import Modal, { type ModalProps } from './Modal';
 
 interface ConfirmationModalProps extends ModalProps {
 	confirmMessage?: string;

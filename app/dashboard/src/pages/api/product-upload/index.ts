@@ -1,8 +1,5 @@
-// import { authMiddleware, healthCheckMiddleware } from 'middleware';
 import nc from 'next-connect';
-import NodeCache from 'node-cache';
 
-const cache = new NodeCache({ stdTTL: 20 });
 const handler = nc();
 // handler.use(authMiddleware).use(healthCheckMiddleware);
 

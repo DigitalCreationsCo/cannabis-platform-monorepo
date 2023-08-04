@@ -1,4 +1,4 @@
-import { SVGAttributes } from 'react';
+import { type SVGAttributes } from 'react';
 
 const Dress = (props: SVGAttributes<SVGElement>) => {
 	return (

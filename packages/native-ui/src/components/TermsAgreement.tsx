@@ -1,5 +1,5 @@
-import { ReactNode } from 'react';
-import CheckBox, { CheckBoxProps } from './CheckBox';
+import { type ReactNode } from 'react';
+import CheckBox, { type CheckBoxProps } from './CheckBox';
 import FlexBox from './FlexBox';
 import Label from './Label';
 

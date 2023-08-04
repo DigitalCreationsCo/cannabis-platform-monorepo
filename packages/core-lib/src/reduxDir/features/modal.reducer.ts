@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import {
-	AnyAction,
 	createAsyncThunk,
 	createSlice,
-	Dispatch,
+	type AnyAction,
+	type Dispatch,
 } from '@reduxjs/toolkit';
 
-import { AppState, ThunkArgumentsType } from '../types/reduxTypes';
+import { type AppState, type ThunkArgumentsType } from '../types/reduxTypes';
 
 // export type ThunkDispatch = TDispatch<void, {store: Store}, Action<any>>
 // export type AsyncThunkPayloadCreatorType = AsyncThunkPayloadCreator<void, {}, {dispatch: Dispatch<AnyAction>; extra: {store:Store }}>
@@ -15,7 +16,7 @@ import { AppState, ThunkArgumentsType } from '../types/reduxTypes';
 
 const launchConfirmModal = createAsyncThunk<
 	boolean,
-	modalActionPayload,
+	ModalActionPayload,
 	{ dispatch: Dispatch<AnyAction>; extra: ThunkArgumentsType }
 >('modal/confirmModal', async (modalProps, { dispatch, extra }) => {
 	const store = extra.store;
@@ -37,7 +38,7 @@ const launchConfirmModal = createAsyncThunk<
 
 const launchSelectModalLocationType = createAsyncThunk<
 	boolean,
-	modalActionPayload,
+	ModalActionPayload,
 	{ dispatch: Dispatch<AnyAction>; extra: ThunkArgumentsType }
 >('modal/selectModalLocationType', async (modalProps, { dispatch, extra }) => {
 	const store = extra.store;
@@ -59,7 +60,7 @@ const launchSelectModalLocationType = createAsyncThunk<
 
 const launchTipModal = createAsyncThunk<
 	boolean,
-	modalActionPayload,
+	ModalActionPayload,
 	{ dispatch: Dispatch<AnyAction>; extra: ThunkArgumentsType }
 >('modal/launchTipModal', async (modalProps, { dispatch, extra }) => {
 	dispatch(modalActions.openModal(modalProps));
@@ -111,7 +112,7 @@ const initialState: ModalStateProps = {
 	errorMessage: '',
 };
 
-export type modalActionPayload = {
+export type ModalActionPayload = {
 	modalType: ModalType;
 	modalText?: string;
 };
@@ -120,7 +121,7 @@ const modalSlice = createSlice({
 	name: 'modal',
 	initialState,
 	reducers: {
-		openModal: (state, { payload }: { payload: modalActionPayload }) => {
+		openModal: (state, { payload }: { payload: ModalActionPayload }) => {
 			console.info('modaltype: ', payload.modalType);
 			console.info('modalText: ', payload.modalText);
 			state.modalType = payload.modalType || state.modalType;
@@ -151,22 +152,19 @@ const modalSlice = createSlice({
 		},
 	},
 	extraReducers: (builder) => {
-		builder.addCase(launchConfirmModal.fulfilled, (state, { payload }) => {
+		builder.addCase(launchConfirmModal.fulfilled, (_, { payload }) => {
 			console.info('confirm modal payload: ', payload);
 		}),
-			builder.addCase(launchConfirmModal.pending, (state) => {}),
-			builder.addCase(launchConfirmModal.rejected, (state) => {}),
-			builder.addCase(
-				launchSelectModalLocationType.fulfilled,
-				(state, { payload }) => {},
-			),
-			builder.addCase(launchSelectModalLocationType.pending, (state) => {}),
-			builder.addCase(launchSelectModalLocationType.rejected, (state) => {}),
-			builder.addCase(launchTipModal.fulfilled, (state, { payload }) => {
+			builder.addCase(launchConfirmModal.pending, () => {}),
+			builder.addCase(launchConfirmModal.rejected, () => {}),
+			builder.addCase(launchSelectModalLocationType.fulfilled, () => {}),
+			builder.addCase(launchSelectModalLocationType.pending, () => {}),
+			builder.addCase(launchSelectModalLocationType.rejected, () => {}),
+			builder.addCase(launchTipModal.fulfilled, (_, { payload }) => {
 				console.info('tip modal payload: ', payload);
 			}),
-			builder.addCase(launchTipModal.pending, (state) => {}),
-			builder.addCase(launchTipModal.rejected, (state) => {});
+			builder.addCase(launchTipModal.pending, () => {}),
+			builder.addCase(launchTipModal.rejected, () => {});
 	},
 });
 

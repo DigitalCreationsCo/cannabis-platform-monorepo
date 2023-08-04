@@ -1,17 +1,17 @@
 import { createId } from '@paralleldrive/cuid2';
 import {
-	CategoryList,
-	Coordinates,
-	ImageOrganization,
-	Organization,
-	Prisma,
-	Schedule,
-	SubDomain,
-	Vendor,
+	type CategoryList,
+	type Coordinates,
+	type ImageOrganization,
+	type Organization,
+	type Prisma,
+	type Schedule,
+	type SubDomain,
+	type Vendor,
 } from '@prisma/client';
-import { AddressCreateType, AddressWithCoordinates } from './address';
+import { type AddressCreateType, type AddressWithCoordinates } from './address';
 import prisma from './db/prisma';
-import { ProductWithShopDetails } from './product';
+import { type ProductWithShopDetails } from './product';
 /*
  *   updateOrganization
  *   createOrganization
@@ -35,7 +35,7 @@ export async function updateOrganization(organization: OrganizationCreateType) {
 		organization.subdomainId =
 			organization.subdomainId || organization.name.toLowerCase();
 
-		const updateOrganization = await prisma.organization.update({
+		return await prisma.organization.update({
 			where: { id: organization.id },
 			data: {
 				name: organization.name,
@@ -98,8 +98,6 @@ export async function updateOrganization(organization: OrganizationCreateType) {
 				vendor: true,
 			},
 		});
-
-		return updateOrganization;
 	} catch (error: any) {
 		console.error('updateOrganization error: ', error);
 		throw new Error(error.message);
@@ -118,7 +116,7 @@ export async function createOrganization(organization: OrganizationCreateType) {
 		const { address, subdomainId, schedule } = organization;
 
 		console.info('creating organization');
-		const createOrganization = await prisma.organization.create({
+		return await prisma.organization.create({
 			data: {
 				name: organization.name,
 				dialCode: organization.dialCode,
@@ -185,8 +183,6 @@ export async function createOrganization(organization: OrganizationCreateType) {
 				// add default site settings
 			},
 		});
-
-		return createOrganization;
 	} catch (error: any) {
 		console.error('createOrganization error: ', error.message);
 		console.log('code: ', error.code);
@@ -201,11 +197,9 @@ export async function createOrganization(organization: OrganizationCreateType) {
  */
 export async function deleteOrganizationById(id: string) {
 	try {
-		const deleted = await prisma.organization.delete({
+		return await prisma.organization.delete({
 			where: { id },
 		});
-
-		return deleted;
 	} catch (error: any) {
 		console.error('delete organization error: ', error);
 		throw new Error(error.message);
@@ -245,7 +239,7 @@ export async function findOrganizationById(organizationId: string) {
  */
 export async function findUsersByOrganization(organizationId: string) {
 	try {
-		const users =
+		return (
 			(await prisma.user.findMany({
 				orderBy: {
 					id: 'desc',
@@ -265,8 +259,8 @@ export async function findUsersByOrganization(organizationId: string) {
 					},
 					profilePicture: true,
 				},
-			})) || [];
-		return users;
+			})) || []
+		);
 	} catch (error: any) {
 		console.error(error);
 		throw new Error(error);
@@ -404,11 +398,10 @@ export async function updateStripeAccountDispensary(
 	accountParams = {},
 ) {
 	try {
-		const update = await prisma.organization.update({
+		return await prisma.organization.update({
 			where: { id },
 			data: { stripeAccountId, ...accountParams },
 		});
-		return update;
 	} catch (error: any) {
 		console.error(error);
 		throw new Error(error);

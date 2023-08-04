@@ -15,7 +15,7 @@ const CheckAge = ({
 	redirect?: string;
 }) => {
 	const router = useRouter();
-	const [cookies, setCookie] = useCookies(['yesOver21']);
+	const [, setCookie] = useCookies(['yesOver21']);
 
 	const [yesOver21, setYesOver21] = useState(false);
 	const toggleOver21 = () => setYesOver21(!yesOver21);

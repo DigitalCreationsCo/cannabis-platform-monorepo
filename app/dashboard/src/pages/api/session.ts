@@ -1,8 +1,8 @@
 import { urlBuilder } from '@cd/core-lib';
 import axios from 'axios';
-import { ExtendRequest } from 'middleware';
-import { NextApiResponse } from 'next';
+import { type NextApiResponse } from 'next';
 import nc from 'next-connect';
+import { type ExtendRequest } from '../../middleware';
 
 const handler = nc();
 

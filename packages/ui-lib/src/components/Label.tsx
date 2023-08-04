@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react';
+import { type PropsWithChildren } from 'react';
 
 function Label({ children }: PropsWithChildren) {
 	return <label>{children}</label>;

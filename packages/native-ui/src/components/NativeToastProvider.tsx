@@ -1,11 +1,11 @@
-import { useEffect } from 'react';
-// import toast, { Toaster, useToasterStore } from "react-hot-toast";
 import {
 	toast,
 	Toasts,
 	useToaster,
 	useToasterStore,
 } from '@backpackapp-io/react-native-toast';
+import { useEffect } from 'react';
+// import toast, { Toaster, useToasterStore } from "react-hot-toast";
 import { View } from 'react-native';
 import { Paragraph } from '../components/Typography';
 
@@ -31,11 +31,12 @@ const NativeToastProvider = () => {
 			.filter((t) => t.visible)
 			.filter((_, i) => i >= TOAST_LIMIT)
 			.filter((t) => toast.dismiss(t.id))
-			.forEach((t) =>
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
+			.forEach((t: any) =>
 				toast('', {
 					customToast: (toast) => (
 						<View className="bg-primary">
-							<Paragraph>{toast.message as any}</Paragraph>
+							<Paragraph>{toast.message as string}</Paragraph>
 						</View>
 					),
 				}),

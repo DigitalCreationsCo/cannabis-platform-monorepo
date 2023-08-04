@@ -1,4 +1,4 @@
-import { Path, Svg, SvgProps } from 'react-native-svg';
+import { Path, Svg, type SvgProps } from 'react-native-svg';
 
 const SearchIcon = (props: SvgProps & { size: number }) => {
 	props.width = props.size || 24;

@@ -11,7 +11,7 @@ import prisma from './db/prisma';
 
 export async function findSessionByHandle(sessionHandle: string) {
 	try {
-		const data = await prisma.session.findUnique({
+		return await prisma.session.findUnique({
 			where: {
 				sessionHandle,
 			},
@@ -19,7 +19,6 @@ export async function findSessionByHandle(sessionHandle: string) {
 				user: true,
 			},
 		});
-		return data;
 	} catch (error: any) {
 		console.error(error);
 		throw new Error(error);
@@ -38,7 +37,7 @@ export async function createSession(
 			sessionPayload,
 			expires,
 		);
-		const session = await prisma.session.create({
+		return await prisma.session.create({
 			data: {
 				sessionHandle,
 				email: sessionPayload.email,
@@ -49,7 +48,6 @@ export async function createSession(
 				},
 			},
 		});
-		return session;
 	} catch (error: any) {
 		console.error(error);
 		throw new Error(error);
@@ -61,7 +59,7 @@ export async function updateExpireSession(
 	expires: number,
 ) {
 	try {
-		const data = await prisma.session.update({
+		return await prisma.session.update({
 			where: {
 				sessionHandle,
 			},
@@ -69,7 +67,6 @@ export async function updateExpireSession(
 				expires: new Date(expires),
 			},
 		});
-		return data;
 	} catch (error: any) {
 		console.error(error);
 		throw new Error(error);
@@ -78,12 +75,11 @@ export async function updateExpireSession(
 
 export async function deleteSessionByHandle(sessionHandle: string) {
 	try {
-		const data = await prisma.session.delete({
+		return await prisma.session.delete({
 			where: {
 				sessionHandle,
 			},
 		});
-		return data;
 	} catch (error: any) {
 		console.error(error);
 		throw new Error(error);

@@ -1,14 +1,18 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
-
 import {
-	OrganizationWithShopDetails,
-	ProductWithDetails,
+	type OrganizationWithShopDetails,
+	type ProductWithDetails,
 } from '@cd/data-access';
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {
+	createAsyncThunk,
+	createSlice,
+	type PayloadAction,
+} from '@reduxjs/toolkit';
 import axios from 'axios';
 import { urlBuilder } from '../../utils';
-import { AppState } from '../types/reduxTypes';
-import { LocationStateProps } from './location.reducer';
+import { type AppState } from '../types/reduxTypes';
+import { type LocationStateProps } from './location.reducer';
 
 export const getInitialDispensaries = createAsyncThunk(
 	'shop/getInitialDispensaries',
@@ -20,8 +24,7 @@ export const getInitialDispensaries = createAsyncThunk(
 				urlBuilder.main.organizationsByZipCode(21037, 4, radius),
 				{
 					headers: {
-						Accept: 'application/json',
-						'Content-Type': 'application/json',
+						...applicationHeaders,
 					},
 				},
 			);
@@ -54,8 +57,7 @@ export const getDispensariesLocal = createAsyncThunk<
 			},
 			{
 				headers: {
-					Accept: 'application/json',
-					'Content-Type': 'application/json',
+					...applicationHeaders,
 				},
 			},
 		);
@@ -144,8 +146,7 @@ export const getProductsFromLocal = createAsyncThunk<
 			},
 			{
 				headers: {
-					Accept: 'application/json',
-					'Content-Type': 'application/json',
+					...applicationHeaders,
 				},
 			},
 		);
@@ -369,13 +370,3 @@ export const shopActions = {
 export const shopReducer = shopSlice.reducer;
 
 export const selectShopState = (state: AppState) => state.shop;
-
-function reconcileStateNoDuplicates<T>(state: T[], payload: T[]) {
-	let s = state;
-	payload.forEach((item) => {
-		const index = s.findIndex((i) => i.id === item.id);
-		if (index === -1) s = [...s, item];
-		else s[index] = item;
-	});
-	return s;
-}

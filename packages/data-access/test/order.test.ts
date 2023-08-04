@@ -2,6 +2,7 @@ import { OrderStatus } from '@prisma/client';
 // import { updateOrderWithOrderItems } from '../src/order';
 
 test('update an order with the given values', async () => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const order = {
 		id: '3',
 		total: 12399,
