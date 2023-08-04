@@ -8,6 +8,8 @@ include:
   - MODULE:
       - app/shop
       - app/dashboard
+      # WIDGET MODULE NAME IS CONFLICTION WITH BUILD_TYPE, BUILD_CONTEXT, PORT VARIABLES. 
+      # THE BEST SOLUTION IS TO USE DOCKER BUILDX BAKE. THE NEXT BEST IS TO CLEAN UP THE ARGUMENTS, OR WRITE EXCEPTION RULES FOR THIS MODULE.
       - app/checkout-widget
       - server/main
       - server/location
