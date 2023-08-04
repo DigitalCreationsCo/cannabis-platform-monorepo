@@ -130,9 +130,12 @@ Loginmodal mobile view fix,
 seed production database
 7-18-2023
 resolved: OTP in production does not work for new user
-
+8-3-2023
+gitlab cicd module build
+kubernetes agent, deploy job test
 
 TO DO:::          Priority: *** most, ** less, * least
+MOVE SUPERTOKENS SERVICE VARS TO DOCKERFILE, ADD SECRETS TO CICD ENV
 
 EXTERNAL NETWORK LOAD BALANCER:
 Configure to use all zonal NEGS. Read _dev_notes/kubernetes/backendXLBHTTPUseRegionNEGs.txt
