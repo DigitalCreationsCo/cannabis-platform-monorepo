@@ -29,7 +29,7 @@ function CheckBox({
 	return (
 		// <div
 		<button
-			onClick={() => onChange()}
+			onClick={onChange as any}
 			className={twMerge(styles.checkboxContainer, className)}
 		>
 			<input

@@ -11,7 +11,7 @@ import {
 import axios from 'axios';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 import * as yup from 'yup';
 
 function ProvideDispensaryKey() {
@@ -23,7 +23,7 @@ function ProvideDispensaryKey() {
 			resetFormValues();
 		};
 		createNewFormContext();
-	}, []);
+	}, [resetFormValues]);
 
 	const [loadingButton, setLoadingButton] = useState(false);
 
@@ -36,7 +36,7 @@ function ProvideDispensaryKey() {
 			const response = await axios(
 				urlBuilder.dashboard + `/api/organization/${dispensaryKey}`,
 			);
-			if (response.data.success == false)
+			if (response.data.success == 'false')
 				throw new Error(response.data.message);
 			setFormValues({ organization: { ...response.data.payload } });
 		} catch (error: any) {
@@ -80,7 +80,7 @@ function ProvideDispensaryKey() {
 
 	return (
 		<form onSubmit={handleSubmit}>
-			<Grid className="min-h-[320px] w-full items-center justify-center flex flex-col text-center space-y-4">
+			<Grid className="flex min-h-[320px] w-full flex-col items-center justify-center space-y-4 text-center">
 				<H2>Welcome to Gras</H2>
 
 				<H5 className="pt-4">{TextContent.account.DISPENSARY_JOINING}</H5>

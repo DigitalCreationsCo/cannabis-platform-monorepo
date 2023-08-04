@@ -1,8 +1,8 @@
 import { urlBuilder } from '@cd/core-lib';
-import { ImageProduct } from '@cd/data-access';
+import { type ImageProduct } from '@cd/data-access';
 import axios from 'axios';
 // import { authMiddleware, healthCheckMiddleware } from 'middleware';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { type NextApiRequest, type NextApiResponse } from 'next';
 import nc from 'next-connect';
 
 // const form = formidable({ multiples: true })

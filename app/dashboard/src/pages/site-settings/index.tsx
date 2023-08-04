@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // import SettingsIcon from "@mui/icons-material/Settings";
 // import { TabContext, TabList, TabPanel } from "@mui/lab";
 // import { Box, styled, Tab } from "@mui/material";

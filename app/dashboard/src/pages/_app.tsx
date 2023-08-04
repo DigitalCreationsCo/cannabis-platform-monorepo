@@ -28,7 +28,8 @@ type CustomAppProps = AppProps & {
 
 function App({ Component, ...rest }: CustomAppProps) {
 	const { store, props } = wrapper.useWrappedStore(rest);
-
+	// @ts-ignore
+	const persistor = store._persistor;
 	const [routerLoading, setRouterLoading] = useState(true),
 		router = useRouter();
 
@@ -67,7 +68,7 @@ function App({ Component, ...rest }: CustomAppProps) {
 			</Head>
 			<SuperTokensWrapper>
 				<ReduxProvider store={store}>
-					<PersistGate persistor={store._persistor} loading={<LoadingPage />}>
+					<PersistGate persistor={persistor} loading={<LoadingPage />}>
 						<ModalProvider />
 						<ToastProvider />
 						<LayoutContainer {...getLayoutContext()}>

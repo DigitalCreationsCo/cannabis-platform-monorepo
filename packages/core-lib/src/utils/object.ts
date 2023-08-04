@@ -48,9 +48,11 @@ export function dateToString(doc: any) {
  * @param payload Array
  * @returns Array
  */
+
 export function reconcileStateArray<T>(state: T[], payload: T[]) {
 	let s = state;
 	payload.forEach((item) => {
+		// @ts-ignore
 		const index = s.findIndex((i) => i.id === item.id);
 		if (index === -1) s = [...s, item];
 		else s[index] = item;

@@ -12,7 +12,7 @@ import {
 import axios from 'axios';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 import * as yup from 'yup';
 
 function ProvideStripeAccountId() {
@@ -31,7 +31,7 @@ function ProvideStripeAccountId() {
 		stripeAccountId: '',
 	};
 
-	const onSubmit = async (values: typeof initialValues) => {
+	const onSubmit = async () => {
 		try {
 			setLoadingButton(true);
 
@@ -48,7 +48,7 @@ function ProvideStripeAccountId() {
 
 	async function connectStripeAccountToDispensary() {
 		try {
-			let organization = formValues?.organization;
+			const organization = formValues?.organization;
 
 			if (!organization) throw new Error('Dispensary is not found.');
 
@@ -93,7 +93,7 @@ function ProvideStripeAccountId() {
 		try {
 			setLoadingButton2(true);
 
-			let organization = formValues?.organization;
+			const organization = formValues?.organization;
 
 			if (!organization) throw new Error('Dispensary is not found.'); // should never happen
 
@@ -123,7 +123,7 @@ function ProvideStripeAccountId() {
 			if (response.status !== 201)
 				throw new Error('Error creating stripe account.');
 
-			let { stripeAccountId } = response.data;
+			const { stripeAccountId } = response.data;
 			setFormValues({ organization: { stripeAccountId } });
 
 			setLoadingButton2(false);
@@ -165,7 +165,7 @@ function ProvideStripeAccountId() {
 
 	return (
 		<form onSubmit={handleSubmit}>
-			<Grid className="h-[320px] max-w-[525px] mx-auto items-center justify-center flex flex-col space-y-4">
+			<Grid className="mx-auto flex h-[320px] max-w-[525px] flex-col items-center justify-center space-y-4">
 				<FlexBox>
 					<H3>Connect your stripe account</H3>
 					<Small>

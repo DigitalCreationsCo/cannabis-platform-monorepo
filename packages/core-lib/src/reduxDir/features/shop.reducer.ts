@@ -14,11 +14,6 @@ import { urlBuilder } from '../../utils';
 import { type AppState } from '../types/reduxTypes';
 import { type LocationStateProps } from './location.reducer';
 
-const applicationHeaders = {
-	Accept: 'application/json',
-	'Content-Type': 'application/json',
-};
-
 export const getInitialDispensaries = createAsyncThunk(
 	'shop/getInitialDispensaries',
 	async (_, { getState, rejectWithValue }) => {

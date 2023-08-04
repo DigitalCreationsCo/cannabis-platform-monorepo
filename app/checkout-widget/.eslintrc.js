@@ -6,7 +6,7 @@ module.exports = {
 		tsconfigRootDir: __dirname,
 		project: 'tsconfig.json',
 	},
-	ignorePatterns: [...getDefaultIgnorePatterns()],
+	ignorePatterns: [...getDefaultIgnorePatterns(), '**/*.css'],
 	extends: [
 		'@cd/eslint-config/src/bases/typescript',
 		'@cd/eslint-config/src/bases/regexp',
