@@ -2,7 +2,7 @@
 include:
   - .gitlab/ci/cache.gitlab-ci.yml
   - .gitlab/ci/module.gitlab-ci.yml
-  # - .gitlab/ci/deploy.gitlab-ci.yml
+  - .gitlab/ci/deploy.gitlab-ci.yml
 
 .modules:
   - MODULE:
@@ -23,18 +23,34 @@ stages:
   # - tag # Future TODO: Add Semantic Versioning to Images
   # https://github.com/semantic-release/semantic-release
 
-  - release
+  # - release
   - deploy
 
 build:
+  stage: build
   extends: .module_build
   parallel:
     matrix: !reference [.modules]
   rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  # MR: BUILD IMAGE, DON'T PUSH TO REGISTRY.
+  # CACHE IT FOR THE MERGE COMMIT.
+  # PUSH TO REGISTRY IN THE COMMIT PIPELINE
+    # - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       changes:
         - node_modules
         - ${MODULE}/**/*
+      # ^THESE PATHS ARE CORRECT TO TRIGGER THE JOB.
+      # THE ISSUE HERE IS THE NODE_MODULES ARE NOT PRESENT IF THE CACHE DID NOT TRIGGER.
+      # SO IT BRANCHES THIS WAY:
+      # 1. CHANGE IS DETECTED IF THE CACHE RUNS, WHETHER THE MODULES ARE CHANGED OR NOT.
+      # 2. THE JOB ONLY RUNS IF THE CACHE IS DIFFERENT, AND I DONT KNOW HOW THE CACHE IS TRIGGERED.
+      # changes resolves to true if any of the matching files are changed (an OR operation).
+
+      # ^ONE OTHER PROBLEM WITH THIS SETUP IS THE NODE_MODULES IS ALL DEPENDENCIES, AND MAY NOT INCLUDE
+      # DEPENDENCIES OF A MODULE. SO MODULES WILL BE POSSIBLY BE BUILT WITH NO DEPENDENCY CHANGE, OR MODULE CHANGE.
+      # ONE SOLUTION IS TO WATCH CHANGES FOR NODE_MODULES HERE, AND RUN A SCRIPT IN THE EXTENDED JOB.
+
 # tag:
 #   extends: .module_tag_version
 #   parallel:
@@ -55,15 +71,15 @@ build:
 #     # - if: $CI_COMMIT_TAG =~ /^$IMAGE-v[0-9]+\.[0-9]+\.[0-9]+$/
 #     - if: $CI_COMMIT_TAG =~ /.+-v[0-9]+\.[0-9]+\.[0-9]+$/
 
-# deploy:
-#   extends: .module_deploy
-#   parallel:
-#     matrix: !reference [.modules]
-#   rules:
-#     # is production branch
-#     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-#       changes:
-#         - ${MODULE}/**/*
+deploy:
+  extends: .module_deploy
+  parallel:
+    matrix: !reference [.modules]
+  rules:
+    # is production branch
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      changes:
+        - ${MODULE}/**/*
 # ========================================
 # optimized CI for module builds
 # such as each module job can run depending on changes of the module path, and the node_modules dependencies
