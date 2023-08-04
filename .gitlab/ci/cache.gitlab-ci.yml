@@ -1,35 +1,30 @@
 ---
+# Cache
 # adopt these good caching practices: https://docs.gitlab.com/ee/ci/caching/#good-caching-practices
 # and these! https://medium.com/disdj/speed-up-npm-yarn-install-in-gitlab-1434437f9857
-# Cache
-cache:
-  key:
-    files:
-      - yarn.lock
-  paths:
-    - '.yarn/cache/'
-    - 'node_modules/'
-    - '**/node_modules/'
-  policy: pull
+default:
+  cache: &yarn_cache
+    key:
+      files:
+        - yarn.lock
+        - package.json
+    paths:
+      - .yarn/
+    policy: pull
 
 .build_cache:
   stage: cache
   image: node:16
   cache:
-    key:
-      files:
-        - yarn.lock
-    paths:
-      - '.yarn/cache/'
-      - 'node_modules/'
-      - '**/node_modules/'
+    <<: *yarn_cache
     policy: push
+  artifacts:
+    expire_in: 1h
+    paths:
+      - '.yarn/'
   script: |
     echo -e "\033[0;34m## Building dependencies cache.. ##\033[0m"
     yarn --immutable
-  only:
-    changes:
-      - yarn.lock
   retry:
     max: 2
     when:
@@ -43,3 +38,16 @@ build-cache:
     refs:
       - production
       - merge_requests
+# ^UNDERSTAND AND IMPROVE THIS CACHE PROCESS SOON!
+# read: https://dev.to/drakulavich/gitlab-ci-cache-and-artifacts-explained-by-example-2opi
+# QUESTION: WHEN ARE THE OPTIMAL TIMES TO BUILD THE CACHE?
+# WHEN IS IT NOT DESIRABLE TO BUILD THE CACHE?
+
+# I NEED NODE_MODULES DURING DOCKER BUILDS, SO FIGURE OUT A WAY TO ARTIFACT THE DEPENDENCIES INTO DOCKER BUILDS.
+# HERE IS THE IDEAL CACHE PROCESS:
+# 1. CACHE JOB RUNS: 
+# DOWNLOAD AND INSTALL DEPENDENCIES FROM A CACHE.
+# IF THE CACHE IS STALE, BUILD THE CACHE AGAIN FROM SOURCE.
+# 2. CREATE AN ARTIFACT VOLUME FROM THE CACHE DURING THE JOB.
+# 3. MOUNT THE VOLUME IN DOCKER BUILD, OR IDEALLY AS A BASE IMAGE IN THE DOCKER BUILD.
+# IDEALLY, PUSH THE IMAGE IN DOCKER REGISTRY, SO ITS AVAILABLE OUTSIDE OF GITLAB AS WELL.

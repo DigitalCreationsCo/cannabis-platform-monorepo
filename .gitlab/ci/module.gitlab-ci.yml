@@ -18,7 +18,7 @@
     - apk --no-cache add git
     - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin "${CI_REGISTRY}"
   script: |
-    echo -e "\033[0;34m## Building ${MODULE} module ##\033[0m"
+    echo -e "\033[0;34m## Building module ${MODULE} ##\033[0m"
 
     # Check if module name was set
     if [ -n "${MODULE}" ]; then

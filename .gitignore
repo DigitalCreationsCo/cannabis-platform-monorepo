@@ -181,7 +181,7 @@ network_closure.sh
 /third_party/protoc*
 
 # User cluster configs
-.kube
+.kube/
 
 .tags*
 

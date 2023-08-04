@@ -7,6 +7,6 @@ resource "null_resource" "gloo" {
   provisioner "local-exec" {
     # Update your local gcloud and kubectl credentials for the newly created cluster
     # then run this command to install Gloo Edge
-    command = "./scripts/install-gloo.sh"
+    command = "./scripts/gloo/install-gloo.sh"
   }
 }
