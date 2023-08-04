@@ -71,4 +71,9 @@ instance.interceptors.response.use(
 	},
 );
 
-export { instance as axios };
+const applicationHeaders = {
+	Accept: 'application/json',
+	'Content-Type': 'application/json',
+};
+
+export { instance as axios, applicationHeaders };

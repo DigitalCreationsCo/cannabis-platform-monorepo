@@ -1,6 +1,5 @@
-import { urlBuilder } from '@cd/core-lib';
+import { applicationHeaders, axios, urlBuilder } from '@cd/core-lib';
 import { type UserCreateType } from '@cd/data-access';
-import axios from 'axios';
 import { type NextApiRequest, type NextApiResponse } from 'next';
 import nc from 'next-connect';
 
@@ -44,8 +43,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 			urlBuilder.main.admin(),
 			{ user, role, dispensaryId },
 			{
-				headers: { 'Content-Type': 'application/json' },
-				validateStatus: (status) => true,
+				headers: { ...applicationHeaders },
 			},
 		);
 

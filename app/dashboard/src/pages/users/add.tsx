@@ -60,7 +60,7 @@ export default function AddUser() {
                                                                 onChange={handleChange}
                                                             /> */}
 				</Row>
-				<FlexBox className="justify-center py-2 items-stretch">
+				<FlexBox className="items-stretch justify-center py-2">
 					<Button className="flex grow">Save User</Button>
 				</FlexBox>
 			</Grid>

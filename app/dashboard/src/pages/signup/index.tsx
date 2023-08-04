@@ -5,7 +5,7 @@ import {
 	Grid,
 	H1,
 	H4,
-	LayoutContextProps,
+	type LayoutContextProps,
 	Padding,
 	Page,
 	Paragraph,
@@ -19,7 +19,7 @@ function SignUpStart() {
 			<Grid>
 				<Padding>
 					<Center>
-						<H1 className="text-center text-primary whitespace-pre-line font-display">
+						<H1 className="text-primary font-display whitespace-pre-line text-center">
 							Welcome to Gras
 						</H1>
 						<Padding>
@@ -45,7 +45,7 @@ function SignUpStart() {
 									size="lg"
 									bg="primary"
 									transparent
-									className="p-4 hover:bg-primary-light"
+									className="hover:bg-primary-light p-4"
 								>
 									<Paragraph color="light">
 										{`Create a dispensary account`}

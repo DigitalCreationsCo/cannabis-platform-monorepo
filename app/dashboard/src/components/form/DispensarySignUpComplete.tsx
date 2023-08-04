@@ -1,5 +1,5 @@
 import { renderAddress } from '@cd/core-lib';
-import { Address } from '@cd/data-access';
+import { type Address } from '@cd/data-access';
 import {
 	Center,
 	FlexBox,
@@ -25,16 +25,16 @@ function DispensarySignUpComplete() {
 			resetFormValues();
 			setCanProceed(false);
 		},
-		[],
+		[resetFormValues, setCanProceed],
 	);
 	return (
 		<div>
 			<Confetti
-				className="w-full h-full"
+				className="h-full w-full"
 				numberOfPieces={420}
 				recycle={false}
 			/>
-			<Grid className="max-w-[525px] mx-auto pt-20 md:pt-8 space-y-2">
+			<Grid className="mx-auto max-w-[525px] space-y-2 pt-20 md:pt-8">
 				<FlexBox className="flex-row justify-between">
 					<H2 className="whitespace-normal">
 						Congratulations, you created a Dispensary Account with Gras.
@@ -53,7 +53,7 @@ function DispensarySignUpComplete() {
 					/>
 				</FlexBox>
 				<Center>
-					<H4 className="py-4 cursor-default">What's next?</H4>
+					<H4 className="cursor-default py-4">What's next?</H4>
 					<Paragraph className="m-auto text-left">
 						You're now ready to receive delivery orders to{' '}
 						{(name && <b>{name}</b>) || ' your business'}

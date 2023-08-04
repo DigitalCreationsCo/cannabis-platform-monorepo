@@ -1,7 +1,7 @@
 import {
 	FormCard,
 	FormStepProvider,
-	LayoutContextProps,
+	type LayoutContextProps,
 	Page,
 } from '@cd/ui-lib';
 import Head from 'next/head';
