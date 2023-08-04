@@ -1,5 +1,5 @@
 import FlexBox from '../FlexBox';
-import Modal, { ModalProps } from './Modal';
+import Modal, { type ModalProps } from './Modal';
 
 function AddProduct({ children, ...props }: ModalProps) {
 	return (

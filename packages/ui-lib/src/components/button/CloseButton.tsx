@@ -1,5 +1,5 @@
-import { CarbonIconType } from '@carbon/icons-react';
-import { SVGAttributes } from 'react';
+import { type CarbonIconType } from '@carbon/icons-react';
+import { type SVGAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
 import Icons from '../../icons';
 import IconButton from './IconButton';

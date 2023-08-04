@@ -1,4 +1,5 @@
-import React, { PropsWithChildren, useState } from 'react';
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import React, { useState, type PropsWithChildren } from 'react';
 // import { layoutConstant } from 'utils/constants';
 // import { useModal } from '@cd/shared-lib';
 import { twMerge } from 'tailwind-merge';
@@ -19,7 +20,7 @@ function SideNavContainer({
 	drawerComponentId,
 	children,
 }: SideNavContainerProps) {
-	const [isFixed, setIsFixed] = useState<boolean>(false);
+	const [isFixed] = useState<boolean>(false);
 
 	// dont mess with these styles unless youre prepared for pain
 	const classes = {

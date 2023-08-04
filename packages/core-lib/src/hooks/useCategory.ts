@@ -1,7 +1,7 @@
-import { Category } from '@cd/data-access';
+import { type Category } from '@cd/data-access';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 import { debounce } from '../utils';
 
 // what data is needed from this hook module?

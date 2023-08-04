@@ -36,7 +36,7 @@ function Price({
 	// discount is a flat number representing percentage off
 	function computeSalePrice() {
 		let _salePrice: number;
-		let _discount = discount;
+		const _discount = discount;
 		if (salePrice) {
 			_salePrice = salePrice * quantity;
 		} else {

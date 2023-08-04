@@ -13,9 +13,7 @@ function useHashNavigate(formId: string): HashNavigateProps {
 	// notes:
 	// formstep is defined in a weird way, there is no upper limit, so control the exit flow in your forms, so they dont' break.
 
-	const [cookies, setCookie, removeCookie] = useCookies([
-		`form-step-${formId}-proceed`,
-	]);
+	const [cookies, setCookie] = useCookies([`form-step-${formId}-proceed`]);
 	const [canProceed, setProceed] = useState<boolean>(
 		cookies[`form-step-${formId}-proceed`],
 	);
@@ -29,9 +27,9 @@ function useHashNavigate(formId: string): HashNavigateProps {
 
 	useEffect(() => {
 		setCookie(`form-step-${formId}-proceed`, JSON.stringify(canProceed));
-		window.addEventListener('hashchange', (event) => {
+		window.addEventListener('hashchange', () => {
 			if (canProceed === true) {
-				let step = window.location.hash.split('=')[1];
+				const step = window.location.hash.split('=')[1];
 				setFormstep(Number(step) - 1);
 			}
 		});

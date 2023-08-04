@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /// @ts-nocheck
 
 import { modalReducer, userReducer } from '@cd/core-lib';
@@ -39,14 +40,9 @@ const rootReducer = combineReducers({
 });
 
 const hydratableReducer = (state: RootState, action: AnyAction) => {
-	if (action.type === HYDRATE) {
+	if (action.type === HYDRATE || action.type === 'REHYDRATE') {
 		return {
 			...state, // use previous state
-			// ...action.payload // apply delta from hydration
-		};
-	} else if (action.type === REHYDRATE) {
-		return {
-			...state,
 			// ...action.payload // apply delta from hydration
 		};
 	} else {

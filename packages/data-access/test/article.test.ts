@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { findAddressById } from '../src/address';
 
 test('add address with userId', async () => {

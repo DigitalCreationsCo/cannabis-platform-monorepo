@@ -29,7 +29,7 @@ import { useFormik } from 'formik';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 import * as yup from 'yup';
 
 // Will need to test admin level privelege for some api routes, like users/[id]
@@ -45,6 +45,7 @@ import * as yup from 'yup';
 // check admin privelege for these modals
 // create update record api route
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export default function UserDetails({ user }: { user: UserWithDetails }) {
 	const initialValues = {
 		id: user?.id || '',
@@ -87,9 +88,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
 	});
 	const [files, setFiles] = useState<unknown[]>([]);
 	const [loadingButton, setLoadingButton] = useState(false);
-	const [existingImage, setExistingImage] = useState<ImageUser | null>(
-		user?.profilePicture,
-	);
+	const [, setExistingImage] = useState<ImageUser | null>(user?.profilePicture);
 	const [deletedImage, setDeletedImage] = useState<ImageUser[]>([]);
 
 	const [address, setAddress] = useState<Address[]>(values.address || []);
@@ -99,7 +98,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
 	const handleAddressUpdate = (event: any, fieldName: any) =>
 		setAddressUpdate((prev: any) => ({
 			...prev,
-			fieldName: event.target.value,
+			[fieldName]: event.target.value,
 		}));
 	const [addressUpdateIndex, setAddressUpdateIndex] = useState<number>();
 	const [addressUpdateModal, setAddressUpdateModal] = useState(false);
@@ -164,7 +163,6 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
 	}
 
 	const handleDeleteExistingImage = (image: ImageUser) => {
-		const id = image.id;
 		setExistingImage(null);
 		setDeletedImage((state) => [...state, image]);
 	};

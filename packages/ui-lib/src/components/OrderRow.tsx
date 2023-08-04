@@ -1,5 +1,5 @@
 import { getDashboardSite } from '@cd/core-lib/src';
-import { Order } from '@cd/data-access';
+import { type Order } from '@cd/data-access';
 import { format } from 'date-fns';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';

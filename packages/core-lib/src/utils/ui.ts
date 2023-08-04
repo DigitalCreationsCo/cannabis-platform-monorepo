@@ -1,4 +1,4 @@
-import { Address } from '@cd/data-access';
+import { type Address } from '@cd/data-access';
 
 export const renderAddress = ({
 	address,
@@ -32,7 +32,7 @@ const sensitiveFields = ['password', 're_password', 'stripeAccountId'];
 
 const redactSensitiveFields = (key: string, value: string | number) => {
 	if (sensitiveFields.includes(key)) {
-		let length = value.toString().length,
+		const length = value.toString().length,
 			last4characters = value.toString().slice(-4),
 			redacted = last4characters.padStart(length, '*');
 
@@ -45,7 +45,7 @@ export const renderNestedDataObject = (
 	Component: any,
 	removeFields: any = [],
 ): any => {
-	const result = Object.keys({ ...data })
+	return Object.keys({ ...data })
 		.filter((field) => {
 			return removeFields && !removeFields.includes(field);
 		})
@@ -54,7 +54,7 @@ export const renderNestedDataObject = (
 				return renderNestedDataObject(data[key], Component, removeFields);
 			else if (Array.isArray(data[key]) && data[key].length > 0)
 				// can map
-				return data[key].map((item: Record<string, string>, index: number) =>
+				return data[key].map((item: Record<string, string>) =>
 					renderNestedDataObject(item, Component, removeFields).flat(),
 				);
 
@@ -64,14 +64,12 @@ export const renderNestedDataObject = (
 			});
 		})
 		.flat(2);
-	return result;
 };
 
 export const buildSTFormFields = (data: Record<string, any>): any => {
-	const result = Object.keys(data).map((key) => {
+	return Object.keys(data).map((key) => {
 		if (typeof data[key] === 'object' && data[key] !== null) {
 			return { id: key, value: buildSTFormFields(data[key]) };
 		} else return { id: key, value: data[key] };
 	});
-	return result;
 };

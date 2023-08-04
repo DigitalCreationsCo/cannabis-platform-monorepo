@@ -1,10 +1,14 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 
-import { DriverWithDetails, DriverWithSessionDetails } from '@cd/data-access';
+import {
+	type DriverWithDetails,
+	type DriverWithSessionDetails,
+} from '@cd/data-access';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { pruneData, urlBuilder } from '../../utils';
-import { AppState, ThunkArgumentsType } from '../types/reduxTypes';
+import { type AppState, type ThunkArgumentsType } from '../types/reduxTypes';
 
 export const updateOnlineStatus = createAsyncThunk<
 	{ success: boolean; isOnline: boolean },
@@ -14,7 +18,7 @@ export const updateOnlineStatus = createAsyncThunk<
 	try {
 		const state = (await thunkAPI.getState()) as DriverSessionState;
 
-		let id = state.driver.driver.id;
+		const id = state.driver.driver.id;
 
 		const response = await axios.post(
 			urlBuilder.main.driverUpdateStatus(),
@@ -45,6 +49,7 @@ const signOutUserAsync = createAsyncThunk<
 		// dispatch: Dispatch<AnyAction>;
 		extra: ThunkArgumentsType;
 	}
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 >('user/signOutUserAsync', async (_, { dispatch, extra, rejectWithValue }) => {
 	try {
 		const { signOut } = extra.supertokens;

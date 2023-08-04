@@ -1,4 +1,4 @@
-//Modal.tsx
+// Modal.tsx
 import React, { useRef } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { useOnClickOutside } from '../../hooks';

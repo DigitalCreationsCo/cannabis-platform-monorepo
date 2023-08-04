@@ -1,5 +1,6 @@
-import React, { PropsWithChildren } from 'react';
-import { GestureResponderEvent, TouchableOpacity } from 'react-native';
+/* eslint-disable sonarjs/cognitive-complexity */
+import React, { type PropsWithChildren } from 'react';
+import { TouchableOpacity, type GestureResponderEvent } from 'react-native';
 import { twMerge } from 'tailwind-merge';
 import Center from '../atomic/Center';
 import LoadingDots from '../LoadingDots';

@@ -1,7 +1,10 @@
-import { modalActions, ModalStateProps, selectModalState } from '@cd/core-lib';
-import { JSXElementConstructor, useMemo } from 'react';
+import {
+	modalActions,
+	selectModalState,
+	type ModalStateProps,
+} from '@cd/core-lib';
+import { useMemo, type JSXElementConstructor } from 'react';
 import { connect, useSelector } from 'react-redux';
-import CheckAgeModal from './CheckAgeModal';
 import CheckoutModal from './CheckoutModal';
 // import ConfirmModal from "./ConfirmModal";
 // import MessageBanner from "./MessageBanner";
@@ -15,7 +18,6 @@ const MODAL_COMPONENTS = Object.freeze({
 	SELECT_MODAL: () => <></>,
 	TIP_MODAL: () => <></>,
 	MESSAGE_BANNER: () => <></>,
-	CHECK_AGE_MODAL: CheckAgeModal,
 	CHECKOUT_MODAL: CheckoutModal,
 	CART_MODAL: () => <></>,
 	LOGIN_MODAL: () => <></>,

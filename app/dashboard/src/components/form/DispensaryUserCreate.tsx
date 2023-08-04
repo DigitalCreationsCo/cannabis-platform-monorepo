@@ -15,9 +15,9 @@ import axios from 'axios';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
-import { dispensaryAdminCreateTour } from 'tour/dispensaryAdminCreateTour';
+import { toast } from 'react-hot-toast';
 import * as yup from 'yup';
+import { dispensaryAdminCreateTour } from '../../tour/dispensaryAdminCreateTour';
 
 function DispensaryUserCreate() {
 	function startTour() {
@@ -97,8 +97,8 @@ function DispensaryUserCreate() {
 
 	return (
 		<form className={'content relative'} onSubmit={handleSubmit}>
-			<Grid className="max-w-[525px] mx-auto">
-				<FlexBox className="justify-between flex-row space-x-2 pr-2 md:pr-0">
+			<Grid className="mx-auto max-w-[525px]">
+				<FlexBox className="flex-row justify-between space-x-2 pr-2 md:pr-0">
 					<FlexBox>
 						<H3 id="dispensary-admin-create-step-1">
 							{`Create a Dispensary User Account.`}
@@ -250,7 +250,7 @@ function DispensaryUserCreate() {
 								target="_blank"
 								rel="noreferrer noopener"
 							>
-								<H6 className={'border-b-2 inline-block'}>
+								<H6 className={'inline-block border-b-2'}>
 									{TextContent.legal.USER_TERMS_OF_SERVICE}
 								</H6>
 								.

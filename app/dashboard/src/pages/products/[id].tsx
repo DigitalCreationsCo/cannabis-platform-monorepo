@@ -28,22 +28,23 @@ import axios from 'axios';
 import { Formik } from 'formik';
 import Image from 'next/image';
 import Link from 'next/link';
+import router from 'next/router';
 import { useRef, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { twMerge } from 'tailwind-merge';
-import * as yup from 'yup';
+// import * as yup from 'yup';
 
-const checkoutSchema = yup.object().shape({
-	name: yup.string().required('required'),
-	category: yup.array().min(1).required('required'),
-	stock: yup.number().required('required'),
-	price: yup.number().required('required'),
-	unit: yup.string().required('required'),
-	size: yup.number().required('required'),
-	currency: yup.number().required('required'),
-	basePrice: yup.number().required('required'),
-	discount: yup.number().required('required'),
-});
+// const checkoutSchema = yup.object().shape({
+// 	name: yup.string().required('required'),
+// 	category: yup.array().min(1).required('required'),
+// 	stock: yup.number().required('required'),
+// 	price: yup.number().required('required'),
+// 	unit: yup.string().required('required'),
+// 	size: yup.number().required('required'),
+// 	currency: yup.number().required('required'),
+// 	basePrice: yup.number().required('required'),
+// 	discount: yup.number().required('required'),
+// });
 
 export type ImageAny =
 	| ImageOrganization

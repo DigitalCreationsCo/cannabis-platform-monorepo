@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 
-function debounce(func: Function, timeout: number = 300) {
+// eslint-disable-next-line @typescript-eslint/ban-types
+function debounce(func: Function, timeout = 300) {
 	let timer: NodeJS.Timeout;
 	return (...args: any) => {
 		clearTimeout(timer);
@@ -14,4 +16,4 @@ function saveInput() {
 }
 const processChange = debounce(() => saveInput());
 
-export { debounce };
+export { debounce, processChange };

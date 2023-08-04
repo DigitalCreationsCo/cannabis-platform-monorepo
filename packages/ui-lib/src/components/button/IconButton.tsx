@@ -1,6 +1,6 @@
-import { PropsWithChildren } from 'react';
-import IconWrapper, { IconProps } from '../IconWrapper';
-import Button, { ButtonProps } from './Button';
+import { type PropsWithChildren } from 'react';
+import IconWrapper, { type IconProps } from '../IconWrapper';
+import Button, { type ButtonProps } from './Button';
 export interface IconButtonProps extends ButtonProps, IconProps {
 	type?: 'button' | 'submit' | 'reset';
 	onClick?: React.EventHandler<React.MouseEvent<HTMLButtonElement>>;

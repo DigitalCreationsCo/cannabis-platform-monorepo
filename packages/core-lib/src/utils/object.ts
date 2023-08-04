@@ -1,5 +1,5 @@
 export const pruneData = (data: Record<string, any>, fields: string[]) => {
-	let pruned = Object.keys(data)
+	return Object.keys(data)
 		.filter((field) => !fields.includes(field))
 		.reduce((obj, key) => {
 			return {
@@ -7,7 +7,6 @@ export const pruneData = (data: Record<string, any>, fields: string[]) => {
 				[key]: data[key],
 			};
 		}, {});
-	return pruned;
 };
 
 export const isArray = (val: any) => {
@@ -41,4 +40,22 @@ export function dateToString(doc: any) {
 		});
 	}
 	return doc;
+}
+
+/**
+ * For two arrays, reconcile the first array with duplicate or new items from the second array
+ * @param state Array
+ * @param payload Array
+ * @returns Array
+ */
+
+export function reconcileStateArray<T>(state: T[], payload: T[]) {
+	let s = state;
+	payload.forEach((item) => {
+		// @ts-ignore
+		const index = s.findIndex((i) => i.id === item.id);
+		if (index === -1) s = [...s, item];
+		else s[index] = item;
+	});
+	return s;
 }

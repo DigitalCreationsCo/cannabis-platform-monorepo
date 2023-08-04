@@ -1,5 +1,5 @@
-import { ProductVariantWithDetails } from '@cd/data-access';
-import { PropsWithChildren, useState } from 'react';
+import { type ProductVariantWithDetails } from '@cd/data-access';
+import { type PropsWithChildren, useState } from 'react';
 import { Image, TextInput, View } from 'react-native';
 import { twMerge } from 'tailwind-merge';
 import { ConfirmationModal } from './modal';

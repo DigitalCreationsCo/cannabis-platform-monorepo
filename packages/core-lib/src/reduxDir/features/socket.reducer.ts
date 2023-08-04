@@ -1,15 +1,18 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
-
-import { OrderWithDetails } from '@cd/data-access';
+import { type OrderWithDetails } from '@cd/data-access';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { AppState } from '../types/reduxTypes';
-import { IncomingOrder, SocketEventPayload } from '../types/SocketEvent';
+import { type AppState } from '../types/reduxTypes';
+import {
+	type IncomingOrder,
+	type SocketEventPayload,
+} from '../types/SocketEvent';
 
 // ACTIONS TRIGGER EVENTS IN THE SOCKET MIDDLEWARE
 
 export const testAsyncAction = createAsyncThunk(
 	'socket/testAsyncAction',
-	async (_, thunkAPI) => {
+	async () => {
 		setTimeout(() => {
 			return console.info('test-action');
 		}, 2000);
@@ -63,15 +66,15 @@ create a destination Object from vendor property,
 create a destination Object from customer property,
 return both of them, concat to routeList
  */
-export const buildDestinationRoute = (orderList) => {
-	const remainingRoute = [];
-	const createDestination = (order) => {
-		if ((order && order.customer) || (order && order.vendor)) {
-			const vendorDest = {};
-			const customerDest = {};
-		}
-	};
-};
+// export const buildDestinationRoute = (orderList) => {
+// 	const remainingRoute = [];
+// 	const createDestination = (order) => {
+// 		if ((order && order.customer) || (order && order.vendor)) {
+// 			const vendorDest = {};
+// 			const customerDest = {};
+// 		}
+// 	};
+// };
 
 // export const completeDeliveryOrder = createAsyncThunk(
 //   "socket/completeDeliveryOrder",
@@ -154,17 +157,17 @@ const socketSlice = createSlice({
 			state.incomingOrder.newOrder = null;
 			state.incomingOrder.message = null;
 		},
-		acceptOrder: (state) => {
+		acceptOrder: () => {
 			console.info('accept_order');
 		},
-		declineOrder: (state) => {
+		declineOrder: () => {
 			console.info('decline_order');
 		},
 		addOrderToDispatchOrders: (state, { payload }) => {
-			let { order } = payload;
+			const { order } = payload;
 			state.dispatchOrders.push(order);
 		},
-		pickupProducts: (state, { payload }) => {
+		pickupProducts: () => {
 			// const { orderIdList } = payload;
 		},
 		// receiveSubsequentOrder: (state, { payload }) => {
@@ -173,14 +176,14 @@ const socketSlice = createSlice({
 		//   state.incomingOrder.message = null;
 		// },
 		// beginOrder: () => {},
-		arriveToVendor: (state, { payload }) => {
-			let { vendorId } = payload;
+		arriveToVendor: (_, { payload }) => {
+			const { vendorId } = payload;
 			console.info('arrive to vendor : ', vendorId);
 			NavigationService.navigate(DeliveryScreens.PICKUP_PRODUCT_VIEW);
 		},
 		// navigateToCustomer: () => {},
-		arriveToCustomer: (state, { payload }) => {
-			let { orderId } = payload;
+		arriveToCustomer: (_, { payload }) => {
+			const { orderId } = payload;
 			console.info('arrive to customer orderId: ', orderId);
 			NavigationService.navigate(DeliveryScreens.FINALIZE_DELIVERY_VIEW);
 		},
@@ -223,7 +226,7 @@ const socketSlice = createSlice({
 		clearMessage: (state) => {
 			state.message = '';
 		},
-		testAction: (state) => {
+		testAction: () => {
 			setTimeout(() => {
 				console.info('test-action');
 			}, 2000);

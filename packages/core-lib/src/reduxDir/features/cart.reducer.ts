@@ -1,22 +1,23 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 import {
-	OrderCreate,
-	OrganizationWithShopDetails,
-	ProductVariantWithDetails,
+	type OrderCreate,
+	type OrganizationWithShopDetails,
+	type ProductVariantWithDetails,
 } from '@cd/data-access';
 import {
-	AnyAction,
 	createAsyncThunk,
 	createSlice,
-	Dispatch,
-	PayloadAction,
+	type AnyAction,
+	type Dispatch,
+	type PayloadAction,
 } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { calcSalePrice, pruneData, urlBuilder } from '../../utils';
-import { AppState, ThunkArgumentsType } from '../types/reduxTypes';
-import { LocationStateProps, LocationType } from './location.reducer';
-import { ShopStateProps } from './shop.reducer';
-import { UserStateProps } from './user.reducer';
+import { type AppState, type ThunkArgumentsType } from '../types/reduxTypes';
+import { type LocationStateProps, type LocationType } from './location.reducer';
+import { type ShopStateProps } from './shop.reducer';
+import { type UserStateProps } from './user.reducer';
 // import { NavigationService } from "../../navigation";
 // import { AppScreen, TabScreen } from "../../navigation/navigationPaths";
 // import { messageActions } from "./message";
@@ -40,7 +41,7 @@ export const addItem = createAsyncThunk<
 	ProductVariantWithDetails[],
 	ProductVariantWithDetails[],
 	{ dispatch: Dispatch<AnyAction>; extra: ThunkArgumentsType }
->('cart/addItem', async (addItem, { getState, dispatch, rejectWithValue }) => {
+>('cart/addItem', async (addItem, { getState, _, rejectWithValue }) => {
 	try {
 		const { cart } = getState() as { cart: CartStateProps };
 
@@ -458,7 +459,7 @@ const cartSlice = createSlice({
 			}
 
 			addItems.forEach((addItem) => {
-				let item = state.cart.find((item) => item.id == addItem.id);
+				const item = state.cart.find((item) => item.id == addItem.id);
 				// no item match -> add item
 				if (!item) {
 					state.cart.push(addItem);
@@ -551,11 +552,7 @@ function countTotalItems(itemList: ProductVariantWithDetails[]) {
 }
 
 function countCartSubtotal(itemList: ProductVariantWithDetails[]) {
-	const subtotal = itemList.reduce(
-		(sum, item) => sum + getItemDiscountPrice(item),
-		0,
-	);
-	return subtotal;
+	return itemList.reduce((sum, item) => sum + getItemDiscountPrice(item), 0);
 }
 
 function getItemDiscountPrice(item: ProductVariantWithDetails) {
@@ -588,7 +585,7 @@ export const cartActions = {
 export const cartReducer = cartSlice.reducer;
 
 export const selectCartState = (state: AppState) => state.cart;
-export const selectIsCartEmpty = (state: AppState): Boolean =>
+export const selectIsCartEmpty = (state: AppState): boolean =>
 	state.cart.totalItems < 1;
 
 export type SimpleCart = {

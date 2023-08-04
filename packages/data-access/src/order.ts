@@ -1,18 +1,18 @@
 import {
-	Order,
-	Organization,
-	Prisma,
-	ProductVariant,
-	Purchase,
-	User,
+	type Order,
+	type Organization,
+	type Prisma,
+	type ProductVariant,
+	type Purchase,
+	type User,
 } from '@prisma/client';
-import { AddressWithCoordinates } from './address';
+import { type AddressWithCoordinates } from './address';
 import prisma from './db/prisma';
-import { DriverWithDetails, RouteWithCoordinates } from './driver';
+import { type DriverWithDetails, type RouteWithCoordinates } from './driver';
 import {
 	connectVariantImages,
 	createProductVariantsWithoutId,
-	ProductVariantWithDetails,
+	type ProductVariantWithDetails,
 } from './variant';
 
 /*
@@ -30,13 +30,13 @@ export async function createOrder(order: any) {
 
 		await connectVariantImages(order?.items);
 
-		let {
-			coordinates,
-			userId,
-			coordinateId,
-			organizationId,
-			...destinationAddressData
-		} = order.destinationAddress;
+		// const {
+		// 	coordinates,
+		// 	userId,
+		// 	coordinateId,
+		// 	organizationId,
+		// 	...destinationAddressData
+		// } = order.destinationAddress;
 
 		const itemsConnect = () =>
 			order.items?.map((item: ProductVariantWithDetails) => ({ id: item.id }));
@@ -112,7 +112,7 @@ export async function createOrder(order: any) {
 
 export async function createPurchase(purchase: any) {
 	try {
-		const createPurchase = await prisma.purchase.upsert({
+		return await prisma.purchase.upsert({
 			where: {
 				id: purchase.id,
 			},
@@ -131,7 +131,6 @@ export async function createPurchase(purchase: any) {
 				},
 			},
 		});
-		return createPurchase;
 	} catch (error: any) {
 		console.error(error.message);
 		throw new Error(error.message);
@@ -140,12 +139,12 @@ export async function createPurchase(purchase: any) {
 
 export async function findOrdersByOrg(organizationId: string) {
 	try {
-		const order =
+		return (
 			(await prisma.order.findMany({
 				where: { organizationId },
 				orderBy: [{ updatedAt: 'desc' }],
-			})) || [];
-		return order;
+			})) || []
+		);
 	} catch (error: any) {
 		console.error(error.message);
 		throw new Error(error.message);
@@ -184,10 +183,9 @@ export async function updateOrderWithOrderItems(order: any) {
 		const updateOrderItemsOp =
 			!!order.items &&
 			order.items.map((item: ProductVariant) => {
-				let { ...rest } = item;
-				let orderId = order.id;
-				let variantId = item.id;
-				const update = prisma.productVariant.upsert({
+				const { ...rest } = item;
+				const variantId = item.id;
+				return prisma.productVariant.upsert({
 					where: { id: variantId },
 					create: {
 						...rest,
@@ -210,14 +208,13 @@ export async function updateOrderWithOrderItems(order: any) {
 						stock: Number(item.stock),
 					},
 				});
-				return update;
 			});
 		const connectOrderItems =
 			(!!order.items &&
 				order.items.map((item: ProductVariant) => ({ id: item.id }))) ||
 			[];
 		delete order['items'];
-		let id = order.id;
+		const id = order.id;
 		const updateOrderOp = prisma.order.update({
 			where: { id },
 			data: {
@@ -245,11 +242,10 @@ export async function updateOrderWithOrderItems(order: any) {
  */
 export async function updateOrder(id: string, data: OrderUpdateType) {
 	try {
-		const updated = await prisma.order.update({
+		return await prisma.order.update({
 			where: { id: id },
 			data: { ...data },
 		});
-		return updated;
 	} catch (error: any) {
 		console.error(error);
 		throw new Error(error);
@@ -263,12 +259,11 @@ export async function updateOrder(id: string, data: OrderUpdateType) {
  */
 export async function deleteOrder(id: string) {
 	try {
-		const deleted = await prisma.order.delete({
+		return await prisma.order.delete({
 			where: {
 				id,
 			},
 		});
-		return deleted;
 	} catch (error: any) {
 		console.error(error.message);
 		throw new Error(error.message);

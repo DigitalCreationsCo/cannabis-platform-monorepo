@@ -8,11 +8,11 @@ module.exports = {
 	},
 	ignorePatterns: [...getDefaultIgnorePatterns()],
 	extends: [
-		'@cd/eslint-config/typescript',
-		'@cd/eslint-config/sonar',
-		'@cd/eslint-config/regexp',
+		'@cd/eslint-config/src/bases/typescript',
+		'@cd/eslint-config/src/bases/sonar',
+		'@cd/eslint-config/src/bases/regexp',
 		// Apply prettier and disable incompatible rules
-		'@cd/eslint-config/prettier',
+		'@cd/eslint-config/src/bases/prettier',
 	],
 	overrides: [
 		// optional overrides per project file match

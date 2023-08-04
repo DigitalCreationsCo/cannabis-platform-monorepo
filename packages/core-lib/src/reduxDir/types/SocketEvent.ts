@@ -1,4 +1,4 @@
-import { OrderWithDetails } from '@cd/data-access';
+import { type OrderWithDetails } from '@cd/data-access';
 
 const SocketEvent = Object.freeze({
 	Connection: 'connection',

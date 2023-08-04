@@ -1,30 +1,29 @@
 import { dateToString } from '@cd/core-lib';
 import {
-	OrderWithDashboardDetails,
-	OrganizationWithDashboardDetails,
-	ProductWithDashboardDetails,
-	UserDispensaryAdmin,
+	type OrderWithDashboardDetails,
+	type OrganizationWithDashboardDetails,
+	type ProductWithDashboardDetails,
+	type UserDispensaryAdmin,
 } from '@cd/data-access';
 import {
 	Card,
 	Grid,
 	Icons,
-	LayoutContextProps,
 	OrderRow,
 	Page,
 	PageHeader,
 	Paragraph,
 	VariantRow,
+	type LayoutContextProps,
 } from '@cd/ui-lib';
+import { useMemo } from 'react';
+import { twMerge } from 'tailwind-merge';
 import {
 	orders,
 	organization,
 	products,
 	userDispensaryAdmin as user,
-} from 'data/dummyData';
-import { NextRequest, NextResponse } from 'next/server';
-import { useMemo } from 'react';
-import { twMerge } from 'tailwind-merge';
+} from '../data/dummyData';
 
 interface DashboardProps {
 	organization: OrganizationWithDashboardDetails;
@@ -48,7 +47,7 @@ export default function Dashboard({
 					new Date(order.createdAt).getDate() === new Date().getDate()
 				);
 			}),
-		[],
+		[orders],
 	);
 
 	const { lowStockVariants, totalVariants } = useProductVariants(products);
@@ -83,8 +82,8 @@ export default function Dashboard({
 
 			<Paragraph>{`Welcome, ${user.firstName}`}</Paragraph>
 
-			<Grid className="grid-cols-2 md:grid-cols-3 gap-4">
-				{keyIndicatorsList.map((item, ind) => (
+			<Grid className="grid-cols-2 gap-4 md:grid-cols-3">
+				{keyIndicatorsList.map((item) => (
 					<Card
 						className="col-span-auto md:!w-full lg:!w-full"
 						amountClassName="text-primary"
@@ -151,13 +150,7 @@ function useProductVariants(products: ProductWithDashboardDetails[]) {
 	};
 }
 
-export async function getServerSideProps({
-	req,
-	res,
-}: {
-	req: NextRequest;
-	res: NextResponse;
-}) {
+export async function getServerSideProps() {
 	try {
 		// const order = await (
 		//     await axios(urlBuilder.dashboard + `/api/orders/${params.id}`, {

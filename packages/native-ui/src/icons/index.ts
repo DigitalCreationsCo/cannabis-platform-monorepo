@@ -202,7 +202,7 @@ export default {
 	Thermometer,
 	HealthBeauty,
 
-	//social media icons
+	// social media icons
 	Youtube,
 	Twitter,
 	Facebook,

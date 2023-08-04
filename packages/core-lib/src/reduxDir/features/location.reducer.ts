@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { Address } from '../../../../data-access/src';
+import { type Address } from '../../../../data-access/src';
 import { getGeoAddressFromCoordinates } from '../../utils/geo';
-import { AppState } from '../types/reduxTypes';
+import { type AppState } from '../types/reduxTypes';
 
 export const getAddressByCoordinates = createAsyncThunk(
 	'location/getAddressByCoordinates',
@@ -12,8 +13,7 @@ export const getAddressByCoordinates = createAsyncThunk(
 		{ rejectWithValue },
 	) => {
 		try {
-			const address = await getGeoAddressFromCoordinates(coordinates);
-			return address;
+			return await getGeoAddressFromCoordinates(coordinates);
 		} catch (error) {
 			console.info('getAddressByCoordinates: ', error);
 			return rejectWithValue('Could not get address');
@@ -158,7 +158,7 @@ const locationSlice = createSlice({
 		},
 		setAllLocations: (state, { payload }: { payload: AddressPayload[] }) => {
 			const allAddresses = payload.reduce((all, address) => {
-				let _address = {
+				const _address = {
 					...address,
 					coordinates: address.coordinates || { latitude: 0, longitude: 0 },
 				};

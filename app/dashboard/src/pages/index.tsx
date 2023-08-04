@@ -6,20 +6,20 @@ import {
 	H1,
 	H3,
 	H5,
-	LayoutContextProps,
 	Page,
 	Paragraph,
 	SignInButton,
+	type LayoutContextProps,
 } from '@cd/ui-lib';
-import Image, { StaticImageData } from 'next/image';
+import Image, { type StaticImageData } from 'next/image';
 import Link from 'next/link';
-import { PropsWithChildren } from 'react';
-import backdrop from '/public/marijuana-backdrop.png';
+import { type PropsWithChildren } from 'react';
+import backdrop from '../../public/marijuana-backdrop.png';
 
 function WelcomePage() {
 	return (
 		<ImageBackDrop src={backdrop}>
-			<Page className="bg-transparent m-0 p-0 md:p-0 lg:p-0 border-b">
+			<Page className="m-0 border-b bg-transparent p-0 md:p-0 lg:p-0">
 				<Center className="space-y-2">
 					<FlexBox className="items-center">
 						<FlexBox className="md:flex-row">
@@ -39,7 +39,7 @@ function WelcomePage() {
 								size="lg"
 								bg="primary"
 								transparent
-								className="p-4 hover:bg-primary-light"
+								className="hover:bg-primary-light p-4"
 							>
 								<Paragraph color="light">
 									{`Create a dispensary account`}
@@ -58,7 +58,7 @@ const ImageBackDrop = ({
 	children,
 }: { src: string | StaticImageData } & PropsWithChildren) => {
 	return (
-		<div className="flex grow border h-full relative">
+		<div className="relative flex h-full grow border">
 			<Image
 				src={src}
 				alt=""
@@ -71,7 +71,7 @@ const ImageBackDrop = ({
 				priority
 			/>
 			<div
-				className="flex grow h-full"
+				className="flex h-full grow"
 				style={{
 					zIndex: -1,
 					backgroundColor: 'rgba(0,0,0,0.4)',

@@ -1,4 +1,4 @@
-import React, { SVGAttributes } from 'react';
+import React, { type SVGAttributes } from 'react';
 const Twitter = (props: SVGAttributes<SVGElement>) => {
 	return (
 		<svg viewBox="0 0 512 512" {...props}>

@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import {
 	calcSalePrice,
 	dateToString,
@@ -8,10 +12,10 @@ import {
 	useProductSearch,
 } from '@cd/core-lib';
 import {
-	OrderStatus,
-	OrderWithDashboardDetails,
-	OrderWithDetails,
-	ProductVariantWithDetails,
+	type OrderStatus,
+	type OrderWithDashboardDetails,
+	type OrderWithDetails,
+	type ProductVariantWithDetails,
 } from '@cd/data-access';
 import {
 	AddProductModal,
@@ -36,19 +40,19 @@ import {
 	useOnClickOutside,
 } from '@cd/ui-lib';
 import axios from 'axios';
+import { format } from 'date-fns';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRef, useState } from 'react';
+import { toast } from 'react-hot-toast';
+import { twMerge } from 'tailwind-merge';
+import logo from '../../../public/logo.png';
 import {
 	orders,
 	organization,
 	products,
 	userDispensaryAdmin as user,
-} from 'data/dummyData';
-import { format } from 'date-fns';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useRef, useState } from 'react';
-import toast from 'react-hot-toast';
-import { twMerge } from 'tailwind-merge';
-import logo from '../../../public/logo.png';
+} from '../../data/dummyData';
 
 export default function OrderDetails({
 	order,
@@ -56,18 +60,16 @@ export default function OrderDetails({
 	order: OrderWithDashboardDetails;
 }) {
 	const [updateOrder, setUpdateOrder] = useState<OrderWithDetails>();
-	const [orderStatus, setOrderStatus] = useState<OrderStatus>(
-		order.orderStatus,
-	);
+	const [orderStatus] = useState<OrderStatus>(order.orderStatus);
 
 	const [searchProductTerms, setSearchProductTerms] = useState('');
-	const [loadingButton, setLoadingButton] = useState(false);
+	const [, setLoadingButton] = useState(false);
 
 	const [openAddProduct, setOpenAddProduct] = useState(false);
 
 	const toggleAddProduct = () => setOpenAddProduct((state) => !state);
 
-	const [openDropDown, setOpenDropDown] = useState(true);
+	const [, setOpenDropDown] = useState(true);
 	const dropDownRef = useRef(null);
 
 	useOnClickOutside(dropDownRef, () => {
@@ -180,7 +182,7 @@ export default function OrderDetails({
 		<Page>
 			<PageHeader title={`Order #${order.id}`} Icon={Icons.DeliveryTruck}>
 				<Link href={getDashboardSite('/orders')}>
-					<Button className="place-self-start bg-inverse hover:bg-inverse active:bg-accent-soft">
+					<Button className="bg-inverse hover:bg-inverse active:bg-accent-soft place-self-start">
 						Back to Orders
 					</Button>
 				</Link>
@@ -202,7 +204,7 @@ export default function OrderDetails({
 					placeholder="Search Products"
 				/>
 				{productSearchResult.length > 0 ? (
-					<FlexBox className="pb-4 overflow-scroll space-x-3 flex flex-row grow">
+					<FlexBox className="flex grow flex-row space-x-3 overflow-scroll pb-4">
 						{productSearchResult.map((product) => (
 							<ProductItem
 								key={product.id}
@@ -224,14 +226,14 @@ export default function OrderDetails({
 				)}
 			</AddProductModal>
 
-			<Grid className="pt-2 gap-2">
-				<Row className="h-[55px] grid grid-cols-12 flex justify-between">
+			<Grid className="gap-2 pt-2">
+				<Row className="grid h-[55px] grid-cols-12 justify-between">
 					<H6 className="col-span-4">
 						{`Ordered on ${format(new Date(order.createdAt), 'MMM dd, yyyy')}`}
 					</H6>
 
 					<FlexBox className="flex-row items-center">
-						<H6 className="hidden sm:block col-span-2 justify-self-end">
+						<H6 className="col-span-2 hidden justify-self-end sm:block">
 							Status
 						</H6>
 						<Paragraph>{orderStatus}</Paragraph>
@@ -268,8 +270,8 @@ export default function OrderDetails({
 					</Paragraph>
 				</Card>
 
-				<FlexBox className="flex-col space-x-0 items-stretch">
-					<Row className="h-[44px] items-center justify-start items-center">
+				<FlexBox className="flex-col items-stretch space-x-0">
+					<Row className="h-[44px] items-center justify-start">
 						<H6>{TextContent.ui.ITEMS}</H6>
 
 						{/* <Button
@@ -281,7 +283,7 @@ export default function OrderDetails({
 					</Row>
 
 					{order.items.map((item, index: number) => (
-						<Row key={index} className="h-[66px] flex md:space-x-4">
+						<Row key={index} className="flex h-[66px] md:space-x-4">
 							<Image
 								src={item.images?.[0]?.location || logo}
 								className={twMerge('hidden sm:block sm:visible ')}
@@ -322,7 +324,7 @@ export default function OrderDetails({
 				</FlexBox>
 
 				<Grid className="grid-cols-6">
-					<FlexBox className="col-start-2 col-span-2">
+					<FlexBox className="col-span-2 col-start-2">
 						<H5>Subtotal</H5>
 						<H6>
 							<Price basePrice={order.subtotal} />

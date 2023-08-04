@@ -1,4 +1,4 @@
-import Checkbox from 'expo-checkbox';
+import { Checkbox } from 'expo-checkbox';
 import { View } from 'react-native';
 import { twMerge } from 'tailwind-merge';
 import FlexBox from './FlexBox';
@@ -22,9 +22,7 @@ function CheckBox({
 	error,
 	label,
 	className,
-	name,
 	checked,
-	helperText,
 }: CheckBoxProps) {
 	const styles = {
 		checkboxContainer:

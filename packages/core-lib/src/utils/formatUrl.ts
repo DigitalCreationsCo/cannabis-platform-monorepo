@@ -1,4 +1,7 @@
-function formatDispensaryUrl(subdomainId: string, organizationId?: string) {
+function formatDispensaryUrl(subdomainId: string, organizationId: string) {
+	console.debug(
+		`link to subdomain: ${subdomainId}, organizationId: ${organizationId}`,
+	);
 	switch (process.env.NODE_ENV) {
 		case 'development':
 			// return `http://localhost:3000/browse/${subdomainId}/${organizationId}`;

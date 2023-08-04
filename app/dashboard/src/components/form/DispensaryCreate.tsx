@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/cognitive-complexity */
 import { TextContent, urlBuilder } from '@cd/core-lib';
 import {
 	Button,
@@ -17,7 +18,7 @@ import axios from 'axios';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 import * as yup from 'yup';
 import { dispensaryCreateTour } from '../../tour';
 
@@ -65,7 +66,7 @@ function DispensaryCreate() {
 				`${urlBuilder.dashboard}/api/organization`,
 				values,
 			);
-			if (response.data.success == false)
+			if (response.data.success == 'false')
 				throw new Error(response.data.message);
 			toast.success('Dispensary Info is uploaded successfully.');
 		} catch (error: any) {
@@ -117,8 +118,8 @@ function DispensaryCreate() {
 	}, []);
 	return (
 		<form className={'content relative'} onSubmit={handleSubmit}>
-			<Grid className="max-w-[525px] mx-auto">
-				<FlexBox className="justify-between flex-row space-x-2 pr-2 md:pr-0">
+			<Grid className="mx-auto max-w-[525px]">
+				<FlexBox className="flex-row justify-between space-x-2 pr-2 md:pr-0">
 					<FlexBox>
 						<H2 id="dispensary-create-step-1">Welcome to Gras</H2>
 						<H3>a one stop cannabis marketplace</H3>
@@ -252,7 +253,7 @@ function DispensaryCreate() {
 								target="_blank"
 								rel="noreferrer noopener"
 							>
-								<H6 className={'border-b-2 inline-block'}>
+								<H6 className={'inline-block border-b-2'}>
 									{TextContent.legal.DISPENSARY_TERMS_OF_SERVICE}
 								</H6>
 								.

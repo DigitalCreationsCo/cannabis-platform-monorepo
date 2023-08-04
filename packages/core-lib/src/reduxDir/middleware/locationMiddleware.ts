@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
-
-import { AnyAction, MiddlewareAPI } from '@reduxjs/toolkit';
-import { UserWithDetails } from '../../../../data-access/src';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { type AnyAction, type MiddlewareAPI } from '@reduxjs/toolkit';
+import { type UserWithDetails } from '../../../../data-access/src';
 import { locationActions } from '../features';
 
 const locationMiddleware =

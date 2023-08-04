@@ -3,7 +3,6 @@ export { default as Card } from './atomic/Card';
 export { default as Center } from './atomic/Center';
 export { default as Row } from './atomic/Row';
 export * from './button';
-export { default as CheckAge } from './CheckAge';
 export * from './CheckBox';
 export { default as CheckBox } from './CheckBox';
 export { default as ClickableTags } from './ClickableTags';

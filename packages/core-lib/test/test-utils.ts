@@ -1,4 +1,3 @@
-/* eslint-disable import/export */
 import { cleanup, render } from '@testing-library/react';
 import type React from 'react';
 
@@ -24,3 +23,4 @@ export * from '@testing-library/react';
 export { default as userEvent } from '@testing-library/user-event';
 // override render export
 export { customRender as render };
+

@@ -10,7 +10,7 @@ const dashboardDomain =
 const apiDomain = process.env.BACKEND_URL || `http://localhost:6001`;
 
 const appInfo: {
-	appName: string | undefined;
+	appName: string;
 	websiteDomain: string;
 	apiDomain: string;
 	apiBasePath: string;

@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react';
+import { type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { H4, H5 } from './Typography';
 

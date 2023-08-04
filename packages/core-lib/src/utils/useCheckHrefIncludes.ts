@@ -1,10 +1,6 @@
 function useCheckHrefIncludes(href: string) {
-	const location = window.location.href;
-	if (location.includes(href)) {
-		return true;
-	} else {
-		return false;
-	}
+	if (typeof window !== 'undefined') return window.location.href.includes(href);
+	else return false;
 }
 
 export { useCheckHrefIncludes };

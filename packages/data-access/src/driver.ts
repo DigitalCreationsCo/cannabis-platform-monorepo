@@ -1,6 +1,12 @@
-import { Driver, DriverSession, Prisma, Route, User } from '@prisma/client';
+import {
+	Prisma,
+	type Driver,
+	type DriverSession,
+	type Route,
+	type User,
+} from '@prisma/client';
 import prisma from './db/prisma';
-import { UserCreateType } from './user';
+import { type UserCreateType } from './user';
 
 /*
  * Driver Data Access functions
@@ -19,7 +25,7 @@ import { UserCreateType } from './user';
 export async function createDriver(userData: UserCreateType) {
 	try {
 		const { coordinates, ...addressData } = userData.address[0];
-		const user = await prisma.user.create({
+		return await prisma.user.create({
 			data: {
 				email: userData.email,
 				emailVerified: false,
@@ -57,15 +63,14 @@ export async function createDriver(userData: UserCreateType) {
 				},
 			},
 		});
-
-		return user;
 	} catch (error: any) {
-		if (error instanceof Prisma.PrismaClientKnownRequestError) {
-			if (error.code === 'P2002') {
-				throw new Error(
-					'This user exists already. Please choose a different username or email.',
-				);
-			}
+		if (
+			error instanceof Prisma.PrismaClientKnownRequestError &&
+			error.code === 'P2002'
+		) {
+			throw new Error(
+				'This user exists already. Please choose a different username or email.',
+			);
 		}
 		throw new Error(error);
 	}
@@ -129,12 +134,13 @@ export async function updateDriver(userData: UserCreateType) {
 		console.info('user updated: ', user.email);
 		return user;
 	} catch (error: any) {
-		if (error instanceof Prisma.PrismaClientKnownRequestError) {
-			if (error.code === 'P2002') {
-				throw new Error(
-					'This user exists already. Please choose a different username or email.',
-				);
-			}
+		if (
+			error instanceof Prisma.PrismaClientKnownRequestError &&
+			error.code === 'P2002'
+		) {
+			throw new Error(
+				'This user exists already. Please choose a different username or email.',
+			);
 		}
 		throw new Error(error);
 	}
@@ -144,7 +150,7 @@ export async function findDriverWithDetailsByEmail(
 	email: string,
 ): Promise<DriverWithDetails | null> {
 	try {
-		const driver = await prisma.driver.findUnique({
+		return await prisma.driver.findUnique({
 			where: {
 				email,
 			},
@@ -157,8 +163,6 @@ export async function findDriverWithDetailsByEmail(
 				},
 			},
 		});
-
-		return driver;
 	} catch (error: any) {
 		console.error(error);
 		throw new Error(error);
@@ -190,14 +194,12 @@ export async function findDriverWithDetailsByPhone(
 
 		const { driver, ...userData } = user;
 
-		const driverShape = {
+		return {
 			...user?.driver,
 			user: {
 				...userData,
 			},
 		};
-
-		return driverShape;
 	} catch (error: any) {
 		console.error(error);
 		throw new Error(error);
@@ -208,7 +210,7 @@ export async function findDriverWithDetailsById(
 	id: string,
 ): Promise<DriverWithDetails | null> {
 	try {
-		const driver = await prisma.driver.findUnique({
+		return await prisma.driver.findUnique({
 			where: {
 				id,
 			},
@@ -221,8 +223,6 @@ export async function findDriverWithDetailsById(
 				},
 			},
 		});
-
-		return driver;
 	} catch (error: any) {
 		console.error(error);
 		throw new Error(error);
