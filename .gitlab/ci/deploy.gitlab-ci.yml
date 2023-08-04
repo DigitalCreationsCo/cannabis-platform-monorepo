@@ -2,6 +2,7 @@
 # Deploy
 .module_deploy:
   stage: deploy
+  cache: []
   image:
     name: bitnami/kubectl:latest
     entrypoint: ['']
