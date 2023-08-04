@@ -49,7 +49,8 @@ const signOutUserAsync = createAsyncThunk<
 		// dispatch: Dispatch<AnyAction>;
 		extra: ThunkArgumentsType;
 	}
->('user/signOutUserAsync', async (_, { _, extra, rejectWithValue }) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+>('user/signOutUserAsync', async (_, { dispatch, extra, rejectWithValue }) => {
 	try {
 		const { signOut } = extra.supertokens;
 		await signOut();

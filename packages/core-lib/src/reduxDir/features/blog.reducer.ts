@@ -13,7 +13,8 @@ import { type AppState } from '../types/reduxTypes';
 
 export const getLatestNews = createAsyncThunk(
 	'blog/getLatestNews',
-	async (_, { _, rejectWithValue }) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	async (_, { dispatch, rejectWithValue }) => {
 		try {
 			const response = await axios.get(urlBuilder.main.blog(), {
 				headers: {
