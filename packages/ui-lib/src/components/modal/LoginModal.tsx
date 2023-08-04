@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
-import toast from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import {
 	consumeCode,
@@ -27,6 +27,7 @@ interface LoginModalProps {
 	modalVisible: boolean;
 }
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function LoginModal({
 	dispatchCloseModal,
 	modalVisible,
@@ -43,6 +44,7 @@ function LoginModal({
 
 	const FormStepComponent = useMemo(
 		() => FormStepComponents[formStep],
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[formStep],
 	);
 
@@ -58,7 +60,7 @@ function LoginModal({
 			handleBlur,
 			handleChange,
 			handleSubmit,
-			resetForm,
+			// resetForm,
 			validateForm,
 		} = useFormik({
 			initialValues,
@@ -68,7 +70,7 @@ function LoginModal({
 		});
 
 		// DISABLED FOR NOW TO USE ONLY EMAIL LOGIN
-		const [isInputPhone, setIsInputPhone] = useState(false);
+		const [isInputPhone] = useState(false);
 		// DISABLED FOR NOW TO USE ONLY EMAIL LOGIN
 		// useEffect(() => {
 		//     const checkInputEmailOrPhone = () => {
@@ -184,7 +186,7 @@ function LoginModal({
 			handleBlur,
 			handleChange,
 			handleSubmit,
-			resetForm,
+			// resetForm,
 			validateForm,
 		} = useFormik({
 			initialValues,
@@ -192,6 +194,7 @@ function LoginModal({
 			validationSchema: passcodeValidationSchema,
 		});
 
+		// eslint-disable-next-line sonarjs/no-identical-functions
 		function notifyValidation() {
 			validateForm().then((errors) => {
 				if (Object.values(errors).length > 0) {

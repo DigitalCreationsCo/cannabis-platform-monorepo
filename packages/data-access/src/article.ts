@@ -1,4 +1,9 @@
-import { Article, ArticleType, ImageArticle, Prisma } from '@prisma/client';
+import {
+	type Article,
+	type ArticleType,
+	type ImageArticle,
+	type Prisma,
+} from '@prisma/client';
 import prisma from './db/prisma';
 
 export async function findArticlesByType(
@@ -78,12 +83,11 @@ export async function updateArticle(
 
 export async function deleteArticle(id: string) {
 	try {
-		const article = await prisma.article.delete({
+		return await prisma.article.delete({
 			where: {
 				id,
 			},
 		});
-		return article;
 	} catch (error: any) {
 		console.error(error);
 		throw new Error(error);

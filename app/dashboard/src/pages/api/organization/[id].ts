@@ -1,12 +1,10 @@
-import { urlBuilder } from '@cd/core-lib';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { axios, urlBuilder } from '@cd/core-lib';
+import { type NextApiRequest, type NextApiResponse } from 'next';
 import nc from 'next-connect';
 import NodeCache from 'node-cache';
-import { axios } from '../../../config';
 
 // Notes on caching in directory: /_dev/cache.txt
 const cache = new NodeCache({ stdTTL: 30 });
-
 const handler = nc();
 
 // THIS IS THE CORRECT RESPONSE HANDLING PATTERN WITH AXIOS CONFIG! VVV

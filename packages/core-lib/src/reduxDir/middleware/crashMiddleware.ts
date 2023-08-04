@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const crashMiddleware = (store) => (next) => (action) => {
 	try {
 		return next(action);

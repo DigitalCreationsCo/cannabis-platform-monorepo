@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 export const _userCreate = {
 	email: 'Bmejia220@gmail.com',
 	username: 'Big Chief',

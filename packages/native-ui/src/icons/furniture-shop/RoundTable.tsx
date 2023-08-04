@@ -1,4 +1,4 @@
-import { SVGAttributes } from 'react';
+import { type SVGAttributes } from 'react';
 
 const RoundTable = (props: SVGAttributes<SVGElement>) => {
 	return (

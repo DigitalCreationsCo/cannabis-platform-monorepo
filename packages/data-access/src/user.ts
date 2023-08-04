@@ -1,14 +1,15 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import { createId } from '@paralleldrive/cuid2';
 import {
-	ImageUser,
-	Membership,
-	MembershipRole,
 	Prisma,
-	User,
+	type ImageUser,
+	type Membership,
+	type MembershipRole,
+	type User,
 } from '@prisma/client';
-import { AddressWithCoordinates } from './address';
+import { type AddressWithCoordinates } from './address';
 import prisma from './db/prisma';
-import { OrderWithDetails } from './order';
+import { type OrderWithDetails } from './order';
 
 /*
  * User Data Access functions
@@ -24,7 +25,7 @@ import { OrderWithDetails } from './order';
  */
 export async function createUser(userData: UserCreateType) {
 	try {
-		let newId = createId();
+		const newId = createId();
 
 		const user = await prisma.user.create({
 			data: {
@@ -86,12 +87,13 @@ export async function createUser(userData: UserCreateType) {
 		return user;
 	} catch (error: any) {
 		console.info('upsert user error: ', error);
-		if (error instanceof Prisma.PrismaClientKnownRequestError) {
-			if (error.code === 'P2002') {
-				throw new Error(
-					'This user exists already. Please choose a different username or email.',
-				);
-			}
+		if (
+			error instanceof Prisma.PrismaClientKnownRequestError &&
+			error.code === 'P2002'
+		) {
+			throw new Error(
+				'This user exists already. Please choose a different username or email.',
+			);
 		}
 		throw new Error(error);
 	}
@@ -99,7 +101,7 @@ export async function createUser(userData: UserCreateType) {
 
 export async function upsertUser(userData: UserCreateType) {
 	try {
-		let newId = createId();
+		const newId = createId();
 
 		const user = await prisma.user.upsert({
 			where: {
@@ -210,12 +212,13 @@ export async function upsertUser(userData: UserCreateType) {
 		return user;
 	} catch (error: any) {
 		console.info('upsert user error: ', error);
-		if (error instanceof Prisma.PrismaClientKnownRequestError) {
-			if (error.code === 'P2002') {
-				throw new Error(
-					'This user exists already. Please choose a different username or email.',
-				);
-			}
+		if (
+			error instanceof Prisma.PrismaClientKnownRequestError &&
+			error.code === 'P2002'
+		) {
+			throw new Error(
+				'This user exists already. Please choose a different username or email.',
+			);
 		}
 		throw new Error(error);
 	}
@@ -223,7 +226,7 @@ export async function upsertUser(userData: UserCreateType) {
 
 export async function updateUser(userData: UserCreateType) {
 	try {
-		let newId = createId();
+		const newId = createId();
 
 		const user = await prisma.user.update({
 			where: {
@@ -269,12 +272,13 @@ export async function updateUser(userData: UserCreateType) {
 		console.info('user updated: ', user.email);
 		return user;
 	} catch (error: any) {
-		if (error instanceof Prisma.PrismaClientKnownRequestError) {
-			if (error.code === 'P2002') {
-				throw new Error(
-					'This user exists already. Please choose a different username or email.',
-				);
-			}
+		if (
+			error instanceof Prisma.PrismaClientKnownRequestError &&
+			error.code === 'P2002'
+		) {
+			throw new Error(
+				'This user exists already. Please choose a different username or email.',
+			);
 		}
 		throw new Error(error);
 	}
@@ -338,12 +342,13 @@ export async function upsertDispensaryAdmin(
 		return user;
 	} catch (error: any) {
 		console.info('create Dispensary Admin user error: ', error);
-		if (error instanceof Prisma.PrismaClientKnownRequestError) {
-			if (error.code === 'P2002') {
-				throw new Error(
-					'This user exists already. Please choose a different username or email.',
-				);
-			}
+		if (
+			error instanceof Prisma.PrismaClientKnownRequestError &&
+			error.code === 'P2002'
+		) {
+			throw new Error(
+				'This user exists already. Please choose a different username or email.',
+			);
 		}
 		throw new Error(error);
 	}
@@ -430,12 +435,13 @@ export async function updateDispensaryAdmin(
 		console.info('admin user updated: ', user.email);
 		return user;
 	} catch (error: any) {
-		if (error instanceof Prisma.PrismaClientKnownRequestError) {
-			if (error.code === 'P2002') {
-				throw new Error(
-					'This user exists already. Please choose a different username or email.',
-				);
-			}
+		if (
+			error instanceof Prisma.PrismaClientKnownRequestError &&
+			error.code === 'P2002'
+		) {
+			throw new Error(
+				'This user exists already. Please choose a different username or email.',
+			);
 		}
 		throw new Error(error);
 	}
@@ -445,7 +451,7 @@ export async function findUserWithDetailsByEmail(
 	email: string,
 ): Promise<UserWithDetails | null> {
 	try {
-		const user = await prisma.user.findUnique({
+		return await prisma.user.findUnique({
 			where: {
 				email,
 			},
@@ -463,7 +469,6 @@ export async function findUserWithDetailsByEmail(
 				profilePicture: true,
 			},
 		});
-		return user;
 	} catch (error: any) {
 		console.error(error);
 		throw new Error(error);
@@ -474,7 +479,7 @@ export async function findUserWithDetailsByPhone(
 	phone: string,
 ): Promise<UserWithDetails | null> {
 	try {
-		const user = await prisma.user.findUnique({
+		return await prisma.user.findUnique({
 			where: {
 				phone,
 			},
@@ -492,7 +497,6 @@ export async function findUserWithDetailsByPhone(
 				profilePicture: true,
 			},
 		});
-		return user;
 	} catch (error: any) {
 		console.error(error);
 		throw new Error(error);
@@ -503,7 +507,7 @@ export async function findUserWithDetailsById(
 	id: string,
 ): Promise<UserWithDetails | null> {
 	try {
-		const user = await prisma.user.findUnique({
+		return await prisma.user.findUnique({
 			where: {
 				id,
 			},
@@ -521,7 +525,6 @@ export async function findUserWithDetailsById(
 				profilePicture: true,
 			},
 		});
-		return user;
 	} catch (error: any) {
 		console.error(error);
 		throw new Error(error);

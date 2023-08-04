@@ -1,7 +1,7 @@
 // @ts-check
+import path from 'path';
 import { getTsconfig } from 'get-tsconfig';
 import type { Config } from 'jest';
-import path from 'path';
 import { pathsToModuleNameMapper } from 'ts-jest';
 // import { getJestCachePath } from '../../cache.config';
 
@@ -37,6 +37,7 @@ const config: Config = {
 		...getTsConfigBasePaths(tsConfigFile),
 	},
 	transform: {
+		// eslint-disable-next-line @typescript-eslint/naming-convention
 		'^.+\\.m?[tj]sx?$': [
 			'ts-jest',
 			{

@@ -18,7 +18,7 @@ const styles = Object.freeze({
 		],
 	},
 	BUTTON: {
-		'round-image-btn': [
+		round_image_btn: [
 			'btn focus:!border-primary focus:!ring-primary focus:!outline-primary h-32 w-32 col-span-1 !rounded-full p-0 m-0 overflow-hidden',
 		],
 		highlight: ['border border-transparent hover:border hover:border-primary'],

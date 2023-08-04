@@ -1,8 +1,8 @@
-import { RNstyles } from '@cd/core-lib/src';
-import { PropsWithChildren } from 'react';
+import { type PropsWithChildren } from 'react';
 import { Text, View } from 'react-native';
-import Svg, { Path } from 'react-native-svg';
+import { Path, Svg } from 'react-native-svg';
 import { twMerge } from 'tailwind-merge';
+import { classNames as RNstyles } from '../styles';
 import SearchField from './SearchField';
 
 type HeaderProps = {
@@ -10,12 +10,7 @@ type HeaderProps = {
 	placeholder?: string;
 	drawerComponentId?: string;
 } & PropsWithChildren;
-function Header({
-	onSearchChange,
-	placeholder,
-	drawerComponentId,
-	children,
-}: HeaderProps) {
+function Header({ onSearchChange, placeholder, children }: HeaderProps) {
 	return (
 		<View className={twMerge(RNstyles.header.container)}>
 			<View className={twMerge(RNstyles.header.header)}>

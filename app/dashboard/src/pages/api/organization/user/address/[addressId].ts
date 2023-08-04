@@ -1,6 +1,6 @@
 import { urlBuilder } from '@cd/core-lib';
 import axios from 'axios';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { type NextApiRequest, type NextApiResponse } from 'next';
 import nc from 'next-connect';
 
 const handler = nc();

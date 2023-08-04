@@ -1,15 +1,16 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 
 import { createId } from '@paralleldrive/cuid2';
 import {
-	CurrencyName,
-	ImageProduct,
-	Prisma,
-	ProductVariant,
-	Unit,
+	type CurrencyName,
+	type ImageProduct,
+	type Prisma,
+	type ProductVariant,
+	type Unit,
 } from '@prisma/client';
 import prisma from './db/prisma';
-import { OrderCreateType } from './order';
+import { type OrderCreateType } from './order';
 
 /**
  * connectVariantImages
@@ -63,6 +64,7 @@ export async function createProductVariantsWithoutId(
 				stock: Number(item.stock) || 0,
 			}));
 
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const result = await prisma.productVariant.createMany({
 			data: [...createItems],
 		});

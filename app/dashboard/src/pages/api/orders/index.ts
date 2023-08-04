@@ -1,9 +1,9 @@
 import { urlBuilder } from '@cd/core-lib';
 import axios from 'axios';
-import { ExtendRequest } from 'middleware';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { type NextApiRequest, type NextApiResponse } from 'next';
 import nc from 'next-connect';
 import NodeCache from 'node-cache';
+import { type ExtendRequest } from '../../../middleware';
 import { getSession } from '../../../session';
 
 const cache = new NodeCache({ stdTTL: 30 });

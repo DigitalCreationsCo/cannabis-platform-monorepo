@@ -1,12 +1,10 @@
 import axios from 'axios';
 import { urlBuilder } from '../utils/urlBuilder';
-import { PasswordlessResponseWithUserDetails } from './authTypes';
+import { type PasswordlessResponseWithUserDetails } from './authTypes';
 
 async function sendOTPEmailRaw(email: string) {
 	try {
-		let response = await axios.post(urlBuilder.main.getOTP(), { email });
-
-		return response;
+		return await axios.post(urlBuilder.main.getOTP(), { email });
 	} catch (err: any) {
 		console.info('send otp error: ', err);
 		if (err.isSuperTokensGeneralError === true) throw new Error(err.message);
@@ -21,7 +19,7 @@ async function handleOTPInputRaw(
 	otp: string,
 ): Promise<PasswordlessResponseWithUserDetails> {
 	try {
-		let response = await axios.post(urlBuilder.main.submitOTP(), {
+		const response = await axios.post(urlBuilder.main.submitOTP(), {
 			userInputCode: otp,
 		});
 
@@ -38,5 +36,4 @@ async function handleOTPInputRaw(
 	}
 }
 
-export type { PasswordlessResponseWithUserDetails };
 export { sendOTPEmailRaw, handleOTPInputRaw };

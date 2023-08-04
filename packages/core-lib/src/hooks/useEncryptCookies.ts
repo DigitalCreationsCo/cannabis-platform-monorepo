@@ -1,4 +1,4 @@
-import { CookieOptions } from 'express';
+import { type CookieOptions } from 'express';
 import { useCookies } from 'react-cookie';
 import { crypto } from '../utils';
 

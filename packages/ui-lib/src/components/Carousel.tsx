@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import Slider, { Settings as CarouselSettings } from 'react-slick';
+import Slider, { type Settings as CarouselSettings } from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 import { twMerge } from 'tailwind-merge';
@@ -35,7 +35,7 @@ export default function Carouse<D>({
 	const length = data.length;
 	const slidesToShow = Math.min(length, 4);
 
-	var settings: CarouselSettings = {
+	const settings: CarouselSettings = {
 		...props,
 		lazyLoad: 'anticipated',
 		arrows: false,
@@ -117,16 +117,16 @@ export default function Carouse<D>({
 	);
 }
 
-function makeIndices(start: number, delta: number, num: number) {
-	const indices: Array<number> = [];
+// function makeIndices(start: number, delta: number, num: number) {
+// 	const indices: Array<number> = [];
 
-	while (indices.length < num) {
-		indices.push(start);
-		start += delta;
-	}
+// 	while (indices.length < num) {
+// 		indices.push(start);
+// 		start += delta;
+// 	}
 
-	return indices;
-}
+// 	return indices;
+// }
 
 type CarouselButtonProps = {
 	direction: 'left' | 'right' | 'up' | 'down';

@@ -41,7 +41,7 @@ function TopBar({ signOut }: TopBarProps) {
 		);
 	}
 
-	const MemoizedDropDown = useCallback(AccountDropDown, [
+	const _AccountDropDown = useCallback(AccountDropDown, [
 		signOut,
 		user.profilePicture?.location,
 		user.username,
@@ -103,7 +103,7 @@ function TopBar({ signOut }: TopBarProps) {
 						</Button>
 					</Link>
 				)}
-				{isSignedIn && <MemoizedDropDown />}
+				{isSignedIn && <_AccountDropDown />}
 				{!isSignedIn && (
 					<FlexBox>
 						<Button

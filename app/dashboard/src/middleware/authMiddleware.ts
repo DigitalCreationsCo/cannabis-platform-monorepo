@@ -1,6 +1,6 @@
-import { User } from '@cd/data-access';
-import { NextApiRequest, NextApiResponse } from 'next';
-import { SessionInformation } from 'supertokens-node/recipe/session';
+import { type User } from '@cd/data-access';
+import { type NextApiRequest, type NextApiResponse } from 'next';
+import { type SessionInformation } from 'supertokens-node/recipe/session';
 // import { getToken } from 'next-auth/jwt';
 
 export type ExtendRequest = NextApiRequest & {

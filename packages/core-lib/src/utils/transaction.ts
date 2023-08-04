@@ -1,4 +1,4 @@
-import { OrderStatus, OrderWithDetails } from '@cd/data-access';
+import { type OrderStatus, type OrderWithDetails } from '@cd/data-access';
 
 const orderStatusList: OrderStatus[] = [
 	'Pending',
@@ -22,8 +22,8 @@ const checkOrderIsCompleteOrCanceled = (order: OrderWithDetails) =>
  * @returns
  */
 function calcSalePrice(price: number, discount: number) {
-	let _discountPercentage = discount / 100;
-	let _price = price;
+	const _discountPercentage = discount / 100;
+	const _price = price;
 	return _price === discount * price
 		? _price
 		: _price - price * _discountPercentage;
@@ -85,6 +85,7 @@ function calculateDeliveryFee(amount: number) {
 }
 
 export {
+	calculateDeliveryFee,
 	orderStatusList,
 	checkOrderIsCompleteOrCanceled,
 	calcSalePrice,

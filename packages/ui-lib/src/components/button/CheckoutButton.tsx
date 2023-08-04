@@ -1,8 +1,8 @@
 import { cartActions, getShopSite } from '@cd/core-lib/src';
 import router from 'next/router';
-import toast from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
-import Button, { ButtonProps } from './Button';
+import Button, { type ButtonProps } from './Button';
 
 type CheckoutButtonProps = ButtonProps;
 

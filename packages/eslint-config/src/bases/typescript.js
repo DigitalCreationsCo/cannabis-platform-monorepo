@@ -105,7 +105,7 @@ module.exports = {
 			{
 				selector: 'default',
 				format: ['camelCase'],
-				leadingUnderscore: 'forbid',
+				leadingUnderscore: 'allow',
 				trailingUnderscore: 'forbid',
 				filter: {
 					regex: '^(Content-Type)$',
@@ -114,8 +114,8 @@ module.exports = {
 			},
 			{
 				selector: 'variable',
-				format: ['camelCase'],
-				leadingUnderscore: 'allow',
+				format: ['camelCase', 'PascalCase', 'snake_case', 'UPPER_CASE'],
+				leadingUnderscore: 'allowSingleOrDouble',
 			},
 			{
 				selector: ['function'],
@@ -123,7 +123,7 @@ module.exports = {
 			},
 			{
 				selector: 'parameter',
-				format: ['camelCase'],
+				format: ['camelCase', 'PascalCase'],
 				leadingUnderscore: 'allow',
 			},
 			{
@@ -156,6 +156,12 @@ module.exports = {
 					regex: '^(Content-Type)$',
 					match: false,
 				},
+			},
+			{
+				selector: 'objectLiteralMethod',
+				format: null,
+				leadingUnderscore: 'allowSingleOrDouble',
+				trailingUnderscore: 'allowSingleOrDouble',
 			},
 			{
 				selector: ['typeAlias', 'interface'],

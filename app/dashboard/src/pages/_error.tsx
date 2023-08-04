@@ -1,6 +1,6 @@
 import { ErrorMessage, Page } from '@cd/ui-lib';
-import { AxiosError } from 'axios';
-import { NextPageContext } from 'next';
+import { type AxiosError } from 'axios';
+import { type NextPageContext } from 'next';
 
 function Error({
 	statusCode,

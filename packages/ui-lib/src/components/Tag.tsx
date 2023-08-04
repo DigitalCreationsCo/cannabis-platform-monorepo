@@ -1,22 +1,23 @@
 import {
-	MouseEventHandler,
-	PropsWithChildren,
-	ReactEventHandler,
-	SVGAttributes,
+	type MouseEventHandler,
+	type PropsWithChildren,
+	type ReactEventHandler,
+	type SVGAttributes,
 } from 'react';
 import IconWrapper from './IconWrapper';
 import { Small } from './Typography';
 
 function Tag({ Icon, onClick, children }: TagProps) {
 	return (
-		<div
+		// <div
+		<button
 			onClick={onClick}
 			onKeyUp={onClick}
 			className="cursor-default badge badge-primary m-2 gap-2 w-[112px]"
 		>
 			<Small>{children}</Small>
 			{Icon && <IconWrapper Icon={Icon} className="fill-light" iconSize={11} />}
-		</div>
+		</button>
 	);
 }
 

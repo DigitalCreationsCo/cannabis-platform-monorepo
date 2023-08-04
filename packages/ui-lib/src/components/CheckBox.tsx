@@ -1,4 +1,3 @@
-import { MouseEventHandler } from 'react';
 import { twMerge } from 'tailwind-merge';
 import FlexBox from './FlexBox';
 import { Paragraph } from './Typography';
@@ -28,8 +27,9 @@ function CheckBox({
 		helperText: error && 'input-error border-2',
 	};
 	return (
-		<div
-			onClick={onChange as unknown as MouseEventHandler<HTMLDivElement>}
+		// <div
+		<button
+			onClick={() => onChange()}
 			className={twMerge(styles.checkboxContainer, className)}
 		>
 			<input
@@ -45,7 +45,7 @@ function CheckBox({
 					<LabelComponent>{label}</LabelComponent>
 				)) || <Paragraph>{label}</Paragraph>}
 			</FlexBox>
-		</div>
+		</button>
 	);
 }
 

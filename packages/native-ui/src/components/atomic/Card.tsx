@@ -1,5 +1,5 @@
 import { RNstyles } from '@cd/core-lib/src';
-import { PropsWithChildren } from 'react';
+import { type PropsWithChildren } from 'react';
 import { View } from 'react-native';
 import { twMerge } from 'tailwind-merge';
 import { H4, H5 } from '../Typography';

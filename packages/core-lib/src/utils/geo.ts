@@ -1,17 +1,15 @@
 import {
-	AddressCreateType,
-	AddressPayload,
-	Coordinates,
+	type AddressCreateType,
+	type AddressPayload,
+	type Coordinates,
 } from '@cd/data-access';
 import { axios } from '../axiosInstance';
 
 export async function getGeoCoordinatesFromAddress(address: AddressPayload) {
-	const { street1, street2, city, state, country, zipcode, countryCode } =
-		address;
+	const { street1, street2, city, state, country, zipcode } = address;
 	const addressString = `${street1} ${street2}, ${city}, ${state}, ${country}, ${zipcode}`;
 	console.info('getting coordinates for address: ', addressString);
-	const coordinates = await getCoordinatesByAddressString(addressString);
-	return coordinates;
+	return await getCoordinatesByAddressString(addressString);
 }
 
 async function getCoordinatesByAddressString(addressString: string): Promise<{

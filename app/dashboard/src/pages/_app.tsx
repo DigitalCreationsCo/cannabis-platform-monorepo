@@ -1,14 +1,13 @@
-/// @ts-nocheck
 import {
-	type LayoutContextProps,
 	LoadingPage,
 	ModalProvider,
 	ToastProvider,
+	type LayoutContextProps,
 } from '@cd/ui-lib';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { type Dispatch, type SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState, type Dispatch, type SetStateAction } from 'react';
 import { Provider as ReduxProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
