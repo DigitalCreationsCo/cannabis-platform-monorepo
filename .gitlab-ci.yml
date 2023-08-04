@@ -1,9 +1,4 @@
 ---
-include:
-  - .gitlab/ci/cache.gitlab-ci.yml
-  - .gitlab/ci/module.gitlab-ci.yml
-  - .gitlab/ci/deploy.gitlab-ci.yml
-
 .modules:
   - MODULE:
       - app/shop
@@ -23,16 +18,21 @@ stages:
   # - tag # Future TODO: Add Semantic Versioning to Images
   # https://github.com/semantic-release/semantic-release
 
+  # - lint
+  # - test
   # - release
   - deploy
 
 build:
-  stage: build
   extends: .module_build
   parallel:
     matrix: !reference [.modules]
+  script: |
+    echo "CI_COMMIT_BRANCH=$CI_COMMIT_BRANCH"
+    echo "CI_DEFAULT_BRANCH=$CI_DEFAULT_BRANCH"
   rules:
-  # MR: BUILD IMAGE, DON'T PUSH TO REGISTRY.
+  # MR
+  # BUILD IMAGE, DON'T PUSH TO REGISTRY.
   # CACHE IT FOR THE MERGE COMMIT.
   # PUSH TO REGISTRY IN THE COMMIT PIPELINE
     # - if: $CI_PIPELINE_SOURCE == "merge_request_event"
@@ -80,6 +80,11 @@ deploy:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       changes:
         - ${MODULE}/**/*
+
+include:
+  - .gitlab/ci/cache.gitlab-ci.yml
+  - .gitlab/ci/module.gitlab-ci.yml
+  - .gitlab/ci/deploy.gitlab-ci.yml
 # ========================================
 # optimized CI for module builds
 # such as each module job can run depending on changes of the module path, and the node_modules dependencies

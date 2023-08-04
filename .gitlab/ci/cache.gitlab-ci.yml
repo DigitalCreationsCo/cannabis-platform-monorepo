@@ -2,15 +2,15 @@
 # Cache
 # adopt these good caching practices: https://docs.gitlab.com/ee/ci/caching/#good-caching-practices
 # and these! https://medium.com/disdj/speed-up-npm-yarn-install-in-gitlab-1434437f9857
-default:
-  cache: &yarn_cache
-    key:
-      files:
-        - yarn.lock
-        - package.json
-    paths:
-      - .yarn/
-    policy: pull
+
+cache: &yarn_cache
+  key:
+    files:
+      - yarn.lock
+      - package.json
+  paths:
+    - .yarn/
+  policy: pull
 
 .build_cache:
   stage: cache
@@ -34,10 +34,10 @@ default:
 build-cache:
   extends:
     - .build_cache
-  only:
-    refs:
-      - production
-      - merge_requests
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  
 # ^UNDERSTAND AND IMPROVE THIS CACHE PROCESS SOON!
 # read: https://dev.to/drakulavich/gitlab-ci-cache-and-artifacts-explained-by-example-2opi
 # QUESTION: WHEN ARE THE OPTIMAL TIMES TO BUILD THE CACHE?
