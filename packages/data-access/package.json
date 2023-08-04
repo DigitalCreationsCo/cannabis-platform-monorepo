@@ -51,6 +51,7 @@
 	"private": true,
 	"scripts": {
 		"build": "rimraf ./dist && tsup",
+		"build:ci": "tsup",
 		"clean": "rimraf ./dist ./coverage ./tsconfig.tsbuildinfo",
 		"debug-test-e2e": "cross-env DEBUG=testcontainers vitest run $@",
 		"watch": "rimraf ./dist && tsup --watch",
