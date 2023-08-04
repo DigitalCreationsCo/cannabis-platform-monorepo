@@ -78,3 +78,9 @@ variable "ssl_cert_name" {
 variable "domain_name" {
   description = "Domain name for the load balancer"
 }
+
+variable "gitlab_token" {
+  description = "Token for gitlab ci runner"
+  type        = string
+  sensitive   = true
+}
