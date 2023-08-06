@@ -3,16 +3,18 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
+dir="$( cd "$( dirname "$1" )" && pwd )"
+deployment_file="${1##*/}"
+modified_deployment_file="modified-${deployment_file}"
 TAG=${TAG:-latest}
 
-deployment_file=$1
-modified_deployment_file=modified-${deployment_file}
-
+echo "TAG is ${TAG}"
 # Replace the placeholder tag value
-sed -e "s|TAG|$TAG|g" "${deployment_file}" > ${modified_deployment_file}
+sed -e "s|TAG|$TAG|g" "${dir}/${deployment_file}" > "${dir}/${modified_deployment_file}"
 
 # Apply the modified configuration using kubectl
-kubectl apply -f modified-test-deploy.yaml
+echo "Applying ${modified_deployment_file} with tag:${TAG}"
+kubectl apply -f "${dir}/${modified_deployment_file}"
 
 # remove the temporary file
-rm modified-test-deploy.yaml
+rm "${dir}/${modified_deployment_file}"
