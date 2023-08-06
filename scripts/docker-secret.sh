@@ -1,4 +1,3 @@
-#!/bin/bash
 
 # dockerSecret is k8s/secret.docker.yaml
 # this file is here for reference
