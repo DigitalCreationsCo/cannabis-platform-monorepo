@@ -9,33 +9,28 @@ import {
 	Button,
 	FlexBox,
 	H1,
+	H2,
+	H3,
 	H4,
 	H6,
 	Page,
 	Paragraph,
 	Span,
+	styles,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
+import { motion } from 'framer-motion';
 import Image, { type StaticImageData } from 'next/image';
 import Link from 'next/link';
 import router from 'next/router';
-import { useEffect, type PropsWithChildren } from 'react';
+import { useState, type PropsWithChildren } from 'react';
 import { useCookies } from 'react-cookie';
 import { twMerge } from 'tailwind-merge';
 import backdrop from '../../public/marijuana-backdrop.png';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { shopTour } from '../tour/shopTour';
 
 function LandingPage() {
-	const { isSignedIn, user } = useAppSelector(selectUserState);
-
-	function startShopTour() {
-		shopTour.start();
-	}
-
-	useEffect(() => {
-		if (!user.isSignUpComplete) startShopTour();
-	}, [user.isSignUpComplete]);
+	const { isSignedIn } = useAppSelector(selectUserState);
 
 	const dispatch = useAppDispatch();
 	const [cookies] = useCookies(['yesOver21']);
@@ -51,48 +46,26 @@ function LandingPage() {
 			  );
 	}
 
-	const styles = {
-		hero: [
-			'w-full pt-4 pb-6 md:pt-4 px-4 md:px-14 lg:px-32',
-			'justify-center',
-			'opacity-80',
-			'anim8-green-gradient',
-		],
-		heroContent: [
-			'mx-auto',
-			'md:flex-row items-start',
-			'space-y-4 md:space-y-0 md:space-x-8',
-		],
-		responsiveHeading: [
-			'text-2xl md:text-4xl pb-0 whitespace-normal font-semi-bold',
-		],
-		about: [
-			'bg-inverse opacity-90 md:rounded ',
-			'space-y-2',
-			'mx-auto',
-			'cursor-default w-full md:max-w-[440px] h-fit p-8 items-center shadow',
-		],
-	};
-
+	const [dialogOpen, setDialogOpen] = useState(false);
 	return (
 		<Page className="p-0 sm:p-0 md:p-0 lg:p-0">
 			<ImageBackDrop src={backdrop}>
-				<FlexBox className="w-full md:space-y-8 md:pb-8">
-					<FlexBox className={twMerge(styles.hero)}>
-						<FlexBox className={twMerge(styles.heroContent)}>
+				<FlexBox className="w-full">
+					<FlexBox className={twMerge(styles.HERO.container)}>
+						<FlexBox className={twMerge(styles.HERO.content)}>
 							<FlexBox className="m-auto">
-								<H1 color="light" className={twMerge(styles.responsiveHeading)}>
+								<H1
+									color="light"
+									className={twMerge(styles.HERO.responsiveHeading)}
+								>
 									Cannabis,&nbsp;Delivered{'\xa0'}🌴
 								</H1>
-								<H6 className="text-light w-full max-w-[360px] whitespace-pre-line text-justify">
-									Welcome to Gras. {'\n'}
-									We are team of cannabis lovers providing a home-grown service
-									in our community. We serve by empowering the voices of our
-									community through clarity and support. {'\n'}
-									<Span className="m-auto text-center font-bold">
-										We welcome everyone 21 years or older.
-									</Span>
-								</H6>
+								<H3 color="light">to your home 🏠</H3>
+							</FlexBox>
+							<FlexBox className="flex-row space-x-1 md:flex-col md:space-x-0">
+								<H2 color="light">fast</H2>
+								<H2 color="light">easy</H2>
+								<H2 color="light">secure</H2>
 							</FlexBox>
 							<Button
 								size="lg"
@@ -105,9 +78,70 @@ function LandingPage() {
 							</Button>
 						</FlexBox>
 					</FlexBox>
-					{!isSignedIn && (
-						<FlexBox className={twMerge(styles.about)}>
-							<FlexBox className="m-auto items-center space-y-2">
+					<FlexBox
+						className="bg-secondary m-auto space-y-2 py-4 pb-8"
+						style={{
+							backgroundColor: 'rgba(0,120,0,0.8)',
+							height: '100%',
+							width: '100%',
+							left: '0',
+							top: '0',
+						}}
+					>
+						<FlexBox className="m-auto md:w-[480px]">
+							<FlexBox className="m-auto flex-row items-end space-x-2">
+								<H6
+									color="light"
+									className="text-light max-w-[360px] whitespace-pre-line border-b border-transparent text-justify"
+								>
+									Welcome to Gras!{'\n'}
+								</H6>
+								<button
+									className="cursor-pointer text-2xl hover:underline"
+									onClick={() => setDialogOpen(true)}
+								>
+									Who are we?
+								</button>
+							</FlexBox>
+							<FlexBox className="m-auto flex-row">
+								<div className="chat chat-start">
+									<motion.div
+										animate={dialogOpen ? 'open' : 'closed'}
+										transition={{ duration: 0.5 }}
+										variants={{
+											open: { opacity: 1, scale: 1 },
+											closed: { opacity: 1, scale: 1 },
+										}}
+										className="chat-image 
+									text-6xl"
+									>
+										{dialogOpen ? '😄' : '😊'}
+									</motion.div>
+									<motion.div
+										className="chat-bubble bg-primary"
+										animate={dialogOpen ? 'open' : 'closed'}
+										variants={{
+											open: { opacity: 1, scale: 1 },
+											closed: { opacity: 0, scale: 0.5 },
+										}}
+									>
+										{dialogOpen && (
+											<>
+												We are team of cannabis lovers providing a home-grown
+												service in our community. We serve by empowering the
+												voices of our community through clarity and support.
+												<br />
+												<Span className="mx-auto font-bold">
+													We welcome everyone 21 years or older.
+												</Span>
+											</>
+										)}
+									</motion.div>
+								</div>
+							</FlexBox>
+						</FlexBox>
+						{!isSignedIn && (
+							<FlexBox className={twMerge(styles.about)}>
 								<H4 className="text-xl">{`Dispensaries, Sign Up Here!`}</H4>
 								<Link
 									href={getDashboardSite('/signup/create-dispensary-account')}
@@ -124,8 +158,8 @@ function LandingPage() {
 									</Button>
 								</Link>
 							</FlexBox>
-						</FlexBox>
-					)}
+						)}
+					</FlexBox>
 				</FlexBox>
 			</ImageBackDrop>
 		</Page>
