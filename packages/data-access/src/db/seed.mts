@@ -1,22 +1,22 @@
 import {
-	Address,
-	Category,
-	Coordinates,
-	ImageArticle,
-	ImageOrganization,
-	ImageProduct,
-	ImageUser,
-	ImageVendor,
-	Membership,
-	Prisma,
 	PrismaClient,
-	ProductVariant,
-	Schedule,
-	SubDomain,
-	Vendor,
+	type Address,
+	type Category,
+	type Coordinates,
+	type ImageArticle,
+	type ImageOrganization,
+	type ImageProduct,
+	type ImageUser,
+	type ImageVendor,
+	type Membership,
+	type Prisma,
+	type ProductVariant,
+	type Schedule,
+	type SubDomain,
+	type Vendor,
 } from '@prisma/client';
 import axios from 'axios';
-import { ReviewWithUserDetails } from 'product';
+import { type ReviewWithUserDetails } from '../product';
 
 const prisma = new PrismaClient();
 
