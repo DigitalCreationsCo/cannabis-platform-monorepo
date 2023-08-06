@@ -3,12 +3,11 @@ const colors = require('tailwindcss/colors');
 module.exports = {
 	plugins: [require('daisyui')],
 	content: [
-		// './src/**/*.{js,ts,jsx,tsx}',
-		'../../app/shop/**/*.{jsx,tsx}',
-		'../../app/app/**/*.{jsx,tsx}',
-		'../../app/checkout-widget/src/**/*.{jsx,tsx}',
-		'../../packages/ui-lib/src/**/*.{jsx,tsx}',
-		'../../packages/native-ui/src/**/*.{jsx,tsx}',
+		'../../app/shop/**/*.{js,jsx,ts,tsx}',
+		'../../app/dashboard/**/*.{js,jsx,ts,tsx}',
+		'../../app/checkout-widget/src/**/*.{js,jsx,ts,tsx}',
+		'../../packages/ui-lib/src/**/*.{js,jsx,ts,tsx}',
+		'../../packages/native-ui/src/**/*.{js,jsx,ts,tsx}',
 	],
 	theme: {
 		extend: {

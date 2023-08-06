@@ -64,7 +64,7 @@ function TopBar({ signOut }: TopBarProps) {
 			</Link>
 			<div className="flex-1"></div>
 
-			<FlexBox className="flex flex-row items-center space-x-2 px-4 pr-0">
+			<FlexBox className="flex flex-row items-center space-x-4 px-4 pr-2">
 				{isSignedIn && (
 					<Link
 						className={twMerge('hidden sm:block', styles.BUTTON.highlight)}
