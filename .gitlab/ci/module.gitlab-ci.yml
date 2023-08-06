@@ -84,5 +84,5 @@
     cd "${ROOTDIR}/k8s/"
 
     # kubectl apply -f "service.${BUILD_CONTEXT}.yaml"
-    sed -e 's|TAG|$TAG|g' "service.${BUILD_CONTEXT}.yaml" | kubectl apply -f -
+    sed -e "s|TAG|$TAG|g" "service.${BUILD_CONTEXT}.yaml" | kubectl apply -f -
     kubectl get pods
