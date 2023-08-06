@@ -40,12 +40,12 @@ function AdminTopBar({ signOut }: TopBarProps) {
 				<Image alt="Gras" width={50} height={50} src={logo} />
 			</Link>
 			<Link href={getDashboardSite('/')}>
-				<H2 className="pt-0.5">Gras</H2>
+				<H2 className="text-secondary pt-0.5">Gras</H2>
 			</Link>
 
 			<div className="flex-1"></div>
 
-			<FlexBox className="flex flex-row items-center space-x-2 px-4 pr-0">
+			<FlexBox className="flex flex-row items-center space-x-4 px-4 pr-2">
 				{isSignedIn && (
 					<Link
 						className={twMerge('hidden sm:block', styles.BUTTON.highlight)}

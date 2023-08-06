@@ -13,15 +13,25 @@ import {
 	Page,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
+// import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import { DispensaryCard, InfoCard } from '../../components';
+// import { shopTour } from '../../tour';
 
 export default function MarketPlace() {
 	const { dispensaries } = useSelector(selectShopState);
 	const selectedLocation = useSelector(selectSelectedLocationState);
 	const { user } = useSelector(selectUserState);
 	const { news } = useSelector(selectBlogState);
+
+	// function startShopTour() {
+	// 	shopTour.start();
+	// }
+
+	// useEffect(() => {
+	// 	if (!user.isSignUpComplete) startShopTour();
+	// }, [user.isSignUpComplete]);
 
 	const styles = {
 		responsiveHeading: [
@@ -36,7 +46,6 @@ export default function MarketPlace() {
 					<H1 color="light" className={twMerge(styles.responsiveHeading)}>
 						{TextContent.info.CANNABIS_DELIVERED}
 					</H1>
-					{/* <Ticker text={'Delivery by Gras now available in Baltimore, Maryland!'} /> */}
 					<H3 className="text-inverse px-4 ">
 						Good day{user.firstName && `, ${user.firstName}`}!
 					</H3>
