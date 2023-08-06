@@ -32,7 +32,7 @@ spec:
       serviceAccountName: default
       containers:
         - name: gras-server-image
-          image: grasadmin/image:latest
+          image: grasadmin/image:TAG
           imagePullPolicy: Always
           terminationMessagePolicy: FallbackToLogsOnError
           # env:
