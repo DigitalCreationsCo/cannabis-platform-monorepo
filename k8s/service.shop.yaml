@@ -34,7 +34,7 @@ spec:
       serviceAccountName: default
       containers:
         - name: gras-shop
-          image: grasadmin/shop:latest
+          image: grasadmin/shop:TAG
           imagePullPolicy: Always
           terminationMessagePolicy: FallbackToLogsOnError
           env:

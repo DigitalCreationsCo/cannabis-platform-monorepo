@@ -12,12 +12,13 @@
     BUILD_CONTEXT: ''
     PORT: ''
     ROOTDIR: '.'
-    TAG: $CI_COMMIT_SHA
   before_script:
     - apk --no-cache add make
     - apk --no-cache add git
     - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin "${CI_REGISTRY}"
   script: |
+    printenv
+
     echo -e "\033[0;34m## Building module ${MODULE} ##\033[0m"
 
     # Check if module name was set
@@ -35,54 +36,53 @@
     # Build
     make docker-build
 
-    # Push
     if [ -n "${TAG}" ]; then
+    # clean this up to push image on production commit only
       image_tag="${CI_REGISTRY_IMAGE}/${BUILD_CONTEXT}:${TAG}"
-      docker tag "grasadmin/${BUILD_CONTEXT}:${TAG}" "${image_tag}"
-      echo -e "\033[0;34m## Pushing ${image_tag} ##\033[0m"
-      docker push "${image_tag}"
+
+      # tag
+      docker tag "${CI_REGISTRY_USER}/${BUILD_CONTEXT}:${TAG}" "${image_tag}"
+
+      # merge request
+      if [ "${TAG}" == "${CI_MERGE_REQUEST_IID}" ]; then
+        mr_tag="${CI_REGISTRY_IMAGE}/${BUILD_CONTEXT}:mr_${TAG}"
+        docker tag "${image_tag}" "${mr_tag}"
+        echo -e "\033[0;34m## Pushing ${mr_tag} ##\033[0m"
+        docker push "${mr_tag}"
+      fi
+      
+      if [ "${TAG}" == "${CI_COMMIT_SHORT_SHA}" ]; then
+        # Push commit tag
+        echo -e "\033[0;34m## Pushing ${image_tag} ##\033[0m"
+        docker push "${image_tag}"
+
+        # Latest
+        latest_tag="${CI_REGISTRY_IMAGE}/${BUILD_CONTEXT}:latest"
+        docker tag "${image_tag}" "${latest_tag}"
+        echo -e "\033[0;34m## Pushing ${latest_tag} ##\033[0m"
+        docker push "${latest_tag}"
+      fi
+    else
+      echo "[ERROR] No tag is available. Image was not pushed to registry."
     fi
 
-    # # Push MR tag
-    # if [ -n "${CI_MERGE_REQUEST_IID}" ]; then
-    #   mr_tag="${CI_REGISTRY_IMAGE}/${IMAGE}:mr_${CI_MERGE_REQUEST_IID}"
-    #   docker tag "${variable_tag}" "${mr_tag}"
-    #   echo -e "\033[0;34m## Pushing ${mr_tag} ##\033[0m"
-    #   docker push "${mr_tag}"
-    # fi
+# Deploy
+.module_deploy:
+  stage: deploy
+  extends: .module_build
+  cache: []
+  image:
+    name: bitnami/kubectl:latest
+    entrypoint: ['']
+  variables:
+    MODULE: ''
+    ROOTDIR: '.'
+    TAG: $CI_COMMIT_SHORT_SHA
+  script: |
+    kubectl config get-contexts
+    kubectl config use-context gras1/cannabis-platform-monorepo:gras-cluster
+    cd "${ROOTDIR}/k8s/"
 
-    # # Push COMMIT_TAG
-    # if [ -n "${CI_COMMIT_TAG}" ]; then
-    #   # Release/version Tag, strip the prefix "${IMAGE}-v"
-    #   release_tag="${CI_REGISTRY_IMAGE}/${IMAGE}:$(echo "${CI_COMMIT_TAG}" | sed -e "s/^${IMAGE}-v//")"
-    #   # Version
-    #   docker tag "${variable_tag}" "${release_tag}"
-    #   echo -e "\033[0;34m## Pushing ${release_tag} ##\033[0m"
-    #   docker push "${release_tag}"
-    #   # Latest
-    #   latest_tag="${CI_REGISTRY_IMAGE}/${IMAGE}:latest"
-    #   docker tag "${variable_tag}" "${latest_tag}"
-    #   echo -e "\033[0;34m## Pushing ${latest_tag} ##\033[0m"
-    #   docker push "${latest_tag}"
-    # fi
-
-# # Tag
-# .module_tag_version:
-#   stage: tag
-#   image: node:16-alpine
-#   variables:
-#     MODULE: ""
-#     ROOTDIR: "."
-#   before_script:
-#     - apk --no-cache add git
-# - yarn # not needed due to caching??
-#   script:
-#     - cd "${ROOTDIR}/${MODULE}"
-#     - npx semantic-release
-
-# # Build with commit tag
-# .module_publish:
-#   stage: release
-#   extends: .module_build
-#   variables:
-#     TAG: ${CI_COMMIT_TAG}
+    # kubectl apply -f "service.${BUILD_CONTEXT}.yaml"
+    sed -e 's|TAG|$TAG|g' "service.${BUILD_CONTEXT}.yaml" | kubectl apply -f -
+    kubectl get pods
