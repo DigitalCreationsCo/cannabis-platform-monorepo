@@ -13,7 +13,6 @@ import {
 	TextField,
 	useFormContext,
 } from '@cd/ui-lib';
-import { createId } from '@paralleldrive/cuid2';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import Image from 'next/image';
@@ -44,7 +43,6 @@ function DispensaryCreate() {
 		name: formValues.organization?.name || '',
 		// email: formValues.organization?.email || '',
 		address: {
-			id: formValues.organization?.address?.id || createId(),
 			street1: formValues.organization?.address?.street1 || '',
 			street2: formValues.organization?.address?.street2 || '',
 			city: formValues.organization?.address?.city || '',

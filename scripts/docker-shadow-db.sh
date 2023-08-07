@@ -1,3 +1,3 @@
 #  Local development image for database migration
 
-docker run --name shadow-db-pg -e POSTGRES_PASSWORD=shadowdbrocks -d postgres
+docker run --name prisma-shadow-db-pg -e POSTGRES_PASSWORD=shadowdbrocks -p 5432:5432 -d postgres

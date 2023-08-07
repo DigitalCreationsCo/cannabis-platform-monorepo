@@ -57,6 +57,7 @@ const TextContent = Object.freeze({
 	},
 
 	error: {
+		DISPENSARY_NOT_FOUND: `Dispensary is not found.`,
 		PAYMENT_NOT_PROCESSED:
 			'Your payment could not be processed. Please try again later. Thank you!',
 		PAYMENT_SERVICE_NOT_AVAILABLE:

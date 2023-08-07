@@ -1,4 +1,6 @@
 import {
+	applicationHeaders,
+	axios,
 	coordinatesIsEmpty,
 	getGeoCoordinatesFromAddress,
 	urlBuilder,
@@ -10,11 +12,10 @@ import {
 	findOrganizationById,
 	findOrganizationsByZipcode,
 	findUsersByOrganization,
-	OrganizationCreateType,
 	updateOrganization,
+	type OrganizationCreateType,
 } from '@cd/data-access';
 import { createId } from '@paralleldrive/cuid2';
-import axios from 'axios';
 /* =================================
 Organization Data Access - data class for organization table
 
@@ -35,14 +36,9 @@ export default class OrganizationDA {
 		try {
 			const data = await createOrganization(organization);
 
-			console.info(
+			console.debug(
 				`successfully created organization record: ${organization.name}. id: ${data.id}
-        now creating location record...`,
-			);
-
-			console.info(
-				`successfully created organization record: ${organization.name}. id: ${data.id}
-        now creating location record...`,
+				now creating location record...`,
 			);
 
 			const response = await axios.post(
@@ -58,21 +54,22 @@ export default class OrganizationDA {
 				},
 				{
 					headers: {
-						Accept: 'application/json',
-						'Content-Type': 'application/json',
+						...applicationHeaders,
 					},
 				},
 			);
 
-			if (response.data.success != true) throw new Error(response.data.error);
+			if (response.data.success == 'false') {
+				await deleteOrganizationById(data.id);
+				console.debug(
+					'the organization location record was not created. the insert operation is reverted.',
+				);
+				throw new Error('The organization ');
+			}
 
-			console.info(`${data.name} record create is completed.`);
+			console.debug(`${data.name} record create is completed.`);
 			return `${data.name} record create is completed. Your id is ${data.id}`;
 		} catch (error: any) {
-			console.error(
-				'OrganizationDA: error creating Organization record: ',
-				error.message,
-			);
 			throw new Error(error.message);
 		}
 	}
@@ -94,11 +91,10 @@ export default class OrganizationDA {
 
 			await axios.put(
 				urlBuilder.location.organizationLocationRecord(),
-				{ ...organization },
+				{ ...data },
 				{
 					headers: {
-						Accept: 'application/json',
-						'Content-Type': 'application/json',
+						...applicationHeaders,
 					},
 				},
 			);
@@ -107,8 +103,7 @@ export default class OrganizationDA {
 
 			return 'Your organization account is updated.';
 		} catch (error: any) {
-			console.error(error.message);
-			throw new Error(error.message);
+			throw new Error(error);
 		}
 	}
 
@@ -133,8 +128,7 @@ export default class OrganizationDA {
 	// find organization by organizationId
 	static async getOrganizationById(organizationId) {
 		try {
-			const data = await findOrganizationById(organizationId);
-			return data;
+			return await findOrganizationById(organizationId);
 		} catch (error: any) {
 			console.error(error.message);
 			throw new Error(error.message);
@@ -147,8 +141,7 @@ export default class OrganizationDA {
 		radius: number,
 	) {
 		try {
-			const data = await findOrganizationsByZipcode(zipcode, limit, radius);
-			return data;
+			return await findOrganizationsByZipcode(zipcode, limit, radius);
 		} catch (error: any) {
 			console.error(error.message);
 			throw new Error(error.message);
@@ -158,8 +151,7 @@ export default class OrganizationDA {
 	// find CategoryList by organizationId, default arg is 1 for platform wide CategoryList
 	static async getCategoryList(organizationId = '1') {
 		try {
-			const data = await findCategoryListByOrg(organizationId);
-			return data;
+			return await findCategoryListByOrg(organizationId);
 		} catch (error: any) {
 			console.error(error.message);
 			throw new Error(error.message);
@@ -168,8 +160,7 @@ export default class OrganizationDA {
 
 	static async getUsersByOrganization(organizationId) {
 		try {
-			const data = await findUsersByOrganization(organizationId);
-			return data;
+			return await findUsersByOrganization(organizationId);
 		} catch (error: any) {
 			console.error(error.message);
 			throw new Error(error.message);
@@ -178,6 +169,7 @@ export default class OrganizationDA {
 
 	static async updateProduct(product) {
 		try {
+			console.debug('update product: ', product);
 			return 'TEST: product was updated OK';
 			// const data = await updateProduct(product);
 			// return data

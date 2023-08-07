@@ -1,8 +1,8 @@
 import {
 	findMultipleOrganizationsById,
-	OrganizationWithShopDetails,
+	type OrganizationWithShopDetails,
 } from '@cd/data-access';
-import { Collection, MongoClient } from 'mongodb';
+import { type Collection, type MongoClient } from 'mongodb';
 
 /* =================================
 Location Data Access - data methods regarding location, address, and geosptial queries
@@ -101,9 +101,9 @@ export default class LocationDA {
 		organization: OrganizationWithShopDetails,
 	) {
 		try {
-			let { address, id, ...rest } = organization;
+			const { address, id, ...rest } = organization;
 
-			const newOrganization = await orgGeolocate.insertOne({
+			return await orgGeolocate.insertOne({
 				id,
 				address: {
 					...address,
@@ -114,8 +114,6 @@ export default class LocationDA {
 				},
 				...rest,
 			});
-
-			return newOrganization;
 		} catch (error: any) {
 			console.error('LocationDA error: ', error.message);
 			throw new Error(error.message);
