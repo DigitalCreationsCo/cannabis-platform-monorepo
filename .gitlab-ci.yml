@@ -298,7 +298,7 @@ deploy:
 =======
 
 stages:
-  - cache
+  # - cache
   - build
   - deploy
 
