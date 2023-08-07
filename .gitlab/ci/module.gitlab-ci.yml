@@ -33,10 +33,10 @@
       fi
     fi
 
+    if [ -n "${TAG}" ]; then
     # Build
     make docker-build
 
-    if [ -n "${TAG}" ]; then
     # clean this up to push image on production commit only
       image_tag="${CI_REGISTRY_IMAGE}/${BUILD_CONTEXT}:${TAG}"
 
