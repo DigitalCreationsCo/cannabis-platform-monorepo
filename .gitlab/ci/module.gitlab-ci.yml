@@ -78,7 +78,7 @@
     MODULE: ''
     ROOTDIR: '.'
     BUILD_CONTEXT: ''
-    TAG: ${CI_COMMIT_SHORT_SHA}
+    TAG: "${CI_COMMIT_SHORT_SHA}"
   script: |
     kubectl config get-contexts
     kubectl config use-context gras1/cannabis-platform-monorepo:gras-cluster
