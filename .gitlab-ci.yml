@@ -9,7 +9,7 @@
       - server/image
 
 stages:
-  - cache
+  # - cache
   - build
   - deploy
 
