@@ -1,11 +1,12 @@
 import {
-	OrganizationStripePayload,
-	updateOrganizationRecord,
-	updateStripeAccountDispensary,
-} from '@cd/data-access';
-import { Response } from 'express';
-import Stripe from 'stripe';
+	TextContent,
+	urlBuilder,
+	type DispensaryCreateStripeAccountPayload,
+} from '@cd/core-lib';
+import { updateStripeAccountDispensary } from '@cd/data-access';
+import type Stripe from 'stripe';
 import StripeService from '../stripe';
+
 /* =================================
 AccountController - controller class for preworking data and calling stripe accounts functions
 
@@ -22,27 +23,19 @@ export default class AccountController {
 	 */
 	static async createStripeDispensaryAccount(req, res: Response) {
 		try {
-			let { organization: dispensaryAccount }: OrganizationStripePayload =
-				req.body;
+			const {
+				organization: dispensaryAccount,
+				ownerAccount,
+			}: DispensaryCreateStripeAccountPayload = req.body;
 
 			if (dispensaryAccount === undefined)
-				throw new Error('Dispensary is not found.');
+				throw new Error(TextContent.error.DISPENSARY_NOT_FOUND);
 
-			let accountParams: Stripe.AccountCreateParams = {
+			const accountParams: Stripe.AccountCreateParams = {
 				type: 'standard',
 				country: dispensaryAccount.address.countryCode || undefined,
-				email: dispensaryAccount.email || undefined,
+				email: ownerAccount.email || undefined,
 				business_type: 'company',
-				// business_profile: {
-				//     product_description: dispensaryAccount.description || '',
-				//     support_phone: dispensaryAccount.phone || undefined,
-				//     url: dispensaryAccount.website || '',
-				// },
-				// external_account: ,
-				// tos_acceptance: {
-				//     date: Date.now(),
-				//     ip: req.ip
-				// },
 				company: {
 					name: dispensaryAccount.name || undefined,
 					address: {
@@ -50,16 +43,11 @@ export default class AccountController {
 						line2: dispensaryAccount.address.street2 || undefined,
 						city: dispensaryAccount.address.city || undefined,
 						state: dispensaryAccount.address.state || undefined,
-						postal_code: dispensaryAccount.address.zipcode || undefined,
+						postal_code: String(dispensaryAccount.address.zipcode) || undefined,
 						country: dispensaryAccount.address.countryCode || undefined,
 					},
 					phone: dispensaryAccount.phone || undefined,
 				},
-				// capabilities: {
-				//     card_payments: {requested: true},
-				//     transfers: {requested: true},
-				// },
-				// payoutsEnabled: true
 			};
 
 			const account = await StripeService.createDispensaryAccount(
@@ -71,7 +59,7 @@ export default class AccountController {
 			if (!account)
 				throw new Error('Stripe account is not created. Please try again.');
 
-			let stripeAccountId = account.id;
+			const stripeAccountId = account.id;
 
 			// adds stripe account id to organization record
 			await updateStripeAccountDispensary(
@@ -81,13 +69,8 @@ export default class AccountController {
 
 			const accountLink = await StripeService.createDispensaryAccountLink({
 				account: stripeAccountId,
-				refresh_url:
-					process.env.NEXT_PUBLIC_SHOP_APP_URL +
-					'/signup/create-dispensary-account',
-				// return_url: 'app.' + process.env.SHOP_APP_URL,
-				return_url:
-					process.env.NEXT_PUBLIC_SHOP_APP_URL +
-					'/signup/create-dispensary-account#step=5',
+				refresh_url: `${urlBuilder.dashboardDispensarySignUpUrl}`,
+				return_url: `${urlBuilder.dashboardDispensarySignUpUrl}#step=5`,
 				type: 'account_onboarding',
 			});
 
@@ -103,7 +86,7 @@ export default class AccountController {
 		} catch (error: any) {
 			console.info('stripe account create error: ', error);
 
-			if (error.mesage === 'Dispensary is not found.')
+			if (error.mesage === TextContent.error.DISPENSARY_NOT_FOUND)
 				return res.status(404).json({
 					error,
 					success: false,
@@ -120,10 +103,10 @@ export default class AccountController {
 	 */
 	static async connectStripeToDispensaryAccount(req, res: Response) {
 		try {
-			let {
+			const {
 				organization: dispensaryAccount,
 				stripeAccountId,
-			}: OrganizationStripePayload = req.body;
+			}: DispensaryCreateStripeAccountPayload = req.body;
 
 			if (dispensaryAccount === undefined)
 				throw new Error('Dispensary is not found.');
@@ -136,10 +119,13 @@ export default class AccountController {
 			);
 
 			if (stripeOnboardingComplete) {
-				await updateOrganizationRecord(dispensaryAccount.id, {
-					stripeOnboardingComplete,
+				await updateStripeAccountDispensary(
+					dispensaryAccount.id,
 					stripeAccountId,
-				});
+					{
+						stripeOnboardingComplete,
+					},
+				);
 
 				return res.status(200).send({
 					success: true,
@@ -193,16 +179,15 @@ export default class AccountController {
 	 */
 	static async checkOnboardStripeDispensaryAccount(req, res: Response) {
 		try {
-			let { id, stripeAccountId } = req.body;
+			const { id, stripeAccountId } = req.body;
 
 			const stripeOnboardingComplete = await StripeService.checkOnboardAccount(
 				stripeAccountId,
 			);
 
 			if (stripeOnboardingComplete) {
-				await updateOrganizationRecord(id, {
+				await updateStripeAccountDispensary(id, stripeAccountId, {
 					stripeOnboardingComplete,
-					stripeAccountId,
 				});
 
 				return res.status(200).send({
@@ -213,10 +198,8 @@ export default class AccountController {
 			} else if (!stripeOnboardingComplete) {
 				const accountLink = await StripeService.createDispensaryAccountLink({
 					account: stripeAccountId,
-					refresh_url:
-						process.env.NEXT_PUBLIC_SHOP_APP_URL +
-						'/signup/create-dispensary-account',
-					return_url: process.env.NEXT_PUBLIC_SHOP_APP_URL,
+					refresh_url: `${urlBuilder.dashboardDispensarySignUpUrl}`,
+					return_url: `${urlBuilder.dashboard}`,
 					type: 'account_onboarding',
 				});
 

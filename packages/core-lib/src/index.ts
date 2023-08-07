@@ -3,4 +3,5 @@ export * from './axiosInstance';
 export * from './constants';
 export * from './hooks';
 export * from './reduxDir';
+export * from './types';
 export * from './utils';

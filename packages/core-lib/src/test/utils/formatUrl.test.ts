@@ -1,7 +1,7 @@
 import {
 	formatDispensaryUrl,
 	getDashboardSite,
-	getShopSite,
+	getShopSite
 } from '../../utils/formatUrl';
 
 describe('formatUrt.test', () => {
@@ -43,7 +43,7 @@ describe('formatUrt.test', () => {
 					);
 				case 'production':
 					return expect(formatDispensaryUrl(subdomainId)).toEqual(
-						`http://${subdomainId}.grascannabis.org`,
+						`https://grascannabis.org/browse/${subdomainId}`,
 					);
 			}
 		});
@@ -75,26 +75,5 @@ describe('formatUrt.test', () => {
 					);
 			}
 		});
-
-		// test('getCurrentSite ', () => {
-		//   const window = {
-		//     location: { host: environment['NEXT_PUBLIC_SHOP_APP_URL'] },
-		//   } as any;
-		//   global.window = window;
-		//   switch (process.env.NODE_ENV) {
-		//     case 'development':
-		//       expect(getCurrentSite('/home')).toEqual(
-		//         `localhost:3000/home`
-		//       );
-		//     case 'test':
-		//       expect(getCurrentSite('/home')).toEqual(
-		//         `localhost:3000/home`
-		//       );
-		//     case 'production':
-		//       expect(getCurrentSite('/home')).toEqual(
-		//         `http://grascannabis.org/home`
-		//       );
-		//   }
-		// });
 	});
 });

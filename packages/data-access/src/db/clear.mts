@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { Collection, MongoClient } from 'mongodb';
+import { MongoClient, type Collection } from 'mongodb';
 // import client from "./generated/prisma-client/index.js"
 
 const prisma = new PrismaClient();
@@ -13,7 +13,8 @@ async function clearRecords() {
 			organizations_geolocate = await client
 				.db(process?.env?.LOCATION_DB_NS as string)
 				.collection('organizations_geolocate');
-
+		})
+		.then(async () => {
 			console.info('clearing tables...');
 
 			await prisma.imageVendor.deleteMany();

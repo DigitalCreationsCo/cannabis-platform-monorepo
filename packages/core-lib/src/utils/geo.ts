@@ -7,39 +7,52 @@ import { axios } from '../axiosInstance';
 
 export async function getGeoCoordinatesFromAddress(address: AddressPayload) {
 	const { street1, street2, city, state, country, zipcode } = address;
+
 	const addressString = `${street1} ${street2}, ${city}, ${state}, ${country}, ${zipcode}`;
-	console.info('getting coordinates for address: ', addressString);
 	return await getCoordinatesByAddressString(addressString);
 }
 
 async function getCoordinatesByAddressString(addressString: string): Promise<{
 	latitude: any;
 	longitude: any;
-} | null> {
+}> {
 	try {
 		const format = 'json';
 		const response = await axios.get(
 			`${process.env.NEXT_PUBLIC_LOCATION_IQ_GEOCODE_URL}?key=${process.env.NEXT_PUBLIC_LOCATION_IQ_API_KEY}&q=${addressString}&format=${format}`,
+			{
+				headers: {
+					// eslint-disable-next-line @typescript-eslint/naming-convention
+					'Accept-Encoding': 'gzip,deflate,compress',
+				},
+			},
 		);
 
+		if (!response.data || !response.data[0] || response.data.length == 0)
+			throw new Error('No coordinates found for address');
 		const { lat: latitude, lon: longitude } = response.data[0];
 
 		return { latitude, longitude };
 	} catch (error) {
-		console.info('getCoordinatesByAddressString error: ', error);
-		return null;
+		throw new Error(error);
 	}
 }
 
 export async function getGeoAddressFromCoordinates(coordinates: {
 	latitude: number;
 	longitude: number;
-}): Promise<AddressPayload | null> {
+}): Promise<AddressPayload> {
 	try {
 		const format = 'json';
 		const { latitude, longitude } = coordinates;
 		const response = await axios.get(
 			`${process.env.NEXT_PUBLIC_LOCATION_IQ_REVERSE_GEOCODE_URL}?key=${process.env.NEXT_PUBLIC_LOCATION_IQ_API_KEY}&lat=${latitude}&lon=${longitude}&format=${format}`,
+			{
+				headers: {
+					// eslint-disable-next-line @typescript-eslint/naming-convention
+					'Accept-Encoding': 'gzip,deflate,compress',
+				},
+			},
 		);
 
 		const { address, lat, lon } = response.data;
@@ -60,8 +73,7 @@ export async function getGeoAddressFromCoordinates(coordinates: {
 
 		return formattedAddress;
 	} catch (error) {
-		console.info('getGeoAddressFromCoordinates: ', error);
-		return null;
+		throw new Error(error);
 	}
 }
 
