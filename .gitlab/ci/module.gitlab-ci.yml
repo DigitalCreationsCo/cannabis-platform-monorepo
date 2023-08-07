@@ -69,6 +69,7 @@
 
 # Deploy
 .module_deploy:
+  extends: .module_build
   stage: deploy
   cache: []
   image:
