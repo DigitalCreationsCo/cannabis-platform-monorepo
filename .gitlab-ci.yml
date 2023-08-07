@@ -22,9 +22,10 @@ build:
   rules:
     # MR
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-      changes:
-        - node_modules
-        - ${MODULE}/**/*
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      # changes:
+      #   - node_modules
+      #   - ${MODULE}/**/*
 
 deploy:
   extends: .module_deploy
@@ -34,8 +35,9 @@ deploy:
     TAG: ${CI_COMMIT_SHORT_SHA}
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-  when: 
-    always
+      # changes:
+      #   - node_modules
+      #   - ${MODULE}/**/*
 
 include:
   - .gitlab/ci/cache.gitlab-ci.yml

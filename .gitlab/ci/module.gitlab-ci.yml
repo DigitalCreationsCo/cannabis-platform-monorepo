@@ -12,7 +12,7 @@
     BUILD_CONTEXT: ''
     PORT: ''
     ROOTDIR: '.'
-    TAG: ''
+    TAG: ${CI_COMMIT_SHORT_SHA}
   before_script:
     - apk --no-cache add make
     - apk --no-cache add git
@@ -70,7 +70,7 @@
 # Deploy
 .module_deploy:
   stage: deploy
-  extends: .module_build
+  needs: .module_build
   cache: []
   image:
     name: bitnami/kubectl:latest
