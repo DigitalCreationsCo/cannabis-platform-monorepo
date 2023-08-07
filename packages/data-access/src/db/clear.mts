@@ -65,7 +65,7 @@ async function clearRecords() {
 			await prisma.organization.deleteMany();
 			console.info('clear prisma.organization');
 
-			organizations_geolocate?.deleteMany({});
+			organizations_geolocate?.deleteMany();
 			console.info('clear mongo.organizations_geolocate');
 
 			await prisma.address.deleteMany();
