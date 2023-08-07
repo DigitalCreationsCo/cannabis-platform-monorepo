@@ -1,7 +1,6 @@
 import { getGeoCoordinatesFromAddress } from '@cd/core-lib';
-import { OrganizationCreateType } from '@cd/data-access';
+import { type OrganizationCreateType } from '@cd/data-access';
 import { OrganizationDA } from '../data-access';
-const Busboy = require('busboy');
 
 /* =================================
 OrganizationController - controller class for organization management actions
@@ -20,12 +19,12 @@ getUsersByOrganization
 export default class OrganizationController {
 	static async createOrganization(req, res) {
 		try {
-			const organization = req.body;
+			const organization: OrganizationCreateType = req.body;
 
 			const coordinates = await getGeoCoordinatesFromAddress(
 				organization.address,
 			);
-			if (coordinates) organization.address.coordinates = coordinates;
+			organization.address.coordinates = coordinates;
 
 			const data = await OrganizationDA.createOrganization(organization);
 
@@ -40,7 +39,7 @@ export default class OrganizationController {
 				payload: data,
 			});
 		} catch (error: any) {
-			console.info('API error: ', error.message);
+			console.info('API: createOrganization: ', error);
 			res.status(500).json({
 				success: false,
 				error: error.message,
@@ -66,7 +65,7 @@ export default class OrganizationController {
 				payload: data,
 			});
 		} catch (error: any) {
-			console.info('API error: ', error.message);
+			console.info('API: updateOrganization: ', error.message);
 			res.status(500).json({
 				success: false,
 				error: error.message,
@@ -92,7 +91,7 @@ export default class OrganizationController {
 				payload: data,
 			});
 		} catch (error: any) {
-			console.info('API error: ', error.message);
+			console.info('API: deleteOrganization: ', error.message);
 			res.status(500).json({
 				success: false,
 				error: error.message,
@@ -152,7 +151,7 @@ export default class OrganizationController {
 				payload: data,
 			});
 		} catch (error: any) {
-			console.info('API error: ', error);
+			console.info('API: getOrganizationsByZipcode: ', error);
 			res.status(500).json({
 				success: false,
 				error: error.message,

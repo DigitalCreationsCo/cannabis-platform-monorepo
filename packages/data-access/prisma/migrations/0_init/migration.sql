@@ -272,6 +272,7 @@ CREATE TABLE "Organization" (
     "dialCode" TEXT NOT NULL,
     "phone" TEXT,
     "vendorId" TEXT NOT NULL,
+    "vendorName" TEXT NOT NULL,
     "scheduleId" TEXT NOT NULL,
     "termsAccepted" BOOLEAN NOT NULL DEFAULT false,
     "subdomainId" TEXT NOT NULL,
@@ -718,6 +719,9 @@ CREATE INDEX "Vendor_name_idx" ON "Vendor"("name");
 CREATE INDEX "Vendor_publicName_idx" ON "Vendor"("publicName");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Vendor_id_name_key" ON "Vendor"("id", "name");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Address_id_key" ON "Address"("id");
 
 -- CreateIndex
@@ -805,6 +809,9 @@ CREATE INDEX "Purchase_orderId_idx" ON "Purchase"("orderId");
 CREATE UNIQUE INDEX "Organization_id_key" ON "Organization"("id");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Organization_name_key" ON "Organization"("name");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Organization_stripeAccountId_key" ON "Organization"("stripeAccountId");
 
 -- CreateIndex
@@ -815,6 +822,9 @@ CREATE UNIQUE INDEX "Organization_scheduleId_key" ON "Organization"("scheduleId"
 
 -- CreateIndex
 CREATE INDEX "Organization_id_idx" ON "Organization"("id");
+
+-- CreateIndex
+CREATE INDEX "Organization_name_idx" ON "Organization"("name");
 
 -- CreateIndex
 CREATE INDEX "Organization_vendorId_idx" ON "Organization"("vendorId");
@@ -1042,10 +1052,10 @@ ALTER TABLE "Order" ADD CONSTRAINT "Order_addressId_fkey" FOREIGN KEY ("addressI
 ALTER TABLE "Order" ADD CONSTRAINT "Order_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "User"("id") ON DELETE NO ACTION ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Order" ADD CONSTRAINT "Order_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "Organization"("id") ON DELETE NO ACTION ON UPDATE CASCADE;
+ALTER TABLE "Order" ADD CONSTRAINT "Order_driverId_fkey" FOREIGN KEY ("driverId") REFERENCES "Driver"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Order" ADD CONSTRAINT "Order_driverId_fkey" FOREIGN KEY ("driverId") REFERENCES "Driver"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Order" ADD CONSTRAINT "Order_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "Organization"("id") ON DELETE NO ACTION ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Purchase" ADD CONSTRAINT "Purchase_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "Order"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -1054,13 +1064,13 @@ ALTER TABLE "Purchase" ADD CONSTRAINT "Purchase_orderId_fkey" FOREIGN KEY ("orde
 ALTER TABLE "Organization" ADD CONSTRAINT "Organization_addressId_fkey" FOREIGN KEY ("addressId") REFERENCES "Address"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Organization" ADD CONSTRAINT "Organization_vendorId_fkey" FOREIGN KEY ("vendorId") REFERENCES "Vendor"("id") ON DELETE RESTRICT ON UPDATE RESTRICT;
-
--- AddForeignKey
 ALTER TABLE "Organization" ADD CONSTRAINT "Organization_scheduleId_fkey" FOREIGN KEY ("scheduleId") REFERENCES "Schedule"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Organization" ADD CONSTRAINT "Organization_subdomainId_fkey" FOREIGN KEY ("subdomainId") REFERENCES "SubDomain"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE "Organization" ADD CONSTRAINT "Organization_vendorId_vendorName_fkey" FOREIGN KEY ("vendorId", "vendorName") REFERENCES "Vendor"("id", "name") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Product" ADD CONSTRAINT "Product_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "Organization"("id") ON DELETE NO ACTION ON UPDATE CASCADE;
@@ -1069,10 +1079,10 @@ ALTER TABLE "Product" ADD CONSTRAINT "Product_organizationId_fkey" FOREIGN KEY (
 ALTER TABLE "ProductVariant" ADD CONSTRAINT "ProductVariant_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE "ProductCategories" ADD CONSTRAINT "ProductCategories_categoryListId_fkey" FOREIGN KEY ("categoryListId") REFERENCES "CategoryList"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "ProductCategories" ADD CONSTRAINT "ProductCategories_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ProductCategories" ADD CONSTRAINT "ProductCategories_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "ProductCategories" ADD CONSTRAINT "ProductCategories_categoryListId_fkey" FOREIGN KEY ("categoryListId") REFERENCES "CategoryList"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "CategoryList" ADD CONSTRAINT "CategoryList_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "Organization"("id") ON DELETE CASCADE ON UPDATE CASCADE;

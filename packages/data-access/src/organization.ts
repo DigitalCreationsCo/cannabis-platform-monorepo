@@ -1,4 +1,3 @@
-import { createId } from '@paralleldrive/cuid2';
 import {
 	type CategoryList,
 	type Coordinates,
@@ -9,7 +8,7 @@ import {
 	type SubDomain,
 	type Vendor,
 } from '@prisma/client';
-import { type AddressCreateType, type AddressWithCoordinates } from './address';
+import { type AddressPayload, type AddressWithCoordinates } from './address';
 import prisma from './db/prisma';
 import { type ProductWithShopDetails } from './product';
 /*
@@ -99,15 +98,16 @@ export async function updateOrganization(organization: OrganizationCreateType) {
 			},
 		});
 	} catch (error: any) {
-		console.error('updateOrganization error: ', error);
+		console.log('data-access updateOrganization error code: ', error.code);
 		throw new Error(error.message);
 	}
 }
 
 export async function createOrganization(organization: OrganizationCreateType) {
 	try {
-		organization.vendorId = organization.vendorId ?? createId();
-
+		organization.vendorName =
+			organization.vendorName ?? organization.name.toLowerCase();
+		// organization.vendorId = organization.vendorId ?? createId();
 		organization.subdomainId = organization.name
 			.toLowerCase()
 			.split(' ')
@@ -115,7 +115,7 @@ export async function createOrganization(organization: OrganizationCreateType) {
 
 		const { address, subdomainId, schedule } = organization;
 
-		console.info('creating organization');
+		console.debug('prisma create organization');
 		return await prisma.organization.create({
 			data: {
 				name: organization.name,
@@ -163,13 +163,15 @@ export async function createOrganization(organization: OrganizationCreateType) {
 					},
 				},
 				vendor: {
+					// connect to vendor, or create new vendor from organization
+					// this will be fine with the beginning clients, when taking on a larger client, or a second client, we will need to create a shared vendor
 					connectOrCreate: {
-						// where: { name: vendorName },
-						where: { id: organization.vendorId },
+						where: { name: organization.vendorName },
+						// where: { id: organization.vendorId },
 						create: {
 							id: organization.vendorId,
 							publicName: organization.name,
-							name: organization.name,
+							name: organization.vendorName,
 						},
 					},
 				},
@@ -184,8 +186,10 @@ export async function createOrganization(organization: OrganizationCreateType) {
 			},
 		});
 	} catch (error: any) {
-		console.error('createOrganization error: ', error.message);
-		console.log('code: ', error.code);
+		console.log('data-access createOrganization error: ', error);
+		if (error.code === 'P2002')
+			throw new Error('a unique value already exists');
+		console.log('data-access createOrganization error code: ', error.code);
 		throw new Error(error.message);
 	}
 }
@@ -426,11 +430,8 @@ export async function getStripeAccountId(organizationId: string) {
 	}
 }
 
-// export type OrganizationCreateType = Prisma.PromiseReturnType<typeof createOrganization>
-// export type OrganizationC = Prisma.OrganizationCreateArgs["data"]
-
-export type OrganizationCreateType = Organization & {
-	address: AddressCreateType;
+export type OrganizationCreateType = Prisma.OrganizationUncheckedCreateInput & {
+	address: AddressPayload;
 	schedule: Prisma.ScheduleCreateInput;
 	images: Prisma.ImageOrganizationCreateManyOrganizationInput[];
 	products: Prisma.ProductCreateInput[];
@@ -461,11 +462,6 @@ export type OrganizationWithDashboardDetails = Organization & {
 
 export type OrganizationStripeDetail = {
 	id: string;
-	stripeAccountId: string;
-};
-
-export type OrganizationStripePayload = {
-	organization: OrganizationCreateType;
 	stripeAccountId: string;
 };
 

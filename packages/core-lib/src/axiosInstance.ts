@@ -37,7 +37,6 @@ axios.interceptors.response.use(
 			error.response?.status === 503 ||
 			error.response?.status === 500
 		) {
-			// set a retry count parameter
 			const retryCount = (error.config.retryCount || 0) + 1;
 			error.config.retryCount = retryCount;
 			if (retryCount <= MAX_RETRIES) {
@@ -72,8 +71,8 @@ instance.interceptors.response.use(
 );
 
 const applicationHeaders = {
-	Accept: 'application/json',
 	'Content-Type': 'application/json',
+	Accept: 'application/json',
 };
 
 export { instance as axios, applicationHeaders };

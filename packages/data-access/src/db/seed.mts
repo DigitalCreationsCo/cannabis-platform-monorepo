@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
 	PrismaClient,
 	type Address,
@@ -16,6 +17,7 @@ import {
 	type Vendor,
 } from '@prisma/client';
 import axios from 'axios';
+import { type OrganizationCreateType } from '../organization';
 import { type ReviewWithUserDetails } from '../product';
 
 const prisma = new PrismaClient();
@@ -596,13 +598,7 @@ const createOrganizations = async () => {
 			);
 
 			axios
-				.post<
-					Prisma.OrganizationCreateInput & {
-						address: Prisma.AddressCreateNestedOneWithoutOrganizationInput;
-						schedule: Prisma.ScheduleCreateNestedOneWithoutOrganizationInput;
-						images: Prisma.ImageOrganizationCreateNestedManyWithoutOrganizationInput;
-					}
-				>(
+				.post<OrganizationCreateType>(
 					(process?.env?.NEXT_PUBLIC_SERVER_LOCATION_URL +
 						'/api/v1/serve-local/organizations/record') as string,
 					{

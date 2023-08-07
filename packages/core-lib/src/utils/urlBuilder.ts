@@ -10,6 +10,7 @@ const urlBuilder = {
 	shop,
 
 	dashboard,
+	dashboardDispensarySignUpUrl: `${dashboard}/signup/create-dispensary-account}`,
 
 	main: {
 		baseUrl: mainUrl + '/api/v1',

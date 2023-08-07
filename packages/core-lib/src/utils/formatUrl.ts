@@ -1,4 +1,4 @@
-function formatDispensaryUrl(subdomainId: string, organizationId: string) {
+function formatDispensaryUrl(subdomainId: string, organizationId?: string) {
 	console.debug(
 		`link to subdomain: ${subdomainId}, organizationId: ${organizationId}`,
 	);
