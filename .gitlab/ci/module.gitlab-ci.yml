@@ -70,7 +70,6 @@
 # Deploy
 .module_deploy:
   stage: deploy
-  extends: .module_build
   cache: []
   image:
     name: bitnami/kubectl:latest
