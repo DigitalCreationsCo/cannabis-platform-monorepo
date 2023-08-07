@@ -35,6 +35,7 @@ deploy:
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       changes:
+        - node_modules
         - ${MODULE}/**/*
 
 include:
