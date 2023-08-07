@@ -34,9 +34,6 @@ deploy:
     TAG: ${CI_COMMIT_SHORT_SHA}
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      changes:
-        - node_modules
-        - ${MODULE}/**/*
   when: 
     always
 
