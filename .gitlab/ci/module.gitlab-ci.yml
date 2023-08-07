@@ -12,7 +12,7 @@
     BUILD_CONTEXT: ''
     PORT: ''
     ROOTDIR: '.'
-    TAG: $CI_COMMIT_SHORT_SHA
+    TAG: ''
   before_script:
     - apk --no-cache add make
     - apk --no-cache add git
