@@ -77,11 +77,14 @@
   variables:
     MODULE: ''
     ROOTDIR: '.'
+    BUILD_CONTEXT: ''
     TAG: ${CI_COMMIT_SHORT_SHA}
   script: |
     kubectl config get-contexts
     kubectl config use-context gras1/cannabis-platform-monorepo:gras-cluster
     cd "${ROOTDIR}/k8s/"
+
+    BUILD_CONTEXT="$(echo "${MODULE}" | sed "s|.*/||")"
 
     # kubectl apply -f "service.${BUILD_CONTEXT}.yaml"
     sed -e "s|TAG|$TAG|g" "service.${BUILD_CONTEXT}.yaml" | kubectl apply -f -
