@@ -1,0 +1,11 @@
+echo "### Migration Revert ###"
+echo "Migrate a failed migration database back to the history state."
+
+echo "creating a migration diff from the migration history.."
+npx prisma migrate diff \
+--from-url "${DATABASE_URL}" \
+--to-migrations ./prisma/migrations \
+--script > prisma/revert/revert.sql \
+--shadow-database-url="${SHADOW_DATABASE_URL}"
+
+npx prisma db execute --url "${DATABASE_URL}" --file prisma/revert/revert.sql

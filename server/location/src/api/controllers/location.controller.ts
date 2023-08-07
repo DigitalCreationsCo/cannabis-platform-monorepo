@@ -1,5 +1,8 @@
 import { getCoordinatePairFromUserLocation } from '@cd/core-lib';
-import { Coordinates, OrganizationWithShopDetails } from '@cd/data-access';
+import {
+	type Coordinates,
+	type OrganizationWithShopDetails,
+} from '@cd/data-access';
 import { LocationDA } from '../data-access';
 /* =================================
 Locationontroller - controller class for location-based actions
@@ -72,7 +75,7 @@ export default class LocationController {
 
 			return res.status(201).json({
 				success: true,
-				payload: data,
+				payload: { ...data, insertedId: organization.id },
 			});
 		} catch (error: any) {
 			console.info('createOrganizationLocationRecord error: ', error);
