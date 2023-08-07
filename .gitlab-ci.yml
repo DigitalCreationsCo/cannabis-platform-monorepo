@@ -40,5 +40,5 @@ deploy:
       #   - ${MODULE}/**/*
 
 include:
-  - .gitlab/ci/cache.gitlab-ci.yml
+  # - .gitlab/ci/cache.gitlab-ci.yml
   - .gitlab/ci/module.gitlab-ci.yml
