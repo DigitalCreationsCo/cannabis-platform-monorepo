@@ -22,8 +22,6 @@ build:
   rules:
     # MR
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    # Production
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       changes:
         - node_modules
         - ${MODULE}/**/*
