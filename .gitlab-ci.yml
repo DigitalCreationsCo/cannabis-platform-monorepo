@@ -37,6 +37,8 @@ deploy:
       changes:
         - node_modules
         - ${MODULE}/**/*
+  when: 
+    always
 
 include:
   - .gitlab/ci/cache.gitlab-ci.yml
