@@ -297,6 +297,10 @@ deploy:
 <<<<<<< HEAD
 =======
 
+include:
+  # - .gitlab/ci/cache.gitlab-ci.yml
+  - .gitlab/ci/module.gitlab-ci.yml
+
 stages:
   # - cache
   - build
@@ -306,8 +310,6 @@ build:
   extends: .module_build
   parallel:
     matrix: !reference [.modules]
-  variables:
-    TAG: "${CI_MERGE_REQUEST_IID}"
   rules:
     # MR
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
@@ -321,14 +323,15 @@ deploy:
   extends: .module_deploy
   parallel:
     matrix: !reference [.modules]
-  variables:
-    TAG: $CI_COMMIT_SHORT_SHA
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       # changes:
       #   - ${MODULE}/**/*
 
+<<<<<<< HEAD
 include:
   # - .gitlab/ci/cache.gitlab-ci.yml
   - .gitlab/ci/module.gitlab-ci.yml
 >>>>>>> 560042a66 (bug(db): update data-access package.json scripts, applied new migration state,...)
+=======
+>>>>>>> d75fc6515 (bug(db): update data-access package.json scripts, applied new migration state,...)
