@@ -34,9 +34,8 @@
 
     if [ -n "${TAG}" ]; then
     # Build
-    make docker-build
+      docker build -t "grasadmin/${BUILD_CONTEXT}:${TAG}" -f "Dockerfile.${BUILD_TYPE}" --build-arg="BUILD_TYPE=${BUILD_TYPE}" --build-arg="BUILD_CONTEXT=${BUILD_CONTEXT}" --build-arg="PORT=${PORT}" .
 
-    # clean this up to push image on production commit only
       image_tag="${CI_REGISTRY_IMAGE}/${BUILD_CONTEXT}:${TAG}"
 
       # tag
