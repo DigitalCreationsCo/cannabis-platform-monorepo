@@ -66,15 +66,12 @@
 
 # Deploy
 .module_deploy:
-  extends: .module_build
   stage: deploy
-  extends: .module_build
   cache: []
   variables:
     MODULE: ''
     ROOTDIR: '.'
     BUILD_CONTEXT: ''
-    TAG: ${CI_COMMIT_SHORT_SHA}
   image:
     name: bitnami/kubectl:latest
     entrypoint: ['']
