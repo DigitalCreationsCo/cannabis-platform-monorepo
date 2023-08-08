@@ -14,9 +14,9 @@
     ROOTDIR: '.'
     TAG: ${CI_COMMIT_SHORT_SHA}
   before_script:
-    - apk --no-cache add make
-    - apk --no-cache add git
     - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin "${CI_REGISTRY}"
+    - sudo apt-get update
+    - sudo apt-get -y install make
   script: |
     printenv
 
