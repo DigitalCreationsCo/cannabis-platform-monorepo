@@ -12,7 +12,7 @@
     BUILD_CONTEXT: ''
     PORT: ''
     ROOTDIR: '.'
-    # TAG: $CI_COMMIT_SHORT_SHA
+    TAG: ${CI_COMMIT_SHORT_SHA}
   before_script:
     - apk --no-cache add make
     - apk --no-cache add git
@@ -45,8 +45,8 @@
       docker tag "${CI_REGISTRY_USER}/${BUILD_CONTEXT}:${TAG}" "${image_tag}"
 
       # merge request
-      if [ "${TAG}" == "${CI_MERGE_REQUEST_IID}" ]; then
-        mr_tag="${CI_REGISTRY_IMAGE}/${BUILD_CONTEXT}:mr_${TAG}"
+      if [ -n "${CI_MERGE_REQUEST_IID}" ]; then
+        mr_tag="${CI_REGISTRY_IMAGE}/${BUILD_CONTEXT}:mr_${CI_MERGE_REQUEST_IID}"
         docker tag "${image_tag}" "${mr_tag}"
         echo -e "\033[0;34m## Pushing ${mr_tag} ##\033[0m"
         docker push "${mr_tag}"
@@ -73,20 +73,19 @@
   stage: deploy
   extends: .module_build
   cache: []
-  image:
-    name: bitnami/kubectl:latest
-    entrypoint: ['']
   variables:
     MODULE: ''
     ROOTDIR: '.'
     BUILD_CONTEXT: ''
-    TAG: $CI_COMMIT_SHORT_SHA
+    TAG: ${CI_COMMIT_SHORT_SHA}
+  image:
+    name: bitnami/kubectl:latest
+    entrypoint: ['']
   script: |
     kubectl config get-contexts
     kubectl config use-context gras1/cannabis-platform-monorepo:gras-cluster
-    cd "${ROOTDIR}/k8s/"
 
-    BUILD_CONTEXT="$(echo "${MODULE}" | sed "s|.*/||")"
+    cd "${ROOTDIR}/k8s/"
 
     # kubectl apply -f "service.${BUILD_CONTEXT}.yaml"
     sed -e "s|TAG|$TAG|g" "service.${BUILD_CONTEXT}.yaml" | kubectl apply -f -
