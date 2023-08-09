@@ -113,10 +113,10 @@ build_docker_node_modules:
 build_module:
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       changes:
         - node_modules
         - ${MODULE}/**/*
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   image: docker:23.0.5
   services:
     - docker:23.0.5-dind
