@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
 BRANCH=$(git symbolic-ref --short HEAD)
 retcode=$?
 PROTECTED_BRANCH="production"
