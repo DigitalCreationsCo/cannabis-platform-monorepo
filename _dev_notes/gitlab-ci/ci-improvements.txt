@@ -92,3 +92,29 @@ build:
 #   extends: .module_deploy
 #   parallel:
 #     matrix: !reference [.modules]
+
+# read: https://dev.to/drakulavich/gitlab-ci-cache-and-artifacts-explained-by-example-2opi
+# QUESTION: WHEN ARE THE OPTIMAL TIMES TO BUILD THE CACHE?
+# WHEN IS IT NOT DESIRABLE TO BUILD THE CACHE?
+
+# I NEED NODE_MODULES DURING DOCKER BUILDS, SO FIGURE OUT A WAY TO ARTIFACT THE DEPENDENCIES INTO DOCKER BUILDS.
+# HERE IS THE IDEAL CACHE PROCESS:
+# 1. CACHE JOB RUNS:
+# DOWNLOAD AND INSTALL DEPENDENCIES FROM A CACHE.
+# IF THE CACHE IS STALE, BUILD THE CACHE AGAIN FROM SOURCE.
+# 2. CREATE AN ARTIFACT VOLUME FROM THE CACHE DURING THE JOB.
+# 3. MOUNT THE VOLUME IN DOCKER BUILD, OR IDEALLY AS A BASE IMAGE IN THE DOCKER BUILD.
+# IDEALLY, PUSH THE IMAGE IN DOCKER REGISTRY, SO ITS AVAILABLE OUTSIDE OF GITLAB AS WELL.
+
+question about cache:
+can i recover the cache in the first job? or is the node_modules always downloaded as the first job?
+====================================
+ci optimization
+1. cache stage creates cache and artifacts
+2. cache .yarn/install-state.gz and node_modules
+3. cache key: .cache/modules-sha
+if cache changed,
+create docker build node_modules image.
+push to registry,
+then build the remaining images
+

@@ -1,4 +1,220 @@
 ---
+# adopt these good caching practices: https://docs.gitlab.com/ee/ci/caching/#good-caching-practices
+# and these! https://medium.com/disdj/speed-up-npm-yarn-install-in-gitlab-1434437f9857
+cache: &node_modules
+  key:
+    files:
+      - .cache/modules-sha
+  paths:
+    - .yarn/install-state.gz
+    - node_modules
+    - '**/node_modules'
+  policy: pull
+
+
+build_cache:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes: 
+        - ".cache/modules-sha"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      changes: 
+        - ".cache/modules-sha"
+  image: node:16-alpine
+  cache:
+    <<: *node_modules
+    policy: push
+  artifacts:
+    paths:
+    - .yarn/install-state.gz
+    - node_modules
+    - '**/node_modules'
+    expire_in: 5d
+  script: |
+    echo -e "\033[0;34m## Building dependencies cache.. ##\033[0m"
+    yarn --immutable
+  retry:
+    max: 2
+    when:
+      - runner_system_failure
+      - stuck_or_timeout_failure
+
+
+build_docker_node_modules:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes: 
+        - ".cache/modules-sha"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      changes: 
+        - ".cache/modules-sha"
+  image: docker:23.0.5
+  services:
+    - docker:23.0.5-dind
+  variables:
+    DOCKER_DRIVER: overlay2
+    MODULE: '/node_modules'
+    BUILD_TYPE: ''
+    BUILD_CONTEXT: ''
+    ROOTDIR: '.'
+    TAG: ${CI_COMMIT_SHORT_SHA}
+  before_script:
+    - apk --no-cache add git
+    - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin "${CI_REGISTRY}"
+  script: |
+    printenv
+    echo -e "\033[0;34m## Building node_modules image ##\033[0m"
+
+    # Check if module name was set
+    if [ -n "${MODULE}" ]; then
+      BUILD_TYPE="$(echo "${MODULE}" | sed "s|/.*||")"
+      BUILD_CONTEXT="$(echo "${MODULE}" | sed "s|.*/||")"
+      if [ -n "${BUILD_CONTEXT}" ]; then
+        eval PORT="\$$(echo "${BUILD_CONTEXT}_PORT" | tr "[:lower:]" "[:upper:]")"
+      else
+        echo "[ERROR] Error building MODULE variables."
+        exit 1
+      fi
+    fi
+
+    if [ -n "${TAG}" ]; then
+    # Build
+      docker build -t "grasadmin/node_modules:${TAG}" -f "Dockerfile.node_modules" .
+
+      image_tag="${CI_REGISTRY_IMAGE}/${BUILD_CONTEXT}:${TAG}"
+
+      # tag
+      docker tag "${CI_REGISTRY_USER}/${BUILD_CONTEXT}:${TAG}" "${image_tag}"
+
+      # merge request
+      if [ -n "${CI_MERGE_REQUEST_IID}" ]; then
+        mr_tag="${CI_REGISTRY_IMAGE}/${BUILD_CONTEXT}:mr_${CI_MERGE_REQUEST_IID}"
+        docker tag "${image_tag}" "${mr_tag}"
+        echo -e "\033[0;34m## Pushing ${mr_tag} ##\033[0m"
+        docker push "${mr_tag}"
+      fi
+      
+      if [ "${TAG}" == "${CI_COMMIT_SHORT_SHA}" ]; then
+        # Push commit tag
+        echo -e "\033[0;34m## Pushing ${image_tag} ##\033[0m"
+        docker push "${image_tag}"
+
+        # Latest
+        latest_tag="${CI_REGISTRY_IMAGE}/${BUILD_CONTEXT}:latest"
+        docker tag "${image_tag}" "${latest_tag}"
+        echo -e "\033[0;34m## Pushing ${latest_tag} ##\033[0m"
+        docker push "${latest_tag}"
+      fi
+    else
+      echo "[ERROR] No tag is available. Image was not pushed to registry."
+    fi
+  allow_failure: true
+
+build_module:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      changes:
+        - node_modules
+        - ${MODULE}/**/*
+  image: docker:23.0.5
+  services:
+    - docker:23.0.5-dind
+  variables:
+    DOCKER_DRIVER: overlay2
+    MODULE: ''
+    BUILD_TYPE: ''
+    BUILD_CONTEXT: ''
+    PORT: ''
+    ROOTDIR: '.'
+    TAG: ${CI_COMMIT_SHORT_SHA}
+  before_script:
+    - apk --no-cache add git
+    - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin "${CI_REGISTRY}"
+  script: |
+    printenv
+    echo -e "\033[0;34m## Building module ${MODULE} ##\033[0m"
+
+    # Check if module name was set
+    if [ -n "${MODULE}" ]; then
+      BUILD_TYPE="$(echo "${MODULE}" | sed "s|/.*||")"
+      BUILD_CONTEXT="$(echo "${MODULE}" | sed "s|.*/||")"
+      if [ -n "${BUILD_CONTEXT}" ]; then
+        eval PORT="\$$(echo "${BUILD_CONTEXT}_PORT" | tr "[:lower:]" "[:upper:]")"
+      else
+        echo "[ERROR] Error building MODULE variables."
+        exit 1
+      fi
+    fi
+
+    if [ -n "${TAG}" ]; then
+    # Build
+      docker build -t "grasadmin/${BUILD_CONTEXT}:${TAG}" -f "Dockerfile.${BUILD_TYPE}" --build-arg="BUILD_TYPE=${BUILD_TYPE}" --build-arg="BUILD_CONTEXT=${BUILD_CONTEXT}" --build-arg="PORT=${PORT}" .
+
+      image_tag="${CI_REGISTRY_IMAGE}/${BUILD_CONTEXT}:${TAG}"
+
+      # tag
+      docker tag "${CI_REGISTRY_USER}/${BUILD_CONTEXT}:${TAG}" "${image_tag}"
+
+      # merge request
+      if [ -n "${CI_MERGE_REQUEST_IID}" ]; then
+        mr_tag="${CI_REGISTRY_IMAGE}/${BUILD_CONTEXT}:mr_${CI_MERGE_REQUEST_IID}"
+        docker tag "${image_tag}" "${mr_tag}"
+        echo -e "\033[0;34m## Pushing ${mr_tag} ##\033[0m"
+        docker push "${mr_tag}"
+      fi
+      
+      if [ "${TAG}" == "${CI_COMMIT_SHORT_SHA}" ]; then
+        # Push commit tag
+        echo -e "\033[0;34m## Pushing ${image_tag} ##\033[0m"
+        docker push "${image_tag}"
+
+        # Latest
+        latest_tag="${CI_REGISTRY_IMAGE}/${BUILD_CONTEXT}:latest"
+        docker tag "${image_tag}" "${latest_tag}"
+        echo -e "\033[0;34m## Pushing ${latest_tag} ##\033[0m"
+        docker push "${latest_tag}"
+      fi
+    else
+      echo "[ERROR] No tag is available. Image was not pushed to registry."
+    fi
+  parallel:
+    matrix: !reference [.modules]
+  needs:
+    - build_docker_node_modules
+  
+
+deploy:
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      changes:
+        - ${MODULE}/**/*
+  image:
+    name: bitnami/kubectl:latest
+    entrypoint: ['']
+  cache: []
+  variables:
+    MODULE: ''
+    BUILD_CONTEXT: ''
+    ROOTDIR: '.'
+    TAG: ${CI_COMMIT_SHORT_SHA}
+  script: |
+    kubectl config get-contexts
+    kubectl config use-context gras1/cannabis-platform-monorepo:gras-cluster
+
+    cd "${ROOTDIR}/k8s/"
+
+    BUILD_CONTEXT="$(echo "${MODULE}" | sed "s|.*/||")"
+
+    # kubectl apply -f "service.${BUILD_CONTEXT}.yaml"
+    sed -e "s|TAG|$TAG|g" "service.${BUILD_CONTEXT}.yaml" | kubectl apply -f -
+    kubectl get pods
+  parallel:
+    matrix: !reference [.modules]
+  needs:
+    - build_module
+
+
 .modules:
   - MODULE:
       - app/shop
@@ -7,35 +223,3 @@
       - server/location
       # - server/payments
       - server/image
-
-include:
-  # - .gitlab/ci/cache.gitlab-ci.yml
-  - .gitlab/ci/module.gitlab-ci.yml
-
-stages:
-  # - cache
-  - build
-  - deploy
-
-build:
-  extends: .module_build
-  parallel:
-    matrix: !reference [.modules]
-  rules:
-    # MR
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    # Production
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      # changes:
-      #   - node_modules
-      #   - ${MODULE}/**/*
-
-deploy:
-  extends: .module_deploy
-  parallel:
-    matrix: !reference [.modules]
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      # changes:
-      #   - ${MODULE}/**/*
-
