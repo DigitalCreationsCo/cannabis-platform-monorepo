@@ -30,7 +30,7 @@ build_cache:
       - '**/node_modules'
     expire_in: 5d
   script: |
-    echo -e "\033[0;34m## Building dependencies cache.. ##\033[0m"
+    echo -e "\033[0;34m## Building dependencies cache ##\033[0m"
     yarn --immutable
   retry:
     max: 2
@@ -202,8 +202,10 @@ deploy:
 
     BUILD_CONTEXT="$(echo "${MODULE}" | sed "s|.*/||")"
 
-    # kubectl apply -f "service.${BUILD_CONTEXT}.yaml"
+    echo -e "\033[0;34m## Applying service.${BUILD_CONTEXT}.yaml to gras-cluster ##\033[0m"
     sed -e "s|TAG|$TAG|g" "service.${BUILD_CONTEXT}.yaml" | kubectl apply -f -
+
+    sleep 10
     kubectl get pods
   parallel:
     matrix: !reference [.modules]
