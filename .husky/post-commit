@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+BRANCH=$(git symbolic-ref --short HEAD)
+retcode=$?
+PROTECTED_BRANCH="production"
+if [ $retcode -eq 0 ] ; then
+    #Only push if branch_name does not end with the non-push suffix
+    if [[ $BRANCH != PROTECTED_BRANCH ]] ; then
+        echo
+        echo "### Pushing current branch $BRANCH to origin [post-commit hook] ###"
+        echo
+        git push origin $BRANCH;
+    fi
+fi
