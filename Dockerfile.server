@@ -7,7 +7,7 @@ WORKDIR /root
 COPY --from=cache /node_modules ./node_modules
 COPY package.json ./
 COPY . ./
-RUN yarn workspaces focus --all
+RUN yarn workspaces focus @cd/$BUILD_TYPE-$BUILD_CONTEXT --production
 RUN yarn workspaces foreach -itR --from @cd/$BUILD_TYPE-$BUILD_CONTEXT run build:ci
 
 
@@ -16,6 +16,13 @@ ARG BUILD_TYPE
 ARG BUILD_CONTEXT
 ARG PORT
 ENV SERVER_PORT=$PORT
+COPY --from=build /root/node_modules                          ./root/node_modules
+COPY --from=build /root/package.json                          ./root/package.json
+COPY --from=build /root/.env.production                       ./root/.env.production
+COPY --from=build /root/packages/data-access/dist             ./root/packages/data-access/dist
+COPY --from=build /root/packages/data-access/package.json     ./root/packages/data-access/package.json
+COPY --from=build /root/packages/core-lib/dist                ./root/packages/core-lib/dist
+COPY --from=build /root/packages/core-lib/package.json        ./root/packages/core-lib/package.json
 COPY --from=build /root/server/$BUILD_CONTEXT/package.json    ./root/server/$BUILD_CONTEXT/package.json
 COPY --from=build /root/server/$BUILD_CONTEXT/dist            ./root/server/$BUILD_CONTEXT/dist
 WORKDIR /root/server/$BUILD_CONTEXT/
