@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 cat <<EOF
-Generating modules-sha..
+Generating node_modules cache hash modules-sha..
 EOF
 find . \
 -type d -name 'node_modules' \
