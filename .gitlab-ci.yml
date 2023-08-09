@@ -11,24 +11,23 @@ cache: &node_modules
     - '**/node_modules'
   policy: pull
 
-
 build_cache:
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-      changes: 
-        - ".cache/modules-sha"
+      changes:
+        - '.cache/modules-sha'
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      changes: 
-        - ".cache/modules-sha"
+      changes:
+        - '.cache/modules-sha'
   image: node:16-alpine
   cache:
     <<: *node_modules
     policy: push
   artifacts:
     paths:
-    - .yarn/install-state.gz
-    - node_modules
-    - '**/node_modules'
+      - .yarn/install-state.gz
+      - node_modules
+      - '**/node_modules'
     expire_in: 5d
   script: |
     echo -e "\033[0;34m## Building dependencies cache.. ##\033[0m"
@@ -39,15 +38,14 @@ build_cache:
       - runner_system_failure
       - stuck_or_timeout_failure
 
-
 build_docker_node_modules:
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-      changes: 
-        - ".cache/modules-sha"
+      changes:
+        - '.cache/modules-sha'
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      changes: 
-        - ".cache/modules-sha"
+      changes:
+        - '.cache/modules-sha'
   image: docker:23.0.5
   services:
     - docker:23.0.5-dind
@@ -181,8 +179,8 @@ build_module:
   parallel:
     matrix: !reference [.modules]
   needs:
-    - build_docker_node_modules
-  
+    - job: build_docker_node_modules
+      optional: true
 
 deploy:
   rules:
@@ -211,7 +209,6 @@ deploy:
     matrix: !reference [.modules]
   needs:
     - build_module
-
 
 .modules:
   - MODULE:
