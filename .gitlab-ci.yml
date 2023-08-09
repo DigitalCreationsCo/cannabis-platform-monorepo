@@ -3,7 +3,6 @@
 # adopt these good caching practices: https://docs.gitlab.com/ee/ci/caching/#good-caching-practices
 # and these! https://medium.com/disdj/speed-up-npm-yarn-install-in-gitlab-1434437f9857
 cache: &node_modules
-  stage: cache
   key:
     files:
       - .cache/modules-sha
