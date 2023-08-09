@@ -74,7 +74,7 @@
 		"cluster:nodes": "kubectl get nodes",
 		"install:playwright": "playwright install",
 		"nuke:node_modules": "npx rimraf@3.0.1 '**/node_modules'",
-		"postinstall": "yarn is-ci || yarn is-docker || $(yarn husky install && chmod +x scripts/*)",
+		"postinstall": "yarn is-ci || yarn is-docker || yarn husky install && chmod +x scripts",
 		"permit-scripts": "node scripts/permit-scripts.js"
 	},
 	"engines": {
