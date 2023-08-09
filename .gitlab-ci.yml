@@ -138,6 +138,7 @@ build:
     matrix: !reference [.modules]
 >>>>>>> 5a8ea0f77 (ci(terraform): gitlab.tf resouce file, separated scripts into folders,...)
   rules:
+<<<<<<< HEAD
   # MR: BUILD IMAGE, DON'T PUSH TO REGISTRY.
   # CACHE IT FOR THE MERGE COMMIT.
   # PUSH TO REGISTRY IN THE COMMIT PIPELINE
@@ -147,6 +148,12 @@ build:
         - node_modules
         - ${MODULE}/**/*
 <<<<<<< HEAD
+=======
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        - node_modules
+        - ${MODULE}/**/*
+>>>>>>> 059703930 (ci: gitlab-ci.yml build_modules rules changes)
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   image: docker:23.0.5
   services:
