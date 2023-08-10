@@ -7,7 +7,7 @@ WORKDIR /root
 COPY --from=cache /node_modules ./node_modules
 COPY package.json ./
 COPY . ./
-RUN yarn workspaces focus @cd/$BUILD_TYPE-$BUILD_CONTEXT --production
+RUN yarn workspaces focus --all
 RUN yarn workspaces foreach -itR --from @cd/$BUILD_TYPE-$BUILD_CONTEXT run build:ci
 
 
