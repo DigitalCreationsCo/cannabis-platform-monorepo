@@ -1,6 +1,0 @@
-TODO:
-- Authorize frontend apps and image server to use GCP object storage.
-Right now image buckets are open permissions.
-
-- configure gcp storage client fro image server
-https://cloud.google.com/storage/docs/authentication

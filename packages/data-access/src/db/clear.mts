@@ -5,6 +5,11 @@ import { MongoClient, type Collection } from 'mongodb';
 const prisma = new PrismaClient();
 
 async function clearRecords() {
+	console.info(
+		`\nClearing records in ${process.env.DATABASE_ENV} environment.`,
+	);
+	console.debug(`\nClearing database at ${process.env.DATABASE_URL}`);
+
 	let organizations_geolocate: Collection | null = null;
 
 	await prisma.$connect().then(() => console.info('connected to db'));
