@@ -18,7 +18,7 @@ spec:
       retries:
         retryOn: 'connect-failure,5xx'
         numRetries: 5
-        perTryTimeout: 1s
+        perTryTimeout: 3s
 ---
 apiVersion: gateway.solo.io/v1
 kind: VirtualService
@@ -39,7 +39,7 @@ spec:
       retries:
         retryOn: 'connect-failure,5xx'
         numRetries: 5
-        perTryTimeout: 1s
+        perTryTimeout: 3s
 ---
 apiVersion: gateway.solo.io/v1
 kind: VirtualService
@@ -61,4 +61,4 @@ spec:
       retries:
         retryOn: 'connect-failure,5xx'
         numRetries: 5
-        perTryTimeout: 1s
+        perTryTimeout: 3s

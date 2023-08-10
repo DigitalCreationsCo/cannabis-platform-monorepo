@@ -46,7 +46,7 @@
 		"seed": "node --loader ts-node/esm ./src/db/seed.mts",
 		"schema": "./prisma/schema.prisma",
 		"generate": "npx prisma generate",
-		"clear": "node --loader ts-node/esm ./src/db/clear.mts"
+		"clear-db": "node --loader ts-node/esm ./src/db/clear.mts"
 	},
 	"private": true,
 	"scripts": {
@@ -75,7 +75,8 @@
 		"migrate-diff": "../../scripts/migrate-diff",
 		"migrate-rollback-production": "dotenv -e ../../.env.production -- yarn prisma migrate resolve --rolled-back",
 		"migrate-revert-production": "yarn dotenv -e ../../.env.production -- ../../scripts/migrate-revert",
-		"migrate-reset": "dotenv -e ../../.env.production -- yarn prisma migrate reset",
+		"migrate-reset": "dotenv -e ../../.env.development -- yarn prisma migrate reset",
+		"migrate-reset-production": "dotenv -e ../../.env.production -- yarn prisma migrate reset",
 		"test": "run-s test:unit",
 		"test-e2e": "dotenv -e ../../.env.development -- yarn vitest run",
 		"test-unit": "jest --config ./jest.config.ts",

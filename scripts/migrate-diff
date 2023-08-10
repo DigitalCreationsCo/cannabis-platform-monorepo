@@ -3,5 +3,5 @@ echo "creating a migration diff for production database.."
 
 yarn dotenv -e ../../.env.production -- \
 npx prisma migrate diff \
---from-schema-datamodel "prisma/schema.prisma" \
---to-schema-datasource "prisma/schema.prisma"
+--from-schema-datasource "prisma/schema.prisma" \
+--to-schema-datamodel "prisma/schema.prisma"
