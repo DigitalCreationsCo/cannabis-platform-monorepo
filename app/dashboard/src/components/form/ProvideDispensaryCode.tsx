@@ -45,6 +45,7 @@ function ProvideDispensaryKey() {
 			console.log('response? ', response.data);
 			setFormValues({ organization: { ...response.data.payload } });
 		} catch (error: any) {
+			console.log('download dispensary data error: ', error.message);
 			throw new Error(error.message);
 		}
 	};
