@@ -1,8 +1,0 @@
-Test web on simulator or mobile. the desktop browser is not adequate.
-
-IMPROVEMENTS
-Disable swipe gesture navigation on mobile browsers.
-
-FIX
-Modal close button is not showing
-absolute position elements need better positioning

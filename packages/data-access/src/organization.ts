@@ -188,8 +188,7 @@ export async function createOrganization(organization: OrganizationCreateType) {
 	} catch (error: any) {
 		console.log('data-access createOrganization error: ', error);
 		if (error.code === 'P2002')
-			throw new Error('a unique value already exists');
-		console.log('data-access createOrganization error code: ', error.code);
+			throw new Error(`Unique value ${error.meta.target[0]} already exists`);
 		throw new Error(error.message);
 	}
 }
