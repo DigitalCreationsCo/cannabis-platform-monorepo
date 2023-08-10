@@ -12,5 +12,9 @@ fi
 
 
 echo "running the migration.."
+yarn clear-db && \
 yarn dotenv -e ../../.env.development -- \
 yarn prisma migrate dev
+echo "command exit with code $?"
+echo "Warning!! If you're migration is already sync, please seed your dev database manually."
+echo ""

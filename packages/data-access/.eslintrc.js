@@ -17,7 +17,7 @@ module.exports = {
 	overrides: [
 		// optional overrides per project file match
 		{
-			files: ['**/*seed.ts'],
+			files: ['**/*seed.mts'],
 			rules: {
 				'sonarjs/no-duplicate-string': 'off',
 			},

@@ -1,5 +1,0 @@
-aggregate a database of all clients products, and stock.
-
-Get written permission from dispensaries, start uploading all product information to our databases.
-Every order can create and update product records in our database.
-Become the #1 valued solution in cannabis and hemp sales distribution.

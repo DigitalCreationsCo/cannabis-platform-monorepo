@@ -2197,6 +2197,7 @@ const createReviews = async () => {
 
 async function main() {
 	console.info(`\nPerforming seed in ${process.env.DATABASE_ENV} environment.`);
+	console.debug(`\nSeeding database at ${process.env.DATABASE_URL}`);
 
 	await createDrivers();
 

@@ -1,6 +1,0 @@
-External Network transmission on a pod:
-
-Can be traced using port forwarding.
-kubetl port-forward <pod-name> <local-port>:<pod-port>
-
-use a packettrace tool like tcpdump to intercept packets on the local port.
