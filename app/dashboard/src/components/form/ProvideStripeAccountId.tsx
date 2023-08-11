@@ -1,4 +1,11 @@
-import { urlBuilder } from '@cd/core-lib';
+import {
+	axios,
+	TextContent,
+	urlBuilder,
+	type DispensaryConnectStripeAccountPayload,
+	type DispensaryCreateStripeAccountPayload,
+} from '@cd/core-lib';
+import { type OrganizationCreateType } from '@cd/data-access';
 import {
 	Button,
 	FlexBox,
@@ -9,7 +16,6 @@ import {
 	Tiny,
 	useFormContext,
 } from '@cd/ui-lib';
-import axios from 'axios';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
@@ -21,7 +27,7 @@ function ProvideStripeAccountId() {
 
 	useEffect(() => {
 		setCanProceed(true);
-	});
+	}, [setCanProceed]);
 
 	const [loadingButton, setLoadingButton] = useState(false);
 	const [loadingButton2, setLoadingButton2] = useState(false);
@@ -31,114 +37,85 @@ function ProvideStripeAccountId() {
 		stripeAccountId: '',
 	};
 
-	const onSubmit = async () => {
-		try {
-			setLoadingButton(true);
-
-			await connectStripeAccountToDispensary();
-
-			setLoadingButton(false);
-			nextFormStep();
-		} catch (error: any) {
-			console.info('Provide Stripe Account Id Error: ', error);
-			toast.error(error.message);
-			setLoadingButton(false);
-		}
-	};
-
+	// test redirect from dashboard api
+	// test redirect from component
 	async function connectStripeAccountToDispensary() {
 		try {
-			const organization = formValues?.organization;
-
-			if (!organization) throw new Error('Dispensary is not found.');
-
-			const response = await axios.post(
-				urlBuilder.shop + `/api/stripe/connect`,
-				{
-					organization,
-					stripeAccountId: values.stripeAccountId,
-				},
-				{
-					validateStatus: (status) =>
-						(status >= 200 && status <= 302) || status == 404,
-				},
-			);
-
-			console.info('response: ', response);
-
-			if (response.status === 404)
-				throw new Error('The stripe account is not found.');
-
-			// allow form navigation using hash
+			setLoadingButton(true);
+			const organization = formValues?.organization as OrganizationCreateType;
+			if (!organization)
+				throw new Error(TextContent.error.DISPENSARY_NOT_FOUND); // should never happen
+			const response = await axios.post<
+				any,
+				any,
+				DispensaryConnectStripeAccountPayload
+			>(urlBuilder.dashboard + `/api/stripe/connect`, {
+				organization,
+				stripeAccountId: values.stripeAccountId,
+			});
+			if (response.data.success == 'false')
+				throw new Error(response.data.error);
+			// allow form navigation after submitting ( to review and make any changes )
 			setCanProceed(true);
-
-			if (response.status === 200)
-				setFormValues({
-					organization: { stripeAccountId: values.stripeAccountId },
-				});
-
-			toast.success(
-				`Stripe account connected to ${formValues?.organization?.name}.`,
-			);
+			setFormValues({
+				organization: {
+					stripeAccountId: values.stripeAccountId,
+					stripeOnboardingComplete: true,
+				},
+			});
+			toast.success(response.data.message);
 		} catch (error: any) {
-			console.info('Error getting stripe account: ', error);
-
-			toast.error(error.message);
-
 			setLoadingButton(false);
+			throw new Error(error.message);
 		}
 	}
 
+	// test redirect from dashboard api
+	// test redirect from component
 	async function declineStripeIdAndCreateAccount() {
 		try {
 			setLoadingButton2(true);
-
-			const organization = formValues?.organization;
-
-			if (!organization) throw new Error('Dispensary is not found.'); // should never happen
-
-			const response = await axios.post(
-				urlBuilder.shop + `/api/stripe/create`,
-				{
-					organization,
-					stripeAccountId: values.stripeAccountId,
-				},
-				{
-					validateStatus: (status) =>
-						(status >= 200 && status <= 302) || status == 404,
-				},
-			);
-
-			console.info('response: ', response);
-
+			const organization = formValues?.organization as OrganizationCreateType;
+			if (!organization)
+				throw new Error(TextContent.error.DISPENSARY_NOT_FOUND); // should never happen
+			const response = await axios.post<
+				any,
+				any,
+				DispensaryCreateStripeAccountPayload
+			>(urlBuilder.dashboard + `/api/stripe/create`, {
+				organization,
+				email: formValues.newUser?.email as string,
+				// we can assume the email is submitted at this point
+			});
 			if (response.status === 302) {
-				// allow form navigation using hash
+				// allow form navigation after submitting
 				setCanProceed(true);
-
-				setIsRedirecting(true);
-				if (response.data.success)
+				if (response.data.success) {
+					setIsRedirecting(true);
 					window.location.href = response.data.redirect;
+				}
 			}
-
 			if (response.status !== 201)
 				throw new Error('Error creating stripe account.');
-
 			const { stripeAccountId } = response.data;
 			setFormValues({ organization: { stripeAccountId } });
-
 			setLoadingButton2(false);
-
-			toast.success(
-				`Stripe account connected to ${formValues?.organization?.name}.`,
-			);
+			toast.success(response.data.message);
 		} catch (error: any) {
-			console.info('Error getting stripe account: ', error);
-
 			setLoadingButton2(false);
-
 			toast.error(error.message);
 		}
 	}
+
+	const onSubmit = async () => {
+		try {
+			await connectStripeAccountToDispensary();
+			nextFormStep();
+		} catch (error: any) {
+			setLoadingButton(false);
+			toast.error(error.message);
+		}
+	};
 
 	const {
 		values,
@@ -165,19 +142,27 @@ function ProvideStripeAccountId() {
 
 	return (
 		<form onSubmit={handleSubmit}>
-			<Grid className="mx-auto flex h-[320px] max-w-[525px] flex-col items-center justify-center space-y-4">
-				<FlexBox>
-					<H3>Connect your stripe account</H3>
-					<Small>
-						If your dispensary uses a stripe account for payments, you can
-						connect your stripe account here, by entering your stripe id.
-						{'\n'}
-						If you don't have a stripe account, Gras will create one for you,
-						and provide your stripe account details.
+			<Grid className="mx-auto flex h-[480px] max-w-[525px] flex-col items-center justify-center space-y-4">
+				<FlexBox className="mx-auto">
+					<H3 className="mx-auto pb-2">
+						{TextContent.account.CONNECT_MY_STRIPE}
+					</H3>
+					<Small className="mx-auto w-3/4">
+						{TextContent.account.DISPENSARY_STRIPE_ACCOUNT}
 					</Small>
-					<Tiny>
-						Gras will never share your account information with other parties.{' '}
+					<Tiny className="mx-auto pt-2">
+						* {TextContent.legal.ACCOUNT_INFORMATION_POLICY}
 					</Tiny>
+					<a
+						className="mx-auto"
+						href="/termsandconditions/dispensaryterms"
+						target="_blank"
+						rel="noreferrer noopener"
+					>
+						<Tiny className={'border-b-2'}>
+							{TextContent.legal.READ_PRIVACY_POLICY}
+						</Tiny>
+					</a>
 				</FlexBox>
 				<TextField
 					containerClassName="w-[320px]"
@@ -205,7 +190,7 @@ function ProvideStripeAccountId() {
 						handleSubmit();
 					}}
 				>
-					Connect my stripe
+					{TextContent.account.CONNECT_MY_STRIPE}
 				</Button>
 
 				<Button
@@ -219,9 +204,11 @@ function ProvideStripeAccountId() {
 					}}
 				>
 					{isRedirecting ? (
-						<div className="animate-pulse">connecting to stripe...</div>
+						<div className="animate-pulse">
+							{TextContent.account.CONNECTING_TO_STRIPE}
+						</div>
 					) : (
-						`I don't have stripe`
+						<>{TextContent.account.I_DONT_HAVE_STRIPE}</>
 					)}
 				</Button>
 			</Grid>
@@ -234,6 +221,6 @@ export default ProvideStripeAccountId;
 const validationSchema = yup.object().shape({
 	stripeAccountId: yup
 		.string()
-		.required('Please enter your stripe Id')
+		.required(TextContent.prompt.STRIPE_ID_REQUIRED)
 		.length(21, 'The id is not valid.'),
 });

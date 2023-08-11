@@ -1,7 +1,9 @@
-import { type PropsWithChildren } from 'react';
+import React from 'react';
 
-function Label({ children }: PropsWithChildren) {
-	return <label>{children}</label>;
+type LabelProps = React.LabelHTMLAttributes<HTMLLabelElement>;
+
+function Label({ children, ...props }: LabelProps) {
+	return <label {...props}>{children}</label>;
 }
 
 export default Label;

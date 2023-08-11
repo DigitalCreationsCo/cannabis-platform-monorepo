@@ -100,7 +100,11 @@ export default function Button({
 		<button
 			type={type}
 			disabled={loading || disabled}
-			onClick={onClick}
+			onClick={(e) => {
+				if (onClick) {
+					onClick(e);
+				}
+			}}
 			className={twMerge(Object.values(classes), className)}
 			{...props}
 		>

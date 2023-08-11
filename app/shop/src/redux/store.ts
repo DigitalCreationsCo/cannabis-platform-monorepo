@@ -77,7 +77,7 @@ const supertokens = () => {
 
 export const persistConfig = {
 	key: 'root',
-	blacklist: ['modal', 'shop'],
+	blacklist: ['modal', 'shop', 'blog'],
 	storage,
 };
 

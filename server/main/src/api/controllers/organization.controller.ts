@@ -1,5 +1,8 @@
-import { getGeoCoordinatesFromAddress } from '@cd/core-lib';
-import { type OrganizationCreateType } from '@cd/data-access';
+import { coordinatesIsEmpty, getGeoCoordinatesFromAddress } from '@cd/core-lib';
+import {
+	type OrganizationCreateType,
+	type OrganizationUpdateType,
+} from '@cd/data-access';
 import { OrganizationDA } from '../data-access';
 
 /* =================================
@@ -24,24 +27,24 @@ export default class OrganizationController {
 			const coordinates = await getGeoCoordinatesFromAddress(
 				organization.address,
 			);
-			organization.address.coordinates = coordinates;
+			organization.address.coordinates = { ...coordinates };
 
 			const data = await OrganizationDA.createOrganization(organization);
 
 			if (!data)
 				return res.status(404).json({
-					success: false,
+					success: 'false',
 					message: 'Organization could not be created.',
 				});
 
 			return res.status(201).json({
-				success: true,
+				success: 'true',
 				payload: data,
 			});
 		} catch (error: any) {
 			console.info('API: createOrganization: ', error);
 			res.status(500).json({
-				success: false,
+				success: 'false',
 				error: error.message,
 				message: error.message,
 			});
@@ -50,24 +53,32 @@ export default class OrganizationController {
 
 	static async updateOrganization(req, res) {
 		try {
-			const organization: OrganizationCreateType = req.body;
-
+			const organization: OrganizationUpdateType = req.body;
+			if (coordinatesIsEmpty(organization?.address)) {
+				const coordinates = await getGeoCoordinatesFromAddress(
+					organization.address,
+				);
+				console.debug('coordinates fetched: ', coordinates);
+				organization.address.coordinates = {
+					...coordinates,
+					radius: 100,
+					// radius is the distance in meters from the center of this coordinate location
+				};
+			}
 			const data = await OrganizationDA.updateOrganization(organization);
-
 			if (!data)
 				return res.status(404).json({
-					success: false,
+					success: 'false',
 					message: 'Organization could not be created.',
 				});
-
 			return res.status(201).json({
-				success: true,
+				success: 'true',
 				payload: data,
 			});
 		} catch (error: any) {
 			console.info('API: updateOrganization: ', error.message);
 			res.status(500).json({
-				success: false,
+				success: 'false',
 				error: error.message,
 				message: error.message,
 			});
@@ -82,18 +93,18 @@ export default class OrganizationController {
 
 			if (!data)
 				return res.status(404).json({
-					success: false,
+					success: 'false',
 					message: 'Organization could not be deleted.',
 				});
 
 			return res.status(201).json({
-				success: true,
+				success: 'true',
 				payload: data,
 			});
 		} catch (error: any) {
 			console.info('API: deleteOrganization: ', error.message);
 			res.status(500).json({
-				success: false,
+				success: 'false',
 				error: error.message,
 				message: error.message,
 			});
@@ -108,17 +119,17 @@ export default class OrganizationController {
 
 			if (!data)
 				return res.status(404).json({
-					success: false,
+					success: 'false',
 					message: 'Dispensary not found',
 				});
 
 			return res.status(200).json({
-				success: true,
+				success: 'true',
 				payload: data,
 			});
 		} catch (error: any) {
 			res.status(500).json({
-				success: false,
+				success: 'false',
 				error: error.message,
 				message: error.message,
 			});
@@ -141,19 +152,19 @@ export default class OrganizationController {
 
 			if (!data)
 				return res.status(404).json({
-					success: false,
+					success: 'false',
 					message: `We didn't find dispensaries.`,
 				});
 
 			console.info(`Found ${data.length} organizations in zipcode ${zipcode}`);
 			return res.status(200).json({
-				success: true,
+				success: 'true',
 				payload: data,
 			});
 		} catch (error: any) {
 			console.info('API: getOrganizationsByZipcode: ', error);
 			res.status(500).json({
-				success: false,
+				success: 'false',
 				error: error.message,
 				message: error.message,
 			});
@@ -168,18 +179,18 @@ export default class OrganizationController {
 
 			if (!data)
 				return res.status(404).json({
-					success: false,
+					success: 'false',
 					message: 'Categories not found',
 				});
 
 			return res.status(200).json({
-				success: true,
+				success: 'true',
 				payload: data,
 			});
 		} catch (error: any) {
 			console.info('API error: ', error);
 			res.status(500).json({
-				success: false,
+				success: 'false',
 				error: error.message,
 				message: error.message,
 			});
@@ -194,18 +205,18 @@ export default class OrganizationController {
 
 			if (!data)
 				return res.status(404).json({
-					success: false,
+					success: 'false',
 					message: `We didn't find this data.`,
 				});
 
 			return res.status(200).json({
-				success: true,
+				success: 'true',
 				payload: data,
 			});
 		} catch (error: any) {
 			console.info('API error: ', error);
 			res.status(500).json({
-				success: false,
+				success: 'false',
 				error: error.message,
 				message: error.message,
 			});
