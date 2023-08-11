@@ -29,7 +29,7 @@ import { twMerge } from 'tailwind-merge';
 import backdrop from '../../public/marijuana-backdrop.png';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 
-function LandingPage() {
+function StartPage() {
 	const { isSignedIn } = useAppSelector(selectUserState);
 
 	const dispatch = useAppDispatch();
@@ -60,7 +60,9 @@ function LandingPage() {
 								>
 									Cannabis,&nbsp;Delivered{'\xa0'}🌴
 								</H1>
-								<H3 color="light">to your home 🏠</H3>
+								<H3 className="self-end pr-10" color="light">
+									to your home 🏠
+								</H3>
 							</FlexBox>
 							<FlexBox className="flex-row space-x-1 md:flex-col md:space-x-0">
 								<H2 color="light">fast</H2>
@@ -128,8 +130,9 @@ function LandingPage() {
 										{dialogOpen && (
 											<>
 												We are team of cannabis lovers providing a home-grown
-												service in our community. We serve by empowering the
-												voices of our community through clarity and support.
+												service for our community. We are help to elevate the
+												voices of the cannabis community through high quality
+												service and support.
 												<br />
 												<Span className="mx-auto font-bold">
 													We welcome everyone 21 years or older.
@@ -204,33 +207,8 @@ const ImageBackDrop = ({
 	);
 };
 
-LandingPage.getLayoutContext = (): LayoutContextProps => ({
+StartPage.getLayoutContext = (): LayoutContextProps => ({
 	showHeader: false,
 	showTopBar: true,
 });
-export default LandingPage;
-
-{
-	/* <FlexBox className={twMerge(styles.about)}>
-                        <H3 className='text-secondary'>Welcome to Gras</H3>
-                        <Paragraph>Gras is a home-grown service provider for cannabis lovers.
-                            We are serving our cannabis communities by providing a service 
-                            as a bridge of communication, clarity and support.
-                        </Paragraph>
-
-                        {!isSignedIn && <FlexBox className='m-auto items-center space-y-2'>
-                            <H4 className='text-xl'>
-                            {`Dispensaries, Sign Up Here!`}</H4>
-                            <Link href="/signup/create-dispensary-account">
-                                <Button size="lg" 
-                                bg="primary" 
-                                transparent
-                                className="p-4 hover:bg-primary-light"
-                                >
-                                <Paragraph color="light">
-                                    {`Create a dispensary account`}</Paragraph>
-                                </Button>
-                            </Link>
-                        </FlexBox>}
-                    </FlexBox> */
-}
+export default StartPage;

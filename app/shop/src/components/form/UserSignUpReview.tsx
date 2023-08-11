@@ -114,21 +114,23 @@ function UserSignUpReview() {
 							<H3>{user.username}</H3>
 							{imageSrc && <Image src={imageSrc} alt={user.username} />}
 						</FlexBox>
-						{renderNestedDataObject(account, Paragraph, [
-							'coordinateId',
-							'latitude',
-							'longitude',
-							'location',
-							'userId',
-							'scannedDOB',
-							'createdAt',
-							'id',
-							'updatedAt',
-							'emailVerified',
-							'imageUser',
-							'idFrontImage',
-							'idBackImage',
-						])}
+						{renderNestedDataObject(account, Paragraph, {
+							removeFields: [
+								'coordinateId',
+								'latitude',
+								'longitude',
+								'location',
+								'userId',
+								'scannedDOB',
+								'createdAt',
+								'id',
+								'updatedAt',
+								'emailVerified',
+								'imageUser',
+								'idFrontImage',
+								'idBackImage',
+							],
+						})}
 					</>
 				)}
 				{!account && (
