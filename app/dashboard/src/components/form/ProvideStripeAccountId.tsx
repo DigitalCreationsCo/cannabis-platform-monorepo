@@ -3,9 +3,13 @@ import {
 	TextContent,
 	urlBuilder,
 	type DispensaryConnectStripeAccountPayload,
+<<<<<<< HEAD
 	type DispensaryCreateStripeAccountPayload,
 } from '@cd/core-lib';
 import { type OrganizationCreateType } from '@cd/data-access';
+=======
+} from '@cd/core-lib';
+>>>>>>> 538ee1f09 (chore(dashboard): review Dispensary Stripe account code, api connect, server-payments account routes, account.controller, Stripe Service)
 import {
 	Button,
 	FlexBox,
@@ -41,10 +45,17 @@ function ProvideStripeAccountId() {
 	// test redirect from component
 	async function connectStripeAccountToDispensary() {
 		try {
+<<<<<<< HEAD
 			setLoadingButton(true);
 			const organization = formValues?.organization as OrganizationCreateType;
 			if (!organization)
 				throw new Error(TextContent.error.DISPENSARY_NOT_FOUND); // should never happen
+=======
+			const organization = formValues?.organization;
+			if (!organization)
+				throw new Error(TextContent.error.DISPENSARY_NOT_FOUND); // should never happen
+
+>>>>>>> 538ee1f09 (chore(dashboard): review Dispensary Stripe account code, api connect, server-payments account routes, account.controller, Stripe Service)
 			const response = await axios.post<
 				any,
 				any,
@@ -55,6 +66,7 @@ function ProvideStripeAccountId() {
 			});
 			if (response.data.success == 'false')
 				throw new Error(response.data.error);
+<<<<<<< HEAD
 			// allow form navigation after submitting ( to review and make any changes )
 			setCanProceed(true);
 			setFormValues({
@@ -67,6 +79,20 @@ function ProvideStripeAccountId() {
 		} catch (error: any) {
 			setLoadingButton(false);
 			throw new Error(error.message);
+=======
+
+			// allow form navigation after submitting ( to review and make any changes )
+			setCanProceed(true);
+			setFormValues({
+				organization: { stripeAccountId: values.stripeAccountId },
+			});
+			toast.success(
+				`Stripe account connected to ${formValues?.organization?.name}.`,
+			);
+		} catch (error: any) {
+			setLoadingButton(false);
+			toast.error(error.message);
+>>>>>>> 538ee1f09 (chore(dashboard): review Dispensary Stripe account code, api connect, server-payments account routes, account.controller, Stripe Service)
 		}
 	}
 
