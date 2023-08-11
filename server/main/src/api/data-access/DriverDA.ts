@@ -4,9 +4,9 @@ import {
 	findDriverWithDetailsById,
 	findDriverWithDetailsByPhone,
 	updateDriver,
-	UserCreateType,
+	type UserCreateType,
 } from '@cd/data-access';
-import { Collection, MongoClient } from 'mongodb';
+import { type Collection, type MongoClient } from 'mongodb';
 
 /* =================================
 Driver Data Access - data class for Driver SQL Table and DriverSessions Mongo Collection
@@ -47,9 +47,7 @@ export default class DriverDA {
 	static async createDriver(createDriverData: UserCreateType) {
 		try {
 			// createDriver = await createPasswordHash(createUserData)
-			const driver = await createDriver(createDriverData);
-
-			return driver;
+			return await createDriver(createDriverData);
 		} catch (error: any) {
 			console.error('UserDA error: ', error.message);
 			throw new Error(error.message);
@@ -71,8 +69,7 @@ export default class DriverDA {
 
 	static async getDriverById(id: string) {
 		try {
-			const data = await findDriverWithDetailsById(id);
-			return data;
+			return await findDriverWithDetailsById(id);
 		} catch (error: any) {
 			console.error(error.message);
 			throw new Error(error.message);
@@ -111,12 +108,10 @@ export default class DriverDA {
 					},
 				);
 
-			const data = {
+			return {
 				...driver,
 				driverSession,
 			};
-
-			return data;
 		} catch (error: any) {
 			console.error(error.message);
 			throw new Error(error.message);
@@ -125,8 +120,7 @@ export default class DriverDA {
 
 	static async getDriverByPhone(phone) {
 		try {
-			const data = await findDriverWithDetailsByPhone(phone);
-			return data;
+			return await findDriverWithDetailsByPhone(phone);
 		} catch (error: any) {
 			console.error(error.message);
 			throw new Error(error.message);
@@ -145,7 +139,7 @@ export default class DriverDA {
 				throw new Error(`Could not update status driver: ${id}`);
 			}
 
-			return { success: true };
+			return { success: 'true' };
 		} catch (error: any) {
 			console.error(`Error update driver status, ${error}`);
 			throw new Error(error.message);

@@ -37,19 +37,19 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 			role: 'ADMIN' | 'OWNER';
 			dispensaryId: string;
 		} = req.body;
-
-		console.info('dispensaryId: ', dispensaryId);
 		const response = await axios.post(
-			urlBuilder.main.admin(),
+			urlBuilder.main.staff(),
 			{ user, role, dispensaryId },
 			{
 				headers: { ...applicationHeaders },
 			},
 		);
-
 		return res.status(response.status).json(response.data);
 	} catch (error: any) {
-		console.info('next api create admin user error: ', error.message);
+		console.info(
+			'next api create Dispensary Staff User error: ',
+			error.message,
+		);
 		throw new Error(error.message);
 	}
 });
@@ -58,7 +58,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 handler.put(async (req, res: NextApiResponse) => {
 	try {
 		// const {user, dispensaryId, role}: {user: UserCreateType, role: "ADMIN" | "OWNER" | undefined, dispensaryId: string; } = req.body;
-		// const response = await axios.put(urlBuilder.main.admin(), { user, role, dispensaryId }, {
+		// const response = await axios.put(urlBuilder.main.staff(), { user, role, dispensaryId }, {
 		//     headers: {
 		//         'Content-Type': 'application/json'
 		//     }

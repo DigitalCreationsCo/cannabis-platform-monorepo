@@ -45,7 +45,7 @@ const styles = Object.freeze({
 	},
 	FOOTER: {
 		container:
-			'cursor-default space-y-2 flex-col min-h-[188px] p-8 pb-24 lg:px-[248px] bg-secondary min-w-full bottom-0 shadow-lg',
+			'cursor-default flex-col min-h-[188px] p-8 pb-24 bg-secondary min-w-full bottom-0 shadow-lg',
 	},
 });
 
