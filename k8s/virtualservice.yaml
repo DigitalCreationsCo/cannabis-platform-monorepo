@@ -59,6 +59,6 @@ spec:
             namespace: gloo-system
     options:
       retries:
-        retryOn: 'connect-failure,5xx'
+        retryOn: 'connect-failure'
         numRetries: 5
-        perTryTimeout: 3s
+        perTryTimeout: 10s

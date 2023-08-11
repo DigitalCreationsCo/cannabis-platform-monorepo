@@ -43,19 +43,20 @@ const redactSensitiveFields = (key: string, value: string | number) => {
 export const renderNestedDataObject = (
 	data: any,
 	Component: any,
-	removeFields: any = [],
+	options: { removeFields?: string[] } = {},
 ): any => {
+	const removeFields = options?.removeFields;
 	return Object.keys({ ...data })
 		.filter((field) => {
 			return removeFields && !removeFields.includes(field);
 		})
 		.map((key, index) => {
 			if (typeof data[key] === 'object')
-				return renderNestedDataObject(data[key], Component, removeFields);
+				return renderNestedDataObject(data[key], Component, { removeFields });
 			else if (Array.isArray(data[key]) && data[key].length > 0)
 				// can map
 				return data[key].map((item: Record<string, string>) =>
-					renderNestedDataObject(item, Component, removeFields).flat(),
+					renderNestedDataObject(item, Component, { removeFields }).flat(),
 				);
 
 			return Component({
