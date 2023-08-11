@@ -1,4 +1,4 @@
-import { type Prisma } from '@cd/data-access';
+import { Prisma } from '@cd/data-access';
 import { ArticleDA } from '../data-access';
 
 /* =================================
@@ -20,18 +20,18 @@ export default class BlogController {
 
 			if (!data)
 				return res.status(404).json({
-					success: 'false',
+					success: false,
 					message: 'Blog could not be created.',
 				});
 
 			return res.status(200).json({
-				success: 'true',
+				success: true,
 				payload: data,
 			});
 		} catch (error: any) {
 			console.info('API error: ', error.message);
 			res.status(500).json({
-				success: 'false',
+				success: false,
 				message: error.message,
 			});
 		}
@@ -42,18 +42,18 @@ export default class BlogController {
 
 			if (!data)
 				return res.status(404).json({
-					success: 'false',
+					success: false,
 					message: 'Blog could not be created.',
 				});
 
 			return res.status(200).json({
-				success: 'true',
+				success: true,
 				payload: data,
 			});
 		} catch (error: any) {
 			console.info('API error: ', error.message);
 			res.status(500).json({
-				success: 'false',
+				success: false,
 				message: error.message,
 			});
 		}
@@ -64,18 +64,18 @@ export default class BlogController {
 
 			if (!data)
 				return res.status(404).json({
-					success: 'false',
+					success: false,
 					message: 'Blog could not be created.',
 				});
 
 			return res.status(200).json({
-				success: 'true',
+				success: true,
 				payload: data,
 			});
 		} catch (error: any) {
 			console.info('API error: ', error.message);
 			res.status(500).json({
-				success: 'false',
+				success: false,
 				message: error.message,
 			});
 		}
@@ -89,18 +89,18 @@ export default class BlogController {
 
 			if (!data)
 				return res.status(404).json({
-					success: 'false',
+					success: false,
 					message: 'Blog could not be created.',
 				});
 
 			return res.status(201).json({
-				success: 'true',
+				success: true,
 				payload: data,
 			});
 		} catch (error: any) {
 			console.info('API error: ', error.message);
 			res.status(500).json({
-				success: 'false',
+				success: false,
 				message: error.message,
 			});
 		}
@@ -114,18 +114,18 @@ export default class BlogController {
 
 			if (!data)
 				return res.status(404).json({
-					success: 'false',
+					success: false,
 					message: 'Blog could not be created.',
 				});
 
 			return res.status(201).json({
-				success: 'true',
+				success: true,
 				payload: data,
 			});
 		} catch (error: any) {
 			console.info('API error: ', error.message);
 			res.status(500).json({
-				success: 'false',
+				success: false,
 				message: error.message,
 			});
 		}
@@ -139,18 +139,18 @@ export default class BlogController {
 
 			if (!data)
 				return res.status(404).json({
-					success: 'false',
+					success: false,
 					message: 'Blog could not be deleted.',
 				});
 
 			return res.status(200).json({
-				success: 'true',
+				success: true,
 				payload: data,
 			});
 		} catch (error: any) {
 			console.info('API error: ', error.message);
 			res.status(500).json({
-				success: 'false',
+				success: false,
 				message: error.message,
 			});
 		}
@@ -164,17 +164,17 @@ export default class BlogController {
 
 			if (!data)
 				return res.status(404).json({
-					success: 'false',
+					success: false,
 					message: 'Dispensary not found',
 				});
 
 			return res.status(200).json({
-				success: 'true',
+				success: true,
 				payload: data,
 			});
 		} catch (error: any) {
 			res.status(500).json({
-				success: 'false',
+				success: false,
 				message: error.message,
 			});
 		}

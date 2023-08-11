@@ -33,7 +33,6 @@ const CheckAge = ({
 
 			<FlexBox className="p-4 space-y-4">
 				<CheckBox
-					name={'checkAge'}
 					onChange={toggleOver21}
 					checked={yesOver21}
 					LabelComponent={H3}

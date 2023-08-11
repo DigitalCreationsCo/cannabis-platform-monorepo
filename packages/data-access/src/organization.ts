@@ -20,7 +20,7 @@ import { type ProductWithShopDetails } from './product';
  *   findOrganizationsByZipcode
  *   findUsersByOrganization
  *   findOrganizationBySubdomain
- *   updateDispensaryStripeAccount
+ *   updateStripeAccountDispensary
  *   getStripeAccountId
  */
 
@@ -29,67 +29,64 @@ import { type ProductWithShopDetails } from './product';
  * @param organization
  * @returns the updated organization
  */
-export async function updateOrganization(organization: OrganizationUpdateType) {
+export async function updateOrganization(organization: OrganizationCreateType) {
 	try {
 		organization.subdomainId =
 			organization.subdomainId || organization.name.toLowerCase();
 
-		const data: Prisma.OrganizationUpdateInput = {
-			name: organization.name,
-			dialCode: organization.dialCode || '1',
-			phone: organization.phone,
-			stripeAccountId: organization.stripeAccountId,
-			stripeOnboardingComplete: organization.stripeOnboardingComplete,
-			termsAccepted: organization.termsAccepted,
-			address: {
-				update: {
-					street1: organization?.address?.street1,
-					street2: organization?.address?.street2,
-					city: organization?.address?.city,
-					state: organization?.address?.state,
-					country: organization?.address?.country,
-					zipcode: organization?.address?.zipcode,
-					countryCode: organization?.address?.countryCode,
-					coordinates: {
-						upsert: {
-							create: {
-								radius: organization?.address?.coordinates?.radius,
-								latitude: Number(organization?.address?.coordinates?.latitude),
-								longitude: Number(
-									organization?.address?.coordinates?.longitude,
-								),
-							},
-							update: {
-								radius: organization?.address?.coordinates?.radius,
-								latitude: Number(organization?.address?.coordinates?.latitude),
-								longitude: Number(
-									organization?.address?.coordinates?.longitude,
-								),
+		return await prisma.organization.update({
+			where: { id: organization.id },
+			data: {
+				name: organization.name,
+				dialCode: organization.dialCode,
+				phone: organization.phone,
+				stripeAccountId: organization.stripeAccountId,
+				stripeOnboardingComplete: false,
+				termsAccepted: false,
+				address: {
+					update: {
+						street1: organization.address.street1,
+						street2: organization.address.street2,
+						city: organization.address.city,
+						state: organization.address.state,
+						country: organization.address.country,
+						zipcode: organization.address.zipcode,
+						countryCode: organization.address.countryCode,
+						coordinates: {
+							upsert: {
+								update: {
+									latitude: Number(organization.address.coordinates?.latitude),
+									longitude: Number(
+										organization.address.coordinates?.longitude,
+									),
+								},
+								create: {
+									latitude: Number(organization.address.coordinates?.latitude),
+									longitude: Number(
+										organization.address.coordinates?.longitude,
+									),
+								},
 							},
 						},
 					},
 				},
-			},
-			subdomain: {
-				connectOrCreate: {
-					where: { id: organization.subdomainId },
-					create: { id: organization.subdomainId, isValid: true },
+				subdomain: {
+					connectOrCreate: {
+						where: { id: organization.subdomainId },
+						create: { id: organization.subdomainId, isValid: true },
+					},
 				},
-			},
-			vendor: {
-				connectOrCreate: {
-					where: { id: organization.vendorId },
-					create: {
-						id: organization.vendorId,
-						name: organization.name,
-						publicName: organization.name,
+				vendor: {
+					connectOrCreate: {
+						where: { id: organization.vendorId },
+						create: {
+							id: organization.vendorId,
+							name: organization.name,
+							publicName: organization.name,
+						},
 					},
 				},
 			},
-		};
-		return await prisma.organization.update({
-			where: { id: organization.id },
-			data,
 			include: {
 				address: {
 					include: {
@@ -215,24 +212,23 @@ export async function deleteOrganizationById(id: string) {
 /**
  * get Organization record by id
  * @param organizationId
- * @param include
  * @returns
  */
-export async function findOrganizationById(
-	organizationId: string,
-	include: Prisma.OrganizationInclude = {
-		address: {
-			include: { coordinates: true },
-		},
-		images: true,
-		vendor: true,
-	},
-) {
+export async function findOrganizationById(organizationId: string) {
 	try {
-		return await prisma.organization.findUnique({
+		const organization = await prisma.organization.findUnique({
 			where: { id: organizationId },
-			include,
+			include: {
+				address: {
+					include: {
+						coordinates: true,
+					},
+				},
+				images: true,
+				vendor: true,
+			},
 		});
+		return organization || null;
 	} catch (error: any) {
 		console.error(error);
 		throw new Error(error);
@@ -399,10 +395,10 @@ export async function findOrganizationsByZipcode(
  * @param stripeAccountId stripe account id
  * @param accountParams additional params to update
  */
-export async function updateDispensaryStripeAccount(
+export async function updateStripeAccountDispensary(
 	id: string,
 	stripeAccountId: string,
-	accountParams: Prisma.OrganizationUncheckedUpdateInput = {},
+	accountParams = {},
 ) {
 	try {
 		return await prisma.organization.update({
@@ -441,12 +437,9 @@ export type OrganizationCreateType = Prisma.OrganizationUncheckedCreateInput & {
 	categoryList: Prisma.CategoryListCreateInput;
 };
 
-export type OrganizationUpdateType = Organization & {
-	address?: AddressPayload;
+export type OrganizationWithAddress = Organization & {
+	address: AddressWithCoordinates;
 };
-
-export type OrganizationWithAddress = Organization &
-	Prisma.OrganizationUpdateInput;
 
 export type OrganizationWithShopDetails = Organization &
 	Omit<Organization, 'stripeAccountId' | 'createdAt' | 'updatedAt'> & {
@@ -464,6 +457,11 @@ export type OrganizationWithDashboardDetails = Organization & {
 	schedule: Schedule;
 	vendor: Vendor;
 	subdomain: SubDomain;
+};
+
+export type OrganizationStripeDetail = {
+	id: string;
+	stripeAccountId: string;
 };
 
 export type UserLocation = {

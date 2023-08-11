@@ -1,24 +1,11 @@
 import {
 	calculatePlatformFeeForTransaction,
 	generateCheckoutLineItemsFromOrderItems,
-	TextContent,
-	type CheckoutSessionMetaData,
 } from '@cd/core-lib';
-import { type OrderWithDetails } from '@cd/data-access';
+import { OrderWithDetails } from '@cd/data-access';
 import Stripe from 'stripe';
 import { PaymentDA } from '../data-access';
 
-/* =================================
-Stripe Service
-
-handleWebhookEvents
-createCheckout
-getAccount
-createDispensaryAccount
-createDispensaryAccountLink
-checkOnboardAccount
-
-================================= */
 class StripeService {
 	stripe: Stripe;
 	constructor(apiKey, config) {
@@ -35,7 +22,7 @@ class StripeService {
 		dispensaryStripeAccountId: string,
 	) {
 		try {
-			return await this.stripe.checkout.sessions.create({
+			let session = await this.stripe.checkout.sessions.create({
 				mode: 'payment',
 				success_url: process.env.NEXT_PUBLIC_SHOP_APP_CHECKOUT_SUCCESS_URL,
 				cancel_url: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/checkout`,
@@ -55,6 +42,8 @@ class StripeService {
 					organizationId: order.organizationId,
 				},
 			});
+
+			return session;
 		} catch (error: any) {
 			console.error('stripe create checkout error: ', error);
 			throw new Error(error.message);
@@ -67,7 +56,9 @@ class StripeService {
 	 */
 	async getAccount(stripeAccountId: string) {
 		try {
-			return await this.stripe.accounts.retrieve(stripeAccountId);
+			const account = await this.stripe.accounts.retrieve(stripeAccountId);
+
+			return account;
 		} catch (error: any) {
 			console.error(error.message);
 			throw new Error(error.message);
@@ -84,7 +75,9 @@ class StripeService {
 			if (!accountParams)
 				throw new Error('Dispensary Stripe Account Params are required!');
 
-			return await this.stripe.accounts.create(accountParams);
+			const account = await this.stripe.accounts.create(accountParams);
+
+			return account;
 		} catch (error: any) {
 			console.error(error.message);
 			throw new Error(error.message);
@@ -101,7 +94,9 @@ class StripeService {
 			if (!params || !params.account)
 				throw new Error('Dispensary Stripe Account Link Params are required!');
 
-			return await this.stripe.accountLinks.create(params);
+			const accountLink = await this.stripe.accountLinks.create(params);
+
+			return accountLink;
 		} catch (error: any) {
 			console.error(error.message);
 			throw new Error(error.message);
@@ -111,7 +106,9 @@ class StripeService {
 	async checkOnboardAccount(stripeAccountId: string) {
 		try {
 			const account = await this.stripe.accounts.retrieve(stripeAccountId);
-			if (!account) throw new Error(TextContent.error.STRIPE_ACCOUNT_NOT_FOUND);
+
+			if (!account) throw new Error('Stripe account is not found.');
+
 			return account.details_submitted;
 		} catch (error: any) {
 			console.error(error.message);
@@ -121,11 +118,13 @@ class StripeService {
 
 	constructStripeEvent(payload, sig): Stripe.Event {
 		try {
-			return this.stripe.webhooks.constructEvent(
+			const event = this.stripe.webhooks.constructEvent(
 				payload,
 				sig,
 				process.env.STRIPE_WEBHOOK_SECRET,
 			);
+
+			return event;
 		} catch (error: any) {
 			console.error('StripeService: construct event: ', error.message);
 			throw new Error(error.message);
@@ -143,7 +142,6 @@ class StripeService {
 				//     { expand: ['lineItems'] }
 				// );
 
-				// eslint-disable-next-line no-case-declarations
 				const order = event.data.object.metadata as CheckoutSessionMetaData;
 
 				await PaymentDA.startFulfillment(order.id);
@@ -247,3 +245,10 @@ const stripeService = new StripeService(process.env.STRIPE_API_KEY_SECRET, {
 });
 
 export default stripeService;
+
+type CheckoutSessionMetaData = {
+	organizationId: string;
+	addressId: string;
+	id: string;
+	customerId: string;
+};

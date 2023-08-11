@@ -1,4 +1,4 @@
-import { getStripeAccountId, type OrderWithDetails } from '@cd/data-access';
+import { getStripeAccountId, OrderWithDetails } from '@cd/data-access';
 import { PaymentDA } from '../data-access';
 import StripeService from '../stripe';
 
@@ -49,7 +49,7 @@ export default class PaymentController {
 			await PaymentDA.saveOrder(order);
 
 			return res.status(302).send({
-				success: 'true',
+				success: true,
 				message: 'Stripe checkout is created.',
 				redirect: checkout.url,
 			});

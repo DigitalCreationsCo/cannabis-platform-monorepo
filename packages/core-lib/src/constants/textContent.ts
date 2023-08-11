@@ -13,7 +13,6 @@ const TextContent = Object.freeze({
 		READ_REVIEWS: 'Read Reviews',
 
 		FORM_FIELDS: 'Please fill out the required fields.',
-		MAKE_CHANGES: `If you wish to make any changes, please press back.`,
 
 		REVIEWS_CAPTION: "What's the word on this product?",
 		SELECT_LOCATION_TYPE: 'Where can we deliver your next order?',
@@ -22,15 +21,12 @@ const TextContent = Object.freeze({
 		ENTER_PASSCODE: 'Enter your one time passcode',
 		PASSCODE_SENT_f: (input: string) =>
 			`A one time passcode is sent to ${input}`,
-		STRIPE_ID_REQUIRED: `Please enter your stripe ID`,
 	},
 
 	account: {
 		ARE_YOU_A_DISPENSARY:
 			'Are\xa0you\xa0a\xa0Dispensary? Get\xa0started\xa0here',
 		ACCOUNT_IS_CREATED: 'Your account is created!',
-		DISPENSARY_ACCOUNT_IS_CREATED:
-			'Congratulations, you created a Dispensary Account with Gras!',
 		CHOOSE_PROFILE_PICTURE: 'Choose a profile picture.',
 		CHOOSE_PROFILE_PICTURE_OR_UPLOAD:
 			'Choose a profile picture, or upload your own.',
@@ -43,16 +39,21 @@ const TextContent = Object.freeze({
 		DISPENSARY_JOINING: `We're happy you're joining us on our journey to serve the world of cannabis!`,
 
 		DISPENSARIES_START_HERE: 'Dispensaries, get started here',
-		DISPENSARY_STRIPE_ACCOUNT: `If your dispensary uses stripe for payments, you can connect your stripe account here, by entering your stripe ID. If you don't have a stripe account, Gras will create one for you.`,
-		CONNECT_MY_STRIPE: `Connect my stripe account`,
-		CONNECTING_TO_STRIPE: `connecting to stripe`,
-		I_DONT_HAVE_STRIPE: `I don't have stripe`,
 		ENTER_OR_GO_TO_ACCOUNT:
 			'You can enter the Gras site, or view your account.',
 		MY_ACCOUNT: 'My Account',
-		REVIEW_ACCOUNT: `Please review your account information.`,
+
 		VERIFY_ID_PROCESSING: 'Verifying your ID..',
 		VERIFY_ID_COMPLETE: 'Thanks for verifying!',
+	},
+
+	success: {
+		PAYMENT_SUCCESSFUL:
+			'Your order has been placed! A driver is being called for your delivery',
+		HOME_LOCATION_IS_SET: "We'll send your next delivery to Home.",
+		CURRENT_LOCATION_IS_SET:
+			"Got it! We'll send your next delivery to your current spot.",
+		GIFT_LOCATION_IS_SET: "We'll send your next delivery to your friend!",
 	},
 
 	error: {
@@ -64,10 +65,6 @@ const TextContent = Object.freeze({
 		CONNECTION_ISSUE:
 			"We're having trouble connecting you. Please try again later. Thank you!",
 		REQUEST_FAILED: 'Our bad, your request failed',
-		SERVER_NOT_AVAILABLE: `This service is not available. ${'\n'}Please try again later.`,
-		STRIPE_ACCOUNT_CREATE_FAILED:
-			'The stripe account account creation failed. Please try again.',
-		STRIPE_ACCOUNT_NOT_FOUND: `The stripe account is not found.`,
 	},
 
 	info: {
@@ -112,23 +109,19 @@ const TextContent = Object.freeze({
 		MOBILE_APP: '',
 	},
 
+	warning: {},
+
 	legal: {
 		COPYRIGHT: '© 2023 Gras. All rights reserved.',
-		I_AGREE_TO_THE_USER_TERMS: `I agree to the User Terms and Conditions`,
-		I_AGREE_TO_THE_DISPENSARY_TERMS: `I agree to the Dispensary Terms and Conditions`,
+		PRIVACY_POLICY: 'Privacy Policy',
 		AGREE_TO_TERMS:
 			'Before creating an account with Gras, please agree to our ',
+		USER_TERMS_OF_SERVICE: 'User Terms and Conditions',
 		READ_USER_TERMS_OF_SERVICE:
 			'Please read the Gras Terms and Conditions policy.',
-		USER_TERMS_OF_SERVICE: 'User Terms and Conditions',
+		DISPENSARY_TERMS_OF_SERVICE: 'Dispensary Terms and Conditions',
 		READ_DISPENSARY_TERMS_OF_SERVICE:
 			'Please read the Gras Dispensary Terms and Conditions policy.',
-		DISPENSARY_TERMS_OF_SERVICE: 'Dispensary Terms and Conditions',
-
-		PRIVACY_POLICY: 'Privacy Policy',
-		READ_PRIVACY_POLICY: 'Read our Privacy Policy.',
-		ACCOUNT_INFORMATION_POLICY:
-			'Gras will never share your account information with other parties.',
 	},
 
 	delivery: {
@@ -158,13 +151,6 @@ const TextContent = Object.freeze({
 		ORDERING_FROM_VENDOR_f: (vendorName: string) =>
 			`Ordering from ${vendorName}`,
 		ORDER_INFO_HEADER: "Here's your order info",
-		PAYMENT_SUCCESSFUL:
-			'Your order has been placed! A driver is being called for your delivery',
-
-		HOME_LOCATION_IS_SET: "We'll send your next delivery to Home.",
-		CURRENT_LOCATION_IS_SET:
-			"Got it! We'll send your next delivery to your current spot.",
-		GIFT_LOCATION_IS_SET: "We'll send your next delivery to your friend!",
 	},
 
 	products: {

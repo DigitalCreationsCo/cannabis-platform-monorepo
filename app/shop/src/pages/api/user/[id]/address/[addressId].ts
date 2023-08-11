@@ -5,7 +5,8 @@ import { type NextApiRequest, type NextApiResponse } from 'next';
 import nc from 'next-connect';
 
 const handler = nc();
-
+// handler.use(authMiddleware).use(healthCheckMiddleware);
+// delete a user address
 handler.delete(async (req: NextApiRequest, res: NextApiResponse) => {
 	try {
 		const { id, addressId } = req.query;
@@ -19,4 +20,6 @@ handler.delete(async (req: NextApiRequest, res: NextApiResponse) => {
 	}
 });
 
+// admin user checker middleware
+// handler.use(adminMiddleware);
 export default handler;
