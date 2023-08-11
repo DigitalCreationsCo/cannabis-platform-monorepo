@@ -91,7 +91,7 @@
 	"scripts": {
 		"build": "NODE_ENV=production next build",
 		"build:ci": "NODE_ENV=production next build",
-		"debug": "NODE_OPTIONS='--inspect' next dev -p 3001",
+		"debug": "NODE_OPTIONS='--inspect' next dev",
 		"dev": "next dev -p 3001",
 		"clean": "rimraf ./.next ./out ./dist ./build ./node_modules ./coverage ./tsconfig.tsbuildinfo ./node_modules/.cache",
 		"lint": "next lint",

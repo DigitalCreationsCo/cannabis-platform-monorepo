@@ -22,6 +22,8 @@ const useEncryptCookies = (
 		setCookie(cookieArg, crypto.encrypt(data), options);
 	};
 
+	// useEffect(() => { }, [cookies]);
+
 	return [encryptCookies, setEncryptCookie, removeCookie];
 };
 

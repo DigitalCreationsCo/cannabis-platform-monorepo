@@ -6,9 +6,9 @@ import {
 import {
 	FlexBox,
 	H2,
+	type LayoutContextProps,
 	Page,
 	Paragraph,
-	type LayoutContextProps,
 } from '@cd/ui-lib';
 import { useSelector } from 'react-redux';
 
@@ -18,18 +18,16 @@ function AccountPage() {
 		<Page>
 			<FlexBox>
 				<H2 className="text-primary">{TextContent.account.MY_ACCOUNT}</H2>
-				{renderNestedDataObject(user, Paragraph, {
-					removeFields: [
-						'id',
-						'createdAt',
-						'updatedAt',
-						'userId',
-						'blurhash',
-						'location',
-						'idFrontImage',
-						'idBackImage',
-					],
-				})}
+				{renderNestedDataObject(user, Paragraph, [
+					'id',
+					'createdAt',
+					'updatedAt',
+					'userId',
+					'blurhash',
+					'location',
+					'idFrontImage',
+					'idBackImage',
+				])}
 			</FlexBox>
 		</Page>
 	);

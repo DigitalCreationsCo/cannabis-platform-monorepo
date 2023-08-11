@@ -4,15 +4,11 @@ import CheckBox, { type CheckBoxProps } from './CheckBox';
 import FlexBox from './FlexBox';
 import Label from './Label';
 
-interface TermsAgreementProps extends CheckBoxProps {
-	description?: ReactNode;
-}
-
 function TermsAgreement({
 	description,
 	className,
 	...props
-}: TermsAgreementProps) {
+}: { description?: ReactNode } & CheckBoxProps) {
 	return (
 		<FlexBox className={twMerge(['grow space-y-2 space-x-0 p-0', className])}>
 			<Label>{description}</Label>

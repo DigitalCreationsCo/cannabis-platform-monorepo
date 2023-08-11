@@ -2,16 +2,18 @@ import { Router } from 'express';
 import { accountCtrl } from '../controllers';
 const router = Router();
 /* =================================
-API Routes for Stripe Account Creation, Updating, and Linking
+API Routes for Stripe Account Creation, Editing, Updating, and Linking
 
-POST    '/create'           createStripeDispensaryAccount
-POST    '/connect'          connectStripeDispensaryAccount
+POST    '/'                 createStripeDispensaryAccount
+PUT     '/'                 connectStripeToDispensaryAccount
 POST    '/check-onboard'    checkOnboardStripeDispensaryAccount
 
 ================================= */
 
+router.route('/connect').post(accountCtrl.connectStripeToDispensaryAccount);
+
 router.route('/create').post(accountCtrl.createStripeDispensaryAccount);
-router.route('/connect').post(accountCtrl.connectStripeDispensaryAccount);
+
 router
 	.route('/check-onboard')
 	.post(accountCtrl.checkOnboardStripeDispensaryAccount);

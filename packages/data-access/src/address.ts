@@ -119,5 +119,5 @@ export type AddressPayload = {
 	zipcode: number;
 	country: string;
 	countryCode: string | null;
-	coordinates?: { radius?: number; latitude: number; longitude: number };
+	coordinates: { latitude: number; longitude: number };
 };

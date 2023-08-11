@@ -48,7 +48,7 @@ const urlBuilder = {
 			urlBuilder.main.baseUrl + `/organization/${id}/categories`,
 
 		user: () => urlBuilder.main.baseUrl + `/user`,
-		staff: () => urlBuilder.main.baseUrl + `/user/staff`,
+		admin: () => urlBuilder.main.baseUrl + `/user/admin`,
 		userById: (id: any) => urlBuilder.main.baseUrl + `/user/${id}`,
 		usersByOrg: (id: any) =>
 			urlBuilder.main.baseUrl + `/organization/${id}/users`,

@@ -10,7 +10,7 @@ import {
 	updateUser,
 	upsertDispensaryAdmin,
 	upsertUser,
-	type UserCreateType,
+	UserCreateType,
 } from '@cd/data-access';
 // import { createPasswordHash } from '../../util/utility';
 
@@ -30,41 +30,76 @@ addAddressToUser
 removeAddressFromUser
 
 createUser
-upsertUser
-createDispensaryStaff
-updateDispensaryStaff
+updateUser
 
 ================================= */
 
 export default class UserDA {
+	// static async signin(userLoginData: UserLoginData) {
+	//     try {
+	//     const user = await findUserWithDetailsByEmail(userLoginData.email)
+
+	// 	if (user !== null && user.passwordHash === null) {
+	// 		throw new Error('Please reset your password');
+	// 	}
+
+	// 	// if (user !== null && !(await compare(userLoginData.password, user.hashedPassword ?? ''))) {
+	//     //     throw new Error('Invalid password')
+	//     // }
+	// 		return user;
+	//     } catch (error:any) {
+	//         console.error(error.message);
+	//         throw new Error(error:any);
+	//     }
+	// }
+
+	// untested
+	// static async signout(session: SessionContainer) {
+	//     try {
+	//         await session.revokeSession()
+	//         console.info(`session ${session.getUserId()} is revoked.`)
+	//     } catch (error:any) {
+	//         console.error(error.message);
+	//         throw new Error('Logout failed.');
+	//     }
+	// }
+
 	static async getUserById(id) {
 		try {
-			return await findUserWithDetailsById(id);
+			const data = await findUserWithDetailsById(id);
+			return data;
 		} catch (error: any) {
+			console.error(error.message);
 			throw new Error(error.message);
 		}
 	}
 
 	static async getUserByEmail(email) {
 		try {
-			return await findUserWithDetailsByEmail(email);
+			const data = await findUserWithDetailsByEmail(email);
+			return data;
 		} catch (error: any) {
+			console.error(error.message);
 			throw new Error(error.message);
 		}
 	}
 
 	static async getUserByPhone(phone) {
 		try {
-			return await findUserWithDetailsByPhone(phone);
+			const data = await findUserWithDetailsByPhone(phone);
+			return data;
 		} catch (error: any) {
+			console.error(error.message);
 			throw new Error(error.message);
 		}
 	}
 
 	static async getAddressById(addressId) {
 		try {
-			return await findAddressById(addressId);
+			const data = await findAddressById(addressId);
+			return data;
 		} catch (error: any) {
+			console.error(error.message);
 			throw new Error(error.message);
 		}
 	}
@@ -72,65 +107,89 @@ export default class UserDA {
 	static async addAddressToUser(address) {
 		try {
 			address.coordinateId = '';
-			return await createAddress(address);
+			const data = await createAddress(address);
+			return data;
 		} catch (error: any) {
+			console.error(error.message);
 			throw new Error(error.message);
 		}
 	}
 
 	static async removeAddressFromUser({ addressId, userId }) {
 		try {
-			return await removeAddressByIdAndUserId({
+			const data = await removeAddressByIdAndUserId({
 				addressId,
 				userId,
 			});
+			return data;
 		} catch (error: any) {
+			console.error(error.message);
 			throw new Error(error.message);
 		}
 	}
 
 	static async createUser(createUserData: UserCreateType) {
 		try {
-			return await createUser(createUserData);
+			// createUserData = await createPasswordHash(createUserData)
+
+			const user = await createUser(createUserData);
+
+			return user;
 		} catch (error: any) {
+			console.error('UserDA error: ', error.message);
 			throw new Error(error.message);
 		}
 	}
 
 	static async upsertUser(upsertUserData: UserCreateType) {
 		try {
-			return await upsertUser(upsertUserData);
+			// createUserData = await createPasswordHash(createUserData)
+
+			const user = await upsertUser(upsertUserData);
+
+			return user;
 		} catch (error: any) {
+			console.error('UserDA error: ', error.message);
 			throw new Error(error.message);
 		}
 	}
 
-	static async createDispensaryStaff(
+	static async createDispensaryAdmin(
 		createUserData: UserCreateType,
 		role: string,
 		dispensaryId: string,
 	) {
 		try {
-			return await upsertDispensaryAdmin(createUserData, {
+			// createUserData = await createPasswordHash(createUserData)
+
+			const user = await upsertDispensaryAdmin(createUserData, {
 				role,
 				dispensaryId,
 			});
+
+			return user;
 		} catch (error: any) {
+			console.error('UserDA error: ', error.message);
 			throw new Error(error.message);
 		}
 	}
 
-	static async updateDispensaryStaff(
+	static async updateDispensaryAdmin(
 		createUserData: UserCreateType,
 		role: string,
 		dispensaryId: string,
 	) {
 		try {
-			return await updateDispensaryAdmin(createUserData, {
+			// createUserData = await createPasswordHash(createUserData)
+
+			const user = await updateDispensaryAdmin(createUserData, {
 				role,
 				dispensaryId,
 			});
+
+			return user;
 		} catch (error: any) {
+			console.error('UserDA error: ', error.message);
 			throw new Error(error.message);
 		}
 	}
@@ -143,6 +202,7 @@ export default class UserDA {
 
 			return user;
 		} catch (error: any) {
+			console.error('UserDA error: ', error.message);
 			throw new Error(error.message);
 		}
 	}
