@@ -8,6 +8,7 @@ const cache = new NodeCache({ stdTTL: 30 });
 const handler = nc();
 
 // THIS IS THE CORRECT RESPONSE HANDLING PATTERN WITH AXIOS CONFIG! VVV
+
 // get a single organization details
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 	try {
@@ -17,32 +18,29 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 		);
 
 		const { id } = req.query;
-		console.debug('get organization by Id: ', id);
+
 		if (cache.has(`organization/${id}`)) {
-			console.debug('cache hit');
 			const org = cache.get(`organization/${id}`);
+
 			return res.status(200).json({
-				success: 'true',
+				success: true,
 				payload: org,
 				fromCache: true,
 			});
 		} else {
-			console.debug('cache miss');
-			const response = await axios(urlBuilder.main.organizationById(id));
-			if (response.data.success == 'false')
-				throw new Error(response.data.message);
-			console.debug('cache set');
-			cache.set(`organization/${id}`, response.data.payload);
-			return res.status(200).json({
-				success: 'true',
-				payload: response.data.payload,
-			});
+			const response = await axios.get(urlBuilder.main.organizationById(id));
+
+			if (response.data.success === true)
+				cache.set(`organization/${id}`, response.data.payload);
+
+			return response;
 		}
 	} catch (error: any) {
 		console.error('next-api organization[id] Error: ', error.message);
+
 		return res.json({
-			success: 'false',
-			error: error.message,
+			success: false,
+			message: error.message,
 		});
 	}
 });

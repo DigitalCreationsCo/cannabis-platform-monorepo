@@ -1,11 +1,10 @@
-/* eslint-disable sonarjs/cognitive-complexity */
+import Session from 'supertokens-node/recipe/session';
 // import { UserRoleClaim } from "supertokens-node/recipe/userroles";
-import { type PasswordlessSignInRequestPayload } from '@cd/core-lib';
-import { type DriverWithDetails, type UserWithDetails } from '@cd/data-access';
+import { PasswordlessSignInRequestPayload } from '@cd/core-lib';
+import { DriverWithDetails, UserWithDetails } from '@cd/data-access';
 import Dashboard from 'supertokens-node/recipe/dashboard';
 import Passwordless from 'supertokens-node/recipe/passwordless';
-import Session from 'supertokens-node/recipe/session';
-import { type AuthConfig } from '../../interfaces';
+import { AuthConfig } from '../../interfaces';
 import { DriverDA, UserDA } from '../api/data-access';
 
 const baseDomain = process.env.NEXT_PUBLIC_APP_DOMAIN || 'localhost';
@@ -40,9 +39,7 @@ export const backendConfig = (): AuthConfig => {
 							createCode: async (input) => {
 								try {
 									console.info('create-code input: ', input);
-									const response = await originalImplementation.createCode(
-										input,
-									);
+									let response = await originalImplementation.createCode(input);
 									console.info('create-code response: ', response);
 
 									return response;
@@ -57,7 +54,7 @@ export const backendConfig = (): AuthConfig => {
 							consumeCode: async (input: PasswordlessSignInRequestPayload) => {
 								try {
 									console.info('consume-code input: ', input);
-									const response = await originalImplementation.consumeCode(
+									let response = await originalImplementation.consumeCode(
 										input,
 									);
 									console.info('consume-code response: ', response);

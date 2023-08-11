@@ -20,8 +20,8 @@ function WelcomePage() {
 	return (
 		<ImageBackDrop src={backdrop}>
 			<Page className="m-0 border-b bg-transparent p-0 md:p-0 lg:p-0">
-				<Center className="space-y-4">
-					<FlexBox className="items-center space-y-2">
+				<Center className="space-y-2">
+					<FlexBox className="items-center">
 						<FlexBox className="md:flex-row">
 							<H3 className="whitespace-pre md:text-4xl" color="light">
 								{`Welcome to `}
@@ -32,11 +32,10 @@ function WelcomePage() {
 						<SignInButton size="lg" bg="primary" hover="primary-light" />
 					</FlexBox>
 
-					<FlexBox className="items-center space-y-2 pb-4">
-						<H3 color="light">{TextContent.account.ARE_YOU_A_DISPENSARY}</H3>
+					<FlexBox className="items-center pb-4">
+						<H5 color="light">{TextContent.account.ARE_YOU_A_DISPENSARY}</H5>
 						<Link href={getDashboardSite('/signup/create-dispensary-account')}>
 							<Button
-								type="button"
 								size="lg"
 								bg="primary"
 								transparent

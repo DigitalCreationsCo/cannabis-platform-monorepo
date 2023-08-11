@@ -40,7 +40,7 @@ function DispensaryUserCreate() {
 			setFormValues({ newUser: values });
 
 			const response = await axios.post(
-				urlBuilder.dashboard + '/api/organization/staff',
+				urlBuilder.dashboard + '/api/organization/admin',
 				{
 					user: values,
 					role: 'OWNER',
@@ -115,7 +115,6 @@ function DispensaryUserCreate() {
 				<Small id="dispensary-admin-create-step-2">
 					{TextContent.ui.FORM_FIELDS}
 				</Small>
-				<Small className="text-primary">What is your name?</Small>
 				<TextField
 					name="firstName"
 					label="* first name"
@@ -155,6 +154,16 @@ function DispensaryUserCreate() {
 					error={!!touched.email && !!errors.email}
 				/>
 				<FlexBox>
+					<TextField
+						maxLength={3}
+						name="dialCode"
+						label="* dial code"
+						placeholder="DialCode"
+						value={values?.dialCode}
+						onBlur={handleBlur}
+						onChange={handleChange}
+						error={!!touched.dialCode && !!errors.dialCode}
+					/>
 					<TextField
 						name="phone"
 						label="* phone"
@@ -205,6 +214,16 @@ function DispensaryUserCreate() {
 					error={!!touched?.address?.state && !!errors?.address?.state}
 					helperText={touched?.address?.state && errors?.address?.state}
 				/>
+				{/* <TextField
+                name="address.country"
+                label="* country"
+                placeholder="Country"
+                value={values?.address?.country}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                error={!!touched?.address?.country && !!errors?.address?.country}
+                helperText={touched?.address?.country && errors?.address?.country}
+            /> */}
 				<TextField
 					name="address.zipcode"
 					label="* zipcode"
@@ -216,30 +235,30 @@ function DispensaryUserCreate() {
 					error={!!touched?.address?.zipcode && !!errors?.address?.zipcode}
 					helperText={touched?.address?.zipcode && errors?.address?.zipcode}
 				/>
-				<div id="dispensary-admin-create-step-3">
-					<TermsAgreement
-						name="termsAccepted"
-						onChange={handleChange}
-						checked={values?.termsAccepted || false}
-						error={!!touched.termsAccepted && !!errors.termsAccepted}
-						description={
-							<>
-								<Paragraph>{TextContent.legal.AGREE_TO_TERMS}</Paragraph>
-								<a
-									href="/termsandconditions/userterms"
-									target="_blank"
-									rel="noreferrer noopener"
-								>
-									<H6 className={'inline-block border-b-2'}>
-										{TextContent.legal.USER_TERMS_OF_SERVICE}
-									</H6>
-									.
-								</a>
-							</>
-						}
-						label={TextContent.legal.I_AGREE_TO_THE_USER_TERMS}
-					/>
-				</div>
+				<TermsAgreement
+					id="dispensary-admin-create-step-3"
+					name="termsAccepted"
+					onChange={handleChange}
+					checked={values?.termsAccepted || false}
+					// helperText={touched.termsAccepted && errors.termsAccepted}
+					error={!!touched.termsAccepted && !!errors.termsAccepted}
+					description={
+						<>
+							<Paragraph>{TextContent.legal.AGREE_TO_TERMS}</Paragraph>
+							<a
+								href="/termsandconditions/userterms"
+								target="_blank"
+								rel="noreferrer noopener"
+							>
+								<H6 className={'inline-block border-b-2'}>
+									{TextContent.legal.USER_TERMS_OF_SERVICE}
+								</H6>
+								.
+							</a>
+						</>
+					}
+					label={`I agree to the User Terms and Conditions`}
+				/>
 				<FlexBox className="m-auto flex-row space-x-4 pb-20">
 					<Button onClick={prevFormStep} disabled={loadingButton}>
 						back
@@ -289,10 +308,10 @@ const initialValues = {
 };
 
 const validationSchema = yup.object().shape({
-	firstName: yup.string().required('first name is required'),
-	lastName: yup.string().required('last name is required'),
-	username: yup.string().required('provide a username'),
-	email: yup.string().required('provide an email'),
+	firstName: yup.string().required('required'),
+	lastName: yup.string().required('required'),
+	username: yup.string().required('required'),
+	email: yup.string().required('required'),
 	address: yup.object().shape({
 		street1: yup.string().required('street line 1 is required'),
 		street2: yup.string(),

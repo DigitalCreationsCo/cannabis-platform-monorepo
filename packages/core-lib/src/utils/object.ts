@@ -1,5 +1,3 @@
-import { type UserCreateType } from '@cd/data-access';
-
 export const pruneData = (data: Record<string, any>, fields: string[]) => {
 	return Object.keys(data)
 		.filter((field) => !fields.includes(field))
@@ -44,18 +42,13 @@ export function dateToString(doc: any) {
 	return doc;
 }
 
-export function addressObjectIntoArray(user: any): UserCreateType {
-	const address = user.address;
-	if (!isArray(address)) user.address = [address];
-	return user;
-}
-
 /**
  * For two arrays, reconcile the first array with duplicate or new items from the second array
  * @param state Array
  * @param payload Array
  * @returns Array
  */
+
 export function reconcileStateArray<T>(state: T[], payload: T[]) {
 	let s = state;
 	payload.forEach((item) => {

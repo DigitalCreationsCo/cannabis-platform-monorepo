@@ -277,7 +277,7 @@ export default VerifyPhotoId;
 
 type VerifyIdentificationResponse =
 	| {
-			success: 'true';
+			success: true;
 			result: {
 				isLegalAge: boolean;
 				idVerified: boolean;
@@ -290,6 +290,6 @@ type VerifyIdentificationResponse =
 			isUploaded: boolean;
 	  }
 	| {
-			success: 'false';
+			success: false;
 			error: string;
 	  };

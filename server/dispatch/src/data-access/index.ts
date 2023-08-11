@@ -2,15 +2,10 @@ import cluster from 'cluster';
 // import _ from '../util'
 // const { db_uri, db_ns } = process.env;
 import prisma, {
-	type Coordinates,
+	Coordinates,
 	findDriverWithDetailsById,
 } from '@cd/data-access';
-import {
-	type ChangeStream,
-	type Collection,
-	MongoClient,
-	ObjectId,
-} from 'mongodb';
+import { ChangeStream, Collection, MongoClient, ObjectId } from 'mongodb';
 import _ from '../util';
 
 const mongoConnectUrl = process.env.MONGODB_CONNECTION_URL || '';
@@ -110,9 +105,11 @@ class DispatchDA {
 	 */
 	async getDispatchOrderById(id: string) {
 		try {
-			return await this.dispatchOrdersCollection?.findOne({
+			const order = await this.dispatchOrdersCollection?.findOne({
 				id: new ObjectId(id),
 			});
+
+			return order;
 		} catch (error) {
 			console.error(`Error occurred while retrieving order, ${error}`);
 		}
@@ -125,7 +122,8 @@ class DispatchDA {
 	 */
 	async getDriverUserRecordById(driverId: string) {
 		try {
-			return await findDriverWithDetailsById(driverId);
+			const data = await findDriverWithDetailsById(driverId);
+			return data;
 			// return await this.driversCollection?.findOne(query, projection);
 		} catch (error: any) {
 			console.error(`Error occurred while retrieving user session, ${error}`);
@@ -140,7 +138,7 @@ class DispatchDA {
 	 */
 	async getDriverSessionById(driverId: string) {
 		try {
-			const _query = { id: new ObjectId(driverId) },
+			let _query = { id: new ObjectId(driverId) },
 				_projection = {
 					projection: {
 						_id: 0,
@@ -170,7 +168,7 @@ class DispatchDA {
 		// query mongo db
 		// search within ~5 miles, increase the range if no drivers are found
 		try {
-			const geoJsonPoint = _.getGeoJsonPoint(coordinates);
+			let geoJsonPoint = _.getGeoJsonPoint(coordinates);
 
 			if (!geoJsonPoint) throw new Error('No coordinates are valid.');
 
@@ -200,7 +198,7 @@ class DispatchDA {
 	 */
 	async findDriverIdsWithinRange(coordinates: Coordinates) {
 		try {
-			const geoJsonPoint = _.getGeoJsonPoint(coordinates);
+			let geoJsonPoint = _.getGeoJsonPoint(coordinates);
 
 			if (!geoJsonPoint) throw new Error('No coordinates are valid.');
 
@@ -231,11 +229,11 @@ class DispatchDA {
 		// query prisma to add to order,
 		// and to mongo as well for the change stream
 		try {
-			const query = { orderId: new ObjectId(orderId) };
+			let query = { orderId: new ObjectId(orderId) };
 
-			const driver = await this.getDriverUserRecordById(driverId);
+			let driver = await this.getDriverUserRecordById(driverId);
 
-			const update = { $set: { driver: driver } };
+			let update = { $set: { driver: driver } };
 
 			const updatedOrder = await this.dispatchOrdersCollection?.updateOne(
 				query,
@@ -246,7 +244,7 @@ class DispatchDA {
 			if (updatedOrder?.modifiedCount === 0)
 				throw new Error(`Did not update the record: ${orderId}`);
 
-			return { success: 'true' };
+			return { success: true };
 		} catch (error: any) {
 			console.error(`Error occurred while updating order, ${error}`);
 			throw new Error(error.message);

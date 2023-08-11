@@ -8,8 +8,6 @@ const shopDomain =
 const dashboardDomain =
 	process.env.NEXT_PUBLIC_DASHBOARD_APP_URL || 'http://localhost:3001';
 const apiDomain = process.env.BACKEND_URL || `http://localhost:6001`;
-const apiBasePath =
-	(process.env.NODE_ENV === 'development' && 'api/v1') || '/main/api/v1';
 
 const appInfo: {
 	appName: string;
@@ -20,7 +18,7 @@ const appInfo: {
 	appName,
 	websiteDomain: dashboardDomain,
 	apiDomain,
-	apiBasePath,
+	apiBasePath: '/main/api/v1',
 };
 
 export const frontendConfig = () => {

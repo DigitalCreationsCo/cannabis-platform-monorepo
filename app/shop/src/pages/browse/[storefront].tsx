@@ -71,12 +71,12 @@ export async function getServerSideProps({ req }: { req: NodeNextRequest }) {
 }
 
 const expressivePhrases = (dispensary: string) => [
-	`Thank you for using Gras. We're building a green shopping experience in partnership with ${dispensary}. Come back soon to see what we've been growing.`,
-	`Thank you for using Gras. We're building a fresh shopping experience in partnership with ${dispensary}. Come back soon to see what we've been growing.`,
-	`Thank you for using Gras. We're building a lush shopping experience in partnership with ${dispensary}. Come back soon to see what we've been growing.`,
-	`Thank you for using Gras. We're building a new budding online experience in partnership with ${dispensary}. Come back soon to see what we've been growing.`,
-	`Thank you for using Gras. We're building a sprouting shopping experience in partnership with ${dispensary}. Come back soon to see what we've been growing.`,
-	`Thank you for using Gras. We're building new experience taking roots in partnership with ${dispensary}. Come back soon to see what we've been growing.`,
+	`Check back in August 2023 for a green shopping experience from ${dispensary} & Gras.`,
+	`Check back in August 2023 for a fresh shopping experience from ${dispensary} & Gras.`,
+	`Check back in August 2023 for a lush shopping experience from ${dispensary} & Gras.`,
+	`Check back in August 2023 for a new budding online experience from ${dispensary} & Gras.`,
+	`Check back in August 2023 for a sprouting shopping experience from ${dispensary} & Gras.`,
+	`Check back in August 2023 for the new shopping experience taking roots from ${dispensary} & Gras.`,
 ];
 
 StoreFront.getLayoutContext = (): LayoutContextProps => ({
