@@ -16,7 +16,14 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 		if (response.status === 302) {
 			return res.redirect(response.data.redirect);
 		}
+<<<<<<< HEAD
 		return res.status(response.status).json(response.data);
+=======
+		return res.status(response.status).json({
+			success: 'true',
+			payload: response.data.payload,
+		});
+>>>>>>> 538ee1f09 (chore(dashboard): review Dispensary Stripe account code, api connect, server-payments account routes, account.controller, Stripe Service)
 	} catch (error: any) {
 		console.error('next api connect stripe account error: ', error.message);
 		return res.json({
