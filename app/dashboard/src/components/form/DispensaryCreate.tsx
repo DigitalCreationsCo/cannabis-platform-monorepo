@@ -228,9 +228,7 @@ function DispensaryCreate() {
 					helperText={(touched.termsAccepted && errors.termsAccepted) || ''}
 					description={
 						<div id="dispensary-create-step-3">
-							<Paragraph className="text-primary">
-								{TextContent.legal.AGREE_TO_TERMS}
-							</Paragraph>
+							<Paragraph>{TextContent.legal.AGREE_TO_TERMS}</Paragraph>
 							<a
 								href="/termsandconditions/dispensaryterms"
 								target="_blank"
