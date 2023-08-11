@@ -56,7 +56,6 @@ export function addressObjectIntoArray(user: any): UserCreateType {
  * @param payload Array
  * @returns Array
  */
-
 export function reconcileStateArray<T>(state: T[], payload: T[]) {
 	let s = state;
 	payload.forEach((item) => {
