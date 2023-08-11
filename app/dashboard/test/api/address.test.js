@@ -1,6 +1,6 @@
 import mockAxios from 'jest-mock-axios';
 import { createMocks } from 'node-mocks-http';
-import handler from '../../src/pages/api/organization/staff/address';
+import handler from '../../src/pages/api/organization/user/address';
 
 beforeEach(() => {
 	jest.mock('axios');
@@ -11,7 +11,7 @@ afterEach(() => {
 });
 
 describe('handler makes the correct server call with the given params', () => {
-	it('POST /api/organization/staff/address', async () => {
+	test('POST /api/organization/user/address', async () => {
 		const { req, res } = createMocks({
 			method: 'POST',
 			body: {

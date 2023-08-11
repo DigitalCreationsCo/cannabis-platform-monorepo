@@ -33,7 +33,7 @@ export const updateOnlineStatus = createAsyncThunk<
 
 		return {
 			...response.data,
-			success: 'true',
+			success: true,
 			isOnline: onlineStatus,
 		};
 	} catch (error) {

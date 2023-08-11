@@ -9,19 +9,18 @@ import ErrorMessage from './ErrorMessage';
 import FlexBox from './FlexBox';
 
 type FormValuesType = {
-	organization?: Partial<OrganizationCreateType>;
-	newUser?: Partial<UserCreateType>;
+	organization?: OrganizationCreateType;
+	newUser?: UserCreateType;
 };
 
 interface FormContextProps {
 	formValues: FormValuesType;
-	setFormValues: (values: FormValuesType) => void;
+	setFormValues: (values: Record<string, unknown>) => void;
 	resetFormValues: () => void;
 	canProceed: boolean;
 	setCanProceed: (canProceed: boolean) => void;
 	nextFormStep: () => void;
 	prevFormStep: () => void;
-	isComplete?: () => void;
 }
 
 const FormContext = createContext<FormContextProps>({
@@ -32,7 +31,6 @@ const FormContext = createContext<FormContextProps>({
 	setCanProceed: () => {},
 	nextFormStep: () => {},
 	prevFormStep: () => {},
-	isComplete: () => {},
 });
 
 const useFormContext = () => useContext(FormContext);
@@ -50,13 +48,11 @@ const useFormContext = () => useContext(FormContext);
 interface FormStepProviderProps {
 	FormStepComponents: (React.FC | null)[];
 	formId: string;
-	isComplete?: () => void;
 }
 
 function FormStepProvider({
 	FormStepComponents,
 	formId,
-	isComplete,
 }: FormStepProviderProps) {
 	const [cookies, setCookie] = useEncryptCookies(
 		[`form-data-context-${formId}`] || ({} as FormValuesType),
@@ -67,8 +63,7 @@ function FormStepProvider({
 
 	useEffect(() => {
 		setCookie(`form-data-context-${formId}`, JSON.stringify(formValues));
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [formId, formValues]);
+	}, [formId, formValues, setCookie]);
 
 	const validFormSteps = FormStepComponents.filter(
 		(component) => component !== null,
@@ -101,7 +96,6 @@ function FormStepProvider({
 				formValues,
 				setFormValues,
 				resetFormValues,
-				isComplete,
 			}}
 		>
 			<FormStepComponent />

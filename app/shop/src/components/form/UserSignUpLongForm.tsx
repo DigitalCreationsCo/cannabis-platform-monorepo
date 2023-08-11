@@ -1,4 +1,3 @@
-import { TextContent } from '@cd/core-lib';
 import {
 	type AddressUserCreateType,
 	type UserCreateType,
@@ -86,13 +85,9 @@ function UserSignUpForm() {
 			city: yup.string().required('city is required'),
 			state: yup.string().required('state is required'),
 			zipcode: yup
-				.number()
+				.string()
 				.required('zipcode is required')
-				.test(
-					'len',
-					'zipcode is required',
-					(val) => val?.toString().length === 5,
-				),
+				.length(5, 'zipcode must be 5 digits'),
 			country: yup.string().required('country is required'),
 			countryCode: yup.string().required('country code is required'),
 		}),
@@ -350,7 +345,7 @@ function UserSignUpForm() {
 								</a>
 							</Paragraph>
 						}
-						label={TextContent.legal.I_AGREE_TO_THE_USER_TERMS}
+						label={`I agree to the User Terms and Conditions`}
 					/>
 
 					<Button

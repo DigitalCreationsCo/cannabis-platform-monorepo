@@ -5,11 +5,11 @@ import nc from 'next-connect';
 
 const handler = nc();
 
-// create stripe account, connect to dispensary
+// connect dispensary to an existing stripe account
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 	try {
 		const response = await axios.post(
-			urlBuilder.payment.createStripe(),
+			urlBuilder.payment.connectStripe(),
 			req.body,
 			{
 				validateStatus: (status) =>
@@ -34,7 +34,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 			return res.status(response.status).json(response.data);
 		}
 	} catch (error: any) {
-		console.error('next api create stripe account error: ', error.message);
+		console.error('next api connect stripe account error: ', error.message);
 		throw new Error(error.message);
 	}
 });

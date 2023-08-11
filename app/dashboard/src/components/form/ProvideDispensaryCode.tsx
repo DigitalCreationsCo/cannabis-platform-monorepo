@@ -14,19 +14,16 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import * as yup from 'yup';
 
-// dispensaryKey and dispensary code are mentioned interchangeably
-// the code refers to the value name `dispensaryKey`
 function ProvideDispensaryKey() {
 	const { resetFormValues, nextFormStep, setFormValues } = useFormContext();
 
-	const createNewFormContext = () => {
-		console.info('a new form context is created');
-		resetFormValues();
-	};
 	useEffect(() => {
+		const createNewFormContext = () => {
+			console.info('creating new form context for Dispensary Sign Up Form');
+			resetFormValues();
+		};
 		createNewFormContext();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [resetFormValues]);
 
 	const [loadingButton, setLoadingButton] = useState(false);
 
@@ -39,10 +36,8 @@ function ProvideDispensaryKey() {
 			const response = await axios(
 				urlBuilder.dashboard + `/api/organization/${dispensaryKey}`,
 			);
-			if (response.data.success == 'false') {
-				throw new Error(response.data.error);
-			}
-			console.log('response? ', response.data);
+			if (response.data.success == 'false')
+				throw new Error(response.data.message);
 			setFormValues({ organization: { ...response.data.payload } });
 		} catch (error: any) {
 			throw new Error(error.message);
@@ -51,11 +46,12 @@ function ProvideDispensaryKey() {
 	const onSubmit = async (values: typeof initialValues) => {
 		try {
 			setLoadingButton(true);
+
 			await downloadDispensaryData(values.dispensaryKey);
 			nextFormStep();
 		} catch (error: any) {
-			setLoadingButton(false);
 			toast.error(error.message);
+			setLoadingButton(false);
 		}
 	};
 

@@ -4,11 +4,10 @@ dir="$( cd "$( dirname "$0" )" && pwd )"
 container_name="prisma-shadow-db-pg"
 
 echo "### Migrate the database ###"
+echo "creating a migration database in docker.."
 if ! docker ps --format "{{.Names}}" | grep -q "${container_name}"; then
-    echo "creating a migration database in docker.."
     . "${dir}/docker-shadow-db.sh"
-    else
-    echo "migration database exists."
+    else echo "migration database exists."
 fi
 
 

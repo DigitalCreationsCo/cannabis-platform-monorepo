@@ -1,7 +1,6 @@
 import axios, { type AxiosError, type AxiosRequestConfig } from 'axios';
-import { TextContent } from './constants';
 
-const MAX_RETRIES = 2;
+const MAX_RETRIES = 5;
 // three seconds
 const WAIT_RETRY = 3 * 1000;
 
@@ -45,7 +44,6 @@ axios.interceptors.response.use(
 					setTimeout(() => {
 						resolve(axios(error.config));
 					}, 2 * retryCount * WAIT_RETRY);
-					// increase subsequent timeout length by 2
 				});
 			}
 			return Promise.reject(error);
@@ -64,8 +62,8 @@ instance.interceptors.response.use(
 		if (error.code === 'ECONNREFUSED')
 			return Promise.reject({
 				...error,
-				success: 'false',
-				message: TextContent.error.SERVER_NOT_AVAILABLE,
+				success: false,
+				message: 'The server is not available. Please try again later.',
 			});
 
 		return Promise.reject(error);
