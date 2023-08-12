@@ -13,8 +13,8 @@ import {
 	type PayloadAction,
 } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { type AppState, type ThunkArgumentsType } from '../../types/reduxTypes';
-import { calcSalePrice, pruneData, urlBuilder } from '../../utils';
+import { type AppState, type ThunkArgumentsType } from '../types';
+import { calcSalePrice, pruneData, urlBuilder } from '../utils';
 import { type LocationStateProps, type LocationType } from './location.reducer';
 import { type ShopStateProps } from './shop.reducer';
 import { type UserStateProps } from './user.reducer';

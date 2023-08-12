@@ -7,8 +7,8 @@ import {
 } from '@cd/data-access';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { type AppState, type ThunkArgumentsType } from '../../types/reduxTypes';
-import { pruneData, urlBuilder } from '../../utils';
+import { type AppState, type ThunkArgumentsType } from '../types';
+import { pruneData, urlBuilder } from '../utils';
 
 export const updateOnlineStatus = createAsyncThunk<
 	{ success: boolean; isOnline: boolean },

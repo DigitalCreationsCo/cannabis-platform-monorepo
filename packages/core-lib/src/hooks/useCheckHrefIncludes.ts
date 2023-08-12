@@ -3,4 +3,4 @@ function useCheckHrefIncludes(href: string) {
 	else return false;
 }
 
-export { useCheckHrefIncludes };
+export default useCheckHrefIncludes;
