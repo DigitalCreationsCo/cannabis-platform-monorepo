@@ -2,11 +2,11 @@
 // @ts-nocheck
 import { type OrderWithDetails } from '@cd/data-access';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { type AppState } from '../types/reduxTypes';
+import { type AppState } from '../../types/reduxTypes';
 import {
 	type IncomingOrder,
-	type SocketEventPayload,
-} from '../types/SocketEvent';
+	type SocketEventPayload
+} from '../../types/SocketEvent';
 
 // ACTIONS TRIGGER EVENTS IN THE SOCKET MIDDLEWARE
 

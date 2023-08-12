@@ -3,16 +3,16 @@
 import { type OrderWithDetails } from '@cd/data-access';
 import { type AnyAction, type Store } from '@reduxjs/toolkit';
 import { io, type Socket } from 'socket.io-client';
-import { urlBuilder } from '../../utils/urlBuilder';
-import { socketActions } from '../features/socket.reducer';
-import { userActions } from '../features/user.reducer';
+import { socketActions } from '../reducer/socket.reducer';
+import { userActions } from '../reducer/user.reducer';
 import { type AppState } from '../types';
-// import { driverActions } from "../features/driver.reducer";
 import {
 	NavigateEvent,
 	SocketEvent,
 	type SocketEventPayload,
-} from '../types/SocketEvent';
+} from '../types/socket.types';
+import { urlBuilder } from '../utils/urlBuilder';
+// import { driverActions } from "../features/driver.reducer";
 
 const socketMiddleware = (store: Store<AppState>) => {
 	// in the future, add this socket map to reducer socket ?

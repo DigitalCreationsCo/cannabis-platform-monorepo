@@ -2,10 +2,7 @@
 /// @ts-nocheck
 
 import { modalReducer, userReducer } from '@cd/core-lib';
-import {
-	crashMiddleware,
-	loggerMiddleware,
-} from '@cd/core-lib/src/reduxDir/middleware';
+import { crashMiddleware, loggerMiddleware } from '@cd/core-lib/src/middleware';
 import {
 	applyMiddleware,
 	combineReducers,

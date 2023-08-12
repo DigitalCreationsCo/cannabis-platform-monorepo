@@ -1,7 +1,7 @@
 import {
 	type DriverWithDetails,
 	type UserWithDetails,
-} from '../../../data-access/src';
+} from '@cd/data-access/src';
 
 export type ApiContext = {
 	action: 'SIGN_OUT' | 'REFRESH_SESSION';
