@@ -75,6 +75,16 @@ const TextContent = Object.freeze({
 		REVIEW_ACCOUNT: `Please review your account information.`,
 		VERIFY_ID_PROCESSING: 'Verifying your ID..',
 		VERIFY_ID_COMPLETE: 'Thanks for verifying!',
+
+		ONETIME_PASSCODE_SENT_EMAIL_f: (receipient: string) =>
+			`A one time passcode has been sent to ${receipient}.`,
+		ONETIME_PASSCODE_SENT_MOBILE: `Please check your mobile messages for the one time passcode.`,
+
+		SIGNING_IN: `signing in ...`,
+		SIGNOUT: 'Sign out',
+		SIGNIN: 'Sign In',
+		SIGNIN_EMAIL: 'Sign in with your email',
+		SIGNUP: 'Sign Up',
 	},
 
 	error: {
@@ -118,10 +128,6 @@ const TextContent = Object.freeze({
 		ITEMS: 'Items',
 		LOADING: 'Loading...',
 		SAVE_CHANGES: 'Save Changes',
-		SIGNOUT: 'Sign out',
-		SIGNIN: 'Sign In',
-		SIGNIN_EMAIL: 'Sign in with your email',
-		SIGNUP: 'Sign Up',
 		CONTINUE: 'continue',
 		BACK: 'back',
 	},
