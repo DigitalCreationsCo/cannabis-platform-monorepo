@@ -1,5 +1,5 @@
 export * from './auth';
-export * from './axiosInstance';
+export * from './axios';
 export * from './constants';
 export * from './hooks';
 export * from './middleware';
