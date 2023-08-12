@@ -1,3 +1,3 @@
 export * from './';
-export { default } from './text.constant';
+export { default as TextContent } from './text.constant';
 

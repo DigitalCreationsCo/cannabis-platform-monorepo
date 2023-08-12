@@ -8,8 +8,8 @@ import {
 	type PayloadAction,
 } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { type AppState } from '../../types/reduxTypes';
-import { urlBuilder } from '../../utils';
+import { type AppState } from '../types';
+import { urlBuilder } from '../utils';
 
 export const getLatestNews = createAsyncThunk(
 	'blog/getLatestNews',
