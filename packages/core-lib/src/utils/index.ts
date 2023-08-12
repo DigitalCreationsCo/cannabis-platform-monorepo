@@ -8,4 +8,5 @@ export * from './stripe.util';
 export * from './transaction.util';
 export * from './ui.util';
 export * from './urlBuilder';
+export * from './user.util';
 
