@@ -4,8 +4,8 @@ import { type UserWithDetails } from '@cd/data-access';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 // import * as SecureStore from "expo-secure-store";
 import type Passwordless from 'supertokens-node/recipe/passwordless';
+import { type AppState, type ThunkArgumentsType } from '../../types/reduxTypes';
 import { pruneData } from '../../utils';
-import { type AppState, type ThunkArgumentsType } from '../types/reduxTypes';
 import { locationActions } from './location.reducer';
 
 // import { messageActions } from "./message";

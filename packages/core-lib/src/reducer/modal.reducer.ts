@@ -6,7 +6,7 @@ import {
 	type Dispatch,
 } from '@reduxjs/toolkit';
 
-import { type AppState, type ThunkArgumentsType } from '../types/reduxTypes';
+import { type AppState, type ThunkArgumentsType } from '../../types/reduxTypes';
 
 // export type ThunkDispatch = TDispatch<void, {store: Store}, Action<any>>
 // export type AsyncThunkPayloadCreatorType = AsyncThunkPayloadCreator<void, {}, {dispatch: Dispatch<AnyAction>; extra: {store:Store }}>

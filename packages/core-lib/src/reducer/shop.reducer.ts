@@ -11,8 +11,8 @@ import {
 } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { applicationHeaders } from '../../axiosInstance';
+import { type AppState } from '../../types/reduxTypes';
 import { urlBuilder } from '../../utils';
-import { type AppState } from '../types/reduxTypes';
 import { type LocationStateProps } from './location.reducer';
 
 export const getInitialDispensaries = createAsyncThunk(

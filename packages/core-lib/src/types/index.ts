@@ -1,1 +1,1 @@
-export * from './stripeTypes';
+export * from './';
