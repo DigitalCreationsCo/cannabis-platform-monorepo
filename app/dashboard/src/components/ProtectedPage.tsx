@@ -41,11 +41,15 @@
 //     }
 // }
 
+import { selectUserState } from '@cd/core-lib';
 import { LoadingPage } from '@cd/ui-lib';
 import { useRouter } from 'next/router';
 import { type PropsWithChildren } from 'react';
+import { useSelector } from 'react-redux';
 import Session from 'supertokens-auth-react/recipe/session';
-import { UserRoleClaim } from 'supertokens-auth-react/recipe/userroles';
+import UserRole, {
+	UserRoleClaim,
+} from 'supertokens-auth-react/recipe/userroles';
 
 interface ProtectedPageProps extends PropsWithChildren {
 	protectedPages: string[];
@@ -55,32 +59,88 @@ function ProtectedPage({
 	protectedPages,
 	children,
 }: ProtectedPageProps): JSX.Element {
+	const { user, isLoading } = useSelector(selectUserState);
 	const router = useRouter();
 
 	const pageIsProtected = protectedPages.indexOf(router.pathname) !== -1;
-	console.info('pageIsProtected 1 ', pageIsProtected);
-	const claimValue = Session.useClaimValue(UserRoleClaim);
-	console.info('claimValue', claimValue);
-	if (claimValue.loading) {
+	console.info('pageIsProtected? ', pageIsProtected);
+
+	async function run() {
+		const accessTokenPayload = await Session.getAccessTokenPayloadSecurely();
+		console.log('accessTokenPayload: ', accessTokenPayload);
+		const roleValueFromPayload =
+			UserRole.UserRoleClaim.getValueFromPayload(accessTokenPayload);
+		console.log('roleValueFromPayload: ', roleValueFromPayload);
+
+		canAccessPage().then((result) => console.log('can access page: ', result));
+	}
+	run();
+
+	const sessionClaimValue = Session.useClaimValue(UserRoleClaim);
+	console.info('sessionClaimValue: ', sessionClaimValue);
+
+	if (sessionClaimValue.loading) {
 		return <LoadingPage />;
 	}
-	if (!claimValue.doesSessionExist) {
+	if (!sessionClaimValue.doesSessionExist) {
 		// router.push('/');
 	}
-	const roles = claimValue.value;
+	const roles = sessionClaimValue.value;
+	console.info('roles sessionClaimValue', roles);
+
+	// if (
+	// 	pageIsProtected &&
+	// 	Array.isArray(roles) &&
+	// 	(roles.includes('ADMIN') ||
+	// 		roles.includes('OWNER') ||
+	// 		roles.includes('MEMBER'))
+	// ) {
+	// 	console.info('pageIsProtected 2 ', pageIsProtected);
+	// 	return <>{children}</>;
+	// } else {
+	// 	console.info('pageIsProtected 3 ', pageIsProtected);
+	// 	return <>{children}</>;
+	// }
+	const membershipRole = user.memberships?.[0]?.role.toLocaleUpperCase();
 	if (
 		pageIsProtected &&
-		Array.isArray(roles) &&
-		(roles.includes('ADMIN') ||
-			roles.includes('OWNER') ||
-			roles.includes('MEMBER'))
+		(membershipRole === 'MEMBER' ||
+			membershipRole === 'ADMIN' ||
+			membershipRole === 'OWNER')
 	) {
-		console.info('pageIsProtected 2 ', pageIsProtected);
 		return <>{children}</>;
 	} else {
-		console.info('pageIsProtected 3 ', pageIsProtected);
-		return <>{children}</>;
+		return <>Not an admin, can't access this page.</>;
 	}
 }
 
 export default ProtectedPage;
+
+async function canAccessPage(): Promise<boolean> {
+	if (await Session.doesSessionExist()) {
+		const validationErrors = await Session.validateClaims({
+			overrideGlobalClaimValidators: (globalValidators) => [
+				...globalValidators,
+				// UserRoleClaim.validators.includes('OWNER'),
+				// UserRoleClaim.validators.includes('ADMIN'),
+				UserRoleClaim.validators.includes('MEMBER'),
+			],
+		});
+		console.info('validation errors: ', validationErrors);
+		if (validationErrors.length === 0) {
+			// user is an admin
+			return true;
+		}
+
+		for (const err of validationErrors) {
+			if (err.validatorId === UserRoleClaim.id) {
+				// user roles claim check failed
+			} else {
+				// some other claim check failed (from the global validators list)
+			}
+		}
+	}
+	// either a session does not exist, or one of the validators failed.
+	// so we do not allow access to this page.
+	return false;
+}
