@@ -1,8 +1,12 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /// @ts-nocheck
 
-import { modalReducer, userReducer } from '@cd/core-lib';
-import { crashMiddleware, loggerMiddleware } from '@cd/core-lib/src/middleware';
+import { dispensaryReducer, modalReducer, userReducer } from '@cd/core-lib';
+import {
+	crashMiddleware,
+	dispensaryMiddleware,
+	loggerMiddleware,
+} from '@cd/core-lib/src/middleware';
 import {
 	applyMiddleware,
 	combineReducers,
@@ -34,6 +38,7 @@ import { signOut } from 'supertokens-auth-react/recipe/session';
 const rootReducer = combineReducers({
 	modal: modalReducer,
 	user: userReducer,
+	dispensary: dispensaryReducer,
 });
 
 const hydratableReducer = (state: RootState, action: AnyAction) => {
@@ -53,6 +58,7 @@ const bindMiddleware = (middleware) => {
 	}
 	return applyMiddleware(
 		...middleware,
+		dispensaryMiddleware,
 		locationMiddleware,
 		crashMiddleware,
 		loggerMiddleware,

@@ -20,7 +20,7 @@ const urlBuilder = {
 
 		healthCheck: () => urlBuilder.main.baseUrl + '/healthcheck',
 
-		getSession: () => urlBuilder.main.baseUrl + '/session',
+		session: () => urlBuilder.main.baseUrl + '/session',
 
 		ordersByOrgId: (id: any) =>
 			urlBuilder.main.baseUrl + `/shop/orders/org/${id}`,
