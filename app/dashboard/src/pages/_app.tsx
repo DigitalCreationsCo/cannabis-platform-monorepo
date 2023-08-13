@@ -14,7 +14,7 @@ import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session, {
 	type SessionContextType,
 } from 'supertokens-auth-react/recipe/session';
-import { LayoutContainer } from '../components';
+import { LayoutContainer, ProtectedPage } from '../components';
 import { frontendConfig } from '../config/frontendConfig';
 import { wrapper } from '../redux/store';
 
@@ -55,6 +55,14 @@ function App({ Component, ...rest }: CustomAppProps) {
 		return null;
 	}
 
+	const protectedPages = [
+		'/dashboard',
+		'/orders',
+		'/products',
+		'/site-settings',
+		'/users',
+	];
+
 	const getLayoutContext = Component.getLayoutContext || (() => ({}));
 
 	return (
@@ -75,7 +83,9 @@ function App({ Component, ...rest }: CustomAppProps) {
 							{routerLoading ? (
 								<LoadingPage />
 							) : (
-								<Component {...props.pageProps} />
+								<ProtectedPage protectedPages={protectedPages}>
+									<Component {...props.pageProps} />
+								</ProtectedPage>
 							)}
 						</LayoutContainer>
 					</PersistGate>

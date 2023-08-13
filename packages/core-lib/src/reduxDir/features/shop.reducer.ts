@@ -197,17 +197,12 @@ export const shopSlice = createSlice({
 						dispensary.metadata = {
 							productsFetched: false,
 						};
-
-						console.info('state before reconcile: ', state.dispensaries);
-
 						const index = state.dispensaries.findIndex(
 							(d) => d.id === dispensary.id,
 						);
 						if (index === -1)
 							state.dispensaries = [...state.dispensaries, dispensary];
 						else state.dispensaries[index] = dispensary;
-
-						console.info('state after reconcile: ', state.dispensaries);
 					});
 				}
 				state.isLoading = false;
@@ -239,17 +234,12 @@ export const shopSlice = createSlice({
 							dispensary.metadata = {
 								productsFetched: false,
 							};
-
-							console.info('state before reconcile: ', state.dispensaries);
-
 							const index = state.dispensaries.findIndex(
 								(d) => d.id === dispensary.id,
 							);
 							if (index === -1)
 								state.dispensaries = [...state.dispensaries, dispensary];
 							else state.dispensaries[index] = dispensary;
-
-							console.info('state after reconcile: ', state.dispensaries);
 						});
 					}
 					state.isLoading = false;

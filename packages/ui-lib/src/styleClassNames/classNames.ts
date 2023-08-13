@@ -41,11 +41,13 @@ const styles = Object.freeze({
 		round_image_btn: [
 			'btn focus:!border-primary focus:!ring-primary focus:!outline-primary h-32 w-32 col-span-1 !rounded-full p-0 m-0 overflow-hidden',
 		],
-		highlight: ['border border-transparent hover:border hover:border-primary'],
+		highlight: [
+			'border border-transparent hover:border hover:border-primary rounded-btn px-4',
+		],
 	},
 	FOOTER: {
 		container:
-			'cursor-default space-y-2 flex-col min-h-[188px] p-8 pb-24 lg:px-[248px] bg-secondary min-w-full bottom-0 shadow-lg',
+			'cursor-default flex-col min-h-[188px] p-8 pb-24 bg-secondary min-w-full bottom-0 shadow-lg',
 	},
 });
 

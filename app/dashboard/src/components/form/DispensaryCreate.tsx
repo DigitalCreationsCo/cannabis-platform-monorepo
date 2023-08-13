@@ -38,20 +38,20 @@ function DispensaryCreate() {
 		useFormContext();
 	const [loadingButton, setLoadingButton] = useState(false);
 
+	console.log('formValues, ', formValues);
 	const initialValues = {
 		id: formValues.organization?.id || '',
 		name: formValues.organization?.name || '',
-		// email: formValues.organization?.email || '',
 		address: {
 			street1: formValues.organization?.address?.street1 || '',
 			street2: formValues.organization?.address?.street2 || '',
 			city: formValues.organization?.address?.city || '',
 			state: formValues.organization?.address?.state || '',
-			zipcode: formValues.organization?.address?.zipcode || '',
+			zipcode: formValues.organization?.address?.zipcode || 0,
 			country: formValues.organization?.address?.country || '',
 			countryCode: formValues.organization?.address?.countryCode || 'US',
 		},
-		dialCode: formValues.organization?.dialCode || 1,
+		dialCode: formValues.organization?.dialCode || '1',
 		phone: formValues.organization?.phone || '',
 		termsAccepted: false,
 		subdomainId: formValues.organization?.subdomainId || '',
@@ -65,10 +65,9 @@ function DispensaryCreate() {
 				values,
 			);
 			if (response.data.success == 'false')
-				throw new Error(response.data.message);
+				throw new Error(response.data.error);
 			toast.success('Dispensary Info is uploaded successfully.');
 		} catch (error: any) {
-			console.info('Error getting Dispensary: ', error);
 			throw new Error('The Dispensary is not uploaded. Please try again.');
 		}
 	};
@@ -76,15 +75,12 @@ function DispensaryCreate() {
 	const onSubmit = async (values: typeof initialValues) => {
 		try {
 			setLoadingButton(true);
-
 			setFormValues({ organization: { ...values } });
-
 			await updateDispensaryRecord();
 			nextFormStep();
 		} catch (error: any) {
-			console.info('Dispensary Account Error: ', error);
-			toast.error(error.message);
 			setLoadingButton(false);
+			toast.error(error.message);
 		}
 	};
 
@@ -131,10 +127,10 @@ function DispensaryCreate() {
 						priority
 					/>
 				</FlexBox>
-				<Small id="dispensary-admin-create-step-2">
-					{TextContent.ui.FORM_FIELDS}
-				</Small>
+				<Small>{TextContent.ui.FORM_FIELDS}</Small>
+				{/* <H6 className="text-primary">What is the name of your Dispensary?</H6> */}
 				<TextField
+					id="dispensary-create-step-2"
 					name="name"
 					label="* Dispensary name"
 					placeholder="What is the name of your Dispensary?"
@@ -154,29 +150,17 @@ function DispensaryCreate() {
                     error={!!touched.email && !!errors.email}
                     helperText={touched.email && errors.email}
                 /> */}
-				<Small>What is your phone number?</Small>
-				<FlexBox>
-					<TextField
-						maxLength={3}
-						name="dialCode"
-						label="* dial code"
-						placeholder="DialCode"
-						value={values?.dialCode}
-						onBlur={handleBlur}
-						onChange={handleChange}
-						error={!!touched.dialCode && !!errors.dialCode}
-					/>
-					<TextField
-						name="phone"
-						label="* phone"
-						placeholder="Phone"
-						value={values?.phone}
-						onBlur={handleBlur}
-						onChange={handleChange}
-						error={!!touched.phone && !!errors.phone}
-					/>
-				</FlexBox>
-				<Small>Where are you located?</Small>
+				{/* <H6 className="text-primary">What is your phone number?</H6> */}
+				<TextField
+					name="phone"
+					label="* phone"
+					placeholder="Phone"
+					value={values?.phone}
+					onBlur={handleBlur}
+					onChange={handleChange}
+					error={!!touched.phone && !!errors.phone}
+				/>
+				{/* <H6 className="text-primary">Where are you located?</H6> */}
 				<TextField
 					name="address.street1"
 					label="* street line 1"
@@ -238,13 +222,12 @@ function DispensaryCreate() {
 					helperText={touched?.address?.zipcode && errors?.address?.zipcode}
 				/>
 				<TermsAgreement
-					id="dispensary-admin-create-step-3"
 					name="termsAccepted"
 					onChange={handleChange}
 					checked={values?.termsAccepted || false}
 					helperText={(touched.termsAccepted && errors.termsAccepted) || ''}
 					description={
-						<>
+						<div id="dispensary-create-step-3">
 							<Paragraph>{TextContent.legal.AGREE_TO_TERMS}</Paragraph>
 							<a
 								href="/termsandconditions/dispensaryterms"
@@ -256,9 +239,9 @@ function DispensaryCreate() {
 								</H6>
 								.
 							</a>
-						</>
+						</div>
 					}
-					label={`I agree to the Dispensary Terms and Conditions`}
+					label={TextContent.legal.I_AGREE_TO_THE_DISPENSARY_TERMS}
 				/>
 				<FlexBox className="m-auto flex-row space-x-4 pb-20">
 					<Button onClick={prevFormStep} disabled={loadingButton}>
@@ -268,7 +251,7 @@ function DispensaryCreate() {
 						id="dispensary-create-step-4"
 						type="submit"
 						loading={loadingButton}
-						onClick={(e: any) => {
+						onClick={(e) => {
 							e.preventDefault();
 							e.stopPropagation();
 							notifyValidation();
@@ -279,48 +262,41 @@ function DispensaryCreate() {
 						{TextContent.ui.CONTINUE}
 					</Button>
 				</FlexBox>
-				{/* <FlexBox className='items-center pt-8'>
-                <Image
-                className="rounded-btn"
-                src={'/logo.png'}
-                alt="Gras Cannabis logo"
-                height={44}
-                width={44}
-                priority
-                />
-                </FlexBox> */}
 			</Grid>
 		</form>
 	);
 }
 
 const validationSchema = yup.object().shape({
-	name: yup.string().required('Dispensary name is required'),
-	// email: yup.string().email('invalid email').required('Email is required'),
-	address: yup.object().shape({
-		street1: yup.string().required('street line 1 is required'),
-		street2: yup.string(),
-		city: yup.string().required('city is required'),
-		state: yup.string().required('state is required'),
-		zipcode: yup
-			.string()
-			.required('zipcode is required')
-			.length(5, 'zipcode must be 5 digits'),
-		country: yup.string().required('country is required'),
-		countryCode: yup.string().required('country code is required'),
-	}),
-	dialCode: yup.string().required('dialing code is required'),
+	name: yup.string().required(TextContent.prompt.DISPENSARY_NAME_REQUIRED),
+	dialCode: yup.string().required(TextContent.prompt.DIALCODE_REQUIRED),
 	phone: yup
 		.string()
-		.required('phone number is required')
-		.length(10, 'phone number must be 10 digits'),
+		.required(TextContent.prompt.PHONE_REQUIRED)
+		.length(10, TextContent.prompt.PHONE_MINIMUM),
 	termsAccepted: yup
 		.bool()
 		.test(
 			'termsAccepted',
-			'Please read and agree to our Dispensary Terms and Conditions.',
+			TextContent.legal.READ_USER_TERMS_OF_SERVICE,
 			(value) => value === true,
 		),
+	address: yup.object().shape({
+		street1: yup.string().required(TextContent.prompt.STREET1_REQUIRED),
+		street2: yup.string(),
+		city: yup.string().required(TextContent.prompt.CITY_REQUIRED),
+		state: yup.string().required(TextContent.prompt.STATE_REQUIRED),
+		zipcode: yup
+			.number()
+			.required(TextContent.prompt.ZIPCODE_MINIMUM)
+			.test(
+				'len',
+				TextContent.prompt.ZIPCODE_MINIMUM,
+				(val) => val?.toString().length === 5,
+			),
+		country: yup.string().required(TextContent.prompt.COUNTRY_REQUIRED),
+		countryCode: yup.string().required(TextContent.prompt.COUNTRYCODE_REQUIRED),
+	}),
 });
 
 export default DispensaryCreate;

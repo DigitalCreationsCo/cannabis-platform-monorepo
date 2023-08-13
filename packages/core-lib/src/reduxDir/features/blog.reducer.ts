@@ -63,13 +63,9 @@ export const blogSlice = createSlice({
 				const articles = payload;
 				if (articles.length > 0) {
 					articles.forEach((article) => {
-						console.info('state before reconcile: ', state.news);
-
 						const index = state.news.findIndex((i) => i.id === article.id);
 						if (index === -1) state.news = [...state.news, article];
 						else state.news[index] = article;
-
-						console.info('state after reconcile: ', state.news);
 					});
 				}
 				state.isLoading = false;

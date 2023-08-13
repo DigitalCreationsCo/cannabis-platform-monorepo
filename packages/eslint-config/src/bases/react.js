@@ -25,6 +25,7 @@ module.exports = {
 				'plugin:jsx-a11y/recommended',
 			],
 			rules: {
+				'react-hooks/exhaustive-deps': ['off'],
 				// https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/no-unknown-property.md
 				'react/no-unknown-property': ['error', { ignore: ['css'] }],
 				// https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-unescaped-entities.md

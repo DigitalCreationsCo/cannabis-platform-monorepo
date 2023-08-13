@@ -1,5 +1,6 @@
 import Passwordless from 'supertokens-auth-react/recipe/passwordless';
 import Session from 'supertokens-auth-react/recipe/session';
+import { type AppInfo } from 'supertokens-node/lib/build/types';
 
 const appName = process.env.NEXT_PUBLIC_SHOP_APP_NAME || 'Gras';
 const baseDomain = process.env.NEXT_PUBLIC_APP_DOMAIN || 'localhost';
@@ -8,17 +9,15 @@ const shopDomain =
 const dashboardDomain =
 	process.env.NEXT_PUBLIC_DASHBOARD_APP_URL || 'http://localhost:3001';
 const apiDomain = process.env.BACKEND_URL || `http://localhost:6001`;
+const apiBasePath =
+	(process.env.NODE_ENV === 'development' && 'api/v1') || '/main/api/v1';
 
-const appInfo: {
-	appName: string;
-	websiteDomain: string;
-	apiDomain: string;
-	apiBasePath: string;
-} = {
+const appInfo: AppInfo = {
 	appName,
 	websiteDomain: dashboardDomain,
 	apiDomain,
-	apiBasePath: '/main/api/v1',
+	apiBasePath,
+	apiGatewayPath: '/main',
 };
 
 export const frontendConfig = () => {
@@ -38,11 +37,22 @@ export const frontendConfig = () => {
 								event.user.memberships?.[0]?.role.toLocaleUpperCase(),
 						);
 
+						console.info(
+							(event.user &&
+								event.user.memberships?.[0]?.role.toLocaleUpperCase() ===
+									'ADMIN') ||
+								event.user.memberships?.[0]?.role.toLocaleUpperCase() ===
+									'OWNER' ||
+								event.user.memberships?.[0]?.role.toLocaleUpperCase() ===
+									'MEMBER',
+						);
 						if (
 							(event.user &&
 								event.user.memberships?.[0]?.role.toLocaleUpperCase() ===
 									'ADMIN') ||
-							event.user.memberships?.[0]?.role.toLocaleUpperCase() === 'OWNER'
+							event.user.memberships?.[0]?.role.toLocaleUpperCase() ===
+								'OWNER' ||
+							event.user.memberships?.[0]?.role.toLocaleUpperCase() === 'MEMBER'
 						) {
 							window.location.href = dashboardDomain + '/dashboard';
 						} else {
@@ -50,7 +60,6 @@ export const frontendConfig = () => {
 								`You don't have the admin permissions to sign in here. 
                                 Please contact Gras support.`,
 							);
-							// window.location.href = shopDomain;
 						}
 					}
 				},

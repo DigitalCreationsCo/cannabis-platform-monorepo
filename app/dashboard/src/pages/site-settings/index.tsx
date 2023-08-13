@@ -3,8 +3,8 @@
 // import { TabContext, TabList, TabPanel } from "@mui/lab";
 // import { Box, styled, Tab } from "@mui/material";
 // import Card1 from "components/Card1";
-// import AdminDashboardLayout from "components/layout/AdminDashboardLayout";
-// import AdminDashboardNavigation from "components/layout/AdminDashboardNavigation";
+// import DashboardLayout from "components/layout/DashboardLayout";
+// import DashboardNavigation from "components/layout/DashboardNavigation";
 // import DashboardPageHeader from "components/layout/DashboardPageHeader";
 // import BannerSlider from "components/site-settings/BannerSlider";
 // import FooterSetting from "components/site-settings/FooterSetting";
@@ -25,7 +25,7 @@ export default function SiteSettings() {
 			<PageHeader
 				title="Site Settings"
 				Icon={Icons.CategoryOutlined}
-				// navigation={ <AdminDashboardNavigation /> }
+				// navigation={ <DashboardNavigation /> }
 			/>
 			<Card className="h-[200px]">
 				Dispensary staff can edit their storefront and site settings here
