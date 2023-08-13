@@ -3323,6 +3323,10 @@ html {
   align-self: center;
 }
 
+.self-stretch {
+  align-self: stretch;
+}
+
 .justify-self-end {
   justify-self: end;
 }
@@ -4084,6 +4088,11 @@ html {
   .md\:px-4 {
     padding-left: 1rem;
     padding-right: 1rem;
+  }
+
+  .md\:py-4 {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
   }
 
   .md\:py-4 {
