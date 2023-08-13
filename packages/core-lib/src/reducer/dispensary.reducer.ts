@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
-import { TextContent } from 'constants';
 import {
 	type OrderWithDashboardDetails,
 	type OrganizationWithDashboardDetails,
@@ -14,6 +13,7 @@ import {
 } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { applicationHeaders } from '../axiosInstance';
+import { TextContent } from '../constants';
 import { type AppState } from '../types';
 import { urlBuilder } from '../utils';
 
