@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-/// @ts-nocheck
-
 import { dispensaryReducer, modalReducer, userReducer } from '@cd/core-lib';
 import {
 	crashMiddleware,
@@ -29,10 +26,6 @@ import {
 	REHYDRATE,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import {
-	signInEmailPassword,
-	signUpEmailPassword,
-} from 'supertokens-auth-react/recipe/emailpassword';
 import { signOut } from 'supertokens-auth-react/recipe/session';
 
 const rootReducer = combineReducers({
@@ -42,9 +35,15 @@ const rootReducer = combineReducers({
 });
 
 const hydratableReducer = (state: RootState, action: AnyAction) => {
-	if (action.type === HYDRATE || action.type === 'REHYDRATE') {
+	if (action.type === HYDRATE) {
 		return {
 			...state, // use previous state
+			// ...action.payload // apply delta from hydration
+		};
+	}
+	if (action.type === REHYDRATE) {
+		return {
+			...state,
 			// ...action.payload // apply delta from hydration
 		};
 	} else {
@@ -52,21 +51,20 @@ const hydratableReducer = (state: RootState, action: AnyAction) => {
 	}
 };
 
-const bindMiddleware = (middleware) => {
+const bindMiddleware = (middleware: any) => {
 	if (process.env.NODE_ENV !== 'production') {
 		return composeWithDevTools(applyMiddleware(...middleware));
 	}
 	return applyMiddleware(
 		...middleware,
 		dispensaryMiddleware,
-		locationMiddleware,
 		crashMiddleware,
 		loggerMiddleware,
 	);
 };
 
 const supertokens = () => {
-	return { signInEmailPassword, signUpEmailPassword, signOut };
+	return { signOut };
 };
 
 const makeStore = () => {
@@ -99,7 +97,7 @@ const makeStore = () => {
 					bindMiddleware,
 				}),
 		});
-
+		// @ts-ignore
 		store._persistor = persistStore(store);
 	} else {
 		store = configureStore({
@@ -116,12 +114,11 @@ const makeStore = () => {
 				}),
 		});
 	}
-
 	thunkArguments.store = store;
-
 	return store;
 };
 
+const store: any = makeStore();
 export type AppStore = ReturnType<typeof makeStore>;
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
