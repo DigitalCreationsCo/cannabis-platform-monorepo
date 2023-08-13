@@ -127,7 +127,7 @@ const locationSlice = createSlice({
 			state,
 			{ payload }: { payload: { latitude: number; longitude: number } },
 		) => {
-			console.info('setCurrentCoordinates action, ', payload);
+			console.debug('setCurrentCoordinates action, ', payload);
 			state.currentLocation.address.coordinates.latitude = payload.latitude;
 			state.currentLocation.address.coordinates.longitude = payload.longitude;
 		},
@@ -135,11 +135,11 @@ const locationSlice = createSlice({
 			state,
 			{ payload }: { payload: LocationStateProps['selectLocationType'] },
 		) => {
-			console.info('setSelectLocationType action');
+			console.debug('setSelectLocationType action');
 			state.selectLocationType = payload;
 		},
 		setCurrentAddress: (state, { payload }: { payload: AddressPayload }) => {
-			console.info('setCurrentLocation action');
+			console.debug('setCurrentLocation action');
 			state.currentLocation.address = {
 				...state.currentLocation.address,
 				...payload,
@@ -148,7 +148,7 @@ const locationSlice = createSlice({
 			};
 		},
 		setHomeAddress: (state, { payload }: { payload: AddressPayload }) => {
-			console.info('setHomeAddress action');
+			console.debug('setHomeAddress action');
 			state.homeLocation.address = {
 				...state.homeLocation.address,
 				...payload,

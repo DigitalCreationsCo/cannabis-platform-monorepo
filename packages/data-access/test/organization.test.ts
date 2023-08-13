@@ -17,6 +17,15 @@
 //     await expect(createOrganization(_orgUpsert)).resolves.toEqual(_orgUpsert);
 // });
 
+// test('update an orgnization', async () => {
+//     // const result = await prismaMock.organization.findUnique.mockResolvedValue(_orgUpsert)
+//     await expect(upsertOrganization(_orgUpsert)).resolves.toEqual(_orgUpsert);
+// });
+// test('create an orgnization', async () => {
+//     // const result = await prismaMock.organization.findUnique.mockResolvedValue(_orgUpsert)
+//     await expect(createOrganization(_orgUpsert)).resolves.toEqual(_orgUpsert);
+// });
+
 test('find organization with the given organizationId', async () => {
 	// prismaMock.organization.findUnique.mockResolvedValue(organization)
 	// await expect(findOrganizationById(_orgFind.id)).resolves.toEqual(_orgFind);
@@ -41,7 +50,7 @@ test('update stripe account for dispensary', async () => {
 	// const result = await prismaMock.organization.findUnique.mockResolvedValue(_orgUpsert)
 	await expect(Promise.resolve(1)).resolves.toEqual(1);
 	// await expect(
-	//     updateStripeAccountDispensary(
+	//     updateDispensaryStripeAccount(
 	//         _orgWithStripeAccountId.id,
 	//         _orgWithStripeAccountId.stripeAccountId,
 	//         _orgWithStripeAccountId

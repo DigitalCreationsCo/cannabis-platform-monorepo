@@ -47,7 +47,7 @@ export default class ImageController {
 				}
 
 				return res.status(200).json({
-					success: true,
+					success: 'true',
 					result: {
 						isLegalAge: _verified.isLegalAge,
 						scannedDOB: _verified.scannedDOB,
@@ -61,7 +61,7 @@ export default class ImageController {
 		} catch (error: any) {
 			console.error(error);
 			res.status(200).json({
-				success: false,
+				success: 'false',
 				message: error.message,
 				error: error.message,
 			});

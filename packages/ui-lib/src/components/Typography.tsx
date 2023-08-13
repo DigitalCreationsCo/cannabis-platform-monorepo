@@ -193,10 +193,16 @@ export const Span = ({ className, children, ...props }: Props) => {
 	);
 };
 
-export const Tiny = ({ className, children, ...props }: Props) => {
+export const Tiny = ({
+	color = 'dark',
+	children,
+	className,
+	...props
+}: Props) => {
 	return (
 		<span
 			className={twMerge(
+				(color === 'light' && 'text-inverse') || 'text-dark',
 				styles['cursor-inherit'],
 				'text-xs whitespace-normal',
 				className,

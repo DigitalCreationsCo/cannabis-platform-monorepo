@@ -92,7 +92,7 @@ function UserSignUpReview() {
 		};
 	}, []);
 
-	const imageSrc = formValues?.newUser?.profilePicture.location;
+	const imageSrc = formValues?.newUser?.profilePicture?.location;
 
 	return (
 		<Grid className="mx-auto max-w-[525px] space-y-2">
@@ -114,21 +114,23 @@ function UserSignUpReview() {
 							<H3>{user.username}</H3>
 							{imageSrc && <Image src={imageSrc} alt={user.username} />}
 						</FlexBox>
-						{renderNestedDataObject(account, Paragraph, [
-							'coordinateId',
-							'latitude',
-							'longitude',
-							'location',
-							'userId',
-							'scannedDOB',
-							'createdAt',
-							'id',
-							'updatedAt',
-							'emailVerified',
-							'imageUser',
-							'idFrontImage',
-							'idBackImage',
-						])}
+						{renderNestedDataObject(account, Paragraph, {
+							removeFields: [
+								'coordinateId',
+								'latitude',
+								'longitude',
+								'location',
+								'userId',
+								'scannedDOB',
+								'createdAt',
+								'id',
+								'updatedAt',
+								'emailVerified',
+								'imageUser',
+								'idFrontImage',
+								'idBackImage',
+							],
+						})}
 					</>
 				)}
 				{!account && (
