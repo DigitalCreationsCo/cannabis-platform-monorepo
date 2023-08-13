@@ -1,4 +1,4 @@
-import { blogActions, shopActions } from '@cd/core-lib/src/reduxDir';
+import { blogActions, shopActions } from '@cd/core-lib';
 import {
 	LoadingPage,
 	ModalProvider,
@@ -16,7 +16,10 @@ import Session from 'supertokens-auth-react/recipe/session';
 import { LayoutContainer, LocationProvider } from '../components';
 import { frontendConfig } from '../config/frontendConfig';
 import { wrapper, type AppThunk } from '../redux/store';
+import '../styles/global.css';
+// eslint-disable-next-line import/no-unresolved, @typescript-eslint/no-unused-vars
 import '../styles/anim8-gradient.css';
+import '../styles/tailwind.css';
 
 if (typeof window !== 'undefined') {
 	SuperTokensReact.init(frontendConfig());
