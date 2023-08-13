@@ -1,5 +1,6 @@
 export * from './blog.reducer';
 export * from './cart.reducer';
+export * from './dispensary.reducer';
 export * from './driver.reducer';
 export * from './location.reducer';
 export * from './modal.reducer';
