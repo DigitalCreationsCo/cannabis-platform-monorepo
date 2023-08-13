@@ -1,12 +1,12 @@
 import { type Store } from '@reduxjs/toolkit';
-import { type BlogStateProps } from '../reduxDir/features/blog.reducer';
-import { type CartStateProps } from '../reduxDir/features/cart.reducer';
-import { type DriverSessionState } from '../reduxDir/features/driver.reducer';
-import { type LocationStateProps } from '../reduxDir/features/location.reducer';
-import { type ModalStateProps } from '../reduxDir/features/modal.reducer';
-import { type ShopStateProps } from '../reduxDir/features/shop.reducer';
-import { type SocketStateType } from '../reduxDir/features/socket.reducer';
-import { type UserStateProps } from '../reduxDir/features/user.reducer';
+import { type BlogStateProps } from '../reducer/blog.reducer';
+import { type CartStateProps } from '../reducer/cart.reducer';
+import { type DriverSessionState } from '../reducer/driver.reducer';
+import { type LocationStateProps } from '../reducer/location.reducer';
+import { type ModalStateProps } from '../reducer/modal.reducer';
+import { type ShopStateProps } from '../reducer/shop.reducer';
+import { type SocketStateType } from '../reducer/socket.reducer';
+import { type UserStateProps } from '../reducer/user.reducer';
 
 export type AppState = Readonly<{
 	modal: ModalStateProps;

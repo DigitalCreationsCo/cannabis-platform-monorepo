@@ -1,11 +1,10 @@
+import { Center, FlexBox, type LayoutContextProps } from '@cd/ui-lib';
 import { twMerge } from 'tailwind-merge';
-import Center from './Center';
-import FlexBox from './FlexBox';
 
 function LoadingPage() {
 	const dot = 'animate-bounce w-[12px] h-[12px] rounded-full bg-primary';
 	return (
-		<FlexBox className="grow items-center min-h-screen">
+		<FlexBox className="min-h-screen grow items-center">
 			<Center>
 				<span className={twMerge('flex space-x-2 items-center rounded-full')}>
 					<span className={twMerge(dot, 'bg-secondary')} />
@@ -20,3 +19,8 @@ function LoadingPage() {
 }
 
 export default LoadingPage;
+
+LoadingPage.getLayoutContext = (): LayoutContextProps => ({
+	showHeader: false,
+	showSideNav: false,
+});
