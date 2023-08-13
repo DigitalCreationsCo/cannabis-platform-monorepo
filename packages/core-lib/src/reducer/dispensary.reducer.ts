@@ -16,11 +16,13 @@ import { applicationHeaders } from '../axiosInstance';
 import { TextContent } from '../constants';
 import { type AppState } from '../types';
 import { urlBuilder } from '../utils';
+import { signOutUserAsync } from './user.reducer';
 
 export const getDispensaryById = createAsyncThunk(
 	'dispensary/getDispensaryById',
 	async (organizationId: string, thunkAPI) => {
 		try {
+			console.debug('getDispensaryById: ', organizationId);
 			const response = await axios.get(
 				urlBuilder.main.organizationById(organizationId),
 				{
@@ -29,6 +31,7 @@ export const getDispensaryById = createAsyncThunk(
 					},
 				},
 			);
+			console.debug('response.data: ', response.data);
 			if (response.data.success) return response.data.payload;
 		} catch (error) {
 			console.error('getDispensaryById: ', error);
@@ -83,6 +86,19 @@ export const dispensarySlice = createSlice({
 				state.isLoading = false;
 				state.isSuccess = false;
 				state.isError = true;
+			}),
+			builder.addCase(signOutUserAsync.fulfilled, () => {
+				// clear dispensary state on user signout
+				return initialState;
+			}),
+			builder.addCase(signOutUserAsync.pending, (state) => {
+				state.isLoading = true;
+			}),
+			builder.addCase(signOutUserAsync.rejected, (state, { payload }) => {
+				state.isSuccess = false;
+				state.isLoading = false;
+				state.isError = true;
+				state.errorMessage = payload as string;
 			});
 	},
 });
@@ -94,4 +110,4 @@ export const dispensaryActions = {
 
 export const dispensaryReducer = dispensarySlice.reducer;
 
-export const selectdispensaryState = (state: AppState) => state.dispensary;
+export const selectDispensaryState = (state: AppState) => state.dispensary;
