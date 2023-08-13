@@ -7,8 +7,8 @@ import { locationActions } from '../reducer';
 
 const locationMiddleware =
 	(store: MiddlewareAPI) => (next) => (action: AnyAction) => {
-		next(action);
 		try {
+			next(action);
 			if (action.type === 'user/signinUserSync') {
 				const user = action.payload as UserWithDetails;
 				if (user?.address !== undefined) {

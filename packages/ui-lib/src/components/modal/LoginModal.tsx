@@ -224,11 +224,9 @@ function LoginModal({
 				const response = await consumeCode({
 					userInputCode: values.passcode,
 				});
-
 				if (response.status === 'OK') {
 					dispatch(userActions.signinUserSync(response.user));
 				}
-
 				toast.success(TextContent.account.SIGNING_IN, { duration: 5000 });
 				dispatchCloseModal();
 			} catch (error: any) {

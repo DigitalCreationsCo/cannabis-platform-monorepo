@@ -6,18 +6,28 @@ import { hasMembershipRoleAccess } from '../utils';
 
 const dispensaryMiddleware =
 	(store: MiddlewareAPI) => (next: any) => (action: AnyAction) => {
-		next(action);
 		try {
+			next(action);
 			if (action.type === 'user/signinUserSync') {
 				const user = action.payload as UserWithDetails;
 				if (hasMembershipRoleAccess(user, 'MEMBER')) {
 					const organizationId = user.memberships?.[0].organizationId as string;
+					console.log(
+						'dispensary middleware: dispatching `getDispensaryById` action',
+					);
 					store.dispatch(
 						dispensaryActions.getDispensaryById(
 							organizationId,
 						) as unknown as AnyAction,
 					);
 				} else throw new Error(TextContent.error.DISPENSARY_NOT_FOUND);
+			}
+
+			if (
+				action.type === 'dispensary/getDispensaryById/fulfilled' &&
+				typeof window !== 'undefined'
+			) {
+				window.location.reload();
 			}
 		} catch (error) {
 			console.info('Dispensary Middleware: Caught an exception: ');

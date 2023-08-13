@@ -146,7 +146,6 @@ export const getServerSideProps = wrapper.getServerSideProps(
 				'Cache-Control',
 				'public, s-maxage=10, stale-while-revalidate=59',
 			);
-			console.debug(await store.getState().user);
 
 			// call Promise.allSettled for all the data from server-main
 			// (products, orders, site-settings)
