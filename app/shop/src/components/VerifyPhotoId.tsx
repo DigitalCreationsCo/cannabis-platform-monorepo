@@ -10,7 +10,7 @@ import {
 	UploadImageBox,
 	useFormContext,
 } from '@cd/ui-lib';
-import axios from 'axios';
+import axios, { type AxiosResponse } from 'axios';
 import FormData from 'form-data';
 import Image from 'next/image';
 import router from 'next/router';
@@ -46,7 +46,7 @@ const VerifyPhotoId = () => {
 			resetFormValues();
 		}
 		createNewFormContext();
-	}, [resetFormValues]);
+	}, []);
 
 	const [frontImage, setFrontImage] = useState<Image | null>(null);
 	const [backImage, setBackImage] = useState<Image | null>(null);
@@ -60,79 +60,71 @@ const VerifyPhotoId = () => {
 		try {
 			if (frontImage && backImage) {
 				setLoadingButton(true);
-
-				const response: VerifyIdentificationResponse =
-					await verifyLegalAgeImageUpload({ frontImage, backImage });
-
+				const response = await verifyLegalAgeImageUpload({
+					frontImage,
+					backImage,
+				});
 				toast(TextContent.account.VERIFY_ID_PROCESSING);
-
-				if (response.success === false) throw new Error(response.error);
-
-				if (response.success === true) {
-					toast.success(TextContent.account.VERIFY_ID_COMPLETE);
-
+				toast.success(TextContent.account.VERIFY_ID_COMPLETE);
+				if (response.success === 'true') {
 					if (
 						response.result.idVerified === true &&
 						response.result.isLegalAge === false
 					)
 						router.push('/sorry-we-cant-serve-you');
-
-					setFormValues({
-						newUser: {
-							scannedDOB: response.result.scannedDOB,
-							idVerified: response.result.idVerified,
-							isLegalAge: response.result.isLegalAge,
-							idFrontImage: response.images.idFrontImage,
-							idBackImage: response.images.idBackImage,
-						},
-					});
-
-					nextFormStep();
-					setLoadingButton(false);
+					else {
+						setFormValues({
+							newUser: {
+								scannedDOB: response.result.scannedDOB,
+								idVerified: response.result.idVerified,
+								isLegalAge: response.result.isLegalAge,
+								idFrontImage: response.images.idFrontImage,
+								idBackImage: response.images.idBackImage,
+							},
+						});
+						setLoadingButton(false);
+						nextFormStep();
+					}
 				}
 			}
 		} catch (error: any) {
-			console.info('error: ', error);
-			toast.error(error.message);
 			setLoadingButton(false);
+			toast.error(error.message);
 		}
 	};
 
-	const verifyLegalAgeImageUpload = async ({ frontImage, backImage }: any) => {
+	const verifyLegalAgeImageUpload = async ({
+		frontImage,
+		backImage,
+	}: {
+		frontImage: Image;
+		backImage: Image;
+	}): Promise<VerifyIdentificationResponse> => {
 		try {
 			const formData = new FormData();
-
 			formData.append('idFrontImage', frontImage);
 			formData.append('idBackImage', backImage);
-
-			console.info('verify identification: formdata: ');
 			// @ts-ignore
-			for (const pair of formData.entries()) {
-				console.info(pair[0], pair[1]);
-			}
-			const response = await axios.post(
-				urlBuilder.image.verifyIdentificationImageUpload(),
-				formData,
-				{
-					headers: {
-						'Content-Type': 'multipart/form-data',
-					},
+			// for (const pair of formData.entries()) {
+			// 	console.info(pair[0], pair[1]);
+			// }
+			const response = await axios.post<
+				any,
+				AxiosResponse<VerifyIdentificationResponse>,
+				any
+			>(urlBuilder.image.verifyIdentificationImageUpload(), formData, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
 				},
-			);
-
-			if (response.status === 500)
-				throw new Error(
-					`We're having a problem verifying your image. Please try again.`,
-				);
-
+			});
+			if (response.data.success == 'false')
+				throw new Error(response.data.error);
 			return response.data;
 		} catch (error: any) {
 			if (error.code === 'ERR_NETWORK')
 				throw new Error(
 					`We're having a problem verifying your image. Please try again.`,
 				);
-
-			console.info('verify id error: ', error);
 			throw new Error(error.message);
 		}
 	};
@@ -277,11 +269,11 @@ export default VerifyPhotoId;
 
 type VerifyIdentificationResponse =
 	| {
-			success: true;
+			success: 'true';
 			result: {
 				isLegalAge: boolean;
 				idVerified: boolean;
-				scannedDOB: Date;
+				scannedDOB: Date | null;
 			};
 			images: {
 				idFrontImage: string;
@@ -290,6 +282,6 @@ type VerifyIdentificationResponse =
 			isUploaded: boolean;
 	  }
 	| {
-			success: false;
+			success: 'false';
 			error: string;
 	  };

@@ -1,10 +1,4 @@
-import {
-	applicationHeaders,
-	axios,
-	coordinatesIsEmpty,
-	getGeoCoordinatesFromAddress,
-	urlBuilder,
-} from '@cd/core-lib';
+import { applicationHeaders, urlBuilder } from '@cd/core-lib';
 import {
 	createOrganization,
 	deleteOrganizationById,
@@ -14,8 +8,9 @@ import {
 	findUsersByOrganization,
 	updateOrganization,
 	type OrganizationCreateType,
+	type OrganizationUpdateType,
 } from '@cd/data-access';
-import { createId } from '@paralleldrive/cuid2';
+import axios from 'axios';
 /* =================================
 Organization Data Access - data class for organization table
 
@@ -59,12 +54,15 @@ export default class OrganizationDA {
 				},
 			);
 
+			// revert the organization record if location db create fails
 			if (response.data.success == 'false') {
 				await deleteOrganizationById(data.id);
 				console.debug(
 					'the organization location record was not created. the insert operation is reverted.',
 				);
-				throw new Error('The organization ');
+				throw new Error(
+					'The command failed. The Dispensary record is not created.',
+				);
 			}
 
 			console.debug(`${data.name} record create is completed.`);
@@ -73,23 +71,22 @@ export default class OrganizationDA {
 			throw new Error(error.message);
 		}
 	}
-	static async updateOrganization(organization: OrganizationCreateType) {
+	static async updateOrganization(organization: OrganizationUpdateType) {
 		try {
-			let coordinates;
-
-			if (coordinatesIsEmpty(organization?.address)) {
-				coordinates = await getGeoCoordinatesFromAddress(organization.address);
-
-				if (coordinates && coordinates.latitude !== 0)
-					organization.address.coordinates = {
-						...coordinates,
-						id: createId(),
-					};
-			}
-
+			const previousData: OrganizationUpdateType = await findOrganizationById(
+				organization.id,
+				{
+					images: false,
+					address: { include: { coordinates: true } },
+				},
+			);
+			console.info('existing record: ', previousData);
 			const data = await updateOrganization(organization);
-
-			await axios.put(
+			console.debug(
+				`successfully updated organization record: ${organization.name}. id: ${data.id}
+				now updating location record...`,
+			);
+			const response = await axios.put(
 				urlBuilder.location.organizationLocationRecord(),
 				{ ...data },
 				{
@@ -98,12 +95,21 @@ export default class OrganizationDA {
 					},
 				},
 			);
+			console.debug('location record updated');
+			if (response.data.success == 'false') {
+				await updateOrganization(previousData);
+				console.debug(
+					'the organization location update failed. the update operation is reverted.',
+				);
+				throw new Error(
+					'The command failed. The Dispensary record is not updated.',
+				);
+			}
 
 			console.info(`Dispensary record ${organization.name} is updated.`);
-
-			return 'Your organization account is updated.';
+			return `${data.name} record create is updated. Your id is ${data.id}`;
 		} catch (error: any) {
-			throw new Error(error);
+			throw new Error(error.message);
 		}
 	}
 
@@ -120,7 +126,6 @@ export default class OrganizationDA {
 			console.info(`Dispensary record ${_deleted.name} is deleted OK.`);
 			return `Dispensary record ${_deleted.name} is deleted OK.`;
 		} catch (error: any) {
-			console.error(error.message);
 			throw new Error(error.message);
 		}
 	}
@@ -130,7 +135,6 @@ export default class OrganizationDA {
 		try {
 			return await findOrganizationById(organizationId);
 		} catch (error: any) {
-			console.error(error.message);
 			throw new Error(error.message);
 		}
 	}
@@ -143,7 +147,6 @@ export default class OrganizationDA {
 		try {
 			return await findOrganizationsByZipcode(zipcode, limit, radius);
 		} catch (error: any) {
-			console.error(error.message);
 			throw new Error(error.message);
 		}
 	}
@@ -153,7 +156,6 @@ export default class OrganizationDA {
 		try {
 			return await findCategoryListByOrg(organizationId);
 		} catch (error: any) {
-			console.error(error.message);
 			throw new Error(error.message);
 		}
 	}
@@ -162,7 +164,6 @@ export default class OrganizationDA {
 		try {
 			return await findUsersByOrganization(organizationId);
 		} catch (error: any) {
-			console.error(error.message);
 			throw new Error(error.message);
 		}
 	}
@@ -174,7 +175,6 @@ export default class OrganizationDA {
 			// const data = await updateProduct(product);
 			// return data
 		} catch (error: any) {
-			console.error(error.message);
 			throw new Error(error.message);
 		}
 	}

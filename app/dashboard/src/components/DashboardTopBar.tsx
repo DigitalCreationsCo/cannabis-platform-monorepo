@@ -16,9 +16,13 @@ export type TopBarProps = {
 	signOut: () => void;
 };
 
-function AdminTopBar({ signOut }: TopBarProps) {
+function DashboardTopBar({ signOut }: TopBarProps) {
 	const dispatch = useDispatch();
 	const { user, isSignedIn } = useSelector(selectUserState);
+	const dispensary = {
+		image: '',
+		name: '',
+	};
 
 	function openLoginModal() {
 		dispatch(
@@ -29,7 +33,6 @@ function AdminTopBar({ signOut }: TopBarProps) {
 	}
 
 	const _AccountDropDown = useCallback(DispensaryAccountDropDown, [
-		signOut,
 		user.profilePicture?.location,
 		user.username,
 	]);
@@ -56,36 +59,6 @@ function AdminTopBar({ signOut }: TopBarProps) {
 						</Paragraph>
 					</Link>
 				)}
-
-				{/* {isSignedIn ? (
-					<>
-						<Link href={getDashboardSite('/support')}>
-							<Paragraph
-								className={twMerge(
-									'pt-1',
-									'px-3',
-									'text-md',
-									'whitespace-nowrap',
-								)}
-							>
-								Need Support?
-							</Paragraph>
-						</Link>
-						<FlexBox>
-							<Button onClick={signOut}>Sign Out</Button>
-						</FlexBox>
-					</>
-				) : (
-					<Button
-						className="pt-1"
-						size="sm"
-						bg="transparent"
-						hover="transparent"
-						onClick={openLoginModal}
-					>
-						Sign In
-					</Button>
-				)} */}
 				{isSignedIn && <_AccountDropDown />}
 				{!isSignedIn && (
 					<FlexBox>
@@ -114,8 +87,8 @@ function AdminTopBar({ signOut }: TopBarProps) {
 					hover="transparent"
 				>
 					<Image
-						src={user.profilePicture?.location as string}
-						alt={user.username}
+						src={dispensary.image || logo}
+						alt={dispensary.name}
 						width={40}
 						height={40}
 						className="rounded-full border"
@@ -126,7 +99,7 @@ function AdminTopBar({ signOut }: TopBarProps) {
 				<ul className="menu dropdown-content bg-inverse relative bottom-0 right-0 mt-2 w-48 rounded border shadow">
 					<FlexBox>
 						<Button size="md" bg="transparent" hover="transparent">
-							<Link href={getDashboardSite('/settings')}>Settings</Link>
+							<Link href={getDashboardSite('/site-settings')}>Settings</Link>
 						</Button>
 					</FlexBox>
 					<FlexBox>
@@ -145,4 +118,4 @@ function AdminTopBar({ signOut }: TopBarProps) {
 	}
 }
 
-export default AdminTopBar;
+export default DashboardTopBar;

@@ -1,5 +1,4 @@
-import { renderAddress } from '@cd/core-lib';
-import { type Address } from '@cd/data-access';
+import { TextContent } from '@cd/core-lib';
 import {
 	Center,
 	FlexBox,
@@ -12,69 +11,61 @@ import {
 } from '@cd/ui-lib';
 import Image from 'next/image';
 import { useEffect } from 'react';
-import Confetti from 'react-confetti';
 
 function DispensarySignUpComplete() {
-	const { formValues, setCanProceed, resetFormValues } = useFormContext();
+	const dispensaryFeatures = [
+		'view your account',
+		'connect with your customers',
+	];
 
-	const name = formValues?.organization?.name as string,
-		address = formValues?.organization?.address as unknown as Address;
+	const { formValues, setCanProceed, resetFormValues, isComplete } =
+		useFormContext();
+
+	const name = formValues?.organization?.name as string;
 
 	useEffect(
-		() => () => {
-			resetFormValues();
+		() => {
+			isComplete && isComplete();
 			setCanProceed(false);
+			return () => resetFormValues();
 		},
-		[resetFormValues, setCanProceed],
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[isComplete],
 	);
 	return (
-		<div>
-			<Confetti
-				className="h-full w-full"
-				numberOfPieces={420}
-				recycle={false}
-			/>
-			<Grid className="mx-auto max-w-[525px] space-y-2 pt-20 md:pt-8">
-				<FlexBox className="flex-row justify-between">
-					<H2 className="whitespace-normal">
-						Congratulations, you created a Dispensary Account with Gras.
-					</H2>
-					{/* <Paragraph>
-                    {`This is a great step towards introducing your products to the Gras Cannabis Marketplace. You're almost ready to meet our customers.
-                    Please sign in upload your products and customize your storefront so your new customers can find you in the marketplace. Soon, they can find your products and place orders from your dispensary.
-                    `}
-                </Paragraph> */}
-					<Image
-						alt="Gras Cannabis logo"
-						src={'/logo.png'}
-						height={63}
-						width={63}
-						priority
-					/>
-				</FlexBox>
-				<Center>
-					<H4 className="cursor-default py-4">What's next?</H4>
-					<Paragraph className="m-auto text-left">
-						You're now ready to receive delivery orders to{' '}
-						{(name && <b>{name}</b>) || ' your business'}
-						{address &&
-							`, located at ${renderAddress({
-								address,
-								lineBreak: false,
-								showCountry: false,
-							})}`}
-						.{'\n'}Sign in to{' '}
-						<b>
-							view your account, connect with your customers, and get orders
-							delivered by Gras.
-						</b>
-					</Paragraph>
-				</Center>
-				<FlexBox className="items-center">
-					<SignInButton />
-				</FlexBox>
-			</Grid>
-		</div>
+		<Grid className="mx-auto max-w-[525px] space-y-2 pt-20 md:pt-8">
+			<FlexBox className="flex-row justify-between">
+				<H2 className="whitespace-normal">
+					{TextContent.account.DISPENSARY_ACCOUNT_IS_CREATED}
+				</H2>
+				<Image
+					alt="Gras Cannabis logo"
+					src={'/logo.png'}
+					height={63}
+					width={63}
+					priority
+				/>
+			</FlexBox>
+			<Center>
+				<H4 className="cursor-default py-4">What's next?</H4>
+				<Paragraph className="m-auto text-center">
+					{(name && <b>{name}</b>) || 'Your business'} is ready to deliver to
+					your customers.
+					<br />
+					Sign in to{' '}
+					{dispensaryFeatures.map((feature, index) => (
+						<>
+							<b key={index}>{feature}</b>
+							<br />
+						</>
+					))}
+					and <b>get orders delivered by Gras.</b>
+				</Paragraph>
+			</Center>
+			<FlexBox className="items-center">
+				<SignInButton size="lg" hover="primary-light" bg="primary" />
+			</FlexBox>
+		</Grid>
 	);
 }
 

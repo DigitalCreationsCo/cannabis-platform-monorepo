@@ -1,13 +1,14 @@
+import http from 'http';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
-import http from 'http';
 import Supertokens from 'supertokens-node';
 import {
 	errorHandler as STerror,
 	middleware,
 } from 'supertokens-node/framework/express';
-import { SessionInformation } from 'supertokens-node/recipe/session';
+import { type SessionInformation } from 'supertokens-node/recipe/session';
+import UserRoles from 'supertokens-node/recipe/userroles';
 import {
 	blog,
 	driver,
@@ -24,6 +25,10 @@ const dashboardDomain = process.env.NEXT_PUBLIC_DASHBOARD_APP_URL;
 if (Supertokens) {
 	Supertokens.init(backendConfig());
 } else throw Error('Supertokens is not available.');
+
+UserRoles.createNewRoleOrAddPermissions('OWNER', ['OWNER']);
+UserRoles.createNewRoleOrAddPermissions('ADMIN', ['ADMIN']);
+UserRoles.createNewRoleOrAddPermissions('MEMBER', ['MEMBER']);
 
 const app = express();
 app.use(
@@ -52,22 +57,15 @@ app.use('/api/v1/blog', blog);
 
 app.use('/api/v1/error', errorRoute);
 app.use(STerror());
-app.use(
-	(
-		err: any,
-		req: express.Request,
-		res: express.Response,
-		next: express.NextFunction,
-	) => {
-		if (err.message === 'Please reset your password') {
-			return res.status(401).send(err.message);
-		}
-		if (err.message === 'Invalid password') {
-			return res.status(401).send(err.message);
-		}
-		res.status(500).send(err.message);
-	},
-);
+app.use((err: any, req: express.Request, res: express.Response) => {
+	if (err.message === 'Please reset your password') {
+		return res.status(401).send(err.message);
+	}
+	if (err.message === 'Invalid password') {
+		return res.status(401).send(err.message);
+	}
+	res.status(500).send(err.message);
+});
 
 const server = http.createServer(app);
 export default server;

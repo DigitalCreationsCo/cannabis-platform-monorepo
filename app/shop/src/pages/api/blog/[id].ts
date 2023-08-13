@@ -24,13 +24,13 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 		});
 
 		return res.status(res.statusCode).json({
-			success: true,
+			success: 'true',
 			payload: response,
 		});
 	} catch (error: any) {
 		console.error(error.message);
 		return res.json({
-			success: false,
+			success: 'false',
 			error: error.message,
 		});
 	}

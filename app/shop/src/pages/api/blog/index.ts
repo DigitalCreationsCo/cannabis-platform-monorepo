@@ -16,7 +16,7 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 		if (cache.has(`blogs/latest`)) {
 			const blogs = cache.get(`blogs/latest`);
 			return res.status(200).json({
-				success: true,
+				success: 'true',
 				payload: blogs,
 			});
 		}
@@ -33,13 +33,13 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 
 		cache.set(`blogs/latest`, blogs);
 		return res.status(res.statusCode).json({
-			success: true,
+			success: 'true',
 			payload: blogs,
 		});
 	} catch (error: any) {
 		console.error('/blog GET error: ', error.message);
 		return res.json({
-			success: false,
+			success: 'false',
 			error: error.message,
 		});
 	}
