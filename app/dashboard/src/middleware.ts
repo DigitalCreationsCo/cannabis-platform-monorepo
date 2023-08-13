@@ -14,6 +14,7 @@ export const config = {
 };
 
 export default async function middleware(req: NextRequest) {
+	console.info(req.cookies);
 	// const url = req.nextUrl.clone();
 	// if (url.pathname === '/') {
 	// 	url.pathname = '/dashboard';
