@@ -332,6 +332,7 @@ function LoginModal({
 	}
 
 	const closeModalAndReset = () => {
+		setOpenModal(false);
 		setFormStep(0);
 		dispatchCloseModal();
 	};
