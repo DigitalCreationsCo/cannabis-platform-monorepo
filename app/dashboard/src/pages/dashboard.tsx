@@ -117,18 +117,6 @@ export default function Dashboard({
 					<Card>There are no low stock products</Card>
 				)}
 			</Grid>
-
-			{/* <Grid title="Orders">
-                {orders.map((order) => (
-                    <OrderRow order={order} key={order.id} orderDetailsRoute="/orders" />
-                ))}
-            </Grid> */}
-
-			{/* <Grid title="Products">
-                {products.map((product) => (
-                    <ProductRow key={product.id} product={product} />
-                ))}
-            </Grid> */}
 		</Page>
 	);
 }
