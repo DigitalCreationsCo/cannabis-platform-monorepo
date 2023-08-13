@@ -105,7 +105,6 @@ const makeStore = () => {
 					bindMiddleware,
 				}),
 		});
-
 		// @ts-ignore
 		store._persistor = persistStore(store);
 	} else {
@@ -123,9 +122,7 @@ const makeStore = () => {
 				}),
 		});
 	}
-
 	thunkArguments.store = store;
-
 	return store;
 };
 
