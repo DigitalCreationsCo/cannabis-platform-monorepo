@@ -19,6 +19,7 @@ import { frontendConfig } from '../config/frontendConfig';
 import { wrapper } from '../redux/store';
 import '../styles/global.css';
 // eslint-disable-next-line import/no-unresolved, @typescript-eslint/no-unused-vars
+import '../styles/anim8-gradient.css';
 import '../styles/tailwind.css';
 
 if (typeof window !== 'undefined') {
