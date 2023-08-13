@@ -3759,6 +3759,7 @@ __metadata:
     boarding.js: 3.5.2
     busboy: 1.6.0
     cors: 2.8.5
+    daisyui: 2.51.6
     date-fns: 2.29.3
     dotenv: 16.0.3
     dotenv-cli: 7.0.0
@@ -3840,6 +3841,7 @@ __metadata:
     babel-jest: 29.5.0
     boarding.js: 3.5.2
     cors: 2.8.5
+    daisyui: 2.51.6
     date-fns: 2.29.3
     dotenv: 16.0.3
     dotenv-cli: 7.0.0
@@ -11910,7 +11912,6 @@ __metadata:
     copyfiles: 2.4.1
     cors: 2.8.5
     css-loader: 6.7.3
-    daisyui: 2.51.6
     date-fns: 2.29.3
     dotenv: 16.0.3
     dotenv-cli: 7.0.0
