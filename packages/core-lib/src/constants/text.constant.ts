@@ -82,7 +82,7 @@ const TextContent = Object.freeze({
 			`A one time passcode has been sent to ${receipient}.`,
 		ONETIME_PASSCODE_SENT_MOBILE: `Please check your mobile messages for the one time passcode.`,
 
-		SIGNING_IN: `signing in ...`,
+		SIGNING_IN: `signing in`,
 		SIGNOUT: 'Sign out',
 		SIGNIN: 'Sign In',
 		SIGNIN_EMAIL: 'Sign in with your email',

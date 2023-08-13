@@ -14,7 +14,15 @@ function ProtectedPage({
 	const router = useRouter();
 	const pageIsProtected = protectedPages.indexOf(router.pathname) !== -1;
 	const user = useSelector(selectUserState);
-	console.info('page is protected? ', pageIsProtected);
+
+	useEffect(() => {
+		if (
+			router.pathname === '/' &&
+			hasMembershipRoleAccess(user.user, 'MEMBER')
+		) {
+			router.push('/dashboard');
+		}
+	}, [router]);
 
 	useEffect(() => {
 		if (pageIsProtected && !hasMembershipRoleAccess(user.user, 'MEMBER')) {
