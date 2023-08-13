@@ -70,7 +70,7 @@ const LocationProvider = () => {
 				() => console.info('Geolocation is not supported by this browser.'),
 			);
 		}
-	}, [coordinates.latitude, coordinates.longitude, dispatch, enteredSite]);
+	}, [enteredSite]);
 
 	useEffect(() => {
 		if (
@@ -86,13 +86,7 @@ const LocationProvider = () => {
 
 			getDispensaries();
 		}
-	}, [
-		coordinates,
-		dispatch,
-		enteredSite,
-		shopState.isError,
-		shopState.isLoading,
-	]);
+	}, [coordinates]);
 	return <></>;
 };
 

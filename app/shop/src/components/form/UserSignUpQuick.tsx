@@ -47,38 +47,42 @@ function UserSignUpQuickForm() {
 		phone: formValues?.newUser?.phone || '',
 		dialCode: '1',
 		termsAccepted: false,
-		profilePicture: {},
+		profilePicture: '',
 	};
 
 	const validationSchema = yup.object().shape({
 		firstName: yup
 			.string()
-			.required('First name is required')
-			.min(3, 'First name is required'),
+			.required(TextContent.prompt.FIRST_NAME_REQUIRED)
+			.min(6, TextContent.prompt.FIRST_NAME_MINIMUM),
 		lastName: yup
 			.string()
-			.required('Last name is required')
-			.min(3, 'Last name is required'),
+			.required(TextContent.prompt.LAST_NAME_REQUIRED)
+			.min(6, TextContent.prompt.LAST_NAME_MINIMUM),
 		username: yup
 			.string()
-			.required('Username is required')
-			.min(6, 'Username is required'),
-		email: yup.string().email('invalid email').required('Email is required'),
+			.required(TextContent.prompt.USERNAME_REQUIRED)
+			.min(6, TextContent.prompt.USERNAME_MINIMUM),
+		email: yup
+			.string()
+			.email(TextContent.prompt.EMAIL_INVALID)
+			.required(TextContent.prompt.EMAIL_REQUIRED),
+		dialCode: yup.string().required(TextContent.prompt.DIALCODE_REQUIRED),
 		phone: yup
 			.string()
-			.required('Phone number is required')
-			.length(10, 'Phone number must be 10 digits'),
+			.required(TextContent.prompt.PHONE_REQUIRED)
+			.length(10, TextContent.prompt.PHONE_MINIMUM),
 		termsAccepted: yup
 			.bool()
 			.test(
 				'termsAccepted',
-				'Please read and agree to our User Terms and Conditions.',
+				TextContent.legal.READ_USER_TERMS_OF_SERVICE,
 				(value) => value === true,
 			),
 		profilePicture: yup
 			.string()
-			.required(`You didn't select a profile picture`)
-			.typeError(`You didn't select a profile picture`),
+			.required(TextContent.prompt.PROFILE_PICTURE_REQUIRED)
+			.typeError(TextContent.prompt.PROFILE_PICTURE_REQUIRED),
 	});
 
 	const onSubmit = async (values: typeof initialValues) => {
@@ -279,7 +283,7 @@ function UserSignUpQuickForm() {
 							</a>
 						</>
 					}
-					label={`I agree to the User Terms and Conditions`}
+					label={TextContent.legal.I_AGREE_TO_THE_USER_TERMS}
 				/>
 				<FlexBox className="col-span-2 flex-row justify-center space-x-4 py-2">
 					<Button

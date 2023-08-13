@@ -1,7 +1,7 @@
 import { Icons, NavLink } from '@cd/ui-lib';
 import { useRouter } from 'next/router';
 
-const AdminDashboardNavigation = () => {
+const DashboardNavigation = () => {
 	let { pathname } = useRouter();
 	return (
 		<ul>
@@ -82,4 +82,4 @@ const links = [
 	// },
 ];
 
-export default AdminDashboardNavigation;
+export default DashboardNavigation;

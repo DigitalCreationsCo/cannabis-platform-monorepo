@@ -8,7 +8,8 @@ const shopDomain =
 const apiDomain = process.env.BACKEND_URL || `http://localhost:6001`;
 // this v makes no sense, I don't understand the result is inverted in localhost
 const apiBasePath =
-	(process.env.NEXT_PUBLIC_IS_LOCAL_BUILD && '/main/api/v1') || '/api/v1';
+	(process.env.NEXT_PUBLIC_IS_LOCAL_BUILD === '1' && '/api/v1') ||
+	'/main/api/v1';
 
 const appInfo: {
 	appName: string;

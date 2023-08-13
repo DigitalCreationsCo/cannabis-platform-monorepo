@@ -8,11 +8,11 @@ import {
 import {
 	Card,
 	Grid,
+	H6,
 	Icons,
 	OrderRow,
 	Page,
 	PageHeader,
-	Paragraph,
 	VariantRow,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
@@ -76,11 +76,11 @@ export default function Dashboard({
 			<PageHeader
 				iconColor={'primary'}
 				title={`${organization.name}`}
-				subTitle={`storefront dashboard`}
+				subTitle={`Dispensary`}
 				Icon={Icons.ShoppingCartArrowUp}
 			/>
 
-			<Paragraph>{`Welcome, ${user.firstName}`}</Paragraph>
+			<H6 className="pb-2">{`Welcome, ${user.firstName}`}</H6>
 
 			<Grid className="grid-cols-2 gap-4 md:grid-cols-3">
 				{keyIndicatorsList.map((item) => (

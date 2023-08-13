@@ -338,10 +338,10 @@ export async function upsertDispensaryAdmin(
 			},
 		});
 
-		console.info('admin user upsert: ', user.email);
+		console.info('upsert Dispensary Staff record: ', user.email);
 		return user;
 	} catch (error: any) {
-		console.info('create Dispensary Admin user error: ', error);
+		console.info('create Dispensary Staff user error: ', error);
 		if (
 			error instanceof Prisma.PrismaClientKnownRequestError &&
 			error.code === 'P2002'
@@ -432,7 +432,7 @@ export async function updateDispensaryAdmin(
 			},
 		});
 
-		console.info('admin user updated: ', user.email);
+		console.info('updated Dispensary Staff record: ', user.email);
 		return user;
 	} catch (error: any) {
 		if (

@@ -145,7 +145,7 @@ model Address {
   updatedAt    DateTime      @updatedAt
   coordinates  Coordinates?  @relation(fields: [coordinateId], references: [id], onDelete: Cascade, onUpdate: SetNull)
   orders       Order[]
-  organization Organization? @relation("organizationAddress")
+  organization Organization?
   user         User[]        @relation("AddressToUser")
 
   @@index([id])
@@ -305,7 +305,7 @@ model Organization {
   categoryList             CategoryList?
   images                   ImageOrganization[]
   orders                   Order[]
-  address                  Address             @relation("organizationAddress", fields: [addressId], references: [id], onDelete: Cascade)
+  address                  Address             @relation(fields: [addressId], references: [id], onDelete: Cascade)
   schedule                 Schedule            @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
   subdomain                SubDomain           @relation(fields: [subdomainId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   vendor                   Vendor              @relation(fields: [vendorId, vendorName], references: [id, name])

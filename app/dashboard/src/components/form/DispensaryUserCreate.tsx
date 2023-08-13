@@ -40,7 +40,7 @@ function DispensaryUserCreate() {
 			setFormValues({ newUser: values });
 
 			const response = await axios.post(
-				urlBuilder.dashboard + '/api/organization/admin',
+				urlBuilder.dashboard + '/api/organization/staff',
 				{
 					user: values,
 					role: 'OWNER',
@@ -115,6 +115,7 @@ function DispensaryUserCreate() {
 				<Small id="dispensary-admin-create-step-2">
 					{TextContent.ui.FORM_FIELDS}
 				</Small>
+				<Small className="text-primary">What is your name?</Small>
 				<TextField
 					name="firstName"
 					label="* first name"
@@ -154,16 +155,6 @@ function DispensaryUserCreate() {
 					error={!!touched.email && !!errors.email}
 				/>
 				<FlexBox>
-					<TextField
-						maxLength={3}
-						name="dialCode"
-						label="* dial code"
-						placeholder="DialCode"
-						value={values?.dialCode}
-						onBlur={handleBlur}
-						onChange={handleChange}
-						error={!!touched.dialCode && !!errors.dialCode}
-					/>
 					<TextField
 						name="phone"
 						label="* phone"
@@ -214,16 +205,6 @@ function DispensaryUserCreate() {
 					error={!!touched?.address?.state && !!errors?.address?.state}
 					helperText={touched?.address?.state && errors?.address?.state}
 				/>
-				{/* <TextField
-                name="address.country"
-                label="* country"
-                placeholder="Country"
-                value={values?.address?.country}
-                onBlur={handleBlur}
-                onChange={handleChange}
-                error={!!touched?.address?.country && !!errors?.address?.country}
-                helperText={touched?.address?.country && errors?.address?.country}
-            /> */}
 				<TextField
 					name="address.zipcode"
 					label="* zipcode"
@@ -235,30 +216,30 @@ function DispensaryUserCreate() {
 					error={!!touched?.address?.zipcode && !!errors?.address?.zipcode}
 					helperText={touched?.address?.zipcode && errors?.address?.zipcode}
 				/>
-				<TermsAgreement
-					id="dispensary-admin-create-step-3"
-					name="termsAccepted"
-					onChange={handleChange}
-					checked={values?.termsAccepted || false}
-					// helperText={touched.termsAccepted && errors.termsAccepted}
-					error={!!touched.termsAccepted && !!errors.termsAccepted}
-					description={
-						<>
-							<Paragraph>{TextContent.legal.AGREE_TO_TERMS}</Paragraph>
-							<a
-								href="/termsandconditions/userterms"
-								target="_blank"
-								rel="noreferrer noopener"
-							>
-								<H6 className={'inline-block border-b-2'}>
-									{TextContent.legal.USER_TERMS_OF_SERVICE}
-								</H6>
-								.
-							</a>
-						</>
-					}
-					label={`I agree to the User Terms and Conditions`}
-				/>
+				<div id="dispensary-admin-create-step-3">
+					<TermsAgreement
+						name="termsAccepted"
+						onChange={handleChange}
+						checked={values?.termsAccepted || false}
+						error={!!touched.termsAccepted && !!errors.termsAccepted}
+						description={
+							<>
+								<Paragraph>{TextContent.legal.AGREE_TO_TERMS}</Paragraph>
+								<a
+									href="/termsandconditions/userterms"
+									target="_blank"
+									rel="noreferrer noopener"
+								>
+									<H6 className={'inline-block border-b-2'}>
+										{TextContent.legal.USER_TERMS_OF_SERVICE}
+									</H6>
+									.
+								</a>
+							</>
+						}
+						label={TextContent.legal.I_AGREE_TO_THE_USER_TERMS}
+					/>
+				</div>
 				<FlexBox className="m-auto flex-row space-x-4 pb-20">
 					<Button onClick={prevFormStep} disabled={loadingButton}>
 						back
@@ -308,38 +289,50 @@ const initialValues = {
 };
 
 const validationSchema = yup.object().shape({
-	firstName: yup.string().required('required'),
-	lastName: yup.string().required('required'),
-	username: yup.string().required('required'),
-	email: yup.string().required('required'),
-	address: yup.object().shape({
-		street1: yup.string().required('street line 1 is required'),
-		street2: yup.string(),
-		city: yup.string().required('city is required'),
-		state: yup.string().required('state is required'),
-		zipcode: yup
-			.number()
-			.required('zipcode is required')
-			.test(
-				'len',
-				'zipcode is required',
-				(val) => val?.toString().length === 5,
-			),
-		country: yup.string().required('country is required'),
-		countryCode: yup.string().required('country code is required'),
-	}),
-	dialCode: yup.string().required('dialing code is required'),
+	firstName: yup
+		.string()
+		.required(TextContent.prompt.FIRST_NAME_REQUIRED)
+		.min(6, TextContent.prompt.FIRST_NAME_MINIMUM),
+	lastName: yup
+		.string()
+		.required(TextContent.prompt.LAST_NAME_REQUIRED)
+		.min(6, TextContent.prompt.LAST_NAME_MINIMUM),
+	username: yup
+		.string()
+		.required(TextContent.prompt.USERNAME_REQUIRED)
+		.min(6, TextContent.prompt.USERNAME_MINIMUM),
+	email: yup
+		.string()
+		.email(TextContent.prompt.EMAIL_INVALID)
+		.required(TextContent.prompt.EMAIL_REQUIRED),
+	dialCode: yup.string().required(TextContent.prompt.DIALCODE_REQUIRED),
 	phone: yup
 		.string()
-		.required('phone number is required')
-		.length(10, 'phone number must be 10 digits'),
+		.required(TextContent.prompt.PHONE_REQUIRED)
+		.length(10, TextContent.prompt.PHONE_MINIMUM),
 	termsAccepted: yup
 		.bool()
 		.test(
 			'termsAccepted',
-			'Please read and agree to our User Terms and Conditions.',
+			TextContent.legal.READ_USER_TERMS_OF_SERVICE,
 			(value) => value === true,
 		),
+	address: yup.object().shape({
+		street1: yup.string().required(TextContent.prompt.STREET1_REQUIRED),
+		street2: yup.string(),
+		city: yup.string().required(TextContent.prompt.CITY_REQUIRED),
+		state: yup.string().required(TextContent.prompt.STATE_REQUIRED),
+		zipcode: yup
+			.number()
+			.required(TextContent.prompt.ZIPCODE_MINIMUM)
+			.test(
+				'len',
+				TextContent.prompt.ZIPCODE_MINIMUM,
+				(val) => val?.toString().length === 5,
+			),
+		country: yup.string().required(TextContent.prompt.COUNTRY_REQUIRED),
+		countryCode: yup.string().required(TextContent.prompt.COUNTRYCODE_REQUIRED),
+	}),
 });
 
 export default DispensaryUserCreate;

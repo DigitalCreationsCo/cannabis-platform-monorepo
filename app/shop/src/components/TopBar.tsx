@@ -42,7 +42,6 @@ function TopBar({ signOut }: TopBarProps) {
 	}
 
 	const _AccountDropDown = useCallback(AccountDropDown, [
-		signOut,
 		user.profilePicture?.location,
 		user.username,
 	]);
@@ -78,29 +77,22 @@ function TopBar({ signOut }: TopBarProps) {
 
 				{window?.location?.pathname === '/' || (
 					<Link href={getShopSite('/mybag')}>
-						<Button
+						<IconButton
+							className={twMerge(styles.BUTTON.highlight, 'indicator')}
+							iconSize={24}
 							size="sm"
-							bg="transparent"
 							hover="transparent"
-							className={twMerge(styles.BUTTON.highlight)}
+							bg="transparent"
+							Icon={Icons.ShoppingBag}
+							iconColor={'dark'}
+							// onClick={openCartModal}
 						>
-							<IconButton
-								// onClick={openCartModal}
-								iconSize={24}
-								className="indicator btn m-0 border-none bg-transparent px-4 pt-1 capitalize shadow-none focus:outline-none"
-								size="sm"
-								hover="transparent"
-								Icon={Icons.ShoppingBag}
-								iconColor={'dark'}
-							>
-								{/* <Paragraph className="hidden md:block">{`Bag`}</Paragraph> */}
-								{(isCartEmpty && <></>) || (
-									<div className={twMerge(styles.TOPBAR.badge)}>
-										{cart.totalItems}
-									</div>
-								)}
-							</IconButton>
-						</Button>
+							{(isCartEmpty && <></>) || (
+								<div className={twMerge(styles.TOPBAR.badge)}>
+									{cart.totalItems}
+								</div>
+							)}
+						</IconButton>
 					</Link>
 				)}
 				{isSignedIn && <_AccountDropDown />}
@@ -132,12 +124,13 @@ function TopBar({ signOut }: TopBarProps) {
 					hover="transparent"
 				>
 					<Image
-						src={user.profilePicture?.location as string}
-						alt={user.username}
+						src={(user.profilePicture?.location as string) || logo}
+						alt={user.email}
 						width={40}
 						height={40}
 						className="rounded-full border"
 						loader={({ src }) => src}
+						unoptimized
 						priority
 					/>
 				</Button>

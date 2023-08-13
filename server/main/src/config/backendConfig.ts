@@ -1,10 +1,12 @@
-import Session from 'supertokens-node/recipe/session';
+/* eslint-disable sonarjs/cognitive-complexity */
 // import { UserRoleClaim } from "supertokens-node/recipe/userroles";
-import { PasswordlessSignInRequestPayload } from '@cd/core-lib';
-import { DriverWithDetails, UserWithDetails } from '@cd/data-access';
+import { type PasswordlessSignInRequestPayload } from '@cd/core-lib';
+import { type DriverWithDetails, type UserWithDetails } from '@cd/data-access';
 import Dashboard from 'supertokens-node/recipe/dashboard';
 import Passwordless from 'supertokens-node/recipe/passwordless';
-import { AuthConfig } from '../../interfaces';
+import Session from 'supertokens-node/recipe/session';
+import UserRoles from 'supertokens-node/recipe/userroles';
+import { type AuthConfig } from '../../interfaces';
 import { DriverDA, UserDA } from '../api/data-access';
 
 const baseDomain = process.env.NEXT_PUBLIC_APP_DOMAIN || 'localhost';
@@ -39,7 +41,9 @@ export const backendConfig = (): AuthConfig => {
 							createCode: async (input) => {
 								try {
 									console.info('create-code input: ', input);
-									let response = await originalImplementation.createCode(input);
+									const response = await originalImplementation.createCode(
+										input,
+									);
 									console.info('create-code response: ', response);
 
 									return response;
@@ -54,7 +58,7 @@ export const backendConfig = (): AuthConfig => {
 							consumeCode: async (input: PasswordlessSignInRequestPayload) => {
 								try {
 									console.info('consume-code input: ', input);
-									let response = await originalImplementation.consumeCode(
+									const response = await originalImplementation.consumeCode(
 										input,
 									);
 									console.info('consume-code response: ', response);
@@ -80,52 +84,107 @@ export const backendConfig = (): AuthConfig => {
 										throw new Error('There was an error. Please try again.');
 									}
 
-									if (response.status === 'OK') {
-										if (response.createdNewUser === false) {
-											let user;
-											if (input.userContext.appUser === 'DRIVER') {
-												if (response.user.email) {
-													user =
-														(await DriverDA.getDriverByEmail(
-															response.user.email,
-														)) || null;
-													response.user = {
-														...response.user,
-														...user,
-													} as Passwordless.User & DriverWithDetails;
-												} else if (response.user.phoneNumber) {
-													user =
-														(await DriverDA.getDriverByPhone(
-															response.user.phoneNumber,
-														)) || null;
-													response.user = {
-														...response.user,
-														...user,
-													} as Passwordless.User & DriverWithDetails;
+									if (
+										response.status === 'OK' &&
+										response.createdNewUser === false
+									) {
+										let user;
+										if (input.userContext.appUser === 'DRIVER') {
+											if (response.user.email) {
+												user =
+													(await DriverDA.getDriverByEmail(
+														response.user.email,
+													)) || null;
+												response.user = {
+													...response.user,
+													...user,
+												} as Passwordless.User & DriverWithDetails;
+											} else if (response.user.phoneNumber) {
+												user =
+													(await DriverDA.getDriverByPhone(
+														response.user.phoneNumber,
+													)) || null;
+												response.user = {
+													...response.user,
+													...user,
+												} as Passwordless.User & DriverWithDetails;
+											}
+										} else {
+											if (response.user.email) {
+												user =
+													(await UserDA.getUserByEmail(response.user.email)) ||
+													null;
+												const membershipRole =
+													user.memberships?.[0]?.role.toLocaleUpperCase();
+												console.info('membershipRole 1: ', membershipRole);
+												if (
+													membershipRole === 'ADMIN' ||
+													membershipRole === 'OWNER' ||
+													membershipRole === 'MEMBER'
+												) {
+													const addRole = await UserRoles.addRoleToUser(
+														response.user.id,
+														membershipRole,
+													);
+													if (addRole.status === 'UNKNOWN_ROLE_ERROR') {
+														// No such role exists
+														console.info('no such role exists');
+													}
+
+													if (
+														addRole.status === 'OK' &&
+														addRole.didUserAlreadyHaveRole === true
+													) {
+														console.log('user already had the role');
+														// The user already had the role
+													}
 												}
-											} else {
-												if (response.user.email) {
-													user =
-														(await UserDA.getUserByEmail(
-															response.user.email,
-														)) || null;
-													response.user = {
-														...response.user,
-														...user,
-													} as Passwordless.User & UserWithDetails;
-												} else if (response.user.phoneNumber) {
-													user =
-														(await UserDA.getUserByPhone(
-															response.user.phoneNumber,
-														)) || null;
-													response.user = {
-														...response.user,
-														...user,
-													} as Passwordless.User & UserWithDetails;
+												response.user = {
+													...response.user,
+													...user,
+												} as Passwordless.User & UserWithDetails;
+											} else if (response.user.phoneNumber) {
+												user =
+													(await UserDA.getUserByPhone(
+														response.user.phoneNumber,
+													)) || null;
+												const membershipRole =
+													user.memberships?.[0]?.role.toLocaleUpperCase();
+												console.info('membershipRole: 2 ', membershipRole);
+
+												if (
+													membershipRole === 'ADMIN' ||
+													membershipRole === 'OWNER' ||
+													membershipRole === 'MEMBER'
+												) {
+													console.info('membershipRole: ', membershipRole);
+													console.info('user id: ', response.user.id);
+
+													const addRole = await UserRoles.addRoleToUser(
+														response.user.id,
+														membershipRole,
+													);
+													if (addRole.status === 'UNKNOWN_ROLE_ERROR') {
+														// No such role exists
+														console.info('no such role exists');
+													}
+
+													if (
+														addRole.status === 'OK' &&
+														addRole.didUserAlreadyHaveRole === true
+													) {
+														console.log('user already had the role');
+														// The user already had the role
+													}
 												}
+												response.user = {
+													...response.user,
+													...user,
+												} as Passwordless.User & UserWithDetails;
 											}
 										}
 									}
+									console.debug('consume code finalized response: ', response);
 									return response;
 								} catch (error: any) {
 									console.error(' consume code error: ', error);
@@ -154,6 +213,31 @@ export const backendConfig = (): AuthConfig => {
 				cookieDomain: `.${baseDomain}`,
 				jwt: {
 					enable: true,
+				},
+			}),
+			UserRoles.init({
+				override: {
+					functions: (oI) => {
+						// oI.createNewRoleOrAddPermissions({
+						// 	role: 'OWNER',
+						// 	permissions: ['OWNER'],
+						// 	userContext: {},
+						// });
+						// oI.createNewRoleOrAddPermissions({
+						// 	role: 'ADMIN',
+						// 	permissions: ['ADMIN'],
+						// 	userContext: {},
+						// });
+						// oI.createNewRoleOrAddPermissions({
+						// 	role: 'MEMBER',
+						// 	permissions: ['MEMBER'],
+						// 	userContext: {},
+						// });
+						return oI;
+					},
+					apis: (oI) => {
+						return oI;
+					},
 				},
 			}),
 			Dashboard.init({

@@ -43,7 +43,13 @@ function AddAddressUserModal({
 		street2: Yup.string(),
 		city: Yup.string().required('City is required'),
 		state: Yup.string().required('State is required'),
-		zipcode: Yup.number().required('Zipcode is required'),
+		zipcode: Yup.number()
+			.required('zipcode is required')
+			.test(
+				'len',
+				'zipcode is required',
+				(val: number | undefined) => val?.toString().length === 5,
+			),
 		country: Yup.string().required('Country is required'),
 		countryCode: Yup.string().required('Country Code is required'),
 		userId: Yup.string().required('User Id is required'),

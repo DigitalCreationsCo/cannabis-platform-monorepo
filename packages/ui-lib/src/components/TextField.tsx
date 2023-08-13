@@ -64,7 +64,7 @@ function TextField({
 			{label && (
 				<FlexBox className="items-start w-full">
 					<label className={twMerge(styles.label)}>
-						<Small>{label}</Small>
+						<Small className="text-primary">{label}</Small>
 					</label>
 				</FlexBox>
 			)}
