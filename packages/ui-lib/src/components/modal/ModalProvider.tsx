@@ -2,8 +2,9 @@ import {
 	modalActions,
 	selectModalState,
 	type ModalStateProps,
+	type ModalType,
 } from '@cd/core-lib';
-import { useMemo, type JSXElementConstructor } from 'react';
+import { useMemo } from 'react';
 import { connect, useSelector } from 'react-redux';
 import CartModal from './CartModal';
 import CheckAgeModal from './CheckAgeModal';
@@ -35,8 +36,13 @@ type ModalContainerProps = ModalStateProps & {
 const ModalContainer = (props: ModalContainerProps) => {
 	const modalState = useSelector(selectModalState);
 
-	const ModalComponent = useMemo<JSXElementConstructor<ModalContainerProps>>(
-		() => MODAL_COMPONENTS[modalState.modalType],
+	const modalType: ModalType = useMemo(
+		() => modalState.modalType,
+		[modalState],
+	);
+
+	const ModalComponent = useMemo(
+		() => MODAL_COMPONENTS[modalType],
 		[modalState.modalType],
 	);
 

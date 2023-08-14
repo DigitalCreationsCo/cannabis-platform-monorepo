@@ -3,7 +3,6 @@ import axios from 'axios';
 import { type NextApiRequest, type NextApiResponse } from 'next';
 import nc from 'next-connect';
 import NodeCache from 'node-cache';
-import { type ExtendRequest } from '../../../middleware';
 
 const cache = new NodeCache({ stdTTL: 20 });
 const handler = nc();
@@ -32,23 +31,23 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 });
 
 // search products
-handler.post(async (req: ExtendRequest, res: NextApiResponse) => {
-	try {
-		const organizationId = '';
-		req.organizationId = organizationId;
-		const { search } = req.body;
-		if (search) {
-			const { data } = await axios.post(urlBuilder.main.products(), {
-				search,
-				organizationId,
-			});
-			return res.status(res.statusCode).json(data);
-		}
-		return res.status(200).json([]);
-	} catch (error: any) {
-		console.error(error.message);
-		return res.json(error);
-	}
-});
+// handler.post(async (req, res: NextApiResponse) => {
+// 	try {
+// 		const organizationId = '';
+// 		req.organizationId = organizationId;
+// 		const { search } = req.body;
+// 		if (search) {
+// 			const { data } = await axios.post(urlBuilder.main.products(), {
+// 				search,
+// 				organizationId,
+// 			});
+// 			return res.status(res.statusCode).json(data);
+// 		}
+// 		return res.status(200).json([]);
+// 	} catch (error: any) {
+// 		console.error(error.message);
+// 		return res.json(error);
+// 	}
+// });
 
 export default handler;

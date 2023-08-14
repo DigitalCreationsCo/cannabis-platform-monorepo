@@ -17,6 +17,10 @@ import Session, {
 import { LayoutContainer, ProtectedPage } from '../components';
 import { frontendConfig } from '../config/frontendConfig';
 import { wrapper } from '../redux/store';
+import '../styles/global.css';
+// eslint-disable-next-line import/no-unresolved, @typescript-eslint/no-unused-vars
+import '../styles/anim8-gradient.css';
+import '../styles/tailwind.css';
 
 if (typeof window !== 'undefined') {
 	SuperTokensReact.init(frontendConfig());
@@ -43,7 +47,6 @@ function App({ Component, ...rest }: CustomAppProps) {
 				if (await Session.attemptRefreshingSession()) {
 					location.reload();
 				} else {
-					// user has been logged out
 					window.location.href = '/';
 				}
 			}
@@ -63,7 +66,13 @@ function App({ Component, ...rest }: CustomAppProps) {
 		'/users',
 	];
 
-	const getLayoutContext = Component.getLayoutContext || (() => ({}));
+	const getLayoutContext =
+		Component.getLayoutContext ||
+		((): LayoutContextProps => ({
+			showHeader: false,
+			showTopBar: false,
+			showSideNav: false,
+		}));
 
 	return (
 		<>
@@ -98,56 +107,6 @@ function App({ Component, ...rest }: CustomAppProps) {
 export default wrapper.withRedux(App);
 
 export type ExtendedPageComponent = {
-	signIn: (input: {
-		formFields: {
-			id: string;
-			value: string;
-		}[];
-		options?: unknown;
-		userContext?: unknown;
-	}) => Promise<
-		| {
-				status: 'OK';
-				user: { id: string; email: string; timeJoined: number };
-				fetchResponse: Response;
-		  }
-		| {
-				status: 'FIELD_ERROR';
-				formFields: {
-					id: string;
-					error: string;
-				}[];
-				fetchResponse: Response;
-		  }
-		| {
-				status: 'WRONG_CREDENTIALS_ERROR';
-
-				fetchResponse: Response;
-		  }
-	>;
-	signOut: () => Promise<void>;
-	signUp: (input: {
-		formFields: {
-			id: string;
-			value: string;
-		}[];
-		options?: unknown;
-		userContext?: unknown;
-	}) => Promise<
-		| {
-				status: 'OK';
-				user: { id: string; email: string; timeJoined: number };
-				fetchResponse: Response;
-		  }
-		| {
-				status: 'FIELD_ERROR';
-				formFields: {
-					id: string;
-					error: string;
-				}[];
-				fetchResponse: Response;
-		  }
-	>;
 	getLayoutContext?: () => LayoutContextProps;
 	isLoading: boolean;
 	setIsLoading: Dispatch<SetStateAction<boolean>>;

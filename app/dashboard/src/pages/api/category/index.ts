@@ -1,14 +1,12 @@
 import { type NextApiResponse } from 'next';
 import nc from 'next-connect';
 import NodeCache from 'node-cache';
-import { authMiddleware, type ExtendRequest } from '../../../middleware';
 
 const cache = new NodeCache({ stdTTL: 30 });
 const handler = nc();
-handler.use(authMiddleware);
 
 // get all categories route
-handler.get(async (req: ExtendRequest, res: NextApiResponse) => {
+handler.get(async (req, res: NextApiResponse) => {
 	try {
 		res.setHeader(
 			'Cache-Control',
