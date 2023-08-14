@@ -1,44 +1,8 @@
 ---
 # adopt these good caching practices: https://docs.gitlab.com/ee/ci/caching/#good-caching-practices
 # and these! https://medium.com/disdj/speed-up-npm-yarn-install-in-gitlab-1434437f9857
-cache: &node_modules
-  key:
-    files:
-      - .cache/modules-sha
-  paths:
-    - .yarn/install-state.gz
-    - node_modules
-    - '**/node_modules'
-  policy: pull
 
-build_cache:
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-      changes:
-        - '.cache/modules-sha'
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      changes:
-        - '.cache/modules-sha'
-  image: node:16-alpine
-  cache:
-    <<: *node_modules
-    policy: push
-  artifacts:
-    paths:
-      - .yarn/install-state.gz
-      - node_modules
-      - '**/node_modules'
-    expire_in: 5d
-  script: |
-    echo -e "\033[0;34m## Building dependencies cache ##\033[0m"
-    yarn --immutable
-  retry:
-    max: 2
-    when:
-      - runner_system_failure
-      - stuck_or_timeout_failure
-
-build_docker_node_modules:
+build_node_modules:
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       changes:
@@ -58,6 +22,9 @@ build_docker_node_modules:
     TAG: ${CI_COMMIT_SHORT_SHA}
   before_script:
     - apk --no-cache add git
+    - mkdir -p .docker
+    - "docker load -q -i .docker/fs.tar 2>&1 || :"
+    - rm -rf .docker
     - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin "${CI_REGISTRY}"
   script: |
     printenv
@@ -78,20 +45,13 @@ build_docker_node_modules:
     if [ -n "${TAG}" ]; then
     # Build
       docker build -t "grasadmin/node_modules:${TAG}" -f "Dockerfile.node_modules" .
+      docker build --cache-from="grasadmin/node_modules:${TAG}" -t "grasadmin/node_modules:${TAG}" -f "Dockerfile.node_modules" .
 
       image_tag="${CI_REGISTRY_IMAGE}/${BUILD_CONTEXT}:${TAG}"
 
       # tag
       docker tag "${CI_REGISTRY_USER}/${BUILD_CONTEXT}:${TAG}" "${image_tag}"
 
-      # merge request
-      if [ -n "${CI_MERGE_REQUEST_IID}" ]; then
-        mr_tag="${CI_REGISTRY_IMAGE}/${BUILD_CONTEXT}:mr_${CI_MERGE_REQUEST_IID}"
-        docker tag "${image_tag}" "${mr_tag}"
-        echo -e "\033[0;34m## Pushing ${mr_tag} ##\033[0m"
-        docker push "${mr_tag}"
-      fi
-      
       if [ "${TAG}" == "${CI_COMMIT_SHORT_SHA}" ]; then
         # Push commit tag
         echo -e "\033[0;34m## Pushing ${image_tag} ##\033[0m"
@@ -106,7 +66,18 @@ build_docker_node_modules:
     else
       echo "[ERROR] No tag is available. Image was not pushed to registry."
     fi
+  after_script:
+    - mkdir -p .docker
+    - docker save -o ".docker/fs.tar" "grasadmin/node_modules:${TAG}" "2>&1 || :"
+    - docker system prune -a
   allow_failure: true
+  cache: &node_modules
+    key:
+      files:
+        - .cache/modules-sha
+    paths:
+      - .docker
+    when: on_success
 
 build_module:
   rules:
@@ -178,9 +149,13 @@ build_module:
     fi
   parallel:
     matrix: !reference [.modules]
+  allow_failure: true
   needs:
-    - job: build_docker_node_modules
+    - job: build_node_modules
       optional: true
+  cache:
+    <<: *node_modules
+    policy: pull
 
 deploy:
   rules:
@@ -210,7 +185,8 @@ deploy:
   parallel:
     matrix: !reference [.modules]
   needs:
-    - build_module
+    - job: build_module
+      optional: true
 
 .modules:
   - MODULE:
