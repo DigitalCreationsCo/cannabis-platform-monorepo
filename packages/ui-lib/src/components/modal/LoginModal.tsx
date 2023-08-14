@@ -97,13 +97,15 @@ function LoginModal({
 					setInputValue(values.emailOrPhone);
 					if (isInputPhone) {
 						await createCode({ phoneNumber: values.emailOrPhone });
-						toast.success(
-							'Please check your mobile messages for the one time passcode.',
-						);
+						toast.success(TextContent.account.ONETIME_PASSCODE_SENT_MOBILE, {
+							duration: 5000,
+						});
 					} else {
 						await createCode({ email: values.emailOrPhone });
 						toast.success(
-							`A one time passcode has been sent to ${values.emailOrPhone}.`,
+							TextContent.account.ONETIME_PASSCODE_SENT_EMAIL_f(
+								values.emailOrPhone,
+							),
 							{ duration: 5000 },
 						);
 					}
@@ -128,7 +130,7 @@ function LoginModal({
 						type="text"
 						name="emailOrPhone"
 						placeholder="you@email"
-						label={TextContent.ui.SIGNIN_EMAIL}
+						label={TextContent.account.SIGNIN_EMAIL}
 						justifyLabel="center"
 						value={values?.emailOrPhone}
 						onBlur={handleBlur}
@@ -222,12 +224,10 @@ function LoginModal({
 				const response = await consumeCode({
 					userInputCode: values.passcode,
 				});
-
 				if (response.status === 'OK') {
 					dispatch(userActions.signinUserSync(response.user));
 				}
-
-				toast.success(`You're signed in!`);
+				toast.success(TextContent.account.SIGNING_IN, { duration: 5000 });
 				dispatchCloseModal();
 			} catch (error: any) {
 				setLoadingButton(false);
@@ -330,6 +330,7 @@ function LoginModal({
 	}
 
 	const closeModalAndReset = () => {
+		setOpenModal(false);
 		setFormStep(0);
 		dispatchCloseModal();
 	};
@@ -380,7 +381,7 @@ const emailValidationSchema = yup.object().shape({
 	emailOrPhone: yup
 		.string()
 		.email('Not a valid email.')
-		.required('Sign in with your email.'),
+		.required(TextContent.account.SIGNIN_EMAIL),
 });
 
 const phoneValidationSchema = yup.object().shape({

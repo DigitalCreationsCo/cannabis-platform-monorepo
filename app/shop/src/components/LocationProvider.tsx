@@ -1,10 +1,10 @@
 import {
+	getGeoAddressFromCoordinates,
 	locationActions,
 	selectSelectedLocationState,
 	selectShopState,
 	shopActions,
 } from '@cd/core-lib';
-import { getGeoAddressFromCoordinates } from '@cd/core-lib/src/utils/geo';
 import { type AddressPayload } from '@cd/data-access';
 import { type AnyAction } from '@reduxjs/toolkit';
 import { useRouter } from 'next/router';

@@ -2,10 +2,8 @@ import { urlBuilder } from '@cd/core-lib';
 import axios from 'axios';
 import { type NextApiRequest, type NextApiResponse } from 'next';
 import nc from 'next-connect';
-import { authMiddleware } from '../../../middleware';
 
 const handler = nc();
-handler.use(authMiddleware);
 // get a single order
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 	try {

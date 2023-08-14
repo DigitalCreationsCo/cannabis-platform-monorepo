@@ -1,13 +1,10 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-/// @ts-nocheck
-
-import { modalReducer, userReducer } from '@cd/core-lib';
+import { dispensaryReducer, modalReducer, userReducer } from '@cd/core-lib';
 import {
 	crashMiddleware,
+	dispensaryMiddleware,
 	loggerMiddleware,
-} from '@cd/core-lib/src/reduxDir/middleware';
+} from '@cd/core-lib/src/middleware';
 import {
-	applyMiddleware,
 	combineReducers,
 	configureStore,
 	type Action,
@@ -16,7 +13,6 @@ import {
 	type ThunkAction,
 } from '@reduxjs/toolkit';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
-import { composeWithDevTools } from 'redux-devtools-extension';
 import {
 	FLUSH,
 	PAUSE,
@@ -28,42 +24,39 @@ import {
 	REHYDRATE,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import {
-	signInEmailPassword,
-	signUpEmailPassword,
-} from 'supertokens-auth-react/recipe/emailpassword';
 import { signOut } from 'supertokens-auth-react/recipe/session';
+
+const supertokensArguments = () => {
+	return { signOut };
+};
+
+const customMiddlewares = [
+	dispensaryMiddleware,
+	crashMiddleware,
+	loggerMiddleware,
+];
 
 const rootReducer = combineReducers({
 	modal: modalReducer,
 	user: userReducer,
+	dispensary: dispensaryReducer,
 });
 
 const hydratableReducer = (state: RootState, action: AnyAction) => {
-	if (action.type === HYDRATE || action.type === 'REHYDRATE') {
+	if (action.type === HYDRATE) {
 		return {
 			...state, // use previous state
+			// ...action.payload // apply delta from hydration
+		};
+	}
+	if (action.type === REHYDRATE) {
+		return {
+			...state,
 			// ...action.payload // apply delta from hydration
 		};
 	} else {
 		return rootReducer(state, action);
 	}
-};
-
-const bindMiddleware = (middleware) => {
-	if (process.env.NODE_ENV !== 'production') {
-		return composeWithDevTools(applyMiddleware(...middleware));
-	}
-	return applyMiddleware(
-		...middleware,
-		locationMiddleware,
-		crashMiddleware,
-		loggerMiddleware,
-	);
-};
-
-const supertokens = () => {
-	return { signInEmailPassword, signUpEmailPassword, signOut };
 };
 
 const makeStore = () => {
@@ -73,7 +66,7 @@ const makeStore = () => {
 
 	const thunkArguments: { store: Store | null; supertokens: any } = {
 		store: null,
-		supertokens: supertokens(),
+		supertokens: supertokensArguments(),
 	};
 
 	if (isClient) {
@@ -85,40 +78,41 @@ const makeStore = () => {
 
 		store = configureStore({
 			reducer: persistReducer(persistConfig, rootReducer),
-			middleware: (getDefaultMiddleware) =>
-				getDefaultMiddleware({
+			middleware: (getDefaultMiddleware) => [
+				...getDefaultMiddleware({
 					serializableCheck: {
 						ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
 					},
 					thunk: {
 						extraArgument: thunkArguments,
 					},
-					bindMiddleware,
 				}),
+				...customMiddlewares,
+			],
 		});
-
+		// @ts-ignore
 		store._persistor = persistStore(store);
 	} else {
 		store = configureStore({
 			reducer: hydratableReducer,
-			middleware: (getDefaultMiddleware) =>
-				getDefaultMiddleware({
+			middleware: (getDefaultMiddleware) => [
+				...getDefaultMiddleware({
 					serializableCheck: {
 						ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
 					},
 					thunk: {
 						extraArgument: thunkArguments,
 					},
-					bindMiddleware,
 				}),
+				...customMiddlewares,
+			],
 		});
 	}
-
 	thunkArguments.store = store;
-
 	return store;
 };
 
+const store: any = makeStore();
 export type AppStore = ReturnType<typeof makeStore>;
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;

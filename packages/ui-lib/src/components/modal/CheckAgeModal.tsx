@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import CheckAge from '../CheckAge';
 import Modal from './Modal';
@@ -13,19 +14,27 @@ function CheckAgeModal({
 	...props
 }: CheckAgeModalProps) {
 	const closeModalAndReset = () => {
+		setOpenModal(false);
 		dispatchCloseModal();
 	};
 
-	return (
+	const [openModal, setOpenModal] = useState(false);
+	useEffect(() => {
+		setOpenModal(modalVisible);
+	}, [modalVisible]);
+
+	return modalVisible ? (
 		<Modal
 			disableClickOutside
 			className={twMerge(styles.responsive)}
-			modalVisible={modalVisible}
+			modalVisible={openModal}
 			onClose={dispatchCloseModal}
 			{...props}
 		>
 			<CheckAge onContinue={closeModalAndReset} redirect="/browse" />
 		</Modal>
+	) : (
+		<></>
 	);
 }
 
