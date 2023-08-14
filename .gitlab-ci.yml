@@ -1,5 +1,4 @@
 ---
-<<<<<<< HEAD
 # adopt these good caching practices: https://docs.gitlab.com/ee/ci/caching/#good-caching-practices
 # and these! https://medium.com/disdj/speed-up-npm-yarn-install-in-gitlab-1434437f9857
 cache: &node_modules
@@ -11,14 +10,7 @@ cache: &node_modules
     - node_modules
     - '**/node_modules'
   policy: pull
-=======
-include:
-  - .gitlab/ci/cache.gitlab-ci.yml
-  - .gitlab/ci/module.gitlab-ci.yml
-  - .gitlab/ci/deploy.gitlab-ci.yml
->>>>>>> 5a8ea0f77 (ci(terraform): gitlab.tf resouce file, separated scripts into folders,...)
 
-<<<<<<< HEAD
 build_cache:
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
@@ -71,7 +63,6 @@ build_docker_node_modules:
     printenv
     echo -e "\033[0;34m## Building node_modules image ##\033[0m"
 
-<<<<<<< HEAD
     # Check if module name was set
     if [ -n "${MODULE}" ]; then
       BUILD_TYPE="$(echo "${MODULE}" | sed "s|/.*||")"
@@ -118,42 +109,11 @@ build_docker_node_modules:
   allow_failure: true
 
 build_module:
-=======
-=======
-stages:
-  - cache
-  - build
-  # - tag # Future TODO: Add Semantic Versioning to Images
-  # https://github.com/semantic-release/semantic-release
-  # - lint
-  # - test
->>>>>>> d689d738c (ci(terraform): gitlab.tf resouce file, separated scripts into folders,...)
-  # - release
-  - deploy
-
-build:
-  stage: build
-  extends: .module_build
-  parallel:
-    matrix: !reference [.modules]
->>>>>>> 5a8ea0f77 (ci(terraform): gitlab.tf resouce file, separated scripts into folders,...)
   rules:
-<<<<<<< HEAD
-  # MR: BUILD IMAGE, DON'T PUSH TO REGISTRY.
-  # CACHE IT FOR THE MERGE COMMIT.
-  # PUSH TO REGISTRY IN THE COMMIT PIPELINE
-    # - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      changes:
-        - node_modules
-        - ${MODULE}/**/*
-<<<<<<< HEAD
-=======
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       changes:
         - node_modules
         - ${MODULE}/**/*
->>>>>>> 059703930 (ci: gitlab-ci.yml build_modules rules changes)
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   image: docker:23.0.5
   services:
@@ -172,32 +132,6 @@ build:
   script: |
     printenv
     echo -e "\033[0;34m## Building module ${MODULE} ##\033[0m"
-=======
-      # ^THESE PATHS ARE CORRECT TO TRIGGER THE JOB.
-      # THE ISSUE HERE IS THE NODE_MODULES ARE NOT PRESENT IF THE CACHE DID NOT TRIGGER.
-      # SO IT BRANCHES THIS WAY:
-      # 1. CHANGE IS DETECTED IF THE CACHE RUNS, WHETHER THE MODULES ARE CHANGED OR NOT.
-      # 2. THE JOB ONLY RUNS IF THE CACHE IS DIFFERENT, AND I DONT KNOW HOW THE CACHE IS TRIGGERED.
-      # changes resolves to true if any of the matching files are changed (an OR operation).
-
-      # ^ONE OTHER PROBLEM WITH THIS SETUP IS THE NODE_MODULES IS ALL DEPENDENCIES, AND MAY NOT INCLUDE
-      # DEPENDENCIES OF A MODULE. SO MODULES WILL BE POSSIBLY BE BUILT WITH NO DEPENDENCY CHANGE, OR MODULE CHANGE.
-      # ONE SOLUTION IS TO WATCH CHANGES FOR NODE_MODULES HERE, AND RUN A SCRIPT IN THE EXTENDED JOB.
-
-      # WHAT IM THINKING IS THIS, FOR EACH MODULE BUILD, RUN A COMMAND THAT WILL CHECK THE MODULE AND DEPENDENCIES FOR CHANGES FROM PREVIOUS REF. SOMETHING LIKE: yarn workspaces foreach checklockfile ${MODULE}. (IF IT EXISTS). 
-      # THE IDEA IS FOR EACH MODULE, THE JOB WILL CHECK IF THERE ARE CHANGES IN SOURCE FOR MODULE AND ANY DEPENDENCY PACKAGE. IF SO, THE IMAGE WILL BUILD. IF NOT, THE COMMAND WILL RETURN A CODE, AND THE JOB WILL FAIL, STOPPING THE DOWNSTREAM JOBS FOR THAT PARALLEL. :D
-
-# tag:
-#   extends: .module_tag_version
-#   parallel:
-#     matrix: !reference [.modules]
-#   rules:
-#     # Default branch
-#     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-# changes:
-# - node_modules
-# - ${MODULE}/**/*
->>>>>>> 5a8ea0f77 (ci(terraform): gitlab.tf resouce file, separated scripts into folders,...)
 
     # Check if module name was set
     if [ -n "${MODULE}" ]; then
@@ -211,24 +145,9 @@ build:
       fi
     fi
 
-<<<<<<< HEAD
     if [ -n "${TAG}" ]; then
     # Build
       docker build -t "grasadmin/${BUILD_CONTEXT}:${TAG}" -f "Dockerfile.${BUILD_TYPE}" --build-arg="BUILD_TYPE=${BUILD_TYPE}" --build-arg="BUILD_CONTEXT=${BUILD_CONTEXT}" --build-arg="PORT=${PORT}" .
-=======
-deploy:
-  extends: .module_deploy
-  parallel:
-    matrix: !reference [.modules]
-  rules:
-    # is production branch
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      changes:
-        - ${MODULE}/**/*
-# ========================================
-# optimized CI for module builds
-# such as each module job can run depending on changes of the module path, and the node_modules dependencies
->>>>>>> 5a8ea0f77 (ci(terraform): gitlab.tf resouce file, separated scripts into folders,...)
 
       image_tag="${CI_REGISTRY_IMAGE}/${BUILD_CONTEXT}:${TAG}"
 
@@ -301,44 +220,3 @@ deploy:
       - server/location
       # - server/payments
       - server/image
-<<<<<<< HEAD
-=======
-
-include:
-  # - .gitlab/ci/cache.gitlab-ci.yml
-  - .gitlab/ci/module.gitlab-ci.yml
-
-stages:
-  # - cache
-  - build
-  - deploy
-
-build:
-  extends: .module_build
-  parallel:
-    matrix: !reference [.modules]
-  rules:
-    # MR
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    # Production
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      # changes:
-      #   - node_modules
-      #   - ${MODULE}/**/*
-
-deploy:
-  extends: .module_deploy
-  parallel:
-    matrix: !reference [.modules]
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      # changes:
-      #   - ${MODULE}/**/*
-
-<<<<<<< HEAD
-include:
-  # - .gitlab/ci/cache.gitlab-ci.yml
-  - .gitlab/ci/module.gitlab-ci.yml
->>>>>>> 560042a66 (bug(db): update data-access package.json scripts, applied new migration state,...)
-=======
->>>>>>> d75fc6515 (bug(db): update data-access package.json scripts, applied new migration state,...)

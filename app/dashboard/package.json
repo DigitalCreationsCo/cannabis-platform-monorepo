@@ -105,7 +105,6 @@
 		"test:watch": "jest --config ./jest.config.js --watchAll",
 		"start": "PORT=3001 node server.js",
 		"watch-tailwind": "tailwindcss -o ./src/styles/tailwind.css --watch"
-
 	},
 	"version": "0.0.1"
 }

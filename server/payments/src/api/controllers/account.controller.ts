@@ -104,12 +104,9 @@ export default class AccountController {
 						stripeOnboardingComplete: true,
 					},
 				);
-<<<<<<< HEAD
 				console.debug(
 					'stripe account is ready for processing. the Dispensary record is updated.',
 				);
-=======
->>>>>>> 538ee1f09 (chore(dashboard): review Dispensary Stripe account code, api connect, server-payments account routes, account.controller, Stripe Service)
 				return res.status(200).json({
 					success: 'true',
 					message: 'Your stripe account is connected!',
@@ -122,12 +119,9 @@ export default class AccountController {
 					return_url: `${urlBuilder.dashboard}#step=5`,
 					type: 'account_onboarding',
 				});
-<<<<<<< HEAD
 				console.debug(
 					'stripe account is not ready. The user will be redirected to stripe.',
 				);
-=======
->>>>>>> 538ee1f09 (chore(dashboard): review Dispensary Stripe account code, api connect, server-payments account routes, account.controller, Stripe Service)
 				return res.status(302).json({
 					success: 'true',
 					message:
@@ -138,19 +132,11 @@ export default class AccountController {
 			}
 		} catch (error: any) {
 			console.error('API Error: stripe account connect error: ', error);
-<<<<<<< HEAD
 			if (error.mesage === TextContent.error.DISPENSARY_NOT_FOUND)
-=======
-			if (
-				error.mesage === TextContent.error.DISPENSARY_NOT_FOUND ||
-				error.mesage === TextContent.error.STRIPE_ACCOUNT_NOT_FOUND
-			)
->>>>>>> 538ee1f09 (chore(dashboard): review Dispensary Stripe account code, api connect, server-payments account routes, account.controller, Stripe Service)
 				return res.status(404).json({
 					success: 'false',
 					error: error.message,
 				});
-<<<<<<< HEAD
 			if (
 				error.mesage === TextContent.error.STRIPE_ACCOUNT_NOT_FOUND ||
 				error.message.startsWith('The provided key ')
@@ -159,8 +145,6 @@ export default class AccountController {
 					success: 'false',
 					error: TextContent.error.STRIPE_ACCOUNT_NOT_FOUND,
 				});
-=======
->>>>>>> 538ee1f09 (chore(dashboard): review Dispensary Stripe account code, api connect, server-payments account routes, account.controller, Stripe Service)
 			return res.status(500).json({ success: 'false', error: error.message });
 		}
 	}
@@ -181,12 +165,9 @@ export default class AccountController {
 				await updateDispensaryStripeAccount(id, stripeAccountId, {
 					stripeOnboardingComplete: true,
 				});
-<<<<<<< HEAD
 				console.debug(
 					'stripe account is ready for processing. the Dispensary record is updated.',
 				);
-=======
->>>>>>> 538ee1f09 (chore(dashboard): review Dispensary Stripe account code, api connect, server-payments account routes, account.controller, Stripe Service)
 				return res.status(200).json({
 					success: 'true',
 					message: 'Your stripe account is connected!',
@@ -199,12 +180,9 @@ export default class AccountController {
 					return_url: `${urlBuilder.dashboard}`,
 					type: 'account_onboarding',
 				});
-<<<<<<< HEAD
 				console.debug(
 					'stripe account is not ready. The user will be redirected to stripe.',
 				);
-=======
->>>>>>> 538ee1f09 (chore(dashboard): review Dispensary Stripe account code, api connect, server-payments account routes, account.controller, Stripe Service)
 				return res.status(302).json({
 					success: 'true',
 					message:
@@ -220,11 +198,7 @@ export default class AccountController {
 					success: 'false',
 					error: error.message,
 				});
-<<<<<<< HEAD
 			return res.status(500).json({ success: 'false', error: error.message });
-=======
-			res.status(500).json({ error });
->>>>>>> 538ee1f09 (chore(dashboard): review Dispensary Stripe account code, api connect, server-payments account routes, account.controller, Stripe Service)
 		}
 	}
 }
