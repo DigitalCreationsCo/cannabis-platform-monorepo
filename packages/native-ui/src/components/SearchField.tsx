@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { TextInput, View } from 'react-native';
 import { twMerge } from 'tailwind-merge';
 import Icons from '../icons';
-import { classNames as RNstyles } from '../styles';
+import { RNstyles } from '../styles';
 import IconWrapper from './IconWrapper';
 
 type SearchBarProps = {

@@ -1,4 +1,4 @@
-import { getDashboardSite, getShopSite, TextContent } from '@cd/core-lib/src';
+import { getDashboardSite, getShopSite, TextContent } from '@cd/core-lib';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 import { styles } from '../styleClassNames';
@@ -9,7 +9,6 @@ import { H4, Small } from './Typography';
 
 export default function Footer() {
 	return (
-		// <FlexBox className={styles.FOOTER.container}>
 		<FlexBox className={twMerge(styles.FOOTER.container)}>
 			<Grid className="md:grid-cols-2 gap-y-2 gap-x-4 lg:mx-auto">
 				<Link

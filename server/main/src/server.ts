@@ -26,9 +26,11 @@ if (Supertokens) {
 	Supertokens.init(backendConfig());
 } else throw Error('Supertokens is not available.');
 
-UserRoles.createNewRoleOrAddPermissions('OWNER', ['OWNER']);
-UserRoles.createNewRoleOrAddPermissions('ADMIN', ['ADMIN']);
-UserRoles.createNewRoleOrAddPermissions('MEMBER', ['MEMBER']);
+UserRoles.createNewRoleOrAddPermissions('MembershipRole', [
+	'OWNER',
+	'ADMIN',
+	'MEMBER',
+]);
 
 const app = express();
 app.use(
@@ -69,6 +71,7 @@ app.use((err: any, req: express.Request, res: express.Response) => {
 
 const server = http.createServer(app);
 export default server;
+
 export type SessionResponse = {
 	status: boolean;
 	session: SessionInformation;

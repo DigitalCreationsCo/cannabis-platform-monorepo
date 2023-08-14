@@ -70,6 +70,19 @@ function ProvideStripeAccountId() {
 		}
 	}
 
+	const onSubmit = async () => {
+		try {
+			setLoadingButton(true);
+			await connectStripeAccountToDispensary();
+			setLoadingButton(false);
+			nextFormStep();
+		} catch (error: any) {
+			console.info('Provide Stripe Account Id Error: ', error);
+			toast.error(error.message);
+			setLoadingButton(false);
+		}
+	};
+
 	// test redirect from dashboard api
 	// test redirect from component
 	async function declineStripeIdAndCreateAccount() {
@@ -106,16 +119,6 @@ function ProvideStripeAccountId() {
 			toast.error(error.message);
 		}
 	}
-
-	const onSubmit = async () => {
-		try {
-			await connectStripeAccountToDispensary();
-			nextFormStep();
-		} catch (error: any) {
-			setLoadingButton(false);
-			toast.error(error.message);
-		}
-	};
 
 	const {
 		values,

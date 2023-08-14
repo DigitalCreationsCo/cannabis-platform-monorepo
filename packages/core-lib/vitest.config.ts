@@ -2,7 +2,7 @@ import react from '@vitejs/plugin-react';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { defineConfig } from 'vitest/config';
 
-const testFiles = ['./src/**/*.test.{js,jsx,ts,tsx}'];
+const testFiles = ['./**/*.test.{js,jsx,ts,tsx}'];
 
 export default defineConfig({
 	plugins: [
@@ -13,7 +13,6 @@ export default defineConfig({
 	],
 	test: {
 		globals: true,
-		// environment: 'jest-dom',
 		setupFiles: './setupVitest.ts',
 		passWithNoTests: true,
 		/*

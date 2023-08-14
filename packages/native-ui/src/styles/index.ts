@@ -1,1 +1,1 @@
-export { default as classNames } from './RNclassNames';
+export { default as RNstyles } from './RNclassNames';

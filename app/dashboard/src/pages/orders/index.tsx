@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { dateToString, usePagination } from '@cd/core-lib';
+import { usePagination } from '@cd/core-lib';
 import { type OrderWithDashboardDetails } from '@cd/data-access';
 import {
 	Card,
@@ -12,19 +12,15 @@ import {
 	Row,
 } from '@cd/ui-lib';
 import { useState } from 'react';
+import { connect } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
-import {
-	orders,
-	organization,
-	products,
-	userDispensaryAdmin as user,
-} from '../../data/dummyData';
+import { type RootState } from '../../redux/store';
 
 interface OrdersDashboardProps {
 	orders: OrderWithDashboardDetails[];
 }
 
-export default function Orders({ orders }: OrdersDashboardProps) {
+function Orders({ orders }: OrdersDashboardProps) {
 	const [currentPage, setCurrentPage] = useState(1);
 
 	const currentOrders = usePagination(currentPage, orders);
@@ -60,26 +56,35 @@ export default function Orders({ orders }: OrdersDashboardProps) {
 	);
 }
 
-export async function getServerSideProps({ req }: { req: any }) {
-	try {
-		// const orders: Order[] = await (
-		//     await fetch(urlBuilder.dashboard + '/api/orders', {
-		//         headers: {
-		//             Cookie: req.headers.cookie
-		//         }
-		//     })
-		// ).json();
-
-		return {
-			props: {
-				user: dateToString(user),
-				organization: dateToString(organization),
-				products: dateToString(products) || [],
-				orders: dateToString(orders) || [],
-			},
-		};
-	} catch (error: any) {
-		console.info('Orders/[id] SSR error: ', error.message);
-		throw new Error(error);
-	}
+function mapStateToProps(state: RootState) {
+	const { dispensary } = state;
+	return {
+		orders: dispensary.orders,
+	};
 }
+
+export default connect(mapStateToProps)(Orders);
+
+// export async function getServerSideProps({ req }: { req: any }) {
+// 	try {
+// 		// const orders: Order[] = await (
+// 		//     await fetch(urlBuilder.dashboard + '/api/orders', {
+// 		//         headers: {
+// 		//             Cookie: req.headers.cookie
+// 		//         }
+// 		//     })
+// 		// ).json();
+
+// 		return {
+// 			props: {
+// 				user: dateToString(user),
+// 				organization: dateToString(organization),
+// 				products: dateToString(products) || [],
+// 				orders: dateToString(orders) || [],
+// 			},
+// 		};
+// 	} catch (error: any) {
+// 		console.info('Orders/[id] SSR error: ', error.message);
+// 		throw new Error(error);
+// 	}
+// }

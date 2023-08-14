@@ -65,15 +65,16 @@ const ImageBackDrop = ({
 			<div
 				className="rounded"
 				style={{
-					backgroundColor: 'rgba(1,12,2,0.22)',
+					backgroundColor: 'rgba(1,12,2,0.14)',
 					position: 'absolute',
 					height: '100%',
 					width: '100%',
 					left: '0',
 					top: '0',
 				}}
-			></div>
-			{children}
+			>
+				{children}
+			</div>
 		</div>
 	);
 };

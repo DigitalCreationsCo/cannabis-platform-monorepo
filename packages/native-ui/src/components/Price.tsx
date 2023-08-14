@@ -1,7 +1,4 @@
-import {
-	calcSalePrice,
-	convertCentsToDollars,
-} from '@cd/core-lib/src/utils/transaction';
+import { calcSalePrice, convertCentsToDollars } from '@cd/core-lib';
 import { View } from 'react-native';
 import { twMerge } from 'tailwind-merge';
 import { Paragraph } from './Typography';

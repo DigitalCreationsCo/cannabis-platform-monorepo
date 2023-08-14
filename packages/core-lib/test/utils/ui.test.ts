@@ -2,7 +2,7 @@ import { Address } from '@cd/data-access';
 import {
 	buildSTFormFields,
 	renderAddress,
-	renderNestedDataObject,
+	renderNestedDataObject
 } from '../../src/utils/ui.util';
 
 const address: Address = {

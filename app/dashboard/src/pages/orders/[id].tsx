@@ -4,7 +4,6 @@
 
 import {
 	calcSalePrice,
-	dateToString,
 	getDashboardSite,
 	renderAddress,
 	TextContent,
@@ -47,12 +46,6 @@ import { useRef, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../../public/logo.png';
-import {
-	orders,
-	organization,
-	products,
-	userDispensaryAdmin as user,
-} from '../../data/dummyData';
 
 export default function OrderDetails({
 	order,
@@ -367,33 +360,33 @@ export default function OrderDetails({
 	);
 }
 
-export async function getServerSideProps({
-	req,
-	params,
-}: {
-	req: any;
-	params: any;
-}) {
-	try {
-		// const order = await (
-		//     await axios(urlBuilder.dashboard + `/api/orders/${params.id}`, {
-		//         headers: {
-		//             Cookie: req.headers.cookie
-		//         }
-		//     })
-		// ).data;
-		// if (!order) return { notFound: true };
-		return {
-			props: {
-				user: dateToString(user),
-				organization: dateToString(organization),
-				products: dateToString(products) || [],
-				orders: dateToString(orders) || [],
-				order: dateToString(orders[0]) || {},
-			},
-		};
-	} catch (error: any) {
-		console.info('Orders/[id] SSR error: ', error.message);
-		throw new Error(error);
-	}
-}
+// export async function getServerSideProps({
+// 	req,
+// 	params,
+// }: {
+// 	req: any;
+// 	params: any;
+// }) {
+// 	try {
+// 		// const order = await (
+// 		//     await axios(urlBuilder.dashboard + `/api/orders/${params.id}`, {
+// 		//         headers: {
+// 		//             Cookie: req.headers.cookie
+// 		//         }
+// 		//     })
+// 		// ).data;
+// 		// if (!order) return { notFound: true };
+// 		return {
+// 			props: {
+// 				user: dateToString(user),
+// 				organization: dateToString(organization),
+// 				products: dateToString(products) || [],
+// 				orders: dateToString(orders) || [],
+// 				order: dateToString(orders[0]) || {},
+// 			},
+// 		};
+// 	} catch (error: any) {
+// 		console.info('Orders/[id] SSR error: ', error.message);
+// 		throw new Error(error);
+// 	}
+// }
