@@ -67,7 +67,11 @@ const nextConfig = (phase) => {
 		},
 		images: {
 			minimumCacheTTL: 60 * 60,
-			domains: ['https://storage.cloud.google.com', 'storage.cloud.google.com'],
+			domains: [
+				'https://storage.cloud.google.com',
+				'www.storage.cloud.google.com',
+				'storage.cloud.google.com',
+			],
 		},
 	};
 

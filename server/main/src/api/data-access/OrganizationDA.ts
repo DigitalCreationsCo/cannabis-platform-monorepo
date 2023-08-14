@@ -9,6 +9,7 @@ import {
 	updateOrganization,
 	type OrganizationCreateType,
 	type OrganizationUpdateType,
+	type Prisma,
 } from '@cd/data-access';
 import axios from 'axios';
 /* =================================
@@ -80,7 +81,6 @@ export default class OrganizationDA {
 					address: { include: { coordinates: true } },
 				},
 			);
-			console.info('existing record: ', previousData);
 			const data = await updateOrganization(organization);
 			console.debug(
 				`successfully updated organization record: ${organization.name}. id: ${data.id}
@@ -116,9 +116,7 @@ export default class OrganizationDA {
 	static async deleteOrganization(organizationId: string) {
 		try {
 			const _deleted = await deleteOrganizationById(organizationId);
-
 			console.info('_deleted: ', _deleted);
-
 			await axios.delete(
 				urlBuilder.location.getOrganizationRecord(_deleted.id),
 			);
@@ -134,6 +132,18 @@ export default class OrganizationDA {
 	static async getOrganizationById(organizationId) {
 		try {
 			return await findOrganizationById(organizationId);
+		} catch (error: any) {
+			throw new Error(error.message);
+		}
+	}
+
+	// find organization by organizationId with include args
+	static async getOrganizationWithDetails(
+		organizationId,
+		include: Prisma.OrganizationInclude,
+	) {
+		try {
+			return (await findOrganizationById(organizationId, include)) as any;
 		} catch (error: any) {
 			throw new Error(error.message);
 		}

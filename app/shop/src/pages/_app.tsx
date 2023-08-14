@@ -5,6 +5,7 @@ import {
 	ToastProvider,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
+import { type AnyAction } from '@reduxjs/toolkit';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -15,10 +16,10 @@ import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session from 'supertokens-auth-react/recipe/session';
 import { LayoutContainer, LocationProvider } from '../components';
 import { frontendConfig } from '../config/frontendConfig';
-import { wrapper, type AppThunk } from '../redux/store';
+import { wrapper } from '../redux/store';
+import '../styles/anim8-gradient.css';
 import '../styles/global.css';
 // eslint-disable-next-line import/no-unresolved, @typescript-eslint/no-unused-vars
-import '../styles/anim8-gradient.css';
 import '../styles/tailwind.css';
 
 if (typeof window !== 'undefined') {
@@ -60,8 +61,10 @@ function App({ Component, ...rest }: CustomAppProps) {
 	useEffect(() => {
 		!store.getState().shop.isLoading &&
 			store.getState().shop.dispensaries.length === 0 &&
-			store.dispatch(shopActions.getInitialDispensaries() as AppThunk);
-		store.dispatch(blogActions.getLatestNews());
+			store.dispatch(
+				shopActions.getInitialDispensaries() as unknown as AnyAction,
+			);
+		store.dispatch(blogActions.getLatestNews() as unknown as AnyAction);
 	}, [store]);
 
 	if (props.pageProps.fromSupertokens === 'needs-refresh') {

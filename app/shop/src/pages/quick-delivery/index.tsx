@@ -7,21 +7,19 @@ import {
 } from '@cd/core-lib';
 import { type ProductVariantWithDetails } from '@cd/data-access';
 import {
+	Card,
 	Center,
 	CheckBox,
-	H5,
-	Paragraph,
-	Price,
-	SimpleCartItem,
-} from '@cd/ui-lib';
-import {
-	Card,
 	CheckoutButton,
 	H2,
+	H5,
 	Page,
+	Paragraph,
+	Price,
 	SignInButton,
+	SimpleCartItem,
 	type LayoutContextProps,
-} from '@cd/ui-lib/src/components';
+} from '@cd/ui-lib';
 import { type AnyAction } from '@reduxjs/toolkit';
 import Head from 'next/head';
 import router from 'next/router';

@@ -17,9 +17,9 @@ import Session, {
 import { LayoutContainer, ProtectedPage } from '../components';
 import { frontendConfig } from '../config/frontendConfig';
 import { wrapper } from '../redux/store';
+import '../styles/anim8-gradient.css';
 import '../styles/global.css';
 // eslint-disable-next-line import/no-unresolved, @typescript-eslint/no-unused-vars
-import '../styles/anim8-gradient.css';
 import '../styles/tailwind.css';
 
 if (typeof window !== 'undefined') {
@@ -67,12 +67,7 @@ function App({ Component, ...rest }: CustomAppProps) {
 	];
 
 	const getLayoutContext =
-		Component.getLayoutContext ||
-		((): LayoutContextProps => ({
-			showHeader: false,
-			showTopBar: false,
-			showSideNav: false,
-		}));
+		Component.getLayoutContext || ((): LayoutContextProps => ({}));
 
 	return (
 		<>

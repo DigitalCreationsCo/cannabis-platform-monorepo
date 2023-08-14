@@ -77,6 +77,7 @@ const makeStore = () => {
 		};
 
 		store = configureStore({
+			devTools: process.env.NODE_ENV !== 'production',
 			reducer: persistReducer(persistConfig, rootReducer),
 			middleware: (getDefaultMiddleware) => [
 				...getDefaultMiddleware({
@@ -94,6 +95,7 @@ const makeStore = () => {
 		store._persistor = persistStore(store);
 	} else {
 		store = configureStore({
+			devTools: process.env.NODE_ENV !== 'production',
 			reducer: hydratableReducer,
 			middleware: (getDefaultMiddleware) => [
 				...getDefaultMiddleware({

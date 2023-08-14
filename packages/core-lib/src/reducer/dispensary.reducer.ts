@@ -23,15 +23,14 @@ export const getDispensaryById = createAsyncThunk(
 	async (organizationId: string, thunkAPI) => {
 		try {
 			console.debug('getDispensaryById: ', organizationId);
-			const response = await axios.get(
-				urlBuilder.main.organizationById(organizationId),
+			const response = await axios.get<any, OrganizationWithDashboardDetails>(
+				urlBuilder.main.organizationWithDashboardDetails(organizationId),
 				{
 					headers: {
 						...applicationHeaders,
 					},
 				},
 			);
-			console.debug('response.data: ', response.data);
 			if (response.data.success) return response.data.payload;
 		} catch (error) {
 			console.error('getDispensaryById: ', error);
@@ -72,6 +71,11 @@ export const dispensarySlice = createSlice({
 			(state, { payload }: PayloadAction<OrganizationWithDashboardDetails>) => {
 				const dispensary = payload;
 				state.dispensary = dispensary;
+				state.products = dispensary.products;
+				state.orders = dispensary.orders;
+				state.users = dispensary.memberships.map(
+					(membership) => membership.user,
+				);
 				state.isLoading = false;
 				state.isSuccess = true;
 				state.isError = false;

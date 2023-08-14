@@ -23,7 +23,6 @@ const appInfo = {
 };
 
 export const backendConfig = (): AuthConfig => {
-	console.info(' >> server/main backend config: ', appInfo);
 	return {
 		framework: 'express',
 		supertokens: {
@@ -40,15 +39,8 @@ export const backendConfig = (): AuthConfig => {
 							...originalImplementation,
 							createCode: async (input) => {
 								try {
-									console.info('create-code input: ', input);
-									const response = await originalImplementation.createCode(
-										input,
-									);
-									console.info('create-code response: ', response);
-
-									return response;
+									return await originalImplementation.createCode(input);
 								} catch (error) {
-									console.log(' create code error: ', error);
 									throw new Error(
 										'The Sign In server is not available. Please contact Gras team.',
 									);
@@ -57,12 +49,9 @@ export const backendConfig = (): AuthConfig => {
 
 							consumeCode: async (input: PasswordlessSignInRequestPayload) => {
 								try {
-									console.info('consume-code input: ', input);
 									const response = await originalImplementation.consumeCode(
 										input,
 									);
-									console.info('consume-code response: ', response);
-
 									if (response.status === 'INCORRECT_USER_INPUT_CODE_ERROR') {
 										throw new Error(`Invalid passcode. Please try again. 
                           You have ${
@@ -84,9 +73,7 @@ export const backendConfig = (): AuthConfig => {
 										throw new Error('There was an error. Please try again.');
 									}
 
-									if (
-										response.status === 'OK' // && response.createdNewUser === false
-									) {
+									if (response.status === 'OK') {
 										let user;
 										if (input.userContext.appUser === 'DRIVER') {
 											if (response.user.email) {
@@ -115,25 +102,15 @@ export const backendConfig = (): AuthConfig => {
 													null;
 												const membershipRole =
 													user.memberships?.[0]?.role.toLocaleUpperCase();
-												console.info('membershipRole 1: ', membershipRole);
 												if (
 													membershipRole === 'ADMIN' ||
 													membershipRole === 'OWNER' ||
 													membershipRole === 'MEMBER'
 												) {
-													const allRoles = await UserRoles.getAllRoles();
-													console.info('allRoles: ', allRoles);
-
 													const addRole = await UserRoles.addRoleToUser(
 														response.user.id,
 														membershipRole,
 													);
-													const thisRoles = await UserRoles.getRolesForUser(
-														response.user.id,
-													);
-
-													console.info('this user roles: ', thisRoles);
-
 													if (addRole.status === 'UNKNOWN_ROLE_ERROR') {
 														// No such role exists
 														console.info('no such role exists');
@@ -146,7 +123,6 @@ export const backendConfig = (): AuthConfig => {
 														console.log('user already had the role');
 														// The user already had the role
 													}
-													console.info('response, ', response);
 												}
 												response.user = {
 													...response.user,
@@ -159,16 +135,13 @@ export const backendConfig = (): AuthConfig => {
 													)) || null;
 												const membershipRole =
 													user.memberships?.[0]?.role.toLocaleUpperCase();
-												console.info('membershipRole: 2 ', membershipRole);
+												console.info('membershipRole: ', membershipRole);
 
 												if (
 													membershipRole === 'ADMIN' ||
 													membershipRole === 'OWNER' ||
 													membershipRole === 'MEMBER'
 												) {
-													console.info('membershipRole: ', membershipRole);
-													console.info('user id: ', response.user.id);
-
 													const addRole = await UserRoles.addRoleToUser(
 														response.user.id,
 														membershipRole,
@@ -177,7 +150,6 @@ export const backendConfig = (): AuthConfig => {
 														// No such role exists
 														console.info('no such role exists');
 													}
-
 													if (
 														addRole.status === 'OK' &&
 														addRole.didUserAlreadyHaveRole === true
@@ -193,7 +165,6 @@ export const backendConfig = (): AuthConfig => {
 											}
 										}
 									}
-									console.debug('consume code finalized response: ', response);
 									return response;
 								} catch (error: any) {
 									console.error(' consume code error: ', error);
@@ -224,31 +195,7 @@ export const backendConfig = (): AuthConfig => {
 					enable: true,
 				},
 			}),
-			UserRoles.init({
-				override: {
-					functions: (oI) => {
-						// oI.createNewRoleOrAddPermissions({
-						// 	role: 'OWNER',
-						// 	permissions: ['OWNER'],
-						// 	userContext: {},
-						// });
-						// oI.createNewRoleOrAddPermissions({
-						// 	role: 'ADMIN',
-						// 	permissions: ['ADMIN'],
-						// 	userContext: {},
-						// });
-						// oI.createNewRoleOrAddPermissions({
-						// 	role: 'MEMBER',
-						// 	permissions: ['MEMBER'],
-						// 	userContext: {},
-						// });
-						return oI;
-					},
-					apis: (oI) => {
-						return oI;
-					},
-				},
-			}),
+			UserRoles.init(),
 			Dashboard.init({
 				apiKey: process.env.SUPERTOKENS_DASHBOARD_KEY,
 			}),

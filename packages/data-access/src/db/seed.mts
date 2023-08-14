@@ -137,7 +137,7 @@ const createOrganizations = async () => {
 					data: [
 						{
 							location:
-								'https://storage.cloud.google.com/image-dispensary/curaleaf/logo-1200.jpg?authuser=2',
+								'https://storage.cloud.google.com/image-dispensary/curaleaf/logo-1200.jpg',
 							blurhash: '',
 							createdAt: new Date(),
 							updatedAt: new Date(),
@@ -308,7 +308,7 @@ const createOrganizations = async () => {
 				create: [
 					{
 						location:
-							'https://storage.cloud.google.com/image-dispensary/sunnyside/logo-1200.jpeg?authuser=2',
+							'https://storage.cloud.google.com/image-dispensary/sunnyside/logo-1200.jpeg',
 						blurhash: '',
 						createdAt: new Date(),
 						updatedAt: new Date(),
@@ -488,7 +488,7 @@ const createOrganizations = async () => {
 				create: [
 					{
 						location:
-							'https://storage.cloud.google.com/image-dispensary/remedy/logo-1000.jpeg?authuser=2',
+							'https://storage.cloud.google.com/image-dispensary/remedy/logo-1000.jpeg',
 						blurhash: '',
 						createdAt: new Date(),
 						updatedAt: new Date(),

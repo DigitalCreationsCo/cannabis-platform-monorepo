@@ -42,7 +42,6 @@ function ProvideDispensaryKey() {
 			if (response.data.success == 'false') {
 				throw new Error(response.data.error);
 			}
-			console.log('response? ', response.data);
 			setFormValues({ organization: { ...response.data.payload } });
 		} catch (error: any) {
 			throw new Error(error.message);

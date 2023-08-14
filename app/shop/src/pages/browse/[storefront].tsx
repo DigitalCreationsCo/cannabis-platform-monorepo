@@ -7,7 +7,6 @@ import {
 	Paragraph,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
-import { type NodeNextRequest } from 'next/dist/server/base-http/node';
 import Head from 'next/head';
 
 export default function StoreFront() {
@@ -35,7 +34,7 @@ export default function StoreFront() {
 	);
 }
 
-export async function getServerSideProps({ req }: { req: NodeNextRequest }) {
+export async function getServerSideProps({ req }: any) {
 	// const subDomain = await prisma.subDomain.findUnique({
 	//     where: {
 	//         id: req.headers.host
