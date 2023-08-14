@@ -175,7 +175,7 @@ const ImageBackDrop = ({
 }: { src: string | StaticImageData } & PropsWithChildren) => {
 	return (
 		<div
-			className="flex grow"
+			className="relative flex grow"
 			style={{
 				clipPath: 'inset(0 0 0 0)',
 			}}

@@ -26,6 +26,8 @@ router.route('/').put(orgCtrl.updateOrganization);
 
 router.route('/:id').get(orgCtrl.getOrganizationById);
 
+router.route('/dashboard/:id').get(orgCtrl.getOrganizationWithDashboardDetails);
+
 router.route('/:id').delete(orgCtrl.deleteOrganizationById);
 
 router

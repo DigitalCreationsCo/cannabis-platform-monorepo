@@ -1,4 +1,4 @@
-import { cartActions, getShopSite } from '@cd/core-lib/src';
+import { cartActions, getShopSite } from '@cd/core-lib';
 import router from 'next/router';
 import { toast } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';

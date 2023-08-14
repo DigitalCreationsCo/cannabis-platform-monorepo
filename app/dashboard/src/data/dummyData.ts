@@ -72,6 +72,7 @@ const notAdminUser: UserWithProfilePicture = {
 	},
 };
 
+// @ts-ignore
 const organization: OrganizationWithDashboardDetails = {
 	id: '1234',
 	name: 'McNuggs',

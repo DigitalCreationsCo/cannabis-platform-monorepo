@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { dateToString, getDashboardSite, usePagination } from '@cd/core-lib';
+import { getDashboardSite, usePagination } from '@cd/core-lib';
 import { type ProductWithDashboardDetails } from '@cd/data-access';
 import {
 	Button,
@@ -19,12 +19,6 @@ import Link from 'next/link';
 import { useState, type Dispatch, type SetStateAction } from 'react';
 import { toast } from 'react-hot-toast';
 import { twMerge } from 'tailwind-merge';
-import {
-	orders,
-	organization,
-	products,
-	userDispensaryAdmin as user,
-} from '../../data/dummyData';
 
 interface ProductsDashboardProps {
 	products: ProductWithDashboardDetails[];
@@ -138,12 +132,7 @@ export async function getServerSideProps({ req, res }: { req: any; res: any }) {
 		//     }
 		// })).json();
 		return {
-			props: {
-				user: dateToString(user),
-				organization: dateToString(organization),
-				products: dateToString(products) || [],
-				orders: dateToString(orders) || [],
-			},
+			props: {},
 		};
 	} catch (error: any) {
 		console.info('Orders/[id] SSR error: ', error.message);

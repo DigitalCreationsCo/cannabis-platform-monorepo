@@ -5,7 +5,7 @@ import {
 	H2,
 	Page,
 	type LayoutContextProps,
-} from '@cd/ui-lib/src/components';
+} from '@cd/ui-lib';
 import router from 'next/router';
 import { useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';

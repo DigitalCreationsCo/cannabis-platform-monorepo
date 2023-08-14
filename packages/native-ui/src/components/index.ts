@@ -9,7 +9,6 @@ export { default as ClickableTags } from './ClickableTags';
 export { default as CopyRight } from './CopyRight';
 export { default as ErrorMessage } from './ErrorMessage';
 export { default as FlexBox } from './FlexBox';
-export { default as Footer } from './Footer';
 export { default as FormCard } from './FormCard';
 export { default as Grid } from './Grid';
 export { default as Header } from './Header';
