@@ -118,7 +118,7 @@ build_module:
 
     if [ -n "${TAG}" ]; then
     # Build
-      docker build -t "grasadmin/${BUILD_CONTEXT}:${TAG}" -f "Dockerfile.${BUILD_TYPE}" --build-arg="BUILD_TYPE=${BUILD_TYPE}" --build-arg="BUILD_CONTEXT=${BUILD_CONTEXT}" --build-arg="PORT=${PORT}" .
+      docker build --cache-from="grasadmin/node_modules:${TAG}" -t "grasadmin/${BUILD_CONTEXT}:${TAG}" -f "Dockerfile.${BUILD_TYPE}" --build-arg="BUILD_TYPE=${BUILD_TYPE}" --build-arg="BUILD_CONTEXT=${BUILD_CONTEXT}" --build-arg="PORT=${PORT}" .
 
       image_tag="${CI_REGISTRY_IMAGE}/${BUILD_CONTEXT}:${TAG}"
 
