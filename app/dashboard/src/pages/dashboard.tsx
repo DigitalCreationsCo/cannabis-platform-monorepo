@@ -22,8 +22,9 @@ import {
 	orders,
 	organization,
 	products,
-	userDispensaryAdmin as user,
+	userDispensaryAdmin,
 } from '../data/dummyData';
+import { wrapper } from '../redux/store';
 
 interface DashboardProps {
 	organization: OrganizationWithDashboardDetails;
@@ -117,18 +118,6 @@ export default function Dashboard({
 					<Card>There are no low stock products</Card>
 				)}
 			</Grid>
-
-			{/* <Grid title="Orders">
-                {orders.map((order) => (
-                    <OrderRow order={order} key={order.id} orderDetailsRoute="/orders" />
-                ))}
-            </Grid> */}
-
-			{/* <Grid title="Products">
-                {products.map((product) => (
-                    <ProductRow key={product.id} product={product} />
-                ))}
-            </Grid> */}
 		</Page>
 	);
 }
@@ -150,29 +139,62 @@ function useProductVariants(products: ProductWithDashboardDetails[]) {
 	};
 }
 
-export async function getServerSideProps() {
-	try {
-		// const order = await (
-		//     await axios(urlBuilder.dashboard + `/api/orders/${params.id}`, {
-		//         headers: {
-		//             Cookie: req.headers.cookie
-		//         }
-		//     })
-		// ).data;
-		// if (!order) return { notFound: true };
-		return {
-			props: {
-				user: dateToString(user),
-				organization: dateToString(organization),
-				products: dateToString(products) || [],
-				orders: dateToString(orders) || [],
-			},
-		};
-	} catch (error: any) {
-		console.info('Orders/[id] SSR error: ', error.message);
-		throw new Error(error);
-	}
-}
+export const getServerSideProps = wrapper.getServerSideProps(
+	(store) => async (context) => {
+		try {
+			context.res.setHeader(
+				'Cache-Control',
+				'public, s-maxage=10, stale-while-revalidate=59',
+			);
+
+			// call Promise.allSettled for all the data from server-main
+			// (products, orders, site-settings)
+			// OR handle it all async thunk, and insert in redux state? ;P
+
+			return {
+				props: {
+					user: dateToString(userDispensaryAdmin),
+					organization: dateToString(organization),
+					products: dateToString(products) || [],
+					orders: dateToString(orders) || [],
+				},
+			};
+		} catch (error) {
+			throw new Error(error.message);
+		}
+	},
+);
+
+// export async function getServerSideProps(context) {
+// 	try {
+// 		context.res.setHeader(
+// 			'Cache-Control',
+// 			'public, s-maxage=10, stale-while-revalidate=59',
+// 		);
+// 		const response = await axios(urlBuilder.main.organizationById(user));
+
+// 		// return res.status(response.status).json(response.data);
+// 		// const order = await (
+// 		//     await axios(urlBuilder.dashboard + `/api/orders/${params.id}`, {
+// 		//         headers: {
+// 		//             Cookie: req.headers.cookie
+// 		//         }
+// 		//     })
+// 		// ).data;
+// 		// if (!order) return { notFound: true };
+// 		return {
+// 			props: {
+// 				user: dateToString(userDispensaryAdmin),
+// 				organization: dateToString(organization),
+// 				products: dateToString(products) || [],
+// 				orders: dateToString(orders) || [],
+// 			},
+// 		};
+// 	} catch (error: any) {
+// 		console.info('Orders/[id] SSR error: ', error.message);
+// 		throw new Error(error);
+// 	}
+// }
 
 // export async function getServerSideProps({ req, res }) {
 //     try {
@@ -229,10 +251,84 @@ export async function getServerSideProps() {
 //     }
 // }
 
-// add redux wrapper.getServerSideProps
-// seed dispensary data
-// handle dispensary data in dashboard using redux ( use redux to store only data that is needed for server requests (org data))
-// fix dispensary create and sign in
+// export async function getServerSideProps({ req, res }) {
+//     try {
+//         return { redirect: { destination: '/welcome', permanent: false } };
+
+//         const { session, user } = await getSession({ req, res });
+//         if (!session || !user) {
+//             console.info('No session or user');
+//             return { redirect: { destination: '/welcome', permanent: false } };
+//         }
+
+//         const { organizationId } = user.memberships[0];
+//         const organization = await (
+//             await axios(urlBuilder.next + `/api/organization/${organizationId}`, {
+//                 headers: {
+//                     Cookie: req.headers.cookie
+//                 }
+//             })
+//         ).data;
+//         const products = await (
+//             await axios(urlBuilder.next + '/api/products', {
+//                 headers: {
+//                     Cookie: req.headers.cookie
+//                 }
+//             })
+//         ).data;
+//         const orders = await (
+//             await axios(urlBuilder.next + '/api/orders/', {
+//                 headers: {
+//                     Cookie: req.headers.cookie
+//                 }
+//             })
+//         ).data;
+//         if (!user || !organization || !products || !orders) {
+//             return { notFound: true };
+//         }
+//         return {
+//             props: { user, organization, products, orders }
+//         };
+
+//     }
+//     catch (error) {
+
+//         console.info('SSR error: ', error.message);
+
+//         if (error.type === Session.Error.TRY_REFRESH_TOKEN)
+//         return { props: { fromSupertokens: 'needs-refresh' } }
+//         else
+//         if (error.type === Session.Error.UNAUTHORISED)
+//         console.info('unauthorized error: ', error);
+//         return res.status(200).json({ status: false, error });
+//         else
+//         return { redirect: { destination: '/welcome', permanent: false } };
+//     }
+// }
+
+// export async function getServerSideProps() {
+// 	try {
+// 		// const order = await (
+// 		//     await axios(urlBuilder.dashboard + `/api/orders/${params.id}`, {
+// 		//         headers: {
+// 		//             Cookie: req.headers.cookie
+// 		//         }
+// 		//     })
+// 		// ).data;
+// 		// if (!order) return { notFound: true };
+// 		return {
+// 			props: {
+// 				user: dateToString(user),
+// 				organization: dateToString(organization),
+// 				products: dateToString(products) || [],
+// 				orders: dateToString(orders) || [],
+// 			},
+// 		};
+// 	} catch (error: any) {
+// 		console.info('Orders/[id] SSR error: ', error.message);
+// 		throw new Error(error);
+// 	}
+// }
 
 Dashboard.getLayoutContext = (): LayoutContextProps => ({
 	showHeader: true,

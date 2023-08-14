@@ -1,5 +1,4 @@
-import { modalActions } from '@cd/core-lib/src/reduxDir';
-import { modalTypes } from '@cd/core-lib/src/utils';
+import { modalActions, modalTypes } from '@cd/core-lib';
 import { useDispatch } from 'react-redux';
 import Button, { type ButtonProps } from './Button';
 

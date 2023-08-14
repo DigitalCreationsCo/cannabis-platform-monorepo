@@ -2,38 +2,35 @@ import { urlBuilder } from '@cd/core-lib';
 import axios from 'axios';
 import { type NextApiRequest, type NextApiResponse } from 'next';
 import nc from 'next-connect';
-import NodeCache from 'node-cache';
-import { type ExtendRequest } from '../../../middleware';
 
-const cache = new NodeCache({ stdTTL: 30 });
 const handler = nc();
 // get orders from an organization
-handler.get(async (req: ExtendRequest, res: NextApiResponse) => {
-	try {
-		res.setHeader(
-			'Cache-Control',
-			'public, s-maxage=10, stale-while-revalidate=59',
-		);
-		const organizationId = '';
-		// blank
-		req.organizationId = organizationId;
-		if (cache.has(`orders/org/${organizationId}`)) {
-			const orders = cache.get(`orders/org/${organizationId}`);
-			return res.status(200).json(orders);
-		}
-		const { data } = await axios(urlBuilder.main.ordersByOrgId(organizationId));
-		cache.set(`orders/org/${organizationId}`, data);
-		return res.status(res.statusCode).json(data);
-	} catch (error: any) {
-		console.error(error.message);
-		return res.json(error);
-	}
-});
+// handler.get(async (req, res: NextApiResponse) => {
+// 	try {
+// 		res.setHeader(
+// 			'Cache-Control',
+// 			'public, s-maxage=10, stale-while-revalidate=59',
+// 		);
+// 		const organizationId = '';
+// 		// blank
+// 		req.organizationId = organizationId;
+// 		if (cache.has(`orders/org/${organizationId}`)) {
+// 			const orders = cache.get(`orders/org/${organizationId}`);
+// 			return res.status(200).json(orders);
+// 		}
+// 		const { data } = await axios(urlBuilder.main.ordersByOrgId(organizationId));
+// 		cache.set(`orders/org/${organizationId}`, data);
+// 		return res.status(res.statusCode).json(data);
+// 	} catch (error: any) {
+// 		console.error(error.message);
+// 		return res.json(error);
+// 	}
+// });
 
 // handler.use(adminMiddleware);
 
 // create a order route
-// handler.post(async (req: ExtendRequest, res: NextApiResponse) => {
+// handler.post(async (req, res: NextApiResponse) => {
 //   try {
 //     const { values, customerId, amount, tax, items, subTotal } = req.body;
 
