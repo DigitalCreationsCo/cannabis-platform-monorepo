@@ -2,7 +2,7 @@ import { twMerge } from 'tailwind-merge';
 import Center from './Center';
 import FlexBox from './FlexBox';
 
-const LoadingDots = () => {
+function LoadingPage() {
 	const dot = 'animate-bounce w-[12px] h-[12px] rounded-full bg-primary';
 	return (
 		<FlexBox className="grow items-center min-h-screen">
@@ -17,6 +17,6 @@ const LoadingDots = () => {
 			</Center>
 		</FlexBox>
 	);
-};
+}
 
-export default LoadingDots;
+export default LoadingPage;

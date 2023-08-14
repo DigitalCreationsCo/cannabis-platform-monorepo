@@ -85,8 +85,7 @@ export const backendConfig = (): AuthConfig => {
 									}
 
 									if (
-										response.status === 'OK' &&
-										response.createdNewUser === false
+										response.status === 'OK' // && response.createdNewUser === false
 									) {
 										let user;
 										if (input.userContext.appUser === 'DRIVER') {
@@ -122,10 +121,19 @@ export const backendConfig = (): AuthConfig => {
 													membershipRole === 'OWNER' ||
 													membershipRole === 'MEMBER'
 												) {
+													const allRoles = await UserRoles.getAllRoles();
+													console.info('allRoles: ', allRoles);
+
 													const addRole = await UserRoles.addRoleToUser(
 														response.user.id,
 														membershipRole,
 													);
+													const thisRoles = await UserRoles.getRolesForUser(
+														response.user.id,
+													);
+
+													console.info('this user roles: ', thisRoles);
+
 													if (addRole.status === 'UNKNOWN_ROLE_ERROR') {
 														// No such role exists
 														console.info('no such role exists');
@@ -138,6 +146,7 @@ export const backendConfig = (): AuthConfig => {
 														console.log('user already had the role');
 														// The user already had the role
 													}
+													console.info('response, ', response);
 												}
 												response.user = {
 													...response.user,

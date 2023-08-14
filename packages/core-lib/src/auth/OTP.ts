@@ -1,6 +1,6 @@
 import axios from 'axios';
+import { type PasswordlessResponseWithUserDetails } from '../types';
 import { urlBuilder } from '../utils/urlBuilder';
-import { type PasswordlessResponseWithUserDetails } from './authTypes';
 
 async function sendOTPEmailRaw(email: string) {
 	try {

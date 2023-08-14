@@ -87,7 +87,7 @@ function LoginView() {
 					hover="primary"
 					onPress={handleSubmit(onSubmit)}
 				>
-					<H5 color="light">{TextContent.ui.SIGNIN}</H5>
+					<H5 color="light">{TextContent.account.SIGNIN}</H5>
 				</Button>
 			</Center>
 		</View>

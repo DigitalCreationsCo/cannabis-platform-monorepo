@@ -1,4 +1,4 @@
-import { getDashboardSite } from '@cd/core-lib/src';
+import { getDashboardSite } from '@cd/core-lib';
 import { type ProductVariantWithDetails } from '@cd/data-access';
 import Image from 'next/image';
 import Link from 'next/link';

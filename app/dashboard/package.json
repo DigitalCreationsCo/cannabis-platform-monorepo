@@ -41,6 +41,7 @@
 		"@typescript-eslint/parser": "5.45.0",
 		"autoprefixer": "10.4.13",
 		"babel-jest": "29.5.0",
+		"daisyui": "2.51.6",
 		"dotenv": "16.0.3",
 		"dotenv-cli": "7.0.0",
 		"dotenv-expand": "10.0.0",
@@ -89,18 +90,21 @@
 	"name": "@cd/app-dashboard",
 	"private": true,
 	"scripts": {
-		"build": "NODE_ENV=production next build",
-		"build:ci": "NODE_ENV=production next build",
+		"build": "yarn build-css && rm -rf ./.next && NODE_ENV=production next build",
+		"build:ci": "yarn build-css && rm -rf ./.next && NODE_ENV=production next build",
+		"build-css": "tailwindcss -o ./src/styles/tailwind.css --minify",
+		"clean": "rimraf ./src/styles/tailwind.css ./.next ./out ./dist ./build ./node_modules ./coverage ./tsconfig.tsbuildinfo ./node_modules/.cache",
 		"debug": "NODE_OPTIONS='--inspect' next dev -p 3001",
-		"dev": "next dev -p 3001",
-		"clean": "rimraf ./.next ./out ./dist ./build ./node_modules ./coverage ./tsconfig.tsbuildinfo ./node_modules/.cache",
+		"dev": "npm-run-all --parallel --print-label watch-tailwind next-dev",
 		"lint": "next lint",
 		"lint:fix": "eslint . --ext .ts,.tsx --fix",
-		"postcss": "postcss ./src/styles/globals.css -o ./src/styles/index.css",
+		"next-dev": "next dev -p 3001",
 		"test:unit": "jest --config ./jest.config.js",
+		"test:unit-ci": "jest --config ./jest.config.js --ci --runInBand --reporters=default --reporters=jest-junit",
 		"test:coverage": "jest --config ./jest.config.js --coverage",
 		"test:watch": "jest --config ./jest.config.js --watchAll",
-		"start": "PORT=3001 node server.js"
+		"start": "PORT=3001 node server.js",
+		"watch-tailwind": "tailwindcss -o ./src/styles/tailwind.css --watch"
 	},
 	"version": "0.0.1"
 }

@@ -1,10 +1,10 @@
-import { TextContent } from '@cd/core-lib';
 import {
 	selectBlogState,
 	selectSelectedLocationState,
 	selectShopState,
 	selectUserState,
-} from '@cd/core-lib/src/reduxDir';
+	TextContent,
+} from '@cd/core-lib';
 import {
 	Carousel,
 	Grid,
