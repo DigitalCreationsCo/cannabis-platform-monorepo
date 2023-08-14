@@ -1,4 +1,4 @@
-import { checkIsDispensaryOpen } from '../../utils/schedule';
+import { checkIsDispensaryOpen } from '../../src/utils/schedule.util';
 
 describe('checkIsDispensaryOpen', () => {
 	const now = new Date(),

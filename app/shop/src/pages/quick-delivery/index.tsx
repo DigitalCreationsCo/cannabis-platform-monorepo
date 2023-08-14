@@ -2,9 +2,9 @@ import {
 	cartActions,
 	selectCartState,
 	selectIsCartEmpty,
+	selectUserState,
 	type SimpleCart,
 } from '@cd/core-lib';
-import { selectUserState } from '@cd/core-lib/src/reduxDir/features/user.reducer';
 import { type ProductVariantWithDetails } from '@cd/data-access';
 import {
 	Center,

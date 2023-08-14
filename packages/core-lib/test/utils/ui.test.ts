@@ -2,8 +2,8 @@ import { Address } from '@cd/data-access';
 import {
 	buildSTFormFields,
 	renderAddress,
-	renderNestedDataObject
-} from '../../utils/ui';
+	renderNestedDataObject,
+} from '../../src/utils/ui.util';
 
 const address: Address = {
 	id: '1',
@@ -76,7 +76,7 @@ describe('renderNestedDataObject ', () => {
 			'country: USA',
 			'zipcode: 80202',
 		];
-		expect(renderNestedDataObject(data, Component, {removeFields})).toEqual(
+		expect(renderNestedDataObject(data, Component, { removeFields })).toEqual(
 			result,
 		);
 	});

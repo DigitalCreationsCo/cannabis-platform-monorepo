@@ -1,4 +1,4 @@
-import { checkIsDispensaryOpen } from '../utils/schedule';
+import { checkIsDispensaryOpen } from '../src/utils/schedule.util';
 
 describe('checkIsDispensaryOpen', () => {
 	const now = new Date(),
@@ -15,7 +15,6 @@ describe('checkIsDispensaryOpen', () => {
 		const isOpen = checkIsDispensaryOpen({
 			days: 6543210,
 			id: '1',
-			organizationId: '2',
 			openAt: 8,
 			closeAt: 20,
 			createdAt: new Date(),

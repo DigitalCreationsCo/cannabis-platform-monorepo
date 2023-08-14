@@ -1,11 +1,15 @@
 import {
 	formatDispensaryUrl,
 	getDashboardSite,
-	getShopSite
-} from '../../utils/formatUrl';
+	getShopSite,
+} from '../../src/utils/url.util';
 
 describe('formatUrt.test', () => {
-	const environments = [
+	const environments: {
+		NODE_ENV: 'development' | 'test' | 'production';
+		NEXT_PUBLIC_SHOP_APP_URL: string;
+		NEXT_PUBLIC_DASHBOARD_APP_URL: string;
+	}[] = [
 		{
 			NODE_ENV: 'development',
 			NEXT_PUBLIC_SHOP_APP_URL: 'http://localhost:3000',

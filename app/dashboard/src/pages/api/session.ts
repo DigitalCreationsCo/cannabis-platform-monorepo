@@ -11,7 +11,7 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 			'Cache-Control',
 			'public, s-maxage=10, stale-while-revalidate=59',
 		);
-		const response = await axios(urlBuilder.main.getSession(), {
+		const response = await axios(urlBuilder.main.session(), {
 			headers: {
 				Cookie: req.headers.cookie,
 			},
