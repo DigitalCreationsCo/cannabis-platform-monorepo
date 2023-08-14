@@ -124,7 +124,7 @@ function LoginModal({
 			<form>
 				<Grid className="space-y-2">
 					<TextField
-						containerClassName="max-w-[300px] md:w-2/3 m-auto lg:flex-col lg:items-start"
+						containerClassName=""
 						className="my-2 border text-md"
 						autoComplete="off"
 						type="text"

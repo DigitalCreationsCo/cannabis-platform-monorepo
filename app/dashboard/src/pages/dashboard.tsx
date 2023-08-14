@@ -1,4 +1,3 @@
-import { dateToString } from '@cd/core-lib';
 import {
 	type OrderWithDashboardDetails,
 	type OrganizationWithDashboardDetails,
@@ -17,14 +16,9 @@ import {
 	type LayoutContextProps,
 } from '@cd/ui-lib';
 import { useMemo } from 'react';
+import { connect } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
-import {
-	orders,
-	organization,
-	products,
-	userDispensaryAdmin,
-} from '../data/dummyData';
-import { wrapper } from '../redux/store';
+import { type RootState } from '../redux/store';
 
 interface DashboardProps {
 	organization: OrganizationWithDashboardDetails;
@@ -33,12 +27,7 @@ interface DashboardProps {
 	orders: OrderWithDashboardDetails[];
 }
 
-export default function Dashboard({
-	user,
-	organization,
-	products,
-	orders,
-}: DashboardProps) {
+function Dashboard({ user, organization, products, orders }: DashboardProps) {
 	const todaysOrders = useMemo(
 		() =>
 			orders.filter((order) => {
@@ -139,198 +128,40 @@ function useProductVariants(products: ProductWithDashboardDetails[]) {
 	};
 }
 
-export const getServerSideProps = wrapper.getServerSideProps(
-	(store) => async (context) => {
-		try {
-			context.res.setHeader(
-				'Cache-Control',
-				'public, s-maxage=10, stale-while-revalidate=59',
-			);
-
-			// call Promise.allSettled for all the data from server-main
-			// (products, orders, site-settings)
-			// OR handle it all async thunk, and insert in redux state? ;P
-
-			return {
-				props: {
-					user: dateToString(userDispensaryAdmin),
-					organization: dateToString(organization),
-					products: dateToString(products) || [],
-					orders: dateToString(orders) || [],
-				},
-			};
-		} catch (error) {
-			throw new Error(error.message);
-		}
-	},
-);
-
-// export async function getServerSideProps(context) {
-// 	try {
-// 		context.res.setHeader(
-// 			'Cache-Control',
-// 			'public, s-maxage=10, stale-while-revalidate=59',
-// 		);
-// 		const response = await axios(urlBuilder.main.organizationById(user));
-
-// 		// return res.status(response.status).json(response.data);
-// 		// const order = await (
-// 		//     await axios(urlBuilder.dashboard + `/api/orders/${params.id}`, {
-// 		//         headers: {
-// 		//             Cookie: req.headers.cookie
-// 		//         }
-// 		//     })
-// 		// ).data;
-// 		// if (!order) return { notFound: true };
-// 		return {
-// 			props: {
-// 				user: dateToString(userDispensaryAdmin),
-// 				organization: dateToString(organization),
-// 				products: dateToString(products) || [],
-// 				orders: dateToString(orders) || [],
-// 			},
-// 		};
-// 	} catch (error: any) {
-// 		console.info('Orders/[id] SSR error: ', error.message);
-// 		throw new Error(error);
-// 	}
-// }
-
-// export async function getServerSideProps({ req, res }) {
-//     try {
-//         return { redirect: { destination: '/welcome', permanent: false } };
-
-//         const { session, user } = await getSession({ req, res });
-//         if (!session || !user) {
-//             console.info('No session or user');
-//             return { redirect: { destination: '/welcome', permanent: false } };
-//         }
-
-//         const { organizationId } = user.memberships[0];
-//         const organization = await (
-//             await axios(urlBuilder.next + `/api/organization/${organizationId}`, {
-//                 headers: {
-//                     Cookie: req.headers.cookie
-//                 }
-//             })
-//         ).data;
-//         const products = await (
-//             await axios(urlBuilder.next + '/api/products', {
-//                 headers: {
-//                     Cookie: req.headers.cookie
-//                 }
-//             })
-//         ).data;
-//         const orders = await (
-//             await axios(urlBuilder.next + '/api/orders/', {
-//                 headers: {
-//                     Cookie: req.headers.cookie
-//                 }
-//             })
-//         ).data;
-//         if (!user || !organization || !products || !orders) {
-//             return { notFound: true };
-//         }
-//         return {
-//             props: { user, organization, products, orders }
-//         };
-
-//     }
-//     catch (error) {
-
-//         console.info('SSR error: ', error.message);
-
-//         if (error.type === Session.Error.TRY_REFRESH_TOKEN)
-//         return { props: { fromSupertokens: 'needs-refresh' } }
-//         else
-//         if (error.type === Session.Error.UNAUTHORISED)
-//         console.info('unauthorized error: ', error);
-//         return res.status(200).json({ status: false, error });
-//         else
-//         return { redirect: { destination: '/welcome', permanent: false } };
-//     }
-// }
-
-// export async function getServerSideProps({ req, res }) {
-//     try {
-//         return { redirect: { destination: '/welcome', permanent: false } };
-
-//         const { session, user } = await getSession({ req, res });
-//         if (!session || !user) {
-//             console.info('No session or user');
-//             return { redirect: { destination: '/welcome', permanent: false } };
-//         }
-
-//         const { organizationId } = user.memberships[0];
-//         const organization = await (
-//             await axios(urlBuilder.next + `/api/organization/${organizationId}`, {
-//                 headers: {
-//                     Cookie: req.headers.cookie
-//                 }
-//             })
-//         ).data;
-//         const products = await (
-//             await axios(urlBuilder.next + '/api/products', {
-//                 headers: {
-//                     Cookie: req.headers.cookie
-//                 }
-//             })
-//         ).data;
-//         const orders = await (
-//             await axios(urlBuilder.next + '/api/orders/', {
-//                 headers: {
-//                     Cookie: req.headers.cookie
-//                 }
-//             })
-//         ).data;
-//         if (!user || !organization || !products || !orders) {
-//             return { notFound: true };
-//         }
-//         return {
-//             props: { user, organization, products, orders }
-//         };
-
-//     }
-//     catch (error) {
-
-//         console.info('SSR error: ', error.message);
-
-//         if (error.type === Session.Error.TRY_REFRESH_TOKEN)
-//         return { props: { fromSupertokens: 'needs-refresh' } }
-//         else
-//         if (error.type === Session.Error.UNAUTHORISED)
-//         console.info('unauthorized error: ', error);
-//         return res.status(200).json({ status: false, error });
-//         else
-//         return { redirect: { destination: '/welcome', permanent: false } };
-//     }
-// }
-
-// export async function getServerSideProps() {
-// 	try {
-// 		// const order = await (
-// 		//     await axios(urlBuilder.dashboard + `/api/orders/${params.id}`, {
-// 		//         headers: {
-// 		//             Cookie: req.headers.cookie
-// 		//         }
-// 		//     })
-// 		// ).data;
-// 		// if (!order) return { notFound: true };
-// 		return {
-// 			props: {
-// 				user: dateToString(user),
-// 				organization: dateToString(organization),
-// 				products: dateToString(products) || [],
-// 				orders: dateToString(orders) || [],
-// 			},
-// 		};
-// 	} catch (error: any) {
-// 		console.info('Orders/[id] SSR error: ', error.message);
-// 		throw new Error(error);
-// 	}
-// }
-
 Dashboard.getLayoutContext = (): LayoutContextProps => ({
 	showHeader: true,
 	showSideNav: true,
 });
+
+function mapStateToProps(state: RootState) {
+	const { user, dispensary } = state;
+	return {
+		user,
+		organization: dispensary,
+		products: dispensary.products,
+		orders: dispensary.orders,
+	};
+}
+
+export default connect(mapStateToProps)(Dashboard);
+
+// export const getServerSideProps = wrapper.getServerSideProps(
+// 	(store) => async (context) => {
+// 		try {
+// 			context.res.setHeader(
+// 				'Cache-Control',
+// 				'public, s-maxage=10, stale-while-revalidate=59',
+// 			);
+// 			return {
+// 				props: {
+// 					user: dateToString(userDispensaryAdmin),
+// 					organization: dateToString(organization),
+// 					products: dateToString(products) || [],
+// 					orders: dateToString(orders) || [],
+// 				},
+// 			};
+// 		} catch (error) {
+// 			throw new Error(error.message);
+// 		}
+// 	},
+// );

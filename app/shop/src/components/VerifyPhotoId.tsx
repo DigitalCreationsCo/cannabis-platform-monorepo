@@ -1,5 +1,4 @@
-import { TextContent } from '@cd/core-lib';
-import { urlBuilder } from '@cd/core-lib/src/utils';
+import { TextContent, urlBuilder } from '@cd/core-lib';
 import {
 	Button,
 	Center,

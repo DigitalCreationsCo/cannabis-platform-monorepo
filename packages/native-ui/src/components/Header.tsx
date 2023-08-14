@@ -2,7 +2,7 @@ import { type PropsWithChildren } from 'react';
 import { Text, View } from 'react-native';
 import { Path, Svg } from 'react-native-svg';
 import { twMerge } from 'tailwind-merge';
-import { classNames as RNstyles } from '../styles';
+import { RNstyles } from '../styles';
 import SearchField from './SearchField';
 
 type HeaderProps = {

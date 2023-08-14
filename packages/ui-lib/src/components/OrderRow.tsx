@@ -1,4 +1,4 @@
-import { getDashboardSite } from '@cd/core-lib/src';
+import { getDashboardSite } from '@cd/core-lib';
 import { type Order } from '@cd/data-access';
 import { format } from 'date-fns';
 import Link from 'next/link';

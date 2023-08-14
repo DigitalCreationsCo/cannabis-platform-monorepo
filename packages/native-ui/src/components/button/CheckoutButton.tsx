@@ -1,4 +1,4 @@
-import { cartActions } from '@cd/core-lib/src';
+import { cartActions } from '@cd/core-lib';
 import { toast } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import Button, { type ButtonProps } from './Button';

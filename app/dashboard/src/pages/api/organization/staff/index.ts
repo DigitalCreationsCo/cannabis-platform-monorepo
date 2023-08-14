@@ -4,7 +4,6 @@ import { type NextApiRequest, type NextApiResponse } from 'next';
 import nc from 'next-connect';
 
 const handler = nc();
-// handler.use(authMiddleware).use(healthCheckMiddleware);
 // get users from an organization
 handler.get(async (req, res: NextApiResponse) => {
 	try {

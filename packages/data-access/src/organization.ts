@@ -1,16 +1,24 @@
 import {
+	type Category,
 	type CategoryList,
 	type Coordinates,
 	type ImageOrganization,
+	type Membership,
+	type Order,
 	type Organization,
 	type Prisma,
 	type Schedule,
+	type SiteSetting,
 	type SubDomain,
+	type User,
 	type Vendor,
 } from '@prisma/client';
 import { type AddressPayload, type AddressWithCoordinates } from './address';
 import prisma from './db/prisma';
-import { type ProductWithShopDetails } from './product';
+import {
+	type ProductWithDashboardDetails,
+	type ProductWithShopDetails,
+} from './product';
 /*
  *   updateOrganization
  *   createOrganization
@@ -459,14 +467,24 @@ export type OrganizationWithShopDetails = Organization &
 	};
 
 export type OrganizationWithDashboardDetails = Organization & {
+	products: ProductWithDashboardDetails[];
+	orders: Order[];
 	address: AddressWithCoordinates;
+	memberships: MembershipWithUser[];
 	images: ImageOrganization[];
+	categoryList: CategoryList;
+	categories?: Category[];
+	siteSetting: SiteSetting;
 	schedule: Schedule;
-	vendor: Vendor;
 	subdomain: SubDomain;
+	vendor: Vendor;
 };
 
 export type UserLocation = {
 	userLocation: Coordinates;
 	proximityRadius: number;
+};
+
+export type MembershipWithUser = Membership & {
+	user: User;
 };

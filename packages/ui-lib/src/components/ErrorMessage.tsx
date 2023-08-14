@@ -1,4 +1,4 @@
-import { TextContent } from '@cd/core-lib/src';
+import { TextContent } from '@cd/core-lib';
 import router from 'next/router';
 import { Button } from './button';
 import Center from './Center';

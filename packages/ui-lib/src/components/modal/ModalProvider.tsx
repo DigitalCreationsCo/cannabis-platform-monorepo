@@ -16,7 +16,6 @@ import LoginModal from './LoginModal';
 // import SelectModal from "./SelectModal";
 // import TipModal from "./TipModal";
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 const MODAL_COMPONENTS = Object.freeze({
 	SHOW_MODAL: () => <></>,
 	CONFIRM_MODAL: () => <></>,

@@ -1,7 +1,7 @@
-import { RNstyles } from '@cd/core-lib/src/constants';
 import { PropsWithChildren } from 'react';
 import { View } from 'react-native';
 import { twMerge } from 'tailwind-merge';
+import { RNstyles } from '../../styles/classes';
 import { H4, H5 } from '../Typography';
 
 type CardProps = {
