@@ -6,6 +6,7 @@ import {
 	type LayoutContextProps,
 } from '@cd/ui-lib';
 import { type AnyAction } from '@reduxjs/toolkit';
+import { AnimatePresence } from 'framer-motion';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -88,13 +89,19 @@ function App({ Component, ...rest }: CustomAppProps) {
 						<LocationProvider />
 						<ToastProvider />
 						<ModalProvider />
-						<LayoutContainer {...getLayoutContext()}>
-							{routerLoading ? (
-								<LoadingPage />
-							) : (
-								<Component {...props.pageProps} />
-							)}
-						</LayoutContainer>
+						<AnimatePresence
+							mode="wait"
+							initial={false}
+							onExitComplete={() => window.scrollTo(0, 0)}
+						>
+							<LayoutContainer {...getLayoutContext()}>
+								{routerLoading ? (
+									<LoadingPage />
+								) : (
+									<Component {...props.pageProps} />
+								)}
+							</LayoutContainer>
+						</AnimatePresence>
 					</PersistGate>
 				</ReduxProvider>
 			</SuperTokensWrapper>

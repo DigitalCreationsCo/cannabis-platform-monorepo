@@ -84,7 +84,7 @@ export default function Footer() {
 						<H6 className="text-inverse font-semibold">Follow us</H6>
 						<FlexBox className="mt-5 flex-row space-x-5 text-inverse">
 							<a
-								href="https://twitter.com/web3templates"
+								href="https://twitter.com/"
 								target="_blank"
 								rel="noopener noreferrer"
 							>
@@ -92,7 +92,7 @@ export default function Footer() {
 								<Twitter />
 							</a>
 							<a
-								href="https://facebook.com/web3templates"
+								href="https://facebook.com/"
 								target="_blank"
 								rel="noopener noreferrer"
 							>
@@ -100,7 +100,7 @@ export default function Footer() {
 								<Facebook />
 							</a>
 							<a
-								href="https://instagram.com/web3templates"
+								href="https://instagram.com/"
 								target="_blank"
 								rel="noopener noreferrer"
 							>
