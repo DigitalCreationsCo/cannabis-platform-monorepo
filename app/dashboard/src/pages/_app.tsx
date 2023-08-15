@@ -15,6 +15,7 @@ import Session, {
 	type SessionContextType,
 } from 'supertokens-auth-react/recipe/session';
 import { LayoutContainer, ProtectedPage } from '../components';
+import DashboardTopBar from '../components/DashboardTopBar';
 import { frontendConfig } from '../config/frontendConfig';
 import { wrapper } from '../redux/store';
 import '../styles/anim8-gradient.css';
@@ -66,8 +67,10 @@ function App({ Component, ...rest }: CustomAppProps) {
 		'/users',
 	];
 
-	const getLayoutContext =
-		Component.getLayoutContext || ((): LayoutContextProps => ({}));
+	const getLayoutContext = (): LayoutContextProps => ({
+		TopBarComponent: DashboardTopBar,
+		...(Component.getLayoutContext && Component.getLayoutContext()),
+	});
 
 	return (
 		<>

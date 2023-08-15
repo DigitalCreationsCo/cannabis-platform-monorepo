@@ -14,7 +14,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session from 'supertokens-auth-react/recipe/session';
-import { LayoutContainer, LocationProvider } from '../components';
+import { LayoutContainer, LocationProvider, TopBar } from '../components';
 import { frontendConfig } from '../config/frontendConfig';
 import { wrapper } from '../redux/store';
 import '../styles/anim8-gradient.css';
@@ -71,7 +71,10 @@ function App({ Component, ...rest }: CustomAppProps) {
 		return null;
 	}
 
-	const getLayoutContext = Component.getLayoutContext || (() => ({}));
+	const getLayoutContext = (): LayoutContextProps => ({
+		TopBarComponent: TopBar,
+		...(Component.getLayoutContext && Component.getLayoutContext()),
+	});
 
 	return (
 		<>

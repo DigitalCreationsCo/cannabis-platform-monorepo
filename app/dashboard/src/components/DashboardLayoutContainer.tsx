@@ -6,7 +6,6 @@ import Session from 'supertokens-auth-react/recipe/session';
 import { useAppDispatch } from '../redux/hooks';
 import { type RootState } from '../redux/store';
 import DashboardNavigation from './DashBoardNavigation';
-import DashboardTopBar from './DashboardTopBar';
 
 const LayoutContainer = (props: LayoutContextProps & PropsWithChildren) => {
 	const user = useSelector((state: RootState) => state.user);
@@ -25,7 +24,6 @@ const LayoutContainer = (props: LayoutContextProps & PropsWithChildren) => {
 			isModalVisible={modalVisible}
 			showSideNavOnDesktop={true}
 			SideNavComponent={DashboardNavigation}
-			TopBarComponent={DashboardTopBar}
 			signOut={signOut}
 			isSession={user.isSignedIn}
 			{...props}
