@@ -144,24 +144,3 @@ function mapStateToProps(state: RootState) {
 }
 
 export default connect(mapStateToProps)(Dashboard);
-
-// export const getServerSideProps = wrapper.getServerSideProps(
-// 	(store) => async (context) => {
-// 		try {
-// 			context.res.setHeader(
-// 				'Cache-Control',
-// 				'public, s-maxage=10, stale-while-revalidate=59',
-// 			);
-// 			return {
-// 				props: {
-// 					user: dateToString(userDispensaryAdmin),
-// 					organization: dateToString(organization),
-// 					products: dateToString(products) || [],
-// 					orders: dateToString(orders) || [],
-// 				},
-// 			};
-// 		} catch (error) {
-// 			throw new Error(error.message);
-// 		}
-// 	},
-// );

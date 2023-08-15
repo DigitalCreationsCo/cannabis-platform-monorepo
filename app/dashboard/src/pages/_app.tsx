@@ -4,6 +4,7 @@ import {
 	ToastProvider,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
+import { AnimatePresence } from 'framer-motion';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -86,15 +87,21 @@ function App({ Component, ...rest }: CustomAppProps) {
 					<PersistGate persistor={persistor} loading={<LoadingPage />}>
 						<ModalProvider />
 						<ToastProvider />
-						<LayoutContainer {...getLayoutContext()}>
-							{routerLoading ? (
-								<LoadingPage />
-							) : (
-								<ProtectedPage protectedPages={protectedPages}>
-									<Component {...props.pageProps} />
-								</ProtectedPage>
-							)}
-						</LayoutContainer>
+						<AnimatePresence
+							mode="wait"
+							initial={false}
+							onExitComplete={() => window.scrollTo(0, 0)}
+						>
+							<LayoutContainer {...getLayoutContext()}>
+								{routerLoading ? (
+									<LoadingPage />
+								) : (
+									<ProtectedPage protectedPages={protectedPages}>
+										<Component {...props.pageProps} />
+									</ProtectedPage>
+								)}
+							</LayoutContainer>
+						</AnimatePresence>
 					</PersistGate>
 				</ReduxProvider>
 			</SuperTokensWrapper>

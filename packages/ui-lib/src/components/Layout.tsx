@@ -4,6 +4,7 @@ import {
 	type ReactEventHandler,
 } from 'react';
 import { twMerge } from 'tailwind-merge';
+import AnimationWrapper from './AnimationWrapper';
 import Footer from './Footer';
 import Header from './Header';
 import SideNavContainer from './SideNavContainer';
@@ -87,7 +88,9 @@ function Layout({
 					{children}
 				</SideNavContainer>
 			</div>
-			<Footer />
+			<AnimationWrapper>
+				<Footer />
+			</AnimationWrapper>
 		</div>
 	);
 }

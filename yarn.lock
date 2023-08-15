@@ -3775,6 +3775,7 @@ __metadata:
     find-up: 5.0.0
     formidable: 2.1.1
     formik: 2.2.9
+    framer-motion: 10.15.0
     jest: 29.3.1
     jest-mock-axios: 4.7.2
     jest-mock-extended: 3.0.1
@@ -4393,6 +4394,9 @@ __metadata:
   resolution: "@cd/ui-lib@workspace:packages/ui-lib"
   dependencies:
     "@carbon/icons-react": 11.16.0
+    "@cd/core-lib": "workspace:*"
+    "@cd/data-access": "workspace:*"
+    "@cd/eslint-config": "workspace:*"
     "@types/carbon__icons-react": 11.16.0
     "@types/jest": 29.2.4
     "@types/node": 18.11.10
@@ -4405,6 +4409,7 @@ __metadata:
     css-loader: 6.7.3
     daisyui: 2.51.6
     file-loader: 6.2.0
+    framer-motion: 10.15.0
     jest: 29.3.1
     jest-environment-jsdom: 29.5.0
     nodemon: 2.0.20
@@ -4412,6 +4417,7 @@ __metadata:
     prettier: 2.8.0
     react: 18.2.0
     react-dom: 18.2.0
+    react-responsive-carousel: 3.2.23
     react-slick: 0.29.0
     rimraf: 4.4.1
     rollup: 3.20.2

@@ -1,3 +1,4 @@
+export { default as AnimationWrapper } from './AnimationWrapper';
 export * from './button';
 export { default as Card } from './Card';
 export { default as Carousel } from './Carousel';
