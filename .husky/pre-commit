@@ -2,7 +2,7 @@
 . "$(dirname -- "$0")/_/husky.sh"
 yarn
 yarn g:lint-staged-files # --debug
+yarn g:build-ci
 yarn g:test-unit-changed
-yarn g:build-changed
 # generate changed modules-sha for gitlab ci cache
 . "$(dirname -- "$0")/generate_modules_sha.sh"

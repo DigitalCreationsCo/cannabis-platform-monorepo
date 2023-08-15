@@ -1,7 +1,6 @@
 import { urlBuilder } from '@cd/core-lib';
 import { type AddressCreateType } from '@cd/data-access';
 import axios from 'axios';
-// import { authMiddleware, healthCheckMiddleware } from 'middleware';
 import { type NextApiRequest, type NextApiResponse } from 'next';
 import nc from 'next-connect';
 

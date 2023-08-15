@@ -19,7 +19,7 @@ export default class MainDocument extends Document {
 
 	render() {
 		return (
-			<Html data-theme="cannabis">
+			<Html data-theme="cannabis" className="scroll-smooth">
 				<Head title="Gras Cannabis">
 					<meta
 						name="vendor experience application"

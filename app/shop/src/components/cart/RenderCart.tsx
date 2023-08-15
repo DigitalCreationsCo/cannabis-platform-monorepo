@@ -26,7 +26,7 @@ function RenderCart() {
 						<Paragraph>Your bag is empty</Paragraph>
 						<Link href="/browse">
 							<Paragraph className={'inline-block cursor-pointer border-b-2'}>
-								{TextContent.shop.BAG_GET_WHAT_YOU_WANT}
+								{TextContent.shop.BAG_TAGLINE_CURE_WHAT_AILS_YOU}
 							</Paragraph>
 						</Link>
 					</div>

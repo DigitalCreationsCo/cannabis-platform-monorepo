@@ -1,3 +1,5 @@
+const nbsp = '\xa0';
+
 const TextContent = Object.freeze({
 	prompt: {
 		ACCEPT_ORDER: 'Do you want to accept the order?',
@@ -87,6 +89,7 @@ const TextContent = Object.freeze({
 		SIGNIN: 'Sign In',
 		SIGNIN_EMAIL: 'Sign in with your email',
 		SIGNUP: 'Sign Up',
+		CTA: 'SIGN ME UP',
 	},
 
 	error: {
@@ -105,14 +108,18 @@ const TextContent = Object.freeze({
 	},
 
 	info: {
-		COMPANY_NAME: 'Gras',
-		GET_CANNABIS_DELIVERED: `Get&nbsp;Cannabis&nbsp;Delivered`,
-		CANNABIS_DELIVERED: `Cannabis,${'\xa0'}Delivered.${'\xa0'}🌴🔥`,
+		ABOUT_GRAS: `Gras is a home-grown service-first company. We serve our communities by enabling communication and support between people and businesses.`,
+		CANNABIS_DELIVERED: `Cannabis,${'\xa0'}Delivered.${'\xa0'}🌴${'\xa0'}🔥`,
 		CANNABIS_DELIVERED_TODAY: `Cannabis,${'\xa0'}Delivered${'\xa0'}Today🌴`,
-		ONE_STOP: 'a one stop cannabis marketplace',
+		COMPANY_NAME: 'Gras',
 		EMAIL: 'Email',
-		THANK_YOU: `Thank you for choosing Gras!`,
+		GET_CANNABIS_DELIVERED: `Get${nbsp}Cannabis${nbsp}Delivered`,
+		GRAS_MISSION: `We are here to cultivate fulfillment and meaningful experiences with our customers and partners in the cannabis world, one${nbsp}delivery${nbsp}at${nbsp}a${nbsp}time.`,
+		LEARN_MORE: `Learn more`,
 		MORE_CONTENT_COMING_SOON: `Our Team is bringing you more news and content from the world of cannabis.`,
+		ONE_STOP: 'a one stop cannabis marketplace',
+		THANK_YOU: `Thank you for choosing Gras!`,
+		BUILDING_TRUST_WITH_OUR_PARTNERS: `Our Gras team works to build a trusted community of partners and cannabis lovers.`,
 	},
 
 	ui: {
@@ -162,7 +169,11 @@ const TextContent = Object.freeze({
 	},
 
 	delivery: {
-		GRAS_WILL_DELIVER: 'Gras will deliver your order straight to your door.',
+		GRAS_WILL_DELIVER_STRAIGHT_TO_YOUR_DOOR:
+			'Gras will deliver your order straight to your door.',
+		GRAS_DELIVERS_FOR_DISPENSARIES:
+			'Gras delivers for Medicinal and Recreational Dispensaries directly to their customers.',
+		YOUR_CUSTOMERS_ARE_OUR_CUSTOMERS: `Your customers are our customers.`,
 		DELIVER_FOR_GRAS: 'Deliver for Gras',
 
 		ALL_ORDERS: 'Your Delivery Queue',
@@ -207,7 +218,8 @@ const TextContent = Object.freeze({
 
 	shop: {
 		ADD_TO_CART_f: (qty: number) => `Add ${qty} to Bag`,
-		BAG_GET_WHAT_YOU_WANT: 'Get what you want',
+		BAG_TAGLINE_GET_WHAT_YOU_WANT: 'Get what you want',
+		BAG_TAGLINE_CURE_WHAT_AILS_YOU: 'Cure What Ails You',
 
 		BROWSE_DISPENSARY_f: (vendorName: string) => `Browse ${vendorName}`,
 		CART_TITLE: 'My Bag',
@@ -223,10 +235,6 @@ const TextContent = Object.freeze({
 
 	social: {
 		FRIENDS_LIST_TITLE: 'Your friends',
-	},
-
-	char: {
-		NBSP: '\xa0',
 	},
 });
 

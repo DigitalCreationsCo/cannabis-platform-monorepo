@@ -20,7 +20,6 @@ function Page({
 			'bg-inverse-soft',
 			'flex flex-col grow',
 			'min-w-screen',
-			'sm:px-4',
 			'md:pt-8 pb-24',
 			'lg:px-16',
 		],

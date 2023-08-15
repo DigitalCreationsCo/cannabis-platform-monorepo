@@ -15,6 +15,7 @@ interface LayoutContextProps {
 	showSideNav?: boolean;
 	showTopBar?: boolean;
 	showHeader?: boolean;
+	TopBarComponent?: React.ElementType;
 }
 
 interface LayoutProps extends LayoutContextProps, PropsWithChildren {
@@ -23,7 +24,6 @@ interface LayoutProps extends LayoutContextProps, PropsWithChildren {
 	showHeader?: boolean;
 	showTopBar?: boolean;
 	SideNavComponent: React.ElementType;
-	TopBarComponent: React.ElementType;
 	signOut: () => void;
 	onSearchChange?: ChangeEventHandler<HTMLInputElement> &
 		ReactEventHandler<Element>;
@@ -67,7 +67,7 @@ function Layout({
 			)}
 		>
 			<div className={styles.main}>
-				{showTopBar && (
+				{showTopBar && TopBarComponent && (
 					<TopBarComponent signOut={signOut} doesSessionExist={isSession} />
 				)}
 				{showHeader && (
