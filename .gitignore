@@ -4,6 +4,10 @@ __*
 # credentials
 gcp_service_account.json
 
+# build artifacts
+app/dashboard/src/styles/tailwind.css
+app/shop/src/styles/tailwind.css
+
 # dependencies
 **/node_modules
 .yarn/*
