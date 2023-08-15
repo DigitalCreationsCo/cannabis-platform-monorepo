@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../redux/hooks';
 import { type RootState } from '../redux/store';
 import CategoriesNavigation from './CategoriesNavigation';
-import TopBar from './TopBar';
 
 const LayoutContainer = (props: LayoutContextProps & PropsWithChildren) => {
 	const [, setCookie] = useCookies(['yesOver21']);
@@ -26,7 +25,6 @@ const LayoutContainer = (props: LayoutContextProps & PropsWithChildren) => {
 			isModalVisible={modalVisible}
 			showSideNavOnDesktop={false}
 			SideNavComponent={CategoriesNavigation}
-			TopBarComponent={TopBar}
 			signOut={signOut}
 			isSession={user.isSignedIn}
 			{...props}

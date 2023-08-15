@@ -1,29 +1,36 @@
+import { getShopSite, TextContent } from '@cd/core-lib';
 import {
+	CopyRight,
 	FlexBox,
 	H2,
 	Page,
 	Paragraph,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
+import Image from 'next/image';
+import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
+import logo from '../../public/logo.png';
 
 function AboutGras() {
 	return (
 		<Page className={twMerge(styles.gradient)}>
-			<FlexBox className={twMerge(styles.about)}>
-				<FlexBox className="m-auto max-w-[400px]">
-					<H2 className="text-secondary">About Gras</H2>
-					<Paragraph className="text-justify">
-						{`Gras is a home-grown service provider for cannabis lovers.
-                    We serve the people of our communities, that enjoy cannabis, by offering a bridge of communication, clarity and support.`}
-					</Paragraph>
-					<Paragraph className="text-justify">
-						Gras is here to bring meaningful fulfillment to our customers and
-						partners in the cannabis world,{' '}
-						one&nbsp;delivery&nbsp;at&nbsp;a&nbsp;time. ❤️{' '}
-					</Paragraph>
-				</FlexBox>
+			<FlexBox className="flex-row items-end">
+				<Link href={getShopSite('/')} className="pr-2">
+					<Image alt="Gras" width={50} height={50} src={logo} />
+				</Link>
+
+				<Link href={getShopSite('/')}>
+					<H2 className="pt-0.5 text-white">Gras</H2>
+				</Link>
 			</FlexBox>
+
+			<Paragraph className="mt-4 max-w-md text-white">
+				{TextContent.info.ABOUT_GRAS}
+				<br />
+				{TextContent.info.GRAS_MISSION}
+			</Paragraph>
+			<CopyRight />
 		</Page>
 	);
 }

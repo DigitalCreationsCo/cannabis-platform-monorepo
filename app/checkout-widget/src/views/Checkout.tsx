@@ -1,5 +1,5 @@
-import TextContent from '@cd/core-lib/src/constants/textContent';
-import { SimpleCart } from '@cd/core-lib/src/reduxDir/features/cart.reducer';
+import TextContent from '@cd/core-lib/src/constants/text.constant';
+import { type SimpleCart } from '@cd/core-lib/src/reducer/cart.reducer';
 import Button from '@cd/ui-lib/src/components/button/Button';
 import CloseButton from '@cd/ui-lib/src/components/button/CloseButton';
 import FlexBox from '@cd/ui-lib/src/components/FlexBox';
@@ -7,11 +7,11 @@ import { Paragraph, Small } from '@cd/ui-lib/src/components/Typography';
 import { getBreakpointValue } from '@cd/ui-lib/src/hooks/useBreakpoint';
 import { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { CheckoutWidgetConfigOptions } from '..';
+import { type CheckoutWidgetConfigOptions } from '..';
 import logo from '../assets/logo120.png';
 import CartList from '../components/CartItemList';
 import { cheerioCrawler as crawler } from '../crawler';
-import WidgetView, { WidgetViewProps } from './WidgetView';
+import WidgetView, { type WidgetViewProps } from './WidgetView';
 
 function Checkout({
 	className,
@@ -108,7 +108,7 @@ function Checkout({
 						/>
 
 						<Paragraph className="text-light m-auto">
-							{TextContent.delivery.GRAS_WILL_DELIVER}
+							{TextContent.delivery.GRAS_WILL_DELIVER_STRAIGHT_TO_YOUR_DOOR}
 						</Paragraph>
 
 						<CartList
