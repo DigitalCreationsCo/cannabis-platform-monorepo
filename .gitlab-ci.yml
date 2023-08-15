@@ -113,8 +113,13 @@ build_module:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       changes:
         - node_modules
+        - packages/**/*
         - ${MODULE}/**/*
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      changes:
+        - node_modules
+        - packages/**/*
+        - ${MODULE}/**/*
   image: docker:23.0.5
   services:
     - docker:23.0.5-dind
@@ -185,6 +190,10 @@ build_module:
 deploy:
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      changes:
+        - node_modules
+        - packages/**/*
+        - ${MODULE}/**/*
   image:
     name: bitnami/kubectl:latest
     entrypoint: ['']

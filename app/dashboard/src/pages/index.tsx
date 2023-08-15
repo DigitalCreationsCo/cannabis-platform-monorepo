@@ -19,7 +19,7 @@ import backdrop from '../../public/marijuana-backdrop.png';
 function WelcomePage() {
 	return (
 		<ImageBackDrop src={backdrop}>
-			<Page className="m-0 border-b bg-transparent p-0 md:p-0 lg:p-0">
+			<Page className="m-0 flex grow border-b bg-transparent p-0 md:p-0 lg:p-0">
 				<Center className="space-y-4">
 					<FlexBox className="items-center space-y-2">
 						<FlexBox className="md:flex-row">
@@ -59,7 +59,7 @@ const ImageBackDrop = ({
 	children,
 }: { src: string | StaticImageData } & PropsWithChildren) => {
 	return (
-		<div className="relative flex h-full grow border">
+		<div className="relative flex h-full grow">
 			<Image
 				src={src}
 				alt=""
