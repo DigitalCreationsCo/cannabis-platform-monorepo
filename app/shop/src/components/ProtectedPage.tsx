@@ -5,7 +5,7 @@ import React, { type PropsWithChildren } from 'react';
 
 // refactor this component to get the session,
 // and pass the session to child page,
-// if there is no page, return the not found error page
+// if there is no page, return the not found error pager
 function ProtectedPage({ children }: PropsWithChildren): React.ReactElement {
 	// const session = useSessionContext();
 	// if (session.loading === true) return <></>;

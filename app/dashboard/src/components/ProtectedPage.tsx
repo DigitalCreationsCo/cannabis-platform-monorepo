@@ -1,8 +1,8 @@
 import { hasMembershipRoleAccess, selectUserState } from '@cd/core-lib';
+import { LoadingPage } from '@cd/ui-lib';
 import { useRouter } from 'next/router';
 import { useEffect, type PropsWithChildren } from 'react';
 import { useSelector } from 'react-redux';
-import LoadingPage from '../pages/LoadingPage';
 
 interface ProtectedPageProps {
 	protectedPages: string[];
