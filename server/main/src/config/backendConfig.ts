@@ -74,7 +74,7 @@ export const backendConfig = (): AuthConfig => {
 									}
 
 									if (response.status === 'OK') {
-										let user;
+										let user: UserWithDetails | DriverWithDetails | null;
 										if (input.userContext.appUser === 'DRIVER') {
 											if (response.user.email) {
 												user =
@@ -100,16 +100,18 @@ export const backendConfig = (): AuthConfig => {
 												user =
 													(await UserDA.getUserByEmail(response.user.email)) ||
 													null;
-												const membershipRole =
-													user.memberships?.[0]?.role.toLocaleUpperCase();
 												if (
-													membershipRole === 'ADMIN' ||
-													membershipRole === 'OWNER' ||
-													membershipRole === 'MEMBER'
+													user.memberships.length > 0 &&
+													(user.memberships?.[0]?.role.toLocaleUpperCase() ===
+														'ADMIN' ||
+														user.memberships?.[0]?.role.toLocaleUpperCase() ===
+															'OWNER' ||
+														user.memberships?.[0]?.role.toLocaleUpperCase() ===
+															'MEMBER')
 												) {
 													const addRole = await UserRoles.addRoleToUser(
 														response.user.id,
-														membershipRole,
+														user.memberships?.[0]?.role.toLocaleUpperCase(),
 													);
 													if (addRole.status === 'UNKNOWN_ROLE_ERROR') {
 														// No such role exists
@@ -133,18 +135,18 @@ export const backendConfig = (): AuthConfig => {
 													(await UserDA.getUserByPhone(
 														response.user.phoneNumber,
 													)) || null;
-												const membershipRole =
-													user.memberships?.[0]?.role.toLocaleUpperCase();
-												console.info('membershipRole: ', membershipRole);
-
 												if (
-													membershipRole === 'ADMIN' ||
-													membershipRole === 'OWNER' ||
-													membershipRole === 'MEMBER'
+													user.memberships.length > 0 &&
+													(user.memberships?.[0]?.role.toLocaleUpperCase() ===
+														'ADMIN' ||
+														user.memberships?.[0]?.role.toLocaleUpperCase() ===
+															'OWNER' ||
+														user.memberships?.[0]?.role.toLocaleUpperCase() ===
+															'MEMBER')
 												) {
 													const addRole = await UserRoles.addRoleToUser(
 														response.user.id,
-														membershipRole,
+														user.memberships?.[0]?.role.toLocaleUpperCase(),
 													);
 													if (addRole.status === 'UNKNOWN_ROLE_ERROR') {
 														// No such role exists
