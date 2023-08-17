@@ -45,7 +45,6 @@ const launchSelectModalLocationType = createAsyncThunk<
 	return new Promise((resolve) => {
 		const unsubscribe = store.subscribe(() => {
 			const { selectedLocationType } = store.getState().user.user.locationData;
-			// console.info("location type in select modal action ? ", locationType);
 			const { isSelected } = store.getState().modal;
 			if (isSelected && selectedLocationType) {
 				unsubscribe();
@@ -68,7 +67,6 @@ const launchTipModal = createAsyncThunk<
 			const { isSelected } = store.getState().modal;
 			if (isSelected) {
 				const { tipPercentage } = store.getState().payment;
-				console.info('launch modal tip percentage from modal: ', tipPercentage);
 				unsubscribe();
 				resolve(tipPercentage);
 			}
@@ -120,8 +118,6 @@ const modalSlice = createSlice({
 	initialState,
 	reducers: {
 		openModal: (state, { payload }: { payload: ModalActionPayload }) => {
-			console.info('modaltype: ', payload.modalType);
-			console.info('modalText: ', payload.modalText);
 			state.modalType = payload.modalType || state.modalType;
 			state.modalText = payload.modalText || state.modalText;
 			state.modalVisible = true;
@@ -150,17 +146,13 @@ const modalSlice = createSlice({
 		},
 	},
 	extraReducers: (builder) => {
-		builder.addCase(launchConfirmModal.fulfilled, (_, { payload }) => {
-			console.info('confirm modal payload: ', payload);
-		}),
+		builder.addCase(launchConfirmModal.fulfilled, () => {}),
 			builder.addCase(launchConfirmModal.pending, () => {}),
 			builder.addCase(launchConfirmModal.rejected, () => {}),
 			builder.addCase(launchSelectModalLocationType.fulfilled, () => {}),
 			builder.addCase(launchSelectModalLocationType.pending, () => {}),
 			builder.addCase(launchSelectModalLocationType.rejected, () => {}),
-			builder.addCase(launchTipModal.fulfilled, (_, { payload }) => {
-				console.info('tip modal payload: ', payload);
-			}),
+			builder.addCase(launchTipModal.fulfilled, () => {}),
 			builder.addCase(launchTipModal.pending, () => {}),
 			builder.addCase(launchTipModal.rejected, () => {});
 	},
