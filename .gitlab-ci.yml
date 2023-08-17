@@ -128,9 +128,12 @@ build_module:
         - "${MODULE}/**/*"
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       changes:
-        - "node_modules"
-        - "packages/**/*"
+        # - "node_modules"
+        # - "packages/**/*"
         - "${MODULE}/**/*"
+  only:
+    variables:
+      - MODULE
   before_script:
     - apk --no-cache add git
     - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin "${CI_REGISTRY}"
@@ -200,9 +203,12 @@ deploy:
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       changes:
-        - "node_modules"
-        - "packages/**/*"
+        # - "node_modules"
+        # - "packages/**/*"
         - "${MODULE}/**/*"
+  only:
+    variables:
+      - MODULE
   script: |
     kubectl config get-contexts
     kubectl config use-context gras1/cannabis-platform-monorepo:gras-cluster
