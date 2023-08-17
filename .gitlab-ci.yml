@@ -131,9 +131,6 @@ build_module:
         # - "node_modules"
         # - "packages/**/*"
         - "${MODULE}/**/*"
-  only:
-    variables:
-      - MODULE
   before_script:
     - apk --no-cache add git
     - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin "${CI_REGISTRY}"
@@ -206,9 +203,6 @@ deploy:
         # - "node_modules"
         # - "packages/**/*"
         - "${MODULE}/**/*"
-  only:
-    variables:
-      - MODULE
   script: |
     kubectl config get-contexts
     kubectl config use-context gras1/cannabis-platform-monorepo:gras-cluster
