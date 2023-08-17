@@ -59,14 +59,10 @@ app.use('/api/v1/blog', blog);
 
 app.use('/api/v1/error', errorRoute);
 app.use(STerror());
-app.use((err: any, req: express.Request, res: express.Response) => {
-	if (err.message === 'Please reset your password') {
-		return res.status(401).send(err.message);
-	}
-	if (err.message === 'Invalid password') {
-		return res.status(401).send(err.message);
-	}
+app.use((err, req, res, next) => {
+	console.error('A general error occured: ', err);
 	res.status(500).send(err.message);
+	next();
 });
 
 const server = http.createServer(app);

@@ -1,5 +1,5 @@
 import { getGeoCoordinatesFromAddress } from '@cd/core-lib';
-import { UserCreateType } from '@cd/data-access';
+import { type UserCreateType } from '@cd/data-access';
 import { DriverDA } from '../data-access';
 
 /* =================================
@@ -67,7 +67,7 @@ export default class DriverController {
 
 	static async updateStatus(req, res) {
 		try {
-			let { id, onlineStatus } = req.body;
+			const { id, onlineStatus } = req.body;
 
 			const data = await DriverDA.updateOnlineStatus(id, onlineStatus);
 
