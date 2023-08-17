@@ -133,8 +133,8 @@ build_module:
         - "${MODULE}/**/*"
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       changes:
-        # - "node_modules"
-        # - "packages/**/*"
+        - "node_modules"
+        - "packages/**/*"
         - "${MODULE}/**/*"
   before_script:
     - apk --no-cache add git
@@ -208,8 +208,8 @@ deploy:
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       changes:
-        # - "node_modules"
-        # - "packages/**/*"
+        - "node_modules"
+        - "packages/**/*"
         - "${MODULE}/**/*"
   script: |
     kubectl config get-contexts
