@@ -108,6 +108,11 @@ build_docker_node_modules:
     fi
   allow_failure: true
 
+.run_build:
+  extends: build_module
+  parallel:
+    matrix: !reference [.modules]
+
 build_module:
   image: docker:23.0.5
   services:
@@ -181,11 +186,14 @@ build_module:
     else
       echo "[ERROR] No tag is available. Image was not pushed to registry."
     fi
-  parallel:
-    matrix: !reference [.modules]
   needs:
     - job: build_docker_node_modules
       optional: true
+
+.run_deploy:
+  extends: deploy
+  parallel:
+    matrix: !reference [.modules]
 
 deploy:
   image:
@@ -216,8 +224,6 @@ deploy:
 
     sleep 10
     kubectl get pods
-  parallel:
-    matrix: !reference [.modules]
   needs:
     - build_module
 
