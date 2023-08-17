@@ -73,23 +73,24 @@ export const backendConfig = (): AuthConfig => {
 										throw new Error('There was an error. Please try again.');
 									}
 
-									if (response.status === 'OK') {
+									if (
+										response.status === 'OK' &&
+										response.createdNewUser === false
+									) {
 										let user: UserWithDetails | DriverWithDetails | null;
 										if (input.userContext.appUser === 'DRIVER') {
 											if (response.user.email) {
-												user =
-													(await DriverDA.getDriverByEmail(
-														response.user.email,
-													)) || null;
+												user = await DriverDA.getDriverByEmail(
+													response.user.email,
+												);
 												response.user = {
 													...response.user,
 													...user,
 												} as Passwordless.User & DriverWithDetails;
 											} else if (response.user.phoneNumber) {
-												user =
-													(await DriverDA.getDriverByPhone(
-														response.user.phoneNumber,
-													)) || null;
+												user = await DriverDA.getDriverByPhone(
+													response.user.phoneNumber,
+												);
 												response.user = {
 													...response.user,
 													...user,
@@ -97,9 +98,7 @@ export const backendConfig = (): AuthConfig => {
 											}
 										} else {
 											if (response.user.email) {
-												user =
-													(await UserDA.getUserByEmail(response.user.email)) ||
-													null;
+												user = await UserDA.getUserByEmail(response.user.email);
 												if (
 													user.memberships.length > 0 &&
 													(user.memberships?.[0]?.role.toLocaleUpperCase() ===
@@ -131,10 +130,9 @@ export const backendConfig = (): AuthConfig => {
 													...user,
 												} as Passwordless.User & UserWithDetails;
 											} else if (response.user.phoneNumber) {
-												user =
-													(await UserDA.getUserByPhone(
-														response.user.phoneNumber,
-													)) || null;
+												user = await UserDA.getUserByPhone(
+													response.user.phoneNumber,
+												);
 												if (
 													user.memberships.length > 0 &&
 													(user.memberships?.[0]?.role.toLocaleUpperCase() ===

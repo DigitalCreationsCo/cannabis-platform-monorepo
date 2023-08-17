@@ -72,6 +72,7 @@
 		"tf:console": "make console",
 		"cluster:start": "make apply && kubectl apply -f k8s/",
 		"cluster:nodes": "kubectl get nodes",
+		"cluster:apply": "APPLY_FILE=$0 make deploy",
 		"install:playwright": "playwright install",
 		"nuke:node_modules": "npx rimraf@3.0.1 '**/node_modules'",
 		"postinstall": "yarn is-ci || yarn is-docker || yarn husky install && chmod +x scripts",
