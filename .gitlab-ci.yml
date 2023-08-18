@@ -107,8 +107,6 @@ build_docker_node_modules:
       echo "[ERROR] No tag is available. Image was not pushed to registry."
     fi
   allow_failure: true
-  parallel:
-    matrix: !reference [.modules]
 
 build_module:
   image: docker:23.0.5
