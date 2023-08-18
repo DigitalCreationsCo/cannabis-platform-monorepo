@@ -123,10 +123,10 @@ build_module:
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       changes:
-        - "${MODULE}/**/*"
+        - '${MODULE}/**/*'
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       changes:
-        - "${MODULE}/**/*"
+        - '${MODULE}/**/*'
   before_script:
     - apk --no-cache add git
     - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin "${CI_REGISTRY}"
@@ -196,7 +196,7 @@ deploy:
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       changes:
-        - "${MODULE}/**/*"
+        - '${MODULE}/**/*'
   script: |
     kubectl config get-contexts
     kubectl config use-context gras1/cannabis-platform-monorepo:gras-cluster
@@ -221,5 +221,5 @@ deploy:
       - app/dashboard
       - server/main
       - server/location
-      # - server/payments
+      - server/payments
       - server/image
