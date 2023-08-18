@@ -56,7 +56,7 @@ export async function updateOrganization(organization: OrganizationUpdateType) {
 					city: organization?.address?.city,
 					state: organization?.address?.state,
 					country: organization?.address?.country,
-					zipcode: organization?.address?.zipcode,
+					zipcode: Number(organization?.address?.zipcode),
 					countryCode: organization?.address?.countryCode,
 					coordinates: {
 						upsert: {

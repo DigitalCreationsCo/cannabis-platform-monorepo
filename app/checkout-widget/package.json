@@ -4,7 +4,6 @@
 	"version": "0.0.1",
 	"main": "./dist/index.js",
 	"scripts": {
-		"build": "rimraf ./dist && webpack --mode production && yarn postcss",
 		"clean": "rimraf ./.next ./out ./coverage ./tsconfig.tsbuildinfo ./node_modules/.cache",
 		"dev": "webpack-dev-server --mode development --hot",
 		"postcss": "node ./postcss.js",

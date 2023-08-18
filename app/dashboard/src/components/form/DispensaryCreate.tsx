@@ -38,7 +38,6 @@ function DispensaryCreate() {
 		useFormContext();
 	const [loadingButton, setLoadingButton] = useState(false);
 
-	console.log('formValues, ', formValues);
 	const initialValues = {
 		id: formValues.organization?.id || '',
 		name: formValues.organization?.name || '',
@@ -273,7 +272,7 @@ const validationSchema = yup.object().shape({
 	phone: yup
 		.string()
 		.required(TextContent.prompt.PHONE_REQUIRED)
-		.length(10, TextContent.prompt.PHONE_MINIMUM),
+		.length(10, ({ length }) => TextContent.prompt.PHONE_MINIMUM_f(length)),
 	termsAccepted: yup
 		.bool()
 		.test(
@@ -288,10 +287,10 @@ const validationSchema = yup.object().shape({
 		state: yup.string().required(TextContent.prompt.STATE_REQUIRED),
 		zipcode: yup
 			.number()
-			.required(TextContent.prompt.ZIPCODE_MINIMUM)
+			.required(TextContent.prompt.ZIPCODE_REQUIRED)
 			.test(
 				'len',
-				TextContent.prompt.ZIPCODE_MINIMUM,
+				TextContent.prompt.ZIPCODE_MINIMUM_f(5),
 				(val) => val?.toString().length === 5,
 			),
 		country: yup.string().required(TextContent.prompt.COUNTRY_REQUIRED),

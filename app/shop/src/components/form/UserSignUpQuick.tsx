@@ -12,6 +12,7 @@ import {
 	useFormContext,
 } from '@cd/ui-lib';
 import { useFormik } from 'formik';
+import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
@@ -19,9 +20,6 @@ import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 import { profilePictures } from '../../data/profilePicture';
 import { userSignUpTour } from '../../tour/userSignUpTour';
-
-// test the record create in db
-// test the profile picture is appearing
 
 function UserSignUpQuickForm() {
 	const user = useSelector(selectUserState).user;
@@ -54,15 +52,15 @@ function UserSignUpQuickForm() {
 		firstName: yup
 			.string()
 			.required(TextContent.prompt.FIRST_NAME_REQUIRED)
-			.min(6, TextContent.prompt.FIRST_NAME_MINIMUM),
+			.min(3, ({ min }) => TextContent.prompt.FIRST_NAME_MINIMUM_f(min)),
 		lastName: yup
 			.string()
 			.required(TextContent.prompt.LAST_NAME_REQUIRED)
-			.min(6, TextContent.prompt.LAST_NAME_MINIMUM),
+			.min(3, ({ min }) => TextContent.prompt.LAST_NAME_MINIMUM_f(min)),
 		username: yup
 			.string()
 			.required(TextContent.prompt.USERNAME_REQUIRED)
-			.min(6, TextContent.prompt.USERNAME_MINIMUM),
+			.min(5, ({ min }) => TextContent.prompt.USERNAME_MINIMUM_f(min)),
 		email: yup
 			.string()
 			.email(TextContent.prompt.EMAIL_INVALID)
@@ -71,7 +69,7 @@ function UserSignUpQuickForm() {
 		phone: yup
 			.string()
 			.required(TextContent.prompt.PHONE_REQUIRED)
-			.length(10, TextContent.prompt.PHONE_MINIMUM),
+			.length(10, ({ length }) => TextContent.prompt.PHONE_MINIMUM_f(length)),
 		termsAccepted: yup
 			.bool()
 			.test(
@@ -140,9 +138,9 @@ function UserSignUpQuickForm() {
 		return () => document.removeEventListener('keydown', keyDownHandler);
 	}, [handleSubmit]);
 
-	const shuffled = useRef(profilePictures);
+	const shuffledAvatarImages = useRef(profilePictures);
 	useEffect(() => {
-		shuffled.current = shuffle(profilePictures);
+		shuffledAvatarImages.current = shuffle(profilePictures);
 	}, []);
 
 	const [selected, setSelected] = useState(0);
@@ -215,14 +213,14 @@ function UserSignUpQuickForm() {
 				</Paragraph>
 
 				<Grid className="col-span-2 grid-cols-2 space-y-4 sm:grid-cols-3">
-					{shuffled.current.map((pic: string, index: number) => {
+					{shuffledAvatarImages.current.map((img: string, index: number) => {
 						return (
 							<Button
 								onClick={(e) => {
 									e.preventDefault();
 									e.stopPropagation();
 									setSelected(index);
-									setFieldValue('profilePicture', pic);
+									setFieldValue('profilePicture', img);
 								}}
 								id={`avatar-button-${index}`}
 								key={`avatar-button-${index}`}
@@ -236,11 +234,15 @@ function UserSignUpQuickForm() {
 										: ['border-2 border-transparent'],
 								)}
 							>
-								<img
+								<Image
 									className="rounded-full,  h-32 w-32 object-cover"
 									key={`avatar-${index}`}
-									src={pic}
 									alt={`avatar-${index}`}
+									src={img}
+									width={100}
+									height={100}
+									unoptimized
+									loader={({ src }) => src}
 								/>
 							</Button>
 						);
@@ -259,32 +261,32 @@ function UserSignUpQuickForm() {
 					error={!!touched.username && !!errors.username}
 					helperText={touched.username && errors.username}
 				/>
-
-				<TermsAgreement
-					id="user-signup-step-4"
-					className="col-span-2"
-					name="termsAccepted"
-					onChange={(e) => handleChange(e)}
-					checked={values.termsAccepted}
-					helperText={touched.termsAccepted && errors.termsAccepted}
-					error={!!touched.termsAccepted && !!errors.termsAccepted}
-					description={
-						<>
-							{TextContent.legal.AGREE_TO_TERMS}
-							<a
-								href="/termsandconditions/userterms"
-								target="_blank"
-								rel="noreferrer noopener"
-							>
-								<H6 className={'inline-block border-b-2'}>
-									{TextContent.legal.USER_TERMS_OF_SERVICE}
-								</H6>
-								.
-							</a>
-						</>
-					}
-					label={TextContent.legal.I_AGREE_TO_THE_USER_TERMS}
-				/>
+				<div id="user-signup-step-4" className="col-span-2 w-full">
+					<TermsAgreement
+						className="col-span-2 w-full"
+						name="termsAccepted"
+						onChange={(e) => handleChange(e)}
+						checked={values.termsAccepted}
+						helperText={touched.termsAccepted && errors.termsAccepted}
+						error={!!touched.termsAccepted && !!errors.termsAccepted}
+						description={
+							<div id="dispensary-create-step-3 inline-block">
+								<Paragraph>{TextContent.legal.AGREE_TO_TERMS}</Paragraph>
+								<a
+									href="/termsandconditions/userterms"
+									target="_blank"
+									rel="noreferrer noopener"
+								>
+									<H6 className={'border-b-2'}>
+										{TextContent.legal.USER_TERMS_OF_SERVICE}
+									</H6>
+									.
+								</a>
+							</div>
+						}
+						label={TextContent.legal.I_AGREE_TO_THE_USER_TERMS}
+					/>
+				</div>
 				<FlexBox className="col-span-2 flex-row justify-center space-x-4 py-2">
 					<Button
 						loading={loadingButton}

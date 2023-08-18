@@ -20,7 +20,6 @@ function ProvideDispensaryKey() {
 	const { resetFormValues, nextFormStep, setFormValues } = useFormContext();
 
 	const createNewFormContext = () => {
-		console.info('a new form context is created');
 		resetFormValues();
 	};
 	useEffect(() => {
@@ -104,7 +103,6 @@ function ProvideDispensaryKey() {
 					Enter your <b>dispensary code</b> here.
 				</Paragraph>
 				<TextField
-					containerClassName="w-[300px]"
 					className="mx-auto text-center"
 					name="dispensaryKey"
 					maxLength={25}
