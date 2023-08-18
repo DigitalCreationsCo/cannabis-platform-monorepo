@@ -3,8 +3,6 @@ import { type Order } from '@cd/data-access';
 import { format } from 'date-fns';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
-import Icons from '../icons';
-import IconWrapper from './IconWrapper';
 import Price from './Price';
 import Row from './Row';
 import { H6, Paragraph, Small } from './Typography';
@@ -32,8 +30,7 @@ function OrderRow({ order, orderDetailsRoute }: OrderRowProps) {
 	return (
 		<Link href={getDashboardSite(`${orderDetailsRoute}/${order.id}`)}>
 			<Row className="grid grid-cols-12 h-[48px]">
-				<H6 className="col-span-1">{order.id}</H6>
-
+				<H6 className="col-span-4">{order.id}</H6>
 				<Paragraph
 					className={twMerge(
 						'col-span-4',
@@ -43,20 +40,18 @@ function OrderRow({ order, orderDetailsRoute }: OrderRowProps) {
 					{order.orderStatus}
 				</Paragraph>
 
-				<Small className="col-span-3">
+				<Small className="col-span-2">
 					{format(new Date(order.createdAt), 'MMM dd, yyyy, hh:mm')}
 				</Small>
-
 				<Price
-					className="col-span-3 justify-self-end"
+					className="col-span-2 justify-self-end"
 					basePrice={order.total}
 				/>
-
-				<IconWrapper
+				{/* <IconWrapper
 					className="hidden sm:block col-span-1 justify-self-end"
 					iconSize={16}
 					Icon={Icons.Right}
-				/>
+				/> */}
 			</Row>
 		</Link>
 	);

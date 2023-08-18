@@ -25,24 +25,27 @@ const TextContent = Object.freeze({
 		PASSCODE_SENT_f: (input: string) =>
 			`A one time passcode is sent to ${input}`,
 		FIRST_NAME_REQUIRED: 'first name is required',
-		FIRST_NAME_MINIMUM: 'first name must be at least 6 characters',
+		FIRST_NAME_MINIMUM_f: (val: number) =>
+			`first name must be at least ${val} characters`,
 		LAST_NAME_REQUIRED: 'last name is required',
-		LAST_NAME_MINIMUM: 'last name must be at least 6 characters',
+		LAST_NAME_MINIMUM_f: (val: number) =>
+			`last name must be at least ${val} characters`,
 		USERNAME_REQUIRED: 'username is required',
 		USERNAME_INVALID: 'username is invalid',
-		USERNAME_MINIMUM: 'username must be at least 6 characters',
+		USERNAME_MINIMUM_f: (val: number) =>
+			`username must be at least ${val} characters`,
 		EMAIL_REQUIRED: 'email is required',
 		EMAIL_INVALID: 'email is invalid',
 		DIALCODE_REQUIRED: 'dialing code is required',
 		PHONE_REQUIRED: 'phone number is required',
-		PHONE_MINIMUM: 'phone number must be 10 digits',
+		PHONE_MINIMUM_f: (val: number) => `phone number must be ${val} digits`,
 		PROFILE_PICTURE_REQUIRED: 'select a profile picture',
 		STREET1_REQUIRED: 'street line 1 is required',
 		STREET2_REQUIRED: 'street line 2 is required',
 		CITY_REQUIRED: 'city is required',
 		STATE_REQUIRED: 'state is required',
 		ZIPCODE_REQUIRED: 'zipcode is required',
-		ZIPCODE_MINIMUM: 'zipcode must be 5 digits',
+		ZIPCODE_MINIMUM_f: (val: number) => `zipcode must be ${val} digits`,
 		COUNTRY_REQUIRED: 'country is required',
 		COUNTRYCODE_REQUIRED: 'country code is required',
 		DISPENSARY_NAME_REQUIRED: 'Dispensary name is required',
@@ -94,17 +97,21 @@ const TextContent = Object.freeze({
 
 	error: {
 		DISPENSARY_NOT_FOUND: `Dispensary is not found.`,
+
+		USER_EXISTS_ALREADY: `This user exists already. Please choose a different username or email.`,
+
 		PAYMENT_NOT_PROCESSED:
 			'Your payment could not be processed. Please try again later. Thank you!',
 		PAYMENT_SERVICE_NOT_AVAILABLE:
 			'Payments are not available now. Please try again later. Thank you!',
+		STRIPE_ACCOUNT_CREATE_FAILED:
+			'The stripe account account creation failed. Please try again.',
+		STRIPE_ACCOUNT_NOT_FOUND: `The stripe account is not found.`,
+
 		CONNECTION_ISSUE:
 			"We're having trouble connecting you. Please try again later. Thank you!",
 		REQUEST_FAILED: 'Our bad, your request failed',
 		SERVER_NOT_AVAILABLE: `This service is not available. ${'\n'}Please try again later.`,
-		STRIPE_ACCOUNT_CREATE_FAILED:
-			'The stripe account account creation failed. Please try again.',
-		STRIPE_ACCOUNT_NOT_FOUND: `The stripe account is not found.`,
 	},
 
 	info: {

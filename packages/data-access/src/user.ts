@@ -25,11 +25,8 @@ import { type OrderWithDetails } from './order';
  */
 export async function createUser(userData: UserCreateType) {
 	try {
-		const newId = createId();
-
 		const user = await prisma.user.create({
 			data: {
-				id: userData.id ?? newId,
 				email: userData.email,
 				emailVerified: userData.emailVerified ?? false,
 				username: userData.username,
@@ -62,14 +59,8 @@ export async function createUser(userData: UserCreateType) {
 					})),
 				},
 				profilePicture: {
-					connectOrCreate: {
-						where: {
-							userId: userData.id ?? newId,
-						},
-						create: {
-							id: userData.id ?? newId,
-							location: userData.profilePicture?.location,
-						},
+					create: {
+						location: userData.profilePicture?.location,
 					},
 				},
 			},
@@ -82,11 +73,9 @@ export async function createUser(userData: UserCreateType) {
 				profilePicture: true,
 			},
 		});
-
-		console.info('user created: ', user.email);
+		console.debug('user created: ', user.email);
 		return user;
 	} catch (error: any) {
-		console.info('upsert user error: ', error);
 		if (
 			error instanceof Prisma.PrismaClientKnownRequestError &&
 			error.code === 'P2002'
@@ -95,20 +84,17 @@ export async function createUser(userData: UserCreateType) {
 				'This user exists already. Please choose a different username or email.',
 			);
 		}
-		throw new Error(error);
+		throw new Error(error.message);
 	}
 }
 
 export async function upsertUser(userData: UserCreateType) {
 	try {
-		const newId = createId();
-
-		const user = await prisma.user.upsert({
+		return await prisma.user.upsert({
 			where: {
 				email: userData.email,
 			},
 			create: {
-				id: userData.id ?? newId,
 				email: userData.email,
 				emailVerified: userData.emailVerified ?? false,
 				username: userData.username,
@@ -141,14 +127,8 @@ export async function upsertUser(userData: UserCreateType) {
 					})),
 				},
 				profilePicture: {
-					connectOrCreate: {
-						where: {
-							userId: userData.id ?? newId,
-						},
-						create: {
-							id: userData.id ?? newId,
-							location: userData.profilePicture?.location,
-						},
+					create: {
+						location: userData.profilePicture?.location,
 					},
 				},
 			},
@@ -187,10 +167,9 @@ export async function upsertUser(userData: UserCreateType) {
 				profilePicture: {
 					connectOrCreate: {
 						where: {
-							userId: userData.id ?? newId,
+							userId: userData.id,
 						},
 						create: {
-							id: userData.id ?? newId,
 							location: userData.profilePicture?.location,
 						},
 					},
@@ -207,11 +186,7 @@ export async function upsertUser(userData: UserCreateType) {
 				orders: true,
 			},
 		});
-
-		console.info('user upserted: ', user.email);
-		return user;
 	} catch (error: any) {
-		console.info('upsert user error: ', error);
 		if (
 			error instanceof Prisma.PrismaClientKnownRequestError &&
 			error.code === 'P2002'
