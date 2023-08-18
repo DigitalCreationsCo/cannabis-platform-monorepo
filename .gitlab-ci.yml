@@ -211,9 +211,9 @@ deploy:
     sleep 10
     kubectl get pods
   needs:
-    - build_module
-  parallel:
-    matrix: !reference [.modules]
+    - job: build_module
+      parallel:
+        matrix: !reference [.modules]
 
 .modules:
   - MODULE:
