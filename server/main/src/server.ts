@@ -56,7 +56,6 @@ app.use('/api/v1/driver', driver);
 app.use('/api/v1/shop', shop);
 app.use('/api/v1/organization', organization);
 app.use('/api/v1/blog', blog);
-
 app.use('/api/v1/error', errorRoute);
 app.use(STerror());
 app.use((err, req, res, next) => {

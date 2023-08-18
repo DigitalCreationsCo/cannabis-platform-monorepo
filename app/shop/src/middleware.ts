@@ -14,7 +14,7 @@ export const config = {
 };
 
 const dashboardBaseUrl =
-	process.env.NEXT_PUBLIC_DASHBOARD_APP_URL || 'http://localhost:3001';
+	process.env.NEXT_PUBLIC_DASHBOARD_APP_URL || 'https://app.grascannabis.org';
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
 export default async function middleware(req: NextRequest) {

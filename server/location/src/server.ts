@@ -1,7 +1,7 @@
+import http from 'http';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
-import http from 'http';
 import Supertokens from 'supertokens-node';
 import { errorHandler, middleware } from 'supertokens-node/framework/express';
 import { serveLocal } from './api/routes';
