@@ -45,7 +45,6 @@ export const backendConfig = (): AuthConfig => {
 									);
 								}
 							},
-
 							consumeCode: async (input: PasswordlessSignInRequestPayload) => {
 								try {
 									const response = await originalImplementation.consumeCode(
@@ -99,17 +98,17 @@ export const backendConfig = (): AuthConfig => {
 											if (response.user.email) {
 												user = await UserDA.getUserByEmail(response.user.email);
 												if (
-													user.memberships.length > 0 &&
-													(user.memberships?.[0]?.role.toLocaleUpperCase() ===
+													user?.memberships?.length > 0 &&
+													(user?.memberships?.[0]?.role.toLocaleUpperCase() ===
 														'ADMIN' ||
-														user.memberships?.[0]?.role.toLocaleUpperCase() ===
+														user?.memberships?.[0]?.role.toLocaleUpperCase() ===
 															'OWNER' ||
-														user.memberships?.[0]?.role.toLocaleUpperCase() ===
+														user?.memberships?.[0]?.role.toLocaleUpperCase() ===
 															'MEMBER')
 												) {
 													const addRole = await UserRoles.addRoleToUser(
 														response.user.id,
-														user.memberships?.[0]?.role.toLocaleUpperCase(),
+														user?.memberships?.[0]?.role.toLocaleUpperCase(),
 													);
 													if (addRole.status === 'UNKNOWN_ROLE_ERROR') {
 														// No such role exists
@@ -133,17 +132,17 @@ export const backendConfig = (): AuthConfig => {
 													response.user.phoneNumber,
 												);
 												if (
-													user.memberships.length > 0 &&
-													(user.memberships?.[0]?.role.toLocaleUpperCase() ===
+													user?.memberships?.length > 0 &&
+													(user?.memberships?.[0]?.role.toLocaleUpperCase() ===
 														'ADMIN' ||
-														user.memberships?.[0]?.role.toLocaleUpperCase() ===
+														user?.memberships?.[0]?.role.toLocaleUpperCase() ===
 															'OWNER' ||
-														user.memberships?.[0]?.role.toLocaleUpperCase() ===
+														user?.memberships?.[0]?.role.toLocaleUpperCase() ===
 															'MEMBER')
 												) {
 													const addRole = await UserRoles.addRoleToUser(
 														response.user.id,
-														user.memberships?.[0]?.role.toLocaleUpperCase(),
+														user?.memberships?.[0]?.role.toLocaleUpperCase(),
 													);
 													if (addRole.status === 'UNKNOWN_ROLE_ERROR') {
 														// No such role exists
