@@ -7,6 +7,8 @@ import {
 	type LayoutContextProps,
 } from '@cd/ui-lib';
 import router from 'next/router';
+import { useState } from 'react';
+import Confetti from 'react-confetti';
 import { useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import {
@@ -32,14 +34,22 @@ function ContinueSignUp() {
 		SubmitAddress,
 		UserSignUpReview,
 	];
+	const [runConfetti, setRunConfetti] = useState(false);
 
 	return (
 		<Page className={twMerge(styles.gradient, 'pb-0 md:pb-24')}>
+			<Confetti
+				className="h-full w-full"
+				numberOfPieces={540}
+				run={runConfetti}
+				recycle={false}
+			/>
 			<Card className="bg-inverse-soft m-auto h-full space-y-2">
 				<H2 id="verify-id-step-1">Welcome to Gras</H2>
 				<FormStepProvider
 					FormStepComponents={FormStepComponents}
 					formId="signup-form"
+					isComplete={() => setRunConfetti(true)}
 				/>
 			</Card>
 		</Page>

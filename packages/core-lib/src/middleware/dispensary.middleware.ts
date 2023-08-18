@@ -22,12 +22,11 @@ const dispensaryMiddleware =
 					);
 				} else throw new Error(TextContent.error.DISPENSARY_NOT_FOUND);
 			}
-
 			if (
 				action.type === 'dispensary/getDispensaryById/fulfilled' &&
 				typeof window !== 'undefined'
 			) {
-				window.location.reload();
+				window.location.href = '/dashboard';
 			}
 		} catch (error) {
 			console.info('Dispensary Middleware: Caught an exception: ');

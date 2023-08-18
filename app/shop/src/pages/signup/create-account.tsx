@@ -1,4 +1,4 @@
-import { type LayoutContextProps, Page } from '@cd/ui-lib';
+import { Page, type LayoutContextProps } from '@cd/ui-lib';
 import Head from 'next/head';
 import { twMerge } from 'tailwind-merge';
 import ContinueSignUp from './continue';
@@ -7,7 +7,6 @@ function CreateUserAccount() {
 	return (
 		<Page className={twMerge(styles.gradient)}>
 			<Head>
-				<title>Grascannabis.org Create your account</title>
 				<meta name="Gras App" content="Built by Gras Cannabis Co." />
 			</Head>
 			<ContinueSignUp />

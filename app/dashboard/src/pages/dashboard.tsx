@@ -136,8 +136,8 @@ Dashboard.getLayoutContext = (): LayoutContextProps => ({
 function mapStateToProps(state: RootState) {
 	const { user, dispensary } = state;
 	return {
-		user,
-		organization: dispensary,
+		user: user.user,
+		organization: dispensary.dispensary,
 		products: dispensary.products,
 		orders: dispensary.orders,
 	};

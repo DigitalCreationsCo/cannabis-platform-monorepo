@@ -30,16 +30,12 @@ function Orders({ orders }: OrdersDashboardProps) {
 			<PageHeader title="Orders" Icon={Icons.DeliveryTruck} />
 
 			<Grid className="gap-2">
-				<Row className="h-[44px]">
-					<H6 className="w-[100px]">order</H6>
-					<H6 className="grow">status</H6>
-					<H6 className="justify-left flex w-[99px] sm:w-[168px]">
-						date of sale
-					</H6>
-					<H6 className="justify-left flex w-[80px]">total</H6>
-					<div className="hidden w-[15px] sm:block"></div>
+				<Row className="grid h-[44px] grid-cols-12">
+					<H6 className="col-span-4">order</H6>
+					<H6 className="col-span-4">status</H6>
+					<H6 className="col-span-2">date of sale</H6>
+					<H6 className="col-span-2 justify-self-end">total</H6>
 				</Row>
-
 				{currentOrders.length > 0 ? (
 					currentOrders.map((order) => (
 						<OrderRow

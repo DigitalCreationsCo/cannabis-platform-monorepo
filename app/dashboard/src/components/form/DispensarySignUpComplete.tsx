@@ -10,6 +10,7 @@ import {
 	useFormContext,
 } from '@cd/ui-lib';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useEffect } from 'react';
 
 function DispensarySignUpComplete() {
@@ -46,8 +47,8 @@ function DispensarySignUpComplete() {
 					priority
 				/>
 			</FlexBox>
-			<Center>
-				<H4 className="cursor-default py-4">What's next?</H4>
+			<Center className="space-y-4 py-4">
+				<H4 className="cursor-default">What's next?</H4>
 				<Paragraph className="m-auto text-center">
 					{(name && <b>{name}</b>) || 'Your business'} is ready to deliver to
 					your customers.
@@ -60,6 +61,13 @@ function DispensarySignUpComplete() {
 						</>
 					))}
 					and <b>get orders delivered by Gras.</b>
+				</Paragraph>
+				<Paragraph>
+					If you have questions, our Support Team is one click away.
+					<br />
+					<Link href="/support" className="font-semibold underline">
+						Get Support
+					</Link>
 				</Paragraph>
 			</Center>
 			<FlexBox className="items-center">

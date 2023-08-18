@@ -1,5 +1,4 @@
 import {
-	axios,
 	TextContent,
 	urlBuilder,
 	type DispensaryConnectStripeAccountPayload,
@@ -16,6 +15,7 @@ import {
 	Tiny,
 	useFormContext,
 } from '@cd/ui-lib';
+import axios from 'axios';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
@@ -110,10 +110,11 @@ function ProvideStripeAccountId() {
 			}
 			if (response.status !== 201)
 				throw new Error('Error creating stripe account.');
-			const { stripeAccountId } = response.data;
+			const { stripeAccountId } = response.data.payload;
 			setFormValues({ organization: { stripeAccountId } });
 			setLoadingButton2(false);
 			toast.success(response.data.message);
+			nextFormStep();
 		} catch (error: any) {
 			setLoadingButton2(false);
 			toast.error(error.message);
