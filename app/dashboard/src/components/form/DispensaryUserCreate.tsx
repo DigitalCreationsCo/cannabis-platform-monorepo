@@ -292,15 +292,15 @@ const validationSchema = yup.object().shape({
 	firstName: yup
 		.string()
 		.required(TextContent.prompt.FIRST_NAME_REQUIRED)
-		.min(6, TextContent.prompt.FIRST_NAME_MINIMUM),
+		.min(3, ({ min }) => TextContent.prompt.FIRST_NAME_MINIMUM_f(min)),
 	lastName: yup
 		.string()
 		.required(TextContent.prompt.LAST_NAME_REQUIRED)
-		.min(6, TextContent.prompt.LAST_NAME_MINIMUM),
+		.min(3, ({ min }) => TextContent.prompt.LAST_NAME_MINIMUM_f(min)),
 	username: yup
 		.string()
 		.required(TextContent.prompt.USERNAME_REQUIRED)
-		.min(6, TextContent.prompt.USERNAME_MINIMUM),
+		.min(5, ({ min }) => TextContent.prompt.USERNAME_MINIMUM_f(min)),
 	email: yup
 		.string()
 		.email(TextContent.prompt.EMAIL_INVALID)
@@ -309,7 +309,7 @@ const validationSchema = yup.object().shape({
 	phone: yup
 		.string()
 		.required(TextContent.prompt.PHONE_REQUIRED)
-		.length(10, TextContent.prompt.PHONE_MINIMUM),
+		.length(10, ({ length }) => TextContent.prompt.PHONE_MINIMUM_f(length)),
 	termsAccepted: yup
 		.bool()
 		.test(
@@ -324,10 +324,10 @@ const validationSchema = yup.object().shape({
 		state: yup.string().required(TextContent.prompt.STATE_REQUIRED),
 		zipcode: yup
 			.number()
-			.required(TextContent.prompt.ZIPCODE_MINIMUM)
+			.required(TextContent.prompt.ZIPCODE_REQUIRED)
 			.test(
 				'len',
-				TextContent.prompt.ZIPCODE_MINIMUM,
+				TextContent.prompt.ZIPCODE_MINIMUM_f(5),
 				(val) => val?.toString().length === 5,
 			),
 		country: yup.string().required(TextContent.prompt.COUNTRY_REQUIRED),

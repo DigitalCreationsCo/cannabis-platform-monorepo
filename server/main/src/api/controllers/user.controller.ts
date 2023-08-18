@@ -27,24 +27,30 @@ export default class UserController {
 	static async createUser(req, res) {
 		try {
 			const rawUser = req.body;
-
 			// address data comes as an object, but we need it as an array per data schema
 			const user: UserCreateType = { ...rawUser, address: [rawUser.address] };
-
 			const coordinates = await getGeoCoordinatesFromAddress(user.address[0]);
-
 			if (coordinates) user.address[0].coordinates = coordinates;
-
-			const data = await UserDA.upsertUser(user);
-
-			console.info('user created: ', data);
-			if (!data) return res.status(404).json('User could not be created.');
-
-			return res.status(201).json(data);
+			const data = await UserDA.createUser(user);
+			if (!data)
+				return res.status(404).json({
+					success: 'false',
+					error: 'User could not be created.',
+				});
+			return res.status(201).json({
+				success: 'true',
+				payload: data,
+			});
 		} catch (error: any) {
-			if (error.message.includes('This user exists already')) {
-				return res.status(400).json({ error });
-			} else res.status(500).json({ error });
+			if (error.message.includes('This user exists already'))
+				return res.status(400).json({
+					success: 'false',
+					error: error.message,
+				});
+			res.status(500).json({
+				success: 'false',
+				error: error.message,
+			});
 		}
 	}
 
@@ -55,13 +61,24 @@ export default class UserController {
 			user = addressObjectIntoArray(user);
 			const data = await UserDA.createDispensaryStaff(user, role, dispensaryId);
 			if (!data)
-				return res.status(404).json('Dispensary user could not be created.');
-			return res.status(201).json(data);
+				return res.status(404).json({
+					success: 'false',
+					error: 'Dispensary user could not be created.',
+				});
+			return res.status(201).json({
+				success: 'true',
+				payload: data,
+			});
 		} catch (error: any) {
-			if (error.message.includes('This user exists already')) {
-				console.info('yes, EXIST ALREADY');
-				return res.status(400).json(error.message);
-			} else res.status(500).json({ error });
+			if (error.message.includes('This user exists already'))
+				return res.status(400).json({
+					success: 'false',
+					error: error.message,
+				});
+			res.status(500).json({
+				success: 'false',
+				error: error.message,
+			});
 		}
 	}
 
@@ -69,10 +86,20 @@ export default class UserController {
 		try {
 			const { user, role, dispensaryId } = req.body;
 			const data = await UserDA.updateDispensaryStaff(user, role, dispensaryId);
-			if (!data) return res.status(404).json('User could not be created.');
-			return res.status(200).json(data);
+			if (!data)
+				return res.status(404).json({
+					success: 'false',
+					error: 'User could not be created.',
+				});
+			return res.status(200).json({
+				success: 'true',
+				payload: data,
+			});
 		} catch (error: any) {
-			res.status(500).json({ error });
+			res.status(500).json({
+				success: 'false',
+				error: error.message,
+			});
 		}
 	}
 
@@ -81,10 +108,19 @@ export default class UserController {
 			const user = req.body;
 			const data = await UserDA.updateUser(user);
 			if (!data)
-				return res.status(404).json('User record could not be updated.');
-			return res.status(200).json(data);
+				return res.status(404).json({
+					success: 'false',
+					error: 'User record was not updated.',
+				});
+			return res.status(200).json({
+				success: 'true',
+				payload: data,
+			});
 		} catch (error: any) {
-			res.status(500).json({ error });
+			res.status(500).json({
+				success: 'false',
+				error: error.message,
+			});
 		}
 	}
 
@@ -92,10 +128,20 @@ export default class UserController {
 		try {
 			const id = req.params.id || '';
 			const data = await UserDA.getUserById(id);
-			if (!data) return res.status(404).json('User not found');
-			return res.status(200).json(data);
+			if (!data)
+				return res.status(404).json({
+					success: 'false',
+					error: 'User not found',
+				});
+			return res.status(200).json({
+				success: 'true',
+				payload: data,
+			});
 		} catch (error: any) {
-			res.status(500).json({ error });
+			res.status(500).json({
+				success: 'false',
+				error: error.message,
+			});
 		}
 	}
 
@@ -103,10 +149,20 @@ export default class UserController {
 		try {
 			const { addressId } = req.params;
 			const data = await UserDA.getAddressById(addressId);
-			if (!data) return res.status(404).json('Address not found');
-			return res.status(200).json(data);
+			if (!data)
+				return res.status(404).json({
+					success: 'false',
+					error: 'Address not found',
+				});
+			return res.status(200).json({
+				success: 'true',
+				payload: data,
+			});
 		} catch (error: any) {
-			res.status(500).json({ error });
+			res.status(500).json({
+				success: 'false',
+				error: error.message,
+			});
 		}
 	}
 
@@ -114,10 +170,20 @@ export default class UserController {
 		try {
 			const address = req.body;
 			const data = await UserDA.addAddressToUser(address);
-			if (!data) return res.status(404).json('Address was not created');
-			return res.status(200).json(data);
+			if (!data)
+				return res.status(404).json({
+					success: 'false',
+					error: 'Address was not created',
+				});
+			return res.status(200).json({
+				success: 'true',
+				payload: data,
+			});
 		} catch (error: any) {
-			res.status(500).json({ error });
+			res.status(500).json({
+				success: 'false',
+				error: error.message,
+			});
 		}
 	}
 
@@ -128,10 +194,20 @@ export default class UserController {
 				addressId,
 				userId: id,
 			});
-			if (!data) return res.status(404).json('Address not found');
-			return res.status(200).json(data);
+			if (!data)
+				return res.status(404).json({
+					success: 'false',
+					error: 'Address not found',
+				});
+			return res.status(200).json({
+				success: 'true',
+				payload: data,
+			});
 		} catch (error: any) {
-			res.status(500).json({ error });
+			res.status(500).json({
+				success: 'false',
+				error: error.message,
+			});
 		}
 	}
 }

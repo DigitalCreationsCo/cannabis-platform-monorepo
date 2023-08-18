@@ -14,7 +14,8 @@ import FormData from 'form-data';
 import Image from 'next/image';
 import router from 'next/router';
 import { useEffect, useRef, useState } from 'react';
-import { ReCAPTCHA } from 'react-google-recaptcha';
+// eslint-disable-next-line import/no-named-as-default
+import ReCAPTCHA from 'react-google-recaptcha';
 import { toast } from 'react-hot-toast';
 import { verifyPhotoIdTour } from '../tour';
 
@@ -49,11 +50,30 @@ const VerifyPhotoId = () => {
 
 	const [frontImage, setFrontImage] = useState<Image | null>(null);
 	const [backImage, setBackImage] = useState<Image | null>(null);
-
 	const [loadingButton, setLoadingButton] = useState(false);
 	const uploaded = frontImage && backImage;
-
 	const [, setCaptchaToken] = useState<string | null>(null);
+	const captchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_V2_SITE_KEY || '';
+	const captchaRef = useRef<any>(null);
+	useEffect(() => {
+		console.info('captchaSiteKey: ', captchaSiteKey);
+		console.info('captchaRef: ', captchaRef);
+	}, []);
+	async function handleCaptcha(e: any) {
+		try {
+			e.preventDefault();
+			const inputVal = await e.target[0].value;
+			const token = captchaRef.current.getValue();
+			captchaRef.current.reset();
+			const response = await axios.post('/api/recaptcha', {
+				inputVal,
+				token,
+			});
+			if (response.status === 200) await onSubmitUpload();
+		} catch (error) {
+			console.info(error);
+		}
+	}
 
 	const onSubmitUpload = async () => {
 		try {
@@ -64,7 +84,6 @@ const VerifyPhotoId = () => {
 					backImage,
 				});
 				toast(TextContent.account.VERIFY_ID_PROCESSING);
-				toast.success(TextContent.account.VERIFY_ID_COMPLETE);
 				if (response.success === 'true') {
 					if (
 						response.result.idVerified === true &&
@@ -72,6 +91,7 @@ const VerifyPhotoId = () => {
 					)
 						router.push('/sorry-we-cant-serve-you');
 					else {
+						toast.success(TextContent.account.VERIFY_ID_COMPLETE);
 						setFormValues({
 							newUser: {
 								scannedDOB: response.result.scannedDOB,
@@ -127,25 +147,6 @@ const VerifyPhotoId = () => {
 			throw new Error(error.message);
 		}
 	};
-
-	const captchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_V2_SITE_KEY || '';
-	const captchaRef = useRef<any>(null);
-
-	async function handleCaptcha(e: any) {
-		try {
-			e.preventDefault();
-			const inputVal = await e.target[0].value;
-			const token = captchaRef.current.getValue();
-			captchaRef.current.reset();
-			const response = await axios.post('/api/recaptcha', {
-				inputVal,
-				token,
-			});
-			if (response.status === 200) await onSubmitUpload();
-		} catch (error) {
-			console.info(error);
-		}
-	}
 
 	return (
 		<form

@@ -16,7 +16,7 @@ const LayoutContainer = (props: LayoutContextProps & PropsWithChildren) => {
 	const signOut = async () => {
 		await Session.signOut();
 		dispatch(userActions.signOutUserAsync());
-		window.location.href = '/';
+		// window.location.href = '/';
 	};
 
 	return (

@@ -43,21 +43,21 @@ const nextConfig = (phase) => {
 			})(),
 			NEXT_PUBLIC_LOW_STOCK_THRESHOLD: 7,
 			NEXT_PUBLIC_AVATAR_1:
-				'https://storage.cloud.google.com/image-user/avatar1.png?authuser=0',
+				'https://storage.cloud.google.com/image-user/avatar1.png?authuser=1',
 			NEXT_PUBLIC_AVATAR_2:
-				'https://storage.cloud.google.com/image-user/avatar2.png?authuser=0',
+				'https://storage.cloud.google.com/image-user/avatar2.png?authuser=1',
 			NEXT_PUBLIC_AVATAR_3:
-				'https://storage.cloud.google.com/image-user/avatar3.png?authuser=0',
+				'https://storage.cloud.google.com/image-user/avatar3.png?authuser=1',
 			NEXT_PUBLIC_AVATAR_4:
-				'https://storage.cloud.google.com/image-user/avatar4.png?authuser=0',
+				'https://storage.cloud.google.com/image-user/avatar4.png?authuser=1',
 			NEXT_PUBLIC_AVATAR_5:
-				'https://storage.cloud.google.com/image-user/avatar5.png?authuser=0',
+				'https://storage.cloud.google.com/image-user/avatar5.png?authuser=1',
 			NEXT_PUBLIC_AVATAR_6:
-				'https://storage.cloud.google.com/image-user/avatar6.png?authuser=0',
+				'https://storage.cloud.google.com/image-user/avatar6.png?authuser=1',
 			NEXT_PUBLIC_AVATAR_7:
-				'https://storage.cloud.google.com/image-user/avatar7.png?authuser=0',
+				'https://storage.cloud.google.com/image-user/avatar7.png?authuser=1',
 			NEXT_PUBLIC_AVATAR_8:
-				'https://storage.cloud.google.com/image-user/avatar8.png?authuser=0',
+				'https://storage.cloud.google.com/image-user/avatar8.png?authuser=1',
 		},
 		reactStrictMode: true,
 		swcMinify: true,

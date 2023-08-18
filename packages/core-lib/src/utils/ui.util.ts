@@ -28,10 +28,10 @@ export const renderAddress = ({
 	}${(showCountry && ' ' + address.country) || ''}`;
 };
 
-const sensitiveFields = ['password', 're_password', 'stripeAccountId'];
-
 const redactSensitiveFields = (key: string, value: string | number) => {
+	const sensitiveFields = ['password', 're_password', 'stripeAccountId'];
 	if (sensitiveFields.includes(key)) {
+		console.info('redact: ', key, value);
 		const length = value.toString().length,
 			last4characters = value.toString().slice(-4),
 			redacted = last4characters.padStart(length, '*');

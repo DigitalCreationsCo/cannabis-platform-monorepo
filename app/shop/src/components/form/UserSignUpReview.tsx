@@ -1,4 +1,5 @@
 import {
+	axios,
 	getShopSite,
 	renderNestedDataObject,
 	selectUserState,
@@ -15,7 +16,6 @@ import {
 	SignInButton,
 	useFormContext,
 } from '@cd/ui-lib';
-import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
@@ -27,55 +27,48 @@ function UserSignUpReview() {
 
 	const [account, setAccount] = useState(null);
 
-	const { formValues, setFormValues, resetFormValues } = useFormContext();
+	const { formValues, isComplete, setFormValues, resetFormValues } =
+		useFormContext();
 
 	const loading = useRef(false);
-	useEffect(() => {
-		async function createNewUser() {
-			try {
-				setFormValues({
-					newUser: {
-						isSignUpComplete: true,
-						emailVerified: true,
-					},
-				});
-				console.info('form values: ', formValues);
-				console.info('form values stringify: ', JSON.stringify(formValues));
-				const response = await axios.post(
-					urlBuilder.shop + '/api/user',
-					formValues?.newUser,
-					{
-						validateStatus: (status) =>
-							(status >= 200 && status < 300) || status == 404,
-					},
-				);
-				console.info('response data: ', response.data);
-				if (response.status !== 201) throw new Error(response.data);
-				const createdAccount = response.data;
-				setAccount(createdAccount);
-				return createdAccount;
-			} catch (error: any) {
-				console.info('User Create Error: ', error);
-				throw new Error(error.message);
-				toast.error(error.message);
-			}
-		}
 
+	async function createUser() {
+		try {
+			setFormValues({
+				newUser: {
+					isSignUpComplete: true,
+					emailVerified: true,
+				},
+			});
+			const response = await axios.post(
+				urlBuilder.shop + '/api/user',
+				formValues.newUser,
+			);
+			if (response.data.success === 'false') throw new Error(response.data);
+			const createdAccount = response.data.payload;
+			setAccount(createdAccount);
+			return createdAccount;
+		} catch (error: any) {
+			throw new Error(error.message);
+			toast.error(error.message);
+		}
+	}
+
+	useEffect(() => {
 		async function createNewUserAndUpdateUserState() {
 			try {
 				loading.current = true;
-				await createNewUser();
-
+				await createUser();
+				isComplete && isComplete();
 				resetFormValues();
 				toast.success(TextContent.account.ACCOUNT_IS_CREATED);
 			} catch (error: any) {
-				console.info('User Create Error: ', error);
 				toast.error(error.message);
 			}
 		}
 
 		if (loading.current === false) createNewUserAndUpdateUserState();
-	}, [resetFormValues, loading, setFormValues, formValues]);
+	}, []);
 
 	useEffect(() => {
 		const handlePopstate = () => {
