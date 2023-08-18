@@ -107,11 +107,6 @@ build_docker_node_modules:
       echo "[ERROR] No tag is available. Image was not pushed to registry."
     fi
   allow_failure: true
-
-.run_build:
-  variables:
-    MODULE: $MODULE
-  extends: build_module
   parallel:
     matrix: !reference [.modules]
 
@@ -130,13 +125,9 @@ build_module:
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       changes:
-        - "node_modules"
-        - "packages/**/*"
         - "${MODULE}/**/*"
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       changes:
-        - "node_modules"
-        - "packages/**/*"
         - "${MODULE}/**/*"
   before_script:
     - apk --no-cache add git
@@ -191,11 +182,6 @@ build_module:
   needs:
     - job: build_docker_node_modules
       optional: true
-
-.run_deploy:
-  variables:
-    MODULE: $MODULE
-  extends: deploy
   parallel:
     matrix: !reference [.modules]
 
@@ -212,8 +198,6 @@ deploy:
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       changes:
-        - "node_modules"
-        - "packages/**/*"
         - "${MODULE}/**/*"
   script: |
     kubectl config get-contexts
