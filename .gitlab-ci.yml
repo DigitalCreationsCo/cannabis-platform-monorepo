@@ -212,6 +212,8 @@ deploy:
     kubectl get pods
   needs:
     - build_module
+  parallel:
+    matrix: !reference [.modules]
 
 .modules:
   - MODULE:
