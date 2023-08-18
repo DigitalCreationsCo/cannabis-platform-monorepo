@@ -31,15 +31,27 @@ spec:
           upstream:
             name: default-gras-server-location-8080
             namespace: gloo-system
-    # - matchers:
-    #     - prefix: /image
-    #   options:
-    #     regexRewrite:
-    #       pattern:
-    #         regex: ^/image(/.*)$
-    #       substitution: \1
-    #   routeAction:
-    #     single:
-    #       upstream:
-    #         name: default-gras-server-image-8080
-    #         namespace: gloo-system
+    - matchers:
+        - prefix: /image
+      options:
+        regexRewrite:
+          pattern:
+            regex: ^/image(/.*)$
+          substitution: \1
+      routeAction:
+        single:
+          upstream:
+            name: default-gras-server-image-8080
+            namespace: gloo-system
+    - matchers:
+        - prefix: /payments
+      options:
+        regexRewrite:
+          pattern:
+            regex: ^/payments(/.*)$
+          substitution: \1
+      routeAction:
+        single:
+          upstream:
+            name: default-gras-server-payments-8080
+            namespace: gloo-system
