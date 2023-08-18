@@ -109,6 +109,8 @@ build_docker_node_modules:
   allow_failure: true
 
 .run_build:
+  variables:
+    MODULE: $MODULE
   extends: build_module
   parallel:
     matrix: !reference [.modules]
@@ -191,6 +193,8 @@ build_module:
       optional: true
 
 .run_deploy:
+  variables:
+    MODULE: $MODULE
   extends: deploy
   parallel:
     matrix: !reference [.modules]
