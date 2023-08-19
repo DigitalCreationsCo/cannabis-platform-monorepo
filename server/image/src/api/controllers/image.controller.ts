@@ -48,13 +48,13 @@ export default class ImageController {
 
 				return res.status(200).json({
 					success: 'true',
-					result: {
+					payload: {
 						isLegalAge: _verified.isLegalAge,
 						scannedDOB: _verified.scannedDOB,
 						idVerified: !!_verified,
+						images: _uploaded,
+						isUploaded: true,
 					},
-					images: _uploaded,
-					isUploaded: true,
 				});
 			} else
 				throw new Error("The server didn't receive images. Please try again.");

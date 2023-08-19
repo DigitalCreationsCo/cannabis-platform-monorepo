@@ -5,19 +5,23 @@ import { type NextApiRequest, type NextApiResponse } from 'next';
 import nc from 'next-connect';
 
 const handler = nc();
-// create new address
+// add address to user
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 	try {
-		const formData: AddressCreateType = req.body;
-		const { data } = await axios.post(urlBuilder.main.address(), formData, {
+		const address: AddressCreateType = req.body;
+		console.info('address: ', address);
+		const response = await axios.post(urlBuilder.main.address(), address, {
 			headers: {
 				'Content-Type': 'application/json',
 			},
 		});
-		return res.status(res.statusCode).json(data);
+		return res.status(response.status).json(response.data);
 	} catch (error: any) {
 		console.error(error.message);
-		return res.json(error);
+		return res.json({
+			success: 'false',
+			error: error.message,
+		});
 	}
 });
 

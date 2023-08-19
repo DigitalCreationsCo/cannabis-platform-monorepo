@@ -24,7 +24,7 @@ function ContinueSignUp() {
 
 	// const isAddressAdded = useSelector(selectIsAddressAdded);
 
-	if (!isLegalAge === false || (!isLegalAge && idVerified))
+	if (idVerified && !isLegalAge)
 		router.push(getShopSite('/sorry-we-cant-serve-you'));
 
 	// optional formstep components

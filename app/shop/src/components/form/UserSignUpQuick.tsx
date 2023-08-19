@@ -1,4 +1,10 @@
-import { selectUserState, shuffle, TextContent } from '@cd/core-lib';
+import {
+	axios,
+	selectUserState,
+	shuffle,
+	TextContent,
+	urlBuilder,
+} from '@cd/core-lib';
 import {
 	Button,
 	FlexBox,
@@ -35,6 +41,9 @@ function UserSignUpQuickForm() {
 	const { nextFormStep, prevFormStep, setFormValues, formValues } =
 		useFormContext();
 
+	useEffect(() => {
+		console.info('formvalues: ', formValues);
+	});
 	const [loadingButton, setLoadingButton] = useState(false);
 
 	const initialValues = {
@@ -42,10 +51,11 @@ function UserSignUpQuickForm() {
 		lastName: formValues?.newUser?.lastName || '',
 		username: formValues?.newUser?.username || '',
 		email: user?.email || formValues?.newUser?.email || '',
+		emailVerified: true,
 		phone: formValues?.newUser?.phone || '',
 		dialCode: '1',
 		termsAccepted: false,
-		profilePicture: '',
+		profilePicture: { location: '' },
 	};
 
 	const validationSchema = yup.object().shape({
@@ -77,28 +87,36 @@ function UserSignUpQuickForm() {
 				TextContent.legal.READ_USER_TERMS_OF_SERVICE,
 				(value) => value === true,
 			),
-		profilePicture: yup
-			.string()
-			.required(TextContent.prompt.PROFILE_PICTURE_REQUIRED)
-			.typeError(TextContent.prompt.PROFILE_PICTURE_REQUIRED),
+		profilePicture: yup.object().shape({
+			location: yup
+				.string()
+				.required(TextContent.prompt.PROFILE_PICTURE_REQUIRED)
+				.typeError(TextContent.prompt.PROFILE_PICTURE_REQUIRED),
+		}),
 	});
 
 	const onSubmit = async (values: typeof initialValues) => {
 		try {
 			setLoadingButton(true);
+			const response = await axios.post(urlBuilder.shop + '/api/user', {
+				...values,
+				...formValues.newUser,
+			});
+			console.log('signup response: ', response);
+			if (response.data.success === 'false')
+				throw new Error(response.data.error);
+
+			console.info('user sign up response.data.payload', response.data.payload);
 			setFormValues({
 				newUser: {
-					...values,
-					profilePicture: {
-						location: values.profilePicture,
-					},
+					...response.data.payload,
 				},
 			});
 			setLoadingButton(false);
 			nextFormStep();
 		} catch (error: any) {
 			console.info('User Create Error: ', error);
-			toast.error(error.response.data.message || error.response.data.errors);
+			toast.error(error.message);
 			setLoadingButton(false);
 		}
 	};
@@ -122,7 +140,10 @@ function UserSignUpQuickForm() {
 		validateForm().then((errors) => {
 			if (Object.values(errors).length > 0) {
 				console.info('validation errors: ', errors);
-				toast.error(Object.values(errors)[0].toString());
+				if (Object.keys(errors)[0] === 'profilePicture')
+					// @ts-ignore
+					toast.error(errors.profilePicture?.location);
+				else toast.error(Object.values(errors)[0].toString());
 			}
 		});
 	}
@@ -143,7 +164,7 @@ function UserSignUpQuickForm() {
 		shuffledAvatarImages.current = shuffle(profilePictures);
 	}, []);
 
-	const [selected, setSelected] = useState(0);
+	const [selectedProfilePicture, setSelectedProfilePicture] = useState(0);
 
 	return (
 		<form
@@ -208,7 +229,7 @@ function UserSignUpQuickForm() {
 					helperText={touched.email && errors.email}
 				/>
 
-				<Paragraph id="user-signup-step-1" className="col-span-2">
+				<Paragraph id="avatar-button-0" className="col-span-2">
 					{TextContent.account.CHOOSE_PROFILE_PICTURE}
 				</Paragraph>
 
@@ -219,8 +240,8 @@ function UserSignUpQuickForm() {
 								onClick={(e) => {
 									e.preventDefault();
 									e.stopPropagation();
-									setSelected(index);
-									setFieldValue('profilePicture', img);
+									setSelectedProfilePicture(index);
+									setFieldValue('profilePicture.location', img);
 								}}
 								id={`avatar-button-${index}`}
 								key={`avatar-button-${index}`}
@@ -229,7 +250,7 @@ function UserSignUpQuickForm() {
 								className={twMerge(
 									styles.BUTTON['highlight'],
 									styles.BUTTON['round_image_btn'],
-									index === selected
+									index === selectedProfilePicture
 										? ['border-2 border-primary']
 										: ['border-2 border-transparent'],
 								)}
@@ -289,7 +310,7 @@ function UserSignUpQuickForm() {
 				</div>
 				<FlexBox className="col-span-2 flex-row justify-center space-x-4 py-2">
 					<Button
-						loading={loadingButton}
+						disabled={loadingButton}
 						onClick={(e) => {
 							e.preventDefault();
 							e.stopPropagation();
@@ -302,8 +323,9 @@ function UserSignUpQuickForm() {
 					<Button
 						id="user-signup-step-5"
 						type="submit"
-						className="place-self-center"
 						loading={loadingButton}
+						disabled={loadingButton}
+						className="place-self-center"
 						onClick={(e) => {
 							e.preventDefault();
 							e.stopPropagation();
