@@ -14,11 +14,13 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 				'Content-Type': 'application/json',
 			},
 		});
-		console.log('response: ', response);
 		return res.status(response.status).json(response.data);
 	} catch (error: any) {
 		console.error(error.message);
-		return res.json(error);
+		return res.json({
+			success: 'false',
+			error: error.message,
+		});
 	}
 });
 
@@ -26,17 +28,18 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
 	try {
 		const updateUser: UserCreateType = req.body;
-
 		const response = await axios.put(urlBuilder.main.user(), updateUser, {
 			headers: {
 				'Content-Type': 'application/json',
 			},
 		});
-
 		return res.status(response.status).json(response.data);
 	} catch (error: any) {
 		console.error(error.message);
-		return res.json(error);
+		return res.json({
+			success: 'false',
+			error: error.message,
+		});
 	}
 });
 

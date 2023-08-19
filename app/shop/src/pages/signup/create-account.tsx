@@ -1,17 +1,28 @@
+import { selectUserState } from '@cd/core-lib';
 import { Page, type LayoutContextProps } from '@cd/ui-lib';
 import Head from 'next/head';
+import router from 'next/router';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import ContinueSignUp from './continue';
 
 function CreateUserAccount() {
-	return (
-		<Page className={twMerge(styles.gradient)}>
-			<Head>
-				<meta name="Gras App" content="Built by Gras Cannabis Co." />
-			</Head>
-			<ContinueSignUp />
-		</Page>
-	);
+	const { user } = useSelector(selectUserState);
+	if (!user.id) router.push('/');
+	useEffect(() => {
+		// onmount
+		if (user.isSignUpComplete) router.push('/');
+	}, []);
+	if (user.id)
+		return (
+			<Page className={twMerge(styles.gradient)}>
+				<Head>
+					<meta name="Gras App" content="Built by Gras Cannabis Co." />
+				</Head>
+				<ContinueSignUp />
+			</Page>
+		);
 }
 
 CreateUserAccount.getLayoutContext = (): LayoutContextProps => ({

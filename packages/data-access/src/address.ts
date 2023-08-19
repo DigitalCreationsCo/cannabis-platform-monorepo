@@ -12,6 +12,39 @@ export async function createAddress(address: any) {
 	}
 }
 
+export async function addAddressToUser(
+	userId: string,
+	address: Address & { coordinates: Coordinates },
+) {
+	try {
+		return await prisma.address.create({
+			data: {
+				user: {
+					connect: {
+						id: userId,
+					},
+				},
+				street1: address.street1,
+				street2: address.street2,
+				city: address.city,
+				state: address.state,
+				zipcode: address.zipcode,
+				country: address.country,
+				countryCode: address.countryCode,
+				coordinates: {
+					create: {
+						latitude: Number(address.coordinates.latitude),
+						longitude: Number(address.coordinates.longitude),
+					},
+				},
+			},
+		});
+	} catch (error: any) {
+		console.error(error);
+		throw new Error(error);
+	}
+}
+
 export async function findAddressById(id: string) {
 	try {
 		return await prisma.address.findUnique({

@@ -22,28 +22,22 @@ import {
 import { motion } from 'framer-motion';
 import Image, { type StaticImageData } from 'next/image';
 import Link from 'next/link';
-import router from 'next/router';
 import { useState, type PropsWithChildren } from 'react';
-import { useCookies } from 'react-cookie';
 import { twMerge } from 'tailwind-merge';
 import backdrop from '../../public/marijuana-backdrop.png';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 
 function StartPage() {
 	const { isSignedIn } = useAppSelector(selectUserState);
-
 	const dispatch = useAppDispatch();
-	const [cookies] = useCookies(['yesOver21']);
 
 	function openCheckAgeModalOrEnterSite() {
-		cookies['yesOver21'] === 'true'
-			? router.push('/browse')
-			: dispatch(
-					modalActions.openModal({
-						modalType: modalTypes.checkAgeModal,
-						modalText: '',
-					}),
-			  );
+		dispatch(
+			modalActions.openModal({
+				modalType: modalTypes.checkAgeModal,
+				modalText: '',
+			}),
+		);
 	}
 
 	const [dialogOpen, setDialogOpen] = useState(false);
