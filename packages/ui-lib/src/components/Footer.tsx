@@ -38,7 +38,7 @@ export default function Footer() {
 	return (
 		<>
 			<FlexBox className={twMerge(styles.FOOTER.container)}>
-				<Grid className="mx-auto mt-5 grid max-w-screen-xl grid-rows-auto gap-10 lg:grid-cols-5">
+				<Grid className="mx-auto md:mt-5 grid max-w-screen-xl grid-rows-auto gap-10 lg:grid-cols-5">
 					<div className="lg:col-span-2 lg:row-span-5 row-start-5 lg:row-start-auto">
 						<FlexBox className="flex-row items-end">
 							<Link href={getShopSite('/')} className="pr-2">
@@ -50,7 +50,7 @@ export default function Footer() {
 							</Link>
 						</FlexBox>
 
-						<Paragraph className="mt-4 max-w-md text-white">
+						<Paragraph className="md:mt-4 max-w-md text-white">
 							{TextContent.info.ABOUT_GRAS}
 							<br />
 							{TextContent.info.GRAS_MISSION}
@@ -62,7 +62,7 @@ export default function Footer() {
 						<div className="-ml-3 -mt-2 flex w-full flex-wrap lg:ml-0">
 							{navigation.map((item, index) => (
 								<Link key={index} href={item.href} className="w-full px-4 py-2">
-									<H6 className="text-inverse hover:underline font-semibold">
+									<H6 className="text-inverse underline lg:no-underline hover:underline font-semibold">
 										{item.name}
 									</H6>
 								</Link>
@@ -73,7 +73,7 @@ export default function Footer() {
 						<div className="-ml-3 -mt-2 flex w-full flex-wrap lg:ml-0">
 							{legal.map((item, index) => (
 								<Link key={index} href={item.href} className="w-full px-4 py-2">
-									<H6 className="text-inverse hover:underline font-semibold">
+									<H6 className="text-inverse underline lg:no-underline hover:underline font-semibold">
 										{item.name}
 									</H6>
 								</Link>
