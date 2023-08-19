@@ -59,9 +59,15 @@ function StartPage() {
 								</H3>
 							</FlexBox>
 							<FlexBox className="flex-row space-x-1 md:flex-col md:space-x-0">
-								<H2 color="light">fast</H2>
-								<H2 color="light">easy</H2>
-								<H2 color="light">secure</H2>
+								<H2 color="light" className="text-2xl md:text-3xl">
+									fast,
+								</H2>
+								<H2 color="light" className="text-2xl md:text-3xl">
+									easy,
+								</H2>
+								<H2 color="light" className="text-2xl md:text-3xl">
+									secure delivery
+								</H2>
 							</FlexBox>
 							<Button
 								size="lg"
