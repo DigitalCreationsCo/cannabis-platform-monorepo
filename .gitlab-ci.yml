@@ -210,8 +210,8 @@ deploy:
     kubectl get pods
   needs:
     - job: build_module
-  parallel:
-    matrix: !reference [.modules]
+      parallel:
+        matrix: !reference [.modules]
 
 .modules:
   - MODULE:
