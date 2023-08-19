@@ -59,7 +59,7 @@ module.exports = {
 		// https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-duplicates.md
 		'import/no-duplicates': ['error'],
 		'import/no-named-as-default-member': ['warn'],
-		'import/no-named-as-default': ['warn'],
+		'import/no-named-as-default': ['off'],
 		'import/order': [
 			'error',
 			{

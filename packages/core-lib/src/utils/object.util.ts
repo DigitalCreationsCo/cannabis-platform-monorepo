@@ -1,5 +1,23 @@
 import { type UserCreateType } from '@cd/data-access';
 
+export const isArray = (val: any) => {
+	return Object.prototype.toString.apply(val) === '[object Array]';
+};
+
+/**
+ * formats any user data from form data into data shape for db insert / update
+ * @param user
+ * returns UserCreateType ready for db
+ */
+export const normalizeUserData = (user: UserCreateType) => {
+	if (typeof user.profilePicture === 'string')
+		user.profilePicture = { location: user.profilePicture };
+	if (user.address && !isArray(user.address)) {
+		user = { ...user, address: [{ ...user.address }] };
+	}
+	return user;
+};
+
 export const pruneData = (data: Record<string, any>, fields: string[]) => {
 	return Object.keys(data)
 		.filter((field) => !fields.includes(field))
@@ -9,10 +27,6 @@ export const pruneData = (data: Record<string, any>, fields: string[]) => {
 				[key]: data[key],
 			};
 		}, {});
-};
-
-export const isArray = (val: any) => {
-	return Object.prototype.toString.apply(val) === '[object Array]';
 };
 
 export const shuffle = (array: any[]) => {

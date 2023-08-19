@@ -1,11 +1,11 @@
 import {
 	axios,
-	getShopSite,
 	renderNestedDataObject,
-	selectUserState,
 	TextContent,
 	urlBuilder,
+	userActions,
 } from '@cd/core-lib';
+import { type UserWithDetails } from '@cd/data-access';
 import {
 	Button,
 	FlexBox,
@@ -13,39 +13,33 @@ import {
 	H2,
 	H3,
 	Paragraph,
-	SignInButton,
 	useFormContext,
 } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-hot-toast';
-import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../../redux/hooks';
 
 function UserSignUpReview() {
-	const { user, isSignedIn } = useSelector(selectUserState);
+	const dispatch = useAppDispatch();
 
-	const [account, setAccount] = useState(null);
+	const [account, setAccount] = useState<UserWithDetails | null>(null);
 
-	const { formValues, isComplete, setFormValues, resetFormValues } =
-		useFormContext();
+	const { formValues, isComplete, resetFormValues } = useFormContext();
 
 	const loading = useRef(false);
 
 	async function createUser() {
 		try {
-			setFormValues({
-				newUser: {
-					isSignUpComplete: true,
-					emailVerified: true,
-				},
+			const response = await axios.put(urlBuilder.shop + '/api/user', {
+				...formValues.newUser,
+				isSignUpComplete: true,
+				emailVerified: true,
 			});
-			const response = await axios.post(
-				urlBuilder.shop + '/api/user',
-				formValues.newUser,
-			);
-			if (response.data.success === 'false') throw new Error(response.data);
-			const createdAccount = response.data.payload;
+			if (response.data.success === 'false')
+				throw new Error(response.data.error);
+			const createdAccount: UserWithDetails = response.data.payload;
 			setAccount(createdAccount);
 			return createdAccount;
 		} catch (error: any) {
@@ -68,7 +62,13 @@ function UserSignUpReview() {
 		}
 
 		if (loading.current === false) createNewUserAndUpdateUserState();
-	}, []);
+	}, [account]);
+
+	useEffect(() => {
+		return () => {
+			if (account) dispatch(userActions.signinUserSync(account));
+		};
+	}, [account]);
 
 	useEffect(() => {
 		const handlePopstate = () => {
@@ -84,9 +84,6 @@ function UserSignUpReview() {
 			window.removeEventListener('popstate', handlePopstate);
 		};
 	}, []);
-
-	const imageSrc = formValues?.newUser?.profilePicture?.location;
-
 	return (
 		<Grid className="mx-auto max-w-[525px] space-y-2">
 			<H2 className="whitespace-normal">
@@ -104,8 +101,16 @@ function UserSignUpReview() {
 				{account && (
 					<>
 						<FlexBox>
-							<H3>{user.username}</H3>
-							{imageSrc && <Image src={imageSrc} alt={user.username} />}
+							<H3>{account.username}</H3>
+							{account.profilePicture?.location && (
+								<Image
+									src={account.profilePicture?.location as string}
+									alt={account.username}
+									width={100}
+									height={100}
+									loader={({ src, width }) => src}
+								/>
+							)}
 						</FlexBox>
 						{renderNestedDataObject(account, Paragraph, {
 							removeFields: [
@@ -122,6 +127,9 @@ function UserSignUpReview() {
 								'imageUser',
 								'idFrontImage',
 								'idBackImage',
+								'blurhash',
+								'countryCode',
+								'country',
 							],
 						})}
 					</>
@@ -134,18 +142,14 @@ function UserSignUpReview() {
 			</div>
 
 			<FlexBox className="m-auto flex-row space-x-4 pb-20">
-				{isSignedIn ? (
-					<>
-						<Link href={getShopSite('/browse')}>
-							<Button>Go to Gras</Button>
-						</Link>
-						<Link href={getShopSite('/account')}>
-							<Button>Go to my account</Button>
-						</Link>
-					</>
-				) : (
-					<SignInButton bg="primary" />
-				)}
+				<>
+					<Link href="/browse">
+						<Button>Go to Gras</Button>
+					</Link>
+					<Link href="/account">
+						<Button>Go to my account</Button>
+					</Link>
+				</>
 			</FlexBox>
 		</Grid>
 	);

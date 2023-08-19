@@ -129,8 +129,7 @@ function TopBar({ signOut }: TopBarProps) {
 						width={40}
 						height={40}
 						className="rounded-full border"
-						loader={({ src }) => src}
-						unoptimized
+						loader={({ src, width }) => src}
 						priority
 					/>
 				</Button>

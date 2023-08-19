@@ -1,8 +1,10 @@
 import {
 	addressObjectIntoArray,
 	getGeoCoordinatesFromAddress,
+	isArray,
+	normalizeUserData,
 } from '@cd/core-lib';
-import { type UserCreateType } from '@cd/data-access';
+import { type AddressCreateType } from '@cd/data-access';
 import { UserDA } from '../data-access';
 
 /* =================================
@@ -27,11 +29,14 @@ export default class UserController {
 	static async createUser(req, res) {
 		try {
 			const rawUser = req.body;
+			console.info('rawUser: ', rawUser);
 			// address data comes as an object, but we need it as an array per data schema
-			const user: UserCreateType = { ...rawUser, address: [rawUser.address] };
-			const coordinates = await getGeoCoordinatesFromAddress(user.address[0]);
-			if (coordinates) user.address[0].coordinates = coordinates;
-			const data = await UserDA.createUser(user);
+			if (rawUser.address) {
+				const coordinates = await getGeoCoordinatesFromAddress(rawUser.address);
+				if (coordinates) rawUser.address.coordinates = coordinates;
+			}
+			const normalizedUser = normalizeUserData(rawUser);
+			const data = await UserDA.upsertUser(normalizedUser);
 			if (!data)
 				return res.status(404).json({
 					success: 'false',
@@ -70,11 +75,6 @@ export default class UserController {
 				payload: data,
 			});
 		} catch (error: any) {
-			if (error.message.includes('This user exists already'))
-				return res.status(400).json({
-					success: 'false',
-					error: error.message,
-				});
 			res.status(500).json({
 				success: 'false',
 				error: error.message,
@@ -105,8 +105,16 @@ export default class UserController {
 
 	static async updateUser(req, res) {
 		try {
-			const user = req.body;
-			const data = await UserDA.updateUser(user);
+			const userData = req.body;
+			console.log('update user: ', userData);
+			if (!isArray(userData.address)) {
+				const coordinates = await getGeoCoordinatesFromAddress(
+					userData.address,
+				);
+				if (coordinates) userData.address.coordinates = coordinates;
+			}
+			const normalizedUser = normalizeUserData(userData);
+			const data = await UserDA.updateUser(normalizedUser);
 			if (!data)
 				return res.status(404).json({
 					success: 'false',
@@ -168,14 +176,18 @@ export default class UserController {
 
 	static async addAddressToUser(req, res) {
 		try {
-			const address = req.body;
-			const data = await UserDA.addAddressToUser(address);
+			const address: AddressCreateType = req.body;
+			const { userId } = address;
+			const coordinates = await getGeoCoordinatesFromAddress(address);
+			if (coordinates) address.coordinates = coordinates;
+			console.info('addAddressToUser input: ', address);
+			const data = await UserDA.addAddressToUser(userId, address);
 			if (!data)
 				return res.status(404).json({
 					success: 'false',
-					error: 'Address was not created',
+					error: 'Address was not added',
 				});
-			return res.status(200).json({
+			return res.status(201).json({
 				success: 'true',
 				payload: data,
 			});
