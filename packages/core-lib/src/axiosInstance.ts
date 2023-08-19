@@ -3,7 +3,7 @@ import { TextContent } from './constants';
 
 const MAX_RETRIES = 2;
 // three seconds
-const WAIT_RETRY = 3 * 1000;
+const TIMEOUT = 4 * 1000;
 
 interface AxiosConfig extends AxiosRequestConfig {
 	retryCount?: number;
@@ -17,7 +17,7 @@ interface AxiosErrorCustom extends AxiosError {
 }
 
 const instance = axios.create({
-	timeout: 3000,
+	timeout: TIMEOUT,
 	// validateStatus: (status: number) => (status >= 200 && status < 300) || status === 404
 	validateStatus: () => true,
 });
@@ -44,7 +44,7 @@ axios.interceptors.response.use(
 				return new Promise((resolve, _) => {
 					setTimeout(() => {
 						resolve(axios(error.config));
-					}, 2 * retryCount * WAIT_RETRY);
+					}, 2 * retryCount * TIMEOUT);
 					// increase subsequent timeout length by 2
 				});
 			}

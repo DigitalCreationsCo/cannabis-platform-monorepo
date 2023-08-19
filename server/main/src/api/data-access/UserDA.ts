@@ -1,5 +1,5 @@
 import {
-	createAddress,
+	addAddressToUser,
 	createUser,
 	findAddressById,
 	findUserWithDetailsByEmail,
@@ -18,9 +18,6 @@ import {
 User Data Access - data methods for User Controller
 
 members:
-signin                  not used
-signout                 not used
-
 getUserById
 getUserByEmail
 getUserByPhone
@@ -69,10 +66,9 @@ export default class UserDA {
 		}
 	}
 
-	static async addAddressToUser(address) {
+	static async addAddressToUser(userId, address) {
 		try {
-			address.coordinateId = '';
-			return await createAddress(address);
+			return await addAddressToUser(userId, address);
 		} catch (error: any) {
 			throw new Error(error.message);
 		}
@@ -89,9 +85,9 @@ export default class UserDA {
 		}
 	}
 
-	static async createUser(createUserData: UserCreateType) {
+	static async createUser(data: UserCreateType) {
 		try {
-			return await createUser(createUserData);
+			return await createUser(data);
 		} catch (error: any) {
 			throw new Error(error.message);
 		}
@@ -99,6 +95,7 @@ export default class UserDA {
 
 	static async upsertUser(upsertUserData: UserCreateType) {
 		try {
+			console.info('upsertUserData: ', upsertUserData);
 			return await upsertUser(upsertUserData);
 		} catch (error: any) {
 			throw new Error(error.message);
@@ -135,9 +132,11 @@ export default class UserDA {
 		}
 	}
 
-	static async updateUser(createUserData: UserCreateType) {
+	static async updateUser(updateUserData: UserCreateType) {
 		try {
-			const user = await updateUser(createUserData);
+			console.info('updateUserData: ', updateUserData);
+
+			const user = await updateUser(updateUserData);
 
 			console.info(`updated user ${user.id}`);
 

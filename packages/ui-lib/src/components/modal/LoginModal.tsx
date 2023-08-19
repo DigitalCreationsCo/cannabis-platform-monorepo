@@ -224,6 +224,7 @@ function LoginModal({
 				const response = await consumeCode({
 					userInputCode: values.passcode,
 				});
+				console.info('OTP signin response', response);
 				if (response.status === 'OK') {
 					dispatch(userActions.signinUserSync(response.user));
 				}

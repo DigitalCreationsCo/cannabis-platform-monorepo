@@ -26,15 +26,15 @@ export default async function middleware(req: NextRequest) {
 		'/signup/create-dispensary-account',
 		'/signup/create-account',
 		'/survey',
+		'/sorry-we-cant-serve-you',
+		'/support',
 	];
 
 	const shopPages = allowAllVisitors.concat([
 		'/mybag',
-		'/support',
 		'/checkout',
 		'/404',
 		'/500',
-		'/sorry-we-cant-serve-you',
 		'/signup',
 		'/termsandconditions',
 		'/quick-delivery',

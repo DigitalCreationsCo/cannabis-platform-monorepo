@@ -55,7 +55,7 @@ const urlBuilder = {
 		usersByOrg: (id: any) =>
 			urlBuilder.main.baseUrl + `/organization/${id}/users`,
 
-		address: () => urlBuilder.main.baseUrl + '/auth/address',
+		address: () => urlBuilder.main.baseUrl + '/user/address',
 		addressByIdAndUser: (addressId: any, id: any) =>
 			urlBuilder.main.baseUrl + `/auth/user/${id}/address/${addressId}`,
 

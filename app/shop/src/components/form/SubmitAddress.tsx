@@ -1,3 +1,5 @@
+import { urlBuilder } from '@cd/core-lib';
+import { type AddressCreateType } from '@cd/data-access';
 import {
 	Button,
 	FlexBox,
@@ -7,6 +9,7 @@ import {
 	TextField,
 	useFormContext,
 } from '@cd/ui-lib';
+import axios from 'axios';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
@@ -22,17 +25,25 @@ function SubmitAddressForm() {
 		startTour();
 	}, []);
 
-	const { nextFormStep, prevFormStep, setFormValues } = useFormContext();
+	const { nextFormStep, prevFormStep, formValues, setFormValues } =
+		useFormContext();
+
+	useEffect(() => {
+		console.info('formvalues: ', formValues);
+	});
 
 	const [loadingButton, setLoadingButton] = useState(false);
 
-	const initialValues = {
+	const initialValues: {
+		address: AddressCreateType;
+	} = {
 		address: {
+			userId: formValues.newUser?.id,
 			street1: '',
 			street2: '',
 			city: '',
 			state: '',
-			zipcode: null,
+			zipcode: 0,
 			country: 'United States',
 			countryCode: 'US',
 		},
@@ -60,12 +71,23 @@ function SubmitAddressForm() {
 	const onSubmit = async (values: typeof initialValues) => {
 		try {
 			setLoadingButton(true);
-			setFormValues({ newUser: { address: { ...values.address } } });
+			const response = await axios.post<any, any, AddressCreateType>(
+				urlBuilder.shop + '/api/user/address',
+				values.address,
+			);
+			if (response.data.success === 'false')
+				throw new Error(response.data.error);
+			setFormValues({
+				newUser: {
+					address: {
+						...response.data.payload,
+					},
+				},
+			});
 			setLoadingButton(false);
 			nextFormStep();
 		} catch (error: any) {
-			console.info('Submit Address Error: ', error);
-			toast.error(error.response.data.message || error.response.data.errors);
+			toast.error(error.message);
 			setLoadingButton(false);
 		}
 	};
@@ -183,7 +205,7 @@ function SubmitAddressForm() {
                     /> */}
 				<FlexBox className="flex-row justify-center space-x-4 py-2">
 					<Button
-						loading={loadingButton}
+						disabled={loadingButton}
 						onClick={(e) => {
 							e.preventDefault();
 							e.stopPropagation();
@@ -196,6 +218,7 @@ function SubmitAddressForm() {
 						id="submit-address-step-2"
 						className="place-self-center"
 						loading={loadingButton}
+						disabled={loadingButton}
 						onClick={(e) => {
 							e.preventDefault();
 							e.stopPropagation();
