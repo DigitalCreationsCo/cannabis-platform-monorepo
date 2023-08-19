@@ -3,7 +3,7 @@ const styles = Object.freeze({
 		'bg-inverse opacity-90 md:rounded ',
 		'space-y-2',
 		'mx-auto',
-		'cursor-default w-full md:max-w-[440px] h-fit p-8 items-center shadow',
+		'cursor-default w-full md:max-w-[440px] grow h-fit p-8 items-center shadow',
 	],
 	HERO: {
 		container: [
