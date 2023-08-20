@@ -3,7 +3,7 @@ import {
 	Center,
 	FlexBox,
 	H1,
-	H2,
+	H3,
 	Page,
 	Small,
 	type LayoutContextProps,
@@ -17,9 +17,9 @@ function UserTermsAndConditions() {
 				<Card className="bg-inverse-soft md:max-w-md">
 					<FlexBox className="m-auto">
 						<H1 className="text-left">Gras</H1>
-						<H2 className="text-primary text-left">
+						<H3 className="text-primary text-left">
 							User Terms And Conditions
-						</H2>
+						</H3>
 						<Small className="max-w-md text-justify">
 							The following terms and conditions apply to Users and visitors to
 							grascannabis.org.
