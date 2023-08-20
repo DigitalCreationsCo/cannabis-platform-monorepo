@@ -3,7 +3,7 @@ import {
 	Center,
 	FlexBox,
 	H1,
-	H2,
+	H3,
 	Page,
 	Small,
 	type LayoutContextProps,
@@ -12,14 +12,14 @@ import { twMerge } from 'tailwind-merge';
 
 function DispensaryTermsAndConditions() {
 	return (
-		<Page className={twMerge(styles.gradient, 'md:pt-16')}>
+		<Page className={twMerge(styles.gradient)}>
 			<Center>
 				<Card className="bg-inverse-soft md:max-w-md">
 					<FlexBox className="m-auto">
 						<H1 className="text-left">Gras</H1>
-						<H2 className="text-primary text-left">
+						<H3 className="text-primary text-left">
 							Dispensary Terms And Conditions
-						</H2>
+						</H3>
 						<Small className="max-w-md text-justify">
 							The following terms and conditions apply to Dispensaries working
 							within the Gras platform.
