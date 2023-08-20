@@ -14,6 +14,14 @@
 		cursor: pointer;
 	}
 
+	details > summary::-webkit-details-marker {
+		display: none;
+	}
+
+	details > summary {
+		list-style: none;
+	}
+	
 	:root {
 		--font-weight-normal: 400;
 		--font-weight-semibold: 600;

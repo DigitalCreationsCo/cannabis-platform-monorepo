@@ -3,7 +3,7 @@ import {
 	Center,
 	FlexBox,
 	H1,
-	H2,
+	H3,
 	Page,
 	Small,
 	type LayoutContextProps,
@@ -17,7 +17,7 @@ const PrivacyPolicy = () => {
 				<Card className="bg-inverse-soft md:max-w-md">
 					<FlexBox className="m-auto">
 						<H1 className="text-left">Gras</H1>
-						<H2 className="text-primary text-left">Our Privacy Policy</H2>
+						<H3 className="text-primary text-left">Our Privacy Policy</H3>
 						<Small className="max-w-md text-justify">
 							Gras respects and secures the private information of the
 							businesses, people, entities, employees, and partners that do
