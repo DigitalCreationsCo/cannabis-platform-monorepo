@@ -7,7 +7,8 @@ const TextContent = Object.freeze({
     Do you want to empty the bag and add this item instead?`,
 		CREATE_ACCOUNT: '',
 
-		CHECKOUT_READY: "When you're ready, click the checkout button.",
+		CHECKOUT_READY: `Review your order.
+		When you're ready, click the checkout button.`,
 
 		CREATE_DISPENSARY_ACCOUNT: 'Create a Dispensary account',
 		CONTINUE: `When you're ready, click continue.`,
@@ -176,6 +177,7 @@ const TextContent = Object.freeze({
 	},
 
 	delivery: {
+		TIME_GUARANTEE: `We guarantee a delivery time of 2 hours`,
 		GRAS_WILL_DELIVER_STRAIGHT_TO_YOUR_DOOR:
 			'Gras will deliver your order straight to your door.',
 		GRAS_DELIVERS_FOR_DISPENSARIES:
@@ -205,7 +207,7 @@ const TextContent = Object.freeze({
 		ORDERED_FROM_VENDOR_f: (vendorName: string) => `Ordered from ${vendorName}`,
 		ORDERING_FROM_VENDOR_f: (vendorName: string) =>
 			`Ordering from ${vendorName}`,
-		ORDER_INFO_HEADER: "Here's your order info",
+		ORDER_INFO_HEADER: "Here's your order",
 		PAYMENT_SUCCESSFUL:
 			'Your order has been placed! A driver is being called for your delivery',
 
