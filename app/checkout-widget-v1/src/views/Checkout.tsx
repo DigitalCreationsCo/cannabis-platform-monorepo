@@ -18,7 +18,6 @@ function Checkout({
 	expandWidget,
 	setExpandWidget,
 	dispensaryKey,
-	dispensaryName,
 }: WidgetViewProps & CheckoutWidgetConfigOptions) {
 	const [cart, setCart] = useState<SimpleCart>({
 		cartItems: [],

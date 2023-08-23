@@ -14,14 +14,15 @@ function SimpleCartItem({ product }: { product: ProductVariantWithDetails }) {
 			/>
 
 			<div className={styles.info}>
-				<H6 className="flex">
+				<H6 className="flex text-light">
 					{product.name} ({product.quantity})
 				</H6>
 
-				<div className="flex flex-row">
-					<Small>{product.size + product.unit}</Small>
+				<div className="flex flex-row justify-between">
+					<Small className="text-light">{product.size + product.unit}</Small>
 					<Price
-						className="text-sm"
+						color="light"
+						className="text-sm text-light"
 						basePrice={product.basePrice}
 						salePrice={product.salePrice}
 						discount={product.discount}
@@ -37,6 +38,6 @@ export default SimpleCartItem;
 
 const styles = {
 	lineItem:
-		'px-2 flex flex-nowrap space-x-4 items-center rounded border justify-between cursor-default',
-	info: 'flex flex-col w-full min-h-[64px] justify-center',
+		'flex flex-nowrap w-full items-center rounded justify-between cursor-default',
+	info: 'pl-2 flex flex-col w-full min-h-[64px] justify-center',
 };

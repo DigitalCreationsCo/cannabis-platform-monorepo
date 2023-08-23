@@ -61,7 +61,7 @@ resource "null_resource" "delete_ingressgateway" {
   provisioner "local-exec" {
     when    = destroy
     # Delete ingressgateway on destroy
-    command = "gcloud compute network-endpoint-groups delete ingressgateway --quiet --project=gras-cannabis --zone=asia-east2-a"
+    command = "gcloud compute network-endpoint-groups delete ingressgateway --quiet"
   }
 }
 

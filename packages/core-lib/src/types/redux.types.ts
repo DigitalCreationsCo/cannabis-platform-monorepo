@@ -1,3 +1,4 @@
+import { type ProductVariantWithDetails } from '@cd/data-access';
 import { type Store } from '@reduxjs/toolkit';
 import { type BlogStateProps } from '../reducer/blog.reducer';
 import { type CartStateProps } from '../reducer/cart.reducer';
@@ -30,4 +31,11 @@ export type ThunkArgumentsType = {
 		navigate: (routename: any, params: any) => void;
 		goBack: () => void;
 	};
+};
+
+export type SimpleCart = {
+	total: number;
+	cartItems: ProductVariantWithDetails[];
+	organizationId?: string;
+	organizationName?: string;
 };
