@@ -148,6 +148,7 @@ export const Paragraph = ({
 				styles['cursor-inherit'],
 				'whitespace-pre-line',
 				(color === 'light' && 'text-inverse') || 'text-dark',
+				'tracking-wide',
 				className,
 			)}
 			{...props}
@@ -169,6 +170,7 @@ export const Small = ({
 				styles['cursor-inherit'],
 				(color === 'light' && 'text-inverse') || 'text-dark',
 				'text-sm whitespace-pre-line',
+				'tracking-wide',
 				className,
 			)}
 			{...props}

@@ -3,7 +3,7 @@ import { useOnClickOutside } from '@cd/ui-lib/src/hooks';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
-import { CheckoutWidgetConfigOptions } from '..';
+import { type CheckoutWidgetConfigOptions } from '..';
 
 export interface WidgetViewProps {
 	className?: string | string[];
