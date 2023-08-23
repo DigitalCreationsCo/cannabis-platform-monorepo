@@ -1,12 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable sonarjs/no-duplicate-string */
-/* eslint-disable sonarjs/no-all-duplicated-branches */
-/* eslint-disable sonarjs/no-small-switch */
-/* eslint-disable no-inner-declarations */
-/* eslint-disable @typescript-eslint/naming-convention */
-import { type SimpleCart } from '@cd/core-lib/src/types/redux.types';
-import { convertDollarsToWholeNumber } from '@cd/core-lib/src/utils/transaction.util';
-import { type ProductVariantWithDetails } from '@cd/data-access';
+import { SimpleCart } from '@cd/core-lib/src/reduxDir/features/cart.reducer';
+import { convertDollarsToWholeNumber } from '@cd/core-lib/src/utils/transaction';
+import { ProductVariantWithDetails } from '@cd/data-access';
 import * as cheerio from 'cheerio';
 
 type DOMDataKey = 'cart';

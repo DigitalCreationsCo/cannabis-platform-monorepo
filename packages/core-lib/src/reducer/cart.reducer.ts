@@ -587,10 +587,3 @@ export const cartReducer = cartSlice.reducer;
 export const selectCartState = (state: AppState) => state.cart;
 export const selectIsCartEmpty = (state: AppState): boolean =>
 	state.cart.totalItems < 1;
-
-export type SimpleCart = {
-	total: number;
-	cartItems: ProductVariantWithDetails[];
-	organizationId?: string;
-	organizationName?: string;
-};

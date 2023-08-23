@@ -1,1 +1,1 @@
-export { cheerioCrawler } from './cheerio';
+export { cheerioCrawler as crawler } from './cheerio';
