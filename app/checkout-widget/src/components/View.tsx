@@ -10,24 +10,24 @@ const View = (ViewComponent: ViewComponent, props: ViewProps) => {
 	function _View(props: ViewProps) {
 		const navigate = useNavigate();
 		const isCheckout = useCheckHrefIncludes('checkout');
-		// let pathname = location.pathname;
-		// function checkPath() {
-		// 	console.log('pathname changed, ', pathname);
-		// 	console.log('location, ', location.pathname);
-		// 	console.log('isCheckout, ', isCheckout);
-		// 	if (location.pathname != pathname) {
-		// 		pathname = location.pathname;
-		// 		isCheckout ? navigate('/checkout') : navigate('/');
-		// 	}
-		// }
+		function checkPath() {
+			// let pathname = location.pathname;
+			// console.log('pathname changed, ', pathname);
+			// console.log('location, ', location.pathname);
+			// console.log('isCheckout, ', isCheckout);
+			// if (location.pathname != pathname) {
+			// 	pathname = location.pathname;
+			isCheckout ? navigate('/checkout') : navigate('/');
+			// }
+		}
 		useEffect(() => {
-			isCheckout ? navigate('/checkout') : null;
+			checkPath();
 		}, []);
 
 		useEffect(() => {
-			window.addEventListener('click', () => console.log('click'));
+			window.addEventListener('click', () => checkPath);
 			return () => {
-				// window.removeEventListener('click', checkPath);
+				window.removeEventListener('click', checkPath);
 			};
 		}, []);
 		const ref = useRef(null);

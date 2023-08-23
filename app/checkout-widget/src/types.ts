@@ -1,3 +1,5 @@
+export type WidgetHost = 'localhost' | 'sunnyside' | 'manasupplyco';
+
 type DispensaryOptions = {
 	dispensaryId: string;
 	dispensaryName: string;
