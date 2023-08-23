@@ -11,7 +11,7 @@ import * as cheerio from 'cheerio';
 
 type DOMDataKey = 'cart';
 
-const cheerioCrawler = async () => {
+const cheerioCrawler = async (crawlerConfig: any) => {
 	const _cartItemSelector = {
 		localhost: '[data-item=cart-item]',
 		sunnyside: '[data-cy=CartItem]',
