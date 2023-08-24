@@ -1,6 +1,6 @@
 import * as cheerio from 'cheerio';
 import { type DOMSelector } from '../types';
-import { getDOMElements } from './crawler-helpers';
+import { getDOMElementsFromConfig } from './crawler-helpers';
 
 export default async function cheerioCrawler(config: DOMSelector) {
 	try {
@@ -9,10 +9,9 @@ export default async function cheerioCrawler(config: DOMSelector) {
 		const _url = window.location.href;
 		console.info('crawling url, ', _url);
 		const response = await fetch(_url);
-
 		const html = await response.text();
 		const $ = cheerio.load(html);
-		return getDOMElements(config, $);
+		return await getDOMElementsFromConfig(config, $);
 	} catch (error) {
 		console.error('error in cheerio crawler: ', error);
 		return null;

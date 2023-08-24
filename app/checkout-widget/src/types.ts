@@ -28,16 +28,19 @@ export type ViewComponent = (props: ViewProps) => JSX.Element | JSX.Element;
 export type CrawlerConfig = Record<WidgetHost, DOMDataSet>;
 export type DOMKey = 'cart';
 export type DOMSelector = DOMDataSet[DOMKey];
-type DOMDataSet = {
+// this is the data structure that the crawler will use to dynamically traverse the dom elements and return data based on the config
+export type DOMDataSet = {
 	cart: {
-		'cart-item': string;
+		'cart-item': {
+			name: string;
+			label: string;
+			basePrice: string;
+			quantity: string;
+			size: string;
+			unit: string;
+			image: string;
+			'cart-item': string;
+		};
 		total: string;
-		name: string;
-		label: string;
-		basePrice: string;
-		quantity: string;
-		size: string;
-		unit: string;
-		image: string;
 	};
 };
