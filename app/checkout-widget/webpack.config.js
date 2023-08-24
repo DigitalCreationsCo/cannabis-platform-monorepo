@@ -79,8 +79,8 @@ const defaultConfig = {
 module.exports = {
 	...defaultConfig,
 	entry: {
-		widget: './src/outputs/gras-delivery-widget.js',
-		bookmarklet: './src/outputs/bookmarklet.js',
+		widget: './src/outputs/gras-delivery-widget.ts',
+		bookmarklet: './src/outputs/bookmarklet.ts',
 	},
 	output: {
 		path: distDir,

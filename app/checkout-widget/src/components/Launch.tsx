@@ -64,10 +64,9 @@ function Launch({ expanded, setExpand, dispensaryName, className }: ViewProps) {
 							alt="Delivery By Gras"
 							height={40}
 							width={40}
-							className="object-contain"
+							className="object-contain animate-shake"
 						/>
 					)}
-
 					<Small color="light" className="items-center">
 						Delivery by Gras&nbsp;now at checkout
 					</Small>

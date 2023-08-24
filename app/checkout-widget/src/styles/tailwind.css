@@ -2582,6 +2582,10 @@ html {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
+.animate-\[animationName_easingFunction_durationInSeconds_iterationsCount_delayInSeconds_direction\] {
+  animation: animationName easingFunction durationInSeconds iterationsCount delayInSeconds direction;
+}
+
 @keyframes bounce {
   0%, 100% {
     transform: translateY(-25%);
@@ -3313,8 +3317,18 @@ html {
   transition-duration: 150ms;
 }
 
+.transition-transform {
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
 .duration-500 {
   transition-duration: 500ms;
+}
+
+.duration-100 {
+  transition-duration: 100ms;
 }
 
 .ease-in-out {
@@ -3329,6 +3343,16 @@ html {
   .md\:\!rounded-btn {
     border-radius: var(--rounded-btn, 0.5rem) !important;
   }
+}
+
+@keyframes pulse {
+  50% {
+    opacity: .5;
+  }
+}
+
+.hover\:animate-\[pulse_1s_ease-in-out_1\]:hover {
+  animation: pulse 1s ease-in-out 1;
 }
 
 .hover\:border-primary:hover {

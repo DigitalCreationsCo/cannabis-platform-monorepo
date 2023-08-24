@@ -142,15 +142,14 @@ function Checkout({ className, expanded, setExpand, dispensaryId }: ViewProps) {
 						<Paragraph color="light" className="m-auto">
 							Delivery by Gras to your door
 						</Paragraph>
-
 						<Small
 							className="cursor-pointer m-auto w-fit border-b-2"
 							color="light"
 						>
 							Click here to order
 						</Small>
-						{screenwidth >= md && <div className="w-[20px]"></div>}
 					</div>
+					{screenwidth >= md && <div className="w-[20px]"></div>}
 				</>
 			)}
 		</div>
