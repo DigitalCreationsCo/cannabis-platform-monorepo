@@ -1,3 +1,4 @@
+/* eslint-disable jest/expect-expect */
 import GrasDeliveryWidget from '../outputs/gras-delivery-widget';
 import { waitForSelection } from '../test-helpers';
 
