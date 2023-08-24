@@ -1,14 +1,46 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { type CrawlerConfig, type WidgetHost } from '../types';
+import { getDispensaryDomain } from '@cd/core-lib';
+import {
+	type CrawlerConfig,
+	type DOMKey,
+	type DOMSelector,
+	type WidgetHost,
+} from '../types';
 
-class Config {
+/**
+ * @class Config
+ * Provides the DOM selectors and crawling configuration for the widget
+ */
+
+interface CrawlerConfigInterface {
+	key: DOMKey;
+	config: DOMSelector;
+}
+
+class Config implements CrawlerConfigInterface {
 	private host: WidgetHost;
-	constructor(host: WidgetHost) {
-		this.host = host;
-		return this.config[host] as any;
+	key: DOMKey;
+	config: DOMSelector;
+
+	constructor(key: DOMKey) {
+		this.host = this.getHost();
+		this.key = key;
+		this.config = this.crawlerConfig[this.host][key];
 	}
-	public config: CrawlerConfig = {
+	private getHost() {
+		try {
+			if (typeof window === 'undefined')
+				throw new Error('window is not available');
+			const host = getDispensaryDomain(window.location.hostname) as WidgetHost;
+			return host || 'localhost';
+		} catch (error) {
+			console.error('error getting widget host: ', error);
+			console.error('defaulting to localhost');
+			return 'localhost';
+		}
+	}
+	private crawlerConfig: CrawlerConfig = {
 		localhost: {
 			cart: {
 				'cart-item': '[data-item=cart-item]',

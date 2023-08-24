@@ -1,6 +1,6 @@
 import { createElement } from 'react';
 import { createRoot } from 'react-dom/client';
-import Widget from '../Widget';
+import Widget from '../components/Widget';
 
 export default class GrasDeliveryWidget {
 	static el: HTMLDivElement | null;

@@ -23,12 +23,12 @@ export interface ViewProps extends DeliveryWidgetConfigOptions {
 	expanded: boolean;
 	setExpand: (expanded: boolean) => void;
 }
-export type ViewComponent = (props: ViewProps) => JSX.Element;
+export type ViewComponent = (props: ViewProps) => JSX.Element | JSX.Element;
 
 export type CrawlerConfig = Record<WidgetHost, DOMDataSet>;
-type DOMDataSet = Record<DOMKey, DOMSelectors[DOMKey]>;
-type DOMKey = 'cart';
-type DOMSelectors = {
+export type DOMKey = 'cart';
+export type DOMSelector = DOMDataSet[DOMKey];
+type DOMDataSet = {
 	cart: {
 		'cart-item': string;
 		total: string;
