@@ -2,11 +2,11 @@
 import { useState } from 'react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
-import { Checkout, Launch, View } from './components';
-import styles from './styles/theme';
-import { type DeliveryWidgetConfigOptions, type ViewProps } from './types';
+import styles from '../styles/theme';
+import { type DeliveryWidgetConfigOptions, type ViewProps } from '../types';
+import { Checkout, Launch, View } from '.';
 // eslint-disable-next-line import/no-unresolved
-import './styles/tailwind.css';
+import '../styles/tailwind.css';
 
 // eslint-disable-next-line import/no-named-as-default-member
 function Widget(props: DeliveryWidgetConfigOptions) {
@@ -29,7 +29,7 @@ function Widget(props: DeliveryWidgetConfigOptions) {
 				<MemoryRouter>
 					<Routes>
 						<Route path="/" element={View(Launch, config)} />
-						<Route path="/checkout" element={View(Checkout, config)} />
+						<Route path="/checkout" element={View(Checkout as any, config)} />
 					</Routes>
 				</MemoryRouter>
 			</div>

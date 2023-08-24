@@ -1,10 +1,11 @@
 import {
 	formatDispensaryUrl,
 	getDashboardSite,
-	getShopSite,
+	getDispensaryDomain,
+	getShopSite
 } from '../../src/utils/url.util';
 
-describe('formatUrt.test', () => {
+describe('formatUrl.test', () => {
 	const environments: {
 		NODE_ENV: 'development' | 'test' | 'production';
 		NEXT_PUBLIC_SHOP_APP_URL: string;
@@ -26,14 +27,11 @@ describe('formatUrt.test', () => {
 			NEXT_PUBLIC_DASHBOARD_APP_URL: 'app.grascannabis.org',
 		},
 	];
-
 	environments.forEach((environment) => {
 		afterEach(() => {
 			global.window = undefined as any;
 		});
-
 		process.env = environment;
-
 		test('formatDispensaryUrl ', () => {
 			const subdomainId = 'mcnuggets-dispensary';
 			switch (process.env.NODE_ENV) {
@@ -51,7 +49,6 @@ describe('formatUrt.test', () => {
 					);
 			}
 		});
-
 		test('getShopSite ', () => {
 			switch (process.env.NODE_ENV) {
 				case 'development':
@@ -62,7 +59,6 @@ describe('formatUrt.test', () => {
 					expect(getShopSite('/home')).toEqual(`grascannabis.org/home`);
 			}
 		});
-
 		test('getDashboardSite ', () => {
 			switch (process.env.NODE_ENV) {
 				case 'development':
@@ -79,5 +75,30 @@ describe('formatUrt.test', () => {
 					);
 			}
 		});
+	});
+});
+
+describe('getDispensaryDomain', () => {
+	test('manasupply', () => {
+		expect(getDispensaryDomain('manasupply.com')).toEqual(
+			`manasupply`,
+		);
+		expect(getDispensaryDomain('www.manasupply.com')).toEqual(
+			`manasupply`,
+		);
+		expect(getDispensaryDomain('https://manasupply.com')).toEqual(
+			`manasupply`,
+		);
+		expect(getDispensaryDomain('https://www.manasupply.com')).toEqual(
+			`manasupply`,
+		);
+		expect(getDispensaryDomain('https://manasupply.com/shop/edgewater-maryland/?dtche%5Bpath%5D=checkout')).toEqual(
+			`manasupply`,
+		);
+	});
+	test('starbuds', () => {
+		expect(getDispensaryDomain('https://shop.starbuds.us/stores/baltimore/')).toEqual(
+			`starbuds`,
+		);
 	});
 });

@@ -1,4 +1,4 @@
-import bookmarklet from '../outputs/bookmarklet';
+import bookmarklet from './bookmarklet';
 
 describe('bookmarklet', () => {
 	afterEach(() => {

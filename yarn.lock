@@ -3690,11 +3690,12 @@ __metadata:
     "@cd/data-access": "workspace:*"
     "@cd/eslint-config": "workspace:*"
     "@cd/ui-lib": "workspace:*"
-    "@cfaester/enzyme-adapter-react-18": ^0.7.0
+    "@cfaester/enzyme-adapter-react-18": 0.7.0
     "@storybook/addon-actions": 7.3.2
     "@storybook/addon-links": 7.3.2
     "@storybook/addons": 7.3.2
     "@storybook/react": 7.3.2
+    "@types/enzyme": ^3.10.13
     autoprefixer: 10.4.13
     babel-jest: 29.5.0
     babel-loader: 9.1.2
@@ -4461,7 +4462,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@cfaester/enzyme-adapter-react-18@npm:^0.7.0":
+"@cfaester/enzyme-adapter-react-18@npm:0.7.0":
   version: 0.7.0
   resolution: "@cfaester/enzyme-adapter-react-18@npm:0.7.0"
   dependencies:
@@ -9486,7 +9487,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/cheerio@npm:^0.22.22":
+"@types/cheerio@npm:*, @types/cheerio@npm:^0.22.22":
   version: 0.22.31
   resolution: "@types/cheerio@npm:0.22.31"
   dependencies:
@@ -9562,6 +9563,16 @@ __metadata:
   version: 3.1.2
   resolution: "@types/ejs@npm:3.1.2"
   checksum: e4f0745b6ed53a63c08bdfdeb019a7d0e0c400896722b44d6732b4ee6bf6061d2dc965206186b8b0ae2ecd71303c29f1af1feddbca2df0acbd7bd234a74ca518
+  languageName: node
+  linkType: hard
+
+"@types/enzyme@npm:^3.10.13":
+  version: 3.10.13
+  resolution: "@types/enzyme@npm:3.10.13"
+  dependencies:
+    "@types/cheerio": "*"
+    "@types/react": ^16
+  checksum: a7983c56a9991bb9446a9468fbf0d5905d46574122ab76d87dab690685321bbe1875ce152f731481700a15e646b22560187ceb0b9591f5c6940a01be60e1f961
   languageName: node
   linkType: hard
 
