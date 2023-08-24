@@ -8,14 +8,15 @@ import { getBreakpointValue } from '@cd/ui-lib/src/hooks/useBreakpoint';
 import { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/img/logo120.png';
-import { config as crawlerConfig, crawler } from '../crawler';
+import { Config, crawler } from '../crawler';
 import styles from '../styles/theme';
 import { type ViewProps } from '../types';
 import CartList from './CartItemList';
 
 function Checkout({ className, expanded, setExpand, dispensaryId }: ViewProps) {
 	function runCrawler() {
-		crawler(crawlerConfig)
+		const _config = new Config('localhost').config;
+		crawler(_config)
 			.then((result: any) => setCart({ ...cart, ...result }))
 			.then(() => setExpand(true))
 			.catch((error: any) => {

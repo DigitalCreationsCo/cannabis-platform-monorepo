@@ -10,9 +10,9 @@ module.exports = {
 	rootDir: './',
 	cacheDirectory: getJestCachePath(packageJson.name),
 	coverageDirectory: '<rootDir>/coverage',
-	collectCoverage: true,
+	collectCoverage: false,
 	collectCoverageFrom: ['<rootDir>/src/**/*.{ts,tsx,js,jsx}'],
-	coveragePathIgnorePatterns: ['**/node_modules/', '/test-helpers/'],
+	coveragePathIgnorePatterns: ['\\**/node_modules/', '/test-helpers/'],
 	testEnvironmentOptions: {
 		NODE_ENV: 'test',
 	},

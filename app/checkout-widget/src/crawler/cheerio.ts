@@ -140,10 +140,7 @@ const cheerioCrawler = async (crawlerConfig: any) => {
 				return _cartTotalSelector[_domain] || _cartTotalSelector['localhost'];
 			}
 
-			function createCartData(
-				html: cheerio.AnyNode[],
-				total: number,
-			): SimpleCart {
+			function createCartData(html: any[], total: number): SimpleCart {
 				console.info('create cart data input: ', html);
 				const cartItems: ProductVariantWithDetails[] = [];
 
