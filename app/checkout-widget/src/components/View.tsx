@@ -35,7 +35,7 @@ const View = (ViewComponent: ViewComponent, props: ViewProps) => {
 		return (
 			<div
 				ref={ref}
-				className={twMerge([styles.responsive, styles.theme_f(props.shape)])}
+				className={twMerge(styles.responsive, styles.theme_f(props))}
 			>
 				<ViewComponent {...props} />
 			</div>

@@ -27,9 +27,9 @@ const styles = {
 		'md:w-[440px] h-[440px]',
 		'cursor-default',
 	],
-	theme_f: (shape: DeliveryWidgetConfigOptions['shape']) => [
+	theme_f: (props: ViewProps) => [
 		'bg-secondary ring ring-primary',
-		shape === 'rectangle' ? 'md:rounded' : 'md:rounded-full',
+		props.shape === 'rectangle' ? 'md:rounded' : 'md:rounded-full',
 		'w-screen md:w-auto',
 		'min-h-[44px] md:min-h-0',
 	],
