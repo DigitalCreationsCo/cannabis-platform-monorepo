@@ -1,10 +1,9 @@
-import ReactDOM from 'react-dom';
 import bookmarklet from '../outputs/bookmarklet';
 
 describe('bookmarklet', () => {
 	afterEach(() => {
 		const el = document.querySelectorAll('body > div');
-		ReactDOM.unmountComponentAtNode(el[0]);
+		window.GrasDeliveryWidget.root.unmount(el[0]);
 		el[0].parentNode.removeChild(el[0]);
 		window.GrasDeliveryWidget = null;
 	});
