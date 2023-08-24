@@ -20,7 +20,6 @@ export default class Checkout extends Component<
 		cart: SimpleCart;
 		cartError: string;
 		redirecting: boolean;
-		screenwidth: number;
 	}
 > {
 	constructor(props: ViewProps) {
@@ -33,7 +32,6 @@ export default class Checkout extends Component<
 			},
 			cartError: '',
 			redirecting: false,
-			screenwidth: window.innerWidth,
 		};
 		return this;
 	}
@@ -59,18 +57,9 @@ export default class Checkout extends Component<
 		window.location.href = 'http://localhost:3000/quick-delivery';
 	};
 
-	setWindowDimensions = () => {
-		this.setState({ screenwidth: window.innerWidth });
-	};
-
-	componentDidMount() {
-		window.addEventListener('resize', this.setWindowDimensions);
-	}
-	componentWillUnmount(): void {
-		window.removeEventListener('resize', this.setWindowDimensions);
-	}
 	render() {
 		const md = getBreakpointValue('md');
+		const { expanded, setExpand, screenwidth } = this.props;
 
 		if (this.state.redirecting)
 			return (
@@ -81,8 +70,6 @@ export default class Checkout extends Component<
 					<Small color="light">moving to Gras</Small>
 				</div>
 			);
-
-		const { expanded, setExpand } = this.props;
 		return (
 			// eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
 			<div
@@ -151,13 +138,13 @@ export default class Checkout extends Component<
 					</>
 				) : (
 					<>
-						{this.state.screenwidth >= md && (
+						{screenwidth >= md && (
 							<img
 								src={logo}
 								alt="Delivery By Gras"
 								height={40}
 								width={40}
-								className="object-contain"
+								className="object-contain animate-[shake_4s_ease-in-out_infinite]"
 							/>
 						)}
 						<div className="flex flex-col">
@@ -171,7 +158,7 @@ export default class Checkout extends Component<
 								Click here to order
 							</Small>
 						</div>
-						{this.state.screenwidth >= md && <div className="w-[20px]"></div>}
+						{screenwidth >= md && <div className="w-[20px]"></div>}
 					</>
 				)}
 			</div>

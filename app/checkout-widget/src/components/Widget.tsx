@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 import styles from '../styles/theme';
@@ -10,11 +10,22 @@ import '../styles/tailwind.css';
 
 // eslint-disable-next-line import/no-named-as-default-member
 function Widget(props: DeliveryWidgetConfigOptions) {
+	const [screenwidth, setScreenwidth] = useState(window.innerWidth);
+	useEffect(() => {
+		const setWindowDimensions = () => {
+			setScreenwidth(window.innerWidth);
+		};
+		window.addEventListener('resize', setWindowDimensions);
+		return () => window.removeEventListener('resize', setWindowDimensions);
+	}, []);
+	const [href] = useState(location.href);
 	const [expanded, setExpand] = useState(false);
 	const config: ViewProps = {
 		...props,
 		expanded,
 		setExpand,
+		href,
+		screenwidth,
 	};
 	const { position } = config;
 	return (

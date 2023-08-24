@@ -22,6 +22,8 @@ export interface ViewProps extends DeliveryWidgetConfigOptions {
 	className?: string | string[];
 	expanded: boolean;
 	setExpand: (expanded: boolean) => void;
+	href: string;
+	screenwidth: number;
 }
 export type ViewComponent = (props: ViewProps) => JSX.Element | JSX.Element;
 

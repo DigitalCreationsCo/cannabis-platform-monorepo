@@ -2618,6 +2618,44 @@ html {
   animation: bounce 1s 0.3s infinite;
 }
 
+@keyframes shake {
+  0% {
+    transform: rotate(0.0deg);
+  }
+
+  10% {
+    transform: rotate(14deg);
+  }
+
+  20% {
+    transform: rotate(-10deg);
+  }
+
+  30% {
+    transform: rotate(14deg);
+  }
+
+  40% {
+    transform: rotate(-6deg);
+  }
+
+  50% {
+    transform: rotate(8.0deg);
+  }
+
+  60% {
+    transform: rotate(0.0deg);
+  }
+
+  100% {
+    transform: rotate(0.0deg);
+  }
+}
+
+.animate-\[shake_4s_ease-in-out_infinite\] {
+  animation: shake 4s ease-in-out infinite;
+}
+
 @keyframes bounce {
   0%, 100% {
     transform: translateY(-25%);
@@ -2670,120 +2708,6 @@ html {
 
 .animate-shake {
   animation: shake 4s linear infinite;
-}
-
-@keyframes shake {
-  0% {
-    transform: rotate(0.0deg);
-  }
-
-  10% {
-    transform: rotate(14deg);
-  }
-
-  20% {
-    transform: rotate(-10deg);
-  }
-
-  30% {
-    transform: rotate(14deg);
-  }
-
-  40% {
-    transform: rotate(-6deg);
-  }
-
-  50% {
-    transform: rotate(8.0deg);
-  }
-
-  60% {
-    transform: rotate(0.0deg);
-  }
-
-  100% {
-    transform: rotate(0.0deg);
-  }
-}
-
-.animate-\[shake_2s_ease-in-out_infinite\] {
-  animation: shake 2s ease-in-out infinite;
-}
-
-@keyframes shake {
-  0% {
-    transform: rotate(0.0deg);
-  }
-
-  10% {
-    transform: rotate(14deg);
-  }
-
-  20% {
-    transform: rotate(-10deg);
-  }
-
-  30% {
-    transform: rotate(14deg);
-  }
-
-  40% {
-    transform: rotate(-6deg);
-  }
-
-  50% {
-    transform: rotate(8.0deg);
-  }
-
-  60% {
-    transform: rotate(0.0deg);
-  }
-
-  100% {
-    transform: rotate(0.0deg);
-  }
-}
-
-.animate-\[shake_4s_ease-in-out_infinite\] {
-  animation: shake 4s ease-in-out infinite;
-}
-
-@keyframes shake {
-  0% {
-    transform: rotate(0.0deg);
-  }
-
-  10% {
-    transform: rotate(14deg);
-  }
-
-  20% {
-    transform: rotate(-10deg);
-  }
-
-  30% {
-    transform: rotate(14deg);
-  }
-
-  40% {
-    transform: rotate(-6deg);
-  }
-
-  50% {
-    transform: rotate(8.0deg);
-  }
-
-  60% {
-    transform: rotate(0.0deg);
-  }
-
-  100% {
-    transform: rotate(0.0deg);
-  }
-}
-
-.animate-\[shake_6s_ease-in-out_infinite\] {
-  animation: shake 6s ease-in-out infinite;
 }
 
 .cursor-default {
