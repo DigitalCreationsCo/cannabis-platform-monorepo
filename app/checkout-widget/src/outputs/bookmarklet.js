@@ -6,7 +6,7 @@ export default function bookmarklet() {
 	if (window.GrasDeliveryWidget) {
 		return;
 	}
-	window.EmbeddableWidget = GrasDeliveryWidget;
+	window.GrasDeliveryWidget = GrasDeliveryWidget;
 
 	GrasDeliveryWidget.mount();
 }

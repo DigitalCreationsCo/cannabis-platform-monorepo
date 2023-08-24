@@ -1,12 +1,18 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 export type WidgetHost = 'localhost' | 'sunnyside' | 'manasupplyco';
+export type DeliveryWidgetConfigOptions = DomOptions &
+	DispensaryOptions &
+	WidgetUIOptions;
+
+type DomOptions = {
+	parentElement?: string;
+};
 
 type DispensaryOptions = {
 	dispensaryId: string;
 	dispensaryName: string;
 };
 
-export type DeliveryWidgetConfigOptions = DispensaryOptions & WidgetUIOptions;
 type WidgetUIOptions = {
 	position: 'left' | 'right';
 	shape: 'round' | 'rectangle';
