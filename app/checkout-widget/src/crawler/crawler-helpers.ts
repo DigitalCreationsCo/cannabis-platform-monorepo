@@ -1,47 +1,89 @@
 import { type SimpleCart } from '@cd/core-lib';
 import * as cheerio from 'cheerio';
-import { type DOMSelector } from '../types';
 
-export function getDOMElements(config: any, $: cheerio.Root | any = {}) {
-	// if (typeof $ === 'undefined')
-	// $.prototype.get = function (selector: any)
-
-	// return document.querySelector(selector);
-	// {
-	// 	else return $(selector).get();
-	// };
-	// if $ is undefined,
-	// set $ to be a function that returns the result of document.querySelector
-	// else set $ to be a function that returns the result of $(selector).get()
-	// $ =
-	// 	typeof $ === 'undefined'
-	// 		? (selector: any) => document.querySelector(selector)
-	// 		: (selector: any) => $(selector).get();
+export async function getDOMElementsFromConfig(
+	config: any,
+	$: cheerio.Root | any = {},
+) {
 	if ($ !== typeof cheerio.root) {
 		$ = (selector: any) => document.querySelector(selector);
 	}
-	const data = Object.keys(config).reduce(
-		(map: Record<any, string>, label: any) => {
-			map[label] = $(config[label]);
+	return Object.keys(config).reduce(
+		async (map: Record<any, any>, label: any) => {
+			if (typeof config[label] === 'string') map[label] = $(config[label]);
+			if (typeof config[label] === 'object')
+				map[label] = await getDOMElementsFromConfig(config[label], $);
 			return map;
 		},
-		{} as Record<keyof DOMSelector, string>,
+		{} as Promise<Record<any, any>>,
 	);
-	console.info('getDOMElements: ', data);
-	return data;
 }
 
-export function parseCartData(input: any[]): SimpleCart {
+export async function getDOMElementsFromSelector(
+	selector: string,
+	$: cheerio.Root | any = {},
+): Promise<any | any[]> {
+	if ($ !== typeof cheerio.root) {
+		$ = (selector: any) => document.querySelector(selector);
+	}
+	return $(selector);
+}
+
+export function buildCartItems(items: any[]) {
+	// do something here
+	return items.map((item) => item);
+
+	// html.forEach((item, index) => {
+	// 	const $item = $(item);
+	// 	const _item = {
+	// 		name: $item.find(getDomData(_domain).name).text(),
+	// 		basePrice: convertDollarsToWholeNumber(
+	// 			$item.find(getDomData(_domain).basePrice).text(),
+	// 		),
+	// 		quantity: $item
+	// 			.find(getDomData(_domain).quantity)
+	// 			.text() as unknown as number,
+	// 		size: $item
+	// 			.find(getDomData(_domain).size)
+	// 			.text() as unknown as number,
+	// 		unit: $item.find(getDomData(_domain).unit).text(),
+	// 		images: [
+	// 			{
+	// 				id: index,
+	// 				location: (
+	// 					$item.find(getDomData(_domain).images.location).attr('src') ||
+	// 					''
+	// 				).match(/[^(.)].*/g)?.[0] as unknown as string,
+	// 			},
+	// 		],
+	// 	};
+
+	// 	console.info('item created from parseHtml: ', _item);
+	// 	cartData.cartItems.push(
+	// 		_item as unknown as ProductVariantWithDetails,
+	// 	);
+	// });
+}
+
+export function buildSimpleCart({
+	items,
+	total,
+}: {
+	items: any[];
+	total: any;
+}): SimpleCart {
 	try {
-		const cart = input;
-		console.info('cartData', cart);
-		return cart as any;
+		// build cart items from dom data
+		// extract the total from dom data
+		return {
+			cartItems: buildCartItems(items),
+			total: Number(total),
+		};
 	} catch (error) {
 		console.info('error parsing cart data, ', error);
-		const cart: SimpleCart = {
+		return {
 			cartItems: [],
 			total: 0,
 		};
-		return cart;
 	}
 }
