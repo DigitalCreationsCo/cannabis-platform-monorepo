@@ -1,6 +1,6 @@
 import * as cheerio from 'cheerio';
-import { type DOMDataSet, type DOMKey, type DOMQueryResult } from '../types';
-import { getDOMElementsFromConfig } from './crawler-helpers';
+import { type DOMDataSet, type DOMKey } from '../types';
+import { getCartDOMElements } from './crawler-helpers';
 
 export default async function cheerioCrawler(
 	config: DOMDataSet[typeof key],
@@ -14,10 +14,7 @@ export default async function cheerioCrawler(
 		const response = await fetch(_url);
 		const html = await response.text();
 		const $ = cheerio.load(html);
-		const data: DOMQueryResult[typeof key] = await getDOMElementsFromConfig(
-			config,
-			$,
-		);
+		const data = await getCartDOMElements(config, $);
 		if (!data) throw new Error('no data found');
 		console.log('crawler data: ', data);
 		return data;
