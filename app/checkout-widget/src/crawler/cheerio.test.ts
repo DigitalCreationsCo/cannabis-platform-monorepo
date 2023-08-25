@@ -32,7 +32,7 @@ describe('getDomElements: Cart', () => {
 
 	it('buildSimpleCart returns expected object', async () => {
 		const result = {
-			'cart-item': [
+			item: [
 				{
 					name: 'something',
 					label: 'string',

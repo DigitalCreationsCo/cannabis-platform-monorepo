@@ -43,7 +43,7 @@ class Config implements CrawlerConfigInterface {
 	private crawlerConfig: CrawlerConfig = {
 		localhost: {
 			cart: {
-				'cart-item': {
+				item: {
 					'cart-item': '[data-item=cart-item]',
 					name: '[data-item=cart-item-name]',
 					label: '[data-item=cart-item-brand]',
@@ -58,7 +58,7 @@ class Config implements CrawlerConfigInterface {
 		},
 		sunnyside: {
 			cart: {
-				'cart-item': {
+				item: {
 					'cart-item': '[data-cy=CartItem]',
 					name: '.item__Name',
 					label: '.item__Brand',
@@ -73,7 +73,7 @@ class Config implements CrawlerConfigInterface {
 		},
 		manasupplyco: {
 			cart: {
-				'cart-item': {
+				item: {
 					'cart-item': '[data-testid=cart-item-container]',
 					name: '.item__Name',
 					label: '.item__Brand',
