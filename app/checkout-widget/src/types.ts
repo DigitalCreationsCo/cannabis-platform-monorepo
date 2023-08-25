@@ -48,7 +48,7 @@ export type DOMDataSet = {
 
 export type DOMQueryResult = {
 	cart: {
-		item: {
+		items: {
 			name: string;
 			label: string;
 			basePrice: string;
