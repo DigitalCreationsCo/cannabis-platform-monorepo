@@ -46,9 +46,7 @@ describe('getDomElements: Cart', () => {
 			],
 			total: 'string',
 		};
-		expect(
-			buildSimpleCart({ items: result['cart-item'], total: result.total }),
-		).toBeDefined();
+		expect(buildSimpleCart(result)).toBeDefined();
 	});
 
 	it('buildCartItems returns expected object', async () => {
