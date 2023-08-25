@@ -20,7 +20,12 @@ const defaultConfig = {
 			'process.env': JSON.stringify(process.env),
 		}),
 		new CopyPlugin({
-			patterns: [{ from: 'public', to: '.' }],
+			patterns: [
+				{
+					from: 'public',
+					to: '.',
+				},
+			],
 		}),
 		isProd ? new JavaScriptObfuscator() : null,
 	].filter((i) => i),
@@ -47,7 +52,6 @@ const defaultConfig = {
 			{
 				test: /\.(scss|css)$/,
 				use: [
-					// fallback to style-loader in development
 					// devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
 					'style-loader',
 					'css-loader',
@@ -89,7 +93,7 @@ module.exports = {
 		library: 'GrasDeliveryWidget',
 		libraryExport: 'default',
 		libraryTarget: 'window',
-		sourceMapFilename: '[name].js.map',
+		sourceMapFilename: '[name].[ext].map',
 	},
 	devtool: 'source-map',
 };

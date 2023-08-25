@@ -1,34 +1,46 @@
 import { type SimpleCart } from '@cd/core-lib';
-import * as cheerio from 'cheerio';
-import { type DOMQueryResult } from '../types';
+import { type DOMDataSet } from '../types';
+
+export async function getCartDOMElements(
+	config: DOMDataSet['cart'],
+	$: cheerio.Root,
+) {
+	return {
+		items: $(config.item['cart-item']).get(),
+		total: $(config.total).text(),
+	};
+}
 
 export async function getDOMElementsFromConfig<T extends Record<any, any>>(
 	config: T,
-	$: cheerio.Root | any = {},
+	$: cheerio.Root,
 ): Promise<any> {
-	if ($ !== typeof cheerio.root) {
-		$ = (selector: any) => document.querySelector(selector);
-	}
+	// if (typeof $ !== typeof cheerio.root) {
+	// 	console.log('setting $ to document');
+	// 	$ = (selector: any) => document.querySelector(selector);
+	// }
+	console.log('keys: ', Object.keys(config));
 	return Object.keys(config).reduce(
 		async (map: Record<any, any>, label: any) => {
-			if (typeof config[label] === 'string') map[label] = $(config[label]);
+			if (typeof config[label] === 'string')
+				map[label] = await $(config[label]).text();
 			if (typeof config[label] === 'object')
 				map[label] = await getDOMElementsFromConfig(config[label], $);
 			console.log('crawer label: ', label, ' value: ', config[label]);
 			console.log('map: ', map);
-			return map;
+			return { ...map, [label]: map[label] };
 		},
 		{} as Promise<Record<any, any>>,
 	);
 }
 
-export async function getDOMElementsFromSelector(
+export function getDOMElementsFromSelector(
 	selector: string,
 	$: cheerio.Root | any = {},
-): Promise<any | any[]> {
-	if ($ !== typeof cheerio.root) {
-		$ = (selector: any) => document.querySelector(selector);
-	}
+): cheerio.Cheerio | any {
+	// if ($ !== typeof cheerio.root) {
+	// 	$ = (selector: any) => document.querySelector(selector);
+	// }
 	return $(selector);
 }
 
@@ -68,13 +80,14 @@ export function buildCartItems(items: any[]) {
 	// });
 }
 
-export function buildSimpleCart(input: DOMQueryResult['cart']): SimpleCart {
+export function buildSimpleCart(input: {
+	items: any[];
+	total: string;
+}): SimpleCart {
 	try {
 		if (!input) throw new Error('no input data');
-		const items = input.item;
+		const items = input.items;
 		const total = input.total;
-		// build cart items from dom data
-		// extract the total from dom data
 		return {
 			cartItems: buildCartItems(items),
 			total: Number(total),
