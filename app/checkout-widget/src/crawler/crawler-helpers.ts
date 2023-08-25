@@ -1,10 +1,11 @@
 import { type SimpleCart } from '@cd/core-lib';
 import * as cheerio from 'cheerio';
+import { type DOMQueryResult } from '../types';
 
-export async function getDOMElementsFromConfig(
-	config: any,
+export async function getDOMElementsFromConfig<T extends Record<any, any>>(
+	config: T,
 	$: cheerio.Root | any = {},
-) {
+): Promise<any> {
 	if ($ !== typeof cheerio.root) {
 		$ = (selector: any) => document.querySelector(selector);
 	}
@@ -13,6 +14,8 @@ export async function getDOMElementsFromConfig(
 			if (typeof config[label] === 'string') map[label] = $(config[label]);
 			if (typeof config[label] === 'object')
 				map[label] = await getDOMElementsFromConfig(config[label], $);
+			console.log('crawer label: ', label, ' value: ', config[label]);
+			console.log('map: ', map);
 			return map;
 		},
 		{} as Promise<Record<any, any>>,
@@ -65,14 +68,11 @@ export function buildCartItems(items: any[]) {
 	// });
 }
 
-export function buildSimpleCart({
-	items,
-	total,
-}: {
-	items: any[];
-	total: any;
-}): SimpleCart {
+export function buildSimpleCart(input: DOMQueryResult['cart']): SimpleCart {
 	try {
+		if (!input) throw new Error('no input data');
+		const items = input['cart-item'];
+		const total = input.total;
 		// build cart items from dom data
 		// extract the total from dom data
 		return {

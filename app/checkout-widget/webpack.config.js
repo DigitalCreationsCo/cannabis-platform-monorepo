@@ -58,7 +58,7 @@ const defaultConfig = {
 							postcssOptions: {
 								ident: 'postcss',
 								plugins: [['postcss-preset-env']],
-								sourceMap: nodeEnv === 'development',
+								// sourceMap: nodeEnv === 'development',
 							},
 						},
 					},
@@ -89,5 +89,7 @@ module.exports = {
 		library: 'GrasDeliveryWidget',
 		libraryExport: 'default',
 		libraryTarget: 'window',
+		sourceMapFilename: '[name].js.map',
 	},
+	devtool: 'source-map',
 };

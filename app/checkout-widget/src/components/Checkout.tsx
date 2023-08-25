@@ -37,13 +37,12 @@ export default class Checkout extends Component<
 	}
 
 	getCartData = () => {
+		console.log('fetching cart..');
 		const config = new CrawlerConfig('cart').config;
-		crawler(config)
-			.then((result) =>
-				buildSimpleCart({ items: result?.['cart-item'], total: result?.total }),
-			) // convert dom output into cart data for Gras checkout
-			.then((result: SimpleCart) =>
-				this.setState({ cart: { ...this.state.cart, ...result } }),
+		crawler(config, 'cart')
+			.then(buildSimpleCart)
+			.then((cart: SimpleCart) =>
+				this.setState({ cart: { ...this.state.cart, ...cart } }),
 			)
 			.then(() => this.props.setExpand(true))
 			.catch((error: any) => {
