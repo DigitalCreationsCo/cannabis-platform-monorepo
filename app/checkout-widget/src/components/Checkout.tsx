@@ -9,7 +9,6 @@ import { Component } from 'react';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/img/logo120.png';
 import { Config as CrawlerConfig, crawler } from '../crawler';
-import { buildSimpleCart } from '../crawler/crawler-helpers';
 import styles from '../styles/theme';
 import { type ViewProps } from '../types';
 import CartList from './CartItemList';
@@ -40,10 +39,7 @@ export default class Checkout extends Component<
 		console.log('fetching cart..');
 		const config = new CrawlerConfig('cart').config;
 		crawler(config, 'cart')
-			.then(buildSimpleCart)
-			.then((cart: SimpleCart) =>
-				this.setState({ cart: { ...this.state.cart, ...cart } }),
-			)
+			.then((cart) => this.setState({ cart: { ...this.state.cart, ...cart } }))
 			.then(() => this.props.setExpand(true))
 			.catch((error: any) => {
 				console.error('getCartData error, ', error);
