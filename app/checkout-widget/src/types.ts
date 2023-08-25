@@ -48,18 +48,16 @@ export type DOMDataSet = {
 
 export type DOMQueryResult = {
 	cart: {
-		'cart-item': [
-			{
-				name: string;
-				label: string;
-				basePrice: string;
-				quantity: string;
-				size: string;
-				unit: string;
-				image: string;
-				'cart-item': string;
-			},
-		];
+		'cart-item': {
+			name: string;
+			label: string;
+			basePrice: string;
+			quantity: string;
+			size: string;
+			unit: string;
+			image: string;
+			'cart-item': string;
+		}[];
 		total: string;
 	};
 };

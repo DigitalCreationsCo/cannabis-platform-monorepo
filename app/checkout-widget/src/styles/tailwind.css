@@ -1018,22 +1018,6 @@ html {
   white-space: nowrap;
 }
 
-.input {
-  flex-shrink: 1;
-  height: 3rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  font-size: 1rem;
-  line-height: 2;
-  line-height: 1.5rem;
-  border-width: 1px;
-  border-color: hsl(var(--bc) / var(--tw-border-opacity));
-  --tw-border-opacity: 0;
-  --tw-bg-opacity: 1;
-  background-color: hsl(var(--b1) / var(--tw-bg-opacity));
-  border-radius: var(--rounded-btn, 0.5rem);
-}
-
 .\!input {
   flex-shrink: 1 !important;
   height: 3rem !important;
@@ -1050,12 +1034,33 @@ html {
   border-radius: var(--rounded-btn, 0.5rem) !important;
 }
 
-.input-group > .input {
-  isolation: isolate;
+.input {
+  flex-shrink: 1;
+  height: 3rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  font-size: 1rem;
+  line-height: 2;
+  line-height: 1.5rem;
+  border-width: 1px;
+  border-color: hsl(var(--bc) / var(--tw-border-opacity));
+  --tw-border-opacity: 0;
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--b1) / var(--tw-bg-opacity));
+  border-radius: var(--rounded-btn, 0.5rem);
 }
 
 .input-group > .\!input {
   isolation: isolate !important;
+}
+
+.input-group > .input {
+  isolation: isolate;
+}
+
+
+  .input-group > .\!input {
+  border-radius: 0px !important;
 }
 
 .input-group > *,
@@ -1063,11 +1068,6 @@ html {
   .input-group > .textarea,
   .input-group > .select {
   border-radius: 0px;
-}
-
-
-  .input-group > .\!input {
-  border-radius: 0px !important;
 }
 
 .menu > :where(li.\!disabled > *:not(ul):focus) {
@@ -1619,22 +1619,22 @@ html {
   color: hsl(var(--bc) / var(--tw-text-opacity));
 }
 
-.input[list]::-webkit-calendar-picker-indicator {
-  line-height: 1em;
-}
-
 .\!input[list]::-webkit-calendar-picker-indicator {
   line-height: 1em !important;
 }
 
-.input:focus {
-  outline: 2px solid hsla(var(--bc) / 0.2);
-  outline-offset: 2px;
+.input[list]::-webkit-calendar-picker-indicator {
+  line-height: 1em;
 }
 
 .\!input:focus {
   outline: 2px solid hsla(var(--bc) / 0.2) !important;
   outline-offset: 2px !important;
+}
+
+.input:focus {
+  outline: 2px solid hsla(var(--bc) / 0.2);
+  outline-offset: 2px;
 }
 
 .input-error {
@@ -1644,6 +1644,16 @@ html {
 
 .input-error:focus {
   outline: 2px solid hsl(var(--er));
+}
+
+
+  .\!input[disabled] {
+  cursor: not-allowed !important;
+  --tw-border-opacity: 1 !important;
+  border-color: hsl(var(--b2, var(--b1)) / var(--tw-border-opacity)) !important;
+  --tw-bg-opacity: 1 !important;
+  background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity)) !important;
+  --tw-text-opacity: 0.2 !important;
 }
 
 .input-disabled,
@@ -1657,13 +1667,15 @@ html {
 }
 
 
-  .\!input[disabled] {
-  cursor: not-allowed !important;
-  --tw-border-opacity: 1 !important;
-  border-color: hsl(var(--b2, var(--b1)) / var(--tw-border-opacity)) !important;
-  --tw-bg-opacity: 1 !important;
-  background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity)) !important;
-  --tw-text-opacity: 0.2 !important;
+  .\!input[disabled]::-moz-placeholder {
+  color: hsl(var(--bc) / var(--tw-placeholder-opacity)) !important;
+  --tw-placeholder-opacity: 0.2 !important;
+}
+
+
+  .\!input[disabled]::placeholder {
+  color: hsl(var(--bc) / var(--tw-placeholder-opacity)) !important;
+  --tw-placeholder-opacity: 0.2 !important;
 }
 
 .input-disabled::-moz-placeholder, .input[disabled]::-moz-placeholder {
@@ -1675,18 +1687,6 @@ html {
   .input[disabled]::placeholder {
   color: hsl(var(--bc) / var(--tw-placeholder-opacity));
   --tw-placeholder-opacity: 0.2;
-}
-
-
-  .\!input[disabled]::-moz-placeholder {
-  color: hsl(var(--bc) / var(--tw-placeholder-opacity)) !important;
-  --tw-placeholder-opacity: 0.2 !important;
-}
-
-
-  .\!input[disabled]::placeholder {
-  color: hsl(var(--bc) / var(--tw-placeholder-opacity)) !important;
-  --tw-placeholder-opacity: 0.2 !important;
 }
 
 .menu li.\!disabled > * {
