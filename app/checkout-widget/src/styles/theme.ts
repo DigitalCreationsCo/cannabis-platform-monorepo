@@ -11,7 +11,7 @@ const styles = {
 	],
 	container: ['min-h-[44px] md:min-h-0 bottom-0'],
 	inner_container: [
-		'z-10 fixed md:block',
+		'z-50 fixed md:block',
 		'min-h-[44px] md:min-h-0 bottom-0 md:m-4 flex',
 	],
 	launch_f: (expanded: ViewProps['expanded']) => [

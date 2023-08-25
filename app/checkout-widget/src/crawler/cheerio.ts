@@ -1,8 +1,11 @@
 import * as cheerio from 'cheerio';
-import { type DOMSelector } from '../types';
+import { type DOMDataSet, type DOMKey, type DOMQueryResult } from '../types';
 import { getDOMElementsFromConfig } from './crawler-helpers';
 
-export default async function cheerioCrawler(config: DOMSelector) {
+export default async function cheerioCrawler(
+	config: DOMDataSet[typeof key],
+	key: DOMKey,
+) {
 	try {
 		if (typeof window === 'undefined')
 			throw new Error('window is not available');
@@ -11,9 +14,15 @@ export default async function cheerioCrawler(config: DOMSelector) {
 		const response = await fetch(_url);
 		const html = await response.text();
 		const $ = cheerio.load(html);
-		return await getDOMElementsFromConfig(config, $);
-	} catch (error) {
+		const data: DOMQueryResult[typeof key] = await getDOMElementsFromConfig(
+			config,
+			$,
+		);
+		if (!data) throw new Error('no data found');
+		console.log('crawler data: ', data);
+		return data;
+	} catch (error: any) {
 		console.error('error in cheerio crawler: ', error);
-		return null;
+		throw new Error(error.message);
 	}
 }

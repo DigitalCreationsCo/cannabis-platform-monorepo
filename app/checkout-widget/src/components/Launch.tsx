@@ -1,10 +1,14 @@
+import useCheckHrefIncludes from '@cd/core-lib/src/hooks/useCheckHrefIncludes';
 import CloseButton from '@cd/ui-lib/src/components/button/CloseButton';
 import { Paragraph, Small } from '@cd/ui-lib/src/components/Typography';
 import { getBreakpointValue } from '@cd/ui-lib/src/hooks/useBreakpoint';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/img/logo120.png';
 import styles from '../styles/theme';
 import { type ViewProps } from '../types';
+// import url from 'url-state';
 
 function Launch({
 	expanded,
@@ -18,6 +22,12 @@ function Launch({
 		e.stopPropagation();
 		setExpand(false);
 	};
+
+	const navigate = useNavigate();
+	const isCheckout = useCheckHrefIncludes('checkout');
+	useEffect(() => {
+		isCheckout ? navigate('/checkout') : null;
+	});
 
 	const md = getBreakpointValue('md');
 	return (
@@ -62,7 +72,7 @@ function Launch({
 						/>
 					)}
 					<Small color="light" className="items-center">
-						Delivery by Gras&nbsp;now at checkout
+						Delivery by Gras&nbsp;now at checkout!
 					</Small>
 					{screenwidth >= md && <div className="w-[20px]"></div>}
 				</div>
