@@ -16,7 +16,8 @@ export default async function cheerioCrawler(
 		console.info('crawling url, ', _url);
 		const response = await fetch(_url);
 		const html = await response.text();
-		const data = processCrawlerData(html, config, 'cart');
+		console.log('html data: ', html);
+		const data = await processCrawlerData(html, config, 'cart');
 		if (!data) throw new Error('no data found');
 		console.log('crawler data: ', data);
 		return data;
@@ -46,7 +47,7 @@ async function processCrawlerData<K extends DOMKey>(
 				return await getCartDOMElements(config, $);
 		}
 	};
-	return (await result()) as ProcessReturnType<K>;
+	return result() as unknown as ProcessReturnType<K>;
 }
 type ProcessReturnType<K> = K extends 'cart' ? SimpleCart : never;
 
@@ -96,25 +97,35 @@ export function getDOMElementsFromSelector(
 export function buildCartItems(
 	items: DOMQueryResult['cart']['items'],
 	config: DOMDataSet['cart'],
-	$: cheerio.Root | any,
+	$?: cheerio.Root,
 ): ProductVariantWithDetails[] {
+	let _$: any;
+	let text: (arg: any) => string;
+	let src: (arg: any) => string;
+	if (typeof $ !== 'undefined') {
+		_$ = (item: DOMQueryResult['cart']['items'][0], label: string) =>
+			$(item).find(label);
+		text = (el: cheerio.Cheerio) => el?.text() || '';
+		src = (el: cheerio.Cheerio) => el?.attr('src') || '';
+	}
 	if (typeof $ === 'undefined') {
-		$ = (selector: any) => document.querySelector(selector);
+		_$ = (item: DOMQueryResult['cart']['items'][0], label: string) =>
+			document.querySelector(`${item['cart-item']} ${label}`);
+		text = (el: HTMLElement) => el?.textContent || '';
+		src = (el: HTMLElement) => el?.getAttribute('src') || '';
 	}
 	const cartItems: ProductVariantWithDetails[] = [];
 	items.forEach((item, index) => {
-		const _$ = (label: string) => $(item).find(label);
 		cartItems.push({
-			name: _$(item.name).text(),
-			basePrice: convertDollarsToWholeNumber(_$(item.basePrice).text()),
-			quantity: Number(_$(item.quantity).text()),
-			size: Number(_$(item.size).text()),
-			unit: _$(item.unit).text(),
+			name: text(_$(item, item.name)),
+			basePrice: convertDollarsToWholeNumber(text(_$(item, item.basePrice))),
+			quantity: Number(text(_$(item, item.quantity))),
+			size: Number(text(_$(item, item.size))),
+			unit: text(_$(item, item.unit)),
 			images: [
 				{
 					id: `Simple-Cart-Item-${index}`,
-					location: _$(item.image).attr('src') || '',
-					// .match(/[^(.)].*/g)?.[0] as unknown as string,
+					location: src(_$(item, item.image)),
 				},
 			],
 		} as ProductVariantWithDetails);
