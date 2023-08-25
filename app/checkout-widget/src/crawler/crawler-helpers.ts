@@ -71,7 +71,7 @@ export function buildCartItems(items: any[]) {
 export function buildSimpleCart(input: DOMQueryResult['cart']): SimpleCart {
 	try {
 		if (!input) throw new Error('no input data');
-		const items = input['cart-item'];
+		const items = input.item;
 		const total = input.total;
 		// build cart items from dom data
 		// extract the total from dom data

@@ -32,7 +32,7 @@ export type DOMSelector = DOMDataSet[DOMKey];
 // this is the data structure that the crawler will use to dynamically traverse the dom elements and return data based on the config
 export type DOMDataSet = {
 	cart: {
-		'cart-item': {
+		item: {
 			name: string;
 			label: string;
 			basePrice: string;
@@ -48,7 +48,7 @@ export type DOMDataSet = {
 
 export type DOMQueryResult = {
 	cart: {
-		'cart-item': {
+		item: {
 			name: string;
 			label: string;
 			basePrice: string;
