@@ -16,6 +16,7 @@ export default async function dutchieCrawler(
 		const _url = window.location.href;
 		const response = await fetch(_url);
 		const html = await response.text();
+		console.log('html from dutchie ', html);
 		const data = await processCrawlerData(html, config, 'cart');
 		if (!data) throw new Error('no data found');
 		return data;
@@ -40,8 +41,6 @@ export async function processCrawlerData<K extends DOMKey>(
 				return await getCartDOMElements(config, $).then((result) =>
 					buildSimpleCart(result, config, $),
 				);
-			default:
-				return await getCartDOMElements(config, $);
 		}
 	};
 	return result() as unknown as ProcessReturnType<K>;
@@ -56,32 +55,6 @@ export async function getCartDOMElements(
 		items: $(config.item['cart-item']).get(),
 		total: $(config.total).text(),
 	};
-}
-
-export async function getDOMElementsFromConfig<T extends Record<any, any>>(
-	config: T,
-	$: cheerio.Root,
-): Promise<any> {
-	return Object.keys(config).reduce(
-		async (map: Record<any, any>, label: any) => {
-			if (typeof config[label] === 'string')
-				map[label] = await $(config[label]).text();
-			if (typeof config[label] === 'object')
-				map[label] = await getDOMElementsFromConfig(config[label], $);
-			return { ...map, [label]: map[label] };
-		},
-		{} as Promise<Record<any, any>>,
-	);
-}
-
-export function getDOMElementsFromSelector(
-	selector: string,
-	$?: cheerio.Root | any,
-): cheerio.Cheerio | any {
-	// if ($ === 'undefined') {
-	// 	$ = (selector: any) => document.querySelector(selector);
-	// }
-	return $(selector);
 }
 
 export function buildCartItems(
@@ -107,13 +80,25 @@ export function buildCartItems(
 	const cartItems: ProductVariantWithDetails[] = [];
 	items.forEach((item, index) => {
 		const _cartItem = {
-			name: text(_$(item, config.item.name)),
+			// split the name from the textcontent
+			name: text(_$(item, config.item.name)).match(regexFieldDict.name)?.[1],
+
+			// get child div from base price
 			basePrice: convertDollarsToWholeNumber(
 				text(_$(item, config.item.basePrice)),
 			),
+			// get the select option value
 			quantity: Number(text(_$(item, config.item.quantity))),
-			size: Number(text(_$(item, config.item.size))),
-			unit: text(_$(item, config.item.unit)),
+
+			// split the size from name textcontent
+			size: Number(
+				text(_$(item, config.item.name)).match(regexFieldDict.size)?.[1],
+			),
+
+			// split the unit from name textcontent
+			unit: text(_$(item, config.item.unit)).match(regexFieldDict.unit)?.[2],
+
+			// no images in dutchie cart
 			images: [
 				{
 					id: `Item-Image-${index}`,
@@ -125,6 +110,13 @@ export function buildCartItems(
 	});
 	return cartItems;
 }
+
+export const regexFieldDict = {
+	name: /^(.*?)(?= -|$)/,
+	// eslint-disable-next-line regexp/optimal-quantifier-concatenation
+	size: /(\d+(\.\d+)?)\w*/,
+	unit: /-\s*\d+(\.\d+)?([^\s|]+)/,
+};
 
 export function buildSimpleCart(
 	input: DOMQueryResult['cart'],
