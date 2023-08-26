@@ -33,6 +33,7 @@ class Config implements CrawlerConfigInterface {
 			if (typeof window === 'undefined')
 				throw new Error('window is not available');
 			const host = getDispensaryDomain(window.location.hostname) as WidgetHost;
+			console.log('widget host is ', host);
 			return host || 'localhost';
 		} catch (error) {
 			console.error('error getting widget host: ', error);
@@ -71,7 +72,7 @@ class Config implements CrawlerConfigInterface {
 				total: '[data-cy=CartTotal]',
 			},
 		},
-		manasupplyco: {
+		manasupply: {
 			cart: {
 				item: {
 					'cart-item': '[data-testid=cart-item-container]',

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-export type WidgetHost = 'localhost' | 'sunnyside' | 'manasupplyco';
+export type WidgetHost = 'localhost' | 'sunnyside' | 'manasupply';
 export type DeliveryWidgetConfigOptions = DomOptions &
 	DispensaryOptions &
 	WidgetUIOptions;

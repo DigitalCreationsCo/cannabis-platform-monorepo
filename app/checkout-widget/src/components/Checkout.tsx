@@ -60,7 +60,6 @@ export default class Checkout extends Component<
 	}
 
 	render() {
-		console.log('isScrolledToBottom: ', this.state.isScrolledToBottom);
 		const md = getBreakpointValue('md');
 		const { expanded, setExpand, screenwidth } = this.props;
 
