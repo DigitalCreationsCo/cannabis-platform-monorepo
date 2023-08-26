@@ -11,6 +11,7 @@ type DomOptions = {
 type DispensaryOptions = {
 	dispensaryId: string;
 	dispensaryName: string;
+	useDutchie?: boolean;
 };
 
 type WidgetUIOptions = {

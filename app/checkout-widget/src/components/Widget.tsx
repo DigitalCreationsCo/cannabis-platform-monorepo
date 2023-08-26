@@ -84,6 +84,7 @@ function Widget(props: DeliveryWidgetConfigOptions) {
 Widget.defaultProps = {
 	position: 'right',
 	shape: 'rectangle',
+	useDutchie: false,
 } as DeliveryWidgetConfigOptions;
 
 export default Widget;

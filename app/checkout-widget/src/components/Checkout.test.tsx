@@ -18,4 +18,18 @@ describe('<Checkout />', () => {
 	// 	const spy = jest.spyOn(wrapper.instance(), 'getCartData');
 	// 	expect(spy).toHaveBeenCalled();
 	// });
+
+	it('Checkout crawler loads the correct config', () => {
+		const checkout = shallow(<Checkout {...props} />);
+		expect(checkout).toBeDefined();
+		// set checkout prop: useDutchie: false 10min
+		// call checkout.getCartData(); 20min
+		// expect checkout crawler to load the correct config how to detect it?
+		// test the case result of switch statement
+
+		// set checkout prop: useDutchie: true
+		// call checkout.getCartData();
+		// expect checkout crawler to load the correct config how to detect it?
+		// test the case result of switch statement
+	});
 });
