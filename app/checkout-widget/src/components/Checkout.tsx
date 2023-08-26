@@ -37,21 +37,24 @@ export default class Checkout extends Component<
 		};
 	}
 
-	getCartData = () => {
+	getCartData = async () => {
 		const config = new CrawlerConfig('cart').config;
 		console.info('fetch cart');
 		let crawler;
-
+		console.log('this.props.useDutchie ', this.props.useDutchie);
 		// eslint-disable-next-line sonarjs/no-small-switch
 		switch (this.props.useDutchie) {
 			case true:
-				// eslint-disable-next-line @typescript-eslint/no-var-requires
-				crawler = require('../crawler/dutchie').crawler;
+				crawler = await import('../crawler/dutchie-crawler').then(
+					(c) => c.default,
+				);
 				break;
 			default:
-				// eslint-disable-next-line @typescript-eslint/no-var-requires
-				crawler = require('../crawler/leafly').crawler;
+				crawler = await import('../crawler/checkout-crawler').then(
+					(c) => c.default,
+				);
 		}
+		if (!crawler) throw new Error('crawler not found');
 		crawler(config, 'cart')
 			.then((cart: SimpleCart) =>
 				this.setState({ cart: { ...this.state.cart, ...cart } }),

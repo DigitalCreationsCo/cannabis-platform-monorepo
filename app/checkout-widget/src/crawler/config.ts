@@ -33,7 +33,6 @@ class Config implements CrawlerConfigInterface {
 			if (typeof window === 'undefined')
 				throw new Error('window is not available');
 			const host = getDispensaryDomain(window.location.hostname) as WidgetHost;
-			console.log('widget host is ', host);
 			return host || 'localhost';
 		} catch (error) {
 			console.error('error getting widget host: ', error);
@@ -75,16 +74,16 @@ class Config implements CrawlerConfigInterface {
 		manasupply: {
 			cart: {
 				item: {
-					'cart-item': '[data-testid=cart-item-container]',
-					name: '.item__Name',
-					label: '.item__Brand',
-					basePrice: '.item__Price',
-					quantity: '.item__Quantity',
-					size: '.item__Name',
-					unit: '.item__Name',
-					image: '.product-image',
+					'cart-item': '.summary-item__Container-sc-1gislal-0 dRTSHc',
+					name: '.product-details__ProductName-sc-10w5qcl-1 liueda',
+					label: '.product-details__BrandName-sc-10w5qcl-2 iOmPMN',
+					basePrice: '.summary-item__Price-sc-1gislal-2 kfcOnR',
+					quantity: '.select__StyledSelect-sc-6nehhv-1 bdTYYe',
+					size: '.product-details__ProductName-sc-10w5qcl-1 liueda',
+					unit: '.product-details__ProductName-sc-10w5qcl-1 liueda',
+					image: '',
 				},
-				total: '[data-testid=cart-dropdown-subtotal]',
+				total: '.sc-AxjAm iFcYSf cost-table__CostItem-ggum6p-2 hCunA',
 			},
 		},
 	};
