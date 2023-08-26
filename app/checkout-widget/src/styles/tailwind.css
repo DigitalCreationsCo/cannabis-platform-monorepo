@@ -2532,6 +2532,10 @@ html {
   min-height: 100vh;
 }
 
+.min-h-\[70px\] {
+  min-height: 70px;
+}
+
 .w-14 {
   width: 3.5rem;
 }
@@ -2994,6 +2998,10 @@ html {
   overflow-x: hidden;
 }
 
+.overflow-y-scroll {
+  overflow-y: scroll;
+}
+
 .overscroll-none {
   overscroll-behavior: none;
 }
@@ -3188,6 +3196,10 @@ html {
 
 .p-6 {
   padding: 1.5rem;
+}
+
+.\!p-4 {
+  padding: 1rem !important;
 }
 
 .\!py-0 {
