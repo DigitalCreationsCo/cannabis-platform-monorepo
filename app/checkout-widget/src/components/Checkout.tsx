@@ -19,6 +19,7 @@ export default class Checkout extends Component<
 		cart: SimpleCart;
 		cartError: string;
 		redirecting: boolean;
+		isScrolledToBottom: boolean;
 	}
 > {
 	constructor(props: ViewProps) {
@@ -32,6 +33,7 @@ export default class Checkout extends Component<
 			},
 			cartError: '',
 			redirecting: false,
+			isScrolledToBottom: false,
 		};
 	}
 
@@ -55,6 +57,7 @@ export default class Checkout extends Component<
 	};
 
 	render() {
+		console.log('isScrolledToBottom: ', this.state.isScrolledToBottom);
 		const md = getBreakpointValue('md');
 		const { expanded, setExpand, screenwidth } = this.props;
 
@@ -105,19 +108,20 @@ export default class Checkout extends Component<
 								cart={this.state.cart}
 								cartError={this.state.cartError}
 								setExpandWidget={setExpand}
+								setIsScrolledToBottom={(isScrolledToBottom: boolean) =>
+									this.setState({ isScrolledToBottom })
+								}
 							/>
 						</div>
 						{this.state.cart && (
-							<>
-								<Paragraph className="w-2/3 flex justify-end text-light">
-									Your total is
-								</Paragraph>
+							<div className="w-2/3 flex flex-row justify-end">
+								<Paragraph className="text-light">Your total is</Paragraph>
 								<Price
 									color="light"
 									className="pl-2 text-light"
 									basePrice={this.state.cart.total}
 								/>
-							</>
+							</div>
 						)}
 						<Small className="text-light m-auto py-2">
 							{TextContent.prompt.CHECKOUT_READY}

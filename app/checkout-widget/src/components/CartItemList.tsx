@@ -1,7 +1,7 @@
 import { type SimpleCart } from '@cd/core-lib/src/types/redux.types';
 import SimpleCartItem from '@cd/ui-lib/src/components/cart/SimpleCartItem';
 import { Paragraph, Small } from '@cd/ui-lib/src/components/Typography';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { twMerge } from 'tailwind-merge';
 import styles from '../styles/theme';
 
@@ -9,9 +9,10 @@ type CartListProps = {
 	cart: SimpleCart;
 	cartError: string;
 	setExpandWidget: (expandWidget: boolean) => void;
+	setIsScrolledToBottom: (isScrolledToBottom: boolean) => void;
 };
 
-function CartList({ cart, cartError }: CartListProps) {
+function CartList({ cart, cartError, setIsScrolledToBottom }: CartListProps) {
 	console.log('CartList cart: ', cart);
 
 	// does this cross domain cookie work?
@@ -31,10 +32,31 @@ function CartList({ cart, cartError }: CartListProps) {
 		}
 	}
 
+	const scrolling = useRef<any>(null);
+	useEffect(() => {
+		const isScrolledToBottom = () => {
+			if (scrolling.current) {
+				const scrollDistanceY =
+					scrolling.current.scrollHeight - scrolling.current.scrollTop;
+				console.log('scrollDistanceY: ', scrollDistanceY);
+				const height = scrolling.current.clientHeight;
+				console.log('height: ', height);
+				return scrollDistanceY === height;
+			}
+			return false;
+		};
+		if (scrolling.current)
+			scrolling.current.addEventListener('wheel', () =>
+				setIsScrolledToBottom(isScrolledToBottom()),
+			);
+		return () =>
+			scrolling.current?.removeEventListener('wheel', isScrolledToBottom);
+	}, [cart]);
+
 	return (
 		<div className={twMerge(styles.cart_list)}>
 			{cart.cartItems.length > 0 ? (
-				<div className="overflow-y-auto w-full">
+				<div ref={scrolling} className="cart-list overflow-y-auto w-full">
 					{cart.cartItems.map((cartItem, index) => (
 						<>
 							<SimpleCartItem key={`cart-item-${index}`} product={cartItem} />
