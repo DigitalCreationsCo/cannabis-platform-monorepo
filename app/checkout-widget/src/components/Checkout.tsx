@@ -8,7 +8,7 @@ import { getBreakpointValue } from '@cd/ui-lib/src/hooks/useBreakpoint';
 import { Component } from 'react';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/img/logo120.png';
-import { Config as CrawlerConfig, crawler } from '../crawler';
+import { Config as CrawlerConfig } from '../crawler';
 import styles from '../styles/theme';
 import { type ViewProps } from '../types';
 import CartList from './CartItemList';
@@ -40,6 +40,18 @@ export default class Checkout extends Component<
 	getCartData = () => {
 		const config = new CrawlerConfig('cart').config;
 		console.info('fetch cart');
+		let crawler;
+
+		// eslint-disable-next-line sonarjs/no-small-switch
+		switch (this.props.useDutchie) {
+			case true:
+				// eslint-disable-next-line @typescript-eslint/no-var-requires
+				crawler = require('../crawler/dutchie').crawler;
+				break;
+			default:
+				// eslint-disable-next-line @typescript-eslint/no-var-requires
+				crawler = require('../crawler/leafly').crawler;
+		}
 		crawler(config, 'cart')
 			.then((cart: SimpleCart) =>
 				this.setState({ cart: { ...this.state.cart, ...cart } }),
