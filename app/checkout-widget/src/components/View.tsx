@@ -30,12 +30,10 @@ const View = (ViewComponent: ViewComponent, props: ViewProps) => {
 				}
 			}
 			window.addEventListener('click', () => {
-				console.log('click');
 				checkPath();
 			});
 			return () => {
 				window.removeEventListener('click', () => {
-					console.log('click');
 					checkPath();
 				});
 			};

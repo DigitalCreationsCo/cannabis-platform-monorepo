@@ -12,6 +12,8 @@ type CartListProps = {
 };
 
 function CartList({ cart, cartError }: CartListProps) {
+	console.log('CartList cart: ', cart);
+
 	// does this cross domain cookie work?
 	// need to test across different domains!
 	// and write unit tests
@@ -36,7 +38,10 @@ function CartList({ cart, cartError }: CartListProps) {
 					{cart.cartItems.map((cartItem, index) => (
 						<>
 							<SimpleCartItem key={`cart-item-${index}`} product={cartItem} />
-							<div className="divider text-primary m-0"></div>
+							<div
+								key={`divider-${index}`}
+								className="divider text-primary m-0"
+							></div>
 						</>
 					))}
 				</div>

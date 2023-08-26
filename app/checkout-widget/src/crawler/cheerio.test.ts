@@ -35,7 +35,7 @@ describe('Crawler : Cart', () => {
 		expect(typeof result.total).toBe('string');
 	});
 
-	it('processCrawlerData returns expected data', async () => {
+	it('processCrawlerData returns defined data', async () => {
 		const config = new Config('cart').config;
 		const data = await processCrawlerData(html, config, 'cart');
 		const simpleCart: SimpleCart = {
@@ -61,8 +61,7 @@ describe('Crawler : Cart', () => {
 			total: 'string',
 		};
 		const config = new Config('cart').config;
-		const $ = (selector: any) => document.querySelector(selector);
-		expect(buildSimpleCart(result, config, $)).toBeDefined();
+		expect(buildSimpleCart(result, config)).toBeDefined();
 	});
 
 	it('buildCartItems returns using cheerio', async () => {
@@ -84,6 +83,16 @@ describe('Crawler : Cart', () => {
 		const config = new Config('cart').config;
 		const $ = cheerio.load(html);
 		expect(buildCartItems(result['cart-item'], config, $)).toBeDefined();
+	});
+
+	it('buildCartItems returns expected data using cheerio', async () => {
+		const $ = cheerio.load(html);
+		const config = new Config('cart').config;
+		const { items } = await getCartDOMElements(config, $);
+		const result = buildCartItems(items, config, $);
+		expect(result).toBeDefined();
+		expect(isArray(result)).toBe(true);
+		expect(result[0].name).toBeTruthy();
 	});
 
 	it('buildCartItems returns using document selector', async () => {
