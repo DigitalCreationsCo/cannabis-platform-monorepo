@@ -5,6 +5,7 @@ import * as cheerio from 'cheerio';
 import { type DOMDataSet, type DOMKey, type DOMQueryResult } from '../types';
 
 // in the future, crawler accepts only a key, and the config is generated
+// make the exported functions public class methods, for testing
 export default async function cheerioCrawler(
 	config: DOMDataSet[typeof key],
 	key: DOMKey,
@@ -16,7 +17,6 @@ export default async function cheerioCrawler(
 		console.info('crawling url, ', _url);
 		const response = await fetch(_url);
 		const html = await response.text();
-		console.log('html data: ', html);
 		const data = await processCrawlerData(html, config, 'cart');
 		if (!data) throw new Error('no data found');
 		console.log('crawler data: ', data);
@@ -28,7 +28,7 @@ export default async function cheerioCrawler(
 }
 
 // in the future, take all these functions and build a Crawler Class
-async function processCrawlerData<K extends DOMKey>(
+export async function processCrawlerData<K extends DOMKey>(
 	html: string,
 	config: DOMDataSet[typeof key],
 	key: K,
@@ -102,13 +102,13 @@ export function buildCartItems(
 	let _$: any;
 	let text: (arg: any) => string;
 	let src: (arg: any) => string;
-	if (typeof $ !== 'undefined') {
+	if (typeof $ !== 'undefined' && typeof $ === typeof cheerio.root) {
 		_$ = (item: DOMQueryResult['cart']['items'][0], label: string) =>
 			$(item).find(label);
 		text = (el: cheerio.Cheerio) => el?.text() || '';
 		src = (el: cheerio.Cheerio) => el?.attr('src') || '';
 	}
-	if (typeof $ === 'undefined') {
+	if (typeof $ === 'undefined' || typeof $ === typeof document.querySelector) {
 		_$ = (item: DOMQueryResult['cart']['items'][0], label: string) =>
 			document.querySelector(`${item['cart-item']} ${label}`);
 		text = (el: HTMLElement) => el?.textContent || '';
@@ -147,10 +147,10 @@ export function buildSimpleCart(
 		const total = input.total;
 		return {
 			cartItems: buildCartItems(items, config, $),
-			total: Number(total),
+			total: convertDollarsToWholeNumber(total),
 		};
 	} catch (error) {
-		console.info('error parsing cart data, ', error);
+		console.info('buildSimpleCart: error build cart data, ', error);
 		return {
 			cartItems: [],
 			total: 0,
