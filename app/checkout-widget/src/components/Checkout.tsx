@@ -103,7 +103,7 @@ export default class Checkout extends Component<
 							{'\n'}
 							{TextContent.delivery.TIME_GUARANTEE}
 						</Paragraph>
-						<div className="w-2/3 my-4 overflow-y-auto">
+						<div className={twMerge('w-2/3 my-4', 'overflow-y-scroll')}>
 							<CartList
 								cart={this.state.cart}
 								cartError={this.state.cartError}
@@ -113,7 +113,7 @@ export default class Checkout extends Component<
 								}
 							/>
 						</div>
-						{this.state.cart && (
+						{this.state.cart.cartItems.length > 0 && (
 							<div className="w-2/3 flex flex-row justify-end">
 								<Paragraph className="text-light">Your total is</Paragraph>
 								<Price
@@ -128,7 +128,9 @@ export default class Checkout extends Component<
 						</Small>
 						<Button
 							size="lg"
-							className="text-dark font-bold hover:bg-accent-soft p-4 mb-10 mx-auto focus:bg-accent active:bg-accent bg-inverse"
+							bg="inverse"
+							hover="accent-soft"
+							className="text-dark font-bold p-4 mb-10 mx-auto focus:bg-accent active:bg-accent"
 							onClick={this.handleCheckout}
 							disabled={
 								this.state.cart.cartItems.length < 1 || this.state.redirecting
