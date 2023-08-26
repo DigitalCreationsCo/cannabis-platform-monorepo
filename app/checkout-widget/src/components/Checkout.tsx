@@ -28,18 +28,20 @@ export default class Checkout extends Component<
 				cartItems: [],
 				total: 0,
 				organizationId: props.dispensaryId,
+				organizationName: props.dispensaryName,
 			},
 			cartError: '',
 			redirecting: false,
 		};
-		return this;
 	}
 
 	getCartData = () => {
-		console.log('fetching cart..');
 		const config = new CrawlerConfig('cart').config;
+		console.info('fetch cart');
 		crawler(config, 'cart')
-			.then((cart) => this.setState({ cart: { ...this.state.cart, ...cart } }))
+			.then((cart: SimpleCart) =>
+				this.setState({ cart: { ...this.state.cart, ...cart } }),
+			)
 			.then(() => this.props.setExpand(true))
 			.catch((error: any) => {
 				console.error('getCartData error, ', error);

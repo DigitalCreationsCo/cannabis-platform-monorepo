@@ -14,12 +14,10 @@ export default async function cheerioCrawler(
 		if (typeof window === 'undefined')
 			throw new Error('window is not available');
 		const _url = window.location.href;
-		console.info('crawling url, ', _url);
 		const response = await fetch(_url);
 		const html = await response.text();
 		const data = await processCrawlerData(html, config, 'cart');
 		if (!data) throw new Error('no data found');
-		console.log('crawler data: ', data);
 		return data;
 	} catch (error: any) {
 		console.error('error in cheerio crawler: ', error);
@@ -65,19 +63,12 @@ export async function getDOMElementsFromConfig<T extends Record<any, any>>(
 	config: T,
 	$: cheerio.Root,
 ): Promise<any> {
-	// if (typeof $ !== typeof cheerio.root) {
-	// 	console.log('setting $ to document');
-	// 	$ = (selector: any) => document.querySelector(selector);
-	// }
-	console.log('keys: ', Object.keys(config));
 	return Object.keys(config).reduce(
 		async (map: Record<any, any>, label: any) => {
 			if (typeof config[label] === 'string')
 				map[label] = await $(config[label]).text();
 			if (typeof config[label] === 'object')
 				map[label] = await getDOMElementsFromConfig(config[label], $);
-			console.log('crawer label: ', label, ' value: ', config[label]);
-			console.log('map: ', map);
 			return { ...map, [label]: map[label] };
 		},
 		{} as Promise<Record<any, any>>,
@@ -86,9 +77,9 @@ export async function getDOMElementsFromConfig<T extends Record<any, any>>(
 
 export function getDOMElementsFromSelector(
 	selector: string,
-	$: cheerio.Root | any = {},
+	$?: cheerio.Root | any,
 ): cheerio.Cheerio | any {
-	// if ($ !== typeof cheerio.root) {
+	// if ($ === 'undefined') {
 	// 	$ = (selector: any) => document.querySelector(selector);
 	// }
 	return $(selector);
@@ -102,13 +93,13 @@ export function buildCartItems(
 	let _$: any;
 	let text: (arg: any) => string;
 	let src: (arg: any) => string;
-	if (typeof $ !== 'undefined' && typeof $ === typeof cheerio.root) {
-		_$ = (item: DOMQueryResult['cart']['items'][0], label: string) =>
+	if (typeof $ !== 'undefined') {
+		_$ = (item: any, label: keyof DOMDataSet['cart']['item']) =>
 			$(item).find(label);
-		text = (el: cheerio.Cheerio) => el?.text() || '';
-		src = (el: cheerio.Cheerio) => el?.attr('src') || '';
+		text = (el: cheerio.Cheerio) => el?.text().replace(/\n|\t/g, '') || '';
+		src = (el: cheerio.Cheerio) => el?.attr('src')?.replace(/\n|\t/g, '') || '';
 	}
-	if (typeof $ === 'undefined' || typeof $ === typeof document.querySelector) {
+	if (typeof $ === 'undefined') {
 		_$ = (item: DOMQueryResult['cart']['items'][0], label: string) =>
 			document.querySelector(`${item['cart-item']} ${label}`);
 		text = (el: HTMLElement) => el?.textContent || '';
@@ -116,19 +107,22 @@ export function buildCartItems(
 	}
 	const cartItems: ProductVariantWithDetails[] = [];
 	items.forEach((item, index) => {
-		cartItems.push({
-			name: text(_$(item, item.name)),
-			basePrice: convertDollarsToWholeNumber(text(_$(item, item.basePrice))),
-			quantity: Number(text(_$(item, item.quantity))),
-			size: Number(text(_$(item, item.size))),
-			unit: text(_$(item, item.unit)),
+		const _cartItem = {
+			name: text(_$(item, config.item.name)),
+			basePrice: convertDollarsToWholeNumber(
+				text(_$(item, config.item.basePrice)),
+			),
+			quantity: Number(text(_$(item, config.item.quantity))),
+			size: Number(text(_$(item, config.item.size))),
+			unit: text(_$(item, config.item.unit)),
 			images: [
 				{
-					id: `Simple-Cart-Item-${index}`,
-					location: src(_$(item, item.image)),
+					id: `Item-Image-${index}`,
+					location: src(_$(item, config.item.image)),
 				},
 			],
-		} as ProductVariantWithDetails);
+		} as ProductVariantWithDetails;
+		cartItems.push(_cartItem);
 	});
 	return cartItems;
 }
@@ -139,9 +133,6 @@ export function buildSimpleCart(
 	$?: cheerio.Root | any,
 ): SimpleCart {
 	try {
-		if (typeof $ === 'undefined') {
-			$ = (selector: any) => document.querySelector(selector);
-		}
 		if (!input) throw new Error('no input data');
 		const items = input.items;
 		const total = input.total;
@@ -150,7 +141,7 @@ export function buildSimpleCart(
 			total: convertDollarsToWholeNumber(total),
 		};
 	} catch (error) {
-		console.info('buildSimpleCart: error build cart data, ', error);
+		console.error('buildSimpleCart: error build cart data, ', error);
 		return {
 			cartItems: [],
 			total: 0,
