@@ -114,8 +114,8 @@ export function buildCartItems(
 export const regexFieldDict = {
 	name: /^(.*?)(?= -|$)/,
 	// eslint-disable-next-line regexp/optimal-quantifier-concatenation
-	size: /(\d+(\.\d+)?)\w*/,
-	unit: /-\s*\d+(\.\d+)?([^\s|]+)/,
+	size: /-\s+(\d*\.?\d*)(\w*)/,
+	unit: /-\s*\d+(?:\.\d+)?\s*(\w+)/,
 };
 
 export function buildSimpleCart(
