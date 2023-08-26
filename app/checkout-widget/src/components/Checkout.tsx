@@ -44,7 +44,6 @@ export default class Checkout extends Component<
 			.then((cart: SimpleCart) =>
 				this.setState({ cart: { ...this.state.cart, ...cart } }),
 			)
-			.then(() => this.props.setExpand(true))
 			.catch((error: any) => {
 				console.error('getCartData error, ', error);
 				this.setState({ cartError: error.message });
@@ -56,6 +55,10 @@ export default class Checkout extends Component<
 		window.location.href = 'http://localhost:3000/quick-delivery';
 	};
 
+	componentDidMount() {
+		this.getCartData();
+	}
+
 	render() {
 		console.log('isScrolledToBottom: ', this.state.isScrolledToBottom);
 		const md = getBreakpointValue('md');
@@ -63,7 +66,7 @@ export default class Checkout extends Component<
 
 		if (this.state.redirecting)
 			return (
-				<div className={twMerge(styles.loading, 'overscroll-none')}>
+				<div className={twMerge(styles.loading)}>
 					<Paragraph color="light" className="animate-bounce text-lg">
 						Checking out...
 					</Paragraph>
@@ -73,8 +76,8 @@ export default class Checkout extends Component<
 		return (
 			// eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
 			<div
+				onClick={() => this.props.setExpand(true)}
 				id="View-Checkout"
-				onClick={() => this.getCartData()}
 				className={twMerge(styles.checkout_f(this.props.expanded))}
 			>
 				{expanded ? (
@@ -103,7 +106,7 @@ export default class Checkout extends Component<
 							{'\n'}
 							{TextContent.delivery.TIME_GUARANTEE}
 						</Paragraph>
-						<div className={twMerge('w-2/3 my-4', 'overflow-y-scroll')}>
+						<div className={twMerge('w-2/3 my-4', 'overflow-y-auto')}>
 							<CartList
 								cart={this.state.cart}
 								cartError={this.state.cartError}
