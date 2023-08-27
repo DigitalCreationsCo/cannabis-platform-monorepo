@@ -16,6 +16,7 @@ export default async function dutchieCrawler(config: DOMSelector, key: DOMKey) {
 		if (typeof window === 'undefined')
 			throw new Error('window is not available');
 		const _url = window.location.href;
+		console.log('dutchie checkout url ', _url);
 		const response = await fetch(_url);
 		const html = await response.text();
 		console.log('html from dutchie checkout, ', html);
@@ -28,26 +29,22 @@ export default async function dutchieCrawler(config: DOMSelector, key: DOMKey) {
 	}
 }
 
+type ProcessReturnType<K> = K extends 'cart' ? SimpleCart : never;
 export async function processCrawlerData<K extends DOMKey>(
 	html: string,
 	config: DOMSelector,
-	key: K,
+	key?: K,
 ) {
+	console.log('processCraweler data using key ', key);
 	const $ = cheerio.load(html);
 	// eslint-disable-next-line sonarjs/no-small-switch
 	// eslint-disable-next-line sonarjs/no-small-switch
-	const result = async () => {
-		// eslint-disable-next-line sonarjs/no-small-switch
-		switch (key) {
-			case 'cart':
-				return await getCartDOMElements(config, $).then((result) =>
-					buildSimpleCart(result, config, $),
-				);
-		}
-	};
-	return result() as unknown as ProcessReturnType<K>;
+	const result = await getCartDOMElements(config, $).then((result) =>
+		buildSimpleCartFromDutchieCheckout(result, config, $),
+	);
+	console.log('dutchie crawler result ', result);
+	return result as unknown as ProcessReturnType<K>;
 }
-type ProcessReturnType<K> = K extends 'cart' ? SimpleCart : never;
 
 export async function getCartDOMElements(
 	config: DOMDataSet['cart'],
@@ -119,13 +116,14 @@ export const regexFieldDict = {
 	unit: /-\s*\d+(?:\.\d+)?\s*(\w+)/,
 };
 
-export function buildSimpleCart(
+export function buildSimpleCartFromDutchieCheckout(
 	input: DOMQueryResult['cart'],
 	config: DOMDataSet['cart'],
 	$?: cheerio.Root | any,
 ): SimpleCart {
 	try {
 		if (!input) throw new Error('no input data');
+		console.log('buildSimpleCartFromDutchieCheckout input ', input);
 		const items = input.items;
 		const total = input.total;
 		return {
@@ -133,7 +131,10 @@ export function buildSimpleCart(
 			total: convertDollarsToWholeNumber(total),
 		};
 	} catch (error) {
-		console.error('buildSimpleCart: error build cart data, ', error);
+		console.error(
+			'buildSimpleCartFromDutchieCheckout: error build cart data, ',
+			error,
+		);
 		return {
 			cartItems: [],
 			total: 0,
