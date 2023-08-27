@@ -39,7 +39,11 @@ export default class Checkout extends Component<
 
 	getCartData = async () => {
 		let configKey: DOMKey = 'cart';
-		if (this.props.useDutchie) {
+		if (
+			this.props.useDutchie ||
+			!!document.querySelector('[aria-label="dutchiePay"]')
+		) {
+			console.debug('using dutchie config');
 			configKey = 'dutchie-checkout';
 		}
 		const config = new CrawlerConfig(configKey).config;
@@ -63,7 +67,7 @@ export default class Checkout extends Component<
 				);
 		}
 		if (!crawler) throw new Error('crawler not found');
-		crawler(config, 'cart')
+		crawler(config, configKey)
 			.then((cart: SimpleCart) =>
 				this.setState({ cart: { ...this.state.cart, ...cart } }),
 			)
@@ -163,7 +167,7 @@ export default class Checkout extends Component<
 						</Paragraph>
 						<div
 							id="Cart-Item-List"
-							className={twMerge([styles.cart_list, 'w-2/3 my-4', 'border'])}
+							className={twMerge([styles.cart_list, 'w-2/3 my-4'])}
 						>
 							<CartList
 								cart={this.state.cart}
