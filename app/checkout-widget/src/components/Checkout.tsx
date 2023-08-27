@@ -49,13 +49,13 @@ export default class Checkout extends Component<
 		const config = new CrawlerConfig(configKey).config;
 		let crawler;
 		// eslint-disable-next-line sonarjs/no-small-switch
-		switch (this.props.useDutchie) {
-			case true:
+		switch (configKey) {
+			case 'dutchie-checkout':
 				crawler = await import('../crawler/dutchie-crawler').then(
 					(c) => c.default,
 				);
 				break;
-			case false:
+			case 'cart':
 				crawler = await import('../crawler/checkout-crawler').then(
 					(c) => c.default,
 				);

@@ -28,10 +28,7 @@ export type WidgetHost = 'localhost' | 'sunnyside' | 'manasupply' | 'dutchie';
 
 // resolve the type of the config object
 // export type SelectDOMKey<T extends DOMKey> = Extract<DOMKey, T>;
-export type CrawlerConfig = Record<
-	WidgetHost,
-	Record<keyof DOMKey, DOMSelector>
->;
+export type CrawlerConfig = Record<WidgetHost, Record<any, DOMSelector>>;
 export type DOMKey = 'cart' | 'dutchie-checkout';
 export type DOMSelector = {
 	item: {
