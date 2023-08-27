@@ -7,7 +7,7 @@ import { type DOMDataSet, type DOMKey, type DOMQueryResult } from '../types';
 // in the future, crawler accepts only a key, and the config is generated
 // make the exported functions public class methods, for testing
 export default async function dutchieCrawler(
-	config: DOMDataSet[typeof key],
+	config: Extract<DOMDataSet, typeof key>,
 	key: DOMKey,
 ) {
 	try {
@@ -28,7 +28,7 @@ export default async function dutchieCrawler(
 
 export async function processCrawlerData<K extends DOMKey>(
 	html: string,
-	config: DOMDataSet[typeof key],
+	config: Extract<DOMDataSet, typeof key>,
 	key: K,
 ) {
 	const $ = cheerio.load(html);
@@ -80,9 +80,7 @@ export function buildCartItems(
 	const cartItems: ProductVariantWithDetails[] = [];
 	items.forEach((item, index) => {
 		const _cartItem = {
-			// split the name from the textcontent
 			name: text(_$(item, config.item.name)).match(regexFieldDict.name)?.[1],
-
 			// get child div from base price
 			basePrice: convertDollarsToWholeNumber(
 				text(_$(item, config.item.basePrice)),
@@ -106,6 +104,7 @@ export function buildCartItems(
 				},
 			],
 		} as ProductVariantWithDetails;
+		console.log('cart item built', _cartItem);
 		cartItems.push(_cartItem);
 	});
 	return cartItems;

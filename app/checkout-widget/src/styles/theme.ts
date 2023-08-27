@@ -3,7 +3,7 @@ import { type DeliveryWidgetConfigOptions, type ViewProps } from '../types';
 const styles = {
 	cart_list: [
 		'mx-auto flex flex-col items-center ',
-		'overflow-y-auto overscroll-contain',
+		'overflow-y-auto overscroll-none',
 	],
 	checkout_f: (expanded: ViewProps['expanded']) => [
 		expanded ? 'touch-none' : 'touch-auto',

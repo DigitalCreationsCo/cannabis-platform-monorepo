@@ -10,7 +10,7 @@ import { twMerge } from 'tailwind-merge';
 import logo from '../../public/img/logo120.png';
 import { Config as CrawlerConfig } from '../crawler';
 import styles from '../styles/theme';
-import { type ViewProps } from '../types';
+import { type DOMKey, type ViewProps } from '../types';
 import CartList from './CartItemList';
 
 export default class Checkout extends Component<
@@ -38,10 +38,12 @@ export default class Checkout extends Component<
 	}
 
 	getCartData = async () => {
-		const config = new CrawlerConfig('cart').config;
-		console.info('fetch cart');
+		let configKey: DOMKey = 'cart';
+		if (this.props.useDutchie) {
+			configKey = 'dutchie-checkout';
+		}
+		const config = new CrawlerConfig(configKey).config;
 		let crawler;
-		console.log('this.props.useDutchie ', this.props.useDutchie);
 		// eslint-disable-next-line sonarjs/no-small-switch
 		switch (this.props.useDutchie) {
 			case true:
@@ -49,6 +51,12 @@ export default class Checkout extends Component<
 					(c) => c.default,
 				);
 				break;
+			case false:
+				crawler = await import('../crawler/checkout-crawler').then(
+					(c) => c.default,
+				);
+				break;
+			// eslint-disable-next-line sonarjs/no-duplicated-branches
 			default:
 				crawler = await import('../crawler/checkout-crawler').then(
 					(c) => c.default,
@@ -78,6 +86,37 @@ export default class Checkout extends Component<
 		const md = getBreakpointValue('md');
 		const { expanded, setExpand, screenwidth } = this.props;
 
+		const listScroll = (e: Event) => {
+			if (this.state.cart.cartItems.length < 1) return;
+			e.stopPropagation();
+			e.stopImmediatePropagation();
+			return false;
+		};
+		const lockWidgetScroll = (e: Event) => {
+			if (this.props.expanded) {
+				e.preventDefault();
+				e.stopPropagation();
+				e.stopImmediatePropagation();
+				return false;
+			}
+		};
+		function enableScroll() {
+			document
+				.querySelector('#Cart-Item-List')
+				?.removeEventListener('wheel', listScroll, false);
+			document
+				.querySelector('#Checkout')
+				?.removeEventListener('wheel', lockWidgetScroll, false);
+		}
+		function disableScroll() {
+			document
+				.querySelector('#Cart-Item-List')
+				?.addEventListener('wheel', listScroll, { passive: false });
+			document
+				.querySelector('#Checkout')
+				?.addEventListener('wheel', lockWidgetScroll, { passive: false });
+		}
+
 		if (this.state.redirecting)
 			return (
 				<div className={twMerge(styles.loading)}>
@@ -92,6 +131,8 @@ export default class Checkout extends Component<
 			<div
 				onClick={() => this.props.setExpand(true)}
 				id="Checkout"
+				onMouseEnter={disableScroll}
+				onMouseLeave={enableScroll}
 				className={twMerge(styles.checkout_f(this.props.expanded))}
 			>
 				{expanded ? (
