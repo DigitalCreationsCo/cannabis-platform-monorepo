@@ -68,12 +68,11 @@ const ViewWrapper = (ViewComponent: ViewComponent, props: ViewProps) => {
 		}
 	}
 	function enableScroll() {
-		console.log('enable page scroll');
 		document
 			.querySelector('#Cart-Item-List')
 			?.removeEventListener('wheel', listScroll, false);
 		document
-			.querySelector('#Widget-Container')
+			.querySelector('#Checkout')
 			?.removeEventListener('wheel', lockWidgetScroll, false);
 	}
 	function disableScroll() {
@@ -81,7 +80,7 @@ const ViewWrapper = (ViewComponent: ViewComponent, props: ViewProps) => {
 			.querySelector('#Cart-Item-List')
 			?.addEventListener('wheel', listScroll, { passive: false });
 		document
-			.querySelector('#Widget-Container')
+			.querySelector('#Checkout')
 			?.addEventListener('wheel', lockWidgetScroll, { passive: false });
 	}
 };
