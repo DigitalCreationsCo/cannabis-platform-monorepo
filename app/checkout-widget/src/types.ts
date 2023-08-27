@@ -20,7 +20,6 @@ type WidgetUIOptions = {
 };
 
 export interface ViewProps extends DeliveryWidgetConfigOptions {
-	className?: string | string[];
 	expanded: boolean;
 	setExpand: (expanded: boolean) => void;
 	screenwidth: number;
