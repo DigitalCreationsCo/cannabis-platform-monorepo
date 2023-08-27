@@ -50,7 +50,7 @@ function Widget(props: DeliveryWidgetConfigOptions) {
 	}, []);
 
 	return (
-		<div className={twMerge(styles.container)}>
+		<div id="Widget-Container" className={twMerge(styles.container)}>
 			<div
 				className={twMerge([
 					styles.inner_container,

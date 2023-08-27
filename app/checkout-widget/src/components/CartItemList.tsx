@@ -2,8 +2,6 @@ import { type SimpleCart } from '@cd/core-lib/src/types/redux.types';
 import SimpleCartItem from '@cd/ui-lib/src/components/cart/SimpleCartItem';
 import { Paragraph, Small } from '@cd/ui-lib/src/components/Typography';
 import { useEffect } from 'react';
-import { twMerge } from 'tailwind-merge';
-import styles from '../styles/theme';
 
 type CartListProps = {
 	cart: SimpleCart;
@@ -33,7 +31,7 @@ function CartList({ cart, cartError }: CartListProps) {
 	}
 
 	return (
-		<div className={twMerge(styles.cart_list)}>
+		<>
 			{cart.cartItems.length > 0 ? (
 				cart.cartItems.map((cartItem, index) => (
 					<>
@@ -48,7 +46,7 @@ function CartList({ cart, cartError }: CartListProps) {
 				<Small className="text-light m-auto">Your cart is empty.</Small>
 			)}
 			{cartError && <Paragraph>{cartError}</Paragraph>}
-		</div>
+		</>
 	);
 }
 
