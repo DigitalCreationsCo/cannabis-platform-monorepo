@@ -2476,10 +2476,6 @@ html {
   height: 51px;
 }
 
-.h-\[70px\] {
-  height: 70px;
-}
-
 .h-fit {
   height: -moz-fit-content;
   height: fit-content;
@@ -2524,16 +2520,16 @@ html {
   min-height: 64px;
 }
 
+.min-h-\[70px\] {
+  min-height: 70px;
+}
+
 .min-h-full {
   min-height: 100%;
 }
 
 .min-h-screen {
   min-height: 100vh;
-}
-
-.min-h-\[70px\] {
-  min-height: 70px;
 }
 
 .w-14 {
@@ -2998,14 +2994,6 @@ html {
   overflow-x: hidden;
 }
 
-.overflow-y-scroll {
-  overflow-y: scroll;
-}
-
-.overscroll-none {
-  overscroll-behavior: none;
-}
-
 .whitespace-normal {
   white-space: normal;
 }
@@ -3196,10 +3184,6 @@ html {
 
 .p-6 {
   padding: 1.5rem;
-}
-
-.\!p-4 {
-  padding: 1rem !important;
 }
 
 .\!py-0 {
@@ -3771,6 +3755,26 @@ html {
 
   .md\:rounded-full {
     border-radius: 9999px;
+  }
+
+  .md\:rounded-lg {
+    border-radius: 0.5rem;
+  }
+
+  .md\:rounded-none {
+    border-radius: 0;
+  }
+
+  .md\:rounded-xl {
+    border-radius: 0.75rem;
+  }
+
+  .md\:rounded-2xl {
+    border-radius: 1rem;
+  }
+
+  .md\:rounded-\[100px\] {
+    border-radius: 100px;
   }
 
   .md\:p-5 {

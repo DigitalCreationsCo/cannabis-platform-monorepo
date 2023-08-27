@@ -27,7 +27,11 @@ const styles = {
 	],
 	theme_f: (props: ViewProps) => [
 		'bg-secondary ring ring-primary',
-		props.shape === 'rectangle' ? 'md:rounded' : 'md:rounded-full',
+		props.shape === 'rectangle'
+			? 'md:rounded'
+			: props.expanded
+			? 'md:rounded-xl'
+			: 'md:rounded-full',
 		'w-screen md:w-auto',
 		'min-h-[44px] md:min-h-0',
 		// animate-[animationName_easingFunction_durationInSeconds_iterationsCount_delayInSeconds_direction]

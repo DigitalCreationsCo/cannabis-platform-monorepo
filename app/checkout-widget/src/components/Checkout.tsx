@@ -91,7 +91,7 @@ export default class Checkout extends Component<
 			// eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
 			<div
 				onClick={() => this.props.setExpand(true)}
-				id="View-Checkout"
+				id="Checkout"
 				className={twMerge(styles.checkout_f(this.props.expanded))}
 			>
 				{expanded ? (
@@ -120,7 +120,10 @@ export default class Checkout extends Component<
 							{'\n'}
 							{TextContent.delivery.TIME_GUARANTEE}
 						</Paragraph>
-						<div className={twMerge('w-2/3 my-4', 'overflow-y-auto')}>
+						<div
+							id="Cart-Item-List"
+							className={twMerge('w-2/3 my-4', 'overflow-y-auto')}
+						>
 							<CartList
 								cart={this.state.cart}
 								cartError={this.state.cartError}

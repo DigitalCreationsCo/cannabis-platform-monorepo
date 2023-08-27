@@ -24,19 +24,6 @@ function Widget(props: DeliveryWidgetConfigOptions) {
 		return () => window.removeEventListener('resize', setWindowDimensions);
 	}, []);
 
-	// useEffect(() => {
-	// 	document.addEventListener(
-	// 		'wheel',
-	// 		(event) => {
-	// 			console.log('scroll event');
-	// 			// event.preventDefault();
-	// 			event.stopPropagation();
-	// 			// now define custom functionality
-	// 		},
-	// 		{ passive: false },
-	// 	);
-	// }, []);
-
 	useEffect(() => {
 		// check if the widget is being overlapped by another element
 		function overlayCheck() {
@@ -61,6 +48,7 @@ function Widget(props: DeliveryWidgetConfigOptions) {
 		}
 		overlayCheck();
 	}, []);
+
 	return (
 		<div className={twMerge(styles.container)}>
 			<div

@@ -3,21 +3,14 @@ import { useOnClickOutside } from '@cd/ui-lib/src/hooks/index';
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
-// import url from 'url-state';
 import styles from '../styles/theme';
+// import url from 'url-state';
 import { type ViewComponent, type ViewProps } from '../types';
 
-const View = (ViewComponent: ViewComponent, props: ViewProps) => {
-	function _View(props: ViewProps) {
+const ViewWrapper = (ViewComponent: ViewComponent, props: ViewProps) => {
+	const _View = (props: ViewProps) => {
 		const navigate = useNavigate();
-		const isCheckout = useCheckHrefIncludes('checkout');
-
 		let pathname = location.pathname;
-
-		// useEffect(() => {
-		// 	isCheckout ? navigate('/checkout') : null;
-		// });
-
 		useEffect(() => {
 			function checkPath() {
 				if (location.pathname != pathname) {
@@ -39,19 +32,57 @@ const View = (ViewComponent: ViewComponent, props: ViewProps) => {
 			};
 		}, []);
 
-		const ref = useRef(null);
-		useOnClickOutside(ref, () => props.setExpand(false));
+		const clickOutsideRef = useRef(null);
+		useOnClickOutside(clickOutsideRef, () => props.setExpand(false));
+
 		return (
 			<div
-				id="gras-widget-view"
-				ref={ref}
+				{...props}
+				id="Widget-View"
+				ref={clickOutsideRef}
 				className={twMerge(styles.responsive, styles.theme_f(props))}
 			>
 				<ViewComponent {...props} />
 			</div>
 		);
-	}
+	};
 	_View.displayName = `View(${ViewComponent.name})`;
-	return <_View {...props} />;
+
+	return (
+		<div onMouseEnter={disableScroll} onMouseLeave={enableScroll}>
+			<_View {...props} />
+		</div>
+	);
 };
-export default View;
+export default ViewWrapper;
+
+function lockScroll(e: Event) {
+	e.preventDefault();
+	// e.stopPropagation();
+	e.stopImmediatePropagation();
+	return false;
+}
+function enableScroll() {
+	console.log('enable page scroll');
+	document
+		.querySelector('#Cart-Item-List')
+		?.removeEventListener('wheel', (e) => {
+			e.preventDefault();
+			// e.stopPropagation();
+			// e.stopImmediatePropagation();
+			return false;
+		});
+	document
+		.querySelector('#Widget-View')
+		?.removeEventListener('wheel', lockScroll);
+}
+function disableScroll() {
+	console.log('disable page scroll');
+	document.querySelector('#Cart-Item-List')?.addEventListener('wheel', (e) => {
+		e.preventDefault();
+		// e.stopPropagation();
+		// e.stopImmediatePropagation();
+		return false;
+	});
+	document.querySelector('#Widget-View')?.addEventListener('wheel', lockScroll);
+}
