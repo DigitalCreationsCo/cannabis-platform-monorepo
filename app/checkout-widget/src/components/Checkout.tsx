@@ -122,7 +122,7 @@ export default class Checkout extends Component<
 						</Paragraph>
 						<div
 							id="Cart-Item-List"
-							className={twMerge('w-2/3 my-4', 'overflow-y-auto')}
+							className={twMerge([styles.cart_list, 'w-2/3 my-4'])}
 						>
 							<CartList
 								cart={this.state.cart}

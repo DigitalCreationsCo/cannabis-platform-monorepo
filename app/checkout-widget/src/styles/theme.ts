@@ -1,15 +1,20 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import { type DeliveryWidgetConfigOptions, type ViewProps } from '../types';
 const styles = {
-	cart_list: ['mx-auto flex flex-col items-center'],
+	cart_list: [
+		'mx-auto flex flex-col items-center ',
+		'overflow-y-auto overscroll-contain',
+	],
 	checkout_f: (expanded: ViewProps['expanded']) => [
+		expanded ? 'touch-none' : 'touch-auto',
 		expanded
 			? 'pt-2 h-[480px] md:w-[540px] flex-col'
 			: 'h-[48px] md:w-[310px] flex-row',
 		'justify-center flex items-center',
 		'transition-all duration-10 transform',
+		'overscroll-contain',
 	],
-	container: ['min-h-[44px] md:min-h-0 bottom-0'],
+	container: ['min-h-[44px] md:min-h-0 bottom-0', 'overscroll-contain'],
 	inner_container: [
 		'z-50 fixed md:block',
 		'min-h-[44px] md:min-h-0 bottom-0 md:m-4 flex',
@@ -34,6 +39,7 @@ const styles = {
 			: 'md:rounded-full',
 		'w-screen md:w-auto',
 		'min-h-[44px] md:min-h-0',
+		'overscroll-contain',
 		// animate-[animationName_easingFunction_durationInSeconds_iterationsCount_delayInSeconds_direction]
 	],
 	position_f: (position: DeliveryWidgetConfigOptions['position']) => [

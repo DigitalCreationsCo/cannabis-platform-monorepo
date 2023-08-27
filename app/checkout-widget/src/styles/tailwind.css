@@ -2822,6 +2822,14 @@ html {
   cursor: pointer;
 }
 
+.touch-auto {
+  touch-action: auto;
+}
+
+.touch-none {
+  touch-action: none;
+}
+
 .resize {
   resize: both;
 }
@@ -2992,6 +3000,14 @@ html {
 
 .overflow-x-hidden {
   overflow-x: hidden;
+}
+
+.overscroll-contain {
+  overscroll-behavior: contain;
+}
+
+.overscroll-none {
+  overscroll-behavior: none;
 }
 
 .whitespace-normal {
@@ -3757,24 +3773,8 @@ html {
     border-radius: 9999px;
   }
 
-  .md\:rounded-lg {
-    border-radius: 0.5rem;
-  }
-
-  .md\:rounded-none {
-    border-radius: 0;
-  }
-
   .md\:rounded-xl {
     border-radius: 0.75rem;
-  }
-
-  .md\:rounded-2xl {
-    border-radius: 1rem;
-  }
-
-  .md\:rounded-\[100px\] {
-    border-radius: 100px;
   }
 
   .md\:p-5 {

@@ -53,36 +53,36 @@ const ViewWrapper = (ViewComponent: ViewComponent, props: ViewProps) => {
 			<_View {...props} />
 		</div>
 	);
+
+	function listScroll(e: Event) {
+		e.stopPropagation();
+		e.stopImmediatePropagation();
+		return false;
+	}
+	function lockWidgetScroll(e: Event) {
+		if (props.expanded) {
+			e.preventDefault();
+			e.stopPropagation();
+			e.stopImmediatePropagation();
+			return false;
+		}
+	}
+	function enableScroll() {
+		console.log('enable page scroll');
+		document
+			.querySelector('#Cart-Item-List')
+			?.removeEventListener('wheel', listScroll, false);
+		document
+			.querySelector('#Widget-Container')
+			?.removeEventListener('wheel', lockWidgetScroll, false);
+	}
+	function disableScroll() {
+		document
+			.querySelector('#Cart-Item-List')
+			?.addEventListener('wheel', listScroll, { passive: false });
+		document
+			.querySelector('#Widget-Container')
+			?.addEventListener('wheel', lockWidgetScroll, { passive: false });
+	}
 };
 export default ViewWrapper;
-
-function lockScroll(e: Event) {
-	e.preventDefault();
-	// e.stopPropagation();
-	e.stopImmediatePropagation();
-	return false;
-}
-function enableScroll() {
-	console.log('enable page scroll');
-	document
-		.querySelector('#Cart-Item-List')
-		?.removeEventListener('wheel', (e) => {
-			e.preventDefault();
-			// e.stopPropagation();
-			// e.stopImmediatePropagation();
-			return false;
-		});
-	document
-		.querySelector('#Widget-View')
-		?.removeEventListener('wheel', lockScroll);
-}
-function disableScroll() {
-	console.log('disable page scroll');
-	document.querySelector('#Cart-Item-List')?.addEventListener('wheel', (e) => {
-		e.preventDefault();
-		// e.stopPropagation();
-		// e.stopImmediatePropagation();
-		return false;
-	});
-	document.querySelector('#Widget-View')?.addEventListener('wheel', lockScroll);
-}
