@@ -11,7 +11,7 @@ type UIOptions = {
 type DispensaryOptions = {
 	dispensaryId: string;
 	dispensaryName: string;
-	useDutchie?: boolean;
+	useDutchie: boolean;
 };
 type DOMOptions = {
 	parentElement?: string;
@@ -28,7 +28,10 @@ export type WidgetHost = 'localhost' | 'sunnyside' | 'manasupply' | 'dutchie';
 
 // resolve the type of the config object
 // export type SelectDOMKey<T extends DOMKey> = Extract<DOMKey, T>;
-export type CrawlerConfig = Record<WidgetHost, Record<any, DOMSelector>>;
+export type CrawlerConfig = Record<
+	WidgetHost,
+	Record<keyof DOMKey, DOMSelector>
+>;
 export type DOMKey = 'cart' | 'dutchie-checkout';
 export type DOMSelector = {
 	item: {
@@ -45,13 +48,10 @@ export type DOMSelector = {
 };
 
 // typeset of dom selectors
-export type DOMDataSet =
-	| {
-			cart: DOMSelector;
-	  }
-	| {
-			'dutchie-checkout': DOMSelector;
-	  };
+export type DOMDataSet = {
+	cart: DOMSelector;
+	'dutchie-checkout': DOMSelector;
+};
 
 export type DOMQueryResult = {
 	cart: {

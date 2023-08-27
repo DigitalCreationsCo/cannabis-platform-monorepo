@@ -2,21 +2,23 @@ import { type SimpleCart } from '@cd/core-lib/src/types/redux.types';
 import { convertDollarsToWholeNumber } from '@cd/core-lib/src/utils/transaction.util';
 import { type ProductVariantWithDetails } from '@cd/data-access';
 import * as cheerio from 'cheerio';
-import { type DOMDataSet, type DOMKey, type DOMQueryResult } from '../types';
+import {
+	type DOMDataSet,
+	type DOMKey,
+	type DOMQueryResult,
+	type DOMSelector,
+} from '../types';
 
 // in the future, crawler accepts only a key, and the config is generated
 // make the exported functions public class methods, for testing
-export default async function cheerioCrawler(
-	config: DOMDataSet[typeof key],
-	key: DOMKey,
-) {
+export default async function cheerioCrawler(config: DOMSelector, key: DOMKey) {
 	try {
 		if (typeof window === 'undefined')
 			throw new Error('window is not available');
 		const _url = window.location.href;
 		const response = await fetch(_url);
 		const html = await response.text();
-		const data = await processCrawlerData(html, config, 'cart');
+		const data = await processCrawlerData(html, config, key);
 		if (!data) throw new Error('no data found');
 		return data;
 	} catch (error: any) {
@@ -28,7 +30,7 @@ export default async function cheerioCrawler(
 // in the future, take all these functions and build a Crawler Class
 export async function processCrawlerData<K extends DOMKey>(
 	html: string,
-	config: DOMDataSet[typeof key],
+	config: DOMSelector,
 	key: K,
 ) {
 	const $ = cheerio.load(html);
