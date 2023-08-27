@@ -3002,10 +3002,6 @@ html {
   overflow-x: hidden;
 }
 
-.overscroll-contain {
-  overscroll-behavior: contain;
-}
-
 .overscroll-none {
   overscroll-behavior: none;
 }

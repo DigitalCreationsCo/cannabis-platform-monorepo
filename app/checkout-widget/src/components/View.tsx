@@ -37,7 +37,6 @@ const ViewWrapper = (ViewComponent: ViewComponent, props: ViewProps) => {
 
 		return (
 			<div
-				{...props}
 				id="Widget-View"
 				ref={clickOutsideRef}
 				className={twMerge(styles.responsive, styles.theme_f(props))}
@@ -48,40 +47,6 @@ const ViewWrapper = (ViewComponent: ViewComponent, props: ViewProps) => {
 	};
 	_View.displayName = `View(${ViewComponent.name})`;
 
-	return (
-		<div onMouseEnter={disableScroll} onMouseLeave={enableScroll}>
-			<_View {...props} />
-		</div>
-	);
-
-	function listScroll(e: Event) {
-		e.stopPropagation();
-		e.stopImmediatePropagation();
-		return false;
-	}
-	function lockWidgetScroll(e: Event) {
-		if (props.expanded) {
-			e.preventDefault();
-			e.stopPropagation();
-			e.stopImmediatePropagation();
-			return false;
-		}
-	}
-	function enableScroll() {
-		document
-			.querySelector('#Cart-Item-List')
-			?.removeEventListener('wheel', listScroll, false);
-		document
-			.querySelector('#Checkout')
-			?.removeEventListener('wheel', lockWidgetScroll, false);
-	}
-	function disableScroll() {
-		document
-			.querySelector('#Cart-Item-List')
-			?.addEventListener('wheel', listScroll, { passive: false });
-		document
-			.querySelector('#Checkout')
-			?.addEventListener('wheel', lockWidgetScroll, { passive: false });
-	}
+	return <_View {...props} />;
 };
 export default ViewWrapper;
