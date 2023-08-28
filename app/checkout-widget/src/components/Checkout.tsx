@@ -8,9 +8,9 @@ import { getBreakpointValue } from '@cd/ui-lib/src/hooks/useBreakpoint';
 import { Component } from 'react';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/img/logo120.png';
-import { Config as CrawlerConfig, crawler } from '../crawler';
+import { Config as CrawlerConfig } from '../crawler';
 import styles from '../styles/theme';
-import { type ViewProps } from '../types';
+import { type DOMKey, type ViewProps } from '../types';
 import CartList from './CartItemList';
 
 export default class Checkout extends Component<
@@ -20,6 +20,7 @@ export default class Checkout extends Component<
 		cartError: string;
 		redirecting: boolean;
 		isScrolledToBottom: boolean;
+		isDutchieCheckout: boolean;
 	}
 > {
 	constructor(props: ViewProps) {
@@ -34,16 +35,45 @@ export default class Checkout extends Component<
 			cartError: '',
 			redirecting: false,
 			isScrolledToBottom: false,
+			isDutchieCheckout: props.useDutchie,
 		};
 	}
 
-	getCartData = () => {
-		const config = new CrawlerConfig('cart').config;
-		console.info('fetch cart');
-		crawler(config, 'cart')
-			.then((cart: SimpleCart) =>
-				this.setState({ cart: { ...this.state.cart, ...cart } }),
-			)
+	getCartData = async () => {
+		let configKey: DOMKey = 'cart';
+		if (
+			this.props.useDutchie ||
+			!!document.querySelector('[aria-label="dutchiePay"]')
+		) {
+			this.setState({ isDutchieCheckout: true });
+			configKey = 'dutchie-checkout';
+		}
+		const config = new CrawlerConfig(configKey).config;
+		let crawler;
+		// eslint-disable-next-line sonarjs/no-small-switch
+		switch (configKey) {
+			case 'dutchie-checkout':
+				crawler = await import('../crawler/dutchie-crawler').then(
+					(c) => c.default,
+				);
+				break;
+			case 'cart':
+				crawler = await import('../crawler/checkout-crawler').then(
+					(c) => c.default,
+				);
+				break;
+			// eslint-disable-next-line sonarjs/no-duplicated-branches
+			default:
+				crawler = await import('../crawler/checkout-crawler').then(
+					(c) => c.default,
+				);
+		}
+		if (!crawler) throw new Error('crawler not found');
+		crawler(config, configKey)
+			.then((cart: SimpleCart) => {
+				console.log('cart: ', cart);
+				this.setState({ cart: { ...this.state.cart, ...cart } });
+			})
 			.catch((error: any) => {
 				console.error('getCartData error, ', error);
 				this.setState({ cartError: error.message });
@@ -59,9 +89,47 @@ export default class Checkout extends Component<
 		this.getCartData();
 	}
 
+	useStaticQuantity() {
+		// eslint-disable-next-line sonarjs/prefer-immediate-return
+		const useStaticQuantityInCartList = this.state.isDutchieCheckout;
+		return useStaticQuantityInCartList;
+	}
+
 	render() {
 		const md = getBreakpointValue('md');
 		const { expanded, setExpand, screenwidth } = this.props;
+
+		const listScroll = (e: Event) => {
+			if (this.state.cart.cartItems.length > 2) {
+				e.stopPropagation();
+				e.stopImmediatePropagation();
+				return false;
+			}
+		};
+		const lockWidgetScroll = (e: Event) => {
+			if (this.props.expanded) {
+				e.preventDefault();
+				e.stopPropagation();
+				e.stopImmediatePropagation();
+				return false;
+			}
+		};
+		function enableScroll() {
+			document
+				.querySelector('#Cart-Item-List')
+				?.removeEventListener('wheel', listScroll, false);
+			document
+				.querySelector('#Checkout')
+				?.removeEventListener('wheel', lockWidgetScroll, false);
+		}
+		function disableScroll() {
+			document
+				.querySelector('#Cart-Item-List')
+				?.addEventListener('wheel', listScroll, { passive: false });
+			document
+				.querySelector('#Checkout')
+				?.addEventListener('wheel', lockWidgetScroll, { passive: false });
+		}
 
 		if (this.state.redirecting)
 			return (
@@ -76,7 +144,9 @@ export default class Checkout extends Component<
 			// eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
 			<div
 				onClick={() => this.props.setExpand(true)}
-				id="View-Checkout"
+				id="Checkout"
+				onMouseEnter={disableScroll}
+				onMouseLeave={enableScroll}
 				className={twMerge(styles.checkout_f(this.props.expanded))}
 			>
 				{expanded ? (
@@ -105,7 +175,10 @@ export default class Checkout extends Component<
 							{'\n'}
 							{TextContent.delivery.TIME_GUARANTEE}
 						</Paragraph>
-						<div className={twMerge('w-2/3 my-4', 'overflow-y-auto')}>
+						<div
+							id="Cart-Item-List"
+							className={twMerge([styles.cart_list, 'w-2/3 my-4'])}
+						>
 							<CartList
 								cart={this.state.cart}
 								cartError={this.state.cartError}
@@ -113,6 +186,7 @@ export default class Checkout extends Component<
 								setIsScrolledToBottom={(isScrolledToBottom: boolean) =>
 									this.setState({ isScrolledToBottom })
 								}
+								staticQuantity={this.useStaticQuantity()}
 							/>
 						</div>
 						{this.state.cart.cartItems.length > 0 && (

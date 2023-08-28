@@ -7,12 +7,12 @@
 
 // test('create or update a user', async () => {
 //     // const result = await prismaMock.organization.findUnique.mockResolvedValue(_orgUpsert)
-//     await expect(createUser(_userCreate)).resolves.toEqual(_userCreate);
+//     await expect(createUser(_userCreate)).resolves.toStrictEqual(_userCreate);
 // });
 
 // test('create or update a user fails with incomplete data', async () => {
 //     // const result = await prismaMock.organization.findUnique.mockResolvedValue(_orgUpsert)
-//     await expect(createUser(_incompleteUserCreate)).resolves.toEqual(_orgUpsert);
+//     await expect(createUser(_incompleteUserCreate)).resolves.toStrictEqual(_orgUpsert);
 // });
 
 test('create or update a dispensary admin user', async () => {
@@ -22,16 +22,16 @@ test('create or update a dispensary admin user', async () => {
 	//     role: _userAdminCreatePayload.role,
 	//     dispensaryId: _userAdminCreatePayload.dispensaryId,
 	//   })
-	// ).resolves.toEqual(_orgUpsert);
-	await expect(Promise.resolve(1)).resolves.toEqual(1);
+	// ).resolves.toStrictEqual(_orgUpsert);
+	await expect(Promise.resolve(1)).resolves.toStrictEqual(1);
 });
 
 test('create or update a dispensary admin user fails with incomplete data', async () => {
 	// const result = await prismaMock.organization.findUnique.mockResolvedValue(_orgUpsert)
 	// await expect(
 	//   updateDispensaryAdmin(_incompleteUserCreate, { role: '', dispensaryId: '' })
-	// ).resolves.toEqual(_orgUpsert);
-	await expect(Promise.resolve(1)).resolves.toEqual(1);
+	// ).resolves.toStrictEqual(_orgUpsert);
+	await expect(Promise.resolve(1)).resolves.toStrictEqual(1);
 });
 
 export {};

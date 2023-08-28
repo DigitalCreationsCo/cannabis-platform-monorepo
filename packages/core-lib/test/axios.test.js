@@ -20,6 +20,6 @@ describe('checkIsDispensaryOpen', () => {
 			createdAt: new Date(),
 			updatedAt: new Date(),
 		});
-		expect(isOpen).toEqual(_isOpenCurrenTime);
+		expect(isOpen).toStrictEqual(_isOpenCurrenTime);
 	});
 });

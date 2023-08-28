@@ -42,30 +42,48 @@ describe('User Utils Tests', () => {
 	} as UserWithDetails;
 
 	it('user with MEMBER role has MEMBER level access', async () => {
-		expect(hasMembershipRoleAccess(userWithMemberRole, 'MEMBER')).toEqual(true);
+		expect(hasMembershipRoleAccess(userWithMemberRole, 'MEMBER')).toStrictEqual(
+			true,
+		);
 	});
 	it('user with MEMBER role does not have ADMIN level access', async () => {
-		expect(hasMembershipRoleAccess(userWithMemberRole, 'ADMIN')).toEqual(false);
+		expect(hasMembershipRoleAccess(userWithMemberRole, 'ADMIN')).toStrictEqual(
+			false,
+		);
 	});
 	it('user with MEMBER role does not have OWNER level access', async () => {
-		expect(hasMembershipRoleAccess(userWithMemberRole, 'OWNER')).toEqual(false);
+		expect(hasMembershipRoleAccess(userWithMemberRole, 'OWNER')).toStrictEqual(
+			false,
+		);
 	});
 	it('user with ADMIN role has MEMBER level access', async () => {
-		expect(hasMembershipRoleAccess(userWithAdminRole, 'MEMBER')).toEqual(true);
+		expect(hasMembershipRoleAccess(userWithAdminRole, 'MEMBER')).toStrictEqual(
+			true,
+		);
 	});
 	it('user with ADMIN role has ADMIN level access', async () => {
-		expect(hasMembershipRoleAccess(userWithAdminRole, 'ADMIN')).toEqual(true);
+		expect(hasMembershipRoleAccess(userWithAdminRole, 'ADMIN')).toStrictEqual(
+			true,
+		);
 	});
 	it('user with ADMIN role does not have OWNER level access', async () => {
-		expect(hasMembershipRoleAccess(userWithAdminRole, 'OWNER')).toEqual(false);
+		expect(hasMembershipRoleAccess(userWithAdminRole, 'OWNER')).toStrictEqual(
+			false,
+		);
 	});
 	it('user with OWNER role has MEMBER level access', async () => {
-		expect(hasMembershipRoleAccess(userWithOwnerRole, 'MEMBER')).toEqual(true);
+		expect(hasMembershipRoleAccess(userWithOwnerRole, 'MEMBER')).toStrictEqual(
+			true,
+		);
 	});
 	it('user with OWNER role has ADMIN level access', async () => {
-		expect(hasMembershipRoleAccess(userWithOwnerRole, 'ADMIN')).toEqual(true);
+		expect(hasMembershipRoleAccess(userWithOwnerRole, 'ADMIN')).toStrictEqual(
+			true,
+		);
 	});
 	it('user with OWNER role has OWNER level access', async () => {
-		expect(hasMembershipRoleAccess(userWithOwnerRole, 'OWNER')).toEqual(true);
+		expect(hasMembershipRoleAccess(userWithOwnerRole, 'OWNER')).toStrictEqual(
+			true,
+		);
 	});
 });

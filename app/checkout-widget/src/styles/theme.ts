@@ -1,8 +1,12 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import { type DeliveryWidgetConfigOptions, type ViewProps } from '../types';
 const styles = {
-	cart_list: ['mx-auto flex flex-col items-center'],
+	cart_list: [
+		'mx-auto flex flex-col items-center ',
+		'overflow-y-auto overscroll-none',
+	],
 	checkout_f: (expanded: ViewProps['expanded']) => [
+		expanded ? 'touch-none' : 'touch-auto',
 		expanded
 			? 'pt-2 h-[480px] md:w-[540px] flex-col'
 			: 'h-[48px] md:w-[310px] flex-row',
@@ -27,7 +31,11 @@ const styles = {
 	],
 	theme_f: (props: ViewProps) => [
 		'bg-secondary ring ring-primary',
-		props.shape === 'rectangle' ? 'md:rounded' : 'md:rounded-full',
+		props.shape === 'rectangle'
+			? 'md:rounded'
+			: props.expanded
+			? 'md:rounded-xl'
+			: 'md:rounded-full',
 		'w-screen md:w-auto',
 		'min-h-[44px] md:min-h-0',
 		// animate-[animationName_easingFunction_durationInSeconds_iterationsCount_delayInSeconds_direction]

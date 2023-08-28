@@ -11,7 +11,7 @@
 	"compilerOptions": {
 		"baseUrl": "./src",
 		"lib": ["dom", "dom.iterable", "ES2015"],
-		"module": "ES2015",
+		"module": "ES2020",
 		"target": "ES2015",
 		"noEmit": false,
 		"allowJs": true,

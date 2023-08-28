@@ -23,11 +23,11 @@ test('update an order with the given values', async () => {
 	// prismaMock.order.update.mockResolvedValue(order)
 	// await expect(
 	//   updateOrderWithOrderItems({ ...order, total: 8999 })
-	// ).resolves.toEqual({
+	// ).resolves.toStrictEqual({
 	//   ...order,
 	//   total: 8999,
 	// });
-	await expect(Promise.resolve(1)).resolves.toEqual(1);
+	await expect(Promise.resolve(1)).resolves.toStrictEqual(1);
 });
 
 export {};

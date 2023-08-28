@@ -5,24 +5,17 @@ import { useNavigate } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 // import url from 'url-state';
 import styles from '../styles/theme';
+// import url from 'url-state';
 import { type ViewComponent, type ViewProps } from '../types';
 
-const View = (ViewComponent: ViewComponent, props: ViewProps) => {
-	function _View(props: ViewProps) {
+const ViewWrapper = (ViewComponent: ViewComponent, props: ViewProps) => {
+	const _View = (props: ViewProps) => {
 		const navigate = useNavigate();
-		const isCheckout = useCheckHrefIncludes('checkout');
-
 		let pathname = location.pathname;
-
-		// useEffect(() => {
-		// 	isCheckout ? navigate('/checkout') : null;
-		// });
-
 		useEffect(() => {
 			function checkPath() {
 				if (location.pathname != pathname) {
 					pathname = location.pathname;
-					// console.info('is checkout? ', useCheckHrefIncludes('checkout'))
 					// eslint-disable-next-line react-hooks/rules-of-hooks
 					useCheckHrefIncludes('checkout')
 						? navigate('/checkout')
@@ -39,19 +32,21 @@ const View = (ViewComponent: ViewComponent, props: ViewProps) => {
 			};
 		}, []);
 
-		const ref = useRef(null);
-		useOnClickOutside(ref, () => props.setExpand(false));
+		const clickOutsideRef = useRef(null);
+		useOnClickOutside(clickOutsideRef, () => props.setExpand(false));
+
 		return (
 			<div
-				id="gras-widget-view"
-				ref={ref}
+				id="Widget-View"
+				ref={clickOutsideRef}
 				className={twMerge(styles.responsive, styles.theme_f(props))}
 			>
 				<ViewComponent {...props} />
 			</div>
 		);
-	}
+	};
 	_View.displayName = `View(${ViewComponent.name})`;
+
 	return <_View {...props} />;
 };
-export default View;
+export default ViewWrapper;
