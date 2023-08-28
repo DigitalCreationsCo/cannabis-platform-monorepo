@@ -9,9 +9,12 @@ type CartListProps = {
 	cart: SimpleCart;
 	cartError: string;
 	setExpandWidget: (expandWidget: boolean) => void;
+	setIsScrolledToBottom: (isScrolledToBottom: boolean) => void;
 };
 
 function CartList({ cart, cartError }: CartListProps) {
+	// console.log('CartList cart: ', cart);
+
 	// does this cross domain cookie work?
 	// need to test across different domains!
 	// and write unit tests
@@ -32,14 +35,15 @@ function CartList({ cart, cartError }: CartListProps) {
 	return (
 		<div className={twMerge(styles.cart_list)}>
 			{cart.cartItems.length > 0 ? (
-				<div className="overflow-y-auto w-full">
-					{cart.cartItems.map((cartItem, index) => (
-						<>
-							<SimpleCartItem key={`cart-item-${index}`} product={cartItem} />
-							<div className="divider text-primary m-0"></div>
-						</>
-					))}
-				</div>
+				cart.cartItems.map((cartItem, index) => (
+					<>
+						<SimpleCartItem key={`cart-item-${index}`} product={cartItem} />
+						<div
+							key={`divider-${index}`}
+							className="divider text-primary m-0"
+						></div>
+					</>
+				))
 			) : (
 				<Small className="text-light m-auto">Your cart is empty.</Small>
 			)}

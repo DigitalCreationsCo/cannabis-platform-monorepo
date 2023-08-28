@@ -13,10 +13,14 @@ export interface ButtonProps
 		| 'secondary-light'
 		| 'accent-soft'
 		| 'accent'
+		| 'inverse'
+		| 'inverse-soft'
 		| 'transparent';
 	hover?:
 		| 'accent'
 		| 'accent-soft'
+		| 'inverse'
+		| 'inverse-soft'
 		| 'primary'
 		| 'primary-light'
 		| 'secondary'
@@ -61,7 +65,7 @@ export default function Button({
 		],
 		noClickWhileLoading: loading && 'cursor-not-allowed',
 		size: [
-			(size === 'lg' && 'text-xl min-w-[180px] h-[70px]') ||
+			(size === 'lg' && 'text-xl min-w-[180px] min-h-[70px]') ||
 				(size === 'sm' && 'text-sm h-[30px]') ||
 				'min-w-[140px] h-10',
 		],
@@ -74,6 +78,8 @@ export default function Button({
 				(bg === 'secondary-light' && 'bg-secondary-light') ||
 				(bg === 'accent' && 'bg-accent') ||
 				(bg === 'accent-soft' && 'bg-accent-soft') ||
+				(bg === 'inverse' && 'bg-inverse') ||
+				(bg === 'inverse-soft' && 'bg-inverse-soft') ||
 				(bg === 'transparent' && 'bg-transparent'),
 		],
 		textColor: [

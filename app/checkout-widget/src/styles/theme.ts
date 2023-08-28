@@ -7,18 +7,16 @@ const styles = {
 			? 'pt-2 h-[480px] md:w-[540px] flex-col'
 			: 'h-[48px] md:w-[310px] flex-row',
 		'justify-center flex items-center',
-		'cursor-default',
 		'transition-all duration-10 transform',
 	],
 	container: ['min-h-[44px] md:min-h-0 bottom-0'],
 	inner_container: [
-		'z-10 fixed md:block',
+		'z-50 fixed md:block',
 		'min-h-[44px] md:min-h-0 bottom-0 md:m-4 flex',
 	],
 	launch_f: (expanded: ViewProps['expanded']) => [
 		expanded ? 'h-[100px] md:h-[98px] md:w-[540px]' : 'h-[48px] md:w-[310px]',
 		'justify-center flex flex-row items-center',
-		'cursor-pointer',
 		'transition-all duration-10 transform',
 	],
 	loading: [
@@ -27,11 +25,12 @@ const styles = {
 		'md:w-[440px] h-[440px]',
 		'cursor-default',
 	],
-	theme_f: (shape: DeliveryWidgetConfigOptions['shape']) => [
+	theme_f: (props: ViewProps) => [
 		'bg-secondary ring ring-primary',
-		shape === 'rectangle' ? 'md:rounded' : 'md:rounded-full',
+		props.shape === 'rectangle' ? 'md:rounded' : 'md:rounded-full',
 		'w-screen md:w-auto',
 		'min-h-[44px] md:min-h-0',
+		// animate-[animationName_easingFunction_durationInSeconds_iterationsCount_delayInSeconds_direction]
 	],
 	position_f: (position: DeliveryWidgetConfigOptions['position']) => [
 		position === 'right' ? 'right-0' : 'left-0',
