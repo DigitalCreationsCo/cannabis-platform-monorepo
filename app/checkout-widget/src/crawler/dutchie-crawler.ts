@@ -1,6 +1,7 @@
 /* eslint-disable regexp/no-super-linear-backtracking */
 import { type SimpleCart } from '@cd/core-lib/src/types/redux.types';
 import { convertDollarsToWholeNumber } from '@cd/core-lib/src/utils/transaction.util';
+import { getSelectedOptionValue } from '@cd/core-lib/src/utils/ui.util';
 import { type ProductVariantWithDetails } from '@cd/data-access';
 import * as cheerio from 'cheerio';
 import {
@@ -29,10 +30,6 @@ export default async function dutchieCrawler(config: DOMSelector) {
 async function fetchPageData(): Promise<string> {
 	try {
 		if (!document) throw new Error('Could not get page data');
-		console.log(
-			'document.documentElement.innerHTML: ',
-			document.body.innerHTML,
-		);
 		return document.documentElement.innerHTML;
 	} catch (error: any) {
 		console.error(error);
@@ -89,22 +86,20 @@ export function buildCartItems(
 			basePrice: convertDollarsToWholeNumber(
 				text(_$(item, config.item.basePrice)),
 			),
-			// get the select option value
-			quantity: Number(text(_$(item, config.item.quantity))),
-
-			// split the size from name textcontent
+			quantity: Number(
+				getSelectedOptionValue(
+					`${config.item['cart-item']} ${config.item.quantity}`,
+				),
+			),
 			size: Number(
 				text(_$(item, config.item.name)).match(regexFieldDict.size)?.[1],
 			),
-
-			// split the unit from name textcontent
-			unit: text(_$(item, config.item.unit)).match(regexFieldDict.unit)?.[2],
-
+			unit: text(_$(item, config.item.unit)).match(regexFieldDict.unit)?.[1],
 			// no images in dutchie cart
 			images: [
 				{
 					id: `Item-Image-${index}`,
-					location: src(_$(item, config.item.image)),
+					location: '',
 				},
 			],
 		} as ProductVariantWithDetails;

@@ -12,6 +12,7 @@ type PriceProps = {
 	showDiscount?: boolean;
 	showOriginalPrice?: boolean;
 	color?: 'light' | 'dark';
+	useStaticQuantity?: boolean;
 };
 
 function Price({
@@ -24,16 +25,12 @@ function Price({
 	showOriginalPrice = false,
 	color = 'dark',
 	locale = 'en-us',
+	useStaticQuantity = false,
 }: PriceProps) {
+	quantity = useStaticQuantity ? 1 : quantity; // IMPORTANT
+
 	const _currencySymbol: any = { 'en-us': '$' };
-
 	const base = basePrice * quantity;
-	console.log('quantity: ', quantity);
-	console.log('basePrice: ', basePrice);
-	console.log('base: ', base);
-	console.log('salePrice: ', salePrice);
-	console.log('discount: ', discount);
-
 	const toDollars = (value: number): string => convertCentsToDollars(value);
 
 	// discount is a flat number representing percentage off

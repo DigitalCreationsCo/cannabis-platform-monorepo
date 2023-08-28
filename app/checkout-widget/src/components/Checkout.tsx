@@ -20,6 +20,7 @@ export default class Checkout extends Component<
 		cartError: string;
 		redirecting: boolean;
 		isScrolledToBottom: boolean;
+		isDutchieCheckout: boolean;
 	}
 > {
 	constructor(props: ViewProps) {
@@ -34,6 +35,7 @@ export default class Checkout extends Component<
 			cartError: '',
 			redirecting: false,
 			isScrolledToBottom: false,
+			isDutchieCheckout: props.useDutchie,
 		};
 	}
 
@@ -43,6 +45,7 @@ export default class Checkout extends Component<
 			this.props.useDutchie ||
 			!!document.querySelector('[aria-label="dutchiePay"]')
 		) {
+			this.setState({ isDutchieCheckout: true });
 			configKey = 'dutchie-checkout';
 		}
 		const config = new CrawlerConfig(configKey).config;
@@ -67,9 +70,10 @@ export default class Checkout extends Component<
 		}
 		if (!crawler) throw new Error('crawler not found');
 		crawler(config, configKey)
-			.then((cart: SimpleCart) =>
-				this.setState({ cart: { ...this.state.cart, ...cart } }),
-			)
+			.then((cart: SimpleCart) => {
+				console.log('cart: ', cart);
+				this.setState({ cart: { ...this.state.cart, ...cart } });
+			})
 			.catch((error: any) => {
 				console.error('getCartData error, ', error);
 				this.setState({ cartError: error.message });
@@ -83,6 +87,12 @@ export default class Checkout extends Component<
 
 	componentDidMount() {
 		this.getCartData();
+	}
+
+	useStaticQuantity() {
+		// eslint-disable-next-line sonarjs/prefer-immediate-return
+		const useStaticQuantityInCartList = this.state.isDutchieCheckout;
+		return useStaticQuantityInCartList;
 	}
 
 	render() {
@@ -175,6 +185,7 @@ export default class Checkout extends Component<
 								setIsScrolledToBottom={(isScrolledToBottom: boolean) =>
 									this.setState({ isScrolledToBottom })
 								}
+								staticQuantity={this.useStaticQuantity()}
 							/>
 						</div>
 						{this.state.cart.cartItems.length > 0 && (

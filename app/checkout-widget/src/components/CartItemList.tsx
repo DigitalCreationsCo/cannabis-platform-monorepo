@@ -8,9 +8,10 @@ type CartListProps = {
 	cartError: string;
 	setExpandWidget: (expandWidget: boolean) => void;
 	setIsScrolledToBottom: (isScrolledToBottom: boolean) => void;
+	staticQuantity?: boolean;
 };
 
-function CartList({ cart, cartError }: CartListProps) {
+function CartList({ cart, cartError, staticQuantity = false }: CartListProps) {
 	// does this cross domain cookie work?
 	// need to test across different domains!
 	// and write unit tests
@@ -33,7 +34,11 @@ function CartList({ cart, cartError }: CartListProps) {
 			{cart.cartItems.length > 0 ? (
 				cart.cartItems.map((cartItem, index) => (
 					<>
-						<SimpleCartItem key={`cart-item-${index}`} product={cartItem} />
+						<SimpleCartItem
+							key={`cart-item-${index}`}
+							product={cartItem}
+							staticQuantity={staticQuantity}
+						/>
 						<div
 							key={`divider-${index}`}
 							className="divider text-primary m-0"
