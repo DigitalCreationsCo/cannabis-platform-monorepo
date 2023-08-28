@@ -20,7 +20,12 @@ const defaultConfig = {
 			'process.env': JSON.stringify(process.env),
 		}),
 		new CopyPlugin({
-			patterns: [{ from: 'public', to: '.' }],
+			patterns: [
+				{
+					from: 'public',
+					to: '.',
+				},
+			],
 		}),
 		isProd ? new JavaScriptObfuscator() : null,
 	].filter((i) => i),
@@ -47,7 +52,6 @@ const defaultConfig = {
 			{
 				test: /\.(scss|css)$/,
 				use: [
-					// fallback to style-loader in development
 					// devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
 					'style-loader',
 					'css-loader',
@@ -58,7 +62,7 @@ const defaultConfig = {
 							postcssOptions: {
 								ident: 'postcss',
 								plugins: [['postcss-preset-env']],
-								sourceMap: nodeEnv === 'development',
+								// sourceMap: nodeEnv === 'development',
 							},
 						},
 					},
@@ -79,8 +83,8 @@ const defaultConfig = {
 module.exports = {
 	...defaultConfig,
 	entry: {
-		widget: './src/outputs/gras-delivery-widget.js',
-		bookmarklet: './src/outputs/bookmarklet.js',
+		widget: './src/outputs/gras-delivery-widget.ts',
+		bookmarklet: './src/outputs/bookmarklet.ts',
 	},
 	output: {
 		path: distDir,
@@ -89,5 +93,7 @@ module.exports = {
 		library: 'GrasDeliveryWidget',
 		libraryExport: 'default',
 		libraryTarget: 'window',
+		// sourceMapFilename: '[name].[ext].map',
 	},
+	devtool: 'source-map',
 };

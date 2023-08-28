@@ -1,31 +1,35 @@
+import useCheckHrefIncludes from '@cd/core-lib/src/hooks/useCheckHrefIncludes';
 import CloseButton from '@cd/ui-lib/src/components/button/CloseButton';
 import { Paragraph, Small } from '@cd/ui-lib/src/components/Typography';
 import { getBreakpointValue } from '@cd/ui-lib/src/hooks/useBreakpoint';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/img/logo120.png';
 import styles from '../styles/theme';
 import { type ViewProps } from '../types';
+// import url from 'url-state';
 
-function Launch({ expanded, setExpand, dispensaryName, className }: ViewProps) {
-	const [screenwidth, setScreenwidth] = useState(window.innerWidth);
-	const setWindowDimensions = () => {
-		setScreenwidth(window.innerWidth);
-	};
-	useEffect(() => {
-		window.addEventListener('resize', setWindowDimensions);
-		return () => {
-			window.removeEventListener('resize', setWindowDimensions);
-		};
-	}, []);
-	const md = getBreakpointValue('md');
-
+function Launch({
+	expanded,
+	screenwidth,
+	setExpand,
+	dispensaryName,
+	className,
+}: ViewProps) {
 	const openWidget = () => setExpand(true);
 	const closeWidget = (e: any) => {
 		e.stopPropagation();
 		setExpand(false);
 	};
 
+	const navigate = useNavigate();
+	const isCheckout = useCheckHrefIncludes('checkout');
+	useEffect(() => {
+		isCheckout ? navigate('/checkout') : null;
+	});
+
+	const md = getBreakpointValue('md');
 	return (
 		// eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
 		<div
@@ -64,12 +68,11 @@ function Launch({ expanded, setExpand, dispensaryName, className }: ViewProps) {
 							alt="Delivery By Gras"
 							height={40}
 							width={40}
-							className="object-contain"
+							className="object-contain animate-shake"
 						/>
 					)}
-
 					<Small color="light" className="items-center">
-						Delivery by Gras&nbsp;now at checkout
+						Delivery by Gras&nbsp;now at checkout!
 					</Small>
 					{screenwidth >= md && <div className="w-[20px]"></div>}
 				</div>
