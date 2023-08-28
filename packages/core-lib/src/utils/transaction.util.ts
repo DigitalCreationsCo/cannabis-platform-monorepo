@@ -50,9 +50,7 @@ function getCurrencySymbol(currency: any) {
  * @returns converted dollar value with 2 decimal values
  */
 function convertCentsToDollars(cents: number) {
-	// console.info('cents: ', cents)
 	const dollarValue = Number(((cents / 100) * 100) / 100);
-	// console.info('dollarValue: ', dollarValue.toFixed(2))
 	return dollarValue.toFixed(2);
 	// V Beware: this statement interrupts React hydration
 	// return number.toLocaleString(locale, { maximumFractionDigits: 2, minimumFractionDigits: 2 });
@@ -64,10 +62,8 @@ function convertCentsToDollars(cents: number) {
  * @returns a whole number conversion
  */
 function convertDollarsToWholeNumber(value: number | string) {
-	console.log('input ', value);
 	// regex to remove all non-numeric characters, and joins the numbers
 	const number = value.toString().match(/\d*/g)?.join('');
-	console.log('number ', number);
 	return Number(number);
 }
 

@@ -34,7 +34,7 @@ describe('/api/user/1', () => {
 			},
 		});
 		await userHandlerGet(req, res);
-		expect('1').toEqual('1');
+		expect('1').toStrictEqual('1');
 	});
 });
 
@@ -47,7 +47,9 @@ describe('POST User', () => {
 			},
 		});
 		await userHandlerPost(req, res);
-		expect(axios.config.url).toEqual('http://localhost:6001/api/v1/user/');
+		expect(axios.config.url).toStrictEqual(
+			'http://localhost:6001/api/v1/user/',
+		);
 	});
 });
 
@@ -60,6 +62,8 @@ describe('PUT User', () => {
 			},
 		});
 		await userHandlerPost(req, res);
-		expect(axios.config.url).toEqual('http://localhost:6001/api/v1/user/');
+		expect(axios.config.url).toStrictEqual(
+			'http://localhost:6001/api/v1/user/',
+		);
 	});
 });

@@ -53,6 +53,7 @@ export async function getCartDOMElements(
 	config: DOMDataSet['cart'],
 	$: cheerio.Root,
 ) {
+	console.log('total: ', $(config.total));
 	return {
 		items: $(config.item['cart-item']).get(),
 		total: $(config.total).text(),
@@ -77,6 +78,7 @@ export function buildCartItems(
 		_$ = (item: DOMQueryResult['cart']['items'][0], label: string) =>
 			document.querySelector(`${item['cart-item']} ${label}`);
 		text = (el: HTMLElement) => el?.textContent || '';
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		src = (el: HTMLElement) => el?.getAttribute('src') || '';
 	}
 	const cartItems: ProductVariantWithDetails[] = [];
