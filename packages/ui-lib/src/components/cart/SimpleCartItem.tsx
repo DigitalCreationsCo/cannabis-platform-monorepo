@@ -16,14 +16,15 @@ function SimpleCartItem({
 	const quantity = staticQuantity ? 1 : product.quantity;
 	return (
 		<div className={twMerge(styles.lineItem)}>
-			<img
-				data-item="cart-item__product.image"
-				src={product?.images?.[0]?.location}
-				alt={`${product.name}`}
-				style={{ height: 50, maxHeight: 50, width: 50, maxWidth: 50 }}
-				className="rounded border object-cover place-self-center"
-			/>
-
+			{product?.images?.[0]?.location ? (
+				<img
+					data-item="cart-item__product.image"
+					src={product?.images?.[0]?.location}
+					alt={`${product.name}`}
+					style={{ height: 50, maxHeight: 50, width: 50, maxWidth: 50 }}
+					className="rounded border object-cover place-self-center"
+				/>
+			) : null}
 			<div className={styles.info}>
 				<H6
 					data-item="cart-item__product.name-product.quantity)"

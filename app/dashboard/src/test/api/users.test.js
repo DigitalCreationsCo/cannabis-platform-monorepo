@@ -1,3 +1,4 @@
+/* eslint-disable jest/no-commented-out-tests */
 // import ordersHandler from '../../pages/api/orders';
 // import axios from 'axios';
 // import { createMocks } from 'node-mocks-http';
@@ -25,7 +26,7 @@
 // });
 
 describe('/api/users/1', () => {
-	test('get User - axios sends the correct server call', async () => {
-		expect('1').toEqual('1');
+	it('get User - axios sends the correct server call', async () => {
+		expect('1').toStrictEqual('1');
 	});
 });

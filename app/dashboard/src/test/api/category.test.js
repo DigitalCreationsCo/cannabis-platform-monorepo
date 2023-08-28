@@ -1,3 +1,4 @@
+/* eslint-disable */
 // import ordersHandler from "../../pages/api/category"
 // import axios from 'axios';
 // import { createMocks } from 'node-mocks-http';
@@ -26,7 +27,7 @@
 // });
 
 describe('/api/category', () => {
-	test('getCategory - axios return the correct server call', async () => {
-		expect('1').toEqual('1');
+	it('getCategory - axios return the correct server call', async () => {
+		expect('1').toStrictEqual('1');
 	});
 });

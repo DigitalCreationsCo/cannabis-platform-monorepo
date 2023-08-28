@@ -2,7 +2,7 @@ import { Address } from '@cd/data-access';
 import {
 	buildSTFormFields,
 	renderAddress,
-	renderNestedDataObject
+	renderNestedDataObject,
 } from '../../src/utils/ui.util';
 
 const address: Address = {
@@ -21,31 +21,31 @@ const address: Address = {
 
 describe('renderAddress', () => {
 	test(' displays a correct address', () => {
-		expect(renderAddress({ address })).toEqual(
+		expect(renderAddress({ address })).toStrictEqual(
 			`123 Main St Apt 1 \nDenver, CO 80202`,
 		);
 	});
 
 	test(' displays a correct address - no show zipcode', () => {
-		expect(renderAddress({ address, showZipcode: false })).toEqual(
+		expect(renderAddress({ address, showZipcode: false })).toStrictEqual(
 			`123 Main St Apt 1 \nDenver, CO`,
 		);
 	});
 
 	test(' displays a correct address - no show country', () => {
-		expect(renderAddress({ address, showCountry: false })).toEqual(
+		expect(renderAddress({ address, showCountry: false })).toStrictEqual(
 			'123 Main St Apt 1 \nDenver, CO 80202',
 		);
 	});
 
 	test(' displays a correct address - no show state', () => {
-		expect(renderAddress({ address, showState: false })).toEqual(
+		expect(renderAddress({ address, showState: false })).toStrictEqual(
 			`123 Main St Apt 1 Denver`,
 		);
 	});
 
 	test(' displays a correct address - no show city', () => {
-		expect(renderAddress({ address, showCity: false })).toEqual(
+		expect(renderAddress({ address, showCity: false })).toStrictEqual(
 			'123 Main St Apt 1',
 		);
 	});
@@ -76,9 +76,9 @@ describe('renderNestedDataObject ', () => {
 			'country: USA',
 			'zipcode: 80202',
 		];
-		expect(renderNestedDataObject(data, Component, { removeFields })).toEqual(
-			result,
-		);
+		expect(
+			renderNestedDataObject(data, Component, { removeFields }),
+		).toStrictEqual(result);
 	});
 
 	test(' displays a correct nested object without remove fields', () => {
@@ -105,7 +105,7 @@ describe('renderNestedDataObject ', () => {
 			'country: USA',
 			'zipcode: 80202',
 		];
-		expect(renderNestedDataObject(data, Component)).toEqual(result);
+		expect(renderNestedDataObject(data, Component)).toStrictEqual(result);
 	});
 
 	test(' displays a correct nested object with nested fields', () => {
@@ -140,7 +140,7 @@ describe('renderNestedDataObject ', () => {
 			'eating: apples',
 			'doing: exercise',
 		];
-		expect(renderNestedDataObject(data, Component)).toEqual(result);
+		expect(renderNestedDataObject(data, Component)).toStrictEqual(result);
 	});
 
 	describe('buildSTFormFields', () => {
@@ -172,7 +172,7 @@ describe('renderNestedDataObject ', () => {
 					],
 				},
 			];
-			expect(buildSTFormFields(data)).toEqual(result);
+			expect(buildSTFormFields(data)).toStrictEqual(result);
 		});
 	});
 });

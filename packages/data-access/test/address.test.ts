@@ -7,8 +7,8 @@ test('add address with userId', async () => {
 	};
 
 	// prismaMock.organization.findUnique.mockResolvedValue(address)
-	// await expect(findAddressById('2')).resolves.toEqual(address);
-	await expect(Promise.resolve(1)).resolves.toEqual(1);
+	// await expect(findAddressById('2')).resolves.toStrictEqual(address);
+	await expect(Promise.resolve(1)).resolves.toStrictEqual(1);
 });
 
 test('find address with the given addressId', async () => {
@@ -17,8 +17,8 @@ test('find address with the given addressId', async () => {
 	};
 
 	// prismaMock.organization.findUnique.mockResolvedValue(organization)
-	// await expect(findAddressById('2')).resolves.toEqual(address);
-	await expect(Promise.resolve(1)).resolves.toEqual(1);
+	// await expect(findAddressById('2')).resolves.toStrictEqual(address);
+	await expect(Promise.resolve(1)).resolves.toStrictEqual(1);
 });
 findAddressById;
 
@@ -28,8 +28,8 @@ test('find address with the given userId', async () => {
 	};
 
 	// prismaMock.organization.findUnique.mockResolvedValue(organization)
-	// await expect(findAddressById('2')).resolves.toEqual(address);
-	await expect(Promise.resolve(1)).resolves.toEqual(1);
+	// await expect(findAddressById('2')).resolves.toStrictEqual(address);
+	await expect(Promise.resolve(1)).resolves.toStrictEqual(1);
 });
 
 test('find address with the given addressId and userId', async () => {
@@ -38,8 +38,8 @@ test('find address with the given addressId and userId', async () => {
 	};
 
 	// prismaMock.organization.findUnique.mockResolvedValue(organization)
-	// await expect(findAddressById('2')).resolves.toEqual(address);
-	await expect(Promise.resolve(1)).resolves.toEqual(1);
+	// await expect(findAddressById('2')).resolves.toStrictEqual(address);
+	await expect(Promise.resolve(1)).resolves.toStrictEqual(1);
 });
 findAddressById;
 
@@ -49,6 +49,6 @@ test('delete address with the given addressId and userId', async () => {
 	};
 
 	// prismaMock.organization.findUnique.mockResolvedValue(organization)
-	// await expect(deleteAddressById('2')).resolves.toEqual(address);
-	await expect(Promise.resolve(1)).resolves.toEqual(1);
+	// await expect(deleteAddressById('2')).resolves.toStrictEqual(address);
+	await expect(Promise.resolve(1)).resolves.toStrictEqual(1);
 });

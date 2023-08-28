@@ -100,10 +100,11 @@ export default class Checkout extends Component<
 		const { expanded, setExpand, screenwidth } = this.props;
 
 		const listScroll = (e: Event) => {
-			if (this.state.cart.cartItems.length < 1) return;
-			e.stopPropagation();
-			e.stopImmediatePropagation();
-			return false;
+			if (this.state.cart.cartItems.length > 2) {
+				e.stopPropagation();
+				e.stopImmediatePropagation();
+				return false;
+			}
 		};
 		const lockWidgetScroll = (e: Event) => {
 			if (this.props.expanded) {

@@ -110,7 +110,7 @@ class Config implements CrawlerConfigInterface {
 					unit: '.product-details__ProductName-sc-10w5qcl-1',
 					image: '',
 				},
-				total: '.sc-AxjAm iFcYSf cost-table__CostItem-ggum6p-2',
+				total: '.cost-table__CostItem-ggum6p-2',
 			},
 		},
 	};

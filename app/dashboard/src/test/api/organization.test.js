@@ -38,7 +38,7 @@
 // // });
 
 describe('/api/organization', () => {
-	test('getOrganizationById - axios sends the correct server call', async () => {
-		expect('1').toEqual('1');
+	it('getOrganizationById - axios sends the correct server call', async () => {
+		expect('1').toStrictEqual('1');
 	});
 });
