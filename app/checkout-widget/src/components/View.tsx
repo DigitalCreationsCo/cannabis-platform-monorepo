@@ -15,7 +15,6 @@ const ViewWrapper = (ViewComponent: ViewComponent, props: ViewProps) => {
 			function checkPath() {
 				if (location.pathname != pathname) {
 					pathname = location.pathname;
-					// console.info('is checkout? ', useCheckHrefIncludes('checkout'))
 					// eslint-disable-next-line react-hooks/rules-of-hooks
 					useCheckHrefIncludes('checkout')
 						? navigate('/checkout')

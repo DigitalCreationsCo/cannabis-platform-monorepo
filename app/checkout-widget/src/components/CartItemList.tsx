@@ -11,8 +11,6 @@ type CartListProps = {
 };
 
 function CartList({ cart, cartError }: CartListProps) {
-	// console.log('CartList cart: ', cart);
-
 	// does this cross domain cookie work?
 	// need to test across different domains!
 	// and write unit tests

@@ -101,16 +101,16 @@ class Config implements CrawlerConfigInterface {
 		dutchie: {
 			'dutchie-checkout': {
 				item: {
-					'cart-item': '.summary-item__Container-sc-1gislal-0 dRTSHc',
-					name: '.product-details__ProductName-sc-10w5qcl-1 liueda',
-					label: '.product-details__BrandName-sc-10w5qcl-2 iOmPMN',
-					basePrice: '.summary-item__Price-sc-1gislal-2 kfcOnR',
-					quantity: '.select__StyledSelect-sc-6nehhv-1 bdTYYe',
-					size: '.product-details__ProductName-sc-10w5qcl-1 liueda',
-					unit: '.product-details__ProductName-sc-10w5qcl-1 liueda',
+					'cart-item': '.summary-item__Container-sc-1gislal-0',
+					name: '.product-details__ProductName-sc-10w5qcl-1',
+					label: '.product-details__BrandName-sc-10w5qcl-2',
+					basePrice: '.summary-item__Price-sc-1gislal-2',
+					quantity: '.select__StyledSelect-sc-6nehhv-1',
+					size: '.product-details__ProductName-sc-10w5qcl-1',
+					unit: '.product-details__ProductName-sc-10w5qcl-1',
 					image: '',
 				},
-				total: '.sc-AxjAm iFcYSf cost-table__CostItem-ggum6p-2 hCunA',
+				total: '.sc-AxjAm iFcYSf cost-table__CostItem-ggum6p-2',
 			},
 		},
 	};

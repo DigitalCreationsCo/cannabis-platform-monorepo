@@ -43,7 +43,6 @@ export default class Checkout extends Component<
 			this.props.useDutchie ||
 			!!document.querySelector('[aria-label="dutchiePay"]')
 		) {
-			console.debug('using dutchie config');
 			configKey = 'dutchie-checkout';
 		}
 		const config = new CrawlerConfig(configKey).config;
