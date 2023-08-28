@@ -1,38 +1,58 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-export type WidgetHost = 'localhost' | 'sunnyside' | 'manasupply';
-export type DeliveryWidgetConfigOptions = DomOptions &
+
+export type DeliveryWidgetConfigOptions = DOMOptions &
 	DispensaryOptions &
-	WidgetUIOptions;
+	UIOptions;
 
-type DomOptions = {
-	parentElement?: string;
-};
-
-type DispensaryOptions = {
-	dispensaryId: string;
-	dispensaryName: string;
-};
-
-type WidgetUIOptions = {
+type UIOptions = {
 	position: 'left' | 'right';
 	shape: 'round' | 'rectangle';
 };
+type DispensaryOptions = {
+	dispensaryId: string;
+	dispensaryName: string;
+	useDutchie: boolean;
+};
+type DOMOptions = {
+	parentElement?: string;
+};
 
+export type ViewComponent = (props: ViewProps) => JSX.Element | JSX.Element;
 export interface ViewProps extends DeliveryWidgetConfigOptions {
-	className?: string | string[];
 	expanded: boolean;
 	setExpand: (expanded: boolean) => void;
 	screenwidth: number;
 }
-export type ViewComponent = (props: ViewProps) => JSX.Element | JSX.Element;
 
-export type CrawlerConfig = Record<WidgetHost, DOMDataSet>;
-export type DOMKey = 'cart';
-export type DOMSelector = DOMDataSet[DOMKey];
-// this is the data structure that the crawler will use to dynamically traverse the dom elements and return data based on the config
+export type WidgetHost = 'localhost' | 'sunnyside' | 'manasupply' | 'dutchie';
+
+// resolve the type of the config object
+// export type SelectDOMKey<T extends DOMKey> = Extract<DOMKey, T>;
+export type CrawlerConfig = Record<WidgetHost, Record<any, DOMSelector>>;
+export type DOMKey = 'cart' | 'dutchie-checkout';
+export type DOMSelector = {
+	item: {
+		name: string;
+		label: string;
+		basePrice: string;
+		quantity: string;
+		size: string;
+		unit: string;
+		image: string;
+		'cart-item': string;
+	};
+	total: string;
+};
+
+// typeset of dom selectors
 export type DOMDataSet = {
+	cart: DOMSelector;
+	'dutchie-checkout': DOMSelector;
+};
+
+export type DOMQueryResult = {
 	cart: {
-		item: {
+		items: {
 			name: string;
 			label: string;
 			basePrice: string;
@@ -41,13 +61,10 @@ export type DOMDataSet = {
 			unit: string;
 			image: string;
 			'cart-item': string;
-		};
+		}[];
 		total: string;
 	};
-};
-
-export type DOMQueryResult = {
-	cart: {
+	'dutchie-checkout': {
 		items: {
 			name: string;
 			label: string;

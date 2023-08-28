@@ -2,7 +2,7 @@ import {
 	formatDispensaryUrl,
 	getDashboardSite,
 	getDispensaryDomain,
-	getShopSite
+	getShopSite,
 } from '../../src/utils/url.util';
 
 describe('formatUrl.test', () => {
@@ -36,15 +36,15 @@ describe('formatUrl.test', () => {
 			const subdomainId = 'mcnuggets-dispensary';
 			switch (process.env.NODE_ENV) {
 				case 'development':
-					return expect(formatDispensaryUrl(subdomainId)).toEqual(
+					return expect(formatDispensaryUrl(subdomainId)).toStrictEqual(
 						`http://${subdomainId}.localhost:3000`,
 					);
 				case 'test':
-					return expect(formatDispensaryUrl(subdomainId)).toEqual(
+					return expect(formatDispensaryUrl(subdomainId)).toStrictEqual(
 						`http://${subdomainId}.localhost:3000`,
 					);
 				case 'production':
-					return expect(formatDispensaryUrl(subdomainId)).toEqual(
+					return expect(formatDispensaryUrl(subdomainId)).toStrictEqual(
 						`https://grascannabis.org/browse/${subdomainId}`,
 					);
 			}
@@ -52,25 +52,29 @@ describe('formatUrl.test', () => {
 		test('getShopSite ', () => {
 			switch (process.env.NODE_ENV) {
 				case 'development':
-					expect(getShopSite('/home')).toEqual(`http://localhost:3000/home`);
+					expect(getShopSite('/home')).toStrictEqual(
+						`http://localhost:3000/home`,
+					);
 				case 'test':
-					expect(getShopSite('/home')).toEqual(`http://localhost:3000/home`);
+					expect(getShopSite('/home')).toStrictEqual(
+						`http://localhost:3000/home`,
+					);
 				case 'production':
-					expect(getShopSite('/home')).toEqual(`grascannabis.org/home`);
+					expect(getShopSite('/home')).toStrictEqual(`grascannabis.org/home`);
 			}
 		});
 		test('getDashboardSite ', () => {
 			switch (process.env.NODE_ENV) {
 				case 'development':
-					expect(getDashboardSite('/home')).toEqual(
+					expect(getDashboardSite('/home')).toStrictEqual(
 						`http://localhost:3001/home`,
 					);
 				case 'test':
-					expect(getDashboardSite('/home')).toEqual(
+					expect(getDashboardSite('/home')).toStrictEqual(
 						`http://localhost:3001/home`,
 					);
 				case 'production':
-					expect(getDashboardSite('/home')).toEqual(
+					expect(getDashboardSite('/home')).toStrictEqual(
 						`app.grascannabis.org/home`,
 					);
 			}
@@ -80,25 +84,25 @@ describe('formatUrl.test', () => {
 
 describe('getDispensaryDomain', () => {
 	test('manasupply', () => {
-		expect(getDispensaryDomain('manasupply.com')).toEqual(
+		expect(getDispensaryDomain('manasupply.com')).toStrictEqual(`manasupply`);
+		expect(getDispensaryDomain('www.manasupply.com')).toStrictEqual(
 			`manasupply`,
 		);
-		expect(getDispensaryDomain('www.manasupply.com')).toEqual(
+		expect(getDispensaryDomain('https://manasupply.com')).toStrictEqual(
 			`manasupply`,
 		);
-		expect(getDispensaryDomain('https://manasupply.com')).toEqual(
+		expect(getDispensaryDomain('https://www.manasupply.com')).toStrictEqual(
 			`manasupply`,
 		);
-		expect(getDispensaryDomain('https://www.manasupply.com')).toEqual(
-			`manasupply`,
-		);
-		expect(getDispensaryDomain('https://manasupply.com/shop/edgewater-maryland/?dtche%5Bpath%5D=checkout')).toEqual(
-			`manasupply`,
-		);
+		expect(
+			getDispensaryDomain(
+				'https://manasupply.com/shop/edgewater-maryland/?dtche%5Bpath%5D=checkout',
+			),
+		).toStrictEqual(`manasupply`);
 	});
 	test('starbuds', () => {
-		expect(getDispensaryDomain('https://shop.starbuds.us/stores/baltimore/')).toEqual(
-			`starbuds`,
-		);
+		expect(
+			getDispensaryDomain('https://shop.starbuds.us/stores/baltimore/'),
+		).toStrictEqual(`starbuds`);
 	});
 });

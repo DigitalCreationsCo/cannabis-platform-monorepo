@@ -15,7 +15,6 @@ function Launch({
 	screenwidth,
 	setExpand,
 	dispensaryName,
-	className,
 }: ViewProps) {
 	const openWidget = () => setExpand(true);
 	const closeWidget = (e: any) => {
@@ -32,10 +31,7 @@ function Launch({
 	const md = getBreakpointValue('md');
 	return (
 		// eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-		<div
-			onClick={openWidget}
-			className={twMerge([styles.launch_f(expanded), className])}
-		>
+		<div onClick={openWidget} className={twMerge([styles.launch_f(expanded)])}>
 			{expanded ? (
 				<div className="flex flex-row items-center">
 					<div className="p-6"></div>

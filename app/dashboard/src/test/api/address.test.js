@@ -1,3 +1,4 @@
+/* eslint-disable */
 import mockAxios from 'jest-mock-axios';
 import { createMocks } from 'node-mocks-http';
 import handler from '../../src/pages/api/organization/staff/address';

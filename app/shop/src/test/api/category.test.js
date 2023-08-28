@@ -29,6 +29,6 @@
 
 describe('/api/category', () => {
 	test('getCategory - axios return the correct server call', async () => {
-		expect('1').toEqual('1');
+		expect('1').toStrictEqual('1');
 	});
 });
