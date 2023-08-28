@@ -74,3 +74,7 @@ export const buildSTFormFields = (data: Record<string, any>): any => {
 		} else return { id: key, value: data[key] };
 	});
 };
+
+export const getSelectedOptionValue = (selector: string) => {
+	return (document.querySelector(selector) as any).selectedOptions[0].value;
+};
