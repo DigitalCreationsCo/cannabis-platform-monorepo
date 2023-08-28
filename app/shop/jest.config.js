@@ -32,7 +32,6 @@ const config = {
 		'@testing-library/jest-dom/extend-expect',
 	],
 	globalSetup: '<rootDir>/jest.globals.mjs',
-
 	testMatch: [
 		...getTestMatchers({
 			api: false,

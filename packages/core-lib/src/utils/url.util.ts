@@ -57,4 +57,16 @@ function getDashboardSite(path: string): string {
 	}
 }
 
-export { formatDispensaryUrl, formatBlogUrl, getShopSite, getDashboardSite };
+function getDispensaryDomain(url: string) {
+	const match = url.match(/(?:https?:\/\/)?(?:[a-zA-Z\d-]+\.)*([^.]+)\./); // matches all but localhost:xxxx
+	if (match) return match[1];
+	else return null;
+}
+
+export {
+	formatDispensaryUrl,
+	formatBlogUrl,
+	getDispensaryDomain,
+	getShopSite,
+	getDashboardSite,
+};
