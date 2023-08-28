@@ -1,3 +1,4 @@
+/* eslint-disable regexp/no-super-linear-backtracking */
 import { type SimpleCart } from '@cd/core-lib/src/types/redux.types';
 import { convertDollarsToWholeNumber } from '@cd/core-lib/src/utils/transaction.util';
 import { type ProductVariantWithDetails } from '@cd/data-access';
@@ -11,18 +12,28 @@ import {
 
 // in the future, crawler accepts only a key, and the config is generated
 // make the exported functions public class methods, for testing
-export default async function dutchieCrawler(config: DOMSelector, key: DOMKey) {
+export default async function dutchieCrawler(config: DOMSelector) {
 	try {
 		if (typeof window === 'undefined')
 			throw new Error('window is not available');
-		const _url = window.location.href;
-		console.log('dutchie checkout url ', _url);
-		const response = await fetch(_url);
-		const html = await response.text();
-		console.log('html from dutchie checkout, ', html);
-		const data = await processCrawlerData(html, config, key);
+		const html = await fetchPageData();
+		const data = await processCrawlerData(html, config);
 		if (!data) throw new Error('no data found');
 		return data;
+	} catch (error: any) {
+		console.error(error);
+		throw new Error(error.message);
+	}
+}
+
+async function fetchPageData(): Promise<string> {
+	try {
+		if (!document) throw new Error('Could not get page data');
+		console.log(
+			'document.documentElement.innerHTML: ',
+			document.body.innerHTML,
+		);
+		return document.documentElement.innerHTML;
 	} catch (error: any) {
 		console.error(error);
 		throw new Error(error.message);
@@ -33,16 +44,11 @@ type ProcessReturnType<K> = K extends 'cart' ? SimpleCart : never;
 export async function processCrawlerData<K extends DOMKey>(
 	html: string,
 	config: DOMSelector,
-	key?: K,
 ) {
-	console.log('processCraweler data using key ', key);
 	const $ = cheerio.load(html);
-	// eslint-disable-next-line sonarjs/no-small-switch
-	// eslint-disable-next-line sonarjs/no-small-switch
 	const result = await getCartDOMElements(config, $).then((result) =>
 		buildSimpleCartFromDutchieCheckout(result, config, $),
 	);
-	console.log('dutchie crawler result ', result);
 	return result as unknown as ProcessReturnType<K>;
 }
 
@@ -80,7 +86,6 @@ export function buildCartItems(
 	items.forEach((item, index) => {
 		const _cartItem = {
 			name: text(_$(item, config.item.name)).match(regexFieldDict.name)?.[1],
-			// get child div from base price
 			basePrice: convertDollarsToWholeNumber(
 				text(_$(item, config.item.basePrice)),
 			),
@@ -103,18 +108,10 @@ export function buildCartItems(
 				},
 			],
 		} as ProductVariantWithDetails;
-		console.log('cart item built', _cartItem);
 		cartItems.push(_cartItem);
 	});
 	return cartItems;
 }
-
-export const regexFieldDict = {
-	name: /^(.*?)(?= -|$)/,
-	// eslint-disable-next-line regexp/optimal-quantifier-concatenation
-	size: /-\s+(\d*\.?\d*)(\w*)/,
-	unit: /-\s*\d+(?:\.\d+)?\s*(\w+)/,
-};
 
 export function buildSimpleCartFromDutchieCheckout(
 	input: DOMQueryResult['cart'],
@@ -123,7 +120,6 @@ export function buildSimpleCartFromDutchieCheckout(
 ): SimpleCart {
 	try {
 		if (!input) throw new Error('no input data');
-		console.log('buildSimpleCartFromDutchieCheckout input ', input);
 		const items = input.items;
 		const total = input.total;
 		return {
@@ -141,3 +137,9 @@ export function buildSimpleCartFromDutchieCheckout(
 		};
 	}
 }
+
+export const regexFieldDict = {
+	name: /^(.*?)(?= -*\W\S|$)/,
+	size: /\b(\d+(\.\d+)?)(?=\w*\b)/,
+	unit: /\b\d+(?:\.\d+)?\s*(\w+)\b/,
+};

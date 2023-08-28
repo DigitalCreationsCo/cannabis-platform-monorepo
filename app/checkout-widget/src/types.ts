@@ -64,4 +64,17 @@ export type DOMQueryResult = {
 		}[];
 		total: string;
 	};
+	'dutchie-checkout': {
+		items: {
+			name: string;
+			label: string;
+			basePrice: string;
+			quantity: string;
+			size: string;
+			unit: string;
+			image: string;
+			'cart-item': string;
+		}[];
+		total: string;
+	};
 };

@@ -3,6 +3,7 @@
 import { type SimpleCart } from '@cd/core-lib/src/types/redux.types';
 import { isArray } from '@cd/core-lib/src/utils/object.util';
 import * as cheerio from 'cheerio';
+import { type DOMQueryResult } from '../types';
 import {
 	buildCartItems,
 	buildSimpleCart,
@@ -17,7 +18,19 @@ describe('Crawler : Cart', () => {
 	it('returns defined data', async () => {
 		const config = new Config('cart').config;
 		const $ = cheerio.load(html);
-		expect(await getCartDOMElements(config, $)).not.toBeNull();
+		const result = await getCartDOMElements(config, $);
+		expect(result).toBeDefined();
+	});
+
+	it('returns expected data type', async () => {
+		const config = new Config('cart').config;
+		const $ = cheerio.load(html);
+
+		const result = await getCartDOMElements(config, $);
+
+		const resultType = {} as DOMQueryResult['cart'];
+		expect(result).toBeDefined();
+		expect(typeof result).toStrictEqual(typeof resultType);
 	});
 
 	it('returns expected results', async () => {

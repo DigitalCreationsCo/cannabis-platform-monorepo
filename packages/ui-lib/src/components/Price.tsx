@@ -28,6 +28,11 @@ function Price({
 	const _currencySymbol: any = { 'en-us': '$' };
 
 	const base = basePrice * quantity;
+	console.log('quantity: ', quantity);
+	console.log('basePrice: ', basePrice);
+	console.log('base: ', base);
+	console.log('salePrice: ', salePrice);
+	console.log('discount: ', discount);
 
 	const toDollars = (value: number): string => convertCentsToDollars(value);
 
