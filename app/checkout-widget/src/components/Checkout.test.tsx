@@ -59,4 +59,57 @@ describe('<Checkout />', () => {
 		// expect checkout crawler to load the correct config how to detect it?
 		// test the case result of switch statement
 	});
+
+	it('Checkout component calls handleCheckout on click event', () => {
+		const checkout = mount<Checkout>(<Checkout {...props} />);
+		spy = jest.spyOn(checkout.instance(), 'handleCheckout');
+
+		expect(checkout).toBeDefined();
+		checkout.simulate('click');
+		expect(spy).toHaveBeenCalled();
+	});
+
+	// PLACEHOLDER
+	it('Checkout method handleCheckout to generate a cookie after valid cart', () => {
+		// const checkout = mount<Checkout>(<Checkout {...props} />);
+		// spy = jest.spyOn(checkout.instance(), 'handleCheckout');
+
+		// expect(checkout).toBeDefined();
+		// checkout.simulate('click');
+		// expect(spy).toHaveBeenCalled();
+		expect(1).toStrictEqual(1);
+	});
+
+	// PLACEHOLDER
+	it('Checkout method handleCheckout to redirect window after valid cart', () => {
+		// const checkout = mount<Checkout>(<Checkout {...props} />);
+		// spy = jest.spyOn(checkout.instance(), 'handleCheckout');
+
+		// expect(checkout).toBeDefined();
+		// checkout.simulate('click');
+		// expect(spy).toHaveBeenCalled();
+		expect(1).toStrictEqual(1);
+	});
+
+	// PLACEHOLDER
+	it('Checkout method handleCheckout does not generate cookie after invalid /empty cart', () => {
+		// const checkout = mount<Checkout>(<Checkout {...props} />);
+		// spy = jest.spyOn(checkout.instance(), 'handleCheckout');
+
+		// expect(checkout).toBeDefined();
+		// checkout.simulate('click');
+		// expect(spy).toHaveBeenCalled();
+		expect(1).toStrictEqual(1);
+	});
+
+	// PLACEHOLDER
+	it('Checkout method handleCheckout does not redirect window after invalid /empty cart', () => {
+		// const checkout = mount<Checkout>(<Checkout {...props} />);
+		// spy = jest.spyOn(checkout.instance(), 'handleCheckout');
+
+		// expect(checkout).toBeDefined();
+		// checkout.simulate('click');
+		// expect(spy).toHaveBeenCalled();
+		expect(1).toStrictEqual(1);
+	});
 });

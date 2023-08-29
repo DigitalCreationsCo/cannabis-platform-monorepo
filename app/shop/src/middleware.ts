@@ -21,26 +21,7 @@ export default async function middleware(req: NextRequest) {
 	const subdomain =
 		req.headers.get('host')?.split('.')[0].split(':')[0] || 'localhost';
 
-	const allowAllVisitors = [
-		'/about-gras',
-		'/signup/create-dispensary-account',
-		'/signup/create-account',
-		'/survey',
-		'/sorry-we-cant-serve-you',
-		'/support',
-	];
-
-	const shopPages = allowAllVisitors.concat([
-		'/mybag',
-		'/checkout',
-		'/404',
-		'/500',
-		'/signup',
-		'/termsandconditions',
-		'/quick-delivery',
-		'/browse',
-		'/welcome',
-	]);
+	const pagesAllowOver21Only = ['/browse', '/mybag', '/checkout', '/support'];
 
 	let url;
 	switch (true) {
@@ -73,15 +54,11 @@ export default async function middleware(req: NextRequest) {
 			// redirect under21 to homepage
 			if (
 				url.pathname !== '/' &&
-				over21 !== 'true' &&
-				!allowAllVisitors.includes(url.pathname)
+				pagesAllowOver21Only.includes(url.pathname) &&
+				over21 !== 'true'
 			) {
 				url.pathname = '/';
 				return NextResponse.redirect(url);
-			}
-
-			if (shopPages.includes(url.pathname)) {
-				return NextResponse.next();
 			}
 			break;
 

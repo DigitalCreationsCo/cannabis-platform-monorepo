@@ -111,7 +111,7 @@ const TextContent = Object.freeze({
 
 		CONNECTION_ISSUE:
 			"We're having trouble connecting you. Please try again later. Thank you!",
-		REQUEST_FAILED: 'Our bad, your request failed',
+		REQUEST_FAILED: 'Our bad, your request failed.',
 		SERVER_NOT_AVAILABLE: `This service is not available. ${'\n'}Please try again later.`,
 	},
 
@@ -234,12 +234,15 @@ const TextContent = Object.freeze({
 		CART_TITLE: 'My Bag',
 		CHECKOUT: 'checkout',
 		PURCHASE: 'place an order',
+		PLACE_AN_ORDER: 'place an order',
+		PLACE_AN_ORDER_DELIVERY: 'place an order for delivery',
 		REMOVE_ITEM: 'Remove Item',
 		SEE_ORDERS: 'See your orders',
 		SUBTOTAL: 'subtotal',
 		THANK_CUSTOMER_f: (vendorName: string) =>
 			`Thank you for shopping with ${vendorName}!`,
 		UPDATE_CART: 'Update Bag',
+		YOUR_ORDER: 'Your order',
 	},
 
 	social: {
