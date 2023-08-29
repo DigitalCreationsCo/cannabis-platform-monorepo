@@ -53,7 +53,6 @@ export async function getCartDOMElements(
 	config: DOMDataSet['cart'],
 	$: cheerio.Root,
 ) {
-	console.log('total: ', $(config.total));
 	return {
 		items: $(config.item['cart-item']).get(),
 		total: $(config.total).text(),
@@ -88,11 +87,7 @@ export function buildCartItems(
 			basePrice: convertDollarsToWholeNumber(
 				text(_$(item, config.item.basePrice)),
 			),
-			quantity: Number(
-				getSelectedOptionValue(
-					`${config.item['cart-item']} ${config.item.quantity}`,
-				),
-			),
+			quantity: Number(getSelectedOptionValue(`${item.quantity}`)),
 			size: Number(
 				text(_$(item, config.item.name)).match(regexFieldDict.size)?.[1],
 			),

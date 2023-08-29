@@ -1,3 +1,4 @@
+/* eslint-disable no-irregular-whitespace */
 const html = `<html>
 <head>
     <meta charset="utf-8" />

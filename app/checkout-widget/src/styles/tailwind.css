@@ -3458,6 +3458,10 @@ html {
   padding-bottom: 2rem;
 }
 
+.pl-1 {
+  padding-left: 0.25rem;
+}
+
 .pl-2 {
   padding-left: 0.5rem;
 }
@@ -3500,10 +3504,6 @@ html {
 
 .pt-4 {
   padding-top: 1rem;
-}
-
-.pl-1 {
-  padding-left: 0.25rem;
 }
 
 .text-center {
