@@ -31,7 +31,7 @@ const defaultConfig = {
 	].filter((i) => i),
 	devServer: {
 		static: publicDir,
-		port: 9000,
+		port: 9001,
 		headers: {
 			'Access-Control-Allow-Origin': '*',
 			// for testing only, in production add the host server
