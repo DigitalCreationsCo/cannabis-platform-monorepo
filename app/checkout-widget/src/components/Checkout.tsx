@@ -1,10 +1,13 @@
 import TextContent from '@cd/core-lib/src/constants/text.constant';
 import { type SimpleCart } from '@cd/core-lib/src/types/redux.types';
+import { crypto } from '@cd/core-lib/src/utils/crypto';
+import { urlBuilder } from '@cd/core-lib/src/utils/urlBuilder';
 import Button from '@cd/ui-lib/src/components/button/Button';
 import CloseButton from '@cd/ui-lib/src/components/button/CloseButton';
 import Price from '@cd/ui-lib/src/components/Price';
 import { Paragraph, Small } from '@cd/ui-lib/src/components/Typography';
 import { getBreakpointValue } from '@cd/ui-lib/src/hooks/useBreakpoint';
+import axios from 'axios';
 import { Component } from 'react';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/img/logo120.png';
@@ -70,19 +73,52 @@ export default class Checkout extends Component<
 		}
 		if (!crawler) throw new Error('crawler not found');
 		crawler(config, configKey)
-			.then((cart: SimpleCart) => {
-				console.log('cart: ', cart);
-				this.setState({ cart: { ...this.state.cart, ...cart } });
-			})
+			.then((cart: SimpleCart) =>
+				this.setState({ cart: { ...this.state.cart, ...cart } }),
+			)
 			.catch((error: any) => {
 				console.error('getCartData error, ', error);
 				this.setState({ cartError: error.message });
 			});
 	};
 
-	handleCheckout = () => {
-		this.setState({ redirecting: true });
-		window.location.href = 'http://localhost:3000/quick-delivery';
+	handleCheckout = async () => {
+		try {
+			if (this.state.cart.cartItems.length > 0 && !this.state.cartError) {
+				const cartToken = crypto.encrypt(JSON.stringify(this.state.cart));
+				const expires = new Date();
+				expires.setDate(expires.getDate() + 1);
+				// document.cookie = `gras-cart-token=${cartToken}; expires=${expires.toUTCString()}; SameSite=None; Secure; Domain=${
+				// 	process.env.NEXT_PUBLIC_APP_DOMAIN
+				// }`;
+				document.cookie = `gras-cart-token=${cartToken}; expires=${expires.toUTCString()}; SameSite=None;`;
+
+				const response = await axios.post(
+					urlBuilder.shop + '/api/delivery/token',
+					{ cartToken },
+					{
+						headers: {
+							accept: '*/*',
+							'content-type': 'application/json',
+						},
+						withCredentials: true,
+					},
+				);
+				if (!response.data.success)
+					throw new Error(TextContent.error.CONNECTION_ISSUE);
+				// setEncryptedCookie('gras-cart-token', cartAsString, {
+				// 	expires,
+				// 	sameSite: 'none',
+				// 	secure: false,
+				// 	domain: 'localhost:3000',
+				// });
+				this.setState({ redirecting: true });
+				window.location.href = urlBuilder.shop + '/quick-delivery';
+			}
+		} catch (error) {
+			console.error('handleCheckout error, ', error);
+			this.setState({ cartError: error.message });
+		}
 	};
 
 	componentDidMount() {
@@ -90,9 +126,7 @@ export default class Checkout extends Component<
 	}
 
 	useStaticQuantity() {
-		// eslint-disable-next-line sonarjs/prefer-immediate-return
-		const useStaticQuantityInCartList = this.state.isDutchieCheckout;
-		return useStaticQuantityInCartList;
+		return this.state.isDutchieCheckout;
 	}
 
 	render() {

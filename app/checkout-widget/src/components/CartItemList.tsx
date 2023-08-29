@@ -1,7 +1,6 @@
 import { type SimpleCart } from '@cd/core-lib/src/types/redux.types';
 import SimpleCartItem from '@cd/ui-lib/src/components/cart/SimpleCartItem';
 import { Paragraph, Small } from '@cd/ui-lib/src/components/Typography';
-import { useEffect } from 'react';
 
 type CartListProps = {
 	cart: SimpleCart;
@@ -12,23 +11,6 @@ type CartListProps = {
 };
 
 function CartList({ cart, cartError, staticQuantity = false }: CartListProps) {
-	// does this cross domain cookie work?
-	// need to test across different domains!
-	// and write unit tests
-	useEffect(() => {
-		createCheckoutCookie();
-	}, []);
-	function createCheckoutCookie() {
-		if (cart && !cartError) {
-			const cartAsString = JSON.stringify(cart);
-
-			const expires = new Date();
-			expires.setDate(expires.getDate() + 1);
-
-			document.cookie = `gras-cart-token=${cartAsString};expires=${expires.toUTCString()};`;
-		}
-	}
-
 	return (
 		<>
 			{cart.cartItems.length > 0 ? (

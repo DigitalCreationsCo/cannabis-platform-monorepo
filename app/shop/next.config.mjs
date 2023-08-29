@@ -18,9 +18,6 @@ const _env =
 		: process.env.NODE_ENV;
 expand(config({ path: loadEnv(_env) }));
 
-/**
- * @type {import('next').NextConfig}
- */
 const nextConfig = (phase) => {
 	const isDev = phase === PHASE_DEVELOPMENT_SERVER;
 	const isProd =
@@ -32,7 +29,9 @@ const nextConfig = (phase) => {
 	console.info(
 		`isDev:${isDev}  isProd:${isProd}   isStaging:${isStaging} isTest:${isTest}`,
 	);
-
+	/**
+	 * @type {import('next').NextConfig}
+	 */
 	const config = {
 		env: {
 			BACKEND_URL: (() => {

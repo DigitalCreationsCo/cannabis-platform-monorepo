@@ -3,6 +3,7 @@ import {
 	selectCartState,
 	selectIsCartEmpty,
 	selectUserState,
+	TextContent,
 	type SimpleCart,
 } from '@cd/core-lib';
 import { type ProductVariantWithDetails } from '@cd/data-access';
@@ -38,6 +39,7 @@ function QuickDelivery() {
 	const dispatch = useDispatch();
 
 	const [cookies, , removeCookie] = useCookies(['gras-cart-token']);
+	console.log('cookies: ', cookies);
 	const simpleCart: SimpleCart =
 		cookies['gras-cart-token'] &&
 		JSON.parse(JSON.stringify(cookies['gras-cart-token']));
@@ -47,12 +49,15 @@ function QuickDelivery() {
 
 	useEffect(() => {
 		// Add the cart token data to redux state, and delete the cookie after this.
-		if (simpleCart)
+		if (simpleCart) {
+			console.log('cart cookie: ', simpleCart);
 			dispatch(cartActions.saveSimpleCart(simpleCart) as unknown as AnyAction);
-		removeCookie('gras-cart-token');
-		console.info('gras-cart-token cookie removed.');
+			removeCookie('gras-cart-token');
+			console.info('gras-cart-token cookie removed.');
+		}
 		// NOTE: Should encrypt this token in the future.
-	}, [dispatch, removeCookie, simpleCart]);
+		// }, [dispatch, removeCookie, simpleCart]);
+	}, []);
 
 	const [confirm, setConfirm] = useState(false);
 
@@ -68,10 +73,11 @@ function QuickDelivery() {
 				/>
 			</Head>
 			<div className="flex grow">
-				<Card className="bg-inverse-soft m-auto space-y-2">
-					<H2>Delivery By Gras</H2>
+				<Card className="bg-inverse-soft m-auto">
+					<H2>{TextContent.info.GET_CANNABIS_DELIVERED}</H2>
+					<H5>{TextContent.shop.PLACE_AN_ORDER_DELIVERY}</H5>
 
-					<Center className="m-auto w-3/4 space-y-2 pb-20 md:pb-0">
+					<Center className="m-auto w-3/4 items-center space-y-2 py-14 md:py-0">
 						{!cartIsEmpty && (
 							<>
 								<H5>
@@ -93,8 +99,8 @@ function QuickDelivery() {
 						)}
 
 						{cartIsEmpty && (
-							<Paragraph className="col-span-2">
-								You have no items in your order. {'\n'}
+							<Paragraph className="col-span-2 ">
+								There are no items in your order. {'\n'}
 								Visit your Dispensary store to place an order.
 							</Paragraph>
 						)}
@@ -118,9 +124,7 @@ function QuickDelivery() {
 
 						{user.isSignedIn && canProceed && (
 							<>
-								<Paragraph>
-									Hit checkout to complete your delivery order.
-								</Paragraph>
+								<Paragraph>{TextContent.prompt.CHECKOUT_READY}</Paragraph>
 								<CheckoutButton disabled={!canProceed} />
 							</>
 						)}
