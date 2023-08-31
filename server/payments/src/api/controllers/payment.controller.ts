@@ -48,30 +48,23 @@ export default class PaymentController {
 
 			await PaymentDA.saveOrder(order);
 
-			return res.status(302).send({
+			return res.status(302).json({
 				success: 'true',
 				message: 'Stripe checkout is created.',
 				redirect: checkout.url,
 			});
 		} catch (error: any) {
-			console.info('create checkout error: ', error.message);
-
-			if (error.message === 'No order found.')
-				return res.status(400).json({ error: error.message });
-
-			if (error.message === 'Sorry, your dispensary is not found.')
-				return res.status(400).json({ error: error.message });
-
+			console.error('create checkout error: ', error.message);
 			if (
+				error.message === 'No order found.' ||
+				error.message === 'Sorry, your dispensary is not found.' ||
 				error.message ===
-				`We're sorry, but this dispensary is not accepting payments at this time.`
+					`We're sorry, but this dispensary is not accepting payments at this time.` ||
+				error.message === 'No items in order'
 			)
-				return res.status(400).json({ error: error.message });
+				return res.status(400).json({ success: 'false', error: error.message });
 
-			if (error.message === 'No items in order')
-				return res.status(400).json({ error: error.message });
-
-			return res.status(500).json({ error: error.message });
+			return res.status(500).json({ success: 'false', error: error.message });
 		}
 	}
 

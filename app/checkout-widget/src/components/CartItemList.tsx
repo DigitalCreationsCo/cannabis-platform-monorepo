@@ -20,6 +20,7 @@ function CartList({ cart, cartError, staticQuantity = false }: CartListProps) {
 							key={`cart-item-${index}`}
 							product={cartItem}
 							staticQuantity={staticQuantity}
+							className="text-light"
 						/>
 						<div
 							key={`divider-${index}`}

@@ -42,7 +42,7 @@ function StartPage() {
 
 	const [dialogOpen, setDialogOpen] = useState(false);
 	return (
-		<Page className="p-0 sm:p-0 md:p-0 lg:p-0">
+		<Page className="text-light p-0 sm:p-0 md:p-0 lg:p-0">
 			<ImageBackDrop src={backdrop}>
 				<FlexBox className="w-full">
 					<FlexBox className={twMerge(styles.HERO.container)}>
@@ -128,16 +128,18 @@ function StartPage() {
 										}}
 									>
 										{dialogOpen && (
-											<>
-												We are team of cannabis lovers providing a home-grown
-												service for our community. We are help to elevate the
-												voices of the cannabis community through high quality
-												service and support.
+											<div className="text-inverse">
+												<Paragraph>
+													We are team of cannabis lovers providing a home-grown
+													service for our community. We are help to elevate the
+													voices of the cannabis community through high quality
+													service and support.
+												</Paragraph>
 												<br />
 												<Span className="mx-auto font-bold">
 													We welcome everyone 21 years or older.
 												</Span>
-											</>
+											</div>
 										)}
 									</motion.div>
 								</div>
