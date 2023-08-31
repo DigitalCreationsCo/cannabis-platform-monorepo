@@ -1,5 +1,6 @@
 import {
 	getShopSite,
+	isLegalAgeAndVerified,
 	modalActions,
 	modalTypes,
 	selectIsAddressAdded,
@@ -29,10 +30,7 @@ function CartPage() {
 		event.preventDefault();
 		event.stopPropagation();
 		if (user.isSignedIn && isAddressAdded && user.user.isSignUpComplete) {
-			if (
-				!user.user.isLegalAge === false ||
-				(!user.user.isLegalAge && user.user.idVerified)
-			)
+			if (!isLegalAgeAndVerified(user.user))
 				router.push(getShopSite('/sorry-we-cant-serve-you'));
 			else router.push('/checkout');
 		} else {
@@ -51,7 +49,11 @@ function CartPage() {
 				<H3 className="absolute px-8">Bag</H3>
 				<RenderCart />
 				{bagIsEmpty || (
-					<CheckoutButton disabled={bagIsEmpty} onClick={checkoutOrSignUp} />
+					<CheckoutButton
+						size="lg"
+						disabled={bagIsEmpty}
+						onClick={checkoutOrSignUp}
+					/>
 				)}
 			</Card>
 		</Page>
@@ -66,5 +68,5 @@ export default CartPage;
 
 const styles = {
 	cartContainer:
-		'bg-transparent mx-auto shadow-none bg-transparent sm:shadow sm:bg-light sm:w-[440px] flex flex-col lg:px-8 py-4 space-y-4',
+		'bg-transparent mx-auto shadow-none bg-transparent sm:shadow sm:bg-light sm:w-[440px] flex flex-col lg:px-8 py-4 space-y-8',
 };

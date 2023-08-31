@@ -249,6 +249,175 @@ const createOrganizations = async () => {
 			updatedAt: new Date(),
 		},
 		{
+			id: 'bf346k4u7x2b2hhr6wsofppp',
+			name: 'Golden Nugget Dispensary (Test)',
+			stripeAccountId: null,
+			stripeOnboardingComplete: false,
+			dialCode: '1',
+			phone: '5553592525',
+			subdomain: {
+				connectOrCreate: {
+					where: {
+						id: 'golden-nugget',
+					},
+					create: {
+						id: 'golden-nugget',
+						isValid: true,
+						createdAt: new Date(),
+						updatedAt: new Date(),
+					},
+				},
+			},
+			vendor: {
+				connectOrCreate: {
+					where: {
+						name: 'golden nugget',
+					},
+					create: {
+						name: 'golden nugget',
+						publicName: 'Golden Nugget',
+						createdAt: new Date(),
+						updatedAt: new Date(),
+					},
+				},
+			},
+			termsAccepted: false,
+			address: {
+				create: {
+					street1: '111 NewTown Rd',
+					street2: '',
+					city: 'Baltimore',
+					state: 'Maryland',
+					zipcode: 21226,
+					country: 'United States',
+					countryCode: 'US',
+					coordinates: {
+						create: {
+							radius: 10000,
+							latitude: 39.445438,
+							longitude: -76.809394,
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+					},
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+			},
+			images: {
+				createMany: {
+					data: [
+						{
+							location:
+								'https://storage.googleapis.com/image-dispensary/test/cannabis-logo.png',
+							blurhash: '',
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+					],
+				},
+			},
+			products: {
+				create: {
+					name: 'King OG',
+					description: 'turpentines all day baby',
+					features: 'fresh, without formaline',
+					tags: 'mini, flower, og',
+					rating: 4.5,
+					variants: {
+						create: {
+							name: 'King OG',
+							unit: 'g',
+							size: 3.5,
+							currency: 'USD',
+							basePrice: 6999,
+							discount: 10,
+							stock: 5,
+							organizationId: 'bf346k4u7x2b2hhr6wsofppp',
+							rating: 4.5,
+							organizationName: 'Golden Nugget Dispensary (Test)',
+							quantity: 3,
+							isDiscount: true,
+							salePrice: 6499,
+							sku: 1234567,
+							images: {
+								create: {
+									location:
+										'https://storage.googleapis.com/image-dispensary/test/bugs.png',
+									blurhash: 'dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH',
+									createdAt: new Date(),
+									updatedAt: new Date(),
+								},
+							},
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+					},
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+			},
+			orders: {
+				create: {
+					subtotal: 12000,
+					total: 12399,
+					taxFactor: 0.6,
+					taxAmount: 1239,
+					orderStatus: 'Pending',
+					customerId: 'bfhk6k4u7xq030hr6wvgiwao',
+					addressId: '5',
+					driverId: 'bf346k4u7x2b2hhr6wvgiwao',
+					purchase: {
+						create: {
+							paymentStatus: 'Pending',
+							gateway: 'stripe',
+							type: 'card',
+							amount: 12399,
+							token: '12345',
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+					},
+					routeId: null,
+					isDeliveredOrder: false,
+					isCustomerReceivedOrder: false,
+					isCompleted: false,
+					createdAt: new Date(),
+					updatedAt: new Date(),
+					isDriverAssigned: false,
+					driverAssignedAt: new Date(),
+					isProductPickedUp: false,
+					productPickedUpAt: new Date(),
+					customerReceivedOrderAt: new Date(),
+					completedAt: new Date(),
+					deliveredAt: new Date(),
+				},
+			},
+			schedule: {
+				create: {
+					days: 1234560,
+					openAt: 9,
+					closeAt: 21,
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+			},
+			siteSetting: {
+				create: {
+					title: 'Golden Nugget Dispensary (Test)',
+					description: 'Best nuggets coast to coast',
+					bannerText: 'Now delivering to your door',
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+			},
+			categoryList: {
+				create: {} as any,
+			},
+			createdAt: new Date(),
+			updatedAt: new Date(),
+		},
+		{
 			id: 'bf346k4u7x2b2hhr6wvgdddp',
 			name: 'SunnySide',
 			stripeAccountId: null,

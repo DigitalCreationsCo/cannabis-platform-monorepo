@@ -37,7 +37,7 @@ export default function Footer() {
 	];
 	return (
 		<>
-			<FlexBox className={twMerge(styles.FOOTER.container)}>
+			<FlexBox className={twMerge(styles.FOOTER.container, 'text-light')}>
 				<Grid className="overflow-x-hidden mx-auto md:mt-5 grid max-w-screen-xl grid-rows-auto gap-10 lg:grid-cols-5">
 					<div className="lg:col-span-2 lg:row-span-5 row-start-5 lg:row-start-auto">
 						<FlexBox className="flex-row items-end">

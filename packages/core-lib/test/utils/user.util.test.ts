@@ -1,5 +1,5 @@
 import { UserWithDetails } from '@cd/data-access';
-import { hasMembershipRoleAccess } from '../../src/utils/user.util';
+import { hasMembershipRoleAccess, isLegalAgeAndVerified } from '../../src/utils/user.util';
 describe('User Utils Tests', () => {
 	const userWithMemberRole = {
 		firstName: 'Doug',
@@ -83,6 +83,44 @@ describe('User Utils Tests', () => {
 	});
 	it('user with OWNER role has OWNER level access', async () => {
 		expect(hasMembershipRoleAccess(userWithOwnerRole, 'OWNER')).toStrictEqual(
+			true,
+		);
+	});
+});
+
+describe('User isLegalAgeAndVerified', () => {
+	const userIsLegalAndVerified = {
+		firstName: 'Doug',
+		isLegalAge: true,
+		idVerified: true,
+	} as UserWithDetails;
+	
+	const userIsNotLegalAndVerified = {
+		firstName: 'Doug',
+		isLegalAge: false,
+		idVerified: true,
+	} as UserWithDetails;
+	
+	const userIsNotLegalAndNotIdVerified = {
+		firstName: 'Doug',
+		isLegalAge: false,
+		idVerified: false,
+	} as UserWithDetails;
+	
+	it('userIsLegalAndVerified returns true', async () => {
+		expect(isLegalAgeAndVerified(userIsLegalAndVerified)).toStrictEqual(
+			true,
+		);
+	});
+	
+	it('userIsNotLegalAndVerified returns false', async () => {
+		expect(isLegalAgeAndVerified(userIsLegalAndVerified)).toStrictEqual(
+			true,
+		);
+	});
+	
+	it('userIsNotLegalAndNotIdVerified returns false', async () => {
+		expect(isLegalAgeAndVerified(userIsLegalAndVerified)).toStrictEqual(
 			true,
 		);
 	});

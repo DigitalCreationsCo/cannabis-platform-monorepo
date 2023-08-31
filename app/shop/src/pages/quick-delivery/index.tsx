@@ -1,5 +1,6 @@
 import {
 	cartActions,
+	crypto,
 	selectCartState,
 	selectIsCartEmpty,
 	selectUserState,
@@ -22,49 +23,43 @@ import {
 	type LayoutContextProps,
 } from '@cd/ui-lib';
 import { type AnyAction } from '@reduxjs/toolkit';
+import { motion } from 'framer-motion';
+import { type NextPageContext } from 'next';
 import Head from 'next/head';
 import router from 'next/router';
 import { useEffect, useState } from 'react';
-import { useCookies } from 'react-cookie';
 import { useDispatch, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
+import redisCheckout from '../../lib/redis';
 
-function QuickDelivery() {
+function QuickDelivery({ simpleCart }: { simpleCart: SimpleCart }) {
+	const dispatch = useDispatch();
+	const cart = useSelector(selectCartState);
+	const cartIsEmpty = useSelector(selectIsCartEmpty);
+
 	const user = useSelector(selectUserState);
 	const { isLegalAge, idVerified } = user.user;
 
 	if (isLegalAge === false || (!isLegalAge && idVerified))
 		router.push('/sorry-we-cant-serve-you');
 
-	const dispatch = useDispatch();
-
-	const [cookies, , removeCookie] = useCookies(['gras-cart-token']);
-	console.log('cookies: ', cookies);
-	const simpleCart: SimpleCart =
-		cookies['gras-cart-token'] &&
-		JSON.parse(JSON.stringify(cookies['gras-cart-token']));
-
-	const cart = useSelector(selectCartState);
-	const cartIsEmpty = useSelector(selectIsCartEmpty);
-
-	useEffect(() => {
-		// Add the cart token data to redux state, and delete the cookie after this.
-		if (simpleCart) {
-			console.log('cart cookie: ', simpleCart);
-			dispatch(cartActions.saveSimpleCart(simpleCart) as unknown as AnyAction);
-			removeCookie('gras-cart-token');
-			console.info('gras-cart-token cookie removed.');
-		}
-		// NOTE: Should encrypt this token in the future.
-		// }, [dispatch, removeCookie, simpleCart]);
-	}, []);
-
 	const [confirm, setConfirm] = useState(false);
-
 	const canProceed = !cartIsEmpty && confirm;
 
+	useEffect(() => {
+		if (simpleCart) {
+			dispatch(cartActions.saveSimpleCart(simpleCart) as unknown as AnyAction);
+		}
+	}, [simpleCart]);
+
 	return (
-		<Page className={twMerge(styles.gradient, 'flex h-full pb-0 md:pb-28')}>
+		<Page
+			className={twMerge(
+				styles.gradient,
+				'flex h-full pb-0',
+				confirm ? 'md:!pb-0' : 'md:pb-12',
+			)}
+		>
 			<Head>
 				<title>Grascannabis.org - Cannabis, Delivered.</title>
 				<meta
@@ -77,18 +72,19 @@ function QuickDelivery() {
 					<H2>{TextContent.info.GET_CANNABIS_DELIVERED}</H2>
 					<H5>{TextContent.shop.PLACE_AN_ORDER_DELIVERY}</H5>
 
-					<Center className="m-auto w-3/4 items-center space-y-2 py-14 md:py-0">
+					<Center className="m-auto w-[380px] space-y-2 py-14 md:w-fit md:py-0">
 						{!cartIsEmpty && (
 							<>
 								<H5>
-									Before we deliver your order,
+									Before we deliver to you,
 									<br />
-									let's get it right
+									let's make sure your order is correct.
 								</H5>
 								<div className="flex grid-cols-2 flex-col gap-2 md:grid">
 									{cart.cart?.map(
 										(product: ProductVariantWithDetails, index: number) => (
 											<SimpleCartItem
+												// className="text-dark"
 												key={`order-item-${index}`}
 												product={product}
 											/>
@@ -100,20 +96,23 @@ function QuickDelivery() {
 
 						{cartIsEmpty && (
 							<Paragraph className="col-span-2 ">
+								{TextContent.info.THANK_YOU}
+								{'\n'}
 								There are no items in your order. {'\n'}
-								Visit your Dispensary store to place an order.
+								Please visit your Dispensary website to place an order.
 							</Paragraph>
 						)}
 
 						{!cartIsEmpty && (
 							<>
-								<H5 className="col-span-2 flex justify-end">
+								<H5 className="flex w-full justify-end">
 									Your total is
 									<Price basePrice={cart.total || 0} />
 								</H5>
 
 								<Paragraph>Is your order correct?</Paragraph>
 								<CheckBox
+									name="confirm-order"
 									className="w-[122px]"
 									checked={confirm}
 									label={confirm ? `It's correct` : `No, it's not`}
@@ -121,25 +120,32 @@ function QuickDelivery() {
 								/>
 							</>
 						)}
-
-						{user.isSignedIn && canProceed && (
-							<>
-								<Paragraph>{TextContent.prompt.CHECKOUT_READY}</Paragraph>
-								<CheckoutButton disabled={!canProceed} />
-							</>
-						)}
-
-						{!user.isSignedIn && canProceed && (
-							<>
-								<Paragraph>
-									That's great, except we dont have your info. {'\n'}
-									<b>Please sign in</b>, so our{' '}
-									<span className="text-primary">Gras DeliveryPerson</span> can
-									get to you.
-								</Paragraph>
-								<SignInButton />
-							</>
-						)}
+						<motion.div
+							className="flex flex-col space-y-8"
+							animate={confirm ? 'open' : 'closed'}
+							variants={{
+								open: { opacity: 1 },
+								closed: { opacity: 1 },
+							}}
+						>
+							{user.isSignedIn && canProceed && (
+								<>
+									<Paragraph>{TextContent.prompt.CHECKOUT_READY}</Paragraph>
+									<CheckoutButton size="lg" disabled={!canProceed} />
+								</>
+							)}
+							{!user.isSignedIn && canProceed && (
+								<>
+									<Paragraph>
+										That's great! Except, we dont have your info. {'\n'}
+										<b>Please sign in</b>, so our{' '}
+										<span className="text-primary">Gras DeliveryPerson</span>{' '}
+										can deliver to you.
+									</Paragraph>
+									<SignInButton size="lg" />
+								</>
+							)}
+						</motion.div>
 					</Center>
 				</Card>
 			</div>
@@ -147,11 +153,11 @@ function QuickDelivery() {
 	);
 }
 
+export default QuickDelivery;
+
 QuickDelivery.getLayoutContext = (): LayoutContextProps => ({
 	showHeader: false,
 });
-
-export default QuickDelivery;
 
 const styles = {
 	gradient: [
@@ -161,3 +167,14 @@ const styles = {
 		'p-0 lg:p-16 h-max',
 	],
 };
+
+export async function getServerSideProps({ query }: NextPageContext) {
+	if (!query.cart) return { notFound: true };
+
+	const tokenCipher = await redisCheckout.get(query['cart'] as string);
+	const token = tokenCipher ? crypto.decrypt(tokenCipher) : null;
+
+	if (!token) return { notFound: true };
+
+	return { props: { simpleCart: JSON.parse(token) } };
+}

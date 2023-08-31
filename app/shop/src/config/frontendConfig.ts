@@ -29,7 +29,7 @@ export const frontendConfig = () => {
 						if (event.isNewUser || !event.user.isSignUpComplete)
 							window.location.href = `${shopDomain}/signup/create-account`;
 						else {
-							window.location.href = `${shopDomain}${window.location.pathname}`;
+							window.location.reload();
 						}
 					}
 				},

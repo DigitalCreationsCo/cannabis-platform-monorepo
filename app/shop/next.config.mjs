@@ -33,6 +33,14 @@ const nextConfig = (phase) => {
 	 * @type {import('next').NextConfig}
 	 */
 	const config = {
+		webpack: (config) => {
+			config.resolve.fallback = {
+				...config.resolve.fallback,
+				net: false,
+				tls: false,
+			};
+			return config;
+		},
 		env: {
 			BACKEND_URL: (() => {
 				if (isDev) return 'http://localhost:6001';

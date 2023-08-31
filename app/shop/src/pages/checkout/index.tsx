@@ -1,8 +1,10 @@
 import {
+	axios,
 	renderAddress,
 	selectCartState,
 	selectIsCartEmpty,
 	selectUserState,
+	TextContent,
 	urlBuilder,
 } from '@cd/core-lib';
 import { type Address, type AddressUserCreateType } from '@cd/data-access';
@@ -16,7 +18,6 @@ import {
 	Page,
 	Paragraph,
 } from '@cd/ui-lib';
-import axios from 'axios';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
@@ -38,22 +39,16 @@ function Checkout() {
 				order,
 			);
 
-			if (response.status === 404) throw new Error(response.data.error);
-
-			if (response.status === 400) throw new Error(response.data.error);
-
-			if (response.status === 500)
-				throw new Error(
-					"We're sorry. Checkout is not available. Please try again later.",
-				);
+			if (response.data.success === 'false')
+				throw new Error(response.data.error);
 
 			if (response.status === 302) {
 				setLoadingButton(true);
-				if (response.data.success)
+				if (response.data.success === 'true')
 					window.location.href = response.data.redirect;
 			}
 		} catch (error: any) {
-			// console.error('create checkout error:', error)
+			console.error('create checkout error:', error);
 			throw new Error(error.message);
 		}
 	}
@@ -61,13 +56,10 @@ function Checkout() {
 	const onSubmit = async () => {
 		try {
 			setLoadingButton(true);
-
 			await createStripeCheckout();
-
 			toast.success('Success');
 			setLoadingButton(false);
 		} catch (error: any) {
-			console.info('submit checkout error ', error);
 			toast.error(error.message);
 			setLoadingButton(false);
 		}
@@ -85,10 +77,7 @@ function Checkout() {
 							<div>
 								<H4>You're ready for checkout</H4>
 
-								<Paragraph>
-									You can review your order here, and hit <b>Place my order</b>{' '}
-									to start delivery.
-								</Paragraph>
+								<Paragraph>{TextContent.prompt.PURCHASE_READY}</Paragraph>
 							</div>
 
 							<div className="h-fit lg:w-[300px]">
@@ -193,12 +182,16 @@ function ReviewDeliveryAddress({
 					bg="transparent"
 					hover="transparent"
 					border
-					className={twMerge([styles.box, 'flex-col w-full h-full'])}
+					className={twMerge([
+						styles.box,
+						'flex-col w-full h-full',
+						'cursor-default',
+					])}
 				>
 					<Paragraph>
 						{user?.firstName} {user?.lastName}
 					</Paragraph>
-					<Paragraph>
+					<Paragraph className="font-normal">
 						{renderAddress({ address: orderAddress as Address })}
 					</Paragraph>
 				</Button>
