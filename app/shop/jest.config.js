@@ -28,10 +28,10 @@ const config = {
 		NODE_ENV: 'test',
 	},
 	setupFilesAfterEnv: [
-		'<rootDir>/jest.setup.ts',
+		'<rootDir>/jest/setup.ts',
 		'@testing-library/jest-dom/extend-expect',
 	],
-	globalSetup: '<rootDir>/jest.globals.mjs',
+	globalSetup: '<rootDir>/jest/globals.mjs',
 	testMatch: [
 		...getTestMatchers({
 			api: false,
@@ -57,7 +57,7 @@ const config = {
 	collectCoverage: false,
 	coverageDirectory: '<rootDir>/coverage',
 	collectCoverageFrom: [
-		'<rootDir>/**/*.{ts,tsx,js,jsx}',
+		'<rootDir>/src/**/*.{ts,tsx,js,jsx}',
 		'!**/*.test.{js,ts}',
 		'!**/__mock__/*',
 	],

@@ -1,3 +1,4 @@
+import { axios } from '@cd/core-lib';
 import TextContent from '@cd/core-lib/src/constants/text.constant';
 import { type SimpleCart } from '@cd/core-lib/src/types/redux.types';
 import { crypto } from '@cd/core-lib/src/utils/crypto';
@@ -7,7 +8,6 @@ import CloseButton from '@cd/ui-lib/src/components/button/CloseButton';
 import Price from '@cd/ui-lib/src/components/Price';
 import { Paragraph, Small } from '@cd/ui-lib/src/components/Typography';
 import { getBreakpointValue } from '@cd/ui-lib/src/hooks/useBreakpoint';
-import axios from 'axios';
 import { Component } from 'react';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/img/logo120.png';
@@ -85,35 +85,26 @@ export default class Checkout extends Component<
 	handleCheckout = async () => {
 		try {
 			if (this.state.cart.cartItems.length > 0 && !this.state.cartError) {
-				const cartToken = crypto.encrypt(JSON.stringify(this.state.cart));
+				const token = crypto.encrypt(this.state.cart);
 				const expires = new Date();
 				expires.setDate(expires.getDate() + 1);
-				// document.cookie = `gras-cart-token=${cartToken}; expires=${expires.toUTCString()}; SameSite=None; Secure; Domain=${
-				// 	process.env.NEXT_PUBLIC_APP_DOMAIN
-				// }`;
-				document.cookie = `gras-cart-token=${cartToken}; expires=${expires.toUTCString()}; SameSite=None;`;
 
 				const response = await axios.post(
 					urlBuilder.shop + '/api/delivery/token',
-					{ cartToken },
+					{ token },
 					{
 						headers: {
-							accept: '*/*',
 							'content-type': 'application/json',
 						},
 						withCredentials: true,
 					},
 				);
-				if (!response.data.success)
+				if (response.data.success === 'false')
 					throw new Error(TextContent.error.CONNECTION_ISSUE);
-				// setEncryptedCookie('gras-cart-token', cartAsString, {
-				// 	expires,
-				// 	sameSite: 'none',
-				// 	secure: false,
-				// 	domain: 'localhost:3000',
-				// });
-				this.setState({ redirecting: true });
-				window.location.href = urlBuilder.shop + '/quick-delivery';
+				if (response.status === 302) {
+					this.setState({ redirecting: true });
+					window.location.href = response.data.redirect;
+				}
 			}
 		} catch (error) {
 			console.error('handleCheckout error, ', error);
@@ -223,6 +214,11 @@ export default class Checkout extends Component<
 								staticQuantity={this.useStaticQuantity()}
 							/>
 						</div>
+						{this.state.cartError && (
+							<Paragraph color="light" className="mx-auto w-2/3">
+								{this.state.cartError}
+							</Paragraph>
+						)}
 						{this.state.cart.cartItems.length > 0 && (
 							<div className="w-2/3 flex flex-row justify-end">
 								<Paragraph className="text-light">Your total is</Paragraph>

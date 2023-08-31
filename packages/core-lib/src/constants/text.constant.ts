@@ -9,6 +9,8 @@ const TextContent = Object.freeze({
 
 		CHECKOUT_READY: `Review your order.
 		When you're ready, click the checkout button.`,
+		PURCHASE_READY: `Review your order. 
+		When you're ready, tap Place my order.`,
 
 		CREATE_DISPENSARY_ACCOUNT: 'Create a Dispensary account',
 		CONTINUE: `When you're ready, click continue.`,
@@ -126,7 +128,7 @@ const TextContent = Object.freeze({
 		LEARN_MORE: `Learn more`,
 		MORE_CONTENT_COMING_SOON: `Our Team is bringing you more news and content from the world of cannabis.`,
 		ONE_STOP: 'a one stop cannabis marketplace',
-		THANK_YOU: `Thank you for choosing Gras!`,
+		THANK_YOU: `Thank you for choosing Gras.`,
 		BUILDING_TRUST_WITH_OUR_PARTNERS: `Our Gras team works to build a trusted community of partners and cannabis lovers.`,
 	},
 

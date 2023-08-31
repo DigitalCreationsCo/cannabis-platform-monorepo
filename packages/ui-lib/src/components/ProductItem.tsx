@@ -36,7 +36,7 @@ function ProductItem({
 				<img
 					src={product?.images?.[0]?.location}
 					alt={product.name}
-					style={{ height: 100, maxHeight: 100, width: 100, maxWidth: 100 }}
+					style={{ height: 80, maxHeight: 100, width: 80, maxWidth: 100 }}
 					className="rounded border object-cover place-self-center"
 				/>
 				<div className="grid w-full p-4">

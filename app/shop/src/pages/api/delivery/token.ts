@@ -1,11 +1,14 @@
+/* eslint-disable sonarjs/no-duplicate-string */
+import { crypto, urlBuilder } from '@cd/core-lib';
 import { type NextApiRequest, type NextApiResponse } from 'next';
 import nc from 'next-connect';
+import redisCheckout from '../../../lib/redis';
 
 const handler = nc();
 handler.options((req, res) => {
 	res.setHeader(
 		'Access-Control-Allow-Origin',
-		'https://checkout.releaf-shop.com',
+		req.headers.origin || 'localhost',
 	);
 	res.setHeader('Access-Control-Allow-Credentials', 'true');
 	res.setHeader(
@@ -19,34 +22,35 @@ handler.options((req, res) => {
 	res.end();
 });
 
+// the way is to use this page as proxy to set the cookie on client
+// maaaybe use getServerSideProps on quick-delivery page to handle this route, and pass the cookie there to client side. :P
+
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 	try {
-		const cartToken = req.body;
+		const token = req.body.token;
 
-		console.log('req.cookies ', req.cookies);
-
+		// check the origin is included in approved list
 		res.setHeader(
 			'Access-Control-Allow-Origin',
-			'https://checkout.releaf-shop.com',
+			req.headers.origin || 'localhost',
 		);
 		res.setHeader('Access-Control-Allow-Credentials', 'true');
-		res.setHeader(
-			'Access-Control-Allow-Methods',
-			'PUT, POST, GET, DELETE, PATCH, OPTIONS',
-		);
-		res.setHeader(
-			'Access-Control-Allow-Headers',
-			'Origin, X-Api-Key, X-Requested-With, Content-Type, Accept, Authorization',
-		);
-		// res.setHeader('set-cookie', `gras-cart-token=${cartToken}; path=/;`);
-		// console.log('cartToken ', cartToken);
-		// cookies().set({ name: 'gras-cart-token', value: cartToken });
-		// console.log('cookies: ', cookies);
-		// res.setHeader('cookie', `cartToken=${cartToken}; path=/;`);
-		return res.status(200).json({
+		res.setHeader('Access-Control-Allow-Methods', 'POST');
+
+		if (!token)
+			return res
+				.status(400)
+				.send({ success: 'false', error: 'No token provided' });
+
+		const key = crypto.createMD5Hash(token);
+		const expire1Day = 60 * 60 * 24;
+		redisCheckout.set(key, token, { EX: expire1Day });
+		console.debug(`cached key ${key} successfully.`);
+
+		return res.status(302).json({
 			success: 'true',
+			redirect: `${urlBuilder.shop}/quick-delivery?cart=${key}`,
 		});
-		// return res.redirect(302, urlBuilder.shop + '/quick-delivery');
 	} catch (error: any) {
 		console.info('next api checkout-session error: ', error.message);
 		throw new Error(error.message);

@@ -1,6 +1,6 @@
 const styles = Object.freeze({
 	about: [
-		'bg-inverse opacity-90 md:rounded ',
+		'bg-inverse text-dark opacity-90 md:rounded ',
 		'space-y-2',
 		'mx-auto',
 		'cursor-default w-full md:max-w-[440px] grow h-fit p-8 items-center shadow',

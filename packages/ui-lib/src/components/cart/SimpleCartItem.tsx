@@ -4,7 +4,7 @@ import FlexBox from '../FlexBox';
 import Price from '../Price';
 import { H6, Small } from '../Typography';
 
-interface SimpleCartItemProps {
+interface SimpleCartItemProps extends React.HTMLAttributes<HTMLDivElement> {
 	product: ProductVariantWithDetails;
 	staticQuantity?: boolean;
 }
@@ -12,10 +12,11 @@ interface SimpleCartItemProps {
 function SimpleCartItem({
 	product,
 	staticQuantity = false,
+	className,
 }: SimpleCartItemProps) {
 	const quantity = staticQuantity ? 1 : product.quantity;
 	return (
-		<div className={twMerge(styles.lineItem)}>
+		<div className={twMerge(className, styles.lineItem)}>
 			{product?.images?.[0]?.location ? (
 				<img
 					data-item="cart-item__product.image"
@@ -28,26 +29,22 @@ function SimpleCartItem({
 			<div className={styles.info}>
 				<H6
 					data-item="cart-item__product.name-product.quantity)"
-					className="flex text-light"
+					className="flex"
 				>
 					{product.name} ({product.quantity})
 				</H6>
 
 				<div className="flex flex-row justify-between">
 					<FlexBox className="flex-row">
-						<Small
-							data-item="cart-item__product.size-product.unit"
-							className="text-light"
-						>
+						<Small data-item="cart-item__product.size-product.unit">
 							{product.size} {product.unit}
 						</Small>
 						{!staticQuantity ? (
 							<>
-								<Small className="text-light pl-1">@</Small>
+								<Small className="pl-1">@</Small>
 								<Price
 									data-item="cart-item__each-price"
-									color="light"
-									className="text-sm text-light"
+									className="text-sm"
 									basePrice={product.basePrice}
 									salePrice={product.salePrice}
 									discount={product.discount}
@@ -59,8 +56,7 @@ function SimpleCartItem({
 					</FlexBox>
 					<Price
 						data-item="cart-item__price"
-						color="light"
-						className="text-sm text-light"
+						className="text-sm"
 						basePrice={product.basePrice}
 						salePrice={product.salePrice}
 						discount={product.discount}
