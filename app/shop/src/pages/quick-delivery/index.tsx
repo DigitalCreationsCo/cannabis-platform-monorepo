@@ -23,7 +23,6 @@ import {
 	type LayoutContextProps,
 } from '@cd/ui-lib';
 import { type AnyAction } from '@reduxjs/toolkit';
-import { motion } from 'framer-motion';
 import { type NextPageContext } from 'next';
 import Head from 'next/head';
 import router from 'next/router';
@@ -56,7 +55,7 @@ function QuickDelivery({ simpleCart }: { simpleCart: SimpleCart }) {
 		<Page
 			className={twMerge(
 				styles.gradient,
-				'flex h-full pb-0',
+				'flex flex-col pb-0',
 				confirm ? 'md:!pb-0' : 'md:pb-12',
 			)}
 		>
@@ -67,88 +66,92 @@ function QuickDelivery({ simpleCart }: { simpleCart: SimpleCart }) {
 					content="Built by Gras Cannabis Co."
 				/>
 			</Head>
-			<div className="flex grow">
-				<Card className="bg-inverse-soft m-auto">
-					<H2>{TextContent.info.GET_CANNABIS_DELIVERED}</H2>
-					<H5>{TextContent.shop.PLACE_AN_ORDER_DELIVERY}</H5>
-
-					<Center className="m-auto w-[380px] space-y-2 py-14 md:w-fit md:py-0">
-						{!cartIsEmpty && (
-							<>
-								<H5>
-									Before we deliver to you,
-									<br />
-									let's make sure your order is correct.
-								</H5>
-								<div className="flex grid-cols-2 flex-col gap-2 md:grid">
-									{cart.cart?.map(
-										(product: ProductVariantWithDetails, index: number) => (
-											<SimpleCartItem
-												// className="text-dark"
-												key={`order-item-${index}`}
-												product={product}
-											/>
-										),
-									)}
-								</div>
-							</>
-						)}
-
-						{cartIsEmpty && (
-							<Paragraph className="col-span-2 ">
-								{TextContent.info.THANK_YOU}
-								{'\n'}
-								There are no items in your order. {'\n'}
-								Please visit your Dispensary website to place an order.
-							</Paragraph>
-						)}
-
-						{!cartIsEmpty && (
-							<>
-								<H5 className="flex w-full justify-end">
-									Your total is
-									<Price basePrice={cart.total || 0} />
-								</H5>
-
-								<Paragraph>Is your order correct?</Paragraph>
-								<CheckBox
-									name="confirm-order"
-									className="w-[122px]"
-									checked={confirm}
-									label={confirm ? `It's correct` : `No, it's not`}
-									onChange={() => setConfirm(!confirm)}
-								/>
-							</>
-						)}
-						<motion.div
-							className="flex flex-col space-y-8"
-							animate={confirm ? 'open' : 'closed'}
-							variants={{
-								open: { opacity: 1 },
-								closed: { opacity: 1 },
-							}}
-						>
-							{user.isSignedIn && canProceed && (
-								<>
-									<Paragraph>{TextContent.prompt.CHECKOUT_READY}</Paragraph>
-									<CheckoutButton size="lg" disabled={!canProceed} />
-								</>
+			<Card className="bg-inverse-soft m-auto flex grow flex-col">
+				<H2>{TextContent.info.GET_CANNABIS_DELIVERED}</H2>
+				<Center className="m-auto flex w-full !grow flex-col space-y-2 py-0 sm:w-[380px] md:w-fit">
+					<Paragraph className="place-self-start text-left">
+						Before we deliver to you,
+						<br />
+						let's make sure your order is correct.
+					</Paragraph>
+					<H5 className="place-self-start">{TextContent.shop.YOUR_ORDER}</H5>
+					{!cartIsEmpty && (
+						<div className="flex grow grid-cols-2 flex-col gap-2 md:grid">
+							{cart.cart?.map(
+								(product: ProductVariantWithDetails, index: number) => (
+									<SimpleCartItem
+										// className="text-dark"
+										key={`order-item-${index}`}
+										product={product}
+									/>
+								),
 							)}
-							{!user.isSignedIn && canProceed && (
-								<>
-									<Paragraph>
-										That's great! Except, we dont have your info. {'\n'}
-										<b>Please sign in</b>, so our{' '}
-										<span className="text-primary">Gras DeliveryPerson</span>{' '}
-										can deliver to you.
-									</Paragraph>
-									<SignInButton size="lg" />
-								</>
-							)}
-						</motion.div>
-					</Center>
-				</Card>
-			</div>
+						</div>
+					)}
+
+					{cartIsEmpty ? (
+						<Paragraph className="col-span-2 ">
+							{TextContent.info.THANK_YOU}
+							{'\n'}
+							There are no items in your order. {'\n'}
+							Please visit your Dispensary website to place an order.
+						</Paragraph>
+					) : (
+						<>
+							<div className="flex grow grid-cols-2 flex-col gap-2 md:grid">
+								{cart.cart?.map(
+									(product: ProductVariantWithDetails, index: number) => (
+										<SimpleCartItem
+											// className="text-dark"
+											key={`order-item-${index}`}
+											product={product}
+										/>
+									),
+								)}
+							</div>
+							<H5 className="flex w-full justify-end">
+								Your total is
+								<Price basePrice={cart.total || 0} />
+							</H5>
+							<Paragraph>Is your order correct?</Paragraph>
+							<CheckBox
+								name="confirm-order"
+								className="w-[122px]"
+								checked={confirm}
+								label={confirm ? `It's correct` : `No, it's not`}
+								onChange={() => setConfirm(!confirm)}
+							/>
+						</>
+					)}
+
+					{canProceed &&
+						(user.isSignedIn ? (
+							<>
+								<Paragraph>{TextContent.prompt.CHECKOUT_READY}</Paragraph>
+								<CheckoutButton size="lg" disabled={!canProceed} />
+							</>
+						) : (
+							<>
+								{/* <motion.div
+						className="flex grow flex-col space-y-8"
+						animate={confirm ? 'open' : 'closed'}
+						variants={{
+							open: { opacity: 1 },
+							closed: { opacity: 1 },
+						}}
+					> */}
+								<Paragraph>
+									That's great! Except, we dont have your info. {'\n'}
+									<b>Please sign in</b>, so our{' '}
+									<span className="text-primary">Gras DeliveryPerson</span> can
+									deliver to you.
+								</Paragraph>
+								<SignInButton size="lg" />
+								{/* </motion.div> */}
+							</>
+						))}
+				</Center>
+			</Card>
 		</Page>
 	);
 }
