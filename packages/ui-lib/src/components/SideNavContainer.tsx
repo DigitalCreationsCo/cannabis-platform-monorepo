@@ -25,7 +25,6 @@ function SideNavContainer({
 	// dont mess with these styles unless youre prepared for pain
 	const classes = {
 		container: ['drawer drawer-mobile', 'grow h-full'],
-
 		pageContentShifted: ['drawer-content', 'w-full flex'],
 		sideNavDrawer: [
 			isFixed && 'fixed',
