@@ -71,6 +71,8 @@ const nextConfig = (phase) => {
 		output: 'standalone',
 		experimental: {
 			outputFileTracingRoot: path.join(__dirname, '../../'),
+			// resolve javascript out of heap memory issue in development
+			esmExternals: false,
 		},
 		images: {
 			minimumCacheTTL: 60 * 60,
