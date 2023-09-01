@@ -52,7 +52,8 @@ function Layout({
 	className,
 }: LayoutProps & PropsWithChildren) {
 	const styles = {
-		main: 'bg-inverse-soft flex flex-col grow',
+		// main: 'bg-inverse-soft flex flex-col grow border',
+		main: 'bg-inverse-soft flex-1',
 		isModalOverlay: isModalVisible && 'w-full fixed',
 	};
 
