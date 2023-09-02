@@ -38,7 +38,8 @@ function DispensaryCard({ data: dispensary, className }: DispensaryCardProps) {
 			<Card
 				className={twMerge([
 					styles.dispensarycard,
-					'rounded hover:scale-101 transition duration-500',
+					'rounded',
+					// 'hover:scale-101 transition duration-500',
 					className,
 				])}
 			>
