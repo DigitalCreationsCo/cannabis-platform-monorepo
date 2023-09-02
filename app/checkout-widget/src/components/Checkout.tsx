@@ -233,6 +233,7 @@ export default class Checkout extends Component<
 							{TextContent.prompt.CHECKOUT_READY}
 						</Small>
 						<Button
+							id="Checkout-Button"
 							size="lg"
 							bg="inverse"
 							hover="accent-soft"
