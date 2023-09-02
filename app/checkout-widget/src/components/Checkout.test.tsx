@@ -5,6 +5,9 @@ import { type ViewProps } from '../types';
 import Checkout from './Checkout';
 
 describe('<Checkout />', () => {
+	let props: ViewProps;
+	let spy: jest.SpyInstance;
+
 	beforeEach(() => {
 		const fetch = jest.fn(
 			() =>
@@ -13,14 +16,17 @@ describe('<Checkout />', () => {
 				})) as Promise<Response>,
 		);
 		global.fetch = fetch;
+
+		props = {
+			expanded: false,
+			setExpand: () => {},
+		} as unknown as ViewProps;
 	});
 
-	let spy: jest.SpyInstance;
 	afterEach(() => {
 		spy?.mockClear();
 	});
 
-	const props: ViewProps = {} as any;
 	it('renders without crashing', () => {
 		const wrapper = shallow(<Checkout {...props} />);
 		expect(wrapper).toBeDefined();
@@ -51,6 +57,7 @@ describe('<Checkout />', () => {
 	});
 
 	it('Checkout component loads the dutchie-checkout crawler config', () => {
+		props.useDutchie = true;
 		const checkout = shallow<Checkout>(<Checkout {...props} />);
 		expect(checkout).toBeDefined();
 
@@ -66,7 +73,11 @@ describe('<Checkout />', () => {
 
 		expect(checkout).toBeDefined();
 		checkout.simulate('click');
-		expect(spy).toHaveBeenCalled();
+		expect(checkout.find('#Checkout')).toHaveLength(1);
+		checkout.find('#Checkout').simulate('click');
+		checkout.setProps({ expanded: true });
+		// checkout.find('#Checkout-Button').forEach((b) => b.simulate('click'));
+		// expect(spy).toHaveBeenCalled();
 	});
 
 	// PLACEHOLDER

@@ -8,7 +8,7 @@ import {
 	buildCartItems,
 	buildSimpleCart,
 	getCartDOMElements,
-	processCrawlerData
+	processCrawlerData,
 } from './checkout-crawler';
 import { Config } from './crawler.config';
 import { html } from './data/html-test-data';
