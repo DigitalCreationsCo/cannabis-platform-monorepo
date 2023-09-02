@@ -1,8 +1,10 @@
-import { TextContent, userActions } from '@cd/core-lib';
+import { isLegalAgeAndVerified, TextContent, userActions } from '@cd/core-lib';
+import { type UserWithDetails } from '@cd/data-access';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
+import { useCookies } from 'react-cookie';
 import { toast } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import {
@@ -175,6 +177,7 @@ function LoginModal({
 	}
 
 	function EnterOTP() {
+		const [, setCookie] = useCookies(['yesOver21']);
 		const [loadingButton, setLoadingButton] = useState(false);
 
 		const dispatch = useDispatch();
@@ -226,6 +229,11 @@ function LoginModal({
 				});
 				console.info('OTP signin response', response);
 				if (response.status === 'OK') {
+					if (
+						isLegalAgeAndVerified(response.user as unknown as UserWithDetails)
+					) {
+						setCookie('yesOver21', 'true');
+					}
 					dispatch(userActions.signinUserSync(response.user));
 				}
 				toast.success(TextContent.account.SIGNING_IN, { duration: 5000 });

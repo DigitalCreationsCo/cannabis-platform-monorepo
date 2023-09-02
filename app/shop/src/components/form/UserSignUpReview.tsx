@@ -18,6 +18,7 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
+import { useCookies } from 'react-cookie';
 import { toast } from 'react-hot-toast';
 import { useAppDispatch } from '../../redux/hooks';
 
@@ -25,6 +26,7 @@ function UserSignUpReview() {
 	const dispatch = useAppDispatch();
 
 	const [account, setAccount] = useState<UserWithDetails | null>(null);
+	const [, setCookie] = useCookies(['yesOver21']);
 
 	const { formValues, isComplete, resetFormValues } = useFormContext();
 
@@ -53,6 +55,7 @@ function UserSignUpReview() {
 			try {
 				loading.current = true;
 				await createUser();
+				setCookie('yesOver21', 'true');
 				isComplete && isComplete();
 				resetFormValues();
 				toast.success(TextContent.account.ACCOUNT_IS_CREATED);
@@ -108,7 +111,7 @@ function UserSignUpReview() {
 									alt={account.username}
 									width={100}
 									height={100}
-									loader={({ src, width }) => src}
+									loader={({ src }) => src}
 								/>
 							)}
 						</FlexBox>
