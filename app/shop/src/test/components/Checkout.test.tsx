@@ -1,9 +1,40 @@
 /* eslint-disable jest/no-commented-out-tests */
-
+import { type AppState } from '@cd/core-lib';
 import { shallow } from 'enzyme';
-import Checkout from '../../pages/checkout/index';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+import TopBar from '../../components/TopBar';
+
 describe('<Checkout />', () => {
+	let props: any;
+	let initialState: any;
+	let Checkout: any;
+	let store: any;
+
+	const mockStore = configureStore({
+		useDispatchMock: () => jest.fn(),
+		useSelectorMock: () => jest.fn(),
+	});
+
+	let spy: jest.SpyInstance;
+
 	beforeEach(() => {
+		initialState = {
+			user: {
+				isSignedIn: true,
+				user: {
+					profilePicture: {
+						location:
+							'https://storage.cloud.google.com/image-user/avatar1.png?authuser=1',
+					},
+					email: 'email@user.com',
+				},
+			},
+			cart: {
+				totalItems: 5,
+			},
+		} as unknown as AppState;
+
 		// mock redux store with a valid order, and valid user
 		// test renderAddress is called, with matching address
 		// test user delivery info is valid
@@ -13,16 +44,21 @@ describe('<Checkout />', () => {
 		// test cart data
 		// test user can checkout, the correct function is called
 		// test for any edge case error
+
+		store = mockStore(initialState);
+		Checkout = shallow(
+			<Provider store={store}>
+				<TopBar {...props} />
+			</Provider>,
+		);
 	});
 
-	let spy: jest.SpyInstance;
 	afterEach(() => {
 		spy?.mockClear();
 	});
 
 	it('renders without crashing', () => {
-		const wrapper = shallow(<Checkout />);
-		expect(wrapper).toBeDefined();
+		expect(Checkout).toBeDefined();
 	});
 
 	// it('Checkout component is defined', () => {

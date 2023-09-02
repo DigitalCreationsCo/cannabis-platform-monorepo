@@ -119,7 +119,11 @@ function TopBar({ signOut }: TopBarProps) {
 		const ref = useRef(null);
 		useOnClickOutside(ref, () => setOpen(false));
 		return (
-			<details ref={ref} className={twMerge(`dropdown dropdown-bottom`)}>
+			<details
+				id="Account-Icon"
+				ref={ref}
+				className={twMerge(`dropdown dropdown-bottom`)}
+			>
 				<summary onClick={() => setOpen((prev) => !prev)}>
 					<Image
 						src={(user.profilePicture?.location as string) || logo}
@@ -128,10 +132,11 @@ function TopBar({ signOut }: TopBarProps) {
 						height={40}
 						className="rounded-full border"
 						loader={({ src }) => src}
-						priority
+						unoptimized
 					/>
 				</summary>
 				<ul
+					id="Account-Dropdown"
 					className={twMerge(
 						open ? 'absolute' : 'hidden',
 						'menu bg-inverse top-0 absolute right-0 mt-14 w-48 rounded border shadow',

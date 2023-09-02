@@ -224,6 +224,7 @@ export async function upsertUser(userData: UserCreateType) {
 		console.info('user upserted: ', user.email);
 		return user;
 	} catch (error: any) {
+		console.error('upset user error: ', error);
 		if (
 			error instanceof Prisma.PrismaClientKnownRequestError &&
 			error.code === 'P2002'

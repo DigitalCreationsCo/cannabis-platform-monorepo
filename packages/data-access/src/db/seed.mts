@@ -1185,14 +1185,14 @@ const createDrivers = async () => {
 					username: 'BigChiefa',
 					email: 'bmejiadeveloper2@gmail.com',
 					phone: '1232343456',
-					emailVerified: false,
+					emailVerified: true,
 					isLegalAge: null,
-					idVerified: false,
-					isSignUpComplete: false,
+					idVerified: true,
+					isSignUpComplete: true,
 					dialCode: '1',
 					idFrontImage: '',
 					idBackImage: '',
-					termsAccepted: false,
+					termsAccepted: true,
 					address: {
 						create: {
 							street1: '1234 Main St',
