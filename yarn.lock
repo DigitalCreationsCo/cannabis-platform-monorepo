@@ -3735,7 +3735,7 @@ __metadata:
     style-loader: 3.3.2
     tailwind-merge: 1.8.0
     tailwindcss: 3.3.2
-    ts-jest: 29.1.1
+    ts-jest: 29.0.3
     ts-loader: 9.4.2
     tsconfig-paths-webpack-plugin: 4.1.0
     typescript: 4.9.3
@@ -3852,6 +3852,7 @@ __metadata:
     "@types/node": 18.11.10
     "@types/react-dom": 18.0.11
     "@types/react-google-recaptcha": 2.1.5
+    "@types/redux-mock-store": ^1.0.3
     "@typescript-eslint/eslint-plugin": 5.45.0
     "@typescript-eslint/parser": 5.45.0
     autoprefixer: 10.4.13
@@ -3909,6 +3910,7 @@ __metadata:
     react-slick: 0.29.0
     redis: 4.6.6
     redux-devtools-extension: 2.13.9
+    redux-mock-store: ^1.5.4
     redux-persist: 6.0.0
     rimraf: 4.4.1
     sharp: 0.32.1
@@ -10056,6 +10058,15 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: 8ed78a922b85678a3acf893fb43d03be31cb3a703436c1f04aa8dc2e417a4b2458b35ae1a2d8eccfe9dd9b401ac759a1176826ed54e54d775d528adf10b506af
+  languageName: node
+  linkType: hard
+
+"@types/redux-mock-store@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "@types/redux-mock-store@npm:1.0.3"
+  dependencies:
+    redux: ^4.0.5
+  checksum: b8c76be560fb06c0b5fc8b8874001f0b0219a7a5d0bbbf8f06ebfc437a1300df49f079b30199a9fa99c738817145895a4f0297b8f614edadd1d9e110e917cd0a
   languageName: node
   linkType: hard
 
@@ -22163,7 +22174,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"json5@npm:^2.1.1, json5@npm:^2.1.2, json5@npm:^2.2.0, json5@npm:^2.2.1, json5@npm:^2.2.2, json5@npm:^2.2.3":
+"json5@npm:^2.1.1, json5@npm:^2.1.2, json5@npm:^2.2.0, json5@npm:^2.2.1, json5@npm:^2.2.2":
   version: 2.2.3
   resolution: "json5@npm:2.2.3"
   bin:
@@ -28961,6 +28972,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"redux-mock-store@npm:^1.5.4":
+  version: 1.5.4
+  resolution: "redux-mock-store@npm:1.5.4"
+  dependencies:
+    lodash.isplainobject: ^4.0.6
+  checksum: 571eab2cca3e46321969025af865ddd780804c811be9db277fddf772d86e3ea67b4ef1b19ea3866417d41eb1b73605103020321f68cf68f379a52679a6823d12
+  languageName: node
+  linkType: hard
+
 "redux-persist-expo-securestore@npm:2.0.0":
   version: 2.0.0
   resolution: "redux-persist-expo-securestore@npm:2.0.0"
@@ -28988,7 +29008,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"redux@npm:^4.2.0":
+"redux@npm:^4.0.5, redux@npm:^4.2.0":
   version: 4.2.1
   resolution: "redux@npm:4.2.1"
   dependencies:
@@ -30067,17 +30087,6 @@ __metadata:
   bin:
     semver: bin/semver.js
   checksum: 9d58db16525e9f749ad0a696a1f27deabaa51f66e91d2fa2b0db3de3e9644e8677de3b7d7a03f4c15bc81521e0c3916d7369e0572dbde250d9bedf5194e2a8a7
-  languageName: node
-  linkType: hard
-
-"semver@npm:^7.5.3":
-  version: 7.5.4
-  resolution: "semver@npm:7.5.4"
-  dependencies:
-    lru-cache: ^6.0.0
-  bin:
-    semver: bin/semver.js
-  checksum: 12d8ad952fa353b0995bf180cdac205a4068b759a140e5d3c608317098b3575ac2f1e09182206bf2eb26120e1c0ed8fb92c48c592f6099680de56bb071423ca3
   languageName: node
   linkType: hard
 
@@ -32601,39 +32610,6 @@ __metadata:
   bin:
     ts-jest: cli.js
   checksum: 541e51776d367fa2279af47f75af94b03e0538f1839ea9983de0f4ad7f188002f6eb1fc72440651d96daa62d25a7bc679a129c14e6ef291277eea9346751d56b
-  languageName: node
-  linkType: hard
-
-"ts-jest@npm:29.1.1":
-  version: 29.1.1
-  resolution: "ts-jest@npm:29.1.1"
-  dependencies:
-    bs-logger: 0.x
-    fast-json-stable-stringify: 2.x
-    jest-util: ^29.0.0
-    json5: ^2.2.3
-    lodash.memoize: 4.x
-    make-error: 1.x
-    semver: ^7.5.3
-    yargs-parser: ^21.0.1
-  peerDependencies:
-    "@babel/core": ">=7.0.0-beta.0 <8"
-    "@jest/types": ^29.0.0
-    babel-jest: ^29.0.0
-    jest: ^29.0.0
-    typescript: ">=4.3 <6"
-  peerDependenciesMeta:
-    "@babel/core":
-      optional: true
-    "@jest/types":
-      optional: true
-    babel-jest:
-      optional: true
-    esbuild:
-      optional: true
-  bin:
-    ts-jest: cli.js
-  checksum: a8c9e284ed4f819526749f6e4dc6421ec666f20ab44d31b0f02b4ed979975f7580b18aea4813172d43e39b29464a71899f8893dd29b06b4a351a3af8ba47b402
   languageName: node
   linkType: hard
 

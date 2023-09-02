@@ -42,7 +42,7 @@ function StartPage() {
 
 	const [dialogOpen, setDialogOpen] = useState(false);
 	return (
-		<Page className="text-light p-0 sm:p-0 md:p-0 lg:p-0">
+		<Page className="text-light h-[440px] p-0 sm:p-0 md:p-0 lg:p-0">
 			<ImageBackDrop src={backdrop}>
 				<FlexBox className="w-full">
 					<FlexBox className={twMerge(styles.HERO.container)}>
