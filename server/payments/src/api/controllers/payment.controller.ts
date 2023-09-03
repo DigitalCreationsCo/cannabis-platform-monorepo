@@ -18,6 +18,7 @@ export default class PaymentController {
 	 */
 	static async createCheckout(req, res) {
 		try {
+			console.log('create checkout: ', req.body);
 			const order: OrderWithDetails = req.body;
 
 			if (!order) throw new Error('No order found.');
@@ -28,26 +29,23 @@ export default class PaymentController {
 			if (!order.organization.id)
 				throw new Error('Sorry, your dispensary is not found.');
 
-			let stripeAccountId = order.organization.stripeAccountId;
-
-			if (!stripeAccountId)
+			let stripeAccountId;
+			if (!order.organization.stripeAccountId) {
+				console.info('lookup stripe id..');
 				stripeAccountId = await getStripeAccountId(order.organizationId);
+				console.info('stripe accountid: ', stripeAccountId);
 
-			// console.error('lookup stride account id')
-			// console.error('stripe account id: ', stripeAccountId)
+				if (!stripeAccountId)
+					throw new Error(
+						`We're sorry, but this dispensary is not accepting payments at this time.`,
+					);
+			}
 
-			if (!stripeAccountId)
-				throw new Error(
-					`We're sorry, but this dispensary is not accepting payments at this time.`,
-				);
-
+			await PaymentDA.saveOrder(order);
 			const checkout = await StripeService.createCheckout(
 				order,
 				stripeAccountId,
 			);
-
-			await PaymentDA.saveOrder(order);
-
 			return res.status(302).json({
 				success: 'true',
 				message: 'Stripe checkout is created.',

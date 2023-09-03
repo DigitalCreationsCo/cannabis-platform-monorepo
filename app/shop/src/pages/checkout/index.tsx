@@ -1,5 +1,4 @@
 import {
-	axios,
 	renderAddress,
 	selectCartState,
 	selectIsCartEmpty,
@@ -7,17 +6,24 @@ import {
 	TextContent,
 	urlBuilder,
 } from '@cd/core-lib';
-import { type Address, type AddressUserCreateType } from '@cd/data-access';
+import {
+	type Address,
+	type AddressUserCreateType,
+	type OrderCreateType,
+} from '@cd/data-access';
 import {
 	Button,
 	Card,
+	DeliveryGuarantee,
 	FlexBox,
 	H3,
 	H4,
 	LoadingPage,
 	Page,
 	Paragraph,
+	type LayoutContextProps,
 } from '@cd/ui-lib';
+import axios from 'axios';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
@@ -31,14 +37,29 @@ function Checkout() {
 
 	const cartIsEmpty = useSelector(selectIsCartEmpty);
 
+	async function canCheckout(order: OrderCreateType) {
+		console.log('checking order valid ', order);
+		if (
+			!cartIsEmpty &&
+			order.destinationAddress !== undefined &&
+			order.organization !== undefined &&
+			order.customerId &&
+			order.subtotal > 0 &&
+			order.total > 0
+		)
+			return;
+		else throw new Error('Invalid order');
+	}
+
 	async function createStripeCheckout() {
 		try {
-			// console.info('preparing this order to checkout: ', order)
 			const response = await axios.post(
 				urlBuilder.shop + '/api/stripe/checkout-session',
 				order,
+				{ timeout: 10000 },
 			);
 
+			console.log('create checkout response', response);
 			if (response.data.success === 'false')
 				throw new Error(response.data.error);
 
@@ -56,6 +77,7 @@ function Checkout() {
 	const onSubmit = async () => {
 		try {
 			setLoadingButton(true);
+			await canCheckout(order);
 			await createStripeCheckout();
 			toast.success('Success');
 			setLoadingButton(false);
@@ -75,9 +97,8 @@ function Checkout() {
 
 						<div className={styles.banner}>
 							<div>
-								<H4>You're ready for checkout</H4>
-
-								<Paragraph>{TextContent.prompt.PURCHASE_READY}</Paragraph>
+								<H4>{TextContent.prompt.READY_CHECKOUT}</H4>
+								<Paragraph>{TextContent.prompt.REVIEW_PLACE_ORDER}</Paragraph>
 							</div>
 
 							<div className="h-fit lg:w-[300px]">
@@ -123,6 +144,8 @@ function Checkout() {
 								/>
 							</FlexBox>
 						</div>
+
+						<DeliveryGuarantee />
 					</Card>
 				</Page>
 			)}
@@ -131,6 +154,10 @@ function Checkout() {
 }
 
 export default Checkout;
+
+Checkout.getLayoutContext = (): LayoutContextProps => ({
+	showHeader: false,
+});
 
 function ReviewDeliveryAddress({
 	orderAddress,

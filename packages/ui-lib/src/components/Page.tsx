@@ -23,6 +23,7 @@ function Page({
 			'min-w-screen',
 			'md:pt-8 pb-24',
 			'lg:px-16',
+			'min-h-[440px]',
 		],
 		gradient: [(gradient && 'anim8-' + gradient + '-gradient') || ''],
 		cursor: ['cursor-default'],

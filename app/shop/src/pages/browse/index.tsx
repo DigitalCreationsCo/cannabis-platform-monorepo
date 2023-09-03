@@ -59,6 +59,7 @@ export default function MarketPlace() {
 					data={news}
 					dataKey="news"
 					autoplaySpeed={5000}
+					speed={10000}
 				/>
 
 				<Carousel
@@ -67,6 +68,7 @@ export default function MarketPlace() {
 					data={dispensaries}
 					dataKey="dispensary"
 					autoplaySpeed={7000}
+					speed={1000}
 				/>
 
 				{/* <Carousel

@@ -1,4 +1,12 @@
-import { Grid, H4, H5, Icons, Page, PageHeader } from '@cd/ui-lib';
+import {
+	Grid,
+	H4,
+	H5,
+	Icons,
+	type LayoutContextProps,
+	Page,
+	PageHeader,
+} from '@cd/ui-lib';
 
 function Support() {
 	return (
@@ -15,5 +23,10 @@ function Support() {
 		</Page>
 	);
 }
+
+Support.getLayoutContext = (): LayoutContextProps => ({
+	showHeader: false,
+	showSideNav: true,
+});
 
 export default Support;

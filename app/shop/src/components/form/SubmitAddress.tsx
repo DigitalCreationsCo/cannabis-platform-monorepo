@@ -29,7 +29,7 @@ function SubmitAddressForm() {
 		useFormContext();
 
 	useEffect(() => {
-		console.info('formvalues: ', formValues);
+		console.debug('submit address formvalues: ', formValues);
 	});
 
 	const [loadingButton, setLoadingButton] = useState(false);

@@ -1,4 +1,5 @@
 import {
+	cartActions,
 	getShopSite,
 	isLegalAgeAndVerified,
 	modalActions,
@@ -26,13 +27,21 @@ function CartPage() {
 	const isAddressAdded = useSelector(selectIsAddressAdded);
 
 	const router = useRouter();
-	const checkoutOrSignUp = (event: any) => {
+	const checkoutOrSignUp = async (event: any) => {
 		event.preventDefault();
 		event.stopPropagation();
 		if (user.isSignedIn && isAddressAdded && user.user.isSignUpComplete) {
 			if (!isLegalAgeAndVerified(user.user))
 				router.push(getShopSite('/sorry-we-cant-serve-you'));
-			else router.push('/checkout');
+			else {
+				const response = await dispatch(
+					cartActions.createOrderForCheckout() as any,
+				);
+
+				if (response?.error?.message === 'Rejected')
+					throw new Error(response.payload);
+				router.push('/checkout');
+			}
 		} else {
 			dispatch(modalActions.openModal({ modalType: modalTypes.checkoutModal }));
 		}

@@ -42,8 +42,9 @@ function UserSignUpQuickForm() {
 		useFormContext();
 
 	useEffect(() => {
-		console.info('formvalues: ', formValues);
+		console.debug('user signup formvalues: ', formValues);
 	});
+
 	const [loadingButton, setLoadingButton] = useState(false);
 
 	const initialValues = {
@@ -291,19 +292,35 @@ function UserSignUpQuickForm() {
 						helperText={touched.termsAccepted && errors.termsAccepted}
 						error={!!touched.termsAccepted && !!errors.termsAccepted}
 						description={
-							<div id="dispensary-create-step-3 inline-block">
-								<Paragraph>{TextContent.legal.AGREE_TO_TERMS}</Paragraph>
-								<a
-									href="/termsandconditions/userterms"
-									target="_blank"
-									rel="noreferrer noopener"
-								>
-									<H6 className={'border-b-2'}>
-										{TextContent.legal.USER_TERMS_OF_SERVICE}
-									</H6>
-									.
-								</a>
-							</div>
+							<>
+								<div id="dispensary-create-step-3 inline-block">
+									<Paragraph>{TextContent.legal.AGREE_TO_TERMS}</Paragraph>
+									<a
+										href="/termsandconditions/userterms"
+										target="_blank"
+										rel="noreferrer noopener"
+										className="inline"
+									>
+										<H6 className={'border-b-2'}>
+											{TextContent.legal.USER_TERMS_OF_SERVICE}
+										</H6>
+										.
+									</a>
+								</div>
+								<div id="dispensary-create-step-3">
+									<Paragraph>{TextContent.legal.AGREE_TO_TERMS}</Paragraph>
+									<a
+										href="/termsandconditions/dispensaryterms"
+										target="_blank"
+										rel="noreferrer noopener"
+									>
+										<H6 className={'inline-block border-b-2'}>
+											{TextContent.legal.DISPENSARY_TERMS_OF_SERVICE}
+										</H6>
+										.
+									</a>
+								</div>
+							</>
 						}
 						label={TextContent.legal.I_AGREE_TO_THE_USER_TERMS}
 					/>

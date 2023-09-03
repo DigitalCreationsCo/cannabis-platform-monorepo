@@ -6,13 +6,14 @@ import {
 	findProductsByOrg,
 	findProductsByText,
 	findProductWithDetails,
-	OrderStatus,
-	OrderWithDetails,
-	PurchaseCreate,
+	type OrderCreateType,
 	updateOrder,
 	updateOrderWithOrderItems,
+	type OrderStatus,
+	type OrderWithDetails,
+	type PurchaseCreate,
 } from '@cd/data-access';
-import { MongoClient } from 'mongodb';
+import { type MongoClient } from 'mongodb';
 
 /* =================================
 Order Data Access - Data class for Order SQL Table and dispatchOrders Mongo Collection
@@ -22,7 +23,7 @@ useMongoDB
 createOrder
 createPurchase
 
-getOrdersByOrg
+getOrdersByOrganization
 getOrderById
 updateOrderById
 updateOrderFulfillmentStatus
@@ -54,10 +55,9 @@ export default class OrderDA {
 		}
 	}
 
-	static async createOrder(order: OrderWithDetails): Promise<OrderWithDetails> {
+	static async createOrder(order: OrderCreateType): Promise<OrderWithDetails> {
 		try {
-			const data = await createOrder(order);
-			return data;
+			return await createOrder(order);
 		} catch (error: any) {
 			console.error(error.message);
 			throw new Error(error.message);
@@ -66,18 +66,16 @@ export default class OrderDA {
 
 	static async createPurchase(purchase: PurchaseCreate) {
 		try {
-			const data = await createPurchase(purchase);
-			return data;
+			return await createPurchase(purchase);
 		} catch (error: any) {
 			console.error(error.message);
 			throw new Error(error.message);
 		}
 	}
 
-	static async getOrdersByOrg(organizationId) {
+	static async getOrdersByOrganization(organizationId) {
 		try {
-			const data = await findOrdersByOrg(organizationId);
-			return data;
+			return await findOrdersByOrg(organizationId);
 		} catch (error: any) {
 			console.error(error.message);
 			throw new Error(error.message);
@@ -86,8 +84,7 @@ export default class OrderDA {
 
 	static async getOrderById(id) {
 		try {
-			const data = await findOrderWithDetails(id);
-			return data;
+			return await findOrderWithDetails(id);
 		} catch (error: any) {
 			console.error(error.message);
 			throw new Error(error.message);
@@ -96,8 +93,7 @@ export default class OrderDA {
 
 	static async updateOrderById(order) {
 		try {
-			const data = await updateOrderWithOrderItems(order);
-			return data;
+			return await updateOrderWithOrderItems(order);
 		} catch (error: any) {
 			console.error(error.message);
 			throw new Error(error.message);
@@ -106,16 +102,15 @@ export default class OrderDA {
 
 	static async getProductsByOrg(
 		organizationIdList: string | string[],
-		page: number = 1,
-		limit: number = 20,
+		page = 1,
+		limit = 20,
 	) {
 		try {
 			const idList = Array.isArray(organizationIdList)
 				? organizationIdList
 				: [organizationIdList];
 
-			const data = await findProductsByOrg(idList, page, limit);
-			return data;
+			return await findProductsByOrg(idList, page, limit);
 		} catch (error: any) {
 			console.error(error.message);
 			throw new Error(error.message);
@@ -124,8 +119,7 @@ export default class OrderDA {
 
 	static async getProductById(id) {
 		try {
-			const data = await findProductWithDetails(id);
-			return data;
+			return await findProductWithDetails(id);
 		} catch (error: any) {
 			console.error(error.message);
 			throw new Error(error.message);
@@ -134,8 +128,7 @@ export default class OrderDA {
 
 	static async searchProducts(search, organizationId = null) {
 		try {
-			const data = await findProductsByText(search, organizationId);
-			return data;
+			return await findProductsByText(search, organizationId);
 		} catch (error: any) {
 			console.error(error.message);
 			throw new Error(error.message);
@@ -147,9 +140,7 @@ export default class OrderDA {
 		orderStatus: OrderStatus,
 	) {
 		try {
-			const data = await updateOrder(orderId, { orderStatus });
-
-			return data;
+			return await updateOrder(orderId, { orderStatus });
 		} catch (error: any) {
 			console.error(error.message);
 			throw new Error(error.message);
@@ -158,11 +149,9 @@ export default class OrderDA {
 
 	static async addDispatchOrderMongo(order: OrderWithDetails) {
 		try {
-			const insertOrder = await dispatchOrders.insertOne({
+			return await dispatchOrders.insertOne({
 				...order,
 			});
-
-			return insertOrder;
 		} catch (error: any) {
 			console.error('addDispatchRecordMongo error: ', error.message);
 

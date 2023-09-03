@@ -8,6 +8,7 @@ import router from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import Button from '../button/Button';
+import SignInButton from '../button/SignInButton';
 import Center from '../Center';
 import FlexBox from '../FlexBox';
 import { H4, Paragraph } from '../Typography';
@@ -58,9 +59,7 @@ function CheckoutModal({
 							<b>Sign In</b> with your account
 						</Paragraph>
 						<FlexBox className="space-y-8">
-							<Button className="place-self-center" onClick={openLoginModal}>
-								Sign In
-							</Button>
+							<SignInButton size="lg" />
 						</FlexBox>
 					</>
 				)}

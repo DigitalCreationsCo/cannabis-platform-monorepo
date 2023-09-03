@@ -15,7 +15,6 @@ import {
 import axios from 'axios';
 import { type AppState, type ThunkArgumentsType } from '../types';
 import { calcSalePrice, pruneData, urlBuilder } from '../utils';
-import { type LocationStateProps, type LocationType } from './location.reducer';
 import { type ShopStateProps } from './shop.reducer';
 import { type UserStateProps } from './user.reducer';
 // import { NavigationService } from "../../navigation";
@@ -113,7 +112,6 @@ export const createOrderForCheckout = createAsyncThunk<OrderCreate, void>(
 			let { user } = thunkAPI.getState().user as UserStateProps;
 			user = pruneData(user, [
 				'timeJoined',
-				'address',
 				'memberships',
 				'idFrontImage',
 				'idBackImage',
@@ -138,19 +136,20 @@ export const createOrderForCheckout = createAsyncThunk<OrderCreate, void>(
 					'Could not get your Dispensary details. Please try again.',
 				);
 
-			const location = thunkAPI.getState().location as LocationStateProps;
-
-			const { selectLocationType } = location,
-				selectedLocation = location[selectLocationType] as LocationType;
+			// const location = thunkAPI.getState().location as LocationStateProps;
+			// const { selectLocationType } = location,
+			// 	selectedLocation = location[selectLocationType] as LocationType;
 
 			const order: OrderCreate = {
-				subtotal: cart.subTotal,
+				subtotal: cart.subtotal,
 				total: cart.total,
 				taxFactor: 0,
 				taxAmount: 0,
 				orderStatus: 'Pending',
-				addressId: selectedLocation.address.id,
-				destinationAddress: selectedLocation.address,
+				// addressId: selectedLocation.address.id,
+				addressId: user.address[0].id,
+				// destinationAddress: selectedLocation.address,
+				destinationAddress: user.address[0],
 				customerId: user.id,
 				customer: user,
 				organizationId: cart.organizationId,

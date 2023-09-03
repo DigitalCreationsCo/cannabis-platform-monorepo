@@ -21,7 +21,7 @@ export default async function middleware(req: NextRequest) {
 	const subdomain =
 		req.headers.get('host')?.split('.')[0].split(':')[0] || 'localhost';
 
-	const pagesAllowOver21Only = ['/browse', '/mybag', '/checkout', '/support'];
+	const pagesAllowOver21Only = ['/browse', '/checkout', '/support'];
 
 	let url;
 	switch (true) {
@@ -44,7 +44,7 @@ export default async function middleware(req: NextRequest) {
 
 			// eslint-disable-next-line no-case-declarations
 			const over21 = req.cookies.get('yesOver21')?.value;
-
+			console.info('over21', over21);
 			// base url redirect to /browse if over21
 			if (url.pathname === '/' && over21 === 'true') {
 				url.pathname = '/browse';
