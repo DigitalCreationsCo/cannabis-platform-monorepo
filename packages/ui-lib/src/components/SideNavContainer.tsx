@@ -31,6 +31,7 @@ function SideNavContainer({
 			!showSideNavOnDesktop && 'lg:!hidden',
 			'drawer-side',
 			'h-full',
+			'bg-inverse-soft',
 		],
 		drawerOverlay: ['drawer-overlay h-full lg:hidden'],
 

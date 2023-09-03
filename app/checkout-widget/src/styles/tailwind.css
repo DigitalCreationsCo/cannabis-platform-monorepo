@@ -2712,6 +2712,10 @@ html {
   min-height: 100vh;
 }
 
+.min-h-\[440px\] {
+  min-height: 440px;
+}
+
 .w-14 {
   width: 3.5rem;
 }
@@ -4118,6 +4122,10 @@ html {
   .lg\:px-16 {
     padding-left: 4rem;
     padding-right: 4rem;
+  }
+
+  .lg\:pl-\[188px\] {
+    padding-left: 188px;
   }
 
   .lg\:text-4xl {

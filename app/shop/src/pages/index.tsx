@@ -12,7 +12,6 @@ import {
 	H2,
 	H3,
 	H4,
-	H6,
 	Page,
 	Paragraph,
 	Span,
@@ -42,9 +41,9 @@ function StartPage() {
 
 	const [dialogOpen, setDialogOpen] = useState(false);
 	return (
-		<Page className="text-light h-[440px] p-0 sm:p-0 md:p-0 lg:p-0">
+		<Page className="bg-secondary text-light p-0 sm:p-0 md:p-0 lg:p-0">
 			<ImageBackDrop src={backdrop}>
-				<FlexBox className="w-full">
+				<FlexBox className="h-full w-full">
 					<FlexBox className={twMerge(styles.HERO.container)}>
 						<FlexBox className={twMerge(styles.HERO.content)}>
 							<FlexBox className="m-auto">
@@ -81,7 +80,7 @@ function StartPage() {
 						</FlexBox>
 					</FlexBox>
 					<FlexBox
-						className="bg-secondary m-auto space-y-2 py-4 pb-8"
+						className="bg-secondary m-auto grow space-y-2 py-4 pb-8"
 						style={{
 							backgroundColor: 'rgba(0,120,0,0.8)',
 							height: '100%',
@@ -90,19 +89,19 @@ function StartPage() {
 							top: '0',
 						}}
 					>
-						<FlexBox className="m-auto md:w-[480px]">
-							<FlexBox className="m-auto flex-row items-end space-x-2">
-								<H6
+						<FlexBox className="m-auto h-[280px] grow items-end md:w-[480px]">
+							<FlexBox className="m-auto grow flex-row items-end space-x-2 ">
+								<H4
 									color="light"
 									className="text-light max-w-[360px] whitespace-pre-line border-b border-transparent text-justify"
 								>
 									Welcome to Gras!{'\n'}
-								</H6>
+								</H4>
 								<button
-									className="cursor-pointer text-2xl hover:underline"
+									className="cursor-pointer items-center pb-0.5 text-2xl hover:underline"
 									onClick={() => setDialogOpen(true)}
 								>
-									Who are we?
+									<H4 className="underline">Who are we?</H4>
 								</button>
 							</FlexBox>
 							<FlexBox className="m-auto flex-row">
@@ -120,7 +119,7 @@ function StartPage() {
 										{dialogOpen ? '😄' : '😊'}
 									</motion.div>
 									<motion.div
-										className="chat-bubble bg-primary"
+										className="chat-bubble bg-primary mb-2"
 										animate={dialogOpen ? 'open' : 'closed'}
 										variants={{
 											open: { opacity: 1, scale: 1 },
@@ -128,14 +127,15 @@ function StartPage() {
 										}}
 									>
 										{dialogOpen && (
-											<div className="text-inverse">
+											<div className="text-inverse flex flex-col">
 												<Paragraph>
-													We are team of cannabis lovers providing a home-grown
-													service for our community. We are help to elevate the
-													voices of the cannabis community through high quality
-													service and support.
+													Gras is a team of seasoned cannabis lovers providing a
+													home-grown service within our communities.
+													<br />
+													Our mission is to elevate the voices of cannabis
+													buyers and sellers through high quality service and
+													support.
 												</Paragraph>
-												<br />
 												<Span className="mx-auto font-bold">
 													We welcome everyone 21 years or older.
 												</Span>

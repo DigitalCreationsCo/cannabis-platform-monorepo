@@ -94,7 +94,6 @@ function DashboardTopBar({ signOut }: TopBarProps) {
 						className="rounded-full border"
 						loader={({ src }) => src}
 						priority
-						// remove unoptimized when using a proper url for the image
 						unoptimized
 					/>
 				</Button>

@@ -1,5 +1,7 @@
+import { createId } from '@paralleldrive/cuid2';
 import {
 	type Order,
+	type OrderStatus,
 	type Organization,
 	type Prisma,
 	type ProductVariant,
@@ -9,103 +11,27 @@ import {
 import { type AddressWithCoordinates } from './address';
 import prisma from './db/prisma';
 import { type DriverWithDetails, type RouteWithCoordinates } from './driver';
-import {
-	connectVariantImages,
-	createProductVariantsWithoutId,
-	type ProductVariantWithDetails,
-} from './variant';
+import { type ProductVariantWithDetails } from './variant';
 
-/*
- *   createOrder
- *   createPurchase
- *   findOrdersByOrg
- *   findOrderWithDetails
- *   updateOrderWithOrderItems
- *   updateOrder
+/* METHODS
+ * createOrder
+ * createPurchase
+ * findOrdersByOrg
+ * findOrderWithDetails
+ * updateOrderWithOrderItems
+ * updateOrder
+ * deleteOrder
  */
 
-export async function createOrder(order: any) {
+export async function createOrder(order: OrderCreateType) {
 	try {
-		order.items = await createProductVariantsWithoutId(order?.items, order);
-
-		await connectVariantImages(order?.items);
-
-		// const {
-		// 	coordinates,
-		// 	userId,
-		// 	coordinateId,
-		// 	organizationId,
-		// 	...destinationAddressData
-		// } = order.destinationAddress;
-
-		const itemsConnect = () =>
-			order.items?.map((item: ProductVariantWithDetails) => ({ id: item.id }));
-
-		const createOrder = await prisma.order.upsert({
-			where: {
-				id: order.id,
-			},
-			create: {
-				id: order.id,
-				subtotal: order.subtotal || order.total,
-				total: order.total,
-				taxFactor: order.taxFactor || 0,
-				taxAmount: order.taxAmount || 0,
-				orderStatus: order.orderStatus,
-				addressId: order.addressId,
-				customerId: order.customerId,
-				organizationId: order.organizationId,
-				driverId: order.driverId,
-				isDeliveredOrder: order.isDeliveredOrder,
-				isCustomerReceivedOrder: order.isCustomerReceivedOrder,
-				isCompleted: order.isCompleted,
-				deliveredAt: order.deliveredAt,
-				purchaseId: order.purchaseId,
-				items: {
-					connect: itemsConnect(),
-				},
-				// customer: order.customer,
-				// organization: order.organization,
-				// destinationAddress: {
-				//     connectOrCreate: {
-				//         where: { id: order.destinationAddress.id },
-				//         create: {
-				//             ...destinationAddressData,
-				//             coordinates: {
-				//                 create: {
-				//                     latitude: Number(coordinates?.latitude),
-				//                     longitude: Number(coordinates?.longitude)
-				//                 }
-				//             }
-				//         }
-				//     }
-				// }
-			},
-			update: {
-				id: order.id,
-				subtotal: order.subtotal || order.total,
-				total: order.total,
-				taxFactor: order.taxFactor || 0,
-				taxAmount: order.taxAmount || 0,
-				orderStatus: order.orderStatus,
-				addressId: order.addressId,
-				customerId: order.customerId,
-				organizationId: order.organizationId,
-				driverId: order.driverId,
-				isDeliveredOrder: order.isDeliveredOrder,
-				isCustomerReceivedOrder: order.isCustomerReceivedOrder,
-				isCompleted: order.isCompleted,
-				deliveredAt: order.deliveredAt,
-				purchaseId: order.purchaseId,
-				items: {
-					connect: itemsConnect(),
-				},
-			},
+		const _createdOrder = new OrderClass(order);
+		await prisma.order.create({
+			data: { ..._createdOrder },
 		});
-
-		return createOrder as OrderWithDetails;
+		return _createdOrder as OrderWithDetails;
 	} catch (error: any) {
-		console.error('create order error: ', error.message);
+		console.error('create order: ', error);
 		throw new Error(error.message);
 	}
 }
@@ -273,11 +199,14 @@ export async function deleteOrder(id: string) {
 export type OrderUpdateType = Prisma.OrderUpdateArgs['data'];
 export type OrderCreateType = Prisma.OrderUncheckedCreateInput & {
 	organization: Organization;
+	customer: User;
+	destinationAddress: AddressWithCoordinates;
 };
 
 export type OrderWithDetails = Order & {
 	items: ProductVariantWithDetails[];
 	customer: User;
+	organization?: Organization;
 	// purchase?: Prisma.PurchaseCreateNestedOneWithoutOrderInput
 	// destinationAddress: Address;
 };
@@ -293,3 +222,57 @@ export type OrderWithDashboardDetails = Order & {
 };
 
 export type PurchaseCreate = Prisma.PurchaseCreateArgs['data'];
+
+class OrderClass {
+	id: string;
+	subtotal: number;
+	total: number;
+	taxFactor: number;
+	taxAmount: number;
+	orderStatus: OrderStatus;
+	purchaseId: string | null;
+	addressId: string;
+	customerId: string;
+	organizationId: string;
+	routeId: string | null;
+	driverId: string | null;
+	isDriverAssigned: boolean;
+	driverAssignedAt: Date | string | null;
+	isProductPickedUp: boolean;
+	productPickedUpAt: Date | string | null;
+	isCustomerReceivedOrder: boolean;
+	customerReceivedOrderAt: Date | string | null;
+	isDeliveredOrder: boolean;
+	deliveredAt: Date | string | null;
+	isCompleted: boolean;
+	completedAt: Date | string | null;
+	createdAt: Date;
+	updatedAt: Date;
+	// eslint-disable-next-line sonarjs/cognitive-complexity
+	constructor(order: OrderCreateType) {
+		this.id = order.id || createId();
+		this.subtotal = order.subtotal || order.total;
+		this.total = order.total;
+		this.taxFactor = order.taxFactor || 0;
+		this.taxAmount = order.taxAmount || 0;
+		this.orderStatus = order.orderStatus || 'Pending';
+		this.purchaseId = order.purchaseId || null;
+		this.addressId = order.addressId;
+		this.customerId = order.customerId;
+		this.organizationId = order.organizationId;
+		this.routeId = order.routeId || null;
+		this.driverId = order.driverId || null;
+		this.isDriverAssigned = order.isDriverAssigned || false;
+		this.driverAssignedAt = order.driverAssignedAt || null;
+		this.productPickedUpAt = order.productPickedUpAt || null;
+		this.isProductPickedUp = order.isProductPickedUp || false;
+		this.isCustomerReceivedOrder = order.isCustomerReceivedOrder || false;
+		this.customerReceivedOrderAt = order.customerReceivedOrderAt || null;
+		this.isDeliveredOrder = order.isDeliveredOrder || false;
+		this.deliveredAt = order.deliveredAt || null;
+		this.isCompleted = order.isCompleted || false;
+		this.completedAt = order.completedAt || null;
+		this.createdAt = new Date();
+		this.updatedAt = new Date();
+	}
+}

@@ -229,10 +229,15 @@ function LoginModal({
 				});
 				console.info('OTP signin response', response);
 				if (response.status === 'OK') {
+					console.debug(
+						'user is legal age and verified, ',
+						isLegalAgeAndVerified(response.user as unknown as UserWithDetails),
+					);
 					if (
 						isLegalAgeAndVerified(response.user as unknown as UserWithDetails)
 					) {
 						setCookie('yesOver21', 'true');
+						console.debug('set yesOver21 cookie to true');
 					}
 					dispatch(userActions.signinUserSync(response.user));
 				}

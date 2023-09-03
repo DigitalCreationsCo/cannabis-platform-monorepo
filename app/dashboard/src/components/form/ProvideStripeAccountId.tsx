@@ -10,9 +10,9 @@ import {
 	FlexBox,
 	Grid,
 	H3,
+	Paragraph,
 	Small,
 	TextField,
-	Tiny,
 	useFormContext,
 } from '@cd/ui-lib';
 import axios from 'axios';
@@ -89,6 +89,8 @@ function ProvideStripeAccountId() {
 		try {
 			setLoadingButton2(true);
 			const organization = formValues?.organization as OrganizationCreateType;
+			console.info('form values, ', formValues);
+			console.info('creating stripe account for dispensary ', organization);
 			if (!organization)
 				throw new Error(TextContent.error.DISPENSARY_NOT_FOUND); // should never happen
 			const response = await axios.post<
@@ -151,21 +153,21 @@ function ProvideStripeAccountId() {
 					<H3 className="mx-auto pb-2">
 						{TextContent.account.CONNECT_MY_STRIPE}
 					</H3>
-					<Small className="mx-auto w-3/4">
+					<Paragraph className="mx-auto w-3/4">
 						{TextContent.account.DISPENSARY_STRIPE_ACCOUNT}
-					</Small>
-					<Tiny className="mx-auto pt-2">
+					</Paragraph>
+					<Small className="mx-auto pt-2">
 						* {TextContent.legal.ACCOUNT_INFORMATION_POLICY}
-					</Tiny>
+					</Small>
 					<a
 						className="mx-auto"
 						href="/termsandconditions/dispensaryterms"
 						target="_blank"
 						rel="noreferrer noopener"
 					>
-						<Tiny className={'border-b-2'}>
+						<Small className={'border-b-2'}>
 							{TextContent.legal.READ_PRIVACY_POLICY}
-						</Tiny>
+						</Small>
 					</a>
 				</FlexBox>
 				<TextField

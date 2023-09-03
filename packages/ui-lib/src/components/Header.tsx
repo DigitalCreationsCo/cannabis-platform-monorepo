@@ -20,11 +20,12 @@ function Header({
 }: HeaderProps) {
 	const headerContainerStyle = [
 		'flex flex-row',
-		'lg:ml-[188px]',
 		'pb-6 sm:py-6 sm:px-5 md:pr-16 lg:px-16 xl:pl-0 xl:pr-16',
 		'lg:justify-end lg:right-0',
+		'bg-inverse-soft',
 	];
 	const headerStyle = [
+		'lg:pl-[188px]',
 		'flex flex-row grow',
 		'w-full md:w-fit xl:w-fit',
 		'lg:justify-end lg:h-fit',

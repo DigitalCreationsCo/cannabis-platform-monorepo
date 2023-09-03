@@ -75,20 +75,6 @@ function QuickDelivery({ simpleCart }: { simpleCart: SimpleCart }) {
 						let's make sure your order is correct.
 					</Paragraph>
 					<H5 className="place-self-start">{TextContent.shop.YOUR_ORDER}</H5>
-					{!cartIsEmpty && (
-						<div className="flex grow grid-cols-2 flex-col gap-2 md:grid">
-							{cart.cart?.map(
-								(product: ProductVariantWithDetails, index: number) => (
-									<SimpleCartItem
-										// className="text-dark"
-										key={`order-item-${index}`}
-										product={product}
-									/>
-								),
-							)}
-						</div>
-					)}
-
 					{cartIsEmpty ? (
 						<Paragraph className="col-span-2 ">
 							{TextContent.info.THANK_YOU}
@@ -127,7 +113,7 @@ function QuickDelivery({ simpleCart }: { simpleCart: SimpleCart }) {
 					{canProceed &&
 						(user.isSignedIn ? (
 							<>
-								<Paragraph>{TextContent.prompt.CHECKOUT_READY}</Paragraph>
+								<Paragraph>{TextContent.prompt.REVIEW_CHECKOUT}</Paragraph>
 								<CheckoutButton size="lg" disabled={!canProceed} />
 							</>
 						) : (
