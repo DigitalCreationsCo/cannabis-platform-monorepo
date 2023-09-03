@@ -2,8 +2,7 @@ import axios, { type AxiosError, type AxiosRequestConfig } from 'axios';
 import { TextContent } from './constants';
 
 const MAX_RETRIES = 2;
-// three seconds
-const TIMEOUT = 4 * 1000;
+const TIMEOUT = 5 * 1000;
 
 interface AxiosConfig extends AxiosRequestConfig {
 	retryCount?: number;

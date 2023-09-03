@@ -53,7 +53,7 @@ function Layout({
 }: LayoutProps & PropsWithChildren) {
 	const styles = {
 		// main: 'bg-inverse-soft flex flex-col grow border',
-		main: 'bg-inverse-soft flex-1',
+		main: 'bg-secondary flex-1',
 		isModalOverlay: isModalVisible && 'w-full fixed',
 	};
 

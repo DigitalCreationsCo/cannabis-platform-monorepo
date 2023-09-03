@@ -23,6 +23,7 @@ import { toast } from 'react-hot-toast';
 import { useAppDispatch } from '../../redux/hooks';
 
 function UserSignUpReview() {
+	const { href } = TextContent;
 	const dispatch = useAppDispatch();
 
 	const [account, setAccount] = useState<UserWithDetails | null>(null);
@@ -56,6 +57,7 @@ function UserSignUpReview() {
 				loading.current = true;
 				await createUser();
 				setCookie('yesOver21', 'true');
+				console.debug('set yesOver21 cookie to true');
 				isComplete && isComplete();
 				resetFormValues();
 				toast.success(TextContent.account.ACCOUNT_IS_CREATED);
@@ -112,6 +114,7 @@ function UserSignUpReview() {
 									width={100}
 									height={100}
 									loader={({ src }) => src}
+									unoptimized
 								/>
 							)}
 						</FlexBox>
@@ -146,10 +149,10 @@ function UserSignUpReview() {
 
 			<FlexBox className="m-auto flex-row space-x-4 pb-20">
 				<>
-					<Link href="/browse">
+					<Link href={href.browse}>
 						<Button>Go to Gras</Button>
 					</Link>
-					<Link href="/account">
+					<Link href={href.account}>
 						<Button>Go to my account</Button>
 					</Link>
 				</>

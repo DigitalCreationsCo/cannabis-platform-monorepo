@@ -2,23 +2,19 @@ import { Icons, NavLink } from '@cd/ui-lib';
 import { useRouter } from 'next/router';
 
 const DashboardNavigation = () => {
-	let { pathname } = useRouter();
+	const { pathname } = useRouter();
 	return (
 		<ul>
-			{links.map((item) => {
-				const href = (item.href.length > 1 && item.href.slice(1)) || item.href;
-				pathname = (item.href.length === 1 && pathname.slice(1)) || pathname;
-				return (
-					<NavLink
-						href={item.href}
-						key={item.title}
-						isActive={pathname.startsWith(href)}
-						Icon={item.icon}
-					>
-						{item.title}
-					</NavLink>
-				);
-			})}
+			{links.map((item) => (
+				<NavLink
+					href={item.href}
+					key={item.title}
+					isActive={pathname.startsWith(item.href)}
+					Icon={item.icon}
+				>
+					{item.title}
+				</NavLink>
+			))}
 		</ul>
 	);
 };

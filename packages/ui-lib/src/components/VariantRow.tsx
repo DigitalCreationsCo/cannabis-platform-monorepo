@@ -21,6 +21,7 @@ export default function ProductVariantRow({ variant }: ProductVariantRowProps) {
 		<Link href={getDashboardSite(`products/${variant.productId}`)}>
 			<Row className="grid grid-cols-12 h-[44px]">
 				<Image
+					loader={({ src }) => src}
 					className="hidden sm:block col-span-1"
 					src={imageSrc}
 					alt={variant.name}

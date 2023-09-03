@@ -9,6 +9,7 @@ export * from './CheckBox';
 export { default as CheckBox } from './CheckBox';
 export { default as ClickableTags } from './ClickableTags';
 export { default as CopyRight } from './CopyRight';
+export { default as DeliveryGuarantee } from './DeliveryGuarantee';
 export { default as DropZone } from './DropZone';
 export { default as ErrorMessage } from './ErrorMessage';
 export { default as FlexBox } from './FlexBox';
