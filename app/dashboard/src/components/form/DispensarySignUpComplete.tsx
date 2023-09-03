@@ -62,17 +62,20 @@ function DispensarySignUpComplete() {
 					))}
 					and <b>get orders delivered by Gras.</b>
 				</Paragraph>
+				<FlexBox className="items-center">
+					<SignInButton size="lg" hover="primary-light" bg="primary" />
+				</FlexBox>
 				<Paragraph>
 					If you have questions, our Support Team is one click away.
 					<br />
-					<Link href="/support" className="font-semibold underline">
+					<Link
+						href={TextContent.href.support}
+						className="font-semibold underline"
+					>
 						Get Support
 					</Link>
 				</Paragraph>
 			</Center>
-			<FlexBox className="items-center">
-				<SignInButton size="lg" hover="primary-light" bg="primary" />
-			</FlexBox>
 		</Grid>
 	);
 }

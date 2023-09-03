@@ -3,11 +3,13 @@
 @tailwind utilities;
 
 @layer base {
+	body {
+		@apply text-dark;
+		-ms-overflow-style: none;
+	}
+
 	body::-webkit-scrollbar {
 		display: none;
-	}
-	body {
-		-ms-overflow-style: none;
 	}
 
 	a * {

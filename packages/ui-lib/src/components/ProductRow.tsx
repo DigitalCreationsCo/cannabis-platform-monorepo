@@ -17,7 +17,13 @@ export default function ProductVariantRow({ product }: ProductVariantRowProps) {
 	return (
 		<Link href={`products/${product.id}`}>
 			<Row className="justify-start md:pl-1">
-				<Image src={imageSrc} alt={product.name} height={60} width={60} />
+				<Image
+					loader={({ src }) => src}
+					src={imageSrc}
+					alt={product.name}
+					height={60}
+					width={60}
+				/>
 
 				<Small className="min-w-[144px]">{product.name}</Small>
 

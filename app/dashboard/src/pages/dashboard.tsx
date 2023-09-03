@@ -62,7 +62,7 @@ function Dashboard({ user, organization, products, orders }: DashboardProps) {
 	];
 
 	return (
-		<Page className={twMerge('sm:px-4 !pt-0')}>
+		<Page className={twMerge('sm:px-4')}>
 			<PageHeader
 				iconColor={'primary'}
 				title={`${organization.name}`}
@@ -129,7 +129,7 @@ function useProductVariants(products: ProductWithDashboardDetails[]) {
 }
 
 Dashboard.getLayoutContext = (): LayoutContextProps => ({
-	showHeader: true,
+	showHeader: false,
 	showSideNav: true,
 });
 

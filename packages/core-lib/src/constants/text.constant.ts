@@ -7,9 +7,10 @@ const TextContent = Object.freeze({
     Do you want to empty the bag and add this item instead?`,
 		CREATE_ACCOUNT: '',
 
-		CHECKOUT_READY: `Review your order.
+		READY_CHECKOUT: `You're ready to checkout.`,
+		REVIEW_CHECKOUT: `Review your order.
 		When you're ready, click the checkout button.`,
-		PURCHASE_READY: `Review your order. 
+		REVIEW_PLACE_ORDER: `Review your order. 
 		When you're ready, tap Place my order.`,
 
 		CREATE_DISPENSARY_ACCOUNT: 'Create a Dispensary account',
@@ -101,7 +102,7 @@ const TextContent = Object.freeze({
 	error: {
 		DISPENSARY_NOT_FOUND: `Dispensary is not found.`,
 
-		USER_EXISTS_ALREADY: `This user exists already. Please choose a different username or email.`,
+		USER_EXISTS_ERROR: `This user exists already. Please choose a different username or email.`,
 
 		PAYMENT_NOT_PROCESSED:
 			'Your payment could not be processed. Please try again later. Thank you!',
@@ -249,6 +250,12 @@ const TextContent = Object.freeze({
 
 	social: {
 		FRIENDS_LIST_TITLE: 'Your friends',
+	},
+
+	href: {
+		account: '/settings/account',
+		browse: '/browse',
+		support: '/support',
 	},
 });
 

@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { urlBuilder, usePagination } from '@cd/core-lib';
+import { usePagination } from '@cd/core-lib';
 import { type UserWithDetails } from '@cd/data-access';
 import {
-	Button,
-	Card,
 	DeleteButton,
 	Grid,
 	H6,
@@ -12,17 +10,21 @@ import {
 	PageHeader,
 	Paragraph,
 	Row,
+	type LayoutContextProps,
 } from '@cd/ui-lib';
 import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
+import { connect } from 'react-redux';
+import { type RootState } from '../../redux/store';
 
 type UsersDashboardProps = {
 	users: UserWithDetails[];
 };
-export default function Users({ users }: UsersDashboardProps) {
+
+function Users({ users }: UsersDashboardProps) {
 	const [currentPage] = useState(1);
 	const [, setDialogOpen] = useState(false);
 	const [deleteId, setDeleteId] = useState('');
@@ -54,20 +56,18 @@ export default function Users({ users }: UsersDashboardProps) {
 			<PageHeader
 				title="Users"
 				Icon={Icons.User2}
-				Button={
-					<Link href="/users/add">
-						<Button>Add User</Button>
-					</Link>
-				}
+				// Button={
+				// 	<Link href="/users/add">
+				// 		<Button>Add User</Button>
+				// 	</Link>
+				// }
 			/>
-			<Grid>
-				<Row className="h-[44px]">
-					<div className="hidden w-[100px] sm:block"></div>
-					<H6 className="grow">Name</H6>
-					<H6 className="hidden w-[240px] justify-start lg:flex">Email</H6>
-					<H6 className="flex w-[120px] justify-center">Phone</H6>
-					<H6 className="flex w-[100px] justify-center">Role</H6>
-					<div className="min-w-[50px] md:w-[120px]"></div>
+			<Grid className="gap-2">
+				<Row className="grid h-[44px] grid-cols-12">
+					<H6 className="col-span-4">Name</H6>
+					<H6 className="col-span-4">Email</H6>
+					<H6 className="col-span-2">Phone</H6>
+					<H6 className="col-span-2">Role</H6>
 				</Row>
 				{users && currentUsers.length > 0 ? (
 					currentUsers.map((user) => {
@@ -109,7 +109,7 @@ export default function Users({ users }: UsersDashboardProps) {
 						);
 					})
 				) : (
-					<Card>There are no users.</Card>
+					<Row className="h-[52px]">No users are found.</Row>
 				)}
 			</Grid>
 
@@ -131,22 +131,15 @@ export default function Users({ users }: UsersDashboardProps) {
 	);
 }
 
-export async function getServerSideProps({ req, res }: { req: any; res: any }) {
-	res.setHeader(
-		'Cache-Control',
-		'public, s-maxage=10, stale-while-revalidate=59',
-	);
-	const users: UserWithDetails[] = await (
-		await fetch(urlBuilder.dashboard + '/api/users', {
-			headers: {
-				Cookie: req.headers.cookie,
-			},
-		})
-	).json();
-	console.info('users page: ', users[0].memberships);
+Users.getLayoutContext = (): LayoutContextProps => ({
+	showHeader: false,
+});
+
+function mapStateToProps(state: RootState) {
+	const { dispensary } = state;
 	return {
-		props: {
-			users,
-		},
+		users: dispensary.users,
 	};
 }
+
+export default connect(mapStateToProps)(Users);

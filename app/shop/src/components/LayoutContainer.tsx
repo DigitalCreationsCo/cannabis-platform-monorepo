@@ -18,6 +18,7 @@ const LayoutContainer = (props: LayoutContextProps & PropsWithChildren) => {
 	const signOut = async () => {
 		dispatch(userActions.signOutUserAsync());
 		setCookie('yesOver21', 'false', { path: '/' });
+		console.debug('set yesOver21 cookie to false');
 		window.location.reload();
 	};
 	return (

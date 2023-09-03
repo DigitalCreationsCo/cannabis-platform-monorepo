@@ -10,6 +10,7 @@ import {
 	Page,
 	PageHeader,
 	Row,
+	type LayoutContextProps,
 } from '@cd/ui-lib';
 import { useState } from 'react';
 import { connect } from 'react-redux';
@@ -52,6 +53,11 @@ function Orders({ orders }: OrdersDashboardProps) {
 	);
 }
 
+Orders.getLayoutContext = (): LayoutContextProps => ({
+	showHeader: false,
+	showSideNav: true,
+});
+
 function mapStateToProps(state: RootState) {
 	const { dispensary } = state;
 	return {
@@ -60,27 +66,3 @@ function mapStateToProps(state: RootState) {
 }
 
 export default connect(mapStateToProps)(Orders);
-
-// export async function getServerSideProps({ req }: { req: any }) {
-// 	try {
-// 		// const orders: Order[] = await (
-// 		//     await fetch(urlBuilder.dashboard + '/api/orders', {
-// 		//         headers: {
-// 		//             Cookie: req.headers.cookie
-// 		//         }
-// 		//     })
-// 		// ).json();
-
-// 		return {
-// 			props: {
-// 				user: dateToString(user),
-// 				organization: dateToString(organization),
-// 				products: dateToString(products) || [],
-// 				orders: dateToString(orders) || [],
-// 			},
-// 		};
-// 	} catch (error: any) {
-// 		console.info('Orders/[id] SSR error: ', error.message);
-// 		throw new Error(error);
-// 	}
-// }

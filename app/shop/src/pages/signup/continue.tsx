@@ -27,7 +27,7 @@ function ContinueSignUp() {
 	if (idVerified && !isLegalAge)
 		router.push(getShopSite('/sorry-we-cant-serve-you'));
 
-	// optional formstep components
+	// Formstep components with null values will be ignored
 	const FormStepComponents = [
 		!idVerified ? VerifyPhotoId : null,
 		!isSignUpComplete ? UserSignUpQuick : null,
@@ -45,7 +45,9 @@ function ContinueSignUp() {
 				recycle={false}
 			/>
 			<Card className="bg-inverse-soft m-auto h-full space-y-2">
-				<H2 id="verify-id-step-1">Welcome to Gras</H2>
+				<H2 id="verify-id-step-1" className="text-primary">
+					Welcome to Gras
+				</H2>
 				<FormStepProvider
 					FormStepComponents={FormStepComponents}
 					formId="signup-form"

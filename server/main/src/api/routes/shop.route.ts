@@ -25,7 +25,7 @@ Shop Routes
 
 ================================= */
 
-router.route('/orders/org/:id').get(shopCtrl.getOrdersByOrg);
+router.route('/orders/org/:id').get(shopCtrl.getOrdersByOrganization);
 
 router.route('/orders/:id').get(shopCtrl.getOrderById);
 

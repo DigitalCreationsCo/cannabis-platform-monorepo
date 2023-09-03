@@ -40,10 +40,10 @@ class StripeService {
 				success_url: process.env.NEXT_PUBLIC_SHOP_APP_CHECKOUT_SUCCESS_URL,
 				cancel_url: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/checkout`,
 				line_items: generateCheckoutLineItemsFromOrderItems(order.items),
-
 				payment_intent_data: {
 					application_fee_amount: calculatePlatformFeeForTransaction(123),
 					transfer_data: {
+						// destination: process.env.STRIPE_PLATFORM_ID,
 						destination: dispensaryStripeAccountId,
 					},
 				},
@@ -60,6 +60,13 @@ class StripeService {
 			throw new Error(error.message);
 		}
 	}
+
+	// REFUND AN APPLICATION FEE
+	// const refund = await stripe.refunds.create({
+	// 	charge: '{CHARGE_ID}',
+	// 	reverse_transfer: true,
+	// 	refund_application_fee: true,
+	//   });
 
 	/**
 	 * Get stripe connected account details using accountId

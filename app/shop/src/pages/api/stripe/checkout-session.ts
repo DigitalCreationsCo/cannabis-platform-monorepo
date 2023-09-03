@@ -1,4 +1,5 @@
-import { axios, urlBuilder } from '@cd/core-lib';
+import { urlBuilder } from '@cd/core-lib';
+import axios from 'axios';
 import { type NextApiRequest, type NextApiResponse } from 'next';
 import nc from 'next-connect';
 
@@ -12,6 +13,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 		const response = await axios.post(
 			urlBuilder.payment.checkout(),
 			checkoutOrder,
+			{ timeout: 10000 },
 		);
 
 		console.log('response: ', response.data);

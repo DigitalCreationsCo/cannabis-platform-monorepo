@@ -1,4 +1,4 @@
-import { TextContent, urlBuilder } from '@cd/core-lib';
+import { axios, TextContent, urlBuilder } from '@cd/core-lib';
 import {
 	Button,
 	FlexBox,
@@ -11,7 +11,6 @@ import {
 	TextField,
 	useFormContext,
 } from '@cd/ui-lib';
-import axios from 'axios';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
@@ -39,6 +38,7 @@ function DispensaryUserCreate() {
 
 			setFormValues({ newUser: values });
 
+			console.info('creating dispensary user, ', formValues);
 			const response = await axios.post(
 				urlBuilder.dashboard + '/api/organization/staff',
 				{
@@ -46,7 +46,6 @@ function DispensaryUserCreate() {
 					role: 'OWNER',
 					dispensaryId: formValues.organization?.id,
 				},
-				{ validateStatus: () => true },
 			);
 
 			console.info('response: ', response);

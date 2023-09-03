@@ -95,13 +95,19 @@ export async function createUser(userData: UserCreateType) {
 
 export async function upsertUser(userData: UserCreateType) {
 	try {
+		const userExists = await prisma.user.findUnique({
+			where: {
+				email: userData.email,
+			},
+		});
 		const newId = createId();
+		const userId = userData.id ?? userExists?.id ?? newId;
 		const user = await prisma.user.upsert({
 			where: {
 				email: userData.email,
 			},
 			create: {
-				id: userData.id ?? newId,
+				id: userId,
 				email: userData.email,
 				emailVerified: userData.emailVerified ?? false,
 				username: userData.username,
@@ -202,7 +208,7 @@ export async function upsertUser(userData: UserCreateType) {
 				profilePicture: {
 					connectOrCreate: {
 						where: {
-							userId: userData.id ?? newId,
+							userId,
 						},
 						create: {
 							location: userData.profilePicture?.location,

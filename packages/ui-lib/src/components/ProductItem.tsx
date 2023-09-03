@@ -31,7 +31,7 @@ function ProductItem({
 					'flex flex-row col-span-2 md:col-span-1 lg:col-span-2 xl:col-span-1 justify-stretch',
 					className,
 				)}
-				onClick={toggleConfirm}
+				// onClick={toggleConfirm}
 			>
 				<img
 					src={product?.images?.[0]?.location}
