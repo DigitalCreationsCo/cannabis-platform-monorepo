@@ -1,11 +1,10 @@
 // import cluster from "cluster";
 // import settings from "../../settings";
-import { connectClientController } from '../redis';
 // import { Client } from '../../types'
-import { OrderWithDetails } from '@cd/data-access';
-import { Client } from 'types';
+import { isEmpty } from '@cd/core-lib';
 import DispatchDA from '../../data-access';
-import _ from '../../util';
+import { type Client, type RoomAction } from '../../dispatch.types';
+import { connectClientController } from '../redis';
 import ClusterInit from './clusterInit';
 
 global.rooms = {};
@@ -32,14 +31,12 @@ class MasterRoomController {
 				this.dispatchDataAccess?.dispatchOrdersChangeStream?.on(
 					'change',
 					async (change: any) => {
-						let order: OrderWithDetails = change.fullDocument;
+						const order: any = change.fullDocument;
 
 						switch (change.operationType) {
 							case 'insert':
-								let driver = order.driver;
-
 								// handle new dispatch order
-								if (_.isEmpty(driver))
+								if (isEmpty(order.driver))
 									// get order
 									// select driver for order
 									// subscribe drivers to socket room
@@ -147,10 +144,10 @@ class MasterRoomController {
 	//   return client;
 	// }
 
-	async createSelectDriverRoom(order: OrderWithDetails) {
+	async createSelectDriverRoom(order: any) {
 		try {
-			let { organization, id: orderId } = order,
-				_roomname = `select-driver:${orderId}`;
+			const { organization, id: orderId } = order;
+			const _roomname = `select-driver:${orderId}`;
 
 			// console.info(
 			//   "data access: ",
@@ -161,7 +158,7 @@ class MasterRoomController {
 			//   await this.dispatchDataAccess.findDriverIdsWithinRange(location)
 			// );
 
-			let coordinates = organization.address.coordinates;
+			const coordinates = organization.address.coordinates;
 
 			const selectedDriverIds =
 				await this.dispatchDataAccess?.findDriverIdsWithinRange(coordinates);

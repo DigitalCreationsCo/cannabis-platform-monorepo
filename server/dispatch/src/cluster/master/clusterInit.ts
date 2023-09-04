@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import cluster from 'node:cluster';
-import { ClusterMessage, RoomAction } from 'types';
-import settings from '../../settings';
+import settings from '../../dispatch.settings';
+import { type ClusterMessage, type RoomAction } from '../../dispatch.types';
 
 const workers: any[] = [];
 
@@ -11,10 +12,11 @@ class ClusterInit {
 			exec: 'src/cluster/worker/index.ts',
 		});
 
-		for (var i = 0; i < settings.numCPUs; i++) {
+		for (let i = 0; i < settings.numCPUs; i++) {
 			workers[i] = cluster.fork();
 
 			workers[i].on('message', function (_msg: ClusterMessage) {
+				// eslint-disable-next-line sonarjs/no-small-switch
 				switch (_msg.action) {
 					default:
 						break;
@@ -31,6 +33,4 @@ class ClusterInit {
 	}
 }
 
-// const balancer = recluster(path.join(__dirname, "../worker/index.ts"));
-// balancer.run();
 export default ClusterInit;

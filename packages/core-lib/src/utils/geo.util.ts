@@ -77,10 +77,22 @@ export async function getGeoAddressFromCoordinates(coordinates: {
 	}
 }
 
-export function getCoordinatePairFromUserLocation(userlocation: Coordinates) {
+export function getCoordinatePairFromCoordinates(userlocation: Coordinates) {
 	if (userlocation.latitude && userlocation.longitude)
 		return [Number(userlocation.longitude), Number(userlocation.latitude)];
-	else throw new Error('Invalid user location');
+	else throw new Error('Invalid coordinates');
+}
+
+export function getGeoJsonPairFromCoordinates(coordinates: Coordinates) {
+	if (coordinates.latitude && coordinates.longitude)
+		return {
+			type: 'Point',
+			coordinates: [
+				Number(coordinates.longitude),
+				Number(coordinates.latitude),
+			],
+		};
+	else throw new Error('Invalid coordinates');
 }
 
 export function coordinatesIsEmpty(address: AddressCreateType) {

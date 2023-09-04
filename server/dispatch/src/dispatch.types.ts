@@ -1,11 +1,11 @@
-interface ClientType {
+export interface ClientType {
 	socketId: string;
 	workerId: number;
 	roomId: string;
 	userId: string;
 }
 
-class Client implements ClientType {
+export class Client implements ClientType {
 	socketId: string;
 	workerId: number;
 	roomId: string;
@@ -19,30 +19,27 @@ class Client implements ClientType {
 	}
 }
 
-class WorkerRoom {
+export class WorkerRoom {
 	id: string;
 	clients: any;
 	workerId: number;
 
-	constructor(_id, _client, _workerId) {
+	constructor(_id: string, _client: any, _workerId: number) {
 		this.id = _id;
 		this.clients = _client;
 		this.workerId = _workerId;
 	}
 }
 
-type ClusterMessage = {
+export type ClusterMessage = {
 	action: RoomAction;
 	data: ClusterMessagePayload;
 };
 
-type RoomAction = 'test' | 'joinUsers' | 'leaveUser';
+export type RoomAction = 'test' | 'joinUsers' | 'leaveUser';
 
-type ClusterMessagePayload = {
+export type ClusterMessagePayload = {
 	roomId?: any;
 	clients?: any;
 	order?: any;
 };
-
-export { Client, WorkerRoom };
-export type { ClientType, ClusterMessage, RoomAction, ClusterMessagePayload };
