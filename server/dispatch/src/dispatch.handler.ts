@@ -1,14 +1,14 @@
 import { TextContent } from '@cd/core-lib';
 import { createAdapter } from '@socket.io/redis-adapter';
 import { Server } from 'socket.io';
-import MasterRoomController from '../cluster/master/masterroom.controller';
+import MasterRoomController from './cluster/master/masterroom.controller';
 import {
 	connectClientController,
 	publishRedisClient,
 	subscribeRedisClient,
-} from '../cluster/redis';
-import { type SocketMessage } from '../dispatch.types';
-import { NavigateEventType, SocketEvents } from './socketEvents';
+} from './cluster/redis';
+import { type SocketMessage } from './dispatch.types';
+import { NavigateEventType, SocketEvents } from './socket/socketEvents';
 
 const io = new Server();
 io.adapter(createAdapter(publishRedisClient, subscribeRedisClient));
@@ -43,7 +43,7 @@ io.on(SocketEvents.connection, async (socket) => {
 		saveClient(userId, socket.id);
 	});
 
-	socket.on('disconnect', async (reason) => {
+	socket.on(SocketEvents.disconnect, async (reason) => {
 		console.info(
 			`dispatch event: ${SocketEvents.disconnect}, reason: ${reason}`,
 		);

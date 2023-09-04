@@ -1,5 +1,5 @@
 import ClusterInit from './cluster/master/clusterInit';
-import { io } from './socket/socketHandlers';
+import { io } from './dispatch.handler';
 
 const port = (process.env.SERVER_PORT as unknown as number) || 6041;
 
