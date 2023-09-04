@@ -28,7 +28,7 @@ function ProductItem({
 		<>
 			<div
 				className={twMerge(
-					'flex flex-row col-span-2 md:col-span-1 lg:col-span-2 xl:col-span-1 justify-stretch',
+					'w-full flex flex-row col-span-2 lg:col-span-2 xl:col-span-1 justify-stretch',
 					className,
 				)}
 				// onClick={toggleConfirm}

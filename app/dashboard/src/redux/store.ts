@@ -46,13 +46,13 @@ const hydratableReducer = (state: RootState, action: AnyAction) => {
 	if (action.type === HYDRATE) {
 		return {
 			...state, // use previous state
-			// ...action.payload // apply delta from hydration
+			// ...action.payload, // apply delta from hydration
 		};
 	}
 	if (action.type === REHYDRATE) {
 		return {
 			...state,
-			// ...action.payload // apply delta from hydration
+			// ...action.payload, // apply delta from hydration
 		};
 	} else {
 		return rootReducer(state, action);

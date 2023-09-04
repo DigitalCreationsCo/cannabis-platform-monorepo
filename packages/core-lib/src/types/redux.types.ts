@@ -2,6 +2,7 @@ import { type ProductVariantWithDetails } from '@cd/data-access';
 import { type Store } from '@reduxjs/toolkit';
 import { type BlogStateProps } from '../reducer/blog.reducer';
 import { type CartStateProps } from '../reducer/cart.reducer';
+import { type DispensaryStateProps } from '../reducer/dispensary.reducer';
 import { type DriverSessionState } from '../reducer/driver.reducer';
 import { type LocationStateProps } from '../reducer/location.reducer';
 import { type ModalStateProps } from '../reducer/modal.reducer';
@@ -18,6 +19,7 @@ export type AppState = Readonly<{
 	blog: BlogStateProps;
 	cart: CartStateProps;
 	socket: SocketStateType;
+	dispensary: DispensaryStateProps;
 }>;
 
 export type ThunkArgumentsType = {

@@ -18,18 +18,17 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { connect } from 'react-redux';
-import { type RootState } from '../../redux/store';
+import { type RootState } from '../../../redux/store';
 
 type UsersDashboardProps = {
 	users: UserWithDetails[];
 };
 
 function Users({ users }: UsersDashboardProps) {
-	const [currentPage] = useState(1);
 	const [, setDialogOpen] = useState(false);
 	const [deleteId, setDeleteId] = useState('');
 
-	const currentUsers: UserWithDetails[] = usePagination(currentPage, users);
+	const { current, PaginationButtons } = usePagination(users);
 
 	const dialogClose = () => {
 		setDeleteId('');
@@ -69,9 +68,9 @@ function Users({ users }: UsersDashboardProps) {
 					<H6 className="col-span-2">Phone</H6>
 					<H6 className="col-span-2">Role</H6>
 				</Row>
-				{users && currentUsers.length > 0 ? (
-					currentUsers.map((user) => {
-						return (
+				{current.length > 0 ? (
+					<>
+						{current.map((user) => (
 							<Link href={`/users/${user.id}`} key={user.id}>
 								<Row className="h-[54px] py-0">
 									<Image
@@ -106,8 +105,9 @@ function Users({ users }: UsersDashboardProps) {
 									></DeleteButton>
 								</Row>
 							</Link>
-						);
-					})
+						))}
+						<PaginationButtons />
+					</>
 				) : (
 					<Row className="h-[52px]">No users are found.</Row>
 				)}

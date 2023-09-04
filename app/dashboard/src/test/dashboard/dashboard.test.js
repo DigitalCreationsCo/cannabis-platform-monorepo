@@ -35,3 +35,13 @@ describe('Dashboard Tests', () => {
 		expect('1').toStrictEqual('1');
 	});
 });
+
+// PLACEHOLDER
+describe('Dashboard href tests', () => {
+	it('dashboard organization is shown when user state is loaded, and organizationid is in the href', () => {
+		expect('1').toStrictEqual('1');
+	});
+	it('dashboard returns to signin page is shown when user state is not loaded', () => {
+		expect('1').toStrictEqual('1');
+	});
+});

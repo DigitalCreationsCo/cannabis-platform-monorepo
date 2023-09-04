@@ -43,7 +43,8 @@ function SiteSettings({ siteSetting }: SiteSettingsDashboardProps) {
 				// navigation={ <DashboardNavigation /> }
 			/>
 			<Card>
-				Dispensary staff can edit their storefront and site settings here
+				Dispensary staff can view and edit their storefront and site settings
+				here
 				<div>
 					{Object.keys(
 						pruneData(siteSetting, [
