@@ -15,7 +15,7 @@ import axios from 'axios';
 import { applicationHeaders } from '../axiosInstance';
 import { TextContent } from '../constants';
 import { type AppState } from '../types';
-import { urlBuilder } from '../utils';
+import { reconcileStateArray, urlBuilder } from '../utils';
 import { signOutUserAsync } from './user.reducer';
 
 export const getDispensaryById = createAsyncThunk(
@@ -64,7 +64,23 @@ const initialState: DispensaryStateProps = {
 export const dispensarySlice = createSlice({
 	name: 'dispensary',
 	initialState,
-	reducers: {},
+	reducers: {
+		updateDispensaryOrders: (
+			state,
+			{
+				payload,
+			}: {
+				payload: OrderWithDashboardDetails[];
+			},
+		) => {
+			console.info('updateDispensaryOrders action');
+			const orders = payload;
+			if (state.dispensary?.orders) {
+				console.info('reconciling dispensary orders');
+				reconcileStateArray(state.dispensary.orders, orders);
+			}
+		},
+	},
 	extraReducers: (builder) => {
 		builder.addCase(
 			getDispensaryById.fulfilled,

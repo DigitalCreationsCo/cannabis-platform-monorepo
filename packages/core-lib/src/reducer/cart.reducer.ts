@@ -123,12 +123,12 @@ export const createOrderForCheckout = createAsyncThunk<OrderCreate, void>(
 
 			if (!organization) {
 				console.debug('fetching organization from server');
-				await axios
-					.get(urlBuilder.shop + `/api/organization/${cart.organizationId}`)
-					.then((result) => {
-						console.info('get org reesult: ', result);
-						organization = result.data.payload as OrganizationWithShopDetails;
-					});
+				const response = await axios(
+					urlBuilder.shop + `/api/organization/${cart.organizationId}`,
+				);
+				if (response.data.success === 'false')
+					throw new Error(response.data.error);
+				organization = response.data.payload as OrganizationWithShopDetails;
 			}
 
 			if (!organization?.id)

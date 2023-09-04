@@ -74,16 +74,15 @@ function convertDollarsToWholeNumber(value: number | string) {
  * @returns
  */
 function calculatePlatformFeeForTransaction(amount: number) {
-	//   return Math.round(amount * 0.1)
-	return amount;
+	return Math.round(amount * 0.18);
 }
 
-function calculateDeliveryFee(amount: number) {
-	return amount;
+function calculateDeliveryFeeForTransaction(amount: number) {
+	return Math.round(amount * 0.1);
 }
 
 export {
-	calculateDeliveryFee,
+	calculateDeliveryFeeForTransaction,
 	orderStatusList,
 	checkOrderIsCompleteOrCanceled,
 	calcSalePrice,

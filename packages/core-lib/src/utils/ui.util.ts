@@ -28,14 +28,21 @@ export const renderAddress = ({
 	}${(showCountry && ' ' + address.country) || ''}`;
 };
 
+export function truncate(text: string) {
+	return text.slice(0, 5) + text.slice(-4).padStart(7, '.');
+}
+
+export function redact(text: string) {
+	const length = text.toString().length;
+	const last4characters = text.slice(-4),
+		redacted = last4characters.padStart(length, '*');
+	return redacted;
+}
+
 const redactSensitiveFields = (key: string, value: string | number) => {
 	const sensitiveFields = ['password', 're_password', 'stripeAccountId'];
 	if (sensitiveFields.includes(key)) {
-		const length = value.toString().length,
-			last4characters = value.toString().slice(-4),
-			redacted = last4characters.padStart(length, '*');
-
-		return redacted;
+		return redact(value);
 	} else return value;
 };
 

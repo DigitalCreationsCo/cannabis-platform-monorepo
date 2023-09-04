@@ -1,4 +1,8 @@
-import { hasMembershipRoleAccess, selectUserState } from '@cd/core-lib';
+import {
+	hasMembershipRoleAccess,
+	selectUserState,
+	TextContent,
+} from '@cd/core-lib';
 import { LoadingPage } from '@cd/ui-lib';
 import { useRouter } from 'next/router';
 import { useEffect, type PropsWithChildren } from 'react';
@@ -12,7 +16,9 @@ function ProtectedPage({
 	children,
 }: ProtectedPageProps & PropsWithChildren) {
 	const router = useRouter();
-	const pageIsProtected = protectedPages.indexOf(router.pathname) !== -1;
+	const pageIsProtected = protectedPages.find((page) =>
+		router.pathname.includes(page),
+	);
 	const user = useSelector(selectUserState);
 
 	useEffect(() => {
@@ -20,23 +26,28 @@ function ProtectedPage({
 			router.pathname === '/' &&
 			hasMembershipRoleAccess(user.user, 'MEMBER')
 		) {
-			router.push('/dashboard');
+			console.log(
+				'push to dashboard ',
+				user.user.memberships?.[0].organizationId,
+			);
+			router.push(
+				TextContent.href.dashboard_f(
+					user.user.memberships?.[0].organizationId as string,
+				),
+			);
 		}
-	}, [router]);
+	});
 
 	useEffect(() => {
 		if (pageIsProtected && !hasMembershipRoleAccess(user.user, 'MEMBER')) {
 			router.push('/');
 		}
-	}, [
-		user.isLoading,
-		hasMembershipRoleAccess(user.user, 'MEMBER'),
-		pageIsProtected,
-	]);
+	});
 
 	if (
-		user.isLoading ||
-		(pageIsProtected && !hasMembershipRoleAccess(user.user, 'MEMBER'))
+		user.isLoading &&
+		pageIsProtected &&
+		!hasMembershipRoleAccess(user.user, 'MEMBER')
 	)
 		return <LoadingPage />;
 

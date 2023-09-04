@@ -1,33 +1,23 @@
-import { urlBuilder } from '@cd/core-lib';
-import axios from 'axios';
+import { axios, urlBuilder } from '@cd/core-lib';
 import { type NextApiRequest, type NextApiResponse } from 'next';
 import nc from 'next-connect';
 
 const handler = nc();
 // get orders from an organization
-// handler.get(async (req, res: NextApiResponse) => {
-// 	try {
-// 		res.setHeader(
-// 			'Cache-Control',
-// 			'public, s-maxage=10, stale-while-revalidate=59',
-// 		);
-// 		const organizationId = '';
-// 		// blank
-// 		req.organizationId = organizationId;
-// 		if (cache.has(`orders/org/${organizationId}`)) {
-// 			const orders = cache.get(`orders/org/${organizationId}`);
-// 			return res.status(200).json(orders);
-// 		}
-// 		const { data } = await axios(urlBuilder.main.ordersByOrgId(organizationId));
-// 		cache.set(`orders/org/${organizationId}`, data);
-// 		return res.status(res.statusCode).json(data);
-// 	} catch (error: any) {
-// 		console.error(error.message);
-// 		return res.json(error);
-// 	}
-// });
-
-// handler.use(adminMiddleware);
+handler.get(async (req, res: NextApiResponse) => {
+	try {
+		res.setHeader('Cache-Control', 'public, s-maxage=120');
+		const organizationId = req.headers['organization-id'] as string;
+		const response = await axios(urlBuilder.main.ordersByOrgId(organizationId));
+		return res.status(response.status).json(response.data);
+	} catch (error: any) {
+		console.error('next api: get orders ', error.message);
+		return res.status(500).json({
+			success: 'false',
+			error: error.message,
+		});
+	}
+});
 
 // create a order route
 // handler.post(async (req, res: NextApiResponse) => {

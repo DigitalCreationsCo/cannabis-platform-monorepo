@@ -1,5 +1,17 @@
-import { cartActions, selectCartState } from '@cd/core-lib';
-import { Card, Center, H3, Page, Small } from '@cd/ui-lib';
+import { cartActions, selectCartState, TextContent } from '@cd/core-lib';
+import { type ProductVariant } from '@cd/data-access';
+import {
+	Card,
+	Center,
+	FlexBox,
+	H3,
+	Page,
+	Paragraph,
+	Price,
+	ProductItem,
+	Small,
+	type LayoutContextProps,
+} from '@cd/ui-lib';
 import { useEffect } from 'react';
 import Confetti from 'react-confetti';
 import { useSelector } from 'react-redux';
@@ -15,23 +27,37 @@ function CheckoutSuccess() {
 
 	return (
 		<Page>
-			<Confetti />
+			<Confetti numberOfPieces={540} recycle={false} />
 			<Card className="m-auto cursor-default md:max-w-[500px]">
-				<Center className="space-y-2">
+				<Center className="space-y-4">
 					<H3 className="text-primary hover:text-primary-light transition">
-						Thank you for ordering Delivery&nbsp;by&nbsp;Gras.
+						{TextContent.shop.THANK_CUSTOMER_f(order.organization.name)}
 					</H3>
+					<Paragraph>{TextContent.delivery.PAYMENT_SUCCESSFUL}</Paragraph>
+					<FlexBox>
+						<Paragraph className="w-full text-left">
+							{TextContent.delivery.ORDER_INFO_HEADER}
+						</Paragraph>
+						{order.items.map((item: ProductVariant, index: number) => (
+							<ProductItem key={`bag-item-${index}`} data={item} />
+						))}
+						<Paragraph className="flex w-full flex-row justify-end pr-4">
+							Total
+							<Price basePrice={order.total} />
+						</Paragraph>
+					</FlexBox>
 					<Small>
-						<b>{order.organization.name}</b> and <b>Gras</b> appreciates your
-						business and the opportunity to serve our community. ❤️
+						{TextContent.info.THANK_YOU}
+						{'\n'}
+						Both <b>{order.organization.name}</b> and <b>Gras</b> appreciate
+						your business and the opportunity to serve our community.
+						{/* ❤️ */}
 					</Small>
 					<Small>
-						Your order is being sent to a Gras Delivery Person, and will be
-						delivered soon!{'\n'}
-						{/* You will receive an email with your order details. */}
-						<b>Check your sms messages for updates on your order.</b>
+						<b>{TextContent.delivery.SMS_UPDATE}</b>
 						{'\n'}
-						Thanks for ordering Delivery by Gras.
+						{TextContent.shop.RECEIPT_TO_EMAIL_f(order.customer.email)}
+						{'\n'}
 					</Small>
 				</Center>
 			</Card>
@@ -40,3 +66,7 @@ function CheckoutSuccess() {
 }
 
 export default CheckoutSuccess;
+
+CheckoutSuccess.getLayoutContext = (): LayoutContextProps => ({
+	showHeader: false,
+});
