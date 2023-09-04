@@ -1,7 +1,8 @@
 import { OrderWithDetails } from '@cd/data-access';
 import {
+	calculatePlatformFeeForTransaction,
 	checkOrderIsCompleteOrCanceled,
-	convertDollarsToWholeNumber,
+	convertDollarsToWholeNumber
 } from '../../src/utils/transaction.util';
 
 describe('checkOrderIsCompleteOrCanceled', () => {
@@ -34,5 +35,21 @@ describe('convertDollarsToWholeNumber', () => {
 		expect(convertDollarsToWholeNumber('0.25')).toBe(25);
 		expect(convertDollarsToWholeNumber('124.25')).toBe(12425);
 		expect(convertDollarsToWholeNumber(124.25)).toBe(12425);
+	});
+});
+
+describe('calculatePlatformFeeForTransaction', () => {
+	test(' returns the expected value', () => {
+		expect(calculatePlatformFeeForTransaction(1230)).toBe(221);
+		expect(calculatePlatformFeeForTransaction(25399)).toBe(4572);
+		expect(calculatePlatformFeeForTransaction(63777)).toBe(11480);
+	});
+});
+
+describe('calculateDeliveryFeeForTransaction', () => {
+	test(' returns the expected value', () => {
+		expect(calculatePlatformFeeForTransaction(1230)).toBe(123);
+		expect(calculatePlatformFeeForTransaction(25399)).toBe(2539);
+		expect(calculatePlatformFeeForTransaction(63777)).toBe(63777);
 	});
 });

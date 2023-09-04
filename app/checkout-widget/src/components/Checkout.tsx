@@ -230,7 +230,7 @@ export default class Checkout extends Component<
 							</div>
 						)}
 						<Small className="text-light m-auto py-2">
-							{TextContent.prompt.CHECKOUT_READY}
+							{TextContent.prompt.READY_CHECKOUT}
 						</Small>
 						<Button
 							id="Checkout-Button"

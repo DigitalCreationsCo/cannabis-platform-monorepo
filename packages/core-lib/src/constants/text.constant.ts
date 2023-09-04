@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 const nbsp = '\xa0';
 
 const TextContent = Object.freeze({
@@ -212,12 +213,14 @@ const TextContent = Object.freeze({
 			`Ordering from ${vendorName}`,
 		ORDER_INFO_HEADER: "Here's your order",
 		PAYMENT_SUCCESSFUL:
-			'Your order has been placed! A driver is being called for your delivery',
+			'Your order is placed and sent to your Gras DeliveryPerson',
 
 		HOME_LOCATION_IS_SET: "We'll send your next delivery to Home.",
 		CURRENT_LOCATION_IS_SET:
 			"Got it! We'll send your next delivery to your current spot.",
 		GIFT_LOCATION_IS_SET: "We'll send your next delivery to your friend!",
+
+		SMS_UPDATE: `Check your sms messages for updates on your order.`,
 	},
 
 	products: {
@@ -239,11 +242,14 @@ const TextContent = Object.freeze({
 		PURCHASE: 'place an order',
 		PLACE_AN_ORDER: 'place an order',
 		PLACE_AN_ORDER_DELIVERY: 'place an order for delivery',
+
+		RECEIPT_TO_EMAIL_f: (email: string) =>
+			`Your receipt has been sent to ${email}.`,
 		REMOVE_ITEM: 'Remove Item',
 		SEE_ORDERS: 'See your orders',
 		SUBTOTAL: 'subtotal',
 		THANK_CUSTOMER_f: (vendorName: string) =>
-			`Thank you for shopping with ${vendorName}!`,
+			`Thank you for choosing ${vendorName} and Gras.`,
 		UPDATE_CART: 'Update Bag',
 		YOUR_ORDER: 'Your order',
 	},
@@ -255,6 +261,13 @@ const TextContent = Object.freeze({
 	href: {
 		account: '/settings/account',
 		browse: '/browse',
+		dashboard_f: (id: string) => `/${id}/dashboard`,
+		orders_f: (id: string) => `/${id}/orders`,
+		products_f: (id: string) => `/${id}/products`,
+		users_f: (id: string) => `/${id}/users`,
+		settings: '/settings',
+		settings_f: (id: string) => `/${id}/settings`,
+		site_f: (id: string) => `/${id}/settings/site-settings`,
 		support: '/support',
 	},
 });

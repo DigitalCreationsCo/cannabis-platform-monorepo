@@ -1,4 +1,5 @@
 import {
+	axios,
 	renderAddress,
 	selectCartState,
 	selectIsCartEmpty,
@@ -23,7 +24,6 @@ import {
 	Paragraph,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
-import axios from 'axios';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
@@ -59,15 +59,11 @@ function Checkout() {
 				{ timeout: 10000 },
 			);
 
-			console.log('create checkout response', response);
 			if (response.data.success === 'false')
 				throw new Error(response.data.error);
 
-			if (response.status === 302) {
-				setLoadingButton(true);
-				if (response.data.success === 'true')
-					window.location.href = response.data.redirect;
-			}
+			if (response.status === 302 && response.data.success === 'true')
+				window.location.href = response.data.redirect;
 		} catch (error: any) {
 			console.error('create checkout error:', error);
 			throw new Error(error.message);
@@ -79,7 +75,7 @@ function Checkout() {
 			setLoadingButton(true);
 			await canCheckout(order);
 			await createStripeCheckout();
-			toast.success('Success');
+			toast.success('Checking out');
 			setLoadingButton(false);
 		} catch (error: any) {
 			toast.error(error.message);
@@ -170,6 +166,7 @@ function ReviewDeliveryAddress({
 	const [showDropdown] = useState(false);
 
 	return (
+		// CHANGE DELIVERY ADDRESS FUNCTIONALITY
 		// <div className="dropdown">
 		//     <Paragraph className='text-primary'>Delivery to</Paragraph>
 		//     <div className={twMerge([styles.addressContainer,])}>
@@ -228,12 +225,13 @@ function ReviewDeliveryAddress({
 }
 
 const styles = {
-	banner: 'flex space-x-5 lg:justify-between lg:pr-8 items-center',
+	banner:
+		'flex flex-col lg:flex-row space-x-5 lg:justify-between lg:pr-8 items-center',
 
-	checkout: 'flex flex-col-reverse lg:flex-row justify-between space-y-4',
+	checkout: 'flex flex-col-reverse md:flex-row justify-between space-y-4',
 	review: 'm-auto md:mr-0 space-y-4 px-8 pb-12',
 
-	container: 'w-[300px]',
+	container: 'w-full sm:w-[300px]',
 	heading: 'text-primary pl-4',
 	box: 'border rounded py-4 h-fit',
 	selectAddress: '',

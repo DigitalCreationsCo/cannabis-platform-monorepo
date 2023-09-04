@@ -60,12 +60,14 @@ instance.interceptors.response.use(
 		return Promise.resolve(success);
 	},
 	(error: any) => {
-		if (error.code === 'ECONNREFUSED')
+		if (error.code === 'ECONNREFUSED') {
+			console.error('AXIOS ECONNREFUSED');
 			return Promise.reject({
 				...error,
 				success: 'false',
 				message: TextContent.error.SERVER_NOT_AVAILABLE,
 			});
+		}
 
 		return Promise.reject(error);
 	},

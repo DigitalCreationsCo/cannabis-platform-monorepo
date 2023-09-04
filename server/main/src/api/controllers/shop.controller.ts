@@ -116,11 +116,14 @@ export default class ShopController {
 		try {
 			const organizationId = req.params.id || {};
 			const data = await OrderDA.getOrdersByOrganization(organizationId);
-			if (!data) return res.status(404).json('Orders not found');
-			return res.status(200).json(data);
+			if (!data)
+				return res
+					.status(404)
+					.json({ success: 'false', error: 'Orders not found' });
+			return res.status(200).json({ success: 'true', payload: data });
 		} catch (error: any) {
-			console.info('getOrdersByOrg api: ', error);
-			res.status(500).json({ error });
+			console.error('getOrdersByOrg api: ', error);
+			res.status(500).json({ success: 'false', error: error.message });
 		}
 	}
 

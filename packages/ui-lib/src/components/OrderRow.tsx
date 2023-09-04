@@ -1,4 +1,4 @@
-import { getDashboardSite } from '@cd/core-lib';
+import { getDashboardSite, truncate } from '@cd/core-lib';
 import { type Order } from '@cd/data-access';
 import { format } from 'date-fns';
 import Link from 'next/link';
@@ -30,7 +30,7 @@ function OrderRow({ order, orderDetailsRoute }: OrderRowProps) {
 	return (
 		<Link href={getDashboardSite(`${orderDetailsRoute}/${order.id}`)}>
 			<Row className="grid grid-cols-12 h-[48px]">
-				<H6 className="col-span-4">{order.id}</H6>
+				<H6 className="col-span-4">{truncate(order.id)}</H6>
 				<Paragraph
 					className={twMerge(
 						'col-span-4',
