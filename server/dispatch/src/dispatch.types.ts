@@ -11,11 +11,11 @@ export class Client implements ClientType {
 	roomId: string;
 	userId: string;
 
-	constructor(_socketId: any, _workerId: any, _roomId: any, _userId: any) {
-		this.socketId = _socketId;
-		this.workerId = _workerId;
-		this.roomId = _roomId;
-		this.userId = _userId;
+	constructor({ socketId, workerId, roomId, userId }: ClientType) {
+		this.socketId = socketId;
+		this.workerId = workerId;
+		this.roomId = roomId;
+		this.userId = userId;
 	}
 }
 
@@ -23,10 +23,11 @@ export class WorkerRoom {
 	id: string;
 	clients: any;
 	workerId: number;
+	isDriverSelected = false;
 
 	constructor(_id: string, _client: any, _workerId: number) {
 		this.id = _id;
-		this.clients = _client;
+		this.clients = [...this.clients, _client];
 		this.workerId = _workerId;
 	}
 }
@@ -37,6 +38,13 @@ export type ClusterMessage = {
 };
 
 export type RoomAction = 'test' | 'joinUsers' | 'leaveUser';
+
+export type SocketMessage = {
+	event: string;
+	userId: string;
+	message: string;
+	payload: any;
+};
 
 export type ClusterMessagePayload = {
 	roomId?: any;

@@ -10,6 +10,12 @@ import ClusterInit from './clusterInit';
 global.rooms = {};
 global.lastWorkerId = 0;
 
+/**
+ * @class MasterRoomController
+ * watch change events dispatch_orders collection
+ * handle dispatch events
+ * send events to workers
+ */
 class MasterRoomController {
 	dispatchDataAccess: typeof DispatchDA | undefined;
 
@@ -236,7 +242,7 @@ class MasterRoomController {
 		}
 	}
 
-	async getOrderById(id: string) {
+	async getDispatchOrderById(id: string) {
 		return await this.dispatchDataAccess?.getDispatchOrderById(id);
 	}
 
@@ -244,7 +250,7 @@ class MasterRoomController {
 		try {
 			await this.dispatchDataAccess?.addDriverToOrderRecord(orderId, driverId);
 		} catch (error: any) {
-			console.info(error);
+			console.info(`addDriverToOrder: ${error}`);
 			throw new Error(error.message);
 		}
 	}
