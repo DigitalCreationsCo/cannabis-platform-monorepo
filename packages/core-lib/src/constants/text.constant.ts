@@ -223,6 +223,17 @@ const TextContent = Object.freeze({
 		SMS_UPDATE: `Check your sms messages for updates on your order.`,
 	},
 
+	dispatch: {
+		status: {
+			CONNECTED: `Connected to the dispatch server.`,
+			NAVIGATE_DELIVERY: `Navigate to start delivering your order.`,
+			NEW_ORDER: `New Order!`,
+		},
+		error: {
+			ROOM_NOT_FOUND: `Dispatch room not found.`,
+		},
+	},
+
 	products: {
 		ADD_PRODUCT: 'Add Product',
 		FAVORITE_PRODUCTS: 'Your Favorites',

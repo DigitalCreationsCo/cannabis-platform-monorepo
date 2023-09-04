@@ -2,6 +2,7 @@ import cluster from 'cluster';
 import { getGeoJsonPairFromCoordinates } from '@cd/core-lib';
 import prisma, {
 	findDriverWithDetailsById,
+	updateOrder,
 	type Coordinates,
 } from '@cd/data-access';
 import {
@@ -229,12 +230,13 @@ class DispatchDA {
 		// query prisma to add to order,
 		// and to mongo as well for the change stream
 		try {
-			const query = { orderId: new ObjectId(orderId) };
+			// add driver to prisma record
+			await updateOrder(orderId, { driverId: driverId });
 
 			const driver = await this.getDriverUserRecordById(driverId);
 
+			const query = { orderId: new ObjectId(orderId) };
 			const update = { $set: { driver: driver } };
-
 			const updatedOrder = await this.dispatchOrdersCollection?.updateOne(
 				query,
 				update,

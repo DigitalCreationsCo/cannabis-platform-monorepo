@@ -1,5 +1,5 @@
 /* eslint-disable jest/no-commented-out-tests */
-import { type FeatureConfigInterface } from '../../config/feature';
+import { type FeatureConfigInterface } from '../../config/dashboard.features';
 
 describe('Feature Config', () => {
 	let testFeatureConfig: FeatureConfigInterface;
