@@ -141,7 +141,7 @@ export default class OrganizationController {
 							variants: { include: { images: true } },
 						},
 					},
-					orders: true,
+					orders: { orderBy: { createdAt: 'desc' } },
 					address: { include: { coordinates: true } },
 					memberships: { include: { user: true } },
 					images: true,

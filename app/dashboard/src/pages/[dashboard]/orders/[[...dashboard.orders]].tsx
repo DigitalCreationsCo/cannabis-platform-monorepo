@@ -1,5 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { usePagination } from '@cd/core-lib';
+import {
+	axios,
+	dispensaryActions,
+	urlBuilder,
+	usePagination,
+} from '@cd/core-lib';
 import { type OrderWithDashboardDetails } from '@cd/data-access';
 import {
 	Card,
@@ -12,19 +17,16 @@ import {
 	Row,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
-import { useState } from 'react';
 import { connect } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
-import { type RootState } from '../../redux/store';
+import { wrapper, type RootState } from '../../../redux/store';
 
 interface OrdersDashboardProps {
 	orders: OrderWithDashboardDetails[];
 }
 
 function Orders({ orders }: OrdersDashboardProps) {
-	const [currentPage, setCurrentPage] = useState(1);
-
-	const currentOrders = usePagination(currentPage, orders);
+	const { current, PaginationButtons } = usePagination(orders);
 
 	return (
 		<Page className={twMerge('sm:px-4 md:pr-16')}>
@@ -37,14 +39,17 @@ function Orders({ orders }: OrdersDashboardProps) {
 					<H6 className="col-span-2">date of sale</H6>
 					<H6 className="col-span-2 justify-self-end">total</H6>
 				</Row>
-				{currentOrders.length > 0 ? (
-					currentOrders.map((order) => (
-						<OrderRow
-							key={order.id}
-							order={order}
-							orderDetailsRoute="/orders"
-						/>
-					))
+				{current.length > 0 ? (
+					<>
+						{current.map((order) => (
+							<OrderRow
+								key={order.id}
+								order={order}
+								orderDetailsRoute="/orders"
+							/>
+						))}
+						<PaginationButtons />
+					</>
 				) : (
 					<Card>There are no orders.</Card>
 				)}
@@ -64,5 +69,33 @@ function mapStateToProps(state: RootState) {
 		orders: dispensary.orders,
 	};
 }
+
+export const getServerSideProps = wrapper.getServerSideProps(
+	(store) =>
+		async ({ query }: any) => {
+			try {
+				console.log('query', query);
+				if (!query.dashboard) throw new Error();
+				const response = await axios.get(urlBuilder.dashboard + '/api/orders', {
+					headers: {
+						'organization-id': query.dashboard,
+					},
+				});
+				if (response.data.success === 'false')
+					throw new Error(response.data.error);
+				store.dispatch(
+					dispensaryActions.updateDispensaryOrders(response.data.payload),
+				);
+				return {
+					props: {},
+				};
+			} catch (error) {
+				console.log(error);
+				return {
+					notFound: true,
+				};
+			}
+		},
+);
 
 export default connect(mapStateToProps)(Orders);

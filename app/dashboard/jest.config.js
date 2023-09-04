@@ -6,12 +6,14 @@ const getTestMatchers = ({
 	components = true,
 	env = true,
 	middleware = true,
+	feature = true,
 }) => {
 	const matchers = [
 		api && '<rootDir>/src/**/test/api/**/*.{js,jsx,ts,tsx}',
 		components && '<rootDir>/src/**/test/components/**/*.{js,jsx,ts,tsx}',
 		env && '<rootDir>/src/**/test/env/**/*.{js,jsx,ts,tsx}',
 		middleware && '<rootDir>/src/**/test/middleware/**/*.{js,jsx,ts,tsx}',
+		feature && '<rootDir>/src/**/test/feature/**/*.{js,jsx,ts,tsx}',
 	];
 	return matchers.filter(Boolean);
 };

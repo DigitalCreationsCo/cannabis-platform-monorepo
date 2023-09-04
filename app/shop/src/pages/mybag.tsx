@@ -17,6 +17,7 @@ import {
 } from '@cd/ui-lib';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { toast } from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import { RenderCart } from '../components';
@@ -28,22 +29,27 @@ function CartPage() {
 
 	const router = useRouter();
 	const checkoutOrSignUp = async (event: any) => {
-		event.preventDefault();
-		event.stopPropagation();
-		if (user.isSignedIn && isAddressAdded && user.user.isSignUpComplete) {
-			if (!isLegalAgeAndVerified(user.user))
-				router.push(getShopSite('/sorry-we-cant-serve-you'));
-			else {
-				const response = await dispatch(
-					cartActions.createOrderForCheckout() as any,
+		try {
+			event.preventDefault();
+			event.stopPropagation();
+			if (user.isSignedIn && isAddressAdded && user.user.isSignUpComplete) {
+				if (!isLegalAgeAndVerified(user.user))
+					router.push(getShopSite('/sorry-we-cant-serve-you'));
+				else {
+					const response = await dispatch(
+						cartActions.createOrderForCheckout() as any,
+					);
+					if (response?.error?.message === 'Rejected')
+						throw new Error(response.payload);
+					router.push('/checkout');
+				}
+			} else {
+				dispatch(
+					modalActions.openModal({ modalType: modalTypes.checkoutModal }),
 				);
-
-				if (response?.error?.message === 'Rejected')
-					throw new Error(response.payload);
-				router.push('/checkout');
 			}
-		} else {
-			dispatch(modalActions.openModal({ modalType: modalTypes.checkoutModal }));
+		} catch (error: any) {
+			toast.error(error.message);
 		}
 	};
 

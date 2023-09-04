@@ -71,6 +71,8 @@ export function addressObjectIntoArray(user: any): UserCreateType {
  * @returns Array
  */
 export function reconcileStateArray<T>(state: T[], payload: T[]) {
+	// console.log('state ', state);
+	// console.log('payload', payload);
 	let s = state;
 	payload.forEach((item) => {
 		// @ts-ignore

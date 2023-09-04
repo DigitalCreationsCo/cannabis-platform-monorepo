@@ -12,9 +12,6 @@ const dispensaryMiddleware =
 				const user = action.payload as UserWithDetails;
 				if (hasMembershipRoleAccess(user, 'MEMBER')) {
 					const organizationId = user.memberships?.[0].organizationId as string;
-					console.log(
-						'dispensary middleware: dispatching `getDispensaryById` action',
-					);
 					store.dispatch(
 						dispensaryActions.getDispensaryById(
 							organizationId,
@@ -26,7 +23,7 @@ const dispensaryMiddleware =
 				action.type === 'dispensary/getDispensaryById/fulfilled' &&
 				typeof window !== 'undefined'
 			) {
-				window.location.href = '/dashboard';
+				window.location.href = TextContent.href.dashboard_f(action.payload.id);
 			}
 		} catch (error) {
 			console.info('Dispensary Middleware: Caught an exception: ');

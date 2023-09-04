@@ -100,7 +100,6 @@ export const userSlice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder.addCase(signOutUserAsync.fulfilled, () => {
-			console.debug('sign out action');
 			return initialState;
 		}),
 			builder.addCase(signOutUserAsync.pending, (state) => {
