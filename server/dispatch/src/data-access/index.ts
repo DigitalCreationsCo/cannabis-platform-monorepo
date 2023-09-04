@@ -1,17 +1,15 @@
 import cluster from 'cluster';
-// import _ from '../util'
-// const { db_uri, db_ns } = process.env;
+import { getGeoJsonPairFromCoordinates } from '@cd/core-lib';
 import prisma, {
-	type Coordinates,
 	findDriverWithDetailsById,
+	type Coordinates,
 } from '@cd/data-access';
 import {
-	type ChangeStream,
-	type Collection,
 	MongoClient,
 	ObjectId,
+	type ChangeStream,
+	type Collection,
 } from 'mongodb';
-import _ from '../util';
 
 const mongoConnectUrl = process.env.MONGODB_CONNECTION_URL || '';
 
@@ -68,10 +66,10 @@ class DispatchDA {
 				.then(async (client) => {
 					this.driverSessionsCollection = client
 						.db(dispatch_namespace)
-						.collection('driverSessions');
+						.collection('driver_sessions');
 					this.dispatchOrdersCollection = client
 						.db(dispatch_namespace)
-						.collection('orders');
+						.collection('dispatch_orders');
 				})
 				.catch((error) => {
 					console.error(
@@ -170,7 +168,7 @@ class DispatchDA {
 		// query mongo db
 		// search within ~5 miles, increase the range if no drivers are found
 		try {
-			const geoJsonPoint = _.getGeoJsonPoint(coordinates);
+			const geoJsonPoint = getGeoJsonPairFromCoordinates(coordinates);
 
 			if (!geoJsonPoint) throw new Error('No coordinates are valid.');
 
@@ -200,7 +198,7 @@ class DispatchDA {
 	 */
 	async findDriverIdsWithinRange(coordinates: Coordinates) {
 		try {
-			const geoJsonPoint = _.getGeoJsonPoint(coordinates);
+			const geoJsonPoint = getGeoJsonPairFromCoordinates(coordinates);
 
 			if (!geoJsonPoint) throw new Error('No coordinates are valid.');
 
@@ -277,5 +275,5 @@ process.on('SIGINT', async function () {
 	await prisma
 		.$disconnect()
 		.then(process.exit(0))
-		.catch((error: any) => process.exit(1));
+		.catch(() => process.exit(1));
 });

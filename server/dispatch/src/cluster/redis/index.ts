@@ -1,6 +1,6 @@
 import { createClient } from 'redis';
 
-const redisPubClientUrl = process.env.DISPATCH_PUB_REDIS_URL;
+const redisPubClientUrl = process.env.DISPATCH_PUBLISH_REDIS_URL;
 
 const publishRedisClient = createClient({ url: redisPubClientUrl }).on(
 	'error',

@@ -1,13 +1,13 @@
+import { type ClusterMessage } from 'dispatch.types';
 const WorkerRoomsControl = require('./worker-rooms-control');
 // import WorkerRoomController from '../worker/workerroom.controller'
 // import { WorkerRoom } from "types";
-import { ClusterMessage } from 'types';
 
 class WorkerListeners {
 	constructor() {
 		process.on('message', (_msg: ClusterMessage) => {
 			console.info('message: ', _msg);
-			let { roomId, clients, order } = _msg.data;
+			const { roomId, clients, order } = _msg.data;
 			let client;
 			switch (_msg.action) {
 				case 'test':
