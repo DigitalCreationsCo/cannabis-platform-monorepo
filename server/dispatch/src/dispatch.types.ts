@@ -1,33 +1,35 @@
 export interface ClientType {
+	userId: string;
 	socketId: string;
+	phone: string;
 	workerId: number;
 	roomId: string;
-	userId: string;
 }
 
-export class Client implements ClientType {
+export class Client {
 	socketId: string;
 	workerId: number;
 	roomId: string;
 	userId: string;
-
-	constructor({ socketId, workerId, roomId, userId }: ClientType) {
+	phone: string;
+	constructor({ socketId, workerId, roomId, userId, phone }: ClientType) {
 		this.socketId = socketId;
 		this.workerId = workerId;
 		this.roomId = roomId;
 		this.userId = userId;
+		this.phone = phone;
 	}
 }
 
 export class WorkerRoom {
 	id: string;
-	clients: any;
+	clients: Client[];
 	workerId: number;
 	isDriverSelected = false;
 
 	constructor(_id: string, _client: any, _workerId: number) {
 		this.id = _id;
-		this.clients = [...this.clients, _client];
+		this.clients = [_client];
 		this.workerId = _workerId;
 	}
 }

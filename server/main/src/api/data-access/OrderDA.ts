@@ -6,9 +6,9 @@ import {
 	findProductsByOrg,
 	findProductsByText,
 	findProductWithDetails,
-	type OrderCreateType,
 	updateOrder,
 	updateOrderWithOrderItems,
+	type OrderCreateType,
 	type OrderStatus,
 	type OrderWithDetails,
 	type PurchaseCreate,
@@ -142,16 +142,19 @@ export default class OrderDA {
 		try {
 			return await updateOrder(orderId, { orderStatus });
 		} catch (error: any) {
-			console.error(error.message);
 			throw new Error(error.message);
 		}
 	}
 
 	static async addDispatchOrderMongo(order: OrderWithDetails) {
 		try {
-			return await dispatchOrders.insertOne({
+			await dispatchOrders.insertOne({
 				...order,
 			});
+			console.info(
+				`inserted order ${order.id} into dispatch_orders collection`,
+			);
+			return;
 		} catch (error: any) {
 			console.error('addDispatchRecordMongo error: ', error.message);
 

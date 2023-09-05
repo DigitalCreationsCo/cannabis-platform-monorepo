@@ -5,9 +5,9 @@ import MasterRoomController from './cluster/master/masterroom.controller';
 import {
 	connectClientController,
 	publishRedisClient,
-	subscribeRedisClient,
+	subscribeRedisClient
 } from './cluster/redis';
-import { type SocketMessage } from './dispatch.types';
+import { DriverClient, type SocketMessage } from './dispatch.types';
 import { NavigateEventType, SocketEvents } from './socket/socketEvents';
 
 const io = new Server();
@@ -40,7 +40,7 @@ io.on(SocketEvents.connection, async (socket) => {
 
 	socket.on(SocketEvents.client_connect, async ({ userId }: SocketMessage) => {
 		console.info(`dispatch event: ${SocketEvents.client_connect}`);
-		saveClient(userId, socket.id);
+		saveClient({userId, socket.id});
 	});
 
 	socket.on(SocketEvents.disconnect, async (reason) => {
@@ -58,6 +58,7 @@ io.on(SocketEvents.connection, async (socket) => {
 	});
 
 	io.of('/').adapter.on(SocketEvents.join_room, async (room: string) => {
+		console.info('dispatch event: ', SocketEvents.join_room);
 		if (room.startsWith('select-driver:')) {
 			try {
 				// const SelectDriverRoomEvents = require("./select-driver-room");
@@ -264,8 +265,8 @@ io.of(/^\/order:\w+$/).on(SocketEvents.connection, async (socket) => {
 	}
 });
 
-function saveClient(userId: string, socketId: string) {
-	connectClientController.saveConnectedClient(userId, socketId);
+function saveClient({ driverId, socketId, phone }: DriverClient) {
+	connectClientController.saveDriverClient({ driverId, socketId, phone});
 }
 
 function getOrderIdFromRoom(roomname: string): string {

@@ -102,6 +102,7 @@ const TextContent = Object.freeze({
 
 	error: {
 		DISPENSARY_NOT_FOUND: `Dispensary is not found.`,
+		ORDER_NOT_FOUND: `Order is not found.`,
 
 		USER_EXISTS_ERROR: `This user exists already. Please choose a different username or email.`,
 

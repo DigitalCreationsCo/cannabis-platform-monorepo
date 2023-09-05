@@ -1,11 +1,6 @@
-import {
-	Prisma,
-	type Driver,
-	type DriverSession,
-	type Route,
-	type User,
-} from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import prisma from './db/prisma';
+import { type DriverCreateType, type DriverWithDetails } from './driver.types';
 import { type UserCreateType } from './user';
 
 /*
@@ -22,56 +17,52 @@ import { type UserCreateType } from './user';
 /**
  * CREATE DRIVER RECORD ALONG WITH SESSION RECORD
  */
-export async function createDriver(userData: UserCreateType) {
+export async function createDriver(userData: DriverCreateType) {
 	try {
 		const { coordinates, ...addressData } = userData.address[0];
-		return await prisma.user.create({
+		return await prisma.driver.create({
 			data: {
 				email: userData.email,
-				emailVerified: false,
-				username: userData.username,
-				firstName: userData.firstName,
-				lastName: userData.lastName,
-				termsAccepted: true,
-				dialCode: userData.dialCode,
-				phone: userData.phone,
-				address: {
-					create: {
-						...addressData,
-						coordinates: {
-							create: {
-								latitude: Number(coordinates?.latitude),
-								longitude: Number(coordinates?.longitude),
-							},
-						},
-					},
-				},
-				profilePicture: {
-					create: {
-						location: userData.profilePicture?.location,
-					},
-				},
-				driver: {
+				user: {
 					connectOrCreate: {
 						where: {
-							id: userData.id,
+							email: userData.email,
 						},
 						create: {
 							email: userData.email,
+							emailVerified: false,
+							username: userData.username,
+							firstName: userData.firstName,
+							lastName: userData.lastName,
+							termsAccepted: true,
+							dialCode: userData.dialCode,
+							phone: userData.phone,
+							address: {
+								create: {
+									...addressData,
+									coordinates: {
+										create: {
+											latitude: Number(coordinates?.latitude),
+											longitude: Number(coordinates?.longitude),
+										},
+									},
+								},
+							},
+							profilePicture: {
+								create: {
+									location: userData.profilePicture?.location,
+								},
+							},
 						},
 					},
 				},
 			},
 		});
 	} catch (error: any) {
-		if (
-			error instanceof Prisma.PrismaClientKnownRequestError &&
-			error.code === 'P2002'
-		) {
+		if (error.code === 'P2002' || error.code === 'P2014')
 			throw new Error(
-				'This user exists already. Please choose a different username or email.',
+				'This driver exists already. Please choose a different username or email.',
 			);
-		}
 		throw new Error(error);
 	}
 }
@@ -228,34 +219,3 @@ export async function findDriverWithDetailsById(
 		throw new Error(error);
 	}
 }
-
-// used for querying driver record with full user info
-export type DriverWithDetails = Driver & {
-	user: User;
-};
-
-// used for querying driver for current session details and location
-export type DriverWithSessionDetails = Driver & {
-	user: User;
-	driverSession: DriverSessionWithJoinedData;
-};
-
-// represents joined driver session data from prisma and mongodb
-export type DriverSessionWithJoinedData = DriverSession & {
-	currentCoordinates: number[];
-	routeId: string;
-	route: Route;
-};
-
-export type DriverCreateType = Prisma.UserUncheckedCreateWithoutDriverInput & {
-	driver: Prisma.DriverUncheckedCreateInput;
-	address: (Prisma.AddressCreateWithoutOrganizationInput & {
-		coordinates: Prisma.CoordinatesCreateInput;
-	})[];
-	profilePicture: Prisma.ImageUserUncheckedCreateInput;
-	memberships: Prisma.MembershipUpsertArgs['create'][];
-};
-
-export type RouteWithCoordinates = Route & {
-	coordinates: number[][];
-};
