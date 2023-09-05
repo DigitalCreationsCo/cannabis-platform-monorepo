@@ -1,64 +1,58 @@
 import { createClient } from 'redis';
+import { type DriverClient } from '../../dispatch.types';
 
-const redisPubClientUrl = process.env.DISPATCH_PUBLISH_REDIS_URL;
+const redisPublishClientUrl = process.env.DISPATCH_PUBLISH_REDIS_URL;
 
-const publishRedisClient = createClient({ url: redisPubClientUrl }).on(
+const publishRedisClient = createClient({ url: redisPublishClientUrl }).on(
 	'error',
 	(err) => {
-		console.info('Publisher Redis Client Error: ', err);
-		throw new Error('Publisher Redis Client Error: ' + err.message);
+		console.error('Publisher Redis Client: ', err);
+		throw new Error(err.message);
 	},
 );
-// await
 publishRedisClient.connect();
 
 const subscribeRedisClient = publishRedisClient
 	.duplicate()
 	.on('error', (err) => {
-		console.info('Subscriber Redis Client Error: ', err);
-		throw new Error('Subscriber Redis Client Error: ' + err.message);
-	});
-// await
-subscribeRedisClient.connect();
+		console.error('Subscriber Redis Client: ', err);
+		throw new Error(err.message);
+	})
+	.connect();
 
-const redisConnectClientUrl = process.env.DISPATCH_CONNECT_REDIS_URL;
+const redisDriverConnectClientUrl = process.env.DISPATCH_CONNECT_REDIS_URL;
 
-const connectRClient = createClient({ url: redisConnectClientUrl });
-connectRClient.on('error', (err) => {
-	console.info('Client Connnect Redis Client Error: ', err);
-	throw new Error('Client Connnect Redis Client Error: ' + err.message);
+const driverConnectClient = createClient({ url: redisDriverConnectClientUrl });
+driverConnectClient.on('error', (err) => {
+	console.error('Driver Connect Client: ', err);
+	throw new Error(err.message);
 });
-// await
-connectRClient.connect();
+driverConnectClient.connect();
 
-class ConnectClientController {
-	async saveConnectedClient(userId: string, socketId: string) {
-		await connectRClient.HSET(userId, { userId, socketId }).catch((err) => {
-			console.info('RedisConnectClientController ERROR: ', err);
-		});
+class DriverClientController {
+	async saveDriverClient({ driverId, socketId, phone }: DriverClient) {
+		await driverConnectClient
+			.HSET(driverId, { driverId, socketId, phone })
+			.catch((error: any) => {
+				console.error('connect client redis: ', error);
+			});
 	}
 
-	async getSocketsByDriverIds(idList: { driverId: string }[]) {
-		let sockets: string[] = [],
-			id;
+	async getSocketsByDriverIds(driverIdList: { driverId: string }[]) {
+		const sockets: string[] = [];
 
-		for (id of idList) {
-			id = id.driverId.toString();
-
-			await connectRClient
-				.HGETALL(id)
-				.then((user) => {
-					// console.info("user from redis: ", user);
-					return user.socketId;
-				})
+		let id;
+		for (id of driverIdList) {
+			const { driverId } = id;
+			driverConnectClient
+				.HGETALL(driverId)
+				.then((client) => client.socketId)
 				.then(sockets.push)
-				.catch((err) => console.info('connectClient get user error: ', err));
+				.catch((err) => console.info('getSocketsByDriverIds: ', err));
 		}
-
 		return sockets;
 	}
 }
 
-const connectClientController = new ConnectClientController();
-
+const connectClientController = new DriverClientController();
 export { publishRedisClient, subscribeRedisClient, connectClientController };

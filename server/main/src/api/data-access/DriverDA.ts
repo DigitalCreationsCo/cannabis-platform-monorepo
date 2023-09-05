@@ -4,6 +4,7 @@ import {
 	findDriverWithDetailsById,
 	findDriverWithDetailsByPhone,
 	updateDriver,
+	type DriverCreateType,
 	type UserCreateType,
 } from '@cd/data-access';
 import { type Collection, type MongoClient } from 'mongodb';
@@ -44,12 +45,10 @@ export default class DriverDA {
 		}
 	}
 
-	static async createDriver(createDriverData: UserCreateType) {
+	static async createDriver(createDriverData: DriverCreateType) {
 		try {
-			// createDriver = await createPasswordHash(createUserData)
 			return await createDriver(createDriverData);
 		} catch (error: any) {
-			console.error('UserDA error: ', error.message);
 			throw new Error(error.message);
 		}
 	}
@@ -83,7 +82,7 @@ export default class DriverDA {
 	 * @param email
 	 * @returns
 	 */
-	static async getDriverByEmail<DriverWithDetails>(email: string) {
+	static async getDriverByEmail(email: string) {
 		try {
 			const driver = await findDriverWithDetailsByEmail(email);
 

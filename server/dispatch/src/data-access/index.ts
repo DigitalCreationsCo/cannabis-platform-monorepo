@@ -4,6 +4,7 @@ import prisma, {
 	findDriverWithDetailsById,
 	updateOrder,
 	type Coordinates,
+	type OrganizationWithAddress,
 } from '@cd/data-access';
 import {
 	MongoClient,
@@ -165,30 +166,35 @@ class DispatchDA {
 	 * @param coordinates
 	 * @returns driversession[]
 	 */
-	async findDriversWithinRange(coordinates: Coordinates) {
-		// query mongo db
-		// search within ~5 miles, increase the range if no drivers are found
+	async findDriversWithinRange(
+		organization: OrganizationWithAddress,
+	): Promise<{ id: string; phone: string }[]> {
 		try {
-			const geoJsonPoint = getGeoJsonPairFromCoordinates(coordinates);
+			const geoJsonPoint = getGeoJsonPairFromCoordinates(
+				organization.address.coordinates as Coordinates,
+			);
 
 			if (!geoJsonPoint) throw new Error('No coordinates are valid.');
 
-			return await this.driverSessionsCollection
+			const drivers = (await this.driverSessionsCollection
 				?.aggregate([
 					{
 						$geoNear: {
 							near: geoJsonPoint,
 							query: { isOnline: true, isActiveDelivery: false },
-							maxDistance: 25000000, // meters
+							maxDistance: organization.address.coordinates?.radius || 5000, // meters
 							distanceField: 'distanceToFirstStop',
 							spherical: true,
 						},
 					},
 					{ $limit: 10 },
+					{ $project: { _id: 0, id: 1, phone: 1 } },
 				])
-				.toArray();
-		} catch (error) {
+				.toArray()) as { id: string; phone: string }[];
+			return drivers || [];
+		} catch (error: any) {
 			console.error(error);
+			throw new Error(error.message);
 		}
 	}
 
@@ -197,31 +203,34 @@ class DispatchDA {
 	 * @param coordinates
 	 * @returns `{ id: string }[]`
 	 */
-	async findDriverIdsWithinRange(coordinates: Coordinates) {
+	async findDriverIdsWithinRange(
+		organization: OrganizationWithAddress,
+	): Promise<{ id: string }[]> {
 		try {
-			const geoJsonPoint = getGeoJsonPairFromCoordinates(coordinates);
+			const geoJsonPoint = getGeoJsonPairFromCoordinates(
+				organization.address.coordinates as Coordinates,
+			);
 
 			if (!geoJsonPoint) throw new Error('No coordinates are valid.');
 
-			const driverIds = await this.driverSessionsCollection
+			const driverIds = (await this.driverSessionsCollection
 				?.aggregate([
 					{
 						$geoNear: {
 							near: geoJsonPoint,
 							query: { isOnline: true, isActiveDelivery: false },
-							maxDistance: 25000000, // meters
+							maxDistance: organization.address.coordinates?.radius || 5000, // meters
 							distanceField: 'distanceToFirstStop',
 							spherical: true,
 						},
 					},
 					{ $limit: 10 },
-					{ $project: { _id: 0, driverId: 1 } },
+					{ $project: { _id: 0, id: 1 } },
 				])
-				.toArray();
-
-			return (driverIds as unknown as { driverId: string }[]) || [];
+				.toArray()) as { id: string }[];
+			return driverIds || [];
 		} catch (error: any) {
-			console.error('Dispatch: findDriverIdsWithinRange error: ', error);
+			console.error('findDriverIdsWithinRange: ', error);
 			throw new Error(error.message);
 		}
 	}
