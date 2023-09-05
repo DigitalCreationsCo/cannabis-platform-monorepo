@@ -9,6 +9,7 @@ members:
 createDriver
 updateDriver
 getDriverById
+deleteDriverById
 updateStatus
 
 ================================= */
@@ -23,7 +24,7 @@ export default class DriverController {
 			);
 			if (coordinates) driverData.address[0].coordinates = coordinates;
 
-			const driver = await DriverDA.createDriver(driverData);
+			const driver = await DriverDA.createDriverAndDriverSession(driverData);
 			if (!driver)
 				return res
 					.status(404)
@@ -62,6 +63,24 @@ export default class DriverController {
 		} catch (error: any) {
 			console.error('getDriverById: ', error);
 			res.status(500).json({ error: error.message });
+		}
+	}
+
+	static async deleteDriverById(req, res) {
+		try {
+			const id = req.params.id || '';
+			await DriverDA.deleteDriverAndDriverSession(id);
+			return res.status(200).json({
+				success: 'true',
+				message: `Deleted driver ${id}`,
+			});
+		} catch (error: any) {
+			console.error('createDriver: ', error);
+			if (error.message.includes(`This User exists already`))
+				return res.status(400).json({ success: 'false', error: error.message });
+			if (error.message.includes(`Record to delete does not exist.`))
+				return res.status(404).json({ success: 'false', error: error.message });
+			return res.status(500).json({ success: 'false', error: error.message });
 		}
 	}
 

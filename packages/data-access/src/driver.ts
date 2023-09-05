@@ -8,7 +8,6 @@ import { type UserCreateType } from './user';
  *
  * createDriver
  * updateDriver
- *
  * findDriverWithDetailsByEmail
  * findDriverWithDetailsByPhone
  * findDriverWithDetailsById
@@ -57,13 +56,21 @@ export async function createDriver(userData: DriverCreateType) {
 					},
 				},
 			},
+			include: {
+				user: {
+					include: {
+						address: { include: { coordinates: true } },
+						profilePicture: true,
+					},
+				},
+			},
 		});
 	} catch (error: any) {
 		if (error.code === 'P2002' || error.code === 'P2014')
 			throw new Error(
 				'This driver exists already. Please choose a different username or email.',
 			);
-		throw new Error(error);
+		throw new Error(error.message);
 	}
 }
 
@@ -133,7 +140,7 @@ export async function updateDriver(userData: UserCreateType) {
 				'This user exists already. Please choose a different username or email.',
 			);
 		}
-		throw new Error(error);
+		throw new Error(error.message);
 	}
 }
 
@@ -156,7 +163,7 @@ export async function findDriverWithDetailsByEmail(
 		});
 	} catch (error: any) {
 		console.error(error);
-		throw new Error(error);
+		throw new Error(error.message);
 	}
 }
 
@@ -193,7 +200,7 @@ export async function findDriverWithDetailsByPhone(
 		};
 	} catch (error: any) {
 		console.error(error);
-		throw new Error(error);
+		throw new Error(error.message);
 	}
 }
 
@@ -216,6 +223,20 @@ export async function findDriverWithDetailsById(
 		});
 	} catch (error: any) {
 		console.error(error);
-		throw new Error(error);
+		throw new Error(error.message);
+	}
+}
+
+export async function deleteDriverById(id: string) {
+	try {
+		return await prisma.driver.delete({
+			where: {
+				id,
+			},
+		});
+	} catch (error: any) {
+		console.error(error);
+		if (error.meta.cause) throw new Error(error.meta.cause);
+		throw new Error(error.message);
 	}
 }
