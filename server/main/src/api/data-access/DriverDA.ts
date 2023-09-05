@@ -7,7 +7,10 @@ import {
 	findDriverWithDetailsByPhone,
 	updateDriver,
 	type DriverCreateType,
+	type DriverSessionWithJoinedData,
+	type DriverWithSessionJoin,
 	type UserCreateType,
+	type UserWithDriverDetails,
 } from '@cd/data-access';
 import { type Collection, type MongoClient } from 'mongodb';
 
@@ -74,22 +77,50 @@ export default class DriverDA {
 		}
 	}
 
-	static async updateDriver(updateDriverData: UserCreateType) {
+	static async updateDriver(
+		updateDriverData: UserCreateType,
+	): Promise<UserWithDriverDetails> {
 		try {
 			const driver = await updateDriver(updateDriverData);
-
-			console.info(`updated user ${driver.id}`);
-
-			return driver;
+			const driverSession = (await driverSessions
+				.findOneAndUpdate(
+					{ email: driver.email },
+					{
+						$set: {
+							id: driver.id,
+							email: driver.email,
+							phone: driver.phone,
+							firstName: driver.firstName,
+							lastName: driver.lastName,
+						},
+					},
+					{ upsert: true, returnDocument: 'after' },
+				)
+				.then(
+					(result) => result.ok && result.value,
+				)) as DriverSessionWithJoinedData;
+			console.info(`updated driver ${driver.id}`);
+			return { ...driver, driverSession };
 		} catch (error: any) {
 			console.error('UserDA error: ', error.message);
 			throw new Error(error.message);
 		}
 	}
 
-	static async getDriverById(id: string) {
+	/**
+	 * Find driver record by id,
+	 * find driver session record by id,
+	 * and return both records in a single object
+	 * @param id
+	 * @returns
+	 */
+	static async getDriverById(id: string): Promise<DriverWithSessionJoin> {
 		try {
-			return await findDriverWithDetailsById(id);
+			const driver = await findDriverWithDetailsById(id);
+			const driverSession = (await driverSessions.findOne({
+				id: id,
+			})) as unknown as DriverSessionWithJoinedData;
+			return { ...driver, driverSession };
 		} catch (error: any) {
 			console.error(error.message);
 			throw new Error(error.message);
@@ -97,17 +128,36 @@ export default class DriverDA {
 	}
 
 	/**
-	 * Find driver record MYSQL by email,
-	 * then find driver session record MONGO by email,
-	 * then return both records in a single object
+	 * Find driver record by phone,
+	 * find driver session record by phone,
+	 * and return both records in a single object
+	 * @param phone
+	 * @returns
+	 */
+	static async getDriverByPhone(phone): Promise<DriverWithSessionJoin> {
+		try {
+			const driver = await findDriverWithDetailsByPhone(phone);
+			const driverSession = (await driverSessions
+				.findOne({ phone: phone })
+				.then((result) => result)) as unknown as DriverSessionWithJoinedData;
+			return { ...driver, driverSession };
+		} catch (error: any) {
+			console.error(error.message);
+			throw new Error(error.message);
+		}
+	}
+
+	/**
+	 * Find driver record by email,
+	 * find driver session record by email,
+	 * and return both records in a single object
 	 * @param email
 	 * @returns
 	 */
-	static async getDriverByEmail(email: string) {
+	static async getDriverByEmail(email: string): Promise<DriverWithSessionJoin> {
 		try {
 			const driver = await findDriverWithDetailsByEmail(email);
-
-			const driverSession = await driverSessions
+			const driverSession = (await driverSessions
 				.findOneAndUpdate(
 					{ email },
 					{
@@ -130,7 +180,7 @@ export default class DriverDA {
 					(error) => {
 						throw new Error(error.message);
 					},
-				);
+				)) as unknown as DriverSessionWithJoinedData;
 
 			return {
 				...driver,
@@ -147,17 +197,8 @@ export default class DriverDA {
 			if (!deleteId) throw new Error('No id provided');
 			await deleteDriverById(deleteId);
 			await driverSessions.deleteOne({ id: deleteId });
-			return;
+			return { success: true };
 		} catch (error: any) {
-			throw new Error(error.message);
-		}
-	}
-
-	static async getDriverByPhone(phone) {
-		try {
-			return await findDriverWithDetailsByPhone(phone);
-		} catch (error: any) {
-			console.error(error.message);
 			throw new Error(error.message);
 		}
 	}

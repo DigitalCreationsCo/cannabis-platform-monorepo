@@ -86,25 +86,17 @@ export default class DriverController {
 
 	static async updateStatus(req, res) {
 		try {
-			const { id, onlineStatus } = req.body;
-
-			const data = await DriverDA.updateOnlineStatus(id, onlineStatus);
-
-			// have a promise.all here, that updates the driver's status in the driverSessions collection
-
+			const { id, goToStatus } = req.body;
+			const data = await DriverDA.updateOnlineStatus(id, goToStatus);
 			if (!data.success) {
-				if (onlineStatus === true)
-					return res.status(404).json('Could not go online. Please try again.');
-
-				if (onlineStatus === false)
-					// ignore
-					return;
+				if (goToStatus === true)
+					return res.status(400).json('Could not go online. Please try again.');
+				if (goToStatus === false) return res.status(400).json(data);
 			}
-
 			return res.status(200).json(data);
 		} catch (error: any) {
-			console.info('API error: ', error);
-			res.status(500).json({ error: error.message });
+			console.info(`updateStatus: `, error);
+			res.status(500).json({ success: 'false', error: error.message });
 		}
 	}
 }
