@@ -1,8 +1,6 @@
 import { TextContent } from '@cd/core-lib';
 import { type OrderCreateType } from '@cd/data-access';
 import { OrderDA } from '../data-access';
-// import Stripe from "stripe";
-// import stipeNode from "stripe";
 
 /* =================================
 ShopController - controller class for ecommerce business actions

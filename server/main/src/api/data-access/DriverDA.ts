@@ -1,5 +1,7 @@
+import { getCoordinatePairFromCoordinates } from '@cd/core-lib';
 import {
 	createDriver,
+	deleteDriverById,
 	findDriverWithDetailsByEmail,
 	findDriverWithDetailsById,
 	findDriverWithDetailsByPhone,
@@ -45,9 +47,28 @@ export default class DriverDA {
 		}
 	}
 
-	static async createDriver(createDriverData: DriverCreateType) {
+	static async createDriverAndDriverSession(
+		createDriverData: DriverCreateType,
+	) {
 		try {
-			return await createDriver(createDriverData);
+			const driver = await createDriver(createDriverData);
+			const driverSession = await driverSessions.insertOne({
+				id: driver.id,
+				email: driver.email,
+				phone: driver.user.phone,
+				firstName: driver.user.firstName,
+				lastName: driver.user.lastName,
+				isOnline: false,
+				isActiveDelivery: false,
+				currentCoordinates: getCoordinatePairFromCoordinates(
+					driver.user.address[0].coordinates,
+				),
+				currentRoute: [],
+			});
+			return {
+				...driver,
+				driverSession,
+			};
 		} catch (error: any) {
 			throw new Error(error.message);
 		}
@@ -92,6 +113,10 @@ export default class DriverDA {
 					{
 						$set: {
 							id: driver.id,
+							email: driver.email,
+							phone: driver.user.phone,
+							firstName: driver.user.firstName,
+							lastName: driver.user.lastName,
 							isOnline: false,
 							isActiveDelivery: false,
 							currentCoordinates: [],
@@ -113,6 +138,17 @@ export default class DriverDA {
 			};
 		} catch (error: any) {
 			console.error(error.message);
+			throw new Error(error.message);
+		}
+	}
+
+	static async deleteDriverAndDriverSession(deleteId: string) {
+		try {
+			if (!deleteId) throw new Error('No id provided');
+			await deleteDriverById(deleteId);
+			await driverSessions.deleteOne({ id: deleteId });
+			return;
+		} catch (error: any) {
 			throw new Error(error.message);
 		}
 	}

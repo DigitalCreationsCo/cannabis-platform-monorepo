@@ -10,7 +10,7 @@ import {
 	updateOrderWithOrderItems,
 	type OrderCreateType,
 	type OrderStatus,
-	type OrderWithDetails,
+	type OrderWithShopDetails,
 	type PurchaseCreate,
 } from '@cd/data-access';
 import { type MongoClient } from 'mongodb';
@@ -55,7 +55,9 @@ export default class OrderDA {
 		}
 	}
 
-	static async createOrder(order: OrderCreateType): Promise<OrderWithDetails> {
+	static async createOrder(
+		order: OrderCreateType,
+	): Promise<OrderWithShopDetails> {
 		try {
 			return await createOrder(order);
 		} catch (error: any) {
@@ -146,7 +148,7 @@ export default class OrderDA {
 		}
 	}
 
-	static async addDispatchOrderMongo(order: OrderWithDetails) {
+	static async addDispatchOrderMongo(order: OrderWithShopDetails) {
 		try {
 			await dispatchOrders.insertOne({
 				...order,

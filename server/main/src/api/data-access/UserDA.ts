@@ -12,7 +12,6 @@ import {
 	upsertUser,
 	type UserCreateType,
 } from '@cd/data-access';
-// import { createPasswordHash } from '../../util/utility';
 
 /* =================================
 User Data Access - data methods for User Controller
