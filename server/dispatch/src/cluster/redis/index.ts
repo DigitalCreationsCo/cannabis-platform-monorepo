@@ -30,7 +30,7 @@ driverConnectClient.on('error', (err) => {
 driverConnectClient.connect();
 
 class DriverClientController {
-	async saveDriverClient({ driverId, socketId, phone }: DriverClient) {
+	async saveClient({ driverId, socketId, phone }: DriverClient) {
 		await driverConnectClient
 			.HSET(driverId, { driverId, socketId, phone })
 			.catch((error: any) => {
@@ -46,7 +46,7 @@ class DriverClientController {
 			const { driverId } = id;
 			driverConnectClient
 				.HGETALL(driverId)
-				.then((client) => client.socketId)
+				.then((socket) => socket.socketId)
 				.then(sockets.push)
 				.catch((err) => console.info('getSocketsByDriverIds: ', err));
 		}

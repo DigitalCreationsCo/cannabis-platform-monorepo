@@ -1,14 +1,10 @@
 // import cluster from "cluster";
 // import settings from "../../settings";
 // import { Client } from '../../types'
-import { isEmpty } from '@cd/core-lib';
+import { isEmpty, TextContent } from '@cd/core-lib';
 import { type OrderWithDispatchDetails } from '@cd/data-access';
 import DispatchDA from '../../data-access';
-import {
-	Client,
-	type DriverClient,
-	type RoomAction,
-} from '../../dispatch.types';
+import { Client, type DriverClient } from '../../dispatch.types';
 import { connectClientController } from '../redis';
 import ClusterInit from './clusterInit';
 
@@ -160,21 +156,38 @@ class MasterRoomController {
 
 	async createSelectDriverRoom(order: OrderWithDispatchDetails) {
 		try {
+			let radiusFactor = 1;
 			const { organization, id: orderId } = order;
 			const room = `select-driver:${orderId}`;
 
-			// const selectedDriverIdsWithinDeliveryRange =
-			// 	await this.dispatchDataAccess?.findDriverIdsWithinRange(organization);
-			const driversWithinDeliveryRange =
-				await this.dispatchDataAccess?.findDriversWithinRange(organization);
+			// get driver records within delivery range
+			let driversWithinDeliveryRange =
+				await this.dispatchDataAccess?.findDriversWithinRange(
+					organization,
+					radiusFactor,
+				);
+			while (
+				radiusFactor < 5 &&
+				(!driversWithinDeliveryRange || driversWithinDeliveryRange.length === 0)
+			) {
+				radiusFactor *= 1.5;
+				driversWithinDeliveryRange =
+					await this.dispatchDataAccess?.findDriversWithinRange(
+						organization,
+						radiusFactor,
+					);
+			}
+			if (
+				!driversWithinDeliveryRange ||
+				driversWithinDeliveryRange.length === 0
+			)
+				throw new Error(TextContent.error.DRIVER_NOT_FOUND);
 
-			if (!driversWithinDeliveryRange)
-				throw new Error(`No drivers found within the range.`);
-
+			// create new client for each driver
 			driversWithinDeliveryRange.forEach(async (driver) => {
-				const socketId = await connectClientController.getSocketsByDriverIds([
-					{ driverId: driver.id },
-				]);
+				const socketId = await connectClientController
+					.getSocketsByDriverIds([{ driverId: driver.id }])
+					.then((sockets) => sockets[0]);
 				return new Client({
 					socketId: socketId,
 					workerId: 0,
