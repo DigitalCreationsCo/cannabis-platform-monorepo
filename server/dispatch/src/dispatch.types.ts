@@ -43,6 +43,7 @@ export type RoomAction = 'test' | 'joinUsers' | 'leaveUser';
 
 export type SocketMessage = {
 	event: string;
+	phone: string;
 	userId: string;
 	message: string;
 	payload: any;

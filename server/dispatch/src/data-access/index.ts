@@ -168,21 +168,22 @@ class DispatchDA {
 	 */
 	async findDriversWithinRange(
 		organization: OrganizationWithAddress,
+		radiusFactor = 1,
 	): Promise<{ id: string; phone: string }[]> {
 		try {
 			const geoJsonPoint = getGeoJsonPairFromCoordinates(
 				organization.address.coordinates as Coordinates,
 			);
-
 			if (!geoJsonPoint) throw new Error('No coordinates are valid.');
-
 			const drivers = (await this.driverSessionsCollection
 				?.aggregate([
 					{
 						$geoNear: {
 							near: geoJsonPoint,
 							query: { isOnline: true, isActiveDelivery: false },
-							maxDistance: organization.address.coordinates?.radius || 5000, // meters
+							maxDistance:
+								(organization.address.coordinates?.radius || 5000) *
+								radiusFactor, // meters
 							distanceField: 'distanceToFirstStop',
 							spherical: true,
 						},

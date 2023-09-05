@@ -5,9 +5,9 @@ import MasterRoomController from './cluster/master/masterroom.controller';
 import {
 	connectClientController,
 	publishRedisClient,
-	subscribeRedisClient
+	subscribeRedisClient,
 } from './cluster/redis';
-import { DriverClient, type SocketMessage } from './dispatch.types';
+import { type SocketMessage } from './dispatch.types';
 import { NavigateEventType, SocketEvents } from './socket/socketEvents';
 
 const io = new Server();
@@ -38,10 +38,18 @@ io.on(SocketEvents.connection, async (socket) => {
 		message: TextContent.dispatch.status.CONNECTED,
 	});
 
-	socket.on(SocketEvents.client_connect, async ({ userId }: SocketMessage) => {
-		console.info(`dispatch event: ${SocketEvents.client_connect}`);
-		saveClient({userId, socket.id});
-	});
+	socket.on(
+		SocketEvents.client_connect,
+		async ({ userId, phone }: SocketMessage) => {
+			console.info(`dispatch event: ${SocketEvents.client_connect}`);
+			saveClient(userId, socket.id, phone);
+		},
+	);
+
+	// easy way to do this is if any conneciton is made, the client class is created, and the client is added to the room.
+	// drivers are added to select-driver-rooms, customers are added to order-rooms.
+	// drivers are added to order-rooms when they accept an order.
+	// order rooms are created simultaneously with the select-driver-room being created.
 
 	socket.on(SocketEvents.disconnect, async (reason) => {
 		console.info(
@@ -265,8 +273,8 @@ io.of(/^\/order:\w+$/).on(SocketEvents.connection, async (socket) => {
 	}
 });
 
-function saveClient({ driverId, socketId, phone }: DriverClient) {
-	connectClientController.saveDriverClient({ driverId, socketId, phone});
+function saveClient(driverId: string, socketId: string, phone: string) {
+	connectClientController.saveClient({ driverId, socketId, phone });
 }
 
 function getOrderIdFromRoom(roomname: string): string {
