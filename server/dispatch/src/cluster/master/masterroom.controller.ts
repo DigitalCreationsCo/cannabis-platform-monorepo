@@ -174,7 +174,7 @@ class MasterRoomController {
 			driversWithinDeliveryRange.forEach(async (driver) => {
 				const socketId = await connectClientController.getSocketsByDriverIds([
 					{ driverId: driver.id },
-				])[0];
+				]);
 				return new Client({
 					socketId: socketId,
 					workerId: 0,

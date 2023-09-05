@@ -127,6 +127,11 @@ export async function updateDriver(userData: UserCreateType) {
 					  }
 					: undefined,
 			},
+			include: {
+				address: { include: { coordinates: true } },
+				profilePicture: true,
+				driver: true,
+			},
 		});
 
 		console.info('user updated: ', user.email);
@@ -155,7 +160,7 @@ export async function findDriverWithDetailsByEmail(
 			include: {
 				user: {
 					include: {
-						address: true,
+						address: { include: { coordinates: true } },
 						profilePicture: true,
 					},
 				},
@@ -176,8 +181,8 @@ export async function findDriverWithDetailsByPhone(
 				phone,
 			},
 			include: {
-				driver: {},
-				address: true,
+				driver: true,
+				address: { include: { coordinates: true } },
 				memberships: {
 					orderBy: {
 						role: 'asc',
@@ -215,7 +220,7 @@ export async function findDriverWithDetailsById(
 			include: {
 				user: {
 					include: {
-						address: true,
+						address: { include: { coordinates: true } },
 						profilePicture: true,
 					},
 				},

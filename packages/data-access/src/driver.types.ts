@@ -3,26 +3,8 @@ import {
 	type DriverSession,
 	type Prisma,
 	type Route,
-	type User,
 } from '@prisma/client';
-
-// used for querying driver record with full user info
-export type DriverWithDetails = Driver & {
-	user: User;
-};
-
-// used for querying driver for current session details and location
-export type DriverWithSessionDetails = Driver & {
-	user: User;
-	driverSession: DriverSessionWithJoinedData;
-};
-
-// represents joined driver session data from prisma and mongodb
-export type DriverSessionWithJoinedData = DriverSession & {
-	currentCoordinates: number[];
-	routeId: string;
-	route: Route;
-};
+import { type UserWithDetails } from './user';
 
 export type DriverCreateType = Prisma.UserUncheckedCreateWithoutDriverInput & {
 	driver: Prisma.DriverUncheckedCreateInput;
@@ -33,6 +15,34 @@ export type DriverCreateType = Prisma.UserUncheckedCreateWithoutDriverInput & {
 	memberships: Prisma.MembershipUpsertArgs['create'][];
 };
 
+export type DriverWithDetails = Driver & {
+	user: UserWithDetails;
+};
+
+export type UserWithDriverDetails = UserWithDetails & {
+	driver: Driver;
+	driverSession: DriverSessionWithJoinedData;
+};
+
+export type DriverWithSessionJoin = Driver & {
+	user: UserWithDetails;
+	driverSession: DriverSessionWithJoinedData;
+};
+
+export type DriverSessionWithJoinedData = DriverSession & {
+	id: string;
+	email: string;
+	phone: string;
+	firstName: string;
+	lastName: string;
+	isOnline: boolean;
+	isActiveDelivery: boolean;
+	currentCoordinates: [number, number];
+	currentRoute: RouteWithCoordinates;
+	routeId: string;
+	route: Route;
+};
+
 export type RouteWithCoordinates = Route & {
-	coordinates: number[][];
+	coordinates: [number, number][];
 };

@@ -7,7 +7,7 @@ const config: Config = Object.freeze({
 		enabled: true,
 	},
 	socket: {
-		enabled: false,
+		enabled: true,
 	},
 });
 
