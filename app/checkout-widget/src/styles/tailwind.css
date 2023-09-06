@@ -2675,6 +2675,18 @@ html {
   height: min-content;
 }
 
+.h-auto {
+  height: auto;
+}
+
+.h-\[20px\] {
+  height: 20px;
+}
+
+.h-\[120px\] {
+  height: 120px;
+}
+
 .max-h-fit {
   max-height: -moz-fit-content;
   max-height: fit-content;
@@ -3194,6 +3206,12 @@ html {
   overscroll-behavior: none;
 }
 
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .whitespace-normal {
   white-space: normal;
 }
@@ -3386,6 +3404,10 @@ html {
   padding: 1.5rem;
 }
 
+.p-5 {
+  padding: 1.25rem;
+}
+
 .\!py-0 {
   padding-top: 0px !important;
   padding-bottom: 0px !important;
@@ -3444,6 +3466,11 @@ html {
 .py-8 {
   padding-top: 2rem;
   padding-bottom: 2rem;
+}
+
+.py-5 {
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
 }
 
 .\!pb-12 {
@@ -3633,6 +3660,16 @@ html {
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
+.text-gray-300 {
+  --tw-text-opacity: 1;
+  color: rgb(209 213 219 / var(--tw-text-opacity));
+}
+
+.text-gray-400 {
+  --tw-text-opacity: 1;
+  color: rgb(156 163 175 / var(--tw-text-opacity));
+}
+
 .underline {
   text-decoration-line: underline;
 }
@@ -3811,6 +3848,10 @@ html {
     grid-column: span 1 / span 1;
   }
 
+  .sm\:float-right {
+    float: right;
+  }
+
   .sm\:block {
     display: block;
   }
@@ -3822,6 +3863,10 @@ html {
 
   .sm\:grow {
     flex-grow: 1;
+  }
+
+  .sm\:justify-center {
+    justify-content: center;
   }
 
   .sm\:space-x-2 > :not([hidden]) ~ :not([hidden]) {
@@ -3923,6 +3968,10 @@ html {
 
   .md\:grow {
     flex-grow: 1;
+  }
+
+  .md\:justify-end {
+    justify-content: flex-end;
   }
 
   .md\:space-x-2 > :not([hidden]) ~ :not([hidden]) {
