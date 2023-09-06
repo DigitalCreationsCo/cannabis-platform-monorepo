@@ -105,7 +105,7 @@ function FormStepProvider({
 			}}
 		>
 			<FormStepComponent />
-			<div className="relative right-0 pt-4">
+			<div className="relative bottom-0 flex justify-end p-5">
 				<FlexBox className={styles.stepNumber}>{showStepNumber}</FlexBox>
 			</div>
 		</FormContext.Provider>
@@ -133,7 +133,7 @@ function FormStepProvider({
 }
 
 const styles = {
-	stepNumber: 'absolute bottom-0 right-0 pr-8 cursor-default',
+	stepNumber: 'text-gray-400 absolute cursor-default',
 };
 
 export { useFormContext, FormStepProvider };
