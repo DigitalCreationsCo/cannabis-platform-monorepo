@@ -11,7 +11,7 @@ import {
 } from './redis-client';
 
 try {
-	const clusterController = new ClusterInit();
+	new ClusterInit();
 
 	const httpServer = createServer();
 	global.io = new Server(httpServer);

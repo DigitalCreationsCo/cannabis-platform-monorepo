@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import {
 	calculateDeliveryFeeForTransaction,
 	calculatePlatformFeeForTransaction,
@@ -172,6 +173,22 @@ class StripeService {
 
 	async handleWebhookEvents(event: any) {
 		switch (event.type) {
+			case 'checkout.session.async_payment_failed':
+				const checkoutSessionAsyncPaymentFailed = event.data.object;
+				console.info(
+					'checkoutSessionAsyncPaymentFailed: ',
+					checkoutSessionAsyncPaymentFailed,
+				);
+				// Then define and call a function to handle the event checkout.session.async_payment_failed
+				break;
+			case 'checkout.session.async_payment_succeeded':
+				const checkoutSessionAsyncPaymentSucceeded = event.data.object;
+				console.info(
+					'checkoutSessionAsyncPaymentSucceeded: ',
+					checkoutSessionAsyncPaymentSucceeded,
+				);
+				// Then define and call a function to handle the event checkout.session.async_payment_succeeded
+				break;
 			case 'checkout.session.completed':
 				// Retrieve the session. If you require line items in the response, you may include them by expanding line_items.
 				// const
@@ -181,20 +198,25 @@ class StripeService {
 				//     { expand: ['lineItems'] }
 				// );
 
-				// eslint-disable-next-line no-case-declarations
 				const order = event.data.object.metadata as CheckoutSessionMetaData;
-
 				await PaymentDA.startFulfillment(order.id);
 				break;
 
 			case 'charge.succeeded':
 				// create sale record or Order record for dispensary
+				console.info('charge.succeeded: ', event.data.object);
 				break;
 
 			case 'payment_intent.succeeded':
 				// generate customer invoice
+				console.info('payment_intent.succeeded: ', event.data.object);
 				break;
-
+			case 'checkout.session.expired':
+				const checkoutSessionExpired = event.data.object;
+				console.info('checkoutSessionExpired: ', checkoutSessionExpired);
+				// Then define and call a function to handle the event checkout.session.expired
+				break;
+			// ... handle other event types
 			default:
 				console.info(`Unhandled stripe event type ${event.type}`);
 		}

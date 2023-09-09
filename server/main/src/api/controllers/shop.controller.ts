@@ -48,6 +48,7 @@ export default class ShopController {
 	 */
 	static async fulfillOrderAndStartDispatch(req, res) {
 		try {
+			console.log('fulfillOrderAndStartDispatch: ', req.body);
 			const orderId: string = req.body.orderId;
 			const order = await OrderDA.getOrderById(orderId);
 			await OrderDA.updateOrderFulfillmentStatus(orderId, 'Processing');
