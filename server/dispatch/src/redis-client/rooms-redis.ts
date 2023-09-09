@@ -1,4 +1,5 @@
 import { createClient } from 'redis';
+import { type ClientType } from '../dispatch.types';
 import { type RoomType } from '../worker/WorkerRoom';
 
 const dispatchRoomsRedis = createClient({
@@ -12,17 +13,29 @@ dispatchRoomsRedis.connect();
 
 class DispatchRoomsController {
 	async createRoom(room: RoomType) {
-		// make sure to await all clients being add to room before posting to Redis
-		await dispatchRoomsRedis
-			.HSET(room.id, { id: room.id, clients: JSON.stringify(room.clients) })
-			.catch((error: any) => {
-				console.error('createRoom: ', error);
-			});
+		room.clients.forEach(
+			async (client) =>
+				// make sure to await all clients being add to room before posting to Redis
+				await dispatchRoomsRedis
+					.SADD(room.id, JSON.stringify(client))
+					.catch((error: any) => {
+						console.error('createRoom: ', error);
+					}),
+		);
 	}
-	async getRoomById(roomId: string) {
+
+	async getClientsByRoom(roomId: string) {
 		return await dispatchRoomsRedis
-			.hGetAll(roomId)
+			.sMembers(roomId)
 			.catch((err) => console.info('getRoomById: ', err));
+	}
+
+	async isClientInRoom(roomId: string, client: ClientType) {
+		return await dispatchRoomsRedis.sIsMember(roomId, JSON.stringify(client));
+	}
+
+	async addClient(roomId: string, client: ClientType) {
+		return await dispatchRoomsRedis.SADD(roomId, JSON.stringify(client));
 	}
 }
 

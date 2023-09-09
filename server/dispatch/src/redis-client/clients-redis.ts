@@ -13,23 +13,25 @@ connectClientRedis.connect();
 class RedisConnectClientController {
 	async saveClient(client: ClientType) {
 		await connectClientRedis
-			.HSET(client.userId, { ...client })
+			.HSET(client.id, { ...client })
 			.catch((error: any) => {
 				console.error('saveClient: ', error);
 			});
+		console.info('saveClient: ', client);
 	}
 	async getClientsByIds(idList: { id: string }[]) {
-		const sockets: string[] = [];
+		const clients: ClientType[] = [];
 		let id;
-		for (id of driverIdList) {
-			const { driverId } = id;
+		for (id of idList) {
 			await connectClientRedis
-				.HGETALL(driverId)
-				.then((socket) => socket.id)
-				.then(sockets.push)
+				.HGETALL(id.id)
+				.then((client) => clients.push(client as unknown as ClientType))
 				.catch((err) => console.error('getSocketsByDriverIds: ', err));
 		}
-		return sockets;
+		return clients;
+	}
+	async deleteClientBySocketId(socketId: string) {
+		console.info('deleteClientBySocketId: ', socketId);
 	}
 }
 
