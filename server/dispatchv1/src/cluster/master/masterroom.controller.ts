@@ -80,6 +80,8 @@ class MasterRoomController {
 			});
 	}
 
+	/** can be used to subscribe many drivers to a room, for en masse delivery message 100+ drivers at scale
+	 */
 	// static SubscribeToRoom(
 	//   _socketId,
 	//   _orderId

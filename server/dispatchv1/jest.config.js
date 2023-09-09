@@ -4,7 +4,7 @@ module.exports = {
 	verbose: true,
 	preset: 'ts-jest',
 	testEnvironment: 'node',
-	setupFilesAfterEnv: ['<rootDir>/jest/setup.mjs'],
+	setupFilesAfterEnv: ['<rootDir>/jest.setup.mjs'],
 	transform: {
 		'^.+\\.m?[tj]sx?$': [
 			'ts-jest',
