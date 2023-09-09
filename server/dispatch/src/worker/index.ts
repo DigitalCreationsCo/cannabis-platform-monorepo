@@ -1,13 +1,11 @@
-console.info('worker node is running...');
-
 import { createAdapter } from '@socket.io/redis-adapter';
 import { Server } from 'socket.io';
 import {
 	subscribeWebsocketConnectClientRedis,
 	websocketConnectClientRedis,
 } from '../redis-client';
+import WorkerRoomController from './worker.controller';
 
-console.log('worker init');
 const io = new Server();
 io.adapter(
 	createAdapter(
@@ -15,9 +13,6 @@ io.adapter(
 		subscribeWebsocketConnectClientRedis,
 	),
 );
-
-// const WorkerClusterListeners = require("./modules/cluster/worker/worker-listeners");
-// new WorkerClusterListeners();
+new WorkerRoomController();
 
 // export default global.io = io;
-export default io;

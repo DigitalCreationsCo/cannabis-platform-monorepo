@@ -5,7 +5,7 @@ class Settings {
 	numCPUs: number;
 
 	constructor() {
-		this.workerPath = 'src/worker/index.ts';
+		this.workerPath = './src/worker/index.ts';
 		this.numCPUs = os.cpus().length;
 	}
 }

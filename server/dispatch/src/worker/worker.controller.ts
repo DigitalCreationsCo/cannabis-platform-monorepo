@@ -9,7 +9,7 @@ global.rooms = {};
 export default class WorkerRoomController {
 	db: typeof DispatchDA = {} as typeof DispatchDA;
 	constructor() {
-		DispatchDA.connectDb().then((db) => (this.db = db));
+		this.db = DispatchDA;
 	}
 
 	sendToMaster(_command, _data) {
