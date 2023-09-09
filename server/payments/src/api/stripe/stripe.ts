@@ -181,6 +181,7 @@ class StripeService {
 				);
 				// Then define and call a function to handle the event checkout.session.async_payment_failed
 				break;
+
 			case 'checkout.session.async_payment_succeeded':
 				const checkoutSessionAsyncPaymentSucceeded = event.data.object;
 				console.info(
@@ -189,6 +190,7 @@ class StripeService {
 				);
 				// Then define and call a function to handle the event checkout.session.async_payment_succeeded
 				break;
+
 			case 'checkout.session.completed':
 				// Retrieve the session. If you require line items in the response, you may include them by expanding line_items.
 				// const
