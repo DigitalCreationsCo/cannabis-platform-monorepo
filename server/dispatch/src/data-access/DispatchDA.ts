@@ -18,8 +18,8 @@ class DispatchDA {
 		this.driver_sessions_collection;
 		this.dispatch_orders_collection;
 		this.dispatch_orders_changestream;
-
 		if (cluster.isPrimary) {
+			console.info('isPrimary');
 			return (async () => {
 				await this.connectDb();
 				await this.createPendingOrdersChangeStream().then(() =>
@@ -32,8 +32,8 @@ class DispatchDA {
 				return this;
 			})() as unknown as DispatchDA;
 		}
-
 		if (cluster.isWorker) {
+			console.info('isWorker');
 			return (async () => {
 				await this.connectDb().then(() =>
 					console.info(

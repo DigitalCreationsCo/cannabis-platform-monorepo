@@ -1,4 +1,4 @@
-import ClusterInit from '../master/cluster-init';
+import ClusterInit from '../../src/master/cluster-init';
 
 describe('Master Controller Tests', () => {
 	it('Master Controller is defined', () => {

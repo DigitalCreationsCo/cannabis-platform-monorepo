@@ -13,45 +13,55 @@ class ClusterController {
 	workers: Worker[] = [];
 	db: typeof DispatchDA = {} as typeof DispatchDA;
 	constructor() {
-		cluster.setupPrimary({
-			execArgv: [],
-			exec: settings.workerPath,
-		});
+		if (cluster.isPrimary) {
+			cluster.setupPrimary({
+				execArgv: [
+					'../../node_modules/@babel/node/lib/_babel-node.js',
+					'-x',
+					'.ts',
+					'--',
+				],
+				exec: 'src/worker/index.ts',
+			});
 
-		for (let i = 0; i < settings.numCPUs; i++) {
-			this.workers[i] = cluster.fork();
-			this.workers[i].on('message', function (_msg: ClusterMessage) {
-				// eslint-disable-next-line sonarjs/no-small-switch
-				switch (_msg.action) {
-					default:
+			for (let i = 0; i < settings.numCPUs; i++) {
+				this.workers[i] = cluster.fork();
+				this.workers[i].on('message', function (_msg: ClusterMessage) {
+					// eslint-disable-next-line sonarjs/no-small-switch
+					switch (_msg.action) {
+						default:
+							break;
+					}
+				});
+			}
+
+			this.db = DispatchDA;
+			this.db.dispatch_orders_changestream?.on('change', async (change) => {
+				let order: OrderWithDispatchDetails;
+				switch (change.operationType) {
+					case 'insert':
+						order = change.fullDocument as OrderWithDispatchDetails;
+						if (isEmpty(order.driver)) {
+							this.createSelectDriverRoom(order);
+						}
 						break;
+					case 'update':
+						order = change.fullDocument as OrderWithDispatchDetails;
+						if (!order.driver) {
+							// assign driver
+							null;
+						} else {
+							// createDeliverOrderRoom(order)
+						}
+						break;
+					default:
+						console.info(
+							'unhandled changestream event: ',
+							change.operationType,
+						);
 				}
 			});
 		}
-
-		this.db = DispatchDA;
-		this.db.dispatch_orders_changestream?.on('change', async (change) => {
-			let order: OrderWithDispatchDetails;
-			switch (change.operationType) {
-				case 'insert':
-					order = change.fullDocument as OrderWithDispatchDetails;
-					if (isEmpty(order.driver)) {
-						this.createSelectDriverRoom(order);
-					}
-					break;
-				case 'update':
-					order = change.fullDocument as OrderWithDispatchDetails;
-					if (!order.driver) {
-						// assign driver
-						null;
-					} else {
-						// createDeliverOrderRoom(order)
-					}
-					break;
-				default:
-					console.info('unhandled changestream event: ', change.operationType);
-			}
-		});
 	}
 
 	sendClientToWorker(workerId: number, { action, payload }: ClusterMessage) {
