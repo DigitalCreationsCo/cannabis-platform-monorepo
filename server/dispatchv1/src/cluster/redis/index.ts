@@ -1,7 +1,7 @@
 import { createClient } from 'redis';
-import { type DriverClient } from '../../dispatch.types';
+import { type ClientType } from '../../dispatch.types';
 
-const redisPublishClientUrl = process.env.DISPATCH_PUBLISH_REDIS_URL;
+const redisPublishClientUrl = process.env.SOCKET_PUBLISH_REDIS_URL;
 
 const publishRedisClient = createClient({ url: redisPublishClientUrl }).on(
 	'error',
@@ -30,9 +30,9 @@ driverConnectClient.on('error', (err) => {
 driverConnectClient.connect();
 
 class DriverClientController {
-	async saveClient({ driverId, socketId, phone }: DriverClient) {
+	async saveClient({ userId, socketId, phone }: ClientType) {
 		await driverConnectClient
-			.HSET(driverId, { driverId, socketId, phone })
+			.HSET(userId, { userId, socketId, phone })
 			.catch((error: any) => {
 				console.error('connect client redis: ', error);
 			});

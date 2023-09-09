@@ -6,7 +6,7 @@ module.exports = function (config) {
 	const nodeEnv = process.env.NODE_ENV || 'development';
 
 	console.info(
-		' 🚚 server-dispatch env loaded from ',
+		' 🚔 server-dispatch env loaded from ',
 		path.resolve(__dirname, '../../.env.' + nodeEnv),
 	);
 
