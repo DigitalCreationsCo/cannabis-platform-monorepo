@@ -19,7 +19,6 @@ class DispatchDA {
 		this.dispatch_orders_collection;
 		this.dispatch_orders_changestream;
 		if (cluster.isPrimary) {
-			console.info('isPrimary');
 			return (async () => {
 				await this.connectDb();
 				await this.createPendingOrdersChangeStream().then(() =>
@@ -33,7 +32,6 @@ class DispatchDA {
 			})() as unknown as DispatchDA;
 		}
 		if (cluster.isWorker) {
-			console.info('isWorker');
 			return (async () => {
 				await this.connectDb().then(() =>
 					console.info(
@@ -41,7 +39,7 @@ class DispatchDA {
 							cluster?.worker?.id +
 							':' +
 							process.pid +
-							'] is connected to Mongo, and Prismadatabase. 👏',
+							'] is connected to Mongo, and Prismadatabase. 👏👏',
 					),
 				);
 				return this;

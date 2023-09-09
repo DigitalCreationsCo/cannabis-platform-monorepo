@@ -13,6 +13,7 @@ io.adapter(
 		subscribeWebsocketConnectClientRedis,
 	),
 );
+
 new WorkerRoomController();
 
-// export default global.io = io;
+export default global.io = io;
