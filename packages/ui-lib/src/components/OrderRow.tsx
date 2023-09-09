@@ -12,11 +12,13 @@ type OrderRowProps = {
 };
 
 function OrderRow({ order, orderDetailsRoute }: OrderRowProps) {
-	const getColor = (status: string) => {
+	const getColor = (status: Order['orderStatus']) => {
 		switch (status) {
 			case 'Pending':
 				return 'default';
 			case 'Processing':
+				return 'primary';
+			case 'OnDelivery':
 				return 'primary';
 			case 'Delivered':
 				return 'secondary';

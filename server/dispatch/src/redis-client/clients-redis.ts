@@ -5,7 +5,7 @@ const connectClientRedis = createClient({
 	url: process.env.DISPATCH_CONNECT_REDIS_URL,
 });
 connectClientRedis.on('error', (err) => {
-	console.error('Driver Connect Client: ', err);
+	console.error('connectClientRedis: ', err);
 	throw new Error(err.message);
 });
 connectClientRedis.connect();
@@ -19,6 +19,7 @@ class RedisConnectClientController {
 			});
 		console.info('saveClient: ', client);
 	}
+
 	async getClientsByIds(idList: { id: string }[]) {
 		const clients: ClientType[] = [];
 		let id;
@@ -30,6 +31,7 @@ class RedisConnectClientController {
 		}
 		return clients;
 	}
+
 	async deleteClientBySocketId(socketId: string) {
 		console.info('deleteClientBySocketId: ', socketId);
 	}

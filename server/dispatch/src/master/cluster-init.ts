@@ -50,6 +50,7 @@ class ClusterController {
 
 			this.db = DispatchDA;
 			this.db.dispatch_orders_changestream?.on('change', async (change) => {
+				console.info('changestream event', change.operationType);
 				let order: OrderWithDispatchDetails;
 				switch (change.operationType) {
 					case 'insert':
@@ -86,6 +87,10 @@ class ClusterController {
 			let driversWithinDeliveryRange = await this.db.findDriversWithinRange(
 				order.organization,
 				radiusFactor,
+			);
+			console.info(
+				'# of drivers within delivery range: ',
+				driversWithinDeliveryRange.length,
 			);
 
 			// if no drivers found, increase radius and try again

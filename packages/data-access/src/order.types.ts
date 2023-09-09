@@ -73,6 +73,7 @@ export type OrderCreateType = Order & {
 	organization: Organization;
 	customer: User;
 	destinationAddress: AddressWithCoordinates;
+	items: ProductVariantWithDetails[];
 };
 
 export type OrderUpdateType = Prisma.OrderUpdateArgs['data'];
