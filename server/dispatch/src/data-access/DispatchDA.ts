@@ -83,6 +83,7 @@ class DispatchDA {
 			return this;
 		} catch (error: any) {
 			console.error('connectDb error: ', error);
+			prisma.$disconnect();
 			throw new Error(error.message);
 		}
 	}
