@@ -56,11 +56,11 @@ export default class OrganizationController {
 				const coordinates = await getGeoCoordinatesFromAddress(
 					organization.address,
 				);
-				console.debug('coordinates fetched: ', coordinates);
+				console.info('coordinates fetched: ', coordinates);
 				organization.address.coordinates = {
-					...coordinates,
-					radius: 100,
-					// radius is the distance in meters from the center of this coordinate location
+					latitude: Number(coordinates.latitude),
+					longitude: Number(coordinates.longitude),
+					radius: organization.address.coordinates.radius || null,
 				};
 			}
 			const data = await OrganizationDA.updateOrganization(organization);

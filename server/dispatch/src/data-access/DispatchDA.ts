@@ -3,7 +3,6 @@ import cluster from 'cluster';
 import { getGeoJsonPairFromCoordinates } from '@cd/core-lib';
 import prisma, {
 	findDriverWithDetailsById,
-	updateOrder,
 	type Coordinates,
 	type OrganizationWithAddress,
 } from '@cd/data-access';
@@ -159,10 +158,33 @@ class DispatchDA {
 		radiusFactor = 1,
 	): Promise<{ id: string; phone: string }[]> {
 		try {
+			console.log(
+				'what is this? ' +
+					JSON.stringify(organization.address.coordinates?.radius),
+			);
 			const geoJsonPoint = getGeoJsonPairFromCoordinates(
 				organization.address.coordinates as Coordinates,
 			);
 			if (!geoJsonPoint) throw new Error('No coordinates are valid.');
+			console.info(
+				`findDriversWithinRange for the coordinates ${JSON.stringify(
+					geoJsonPoint,
+				)}
+				with radiusFactor ${radiusFactor}
+				covering a radius of ${
+					(organization.address.coordinates?.radius || 5000) * radiusFactor
+				} meters, 
+				${
+					((organization.address.coordinates?.radius || 5000) * radiusFactor) /
+					1000
+				} kilometers`,
+				'coordinates: ',
+				organization.address.coordinates,
+				'what is this? ' +
+					JSON.stringify(organization.address.coordinates?.radius),
+				'what is this * radiusFactor? ',
+				(organization.address.coordinates?.radius || 5000) * radiusFactor,
+			);
 			const drivers = (await this.driver_sessions_collection
 				?.aggregate([
 					{
@@ -182,7 +204,7 @@ class DispatchDA {
 				.toArray()) as { id: string; phone: string }[];
 			return drivers || [];
 		} catch (error: any) {
-			console.error(error);
+			console.error('findDriversWithinRange: ', error);
 			throw new Error(error.message);
 		}
 	}
@@ -253,6 +275,8 @@ class DispatchDA {
 
 	async createPendingOrdersChangeStream() {
 		try {
+			if (!this.dispatch_orders_collection)
+				throw new Error('createPendingOrdersChangeStream: No collection');
 			const changeStream = await this.dispatch_orders_collection?.watch([], {
 				fullDocument: 'updateLookup',
 			});

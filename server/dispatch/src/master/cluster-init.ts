@@ -2,10 +2,10 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { type Worker } from 'cluster';
 import cluster from 'node:cluster';
-import { isEmpty, TextContent } from '@cd/core-lib';
+import { isEmpty } from '@cd/core-lib';
 import { type OrderWithDispatchDetails } from '@cd/data-access';
-import DispatchDA from '../data-access/DispatchDA';
-import { type ClientType, type ClusterMessage } from '../dispatch.types';
+import type DispatchDA from '../data-access/DispatchDA';
+import { type ClusterMessage } from '../dispatch.types';
 import { dispatchRoomController } from '../redis-client';
 import { connectClientController } from '../redis-client/clients-redis';
 import settings from './cluster-settings';
@@ -48,33 +48,39 @@ class ClusterController {
 				);
 			}
 
-			this.db = DispatchDA;
-			this.db.dispatch_orders_changestream?.on('change', async (change) => {
-				console.info('changestream event', change.operationType);
-				let order: OrderWithDispatchDetails;
-				switch (change.operationType) {
-					case 'insert':
-						order = change.fullDocument as OrderWithDispatchDetails;
-						if (isEmpty(order.driver)) {
-							this.createSelectDriverRoom(order);
-						}
-						break;
-					case 'update':
-						order = change.fullDocument as OrderWithDispatchDetails;
-						if (isEmpty(order.driver)) {
-							// assign driver
-							this.createSelectDriverRoom(order);
-							null;
-						} else {
-							// createDeliverOrderRoom(order)
-						}
-						break;
-					default:
-						console.info(
-							'unhandled changestream event: ',
-							change.operationType,
-						);
-				}
+			import('../data-access/DispatchDA').then(async (DispatchDA) => {
+				this.db = await DispatchDA.default;
+				this.db.dispatch_orders_changestream?.on('change', async (change) => {
+					console.info('changestream event', change.operationType);
+					let order: OrderWithDispatchDetails;
+					switch (change.operationType) {
+						case 'insert':
+							order = change.fullDocument as OrderWithDispatchDetails;
+							console.log(
+								'order inserted: ',
+								order.organization.address.coordinates,
+							);
+							if (isEmpty(order.driver)) {
+								this.createSelectDriverRoom(order);
+							}
+							break;
+						case 'update':
+							order = change.fullDocument as OrderWithDispatchDetails;
+							if (isEmpty(order.driver)) {
+								// assign driver
+								this.createSelectDriverRoom(order);
+								null;
+							} else {
+								// createDeliverOrderRoom(order)
+							}
+							break;
+						default:
+							console.info(
+								'unhandled changestream event: ',
+								change.operationType,
+							);
+					}
+				});
 			});
 		}
 	}
@@ -83,6 +89,7 @@ class ClusterController {
 		try {
 			let radiusFactor = 1;
 
+			console.info('createSelectDriverRoom: order: ', order.id);
 			// get driver records within delivery range
 			let driversWithinDeliveryRange = await this.db.findDriversWithinRange(
 				order.organization,
@@ -101,8 +108,11 @@ class ClusterController {
 					radiusFactor,
 				);
 			}
-			if (isEmpty(driversWithinDeliveryRange))
-				throw new Error(TextContent.error.DRIVER_NOT_FOUND);
+			if (isEmpty(driversWithinDeliveryRange)) {
+				// start a poll to find drivers
+				console.info('no drivers found within delivery range');
+				// throw new Error(TextContent.error.DRIVER_NOT_FOUND);
+			}
 
 			const clients = await connectClientController.getClientsByIds(
 				driversWithinDeliveryRange,
