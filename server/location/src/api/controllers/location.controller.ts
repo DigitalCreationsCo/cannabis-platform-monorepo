@@ -1,3 +1,4 @@
+import { getCoordinatePairFromCoordinates } from '@cd/core-lib';
 import {
 	type Coordinates,
 	type OrganizationWithShopDetails,
