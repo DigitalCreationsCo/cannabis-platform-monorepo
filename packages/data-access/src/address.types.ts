@@ -1,4 +1,4 @@
-import { type Address, type Coordinates } from '@prisma/client';
+import { type Address } from '@prisma/client';
 
 export type AddressCreateType = {
 	id?: string;
@@ -41,7 +41,7 @@ export type CoordinatesCreateType = {
 };
 
 export type AddressWithCoordinates = Address & {
-	coordinates: Coordinates | null;
+	coordinates: CoordinatesCreateType | null;
 };
 
 export type AddressPayload = {

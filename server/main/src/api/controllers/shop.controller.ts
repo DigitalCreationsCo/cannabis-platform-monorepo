@@ -26,10 +26,17 @@ export default class ShopController {
 	static async createOrder(req, res) {
 		try {
 			const order: OrderCreateType = req.body;
+			console.info('create order input ', order);
+			console.info(
+				'create order input ',
+				order.organization.address.coordinates,
+			);
+			const createdOrder = await OrderDA.createOrder(order);
+			console.info('output', createdOrder);
 			return res.status(201).json({
 				success: 'true',
 				message: 'Order created Successfully',
-				payload: await OrderDA.createOrder(order),
+				payload: createdOrder,
 			});
 		} catch (error: any) {
 			console.info('API error shopcontroller: createOrder: ', error);
