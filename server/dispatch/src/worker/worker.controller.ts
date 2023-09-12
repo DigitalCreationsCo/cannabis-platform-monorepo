@@ -5,6 +5,7 @@ import {
 	type RoomAction,
 } from '../dispatch.types';
 import Messager from '../message/Messager';
+import SelectDriverRoom from './SelectDriverRoom';
 
 export default class WorkerRoomController {
 	db: typeof DispatchDA = {} as typeof DispatchDA;
@@ -23,17 +24,18 @@ export default class WorkerRoomController {
 				switch (action) {
 					case 'join-room':
 						try {
-							global.io
-								.fetchSockets()
-								.then((sockets) =>
-									sockets
-										.find((socket) => socket.id === client.socketId)
-										?.join(roomId),
+							if (roomId.startsWith('select-driver')) {
+								// i think a better idea is to create this class instance on the master with all the clients passed in, and then send the instance to the worker
+								const room = new SelectDriverRoom(roomId, client);
+
+								this.sendToMaster('connected-on-worker', { roomId, client });
+								console.info(
+									`WORKER ${process.pid}: client ${client.id} join room ${roomId}`,
 								);
-							this.sendToMaster('connected-on-worker', { roomId, client });
-							console.info(
-								`WORKER ${process.pid}: client ${client.id} join room ${roomId}`,
-							);
+								break;
+							} else if (roomId.startsWith('deliver-order')) {
+								//
+							}
 						} catch (e) {
 							console.error(
 								'WORKER ' +
@@ -49,9 +51,7 @@ export default class WorkerRoomController {
 
 					case 'leave-room': // if client disconnected from master process
 						try {
-							await global.io.sockets.sockets
-								.get(client.socketId)
-								?.leave(roomId);
+							// handle the event in the room
 							this.sendToMaster('leave-room', { roomId, client });
 						} catch (e) {
 							console.error(
