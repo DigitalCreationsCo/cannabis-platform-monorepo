@@ -1,5 +1,7 @@
+import { TextContent } from '@cd/core-lib';
 import useCheckHrefIncludes from '@cd/core-lib/src/hooks/useCheckHrefIncludes';
 import CloseButton from '@cd/ui-lib/src/components/button/CloseButton';
+import CopyRight from '@cd/ui-lib/src/components/CopyRight';
 import { Paragraph, Small } from '@cd/ui-lib/src/components/Typography';
 import { getBreakpointValue } from '@cd/ui-lib/src/hooks/useBreakpoint';
 import { useEffect } from 'react';
@@ -38,13 +40,16 @@ function Launch({
 
 					<div className="flex flex-col p-2">
 						<Paragraph className="m-auto" color="light">
-							{dispensaryName || 'Your dispensary'} is teaming up with Gras for
-							home delivery.{' '}
+							<b>{dispensaryName || 'Your dispensary'}</b> is teaming up with{' '}
+							<b>Gras</b> to bring delivery to you.{' '}
 						</Paragraph>
 
 						<Paragraph className="m-auto text-inverse" color="light">
 							Place your order at checkout
 						</Paragraph>
+						<div className="m-auto">
+							<CopyRight append={TextContent.legal.HOME_DELIVERY_BY_GRAS} />
+						</div>
 					</div>
 
 					<div>
@@ -68,7 +73,7 @@ function Launch({
 						/>
 					)}
 					<Small color="light" className="items-center">
-						Delivery by Gras&nbsp;now at checkout!
+						<b>Home Delivery by Gras</b>&nbsp;is available!
 					</Small>
 					{screenwidth >= md && <div className="w-[20px]"></div>}
 				</div>
