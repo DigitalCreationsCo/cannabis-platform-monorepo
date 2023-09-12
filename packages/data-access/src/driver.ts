@@ -41,8 +41,8 @@ export async function createDriver(userData: DriverCreateType) {
 									...addressData,
 									coordinates: {
 										create: {
-											latitude: Number(coordinates?.latitude),
 											longitude: Number(coordinates?.longitude),
+											latitude: Number(coordinates?.latitude),
 										},
 									},
 								},

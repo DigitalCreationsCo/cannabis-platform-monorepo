@@ -97,6 +97,14 @@ export function getGeoJsonPairFromCoordinates(coordinates: Coordinates) {
 
 export function coordinatesIsEmpty(address: AddressCreateType) {
 	const latitude = address?.coordinates?.latitude;
+	const longitude = address?.coordinates?.longitude;
 
-	return latitude === 0 || latitude === undefined || latitude === null;
+	return (
+		latitude === 0 ||
+		latitude === undefined ||
+		latitude === null ||
+		longitude === 0 ||
+		longitude === undefined ||
+		longitude === null
+	);
 }
