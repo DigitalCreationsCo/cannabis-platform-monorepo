@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 const nbsp = '\xa0';
-
+const copyrightsymbol = '&#169';
 const TextContent = Object.freeze({
 	prompt: {
 		ACCEPT_ORDER: 'Do you want to accept the order?',
@@ -164,7 +164,10 @@ const TextContent = Object.freeze({
 	},
 
 	legal: {
-		COPYRIGHT: '© 2023 Gras. All rights reserved.',
+		HOME_DELIVERY_BY_GRAS: `Home Delivery by Gras`,
+		COMPANY_NAME: 'Gras',
+		COPYRIGHT: `© 2023`,
+		COPYRIGHT_RIGHTS_RESERVED: 'Gras © 2023 All rights reserved.',
 		I_AGREE_TO_THE_USER_TERMS: `I agree to the User Terms and Conditions`,
 		I_AGREE_TO_THE_DISPENSARY_TERMS: `I agree to the Dispensary Terms and Conditions`,
 		AGREE_TO_TERMS:

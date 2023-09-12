@@ -38,6 +38,7 @@ const styles = {
 			: 'md:rounded-full',
 		'w-screen md:w-auto',
 		'min-h-[44px] md:min-h-0',
+		props.expanded && 'py-2',
 		// animate-[animationName_easingFunction_durationInSeconds_iterationsCount_delayInSeconds_direction]
 	],
 	position_f: (position: DeliveryWidgetConfigOptions['position']) => [
