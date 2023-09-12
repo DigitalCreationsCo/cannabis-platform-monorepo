@@ -1,3 +1,4 @@
+import { isEmpty } from '@cd/core-lib';
 import { createClient } from 'redis';
 import { type ClientType } from '../dispatch.types';
 
@@ -21,7 +22,7 @@ class RedisConnectClientController {
 	}
 
 	async getClientsByIds(idList: { id: string }[]) {
-		const clients: ClientType[] = [];
+		let clients: ClientType[] = [];
 		let id;
 		for (id of idList) {
 			await connectClientRedis
@@ -29,6 +30,7 @@ class RedisConnectClientController {
 				.then((client) => clients.push(client as unknown as ClientType))
 				.catch((err) => console.error('getSocketsByDriverIds: ', err));
 		}
+		clients = clients.filter((client) => !isEmpty(client));
 		return clients;
 	}
 

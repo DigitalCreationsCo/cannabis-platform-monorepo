@@ -6,8 +6,8 @@ import {
 } from '../redis-client';
 import WorkerRoomController from './worker.controller';
 
-const io = new Server();
-io.adapter(
+global.io = new Server();
+global.io.adapter(
 	createAdapter(
 		websocketConnectClientRedis,
 		subscribeWebsocketConnectClientRedis,
@@ -15,5 +15,3 @@ io.adapter(
 );
 
 new WorkerRoomController();
-
-export default global.io = io;

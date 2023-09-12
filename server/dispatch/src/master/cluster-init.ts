@@ -5,10 +5,12 @@ import cluster from 'node:cluster';
 import { isEmpty } from '@cd/core-lib';
 import { type OrderWithDispatchDetails } from '@cd/data-access';
 import type DispatchDA from '../data-access/DispatchDA';
-import { type ClusterMessage } from '../dispatch.types';
+import { type ClientType, type ClusterMessage } from '../dispatch.types';
 import { dispatchRoomController } from '../redis-client';
 import { connectClientController } from '../redis-client/clients-redis';
 import settings from './cluster-settings';
+
+global.lastWorkerId = 0;
 
 class ClusterController {
 	workers: Worker[] = [];
@@ -104,7 +106,7 @@ class ClusterController {
 				);
 			}
 			if (isEmpty(driversWithinDeliveryRange)) {
-				// start a poll to find drivers
+				// await a poll to find drivers when they become available
 				console.info('no drivers found within delivery range');
 				// throw new Error(TextContent.error.DRIVER_NOT_FOUND);
 			}
@@ -112,9 +114,17 @@ class ClusterController {
 			const clients = await connectClientController.getClientsByIds(
 				driversWithinDeliveryRange,
 			);
-
-			// add clients to room
-			const roomId = this.buildRoomId('select-driver', order.id);
+			// match driversWithinDeliveryRange to clients
+			// if no match, the driver is smsOnly and we need to create a new client
+			driversWithinDeliveryRange.forEach((driver) => {
+				if (!checkClientsForUser(clients, driver.id)) {
+					clients.push({
+						id: driver.id,
+						phone: driver.phone,
+					});
+				}
+			});
+			const roomId = this.roomId('select-driver', order.id);
 			clients.forEach((client) => this.subscribeToRoom(client, roomId));
 		} catch (error: any) {
 			console.error('Dispatch: createSelectDriverRoom error: ', error);
@@ -146,12 +156,13 @@ class ClusterController {
 		this.workers[workerId].send({ action, payload });
 	}
 
-	buildRoomId = (
-		namespace: 'select-driver' | 'deliver-order',
-		orderId: string,
-	) => {
+	roomId = (namespace: 'select-driver' | 'deliver-order', orderId: string) => {
 		return `${namespace}:${orderId}`;
 	};
 }
 
 export default ClusterController;
+
+function checkClientsForUser(clients: ClientType[], id: string) {
+	return clients.some((client) => client.id === id);
+}

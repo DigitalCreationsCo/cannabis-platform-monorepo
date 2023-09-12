@@ -6,6 +6,7 @@ const websocketConnectClientRedis = createClient({
 	console.error('Publisher Redis Client: ', err);
 	throw new Error(err.message);
 });
+websocketConnectClientRedis.connect();
 
 const subscribeWebsocketConnectClientRedis = websocketConnectClientRedis
 	.duplicate()

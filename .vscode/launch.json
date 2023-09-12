@@ -36,6 +36,19 @@
 				"action": "openExternally"
 			},
 			"sourceMaps": true
+		},
+		{
+			"name": "debug server-dispatch",
+			"type": "node-terminal",
+			"request": "launch",
+			"cwd": "${workspaceFolder}/server/dispatch",
+			"command": "yarn watch",
+			"serverReadyAction": {
+				"pattern": "started server on .+, url: (https?://.+)",
+				"uriFormat": "%s",
+				"action": "openExternally"
+			},
+			"sourceMaps": true
 		}
 	]
 }

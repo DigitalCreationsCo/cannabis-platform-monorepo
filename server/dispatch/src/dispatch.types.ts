@@ -23,20 +23,20 @@ export type ClusterMessagePayload = {
 };
 
 export interface ClientType {
+	socketId?: string;
 	id: string;
-	socketId: string;
 	phone: string;
 	roomId?: string;
 }
 
 export class Client {
-	socketId: string;
-	roomId: string;
+	socketId?: string;
+	roomId?: string;
 	id: string;
 	phone: string;
 	constructor({ socketId, roomId, id, phone }: ClientType) {
-		this.socketId = socketId;
-		this.roomId = roomId || '';
+		this.socketId = socketId || undefined;
+		this.roomId = roomId || undefined;
 		this.id = id;
 		this.phone = phone;
 	}
