@@ -9,6 +9,7 @@ class Messager {
 	static async sendMessage(client: ClientType, data: string) {
 		FeatureConfig.sms.enabled && this.sendSMS(client.phone, data);
 		FeatureConfig.socket.enabled &&
+			client.socketId &&
 			this.sendSocketMessage(client.socketId, data); // fail silently if no socket
 	}
 
