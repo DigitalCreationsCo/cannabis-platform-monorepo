@@ -56,10 +56,6 @@ class ClusterController {
 					switch (change.operationType) {
 						case 'insert':
 							order = change.fullDocument as OrderWithDispatchDetails;
-							console.log(
-								'order inserted: ',
-								order.organization.address.coordinates,
-							);
 							if (isEmpty(order.driver)) {
 								this.createSelectDriverRoom(order);
 							}
@@ -88,8 +84,6 @@ class ClusterController {
 	async createSelectDriverRoom(order: OrderWithDispatchDetails) {
 		try {
 			let radiusFactor = 1;
-
-			console.info('createSelectDriverRoom: order: ', order.id);
 			// get driver records within delivery range
 			let driversWithinDeliveryRange = await this.db.findDriversWithinRange(
 				order.organization,
@@ -101,6 +95,7 @@ class ClusterController {
 			);
 
 			// if no drivers found, increase radius and try again
+			// while (radiusFactor < 5 && driversWithinDeliveryRange.length < 2) {
 			while (radiusFactor < 5 && isEmpty(driversWithinDeliveryRange)) {
 				radiusFactor *= 1.5;
 				driversWithinDeliveryRange = await this.db.findDriversWithinRange(

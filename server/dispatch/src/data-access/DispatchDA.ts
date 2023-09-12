@@ -158,10 +158,6 @@ class DispatchDA {
 		radiusFactor = 1,
 	): Promise<{ id: string; phone: string }[]> {
 		try {
-			console.log(
-				'what is this? ' +
-					JSON.stringify(organization.address.coordinates?.radius),
-			);
 			const geoJsonPoint = getGeoJsonPairFromCoordinates(
 				organization.address.coordinates as Coordinates,
 			);
@@ -178,12 +174,6 @@ class DispatchDA {
 					((organization.address.coordinates?.radius || 5000) * radiusFactor) /
 					1000
 				} kilometers`,
-				'coordinates: ',
-				organization.address.coordinates,
-				'what is this? ' +
-					JSON.stringify(organization.address.coordinates?.radius),
-				'what is this * radiusFactor? ',
-				(organization.address.coordinates?.radius || 5000) * radiusFactor,
 			);
 			const drivers = (await this.driver_sessions_collection
 				?.aggregate([
