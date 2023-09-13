@@ -2,10 +2,15 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { type Worker } from 'cluster';
 import cluster from 'node:cluster';
-import { isEmpty } from '@cd/core-lib';
+import { isEmpty, TextContent } from '@cd/core-lib';
 import { type OrderWithDispatchDetails } from '@cd/data-access';
 import type DispatchDA from '../data-access/DispatchDA';
 import { type ClientType, type ClusterMessage } from '../dispatch.types';
+import {
+	checkClientsForUser,
+	createRoomId,
+	getOrderIdFromRoom,
+} from '../dispatch.util';
 import { dispatchRoomController } from '../redis-client';
 import { connectClientController } from '../redis-client/clients-redis';
 import settings from './cluster-settings';
@@ -31,14 +36,31 @@ class ClusterController {
 				this.workers[i] = cluster.fork();
 				this.workers[i].on(
 					'message',
-					function ({ action, payload }: ClusterMessage) {
+					async ({ action, payload }: ClusterMessage) => {
 						// eslint-disable-next-line sonarjs/no-small-switch
 						switch (action) {
 							case 'connected-on-worker':
-								console.info(
-									'Master Cluster Controller: user is connected-on-worker',
-								);
-								console.info('payload, ', payload);
+								if (payload.roomId.startsWith('select-driver')) {
+									console.info('connected-on-worker: ', payload.roomId);
+									await this.db.dequeueOrder(
+										getOrderIdFromRoom(payload.roomId),
+									);
+									console.info(
+										`connected-on-worker: dequeued order ${getOrderIdFromRoom(
+											payload.roomId,
+										)}`,
+									);
+								} else if (payload.roomId.startsWith('deliver-order')) {
+									console.info('connected-on-worker: ', payload.roomId);
+									await this.db.markOrderAsDispatched(
+										getOrderIdFromRoom(payload.roomId),
+									);
+									console.info(
+										`connected-on-worker: dispatched order ${getOrderIdFromRoom(
+											payload.roomId,
+										)}`,
+									);
+								}
 								break;
 							default:
 								console.info('Master Cluster Controller: unhandled action');
@@ -54,16 +76,16 @@ class ClusterController {
 				this.db = await DispatchDA.default;
 				this.db.dispatch_orders_changestream?.on('change', async (change) => {
 					console.info('changestream event', change.operationType);
-					let order: OrderWithDispatchDetails;
+					let order;
 					switch (change.operationType) {
 						case 'insert':
-							order = change.fullDocument as OrderWithDispatchDetails;
+							order = change.fullDocument as OrderWithDispatchDetails['order'];
 							if (isEmpty(order.driver)) {
 								this.createSelectDriverRoom(order);
 							}
 							break;
 						case 'update':
-							order = change.fullDocument as OrderWithDispatchDetails;
+							order = change.fullDocument as OrderWithDispatchDetails['order'];
 							if (isEmpty(order.driver)) {
 								// assign driver
 								this.createSelectDriverRoom(order);
@@ -83,7 +105,11 @@ class ClusterController {
 		}
 	}
 
-	async createSelectDriverRoom(order: OrderWithDispatchDetails) {
+	async sendToWorker(workerId: number, { action, payload }: ClusterMessage) {
+		this.workers[workerId].send({ action, payload });
+	}
+
+	async createSelectDriverRoom(order: OrderWithDispatchDetails['order']) {
 		try {
 			let radiusFactor = 1;
 			// get driver records within delivery range
@@ -95,7 +121,6 @@ class ClusterController {
 				'# of drivers within delivery range: ',
 				driversWithinDeliveryRange.length,
 			);
-
 			// if no drivers found, increase radius and try again
 			// while (radiusFactor < 5 && driversWithinDeliveryRange.length < 2) {
 			while (radiusFactor < 5 && isEmpty(driversWithinDeliveryRange)) {
@@ -110,7 +135,6 @@ class ClusterController {
 				console.info('no drivers found within delivery range');
 				// throw new Error(TextContent.error.DRIVER_NOT_FOUND);
 			}
-
 			const clients = await connectClientController.getClientsByIds(
 				driversWithinDeliveryRange,
 			);
@@ -124,26 +148,41 @@ class ClusterController {
 					});
 				}
 			});
-			const roomId = this.roomId('select-driver', order.id);
-			clients.forEach((client) => this.subscribeToRoom(client, roomId));
+			const roomId = createRoomId('select-driver', order.id);
+			await this.subscribeToRoom(
+				clients,
+				roomId,
+				TextContent.dispatch.status.NEW_ORDER,
+			);
 		} catch (error: any) {
-			console.error('Dispatch: createSelectDriverRoom error: ', error);
+			console.error('Dispatch: createSelectDriverRoom: ', error);
 			throw new Error(error.message);
 		}
 	}
 
-	async subscribeToRoom(client: ClientType, roomId: string) {
+	async subscribeToRoom(
+		clients: ClientType[],
+		roomId: string,
+		message?: string,
+	) {
 		try {
-			await dispatchRoomController.addClient(roomId, client);
+			clients.forEach(
+				async (client) =>
+					await dispatchRoomController.addClient(roomId, client),
+			);
 			if (++global.lastWorkerId >= settings.numCPUs) {
 				global.lastWorkerId = 0;
 			}
 			return this.sendToWorker(global.lastWorkerId, {
 				action: 'join-room',
-				payload: { roomId, client },
+				payload: {
+					roomId,
+					clients,
+					message,
+				},
 			});
 		} catch (error: any) {
-			console.error('Dispatch: createSelectDriverRoom error: ', error);
+			console.error('Dispatch: subscribeToRoom: ', error);
 			throw new Error(error.message);
 		}
 	}
@@ -151,18 +190,6 @@ class ClusterController {
 	static async deleteClientFromRoomOnMaster(socketId: string) {
 		await connectClientController.deleteClientBySocketId(socketId);
 	}
-
-	sendToWorker(workerId: number, { action, payload }: ClusterMessage) {
-		this.workers[workerId].send({ action, payload });
-	}
-
-	roomId = (namespace: 'select-driver' | 'deliver-order', orderId: string) => {
-		return `${namespace}:${orderId}`;
-	};
 }
 
 export default ClusterController;
-
-function checkClientsForUser(clients: ClientType[], id: string) {
-	return clients.some((client) => client.id === id);
-}

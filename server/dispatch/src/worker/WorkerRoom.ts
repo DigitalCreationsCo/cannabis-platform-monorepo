@@ -9,10 +9,10 @@ export type RoomType = {
 export default class WorkerRoom extends EventEmitter {
 	id;
 	clients: Client[];
-	constructor(id: string, client: Client) {
+	constructor(id: string, clients: Client[]) {
 		super();
 
 		this.id = id;
-		this.clients = [client];
+		this.clients = [...clients];
 	}
 }
