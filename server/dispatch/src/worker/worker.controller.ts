@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import DispatchDA from '../data-access/DispatchDA';
 import {
 	type ClusterMessage,
@@ -5,6 +6,7 @@ import {
 	type RoomAction,
 } from '../dispatch.types';
 import Messager from '../message/Messager';
+import { dispatchRoomController } from '../redis-client';
 import SelectDriverRoom from './SelectDriverRoom';
 
 export default class WorkerRoomController {
@@ -27,7 +29,6 @@ export default class WorkerRoomController {
 							if (roomId.startsWith('select-driver')) {
 								// i think a better idea is to create this class instance on the master with all the clients passed in, and then send the instance to the worker
 								const room = new SelectDriverRoom(roomId, client);
-
 								this.sendToMaster('connected-on-worker', { roomId, client });
 								console.info(
 									`WORKER ${process.pid}: client ${client.id} join room ${roomId}`,
@@ -66,7 +67,8 @@ export default class WorkerRoomController {
 						}
 						break;
 
-					case 'send-message': // triggered 'sendMsg' event on master process
+					case 'send-message':
+						// triggered 'sendMsg' event on master process
 						// global.io
 						// 	.to(client.roomId)
 						// 	.emit(
@@ -78,6 +80,8 @@ export default class WorkerRoomController {
 						// 			'; ' +
 						// 			cameMsg,
 						// 	);
+						const room = await dispatchRoomController.getRoomById(roomId);
+						room.emit('message', message);
 						Messager.sendMessage(client, message as string);
 						console.log(
 							'WORKER ' +

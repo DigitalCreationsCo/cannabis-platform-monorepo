@@ -1,3 +1,4 @@
+import { EventEmitter } from 'events';
 import { type Client } from '../dispatch.types';
 
 export type RoomType = {
@@ -5,10 +6,12 @@ export type RoomType = {
 	clients: Client[];
 };
 
-export default class WorkerRoom {
+export default class WorkerRoom extends EventEmitter {
 	id;
 	clients: Client[];
 	constructor(id: string, client: Client) {
+		super();
+
 		this.id = id;
 		this.clients = [client];
 	}

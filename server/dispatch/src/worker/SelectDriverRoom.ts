@@ -12,6 +12,9 @@ class SelectDriverRoom extends WorkerRoom {
 			.then((sockets) =>
 				sockets.find((socket) => socket.id === client.socketId)?.join(room),
 			);
+		console.info(
+			`WORKER ${process.pid}: client ${client.id} join room ${room}`,
+		);
 	}
 
 	sendAll(clients: ClientType[], message: string) {
