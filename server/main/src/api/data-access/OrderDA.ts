@@ -10,6 +10,7 @@ import {
 	updateOrderWithOrderItems,
 	type OrderCreateType,
 	type OrderStatus,
+	type OrderWithDispatchDetails,
 	type OrderWithShopDetails,
 	type PurchaseCreate,
 } from '@cd/data-access';
@@ -148,10 +149,18 @@ export default class OrderDA {
 		}
 	}
 
-	static async addDispatchOrderMongo(order: OrderWithShopDetails) {
+	static async addDispatchOrderMongo(order: OrderWithDispatchDetails) {
 		try {
 			await dispatchOrders.insertOne({
 				...order,
+				// add collection queueing metadata
+				queueStatus: [
+					{
+						status: 'Processed',
+						createdAt: new Date(),
+						nextReevaluation: null,
+					},
+				],
 			});
 			console.info(
 				`inserted order ${order.id} into dispatch_orders collection`,

@@ -95,6 +95,8 @@ export type OrderWithDashboardDetails = Order & {
 	destinationAddress: AddressWithCoordinates;
 };
 
+export type PurchaseCreate = Prisma.PurchaseCreateArgs['data'];
+
 export type OrderWithDispatchDetails = Order & {
 	items: ProductVariantWithDetails[];
 	customer: User;
@@ -103,6 +105,11 @@ export type OrderWithDispatchDetails = Order & {
 	route: RouteWithCoordinates;
 	purchase: Purchase;
 	destinationAddress: AddressWithCoordinates;
+	queueStatus: {
+		status: DispatchQueueStatus;
+		createdAt: Date;
+		nextReevaluation: Date | null;
+	}[];
 };
 
-export type PurchaseCreate = Prisma.PurchaseCreateArgs['data'];
+export type DispatchQueueStatus = 'Inqueue' | 'Dispatched';
