@@ -1,4 +1,5 @@
 /* eslint-disable no-case-declarations */
+import { dispatchEvents } from 'message/message-events';
 import DispatchDA from '../data-access/DispatchDA';
 import {
 	type ClusterMessage,
@@ -9,6 +10,7 @@ import Messager from '../message/Messager';
 import { dispatchRoomController } from '../redis-client';
 import SelectDriverRoom from './SelectDriverRoom';
 
+global.rooms = dispatchRoomController.getRooms();
 export default class WorkerRoomController {
 	db: typeof DispatchDA = {} as typeof DispatchDA;
 	messager: Messager;
@@ -21,32 +23,28 @@ export default class WorkerRoomController {
 			'message',
 			async ({
 				action,
-				payload: { roomId, client, message },
+				payload: { roomId, clients, message },
 			}: ClusterMessage) => {
 				switch (action) {
 					case 'join-room':
 						try {
 							if (roomId.startsWith('select-driver')) {
 								// i think a better idea is to create this class instance on the master with all the clients passed in, and then send the instance to the worker
-								const room = new SelectDriverRoom(roomId, client);
-								this.sendToMaster('connected-on-worker', { roomId, client });
-								console.info(
-									`WORKER ${process.pid}: client ${client.id} join room ${roomId}`,
-								);
+								// currently doing this now
+								this.sendToMaster('connected-on-worker', {
+									message: `${roomId}: Dispatching order to drivers`,
+									roomId,
+								});
+								// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+								const room = new SelectDriverRoom(roomId, clients!);
+								await dispatchRoomController.createRoom(room);
+								room.emit(dispatchEvents.new_order);
 								break;
 							} else if (roomId.startsWith('deliver-order')) {
 								//
 							}
-						} catch (e) {
-							console.error(
-								'WORKER ' +
-									process.pid +
-									' error: client cannot join room. Socket id: ' +
-									client.socketId +
-									' (' +
-									e +
-									')',
-							);
+						} catch (error) {
+							console.error(`WORKER ${process.pid} join-room: ${error}`);
 						}
 						break;
 
@@ -54,16 +52,8 @@ export default class WorkerRoomController {
 						try {
 							// handle the event in the room
 							this.sendToMaster('leave-room', { roomId, client });
-						} catch (e) {
-							console.error(
-								'WORKER ' +
-									process.pid +
-									' error: cannot delete user ' +
-									client.id +
-									' (' +
-									e +
-									')',
-							);
+						} catch (error) {
+							console.error(`WORKER ${process.pid} leave-room: ${error}`);
 						}
 						break;
 

@@ -97,14 +97,16 @@ export type OrderWithDashboardDetails = Order & {
 
 export type PurchaseCreate = Prisma.PurchaseCreateArgs['data'];
 
-export type OrderWithDispatchDetails = Order & {
-	items: ProductVariantWithDetails[];
-	customer: User;
-	organization: OrganizationWithDashboardDetails;
-	driver: DriverWithDetails | null;
-	route: RouteWithCoordinates;
-	purchase: Purchase;
-	destinationAddress: AddressWithCoordinates;
+export type OrderWithDispatchDetails = {
+	order: Order & {
+		items: ProductVariantWithDetails[];
+		customer: User;
+		organization: OrganizationWithDashboardDetails;
+		driver: DriverWithDetails | null;
+		route: RouteWithCoordinates;
+		purchase: Purchase;
+		destinationAddress: AddressWithCoordinates;
+	};
 	queueStatus: {
 		status: DispatchQueueStatus;
 		createdAt: Date;
@@ -112,4 +114,8 @@ export type OrderWithDispatchDetails = Order & {
 	}[];
 };
 
-export type DispatchQueueStatus = 'Inqueue' | 'Dispatched';
+export type DispatchQueueStatus =
+	| 'Inqueue'
+	| 'Dispatching'
+	| 'Dispatched'
+	| 'Failed';

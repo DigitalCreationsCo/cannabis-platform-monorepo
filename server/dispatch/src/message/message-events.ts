@@ -1,4 +1,4 @@
-export const events = Object.freeze({
+export const dispatchEvents = Object.freeze({
 	connection: 'connection',
 	client_connect: 'client_connect',
 	customer_connect: 'customer_connect',

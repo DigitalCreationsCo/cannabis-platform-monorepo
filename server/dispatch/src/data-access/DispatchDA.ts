@@ -3,6 +3,7 @@ import cluster from 'cluster';
 import { getGeoJsonPairFromCoordinates } from '@cd/core-lib';
 import prisma, {
 	findDriverWithDetailsById,
+	updateOrder,
 	type Coordinates,
 	type OrganizationWithAddress,
 } from '@cd/data-access';
@@ -278,6 +279,96 @@ class DispatchDA {
 			console.error('createPendingOrdersChangeStream: ', error);
 			throw new Error(error.message);
 		}
+	}
+
+	/**
+	 * atomic update op to add 'dispatching' status to dispatch_order, removing it from reads in the order queue
+	 * @param orderId
+	 */
+	async dequeueOrder(orderId: string) {
+		await this.dispatch_orders_collection?.findOneAndUpdate(
+			{
+				query: {
+					$and: [
+						{ id: orderId },
+						{
+							'Statuses.0.Status': 'Enqueued',
+						},
+						{
+							'Statuses.0.NextReevaluation': null,
+						},
+					],
+				},
+			},
+			{
+				update: {
+					$push: {
+						queueStatus: {
+							$each: [
+								{
+									status: 'Dispatching',
+									createdAt: new Date(),
+									nextReevaluation: null,
+								},
+							],
+							$position: 0,
+						},
+					},
+				},
+			},
+		);
+	}
+
+	async markOrderAsDispatched(orderId: string) {
+		await this.dispatch_orders_collection?.findOneAndUpdate(
+			{
+				query: {
+					id: orderId,
+				},
+			},
+			{
+				update: {
+					$push: {
+						queueStatus: {
+							$each: [
+								{
+									status: 'Dispatched',
+									createdAt: new Date(),
+									nextReevaluation: null,
+								},
+							],
+							$position: 0,
+						},
+					},
+				},
+			},
+		);
+	}
+
+	async markOrderAsFailed(orderId: string) {
+		await this.dispatch_orders_collection?.findOneAndUpdate(
+			{
+				query: {
+					id: orderId,
+				},
+			},
+			{
+				update: {
+					$push: {
+						queueStatus: {
+							$each: [
+								{
+									status: 'Failed',
+									createdAt: new Date(),
+									nextReevaluation: new Date(new Date().getTime() + 2 * 60000), // new date plus 2 minutes
+								},
+							],
+							$position: 0,
+						},
+					},
+				},
+			},
+		);
 	}
 }
 

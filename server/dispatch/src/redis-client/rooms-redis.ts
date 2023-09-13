@@ -12,6 +12,12 @@ dispatchRoomsRedis.on('error', (err) => {
 dispatchRoomsRedis.connect();
 
 class DispatchRoomsController {
+	async getRooms() {
+		return await dispatchRoomsRedis
+			.KEYS('*')
+			.catch((err) => console.info('getRooms: ', err));
+	}
+
 	async getRoomById(room: string) {
 		return await dispatchRoomsRedis
 			.GET(room)
@@ -21,7 +27,6 @@ class DispatchRoomsController {
 	async createRoom(room: RoomType) {
 		room.clients.forEach(
 			async (client) =>
-				// make sure to await all clients being add to room before posting to Redis
 				await dispatchRoomsRedis
 					.SADD(room.id, JSON.stringify(client))
 					.catch((error: any) => {

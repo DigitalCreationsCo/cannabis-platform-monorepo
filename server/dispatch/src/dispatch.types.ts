@@ -17,7 +17,7 @@ export type RoomAction =
 
 export type ClusterMessagePayload = {
 	roomId: string;
-	client: ClientType;
+	clients?: ClientType[];
 	message?: string;
 	order?: any;
 };
