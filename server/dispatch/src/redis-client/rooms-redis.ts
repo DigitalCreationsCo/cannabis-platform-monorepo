@@ -12,6 +12,12 @@ dispatchRoomsRedis.on('error', (err) => {
 dispatchRoomsRedis.connect();
 
 class DispatchRoomsController {
+	async getRoomById(room: string) {
+		return await dispatchRoomsRedis
+			.GET(room)
+			.catch((err) => console.info('getRoomById: ', err));
+	}
+
 	async createRoom(room: RoomType) {
 		room.clients.forEach(
 			async (client) =>
