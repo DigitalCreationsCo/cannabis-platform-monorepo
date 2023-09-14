@@ -22,6 +22,6 @@
 		"**/*.mjs",
 		"**/*.jsx",
 		"**/*.json"
-	],
+, "src/lib/sms/sms.module.ts"	],
 	"exclude": ["**/.*/", "dist"]
 }

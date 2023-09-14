@@ -6,12 +6,11 @@ import {
 	findProductsByOrg,
 	findProductsByText,
 	findProductWithDetails,
-	type OrderWithDashboardDetails,
 	updateOrder,
 	updateOrderWithOrderItems,
 	type OrderCreateType,
 	type OrderStatus,
-	type OrderWithDispatchDetails,
+	type OrderWithDashboardDetails,
 	type OrderWithShopDetails,
 	type PurchaseCreate,
 } from '@cd/data-access';
@@ -162,7 +161,7 @@ export default class OrderDA {
 						nextReevaluation: null,
 					},
 				],
-			} as OrderWithDispatchDetails);
+			});
 			console.info(
 				`inserted order ${order.id} into dispatch_orders collection`,
 			);

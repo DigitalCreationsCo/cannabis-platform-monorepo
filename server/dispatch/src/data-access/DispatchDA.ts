@@ -7,7 +7,12 @@ import prisma, {
 	type Coordinates,
 	type OrganizationWithAddress,
 } from '@cd/data-access';
-import { MongoClient, type ChangeStream, type Collection } from 'mongodb';
+import {
+	MongoClient,
+	type ChangeStream,
+	type Collection,
+	type PushOperator,
+} from 'mongodb';
 
 class DispatchDA {
 	driver_sessions_collection: Collection | undefined;
@@ -286,22 +291,16 @@ class DispatchDA {
 	 * @param orderId
 	 */
 	async dequeueOrder(orderId: string) {
-		await this.dispatch_orders_collection?.findOneAndUpdate(
-			{
-				query: {
+		try {
+			await this.dispatch_orders_collection?.findOneAndUpdate(
+				{
 					$and: [
-						{ id: orderId },
-						{
-							'Statuses.0.Status': 'Enqueued',
-						},
-						{
-							'Statuses.0.NextReevaluation': null,
-						},
+						{ 'order.id': orderId },
+						{ 'queueStatus.0.status': 'Inqueue' },
+						{ 'queueStatus.0.nextReevaluation': null },
 					],
 				},
-			},
-			{
-				update: {
+				{
 					$push: {
 						queueStatus: {
 							$each: [
@@ -314,61 +313,88 @@ class DispatchDA {
 							$position: 0,
 						},
 					},
-				},
-			},
-		);
+				} as PushOperator<{
+					status: string;
+					createdAt: Date;
+					nextReevaluation: null;
+				}>,
+			);
+		} catch (error: any) {
+			console.error('dequeueOrder: ', error);
+			throw new Error(error.message);
+		}
 	}
 
+	/**
+	 * mongodb op to add 'dispatched' status to dispatch_order, removing it from reads in the order queue
+	 * @param orderId
+	 */
 	async markOrderAsDispatched(orderId: string) {
-		await this.dispatch_orders_collection?.findOneAndUpdate(
-			{
-				query: {
-					id: orderId,
+		try {
+			await this.dispatch_orders_collection?.findOneAndUpdate(
+				{
+					query: {
+						id: orderId,
+					},
 				},
-			},
-			{
-				update: {
-					$push: {
-						queueStatus: {
-							$each: [
-								{
-									status: 'Dispatched',
-									createdAt: new Date(),
-									nextReevaluation: null,
-								},
-							],
-							$position: 0,
+				{
+					update: {
+						$push: {
+							queueStatus: {
+								$each: [
+									{
+										status: 'Dispatched',
+										createdAt: new Date(),
+										nextReevaluation: null,
+									},
+								],
+								$position: 0,
+							},
 						},
 					},
 				},
-			},
-		);
+			);
+		} catch (error: any) {
+			console.error('markOrderAsDispatched: ', error);
+			throw new Error(error.message);
+		}
 	}
 
+	/**
+	 * mongodb op to add 'failed' status to dispatch_order, to handle document processing errors
+	 * @param orderId
+	 */
 	async markOrderAsFailed(orderId: string) {
-		await this.dispatch_orders_collection?.findOneAndUpdate(
-			{
-				query: {
-					id: orderId,
+		try {
+			await this.dispatch_orders_collection?.findOneAndUpdate(
+				{
+					query: {
+						id: orderId,
+					},
 				},
-			},
-			{
-				update: {
-					$push: {
-						queueStatus: {
-							$each: [
-								{
-									status: 'Failed',
-									createdAt: new Date(),
-									nextReevaluation: new Date(new Date().getTime() + 2 * 60000), // new date plus 2 minutes
-								},
-							],
-							$position: 0,
+				{
+					update: {
+						$push: {
+							queueStatus: {
+								$each: [
+									{
+										status: 'Failed',
+										createdAt: new Date(),
+										nextReevaluation: new Date(
+											new Date().getTime() + 2 * 60000,
+										), // new date plus 2 minutes
+									},
+								],
+								$position: 0,
+							},
 						},
 					},
 				},
-			},
-		);
+			);
+		} catch (error: any) {
+			console.error('markOrderAsFailed: ', error);
+			throw new Error(error.message);
+		}
 	}
 }
 

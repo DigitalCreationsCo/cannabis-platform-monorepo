@@ -34,6 +34,12 @@ class RedisConnectClientController {
 		return clients;
 	}
 
+	async getClientByPhone(phone: string): Promise<any> {
+		return await connectClientRedis
+			.HGETALL(phone)
+			.catch((err) => console.error('getClientByPhone: ', err));
+	}
+
 	async deleteClientBySocketId(socketId: string) {
 		console.info('deleteClientBySocketId: ', socketId);
 	}
