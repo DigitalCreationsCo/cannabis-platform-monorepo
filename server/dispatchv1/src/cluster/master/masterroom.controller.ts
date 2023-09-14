@@ -4,7 +4,7 @@
 import { isEmpty, TextContent } from '@cd/core-lib';
 import { type OrderWithDispatchDetails } from '@cd/data-access';
 import DispatchDA from '../../data-access';
-import { Client, type DriverClient } from '../../dispatch.types';
+import { Client } from '../../dispatch.types';
 import { connectClientController } from '../redis';
 import ClusterInit from './clusterInit';
 
@@ -156,7 +156,7 @@ class MasterRoomController {
 	//   return client;
 	// }
 
-	async createSelectDriverRoom(order: OrderWithDispatchDetails) {
+	async createSelectDriverRoom(order: OrderWithDispatchDetails['order']) {
 		try {
 			let radiusFactor = 1;
 			const { organization, id: orderId } = order;

@@ -5,7 +5,11 @@ import cluster from 'node:cluster';
 import { isEmpty, TextContent } from '@cd/core-lib';
 import { type OrderWithDispatchDetails } from '@cd/data-access';
 import type DispatchDA from '../data-access/DispatchDA';
-import { type ClientType, type ClusterMessage } from '../dispatch.types';
+import {
+	Client,
+	type ClientType,
+	type ClusterMessage,
+} from '../dispatch.types';
 import {
 	checkClientsForUser,
 	createRoomId,
@@ -77,21 +81,31 @@ class ClusterController {
 				this.db.dispatch_orders_changestream?.on('change', async (change) => {
 					console.info('changestream event', change.operationType);
 					let order;
+					let queueStatus;
 					switch (change.operationType) {
 						case 'insert':
-							order = change.fullDocument as OrderWithDispatchDetails['order'];
+							order = (change.fullDocument as OrderWithDispatchDetails).order;
+							// assign driver to dispatch order
 							if (isEmpty(order.driver)) {
 								this.createSelectDriverRoom(order);
 							}
 							break;
 						case 'update':
-							order = change.fullDocument as OrderWithDispatchDetails['order'];
-							if (isEmpty(order.driver)) {
-								// assign driver
-								this.createSelectDriverRoom(order);
-								null;
-							} else {
-								// createDeliverOrderRoom(order)
+							order = (change.fullDocument as OrderWithDispatchDetails).order;
+							queueStatus = (change.fullDocument as OrderWithDispatchDetails)
+								.queueStatus;
+
+							if (
+								queueStatus[0].status === 'Inqueue' ||
+								queueStatus[0].status === 'Failed'
+							) {
+								if (isEmpty(order.driver)) {
+									// assign driver
+									this.createSelectDriverRoom(order);
+								} else {
+									// deliver order
+									this.createDeliverOrderRoom(order);
+								}
 							}
 							break;
 						default:
@@ -105,8 +119,8 @@ class ClusterController {
 		}
 	}
 
-	async sendToWorker(workerId: number, { action, payload }: ClusterMessage) {
-		this.workers[workerId].send({ action, payload });
+	async sendToWorker({ action, payload }: ClusterMessage) {
+		this.workers[global.lastWorkerId].send({ action, payload });
 	}
 
 	async createSelectDriverRoom(order: OrderWithDispatchDetails['order']) {
@@ -153,9 +167,42 @@ class ClusterController {
 				clients,
 				roomId,
 				TextContent.dispatch.status.NEW_ORDER,
+				order,
 			);
 		} catch (error: any) {
 			console.error('Dispatch: createSelectDriverRoom: ', error);
+			throw new Error(error.message);
+		}
+	}
+
+	async createDeliverOrderRoom(order: OrderWithDispatchDetails['order']) {
+		try {
+			const usersJoining = [
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+				{ id: order.driver!.id, phone: order.driver!.user.phone },
+				{ id: order.customer.id, phone: order.customer.phone },
+				// { id: order.organization.id }, // dashboard websocket client feature
+			];
+			const clients = await connectClientController.getClientsByIds(
+				usersJoining,
+			);
+			// match clients
+			// if no match, the user is smsOnly and we need to create a new client
+			usersJoining.forEach((user) => {
+				if (!checkClientsForUser(clients, user.id)) {
+					const client = new Client({
+						id: user.id,
+						phone: user.phone,
+						orderId: order.id,
+					});
+					connectClientController.saveClient(client);
+					clients.push(client);
+				}
+			});
+			const roomId = createRoomId('deliver-order', order.id);
+			await this.subscribeToRoom(clients, roomId);
+		} catch (error: any) {
+			console.error('Dispatch: createDeliverOrderRoom: ', error);
 			throw new Error(error.message);
 		}
 	}
@@ -164,6 +211,7 @@ class ClusterController {
 		clients: ClientType[],
 		roomId: string,
 		message?: string,
+		order?: OrderWithDispatchDetails['order'],
 	) {
 		try {
 			clients.forEach(
@@ -173,12 +221,13 @@ class ClusterController {
 			if (++global.lastWorkerId >= settings.numCPUs) {
 				global.lastWorkerId = 0;
 			}
-			return this.sendToWorker(global.lastWorkerId, {
+			return this.sendToWorker({
 				action: 'join-room',
 				payload: {
 					roomId,
 					clients,
 					message,
+					order,
 				},
 			});
 		} catch (error: any) {

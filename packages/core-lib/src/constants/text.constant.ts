@@ -1,3 +1,6 @@
+import { type OrganizationWithAddress } from '@cd/data-access';
+import { renderAddress } from 'utils';
+
 /* eslint-disable @typescript-eslint/naming-convention */
 const nbsp = '\xa0';
 const copyrightsymbol = '&#169';
@@ -233,6 +236,13 @@ const TextContent = Object.freeze({
 			CONNECTED: `Connected to the dispatch server.`,
 			NAVIGATE_DELIVERY: `Navigate to start delivering your order.`,
 			NEW_ORDER: `New Order!`,
+			RECEIVED_NEW_ORDER: `You received a delivery order from Gras.`,
+			PICKUP_ADDRESS_f: (organization: OrganizationWithAddress) =>
+				`Pickup from ${organization.name}, ${renderAddress({
+					address: organization.address,
+					lineBreak: false,
+				})}`,
+			REPLY_TO_ACCEPT_ORDER: `Reply '1' to accept the delivery order.`,
 		},
 		error: {
 			ROOM_NOT_FOUND: `Dispatch room not found.`,

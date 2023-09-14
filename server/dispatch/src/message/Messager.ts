@@ -1,5 +1,6 @@
 import { FeatureConfig } from '../config/dispatch.features';
 import { type ClientType } from '../dispatch.types';
+import SMSModule from '../lib/sms';
 
 class Messager {
 	static async sendAll(recipients: ClientType[], data: string) {
@@ -13,10 +14,10 @@ class Messager {
 			this.sendSocketMessage(client.socketId, data); // fail silently if no socket
 	}
 
-	private static async sendSMS(phone: string, data: string) {
-		console.info('sending sms to ' + phone + ': ' + data);
+	static async sendSMS(phone: string, data: string) {
+		SMSModule.send(phone, data);
 	}
-	private static async sendSocketMessage(socketId: string, data: string) {
+	static async sendSocketMessage(socketId: string, data: string) {
 		console.info('sending socket message to ' + socketId + ': ' + data);
 	}
 }

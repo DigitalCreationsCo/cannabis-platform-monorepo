@@ -1,7 +1,7 @@
 import { TextContent } from '@cd/core-lib';
-import { dispatchEvents } from 'message/message-events';
+import { type OrderWithDispatchDetails } from '@cd/data-access';
 import { type ClientType } from '../dispatch.types';
-import Messager from '../message/Messager';
+import Messager, { dispatchEvents } from '../message';
 import WorkerRoom from './WorkerRoom';
 
 class SelectDriverRoom extends WorkerRoom {
@@ -19,9 +19,22 @@ class SelectDriverRoom extends WorkerRoom {
 		console.info(
 			`WORKER ${process.pid}: ${clients.length} clients join room ${room}`,
 		);
-		this.on(dispatchEvents.new_order, () => {
-			this.sendAll(TextContent.dispatch.status.NEW_ORDER);
-		});
+		this.on(
+			dispatchEvents.new_order,
+			(order: OrderWithDispatchDetails['order']) => {
+				this.sendAll(
+					TextContent.dispatch.status.NEW_ORDER +
+						'\n' +
+						TextContent.dispatch.status.PICKUP_ADDRESS_f(order.organization),
+				);
+				clients.forEach((client) =>
+					this.messager.sendSMS(
+						client.phone,
+						TextContent.dispatch.status.REPLY_TO_ACCEPT_ORDER,
+					),
+				);
+			},
+		);
 	}
 
 	sendAll(message: string) {

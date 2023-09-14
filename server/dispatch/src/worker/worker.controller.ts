@@ -1,12 +1,11 @@
 /* eslint-disable no-case-declarations */
-import { dispatchEvents } from 'message/message-events';
 import DispatchDA from '../data-access/DispatchDA';
 import {
 	type ClusterMessage,
 	type ClusterMessagePayload,
 	type RoomAction,
 } from '../dispatch.types';
-import Messager from '../message/Messager';
+import Messager, { dispatchEvents } from '../message';
 import { dispatchRoomController } from '../redis-client';
 import SelectDriverRoom from './SelectDriverRoom';
 
@@ -23,7 +22,7 @@ export default class WorkerRoomController {
 			'message',
 			async ({
 				action,
-				payload: { roomId, clients, message },
+				payload: { roomId, clients, order },
 			}: ClusterMessage) => {
 				switch (action) {
 					case 'join-room':
@@ -38,9 +37,10 @@ export default class WorkerRoomController {
 								// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 								const room = new SelectDriverRoom(roomId, clients!);
 								await dispatchRoomController.createRoom(room);
-								room.emit(dispatchEvents.new_order);
+								room.emit(dispatchEvents.new_order, order);
 								break;
 							} else if (roomId.startsWith('deliver-order')) {
+								console.log('deliver-order room created, ' + roomId);
 								//
 							}
 						} catch (error) {
@@ -49,12 +49,12 @@ export default class WorkerRoomController {
 						break;
 
 					case 'leave-room': // if client disconnected from master process
-						try {
-							// handle the event in the room
-							this.sendToMaster('leave-room', { roomId, client });
-						} catch (error) {
-							console.error(`WORKER ${process.pid} leave-room: ${error}`);
-						}
+						// try {
+						// 	// handle the event in the room
+						// 	this.sendToMaster('leave-room', { roomId, client });
+						// } catch (error) {
+						// 	console.error(`WORKER ${process.pid} leave-room: ${error}`);
+						// }
 						break;
 
 					case 'send-message':
@@ -70,17 +70,29 @@ export default class WorkerRoomController {
 						// 			'; ' +
 						// 			cameMsg,
 						// 	);
-						const room = await dispatchRoomController.getRoomById(roomId);
-						room.emit('message', message);
-						Messager.sendMessage(client, message as string);
-						console.log(
-							'WORKER ' +
-								process.pid +
-								': user ' +
-								client.id +
-								' in room send msg ' +
-								message,
+
+						// const room = await dispatchRoomController.getRoomById(roomId);
+						// room.emit('message', message);
+						// Messager.sendMessage(client, message as string);
+						// console.log(
+						// 	'WORKER ' +
+						// 		process.pid +
+						// 		': user ' +
+						// 		client.id +
+						// 		' in room send msg ' +
+						// 		message,
+						// );
+						break;
+
+					case 'accept-order':
+						const room = (await dispatchRoomController.getRoomById(
+							roomId,
+						)) as unknown as SelectDriverRoom;
+						console.info(
+							'accept-order command received on worker room: ',
+							room,
 						);
+						room.emit(dispatchEvents.accept_order, order);
 						break;
 				}
 			},

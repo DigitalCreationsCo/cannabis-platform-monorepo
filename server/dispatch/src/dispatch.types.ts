@@ -1,3 +1,5 @@
+import { type OrderWithDispatchDetails } from '@cd/data-access';
+
 export type SocketMessage = {
 	id: string;
 	phone: string;
@@ -13,13 +15,14 @@ export type RoomAction =
 	| 'join-room'
 	| 'leave-room'
 	| 'send-message'
+	| 'accept-order'
 	| 'connected-on-worker';
 
 export type ClusterMessagePayload = {
 	roomId: string;
 	clients?: ClientType[];
 	message?: string;
-	order?: any;
+	order?: OrderWithDispatchDetails['order'];
 };
 
 export interface ClientType {
@@ -27,6 +30,7 @@ export interface ClientType {
 	id: string;
 	phone: string;
 	roomId?: string;
+	orderId?: string;
 }
 
 export class Client {
@@ -34,10 +38,12 @@ export class Client {
 	roomId?: string;
 	id: string;
 	phone: string;
-	constructor({ socketId, roomId, id, phone }: ClientType) {
+	orderId?: string;
+	constructor({ socketId, roomId, id, phone, orderId }: ClientType) {
 		this.socketId = socketId || undefined;
 		this.roomId = roomId || undefined;
 		this.id = id;
 		this.phone = phone;
+		this.orderId = orderId || undefined;
 	}
 }
