@@ -22,27 +22,27 @@ class SelectDriverRoom extends WorkerRoom {
 		this.on(
 			dispatchEvents.new_order,
 			(order: OrderWithDispatchDetails['order']) => {
-				this.sendAll(
-					TextContent.dispatch.status.NEW_ORDER +
-						'\n' +
-						TextContent.dispatch.status.PICKUP_ADDRESS_f(order.organization),
-				);
-				clients.forEach((client) =>
-					this.messager.sendSMS(
-						client.phone,
-						TextContent.dispatch.status.REPLY_TO_ACCEPT_ORDER,
-					),
-				);
+				clients.forEach((client) => {
+					this.messager.sendSMS({
+						event: dispatchEvents.new_order,
+						phone: client.phone,
+						data:
+							TextContent.dispatch.status.NEW_ORDER_FROM_GRAS +
+							'\n' +
+							TextContent.dispatch.status.PICKUP_ADDRESS_f(order.organization) +
+							'\n' +
+							TextContent.dispatch.status.REPLY_TO_ACCEPT_ORDER,
+					});
+					this.messager.sendSocketMessage({
+						socketId: client.socketId,
+						data:
+							TextContent.dispatch.status.NEW_ORDER +
+							'\n' +
+							TextContent.dispatch.status.PICKUP_ADDRESS_f(order.organization),
+					});
+				});
 			},
 		);
-	}
-
-	sendAll(message: string) {
-		this.messager.sendAll(this.clients, message);
-	}
-
-	sendMessage(client: ClientType, message: string) {
-		this.messager.sendMessage(client, message);
 	}
 }
 

@@ -1,9 +1,10 @@
 import { type OrganizationWithAddress } from '@cd/data-access';
-import { renderAddress } from 'utils';
+import { renderAddress } from '../utils';
 
 /* eslint-disable @typescript-eslint/naming-convention */
 const nbsp = '\xa0';
 const copyrightsymbol = '&#169';
+
 const TextContent = Object.freeze({
 	prompt: {
 		ACCEPT_ORDER: 'Do you want to accept the order?',
@@ -236,6 +237,7 @@ const TextContent = Object.freeze({
 			CONNECTED: `Connected to the dispatch server.`,
 			NAVIGATE_DELIVERY: `Navigate to start delivering your order.`,
 			NEW_ORDER: `New Order!`,
+			NEW_ORDER_FROM_GRAS: `New Order from Gras!`,
 			RECEIVED_NEW_ORDER: `You received a delivery order from Gras.`,
 			PICKUP_ADDRESS_f: (organization: OrganizationWithAddress) =>
 				`Pickup from ${organization.name}, ${renderAddress({

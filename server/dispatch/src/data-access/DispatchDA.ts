@@ -162,7 +162,7 @@ class DispatchDA {
 	async findDriversWithinRange(
 		organization: OrganizationWithAddress,
 		radiusFactor = 1,
-	): Promise<{ id: string; phone: string }[]> {
+	): Promise<{ id: string; phone: string; dialCode: string }[]> {
 		try {
 			const geoJsonPoint = getGeoJsonPairFromCoordinates(
 				organization.address.coordinates as Coordinates,
@@ -195,9 +195,9 @@ class DispatchDA {
 						},
 					},
 					{ $limit: 10 },
-					{ $project: { _id: 0, id: 1, phone: 1 } },
+					{ $project: { _id: 0, id: 1, phone: 1, dialCode: 1 } },
 				])
-				.toArray()) as { id: string; phone: string }[];
+				.toArray()) as { id: string; phone: string; dialCode: string }[];
 			return drivers || [];
 		} catch (error: any) {
 			console.error('findDriversWithinRange: ', error);
