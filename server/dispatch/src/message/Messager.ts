@@ -3,21 +3,37 @@ import { type ClientType } from '../dispatch.types';
 import SMSModule from '../lib/sms';
 
 class Messager {
-	static async sendAll(recipients: ClientType[], data: string) {
-		recipients.forEach((client) => this.sendMessage(client, data));
+	static async sendAll(event: any, recipients: ClientType[], data: string) {
+		recipients.forEach((client) => this.sendMessage(event, client, data));
 	}
 
-	static async sendMessage(client: ClientType, data: string) {
-		FeatureConfig.sms.enabled && this.sendSMS(client.phone, data);
+	static async sendMessage(event: any, client: ClientType, data: string) {
+		FeatureConfig.sms.enabled &&
+			this.sendSMS({ event: event, phone: client.phone, data: data });
 		FeatureConfig.socket.enabled &&
 			client.socketId &&
-			this.sendSocketMessage(client.socketId, data); // fail silently if no socket
+			this.sendSocketMessage({ socketId: client.socketId, data: data }); // fail silently if no socket
 	}
 
-	static async sendSMS(phone: string, data: string) {
-		SMSModule.send(phone, data);
+	static async sendSMS({
+		event,
+		phone,
+		data,
+	}: {
+		event: any;
+		phone: string;
+		data: string;
+	}) {
+		SMSModule.send(event, phone, data);
 	}
-	static async sendSocketMessage(socketId: string, data: string) {
+
+	static async sendSocketMessage({
+		socketId,
+		data,
+	}: {
+		socketId: string | undefined;
+		data: string;
+	}) {
 		console.info('sending socket message to ' + socketId + ': ' + data);
 	}
 }

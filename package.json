@@ -78,7 +78,8 @@
 		"nuke:node_modules": "npx rimraf@3.0.1 '**/node_modules'",
 		"postinstall": "yarn is-ci || yarn is-docker || yarn husky install && chmod +x scripts",
 		"permit-scripts": "node scripts/permit-scripts.js",
-		"sms:activate": "dotenv -e .env.production -- node server/dispatch/src/lib/sms/activate.mjs"
+		"sms:activate": "dotenv -e .env.production -- node server/dispatch/src/lib/sms/activate-sms.mjs",
+		"sms:get-phone-numbers": "dotenv -e .env.production -- node server/dispatch/src/lib/sms/get-active-phonenumbers.mjs"
 	},
 	"engines": {
 		"node": "16.20.0",

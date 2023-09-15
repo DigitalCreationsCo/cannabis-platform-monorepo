@@ -56,7 +56,7 @@
 		"test:unit-ci": "echo \"Tests are not ready for use.\" && exit 0",
 		"test:fix": "../../node_modules/jest/bin/jest.js --detectOpenHandles",
 		"test:watch": "../../node_modules/jest/bin/jest.js --watchAll",
-		"watch": "rm -rf ./node_modules/.cache && dotenv -e ../../.env.development -- babel-watch -e \".ts\" -c ./babel.config.js --watch ./src/worker ./src/index.ts"
+		"watch": "rm -rf ./node_modules/.cache && dotenv -e ../../.env.development -- babel-watch -e \".ts\" -c ./babel.config.js --watch ./src ./src/index.ts"
 	},
 	"version": "0.0.1"
 }

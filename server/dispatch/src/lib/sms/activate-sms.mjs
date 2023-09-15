@@ -1,19 +1,27 @@
 import axios from 'axios';
 import inquirer from 'inquirer';
 
-console.info('Activate incoming phone number for SMS: TextGrid API');
+console.info(
+	`Activate incoming phone number for SMS: TextGrid API in
+${process.env.NODE_ENV} environment.
+`,
+);
 
 // parameters
 const region = 'MD';
 const countryCode = 'US';
+const token = Buffer.from(
+	`${process.env.TEXTGRID_ACCOUNT_SID}:${process.env.TEXTGRID_AUTHTOKEN}`,
+).toString('base64');
+
 try {
-	await axios(
+	axios(
 		`${process.env.TEXTGRID_BASE_URL}/Accounts/${process.env.TEXTGRID_ACCOUNT_SID}/AvailablePhoneNumbers/${countryCode}/Local.json?inRegion=${region}`,
 		{
 			headers: {
 				// eslint-disable-next-line prettier/prettier
 				'Authorization':
-					`Bearer S2h0eVFIdDVqcVE5MVFBN1V6c2tqQT09OjhjN2RlOTY3OWZmMzQzNjI5NGNiZTljZWYxMDliYjQx`,
+					`Bearer ${token}`,
 			},
 		},
 	).then((response) => {
@@ -33,7 +41,7 @@ try {
 					'activating phone number for sms module',
 					answers['select-phone-number'],
 				);
-				await axios.post(
+				const response = await axios.post(
 					`${process.env.TEXTGRID_BASE_URL}/Accounts/${process.env.TEXTGRID_ACCOUNT_SID}/IncomingPhoneNumbers.json`,
 					{
 						phoneNumber: answers['select-phone-number'],
@@ -47,10 +55,13 @@ try {
 						headers: {
 							// eslint-disable-next-line prettier/prettier
 							'Authorization':
-								`Bearer S2h0eVFIdDVqcVE5MVFBN1V6c2tqQT09OjhjN2RlOTY3OWZmMzQzNjI5NGNiZTljZWYxMDliYjQx`,
+								`Bearer ${token}`,
+							'Content-Type': 'application/x-www-form-urlencoded',
 						},
 					},
 				);
+
+				console.info('response', response.data);
 			});
 	});
 } catch (error) {

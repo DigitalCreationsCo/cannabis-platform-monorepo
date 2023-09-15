@@ -188,18 +188,21 @@ class ClusterController {
 			);
 			// match clients
 			// if no match, the user is smsOnly and we need to create a new client
+
+			const roomId = createRoomId('deliver-order', order.id);
 			usersJoining.forEach((user) => {
 				if (!checkClientsForUser(clients, user.id)) {
 					const client = new Client({
 						id: user.id,
 						phone: user.phone,
 						orderId: order.id,
+						roomId,
 					});
+					console.log('client joining ', client, 'room ', roomId);
 					connectClientController.saveClient(client);
 					clients.push(client);
 				}
 			});
-			const roomId = createRoomId('deliver-order', order.id);
 			await this.subscribeToRoom(clients, roomId);
 		} catch (error: any) {
 			console.error('Dispatch: createDeliverOrderRoom: ', error);

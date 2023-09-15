@@ -1,4 +1,7 @@
-function formatDispensaryUrl(subdomainId: string, organizationId?: string) {
+export function formatDispensaryUrl(
+	subdomainId: string,
+	organizationId?: string,
+) {
 	console.debug(
 		`link to subdomain: ${subdomainId}, organizationId: ${organizationId}`,
 	);
@@ -18,7 +21,7 @@ function formatDispensaryUrl(subdomainId: string, organizationId?: string) {
 	}
 }
 
-function formatBlogUrl(href: string) {
+export function formatBlogUrl(href: string) {
 	switch (process.env.NODE_ENV) {
 		case 'development':
 			return `http://localhost:3000/blog/${href}`;
@@ -31,7 +34,7 @@ function formatBlogUrl(href: string) {
 	}
 }
 
-function getShopSite(path: string): string {
+export function getShopSite(path: string): string {
 	switch (process.env.NODE_ENV as string) {
 		case 'development':
 			return `${process.env.NEXT_PUBLIC_SHOP_APP_URL}${path}`;
@@ -44,7 +47,7 @@ function getShopSite(path: string): string {
 	}
 }
 
-function getDashboardSite(path: string): string {
+export function getDashboardSite(path: string): string {
 	switch (process.env.NODE_ENV as string) {
 		case 'development':
 			return `${process.env.NEXT_PUBLIC_DASHBOARD_APP_URL}${path}`;
@@ -57,16 +60,32 @@ function getDashboardSite(path: string): string {
 	}
 }
 
-function getDispensaryDomain(url: string) {
+export function getDispensaryDomain(url: string) {
 	const match = url.match(/(?:https?:\/\/)?(?:[a-zA-Z\d-]+\.)*([^.]+)\./); // matches all but localhost:xxxx
 	if (match) return match[1];
 	else return null;
 }
 
-export {
-	formatDispensaryUrl,
-	formatBlogUrl,
-	getDispensaryDomain,
-	getShopSite,
-	getDashboardSite,
-};
+export function parseUrlFriendlyString(url: string) {
+	// Split the string into key-value pairs
+	const keyValuePairs = url.split('&');
+	// Create an object to store the parsed values
+	const parsedValues: Record<string, any> = {};
+	// Iterate through key-value pairs
+	for (const pair of keyValuePairs) {
+		// Split each pair into key and value
+		const [key, value] = pair.split('=');
+		// URL decode the value and store it in the object
+		parsedValues[key] = decodeURIComponent(value);
+	}
+	return parsedValues;
+}
+
+export function parseUrlParameters(url: string) {
+	// Create a URL object from the URL string
+	const urlObject = new URL(url);
+	// Extract the search parameters
+	const searchParams = urlObject.search.substr(1); // Remove the leading '?'
+	// Parse the search parameters using the parseUrlFriendlyString function
+	return parseUrlFriendlyString(searchParams);
+}

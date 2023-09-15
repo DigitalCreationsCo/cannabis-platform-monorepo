@@ -1,6 +1,8 @@
 import { createServer } from 'http';
+import { isEmpty, parseUrlFriendlyString } from '@cd/core-lib';
 import { createAdapter } from '@socket.io/redis-adapter';
 import { Server } from 'socket.io';
+import { type TextGridReturnMessagePayload } from '../src/lib/sms/sms.module';
 import { Client, type SocketMessage } from './dispatch.types';
 import ClusterInit from './master/cluster-init';
 import { dispatchEvents } from './message/message-events';
@@ -51,27 +53,36 @@ try {
 
 	httpServer.addListener('request', (req) => {
 		// intercept sms reply from driver, and send emit to room on worker
-		if (req.method === 'POST' && req.url === '/sms/driver-accept-order') {
-			console.log('MASTER: received POST request to /sms/driver-accept-order');
+		const url = new URL(req.url || '', `http://${req.headers.host}`);
+		if (req.method === 'POST' && url.pathname === '/sms/driver-accept-order') {
+			console.info(`MASTER: received POST request to ${url.href}`);
+			console.info('url ', url);
 			let body = '';
 			req.on('data', (chunk) => {
 				body += chunk.toString();
 			});
 			req.on('end', async () => {
-				console.log('MASTER: received sms/driver-accept-order message: ', body);
-				const { From: phone, Body: data } = JSON.parse(body);
-				const client = await connectClientController.getClientByPhone(phone);
-				if (client) {
-					new ClusterInit().sendToWorker({
-						action: 'accept-order',
-						payload: {
-							roomId: client.roomId,
-							clients: [client],
-							message: data,
-						},
-					});
-				} else {
-					console.error('MASTER: client not found for phone: ', phone);
+				console.info('body ', body);
+				const {
+					From, // phone
+					Body, // message from sms
+				} = parseUrlFriendlyString(body) as TextGridReturnMessagePayload;
+				if (Body.match(/\b1\b/)) {
+					const client = await connectClientController.getClientByPhone(
+						From.split('+1')[1],
+					);
+					console.info('client retrieved ', client);
+					if (!isEmpty(client)) {
+						new ClusterInit().sendToWorker({
+							action: 'accept-order',
+							payload: {
+								roomId: client.roomId,
+								clients: [client],
+							},
+						});
+					} else {
+						console.error('MASTER: client not found for phone: ', From);
+					}
 				}
 			});
 		}
