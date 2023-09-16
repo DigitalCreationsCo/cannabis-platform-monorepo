@@ -15,7 +15,6 @@ import {
 	createRoomId,
 	getOrderIdFromRoom,
 } from '../dispatch.util';
-import { dispatchRoomController } from '../redis-client';
 import { connectClientController } from '../redis-client/clients-redis';
 import settings from './cluster-settings';
 
@@ -104,6 +103,7 @@ class ClusterController {
 									this.createSelectDriverRoom(order);
 								} else {
 									// deliver order
+									console.info('deliver order!');
 									this.createDeliverOrderRoom(order);
 								}
 							}
@@ -149,20 +149,30 @@ class ClusterController {
 				console.info('no drivers found within delivery range');
 				// throw new Error(TextContent.error.DRIVER_NOT_FOUND);
 			}
-			const clients = await connectClientController.getClientsByIds(
-				driversWithinDeliveryRange,
-			);
+			// dont get clients, rather update clients for every order
+			// const clients = await connectClientController.getManyClientsByPhone(
+			// 	driversWithinDeliveryRange,
+			// );
+
+			const clients: Client[] = [];
 			// match driversWithinDeliveryRange to clients
 			// if no match, the driver is smsOnly and we need to create a new client
-			driversWithinDeliveryRange.forEach((driver) => {
-				if (!checkClientsForUser(clients, driver.id)) {
-					clients.push({
-						id: driver.id,
-						phone: driver.phone,
-					});
-				}
-			});
 			const roomId = createRoomId('select-driver', order.id);
+			driversWithinDeliveryRange.forEach(async (driver) => {
+				// if (!checkClientsForUser(clients, driver.id)) {
+				const client = new Client({
+					id: driver.id,
+					phone: driver.phone,
+					orderId: order.id,
+					roomId,
+				});
+				console.log('client joining ', client, 'room ', roomId);
+				connectClientController.saveClient(client);
+				clients.push(client);
+				console.info('pushed new client');
+				// }
+			});
+			console.info('select-driver clients ', clients);
 			await this.subscribeToRoom(
 				clients,
 				roomId,
@@ -183,14 +193,14 @@ class ClusterController {
 				{ id: order.customer.id, phone: order.customer.phone },
 				// { id: order.organization.id }, // dashboard websocket client feature
 			];
-			const clients = await connectClientController.getClientsByIds(
+			const clients = await connectClientController.getManyClientsByPhone(
 				usersJoining,
 			);
 			// match clients
 			// if no match, the user is smsOnly and we need to create a new client
 
 			const roomId = createRoomId('deliver-order', order.id);
-			usersJoining.forEach((user) => {
+			usersJoining.forEach(async (user) => {
 				if (!checkClientsForUser(clients, user.id)) {
 					const client = new Client({
 						id: user.id,
@@ -199,7 +209,7 @@ class ClusterController {
 						roomId,
 					});
 					console.log('client joining ', client, 'room ', roomId);
-					connectClientController.saveClient(client);
+					await connectClientController.saveClient(client);
 					clients.push(client);
 				}
 			});
@@ -217,10 +227,13 @@ class ClusterController {
 		order?: OrderWithDispatchDetails['order'],
 	) {
 		try {
-			clients.forEach(
-				async (client) =>
-					await dispatchRoomController.addClient(roomId, client),
-			);
+			console.info('subscribeToRoom clients ', clients);
+			// i dont think this block is needed, as the room is created on worker
+
+			// clients.forEach(
+			// 	async (client) =>
+			// 		await dispatchRoomController.addClient(roomId, client),
+			// );
 			if (++global.lastWorkerId >= settings.numCPUs) {
 				global.lastWorkerId = 0;
 			}
@@ -239,9 +252,9 @@ class ClusterController {
 		}
 	}
 
-	static async deleteClientFromRoomOnMaster(socketId: string) {
-		await connectClientController.deleteClientBySocketId(socketId);
-	}
+	// static async deleteClientFromRoomOnMaster(client: Client) {
+	// 	await connectClientController.deleteClient(client);
+	// }
 }
 
 export default ClusterController;

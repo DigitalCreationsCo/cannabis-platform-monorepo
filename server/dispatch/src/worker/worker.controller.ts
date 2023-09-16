@@ -1,6 +1,7 @@
 /* eslint-disable no-case-declarations */
 import DispatchDA from '../data-access/DispatchDA';
 import {
+	type Client,
 	type ClusterMessage,
 	type ClusterMessagePayload,
 	type RoomAction,
@@ -8,6 +9,7 @@ import {
 import Messager, { dispatchEvents } from '../message';
 import { dispatchRoomController } from '../redis-client';
 import SelectDriverRoom from './SelectDriverRoom';
+import type WorkerRoom from './WorkerRoom';
 
 global.rooms = dispatchRoomController.getRooms();
 export default class WorkerRoomController {
@@ -31,11 +33,11 @@ export default class WorkerRoomController {
 								// i think a better idea is to create this class instance on the master with all the clients passed in, and then send the instance to the worker
 								// currently doing this now
 								this.sendToMaster('connected-on-worker', {
-									message: `${roomId}: Dispatching order to drivers`,
+									message: `${clients?.length} clients joining ${roomId}: Dispatching order to drivers`,
 									roomId,
 								});
 								// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-								const room = new SelectDriverRoom(roomId, clients!);
+								const room = new SelectDriverRoom(roomId, clients as Client[]);
 								await dispatchRoomController.createRoom(room);
 								room.emit(dispatchEvents.new_order, order);
 								break;
@@ -85,14 +87,23 @@ export default class WorkerRoomController {
 						break;
 
 					case 'accept-order':
-						const room = (await dispatchRoomController.getRoomById(
-							roomId,
-						)) as unknown as SelectDriverRoom;
 						console.info(
 							'accept-order command received on worker room: ',
-							room,
+							roomId,
 						);
+						// console.info('room id: ', roomId);
+						// console.info('clients: ', clients);
+						// console.info('order: ', order);
+
+						// console.info('global rooms: ');
+						// console.info(global.rooms);
+						let room: WorkerRoom | undefined =
+							await dispatchRoomController.getRoomById(roomId);
 						room.emit(dispatchEvents.accept_order, order);
+						console.info('emit accept-order to room: ', room.id);
+						room.on('close', () => {
+							room = undefined;
+						});
 						break;
 				}
 			},
@@ -101,9 +112,5 @@ export default class WorkerRoomController {
 
 	sendToMaster(action: RoomAction, payload: ClusterMessagePayload) {
 		process?.send?.({ action, payload });
-	}
-
-	deleteRoom(roomId: string) {
-		global.io.sockets.adapter.rooms.delete(roomId);
 	}
 }
