@@ -234,6 +234,7 @@ const TextContent = Object.freeze({
 
 	dispatch: {
 		status: {
+			ACCEPT_ORDER: `You accepted the delivery order! Travel to pickup the order.`,
 			CONNECTED: `Connected to the dispatch server.`,
 			NAVIGATE_DELIVERY: `Navigate to start delivering your order.`,
 			NEW_ORDER: `New Order!`,
@@ -244,6 +245,7 @@ const TextContent = Object.freeze({
 					address: organization.address,
 					lineBreak: false,
 				})}`,
+			ORDER_ASSIGNED_TO_ANOTHER_DRIVER: `You didn't claim this order. Stay online to receive your next order.`,
 			REPLY_TO_ACCEPT_ORDER: `Reply '1' to accept the delivery order.`,
 		},
 		error: {

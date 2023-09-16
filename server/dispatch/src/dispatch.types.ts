@@ -18,6 +18,12 @@ export type RoomAction =
 	| 'accept-order'
 	| 'connected-on-worker';
 
+export type RoomType = {
+	id: string;
+	clients: Client[];
+	isClosed: boolean;
+};
+
 export type ClusterMessagePayload = {
 	roomId: string;
 	clients?: ClientType[];
@@ -34,16 +40,16 @@ export interface ClientType {
 }
 
 export class Client {
-	socketId?: string;
-	roomId?: string;
+	socketId: string;
+	roomId: string;
 	id: string;
 	phone: string;
-	orderId?: string;
+	orderId: string;
 	constructor({ socketId, roomId, id, phone, orderId }: ClientType) {
-		this.socketId = socketId || undefined;
-		this.roomId = roomId || undefined;
+		this.socketId = socketId || '';
+		this.roomId = roomId || '';
 		this.id = id;
 		this.phone = phone;
-		this.orderId = orderId || undefined;
+		this.orderId = orderId || '';
 	}
 }
