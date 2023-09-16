@@ -1,6 +1,7 @@
+import { isEmpty } from '@cd/core-lib';
 import { createClient } from 'redis';
-import { type ClientType } from '../dispatch.types';
-import { type RoomType } from '../worker/WorkerRoom';
+import { type RoomType } from '../dispatch.types';
+import type WorkerRoom from '../worker/WorkerRoom';
 
 const dispatchRoomsRedis = createClient({
 	url: process.env.DISPATCH_ROOMS_REDIS_URL,
@@ -12,41 +13,72 @@ dispatchRoomsRedis.on('error', (err) => {
 dispatchRoomsRedis.connect();
 
 class DispatchRoomsController {
-	async getRooms() {
-		return await dispatchRoomsRedis
-			.KEYS('*')
-			.catch((err) => console.info('getRooms: ', err));
+	getRooms() {
+		async function getRoomsAsync() {
+			return dispatchRoomsRedis.KEYS('*').then((keys) => {
+				return dispatchRoomsRedis
+					.MGET(keys)
+					.then((rooms) =>
+						rooms
+							.filter((r) => !isEmpty(r))
+							.map((room) => room && JSON.parse(room)),
+					);
+			});
+		}
+		return getRoomsAsync();
 	}
 
-	async getRoomById(room: string) {
+	async getRoomById(roomId: string): Promise<WorkerRoom> {
 		return await dispatchRoomsRedis
-			.GET(room)
+			.GET(roomId)
+			.then((room) => room && JSON.parse(room))
 			.catch((err) => console.info('getRoomById: ', err));
 	}
 
 	async createRoom(room: RoomType) {
-		room.clients.forEach(
-			async (client) =>
-				await dispatchRoomsRedis
-					.SADD(room.id, JSON.stringify(client))
-					.catch((error: any) => {
-						console.error('createRoom: ', error);
-					}),
-		);
-	}
-
-	async getClientsByRoom(roomId: string) {
+		console.info('createRoom: ');
+		console.info(room);
 		return await dispatchRoomsRedis
-			.sMembers(roomId)
-			.catch((err) => console.info('getRoomById: ', err));
+			.SET(room.id, JSON.stringify(room))
+			.catch((err) => console.info('createRoom: ', err));
 	}
 
-	async isClientInRoom(roomId: string, client: ClientType) {
-		return await dispatchRoomsRedis.sIsMember(roomId, JSON.stringify(client));
+	// async getClientsByRoom(roomId: string) {
+	// 	return await dispatchRoomsRedis
+	// 		.sMembers(roomId)
+	// 		.catch((err) => console.info('getClientsByRoom: ', err));
+	// }
+
+	// async isClientInRoom(roomId: string, client: ClientType) {
+	// 	return await dispatchRoomsRedis
+	// 		.sIsMember(roomId, JSON.stringify(client))
+	// 		.catch((err) => console.info('isClientInRoom: ', err));
+	// }
+
+	// async addClient(roomId: string, client: ClientType) {
+	// 	return await dispatchRoomsRedis
+	// 		.SADD(roomId, JSON.stringify(client))
+	// 		.catch((err) => console.info('addClient: ', err));
+	// }
+
+	async deleteRoom(roomId: string) {
+		// delete room from io object
+		global.io.sockets.adapter.rooms.delete(roomId);
+		// delete room from redis server
+		await dispatchRoomsRedis
+			.DEL(roomId)
+			.catch((err) => console.info('deleteRoom: ', err));
 	}
 
-	async addClient(roomId: string, client: ClientType) {
-		return await dispatchRoomsRedis.SADD(roomId, JSON.stringify(client));
+	async deleteClosedRooms() {
+		console.info('scanning for closed rooms');
+		const rooms = await this.getRooms();
+		console.info('rooms: ', rooms);
+		rooms.forEach(async (room: RoomType) => {
+			if ((room && room.isClosed) || room.isClosed === undefined) {
+				await this.deleteRoom(room.id);
+			}
+		});
 	}
 }
 

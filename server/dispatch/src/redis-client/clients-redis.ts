@@ -1,6 +1,6 @@
 import { isEmpty } from '@cd/core-lib';
 import { createClient } from 'redis';
-import { type ClientType } from '../dispatch.types';
+import { type Client, type ClientType } from '../dispatch.types';
 
 const connectClientRedis = createClient({
 	url: process.env.DISPATCH_CONNECT_REDIS_URL,
@@ -13,20 +13,21 @@ connectClientRedis.connect();
 
 class RedisConnectClientController {
 	async saveClient(client: ClientType) {
+		console.log('saveClient input ', client);
 		await connectClientRedis
-			.HSET(client.id, { ...client })
+			.SET(client.phone, JSON.stringify({ ...client }))
 			.catch((error: any) => {
 				console.error('saveClient: ', error);
 			});
 		console.info('saveClient: ', client);
 	}
 
-	async getClientsByIds(idList: { id: string }[]) {
+	async getManyClientsByPhone(idList: { phone: string }[]) {
 		let clients: ClientType[] = [];
 		let id;
 		for (id of idList) {
 			await connectClientRedis
-				.HGETALL(id.id)
+				.GET(id.phone)
 				.then((client) => clients.push(client as unknown as ClientType))
 				.catch((err) => console.error('getSocketsByDriverIds: ', err));
 		}
@@ -34,14 +35,23 @@ class RedisConnectClientController {
 		return clients;
 	}
 
-	async getClientByPhone(phone: string): Promise<any> {
+	async getOneClientByPhone(phone: string): Promise<Client> {
 		return await connectClientRedis
-			.HGETALL(phone)
+			.GET(phone)
+			.then((client) => client && JSON.parse(client))
 			.catch((err) => console.error('getClientByPhone: ', err));
 	}
 
-	async deleteClientBySocketId(socketId: string) {
-		console.info('deleteClientBySocketId: ', socketId);
+	async removeRoomFromClient(client: ClientType) {
+		return connectClientRedis
+			.SET(client.phone, JSON.stringify({ ...client, roomId: '', orderId: '' }))
+			.catch((err) => console.info('removeRoomFromClient: ', err));
+	}
+
+	async deleteClient(client: ClientType) {
+		await connectClientRedis
+			.DEL(client.phone)
+			.catch((err) => console.info('deleteClient: ', err));
 	}
 }
 

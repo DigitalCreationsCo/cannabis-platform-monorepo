@@ -8,12 +8,18 @@ import ClusterInit from './master/cluster-init';
 import { dispatchEvents } from './message/message-events';
 import {
 	connectClientController,
+	dispatchRoomController,
 	subscribeWebsocketConnectClientRedis,
 	websocketConnectClientRedis,
 } from './redis-client';
 
 try {
 	new ClusterInit();
+
+	// 5 minutes
+	setInterval(() => {
+		dispatchRoomController.deleteClosedRooms();
+	}, 1000 * 60 * 5);
 
 	const httpServer = createServer();
 	global.io = new Server(httpServer);
@@ -41,12 +47,11 @@ try {
 		);
 
 		socket.on('disconnect', async () => {
-			ClusterInit.deleteClientFromRoomOnMaster(socket.id);
+			// disconnect event from socket.io
 		});
 
 		socket.on('error', (e) => {
 			// error event from socket.io
-			ClusterInit.deleteClientFromRoomOnMaster(socket.id);
 			console.log('MASTER ERROR: ' + e);
 		});
 	});
@@ -68,10 +73,12 @@ try {
 					Body, // message from sms
 				} = parseUrlFriendlyString(body) as TextGridReturnMessagePayload;
 				if (Body.match(/\b1\b/)) {
-					const client = await connectClientController.getClientByPhone(
-						From.split('+1')[1],
-					);
-					console.info('client retrieved ', client);
+					console.info('phone ,', From.split('+1')[1]);
+					const client: Client =
+						await connectClientController.getOneClientByPhone(
+							From.split('+1')[1],
+						);
+					console.info('client retrieved using incoming sms message', client);
 					if (!isEmpty(client)) {
 						new ClusterInit().sendToWorker({
 							action: 'accept-order',
