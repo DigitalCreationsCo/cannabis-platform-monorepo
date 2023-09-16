@@ -35,6 +35,11 @@ try {
 						(phoneNumber) => phoneNumber.phone_number,
 					),
 				},
+				{
+					name: 'add-smsUrl',
+					type: 'input',
+					message: 'What url do you want the number to request?',
+				},
 			])
 			.then(async (answers) => {
 				console.info(
@@ -45,7 +50,7 @@ try {
 					`${process.env.TEXTGRID_BASE_URL}/Accounts/${process.env.TEXTGRID_ACCOUNT_SID}/IncomingPhoneNumbers.json`,
 					{
 						phoneNumber: answers['select-phone-number'],
-						smsUrl: `${process.env.NEXT_PUBLIC_SERVER_DISPATCH_URL}/sms/driver-accept-order`,
+						smsUrl: answers['add-smsUrl'],
 						// smsFallbackUrl = “{The URL that TextGrid will request if an error occurs requesting or executing the TwiML defined by SmsUrl}” - optional
 						// smsFallbackMethod = “{The HTTP method that should be used to request the SmsFallbackUrl. GET/POST. Defaults to POST.}” - optional
 						// statusCallback = "{The URL that TextGrid will request to pass status parameters (such as call ended or SMS status updated) to your application}" - optional
