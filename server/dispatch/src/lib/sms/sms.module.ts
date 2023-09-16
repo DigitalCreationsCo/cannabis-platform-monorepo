@@ -50,8 +50,15 @@ function getIncomingPhoneNumberForMessageEvent(
 	switch (event) {
 		case dispatchEvents.new_order:
 			return process.env.PHONE_NUMBER_DRIVER_ACCEPT_ORDER;
+		case dispatchEvents.order_assigned:
+			return process.env.PHONE_NUMBER_DRIVER_ASSIGN_ORDER;
+		case dispatchEvents.order_assigned_to_another_driver:
+			return process.env.PHONE_NUMBER_DRIVER_ASSIGN_ORDER;
 		default:
-			console.info('getIncomingPhoneNumberForMessageEvent: ', event);
+			console.info(
+				'getIncomingPhoneNumberForMessageEvent: unhandled event ',
+				event,
+			);
 	}
 }
 export default new SMSModule('TextGrid');

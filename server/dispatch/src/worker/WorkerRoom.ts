@@ -1,11 +1,11 @@
 import { EventEmitter } from 'events';
-import { type Client, type RoomType } from '../dispatch.types';
+import { type Client } from '../dispatch.types';
 import {
 	connectClientController,
 	dispatchRoomController,
 } from '../redis-client';
 
-export default class WorkerRoom extends EventEmitter implements RoomType {
+export default class WorkerRoom extends EventEmitter {
 	id;
 	clients: Client[];
 	isClosed = false;

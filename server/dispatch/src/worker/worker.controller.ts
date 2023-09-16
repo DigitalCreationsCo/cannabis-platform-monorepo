@@ -20,6 +20,10 @@ export default class WorkerRoomController {
 		this.db = DispatchDA;
 		this.messager = new Messager();
 
+		import('../data-access/DispatchDA').then(async (DispatchDA) => {
+			this.db = await DispatchDA.default;
+		});
+
 		process.on(
 			'message',
 			async ({
@@ -91,18 +95,31 @@ export default class WorkerRoomController {
 							'accept-order command received on worker room: ',
 							roomId,
 						);
-						// console.info('room id: ', roomId);
-						// console.info('clients: ', clients);
-						// console.info('order: ', order);
+						console.info('room id: ', roomId);
+						console.info('clients: ', clients);
+						console.info('order: ', order);
 
 						// console.info('global rooms: ');
 						// console.info(global.rooms);
-						let room: WorkerRoom | undefined =
+						const room: WorkerRoom | undefined =
 							await dispatchRoomController.getRoomById(roomId);
-						room.emit(dispatchEvents.accept_order, order);
+						console.log('room: ', room);
+						let newRoom;
+						newRoom = new SelectDriverRoom(roomId, clients as Client[]);
+						newRoom.emit(dispatchEvents.accept_order, clients);
 						console.info('emit accept-order to room: ', room.id);
-						room.on('close', () => {
-							room = undefined;
+						newRoom.on('add-driver-to-record', () => {
+							console.info('room emitted add-driver-to-record event');
+							// console.info('add-driver-to-record event received');
+							// this.sendToMaster('add-driver-to-record', { roomId, client });
+							// update order record in prisma and mongodb
+							// await DispatchDA.addDriverToOrderRecord(
+							// 	getOrderIdFromRoom(this.id),
+							// 	client.id,
+							// );
+						});
+						newRoom.on('close', () => {
+							newRoom = undefined;
 						});
 						break;
 				}
