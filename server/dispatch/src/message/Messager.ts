@@ -12,7 +12,11 @@ class Messager {
 			this.sendSMS({ event: event, phone: client.phone, data: data });
 		FeatureConfig.socket.enabled &&
 			client.socketId &&
-			this.sendSocketMessage({ socketId: client.socketId, data: data }); // fail silently if no socket
+			this.sendSocketMessage({
+				event: event,
+				socketId: client.socketId,
+				data: data,
+			}); // fail silently if no socket
 	}
 
 	static async sendSMS({
@@ -24,17 +28,25 @@ class Messager {
 		phone: string;
 		data: string;
 	}) {
-		SMSModule.send(event, phone, data);
+		try {
+			if (!phone) throw new Error('no phone number provided');
+			SMSModule.send(event, phone, data);
+		} catch (error) {
+			console.error('sendSMS: ', error);
+			throw new Error(error.message);
+		}
 	}
 
 	static async sendSocketMessage({
+		event,
 		socketId,
 		data,
 	}: {
+		event: any;
 		socketId: string | undefined;
 		data: string;
 	}) {
-		console.info('sending socket message to ' + socketId + ': ' + data);
+		console.info(`emit socket event ${event} to ${socketId}, data: ${data}`);
 	}
 }
 
