@@ -27,7 +27,7 @@ import {
 import { useState } from 'react';
 import { connect } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
-import { type RootState } from '../../redux/store';
+import { type RootState } from '../../../redux/store';
 
 type SiteSettingsDashboardProps = {
 	siteSetting: Record<string, string>;

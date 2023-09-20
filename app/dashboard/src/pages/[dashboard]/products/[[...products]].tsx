@@ -17,7 +17,7 @@ import { useState, type Dispatch, type SetStateAction } from 'react';
 import { toast } from 'react-hot-toast';
 import { connect } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
-import { type RootState } from '../../redux/store';
+import { type RootState } from '../../../redux/store';
 
 interface ProductsDashboardProps {
 	products: ProductWithDashboardDetails[];
@@ -39,7 +39,7 @@ function Products({ products }: ProductsDashboardProps) {
 		product.name.toLowerCase().includes(searchValue.toLowerCase()),
 	);
 
-	const currentProducts = usePagination(currentPage, searchedProducts);
+	const currentProducts = usePagination(searchedProducts).current;
 
 	const pageCount = searchValue
 		? Math.ceil(currentProducts.length / 10)

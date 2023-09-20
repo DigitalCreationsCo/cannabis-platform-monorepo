@@ -1,5 +1,5 @@
 import { urlBuilder } from '@cd/core-lib';
-import { type OrderWithDetails } from '@cd/data-access';
+import { type OrderWithShopDetails } from '@cd/data-access';
 import axios from 'axios';
 
 /* =================================
@@ -11,7 +11,7 @@ processPurchase
 ================================= */
 
 export default class PaymentDA {
-	static async saveOrder(order: OrderWithDetails) {
+	static async saveOrder(order: OrderWithShopDetails) {
 		try {
 			await axios.post(urlBuilder.main.orders(), order);
 		} catch (error: any) {

@@ -1,5 +1,5 @@
-import { Server } from 'socket.io';
-import { WorkerRoom } from 'types';
+/* eslint-disable no-var */
+import { type Server } from 'socket.io';
 
 declare global {
 	var io: Server;
