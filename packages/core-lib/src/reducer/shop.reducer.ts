@@ -15,6 +15,7 @@ import { type AppState } from '../types';
 import { urlBuilder } from '../utils';
 import { type LocationStateProps } from './location.reducer';
 
+// ADD APPLICATION STATE! TAKE OUT THESE STATIC VALUES!
 export const getInitialDispensaries = createAsyncThunk(
 	'shop/getInitialDispensaries',
 	async (_, { getState, rejectWithValue }) => {

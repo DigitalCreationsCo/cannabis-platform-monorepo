@@ -1,5 +1,9 @@
+import { type OrganizationWithAddress } from '@cd/data-access';
+import { renderAddress } from '../utils';
+
 /* eslint-disable @typescript-eslint/naming-convention */
 const nbsp = '\xa0';
+const copyrightsymbol = '&#169';
 
 const TextContent = Object.freeze({
 	prompt: {
@@ -102,6 +106,8 @@ const TextContent = Object.freeze({
 
 	error: {
 		DISPENSARY_NOT_FOUND: `Dispensary is not found.`,
+		DRIVER_NOT_FOUND: `Driver is not found.`,
+		ORDER_NOT_FOUND: `Order is not found.`,
 
 		USER_EXISTS_ERROR: `This user exists already. Please choose a different username or email.`,
 
@@ -162,7 +168,10 @@ const TextContent = Object.freeze({
 	},
 
 	legal: {
-		COPYRIGHT: '© 2023 Gras. All rights reserved.',
+		HOME_DELIVERY_BY_GRAS: `Home Delivery by Gras`,
+		COMPANY_NAME: 'Gras',
+		COPYRIGHT: `© 2023`,
+		COPYRIGHT_RIGHTS_RESERVED: 'Gras © 2023 All rights reserved.',
 		I_AGREE_TO_THE_USER_TERMS: `I agree to the User Terms and Conditions`,
 		I_AGREE_TO_THE_DISPENSARY_TERMS: `I agree to the Dispensary Terms and Conditions`,
 		AGREE_TO_TERMS:
@@ -221,6 +230,27 @@ const TextContent = Object.freeze({
 		GIFT_LOCATION_IS_SET: "We'll send your next delivery to your friend!",
 
 		SMS_UPDATE: `Check your sms messages for updates on your order.`,
+	},
+
+	dispatch: {
+		status: {
+			ACCEPT_ORDER: `You accepted the delivery order! Travel to pickup the order.`,
+			CONNECTED: `Connected to the dispatch server.`,
+			NAVIGATE_DELIVERY: `Navigate to start delivering your order.`,
+			NEW_ORDER: `New Order!`,
+			NEW_ORDER_FROM_GRAS: `New Order from Gras!`,
+			RECEIVED_NEW_ORDER: `You received a delivery order from Gras.`,
+			PICKUP_ADDRESS_f: (organization: OrganizationWithAddress) =>
+				`Pickup from ${organization.name}, ${renderAddress({
+					address: organization.address,
+					lineBreak: false,
+				})}`,
+			ORDER_ASSIGNED_TO_ANOTHER_DRIVER: `You didn't claim this order. Stay online to receive your next order.`,
+			REPLY_TO_ACCEPT_ORDER: `Reply '1' to accept the delivery order.`,
+		},
+		error: {
+			ROOM_NOT_FOUND: `Dispatch room not found.`,
+		},
 	},
 
 	products: {

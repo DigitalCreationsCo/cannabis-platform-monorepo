@@ -24,7 +24,7 @@ import {
 import { useMemo } from 'react';
 import { connect } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
-import { FeatureConfig } from '../../config/feature';
+import { FeatureConfig } from '../../config/dashboard.features';
 import { wrapper, type RootState } from '../../redux/store';
 
 interface DashboardProps {

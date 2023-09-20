@@ -17,7 +17,7 @@ import {
 	type Vendor,
 } from '@prisma/client';
 import axios from 'axios';
-import { type OrganizationCreateType } from '../organization';
+import { type OrganizationCreateType } from '../organization.types';
 import { type ReviewWithUserDetails } from '../product';
 
 const prisma = new PrismaClient();

@@ -6,11 +6,12 @@ import {
 	findProductsByOrg,
 	findProductsByText,
 	findProductWithDetails,
-	type OrderCreateType,
 	updateOrder,
 	updateOrderWithOrderItems,
+	type OrderCreateType,
 	type OrderStatus,
-	type OrderWithDetails,
+	type OrderWithDashboardDetails,
+	type OrderWithShopDetails,
 	type PurchaseCreate,
 } from '@cd/data-access';
 import { type MongoClient } from 'mongodb';
@@ -55,7 +56,9 @@ export default class OrderDA {
 		}
 	}
 
-	static async createOrder(order: OrderCreateType): Promise<OrderWithDetails> {
+	static async createOrder(
+		order: OrderCreateType,
+	): Promise<OrderWithShopDetails> {
 		try {
 			return await createOrder(order);
 		} catch (error: any) {
@@ -142,16 +145,27 @@ export default class OrderDA {
 		try {
 			return await updateOrder(orderId, { orderStatus });
 		} catch (error: any) {
-			console.error(error.message);
 			throw new Error(error.message);
 		}
 	}
 
-	static async addDispatchOrderMongo(order: OrderWithDetails) {
+	static async addDispatchOrderMongo(order: OrderWithDashboardDetails) {
 		try {
-			return await dispatchOrders.insertOne({
-				...order,
+			await dispatchOrders.insertOne({
+				order,
+				// add collection queueing metadata
+				queueStatus: [
+					{
+						status: 'Inqueue',
+						createdAt: new Date(),
+						nextReevaluation: null,
+					},
+				],
 			});
+			console.info(
+				`inserted order ${order.id} into dispatch_orders collection`,
+			);
+			return;
 		} catch (error: any) {
 			console.error('addDispatchRecordMongo error: ', error.message);
 

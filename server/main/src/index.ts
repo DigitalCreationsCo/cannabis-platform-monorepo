@@ -39,6 +39,7 @@ async function connectDb() {
 			' >> server-main: Error connecting to database: ',
 			error.stack,
 		);
+		prisma.$disconnect();
 		process.exit(1);
 	}
 }

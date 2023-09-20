@@ -1,6 +1,6 @@
-import { type OrderWithDetails } from '@cd/data-access';
+import { type OrderWithDispatchDetails } from '@cd/data-access';
 
-const SocketEvent = Object.freeze({
+export const SocketEvent = Object.freeze({
 	Connection: 'connection',
 	CustomerConnect: 'customer_connect',
 	DriverConnect: 'driver_connect',
@@ -22,7 +22,7 @@ const SocketEvent = Object.freeze({
 	Navigate: 'navigate',
 });
 
-const NavigateEvent = Object.freeze({
+export const NavigateEvent = Object.freeze({
 	ToVendor: 'NAVIGATE_TO_VENDOR',
 	ToCustomer: 'NAVIGATE_TO_CUSTOMER',
 	ArriveToVendor: 'ARRIVE_TO_VENDOR',
@@ -31,15 +31,12 @@ const NavigateEvent = Object.freeze({
 	DeliverOrder: 'DELIVER_PRODUCT',
 });
 
-interface SocketEventPayload<T> {
+export interface SocketEventPayload<T> {
 	message: string | null;
 	data?: T;
 }
 
-type IncomingOrder = {
-	newOrder: OrderWithDetails | null;
+export type IncomingOrder = {
+	newOrder: OrderWithDispatchDetails['order'] | null;
 	message: string | null;
 };
-
-export { SocketEvent, NavigateEvent };
-export type { SocketEventPayload, IncomingOrder };

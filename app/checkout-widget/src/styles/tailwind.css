@@ -3194,6 +3194,12 @@ html {
   overscroll-behavior: none;
 }
 
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .whitespace-normal {
   white-space: normal;
 }
@@ -3382,6 +3388,10 @@ html {
   padding: 1rem;
 }
 
+.p-5 {
+  padding: 1.25rem;
+}
+
 .p-6 {
   padding: 1.5rem;
 }
@@ -3490,10 +3500,6 @@ html {
   padding-right: 1rem;
 }
 
-.pr-8 {
-  padding-right: 2rem;
-}
-
 .pt-0 {
   padding-top: 0px;
 }
@@ -3587,6 +3593,11 @@ html {
 
 .text-error {
   color: var(--error);
+}
+
+.text-gray-400 {
+  --tw-text-opacity: 1;
+  color: rgb(156 163 175 / var(--tw-text-opacity));
 }
 
 .text-gray-500 {

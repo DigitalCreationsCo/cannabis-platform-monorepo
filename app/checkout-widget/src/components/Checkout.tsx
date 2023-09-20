@@ -5,6 +5,7 @@ import { crypto } from '@cd/core-lib/src/utils/crypto';
 import { urlBuilder } from '@cd/core-lib/src/utils/urlBuilder';
 import Button from '@cd/ui-lib/src/components/button/Button';
 import CloseButton from '@cd/ui-lib/src/components/button/CloseButton';
+import CopyRight from '@cd/ui-lib/src/components/CopyRight';
 import Price from '@cd/ui-lib/src/components/Price';
 import { Paragraph, Small } from '@cd/ui-lib/src/components/Typography';
 import { getBreakpointValue } from '@cd/ui-lib/src/hooks/useBreakpoint';
@@ -230,7 +231,7 @@ export default class Checkout extends Component<
 							</div>
 						)}
 						<Small className="text-light m-auto py-2">
-							{TextContent.prompt.READY_CHECKOUT}
+							{TextContent.prompt.REVIEW_CHECKOUT}
 						</Small>
 						<Button
 							id="Checkout-Button"
@@ -245,6 +246,9 @@ export default class Checkout extends Component<
 						>
 							Checkout
 						</Button>
+						<div className="m-auto">
+							<CopyRight append={TextContent.legal.HOME_DELIVERY_BY_GRAS} />
+						</div>
 					</>
 				) : (
 					<>
