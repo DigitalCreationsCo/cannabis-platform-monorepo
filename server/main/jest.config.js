@@ -1,5 +1,5 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} */
-module.export = {
+module.exports = {
 	verbose: true,
 	preset: 'ts-jest',
 	testEnvironment: 'node',

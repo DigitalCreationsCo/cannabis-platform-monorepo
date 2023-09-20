@@ -1,5 +1,21 @@
 import { type UserCreateType } from '@cd/data-access';
 
+/**
+ * isEmpty
+ * @param object
+ * @returns true if object is an object and is empty, null
+ * @returns false otherwise
+ */
+export function isEmpty(object: any) {
+	if (object === null || object === undefined) return true;
+	return (object && Object.keys(object).length === 0) || false;
+}
+
+/**
+ * isArray
+ * @param val
+ * @returns true if val is an array, false otherwise
+ */
 export const isArray = (val: any) => {
 	return Object.prototype.toString.apply(val) === '[object Array]';
 };

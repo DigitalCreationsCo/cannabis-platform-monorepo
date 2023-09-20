@@ -6,21 +6,18 @@ const dashboardDomain =
 	process.env.NEXT_PUBLIC_DASHBOARD_APP_URL || 'https://app.grascannabis.org';
 const apiDomain = process.env.BACKEND_URL || `https://backend.grascannabis.org`;
 
-const appInfo = {
-	appName: process.env.NEXT_PUBLIC_SHOP_APP_NAME || 'Gras',
-	apiDomain,
-	websiteDomain: dashboardDomain,
-	apiBasePath: '/api/v1',
-};
-
 export const backendConfig = (): AuthConfig => {
-	console.info(' ✈️ server/location backend config: ', appInfo);
 	return {
 		framework: 'express',
 		supertokens: {
 			connectionURI: process.env.SUPERTOKENS_CONNECTION_URI,
 		},
-		appInfo,
+		appInfo: {
+			appName: process.env.NEXT_PUBLIC_SHOP_APP_NAME || 'Gras',
+			apiDomain,
+			websiteDomain: dashboardDomain,
+			apiBasePath: '/api/v1',
+		},
 		recipeList: [
 			Session.init({
 				cookieSecure: true,

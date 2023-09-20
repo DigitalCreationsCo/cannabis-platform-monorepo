@@ -10,7 +10,7 @@ import {
 	type Unit,
 } from '@prisma/client';
 import prisma from './db/prisma';
-import { type OrderCreateType } from './order';
+import { type OrderCreateType } from './order.types';
 
 /**
  * connectVariantImages

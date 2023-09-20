@@ -3,6 +3,8 @@ import {
 	getDashboardSite,
 	getDispensaryDomain,
 	getShopSite,
+	parseUrlFriendlyString,
+	parseUrlParameters
 } from '../../src/utils/url.util';
 
 describe('formatUrl.test', () => {
@@ -106,3 +108,63 @@ describe('getDispensaryDomain', () => {
 		).toStrictEqual(`starbuds`);
 	});
 });
+
+describe('parseUrlFriendlyString', () => {
+	it('parses string of parameters into object', () => {
+		const paramString = `SmsMessageSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&NumMedia=0&SmsSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&SmsStatus=received&Body=1&To=%2B16674084833&NumSegments=1&MessageSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&AccountSid=KhtyQHt5jqQ91QA7UzskjA%3D%3D&From=%2B15707901185&ApiVersion=2010-04-01`
+		expect(parseUrlFriendlyString(paramString)).toStrictEqual({
+			SmsMessageSid: "SMIUiUtGDXgITHegOTsXK4I_A==",
+			NumMedia: "0",
+			SmsSid: "SMIUiUtGDXgITHegOTsXK4I_A==",
+			SmsStatus: "received",
+			Body: "1",
+			To: "+16674084833",
+			NumSegments: "1",
+			MessageSid: "SMIUiUtGDXgITHegOTsXK4I_A==",
+			AccountSid: "KhtyQHt5jqQ91QA7UzskjA==",
+			From: "+15707901185",
+			ApiVersion: "2010-04-01"
+		  })
+	})
+
+	it('does not parses a url', () => {
+		const fullUrl = "https://localhost:3000?SmsMessageSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&NumMedia=0&SmsSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&SmsStatus=received&Body=1&To=%2B16674084833&NumSegments=1&MessageSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&AccountSid=KhtyQHt5jqQ91QA7UzskjA%3D%3D&From=%2B15707901185&ApiVersion=2010-04-01";
+		expect(parseUrlFriendlyString(fullUrl)).toStrictEqual({})
+	})
+})
+
+describe('parseUrlParameters', () => {
+	it('parses string of parameters into object', () => {
+		const paramString = `SmsMessageSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&NumMedia=0&SmsSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&SmsStatus=received&Body=1&To=%2B16674084833&NumSegments=1&MessageSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&AccountSid=KhtyQHt5jqQ91QA7UzskjA%3D%3D&From=%2B15707901185&ApiVersion=2010-04-01`
+		expect(parseUrlParameters(paramString)).toStrictEqual({
+			SmsMessageSid: "SMIUiUtGDXgITHegOTsXK4I_A==",
+			NumMedia: "0",
+			SmsSid: "SMIUiUtGDXgITHegOTsXK4I_A==",
+			SmsStatus: "received",
+			Body: "1",
+			To: "+16674084833",
+			NumSegments: "1",
+			MessageSid: "SMIUiUtGDXgITHegOTsXK4I_A==",
+			AccountSid: "KhtyQHt5jqQ91QA7UzskjA==",
+			From: "+15707901185",
+			ApiVersion: "2010-04-01"
+		  })
+	})
+
+	it('successfully parses url params', () => {
+		const fullUrl = "https://localhost:3000?SmsMessageSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&NumMedia=0&SmsSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&SmsStatus=received&Body=1&To=%2B16674084833&NumSegments=1&MessageSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&AccountSid=KhtyQHt5jqQ91QA7UzskjA%3D%3D&From=%2B15707901185&ApiVersion=2010-04-01";
+		expect(parseUrlParameters(fullUrl)).toStrictEqual({
+			SmsMessageSid: "SMIUiUtGDXgITHegOTsXK4I_A==",
+			NumMedia: "0",
+			SmsSid: "SMIUiUtGDXgITHegOTsXK4I_A==",
+			SmsStatus: "received",
+			Body: "1",
+			To: "+16674084833",
+			NumSegments: "1",
+			MessageSid: "SMIUiUtGDXgITHegOTsXK4I_A==",
+			AccountSid: "KhtyQHt5jqQ91QA7UzskjA==",
+			From: "+15707901185",
+			ApiVersion: "2010-04-01"
+		  })
+	})
+})

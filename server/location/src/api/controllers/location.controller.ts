@@ -1,4 +1,4 @@
-import { getCoordinatePairFromUserLocation } from '@cd/core-lib';
+import { getCoordinatePairFromCoordinates } from '@cd/core-lib';
 import {
 	type Coordinates,
 	type OrganizationWithShopDetails,
@@ -27,7 +27,7 @@ export default class LocationController {
 			console.info(
 				`server-location: get local dispensaries from ${userLocation} with the radius ${proximityRadius}.`,
 			);
-			const _geoJson = getCoordinatePairFromUserLocation(userLocation);
+			const _geoJson = getCoordinatePairFromCoordinates(userLocation);
 
 			const data = await LocationDA.getLocalOrganizations(
 				_geoJson,

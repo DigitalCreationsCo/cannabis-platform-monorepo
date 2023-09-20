@@ -20,6 +20,8 @@ router.route('/').put(driverCtrl.updateDriver);
 
 router.route('/:id').get(driverCtrl.getDriverById);
 
+router.route('/:id').delete(driverCtrl.deleteDriverById);
+
 router.route('/status').post(driverCtrl.updateStatus);
 
 export default router;
