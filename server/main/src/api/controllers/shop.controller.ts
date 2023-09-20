@@ -1,7 +1,6 @@
+import { TextContent } from '@cd/core-lib';
 import { type OrderCreateType } from '@cd/data-access';
 import { OrderDA } from '../data-access';
-// import Stripe from "stripe";
-// import stipeNode from "stripe";
 
 /* =================================
 ShopController - controller class for ecommerce business actions
@@ -27,14 +26,15 @@ export default class ShopController {
 	static async createOrder(req, res) {
 		try {
 			const order: OrderCreateType = req.body;
-			await OrderDA.createOrder(order);
+			const createdOrder = await OrderDA.createOrder(order);
 			return res.status(201).json({
 				success: 'true',
 				message: 'Order created Successfully',
+				payload: createdOrder,
 			});
 		} catch (error: any) {
-			console.info('API error shopcontroller: createOrder: ', error);
-			res.status(500).json({ success: 'false', error: error.message });
+			console.error('createOrder: ', error);
+			return res.status(500).json({ success: 'false', error: error.message });
 		}
 	}
 
@@ -49,25 +49,20 @@ export default class ShopController {
 	 */
 	static async fulfillOrderAndStartDispatch(req, res) {
 		try {
+			console.log('fulfillOrderAndStartDispatch: ', req.body);
 			const orderId: string = req.body.orderId;
-
-			console.info('received order fulfillment: ', orderId);
-
-			await OrderDA.updateOrderFulfillmentStatus(orderId, 'Processing');
-
 			const order = await OrderDA.getOrderById(orderId);
-
+			await OrderDA.updateOrderFulfillmentStatus(orderId, 'Processing');
 			await OrderDA.addDispatchOrderMongo(order);
-
-			return res
-				.status(201)
-				.json({ message: 'Order created Successfully', order });
+			return res.status(201).json({
+				success: 'true',
+				message: `dispatch order created successfully`,
+			});
 		} catch (error: any) {
-			console.info(
-				'API Error Shop Controller: fulfillOrderAndDispatch: ',
-				error,
-			);
-			res.status(500).json({ error: error.message });
+			console.info('fulfillOrderAndStartDispatch: ', error);
+			if (error.message === TextContent.error.ORDER_NOT_FOUND)
+				return res.status(404).json({ success: 'false', error: error.message });
+			return res.status(500).json({ success: 'false', error: error.message });
 		}
 	}
 
@@ -123,7 +118,7 @@ export default class ShopController {
 			return res.status(200).json({ success: 'true', payload: data });
 		} catch (error: any) {
 			console.error('getOrdersByOrg api: ', error);
-			res.status(500).json({ success: 'false', error: error.message });
+			return res.status(500).json({ success: 'false', error: error.message });
 		}
 	}
 
@@ -137,7 +132,7 @@ export default class ShopController {
 			return res.status(200).json(data);
 		} catch (error: any) {
 			console.info('getOrderById api: ', error);
-			res.status(500).json({ error });
+			return res.status(500).json({ error });
 		}
 	}
 
@@ -149,7 +144,7 @@ export default class ShopController {
 			return res.status(200).json(data);
 		} catch (error: any) {
 			console.info('updateOrderById api: ', error);
-			res.status(500).json({ error });
+			return res.status(500).json({ error });
 		}
 	}
 
@@ -176,7 +171,7 @@ export default class ShopController {
 			return res.status(200).json(data);
 		} catch (error: any) {
 			console.info('getProductsByMultipleOrgs api: ', error);
-			res.status(500).json({ error });
+			return res.status(500).json({ error });
 		}
 	}
 
@@ -190,7 +185,7 @@ export default class ShopController {
 			return res.status(200).json(data);
 		} catch (error: any) {
 			console.info('getProductById api: ', error);
-			res.status(500).json({ error });
+			return res.status(500).json({ error });
 		}
 	}
 
@@ -202,7 +197,7 @@ export default class ShopController {
 			return res.status(200).json(data);
 		} catch (error: any) {
 			console.info('searchProducts api: ', error);
-			res.status(500).json({ error });
+			return res.status(500).json({ error });
 		}
 	}
 }

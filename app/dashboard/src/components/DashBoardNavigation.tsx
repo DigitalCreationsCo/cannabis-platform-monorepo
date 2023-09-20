@@ -2,7 +2,7 @@ import { selectDispensaryState, TextContent } from '@cd/core-lib';
 import { Icons, NavLink } from '@cd/ui-lib';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
-import { FeatureConfig } from '../config/feature';
+import { FeatureConfig } from '../config/dashboard.features';
 
 const DashboardNavigation = () => {
 	const { pathname } = useRouter();

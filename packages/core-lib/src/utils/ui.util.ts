@@ -42,7 +42,7 @@ export function redact(text: string) {
 const redactSensitiveFields = (key: string, value: string | number) => {
 	const sensitiveFields = ['password', 're_password', 'stripeAccountId'];
 	if (sensitiveFields.includes(key)) {
-		return redact(value);
+		return redact(value.toString());
 	} else return value;
 };
 

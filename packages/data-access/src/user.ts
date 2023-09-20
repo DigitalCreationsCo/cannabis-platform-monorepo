@@ -7,9 +7,12 @@ import {
 	type MembershipRole,
 	type User,
 } from '@prisma/client';
-import { type AddressCreateType, type AddressWithCoordinates } from './address';
+import {
+	type AddressCreateType,
+	type AddressWithCoordinates,
+} from './address.types';
 import prisma from './db/prisma';
-import { type OrderWithDetails } from './order';
+import { type OrderWithShopDetails } from './order.types';
 
 /*
  * User Data Access functions
@@ -602,7 +605,7 @@ export type UserWithDetails = User &
 		address: AddressWithCoordinates[];
 		profilePicture: ImageUser | null;
 		memberships?: Membership[] | null;
-		orders?: OrderWithDetails[];
+		orders?: OrderWithShopDetails[];
 		preferences?: null;
 	};
 

@@ -1,4 +1,8 @@
-import { getStripeAccountId, type OrderWithDetails } from '@cd/data-access';
+import {
+	getStripeAccountId,
+	type OrderCreateType,
+	type OrderWithDetails,
+} from '@cd/data-access';
 import { PaymentDA } from '../data-access';
 import StripeService from '../stripe';
 
@@ -42,7 +46,7 @@ export default class PaymentController {
 			await PaymentDA.saveOrder(order);
 
 			const checkout = await StripeService.checkout(
-				order,
+				order as OrderCreateType & OrderWithDetails,
 				order.organization.stripeAccountId,
 			);
 

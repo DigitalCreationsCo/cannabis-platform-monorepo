@@ -71,13 +71,15 @@
 		"tf:apply": "make apply",
 		"tf:close": "make destroy",
 		"tf:console": "make console",
-		"cluster:start": "make apply && kubectl apply -f k8s/",
+		"cluster:start": "make apply && APPLY_FILE=k8s/ make deploy",
 		"cluster:nodes": "kubectl get nodes",
 		"cluster:apply": "APPLY_FILE=$0 make deploy",
 		"install:playwright": "playwright install",
 		"nuke:node_modules": "npx rimraf@3.0.1 '**/node_modules'",
 		"postinstall": "yarn is-ci || yarn is-docker || yarn husky install && chmod +x scripts",
-		"permit-scripts": "node scripts/permit-scripts.js"
+		"permit-scripts": "node scripts/permit-scripts.js",
+		"sms:activate": "dotenv -e .env.production -- node server/dispatch/src/lib/sms/activate-sms.mjs",
+		"sms:get-phone-numbers": "dotenv -e .env.production -- node server/dispatch/src/lib/sms/get-active-phonenumbers.mjs"
 	},
 	"engines": {
 		"node": "16.20.0",
@@ -156,7 +158,7 @@
 		"is-ci": "3.0.1",
 		"is-docker": "3.0.0",
 		"lint-staged": "13.2.0",
-		"mongodb": "5.1.0",
+		"mongodb": "5.8.1",
 		"nanoid": "3.3.4",
 		"next": "13.0.6",
 		"next-connect": "0.13.0",

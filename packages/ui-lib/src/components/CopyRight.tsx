@@ -1,9 +1,17 @@
 import { type HTMLAttributes } from 'react';
+import { TextContent } from '../../../core-lib/src';
 import { Tiny } from './Typography';
 
-function CopyRight(props: HTMLAttributes<HTMLDivElement>) {
-	const companyName = 'Gras';
-	return <Tiny className={props.className}>{companyName} &#169; 2023</Tiny>;
+function CopyRight(
+	props: HTMLAttributes<HTMLDivElement> & {
+		append?: string;
+	},
+) {
+	return (
+		<Tiny className={props.className}>
+			{props.append} {TextContent.legal.COPYRIGHT}
+		</Tiny>
+	);
 }
 
 export default CopyRight;

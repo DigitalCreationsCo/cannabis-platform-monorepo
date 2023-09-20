@@ -34,6 +34,7 @@ async function connectDb() {
 			' 💰 server-payments: Error connecting to database: ',
 			error.stack,
 		);
+		prisma.$disconnect();
 		process.exit(1);
 	}
 }
