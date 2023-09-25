@@ -199,7 +199,7 @@ class StripeService {
 				//     event.data.object.id,
 				//     { expand: ['lineItems'] }
 				// );
-
+				console.info('checkout.session.completed: ', event.data.object);
 				const order = event.data.object.metadata as CheckoutSessionMetaData;
 				await PaymentDA.startFulfillment(order.id);
 				break;
@@ -208,8 +208,19 @@ class StripeService {
 				// create sale record or Order record for dispensary
 				console.info('charge.succeeded: ', event.data.object);
 				break;
-
+			case 'payment.created':
+				// generate customer invoice
+				console.info('payment_intent.created: ', event.data.object);
+				break;
+			case 'payment_intent.created':
+				// generate customer invoice
+				console.info('payment_intent.created: ', event.data.object);
+				break;
 			case 'payment_intent.succeeded':
+				// generate customer invoice
+				console.info('payment_intent.succeeded: ', event.data.object);
+				break;
+			case 'application_fee.created':
 				// generate customer invoice
 				console.info('payment_intent.succeeded: ', event.data.object);
 				break;

@@ -197,9 +197,11 @@ export default class Checkout extends Component<
 							className="object-contain animate-[shake_4s_ease-in-out_infinite]"
 						/>
 						<Paragraph className="text-light m-auto">
-							{TextContent.delivery.GRAS_WILL_DELIVER_STRAIGHT_TO_YOUR_DOOR}
+							{TextContent.info.GRAS_WILL_DELIVER_STRAIGHT_TO_YOUR_DOOR}
 							{'\n'}
-							{TextContent.delivery.TIME_GUARANTEE}
+							{TextContent.info.TIME_GUARANTEE}
+							{'\n'}
+							<b>{TextContent.shop.ORDER_INFO_HEADER}</b>
 						</Paragraph>
 						<div
 							id="Cart-Item-List"
@@ -269,7 +271,7 @@ export default class Checkout extends Component<
 								className="cursor-pointer m-auto w-fit border-b-2"
 								color="light"
 							>
-								Click here to order
+								Click here for delivery
 							</Small>
 						</div>
 						{screenwidth >= md && <div className="w-[20px]"></div>}

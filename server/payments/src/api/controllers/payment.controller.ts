@@ -1,7 +1,7 @@
 import {
 	getStripeAccountId,
 	type OrderCreateType,
-	type OrderWithDetails,
+	type OrderWithShopDetails,
 } from '@cd/data-access';
 import { PaymentDA } from '../data-access';
 import StripeService from '../stripe';
@@ -22,7 +22,7 @@ export default class PaymentController {
 	static async createCheckout(req, res) {
 		try {
 			console.log('create checkout input: ', req.body);
-			const order: OrderWithDetails = req.body;
+			const order: OrderWithShopDetails = req.body;
 
 			if (!order) throw new Error('No order found.');
 
@@ -33,7 +33,7 @@ export default class PaymentController {
 				throw new Error('Sorry, your dispensary is not found.');
 
 			if (!order.organization.stripeAccountId) {
-				console.info('lookup stripe id..');
+				console.info('createCheckout: lookup stripe id..');
 				order.organization.stripeAccountId = await getStripeAccountId(
 					order.organizationId,
 				);
@@ -43,11 +43,12 @@ export default class PaymentController {
 					);
 			}
 
-			await PaymentDA.saveOrder(order);
+			// handle in-service db op, if this call fails
+			const _order = await PaymentDA.saveOrder(order);
 
 			const checkout = await StripeService.checkout(
-				order as OrderCreateType & OrderWithDetails,
-				order.organization.stripeAccountId,
+				_order as OrderCreateType & OrderWithShopDetails,
+				_order.organization.stripeAccountId,
 			);
 
 			return res.status(302).json({

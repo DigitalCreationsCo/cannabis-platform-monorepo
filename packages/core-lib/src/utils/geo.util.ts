@@ -95,6 +95,10 @@ export function getGeoJsonPairFromCoordinates(coordinates: Coordinates) {
 	else throw new Error('Invalid coordinates');
 }
 
+export function setCoordinateRadius() {
+	return 10000; // meters
+}
+
 export function coordinatesIsEmpty(address: AddressCreateType) {
 	const latitude = address?.coordinates?.latitude;
 	const longitude = address?.coordinates?.longitude;

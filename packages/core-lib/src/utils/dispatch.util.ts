@@ -1,4 +1,4 @@
-import { type ClientType } from './dispatch.types';
+import { type ClientType } from '../types/dispatch.types';
 
 export function checkClientsForUser(clients: ClientType[], id: string) {
 	return clients.some((client) => client.id === id);

@@ -9,7 +9,8 @@
 		"recluster": "1.0.0",
 		"redis": "4.6.6",
 		"socket.io": "4.6.1",
-		"supertokens-node": "12.1.3"
+		"supertokens-node": "12.1.3",
+		"telnyx": "1.25.5"
 	},
 	"devDependencies": {
 		"@babel/cli": "7.20.7",
@@ -23,7 +24,7 @@
 		"@typescript-eslint/parser": "5.45.0",
 		"babel-plugin-css-modules-transform": "1.6.2",
 		"babel-plugin-inline-dotenv": "1.7.0",
-		"babel-watch": "7.7.2",
+		"babel-watch": "kmagiera/babel-watch",
 		"concurrently": "8.0.1",
 		"dotenv": "16.0.3",
 		"dotenv-cli": "7.0.0",
@@ -56,7 +57,7 @@
 		"test:unit-ci": "echo \"Tests are not ready for use.\" && exit 0",
 		"test:fix": "../../node_modules/jest/bin/jest.js --detectOpenHandles",
 		"test:watch": "../../node_modules/jest/bin/jest.js --watchAll",
-		"watch": "rm -rf ./node_modules/.cache && dotenv -e ../../.env.development -- babel-watch -e \".ts\" -c ./babel.config.js --watch ./src ./src/index.ts"
+		"watch": "rm -rf ./node_modules/.cache && dotenv -e ../../.env.development -- babel-watch -e \".ts\" -c ./babel.config.js --watch ./src --inspect -- ./src/index.ts"
 	},
 	"version": "0.0.1"
 }
