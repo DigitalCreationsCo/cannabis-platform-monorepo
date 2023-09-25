@@ -138,6 +138,16 @@ function UserSignUpReview() {
 								'country',
 							],
 						})}
+						<FlexBox className="m-auto flex-row space-x-4 pb-20">
+							<>
+								<Link href={href.browse}>
+									<Button>Go to Gras</Button>
+								</Link>
+								<Link href={href.account_f(account.id)}>
+									<Button>Go to my account</Button>
+								</Link>
+							</>
+						</FlexBox>
 					</>
 				)}
 				{!account && (
@@ -146,17 +156,6 @@ function UserSignUpReview() {
 					</Paragraph>
 				)}
 			</div>
-
-			<FlexBox className="m-auto flex-row space-x-4 pb-20">
-				<>
-					<Link href={href.browse}>
-						<Button>Go to Gras</Button>
-					</Link>
-					<Link href={href.account}>
-						<Button>Go to my account</Button>
-					</Link>
-				</>
-			</FlexBox>
 		</Grid>
 	);
 }

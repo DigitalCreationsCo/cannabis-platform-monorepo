@@ -9,7 +9,7 @@ import { H6, Paragraph, Small } from './Typography';
 type OrderRowProps = {
 	order: Order;
 	orderDetailsRoute: string;
-	className: string | string[];
+	className?: string | string[];
 };
 
 function OrderRow({ order, orderDetailsRoute, className }: OrderRowProps) {
