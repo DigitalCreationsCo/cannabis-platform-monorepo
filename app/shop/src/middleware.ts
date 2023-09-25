@@ -57,6 +57,7 @@ export default async function middleware(req: NextRequest) {
 				pagesAllowOver21Only.includes(url.pathname) &&
 				over21 !== 'true'
 			) {
+				console.info('redirecting the youth to homepage');
 				url.pathname = '/';
 				return NextResponse.redirect(url);
 			}

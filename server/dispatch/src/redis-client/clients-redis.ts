@@ -1,9 +1,19 @@
 import { isEmpty } from '@cd/core-lib';
 import { createClient } from 'redis';
-import { type Client, type ClientType } from '../dispatch.types';
+import {
+	type Client,
+	type ClientType,
+} from '../../../../packages/core-lib/src/types/dispatch.types';
 
 const connectClientRedis = createClient({
 	url: process.env.DISPATCH_CONNECT_REDIS_URL,
+	socket: {
+		tls: false,
+		timeout: 20000,
+	},
+});
+connectClientRedis.on('connect', () => {
+	console.info('connectClientRedis: connected');
 });
 connectClientRedis.on('error', (err) => {
 	console.error('connectClientRedis: ', err);

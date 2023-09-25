@@ -21,10 +21,7 @@ export default class MainDocument extends Document {
 		return (
 			<Html data-theme="cannabis" className="scroll-smooth">
 				<Head title="Gras Cannabis">
-					<meta
-						name="vendor experience application"
-						content="Property of Gras Cannabis Co."
-					/>
+					<meta name="Dispensary Backend" content="Built by Gras Inc." />
 					{process.env.NODE_ENV !== 'production' && (
 						<script
 							dangerouslySetInnerHTML={{

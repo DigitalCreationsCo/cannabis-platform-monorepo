@@ -38,6 +38,10 @@ export type OrganizationUpdateType = Organization & {
 	address: AddressWithCoordinates;
 };
 
+export type OrganizationMetadata = {
+	metadata?: { productsFetched?: boolean };
+};
+
 export type OrganizationWithShopDetails = Organization &
 	Omit<Organization, 'stripeAccountId' | 'createdAt' | 'updatedAt'> & {
 		address: AddressWithCoordinates;

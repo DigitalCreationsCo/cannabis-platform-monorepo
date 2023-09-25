@@ -47,4 +47,4 @@ get-pod-env:
 	kubectl get deployments $(DEPLOYMENT) -o jsonpath='{range .spec.template.spec.containers[?(@.name=="$(POD)")].env[*]}{@.name}{"="}{@.value}{"\n"}{end}'
 
 deploy:
-	scripts/apply-deployment.sh $1
+	scripts/apply-deployment.sh $(APPLY_FILE)

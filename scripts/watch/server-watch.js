@@ -20,15 +20,15 @@ const commands = [
 		cwd: '../server/location',
 	},
 	{
-		name: 'server-payments',
+		name: 'stripe-webhook',
 		command: 'yarn',
-		args: ['watch'],
+		args: ['stripe:webhook'],
 		cwd: '../server/payments',
 	},
 	{
-		name: 'stripe-webhook-dev',
+		name: 'server-payments',
 		command: 'yarn',
-		args: ['stripe:webhook'],
+		args: ['watch'],
 		cwd: '../server/payments',
 	},
 	{

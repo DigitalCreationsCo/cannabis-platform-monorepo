@@ -1,44 +1,38 @@
+/* eslint-disable sonarjs/cognitive-complexity */
 /* eslint-disable no-case-declarations */
-import DispatchDA from '../data-access/DispatchDA';
 import {
+	dispatchEvents,
+	getOrderIdFromRoom,
+	NavigateEvent,
 	type Client,
 	type ClusterMessage,
 	type ClusterMessagePayload,
 	type RoomAction,
-} from '../dispatch.types';
-import Messager, { dispatchEvents } from '../message';
+	type WorkerToMasterPayload,
+} from '@cd/core-lib';
 import { dispatchRoomController } from '../redis-client';
+import DeliverOrderRoom from './DeliverOrderRoom';
 import SelectDriverRoom from './SelectDriverRoom';
 import type WorkerRoom from './WorkerRoom';
 
-global.rooms = dispatchRoomController.getRooms();
 export default class WorkerRoomController {
-	db: typeof DispatchDA = {} as typeof DispatchDA;
-	messager: Messager;
-
 	constructor() {
-		this.db = DispatchDA;
-		this.messager = new Messager();
-
-		import('../data-access/DispatchDA').then(async (DispatchDA) => {
-			this.db = await DispatchDA.default;
-		});
-
 		process.on(
 			'message',
 			async ({
 				action,
 				payload: { roomId, clients, order },
-			}: ClusterMessage) => {
+			}: ClusterMessage<ClusterMessagePayload>) => {
 				switch (action) {
 					case 'join-room':
 						try {
 							if (roomId.startsWith('select-driver')) {
 								// i think a better idea is to create this class instance on the master with all the clients passed in, and then send the instance to the worker
-								// currently doing this now
+								// currently sending the clients to the worker, and then creating the instance on the worker
 								this.sendToMaster('connected-on-worker', {
 									message: `${clients?.length} clients joining ${roomId}: Dispatching order to drivers`,
 									roomId,
+									orderId: getOrderIdFromRoom(roomId),
 								});
 								// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 								const room = new SelectDriverRoom(roomId, clients as Client[]);
@@ -47,7 +41,66 @@ export default class WorkerRoomController {
 								break;
 							} else if (roomId.startsWith('deliver-order')) {
 								console.log('deliver-order room created, ' + roomId);
-								//
+								this.sendToMaster('connected-on-worker', {
+									message: `${clients?.length} clients joining ${roomId}: Dispatching order to drivers`,
+									roomId,
+									orderId: getOrderIdFromRoom(roomId),
+								});
+								// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+								const room = new DeliverOrderRoom(roomId, clients as Client[]);
+								await dispatchRoomController.createRoom(room);
+
+								room.once(
+									NavigateEvent.pickup_product,
+									async (roomId: string) => {
+										try {
+											console.info('room emitted pickup-product event');
+											const send = this.sendToMaster('pickup-product', {
+												roomId,
+												orderId: getOrderIdFromRoom(roomId),
+											});
+											if (!send)
+												throw new Error('sendToMaster: pickup-product failed');
+										} catch (error) {
+											console.error('pickup-product event: ', error);
+										}
+									},
+								);
+
+								room.once(
+									NavigateEvent.deliver_product,
+									async (roomId: string) => {
+										try {
+											console.info('room emitted deliver-product event');
+											const send = this.sendToMaster('deliver-product', {
+												roomId,
+												orderId: getOrderIdFromRoom(roomId),
+											});
+											if (!send)
+												throw new Error('sendToMaster: deliver-product failed');
+										} catch (error) {
+											console.error('deliver-product event: ', error);
+										}
+									},
+								);
+
+								room.once(
+									dispatchEvents.customer_received_order,
+									async (roomId: string) => {
+										console.info('room emitted customer-receive-product event');
+										const send = this.sendToMaster('customer-receive-product', {
+											roomId,
+											orderId: getOrderIdFromRoom(roomId),
+										});
+										if (!send)
+											throw new Error(
+												'sendToMaster: customer-receive-product failed',
+											);
+									},
+								);
+
+								room.emit(dispatchEvents.driver_added, order);
+								break;
 							}
 						} catch (error) {
 							console.error(`WORKER ${process.pid} join-room: ${error}`);
@@ -91,43 +144,89 @@ export default class WorkerRoomController {
 						break;
 
 					case 'accept-order':
-						console.info(
-							'accept-order command received on worker room: ',
-							roomId,
-						);
-						console.info('room id: ', roomId);
-						console.info('clients: ', clients);
-						console.info('order: ', order);
+						try {
+							console.info(
+								'accept-order command received on worker room: ',
+								roomId,
+							);
+							console.info('room id: ', roomId);
+							console.info('clients: ', clients);
+							console.info('order: ', order);
 
-						// console.info('global rooms: ');
-						// console.info(global.rooms);
-						const room: WorkerRoom | undefined =
-							await dispatchRoomController.getRoomById(roomId);
-						console.log('room: ', room);
-						let newRoom;
-						newRoom = new SelectDriverRoom(roomId, clients as Client[]);
-						newRoom.emit(dispatchEvents.accept_order, clients);
-						console.info('emit accept-order to room: ', room.id);
-						newRoom.on('add-driver-to-record', () => {
-							console.info('room emitted add-driver-to-record event');
-							// console.info('add-driver-to-record event received');
-							// this.sendToMaster('add-driver-to-record', { roomId, client });
-							// update order record in prisma and mongodb
-							// await DispatchDA.addDriverToOrderRecord(
-							// 	getOrderIdFromRoom(this.id),
-							// 	client.id,
-							// );
-						});
-						newRoom.on('close', () => {
-							newRoom = undefined;
-						});
+							// console.info('global rooms: ');
+							// console.info(global.rooms);
+							const room: WorkerRoom | undefined =
+								await dispatchRoomController.getRoomById(roomId);
+							console.log('room: ', room);
+
+							let newRoom;
+							newRoom = new SelectDriverRoom(roomId, clients as Client[]);
+
+							newRoom.once(
+								dispatchEvents.add_driver_to_record,
+								async (client: Client) => {
+									console.info('client ', client);
+									console.info('room emitted add-driver-to-record event');
+									const send = this.sendToMaster('add-driver-to-record', {
+										roomId,
+										client,
+										orderId: getOrderIdFromRoom(roomId),
+									});
+									console.info('sendToMaster: ', send);
+									if (!send)
+										throw new Error(
+											'sendToMaster: add-driver-to-record failed',
+										);
+									newRoom.emit(dispatchEvents.close_room);
+								},
+							);
+
+							newRoom.addListener('closed', async () => {
+								newRoom = undefined;
+								console.info(`room ${roomId} closed`);
+							});
+
+							newRoom.emit(dispatchEvents.accept_order, clients);
+							console.info('emit accept-order to room: ', newRoom.id);
+						} catch (error) {
+							console.error('accept-order: ', error);
+							throw new Error(error.message);
+						}
+						break;
+
+					case 'order-complete':
+						try {
+							console.info(
+								'order-complete command received on worker room: ',
+								roomId,
+							);
+							console.info('room id: ', roomId);
+							console.info('clients: ', clients);
+							console.info('order: ', order);
+
+							const room: WorkerRoom | undefined =
+								await dispatchRoomController.getRoomById(roomId);
+							console.log('room: ', room);
+
+							let newRoom;
+							newRoom = new DeliverOrderRoom(roomId, clients as Client[]);
+
+							newRoom.addListener('closed', async () => {
+								newRoom = undefined;
+								console.info(`room ${roomId} closed`);
+							});
+
+							newRoom.emit(dispatchEvents.order_complete);
+						} catch (error) {
+							console.error('pickup-product event: ', error);
+						}
 						break;
 				}
 			},
 		);
 	}
 
-	sendToMaster(action: RoomAction, payload: ClusterMessagePayload) {
-		process?.send?.({ action, payload });
+	sendToMaster(action: RoomAction, payload: WorkerToMasterPayload) {
+		return process?.send?.({ action, payload });
 	}
 }

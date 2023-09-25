@@ -5,7 +5,7 @@ import {
 	normalizeUserData,
 } from '@cd/core-lib';
 import { type AddressCreateType } from '@cd/data-access';
-import { UserDA } from '../data-access';
+import { OrderDA, UserDA } from '../data-access';
 
 /* =================================
 UserController - controller class for user business actions
@@ -15,13 +15,12 @@ createUser
 updateUser
 createDispensaryStaff
 updateDispensaryStaff
-signin                  not used
-signout                 not used 
 getUserById
+getOrdersForUser
 getAddressById
 addAddressToUser
 removeAddressFromUser
-signup                  not used
+deleteUser
 
 ================================= */
 
@@ -153,6 +152,27 @@ export default class UserController {
 		}
 	}
 
+	static async getOrdersForUser(req, res) {
+		try {
+			const id = req.params.id || '';
+			const data = await OrderDA.getOrdersByUser(id);
+			if (!data)
+				return res.status(404).json({
+					success: 'false',
+					error: 'User not found',
+				});
+			return res.status(200).json({
+				success: 'true',
+				payload: data,
+			});
+		} catch (error: any) {
+			res.status(500).json({
+				success: 'false',
+				error: error.message,
+			});
+		}
+	}
+
 	static async getAddressById(req, res) {
 		try {
 			const { addressId } = req.params;
@@ -216,6 +236,27 @@ export default class UserController {
 				payload: data,
 			});
 		} catch (error: any) {
+			res.status(500).json({
+				success: 'false',
+				error: error.message,
+			});
+		}
+	}
+
+	static async deleteUser(req, res) {
+		try {
+			const id = req.params.id || '';
+			const data = await UserDA.deleteUser(id);
+			return res.status(200).json({
+				success: 'true',
+				payload: data,
+			});
+		} catch (error: any) {
+			if (error.message.includes('Record to delete does not exist.'))
+				return res.status(404).json({
+					success: 'false',
+					error: error.message,
+				});
 			res.status(500).json({
 				success: 'false',
 				error: error.message,

@@ -82,5 +82,11 @@ export const buildSTFormFields = (data: Record<string, any>): any => {
 };
 
 export const getSelectedOptionValue = (selector: string) => {
-	return (document.querySelector(selector) as any)?.selectedOptions[0].value;
+	console.info('getSelectedOptionValue selector: ', selector);
+	const value = (document.querySelector(selector) as any)?.value;
+	console.info('getSelectedOptionValue: ', value);
+	const value2 = (document.querySelector(selector) as any)?.selectedOptions[0]
+		.value;
+	console.info('getSelectedOptionValue: ', value2);
+	return value || value2;
 };

@@ -7,8 +7,8 @@ import { socketActions } from '../reducer/socket.reducer';
 import { userActions } from '../reducer/user.reducer';
 import { type AppState } from '../types';
 import {
+	dispatchEvents as SocketEvent,
 	NavigateEvent,
-	SocketEvent,
 	type SocketEventPayload,
 } from '../types/socket.types';
 import { urlBuilder } from '../utils/urlBuilder';

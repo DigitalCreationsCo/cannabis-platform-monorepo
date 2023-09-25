@@ -1,5 +1,5 @@
+import { type ClientType } from '../../../../packages/core-lib/src/types/dispatch.types';
 import { FeatureConfig } from '../config/dispatch.features';
-import { type ClientType } from '../dispatch.types';
 import SMSModule from '../lib/sms';
 
 class Messager {
@@ -44,7 +44,7 @@ class Messager {
 	}: {
 		event: any;
 		socketId: string | undefined;
-		data: string;
+		data?: string;
 	}) {
 		console.info(`emit socket event ${event} to ${socketId}, data: ${data}`);
 	}

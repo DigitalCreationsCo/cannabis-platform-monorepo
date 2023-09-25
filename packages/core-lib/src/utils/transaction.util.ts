@@ -1,4 +1,4 @@
-import { type OrderStatus, type OrderWithDetails } from '@cd/data-access';
+import { type OrderStatus, type OrderWithShopDetails } from '@cd/data-access';
 
 const orderStatusList: OrderStatus[] = [
 	'Pending',
@@ -12,7 +12,7 @@ const orderStatusList: OrderStatus[] = [
  * @param order
  * @returns
  */
-const checkOrderIsCompleteOrCanceled = (order: OrderWithDetails) =>
+const checkOrderIsCompleteOrCanceled = (order: OrderWithShopDetails) =>
 	order.orderStatus === 'Cancelled' || order.orderStatus === 'Delivered';
 
 /**

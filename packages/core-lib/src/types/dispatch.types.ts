@@ -6,17 +6,23 @@ export type SocketMessage = {
 	message?: string;
 };
 
-export type ClusterMessage = {
-	action: RoomAction;
-	payload: ClusterMessagePayload;
-};
+export type ClusterMessage<T = ClusterMessagePayload | WorkerToMasterPayload> =
+	{
+		action: RoomAction;
+		payload: T;
+	};
 
 export type RoomAction =
 	| 'join-room'
 	| 'leave-room'
 	| 'send-message'
 	| 'accept-order'
-	| 'connected-on-worker';
+	| 'connected-on-worker'
+	| 'add-driver-to-record'
+	| 'pickup-product'
+	| 'deliver-product'
+	| 'customer-receive-product'
+	| 'order-complete';
 
 export type RoomType = {
 	id: string;
@@ -29,6 +35,13 @@ export type ClusterMessagePayload = {
 	clients?: ClientType[];
 	message?: string;
 	order?: OrderWithDispatchDetails['order'];
+};
+
+export type WorkerToMasterPayload = {
+	roomId: string;
+	client?: ClientType;
+	message?: string;
+	orderId: string;
 };
 
 export interface ClientType {

@@ -31,32 +31,32 @@ function CheckoutSuccess() {
 			<Card className="m-auto cursor-default md:max-w-[500px]">
 				<Center className="space-y-4">
 					<H3 className="text-primary hover:text-primary-light transition">
-						{TextContent.shop.THANK_CUSTOMER_f(order.organization.name)}
+						{TextContent.shop.THANK_CUSTOMER_f(order?.organization.name)}
 					</H3>
-					<Paragraph>{TextContent.delivery.PAYMENT_SUCCESSFUL}</Paragraph>
+					<Paragraph>{TextContent.shop.PAYMENT_SUCCESSFUL}</Paragraph>
 					<FlexBox>
 						<Paragraph className="w-full text-left">
-							{TextContent.delivery.ORDER_INFO_HEADER}
+							{TextContent.shop.ORDER_INFO_HEADER}
 						</Paragraph>
-						{order.items.map((item: ProductVariant, index: number) => (
+						{order?.items.map((item: ProductVariant, index: number) => (
 							<ProductItem key={`bag-item-${index}`} data={item} />
 						))}
 						<Paragraph className="flex w-full flex-row justify-end pr-4">
 							Total
-							<Price basePrice={order.total} />
+							<Price basePrice={order?.total} />
 						</Paragraph>
 					</FlexBox>
 					<Small>
 						{TextContent.info.THANK_YOU}
 						{'\n'}
-						Both <b>{order.organization.name}</b> and <b>Gras</b> appreciate
+						Both <b>{order?.organization.name}</b> and <b>Gras</b> appreciate
 						your business and the opportunity to serve our community.
 						{/* ❤️ */}
 					</Small>
 					<Small>
-						<b>{TextContent.delivery.SMS_UPDATE}</b>
+						<b>{TextContent.info.SMS_UPDATE}</b>
 						{'\n'}
-						{TextContent.shop.RECEIPT_TO_EMAIL_f(order.customer.email)}
+						{TextContent.shop.RECEIPT_TO_EMAIL_f(order?.customer.email)}
 						{'\n'}
 					</Small>
 				</Center>

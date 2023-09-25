@@ -71,7 +71,7 @@
 		"tf:apply": "make apply",
 		"tf:close": "make destroy",
 		"tf:console": "make console",
-		"cluster:start": "make apply && kubectl apply -f k8s/",
+		"cluster:start": "make apply && APPLY_FILE=k8s/ make deploy",
 		"cluster:nodes": "kubectl get nodes",
 		"cluster:apply": "APPLY_FILE=$0 make deploy",
 		"install:playwright": "playwright install",

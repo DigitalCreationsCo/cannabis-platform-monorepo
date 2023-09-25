@@ -24,6 +24,7 @@ const urlBuilder = {
 
 		ordersByOrgId: (id: any) =>
 			urlBuilder.main.baseUrl + `/shop/orders/org/${id}`,
+		ordersByUser: (id: any) => urlBuilder.main.baseUrl + `/user/${id}/orders`,
 		orderById: (id: any) => urlBuilder.main.baseUrl + `/shop/orders/${id}`,
 		orders: () => urlBuilder.main.baseUrl + `/shop/orders`,
 		fulfillOrder: () => urlBuilder.main.baseUrl + `/shop/orders-fulfill`,

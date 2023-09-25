@@ -1,7 +1,7 @@
-import { TextContent } from '@cd/core-lib';
+import { dispatchEvents, TextContent } from '@cd/core-lib';
 import { type OrderWithDispatchDetails } from '@cd/data-access';
-import { type Client } from '../dispatch.types';
-import Messager, { dispatchEvents } from '../message';
+import { type Client } from '../../../../packages/core-lib/src/types/dispatch.types';
+import Messager from '../message';
 import WorkerRoom from './WorkerRoom';
 
 class SelectDriverRoom extends WorkerRoom {
@@ -11,20 +11,11 @@ class SelectDriverRoom extends WorkerRoom {
 	constructor(room: string, clients: Client[]) {
 		super(room, clients);
 		this.messager = Messager;
-		clients.forEach((client) =>
-			global.io
-				.fetchSockets()
-				.then((sockets) =>
-					sockets.find((socket) => socket.id === client.socketId)?.join(room),
-				),
-		);
-		console.info(
-			`WORKER ${process.pid}: ${clients.length} clients join room ${room}`,
-		);
+
+		// send new order notification to all clients
 		this.on(
 			dispatchEvents.new_order,
 			(order: OrderWithDispatchDetails['order']) => {
-				// send new order notification to all clients
 				clients.forEach((client) => {
 					this.messager.sendSMS({
 						event: dispatchEvents.new_order,
@@ -48,46 +39,62 @@ class SelectDriverRoom extends WorkerRoom {
 			},
 		);
 
-		// on accept order event,
-		this.on(dispatchEvents.accept_order, async (acceptingClients: Client[]) => {
-			this.clients.forEach((client) => {
-				// send declined order notification to the declined clients
-				if (
-					!acceptingClients.find((acceptingC) => acceptingC.id === client.id)
-				) {
-					this.messager.sendSMS({
-						event: dispatchEvents.order_assigned_to_another_driver,
-						phone: client.phone,
-						data: TextContent.dispatch.status.ORDER_ASSIGNED_TO_ANOTHER_DRIVER,
-					});
-					this.messager.sendSocketMessage({
-						event: dispatchEvents.order_assigned_to_another_driver,
-						socketId: client.socketId,
-						data: TextContent.dispatch.status.ORDER_ASSIGNED_TO_ANOTHER_DRIVER,
-					});
-				}
+		// decline order event
+		this.on(dispatchEvents.decline_order, (client: Client) => {
+			this.clientLeaveRoom(client);
+			this.emit(dispatchEvents.decline_order, client);
+		});
 
-				// send accept order notification to the accepted client
-				if (
-					acceptingClients.find((acceptingC) => acceptingC.id === client.id)
-				) {
-					this.emit('add-driver-to-record');
-					console.info(
-						`${this.id}: client ${client.id} accepted order ${client.orderId}`,
-					);
-					this.messager.sendSMS({
-						event: dispatchEvents.order_assigned,
-						phone: client.phone,
-						data: TextContent.dispatch.status.ACCEPT_ORDER,
-					});
-					this.messager.sendSocketMessage({
-						event: dispatchEvents.order_assigned,
-						socketId: client.socketId,
-						data: TextContent.dispatch.status.ACCEPT_ORDER,
-					});
-					this.isDriverSelected = true;
-				}
-			});
+		// on accept order event,
+		this.once(
+			dispatchEvents.accept_order,
+			async (acceptingClients: Client[]) => {
+				console.info('WORKER: Select-Driver-Room accept order event');
+				this.clients.forEach((client) => {
+					// send declined order notification to the declined clients
+					if (
+						!acceptingClients.find((acceptingC) => acceptingC.id === client.id)
+					) {
+						this.messager.sendSMS({
+							event: dispatchEvents.order_assigned_to_another_driver,
+							phone: client.phone,
+							data: TextContent.dispatch.status
+								.ORDER_ASSIGNED_TO_ANOTHER_DRIVER,
+						});
+						this.messager.sendSocketMessage({
+							event: dispatchEvents.order_assigned_to_another_driver,
+							socketId: client.socketId,
+							data: TextContent.dispatch.status
+								.ORDER_ASSIGNED_TO_ANOTHER_DRIVER,
+						});
+					}
+
+					// send accept order notification to the accepted client
+					if (
+						acceptingClients.find((acceptingC) => acceptingC.id === client.id)
+					) {
+						console.info(
+							`${this.id}: client ${client.id} accepted order ${client.orderId}`,
+						);
+						this.messager.sendSMS({
+							event: dispatchEvents.order_assigned,
+							phone: client.phone,
+							data: TextContent.dispatch.status.ACCEPT_ORDER,
+						});
+						this.messager.sendSocketMessage({
+							event: dispatchEvents.order_assigned,
+							socketId: client.socketId,
+							data: TextContent.dispatch.status.ACCEPT_ORDER,
+						});
+						this.isDriverSelected = true;
+						this.emit(dispatchEvents.add_driver_to_record, client);
+					}
+				});
+			},
+		);
+
+		this.once(dispatchEvents.close_room, () => {
+			this.close();
 		});
 	}
 }
