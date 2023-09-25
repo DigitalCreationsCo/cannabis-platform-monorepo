@@ -23,11 +23,14 @@ export class OrderClass {
 	taxAmount: number;
 	orderStatus: OrderStatus;
 	purchaseId: string | null;
-	addressId: string;
-	customerId: string;
-	organizationId: string;
+	// addressId: string;
+	customer: User;
+	destinationAddress: AddressWithCoordinates;
+	// customerId: string;
+	organization: Organization;
+	// organizationId: string;
 	routeId: string | null;
-	driverId: string | null;
+	// driverId: string | null;
 	isDriverAssigned: boolean;
 	driverAssignedAt: Date | string | null;
 	isProductPickedUp: boolean;
@@ -40,6 +43,8 @@ export class OrderClass {
 	completedAt: Date | string | null;
 	createdAt: Date;
 	updatedAt: Date;
+	deliveryDeadline: Date;
+	items: ProductVariantWithDetails[];
 	// eslint-disable-next-line sonarjs/cognitive-complexity
 	constructor(order: OrderCreateType) {
 		this.id = order.id || createId();
@@ -49,11 +54,14 @@ export class OrderClass {
 		this.taxAmount = order.taxAmount || 0;
 		this.orderStatus = order.orderStatus || 'Pending';
 		this.purchaseId = order.purchaseId || null;
-		this.addressId = order.addressId;
-		this.customerId = order.customerId;
-		this.organizationId = order.organizationId;
+		this.customer = order.customer;
+		// this.addressId = order.addressId;
+		this.destinationAddress = order.destinationAddress;
+		// this.customerId = order.customerId;
+		// this.organizationId = order.organizationId;
+		this.organization = order.organization;
 		this.routeId = order.routeId || null;
-		this.driverId = order.driverId || null;
+		// this.driverId = order.driverId || null;
 		this.isDriverAssigned = order.isDriverAssigned || false;
 		this.driverAssignedAt = order.driverAssignedAt || null;
 		this.productPickedUpAt = order.productPickedUpAt || null;
@@ -64,8 +72,10 @@ export class OrderClass {
 		this.deliveredAt = order.deliveredAt || null;
 		this.isCompleted = order.isCompleted || false;
 		this.completedAt = order.completedAt || null;
-		this.createdAt = new Date();
-		this.updatedAt = new Date();
+		this.createdAt = order.createdAt || new Date();
+		this.updatedAt = order.updatedAt || new Date();
+		this.deliveryDeadline = order.deliveryDeadline;
+		this.items = order.items;
 	}
 }
 
@@ -99,12 +109,10 @@ export type PurchaseCreate = Prisma.PurchaseCreateArgs['data'];
 
 export type OrderWithDispatchDetails = {
 	order: Order & {
-		items: ProductVariantWithDetails[];
 		customer: User;
 		organization: OrganizationWithDashboardDetails;
 		driver: DriverWithDetails | null;
 		route: RouteWithCoordinates;
-		purchase: Purchase;
 		destinationAddress: AddressWithCoordinates;
 	};
 	queueStatus: {

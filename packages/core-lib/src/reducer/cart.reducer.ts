@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 import {
-	type OrderCreate,
+	type OrderCreateType,
 	type OrganizationWithShopDetails,
 	type ProductVariantWithDetails,
 } from '@cd/data-access';
@@ -103,7 +103,7 @@ export const addItem = createAsyncThunk<
 //   }
 // );
 
-export const createOrderForCheckout = createAsyncThunk<OrderCreate, void>(
+export const createOrderForCheckout = createAsyncThunk<OrderCreateType, void>(
 	'cart/createOrderForCheckout',
 	async (_, thunkAPI) => {
 		try {
@@ -140,7 +140,7 @@ export const createOrderForCheckout = createAsyncThunk<OrderCreate, void>(
 			// const { selectLocationType } = location,
 			// 	selectedLocation = location[selectLocationType] as LocationType;
 
-			const order: OrderCreate = {
+			const order: OrderCreateType = {
 				subtotal: cart.subtotal,
 				total: cart.total,
 				taxFactor: 0,
@@ -151,12 +151,18 @@ export const createOrderForCheckout = createAsyncThunk<OrderCreate, void>(
 				// destinationAddress: selectedLocation.address,
 				destinationAddress: user.address[0],
 				customerId: user.id,
-				customer: user,
+				customer: pruneData(user, ['address', 'profilePicture']),
 				organizationId: cart.organizationId,
-				organization,
-				isDeliveredOrder: false,
-				isCustomerReceivedOrder: false,
-				isCompleted: false,
+				organization: pruneData(organization, [
+					'schedule',
+					'products',
+					'images',
+					'siteSetting',
+					'categories',
+					'categoryList',
+					'subdomain',
+					'metadata',
+				]),
 				items: await processCartItemsForCheckout(cart.cart),
 			};
 

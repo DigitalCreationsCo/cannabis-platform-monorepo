@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
-import { type UserWithDetails } from '@cd/data-access';
+import {
+	type OrderWithShopDetails,
+	type UserWithDetails,
+} from '@cd/data-access';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type Passwordless from 'supertokens-node/recipe/passwordless';
 import { type AppState, type ThunkArgumentsType } from '../types';
-import { pruneData } from '../utils';
+import { pruneData, reconcileStateArray } from '../utils';
 
 export const signOutUserAsync = createAsyncThunk<
 	void,
@@ -88,6 +91,18 @@ export const userSlice = createSlice({
 			state.isSuccess = true;
 			state.isError = false;
 		},
+		updateOrders: (
+			state,
+			{
+				payload,
+			}: {
+				payload: OrderWithShopDetails[];
+			},
+		) => {
+			console.info('updateOrders action');
+			const orders = payload;
+			reconcileStateArray(state.user.orders, orders);
+		},
 		clearState: (state) => {
 			state.isError = false;
 			state.isSuccess = false;
@@ -122,5 +137,7 @@ export const userActions = {
 export const userReducer = userSlice.reducer;
 
 export const selectUserState = (state: AppState) => state.user;
+export const selectOrder = (orderId: string) => (state: AppState) =>
+	state.user.user.orders?.find((order) => order.id === orderId);
 export const selectIsAddressAdded = (state: AppState) =>
 	state.user?.user?.address?.length > 0;

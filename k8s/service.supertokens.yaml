@@ -107,17 +107,16 @@ spec:
             requests:
               cpu: 128m
               memory: 175Mi
-
-    affinity:
-      {}
-      # podAntiAffinity:
-      #   preferredDuringSchedulingIgnoredDuringExecution:
-      #     - weight: 1
-      #       podAffinityTerm:
-      #         labelSelector:
-      #           matchExpressions:
-      #             - key: "app.kubernetes.io/name"
-      #               operator: In
-      #               values:
-      #                 - supertokens
-      #         topologyKey: kubernetes.io/hostname
+      affinity:
+        {}
+          # podAntiAffinity:
+          #   preferredDuringSchedulingIgnoredDuringExecution:
+          #     - weight: 1
+          #       podAffinityTerm:
+          #         labelSelector:
+          #           matchExpressions:
+          #             - key: "app.kubernetes.io/name"
+          #               operator: In
+          #               values:
+          #                 - supertokens
+          #         topologyKey: kubernetes.io/hostname

@@ -8,19 +8,25 @@ import { type ProductVariantWithDetails } from '@cd/data-access';
 function generateCheckoutLineItemsFromOrderItems(
 	items: ProductVariantWithDetails[],
 ) {
-	return items.map((item) => ({
-		price_data: {
-			unit_amount: item.salePrice,
-			currency: 'usd',
-			product_data: {
-				name: item.name,
-				metadata: {
-					productId: item.productId,
+	try {
+		console.info('generateCheckoutLineItemsFromOrderItems: ', items);
+		return items.map((item) => ({
+			price_data: {
+				unit_amount: item.salePrice,
+				currency: 'usd',
+				product_data: {
+					name: item.name,
+					metadata: {
+						productId: item.productId,
+					},
 				},
 			},
-		},
-		quantity: item.quantity,
-	}));
+			quantity: item.quantity,
+		}));
+	} catch (error: any) {
+		console.error('generateCheckoutLineItemsFromOrderItems: ', error);
+		throw new Error(error.message);
+	}
 }
 
 export { generateCheckoutLineItemsFromOrderItems };

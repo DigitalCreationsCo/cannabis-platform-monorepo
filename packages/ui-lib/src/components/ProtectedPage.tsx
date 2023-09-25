@@ -3,23 +3,33 @@ import {
 	selectUserState,
 	TextContent,
 } from '@cd/core-lib';
-import { LoadingPage } from '@cd/ui-lib';
 import { useRouter } from 'next/router';
 import { useEffect, type PropsWithChildren } from 'react';
 import { useSelector } from 'react-redux';
+import LoadingPage from './LoadingPage';
 
 interface ProtectedPageProps {
-	protectedPages: string[];
+	protectedPages?: string[];
+	memberPages?: string[];
+	adminPages?: string[];
 }
 function ProtectedPage({
-	protectedPages,
+	protectedPages = [],
+	memberPages = [],
+	adminPages = [],
 	children,
 }: ProtectedPageProps & PropsWithChildren) {
 	const router = useRouter();
-	const pageIsProtected = protectedPages.find((page) =>
+	const user = useSelector(selectUserState);
+
+	const anyPrivatePage = protectedPages?.concat(memberPages, adminPages);
+	const isProtectedPage = anyPrivatePage.find((page) =>
 		router.pathname.includes(page),
 	);
-	const user = useSelector(selectUserState);
+	const isMemberPage = memberPages.find((page) =>
+		router.pathname.includes(page),
+	);
+	const isAdminPage = adminPages.find((page) => router.pathname.includes(page));
 
 	useEffect(() => {
 		if (
@@ -39,14 +49,17 @@ function ProtectedPage({
 	});
 
 	useEffect(() => {
-		if (pageIsProtected && !hasMembershipRoleAccess(user.user, 'MEMBER')) {
+		if (isProtectedPage && !user.isSignedIn) {
 			router.push('/');
 		}
-	});
+		if (isMemberPage && !hasMembershipRoleAccess(user.user, 'MEMBER')) {
+			router.push('/');
+		}
+	}, [user]);
 
 	if (
 		user.isLoading &&
-		pageIsProtected &&
+		isProtectedPage &&
 		!hasMembershipRoleAccess(user.user, 'MEMBER')
 	)
 		return <LoadingPage />;

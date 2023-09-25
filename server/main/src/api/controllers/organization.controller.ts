@@ -1,4 +1,8 @@
-import { coordinatesIsEmpty, getGeoCoordinatesFromAddress } from '@cd/core-lib';
+import {
+	coordinatesIsEmpty,
+	getGeoCoordinatesFromAddress,
+	setCoordinateRadius,
+} from '@cd/core-lib';
 import {
 	type OrganizationCreateType,
 	type OrganizationUpdateType,
@@ -14,7 +18,7 @@ createOrganization
 updateOrganization
 deleteOrganizationById
 getOrganizationById
-getOrganizationWithDetails
+getOrganizationWithDashboardDetails
 getOrganizationByZipcode
 getCategoryList
 getUsersByOrganization
@@ -60,7 +64,8 @@ export default class OrganizationController {
 				organization.address.coordinates = {
 					latitude: Number(coordinates.latitude),
 					longitude: Number(coordinates.longitude),
-					radius: organization.address.coordinates.radius || null,
+					radius:
+						organization.address.coordinates?.radius || setCoordinateRadius(),
 				};
 			}
 			const data = await OrganizationDA.updateOrganization(organization);

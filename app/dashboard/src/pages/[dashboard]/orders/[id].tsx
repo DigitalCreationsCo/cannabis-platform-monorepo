@@ -45,7 +45,7 @@ import Link from 'next/link';
 import { useRef, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { twMerge } from 'tailwind-merge';
-import logo from '../../../public/logo.png';
+import logo from '../../../../public/logo.png';
 
 export default function OrderDetails({
 	order,
@@ -242,7 +242,7 @@ export default function OrderDetails({
 
 				<Card className="border">
 					<Paragraph className="whitespace-nowrap">
-						{TextContent.delivery.DELIVER_FOR_f(order.customer.username)}
+						{TextContent.dispatch.status.DELIVER_FOR_f(order.customer.username)}
 						<br />
 						<Span className="whitespace-nowrap font-semibold">
 							{`${order.customer.firstName} ${order.customer.lastName}`}

@@ -22,6 +22,6 @@
 		"**/*.mjs",
 		"**/*.jsx",
 		"**/*.json"
-	],
+, "../../packages/core-lib/src/types/dispatch.types.ts"	],
 	"exclude": ["**/.*/", "dist"]
 }

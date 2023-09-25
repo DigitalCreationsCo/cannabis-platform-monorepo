@@ -25,6 +25,14 @@ const prisma = new PrismaClient();
 const createCoordinates = async () => {
 	const coordinates: Coordinates[] = [
 		{
+			id: 'clm2fopi0000wvksikbl2upwp',
+			radius: 10000,
+			latitude: 40.046,
+			longitude: -76.302,
+			createdAt: new Date(),
+			updatedAt: new Date(),
+		},
+		{
 			id: '1',
 			radius: 10000,
 			latitude: 40.046,
@@ -215,6 +223,7 @@ const createOrganizations = async () => {
 					isCompleted: false,
 					createdAt: new Date(),
 					updatedAt: new Date(),
+					deliveryDeadline: new Date(Date.now() + 2 * 60 * 60 * 1000),
 					isDriverAssigned: false,
 					driverAssignedAt: new Date(),
 					isProductPickedUp: false,
@@ -251,8 +260,8 @@ const createOrganizations = async () => {
 		{
 			id: 'bf346k4u7x2b2hhr6wsofppp',
 			name: 'Golden Nugget Dispensary (Test)',
-			stripeAccountId: null,
-			stripeOnboardingComplete: false,
+			stripeAccountId: 'acct_1NtESYPZq3lkE1db',
+			stripeOnboardingComplete: true,
 			dialCode: '1',
 			phone: '5553592525',
 			subdomain: {
@@ -284,6 +293,7 @@ const createOrganizations = async () => {
 			termsAccepted: false,
 			address: {
 				create: {
+					id: 'cllyur0fs0020vkudn51aiz3f',
 					street1: '111 NewTown Rd',
 					street2: '',
 					city: 'Baltimore',
@@ -384,6 +394,7 @@ const createOrganizations = async () => {
 					isCompleted: false,
 					createdAt: new Date(),
 					updatedAt: new Date(),
+					deliveryDeadline: new Date(Date.now() + 2 * 60 * 60 * 1000),
 					isDriverAssigned: false,
 					driverAssignedAt: new Date(),
 					isProductPickedUp: false,
@@ -564,6 +575,7 @@ const createOrganizations = async () => {
 					isCompleted: false,
 					createdAt: new Date(),
 					updatedAt: new Date(),
+					deliveryDeadline: new Date(Date.now() + 2 * 60 * 60 * 1000),
 					isDriverAssigned: false,
 					driverAssignedAt: new Date(),
 					isProductPickedUp: false,
@@ -714,6 +726,7 @@ const createOrganizations = async () => {
 					routeId: null,
 					createdAt: new Date(),
 					updatedAt: new Date(),
+					deliveryDeadline: new Date(Date.now() + 2 * 60 * 60 * 1000),
 					isDriverAssigned: false,
 					driverAssignedAt: new Date(),
 					isProductPickedUp: false,
@@ -821,7 +834,7 @@ const createUsers = async () => {
 			firstName: 'Bob',
 			lastName: 'Roberts',
 			username: 'BigChiefa22',
-			email: 'bob@gmail.com',
+			email: 'bmejia220@gmail.com',
 			phone: '1232343453',
 			emailVerified: false,
 			scannedDOB: new Date(),
@@ -836,7 +849,7 @@ const createUsers = async () => {
 				create: {
 					id: '1',
 					role: 'MEMBER',
-					organizationId: 'bf346k4u7x2b2hhr6wvgippp',
+					organizationId: 'bf346k4u7x2b2hhr6wsofppp',
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				},
@@ -859,7 +872,7 @@ const createUsers = async () => {
 			firstName: 'Sam',
 			lastName: 'Samuels',
 			username: 'Sammy223',
-			email: 'sam@gmail.com',
+			email: 'abdeveloper8888@gmail.com',
 			phone: '1232343452',
 			emailVerified: true,
 			isLegalAge: false,
@@ -901,6 +914,19 @@ const createUsers = async () => {
 const createAddresses = async () => {
 	// ADDRESS
 	const addresses: Address[] = [
+		{
+			id: 'clm2fooj6000ovksiht6oif7z',
+			street1: '832 Columbia Avenue',
+			street2: '',
+			city: 'Lancaster',
+			state: 'PA',
+			zipcode: 17603,
+			country: 'United States',
+			countryCode: 'US',
+			coordinateId: 'clm2fopi0000wvksikbl2upwp',
+			createdAt: new Date(),
+			updatedAt: new Date(),
+		},
 		{
 			id: '1',
 			street1: '123 King St',
@@ -1228,6 +1254,93 @@ const createDrivers = async () => {
 			},
 		},
 	});
+	await prisma.driver.upsert({
+		where: {
+			id: 'jjyt0krxhwdmtg4um1cj56on',
+		},
+		create: {
+			email: 'bryantmejia@grascannabis.org',
+			createdAt: new Date(),
+			updatedAt: new Date(),
+			user: {
+				connectOrCreate: {
+					where: { id: 'jjyt0krxhwdmtg4um1cj56on' },
+					create: {
+						email: 'bryantmejia@grascannabis.org',
+						id: 'jjyt0krxhwdmtg4um1cj56on',
+						firstName: 'Bryant',
+						lastName: 'Mejia',
+						username: 'bmejia248',
+						emailVerified: true,
+						isLegalAge: true,
+						isSignUpComplete: true,
+						termsAccepted: true,
+						idVerified: true,
+						scannedDOB: '2023-09-02T19:45:01.192Z',
+						dialCode: '1',
+						phone: '5707901185',
+						address: {
+							connectOrCreate: {
+								where: { id: 'clm2fooj6000ovksiht6oif7z' },
+								create: {
+									id: 'clm2fooj6000ovksiht6oif7z',
+									street1: '832 Columbia Avenue',
+									street2: '',
+									city: 'Lancaster',
+									state: 'PA',
+									zipcode: 17603,
+									country: 'United States',
+									countryCode: 'US',
+									coordinates: {
+										connectOrCreate: {
+											where: {
+												id: 'clm2fopi0000wvksikbl2upwp',
+											},
+											create: {
+												id: 'clm2fopi0000wvksikbl2upwp',
+												latitude: 40.0379959,
+												longitude: -76.3229132,
+												radius: null,
+												createdAt: '2023-09-02T19:45:36.791Z',
+												updatedAt: '2023-09-02T19:45:36.791Z',
+											},
+										},
+									},
+									createdAt: '2023-09-02T19:45:35.538Z',
+									updatedAt: '2023-09-02T19:45:36.791Z',
+								},
+							},
+						},
+						profilePicture: {
+							connectOrCreate: {
+								where: {
+									id: 'clm2foj6r000gvksi76ql2f8d',
+								},
+								create: {
+									id: 'clm2foj6r000gvksi76ql2f8d',
+									location:
+										'https://storage.cloud.google.com/image-user/avatar6.png?authuser=1',
+									blurhash: null,
+									createdAt: '2023-09-02T19:45:28.610Z',
+									updatedAt: '2023-09-02T19:45:28.610Z',
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+		update: {
+			email: 'bryantmejia@grascannabis.org',
+			createdAt: new Date(),
+			updatedAt: new Date(),
+			user: {
+				connect: {
+					email: 'bryantmejia@grascannabis.org',
+				},
+			},
+		},
+	});
 	console.info('create prisma.driver records');
 };
 
@@ -1277,6 +1390,7 @@ const createOrders = async () => {
 			isCompleted: false,
 			createdAt: new Date(),
 			updatedAt: new Date(),
+			deliveryDeadline: new Date(Date.now() + 2 * 60 * 60 * 1000),
 			isDriverAssigned: false,
 			driverAssignedAt: new Date(),
 			isProductPickedUp: false,
@@ -1328,6 +1442,7 @@ const createOrders = async () => {
 			isCompleted: false,
 			createdAt: new Date(),
 			updatedAt: new Date(),
+			deliveryDeadline: new Date(Date.now() + 2 * 60 * 60 * 1000),
 			isDriverAssigned: false,
 			driverAssignedAt: new Date(),
 			isProductPickedUp: false,
@@ -1368,6 +1483,7 @@ const createOrders = async () => {
 			routeId: null,
 			createdAt: new Date(),
 			updatedAt: new Date(),
+			deliveryDeadline: new Date(Date.now() + 2 * 60 * 60 * 1000),
 			isDriverAssigned: false,
 			driverAssignedAt: new Date(),
 			isProductPickedUp: false,
@@ -1408,6 +1524,7 @@ const createOrders = async () => {
 			isCompleted: false,
 			createdAt: new Date(),
 			updatedAt: new Date(),
+			deliveryDeadline: new Date(Date.now() + 2 * 60 * 60 * 1000),
 			isDriverAssigned: false,
 			driverAssignedAt: new Date(),
 			isProductPickedUp: false,
@@ -1448,6 +1565,7 @@ const createOrders = async () => {
 			isCompleted: false,
 			createdAt: new Date(),
 			updatedAt: new Date(),
+			deliveryDeadline: new Date(Date.now() + 2 * 60 * 60 * 1000),
 			isDriverAssigned: false,
 			driverAssignedAt: new Date(),
 			isProductPickedUp: false,
@@ -1488,6 +1606,7 @@ const createOrders = async () => {
 			routeId: null,
 			createdAt: new Date(),
 			updatedAt: new Date(),
+			deliveryDeadline: new Date(Date.now() + 2 * 60 * 60 * 1000),
 			isDriverAssigned: false,
 			driverAssignedAt: new Date(),
 			isProductPickedUp: false,

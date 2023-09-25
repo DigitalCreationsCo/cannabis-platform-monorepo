@@ -1,45 +1,48 @@
-import { type OrderWithDetails } from '@cd/data-access';
+import { type OrderWithDispatchDetails } from '@cd/data-access';
 
-const SocketEvent = Object.freeze({
-	Connection: 'connection',
-	CustomerConnect: 'customer_connect',
-	DriverConnect: 'driver_connect',
-	VendorConnect: 'vendor_connect',
-	ClientConnect: 'client_connect',
-	Disconnect: 'disconnect',
+export const dispatchEvents = Object.freeze({
+	connection: 'connection',
+	client_connect: 'client_connect',
+	customer_connect: 'customer_connect',
+	driver_connect: 'driver_connect',
+	vendor_connect: 'vendor_connect',
+	disconnect: 'disconnect',
 
-	NewOrder: 'new_order',
-	AcceptOrder: 'accept_delivery_order',
-	DeclineOrder: 'decline_delivery_order',
-	OrderAssignedToYou: 'order_assigned',
-	OrderAssignedToAnotherDriver: 'order_assigned_to_another_driver',
-	GetLocation: 'get_location',
+	new_order: 'new_order',
+	accept_order: 'accept_delivery_order',
+	decline_order: 'decline_delivery_order',
+	order_assigned: 'order_assigned',
+	order_assigned_to_another_driver: 'order_assigned_to_another_driver',
+	get_location: 'get_location',
+	customer_received_order: 'customer_received_order',
+	order_complete: 'order_complete',
 
-	DriverAdded: 'driver_added',
-	SendLocation: 'location_share',
+	add_driver_to_record: 'add_driver_to_record',
+	join_room: 'join_room',
+	driver_added: 'driver_added',
+	send_location: 'location_share',
+	close_room: 'close',
+	closed: 'closed',
 
-	Message: 'message',
-	Navigate: 'navigate',
+	message: 'message',
+	navigate: 'navigate',
 });
 
-const NavigateEvent = Object.freeze({
-	ToVendor: 'NAVIGATE_TO_VENDOR',
-	ToCustomer: 'NAVIGATE_TO_CUSTOMER',
-	ArriveToVendor: 'ARRIVE_TO_VENDOR',
-	PickupProduct: 'PICKUP_PRODUCT',
-	ArriveToCustomer: 'ARRIVE_TO_CUSTOMER',
-	DeliverOrder: 'DELIVER_PRODUCT',
+export const NavigateEvent = Object.freeze({
+	to_vendor: 'NAVIGATE_TO_VENDOR',
+	arrive_to_vendor: 'ARRIVE_TO_VENDOR',
+	pickup_product: 'PICKUP_PRODUCT',
+	to_customer: 'NAVIGATE_TO_CUSTOMER',
+	arrive_to_customer: 'ARRIVE_TO_CUSTOMER',
+	deliver_product: 'DELIVER_PRODUCT',
 });
 
-interface SocketEventPayload<T> {
+export interface SocketEventPayload<T> {
 	message: string | null;
 	data?: T;
 }
 
-type IncomingOrder = {
-	newOrder: OrderWithDetails | null;
+export type IncomingOrder = {
+	newOrder: OrderWithDispatchDetails['order'] | null;
 	message: string | null;
 };
-
-export { SocketEvent, NavigateEvent };
-export type { SocketEventPayload, IncomingOrder };

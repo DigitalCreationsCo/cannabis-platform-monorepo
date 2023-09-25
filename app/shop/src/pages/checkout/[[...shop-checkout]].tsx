@@ -41,11 +41,11 @@ function Checkout() {
 		console.log('checking order valid ', order);
 		if (
 			!cartIsEmpty &&
-			order.destinationAddress !== undefined &&
-			order.organization !== undefined &&
-			order.customerId &&
-			order.subtotal > 0 &&
-			order.total > 0
+			order?.destinationAddress !== undefined &&
+			order?.organization !== undefined &&
+			order?.customerId &&
+			order?.subtotal > 0 &&
+			order?.total > 0
 		)
 			return;
 		else throw new Error('Invalid order');
@@ -56,7 +56,6 @@ function Checkout() {
 			const response = await axios.post(
 				urlBuilder.shop + '/api/stripe/checkout-session',
 				order,
-				{ timeout: 10000 },
 			);
 
 			if (response.data.success === 'false')
@@ -129,14 +128,14 @@ function Checkout() {
 
 										<Paragraph className="text-center">
 											{renderAddress({
-												address: order.organization.address,
+												address: order?.organization.address,
 											})}
 										</Paragraph>
 									</div>
 								</div>
 
 								<ReviewDeliveryAddress
-									orderAddress={order.destinationAddress}
+									orderAddress={order?.destinationAddress}
 								/>
 							</FlexBox>
 						</div>

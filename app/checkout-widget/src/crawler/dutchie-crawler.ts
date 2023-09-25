@@ -82,12 +82,13 @@ export function buildCartItems(
 	}
 	const cartItems: ProductVariantWithDetails[] = [];
 	items.forEach((item, index) => {
+		console.info('crawled item: ', item);
 		const _cartItem = {
 			name: text(_$(item, config.item.name)).match(regexFieldDict.name)?.[1],
 			basePrice: convertDollarsToWholeNumber(
 				text(_$(item, config.item.basePrice)),
 			),
-			quantity: Number(getSelectedOptionValue(`${item.quantity}`)),
+			quantity: Number(getSelectedOptionValue(`${config.item.quantity}`)),
 			size: Number(
 				text(_$(item, config.item.name)).match(regexFieldDict.size)?.[1],
 			),
