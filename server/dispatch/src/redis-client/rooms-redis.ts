@@ -1,10 +1,20 @@
 import { isEmpty } from '@cd/core-lib';
 import { createClient } from 'redis';
-import { type RoomType } from '../dispatch.types';
+import {
+	type Client,
+	type RoomType,
+} from '../../../../packages/core-lib/src/types/dispatch.types';
 import type WorkerRoom from '../worker/WorkerRoom';
 
 const dispatchRoomsRedis = createClient({
 	url: process.env.DISPATCH_ROOMS_REDIS_URL,
+	socket: {
+		tls: false,
+		timeout: 20000,
+	},
+});
+dispatchRoomsRedis.on('connect', () => {
+	console.info('dispatch rooms redis: connected');
 });
 dispatchRoomsRedis.on('error', (err) => {
 	console.error('dispatch rooms redis: ', err);
@@ -16,6 +26,8 @@ class DispatchRoomsController {
 	getRooms() {
 		async function getRoomsAsync() {
 			return dispatchRoomsRedis.KEYS('*').then((keys) => {
+				console.info('getRooms: keys: ', keys);
+				if (!keys.length) return [];
 				return dispatchRoomsRedis
 					.MGET(keys)
 					.then((rooms) =>
@@ -60,6 +72,12 @@ class DispatchRoomsController {
 	// 		.SADD(roomId, JSON.stringify(client))
 	// 		.catch((err) => console.info('addClient: ', err));
 	// }
+
+	async removeClientFromRoom(roomId: string, client: Client) {
+		return await dispatchRoomsRedis
+			.SREM(roomId, JSON.stringify(client))
+			.catch((err) => console.info('removeClientFromRoom: ', err));
+	}
 
 	async deleteRoom(roomId: string) {
 		// delete room from io object

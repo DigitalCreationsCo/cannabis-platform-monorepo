@@ -1,16 +1,20 @@
+import { selectUserState, TextContent } from '@cd/core-lib';
 import {
 	FlexBox,
 	Grid,
 	H1,
-	type LayoutContextProps,
 	Padding,
 	Page,
 	Paragraph,
+	type LayoutContextProps,
 } from '@cd/ui-lib';
 import Link from 'next/link';
+import { useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 
 function SettingsPage() {
+	const { user } = useSelector(selectUserState);
+
 	return (
 		<Page>
 			<FlexBox className="mx-auto w-[80%] sm:w-auto">
@@ -18,16 +22,24 @@ function SettingsPage() {
 					<H1>Settings</H1>
 					<Grid className="grid-rows-auto w-full gap-4 pt-4 sm:grid-cols-3">
 						<div className={twMerge(styles.settings_button, styles.active)}>
-							<Link href="/settings/account" className="flex h-full w-full">
+							<Link
+								href={TextContent.href.account_f(user.id)}
+								className="flex h-full w-full"
+							>
 								<Paragraph className="m-auto">my account</Paragraph>
 							</Link>
 						</div>
 						<div className={twMerge(styles.settings_button)}>
-							<Paragraph className="text-gray m-auto">address</Paragraph>
+							<Link
+								href={TextContent.href.orders_f(user.id)}
+								className="flex h-full w-full"
+							>
+								<Paragraph className="text-gray m-auto">my orders</Paragraph>
+							</Link>
 						</div>
-						<div className={twMerge(styles.settings_button)}>
-							<Paragraph className="text-gray m-auto">order history</Paragraph>
-						</div>
+						{/* <div className={twMerge(styles.settings_button)}>
+							<Paragraph className="text-gray m-auto">addresses</Paragraph>
+						</div> */}
 					</Grid>
 				</Padding>
 			</FlexBox>

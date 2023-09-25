@@ -1,3 +1,5 @@
+/* eslint-disable sonarjs/no-duplicate-string */
+import { calculateDeliveryDeadline } from '@cd/core-lib';
 import {
 	type OrderWithDashboardDetails,
 	type OrganizationWithDashboardDetails,
@@ -317,6 +319,7 @@ const orders: OrderWithDashboardDetails[] = [
 		isCompleted: false,
 		createdAt: new Date(),
 		updatedAt: new Date(),
+		deliveryDeadline: calculateDeliveryDeadline(),
 		deliveredAt: new Date(),
 		isDriverAssigned: false,
 		driverAssignedAt: new Date(),
@@ -408,6 +411,37 @@ const orders: OrderWithDashboardDetails[] = [
 				scannedDOB: new Date(),
 				createdAt: new Date(),
 				updatedAt: new Date(),
+				profilePicture: {
+					location: '',
+					id: '1',
+					blurhash: '',
+					createdAt: new Date(),
+					updatedAt: new Date(),
+					userId: 'bf346k4u7x2b2hhr6wvgiwao',
+				},
+				address: [
+					{
+						id: '12345',
+						street1: '123 Harbor St',
+						street2: 'Suite 200',
+						city: 'Baltimore',
+						state: 'Maryland',
+						zipcode: 21230,
+						country: 'United States',
+						countryCode: 'US',
+						coordinateId: '1',
+						createdAt: new Date(),
+						updatedAt: new Date(),
+						coordinates: {
+							id: '1',
+							latitude: 33,
+							longitude: 81,
+							radius: 1000000,
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+					},
+				],
 			},
 		},
 		route: {
@@ -455,6 +489,7 @@ const orders: OrderWithDashboardDetails[] = [
 			createdAt: new Date(),
 			updatedAt: new Date(),
 		},
+		organization,
 	},
 ];
 

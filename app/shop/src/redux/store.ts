@@ -42,7 +42,7 @@ const rootReducer = combineReducers({
 	blog: blogReducer,
 });
 
-const hydratableReducer = (state: RootState, action: AnyAction) => {
+const hydratableReducer = (state: any, action: AnyAction) => {
 	if (action.type === HYDRATE) {
 		return {
 			...state, // use previous state
@@ -52,7 +52,7 @@ const hydratableReducer = (state: RootState, action: AnyAction) => {
 	if (action.type === REHYDRATE) {
 		return {
 			...state,
-			// ...action.payload // apply delta from hydration
+			...action.payload, // apply delta from hydration
 		};
 	} else {
 		return rootReducer(state, action);

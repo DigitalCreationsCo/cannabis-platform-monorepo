@@ -34,15 +34,18 @@ export const normalizeUserData = (user: UserCreateType) => {
 	return user;
 };
 
-export const pruneData = (data: Record<string, any>, fields: string[]) => {
+export const pruneData = <T extends Record<string, unknown>>(
+	data: T,
+	fields: (keyof T)[],
+) => {
 	return Object.keys(data)
 		.filter((field) => !fields.includes(field))
-		.reduce((obj, key) => {
+		.reduce((obj, field) => {
 			return {
 				...obj,
-				[key]: data[key],
+				[field]: data[field],
 			};
-		}, {});
+		}, {} as T);
 };
 
 export const shuffle = (array: any[]) => {
@@ -88,7 +91,8 @@ export function addressObjectIntoArray(user: any): UserCreateType {
  */
 export function reconcileStateArray<T>(state: T[], payload: T[]) {
 	// console.log('state ', state);
-	// console.log('payload', payload);
+	console.info('reconciling payload: ');
+	console.log(payload);
 	let s = state;
 	payload.forEach((item) => {
 		// @ts-ignore
@@ -96,5 +100,6 @@ export function reconcileStateArray<T>(state: T[], payload: T[]) {
 		if (index === -1) s = [...s, item];
 		else s[index] = item;
 	});
+	console.log('reconciled state: ', s);
 	return s;
 }

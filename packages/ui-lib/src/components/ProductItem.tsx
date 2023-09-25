@@ -28,17 +28,19 @@ function ProductItem({
 		<>
 			<div
 				className={twMerge(
-					'w-full flex flex-row col-span-2 lg:col-span-2 xl:col-span-1 justify-stretch',
+					'w-full border-b-2 flex flex-row col-span-2 lg:col-span-2 xl:col-span-1 justify-stretch',
 					className,
 				)}
 				// onClick={toggleConfirm}
 			>
-				<img
-					src={product?.images?.[0]?.location}
-					alt={product.name}
-					style={{ height: 80, maxHeight: 100, width: 80, maxWidth: 100 }}
-					className="rounded border object-cover place-self-center"
-				/>
+				{product?.images?.[0]?.location ? (
+					<img
+						src={product?.images?.[0]?.location}
+						alt={product.name}
+						style={{ height: 80, maxHeight: 100, width: 80, maxWidth: 100 }}
+						className="rounded border object-cover place-self-center"
+					/>
+				) : null}
 				<div className="grid w-full p-4">
 					<H6 className="flex flex-row">
 						{product.name} ({product.quantity})

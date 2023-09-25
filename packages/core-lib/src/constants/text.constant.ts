@@ -1,5 +1,8 @@
-import { type OrganizationWithAddress } from '@cd/data-access';
-import { renderAddress } from '../utils';
+import {
+	type OrderWithDispatchDetails,
+	type OrganizationWithAddress,
+} from '@cd/data-access';
+import { renderAddress, showTime } from '../utils';
 
 /* eslint-disable @typescript-eslint/naming-convention */
 const nbsp = '\xa0';
@@ -88,6 +91,8 @@ const TextContent = Object.freeze({
 		ENTER_OR_GO_TO_ACCOUNT:
 			'You can enter the Gras site, or view your account.',
 		MY_ACCOUNT: 'My Account',
+		MY_ORDERS: `My Orders`,
+
 		REVIEW_ACCOUNT: `Please review your account information.`,
 		VERIFY_ID_PROCESSING: 'Verifying your ID..',
 		VERIFY_ID_COMPLETE: 'Thanks for verifying!',
@@ -108,6 +113,7 @@ const TextContent = Object.freeze({
 		DISPENSARY_NOT_FOUND: `Dispensary is not found.`,
 		DRIVER_NOT_FOUND: `Driver is not found.`,
 		ORDER_NOT_FOUND: `Order is not found.`,
+		INVALID_ORDER: `Invalid order.`,
 
 		USER_EXISTS_ERROR: `This user exists already. Please choose a different username or email.`,
 
@@ -127,17 +133,28 @@ const TextContent = Object.freeze({
 
 	info: {
 		ABOUT_GRAS: `Gras is a home-grown service-first company. We serve our communities by enabling communication and support between people and businesses.`,
+		BUILDING_TRUST_WITH_OUR_PARTNERS: `Our Gras team works to build a trusted community of partners and cannabis lovers.`,
 		CANNABIS_DELIVERED: `Cannabis,${'\xa0'}Delivered.${'\xa0'}🌴${'\xa0'}🔥`,
 		CANNABIS_DELIVERED_TODAY: `Cannabis,${'\xa0'}Delivered${'\xa0'}Today🌴`,
 		COMPANY_NAME: 'Gras',
+		CONTACT_SUPPORT: `For support, dial ${process.env.SUPPORT_PHONE}.`,
 		EMAIL: 'Email',
 		GET_CANNABIS_DELIVERED: `Get${nbsp}Cannabis${nbsp}Delivered`,
 		GRAS_MISSION: `We are here to cultivate fulfillment and meaningful experiences with our customers and partners in the cannabis world, one${nbsp}delivery${nbsp}at${nbsp}a${nbsp}time.`,
 		LEARN_MORE: `Learn more`,
 		MORE_CONTENT_COMING_SOON: `Our Team is bringing you more news and content from the world of cannabis.`,
 		ONE_STOP: 'a one stop cannabis marketplace',
+		SMS_FOOTER: `Reply STOP to unsubscribe. Msg&Data Rates May Apply.`,
+		SMS_UPDATE: `Check your sms messages for updates on your order.`,
 		THANK_YOU: `Thank you for choosing Gras.`,
-		BUILDING_TRUST_WITH_OUR_PARTNERS: `Our Gras team works to build a trusted community of partners and cannabis lovers.`,
+		TIME_GUARANTEE: `We guarantee a delivery time of ${process.env.DELIVERY_TIME} hours`,
+
+		GRAS_WILL_DELIVER_STRAIGHT_TO_YOUR_DOOR:
+			'Gras will deliver your order straight to your door.',
+		GRAS_DELIVERS_FOR_DISPENSARIES:
+			'Gras delivers for Medicinal and Recreational Dispensaries directly to their customers.',
+		YOUR_CUSTOMERS_ARE_OUR_CUSTOMERS: `Your customers are our customers.`,
+		DELIVER_FOR_GRAS: 'Deliver for Gras',
 	},
 
 	ui: {
@@ -157,6 +174,11 @@ const TextContent = Object.freeze({
 		SAVE_CHANGES: 'Save Changes',
 		CONTINUE: 'continue',
 		BACK: 'back',
+
+		HOME_LOCATION_IS_SET: "We'll send your next delivery to Home.",
+		CURRENT_LOCATION_IS_SET:
+			"Got it! We'll send your next delivery to your current spot.",
+		GIFT_LOCATION_IS_SET: "We'll send your next delivery to your friend!",
 	},
 
 	technical: {
@@ -168,7 +190,7 @@ const TextContent = Object.freeze({
 	},
 
 	legal: {
-		HOME_DELIVERY_BY_GRAS: `Home Delivery by Gras`,
+		HOME_DELIVERY_BY_GRAS: `Delivery by Gras`,
 		COMPANY_NAME: 'Gras',
 		COPYRIGHT: `© 2023`,
 		COPYRIGHT_RIGHTS_RESERVED: 'Gras © 2023 All rights reserved.',
@@ -189,53 +211,39 @@ const TextContent = Object.freeze({
 			'Gras will never share your account information with other parties.',
 	},
 
-	delivery: {
-		TIME_GUARANTEE: `We guarantee a delivery time of 2 hours`,
-		GRAS_WILL_DELIVER_STRAIGHT_TO_YOUR_DOOR:
-			'Gras will deliver your order straight to your door.',
-		GRAS_DELIVERS_FOR_DISPENSARIES:
-			'Gras delivers for Medicinal and Recreational Dispensaries directly to their customers.',
-		YOUR_CUSTOMERS_ARE_OUR_CUSTOMERS: `Your customers are our customers.`,
-		DELIVER_FOR_GRAS: 'Deliver for Gras',
-
-		ALL_ORDERS: 'Your Delivery Queue',
-		CUSTOMER_ORDER_f: (customerName: string) =>
-			`${customerName} placed an order`,
-		DELIVERING_TO_ADDRESS_f: (location: any) =>
-			`Delivering to ${location?.street}, ${location?.city}, ${location?.state}`,
-		DELIVERY_COMPLETE: 'Your order was delivered!',
-		DELIVER_FOR_f: (user: string) => `Delivery for ${user}`,
-		DRIVER_ADDED: 'A driver has started your delivery!',
-		DRIVER_ARRIVED_TO_VENDOR_f: (driverName: string) =>
-			`${driverName} has arrived to the vendor!`,
-		DRIVER_ARRIVED_TO_CUSTOMER_f: (driverName: string) =>
-			`${driverName} has arrived with your order!`,
-		DRIVER_INFO_f: (driverName: string) =>
-			`${driverName} is delivering your order`,
-		DRIVER_PICKUP_PRODUCT_f: (driverName: string) =>
-			`${driverName} has picked up your product!`,
-		DRIVER_SEARCH: 'Searching for a driver...',
-		ORDER_NUM_f: (numOrders: number) =>
-			`${numOrders} ${numOrders > 1 ? 'deliveries' : 'delivery'} in queue`,
-		ORDERED_FROM_VENDOR_f: (vendorName: string) => `Ordered from ${vendorName}`,
-		ORDERING_FROM_VENDOR_f: (vendorName: string) =>
-			`Ordering from ${vendorName}`,
-		ORDER_INFO_HEADER: "Here's your order",
-		PAYMENT_SUCCESSFUL:
-			'Your order is placed and sent to your Gras DeliveryPerson',
-
-		HOME_LOCATION_IS_SET: "We'll send your next delivery to Home.",
-		CURRENT_LOCATION_IS_SET:
-			"Got it! We'll send your next delivery to your current spot.",
-		GIFT_LOCATION_IS_SET: "We'll send your next delivery to your friend!",
-
-		SMS_UPDATE: `Check your sms messages for updates on your order.`,
-	},
-
 	dispatch: {
 		status: {
-			ACCEPT_ORDER: `You accepted the delivery order! Travel to pickup the order.`,
+			ACCEPT_ORDER: `You accepted the delivery order!\nTravel to pickup the order.`,
+			ALL_DELIVERY_ORDERS: 'Your Delivery Queue',
 			CONNECTED: `Connected to the dispatch server.`,
+
+			CUSTOMER_ORDER_f: (customerName: string) =>
+				`${customerName} placed an order`,
+			DELIVER_TO_CUSTOMER_f: (order: OrderWithDispatchDetails['order']) =>
+				`Deliver to ${order.customer.username}, ${renderAddress({
+					address: order.destinationAddress,
+					lineBreak: false,
+				})}`,
+			DELIVERY_COMPLETE: 'Your order was delivered!',
+			DELIVER_FOR_f: (user: string) => `Delivery for ${user}`,
+			DRIVER_ADDED: 'A driver has started your delivery!',
+			DRIVER_ADDED_NAME_f: (name: string) =>
+				`Your order is being delivered by ${name}!`,
+			DRIVER_ARRIVED_TO_VENDOR_f: (driverName: string) =>
+				`${driverName} has arrived to the vendor!`,
+			DRIVER_PICKUP_PRODUCT_f: (driverName: string) =>
+				`${driverName} has picked up your product!`,
+			DRIVER_ARRIVED_TO_CUSTOMER_f: (driverName: string) =>
+				`${driverName} has arrived with your order!`,
+			DRIVER_SEARCH: 'Searching for a driver...',
+			ORDER_NUM_DELIVER_QUEUE_f: (numOrders: number) =>
+				`${numOrders} ${numOrders > 1 ? 'deliveries' : 'delivery'} in queue`,
+			ORDERED_FROM_VENDOR_f: (vendorName: string) =>
+				`Ordered from ${vendorName}`,
+			ORDERING_FROM_VENDOR_f: (vendorName: string) =>
+				`Ordering from ${vendorName}`,
+			DELIVERY_DEADLINE_f: (order: OrderWithDispatchDetails['order']) =>
+				`Deliver order by ${showTime(order.deliveryDeadline)}`,
 			NAVIGATE_DELIVERY: `Navigate to start delivering your order.`,
 			NEW_ORDER: `New Order!`,
 			NEW_ORDER_FROM_GRAS: `New Order from Gras!`,
@@ -248,6 +256,7 @@ const TextContent = Object.freeze({
 			ORDER_ASSIGNED_TO_ANOTHER_DRIVER: `You didn't claim this order. Stay online to receive your next order.`,
 			REPLY_TO_ACCEPT_ORDER: `Reply '1' to accept the delivery order.`,
 		},
+
 		error: {
 			ROOM_NOT_FOUND: `Dispatch room not found.`,
 		},
@@ -269,6 +278,10 @@ const TextContent = Object.freeze({
 		BROWSE_DISPENSARY_f: (vendorName: string) => `Browse ${vendorName}`,
 		CART_TITLE: 'My Bag',
 		CHECKOUT: 'checkout',
+		ORDER_INFO_HEADER: "Here's your order",
+
+		PAYMENT_SUCCESSFUL:
+			'Your order is placed and sent to your Gras DeliveryPerson',
 		PURCHASE: 'place an order',
 		PLACE_AN_ORDER: 'place an order',
 		PLACE_AN_ORDER_DELIVERY: 'place an order for delivery',
@@ -289,16 +302,19 @@ const TextContent = Object.freeze({
 	},
 
 	href: {
-		account: '/settings/account',
 		browse: '/browse',
+
+		support: '/support',
+
 		dashboard_f: (id: string) => `/${id}/dashboard`,
 		orders_f: (id: string) => `/${id}/orders`,
 		products_f: (id: string) => `/${id}/products`,
 		users_f: (id: string) => `/${id}/users`,
 		settings: '/settings',
 		settings_f: (id: string) => `/${id}/settings`,
+		account_f: (id: string) => `/${id}/account`,
+
 		site_f: (id: string) => `/${id}/settings/site-settings`,
-		support: '/support',
 	},
 });
 

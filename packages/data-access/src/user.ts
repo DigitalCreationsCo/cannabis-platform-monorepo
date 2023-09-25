@@ -48,6 +48,7 @@ export async function createUser(userData: UserCreateType) {
 				address: userData.address
 					? {
 							create: userData.address?.map((address: any) => ({
+								id: address.id,
 								street1: address.street1,
 								street2: address.street2,
 								city: address.city,
@@ -127,20 +128,27 @@ export async function upsertUser(userData: UserCreateType) {
 				scannedDOB: userData.scannedDOB,
 				address: userData.address
 					? {
-							create: {
-								street1: userData.address[0].street1,
-								street2: userData.address[0].street2,
-								city: userData.address[0].city,
-								state: userData.address[0].state,
-								zipcode: userData.address[0].zipcode,
-								country: userData.address[0].country,
-								countryCode: userData.address[0].countryCode,
-								coordinates: {
-									create: {
-										latitude: Number(userData.address[0].coordinates?.latitude),
-										longitude: Number(
-											userData.address[0].coordinates?.longitude,
-										),
+							connectOrCreate: {
+								where: {
+									id: userData.address[0].id,
+								},
+								create: {
+									street1: userData.address[0].street1,
+									street2: userData.address[0].street2,
+									city: userData.address[0].city,
+									state: userData.address[0].state,
+									zipcode: userData.address[0].zipcode,
+									country: userData.address[0].country,
+									countryCode: userData.address[0].countryCode,
+									coordinates: {
+										create: {
+											latitude: Number(
+												userData.address[0].coordinates?.latitude,
+											),
+											longitude: Number(
+												userData.address[0].coordinates?.longitude,
+											),
+										},
 									},
 								},
 							},
@@ -176,6 +184,7 @@ export async function upsertUser(userData: UserCreateType) {
 									id: address.id,
 								},
 								create: {
+									id: address.id,
 									street1: address.street1,
 									street2: address.street2,
 									city: address.city,
@@ -191,6 +200,7 @@ export async function upsertUser(userData: UserCreateType) {
 									},
 								},
 								update: {
+									id: address.id,
 									street1: address.street1,
 									street2: address.street2,
 									city: address.city,
@@ -597,6 +607,26 @@ export async function findUserWithDetailsById(
 	} catch (error: any) {
 		console.error(error);
 		throw new Error(error);
+	}
+}
+
+export async function deleteUserById(id: string) {
+	try {
+		await prisma.address.deleteMany({
+			where: { user: { some: { id } } },
+		});
+		return await prisma.user.delete({
+			where: {
+				id,
+			},
+			include: {
+				address: true,
+			},
+		});
+	} catch (error: any) {
+		console.error(error);
+		if (error.meta.cause) throw new Error(error.meta.cause);
+		throw new Error(error.message);
 	}
 }
 

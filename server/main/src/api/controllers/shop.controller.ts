@@ -1,5 +1,8 @@
 import { TextContent } from '@cd/core-lib';
-import { type OrderCreateType } from '@cd/data-access';
+import {
+	type OrderCreateType,
+	type OrderWithDispatchDetails,
+} from '@cd/data-access';
 import { OrderDA } from '../data-access';
 
 /* =================================
@@ -26,6 +29,7 @@ export default class ShopController {
 	static async createOrder(req, res) {
 		try {
 			const order: OrderCreateType = req.body;
+			console.info('create order input: ', order);
 			const createdOrder = await OrderDA.createOrder(order);
 			return res.status(201).json({
 				success: 'true',
@@ -51,8 +55,23 @@ export default class ShopController {
 		try {
 			console.log('fulfillOrderAndStartDispatch: ', req.body);
 			const orderId: string = req.body.orderId;
-			const order = await OrderDA.getOrderById(orderId);
 			await OrderDA.updateOrderFulfillmentStatus(orderId, 'Processing');
+
+			const order = (await OrderDA.getOrderById(orderId, {
+				customer: true,
+				driver: true,
+				organization: {
+					include: {
+						address: {
+							include: {
+								coordinates: true,
+							},
+						},
+					},
+				},
+				destinationAddress: true,
+				route: true,
+			})) as OrderWithDispatchDetails['order'];
 			await OrderDA.addDispatchOrderMongo(order);
 			return res.status(201).json({
 				success: 'true',

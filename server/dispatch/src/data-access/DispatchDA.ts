@@ -2,9 +2,11 @@
 import cluster from 'cluster';
 import { getGeoJsonPairFromCoordinates } from '@cd/core-lib';
 import prisma, {
+	addDriverToOrder,
 	findDriverWithDetailsById,
 	updateOrder,
 	type Coordinates,
+	type OrderUpdateType,
 	type OrganizationWithAddress,
 } from '@cd/data-access';
 import {
@@ -247,21 +249,68 @@ class DispatchDA {
 		// and to mongo as well for the change stream
 		try {
 			// add driver to prisma record
-			await updateOrder(orderId, { driverId: driverId });
-
+			console.info(`update order ${orderId} with driver ${driverId}`);
+			await addDriverToOrder(orderId, driverId);
+			console.info('added driver to order record in prisma');
 			const driver = await this.getDriverUserRecordById(driverId);
 
-			const query = { id: orderId };
-			const update = { $set: { driver: driver } };
+			const query = { 'order.id': orderId };
+			const update = {
+				$set: {
+					'order.driver': driver,
+					'order.driverId': driver?.id,
+					'order.isDriverAssigned': true,
+					'order.driverAssignedAt': new Date(),
+				},
+			};
 			const updatedOrder = await this.dispatch_orders_collection?.updateOne(
 				query,
 				update,
 				{ writeConcern: { w: 'majority' } },
 			);
 
-			if (updatedOrder?.modifiedCount === 0)
+			if (!updatedOrder?.acknowledged || updatedOrder?.matchedCount === 0)
 				throw new Error(`Did not update the record: ${orderId}`);
 
+			console.info('added driver to order record in mongodb');
+			return { success: 'true' };
+		} catch (error: any) {
+			console.error(`addDriverToOrderRecord: ${error}`);
+			throw new Error(error.message);
+		}
+	}
+
+	async updateOrderRecord(orderId: string, data: OrderUpdateType) {
+		// query prisma to update order,
+		// update to mongo as well
+		try {
+			console.info(`update order ${orderId} with data ${data}`);
+
+			await updateOrder(orderId, { ...data });
+			console.info('updated order record in prisma');
+
+			const query = { 'order.id': orderId };
+
+			const buildUpdateOptions = (data: Record<string, string>) => {
+				const update: Record<string, any> = {};
+				for (const key in data) {
+					update[`order.${key}`] = data[key];
+				}
+				return update;
+			};
+			const update = {
+				$set: buildUpdateOptions(data as Record<string, string>),
+			};
+			const updatedOrder = await this.dispatch_orders_collection?.updateOne(
+				query,
+				update,
+				{ writeConcern: { w: 'majority' } },
+			);
+
+			if (!updatedOrder?.acknowledged || updatedOrder?.matchedCount === 0)
+				throw new Error(`Did not update the record: ${orderId}`);
+
+			console.info('updated order record in mongodb');
 			return { success: 'true' };
 		} catch (error: any) {
 			console.error(`addDriverToOrderRecord: ${error}`);
@@ -332,28 +381,27 @@ class DispatchDA {
 	async markOrderAsDispatched(orderId: string) {
 		try {
 			await this.dispatch_orders_collection?.findOneAndUpdate(
+				{ 'order.id': orderId },
 				{
-					query: {
-						id: orderId,
-					},
-				},
-				{
-					update: {
-						$push: {
-							queueStatus: {
-								$each: [
-									{
-										status: 'Dispatched',
-										createdAt: new Date(),
-										nextReevaluation: null,
-									},
-								],
-								$position: 0,
-							},
+					$push: {
+						queueStatus: {
+							$each: [
+								{
+									status: 'Dispatched',
+									createdAt: new Date(),
+									nextReevaluation: null,
+								},
+							],
+							$position: 0,
 						},
 					},
-				},
+				} as PushOperator<{
+					status: string;
+					createdAt: Date;
+					nextReevaluation: null;
+				}>,
 			);
+			console.info(`order ${orderId} is dispatched.`);
 		} catch (error: any) {
 			console.error('markOrderAsDispatched: ', error);
 			throw new Error(error.message);

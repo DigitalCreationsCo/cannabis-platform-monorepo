@@ -39,7 +39,7 @@ function QuickDelivery({ simpleCart }: { simpleCart: SimpleCart }) {
 	const user = useSelector(selectUserState);
 	const { isLegalAge, idVerified } = user.user;
 
-	if (isLegalAge === false || (!isLegalAge && idVerified))
+	if (idVerified === true && isLegalAge === false)
 		router.push('/sorry-we-cant-serve-you');
 
 	const [confirm, setConfirm] = useState(false);
@@ -165,5 +165,6 @@ export async function getServerSideProps({ query }: NextPageContext) {
 
 	if (!token) return { notFound: true };
 
+	console.info('token', token);
 	return { props: { simpleCart: JSON.parse(token) } };
 }

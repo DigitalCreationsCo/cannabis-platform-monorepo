@@ -24,12 +24,14 @@ router.route('/staff').put(userCtrl.updateDispensaryStaff);
 
 router.route('/:id').get(userCtrl.getUserById);
 
+router.route('/:id').delete(userCtrl.deleteUser);
+
 router.route('/address').post(userCtrl.addAddressToUser);
 
-router.route('/user/:id/address/:addressId').get(userCtrl.getAddressById);
+router.route('/:id/orders').get(userCtrl.getOrdersForUser);
 
-router
-	.route('/user/:id/address/:addressId')
-	.delete(userCtrl.removeAddressFromUser);
+router.route('/:id/address/:addressId').get(userCtrl.getAddressById);
+
+router.route('/:id/address/:addressId').delete(userCtrl.removeAddressFromUser);
 
 export default router;

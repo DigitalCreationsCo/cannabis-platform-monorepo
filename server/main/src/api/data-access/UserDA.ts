@@ -1,6 +1,7 @@
 import {
 	addAddressToUser,
 	createUser,
+	deleteUserById,
 	findAddressById,
 	findUserWithDetailsByEmail,
 	findUserWithDetailsById,
@@ -29,6 +30,7 @@ createUser
 upsertUser
 createDispensaryStaff
 updateDispensaryStaff
+deleteUser
 
 ================================= */
 
@@ -134,12 +136,17 @@ export default class UserDA {
 	static async updateUser(updateUserData: UserCreateType) {
 		try {
 			console.info('updateUserData: ', updateUserData);
-
 			const user = await updateUser(updateUserData);
-
 			console.info(`updated user ${user.id}`);
-
 			return user;
+		} catch (error: any) {
+			throw new Error(error.message);
+		}
+	}
+
+	static async deleteUser(id) {
+		try {
+			return await deleteUserById(id);
 		} catch (error: any) {
 			throw new Error(error.message);
 		}

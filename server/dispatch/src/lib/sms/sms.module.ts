@@ -1,11 +1,26 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import axios from 'axios';
-import { dispatchEvents } from '../../message';
+import { TextContent, type dispatchEvents } from '@cd/core-lib';
+import { type SMSAPI } from './Telnyx/telnyx';
 
 class SMSModule {
-	smsApi: 'TextGrid';
-	constructor(smsApi: 'TextGrid') {
-		this.smsApi = smsApi;
+	apiName: 'TextGrid' | 'Telnyx';
+	smsApi: SMSAPI | undefined;
+	constructor(apiName: 'TextGrid' | 'Telnyx') {
+		switch (apiName) {
+			case 'TextGrid':
+				import('./TextGrid/textgrid').then(
+					(TextGrid) => (this.smsApi = TextGrid.default),
+				);
+				break;
+			case 'Telnyx':
+				import('./Telnyx/telnyx').then(
+					(Telnyx) => (this.smsApi = Telnyx.default),
+				);
+				break;
+			default:
+				console.info('SMSModule: unhandled apiName ', apiName);
+		}
+		this.apiName = apiName;
 	}
 	async send(
 		event: keyof typeof dispatchEvents,
@@ -13,66 +28,17 @@ class SMSModule {
 		data: string,
 	) {
 		try {
-			// data += `\nReply STOP to unsubscribe. Msg&Data Rates May Apply.`;
+			data += `\n${TextContent.info.CONTACT_SUPPORT}`;
+			data += `\n${TextContent.info.SMS_FOOTER}`;
 			console.info(
-				`sending sms message to ${phoneTo} using ${this.smsApi} api: "${data}"`,
+				`sending sms message to ${phoneTo} using ${this.apiName} api: "${data}"`,
 			);
-			const from = getIncomingPhoneNumberForMessageEvent(event);
 			const to = `+1${phoneTo}`;
-			await axios.post(
-				`${process.env.TEXTGRID_BASE_URL}/Accounts/${process.env.TEXTGRID_ACCOUNT_SID}/Messages.json`,
-				{
-					body: data,
-					from,
-					to,
-				},
-				{
-					headers: {
-						Authorization:
-							'Bearer ' +
-							Buffer.from(
-								`${process.env.TEXTGRID_ACCOUNT_SID}:${process.env.TEXTGRID_AUTHTOKEN}`,
-							).toString('base64'),
-						'Content-type': 'application/json',
-					},
-				},
-			);
+			this.smsApi?.send(event, to, data);
 		} catch (error) {
 			console.error('SMSModule.send: ', error);
 		}
 	}
 }
 
-function getIncomingPhoneNumberForMessageEvent(
-	event: keyof typeof dispatchEvents,
-) {
-	// eslint-disable-next-line sonarjs/no-small-switch
-	switch (event) {
-		case dispatchEvents.new_order:
-			return process.env.PHONE_NUMBER_DRIVER_ACCEPT_ORDER;
-		case dispatchEvents.order_assigned:
-			return process.env.PHONE_NUMBER_DRIVER_ASSIGN_ORDER;
-		case dispatchEvents.order_assigned_to_another_driver:
-			return process.env.PHONE_NUMBER_DRIVER_ASSIGN_ORDER;
-		default:
-			console.info(
-				'getIncomingPhoneNumberForMessageEvent: unhandled event ',
-				event,
-			);
-	}
-}
-export default new SMSModule('TextGrid');
-
-export type TextGridReturnMessagePayload = {
-	SmsMessageSid?: string;
-	NumMedia?: string;
-	SmsSid?: string;
-	SmsStatus?: string;
-	Body: string;
-	To?: string;
-	NumSegments?: string;
-	MessageSid?: string;
-	AccountSid?: string;
-	From: string;
-	ApiVersion?: string;
-};
+export default new SMSModule('Telnyx');
