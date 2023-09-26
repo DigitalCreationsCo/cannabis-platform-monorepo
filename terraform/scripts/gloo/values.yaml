@@ -7,12 +7,12 @@ gatewayProxies:
     kind:
       deployment:
         replicas: 2
-    gatewaySettings:
-        customHttpsGateway:
-          options:
-            healthCheck:
-              # define a custom path that is available when the Gateway (Envoy listener) is actually listening
-              path: /envoy-hc
+    # gatewaySettings:
+    #     customHttpsGateway:
+    #       options:
+    #         healthCheck:
+    #           # define a custom path that is available when the Gateway (Envoy listener) is actually listening
+    #           path: /envoy-hc
     antiAffinity: true
 settings:
   replaceInvalidRoutes: true
