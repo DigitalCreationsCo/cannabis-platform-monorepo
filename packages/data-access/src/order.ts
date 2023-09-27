@@ -14,6 +14,7 @@ import {
  * findOrderWithDetails
  * updateOrderWithOrderItems
  * updateOrder
+ * addDriverToOrder
  * deleteOrder
  */
 
@@ -26,6 +27,8 @@ export async function createOrder(order: OrderCreateType) {
 		return createdOrder as OrderWithShopDetails;
 	} catch (error: any) {
 		console.error('create order: ', error);
+		if (error.message.includes('Invalid `prisma_default.order.create()`'))
+			throw new Error('Invalid order.');
 		throw new Error(error.message);
 	}
 }
@@ -57,6 +60,26 @@ export async function createPurchase(purchase: any) {
 	}
 }
 
+export async function findOrdersByUser(
+	userId: string,
+): Promise<OrderWithShopDetails[]> {
+	try {
+		return await prisma.order.findMany({
+			where: { customerId: userId },
+			orderBy: [{ updatedAt: 'desc' }],
+			include: {
+				customer: true,
+				organization: true,
+				destinationAddress: { include: { coordinates: true } },
+				items: true,
+			},
+		});
+	} catch (error: any) {
+		console.error(error.message);
+		throw new Error(error.message);
+	}
+}
+
 export async function findOrdersByOrg(organizationId: string) {
 	try {
 		return (
@@ -71,27 +94,29 @@ export async function findOrdersByOrg(organizationId: string) {
 	}
 }
 
-export async function findOrderWithDetails(id: string) {
-	try {
-		const order: any = await prisma.order.findUnique({
-			where: { id },
+export async function findOrderWithDetails(
+	id: string,
+	include: Prisma.OrderInclude = {
+		customer: true,
+		driver: true,
+		organization: {
 			include: {
-				customer: true,
-				driver: true,
-				organization: {
+				address: {
 					include: {
-						address: {
-							include: {
-								coordinates: true,
-							},
-						},
+						coordinates: true,
 					},
 				},
-				destinationAddress: true,
-				items: { include: { images: true } },
 			},
+		},
+		destinationAddress: true,
+		items: { include: { images: true } },
+	},
+) {
+	try {
+		return await prisma.order.findUnique({
+			where: { id },
+			include,
 		});
-		return order;
 	} catch (error: any) {
 		console.error(error);
 		throw new Error(error);

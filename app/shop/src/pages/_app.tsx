@@ -2,6 +2,7 @@ import { blogActions, shopActions } from '@cd/core-lib';
 import {
 	LoadingPage,
 	ModalProvider,
+	ProtectedPage,
 	ToastProvider,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
@@ -98,7 +99,32 @@ function App({ Component, ...rest }: CustomAppProps) {
 								{routerLoading ? (
 									<LoadingPage />
 								) : (
-									<Component {...props.pageProps} />
+									<ProtectedPage
+										protectedPages={[
+											'/settings',
+											'/checkout',
+											'/orders',
+											'/account',
+										]}
+									>
+										<>
+											<Component {...props.pageProps} />
+											{(function (d, w, c: 'BrevoConversations') {
+												w.BrevoConversationsID =
+													process.env.NEXT_PUBLIC_BREVO_CONVERSATIONS_ID;
+												w[c] =
+													w[c] ||
+													function (...args: any[]) {
+														(w[c].q = w[c].q || []).push(...args);
+													};
+												const s = d.createElement('script');
+												s.async = true;
+												s.src =
+													'https://conversations-widget.brevo.com/brevo-conversations.js';
+												if (d.head) d.head.appendChild(s);
+											})(document, window, 'BrevoConversations')}
+										</>
+									</ProtectedPage>
 								)}
 							</LayoutContainer>
 						</AnimatePresence>

@@ -33,8 +33,23 @@ resource "google_compute_region_backend_service" "default" {
   health_checks = [google_compute_region_health_check.default.id]
 
   backend {
-    # See the gloo.tf for more information on the ingressgateway standalone NEG that is automatically created
-    group = "https://www.googleapis.com/compute/v1/projects/${var.project_id}/zones/${var.zone}/networkEndpointGroups/ingressgateway"
+    group = "https://www.googleapis.com/compute/v1/projects/${var.project_id}/zones/asia-east2-a/networkEndpointGroups/ingressgateway"
+    capacity_scaler = 1
+    balancing_mode = "RATE"
+    # This is a reasonable max rate for an Envoy proxy
+    max_rate_per_endpoint = 3500
+  }
+
+  backend {
+    group = "https://www.googleapis.com/compute/v1/projects/${var.project_id}/zones/asia-east2-b/networkEndpointGroups/ingressgateway"
+    capacity_scaler = 1
+    balancing_mode = "RATE"
+    # This is a reasonable max rate for an Envoy proxy
+    max_rate_per_endpoint = 3500
+  }
+
+  backend {
+    group = "https://www.googleapis.com/compute/v1/projects/${var.project_id}/zones/asia-east2-c/networkEndpointGroups/ingressgateway"
     capacity_scaler = 1
     balancing_mode = "RATE"
     # This is a reasonable max rate for an Envoy proxy
@@ -58,10 +73,18 @@ resource "google_compute_region_backend_service" "default" {
 }
 
 resource "null_resource" "delete_ingressgateway" {
+  # Delete ingressgateway on destroy
   provisioner "local-exec" {
     when    = destroy
-    # Delete ingressgateway on destroy
-    command = "gcloud compute network-endpoint-groups delete ingressgateway --quiet"
+    command = "gcloud compute network-endpoint-groups delete ingressgateway --quiet --zone=asia-east2-a"
+  }
+  provisioner "local-exec" {
+    when    = destroy
+    command = "gcloud compute network-endpoint-groups delete ingressgateway --quiet --zone=asia-east2-b"
+  }
+  provisioner "local-exec" {
+    when    = destroy
+    command = "gcloud compute network-endpoint-groups delete ingressgateway --quiet --zone=asia-east2-c"
   }
 }
 
@@ -75,10 +98,10 @@ resource "google_compute_region_health_check" "default" {
     port_specification = "USE_SERVING_PORT"
     request_path = "/"
   }
-  timeout_sec         = 1
+  timeout_sec         = 5
   check_interval_sec  = 3
-  healthy_threshold   = 1
-  unhealthy_threshold = 1
+  healthy_threshold   = 2
+  unhealthy_threshold = 2
 }
 
 resource "google_compute_address" "default" {

@@ -72,8 +72,8 @@ export const backendConfig = (): AuthConfig => {
 									}
 
 									if (
-										response.status === 'OK' &&
-										response.createdNewUser === false
+										response.status === 'OK'
+										// && response.createdNewUser === false
 									) {
 										let user: UserWithDetails | DriverWithDetails | null;
 										if (input.userContext.appUser === 'DRIVER') {

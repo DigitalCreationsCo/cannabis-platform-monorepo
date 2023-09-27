@@ -30,6 +30,7 @@ export const frontendConfig = () => {
 						const { user } = event as Passwordless.OnHandleEventContext & {
 							user: UserWithDetails;
 						};
+						console.info('checking membership role access ', user);
 						if (hasMembershipRoleAccess(user, 'MEMBER')) {
 							return;
 						} else {

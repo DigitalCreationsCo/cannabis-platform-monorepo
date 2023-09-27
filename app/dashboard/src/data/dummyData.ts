@@ -318,6 +318,7 @@ const orders: OrderWithDashboardDetails[] = [
 		isCompleted: false,
 		createdAt: new Date(),
 		updatedAt: new Date(),
+		deliveryDeadline: calculateDeliveryDeadline(),
 		deliveredAt: new Date(),
 		isDriverAssigned: false,
 		driverAssignedAt: new Date(),

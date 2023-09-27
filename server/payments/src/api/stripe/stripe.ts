@@ -208,7 +208,6 @@ class StripeService {
 				// create sale record or Order record for dispensary
 				console.info('charge.succeeded: ', event.data.object);
 				break;
-
 			case 'payment_intent.succeeded':
 				// generate customer invoice
 				console.info('payment_intent.succeeded: ', event.data.object);
