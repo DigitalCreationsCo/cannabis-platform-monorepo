@@ -24,7 +24,7 @@ function ContinueSignUp() {
 
 	// const isAddressAdded = useSelector(selectIsAddressAdded);
 
-	if (idVerified && !isLegalAge)
+	if (idVerified === true && isLegalAge === false)
 		router.push(getShopSite('/sorry-we-cant-serve-you'));
 
 	// Formstep components with null values will be ignored

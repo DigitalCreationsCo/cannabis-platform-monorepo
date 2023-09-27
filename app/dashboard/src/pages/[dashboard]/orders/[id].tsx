@@ -242,7 +242,7 @@ export default function OrderDetails({
 
 				<Card className="border">
 					<Paragraph className="whitespace-nowrap">
-						{TextContent.delivery.DELIVER_FOR_f(order.customer.username)}
+						{TextContent.dispatch.status.DELIVER_FOR_f(order.customer.username)}
 						<br />
 						<Span className="whitespace-nowrap font-semibold">
 							{`${order.customer.firstName} ${order.customer.lastName}`}

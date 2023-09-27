@@ -3,20 +3,14 @@ import {
 	selectUserState,
 	TextContent,
 } from '@cd/core-lib';
-import {
-	FlexBox,
-	H2,
-	Page,
-	Paragraph,
-	type LayoutContextProps,
-} from '@cd/ui-lib';
+import { Card, H2, Page, Paragraph, type LayoutContextProps } from '@cd/ui-lib';
 import { useSelector } from 'react-redux';
 
-function AccountPage() {
+function ShopAccountPage() {
 	const { user } = useSelector(selectUserState);
 	return (
-		<Page>
-			<FlexBox>
+		<Page className="pb-0 md:pb-24">
+			<Card className="m-auto mb-0 pb-0 md:max-w-[500px]">
 				<H2 className="text-primary">{TextContent.account.MY_ACCOUNT}</H2>
 				{renderNestedDataObject(user, Paragraph, {
 					removeFields: [
@@ -28,15 +22,16 @@ function AccountPage() {
 						'location',
 						'idFrontImage',
 						'idBackImage',
+						'orders',
 					],
 				})}
-			</FlexBox>
+			</Card>
 		</Page>
 	);
 }
 
-AccountPage.getLayoutContext = (): LayoutContextProps => ({
+ShopAccountPage.getLayoutContext = (): LayoutContextProps => ({
 	showHeader: false,
 });
 
-export default AccountPage;
+export default ShopAccountPage;

@@ -1,7 +1,13 @@
 import {
+	calculateDeliveryDeadline,
+	getGeoCoordinatesFromAddress,
+	isEmpty,
+} from '@cd/core-lib';
+import {
 	createOrder,
 	createPurchase,
 	findOrdersByOrg,
+	findOrdersByUser,
 	findOrderWithDetails,
 	findProductsByOrg,
 	findProductsByText,
@@ -24,6 +30,7 @@ useMongoDB
 createOrder
 createPurchase
 
+getOrdersByUser
 getOrdersByOrganization
 getOrderById
 updateOrderById
@@ -60,6 +67,14 @@ export default class OrderDA {
 		order: OrderCreateType,
 	): Promise<OrderWithShopDetails> {
 		try {
+			order.deliveryDeadline = calculateDeliveryDeadline();
+
+			if (isEmpty(order.destinationAddress.coordinates)) {
+				const coordinates = await getGeoCoordinatesFromAddress(
+					order.destinationAddress,
+				);
+				order.destinationAddress.coordinates = { ...coordinates };
+			}
 			return await createOrder(order);
 		} catch (error: any) {
 			console.error(error.message);
@@ -76,7 +91,16 @@ export default class OrderDA {
 		}
 	}
 
-	static async getOrdersByOrganization(organizationId) {
+	static async getOrdersByUser(userId: string) {
+		try {
+			return await findOrdersByUser(userId);
+		} catch (error: any) {
+			console.error(error.message);
+			throw new Error(error.message);
+		}
+	}
+
+	static async getOrdersByOrganization(organizationId: string) {
 		try {
 			return await findOrdersByOrg(organizationId);
 		} catch (error: any) {
@@ -85,9 +109,9 @@ export default class OrderDA {
 		}
 	}
 
-	static async getOrderById(id) {
+	static async getOrderById(id, include?: Prisma.OrderInclude) {
 		try {
-			return await findOrderWithDetails(id);
+			return await findOrderWithDetails(id, include);
 		} catch (error: any) {
 			console.error(error.message);
 			throw new Error(error.message);

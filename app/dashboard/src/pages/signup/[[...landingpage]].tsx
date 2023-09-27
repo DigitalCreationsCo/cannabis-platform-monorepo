@@ -82,10 +82,10 @@ const Hero = () => {
 				<div className="flex w-full items-center lg:w-1/2">
 					<div className="m-auto mb-8 max-w-2xl">
 						<H3 className="text-primary">
-							{TextContent.delivery.YOUR_CUSTOMERS_ARE_OUR_CUSTOMERS}
+							{TextContent.info.YOUR_CUSTOMERS_ARE_OUR_CUSTOMERS}
 						</H3>
 						<H1 className="text-secondary-light text-4xl font-bold leading-snug tracking-tight  lg:text-4xl lg:leading-tight xl:text-[61px] xl:leading-tight">
-							{TextContent.delivery.GRAS_DELIVERS_FOR_DISPENSARIES}
+							{TextContent.info.GRAS_DELIVERS_FOR_DISPENSARIES}
 						</H1>
 						<FlexBox className="p-4">
 							<Link href={'#cannabis-heals'} scroll={false}>

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 import {
-	type OrganizationWithShopDetails,
+	type OrganizationWithDetailsAndMetadata,
 	type ProductWithDetails,
 } from '@cd/data-access';
 import {
@@ -160,9 +160,6 @@ export const getProductsFromLocal = createAsyncThunk<
 	}
 });
 
-type OrganizationWithDetailsAndMetadata = OrganizationWithShopDetails & {
-	metadata?: { productsFetched?: boolean };
-};
 export type ShopStateProps = {
 	dispensaries: OrganizationWithDetailsAndMetadata[];
 	products: ProductWithDetails[];
@@ -362,3 +359,5 @@ export const shopActions = {
 export const shopReducer = shopSlice.reducer;
 
 export const selectShopState = (state: AppState) => state.shop;
+export const selectOrganization = (id: string) => (state: AppState) =>
+	state.shop.dispensaries.find((organization) => organization.id === id);

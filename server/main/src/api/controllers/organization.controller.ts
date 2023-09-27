@@ -1,4 +1,8 @@
-import { coordinatesIsEmpty, getGeoCoordinatesFromAddress } from '@cd/core-lib';
+import {
+	coordinatesIsEmpty,
+	getGeoCoordinatesFromAddress,
+	setCoordinateRadius,
+} from '@cd/core-lib';
 import {
 	type OrganizationCreateType,
 	type OrganizationUpdateType,
@@ -14,7 +18,7 @@ createOrganization
 updateOrganization
 deleteOrganizationById
 getOrganizationById
-getOrganizationWithDetails
+getOrganizationWithDashboardDetails
 getOrganizationByZipcode
 getCategoryList
 getUsersByOrganization

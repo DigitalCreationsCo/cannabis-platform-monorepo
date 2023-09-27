@@ -12,7 +12,6 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 		const response = await axios.post(
 			urlBuilder.payment.checkout(),
 			checkoutOrder,
-			{ timeout: 10000 },
 		);
 
 		console.log('response: ', response.data);

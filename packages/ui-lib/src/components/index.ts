@@ -33,6 +33,7 @@ export { default as PhoneNumber } from './PhoneNumber';
 export { default as Price } from './Price';
 export { default as ProductItem } from './ProductItem';
 export { default as ProductRow } from './ProductRow';
+export { default as ProtectedPage } from './ProtectedPage';
 export { default as Row } from './Row';
 export { default as SearchField } from './SearchField';
 export { default as Select } from './Select';

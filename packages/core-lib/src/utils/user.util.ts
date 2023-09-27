@@ -28,8 +28,11 @@ function hasMembershipRoleAccess(user: UserWithDetails, role: MembershipRole) {
 	return false;
 }
 
-function isLegalAgeAndVerified(user: UserWithDetails) {
-	return user.isLegalAge && user.idVerified;
+function isLegalAgeAndVerified(
+	user: UserWithDetails,
+): { verified: boolean; isLegal: boolean } | false {
+	if (user.idVerified === false || user.isLegalAge === false) return false;
+	return { verified: user.idVerified, isLegal: user.isLegalAge as boolean };
 }
 
 export { hasMembershipRoleAccess, isLegalAgeAndVerified };

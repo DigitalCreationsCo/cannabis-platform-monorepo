@@ -8,5 +8,6 @@ export * from './form';
 export { default as InfoCard } from './InfoCard';
 export { default as LayoutContainer } from './LayoutContainer';
 export { default as LocationProvider } from './LocationProvider';
+export { default as LogoCapsule } from './LogoCapsule';
 export { default as TopBar } from './TopBar';
 export { default as VerifyPhotoId } from './VerifyPhotoId';
