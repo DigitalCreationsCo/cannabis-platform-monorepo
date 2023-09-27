@@ -15,11 +15,11 @@ gatewayProxies:
     #           # define a custom path that is available when the Gateway (Envoy listener) is actually listening
     #           path: /envoy-hc
     antiAffinity: true
-settings:
-  replaceInvalidRoutes: true
-  invalidConfigPolicy:
-    invalidRouteResponseBody:
-      Gloo Edge has invalid configuration. Administrators
-      should run `glooctl check` to find and fix config errors.
-    invalidRouteResponseCode: 404
-    replaceInvalidRoutes: true
+# settings:
+#   replaceInvalidRoutes: true
+#   invalidConfigPolicy:
+#     invalidRouteResponseBody:
+#       Gloo Edge has invalid configuration. Administrators
+#       should run `glooctl check` to find and fix config errors.
+#     invalidRouteResponseCode: 404
+#     replaceInvalidRoutes: true
