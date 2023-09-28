@@ -3,7 +3,7 @@ import { twMerge } from 'tailwind-merge';
 
 interface Props
 	extends PropsWithChildren<React.HTMLAttributes<HTMLHeadingElement>> {
-	color?: 'light' | 'dark';
+	color?: 'light' | 'dark' | 'inherit';
 	className?: string;
 }
 
@@ -12,7 +12,7 @@ const styles = {
 };
 export const H1 = ({
 	className,
-	color = 'dark',
+	color = 'inherit',
 	children,
 	...props
 }: Props) => {
@@ -21,7 +21,9 @@ export const H1 = ({
 			className={twMerge(
 				styles['cursor-inherit'],
 				'text-4xl font-bold whitespace-normal',
-				(color === 'light' && 'text-inverse') || 'text-dark',
+				(color === 'light' && 'text-inverse') ||
+					(color === 'dark' && 'text-dark') ||
+					'text-inherit',
 				className,
 			)}
 			{...props}
@@ -33,7 +35,7 @@ export const H1 = ({
 
 export const H2 = ({
 	className,
-	color = 'dark',
+	color = 'inherit',
 	children,
 	...props
 }: Props) => {
@@ -42,7 +44,9 @@ export const H2 = ({
 			className={twMerge(
 				styles['cursor-inherit'],
 				'font-bold text-3xl whitespace-normal',
-				(color === 'light' && 'text-inverse') || 'text-dark',
+				(color === 'light' && 'text-inverse') ||
+					(color === 'dark' && 'text-dark') ||
+					'text-inherit',
 				className,
 			)}
 			{...props}
@@ -54,7 +58,7 @@ export const H2 = ({
 
 export const H3 = ({
 	className,
-	color = 'dark',
+	color = 'inherit',
 	children,
 	...props
 }: Props) => {
@@ -63,7 +67,9 @@ export const H3 = ({
 			className={twMerge(
 				styles['cursor-inherit'],
 				'font-bold text-2xl whitespace-normal',
-				(color === 'light' && 'text-inverse') || 'text-dark',
+				(color === 'light' && 'text-inverse') ||
+					(color === 'dark' && 'text-dark') ||
+					'text-inherit',
 				className,
 			)}
 			{...props}
@@ -75,7 +81,7 @@ export const H3 = ({
 
 export const H4 = ({
 	className,
-	color = 'dark',
+	color = 'inherit',
 	children,
 	...props
 }: Props) => {
@@ -84,7 +90,9 @@ export const H4 = ({
 			className={twMerge(
 				styles['cursor-inherit'],
 				'font-semibold text-xl whitespace-normal',
-				(color === 'light' && 'text-inverse') || 'text-dark',
+				(color === 'light' && 'text-inverse') ||
+					(color === 'dark' && 'text-dark') ||
+					'text-inherit',
 				className,
 			)}
 			{...props}
@@ -96,7 +104,7 @@ export const H4 = ({
 
 export const H5 = ({
 	className,
-	color = 'dark',
+	color = 'inherit',
 	children,
 	...props
 }: Props) => {
@@ -105,7 +113,9 @@ export const H5 = ({
 			className={twMerge(
 				styles['cursor-inherit'],
 				'font-semibold text-lg whitespace-normal',
-				(color === 'light' && 'text-inverse') || 'text-dark',
+				(color === 'light' && 'text-inverse') ||
+					(color === 'dark' && 'text-dark') ||
+					'text-inherit',
 				className,
 			)}
 			{...props}
@@ -117,7 +127,7 @@ export const H5 = ({
 
 export const H6 = ({
 	className,
-	color = 'dark',
+	color = 'inherit',
 	children,
 	...props
 }: Props) => {
@@ -126,7 +136,9 @@ export const H6 = ({
 			className={twMerge(
 				styles['cursor-inherit'],
 				'font-semibold text-md whitespace-normal',
-				(color === 'light' && 'text-inverse') || 'text-dark',
+				(color === 'light' && 'text-inverse') ||
+					(color === 'dark' && 'text-dark') ||
+					'text-inherit',
 				className,
 			)}
 			{...props}
@@ -138,7 +150,7 @@ export const H6 = ({
 
 export const Paragraph = ({
 	className,
-	color = 'dark',
+	color = 'inherit',
 	children,
 	...props
 }: Props) => {
@@ -147,7 +159,10 @@ export const Paragraph = ({
 			className={twMerge(
 				styles['cursor-inherit'],
 				'whitespace-pre-line',
-				(color === 'light' && 'text-inverse') || 'text-dark',
+				(color === 'light' && 'text-inverse') ||
+					(color === 'dark' && 'text-dark') ||
+					'text-inherit',
+				'tracking-wide',
 				className,
 			)}
 			{...props}
@@ -159,7 +174,7 @@ export const Paragraph = ({
 
 export const Small = ({
 	className,
-	color = 'dark',
+	color = 'inherit',
 	children,
 	...props
 }: Props) => {
@@ -167,8 +182,11 @@ export const Small = ({
 		<span
 			className={twMerge(
 				styles['cursor-inherit'],
-				(color === 'light' && 'text-inverse') || 'text-dark',
+				(color === 'light' && 'text-inverse') ||
+					(color === 'dark' && 'text-dark') ||
+					'text-inherit',
 				'text-sm whitespace-pre-line',
+				'tracking-wide',
 				className,
 			)}
 			{...props}
@@ -178,10 +196,18 @@ export const Small = ({
 	);
 };
 
-export const Span = ({ className, children, ...props }: Props) => {
+export const Span = ({
+	className,
+	color = 'inherit',
+	children,
+	...props
+}: Props) => {
 	return (
 		<span
 			className={twMerge(
+				(color === 'light' && 'text-inverse') ||
+					(color === 'dark' && 'text-dark') ||
+					'text-inherit',
 				styles['cursor-inherit'],
 				'text-md inline whitespace-normal',
 				className,
@@ -194,7 +220,7 @@ export const Span = ({ className, children, ...props }: Props) => {
 };
 
 export const Tiny = ({
-	color = 'dark',
+	color = 'inherit',
 	children,
 	className,
 	...props
@@ -202,7 +228,9 @@ export const Tiny = ({
 	return (
 		<span
 			className={twMerge(
-				(color === 'light' && 'text-inverse') || 'text-dark',
+				(color === 'light' && 'text-inverse') ||
+					(color === 'dark' && 'text-dark') ||
+					'text-inherit',
 				styles['cursor-inherit'],
 				'text-xs whitespace-normal',
 				className,

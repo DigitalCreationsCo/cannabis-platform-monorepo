@@ -13,6 +13,7 @@ connectDb()
 		});
 	})
 	.catch((err) => {
+		prisma.$disconnect();
 		console.error('Error connecting to database: ', err.stack);
 		process.exit(1);
 	});
@@ -28,7 +29,6 @@ async function connectDb() {
 				console.info(
 					' ✈️ server-location: Mongo Database 👏 is ready for query.',
 				);
-
 				await prisma.$connect();
 			})
 			.then(async () => {
@@ -44,6 +44,7 @@ async function connectDb() {
 			' ✈️ server-location: Error connecting to database: ',
 			error.stack,
 		);
+		prisma.$disconnect();
 		process.exit(1);
 	}
 }

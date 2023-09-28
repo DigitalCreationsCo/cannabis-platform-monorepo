@@ -1,4 +1,10 @@
-import { selectUserState, shuffle, TextContent } from '@cd/core-lib';
+import {
+	axios,
+	selectUserState,
+	shuffle,
+	TextContent,
+	urlBuilder,
+} from '@cd/core-lib';
 import {
 	Button,
 	FlexBox,
@@ -12,6 +18,7 @@ import {
 	useFormContext,
 } from '@cd/ui-lib';
 import { useFormik } from 'formik';
+import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
@@ -19,9 +26,6 @@ import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 import { profilePictures } from '../../data/profilePicture';
 import { userSignUpTour } from '../../tour/userSignUpTour';
-
-// test the record create in db
-// test the profile picture is appearing
 
 function UserSignUpQuickForm() {
 	const user = useSelector(selectUserState).user;
@@ -37,6 +41,10 @@ function UserSignUpQuickForm() {
 	const { nextFormStep, prevFormStep, setFormValues, formValues } =
 		useFormContext();
 
+	useEffect(() => {
+		console.debug('user signup formvalues: ', formValues);
+	});
+
 	const [loadingButton, setLoadingButton] = useState(false);
 
 	const initialValues = {
@@ -44,25 +52,26 @@ function UserSignUpQuickForm() {
 		lastName: formValues?.newUser?.lastName || '',
 		username: formValues?.newUser?.username || '',
 		email: user?.email || formValues?.newUser?.email || '',
+		emailVerified: true,
 		phone: formValues?.newUser?.phone || '',
 		dialCode: '1',
 		termsAccepted: false,
-		profilePicture: '',
+		profilePicture: { location: '' },
 	};
 
 	const validationSchema = yup.object().shape({
 		firstName: yup
 			.string()
 			.required(TextContent.prompt.FIRST_NAME_REQUIRED)
-			.min(6, TextContent.prompt.FIRST_NAME_MINIMUM),
+			.min(3, ({ min }) => TextContent.prompt.FIRST_NAME_MINIMUM_f(min)),
 		lastName: yup
 			.string()
 			.required(TextContent.prompt.LAST_NAME_REQUIRED)
-			.min(6, TextContent.prompt.LAST_NAME_MINIMUM),
+			.min(3, ({ min }) => TextContent.prompt.LAST_NAME_MINIMUM_f(min)),
 		username: yup
 			.string()
 			.required(TextContent.prompt.USERNAME_REQUIRED)
-			.min(6, TextContent.prompt.USERNAME_MINIMUM),
+			.min(5, ({ min }) => TextContent.prompt.USERNAME_MINIMUM_f(min)),
 		email: yup
 			.string()
 			.email(TextContent.prompt.EMAIL_INVALID)
@@ -71,7 +80,7 @@ function UserSignUpQuickForm() {
 		phone: yup
 			.string()
 			.required(TextContent.prompt.PHONE_REQUIRED)
-			.length(10, TextContent.prompt.PHONE_MINIMUM),
+			.length(10, ({ length }) => TextContent.prompt.PHONE_MINIMUM_f(length)),
 		termsAccepted: yup
 			.bool()
 			.test(
@@ -79,28 +88,36 @@ function UserSignUpQuickForm() {
 				TextContent.legal.READ_USER_TERMS_OF_SERVICE,
 				(value) => value === true,
 			),
-		profilePicture: yup
-			.string()
-			.required(TextContent.prompt.PROFILE_PICTURE_REQUIRED)
-			.typeError(TextContent.prompt.PROFILE_PICTURE_REQUIRED),
+		profilePicture: yup.object().shape({
+			location: yup
+				.string()
+				.required(TextContent.prompt.PROFILE_PICTURE_REQUIRED)
+				.typeError(TextContent.prompt.PROFILE_PICTURE_REQUIRED),
+		}),
 	});
 
 	const onSubmit = async (values: typeof initialValues) => {
 		try {
 			setLoadingButton(true);
+			const response = await axios.post(urlBuilder.shop + '/api/user', {
+				...values,
+				...formValues.newUser,
+			});
+			console.log('signup response: ', response);
+			if (response.data.success === 'false')
+				throw new Error(response.data.error);
+
+			console.info('user sign up response.data.payload', response.data.payload);
 			setFormValues({
 				newUser: {
-					...values,
-					profilePicture: {
-						location: values.profilePicture,
-					},
+					...response.data.payload,
 				},
 			});
 			setLoadingButton(false);
 			nextFormStep();
 		} catch (error: any) {
 			console.info('User Create Error: ', error);
-			toast.error(error.response.data.message || error.response.data.errors);
+			toast.error(error.message);
 			setLoadingButton(false);
 		}
 	};
@@ -124,7 +141,10 @@ function UserSignUpQuickForm() {
 		validateForm().then((errors) => {
 			if (Object.values(errors).length > 0) {
 				console.info('validation errors: ', errors);
-				toast.error(Object.values(errors)[0].toString());
+				if (Object.keys(errors)[0] === 'profilePicture')
+					// @ts-ignore
+					toast.error(errors.profilePicture?.location);
+				else toast.error(Object.values(errors)[0].toString());
 			}
 		});
 	}
@@ -140,12 +160,12 @@ function UserSignUpQuickForm() {
 		return () => document.removeEventListener('keydown', keyDownHandler);
 	}, [handleSubmit]);
 
-	const shuffled = useRef(profilePictures);
+	const shuffledAvatarImages = useRef(profilePictures);
 	useEffect(() => {
-		shuffled.current = shuffle(profilePictures);
+		shuffledAvatarImages.current = shuffle(profilePictures);
 	}, []);
 
-	const [selected, setSelected] = useState(0);
+	const [selectedProfilePicture, setSelectedProfilePicture] = useState(0);
 
 	return (
 		<form
@@ -210,19 +230,19 @@ function UserSignUpQuickForm() {
 					helperText={touched.email && errors.email}
 				/>
 
-				<Paragraph id="user-signup-step-1" className="col-span-2">
+				<Paragraph id="avatar-button-0" className="col-span-2">
 					{TextContent.account.CHOOSE_PROFILE_PICTURE}
 				</Paragraph>
 
 				<Grid className="col-span-2 grid-cols-2 space-y-4 sm:grid-cols-3">
-					{shuffled.current.map((pic: string, index: number) => {
+					{shuffledAvatarImages.current.map((img: string, index: number) => {
 						return (
 							<Button
 								onClick={(e) => {
 									e.preventDefault();
 									e.stopPropagation();
-									setSelected(index);
-									setFieldValue('profilePicture', pic);
+									setSelectedProfilePicture(index);
+									setFieldValue('profilePicture.location', img);
 								}}
 								id={`avatar-button-${index}`}
 								key={`avatar-button-${index}`}
@@ -231,16 +251,20 @@ function UserSignUpQuickForm() {
 								className={twMerge(
 									styles.BUTTON['highlight'],
 									styles.BUTTON['round_image_btn'],
-									index === selected
+									index === selectedProfilePicture
 										? ['border-2 border-primary']
 										: ['border-2 border-transparent'],
 								)}
 							>
-								<img
+								<Image
 									className="rounded-full,  h-32 w-32 object-cover"
 									key={`avatar-${index}`}
-									src={pic}
 									alt={`avatar-${index}`}
+									src={img}
+									width={100}
+									height={100}
+									unoptimized
+									loader={({ src }) => src}
 								/>
 							</Button>
 						);
@@ -259,35 +283,51 @@ function UserSignUpQuickForm() {
 					error={!!touched.username && !!errors.username}
 					helperText={touched.username && errors.username}
 				/>
-
-				<TermsAgreement
-					id="user-signup-step-4"
-					className="col-span-2"
-					name="termsAccepted"
-					onChange={(e) => handleChange(e)}
-					checked={values.termsAccepted}
-					helperText={touched.termsAccepted && errors.termsAccepted}
-					error={!!touched.termsAccepted && !!errors.termsAccepted}
-					description={
-						<>
-							{TextContent.legal.AGREE_TO_TERMS}
-							<a
-								href="/termsandconditions/userterms"
-								target="_blank"
-								rel="noreferrer noopener"
-							>
-								<H6 className={'inline-block border-b-2'}>
-									{TextContent.legal.USER_TERMS_OF_SERVICE}
-								</H6>
-								.
-							</a>
-						</>
-					}
-					label={TextContent.legal.I_AGREE_TO_THE_USER_TERMS}
-				/>
+				<div id="user-signup-step-4" className="col-span-2 w-full">
+					<TermsAgreement
+						className="col-span-2 w-full"
+						name="termsAccepted"
+						onChange={(e) => handleChange(e)}
+						checked={values.termsAccepted}
+						helperText={touched.termsAccepted && errors.termsAccepted}
+						error={!!touched.termsAccepted && !!errors.termsAccepted}
+						description={
+							<>
+								<div id="dispensary-create-step-3 inline-block">
+									<Paragraph>{TextContent.legal.AGREE_TO_TERMS}</Paragraph>
+									<a
+										href="/termsandconditions/userterms"
+										target="_blank"
+										rel="noreferrer noopener"
+										className="inline"
+									>
+										<H6 className={'border-b-2'}>
+											{TextContent.legal.USER_TERMS_OF_SERVICE}
+										</H6>
+										.
+									</a>
+								</div>
+								<div id="dispensary-create-step-3">
+									<Paragraph>{TextContent.legal.AGREE_TO_TERMS}</Paragraph>
+									<a
+										href="/termsandconditions/dispensaryterms"
+										target="_blank"
+										rel="noreferrer noopener"
+									>
+										<H6 className={'inline-block border-b-2'}>
+											{TextContent.legal.DISPENSARY_TERMS_OF_SERVICE}
+										</H6>
+										.
+									</a>
+								</div>
+							</>
+						}
+						label={TextContent.legal.I_AGREE_TO_THE_USER_TERMS}
+					/>
+				</div>
 				<FlexBox className="col-span-2 flex-row justify-center space-x-4 py-2">
 					<Button
-						loading={loadingButton}
+						disabled={loadingButton}
 						onClick={(e) => {
 							e.preventDefault();
 							e.stopPropagation();
@@ -300,8 +340,9 @@ function UserSignUpQuickForm() {
 					<Button
 						id="user-signup-step-5"
 						type="submit"
-						className="place-self-center"
 						loading={loadingButton}
+						disabled={loadingButton}
+						className="place-self-center"
 						onClick={(e) => {
 							e.preventDefault();
 							e.stopPropagation();

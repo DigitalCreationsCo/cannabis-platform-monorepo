@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="35" failures="0" errors="0" time="6.249">
+  <testsuite name="Crawler : Cart" errors="0" failures="0" skipped="0" timestamp="2023-09-25T07:14:39" time="4.328" tests="8">
+    <testcase classname="Crawler : Cart returns defined data" name="Crawler : Cart returns defined data" time="0.017">
+    </testcase>
+    <testcase classname="Crawler : Cart returns expected data type" name="Crawler : Cart returns expected data type" time="0.005">
+    </testcase>
+    <testcase classname="Crawler : Cart returns expected results" name="Crawler : Cart returns expected results" time="1.877">
+    </testcase>
+    <testcase classname="Crawler : Cart processCrawlerData returns defined data" name="Crawler : Cart processCrawlerData returns defined data" time="0.006">
+    </testcase>
+    <testcase classname="Crawler : Cart buildSimpleCart returns defined data" name="Crawler : Cart buildSimpleCart returns defined data" time="0">
+    </testcase>
+    <testcase classname="Crawler : Cart buildCartItems returns using cheerio" name="Crawler : Cart buildCartItems returns using cheerio" time="0.002">
+    </testcase>
+    <testcase classname="Crawler : Cart buildCartItems returns expected data using cheerio" name="Crawler : Cart buildCartItems returns expected data using cheerio" time="0.003">
+    </testcase>
+    <testcase classname="Crawler : Cart buildCartItems returns using document selector" name="Crawler : Cart buildCartItems returns using document selector" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="GrasDeliveryWidget" errors="0" failures="0" skipped="0" timestamp="2023-09-25T07:14:43" time="0.473" tests="6">
+    <testcase classname="GrasDeliveryWidget #mount document becomes ready" name="GrasDeliveryWidget #mount document becomes ready" time="0.006">
+    </testcase>
+    <testcase classname="GrasDeliveryWidget #mount document complete" name="GrasDeliveryWidget #mount document complete" time="0.001">
+    </testcase>
+    <testcase classname="GrasDeliveryWidget #mount to document element" name="GrasDeliveryWidget #mount to document element" time="0.004">
+    </testcase>
+    <testcase classname="GrasDeliveryWidget #mount twice" name="GrasDeliveryWidget #mount twice" time="0.005">
+    </testcase>
+    <testcase classname="GrasDeliveryWidget #unmount" name="GrasDeliveryWidget #unmount" time="0.001">
+    </testcase>
+    <testcase classname="GrasDeliveryWidget #unmount without mounting" name="GrasDeliveryWidget #unmount without mounting" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="&lt;Checkout /&gt;" errors="0" failures="0" skipped="0" timestamp="2023-09-25T07:14:44" time="0.265" tests="10">
+    <testcase classname="&lt;Checkout /&gt; renders without crashing" name="&lt;Checkout /&gt; renders without crashing" time="0.006">
+    </testcase>
+    <testcase classname="&lt;Checkout /&gt; Checkout component is defined" name="&lt;Checkout /&gt; Checkout component is defined" time="0.001">
+    </testcase>
+    <testcase classname="&lt;Checkout /&gt; Checkout component calls getCartData on mount" name="&lt;Checkout /&gt; Checkout component calls getCartData on mount" time="0.008">
+    </testcase>
+    <testcase classname="&lt;Checkout /&gt; Checkout component loads the cart crawler config" name="&lt;Checkout /&gt; Checkout component loads the cart crawler config" time="0.001">
+    </testcase>
+    <testcase classname="&lt;Checkout /&gt; Checkout component loads the dutchie-checkout crawler config" name="&lt;Checkout /&gt; Checkout component loads the dutchie-checkout crawler config" time="0.005">
+    </testcase>
+    <testcase classname="&lt;Checkout /&gt; Checkout component calls handleCheckout on click event" name="&lt;Checkout /&gt; Checkout component calls handleCheckout on click event" time="0.01">
+    </testcase>
+    <testcase classname="&lt;Checkout /&gt; Checkout method handleCheckout to generate a cookie after valid cart" name="&lt;Checkout /&gt; Checkout method handleCheckout to generate a cookie after valid cart" time="0">
+    </testcase>
+    <testcase classname="&lt;Checkout /&gt; Checkout method handleCheckout to redirect window after valid cart" name="&lt;Checkout /&gt; Checkout method handleCheckout to redirect window after valid cart" time="0">
+    </testcase>
+    <testcase classname="&lt;Checkout /&gt; Checkout method handleCheckout does not generate cookie after invalid /empty cart" name="&lt;Checkout /&gt; Checkout method handleCheckout does not generate cookie after invalid /empty cart" time="0.001">
+    </testcase>
+    <testcase classname="&lt;Checkout /&gt; Checkout method handleCheckout does not redirect window after invalid /empty cart" name="&lt;Checkout /&gt; Checkout method handleCheckout does not redirect window after invalid /empty cart" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="bookmarklet" errors="0" failures="0" skipped="0" timestamp="2023-09-25T07:14:44" time="0.328" tests="1">
+    <testcase classname="bookmarklet #mount document becomes ready" name="bookmarklet #mount document becomes ready" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="Crawler : Dutchie" errors="0" failures="0" skipped="0" timestamp="2023-09-25T07:14:45" time="0.237" tests="6">
+    <testcase classname="Crawler : Dutchie returns defined data" name="Crawler : Dutchie returns defined data" time="0.021">
+    </testcase>
+    <testcase classname="Crawler : Dutchie returns expected data type" name="Crawler : Dutchie returns expected data type" time="0.011">
+    </testcase>
+    <testcase classname="Crawler : Dutchie buildSimpleCartFromDutchieCheckout returns defined data" name="Crawler : Dutchie buildSimpleCartFromDutchieCheckout returns defined data" time="0">
+    </testcase>
+    <testcase classname="Crawler : Dutchie buildCartItems returns using cheerio" name="Crawler : Dutchie buildCartItems returns using cheerio" time="0.034">
+    </testcase>
+    <testcase classname="Crawler : Dutchie buildCartItems returns using document selector" name="Crawler : Dutchie buildCartItems returns using document selector" time="0.003">
+    </testcase>
+    <testcase classname="Dutchie-Checkout Regex regex returns the correct data from an item string" name="Dutchie-Checkout Regex regex returns the correct data from an item string" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="getDispensaryDomain" errors="0" failures="0" skipped="0" timestamp="2023-09-25T07:14:45" time="0.135" tests="3">
+    <testcase classname="getDispensaryDomain localhost" name="getDispensaryDomain localhost" time="0.001">
+    </testcase>
+    <testcase classname="getDispensaryDomain manasupply" name="getDispensaryDomain manasupply" time="0.001">
+    </testcase>
+    <testcase classname="getDispensaryDomain starbuds" name="getDispensaryDomain starbuds" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="&lt;Widget /&gt;" errors="0" failures="0" skipped="0" timestamp="2023-09-25T07:14:45" time="0.097" tests="1">
+    <testcase classname="&lt;Widget /&gt; open/close" name="&lt;Widget /&gt; open/close" time="0.001">
+    </testcase>
+  </testsuite>
+</testsuites>

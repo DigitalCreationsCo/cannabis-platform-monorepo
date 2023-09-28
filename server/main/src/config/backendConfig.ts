@@ -9,21 +9,19 @@ import UserRoles from 'supertokens-node/recipe/userroles';
 import { type AuthConfig } from '../../interfaces';
 import { DriverDA, UserDA } from '../api/data-access';
 
-const baseDomain = process.env.NEXT_PUBLIC_APP_DOMAIN || 'localhost';
+const baseDomain = process.env.NEXT_PUBLIC_APP_DOMAIN || 'grascannabis.org';
 const dashboardDomain =
-	process.env.NEXT_PUBLIC_DASHBOARD_APP_URL || 'http://localhost:3001';
-const apiDomain = process.env.BACKEND_URL || `http://localhost:6001`;
+	process.env.NEXT_PUBLIC_DASHBOARD_APP_URL || 'https://app.grascannabis.org';
+const apiDomain = process.env.BACKEND_URL || `https://backend.grascannabis.org`;
 
 const appInfo = {
 	appName: process.env.NEXT_PUBLIC_SHOP_APP_NAME || 'Gras',
 	apiDomain,
 	websiteDomain: dashboardDomain,
-	// define this path for auth endpoints
 	apiBasePath: '/api/v1',
 };
 
 export const backendConfig = (): AuthConfig => {
-	console.info(' >> server/main backend config: ', appInfo);
 	return {
 		framework: 'express',
 		supertokens: {
@@ -40,29 +38,18 @@ export const backendConfig = (): AuthConfig => {
 							...originalImplementation,
 							createCode: async (input) => {
 								try {
-									console.info('create-code input: ', input);
-									const response = await originalImplementation.createCode(
-										input,
-									);
-									console.info('create-code response: ', response);
-
-									return response;
+									return await originalImplementation.createCode(input);
 								} catch (error) {
-									console.log(' create code error: ', error);
 									throw new Error(
 										'The Sign In server is not available. Please contact Gras team.',
 									);
 								}
 							},
-
 							consumeCode: async (input: PasswordlessSignInRequestPayload) => {
 								try {
-									console.info('consume-code input: ', input);
 									const response = await originalImplementation.consumeCode(
 										input,
 									);
-									console.info('consume-code response: ', response);
-
 									if (response.status === 'INCORRECT_USER_INPUT_CODE_ERROR') {
 										throw new Error(`Invalid passcode. Please try again. 
                           You have ${
@@ -87,22 +74,20 @@ export const backendConfig = (): AuthConfig => {
 									if (
 										response.status === 'OK' // && response.createdNewUser === false
 									) {
-										let user;
+										let user: UserWithDetails | DriverWithDetails | null;
 										if (input.userContext.appUser === 'DRIVER') {
 											if (response.user.email) {
-												user =
-													(await DriverDA.getDriverByEmail(
-														response.user.email,
-													)) || null;
+												user = await DriverDA.getDriverByEmail(
+													response.user.email,
+												);
 												response.user = {
 													...response.user,
 													...user,
 												} as Passwordless.User & DriverWithDetails;
 											} else if (response.user.phoneNumber) {
-												user =
-													(await DriverDA.getDriverByPhone(
-														response.user.phoneNumber,
-													)) || null;
+												user = await DriverDA.getDriverByPhone(
+													response.user.phoneNumber,
+												);
 												response.user = {
 													...response.user,
 													...user,
@@ -110,23 +95,22 @@ export const backendConfig = (): AuthConfig => {
 											}
 										} else {
 											if (response.user.email) {
-												user =
-													(await UserDA.getUserByEmail(response.user.email)) ||
-													null;
-												const membershipRole =
-													user.memberships?.[0]?.role.toLocaleUpperCase();
-												console.info('membershipRole 1: ', membershipRole);
+												user = await UserDA.getUserByEmail(response.user.email);
 												if (
-													membershipRole === 'ADMIN' ||
-													membershipRole === 'OWNER' ||
-													membershipRole === 'MEMBER'
+													user?.memberships?.length > 0 &&
+													(user?.memberships?.[0]?.role.toLocaleUpperCase() ===
+														'ADMIN' ||
+														user?.memberships?.[0]?.role.toLocaleUpperCase() ===
+															'OWNER' ||
+														user?.memberships?.[0]?.role.toLocaleUpperCase() ===
+															'MEMBER')
 												) {
 													const allRoles = await UserRoles.getAllRoles();
 													console.info('allRoles: ', allRoles);
 
 													const addRole = await UserRoles.addRoleToUser(
 														response.user.id,
-														membershipRole,
+														user?.memberships?.[0]?.role.toLocaleUpperCase(),
 													);
 													const thisRoles = await UserRoles.getRolesForUser(
 														response.user.id,
@@ -153,31 +137,26 @@ export const backendConfig = (): AuthConfig => {
 													...user,
 												} as Passwordless.User & UserWithDetails;
 											} else if (response.user.phoneNumber) {
-												user =
-													(await UserDA.getUserByPhone(
-														response.user.phoneNumber,
-													)) || null;
-												const membershipRole =
-													user.memberships?.[0]?.role.toLocaleUpperCase();
-												console.info('membershipRole: 2 ', membershipRole);
-
+												user = await UserDA.getUserByPhone(
+													response.user.phoneNumber,
+												);
 												if (
-													membershipRole === 'ADMIN' ||
-													membershipRole === 'OWNER' ||
-													membershipRole === 'MEMBER'
+													user?.memberships?.length > 0 &&
+													(user?.memberships?.[0]?.role.toLocaleUpperCase() ===
+														'ADMIN' ||
+														user?.memberships?.[0]?.role.toLocaleUpperCase() ===
+															'OWNER' ||
+														user?.memberships?.[0]?.role.toLocaleUpperCase() ===
+															'MEMBER')
 												) {
-													console.info('membershipRole: ', membershipRole);
-													console.info('user id: ', response.user.id);
-
 													const addRole = await UserRoles.addRoleToUser(
 														response.user.id,
-														membershipRole,
+														user?.memberships?.[0]?.role.toLocaleUpperCase(),
 													);
 													if (addRole.status === 'UNKNOWN_ROLE_ERROR') {
 														// No such role exists
 														console.info('no such role exists');
 													}
-
 													if (
 														addRole.status === 'OK' &&
 														addRole.didUserAlreadyHaveRole === true
@@ -193,7 +172,6 @@ export const backendConfig = (): AuthConfig => {
 											}
 										}
 									}
-									console.debug('consume code finalized response: ', response);
 									return response;
 								} catch (error: any) {
 									console.error(' consume code error: ', error);
@@ -224,31 +202,7 @@ export const backendConfig = (): AuthConfig => {
 					enable: true,
 				},
 			}),
-			UserRoles.init({
-				override: {
-					functions: (oI) => {
-						// oI.createNewRoleOrAddPermissions({
-						// 	role: 'OWNER',
-						// 	permissions: ['OWNER'],
-						// 	userContext: {},
-						// });
-						// oI.createNewRoleOrAddPermissions({
-						// 	role: 'ADMIN',
-						// 	permissions: ['ADMIN'],
-						// 	userContext: {},
-						// });
-						// oI.createNewRoleOrAddPermissions({
-						// 	role: 'MEMBER',
-						// 	permissions: ['MEMBER'],
-						// 	userContext: {},
-						// });
-						return oI;
-					},
-					apis: (oI) => {
-						return oI;
-					},
-				},
-			}),
+			UserRoles.init(),
 			Dashboard.init({
 				apiKey: process.env.SUPERTOKENS_DASHBOARD_KEY,
 			}),

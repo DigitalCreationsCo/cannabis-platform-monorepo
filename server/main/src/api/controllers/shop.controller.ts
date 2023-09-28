@@ -1,7 +1,6 @@
-import { OrderWithDetails } from '@cd/data-access';
+import { TextContent } from '@cd/core-lib';
+import { type OrderCreateType } from '@cd/data-access';
 import { OrderDA } from '../data-access';
-// import Stripe from "stripe";
-// import stipeNode from "stripe";
 
 /* =================================
 ShopController - controller class for ecommerce business actions
@@ -10,7 +9,9 @@ members:
 
 processOrder
 
-getOrdersByOrg
+createOrder
+fulfillOrderAndStartDispatch
+getOrdersByOrganization
 getOrderById
 updateOrderById
 
@@ -22,19 +23,18 @@ searchProducts
 ================================= */
 
 export default class ShopController {
-	// create order record in database
 	static async createOrder(req, res) {
 		try {
-			const order: OrderWithDetails = req.body;
-
-			await OrderDA.createOrder(order);
-
-			return res
-				.status(201)
-				.json({ message: 'Order created Successfully', order });
+			const order: OrderCreateType = req.body;
+			const createdOrder = await OrderDA.createOrder(order);
+			return res.status(201).json({
+				success: 'true',
+				message: 'Order created Successfully',
+				payload: createdOrder,
+			});
 		} catch (error: any) {
-			console.info('API error shopcontroller: createOrder: ', error);
-			res.status(500).json({ error });
+			console.error('createOrder: ', error);
+			return res.status(500).json({ success: 'false', error: error.message });
 		}
 	}
 
@@ -49,25 +49,20 @@ export default class ShopController {
 	 */
 	static async fulfillOrderAndStartDispatch(req, res) {
 		try {
-			let orderId: string = req.body.orderId;
-
-			console.info('received order fulfillment: ', orderId);
-
-			await OrderDA.updateOrderFulfillmentStatus(orderId, 'Processing');
-
+			console.log('fulfillOrderAndStartDispatch: ', req.body);
+			const orderId: string = req.body.orderId;
 			const order = await OrderDA.getOrderById(orderId);
-
+			await OrderDA.updateOrderFulfillmentStatus(orderId, 'Processing');
 			await OrderDA.addDispatchOrderMongo(order);
-
-			return res
-				.status(201)
-				.json({ message: 'Order created Successfully', order });
+			return res.status(201).json({
+				success: 'true',
+				message: `dispatch order created successfully`,
+			});
 		} catch (error: any) {
-			console.info(
-				'API Error Shop Controller: fulfillOrderAndDispatch: ',
-				error,
-			);
-			res.status(500).json({ error: error.message });
+			console.info('fulfillOrderAndStartDispatch: ', error);
+			if (error.message === TextContent.error.ORDER_NOT_FOUND)
+				return res.status(404).json({ success: 'false', error: error.message });
+			return res.status(500).json({ success: 'false', error: error.message });
 		}
 	}
 
@@ -112,15 +107,18 @@ export default class ShopController {
 	//   }
 	// }
 
-	static async getOrdersByOrg(req, res) {
+	static async getOrdersByOrganization(req, res) {
 		try {
 			const organizationId = req.params.id || {};
-			const data = await OrderDA.getOrdersByOrg(organizationId);
-			if (!data) return res.status(404).json('Orders not found');
-			return res.status(200).json(data);
+			const data = await OrderDA.getOrdersByOrganization(organizationId);
+			if (!data)
+				return res
+					.status(404)
+					.json({ success: 'false', error: 'Orders not found' });
+			return res.status(200).json({ success: 'true', payload: data });
 		} catch (error: any) {
-			console.info('API error: ', error);
-			res.status(500).json({ error });
+			console.error('getOrdersByOrg api: ', error);
+			return res.status(500).json({ success: 'false', error: error.message });
 		}
 	}
 
@@ -133,8 +131,8 @@ export default class ShopController {
 			if (!data) return res.status(404).json('Order not found');
 			return res.status(200).json(data);
 		} catch (error: any) {
-			console.info('API error: ', error);
-			res.status(500).json({ error });
+			console.info('getOrderById api: ', error);
+			return res.status(500).json({ error });
 		}
 	}
 
@@ -145,8 +143,8 @@ export default class ShopController {
 			if (!data) return res.status(400).json('Could not update');
 			return res.status(200).json(data);
 		} catch (error: any) {
-			console.info('API error: ', error);
-			res.status(500).json({ error });
+			console.info('updateOrderById api: ', error);
+			return res.status(500).json({ error });
 		}
 	}
 
@@ -158,7 +156,7 @@ export default class ShopController {
 			if (!data) return res.status(404).json('Products not found');
 			return res.status(200).json(data);
 		} catch (error: any) {
-			console.info('API error: ', error);
+			console.info('getProductsByOrg api: ', error);
 			res.status(500).json({ error });
 		}
 	}
@@ -172,8 +170,8 @@ export default class ShopController {
 			if (!data) return res.status(404).json('Products not found');
 			return res.status(200).json(data);
 		} catch (error: any) {
-			console.info('API error: ', error);
-			res.status(500).json({ error });
+			console.info('getProductsByMultipleOrgs api: ', error);
+			return res.status(500).json({ error });
 		}
 	}
 
@@ -186,8 +184,8 @@ export default class ShopController {
 			if (!data) return res.status(404).json('Product not found');
 			return res.status(200).json(data);
 		} catch (error: any) {
-			console.info('API error: ', error);
-			res.status(500).json({ error });
+			console.info('getProductById api: ', error);
+			return res.status(500).json({ error });
 		}
 	}
 
@@ -198,8 +196,8 @@ export default class ShopController {
 			if (!data) return res.status(404).json('Products Not Found');
 			return res.status(200).json(data);
 		} catch (error: any) {
-			console.info('API error: ', error);
-			res.status(500).json({ error });
+			console.info('searchProducts api: ', error);
+			return res.status(500).json({ error });
 		}
 	}
 }

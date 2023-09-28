@@ -1,16 +1,10 @@
-import {
-	type CategoryList,
-	type Coordinates,
-	type ImageOrganization,
-	type Organization,
-	type Prisma,
-	type Schedule,
-	type SubDomain,
-	type Vendor,
-} from '@prisma/client';
-import { type AddressPayload, type AddressWithCoordinates } from './address';
+import { type Prisma } from '@prisma/client';
 import prisma from './db/prisma';
-import { type ProductWithShopDetails } from './product';
+import {
+	type OrganizationCreateType,
+	type OrganizationUpdateType,
+	type OrganizationWithShopDetails,
+} from './organization.types';
 /*
  *   updateOrganization
  *   createOrganization
@@ -48,7 +42,7 @@ export async function updateOrganization(organization: OrganizationUpdateType) {
 					city: organization?.address?.city,
 					state: organization?.address?.state,
 					country: organization?.address?.country,
-					zipcode: organization?.address?.zipcode,
+					zipcode: Number(organization?.address?.zipcode),
 					countryCode: organization?.address?.countryCode,
 					coordinates: {
 						upsert: {
@@ -432,41 +426,3 @@ export async function getStripeAccountId(organizationId: string) {
 		throw new Error(error);
 	}
 }
-
-export type OrganizationCreateType = Prisma.OrganizationUncheckedCreateInput & {
-	address: AddressPayload;
-	schedule: Prisma.ScheduleCreateInput;
-	images: Prisma.ImageOrganizationCreateManyOrganizationInput[];
-	products: Prisma.ProductCreateInput[];
-	categoryList: Prisma.CategoryListCreateInput;
-};
-
-export type OrganizationUpdateType = Organization & {
-	address?: AddressPayload;
-};
-
-export type OrganizationWithAddress = Organization &
-	Prisma.OrganizationUpdateInput;
-
-export type OrganizationWithShopDetails = Organization &
-	Omit<Organization, 'stripeAccountId' | 'createdAt' | 'updatedAt'> & {
-		address: AddressWithCoordinates;
-		images: ImageOrganization[];
-		products: ProductWithShopDetails[];
-		categoryList: CategoryList;
-		schedule: Schedule;
-		vendor: Vendor;
-	};
-
-export type OrganizationWithDashboardDetails = Organization & {
-	address: AddressWithCoordinates;
-	images: ImageOrganization[];
-	schedule: Schedule;
-	vendor: Vendor;
-	subdomain: SubDomain;
-};
-
-export type UserLocation = {
-	userLocation: Coordinates;
-	proximityRadius: number;
-};

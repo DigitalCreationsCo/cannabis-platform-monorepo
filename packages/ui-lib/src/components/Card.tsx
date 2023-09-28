@@ -18,7 +18,7 @@ function Card({
 }: CardProps & PropsWithChildren) {
 	const styles = {
 		cardContainer:
-			'h-max w-full md:!w-5/6 lg:!w-2/3 bg-light flex flex-col shadow drop-shadow p-2 !pb-12 md:p-5 md:px-12 !rounded-none md:!rounded-btn',
+			'h-max w-full md:!w-5/6 lg:!w-2/3 bg-light flex flex-col shadow drop-shadow p-2 sm:pt-4 !pb-12 md:p-5 md:px-12 !rounded-none md:!rounded-btn',
 	};
 	return (
 		<div className={twMerge(styles.cardContainer, className)}>

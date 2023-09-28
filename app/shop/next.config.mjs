@@ -18,9 +18,6 @@ const _env =
 		: process.env.NODE_ENV;
 expand(config({ path: loadEnv(_env) }));
 
-/**
- * @type {import('next').NextConfig}
- */
 const nextConfig = (phase) => {
 	const isDev = phase === PHASE_DEVELOPMENT_SERVER;
 	const isProd =
@@ -32,8 +29,18 @@ const nextConfig = (phase) => {
 	console.info(
 		`isDev:${isDev}  isProd:${isProd}   isStaging:${isStaging} isTest:${isTest}`,
 	);
-
+	/**
+	 * @type {import('next').NextConfig}
+	 */
 	const config = {
+		webpack: (config) => {
+			config.resolve.fallback = {
+				...config.resolve.fallback,
+				net: false,
+				tls: false,
+			};
+			return config;
+		},
 		env: {
 			BACKEND_URL: (() => {
 				if (isDev) return 'http://localhost:6001';
@@ -43,31 +50,37 @@ const nextConfig = (phase) => {
 			})(),
 			NEXT_PUBLIC_LOW_STOCK_THRESHOLD: 7,
 			NEXT_PUBLIC_AVATAR_1:
-				'https://storage.cloud.google.com/image-user/avatar1.png?authuser=0',
+				'https://storage.cloud.google.com/image-user/avatar1.png?authuser=1',
 			NEXT_PUBLIC_AVATAR_2:
-				'https://storage.cloud.google.com/image-user/avatar2.png?authuser=0',
+				'https://storage.cloud.google.com/image-user/avatar2.png?authuser=1',
 			NEXT_PUBLIC_AVATAR_3:
-				'https://storage.cloud.google.com/image-user/avatar3.png?authuser=0',
+				'https://storage.cloud.google.com/image-user/avatar3.png?authuser=1',
 			NEXT_PUBLIC_AVATAR_4:
-				'https://storage.cloud.google.com/image-user/avatar4.png?authuser=0',
+				'https://storage.cloud.google.com/image-user/avatar4.png?authuser=1',
 			NEXT_PUBLIC_AVATAR_5:
-				'https://storage.cloud.google.com/image-user/avatar5.png?authuser=0',
+				'https://storage.cloud.google.com/image-user/avatar5.png?authuser=1',
 			NEXT_PUBLIC_AVATAR_6:
-				'https://storage.cloud.google.com/image-user/avatar6.png?authuser=0',
+				'https://storage.cloud.google.com/image-user/avatar6.png?authuser=1',
 			NEXT_PUBLIC_AVATAR_7:
-				'https://storage.cloud.google.com/image-user/avatar7.png?authuser=0',
+				'https://storage.cloud.google.com/image-user/avatar7.png?authuser=1',
 			NEXT_PUBLIC_AVATAR_8:
-				'https://storage.cloud.google.com/image-user/avatar8.png?authuser=0',
+				'https://storage.cloud.google.com/image-user/avatar8.png?authuser=1',
 		},
 		reactStrictMode: true,
 		swcMinify: true,
 		output: 'standalone',
 		experimental: {
 			outputFileTracingRoot: path.join(__dirname, '../../'),
+			// resolve javascript out of heap memory issue in development
+			esmExternals: false,
 		},
 		images: {
 			minimumCacheTTL: 60 * 60,
-			domains: ['https://storage.cloud.google.com', 'storage.cloud.google.com'],
+			domains: [
+				'https://storage.cloud.google.com',
+				'www.storage.cloud.google.com',
+				'storage.cloud.google.com',
+			],
 		},
 	};
 

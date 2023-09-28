@@ -24,8 +24,11 @@ class Crypto {
 
 	decrypt(data: string): string {
 		const bytes = cryptoJs.AES.decrypt(data, this.secret);
-
 		return bytes.toString(cryptoJs.enc.Utf8);
+	}
+
+	createMD5Hash(data: string): string {
+		return cryptoJs.MD5(data).toString(cryptoJs.enc.Hex);
 	}
 }
 

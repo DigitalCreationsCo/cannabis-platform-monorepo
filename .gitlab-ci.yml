@@ -80,23 +80,24 @@ build_node_modules:
     when: on_success
 
 build_module:
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-      changes:
-        - node_modules
-        - ${MODULE}/**/*
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   image: docker:23.0.5
   services:
     - docker:23.0.5-dind
   variables:
     DOCKER_DRIVER: overlay2
-    MODULE: ''
+    MODULE: $MODULE
     BUILD_TYPE: ''
     BUILD_CONTEXT: ''
     PORT: ''
     ROOTDIR: '.'
     TAG: ${CI_COMMIT_SHORT_SHA}
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        - '${MODULE}/**/*'
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      changes:
+        - '${MODULE}/**/*'
   before_script:
     - apk --no-cache add git
     - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin "${CI_REGISTRY}"
@@ -158,17 +159,17 @@ build_module:
     policy: pull
 
 deploy:
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   image:
     name: bitnami/kubectl:latest
     entrypoint: ['']
   cache: []
   variables:
-    MODULE: ''
+    MODULE: $MODULE
     BUILD_CONTEXT: ''
     ROOTDIR: '.'
     TAG: ${CI_COMMIT_SHORT_SHA}
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   script: |
     kubectl config get-contexts
     kubectl config use-context gras1/cannabis-platform-monorepo:gras-cluster
@@ -182,6 +183,8 @@ deploy:
 
     sleep 10
     kubectl get pods
+  needs:
+    - job: build_module
   parallel:
     matrix: !reference [.modules]
   needs:
@@ -194,5 +197,5 @@ deploy:
       - app/dashboard
       - server/main
       - server/location
-      # - server/payments
+      - server/payments
       - server/image

@@ -1,10 +1,11 @@
 import {
-	getShopSite,
+	axios,
 	renderNestedDataObject,
-	selectUserState,
 	TextContent,
 	urlBuilder,
+	userActions,
 } from '@cd/core-lib';
+import { type UserWithDetails } from '@cd/data-access';
 import {
 	Button,
 	FlexBox,
@@ -12,70 +13,67 @@ import {
 	H2,
 	H3,
 	Paragraph,
-	SignInButton,
 	useFormContext,
 } from '@cd/ui-lib';
-import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
+import { useCookies } from 'react-cookie';
 import { toast } from 'react-hot-toast';
-import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../../redux/hooks';
 
 function UserSignUpReview() {
-	const { user, isSignedIn } = useSelector(selectUserState);
+	const { href } = TextContent;
+	const dispatch = useAppDispatch();
 
-	const [account, setAccount] = useState(null);
+	const [account, setAccount] = useState<UserWithDetails | null>(null);
+	const [, setCookie] = useCookies(['yesOver21']);
 
-	const { formValues, setFormValues, resetFormValues } = useFormContext();
+	const { formValues, isComplete, resetFormValues } = useFormContext();
 
 	const loading = useRef(false);
-	useEffect(() => {
-		async function createNewUser() {
-			try {
-				setFormValues({
-					newUser: {
-						isSignUpComplete: true,
-						emailVerified: true,
-					},
-				});
-				console.info('form values: ', formValues);
-				console.info('form values stringify: ', JSON.stringify(formValues));
-				const response = await axios.post(
-					urlBuilder.shop + '/api/user',
-					formValues?.newUser,
-					{
-						validateStatus: (status) =>
-							(status >= 200 && status < 300) || status == 404,
-					},
-				);
-				console.info('response data: ', response.data);
-				if (response.status !== 201) throw new Error(response.data);
-				const createdAccount = response.data;
-				setAccount(createdAccount);
-				return createdAccount;
-			} catch (error: any) {
-				console.info('User Create Error: ', error);
-				throw new Error(error.message);
-				toast.error(error.message);
-			}
-		}
 
+	async function createUser() {
+		try {
+			const response = await axios.put(urlBuilder.shop + '/api/user', {
+				...formValues.newUser,
+				isSignUpComplete: true,
+				emailVerified: true,
+			});
+			if (response.data.success === 'false')
+				throw new Error(response.data.error);
+			const createdAccount: UserWithDetails = response.data.payload;
+			setAccount(createdAccount);
+			return createdAccount;
+		} catch (error: any) {
+			throw new Error(error.message);
+			toast.error(error.message);
+		}
+	}
+
+	useEffect(() => {
 		async function createNewUserAndUpdateUserState() {
 			try {
 				loading.current = true;
-				await createNewUser();
-
+				await createUser();
+				setCookie('yesOver21', 'true');
+				console.debug('set yesOver21 cookie to true');
+				isComplete && isComplete();
 				resetFormValues();
 				toast.success(TextContent.account.ACCOUNT_IS_CREATED);
 			} catch (error: any) {
-				console.info('User Create Error: ', error);
 				toast.error(error.message);
 			}
 		}
 
 		if (loading.current === false) createNewUserAndUpdateUserState();
-	}, [resetFormValues, loading, setFormValues, formValues]);
+	}, [account]);
+
+	useEffect(() => {
+		return () => {
+			if (account) dispatch(userActions.signinUserSync(account));
+		};
+	}, [account]);
 
 	useEffect(() => {
 		const handlePopstate = () => {
@@ -91,9 +89,6 @@ function UserSignUpReview() {
 			window.removeEventListener('popstate', handlePopstate);
 		};
 	}, []);
-
-	const imageSrc = formValues?.newUser?.profilePicture?.location;
-
 	return (
 		<Grid className="mx-auto max-w-[525px] space-y-2">
 			<H2 className="whitespace-normal">
@@ -111,8 +106,17 @@ function UserSignUpReview() {
 				{account && (
 					<>
 						<FlexBox>
-							<H3>{user.username}</H3>
-							{imageSrc && <Image src={imageSrc} alt={user.username} />}
+							<H3>{account.username}</H3>
+							{account.profilePicture?.location && (
+								<Image
+									src={account.profilePicture?.location as string}
+									alt={account.username}
+									width={100}
+									height={100}
+									loader={({ src }) => src}
+									unoptimized
+								/>
+							)}
 						</FlexBox>
 						{renderNestedDataObject(account, Paragraph, {
 							removeFields: [
@@ -129,8 +133,21 @@ function UserSignUpReview() {
 								'imageUser',
 								'idFrontImage',
 								'idBackImage',
+								'blurhash',
+								'countryCode',
+								'country',
 							],
 						})}
+						<FlexBox className="m-auto flex-row space-x-4 pb-20">
+							<>
+								<Link href={href.browse}>
+									<Button>Go to Gras</Button>
+								</Link>
+								<Link href={href.account_f(account.id)}>
+									<Button>Go to my account</Button>
+								</Link>
+							</>
+						</FlexBox>
 					</>
 				)}
 				{!account && (
@@ -139,21 +156,6 @@ function UserSignUpReview() {
 					</Paragraph>
 				)}
 			</div>
-
-			<FlexBox className="m-auto flex-row space-x-4 pb-20">
-				{isSignedIn ? (
-					<>
-						<Link href={getShopSite('/browse')}>
-							<Button>Go to Gras</Button>
-						</Link>
-						<Link href={getShopSite('/account')}>
-							<Button>Go to my account</Button>
-						</Link>
-					</>
-				) : (
-					<SignInButton bg="primary" />
-				)}
-			</FlexBox>
 		</Grid>
 	);
 }

@@ -3,6 +3,7 @@ import {
 	modalActions,
 	modalTypes,
 	selectUserState,
+	TextContent,
 } from '@cd/core-lib';
 import { Button, FlexBox, H2, Paragraph, styles } from '@cd/ui-lib';
 import Image from 'next/image';
@@ -100,8 +101,13 @@ function DashboardTopBar({ signOut }: TopBarProps) {
 				</Button>
 				<ul className="menu dropdown-content bg-inverse relative bottom-0 right-0 mt-2 w-48 rounded border shadow">
 					<FlexBox>
-						<Button size="md" bg="transparent" hover="transparent">
-							<Link href={getDashboardSite('/site-settings')}>Settings</Link>
+						<Button
+							size="md"
+							bg="transparent"
+							hover="transparent"
+							className="w-full"
+						>
+							<Link href={TextContent.href.settings}>Settings</Link>
 						</Button>
 					</FlexBox>
 					<FlexBox>
@@ -109,6 +115,7 @@ function DashboardTopBar({ signOut }: TopBarProps) {
 							size="md"
 							bg="transparent"
 							hover="transparent"
+							className="w-full"
 							onClick={signOut}
 						>
 							Sign Out

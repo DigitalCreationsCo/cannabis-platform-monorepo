@@ -3,7 +3,7 @@
 
 import {
 	type DriverWithDetails,
-	type DriverWithSessionDetails,
+	type DriverWithSessionJoin,
 } from '@cd/data-access';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
@@ -60,7 +60,7 @@ const signOutUserAsync = createAsyncThunk<
 });
 
 export type DriverSessionState = {
-	driver: DriverWithSessionDetails;
+	driver: DriverWithSessionJoin;
 	isSignedIn: boolean;
 	isLoading: boolean;
 	isSuccess: boolean;

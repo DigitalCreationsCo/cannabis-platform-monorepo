@@ -28,15 +28,14 @@ const config = {
 		NODE_ENV: 'test',
 	},
 	setupFilesAfterEnv: [
-		'<rootDir>/jest.setup.ts',
+		'<rootDir>/jest/setup.ts',
 		'@testing-library/jest-dom/extend-expect',
 	],
-	globalSetup: '<rootDir>/jest.globals.mjs',
-
+	// globalSetup: '<rootDir>/jest/globals.mjs',
 	testMatch: [
 		...getTestMatchers({
 			api: false,
-			components: false,
+			components: true,
 			middleware: false,
 		}),
 	],
@@ -51,14 +50,17 @@ const config = {
 			},
 		],
 		'^.+\\.(mjs|js|jsx)$': 'babel-jest',
-		'^.+.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$':
-			'jest-transform-stub', // anything style related is ignored and mapped to jest-transform-stub module
+		'.+\\.(css|styl|less|sass|scss|png|jpg|gif|ttf|woff|woff2)$':
+			'jest-transform-stub',
 	},
-
+	moduleNameMapper: {
+		'^.+.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$':
+			'jest-transform-stub',
+	},
 	collectCoverage: false,
 	coverageDirectory: '<rootDir>/coverage',
 	collectCoverageFrom: [
-		'<rootDir>/**/*.{ts,tsx,js,jsx}',
+		'<rootDir>/src/**/*.{ts,tsx,js,jsx}',
 		'!**/*.test.{js,ts}',
 		'!**/__mock__/*',
 	],

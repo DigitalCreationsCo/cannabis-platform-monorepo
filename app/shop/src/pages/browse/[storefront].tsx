@@ -1,4 +1,5 @@
-import { useRandom } from '@cd/core-lib';
+import { selectOrganization, TextContent } from '@cd/core-lib';
+import { type OrganizationWithShopDetails } from '@cd/data-access';
 import {
 	Center,
 	Grid,
@@ -7,13 +8,15 @@ import {
 	Paragraph,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
-import { type NodeNextRequest } from 'next/dist/server/base-http/node';
 import Head from 'next/head';
+import { useAppSelector } from '../../redux/hooks';
+import { wrapper } from '../../redux/store';
 
-export default function StoreFront() {
-	const orgName = 'your favorite Dispensary';
+function Storefront({ organizationId }: { organizationId: string }) {
+	const organization = useAppSelector(
+		selectOrganization(organizationId),
+	) as OrganizationWithShopDetails;
 
-	const tagline = useRandom(expressivePhrases(orgName));
 	return (
 		<Page gradient="pink" className="w-full bg-transparent sm:pt-12 md:pt-12">
 			<Head>
@@ -23,62 +26,37 @@ export default function StoreFront() {
 			<Grid>
 				<Center className="md:bg-inverse m-auto justify-center space-y-4 rounded bg-transparent p-16 sm:shadow-md md:w-[450px]">
 					<H2 className="text-yellow md:!text-primary whitespace-normal drop-shadow-lg sm:drop-shadow-none">
-						The Gras Store is coming soon..{' '}
+						{organization?.name}
 					</H2>
-
-					<Paragraph className="text-secondary font-semibold">
-						{tagline}
-					</Paragraph>
+					<Paragraph className="text-secondary font-semibold"></Paragraph>
 				</Center>
 			</Grid>
 		</Page>
 	);
 }
 
-export async function getServerSideProps({ req }: { req: NodeNextRequest }) {
-	// const subDomain = await prisma.subDomain.findUnique({
-	//     where: {
-	//         id: req.headers.host
-	//     },
-	//     include: {
-	//         organization: {
-	//             include: {
-	//                 address: true,
-	//                 products: true,
-	//                 images: true,
-	//                 siteSetting: true,
-	//                 categoryList: true
-	//             }
-	//         }
-	//     }
-	// });
-
-	// if (!subDomain) {
-	//     return {
-	//         props: {
-	//             error: 'The domain was not registered in the app'
-	//         }
-	//     };
-	// }
-
-	// return {
-	//     props: {
-	//         organization: subDomain.organization,
-	//         products: subDomain.organization.products
-	//     }
-	// };
-	return { props: { organization: req?.headers?.host?.split('.')[0] } };
-}
-
-const expressivePhrases = (dispensary: string) => [
-	`Thank you for using Gras. We're building a green shopping experience in partnership with ${dispensary}. Come back soon to see what we've been growing.`,
-	`Thank you for using Gras. We're building a fresh shopping experience in partnership with ${dispensary}. Come back soon to see what we've been growing.`,
-	`Thank you for using Gras. We're building a lush shopping experience in partnership with ${dispensary}. Come back soon to see what we've been growing.`,
-	`Thank you for using Gras. We're building a new budding online experience in partnership with ${dispensary}. Come back soon to see what we've been growing.`,
-	`Thank you for using Gras. We're building a sprouting shopping experience in partnership with ${dispensary}. Come back soon to see what we've been growing.`,
-	`Thank you for using Gras. We're building new experience taking roots in partnership with ${dispensary}. Come back soon to see what we've been growing.`,
-];
-
-StoreFront.getLayoutContext = (): LayoutContextProps => ({
+Storefront.getLayoutContext = (): LayoutContextProps => ({
 	showHeader: false,
 });
+
+export default Storefront;
+
+export const getServerSideProps = wrapper.getServerSideProps(
+	() =>
+		async ({ query }: any) => {
+			try {
+				if (!query['storefront'])
+					throw new Error(TextContent.error.DISPENSARY_NOT_FOUND);
+				return {
+					props: {
+						organizationId: query['storefront'],
+					},
+				};
+			} catch (error) {
+				console.log(`StoreFront SSP: ${error}`);
+				return {
+					notFound: true,
+				};
+			}
+		},
+);

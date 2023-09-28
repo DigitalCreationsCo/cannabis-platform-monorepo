@@ -28,27 +28,33 @@ export const renderAddress = ({
 	}${(showCountry && ' ' + address.country) || ''}`;
 };
 
-const sensitiveFields = ['password', 're_password', 'stripeAccountId'];
+export function truncate(text: string) {
+	return text.slice(0, 5) + text.slice(-4).padStart(7, '.');
+}
+
+export function redact(text: string) {
+	const length = text.toString().length;
+	const last4characters = text.slice(-4),
+		redacted = last4characters.padStart(length, '*');
+	return redacted;
+}
 
 const redactSensitiveFields = (key: string, value: string | number) => {
+	const sensitiveFields = ['password', 're_password', 'stripeAccountId'];
 	if (sensitiveFields.includes(key)) {
-		const length = value.toString().length,
-			last4characters = value.toString().slice(-4),
-			redacted = last4characters.padStart(length, '*');
-
-		return redacted;
+		return redact(value.toString());
 	} else return value;
 };
 
 export const renderNestedDataObject = (
 	data: any,
 	Component: any,
-	options: { removeFields?: string[] } = {},
+	options: { removeFields: string[] } = { removeFields: [] },
 ): any => {
 	const removeFields = options?.removeFields;
 	return Object.keys({ ...data })
 		.filter((field) => {
-			return removeFields && !removeFields.includes(field);
+			return !removeFields.includes(field);
 		})
 		.map((key, index) => {
 			if (typeof data[key] === 'object')
@@ -73,4 +79,14 @@ export const buildSTFormFields = (data: Record<string, any>): any => {
 			return { id: key, value: buildSTFormFields(data[key]) };
 		} else return { id: key, value: data[key] };
 	});
+};
+
+export const getSelectedOptionValue = (selector: string) => {
+	console.info('getSelectedOptionValue selector: ', selector);
+	const value = (document.querySelector(selector) as any)?.value;
+	console.info('getSelectedOptionValue: ', value);
+	const value2 = (document.querySelector(selector) as any)?.selectedOptions[0]
+		.value;
+	console.info('getSelectedOptionValue: ', value2);
+	return value || value2;
 };

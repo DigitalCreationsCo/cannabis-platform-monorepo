@@ -51,7 +51,12 @@ const nextConfig = (phase) => {
 		},
 		images: {
 			minimumCacheTTL: 60 * 60,
-			domains: ['cdn-cashy-static-assets.lucidchart.com'],
+			domains: [
+				'cdn-cashy-static-assets.lucidchart.com',
+				'https://storage.cloud.google.com',
+				'www.storage.cloud.google.com',
+				'storage.cloud.google.com',
+			],
 		},
 	};
 
