@@ -1,18 +1,51 @@
 import { type UserCreateType } from '@cd/data-access';
 
-export const pruneData = (data: Record<string, any>, fields: string[]) => {
-	return Object.keys(data)
-		.filter((field) => !fields.includes(field))
-		.reduce((obj, key) => {
-			return {
-				...obj,
-				[key]: data[key],
-			};
-		}, {});
-};
+/**
+ * isEmpty
+ * @param object
+ * @returns true if object is an object and is empty, null
+ * @returns false otherwise
+ */
+export function isEmpty(object: any) {
+	if (object === null || object === undefined) return true;
+	return (object && Object.keys(object).length === 0) || false;
+}
 
+/**
+ * isArray
+ * @param val
+ * @returns true if val is an array, false otherwise
+ */
 export const isArray = (val: any) => {
 	return Object.prototype.toString.apply(val) === '[object Array]';
+};
+
+/**
+ * formats any user data from form data into data shape for db insert / update
+ * @param user
+ * returns UserCreateType ready for db
+ */
+export const normalizeUserData = (user: UserCreateType) => {
+	if (typeof user.profilePicture === 'string')
+		user.profilePicture = { location: user.profilePicture };
+	if (user.address && !isArray(user.address)) {
+		user = { ...user, address: [{ ...user.address }] };
+	}
+	return user;
+};
+
+export const pruneData = <T extends Record<string, unknown>>(
+	data: T,
+	fields: (keyof T)[],
+) => {
+	return Object.keys(data)
+		.filter((field) => !fields.includes(field))
+		.reduce((obj, field) => {
+			return {
+				...obj,
+				[field]: data[field],
+			};
+		}, {} as T);
 };
 
 export const shuffle = (array: any[]) => {
@@ -57,6 +90,9 @@ export function addressObjectIntoArray(user: any): UserCreateType {
  * @returns Array
  */
 export function reconcileStateArray<T>(state: T[], payload: T[]) {
+	// console.log('state ', state);
+	console.info('reconciling payload: ');
+	console.log(payload);
 	let s = state;
 	payload.forEach((item) => {
 		// @ts-ignore
@@ -64,5 +100,6 @@ export function reconcileStateArray<T>(state: T[], payload: T[]) {
 		if (index === -1) s = [...s, item];
 		else s[index] = item;
 	});
+	console.log('reconciled state: ', s);
 	return s;
 }

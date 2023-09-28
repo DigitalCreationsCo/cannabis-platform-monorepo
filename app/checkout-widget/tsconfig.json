@@ -2,25 +2,28 @@
 	"$schema": "https://json.schemastore.org/tsconfig",
 	"extends": "../../tsconfig.base.json",
 	"exclude": [
-		"script",
+		"build",
 		"dist",
-		"webpack.config.cjs",
+		"webpack.config.js",
 		"**/node_modules",
 		"**/.*/"
 	],
 	"compilerOptions": {
 		"baseUrl": "./src",
 		"lib": ["dom", "dom.iterable", "ES2015"],
-		"module": "ES2015",
-		"noEmit": false,
+		"module": "ES2020",
 		"target": "ES2015",
+		"noEmit": false,
 		"allowJs": true,
 		"outDir": "./dist",
 		"jsx": "react-jsx",
 		"paths": {
 			"@cd/ui-lib": ["../../../packages/ui-lib/src/index"],
+			"@cd/ui-lib/*": ["../../../packages/ui-lib/*"],
 			"@cd/core-lib": ["../../../packages/core-lib/src/index"],
+			"@cd/core-lib/*": ["../../../packages/core-lib/*"],
 			"@cd/data-access": ["../../../packages/data-access/src/index"],
+			"@cd/data-access/*": ["../../../packages/data-access/*"],
 			"@cd/eslint-config": ["../../../packages/eslint-config/src/index"]
 		}
 	}

@@ -2,8 +2,8 @@ import axios, { type AxiosError, type AxiosRequestConfig } from 'axios';
 import { TextContent } from './constants';
 
 const MAX_RETRIES = 2;
-// three seconds
-const WAIT_RETRY = 3 * 1000;
+// const TIMEOUT = 12 * 1000;
+const TIMEOUT = 99 * 1000;
 
 interface AxiosConfig extends AxiosRequestConfig {
 	retryCount?: number;
@@ -17,7 +17,7 @@ interface AxiosErrorCustom extends AxiosError {
 }
 
 const instance = axios.create({
-	timeout: 3000,
+	timeout: TIMEOUT,
 	// validateStatus: (status: number) => (status >= 200 && status < 300) || status === 404
 	validateStatus: () => true,
 });
@@ -44,7 +44,7 @@ axios.interceptors.response.use(
 				return new Promise((resolve, _) => {
 					setTimeout(() => {
 						resolve(axios(error.config));
-					}, 2 * retryCount * WAIT_RETRY);
+					}, 2 * retryCount * TIMEOUT);
 					// increase subsequent timeout length by 2
 				});
 			}
@@ -61,12 +61,14 @@ instance.interceptors.response.use(
 		return Promise.resolve(success);
 	},
 	(error: any) => {
-		if (error.code === 'ECONNREFUSED')
+		if (error.code === 'ECONNREFUSED') {
+			console.error('AXIOS ECONNREFUSED');
 			return Promise.reject({
 				...error,
 				success: 'false',
 				message: TextContent.error.SERVER_NOT_AVAILABLE,
 			});
+		}
 
 		return Promise.reject(error);
 	},

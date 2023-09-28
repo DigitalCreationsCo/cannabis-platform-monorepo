@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { type AnchorHTMLAttributes, type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 import IconWrapper from './IconWrapper';
@@ -5,7 +6,7 @@ import { Paragraph } from './Typography';
 export interface NavLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
 	href: string;
 	className?: string;
-	isActive: boolean;
+	isActive?: boolean;
 	Icon: any;
 }
 
@@ -21,12 +22,12 @@ const NavLink = ({
 		isActive ? 'border-primary' : 'border-transparent',
 	];
 	return (
-		<a href={href}>
+		<Link href={href}>
 			<li className={twMerge(navLinkStyle, className)}>
 				<IconWrapper Icon={Icon} />
-				<StyledLink isActive={isActive}>{children}</StyledLink>
+				<StyledLink isActive={!!isActive}>{children}</StyledLink>
 			</li>
-		</a>
+		</Link>
 	);
 };
 

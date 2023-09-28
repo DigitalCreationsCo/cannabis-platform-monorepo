@@ -1,24 +1,25 @@
-import { getDashboardSite } from '@cd/core-lib/src';
+import { truncate } from '@cd/core-lib';
 import { type Order } from '@cd/data-access';
 import { format } from 'date-fns';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
-import Icons from '../icons';
-import IconWrapper from './IconWrapper';
 import Price from './Price';
 import Row from './Row';
 import { H6, Paragraph, Small } from './Typography';
 type OrderRowProps = {
 	order: Order;
 	orderDetailsRoute: string;
+	className?: string | string[];
 };
 
 function OrderRow({ order, orderDetailsRoute }: OrderRowProps) {
-	const getColor = (status: string) => {
+	const getColor = (status: Order['orderStatus']) => {
 		switch (status) {
 			case 'Pending':
 				return 'default';
 			case 'Processing':
+				return 'primary';
+			case 'OnDelivery':
 				return 'primary';
 			case 'Delivered':
 				return 'secondary';
@@ -30,36 +31,50 @@ function OrderRow({ order, orderDetailsRoute }: OrderRowProps) {
 	};
 
 	return (
-		<Link href={getDashboardSite(`${orderDetailsRoute}/${order.id}`)}>
-			<Row className="grid grid-cols-12 h-[48px]">
-				<H6 className="col-span-1">{order.id}</H6>
-
+		<Link href={`${orderDetailsRoute}/${order.id}`}>
+			<Row className={twMerge('grid grid-cols-12 h-[48px]', className)}>
+				<H6 className="col-span-4">{truncate(order.id)}</H6>
 				<Paragraph
 					className={twMerge(
 						'col-span-4',
-						`text-${getColor(order.orderStatus)}`,
+						`text-${getOrderStatusColor(order.orderStatus)}`,
 					)}
 				>
 					{order.orderStatus}
 				</Paragraph>
 
-				<Small className="col-span-3">
+				<Small className="col-span-2">
 					{format(new Date(order.createdAt), 'MMM dd, yyyy, hh:mm')}
 				</Small>
-
 				<Price
-					className="col-span-3 justify-self-end"
+					className="col-span-2 justify-self-end"
 					basePrice={order.total}
 				/>
-
-				<IconWrapper
+				{/* <IconWrapper
 					className="hidden sm:block col-span-1 justify-self-end"
 					iconSize={16}
 					Icon={Icons.Right}
-				/>
+				/> */}
 			</Row>
 		</Link>
 	);
 }
 
 export default OrderRow;
+
+export const getOrderStatusColor = (status: Order['orderStatus']) => {
+	switch (status) {
+		case 'Pending':
+			return 'default';
+		case 'Processing':
+			return 'primary';
+		case 'OnDelivery':
+			return 'primary';
+		case 'Delivered':
+			return 'secondary';
+		case 'Cancelled':
+			return 'default-soft';
+		default:
+			return '';
+	}
+};

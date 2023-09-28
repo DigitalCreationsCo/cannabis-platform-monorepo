@@ -9,7 +9,7 @@ function Center({
 	return (
 		<FlexBox
 			className={twMerge(
-				'grow',
+				'md:grow',
 				'justify-center items-center text-center',
 				className,
 			)}

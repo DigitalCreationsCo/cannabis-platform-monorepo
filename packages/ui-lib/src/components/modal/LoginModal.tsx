@@ -1,8 +1,10 @@
-import { TextContent, userActions } from '@cd/core-lib';
+import { isLegalAgeAndVerified, TextContent, userActions } from '@cd/core-lib';
+import { type UserWithDetails } from '@cd/data-access';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
+import { useCookies } from 'react-cookie';
 import { toast } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import {
@@ -124,7 +126,7 @@ function LoginModal({
 			<form>
 				<Grid className="space-y-2">
 					<TextField
-						containerClassName="max-w-[300px] md:w-2/3 m-auto lg:flex-col lg:items-start"
+						containerClassName=""
 						className="my-2 border text-md"
 						autoComplete="off"
 						type="text"
@@ -175,6 +177,7 @@ function LoginModal({
 	}
 
 	function EnterOTP() {
+		const [, setCookie] = useCookies(['yesOver21']);
 		const [loadingButton, setLoadingButton] = useState(false);
 
 		const dispatch = useDispatch();
@@ -225,6 +228,16 @@ function LoginModal({
 					userInputCode: values.passcode,
 				});
 				if (response.status === 'OK') {
+					console.debug(
+						'user is legal age and verified, ',
+						isLegalAgeAndVerified(response.user as unknown as UserWithDetails),
+					);
+					if (
+						isLegalAgeAndVerified(response.user as unknown as UserWithDetails)
+					) {
+						setCookie('yesOver21', 'true');
+						console.debug('set yesOver21 cookie to true');
+					}
 					dispatch(userActions.signinUserSync(response.user));
 				}
 				toast.success(TextContent.account.SIGNING_IN, { duration: 5000 });

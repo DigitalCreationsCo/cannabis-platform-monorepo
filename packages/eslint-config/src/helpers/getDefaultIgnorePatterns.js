@@ -9,6 +9,8 @@ const getDefaultIgnorePatterns = () => {
 		'**/.storybook',
 		'**/storybook-static',
 		'**/public',
+		'**/.next',
+		'next-env.d.ts',
 	];
 };
 

@@ -1,5 +1,5 @@
 import { urlBuilder } from '@cd/core-lib';
-import { OrderWithDetails } from '@cd/data-access';
+import { type OrderWithShopDetails } from '@cd/data-access';
 import axios from 'axios';
 
 /* =================================
@@ -11,9 +11,14 @@ processPurchase
 ================================= */
 
 export default class PaymentDA {
-	static async saveOrder(order: OrderWithDetails) {
+	static async saveOrder(order: OrderWithShopDetails) {
 		try {
-			await axios.post(urlBuilder.main.orders(), order);
+			const response = await axios.post(urlBuilder.main.orders(), order);
+			if (response.data.success !== 'true')
+				throw new Error(response.data.error);
+			const _order = response.data.payload as OrderWithShopDetails;
+			console.info('saveOrder: ', _order);
+			return _order;
 		} catch (error: any) {
 			console.error(error.message);
 			throw new Error(error.message);
@@ -28,23 +33,4 @@ export default class PaymentDA {
 			throw new Error(error.message);
 		}
 	}
-
-	/**
-	 * self contained order processing and fulfillment function,
-	 * - create Order record,
-	 * add order to user record,
-	 * add order to dispensary,
-	 * and decrement item stock
-	 * */
-	// static async processPurchase(order:Order, charge) {
-	//     try {
-	//         // send proxy request to main server to process order
-	//         const createOrder = await axios.post(process.env.NEXT_PUBLIC_SERVER_MAIN_URL + '/api/v1/shop/orders', { order, charge });
-
-	//         return createOrder;
-	//     } catch (error: any) {
-	//         console.error(error.message);
-	//         throw new Error(error.message);
-	//     }
-	// }
 }

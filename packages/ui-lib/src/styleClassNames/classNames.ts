@@ -1,9 +1,9 @@
 const styles = Object.freeze({
 	about: [
-		'bg-inverse opacity-90 md:rounded ',
+		'bg-inverse text-dark opacity-90 md:rounded ',
 		'space-y-2',
 		'mx-auto',
-		'cursor-default w-full md:max-w-[440px] h-fit p-8 items-center shadow',
+		'cursor-default w-full md:max-w-[440px] grow h-fit p-8 items-center shadow',
 	],
 	HERO: {
 		container: [
@@ -47,7 +47,7 @@ const styles = Object.freeze({
 	},
 	FOOTER: {
 		container:
-			'cursor-default flex-col min-h-[188px] p-8 pb-24 bg-secondary min-w-full bottom-0 shadow-lg',
+			'cursor-default flex-col min-h-[188px] pt-10 px-4 pb-24 bg-secondary min-w-full bottom-0 shadow-lg',
 	},
 });
 

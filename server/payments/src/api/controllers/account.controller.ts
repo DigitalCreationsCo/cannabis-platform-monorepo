@@ -25,6 +25,7 @@ export default class AccountController {
 	 */
 	static async createStripeDispensaryAccount(req, res) {
 		try {
+			console.log('create Stripe Dispensary Account, ', req.body);
 			const {
 				organization: dispensaryAccount,
 				email,

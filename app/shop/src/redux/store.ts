@@ -10,7 +10,6 @@ import {
 	userReducer,
 } from '@cd/core-lib';
 import {
-	applyMiddleware,
 	combineReducers,
 	configureStore,
 	type Action,
@@ -19,7 +18,6 @@ import {
 	type ThunkAction,
 } from '@reduxjs/toolkit';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
-import { composeWithDevTools } from 'redux-devtools-extension';
 import {
 	FLUSH,
 	PAUSE,
@@ -33,6 +31,8 @@ import {
 import storage from 'redux-persist/lib/storage';
 import { signOut } from 'supertokens-auth-react/recipe/session';
 
+const middlewares = [locationMiddleware, crashMiddleware, loggerMiddleware];
+
 const rootReducer = combineReducers({
 	modal: modalReducer,
 	user: userReducer,
@@ -42,7 +42,7 @@ const rootReducer = combineReducers({
 	blog: blogReducer,
 });
 
-const hydratableReducer = (state: RootState, action: AnyAction) => {
+const hydratableReducer = (state: any, action: AnyAction) => {
 	if (action.type === HYDRATE) {
 		return {
 			...state, // use previous state
@@ -52,27 +52,11 @@ const hydratableReducer = (state: RootState, action: AnyAction) => {
 	if (action.type === REHYDRATE) {
 		return {
 			...state,
-			// ...action.payload // apply delta from hydration
+			...action.payload, // apply delta from hydration
 		};
 	} else {
 		return rootReducer(state, action);
 	}
-};
-
-const bindMiddleware = (middleware: any) => {
-	if (process.env.NODE_ENV !== 'production') {
-		return composeWithDevTools(applyMiddleware(...middleware));
-	}
-	return applyMiddleware(
-		...middleware,
-		locationMiddleware,
-		crashMiddleware,
-		loggerMiddleware,
-	);
-};
-
-const supertokens = () => {
-	return { signOut };
 };
 
 export const persistConfig = {
@@ -81,45 +65,50 @@ export const persistConfig = {
 	storage,
 };
 
+const supertokensArguments = () => {
+	return { signOut };
+};
+
 const makeStore = () => {
 	let store;
-
-	const isClient = typeof window !== 'undefined';
-
 	const thunkArguments: { store: Store | null; supertokens: any } = {
 		store: null,
-		supertokens: supertokens(),
+		supertokens: supertokensArguments(),
 	};
-
+	const isClient = typeof window !== 'undefined';
 	if (isClient) {
 		store = configureStore({
+			devTools: process.env.NODE_ENV !== 'production',
 			reducer: persistReducer(persistConfig, rootReducer),
-			middleware: (getDefaultMiddleware) =>
-				getDefaultMiddleware({
+			middleware: (getDefaultMiddleware) => [
+				...getDefaultMiddleware({
 					serializableCheck: {
 						ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
 					},
 					thunk: {
 						extraArgument: thunkArguments,
 					},
-					bindMiddleware,
 				}),
+				...middlewares,
+			],
 		});
 		// @ts-ignore
 		store._persistor = persistStore(store);
 	} else {
 		store = configureStore({
+			devTools: process.env.NODE_ENV !== 'production',
 			reducer: hydratableReducer,
-			middleware: (getDefaultMiddleware) =>
-				getDefaultMiddleware({
+			middleware: (getDefaultMiddleware) => [
+				...getDefaultMiddleware({
 					serializableCheck: {
 						ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
 					},
 					thunk: {
 						extraArgument: thunkArguments,
 					},
-					bindMiddleware,
 				}),
+				...middlewares,
+			],
 		});
 	}
 	thunkArguments.store = store;

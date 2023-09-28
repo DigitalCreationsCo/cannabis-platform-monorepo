@@ -45,7 +45,7 @@ resource "google_compute_region_url_map" "default" {
         retry_policy {
           num_retries = 5
           per_try_timeout {
-            seconds = 1
+            seconds = 2
           }
           retry_conditions = ["5xx", "deadline-exceeded", "connect-failure"]
         }

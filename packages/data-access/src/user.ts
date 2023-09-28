@@ -7,9 +7,12 @@ import {
 	type MembershipRole,
 	type User,
 } from '@prisma/client';
-import { type AddressWithCoordinates } from './address';
+import {
+	type AddressCreateType,
+	type AddressWithCoordinates,
+} from './address.types';
 import prisma from './db/prisma';
-import { type OrderWithDetails } from './order';
+import { type OrderWithShopDetails } from './order.types';
 
 /*
  * User Data Access functions
@@ -25,11 +28,9 @@ import { type OrderWithDetails } from './order';
  */
 export async function createUser(userData: UserCreateType) {
 	try {
-		const newId = createId();
-
+		console.info('userData: ', userData);
 		const user = await prisma.user.create({
 			data: {
-				id: userData.id ?? newId,
 				email: userData.email,
 				emailVerified: userData.emailVerified ?? false,
 				username: userData.username,
@@ -42,34 +43,31 @@ export async function createUser(userData: UserCreateType) {
 				idVerified: userData.idVerified,
 				idBackImage: userData.idBackImage,
 				idFrontImage: userData.idFrontImage,
-				isSignUpComplete: true,
+				isSignUpComplete: userData.isSignUpComplete,
 				scannedDOB: userData.scannedDOB,
-				address: {
-					create: userData.address.map((address: any) => ({
-						street1: address.street1,
-						street2: address.street2,
-						city: address.city,
-						state: address.state,
-						zipcode: address.zipcode,
-						country: address.country,
-						countryCode: address.countryCode,
-						coordinates: {
-							create: {
-								latitude: Number(address.coordinates?.latitude),
-								longitude: Number(address.coordinates?.longitude),
-							},
-						},
-					})),
-				},
+				address: userData.address
+					? {
+							create: userData.address?.map((address: any) => ({
+								id: address.id,
+								street1: address.street1,
+								street2: address.street2,
+								city: address.city,
+								state: address.state,
+								zipcode: address.zipcode,
+								country: address.country,
+								countryCode: address.countryCode,
+								coordinates: {
+									create: {
+										latitude: Number(address.coordinates?.latitude),
+										longitude: Number(address.coordinates?.longitude),
+									},
+								},
+							})),
+					  }
+					: undefined,
 				profilePicture: {
-					connectOrCreate: {
-						where: {
-							userId: userData.id ?? newId,
-						},
-						create: {
-							id: userData.id ?? newId,
-							location: userData.profilePicture?.location,
-						},
+					create: {
+						location: userData.profilePicture.location,
 					},
 				},
 			},
@@ -82,33 +80,38 @@ export async function createUser(userData: UserCreateType) {
 				profilePicture: true,
 			},
 		});
-
-		console.info('user created: ', user.email);
+		console.debug('user created: ', user);
 		return user;
 	} catch (error: any) {
-		console.info('upsert user error: ', error);
+		console.error(error);
 		if (
 			error instanceof Prisma.PrismaClientKnownRequestError &&
 			error.code === 'P2002'
 		) {
+			const dupFields = error?.meta?.target;
 			throw new Error(
-				'This user exists already. Please choose a different username or email.',
+				`${dupFields} exists already. Please choose a different ${dupFields}.`,
 			);
 		}
-		throw new Error(error);
+		throw new Error(error.message);
 	}
 }
 
 export async function upsertUser(userData: UserCreateType) {
 	try {
+		const userExists = await prisma.user.findUnique({
+			where: {
+				email: userData.email,
+			},
+		});
 		const newId = createId();
-
+		const userId = userData.id ?? userExists?.id ?? newId;
 		const user = await prisma.user.upsert({
 			where: {
 				email: userData.email,
 			},
 			create: {
-				id: userData.id ?? newId,
+				id: userId,
 				email: userData.email,
 				emailVerified: userData.emailVerified ?? false,
 				username: userData.username,
@@ -121,36 +124,43 @@ export async function upsertUser(userData: UserCreateType) {
 				idVerified: userData.idVerified,
 				idBackImage: userData.idBackImage,
 				idFrontImage: userData.idFrontImage,
-				isSignUpComplete: true,
+				isSignUpComplete: userData.isSignUpComplete,
 				scannedDOB: userData.scannedDOB,
-				address: {
-					create: userData.address.map((address: any) => ({
-						street1: address.street1,
-						street2: address.street2,
-						city: address.city,
-						state: address.state,
-						zipcode: address.zipcode,
-						country: address.country,
-						countryCode: address.countryCode,
-						coordinates: {
-							create: {
-								latitude: Number(address.coordinates?.latitude),
-								longitude: Number(address.coordinates?.longitude),
+				address: userData.address
+					? {
+							connectOrCreate: {
+								where: {
+									id: userData.address[0].id,
+								},
+								create: {
+									street1: userData.address[0].street1,
+									street2: userData.address[0].street2,
+									city: userData.address[0].city,
+									state: userData.address[0].state,
+									zipcode: userData.address[0].zipcode,
+									country: userData.address[0].country,
+									countryCode: userData.address[0].countryCode,
+									coordinates: {
+										create: {
+											latitude: Number(
+												userData.address[0].coordinates?.latitude,
+											),
+											longitude: Number(
+												userData.address[0].coordinates?.longitude,
+											),
+										},
+									},
+								},
 							},
-						},
-					})),
-				},
-				profilePicture: {
-					connectOrCreate: {
-						where: {
-							userId: userData.id ?? newId,
-						},
-						create: {
-							id: userData.id ?? newId,
-							location: userData.profilePicture?.location,
-						},
-					},
-				},
+					  }
+					: undefined,
+				profilePicture: userData.profilePicture
+					? {
+							create: {
+								location: userData.profilePicture?.location,
+							},
+					  }
+					: undefined,
 			},
 			update: {
 				email: userData.email,
@@ -165,32 +175,55 @@ export async function upsertUser(userData: UserCreateType) {
 				idVerified: userData.idVerified,
 				idBackImage: userData.idBackImage,
 				idFrontImage: userData.idFrontImage,
-				isSignUpComplete: true,
+				isSignUpComplete: userData.isSignUpComplete,
 				scannedDOB: userData.scannedDOB,
-				address: {
-					create: userData.address.map((address: any) => ({
-						street1: address.street1,
-						street2: address.street2,
-						city: address.city,
-						state: address.state,
-						zipcode: address.zipcode,
-						country: address.country,
-						countryCode: address.countryCode,
-						coordinates: {
-							create: {
-								latitude: Number(address.coordinates?.latitude),
-								longitude: Number(address.coordinates?.longitude),
-							},
-						},
-					})),
-				},
+				address: userData.address
+					? {
+							upsert: userData.address.map((address: AddressCreateType) => ({
+								where: {
+									id: address.id,
+								},
+								create: {
+									id: address.id,
+									street1: address.street1,
+									street2: address.street2,
+									city: address.city,
+									state: address.state,
+									zipcode: address.zipcode,
+									country: address.country,
+									countryCode: address.countryCode,
+									coordinates: {
+										create: {
+											latitude: Number(address.coordinates?.latitude),
+											longitude: Number(address.coordinates?.longitude),
+										},
+									},
+								},
+								update: {
+									id: address.id,
+									street1: address.street1,
+									street2: address.street2,
+									city: address.city,
+									state: address.state,
+									zipcode: address.zipcode,
+									country: address.country,
+									countryCode: address.countryCode,
+									coordinates: {
+										create: {
+											latitude: Number(address.coordinates?.latitude),
+											longitude: Number(address.coordinates?.longitude),
+										},
+									},
+								},
+							})),
+					  }
+					: undefined,
 				profilePicture: {
 					connectOrCreate: {
 						where: {
-							userId: userData.id ?? newId,
+							userId,
 						},
 						create: {
-							id: userData.id ?? newId,
 							location: userData.profilePicture?.location,
 						},
 					},
@@ -207,20 +240,20 @@ export async function upsertUser(userData: UserCreateType) {
 				orders: true,
 			},
 		});
-
 		console.info('user upserted: ', user.email);
 		return user;
 	} catch (error: any) {
-		console.info('upsert user error: ', error);
+		console.error('upset user error: ', error);
 		if (
 			error instanceof Prisma.PrismaClientKnownRequestError &&
 			error.code === 'P2002'
 		) {
+			const dupFields = error?.meta?.target;
 			throw new Error(
-				'This user exists already. Please choose a different username or email.',
+				`${dupFields} exists already. Please choose a different ${dupFields}.`,
 			);
 		}
-		throw new Error(error);
+		throw new Error(error.message);
 	}
 }
 
@@ -239,12 +272,54 @@ export async function updateUser(userData: UserCreateType) {
 				username: userData.username,
 				firstName: userData.firstName,
 				lastName: userData.lastName,
-				termsAccepted: true,
+				termsAccepted: userData.termsAccepted,
+				idBackImage: userData.idBackImage,
+				idFrontImage: userData.idFrontImage,
+				idVerified: userData.idVerified,
+				isLegalAge: userData.isLegalAge,
+				isSignUpComplete: userData.isSignUpComplete,
+				scannedDOB: userData.scannedDOB,
 				dialCode: userData.dialCode,
 				phone: userData.phone,
-				address: {
-					create: userData.address.map((address: any) => address),
-				},
+				address: userData.address
+					? {
+							upsert: userData.address.map((address: AddressCreateType) => ({
+								where: {
+									id: address.id,
+								},
+								create: {
+									street1: address.street1,
+									street2: address.street2,
+									city: address.city,
+									state: address.state,
+									zipcode: address.zipcode,
+									country: address.country,
+									countryCode: address.countryCode,
+									coordinates: {
+										create: {
+											latitude: Number(address.coordinates?.latitude),
+											longitude: Number(address.coordinates?.longitude),
+										},
+									},
+								},
+								update: {
+									street1: address.street1,
+									street2: address.street2,
+									city: address.city,
+									state: address.state,
+									zipcode: address.zipcode,
+									country: address.country,
+									countryCode: address.countryCode,
+									coordinates: {
+										create: {
+											latitude: Number(address.coordinates?.latitude),
+											longitude: Number(address.coordinates?.longitude),
+										},
+									},
+								},
+							})),
+					  }
+					: undefined,
 				profilePicture: {
 					connectOrCreate: {
 						where: {
@@ -252,7 +327,7 @@ export async function updateUser(userData: UserCreateType) {
 						},
 						create: {
 							id: userData.id ?? newId,
-							location: userData.profilePicture?.location,
+							location: userData.profilePicture.location,
 						},
 					},
 				},
@@ -272,15 +347,17 @@ export async function updateUser(userData: UserCreateType) {
 		console.info('user updated: ', user.email);
 		return user;
 	} catch (error: any) {
+		console.error(error);
 		if (
 			error instanceof Prisma.PrismaClientKnownRequestError &&
 			error.code === 'P2002'
 		) {
+			const dupFields = error?.meta?.target;
 			throw new Error(
-				'This user exists already. Please choose a different username or email.',
+				`${dupFields} exists already. Please choose a different ${dupFields}.`,
 			);
 		}
-		throw new Error(error);
+		throw new Error(error.message);
 	}
 }
 
@@ -346,11 +423,12 @@ export async function upsertDispensaryAdmin(
 			error instanceof Prisma.PrismaClientKnownRequestError &&
 			error.code === 'P2002'
 		) {
+			const dupFields = error?.meta?.target;
 			throw new Error(
-				'This user exists already. Please choose a different username or email.',
+				`${dupFields} exists already. Please choose a different ${dupFields}.`,
 			);
 		}
-		throw new Error(error);
+		throw new Error(error.message);
 	}
 }
 
@@ -439,11 +517,12 @@ export async function updateDispensaryAdmin(
 			error instanceof Prisma.PrismaClientKnownRequestError &&
 			error.code === 'P2002'
 		) {
+			const dupFields = error?.meta?.target;
 			throw new Error(
-				'This user exists already. Please choose a different username or email.',
+				`${dupFields} exists already. Please choose a different ${dupFields}.`,
 			);
 		}
-		throw new Error(error);
+		throw new Error(error.message);
 	}
 }
 
@@ -531,12 +610,32 @@ export async function findUserWithDetailsById(
 	}
 }
 
+export async function deleteUserById(id: string) {
+	try {
+		await prisma.address.deleteMany({
+			where: { user: { some: { id } } },
+		});
+		return await prisma.user.delete({
+			where: {
+				id,
+			},
+			include: {
+				address: true,
+			},
+		});
+	} catch (error: any) {
+		console.error(error);
+		if (error.meta.cause) throw new Error(error.meta.cause);
+		throw new Error(error.message);
+	}
+}
+
 export type UserWithDetails = User &
 	Omit<User, 'createdAt' | 'updatedAt'> & {
 		address: AddressWithCoordinates[];
 		profilePicture: ImageUser | null;
 		memberships?: Membership[] | null;
-		orders?: OrderWithDetails[];
+		orders?: OrderWithShopDetails[];
 		preferences?: null;
 	};
 

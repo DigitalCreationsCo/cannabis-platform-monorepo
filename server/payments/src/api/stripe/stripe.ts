@@ -1,10 +1,12 @@
+/* eslint-disable no-case-declarations */
 import {
+	calculateDeliveryFeeForTransaction,
 	calculatePlatformFeeForTransaction,
 	generateCheckoutLineItemsFromOrderItems,
 	TextContent,
 	type CheckoutSessionMetaData,
 } from '@cd/core-lib';
-import { type OrderWithDetails } from '@cd/data-access';
+import { type OrderCreateType, type ProductVariant } from '@cd/data-access';
 import Stripe from 'stripe';
 import { PaymentDA } from '../data-access';
 
@@ -12,7 +14,7 @@ import { PaymentDA } from '../data-access';
 Stripe Service
 
 handleWebhookEvents
-createCheckout
+checkout
 getAccount
 createDispensaryAccount
 createDispensaryAccountLink
@@ -30,21 +32,52 @@ class StripeService {
 	 * @param order
 	 * @param dispensaryStripeAccountId
 	 */
-	async createCheckout(
-		order: OrderWithDetails,
-		dispensaryStripeAccountId: string,
-	) {
+	async checkout(order: OrderCreateType, dispensaryStripeAccountId: string) {
 		try {
 			return await this.stripe.checkout.sessions.create({
 				mode: 'payment',
 				success_url: process.env.NEXT_PUBLIC_SHOP_APP_CHECKOUT_SUCCESS_URL,
 				cancel_url: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/checkout`,
-				line_items: generateCheckoutLineItemsFromOrderItems(order.items),
-
+				line_items: generateCheckoutLineItemsFromOrderItems(
+					order.items as ProductVariant[],
+				),
+				shipping_options: [
+					{
+						shipping_rate_data: {
+							display_name: 'Delivery Fee',
+							type: 'fixed_amount',
+							fixed_amount: {
+								amount: calculateDeliveryFeeForTransaction(order.total),
+								currency: 'usd',
+							},
+							delivery_estimate: {
+								maximum: {
+									unit: 'hour',
+									value: 2,
+								},
+							},
+						},
+					},
+				],
 				payment_intent_data: {
+					description: `Order from ${order.organization.name}`,
+					on_behalf_of: dispensaryStripeAccountId,
+					receipt_email: order.customer.email,
+					capture_method: 'automatic',
 					application_fee_amount: calculatePlatformFeeForTransaction(123),
 					transfer_data: {
 						destination: dispensaryStripeAccountId,
+					},
+					shipping: {
+						name: order.customer.firstName + ' ' + order.customer.lastName,
+						address: {
+							line1: order.destinationAddress.street1,
+							line2: order.destinationAddress.street2,
+							city: order.destinationAddress.city,
+							state: order.destinationAddress.state,
+							postal_code: order.destinationAddress.zipcode.toString(),
+							country: order.destinationAddress.country,
+						},
 					},
 				},
 				customer_email: order.customer.email,
@@ -56,10 +89,16 @@ class StripeService {
 				},
 			});
 		} catch (error: any) {
-			console.error('stripe create checkout error: ', error);
 			throw new Error(error.message);
 		}
 	}
+
+	// REFUND AN APPLICATION FEE
+	// const refund = await stripe.refunds.create({
+	// 	charge: '{CHARGE_ID}',
+	// 	reverse_transfer: true,
+	// 	refund_application_fee: true,
+	//   });
 
 	/**
 	 * Get stripe connected account details using accountId
@@ -134,6 +173,24 @@ class StripeService {
 
 	async handleWebhookEvents(event: any) {
 		switch (event.type) {
+			case 'checkout.session.async_payment_failed':
+				const checkoutSessionAsyncPaymentFailed = event.data.object;
+				console.info(
+					'checkoutSessionAsyncPaymentFailed: ',
+					checkoutSessionAsyncPaymentFailed,
+				);
+				// Then define and call a function to handle the event checkout.session.async_payment_failed
+				break;
+
+			case 'checkout.session.async_payment_succeeded':
+				const checkoutSessionAsyncPaymentSucceeded = event.data.object;
+				console.info(
+					'checkoutSessionAsyncPaymentSucceeded: ',
+					checkoutSessionAsyncPaymentSucceeded,
+				);
+				// Then define and call a function to handle the event checkout.session.async_payment_succeeded
+				break;
+
 			case 'checkout.session.completed':
 				// Retrieve the session. If you require line items in the response, you may include them by expanding line_items.
 				// const
@@ -143,103 +200,28 @@ class StripeService {
 				//     { expand: ['lineItems'] }
 				// );
 
-				// eslint-disable-next-line no-case-declarations
 				const order = event.data.object.metadata as CheckoutSessionMetaData;
-
 				await PaymentDA.startFulfillment(order.id);
 				break;
 
 			case 'charge.succeeded':
 				// create sale record or Order record for dispensary
+				console.info('charge.succeeded: ', event.data.object);
 				break;
-
 			case 'payment_intent.succeeded':
 				// generate customer invoice
+				console.info('payment_intent.succeeded: ', event.data.object);
 				break;
-
+			case 'checkout.session.expired':
+				const checkoutSessionExpired = event.data.object;
+				console.info('checkoutSessionExpired: ', checkoutSessionExpired);
+				// Then define and call a function to handle the event checkout.session.expired
+				break;
+			// ... handle other event types
 			default:
 				console.info(`Unhandled stripe event type ${event.type}`);
 		}
 	}
-
-	/**
-//      * INCOMPLETE Create a stripe charge for a customer purchase
-//      */
-	//  async chargeCustomerPurchase() {
-	//     try {
-	//         // const { values, customerId, amount, tax, items, subtotal } = req.body
-
-	//     // const {
-	//     //   cardCVC,
-	//     //   cardNumber,
-	//     //   cardYear,
-	//     //   cardMonth,
-	//     //   cardHolderName,
-	//     //   checkCard,
-	//     //   card,
-	//     //   address,
-	//     //   date,
-	//     //   time,
-	//     //   paymentType,
-	//     // } = values;
-
-	//     // const user = await User.findById(req.user);
-
-	//     // const orderData = {
-	//     //   tax,
-	//     //   items,
-	//     //   paymentType,
-	//     //   total: amount,
-	//     //   customerId: user._id,
-	//     //   preTaxTotal: subTotal,
-	//     //   expectedDeliveryDate: date,
-	//     //   expectedDeliveryTime: time,
-	//     //   shipping: {
-	//     //     email: user.email,
-	//     //     name: address.name,
-	//     //     city: address.city,
-	//     //     phone: address.phone,
-	//     //     postalCode: address.zip,
-	//     //     country: address.country,
-	//     //     address: address.street1 + address.street2,
-	//     //   },
-	//     // };
-
-	//     // if (paymentType === "card") {
-	//     //     let charged: Stripe.Response<Stripe.Charge>;
-	//     //     if (!checkCard && cardCVC && cardNumber && cardYear && cardMonth && cardHolderName) {
-	//     //       const cardToken = await createCardToken({
-	//     //         cardHolderName,
-	//     //         cardNumber,
-	//     //         cardMonth,
-	//     //         cardYear,
-	//     //         cardCVC,
-	//     //         address,
-	//     //       });
-
-	//     //       if (values.cardSaved) {
-	//     //         const card = await stripe.customers.createSource(customerId, { source: cardToken.id });
-	//     //         charged = await createCharge({ amount, source: card.id, customer: customerId });
-	//     //       } else {
-	//     //         const card = await stripe.customers.createSource(customerId, { source: cardToken.id });
-	//     //         charged = await createCharge({ amount, source: card.id, customer: customerId });
-	//     //         await stripe.customers.deleteSource(customerId, card.id);
-	//     //       }
-	//     //     }
-
-	//     //     if (card && checkCard) {
-	//     //       charged = await createCharge({ amount, source: card.cardId, customer: customerId });
-	//     //     }
-
-	//     // Research the multimarketplace approach to stripe connect, and continue writing these funcs
-	//         // const charge = await this.stripe.charges.create(stripeAccountId);
-	//         // return charge
-	//         return {}
-	//     } catch (error: any) {
-	//         console.error(error.message);
-	//         throw new Error(error.message);
-	//     }
-	// }
 }
 
 const stripeService = new StripeService(process.env.STRIPE_API_KEY_SECRET, {

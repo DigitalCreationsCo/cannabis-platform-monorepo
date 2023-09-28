@@ -1,5 +1,4 @@
-import { urlBuilder } from '@cd/core-lib';
-import axios from 'axios';
+import { axios, urlBuilder } from '@cd/core-lib';
 import { type NextApiRequest, type NextApiResponse } from 'next';
 import nc from 'next-connect';
 
@@ -13,19 +12,16 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 		const response = await axios.post(
 			urlBuilder.payment.checkout(),
 			checkoutOrder,
-			{
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				validateStatus: (status) =>
-					(status >= 200 && status <= 400) || status === 404,
-			},
 		);
 
+		console.log('response: ', response.data);
 		return res.status(response.status).json(response.data);
 	} catch (error: any) {
 		console.info('next api checkout-session error: ', error.message);
-		throw new Error(error.message);
+		return res.json({
+			success: 'false',
+			error: error.message,
+		});
 	}
 });
 

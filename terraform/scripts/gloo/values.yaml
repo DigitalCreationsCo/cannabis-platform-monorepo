@@ -4,15 +4,22 @@ gatewayProxies:
       type: ClusterIP
       extraAnnotations:
         cloud.google.com/neg: '{"exposed_ports": {"80":{"name": "ingressgateway"}}}'
+        cloud.google.com/neg-status: '{"network_endpoint_groups":{"80":"ingressgateway"},"zones":["asia-east2-a", "asia-east2-b","asia-east2-c",]}'
     kind:
       deployment:
         replicas: 2
+    # gatewaySettings:
+    #     customHttpsGateway:
+    #       options:
+    #         healthCheck:
+    #           # define a custom path that is available when the Gateway (Envoy listener) is actually listening
+    #           path: /envoy-hc
     antiAffinity: true
-settings:
-  replaceInvalidRoutes: true
-  invalidConfigPolicy:
-    invalidRouteResponseBody:
-      Gloo Edge has invalid configuration. Administrators
-      should run `glooctl check` to find and fix config errors.
-    invalidRouteResponseCode: 404
-    replaceInvalidRoutes: true
+# settings:
+#   replaceInvalidRoutes: true
+#   invalidConfigPolicy:
+#     invalidRouteResponseBody:
+#       Gloo Edge has invalid configuration. Administrators
+#       should run `glooctl check` to find and fix config errors.
+#     invalidRouteResponseCode: 404
+#     replaceInvalidRoutes: true

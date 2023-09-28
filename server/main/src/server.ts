@@ -26,9 +26,11 @@ if (Supertokens) {
 	Supertokens.init(backendConfig());
 } else throw Error('Supertokens is not available.');
 
-UserRoles.createNewRoleOrAddPermissions('OWNER', ['OWNER']);
-UserRoles.createNewRoleOrAddPermissions('ADMIN', ['ADMIN']);
-UserRoles.createNewRoleOrAddPermissions('MEMBER', ['MEMBER']);
+UserRoles.createNewRoleOrAddPermissions('MembershipRole', [
+	'OWNER',
+	'ADMIN',
+	'MEMBER',
+]);
 
 const app = express();
 app.use(
@@ -54,21 +56,17 @@ app.use('/api/v1/driver', driver);
 app.use('/api/v1/shop', shop);
 app.use('/api/v1/organization', organization);
 app.use('/api/v1/blog', blog);
-
 app.use('/api/v1/error', errorRoute);
 app.use(STerror());
-app.use((err: any, req: express.Request, res: express.Response) => {
-	if (err.message === 'Please reset your password') {
-		return res.status(401).send(err.message);
-	}
-	if (err.message === 'Invalid password') {
-		return res.status(401).send(err.message);
-	}
-	res.status(500).send(err.message);
+app.use((err, req, res, next) => {
+	console.error('A general error occured: ', err);
+	res.status(500).json(err.message);
+	next();
 });
 
 const server = http.createServer(app);
 export default server;
+
 export type SessionResponse = {
 	status: boolean;
 	session: SessionInformation;

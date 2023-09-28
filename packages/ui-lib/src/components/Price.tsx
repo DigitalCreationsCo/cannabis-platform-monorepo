@@ -11,7 +11,8 @@ type PriceProps = {
 	locale?: string; // country
 	showDiscount?: boolean;
 	showOriginalPrice?: boolean;
-	color?: 'light' | 'dark';
+	color?: 'light' | 'dark' | 'inherit';
+	useStaticQuantity?: boolean;
 };
 
 function Price({
@@ -22,13 +23,14 @@ function Price({
 	className,
 	showDiscount = false,
 	showOriginalPrice = false,
-	color = 'dark',
+	color = 'inherit',
 	locale = 'en-us',
+	useStaticQuantity = false,
 }: PriceProps) {
+	quantity = useStaticQuantity ? 1 : quantity; // IMPORTANT
+
 	const _currencySymbol: any = { 'en-us': '$' };
-
 	const base = basePrice * quantity;
-
 	const toDollars = (value: number): string => convertCentsToDollars(value);
 
 	// discount is a flat number representing percentage off
@@ -45,15 +47,13 @@ function Price({
 	return (
 		<div className={twMerge('flex flex-row space-x-2 pl-2', className)}>
 			{showOriginalPrice && (
-				<Paragraph color={color} className="text-accent line-through">
+				<Paragraph color={color} className="line-through">
 					{_currencySymbol[locale] + toDollars(base)}
 				</Paragraph>
 			)}
 
 			{showDiscount && discount > 0 && (
-				<Paragraph color={color} className="text-accent">
-					`${discount}% off`
-				</Paragraph>
+				<Paragraph color={color}>`${discount}% off`</Paragraph>
 			)}
 
 			<Paragraph color={color}>

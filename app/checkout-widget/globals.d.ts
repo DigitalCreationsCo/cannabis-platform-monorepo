@@ -1,7 +1,8 @@
+declare module '*.png';
+
+/* eslint-disable @typescript-eslint/naming-convention */
 interface Window {
-	grasWidget: any;
-	attachEvent(event: string, callback: () => void): void;
+	GrasDeliveryWidget: any;
 }
 
-declare module 'dist/index.css';
-declare module '*.png';
+declare module 'url-state';

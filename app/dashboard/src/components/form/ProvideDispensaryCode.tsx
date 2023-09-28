@@ -2,8 +2,8 @@ import { TextContent, urlBuilder } from '@cd/core-lib';
 import {
 	Button,
 	Grid,
-	H2,
-	H5,
+	H1,
+	H4,
 	Paragraph,
 	TextField,
 	useFormContext,
@@ -20,7 +20,6 @@ function ProvideDispensaryKey() {
 	const { resetFormValues, nextFormStep, setFormValues } = useFormContext();
 
 	const createNewFormContext = () => {
-		console.info('a new form context is created');
 		resetFormValues();
 	};
 	useEffect(() => {
@@ -42,7 +41,6 @@ function ProvideDispensaryKey() {
 			if (response.data.success == 'false') {
 				throw new Error(response.data.error);
 			}
-			console.log('response? ', response.data);
 			setFormValues({ organization: { ...response.data.payload } });
 		} catch (error: any) {
 			throw new Error(error.message);
@@ -85,10 +83,9 @@ function ProvideDispensaryKey() {
 	return (
 		<form onSubmit={handleSubmit}>
 			<Grid className="flex min-h-[320px] w-full flex-col items-center justify-center space-y-4 text-center">
-				<H2>Welcome to Gras</H2>
-
-				<H5 className="pt-4">{TextContent.account.DISPENSARY_JOINING}</H5>
-				<Paragraph className="text-primary">
+				<H1 className="text-primary text-4xl">Welcome to Gras</H1>
+				<H4>{TextContent.account.DISPENSARY_JOINING}</H4>
+				<Paragraph>
 					You'll need a <b>dispensary code</b> to create your Dispensary
 					account.
 					<br />
@@ -106,8 +103,7 @@ function ProvideDispensaryKey() {
 					Enter your <b>dispensary code</b> here.
 				</Paragraph>
 				<TextField
-					containerClassName="w-[300px]"
-					className="mx-auto text-center"
+					className="mx-auto w-fit text-center"
 					name="dispensaryKey"
 					maxLength={25}
 					label="Dispensary Code"

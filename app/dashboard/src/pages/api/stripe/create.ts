@@ -1,5 +1,4 @@
-import { urlBuilder } from '@cd/core-lib';
-import axios from 'axios';
+import { axios, urlBuilder } from '@cd/core-lib';
 import { type NextApiRequest, type NextApiResponse } from 'next';
 import nc from 'next-connect';
 
@@ -11,10 +10,6 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 		const response = await axios.post(
 			urlBuilder.payment.createStripe(),
 			req.body,
-			{
-				validateStatus: (status) =>
-					(status >= 200 && status <= 302) || status == 404,
-			},
 		);
 
 		if (response.status == 404) throw new Error('Stripe account is not found.');

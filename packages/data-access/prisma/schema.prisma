@@ -5,9 +5,9 @@ generator client {
 
 datasource db {
   provider          = "postgresql"
-  url               = env("DATABASE_URL")
+  url               = env("POOLING_DATABASE_URL")
+  directUrl         = env("DATABASE_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
-  // relationMode      = "foreignKeys"
 }
 
 model Account {
@@ -111,7 +111,7 @@ model Route {
   driverId String
   orderId  String @unique
   driver   Driver @relation(fields: [driverId], references: [id], onDelete: NoAction)
-  order    Order  @relation(fields: [orderId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  order    Order  @relation(fields: [orderId], references: [id], onDelete: NoAction, onUpdate: Cascade)
 
   @@index([driverId])
   @@index([orderId])
@@ -150,6 +150,15 @@ model Address {
 
   @@index([id])
 }
+
+// model UserAddress {
+//   user       User     @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+//   userId     String
+//   address    Address @relation(fields: [addressId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+//   addressId  String
+
+//   @@id([userId, addressId])
+// }
 
 model ImageOrganization {
   id             String       @id @unique @default(cuid())
@@ -247,6 +256,7 @@ model Order {
   driverId                String?
   createdAt               DateTime         @default(now())
   updatedAt               DateTime         @updatedAt
+  deliveryDeadline        DateTime
   isDriverAssigned        Boolean          @default(false)
   driverAssignedAt        DateTime?
   isProductPickedUp       Boolean          @default(false)
@@ -312,6 +322,7 @@ model Organization {
   products                 Product[]
   siteSetting              SiteSetting?
   memberships              Membership[]        @relation("MembershipToOrganization")
+  subscribed               Boolean             @default(false)
 
   @@index([id])
   @@index([name])
@@ -363,9 +374,9 @@ model ProductVariant {
   quantity         Int
   basePrice        Int
   discount         Int
-  isDiscount       Boolean
+  isDiscount       Boolean        @default(false)
   salePrice        Int
-  currency         CurrencyName
+  currency         CurrencyName   @default(USD)
   stock            Int
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
@@ -636,6 +647,7 @@ enum OrderStatus {
   OnDelivery
   Delivered
   Cancelled
+  Completed
 }
 
 enum PaymentStatus {

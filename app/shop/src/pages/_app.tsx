@@ -2,9 +2,12 @@ import { blogActions, shopActions } from '@cd/core-lib';
 import {
 	LoadingPage,
 	ModalProvider,
+	ProtectedPage,
 	ToastProvider,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
+import { type AnyAction } from '@reduxjs/toolkit';
+import { AnimatePresence } from 'framer-motion';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -13,7 +16,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session from 'supertokens-auth-react/recipe/session';
-import { LayoutContainer, LocationProvider } from '../components';
+import { LayoutContainer, LocationProvider, TopBar } from '../components';
 import { frontendConfig } from '../config/frontendConfig';
 import { wrapper, type AppThunk } from '../redux/store';
 import '../styles/global.css';
@@ -60,15 +63,20 @@ function App({ Component, ...rest }: CustomAppProps) {
 	useEffect(() => {
 		!store.getState().shop.isLoading &&
 			store.getState().shop.dispensaries.length === 0 &&
-			store.dispatch(shopActions.getInitialDispensaries() as AppThunk);
-		store.dispatch(blogActions.getLatestNews());
+			store.dispatch(
+				shopActions.getInitialDispensaries() as unknown as AnyAction,
+			);
+		store.dispatch(blogActions.getLatestNews() as unknown as AnyAction);
 	}, [store]);
 
 	if (props.pageProps.fromSupertokens === 'needs-refresh') {
 		return null;
 	}
 
-	const getLayoutContext = Component.getLayoutContext || (() => ({}));
+	const getLayoutContext = (): LayoutContextProps => ({
+		TopBarComponent: TopBar,
+		...(Component.getLayoutContext && Component.getLayoutContext()),
+	});
 
 	return (
 		<>
@@ -82,13 +90,44 @@ function App({ Component, ...rest }: CustomAppProps) {
 						<LocationProvider />
 						<ToastProvider />
 						<ModalProvider />
-						<LayoutContainer {...getLayoutContext()}>
-							{routerLoading ? (
-								<LoadingPage />
-							) : (
-								<Component {...props.pageProps} />
-							)}
-						</LayoutContainer>
+						<AnimatePresence
+							mode="wait"
+							initial={false}
+							onExitComplete={() => window.scrollTo(0, 0)}
+						>
+							<LayoutContainer {...getLayoutContext()}>
+								{routerLoading ? (
+									<LoadingPage />
+								) : (
+									<ProtectedPage
+										protectedPages={[
+											'/settings',
+											'/checkout',
+											'/orders',
+											'/account',
+										]}
+									>
+										<>
+											<Component {...props.pageProps} />
+											{(function (d, w, c: 'BrevoConversations') {
+												w.BrevoConversationsID =
+													process.env.NEXT_PUBLIC_BREVO_CONVERSATIONS_ID;
+												w[c] =
+													w[c] ||
+													function (...args: any[]) {
+														(w[c].q = w[c].q || []).push(...args);
+													};
+												const s = d.createElement('script');
+												s.async = true;
+												s.src =
+													'https://conversations-widget.brevo.com/brevo-conversations.js';
+												if (d.head) d.head.appendChild(s);
+											})(document, window, 'BrevoConversations')}
+										</>
+									</ProtectedPage>
+								)}
+							</LayoutContainer>
+						</AnimatePresence>
 					</PersistGate>
 				</ReduxProvider>
 			</SuperTokensWrapper>

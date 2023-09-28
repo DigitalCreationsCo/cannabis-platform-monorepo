@@ -46,7 +46,13 @@ const hydratableReducer = (state: RootState, action: AnyAction) => {
 	if (action.type === HYDRATE) {
 		return {
 			...state, // use previous state
-			// ...action.payload // apply delta from hydration
+			// ...action.payload, // apply delta from hydration
+		};
+	}
+	if (action.type === REHYDRATE) {
+		return {
+			...state,
+			// ...action.payload, // apply delta from hydration
 		};
 	}
 	if (action.type === REHYDRATE) {
@@ -77,6 +83,7 @@ const makeStore = () => {
 		};
 
 		store = configureStore({
+			devTools: process.env.NODE_ENV !== 'production',
 			reducer: persistReducer(persistConfig, rootReducer),
 			middleware: (getDefaultMiddleware) => [
 				...getDefaultMiddleware({
@@ -94,6 +101,7 @@ const makeStore = () => {
 		store._persistor = persistStore(store);
 	} else {
 		store = configureStore({
+			devTools: process.env.NODE_ENV !== 'production',
 			reducer: hydratableReducer,
 			middleware: (getDefaultMiddleware) => [
 				...getDefaultMiddleware({

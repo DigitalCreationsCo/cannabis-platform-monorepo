@@ -1,5 +1,4 @@
-import { urlBuilder } from '@cd/core-lib';
-import axios from 'axios';
+import { axios, urlBuilder } from '@cd/core-lib';
 import { type NextApiRequest, type NextApiResponse } from 'next';
 import nc from 'next-connect';
 
@@ -26,8 +25,6 @@ const handler = nc();
 // 		return res.json(error);
 // 	}
 // });
-
-// handler.use(adminMiddleware);
 
 // create a order route
 // handler.post(async (req, res: NextApiResponse) => {

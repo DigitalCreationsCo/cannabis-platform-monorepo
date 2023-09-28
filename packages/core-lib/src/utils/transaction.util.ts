@@ -1,4 +1,4 @@
-import { type OrderStatus, type OrderWithDetails } from '@cd/data-access';
+import { type OrderStatus, type OrderWithShopDetails } from '@cd/data-access';
 
 const orderStatusList: OrderStatus[] = [
 	'Pending',
@@ -12,7 +12,7 @@ const orderStatusList: OrderStatus[] = [
  * @param order
  * @returns
  */
-const checkOrderIsCompleteOrCanceled = (order: OrderWithDetails) =>
+const checkOrderIsCompleteOrCanceled = (order: OrderWithShopDetails) =>
 	order.orderStatus === 'Cancelled' || order.orderStatus === 'Delivered';
 
 /**
@@ -50,9 +50,7 @@ function getCurrencySymbol(currency: any) {
  * @returns converted dollar value with 2 decimal values
  */
 function convertCentsToDollars(cents: number) {
-	// console.info('cents: ', cents)
 	const dollarValue = Number(((cents / 100) * 100) / 100);
-	// console.info('dollarValue: ', dollarValue.toFixed(2))
 	return dollarValue.toFixed(2);
 	// V Beware: this statement interrupts React hydration
 	// return number.toLocaleString(locale, { maximumFractionDigits: 2, minimumFractionDigits: 2 });
@@ -76,16 +74,15 @@ function convertDollarsToWholeNumber(value: number | string) {
  * @returns
  */
 function calculatePlatformFeeForTransaction(amount: number) {
-	//   return Math.round(amount * 0.1)
-	return amount;
+	return Math.round(amount * 0.18);
 }
 
-function calculateDeliveryFee(amount: number) {
-	return amount;
+function calculateDeliveryFeeForTransaction(amount: number) {
+	return Math.round(amount * 0.1);
 }
 
 export {
-	calculateDeliveryFee,
+	calculateDeliveryFeeForTransaction,
 	orderStatusList,
 	checkOrderIsCompleteOrCanceled,
 	calcSalePrice,

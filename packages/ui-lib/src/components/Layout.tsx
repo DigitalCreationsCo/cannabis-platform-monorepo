@@ -4,6 +4,7 @@ import {
 	type ReactEventHandler,
 } from 'react';
 import { twMerge } from 'tailwind-merge';
+import AnimationWrapper from './AnimationWrapper';
 import Footer from './Footer';
 import Header from './Header';
 import SideNavContainer from './SideNavContainer';
@@ -15,6 +16,7 @@ interface LayoutContextProps {
 	showSideNav?: boolean;
 	showTopBar?: boolean;
 	showHeader?: boolean;
+	TopBarComponent?: React.ElementType;
 }
 
 interface LayoutProps extends LayoutContextProps, PropsWithChildren {
@@ -23,7 +25,6 @@ interface LayoutProps extends LayoutContextProps, PropsWithChildren {
 	showHeader?: boolean;
 	showTopBar?: boolean;
 	SideNavComponent: React.ElementType;
-	TopBarComponent: React.ElementType;
 	signOut: () => void;
 	onSearchChange?: ChangeEventHandler<HTMLInputElement> &
 		ReactEventHandler<Element>;
@@ -51,7 +52,8 @@ function Layout({
 	className,
 }: LayoutProps & PropsWithChildren) {
 	const styles = {
-		main: 'bg-inverse-soft flex flex-col grow',
+		// main: 'bg-inverse-soft flex flex-col grow border',
+		main: 'bg-secondary flex-1',
 		isModalOverlay: isModalVisible && 'w-full fixed',
 	};
 
@@ -67,7 +69,7 @@ function Layout({
 			)}
 		>
 			<div className={styles.main}>
-				{showTopBar && (
+				{showTopBar && TopBarComponent && (
 					<TopBarComponent signOut={signOut} doesSessionExist={isSession} />
 				)}
 				{showHeader && (
@@ -87,7 +89,9 @@ function Layout({
 					{children}
 				</SideNavContainer>
 			</div>
-			<Footer />
+			<AnimationWrapper>
+				<Footer />
+			</AnimationWrapper>
 		</div>
 	);
 }

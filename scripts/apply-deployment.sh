@@ -1,20 +1,43 @@
-if [ -z "$1" ]; then
-    echo "No deployment supplied"
-    exit 1
+#!/bin/bash
+
+echo " applying deployments in /${1}"
+# Check if an argument was provided
+if [ $# -eq 0 ]; then
+  echo "Usage: $0 <directory_or_file>"
+  exit 1
 fi
 
-dir="$( cd "$( dirname "$1" )" && pwd )"
-deployment_file="${1##*/}"
-modified_deployment_file="modified-${deployment_file}"
-TAG=${TAG:-latest}
 
-echo "TAG is ${TAG}"
-# Replace the placeholder tag value
-sed -e "s|TAG|$TAG|g" "${dir}/${deployment_file}" > "${dir}/${modified_deployment_file}"
-
-# Apply the modified configuration using kubectl
-echo "Applying ${modified_deployment_file} with tag:${TAG}"
-kubectl apply -f "${dir}/${modified_deployment_file}"
-
-# remove the temporary file
-rm "${dir}/${modified_deployment_file}"
+# Check if the first argument is a directory
+if [ -d "$1" ]; then
+  directory="$1"
+  # Iterate through files in the directory
+  for filepath in "$directory"/*; do
+    if [ -f "$filepath" ]; then
+        file="${filepath##*/}"
+        modified_file="modified-${file}"
+        TAG=${TAG:-latest}
+        echo " applying ${modified_file} with tag:${TAG}"
+        sed -e "s|TAG|$TAG|g" "${directory}/${file}" > "${directory}/${modified_file}"
+        kubectl apply -f "${directory}/${modified_file}"
+        echo " removing ${modified_file}"
+        rm "${directory}/${modified_file}"
+      echo "Script completed on file: $file"
+    fi
+  done
+elif [ -f "$1" ]; then
+    directory="$( cd "$( dirname "$1" )" && pwd )"
+    # If the argument is a file, run the script on that file
+    file="${1##*/}"
+    modified_file="modified-${file}"
+    echo " applying ${modified_file} with tag:${TAG}"
+    sed -e "s|TAG|$TAG|g" "${directory}/${file}" > "${directory}/${modified_file}"
+    kubectl apply -f "${directory}/${modified_file}"
+    echo " removing ${modified_file}"
+    rm "${directory}/${modified_file}"
+else
+  echo "Invalid argument: $1 is neither a directory nor a file."
+  exit 1
+fi
+sleep 2
+echo "done"

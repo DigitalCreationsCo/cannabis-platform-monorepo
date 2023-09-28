@@ -1,9 +1,11 @@
 import {
 	LoadingPage,
 	ModalProvider,
+	ProtectedPage,
 	ToastProvider,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
+import { AnimatePresence } from 'framer-motion';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -14,7 +16,8 @@ import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session, {
 	type SessionContextType,
 } from 'supertokens-auth-react/recipe/session';
-import { LayoutContainer, ProtectedPage } from '../components';
+import { LayoutContainer } from '../components';
+import DashboardTopBar from '../components/DashboardTopBar';
 import { frontendConfig } from '../config/frontendConfig';
 import { wrapper } from '../redux/store';
 import '../styles/global.css';
@@ -88,15 +91,37 @@ function App({ Component, ...rest }: CustomAppProps) {
 					<PersistGate persistor={persistor} loading={<LoadingPage />}>
 						<ModalProvider />
 						<ToastProvider />
-						<LayoutContainer {...getLayoutContext()}>
-							{routerLoading ? (
-								<LoadingPage />
-							) : (
-								<ProtectedPage protectedPages={protectedPages}>
-									<Component {...props.pageProps} />
-								</ProtectedPage>
-							)}
-						</LayoutContainer>
+						<AnimatePresence
+							mode="wait"
+							initial={false}
+							onExitComplete={() => window.scrollTo(0, 0)}
+						>
+							<LayoutContainer {...getLayoutContext()}>
+								{routerLoading ? (
+									<LoadingPage />
+								) : (
+									<ProtectedPage memberPages={protectedPages}>
+										<>
+											<Component {...props.pageProps} />
+											{(function (d, w, c: 'BrevoConversations') {
+												w.BrevoConversationsID =
+													process.env.NEXT_PUBLIC_BREVO_CONVERSATIONS_ID;
+												w[c] =
+													w[c] ||
+													function (...args: any[]) {
+														(w[c].q = w[c].q || []).push(...args);
+													};
+												const s = d.createElement('script');
+												s.async = true;
+												s.src =
+													'https://conversations-widget.brevo.com/brevo-conversations.js';
+												if (d.head) d.head.appendChild(s);
+											})(document, window, 'BrevoConversations')}
+										</>
+									</ProtectedPage>
+								)}
+							</LayoutContainer>
+						</AnimatePresence>
 					</PersistGate>
 				</ReduxProvider>
 			</SuperTokensWrapper>

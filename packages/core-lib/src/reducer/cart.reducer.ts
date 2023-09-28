@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 import {
-	type OrderCreate,
+	type OrderCreateType,
 	type OrganizationWithShopDetails,
 	type ProductVariantWithDetails,
 } from '@cd/data-access';
@@ -104,7 +104,7 @@ export const addItem = createAsyncThunk<
 //   }
 // );
 
-export const createOrderForCheckout = createAsyncThunk<OrderCreate, void>(
+export const createOrderForCheckout = createAsyncThunk<OrderCreateType, void>(
 	'cart/createOrderForCheckout',
 	async (_, thunkAPI) => {
 		try {
@@ -113,7 +113,6 @@ export const createOrderForCheckout = createAsyncThunk<OrderCreate, void>(
 			let { user } = thunkAPI.getState().user as UserStateProps;
 			user = pruneData(user, [
 				'timeJoined',
-				'address',
 				'memberships',
 				'idFrontImage',
 				'idBackImage',
@@ -123,49 +122,48 @@ export const createOrderForCheckout = createAsyncThunk<OrderCreate, void>(
 
 			let organization = dispensaries.find((d) => d.id === cart.organizationId);
 
-			if (!organization)
-				await axios
-					.get(urlBuilder.shop + `/api/organization/${cart.organizationId}`)
-					.then((result) => {
-						console.info('get org reesult: ', result);
-						organization = result.data as OrganizationWithShopDetails;
-					});
+			if (!organization) {
+				console.debug('fetching organization from server');
+				const response = await axios(
+					urlBuilder.shop + `/api/organization/${cart.organizationId}`,
+				);
+				if (response.data.success === 'false')
+					throw new Error(response.data.error);
+				organization = response.data.payload as OrganizationWithShopDetails;
+			}
 
 			if (!organization?.id)
 				throw new Error(
 					'Could not get your Dispensary details. Please try again.',
 				);
 
-			const location = thunkAPI.getState().location as LocationStateProps;
+			// const location = thunkAPI.getState().location as LocationStateProps;
+			// const { selectLocationType } = location,
+			// 	selectedLocation = location[selectLocationType] as LocationType;
 
-			const { selectLocationType } = location,
-				selectedLocation = location[selectLocationType] as LocationType;
-
-			const order: OrderCreate = {
-				subtotal: cart.subTotal,
+			const order: OrderCreateType = {
+				subtotal: cart.subtotal,
 				total: cart.total,
 				taxFactor: 0,
 				taxAmount: 0,
 				orderStatus: 'Pending',
-				addressId: selectedLocation.address.id,
-				destinationAddress: selectedLocation.address,
+				// addressId: selectedLocation.address.id,
+				addressId: user.address[0].id,
+				// destinationAddress: selectedLocation.address,
+				destinationAddress: user.address[0],
 				customerId: user.id,
-				customer: user,
-
+				customer: pruneData(user, ['address', 'profilePicture']),
 				organizationId: cart.organizationId,
-				organization,
-				// should i contain the organization data in the order?
-				// yay: data is available for all clients (web, mobile, driver)
-				// if ( !dispensary is not found in state,) download the record from database, add it to redux state,
-				// add the record to the order, so we can see the dispensary during checkout. :)
-				// OR
-				// nay: server can get the data easily
-				// fetch it from the initial get, duh
-
-				isDeliveredOrder: false,
-				isCustomerReceivedOrder: false,
-				isCompleted: false,
-
+				organization: pruneData(organization, [
+					'schedule',
+					'products',
+					'images',
+					'siteSetting',
+					'categories',
+					'categoryList',
+					'subdomain',
+					'metadata',
+				]),
 				items: await processCartItemsForCheckout(cart.cart),
 			};
 
@@ -398,7 +396,6 @@ const cartSlice = createSlice({
 	reducers: {
 		saveSimpleCart: (state, { payload }: PayloadAction<SimpleCart>) => {
 			const simpleCart = payload;
-			console.info('simpleCart', simpleCart);
 			state.cart = simpleCart.cartItems;
 			state.total = simpleCart.total;
 			state.organizationId = simpleCart.organizationId;
@@ -543,12 +540,7 @@ const cartSlice = createSlice({
 });
 
 function countTotalItems(itemList: ProductVariantWithDetails[]) {
-	const totalItems = itemList.reduce(
-		(sum, item) => sum + Number(item.quantity),
-		0,
-	);
-	console.info('count total items: ', totalItems);
-	return totalItems;
+	return itemList.reduce((sum, item) => sum + Number(item.quantity), 0);
 }
 
 function countCartSubtotal(itemList: ProductVariantWithDetails[]) {
@@ -587,10 +579,3 @@ export const cartReducer = cartSlice.reducer;
 export const selectCartState = (state: AppState) => state.cart;
 export const selectIsCartEmpty = (state: AppState): boolean =>
 	state.cart.totalItems < 1;
-
-export type SimpleCart = {
-	total: number;
-	cartItems: ProductVariantWithDetails[];
-	organizationId?: string;
-	organizationName?: string;
-};

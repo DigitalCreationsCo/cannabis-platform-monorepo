@@ -5,6 +5,7 @@ import {
 } from '@cd/core-lib';
 import { type OrganizationWithShopDetails } from '@cd/data-access';
 import { Card, FlexBox, H2, Paragraph } from '@cd/ui-lib';
+import Image from 'next/image';
 import Link from 'next/link';
 import { type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
@@ -37,7 +38,8 @@ function DispensaryCard({ data: dispensary, className }: DispensaryCardProps) {
 			<Card
 				className={twMerge([
 					styles.dispensarycard,
-					'rounded hover:scale-101 transition duration-500',
+					'rounded',
+					// 'hover:scale-101 transition duration-500',
 					className,
 				])}
 			>
@@ -71,23 +73,29 @@ const ImageBackDrop = ({
 }: { src: string } & PropsWithChildren) => {
 	return (
 		<div className="absolute left-0 top-0 h-full w-full">
-			<img
+			<Image
 				className="h-full w-full rounded object-cover"
 				src={src}
 				alt="card-backdrop"
+				fill
+				sizes="(max-width: 250px)"
+				quality={25}
+				priority
+				loader={({ width, src }) => src + `?w=${width}`}
 			/>
 			<div
 				className="rounded"
 				style={{
-					backgroundColor: 'rgba(1,12,2,0.32)',
+					backgroundColor: 'rgba(1,12,2,0.18)',
 					position: 'absolute',
 					height: '100%',
 					width: '100%',
 					left: '0',
 					top: '0',
 				}}
-			></div>
-			{children}
+			>
+				{children}
+			</div>
 		</div>
 	);
 };

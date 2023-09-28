@@ -22,15 +22,12 @@ app.use(
 		credentials: true,
 	}),
 );
-
 app.use(middleware());
 
 app.use('/api/v1/healthcheck', (_, res) => {
 	return res.status(200).json({ status: 'ok', server: 'image' });
 });
-
 app.use('/api/v1/image', image);
-
 app.use(errorHandler());
 app.use(
 	(
@@ -39,7 +36,7 @@ app.use(
 		res: express.Response,
 		next: express.NextFunction,
 	) => {
-		res.status(500).send(err.message);
+		res.status(500).json(err.message);
 	},
 );
 app.use('*', (req, res) => res.status(404).json({ error: 'API not found' }));

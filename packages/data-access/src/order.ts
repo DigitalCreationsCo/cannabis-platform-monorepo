@@ -1,111 +1,34 @@
-import {
-	type Order,
-	type Organization,
-	type Prisma,
-	type ProductVariant,
-	type Purchase,
-	type User,
-} from '@prisma/client';
-import { type AddressWithCoordinates } from './address';
+import { type ProductVariant } from '@prisma/client';
 import prisma from './db/prisma';
-import { type DriverWithDetails, type RouteWithCoordinates } from './driver';
 import {
-	connectVariantImages,
-	createProductVariantsWithoutId,
-	type ProductVariantWithDetails,
-} from './variant';
+	OrderClass,
+	type OrderCreateType,
+	type OrderUpdateType,
+	type OrderWithShopDetails,
+} from './order.types';
 
-/*
- *   createOrder
- *   createPurchase
- *   findOrdersByOrg
- *   findOrderWithDetails
- *   updateOrderWithOrderItems
- *   updateOrder
+/* METHODS
+ * createOrder
+ * createPurchase
+ * findOrdersByOrg
+ * findOrderWithDetails
+ * updateOrderWithOrderItems
+ * updateOrder
+ * addDriverToOrder
+ * deleteOrder
  */
 
-export async function createOrder(order: any) {
+export async function createOrder(order: OrderCreateType) {
 	try {
-		order.items = await createProductVariantsWithoutId(order?.items, order);
-
-		await connectVariantImages(order?.items);
-
-		// const {
-		// 	coordinates,
-		// 	userId,
-		// 	coordinateId,
-		// 	organizationId,
-		// 	...destinationAddressData
-		// } = order.destinationAddress;
-
-		const itemsConnect = () =>
-			order.items?.map((item: ProductVariantWithDetails) => ({ id: item.id }));
-
-		const createOrder = await prisma.order.upsert({
-			where: {
-				id: order.id,
-			},
-			create: {
-				id: order.id,
-				subtotal: order.subtotal || order.total,
-				total: order.total,
-				taxFactor: order.taxFactor || 0,
-				taxAmount: order.taxAmount || 0,
-				orderStatus: order.orderStatus,
-				addressId: order.addressId,
-				customerId: order.customerId,
-				organizationId: order.organizationId,
-				driverId: order.driverId,
-				isDeliveredOrder: order.isDeliveredOrder,
-				isCustomerReceivedOrder: order.isCustomerReceivedOrder,
-				isCompleted: order.isCompleted,
-				deliveredAt: order.deliveredAt,
-				purchaseId: order.purchaseId,
-				items: {
-					connect: itemsConnect(),
-				},
-				// customer: order.customer,
-				// organization: order.organization,
-				// destinationAddress: {
-				//     connectOrCreate: {
-				//         where: { id: order.destinationAddress.id },
-				//         create: {
-				//             ...destinationAddressData,
-				//             coordinates: {
-				//                 create: {
-				//                     latitude: Number(coordinates?.latitude),
-				//                     longitude: Number(coordinates?.longitude)
-				//                 }
-				//             }
-				//         }
-				//     }
-				// }
-			},
-			update: {
-				id: order.id,
-				subtotal: order.subtotal || order.total,
-				total: order.total,
-				taxFactor: order.taxFactor || 0,
-				taxAmount: order.taxAmount || 0,
-				orderStatus: order.orderStatus,
-				addressId: order.addressId,
-				customerId: order.customerId,
-				organizationId: order.organizationId,
-				driverId: order.driverId,
-				isDeliveredOrder: order.isDeliveredOrder,
-				isCustomerReceivedOrder: order.isCustomerReceivedOrder,
-				isCompleted: order.isCompleted,
-				deliveredAt: order.deliveredAt,
-				purchaseId: order.purchaseId,
-				items: {
-					connect: itemsConnect(),
-				},
-			},
+		const _order = new OrderClass(order);
+		const createdOrder = await prisma.order.create({
+			data: { ..._order },
 		});
-
-		return createOrder as OrderWithDetails;
+		return createdOrder as OrderWithShopDetails;
 	} catch (error: any) {
-		console.error('create order error: ', error.message);
+		console.error('create order: ', error);
+		if (error.message.includes('Invalid `prisma_default.order.create()`'))
+			throw new Error('Invalid order.');
 		throw new Error(error.message);
 	}
 }
@@ -137,6 +60,26 @@ export async function createPurchase(purchase: any) {
 	}
 }
 
+export async function findOrdersByUser(
+	userId: string,
+): Promise<OrderWithShopDetails[]> {
+	try {
+		return await prisma.order.findMany({
+			where: { customerId: userId },
+			orderBy: [{ updatedAt: 'desc' }],
+			include: {
+				customer: true,
+				organization: true,
+				destinationAddress: { include: { coordinates: true } },
+				items: true,
+			},
+		});
+	} catch (error: any) {
+		console.error(error.message);
+		throw new Error(error.message);
+	}
+}
+
 export async function findOrdersByOrg(organizationId: string) {
 	try {
 		return (
@@ -151,27 +94,29 @@ export async function findOrdersByOrg(organizationId: string) {
 	}
 }
 
-export async function findOrderWithDetails(id: string) {
-	try {
-		const order: any = await prisma.order.findUnique({
-			where: { id },
+export async function findOrderWithDetails(
+	id: string,
+	include: Prisma.OrderInclude = {
+		customer: true,
+		driver: true,
+		organization: {
 			include: {
-				customer: true,
-				driver: true,
-				organization: {
+				address: {
 					include: {
-						address: {
-							include: {
-								coordinates: true,
-							},
-						},
+						coordinates: true,
 					},
 				},
-				destinationAddress: true,
-				items: { include: { images: true } },
 			},
+		},
+		destinationAddress: true,
+		items: { include: { images: true } },
+	},
+) {
+	try {
+		return await prisma.order.findUnique({
+			where: { id },
+			include,
 		});
-		return order;
 	} catch (error: any) {
 		console.error(error);
 		throw new Error(error);
@@ -247,8 +192,8 @@ export async function updateOrder(id: string, data: OrderUpdateType) {
 			data: { ...data },
 		});
 	} catch (error: any) {
-		console.error(error);
-		throw new Error(error);
+		if (error.code === 'P2025') throw new Error(`Order is not found.`);
+		throw new Error(error.message);
 	}
 }
 
@@ -269,27 +214,3 @@ export async function deleteOrder(id: string) {
 		throw new Error(error.message);
 	}
 }
-
-export type OrderUpdateType = Prisma.OrderUpdateArgs['data'];
-export type OrderCreateType = Prisma.OrderUncheckedCreateInput & {
-	organization: Organization;
-};
-
-export type OrderWithDetails = Order & {
-	items: ProductVariantWithDetails[];
-	customer: User;
-	// purchase?: Prisma.PurchaseCreateNestedOneWithoutOrderInput
-	// destinationAddress: Address;
-};
-
-export type OrderWithDashboardDetails = Order & {
-	items: ProductVariantWithDetails[];
-	customer: User;
-	driver: DriverWithDetails | null;
-	route: RouteWithCoordinates;
-	// purchase: Prisma.PurchaseCreateNestedOneWithoutOrderInput
-	purchase: Purchase;
-	destinationAddress: AddressWithCoordinates;
-};
-
-export type PurchaseCreate = Prisma.PurchaseCreateArgs['data'];

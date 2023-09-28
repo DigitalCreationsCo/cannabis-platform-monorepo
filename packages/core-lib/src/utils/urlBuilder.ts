@@ -24,6 +24,7 @@ const urlBuilder = {
 
 		ordersByOrgId: (id: any) =>
 			urlBuilder.main.baseUrl + `/shop/orders/org/${id}`,
+		ordersByUser: (id: any) => urlBuilder.main.baseUrl + `/user/${id}/orders`,
 		orderById: (id: any) => urlBuilder.main.baseUrl + `/shop/orders/${id}`,
 		orders: () => urlBuilder.main.baseUrl + `/shop/orders`,
 		fulfillOrder: () => urlBuilder.main.baseUrl + `/shop/orders-fulfill`,
@@ -40,6 +41,8 @@ const urlBuilder = {
 		organization: () => urlBuilder.main.baseUrl + `/organization`,
 		organizationById: (id: any) =>
 			urlBuilder.main.baseUrl + `/organization/${id}`,
+		organizationWithDashboardDetails: (id: any) =>
+			urlBuilder.main.baseUrl + `/organization/dashboard/${id}`,
 		organizationsByZipCode: (zipcode: number, limit: number, radius: number) =>
 			urlBuilder.main.baseUrl +
 			`/organization/zipcode/${zipcode}&_${limit}&_${radius}`,
@@ -53,7 +56,7 @@ const urlBuilder = {
 		usersByOrg: (id: any) =>
 			urlBuilder.main.baseUrl + `/organization/${id}/users`,
 
-		address: () => urlBuilder.main.baseUrl + '/auth/address',
+		address: () => urlBuilder.main.baseUrl + '/user/address',
 		addressByIdAndUser: (addressId: any, id: any) =>
 			urlBuilder.main.baseUrl + `/auth/user/${id}/address/${addressId}`,
 
