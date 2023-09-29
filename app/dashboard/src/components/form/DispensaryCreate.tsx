@@ -229,7 +229,7 @@ function DispensaryCreate() {
 						<div id="dispensary-create-step-3">
 							<Paragraph>{TextContent.legal.AGREE_TO_TERMS}</Paragraph>
 							<a
-								href="/termsandconditions/dispensaryterms"
+								href={TextContent.href.dispensary_tos}
 								target="_blank"
 								rel="noreferrer noopener"
 							>

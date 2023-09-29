@@ -23,17 +23,17 @@ export default function Footer() {
 	const legal = [
 		{
 			name: 'Dispensary Terms and Conditions',
-			href: '/legal/dispensary-terms-and-conditions',
+			href: TextContent.href.dispensary_tos,
 		},
 		{
 			name: 'User Terms and Conditions',
-			href: '/legal/user-terms-and-conditions',
+			href: TextContent.href.user_tos,
 		},
 		// {
 		// 	name: 'Driver Terms and Conditions',
-		// 	href: '/legal/driver-terms-and-conditions',
+		// 	href: TextContent.href.driver_tos,
 		// },
-		{ name: 'Privacy Policy', href: '/legal/privacy-policy' },
+		{ name: 'Privacy Policy', href: TextContent.href.privacy },
 	];
 	return (
 		<>

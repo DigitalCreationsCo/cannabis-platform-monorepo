@@ -47,7 +47,7 @@ resource "google_compute_region_url_map" "redirect" {
   }
 }
 
-resource "google_compute_region_ssl_certificate" "default" { 
+resource "google_compute_region_ssl_certificate" "default" {
   project = google_compute_subnetwork.default.project
   region  = google_compute_subnetwork.default.region
   name        = var.ssl_cert_name
@@ -56,12 +56,29 @@ resource "google_compute_region_ssl_certificate" "default" {
   private_key = file(local.ssl_key)
 }
 
+resource "null_resource" "create_ssl_cert" {
+  # Delete ingressgateway on destroy
+  provisioner "local-exec" {
+    command = "./scripts/cert-scripts/swap-new-cert.sh"
+  }
+}
+
+# swap certificates during resource replace
+resource "null_resource" "delete_ssl_cert" {
+  # Delete ingressgateway on destroy
+  provisioner "local-exec" {
+    when    = destroy
+    command = "./scripts/cert-scripts/swap-temp-cert.sh"
+  }
+}
+
 # https://registry.terraform.io/providers/hashicorp/google-beta/latest/docs/resources/compute_ssl_certificate#example-usage---ssl-certificate-target-https-proxies
 resource "google_compute_region_target_https_proxy" "default" {
   project = google_compute_subnetwork.default.project
   region  = google_compute_subnetwork.default.region
   name    = "l7-xlb-proxy-https"
   url_map = google_compute_region_url_map.default.id
-  depends_on = [google_compute_region_ssl_certificate.default]
+  # depends_on = [google_compute_region_ssl_certificate.default,  null_resource.create_ssl_cert, null_resource.delete_ssl_cert]
+  depends_on = [null_resource.create_ssl_cert, null_resource.delete_ssl_cert]
   ssl_certificates = [google_compute_region_ssl_certificate.default.id]
 }

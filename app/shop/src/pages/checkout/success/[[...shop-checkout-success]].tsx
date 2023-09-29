@@ -15,7 +15,7 @@ import {
 import { useEffect } from 'react';
 import Confetti from 'react-confetti';
 import { useSelector } from 'react-redux';
-import { useAppDispatch } from '../../redux/hooks';
+import { useAppDispatch } from '../../../redux/hooks';
 
 function CheckoutSuccess() {
 	const dispatch = useAppDispatch();
@@ -41,10 +41,21 @@ function CheckoutSuccess() {
 						{order?.items.map((item: ProductVariant, index: number) => (
 							<ProductItem key={`bag-item-${index}`} data={item} />
 						))}
-						<Paragraph className="flex w-full flex-row justify-end pr-4">
+						<Small className="flex w-full flex-row justify-end pr-4">
+							subtotal
+							<Price basePrice={order?.subtotal} />
+						</Small>
+						<Small className="flex w-full flex-row justify-end pr-4">
+							Delivery Fee 0{/* <Price basePrice={order?.total} /> */}
+						</Small>
+						<Small className="flex w-full flex-row justify-end pr-4">
+							Tax
+							<Price basePrice={order?.total} />
+						</Small>
+						<Small className="flex w-full flex-row justify-end pr-4">
 							Total
 							<Price basePrice={order?.total} />
-						</Paragraph>
+						</Small>
 					</FlexBox>
 					<Small>
 						{TextContent.info.THANK_YOU}

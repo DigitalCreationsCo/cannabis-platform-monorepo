@@ -225,7 +225,7 @@ function DispensaryUserCreate() {
 							<>
 								<Paragraph>{TextContent.legal.AGREE_TO_TERMS}</Paragraph>
 								<a
-									href="/termsandconditions/userterms"
+									href={TextContent.href.user_tos}
 									target="_blank"
 									rel="noreferrer noopener"
 								>

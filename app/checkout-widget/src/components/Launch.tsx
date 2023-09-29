@@ -55,7 +55,7 @@ function Launch({
 					<div>
 						<CloseButton
 							iconSize={32}
-							className="relative p-2 pr-4 text-light"
+							className="relative p-2 pr-4"
 							theme={'light'}
 							onClick={closeWidget}
 						/>

@@ -5,13 +5,13 @@ export type DeliveryWidgetConfigOptions = DOMOptions &
 	UIOptions;
 
 type UIOptions = {
-	position: 'left' | 'right';
-	shape: 'round' | 'rectangle';
+	position?: 'left' | 'right';
+	shape?: 'round' | 'rectangle';
 };
 type DispensaryOptions = {
 	dispensaryId: string;
 	dispensaryName: string;
-	useDutchie: boolean;
+	useDutchie?: boolean;
 };
 type DOMOptions = {
 	parentElement?: string;

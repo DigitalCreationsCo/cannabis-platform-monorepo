@@ -98,8 +98,8 @@ resource "google_compute_region_health_check" "default" {
     port_specification = "USE_SERVING_PORT"
     request_path = "/"
   }
-  timeout_sec         = 5
-  check_interval_sec  = 3
+  timeout_sec         = 3
+  check_interval_sec  = 5
   healthy_threshold   = 2
   unhealthy_threshold = 2
 }
