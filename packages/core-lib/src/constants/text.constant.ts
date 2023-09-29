@@ -2,7 +2,7 @@ import {
 	type OrderWithDispatchDetails,
 	type OrganizationWithAddress,
 } from '@cd/data-access';
-import { renderAddress, showTime } from '../utils';
+import { getDigitToWord, renderAddress, showTime } from '../utils';
 
 /* eslint-disable @typescript-eslint/naming-convention */
 const nbsp = '\xa0';
@@ -147,7 +147,9 @@ const TextContent = Object.freeze({
 		SMS_FOOTER: `Reply STOP to unsubscribe. Msg&Data Rates May Apply.`,
 		SMS_UPDATE: `Check your sms messages for updates on your order.`,
 		THANK_YOU: `Thank you for choosing Gras.`,
-		TIME_GUARANTEE: `We guarantee a delivery time of ${process.env.DELIVERY_TIME} hours`,
+		TIME_GUARANTEE: `We guarantee a delivery time of ${getDigitToWord(
+			process.env.NEXT_PUBLIC_DELIVERY_TIME as string,
+		)} hours`,
 
 		GRAS_WILL_DELIVER_STRAIGHT_TO_YOUR_DOOR:
 			'Gras will deliver your order straight to your door.',
@@ -315,6 +317,11 @@ const TextContent = Object.freeze({
 		account_f: (id: string) => `/${id}/account`,
 
 		site_f: (id: string) => `/${id}/settings/site-settings`,
+
+		dispensary_tos: `legal/dispensary-terms-and-conditions`,
+		user_tos: `legal/user-terms-and-conditions`,
+		privacy: `legal/privacy-policy`,
+		driver_tos: `legal/driver-terms-and-conditions`,
 	},
 });
 

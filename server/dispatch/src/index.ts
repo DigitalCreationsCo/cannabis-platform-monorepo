@@ -1,6 +1,6 @@
 import cluster from 'cluster';
 import { createServer } from 'http';
-import { dispatchEvents, isEmpty, parseUrlFriendlyString } from '@cd/core-lib';
+import { dispatchEvents, isEmpty, parseUrlStringToObject } from '@cd/core-lib';
 import { createAdapter } from '@socket.io/redis-adapter';
 import { Server } from 'socket.io';
 import {
@@ -57,8 +57,8 @@ try {
 						break;
 					case 'textGrid':
 						// type TextGridReturnMessagePayload
-						from = parseUrlFriendlyString(body).From;
-						text = parseUrlFriendlyString(body).Body;
+						from = parseUrlStringToObject(body).From;
+						text = parseUrlStringToObject(body).Body;
 						break;
 					default:
 						console.info('unhandled sms api origin');
@@ -118,8 +118,8 @@ try {
 						break;
 					case 'textGrid':
 						// type TextGridReturnMessagePayload
-						from = parseUrlFriendlyString(body).From;
-						text = parseUrlFriendlyString(body).Body;
+						from = parseUrlStringToObject(body).From;
+						text = parseUrlStringToObject(body).Body;
 						break;
 					default:
 						console.info('unhandled sms api origin');
@@ -180,8 +180,8 @@ try {
 						break;
 					case 'textGrid':
 						// type TextGridReturnMessagePayload
-						from = parseUrlFriendlyString(body).From;
-						text = parseUrlFriendlyString(body).Body;
+						from = parseUrlStringToObject(body).From;
+						text = parseUrlStringToObject(body).Body;
 						break;
 					default:
 						console.info('unhandled sms api origin');

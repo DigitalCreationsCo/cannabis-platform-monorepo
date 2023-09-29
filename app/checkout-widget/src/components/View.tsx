@@ -9,6 +9,9 @@ import styles from '../styles/theme';
 import { type ViewComponent, type ViewProps } from '../types';
 
 const ViewWrapper = (ViewComponent: ViewComponent, props: ViewProps) => {
+	const clickOutsideRef = useRef(null);
+	useOnClickOutside(clickOutsideRef, () => props.setExpand(false));
+
 	const _View = (props: ViewProps) => {
 		const navigate = useNavigate();
 		let pathname = location.pathname;
@@ -32,21 +35,18 @@ const ViewWrapper = (ViewComponent: ViewComponent, props: ViewProps) => {
 			};
 		}, []);
 
-		const clickOutsideRef = useRef(null);
-		useOnClickOutside(clickOutsideRef, () => props.setExpand(false));
-
-		return (
-			<div
-				id="Widget-View"
-				ref={clickOutsideRef}
-				className={twMerge(styles.responsive, styles.theme_f(props))}
-			>
-				<ViewComponent {...props} />
-			</div>
-		);
+		return <ViewComponent {...props} />;
 	};
 	_View.displayName = `View(${ViewComponent.name})`;
 
-	return <_View {...props} />;
+	return (
+		<div
+			id="Widget-View"
+			ref={clickOutsideRef}
+			className={twMerge(styles.transition, styles.theme_f(props))}
+		>
+			<_View {...props} />
+		</div>
+	);
 };
 export default ViewWrapper;

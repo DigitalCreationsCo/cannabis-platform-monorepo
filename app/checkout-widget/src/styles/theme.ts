@@ -11,7 +11,6 @@ const styles = {
 			? 'pt-2 h-[480px] md:w-[540px] flex-col'
 			: 'h-[48px] md:w-[310px] flex-row',
 		'justify-center flex items-center',
-		'transition-all duration-10 transform',
 	],
 	container: ['min-h-[44px] md:min-h-0 bottom-0'],
 	inner_container: [
@@ -21,7 +20,6 @@ const styles = {
 	launch_f: (expanded: ViewProps['expanded']) => [
 		expanded ? 'h-[100px] md:h-[98px] md:w-[540px]' : 'h-[48px] md:w-[310px]',
 		'justify-center flex flex-row items-center',
-		'transition-all duration-10 transform',
 	],
 	loading: [
 		'md:rounded',
@@ -47,7 +45,7 @@ const styles = {
 	pointer_f: (expanded: ViewProps['expanded']) => [
 		expanded ? 'cursor-default' : 'cursor-pointer',
 	],
-	responsive: ['transition', 'transition-all duration-500 transform'],
+	transition: ['transition-all', 'duration-100'],
 };
 
 export default styles;

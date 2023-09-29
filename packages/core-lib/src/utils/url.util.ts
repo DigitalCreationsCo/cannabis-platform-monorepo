@@ -66,7 +66,7 @@ export function getDispensaryDomain(url: string) {
 	else return null;
 }
 
-export function parseUrlFriendlyString(url: string) {
+export function parseUrlStringToObject(url: string) {
 	// Split the string into key-value pairs
 	const keyValuePairs = url.split('&');
 	// Create an object to store the parsed values
@@ -86,6 +86,20 @@ export function parseUrlParameters(url: string) {
 	const urlObject = new URL(url);
 	// Extract the search parameters
 	const searchParams = urlObject.search.substr(1); // Remove the leading '?'
-	// Parse the search parameters using the parseUrlFriendlyString function
-	return parseUrlFriendlyString(searchParams);
+	// Parse the search parameters using the parseUrlStringToObject function
+	return parseUrlStringToObject(searchParams);
+}
+
+/**
+ * Return a url-friendly string
+ * @param input string
+ * @returns a lowercased string with all non-url-friendly characters removed, and spaces replaced with dashes
+ */
+export function makeUrlFriendly(input: string) {
+	const replaceNonUrlFriendly = /[^\w\-.~ ]/g;
+	const urlFriendlyString = input.replace(replaceNonUrlFriendly, '');
+	return urlFriendlyString.replace(/ /g, '-').toLowerCase();
+	// 	const replaceNonUrlFriendly = /[^\w\-.~]/g;
+	// 	return input.replace(replaceNonUrlFriendly, '');
+	// }
 }

@@ -20,7 +20,7 @@ import {
 import {
 	type ProductWithDashboardDetails,
 	type ProductWithShopDetails,
-} from './product';
+} from './product.data';
 
 export type OrganizationCreateType = Prisma.OrganizationUncheckedCreateInput & {
 	address: AddressPayload;

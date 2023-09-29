@@ -13,7 +13,11 @@ import {
 	type PayloadAction,
 } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { type AppState, type ThunkArgumentsType } from '../types';
+import {
+	type AppState,
+	type SimpleCart,
+	type ThunkArgumentsType,
+} from '../types';
 import { calcSalePrice, pruneData, urlBuilder } from '../utils';
 import { type ShopStateProps } from './shop.reducer';
 import { type UserStateProps } from './user.reducer';
@@ -283,7 +287,7 @@ export const createOrderForCheckout = createAsyncThunk<OrderCreateType, void>(
 // );
 
 export type CartStateProps = {
-	order: OrderCreate;
+	order: OrderCreateType;
 	dispensaryName: string | undefined;
 	organizationId: string | undefined;
 	cart: ProductVariantWithDetails[];
@@ -396,6 +400,8 @@ const cartSlice = createSlice({
 		saveSimpleCart: (state, { payload }: PayloadAction<SimpleCart>) => {
 			const simpleCart = payload;
 			state.cart = simpleCart.cartItems;
+			state.subtotal = simpleCart.subtotal;
+			state.taxAmount = simpleCart.tax;
 			state.total = simpleCart.total;
 			state.organizationId = simpleCart.organizationId;
 			state.dispensaryName = simpleCart.organizationName;

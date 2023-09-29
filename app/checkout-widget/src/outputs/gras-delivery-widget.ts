@@ -1,12 +1,13 @@
 import { createElement } from 'react';
 import { createRoot } from 'react-dom/client';
 import Widget from '../components/Widget';
+import { type DeliveryWidgetConfigOptions } from '../types';
 
 export default class GrasDeliveryWidget {
 	static el: HTMLDivElement | null;
 	static root: any;
 
-	static mount({ parentElement = null, ...props }: any = {}) {
+	static mount({ parentElement, ...props }: DeliveryWidgetConfigOptions) {
 		const component = createElement(Widget, props);
 		function doRender() {
 			if (GrasDeliveryWidget.el) {

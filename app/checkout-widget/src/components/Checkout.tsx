@@ -32,6 +32,7 @@ export default class Checkout extends Component<
 		this.state = {
 			cart: {
 				cartItems: [],
+				tax: 0,
 				total: 0,
 				organizationId: props.dispensaryId,
 				organizationName: props.dispensaryName,
@@ -39,7 +40,7 @@ export default class Checkout extends Component<
 			cartError: '',
 			redirecting: false,
 			isScrolledToBottom: false,
-			isDutchieCheckout: props.useDutchie,
+			isDutchieCheckout: props.useDutchie || false,
 		};
 	}
 
@@ -181,7 +182,7 @@ export default class Checkout extends Component<
 							<CloseButton
 								iconSize={32}
 								theme={'light'}
-								className="right-0 text-light"
+								className="right-0 pr-4"
 								onClick={(e: any) => {
 									e.stopPropagation();
 									e.preventDefault();
@@ -214,13 +215,33 @@ export default class Checkout extends Component<
 								setIsScrolledToBottom={(isScrolledToBottom: boolean) =>
 									this.setState({ isScrolledToBottom })
 								}
-								staticQuantity={this.useStaticQuantity()}
+								// staticQuantity={this.useStaticQuantity()}
 							/>
 						</div>
 						{this.state.cartError && (
 							<Paragraph color="light" className="mx-auto w-2/3">
 								{this.state.cartError}
 							</Paragraph>
+						)}
+						{this.state.cart.subtotal && (
+							<div className="w-2/3 flex flex-row justify-end">
+								<Paragraph className="text-light">subtotal</Paragraph>
+								<Price
+									color="light"
+									className="pl-2 text-light"
+									basePrice={this.state.cart.subtotal}
+								/>
+							</div>
+						)}
+						{this.state.cart.tax && (
+							<div className="w-2/3 flex flex-row justify-end">
+								<Paragraph className="text-light">taxes</Paragraph>
+								<Price
+									color="light"
+									className="pl-2 text-light"
+									basePrice={this.state.cart.tax}
+								/>
+							</div>
 						)}
 						{this.state.cart.cartItems.length > 0 && (
 							<div className="w-2/3 flex flex-row justify-end">

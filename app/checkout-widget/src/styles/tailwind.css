@@ -3575,6 +3575,10 @@ html {
   font-weight: var(--font-weight-semibold);
 }
 
+.lowercase {
+  text-transform: lowercase;
+}
+
 .leading-normal {
   line-height: 1.5;
 }
@@ -3734,8 +3738,8 @@ html {
   transition-duration: 150ms;
 }
 
-.duration-500 {
-  transition-duration: 500ms;
+.duration-100 {
+  transition-duration: 100ms;
 }
 
 .ease-in-out {

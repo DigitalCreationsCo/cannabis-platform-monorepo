@@ -161,7 +161,7 @@ function ProvideStripeAccountId() {
 					</Small>
 					<a
 						className="mx-auto"
-						href="/termsandconditions/dispensaryterms"
+						href={TextContent.href.dispensary_tos}
 						target="_blank"
 						rel="noreferrer noopener"
 					>

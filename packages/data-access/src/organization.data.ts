@@ -26,7 +26,7 @@ import {
 export async function updateOrganization(organization: OrganizationUpdateType) {
 	try {
 		organization.subdomainId =
-			organization.subdomainId || organization.name.toLowerCase();
+			organization.subdomainId || makeUrlFriendly(organization.name);
 
 		const data: Prisma.OrganizationUpdateInput = {
 			name: organization.name,
@@ -102,19 +102,17 @@ export async function updateOrganization(organization: OrganizationUpdateType) {
 
 export async function createOrganization(organization: OrganizationCreateType) {
 	try {
+		// organization.vendorId = organization.vendorId ?? createId();
 		organization.vendorName =
 			organization.vendorName ?? organization.name.toLowerCase();
-		// organization.vendorId = organization.vendorId ?? createId();
-		organization.subdomainId = organization.name
-			.toLowerCase()
-			.split(' ')
-			.join('-');
+		organization.subdomainId = makeUrlFriendly(organization.name);
 
 		const { address, subdomainId, schedule } = organization;
 
 		console.debug('prisma create organization');
 		return await prisma.organization.create({
 			data: {
+				id: organization.id || undefined,
 				name: organization.name,
 				dialCode: organization.dialCode,
 				phone: organization.phone,
@@ -425,4 +423,18 @@ export async function getStripeAccountId(organizationId: string) {
 		console.error(error);
 		throw new Error(error);
 	}
+}
+
+/**
+ * Return a url-friendly string
+ * @param input string
+ * @returns a lowercased string with all non-url-friendly characters removed, and spaces replaced with dashes
+ */
+export function makeUrlFriendly(input: string) {
+	const replaceNonUrlFriendly = /[^\w\-.~ ]/g;
+	const urlFriendlyString = input.replace(replaceNonUrlFriendly, '');
+	return urlFriendlyString.replace(/ /g, '-').toLowerCase();
+	// 	const replaceNonUrlFriendly = /[^\w\-.~]/g;
+	// 	return input.replace(replaceNonUrlFriendly, '');
+	// }
 }
