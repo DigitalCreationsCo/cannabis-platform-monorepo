@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { findAddressById } from '../src/address';
+import { findAddressById } from '../src/address.data';
 
 test('add address with userId', async () => {
 	const address = {

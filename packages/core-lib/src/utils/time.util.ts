@@ -7,5 +7,6 @@ export const showTime = (time: Date) =>
 
 export function calculateDeliveryDeadline(): Date {
 	const hour = 60 * 60 * 1000;
-	return new Date(Date.now() + Number(process.env.DELIVERY_TIME) * hour);
+	const deliveryTime = Number(process.env.NEXT_PUBLIC_DELIVERY_TIME);
+	return new Date(Date.now() + deliveryTime * hour);
 }

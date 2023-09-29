@@ -4,7 +4,7 @@ import {
 	type Prisma,
 	type Route,
 } from '@prisma/client';
-import { type UserWithDetails } from './user';
+import { type UserWithDetails } from './user.data';
 
 export type DriverCreateType = Prisma.UserUncheckedCreateWithoutDriverInput & {
 	driver: Prisma.DriverUncheckedCreateInput;

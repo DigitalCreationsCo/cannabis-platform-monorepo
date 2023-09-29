@@ -68,7 +68,7 @@ function QuickDelivery({ simpleCart }: { simpleCart: SimpleCart }) {
 			</Head>
 			<Card className="bg-inverse-soft m-auto flex grow flex-col">
 				<H2>{TextContent.info.GET_CANNABIS_DELIVERED}</H2>
-				<Center className="m-auto flex w-full !grow flex-col space-y-2 py-0 sm:w-[380px] md:w-fit">
+				<Center className="m-auto flex w-full !grow flex-col space-y-0 py-0 sm:w-[380px] md:w-fit md:space-y-2">
 					<Paragraph className="place-self-start text-left">
 						Before we deliver to you,
 						<br />
@@ -95,6 +95,14 @@ function QuickDelivery({ simpleCart }: { simpleCart: SimpleCart }) {
 									),
 								)}
 							</div>
+							<H5 className="flex w-full justify-end">
+								taxes
+								<Price basePrice={cart.subtotal || 0} />
+							</H5>
+							<H5 className="flex w-full justify-end">
+								taxes
+								<Price basePrice={cart.taxAmount || 0} />
+							</H5>
 							<H5 className="flex w-full justify-end">
 								Your total is
 								<Price basePrice={cart.total || 0} />

@@ -1,8 +1,9 @@
 import { Address } from '@cd/data-access';
 import {
 	buildSTFormFields,
+	getDigitToWord,
 	renderAddress,
-	renderNestedDataObject,
+	renderNestedDataObject
 } from '../../src/utils/ui.util';
 
 const address: Address = {
@@ -176,3 +177,15 @@ describe('renderNestedDataObject ', () => {
 		});
 	});
 });
+
+
+describe('getDigitToWord', () => {
+	it('gets correct word from a digit', () => {
+		expect(getDigitToWord('1')).toStrictEqual('one')
+		expect(getDigitToWord('2')).toStrictEqual('two')
+		expect(getDigitToWord('9')).toStrictEqual('nine')
+		expect(getDigitToWord(1)).toStrictEqual('one')
+		expect(getDigitToWord(2)).toStrictEqual('two')
+		expect(getDigitToWord(9)).toStrictEqual('nine')
+	})
+})

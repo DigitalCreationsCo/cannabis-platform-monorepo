@@ -80,7 +80,11 @@
 		"postinstall": "yarn is-ci || yarn is-docker || yarn husky install && chmod +x scripts",
 		"permit-scripts": "node scripts/permit-scripts.js",
 		"sms:activate": "dotenv -e .env.production -- node server/dispatch/src/lib/sms/activate-sms.mjs",
-		"sms:get-phone-numbers": "dotenv -e .env.production -- node server/dispatch/src/lib/sms/get-active-phonenumbers.mjs"
+		"sms:get-phone-numbers": "dotenv -e .env.production -- node server/dispatch/src/lib/sms/get-active-phonenumbers.mjs",
+		"create-update-cert": "terraform/scripts/cert-scripts/create-update-cert.sh",
+		"update-ssl-cert": "terraform/scripts/cert-scripts/update-ssl-cert.sh",
+		"read-csr": "openssl req -text -in $0 -noout",
+		"read-cert": "openssl x509 -in $0 -text -noout"
 	},
 	"engines": {
 		"node": "16.20.0",

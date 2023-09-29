@@ -1,7 +1,7 @@
 /* eslint-disable regexp/no-super-linear-backtracking */
+import { getSelectedOptionValue } from '@cd/core-lib';
 import { type SimpleCart } from '@cd/core-lib/src/types/redux.types';
 import { convertDollarsToWholeNumber } from '@cd/core-lib/src/utils/transaction.util';
-import { getSelectedOptionValue } from '@cd/core-lib/src/utils/ui.util';
 import { type ProductVariantWithDetails } from '@cd/data-access';
 import * as cheerio from 'cheerio';
 import {
@@ -88,7 +88,7 @@ export function buildCartItems(
 			basePrice: convertDollarsToWholeNumber(
 				text(_$(item, config.item.basePrice)),
 			),
-			quantity: Number(getSelectedOptionValue(`${config.item.quantity}`)),
+			quantity: Number(getSelectedOptionValue(config.item.quantity, index)),
 			size: Number(
 				text(_$(item, config.item.name)).match(regexFieldDict.size)?.[1],
 			),
@@ -116,8 +116,17 @@ export function buildSimpleCartFromDutchieCheckout(
 		const items = input.items;
 		const total = input.total;
 		return {
-			cartItems: buildCartItems(items, config, $),
-			total: convertDollarsToWholeNumber(total),
+			cartItems: buildCartItems(items, config, $).map((item) => ({
+				...item,
+				basePrice: item.basePrice / item.quantity,
+			})),
+			subtotal: convertDollarsToWholeNumber(
+				extractValueFromStringInfo(total, 'subtotal')[0].value,
+			),
+			tax: convertDollarsToWholeNumber(
+				extractValueFromStringInfo(total, 'taxes')[0].value,
+			),
+			total: convertSubTotalAndTaxNumber(total),
 		};
 	} catch (error) {
 		console.error(
@@ -126,13 +135,60 @@ export function buildSimpleCartFromDutchieCheckout(
 		);
 		return {
 			cartItems: [],
+			tax: 0,
 			total: 0,
 		};
 	}
+}
+
+export function convertSubTotalAndTaxNumber(value: number | string) {
+	console.info('convertSubTotalAndTaxNumber: ', value);
+	const total = value
+		.toString()
+		.match(/\d*/g)
+		?.filter((val) => val !== '')
+		// filter numbers, concat dollar and cent pairs, and add the values
+		.reduce((acc, val, index, array) => {
+			console.log('array: ', array);
+			if (index % 2 === 0) {
+				console.log('index: ', index);
+				console.info('value: ', Number(array[index].concat(array[index + 1])));
+				acc += Number(array[index].concat(array[index + 1]));
+			}
+			console.info('acc: ', acc);
+			return acc;
+		}, 0) as number;
+	console.info('total: ', total);
+	return convertDollarsToWholeNumber(total);
+}
+
+export function extractValueFromStringInfo(
+	inputString: string,
+	label: 'subtotal' | 'taxes',
+) {
+	// set string to all lowercase
+	inputString = inputString.toLowerCase();
+	// Define a regular expression to match the label and the dollar values
+	const regex = new RegExp(`${label}: \\$([\\d.]+)`, 'g');
+
+	// Initialize variables to store the results
+	const matches = [];
+	let match;
+
+	// Use the regular expression to find all tax matches in the input string
+	while ((match = regex.exec(inputString)) !== null) {
+		matches.push({
+			label: label,
+			value: match[1],
+		});
+	}
+	console.info('matches: ', matches);
+	return matches;
 }
 
 export const regexFieldDict = {
 	name: /^(.*?)(?= -*\W\S|$)/,
 	size: /\b(\d+(\.\d+)?)(?=\w*\b)/,
 	unit: /\b\d+(?:\.\d+)?\s*(\w+)\b/,
+	// unit: /^(?:.*\| (.+)|([^|]+))$/,
 };

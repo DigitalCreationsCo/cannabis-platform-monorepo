@@ -8,7 +8,11 @@ export default function bookmarklet() {
 	}
 	window.GrasDeliveryWidget = GrasDeliveryWidget;
 
-	GrasDeliveryWidget.mount();
+	GrasDeliveryWidget.mount({
+		dispensaryId: 'bf346k4u7x2b2hhr6wsofcsc',
+		dispensaryName: 'ReLeaf Shop Baltimore',
+		useDutchie: true,
+	});
 }
 
 bookmarklet();

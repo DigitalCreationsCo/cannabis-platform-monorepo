@@ -1,10 +1,8 @@
 import {
 	formatDispensaryUrl,
-	getDashboardSite,
-	getDispensaryDomain,
-	getShopSite,
-	parseUrlFriendlyString,
-	parseUrlParameters
+	getDashboardSite, getDispensaryDomain,
+	getShopSite, makeUrlFriendly, parseUrlParameters,
+	parseUrlStringToObject
 } from '../../src/utils/url.util';
 
 describe('formatUrl.test', () => {
@@ -109,10 +107,10 @@ describe('getDispensaryDomain', () => {
 	});
 });
 
-describe('parseUrlFriendlyString', () => {
+describe('parseUrlStringToObject', () => {
 	it('parses string of parameters into object', () => {
 		const paramString = `SmsMessageSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&NumMedia=0&SmsSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&SmsStatus=received&Body=1&To=%2B16674084833&NumSegments=1&MessageSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&AccountSid=KhtyQHt5jqQ91QA7UzskjA%3D%3D&From=%2B15707901185&ApiVersion=2010-04-01`
-		expect(parseUrlFriendlyString(paramString)).toStrictEqual({
+		expect(parseUrlStringToObject(paramString)).toStrictEqual({
 			SmsMessageSid: "SMIUiUtGDXgITHegOTsXK4I_A==",
 			NumMedia: "0",
 			SmsSid: "SMIUiUtGDXgITHegOTsXK4I_A==",
@@ -129,7 +127,7 @@ describe('parseUrlFriendlyString', () => {
 
 	it('does not parses a url', () => {
 		const fullUrl = "https://localhost:3000?SmsMessageSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&NumMedia=0&SmsSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&SmsStatus=received&Body=1&To=%2B16674084833&NumSegments=1&MessageSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&AccountSid=KhtyQHt5jqQ91QA7UzskjA%3D%3D&From=%2B15707901185&ApiVersion=2010-04-01";
-		expect(parseUrlFriendlyString(fullUrl)).toStrictEqual({})
+		expect(parseUrlStringToObject(fullUrl)).toStrictEqual({})
 	})
 })
 
@@ -166,5 +164,13 @@ describe('parseUrlParameters', () => {
 			From: "+15707901185",
 			ApiVersion: "2010-04-01"
 		  })
+	})
+})
+
+describe('makeUrlFriendly', () => {
+	it('removes non url friendly characters', () => {
+		expect(makeUrlFriendly('!@#$%^&*()_+')).toStrictEqual('')
+		expect(makeUrlFriendly('dispensary.-name')).toStrictEqual('dispensary-name')
+		expect(makeUrlFriendly('dispensary name')).toStrictEqual('dispensary-name')
 	})
 })

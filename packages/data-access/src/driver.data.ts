@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client';
 import prisma from './db/prisma';
 import { type DriverCreateType, type DriverWithDetails } from './driver.types';
-import { type UserCreateType } from './user';
+import { type UserCreateType } from './user.data';
 
 /*
  * Driver Data Access functions
