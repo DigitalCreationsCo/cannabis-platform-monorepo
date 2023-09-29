@@ -74,13 +74,13 @@ export default class OrganizationDA {
 	}
 	static async updateOrganization(organization: OrganizationUpdateType) {
 		try {
-			const previousData: OrganizationUpdateType = await findOrganizationById(
+			const previousData: OrganizationUpdateType = (await findOrganizationById(
 				organization.id,
 				{
 					images: false,
 					address: { include: { coordinates: true } },
 				},
-			);
+			)) as OrganizationUpdateType;
 			const data = await updateOrganization(organization);
 			console.debug(
 				`successfully updated organization record: ${organization.name}. id: ${data.id}

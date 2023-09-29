@@ -6,8 +6,8 @@ import {
 	type Review,
 } from '@prisma/client';
 import prisma from './db/prisma';
-import { type UserWithProfilePictureBlob } from './user';
-import { type ProductVariantWithDetails } from './variant';
+import { type UserWithProfilePictureBlob } from './user.data';
+import { type ProductVariantWithDetails } from './variant.data';
 
 export async function createProduct() {
 	// try {

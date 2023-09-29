@@ -13,7 +13,7 @@ import {
 	type RouteWithCoordinates,
 } from './driver.types';
 import { type OrganizationWithDashboardDetails } from './organization.types';
-import { type ProductVariantWithDetails } from './variant';
+import { type ProductVariantWithDetails } from './variant.data';
 
 export class OrderClass {
 	id: string;

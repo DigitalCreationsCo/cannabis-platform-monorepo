@@ -296,7 +296,7 @@ function UserSignUpQuickForm() {
 								<div id="dispensary-create-step-3 inline-block">
 									<Paragraph>{TextContent.legal.AGREE_TO_TERMS}</Paragraph>
 									<a
-										href="/termsandconditions/userterms"
+										href={TextContent.href.user_tos}
 										target="_blank"
 										rel="noreferrer noopener"
 										className="inline"
@@ -310,7 +310,7 @@ function UserSignUpQuickForm() {
 								<div id="dispensary-create-step-3">
 									<Paragraph>{TextContent.legal.AGREE_TO_TERMS}</Paragraph>
 									<a
-										href="/termsandconditions/dispensaryterms"
+										href={TextContent.href.dispensary_tos}
 										target="_blank"
 										rel="noreferrer noopener"
 									>

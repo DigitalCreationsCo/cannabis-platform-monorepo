@@ -9,6 +9,8 @@ import { dutchieHtml as html } from './data/html-test-data';
 import {
 	buildCartItems,
 	buildSimpleCartFromDutchieCheckout,
+	convertSubTotalAndTaxNumber,
+	extractValueFromStringInfo,
 	getCartDOMElements,
 	regexFieldDict,
 } from './dutchie-crawler';
@@ -182,5 +184,35 @@ describe('Dutchie-Checkout Regex', () => {
 		);
 		expect(string7.match(regexFieldDict.size)?.[1]).toBe('50');
 		expect(string7.match(regexFieldDict.unit)?.[1]).toBe('mg');
+	});
+});
+
+describe('convertSubTotalAndTaxNumber', () => {
+	it('format and add subtotal and tax values from one string', () => {
+		const string = 'subtotal $25.00tax $2.00';
+		const result = convertSubTotalAndTaxNumber(string);
+		expect(result).toBe(2700);
+
+		const string2 = 'subtotal $24.00 tax $2.00';
+		const result2 = convertSubTotalAndTaxNumber(string2);
+		expect(result2).toBe(2600);
+
+		const string3 = 'subtotal $24.00 tax $2.00fee $26.00';
+		const result3 = convertSubTotalAndTaxNumber(string3);
+		expect(result3).toBe(5200);
+	});
+});
+
+describe('extractValueFromStringInfo', () => {
+	it('returns the correct data from an item string as whole number', () => {
+		const string = 'Subtotal: $405.00Taxes: $36.45';
+		expect(extractValueFromStringInfo(string, 'taxes')[0].value).toBe(3645);
+		expect(extractValueFromStringInfo(string, 'subtotal')[0].value).toBe(40500);
+
+		const string2 = 'Subtotal: $405.00 Taxes: $36.45';
+		expect(extractValueFromStringInfo(string2, 'taxes')[0].value).toBe(3645);
+		expect(extractValueFromStringInfo(string2, 'subtotal')[0].value).toBe(
+			40500,
+		);
 	});
 });

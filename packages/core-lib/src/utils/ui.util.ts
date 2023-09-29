@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { type Address } from '@cd/data-access';
 
 export const renderAddress = ({
@@ -81,12 +82,33 @@ export const buildSTFormFields = (data: Record<string, any>): any => {
 	});
 };
 
-export const getSelectedOptionValue = (selector: string) => {
-	console.info('getSelectedOptionValue selector: ', selector);
-	const value = (document.querySelector(selector) as any)?.value;
+export const getSelectedOptionValue = (selector: string, i: number) => {
+	const value = (document.querySelectorAll(selector)[i] as any)
+		?.selectedOptions[0].value;
 	console.info('getSelectedOptionValue: ', value);
-	const value2 = (document.querySelector(selector) as any)?.selectedOptions[0]
-		.value;
-	console.info('getSelectedOptionValue: ', value2);
-	return value || value2;
+	return value || 1;
 };
+
+export function getDigitToWord(digit: string | number) {
+	console.info('getDigitToWord: ', digit);
+
+	const digitMap = [
+		'zero',
+		'one',
+		'two',
+		'three',
+		'four',
+		'five',
+		'six',
+		'seven',
+		'eight',
+		'nine',
+	];
+	const digitNumber = Number(digit);
+	if (!isNaN(digitNumber) && digitNumber >= 0 && digitNumber <= 9) {
+		return digitMap[digitNumber];
+	} else {
+		// throw new Error('getDigitToWord: Invalid input');
+		return '';
+	}
+}

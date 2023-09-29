@@ -18,7 +18,7 @@ import {
 } from '@prisma/client';
 import axios from 'axios';
 import { type OrganizationCreateType } from '../organization.types';
-import { type ReviewWithUserDetails } from '../product';
+import { type ReviewWithUserDetails } from '../product.data';
 
 const prisma = new PrismaClient();
 
@@ -256,6 +256,86 @@ const createOrganizations = async () => {
 			},
 			createdAt: new Date(),
 			updatedAt: new Date(),
+		},
+		{
+			id: 'bf346k4u7x2b2hhr6wsofcsc',
+			name: 'ReLeaf Shop Baltimore',
+			stripeAccountId: null,
+			stripeOnboardingComplete: false,
+			dialCode: '1',
+			phone: '4107739054',
+			subdomain: {
+				connectOrCreate: {
+					where: {
+						id: 'releaf-shop',
+					},
+					create: {
+						id: 'releaf-shop',
+						isValid: true,
+						createdAt: new Date(),
+						updatedAt: new Date(),
+					},
+				},
+			},
+			vendor: {
+				connectOrCreate: {
+					where: {
+						name: 'releaf-shop',
+					},
+					create: {
+						name: 'releaf-shop',
+						publicName: 'Releaf Shop',
+						createdAt: new Date(),
+						updatedAt: new Date(),
+					},
+				},
+			},
+			termsAccepted: false,
+			address: {
+				create: {
+					id: 'cllyur0fs0020vkudn51a2353f',
+					street1: '1114 Cathederal Street',
+					street2: 'Suite 5',
+					city: 'Baltimore',
+					state: 'Maryland',
+					zipcode: 21201,
+					country: 'United States',
+					countryCode: 'US',
+					coordinates: {
+						create: {
+							radius: 10000,
+							latitude: 39.302045,
+							longitude: -76.618481,
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+					},
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+			},
+			schedule: {
+				create: {
+					days: 1234560,
+					openAt: 9,
+					closeAt: 21,
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+			},
+			images: {
+				createMany: {
+					data: [
+						{
+							location:
+								'https://storage.googleapis.com/image-dispensary/test/cannabis-logo.png',
+							blurhash: '',
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+					],
+				},
+			},
 		},
 		{
 			id: 'bf346k4u7x2b2hhr6wsofppp',

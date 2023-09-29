@@ -62,8 +62,10 @@ function convertCentsToDollars(cents: number) {
  * @returns a whole number conversion
  */
 function convertDollarsToWholeNumber(value: number | string) {
+	console.info('convertDollarsToWholeNumber: ', value);
 	// regex to remove all non-numeric characters, and joins the numbers
 	const number = value.toString().match(/\d*/g)?.join('');
+	console.info('convertDollarsToWholeNumber output: ', number);
 	return Number(number);
 }
 

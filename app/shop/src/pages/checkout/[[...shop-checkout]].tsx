@@ -86,7 +86,7 @@ function Checkout() {
 		<>
 			{isLoading && <LoadingPage />}
 			{!isLoading && (
-				<Page className="items-center">
+				<Page className="items-center pb-0 md:pb-24">
 					<Card className="min-w-full space-y-2">
 						<H3 className="text-primary">Checkout</H3>
 
@@ -225,10 +225,10 @@ function ReviewDeliveryAddress({
 
 const styles = {
 	banner:
-		'flex flex-col lg:flex-row space-x-5 lg:justify-between lg:pr-8 items-center',
+		'flex flex-col lg:flex-row space-y-2 md:space-y-0 space-x-5 lg:justify-between lg:pr-8 items-center',
 
-	checkout: 'flex flex-col-reverse md:flex-row justify-between space-y-4',
-	review: 'm-auto md:mr-0 space-y-4 px-8 pb-12',
+	checkout: 'flex flex-col-reverse md:flex-row space-y-4 md:justify-around',
+	review: 'md:mr-0 space-y-4 px-8 pb-12',
 
 	container: 'w-full sm:w-[300px]',
 	heading: 'text-primary pl-4',

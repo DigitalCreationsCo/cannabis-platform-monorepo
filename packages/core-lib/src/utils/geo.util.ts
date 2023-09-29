@@ -6,9 +6,9 @@ import {
 import { axios } from '../axiosInstance';
 
 export async function getGeoCoordinatesFromAddress(address: AddressPayload) {
-	const { street1, street2, city, state, country, zipcode } = address;
+	const { street1, city, state, country, zipcode } = address;
 
-	const addressString = `${street1} ${street2}, ${city}, ${state}, ${country}, ${zipcode}`;
+	const addressString = `${street1}, ${city}, ${state}, ${country}, ${zipcode}`;
 	return await getCoordinatesByAddressString(addressString);
 }
 
@@ -17,6 +17,7 @@ async function getCoordinatesByAddressString(addressString: string): Promise<{
 	longitude: any;
 }> {
 	try {
+		console.info(`Getting coordinates for address: ${addressString}`);
 		const format = 'json';
 		const response = await axios.get(
 			`${process.env.NEXT_PUBLIC_LOCATION_IQ_GEOCODE_URL}?key=${process.env.NEXT_PUBLIC_LOCATION_IQ_API_KEY}&q=${addressString}&format=${format}`,
