@@ -109,19 +109,19 @@ describe('User isLegalAgeAndVerified', () => {
 	
 	it('userIsLegalAndVerified returns true', async () => {
 		expect(isLegalAgeAndVerified(userIsLegalAndVerified)).toStrictEqual(
-			true,
+			{isLegal: true, verified: true}
 		);
 	});
 	
 	it('userIsNotLegalAndVerified returns false', async () => {
-		expect(isLegalAgeAndVerified(userIsLegalAndVerified)).toStrictEqual(
-			true,
+		expect(isLegalAgeAndVerified(userIsNotLegalAndVerified)).toStrictEqual(
+			false
 		);
 	});
 	
 	it('userIsNotLegalAndNotIdVerified returns false', async () => {
-		expect(isLegalAgeAndVerified(userIsLegalAndVerified)).toStrictEqual(
-			true,
+		expect(isLegalAgeAndVerified(userIsNotLegalAndNotIdVerified)).toStrictEqual(
+			false
 		);
 	});
 });

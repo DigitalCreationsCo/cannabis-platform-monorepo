@@ -1,5 +1,6 @@
 import {
 	calculateDeliveryDeadline,
+	calculateTransactionFees,
 	getGeoCoordinatesFromAddress,
 	isEmpty,
 } from '@cd/core-lib';
@@ -69,7 +70,8 @@ export default class OrderDA {
 	): Promise<OrderWithShopDetails> {
 		try {
 			order.deliveryDeadline = calculateDeliveryDeadline();
-
+			order.orderStatus = 'Pending';
+			calculateTransactionFees(order);
 			if (isEmpty(order.destinationAddress.coordinates)) {
 				const coordinates = await getGeoCoordinatesFromAddress(
 					order.destinationAddress,

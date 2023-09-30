@@ -9,7 +9,8 @@ function CopyRight(
 ) {
 	return (
 		<Tiny className={props.className}>
-			{props.append} {TextContent.legal.COPYRIGHT}
+			{props.append}{' '}
+			{TextContent.legal.COMPANY_NAME + TextContent.legal.COPYRIGHT}
 		</Tiny>
 	);
 }

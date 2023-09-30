@@ -1,9 +1,10 @@
-import { Address } from '@cd/data-access';
+import { Address, Schedule } from '@cd/data-access';
 import {
 	buildSTFormFields,
 	getDigitToWord,
 	renderAddress,
-	renderNestedDataObject
+	renderNestedDataObject,
+	renderSchedule
 } from '../../src/utils/ui.util';
 
 const address: Address = {
@@ -48,6 +49,30 @@ describe('renderAddress', () => {
 	test(' displays a correct address - no show city', () => {
 		expect(renderAddress({ address, showCity: false })).toStrictEqual(
 			'123 Main St Apt 1',
+		);
+	});
+});
+
+describe('renderSchedule', () => {
+	const schedule = [
+		{ day: 'Monday', openAt: 800, closeAt: 2000 },
+		{ day: 'Tuesday', openAt: 800, closeAt: 2000 },
+		{ day: 'Wednesday', openAt: 800, closeAt: 2000 },
+		{ day: 'Thursday', openAt: 800, closeAt: 2000 },
+		{ day: 'Friday', openAt: 800, closeAt: 2000 },
+		{ day: 'Saturday', openAt: 800, closeAt: 1600 },
+		{ day: 'Sunday', openAt: 800, closeAt: 1600 },
+	] as Schedule[]
+	test(' displays a correct address', () => {
+		expect(renderSchedule(schedule)).toStrictEqual(
+			`Monday 8:00am to 8:00pm
+Tuesday 8:00am to 8:00pm
+Wednesday 8:00am to 8:00pm
+Thursday 8:00am to 8:00pm
+Friday 8:00am to 8:00pm
+Saturday 8:00am to 4:00pm
+Sunday 8:00am to 4:00pm
+`,
 		);
 	});
 });

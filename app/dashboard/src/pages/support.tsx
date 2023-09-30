@@ -1,32 +1,46 @@
 import {
-	Grid,
-	H4,
+	Card,
 	H5,
 	Icons,
-	type LayoutContextProps,
 	Page,
 	PageHeader,
+	Paragraph,
+	type LayoutContextProps,
 } from '@cd/ui-lib';
+import Link from 'next/link';
+import { twMerge } from 'tailwind-merge';
 
 function Support() {
 	return (
-		<Page className="md:max-w-1/2">
-			<PageHeader title="Support" Icon={Icons.Shield} />
-			<Grid className="space-y-4 px-2">
-				<H5 className="whitespace-pre-line">{` 
-            Thanks for choosing Gras.
+		<Page className={twMerge(styles.gradient, 'p-0 md:pb-24')}>
+			<Card className="h-full w-full self-center px-2 md:max-w-[500px]">
+				<PageHeader title="Support" Icon={Icons.Shield} />
+				<Paragraph>
+					{`Thanks for choosing Gras.
             We're working around the clock to deliver a world class support service for your business.
-            For software support, please dial the toll-free support phone number. `}</H5>
-				<H4 className="whitespace-pre-line text-left">{`24 / 7 Gras Support Phone Number: 
-                1-800-GREEN-35`}</H4>
-			</Grid>
+            Reach out to us for support. 
+			Our team is always ready to help.`}
+				</Paragraph>
+				<div className="m-auto">
+					<Link href={`mailto:${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}`}>
+						<H5 className="whitespace-pre-line underline">
+							{`email ${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}`}
+						</H5>
+					</Link>
+					<H5>{`phone ${process.env.NEXT_PUBLIC_SUPPORT_PHONE}`}</H5>
+				</div>
+			</Card>
 		</Page>
 	);
 }
 
 Support.getLayoutContext = (): LayoutContextProps => ({
 	showHeader: false,
-	showSideNav: true,
+	showSideNav: false,
 });
 
 export default Support;
+
+const styles = {
+	gradient: ['bg-gradient-to-b', 'from-primary', 'to-secondary', 'md:pt-16'],
+};
