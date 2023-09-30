@@ -359,5 +359,10 @@ export const shopActions = {
 export const shopReducer = shopSlice.reducer;
 
 export const selectShopState = (state: AppState) => state.shop;
-export const selectOrganization = (id: string) => (state: AppState) =>
+export const selectOrganizationById = (id: string) => (state: AppState) =>
 	state.shop.dispensaries.find((organization) => organization.id === id);
+export const selectOrganizationBySubdomain =
+	(subdomain: string) => (state: AppState) =>
+		state.shop.dispensaries.find(
+			(organization) => organization.subdomain.id === subdomain,
+		);

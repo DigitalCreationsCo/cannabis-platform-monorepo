@@ -11,11 +11,10 @@ if ! docker ps --format "{{.Names}}" | grep -q "${container_name}"; then
     echo "migration database exists."
 fi
 
-
-echo "running the migration.."
-yarn clear-db && \
+echo "Running the migration.."
+# yarn clear-db && \
 yarn dotenv -e ../../.env.development -- \
 yarn prisma migrate dev
 echo "command exit with code $?"
-echo "Warning!! If you're migration is already sync, please seed your dev database manually."
+echo "Warning: If you're migration is already sync, please seed your dev database manually."
 echo ""

@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-import { type Address } from '@cd/data-access';
+import { type Address, type Schedule } from '@cd/data-access';
+import { integerToTime } from './time.util';
 
 export const renderAddress = ({
 	address,
@@ -27,6 +27,16 @@ export const renderAddress = ({
 	}${(showCity && showState && ', ' + address.state) || ''}${
 		(showCity && showState && showZipcode && ' ' + address.zipcode) || ''
 	}${(showCountry && ' ' + address.country) || ''}`;
+};
+
+export const renderSchedule = (schedule: Schedule[]) => {
+	return schedule.reduce((render, day) => {
+		return render.concat(
+			`${day.day} ${integerToTime(day.openAt)} to ${integerToTime(
+				day.closeAt,
+			)}\n`,
+		);
+	}, '' as string);
 };
 
 export function truncate(text: string) {

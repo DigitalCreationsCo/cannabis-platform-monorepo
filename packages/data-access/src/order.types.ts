@@ -1,18 +1,21 @@
 import { createId } from '@paralleldrive/cuid2';
 import {
-	type Order,
-	type OrderStatus,
-	type Organization,
-	type Prisma,
-	type Purchase,
-	type User,
+    type Order,
+    type OrderStatus,
+    type Organization,
+    type Prisma,
+    type Purchase,
+    type User
 } from '@prisma/client';
 import { type AddressWithCoordinates } from './address.types';
 import {
-	type DriverWithDetails,
-	type RouteWithCoordinates,
+    type DriverWithDetails,
+    type RouteWithCoordinates
 } from './driver.types';
-import { type OrganizationWithDashboardDetails } from './organization.types';
+import {
+    type OrganizationWithDashboardDetails,
+    type OrganizationWithShopDetails
+} from './organization.types';
 import { type ProductVariantWithDetails } from './variant.data';
 
 export class OrderClass {
@@ -23,6 +26,11 @@ export class OrderClass {
 	taxAmount: number;
 	orderStatus: OrderStatus;
 	purchaseId: string | null;
+	deliveryFee: number;
+	mileageFee: number;
+	platformFee: number;
+	distance: number;
+	duration: number | null;
 	// addressId: string;
 	customer: User;
 	destinationAddress: AddressWithCoordinates;
@@ -44,10 +52,17 @@ export class OrderClass {
 	createdAt: Date;
 	updatedAt: Date;
 	deliveryDeadline: Date;
+	isLateDelivery: boolean | null;
+
 	items: ProductVariantWithDetails[];
 	// eslint-disable-next-line sonarjs/cognitive-complexity
 	constructor(order: OrderCreateType) {
 		this.id = order.id || createId();
+		this.deliveryFee = order.deliveryFee;
+		this.mileageFee = order.mileageFee;
+		this.platformFee = order.platformFee;
+		this.distance = order.distance;
+		this.duration = order.duration;
 		this.subtotal = order.subtotal || order.total;
 		this.total = order.total;
 		this.taxFactor = order.taxFactor || 0;
@@ -75,12 +90,13 @@ export class OrderClass {
 		this.createdAt = order.createdAt || new Date();
 		this.updatedAt = order.updatedAt || new Date();
 		this.deliveryDeadline = order.deliveryDeadline;
+		this.isLateDelivery = order.isLateDelivery;
 		this.items = order.items;
 	}
 }
 
 export type OrderCreateType = Order & {
-	organization: Organization;
+	organization: OrganizationWithShopDetails;
 	customer: User;
 	destinationAddress: AddressWithCoordinates;
 	items: ProductVariantWithDetails[];

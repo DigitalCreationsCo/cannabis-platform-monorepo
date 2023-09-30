@@ -15,10 +15,10 @@ export default function Footer() {
 			name: TextContent.account.DISPENSARIES_START_HERE,
 			href: getDashboardSite('/signup/create-dispensary-account'),
 		},
-		{ name: 'get Technical Support', href: '/support' },
-		{ name: 'Services', href: '/services' },
-		{ name: 'About Gras', href: '/about-gras' },
-		{ name: 'Blog', href: getShopSite('/blog') },
+		{ name: 'get Technical Support', href: TextContent.href.support },
+		{ name: 'Services', href: TextContent.href.services },
+		{ name: 'About Gras', href: TextContent.href.about },
+		{ name: 'Blog', href: TextContent.href.blog },
 	];
 	const legal = [
 		{
@@ -84,37 +84,37 @@ export default function Footer() {
 						<H6 className="text-inverse font-semibold">Follow us</H6>
 						<FlexBox className="mt-5 flex-row space-x-5 text-inverse">
 							<a
-								href="https://twitter.com/"
+								href="https://twitter.com/gras_cannabis"
 								target="_blank"
 								rel="noopener noreferrer"
 							>
 								<span className="sr-only">Twitter</span>
 								<Twitter />
 							</a>
-							<a
+							{/* <a
 								href="https://facebook.com/"
 								target="_blank"
 								rel="noopener noreferrer"
 							>
 								<span className="sr-only">Facebook</span>
 								<Facebook />
-							</a>
+							</a> */}
 							<a
-								href="https://instagram.com/"
+								href="https://www.instagram.com/grascannabis/"
 								target="_blank"
 								rel="noopener noreferrer"
 							>
 								<span className="sr-only">Instagram</span>
 								<Instagram />
 							</a>
-							<a
+							{/* <a
 								href="https://linkedin.com/"
 								target="_blank"
 								rel="noopener noreferrer"
 							>
 								<span className="sr-only">Linkedin</span>
 								<Linkedin />
-							</a>
+							</a> */}
 						</FlexBox>
 					</div>
 					<div className="row-start-1 col-span-1 row-span-1 lg:col-start-5 lg:row-start-auto">

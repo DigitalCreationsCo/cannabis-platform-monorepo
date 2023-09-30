@@ -244,37 +244,54 @@ model Membership {
 
 model Order {
   id                      String           @id @unique @default(cuid())
+  items                   ProductVariant[] @relation("OrderToProductVariant")
+
   subtotal                Int
-  total                   Int
   taxFactor               Float
   taxAmount               Int
-  orderStatus             OrderStatus      @default(Pending)
-  purchaseId              String?          @unique
-  addressId               String
-  customerId              String
-  organizationId          String
-  driverId                String?
-  createdAt               DateTime         @default(now())
-  updatedAt               DateTime         @updatedAt
+  deliveryFee             Int              @default(0)
+  mileageFee              Int              @default(0)
+  platformFee             Int              @default(0)
+  total                   Int
+
+  distance                Float            @default(0)
   deliveryDeadline        DateTime
+
+  orderStatus             OrderStatus      @default(Pending)
+  customerId              String
+  customer                User             @relation(fields: [customerId], references: [id], onDelete: NoAction)
+  addressId               String
+  destinationAddress      Address          @relation(fields: [addressId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  organization            Organization     @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  organizationId          String
+
+  driver                  Driver?          @relation(fields: [driverId], references: [id])
+  driverId                String?
   isDriverAssigned        Boolean          @default(false)
   driverAssignedAt        DateTime?
+
   isProductPickedUp       Boolean          @default(false)
   productPickedUpAt       DateTime?
+
   isDeliveredOrder        Boolean          @default(false)
   deliveredAt             DateTime?
+
   isCustomerReceivedOrder Boolean          @default(false)
   customerReceivedOrderAt DateTime?
+
   isCompleted             Boolean          @default(false)
   completedAt             DateTime?
-  routeId                 String?          @unique
-  destinationAddress      Address          @relation(fields: [addressId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  customer                User             @relation(fields: [customerId], references: [id], onDelete: NoAction)
-  driver                  Driver?          @relation(fields: [driverId], references: [id])
-  organization            Organization     @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  duration                Int?
+  isLateDelivery          Boolean?
+
+  purchaseId              String?          @unique
   purchase                Purchase?
+  routeId                 String?          @unique
   route                   Route?
-  items                   ProductVariant[] @relation("OrderToProductVariant")
+
+  createdAt               DateTime         @default(now())
+  updatedAt               DateTime         @updatedAt
 
   @@index([addressId])
   @@index([customerId])
@@ -307,7 +324,6 @@ model Organization {
   phone                    String?
   vendorId                 String
   vendorName               String
-  scheduleId               String              @unique
   termsAccepted            Boolean             @default(false)
   subdomainId              String
   createdAt                DateTime            @default(now())
@@ -316,13 +332,14 @@ model Organization {
   images                   ImageOrganization[]
   orders                   Order[]
   address                  Address             @relation(fields: [addressId], references: [id], onDelete: Cascade)
-  schedule                 Schedule            @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
+  schedule                 Schedule[]
   subdomain                SubDomain           @relation(fields: [subdomainId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   vendor                   Vendor              @relation(fields: [vendorId, vendorName], references: [id, name])
   products                 Product[]
   siteSetting              SiteSetting?
   memberships              Membership[]        @relation("MembershipToOrganization")
-  subscribed               Boolean             @default(false)
+  subscribedForDelivery    Boolean             @default(false)
+  subscribedForPickup      Boolean             @default(false)
 
   @@index([id])
   @@index([name])
@@ -331,15 +348,35 @@ model Organization {
 }
 
 model Schedule {
-  id           String        @id @unique @default(cuid())
-  days         Int
-  openAt       Int?
-  closeAt      Int?
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  organization Organization?
+  id              String        @id @unique @default(cuid())
+  days            Int?
+  day             Day?          @default(Monday)
+  openAt          Int           @default(900)
+  closeAt         Int           @default(2000)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  organizationId  String?
+  organization    Organization? @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@index([id])
+  @@index([organizationId])
+}
+
+enum Day {
+  // M             
+  // Tu            
+  // W             
+  // Th            
+  // F             
+  // Sa            
+  // Su 
+  Monday
+  Tuesday
+  Wednesday
+  Thursday
+  Friday
+  Saturday
+  Sunday
 }
 
 model Product {
@@ -463,9 +500,16 @@ model Review {
 
 model SiteSetting {
   id             String       @id @unique @default(cuid())
-  description    String?
   title          String
   bannerText     String?
+  description    String?
+
+  primaryColor    String?     @default("#14a33d")
+  secondaryColor  String?     @default("#13622a")
+  tertiaryColor   String?     @default("#fff2da")
+  textColor       String?     @default("#3e3a3a")
+  backgroundColor String?     @default("#ffffff")
+
   organizationId String       @unique
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
@@ -668,16 +712,6 @@ enum CurrencyName {
 
 enum Unit {
   g
-}
-
-enum Day {
-  Monday
-  Tuesday
-  Wednesday
-  Thursday
-  Friday
-  Saturday
-  Sunday
 }
 
 enum ArticleType {

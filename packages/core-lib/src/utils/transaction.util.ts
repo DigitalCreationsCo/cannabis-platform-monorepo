@@ -69,27 +69,76 @@ function convertDollarsToWholeNumber(value: number | string) {
 	return Number(number);
 }
 
-/**
- * Determines the platform fee for every transaction
- * note: HARD CODE THIS VALUE
- * @param amount
- * @returns
- */
-function calculatePlatformFeeForTransaction(amount: number) {
-	return Math.round(amount * 0.18);
+function calculateTransactionFees(
+	order: OrderWithShopDetails,
+): OrderWithShopDetails {
+	const { subtotal, distance } = order;
+
+	const delivery_fee = calculateDeliveryFee(subtotal);
+	const mileage_fee = calculateMileageFee(distance);
+	const platform_fee = calculatePlatformFee(subtotal);
+	const total =
+		Number(order.subtotal) +
+		Number(delivery_fee) +
+		Number(mileage_fee) +
+		Number(platform_fee);
+
+	return {
+		...order,
+		deliveryFee: delivery_fee,
+		mileageFee: mileage_fee,
+		platformFee: platform_fee,
+		total,
+	};
 }
 
-function calculateDeliveryFeeForTransaction(amount: number) {
-	return Math.round(amount * 0.1);
+/**
+ * calculate the delivery fee
+ * @param subtotal
+ * @returns number
+ */
+function calculateDeliveryFee(subtotal: number) {
+	return Math.round(subtotal * Number(process.env.NEXT_PUBLIC_DELIVERY_FEE));
+}
+
+/**
+ * calculate the mileage fee based on trip distance
+ * calculate mileage after the first 3 miles, up to 10 miles
+ * @param meters
+ * @returns number
+ */
+// distance represents meters, please calculate the distance remaining after 3 miles, up to 10 miles
+
+function calculateMileageFee(meters: number) {
+	const miles = convertMetersToMiles(meters);
+	const distanceAfter3MilesUpTo10Msiles = miles < 10 ? miles - 3 : 7;
+	return Math.round(
+		distanceAfter3MilesUpTo10Msiles *
+			Number(process.env.NEXT_PUBLIC_MILEAGE_RATE),
+	);
+}
+
+const convertMetersToMiles = (meters: number) => meters / 1609.34;
+
+/**
+ * calculate the platform fee for a transaction
+ * @param subtotal
+ * @returns number
+ */
+function calculatePlatformFee(subtotal: number) {
+	return Math.round(subtotal * Number(process.env.NEXT_PUBLIC_PLATFORM_FEE));
 }
 
 export {
-	calculateDeliveryFeeForTransaction,
 	orderStatusList,
 	checkOrderIsCompleteOrCanceled,
 	calcSalePrice,
 	getCurrencySymbol,
 	convertCentsToDollars,
 	convertDollarsToWholeNumber,
-	calculatePlatformFeeForTransaction,
+	calculateTransactionFees,
+	calculatePlatformFee,
+	calculateDeliveryFee,
+	calculateMileageFee,
+	convertMetersToMiles,
 };

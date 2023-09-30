@@ -17,8 +17,10 @@ import {
 	Small,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
+import icons from '@cd/ui-lib/src/icons';
 import Image from 'next/image';
 import Link from 'next/link';
+import Iframe from 'react-iframe';
 import benefitOneImg from '../../../public/benefit-one.png';
 import benefitTwoImg from '../../../public/benefit-two.png';
 import heroImg from '../../../public/hero.png';
@@ -27,43 +29,10 @@ const SignUpLandingPage = () => {
 	return (
 		<Page className={'bg-inverse'}>
 			<Hero />
-			<SectionTitle
-				pretitle="We are changing the way cannabis is enjoyed"
-				title="Cannabis Heals"
-			>
-				For Gras, cannabis is medicine. It's a powerful healing plant that heals
-				people and communities. We are committed to enriching the lives in our
-				community through public service.
-			</SectionTitle>
 			<Benefits data={benefitOne} />
 			<Benefits imgPos="right" data={benefitTwo} />
-			{/* ADD A VIDEO SECTION INSIDE THE DISPENSARY PORTAL, FOR SUCCESS LEARNING, AND CHECKOUT WIDGET INSTALL */}
-			{/* <SectionTitle
-				pretitle="Watch a video"
-				title="Learn how to fullfil your needs"
-			>
-				This section is to highlight a promo or demo video of your product.
-				Analysts says a landing page with video has 3% more conversion rate. So,
-				don&apos;t forget to add one. Just like this.
-			</SectionTitle> */}
-			{/* <Video /> */}
-
-			{/* We don't have testimonials yet, we will */}
-			{/* <SectionTitle
-				pretitle="Testimonials"
-				title="Here's what our customers said"
-			>
-				Testimonails is a great way to increase the brand trust and awareness.
-				Use this section to highlight your popular customers.
-			</SectionTitle> */}
-			{/* <Testimonials /> */}
-
-			<SectionTitle title="Frequently Asked Questions">
-				Here are some of the frequently asked questions. If you have any other
-				questions, get in touch with us by email.
-			</SectionTitle>
 			<Faq />
-			<Cta />
+			<CallToSignup />
 		</Page>
 	);
 };
@@ -78,39 +47,52 @@ SignUpLandingPage.getLayoutContext = (): LayoutContextProps => ({
 const Hero = () => {
 	return (
 		<>
-			<FlexBox className="container mx-auto flex flex-col flex-wrap p-8 md:flex-row xl:px-0">
+			<FlexBox className="container mx-auto flex flex-col flex-wrap px-8 pt-8 md:flex-row xl:px-0">
 				<div className="flex w-full items-center lg:w-1/2">
 					<div className="m-auto mb-8 max-w-2xl">
-						<H3 className="text-primary">
-							{TextContent.info.YOUR_CUSTOMERS_ARE_OUR_CUSTOMERS}
+						<H3 className="text-secondary text-md lg:text-2xl">
+							{TextContent.info.YOUR_CUSTOMERS_ARE_OUR_CUSTOMERS.toUpperCase()}
 						</H3>
-						<H1 className="text-secondary-light text-4xl font-bold leading-snug tracking-tight  lg:text-4xl lg:leading-tight xl:text-[61px] xl:leading-tight">
+						<H1 className="text-secondary-light text-justify text-2xl font-bold leading-snug tracking-tight lg:text-left  lg:text-4xl lg:leading-tight xl:text-[61px] xl:leading-tight">
 							{TextContent.info.GRAS_DELIVERS_FOR_DISPENSARIES}
 						</H1>
-						<FlexBox className="p-4">
+						<FlexBox className="flex flex-col items-center space-y-4  p-4 md:flex-row md:items-end md:space-x-4">
 							<Link href={'#cannabis-heals'} scroll={false}>
 								<Button size="lg" bg="secondary-light" hover="primary-light">
 									{TextContent.info.LEARN_MORE}
 								</Button>
 							</Link>
+							<div className="flex w-full flex-col items-center justify-center ">
+								<Paragraph>
+									{`Missed our signup window?
+									Get on our waitlist. We'll keep you posted when we launch in your area.`}
+								</Paragraph>
+								<Iframe
+									className="m-auto"
+									src="https://embeds.beehiiv.com/2bc9d84b-e4a8-4cdd-a9ad-f75003eec7a0?slim=true"
+									data-test-id="beehiiv-embed"
+									height="52"
+									frame="0"
+									scrolling="no"
+									style="margin: 0; -radius: 0px !important; background-color: transparent;"
+								/>
+							</div>
 						</FlexBox>
 					</div>
 				</div>
-				<div className="flex w-full items-center justify-center lg:w-1/2">
+				<div className="m-auto w-1/3  md:my-auto md:ml-0 md:mr-auto lg:m-auto">
 					<Image
 						src={heroImg}
-						width="550"
-						height="560"
-						className={'object-cover'}
+						className={'my-auto hidden object-cover md:mr-auto lg:block'}
 						alt="Hero Illustration"
 						loading="eager"
 						placeholder="blur"
 					/>
 				</div>
 			</FlexBox>
-			<FlexBox className="m-auto py-16">
-				<H2>{TextContent.info.BUILDING_TRUST_WITH_OUR_PARTNERS}</H2>
-			</FlexBox>
+			<H2 className="text-secondary text-center text-lg lg:text-2xl">
+				{TextContent.info.BUILDING_TRUST_WITH_OUR_PARTNERS.toUpperCase()}
+			</H2>
 		</>
 	);
 };
@@ -119,7 +101,7 @@ const SectionTitle = (props: any) => {
 	return (
 		<FlexBox
 			id="cannabis-heals"
-			className={`flex w-full flex-col pt-12 ${
+			className={`flex w-full flex-col  ${
 				props.align === 'left' ? '' : 'items-center justify-center text-center'
 			}`}
 		>
@@ -130,16 +112,12 @@ const SectionTitle = (props: any) => {
 			)}
 
 			{props.title && (
-				<H2 className="text-secondary-light mt-3 max-w-2xl text-4xl font-bold leading-snug tracking-tight lg:leading-tight">
+				<H1 className="text-secondary-light text-center text-2xl font-bold leading-snug tracking-tight lg:text-left  lg:text-4xl lg:leading-tight xl:text-[61px] xl:leading-tight">
 					{props.title}
-				</H2>
+				</H1>
 			)}
 
-			{props.children && (
-				<H5 className="max-w-2xl py-4 text-lg leading-normal lg:text-xl xl:text-xl">
-					{props.children}
-				</H5>
-			)}
+			{props.children && <>{props.children}</>}
 		</FlexBox>
 	);
 };
@@ -147,87 +125,87 @@ const SectionTitle = (props: any) => {
 const Benefits = (props: any) => {
 	const { data } = props;
 	return (
-		<>
-			<FlexBox className="mb-20 flex flex-row flex-wrap lg:flex-nowrap lg:gap-10">
-				<div
-					className={`flex w-full items-center justify-center lg:w-1/2 ${
-						props.imgPos === 'right' ? 'lg:order-1' : ''
-					}`}
-				>
-					<div>
-						<Image
-							src={data.image}
-							width="521"
-							height="500"
-							alt="Benefits"
-							className={'object-cover'}
-							placeholder="blur"
-							blurDataURL={data.image.src}
-						/>
-					</div>
+		<FlexBox className="flex flex-col flex-wrap items-center  p-8 md:flex-row">
+			<div
+				className={` md:w-1/2 ${
+					data.imgPos === 'right' ? 'lg:justify-end' : ''
+				}`}
+			>
+				<H3 className="text-secondary-light mt-3 max-w-2xl text-3xl font-bold leading-snug tracking-tight lg:text-4xl lg:leading-tight">
+					{data.title}
+				</H3>
+				<Paragraph className="max-w-2xl py-4 leading-normal lg:text-xl xl:text-xl">
+					{data.desc}
+				</Paragraph>
+				<div className="space-y-2">
+					{data.bullets.map((item: any, index: any) => (
+						<Benefit key={index} title={item.title} icon={item.icon}>
+							{item.desc}
+						</Benefit>
+					))}
 				</div>
-
-				<div
-					className={`flex w-full flex-wrap items-center lg:w-1/2 ${
-						data.imgPos === 'right' ? 'lg:justify-end' : ''
-					}`}
-				>
-					<div>
-						<div className="mt-4 flex w-full flex-col">
-							<H3 className="text-secondary-light mt-3 max-w-2xl text-3xl font-bold leading-snug tracking-tight lg:text-4xl lg:leading-tight">
-								{data.title}
-							</H3>
-
-							<H5 className="max-w-2xl py-4 leading-normal lg:text-xl xl:text-xl">
-								{data.desc}
-							</H5>
-						</div>
-
-						<div className="mt-5 w-full">
-							{data.bullets.map((item: any, index: any) => (
-								<Benefit key={index} title={item.title} icon={item.icon}>
-									{item.desc}
-								</Benefit>
-							))}
-						</div>
-					</div>
+			</div>
+			<div
+				className={`flex items-center justify-center  md:w-1/2 ${
+					props.imgPos === 'right' ? 'lg:order-1' : ''
+				}`}
+			>
+				<div className="w-2/3 lg:m-auto lg:w-1/2">
+					<Image
+						src={data.image}
+						alt="Benefits"
+						className={'object-cover'}
+						placeholder="blur"
+						blurDataURL={data.image.src}
+					/>
 				</div>
-			</FlexBox>
-		</>
+			</div>
+		</FlexBox>
 	);
 };
 
 function Benefit(props: any) {
 	return (
-		<>
-			<div className="mt-8 flex items-start space-x-3">
-				<div className="mt-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-lime-400">
-					<IconWrapper className="text-dark" Icon={props.icon} iconSize={25} />
-				</div>
-				<div>
-					<H5 className="text-xl font-medium ">{props.title}</H5>
-					<Paragraph className="mt-1">{props.children}</Paragraph>
-				</div>
+		<div className="flex items-start space-x-3 ">
+			<div className="mt-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-lime-400">
+				<IconWrapper className="text-dark" Icon={props.icon} iconSize={25} />
 			</div>
-		</>
+			<div>
+				<H5 className="text-xl font-medium ">{props.title}</H5>
+				<Paragraph className="mt-1">{props.children}</Paragraph>
+			</div>
+		</div>
 	);
 }
 
 const Faq = () => {
 	return (
-		<FlexBox className="!p-0">
+		<FlexBox className=" px-8">
 			<div className="mx-auto w-full max-w-2xl rounded-2xl p-2">
+				<H3 className="text-secondary-light mt-3 max-w-2xl text-2xl font-bold leading-snug tracking-tight sm:text-4xl lg:leading-tight">
+					Frequently Asked Questions
+				</H3>
+				<Paragraph>
+					Here are some questions we hear often. Have more questions?
+				</Paragraph>
+				<Link
+					href={TextContent.href.support}
+					className="font-semibold underline"
+				>
+					Get Support
+				</Link>
 				{faqdata.map((item, index: number) => (
 					<div
 						key={`faq-${index}`}
 						className="bg-inverse collapse mb-5 rounded shadow"
 					>
 						<input type="checkbox" />
-						<div className="collapse-title text-xl font-medium">
+						<div className="collapse-title  text-xl font-medium">
 							<Paragraph className="text-primary">{item.question}</Paragraph>
 						</div>
-						<div className="collapse-content">
-							<Paragraph className="font-semibold">{item.answer}</Paragraph>
+						<div className="collapse-content flex flex-row space-x-4">
+							<IconWrapper iconSize={28} Icon={icons.Flower} />
+							<Paragraph>{item.answer}</Paragraph>
 						</div>
 					</div>
 				))}
@@ -259,9 +237,9 @@ const faqdata = [
 	},
 ];
 
-const Cta = () => {
+const CallToSignup = () => {
 	return (
-		<FlexBox>
+		<FlexBox className="px-8">
 			<div className="bg-secondary-light mx-auto flex w-full max-w-4xl flex-wrap items-center justify-around gap-5 rounded-xl p-7 text-white lg:flex-nowrap lg:p-12">
 				<div className="text-center lg:text-left">
 					<h2 className="text-2xl font-medium lg:text-3xl">
@@ -276,7 +254,7 @@ const Cta = () => {
 						size="lg"
 						bg="primary"
 						hover="primary-light"
-						className="duration-5 p-12"
+						className="duration-5 lg:p-12"
 					>
 						{TextContent.account.CTA}
 					</Button>
@@ -287,15 +265,10 @@ const Cta = () => {
 };
 
 const benefitOne = {
-	title: 'Delivering In Baltimore, Maryland',
+	title: 'Cannabis Delivered In Baltimore, Maryland',
 	desc: 'Orders placed with our trusted Dispensary partners, will be delivered by a Gras Deliveryperson, safely and quickly to the customer. ',
 	image: benefitOneImg,
 	bullets: [
-		{
-			title: 'Fast Delivery',
-			desc: 'Same day delivery within 2 hours, in Baltimore, Maryland.',
-			icon: Icons.Delivery,
-		},
 		{
 			title: 'Safe And Secure',
 			desc: 'Our Deliverypersons are trained in high quality customer service, and safety.',
@@ -304,6 +277,11 @@ const benefitOne = {
 		{
 			title: 'Industry Compliant Platform',
 			desc: 'We follow strict industry guidelines for handling and delivery cannabis products. Our system is built to ensure compliance and record keeping with all state and federal laws.',
+			icon: Icons.Shield,
+		},
+		{
+			title: 'Easy to Order',
+			desc: 'Order by phone. We guarantee delivery within 2 hours in Baltimore, Maryland.',
 			icon: Icons.Shield,
 		},
 	],
@@ -328,7 +306,10 @@ const benefitTwo = {
 						are available by phone, email, and chat.
 					</>
 					<br />
-					<Link href="/support" className="font-semibold underline">
+					<Link
+						href={TextContent.href.support}
+						className="font-semibold underline"
+					>
 						Get Support
 					</Link>
 				</>
@@ -342,3 +323,36 @@ const benefitTwo = {
 		},
 	],
 };
+
+// // MORE SECTIONS
+// {
+// 	/* ADD A VIDEO SECTION INSIDE THE DISPENSARY PORTAL, FOR SUCCESS LEARNING, AND CHECKOUT WIDGET INSTALL */
+// }
+// {
+// 	/* <SectionTitle
+// 				pretitle="Watch a video"
+// 				title="Learn how to fullfil your needs"
+// 			>
+// 				This section is to highlight a promo or demo video of your product.
+// 				Analysts says a landing page with video has 3% more conversion rate. So,
+// 				don&apos;t forget to add one. Just like this.
+// 			</SectionTitle> */
+// }
+// {
+// 	/* <Video /> */
+// }
+// {
+// 	/* We don't have testimonials yet, we will */
+// }
+// {
+// 	/* <SectionTitle
+// 				pretitle="Testimonials"
+// 				title="Here's what our customers said"
+// 			>
+// 				Testimonails is a great way to increase the brand trust and awareness.
+// 				Use this section to highlight your popular customers.
+// 			</SectionTitle> */
+// }
+// {
+// 	/* <Testimonials /> */
+// }

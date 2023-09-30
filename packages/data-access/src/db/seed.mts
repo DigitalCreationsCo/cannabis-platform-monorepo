@@ -1,20 +1,20 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
-	PrismaClient,
-	type Address,
-	type Category,
-	type Coordinates,
-	type ImageArticle,
-	type ImageOrganization,
-	type ImageProduct,
-	type ImageUser,
-	type ImageVendor,
-	type Membership,
-	type Prisma,
-	type ProductVariant,
-	type Schedule,
-	type SubDomain,
-	type Vendor,
+    PrismaClient,
+    type Address,
+    type Category,
+    type Coordinates,
+    type ImageArticle,
+    type ImageOrganization,
+    type ImageProduct,
+    type ImageUser,
+    type ImageVendor,
+    type Membership,
+    type Prisma,
+    type ProductVariant,
+    type Schedule,
+    type SubDomain,
+    type Vendor
 } from '@prisma/client';
 import axios from 'axios';
 import { type OrganizationCreateType } from '../organization.types';
@@ -79,7 +79,7 @@ const createOrganizations = async () => {
 	// ORGANIZATION
 	const orgs: (Prisma.OrganizationCreateInput & {
 		address: Prisma.AddressCreateNestedOneWithoutOrganizationInput;
-		schedule: Prisma.ScheduleCreateNestedOneWithoutOrganizationInput;
+		schedule: Prisma.ScheduleCreateNestedManyWithoutOrganizationInput;
 		images: Prisma.ImageOrganizationCreateNestedManyWithoutOrganizationInput;
 		// products: Prisma.ProductCreateInput[];
 		// categoryList: Prisma.CategoryListCreateInput;
@@ -138,6 +138,61 @@ const createOrganizations = async () => {
 					},
 					createdAt: new Date(),
 					updatedAt: new Date(),
+				},
+			},
+			schedule: {
+				createMany: {
+					data: [
+						{
+							day: 'Monday',
+							openAt: 800,
+							closeAt: 2000,
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+						{
+							day: 'Tuesday',
+							openAt: 800,
+							closeAt: 2000,
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+						{
+							day: 'Wednesday',
+							openAt: 800,
+							closeAt: 2000,
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+						{
+							day: 'Thursday',
+							openAt: 800,
+							closeAt: 2000,
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+						{
+							day: 'Friday',
+							openAt: 800,
+							closeAt: 2000,
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+						{
+							day: 'Saturday',
+							openAt: 800,
+							closeAt: 2000,
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+						{
+							day: 'Sunday',
+							openAt: 800,
+							closeAt: 2000,
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+					],
 				},
 			},
 			images: {
@@ -231,15 +286,6 @@ const createOrganizations = async () => {
 					customerReceivedOrderAt: new Date(),
 					completedAt: new Date(),
 					deliveredAt: new Date(),
-				},
-			},
-			schedule: {
-				create: {
-					days: 1234560,
-					openAt: 9,
-					closeAt: 21,
-					createdAt: new Date(),
-					updatedAt: new Date(),
 				},
 			},
 			siteSetting: {
@@ -485,12 +531,58 @@ const createOrganizations = async () => {
 				},
 			},
 			schedule: {
-				create: {
-					days: 1234560,
-					openAt: 9,
-					closeAt: 21,
-					createdAt: new Date(),
-					updatedAt: new Date(),
+				createMany: {
+					data: [
+						{
+							day: 'Monday',
+							openAt: 900,
+							closeAt: 2100,
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+						{
+							day: 'Tuesday',
+							openAt: 900,
+							closeAt: 2100,
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+						{
+							day: 'Wednesday',
+							openAt: 900,
+							closeAt: 2100,
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+						{
+							day: 'Thursday',
+							openAt: 900,
+							closeAt: 2100,
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+						{
+							day: 'Friday',
+							openAt: 900,
+							closeAt: 2100,
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+						{
+							day: 'Saturday',
+							openAt: 900,
+							closeAt: 2100,
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+						{
+							day: 'Sunday',
+							openAt: 900,
+							closeAt: 2100,
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+					],
 				},
 			},
 			siteSetting: {
@@ -514,7 +606,7 @@ const createOrganizations = async () => {
 			stripeAccountId: null,
 			stripeOnboardingComplete: false,
 			dialCode: '1',
-			phone: '',
+			phone: '6663776778',
 			vendor: {
 				connectOrCreate: {
 					where: {
@@ -665,15 +757,6 @@ const createOrganizations = async () => {
 					deliveredAt: new Date(),
 				},
 			},
-			schedule: {
-				create: {
-					days: 1234560,
-					openAt: 9,
-					closeAt: 19,
-					createdAt: new Date(),
-					updatedAt: new Date(),
-				},
-			},
 			siteSetting: {
 				create: {
 					title: 'Sunnyside',
@@ -681,6 +764,61 @@ const createOrganizations = async () => {
 					bannerText: 'Sunnyside Banner Text',
 					createdAt: new Date(),
 					updatedAt: new Date(),
+				},
+			},
+			schedule: {
+				createMany: {
+					data: [
+						{
+							day: 'Monday',
+							openAt: 900,
+							closeAt: 2100,
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+						{
+							day: 'Tuesday',
+							openAt: 900,
+							closeAt: 2100,
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+						{
+							day: 'Wednesday',
+							openAt: 900,
+							closeAt: 2100,
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+						{
+							day: 'Thursday',
+							openAt: 900,
+							closeAt: 2100,
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+						{
+							day: 'Friday',
+							openAt: 900,
+							closeAt: 2100,
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+						{
+							day: 'Saturday',
+							openAt: 900,
+							closeAt: 2100,
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+						{
+							day: 'Sunday',
+							openAt: 900,
+							closeAt: 2100,
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+					],
 				},
 			},
 			categoryList: {
@@ -817,12 +955,58 @@ const createOrganizations = async () => {
 				},
 			},
 			schedule: {
-				create: {
-					days: 1234560,
-					openAt: 10,
-					closeAt: 21,
-					createdAt: new Date(),
-					updatedAt: new Date(),
+				createMany: {
+					data: [
+						{
+							day: 'Monday',
+							openAt: 500,
+							closeAt: 2200,
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+						{
+							day: 'Tuesday',
+							openAt: 500,
+							closeAt: 2200,
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+						{
+							day: 'Wednesday',
+							openAt: 500,
+							closeAt: 2200,
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+						{
+							day: 'Thursday',
+							openAt: 500,
+							closeAt: 2200,
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+						{
+							day: 'Friday',
+							openAt: 500,
+							closeAt: 2200,
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+						{
+							day: 'Saturday',
+							openAt: 500,
+							closeAt: 2200,
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+						{
+							day: 'Sunday',
+							openAt: 500,
+							closeAt: 2200,
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+					],
 				},
 			},
 			siteSetting: {
@@ -1115,40 +1299,7 @@ const createVendors = async () => {
 
 const createSchedules = async () => {
 	// SCHEDULES
-	const schedules: Schedule[] = [
-		{
-			id: '1',
-			days: 6543210,
-			openAt: 800,
-			closeAt: 2000,
-			createdAt: new Date(),
-			updatedAt: new Date(),
-		},
-		{
-			id: '2',
-			days: 54321,
-			openAt: 800,
-			closeAt: 2000,
-			createdAt: new Date(),
-			updatedAt: new Date(),
-		},
-		{
-			id: '3',
-			days: 54321,
-			openAt: 1100,
-			closeAt: 2400,
-			createdAt: new Date(),
-			updatedAt: new Date(),
-		},
-		{
-			id: '4',
-			days: 54321,
-			openAt: 1100,
-			closeAt: 2400,
-			createdAt: new Date(),
-			updatedAt: new Date(),
-		},
-	];
+	const schedules: Schedule[] = [];
 
 	await prisma.schedule.createMany({
 		data: schedules,
@@ -1428,6 +1579,12 @@ const createOrders = async () => {
 	// ORDER
 	const orders: Prisma.OrderCreateInput[] = [
 		{
+			deliveryFee: 9999,
+			platformFee: 1200,
+			mileageFee: 1425,
+			distance: 15455,
+			isLateDelivery: false,
+			duration: 1234,
 			subtotal: 12000,
 			total: 12399,
 			taxFactor: 0.6,
@@ -1480,6 +1637,12 @@ const createOrders = async () => {
 			deliveredAt: new Date(),
 		},
 		{
+			deliveryFee: 9999,
+			platformFee: 1200,
+			mileageFee: 1425,
+			distance: 15455,
+			isLateDelivery: false,
+			duration: 1234,
 			subtotal: 12000,
 			total: 23444,
 			taxFactor: 0.6,
@@ -1532,11 +1695,17 @@ const createOrders = async () => {
 			deliveredAt: new Date(),
 		},
 		{
+			deliveryFee: 9999,
+			platformFee: 1200,
+			mileageFee: 1425,
+			distance: 15455,
+			isLateDelivery: false,
+			duration: 1234,
 			subtotal: 12000,
 			total: 1244,
 			taxFactor: 0.6,
 			taxAmount: 1239,
-			orderStatus: 'Delivered',
+			orderStatus: 'Completed',
 			customer: {
 				connect: {
 					id: 'bfhk6k4u7xq030hr6wvgiwao',
@@ -1573,6 +1742,12 @@ const createOrders = async () => {
 			deliveredAt: new Date(),
 		},
 		{
+			deliveryFee: 9999,
+			platformFee: 1200,
+			mileageFee: 1425,
+			distance: 15455,
+			isLateDelivery: false,
+			duration: 1234,
 			subtotal: 12000,
 			total: 6999,
 			taxFactor: 0.6,
@@ -1614,6 +1789,12 @@ const createOrders = async () => {
 			deliveredAt: new Date(),
 		},
 		{
+			deliveryFee: 9999,
+			platformFee: 1200,
+			mileageFee: 1425,
+			distance: 15455,
+			isLateDelivery: false,
+			duration: 1234,
 			subtotal: 12000,
 			total: 12999,
 			taxFactor: 0.6,
@@ -1655,6 +1836,12 @@ const createOrders = async () => {
 			deliveredAt: new Date(),
 		},
 		{
+			deliveryFee: 9999,
+			platformFee: 1200,
+			mileageFee: 1425,
+			distance: 15455,
+			isLateDelivery: false,
+			duration: 1234,
 			subtotal: 12000,
 			total: 14599,
 			taxFactor: 0.6,
@@ -1696,12 +1883,11 @@ const createOrders = async () => {
 			deliveredAt: new Date(),
 		},
 	];
-	orders.map(
-		async (order) =>
-			await prisma.order.create({
-				data: order,
-			}),
-	);
+	orders.forEach(async (order) => {
+		return await prisma.order.create({
+			data: order,
+		});
+	});
 	console.info('create prisma.order records');
 };
 
@@ -2575,7 +2761,7 @@ async function main() {
 	await createUsers();
 
 	await createAddresses();
-	await createSchedules();
+	// await createSchedules();
 	await createSubdomains();
 	await createCategories();
 

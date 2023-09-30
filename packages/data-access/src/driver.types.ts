@@ -1,8 +1,8 @@
 import {
-	type Driver,
-	type DriverSession,
-	type Prisma,
-	type Route,
+    type Driver,
+    type DriverSession,
+    type Prisma,
+    type Route
 } from '@prisma/client';
 import { type UserWithDetails } from './user.data';
 

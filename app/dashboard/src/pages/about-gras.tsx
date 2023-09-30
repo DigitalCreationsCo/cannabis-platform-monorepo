@@ -13,7 +13,7 @@ function AboutGras() {
 		<Page className={twMerge(styles.gradient)}>
 			<FlexBox className={twMerge(styles.about)}>
 				<FlexBox className="m-auto max-w-[400px]">
-					<H2 className="text-secondary">About Gras</H2>
+					<H2 className="text-secondary text-center">About Gras</H2>
 					<Paragraph className="text-justify">
 						{TextContent.info.ABOUT_GRAS}
 					</Paragraph>

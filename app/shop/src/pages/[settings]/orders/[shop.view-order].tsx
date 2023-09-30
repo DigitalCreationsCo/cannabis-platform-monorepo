@@ -1,5 +1,4 @@
 import {
-	calculateDeliveryFeeForTransaction,
 	renderAddress,
 	selectOrder,
 	selectUserState,
@@ -113,9 +112,7 @@ function ViewOrder({ orderId }: { orderId: string }) {
 								<H5 className="col-span-3">Delivery Fee</H5>
 								<div className="divider-horizontal col-span-6 w-full border"></div>
 								<H6 className="col-span-3 justify-self-end">
-									<Price
-										basePrice={calculateDeliveryFeeForTransaction(order.total)}
-									/>
+									<Price basePrice={order.deliveryFee + order.mileageFee} />
 								</H6>
 							</FlexBox>
 							<FlexBox className="grid w-full grid-cols-12 flex-row items-center justify-between">

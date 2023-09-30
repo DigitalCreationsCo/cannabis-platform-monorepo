@@ -1,9 +1,15 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import {
 	type AddressCreateType,
 	type AddressPayload,
 	type Coordinates,
+	type OrderCreateType,
 } from '@cd/data-access';
+import haversine from 'haversine-distance';
 import { axios } from '../axiosInstance';
+import { isEmpty } from './object.util';
+
+const _acceptEncoding = 'gzip,deflate,compress';
 
 export async function getGeoCoordinatesFromAddress(address: AddressPayload) {
 	const { street1, city, state, country, zipcode } = address;
@@ -24,7 +30,7 @@ async function getCoordinatesByAddressString(addressString: string): Promise<{
 			{
 				headers: {
 					// eslint-disable-next-line @typescript-eslint/naming-convention
-					'Accept-Encoding': 'gzip,deflate,compress',
+					'Accept-Encoding': _acceptEncoding,
 				},
 			},
 		);
@@ -51,7 +57,7 @@ export async function getGeoAddressFromCoordinates(coordinates: {
 			{
 				headers: {
 					// eslint-disable-next-line @typescript-eslint/naming-convention
-					'Accept-Encoding': 'gzip,deflate,compress',
+					'Accept-Encoding': _acceptEncoding,
 				},
 			},
 		);
@@ -113,3 +119,85 @@ export function coordinatesIsEmpty(address: AddressCreateType) {
 		longitude === null
 	);
 }
+
+/**
+ * calculates haversine distance between two coordinate points
+ */
+export function getDistanceFromCoordinates(
+	source: Coordinates,
+	dest: Coordinates,
+) {
+	return haversine(source, dest);
+}
+
+/**
+ * Returns routing details for an order
+ * @param order OrderCreateType
+ * @returns RoutingDetailsResponse
+ */
+export async function getRoutingDetails(
+	order: OrderCreateType,
+): Promise<RoutingDetailsResponse> {
+	try {
+		const sourceCoordinates = getCoordinatePairFromCoordinates(
+			order.organization.address.coordinates as Coordinates,
+		);
+		const destCoordinates = getCoordinatePairFromCoordinates(
+			order.destinationAddress.coordinates as Coordinates,
+		);
+		const response = await axios.get(
+			`${process.env.NEXT_PUBLIC_LOCATION_IQ_ROUTING_URL}/${sourceCoordinates};${destCoordinates}?key=${process.env.NEXT_PUBLIC_LOCATION_IQ_API_KEY}&overview=false&roundtrip=false`,
+			{
+				headers: {
+					'Accept-Encoding': _acceptEncoding,
+				},
+			},
+		);
+
+		if (response.data?.code !== 'Ok' || isEmpty(response.data?.trips))
+			throw new Error('Failed to find routing details.');
+		return response.data;
+	} catch (error) {
+		console.info('getRoutingDetails: ', error);
+		throw new Error(error);
+	}
+}
+
+/**
+ * Returns the optimized routing for a list of addresses, with routing details
+ * @param addresses AddressWithCoordinates[]
+ */
+export async function getOptimizedRouting() {
+	try {
+		return;
+	} catch (error) {
+		console.info('getOptimizedRouting: ', error);
+		throw new Error(error);
+	}
+}
+
+export type RoutingDetailsResponse = {
+	code: 'Ok';
+	waypoints: {
+		waypoint_index: number;
+		trips_index: number;
+		hint: string;
+		distance: number;
+		location: [number, number];
+		name: 'Downing Street';
+	}[];
+	trips: {
+		legs: {
+			steps: any[];
+			weight: number;
+			distance: number;
+			summary: string;
+			duration: number;
+		}[];
+		weight_name: any;
+		geometry: any;
+		weight: number;
+		distance: number;
+		duration: number;
+	}[];
+};

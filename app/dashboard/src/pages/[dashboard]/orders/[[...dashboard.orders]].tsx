@@ -7,7 +7,6 @@ import {
 } from '@cd/core-lib';
 import { type OrderWithDashboardDetails } from '@cd/data-access';
 import {
-	Card,
 	Grid,
 	H6,
 	Icons,
@@ -51,7 +50,7 @@ function Orders({ orders }: OrdersDashboardProps) {
 						<PaginationButtons />
 					</>
 				) : (
-					<Card>There are no orders.</Card>
+					<Row className="h-[77px]">There are no orders.</Row>
 				)}
 			</Grid>
 		</Page>

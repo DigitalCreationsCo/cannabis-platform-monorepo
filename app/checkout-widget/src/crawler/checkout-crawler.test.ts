@@ -41,11 +41,11 @@ describe('Crawler : Cart', () => {
 		expect(await getCartDOMElements(config, $)).toMatchObject(result);
 
 		expect(result.items).toBeDefined();
-		expect(isArray(result.items)).toBe(true);
+		expect(isArray(result.items)).toStrictEqual(true);
 		expect(result.items.length).toBeGreaterThan(0);
 
 		expect(result.total).toBeDefined();
-		expect(typeof result.total).toBe('string');
+		expect(typeof result.total).toStrictEqual('string');
 	});
 
 	it('processCrawlerData returns defined data', async () => {
@@ -56,16 +56,16 @@ describe('Crawler : Cart', () => {
 			cartItems: [],
 		};
 		expect(typeof data).toBeDefined();
-		expect(typeof data).toBe('object');
+		expect(typeof data).toStrictEqual('object');
 		expect(typeof data).toStrictEqual(typeof simpleCart);
 
 		expect(data.cartItems).toBeDefined();
-		expect(isArray(data.cartItems)).toBe(true);
+		expect(isArray(data.cartItems)).toStrictEqual(true);
 		expect(data.cartItems.length).toBeGreaterThan(0);
 
 		expect(data.total).toBeDefined();
 		expect(data.total).not.toBeNaN();
-		expect(typeof data.total).toBe('number');
+		expect(typeof data.total).toStrictEqual('number');
 	});
 
 	it('buildSimpleCart returns defined data', async () => {
@@ -104,7 +104,7 @@ describe('Crawler : Cart', () => {
 		const { items } = await getCartDOMElements(config, $);
 		const result = buildCartItems(items, config, $);
 		expect(result).toBeDefined();
-		expect(isArray(result)).toBe(true);
+		expect(isArray(result)).toStrictEqual(true);
 		expect(result[0].name).toBeTruthy();
 	});
 

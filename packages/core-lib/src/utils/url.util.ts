@@ -1,10 +1,4 @@
-export function formatDispensaryUrl(
-	subdomainId: string,
-	organizationId?: string,
-) {
-	console.debug(
-		`link to subdomain: ${subdomainId}, organizationId: ${organizationId}`,
-	);
+export function formatDispensaryUrl(subdomainId: string) {
 	switch (process.env.NODE_ENV) {
 		case 'development':
 			// return `http://localhost:3000/browse/${subdomainId}/${organizationId}`;
@@ -66,7 +60,8 @@ export function getDispensaryDomain(url: string) {
 	else return null;
 }
 
-export function parseUrlStringToObject(url: string) {
+export function parseUrlFriendlyStringToObject(url: string) {
+	if (url.split('?').length > 1) url = url.split('?')[1];
 	// Split the string into key-value pairs
 	const keyValuePairs = url.split('&');
 	// Create an object to store the parsed values
@@ -86,20 +81,6 @@ export function parseUrlParameters(url: string) {
 	const urlObject = new URL(url);
 	// Extract the search parameters
 	const searchParams = urlObject.search.substr(1); // Remove the leading '?'
-	// Parse the search parameters using the parseUrlStringToObject function
-	return parseUrlStringToObject(searchParams);
-}
-
-/**
- * Return a url-friendly string
- * @param input string
- * @returns a lowercased string with all non-url-friendly characters removed, and spaces replaced with dashes
- */
-export function makeUrlFriendly(input: string) {
-	const replaceNonUrlFriendly = /[^\w\-.~ ]/g;
-	const urlFriendlyString = input.replace(replaceNonUrlFriendly, '');
-	return urlFriendlyString.replace(/ /g, '-').toLowerCase();
-	// 	const replaceNonUrlFriendly = /[^\w\-.~]/g;
-	// 	return input.replace(replaceNonUrlFriendly, '');
-	// }
+	// Parse the search parameters using the parseUrlFriendlyStringToObject function
+	return parseUrlFriendlyStringToObject(searchParams);
 }
