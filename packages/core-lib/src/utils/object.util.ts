@@ -7,7 +7,14 @@ import { type UserCreateType } from '@cd/data-access';
  * @returns false otherwise
  */
 export function isEmpty(object: any) {
-	if (object === null || object === undefined) return true;
+	if (
+		object === null ||
+		object === undefined ||
+		object === 0 ||
+		typeof object === 'boolean' ||
+		object === ''
+	)
+		return true;
 	return (object && Object.keys(object).length === 0) || false;
 }
 
