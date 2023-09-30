@@ -1,30 +1,30 @@
 import {
-	type Category,
-	type CategoryList,
-	type Coordinates,
-	type ImageOrganization,
-	type Membership,
-	type Order,
-	type Organization,
-	type Prisma,
-	type Schedule,
-	type SiteSetting,
-	type SubDomain,
-	type User,
-	type Vendor,
+    type Category,
+    type CategoryList,
+    type Coordinates,
+    type ImageOrganization,
+    type Membership,
+    type Order,
+    type Organization,
+    type Prisma,
+    type Schedule,
+    type SiteSetting,
+    type SubDomain,
+    type User,
+    type Vendor
 } from '@prisma/client';
 import {
-	type AddressPayload,
-	type AddressWithCoordinates,
+    type AddressPayload,
+    type AddressWithCoordinates
 } from './address.types';
 import {
-	type ProductWithDashboardDetails,
-	type ProductWithShopDetails,
+    type ProductWithDashboardDetails,
+    type ProductWithShopDetails
 } from './product.data';
 
 export type OrganizationCreateType = Prisma.OrganizationUncheckedCreateInput & {
 	address: AddressPayload;
-	schedule: Prisma.ScheduleCreateInput;
+	schedule: Prisma.ScheduleCreateManyOrganizationInput;
 	images: Prisma.ImageOrganizationCreateManyOrganizationInput[];
 	products: Prisma.ProductCreateInput[];
 	categoryList: Prisma.CategoryListCreateInput;
@@ -48,8 +48,9 @@ export type OrganizationWithShopDetails = Organization &
 		images: ImageOrganization[];
 		products: ProductWithShopDetails[];
 		categoryList: CategoryList;
-		schedule: Schedule;
+		schedule: Schedule[];
 		vendor: Vendor;
+		siteSetting: SiteSetting;
 	};
 
 export type OrganizationWithDashboardDetails = Organization & {
@@ -61,7 +62,7 @@ export type OrganizationWithDashboardDetails = Organization & {
 	categoryList: CategoryList;
 	categories?: Category[];
 	siteSetting: SiteSetting;
-	schedule: Schedule;
+	schedule: Schedule[];
 	subdomain: SubDomain;
 	vendor: Vendor;
 };

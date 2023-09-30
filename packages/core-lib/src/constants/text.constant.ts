@@ -111,6 +111,7 @@ const TextContent = Object.freeze({
 
 	error: {
 		DISPENSARY_NOT_FOUND: `Dispensary is not found.`,
+		DISPENSARY_NOT_ACCEPTING_PAYMENTS: `We're sorry, but this dispensary is not accepting orders at this time.`,
 		DRIVER_NOT_FOUND: `Driver is not found.`,
 		ORDER_NOT_FOUND: `Order is not found.`,
 		INVALID_ORDER: `Invalid order.`,
@@ -127,17 +128,17 @@ const TextContent = Object.freeze({
 
 		CONNECTION_ISSUE:
 			"We're having trouble connecting you. Please try again later. Thank you!",
-		REQUEST_FAILED: 'Our bad, your request failed.',
+		REQUEST_FAILED: 'Your request failed.',
 		SERVER_NOT_AVAILABLE: `This service is not available. ${'\n'}Please try again later.`,
 	},
 
 	info: {
 		ABOUT_GRAS: `Gras is a home-grown service-first company. We serve our communities by enabling communication and support between people and businesses.`,
-		BUILDING_TRUST_WITH_OUR_PARTNERS: `Our Gras team works to build a trusted community of partners and cannabis lovers.`,
+		BUILDING_TRUST_WITH_OUR_PARTNERS: `Gras is building a trusted community of partners and cannabis lovers.`,
 		CANNABIS_DELIVERED: `Cannabis,${'\xa0'}Delivered.${'\xa0'}🌴${'\xa0'}🔥`,
 		CANNABIS_DELIVERED_TODAY: `Cannabis,${'\xa0'}Delivered${'\xa0'}Today🌴`,
 		COMPANY_NAME: 'Gras',
-		CONTACT_SUPPORT: `For support, dial ${process.env.SUPPORT_PHONE}.`,
+		CONTACT_SUPPORT: `For support, dial ${process.env.NEXT_PUBLIC_SUPPORT_PHONE}.`,
 		EMAIL: 'Email',
 		GET_CANNABIS_DELIVERED: `Get${nbsp}Cannabis${nbsp}Delivered`,
 		GRAS_MISSION: `We are here to cultivate fulfillment and meaningful experiences with our customers and partners in the cannabis world, one${nbsp}delivery${nbsp}at${nbsp}a${nbsp}time.`,
@@ -306,7 +307,10 @@ const TextContent = Object.freeze({
 	href: {
 		browse: '/browse',
 
+		about: '/about-gras',
+		blog: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/blog`,
 		support: '/support',
+		services: `${process.env.NEXT_PUBLIC_DASHBOARD_APP_URL}/signup`,
 
 		dashboard_f: (id: string) => `/${id}/dashboard`,
 		orders_f: (id: string) => `/${id}/orders`,

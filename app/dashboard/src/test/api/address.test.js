@@ -36,7 +36,7 @@ describe('handler makes the correct server call with the given params', () => {
 		handler(req, res).then(thenFn).catch(catchFn);
 
 		// end point is not defined
-		expect(res._getStatusCode()).toBe(404);
+		expect(res._getStatusCode()).toStrictEqual(404);
 
 		// expect(axios.post).toHaveBeenCalledTimes(1);
 		// expect(axios.post).toHaveBeenCalledWith(urlBuilder.main.address(), req.body);

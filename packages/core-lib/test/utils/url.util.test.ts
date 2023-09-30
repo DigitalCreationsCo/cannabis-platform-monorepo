@@ -1,8 +1,10 @@
 import {
 	formatDispensaryUrl,
-	getDashboardSite, getDispensaryDomain,
-	getShopSite, makeUrlFriendly, parseUrlParameters,
-	parseUrlStringToObject
+	getDashboardSite,
+	getDispensaryDomain,
+	getShopSite,
+	parseUrlFriendlyStringToObject,
+	parseUrlParameters
 } from '../../src/utils/url.util';
 
 describe('formatUrl.test', () => {
@@ -107,10 +109,10 @@ describe('getDispensaryDomain', () => {
 	});
 });
 
-describe('parseUrlStringToObject', () => {
+describe('parseUrlFriendlyStringToObject', () => {
 	it('parses string of parameters into object', () => {
 		const paramString = `SmsMessageSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&NumMedia=0&SmsSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&SmsStatus=received&Body=1&To=%2B16674084833&NumSegments=1&MessageSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&AccountSid=KhtyQHt5jqQ91QA7UzskjA%3D%3D&From=%2B15707901185&ApiVersion=2010-04-01`
-		expect(parseUrlStringToObject(paramString)).toStrictEqual({
+		expect(parseUrlFriendlyStringToObject(paramString)).toStrictEqual({
 			SmsMessageSid: "SMIUiUtGDXgITHegOTsXK4I_A==",
 			NumMedia: "0",
 			SmsSid: "SMIUiUtGDXgITHegOTsXK4I_A==",
@@ -127,14 +129,7 @@ describe('parseUrlStringToObject', () => {
 
 	it('does not parses a url', () => {
 		const fullUrl = "https://localhost:3000?SmsMessageSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&NumMedia=0&SmsSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&SmsStatus=received&Body=1&To=%2B16674084833&NumSegments=1&MessageSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&AccountSid=KhtyQHt5jqQ91QA7UzskjA%3D%3D&From=%2B15707901185&ApiVersion=2010-04-01";
-		expect(parseUrlStringToObject(fullUrl)).toStrictEqual({})
-	})
-})
-
-describe('parseUrlParameters', () => {
-	it('parses string of parameters into object', () => {
-		const paramString = `SmsMessageSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&NumMedia=0&SmsSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&SmsStatus=received&Body=1&To=%2B16674084833&NumSegments=1&MessageSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&AccountSid=KhtyQHt5jqQ91QA7UzskjA%3D%3D&From=%2B15707901185&ApiVersion=2010-04-01`
-		expect(parseUrlParameters(paramString)).toStrictEqual({
+		expect(parseUrlFriendlyStringToObject(fullUrl)).toStrictEqual({
 			SmsMessageSid: "SMIUiUtGDXgITHegOTsXK4I_A==",
 			NumMedia: "0",
 			SmsSid: "SMIUiUtGDXgITHegOTsXK4I_A==",
@@ -146,9 +141,11 @@ describe('parseUrlParameters', () => {
 			AccountSid: "KhtyQHt5jqQ91QA7UzskjA==",
 			From: "+15707901185",
 			ApiVersion: "2010-04-01"
-		  })
+		})
 	})
+})
 
+describe('parseUrlParameters', () => {
 	it('successfully parses url params', () => {
 		const fullUrl = "https://localhost:3000?SmsMessageSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&NumMedia=0&SmsSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&SmsStatus=received&Body=1&To=%2B16674084833&NumSegments=1&MessageSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&AccountSid=KhtyQHt5jqQ91QA7UzskjA%3D%3D&From=%2B15707901185&ApiVersion=2010-04-01";
 		expect(parseUrlParameters(fullUrl)).toStrictEqual({

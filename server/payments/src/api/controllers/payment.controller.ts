@@ -1,3 +1,4 @@
+import { TextContent } from '@cd/core-lib';
 import {
 	getStripeAccountId,
 	type OrderCreateType,
@@ -38,9 +39,7 @@ export default class PaymentController {
 					order.organizationId,
 				);
 				if (!order.organization.stripeAccountId)
-					throw new Error(
-						`We're sorry, but this dispensary is not accepting payments at this time.`,
-					);
+					throw new Error(TextContent.error.DISPENSARY_NOT_ACCEPTING_PAYMENTS);
 			}
 
 			// handle in-service db op, if this call fails

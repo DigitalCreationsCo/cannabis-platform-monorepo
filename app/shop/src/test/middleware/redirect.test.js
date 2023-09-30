@@ -62,26 +62,26 @@ describe('Middleware Redirect Test', () => {
 	});
 
 	// it('url/app redirects to not found', async () => {
-	// 	expect('1').toBe('1');
+	// 	expect('1').toStrictEqual('1');
 	// });
 
 	// it('app.url redirects to dashboard app page', async () => {
-	// 	expect('1').toBe('1');
+	// 	expect('1').toStrictEqual('1');
 	// });
 
 	// it('app.url without client cookies, redirects to dashboard landing page', async () => {
-	// 	expect('1').toBe('1');
+	// 	expect('1').toStrictEqual('1');
 	// });
 
 	// it('app.url redirects to dashboard app page', async () => {
-	// 	expect('1').toBe('1');
+	// 	expect('1').toStrictEqual('1');
 	// });
 
 	// it('/browse/[] redirects to storefront page', async () => {
-	// 	expect('1').toBe('1');
+	// 	expect('1').toStrictEqual('1');
 	// });
 
 	it('unverified users can access /survey', async () => {
-		expect('1').toBe('1');
+		expect('1').toStrictEqual('1');
 	});
 });

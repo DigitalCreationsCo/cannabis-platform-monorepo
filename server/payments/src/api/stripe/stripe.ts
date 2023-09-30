@@ -1,7 +1,5 @@
 /* eslint-disable no-case-declarations */
 import {
-	calculateDeliveryFeeForTransaction,
-	calculatePlatformFeeForTransaction,
 	generateCheckoutLineItemsFromOrderItems,
 	TextContent,
 	type CheckoutSessionMetaData,
@@ -47,7 +45,7 @@ class StripeService {
 							display_name: 'Delivery Fee',
 							type: 'fixed_amount',
 							fixed_amount: {
-								amount: calculateDeliveryFeeForTransaction(order.total),
+								amount: order.deliveryFee,
 								currency: 'usd',
 							},
 							delivery_estimate: {
@@ -58,13 +56,23 @@ class StripeService {
 							},
 						},
 					},
+					{
+						shipping_rate_data: {
+							display_name: 'Mileae Fee',
+							type: 'fixed_amount',
+							fixed_amount: {
+								amount: order.mileageFee,
+								currency: 'usd',
+							},
+						},
+					},
 				],
 				payment_intent_data: {
 					description: `Order from ${order.organization.name}`,
 					on_behalf_of: dispensaryStripeAccountId,
 					receipt_email: order.customer.email,
 					capture_method: 'automatic',
-					application_fee_amount: calculatePlatformFeeForTransaction(123),
+					application_fee_amount: order.platformFee,
 					transfer_data: {
 						destination: dispensaryStripeAccountId,
 					},

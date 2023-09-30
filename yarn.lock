@@ -3811,6 +3811,7 @@ __metadata:
     react-dom: 18.2.0
     react-dropzone: 14.2.3
     react-hot-toast: 2.4.0
+    react-iframe: 1.8.5
     react-redux: 8.0.2
     redux-devtools-extension: 2.13.9
     redux-persist: 6.0.0
@@ -3905,6 +3906,7 @@ __metadata:
     react-dropzone: 14.2.3
     react-google-recaptcha: 3.1.0
     react-hot-toast: 2.4.0
+    react-iframe: 1.8.5
     react-redux: 8.0.2
     react-responsive-carousel: 3.2.23
     react-slick: 0.29.0
@@ -3959,6 +3961,7 @@ __metadata:
     dotenv-expand: 10.0.0
     eslint: 8.29.0
     find-up: 5.0.0
+    haversine-distance: 1.2.1
     jest: 29.3.1
     jest-environment-jsdom: 29.3.1
     jest-junit: 16.0.0
@@ -19662,6 +19665,13 @@ babel-watch@kmagiera/babel-watch:
   languageName: node
   linkType: hard
 
+"haversine-distance@npm:1.2.1":
+  version: 1.2.1
+  resolution: "haversine-distance@npm:1.2.1"
+  checksum: a91819362af09da0b9081ef5406a771819e4cbae00d9ada02bf1898f2fd5176d79c54f3bae8e3dbedbd8f1101dd6cc07a3989e427e358a898e9cff28e938dfc5
+  languageName: node
+  linkType: hard
+
 "hermes-estree@npm:0.8.0":
   version: 0.8.0
   resolution: "hermes-estree@npm:0.8.0"
@@ -28336,6 +28346,17 @@ babel-watch@kmagiera/babel-watch:
     react: ">=16"
     react-dom: ">=16"
   checksum: 910214496d6821af8e643c5f7087eff6c76f1395756f3d6cf1fc07a599c582c443cbb5a4cadfc58205acf0845b77a2a10a4ca49b385e772b72edc57dfd38d016
+  languageName: node
+  linkType: hard
+
+"react-iframe@npm:1.8.5":
+  version: 1.8.5
+  resolution: "react-iframe@npm:1.8.5"
+  dependencies:
+    object-assign: ^4.1.1
+  peerDependencies:
+    react: ">=16.x.x"
+  checksum: b2bb08039329035d44d6d85613337e200b7fe6d854dd45a54c34fc53ff4118874f23e17c7dbbb4825cd3d4b874ae4436edcabc819308e1aea4fdc3730ea50df0
   languageName: node
   linkType: hard
 

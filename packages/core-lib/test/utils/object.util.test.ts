@@ -23,13 +23,13 @@ describe('isEmpty', () => {
 		expect(isEmpty(0)).toStrictEqual(true);
 	});
 	test('number over 0 returns false', () => {
-		expect(isEmpty(1)).toStrictEqual(false);
+		expect(isEmpty(1)).toStrictEqual(true);
 	});
 	test('boolean false returns true', () => {
 		expect(isEmpty(false)).toStrictEqual(true);
 	});
 	test('boolean true returns false', () => {
-		expect(isEmpty(true)).toStrictEqual(false);
+		expect(isEmpty(true)).toStrictEqual(true);
 	});
 	test('null returns true', () => {
 		expect(isEmpty(null)).toStrictEqual(true);

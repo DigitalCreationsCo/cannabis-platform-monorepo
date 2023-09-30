@@ -42,11 +42,11 @@ describe('Crawler : Dutchie', () => {
 	// 	expect(await getCartDOMElements(config, $)).toMatchObject(result);
 
 	// 	expect(result.items).toBeDefined();
-	// 	expect(isArray(result.items)).toBe(true);
+	// 	expect(isArray(result.items)).toStrictEqual(true);
 	// 	expect(result.items.length).toBeGreaterThan(0);
 
 	// 	expect(result.total).toBeDefined();
-	// 	expect(typeof result.total).toBe('string');
+	// 	expect(typeof result.total).toStrictEqual('string');
 	// });
 
 	// it('processCrawlerData returns defined data', async () => {
@@ -57,16 +57,16 @@ describe('Crawler : Dutchie', () => {
 	// 		cartItems: [],
 	// 	};
 	// 	expect(typeof data).toBeDefined();
-	// 	expect(typeof data).toBe('object');
+	// 	expect(typeof data).toStrictEqual('object');
 	// 	expect(typeof data).toStrictEqual(typeof simpleCart);
 
 	// 	expect(data.cartItems).toBeDefined();
-	// 	expect(isArray(data.cartItems)).toBe(true);
+	// 	expect(isArray(data.cartItems)).toStrictEqual(true);
 	// 	expect(data.cartItems.length).toBeGreaterThan(0);
 
 	// 	expect(data.total).toBeDefined();
 	// 	expect(data.total).not.toBeNaN();
-	// 	expect(typeof data.total).toBe('number');
+	// 	expect(typeof data.total).toStrictEqual('number');
 	// });
 
 	it('buildSimpleCartFromDutchieCheckout returns defined data', async () => {
@@ -105,7 +105,7 @@ describe('Crawler : Dutchie', () => {
 	// 	const { items } = await getCartDOMElements(config, $);
 	// 	const result = buildCartItems(items, config, $);
 	// 	expect(result).toBeDefined();
-	// 	expect(isArray(result)).toBe(true);
+	// 	expect(isArray(result)).toStrictEqual(true);
 	// 	expect(result[0].name).toBeTruthy();
 	// });
 
@@ -137,53 +137,53 @@ describe('Dutchie-Checkout Regex', () => {
 		const string = 'Guava Fig - 3.5g | 1/8oz';
 
 		const name = string.match(regexFieldDict.name)?.[0];
-		expect(name).toBe('Guava Fig');
+		expect(name).toStrictEqual('Guava Fig');
 		const size = string.match(regexFieldDict.size)?.[1];
-		expect(size).toBe('3.5');
+		expect(size).toStrictEqual('3.5');
 		const unit = string.match(regexFieldDict.unit)?.[1];
-		expect(unit).toBe('g');
+		expect(unit).toStrictEqual('g');
 
 		const string2 = 'Deep Line Alchemy Pre-rolls - 1g';
-		expect(string2.match(regexFieldDict.name)?.[0]).toBe(
+		expect(string2.match(regexFieldDict.name)?.[0]).toStrictEqual(
 			'Deep Line Alchemy Pre-rolls',
 		);
-		expect(string2.match(regexFieldDict.size)?.[1]).toBe('1');
-		expect(string2.match(regexFieldDict.unit)?.[1]).toBe('g');
+		expect(string2.match(regexFieldDict.size)?.[1]).toStrictEqual('1');
+		expect(string2.match(regexFieldDict.unit)?.[1]).toStrictEqual('g');
 
 		const string3 = 'Berry Bliss Airo Pod - 1g';
-		expect(string3.match(regexFieldDict.name)?.[0]).toBe(
+		expect(string3.match(regexFieldDict.name)?.[0]).toStrictEqual(
 			'Berry Bliss Airo Pod',
 		);
-		expect(string3.match(regexFieldDict.size)?.[1]).toBe('1');
-		expect(string3.match(regexFieldDict.unit)?.[1]).toBe('g');
+		expect(string3.match(regexFieldDict.size)?.[1]).toStrictEqual('1');
+		expect(string3.match(regexFieldDict.unit)?.[1]).toStrictEqual('g');
 
 		const string4 = 'ElderYum Elderberry Hemp CBD Chews - 500mg';
-		expect(string4.match(regexFieldDict.name)?.[0]).toBe(
+		expect(string4.match(regexFieldDict.name)?.[0]).toStrictEqual(
 			'ElderYum Elderberry Hemp CBD Chews',
 		);
-		expect(string4.match(regexFieldDict.size)?.[1]).toBe('500');
-		expect(string4.match(regexFieldDict.unit)?.[1]).toBe('mg');
+		expect(string4.match(regexFieldDict.size)?.[1]).toStrictEqual('500');
+		expect(string4.match(regexFieldDict.unit)?.[1]).toStrictEqual('mg');
 
 		const string5 = 'HappyDawg Hemp Pet Tincture';
-		expect(string5.match(regexFieldDict.name)?.[0]).toBe(
+		expect(string5.match(regexFieldDict.name)?.[0]).toStrictEqual(
 			'HappyDawg Hemp Pet Tincture',
 		);
-		expect(string5.match(regexFieldDict.size)?.[1]).toBe(undefined);
-		expect(string5.match(regexFieldDict.unit)?.[1]).toBe(undefined);
+		expect(string5.match(regexFieldDict.size)?.[1]).toStrictEqual(undefined);
+		expect(string5.match(regexFieldDict.unit)?.[1]).toStrictEqual(undefined);
 
 		const string6 = 'FelineK9 Serenity Hemp Pet Tincture - 840mg';
-		expect(string6.match(regexFieldDict.name)?.[0]).toBe(
+		expect(string6.match(regexFieldDict.name)?.[0]).toStrictEqual(
 			'FelineK9 Serenity Hemp Pet Tincture',
 		);
-		expect(string6.match(regexFieldDict.size)?.[1]).toBe('840');
-		expect(string6.match(regexFieldDict.unit)?.[1]).toBe('mg');
+		expect(string6.match(regexFieldDict.size)?.[1]).toStrictEqual('840');
+		expect(string6.match(regexFieldDict.unit)?.[1]).toStrictEqual('mg');
 
 		const string7 = 'GR Cherry Burger 50mg RSO Caps ($45 Product)';
-		expect(string7.match(regexFieldDict.name)?.[0]).toBe(
+		expect(string7.match(regexFieldDict.name)?.[0]).toStrictEqual(
 			'GR Cherry Burger 50mg RSO Caps',
 		);
-		expect(string7.match(regexFieldDict.size)?.[1]).toBe('50');
-		expect(string7.match(regexFieldDict.unit)?.[1]).toBe('mg');
+		expect(string7.match(regexFieldDict.size)?.[1]).toStrictEqual('50');
+		expect(string7.match(regexFieldDict.unit)?.[1]).toStrictEqual('mg');
 	});
 });
 

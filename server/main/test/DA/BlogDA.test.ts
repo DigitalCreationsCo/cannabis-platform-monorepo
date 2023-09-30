@@ -1,7 +1,7 @@
 import request from 'supertest';
 import { connectDb, server } from '../../src';
 
-let app = request(server);
+const app = request(server);
 
 beforeAll(() => {
 	connectDb();
@@ -13,7 +13,7 @@ beforeAll(() => {
 // i can mock these routes much easier, by mocking the controller function being called
 
 describe('POST /login', function () {
-	test('responds with 200, returns user json', async function () {
+	it('responds with 200, returns user json', async function () {
 		await app
 			.get('/api/v1/organization/2')
 			.set('Accept', 'application/json')
@@ -25,7 +25,7 @@ describe('POST /login', function () {
 	});
 });
 describe('GET /logout', function () {
-	test('/200, revokes session', async function () {
+	it('/200, revokes session', async function () {
 		await app
 			.get('/api/v1/organization/2')
 			.set('Accept', 'application/json')
@@ -38,7 +38,7 @@ describe('GET /logout', function () {
 });
 
 describe('GET /userbyId', function () {
-	test('/2 responds with 200, & json response', async function () {
+	it('/2 responds with 200, & json response', async function () {
 		await app
 			.get('/api/v1/organization/2')
 			.set('Accept', 'application/json')
@@ -51,7 +51,7 @@ describe('GET /userbyId', function () {
 });
 
 describe('GET /userbyId', function () {
-	test('/2 responds with 404, when user is not found & null json response', async function () {
+	it('/2 responds with 404, when user is not found & null json response', async function () {
 		await app
 			.get('/api/v1/organization/2')
 			.set('Accept', 'application/json')
@@ -64,7 +64,7 @@ describe('GET /userbyId', function () {
 });
 
 describe('GET /userbyEmail', function () {
-	test('/2 responds with 200, & json response', async function () {
+	it('/2 responds with 200, & json response', async function () {
 		await app
 			.get('/api/v1/organization/2')
 			.set('Accept', 'application/json')
@@ -77,7 +77,7 @@ describe('GET /userbyEmail', function () {
 });
 
 describe('GET /userbyEmail', function () {
-	test('/2 responds with 404, when user email is not found & null json response', async function () {
+	it('/2 responds with 404, when user email is not found & null json response', async function () {
 		await app
 			.get('/api/v1/organization/2')
 			.set('Accept', 'application/json')
@@ -90,7 +90,7 @@ describe('GET /userbyEmail', function () {
 });
 
 describe('GET addressById', function () {
-	test('/2/categories responds with 200, & json response', async function () {
+	it('/2/categories responds with 200, & json response', async function () {
 		await app
 			.get('/api/v1/organization/2/categories')
 			.set('Accept', 'application/json')
@@ -103,7 +103,7 @@ describe('GET addressById', function () {
 });
 
 describe('GET addressById', function () {
-	test('/2/categories responds with 404 when address is not found, & null json response', async function () {
+	it('/2/categories responds with 404 when address is not found, & null json response', async function () {
 		await app
 			.get('/api/v1/organization/2/categories')
 			.set('Accept', 'application/json')
@@ -116,7 +116,7 @@ describe('GET addressById', function () {
 });
 
 describe('POST addAddressToUser', function () {
-	test('/2/categories responds with 200, & json response', async function () {
+	it('/2/categories responds with 200, & json response', async function () {
 		await app
 			.get('/api/v1/organization/2/categories')
 			.set('Accept', 'application/json')
@@ -129,7 +129,7 @@ describe('POST addAddressToUser', function () {
 });
 
 describe('POST addAddressToUser', function () {
-	test('/2/categories responds with 500 with bad req body, & null response', async function () {
+	it('/2/categories responds with 500 with bad req body, & null response', async function () {
 		await app
 			.get('/api/v1/organization/2/categories')
 			.set('Accept', 'application/json')
@@ -168,7 +168,7 @@ describe('POST addAddressToUser', function () {
 // });
 
 describe('POST /  to create a user', function () {
-	test('responds with 200, returns user json', async function () {
+	it('responds with 200, returns user json', async function () {
 		await app
 			.get('/api/v1/organization/2')
 			.set('Accept', 'application/json')
@@ -181,7 +181,7 @@ describe('POST /  to create a user', function () {
 });
 
 describe('POST /  to create a user', function () {
-	test('responds with 500 with bad request data, returns user json', async function () {
+	it('responds with 500 with bad request data, returns user json', async function () {
 		await app
 			.get('/api/v1/organization/2')
 			.set('Accept', 'application/json')
@@ -194,7 +194,7 @@ describe('POST /  to create a user', function () {
 });
 
 describe('PUT /  to create a user', function () {
-	test('responds with 200, returns user json', async function () {
+	it('responds with 200, returns user json', async function () {
 		await app
 			.get('/api/v1/organization/2')
 			.set('Accept', 'application/json')
@@ -207,7 +207,7 @@ describe('PUT /  to create a user', function () {
 });
 
 describe('PUT /  to create a user', function () {
-	test('responds with 500 with bad request data, returns user json', async function () {
+	it('responds with 500 with bad request data, returns user json', async function () {
 		await app
 			.get('/api/v1/organization/2')
 			.set('Accept', 'application/json')
