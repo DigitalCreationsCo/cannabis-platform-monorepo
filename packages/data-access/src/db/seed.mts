@@ -1,20 +1,20 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
-    PrismaClient,
-    type Address,
-    type Category,
-    type Coordinates,
-    type ImageArticle,
-    type ImageOrganization,
-    type ImageProduct,
-    type ImageUser,
-    type ImageVendor,
-    type Membership,
-    type Prisma,
-    type ProductVariant,
-    type Schedule,
-    type SubDomain,
-    type Vendor
+	PrismaClient,
+	type Address,
+	type Category,
+	type Coordinates,
+	type ImageArticle,
+	type ImageOrganization,
+	type ImageProduct,
+	type ImageUser,
+	type ImageVendor,
+	type Membership,
+	type Prisma,
+	type ProductVariant,
+	type Schedule,
+	type SubDomain,
+	type Vendor,
 } from '@prisma/client';
 import axios from 'axios';
 import { type OrganizationCreateType } from '../organization.types';

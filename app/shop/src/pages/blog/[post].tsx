@@ -6,7 +6,6 @@ import {
 	FlexBox,
 	H2,
 	Page,
-	Paragraph,
 	Small,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
@@ -35,6 +34,7 @@ function BlogArticle({ article }: { article: ArticleWithDetails }) {
 						{'<'}
 					</Button>
 				</FlexBox>
+				<Small>{article.description}</Small>
 				<img
 					src={article.image.location || logo.src}
 					alt={article.name}
@@ -42,7 +42,7 @@ function BlogArticle({ article }: { article: ArticleWithDetails }) {
 					height={200}
 				/>
 				<FlexBox className="grow">
-					<Paragraph>{article.description}</Paragraph>
+					<Small>{article.content}</Small>
 				</FlexBox>
 				<CopyRight />
 			</FlexBox>
@@ -63,7 +63,7 @@ export async function getStaticPaths() {
 
 	const blogs = response.data.payload;
 	const paths = blogs?.map((blog: ArticleWithDetails) => ({
-		params: { id: blog.id.toString() },
+		params: { post: blog.id.toString() },
 	}));
 
 	return { paths, fallback: false };
