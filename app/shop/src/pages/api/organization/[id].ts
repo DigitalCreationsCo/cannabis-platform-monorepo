@@ -11,10 +11,7 @@ const handler = nc();
 // get a single organization details
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 	try {
-		res.setHeader(
-			'Cache-Control',
-			'public, s-maxage=10, stale-while-revalidate=59',
-		);
+		res.setHeader('Cache-Control', 'public, s-maxage=60');
 
 		const { id } = req.query;
 		console.debug('get organization by Id: ', id);

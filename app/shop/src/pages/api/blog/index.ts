@@ -9,10 +9,7 @@ const handler = nc();
 // get latest blogs
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 	try {
-		res.setHeader(
-			'Cache-Control',
-			'public, s-maxage=10, stale-while-revalidate=59',
-		);
+		res.setHeader('Cache-Control', 'public, s-maxage=360');
 		if (cache.has(`blogs/latest`)) {
 			const blogs = cache.get(`blogs/latest`);
 			return res.status(200).json({

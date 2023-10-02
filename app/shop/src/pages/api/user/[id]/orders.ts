@@ -5,6 +5,7 @@ import nc from 'next-connect';
 
 const handler = nc();
 
+// get orders from a single user
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 	try {
 		res.setHeader('Cache-Control', 'public, s-maxage=120');

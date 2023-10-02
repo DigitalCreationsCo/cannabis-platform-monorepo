@@ -9,10 +9,7 @@ const handler = nc();
 // get products from an organization
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 	try {
-		res.setHeader(
-			'Cache-Control',
-			'public, s-maxage=10, stale-while-revalidate=59',
-		);
+		res.setHeader('Cache-Control', 'public, s-maxage=60');
 		const organizationId = '';
 		// blank
 		if (cache.has(`products/org/${organizationId}`)) {
