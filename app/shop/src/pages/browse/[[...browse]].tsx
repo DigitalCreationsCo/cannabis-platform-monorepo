@@ -54,7 +54,9 @@ export default function MarketPlace() {
 			<Grid className="relative space-y-5">
 				<Carousel
 					Component={InfoCard}
-					title={'Gras is now delivering in Baltimore!'}
+					title={`Gras is now delivering in ${
+						selectedLocation.address.city || 'Baltimore'
+					}!`}
 					titleSize="lg"
 					data={news}
 					dataKey="news"
@@ -63,7 +65,16 @@ export default function MarketPlace() {
 				/>
 
 				<Carousel
-					title={`Dispensaries Near You ( ${selectedLocation.address.city} )`}
+					title={`Get Delivery`}
+					Component={DispensaryCard}
+					data={dispensaries}
+					dataKey="dispensary"
+					autoplaySpeed={7000}
+					speed={1000}
+				/>
+
+				<Carousel
+					title={`Dispensaries Near You`}
 					Component={DispensaryCard}
 					data={dispensaries}
 					dataKey="dispensary"

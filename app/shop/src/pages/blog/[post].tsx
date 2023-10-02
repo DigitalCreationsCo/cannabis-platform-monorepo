@@ -28,7 +28,8 @@ function BlogArticle({ article }: { article: ArticleWithDetails }) {
 					</Small>
 					<Button
 						size="sm"
-						className="self-start px-4"
+						bg="accent-soft"
+						className="text-dark self-start px-4"
 						onClick={() => Router.back()}
 					>
 						{'<'}
