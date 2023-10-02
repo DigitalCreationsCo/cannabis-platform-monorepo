@@ -198,6 +198,7 @@ const VerifyPhotoId = () => {
 								const uploadFile: Image[] = await Promise.all(promiseFiles);
 								setFrontImage(uploadFile[0]);
 							}}
+							imageSize="Upload 600 * 600 image"
 						/>
 					)}
 				</div>
@@ -236,6 +237,7 @@ const VerifyPhotoId = () => {
 								const uploadFile: Image[] = await Promise.all(promiseFiles);
 								setBackImage(uploadFile[0]);
 							}}
+							imageSize="Upload 600 * 600 image"
 						/>
 					)}
 				</div>

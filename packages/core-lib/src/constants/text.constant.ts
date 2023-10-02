@@ -80,7 +80,7 @@ const TextContent = Object.freeze({
 		ABOUT_DISPENSARY_ADMIN_ACCOUNT: `Create an account to own and manage your dispensary's inventory, data, and other users. 
     This account will have the most access to your dispensary.`,
 		NO_MEMBERSHIP_PERMISSION: `You don't have the permissions to sign in here. 
-	Please contact Gras support.`,
+	Please visit grascannabis.org.`,
 		DISPENSARY_JOINING: `We're happy you're joining us on our journey to serve the world of cannabis!`,
 
 		DISPENSARIES_START_HERE: 'Dispensaries, get started here',
@@ -141,7 +141,7 @@ const TextContent = Object.freeze({
 		CONTACT_SUPPORT: `For support, dial ${process.env.NEXT_PUBLIC_SUPPORT_PHONE}.`,
 		EMAIL: 'Email',
 		GET_CANNABIS_DELIVERED: `Get${nbsp}Cannabis${nbsp}Delivered`,
-		GRAS_MISSION: `We are here to cultivate fulfillment and meaningful experiences with our customers and partners in the cannabis world, one${nbsp}delivery${nbsp}at${nbsp}a${nbsp}time.`,
+		GRAS_MISSION: `Our mission is to cultivate fulfillment and meaningful experiences with our customers and partners in the cannabis world, one${nbsp}delivery${nbsp}at${nbsp}a${nbsp}time.`,
 		LEARN_MORE: `Learn more`,
 		MORE_CONTENT_COMING_SOON: `Our Team is bringing you more news and content from the world of cannabis.`,
 		ONE_STOP: 'a one stop cannabis marketplace',
@@ -155,8 +155,8 @@ const TextContent = Object.freeze({
 		GRAS_WILL_DELIVER_STRAIGHT_TO_YOUR_DOOR:
 			'Gras will deliver your order straight to your door.',
 		GRAS_DELIVERS_FOR_DISPENSARIES:
-			'Gras delivers for Medicinal and Recreational Dispensaries directly to their customers.',
-		YOUR_CUSTOMERS_ARE_OUR_CUSTOMERS: `Your customers are our customers.`,
+			'Gras delivers for Medicinal and Recreational Dispensaries directly to customers.',
+		YOUR_PEOPLE_ARE_OUR_PEOPLE: `Your people are our people.`,
 		DELIVER_FOR_GRAS: 'Deliver for Gras',
 	},
 
@@ -308,6 +308,7 @@ const TextContent = Object.freeze({
 		browse: '/browse',
 
 		about: '/about-gras',
+		bag: '/mybag',
 		blog: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/blog`,
 		support: '/support',
 		services: `${process.env.NEXT_PUBLIC_DASHBOARD_APP_URL}/signup`,

@@ -3,9 +3,7 @@ import { integerToTime, showTime } from '../../src/utils/time.util';
 describe('showTime', () => {
 	const time = new Date('2020-01-01T12:00:00');
 	test(' displays a correct time', () => {
-		expect(showTime(time)).toStrictEqual(
-			'12:00 PM',
-		);
+		expect(showTime(time)).toStrictEqual('12:00 PM');
 	});
 });
 
@@ -25,7 +23,7 @@ describe('integerToTime ', () => {
 		expect(integerToTime(1200)).toStrictEqual('12:00pm');
 		expect(integerToTime(1224)).toStrictEqual('12:24pm');
 		expect(integerToTime(955)).toStrictEqual('9:55am');
-		expect(integerToTime(900)).toStrictEqual('9am');
+		expect(integerToTime(900)).toStrictEqual('9:00am');
 		expect(integerToTime(0)).toStrictEqual('12:00am');
 	});
 });

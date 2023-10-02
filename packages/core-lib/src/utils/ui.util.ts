@@ -100,8 +100,6 @@ export const getSelectedOptionValue = (selector: string, i: number) => {
 };
 
 export function getDigitToWord(digit: string | number) {
-	console.info('getDigitToWord: ', digit);
-
 	const digitMap = [
 		'zero',
 		'one',

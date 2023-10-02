@@ -60,7 +60,7 @@ app.use('/api/v1/error', errorRoute);
 app.use(STerror());
 app.use((err, req, res, next) => {
 	console.error('A general error occured: ', err);
-	res.status(500).json(err.message);
+	res.status(500).json({ success: false, error: err.message });
 	next();
 });
 

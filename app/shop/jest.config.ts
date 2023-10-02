@@ -1,5 +1,6 @@
-const packageJson = require('./package.json');
-const { getJestCachePath } = require('../../cache.config');
+/* eslint-disable @typescript-eslint/naming-convention */
+import { getJestCachePath } from '../../cache.config';
+import packageJson from './package.json';
 
 const getTestMatchers = ({
 	api = true,
@@ -31,7 +32,6 @@ const config = {
 		'<rootDir>/jest/setup.ts',
 		'@testing-library/jest-dom/extend-expect',
 	],
-	// globalSetup: '<rootDir>/jest/globals.mjs',
 	testMatch: [
 		...getTestMatchers({
 			api: false,
@@ -46,7 +46,13 @@ const config = {
 		'^.+\\.m?[tj]sx?$': [
 			'ts-jest',
 			{
-				tsconfig: './tsconfig.json',
+				tsconfig: './tsconfig.jest.json',
+			},
+		],
+		'^.+\\.tsx?$': [
+			'ts-jest',
+			{
+				tsconfig: './tsconfig.jest.json',
 			},
 		],
 		'^.+\\.(mjs|js|jsx)$': 'babel-jest',
