@@ -1,9 +1,9 @@
 const styles = Object.freeze({
 	about: [
-		'bg-inverse text-dark opacity-90 md:rounded ',
+		'bg-inverse text-dark opacity-90 sm:rounded ',
 		'space-y-2',
-		'mx-auto',
-		'cursor-default w-full md:max-w-[440px] grow h-fit p-8 items-center shadow',
+		'mx-auto lg:mx-16',
+		'cursor-default w-full sm:max-w-[440px] grow h-fit py-4 pb-8 px-8 items-center shadow',
 	],
 	HERO: {
 		container: [

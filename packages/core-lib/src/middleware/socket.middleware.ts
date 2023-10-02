@@ -55,7 +55,7 @@ const socketMiddleware = (store: Store<AppState>) => {
 			// if (token === undefined) {
 			//     throw new Error("User is not logged in");
 			// }
-			// const socket = io.connect('http://localhost:3000', {
+			// const socket = io.connect('http://localhost:3002', {
 			//     query: { token }
 			// });
 

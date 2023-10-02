@@ -31,6 +31,7 @@ export default function DropZone({
 			'image/jpeg': [],
 			'image/png': [],
 		},
+		noClick: true,
 	});
 	return (
 		<div
