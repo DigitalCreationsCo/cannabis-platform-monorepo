@@ -11,7 +11,7 @@ const locationMiddleware =
 			next(action);
 			if (action.type === 'user/signinUserSync') {
 				const user = action.payload as UserWithDetails;
-				if (user?.address !== undefined) {
+				if (!isEmpty(user?.address)) {
 					store.dispatch(locationActions.setAllLocations(user.address));
 					store.dispatch(locationActions.setHomeAddress(user.address[0]));
 					store.dispatch(locationActions.setCurrentAddress(user.address[0]));

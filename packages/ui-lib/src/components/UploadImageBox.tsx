@@ -15,7 +15,6 @@ const UploadImageBox = ({
 	];
 
 	return (
-		// <div
 		<button
 			onClick={onClick}
 			onKeyUp={onKeyUp}
@@ -30,7 +29,6 @@ const UploadImageBox = ({
 			</span>
 			{children}
 		</button>
-		// </div>
 	);
 };
 

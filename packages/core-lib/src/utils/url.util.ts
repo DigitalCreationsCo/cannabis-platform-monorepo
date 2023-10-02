@@ -1,26 +1,26 @@
 export function formatDispensaryUrl(subdomainId: string) {
 	switch (process.env.NODE_ENV) {
 		case 'development':
-			// return `http://localhost:3000/browse/${subdomainId}/${organizationId}`;
-			return `https://localhost:3000/browse/${subdomainId}`;
+			// return `http://localhost:3002/browse/${subdomainId}/${organizationId}`;
+			return `http://localhost:3002/browse/${subdomainId}`;
 		case 'test':
-			// return `http://localhost:3000/browse/${subdomainId}/${organizationId}`;
-			return `https://localhost:3000/browse/${subdomainId}`;
+			// return `http://localhost:3002/browse/${subdomainId}/${organizationId}`;
+			return `http://localhost:3002/browse/${subdomainId}`;
 		case 'production':
 			// return `https://grascannabis.org/browse/${subdomainId}/${organizationId}`;
 			return `https://grascannabis.org/browse/${subdomainId}`;
 		default:
-			// return `http://localhost:3000/browse/${subdomainId}/${organizationId}`;
-			return `https://localhost:3000/browse/${subdomainId}`;
+			// return `http://localhost:3002/browse/${subdomainId}/${organizationId}`;
+			return `http://localhost:3002/browse/${subdomainId}`;
 	}
 }
 
 export function formatBlogUrl(href: string) {
 	switch (process.env.NODE_ENV) {
 		case 'development':
-			return `https://localhost:3000/blog/${href}`;
+			return `http://localhost:3002/blog/${href}`;
 		case 'test':
-			return `https://localhost:3000/blog/${href}`;
+			return `http://localhost:3002/blog/${href}`;
 		case 'production':
 			return `https://grascannabis.org/blog/${href}`;
 		default:

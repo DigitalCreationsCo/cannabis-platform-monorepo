@@ -50,34 +50,12 @@ const Hero = () => {
 			<FlexBox className="container mx-auto flex flex-col flex-wrap px-8 pt-8 md:flex-row xl:px-0">
 				<div className="flex w-full items-center lg:w-1/2">
 					<div className="m-auto mb-8 max-w-2xl">
-						<H3 className="text-secondary text-md lg:text-2xl">
-							{TextContent.info.YOUR_CUSTOMERS_ARE_OUR_CUSTOMERS.toUpperCase()}
+						<H3 className="text-secondary text-md text-center lg:text-2xl">
+							{TextContent.info.YOUR_PEOPLE_ARE_OUR_PEOPLE.toUpperCase()}
 						</H3>
-						<H1 className="text-secondary-light text-justify text-2xl font-bold leading-snug tracking-tight lg:text-left  lg:text-4xl lg:leading-tight xl:text-[61px] xl:leading-tight">
+						<H1 className="text-secondary-light text-center text-4xl font-bold leading-snug tracking-tight lg:text-center lg:text-5xl lg:leading-tight xl:text-6xl xl:leading-tight">
 							{TextContent.info.GRAS_DELIVERS_FOR_DISPENSARIES}
 						</H1>
-						<FlexBox className="flex flex-col items-center space-y-4  p-4 md:flex-row md:items-end md:space-x-4">
-							<Link href={'#cannabis-heals'} scroll={false}>
-								<Button size="lg" bg="secondary-light" hover="primary-light">
-									{TextContent.info.LEARN_MORE}
-								</Button>
-							</Link>
-							<div className="flex w-full flex-col items-center justify-center ">
-								<Paragraph>
-									{`Missed our signup window?
-									Get on our waitlist. We'll keep you posted when we launch in your area.`}
-								</Paragraph>
-								<Iframe
-									className="m-auto"
-									src="https://embeds.beehiiv.com/2bc9d84b-e4a8-4cdd-a9ad-f75003eec7a0?slim=true"
-									data-test-id="beehiiv-embed"
-									height="52"
-									frame="0"
-									scrolling="no"
-									style="margin: 0; -radius: 0px !important; background-color: transparent;"
-								/>
-							</div>
-						</FlexBox>
 					</div>
 				</div>
 				<div className="m-auto w-1/3  md:my-auto md:ml-0 md:mr-auto lg:m-auto">
@@ -90,7 +68,31 @@ const Hero = () => {
 					/>
 				</div>
 			</FlexBox>
-			<H2 className="text-secondary text-center text-lg lg:text-2xl">
+			<FlexBox className="flex flex-col items-center justify-center space-y-4 pb-4 md:flex-row md:items-end md:space-x-12 lg:space-x-24">
+				<Link href={'#cannabis-heals'} scroll={false}>
+					<Button size="lg" bg="secondary-light" hover="primary-light">
+						{TextContent.info.LEARN_MORE}
+					</Button>
+				</Link>
+				<div className="flex flex-col items-center justify-center pb-2">
+					<Paragraph className="w-[330px]">
+						Missed our signup window?{'\n'}
+						<b>Get on our waitlist.</b> We'll keep you posted when we launch in
+						your area.
+					</Paragraph>
+					<Iframe
+						className="m-auto"
+						src="https://embeds.beehiiv.com/2bc9d84b-e4a8-4cdd-a9ad-f75003eec7a0?slim=true"
+						data-test-id="beehiiv-embed"
+						width="330"
+						height="52"
+						frame="0"
+						scrolling="no"
+						style="margin: 0; -radius: 0px !important; background-color: transparent;"
+					/>
+				</div>
+			</FlexBox>
+			<H2 className="text-secondary pb-8 pt-12 text-center text-lg lg:text-2xl">
 				{TextContent.info.BUILDING_TRUST_WITH_OUR_PARTNERS.toUpperCase()}
 			</H2>
 		</>
@@ -125,16 +127,16 @@ const SectionTitle = (props: any) => {
 const Benefits = (props: any) => {
 	const { data } = props;
 	return (
-		<FlexBox className="flex flex-col flex-wrap items-center  p-8 md:flex-row">
+		<FlexBox className="flex flex-col flex-wrap items-center justify-center space-y-8 p-8 md:flex-row md:space-x-12 md:space-y-0">
 			<div
-				className={` md:w-1/2 ${
+				className={`max-w-[580px] space-y-2 md:w-1/2 ${
 					data.imgPos === 'right' ? 'lg:justify-end' : ''
 				}`}
 			>
-				<H3 className="text-secondary-light mt-3 max-w-2xl text-3xl font-bold leading-snug tracking-tight lg:text-4xl lg:leading-tight">
+				<H3 className="text-secondary-light mt-3 max-w-2xl text-center text-3xl font-bold leading-snug tracking-tight lg:text-4xl lg:leading-tight">
 					{data.title}
 				</H3>
-				<Paragraph className="max-w-2xl py-4 leading-normal lg:text-xl xl:text-xl">
+				<Paragraph className="m-auto max-w-[440px] py-4 text-justify leading-normal lg:text-lg xl:text-lg">
 					{data.desc}
 				</Paragraph>
 				<div className="space-y-2">
@@ -146,19 +148,17 @@ const Benefits = (props: any) => {
 				</div>
 			</div>
 			<div
-				className={`flex items-center justify-center  md:w-1/2 ${
+				className={`flex max-w-[340px] items-center justify-center sm:w-1/3 ${
 					props.imgPos === 'right' ? 'lg:order-1' : ''
 				}`}
 			>
-				<div className="w-2/3 lg:m-auto lg:w-1/2">
-					<Image
-						src={data.image}
-						alt="Benefits"
-						className={'object-cover'}
-						placeholder="blur"
-						blurDataURL={data.image.src}
-					/>
-				</div>
+				<Image
+					src={data.image}
+					alt="Benefits"
+					className={'object-cover'}
+					placeholder="blur"
+					blurDataURL={data.image.src}
+				/>
 			</div>
 		</FlexBox>
 	);
@@ -166,7 +166,7 @@ const Benefits = (props: any) => {
 
 function Benefit(props: any) {
 	return (
-		<div className="flex items-start space-x-3 ">
+		<div className="m-auto flex max-w-[440px] items-start space-x-3">
 			<div className="mt-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-lime-400">
 				<IconWrapper className="text-dark" Icon={props.icon} iconSize={25} />
 			</div>
@@ -180,36 +180,37 @@ function Benefit(props: any) {
 
 const Faq = () => {
 	return (
-		<FlexBox className=" px-8">
-			<div className="mx-auto w-full max-w-2xl rounded-2xl p-2">
-				<H3 className="text-secondary-light mt-3 max-w-2xl text-2xl font-bold leading-snug tracking-tight sm:text-4xl lg:leading-tight">
+		<FlexBox className="mx-auto w-full max-w-2xl rounded-2xl p-8">
+			<div className="m-auto pb-8">
+				<H3 className="text-secondary-light mt-3 max-w-2xl text-center text-2xl font-bold leading-snug tracking-tight sm:text-4xl lg:leading-tight">
 					Frequently Asked Questions
 				</H3>
-				<Paragraph>
+				<Paragraph className="text-center">
 					Here are some questions we hear often. Have more questions?
 				</Paragraph>
 				<Link
 					href={TextContent.href.support}
-					className="font-semibold underline"
+					className="mx-auto font-semibold underline"
 				>
 					Get Support
 				</Link>
-				{faqdata.map((item, index: number) => (
-					<div
-						key={`faq-${index}`}
-						className="bg-inverse collapse mb-5 rounded shadow"
-					>
-						<input type="checkbox" />
-						<div className="collapse-title  text-xl font-medium">
-							<Paragraph className="text-primary">{item.question}</Paragraph>
-						</div>
-						<div className="collapse-content flex flex-row space-x-4">
-							<IconWrapper iconSize={28} Icon={icons.Flower} />
-							<Paragraph>{item.answer}</Paragraph>
-						</div>
-					</div>
-				))}
 			</div>
+
+			{faqdata.map((item, index: number) => (
+				<div
+					key={`faq-${index}`}
+					className="bg-inverse collapse mb-5 rounded shadow"
+				>
+					<input type="checkbox" />
+					<div className="collapse-title  text-xl font-medium">
+						<Paragraph className="text-primary">{item.question}</Paragraph>
+					</div>
+					<div className="collapse-content flex flex-row space-x-4">
+						<IconWrapper iconSize={28} Icon={icons.Flower} />
+						<Paragraph>{item.answer}</Paragraph>
+					</div>
+				</div>
+			))}
 		</FlexBox>
 	);
 };
@@ -240,13 +241,13 @@ const faqdata = [
 const CallToSignup = () => {
 	return (
 		<FlexBox className="px-8">
-			<div className="bg-secondary-light mx-auto flex w-full max-w-4xl flex-wrap items-center justify-around gap-5 rounded-xl p-7 text-white lg:flex-nowrap lg:p-12">
-				<div className="text-center lg:text-left">
+			<div className="bg-secondary-light mx-auto flex w-full max-w-4xl flex-col flex-wrap place-content-center content-center items-center space-y-4 rounded-xl p-7 text-white sm:flex-row sm:space-x-8 md:space-y-0 lg:flex-nowrap lg:p-12">
+				<div className="text-center lg:text-center">
 					<h2 className="text-2xl font-medium lg:text-3xl">
-						Make your customers happy.
+						Make your people happy.
 					</h2>
 					<p className="mt-2 font-medium text-white text-opacity-90 lg:text-xl">
-						Start delivering with Gras today.
+						Start Delivery by Gras today.
 					</p>
 				</div>
 				<Link href="/signup/create-dispensary-account">
@@ -265,8 +266,8 @@ const CallToSignup = () => {
 };
 
 const benefitOne = {
-	title: 'Cannabis Delivered In Baltimore, Maryland',
-	desc: 'Orders placed with our trusted Dispensary partners, will be delivered by a Gras Deliveryperson, safely and quickly to the customer. ',
+	title: 'Delivering Cannabis In Baltimore, Maryland',
+	desc: 'We help our Dispensary partners get delivery orders, and a trained Gras Deliveryperson delivers quickly and safely to the customer. ',
 	image: benefitOneImg,
 	bullets: [
 		{
