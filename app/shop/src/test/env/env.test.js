@@ -12,12 +12,12 @@ describe('Env vars are valid', () => {
 
 	it('Shop app url', () => {
 		expect(process.env.NEXT_PUBLIC_SHOP_APP_URL).toStrictEqual(
-			'https://localhost:3000',
+			'http://localhost:3002',
 		);
 	});
 	it('Checkout success url', () => {
 		expect(process.env.NEXT_PUBLIC_SHOP_APP_CHECKOUT_SUCCESS_URL).toStrictEqual(
-			'https://localhost:3000/checkout/success',
+			'http://localhost:3002/checkout/success',
 		);
 	});
 });

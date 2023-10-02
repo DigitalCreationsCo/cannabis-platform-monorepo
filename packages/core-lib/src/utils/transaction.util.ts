@@ -62,10 +62,8 @@ function convertCentsToDollars(cents: number) {
  * @returns a whole number conversion
  */
 function convertDollarsToWholeNumber(value: number | string) {
-	console.info('convertDollarsToWholeNumber: ', value);
 	// regex to remove all non-numeric characters, and joins the numbers
 	const number = value.toString().match(/\d*/g)?.join('');
-	console.info('convertDollarsToWholeNumber output: ', number);
 	return Number(number);
 }
 
@@ -77,11 +75,12 @@ function calculateTransactionFees(
 	const delivery_fee = calculateDeliveryFee(subtotal);
 	const mileage_fee = calculateMileageFee(distance);
 	const platform_fee = calculatePlatformFee(subtotal);
+
+	// customer pays for delivery fee, mileage fee
+	// dispensary pays for platform fee
+	// drivers are paid from delivery fees
 	const total =
-		Number(order.subtotal) +
-		Number(delivery_fee) +
-		Number(mileage_fee) +
-		Number(platform_fee);
+		Number(order.subtotal) + Number(delivery_fee) + Number(mileage_fee);
 
 	return {
 		...order,
@@ -111,14 +110,18 @@ function calculateDeliveryFee(subtotal: number) {
 
 function calculateMileageFee(meters: number) {
 	const miles = convertMetersToMiles(meters);
-	const distanceAfter3MilesUpTo10Msiles = miles < 10 ? miles - 3 : 7;
+	const distanceAfter2MilesUpTo10Msiles = Number(
+		(miles < 10 ? miles - 2 : 10 - 2).toFixed(2),
+	);
 	return Math.round(
-		distanceAfter3MilesUpTo10Msiles *
-			Number(process.env.NEXT_PUBLIC_MILEAGE_RATE),
+		distanceAfter2MilesUpTo10Msiles *
+			Number(process.env.NEXT_PUBLIC_MILEAGE_RATE) *
+			100,
 	);
 }
 
-const convertMetersToMiles = (meters: number) => meters / 1609.34;
+const convertMetersToMiles = (meters: number) =>
+	Number((meters / 1609.34).toFixed(2));
 
 /**
  * calculate the platform fee for a transaction

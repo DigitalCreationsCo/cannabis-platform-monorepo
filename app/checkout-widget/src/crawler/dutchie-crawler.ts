@@ -149,19 +149,22 @@ export function convertSubTotalAndTaxNumber(value: number | string) {
 		?.filter((val) => val !== '')
 		// filter numbers, concat dollar and cent pairs, and add the values
 		.reduce((acc, val, index, array) => {
-			console.log('array: ', array);
 			if (index % 2 === 0) {
 				console.log('index: ', index);
 				console.info('value: ', Number(array[index].concat(array[index + 1])));
 				acc += Number(array[index].concat(array[index + 1]));
 			}
-			console.info('acc: ', acc);
 			return acc;
 		}, 0) as number;
-	console.info('total: ', total);
 	return convertDollarsToWholeNumber(total);
 }
 
+/**
+ *
+ * @param inputString $label: $value$label: $value
+ * @param label
+ * @returns
+ */
 export function extractValueFromStringInfo(
 	inputString: string,
 	label: 'subtotal' | 'taxes',
@@ -170,19 +173,17 @@ export function extractValueFromStringInfo(
 	inputString = inputString.toLowerCase();
 	// Define a regular expression to match the label and the dollar values
 	const regex = new RegExp(`${label}: \\$([\\d.]+)`, 'g');
-
 	// Initialize variables to store the results
 	const matches = [];
 	let match;
-
 	// Use the regular expression to find all tax matches in the input string
 	while ((match = regex.exec(inputString)) !== null) {
+		const value = convertDollarsToWholeNumber(match[1]);
 		matches.push({
 			label: label,
-			value: match[1],
+			value: value,
 		});
 	}
-	console.info('matches: ', matches);
 	return matches;
 }
 

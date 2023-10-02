@@ -5,7 +5,7 @@ import { type AppInfo } from 'supertokens-node/lib/build/types';
 const appName = process.env.NEXT_PUBLIC_SHOP_APP_NAME || 'Gras';
 const baseDomain = process.env.NEXT_PUBLIC_APP_DOMAIN || 'grascannabis.org';
 const shopDomain =
-	process.env.NEXT_PUBLIC_SHOP_APP_URL || 'http://localhost:3000';
+	process.env.NEXT_PUBLIC_SHOP_APP_URL || 'http://localhost:3002';
 const apiDomain = process.env.BACKEND_URL || `https://backend.grascannabis.org`;
 
 const appInfo: AppInfo = {
@@ -32,6 +32,26 @@ export const frontendConfig = () => {
 							window.location.reload();
 						}
 					}
+				},
+				override: {
+					functions: (originalImplementation) => {
+						return {
+							...originalImplementation,
+							consumeCode: async (input: any) => {
+								try {
+									console.info('consume code input: ', input);
+									return originalImplementation.consumeCode(input);
+								} catch (error) {
+									console.info('consume code shop: ', error);
+									throw new Error(error.message);
+								}
+							},
+							resendCode: async (input: any) => {
+								console.info('resend code input: ', input);
+								return originalImplementation.resendCode(input);
+							},
+						};
+					},
 				},
 			}),
 			Session.init({
