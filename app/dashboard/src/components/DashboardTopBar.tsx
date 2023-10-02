@@ -1,5 +1,8 @@
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
+/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import {
-	getDashboardSite,
 	modalActions,
 	modalTypes,
 	selectUserState,
@@ -20,10 +23,6 @@ export type TopBarProps = {
 function DashboardTopBar({ signOut }: TopBarProps) {
 	const dispatch = useDispatch();
 	const { user, isSignedIn } = useSelector(selectUserState);
-	const dispensary = {
-		image: '',
-		name: '',
-	};
 
 	function openLoginModal() {
 		dispatch(
@@ -40,10 +39,10 @@ function DashboardTopBar({ signOut }: TopBarProps) {
 
 	return (
 		<div className={twMerge(styles.TOPBAR.topbar)}>
-			<Link href={getDashboardSite('/')} passHref>
+			<Link href={'/'} passHref>
 				<Image alt="Gras" width={50} height={50} src={logo} />
 			</Link>
-			<Link href={getDashboardSite('/')}>
+			<Link href={'/'}>
 				<H2 className="text-secondary pt-0.5">Gras</H2>
 			</Link>
 
@@ -53,7 +52,7 @@ function DashboardTopBar({ signOut }: TopBarProps) {
 				{isSignedIn && (
 					<Link
 						className={twMerge('hidden sm:block', styles.BUTTON.highlight)}
-						href={getDashboardSite('/support')}
+						href={TextContent.href.support}
 					>
 						<Paragraph className={twMerge('whitespace-nowrap pt-1')}>
 							Get Support
@@ -79,37 +78,39 @@ function DashboardTopBar({ signOut }: TopBarProps) {
 	);
 	function DispensaryAccountDropDown() {
 		return (
-			<div className="dropdown dropdown-bottom relative">
-				<Button
-					className="btn border-none px-0 outline-none focus:outline-none"
-					size="sm"
-					border={false}
-					bg="transparent"
-					hover="transparent"
-				>
+			<div className="dropdown dropdown-end m-0 p-0">
+				<label className="btn btn-ghost h-[54px] w-[54px] rounded-full p-0">
 					<Image
-						src={dispensary.image || logo}
-						alt={dispensary.name}
+						tabIndex={0}
+						src={(user.profilePicture?.location as string) || logo}
+						alt={user.email}
 						width={40}
 						height={40}
 						className="rounded-full border"
 						loader={({ src }) => src}
-						priority
 						unoptimized
 					/>
-				</Button>
-				<ul className="menu dropdown-content bg-inverse relative bottom-0 right-0 mt-2 w-48 rounded border shadow">
-					<FlexBox>
-						<Button
-							size="md"
-							bg="transparent"
-							hover="transparent"
-							className="w-full"
-						>
-							<Link href={TextContent.href.settings}>Settings</Link>
-						</Button>
+				</label>
+				<ul
+					tabIndex={0}
+					id="Account-Dropdown"
+					className={twMerge(
+						'menu dropdown-content bg-inverse top-0 absolute right-0 mt-14 w-48 rounded shadow',
+					)}
+				>
+					<FlexBox className="active:bg-accent-soft focus:bg-accent-soft w-full">
+						<Link href={TextContent.href.settings} className="w-full">
+							<Button
+								size="md"
+								bg="transparent"
+								hover="transparent"
+								className="w-full"
+							>
+								Settings
+							</Button>
+						</Link>
 					</FlexBox>
-					<FlexBox>
+					<FlexBox className="active:bg-accent-soft focus:bg-accent-soft w-full">
 						<Button
 							size="md"
 							bg="transparent"

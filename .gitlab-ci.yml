@@ -95,6 +95,7 @@ build_module:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       changes:
         - '${MODULE}/**/*'
+        - 'packages'
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       changes:
         - '${MODULE}/**/*'
@@ -170,6 +171,9 @@ deploy:
     TAG: ${CI_COMMIT_SHORT_SHA}
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      changes:
+        - '${MODULE}/**/*'
+        - 'packages'
   script: |
     kubectl config get-contexts
     kubectl config use-context gras1/cannabis-platform-monorepo:gras-cluster

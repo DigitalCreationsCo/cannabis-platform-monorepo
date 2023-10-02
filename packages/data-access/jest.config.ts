@@ -25,10 +25,10 @@ const getTsConfigBasePaths = (tsConfigFile: string) => {
 };
 
 const config: Config = {
+	displayName: `@cd/data-access:unit`,
 	verbose: true,
 	preset: 'ts-jest',
 	testEnvironment: 'node',
-	displayName: `@cd/data-access:unit`,
 	extensionsToTreatAsEsm: ['.ts'],
 	rootDir: '.',
 	setupFilesAfterEnv: ['@testing-library/jest-dom/extend-expect'],

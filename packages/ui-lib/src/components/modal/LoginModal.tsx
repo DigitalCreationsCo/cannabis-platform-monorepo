@@ -275,7 +275,7 @@ function LoginModal({
 			if (canSend) {
 				setCounter(15);
 				setCanSend(false);
-				await resendCode();
+				resendCode();
 				toast.success(`A one time passcode has been sent to ${inputValue}.`, {
 					duration: 5000,
 				});
