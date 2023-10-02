@@ -71,7 +71,7 @@ export default function Carouse<D>({
 	const styles = {
 		container: ['lg:px-12 max-h-fit overflow-hidden'],
 		title: [
-			'flex pt-1 px-8 bottom-0 whitespace-nowrap justify-center',
+			'flex pt-1 px-8 bottom-0 whitespace-nowrap justify-start md:justify-center',
 			'cursor-default',
 			'h-fit',
 			titleSize === 'lg' && 'text-xl',
@@ -116,17 +116,6 @@ export default function Carouse<D>({
 		</div>
 	);
 }
-
-// function makeIndices(start: number, delta: number, num: number) {
-// 	const indices: Array<number> = [];
-
-// 	while (indices.length < num) {
-// 		indices.push(start);
-// 		start += delta;
-// 	}
-
-// 	return indices;
-// }
 
 type CarouselButtonProps = {
 	direction: 'left' | 'right' | 'up' | 'down';

@@ -6,6 +6,7 @@ import {
 } from '@cd/core-lib';
 import { type OrganizationWithShopDetails } from '@cd/data-access';
 import {
+	Button,
 	Card,
 	ErrorMessage,
 	FlexBox,
@@ -20,6 +21,7 @@ import icons from '@cd/ui-lib/src/icons';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
+import Router from 'next/router';
 import { twMerge } from 'tailwind-merge';
 import { useAppSelector } from '../../redux/hooks';
 import { wrapper } from '../../redux/store';
@@ -37,18 +39,20 @@ function Storefront({ subdomain }: { subdomain: string }) {
 				<title>Grascannabis.org - Cannabis, Delivered.</title>
 				<meta name="Gras App" content="Built by Gras Cannabis Co." />
 			</Head>
-			{/* <Center className="md:bg-inverse m-auto justify-center space-y-4 rounded bg-transparent p-16 sm:shadow-md md:w-[450px]"> */}
-			<Card
-				className={twMerge(
-					`m-auto h-full`,
-					// `bg-[${organization.siteSetting.backgroundColor}]`,
-				)}
-			>
+			<Card className={twMerge(`m-auto h-full`)}>
 				{organization ? (
 					<div className="bg m-auto">
 						<H2 className="text-primary whitespace-normal drop-shadow-lg sm:drop-shadow-none">
 							{organization.name}
 						</H2>
+						<Button
+							size="sm"
+							bg="inverse"
+							className="text-dark self-start px-4"
+							onClick={() => Router.back()}
+						>
+							{'<'}
+						</Button>
 						<Paragraph className="text-primary font-semibold">
 							{organization.siteSetting.description}
 						</Paragraph>
