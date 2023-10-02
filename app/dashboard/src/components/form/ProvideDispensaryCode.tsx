@@ -103,7 +103,7 @@ function ProvideDispensaryKey() {
 					Enter your <b>dispensary code</b> here.
 				</Paragraph>
 				<TextField
-					className="mx-auto w-[440px] text-center"
+					className="mx-auto max-w-[440px] text-center"
 					name="dispensaryKey"
 					maxLength={25}
 					label="Dispensary Code"

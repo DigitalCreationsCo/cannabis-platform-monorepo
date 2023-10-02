@@ -46,27 +46,29 @@ function StartPage() {
 				<FlexBox className="h-full w-full">
 					<FlexBox className={twMerge(styles.HERO.container)}>
 						<FlexBox className={twMerge(styles.HERO.content)}>
-							<FlexBox className="m-auto">
-								<H1
-									color="light"
-									className={twMerge(styles.HERO.responsiveHeading)}
-								>
-									Cannabis,&nbsp;Delivered{'\xa0'}🌴
-								</H1>
-								<H3 className="self-end pr-10" color="light">
-									to your home 🏠
-								</H3>
-							</FlexBox>
-							<FlexBox className="flex-row space-x-1 md:flex-col md:space-x-0">
-								<H2 color="light" className="text-2xl md:text-3xl">
-									fast,
-								</H2>
-								<H2 color="light" className="text-2xl md:text-3xl">
-									easy,
-								</H2>
-								<H2 color="light" className="text-2xl md:text-3xl">
-									secure delivery
-								</H2>
+							<FlexBox className="space-y-4 md:space-x-8 lg:flex-row ">
+								<FlexBox className="m-auto">
+									<H1
+										color="light"
+										className={twMerge(styles.HERO.responsiveHeading)}
+									>
+										Cannabis,&nbsp;Delivered{'\xa0'}🌴
+									</H1>
+									<H3 className="self-end pr-10" color="light">
+										to your home 🏠
+									</H3>
+								</FlexBox>
+								<FlexBox className="flex-row space-x-1 lg:flex-col lg:space-x-0">
+									<H2 color="light" className="text-2xl lg:text-3xl">
+										fast,
+									</H2>
+									<H2 color="light" className="text-2xl lg:text-3xl">
+										easy,
+									</H2>
+									<H2 color="light" className="text-2xl lg:text-3xl">
+										secure delivery
+									</H2>
+								</FlexBox>
 							</FlexBox>
 							<Button
 								size="lg"
@@ -80,7 +82,7 @@ function StartPage() {
 						</FlexBox>
 					</FlexBox>
 					<FlexBox
-						className="bg-secondary m-auto grow space-y-2 py-4 pb-8"
+						className="bg-secondary m-auto grow space-y-2 pb-8 sm:py-4"
 						style={{
 							backgroundColor: 'rgba(0,120,0,0.8)',
 							height: '100%',
@@ -89,65 +91,13 @@ function StartPage() {
 							top: '0',
 						}}
 					>
-						<FlexBox className="m-auto h-[280px] grow items-end md:w-[480px]">
-							<FlexBox className="m-auto grow flex-row items-end space-x-2 ">
-								<H4
-									color="light"
-									className="text-light max-w-[360px] whitespace-pre-line border-b border-transparent text-justify"
-								>
-									Welcome to Gras!{'\n'}
-								</H4>
-								<button
-									className="cursor-pointer items-center pb-0.5 text-2xl hover:underline"
-									onClick={() => setDialogOpen(true)}
-								>
-									<H4 className="underline">Who are we?</H4>
-								</button>
-							</FlexBox>
-							<FlexBox className="m-auto flex-row">
-								<div className="chat chat-start">
-									<motion.div
-										animate={dialogOpen ? 'open' : 'closed'}
-										transition={{ duration: 0.5 }}
-										variants={{
-											open: { opacity: 1, scale: 1 },
-											closed: { opacity: 1, scale: 1 },
-										}}
-										className="chat-image 
-									text-6xl"
-									>
-										{dialogOpen ? '😄' : '😊'}
-									</motion.div>
-									<motion.div
-										className="chat-bubble bg-primary mb-2"
-										animate={dialogOpen ? 'open' : 'closed'}
-										variants={{
-											open: { opacity: 1, scale: 1 },
-											closed: { opacity: 0, scale: 0.5 },
-										}}
-									>
-										{dialogOpen && (
-											<div className="text-inverse flex flex-col">
-												<Paragraph>
-													Gras is a team of seasoned cannabis lovers providing a
-													home-grown service within our communities.
-													<br />
-													Our mission is to elevate the voices of cannabis
-													buyers and sellers through high quality service and
-													support.
-												</Paragraph>
-												<Span className="mx-auto font-bold">
-													We welcome everyone 21 years or older.
-												</Span>
-											</div>
-										)}
-									</motion.div>
-								</div>
-							</FlexBox>
-						</FlexBox>
 						{!isSignedIn && (
-							<FlexBox className={twMerge(styles.about)}>
-								<H4 className="text-xl">{`Dispensaries, Sign Up Here!`}</H4>
+							<FlexBox
+								className={twMerge(styles.about, 'self-center xl:self-center')}
+							>
+								<H4 className="text-xl">
+									{TextContent.account.DISPENSARIES_START_HERE}!
+								</H4>
 								<Link
 									href={getDashboardSite('/signup/create-dispensary-account')}
 								>
@@ -164,6 +114,61 @@ function StartPage() {
 								</Link>
 							</FlexBox>
 						)}
+						<FlexBox className="relative m-auto flex h-[280px] md:w-[480px]">
+							<FlexBox className="mx-auto flex-row items-start space-x-2">
+								<H4
+									color="light"
+									className="text-light max-w-[360px] whitespace-pre-line border-b border-transparent text-justify"
+								>
+									Welcome to Gras.{'\n'}
+								</H4>
+								<button
+									className="cursor-pointer items-center pb-0.5 text-2xl hover:underline"
+									onClick={() => setDialogOpen(true)}
+								>
+									<H4 className="underline">Who are we?</H4>
+								</button>
+							</FlexBox>
+							<FlexBox className="chat chat-start flex-row px-2">
+								<motion.div
+									animate={dialogOpen ? 'open' : 'closed'}
+									variants={{
+										open: { opacity: 1, scale: 1 },
+										closed: { opacity: 1, scale: 0.8 },
+									}}
+									className={twMerge(
+										dialogOpen ? 'block' : 'absolute',
+										'chat-image top-10 md:top-0 text-6xl',
+									)}
+								>
+									{dialogOpen ? '😄' : '😊'}
+								</motion.div>
+								<motion.div
+									className="chat-bubble bg-primary mb-2"
+									animate={dialogOpen ? 'open' : 'closed'}
+									transition={{ duration: 0.1 }}
+									variants={{
+										open: { opacity: 1, scale: 1 },
+										closed: { opacity: 0, scale: 0.5 },
+									}}
+								>
+									{dialogOpen && (
+										<div className="text-light flex flex-col">
+											<Paragraph>
+												Gras is a team of seasoned cannabis lovers providing a
+												home-grown service within our communities.
+												<br />
+												Our mission is to elevate the voices of cannabis buyers
+												and sellers through high quality service and support.
+											</Paragraph>
+											<Span className="mx-auto font-bold">
+												We welcome everyone 21 years or older.
+											</Span>
+										</div>
+									)}
+								</motion.div>
+							</FlexBox>
+						</FlexBox>
 					</FlexBox>
 				</FlexBox>
 			</ImageBackDrop>

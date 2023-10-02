@@ -1,0 +1,9 @@
+{
+    "proxy-main": {
+      "source": 6002,
+      "target": 6001,
+      "hostname": "localhost",
+      "key": "../../proxy-certs/localhost.key",
+      "cert": "../../proxy-certs/localhost.crt"
+    }
+  }

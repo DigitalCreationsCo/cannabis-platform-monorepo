@@ -1,7 +1,8 @@
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import {
-	getShopSite,
 	modalActions,
 	modalTypes,
 	selectCartState,
@@ -17,11 +18,10 @@ import {
 	Icons,
 	Paragraph,
 	styles,
-	useOnClickOutside,
 } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/logo.png';
@@ -52,15 +52,15 @@ function TopBar({ signOut }: TopBarProps) {
 
 	return (
 		<div className={twMerge(styles.TOPBAR.topbar)}>
-			<Link href={getShopSite('/')} className="pr-2">
+			<Link href={'/'} className="pr-2">
 				<Image alt="Gras" width={50} height={50} src={logo} />
 			</Link>
 
-			<Link href={getShopSite('/')}>
+			<Link href={'/'}>
 				<H2 className="text-secondary pt-0.5">Gras</H2>
 			</Link>
 
-			<Link href={getShopSite('/')}>
+			<Link href={'/'}>
 				<Paragraph className={twMerge(styles.TOPBAR.tagline)}>
 					Cannabis Marketplace
 				</Paragraph>
@@ -71,7 +71,7 @@ function TopBar({ signOut }: TopBarProps) {
 				{isSignedIn && (
 					<Link
 						className={twMerge('hidden sm:block', styles.BUTTON.highlight)}
-						href={getShopSite('/support')}
+						href={TextContent.href.support}
 					>
 						<Paragraph className={twMerge('whitespace-nowrap pt-1')}>
 							Get Support
@@ -79,7 +79,7 @@ function TopBar({ signOut }: TopBarProps) {
 					</Link>
 				)}
 
-				<Link href={getShopSite('/mybag')}>
+				<Link href={TextContent.href.bag}>
 					<IconButton
 						className={twMerge(styles.BUTTON.highlight, 'indicator')}
 						iconSize={24}
@@ -88,7 +88,6 @@ function TopBar({ signOut }: TopBarProps) {
 						bg="transparent"
 						Icon={Icons.ShoppingBag}
 						iconColor={'dark'}
-						// onClick={openCartModal}
 					>
 						{(isCartEmpty && <></>) || (
 							<div className={twMerge(styles.TOPBAR.badge)}>
@@ -116,20 +115,11 @@ function TopBar({ signOut }: TopBarProps) {
 	);
 
 	function AccountDropDown() {
-		const [open, setOpen] = useState(false);
-		const ref = useRef(null);
-		useOnClickOutside(ref, () => setOpen(false));
 		return (
-			<details
-				id="Account-Icon"
-				ref={ref}
-				className={twMerge(`dropdown dropdown-bottom`)}
-			>
-				<summary
-					onClick={() => setOpen((prev) => !prev)}
-					className="btn btn-ghost rounded-full"
-				>
+			<div className="dropdown dropdown-end m-0 p-0">
+				<label className="btn btn-ghost h-[54px] w-[54px] rounded-full p-0">
 					<Image
+						tabIndex={0}
 						src={(user.profilePicture?.location as string) || logo}
 						alt={user.email}
 						width={40}
@@ -138,78 +128,39 @@ function TopBar({ signOut }: TopBarProps) {
 						loader={({ src }) => src}
 						unoptimized
 					/>
-				</summary>
+				</label>
 				<ul
+					tabIndex={0}
 					id="Account-Dropdown"
 					className={twMerge(
-						open ? 'absolute' : 'hidden',
-						'menu dropdown-content bg-inverse top-0 absolute right-0 my-4 w-48 rounded border shadow',
+						'menu dropdown-content bg-inverse top-0 absolute right-0 mt-12 w-48 rounded shadow',
 					)}
 				>
-					<FlexBox className="hover:bg-accent-soft">
-						<Link
-							className="w-full"
-							href={TextContent.href.settings_f(user.id)}
-						>
+					<FlexBox className="active:bg-accent-soft focus:bg-accent-soft w-full">
+						<Link href={TextContent.href.settings} className="w-full">
 							<Button
 								size="md"
 								bg="transparent"
-								className="w-full place-self-center self-center"
+								hover="transparent"
+								className="w-full"
 							>
 								Settings
 							</Button>
 						</Link>
 					</FlexBox>
-					<FlexBox className="hover:bg-accent-soft">
+					<FlexBox className="active:bg-accent-soft focus:bg-accent-soft w-full">
 						<Button
 							size="md"
-							className="w-full"
 							bg="transparent"
+							hover="transparent"
+							className="w-full"
 							onClick={signOut}
 						>
 							Sign Out
 						</Button>
 					</FlexBox>
 				</ul>
-			</details>
-			// <div className="dropdown dropdown-end">
-			// 	<label className="btn btn-ghost rounded-btn">
-			// 		<Image
-			// 			tabIndex={0}
-			// 			src={(user.profilePicture?.location as string) || logo}
-			// 			alt={user.email}
-			// 			width={40}
-			// 			height={40}
-			// 			className="rounded-full border"
-			// 			loader={({ src }) => src}
-			// 			unoptimized
-			// 		/>
-			// 	</label>
-			// 	<ul
-			// 		tabIndex={0}
-			// 		id="Account-Dropdown"
-			// 		// className="menu dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box w-52 mt-4">
-			// 		className={twMerge(
-			// 			'menu dropdown-content bg-inverse top-0 absolute right-0 mt-14 w-48 rounded border shadow',
-			// 		)}
-			// 	>
-			// 		<FlexBox>
-			// 			<Button size="md" bg="transparent" hover="transparent">
-			// 				<Link href={'/settings'}>Settings</Link>
-			// 			</Button>
-			// 		</FlexBox>
-			// 		<FlexBox>
-			// 			<Button
-			// 				size="md"
-			// 				bg="transparent"
-			// 				hover="transparent"
-			// 				onClick={signOut}
-			// 			>
-			// 				Sign Out
-			// 			</Button>
-			// 		</FlexBox>
-			// 	</ul>
-			// </div>
+			</div>
 		);
 	}
 }
