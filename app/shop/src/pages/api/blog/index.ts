@@ -34,7 +34,7 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 			payload: blogs,
 		});
 	} catch (error: any) {
-		console.error('/blog GET error: ', error.message);
+		console.error('api/blog GET error: ', error.message);
 		return res.json({
 			success: 'false',
 			error: error.message,

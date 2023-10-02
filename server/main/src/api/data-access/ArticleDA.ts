@@ -1,11 +1,12 @@
 import {
-	ArticleType,
 	createArticle,
 	deleteArticle,
 	findArticleById,
 	findArticlesByType,
-	Prisma,
 	updateArticle,
+	type ArticleCreateType,
+	type ArticleType,
+	type Prisma,
 } from '@cd/data-access';
 
 /* =================================
@@ -26,8 +27,7 @@ deleteArticle
 export default class ArticleDA {
 	static async getArticles(tag: ArticleType = 'news') {
 		try {
-			const data = await findArticlesByType(tag);
-			return data;
+			return await findArticlesByType(tag);
 		} catch (error: any) {
 			console.error(error.message);
 			throw new Error(error.message);
@@ -36,8 +36,7 @@ export default class ArticleDA {
 
 	static async getArticlesDispensaryGuides() {
 		try {
-			const data = await findArticlesByType('dispensary');
-			return data;
+			return await findArticlesByType('dispensary');
 		} catch (error: any) {
 			console.error(error.message);
 			throw new Error(error.message);
@@ -46,8 +45,7 @@ export default class ArticleDA {
 
 	static async getArticlesDriverGuides() {
 		try {
-			const data = await findArticlesByType('driver');
-			return data;
+			return await findArticlesByType('driver');
 		} catch (error: any) {
 			console.error(error.message);
 			throw new Error(error.message);
@@ -56,8 +54,7 @@ export default class ArticleDA {
 
 	static async getArticlesByTags(tag: ArticleType) {
 		try {
-			const data = await findArticlesByType(tag);
-			return data;
+			return await findArticlesByType(tag);
 		} catch (error: any) {
 			console.error(error.message);
 			throw new Error(error.message);
@@ -66,18 +63,16 @@ export default class ArticleDA {
 
 	static async getArticleById(id: string) {
 		try {
-			const data = await findArticleById(id);
-			return data;
+			return await findArticleById(id);
 		} catch (error: any) {
 			console.error(error.message);
 			throw new Error(error.message);
 		}
 	}
 
-	static async createArticle(article: Prisma.ArticleCreateInput) {
+	static async createArticle(article: ArticleCreateType) {
 		try {
-			const data = await createArticle(article);
-			return data;
+			return await createArticle(article);
 		} catch (error: any) {
 			console.error(error.message);
 			throw new Error(error.message);
@@ -86,8 +81,7 @@ export default class ArticleDA {
 
 	static async updateArticle(article: Prisma.ArticleUpdateInput) {
 		try {
-			const data = await updateArticle(article);
-			return data;
+			return await updateArticle(article);
 		} catch (error: any) {
 			console.error(error.message);
 			throw new Error(error.message);
@@ -96,8 +90,7 @@ export default class ArticleDA {
 
 	static async deleteArticle(id: string) {
 		try {
-			const data = await deleteArticle(id);
-			return data;
+			return await deleteArticle(id);
 		} catch (error: any) {
 			console.error(error.message);
 			throw new Error(error.message);

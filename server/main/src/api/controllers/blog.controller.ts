@@ -1,4 +1,4 @@
-import { type Prisma } from '@cd/data-access';
+import { type ArticleCreateType, type Prisma } from '@cd/data-access';
 import { ArticleDA } from '../data-access';
 
 /* =================================
@@ -83,25 +83,23 @@ export default class BlogController {
 
 	static async createBlog(req, res) {
 		try {
-			const blog: Prisma.ArticleCreateInput = req.body;
-
+			const blog: ArticleCreateType = req.body;
 			const data = await ArticleDA.createArticle(blog);
-
 			if (!data)
-				return res.status(404).json({
+				return res.status(400).json({
 					success: 'false',
 					message: 'Blog could not be created.',
 				});
-
 			return res.status(201).json({
 				success: 'true',
 				payload: data,
 			});
 		} catch (error: any) {
-			console.info('API error: ', error.message);
+			console.info('createBlog: ', error.message);
 			res.status(500).json({
 				success: 'false',
 				message: error.message,
+				error: error.message,
 			});
 		}
 	}

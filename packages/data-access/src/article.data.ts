@@ -47,11 +47,18 @@ export async function findArticleById(
 }
 
 export async function createArticle(
-	article: Prisma.ArticleCreateInput,
+	article: ArticleCreateType,
 ): Promise<ArticleWithDetails | null> {
 	try {
 		const _article = await prisma.article.create({
-			data: article,
+			data: {
+				...article,
+				image: {
+					create: {
+						...article.image,
+					},
+				},
+			},
 			include: {
 				image: true,
 			},
@@ -95,3 +102,6 @@ export async function deleteArticle(id: string) {
 }
 
 export type ArticleWithDetails = Article & { image: ImageArticle };
+export type ArticleCreateType = Prisma.ArticleCreateInput & {
+	image: ImageArticle;
+};
