@@ -1,14 +1,20 @@
-import { createElement } from 'react';
-import { createRoot } from 'react-dom/client';
-import Widget from '../components/Widget';
-import { type DeliveryWidgetConfigOptions } from '../types';
-
+async function getComponent(props: any) {
+	try {
+		const Widget = await (await import('../components/Widget/Widget')).default;
+		return (await import('react')).createElement(Widget, props);
+	} catch (error) {
+		console.log(error);
+		throw new Error('Error loading component');
+	}
+}
 export default class GrasDeliveryWidget {
 	static el: HTMLDivElement | null;
 	static root: any;
 
-	static mount(props: DeliveryWidgetConfigOptions) {
-		const component = createElement(Widget, props);
+	// eslint-disable-next-line @typescript-eslint/consistent-type-imports
+	static async mount(props: import('../types').DeliveryWidgetConfigOptions) {
+		const component = await getComponent(props);
+
 		function doRender() {
 			if (GrasDeliveryWidget.el) {
 				throw new Error('GrasDeliveryWidget is already mounted, unmount first');
@@ -20,10 +26,13 @@ export default class GrasDeliveryWidget {
 			} else {
 				document.body.appendChild(el);
 			}
-			GrasDeliveryWidget.root = createRoot(el);
-			GrasDeliveryWidget.root.render(component);
+			import('react-dom/client').then(({ createRoot }) => {
+				GrasDeliveryWidget.root = createRoot(el);
+				GrasDeliveryWidget.root.render(component);
+			});
 			GrasDeliveryWidget.el = el;
 		}
+
 		if (document.readyState === 'complete') {
 			doRender();
 		} else {

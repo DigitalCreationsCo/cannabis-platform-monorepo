@@ -136,6 +136,7 @@ function UserSignUpReview() {
 								'blurhash',
 								'countryCode',
 								'country',
+								'orders',
 							],
 						})}
 						<FlexBox className="m-auto flex-row space-x-4 pb-20">

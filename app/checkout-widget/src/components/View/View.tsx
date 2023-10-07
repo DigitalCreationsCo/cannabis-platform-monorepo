@@ -1,12 +1,12 @@
 import useCheckHrefIncludes from '@cd/core-lib/src/hooks/useCheckHrefIncludes';
-import { useOnClickOutside } from '@cd/ui-lib/src/hooks/index';
-import { useEffect, useRef } from 'react';
+import LoadingDots from '@cd/ui-lib/src/components/LoadingDots';
+import { useOnClickOutside } from '@cd/ui-lib/src/hooks/useOnClickOutside';
+import { Suspense, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
-// import url from 'url-state';
-import styles from '../styles/theme';
-// import url from 'url-state';
-import { type ViewComponent, type ViewProps } from '../types';
+import styles from '../../styles/theme';
+import { type ViewComponent, type ViewProps } from '../../types';
+import ErrorBoundary from '../ErrorBoundary';
 
 const ViewWrapper = (ViewComponent: ViewComponent, props: ViewProps) => {
 	const clickOutsideRef = useRef(null);
@@ -45,7 +45,11 @@ const ViewWrapper = (ViewComponent: ViewComponent, props: ViewProps) => {
 			ref={clickOutsideRef}
 			className={twMerge(styles.transition, styles.theme_f(props))}
 		>
-			<_View {...props} />
+			<ErrorBoundary>
+				<Suspense fallback={<LoadingDots />}>
+					<_View {...props} />
+				</Suspense>
+			</ErrorBoundary>
 		</div>
 	);
 };
