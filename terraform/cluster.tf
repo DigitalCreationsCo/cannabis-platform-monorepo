@@ -87,3 +87,19 @@ resource "null_resource" "local_k8s_context" {
     command = "for i in 1 2 3 4 5; do gcloud container clusters get-credentials ${var.cluster_name} --project=${var.project_id} --location=${var.region} && break || sleep 60; done"
   }
 }
+
+resource "kubernetes_namespace" "redis" {
+  depends_on = [google_container_cluster.gras_cluster]
+
+  metadata {
+    annotations = {
+      name = "redis"
+    }
+
+    labels = {
+      mylabel = "redis"
+    }
+
+    name = "redis"
+  }
+}

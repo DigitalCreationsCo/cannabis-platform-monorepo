@@ -4,6 +4,7 @@
 import { type UserWithDetails } from '@cd/data-access/src';
 import { type AnyAction, type MiddlewareAPI } from '@reduxjs/toolkit';
 import { locationActions } from '../reducer';
+import { isEmpty } from '../utils';
 
 const locationMiddleware =
 	(store: MiddlewareAPI) => (next) => (action: AnyAction) => {

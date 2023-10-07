@@ -8,7 +8,7 @@ const styles = {
 	checkout_f: (expanded: ViewProps['expanded']) => [
 		expanded ? 'touch-none' : 'touch-auto',
 		expanded
-			? 'pt-2 h-[480px] md:w-[540px] flex-col'
+			? 'p-2 h-[520px] md:h-2/3 md:w-[540px] flex-col'
 			: 'h-[48px] md:w-[310px] flex-row',
 		'justify-center flex items-center',
 	],
@@ -46,6 +46,9 @@ const styles = {
 		expanded ? 'cursor-default' : 'cursor-pointer',
 	],
 	transition: ['transition-all', 'duration-100'],
+	tooltip: [
+		'before:animate-bounce before:w-[100px] before:text-center before:m-auto before:justify-center before:flex before:items-center before:text-lg tooltip tooltip-open tooltip-success',
+	],
 };
 
 export default styles;

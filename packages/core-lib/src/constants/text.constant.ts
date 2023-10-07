@@ -16,8 +16,7 @@ const TextContent = Object.freeze({
 		CREATE_ACCOUNT: '',
 
 		READY_CHECKOUT: `You're ready to checkout.`,
-		REVIEW_CHECKOUT: `Review your order.
-		When you're ready, click the checkout button.`,
+		REVIEW_CHECKOUT: `Tap Checkout to pay`,
 		REVIEW_PLACE_ORDER: `Review your order. 
 		When you're ready, tap Place my order.`,
 
