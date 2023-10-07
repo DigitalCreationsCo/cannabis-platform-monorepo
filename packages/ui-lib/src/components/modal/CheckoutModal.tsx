@@ -48,35 +48,29 @@ function CheckoutModal({
 			onClose={dispatchCloseModal}
 			{...props}
 		>
-			<Center className="space-y-8 w-3/4 m-auto pb-8">
-				<H4>It looks like you haven't ordered with us before.</H4>
-
+			<Center className="w-3/4 m-auto pb-8">
+				<H4>You haven't ordered with us before.</H4>
 				{!user.isSignedIn && (
-					<>
+					<FlexBox className="space-y-8">
 						<Paragraph>
 							We'll need your contact info and address so our delivery person
 							can get to you.{'\n'}
 							<b>Sign In</b> with your account
 						</Paragraph>
-						<FlexBox className="space-y-8">
-							<SignInButton size="lg" />
-						</FlexBox>
-					</>
+						<SignInButton size="lg" />
+					</FlexBox>
 				)}
-
 				{user.isSignedIn && !isAddressAdded && (
-					<>
+					<FlexBox className="space-y-8">
 						<Paragraph>
 							We'll need your contact info and address so our delivery person
 							can get to you.{'\n'}
 							Hit <b>Next</b> to provide your info.
 						</Paragraph>
-						<FlexBox className="space-y-8">
-							<Button onClick={completeSignUp} className="place-self-center">
-								Next
-							</Button>
-						</FlexBox>
-					</>
+						<Button onClick={completeSignUp} className="place-self-center">
+							Next
+						</Button>
+					</FlexBox>
 				)}
 			</Center>
 		</Modal>

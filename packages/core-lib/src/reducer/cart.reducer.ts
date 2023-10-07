@@ -172,7 +172,7 @@ export const createOrderForCheckout = createAsyncThunk<OrderCreateType, void>(
 
 			return thunkAPI.fulfillWithValue(order);
 		} catch (error) {
-			// console.info("createOrderForCheckout error: ", error);
+			console.info('createOrderForCheckout: ', error);
 			return thunkAPI.rejectWithValue(error.message);
 		}
 	},

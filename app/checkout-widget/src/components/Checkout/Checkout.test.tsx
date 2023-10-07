@@ -1,8 +1,8 @@
 /* eslint-disable jest/expect-expect */
 import { mount, shallow } from 'enzyme';
-import { html } from '../crawler/data/html-test-data';
-import { type ViewProps } from '../types';
-import Checkout from './Checkout';
+import { html } from '../../crawler/data/html-test-data';
+import { type ViewProps } from '../../types';
+import Checkout from '.';
 
 describe('<Checkout />', () => {
 	let props: ViewProps;

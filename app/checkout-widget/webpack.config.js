@@ -7,7 +7,7 @@ const { expand } = require('dotenv-expand');
 const JavaScriptObfuscator = require('webpack-obfuscator');
 
 const publicDir = path.join(__dirname, 'public');
-const distDir = path.join(__dirname, 'dist');
+const distDir = path.join(__dirname, '/deploy/dist');
 
 const nodeEnv = process.env.NODE_ENV || 'development';
 const isProd = process.env.NODE_ENV === 'production';
@@ -27,7 +27,7 @@ const defaultConfig = {
 				},
 			],
 		}),
-		isProd ? new JavaScriptObfuscator() : null,
+		// isProd ? new JavaScriptObfuscator() : null,
 	].filter((i) => i),
 	devServer: {
 		static: publicDir,
@@ -93,7 +93,7 @@ module.exports = {
 		library: 'GrasDeliveryWidget',
 		libraryExport: 'default',
 		libraryTarget: 'window',
-		// sourceMapFilename: '[name].[ext].map',
+		sourceMapFilename: '[name].js.map',
 	},
 	devtool: 'source-map',
 };

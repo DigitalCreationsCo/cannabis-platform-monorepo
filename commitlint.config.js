@@ -6,7 +6,7 @@ module.exports = {
 			'always',
 			[
 				'terraform',
-				'k8s',
+				'cluster',
 				'dashboard',
 				'shop',
 				'widget',

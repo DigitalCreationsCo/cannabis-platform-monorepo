@@ -4,21 +4,25 @@ terraform {
             source = "hashicorp/google"
             version = "4.5.0"
         }
+        # https://registry.terraform.io/providers/hashicorp/google/latest/docs
 
         google-beta = {
             source = "hashicorp/google-beta"
             version = "4.5.0"
         }
+        # https://registry.terraform.io/providers/hashicorp/google-beta/latest/docs
 
         kubernetes = {
             source = "hashicorp/kubernetes"
             version = "2.21.1"
         }
+        # https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs
 
         local = {
             source = "hashicorp/local"
             version = "2.4.0"
         }
+        # https://registry.terraform.io/providers/hashicorp/local/latest/docs
     }
 
     backend "gcs" {

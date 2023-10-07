@@ -28,7 +28,7 @@ function CartPage() {
 	const isAddressAdded = useSelector(selectIsAddressAdded);
 
 	const router = useRouter();
-	const checkoutOrSignUp = async (event: any) => {
+	const checkoutOrCompleteSignUp = async (event: any) => {
 		try {
 			event.preventDefault();
 			event.stopPropagation();
@@ -67,7 +67,7 @@ function CartPage() {
 					<CheckoutButton
 						size="lg"
 						disabled={bagIsEmpty}
-						onClick={checkoutOrSignUp}
+						onClick={checkoutOrCompleteSignUp}
 					/>
 				)}
 			</Card>

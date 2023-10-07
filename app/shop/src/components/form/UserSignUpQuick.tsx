@@ -301,21 +301,8 @@ function UserSignUpQuickForm() {
 										rel="noreferrer noopener"
 										className="inline"
 									>
-										<H6 className={'border-b-2'}>
+										<H6 className={'inline border-b-2'}>
 											{TextContent.legal.USER_TERMS_OF_SERVICE}
-										</H6>
-										.
-									</a>
-								</div>
-								<div id="dispensary-create-step-3">
-									<Paragraph>{TextContent.legal.AGREE_TO_TERMS}</Paragraph>
-									<a
-										href={TextContent.href.dispensary_tos}
-										target="_blank"
-										rel="noreferrer noopener"
-									>
-										<H6 className={'inline-block border-b-2'}>
-											{TextContent.legal.DISPENSARY_TERMS_OF_SERVICE}
 										</H6>
 										.
 									</a>
