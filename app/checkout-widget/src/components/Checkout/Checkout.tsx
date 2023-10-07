@@ -11,11 +11,11 @@ import { Paragraph, Small } from '@cd/ui-lib/src/components/Typography';
 import { getBreakpointValue } from '@cd/ui-lib/src/hooks/useBreakpoint';
 import { Component } from 'react';
 import { twMerge } from 'tailwind-merge';
-import logo from '../../public/img/logo120.png';
-import { Config as CrawlerConfig } from '../crawler';
-import styles from '../styles/theme';
-import { type DOMKey, type ViewProps } from '../types';
-import CartList from './CartItemList';
+import logo from '../../../public/img/logo120.png';
+import { Config as CrawlerConfig } from '../../crawler';
+import styles from '../../styles/theme';
+import { type DOMKey, type ViewProps } from '../../types';
+import CartList from '../CartItemList';
 
 export default class Checkout extends Component<
 	ViewProps,
@@ -32,7 +32,7 @@ export default class Checkout extends Component<
 		this.state = {
 			cart: {
 				cartItems: [],
-				tax: 0,
+				tax: undefined,
 				total: 0,
 				organizationId: props.dispensaryId,
 				organizationName: props.dispensaryName,
@@ -58,18 +58,18 @@ export default class Checkout extends Component<
 		// eslint-disable-next-line sonarjs/no-small-switch
 		switch (configKey) {
 			case 'dutchie-checkout':
-				crawler = await import('../crawler/dutchie-crawler').then(
+				crawler = await import('../../crawler/dutchie-crawler').then(
 					(c) => c.default,
 				);
 				break;
 			case 'cart':
-				crawler = await import('../crawler/checkout-crawler').then(
+				crawler = await import('../../crawler/checkout-crawler').then(
 					(c) => c.default,
 				);
 				break;
 			// eslint-disable-next-line sonarjs/no-duplicated-branches
 			default:
-				crawler = await import('../crawler/checkout-crawler').then(
+				crawler = await import('../../crawler/checkout-crawler').then(
 					(c) => c.default,
 				);
 		}
@@ -90,7 +90,6 @@ export default class Checkout extends Component<
 				const token = crypto.encrypt(this.state.cart);
 				const expires = new Date();
 				expires.setDate(expires.getDate() + 1);
-
 				const response = await axios.post(
 					urlBuilder.shop + '/api/delivery/token',
 					{ token },
@@ -101,6 +100,7 @@ export default class Checkout extends Component<
 						withCredentials: true,
 					},
 				);
+				console.info('response ', response);
 				if (response.data.success === 'false')
 					throw new Error(TextContent.error.CONNECTION_ISSUE);
 				if (response.status === 302) {
@@ -202,11 +202,13 @@ export default class Checkout extends Component<
 							{'\n'}
 							{TextContent.info.TIME_GUARANTEE}
 							{'\n'}
-							<b>{TextContent.shop.ORDER_INFO_HEADER}</b>
+						</Paragraph>
+						<Paragraph className="text-light m-auto">
+							<b>{TextContent.shop.ORDER_INFO_HEADER}</b> 🔽
 						</Paragraph>
 						<div
 							id="Cart-Item-List"
-							className={twMerge([styles.cart_list, 'w-2/3 my-4'])}
+							className={twMerge([styles.cart_list, 'w-3/4 md:w-2/3 my-2'])}
 						>
 							<CartList
 								cart={this.state.cart}
@@ -218,11 +220,7 @@ export default class Checkout extends Component<
 								// staticQuantity={this.useStaticQuantity()}
 							/>
 						</div>
-						{this.state.cartError && (
-							<Paragraph color="light" className="mx-auto w-2/3">
-								{this.state.cartError}
-							</Paragraph>
-						)}
+
 						{this.state.cart.subtotal && (
 							<div className="w-2/3 flex flex-row justify-end">
 								<Paragraph className="text-light">subtotal</Paragraph>
@@ -233,7 +231,7 @@ export default class Checkout extends Component<
 								/>
 							</div>
 						)}
-						{this.state.cart.tax && (
+						{this.state.cart.tax !== undefined && (
 							<div className="w-2/3 flex flex-row justify-end">
 								<Paragraph className="text-light">taxes</Paragraph>
 								<Price
@@ -244,7 +242,7 @@ export default class Checkout extends Component<
 							</div>
 						)}
 						{this.state.cart.cartItems.length > 0 && (
-							<div className="w-2/3 flex flex-row justify-end">
+							<div className="w-3/4 md:w-2/3 flex flex-row justify-end">
 								<Paragraph className="text-light">Your total is</Paragraph>
 								<Price
 									color="light"
@@ -253,28 +251,33 @@ export default class Checkout extends Component<
 								/>
 							</div>
 						)}
-						<Small className="text-light m-auto py-2">
-							{TextContent.prompt.REVIEW_CHECKOUT}
-						</Small>
 						<Button
 							id="Checkout-Button"
 							size="lg"
 							bg="inverse"
 							hover="accent-soft"
-							className="text-dark font-bold p-4 mb-10 mx-auto focus:bg-accent active:bg-accent"
+							className="text-dark font-bold p-4 my-4 mx-auto focus:bg-accent active:bg-accent"
 							onClick={this.handleCheckout}
 							disabled={
 								this.state.cart.cartItems.length < 1 || this.state.redirecting
 							}
 						>
-							Checkout
+							{(this.state.cartError && (
+								<Paragraph color="light" className="mx-auto w-2/3">
+									{this.state.cartError}
+								</Paragraph>
+							)) ||
+								'Checkout'}
 						</Button>
+						<Small className="text-light m-auto">
+							{TextContent.prompt.REVIEW_CHECKOUT}
+						</Small>
 						<div className="m-auto">
-							<CopyRight append={TextContent.legal.HOME_DELIVERY_BY_GRAS} />
+							<CopyRight prepend={TextContent.legal.HOME_DELIVERY_BY_GRAS} />
 						</div>
 					</>
 				) : (
-					<>
+					<div data-tip={'Tooltip'} className={twMerge('flex flex-row')}>
 						{screenwidth >= md && (
 							<img
 								src={logo}
@@ -296,7 +299,7 @@ export default class Checkout extends Component<
 							</Small>
 						</div>
 						{screenwidth >= md && <div className="w-[20px]"></div>}
-					</>
+					</div>
 				)}
 			</div>
 		);

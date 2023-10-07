@@ -1,7 +1,12 @@
 import {
 	cartActions,
 	crypto,
+	getShopSite,
+	isLegalAgeAndVerified,
+	modalActions,
+	modalTypes,
 	selectCartState,
+	selectIsAddressAdded,
 	selectIsCartEmpty,
 	selectUserState,
 	TextContent,
@@ -27,6 +32,7 @@ import { type NextPageContext } from 'next';
 import Head from 'next/head';
 import router from 'next/router';
 import { useEffect, useState } from 'react';
+import { toast } from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import redisCheckout from '../../lib/redis';
@@ -35,6 +41,7 @@ function QuickDelivery({ simpleCart }: { simpleCart: SimpleCart }) {
 	const dispatch = useDispatch();
 	const cart = useSelector(selectCartState);
 	const cartIsEmpty = useSelector(selectIsCartEmpty);
+	const isAddressAdded = useSelector(selectIsAddressAdded);
 
 	const user = useSelector(selectUserState);
 	const { isLegalAge, idVerified } = user.user;
@@ -50,6 +57,31 @@ function QuickDelivery({ simpleCart }: { simpleCart: SimpleCart }) {
 			dispatch(cartActions.saveSimpleCart(simpleCart) as unknown as AnyAction);
 		}
 	}, [simpleCart]);
+
+	const checkoutOrCompleteSignUp = async (event: any) => {
+		try {
+			event.preventDefault();
+			event.stopPropagation();
+			if (user.isSignedIn && isAddressAdded && user.user.isSignUpComplete) {
+				if (!isLegalAgeAndVerified(user.user))
+					router.push(getShopSite('/sorry-we-cant-serve-you'));
+				else {
+					const response = await dispatch(
+						cartActions.createOrderForCheckout() as any,
+					);
+					if (response?.error?.message === 'Rejected')
+						throw new Error(response.payload);
+					router.push('/checkout');
+				}
+			} else {
+				dispatch(
+					modalActions.openModal({ modalType: modalTypes.checkoutModal }),
+				);
+			}
+		} catch (error: any) {
+			toast.error(error.message);
+		}
+	};
 
 	return (
 		<Page
@@ -95,15 +127,15 @@ function QuickDelivery({ simpleCart }: { simpleCart: SimpleCart }) {
 									),
 								)}
 							</div>
-							<H5 className="flex w-full justify-end">
-								taxes
+							<H5 className="flex w-full justify-end leading-none">
+								subtotal
 								<Price basePrice={cart.subtotal || 0} />
 							</H5>
-							<H5 className="flex w-full justify-end">
+							<H5 className="flex w-full justify-end leading-none">
 								taxes
 								<Price basePrice={cart.taxAmount || 0} />
 							</H5>
-							<H5 className="flex w-full justify-end">
+							<H5 className="flex w-full justify-end leading-none">
 								Your total is
 								<Price basePrice={cart.total || 0} />
 							</H5>
@@ -122,18 +154,14 @@ function QuickDelivery({ simpleCart }: { simpleCart: SimpleCart }) {
 						(user.isSignedIn ? (
 							<>
 								<Paragraph>{TextContent.prompt.REVIEW_CHECKOUT}</Paragraph>
-								<CheckoutButton size="lg" disabled={!canProceed} />
+								<CheckoutButton
+									size="lg"
+									disabled={!canProceed}
+									onClick={checkoutOrCompleteSignUp}
+								/>
 							</>
 						) : (
 							<>
-								{/* <motion.div
-						className="flex grow flex-col space-y-8"
-						animate={confirm ? 'open' : 'closed'}
-						variants={{
-							open: { opacity: 1 },
-							closed: { opacity: 1 },
-						}}
-					> */}
 								<Paragraph>
 									That's great! Except, we dont have your info. {'\n'}
 									<b>Please sign in</b>, so our{' '}
@@ -141,7 +169,6 @@ function QuickDelivery({ simpleCart }: { simpleCart: SimpleCart }) {
 									deliver to you.
 								</Paragraph>
 								<SignInButton size="lg" />
-								{/* </motion.div> */}
 							</>
 						))}
 				</Center>

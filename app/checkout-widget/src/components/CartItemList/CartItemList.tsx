@@ -15,18 +15,14 @@ function CartList({ cart, cartError, staticQuantity = false }: CartListProps) {
 		<>
 			{cart.cartItems.length > 0 ? (
 				cart.cartItems.map((cartItem, index) => (
-					<>
+					<div className="w-full" key={`cart-item-${index}`}>
 						<SimpleCartItem
-							key={`cart-item-${index}`}
 							product={cartItem}
 							staticQuantity={staticQuantity}
 							className="text-light"
 						/>
-						<div
-							key={`divider-${index}`}
-							className="divider text-primary m-0"
-						></div>
-					</>
+						<div className="divider text-primary m-0"></div>
+					</div>
 				))
 			) : (
 				<Small className="text-light m-auto">Your cart is empty.</Small>

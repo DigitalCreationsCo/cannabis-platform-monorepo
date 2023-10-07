@@ -5,17 +5,33 @@
 	"description": "An embeddable javascript widget, built by Gras.",
 	"main": "index.ts",
 	"babel": {
+		"sourceType": "unambiguous",
 		"presets": [
+			[
+				"@babel/preset-env",
+				{
+					"targets": {
+						"chrome": 100,
+						"safari": 15,
+						"firefox": 91
+					}
+				}
+			],
+			"@babel/preset-typescript",
 			"@babel/preset-react"
+		],
+		"plugins": [
+			"@babel/plugin-syntax-dynamic-import"
 		]
 	},
 	"scripts": {
-		"build": "NODE_ENV=production webpack-cli --mode production && dotenv -e ../../.env.proudction -- yarn build-storybook",
+		"build": "NODE_ENV=production webpack-cli --mode production && NODE_ENV=production dotenv -e ../../.env.proudction -- webpack",
 		"build-css": "tailwindcss -o ./src/styles/tailwind.css",
-		"build-storybook": "build-storybook -c .storybook -o dist/storybook",
+		"build-storybook": "storybook build --output-dir dist/storybook",
+		"deploy": "cd deploy && gcloud app deploy",
 		"dev": "npm-run-all --parallel --print-label watch-tailwind dev-server",
 		"dev-server": "(npx local-ssl-proxy --config proxy.config.json) & NODE_ENV=development dotenv -e ../../.env.development -- webpack-dev-server",
-		"storybook": "start-storybook -p 6006",
+		"storybook": "storybook dev -p 6006",
 		"test:unit": "jest",
 		"test:unit-ci": "jest --ci --runInBand --reporters=default --reporters=jest-junit",
 		"test:coverage": "jest --coverage",
@@ -36,12 +52,19 @@
 	},
 	"devDependencies": {
 		"@babel/core": "7.21.4",
-		"@babel/preset-react": "7.22.5",
+		"@babel/plugin-syntax-dynamic-import": "^7.8.3",
+		"@babel/preset-env": "7.22.20",
+		"@babel/preset-react": "7.22.15",
+		"@babel/preset-typescript": "7.23.0",
 		"@cfaester/enzyme-adapter-react-18": "0.7.0",
-		"@storybook/addon-actions": "7.3.2",
-		"@storybook/addon-links": "7.3.2",
-		"@storybook/addons": "7.3.2",
-		"@storybook/react": "7.3.2",
+		"@storybook/addon-essentials": "7.4.6",
+		"@storybook/addon-interactions": "7.4.6",
+		"@storybook/addon-links": "7.4.6",
+		"@storybook/addon-onboarding": "1.0.8",
+		"@storybook/blocks": "7.4.6",
+		"@storybook/react": "7.4.6",
+		"@storybook/react-webpack5": "7.4.6",
+		"@storybook/testing-library": "0.2.2",
 		"@types/enzyme": "3.10.13",
 		"autoprefixer": "10.4.13",
 		"babel-jest": "29.5.0",
@@ -75,6 +98,7 @@
 		"postcss-preset-env": "8.3.1",
 		"postcss-selector-namespace": "3.0.1",
 		"prettier": "2.8.0",
+		"storybook": "^7.4.6",
 		"style-loader": "3.3.2",
 		"tailwindcss": "3.3.2",
 		"ts-jest": "29.0.3",

@@ -7,10 +7,9 @@ import { getBreakpointValue } from '@cd/ui-lib/src/hooks/useBreakpoint';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
-import logo from '../../public/img/logo120.png';
-import styles from '../styles/theme';
-import { type ViewProps } from '../types';
-// import url from 'url-state';
+import logo from '../../../public/img/logo120.png';
+import styles from '../../styles/theme';
+import { type ViewProps } from '../../types';
 
 function Launch({
 	expanded,
@@ -48,7 +47,7 @@ function Launch({
 							Place your order at checkout
 						</Paragraph>
 						<div className="m-auto">
-							<CopyRight append={TextContent.legal.HOME_DELIVERY_BY_GRAS} />
+							<CopyRight prepend={TextContent.legal.HOME_DELIVERY_BY_GRAS} />
 						</div>
 					</div>
 

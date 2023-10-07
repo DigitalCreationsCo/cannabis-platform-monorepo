@@ -15,3 +15,26 @@ MAIN SERVER IS RESPONSIBLE FOR AUTHENTICATION SESSIONS, AND QUERY FOR ENTITY DAT
 
 LOCATION
 LOCATION SERVER IS RESPONSIBLE FOR GEOSPATIAL QUERIES. IT USES MONGODB SERVER TO QUERY GEOJSON DATA, AND RELAYS TO MAIN SERVER.
+
+
+Dev Environment
+You'll need arm64 machine with apple M1 CPU, ideally.
+
+You need these command line tools
+gcloud 
+    Google Cloud SDK 437.0.1
+    bq 2.0.93
+    core 2023.06.30
+    gcloud-crc32c 1.0.0
+    gke-gcloud-auth-plugin 0.5.3
+    gsutil 5.24
+kubectl
+    Client Version: v1.28.2
+    Kustomize Version: v5.0.4-0.20230601165947-6ce0bf390ce3
+    Server Version: v1.27.3-gke.100
+terraform
+    Terraform v1.5.7
+    on darwin_arm64
+docker
+    Version 23.0.5
+    API version 1.42

@@ -385,7 +385,7 @@ const createOrganizations = async () => {
 		},
 		{
 			id: 'bf346k4u7x2b2hhr6wsofppp',
-			name: 'Golden Nugget Dispensary (Test)',
+			name: 'Golden Nugget Dispensary',
 			stripeAccountId: 'acct_1NtESYPZq3lkE1db',
 			stripeOnboardingComplete: true,
 			dialCode: '1',
@@ -471,7 +471,7 @@ const createOrganizations = async () => {
 							stock: 5,
 							organizationId: 'bf346k4u7x2b2hhr6wsofppp',
 							rating: 4.5,
-							organizationName: 'Golden Nugget Dispensary (Test)',
+							organizationName: 'Golden Nugget Dispensary',
 							quantity: 3,
 							isDiscount: true,
 							salePrice: 6499,
@@ -587,7 +587,7 @@ const createOrganizations = async () => {
 			},
 			siteSetting: {
 				create: {
-					title: 'Golden Nugget Dispensary (Test)',
+					title: 'Golden Nugget Dispensary',
 					description: 'Best nuggets coast to coast',
 					bannerText: 'Now delivering to your door',
 					createdAt: new Date(),
