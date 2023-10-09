@@ -1,7 +1,7 @@
 /* eslint-disable jest/no-commented-out-tests */
 /* eslint-disable @typescript-eslint/naming-convention */
 import * as cheerio from 'cheerio';
-import { type DOMDataSet } from '../types';
+import { type DOMDataSet } from '../widget.types';
 import { Config } from './crawler.config';
 import { dutchieHtml as html } from './data/html-test-data';
 // create a test page from dutchie, eventually

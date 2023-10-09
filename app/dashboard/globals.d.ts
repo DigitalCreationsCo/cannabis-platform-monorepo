@@ -3,4 +3,6 @@
 interface Window {
 	BrevoConversationsID?: string;
 	BrevoConversations?: any;
+
+	GrasDeliveryWidget: any;
 }

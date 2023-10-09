@@ -1,7 +1,7 @@
 /* eslint-disable jest/expect-expect */
 import { mount, shallow } from 'enzyme';
 import { html } from '../../crawler/data/html-test-data';
-import { type ViewProps } from '../../types';
+import { type ViewProps } from '../../widget.types';
 import Checkout from '.';
 
 describe('<Checkout />', () => {

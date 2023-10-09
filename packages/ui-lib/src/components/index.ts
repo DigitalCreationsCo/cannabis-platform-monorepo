@@ -24,6 +24,7 @@ export * from './Layout';
 export { default as LoadingDots } from './LoadingDots';
 export { default as LoadingPage } from './LoadingPage';
 export * from './modal';
+export * from './NavLink';
 export { default as NavLink } from './NavLink';
 export { default as OrderRow } from './OrderRow';
 export { default as Padding } from './Padding';

@@ -5,7 +5,7 @@ import { Suspense, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 import styles from '../../styles/theme';
-import { type ViewComponent, type ViewProps } from '../../types';
+import { type ViewComponent, type ViewProps } from '../../widget.types';
 import ErrorBoundary from '../ErrorBoundary';
 
 const ViewWrapper = (ViewComponent: ViewComponent, props: ViewProps) => {

@@ -6,7 +6,7 @@ import {
 	type DOMKey,
 	type DOMSelector,
 	type WidgetHost,
-} from '../types';
+} from '../widget.types';
 
 /**
  * @class Config
