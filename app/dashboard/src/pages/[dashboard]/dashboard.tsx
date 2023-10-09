@@ -1,6 +1,7 @@
 import {
 	axios,
 	dispensaryActions,
+	TextContent,
 	urlBuilder,
 	usePagination,
 } from '@cd/core-lib';
@@ -21,6 +22,7 @@ import {
 	VariantRow,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
+import Link from 'next/link';
 import { useMemo } from 'react';
 import { connect } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
@@ -56,37 +58,42 @@ function Dashboard({ user, organization, products, orders }: DashboardProps) {
 				name: 'todays-orders',
 				title: "Today's Orders",
 				amount: todaysOrders.length,
+				href: () => TextContent.href.orders_f(user.id),
 				enabled: FeatureConfig.orders.enabled,
 			},
 			{
 				name: 'low-stock-variants',
 				title: 'Low Stock Variants',
 				amount: totalVariants.length,
+				href: () => TextContent.href.products_f(user.id),
 				enabled: FeatureConfig.products.enabled,
 			},
 			{
 				name: 'total-skus',
 				title: 'Products',
 				amount: lowStockVariants.length,
+				href: () => TextContent.href.products_f(user.id),
 				enabled: FeatureConfig.products.enabled,
 			},
 			{
 				name: 'total-orders',
 				title: 'Orders',
 				amount: orders.length,
+				href: () => TextContent.href.orders_f(user.id),
 				enabled: FeatureConfig.orders.enabled,
 			},
 		];
 		return keyIndicatorsList
 			.filter((item) => item.enabled)
 			.map((item) => (
-				<Card
-					className="col-span-auto md:!w-full lg:!w-full"
-					amountClassName="text-primary"
-					key={`key-indicator-${item.title}`}
-					title={item.title}
-					amount={item.amount}
-				/>
+				<Link href={item.href()} key={`key-indicator-${item.title}`}>
+					<Card
+						className="col-span-auto md:!w-full lg:!w-full"
+						amountClassName="text-primary"
+						title={item.title}
+						amount={item.amount}
+					/>
+				</Link>
 			));
 	}
 

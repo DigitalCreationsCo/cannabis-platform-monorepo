@@ -11,24 +11,35 @@ function Settings({
 	organization: OrganizationWithDashboardDetails;
 }) {
 	return (
-		<Page>
-			<H2>Dashboard Settings</H2>
-			<Link href={TextContent.href.site_f(organization.id)}>
-				<Button>Site Settings</Button>
-			</Link>
+		<Page className="p-1">
+			<H2>Settings</H2>
+			<div className="tabs">
+				<Link
+					className="tab pl-0"
+					href={TextContent.href.site_f(organization.id)}
+				>
+					<Button className="p-2">Site Settings</Button>
+				</Link>
+				<Link
+					className="tab pl-0"
+					href={TextContent.href.setup_widget_f(organization.id)}
+				>
+					<Button className="p-2">Setup Checkout Widget</Button>
+				</Link>
+			</div>
 		</Page>
 	);
 }
-
-function mapStateToProps(state: RootState) {
-	const { dispensary } = state;
-	return {
-		orders: dispensary.orders,
-	};
-}
-export default connect(mapStateToProps)(Settings);
 
 Settings.getLayoutContext = (): LayoutContextProps => ({
 	showHeader: false,
 	showSideNav: true,
 });
+
+function mapStateToProps(state: RootState) {
+	const { dispensary } = state;
+	return {
+		organization: dispensary.dispensary,
+	};
+}
+export default connect(mapStateToProps)(Settings);
