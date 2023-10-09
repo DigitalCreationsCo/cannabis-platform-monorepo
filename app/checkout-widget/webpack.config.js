@@ -93,7 +93,7 @@ module.exports = {
 		library: 'GrasDeliveryWidget',
 		libraryExport: 'default',
 		libraryTarget: 'window',
-		sourceMapFilename: '[name].js.map',
+		sourceMapFilename: '[name][hash][ext]',
 	},
 	devtool: 'source-map',
 };

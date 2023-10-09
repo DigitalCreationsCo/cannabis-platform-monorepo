@@ -1,5 +1,8 @@
 /* eslint-disable sonarjs/no-duplicate-string */
-import { type DeliveryWidgetConfigOptions, type ViewProps } from '../types';
+import {
+	type DeliveryWidgetConfigOptions,
+	type ViewProps,
+} from '../widget.types';
 const styles = {
 	cart_list: [
 		'mx-auto flex flex-col items-center ',
@@ -12,9 +15,11 @@ const styles = {
 			: 'h-[48px] md:w-[310px] flex-row',
 		'justify-center flex items-center',
 	],
-	container: ['min-h-[44px] md:min-h-0 bottom-0'],
-	inner_container: [
-		'z-50 fixed md:block',
+	container: ['min-h-[44px] md:min-h-0 w-fit bottom-0'],
+	inner_container_f: (props: ViewProps) => [
+		props.parentElement ? 'relative' : 'fixed',
+		props.expanded ? 'md:w-fit' : 'md:w-[310px]',
+		'z-50 md:block',
 		'min-h-[44px] md:min-h-0 bottom-0 md:m-4 flex',
 	],
 	launch_f: (expanded: ViewProps['expanded']) => [
@@ -34,7 +39,7 @@ const styles = {
 			: props.expanded
 			? 'md:rounded-xl'
 			: 'md:rounded-full',
-		'w-screen md:w-auto',
+		'w-screen md:w-fit',
 		'min-h-[44px] md:min-h-0',
 		props.expanded && 'py-2',
 		// animate-[animationName_easingFunction_durationInSeconds_iterationsCount_delayInSeconds_direction]

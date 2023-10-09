@@ -14,7 +14,7 @@ import { twMerge } from 'tailwind-merge';
 import logo from '../../../public/img/logo120.png';
 import { Config as CrawlerConfig } from '../../crawler';
 import styles from '../../styles/theme';
-import { type DOMKey, type ViewProps } from '../../types';
+import { type DOMKey, type ViewProps } from '../../widget.types';
 import CartList from '../CartItemList';
 
 export default class Checkout extends Component<

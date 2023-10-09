@@ -9,7 +9,7 @@ import {
 	type DOMKey,
 	type DOMQueryResult,
 	type DOMSelector,
-} from '../types';
+} from '../widget.types';
 
 // in the future, crawler accepts only a key, and the config is generated
 // make the exported functions public class methods, for testing

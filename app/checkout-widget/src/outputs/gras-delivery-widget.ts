@@ -12,7 +12,9 @@ export default class GrasDeliveryWidget {
 	static root: any;
 
 	// eslint-disable-next-line @typescript-eslint/consistent-type-imports
-	static async mount(props: import('../types').DeliveryWidgetConfigOptions) {
+	static async mount(
+		props: import('../widget.types').DeliveryWidgetConfigOptions,
+	) {
 		const component = await getComponent(props);
 
 		function doRender() {

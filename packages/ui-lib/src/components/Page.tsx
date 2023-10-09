@@ -28,7 +28,6 @@ function Page({
 		gradient: [(gradient && 'anim8-' + gradient + '-gradient') || ''],
 		cursor: ['cursor-default'],
 		// hideOverflow: ['overflow-hidden'],
-
 		className,
 	});
 

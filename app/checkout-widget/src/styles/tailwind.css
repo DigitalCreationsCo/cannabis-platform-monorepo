@@ -2644,6 +2644,10 @@ html {
   margin-top: 2rem;
 }
 
+.ml-2 {
+  margin-left: 0.5rem;
+}
+
 .block {
   display: block;
 }
@@ -2876,6 +2880,10 @@ html {
 
 .w-screen {
   width: 100vw;
+}
+
+.w-auto {
+  width: auto;
 }
 
 .min-w-\[140px\] {
@@ -4012,6 +4020,10 @@ html {
     margin: 1rem;
   }
 
+  .md\:m-0 {
+    margin: 0px;
+  }
+
   .md\:mt-4 {
     margin-top: 1rem;
   }
@@ -4063,10 +4075,6 @@ html {
 
   .md\:w-\[540px\] {
     width: 540px;
-  }
-
-  .md\:w-auto {
-    width: auto;
   }
 
   .md\:w-fit {
@@ -4129,6 +4137,10 @@ html {
 
   .md\:p-5 {
     padding: 1.25rem;
+  }
+
+  .md\:p-4 {
+    padding: 1rem;
   }
 
   .md\:px-12 {

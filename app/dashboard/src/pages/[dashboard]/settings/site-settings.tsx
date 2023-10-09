@@ -16,6 +16,7 @@
 // import TopbarSetting from "components/site-settings/TopbarSetting";
 import { pruneData } from '@cd/core-lib';
 import {
+	Button,
 	Card,
 	Icons,
 	Page,
@@ -24,6 +25,7 @@ import {
 	Small,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
+import Router from 'next/router';
 import { useState } from 'react';
 import { connect } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
@@ -37,12 +39,19 @@ function SiteSettings({ siteSetting }: SiteSettingsDashboardProps) {
 	const [selectTab, setSelectTab] = useState(0);
 	return (
 		<Page>
-			<PageHeader
-				title="Site Settings"
-				Icon={Icons.CategoryOutlined}
-				// navigation={ <DashboardNavigation /> }
-			/>
 			<Card>
+				<PageHeader
+					title="Site Settings"
+					Icon={Icons.CategoryOutlined}
+					// navigation={ <DashboardNavigation /> }
+				>
+					<Button
+						onClick={() => Router.back()}
+						className="bg-inverse hover:bg-inverse active:bg-accent-soft place-self-start"
+					>
+						back
+					</Button>
+				</PageHeader>
 				Dispensary staff can view and edit their storefront and site settings
 				here
 				<div>

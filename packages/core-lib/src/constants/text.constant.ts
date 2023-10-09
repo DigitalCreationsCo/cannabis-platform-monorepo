@@ -319,8 +319,9 @@ const TextContent = Object.freeze({
 		settings: '/settings',
 		settings_f: (id: string) => `/${id}/settings`,
 		account_f: (id: string) => `/${id}/account`,
-
+		site: `/site-settings`,
 		site_f: (id: string) => `/${id}/settings/site-settings`,
+		setup_widget_f: (id: string) => `/${id}/settings/setup-widget`,
 
 		dispensary_tos: `legal/dispensary-terms-and-conditions`,
 		user_tos: `legal/user-terms-and-conditions`,

@@ -27,7 +27,7 @@ function OrderRow({ order, orderDetailsRoute, className }: OrderRowProps) {
 				</Paragraph>
 
 				<Small className="col-span-2">
-					{format(new Date(order.createdAt), 'MMM dd, yyyy, hh:mm')}
+					{format(new Date(order.createdAt), 'MMM dd, hh:mm')}
 				</Small>
 				<Price
 					className="col-span-2 justify-self-end"

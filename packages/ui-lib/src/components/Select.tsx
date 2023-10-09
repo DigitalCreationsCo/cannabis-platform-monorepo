@@ -1,4 +1,4 @@
-import React, { type Dispatch, type SetStateAction } from 'react';
+import React from 'react';
 import { twMerge } from 'tailwind-merge';
 
 type SelectProps = {
@@ -6,7 +6,7 @@ type SelectProps = {
 	defaultValue: string | number;
 	values: string[] | number[];
 	className?: string;
-	setOption: Dispatch<SetStateAction<string | number>>;
+	setOption: any; // Dispatch<SetStateAction<string | number>>;
 };
 export default function Select({
 	multiple,
@@ -17,7 +17,7 @@ export default function Select({
 }: SelectProps) {
 	return (
 		<select
-			className={twMerge('select focus:outline-none w-fit border', className)}
+			className={twMerge('border-2 rounded ml-2', className)}
 			multiple={multiple}
 			defaultValue={defaultValue}
 		>
