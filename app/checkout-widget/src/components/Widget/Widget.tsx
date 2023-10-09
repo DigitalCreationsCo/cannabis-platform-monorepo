@@ -9,15 +9,17 @@ import '../../styles/tailwind.css';
 
 const Launch = lazy(
 	() => import('../Launch'),
-) as import('../../types').ViewComponent;
+) as import('../../widget.types').ViewComponent;
 const Checkout = lazy(
 	() => import('../Checkout'),
-) as import('../../types').ViewComponent;
+) as import('../../widget.types').ViewComponent;
 
-function Widget(props: import('../../types').DeliveryWidgetConfigOptions) {
+function Widget(
+	props: import('../../widget.types').DeliveryWidgetConfigOptions,
+) {
 	const [expanded, setExpand] = useState(false);
 	const [screenwidth, setScreenwidth] = useState(window.innerWidth);
-	const config: import('../../types').ViewProps = {
+	const config: import('../../widget.types').ViewProps = {
 		...props,
 		expanded,
 		setExpand,
@@ -33,7 +35,7 @@ function Widget(props: import('../../types').DeliveryWidgetConfigOptions) {
 		<div id="Widget-Container" className={twMerge(styles.container)}>
 			<div
 				className={twMerge([
-					styles.inner_container,
+					styles.inner_container_f(config),
 					styles.position_f(position),
 					styles.pointer_f(expanded),
 				])}
@@ -53,6 +55,6 @@ Widget.defaultProps = {
 	position: 'right',
 	shape: 'rectangle',
 	useDutchie: false,
-} as import('../../types').DeliveryWidgetConfigOptions;
+} as import('../../widget.types').DeliveryWidgetConfigOptions;
 
 export default Widget;

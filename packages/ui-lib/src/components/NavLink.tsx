@@ -3,36 +3,52 @@ import { type AnchorHTMLAttributes, type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 import IconWrapper from './IconWrapper';
 import { Paragraph } from './Typography';
-export interface NavLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
+
+export type NavLinkType = {
 	href: string;
-	className?: string;
+	title: string;
+	icon: any;
+	enabled: boolean;
+	subLinks?: NavLinkType[];
+};
+
+export interface NavLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
+	link: NavLinkType;
 	isActive?: boolean;
-	Icon: any;
 }
 
-const NavLink = ({
-	href,
-	Icon,
-	isActive,
-	children,
-	className,
-}: NavLinkProps) => {
+const NavLink = ({ link, isActive, children, className }: NavLinkProps) => {
+	// isActive prop value is not working with dynamic path
+
 	const navLinkStyle = [
-		'h-[44px] flex space-x-2 p-4 items-center border-l-4 border-transparent hover:border-primary',
+		'h-[44px] flex space-x-2 p-4 items-center border-l-4 hover:border-primary',
 		isActive ? 'border-primary' : 'border-transparent',
 	];
+
+	const renderSubLinks = () => (
+		<ul>
+			{link.subLinks?.map((subLink, i) => (
+				<Link key={`nav-sublink-${i}`} href={subLink.href}>
+					<li className={twMerge(navLinkStyle, className)}>
+						<IconWrapper Icon={subLink.icon} />
+						<StyledLink isActive={!!isActive}>{subLink.title}</StyledLink>
+					</li>
+				</Link>
+			))}
+		</ul>
+	);
 	return (
-		<Link href={href}>
+		<Link href={link.href}>
 			<li className={twMerge(navLinkStyle, className)}>
-				<IconWrapper Icon={Icon} />
+				<IconWrapper Icon={link.icon} />
 				<StyledLink isActive={!!isActive}>{children}</StyledLink>
 			</li>
+			{renderSubLinks()}
 		</Link>
 	);
 };
 
 const StyledLink = ({
-	// isActive,
 	className,
 	children,
 }: { isActive: boolean; className?: string } & PropsWithChildren) => {

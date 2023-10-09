@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../../public/img/logo120.png';
 import styles from '../../styles/theme';
-import { type ViewProps } from '../../types';
+import { type ViewProps } from '../../widget.types';
 
 function Launch({
 	expanded,

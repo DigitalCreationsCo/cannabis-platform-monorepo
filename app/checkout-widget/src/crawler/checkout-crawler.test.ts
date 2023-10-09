@@ -3,7 +3,7 @@
 import { type SimpleCart } from '@cd/core-lib/src/types/redux.types';
 import { isArray } from '@cd/core-lib/src/utils/object.util';
 import * as cheerio from 'cheerio';
-import { type DOMQueryResult } from '../types';
+import { type DOMQueryResult } from '../widget.types';
 import {
 	buildCartItems,
 	buildSimpleCart,
