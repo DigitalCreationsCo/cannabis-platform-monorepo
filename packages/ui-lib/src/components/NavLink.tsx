@@ -28,7 +28,7 @@ const NavLink = ({ link, isActive, children, className }: NavLinkProps) => {
 	const renderSubLinks = () => (
 		<ul>
 			{link.subLinks?.map((subLink, i) => (
-				<Link key={`nav-sublink-${i}`} href={subLink.href}>
+				<Link key={`nav-sublink- ${i}`} href={subLink.href}>
 					<li className={twMerge(navLinkStyle, className)}>
 						<IconWrapper Icon={subLink.icon} />
 						<StyledLink isActive={!!isActive}>{subLink.title}</StyledLink>
@@ -38,13 +38,15 @@ const NavLink = ({ link, isActive, children, className }: NavLinkProps) => {
 		</ul>
 	);
 	return (
-		<Link href={link.href}>
-			<li className={twMerge(navLinkStyle, className)}>
-				<IconWrapper Icon={link.icon} />
-				<StyledLink isActive={!!isActive}>{children}</StyledLink>
-			</li>
+		<>
+			<Link href={link.href}>
+				<li className={twMerge(navLinkStyle, className)}>
+					<IconWrapper Icon={link.icon} />
+					<StyledLink isActive={!!isActive}>{children}</StyledLink>
+				</li>
+			</Link>
 			{renderSubLinks()}
-		</Link>
+		</>
 	);
 };
 

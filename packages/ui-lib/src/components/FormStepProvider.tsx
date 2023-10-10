@@ -48,16 +48,22 @@ const useFormContext = () => useContext(FormContext);
  * @property FormStepComponents accepts a list of components, or expressions that evaluate to components or null, and filters out null values
  */
 interface FormStepProviderProps {
-	FormStepComponents: (React.FC | null)[];
+	FormStepComponents: (React.FC<FormComponentProps> | null)[];
 	formId: string;
 	isComplete?: () => void;
+	loading?: boolean;
+	setLoading?: (loading: boolean) => void;
 }
 
 function FormStepProvider({
 	FormStepComponents,
 	formId,
 	isComplete,
+	loading,
+	setLoading,
 }: FormStepProviderProps) {
+	const formComponentProps: FormComponentProps = { loading, setLoading };
+
 	const [cookies, setCookie] = useEncryptCookies(
 		[`form-data-context-${formId}`] || ({} as FormValuesType),
 	);
@@ -104,7 +110,7 @@ function FormStepProvider({
 				isComplete,
 			}}
 		>
-			<FormStepComponent />
+			<FormStepComponent {...formComponentProps} />
 			<div className="relative bottom-0 flex justify-end p-5">
 				<FlexBox className={styles.stepNumber}>{showStepNumber}</FlexBox>
 			</div>
@@ -138,3 +144,8 @@ const styles = {
 
 export { useFormContext, FormStepProvider };
 export type { FormContextProps, FormValuesType };
+
+export type FormComponentProps = {
+	loading?: boolean;
+	setLoading?: (loading: boolean) => void;
+};
