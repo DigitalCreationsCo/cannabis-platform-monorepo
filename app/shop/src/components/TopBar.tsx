@@ -13,7 +13,7 @@ import {
 import {
 	Button,
 	FlexBox,
-	H2,
+	GrasSignature,
 	IconButton,
 	Icons,
 	Paragraph,
@@ -52,23 +52,45 @@ function TopBar({ signOut }: TopBarProps) {
 
 	return (
 		<div className={twMerge(styles.TOPBAR.topbar)}>
-			<Link href={'/'} className="pr-2">
-				<Image alt="Gras" width={50} height={50} src={logo} />
-			</Link>
-
-			<Link href={'/'}>
-				<H2 className="text-secondary pt-0.5">Gras</H2>
-			</Link>
-
-			<Link href={'/'}>
-				<Paragraph className={twMerge(styles.TOPBAR.tagline)}>
-					Cannabis Marketplace
-				</Paragraph>
-			</Link>
-			<div className="flex-1"></div>
-
+			<FlexBox className="flex-row items-center">
+				<Link href={'/'} className="z-50">
+					<GrasSignature className="text-secondary pt-0.5">Gras</GrasSignature>
+				</Link>
+				<Link href={'/'} className="mx-2">
+					<Image alt="Gras" width={50} height={50} src={logo} />
+				</Link>
+				<Link href={'/'}>
+					<Paragraph className={twMerge(styles.TOPBAR.tagline)}>
+						Cannabis Marketplace
+					</Paragraph>
+				</Link>
+			</FlexBox>
 			<FlexBox className="flex flex-row items-center space-x-4 px-4 pr-2">
+				{/* GET SUPPORT BUTTON */}
 				{isSignedIn && (
+					<Link
+						className={twMerge('hidden sm:block', styles.BUTTON.highlight)}
+						href={TextContent.href.support}
+					>
+						<IconButton
+							className={twMerge(styles.BUTTON.highlight)}
+							iconSize={28}
+							size="sm"
+							hover="transparent"
+							bg="transparent"
+							Icon={Icons.Help}
+							iconColor={'dark'}
+						>
+							{(isCartEmpty && <></>) || (
+								<div className={twMerge(styles.TOPBAR.badge)}>
+									{cart.totalItems}
+								</div>
+							)}
+						</IconButton>
+					</Link>
+				)}
+				{/* OLD GET SUPPORT LINK */}
+				{/* {isSignedIn && (
 					<Link
 						className={twMerge('hidden sm:block', styles.BUTTON.highlight)}
 						href={TextContent.href.support}
@@ -77,12 +99,12 @@ function TopBar({ signOut }: TopBarProps) {
 							Get Support
 						</Paragraph>
 					</Link>
-				)}
+				)} */}
 
 				<Link href={TextContent.href.bag}>
 					<IconButton
 						className={twMerge(styles.BUTTON.highlight, 'indicator')}
-						iconSize={24}
+						iconSize={28}
 						size="sm"
 						hover="transparent"
 						bg="transparent"
@@ -100,7 +122,7 @@ function TopBar({ signOut }: TopBarProps) {
 				{!isSignedIn && (
 					<FlexBox>
 						<Button
-							className={twMerge(styles.BUTTON.highlight, 'pt-1')}
+							className={twMerge(styles.BUTTON.highlight, 'text-md')}
 							size="sm"
 							bg="transparent"
 							hover="transparent"

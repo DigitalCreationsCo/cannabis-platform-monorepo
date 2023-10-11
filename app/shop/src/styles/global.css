@@ -2,12 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+	font-family: 'Encode Sans';
+	src: url('../../public/fonts/EncodeSans-VariableFont_wdth,wght.ttf');
+}
+@font-face {
+	font-family: 'Onest';
+	src: url('../../public/fonts/Onest-VariableFont_wght.ttf');
+}
+@font-face {
+	font-family: 'Gras';
+	src: url('../../public/fonts/RockSalt-Regular.ttf');
+}
+
 @layer base {
 	body {
 		@apply text-dark;
+		@apply font-onest;
 		-ms-overflow-style: none;
 	}
-	
+
 	body::-webkit-scrollbar {
 		display: none;
 	}
@@ -23,7 +37,7 @@
 	details > summary {
 		list-style: none;
 	}
-	
+
 	:root {
 		--font-weight-normal: 400;
 		--font-weight-semibold: 600;

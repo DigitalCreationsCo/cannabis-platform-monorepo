@@ -66,6 +66,7 @@ import Instagram from './Instagram';
 import InstagramFilled from './InstagramFilled';
 import MakeUp from './MakeUp';
 import Man from './Man';
+import MenuSimple from './MenuSimple';
 import Milk from './Milk';
 import MoneyGuarantee from './MoneyGurantee';
 import MotorBike from './MotorBike';
@@ -208,6 +209,7 @@ export default {
 	// Lightning,
 	MakeUp,
 	Man,
+	MenuSimple,
 	// Microphone,
 	MotorBike,
 	NewArrival,
