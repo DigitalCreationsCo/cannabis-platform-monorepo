@@ -3,6 +3,7 @@ import { Layout, type LayoutContextProps } from '@cd/ui-lib';
 import { type PropsWithChildren } from 'react';
 import { useCookies } from 'react-cookie';
 import { useSelector } from 'react-redux';
+import { FeatureConfig } from '../config/shop.features';
 import { useAppDispatch } from '../redux/hooks';
 import { type RootState } from '../redux/store';
 import CategoriesNavigation from './CategoriesNavigation';
@@ -23,6 +24,7 @@ const LayoutContainer = (props: LayoutContextProps & PropsWithChildren) => {
 	};
 	return (
 		<Layout
+			showHeaderDrawer={FeatureConfig.categories.enabled}
 			isModalVisible={modalVisible}
 			showSideNavOnDesktop={false}
 			SideNavComponent={CategoriesNavigation}

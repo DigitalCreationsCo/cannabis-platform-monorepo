@@ -10,6 +10,31 @@ interface Props
 const styles = {
 	'cursor-inherit': 'cursor-inherit',
 };
+export const GrasSignature = ({
+	className,
+	color = 'inherit',
+	children,
+	...props
+}: Props) => {
+	return (
+		<h1
+			className={twMerge(
+				'font-gras',
+				'overflow-visible z-50',
+				styles['cursor-inherit'],
+				'text-5xl font-bold whitespace-normal',
+				(color === 'light' && 'text-inverse') ||
+					(color === 'dark' && 'text-dark') ||
+					'text-inherit',
+				className,
+			)}
+			{...props}
+		>
+			{children}
+		</h1>
+	);
+};
+
 export const H1 = ({
 	className,
 	color = 'inherit',
@@ -19,6 +44,7 @@ export const H1 = ({
 	return (
 		<h1
 			className={twMerge(
+				'font-encode',
 				styles['cursor-inherit'],
 				'text-4xl font-bold whitespace-normal',
 				(color === 'light' && 'text-inverse') ||
@@ -42,6 +68,7 @@ export const H2 = ({
 	return (
 		<h2
 			className={twMerge(
+				'font-encode',
 				styles['cursor-inherit'],
 				'font-bold text-3xl whitespace-normal',
 				(color === 'light' && 'text-inverse') ||
@@ -65,6 +92,7 @@ export const H3 = ({
 	return (
 		<h3
 			className={twMerge(
+				'font-encode',
 				styles['cursor-inherit'],
 				'font-bold text-2xl whitespace-normal',
 				(color === 'light' && 'text-inverse') ||
@@ -157,6 +185,8 @@ export const Paragraph = ({
 	return (
 		<p
 			className={twMerge(
+				'font-onest',
+				'font-light',
 				styles['cursor-inherit'],
 				'whitespace-pre-line',
 				(color === 'light' && 'text-inverse') ||
@@ -181,6 +211,7 @@ export const Small = ({
 	return (
 		<span
 			className={twMerge(
+				'font-onest',
 				styles['cursor-inherit'],
 				(color === 'light' && 'text-inverse') ||
 					(color === 'dark' && 'text-dark') ||
@@ -205,6 +236,7 @@ export const Span = ({
 	return (
 		<span
 			className={twMerge(
+				'font-onest',
 				(color === 'light' && 'text-inverse') ||
 					(color === 'dark' && 'text-dark') ||
 					'text-inherit',
@@ -228,6 +260,7 @@ export const Tiny = ({
 	return (
 		<span
 			className={twMerge(
+				'font-onest',
 				(color === 'light' && 'text-inverse') ||
 					(color === 'dark' && 'text-dark') ||
 					'text-inherit',
