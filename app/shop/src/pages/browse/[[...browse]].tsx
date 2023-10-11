@@ -116,5 +116,6 @@ export default function MarketPlace() {
 }
 
 MarketPlace.getLayoutContext = (): LayoutContextProps => ({
+	showSideNav: true,
 	showHeader: false,
 });

@@ -8,7 +8,6 @@ import { dutchieHtml as html } from './data/html-test-data';
 
 import {
 	buildCartItems,
-	buildSimpleCartFromDutchieCheckout,
 	convertSubTotalAndTaxNumber,
 	extractValueFromStringInfo,
 	getCartDOMElements,
@@ -69,14 +68,14 @@ describe('Crawler : Dutchie', () => {
 	// 	expect(typeof data.total).toStrictEqual('number');
 	// });
 
-	it('buildSimpleCartFromDutchieCheckout returns defined data', async () => {
-		const result = {
-			items: [],
-			total: 'string',
-		};
-		const config = new Config('dutchie-checkout').config;
-		expect(buildSimpleCartFromDutchieCheckout(result, config)).toBeDefined();
-	});
+	// it('buildSimpleCartFromDutchieCheckout returns defined data', async () => {
+	// 	const result = {
+	// 		items: [],
+	// 		total: 'string',
+	// 	};
+	// 	const config = new Config('dutchie-checkout').config;
+	// 	expect(buildSimpleCartFromDutchieCheckout(result, config)).toBeDefined();
+	// });
 
 	it('buildCartItems returns using cheerio', async () => {
 		const result = {

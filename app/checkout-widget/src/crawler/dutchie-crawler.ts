@@ -82,7 +82,7 @@ export function buildCartItems(
 	}
 	const cartItems: ProductVariantWithDetails[] = [];
 	items.forEach((item, index) => {
-		console.info('crawled item: ', item);
+		// console.info('crawled item: ', item);
 		const _cartItem = {
 			name: text(_$(item, config.item.name)).match(regexFieldDict.name)?.[1],
 			basePrice: convertDollarsToWholeNumber(
@@ -142,7 +142,7 @@ export function buildSimpleCartFromDutchieCheckout(
 }
 
 export function convertSubTotalAndTaxNumber(value: number | string) {
-	console.info('convertSubTotalAndTaxNumber: ', value);
+	// console.info('convertSubTotalAndTaxNumber: ', value);
 	const total = value
 		.toString()
 		.match(/\d*/g)
@@ -150,8 +150,8 @@ export function convertSubTotalAndTaxNumber(value: number | string) {
 		// filter numbers, concat dollar and cent pairs, and add the values
 		.reduce((acc, val, index, array) => {
 			if (index % 2 === 0) {
-				console.log('index: ', index);
-				console.info('value: ', Number(array[index].concat(array[index + 1])));
+				// console.info('index: ', index);
+				// console.info('value: ', Number(array[index].concat(array[index + 1])));
 				acc += Number(array[index].concat(array[index + 1]));
 			}
 			return acc;
