@@ -1,4 +1,4 @@
-import { type ReactEventHandler, useState } from 'react';
+import { useState, type ReactEventHandler } from 'react';
 import { twMerge } from 'tailwind-merge';
 import Icons from '../icons';
 import IconWrapper from './IconWrapper';
@@ -16,6 +16,7 @@ function SearchBar({ placeholder = 'Search', onChange }: SearchBarProps) {
 			onFocus={() => setFocused(true)}
 			onBlur={() => setFocused(false)}
 			className={twMerge([
+				'rounded',
 				'flex flex-row grow items-center lg:self-center space-x-3',
 				'xl:max-w-[408px] xl:relative',
 				'h-[51px]',

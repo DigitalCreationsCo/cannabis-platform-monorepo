@@ -4,6 +4,8 @@ import {
 	type ReactEventHandler,
 } from 'react';
 import { twMerge } from 'tailwind-merge';
+import Icons from '../icons';
+import IconWrapper from './IconWrapper';
 import SearchField from './SearchField';
 
 type HeaderProps = {
@@ -11,16 +13,20 @@ type HeaderProps = {
 		ReactEventHandler<Element>;
 	placeholder?: string;
 	drawerComponentId?: string;
+	showDrawer?: boolean;
+	showSearch?: boolean;
 } & PropsWithChildren;
 function Header({
 	onSearchChange,
 	placeholder,
 	drawerComponentId,
+	showDrawer = true,
+	showSearch = true,
 	children,
 }: HeaderProps) {
 	const headerContainerStyle = [
 		'flex flex-row',
-		'pb-6 sm:py-6 sm:px-5 md:pr-16 lg:px-16 xl:pl-0 xl:pr-16',
+		'lg:px-16 xl:pl-0 xl:pr-16',
 		'lg:justify-end lg:right-0',
 		'bg-inverse-soft',
 	];
@@ -31,33 +37,31 @@ function Header({
 		'lg:justify-end lg:h-fit',
 		'shadow-md lg:shadow-none',
 	];
-	const drawerButtonStyle = ['btn btn-ghost rounded-none bg-light lg:hidden'];
 	return (
 		<div className={twMerge(headerContainerStyle)}>
 			<div className={twMerge(headerStyle)}>
-				<label
-					htmlFor={drawerComponentId}
-					className={twMerge(drawerButtonStyle)}
-				>
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						fill="none"
-						viewBox="0 0 24 24"
-						className="inline-block w-6 h-6 stroke-current"
-					>
-						<path
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							strokeWidth="2"
-							d="M4 6h16M4 12h16M4 18h16"
-						></path>
-					</svg>
-				</label>
-				<SearchField placeholder={placeholder} onChange={onSearchChange} />
+				{(showDrawer && (
+					<CategoriesMenu drawerComponentId={drawerComponentId} />
+				)) || <></>}
+				{(showSearch && (
+					<SearchField placeholder={placeholder} onChange={onSearchChange} />
+				)) || <></>}
 			</div>
 			{children}
 		</div>
 	);
 }
+
+const CategoriesMenu = ({
+	drawerComponentId,
+}: {
+	drawerComponentId?: string;
+}) => (
+	<label htmlFor={drawerComponentId} className={twMerge(drawerButtonStyle)}>
+		<IconWrapper Icon={Icons.MenuSimple} />
+	</label>
+);
+
+const drawerButtonStyle = ['btn btn-ghost rounded-none bg-light lg:hidden'];
 
 export default Header;

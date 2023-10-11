@@ -8,6 +8,11 @@ module.exports = {
 		'../../packages/ui-lib/src/**/*.{js,jsx,ts,tsx}',
 	],
 	theme: {
+		fontFamily: {
+			encode: ['Encode Sans', 'sans-serif'],
+			onest: ['Onest', 'sans-serif'],
+			gras: ['Gras', 'sans-serif'],
+		},
 		extend: {
 			colors: {
 				inherit: colors.inherit,

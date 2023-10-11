@@ -9,7 +9,6 @@ const styles = Object.freeze({
 		container: [
 			'w-full pt-4 pb-6 md:pt-4 px-4 md:px-14 lg:px-32',
 			'justify-center',
-			'opacity-90',
 			'anim8-green-gradient',
 		],
 		content: [
@@ -22,7 +21,9 @@ const styles = Object.freeze({
 		],
 	},
 	TOPBAR: {
-		topbar: ['flex flex-row px-2 bg-inverse items-center shadow z-10 h-[50px]'],
+		topbar: [
+			'flex flex-row px-2 bg-inverse items-center shadow h-[50px] justify-between lg:px-20',
+		],
 		tagline: [
 			'pt-2 pl-2',
 			'text-lg',

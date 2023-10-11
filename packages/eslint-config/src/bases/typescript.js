@@ -30,8 +30,8 @@ module.exports = {
 		'plugin:@typescript-eslint/recommended',
 	],
 	rules: {
-		'comma-dangle': 'off',
-		'@typescript-eslint/comma-dangle': 'off',
+		'comma-dangle': 'on',
+		'@typescript-eslint/comma-dangle': 'on',
 		// https://medium.com/@steven-lemon182/are-typescript-barrel-files-an-anti-pattern-72a713004250
 		'import/no-cycle': 2,
 		// will use 'import/no-duplicates'.

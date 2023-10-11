@@ -24,6 +24,7 @@ import Link from 'next/link';
 import { useState, type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 import backdrop from '../../public/marijuana-backdrop.png';
+import { FlowingBackDrop } from '../lib/FlowingBackDrop';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 
 function StartPage() {
@@ -42,45 +43,46 @@ function StartPage() {
 	const [dialogOpen, setDialogOpen] = useState(false);
 	return (
 		<Page className="bg-secondary text-light p-0 sm:p-0 md:p-0 lg:p-0">
-			<ImageBackDrop src={backdrop}>
-				<FlexBox className="h-full w-full">
-					<FlexBox className={twMerge(styles.HERO.container)}>
-						<FlexBox className={twMerge(styles.HERO.content)}>
-							<FlexBox className="space-y-4 md:space-x-8 lg:flex-row ">
-								<FlexBox className="m-auto">
-									<H1
-										color="light"
-										className={twMerge(styles.HERO.responsiveHeading)}
-									>
-										Cannabis,&nbsp;Delivered{'\xa0'}🌴
-									</H1>
-									<H3 className="self-end pr-10" color="light">
-										to your home 🏠
-									</H3>
-								</FlexBox>
-								<FlexBox className="flex-row space-x-1 lg:flex-col lg:space-x-0">
-									<H2 color="light" className="text-2xl lg:text-3xl">
-										fast,
-									</H2>
-									<H2 color="light" className="text-2xl lg:text-3xl">
-										easy,
-									</H2>
-									<H2 color="light" className="text-2xl lg:text-3xl">
-										secure delivery
-									</H2>
-								</FlexBox>
+			<FlexBox className="h-full w-full">
+				<FlexBox className={twMerge(styles.HERO.container)}>
+					<FlexBox className={twMerge(styles.HERO.content)}>
+						<FlexBox className="space-y-4 md:space-x-8 lg:flex-row ">
+							<FlexBox className="m-auto">
+								<H1
+									color="light"
+									className={twMerge(styles.HERO.responsiveHeading)}
+								>
+									Cannabis,&nbsp;Delivered{'\xa0'}🌴
+								</H1>
+								<H3 className="self-end pr-10" color="light">
+									to your home 🏠
+								</H3>
 							</FlexBox>
-							<Button
-								size="lg"
-								bg="secondary"
-								transparent
-								className="hover:bg-primary-light"
-								onClick={openCheckAgeModalOrEnterSite}
-							>
-								Enter
-							</Button>
+							<FlexBox className="flex-row space-x-1 lg:flex-col lg:space-x-0">
+								<H2 color="light" className="text-2xl lg:text-3xl">
+									fast,
+								</H2>
+								<H2 color="light" className="text-2xl lg:text-3xl">
+									easy,
+								</H2>
+								<H2 color="light" className="text-2xl lg:text-3xl">
+									secure delivery
+								</H2>
+							</FlexBox>
 						</FlexBox>
+						<Button
+							size="lg"
+							bg="secondary"
+							transparent
+							className="hover:bg-primary-light"
+							onClick={openCheckAgeModalOrEnterSite}
+						>
+							Enter
+						</Button>
 					</FlexBox>
+				</FlexBox>
+
+				<FlowingBackDrop src={backdrop}>
 					<FlexBox
 						className="bg-secondary m-auto grow space-y-2 pb-8 sm:py-4"
 						style={{
@@ -116,17 +118,17 @@ function StartPage() {
 						)}
 						<FlexBox className="relative m-auto flex h-[280px] md:w-[480px]">
 							<FlexBox className="mx-auto flex-row items-start space-x-2">
-								<H4
+								<H3
 									color="light"
 									className="text-light max-w-[360px] whitespace-pre-line border-b border-transparent text-justify"
 								>
 									Welcome to Gras.{'\n'}
-								</H4>
+								</H3>
 								<button
-									className="cursor-pointer items-center pb-0.5 text-2xl hover:underline"
+									className="hover:text-secondary-light cursor-pointer items-center pb-0.5 text-2xl hover:underline"
 									onClick={() => setDialogOpen(true)}
 								>
-									<H4 className="underline">Who are we?</H4>
+									<H3 className="underline">Who are we?</H3>
 								</button>
 							</FlexBox>
 							<FlexBox className="chat chat-start flex-row px-2">
@@ -170,8 +172,8 @@ function StartPage() {
 							</FlexBox>
 						</FlexBox>
 					</FlexBox>
-				</FlexBox>
-			</ImageBackDrop>
+				</FlowingBackDrop>
+			</FlexBox>
 		</Page>
 	);
 }

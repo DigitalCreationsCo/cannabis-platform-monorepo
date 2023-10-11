@@ -13,6 +13,8 @@ interface LayoutContextProps {
 	onSearchChange?: ChangeEventHandler<HTMLInputElement> &
 		ReactEventHandler<Element>;
 	placeholder?: string;
+	showSearch?: boolean;
+	showHeaderDrawer?: boolean;
 	showSideNav?: boolean;
 	showTopBar?: boolean;
 	showHeader?: boolean;
@@ -41,6 +43,8 @@ function Layout({
 	showHeader = true,
 	showTopBar = true,
 	showSideNavOnDesktop = true,
+	showHeaderDrawer = true,
+	showSearch = true,
 	SideNavComponent,
 	TopBarComponent,
 	signOut,
@@ -74,6 +78,8 @@ function Layout({
 				)}
 				{showHeader && (
 					<Header
+						showSearch={showSearch}
+						showDrawer={showHeaderDrawer}
 						placeholder={placeholder}
 						onSearchChange={onSearchChange}
 						drawerComponentId={drawerComponentId}

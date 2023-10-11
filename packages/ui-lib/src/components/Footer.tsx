@@ -7,7 +7,7 @@ import { styles } from '../styleClassNames';
 import CopyRight from './CopyRight';
 import FlexBox from './FlexBox';
 import Grid from './Grid';
-import { H2, H4, H6, Paragraph } from './Typography';
+import { GrasSignature, H4, H6, Paragraph } from './Typography';
 
 export default function Footer() {
 	const navigation = [
@@ -38,15 +38,17 @@ export default function Footer() {
 	return (
 		<>
 			<FlexBox className={twMerge(styles.FOOTER.container, 'text-light')}>
-				<Grid className="overflow-x-hidden mx-auto md:mt-5 grid max-w-screen-xl grid-rows-auto gap-10 lg:grid-cols-5">
+				<Grid className="overflow-x-hidden mx-auto md:mt-5 grid max-w-screen-xl grid-rows-auto gap-10 lg:grid-cols-5 overflow-visible">
 					<div className="lg:col-span-2 lg:row-span-5 row-start-5 lg:row-start-auto">
-						<FlexBox className="flex-row items-end">
-							<Link href={getShopSite('/')} className="pr-2">
-								<Image alt="Gras" width={50} height={50} src={logo} />
+						<FlexBox className="flex-row items-center">
+							<Link href={getShopSite('/')} className="z-50">
+								<GrasSignature className="text-inverse">Gras</GrasSignature>
 							</Link>
-
-							<Link href={getShopSite('/')}>
-								<H2 className="text-white pt-0.5">Gras</H2>
+							<Link
+								href={getShopSite('/')}
+								className="p-0.25 ml-4 bg-inverse w-fit rounded-full"
+							>
+								<Image alt="Gras" width={50} height={50} src={logo} />
 							</Link>
 						</FlexBox>
 
