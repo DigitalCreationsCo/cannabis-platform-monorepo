@@ -7,7 +7,7 @@
 		"build:ci": "yarn build:css && rm -rf ./.next && NODE_ENV=production next build",
 		"build:css": "tailwindcss -i ./src/styles/shop.css -o ./src/styles/tailwind.css",
 		"clean": "rimraf ./src/styles/tailwind.css ./.next ./out ./dist ./build ./node_modules ./coverage ./tsconfig.tsbuildinfo ./node_modules/.cache",
-		"debug": "NODE_OPTIONS='--inspect' next dev",
+		"debug": "NODE_OPTIONS='--inspect' next dev -p 3002",
 		"dev": "npm-run-all --parallel --print-label watch-tailwind next-dev",
 		"lint": "next lint",
 		"lint:fix": "eslint . --ext .ts,.tsx --fix",
@@ -17,7 +17,7 @@
 		"test:coverage": "jest --config ./jest.config.ts --coverage",
 		"test:watch": "jest --config ./jest.config.ts --watchAll",
 		"start": "node server.js",
-		"watch-tailwind": "tailwindcss -o ./src/styles/tailwind.css --watch"
+		"watch-tailwind": "tailwindcss -i ./src/styles/shop.css -o ./src/styles/tailwind.css --watch"
 	},
 	"packageManager": "yarn@3.3.1",
 	"browserslist": {
