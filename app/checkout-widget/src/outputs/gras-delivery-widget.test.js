@@ -1,7 +1,7 @@
 /* eslint-disable jest/expect-expect */
 
 describe('GrasDeliveryWidget', () => {
-	it(' tests needs TLC', () => expect(1).toStrictEqual(1));
+	it('tests needs TLC', () => expect(1).toStrictEqual(1));
 	// afterEach(() => {
 	// 	// document.readyState = 'complete';
 	// 	if (GrasDeliveryWidget.el) {
@@ -36,7 +36,6 @@ describe('GrasDeliveryWidget', () => {
 	// 	GrasDeliveryWidget.mount({
 	// 		parentElement: '#widget-mount',
 	// 	});
-<<<<<<< HEAD
 	// 	expect(() => GrasDeliveryWidget.mount()).toThrow(
 	// 		'GrasDeliveryWidget is already mounted, unmount first',
 	// 	);
@@ -54,21 +53,5 @@ describe('GrasDeliveryWidget', () => {
 	// 	GrasDeliveryWidget.el = el;
 	// 	GrasDeliveryWidget.unmount();
 	// 	expect(document.querySelectorAll('div')).toHaveLength(0);
-=======
-	// 	expect(() => GrasDeliveryWidget.mount()).toThrow('already mounted');
-	// });
-
-	// it('#unmount', async () => {
-	// 	const el = document.createElement('div');
-	// 	document.body.appendChild(el);
-	// 	expect(document.querySelectorAll('div')).toHaveLength(1);
-	// 	GrasDeliveryWidget.el = el;
-	// 	GrasDeliveryWidget.unmount();
-	// 	expect(document.querySelectorAll('div')).toHaveLength(0);
-	// });
-
-	// it('#unmount without mounting', async () => {
-	// 	expect(() => GrasDeliveryWidget.unmount()).toThrow('not mounted');
->>>>>>> feat/help-center-app
 	// });
 });

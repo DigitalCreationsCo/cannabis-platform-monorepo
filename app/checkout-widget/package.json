@@ -25,7 +25,7 @@
 		]
 	},
 	"scripts": {
-		"build": "NODE_ENV=production webpack-cli --mode production && NODE_ENV=production dotenv -e ../../.env.proudction -- webpack",
+		"build": "NODE_ENV=production webpack-cli --mode production && dotenv -e ../../.env.production -- webpack",
 		"build:css": "tailwindcss -o ./src/styles/tailwind.css",
 		"build:storybook": "storybook build --output-dir dist/storybook",
 		"deploy": "yarn build && cd deploy && gcloud app deploy",
