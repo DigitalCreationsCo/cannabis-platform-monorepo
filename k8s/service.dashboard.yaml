@@ -39,7 +39,9 @@ spec:
           terminationMessagePolicy: FallbackToLogsOnError
           env:
             - name: SUPERTOKENS_DEBUG
-              value: 'true'
+              value: "true"
+            - name: "NEXT_PUBLIC_HELP_APP_URL"
+              value: "help.svc.cluster.local"
           resources:
             limits:
               cpu: '200m'

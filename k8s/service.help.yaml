@@ -47,7 +47,6 @@ spec:
           ports:
             - name: help-port
               containerPort: 3005
-
           # livenessProbe:
           #   httpGet:
           #     path: /api/healthcheck
