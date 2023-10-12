@@ -3,7 +3,7 @@ import { CopyRight, FlexBox, H2, H3, Paragraph, Select } from '@cd/ui-lib';
 import { useMemo, useState } from 'react';
 import { useAppSelector } from '../redux/hooks';
 
-function Compliance() {
+export default function Compliance() {
 	const { user } = useAppSelector(selectUserState);
 
 	function getUserAddressStateAbbrev() {
@@ -44,5 +44,3 @@ function Compliance() {
 		</div>
 	);
 }
-
-export default Compliance;
