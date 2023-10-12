@@ -47,12 +47,12 @@ export default function Footer() {
 			<FlexBox className={twMerge(styles.FOOTER.container, 'text-light')}>
 				<Grid className="overflow-x-hidden mx-auto md:mt-5 grid max-w-screen-xl grid-rows-auto gap-10 lg:grid-cols-8 overflow-visible">
 					<div className="row-start-2 lg:row-span-5 lg:col-span-2 lg:row-start-auto">
-						<div className="-ml-3 -mt-2 flex w-full flex-wrap lg:ml-0">
+						<div className="flex w-full flex-col flex-wrap lg:ml-0 space-y-3">
 							{navigation.map((item, index) => (
 								<Link
 									key={index}
 									href={replaceRelativePath(item.href)}
-									className="w-full px-4 py-2"
+									className="w-fit"
 								>
 									<H6 className="text-inverse underline lg:no-underline hover:underline">
 										{item.name}
@@ -62,14 +62,14 @@ export default function Footer() {
 						</div>
 					</div>
 					<div className="row-start-3 lg:row-span-3 lg:col-span-3 lg:row-start-auto">
-						<div className="-ml-3 -mt-2 flex w-full flex-wrap lg:ml-0">
+						<div className="flex-col space-y-3 flex w-full flex-wrap lg:ml-0">
 							{legal.map((item, index) => (
 								<Link
 									key={index}
 									href={replaceRelativePath(item.href)}
-									className="w-full px-4 py-2"
+									className="w-fit"
 								>
-									<H6 className="text-inverse underline lg:no-underline hover:underline">
+									<H6 className="text-inverse underline sm:no-underline hover:underline">
 										{item.name}
 									</H6>
 								</Link>
@@ -135,7 +135,7 @@ export default function Footer() {
 							</FlexBox>
 						</div>
 					</div>
-					<div className="row-start-1 col-span-1 row-span-1 lg:col-start-5 lg:row-start-auto">
+					<div className="row-start-1 row-span-1 lg:row-start-auto">
 						<H4 color="light">{TextContent.info.CANNABIS_DELIVERED}</H4>
 					</div>
 				</Grid>
