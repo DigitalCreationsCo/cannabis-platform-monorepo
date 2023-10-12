@@ -1,25 +1,25 @@
 import {
-    type Category,
-    type CategoryList,
-    type Coordinates,
-    type ImageOrganization,
-    type Membership,
-    type Order,
-    type Organization,
-    type Prisma,
-    type Schedule,
-    type SiteSetting,
-    type SubDomain,
-    type User,
-    type Vendor
+	type Category,
+	type CategoryList,
+	type Coordinates,
+	type ImageOrganization,
+	type Membership,
+	type Order,
+	type Organization,
+	type Prisma,
+	type Schedule,
+	type SiteSetting,
+	type SubDomain,
+	type User,
+	type Vendor,
 } from '@prisma/client';
 import {
-    type AddressPayload,
-    type AddressWithCoordinates
+	type AddressPayload,
+	type AddressWithCoordinates,
 } from './address.types';
 import {
-    type ProductWithDashboardDetails,
-    type ProductWithShopDetails
+	type ProductWithDashboardDetails,
+	type ProductWithShopDetails,
 } from './product.data';
 
 export type OrganizationCreateType = Prisma.OrganizationUncheckedCreateInput & {

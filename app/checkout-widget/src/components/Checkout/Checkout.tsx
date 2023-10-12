@@ -6,6 +6,7 @@ import { urlBuilder } from '@cd/core-lib/src/utils/urlBuilder';
 import Button from '@cd/ui-lib/src/components/button/Button';
 import CloseButton from '@cd/ui-lib/src/components/button/CloseButton';
 import CopyRight from '@cd/ui-lib/src/components/CopyRight';
+import LoadingDots from '@cd/ui-lib/src/components/LoadingDots';
 import Price from '@cd/ui-lib/src/components/Price';
 import { Paragraph, Small } from '@cd/ui-lib/src/components/Typography';
 import { getBreakpointValue } from '@cd/ui-lib/src/hooks/useBreakpoint';
@@ -22,7 +23,8 @@ export default class Checkout extends Component<
 	{
 		cart: SimpleCart;
 		cartError: string;
-		redirecting: boolean;
+		isLoading: boolean;
+		isRedirecting: boolean;
 		isScrolledToBottom: boolean;
 		isDutchieCheckout: boolean;
 	}
@@ -38,7 +40,8 @@ export default class Checkout extends Component<
 				organizationName: props.dispensaryName,
 			},
 			cartError: '',
-			redirecting: false,
+			isLoading: false,
+			isRedirecting: false,
 			isScrolledToBottom: false,
 			isDutchieCheckout: props.useDutchie || false,
 		};
@@ -86,7 +89,8 @@ export default class Checkout extends Component<
 
 	handleCheckout = async () => {
 		try {
-			if (this.state.cart.cartItems.length > 0 && !this.state.cartError) {
+			if (this.state.cart.cartItems.length > 0) {
+				this.setState({ isLoading: true });
 				const token = crypto.encrypt(this.state.cart);
 				const expires = new Date();
 				expires.setDate(expires.getDate() + 1);
@@ -98,19 +102,25 @@ export default class Checkout extends Component<
 							'content-type': 'application/json',
 						},
 						withCredentials: true,
+						timeout: 4000,
 					},
 				);
 				console.info('response ', response);
 				if (response.data.success === 'false')
-					throw new Error(TextContent.error.CONNECTION_ISSUE);
+					throw new Error(response.data.error);
 				if (response.status === 302) {
-					this.setState({ redirecting: true });
+					this.setState({ isRedirecting: true, isLoading: false });
 					window.location.href = response.data.redirect;
 				}
 			}
 		} catch (error) {
 			console.error('handleCheckout error, ', error);
-			this.setState({ cartError: error.message });
+			this.setState({
+				isRedirecting: false,
+				isLoading: false,
+				cartError: error.message,
+			});
+			console.info('this.state', this.state);
 		}
 	};
 
@@ -158,7 +168,7 @@ export default class Checkout extends Component<
 				?.addEventListener('wheel', lockWidgetScroll, { passive: false });
 		}
 
-		if (this.state.redirecting)
+		if (this.state.isRedirecting)
 			return (
 				<div className={twMerge(styles.loading)}>
 					<Paragraph color="light" className="animate-bounce text-lg">
@@ -254,20 +264,24 @@ export default class Checkout extends Component<
 						<Button
 							id="Checkout-Button"
 							size="lg"
-							bg="inverse"
+							bg={(this.state.cartError && 'accent-soft') || 'inverse'}
 							hover="accent-soft"
 							className="text-dark font-bold p-4 my-4 mx-auto focus:bg-accent active:bg-accent"
 							onClick={this.handleCheckout}
 							disabled={
-								this.state.cart.cartItems.length < 1 || this.state.redirecting
+								this.state.cart.cartItems.length < 1 || this.state.isRedirecting
 							}
 						>
-							{(this.state.cartError && (
-								<Paragraph color="light" className="mx-auto w-2/3">
-									{this.state.cartError}
-								</Paragraph>
-							)) ||
-								'Checkout'}
+							{this.state.isLoading === true ? (
+								<LoadingDots />
+							) : (
+								(this.state.cartError && (
+									<Paragraph color="light" className="mx-auto w-2/3">
+										{this.state.cartError}
+									</Paragraph>
+								)) ||
+								'Checkout'
+							)}
 						</Button>
 						<Small className="text-light m-auto">
 							{TextContent.prompt.REVIEW_CHECKOUT}

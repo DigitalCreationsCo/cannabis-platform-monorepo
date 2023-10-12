@@ -83,5 +83,5 @@ export default CartPage;
 
 const styles = {
 	cartContainer:
-		'bg-transparent mx-auto shadow-none bg-transparent sm:shadow sm:bg-light sm:w-[440px] flex flex-col lg:px-8 py-4 space-y-8',
+		'bg-transparent m-auto shadow-none bg-transparent h-[320px] md:max-w-[540px] lg:max-w-[660px] sm:shadow sm:bg-light sm:w-1/2 flex flex-col lg:px-8 py-4 space-y-8',
 };

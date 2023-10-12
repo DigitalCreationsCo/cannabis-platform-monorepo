@@ -3,6 +3,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import {
+	getShopSite,
 	modalActions,
 	modalTypes,
 	selectUserState,
@@ -39,10 +40,10 @@ function DashboardTopBar({ signOut }: TopBarProps) {
 
 	return (
 		<div className={twMerge(styles.TOPBAR.topbar)}>
-			<Link href={'/'} passHref>
+			<Link href={isSignedIn ? '/' : getShopSite('/')} passHref>
 				<Image alt="Gras" width={50} height={50} src={logo} />
 			</Link>
-			<Link href={'/'}>
+			<Link href={isSignedIn ? '/' : getShopSite('/')}>
 				<H2 className="text-secondary pt-0.5">Gras</H2>
 			</Link>
 

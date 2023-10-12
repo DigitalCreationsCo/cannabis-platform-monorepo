@@ -16,11 +16,16 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session from 'supertokens-auth-react/recipe/session';
-import { LayoutContainer, LocationProvider, TopBar } from '../components';
+import {
+	ErrorBoundary,
+	LayoutContainer,
+	LocationProvider,
+	TopBar,
+} from '../components';
 import { frontendConfig } from '../config/frontendConfig';
 import { wrapper } from '../redux/store';
 import '../styles/anim8-gradient.css';
-import '../styles/global.css';
+import '../styles/shop.css';
 // eslint-disable-next-line import/no-unresolved, @typescript-eslint/no-unused-vars
 import '../styles/tailwind.css';
 
@@ -108,7 +113,9 @@ function App({ Component, ...rest }: CustomAppProps) {
 										]}
 									>
 										<>
-											<Component {...props.pageProps} />
+											<ErrorBoundary>
+												<Component {...props.pageProps} />
+											</ErrorBoundary>
 											{(function (d, w, c: 'BrevoConversations') {
 												w.BrevoConversationsID =
 													process.env.NEXT_PUBLIC_BREVO_CONVERSATIONS_ID;

@@ -8,5 +8,9 @@
 		"jsx": "react-jsx",
 		"incremental": false // dts with tsup requires rootDir if incremental (which does not work well aliases)
 	},
-	"exclude": ["**/node_modules", "**/.*/", "dist", "build", "**/test/*"]
+	"exclude": ["**/node_modules", "**/.*/", "dist", "build", "**/test/*",
+	"**/*.stories.tsx",
+    "**/*.stories.ts",
+    "**/*.stories.mdx",
+    ".storybook/**"]
 }

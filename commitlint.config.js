@@ -9,6 +9,7 @@ module.exports = {
 				'cluster',
 				'dashboard',
 				'shop',
+				'help',
 				'widget',
 				'drive',
 				'ui',
