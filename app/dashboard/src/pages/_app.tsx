@@ -21,7 +21,7 @@ import DashboardTopBar from '../components/DashboardTopBar';
 import { frontendConfig } from '../config/frontendConfig';
 import { wrapper } from '../redux/store';
 import '../styles/anim8-gradient.css';
-import '../styles/global.css';
+import '../styles/dashboard.css';
 // eslint-disable-next-line import/no-unresolved, @typescript-eslint/no-unused-vars
 import '../styles/tailwind.css';
 
@@ -35,8 +35,10 @@ type CustomAppProps = AppProps & {
 
 function App({ Component, ...rest }: CustomAppProps) {
 	const { store, props } = wrapper.useWrappedStore(rest);
+
 	// @ts-ignore
 	const persistor = store._persistor;
+
 	const [routerLoading, setRouterLoading] = useState(true),
 		router = useRouter();
 

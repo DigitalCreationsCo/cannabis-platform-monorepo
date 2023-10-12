@@ -33,6 +33,16 @@ const nextConfig = (phase) => {
 	 * @type {import('next').NextConfig}
 	 */
 	const config = {
+		rewrites: async () => [
+			{
+				source: '/help',
+				destination: process.env.NEXT_PUBLIC_HELP_APP_URL + '/help',
+			},
+			{
+				source: '/help/:path*',
+				destination: process.env.NEXT_PUBLIC_HELP_APP_URL + '/help/:path*',
+			},
+		],
 		webpack: (config) => {
 			config.resolve.fallback = {
 				...config.resolve.fallback,

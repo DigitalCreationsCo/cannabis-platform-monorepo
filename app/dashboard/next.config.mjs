@@ -34,6 +34,16 @@ const nextConfig = (phase) => {
 	);
 
 	const config = {
+		rewrites: async () => [
+			{
+				source: '/help',
+				destination: process.env.NEXT_PUBLIC_HELP_APP_URL + '/help',
+			},
+			{
+				source: '/help/:path*',
+				destination: process.env.NEXT_PUBLIC_HELP_APP_URL + '/help/:path*',
+			},
+		],
 		env: {
 			BACKEND_URL: (() => {
 				if (isDev) return 'http://localhost:6001';

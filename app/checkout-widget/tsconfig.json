@@ -6,6 +6,10 @@
 		"dist",
 		"webpack.config.js",
 		"**/node_modules",
+		"**/*.stories.tsx",
+		"**/*.stories.ts",
+		"**/*.stories.mdx",
+		".storybook/**",
 		"**/.*/"
 	],
 	"compilerOptions": {
@@ -26,5 +30,5 @@
 			"@cd/data-access/*": ["../../../packages/data-access/*"],
 			"@cd/eslint-config": ["../../../packages/eslint-config/src/index"]
 		}
-	}
+	},
 }

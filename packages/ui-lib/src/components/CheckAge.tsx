@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
-import Button from './button/Button';
+import Button from './button/Button/Button';
 import Center from './Center';
 import CheckBox from './CheckBox';
 import FlexBox from './FlexBox';

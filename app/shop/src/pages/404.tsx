@@ -1,7 +1,7 @@
 import { ErrorMessage, Page, type LayoutContextProps } from '@cd/ui-lib';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-function _404({ code }: { code: number }) {
+function _404({ code = 404 }: { code: number }) {
 	return (
 		<Page>
 			<ErrorMessage

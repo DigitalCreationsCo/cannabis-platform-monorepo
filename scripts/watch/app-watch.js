@@ -3,21 +3,27 @@ const child_process = require('child_process');
 const commands = [
 	{
 		name: 'checkout-widget',
+		cwd: '../app/checkout-widget',
 		command: 'yarn',
 		args: ['dev'],
-		cwd: '../app/checkout-widget',
 	},
 	{
 		name: 'dashboard',
+		cwd: '../app/dashboard',
 		command: 'yarn',
 		args: ['dev'],
-		cwd: '../app/dashboard',
 	},
 	{
 		name: 'shop',
+		cwd: '../app/shop',
 		command: 'yarn',
 		args: ['dev'],
-		cwd: '../app/shop',
+	},
+	{
+		name: 'help',
+		cwd: '../app/help',
+		command: 'yarn',
+		args: ['dev'],
 	},
 ];
 
