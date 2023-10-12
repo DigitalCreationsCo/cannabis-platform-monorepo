@@ -3,11 +3,15 @@ const colors = require('tailwindcss/colors');
 module.exports = {
 	plugins: [require('daisyui')],
 	content: [
-		'./src/components/*.{js,jsx,ts,tsx}',
-		'./src/pages/**/*.{js,jsx,ts,tsx}',
+		'./src/**/*.{js,jsx,ts,tsx}',
 		'../../packages/ui-lib/src/**/*.{js,jsx,ts,tsx}',
 	],
 	theme: {
+		fontFamily: {
+			encode: ['Encode Sans', 'sans-serif'],
+			onest: ['Onest', 'sans-serif'],
+			gras: ['Gras', 'sans-serif'],
+		},
 		extend: {
 			colors: {
 				inherit: colors.inherit,

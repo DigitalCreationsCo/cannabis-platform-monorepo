@@ -14,15 +14,15 @@ import {
 } from 'supertokens-auth-react/recipe/passwordless';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
-import logo from '../../../public/assets/images/logo.png';
-import Icons from '../../icons';
-import Button from '../button/Button/Button';
-import FlexBox from '../FlexBox';
-import Grid from '../Grid';
-import IconWrapper from '../IconWrapper';
-import TextField from '../TextField';
-import { H1, H3, H4, Paragraph, Small } from '../Typography';
-import Modal from './Modal';
+import logo from '../../../../public/assets/images/logo.png';
+import Icons from '../../../icons';
+import Button from '../../button/Button/Button';
+import FlexBox from '../../FlexBox';
+import Grid from '../../Grid';
+import IconWrapper from '../../IconWrapper';
+import TextField from '../../TextField/TextField';
+import { H1, H3, H4, Paragraph, Small } from '../../Typography';
+import Modal from '../Modal';
 
 interface LoginModalProps {
 	dispatchCloseModal: () => void;
