@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('../../../../packages/ui-lib/src/styles/ui-lib.css');
+
 @font-face {
 	font-family: 'Encode Sans';
 	src: url('../../public/fonts/EncodeSans-VariableFont_wdth,wght.ttf');

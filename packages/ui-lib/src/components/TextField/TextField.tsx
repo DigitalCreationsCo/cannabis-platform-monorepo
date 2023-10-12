@@ -5,9 +5,9 @@ import React, {
 	type SVGAttributes,
 } from 'react';
 import { twMerge } from 'tailwind-merge';
-import IconButton from './button/IconButton';
-import FlexBox from './FlexBox';
-import { Small } from './Typography';
+import IconButton from '../button/IconButton';
+import FlexBox from '../FlexBox';
+import { Small } from '../Typography';
 
 type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
 	className?: string;

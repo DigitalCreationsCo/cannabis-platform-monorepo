@@ -9,7 +9,7 @@ import { connect, useSelector } from 'react-redux';
 import CartModal from './CartModal';
 import CheckAgeModal from './CheckAgeModal';
 import CheckoutModal from './CheckoutModal';
-import LoginModal from './LoginModal';
+import LoginModal from './LoginModal/LoginModal';
 // import ConfirmModal from "./ConfirmModal";
 // import MessageBanner from "./MessageBanner";
 // import MessageModal from "./MessageModal";

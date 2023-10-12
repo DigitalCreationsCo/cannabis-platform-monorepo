@@ -9,7 +9,7 @@ import { Button } from '../button';
 import FlexBox from '../FlexBox';
 import Grid from '../Grid';
 import { Modal, type ModalProps } from '../modal';
-import TextField from '../TextField';
+import TextField from '../TextField/TextField';
 
 interface AddAddressModalProps extends ModalProps {
 	userId: string;

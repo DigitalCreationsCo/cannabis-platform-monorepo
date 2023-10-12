@@ -1,7 +1,6 @@
 import { TextContent, urlBuilder } from '@cd/core-lib';
 import {
 	Button,
-	Center,
 	Grid,
 	H1,
 	H5,
@@ -118,21 +117,21 @@ function ProvideDispensaryKey() {
 					// helperText={touched.dispensaryKey && errors.dispensaryKey}
 				/>
 
-					<Button
-						type="submit"
-						loading={loadingButton}
-						onClick={(e) => {
-							e.preventDefault();
-							e.stopPropagation();
-							notifyValidation();
-							handleSubmit();
-						}}
-					>
-						Next
-					</Button>
-				</Grid>
-			</form>
-		)
+				<Button
+					type="submit"
+					loading={loadingButton}
+					onClick={(e) => {
+						e.preventDefault();
+						e.stopPropagation();
+						notifyValidation();
+						handleSubmit();
+					}}
+				>
+					Next
+				</Button>
+			</Grid>
+		</form>
+	);
 }
 
 export default ProvideDispensaryKey;

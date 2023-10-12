@@ -5,7 +5,7 @@ import { useState, type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { ConfirmationModal } from './modal';
 import Price from './Price';
-import TextField from './TextField';
+import TextField from './TextField/TextField';
 import { H6, Paragraph } from './Typography';
 
 type ProductItemProps = {
