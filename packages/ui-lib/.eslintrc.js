@@ -7,17 +7,7 @@ module.exports = {
 		project: 'tsconfig.json',
 	},
 	ignorePatterns: [...getDefaultIgnorePatterns()],
-	extends: [
-		'@cd/eslint-config/src/bases/typescript',
-		'@cd/eslint-config/src/bases/regexp',
-		'@cd/eslint-config/src/bases/sonar',
-		'@cd/eslint-config/src/bases/jest',
-		'@cd/eslint-config/src/bases/rtl',
-		// '@cd/eslint-config/src/bases/storybook',
-		'@cd/eslint-config/src/bases/react',
-		// Apply prettier and disable incompatible rules
-		'@cd/eslint-config/src/bases/prettier',
-	],
+	extends: ['@cd/eslint-config/src/bases/typescript', '@cd/eslint-config/src/bases/regexp', '@cd/eslint-config/src/bases/sonar', '@cd/eslint-config/src/bases/jest', '@cd/eslint-config/src/bases/rtl', '@cd/eslint-config/src/bases/react', '@cd/eslint-config/src/bases/prettier', 'plugin:storybook/recommended'],
 	rules: {
 		// optional overrides per project
 	},

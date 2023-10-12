@@ -15,7 +15,6 @@ export { default as Header } from './Header';
 export { default as IconWrapper } from './IconWrapper';
 export { default as Label } from './Label';
 export { default as LoadingDots } from './LoadingDots';
-export { default as LoadingPage } from './LoadingPage';
 export * from './modal';
 export { NativeToastProvider } from './NativeToastProvider';
 export { default as NavLink } from './NavLink';

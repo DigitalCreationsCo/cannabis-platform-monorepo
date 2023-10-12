@@ -4,6 +4,7 @@ export { default as CategoriesSelector } from './CategoriesSelector';
 export { default as ConfirmOrder } from './ConfirmOrder';
 export { default as DispensaryCard } from './DispensaryCard';
 export { default as DispensaryList } from './DispensaryList';
+export { default as ErrorBoundary } from './ErrorBoundary';
 export * from './form';
 export { default as InfoCard } from './InfoCard';
 export { default as LayoutContainer } from './LayoutContainer';

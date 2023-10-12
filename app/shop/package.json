@@ -5,7 +5,7 @@
 	"scripts": {
 		"build": "yarn build:css && rm -rf ./.next && NODE_ENV=production NEXT_PUBLIC_IS_LOCAL_BUILD=1 SKIP_BUILD_STATIC_GENERATION=1 next build",
 		"build:ci": "yarn build:css && rm -rf ./.next && NODE_ENV=production next build",
-		"build:css": "tailwindcss -o ./src/styles/tailwind.css",
+		"build:css": "tailwindcss -i ./src/styles/shop.css -o ./src/styles/tailwind.css",
 		"clean": "rimraf ./src/styles/tailwind.css ./.next ./out ./dist ./build ./node_modules ./coverage ./tsconfig.tsbuildinfo ./node_modules/.cache",
 		"debug": "NODE_OPTIONS='--inspect' next dev",
 		"dev": "npm-run-all --parallel --print-label watch-tailwind next-dev",

@@ -70,6 +70,15 @@ instance.interceptors.response.use(
 			});
 		}
 
+		if (error.code === 'ECONNABORTED') {
+			console.error('AXIOS ECONNABORTED');
+			return Promise.reject({
+				...error,
+				success: 'false',
+				message: TextContent.error.PLEASE_TRY_AGAIN,
+			});
+		}
+
 		return Promise.reject(error);
 	},
 );

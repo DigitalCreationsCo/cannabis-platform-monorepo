@@ -7,7 +7,7 @@ import {
 import router from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
-import Button from '../button/Button';
+import Button from '../button/Button/Button';
 import SignInButton from '../button/SignInButton';
 import Center from '../Center';
 import FlexBox from '../FlexBox';

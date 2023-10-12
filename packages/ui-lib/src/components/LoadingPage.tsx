@@ -6,7 +6,7 @@ function LoadingPage() {
 	const dot = 'animate-bounce w-[12px] h-[12px] rounded-full bg-primary';
 	return (
 		<FlexBox className="grow items-center min-h-screen">
-			<Center>
+			<Center className="m-auto">
 				<span className={twMerge('flex space-x-2 items-center rounded-full')}>
 					<span className={twMerge(dot, 'bg-secondary')} />
 					<span

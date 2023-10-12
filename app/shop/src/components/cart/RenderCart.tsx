@@ -13,26 +13,25 @@ function RenderCart() {
 	return (
 		<div className={styles.cartContainer}>
 			<RenderTotal />
-			<Grid className={twMerge(styles.cartGrid)}>
-				{cart.length > 0 ? (
-					cart.map((item, index) => (
+			{cart.length > 0 ? (
+				<Grid className={twMerge(styles.cartGrid)}>
+					{cart.map((item, index) => (
 						<ProductItem
 							key={`bag-item-${index}`}
 							data={item as unknown as ProductVariantWithDetails}
 						/>
-					))
-				) : (
-					<div className="col-span-2 text-center">
-						<Paragraph>Your bag is empty</Paragraph>
-						<Link href="/browse">
-							<Paragraph className={'inline-block cursor-pointer border-b-2'}>
-								{TextContent.shop.BAG_TAGLINE_CURE_WHAT_AILS_YOU}
-							</Paragraph>
-						</Link>
-					</div>
-				)}
-			</Grid>
-			{/* <RenderTotal />  */}
+					))}
+				</Grid>
+			) : (
+				<div className="flex h-full flex-col place-content-center text-center">
+					<Paragraph>Your bag is empty</Paragraph>
+					<Link href="/browse">
+						<Paragraph className={'inline-block cursor-pointer border-b-2'}>
+							{TextContent.shop.BAG_TAGLINE_CURE_FILL_MY_BAG}
+						</Paragraph>
+					</Link>
+				</div>
+			)}
 		</div>
 	);
 }
@@ -40,7 +39,6 @@ function RenderCart() {
 export default RenderCart;
 
 const styles = {
-	// cartContainer: 'min-w-full flex flex-col lg:px-8',
-	cartContainer: 'px-8 pb-4 space-y-4',
+	cartContainer: 'px-8 space-y-4 h-full w-full',
 	cartGrid: 'grid grid-cols-2 items-stretch gap-2 md:gap-8 md:w-full m-auto',
 };

@@ -65,15 +65,6 @@ export default function MarketPlace() {
 				/>
 
 				<Carousel
-					title={`Get Delivery`}
-					Component={DispensaryCard}
-					data={dispensaries}
-					dataKey="dispensary"
-					autoplaySpeed={7000}
-					speed={1000}
-				/>
-
-				<Carousel
 					title={`Dispensaries Near You`}
 					Component={DispensaryCard}
 					data={dispensaries}

@@ -6,15 +6,15 @@ function RenderTotal({ total }: { total?: number }) {
 	const totalCart = useSelector(selectCartState).total;
 	total = total || totalCart;
 
-	return (
-		<div className="h-8">
-			{total > 0 ? (
-				<H4 className={styles.total}>
-					Your total is
-					<Price basePrice={total} />
-				</H4>
-			) : null}
+	return total > 0 ? (
+		<div className="h-8 border">
+			<H4 className={styles.total}>
+				Your total is
+				<Price basePrice={total} />
+			</H4>
 		</div>
+	) : (
+		<></>
 	);
 }
 

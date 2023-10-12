@@ -342,7 +342,11 @@ function UserSignUpForm() {
 						description={
 							<Paragraph>
 								{`Before creating an account with Gras, please read our `}
-								<a href="/" target="_blank" rel="noreferrer noopener">
+								<a
+									href={TextContent.href.user_tos}
+									target="_blank"
+									rel="noreferrer noopener"
+								>
 									<H6 className={'inline-block border-b-2'}>
 										User Terms and Conditions
 									</H6>

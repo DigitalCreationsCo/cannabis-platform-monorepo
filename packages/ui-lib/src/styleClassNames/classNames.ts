@@ -1,4 +1,10 @@
 const styles = Object.freeze({
+	gradient_f: (color1: string, color2: string) => [
+		'bg-gradient-to-b',
+		`from-${color1}`,
+		`to-${color2}`,
+		'md:pt-16',
+	],
 	about: [
 		'bg-inverse text-dark opacity-90 sm:rounded ',
 		'space-y-2',

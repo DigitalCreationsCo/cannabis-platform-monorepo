@@ -1,7 +1,7 @@
 import { urlBuilder } from '@cd/core-lib';
 import axios from 'axios';
 import { createMocks } from 'node-mocks-http';
-import addressHandlerPost from '../../pages/api/user/address/index';
+import addressHandlerPost from '../../pages/api/user/address';
 
 beforeAll(() => {
 	jest.mock('axios');
