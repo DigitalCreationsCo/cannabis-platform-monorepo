@@ -107,7 +107,7 @@
 		"test:coverage": "jest --coverage",
 		"test:watch": "jest --watchAll",
 		"start": "PORT=3001 node server.js",
-		"watch-tailwind": "tailwindcss -o ./src/styles/tailwind.css --watch"
+		"watch-tailwind": "tailwindcss -i ./src/styles/dashboard.css -o ./src/styles/tailwind.css --watch"
 	},
 	"version": "0.0.1"
 }

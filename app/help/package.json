@@ -3,11 +3,11 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"build": "yarn build:css && rm -rf ./.next && NODE_ENV=production NEXT_PUBLIC_IS_LOCAL_BUILD=1 SKIP_BUILD_STATIC_GENERATION=1 next build",
+		"build": "yarn build:css && rm -rf ./.next && NODE_ENV=production next build",
 		"build:ci": "yarn build:css && rm -rf ./.next && NODE_ENV=production next build",
-		"build:css": "tailwindcss -o ./src/styles/tailwind.css",
+		"build:css": "tailwindcss -i ./src/styles/help.css -o ./src/styles/tailwind.css",
 		"clean": "rimraf ./src/styles/tailwind.css ./.next ./out ./dist ./build ./node_modules ./coverage ./tsconfig.tsbuildinfo ./node_modules/.cache",
-		"debug": "NODE_OPTIONS='--inspect' next dev",
+		"debug": "NODE_OPTIONS='--inspect' next dev -p 3005",
 		"dev": "npm-run-all --parallel --print-label watch-tailwind next-dev",
 		"lint": "next lint",
 		"lint:fix": "eslint . --ext .ts,.tsx --fix",
@@ -17,7 +17,7 @@
 		"test:coverage": "jest --config ./jest.config.ts --coverage --passWithNoTests",
 		"test:watch": "jest --config ./jest.config.ts --watchAll --passWithNoTests",
 		"start": "node server.js",
-		"watch-tailwind": "tailwindcss -o ./src/styles/tailwind.css --watch"
+		"watch-tailwind": "tailwindcss -i ./src/styles/help.css -o ./src/styles/tailwind.css --watch"
 	},
 	"packageManager": "yarn@3.3.1",
 	"browserslist": {
