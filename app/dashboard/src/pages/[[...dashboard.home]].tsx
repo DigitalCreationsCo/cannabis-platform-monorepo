@@ -16,7 +16,7 @@ import Link from 'next/link';
 import { type PropsWithChildren } from 'react';
 import backdrop from '../../public/marijuana-backdrop.png';
 
-function WelcomePage() {
+function DashboardStart() {
 	return (
 		<ImageBackDrop src={backdrop}>
 			<Page className="m-0 flex grow border-b bg-transparent p-0 md:p-0 lg:p-0">
@@ -88,9 +88,9 @@ const ImageBackDrop = ({
 	);
 };
 
-export default WelcomePage;
+export default DashboardStart;
 
-WelcomePage.getLayoutContext = (): LayoutContextProps => ({
+DashboardStart.getLayoutContext = (): LayoutContextProps => ({
 	showHeader: false,
 	showTopBar: true,
 	showSideNav: false,

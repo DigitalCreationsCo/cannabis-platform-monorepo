@@ -89,11 +89,10 @@ module.exports = {
 	output: {
 		path: distDir,
 		filename: '[name].js',
-		assetModuleFilename: 'img/[hash][ext][query]',
+		assetModuleFilename: 'img/[chunkhash][ext][query]',
 		library: 'GrasDeliveryWidget',
 		libraryExport: 'default',
 		libraryTarget: 'window',
-		sourceMapFilename: '[name][hash][ext]',
 	},
 	devtool: 'source-map',
 };
