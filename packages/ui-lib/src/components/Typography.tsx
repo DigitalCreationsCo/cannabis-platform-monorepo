@@ -209,7 +209,7 @@ export const Small = ({
 	...props
 }: Props) => {
 	return (
-		<span
+		<p
 			className={twMerge(
 				'font-onest',
 				styles['cursor-inherit'],
@@ -223,7 +223,7 @@ export const Small = ({
 			{...props}
 		>
 			{children}
-		</span>
+		</p>
 	);
 };
 

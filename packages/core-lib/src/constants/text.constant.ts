@@ -80,7 +80,7 @@ const TextContent = Object.freeze({
     This account will have the most access to your dispensary.`,
 		NO_MEMBERSHIP_PERMISSION: `You don't have the permissions to sign in here. 
 	Please visit grascannabis.org.`,
-		DISPENSARY_JOINING: `We're happy you're joining us on our journey to serve the world of cannabis!`,
+		DISPENSARY_JOINING: `Thank you for joining us to serve the world of cannabis.`,
 
 		DISPENSARIES_START_HERE: 'Dispensaries, get started here',
 		DISPENSARY_STRIPE_ACCOUNT: `If your dispensary uses stripe for payments, you can connect your stripe account here, by entering your stripe ID. If you don't have a stripe account, Gras will create one for you.`,
@@ -118,21 +118,23 @@ const TextContent = Object.freeze({
 		USER_EXISTS_ERROR: `This user exists already. Please choose a different username or email.`,
 
 		PAYMENT_NOT_PROCESSED:
-			'Your payment could not be processed. Please try again later. Thank you!',
+			'Your payment could not be processed. Please try again later. Thank you.',
 		PAYMENT_SERVICE_NOT_AVAILABLE:
-			'Payments are not available now. Please try again later. Thank you!',
+			'Payments are not available now. Please try again later. Thank you.',
 		STRIPE_ACCOUNT_CREATE_FAILED:
 			'The stripe account account creation failed. Please try again.',
 		STRIPE_ACCOUNT_NOT_FOUND: `The stripe account is not found.`,
 
+		PLEASE_TRY_AGAIN: 'Please try again. Thank you.',
 		CONNECTION_ISSUE:
-			"We're having trouble connecting you. Please try again later. Thank you!",
-		REQUEST_FAILED: 'Your request failed.',
+			"We're having trouble connecting you. Please try again. Thank you.",
+		REQUEST_FAILED: `That didn't work.`,
 		SERVER_NOT_AVAILABLE: `This service is not available. ${'\n'}Please try again later.`,
 	},
 
 	info: {
-		ABOUT_GRAS: `Gras is a home-grown service-first company. We serve our communities by enabling communication and support between people and businesses.`,
+		ABOUT_GRAS: `Gras is a home-grown service company. `,
+		ABOUT_GRAS_2: `Gras is a home-grown service-first company. We serve our communities by enabling communication and support between people and businesses.`,
 		BUILDING_TRUST_WITH_OUR_PARTNERS: `Gras is building a trusted community of partners and cannabis lovers.`,
 		CANNABIS_DELIVERED: `Cannabis,${'\xa0'}Delivered.${'\xa0'}🌴${'\xa0'}🔥`,
 		CANNABIS_DELIVERED_TODAY: `Cannabis,${'\xa0'}Delivered${'\xa0'}Today🌴`,
@@ -140,10 +142,13 @@ const TextContent = Object.freeze({
 		CONTACT_SUPPORT: `For support, dial ${process.env.NEXT_PUBLIC_SUPPORT_PHONE}.`,
 		EMAIL: 'Email',
 		GET_CANNABIS_DELIVERED: `Get${nbsp}Cannabis${nbsp}Delivered`,
-		GRAS_MISSION: `Our mission is to cultivate fulfillment and meaningful experiences with our customers and partners in the cannabis world, one${nbsp}delivery${nbsp}at${nbsp}a${nbsp}time.`,
+		GRAS_MISSION: `It's our mission to cultivate meaningful experiences with our customers and partners in the cannabis world, one${nbsp}delivery${nbsp}at${nbsp}a${nbsp}time.`,
+		GRAS_MISSION_2: `Our mission is to cultivate fulfillment and meaningful experiences with our customers and partners in the cannabis world, one${nbsp}delivery${nbsp}at${nbsp}a${nbsp}time.`,
 		LEARN_MORE: `Learn more`,
 		MORE_CONTENT_COMING_SOON: `Our Team is bringing you more news and content from the world of cannabis.`,
-		ONE_STOP: 'a one stop cannabis marketplace',
+
+		CONNECT_WITH_WORLD_OF_CANNABIS: `connect with the world of cannabis`,
+		ONE_STOP_MARKETPLACE: 'a one stop cannabis marketplace',
 		SMS_FOOTER: `Reply STOP to unsubscribe. Msg&Data Rates May Apply.`,
 		SMS_UPDATE: `Check your sms messages for updates on your order.`,
 		THANK_YOU: `Thank you for choosing Gras.`,
@@ -175,7 +180,7 @@ const TextContent = Object.freeze({
 		LOADING: 'Loading...',
 		SAVE_CHANGES: 'Save Changes',
 		CONTINUE: 'continue',
-		BACK: 'back',
+		BACK: 'go back',
 
 		HOME_LOCATION_IS_SET: "We'll send your next delivery to Home.",
 		CURRENT_LOCATION_IS_SET:
@@ -276,7 +281,7 @@ const TextContent = Object.freeze({
 		ADD_TO_CART_f: (qty: number) => `Add ${qty} to Bag`,
 		BAG_TAGLINE_GET_WHAT_YOU_WANT: 'Get what you want',
 		BAG_TAGLINE_CURE_WHAT_AILS_YOU: 'Cure What Ails You',
-
+		BAG_TAGLINE_CURE_FILL_MY_BAG: 'fill my bag',
 		BROWSE_DISPENSARY_f: (vendorName: string) => `Browse ${vendorName}`,
 		CART_TITLE: 'My Bag',
 		CHECKOUT: 'checkout',
@@ -306,10 +311,8 @@ const TextContent = Object.freeze({
 	href: {
 		browse: '/browse',
 
-		about: '/about-gras',
 		bag: '/mybag',
 		blog: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/blog`,
-		support: '/support',
 		services: `${process.env.NEXT_PUBLIC_DASHBOARD_APP_URL}/signup`,
 
 		dashboard_f: (id: string) => `/${id}/dashboard`,
@@ -323,10 +326,14 @@ const TextContent = Object.freeze({
 		site_f: (id: string) => `/${id}/settings/site-settings`,
 		setup_widget_f: (id: string) => `/${id}/settings/setup-widget`,
 
-		dispensary_tos: `legal/dispensary-terms-and-conditions`,
-		user_tos: `legal/user-terms-and-conditions`,
-		privacy: `legal/privacy-policy`,
-		driver_tos: `legal/driver-terms-and-conditions`,
+		about: '/help/about-gras',
+		support: '/help/support',
+		help: `/help`,
+		compliance: `/help/compliance`,
+		dispensary_tos: `/help/dispensary-terms-and-conditions`,
+		user_tos: `/help/user-terms-and-conditions`,
+		privacy: `/help/privacy-policy`,
+		driver_tos: `/help/driver-terms-and-conditions`,
 	},
 });
 

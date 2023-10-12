@@ -16,7 +16,7 @@ import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 import logo from '../../../public/assets/images/logo.png';
 import Icons from '../../icons';
-import Button from '../button/Button';
+import Button from '../button/Button/Button';
 import FlexBox from '../FlexBox';
 import Grid from '../Grid';
 import IconWrapper from '../IconWrapper';
@@ -131,7 +131,7 @@ function LoginModal({
 						autoComplete="off"
 						type="text"
 						name="emailOrPhone"
-						placeholder="you@email"
+						placeholder="you@email.com"
 						label={TextContent.account.SIGNIN_EMAIL}
 						justifyLabel="center"
 						value={values?.emailOrPhone}
@@ -366,15 +366,18 @@ function LoginModal({
 					<Image
 						src={logo}
 						alt="Gras Cannabis logo"
-						width={63}
-						height={63}
+						width={53}
+						height={53}
 						priority
 					/>
 					<H3>Welcome to</H3>
 					<H1>Gras</H1>
 				</FlexBox>
 
-				<H3 className="mx-auto">a one stop cannabis marketplace</H3>
+				<H3 className="mx-auto">
+					{/* {TextContent.info.CONNECT_WITH_WORLD_OF_CANNABIS} */}
+					{TextContent.info.CANNABIS_DELIVERED}
+				</H3>
 
 				<FormStepComponent />
 			</div>

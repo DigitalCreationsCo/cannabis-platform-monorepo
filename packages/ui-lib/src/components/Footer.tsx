@@ -1,4 +1,9 @@
-import { getDashboardSite, getShopSite, TextContent } from '@cd/core-lib';
+import {
+	getDashboardSite,
+	getShopSite,
+	replaceRelativePath,
+	TextContent,
+} from '@cd/core-lib';
 import Image from 'next/image';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
@@ -18,9 +23,11 @@ export default function Footer() {
 		{ name: 'get Technical Support', href: TextContent.href.support },
 		{ name: 'Services', href: TextContent.href.services },
 		{ name: 'About Gras', href: TextContent.href.about },
-		{ name: 'Blog', href: TextContent.href.blog },
+		// { name: 'Blog', href: TextContent.href.blog },
 	];
 	const legal = [
+		{ name: 'Help Center', href: TextContent.href.help },
+		{ name: 'Compliance', href: TextContent.href.compliance },
 		{
 			name: 'Dispensary Terms and Conditions',
 			href: TextContent.href.dispensary_tos,
@@ -29,17 +36,48 @@ export default function Footer() {
 			name: 'User Terms and Conditions',
 			href: TextContent.href.user_tos,
 		},
-		// {
-		// 	name: 'Driver Terms and Conditions',
-		// 	href: TextContent.href.driver_tos,
-		// },
+		{
+			name: 'Delivery Terms and Conditions',
+			href: TextContent.href.driver_tos,
+		},
 		{ name: 'Privacy Policy', href: TextContent.href.privacy },
 	];
 	return (
 		<>
 			<FlexBox className={twMerge(styles.FOOTER.container, 'text-light')}>
-				<Grid className="overflow-x-hidden mx-auto md:mt-5 grid max-w-screen-xl grid-rows-auto gap-10 lg:grid-cols-5 overflow-visible">
-					<div className="lg:col-span-2 lg:row-span-5 row-start-5 lg:row-start-auto">
+				<Grid className="overflow-x-hidden mx-auto md:mt-5 grid max-w-screen-xl grid-rows-auto gap-10 lg:grid-cols-8 overflow-visible">
+					<div className="row-start-2 lg:row-span-5 lg:col-span-2 lg:row-start-auto">
+						<div className="-ml-3 -mt-2 flex w-full flex-wrap lg:ml-0">
+							{navigation.map((item, index) => (
+								<Link
+									key={index}
+									href={replaceRelativePath(item.href)}
+									className="w-full px-4 py-2"
+								>
+									<H6 className="text-inverse underline lg:no-underline hover:underline">
+										{item.name}
+									</H6>
+								</Link>
+							))}
+						</div>
+					</div>
+					<div className="row-start-3 lg:row-span-3 lg:col-span-3 lg:row-start-auto">
+						<div className="-ml-3 -mt-2 flex w-full flex-wrap lg:ml-0">
+							{legal.map((item, index) => (
+								<Link
+									key={index}
+									href={replaceRelativePath(item.href)}
+									className="w-full px-4 py-2"
+								>
+									<H6 className="text-inverse underline lg:no-underline hover:underline">
+										{item.name}
+									</H6>
+								</Link>
+							))}
+						</div>
+					</div>
+					<div className="lg:col-span-3 flex flex-col-reverse lg:flex-col lg:space-y-4">
+						<div className="lg:col-span-3 lg:row-span-5 row-start-5 lg:row-start-auto">
 						<FlexBox className="flex-row items-center">
 							<Link href={getShopSite('/')} className="z-50">
 								<GrasSignature className="text-inverse">Gras</GrasSignature>
@@ -52,48 +90,25 @@ export default function Footer() {
 							</Link>
 						</FlexBox>
 
-						<Paragraph className="md:mt-4 max-w-md text-white">
+						<Paragraph className="mt-2 md:mt-4 max-w-md text-white">
 							{TextContent.info.ABOUT_GRAS}
 							<br />
 							{TextContent.info.GRAS_MISSION}
 						</Paragraph>
 						<CopyRight />
 					</div>
-
-					<div className="row-start-2 lg:row-span-5 lg:row-start-auto">
-						<div className="-ml-3 -mt-2 flex w-full flex-wrap lg:ml-0">
-							{navigation.map((item, index) => (
-								<Link key={index} href={item.href} className="w-full px-4 py-2">
-									<H6 className="text-inverse underline lg:no-underline hover:underline font-semibold">
-										{item.name}
-									</H6>
-								</Link>
-							))}
-						</div>
-					</div>
-					<div className="row-start-3 lg:row-span-3 lg:row-start-auto">
-						<div className="-ml-3 -mt-2 flex w-full flex-wrap lg:ml-0">
-							{legal.map((item, index) => (
-								<Link key={index} href={item.href} className="w-full px-4 py-2">
-									<H6 className="text-inverse underline lg:no-underline hover:underline font-semibold">
-										{item.name}
-									</H6>
-								</Link>
-							))}
-						</div>
-					</div>
-					<div className="row-start-4 lg:col-start-5 row-span-1 lg:row-start-auto">
-						<H6 className="text-inverse font-semibold">Follow us</H6>
-						<FlexBox className="mt-5 flex-row space-x-5 text-inverse">
-							<a
-								href="https://twitter.com/gras_cannabis"
-								target="_blank"
-								rel="noopener noreferrer"
-							>
-								<span className="sr-only">Twitter</span>
-								<Twitter />
-							</a>
-							{/* <a
+						<div className="pb-5 lg:pb-0">
+							<H6 className="text-inverse font-semibold">Follow us online</H6>
+							<FlexBox className="mt-5 flex-row space-x-5 text-inverse">
+								<a
+									href="https://twitter.com/gras_cannabis"
+									target="_blank"
+									rel="noopener noreferrer"
+								>
+									<span className="sr-only">Twitter</span>
+									<Twitter />
+								</a>
+								{/* <a
 								href="https://facebook.com/"
 								target="_blank"
 								rel="noopener noreferrer"
@@ -101,15 +116,15 @@ export default function Footer() {
 								<span className="sr-only">Facebook</span>
 								<Facebook />
 							</a> */}
-							<a
-								href="https://www.instagram.com/grascannabis/"
-								target="_blank"
-								rel="noopener noreferrer"
-							>
-								<span className="sr-only">Instagram</span>
-								<Instagram />
-							</a>
-							{/* <a
+								<a
+									href="https://www.instagram.com/grascannabis/"
+									target="_blank"
+									rel="noopener noreferrer"
+								>
+									<span className="sr-only">Instagram</span>
+									<Instagram />
+								</a>
+								{/* <a
 								href="https://linkedin.com/"
 								target="_blank"
 								rel="noopener noreferrer"
@@ -117,7 +132,8 @@ export default function Footer() {
 								<span className="sr-only">Linkedin</span>
 								<Linkedin />
 							</a> */}
-						</FlexBox>
+							</FlexBox>
+						</div>
 					</div>
 					<div className="row-start-1 col-span-1 row-span-1 lg:col-start-5 lg:row-start-auto">
 						<H4 color="light">{TextContent.info.CANNABIS_DELIVERED}</H4>

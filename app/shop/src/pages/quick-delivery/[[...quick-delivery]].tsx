@@ -1,6 +1,5 @@
 import {
 	cartActions,
-	crypto,
 	getShopSite,
 	isLegalAgeAndVerified,
 	modalActions,
@@ -35,7 +34,7 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
-import redisCheckout from '../../lib/redis';
+import { redisShopController } from '../../lib/redis.cart';
 
 function QuickDelivery({ simpleCart }: { simpleCart: SimpleCart }) {
 	const dispatch = useDispatch();
@@ -195,11 +194,19 @@ const styles = {
 export async function getServerSideProps({ query }: NextPageContext) {
 	if (!query.cart) return { notFound: true };
 
-	const tokenCipher = await redisCheckout.get(query['cart'] as string);
-	const token = tokenCipher ? crypto.decrypt(tokenCipher) : null;
+	try {
+		// this redis get will not timeout if the client is not connected
+		// handle the timeout from the requesting client, before navigating here
+		const token = await redisShopController.getCartToken(
+			query['cart'] as string,
+		);
 
-	if (!token) return { notFound: true };
+		if (!token) return { notFound: true };
 
-	console.info('token', token);
-	return { props: { simpleCart: JSON.parse(token) } };
+		console.info('token', token);
+		return { props: { simpleCart: JSON.parse(token) } };
+	} catch (error) {
+		console.error('quickDelivery: ', error.message);
+		return { notFound: true };
+	}
 }
