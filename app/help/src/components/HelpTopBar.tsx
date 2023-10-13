@@ -3,8 +3,10 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import {
+	getShopSite,
 	modalActions,
 	modalTypes,
+	replaceRelativePath,
 	selectCartState,
 	selectIsCartEmpty,
 	selectUserState,
@@ -52,17 +54,17 @@ function TopBar({ signOut }: TopBarProps) {
 
 	return (
 		<div className={twMerge(styles.TOPBAR.topbar)}>
-			<Link href={'/'} className="pr-2">
+			<Link href={getShopSite('/')}>
 				<Image alt="Gras" width={50} height={50} src={logo} />
 			</Link>
 
-			<Link href={'/'}>
+			<Link href={getShopSite('/')}>
 				<H2 className="text-secondary pt-0.5">Gras</H2>
 			</Link>
 
-			<Link href={'/'}>
+			<Link href={getShopSite('/')}>
 				<Paragraph className={twMerge(styles.TOPBAR.tagline)}>
-					Cannabis Marketplace
+					{TextContent.info.CANNABIS_DELIVERED_TEXT}
 				</Paragraph>
 			</Link>
 			<div className="flex-1"></div>
@@ -73,16 +75,22 @@ function TopBar({ signOut }: TopBarProps) {
 						className={twMerge('hidden sm:block', styles.BUTTON.highlight)}
 						href={TextContent.href.support}
 					>
-						<Paragraph className={twMerge('whitespace-nowrap pt-1')}>
-							Get Support
-						</Paragraph>
+						<IconButton
+							className={twMerge(styles.BUTTON.highlight, 'pt-0.5')}
+							iconSize={28}
+							size="sm"
+							hover="transparent"
+							bg="transparent"
+							Icon={Icons.Help}
+							iconColor={'dark'}
+						></IconButton>
 					</Link>
 				)}
 
-				<Link href={TextContent.href.bag}>
+				<Link href={replaceRelativePath(TextContent.href.bag)}>
 					<IconButton
-						className={twMerge(styles.BUTTON.highlight, 'indicator')}
-						iconSize={24}
+						className={twMerge(styles.BUTTON.highlight, 'pt-0.5 indicator')}
+						iconSize={28}
 						size="sm"
 						hover="transparent"
 						bg="transparent"

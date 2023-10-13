@@ -67,6 +67,7 @@ export default function Footer() {
 								<Link
 									key={index}
 									href={replaceRelativePath(item.href)}
+									passHref
 									className="w-fit"
 								>
 									<H6 className="text-inverse underline sm:no-underline hover:underline">
@@ -78,25 +79,25 @@ export default function Footer() {
 					</div>
 					<div className="lg:col-span-3 flex flex-col-reverse lg:flex-col lg:space-y-4">
 						<div className="lg:col-span-3 lg:row-span-5 row-start-5 lg:row-start-auto">
-						<FlexBox className="flex-row items-center">
-							<Link href={getShopSite('/')} className="z-50">
-								<GrasSignature className="text-inverse">Gras</GrasSignature>
-							</Link>
-							<Link
-								href={getShopSite('/')}
-								className="p-0.25 ml-4 bg-inverse w-fit rounded-full"
-							>
-								<Image alt="Gras" width={50} height={50} src={logo} />
-							</Link>
-						</FlexBox>
+							<FlexBox className="flex-row items-center">
+								<Link href={getShopSite('/')} className="z-50">
+									<GrasSignature className="text-inverse">Gras</GrasSignature>
+								</Link>
+								<Link
+									href={getShopSite('/')}
+									className="p-0.25 ml-4 bg-inverse w-fit rounded-full"
+								>
+									<Image alt="Gras" width={50} height={50} src={logo} />
+								</Link>
+							</FlexBox>
 
-						<Paragraph className="mt-2 md:mt-4 max-w-md text-white">
-							{TextContent.info.ABOUT_GRAS}
-							<br />
-							{TextContent.info.GRAS_MISSION}
-						</Paragraph>
-						<CopyRight />
-					</div>
+							<Paragraph className="mt-2 md:mt-4 max-w-md text-white">
+								{TextContent.info.ABOUT_GRAS}
+								<br />
+								{TextContent.info.GRAS_MISSION}
+							</Paragraph>
+							<CopyRight />
+						</div>
 						<div className="pb-5 lg:pb-0">
 							<H6 className="text-inverse font-semibold">Follow us online</H6>
 							<FlexBox className="mt-5 flex-row space-x-5 text-inverse">

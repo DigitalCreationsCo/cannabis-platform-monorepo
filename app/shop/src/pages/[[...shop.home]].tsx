@@ -44,7 +44,9 @@ function StartPage() {
 	return (
 		<Page className="bg-secondary text-light p-0 sm:p-0 md:p-0 lg:p-0">
 			<FlexBox className="h-full w-full">
-				<FlexBox className={twMerge(styles.HERO.container)}>
+				<FlexBox
+					className={twMerge(styles.HERO.container, 'anim8-green-gradient')}
+				>
 					<FlexBox className={twMerge(styles.HERO.content)}>
 						<FlexBox className="space-y-4 md:space-x-8 lg:flex-row ">
 							<FlexBox className="m-auto">

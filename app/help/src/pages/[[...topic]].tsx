@@ -9,7 +9,7 @@ import {
 } from '@cd/ui-lib';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import {
 	AboutGras,
@@ -22,10 +22,13 @@ import {
 } from '../components';
 
 function HelpCenterHome() {
-	const searchParams = useSearchParams();
-	const [topic, setTopic] = useState(
-		searchParams.get('topic') as keyof typeof helpTopics,
-	);
+	const topicParam = useSearchParams().get('topic') as keyof typeof helpTopics;
+	const [topic, setTopic] = useState(topicParam);
+
+	useEffect(() => {
+		setTopic(topicParam);
+	}, [topicParam]);
+
 	const helpTopics = {
 		'about-gras': { title: 'About Gras', component: AboutGras },
 		'how-to-order': { title: 'How To Order', component: HowToOrder },

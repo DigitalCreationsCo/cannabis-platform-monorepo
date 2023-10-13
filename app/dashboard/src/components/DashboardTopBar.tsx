@@ -9,7 +9,15 @@ import {
 	selectUserState,
 	TextContent,
 } from '@cd/core-lib';
-import { Button, FlexBox, H2, Paragraph, styles } from '@cd/ui-lib';
+import {
+	Button,
+	FlexBox,
+	H2,
+	IconButton,
+	Icons,
+	Paragraph,
+	styles,
+} from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCallback } from 'react';
@@ -47,6 +55,11 @@ function DashboardTopBar({ signOut }: TopBarProps) {
 				<H2 className="text-secondary pt-0.5">Gras</H2>
 			</Link>
 
+			<Link href={isSignedIn ? '/' : getShopSite('/')}>
+				<Paragraph className={twMerge(styles.TOPBAR.tagline)}>
+					{TextContent.info.CANNABIS_DELIVERED_TEXT}
+				</Paragraph>
+			</Link>
 			<div className="flex-1"></div>
 
 			<FlexBox className="flex flex-row items-center space-x-4 px-4 pr-2">
@@ -55,9 +68,15 @@ function DashboardTopBar({ signOut }: TopBarProps) {
 						className={twMerge('hidden sm:block', styles.BUTTON.highlight)}
 						href={TextContent.href.support}
 					>
-						<Paragraph className={twMerge('whitespace-nowrap pt-1')}>
-							Get Support
-						</Paragraph>
+						<IconButton
+							className={twMerge(styles.BUTTON.highlight, 'pt-0.5')}
+							iconSize={28}
+							size="sm"
+							hover="transparent"
+							bg="transparent"
+							Icon={Icons.Help}
+							iconColor={'dark'}
+						></IconButton>
 					</Link>
 				)}
 				{isSignedIn && <_AccountDropDown />}

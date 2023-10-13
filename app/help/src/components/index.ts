@@ -11,4 +11,4 @@ export { default as UserTermsAndConditions } from './legal/UserTermsAndCondition
 export { default as LocationProvider } from './LocationProvider';
 export { default as LogoCapsule } from './LogoCapsule';
 export { default as PrivacyPolicy } from './legal/PrivacyPolicy';
-export { default as TopBar } from './TopBar';
+export { default as TopBar } from './HelpTopBar';

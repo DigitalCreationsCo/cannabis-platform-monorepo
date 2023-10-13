@@ -43,6 +43,14 @@ const nextConfig = (phase) => {
 				source: '/help/:path*',
 				destination: process.env.NEXT_PUBLIC_HELP_APP_URL + '/help/:path*',
 			},
+			{
+				source: '/blog',
+				destination: process.env.NEXT_PUBLIC_BLOG_APP_URL + '/blog',
+			},
+			{
+				source: '/blog/:path*',
+				destination: process.env.NEXT_PUBLIC_BLOG_APP_URL + '/blog/:path*',
+			},
 		],
 		env: {
 			BACKEND_URL: (() => {
@@ -52,6 +60,7 @@ const nextConfig = (phase) => {
 				if (isTest) return 'http://localhost:6001';
 			})(),
 			NEXT_PUBLIC_HELP_APP_URL: process.env.NEXT_PUBLIC_HELP_APP_URL,
+			NEXT_PUBLIC_BLOG_APP_URL: process.env.NEXT_PUBLIC_BLOG_APP_URL,
 			NEXT_PUBLIC_LOW_STOCK_THRESHOLD: 7,
 		},
 		reactStrictMode: true,
