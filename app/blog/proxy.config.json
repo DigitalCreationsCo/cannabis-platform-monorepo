@@ -1,0 +1,9 @@
+{
+    "blog-proxy": {
+      "source": 3017,
+      "target": 3007,
+      "hostname": "localhost",
+      "key": "../../proxy-certs/localhost.key",
+      "cert": "../../proxy-certs/localhost.crt"
+    }
+  }
