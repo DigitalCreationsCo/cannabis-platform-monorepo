@@ -15,7 +15,6 @@ const styles = Object.freeze({
 		container: [
 			'w-full pt-4 pb-6 md:pt-4 px-4 md:px-14 lg:px-32',
 			'justify-center',
-			'anim8-green-gradient',
 		],
 		content: [
 			'mx-auto',
@@ -37,8 +36,6 @@ const styles = Object.freeze({
 			'md:block',
 			'place-self-center',
 			'text-primary font-semibold',
-			'cursor-default',
-			'md:cursor-default',
 		],
 		badge: [
 			'indicator absolute inline-flex items-center justify-center w-6 h-6 text-sm text-light bg-primary -top-2 -right-2 rounded-full',

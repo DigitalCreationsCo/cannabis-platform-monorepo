@@ -10,6 +10,7 @@ module.exports = {
 				'dashboard',
 				'shop',
 				'help',
+				'blog',
 				'widget',
 				'drive',
 				'ui',
