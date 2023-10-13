@@ -11,7 +11,7 @@ import {
 } from '@cd/ui-lib';
 import axios from 'axios';
 import Router from 'next/router';
-import logo from '../../../public/logo.png';
+import logo from '../../public/logo.png';
 
 function BlogArticle({ article }: { article: ArticleWithDetails }) {
 	return (

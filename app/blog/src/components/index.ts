@@ -1,10 +1,3 @@
-export { default as AboutGras } from './AboutGras';
-export { default as CategoriesSelector } from './CategoriesSelector';
-export { default as ConfirmOrder } from './ConfirmOrder';
-export { default as Compliance } from './Compliance';
-export { default as HowToOrder } from './HowToOrder';
 export { default as InfoCard } from './InfoCard';
 export { default as LayoutContainer } from './LayoutContainer';
-export { default as LocationProvider } from './LocationProvider';
-export { default as LogoCapsule } from './LogoCapsule';
 export { default as TopBar } from './BlogTopBar';
