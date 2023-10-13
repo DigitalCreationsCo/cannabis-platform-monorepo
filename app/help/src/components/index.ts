@@ -1,6 +1,5 @@
 export { default as AboutGras } from './AboutGras';
 export { default as CategoriesSelector } from './CategoriesSelector';
-export { default as Compliance } from './Compliance';
 export { default as ConfirmOrder } from './ConfirmOrder';
 export { default as HowToOrder } from './HowToOrder';
 export { default as InfoCard } from './InfoCard';
