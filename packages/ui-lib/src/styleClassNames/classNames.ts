@@ -27,7 +27,7 @@ const styles = Object.freeze({
 	},
 	TOPBAR: {
 		topbar: [
-			'flex flex-row px-2 bg-inverse items-center shadow h-[50px] justify-between lg:px-20',
+			'z-100 z-50 sticky flex flex-row px-2 bg-inverse items-center shadow h-[50px] justify-between lg:px-20',
 		],
 		tagline: [
 			'pt-2 pl-2',
