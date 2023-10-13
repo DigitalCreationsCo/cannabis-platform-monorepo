@@ -200,6 +200,7 @@ deploy:
       - app/shop
       - app/dashboard
       - app/help
+      - app/blog
       - server/main
       - server/location
       - server/payments
