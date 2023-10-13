@@ -16,6 +16,7 @@ ENV NODE_ENV=production
 ARG BUILD_TYPE
 ARG BUILD_CONTEXT
 ARG PORT
+ENV PORT=$PORT
 COPY --from=build /root/$BUILD_TYPE/$BUILD_CONTEXT/.next/standalone  ./root
 COPY --from=build /root/$BUILD_TYPE/$BUILD_CONTEXT/.next/static      ./root/$BUILD_TYPE/$BUILD_CONTEXT/.next/static
 COPY --from=build /root/$BUILD_TYPE/$BUILD_CONTEXT/public            ./root/$BUILD_TYPE/$BUILD_CONTEXT/public
