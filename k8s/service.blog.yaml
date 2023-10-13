@@ -1,0 +1,78 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gras-blog
+  namespace: default
+  labels:
+    service: gras-blog
+spec:
+  selector:
+    app: gras-blog
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: blog-port
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: gras-blog
+  name: gras-blog
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: gras-blog
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: gras-blog
+    spec:
+      serviceAccountName: default
+      containers:
+        - name: gras-blog
+          image: grasadmin/blog:TAG
+          imagePullPolicy: Always
+          terminationMessagePolicy: FallbackToLogsOnError
+          resources:
+            limits:
+              cpu: '100m'
+              memory: '150Mi'
+            requests:
+              cpu: '100m'
+              memory: '150Mi'
+          ports:
+            - name: blog-port
+              containerPort: 3007
+          # livenessProbe:
+          #   httpGet:
+          #     path: /api/healthcheck
+          #     port: blog-port
+          #   failureThreshold: 2
+          #   initialDelaySeconds: 20
+          #   periodSeconds: 10
+          #   timeoutSeconds: 3
+
+          # readinessProbe:
+          #   httpGet:
+          #     path: /api/healthcheck
+          #     port: blog-port
+          #   failureThreshold: 2
+          #   initialDelaySeconds: 20
+          #   periodSeconds: 10
+          #   timeoutSeconds: 3
+      affinity: {}
+        # Because the cluster uses spot nodes that can be shut down at any time, having at least
+        # 2 replicas with antiAffinity is recommended for application resilency when a node shuts down
+        # podAntiAffinity:
+        #   requiredDuringSchedulingIgnoredDuringExecution:
+        #     - labelSelector:
+        #         matchExpressions:
+        #           - key: 'app'
+        #             operator: In
+        #             values:
+        #               - gras-blog
+        #       topologyKey: 'kubernetes.io/hostname'

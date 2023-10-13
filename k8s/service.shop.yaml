@@ -42,6 +42,8 @@ spec:
               value: "true"
             - name: "NEXT_PUBLIC_HELP_APP_URL"
               value: "help.svc.cluster.local"
+            - name: "NEXT_PUBLIC_BLOG_APP_URL"
+              value: "blog.svc.cluster.local"
           resources:
             limits:
               cpu: '200m'

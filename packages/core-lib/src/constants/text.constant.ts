@@ -137,6 +137,7 @@ const TextContent = Object.freeze({
 		ABOUT_GRAS_2: `Gras is a home-grown service-first company. We serve our communities by enabling communication and support between people and businesses.`,
 		BUILDING_TRUST_WITH_OUR_PARTNERS: `Gras is building a trusted community of partners and cannabis lovers.`,
 		CANNABIS_DELIVERED: `Cannabis,${'\xa0'}Delivered.${'\xa0'}🌴${'\xa0'}🔥`,
+		CANNABIS_DELIVERED_TEXT: `Cannabis,${'\xa0'}Delivered.`,
 		CANNABIS_DELIVERED_TODAY: `Cannabis,${'\xa0'}Delivered${'\xa0'}Today🌴`,
 		COMPANY_NAME: 'Gras',
 		CONTACT_SUPPORT: `For support, dial ${process.env.NEXT_PUBLIC_SUPPORT_PHONE}.`,
@@ -147,6 +148,7 @@ const TextContent = Object.freeze({
 		LEARN_MORE: `Learn more`,
 		MORE_CONTENT_COMING_SOON: `Our Team is bringing you more news and content from the world of cannabis.`,
 
+		CANNABIS_MARKETPLACE: 'Cannabis Marketplace',
 		CONNECT_WITH_WORLD_OF_CANNABIS: `connect with the world of cannabis`,
 		ONE_STOP_MARKETPLACE: 'a one stop cannabis marketplace',
 		SMS_FOOTER: `Reply STOP to unsubscribe. Msg&Data Rates May Apply.`,

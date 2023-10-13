@@ -5,6 +5,7 @@
 import {
 	modalActions,
 	modalTypes,
+	replaceRelativePath,
 	selectCartState,
 	selectIsCartEmpty,
 	selectUserState,
@@ -53,15 +54,15 @@ function TopBar({ signOut }: TopBarProps) {
 	return (
 		<div className={twMerge(styles.TOPBAR.topbar)}>
 			<FlexBox className="flex-row items-center">
+				<Link href={'/'}>
+					<Image alt="Gras" width={50} height={50} src={logo} />
+				</Link>
 				<Link href={'/'} className="z-50">
 					<GrasSignature className="text-secondary pt-0.5">Gras</GrasSignature>
 				</Link>
-				<Link href={'/'} className="mx-2">
-					<Image alt="Gras" width={50} height={50} src={logo} />
-				</Link>
 				<Link href={'/'}>
 					<Paragraph className={twMerge(styles.TOPBAR.tagline)}>
-						Cannabis Marketplace
+						{TextContent.info.CANNABIS_DELIVERED_TEXT}
 					</Paragraph>
 				</Link>
 			</FlexBox>
@@ -73,20 +74,14 @@ function TopBar({ signOut }: TopBarProps) {
 						href={TextContent.href.support}
 					>
 						<IconButton
-							className={twMerge(styles.BUTTON.highlight)}
+							className={twMerge(styles.BUTTON.highlight, 'pt-0.5')}
 							iconSize={28}
 							size="sm"
 							hover="transparent"
 							bg="transparent"
 							Icon={Icons.Help}
 							iconColor={'dark'}
-						>
-							{(isCartEmpty && <></>) || (
-								<div className={twMerge(styles.TOPBAR.badge)}>
-									{cart.totalItems}
-								</div>
-							)}
-						</IconButton>
+						></IconButton>
 					</Link>
 				)}
 				{/* OLD GET SUPPORT LINK */}
@@ -101,9 +96,9 @@ function TopBar({ signOut }: TopBarProps) {
 					</Link>
 				)} */}
 
-				<Link href={TextContent.href.bag}>
+				<Link href={replaceRelativePath(TextContent.href.bag)}>
 					<IconButton
-						className={twMerge(styles.BUTTON.highlight, 'indicator')}
+						className={twMerge(styles.BUTTON.highlight, 'pt-0.5 indicator')}
 						iconSize={28}
 						size="sm"
 						hover="transparent"
@@ -122,7 +117,7 @@ function TopBar({ signOut }: TopBarProps) {
 				{!isSignedIn && (
 					<FlexBox>
 						<Button
-							className={twMerge(styles.BUTTON.highlight, 'text-md')}
+							className={twMerge(styles.BUTTON.highlight, 'pt-1')}
 							size="sm"
 							bg="transparent"
 							hover="transparent"
