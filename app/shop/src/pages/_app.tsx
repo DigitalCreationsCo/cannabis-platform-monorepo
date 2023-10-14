@@ -71,8 +71,11 @@ function App({ Component, ...rest }: CustomAppProps) {
 			store.dispatch(
 				shopActions.getInitialDispensaries() as unknown as AnyAction,
 			);
-		store.dispatch(blogActions.getLatestNews() as unknown as AnyAction);
 	}, [store]);
+
+	useEffect(() => {
+		store.dispatch(blogActions.getLatestArticles() as unknown as AnyAction);
+	}, []);
 
 	if (props.pageProps.fromSupertokens === 'needs-refresh') {
 		return null;

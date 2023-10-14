@@ -1,3 +1,4 @@
+import { type ArticleType } from '@cd/data-access';
 import { useRef } from 'react';
 import Slider, { type Settings as CarouselSettings } from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
@@ -18,7 +19,7 @@ type CarouselProps<DataType> = CarouselSettings & {
 	title?: string;
 	titleSize?: 'md' | 'lg';
 	data: DataType[];
-	dataKey: 'dispensary' | 'news';
+	dataKey: ArticleType;
 	interval?: number;
 	infinite?: boolean;
 	run?: boolean;
@@ -28,7 +29,7 @@ export default function Carouse<D>({
 	Component,
 	title,
 	titleSize = 'md',
-	data,
+	data = [],
 	dataKey,
 	...props
 }: CarouselProps<D>) {

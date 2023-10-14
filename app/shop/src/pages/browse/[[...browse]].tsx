@@ -1,5 +1,5 @@
 import {
-	selectBlogState,
+	selectBlogsByTag,
 	selectSelectedLocationState,
 	selectShopState,
 	selectUserState,
@@ -23,7 +23,7 @@ export default function MarketPlace() {
 	const { dispensaries } = useSelector(selectShopState);
 	const selectedLocation = useSelector(selectSelectedLocationState);
 	const { user } = useSelector(selectUserState);
-	const { news } = useSelector(selectBlogState);
+	const grasArticles = useSelector(selectBlogsByTag('gras'));
 
 	// function startShopTour() {
 	// 	shopTour.start();
@@ -58,8 +58,8 @@ export default function MarketPlace() {
 						selectedLocation.address.city || 'Baltimore'
 					}!`}
 					titleSize="lg"
-					data={news}
-					dataKey="news"
+					data={grasArticles}
+					dataKey={'gras'}
 					autoplaySpeed={5000}
 					speed={10000}
 				/>
@@ -68,7 +68,7 @@ export default function MarketPlace() {
 					title={`Dispensaries Near You`}
 					Component={DispensaryCard}
 					data={dispensaries}
-					dataKey="dispensary"
+					dataKey={'dispensaries'}
 					autoplaySpeed={7000}
 					speed={1000}
 				/>

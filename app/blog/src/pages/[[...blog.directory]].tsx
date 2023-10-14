@@ -1,5 +1,7 @@
-import { TextContent } from '@cd/core-lib';
+import { blogActions, TextContent } from '@cd/core-lib';
 import { type LayoutContextProps, Page, Grid, H1 } from '@cd/ui-lib';
+import { type AnyAction } from '@reduxjs/toolkit';
+import { wrapper } from '../redux/store';
 
 function BlogDirectory() {
 	return (
@@ -19,6 +21,23 @@ BlogDirectory.getLayoutContext = (): LayoutContextProps => ({
 	showHeader: true,
 	showSideNav: true,
 });
+
+export const getServerSideProps = wrapper.getServerSideProps(
+	(store) =>
+		async ({ res }) => {
+			try {
+				store.dispatch(blogActions.getLatestArticles() as unknown as AnyAction);
+				return {
+					props: {},
+				};
+			} catch (error) {
+				console.log('Blog Directory ssr: ', error);
+				return {
+					notFound: true,
+				};
+			}
+		},
+);
 
 type CoverProps = {
 	src: string;

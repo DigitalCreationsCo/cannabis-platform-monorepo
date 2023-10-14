@@ -11,12 +11,12 @@ import {
 } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { type AppState } from '../types';
-import { reconcileStateArray, urlBuilder } from '../utils';
+import { isEmpty, reconcileStateArray, urlBuilder } from '../utils';
 
 export const getLatestArticles = createAsyncThunk(
 	'blog/getLatestArticles',
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	async (_, { dispatch, rejectWithValue }) => {
+	async (_, { rejectWithValue }) => {
 		try {
 			const response = await axios.get(urlBuilder.main.blog(), {
 				headers: {
@@ -35,7 +35,7 @@ export const getLatestArticles = createAsyncThunk(
 );
 
 export type BlogStateProps = {
-	articles: Map<ArticleType, ArticleWithDetails[]>;
+	articles: Record<ArticleType, ArticleWithDetails[]>;
 	dispensaryGuides: ArticleWithDetails[];
 	isLoading: boolean;
 	isSuccess: boolean;
@@ -44,7 +44,7 @@ export type BlogStateProps = {
 };
 
 const initialState: BlogStateProps = {
-	articles: new Map(),
+	articles: {},
 	isLoading: false,
 	isSuccess: false,
 	isError: false,
@@ -61,7 +61,7 @@ export const blogSlice = createSlice({
 			(state, { payload }: PayloadAction<ArticleWithDetails[]>) => {
 				const articles = payload;
 				if (articles.length > 0) {
-					saveArticlesByTag(articles);
+					saveArticlesByTag(state.articles, articles);
 				}
 				state.isLoading = false;
 				state.isSuccess = true;
@@ -91,13 +91,12 @@ export const blogReducer = blogSlice.reducer;
 
 export const selectBlogState = (state: AppState) => state.blog;
 export const selectBlogsByTag = (tag: ArticleType) => (state: AppState) =>
-	state.blog.articles.get(tag);
-export const selectBlogTags = (state: AppState) => [
-	...state.blog.articles.keys(),
-];
+	(state.blog.articles[tag] || []) as ArticleWithDetails[];
+export const selectBlogTags = (state: AppState) =>
+	Object.keys(state.blog.articles);
 
 export function saveArticlesByTag(
-	_articlesInState: Map<ArticleType, ArticleWithDetails[]>,
+	_articlesInState: Record<ArticleType, ArticleWithDetails[]>,
 	_articles: ArticleWithDetails[],
 ) {
 	// create a map of new articles by tag
@@ -112,12 +111,12 @@ export function saveArticlesByTag(
 	});
 	// reconcile new articles with articles in state
 	[tagMap.keys()].forEach((tag) => {
-		if (_articlesInState.has(tag))
-			_articlesInState.set(
-				tag,
-				reconcileStateArray(_articlesInState.get(tag), tagMap.get(tag)),
+		if (!isEmpty(_articlesInState[tag]))
+			_articlesInState[tag] = reconcileStateArray(
+				_articlesInState[tag],
+				tagMap.get(tag),
 			);
-		else _articlesInState.set(tag, tagMap.get(tag));
+		else _articlesInState[tag] = tagMap.get(tag);
 	});
 	return _articlesInState;
 }
