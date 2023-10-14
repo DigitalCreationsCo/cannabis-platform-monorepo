@@ -2,6 +2,7 @@ import {
 	createArticle,
 	deleteArticle,
 	findArticleById,
+	findArticles,
 	findArticlesByType,
 	updateArticle,
 	type ArticleCreateType,
@@ -13,7 +14,7 @@ import {
 Article Data Access - data class for article table
 
 members:
-getArticlesNews
+getArticles
 getArticlesDispensaryGuides
 getArticlesDriverGuides
 getArticlesByTags
@@ -25,7 +26,16 @@ deleteArticle
 ================================= */
 
 export default class ArticleDA {
-	static async getArticles(tag: ArticleType = 'news') {
+	static async getArticles() {
+		try {
+			return await findArticles();
+		} catch (error: any) {
+			console.error(error.message);
+			throw new Error(error.message);
+		}
+	}
+
+	static async getArticlesByTags(tag: ArticleType | ArticleType[] = 'gras') {
 		try {
 			return await findArticlesByType(tag);
 		} catch (error: any) {
@@ -36,7 +46,7 @@ export default class ArticleDA {
 
 	static async getArticlesDispensaryGuides() {
 		try {
-			return await findArticlesByType('dispensary');
+			return await findArticlesByType('dispensaries');
 		} catch (error: any) {
 			console.error(error.message);
 			throw new Error(error.message);
@@ -45,16 +55,7 @@ export default class ArticleDA {
 
 	static async getArticlesDriverGuides() {
 		try {
-			return await findArticlesByType('driver');
-		} catch (error: any) {
-			console.error(error.message);
-			throw new Error(error.message);
-		}
-	}
-
-	static async getArticlesByTags(tag: ArticleType) {
-		try {
-			return await findArticlesByType(tag);
+			return await findArticlesByType('drivers');
 		} catch (error: any) {
 			console.error(error.message);
 			throw new Error(error.message);

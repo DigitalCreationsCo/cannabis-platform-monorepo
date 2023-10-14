@@ -28,13 +28,13 @@ function Header({
 		'flex flex-row',
 		'lg:px-16 xl:pl-0 xl:pr-16',
 		'lg:justify-end lg:right-0',
-		'bg-inverse-soft',
 	];
 	const headerStyle = [
 		'lg:pl-[188px]',
 		'flex flex-row grow',
 		'w-full md:w-fit xl:w-fit',
 		'lg:justify-end lg:h-fit',
+		'lg:pt-2',
 		'shadow-md lg:shadow-none',
 	];
 	return (
@@ -58,10 +58,14 @@ const CategoriesMenu = ({
 	drawerComponentId?: string;
 }) => (
 	<label htmlFor={drawerComponentId} className={twMerge(drawerButtonStyle)}>
-		<IconWrapper Icon={Icons.MenuSimple} />
+		<IconWrapper
+			Icon={Icons.OpenPanelLeft}
+			iconSize={28}
+			className="text-inverse"
+		/>
 	</label>
 );
 
-const drawerButtonStyle = ['btn btn-ghost rounded-none bg-light lg:hidden'];
+const drawerButtonStyle = ['btn btn-ghost rounded-none lg:hidden'];
 
 export default Header;

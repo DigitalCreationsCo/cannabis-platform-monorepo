@@ -1,11 +1,28 @@
-import { H1, Page } from '@cd/ui-lib';
+import { TextContent } from '@cd/core-lib';
+import { type LayoutContextProps, Page, Grid, H1 } from '@cd/ui-lib';
 
 function BlogDirectory() {
 	return (
-		<Page>
-			<H1>Blog Directory</H1>
+		<Page className={'bg-inherit'}>
+			<Grid>
+				<H1 className="text-inverse shadow drop-shadow-lg">
+					{TextContent.blog.DIRECTORY}
+				</H1>
+			</Grid>
 		</Page>
 	);
 }
 
 export default BlogDirectory;
+
+BlogDirectory.getLayoutContext = (): LayoutContextProps => ({
+	showHeader: true,
+	showSideNav: true,
+});
+
+type CoverProps = {
+	src: string;
+};
+const Cover = ({ src }: CoverProps) => (
+	<div className="relative top-0 h-20 w-full">COVER {src.toString()}</div>
+);

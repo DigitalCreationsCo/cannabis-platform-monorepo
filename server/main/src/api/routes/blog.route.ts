@@ -12,10 +12,11 @@ Blog Routes
 
 ================================= */
 
-router.route('/').get(blogCtrl.getLatestNews);
-router.route('/').post(blogCtrl.createBlog);
-router.route('/:id').get(blogCtrl.getBlogById);
-router.route('/:id').delete(blogCtrl.deleteBlogById);
-router.route('/:id').put(blogCtrl.updateBlog);
+router.route('/').get(blogCtrl.getLatestArticles);
+router.route('/tag').post(blogCtrl.getArticlesByTags);
+router.route('/').post(blogCtrl.createBlogArticle);
+router.route('/:id').get(blogCtrl.getArticleById);
+router.route('/:id').delete(blogCtrl.deleteArticleById);
+router.route('/:id').put(blogCtrl.updateArticle);
 
 export default router;
