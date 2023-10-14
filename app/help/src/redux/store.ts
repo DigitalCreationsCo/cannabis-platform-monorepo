@@ -61,11 +61,7 @@ const hydratableReducer = (state: any, action: AnyAction) => {
 
 export const persistConfig = {
 	key: 'root',
-	blacklist: [
-		'modal',
-		// 'shop',
-		'blog',
-	],
+	blacklist: ['modal'],
 	storage,
 };
 

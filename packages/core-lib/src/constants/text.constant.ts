@@ -154,9 +154,7 @@ const TextContent = Object.freeze({
 		SMS_FOOTER: `Reply STOP to unsubscribe. Msg&Data Rates May Apply.`,
 		SMS_UPDATE: `Check your sms messages for updates on your order.`,
 		THANK_YOU: `Thank you for choosing Gras.`,
-		TIME_GUARANTEE: `We guarantee a delivery time of ${getDigitToWord(
-			process.env.NEXT_PUBLIC_DELIVERY_TIME as string,
-		)} hours`,
+		TIME_GUARANTEE: `We guarantee a delivery time of two hours`,
 
 		GRAS_WILL_DELIVER_STRAIGHT_TO_YOUR_DOOR:
 			'Gras will deliver your order straight to your door.',

@@ -1,31 +1,16 @@
-import { selectBlogsByTag, selectBlogTags } from '@cd/core-lib';
-import { type ArticleType } from '@cd/data-access';
+import { selectBlogTags } from '@cd/core-lib';
 import { NavLink, GrasSignature, type NavLinkType } from '@cd/ui-lib';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 
-interface BlogNavProps {
-	tags: ArticleType[];
-}
 const BlogNavigation = () => {
 	const { pathname } = useRouter();
-	// const tags = useSelector(selectBlogTags);
-
-	const tags = [
-		'all',
-		'events',
-		'press',
-		'announcements',
-		'blog',
-		'podcast',
-		'video',
-	];
+	const tags = useSelector(selectBlogTags);
 	const navLinkGroups: NavLinkType[] = tags.map((tag) => ({
 		href: `/${tag}`,
 		title: tag,
 		enabled: true,
 	}));
-
 	return (
 		<div>
 			<GrasSignature className="text-yellow">read our blog</GrasSignature>

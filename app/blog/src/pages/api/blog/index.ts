@@ -20,7 +20,7 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 
 		const blogs = await prisma.article.findMany({
 			where: { tag: { notIn: ['drivers', 'dispensaries'] } },
-			take: 20,
+			take: 40,
 			include: {
 				image: true,
 			},

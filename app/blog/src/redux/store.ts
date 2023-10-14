@@ -17,6 +17,7 @@ import {
 	type Store,
 	type ThunkAction,
 } from '@reduxjs/toolkit';
+import { serialize, deserialize } from 'json-immutable';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 import {
 	FLUSH,
@@ -61,11 +62,7 @@ const hydratableReducer = (state: any, action: AnyAction) => {
 
 export const persistConfig = {
 	key: 'root',
-	blacklist: [
-		'modal',
-		// 'shop',
-		'blog',
-	],
+	blacklist: ['modal'],
 	storage,
 };
 
@@ -131,7 +128,7 @@ export type AppThunk<ReturnType = void> = ThunkAction<
 >;
 
 export const wrapper = createWrapper<AppStore>(makeStore, {
-	// debug: process.env.NODE_ENV !== 'production',
-	// serializeState: (state) => serialize(state),
-	// deserializeState: (state) => deserialize(state)
+	debug: process.env.NODE_ENV !== 'production',
+	serializeState: (state) => serialize(state),
+	deserializeState: (state) => deserialize(state),
 });

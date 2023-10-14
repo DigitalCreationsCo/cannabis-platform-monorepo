@@ -16,7 +16,7 @@ function SearchBar({ placeholder = 'Search', onChange }: SearchBarProps) {
 			onFocus={() => setFocused(true)}
 			onBlur={() => setFocused(false)}
 			className={twMerge([
-				'lg:rounded',
+				'lg:rounded-full',
 				'flex flex-row grow items-center lg:self-center space-x-3',
 				'xl:max-w-[408px] xl:relative',
 				'h-[51px]',
