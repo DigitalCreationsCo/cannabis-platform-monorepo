@@ -2592,7 +2592,7 @@ const createArticles = async () => {
 			href: '12345',
 			content: '',
 			author: '',
-			tag: 'news',
+			tag: 'gras',
 			image: {
 				create: {
 					location:
@@ -2613,7 +2613,7 @@ const createArticles = async () => {
 			href: '123457',
 			content: '',
 			author: '',
-			tag: 'news',
+			tag: 'gras',
 			image: {
 				create: {
 					location:
@@ -2634,7 +2634,7 @@ const createArticles = async () => {
 			href: '12377456',
 			content: '',
 			author: '',
-			tag: 'news',
+			tag: 'gras',
 			image: {
 				create: {
 					location:

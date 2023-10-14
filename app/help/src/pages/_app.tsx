@@ -60,15 +60,6 @@ function App({ Component, ...rest }: CustomAppProps) {
 		doRefresh();
 	}, [props.pageProps.fromSupertokens]);
 
-	useEffect(() => {
-		!store.getState().shop.isLoading &&
-			store.getState().shop.dispensaries.length === 0 &&
-			store.dispatch(
-				shopActions.getInitialDispensaries() as unknown as AnyAction,
-			);
-		store.dispatch(blogActions.getLatestNews() as unknown as AnyAction);
-	}, [store]);
-
 	if (props.pageProps.fromSupertokens === 'needs-refresh') {
 		return null;
 	}

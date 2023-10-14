@@ -2716,6 +2716,10 @@ details > summary {
   position: relative;
 }
 
+.sticky {
+  position: sticky;
+}
+
 .inset-auto {
   inset: auto;
 }
@@ -2868,10 +2872,6 @@ details > summary {
 
 .mt-8 {
   margin-top: 2rem;
-}
-
-.mr-4 {
-  margin-right: 1rem;
 }
 
 .inline-block {
@@ -3552,8 +3552,16 @@ details > summary {
   border-color: var(--accent);
 }
 
+.border-inverse {
+  border-color: var(--inverse);
+}
+
 .border-primary {
   border-color: var(--primary);
+}
+
+.border-primary-light {
+  border-color: var(--primary-light);
 }
 
 .border-transparent {
@@ -3581,6 +3589,10 @@ details > summary {
 .bg-indigo-300 {
   --tw-bg-opacity: 1;
   background-color: rgb(165 180 252 / var(--tw-bg-opacity));
+}
+
+.bg-inherit {
+  background-color: inherit;
 }
 
 .bg-inverse {
@@ -4105,6 +4117,10 @@ details > summary {
   }
 }
 
+.placeholder\:text-inverse-soft::placeholder {
+  color: var(--inverse-soft);
+}
+
 .hover\:scale-101:hover {
   --tw-scale-x: 1.01;
   --tw-scale-y: 1.01;
@@ -4130,6 +4146,10 @@ details > summary {
 
 .hover\:bg-transparent:hover {
   background-color: transparent;
+}
+
+.hover\:text-inverse-soft:hover {
+  color: var(--inverse-soft);
 }
 
 .hover\:underline:hover {
@@ -4311,10 +4331,6 @@ details > summary {
 
   .md\:grow {
     flex-grow: 1;
-  }
-
-  .md\:cursor-default {
-    cursor: default;
   }
 
   .md\:flex-row {
@@ -4509,8 +4525,8 @@ details > summary {
     width: 7rem;
   }
 
-  .lg\:w-\[188px\] {
-    width: 188px;
+  .lg\:w-\[198px\] {
+    width: 198px;
   }
 
   .lg\:min-w-\[800px\] {
@@ -4553,6 +4569,14 @@ details > summary {
     align-self: center;
   }
 
+  .lg\:rounded {
+    border-radius: 0.25rem;
+  }
+
+  .lg\:border-l-2 {
+    border-left-width: 2px;
+  }
+
   .lg\:px-12 {
     padding-left: 3rem;
     padding-right: 3rem;
@@ -4584,6 +4608,10 @@ details > summary {
 
   .lg\:pl-\[188px\] {
     padding-left: 188px;
+  }
+
+  .lg\:pt-2 {
+    padding-top: 0.5rem;
   }
 
   .lg\:no-underline {

@@ -1,73 +1,102 @@
-import { type ArticleCreateType, type Prisma } from '@cd/data-access';
+/* eslint-disable sonarjs/no-duplicate-string */
+import {
+	type ArticleType,
+	type ArticleCreateType,
+	type Prisma,
+} from '@cd/data-access';
 import { ArticleDA } from '../data-access';
 
 /* =================================
 BlogController - controller class for Blog data management
 
 members:
-getLatestNews
-createBlog
-updateBlog
-getBlogById
-deleteBlogById
+getLatestArticles
+getArticlesByTags
+getDispensaryArticles
+getDriverArticles
+createBlogArticle
+updateArticle
+getArticleById
+deleteArticleById
 
 ================================= */
 
 export default class BlogController {
-	static async getLatestNews(req, res) {
+	static async getLatestArticles(req, res) {
 		try {
 			const data = await ArticleDA.getArticles();
-
 			if (!data)
 				return res.status(404).json({
 					success: 'false',
-					message: 'Blog could not be created.',
+					message: 'Article not found.',
+					error: 'Article not found.',
 				});
-
 			return res.status(200).json({
 				success: 'true',
 				payload: data,
 			});
 		} catch (error: any) {
-			console.info('API error: ', error.message);
+			console.info('getLatestArticles server: ', error.message);
 			res.status(500).json({
 				success: 'false',
 				message: error.message,
 			});
 		}
 	}
-	static async getDispensaryGuides(req, res) {
+
+	static async getArticlesByTags(req, res) {
 		try {
-			const data = await ArticleDA.getArticles('dispensary');
-
+			const tags: ArticleType[] = req.body;
+			const data = await ArticleDA.getArticlesByTags(tags);
 			if (!data)
 				return res.status(404).json({
 					success: 'false',
-					message: 'Blog could not be created.',
+					message: 'Article not found.',
+					error: 'Article not found.',
 				});
-
 			return res.status(200).json({
 				success: 'true',
 				payload: data,
 			});
 		} catch (error: any) {
-			console.info('API error: ', error.message);
+			console.info('getLatestArticles server: ', error.message);
 			res.status(500).json({
 				success: 'false',
 				message: error.message,
 			});
 		}
 	}
-	static async getDriverGuides(req, res) {
+
+	static async getDispensaryArticles(req, res) {
 		try {
-			const data = await ArticleDA.getArticles('driver');
-
+			const data = await ArticleDA.getArticlesByTags('dispensaries');
 			if (!data)
 				return res.status(404).json({
 					success: 'false',
-					message: 'Blog could not be created.',
+					message: 'Articles not found.',
+					error: 'Articles not found.',
 				});
-
+			return res.status(200).json({
+				success: 'true',
+				payload: data,
+			});
+		} catch (error: any) {
+			console.info('getDispensaryArticles: ', error.message);
+			res.status(500).json({
+				success: 'false',
+				message: error.message,
+			});
+		}
+	}
+	static async getDriverArticles(req, res) {
+		try {
+			const data = await ArticleDA.getArticlesByTags('drivers');
+			if (!data)
+				return res.status(404).json({
+					success: 'false',
+					message: 'Articles not found.',
+					error: 'Articles not found.',
+				});
 			return res.status(200).json({
 				success: 'true',
 				payload: data,
@@ -81,7 +110,7 @@ export default class BlogController {
 		}
 	}
 
-	static async createBlog(req, res) {
+	static async createBlogArticle(req, res) {
 		try {
 			const blog: ArticleCreateType = req.body;
 			const data = await ArticleDA.createArticle(blog);
@@ -104,24 +133,21 @@ export default class BlogController {
 		}
 	}
 
-	static async updateBlog(req, res) {
+	static async updateArticle(req, res) {
 		try {
 			const blog: Prisma.ArticleUpdateInput = req.body;
-
 			const data = await ArticleDA.updateArticle(blog);
-
 			if (!data)
 				return res.status(404).json({
 					success: 'false',
-					message: 'Blog could not be created.',
+					message: 'Blog could not be updated.',
 				});
-
 			return res.status(201).json({
 				success: 'true',
 				payload: data,
 			});
 		} catch (error: any) {
-			console.info('API error: ', error.message);
+			console.info('updateArticle: ', error.message);
 			res.status(500).json({
 				success: 'false',
 				message: error.message,
@@ -129,24 +155,21 @@ export default class BlogController {
 		}
 	}
 
-	static async deleteBlogById(req, res) {
+	static async deleteArticleById(req, res) {
 		try {
 			const blogId = req.params.id || '';
-
 			const data = await ArticleDA.deleteArticle(blogId);
-
 			if (!data)
 				return res.status(404).json({
 					success: 'false',
 					message: 'Blog could not be deleted.',
 				});
-
 			return res.status(200).json({
 				success: 'true',
 				payload: data,
 			});
 		} catch (error: any) {
-			console.info('API error: ', error.message);
+			console.info('deleteArticleById: ', error.message);
 			res.status(500).json({
 				success: 'false',
 				message: error.message,
@@ -154,18 +177,15 @@ export default class BlogController {
 		}
 	}
 
-	static async getBlogById(req, res) {
+	static async getArticleById(req, res) {
 		try {
 			const blogId = req.params.id || '';
-
 			const data = await ArticleDA.getArticleById(blogId);
-
 			if (!data)
 				return res.status(404).json({
 					success: 'false',
-					message: 'Dispensary not found',
+					message: 'Article not found',
 				});
-
 			return res.status(200).json({
 				success: 'true',
 				payload: data,

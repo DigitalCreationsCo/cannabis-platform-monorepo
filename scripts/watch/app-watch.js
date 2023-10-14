@@ -25,6 +25,12 @@ const commands = [
 		command: 'yarn',
 		args: ['dev'],
 	},
+	{
+		name: 'blog',
+		cwd: '../app/blog',
+		command: 'yarn',
+		args: ['dev'],
+	},
 ];
 
 function run(element, func) {

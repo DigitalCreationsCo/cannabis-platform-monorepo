@@ -166,6 +166,13 @@ const TextContent = Object.freeze({
 		DELIVER_FOR_GRAS: 'Deliver for Gras',
 	},
 
+	blog: {
+		BLOG: 'Gras-BLOG',
+		DIRECTORY: 'Directory',
+		EXPAND_YOUR_MIND: 'Expand your mind',
+		READ_MORE: 'Read more',
+	},
+
 	ui: {
 		ADD_TO_CART_f: (qty: number) => `Add ${qty} to Bag`,
 

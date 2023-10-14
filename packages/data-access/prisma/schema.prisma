@@ -715,7 +715,17 @@ enum Unit {
 }
 
 enum ArticleType {
-  dispensary
-  driver
-  news
+  dispensaries
+  drivers
+  events
+  entertainment
+  culture
+  art
+  sports
+  science
+  politics
+  business
+  health
+  food
+  gras
 }

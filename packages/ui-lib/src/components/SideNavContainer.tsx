@@ -24,7 +24,7 @@ function SideNavContainer({
 
 	// dont mess with these styles unless youre prepared for pain
 	const classes = {
-		container: ['drawer drawer-mobile', 'grow h-full', 'bg-inverse-soft'],
+		container: ['drawer drawer-mobile', 'grow h-full', 'bg-inherit'],
 		pageContentShifted: ['drawer-content', 'w-full flex'],
 		sideNavDrawer: [
 			isFixed && 'fixed',
@@ -36,8 +36,8 @@ function SideNavContainer({
 
 		sideNavComponentContainer: [
 			!showSideNav && 'hidden',
-			'bg-inverse-soft ',
-			'lg:w-[188px] h-fit',
+			'bg-inherit',
+			'lg:w-[198px] h-fit',
 			'pt-4 lg:ml-2 py-4',
 		],
 	};

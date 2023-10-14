@@ -6,12 +6,29 @@ import {
 } from '@prisma/client';
 import prisma from './db/prisma';
 
+export async function findArticles(): Promise<ArticleWithDetails[]> {
+	try {
+		return (await prisma.article.findMany({
+			where: { tag: { notIn: ['drivers', 'dispensaries'] } },
+			include: {
+				image: true,
+			},
+			orderBy: {
+				updatedAt: 'desc',
+			},
+		})) as ArticleWithDetails[];
+	} catch (error: any) {
+		console.error('findArticles: ', error);
+		throw new Error(error);
+	}
+}
+
 export async function findArticlesByType(
-	tag: ArticleType,
+	tag: ArticleType | ArticleType[],
 ): Promise<ArticleWithDetails[]> {
 	try {
 		const articles = await prisma.article.findMany({
-			where: { tag },
+			where: { tag: { in: tag } },
 			include: {
 				image: true,
 			},
@@ -19,10 +36,9 @@ export async function findArticlesByType(
 				updatedAt: 'desc',
 			},
 		});
-
 		return articles as ArticleWithDetails[];
 	} catch (error: any) {
-		console.error(error);
+		console.error('findArticlesByType: ', error);
 		throw new Error(error);
 	}
 }
@@ -41,7 +57,7 @@ export async function findArticleById(
 		});
 		return article as ArticleWithDetails;
 	} catch (error: any) {
-		console.error(error);
+		console.error('findArticleById: ', error);
 		throw new Error(error);
 	}
 }
@@ -65,7 +81,7 @@ export async function createArticle(
 		});
 		return _article as ArticleWithDetails;
 	} catch (error: any) {
-		console.error(error);
+		console.error('createArticle: ', error);
 		throw new Error(error);
 	}
 }
@@ -83,7 +99,7 @@ export async function updateArticle(
 		});
 		return _update as ArticleWithDetails;
 	} catch (error: any) {
-		console.error(error);
+		console.error('updateArticle: ', error);
 		throw new Error(error);
 	}
 }
@@ -96,7 +112,7 @@ export async function deleteArticle(id: string) {
 			},
 		});
 	} catch (error: any) {
-		console.error(error);
+		console.error('deleteArticle: ', error);
 		throw new Error(error);
 	}
 }

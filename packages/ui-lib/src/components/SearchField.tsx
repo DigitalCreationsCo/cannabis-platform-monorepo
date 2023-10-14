@@ -9,26 +9,27 @@ type SearchBarProps = {
 };
 function SearchBar({ placeholder = 'Search', onChange }: SearchBarProps) {
 	const [isFocused, setFocused] = useState(false);
-	const focused = 'border';
+	const focused = 'border-primary-light';
 	// const searchRef = useRef(null);
 	return (
 		<div
 			onFocus={() => setFocused(true)}
 			onBlur={() => setFocused(false)}
 			className={twMerge([
-				'rounded',
+				'lg:rounded',
 				'flex flex-row grow items-center lg:self-center space-x-3',
 				'xl:max-w-[408px] xl:relative',
 				'h-[51px]',
-				'bg-light lg:shadow-md',
-				'py-2 pl-4',
-				isFocused ? focused : 'border border-transparent',
+				'lg:shadow-md',
+				'pl-4',
+				'border-b-2 lg:border-l-2 border-inverse',
+				isFocused && focused,
 			])}
 		>
-			<IconWrapper Icon={Icons.Search} />
+			<IconWrapper Icon={Icons.Search} iconColor="light" iconSize={28} />
 			<input
 				placeholder={placeholder}
-				className="text-lg outline-none h-full w-full"
+				className="bg-inherit text-inverse placeholder:text-inverse-soft text-lg outline-none h-full w-full"
 				onChange={onChange}
 			/>
 		</div>

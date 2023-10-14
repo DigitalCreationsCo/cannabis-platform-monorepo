@@ -7,7 +7,7 @@ import { Paragraph } from './Typography';
 export type NavLinkType = {
 	href: string;
 	title: string;
-	icon: any;
+	icon?: any;
 	enabled: boolean;
 	subLinks?: NavLinkType[];
 };
@@ -25,23 +25,27 @@ const NavLink = ({ link, isActive, children, className }: NavLinkProps) => {
 		isActive ? 'border-primary' : 'border-transparent',
 	];
 
-	const renderSubLinks = () => (
-		<ul>
-			{link.subLinks?.map((subLink, i) => (
-				<Link key={`nav-sublink- ${i}`} href={subLink.href}>
-					<li className={twMerge(navLinkStyle, className)}>
-						<IconWrapper Icon={subLink.icon} />
-						<StyledLink isActive={!!isActive}>{subLink.title}</StyledLink>
-					</li>
-				</Link>
-			))}
-		</ul>
-	);
+	const renderSubLinks = () =>
+		link.subLinks && link.subLinks.length > 0 ? (
+			<ul>
+				{link.subLinks.map((subLink, i) => (
+					<Link key={`nav-sublink- ${i}`} href={subLink.href}>
+						<li className={twMerge(navLinkStyle, className)}>
+							<IconWrapper Icon={subLink.icon} />
+							<StyledLink isActive={!!isActive}>{subLink.title}</StyledLink>
+						</li>
+					</Link>
+				))}
+			</ul>
+		) : (
+			<></>
+		);
+
 	return (
 		<>
 			<Link href={link.href}>
 				<li className={twMerge(navLinkStyle, className)}>
-					<IconWrapper Icon={link.icon} />
+					{(link.icon && <IconWrapper Icon={link.icon} />) || <></>}
 					<StyledLink isActive={!!isActive}>{children}</StyledLink>
 				</li>
 			</Link>
@@ -55,7 +59,12 @@ const StyledLink = ({
 	children,
 }: { isActive: boolean; className?: string } & PropsWithChildren) => {
 	return (
-		<Paragraph className={twMerge('whitespace-nowrap', className)}>
+		<Paragraph
+			className={twMerge(
+				'whitespace-nowrap capitalize hover:text-inverse-soft font-semibold',
+				className,
+			)}
+		>
 			{children}
 		</Paragraph>
 	);

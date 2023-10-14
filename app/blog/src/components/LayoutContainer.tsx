@@ -5,6 +5,7 @@ import { useCookies } from 'react-cookie';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../redux/hooks';
 import { type RootState } from '../redux/store';
+import BlogNavigation from './BlogNavigation';
 
 const LayoutContainer = (props: LayoutContextProps & PropsWithChildren) => {
 	const [, setCookie] = useCookies(['yesOver21']);
@@ -21,16 +22,17 @@ const LayoutContainer = (props: LayoutContextProps & PropsWithChildren) => {
 		window.location.reload();
 	};
 	return (
-		<Layout
-			isModalVisible={modalVisible}
-			showSideNavOnDesktop={false}
-			SideNavComponent={() => <></>}
-			signOut={signOut}
-			isSession={user.isSignedIn}
-			{...props}
-		>
-			{props.children}
-		</Layout>
+		<div className="bg-accent">
+			<Layout
+				isModalVisible={modalVisible}
+				SideNavComponent={BlogNavigation}
+				signOut={signOut}
+				isSession={user.isSignedIn}
+				{...props}
+			>
+				{props.children}
+			</Layout>
+		</div>
 	);
 };
 
