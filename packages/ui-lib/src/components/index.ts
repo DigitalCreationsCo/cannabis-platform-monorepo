@@ -23,6 +23,7 @@ export { default as Label } from './Label';
 export * from './Layout';
 export { default as LoadingDots } from './LoadingDots';
 export { default as LoadingPage } from './LoadingPage';
+export { default as Collapse } from './Collapse';
 export * from './modal';
 export * from './NavLink';
 export { default as NavLink } from './NavLink';

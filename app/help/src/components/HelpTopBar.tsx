@@ -11,6 +11,7 @@ import {
 	selectIsCartEmpty,
 	selectUserState,
 	TextContent,
+	truncateWordsAndLeaveN,
 } from '@cd/core-lib';
 import {
 	Button,
@@ -18,11 +19,14 @@ import {
 	H2,
 	IconButton,
 	Icons,
+	IconWrapper,
 	Paragraph,
 	styles,
 } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
+// eslint-disable-next-line import/no-unresolved
+import { helpTopics } from 'pages/[[...topic]]';
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
@@ -104,20 +108,7 @@ function TopBar({ signOut }: TopBarProps) {
 						)}
 					</IconButton>
 				</Link>
-				{isSignedIn && <_AccountDropDown />}
-				{!isSignedIn && (
-					<FlexBox>
-						<Button
-							className={twMerge(styles.BUTTON.highlight, 'pt-1')}
-							size="sm"
-							bg="transparent"
-							hover="transparent"
-							onClick={openLoginModal}
-						>
-							Sign In
-						</Button>
-					</FlexBox>
-				)}
+				<_AccountDropDown />
 			</FlexBox>
 		</div>
 	);
@@ -125,18 +116,40 @@ function TopBar({ signOut }: TopBarProps) {
 	function AccountDropDown() {
 		return (
 			<div className="dropdown dropdown-end m-0 p-0">
-				<label className="btn btn-ghost h-[54px] w-[54px] rounded-full p-0">
-					<Image
-						tabIndex={0}
-						src={(user.profilePicture?.location as string) || logo}
-						alt={user.email}
-						width={40}
-						height={40}
-						className="rounded-full border"
-						loader={({ src }) => src}
-						unoptimized
-					/>
-				</label>
+				{isSignedIn ? (
+					<label className="btn btn-ghost h-[54px] w-[54px] rounded-full p-0">
+						<Image
+							tabIndex={0}
+							src={(user.profilePicture?.location as string) || logo}
+							alt={user.email}
+							width={40}
+							height={40}
+							className="rounded-full border"
+							loader={({ src }) => src}
+							unoptimized
+						/>
+					</label>
+				) : (
+					<>
+						<FlexBox className="active:bg-accent-soft focus:bg-accent-soft hidden w-full md:block">
+							<Button
+								className={twMerge(styles.BUTTON.highlight, 'pt-1')}
+								size="sm"
+								bg="transparent"
+								hover="transparent"
+								onClick={openLoginModal}
+							>
+								Sign In
+							</Button>
+						</FlexBox>
+						<label
+							tabIndex={0}
+							className="btn btn-ghost h-[54px] w-[54px] rounded-full p-0 md:hidden"
+						>
+							<IconWrapper Icon={Icons.Menu} iconSize={28} />
+						</label>
+					</>
+				)}
 				<ul
 					tabIndex={0}
 					id="Account-Dropdown"
@@ -144,29 +157,66 @@ function TopBar({ signOut }: TopBarProps) {
 						'menu dropdown-content bg-inverse top-0 absolute right-0 mt-12 w-48 rounded shadow',
 					)}
 				>
-					<FlexBox className="active:bg-accent-soft focus:bg-accent-soft w-full">
-						<Link href={TextContent.href.settings} className="w-full">
+					{(!isSignedIn && (
+						<FlexBox className="active:bg-accent-soft focus:bg-accent-soft w-full md:hidden">
 							<Button
+								className={twMerge('pt-1 w-full')}
 								size="md"
 								bg="transparent"
 								hover="transparent"
-								className="w-full"
+								onClick={openLoginModal}
 							>
-								Settings
+								Sign In
 							</Button>
-						</Link>
-					</FlexBox>
-					<FlexBox className="active:bg-accent-soft focus:bg-accent-soft w-full">
-						<Button
-							size="md"
-							bg="transparent"
-							hover="transparent"
-							className="w-full"
-							onClick={signOut}
+						</FlexBox>
+					)) || <></>}
+					{Object.keys(helpTopics).map((key, index) => (
+						<FlexBox
+							key={`nav-help-topic-${index}`}
+							className="active:bg-accent-soft focus:bg-accent-soft w-full md:hidden"
 						>
-							Sign Out
-						</Button>
-					</FlexBox>
+							<Link href={`/${key}`} className="w-full">
+								<Button
+									size="md"
+									bg="transparent"
+									hover="transparent"
+									className="w-full"
+								>
+									{truncateWordsAndLeaveN(
+										helpTopics[key as keyof typeof helpTopics]['title'],
+										2,
+									)}
+								</Button>
+							</Link>
+						</FlexBox>
+					))}
+					{(isSignedIn && (
+						<>
+							<FlexBox className="active:bg-accent-soft focus:bg-accent-soft w-full">
+								<Link href={TextContent.href.settings} className="w-full">
+									<Button
+										size="md"
+										bg="transparent"
+										hover="transparent"
+										className="w-full"
+									>
+										Settings
+									</Button>
+								</Link>
+							</FlexBox>
+							<FlexBox className="active:bg-accent-soft focus:bg-accent-soft w-full">
+								<Button
+									size="md"
+									bg="transparent"
+									hover="transparent"
+									className="w-full"
+									onClick={signOut}
+								>
+									Sign Out
+								</Button>
+							</FlexBox>
+						</>
+					)) || <></>}
 				</ul>
 			</div>
 		);
