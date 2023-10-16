@@ -4,3 +4,4 @@ export { default as errorRoute } from './error.route';
 export { default as organization } from './organization.route';
 export { default as shop } from './shop.route';
 export { default as user } from './user.route';
+export { default as compliance } from './compliance.route';

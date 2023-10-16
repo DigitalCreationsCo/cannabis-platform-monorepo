@@ -21,6 +21,24 @@ import {
 	UserTermsAndConditions,
 } from '../components';
 
+export const helpTopics = {
+	'about-gras': { title: 'About Gras', component: AboutGras },
+	'how-to-order': { title: 'How To Order', component: HowToOrder },
+	compliance: { title: 'Compliance', component: Compliance },
+	'privacy-policy': { title: 'Privacy Policy', component: PrivacyPolicy },
+	'dispensary-terms-and-conditions': {
+		title: 'Dispensary Terms and Conditions',
+		component: DispensaryTermsAndConditions,
+	},
+	'user-terms-and-conditions': {
+		title: 'User Terms and Conditions',
+		component: UserTermsAndConditions,
+	},
+	'driver-terms-and-conditions': {
+		title: 'Driver Terms and Conditions',
+		component: DriverTermsAndConditions,
+	},
+};
 function HelpCenterHome() {
 	const topicParam = useSearchParams().get('topic') as keyof typeof helpTopics;
 	const [topic, setTopic] = useState(topicParam);
@@ -29,24 +47,6 @@ function HelpCenterHome() {
 		setTopic(topicParam);
 	}, [topicParam]);
 
-	const helpTopics = {
-		'about-gras': { title: 'About Gras', component: AboutGras },
-		'how-to-order': { title: 'How To Order', component: HowToOrder },
-		compliance: { title: 'Compliance', component: Compliance },
-		'privacy-policy': { title: 'Privacy Policy', component: PrivacyPolicy },
-		'dispensary-terms-and-conditions': {
-			title: 'Dispensary Terms and Conditions',
-			component: DispensaryTermsAndConditions,
-		},
-		'user-terms-and-conditions': {
-			title: 'User Terms and Conditions',
-			component: UserTermsAndConditions,
-		},
-		'driver-terms-and-conditions': {
-			title: 'Driver Terms and Conditions',
-			component: DriverTermsAndConditions,
-		},
-	};
 	const SelectATopic = () => (
 		<div>
 			<H3>Select A Topic To Learn More</H3>
@@ -59,10 +59,10 @@ function HelpCenterHome() {
 	return (
 		<Page className="bg-light">
 			<div className="mx-auto">
-				<div className={twMerge(styles.HERO.container)}>
+				<div className={twMerge(styles.HERO.container, 'hidden md:block')}>
 					<H1 className="text-primary text-center">We're here to help.</H1>
 				</div>
-				<div className="tabs gap-2">
+				<div className="tabs hidden gap-2 md:block">
 					{Object.keys(helpTopics).map((key) => (
 						<Link
 							href={`?topic=${key}`}

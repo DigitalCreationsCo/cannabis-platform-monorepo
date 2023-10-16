@@ -43,6 +43,29 @@ export function truncate(text: string) {
 	return text.slice(0, 5) + text.slice(-4).padStart(7, '.');
 }
 
+export function truncateWordsAfterChars(text: string, maxChars: number) {
+	const words = text.split(' ');
+	let truncatedString = '';
+	for (const word of words) {
+		if (word.length <= maxChars) {
+			truncatedString += word + ' ';
+			maxChars -= word.length + 1; // +1 to account for the space
+		} else {
+			break;
+		}
+	}
+	return truncatedString.trim(); // Remove trailing space
+}
+
+export function truncateWordsAndLeaveN(text: string, numWordsToKeep: number) {
+	const words = text.split(' ');
+	if (words.length <= numWordsToKeep) {
+		return text;
+	}
+	const truncatedWords = words.slice(0, numWordsToKeep);
+	return truncatedWords.join(' ');
+}
+
 export function redact(text: string) {
 	const length = text.toString().length;
 	const last4characters = text.slice(-4),
