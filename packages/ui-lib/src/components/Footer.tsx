@@ -45,7 +45,7 @@ export default function Footer() {
 	return (
 		<>
 			<FlexBox className={twMerge(styles.FOOTER.container, 'text-light')}>
-				<Grid className="overflow-x-hidden mx-auto md:mt-5 grid max-w-screen-xl grid-rows-auto gap-10 lg:grid-cols-8 overflow-visible">
+				<Grid className="overflow-x-hidden mx-auto md:mt-5 grid max-w-screen-xl pb-16 lg:pb-0 grid-rows-auto gap-4 lg:grid-cols-8 overflow-visible">
 					<div className="row-start-2 lg:row-span-5 lg:col-span-2 lg:row-start-auto">
 						<div className="flex w-full flex-col flex-wrap lg:ml-0 space-y-3">
 							{navigation.map((item, index) => (
@@ -98,7 +98,7 @@ export default function Footer() {
 							</Paragraph>
 							<CopyRight />
 						</div>
-						<div className="pb-5 lg:pb-0">
+						<div className="pb-12 lg:pb-0">
 							<H6 className="text-inverse font-semibold">Follow us online</H6>
 							<FlexBox className="mt-5 flex-row space-x-5 text-inverse">
 								<a

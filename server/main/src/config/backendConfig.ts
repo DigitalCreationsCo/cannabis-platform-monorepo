@@ -17,7 +17,7 @@ const apiDomain = process.env.BACKEND_URL || `https://backend.grascannabis.org`;
 const appInfo = {
 	appName: process.env.NEXT_PUBLIC_SHOP_APP_NAME || 'Gras',
 	apiDomain,
-	websiteDomain: dashboardDomain,
+	websiteDomain: baseDomain,
 	apiBasePath: '/api/v1',
 };
 

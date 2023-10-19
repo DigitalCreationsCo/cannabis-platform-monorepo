@@ -1,4 +1,4 @@
-import { selectUserState, stateMap } from '@cd/core-lib';
+import { axios, selectUserState, stateMap } from '@cd/core-lib';
 import {
 	Collapse,
 	CopyRight,
@@ -9,6 +9,7 @@ import {
 	Paragraph,
 	Select,
 } from '@cd/ui-lib';
+import { response } from 'express';
 import { Suspense, useMemo, useState } from 'react';
 import { useAppSelector } from '../redux/hooks';
 
@@ -85,6 +86,40 @@ export default function Compliance() {
 		[stateAbbrev],
 	);
 
+	const getData = async () => {
+		const promise = axios
+			.get<ComplianceDataSheet>(
+				process.env.NEXT_PUBLIC_SERVER_MAIN_URL +
+					`/api/v1/compliance/state=${stateAbbrev}`,
+			)
+			.then((res) => res.data);
+		return wrapPromise(promise);
+	};
+
+	const theData = getData();
+	async function ComplianceSheet() {
+		const data = (await theData).read();
+
+		console.log('data', await data);
+		return (
+			<>
+				<Paragraph>select a topic to expand</Paragraph>
+				<div>
+					{(data &&
+						Object.keys(data).map((key, index) => (
+							<Collapse
+								key={`compliance-sheet-topic-${index}`}
+								item={{
+									q: data[key as keyof typeof ComplianceSheet]['title'],
+									value: '',
+								}}
+							/>
+						))) || <>No data</>}
+				</div>
+			</>
+		);
+	}
+
 	return (
 		<div className="mx-auto md:self-start lg:mx-0">
 			<H2 className="text-primary">
@@ -101,45 +136,31 @@ export default function Compliance() {
 			</FlexBox>
 			<div id="compliance-sheet" className="min-h-[420px]">
 				<H3 className="uppercase underline">{selectedState + ' Compliance'}</H3>
-				{renderComplianceSheet(selectedState)}
+				<Suspense fallback={<LoadingDots />}>
+					<ComplianceSheet />
+				</Suspense>
 			</div>
 			<CopyRight />
 		</div>
 	);
 }
 
-function renderComplianceSheet(state: typeof StatesAbbreviationList[number]) {
-	console.info('renderComplianceSheet state: ', state);
-	// const response = axios.get<ComplianceDataSheet>(
-	// 	process.env.NEXT_PUBLIC_SERVER_MAIN_URL +
-	// 		`/api/v1/compliance/state=${state}`,
-	// );
-	// console.info('renderComplianceSheet response: ', response);
-
-	return (
-		<Suspense fallback={<LoadingDots />}>
-			<Paragraph>select a topic to expand</Paragraph>
-			<ComplianceSheet data={mockComplianceDataSheet} />
-		</Suspense>
-	);
-}
-
-function ComplianceSheet({ data }: { data: ComplianceDataSheet }) {
-	return (
-		<div>
-			{data &&
-				Object.keys(data).map((key, index) => (
-					<Collapse
-						key={`compliance-sheet-topic-${index}`}
-						item={{
-							q: data[key as keyof typeof ComplianceSheet]['title'],
-							value: '',
-						}}
-					/>
-				))}
-		</div>
-	);
-}
+// function ComplianceSheet({ data }: { data: ComplianceDataSheet }) {
+// 	return (
+// 		<div>
+// 			{data &&
+// 				Object.keys(data).map((key, index) => (
+// 					<Collapse
+// 						key={`compliance-sheet-topic-${index}`}
+// 						item={{
+// 							q: data[key as keyof typeof ComplianceSheet]['title'],
+// 							value: '',
+// 						}}
+// 					/>
+// 				))}
+// 		</div>
+// 	);
+// }
 const mockComplianceDataSheet: ComplianceDataSheet = {
 	license: {
 		title: 'License',
@@ -261,3 +282,35 @@ export type ComplianceSaleThcLimit =
 	ComplianceDataSheet['sale']['thc_sale_limit'];
 export type ComplianceSaleWeightLimit =
 	ComplianceDataSheet['sale']['sale_weight_limit'];
+
+function wrapPromise(promise) {
+	let status = 'pending';
+	let response;
+
+	const suspender = promise.then(
+		(res) => {
+			status = 'success';
+			response = res;
+		},
+		(err) => {
+			status = 'error';
+			response = err;
+		},
+	);
+
+	const handler = {
+		pending: () => {
+			throw suspender;
+		},
+		error: () => {
+			throw response;
+		},
+		default: () => response,
+	};
+
+	const read = () => {
+		return handler[status] ? handler[status]() : handler.default();
+	};
+
+	return { read };
+}

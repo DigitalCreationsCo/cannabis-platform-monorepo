@@ -5,7 +5,7 @@ export async function findCompliance({
 	state,
 }: ComplianceSelectorType): Promise<Compliance | null> {
 	try {
-		return await prisma.compliance.findUnique({
+		const compliance = await prisma.compliance.findUnique({
 			where: { state: state },
 			include: {
 				license: true,
@@ -13,6 +13,8 @@ export async function findCompliance({
 				sale: true,
 			},
 		});
+		console.info('findCompliance: ', compliance);
+		return compliance;
 	} catch (error: any) {
 		console.error('findCompliance: ', error);
 		throw new Error(error);
