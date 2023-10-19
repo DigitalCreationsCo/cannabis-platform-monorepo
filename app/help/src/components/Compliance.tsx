@@ -1,4 +1,9 @@
-import { axios, selectUserState, stateMap } from '@cd/core-lib';
+import {
+	axios,
+	selectUserState,
+	usStatesAbbreviationList,
+	stateMap,
+} from '@cd/core-lib';
 import {
 	Collapse,
 	CopyRight,
@@ -9,62 +14,8 @@ import {
 	Paragraph,
 	Select,
 } from '@cd/ui-lib';
-import { response } from 'express';
 import { Suspense, useMemo, useState } from 'react';
 import { useAppSelector } from '../redux/hooks';
-
-export const StatesAbbreviationList = [
-	'AL',
-	'AK',
-	'AZ',
-	'AR',
-	'CA',
-	'CO',
-	'CT',
-	'DE',
-	'FL',
-	'GA',
-	'HI',
-	'ID',
-	'IL',
-	'IN',
-	'IA',
-	'KS',
-	'KY',
-	'LA',
-	'ME',
-	'MD',
-	'MA',
-	'MI',
-	'MN',
-	'MS',
-	'MO',
-	'MT',
-	'NE',
-	'NV',
-	'NH',
-	'NJ',
-	'NM',
-	'NY',
-	'NC',
-	'ND',
-	'OH',
-	'OK',
-	'OR',
-	'PA',
-	'RI',
-	'SC',
-	'SD',
-	'TN',
-	'TX',
-	'UT',
-	'VT',
-	'VA',
-	'WA',
-	'WV',
-	'WI',
-	'WY',
-];
 
 export default function Compliance() {
 	const { user } = useAppSelector(selectUserState);
@@ -74,7 +25,7 @@ export default function Compliance() {
 	}
 	const defaultStateAbbrev = () =>
 		stateMap[getUserAddressState().toUpperCase()]?.abbreviation ||
-		StatesAbbreviationList[0];
+		usStatesAbbreviationList[0];
 
 	const [stateAbbrev, setStateAbbrev] = useState(defaultStateAbbrev());
 
@@ -129,7 +80,7 @@ export default function Compliance() {
 				<Paragraph className="text-lg">STATE</Paragraph>
 				<Select
 					className="rounded border text-lg"
-					values={StatesAbbreviationList}
+					values={usStatesAbbreviationList}
 					defaultValue={defaultStateAbbrev()}
 					setOption={setStateAbbrev}
 				/>
@@ -137,7 +88,7 @@ export default function Compliance() {
 			<div id="compliance-sheet" className="min-h-[420px]">
 				<H3 className="uppercase underline">{selectedState + ' Compliance'}</H3>
 				<Suspense fallback={<LoadingDots />}>
-					<ComplianceSheet />
+					{/* <ComplianceSheet /> */}
 				</Suspense>
 			</div>
 			<CopyRight />
