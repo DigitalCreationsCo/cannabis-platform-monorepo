@@ -1,9 +1,9 @@
-import { ArticleType, ArticleWithDetails } from '@cd/data-access';
+import { ArticleTag, ArticleWithDetails } from '@cd/data-access';
 import { saveArticlesByTag } from '../../src/reducer/blog.reducer';
 
 describe('saveArticlesByTag ', () => {
 	test(' correct save articles to state using tag property, with no duplicate articles', () => {
-		const state = {} as Record<ArticleType, ArticleWithDetails[]>;
+		const state = {} as Record<ArticleTag, ArticleWithDetails[]>;
 		const articles = [
 			{
 				id: '1',

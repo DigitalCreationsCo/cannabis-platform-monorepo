@@ -1,3 +1,4 @@
+import { type ComplianceSelectorType } from '@cd/data-access';
 import { Router } from 'express';
 import { ComplianceDA } from '../data-access';
 const router = Router();
@@ -10,7 +11,7 @@ Compliance Routes
 
 router.route('/state=:state').get(async function (req, res) {
 	try {
-		const { state } = req.params;
+		const { state } = req.params as ComplianceSelectorType;
 		const data = await ComplianceDA.getComplianceSheet({ state });
 		if (!data)
 			return res.status(404).json({

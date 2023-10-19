@@ -48,12 +48,59 @@ model Session {
   @@index([sessionHandle])
 }
 
-model ComplianceSheet {
+model Compliance {
   id               String       @id @unique @default(cuid())
-  state            String
+  state            USStateAbbreviated       @unique
+  license          LicenseGuidelines? @relation("LicenseGuidelines")
+  transport        TransportGuidelines? @relation("TransportGuidelines")
+  sale             SaleGuidelines? @relation("SaleGuidelines")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
-enum USStateType {
+model LicenseGuidelines {
+  state            USStateAbbreviated          @unique
+  compliance       Compliance @relation("LicenseGuidelines", fields: [state], references: [state])
+  licenseType      LicenseType[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model TransportGuidelines {
+  state            USStateAbbreviated          @unique
+  compliance       Compliance @relation("TransportGuidelines", fields: [state], references: [state])
+  transportWeightLimit      Float
+  transportStartTime        Int
+  transportEndTime          Int
+  transportLockedStorage    Boolean
+  transportManifest         Boolean
+  transportStaff            Int
+  medicalDelivery           Boolean
+  recreationalDelivery      Boolean
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model SaleGuidelines {
+  state            USStateAbbreviated          @unique
+  compliance       Compliance @relation("SaleGuidelines", fields: [state], references: [state])
+  medicalSales     Boolean
+  recreationalSales Boolean
+  ageLimit         Int
+  thcLimit         Int
+  weightLimit      Float
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+enum LicenseType {
+  dispensary
+  delivery
+}
+
+enum USState {
     ALABAMA
     ALASKA
     ARIZONA
@@ -106,7 +153,7 @@ enum USStateType {
     WYOMING
 }
 
-enum StateAbbreviationType {
+enum USStateAbbreviated {
   AL
 	AK
 	AZ

@@ -74,6 +74,7 @@ export default function Compliance() {
 	const defaultStateAbbrev = () =>
 		stateMap[getUserAddressState().toUpperCase()]?.abbreviation ||
 		StatesAbbreviationList[0];
+
 	const [stateAbbrev, setStateAbbrev] = useState(defaultStateAbbrev());
 
 	const selectedState = useMemo<string>(

@@ -1,9 +1,9 @@
-import { type StateAbbreviationType } from '@cd/data-access';
+import { type USStateAbbreviated } from '@cd/data-access';
 
 /* eslint-disable @typescript-eslint/naming-convention */
 export type StateMap = Record<
 	string,
-	{ abbreviation: StateAbbreviationType; legalAge: number }
+	{ abbreviation: USStateAbbreviated; legalAge: number }
 >;
 
 export const stateMap: StateMap = {
