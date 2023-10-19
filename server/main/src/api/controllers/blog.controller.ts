@@ -1,6 +1,6 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import {
-	type ArticleType,
+	type ArticleTag,
 	type ArticleCreateType,
 	type Prisma,
 } from '@cd/data-access';
@@ -46,7 +46,7 @@ export default class BlogController {
 
 	static async getArticlesByTags(req, res) {
 		try {
-			const tags: ArticleType[] = req.body;
+			const tags: ArticleTag[] = req.body;
 			const data = await ArticleDA.getArticlesByTags(tags);
 			if (!data)
 				return res.status(404).json({

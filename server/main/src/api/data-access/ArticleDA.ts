@@ -6,7 +6,7 @@ import {
 	findArticlesByType,
 	updateArticle,
 	type ArticleCreateType,
-	type ArticleType,
+	type ArticleTag,
 	type Prisma,
 } from '@cd/data-access';
 
@@ -35,7 +35,7 @@ export default class ArticleDA {
 		}
 	}
 
-	static async getArticlesByTags(tag: ArticleType | ArticleType[] = 'gras') {
+	static async getArticlesByTags(tag: ArticleTag | ArticleTag[] = 'gras') {
 		try {
 			return await findArticlesByType(tag);
 		} catch (error: any) {

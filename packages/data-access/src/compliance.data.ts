@@ -1,18 +1,24 @@
-import { type StateAbbreviationType } from './address.types';
+import { type Compliance, type USStateAbbreviated } from '@prisma/client';
+import prisma from './db/prisma';
 
-export async function findComplianceSheet({
+export async function findCompliance({
 	state,
-}: ComplianceSelectorType): Promise<ComplianceSheet> {
+}: ComplianceSelectorType): Promise<Compliance | null> {
 	try {
-		return await prisma.compliance.findMany({
+		return await prisma.compliance.findUnique({
 			where: { state: state },
+			include: {
+				license: true,
+				transport: true,
+				sale: true,
+			},
 		});
 	} catch (error: any) {
-		console.error('findComplianceSheet: ', error);
+		console.error('findCompliance: ', error);
 		throw new Error(error);
 	}
 }
 
 export type ComplianceSelectorType = {
-	state: StateAbbreviationType;
+	state: USStateAbbreviated;
 };

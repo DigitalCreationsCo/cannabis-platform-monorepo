@@ -1,4 +1,4 @@
-import { type ArticleType } from '@cd/data-access';
+import { type ArticleTag } from '@cd/data-access';
 import { useRef } from 'react';
 import Slider, { type Settings as CarouselSettings } from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
@@ -19,7 +19,7 @@ type CarouselProps<DataType> = CarouselSettings & {
 	title?: string;
 	titleSize?: 'md' | 'lg';
 	data: DataType[];
-	dataKey: ArticleType;
+	dataKey: ArticleTag;
 	interval?: number;
 	infinite?: boolean;
 	run?: boolean;

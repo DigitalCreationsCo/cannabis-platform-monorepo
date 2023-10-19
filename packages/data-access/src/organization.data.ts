@@ -145,7 +145,6 @@ export async function createOrganization(organization: OrganizationCreateType) {
 						: undefined,
 				schedule: {
 					create: {
-						createdAt: schedule.createdAt,
 						days: schedule.days,
 						openAt: schedule.openAt,
 						closeAt: schedule.closeAt,
