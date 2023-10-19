@@ -32,20 +32,20 @@ export default function Footer() {
 			name: 'Dispensary Terms and Conditions',
 			href: TextContent.href.dispensary_tos,
 		},
-		{
-			name: 'User Terms and Conditions',
-			href: TextContent.href.user_tos,
-		},
-		{
-			name: 'Delivery Terms and Conditions',
-			href: TextContent.href.driver_tos,
-		},
+		// {
+		// 	name: 'User Terms and Conditions',
+		// 	href: TextContent.href.user_tos,
+		// },
+		// {
+		// 	name: 'Delivery Terms and Conditions',
+		// 	href: TextContent.href.driver_tos,
+		// },
 		{ name: 'Privacy Policy', href: TextContent.href.privacy },
 	];
 	return (
 		<>
 			<FlexBox className={twMerge(styles.FOOTER.container, 'text-light')}>
-				<Grid className="overflow-x-hidden mx-auto md:mt-5 grid max-w-screen-xl pb-16 lg:pb-0 grid-rows-auto gap-4 lg:grid-cols-8 overflow-visible">
+				<Grid className="overflow-x-hidden mx-auto md:mt-5 grid max-w-screen-xl pb-16 lg:pb-0 grid-rows-auto gap-10 lg:gap-4 lg:grid-cols-8 overflow-visible">
 					<div className="row-start-2 lg:row-span-5 lg:col-span-2 lg:row-start-auto">
 						<div className="flex w-full flex-col flex-wrap lg:ml-0 space-y-3">
 							{navigation.map((item, index) => (
