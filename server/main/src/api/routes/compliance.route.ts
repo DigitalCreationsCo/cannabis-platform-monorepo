@@ -11,8 +11,6 @@ Compliance Routes
 
 router.route('/state=:state').get(async function (req, res) {
 	try {
-		res.setHeader('Access-Control-Allow-Origin', 'localhost');
-
 		const { state } = req.params as ComplianceSelectorType;
 		console.info('getComplianceData for state: ', state);
 		const data = await ComplianceDA.getComplianceSheet({ state });

@@ -31,9 +31,7 @@ class ErrorBoundary extends Component {
 				</div>
 			);
 		}
-
 		// Return children components in case of no error
-
 		return this.props.children;
 	}
 }

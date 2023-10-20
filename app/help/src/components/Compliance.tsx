@@ -13,8 +13,10 @@ import {
 	LoadingDots,
 	Paragraph,
 	Select,
+	ErrorBoundary,
+	Center,
 } from '@cd/ui-lib';
-import { Suspense, useMemo, useState } from 'react';
+import { Suspense, useMemo, useEffect, useState } from 'react';
 import { useAppSelector } from '../redux/hooks';
 
 export default function Compliance() {
@@ -37,7 +39,7 @@ export default function Compliance() {
 		[stateAbbrev],
 	);
 
-	const getData = async () => {
+	const getData = () => {
 		const promise = axios
 			.get<ComplianceDataSheet>(
 				process.env.NEXT_PUBLIC_SERVER_MAIN_URL +
@@ -48,26 +50,36 @@ export default function Compliance() {
 	};
 
 	const theData = getData();
-	async function ComplianceSheet() {
-		const data = (await theData).read();
 
-		console.log('data', await data);
+	function ComplianceSheet() {
+		const data = theData.read();
+
+		console.info('compliance sheet data: ', data);
+		const renderDataComplianceSheet = () =>
+			(data?.success === 'true' && (
+				<>
+					<Paragraph>select a topic to expand</Paragraph>
+					{Object.keys(data.payload).map((key, index) => (
+						<Collapse
+							key={`compliance-sheet-topic-${index}`}
+							item={{
+								q: data[key as keyof typeof ComplianceSheet],
+								value: '',
+							}}
+						/>
+					))}
+				</>
+			)) || (
+				<Center>
+					<Paragraph>We didn't find the compliance record</Paragraph>
+				</Center>
+			);
 		return (
-			<>
-				<Paragraph>select a topic to expand</Paragraph>
-				<div>
-					{(data &&
-						Object.keys(data).map((key, index) => (
-							<Collapse
-								key={`compliance-sheet-topic-${index}`}
-								item={{
-									q: data[key as keyof typeof ComplianceSheet]['title'],
-									value: '',
-								}}
-							/>
-						))) || <>No data</>}
+			<div className="flex min-h-full flex-col border">
+				<div className="flex min-h-full flex-col">
+					{renderDataComplianceSheet()}
 				</div>
-			</>
+			</div>
 		);
 	}
 
@@ -87,31 +99,29 @@ export default function Compliance() {
 			</FlexBox>
 			<div id="compliance-sheet" className="min-h-[420px]">
 				<H3 className="uppercase underline">{selectedState + ' Compliance'}</H3>
-				<Suspense fallback={<LoadingDots />}>
-					{/* <ComplianceSheet /> */}
-				</Suspense>
+				<ErrorBoundary
+					fallback={
+						<Center className="h-full grow">
+							<Paragraph>An error occurred. Try again.</Paragraph>
+						</Center>
+					}
+				>
+					<Suspense
+						fallback={
+							<Center className="h-full grow">
+								<LoadingDots />
+							</Center>
+						}
+					>
+						<ComplianceSheet />
+					</Suspense>
+				</ErrorBoundary>
 			</div>
 			<CopyRight />
 		</div>
 	);
 }
 
-// function ComplianceSheet({ data }: { data: ComplianceDataSheet }) {
-// 	return (
-// 		<div>
-// 			{data &&
-// 				Object.keys(data).map((key, index) => (
-// 					<Collapse
-// 						key={`compliance-sheet-topic-${index}`}
-// 						item={{
-// 							q: data[key as keyof typeof ComplianceSheet]['title'],
-// 							value: '',
-// 						}}
-// 					/>
-// 				))}
-// 		</div>
-// 	);
-// }
 const mockComplianceDataSheet: ComplianceDataSheet = {
 	license: {
 		title: 'License',
@@ -234,13 +244,12 @@ export type ComplianceSaleThcLimit =
 export type ComplianceSaleWeightLimit =
 	ComplianceDataSheet['sale']['sale_weight_limit'];
 
-function wrapPromise(promise) {
-	let status = 'pending';
-	let response;
-
+function wrapPromise(promise: Promise<any>) {
+	let status: 'pending' | 'error' | 'default' = 'pending';
+	let response: any;
 	const suspender = promise.then(
 		(res) => {
-			status = 'success';
+			status = 'default';
 			response = res;
 		},
 		(err) => {
@@ -248,7 +257,6 @@ function wrapPromise(promise) {
 			response = err;
 		},
 	);
-
 	const handler = {
 		pending: () => {
 			throw suspender;
@@ -258,10 +266,8 @@ function wrapPromise(promise) {
 		},
 		default: () => response,
 	};
-
 	const read = () => {
 		return handler[status] ? handler[status]() : handler.default();
 	};
-
 	return { read };
 }

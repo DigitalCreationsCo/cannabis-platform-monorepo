@@ -12,6 +12,7 @@ export { default as CopyRight } from './CopyRight';
 export { default as DeliveryGuarantee } from './DeliveryGuarantee';
 export { default as DropZone } from './DropZone';
 export { default as ErrorMessage } from './ErrorMessage';
+export { default as ErrorBoundary } from './ErrorBoundary';
 export { default as FlexBox } from './FlexBox';
 export { default as Footer } from './Footer';
 export { default as FormCard } from './FormCard';
