@@ -3,9 +3,9 @@ import {
 	selectUserState,
 	usStatesAbbreviationList,
 	stateMap,
+	renderNestedDataObject,
 } from '@cd/core-lib';
 import {
-	Collapse,
 	CopyRight,
 	FlexBox,
 	H2,
@@ -16,7 +16,8 @@ import {
 	ErrorBoundary,
 	Center,
 } from '@cd/ui-lib';
-import { Suspense, useMemo, useEffect, useState } from 'react';
+import { Suspense, useMemo, useState } from 'react';
+import useSWR from 'swr';
 import { useAppSelector } from '../redux/hooks';
 
 export default function Compliance() {
@@ -39,35 +40,23 @@ export default function Compliance() {
 		[stateAbbrev],
 	);
 
-	const getData = () => {
-		const promise = axios
-			.get<ComplianceDataSheet>(
-				process.env.NEXT_PUBLIC_SERVER_MAIN_URL +
-					`/api/v1/compliance/state=${stateAbbrev}`,
-			)
-			.then((res) => res.data);
-		return wrapPromise(promise);
-	};
-
-	const theData = getData();
-
 	function ComplianceSheet() {
-		const data = theData.read();
-
-		console.info('compliance sheet data: ', data);
+		const { data } = useSWR(
+			process.env.NEXT_PUBLIC_SERVER_MAIN_URL +
+				`/api/v1/compliance/state=${stateAbbrev}`,
+			(url) =>
+				axios
+					.get<{ success: 'true' | 'false'; payload: ComplianceDataSheet }>(url)
+					.then((res) => res.data),
+			{ suspense: true },
+		);
 		const renderDataComplianceSheet = () =>
 			(data?.success === 'true' && (
 				<>
-					<Paragraph>select a topic to expand</Paragraph>
-					{Object.keys(data.payload).map((key, index) => (
-						<Collapse
-							key={`compliance-sheet-topic-${index}`}
-							item={{
-								q: data[key as keyof typeof ComplianceSheet],
-								value: '',
-							}}
-						/>
-					))}
+					{renderNestedDataObject(data.payload, Paragraph, {
+						removeFields: ['id', 'createdAt', 'state', 'updatedAt'],
+						sort: 'asc',
+					})}
 				</>
 			)) || (
 				<Center>
@@ -231,18 +220,6 @@ export type GrasRegulationResponsibility = {
 	verify_customer_id: boolean;
 	record_sales: 'required';
 };
-
-export type ComplianceLicense = ComplianceDataSheet['license']['license_types'];
-export type ComplianceLicenseType =
-	ComplianceDataSheet['license']['license_types']['types'];
-export type ComplianceTransportWeightLimit =
-	ComplianceDataSheet['transport']['transport_weight_limit'];
-export type ComplianceTransportHours =
-	ComplianceDataSheet['transport']['transport_hours'];
-export type ComplianceSaleThcLimit =
-	ComplianceDataSheet['sale']['thc_sale_limit'];
-export type ComplianceSaleWeightLimit =
-	ComplianceDataSheet['sale']['sale_weight_limit'];
 
 function wrapPromise(promise: Promise<any>) {
 	let status: 'pending' | 'error' | 'default' = 'pending';
