@@ -7,6 +7,7 @@ export default function Collapse({
 }: {
 	item: { q: string; value: number | string };
 }) {
+	console.info('item: ', item);
 	return (
 		<div className="collapse mb-5 rounded shadow">
 			<input type="checkbox" />

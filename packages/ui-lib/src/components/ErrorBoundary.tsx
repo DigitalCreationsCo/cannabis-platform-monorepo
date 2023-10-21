@@ -1,5 +1,12 @@
-import { Component } from 'react';
-class ErrorBoundary extends Component {
+import { Component, type PropsWithChildren } from 'react';
+interface ErrorBoundaryProps extends PropsWithChildren {
+	fallback: React.ReactNode;
+}
+
+class ErrorBoundary extends Component<
+	ErrorBoundaryProps,
+	{ hasError: boolean }
+> {
 	fallback: any;
 	constructor(props: any) {
 		super(props);
