@@ -64,16 +64,14 @@ export default function Compliance() {
 				</Center>
 			);
 		return (
-			<div className="flex min-h-full flex-col border">
-				<div className="flex min-h-full flex-col">
-					{renderDataComplianceSheet()}
-				</div>
+			<div className="flex min-h-full flex-col">
+				{renderDataComplianceSheet()}
 			</div>
 		);
 	}
 
 	return (
-		<div className="mx-auto md:self-start lg:mx-0">
+		<div className="mx-auto md:self-start">
 			<H2 className="text-primary">
 				Search Cannabis Federal And State Regulations
 			</H2>
@@ -86,18 +84,21 @@ export default function Compliance() {
 					setOption={setStateAbbrev}
 				/>
 			</FlexBox>
-			<div id="compliance-sheet" className="min-h-[420px]">
+			<div
+				id="compliance-sheet"
+				className="flex min-h-[420px] flex-col sm:items-center"
+			>
 				<H3 className="uppercase underline">{selectedState + ' Compliance'}</H3>
 				<ErrorBoundary
 					fallback={
-						<Center className="h-full grow">
+						<Center className="">
 							<Paragraph>An error occurred. Try again.</Paragraph>
 						</Center>
 					}
 				>
 					<Suspense
 						fallback={
-							<Center className="h-full grow">
+							<Center className="">
 								<LoadingDots />
 							</Center>
 						}

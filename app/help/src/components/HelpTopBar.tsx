@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -25,7 +26,6 @@ import {
 } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
-// eslint-disable-next-line import/no-unresolved
 import { helpTopics } from 'pages/[[...topic]]';
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';

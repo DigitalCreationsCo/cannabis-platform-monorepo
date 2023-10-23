@@ -27,7 +27,7 @@ interface LayoutProps extends LayoutContextProps, PropsWithChildren {
 	showHeader?: boolean;
 	showTopBar?: boolean;
 	SideNavComponent: React.ElementType;
-	signOut: () => void;
+	signOut?: () => void;
 	onSearchChange?: ChangeEventHandler<HTMLInputElement> &
 		ReactEventHandler<Element>;
 	placeholder?: string;

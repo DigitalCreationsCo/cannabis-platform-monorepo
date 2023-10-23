@@ -54,6 +54,7 @@ module.exports = {
 		'linebreak-style': ['error', 'unix'],
 		'no-empty-function': 'off',
 		'import/default': ['error'],
+		'import/no-unresolved': ['warn'],
 		// Slow: https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/namespace.md
 		'import/namespace': 'off', // ['error'] If you want the extra check (typechecks will spot most issues already)
 		// https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-duplicates.md
