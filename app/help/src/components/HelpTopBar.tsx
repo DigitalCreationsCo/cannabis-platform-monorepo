@@ -1,8 +1,5 @@
-/* eslint-disable import/no-unresolved */
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import {
 	getShopSite,
 	modalActions,
@@ -26,11 +23,11 @@ import {
 } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
-import { helpTopics } from 'pages/[[...topic]]';
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/logo.png';
+import { helpTopics } from './HelpTopics';
 
 export type TopBarProps = {
 	doesSessionExist?: boolean;
