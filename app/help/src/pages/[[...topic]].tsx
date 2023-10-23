@@ -11,34 +11,8 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
-import {
-	AboutGras,
-	Compliance,
-	DispensaryTermsAndConditions,
-	DriverTermsAndConditions,
-	HowToOrder,
-	PrivacyPolicy,
-	UserTermsAndConditions,
-} from '../components';
+import { helpTopics } from '../components/HelpTopics';
 
-export const helpTopics = {
-	'about-gras': { title: 'About Gras', component: AboutGras },
-	'how-to-order': { title: 'How To Order', component: HowToOrder },
-	compliance: { title: 'Compliance', component: Compliance },
-	'privacy-policy': { title: 'Privacy Policy', component: PrivacyPolicy },
-	'dispensary-terms-and-conditions': {
-		title: 'Dispensary Terms and Conditions',
-		component: DispensaryTermsAndConditions,
-	},
-	'user-terms-and-conditions': {
-		title: 'User Terms and Conditions',
-		component: UserTermsAndConditions,
-	},
-	'driver-terms-and-conditions': {
-		title: 'Driver Terms and Conditions',
-		component: DriverTermsAndConditions,
-	},
-};
 function HelpCenterHome() {
 	const topicParam = useSearchParams().get('topic') as keyof typeof helpTopics;
 	const [topic, setTopic] = useState(topicParam);

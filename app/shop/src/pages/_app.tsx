@@ -5,6 +5,7 @@ import {
 	ProtectedPage,
 	ToastProvider,
 	type LayoutContextProps,
+	ErrorBoundary,
 } from '@cd/ui-lib';
 import { type AnyAction } from '@reduxjs/toolkit';
 import { AnimatePresence } from 'framer-motion';
@@ -16,12 +17,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session from 'supertokens-auth-react/recipe/session';
-import {
-	ErrorBoundary,
-	LayoutContainer,
-	LocationProvider,
-	TopBar,
-} from '../components';
+import { LayoutContainer, LocationProvider, TopBar } from '../components';
 import { frontendConfig } from '../config/frontendConfig';
 import { wrapper } from '../redux/store';
 import '../styles/anim8-gradient.css';

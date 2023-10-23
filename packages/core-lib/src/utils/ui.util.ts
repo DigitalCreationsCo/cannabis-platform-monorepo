@@ -92,19 +92,19 @@ export const renderNestedDataObject = (
 		.filter((field) => !removeFields.includes(field))
 		.map((key, index) => {
 			if (Array.isArray(data[key]) && data[key].length > 0) {
-				// return data[key].map((item: Record<string, string>) =>
-				// 	renderNestedDataObject(item, Component, { removeFields }).flat(),
-				// );
-				return Component({
-					key: data[key],
-					children:
-						key +
-						': ' +
-						redactSensitiveFields(key, data[key])
-							.toString()
-							.split(',')
-							.join(', '),
-				});
+				return data[key].map((item: Record<string, string>) =>
+					renderNestedDataObject(item, Component, { removeFields }).flat(),
+				);
+				// return Component({
+				// 	key: data[key],
+				// 	children:
+				// 		key +
+				// 		': ' +
+				// 		redactSensitiveFields(key, data[key])
+				// 			.toString()
+				// 			.split(',')
+				// 			.join(', '),
+				// });
 			} else if (typeof data[key] === 'object') {
 				return renderNestedDataObject(data[key], Component, { removeFields });
 			} else
