@@ -1,7 +1,12 @@
 import { createCluster, type RedisClusterType } from 'redis';
+import source from 'shell-source';
 
 let redisClient: RedisClusterType | null = null;
-console.info('REDIS NODES: ', process.env.REDIS_NODES);
+source(__dirname + '/scripts/get-redis-cart-nodes.sh', function (err: any) {
+	if (err) return console.error(err);
+
+	console.info('REDIS NODES: ', process.env.REDIS_NODES);
+});
 // [
 // 	{ url: 'redis://localhost:6301' },
 // 	{ url: 'redis://localhost:6302' },
