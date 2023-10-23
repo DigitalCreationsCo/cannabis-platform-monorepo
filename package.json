@@ -18,7 +18,8 @@
 		"app/*",
 		"packages/*",
 		"server/*",
-		"mobile/*"
+		"mobile/*",
+		"tools/*"
 	],
 	"scripts": {
 		"g:test-unit": "yarn workspaces foreach -ptv run test:unit",
@@ -26,47 +27,39 @@
 		"g:test-unit-changed": "yarn workspaces foreach --since=HEAD~1 run test:unit",
 		"g:test-unit-ci": "yarn workspaces foreach --since=origin/master run test:unit-ci",
 		"g:test-e2e": "yarn workspaces foreach -tv run test-e2e",
-
 		"g:build": "NEXT_PUBLIC_IS_LOCAL_BUILD=1 SKIP_BUILD_STATIC_GENERATION=1 yarn workspaces foreach -p --topological-dev -v run build",
 		"g:build-all": "yarn workspaces foreach -ptv --include '@cd/*' run build",
 		"g:build-changed": "yarn workspaces foreach --topological-dev -v --since=origin/production run build:ci",
 		"g:build-ci": "yarn workspaces foreach --topological-dev -v --since=origin/production run build:ci",
 		"g:build-css": "yarn workspaces foreach run build:css",
-
 		"g:changeset": "changeset",
 		"g:check-dist": "yarn workspaces foreach -ptv run check-dist",
 		"g:clean": "yarn workspaces foreach -ptv run clean",
 		"g:codegen": "yarn workspaces foreach -ptv run codegen",
-
 		"g:typecheck": "yarn workspaces foreach -ptv run typecheck",
 		"g:lint": "yarn workspaces foreach -ptv run lint --color",
 		"g:lint-fix": "yarn workspaces foreach -ptv run lint-fix",
 		"g:lint-staged-files": "lint-staged --allow-empty",
 		"g:lint-styles": "yarn workspaces foreach -ptv run lint-styles --color",
 		"g:lint-all": "prettier --write .",
-
 		"g:release": "yarn g:build && changeset publish",
 		"g:share-static-hardlink": "yarn workspaces foreach -pv --include '@cd/app-*' run share-static-hardlink",
 		"g:share-static-symlink": "yarn workspaces foreach -pv --include '@cd/app-*' run share-static-symlink",
-
 		"packages:build": "yarn workspaces foreach -itR --from packages/* run build",
 		"packages:watch": "cd scripts && node watch/packages-watch.js",
 		"packages:clean": "yarn workspaces foreach -ptv --include '@cd/*' run clean",
 		"packages:lint": "yarn workspaces foreach -ptv --include '@cd/*' run lint",
 		"packages:test:unit": "yarn workspaces foreach -ptv --include '@cd/*' run test:unit",
 		"packages:typecheck": "yarn workspaces foreach -ptv --include '@cd/*' run typecheck",
-
 		"server:build": "yarn workspaces foreach -itR --from @cd/server-$0 run build",
 		"server:build-all": "yarn workspaces foreach -ptv --include '@cd/server-*' run build",
 		"server:watch": "cd scripts && node watch/server-watch.js",
 		"server:clean": "yarn workspaces foreach -ptv --include '@cd/server-*' run clean",
-
 		"app:dev": "cd scripts && node watch/app-watch.js",
 		"app:build": "yarn workspaces foreach -itR --from @cd/app-$0 run build",
 		"app:build-all": "yarn workspaces foreach -ptv --include '@cd/app-*' run build",
 		"app:clean": "yarn workspaces foreach -ptv --include '@cd/app-*' run clean",
 		"dev-all": "concurrently \"yarn packages:watch\" \"yarn server:watch\" \"yarn app:dev\"",
-
 		"docker:supertokens-dev": "scripts/supertokens-dev.sh",
 		"docker:shadow-db": "scripts/docker-shadow-db.sh",
 		"docker:redis": "scripts/docker-redis.sh $0",
@@ -75,31 +68,24 @@
 		"docker:build-nocache": "TAG=\"latest\" BUILD_TYPE=$0 BUILD_CONTEXT=$1 PORT=$2 make docker-build-nocache",
 		"docker:build-output": "TAG=\"latest\" BUILD_TYPE=$0 BUILD_CONTEXT=$1 PORT=$2 make docker-build-nocache-output",
 		"docker:build-supertokens": "make docker-build-supertokens",
-
 		"tf:init": "make init",
 		"tf:plan": "make plan",
 		"tf:apply": "make apply",
 		"tf:close": "make destroy",
 		"tf:console": "make console",
-
 		"create-update-cert": "terraform/scripts/cert-scripts/create-update-cert.sh",
 		"update-ssl-cert": "terraform/scripts/cert-scripts/update-ssl-cert.sh",
-
 		"cluster:start": "make apply && APPLY_FILE=k8s/ make deploy",
 		"cluster:nodes": "kubectl get nodes",
 		"cluster:apply": "APPLY_FILE=$0 make deploy",
 		"cluster:redis-check": "kubectl exec -it redis-cluster-0 -- redis-cli --cluster check :6379",
 		"cluster:get-proxy": "scripts/get-proxy-config.sh",
-		
 		"install:playwright": "playwright install",
 		"postinstall": "yarn is-ci || yarn is-docker || yarn husky install && chmod +x scripts",
-
 		"permit-scripts": "node scripts/permit-scripts.js",
 		"ml-csv": "scripts/generate-annotations-csv.sh",
-
 		"sms:activate": "dotenv -e .env.production -- node server/dispatch/src/lib/sms/activate-sms.mjs",
 		"sms:get-phone-numbers": "dotenv -e .env.production -- node server/dispatch/src/lib/sms/get-active-phonenumbers.mjs",
-
 		"read-csr": "openssl req -text -in $0 -noout",
 		"read-cert": "openssl x509 -in $0 -text -noout"
 	},
