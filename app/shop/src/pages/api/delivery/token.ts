@@ -2,7 +2,7 @@
 import { crypto, urlBuilder } from '@cd/core-lib';
 import { type NextApiRequest, type NextApiResponse } from 'next';
 import nc from 'next-connect';
-import { redisShopController } from '../../../lib/redis.cart';
+import { redisShopController } from '../../../lib/redis-cart';
 
 const handler = nc();
 handler.options((req, res) => {
