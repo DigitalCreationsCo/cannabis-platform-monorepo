@@ -55,7 +55,7 @@ function TopBar({ signOut }: TopBarProps) {
 
 	return (
 		<div className={twMerge(styles.TOPBAR.topbar)}>
-			<Link href={getShopSite('/')}>
+			<Link href={getShopSite('/')} className="shrink-0">
 				<Image alt="Gras" width={50} height={50} src={logo} />
 			</Link>
 

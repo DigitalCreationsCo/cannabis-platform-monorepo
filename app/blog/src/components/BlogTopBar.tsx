@@ -54,7 +54,7 @@ function TopBar({ signOut }: TopBarProps) {
 
 	return (
 		<div className={twMerge(styles.TOPBAR.topbar)}>
-			<Link href={getShopSite('/')}>
+			<Link className="shrink-0" href={getShopSite('/')}>
 				<Image alt="Gras" width={50} height={50} src={logo} />
 			</Link>
 
@@ -68,7 +68,6 @@ function TopBar({ signOut }: TopBarProps) {
 				</Paragraph>
 			</Link>
 			<div className="flex-1"></div>
-
 			<FlexBox className="flex flex-row items-center space-x-4 px-4 pr-2">
 				{isSignedIn && (
 					<Link
