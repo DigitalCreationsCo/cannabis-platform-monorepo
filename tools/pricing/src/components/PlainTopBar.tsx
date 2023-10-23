@@ -8,7 +8,7 @@ import logo from '../../public/logo.png';
 function TopBar() {
 	return (
 		<div className={twMerge(styles.TOPBAR.topbar)}>
-			<Link href={getShopSite('/')}>
+			<Link href={getShopSite('/')} className="shrink-0">
 				<Image alt="Gras" width={50} height={50} src={logo} />
 			</Link>
 
