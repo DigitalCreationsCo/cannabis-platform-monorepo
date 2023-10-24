@@ -66,8 +66,13 @@ export default class OrganizationDA {
 				);
 			}
 
-			console.debug(`${data.name} record create is completed.`);
-			return `${data.name} record create is completed. Your id is ${data.id}`;
+			console.debug(
+				`${data.name} record create is completed. Your id is ${data.id}`,
+			);
+			return {
+				payload: data,
+				message: `${data.name} record create is completed. Your id is ${data.id}`,
+			};
 		} catch (error: any) {
 			throw new Error(error.message);
 		}
