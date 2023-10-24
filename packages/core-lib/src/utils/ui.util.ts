@@ -43,6 +43,29 @@ export function truncate(text: string) {
 	return text.slice(0, 5) + text.slice(-4).padStart(7, '.');
 }
 
+export function truncateWordsAfterChars(text: string, maxChars: number) {
+	const words = text.split(' ');
+	let truncatedString = '';
+	for (const word of words) {
+		if (word.length <= maxChars) {
+			truncatedString += word + ' ';
+			maxChars -= word.length + 1; // +1 to account for the space
+		} else {
+			break;
+		}
+	}
+	return truncatedString.trim(); // Remove trailing space
+}
+
+export function truncateWordsAndLeaveN(text: string, numWordsToKeep: number) {
+	const words = text.split(' ');
+	if (words.length <= numWordsToKeep) {
+		return text;
+	}
+	const truncatedWords = words.slice(0, numWordsToKeep);
+	return truncatedWords.join(' ');
+}
+
 export function redact(text: string) {
 	const length = text.toString().length;
 	const last4characters = text.slice(-4),
@@ -59,30 +82,65 @@ const redactSensitiveFields = (key: string, value: string | number) => {
 
 export const renderNestedDataObject = (
 	data: any,
-	Component: any,
-	options: { removeFields: string[] } = { removeFields: [] },
+	Component: React.FunctionComponent,
+	options: { removeFields: string[]; sort?: 'asc' | 'desc' } = {
+		removeFields: [],
+	},
 ): any => {
 	const removeFields = options?.removeFields;
 	return Object.keys({ ...data })
-		.filter((field) => {
-			return !removeFields.includes(field);
-		})
+		.filter((field) => !removeFields.includes(field))
 		.map((key, index) => {
-			if (typeof data[key] === 'object')
-				return renderNestedDataObject(data[key], Component, { removeFields });
-			else if (Array.isArray(data[key]) && data[key].length > 0)
-				// can map
+			if (Array.isArray(data[key]) && data[key].length > 0) {
 				return data[key].map((item: Record<string, string>) =>
 					renderNestedDataObject(item, Component, { removeFields }).flat(),
 				);
-
-			return Component({
-				key: key + index.toString(),
-				children: [key] + ': ' + redactSensitiveFields(key, data[key]),
-			});
+				// return Component({
+				// 	key: data[key],
+				// 	children:
+				// 		key +
+				// 		': ' +
+				// 		redactSensitiveFields(key, data[key])
+				// 			.toString()
+				// 			.split(',')
+				// 			.join(', '),
+				// });
+			} else if (typeof data[key] === 'object') {
+				return renderNestedDataObject(data[key], Component, { removeFields });
+			} else
+				return Component({
+					key: key + index.toString(),
+					children: [key] + ': ' + redactSensitiveFields(key, data[key]),
+				});
 		})
 		.flat(2);
 };
+
+// export const renderNestedDataObjectWithProps = <T = Record<string, any>>(
+// 	data: any,
+// 	Component: React.FunctionComponent<T>,
+// 	options: { removeFields: string[] } = { removeFields: [] },
+// 	props: T = null as T,
+// ): any => {
+// 	const removeFields = options?.removeFields;
+// 	return Object.keys({ ...data })
+// 		.filter((field) => !removeFields.includes(field))
+// 		.map((key, index) => {
+// 			if (typeof data[key] === 'object')
+// 				return renderNestedDataObject(data[key], Component, { removeFields });
+// 			else if (Array.isArray(data[key]) && data[key].length > 0)
+// 				// can map
+// 				return data[key].map((item: Record<string, string>) =>
+// 					renderNestedDataObject(item, Component, { removeFields }).flat(),
+// 				);
+// 			return Component({
+// 				key: key + index.toString(),
+// 				children: [key] + ': ' + redactSensitiveFields(key, data[key]),
+// 				...props,
+// 			});
+// 		})
+// 		.flat(2);
+// };
 
 export const buildSTFormFields = (data: Record<string, any>): any => {
 	return Object.keys(data).map((key) => {

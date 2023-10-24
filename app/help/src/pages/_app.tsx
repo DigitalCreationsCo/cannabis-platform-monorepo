@@ -1,4 +1,3 @@
-import { blogActions, shopActions } from '@cd/core-lib';
 import {
 	LoadingPage,
 	ModalProvider,
@@ -6,7 +5,6 @@ import {
 	ToastProvider,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
-import { type AnyAction } from '@reduxjs/toolkit';
 import { AnimatePresence } from 'framer-motion';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
@@ -16,7 +14,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session from 'supertokens-auth-react/recipe/session';
-import { LayoutContainer, LocationProvider, TopBar } from '../components';
+import { LayoutContainer, TopBar } from '../components';
 import { frontendConfig } from '../config/frontendConfig';
 import { wrapper } from '../redux/store';
 import '../styles/anim8-gradient.css';
@@ -78,7 +76,6 @@ function App({ Component, ...rest }: CustomAppProps) {
 			<SuperTokensWrapper>
 				<ReduxProvider store={store}>
 					<PersistGate persistor={persistor} loading={<LoadingPage />}>
-						<LocationProvider />
 						<ToastProvider />
 						<ModalProvider />
 						<AnimatePresence

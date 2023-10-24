@@ -1,6 +1,6 @@
 import {
 	type Article,
-	type ArticleType,
+	type ArticleTag,
 	type ImageArticle,
 	type Prisma,
 } from '@prisma/client';
@@ -24,7 +24,7 @@ export async function findArticles(): Promise<ArticleWithDetails[]> {
 }
 
 export async function findArticlesByType(
-	tag: ArticleType | ArticleType[],
+	tag: ArticleTag | ArticleTag[],
 ): Promise<ArticleWithDetails[]> {
 	try {
 		const articles = await prisma.article.findMany({

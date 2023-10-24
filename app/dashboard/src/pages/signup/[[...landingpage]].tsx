@@ -5,6 +5,7 @@
 import { TextContent } from '@cd/core-lib';
 import {
 	Button,
+	Collapse,
 	FlexBox,
 	H1,
 	H2,
@@ -197,19 +198,7 @@ const Faq = () => {
 			</div>
 
 			{faqdata.map((item, index: number) => (
-				<div
-					key={`faq-${index}`}
-					className="bg-inverse collapse mb-5 rounded shadow"
-				>
-					<input type="checkbox" />
-					<div className="collapse-title  text-xl font-medium">
-						<Paragraph className="text-primary">{item.question}</Paragraph>
-					</div>
-					<div className="collapse-content flex flex-row space-x-4">
-						<IconWrapper iconSize={28} Icon={icons.Flower} />
-						<Paragraph>{item.answer}</Paragraph>
-					</div>
-				</div>
+				<Collapse key={`faq-${index}`} item={item} />
 			))}
 		</FlexBox>
 	);
@@ -217,23 +206,23 @@ const Faq = () => {
 
 const faqdata = [
 	{
-		question: 'How do I get started with Delivery by Gras?',
-		answer:
+		q: 'How do I get started with Delivery by Gras?',
+		value:
 			'Sign Up Below to create your account today. Once you signup, you can view your account, and install our software tool to start receiving delivery orders.',
 	},
 	{
-		question: 'How much does it cost?',
-		answer:
+		q: 'How much does it cost?',
+		value:
 			'Gras charges a delivery fee on a per order basis. Its that simple. We keep our fees low to offer an affordable delivery service for your business and your customers.',
 	},
 	{
-		question: 'What is your refund policy?',
-		answer:
+		q: 'What is your refund policy?',
+		value:
 			"During this Early Access Program, if you're not satisfied with our service, you can opt out after 30days. Gras does not issue any refund, but you are free to cancel your account anytime.",
 	},
 	{
-		question: 'Do you offer technical support? ',
-		answer:
+		q: 'Do you offer technical support? ',
+		value:
 			"Yes, we do. Gras support team is available 7 days a week to help you with any questions you may have. You can reach us by email, phone, or text. We're here to help.",
 	},
 ];

@@ -18,7 +18,8 @@
 		"app/*",
 		"packages/*",
 		"server/*",
-		"mobile/*"
+		"mobile/*",
+		"tools/*"
 	],
 	"scripts": {
 		"g:test-unit": "yarn workspaces foreach -ptv run test:unit",
@@ -67,6 +68,7 @@
 		"docker:build-nocache": "TAG=\"latest\" BUILD_TYPE=$0 BUILD_CONTEXT=$1 PORT=$2 make docker-build-nocache",
 		"docker:build-output": "TAG=\"latest\" BUILD_TYPE=$0 BUILD_CONTEXT=$1 PORT=$2 make docker-build-nocache-output",
 		"docker:build-supertokens": "make docker-build-supertokens",
+		"cloud-services": "scripts/enable-gcloud-services.sh",
 		"tf:init": "make init",
 		"tf:plan": "make plan",
 		"tf:apply": "make apply",
@@ -80,9 +82,9 @@
 		"cluster:redis-check": "kubectl exec -it redis-cluster-0 -- redis-cli --cluster check :6379",
 		"cluster:get-proxy": "scripts/get-proxy-config.sh",
 		"install:playwright": "playwright install",
-		"nuke:node_modules": "npx rimraf@3.0.1 '**/node_modules'",
 		"postinstall": "yarn is-ci || yarn is-docker || yarn husky install && chmod +x scripts",
 		"permit-scripts": "node scripts/permit-scripts.js",
+		"ml-csv": "scripts/generate-annotations-csv.sh",
 		"sms:activate": "dotenv -e .env.production -- node server/dispatch/src/lib/sms/activate-sms.mjs",
 		"sms:get-phone-numbers": "dotenv -e .env.production -- node server/dispatch/src/lib/sms/get-active-phonenumbers.mjs",
 		"read-csr": "openssl req -text -in $0 -noout",

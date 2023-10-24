@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 
-import { type ArticleType, type ArticleWithDetails } from '@cd/data-access';
+import { type ArticleTag, type ArticleWithDetails } from '@cd/data-access';
 import {
 	createAsyncThunk,
 	createSlice,
@@ -35,7 +35,7 @@ export const getLatestArticles = createAsyncThunk(
 );
 
 export type BlogStateProps = {
-	articles: Record<ArticleType, ArticleWithDetails[]>;
+	articles: Record<ArticleTag, ArticleWithDetails[]>;
 	dispensaryGuides: ArticleWithDetails[];
 	isLoading: boolean;
 	isSuccess: boolean;
@@ -90,17 +90,17 @@ export const blogActions = {
 export const blogReducer = blogSlice.reducer;
 
 export const selectBlogState = (state: AppState) => state.blog;
-export const selectBlogsByTag = (tag: ArticleType) => (state: AppState) =>
+export const selectBlogsByTag = (tag: ArticleTag) => (state: AppState) =>
 	(state.blog.articles[tag] || []) as ArticleWithDetails[];
 export const selectBlogTags = (state: AppState) =>
 	Object.keys(state.blog.articles);
 
 export function saveArticlesByTag(
-	_articlesInState: Record<ArticleType, ArticleWithDetails[]>,
+	_articlesInState: Record<ArticleTag, ArticleWithDetails[]>,
 	_articles: ArticleWithDetails[],
 ) {
 	// create a map of new articles by tag
-	const tagMap = new Map<ArticleType, ArticleWithDetails[]>();
+	const tagMap = new Map<ArticleTag, ArticleWithDetails[]>();
 	_articles.forEach((article) => {
 		const tag = article.tag;
 		if (tagMap.has(tag)) {

@@ -1,4 +1,4 @@
-import { stateMap, type StateAbbreviationType, type USStateType } from '@cd/core-lib';
+import { stateMap, type USStateAbbreviated, type USStateType } from '@cd/core-lib';
 
 // this class provides a dynamic regex based on the united states drivers license format
 // also, has a method to check if age is legal
@@ -15,7 +15,7 @@ import { stateMap, type StateAbbreviationType, type USStateType } from '@cd/core
 export default class IdCardReader {
 	private _text: string;
 	private _stateName: USStateType;
-	private _stateAbbreviation: StateAbbreviationType;
+	private _stateAbbreviation: USStateAbbreviated;
 
 	constructor(text: string, state?: USStateType) {
 		this._text = text;

@@ -1,7 +1,9 @@
+import { type USStateAbbreviated } from '@cd/data-access';
+
 /* eslint-disable @typescript-eslint/naming-convention */
 export type StateMap = Record<
 	string,
-	{ abbreviation: StateAbbreviationType; legalAge: number }
+	{ abbreviation: USStateAbbreviated; legalAge: number }
 >;
 
 export const stateMap: StateMap = {
@@ -57,7 +59,7 @@ export const stateMap: StateMap = {
 	WYOMING: { abbreviation: 'WY', legalAge: 21 },
 };
 
-export const USStates = [
+export const usStatesList = [
 	'ALABAMA',
 	'ALASKA',
 	'ARIZONA',
@@ -109,9 +111,8 @@ export const USStates = [
 	'WISCONSIN',
 	'WYOMING',
 ];
-export type USStateType = typeof USStates[number];
 
-export const StatesAbbreviation = [
+export const usStatesAbbreviationList: USStateAbbreviated[] = [
 	'AL',
 	'AK',
 	'AZ',
@@ -163,4 +164,3 @@ export const StatesAbbreviation = [
 	'WI',
 	'WY',
 ];
-export type StateAbbreviationType = typeof StatesAbbreviation[number];
