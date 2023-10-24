@@ -41,7 +41,8 @@ export default class OrganizationController {
 				});
 			return res.status(201).json({
 				success: 'true',
-				payload: data,
+				message: data.message,
+				payload: data.payload,
 			});
 		} catch (error: any) {
 			console.info('API: createOrganization: ', error);
