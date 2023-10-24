@@ -1,6 +1,7 @@
 import { type Prisma } from '@prisma/client';
 import prisma from './db/prisma';
 import {
+	type OrganizationWithAddress,
 	type OrganizationCreateType,
 	type OrganizationUpdateType,
 	type OrganizationWithShopDetails,
@@ -23,7 +24,9 @@ import {
  * @param organization
  * @returns the updated organization
  */
-export async function updateOrganization(organization: OrganizationUpdateType) {
+export async function updateOrganization(
+	organization: OrganizationUpdateType,
+): Promise<OrganizationWithAddress> {
 	try {
 		organization.subdomainId =
 			organization.subdomainId || makeUrlFriendly(organization.name);
@@ -100,7 +103,9 @@ export async function updateOrganization(organization: OrganizationUpdateType) {
 	}
 }
 
-export async function createOrganization(organization: OrganizationCreateType) {
+export async function createOrganization(
+	organization: OrganizationCreateType,
+): Promise<OrganizationWithAddress> {
 	try {
 		// organization.vendorId = organization.vendorId ?? createId();
 		organization.vendorName =
@@ -179,6 +184,15 @@ export async function createOrganization(organization: OrganizationCreateType) {
 					},
 				},
 				// add default site settings
+			},
+			include: {
+				address: {
+					include: {
+						coordinates: true,
+					},
+				},
+				subdomain: true,
+				vendor: true,
 			},
 		});
 	} catch (error: any) {
