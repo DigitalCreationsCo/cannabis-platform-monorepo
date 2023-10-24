@@ -143,13 +143,15 @@ export async function createOrganization(organization: OrganizationCreateType) {
 								},
 						  }
 						: undefined,
-				schedule: {
-					create: {
-						days: schedule.days,
-						openAt: schedule.openAt,
-						closeAt: schedule.closeAt,
-					},
-				},
+				schedule: schedule
+					? {
+							create: {
+								days: schedule.days,
+								openAt: schedule.openAt,
+								closeAt: schedule.closeAt,
+							},
+					  }
+					: undefined,
 				subdomain: {
 					connectOrCreate: {
 						where: { id: organization.subdomainId },
