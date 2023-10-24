@@ -23,9 +23,28 @@ import Image, { type StaticImageData } from 'next/image';
 import Link from 'next/link';
 import { useState, type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
+import friends1 from '../../public/friends1.png';
+import friends2 from '../../public/friends2.png';
 import backdrop from '../../public/marijuana-backdrop.png';
 import { FlowingBackDrop } from '../lib/FlowingBackDrop';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
+
+function FriendsPictures() {
+	return (
+		<FlexBox className="absolute bottom-0 h-full w-full flex-row items-end justify-between overflow-hidden">
+			<Image
+				src={friends2}
+				alt="friends of gras 2"
+				className="-my-5 w-[700px] overflow-hidden opacity-60 xl:block"
+			/>
+			<Image
+				src={friends1}
+				alt="friends of gras"
+				className="-my-5 hidden w-[500px] overflow-hidden opacity-60 xl:block"
+			/>
+		</FlexBox>
+	);
+}
 
 function StartPage() {
 	const { isSignedIn } = useAppSelector(selectUserState);
@@ -48,7 +67,7 @@ function StartPage() {
 					className={twMerge(styles.HERO.container, 'anim8-green-gradient')}
 				>
 					<FlexBox className={twMerge(styles.HERO.content)}>
-						<FlexBox className="space-y-4 md:space-x-8 lg:flex-row ">
+						<FlexBox className="my-4 space-y-4 md:space-x-8 lg:flex-row ">
 							<FlexBox className="m-auto">
 								<H1
 									color="light"
@@ -57,10 +76,10 @@ function StartPage() {
 									Cannabis,&nbsp;Delivered{'\xa0'}🌴
 								</H1>
 								<H3 className="self-end pr-10" color="light">
-									to your home 🏠
+									same day home delivery 🏠
 								</H3>
 							</FlexBox>
-							<FlexBox className="flex-row space-x-1 lg:flex-col lg:space-x-0">
+							{/* <FlexBox className="flex-row  space-x-1 border lg:flex-col lg:space-x-0">
 								<H2 color="light" className="text-2xl lg:text-3xl">
 									fast,
 								</H2>
@@ -70,7 +89,7 @@ function StartPage() {
 								<H2 color="light" className="text-2xl lg:text-3xl">
 									secure delivery
 								</H2>
-							</FlexBox>
+							</FlexBox> */}
 						</FlexBox>
 						<Button
 							size="lg"
@@ -85,6 +104,8 @@ function StartPage() {
 				</FlexBox>
 
 				<FlowingBackDrop src={backdrop}>
+					<FriendsPictures />
+
 					<FlexBox
 						className="bg-secondary m-auto grow space-y-2 pb-8 sm:py-4"
 						style={{
@@ -118,7 +139,7 @@ function StartPage() {
 								</Link>
 							</FlexBox>
 						)}
-						<FlexBox className="relative m-auto flex h-[280px] md:w-[480px]">
+						<FlexBox className="relative m-auto flex h-[320px] w-[480px]">
 							<FlexBox className="mx-auto flex-row items-start space-x-2">
 								<H3
 									color="light"
@@ -133,31 +154,18 @@ function StartPage() {
 									<H3 className="underline">Who are we?</H3>
 								</button>
 							</FlexBox>
-							<FlexBox className="chat chat-start flex-row px-2">
+							<FlexBox className="chat chat-start h-full grow flex-row items-center px-2">
 								<motion.div
+									className="bg-primary mb-2 rounded-[20px]"
 									animate={dialogOpen ? 'open' : 'closed'}
+									transition={{ duration: 0.3 }}
 									variants={{
 										open: { opacity: 1, scale: 1 },
-										closed: { opacity: 1, scale: 0.8 },
-									}}
-									className={twMerge(
-										dialogOpen ? 'block' : 'absolute',
-										'chat-image top-10 md:top-0 text-6xl',
-									)}
-								>
-									{dialogOpen ? '😄' : '😊'}
-								</motion.div>
-								<motion.div
-									className="chat-bubble bg-primary mb-2"
-									animate={dialogOpen ? 'open' : 'closed'}
-									transition={{ duration: 0.1 }}
-									variants={{
-										open: { opacity: 1, scale: 1 },
-										closed: { opacity: 0, scale: 0.5 },
+										closed: { opacity: 0.5, scale: 0.5 },
 									}}
 								>
 									{dialogOpen && (
-										<div className="text-light flex flex-col">
+										<div className="text-light flex flex-col space-y-2 p-8">
 											<Paragraph>
 												Gras is a team of seasoned cannabis lovers providing a
 												home-grown service within our communities.
@@ -165,11 +173,24 @@ function StartPage() {
 												Our mission is to elevate the voices of cannabis buyers
 												and sellers through high quality service and support.
 											</Paragraph>
-											<Span className="mx-auto font-bold">
+											<Span className="mx-auto text-2xl font-bold">
 												We welcome everyone 21 years or older.
 											</Span>
 										</div>
 									)}
+									{/* <motion.div
+										animate={dialogOpen ? 'open' : 'closed'}
+										variants={{
+											open: { opacity: 1, scale: 1 },
+											closed: { opacity: 1, scale: 0.8 },
+										}}
+										className={twMerge(
+											dialogOpen ? 'block' : 'absolute',
+											'chat-image top-10 md:top-0 text-6xl',
+										)}
+									>
+										{dialogOpen ? '😄' : '😊'}
+									</motion.div> */}
 								</motion.div>
 							</FlexBox>
 						</FlexBox>

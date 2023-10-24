@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "ArticleType" AS ENUM ('dispensary', 'driver', 'news');
+CREATE TYPE "ArticleTag" AS ENUM ('dispensary', 'driver', 'news');
 
 -- CreateEnum
 CREATE TYPE "CurrencyName" AS ENUM ('USD');
@@ -65,7 +65,7 @@ CREATE TABLE "Article" (
     "title" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "href" TEXT NOT NULL,
-    "tag" "ArticleType" NOT NULL,
+    "tag" "ArticleTag" NOT NULL,
     "content" TEXT NOT NULL,
     "author" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

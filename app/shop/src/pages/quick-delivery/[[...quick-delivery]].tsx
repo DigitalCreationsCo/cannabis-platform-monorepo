@@ -34,7 +34,7 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
-import { redisShopController } from '../../lib/redis.cart';
+import { redisShopController } from '../../lib/redis-cart';
 
 function QuickDelivery({ simpleCart }: { simpleCart: SimpleCart }) {
 	const dispatch = useDispatch();

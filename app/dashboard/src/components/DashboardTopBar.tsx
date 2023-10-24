@@ -48,7 +48,11 @@ function DashboardTopBar({ signOut }: TopBarProps) {
 
 	return (
 		<div className={twMerge(styles.TOPBAR.topbar)}>
-			<Link href={isSignedIn ? '/' : getShopSite('/')} passHref>
+			<Link
+				href={isSignedIn ? '/' : getShopSite('/')}
+				passHref
+				className="shrink-0"
+			>
 				<Image alt="Gras" width={50} height={50} src={logo} />
 			</Link>
 			<Link href={isSignedIn ? '/' : getShopSite('/')}>

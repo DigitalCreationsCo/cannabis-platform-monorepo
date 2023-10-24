@@ -12,5 +12,6 @@ export * from './organization.data';
 export * from './organization.types';
 export * from './product.data';
 export * from './session.data';
+export * from './compliance.data';
 export * from './user.data';
 export * from './variant.data';

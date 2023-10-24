@@ -26,7 +26,7 @@ terraform {
     }
 
     backend "gcs" {
-      bucket = "7c5fe81f4c74cbae-bucket-tf-state"
+      bucket = "e4f53ea0212ea91d-bucket-tf-state"
       prefix = "terraform/prod"
     }
     required_version = ">= 1.0"

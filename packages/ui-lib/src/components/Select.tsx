@@ -3,7 +3,7 @@ import { twMerge } from 'tailwind-merge';
 
 type SelectProps = {
 	multiple?: React.SelectHTMLAttributes<HTMLSelectElement>['multiple'];
-	defaultValue: string | number;
+	defaultValue?: string | number;
 	values: string[] | number[];
 	className?: string;
 	setOption: any; // Dispatch<SetStateAction<string | number>>;

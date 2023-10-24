@@ -1,4 +1,4 @@
-import { type Address } from '@prisma/client';
+import { type USStateAbbreviated, type Address } from '@prisma/client';
 
 export type AddressCreateType = {
 	id?: string;

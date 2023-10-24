@@ -22,6 +22,40 @@ import { type ReviewWithUserDetails } from '../product.data';
 
 const prisma = new PrismaClient();
 
+const createCompliance = async () => {
+	await prisma.compliance.create({
+		data: {
+			state: 'MD',
+			license: {
+				create: {
+					licenseType: ['dispensary', 'delivery'],
+				},
+			},
+			transport: {
+				create: {
+					transportWeightLimit: 100,
+					transportStartTime: 800,
+					transportEndTime: 2000,
+					transportLockedStorage: true,
+					transportManifest: true,
+					transportStaff: 1,
+					medicalDelivery: true,
+					recreationalDelivery: true,
+				},
+			},
+			sale: {
+				create: {
+					medicalSales: true,
+					recreationalSales: true,
+					ageLimit: 21,
+					thcLimit: 35,
+					weightLimit: 100,
+				},
+			},
+		},
+	});
+};
+
 const createCoordinates = async () => {
 	const coordinates: Coordinates[] = [
 		{
@@ -820,9 +854,6 @@ const createOrganizations = async () => {
 						},
 					],
 				},
-			},
-			categoryList: {
-				create: {} as any,
 			},
 			createdAt: new Date(),
 			updatedAt: new Date(),
@@ -2753,6 +2784,7 @@ async function main() {
 	console.info(`\nPerforming seed in ${process.env.DATABASE_ENV} environment.`);
 	console.debug(`\nSeeding database at ${process.env.DATABASE_URL}`);
 
+	await createCompliance();
 	await createDrivers();
 
 	await createVendors();

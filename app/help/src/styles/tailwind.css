@@ -818,15 +818,6 @@ details > summary {
 	content: attr(data-title);
 }
 
-.carousel {
-	display: flex;
-	overflow-x: scroll;
-	scroll-snap-type: x mandatory;
-	scroll-behavior: smooth;
-	-ms-overflow-style: none;
-	scrollbar-width: none;
-}
-
 .carousel-item {
 	box-sizing: content-box;
 	display: flex;
@@ -855,6 +846,48 @@ details > summary {
 	border-color: hsl(var(--bc) / var(--tw-border-opacity));
 	--tw-border-opacity: 0.2;
 	border-radius: var(--rounded-btn, 0.5rem);
+}
+
+.collapse.collapse {
+	visibility: visible;
+}
+
+.collapse {
+	position: relative;
+	display: grid;
+	overflow: hidden;
+	grid-template-rows: 1fr auto;
+}
+
+.collapse-title,
+.collapse > input[type='checkbox'],
+.collapse-content {
+	grid-column-start: 1;
+	grid-row-start: 1;
+}
+
+.collapse > input[type='checkbox'] {
+	-webkit-appearance: none;
+	appearance: none;
+	opacity: 0;
+}
+
+.collapse-content {
+	grid-row-start: 2;
+	overflow: hidden;
+	max-height: 0px;
+	padding-left: 1rem;
+	padding-right: 1rem;
+	cursor: unset;
+	transition: padding 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+
+.collapse-open .collapse-content,
+.collapse:focus:not(.collapse-close) .collapse-content,
+.collapse:not(.collapse-close)
+	input[type='checkbox']:checked
+	~ .collapse-content {
+	max-height: none;
 }
 
 .drawer {
@@ -1766,10 +1799,6 @@ details > summary {
 	}
 }
 
-.carousel::-webkit-scrollbar {
-	display: none;
-}
-
 .checkbox:focus-visible {
 	outline: 2px solid hsl(var(--bc));
 	outline-offset: 2px;
@@ -1859,6 +1888,114 @@ details > summary {
 			transparent 40.99%
 		),
 		linear-gradient(45deg, hsl(var(--chkfg)) 50%, hsl(var(--chkbg)) 50.99%);
+}
+
+.collapse:focus-visible {
+	outline: 2px solid hsl(var(--nf));
+	outline-offset: 2px;
+}
+
+.collapse-arrow .collapse-title:after {
+	position: absolute;
+	display: block;
+	height: 0.5rem;
+	width: 0.5rem;
+	--tw-translate-y: -100%;
+	--tw-rotate: 45deg;
+	transform: translate(var(--tw-translate-x), var(--tw-translate-y))
+		rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y))
+		scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+	transition-property: all;
+	transition-duration: 150ms;
+	transition-duration: 0.2s;
+	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+	top: 50%;
+	right: 1.4rem;
+	content: '';
+	transform-origin: 75% 75%;
+	box-shadow: 2px 2px;
+	pointer-events: none;
+}
+
+[dir='rtl'] .collapse-arrow .collapse-title:after {
+	--tw-rotate: -45deg;
+}
+
+.collapse-plus .collapse-title:after {
+	position: absolute;
+	display: block;
+	height: 0.5rem;
+	width: 0.5rem;
+	transition-property: all;
+	transition-duration: 300ms;
+	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+	top: 0.9rem;
+	right: 1.4rem;
+	content: '+';
+	pointer-events: none;
+}
+
+.collapse:not(.collapse-open):not(.collapse-close) input[type='checkbox'],
+.collapse:not(.collapse-open):not(.collapse-close) .collapse-title {
+	cursor: pointer;
+}
+
+.collapse:focus:not(.collapse-open):not(.collapse-close) .collapse-title {
+	cursor: unset;
+}
+
+.collapse-title {
+	position: relative;
+}
+
+:where(.collapse > input[type='checkbox']) {
+	z-index: 1;
+}
+
+.collapse-title,
+:where(.collapse > input[type='checkbox']) {
+	width: 100%;
+	padding: 1rem;
+	padding-right: 3rem;
+	min-height: 3.75rem;
+	transition: background-color 0.2s ease-in-out;
+}
+
+.collapse-open :where(.collapse-content),
+.collapse:focus:not(.collapse-close) :where(.collapse-content),
+.collapse:not(.collapse-close)
+	:where(input[type='checkbox']:checked ~ .collapse-content) {
+	padding-bottom: 1rem;
+	transition: padding 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+
+.collapse-open.collapse-arrow .collapse-title:after,
+.collapse-arrow:focus:not(.collapse-close) .collapse-title:after,
+.collapse-arrow:not(.collapse-close)
+	input[type='checkbox']:checked
+	~ .collapse-title:after {
+	--tw-translate-y: -50%;
+	--tw-rotate: 225deg;
+	transform: translate(var(--tw-translate-x), var(--tw-translate-y))
+		rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y))
+		scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+[dir='rtl'] .collapse-open.collapse-arrow .collapse-title:after,
+[dir='rtl'] .collapse-arrow:focus:not(.collapse-close) .collapse-title:after,
+[dir='rtl']
+	.collapse-arrow:not(.collapse-close)
+	input[type='checkbox']:checked
+	~ .collapse-title:after {
+	--tw-rotate: 135deg;
+}
+
+.collapse-open.collapse-plus .collapse-title:after,
+.collapse-plus:focus:not(.collapse-close) .collapse-title:after,
+.collapse-plus:not(.collapse-close)
+	input[type='checkbox']:checked
+	~ .collapse-title:after {
+	content: '−';
 }
 
 .drawer.drawer-end > .drawer-toggle:checked ~ .drawer-content {
@@ -2561,10 +2698,6 @@ details > summary {
 	}
 }
 
-.rounded-box {
-	border-radius: var(--rounded-box, 1rem);
-}
-
 .rounded-btn {
 	border-radius: var(--rounded-btn, 0.5rem);
 }
@@ -2884,6 +3017,10 @@ details > summary {
 	visibility: visible;
 }
 
+.collapse {
+	visibility: collapse;
+}
+
 .static {
 	position: static;
 }
@@ -3008,10 +3145,6 @@ details > summary {
 	margin: 0.75rem;
 }
 
-.m-5 {
-	margin: 1.25rem;
-}
-
 .m-auto {
 	margin: auto;
 }
@@ -3028,6 +3161,10 @@ details > summary {
 
 .mb-4 {
 	margin-bottom: 1rem;
+}
+
+.mb-5 {
+	margin-bottom: 1.25rem;
 }
 
 .ml-2 {
@@ -3264,10 +3401,6 @@ details > summary {
 	width: 200px;
 }
 
-.w-\[240px\] {
-	width: 240px;
-}
-
 .w-\[54px\] {
 	width: 54px;
 }
@@ -3325,10 +3458,6 @@ details > summary {
 	max-width: 56rem;
 }
 
-.max-w-\[248px\] {
-	max-width: 248px;
-}
-
 .max-w-\[300px\] {
 	max-width: 300px;
 }
@@ -3356,10 +3485,6 @@ details > summary {
 
 .flex-1 {
 	flex: 1 1 0%;
-}
-
-.flex-none {
-	flex: none;
 }
 
 .shrink-0 {
@@ -3459,10 +3584,6 @@ details > summary {
 
 .cursor-pointer {
 	cursor: pointer;
-}
-
-.list-none {
-	list-style-type: none;
 }
 
 .grid-cols-12 {
@@ -3573,12 +3694,6 @@ details > summary {
 	margin-left: calc(1.25rem * calc(1 - var(--tw-space-x-reverse)));
 }
 
-.space-x-8 > :not([hidden]) ~ :not([hidden]) {
-	--tw-space-x-reverse: 0;
-	margin-right: calc(2rem * var(--tw-space-x-reverse));
-	margin-left: calc(2rem * calc(1 - var(--tw-space-x-reverse)));
-}
-
 .space-y-0 > :not([hidden]) ~ :not([hidden]) {
 	--tw-space-y-reverse: 0;
 	margin-top: calc(0px * calc(1 - var(--tw-space-y-reverse)));
@@ -3635,10 +3750,6 @@ details > summary {
 	justify-self: end;
 }
 
-.overflow-auto {
-	overflow: auto;
-}
-
 .overflow-hidden {
 	overflow: hidden;
 }
@@ -3649,10 +3760,6 @@ details > summary {
 
 .overflow-x-hidden {
 	overflow-x: hidden;
-}
-
-.overflow-x-scroll {
-	overflow-x: scroll;
 }
 
 .scroll-smooth {
@@ -3699,10 +3806,6 @@ details > summary {
 
 .rounded-2xl {
 	border-radius: 1rem;
-}
-
-.rounded-\[30px\] {
-	border-radius: 30px;
 }
 
 .rounded-btn {
@@ -3912,16 +4015,6 @@ details > summary {
 	padding-right: 1rem;
 }
 
-.px-5 {
-	padding-left: 1.25rem;
-	padding-right: 1.25rem;
-}
-
-.px-6 {
-	padding-left: 1.5rem;
-	padding-right: 1.5rem;
-}
-
 .px-8 {
 	padding-left: 2rem;
 	padding-right: 2rem;
@@ -3950,12 +4043,16 @@ details > summary {
 	padding-bottom: 0px;
 }
 
-.pb-2 {
-	padding-bottom: 0.5rem;
+.pb-12 {
+	padding-bottom: 3rem;
 }
 
-.pb-20 {
-	padding-bottom: 5rem;
+.pb-16 {
+	padding-bottom: 4rem;
+}
+
+.pb-2 {
+	padding-bottom: 0.5rem;
 }
 
 .pb-24 {
@@ -3964,10 +4061,6 @@ details > summary {
 
 .pb-4 {
 	padding-bottom: 1rem;
-}
-
-.pb-5 {
-	padding-bottom: 1.25rem;
 }
 
 .pb-6 {
@@ -4452,6 +4545,10 @@ details > summary {
 		flex-grow: 1;
 	}
 
+	.sm\:items-center {
+		align-items: center;
+	}
+
 	.sm\:space-x-2 > :not([hidden]) ~ :not([hidden]) {
 		--tw-space-x-reverse: 0;
 		margin-right: calc(0.5rem * var(--tw-space-x-reverse));
@@ -4464,10 +4561,6 @@ details > summary {
 
 	.sm\:rounded {
 		border-radius: 0.25rem;
-	}
-
-	.sm\:\!pl-12 {
-		padding-left: 3rem !important;
 	}
 
 	.sm\:pt-4 {
@@ -4496,8 +4589,8 @@ details > summary {
 		display: block;
 	}
 
-	.md\:grid {
-		display: grid;
+	.md\:hidden {
+		display: none;
 	}
 
 	.md\:min-h-min {
@@ -4535,10 +4628,6 @@ details > summary {
 
 	.md\:min-w-\[264px\] {
 		min-width: 264px;
-	}
-
-	.md\:min-w-\[340px\] {
-		min-width: 340px;
 	}
 
 	.md\:min-w-min {
@@ -4613,6 +4702,11 @@ details > summary {
 		padding-right: 3.5rem;
 	}
 
+	.md\:px-4 {
+		padding-left: 1rem;
+		padding-right: 1rem;
+	}
+
 	.md\:py-4 {
 		padding-top: 1rem;
 		padding-bottom: 1rem;
@@ -4625,10 +4719,6 @@ details > summary {
 
 	.md\:\!pt-12 {
 		padding-top: 3rem !important;
-	}
-
-	.md\:pb-0 {
-		padding-bottom: 0px;
 	}
 
 	.md\:pb-14 {
@@ -4690,11 +4780,6 @@ details > summary {
 		grid-row-start: auto;
 	}
 
-	.lg\:mx-0 {
-		margin-left: 0px;
-		margin-right: 0px;
-	}
-
 	.lg\:mx-16 {
 		margin-left: 4rem;
 		margin-right: 4rem;
@@ -4710,10 +4795,6 @@ details > summary {
 
 	.lg\:ml-2 {
 		margin-left: 0.5rem;
-	}
-
-	.lg\:flex {
-		display: flex;
 	}
 
 	.lg\:\!hidden {
@@ -4773,10 +4854,8 @@ details > summary {
 		justify-content: flex-end;
 	}
 
-	.lg\:\!space-x-8 > :not([hidden]) ~ :not([hidden]) {
-		--tw-space-x-reverse: 0 !important;
-		margin-right: calc(2rem * var(--tw-space-x-reverse)) !important;
-		margin-left: calc(2rem * calc(1 - var(--tw-space-x-reverse))) !important;
+	.lg\:gap-4 {
+		gap: 1rem;
 	}
 
 	.lg\:space-y-4 > :not([hidden]) ~ :not([hidden]) {
