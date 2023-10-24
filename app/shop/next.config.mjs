@@ -9,6 +9,7 @@ import {
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { loadEnv } from './src/config/loadEnv.mjs';
+import source from 'shell-source';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -29,6 +30,13 @@ const nextConfig = (phase) => {
 	console.info(
 		`isDev:${isDev}  isProd:${isProd}   isStaging:${isStaging} isTest:${isTest}`,
 	);
+
+	isDev
+		? source('./scripts/get-redis-cart-nodes.sh', function (err) {
+				if (err) return console.error(err);
+				console.info('REDIS NODES: ', process.env.REDIS_NODES);
+		  })
+		: null;
 	/**
 	 * @type {import('next').NextConfig}
 	 */

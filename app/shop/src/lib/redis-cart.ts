@@ -1,12 +1,6 @@
 import { createCluster, type RedisClusterType } from 'redis';
-import source from 'shell-source';
 
 let redisClient: RedisClusterType | null = null;
-source(__dirname + '/scripts/get-redis-cart-nodes.sh', function (err: any) {
-	if (err) return console.error(err);
-
-	console.info('REDIS NODES: ', process.env.REDIS_NODES);
-});
 // [
 // 	{ url: 'redis://localhost:6301' },
 // 	{ url: 'redis://localhost:6302' },
@@ -17,10 +11,20 @@ source(__dirname + '/scripts/get-redis-cart-nodes.sh', function (err: any) {
 // ];
 try {
 	if (!redisClient) {
+		// process.env.NODE_ENV === 'development' &&
+		// 	source('./scripts/get-redis-cart-nodes.sh', function (err: any) {
+		// 		if (err) return console.error(err);
+		// 		console.info('REDIS NODES: ', process.env.REDIS_NODES);
+		// 	});
+		const rootNodes = process?.env?.REDIS_NODES?.split(' ').map(
+			(node, index) => ({
+				// url: `redis://${node}:630${index + 1}`,
+				url: `redis://0.0.0.0:630${index + 1}`,
+			}),
+		) as any;
+		console.info('nodes: ', rootNodes);
 		redisClient = createCluster({
-			rootNodes: process?.env?.REDIS_NODES?.split(' ').map((node) => ({
-				url: node,
-			})) as any,
+			rootNodes: rootNodes,
 		});
 		redisClient.on('error', (error) => {
 			throw new Error(error.message);
@@ -36,27 +40,29 @@ try {
 }
 
 class RedisShopController {
-	redisClient: RedisClusterType;
-	constructor(redisClient: RedisClusterType) {
-		if (!redisClient) throw new Error('Redis client is required.');
-		this.redisClient = redisClient;
-	}
+	// redisClient: RedisClusterType;
+	// constructor(redisClient: RedisClusterType) {
+	// 	if (!redisClient) throw new Error('Redis client is required.');
+	// 	this.redisClient = redisClient;
+	// }
 	async setCartToken(key: string, token: string, expire: number) {
+		// console.info('redisClient setCartToken', this.redisClient);
+		// console.info('set cart token: ', key, token, expire);
 		try {
-			let timeoutId;
-			const timeoutPromise = new Promise((_, reject) => {
-				timeoutId = setTimeout(() => {
-					reject(new Error('Request timed out'));
-				}, 4000);
-			});
-			Promise.race([
-				await this.redisClient.set(key, token, { EX: expire }),
-				timeoutPromise,
-			]).then(() => {
-				console.info('redisShopController.setCartToken: ', key, token, expire);
-			});
+			// let timeoutId;
+			// const timeoutPromise = new Promise((_, reject) => {
+			// 	timeoutId = setTimeout(() => {
+			// 		reject(new Error('Request timed out'));
+			// 	}, 4000);
+			// });
+			// Promise.race([
+			await redisClient?.set(key, token, { EX: expire });
+			// 	timeoutPromise,
+			// ]).then(() => {
+			// 	console.info('redisShopController.setCartToken: ', key, token, expire);
+			// });
 
-			clearTimeout(timeoutId);
+			// clearTimeout(timeoutId);
 		} catch (error) {
 			console.error('redisShopController.setCartToken: ', error.message);
 			throw new Error(error.message);
@@ -67,7 +73,7 @@ class RedisShopController {
 		try {
 			console.info('get cart token: ', key);
 			console.info('redis client: ', redisClient);
-			return await this.redisClient.get(key);
+			return await redisClient?.get(key);
 		} catch (error) {
 			console.error('redisShopController.getCartToken: ', error.message);
 			throw new Error(error.message);
@@ -79,5 +85,6 @@ class RedisShopController {
 	// }
 }
 
-const redisShopController = new RedisShopController(redisClient);
+// const redisShopController = new RedisShopController(redisClient);
+const redisShopController = new RedisShopController();
 export { redisShopController };
