@@ -9,6 +9,7 @@ import { connect, useSelector } from 'react-redux';
 import CartModal from './CartModal';
 import CheckAgeModal from './CheckAgeModal';
 import CheckoutModal from './CheckoutModal';
+import EmailModal from './EmailModal';
 import LoginModal from './LoginModal/LoginModal';
 // import ConfirmModal from "./ConfirmModal";
 // import MessageBanner from "./MessageBanner";
@@ -26,6 +27,7 @@ const MODAL_COMPONENTS = Object.freeze({
 	CHECKOUT_MODAL: CheckoutModal,
 	CART_MODAL: CartModal,
 	LOGIN_MODAL: LoginModal,
+	EMAIL_MODAL: EmailModal,
 });
 
 type ModalContainerProps = ModalStateProps & {

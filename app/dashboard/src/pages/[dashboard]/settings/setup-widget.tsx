@@ -1,21 +1,25 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
+import { modalActions, modalTypes } from '@cd/core-lib';
 import { type OrganizationWithDashboardDetails } from '@cd/data-access/dist';
 import {
-	Button,
 	Card,
-	FlexBox,
 	H3,
-	Icons,
 	Page,
 	PageHeader,
 	Select,
 	Small,
 	type LayoutContextProps,
+	Button,
+	FlexBox,
+	IconButton,
+	Icons,
+	Paragraph,
 } from '@cd/ui-lib';
+import icons from '@cd/ui-lib/src/icons';
 import Router from 'next/router';
 import Script from 'next/script';
 import { useCallback, useState } from 'react';
 import { connect } from 'react-redux';
+import { useAppDispatch } from '../../../redux/hooks';
 import { type RootState } from '../../../redux/store';
 
 type SetupWidgetProps = {
@@ -23,6 +27,16 @@ type SetupWidgetProps = {
 };
 
 function SetupWidget({ organization }: SetupWidgetProps) {
+	const dispatch = useAppDispatch();
+
+	function openEmailModal() {
+		dispatch(
+			modalActions.openModal({
+				modalType: modalTypes.emailModal,
+			}),
+		);
+	}
+
 	const [position, setPosition] = useState('right');
 	const [shape, setShape] = useState('rectangle');
 	const [useDutchie, setUseDutchie] = useState(false);
@@ -35,7 +49,6 @@ function SetupWidget({ organization }: SetupWidgetProps) {
 			position: ${position},
 			shape: ${shape},
 			useDutchie: ${useDutchie}
-			// parentElement: null
 		});</script>`;
 		}
 		return <>{generateScript()}</>;
@@ -102,6 +115,16 @@ function SetupWidget({ organization }: SetupWidgetProps) {
 									<WidgetScript />
 								</code>
 							</div>
+							<IconButton
+								onClick={openEmailModal}
+								Icon={icons.RepoSourceCode}
+								size="lg"
+								bg="transparent"
+								border
+								className="p-4 my-4 border-2"
+							>
+								<Paragraph>Install with a developer's help</Paragraph>
+							</IconButton>
 						</FlexBox>
 					</div>
 				</Card>
