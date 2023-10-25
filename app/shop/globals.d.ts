@@ -6,4 +6,6 @@ declare module 'shell-source';
 interface Window {
 	BrevoConversationsID?: string;
 	BrevoConversations?: any;
+	hj: any;
+	_hjSettings: any;
 }
