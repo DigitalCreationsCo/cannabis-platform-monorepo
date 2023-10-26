@@ -60,7 +60,7 @@ model Compliance {
 
 model LicenseGuidelines {
   state            USStateAbbreviated          @unique
-  compliance       Compliance @relation("LicenseGuidelines", fields: [state], references: [state])
+  compliance       Compliance @relation("LicenseGuidelines", fields: [state], references: [state], onDelete: Cascade, onUpdate: Cascade)
   licenseType      LicenseType[]
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
@@ -68,7 +68,7 @@ model LicenseGuidelines {
 
 model TransportGuidelines {
   state            USStateAbbreviated          @unique
-  compliance       Compliance @relation("TransportGuidelines", fields: [state], references: [state])
+  compliance       Compliance @relation("TransportGuidelines", fields: [state], references: [state], onDelete: Cascade, onUpdate: Cascade)
   transportWeightLimit      Float
   transportStartTime        Int
   transportEndTime          Int
@@ -84,7 +84,7 @@ model TransportGuidelines {
 
 model SaleGuidelines {
   state            USStateAbbreviated          @unique
-  compliance       Compliance @relation("SaleGuidelines", fields: [state], references: [state])
+  compliance       Compliance @relation("SaleGuidelines", fields: [state], references: [state], onDelete: Cascade, onUpdate: Cascade)
   medicalSales     Boolean
   recreationalSales Boolean
   ageLimit         Int
@@ -486,6 +486,8 @@ model Organization {
   subdomainId              String
   createdAt                DateTime            @default(now())
   updatedAt                DateTime            @updatedAt
+  ecommerceUrl             String?
+  showInMarketPlace        Boolean             @default(false)
   categoryList             CategoryList?
   images                   ImageOrganization[]
   orders                   Order[]
@@ -692,7 +694,7 @@ model Article {
   title       String
   description String
   href        String
-  tag         ArticleTag
+  tag         ArticleTag?
   content     String
   author      String
   createdAt   DateTime      @default(now())
