@@ -694,7 +694,7 @@ model Article {
   title       String
   description String
   href        String
-  tag         ArticleTag
+  tag         ArticleTag?
   content     String
   author      String
   createdAt   DateTime      @default(now())

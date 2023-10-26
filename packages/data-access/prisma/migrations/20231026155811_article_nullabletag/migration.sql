@@ -1,7 +1,7 @@
 /*
   Warnings:
 
-  - Changed the type of `tag` on the `Article` table. No cast exists, the column would be dropped and recreated, which cannot be done if there is data, since the column is required.
+  - The `tag` column on the `Article` table would be dropped and recreated. This will lead to data loss if there is data in the column.
 
 */
 -- CreateEnum
@@ -18,7 +18,7 @@ CREATE TYPE "ArticleTag" AS ENUM ('dispensaries', 'drivers', 'events', 'entertai
 
 -- AlterTable
 ALTER TABLE "Article" DROP COLUMN "tag",
-ADD COLUMN     "tag" "ArticleTag" NOT NULL;
+ADD COLUMN     "tag" "ArticleTag";
 
 -- AlterTable
 ALTER TABLE "Organization" ADD COLUMN     "ecommerceUrl" TEXT,
@@ -88,10 +88,10 @@ CREATE UNIQUE INDEX "TransportGuidelines_state_key" ON "TransportGuidelines"("st
 CREATE UNIQUE INDEX "SaleGuidelines_state_key" ON "SaleGuidelines"("state");
 
 -- AddForeignKey
-ALTER TABLE "LicenseGuidelines" ADD CONSTRAINT "LicenseGuidelines_state_fkey" FOREIGN KEY ("state") REFERENCES "Compliance"("state") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "LicenseGuidelines" ADD CONSTRAINT "LicenseGuidelines_state_fkey" FOREIGN KEY ("state") REFERENCES "Compliance"("state") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "TransportGuidelines" ADD CONSTRAINT "TransportGuidelines_state_fkey" FOREIGN KEY ("state") REFERENCES "Compliance"("state") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "TransportGuidelines" ADD CONSTRAINT "TransportGuidelines_state_fkey" FOREIGN KEY ("state") REFERENCES "Compliance"("state") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "SaleGuidelines" ADD CONSTRAINT "SaleGuidelines_state_fkey" FOREIGN KEY ("state") REFERENCES "Compliance"("state") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "SaleGuidelines" ADD CONSTRAINT "SaleGuidelines_state_fkey" FOREIGN KEY ("state") REFERENCES "Compliance"("state") ON DELETE CASCADE ON UPDATE CASCADE;
