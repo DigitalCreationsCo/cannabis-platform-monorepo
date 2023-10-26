@@ -1,8 +1,4 @@
-import {
-	coordinatesIsEmpty,
-	getGeoCoordinatesFromAddress,
-	setCoordinateRadius,
-} from '@cd/core-lib';
+import { getGeoCoordinatesFromAddress } from '@cd/core-lib';
 import {
 	type OrganizationCreateType,
 	type OrganizationUpdateType,
@@ -57,18 +53,7 @@ export default class OrganizationController {
 	static async updateOrganization(req, res) {
 		try {
 			const organization: OrganizationUpdateType = req.body;
-			if (coordinatesIsEmpty(organization?.address)) {
-				const coordinates = await getGeoCoordinatesFromAddress(
-					organization.address,
-				);
-				console.info('coordinates fetched: ', coordinates);
-				organization.address.coordinates = {
-					latitude: Number(coordinates.latitude),
-					longitude: Number(coordinates.longitude),
-					radius:
-						organization.address.coordinates?.radius || setCoordinateRadius(),
-				};
-			}
+
 			const data = await OrganizationDA.updateOrganization(organization);
 			if (!data)
 				return res.status(404).json({

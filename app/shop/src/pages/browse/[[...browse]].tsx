@@ -1,5 +1,6 @@
 import {
 	selectBlogsByTag,
+	selectMarketPlaceDispensaries,
 	selectSelectedLocationState,
 	selectShopState,
 	selectUserState,
@@ -20,7 +21,7 @@ import { DispensaryCard, InfoCard } from '../../components';
 // import { shopTour } from '../../tour';
 
 export default function MarketPlace() {
-	const { dispensaries } = useSelector(selectShopState);
+	const dispensaries = useSelector(selectMarketPlaceDispensaries);
 	const selectedLocation = useSelector(selectSelectedLocationState);
 	const { user } = useSelector(selectUserState);
 	const grasArticles = useSelector(selectBlogsByTag('gras'));

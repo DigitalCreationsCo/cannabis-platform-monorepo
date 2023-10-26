@@ -174,6 +174,9 @@ const createOrganizations = async () => {
 					updatedAt: new Date(),
 				},
 			},
+			ecommerceUrl:
+				'https://curaleaf.com/shop/maryland/curaleaf-md-reisterstown',
+			showInMarketPlace: true,
 			schedule: {
 				createMany: {
 					data: [
@@ -344,6 +347,8 @@ const createOrganizations = async () => {
 			stripeOnboardingComplete: false,
 			dialCode: '1',
 			phone: '4107739054',
+			ecommerceUrl: 'https://www.releaf-shop.com/shop',
+			showInMarketPlace: true,
 			subdomain: {
 				connectOrCreate: {
 					where: {
@@ -424,6 +429,8 @@ const createOrganizations = async () => {
 			stripeOnboardingComplete: true,
 			dialCode: '1',
 			phone: '5553592525',
+			ecommerceUrl: 'https://localhost:9000',
+			showInMarketPlace: true,
 			subdomain: {
 				connectOrCreate: {
 					where: {
@@ -641,6 +648,8 @@ const createOrganizations = async () => {
 			stripeOnboardingComplete: false,
 			dialCode: '1',
 			phone: '6663776778',
+			ecommerceUrl: 'https://www.sunnyside.shop/store/lancaster-pa',
+			showInMarketPlace: true,
 			vendor: {
 				connectOrCreate: {
 					where: {
@@ -866,6 +875,9 @@ const createOrganizations = async () => {
 			dialCode: '1',
 			phone: '',
 			termsAccepted: false,
+			ecommerceUrl:
+				'https://baltimore.remedymaryland.com/stores/remedy-baltimore',
+			showInMarketPlace: true,
 			subdomain: {
 				connectOrCreate: {
 					where: {
