@@ -486,6 +486,8 @@ model Organization {
   subdomainId              String
   createdAt                DateTime            @default(now())
   updatedAt                DateTime            @updatedAt
+  ecommerceUrl             String?
+  showInMarketPlace        Boolean             @default(false)
   categoryList             CategoryList?
   images                   ImageOrganization[]
   orders                   Order[]
