@@ -28,65 +28,62 @@ export async function updateOrganization(
 	organization: OrganizationUpdateType,
 ): Promise<OrganizationWithAddress> {
 	try {
-		organization.subdomainId =
-			organization.subdomainId || makeUrlFriendly(organization.name);
-
-		const data: Prisma.OrganizationUpdateInput = {
-			name: organization.name,
-			dialCode: organization.dialCode || '1',
-			phone: organization.phone,
-			stripeAccountId: organization.stripeAccountId,
-			stripeOnboardingComplete: organization.stripeOnboardingComplete,
-			termsAccepted: organization.termsAccepted,
-			address: {
-				update: {
-					street1: organization?.address?.street1,
-					street2: organization?.address?.street2,
-					city: organization?.address?.city,
-					state: organization?.address?.state,
-					country: organization?.address?.country,
-					zipcode: Number(organization?.address?.zipcode),
-					countryCode: organization?.address?.countryCode,
-					coordinates: {
-						upsert: {
-							create: {
-								radius: organization?.address?.coordinates?.radius,
-								latitude: Number(organization?.address?.coordinates?.latitude),
-								longitude: Number(
-									organization?.address?.coordinates?.longitude,
-								),
-							},
-							update: {
-								radius: organization?.address?.coordinates?.radius,
-								latitude: Number(organization?.address?.coordinates?.latitude),
-								longitude: Number(
-									organization?.address?.coordinates?.longitude,
-								),
-							},
-						},
-					},
-				},
-			},
-			subdomain: {
-				connectOrCreate: {
-					where: { id: organization.subdomainId },
-					create: { id: organization.subdomainId, isValid: true },
-				},
-			},
-			vendor: {
-				connectOrCreate: {
-					where: { id: organization.vendorId },
-					create: {
-						id: organization.vendorId,
-						name: organization.name,
-						publicName: organization.name,
-					},
-				},
-			},
-		};
+		// const data: Prisma.OrganizationUpdateInput = {
+		// 	name: organization.name,
+		// 	dialCode: organization.dialCode || '1',
+		// 	phone: organization.phone,
+		// 	stripeAccountId: organization.stripeAccountId,
+		// 	stripeOnboardingComplete: organization.stripeOnboardingComplete,
+		// 	termsAccepted: organization.termsAccepted,
+		// 	address: {
+		// 		update: {
+		// 			street1: organization?.address?.street1,
+		// 			street2: organization?.address?.street2,
+		// 			city: organization?.address?.city,
+		// 			state: organization?.address?.state,
+		// 			country: organization?.address?.country,
+		// 			zipcode: Number(organization?.address?.zipcode),
+		// 			countryCode: organization?.address?.countryCode,
+		// 			coordinates: {
+		// 				upsert: {
+		// 					create: {
+		// 						radius: organization?.address?.coordinates?.radius,
+		// 						latitude: Number(organization?.address?.coordinates?.latitude),
+		// 						longitude: Number(
+		// 							organization?.address?.coordinates?.longitude,
+		// 						),
+		// 					},
+		// 					update: {
+		// 						radius: organization?.address?.coordinates?.radius,
+		// 						latitude: Number(organization?.address?.coordinates?.latitude),
+		// 						longitude: Number(
+		// 							organization?.address?.coordinates?.longitude,
+		// 						),
+		// 					},
+		// 				},
+		// 			},
+		// 		},
+		// 	},
+		// 	subdomain: {
+		// 		connectOrCreate: {
+		// 			where: { id: organization.subdomainId },
+		// 			create: { id: organization.subdomainId, isValid: true },
+		// 		},
+		// 	},
+		// 	vendor: {
+		// 		connectOrCreate: {
+		// 			where: { id: organization.vendorId },
+		// 			create: {
+		// 				id: organization.vendorId,
+		// 				name: organization.name,
+		// 				publicName: organization.name,
+		// 			},
+		// 		},
+		// 	},
+		// };
 		return await prisma.organization.update({
 			where: { id: organization.id },
-			data,
+			data: { ...(organization as any) },
 			include: {
 				address: {
 					include: {
@@ -446,6 +443,7 @@ export async function getStripeAccountId(organizationId: string) {
  * @returns a lowercased string with all non-url-friendly characters removed, and spaces replaced with dashes
  */
 export function makeUrlFriendly(input: string) {
+	console.info('hello');
 	const replaceNonUrlFriendly = /[^\w\-.~ ]/g;
 	const urlFriendlyString = input.replace(replaceNonUrlFriendly, '');
 	return urlFriendlyString.replace(/ /g, '-').toLowerCase();

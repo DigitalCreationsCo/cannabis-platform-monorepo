@@ -20,7 +20,7 @@ function DispensaryCard({ data: dispensary, className }: DispensaryCardProps) {
 	const styles = {
 		dispensarycard: [
 			'relative',
-			'w-[240px] md:min-w-[340px] md:w-[340px] h-[220px] p-4 !rounded',
+			'w-[240px] md:min-w-[340px] md:w-[340px] h-[220px] p-4 !rounded-full',
 		],
 		isOpenBadge: [
 			'text-inverse border-2 tracking-wider z-5 top-0 right-0 p-3 m-3 badge absolute',

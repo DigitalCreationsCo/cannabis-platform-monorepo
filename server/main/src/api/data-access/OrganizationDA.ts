@@ -1,4 +1,10 @@
-import { applicationHeaders, urlBuilder } from '@cd/core-lib';
+import {
+	applicationHeaders,
+	coordinatesIsEmpty,
+	getGeoCoordinatesFromAddress,
+	setCoordinateRadius,
+	urlBuilder,
+} from '@cd/core-lib';
 import {
 	createOrganization,
 	deleteOrganizationById,
@@ -6,6 +12,7 @@ import {
 	findOrganizationById,
 	findOrganizationsByZipcode,
 	findUsersByOrganization,
+	makeUrlFriendly,
 	updateOrganization,
 	type OrganizationCreateType,
 	type OrganizationUpdateType,
@@ -86,6 +93,26 @@ export default class OrganizationDA {
 					address: { include: { coordinates: true } },
 				},
 			)) as OrganizationUpdateType;
+
+			// set address coordinates
+			if (coordinatesIsEmpty(previousData?.address)) {
+				const coordinates = await getGeoCoordinatesFromAddress(
+					organization.address,
+				);
+				console.info('coordinates fetched: ', coordinates);
+				organization.address.coordinates = {
+					latitude: Number(coordinates.latitude),
+					longitude: Number(coordinates.longitude),
+					radius:
+						organization.address.coordinates?.radius || setCoordinateRadius(),
+				};
+			}
+
+			// update subdomainId if applicable
+			if (!organization.subdomainId && organization.name) {
+				organization.subdomainId = makeUrlFriendly(organization.name);
+			}
+
 			const data = await updateOrganization(organization);
 			console.debug(
 				`successfully updated organization record: ${organization.name}. id: ${data.id}
@@ -114,6 +141,7 @@ export default class OrganizationDA {
 			console.info(`Dispensary record ${organization.name} is updated.`);
 			return `${data.name} record create is updated. Your id is ${data.id}`;
 		} catch (error: any) {
+			// possibly handle axios error here, and revert the prisma update op
 			throw new Error(error.message);
 		}
 	}
