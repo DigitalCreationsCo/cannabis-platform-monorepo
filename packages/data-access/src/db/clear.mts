@@ -22,6 +22,9 @@ async function clearRecords() {
 		.then(async () => {
 			console.info('clearing tables...');
 
+			await prisma.compliance.deleteMany();
+			console.info('clear prisma.compliance');
+
 			await prisma.imageVendor.deleteMany();
 			console.info('clear prisma.imageVendor');
 
