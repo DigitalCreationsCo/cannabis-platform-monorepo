@@ -1,3 +1,9 @@
+/*
+  Warnings:
+
+  - Changed the type of `tag` on the `Article` table. No cast exists, the column would be dropped and recreated, which cannot be done if there is data, since the column is required.
+
+*/
 -- CreateEnum
 CREATE TYPE "LicenseType" AS ENUM ('dispensary', 'delivery');
 
@@ -89,4 +95,3 @@ ALTER TABLE "TransportGuidelines" ADD CONSTRAINT "TransportGuidelines_state_fkey
 
 -- AddForeignKey
 ALTER TABLE "SaleGuidelines" ADD CONSTRAINT "SaleGuidelines_state_fkey" FOREIGN KEY ("state") REFERENCES "Compliance"("state") ON DELETE RESTRICT ON UPDATE CASCADE;
-
