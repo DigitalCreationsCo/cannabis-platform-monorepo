@@ -1,22 +1,24 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import { TextContent } from '@cd/core-lib';
 import {
 	Button,
-	Card,
 	Collapse,
 	FlexBox,
 	H1,
 	H2,
 	H3,
-	H4,
 	H5,
 	Icons,
 	IconWrapper,
 	Page,
 	Paragraph,
-	PlainTopBar,
 	Small,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
+import icons from '@cd/ui-lib/src/icons';
 import Image from 'next/image';
 import Link from 'next/link';
 import Iframe from 'react-iframe';
@@ -24,35 +26,36 @@ import benefitOneImg from '../../../public/benefit-one.png';
 import benefitTwoImg from '../../../public/benefit-two.png';
 import heroImg from '../../../public/hero.png';
 
-function LandingPage() {
+const SignUpLandingPage = () => {
 	return (
-		<Page gradient="pink" className="pb-0">
+		<Page className={'bg-inverse'}>
 			<Hero />
 			<Benefits data={benefitOne} />
 			<Benefits imgPos="right" data={benefitTwo} />
-			<div className="space-y-16 -mx-16 pb-24">
-				<Faq />
-				<CallToSignup />
-			</div>
+			<Faq />
+			<CallToSignup />
 		</Page>
 	);
-}
+};
 
-export default LandingPage;
+export default SignUpLandingPage;
 
-LandingPage.getLayoutContext = (): LayoutContextProps => ({
+SignUpLandingPage.getLayoutContext = (): LayoutContextProps => ({
 	showHeader: false,
 	showSideNav: false,
 });
 
 const Hero = () => {
 	return (
-		<Card className="m-auto shadow-2xl drop-shadow-xl !pb-16 lg:!px-32 lg:!w-10/12 lg:!rounded-[44px]">
-			<FlexBox className="container m-auto flex flex-col flex-wrap p-12 md:flex-row xl:px-0">
-				<div className="flex w-full h-full items-center lg:w-1/2">
-					<div className="m-auto max-w-2xl">
-						<H1 className="text-secondary-light m-auto text-center font-bold leading-snug tracking-tight lg:text-center lg:text-4xl lg:leading-tight xl:text-6xl xl:leading-tight">
-							{TextContent.info.FULL_SERVICE_CANNABIS_DELIVERY}
+		<>
+			<FlexBox className="container mx-auto flex flex-col flex-wrap px-8 pt-8 md:flex-row xl:px-0">
+				<div className="flex w-full items-center lg:w-1/2">
+					<div className="m-auto mb-8 max-w-2xl">
+						<H3 className="text-secondary text-md text-center lg:text-2xl">
+							{TextContent.info.YOUR_PEOPLE_ARE_OUR_PEOPLE.toUpperCase()}
+						</H3>
+						<H1 className="text-secondary-light text-center text-4xl font-bold leading-snug tracking-tight lg:text-center lg:text-5xl lg:leading-tight xl:text-6xl xl:leading-tight">
+							{TextContent.info.GRAS_DELIVERS_FOR_DISPENSARIES}
 						</H1>
 					</div>
 				</div>
@@ -90,20 +93,48 @@ const Hero = () => {
 					/>
 				</div>
 			</FlexBox>
-		</Card>
+			<H2 className="text-secondary pb-8 pt-12 text-center text-lg lg:text-2xl">
+				{TextContent.info.BUILDING_TRUST_WITH_OUR_PARTNERS.toUpperCase()}
+			</H2>
+		</>
+	);
+};
+
+const SectionTitle = (props: any) => {
+	return (
+		<FlexBox
+			id="cannabis-heals"
+			className={`flex w-full flex-col  ${
+				props.align === 'left' ? '' : 'items-center justify-center text-center'
+			}`}
+		>
+			{props.pretitle && (
+				<Small className="text-primary text-sm font-bold uppercase tracking-wider">
+					{props.pretitle}
+				</Small>
+			)}
+
+			{props.title && (
+				<H1 className="text-secondary-light text-center text-2xl font-bold leading-snug tracking-tight lg:text-left  lg:text-4xl lg:leading-tight xl:text-[61px] xl:leading-tight">
+					{props.title}
+				</H1>
+			)}
+
+			{props.children && <>{props.children}</>}
+		</FlexBox>
 	);
 };
 
 const Benefits = (props: any) => {
 	const { data } = props;
 	return (
-		<FlexBox className="mt-12 flex flex-col flex-wrap items-center justify-center space-y-8 p-8 md:flex-row md:space-x-12 md:space-y-0">
+		<FlexBox className="flex flex-col flex-wrap items-center justify-center space-y-8 p-8 md:flex-row md:space-x-12 md:space-y-0">
 			<div
 				className={`max-w-[580px] space-y-2 md:w-1/2 ${
 					data.imgPos === 'right' ? 'lg:justify-end' : ''
 				}`}
 			>
-				<H3 className="text-inverse drop-shadow-xl mt-3 max-w-2xl text-center text-3xl font-bold leading-snug tracking-tight lg:text-4xl lg:leading-tight">
+				<H3 className="text-secondary-light mt-3 max-w-2xl text-center text-3xl font-bold leading-snug tracking-tight lg:text-4xl lg:leading-tight">
 					{data.title}
 				</H3>
 				<Paragraph className="m-auto max-w-[440px] py-4 text-justify leading-normal lg:text-lg xl:text-lg">
@@ -137,7 +168,7 @@ const Benefits = (props: any) => {
 function Benefit(props: any) {
 	return (
 		<div className="m-auto flex max-w-[440px] items-start space-x-3">
-			<div className="mt-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-lime-200">
+			<div className="mt-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-lime-400">
 				<IconWrapper className="text-dark" Icon={props.icon} iconSize={25} />
 			</div>
 			<div>
@@ -151,23 +182,24 @@ function Benefit(props: any) {
 const Faq = () => {
 	return (
 		<FlexBox className="mx-auto w-full max-w-2xl rounded-2xl p-8">
-			<div className="m-auto">
-				<H3 className="text-inverse drop-shadow-xl mt-3 max-w-2xl text-center text-2xl font-bold leading-snug tracking-tight sm:text-4xl lg:leading-tight">
+			<div className="m-auto pb-8">
+				<H3 className="text-secondary-light mt-3 max-w-2xl text-center text-2xl font-bold leading-snug tracking-tight sm:text-4xl lg:leading-tight">
 					Frequently Asked Questions
 				</H3>
-				<H4 className="text-center">Here are some questions we hear often.</H4>
+				<Paragraph className="text-center">
+					Here are some questions we hear often. Have more questions?
+				</Paragraph>
+				<Link
+					href={TextContent.href.support}
+					className="mx-auto font-semibold underline"
+				>
+					Get Support
+				</Link>
 			</div>
 
 			{faqdata.map((item, index: number) => (
 				<Collapse key={`faq-${index}`} item={item} />
 			))}
-			<H4 className="text-center m-auto">Have more questions?</H4>
-			<Link
-				href={TextContent.href.support}
-				className="mx-auto text-xl text-inverse font-semibold underline"
-			>
-				Get Support
-			</Link>
 		</FlexBox>
 	);
 };
@@ -266,7 +298,7 @@ const benefitTwo = {
 					<br />
 					<Link
 						href={TextContent.href.support}
-						className="mx-auto text-xl text-inverse font-semibold underline"
+						className="font-semibold underline"
 					>
 						Get Support
 					</Link>

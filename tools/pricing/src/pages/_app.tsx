@@ -3,6 +3,7 @@ import {
 	ModalProvider,
 	ToastProvider,
 	type LayoutContextProps,
+	PlainTopBar as TopBar,
 } from '@cd/ui-lib';
 import { AnimatePresence } from 'framer-motion';
 import type { AppProps } from 'next/app';
@@ -11,7 +12,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Provider as ReduxProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import { LayoutContainer, TopBar } from '../components';
+import { LayoutContainer } from '../components';
 import { wrapper } from '../redux/store';
 import '../styles/anim8-gradient.css';
 import '../styles/pricing-tool.css';
