@@ -53,7 +53,8 @@ function ProvideDispensaryKey() {
 			nextFormStep();
 		} catch (error: any) {
 			console.info('downloadDispensaryData: ', error);
-			throw new Error(error.message);
+			setLoading(false);
+			// throw new Error(error.message);
 		}
 	}
 	const onSubmit = async (values: typeof initialValues) => {
