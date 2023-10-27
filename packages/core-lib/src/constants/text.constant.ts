@@ -110,7 +110,7 @@ const TextContent = Object.freeze({
 
 	error: {
 		DISPENSARY_NOT_FOUND: `Dispensary is not found.`,
-		DISPENSARY_NOT_ACCEPTING_PAYMENTS: `We're sorry, but this dispensary is not accepting orders at this time.`,
+		DISPENSARY_NOT_ACCEPTING_PAYMENTS: `We're sorry, this dispensary is not accepting orders.`,
 		DRIVER_NOT_FOUND: `Driver is not found.`,
 		ORDER_NOT_FOUND: `Order is not found.`,
 		INVALID_ORDER: `Invalid order.`,

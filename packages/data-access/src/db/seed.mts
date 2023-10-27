@@ -174,6 +174,9 @@ const createOrganizations = async () => {
 					updatedAt: new Date(),
 				},
 			},
+			ecommerceUrl:
+				'https://curaleaf.com/shop/maryland/curaleaf-md-reisterstown',
+			showInMarketPlace: true,
 			schedule: {
 				createMany: {
 					data: [
@@ -234,7 +237,7 @@ const createOrganizations = async () => {
 					data: [
 						{
 							location:
-								'https://storage.cloud.google.com/image-dispensary/curaleaf/logo-1200.jpg',
+								'https://storage.googleapis.com/e4f53ea0212ea91d-image-dispensary/curaleaf.png',
 							blurhash: '',
 							createdAt: new Date(),
 							updatedAt: new Date(),
@@ -270,8 +273,7 @@ const createOrganizations = async () => {
 								create: {
 									id: '2',
 									location:
-										'https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png',
-									blurhash: 'dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH',
+										'https://storage.googleapis.com/e4f53ea0212ea91d-image-dispensary/flower/bugs.png',
 									createdAt: new Date(),
 									updatedAt: new Date(),
 								},
@@ -344,6 +346,8 @@ const createOrganizations = async () => {
 			stripeOnboardingComplete: false,
 			dialCode: '1',
 			phone: '4107739054',
+			ecommerceUrl: 'https://www.releaf-shop.com/shop',
+			showInMarketPlace: true,
 			subdomain: {
 				connectOrCreate: {
 					where: {
@@ -408,7 +412,7 @@ const createOrganizations = async () => {
 					data: [
 						{
 							location:
-								'https://storage.googleapis.com/image-dispensary/test/cannabis-logo.png',
+								'https://storage.googleapis.com/e4f53ea0212ea91d-image-dispensary/releaf-shop.png',
 							blurhash: '',
 							createdAt: new Date(),
 							updatedAt: new Date(),
@@ -424,6 +428,8 @@ const createOrganizations = async () => {
 			stripeOnboardingComplete: true,
 			dialCode: '1',
 			phone: '5553592525',
+			ecommerceUrl: 'https://localhost:9000',
+			showInMarketPlace: true,
 			subdomain: {
 				connectOrCreate: {
 					where: {
@@ -479,7 +485,7 @@ const createOrganizations = async () => {
 					data: [
 						{
 							location:
-								'https://storage.googleapis.com/image-dispensary/test/cannabis-logo.png',
+								'https://storage.googleapis.com/e4f53ea0212ea91d-image-dispensary/cannabis.png',
 							blurhash: '',
 							createdAt: new Date(),
 							updatedAt: new Date(),
@@ -513,8 +519,7 @@ const createOrganizations = async () => {
 							images: {
 								create: {
 									location:
-										'https://storage.googleapis.com/image-dispensary/test/bugs.png',
-									blurhash: 'dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH',
+										'https://storage.googleapis.com/e4f53ea0212ea91d-image-dispensary/flower/bugs.png',
 									createdAt: new Date(),
 									updatedAt: new Date(),
 								},
@@ -641,6 +646,8 @@ const createOrganizations = async () => {
 			stripeOnboardingComplete: false,
 			dialCode: '1',
 			phone: '6663776778',
+			ecommerceUrl: 'https://www.sunnyside.shop/store/lancaster-pa',
+			showInMarketPlace: true,
 			vendor: {
 				connectOrCreate: {
 					where: {
@@ -694,7 +701,7 @@ const createOrganizations = async () => {
 				create: [
 					{
 						location:
-							'https://storage.cloud.google.com/image-dispensary/sunnyside/logo-1200.jpeg',
+							'https://storage.googleapis.com/e4f53ea0212ea91d-image-dispensary/sunnyside.png',
 						blurhash: '',
 						createdAt: new Date(),
 						updatedAt: new Date(),
@@ -728,8 +735,7 @@ const createOrganizations = async () => {
 								create: {
 									id: '1',
 									location:
-										'https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png',
-									blurhash: 'dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH',
+										'https://storage.googleapis.com/e4f53ea0212ea91d-image-dispensary/flower/bugs.png',
 									createdAt: new Date(),
 									updatedAt: new Date(),
 								},
@@ -866,6 +872,9 @@ const createOrganizations = async () => {
 			dialCode: '1',
 			phone: '',
 			termsAccepted: false,
+			ecommerceUrl:
+				'https://baltimore.remedymaryland.com/stores/remedy-baltimore',
+			showInMarketPlace: true,
 			subdomain: {
 				connectOrCreate: {
 					where: {
@@ -918,7 +927,7 @@ const createOrganizations = async () => {
 				create: [
 					{
 						location:
-							'https://storage.cloud.google.com/image-dispensary/remedy/logo-1000.jpeg',
+							'https://storage.googleapis.com/e4f53ea0212ea91d-image-dispensary/remedy.png',
 						blurhash: '',
 						createdAt: new Date(),
 						updatedAt: new Date(),
