@@ -1,9 +1,11 @@
 import { TextContent, urlBuilder } from '@cd/core-lib';
 import {
 	Button,
+	Center,
 	Grid,
 	H1,
 	H5,
+	LoadingDots,
 	Paragraph,
 	TextField,
 	useFormContext,
@@ -20,6 +22,7 @@ import * as yup from 'yup';
 function ProvideDispensaryKey() {
 	const searchParams = useSearchParams();
 	const code = searchParams.get('code') || '';
+	if (code) downloadDispensaryData(code);
 
 	const { resetFormValues, nextFormStep, setFormValues } = useFormContext();
 
@@ -50,7 +53,8 @@ function ProvideDispensaryKey() {
 			nextFormStep();
 		} catch (error: any) {
 			console.info('downloadDispensaryData: ', error);
-			throw new Error(error.message);
+			setLoading(false);
+			// throw new Error(error.message);
 		}
 	}
 	const onSubmit = async (values: typeof initialValues) => {
@@ -86,50 +90,55 @@ function ProvideDispensaryKey() {
 		});
 	}
 
-	if (code) downloadDispensaryData(code);
 	return (
 		<form onSubmit={handleSubmit}>
-			<Grid className="flex min-h-[320px] w-full flex-col items-center justify-center space-y-4 text-center">
-				<H1 className="text-primary text-4xl">Welcome to Gras</H1>
-				<H5>{TextContent.account.DISPENSARY_JOINING}</H5>
-				<Paragraph>
-					Enter your <b>dispensary code</b> to create your Dispensary account.
-					<br />
-					<b>Don't have a code?</b> Email us at{' '}
-					<a
-						className="underline"
-						href="mailto::support@grascannabis.org?subject=Get my Dispensary Code!&body=I want to create a Dispensary account. I'm claiming my Dispensary code. Thank you!"
-					>
-						support@grascannabis.org
-					</a>{' '}
-					to claim your code.
-				</Paragraph>
-				<TextField
-					className="mx-auto w-3/4 max-w-[440px] text-center"
-					name="dispensaryKey"
-					maxLength={25}
-					label="Dispensary Code"
-					placeholder="**** **** **** ****"
-					value={values?.dispensaryKey}
-					onBlur={handleBlur}
-					onChange={handleChange}
-					error={!!touched.dispensaryKey && !!errors.dispensaryKey}
-					// helperText={touched.dispensaryKey && errors.dispensaryKey}
-				/>
+			{loading ? (
+				<Center className="h-[320px]">
+					<LoadingDots />
+				</Center>
+			) : (
+				<Grid className="flex min-h-[320px] w-full flex-col items-center justify-center space-y-4 text-center">
+					<H1 className="text-primary text-4xl">Welcome to Gras</H1>
+					<H5>{TextContent.account.DISPENSARY_JOINING}</H5>
+					<Paragraph>
+						Enter your <b>dispensary code</b> to create your Dispensary account.
+						<br />
+						<b>Don't have a code?</b> Email us at{' '}
+						<a
+							className="underline"
+							href="mailto::support@grascannabis.org?subject=Get my Dispensary Code!&body=I want to create a Dispensary account. I'm claiming my Dispensary code. Thank you!"
+						>
+							support@grascannabis.org
+						</a>{' '}
+						to claim your code.
+					</Paragraph>
+					<TextField
+						className="mx-auto w-3/4 max-w-[440px] text-center"
+						name="dispensaryKey"
+						maxLength={25}
+						label="Dispensary Code"
+						placeholder="**** **** **** ****"
+						value={values?.dispensaryKey}
+						onBlur={handleBlur}
+						onChange={handleChange}
+						error={!!touched.dispensaryKey && !!errors.dispensaryKey}
+						// helperText={touched.dispensaryKey && errors.dispensaryKey}
+					/>
 
-				<Button
-					type="submit"
-					loading={loadingButton}
-					onClick={(e) => {
-						e.preventDefault();
-						e.stopPropagation();
-						notifyValidation();
-						handleSubmit();
-					}}
-				>
-					Next
-				</Button>
-			</Grid>
+					<Button
+						type="submit"
+						loading={loadingButton}
+						onClick={(e) => {
+							e.preventDefault();
+							e.stopPropagation();
+							notifyValidation();
+							handleSubmit();
+						}}
+					>
+						Next
+					</Button>
+				</Grid>
+			)}
 		</form>
 	);
 }
