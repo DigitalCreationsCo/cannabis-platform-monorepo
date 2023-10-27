@@ -37,7 +37,6 @@ export default function Carouse<D>({
 	const slidesToShow = Math.min(length, 4);
 
 	const settings: CarouselSettings = {
-		...props,
 		lazyLoad: 'anticipated',
 		arrows: false,
 		infinite: true,
@@ -67,6 +66,7 @@ export default function Carouse<D>({
 				},
 			},
 		],
+		...props,
 	};
 
 	const styles = {
@@ -108,7 +108,7 @@ export default function Carouse<D>({
 				{data.map((el, index) => (
 					<div
 						key={dataKey + '-container-' + index}
-						className="max-w-fit carousel-item m-2"
+						className="max-w-fit py-2 carousel-item m-2"
 					>
 						<Component key={dataKey + '-' + index} data={el} />
 					</div>

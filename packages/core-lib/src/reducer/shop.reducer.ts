@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 import {
-	type OrganizationWithDetailsAndMetadata,
+	type OrganizationWithShopDetails,
+	type OrganizationMetadata,
 	type ProductWithDetails,
 } from '@cd/data-access';
 import {
@@ -42,7 +43,7 @@ export const getInitialDispensaries = createAsyncThunk(
 
 // TODO: IMPROVE THIS, SO IT ONLY FETCHES FOR DATA THAT IS NOT ALREADY IN STATE
 export const getDispensariesLocal = createAsyncThunk<
-	OrganizationWithDetailsAndMetadata[],
+	(OrganizationWithShopDetails & OrganizationMetadata)[],
 	void
 >('shop/getDispensariesLocal', async (_, { getState, rejectWithValue }) => {
 	try {
@@ -161,7 +162,7 @@ export const getProductsFromLocal = createAsyncThunk<
 });
 
 export type ShopStateProps = {
-	dispensaries: OrganizationWithDetailsAndMetadata[];
+	dispensaries: (OrganizationWithShopDetails & OrganizationMetadata)[];
 	products: ProductWithDetails[];
 	isLoading: boolean;
 	isSuccess: boolean;
@@ -187,7 +188,11 @@ export const shopSlice = createSlice({
 			getInitialDispensaries.fulfilled,
 			(
 				state,
-				{ payload }: PayloadAction<OrganizationWithDetailsAndMetadata[]>,
+				{
+					payload,
+				}: PayloadAction<
+					(OrganizationWithShopDetails & OrganizationMetadata)[]
+				>,
 			) => {
 				const dispensaries = payload;
 				if (dispensaries.length > 0) {
@@ -223,7 +228,11 @@ export const shopSlice = createSlice({
 				getDispensariesLocal.fulfilled,
 				(
 					state,
-					{ payload }: PayloadAction<OrganizationWithDetailsAndMetadata[]>,
+					{
+						payload,
+					}: PayloadAction<
+						(OrganizationWithShopDetails & OrganizationMetadata)[]
+					>,
 				) => {
 					const dispensaries = payload;
 
@@ -366,3 +375,5 @@ export const selectOrganizationBySubdomain =
 		state.shop.dispensaries.find(
 			(organization) => organization.subdomain.id === subdomain,
 		);
+export const selectMarketPlaceDispensaries = (state: AppState) =>
+	state.shop.dispensaries.filter((disp) => disp.showInMarketPlace);

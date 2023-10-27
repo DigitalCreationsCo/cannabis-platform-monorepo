@@ -2,23 +2,36 @@ import { Boarding } from 'boarding.js';
 import 'boarding.js/styles/main.css';
 import 'boarding.js/styles/themes/basic.css';
 
-const shopTour = new Boarding();
+const shopTour = new Boarding({
+	animate: true,
+	opacity: 0.25,
+	allowClose: true,
+	overlayClickNext: true,
+	closeBtnText: 'Okay',
+	nextBtnText: '',
+	showButtons: false,
+	scrollIntoViewOptions: {
+		behavior: 'smooth',
+	},
+	onReset: () => {
+		window.scrollTo({ top: 0, behavior: 'smooth' });
+	},
+});
 const tourSteps = [
 	{
-		element: '#step1',
+		element: '#shop-tour-step1',
 		popover: {
-			title: 'Step 1',
-			description: 'This is the first step of the tour.',
+			title: `<span style="font-size: 30px; color: #14a33d;">Welcome to Gras</span>`,
+			description: '',
 		},
 	},
 	{
-		element: '#step2',
+		element: '#shop-tour-step2',
 		popover: {
-			title: 'Step 2',
-			description: 'This is the second step of the tour.',
+			title: `<span style="font-size: 30px; color: #14a33d;">Order delivery from your favorite dispensaries.</span>`,
+			description: '',
 		},
 	},
-	// Add more steps as needed
 ];
 shopTour.defineSteps(tourSteps);
 
