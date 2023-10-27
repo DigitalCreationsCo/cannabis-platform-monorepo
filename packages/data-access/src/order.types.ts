@@ -1,20 +1,20 @@
 import { createId } from '@paralleldrive/cuid2';
 import {
-    type Order,
-    type OrderStatus,
-    type Organization,
-    type Prisma,
-    type Purchase,
-    type User
+	type Order,
+	type OrderStatus,
+	type Organization,
+	type Prisma,
+	type Purchase,
+	type User,
 } from '@prisma/client';
 import { type AddressWithCoordinates } from './address.types';
 import {
-    type DriverWithDetails,
-    type RouteWithCoordinates
+	type DriverWithDetails,
+	type RouteWithCoordinates,
 } from './driver.types';
 import {
-    type OrganizationWithDashboardDetails,
-    type OrganizationWithShopDetails
+	type OrganizationWithDashboardDetails,
+	type OrganizationWithShopDetails,
 } from './organization.types';
 import { type ProductVariantWithDetails } from './variant.data';
 

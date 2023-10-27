@@ -1,7 +1,7 @@
 import {
 	selectBlogsByTag,
+	selectMarketPlaceDispensaries,
 	selectSelectedLocationState,
-	selectShopState,
 	selectUserState,
 	TextContent,
 } from '@cd/core-lib';
@@ -20,7 +20,7 @@ import { DispensaryCard, InfoCard } from '../../components';
 // import { shopTour } from '../../tour';
 
 export default function MarketPlace() {
-	const { dispensaries } = useSelector(selectShopState);
+	const dispensaries = useSelector(selectMarketPlaceDispensaries);
 	const selectedLocation = useSelector(selectSelectedLocationState);
 	const { user } = useSelector(selectUserState);
 	const grasArticles = useSelector(selectBlogsByTag('gras'));
@@ -42,7 +42,7 @@ export default function MarketPlace() {
 	return (
 		<Page gradient="pink" className="lg:px-0">
 			<div className="cursor-default pt-2 md:pt-0 lg:px-8 xl:absolute xl:w-5/12">
-				<div className="lg:w-fit xl:m-auto">
+				<div id={'shop-tour-step1'} className="lg:w-fit xl:m-auto">
 					<H1 color="light" className={twMerge(styles.responsiveHeading)}>
 						{TextContent.info.CANNABIS_DELIVERED}
 					</H1>
@@ -54,6 +54,7 @@ export default function MarketPlace() {
 			<Grid className="relative space-y-5">
 				<Carousel
 					Component={InfoCard}
+					infinite={false}
 					title={`Gras is now delivering in ${
 						selectedLocation.address.city || 'Baltimore'
 					}!`}
@@ -65,12 +66,13 @@ export default function MarketPlace() {
 				/>
 
 				<Carousel
+					infinite={process.env.NODE_ENV === 'development'}
 					title={`Dispensaries Near You`}
 					Component={DispensaryCard}
 					data={dispensaries}
 					dataKey={'dispensaries'}
-					autoplaySpeed={7000}
-					speed={1000}
+					autoplaySpeed={6000}
+					speed={90}
 				/>
 
 				{/* <Carousel
