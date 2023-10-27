@@ -84,7 +84,8 @@ export type ModalType =
 	| 'CART_MODAL'
 	| 'LOGIN_MODAL'
 	| 'CHECKOUT_MODAL'
-	| 'CHECK_AGE_MODAL';
+	| 'CHECK_AGE_MODAL'
+	| 'EMAIL_MODAL';
 
 export type ModalStateProps = {
 	modalType: ModalType;
