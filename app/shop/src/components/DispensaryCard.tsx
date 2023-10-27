@@ -1,10 +1,6 @@
-import {
-	checkIsDispensaryOpen,
-	formatDispensaryUrl,
-	renderAddress,
-} from '@cd/core-lib';
+import { formatDispensaryUrl } from '@cd/core-lib';
 import { type OrganizationWithShopDetails } from '@cd/data-access';
-import { Card, FlexBox, H2, H3, Paragraph } from '@cd/ui-lib';
+import { Card, FlexBox, H3, Paragraph } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
 import { type PropsWithChildren } from 'react';
