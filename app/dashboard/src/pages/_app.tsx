@@ -95,10 +95,10 @@ function App({ Component, ...rest }: CustomAppProps) {
 							initial={false}
 							onExitComplete={() => window.scrollTo(0, 0)}
 						>
-							<LayoutContainer {...getLayoutContext()}>
-								{routerLoading ? (
-									<LoadingPage />
-								) : (
+							{routerLoading ? (
+								<LoadingPage />
+							) : (
+								<LayoutContainer {...getLayoutContext()}>
 									<ProtectedPage memberPages={protectedPages}>
 										<>
 											<Component {...props.pageProps} />
@@ -118,8 +118,8 @@ function App({ Component, ...rest }: CustomAppProps) {
 											})(document, window, 'BrevoConversations')}
 										</>
 									</ProtectedPage>
-								)}
-							</LayoutContainer>
+								</LayoutContainer>
+							)}
 						</AnimatePresence>
 					</PersistGate>
 				</ReduxProvider>
