@@ -157,9 +157,9 @@ const createOrganizations = async () => {
 					street1: '11722 Reisterstown Rd',
 					street2: '',
 					city: 'Reisterstown',
-					state: 'Maryland',
+					state: 'MD',
 					zipcode: 21136,
-					country: 'United States',
+					country: 'United_States',
 					countryCode: 'US',
 					coordinates: {
 						create: {
@@ -298,7 +298,6 @@ const createOrganizations = async () => {
 					driverId: 'bf346k4u7x2b2hhr6wvgiwao',
 					purchase: {
 						create: {
-							id: '1',
 							paymentStatus: 'Pending',
 							gateway: 'stripe',
 							type: 'card',
@@ -377,13 +376,12 @@ const createOrganizations = async () => {
 			termsAccepted: false,
 			address: {
 				create: {
-					id: 'cllyur0fs0020vkudn51a2353f',
 					street1: '1114 Cathederal Street',
 					street2: 'Suite 5',
 					city: 'Baltimore',
-					state: 'Maryland',
+					state: 'MD',
 					zipcode: 21201,
-					country: 'United States',
+					country: 'United_States',
 					countryCode: 'US',
 					coordinates: {
 						create: {
@@ -459,13 +457,12 @@ const createOrganizations = async () => {
 			termsAccepted: false,
 			address: {
 				create: {
-					id: 'cllyur0fs0020vkudn51aiz3f',
 					street1: '111 NewTown Rd',
 					street2: '',
 					city: 'Baltimore',
-					state: 'Maryland',
+					state: 'MD',
 					zipcode: 21226,
-					country: 'United States',
+					country: 'United_States',
 					countryCode: 'US',
 					coordinates: {
 						create: {
@@ -680,9 +677,9 @@ const createOrganizations = async () => {
 					street1: '1866 Fruitville Pike',
 					street2: '',
 					city: 'Lancaster',
-					state: 'Pennsylvania',
+					state: 'PA',
 					zipcode: 17601,
-					country: 'United States',
+					country: 'United_States',
 					countryCode: 'US',
 					coordinates: {
 						create: {
@@ -906,9 +903,9 @@ const createOrganizations = async () => {
 					street1: '7165 Security Blvd Suite C',
 					street2: '',
 					city: 'Windsor Mill',
-					state: 'Maryland',
+					state: 'MD',
 					zipcode: 21244,
-					country: 'United States',
+					country: 'United_States',
 					countryCode: 'US',
 					coordinates: {
 						create: {
@@ -1225,7 +1222,7 @@ const createAddresses = async () => {
 			city: 'Lancaster',
 			state: 'PA',
 			zipcode: 17603,
-			country: 'United States',
+			country: 'United_States',
 			countryCode: 'US',
 			coordinateId: 'clm2fopi0000wvksikbl2upwp',
 			createdAt: new Date(),
@@ -1238,7 +1235,7 @@ const createAddresses = async () => {
 			city: 'Lancaster',
 			state: 'PA',
 			zipcode: 17602,
-			country: 'United States',
+			country: 'United_States',
 			countryCode: 'US',
 			coordinateId: null,
 			createdAt: new Date(),
@@ -1251,7 +1248,7 @@ const createAddresses = async () => {
 			city: 'Lancaster',
 			state: 'PA',
 			zipcode: 17602,
-			country: 'United States',
+			country: 'United_States',
 			countryCode: 'US',
 			coordinateId: null,
 			createdAt: new Date(),
@@ -1264,7 +1261,7 @@ const createAddresses = async () => {
 			city: 'Lancaster',
 			state: 'PA',
 			zipcode: 17602,
-			country: 'United States',
+			country: 'United_States',
 			countryCode: 'US',
 			coordinateId: null,
 			createdAt: new Date(),
@@ -1277,7 +1274,7 @@ const createAddresses = async () => {
 			city: 'Lancaster',
 			state: 'PA',
 			zipcode: 17602,
-			country: 'United States',
+			country: 'United_States',
 			countryCode: 'US',
 			coordinateId: null,
 			createdAt: new Date(),
@@ -1290,7 +1287,7 @@ const createAddresses = async () => {
 			city: 'Glenolden',
 			state: 'PA',
 			zipcode: 17602,
-			country: 'United States',
+			country: 'United_States',
 			countryCode: 'US',
 			coordinateId: null,
 			createdAt: new Date(),
@@ -1496,7 +1493,7 @@ const createDrivers = async () => {
 							city: 'Baltimore',
 							state: 'MD',
 							zipcode: 21202,
-							country: 'USA',
+							country: 'United_States',
 							countryCode: 'US',
 							createdAt: new Date(),
 							updatedAt: new Date(),
@@ -1560,7 +1557,7 @@ const createDrivers = async () => {
 									city: 'Lancaster',
 									state: 'PA',
 									zipcode: 17603,
-									country: 'United States',
+									country: 'United_States',
 									countryCode: 'US',
 									coordinates: {
 										connectOrCreate: {
@@ -2796,12 +2793,13 @@ async function main() {
 	await createCompliance();
 	await createDrivers();
 
+	await createAddresses();
+
 	await createVendors();
 	await createCoordinates();
 	await createOrganizations();
 	await createUsers();
 
-	await createAddresses();
 	// await createSchedules();
 	await createSubdomains();
 	await createCategories();
