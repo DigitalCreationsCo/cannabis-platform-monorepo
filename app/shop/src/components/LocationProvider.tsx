@@ -83,10 +83,9 @@ const LocationProvider = () => {
 			const getDispensaries = async () => {
 				dispatch(shopActions.getDispensariesLocal() as unknown as AnyAction);
 			};
-
 			getDispensaries();
 		}
-	}, [coordinates]);
+	}, [selectedLocation, coordinates, enteredSite, shopState.isLoading]);
 	return <></>;
 };
 
