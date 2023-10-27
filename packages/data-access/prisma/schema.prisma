@@ -206,6 +206,16 @@ enum USStateAbbreviated {
 	WY
 }
 
+enum Country {
+  United_States @map("United States")
+  Canada
+}
+
+enum CountryCode {
+  US
+  CN
+}
+
 model User {
   id               String       @id @unique @default(cuid())
   firstName        String
@@ -294,10 +304,10 @@ model Address {
   street1      String
   street2      String?
   city         String
-  state        String
+  state        USStateAbbreviated
   zipcode      Int
-  country      String
-  countryCode  String?
+  country      Country      @default(United_States)
+  countryCode  CountryCode? @default(US)
   coordinateId String?
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
