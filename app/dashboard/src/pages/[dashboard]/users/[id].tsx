@@ -1,4 +1,8 @@
-import { renderAddress, urlBuilder } from '@cd/core-lib';
+import {
+	renderAddress,
+	urlBuilder,
+	usStatesAbbreviationList,
+} from '@cd/core-lib';
 import {
 	type Address,
 	type ImageUser,
@@ -20,6 +24,7 @@ import {
 	Page,
 	PageHeader,
 	Paragraph,
+	Select,
 	TextField,
 	UploadImageBox,
 } from '@cd/ui-lib';
@@ -236,14 +241,22 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
 										onChange={(e) => handleAddressUpdate(e, 'city')}
 									/>
 
-									<TextField
+									{/* <TextField
 										name={`state`}
 										label="State"
 										placeholder="State"
 										value={addressUpdate?.state}
 										onBlur={handleBlur}
 										onChange={(e) => handleAddressUpdate(e, 'state')}
-									/>
+									/> */}
+									<FlexBox className="flex-row items-center">
+										<Paragraph className="text-lg">STATE</Paragraph>
+										<Select
+											className="rounded border text-lg"
+											values={usStatesAbbreviationList}
+											setOption={handleChange}
+										/>
+									</FlexBox>
 
 									<TextField
 										name={`address[${addressUpdateIndex}].country`}

@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { type OrganizationWithDashboardDetails } from '@cd/data-access/dist';
+import { type OrganizationWithDashboardDetails } from '@cd/data-access';
 import {
 	Button,
 	Card,

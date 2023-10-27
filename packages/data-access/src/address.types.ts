@@ -1,11 +1,16 @@
-import { type USStateAbbreviated, type Address } from '@prisma/client';
+import {
+	type USStateAbbreviated,
+	type Address,
+	type Country,
+	type CountryCode,
+} from '@prisma/client';
 
 export type AddressCreateType = {
 	id?: string;
 	street1: string;
 	street2: string | null;
 	city: string;
-	state: string;
+	state: USStateAbbreviated | null;
 	zipcode: number;
 	country: string;
 	countryCode: string | null;
@@ -20,7 +25,7 @@ export type AddressUserCreateType = {
 	street1: string;
 	street2: string | null;
 	city: string;
-	state: string;
+	state: USStateAbbreviated;
 	zipcode: number;
 	country: string;
 	countryCode: string | null;
@@ -48,9 +53,9 @@ export type AddressPayload = {
 	street1: string;
 	street2: string | null;
 	city: string;
-	state: string;
+	state: USStateAbbreviated;
 	zipcode: number;
-	country: string;
-	countryCode: string | null;
+	country: Country;
+	countryCode: CountryCode;
 	coordinates?: { radius?: number; latitude: number; longitude: number };
 };

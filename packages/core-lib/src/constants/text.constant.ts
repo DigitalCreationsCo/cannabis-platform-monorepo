@@ -80,7 +80,7 @@ const TextContent = Object.freeze({
     This account will have the most access to your dispensary.`,
 		NO_MEMBERSHIP_PERMISSION: `You don't have the permissions to sign in here. 
 	Please visit grascannabis.org.`,
-		DISPENSARY_JOINING: `Thank you for joining us to serve the world of cannabis.`,
+		DISPENSARY_JOINING: `Helping you serve the world of cannabis.`,
 
 		DISPENSARIES_START_HERE: 'Dispensaries, get started here',
 		DISPENSARY_STRIPE_ACCOUNT: `If your dispensary uses stripe for payments, you can connect your stripe account here, by entering your stripe ID. If you don't have a stripe account, Gras will create one for you.`,
@@ -156,6 +156,7 @@ const TextContent = Object.freeze({
 		THANK_YOU: `Thank you for choosing Gras.`,
 		TIME_GUARANTEE: `We guarantee a delivery time of two hours`,
 
+		FULL_SERVICE_CANNABIS_DELIVERY: `Gras is Full-Service Cannabis Delivery For Your Customers`,
 		GRAS_WILL_DELIVER_STRAIGHT_TO_YOUR_DOOR:
 			'Gras will deliver your order straight to your door.',
 		GRAS_DELIVERS_FOR_DISPENSARIES:

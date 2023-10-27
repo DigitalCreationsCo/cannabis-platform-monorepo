@@ -30,6 +30,7 @@ export * from './NavLink';
 export { default as NavLink } from './NavLink';
 export { default as OrderRow } from './OrderRow';
 export { default as Padding } from './Padding';
+export { default as PlainTopBar } from './PlainTopBar';
 export { default as Page } from './Page';
 export { default as PageHeader } from './PageHeader';
 export { default as PhoneNumber } from './PhoneNumber';
