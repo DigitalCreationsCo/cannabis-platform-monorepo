@@ -31,9 +31,7 @@ function AddAddressUserModal({
 		state: 'MD',
 		zipcode: 0,
 		country: '',
-		// set Country on the backend, or with a picker UI element for country and country Code
 		countryCode: 'US',
-		// get coordinates on the backend, and connect the id to this incoming address record
 		coordinateId: '',
 		userId,
 	};
