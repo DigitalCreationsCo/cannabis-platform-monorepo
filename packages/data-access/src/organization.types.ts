@@ -28,6 +28,7 @@ export type OrganizationCreateType = Prisma.OrganizationUncheckedCreateInput & {
 	images: Prisma.ImageOrganizationCreateManyOrganizationInput[];
 	products: Prisma.ProductCreateInput[];
 	categoryList: Prisma.CategoryListCreateInput;
+	siteSetting?: Prisma.SiteSettingCreateInput;
 };
 
 export type OrganizationWithAddress = Organization & {

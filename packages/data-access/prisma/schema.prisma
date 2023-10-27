@@ -523,13 +523,6 @@ model Schedule {
 }
 
 enum Day {
-  // M             
-  // Tu            
-  // W             
-  // Th            
-  // F             
-  // Sa            
-  // Su 
   Monday
   Tuesday
   Wednesday

@@ -4,7 +4,7 @@ import {
 	renderAddress,
 } from '@cd/core-lib';
 import { type OrganizationWithShopDetails } from '@cd/data-access';
-import { Card, FlexBox, H2, Paragraph } from '@cd/ui-lib';
+import { Card, FlexBox, H2, H3, Paragraph } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
 import { type PropsWithChildren } from 'react';
@@ -20,7 +20,7 @@ function DispensaryCard({ data: dispensary, className }: DispensaryCardProps) {
 	const styles = {
 		dispensarycard: [
 			'relative',
-			'w-[240px] md:min-w-[340px] md:w-[340px] h-[220px] p-4 !rounded-full',
+			'w-[240px] md:min-w-[340px] md:w-[340px] h-[220px] p-4 overflow-hidden !rounded',
 		],
 		isOpenBadge: [
 			'text-inverse border-2 tracking-wider z-5 top-0 right-0 p-3 m-3 badge absolute',
@@ -30,32 +30,38 @@ function DispensaryCard({ data: dispensary, className }: DispensaryCardProps) {
 	return (
 		<Link
 			href={formatDispensaryUrl(dispensary?.subdomainId)}
-			className="relative z-0 rounded shadow-lg"
+			className="relative z-0 shadow-2xl"
 		>
 			<Card
 				className={twMerge([
 					styles.dispensarycard,
-					'rounded',
 					// 'hover:scale-101 transition duration-500',
 					className,
 				])}
 			>
 				<ImageBackDrop src={dispensary?.images?.[0]?.location || logo.src}>
-					<H2 className="z-5 text-inverse absolute left-0 top-0 max-w-[248px] whitespace-normal p-2 tracking-wide drop-shadow">
-						{dispensary?.name}
-					</H2>
-					<Paragraph className={twMerge(styles.isOpenBadge)}>
-						{checkIsDispensaryOpen(dispensary.schedule) ? 'open now' : 'closed'}
-					</Paragraph>
-
-					<FlexBox className="z-5 absolute bottom-0 left-0 flex-row items-end justify-between p-2">
-						<Paragraph className="text-inverse font-semibold drop-shadow">
-							{renderAddress({
+					<FlexBox className="z-5 absolute left-0 flex-col p-2 px-4">
+						<H3 className="z-5 text-inverse left-0 top-0 max-w-[248px] whitespace-normal tracking-wide drop-shadow">
+							{dispensary?.name}
+						</H3>
+						<Paragraph className="text-inverse text-xl font-semibold drop-shadow">
+							{/* {renderAddress({
 								address: dispensary?.address,
 								showCountry: false,
 								showZipcode: false,
 								lineBreak: true,
-							})}
+							})} */}
+							{/* {dispensary.address.city + ', ' + dispensary.address.state} */}
+							{dispensary.address.city}
+						</Paragraph>
+					</FlexBox>
+					{/* <Paragraph className={twMerge(styles.isOpenBadge)}>
+						{checkIsDispensaryOpen(dispensary.schedule) ? 'open now' : 'closed'}
+					</Paragraph> */}
+					<FlexBox className="z-5 absolute bottom-0 left-0 flex-col p-2 px-4">
+						<Paragraph className="text-inverse text-xl font-semibold drop-shadow">
+							{(dispensary.subscribedForDelivery && 'Accepting Delivery') ||
+								(dispensary.subscribedForPickup && 'Order for Pickup')}
 						</Paragraph>
 					</FlexBox>
 				</ImageBackDrop>
@@ -69,21 +75,22 @@ const ImageBackDrop = ({
 	children,
 }: { src: string } & PropsWithChildren) => {
 	return (
-		<div className="absolute left-0 top-0 h-full w-full">
+		<div className="absolute left-0 top-0 bg-transparent items-center justify-center h-full w-full flex">
 			<Image
-				className="h-full w-full rounded object-cover"
+				className="object-contain p-8 bg-gradient-to-b from-[rgba(0,0,0,.19)]"
 				src={src}
-				alt="card-backdrop"
 				fill
-				sizes="(max-width: 250px)"
+				// height={200}
+				// width={200}
+				alt="card-backdrop"
+				sizes="(max-width: 200px)"
 				quality={25}
 				priority
 				loader={({ width, src }) => src + `?w=${width}`}
 			/>
 			<div
-				className="rounded"
 				style={{
-					backgroundColor: 'rgba(1,12,2,0.18)',
+					backgroundColor: 'rgba(200,0,0,0.19)',
 					position: 'absolute',
 					height: '100%',
 					width: '100%',

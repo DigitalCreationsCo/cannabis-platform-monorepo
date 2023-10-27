@@ -2738,6 +2738,10 @@ html {
   grid-row-start: 5;
 }
 
+.row-start-4 {
+  grid-row-start: 4;
+}
+
 .m-0 {
   margin: 0px;
 }
@@ -2778,10 +2782,6 @@ html {
   margin-bottom: 1rem;
 }
 
-.mb-5 {
-  margin-bottom: 1.25rem;
-}
-
 .ml-2 {
   margin-left: 0.5rem;
 }
@@ -2804,6 +2804,18 @@ html {
 
 .mt-8 {
   margin-top: 2rem;
+}
+
+.-ml-3 {
+  margin-left: -0.75rem;
+}
+
+.-mt-2 {
+  margin-top: -0.5rem;
+}
+
+.mb-5 {
+  margin-bottom: 1.25rem;
 }
 
 .block {
@@ -2921,6 +2933,10 @@ html {
   height: min-content;
 }
 
+.h-6 {
+  height: 1.5rem;
+}
+
 .max-h-fit {
   max-height: -moz-fit-content;
   max-height: fit-content;
@@ -3030,6 +3046,10 @@ html {
 
 .w-screen {
   width: 100vw;
+}
+
+.w-6 {
+  width: 1.5rem;
 }
 
 .min-w-\[140px\] {
@@ -3296,6 +3316,10 @@ html {
 
 .items-start {
   align-items: flex-start;
+}
+
+.items-end {
+  align-items: flex-end;
 }
 
 .items-center {
@@ -3724,20 +3748,16 @@ html {
   padding-bottom: 3rem !important;
 }
 
-.pb-12 {
-  padding-bottom: 3rem;
-}
-
-.pb-16 {
-  padding-bottom: 4rem;
-}
-
 .pb-2 {
   padding-bottom: 0.5rem;
 }
 
 .pb-24 {
   padding-bottom: 6rem;
+}
+
+.pb-5 {
+  padding-bottom: 1.25rem;
 }
 
 .pb-8 {
@@ -3778,6 +3798,26 @@ html {
 
 .pt-4 {
   padding-top: 1rem;
+}
+
+.pb-6 {
+  padding-bottom: 1.5rem;
+}
+
+.pt-0 {
+  padding-top: 0px;
+}
+
+.pt-0\.5 {
+  padding-top: 0.125rem;
+}
+
+.pb-12 {
+  padding-bottom: 3rem;
+}
+
+.pb-16 {
+  padding-bottom: 4rem;
 }
 
 .text-center {
@@ -4189,6 +4229,16 @@ html {
     border-radius: 0 !important;
   }
 
+  .sm\:px-5 {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .sm\:py-6 {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
   .sm\:pt-4 {
     padding-top: 1rem;
   }
@@ -4259,6 +4309,10 @@ html {
   .md\:w-fit {
     width: -moz-fit-content;
     width: fit-content;
+  }
+
+  .md\:w-auto {
+    width: auto;
   }
 
   .md\:min-w-min {
@@ -4348,6 +4402,10 @@ html {
     padding-top: 2rem;
   }
 
+  .md\:pr-16 {
+    padding-right: 4rem;
+  }
+
   .md\:hover\:bg-transparent:hover {
     background-color: transparent;
   }
@@ -4364,6 +4422,10 @@ html {
 
   .lg\:col-span-3 {
     grid-column: span 3 / span 3;
+  }
+
+  .lg\:col-start-5 {
+    grid-column-start: 5;
   }
 
   .lg\:row-span-3 {
@@ -4427,6 +4489,10 @@ html {
     width: 198px;
   }
 
+  .lg\:w-\[188px\] {
+    width: 188px;
+  }
+
   .lg\:min-w-\[800px\] {
     min-width: 800px;
   }
@@ -4437,6 +4503,10 @@ html {
 
   .lg\:grid-cols-8 {
     grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+
+  .lg\:grid-cols-5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 
   .lg\:flex-col {
