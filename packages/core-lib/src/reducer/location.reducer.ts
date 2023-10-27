@@ -34,7 +34,7 @@ export type LocationType = {
 		street1: string;
 		street2: string;
 		city: string;
-		state: string;
+		state: USStateAbbreviated;
 		zipcode: string;
 		country: string;
 		countryCode: string | null;

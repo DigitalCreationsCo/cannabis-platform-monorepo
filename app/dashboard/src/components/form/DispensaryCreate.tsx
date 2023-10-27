@@ -1,5 +1,14 @@
 /* eslint-disable sonarjs/cognitive-complexity */
-import { TextContent, urlBuilder } from '@cd/core-lib';
+import {
+	TextContent,
+	urlBuilder,
+	usStatesAbbreviationList,
+} from '@cd/core-lib';
+import {
+	type CountryCode,
+	type Country,
+	type USStateAbbreviated,
+} from '@cd/data-access';
 import {
 	Button,
 	FlexBox,
@@ -8,6 +17,7 @@ import {
 	H3,
 	H6,
 	Paragraph,
+	Select,
 	Small,
 	TermsAgreement,
 	TextField,
@@ -45,10 +55,13 @@ function DispensaryCreate() {
 			street1: formValues.organization?.address?.street1 || '',
 			street2: formValues.organization?.address?.street2 || '',
 			city: formValues.organization?.address?.city || '',
-			state: formValues.organization?.address?.state || '',
+			state: (formValues.organization?.address?.state ||
+				undefined) as USStateAbbreviated,
 			zipcode: formValues.organization?.address?.zipcode || 0,
-			country: formValues.organization?.address?.country || '',
-			countryCode: formValues.organization?.address?.countryCode || 'US',
+			country: (formValues.organization?.address?.country ||
+				undefined) as Country,
+			countryCode: (formValues.organization?.address?.countryCode ||
+				'US') as CountryCode,
 		},
 		dialCode: formValues.organization?.dialCode || '1',
 		phone: formValues.organization?.phone || '',
@@ -115,7 +128,7 @@ function DispensaryCreate() {
 				<FlexBox className="flex-row justify-between space-x-2 pr-2 md:pr-0">
 					<FlexBox>
 						<H2 id="dispensary-create-step-1">Welcome to Gras</H2>
-						<H3>a one stop cannabis marketplace</H3>
+						<H3>{TextContent.account.DISPENSARY_JOINING}</H3>
 					</FlexBox>
 					<Image
 						className="rounded-btn"
@@ -190,7 +203,7 @@ function DispensaryCreate() {
 					error={!!touched?.address?.city && !!errors?.address?.city}
 					helperText={touched?.address?.city && errors?.address?.city}
 				/>
-				<TextField
+				{/* <TextField
 					name="address.state"
 					label="* state"
 					placeholder="State"
@@ -199,7 +212,15 @@ function DispensaryCreate() {
 					onChange={handleChange}
 					error={!!touched?.address?.state && !!errors?.address?.state}
 					helperText={touched?.address?.state && errors?.address?.state}
-				/>
+				/> */}
+				<FlexBox className="flex-row items-center">
+					<Paragraph className="text-lg">STATE</Paragraph>
+					<Select
+						className="rounded border text-lg"
+						values={usStatesAbbreviationList}
+						setOption={handleChange}
+					/>
+				</FlexBox>
 				{/* <TextField
                     name="address.country"
                     label="* country"

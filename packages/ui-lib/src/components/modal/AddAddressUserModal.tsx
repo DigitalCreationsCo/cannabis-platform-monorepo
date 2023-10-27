@@ -28,7 +28,7 @@ function AddAddressUserModal({
 		street1: '',
 		street2: '',
 		city: '',
-		state: '',
+		state: 'MD',
 		zipcode: 0,
 		country: '',
 		// set Country on the backend, or with a picker UI element for country and country Code
