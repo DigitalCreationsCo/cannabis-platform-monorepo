@@ -9,7 +9,7 @@ export default function Collapse({
 }) {
 	console.info('item: ', item);
 	return (
-		<div className="collapse mb-5 rounded shadow">
+		<div className="collapse mb-5 rounded shadow bg-transparent">
 			<input type="checkbox" />
 			<div className="collapse-title  text-xl">
 				<Paragraph className="text-primary">{item.q}</Paragraph>

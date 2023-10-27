@@ -1,13 +1,14 @@
 import { getShopSite, TextContent } from '@cd/core-lib';
-import { H2, Paragraph, styles } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
-import logo from '../../public/logo.png';
+import logo from '../../public/assets/images/logo.png';
+import { styles } from '../styleClassNames';
+import { H2, Paragraph } from './Typography';
 
-function TopBar() {
+function TopBar({ className = '' }: { className?: string | string[] }) {
 	return (
-		<div className={twMerge(styles.TOPBAR.topbar)}>
+		<div className={twMerge(styles.TOPBAR.topbar, className)}>
 			<Link href={getShopSite('/')} className="shrink-0">
 				<Image alt="Gras" width={50} height={50} src={logo} />
 			</Link>

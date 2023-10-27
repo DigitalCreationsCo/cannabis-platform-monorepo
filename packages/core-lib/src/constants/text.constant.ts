@@ -156,6 +156,7 @@ const TextContent = Object.freeze({
 		THANK_YOU: `Thank you for choosing Gras.`,
 		TIME_GUARANTEE: `We guarantee a delivery time of two hours`,
 
+		FULL_SERVICE_CANNABIS_DELIVERY: `Gras is Full-Service Cannabis Delivery For Your Customers`,
 		GRAS_WILL_DELIVER_STRAIGHT_TO_YOUR_DOOR:
 			'Gras will deliver your order straight to your door.',
 		GRAS_DELIVERS_FOR_DISPENSARIES:
