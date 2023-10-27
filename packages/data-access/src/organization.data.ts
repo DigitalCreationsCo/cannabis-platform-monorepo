@@ -175,12 +175,19 @@ export async function createOrganization(
 				},
 				siteSetting: {
 					create: {
-						title: '',
-						description: '',
-						bannerText: '',
+						// default site settings
+						title: organization.siteSetting?.title || '',
+						description: organization.siteSetting?.description || '',
+						bannerText: organization.siteSetting?.bannerText || '',
+						primaryColor: organization.siteSetting?.primaryColor || '#14a33d',
+						secondaryColor:
+							organization.siteSetting?.secondaryColor || '#13622a',
+						tertiaryColor: organization.siteSetting?.tertiaryColor || '#ffffff',
+						textColor: organization.siteSetting?.textColor || '#3e3a3a',
+						backgroundColor:
+							organization.siteSetting?.backgroundColor || '#ffffff',
 					},
 				},
-				// add default site settings
 			},
 			include: {
 				address: {
@@ -301,7 +308,13 @@ export async function findOrganizationBySubdomain(
 								},
 							},
 							images: true,
-							products: true,
+							products: {
+								include: {
+									variants: true,
+									reviews: true,
+									categories: true,
+								},
+							},
 							siteSetting: true,
 							categoryList: true,
 							schedule: true,
@@ -337,7 +350,13 @@ export async function findMultipleOrganizationsById(
 					},
 				},
 				images: true,
-				products: true,
+				products: {
+					include: {
+						variants: true,
+						reviews: true,
+						categories: true,
+					},
+				},
 				siteSetting: true,
 				categoryList: true,
 				schedule: true,
@@ -372,7 +391,13 @@ export async function findOrganizationsByZipcode(
 						},
 					},
 					images: true,
-					products: true,
+					products: {
+						include: {
+							variants: true,
+							reviews: true,
+							categories: true,
+						},
+					},
 					siteSetting: true,
 					categoryList: true,
 					schedule: true,
