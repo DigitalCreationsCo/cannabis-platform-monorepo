@@ -8,4 +8,5 @@ export const modalTypes = Object.freeze({
 	cartModal: 'CART_MODAL',
 	checkoutModal: 'CHECKOUT_MODAL',
 	checkAgeModal: 'CHECK_AGE_MODAL',
+	emailModal: 'EMAIL_MODAL',
 });
