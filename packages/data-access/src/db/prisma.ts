@@ -15,7 +15,6 @@ function dateToString(doc: any) {
 				// console.info("object found");
 				dateToString(doc[key]);
 			}
-
 			// if type is date
 			if (
 				typeof doc[key] === 'object' &&

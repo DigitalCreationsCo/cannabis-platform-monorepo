@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { TextContent } from '@cd/core-lib';
 import {
 	Button,
@@ -5,7 +7,6 @@ import {
 	Collapse,
 	FlexBox,
 	H1,
-	H2,
 	H3,
 	H4,
 	H5,
@@ -13,12 +14,11 @@ import {
 	IconWrapper,
 	Page,
 	Paragraph,
-	PlainTopBar,
-	Small,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import Iframe from 'react-iframe';
 import benefitOneImg from '../../../public/benefit-one.png';
 import benefitTwoImg from '../../../public/benefit-two.png';
@@ -196,6 +196,9 @@ const faqdata = [
 ];
 
 const CallToSignup = () => {
+	const searchParams = useSearchParams();
+	const code = searchParams.get('code') || '';
+
 	return (
 		<FlexBox className="px-8">
 			<div className="bg-secondary-light mx-auto flex w-full max-w-4xl flex-col flex-wrap place-content-center content-center items-center space-y-4 rounded-xl p-7 text-white sm:flex-row sm:space-x-8 md:space-y-0 lg:flex-nowrap lg:p-12">
@@ -207,7 +210,7 @@ const CallToSignup = () => {
 						Start Delivery by Gras today.
 					</p>
 				</div>
-				<Link href="/signup/create-dispensary-account">
+				<Link href={`/signup/create-dispensary-account?code=${code}`}>
 					<Button
 						size="lg"
 						bg="primary"

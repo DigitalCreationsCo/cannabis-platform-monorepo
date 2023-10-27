@@ -15,10 +15,8 @@ import {
 	IconWrapper,
 	Page,
 	Paragraph,
-	Small,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
-import icons from '@cd/ui-lib/src/icons';
 import Image from 'next/image';
 import Link from 'next/link';
 import Iframe from 'react-iframe';
@@ -97,31 +95,6 @@ const Hero = () => {
 				{TextContent.info.BUILDING_TRUST_WITH_OUR_PARTNERS.toUpperCase()}
 			</H2>
 		</>
-	);
-};
-
-const SectionTitle = (props: any) => {
-	return (
-		<FlexBox
-			id="cannabis-heals"
-			className={`flex w-full flex-col  ${
-				props.align === 'left' ? '' : 'items-center justify-center text-center'
-			}`}
-		>
-			{props.pretitle && (
-				<Small className="text-primary text-sm font-bold uppercase tracking-wider">
-					{props.pretitle}
-				</Small>
-			)}
-
-			{props.title && (
-				<H1 className="text-secondary-light text-center text-2xl font-bold leading-snug tracking-tight lg:text-left  lg:text-4xl lg:leading-tight xl:text-[61px] xl:leading-tight">
-					{props.title}
-				</H1>
-			)}
-
-			{props.children && <>{props.children}</>}
-		</FlexBox>
 	);
 };
 
