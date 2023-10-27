@@ -304,7 +304,7 @@ model Address {
   street1      String
   street2      String?
   city         String
-  state        USStateAbbreviated
+  state        USStateAbbreviated? @default(MD)
   zipcode      Int
   country      Country      @default(United_States)
   countryCode  CountryCode? @default(US)
