@@ -13,7 +13,7 @@ import {
 import axios from 'axios';
 import { applicationHeaders } from '../axiosInstance';
 import { type AppState } from '../types';
-import { urlBuilder } from '../utils';
+import { urlBuilder, reconcileStateArray, isArray } from '../utils';
 import { type LocationStateProps } from './location.reducer';
 
 // ADD APPLICATION STATE! TAKE OUT THESE STATIC VALUES!
@@ -195,19 +195,23 @@ export const shopSlice = createSlice({
 				>,
 			) => {
 				const dispensaries = payload;
-				if (dispensaries.length > 0) {
+
+				isArray(dispensaries) &&
 					dispensaries.forEach((dispensary) => {
 						dispensary.metadata = {
-							productsFetched: false,
+							productsFetched: true,
 						};
-						const index = state.dispensaries.findIndex(
-							(d) => d.id === dispensary.id,
+						// const index = state.dispensaries.findIndex(
+						// 	(d) => d.id === dispensary.id,
+						// );
+						// if (index === -1)
+						// 	state.dispensaries = [...state.dispensaries, dispensary];
+						// else state.dispensaries[index] = dispensary;
+						state.dispensaries = reconcileStateArray(
+							state.dispensaries,
+							dispensaries,
 						);
-						if (index === -1)
-							state.dispensaries = [...state.dispensaries, dispensary];
-						else state.dispensaries[index] = dispensary;
 					});
-				}
 				state.isLoading = false;
 				state.isSuccess = true;
 				state.isError = false;
@@ -236,19 +240,22 @@ export const shopSlice = createSlice({
 				) => {
 					const dispensaries = payload;
 
-					if (dispensaries.length > 0) {
+					isArray(dispensaries) &&
 						dispensaries.forEach((dispensary) => {
 							dispensary.metadata = {
-								productsFetched: false,
+								productsFetched: true,
 							};
-							const index = state.dispensaries.findIndex(
-								(d) => d.id === dispensary.id,
+							// const index = state.dispensaries.findIndex(
+							// 	(d) => d.id === dispensary.id,
+							// );
+							// if (index === -1)
+							// 	state.dispensaries = [...state.dispensaries, dispensary];
+							// else state.dispensaries[index] = dispensary;
+							state.dispensaries = reconcileStateArray(
+								state.dispensaries,
+								dispensaries,
 							);
-							if (index === -1)
-								state.dispensaries = [...state.dispensaries, dispensary];
-							else state.dispensaries[index] = dispensary;
 						});
-					}
 					state.isLoading = false;
 					state.isSuccess = true;
 					state.isError = false;

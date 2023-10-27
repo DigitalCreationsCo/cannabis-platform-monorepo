@@ -104,8 +104,13 @@ export function reconcileStateArray<T>(state: T[], payload: T[]) {
 	payload.forEach((item) => {
 		// @ts-ignore
 		const index = s.findIndex((i) => i.id === item.id);
-		if (index === -1) s = [...s, item];
-		else s[index] = item;
+
+		console.info('index? ', index);
+		if (index === -1) {
+			s = [...s, item];
+		} else {
+			s[index] = item;
+		}
 	});
 	console.log('reconciled state: ', s);
 	return s;
