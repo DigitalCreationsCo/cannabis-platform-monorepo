@@ -5,6 +5,7 @@ import {
 	stateMap,
 	renderNestedDataObject,
 } from '@cd/core-lib';
+import { type USStateAbbreviated } from '@cd/data-access';
 import {
 	CopyRight,
 	FlexBox,
@@ -24,7 +25,7 @@ export default function Compliance() {
 	const { user } = useAppSelector(selectUserState);
 
 	function getUserAddressState() {
-		return user.address?.[0]?.state;
+		return user.address?.[0]?.state as USStateAbbreviated;
 	}
 	const defaultStateAbbrev = () =>
 		stateMap[getUserAddressState().toUpperCase()]?.abbreviation ||
@@ -112,54 +113,54 @@ export default function Compliance() {
 	);
 }
 
-const mockComplianceDataSheet: ComplianceDataSheet = {
-	license: {
-		title: 'License',
-		license_types: {
-			q: 'What license types are available?',
-			types: 'dispensary',
-		},
-	},
-	transport: {
-		title: 'Transport',
-		transport_hours: {
-			q: 'What hours can cannabis be legally transported?',
-			start: 8,
-			end: 20,
-		},
-		transport_logs: {
-			q: 'Are transport manifests required?',
-			value: 'required',
-		},
-		transport_staff: {
-			q: 'How many employees travel in the transport vehicle?',
-			value: 1,
-		},
-		transport_storage: {
-			q: 'Must the cannabis product be locked to transport?',
-			value: 'locked',
-		},
-		transport_weight_limit: {
-			q: 'What is the maximum weight of cannabis that can be transported?',
-			value: 100,
-		},
-	},
-	sale: {
-		title: 'Sale',
-		age_limit: {
-			q: 'What is the minimum age to purchase cannabis?',
-			value: 21,
-		},
-		thc_sale_limit: {
-			q: 'What is the maximum percentage THC content allowed for sale?',
-			value: 21,
-		},
-		sale_weight_limit: {
-			q: 'What is the maximum weight of cannabis that can be sold?',
-			value: 2400,
-		},
-	},
-};
+// const mockComplianceDataSheet: ComplianceDataSheet = {
+// 	license: {
+// 		title: 'License',
+// 		license_types: {
+// 			q: 'What license types are available?',
+// 			types: 'dispensary',
+// 		},
+// 	},
+// 	transport: {
+// 		title: 'Transport',
+// 		transport_hours: {
+// 			q: 'What hours can cannabis be legally transported?',
+// 			start: 8,
+// 			end: 20,
+// 		},
+// 		transport_logs: {
+// 			q: 'Are transport manifests required?',
+// 			value: 'required',
+// 		},
+// 		transport_staff: {
+// 			q: 'How many employees travel in the transport vehicle?',
+// 			value: 1,
+// 		},
+// 		transport_storage: {
+// 			q: 'Must the cannabis product be locked to transport?',
+// 			value: 'locked',
+// 		},
+// 		transport_weight_limit: {
+// 			q: 'What is the maximum weight of cannabis that can be transported?',
+// 			value: 100,
+// 		},
+// 	},
+// 	sale: {
+// 		title: 'Sale',
+// 		age_limit: {
+// 			q: 'What is the minimum age to purchase cannabis?',
+// 			value: 21,
+// 		},
+// 		thc_sale_limit: {
+// 			q: 'What is the maximum percentage THC content allowed for sale?',
+// 			value: 21,
+// 		},
+// 		sale_weight_limit: {
+// 			q: 'What is the maximum weight of cannabis that can be sold?',
+// 			value: 2400,
+// 		},
+// 	},
+// };
 
 type ComplianceDataSheet = {
 	license: {
@@ -222,30 +223,30 @@ export type GrasRegulationResponsibility = {
 	record_sales: 'required';
 };
 
-function wrapPromise(promise: Promise<any>) {
-	let status: 'pending' | 'error' | 'default' = 'pending';
-	let response: any;
-	const suspender = promise.then(
-		(res) => {
-			status = 'default';
-			response = res;
-		},
-		(err) => {
-			status = 'error';
-			response = err;
-		},
-	);
-	const handler = {
-		pending: () => {
-			throw suspender;
-		},
-		error: () => {
-			throw response;
-		},
-		default: () => response,
-	};
-	const read = () => {
-		return handler[status] ? handler[status]() : handler.default();
-	};
-	return { read };
-}
+// function wrapPromise(promise: Promise<any>) {
+// 	let status: 'pending' | 'error' | 'default' = 'pending';
+// 	let response: any;
+// 	const suspender = promise.then(
+// 		(res) => {
+// 			status = 'default';
+// 			response = res;
+// 		},
+// 		(err) => {
+// 			status = 'error';
+// 			response = err;
+// 		},
+// 	);
+// 	const handler = {
+// 		pending: () => {
+// 			throw suspender;
+// 		},
+// 		error: () => {
+// 			throw response;
+// 		},
+// 		default: () => response,
+// 	};
+// 	const read = () => {
+// 		return handler[status] ? handler[status]() : handler.default();
+// 	};
+// 	return { read };
+// }

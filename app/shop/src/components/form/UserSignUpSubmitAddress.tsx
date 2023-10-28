@@ -1,4 +1,4 @@
-import { urlBuilder } from '@cd/core-lib';
+import { urlBuilder, usStatesAbbreviationList } from '@cd/core-lib';
 import { type AddressCreateType } from '@cd/data-access';
 import {
 	Button,
@@ -6,6 +6,7 @@ import {
 	Grid,
 	H3,
 	Paragraph,
+	Select,
 	TextField,
 	useFormContext,
 } from '@cd/ui-lib';
@@ -42,7 +43,7 @@ function SubmitAddressForm() {
 			street1: '',
 			street2: '',
 			city: '',
-			state: '',
+			state: null,
 			zipcode: 0,
 			country: 'United States',
 			countryCode: 'US',
@@ -171,7 +172,7 @@ function SubmitAddressForm() {
 					error={!!touched?.address?.city && !!errors?.address?.city}
 					helperText={touched?.address?.city && errors?.address?.city}
 				/>
-				<TextField
+				{/* <TextField
 					name="address.state"
 					label="* state"
 					placeholder="State"
@@ -180,7 +181,16 @@ function SubmitAddressForm() {
 					onChange={handleChange}
 					error={!!touched?.address?.state && !!errors?.address?.state}
 					helperText={touched?.address?.state && errors?.address?.state}
-				/>
+				/> */}
+				<FlexBox className="flex-row items-center">
+					<Paragraph className="text-lg">STATE</Paragraph>
+					<Select
+						className="rounded border text-lg"
+						values={usStatesAbbreviationList}
+						defaultValue={'MD'}
+						setOption={handleChange}
+					/>
+				</FlexBox>
 
 				<TextField
 					name="address.zipcode"
