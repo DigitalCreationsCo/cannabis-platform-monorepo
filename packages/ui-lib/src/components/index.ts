@@ -7,6 +7,7 @@ export * from './cart';
 export * from './skeleton';
 export { default as Center } from './Center';
 export { default as CheckAge } from './CheckAge';
+export { default as FAQ } from './FAQ';
 export * from './CheckBox';
 export { default as CheckBox } from './CheckBox';
 export { default as ClickableTags } from './ClickableTags';

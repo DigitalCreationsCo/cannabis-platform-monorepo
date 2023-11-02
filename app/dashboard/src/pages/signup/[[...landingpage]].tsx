@@ -4,7 +4,6 @@ import { TextContent } from '@cd/core-lib';
 import {
 	Button,
 	Card,
-	Collapse,
 	FlexBox,
 	H1,
 	H3,
@@ -13,6 +12,7 @@ import {
 	IconWrapper,
 	Page,
 	Paragraph,
+	FAQ,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
 import Image from 'next/image';
@@ -29,8 +29,27 @@ function LandingPage() {
 			<Hero />
 			<Benefits data={benefitOne} />
 			<Benefits imgPos="right" data={benefitTwo} />
-			<div className="space-y-16 px-12 pb-24">
-				<Faq />
+			<div className="space-y-16 p-12">
+				<div>
+					<H3 className="text-inverse m-auto drop-shadow-xl mt-3 max-w-2xl text-center text-2xl font-bold leading-snug tracking-tight sm:text-4xl lg:leading-tight">
+						Frequently Asked Questions
+					</H3>
+					<FAQ />
+					<div>
+						<H3 className="text-center m-auto">Have more questions?</H3>
+						<Button
+							bg="transparent"
+							hover="transparent"
+							onClick={() => {
+								window?.BrevoConversations &&
+									window?.BrevoConversations?.openChat();
+							}}
+							className="hover:text-primary duration-0 mx-auto text-xl text-inverse font-semibold underline"
+						>
+							<H3 className="text-center m-auto">We're available.</H3>
+						</Button>
+					</div>
+				</div>
 				<CallToSignup />
 			</div>
 		</Page>
@@ -209,61 +228,6 @@ const benefitTwo = {
 		},
 	],
 };
-
-const Faq = () => {
-	return (
-		<FlexBox className="mx-auto items-center space-y-4 w-full max-w-2xl rounded-2xl p-8">
-			<H3 className="text-inverse drop-shadow-xl mt-3 max-w-2xl text-center text-2xl font-bold leading-snug tracking-tight sm:text-4xl lg:leading-tight">
-				Frequently Asked Questions
-			</H3>
-
-			{faqdata.map((item, index: number) => (
-				<Collapse key={`faq-${index}`} item={item} />
-			))}
-			<div>
-				<H3 className="text-center m-auto">Have more questions?</H3>
-				<Button
-					bg="transparent"
-					hover="transparent"
-					onClick={() => {
-						window?.BrevoConversations &&
-							window?.BrevoConversations?.openChat();
-					}}
-					className="hover:text-primary duration-0 mx-auto text-xl text-inverse font-semibold underline"
-				>
-					<H3 className="text-center m-auto">We're available.</H3>
-				</Button>
-			</div>
-		</FlexBox>
-	);
-};
-
-const faqdata = [
-	{
-		q: 'How do I get started with Delivery by Gras?',
-		value: `Hit the big button to create your account. 👇 
-			Once you signup, you can view your account. Then, simply follow our setup guide to receive delivery orders.`,
-	},
-	{
-		q: 'I signed up. Now what?',
-		value: `Follow our setup guide to receive delivery orders!`,
-	},
-	{
-		q: 'How much will I pay for Delivery by Gras?',
-		value: `Gras charges your business a low monthly fee. Its that simple. 
-			We keep our fees low to offer you affordable, high quality delivery service.`,
-	},
-	{
-		q: 'Is there a guarantee?',
-		value: `Yes! If you're not satisfied with our delivery service for any reason, we'll give you 30 days free. We'll do the best we can to improve our service. 
-		Gras does not issue refunds. `,
-	},
-	{
-		q: 'Do you offer technical support? ',
-		value: `Yes, we do. Gras support team is available 7 days a week to help you with any issues you may have. 
-			You can reach us by email, phone, or text. We're here to help.`,
-	},
-];
 
 const CallToSignup = () => {
 	const searchParams = useSearchParams();

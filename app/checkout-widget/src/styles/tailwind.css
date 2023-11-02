@@ -3181,6 +3181,10 @@ html {
 	width: 20px;
 }
 
+.w-\[400px\] {
+	width: 400px;
+}
+
 .w-\[66px\] {
 	width: 66px;
 }
@@ -3226,6 +3230,10 @@ html {
 .min-w-min {
 	min-width: -moz-min-content;
 	min-width: min-content;
+}
+
+.max-w-2xl {
+	max-width: 42rem;
 }
 
 .max-w-4xl {
@@ -3385,6 +3393,16 @@ html {
 
 .animate-bounce {
 	animation: bounce 1s infinite;
+}
+
+@keyframes pulse {
+	50% {
+		opacity: 0.5;
+	}
+}
+
+.animate-pulse {
+	animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 @keyframes shake {
@@ -3845,6 +3863,15 @@ html {
 	padding: 1.5rem;
 }
 
+.p-8 {
+	padding: 2rem;
+}
+
+.\!px-4 {
+	padding-left: 1rem !important;
+	padding-right: 1rem !important;
+}
+
 .\!py-0 {
 	padding-top: 0px !important;
 	padding-bottom: 0px !important;
@@ -4203,6 +4230,14 @@ html {
 		var(--tw-sepia) var(--tw-drop-shadow);
 }
 
+.drop-shadow-md {
+	--tw-drop-shadow: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07))
+		drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
+	filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast)
+		var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate)
+		var(--tw-sepia) var(--tw-drop-shadow);
+}
+
 .filter {
 	filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast)
 		var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate)
@@ -4491,10 +4526,6 @@ html {
 
 	.md\:grow {
 		flex-grow: 1;
-	}
-
-	.md\:justify-center {
-		justify-content: center;
 	}
 
 	.md\:space-x-2 > :not([hidden]) ~ :not([hidden]) {
