@@ -1,6 +1,8 @@
 import {
+	Button,
 	FlexBox,
 	H1,
+	H2,
 	H3,
 	Page,
 	Paragraph,
@@ -59,7 +61,28 @@ function HelpCenterHome() {
 					))}
 				</div>
 				<FlexBox className="p-1 md:items-center md:py-8 xl:items-center">
+					{topic === 'faq' && (
+						<H2 className="text-primary p-1">Frequently Asked Questions</H2>
+					)}
 					<HelpComponent />
+					{topic === 'faq' && (
+						<div>
+							<Paragraph className="text-center text-xl m-auto">
+								Have more questions?
+							</Paragraph>
+							<Button
+								bg="transparent"
+								hover="transparent"
+								onClick={() => {
+									window?.BrevoConversations &&
+										window?.BrevoConversations?.openChat();
+								}}
+								className="hover:text-primary duration-0 mx-auto text-xl font-semibold underline"
+							>
+								<H3 className="text-center m-auto">We're available.</H3>
+							</Button>
+						</div>
+					)}
 				</FlexBox>
 			</div>
 		</Page>
