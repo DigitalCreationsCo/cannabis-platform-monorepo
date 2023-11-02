@@ -1,3 +1,4 @@
+import { FAQ } from '@cd/ui-lib';
 import AboutGras from './AboutGras';
 import Compliance from './Compliance';
 import HowToOrder from './HowToOrder';
@@ -8,6 +9,7 @@ import UserTermsAndConditions from './legal/UserTermsAndConditions';
 
 export const helpTopics = {
 	'about-gras': { title: 'About Gras', component: AboutGras },
+	faq: { title: 'FAQ', component: FAQ },
 	'how-to-order': { title: 'How To Order', component: HowToOrder },
 	compliance: { title: 'Compliance', component: Compliance },
 	'privacy-policy': { title: 'Privacy Policy', component: PrivacyPolicy },
