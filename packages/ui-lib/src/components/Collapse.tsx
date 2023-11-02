@@ -9,10 +9,10 @@ export default function Collapse({
 }) {
 	console.info('item: ', item);
 	return (
-		<div className="collapse mb-5 rounded shadow bg-transparent">
+		<div className="collapse mb-5 rounded shadow bg-transparent w-full">
 			<input type="checkbox" />
 			<div className="collapse-title  text-xl">
-				<Paragraph className="text-primary">{item.q}</Paragraph>
+				<Paragraph className="font-semibold">{item.q}</Paragraph>
 			</div>
 			<div className="collapse-content flex flex-row space-x-4">
 				<IconWrapper iconSize={28} Icon={icons.Flower} />

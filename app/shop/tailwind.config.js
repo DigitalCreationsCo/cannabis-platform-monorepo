@@ -13,6 +13,22 @@ module.exports = {
 			gras: ['Gras', 'sans-serif'],
 		},
 		extend: {
+			keyframes: {
+				gradient: {
+					'0%': {
+						'background-position': '0% 50%',
+					},
+					'50%': {
+						'background-position': '100% 50%',
+					},
+					'100%': {
+						'background-position': '0% 50%',
+					},
+				},
+			},
+			animation: {
+				gradient: 'gradient 25s ease-in-out infinite',
+			},
 			colors: {
 				inherit: colors.inherit,
 				current: colors.current,

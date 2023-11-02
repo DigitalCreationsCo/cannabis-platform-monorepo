@@ -27,38 +27,33 @@ function ProtectedPage({
 	);
 	const isAdminPage = adminPages.find((page) => router.pathname.includes(page));
 
-	// useEffect(() => {
-	// 	if (
-	// 		router.pathname === '/' &&
-	// 		hasMembershipRoleAccess(user.user, 'MEMBER')
-	// 	) {
-	// 		console.log(
-	// 			'push to dashboard ',
-	// 			user.user.memberships?.[0].organizationId,
-	// 		);
-	// 		router.push(
-	// 			TextContent.href.dashboard_f(
-	// 				user.user.memberships?.[0].organizationId as string,
-	// 			),
-	// 		);
-	// 	}
-	// });
+	if (isProtectedPage && !user.isSignedIn) {
+		router.push('/');
+	}
+	if (isMemberPage && !hasMembershipRoleAccess(user.user, 'MEMBER')) {
+		router.push('/');
+	}
+	if (isAdminPage && !hasMembershipRoleAccess(user.user, 'ADMIN')) {
+		router.push('/');
+	}
 
 	useEffect(() => {
 		if (isProtectedPage && !user.isSignedIn) {
 			router.push('/');
 		}
+	}, [user]);
+	useEffect(() => {
 		if (isMemberPage && !hasMembershipRoleAccess(user.user, 'MEMBER')) {
 			router.push('/');
 		}
 	}, [user]);
+	useEffect(() => {
+		if (isAdminPage && !hasMembershipRoleAccess(user.user, 'MEMBER')) {
+			router.push('/');
+		}
+	}, [user]);
 
-	if (
-		user.isLoading &&
-		isProtectedPage &&
-		!hasMembershipRoleAccess(user.user, 'MEMBER')
-	)
-		return <LoadingPage />;
+	if (user.isLoading) return <LoadingPage />;
 
 	return <>{children}</>;
 }

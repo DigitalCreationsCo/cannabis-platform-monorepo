@@ -4,24 +4,10 @@
 		hsla(335, 91%, 70%, 1) 0%,
 		hsla(49, 89%, 61%, 1) 100%
 	);
-	backgroundsize: '400% 400%';
-	animation: 'gradient 25s ease infinite';
+	background-size: 400% 400%;
 }
 
 .anim8-green-gradient {
 	background: linear-gradient(132deg, #f4d03f 0%, #16a085 100%);
-	backgroundsize: '400% 400%';
-	animation: 'gradient 25s ease infinite';
+	background-size: 400% 400%;
 }
-
-@keyframes gradient {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
-} ;

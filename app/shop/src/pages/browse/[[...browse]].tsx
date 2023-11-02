@@ -1,7 +1,9 @@
 import {
 	selectBlogsByTag,
+	selectBlogState,
 	selectMarketPlaceDispensaries,
 	selectSelectedLocationState,
+	selectShopState,
 	selectUserState,
 	TextContent,
 } from '@cd/core-lib';
@@ -20,10 +22,17 @@ import { DispensaryCard, InfoCard } from '../../components';
 // import { shopTour } from '../../tour';
 
 export default function MarketPlace() {
+	const marketplace = useSelector(selectShopState);
 	const dispensaries = useSelector(selectMarketPlaceDispensaries);
+	const isLoadedDispensaries = marketplace.isSuccess || !marketplace.isLoading;
+
 	const selectedLocation = useSelector(selectSelectedLocationState);
+
 	const { user } = useSelector(selectUserState);
+
 	const grasArticles = useSelector(selectBlogsByTag('gras'));
+	const articles = useSelector(selectBlogState);
+	const isLoadedArticles = articles.isSuccess || !articles.isLoading;
 
 	// function startShopTour() {
 	// 	shopTour.start();
@@ -40,9 +49,9 @@ export default function MarketPlace() {
 	};
 
 	return (
-		<Page gradient="pink" className="lg:px-0">
-			<div className="cursor-default pt-2 md:pt-0 lg:px-8 xl:absolute xl:w-5/12">
-				<div id={'shop-tour-step1'} className="lg:w-fit xl:m-auto">
+		<Page gradient="pink" className="lg:px-0 pb-14">
+			<div className="cursor-default pt-2 md:pt-0 lg:px-8 xl:w-5/12">
+				<div id={'shop-tour-step1'} className="lg:w-fit">
 					<H1 color="light" className={twMerge(styles.responsiveHeading)}>
 						{TextContent.info.CANNABIS_DELIVERED}
 					</H1>
@@ -51,30 +60,36 @@ export default function MarketPlace() {
 					</H3>
 				</div>
 			</div>
+			{/* <H5 className="text-2xl px-8 lg:px-16">{`Gras delivers bud in ${
+				selectedLocation.address.city || 'Baltimore'
+			}`}</H5> */}
 			<Grid className="relative space-y-5">
 				<Carousel
-					Component={InfoCard}
-					infinite={false}
-					title={`Gras is now delivering in ${
-						selectedLocation.address.city || 'Baltimore'
-					}!`}
-					titleSize="lg"
-					data={grasArticles}
-					dataKey={'gras'}
-					autoplaySpeed={5000}
-					speed={10000}
-				/>
-
-				<Carousel
+					startHidden={false}
+					loading={!isLoadedDispensaries}
 					infinite={process.env.NODE_ENV === 'development'}
-					title={`Dispensaries Near You`}
+					title={`Find Dispensaries In ${
+						selectedLocation.address.city || 'Baltimore'
+					}`}
 					Component={DispensaryCard}
 					data={dispensaries}
 					dataKey={'dispensaries'}
 					autoplaySpeed={6000}
 					speed={90}
+					skeletonNum={4}
 				/>
-
+				<Carousel
+					startHidden={false}
+					loading={!isLoadedArticles}
+					Component={InfoCard}
+					infinite={false}
+					title={`What's New In Cannabis`}
+					data={grasArticles}
+					dataKey={'gras'}
+					autoplaySpeed={5000}
+					speed={90}
+					skeletonNum={1}
+				/>
 				{/* <Carousel
           title={`Recommended Products`}
           Component={ProductItem}

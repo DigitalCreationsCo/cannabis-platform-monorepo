@@ -32,22 +32,28 @@ function Widget(
 		return () => window.removeEventListener('resize', setWindowDimensions);
 	}, []);
 	return (
-		<div id="Widget-Container" className={twMerge(styles.container)}>
+		styles.position_f(position),
+		(
 			<div
-				className={twMerge([
-					styles.inner_container_f(config),
-					styles.position_f(position),
-					styles.pointer_f(expanded),
-				])}
+				id="Widget-Container"
+				className={twMerge([styles.container, styles.position_f(position)])}
 			>
-				<MemoryRouter>
-					<Routes>
-						<Route path="/" element={View(Launch, config)} />
-						<Route path="/checkout" element={View(Checkout, config)} />
-					</Routes>
-				</MemoryRouter>
+				<div
+					className={twMerge([
+						styles.inner_container_f(config),
+						styles.position_f(position),
+						styles.pointer_f(expanded),
+					])}
+				>
+					<MemoryRouter>
+						<Routes>
+							<Route path="/" element={View(Launch, config)} />
+							<Route path="/checkout" element={View(Checkout, config)} />
+						</Routes>
+					</MemoryRouter>
+				</div>
 			</div>
-		</div>
+		)
 	);
 }
 

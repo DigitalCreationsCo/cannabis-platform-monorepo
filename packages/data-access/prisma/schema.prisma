@@ -663,14 +663,14 @@ model Review {
 
 model SiteSetting {
   id             String       @id @unique @default(cuid())
-  title          String
-  bannerText     String?
-  description    String?
+  title          String       @default("Your Shop Title")
+  bannerText     String?      @default("Welcome")
+  description    String?      @default("We've launched our shop on Gras! Browse our goods.")
 
   primaryColor    String?     @default("#14a33d")
   secondaryColor  String?     @default("#13622a")
   tertiaryColor   String?     @default("#fff2da")
-  textColor       String?     @default("#3e3a3a")
+  textColor       String?     @default("#a8a8a8")
   backgroundColor String?     @default("#ffffff")
 
   organizationId String       @unique

@@ -2,6 +2,7 @@ import {
 	type OrderWithDispatchDetails,
 	type OrganizationWithAddress,
 } from '@cd/data-access';
+import { preview } from 'vite';
 import { getDigitToWord, renderAddress, showTime } from '../utils';
 
 /* eslint-disable @typescript-eslint/naming-convention */
@@ -156,7 +157,7 @@ const TextContent = Object.freeze({
 		THANK_YOU: `Thank you for choosing Gras.`,
 		TIME_GUARANTEE: `We guarantee a delivery time of two hours`,
 
-		FULL_SERVICE_CANNABIS_DELIVERY: `Gras is Full-Service Cannabis Delivery For Your Customers`,
+		FULL_SERVICE_CANNABIS_DELIVERY: `Gras is Full-Service Cannabis Delivery For Your Dispensary`,
 		GRAS_WILL_DELIVER_STRAIGHT_TO_YOUR_DOOR:
 			'Gras will deliver your order straight to your door.',
 		GRAS_DELIVERS_FOR_DISPENSARIES:
@@ -333,6 +334,8 @@ const TextContent = Object.freeze({
 		site: `/site-settings`,
 		site_f: (id: string) => `/${id}/settings/site-settings`,
 		setup_widget_f: (id: string) => `/${id}/settings/setup-widget`,
+		preview_fullscreen_widget: (id: string) =>
+			`/${id}/settings/preview-fullscreen`,
 
 		about: '/help/about-gras',
 		support: '/help/support',
