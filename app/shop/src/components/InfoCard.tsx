@@ -1,6 +1,14 @@
 import { formatBlogUrl } from '@cd/core-lib';
 import { type ArticleWithDetails } from '@cd/data-access';
-import { Card, FlexBox, H3, Paragraph } from '@cd/ui-lib';
+import {
+	Card,
+	CardWithData,
+	FlexBox,
+	H3,
+	Paragraph,
+	SkeletonCard,
+	styles,
+} from '@cd/ui-lib';
 import Link from 'next/link';
 import { type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
@@ -12,29 +20,24 @@ type InfoCardProps = {
 	className?: string | string[];
 };
 
-function InfoCard({ data: info, className }: InfoCardProps) {
-	const styles = {
-		dispensarycard: [
-			'relative',
-			'w-[200px] md:min-w-[264px] md:w-[340px] h-[220px] p-4 !rounded',
-		],
-		isOpenBadge: [
-			'text-inverse border-2 tracking-wider z-5 top-0 right-0 p-3 m-3 badge absolute',
-		],
-	};
+function InfoCard({ data: info, loading, className }: InfoCardProps) {
+	if (loading)
+		return <SkeletonCard className={twMerge([styles.infoCard, className])} />;
 
+	if (!info?.id)
+		return (
+			<Card className={twMerge([styles.infoCard, className])}>
+				<Paragraph>No info available.</Paragraph>
+			</Card>
+		);
 	return (
 		<Link
 			href={formatBlogUrl(info.id)}
 			className="relative z-0 rounded shadow-lg"
 		>
-			<Card
-				className={twMerge([
-					styles.dispensarycard,
-					'rounded',
-					// 'hover:scale-101 transition duration-500',
-					className,
-				])}
+			<CardWithData
+				data={info}
+				className={twMerge([styles.infoCard, className])}
 			>
 				<ImageBackDrop src={info.image.location || logo.src}>
 					<H3 className="z-5 text-inverse absolute left-0 top-0 whitespace-normal p-2 tracking-wide drop-shadow">
@@ -47,7 +50,7 @@ function InfoCard({ data: info, className }: InfoCardProps) {
 						</Paragraph>
 					</FlexBox>
 				</ImageBackDrop>
-			</Card>
+			</CardWithData>
 		</Link>
 	);
 }

@@ -294,6 +294,9 @@ export const shopSlice = createSlice({
 						//   state.dispensaries[index] = item;
 						// console.info('state after reconcile: ', state.dispensaries)
 					}
+					state.isLoading = false;
+					state.isSuccess = true;
+					state.isError = false;
 				},
 			),
 			builder.addCase(getProductsFromLocal.pending, (state) => {

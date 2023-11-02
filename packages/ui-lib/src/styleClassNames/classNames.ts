@@ -11,6 +11,17 @@ const styles = Object.freeze({
 		'mx-auto lg:mx-16',
 		'cursor-default w-full sm:max-w-[440px] grow h-fit py-4 pb-8 px-8 items-center shadow',
 	],
+	dispensaryCard: [
+		'relative',
+		'w-[240px] md:min-w-[340px] md:w-[340px] h-[220px] p-4 overflow-hidden !rounded',
+	],
+	infoCard: [
+		'relative',
+		'w-[200px] md:min-w-[224px] md:w-[340px] h-[200px] p-4 !rounded',
+	],
+	isOpenBadge: [
+		'text-inverse border-2 tracking-wider z-5 top-0 right-0 p-3 m-3 badge absolute',
+	],
 	HERO: {
 		container: [
 			'w-full pt-4 pb-6 md:pt-4 px-4 md:px-14 lg:px-32',
@@ -22,12 +33,12 @@ const styles = Object.freeze({
 			'space-y-4 md:space-x-8',
 		],
 		responsiveHeading: [
-			'text-2xl md:text-4xl pb-0 whitespace-normal font-semi-bold',
+			'text-3xl sm:text-4xl pb-0 whitespace-normal font-semi-bold',
 		],
 	},
 	TOPBAR: {
 		topbar: [
-			'z-100 z-50 sticky flex flex-row px-2 bg-inverse items-center shadow h-[50px] justify-between lg:px-20',
+			'z-100 z-50 sticky flex flex-row px-2 bg-inverse items-center shadow h-[50px] justify-between lg:px-8',
 		],
 		tagline: [
 			'pt-2 pl-2',
@@ -46,7 +57,7 @@ const styles = Object.freeze({
 			'btn focus:!border-primary focus:!ring-primary focus:!outline-primary h-32 w-32 col-span-1 !rounded-full p-0 m-0 overflow-hidden',
 		],
 		highlight: [
-			'border border-transparent transition-10 hover:border hover:border-primary rounded-btn px-2 md:px-4 text-md',
+			'border border-transparent transition-10 hover:border hover:border-primary rounded-btn px-4 text-md',
 		],
 	},
 	FOOTER: {

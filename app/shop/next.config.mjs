@@ -111,7 +111,6 @@ const nextConfig = (phase) => {
 			],
 		},
 	};
-
 	return withTranspiledModules([
 		'@cd/eslint-config',
 		'@cd/data-access',

@@ -1,4 +1,3 @@
-import { info } from 'console';
 import {
 	isArray,
 	renderAddress,
@@ -13,18 +12,14 @@ import {
 	ErrorMessage,
 	FlexBox,
 	H2,
-	H3,
 	H4,
 	IconWrapper,
 	Page,
 	Paragraph,
 	ProductItem,
-	Small,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
 import icons from '@cd/ui-lib/src/icons';
-import { query } from 'express';
-import error from 'next/error';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -47,10 +42,6 @@ function Storefront({ subdomain }: { subdomain: string }) {
 					alt={organization.name}
 					width={150}
 					height={150}
-					// className="h-full w-full rounded object-cover"
-					// fill
-					// sizes="(max-width: 250px)"
-					// quality={25}
 					priority
 					loader={({ width, src }) => src + `?w=${width}`}
 				/>
@@ -156,10 +147,7 @@ function Storefront({ subdomain }: { subdomain: string }) {
 		);
 	};
 	return (
-		<Page
-			gradient="pink"
-			className="w-full bg-transparent pb-0 md:pb-24 md:pt-12"
-		>
+		<Page gradient="pink" className="w-full bg-transparent pb-0 md:pb-24 pt-14">
 			<Head>
 				<title>Grascannabis.org - Cannabis, Delivered.</title>
 				<meta name="Gras App" content="Built by Gras Cannabis Co." />
@@ -194,7 +182,7 @@ function Storefront({ subdomain }: { subdomain: string }) {
 			<Button
 				size="sm"
 				bg="transparent"
-				className="text-dark self-start pt-10 sm:py-0"
+				className="text-dark self-start  sm:py-0"
 				onClick={() => Router.back()}
 			>
 				<IconWrapper Icon={icons.ArrowLeft} className="pr-1" />

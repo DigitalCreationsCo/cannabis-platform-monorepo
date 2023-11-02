@@ -18,6 +18,7 @@ interface LayoutContextProps {
 	showSideNav?: boolean;
 	showTopBar?: boolean;
 	showHeader?: boolean;
+	showFooter?: boolean;
 	TopBarComponent?: React.ElementType;
 }
 
@@ -45,6 +46,7 @@ function Layout({
 	showSideNavOnDesktop = true,
 	showHeaderDrawer = true,
 	showSearch = true,
+	showFooter = true,
 	SideNavComponent,
 	TopBarComponent,
 	signOut,
@@ -95,9 +97,7 @@ function Layout({
 					{children}
 				</SideNavContainer>
 			</div>
-			<AnimationWrapper>
-				<Footer />
-			</AnimationWrapper>
+			<AnimationWrapper>{showFooter && <Footer />}</AnimationWrapper>
 		</div>
 	);
 }

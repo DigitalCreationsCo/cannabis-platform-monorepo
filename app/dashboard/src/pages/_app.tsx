@@ -1,4 +1,5 @@
 import {
+	ErrorBoundary,
 	LoadingPage,
 	ModalProvider,
 	ProtectedPage,
@@ -67,7 +68,9 @@ function App({ Component, ...rest }: CustomAppProps) {
 		'/dashboard',
 		'/orders',
 		'/products',
+		'/settings',
 		'/site-settings',
+		'/setup-widget',
 		'/users',
 	];
 
@@ -100,50 +103,53 @@ function App({ Component, ...rest }: CustomAppProps) {
 							) : (
 								<LayoutContainer {...getLayoutContext()}>
 									<ProtectedPage memberPages={protectedPages}>
-										<>
-											<Component {...props.pageProps} />
-											{(function (d, w, c: 'BrevoConversations') {
-												w.BrevoConversationsID =
-													process.env.NEXT_PUBLIC_BREVO_CONVERSATIONS_ID;
-												w[c] =
-													w[c] ||
-													function (...args: any[]) {
-														(w[c].q = w[c].q || []).push(...args);
-													};
-												const s = d.createElement('script');
-												s.async = true;
-												s.src =
-													'https://conversations-widget.brevo.com/brevo-conversations.js';
-												if (d.head) d.head.appendChild(s);
-											})(document, window, 'BrevoConversations')}
-											{(function (
-												h,
-												o,
-												t,
-												j,
-												a: HTMLHeadElement | undefined,
-												r: HTMLScriptElement | undefined,
-											) {
-												h.hj =
-													h.hj ||
-													function (...args: any[]) {
-														(h.hj.q = h.hj.q || []).push(...args);
-													};
-												h._hjSettings = { hjid: 3708421, hjsv: 6 };
-												a = o.getElementsByTagName('head')[0];
-												r = o.createElement('script');
-												r.async = Boolean(1);
-												r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
-												a.appendChild(r);
-											})(
-												window,
-												document,
-												'https://static.hotjar.com/c/hotjar-',
-												'.js?sv=',
-												undefined,
-												undefined,
-											)}
-										</>
+										<ErrorBoundary>
+											<>
+												<Component {...props.pageProps} />
+												{(function (d, w, c: 'BrevoConversations') {
+													w.BrevoConversationsID =
+														process.env.NEXT_PUBLIC_BREVO_CONVERSATIONS_ID;
+													w[c] =
+														w[c] ||
+														function (...args: any[]) {
+															(w[c].q = w[c].q || []).push(...args);
+														};
+													const s = d.createElement('script');
+													s.async = true;
+													s.src =
+														'https://conversations-widget.brevo.com/brevo-conversations.js';
+													if (d.head) d.head.appendChild(s);
+												})(document, window, 'BrevoConversations')}
+												{(function (
+													h,
+													o,
+													t,
+													j,
+													a: HTMLHeadElement | undefined,
+													r: HTMLScriptElement | undefined,
+												) {
+													h.hj =
+														h.hj ||
+														function (...args: any[]) {
+															(h.hj.q = h.hj.q || []).push(...args);
+														};
+													h._hjSettings = { hjid: 3708421, hjsv: 6 };
+													a = o.getElementsByTagName('head')[0];
+													r = o.createElement('script');
+													r.async = Boolean(1);
+													r.src =
+														t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+													a.appendChild(r);
+												})(
+													window,
+													document,
+													'https://static.hotjar.com/c/hotjar-',
+													'.js?sv=',
+													undefined,
+													undefined,
+												)}
+											</>
+										</ErrorBoundary>
 									</ProtectedPage>
 								</LayoutContainer>
 							)}

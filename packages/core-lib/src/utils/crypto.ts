@@ -27,6 +27,39 @@ class Crypto {
 		return bytes.toString(cryptoJs.enc.Utf8);
 	}
 
+	//  debugging for some other thing, I forget
+
+	// encrypt(data: string | object): string {
+	// 	console.info('secret ', this.secret);
+	// 	console.info('encrypt data ', data);
+
+	// 	return cryptoJs.AES.encrypt(JSON.stringify(data), this.secret).toString();
+	// }
+
+	// decrypt(data: string): string {
+	// 	console.info('secret ', this.secret);
+	// 	console.info('decrypt data ', data);
+
+	// 	const bytes = cryptoJs.AES.decrypt(JSON.stringify(data), this.secret);
+	// 	const decryptedData = bytes.toString(cryptoJs.enc.Utf8);
+	// 	console.info('decrypted ', decryptedData);
+
+	// 	return decryptedData;
+	// }
+
+	// decrypt2(data: any): string {
+	// 	console.info('secret ', this.secret);
+	// 	console.info('decrypt data ', data);
+
+	// 	const utf8 = cryptoJs.enc.Base64url.parse(data);
+	// 	console.info('utf8 ', utf8);
+
+	// 	const bytes = cryptoJs.AES.decrypt(utf8.toString(), this.secret);
+	// 	console.info('bytes ', bytes);
+
+	// 	return bytes.toString(cryptoJs.enc.Utf8);
+	// }
+
 	createMD5Hash(data: string): string {
 		return cryptoJs.MD5(data).toString(cryptoJs.enc.Hex);
 	}
