@@ -2,7 +2,7 @@ export { default as AnimationWrapper } from './AnimationWrapper';
 export * from './button';
 export { default as Card } from './Card';
 export { default as CardWithData } from './CardWithData';
-export { default as Carousel } from './carousel';
+export { default as Carousel } from './Carousel';
 export * from './cart';
 export * from './skeleton';
 export { default as Center } from './Center';
