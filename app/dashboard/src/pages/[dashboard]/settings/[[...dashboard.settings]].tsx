@@ -1,6 +1,13 @@
 import { TextContent } from '@cd/core-lib';
 import { type OrganizationWithDashboardDetails } from '@cd/data-access';
-import { Button, H2, Page, type LayoutContextProps } from '@cd/ui-lib';
+import {
+	Button,
+	H2,
+	Icons,
+	Page,
+	PageHeader,
+	type LayoutContextProps,
+} from '@cd/ui-lib';
 import Link from 'next/link';
 import { connect } from 'react-redux';
 import { type RootState } from '../../../redux/store';
@@ -12,7 +19,8 @@ function Settings({
 }) {
 	return (
 		<Page className="p-1">
-			<H2>Settings</H2>
+			<PageHeader title="Settings" Icon={Icons.Settings} />
+
 			<div className="tabs">
 				<Link
 					className="tab pl-0"

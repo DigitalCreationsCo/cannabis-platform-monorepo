@@ -10,8 +10,19 @@ import {
 	H5,
 } from '@cd/ui-lib';
 import Head from 'next/head';
+import { useEffect } from 'react';
 
 function Support() {
+	useEffect(() => {
+		function openChat() {
+			setTimeout(() => {
+				if (window?.BrevoConversations?.openChat) {
+					window.BrevoConversations.openChat();
+				}
+			}, 2000);
+		}
+		openChat();
+	}, []);
 	return (
 		<Page className="pt-4">
 			<Head>

@@ -24,6 +24,8 @@ module.exports = {
 				'secondary-light': 'var(--secondary-light)',
 				inverse: 'var(--inverse)',
 				'inverse-soft': 'var(--inverse-soft)',
+				cream: '--var(cream)',
+
 				accent: 'var(--accent)',
 				'accent-soft': 'var(--accent-soft)',
 
@@ -76,6 +78,8 @@ module.exports = {
 					'--secondary-light': '#4BBE6E',
 					'--inverse': '#fff2da',
 					'--inverse-soft': '#f9f7f2',
+					'--cream': '#ffe590',
+
 					'--accent': '#a49b8a',
 					'--accent-soft': '#bbb5a9',
 

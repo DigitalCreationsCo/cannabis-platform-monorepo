@@ -15,7 +15,7 @@ const styles = {
 			: 'h-[48px] md:w-[310px] flex-row',
 		'justify-center flex items-center',
 	],
-	container: ['min-h-[44px] md:min-h-0 w-fit bottom-0'],
+	container: ['min-h-[44px] md:min-h-0 w-fit z-25 absolute bottom-0'],
 	inner_container_f: (props: ViewProps) => [
 		props.parentElement ? 'relative' : 'fixed',
 		props.expanded ? 'md:w-fit' : 'md:w-[310px]',

@@ -25,7 +25,10 @@ function Page({
 			'lg:px-16',
 			'min-h-[440px]',
 		],
-		gradient: [(gradient && 'anim8-' + gradient + '-gradient') || ''],
+		gradient: [
+			(gradient && 'anim8-' + gradient + '-gradient') || '',
+			'animate-gradient',
+		],
 		cursor: ['cursor-default'],
 		// hideOverflow: ['overflow-hidden'],
 		className,
