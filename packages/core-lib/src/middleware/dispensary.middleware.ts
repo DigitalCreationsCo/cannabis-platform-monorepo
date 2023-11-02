@@ -2,12 +2,28 @@ import { type UserWithDetails } from '@cd/data-access/src';
 import { type AnyAction, type MiddlewareAPI } from '@reduxjs/toolkit';
 import { TextContent } from '../constants';
 import { dispensaryActions } from '../reducer';
+import { type AppState } from '../types';
 import { hasMembershipRoleAccess } from '../utils';
 
 const dispensaryMiddleware =
 	(store: MiddlewareAPI) => (next: any) => (action: AnyAction) => {
 		try {
 			next(action);
+
+			const userState = store.getState().user as AppState['user'];
+			const dispensaryState = store.getState()
+				.dispensary as AppState['dispensary'];
+
+			if (
+				typeof window !== 'undefined' &&
+				window.location.pathname === '/' &&
+				userState.isSignedIn
+			) {
+				window.location.href = TextContent.href.dashboard_f(
+					dispensaryState.dispensary.id,
+				);
+			}
+
 			if (action.type === 'user/signinUserSync') {
 				const user = action.payload as UserWithDetails;
 				if (hasMembershipRoleAccess(user, 'MEMBER')) {
@@ -19,6 +35,7 @@ const dispensaryMiddleware =
 					);
 				} else throw new Error(TextContent.error.DISPENSARY_NOT_FOUND);
 			}
+
 			if (
 				action.type === 'dispensary/getDispensaryById/fulfilled' &&
 				typeof window !== 'undefined'

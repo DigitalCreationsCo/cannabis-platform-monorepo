@@ -61,7 +61,7 @@ const StyledLink = ({
 	return (
 		<Paragraph
 			className={twMerge(
-				'whitespace-nowrap capitalize hover:text-inverse-soft font-semibold',
+				'whitespace-nowrap capitalize hover:text-primary font-semibold',
 				className,
 			)}
 		>

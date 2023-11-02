@@ -116,6 +116,7 @@ export const H4 = ({
 	return (
 		<h4
 			className={twMerge(
+				'font-encode',
 				styles['cursor-inherit'],
 				'font-semibold text-xl whitespace-normal',
 				(color === 'light' && 'text-inverse') ||

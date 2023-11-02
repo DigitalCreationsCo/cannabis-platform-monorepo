@@ -28,7 +28,7 @@ export default function Compliance() {
 		return user.address?.[0]?.state as USStateAbbreviated;
 	}
 	const defaultStateAbbrev = () =>
-		stateMap[getUserAddressState().toUpperCase()]?.abbreviation ||
+		stateMap[getUserAddressState()?.toUpperCase()]?.abbreviation ||
 		usStatesAbbreviationList[0];
 
 	const [stateAbbrev, setStateAbbrev] = useState(defaultStateAbbrev());

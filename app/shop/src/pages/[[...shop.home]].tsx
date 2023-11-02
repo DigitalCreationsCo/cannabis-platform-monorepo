@@ -9,7 +9,6 @@ import {
 	Button,
 	FlexBox,
 	H1,
-	H2,
 	H3,
 	H4,
 	Page,
@@ -35,7 +34,7 @@ function FriendsPictures() {
 			<Image
 				src={friends2}
 				alt="friends of gras 2"
-				className="-my-5 w-[700px] overflow-hidden opacity-60 xl:block"
+				className="-my-5 min-w-[500px] w-[700px] overflow-hidden opacity-60 xl:block"
 			/>
 			<Image
 				src={friends1}
@@ -75,9 +74,12 @@ function StartPage() {
 								>
 									Cannabis,&nbsp;Delivered{'\xa0'}🌴
 								</H1>
-								<H3 className="self-end pr-10" color="light">
+								<H4
+									className="self-end font-bold pr-10 sm:text-3xl"
+									color="light"
+								>
 									same day home delivery 🏠
-								</H3>
+								</H4>
 							</FlexBox>
 							{/* <FlexBox className="flex-row  space-x-1 border lg:flex-col lg:space-x-0">
 								<H2 color="light" className="text-2xl lg:text-3xl">
@@ -139,8 +141,8 @@ function StartPage() {
 								</Link>
 							</FlexBox>
 						)}
-						<FlexBox className="relative m-auto flex h-[320px] w-[480px]">
-							<FlexBox className="mx-auto flex-row items-start space-x-2">
+						<FlexBox className="relative m-auto flex min-h-[380px] max-w-[480px]">
+							<FlexBox className="mx-auto flex-row flex-wrap justify-center items-start space-x-2">
 								<H3
 									color="light"
 									className="text-light max-w-[360px] whitespace-pre-line border-b border-transparent text-justify"

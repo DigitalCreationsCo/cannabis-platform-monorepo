@@ -36,22 +36,24 @@ type SiteSettingsDashboardProps = {
 };
 
 function SiteSettings({ siteSetting }: SiteSettingsDashboardProps) {
+	if (!siteSetting) throw new Error();
+
 	const [selectTab, setSelectTab] = useState(0);
 	return (
 		<Page>
-			<Card>
-				<PageHeader
-					title="Site Settings"
-					Icon={Icons.CategoryOutlined}
-					// navigation={ <DashboardNavigation /> }
+			<PageHeader
+				title="Site Settings"
+				Icon={Icons.CategoryOutlined}
+				// navigation={ <DashboardNavigation /> }
+			>
+				<Button
+					onClick={() => Router.back()}
+					className="bg-inverse hover:bg-inverse active:bg-accent-soft place-self-start"
 				>
-					<Button
-						onClick={() => Router.back()}
-						className="bg-inverse hover:bg-inverse active:bg-accent-soft place-self-start"
-					>
-						back
-					</Button>
-				</PageHeader>
+					back
+				</Button>
+			</PageHeader>
+			<Card className="mt-2">
 				Dispensary staff can view and edit their storefront and site settings
 				here
 				<div>
@@ -103,8 +105,14 @@ SiteSettings.getLayoutContext = (): LayoutContextProps => ({
 
 function mapStateToProps(state: RootState) {
 	const { dispensary } = state;
+
+	const siteSetting = dispensary.dispensary.siteSetting;
+	if (!siteSetting) {
+		return {};
+	}
+
 	return {
-		siteSetting: dispensary.dispensary.siteSetting,
+		siteSetting: siteSetting,
 	};
 }
 

@@ -405,6 +405,13 @@ const createOrganizations = async () => {
 					updatedAt: new Date(),
 				},
 			},
+			siteSetting: {
+				create: {
+					title: 'Welcome to Releaf Shop Baltimore',
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+			},
 			images: {
 				createMany: {
 					data: [
@@ -1051,6 +1058,10 @@ const createOrganizations = async () => {
 					title: 'Remedy Baltimore',
 					description: 'Remedy Description text',
 					bannerText: 'Remedy Banner Text',
+					primaryColor: '#fff',
+					secondaryColor: '#17C649',
+					tertiaryColor: '#fff2da',
+					backgroundColor: '#000',
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				},

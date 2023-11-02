@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/consistent-type-imports */
 async function getComponent(props: any) {
 	try {
 		const Widget = await (await import('../components/Widget/Widget')).default;
@@ -23,6 +24,10 @@ export default class GrasDeliveryWidget {
 			}
 			const el = document.createElement('div');
 			el.id = 'gras-delivery-widget';
+			// el.style.backgroundColor = 'transparent';
+			// el.style.position = 'absolute';
+			// el.style.height = 'inherit';
+			// el.style.width = 'inherit';
 			if (props.parentElement) {
 				(document.querySelector(props.parentElement) as any).appendChild(el);
 			} else {

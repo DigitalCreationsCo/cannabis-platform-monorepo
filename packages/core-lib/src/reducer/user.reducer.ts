@@ -90,6 +90,7 @@ export const userSlice = createSlice({
 			state.isLoading = false;
 			state.isSuccess = true;
 			state.isError = false;
+			console.info('user reducer');
 		},
 		updateOrders: (
 			state,

@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { modalActions, modalTypes } from '@cd/core-lib';
+import { crypto, modalActions, modalTypes, TextContent } from '@cd/core-lib';
 import { type OrganizationWithDashboardDetails } from '@cd/data-access';
 import {
 	Card,
@@ -11,14 +11,14 @@ import {
 	type LayoutContextProps,
 	Button,
 	FlexBox,
-	IconButton,
 	Icons,
 	Paragraph,
 } from '@cd/ui-lib';
-import icons from '@cd/ui-lib/src/icons';
+import Link from 'next/link';
 import Router from 'next/router';
 import Script from 'next/script';
 import { useCallback, useState } from 'react';
+import Iframe from 'react-iframe';
 import { connect } from 'react-redux';
 import { useAppDispatch } from '../../../redux/hooks';
 import { type RootState } from '../../../redux/store';
@@ -41,36 +41,50 @@ function SetupWidget({ organization }: SetupWidgetProps) {
 	const [position, setPosition] = useState('right');
 	const [shape, setShape] = useState('rectangle');
 	const [useDutchie, setUseDutchie] = useState(false);
-	const WidgetScript = useCallback(() => {
-		function generateScript() {
-			return `<script src="https://gras-cannabis-2.uk.r.appspot.com/widget.js"></script>
-	<script>GrasDeliveryWidget.mount({
-			dispensaryId: ${organization.id},
-			dispensaryName: ${organization.name},
-			position: ${position},
-			shape: ${shape},
-			useDutchie: ${useDutchie}
-		});</script>`;
-		}
-		return <>{generateScript()}</>;
-	}, [position, shape, useDutchie]);
+
+	function generateScript() {
+		return document.createTextNode(
+			`<script src="https://localhost:9000/widget.js"></script><script>GrasDeliveryWidget.mount({dispensaryId: ${organization.id}, dispensaryName: ${organization.name}, position: ${position}, shape: ${shape}, useDutchie: ${useDutchie}});</script>`,
+		).textContent as string;
+	}
+
+	const WidgetScript = useCallback(
+		() => <>{generateScript()}</>,
+		[position, shape, useDutchie],
+	);
+
+	const _w = generateScript();
+	console.info('_w ', _w);
+
+	const encrypt = crypto.encrypt(_w);
+
 	return (
 		<Page>
+			<PageHeader
+				title="Setup Your Gras Checkout Widget"
+				Icon={Icons.WifiBridgeAlt}
+				// navigation={ <DashboardNavigation /> }
+			>
+				<Button
+					onClick={() => Router.back()}
+					className="bg-inverse hover:bg-inverse active:bg-accent-soft place-self-start"
+				>
+					back
+				</Button>
+			</PageHeader>
 			<FlexBox className="mt-2 flex-col gap-4 xl:grid xl:grid-cols-2">
 				<Card className="col-span-1 m-0 space-y-2 p-0 md:!w-full lg:!w-full">
-					<PageHeader
-						title="Setup Your Gras Checkout Widget"
-						Icon={Icons.WifiBridgeAlt}
-						// navigation={ <DashboardNavigation /> }
+					<div
+						id="configure-widget"
+						className="w-4/5 m-auto relative space-y-2"
 					>
-						<Button
-							onClick={() => Router.back()}
-							className="bg-inverse hover:bg-inverse active:bg-accent-soft place-self-start"
-						>
-							back
-						</Button>
-					</PageHeader>
-					<div id="configure-widget" className="relative space-y-2">
+						<FlexBox className="pb-2">
+							<Paragraph>
+								Add this code to your ecommerce website, and customers can place
+								orders for delivery.
+							</Paragraph>
+						</FlexBox>
+						<hr />
 						<FlexBox className="mx-auto flex-row items-center justify-center">
 							<Small className="font-semibold">{`Dispensary Name: ${organization.name}`}</Small>
 						</FlexBox>
@@ -111,12 +125,13 @@ function SetupWidget({ organization }: SetupWidgetProps) {
 								Copy and paste the code below to add Checkout Widget to your
 								ecommerce store.
 							</Small>
-							<div className="rounded p-4 md:bg-gray-400">
+							<div className="rounded p-4 md:bg-gray-200">
 								<code>
 									<WidgetScript />
 								</code>
 							</div>
-							<IconButton
+							{/* INSTALL WITH A DEVELOPER'S HELP */}
+							{/* <IconButton
 								onClick={openEmailModal}
 								Icon={icons.RepoSourceCode}
 								size="lg"
@@ -124,26 +139,33 @@ function SetupWidget({ organization }: SetupWidgetProps) {
 								border
 								className="p-4 my-4 border-2"
 							>
-								<Paragraph>Install with a developer's help</Paragraph>
-							</IconButton>
+								<Paragraph className="whitespace-pre">{` Install with a developer's help`}</Paragraph>
+							</IconButton> */}
 						</FlexBox>
 					</div>
 				</Card>
-				<FlexBox className="bg-light h-full w-full grow rounded pt-2 shadow">
+				<Card className="bg-light min-h-[400px] h-full !w-full lg:!w-full grow rounded p-4 shadow">
 					<H3 className="text-primary mx-auto text-center">Preview Widget</H3>
-					<div
-						id="widget-parent"
-						className="relative h-full w-full bg-transparent"
-					>
+					<FlexBox className="flex-row py-2">
+						<Paragraph>Preview the checkout widget on your website.</Paragraph>
+						<Link
+							href={`${TextContent.href.preview_fullscreen_widget(
+								organization.id,
+							)}/?_w=${encrypt}`}
+							target="_blank"
+							className="underline pl-1 hover:font-semibold hover:text-primary"
+						>
+							<Paragraph className="font-bold">View full screen</Paragraph>
+						</Link>
+					</FlexBox>
+					<RenderPreview organization={organization}>
 						<Script
 							async
 							id="GrasDeliveryWidget"
-							className="bg-transparent"
 							// src="https://gras-cannabis-2.uk.r.appspot.com/widget.js"
 							src="https://localhost:9000/widget.js"
-							strategy="afterInteractive"
 							onLoad={() => {
-								console.info('loaded checkout-widget code: ');
+								console.info('loaded preview checkout-widget');
 								window.GrasDeliveryWidget.mount({
 									dispensaryId: organization.id,
 									dispensaryName: organization.name,
@@ -154,8 +176,8 @@ function SetupWidget({ organization }: SetupWidgetProps) {
 								});
 							}}
 						/>
-					</div>
-				</FlexBox>
+					</RenderPreview>
+				</Card>
 			</FlexBox>
 		</Page>
 	);
@@ -173,3 +195,27 @@ function mapStateToProps(state: RootState) {
 }
 
 export default connect(mapStateToProps)(SetupWidget);
+
+export function RenderPreview({
+	children,
+	organization,
+}: SetupWidgetProps & { children: React.ReactNode }) {
+	return (
+		<div id="widget-parent" className="relative h-full border w-full rounded">
+			{(organization?.ecommerceUrl && (
+				<Iframe
+					className="h-full w-full absolute"
+					// url={organization.ecommerceUrl}
+					// url={'https://www.releaf-shop.com/'}
+					url={'https://localhost:9000/demo-ecom/'}
+				/>
+			)) || (
+				<Iframe
+					className="h-full w-full absolute"
+					url={'https://localhost:9000/demo-ecom/'}
+				/>
+			)}
+			{children}
+		</div>
+	);
+}

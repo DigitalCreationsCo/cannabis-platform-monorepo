@@ -33,6 +33,9 @@ const nextConfig = (phase) => {
 		`isDev:${isDev}  isProd:${isProd}   isStaging:${isStaging} isTest:${isTest}`,
 	);
 
+	/**
+	 * @type {import('next').NextConfig}
+	 */
 	const config = {
 		rewrites: async () => [
 			{
@@ -68,6 +71,8 @@ const nextConfig = (phase) => {
 		output: 'standalone',
 		experimental: {
 			outputFileTracingRoot: path.join(__dirname, '../../'),
+			// resolve javascript out of heap memory issue in development
+			esmExternals: false,
 		},
 		images: {
 			minimumCacheTTL: 60 * 60,
@@ -79,7 +84,6 @@ const nextConfig = (phase) => {
 			],
 		},
 	};
-
 	return withTranspiledModules([
 		'@cd/ui-lib',
 		'@cd/data-access',

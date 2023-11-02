@@ -801,6 +801,15 @@ details > summary {
   content: attr(data-title);
 }
 
+.carousel {
+  display: flex;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 .carousel-item {
   box-sizing: content-box;
   display: flex;
@@ -1535,6 +1544,10 @@ details > summary {
   100% {
     transform: scale(1);
   }
+}
+
+.carousel::-webkit-scrollbar {
+  display: none;
 }
 
 .checkbox:focus-visible {
@@ -2557,6 +2570,10 @@ details > summary {
   height: 12px;
 }
 
+.h-\[200px\] {
+  height: 200px;
+}
+
 .h-\[220px\] {
   height: 220px;
 }
@@ -2679,8 +2696,16 @@ details > summary {
   width: 200px;
 }
 
+.w-\[240px\] {
+  width: 240px;
+}
+
 .w-\[330px\] {
   width: 330px;
+}
+
+.w-\[400px\] {
+  width: 400px;
 }
 
 .w-\[66px\] {
@@ -2833,6 +2858,16 @@ details > summary {
 
 .animate-bounce {
   animation: bounce 1s infinite;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: .5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 .cursor-default {
@@ -3236,6 +3271,11 @@ details > summary {
 
 .p-5 {
   padding: 1.25rem;
+}
+
+.\!px-4 {
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
 }
 
 .\!py-0 {
@@ -3662,8 +3702,8 @@ details > summary {
   background-color: transparent;
 }
 
-.hover\:text-inverse-soft:hover {
-  color: var(--inverse-soft);
+.hover\:text-primary:hover {
+  color: var(--primary);
 }
 
 .hover\:underline:hover {
@@ -3764,6 +3804,11 @@ details > summary {
     padding-top: 1rem;
   }
 
+  .sm\:text-4xl {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+  }
+
   .sm\:no-underline {
     text-decoration-line: none;
   }
@@ -3807,8 +3852,16 @@ details > summary {
     width: fit-content;
   }
 
+  .md\:min-w-\[224px\] {
+    min-width: 224px;
+  }
+
   .md\:min-w-\[264px\] {
     min-width: 264px;
+  }
+
+  .md\:min-w-\[340px\] {
+    min-width: 340px;
   }
 
   .md\:min-w-min {
@@ -3825,10 +3878,6 @@ details > summary {
 
   .md\:flex-row {
     flex-direction: row;
-  }
-
-  .md\:justify-center {
-    justify-content: center;
   }
 
   .md\:space-x-2 > :not([hidden]) ~ :not([hidden]) {
@@ -3875,11 +3924,6 @@ details > summary {
     padding-right: 3.5rem;
   }
 
-  .md\:px-4 {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-
   .md\:py-4 {
     padding-top: 1rem;
     padding-bottom: 1rem;
@@ -3911,11 +3955,6 @@ details > summary {
 
   .md\:pt-8 {
     padding-top: 2rem;
-  }
-
-  .md\:text-4xl {
-    font-size: 2.25rem;
-    line-height: 2.5rem;
   }
 
   .md\:hover\:bg-transparent:hover {
@@ -4054,14 +4093,14 @@ details > summary {
     padding-right: 4rem;
   }
 
-  .lg\:px-20 {
-    padding-left: 5rem;
-    padding-right: 5rem;
-  }
-
   .lg\:px-32 {
     padding-left: 8rem;
     padding-right: 8rem;
+  }
+
+  .lg\:px-8 {
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
 
   .lg\:pb-0 {
