@@ -16,8 +16,9 @@ export function formatDispensaryUrl(subdomainId: string) {
 }
 
 export function replaceRelativePath(href: string) {
+	// console.info('replaceRelativePath href', href);
 	const url = new URL(href, window.location.href);
-	// console.info('replaceRelativePath', url);
+	// console.info('replaceRelativePath url', url);
 	return url.href;
 }
 
