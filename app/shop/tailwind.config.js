@@ -27,7 +27,7 @@ module.exports = {
 				},
 			},
 			animation: {
-				gradient: 'gradient 25s ease-in-out infinite',
+				gradient: 'gradient 32s ease-in-out infinite',
 			},
 			colors: {
 				inherit: colors.inherit,
