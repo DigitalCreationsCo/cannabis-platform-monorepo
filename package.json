@@ -60,6 +60,7 @@
 		"app:build-all": "yarn workspaces foreach -ptv --include '@cd/app-*' run build",
 		"app:clean": "yarn workspaces foreach -ptv --include '@cd/app-*' run clean",
 		"dev-all": "concurrently \"yarn packages:watch\" \"yarn server:watch\" \"yarn app:dev\"",
+		"docker:dev": "docker compose -f docker-compose.dev.yml up -d",
 		"docker:supertokens-dev": "scripts/supertokens-dev.sh",
 		"docker:shadow-db": "scripts/docker-shadow-db.sh",
 		"docker:redis": "scripts/docker-redis.sh $0",
