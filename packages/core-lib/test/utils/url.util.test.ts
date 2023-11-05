@@ -15,12 +15,12 @@ describe('formatUrl.test', () => {
 	}[] = [
 		{
 			NODE_ENV: 'development',
-			NEXT_PUBLIC_SHOP_APP_URL: 'http://localhost:3002',
+			NEXT_PUBLIC_SHOP_APP_URL: 'http://localhost:3000',
 			NEXT_PUBLIC_DASHBOARD_APP_URL: 'http://localhost:3001',
 		},
 		{
 			NODE_ENV: 'test',
-			NEXT_PUBLIC_SHOP_APP_URL: 'http://localhost:3002',
+			NEXT_PUBLIC_SHOP_APP_URL: 'http://localhost:3000',
 			NEXT_PUBLIC_DASHBOARD_APP_URL: 'http://localhost:3001',
 		},
 		{
@@ -39,11 +39,11 @@ describe('formatUrl.test', () => {
 			switch (process.env.NODE_ENV) {
 				case 'development':
 					return expect(formatDispensaryUrl(subdomainId)).toStrictEqual(
-						`https://${subdomainId}.localhost:3002`,
+						`https://${subdomainId}.localhost:3000`,
 					);
 				case 'test':
 					return expect(formatDispensaryUrl(subdomainId)).toStrictEqual(
-						`https://${subdomainId}.localhost:3002`,
+						`https://${subdomainId}.localhost:3000`,
 					);
 				case 'production':
 					return expect(formatDispensaryUrl(subdomainId)).toStrictEqual(
@@ -55,11 +55,11 @@ describe('formatUrl.test', () => {
 			switch (process.env.NODE_ENV) {
 				case 'development':
 					expect(getShopSite('/home')).toStrictEqual(
-						`http://localhost:3002/home`,
+						`http://localhost:3000/home`,
 					);
 				case 'test':
 					expect(getShopSite('/home')).toStrictEqual(
-						`http://localhost:3002/home`,
+						`http://localhost:3000/home`,
 					);
 				case 'production':
 					expect(getShopSite('/home')).toStrictEqual(`grascannabis.org/home`);
@@ -129,7 +129,7 @@ describe('parseUrlFriendlyStringToObject', () => {
 
 	it('does not parses a url', () => {
 		const fullUrl =
-			'http://localhost:3002?SmsMessageSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&NumMedia=0&SmsSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&SmsStatus=received&Body=1&To=%2B16674084833&NumSegments=1&MessageSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&AccountSid=KhtyQHt5jqQ91QA7UzskjA%3D%3D&From=%2B15707901185&ApiVersion=2010-04-01';
+			'http://localhost:3000?SmsMessageSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&NumMedia=0&SmsSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&SmsStatus=received&Body=1&To=%2B16674084833&NumSegments=1&MessageSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&AccountSid=KhtyQHt5jqQ91QA7UzskjA%3D%3D&From=%2B15707901185&ApiVersion=2010-04-01';
 		expect(parseUrlFriendlyStringToObject(fullUrl)).toStrictEqual({
 			SmsMessageSid: 'SMIUiUtGDXgITHegOTsXK4I_A==',
 			NumMedia: '0',
@@ -149,7 +149,7 @@ describe('parseUrlFriendlyStringToObject', () => {
 describe('parseUrlParameters', () => {
 	it('successfully parses url params', () => {
 		const fullUrl =
-			'http://localhost:3002?SmsMessageSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&NumMedia=0&SmsSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&SmsStatus=received&Body=1&To=%2B16674084833&NumSegments=1&MessageSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&AccountSid=KhtyQHt5jqQ91QA7UzskjA%3D%3D&From=%2B15707901185&ApiVersion=2010-04-01';
+			'http://localhost:3000?SmsMessageSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&NumMedia=0&SmsSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&SmsStatus=received&Body=1&To=%2B16674084833&NumSegments=1&MessageSid=SMIUiUtGDXgITHegOTsXK4I_A%3D%3D&AccountSid=KhtyQHt5jqQ91QA7UzskjA%3D%3D&From=%2B15707901185&ApiVersion=2010-04-01';
 		expect(parseUrlParameters(fullUrl)).toStrictEqual({
 			SmsMessageSid: 'SMIUiUtGDXgITHegOTsXK4I_A==',
 			NumMedia: '0',
