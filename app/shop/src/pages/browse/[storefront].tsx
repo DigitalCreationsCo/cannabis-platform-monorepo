@@ -5,18 +5,25 @@ import {
 	selectOrganizationBySubdomain,
 	TextContent,
 } from '@cd/core-lib';
-import { type OrganizationWithShopDetails } from '@cd/data-access';
+import {
+	type ProductVariantWithDetails,
+	type OrganizationWithShopDetails,
+} from '@cd/data-access';
 import {
 	Button,
 	Card,
+	ConfirmationModal,
 	ErrorMessage,
 	FlexBox,
+	Grid,
 	H2,
 	H4,
+	H6,
 	IconWrapper,
 	Page,
 	Paragraph,
-	ProductItem,
+	Price,
+	TextField,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
 import icons from '@cd/ui-lib/src/icons';
@@ -24,7 +31,9 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import Router from 'next/router';
+import { type PropsWithChildren, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
+import logo from '../../../public/logo2.png';
 import { useAppSelector } from '../../redux/hooks';
 import { wrapper } from '../../redux/store';
 
@@ -123,7 +132,7 @@ function Storefront({ subdomain }: { subdomain: string }) {
 		return (
 			<div className="sm:pb-8">
 				<H4 className="pb-2">Selection</H4>
-				<>
+				<Grid className="grid-cols-3 pb-8">
 					{isArray(organization.products) ? (
 						organization.products.map((product, i) => {
 							console.info('product', product);
@@ -142,7 +151,8 @@ function Storefront({ subdomain }: { subdomain: string }) {
 					) : (
 						<BrowseMore />
 					)}
-				</>
+				</Grid>
+				<BrowseMore />
 			</div>
 		);
 	};
@@ -234,3 +244,59 @@ export const getServerSideProps = wrapper.getServerSideProps(
 			}
 		},
 );
+
+type ProductItemProps = {
+	className?: string;
+	data: ProductVariantWithDetails;
+	handleConfirm?: any;
+};
+function ProductItem({
+	data: product,
+	className,
+	handleConfirm,
+}: ProductItemProps & PropsWithChildren) {
+	const [openConfirm, setOpenConfirm] = useState(false);
+	const [quantity, setQuantity] = useState(1);
+	const toggleConfirm = () => setOpenConfirm((state) => !state);
+
+	// console.info('product image source: ', product?.images?.[0]?.location)
+
+	return (
+		<div
+			className={twMerge('border w-full h-full col-span-1', className)}
+			// onClick={toggleConfirm}
+		>
+			{product?.images?.[0]?.location ? (
+				<img
+					src={product?.images?.[0]?.location}
+					alt={product.name}
+					style={{ height: 80, maxHeight: 100, width: 80, maxWidth: 100 }}
+					className="rounded object-cover place-self-center"
+				/>
+			) : (
+				<img
+					src={logo.src}
+					alt={product.name}
+					style={{ height: 80, maxHeight: 100, width: 80, maxWidth: 100 }}
+					className="rounded object-cover place-self-center"
+				/>
+			)}
+			<div className="h-full w-full p-4 space-y-2">
+				<FlexBox className="flex-row justify-between">
+					<H6>{product.name}</H6>
+					<Paragraph className="place-self-end">
+						{product.size + product.unit}
+					</Paragraph>
+				</FlexBox>
+				<Price
+					className="justify-end"
+					basePrice={product.basePrice}
+					salePrice={product.salePrice}
+					discount={product.discount}
+					quantity={product.quantity}
+					showDiscount
+				/>
+			</div>
+		</div>
+	);
+}
