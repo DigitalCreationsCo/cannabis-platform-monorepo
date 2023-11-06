@@ -59,11 +59,19 @@ const hydratableReducer = (state: any, action: AnyAction) => {
 	}
 };
 
-export const persistConfig = {
-	key: 'root',
-	blacklist: ['modal'],
-	storage,
-};
+// dont persist state in a development container
+export const persistConfig =
+	process.env.NODE_ENV === 'development' && process.env.DEV_ENV === 'docker'
+		? {
+				key: 'root',
+				whitelist: ['modal', 'shop', 'user', 'blog'],
+				storage,
+		  }
+		: {
+				key: 'root',
+				blacklist: ['modal'],
+				storage,
+		  };
 
 const supertokensArguments = () => {
 	return { signOut };

@@ -1,11 +1,19 @@
 version: '3.8'
 
+networks:
+  default:
+    ipam:
+      driver: default
+      config:
+        - subnet: '172.28.0.1/16'
+          gateway: '172.28.0.1'
+
 services:
   shop:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    image: node:16-buster-slim
+    image: node:16-buster
     env_file: 
       - .env.docker
     working_dir: /root/app/shop
@@ -44,18 +52,6 @@ services:
     ports:
       - '3567:3567'
     command: 'supertokens start'
-
-  # app-base:
-  #   restart: always
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile.dev
-  #   environment:
-  #     - NODE_ENV=development
-  #   volumes:
-  #     - ./:/root
-  #     - monorepo-node-modules:/root/node_modules
-
   
 volumes:
   monorepo-node-modules: 
