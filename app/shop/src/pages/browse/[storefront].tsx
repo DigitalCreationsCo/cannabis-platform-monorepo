@@ -12,7 +12,6 @@ import {
 import {
 	Button,
 	Card,
-	ConfirmationModal,
 	ErrorMessage,
 	FlexBox,
 	Grid,
@@ -23,7 +22,6 @@ import {
 	Page,
 	Paragraph,
 	Price,
-	TextField,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
 import icons from '@cd/ui-lib/src/icons';
@@ -136,16 +134,16 @@ function Storefront({ subdomain }: { subdomain: string }) {
 					{isArray(organization.products) ? (
 						organization.products.map((product, i) => {
 							console.info('product', product);
-							return isArray(product.variants) &&
-								product.variants.length > 0 ? (
-								product.variants.map((variant, index) => (
-									<ProductItem
-										key={`${organization.name}-product-${i}-variant-${index}`}
-										data={variant}
-									/>
-								))
-							) : (
-								<BrowseMore />
+							return (
+								(isArray(product.variants) &&
+									product.variants.length > 0 &&
+									product.variants.map((variant, index) => (
+										<ProductItem
+											key={`${organization.name}-product-${i}-variant-${index}`}
+											data={variant}
+										/>
+									))) ||
+								null
 							);
 						})
 					) : (

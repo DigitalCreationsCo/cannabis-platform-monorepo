@@ -85,7 +85,7 @@ const LocationProvider = () => {
 			};
 			getDispensaries();
 		}
-	}, [selectedLocation, coordinates, enteredSite, shopState.isLoading]);
+	}, [selectedLocation, coordinates, enteredSite]);
 	return <></>;
 };
 
