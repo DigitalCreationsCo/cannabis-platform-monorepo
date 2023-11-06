@@ -6,7 +6,21 @@ services:
       NODE_ENV: development
     build:
       context: .
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/root
+    expose:
+      - 3000
+    ports:
+      - 3000:3000
+    command: "yarn next dev"
+
+  dashboard:
+    environment:
+      NODE_ENV: development
+    build:
+      context: .
+      dockerfile: Dockerfile
       args:
         - BUILD_TYPE=app
         - BUILD_CONTEXT=shop
@@ -18,26 +32,6 @@ services:
       - 3000:3000
     command: "yarn next dev"
   
-  # dashboard:
-  #   build:
-  #     context: ./
-  #     dockerfile: Dockerfile.dev
-  #   volumes:
-  #     - ./packages:/root
-  #     - ./app/dashboard:/root/app
-  #   command: cd app/dashboard && yarn dev
-  #   environment:
-  #     NODE_ENV: development
-
-  # shop:
-  #   image: docker.io/grasadmin/shop
-  #   ports:
-  #     - '3000:3000'
-  #   environment:
-  #     - 'NODE_ENV=development'
-  #   env_file:
-  #     - .env.development
-
   # dashboard:
   #   image: docker.io/grasadmin/dashboard
   #   ports:
@@ -65,14 +59,16 @@ services:
   #   env_file:
   #     - .env.development
 
-  # main:
-  #   image: docker.io/grasadmin/main
-  #   ports:
-  #     - '6001:6001'
-  #   environment:
-  #     - 'NODE_ENV=development'
-  #   env_file:
-  #     - .env.development
+  main:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '6001:6001'
+    environment:
+      - 'NODE_ENV=development'
+    env_file:
+      - .env.development
 
   # location:
   #   image: docker.io/grasadmin/location

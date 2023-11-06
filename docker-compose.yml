@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  app-base:
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./:/root
+      - monorepo-node-modules:/root/node_modules
+
+  shop:
+    extends:
+      service: app-base
+    working_dir: /root/app/shop
+    command: yarn dev
+    ports:
+      - "3000:3000"
+
+  main:
+    extends:
+      service: app-base
+    working_dir: /root/server/main
+    command: yarn watch
+    ports:
+      - "6001:6001"
+
+  supertokens:
+    image: registry.supertokens.io/supertokens/supertokens-postgresql:3.14
+    ports:
+      - '3567:3567'
+    env_file:
+      - .env.development
+    command: 'supertokens start'
+
+volumes:
+  monorepo-node-modules: null

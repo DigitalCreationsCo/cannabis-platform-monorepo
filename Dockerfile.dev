@@ -1,12 +1,8 @@
 FROM node:16-buster-slim
 
-ARG BUILD_TYPE
-ARG BUILD_CONTEXT
-
 WORKDIR /root
-COPY . ./
+
+COPY . .
 
 RUN yarn
-WORKDIR /root/$BUILD_TYPE/$BUILD_CONTEXT
-
-RUN yarn
+# CMD ["yarn"]
