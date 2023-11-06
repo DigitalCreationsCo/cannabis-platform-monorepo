@@ -3665,6 +3665,10 @@ details > summary {
   border-left-width: 4px;
 }
 
+.border-b {
+  border-bottom-width: 1.5px;
+}
+
 .border-accent {
   border-color: var(--accent);
 }

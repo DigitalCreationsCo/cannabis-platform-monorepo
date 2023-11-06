@@ -1,40 +1,61 @@
 version: '3.8'
 
 services:
-  app-base:
-    restart: always
+  shop:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    environment:
-      - NODE_ENV=development
+    image: node:16-buster-slim
+    env_file: 
+      - .env.docker
+    working_dir: /root/app/shop
+    command: yarn dev
     volumes:
       - ./:/root
       - monorepo-node-modules:/root/node_modules
-
-  shop:
-    extends:
-      service: app-base
-    working_dir: /root/app/shop
-    command: yarn dev
     ports:
       - "3000:3000"
 
   main:
-    extends:
-      service: app-base
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    env_file: 
+      - .env.docker
     working_dir: /root/server/main
+    depends_on:
+      - supertokens
     command: yarn watch
+    volumes:
+      - ./:/root
+      - monorepo-node-modules:/root/node_modules
     ports:
       - "6001:6001"
 
   supertokens:
     image: registry.supertokens.io/supertokens/supertokens-postgresql:3.14
+    environment:
+      - 'POSTGRESQL_USER=postgres'
+      - 'POSTGRESQL_PASSWORD=RRJV@y_CK-jz9rj'
+      - 'POSTGRESQL_HOST=db.runhqicnmxfwlzwllswi.supabase.co'
+      - 'POSTGRESQL_PORT=5432'
+      - 'POSTGRESQL_DATABASE_NAME=postgres'
+      - 'POSTGRESQL_CONNECTION_URI=postgresql://postgres:RRJV@y_CK-jz9rj@db.runhqicnmxfwlzwllswi.supabase.co:5432/postgres'
     ports:
       - '3567:3567'
-    env_file:
-      - .env.development
     command: 'supertokens start'
 
+  # app-base:
+  #   restart: always
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.dev
+  #   environment:
+  #     - NODE_ENV=development
+  #   volumes:
+  #     - ./:/root
+  #     - monorepo-node-modules:/root/node_modules
+
+  
 volumes:
-  monorepo-node-modules: null
+  monorepo-node-modules: 

@@ -1,6 +1,6 @@
 generator client {
   provider      = "prisma-client-js"
-  binaryTargets = ["native", "linux-musl", "debian-openssl-1.1.x"]
+  binaryTargets = ["native", "linux-musl", "debian-openssl-1.1.x", "linux-musl-arm64-openssl-3.0.x"]
 }
 
 datasource db {
@@ -490,8 +490,9 @@ model Organization {
   addressId                String              @unique
   dialCode                 String
   phone                    String?
-  vendorId                 String
-  vendorName               String
+  vendor                   Vendor?             @relation(fields: [vendorId, vendorName], references: [id, name])
+  vendorId                 String?
+  vendorName               String?
   termsAccepted            Boolean             @default(false)
   subdomainId              String
   createdAt                DateTime            @default(now())
@@ -504,7 +505,6 @@ model Organization {
   address                  Address             @relation(fields: [addressId], references: [id], onDelete: Cascade)
   schedule                 Schedule[]
   subdomain                SubDomain           @relation(fields: [subdomainId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  vendor                   Vendor              @relation(fields: [vendorId, vendorName], references: [id, name])
   products                 Product[]
   siteSetting              SiteSetting?
   memberships              Membership[]        @relation("MembershipToOrganization")
