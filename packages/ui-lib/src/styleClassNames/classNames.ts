@@ -24,7 +24,7 @@ const styles = Object.freeze({
 	],
 	HERO: {
 		container: [
-			'w-full pt-4 pb-6 md:pt-4 px-4 md:px-14 lg:px-32',
+			'w-full md:pt-4 md:pb-6 px-4 md:px-14 lg:px-32',
 			'justify-center',
 		],
 		content: [

@@ -73,7 +73,7 @@ function TopBar({ signOut }: TopBarProps) {
 			<FlexBox className="flex flex-row items-center space-x-4 px-4 pr-2">
 				{isSignedIn && (
 					<Link
-						className={twMerge('hidden sm:block', styles.BUTTON.highlight)}
+						className={twMerge('hidden sm:block')}
 						href={TextContent.href.support}
 					>
 						<IconButton
@@ -172,7 +172,7 @@ function TopBar({ signOut }: TopBarProps) {
 							key={`nav-help-topic-${index}`}
 							className="active:bg-accent-soft focus:bg-accent-soft w-full md:hidden"
 						>
-							<Link href={`/${key}`} className="w-full">
+							<Link href={`?topic=${key}`} className="w-full">
 								<Button
 									size="md"
 									bg="transparent"

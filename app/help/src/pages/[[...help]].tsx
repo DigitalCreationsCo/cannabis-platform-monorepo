@@ -35,8 +35,10 @@ function HelpCenterHome() {
 	return (
 		<Page className="bg-light">
 			<div className="mx-auto">
-				<div className={twMerge(styles.HERO.container, 'hidden md:block')}>
-					<H1 className="text-primary text-center">We're here to help.</H1>
+				<div className={twMerge(styles.HERO.container)}>
+					<H1 className="text-primary text-center text-xl md:text-4xl">
+						We're here to help.
+					</H1>
 				</div>
 				<div className="tabs hidden gap-2 md:block">
 					{Object.keys(helpTopics).map((key) => (
