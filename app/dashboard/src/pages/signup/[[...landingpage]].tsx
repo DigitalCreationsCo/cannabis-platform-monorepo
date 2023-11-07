@@ -10,10 +10,11 @@ import {
 	H5,
 	Icons,
 	IconWrapper,
+	Collapse,
 	Page,
 	Paragraph,
-	FAQ,
 	type LayoutContextProps,
+	Video,
 } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -27,6 +28,7 @@ function LandingPage() {
 	return (
 		<Page gradient="pink" className="pb-0">
 			<Hero />
+			<EmbedVideo />
 			<Benefits data={benefitOne} />
 			<Benefits imgPos="right" data={benefitTwo} />
 			<div className="space-y-16 p-12">
@@ -36,7 +38,9 @@ function LandingPage() {
 					</H3>
 					<FAQ />
 					<div>
-						<H3 className="text-center m-auto">Have more questions?</H3>
+						<H3 className="text-center text-xl md:text-2xl m-auto">
+							Have more questions?
+						</H3>
 						<Button
 							bg="transparent"
 							hover="transparent"
@@ -54,6 +58,44 @@ function LandingPage() {
 			</div>
 		</Page>
 	);
+
+	function FAQ() {
+		const faqdata = [
+			{
+				q: 'How do I get started with Delivery by Gras?',
+				value: `Hit the big button to create your account. 👇 
+					Once you signup, you can view your account. Then, simply follow our setup guide to receive delivery orders.`,
+			},
+			{
+				q: 'I signed up. Now what?',
+				value: `Sign in and follow our setup guide to receive delivery orders!`,
+			},
+			{
+				q: 'How much will I pay for Delivery by Gras?',
+				value: `Gras charges your business a low monthly fee. Its that simple. 
+					We keep our fees low to offer you affordable, high quality delivery service.`,
+			},
+			{
+				q: 'Is there a guarantee?',
+				value: `Yes! If you're not satisfied with our delivery service for any reason, we'll give you 30 days free. We'll do the best we can to improve our service. 
+				Gras does not issue refunds. `,
+			},
+			{
+				q: 'Do you offer technical support? ',
+				value: `Yes, we do. Gras support team is available 7 days a week to help you with any issues you may have. 
+					You can reach us by email, phone, or text. We're here to help.`,
+			},
+		];
+		return (
+			<FlexBox className="mx-auto items-center w-full max-w-2xl rounded-2xl p-8">
+				<div>
+					{faqdata.map((item, index: number) => (
+						<Collapse key={`faq-${index}`} item={item} />
+					))}
+				</div>
+			</FlexBox>
+		);
+	}
 }
 
 export default LandingPage;
@@ -96,7 +138,7 @@ const Hero = () => {
 						area.
 					</Paragraph>
 					<Iframe
-						className="m-auto"
+						className="m-auto text-xl"
 						src="https://embeds.beehiiv.com/2bc9d84b-e4a8-4cdd-a9ad-f75003eec7a0?slim=true"
 						data-test-id="beehiiv-embed"
 						width="330"
@@ -108,6 +150,33 @@ const Hero = () => {
 				</div>
 			</FlexBox>
 		</Card>
+	);
+};
+
+const EmbedVideo = () => {
+	return (
+		<FlexBox className="p-8 m-auto flex-col gap-8">
+			<div>
+				<H3 className="text-inverse drop-shadow-xl mt-3 max-w-2xl text-center text-3xl font-bold leading-snug tracking-tight lg:text-4xl lg:leading-tight">
+					Introducing Delivery By Gras
+				</H3>
+				<Paragraph className="m-auto py-4 text-justify leading-normal lg:text-lg xl:text-lg">
+					Fast, Secure and Reliable Delivery Service for your Dispensary.
+				</Paragraph>
+			</div>
+			<Video
+				Embed={() => (
+					<Iframe
+						className="m-auto rounded h-full aspect-video max-h-[240px] w-full max-w[620px]"
+						src="https://www.youtube.com/embed/jnjA4hPyKoc?si=3C4G8KUgah9EakQ9"
+						title="YouTube video player"
+						frameBorder="0"
+						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+						allowfullscreen
+					></Iframe>
+				)}
+			/>
+		</FlexBox>
 	);
 };
 
@@ -123,7 +192,7 @@ const Benefits = (props: any) => {
 					data.imgPos === 'right' ? 'lg:justify-end' : ''
 				}`}
 			>
-				<H3 className="text-inverse drop-shadow-xl mt-3 max-w-2xl text-center text-3xl font-bold leading-snug tracking-tight lg:text-4xl lg:leading-tight">
+				<H3 className="text-inverse drop-shadow-xl mt-3 max-w-2xl text-center text-2xl font-bold leading-snug tracking-tight lg:text-4xl lg:leading-tight">
 					{data.title}
 				</H3>
 				<Paragraph className="m-auto max-w-[440px] py-4 text-justify leading-normal lg:text-lg xl:text-lg">
@@ -144,8 +213,8 @@ const Benefits = (props: any) => {
 			>
 				<Image
 					className="bg-inverse border-2 rounded-full"
-					height={400}
-					width={400}
+					height={300}
+					width={300}
 					src={data.image}
 					alt="Benefits"
 					placeholder="blur"
@@ -234,7 +303,7 @@ const CallToSignup = () => {
 	const code = searchParams.get('code') || '';
 
 	return (
-		<FlexBox className="px-8">
+		<FlexBox className="m-auto">
 			<div className="bg-secondary-light mx-auto flex w-full max-w-4xl flex-col flex-wrap place-content-center content-center items-center space-y-4 rounded-xl p-7 text-white sm:flex-row sm:space-x-8 md:space-y-0 lg:flex-nowrap lg:p-12">
 				<div className="text-center lg:text-center">
 					<h2 className="text-2xl font-medium lg:text-3xl">
