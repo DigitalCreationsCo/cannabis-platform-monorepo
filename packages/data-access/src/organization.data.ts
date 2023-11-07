@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/cognitive-complexity */
 import { type Prisma } from '@prisma/client';
 import prisma from './db/prisma';
 import {
@@ -112,7 +113,7 @@ export async function createOrganization(
 		const { address, subdomainId, schedule } = organization;
 
 		console.debug('prisma create organization');
-		return await prisma.organization.create({
+		return (await prisma.organization.create({
 			data: {
 				id: organization.id || undefined,
 				name: organization.name,
@@ -160,19 +161,21 @@ export async function createOrganization(
 						create: { id: subdomainId, isValid: true },
 					},
 				},
-				vendor: {
-					// connect to vendor, or create new vendor from organization
-					// this will be fine with the beginning clients, when taking on a larger client, or a second client, we will need to create a shared vendor
-					connectOrCreate: {
-						where: { name: organization.vendorName },
-						// where: { id: organization.vendorId },
-						create: {
-							id: organization.vendorId,
-							publicName: organization.name,
-							name: organization.vendorName,
-						},
-					},
-				},
+				vendor: organization.vendorId
+					? {
+							// connect to vendor, or create new vendor from organization
+							// this will be fine with the beginning clients, when taking on a larger client, or a second client, we will need to create a shared vendor
+							connectOrCreate: {
+								where: { name: organization.vendorName },
+								// where: { id: organization.vendorId },
+								create: {
+									id: organization.vendorId,
+									publicName: organization.name,
+									name: organization.vendorName,
+								},
+							},
+					  }
+					: undefined,
 				siteSetting: {
 					create: {
 						// default site settings
@@ -198,7 +201,7 @@ export async function createOrganization(
 				subdomain: true,
 				vendor: true,
 			},
-		});
+		})) as OrganizationWithAddress;
 	} catch (error: any) {
 		console.log('data-access createOrganization error: ', error);
 		if (error.code === 'P2002')

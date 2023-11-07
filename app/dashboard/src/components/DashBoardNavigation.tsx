@@ -4,66 +4,46 @@ import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { FeatureConfig } from '../config/dashboard.features';
 
-const DashboardNavigation = () => {
-	const { pathname } = useRouter();
-	const { dispensary } = useSelector(selectDispensaryState);
-
-	function renderNavLinkAndSubLinks(navLinkGroup: NavLinkType[]): any[] {
-		return navLinkGroup
-			.filter((link) => link.enabled)
-			.map((link) => (
-				// isArray(item) ? (
-				// 	renderNavLinkAndSubLinks(item)
-				// ) :
-				<NavLink
-					key={link.title}
-					link={link}
-					isActive={pathname.startsWith(link.href)}
-				>
-					{link.title}
-				</NavLink>
-			));
-	}
-
-	const navLinkGroups: NavLinkType[] = [
+export const getNavLinkGroups: (id: string) => NavLinkType[] = (id: string) =>
+	[
 		{
-			href: TextContent.href.dashboard_f(dispensary.id),
+			href: TextContent.href.dashboard_f(id),
 			title: 'Home',
 			icon: Icons.WatsonHealthDicomOverlay,
 			enabled: true,
 		},
 		{
-			href: TextContent.href.orders_f(dispensary.id),
+			href: TextContent.href.orders_f(id),
 			title: 'Orders',
 			icon: Icons.DeliveryTruck,
 			enabled: FeatureConfig.orders.enabled,
 		},
 		{
-			href: TextContent.href.products_f(dispensary.id),
+			href: TextContent.href.products_f(id),
 			title: 'Products',
 			icon: Icons.Product,
 			enabled: FeatureConfig.products.enabled,
 		},
 		{
-			href: TextContent.href.users_f(dispensary.id),
+			href: TextContent.href.users_f(id),
 			title: 'Users',
 			icon: Icons.UserAvatarFilledAlt,
 			enabled: FeatureConfig.users.enabled,
 		},
 		{
-			href: TextContent.href.settings_f(dispensary.id),
+			href: TextContent.href.settings_f(id),
 			title: 'Settings',
 			icon: Icons.Settings,
 			enabled: true,
 			subLinks: [
 				{
-					href: TextContent.href.site_f(dispensary.id),
+					href: TextContent.href.site_f(id),
 					title: 'Site Settings',
 					icon: Icons.CategoryOutlined,
 					enabled: true,
 				},
 				{
-					href: TextContent.href.setup_widget_f(dispensary.id),
+					href: TextContent.href.setup_widget_f(id),
 					title: 'Widget Setup',
 					icon: Icons.WifiBridgeAlt,
 					enabled: true,
@@ -101,7 +81,30 @@ const DashboardNavigation = () => {
 		//   title: "Icons",
 		//   icon: Image,
 		// },
-	];
+	].filter((link) => link.enabled);
+
+const DashboardNavigation = () => {
+	const { pathname } = useRouter();
+	const { dispensary } = useSelector(selectDispensaryState);
+	const navLinkGroups = getNavLinkGroups(dispensary.id);
+
+	function renderNavLinkAndSubLinks(navLinkGroup: NavLinkType[]): any[] {
+		return navLinkGroup
+			.filter((link) => link.enabled)
+			.map((link) => (
+				// isArray(item) ? (
+				// 	renderNavLinkAndSubLinks(item)
+				// ) :
+				<NavLink
+					key={link.title}
+					link={link}
+					isActive={pathname.startsWith(link.href)}
+				>
+					{link.title}
+				</NavLink>
+			));
+	}
+
 	return <ul>{renderNavLinkAndSubLinks(navLinkGroups)}</ul>;
 };
 

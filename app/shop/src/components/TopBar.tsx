@@ -70,7 +70,7 @@ function TopBar({ signOut }: TopBarProps) {
 				{/* GET SUPPORT BUTTON */}
 				{isSignedIn && (
 					<Link
-						className={twMerge('hidden sm:block', styles.BUTTON.highlight)}
+						className={twMerge('hidden sm:block')}
 						href={TextContent.href.support}
 					>
 						<IconButton
@@ -84,18 +84,6 @@ function TopBar({ signOut }: TopBarProps) {
 						></IconButton>
 					</Link>
 				)}
-				{/* OLD GET SUPPORT LINK */}
-				{/* {isSignedIn && (
-					<Link
-						className={twMerge('hidden sm:block', styles.BUTTON.highlight)}
-						href={TextContent.href.support}
-					>
-						<Paragraph className={twMerge('whitespace-nowrap pt-1')}>
-							Get Support
-						</Paragraph>
-					</Link>
-				)} */}
-
 				<Link href={replaceRelativePath(TextContent.href.bag)}>
 					<IconButton
 						className={twMerge(styles.BUTTON.highlight, 'pt-0.5 indicator')}

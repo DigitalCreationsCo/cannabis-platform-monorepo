@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import FlexBox from './FlexBox';
 
-const Video = ({ Embed }: { Embed: JSX.Element }) => {
+const Video = ({ Embed }: { Embed: () => JSX.Element }) => {
 	const [playVideo, setPlayVideo] = useState(false);
 
 	return (
