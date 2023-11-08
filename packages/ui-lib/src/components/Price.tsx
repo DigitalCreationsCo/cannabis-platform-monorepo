@@ -45,16 +45,18 @@ function Price({
 	}
 
 	return (
-		<div className={twMerge('flex flex-row space-x-2 pl-2', className)}>
-			{showOriginalPrice && (
+		<div className={twMerge('flex flex-row space-x-2 pl-2 ', className)}>
+			{(showOriginalPrice && (
 				<Paragraph color={color} className="line-through">
 					{_currencySymbol[locale] + toDollars(base)}
 				</Paragraph>
-			)}
+			)) ||
+				null}
 
-			{showDiscount && discount > 0 && (
-				<Paragraph color={color}>`${discount}% off`</Paragraph>
-			)}
+			{(showDiscount && discount > 0 && (
+				<Paragraph color={color}>{discount}% off</Paragraph>
+			)) ||
+				null}
 
 			<Paragraph color={color}>
 				{_currencySymbol[locale] + toDollars(computeSalePrice())}
