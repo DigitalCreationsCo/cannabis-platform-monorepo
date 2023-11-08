@@ -58,8 +58,9 @@ function Storefront({ subdomain }: { subdomain: string }) {
 			>
 				{organization.name}
 			</H2>
+
 			{/* address */}
-			<Paragraph className="sm:text-lg font-semibold">
+			<Paragraph className="sm:text-lg">
 				{renderAddress({
 					address: organization.address,
 					lineBreak: false,
@@ -67,7 +68,6 @@ function Storefront({ subdomain }: { subdomain: string }) {
 			</Paragraph>
 
 			{/* subtitle */}
-			<H4 className="text-primary">{organization.siteSetting.bannerText}</H4>
 
 			<DispensaryStatus />
 		</div>
@@ -76,13 +76,15 @@ function Storefront({ subdomain }: { subdomain: string }) {
 	const Body = () => (
 		<div>
 			{/* info text */}
-			<H4 className="text-primary">{organization.siteSetting.description}</H4>
+			<H4 className="text-primary font-normal">
+				{organization.siteSetting.description}
+			</H4>
 		</div>
 	);
 
 	const DispensaryStatus = () => (
 		<FlexBox
-			className={`flex-row text-[${organization.siteSetting.primaryColor}]`}
+			className={`flex-col text-[${organization.siteSetting.primaryColor}]`}
 		>
 			{organization.subscribedForDelivery ? (
 				<FlexBox className="flex-row">
@@ -93,16 +95,23 @@ function Storefront({ subdomain }: { subdomain: string }) {
 				</FlexBox>
 			) : null}
 			{organization.subscribedForPickup ? (
-				<FlexBox className="flex-row">
-					<IconWrapper Icon={icons.CurrencyDollar} iconSize={28} />
-					<Paragraph className="whitespace-pre text-lg font-semibold tracking-wider">
-						{'Order for Pickup'}
-					</Paragraph>
+				<FlexBox className="flex-col">
+					<FlexBox className="flex-row">
+						<IconWrapper Icon={icons.CurrencyDollar} iconSize={28} />
+						<Paragraph className="whitespace-pre text-lg font-semibold tracking-wider">
+							{'Order for Pickup'}
+						</Paragraph>
+					</FlexBox>
+
+					{/* Banner Info */}
+					<H4 className={`text-primary`}>
+						{organization.siteSetting.bannerText}
+					</H4>
 				</FlexBox>
 			) : null}
 			{!organization.subscribedForDelivery &&
 			!organization.subscribedForPickup ? (
-				<Paragraph className="text-lg font-semibold tracking-wider">
+				<Paragraph className="text-lg text-dark-soft tracking-wider">
 					{TextContent.error.DISPENSARY_NOT_ACCEPTING_PAYMENTS}
 				</Paragraph>
 			) : null}
@@ -111,15 +120,17 @@ function Storefront({ subdomain }: { subdomain: string }) {
 
 	const Contact = () => (
 		<div>
-			<FlexBox className="flex-row items-center">
-				<IconWrapper Icon={icons.Phone} iconSize={28} />
-				<Link href={`tel:${organization.dialCode + organization.phone}`}>
-					<Paragraph className="whitespace-pre font-semibold">
-						{` call us +${organization.dialCode + organization.phone}`}
-					</Paragraph>
-				</Link>
-			</FlexBox>
-			<Paragraph className="whitespace-pre font-semibold">Hours</Paragraph>
+			{organization.subscribedForPickup ? (
+				<FlexBox className="flex-row items-center">
+					<IconWrapper Icon={icons.Phone} iconSize={28} />
+					<Link href={`tel:${organization.dialCode + organization.phone}`}>
+						<Paragraph className="whitespace-pre font-semibold">
+							{` call us +${organization.dialCode + organization.phone}`}
+						</Paragraph>
+					</Link>
+				</FlexBox>
+			) : null}
+			<Paragraph>Hours</Paragraph>
 			<FlexBox className="flex-row whitespace-pre-line">
 				{renderSchedule(organization.schedule)}
 			</FlexBox>
@@ -260,28 +271,25 @@ function ProductItem({
 	// console.info('product image source: ', product?.images?.[0]?.location)
 
 	return (
-		<div
-			className={twMerge('border w-full h-full col-span-1', className)}
-			// onClick={toggleConfirm}
-		>
+		<div className={twMerge('border w-full h-full col-span-1', className)}>
 			{product?.images?.[0]?.location ? (
 				<img
 					src={product?.images?.[0]?.location}
 					alt={product.name}
 					style={{ height: 80, maxHeight: 100, width: 80, maxWidth: 100 }}
-					className="rounded object-cover place-self-center"
+					className="rounded object-cover place-self-center m-auto"
 				/>
 			) : (
 				<img
 					src={logo.src}
 					alt={product.name}
 					style={{ height: 80, maxHeight: 100, width: 80, maxWidth: 100 }}
-					className="rounded object-cover place-self-center"
+					className="rounded object-cover place-self-center m-auto"
 				/>
 			)}
 			<div className="h-full w-full p-4 space-y-2">
 				<FlexBox className="flex-row justify-between">
-					<H6>{product.name}</H6>
+					<H6 className="font-normal">{product.name}</H6>
 					<Paragraph className="place-self-end">
 						{product.size + product.unit}
 					</Paragraph>
