@@ -11,7 +11,6 @@ import {
 	H1,
 	H3,
 	H5,
-	LoadingPage,
 	Page,
 	Paragraph,
 	SignInButton,
@@ -32,20 +31,20 @@ function DashboardStart() {
 	return (
 		<ImageBackDrop src={backdrop}>
 			<Page className="m-0 flex grow border-b bg-transparent p-0 md:p-0 lg:p-0">
-				<Center className="space-y-4">
+				<Center className="space-y-4 m-auto">
+					<FlexBox className="md:flex-row">
+						<H3 className="whitespace-pre md:text-4xl" color="light">
+							{`Welcome to `}
+						</H3>
+						<H1 color="light">Gras</H1>
+					</FlexBox>
 					<FlexBox className="items-center space-y-2">
-						<FlexBox className="md:flex-row">
-							<H3 className="whitespace-pre md:text-4xl" color="light">
-								{`Welcome to `}
-							</H3>
-							<H1 color="light">Gras</H1>
-						</FlexBox>
-						<H5 color="light">Sign in to use this app</H5>
+						{/* <H5 color="light">Sign in to use this app</H5> */}
 						<SignInButton size="lg" bg="primary" hover="primary-light" />
 					</FlexBox>
 
 					<FlexBox className="items-center space-y-2 pb-4">
-						<H3 color="light">{TextContent.account.ARE_YOU_A_DISPENSARY}</H3>
+						{/* <H3 color="light">{TextContent.account.ARE_YOU_A_DISPENSARY}</H3> */}
 						<Link href={getDashboardSite('/signup/create-dispensary-account')}>
 							<Button
 								type="button"
@@ -55,7 +54,7 @@ function DashboardStart() {
 								className="hover:bg-primary-light p-4"
 							>
 								<Paragraph color="light">
-									{`Create a dispensary account`}
+									{`Create a Dispensary account`}
 								</Paragraph>
 							</Button>
 						</Link>
@@ -79,7 +78,7 @@ const ImageBackDrop = ({
 				style={{
 					zIndex: -1,
 					objectFit: 'cover',
-					objectPosition: '80% 20%',
+					objectPosition: '80% 40%',
 				}}
 				priority
 			/>
@@ -87,7 +86,7 @@ const ImageBackDrop = ({
 				className="flex h-full grow"
 				style={{
 					zIndex: -1,
-					backgroundColor: 'rgba(0,0,0,0.4)',
+					backgroundColor: 'rgba(255,255,255,.14)',
 					position: 'absolute',
 					height: '100%',
 					width: '100%',

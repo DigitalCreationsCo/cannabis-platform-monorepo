@@ -9,18 +9,18 @@ export const getNavLinkGroups: (id: string) => NavLinkType[] = (id: string) =>
 		{
 			href: TextContent.href.dashboard_f(id),
 			title: 'Home',
-			icon: Icons.WatsonHealthDicomOverlay,
+			icon: Icons.Home,
 			enabled: true,
 		},
 		{
 			href: TextContent.href.orders_f(id),
 			title: 'Orders',
-			icon: Icons.DeliveryTruck,
+			icon: Icons.WatsonHealthDicomOverlay,
 			enabled: FeatureConfig.orders.enabled,
 		},
 		{
 			href: TextContent.href.delivery_tracking_f(id),
-			title: 'Orders',
+			title: 'Tracking',
 			icon: Icons.DeliveryTruck,
 			enabled: FeatureConfig.delivery_tracking.enabled,
 		},

@@ -52,7 +52,8 @@ export const getServerSideProps = wrapper.getServerSideProps(
 		async ({ query }: any) => {
 			try {
 				console.log('query', query);
-				if (!query.dashboard) throw new Error();
+				if (query.dashboard === 'undefined')
+					throw new Error('That info is not found. Please try again.');
 				const response = await axios.get(urlBuilder.dashboard + '/api/orders', {
 					headers: {
 						'organization-id': query.dashboard,

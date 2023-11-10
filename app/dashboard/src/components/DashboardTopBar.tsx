@@ -179,7 +179,7 @@ function DashboardTopBar({ signOut }: TopBarProps) {
 								(link, index) => (
 									<FlexBox
 										key={`nav-dashboard-${index}`}
-										className="active:bg-accent-soft focus:bg-accent-soft w-full md:hidden"
+										className="active:bg-accent-soft focus:bg-accent-soft w-full lg:hidden"
 									>
 										<Link href={link.href} className="w-full">
 											<Button
