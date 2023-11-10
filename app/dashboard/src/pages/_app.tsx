@@ -100,7 +100,7 @@ function App({ Component, ...rest }: CustomAppProps) {
 							initial={false}
 							onExitComplete={() => window.scrollTo(0, 0)}
 						>
-							{router.isReady ? (
+							{routerLoading ? (
 								<LoadingPage />
 							) : (
 								<LayoutContainer {...getLayoutContext()}>
@@ -108,7 +108,7 @@ function App({ Component, ...rest }: CustomAppProps) {
 										<ErrorBoundary>
 											<>
 												<Component {...props.pageProps} />
-												{!routerLoading &&
+												{routerLoading &&
 													(function (d, w, c: 'BrevoConversations') {
 														w.BrevoConversationsID =
 															process.env.NEXT_PUBLIC_BREVO_CONVERSATIONS_ID;

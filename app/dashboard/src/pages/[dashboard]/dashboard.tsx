@@ -103,7 +103,7 @@ function Dashboard({ user, organization, products, orders }: DashboardProps) {
 				iconColor={'primary'}
 				title={`${organization.name}`}
 				subTitle={`Dispensary`}
-				Icon={Icons.ShoppingCartArrowUp}
+				Icon={Icons.Home}
 			/>
 
 			<H6 className="pb-2">{`Welcome, ${user.firstName}`}</H6>

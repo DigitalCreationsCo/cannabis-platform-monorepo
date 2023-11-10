@@ -170,7 +170,7 @@ function TopBar({ signOut }: TopBarProps) {
 					{Object.keys(helpTopics).map((key, index) => (
 						<FlexBox
 							key={`nav-help-topic-${index}`}
-							className="active:bg-accent-soft focus:bg-accent-soft w-full md:hidden"
+							className="active:bg-accent-soft focus:bg-accent-soft w-full lg:hidden"
 						>
 							<Link href={`?topic=${key}`} className="w-full">
 								<Button

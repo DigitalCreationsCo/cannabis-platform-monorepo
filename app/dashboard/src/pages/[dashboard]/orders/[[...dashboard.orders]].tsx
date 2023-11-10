@@ -29,7 +29,7 @@ function Orders({ orders }: OrdersDashboardProps) {
 
 	return (
 		<Page className={twMerge('sm:px-4 md:pr-16')}>
-			<PageHeader title="Orders" Icon={Icons.DeliveryTruck} />
+			<PageHeader title="Orders" Icon={Icons.WatsonHealthDicomOverlay} />
 
 			<Grid className="gap-2">
 				<Row className="grid h-[44px] grid-cols-12">
