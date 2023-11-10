@@ -19,6 +19,12 @@ export const getNavLinkGroups: (id: string) => NavLinkType[] = (id: string) =>
 			enabled: FeatureConfig.orders.enabled,
 		},
 		{
+			href: TextContent.href.delivery_tracking_f(id),
+			title: 'Orders',
+			icon: Icons.DeliveryTruck,
+			enabled: FeatureConfig.delivery_tracking.enabled,
+		},
+		{
 			href: TextContent.href.products_f(id),
 			title: 'Products',
 			icon: Icons.Product,

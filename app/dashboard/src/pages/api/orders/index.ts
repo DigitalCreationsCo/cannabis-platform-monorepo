@@ -11,7 +11,7 @@ handler.get(async (req, res: NextApiResponse) => {
 		const response = await axios(urlBuilder.main.ordersByOrgId(organizationId));
 		return res.status(response.status).json(response.data);
 	} catch (error: any) {
-		console.error('next api: get orders ', error.message);
+		console.error('dashboard api: get orders ', error.message);
 		return res.status(500).json({
 			success: 'false',
 			error: error.message,

@@ -194,7 +194,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
 					props: {},
 				};
 			} catch (error) {
-				console.log(error);
+				console.log('Dashboard', error);
 				return {
 					notFound: true,
 				};
