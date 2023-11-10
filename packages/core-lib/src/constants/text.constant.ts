@@ -326,6 +326,7 @@ const TextContent = Object.freeze({
 
 		dashboard_f: (id: string) => `/${id}/dashboard`,
 		orders_f: (id: string) => `/${id}/orders`,
+		delivery_tracking_f: (id: string) => `/${id}/tracking`,
 		products_f: (id: string) => `/${id}/products`,
 		users_f: (id: string) => `/${id}/users`,
 		settings: '/settings',
