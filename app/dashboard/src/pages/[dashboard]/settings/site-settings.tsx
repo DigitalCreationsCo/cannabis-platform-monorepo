@@ -44,7 +44,7 @@ function SiteSettings({ dispensary, siteSetting }: SiteSettingsDashboardProps) {
 
 	const [setting, setSetting] = useState('');
 	return (
-		<Page>
+		<Page className={twMerge('sm:px-4 md:pr-16')}>
 			<PageHeader
 				title="Site Settings"
 				Icon={Icons.CategoryOutlined}
@@ -58,7 +58,7 @@ function SiteSettings({ dispensary, siteSetting }: SiteSettingsDashboardProps) {
 				</Button>
 			</PageHeader>
 			View and edit your storefront details
-			<Card className="grid mt-2 grid-cols-1 md:grid-cols-2 gap-6">
+			<Card className="grid mt-2 lg:!w-full grid-cols-1 md:grid-cols-2 gap-6">
 				<FlexBox className="border flex-col md:col-start-1">
 					{Object.keys(
 						pruneData(siteSetting, [

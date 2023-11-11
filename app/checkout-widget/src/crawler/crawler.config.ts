@@ -33,7 +33,7 @@ class Config implements CrawlerConfigInterface {
 			if (typeof window === 'undefined')
 				throw new Error('window is not available');
 			let host: WidgetHost;
-			if (this.key === 'dutchie-checkout') {
+			if (this.key === 'dutchie') {
 				host = 'dutchie';
 			} else {
 				host = getDispensaryDomain(window.location.hostname) as WidgetHost;
@@ -99,7 +99,7 @@ class Config implements CrawlerConfigInterface {
 			},
 		},
 		dutchie: {
-			'dutchie-checkout': {
+			dutchie: {
 				item: {
 					'cart-item': '.summary-item__Container-sc-1gislal-0',
 					name: '.product-details__ProductName-sc-10w5qcl-1',

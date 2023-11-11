@@ -5,7 +5,7 @@ export default function bookmarklet() {
 		GrasDeliveryWidget.mount({
 			dispensaryId: 'bf346k4u7x2b2hhr6wsofcsc',
 			dispensaryName: 'ReLeaf Shop Baltimore',
-			useDutchie: true,
+			pos: 'dutchie',
 		});
 		window.GrasDeliveryWidget = GrasDeliveryWidget;
 	});

@@ -57,7 +57,7 @@ describe('<Checkout />', () => {
 	});
 
 	it('Checkout component loads the dutchie-checkout crawler config', () => {
-		props.useDutchie = true;
+		props.pos = 'dutchie';
 		const checkout = shallow<Checkout>(<Checkout {...props} />);
 		expect(checkout).toBeDefined();
 
