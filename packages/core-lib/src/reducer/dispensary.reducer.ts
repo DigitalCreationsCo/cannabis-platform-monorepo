@@ -86,6 +86,7 @@ export const dispensarySlice = createSlice({
 			getDispensaryById.fulfilled,
 			(state, { payload }: PayloadAction<OrganizationWithDashboardDetails>) => {
 				const dispensary = payload;
+				console.info('getDispensaryById.fulfilled: ', dispensary);
 				state.dispensary = dispensary;
 				state.products = dispensary.products;
 				state.orders = dispensary.orders;
