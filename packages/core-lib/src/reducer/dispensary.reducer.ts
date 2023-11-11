@@ -22,7 +22,6 @@ export const getDispensaryById = createAsyncThunk(
 	'dispensary/getDispensaryById',
 	async (organizationId: string, thunkAPI) => {
 		try {
-			console.debug('getDispensaryById: ', organizationId);
 			const response = await axios.get<any, OrganizationWithDashboardDetails>(
 				urlBuilder.main.organizationWithDashboardDetails(organizationId),
 				{
@@ -73,10 +72,8 @@ export const dispensarySlice = createSlice({
 				payload: OrderWithDashboardDetails[];
 			},
 		) => {
-			console.info('updateDispensaryOrders action');
 			const orders = payload;
 			if (state.dispensary?.orders) {
-				console.info('reconciling dispensary orders');
 				reconcileStateArray(state.dispensary.orders, orders);
 			}
 		},

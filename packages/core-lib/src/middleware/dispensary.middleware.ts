@@ -36,12 +36,12 @@ const dispensaryMiddleware =
 				} else throw new Error(TextContent.error.DISPENSARY_NOT_FOUND);
 			}
 
-			if (
-				action.type === 'dispensary/getDispensaryById/fulfilled' &&
-				typeof window !== 'undefined'
-			) {
-				window.location.href = TextContent.href.dashboard_f(action.payload.id);
-			}
+			// if (
+			// 	action.type === 'dispensary/getDispensaryById/fulfilled' &&
+			// 	typeof window !== 'undefined'
+			// ) {
+			// 	window.location.href = TextContent.href.dashboard_f(action.payload.id);
+			// }
 		} catch (error) {
 			console.info('Dispensary Middleware: Caught an exception: ');
 			console.info(error);
