@@ -19,9 +19,9 @@ const dispensaryMiddleware =
 				window.location.pathname === '/' &&
 				userState.isSignedIn
 			) {
-				// window.location.href = TextContent.href.dashboard_f(
-				// 	dispensaryState.dispensary.id,
-				// );
+				window.location.href = TextContent.href.dashboard_f(
+					dispensaryState.dispensary.id,
+				);
 			}
 
 			if (action.type === 'user/signinUserSync') {

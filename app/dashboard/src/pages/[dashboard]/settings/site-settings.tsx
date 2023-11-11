@@ -57,9 +57,9 @@ function SiteSettings({ dispensary, siteSetting }: SiteSettingsDashboardProps) {
 					back
 				</Button>
 			</PageHeader>
-			<Card className="grid mt-2 grid-cols-2">
-				View and edit your storefront details
-				<FlexBox className="flex-col col-start-1">
+			View and edit your storefront details
+			<Card className="grid mt-2 grid-cols-1 md:grid-cols-2 gap-6">
+				<FlexBox className="border flex-col md:col-start-1">
 					{Object.keys(
 						pruneData(siteSetting, [
 							'id',
@@ -82,21 +82,21 @@ function SiteSettings({ dispensary, siteSetting }: SiteSettingsDashboardProps) {
 						</a>
 					))}
 				</FlexBox>
-				<Paragraph className="col-start-2">
-					{setting && setting + ': ' + siteSetting[setting]}
+				<Paragraph className="md:col-start-2 flex flex-row md:flex-col border row-start-1 md:row-start-auto h-16">
 					{setting.toLowerCase().includes('color') && (
 						<div
 							className={twMerge(
-								`w-[50px] h-[50px]`,
+								`w-[50px] h-[50px] mr-2`,
 								'border',
 								`bg-[${siteSetting[setting]}]`,
 							)}
 						></div>
 					)}
+					{setting && setting + ': ' + siteSetting[setting]}
 				</Paragraph>
 				<Link
 					target={'_blank'}
-					className="col-start-2 w-fit"
+					className="md:col-start-2 w-fit place-self-center"
 					href={TextContent.href.storefront_f(dispensary.subdomainId)}
 				>
 					<Button className="px-8" size="lg">
