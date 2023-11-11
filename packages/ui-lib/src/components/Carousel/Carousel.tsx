@@ -66,6 +66,7 @@ export default function Carousel<D>({
 		swipeToSlide: true,
 		slidesToScroll: 1,
 		cssEase: 'ease-out',
+		// draggable: true,
 		responsive: [
 			{
 				breakpoint: 1024,
