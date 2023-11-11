@@ -26,7 +26,7 @@ import { useAppSelector } from '../redux/hooks';
 function DashboardStart() {
 	const { isSignedIn } = useAppSelector(selectUserState);
 	const { dispensary } = useAppSelector(selectDispensaryState);
-	if (isSignedIn) Router.push(TextContent.href.dashboard_f(dispensary.id));
+	// if (isSignedIn) Router.push(TextContent.href.dashboard_f(dispensary.id));
 
 	return (
 		<ImageBackDrop src={backdrop}>
