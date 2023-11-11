@@ -5,7 +5,6 @@ export interface IconButtonProps extends ButtonProps, IconProps {
 	type?: 'button' | 'submit' | 'reset';
 	onClick?: React.EventHandler<React.MouseEvent<HTMLButtonElement>>;
 	className?: string;
-	iconClass?: string;
 	iconSize?: number;
 	theme?: 'light' | 'dark';
 }
@@ -27,7 +26,7 @@ export default function IconButton({
 				iconColor={iconColor}
 				theme={theme}
 				iconSize={iconSize}
-				className={iconClass}
+				iconClass={iconClass}
 				Icon={Icon}
 			/>
 			{children}

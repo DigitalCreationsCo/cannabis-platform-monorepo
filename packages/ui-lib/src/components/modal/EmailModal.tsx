@@ -2,6 +2,7 @@ import { type ModalStateProps } from '@cd/core-lib';
 import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import icons from '../../icons';
+import { styles } from '../../styleClassNames';
 import { IconButton } from '../button';
 import FlexBox from '../FlexBox';
 import TextField from '../TextField';
@@ -22,9 +23,6 @@ function EmailModal({
 	const closeModal = () => {
 		dispatchCloseModal();
 	};
-	const styles = {
-		emailModal: ['absolute', 'm-12', 'top-0 right-0 border-2 z-10'],
-	};
 
 	const [email, setEmail] = useState('support@grascannabis.org');
 	const sendEmail = () => {
@@ -40,7 +38,7 @@ function EmailModal({
 			modalVisible={modalVisible}
 			onClose={closeModal}
 			{...props}
-			className={twMerge(styles.emailModal)}
+			className={twMerge(styles.responsiveContainer)}
 		>
 			<FlexBox>
 				<Paragraph className="font-semibold">
@@ -68,6 +66,7 @@ function EmailModal({
 					transparent
 					bg="transparent"
 					hover="transparent"
+					iconClass={''}
 					className="p-6 px-2"
 					size="sm"
 					onClick={sendEmail}

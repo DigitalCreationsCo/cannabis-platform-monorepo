@@ -12,7 +12,7 @@ import { styles } from '../styleClassNames';
 import CopyRight from './CopyRight';
 import FlexBox from './FlexBox';
 import Grid from './Grid';
-import { GrasSignature, H4, H6, Paragraph } from './Typography';
+import { GrasSignature, H4, Paragraph } from './Typography';
 
 export default function Footer() {
 	const navigation = [

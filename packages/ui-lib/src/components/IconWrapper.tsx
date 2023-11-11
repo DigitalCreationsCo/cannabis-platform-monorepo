@@ -6,6 +6,7 @@ export type IconProps = {
 	Icon: ((props: SVGAttributes<SVGElement>) => JSX.Element) | CarbonIconType;
 	className?: string;
 	iconSize?: number;
+	iconClass?: string | string[];
 	iconColor?: string;
 	theme?: 'light' | 'dark';
 };
@@ -14,11 +15,12 @@ export default function IconWrapper({
 	Icon,
 	className,
 	iconSize = 20,
+	iconClass,
 	iconColor = theme === 'dark' ? 'light' : 'primary',
 	...props
 }: IconProps) {
 	const styles = {
-		fill: `fill-${iconColor}`,
+		fill: 'fill-' + iconColor,
 	};
 	return (
 		<div
@@ -28,7 +30,7 @@ export default function IconWrapper({
 			)}
 		>
 			<Icon
-				className={twMerge(styles.fill)}
+				className={twMerge(iconClass, styles.fill)}
 				height={iconSize}
 				width={iconSize}
 				{...props}

@@ -16,6 +16,7 @@ import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 import logo from '../../../../public/assets/images/logo.png';
 import Icons from '../../../icons';
+import { styles } from '../../../styleClassNames';
 import Button from '../../button/Button/Button';
 import FlexBox from '../../FlexBox';
 import Grid from '../../Grid';
@@ -365,7 +366,7 @@ function LoginModal({
 
 	return modalVisible ? (
 		<Modal
-			className={twMerge(styles.responsive, styles.padd)}
+			className={twMerge(styles.responsiveContainer, styles.padd)}
 			modalVisible={openModal}
 			onClose={closeModalAndReset}
 			{...props}
@@ -395,13 +396,6 @@ function LoginModal({
 		<></>
 	);
 }
-
-const styles = {
-	responsive: [
-		'bg-inverse min-h-full min-w-full sm:!rounded-none md:min-w-min md:min-h-min md:!rounded px-12',
-	],
-	padd: 'md:pt-12 md:pb-14',
-};
 
 const emailValidationSchema = yup.object().shape({
 	emailOrPhone: yup

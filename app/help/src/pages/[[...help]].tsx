@@ -68,7 +68,7 @@ function HelpCenterHome() {
 					)}
 					<HelpComponent />
 					{topic === 'faq' && (
-						<div>
+						<div className="m-auto">
 							<Paragraph className="text-center text-xl m-auto">
 								Have more questions?
 							</Paragraph>

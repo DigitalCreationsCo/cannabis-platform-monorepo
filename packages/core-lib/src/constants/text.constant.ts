@@ -343,14 +343,15 @@ const TextContent = Object.freeze({
 		preview_fullscreen_widget: (id: string) =>
 			`/${id}/settings/preview-fullscreen`,
 
-		about: '/help/about-gras',
-		support: '/help/support',
+		about: '/help?topic=about-gras',
+		support: '/help?topic=support',
 		help: `/help`,
-		compliance: `/help/compliance`,
-		dispensary_tos: `/help/dispensary-terms-and-conditions`,
-		user_tos: `/help/user-terms-and-conditions`,
-		privacy: `/help/privacy-policy`,
-		driver_tos: `/help/driver-terms-and-conditions`,
+		compliance: `/help?topic=compliance`,
+		install_guide: `/help?topic=install-guide`,
+		dispensary_tos: `/help?topic=dispensary-terms-and-conditions`,
+		user_tos: `/help?topic=user-terms-and-conditions`,
+		privacy: `/help?topic=privacy-policy`,
+		driver_tos: `/help?topic=driver-terms-and-conditions`,
 	},
 });
 
