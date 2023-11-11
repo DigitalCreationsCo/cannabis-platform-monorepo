@@ -498,6 +498,7 @@ model Organization {
   createdAt                DateTime            @default(now())
   updatedAt                DateTime            @updatedAt
   ecommerceUrl             String?
+  pos                      POS                 @default(none)
   showInMarketPlace        Boolean             @default(true)
   categoryList             CategoryList?
   images                   ImageOrganization[]
@@ -515,6 +516,13 @@ model Organization {
   @@index([name])
   @@index([vendorId])
   @@index([subdomainId])
+}
+
+enum POS {
+  none
+  dutchie
+  weedmaps
+  blaze
 }
 
 model Schedule {
