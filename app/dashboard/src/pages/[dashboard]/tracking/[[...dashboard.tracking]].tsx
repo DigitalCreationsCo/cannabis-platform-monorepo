@@ -17,6 +17,7 @@ import {
 	type LayoutContextProps,
 } from '@cd/ui-lib';
 import { current } from '@reduxjs/toolkit';
+import { orders } from 'data/dummyData';
 import { connect } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import { wrapper, type RootState } from '../../../redux/store';
@@ -26,6 +27,8 @@ interface TrackingProps {
 }
 
 function DashboardTrackingPage({ orders }: TrackingProps) {
+	if (!orders) throw new Error();
+
 	const styles = {
 		mapBox: 'w-90 h-90 border rounded',
 	};

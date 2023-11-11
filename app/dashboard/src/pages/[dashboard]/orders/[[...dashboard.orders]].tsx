@@ -16,6 +16,7 @@ import {
 	Row,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
+import { orders } from 'data/dummyData';
 import { connect } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import { wrapper, type RootState } from '../../../redux/store';
@@ -25,6 +26,7 @@ interface OrdersDashboardProps {
 }
 
 function Orders({ orders }: OrdersDashboardProps) {
+	if (!orders) throw new Error();
 	const { current, PaginationButtons } = usePagination(orders);
 
 	return (

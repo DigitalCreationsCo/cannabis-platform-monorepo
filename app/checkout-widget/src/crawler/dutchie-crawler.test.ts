@@ -16,25 +16,25 @@ import {
 
 describe('Crawler : Dutchie', () => {
 	it('returns defined data', async () => {
-		const config = new Config('dutchie-checkout').config;
+		const config = new Config('dutchie').config;
 		const $ = cheerio.load(html);
 		const result = await getCartDOMElements(config, $);
 		expect(result).toBeDefined();
 	});
 
 	it('returns expected data type', async () => {
-		const config = new Config('dutchie-checkout').config;
+		const config = new Config('dutchie').config;
 		const $ = cheerio.load(html);
 
 		const result = await getCartDOMElements(config, $);
 
-		const resultType = {} as DOMDataSet['dutchie-checkout'];
+		const resultType = {} as DOMDataSet['dutchie'];
 		expect(result).toBeDefined();
 		expect(typeof result).toStrictEqual(typeof resultType);
 	});
 
 	// it('returns expected results', async () => {
-	// 	const config = new Config('dutchie-checkout').config;
+	// 	const config = new Config('dutchie').config;
 	// 	const $ = cheerio.load(html);
 
 	// 	const result = await getCartDOMElements(config, $);
@@ -49,7 +49,7 @@ describe('Crawler : Dutchie', () => {
 	// });
 
 	// it('processCrawlerData returns defined data', async () => {
-	// 	const config = new Config('dutchie-checkout').config;
+	// 	const config = new Config('dutchie').config;
 	// 	const data = await processCrawlerData(html, config);
 	// 	const simpleCart: SimpleCart = {
 	// 		total: 0,
@@ -73,7 +73,7 @@ describe('Crawler : Dutchie', () => {
 	// 		items: [],
 	// 		total: 'string',
 	// 	};
-	// 	const config = new Config('dutchie-checkout').config;
+	// 	const config = new Config('dutchie').config;
 	// 	expect(buildSimpleCartFromDutchieCheckout(result, config)).toBeDefined();
 	// });
 
@@ -93,14 +93,14 @@ describe('Crawler : Dutchie', () => {
 			],
 			total: 'string',
 		};
-		const config = new Config('dutchie-checkout').config;
+		const config = new Config('dutchie').config;
 		const $ = cheerio.load(html);
 		expect(buildCartItems(result['cart-item'], config, $)).toBeDefined();
 	});
 
 	// it('buildCartItems returns expected data using cheerio', async () => {
 	// 	const $ = cheerio.load(html);
-	// 	const config = new Config('dutchie-checkout').config;
+	// 	const config = new Config('dutchie').config;
 	// 	const { items } = await getCartDOMElements(config, $);
 	// 	const result = buildCartItems(items, config, $);
 	// 	expect(result).toBeDefined();
@@ -124,14 +124,14 @@ describe('Crawler : Dutchie', () => {
 			],
 			total: 'string',
 		};
-		const config = new Config('dutchie-checkout').config;
+		const config = new Config('dutchie').config;
 		global.document = html as unknown as Document;
 		expect(buildCartItems(result['cart-item'], config)).toBeDefined();
 	});
 });
 
 // returns null, need to mock the dom, in a checkout component test
-describe('Dutchie-Checkout Regex', () => {
+describe('dutchie Regex', () => {
 	it('regex returns the correct data from an item string', async () => {
 		const string = 'Guava Fig - 3.5g | 1/8oz';
 

@@ -1,6 +1,9 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { crypto, modalActions, modalTypes, TextContent } from '@cd/core-lib';
-import { type OrganizationWithDashboardDetails } from '@cd/data-access';
+import {
+	type OrganizationWithDashboardDetails,
+	type POS,
+} from '@cd/data-access';
 import {
 	Card,
 	H3,
@@ -13,7 +16,9 @@ import {
 	FlexBox,
 	Icons,
 	Paragraph,
+	IconButton,
 } from '@cd/ui-lib';
+import icons from '@cd/ui-lib/src/icons';
 import Link from 'next/link';
 import Router from 'next/router';
 import Script from 'next/script';
@@ -22,6 +27,13 @@ import Iframe from 'react-iframe';
 import { connect } from 'react-redux';
 import { useAppDispatch } from '../../../redux/hooks';
 import { type RootState } from '../../../redux/store';
+
+export const pointOfSaleSystemList: POS[] = [
+	'dutchie',
+	'blaze',
+	'weedmaps',
+	'none',
+];
 
 type SetupWidgetProps = {
 	organization: OrganizationWithDashboardDetails;
@@ -34,23 +46,28 @@ function SetupWidget({ organization }: SetupWidgetProps) {
 		dispatch(
 			modalActions.openModal({
 				modalType: modalTypes.emailModal,
+				modalText: `Hello, our Dispensary wants to receive online delivery orders from Delivery By Gras. We are installing the Delivery By Gras app on our store website. 
+				Please provide support for the install. 
+				Here are the install instructions. 
+				Thank you!`,
 			}),
 		);
 	}
 
 	const [position, setPosition] = useState('right');
 	const [shape, setShape] = useState('rectangle');
-	const [useDutchie, setUseDutchie] = useState(false);
+	const [pos, setPOS] =
+		useState<OrganizationWithDashboardDetails['pos']>('none');
 
 	function generateScript() {
 		return document.createTextNode(
-			`<script src="https://localhost:9000/widget.js"></script><script>GrasDeliveryWidget.mount({dispensaryId: ${organization.id}, dispensaryName: ${organization.name}, position: ${position}, shape: ${shape}, useDutchie: ${useDutchie}});</script>`,
+			`<script src="https://localhost:9000/widget.js"></script><script>GrasDeliveryWidget.mount({dispensaryId: ${organization.id}, dispensaryName: ${organization.name}, position: ${position}, shape: ${shape}, pos: ${pos}});</script>`,
 		).textContent as string;
 	}
 
 	const WidgetScript = useCallback(
 		() => <>{generateScript()}</>,
-		[position, shape, useDutchie],
+		[position, shape, pos],
 	);
 
 	const _w = generateScript();
@@ -76,7 +93,7 @@ function SetupWidget({ organization }: SetupWidgetProps) {
 				<Card className="col-span-1 m-0 space-y-2 p-0 md:!w-full lg:!w-full">
 					<div
 						id="configure-widget"
-						className="w-4/5 m-auto relative space-y-2"
+						className="w-4/5 m-auto relative space-y-6"
 					>
 						<FlexBox className="pb-2">
 							<Paragraph>
@@ -109,14 +126,14 @@ function SetupWidget({ organization }: SetupWidgetProps) {
 						</FlexBox>
 						<FlexBox className="mx-auto flex-row items-center justify-center">
 							<Small className="font-semibold">
-								Do you use Dutchie checkout in your store?
+								Do you use integrated ecommerce service in your store?
+								{'\n'}(If no choice applies, select none).
 							</Small>
 							<Select
-								values={['yes', 'no']}
-								defaultValue="no"
-								setOption={(val: string) => {
-									if (val === 'yes') setUseDutchie(true);
-									else setUseDutchie(false);
+								values={pointOfSaleSystemList}
+								defaultValue={'none'}
+								setOption={(val: typeof pointOfSaleSystemList[number]) => {
+									setPOS(val);
 								}}
 							/>
 						</FlexBox>
@@ -131,16 +148,16 @@ function SetupWidget({ organization }: SetupWidgetProps) {
 								</code>
 							</div>
 							{/* INSTALL WITH A DEVELOPER'S HELP */}
-							{/* <IconButton
+							<IconButton
 								onClick={openEmailModal}
-								Icon={icons.RepoSourceCode}
+								Icon={icons.Devices}
 								size="lg"
 								bg="transparent"
 								border
 								className="p-4 my-4 border-2"
 							>
-								<Paragraph className="whitespace-pre">{` Install with a developer's help`}</Paragraph>
-							</IconButton> */}
+								<Paragraph className="whitespace-pre">{` Get help from a developer`}</Paragraph>
+							</IconButton>
 						</FlexBox>
 					</div>
 				</Card>
@@ -171,7 +188,7 @@ function SetupWidget({ organization }: SetupWidgetProps) {
 									dispensaryName: organization.name,
 									position,
 									shape,
-									useDutchie,
+									pos,
 									parentElement: '#widget-parent',
 								});
 							}}
