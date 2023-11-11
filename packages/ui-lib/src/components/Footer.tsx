@@ -20,18 +20,18 @@ export default function Footer() {
 			name: TextContent.account.DISPENSARIES_START_HERE,
 			href: getDashboardSite('/signup/create-dispensary-account'),
 		},
-		{ name: 'get Technical Support', href: TextContent.href.support },
-		{ name: 'Services', href: TextContent.href.services },
+		{ name: 'get support', href: TextContent.href.support },
 		{ name: 'About Gras', href: TextContent.href.about },
+		{ name: 'Services', href: TextContent.href.services },
 		// { name: 'Blog', href: TextContent.href.blog },
 	];
 	const legal = [
 		{ name: 'Help Center', href: TextContent.href.help },
-		{ name: 'Compliance', href: TextContent.href.compliance },
 		{
-			name: 'Dispensary Terms and Conditions',
+			name: 'Terms and Conditions',
 			href: TextContent.href.dispensary_tos,
 		},
+		{ name: 'Compliance', href: TextContent.href.compliance },
 		// {
 		// 	name: 'User Terms and Conditions',
 		// 	href: TextContent.href.user_tos,
@@ -46,7 +46,7 @@ export default function Footer() {
 		<>
 			<FlexBox className={twMerge(styles.FOOTER.container, 'text-light')}>
 				<Grid className="overflow-x-hidden mx-auto md:mt-5 grid max-w-screen-xl pb-16 lg:pb-0 grid-rows-auto gap-10 lg:gap-4 lg:grid-cols-8 overflow-visible">
-					<div className="row-start-2 lg:row-span-5 lg:col-span-2 lg:row-start-auto">
+					<div className="row-start-2 lg:row-span-5 lg:col-span-2 lg:col-start-2 lg:row-start-auto">
 						<div className="flex w-full flex-col flex-wrap lg:ml-0 space-y-3">
 							{navigation.map((item, index) => (
 								<Link
@@ -54,14 +54,14 @@ export default function Footer() {
 									href={replaceRelativePath(item.href)}
 									className="w-fit"
 								>
-									<H6 className="text-inverse underline lg:no-underline hover:underline">
+									<Paragraph className="text-inverse underline lg:no-underline hover:underline lg:text-lg text-onest tracking-wider">
 										{item.name}
-									</H6>
+									</Paragraph>
 								</Link>
 							))}
 						</div>
 					</div>
-					<div className="row-start-3 lg:row-span-3 lg:col-span-3 lg:row-start-auto">
+					<div className="row-start-3 lg:row-span-3 lg:col-span-2 lg:row-start-auto">
 						<div className="flex-col space-y-3 flex w-full flex-wrap lg:ml-0">
 							{legal.map((item, index) => (
 								<Link
@@ -70,9 +70,9 @@ export default function Footer() {
 									passHref
 									className="w-fit"
 								>
-									<H6 className="text-inverse underline sm:no-underline hover:underline">
+									<Paragraph className="text-inverse underline lg:no-underline hover:underline lg:text-lg text-onest tracking-wider">
 										{item.name}
-									</H6>
+									</Paragraph>
 								</Link>
 							))}
 						</div>
@@ -91,15 +91,17 @@ export default function Footer() {
 								</Link>
 							</FlexBox>
 
-							<Paragraph className="mt-2 md:mt-4 max-w-md text-white">
+							<Paragraph className="text-onest lg:text-lg mt-2 md:mt-4 max-w-md text-white tracking-wider">
 								{TextContent.info.ABOUT_GRAS}
 								<br />
 								{TextContent.info.GRAS_MISSION}
 							</Paragraph>
-							<CopyRight />
+							<CopyRight className="lg:text-lg" />
 						</div>
 						<div className="pb-12 lg:pb-0">
-							<H6 className="text-inverse font-semibold">Follow us online</H6>
+							<Paragraph className="text-inverse font-semibold lg:text-lg tracking-wider">
+								Follow us online
+							</Paragraph>
 							<FlexBox className="mt-5 flex-row space-x-5 text-inverse">
 								<a
 									href="https://twitter.com/gras_cannabis"
@@ -136,8 +138,10 @@ export default function Footer() {
 							</FlexBox>
 						</div>
 					</div>
-					<div className="row-start-1 row-span-1 lg:row-start-auto">
-						<H4 color="light">{TextContent.info.CANNABIS_DELIVERED}</H4>
+					<div className="row-start-1 row-span-1 lg:col-start-6 lg:row-start-auto">
+						<H4 className="text-onest tracking-wider" color="light">
+							{TextContent.info.CANNABIS_DELIVERED}
+						</H4>
 					</div>
 				</Grid>
 			</FlexBox>

@@ -46,7 +46,6 @@ function LoginModal({
 
 	const FormStepComponent = useMemo(
 		() => FormStepComponents[formStep],
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[formStep],
 	);
 
@@ -54,6 +53,7 @@ function LoginModal({
 
 	function SendOTP() {
 		const initialValues = { emailOrPhone: '' };
+		const [isInputPhone, setIsInputPhone] = useState(false);
 
 		const {
 			values,
@@ -62,6 +62,7 @@ function LoginModal({
 			handleBlur,
 			handleChange,
 			handleSubmit,
+			setFieldValue,
 			// resetForm,
 			validateForm,
 		} = useFormik({
@@ -71,15 +72,21 @@ function LoginModal({
 				isInputPhone ? phoneValidationSchema : emailValidationSchema,
 		});
 
-		// DISABLED FOR NOW TO USE ONLY EMAIL LOGIN
-		const [isInputPhone] = useState(false);
-		// DISABLED FOR NOW TO USE ONLY EMAIL LOGIN
-		// useEffect(() => {
-		//     const checkInputEmailOrPhone = () => {
-		//         !values.emailOrPhone.match(/[^0-9]/g) ? setIsInputPhone(true) : setIsInputPhone(false);
-		//     }
-		//     checkInputEmailOrPhone()
-		// }, [values.emailOrPhone])
+		useEffect(() => {
+			const switchInputEmailOrPhone = () => {
+				values.emailOrPhone.match(/^\+?\d+$/g)
+					? setIsInputPhone(true)
+					: setIsInputPhone(false);
+			};
+			switchInputEmailOrPhone();
+		}, [values.emailOrPhone]);
+
+		useEffect(() => {
+			if (isInputPhone && values.emailOrPhone.length === 1) {
+				if (values.emailOrPhone === '1') setFieldValue('emailOrPhone', '+1');
+				else setFieldValue('emailOrPhone', '+1' + values.emailOrPhone);
+			} else setFieldValue('emailOrPhone', values.emailOrPhone);
+		}, [isInputPhone]);
 
 		function notifyValidation() {
 			validateForm().then((errors) => {
@@ -99,9 +106,15 @@ function LoginModal({
 					setInputValue(values.emailOrPhone);
 					if (isInputPhone) {
 						await createCode({ phoneNumber: values.emailOrPhone });
-						toast.success(TextContent.account.ONETIME_PASSCODE_SENT_MOBILE, {
-							duration: 5000,
-						});
+						// await createCode({ phoneNumber: values.emailOrPhone });
+						toast.success(
+							TextContent.account.ONETIME_PASSCODE_SENT_MOBILE_f(
+								values.emailOrPhone,
+							),
+							{
+								duration: 5000,
+							},
+						);
 					} else {
 						await createCode({ email: values.emailOrPhone });
 						toast.success(
@@ -127,19 +140,18 @@ function LoginModal({
 				<Grid className="space-y-2">
 					<TextField
 						containerClassName=""
-						className="my-2 border text-md"
+						className="my-2 border text-center"
 						autoComplete="off"
-						type="text"
 						name="emailOrPhone"
-						placeholder="you@email.com"
-						label={TextContent.account.SIGNIN_EMAIL}
+						placeholder="your email or phone #"
+						maxLength={isInputPhone ? 12 : 35}
+						label={TextContent.account.SIGNIN_EMAIL_OR_PHONE}
 						justifyLabel="center"
-						value={values?.emailOrPhone}
+						value={values.emailOrPhone}
 						onBlur={handleBlur}
 						onChange={handleChange}
 						error={!!touched.emailOrPhone && !!errors.emailOrPhone}
 					/>
-
 					<FlexBox className="py-2">
 						<Button
 							type="submit"
@@ -155,12 +167,10 @@ function LoginModal({
 							Continue
 						</Button>
 					</FlexBox>
-
 					<FlexBox className="flex-col mx-auto justify-center">
 						<Paragraph className="text-lg mx-auto text-center">
 							Are you a dispensary?
 						</Paragraph>
-
 						<Link
 							className="mx-auto"
 							href="/signup/create-dispensary-account"
@@ -191,7 +201,6 @@ function LoginModal({
 			handleBlur,
 			handleChange,
 			handleSubmit,
-			// resetForm,
 			validateForm,
 		} = useFormik({
 			initialValues,
@@ -404,7 +413,7 @@ const emailValidationSchema = yup.object().shape({
 const phoneValidationSchema = yup.object().shape({
 	emailOrPhone: yup
 		.string()
-		.length(11, 'Phone number must be 11 digits')
+		.length(12, 'Phone number must be 11 digits')
 		.required('Sign in with your phone number.'),
 });
 
