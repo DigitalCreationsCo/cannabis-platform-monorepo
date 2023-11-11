@@ -326,6 +326,8 @@ const TextContent = Object.freeze({
 		bag: '/mybag',
 		blog: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/blog`,
 		services: `${process.env.NEXT_PUBLIC_DASHBOARD_APP_URL}/signup`,
+		storefront_f: (subdomain: string) =>
+			`${process.env.NEXT_PUBLIC_SHOP_APP_URL}/browse/${subdomain}`,
 
 		dashboard_f: (id: string) => `/${id}/dashboard`,
 		orders_f: (id: string) => `/${id}/orders`,
