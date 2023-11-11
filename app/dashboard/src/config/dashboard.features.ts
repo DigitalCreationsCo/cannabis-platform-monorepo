@@ -7,7 +7,7 @@ const config: Config = Object.freeze({
 		enabled: true,
 	},
 	delivery_tracking: {
-		enabled: true,
+		enabled: false,
 	},
 	products: {
 		enabled: false,
