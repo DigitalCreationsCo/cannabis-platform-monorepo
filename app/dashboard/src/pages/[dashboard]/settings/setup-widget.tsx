@@ -1,5 +1,11 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { crypto, modalActions, modalTypes, TextContent } from '@cd/core-lib';
+import {
+	crypto,
+	generateWidgetScriptTag,
+	modalActions,
+	modalTypes,
+	TextContent,
+} from '@cd/core-lib';
 import {
 	type OrganizationWithDashboardDetails,
 	type POS,
@@ -17,9 +23,9 @@ import {
 	Icons,
 	Paragraph,
 	IconButton,
+	CopyClipboardButton,
 } from '@cd/ui-lib';
 import icons from '@cd/ui-lib/src/icons';
-import Link from 'next/link';
 import Router from 'next/router';
 import Script from 'next/script';
 import { useCallback, useState } from 'react';
@@ -47,8 +53,13 @@ function SetupWidget({ organization }: SetupWidgetProps) {
 			modalActions.openModal({
 				modalType: modalTypes.emailModal,
 				modalText: `Hello, our Dispensary wants to receive online delivery orders from Delivery By Gras. We are installing the Delivery By Gras app on our store website. 
-				Please provide support for the install. 
-				Here are the install instructions. 
+				Please provide support to install this script in the ecommerce page located at ${
+					organization.ecommerceUrl
+				}. 
+				The script instructions are available at ${
+					process.env.NEXT_PUBLIC_DASHBOARD_APP_URL +
+					TextContent.href.install_guide
+				}. 
 				Thank you!`,
 			}),
 		);
@@ -59,28 +70,45 @@ function SetupWidget({ organization }: SetupWidgetProps) {
 	const [pos, setPOS] =
 		useState<OrganizationWithDashboardDetails['pos']>('none');
 
-	function generateScript() {
-		return document.createTextNode(
-			`<script src="https://localhost:9000/widget.js"></script><script>GrasDeliveryWidget.mount({dispensaryId: ${organization.id}, dispensaryName: ${organization.name}, position: ${position}, shape: ${shape}, pos: ${pos}});</script>`,
-		).textContent as string;
-	}
-
 	const WidgetScript = useCallback(
-		() => <>{generateScript()}</>,
+		() => (
+			<div className="bg-gray-200 p-4 font-encode tracking-widest">
+				<CopyClipboardButton
+					copyText={generateWidgetScriptTag({
+						id: organization.id,
+						name: organization.name,
+						position,
+						shape,
+						pos,
+					})}
+				/>
+				<Paragraph className="text-left">SAMPLE SCRIPT</Paragraph>
+				{generateWidgetScriptTag({
+					id: organization.id,
+					name: organization.name,
+					position,
+					shape,
+					pos,
+				})}
+			</div>
+		),
 		[position, shape, pos],
 	);
 
-	const _w = generateScript();
-	console.info('_w ', _w);
-
+	const _w = generateWidgetScriptTag({
+		id: organization.id,
+		name: organization.name,
+		position,
+		shape,
+		pos,
+	});
 	const encrypt = crypto.encrypt(_w);
 
 	return (
 		<Page>
 			<PageHeader
-				title="Setup Your Gras Checkout Widget"
+				title="Setup Delivery By Gras Widget"
 				Icon={Icons.WifiBridgeAlt}
-				// navigation={ <DashboardNavigation /> }
 			>
 				<Button
 					onClick={() => Router.back()}
@@ -142,11 +170,8 @@ function SetupWidget({ organization }: SetupWidgetProps) {
 								Copy and paste the code below to add Checkout Widget to your
 								ecommerce store.
 							</Small>
-							<div className="rounded p-4 md:bg-gray-200">
-								<code>
-									<WidgetScript />
-								</code>
-							</div>
+							<WidgetScript />
+
 							{/* INSTALL WITH A DEVELOPER'S HELP */}
 							<IconButton
 								onClick={openEmailModal}
@@ -163,7 +188,9 @@ function SetupWidget({ organization }: SetupWidgetProps) {
 				</Card>
 				<Card className="bg-light min-h-[400px] h-full !w-full lg:!w-full grow rounded p-4 shadow">
 					<H3 className="text-primary mx-auto text-center">Preview Widget</H3>
-					<FlexBox className="flex-row py-2">
+
+					{/* FULL PAGE CHECKOUT WIDGET PREVIEW */}
+					{/* <FlexBox className="flex-row py-2">
 						<Paragraph>Preview the checkout widget on your website.</Paragraph>
 						<Link
 							href={`${TextContent.href.preview_fullscreen_widget(
@@ -174,7 +201,7 @@ function SetupWidget({ organization }: SetupWidgetProps) {
 						>
 							<Paragraph className="font-bold">View full screen</Paragraph>
 						</Link>
-					</FlexBox>
+					</FlexBox> */}
 					<RenderPreview organization={organization}>
 						<Script
 							async
@@ -219,19 +246,10 @@ export function RenderPreview({
 }: SetupWidgetProps & { children: React.ReactNode }) {
 	return (
 		<div id="widget-parent" className="relative h-full border w-full rounded">
-			{(organization?.ecommerceUrl && (
-				<Iframe
-					className="h-full w-full absolute"
-					// url={organization.ecommerceUrl}
-					// url={'https://www.releaf-shop.com/'}
-					url={'https://localhost:9000/demo-ecom/'}
-				/>
-			)) || (
-				<Iframe
-					className="h-full w-full absolute"
-					url={'https://localhost:9000/demo-ecom/'}
-				/>
-			)}
+			<Iframe
+				className="h-full w-full absolute"
+				url={organization.ecommerceUrl || 'https://localhost:9000/demo-ecom/'}
+			/>
 			{children}
 		</div>
 	);

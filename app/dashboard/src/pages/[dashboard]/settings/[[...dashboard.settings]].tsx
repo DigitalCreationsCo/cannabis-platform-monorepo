@@ -35,7 +35,7 @@ function Settings({
 					className="tab pl-0"
 					href={TextContent.href.setup_widget_f(organization.id)}
 				>
-					<Button className="p-2">Setup Checkout Widget</Button>
+					<Button className="p-2">Widget Setup</Button>
 				</Link>
 			</div>
 		</Page>
