@@ -1,5 +1,6 @@
 version: '3.8'
 
+# docker compose files are broken
 networks:
   default:
     ipam:
