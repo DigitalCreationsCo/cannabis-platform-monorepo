@@ -32,7 +32,6 @@ export const frontendConfig = () => {
 						};
 						console.info('checking membership role access ', user);
 						if (hasMembershipRoleAccess(user, 'MEMBER')) {
-							// location.reload();
 							return;
 						} else {
 							throw new Error(TextContent.account.NO_MEMBERSHIP_PERMISSION);
