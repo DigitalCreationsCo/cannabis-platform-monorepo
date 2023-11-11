@@ -14,10 +14,12 @@
 // import ShippingTax from "components/site-settings/ShippingTax";
 // import SocialLinks from "components/site-settings/SocialLinks";
 // import TopbarSetting from "components/site-settings/TopbarSetting";
-import { pruneData } from '@cd/core-lib';
+import { pruneData, TextContent } from '@cd/core-lib';
+import { type OrganizationWithDashboardDetails } from '@cd/data-access';
 import {
 	Button,
 	Card,
+	FlexBox,
 	Icons,
 	Page,
 	PageHeader,
@@ -25,6 +27,7 @@ import {
 	Small,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
+import Link from 'next/link';
 import Router from 'next/router';
 import { useState } from 'react';
 import { connect } from 'react-redux';
@@ -32,13 +35,14 @@ import { twMerge } from 'tailwind-merge';
 import { type RootState } from '../../../redux/store';
 
 type SiteSettingsDashboardProps = {
+	dispensary: OrganizationWithDashboardDetails;
 	siteSetting: Record<string, string>;
 };
 
-function SiteSettings({ siteSetting }: SiteSettingsDashboardProps) {
+function SiteSettings({ dispensary, siteSetting }: SiteSettingsDashboardProps) {
 	if (!siteSetting) throw new Error();
 
-	const [selectTab, setSelectTab] = useState(0);
+	const [setting, setSetting] = useState('');
 	return (
 		<Page>
 			<PageHeader
@@ -53,10 +57,9 @@ function SiteSettings({ siteSetting }: SiteSettingsDashboardProps) {
 					back
 				</Button>
 			</PageHeader>
-			<Card className="mt-2">
-				Dispensary staff can view and edit their storefront and site settings
-				here
-				<div>
+			<Card className="grid mt-2 grid-cols-2">
+				View and edit your storefront details
+				<FlexBox className="flex-col col-start-1">
 					{Object.keys(
 						pruneData(siteSetting, [
 							'id',
@@ -64,36 +67,42 @@ function SiteSettings({ siteSetting }: SiteSettingsDashboardProps) {
 							'createdAt',
 							'updatedAt',
 						]),
-					).map((key, index) => (
+					).map((key) => (
 						<a
 							key={`site-setting-${key}`}
 							className={twMerge(
 								'tab border-primary outline-primary',
-								selectTab === index ? 'tab-active' : '',
+								setting === key ? 'tab-active' : '',
 							)}
-							onClick={() => setSelectTab(index)}
+							onClick={() => setSetting(key)}
 						>
-							<Small className={selectTab === index ? 'text-primary' : ''}>
+							<Small className={setting === key ? 'text-primary' : ''}>
 								{key}
 							</Small>
 						</a>
 					))}
-				</div>
-				{Object.keys(
-					pruneData(siteSetting, [
-						'id',
-						'organizationId',
-						'createdAt',
-						'updatedAt',
-					]),
-				).map(
-					(key, index) =>
-						selectTab === index && (
-							<div key={`site-setting-${index}`}>
-								<Paragraph>{siteSetting[key]}</Paragraph>
-							</div>
-						),
-				)}
+				</FlexBox>
+				<Paragraph className="col-start-2">
+					{setting && setting + ': ' + siteSetting[setting]}
+					{setting.toLowerCase().includes('color') && (
+						<div
+							className={twMerge(
+								`w-[50px] h-[50px]`,
+								'border',
+								`bg-[${siteSetting[setting]}]`,
+							)}
+						></div>
+					)}
+				</Paragraph>
+				<Link
+					target={'_blank'}
+					className="col-start-2 w-fit"
+					href={TextContent.href.storefront_f(dispensary.subdomainId)}
+				>
+					<Button className="px-8" size="lg">
+						Check my storefront
+					</Button>
+				</Link>
 			</Card>
 		</Page>
 	);
@@ -112,6 +121,7 @@ function mapStateToProps(state: RootState) {
 	}
 
 	return {
+		dispensary: dispensary.dispensary,
 		siteSetting: siteSetting,
 	};
 }
