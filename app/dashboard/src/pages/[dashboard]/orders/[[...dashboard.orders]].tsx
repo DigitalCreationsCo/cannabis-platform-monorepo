@@ -16,7 +16,6 @@ import {
 	Row,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
-import { orders } from 'data/dummyData';
 import { connect } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import { wrapper, type RootState } from '../../../redux/store';

@@ -51,7 +51,9 @@ function SiteSettings({ dispensary, siteSetting }: SiteSettingsDashboardProps) {
 				// navigation={ <DashboardNavigation /> }
 			>
 				<Button
-					onClick={() => Router.back()}
+					onClick={() =>
+						Router.push(TextContent.href.settings_f(dispensary.id))
+					}
 					className="bg-inverse hover:bg-inverse active:bg-accent-soft place-self-start"
 				>
 					back
