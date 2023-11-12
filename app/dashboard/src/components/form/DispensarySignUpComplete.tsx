@@ -4,6 +4,7 @@ import {
 	FlexBox,
 	Grid,
 	H2,
+	H3,
 	H4,
 	Paragraph,
 	SignInButton,
@@ -14,15 +15,16 @@ import Link from 'next/link';
 import { useEffect } from 'react';
 
 function DispensarySignUpComplete() {
-	const dispensaryFeatures = [
-		'view your account',
-		'connect with your customers',
-	];
-
 	const { formValues, setCanProceed, resetFormValues, isComplete } =
 		useFormContext();
 
-	const name = formValues?.organization?.name as string;
+	const name = formValues?.organization?.name || '';
+
+	const dispensaryFeatures = [
+		`your ${name} account,`,
+		'setup your delivery ecommerce app,',
+		// 'connect with your customers',
+	];
 
 	useEffect(
 		() => {
@@ -34,11 +36,14 @@ function DispensarySignUpComplete() {
 		[isComplete],
 	);
 	return (
-		<Grid className="mx-auto max-w-[525px] space-y-2 pt-20 md:pt-8">
+		<Grid className="mx-auto max-w-[525px] space-y-2 pt-8">
 			<FlexBox className="flex-row justify-between">
-				<H2 className="whitespace-normal">
-					{TextContent.account.DISPENSARY_ACCOUNT_IS_CREATED}
-				</H2>
+				<FlexBox>
+					<H2 className="whitespace-normal tracking-wide">Congratulations</H2>
+					<H4 className="whitespace-normal tracking-wide">
+						{TextContent.account.DISPENSARY_ACCOUNT_IS_CREATED}
+					</H4>
+				</FlexBox>
 				<Image
 					alt="Gras Cannabis logo"
 					src={'/logo.png'}
@@ -50,9 +55,6 @@ function DispensarySignUpComplete() {
 			<Center className="space-y-4 py-4">
 				<H4 className="cursor-default">What's next?</H4>
 				<Paragraph className="m-auto text-center">
-					{(name && <b>{name}</b>) || 'Your business'} is ready to deliver to
-					your customers.
-					<br />
 					Sign in to{' '}
 					{dispensaryFeatures.map((feature, index) => (
 						<>
@@ -60,7 +62,7 @@ function DispensarySignUpComplete() {
 							<br />
 						</>
 					))}
-					and <b>get orders delivered by Gras.</b>
+					and <b> receive orders for Delivery By Gras.</b>
 				</Paragraph>
 				<FlexBox className="items-center">
 					<SignInButton size="lg" hover="primary-light" bg="primary" />

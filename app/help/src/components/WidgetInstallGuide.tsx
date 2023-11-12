@@ -16,6 +16,7 @@ function WidgetInstallGuide() {
 	const position = 'right';
 	const shape = 'rectangle';
 	const pos = 'none';
+	const inventory = 'none';
 
 	const WidgetScript = useCallback(
 		() => (
@@ -27,6 +28,7 @@ function WidgetInstallGuide() {
 						position,
 						shape,
 						pos,
+						inventory,
 					})}
 				/>
 				<Paragraph className="text-left">SAMPLE SCRIPT</Paragraph>
@@ -36,6 +38,7 @@ function WidgetInstallGuide() {
 					position,
 					shape,
 					pos,
+					inventory,
 				})}
 			</div>
 		),

@@ -177,13 +177,13 @@ function DispensaryCreate() {
 							exit={{ y: -50, opacity: 0 }}
 						>
 							<TextField
-								name="vendorId"
+								name="vendorName"
 								label="* franchise name"
 								placeholder="What is the franchise name?"
 								value={values?.vendorName}
 								onBlur={handleBlur}
 								onChange={handleChange}
-								error={!!touched.phone && !!errors.phone}
+								error={!!touched.vendorName && !!errors.vendorName}
 							/>
 						</motion.div>
 					)}
@@ -197,7 +197,6 @@ function DispensaryCreate() {
 					onChange={handleChange}
 					error={!!touched.phone && !!errors.phone}
 				/>
-				{/* <H6 className="text-primary">Where are you located?</H6> */}
 				<TextField
 					name="address.street1"
 					label="* street line 1"
@@ -220,6 +219,7 @@ function DispensaryCreate() {
 				/>{' '}
 				<FlexBox className="flex-row items-center space-x-4">
 					<TextField
+						containerClassName={'flex-1'}
 						name="address.city"
 						label="* city"
 						placeholder="City"
@@ -230,8 +230,9 @@ function DispensaryCreate() {
 						helperText={touched?.address?.city && errors?.address?.city}
 					/>
 					<Select
+						name="address.state"
+						containerClassName={'flex-1'}
 						label="* state"
-						className="rounded border text-lg"
 						values={usStatesAbbreviationList}
 						setOption={handleChange}
 					/>

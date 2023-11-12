@@ -1,5 +1,4 @@
 import {
-	type POS,
 	type Category,
 	type CategoryList,
 	type Coordinates,

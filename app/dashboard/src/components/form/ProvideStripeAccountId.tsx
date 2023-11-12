@@ -148,17 +148,13 @@ function ProvideStripeAccountId() {
 
 	return (
 		<form onSubmit={handleSubmit}>
-			<Grid className="mx-auto flex h-[480px] max-w-[525px] flex-col items-center justify-center space-y-4">
+			<Grid className="mx-auto flex max-w-[525px] flex-col items-center justify-center space-y-4">
 				<FlexBox className="mx-auto">
 					<H3 className="mx-auto pb-2">
 						{TextContent.account.CONNECT_MY_STRIPE}
 					</H3>
-					<Paragraph className="mx-auto w-3/4">
-						{TextContent.account.DISPENSARY_STRIPE_ACCOUNT}
-					</Paragraph>
-					<Small className="mx-auto pt-2">
-						* {TextContent.legal.ACCOUNT_INFORMATION_POLICY}
-					</Small>
+					<Paragraph>{TextContent.account.DISPENSARY_STRIPE_ACCOUNT}</Paragraph>
+					<Small>* {TextContent.legal.ACCOUNT_INFORMATION_POLICY}</Small>
 					<a
 						className="mx-auto"
 						href={TextContent.href.dispensary_tos}
@@ -185,7 +181,7 @@ function ProvideStripeAccountId() {
 				/>
 
 				<Button
-					className="w-[220px]"
+					className="min-w-[240px] px-2"
 					type="submit"
 					disabled={loadingButton || loadingButton2 || isRedirecting}
 					loading={loadingButton}
@@ -200,7 +196,7 @@ function ProvideStripeAccountId() {
 				</Button>
 
 				<Button
-					className="w-[220px]"
+					className="min-w-[240px] px-2"
 					disabled={loadingButton || loadingButton2 || isRedirecting}
 					loading={loadingButton2}
 					onClick={(e) => {

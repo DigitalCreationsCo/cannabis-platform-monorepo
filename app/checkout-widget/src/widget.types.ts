@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { type POS } from '@cd/data-access';
+import { type Inventory, type POS } from '@cd/data-access';
 
 export type DeliveryWidgetConfigOptions = DOMOptions &
 	DispensaryOptions &
@@ -13,6 +13,7 @@ type DispensaryOptions = {
 	dispensaryId: string;
 	dispensaryName: string;
 	pos: POS;
+	inventory: Inventory;
 };
 type DOMOptions = {
 	parentElement?: string;

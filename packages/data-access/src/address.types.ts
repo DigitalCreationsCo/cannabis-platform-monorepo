@@ -12,8 +12,8 @@ export type AddressCreateType = {
 	city: string;
 	state: USStateAbbreviated | null;
 	zipcode: number;
-	country: string;
-	countryCode: string | null;
+	country: Country;
+	countryCode: CountryCode;
 	coordinateId?: string;
 	coordinates?: CoordinatesCreateType;
 	userId?: string | undefined;
@@ -27,8 +27,8 @@ export type AddressUserCreateType = {
 	city: string;
 	state: USStateAbbreviated;
 	zipcode: number;
-	country: string;
-	countryCode: string | null;
+	country: Country;
+	countryCode: CountryCode;
 	coordinateId?: string;
 	coordinates?: CoordinatesCreateType;
 	userId?: string | undefined;

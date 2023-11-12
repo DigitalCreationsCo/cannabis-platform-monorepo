@@ -69,7 +69,7 @@ const TextContent = Object.freeze({
 			'Are\xa0you\xa0a\xa0Dispensary? Get\xa0started\xa0here',
 		ACCOUNT_IS_CREATED: 'Your account is created!',
 		DISPENSARY_ACCOUNT_IS_CREATED:
-			'Congratulations, you created a Dispensary Account with Gras!',
+			'You created your Dispensary Account with Gras',
 		CHOOSE_PROFILE_PICTURE: 'Choose a profile picture.',
 		CHOOSE_PROFILE_PICTURE_OR_UPLOAD:
 			'Choose a profile picture, or upload your own.',
@@ -87,7 +87,7 @@ const TextContent = Object.freeze({
 		DISPENSARY_STRIPE_ACCOUNT: `If your dispensary uses stripe for payments, you can connect your stripe account here, by entering your stripe ID. If you don't have a stripe account, Gras will create one for you.`,
 		CONNECT_MY_STRIPE: `Connect my stripe account`,
 		CONNECTING_TO_STRIPE: `connecting to stripe`,
-		I_DONT_HAVE_STRIPE: `I don't have stripe`,
+		I_DONT_HAVE_STRIPE: `I don't have a stripe account`,
 		ENTER_OR_GO_TO_ACCOUNT:
 			'You can enter the Gras site, or view your account.',
 		MY_ACCOUNT: 'My Account',
@@ -342,11 +342,12 @@ const TextContent = Object.freeze({
 		setup_widget_f: (id: string) => `/${id}/settings/setup-widget`,
 		preview_fullscreen_widget: (id: string) =>
 			`/${id}/settings/preview-fullscreen`,
+		support: '/help/support',
 
-		about: '/help?topic=about-gras',
-		support: '/help?topic=support',
 		help: `/help`,
+		about: '/help?topic=about-gras',
 		compliance: `/help?topic=compliance`,
+		faq: `/help?topic=faq`,
 		install_guide: `/help?topic=install-guide`,
 		dispensary_tos: `/help?topic=dispensary-terms-and-conditions`,
 		user_tos: `/help?topic=user-terms-and-conditions`,

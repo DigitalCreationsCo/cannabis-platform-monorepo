@@ -6,6 +6,7 @@ import {
 	TextContent,
 } from '@cd/core-lib';
 import {
+	type Inventory,
 	type OrganizationWithDashboardDetails,
 	type POS,
 } from '@cd/data-access';
@@ -40,12 +41,26 @@ export const pointOfSaleSystemList: POS[] = [
 	'none',
 ];
 
+export const inventorySystemList: Inventory[] = [
+	'dutchie',
+	'blaze',
+	'weedmaps',
+	'none',
+];
+
 type SetupWidgetProps = {
 	organization: OrganizationWithDashboardDetails;
 };
 
 function SetupWidget({ organization }: SetupWidgetProps) {
 	const dispatch = useAppDispatch();
+
+	const [position, setPosition] = useState('right');
+	const [shape, setShape] = useState('rectangle');
+	const [pos, setPOS] =
+		useState<OrganizationWithDashboardDetails['pos']>('none');
+	const [inventory, setInventory] =
+		useState<OrganizationWithDashboardDetails['inventory']>('none');
 
 	function openEmailModal() {
 		dispatch(
@@ -55,6 +70,15 @@ function SetupWidget({ organization }: SetupWidgetProps) {
 				Please provide support to install this script in the ecommerce page located at ${
 					organization.ecommerceUrl
 				}. 
+				Script:
+				${generateWidgetScriptTag({
+					id: organization.id,
+					name: organization.name,
+					position,
+					shape,
+					pos,
+					inventory,
+				})}
 				The script instructions are available at ${
 					process.env.NEXT_PUBLIC_DASHBOARD_APP_URL +
 					TextContent.href.install_guide
@@ -63,11 +87,6 @@ function SetupWidget({ organization }: SetupWidgetProps) {
 			}),
 		);
 	}
-
-	const [position, setPosition] = useState('right');
-	const [shape, setShape] = useState('rectangle');
-	const [pos, setPOS] =
-		useState<OrganizationWithDashboardDetails['pos']>('none');
 
 	const WidgetScript = useCallback(
 		() => (
@@ -79,6 +98,7 @@ function SetupWidget({ organization }: SetupWidgetProps) {
 						position,
 						shape,
 						pos,
+						inventory,
 					})}
 				/>
 				<Paragraph className="text-left">SAMPLE SCRIPT</Paragraph>
@@ -88,6 +108,7 @@ function SetupWidget({ organization }: SetupWidgetProps) {
 					position,
 					shape,
 					pos,
+					inventory,
 				})}
 			</div>
 		),
@@ -100,6 +121,7 @@ function SetupWidget({ organization }: SetupWidgetProps) {
 		position,
 		shape,
 		pos,
+		inventory,
 	});
 	const encrypt = crypto.encrypt(_w);
 
@@ -166,6 +188,19 @@ function SetupWidget({ organization }: SetupWidgetProps) {
 								}}
 							/>
 						</FlexBox>
+						<FlexBox className="mx-auto flex-row items-center justify-center">
+							<Small className="font-semibold">
+								Do you use integrated inventory service in your store?
+								{'\n'}(If no choice applies, select none).
+							</Small>
+							<Select
+								values={inventorySystemList}
+								defaultValue={'none'}
+								setOption={(val: typeof inventorySystemList[number]) => {
+									setInventory(val);
+								}}
+							/>
+						</FlexBox>
 						<FlexBox className="mx-auto items-center justify-center">
 							<Small className="text-center font-semibold">
 								Copy and paste the code below to add Checkout Widget to your
@@ -217,6 +252,7 @@ function SetupWidget({ organization }: SetupWidgetProps) {
 									position,
 									shape,
 									pos,
+									inventory,
 									parentElement: '#widget-parent',
 								});
 							}}

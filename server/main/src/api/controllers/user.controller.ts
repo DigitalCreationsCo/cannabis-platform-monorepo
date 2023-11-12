@@ -51,7 +51,7 @@ export default class UserController {
 					success: 'false',
 					error: error.message,
 				});
-			res.status(500).json({
+			return res.status(500).json({
 				success: 'false',
 				error: error.message,
 			});
@@ -74,7 +74,8 @@ export default class UserController {
 				payload: data,
 			});
 		} catch (error: any) {
-			res.status(500).json({
+			console.info('createDispensaryStaff: ', error.message);
+			return res.status(500).json({
 				success: 'false',
 				error: error.message,
 			});
@@ -95,7 +96,8 @@ export default class UserController {
 				payload: data,
 			});
 		} catch (error: any) {
-			res.status(500).json({
+			console.info('updateDispensaryStaff: ', error.message);
+			return res.status(500).json({
 				success: 'false',
 				error: error.message,
 			});
@@ -124,7 +126,8 @@ export default class UserController {
 				payload: data,
 			});
 		} catch (error: any) {
-			res.status(500).json({
+			console.info('updateUser: ', error.message);
+			return res.status(500).json({
 				success: 'false',
 				error: error.message,
 			});
@@ -145,7 +148,7 @@ export default class UserController {
 				payload: data,
 			});
 		} catch (error: any) {
-			res.status(500).json({
+			return res.status(500).json({
 				success: 'false',
 				error: error.message,
 			});
@@ -166,7 +169,7 @@ export default class UserController {
 				payload: data,
 			});
 		} catch (error: any) {
-			res.status(500).json({
+			return res.status(500).json({
 				success: 'false',
 				error: error.message,
 			});
@@ -187,7 +190,7 @@ export default class UserController {
 				payload: data,
 			});
 		} catch (error: any) {
-			res.status(500).json({
+			return res.status(500).json({
 				success: 'false',
 				error: error.message,
 			});
@@ -212,7 +215,7 @@ export default class UserController {
 				payload: data,
 			});
 		} catch (error: any) {
-			res.status(500).json({
+			return res.status(500).json({
 				success: 'false',
 				error: error.message,
 			});
@@ -236,7 +239,7 @@ export default class UserController {
 				payload: data,
 			});
 		} catch (error: any) {
-			res.status(500).json({
+			return res.status(500).json({
 				success: 'false',
 				error: error.message,
 			});
@@ -257,7 +260,7 @@ export default class UserController {
 					success: 'false',
 					error: error.message,
 				});
-			res.status(500).json({
+			return res.status(500).json({
 				success: 'false',
 				error: error.message,
 			});

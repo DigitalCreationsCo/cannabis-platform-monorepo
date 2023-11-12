@@ -91,11 +91,11 @@ function ProvideDispensaryKey() {
 	return (
 		<form onSubmit={handleSubmit}>
 			{loading ? (
-				<Center className="h-[320px]">
+				<Center className="h-[420px]">
 					<LoadingDots />
 				</Center>
 			) : (
-				<Grid className="flex min-h-[320px] mx-auto max-w-lg flex-col items-center justify-center space-y-4 text-center">
+				<Grid className="flex min-h-[420px] mx-auto max-w-lg flex-col items-center justify-center space-y-4 text-center">
 					<H1 className="text-primary text-4xl">Welcome to Gras</H1>
 					<H5>{TextContent.account.DISPENSARY_JOINING}</H5>
 					<Paragraph>
