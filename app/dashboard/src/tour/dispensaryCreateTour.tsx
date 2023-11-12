@@ -23,7 +23,7 @@ dispensaryCreateTour.defineSteps([
 	{
 		element: '#dispensary-create-step-1',
 		popover: {
-			title: 'Welcome to Gras!',
+			title: 'Welcome to Gras',
 			description: '',
 		},
 	},

@@ -25,6 +25,7 @@ interface OrdersDashboardProps {
 }
 
 function Orders({ orders }: OrdersDashboardProps) {
+	if (!orders) throw new Error();
 	const { current, PaginationButtons } = usePagination(orders);
 
 	return (

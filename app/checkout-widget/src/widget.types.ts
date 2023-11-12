@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+import { type Inventory, type POS } from '@cd/data-access';
 
 export type DeliveryWidgetConfigOptions = DOMOptions &
 	DispensaryOptions &
@@ -11,7 +12,8 @@ type UIOptions = {
 type DispensaryOptions = {
 	dispensaryId: string;
 	dispensaryName: string;
-	useDutchie?: boolean;
+	pos: POS;
+	inventory: Inventory;
 };
 type DOMOptions = {
 	parentElement?: string;
@@ -29,7 +31,7 @@ export type WidgetHost = 'localhost' | 'sunnyside' | 'manasupply' | 'dutchie';
 // resolve the type of the config object
 // export type SelectDOMKey<T extends DOMKey> = Extract<DOMKey, T>;
 export type CrawlerConfig = Record<WidgetHost, Record<any, DOMSelector>>;
-export type DOMKey = 'cart' | 'dutchie-checkout';
+export type DOMKey = 'cart' | 'dutchie' | 'blaze' | 'weedmaps' | 'leafly';
 export type DOMSelector = {
 	item: {
 		name: string;
@@ -45,10 +47,10 @@ export type DOMSelector = {
 };
 
 // typeset of dom selectors
-export type DOMDataSet = {
-	cart: DOMSelector;
-	'dutchie-checkout': DOMSelector;
-};
+export type DOMDataSet = Record<DOMKey, DOMSelector>;
+// 	cart: DOMSelector;
+// 	dutchie: DOMSelector;
+// };
 
 export type DOMQueryResult = {
 	cart: {
@@ -64,7 +66,7 @@ export type DOMQueryResult = {
 		}[];
 		total: string;
 	};
-	'dutchie-checkout': {
+	dutchie: {
 		items: {
 			name: string;
 			label: string;

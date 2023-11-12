@@ -30,7 +30,7 @@ function AddAddressUserModal({
 		city: '',
 		state: 'MD',
 		zipcode: 0,
-		country: '',
+		country: 'United_States',
 		countryCode: 'US',
 		coordinateId: '',
 		userId,
