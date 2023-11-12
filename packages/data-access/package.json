@@ -42,7 +42,7 @@
 	"main": "./dist/index.js",
 	"name": "@cd/data-access",
 	"prisma": {
-		"seed": "node --loader ts-node/esm ./src/db/seed.mts",
+		"seed": "yarn clear-db && yarn seed",
 		"schema": "./prisma/schema.prisma",
 		"generate": "npx prisma generate",
 		"clear-db": "node --loader ts-node/esm ./src/db/clear.mts"

@@ -499,6 +499,7 @@ model Organization {
   updatedAt                DateTime            @updatedAt
   ecommerceUrl             String?
   pos                      POS                 @default(none)
+  inventory                Inventory           @default(none)
   showInMarketPlace        Boolean             @default(true)
   categoryList             CategoryList?
   images                   ImageOrganization[]
@@ -519,6 +520,13 @@ model Organization {
 }
 
 enum POS {
+  none
+  dutchie
+  weedmaps
+  blaze
+}
+
+enum Inventory {
   none
   dutchie
   weedmaps
