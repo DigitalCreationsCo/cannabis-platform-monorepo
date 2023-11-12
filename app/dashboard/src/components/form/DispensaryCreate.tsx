@@ -25,6 +25,7 @@ import {
 } from '@cd/ui-lib';
 import axios from 'axios';
 import { useFormik } from 'formik';
+import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
@@ -36,17 +37,22 @@ import { dispensaryCreateTour } from '../../tour';
 // Add country picker to set Country and countryCode fields
 
 function DispensaryCreate() {
-	function startTour() {
-		if (!dispensaryCreateTour.isActivated) dispensaryCreateTour.start();
-	}
-
 	useEffect(() => {
+		function startTour() {
+			if (!dispensaryCreateTour.isActivated) dispensaryCreateTour.start();
+		}
 		startTour();
 	}, []);
 
+	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, []);
+
+	const [loadingButton, setLoadingButton] = useState(false);
+	const [isFranchise, setIsFranchise] = useState(false);
+
 	const { prevFormStep, nextFormStep, formValues, setFormValues } =
 		useFormContext();
-	const [loadingButton, setLoadingButton] = useState(false);
 
 	const initialValues = {
 		id: formValues.organization?.id || '',
@@ -68,20 +74,7 @@ function DispensaryCreate() {
 		termsAccepted: false,
 		subdomainId: formValues.organization?.subdomainId || '',
 		vendorId: formValues.organization?.vendorId || '',
-	};
-
-	const updateDispensaryRecord = async () => {
-		try {
-			const response = await axios.put(
-				`${urlBuilder.dashboard}/api/organization`,
-				values,
-			);
-			if (response.data.success == 'false')
-				throw new Error(response.data.error);
-			toast.success('Dispensary Info is uploaded successfully.');
-		} catch (error: any) {
-			throw new Error('The Dispensary is not uploaded. Please try again.');
-		}
+		vendorName: formValues.organization?.vendorName || '',
 	};
 
 	const onSubmit = async (values: typeof initialValues) => {
@@ -119,12 +112,23 @@ function DispensaryCreate() {
 		});
 	}
 
-	useEffect(() => {
-		window.scrollTo(0, 0);
-	}, []);
+	const updateDispensaryRecord = async () => {
+		try {
+			const response = await axios.put(
+				`${urlBuilder.dashboard}/api/organization`,
+				values,
+			);
+			if (response.data.success == 'false')
+				throw new Error(response.data.error);
+			toast.success('Dispensary Info is uploaded successfully.');
+		} catch (error: any) {
+			throw new Error('The Dispensary is not uploaded. Please try again.');
+		}
+	};
+
 	return (
 		<form className={'content relative'} onSubmit={handleSubmit}>
-			<Grid className="mx-auto max-w-[525px]">
+			<Grid className="mx-auto max-w-[525px] gap-2">
 				<FlexBox className="flex-row justify-between space-x-2 pr-2 md:pr-0">
 					<FlexBox>
 						<H2 id="dispensary-create-step-1">Welcome to Gras</H2>
@@ -140,7 +144,6 @@ function DispensaryCreate() {
 					/>
 				</FlexBox>
 				<Small>{TextContent.ui.FORM_FIELDS}</Small>
-				{/* <H6 className="text-primary">What is the name of your Dispensary?</H6> */}
 				<TextField
 					id="dispensary-create-step-2"
 					name="name"
@@ -152,17 +155,39 @@ function DispensaryCreate() {
 					error={!!touched.name && !!errors.name}
 					helperText={touched.name && errors.name}
 				/>
-				{/* <TextField
-                    name="email"
-                    label="Email"
-                    placeholder="you@yourdispensary.com"
-                    value={values?.email}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    error={!!touched.email && !!errors.email}
-                    helperText={touched.email && errors.email}
-                /> */}
-				{/* <H6 className="text-primary">What is your phone number?</H6> */}
+				<FlexBox className="flex-row items-center space-x-4">
+					<Paragraph>Is your Dispensary a franchise?</Paragraph>
+					<Select
+						containerClassName={'flex-1'}
+						className="rounded border text-lg"
+						values={['yes', 'no']}
+						defaultValue={isFranchise ? 'yes' : 'no'}
+						setOption={(e: any) =>
+							e.target.value == 'yes'
+								? setIsFranchise(true)
+								: setIsFranchise(false)
+						}
+					/>
+				</FlexBox>
+				<AnimatePresence>
+					{isFranchise && (
+						<motion.div
+							initial={{ y: -50, opacity: 0 }}
+							animate={{ y: 0, opacity: 1 }}
+							exit={{ y: -50, opacity: 0 }}
+						>
+							<TextField
+								name="vendorId"
+								label="* franchise name"
+								placeholder="What is the franchise name?"
+								value={values?.vendorName}
+								onBlur={handleBlur}
+								onChange={handleChange}
+								error={!!touched.phone && !!errors.phone}
+							/>
+						</motion.div>
+					)}
+				</AnimatePresence>
 				<TextField
 					name="phone"
 					label="* phone"
@@ -193,29 +218,19 @@ function DispensaryCreate() {
 					error={!!touched?.address?.street2 && !!errors?.address?.street2}
 					helperText={touched?.address?.street2 && errors?.address?.street2}
 				/>{' '}
-				<TextField
-					name="address.city"
-					label="* city"
-					placeholder="City"
-					value={values?.address?.city}
-					onBlur={handleBlur}
-					onChange={handleChange}
-					error={!!touched?.address?.city && !!errors?.address?.city}
-					helperText={touched?.address?.city && errors?.address?.city}
-				/>
-				{/* <TextField
-					name="address.state"
-					label="* state"
-					placeholder="State"
-					value={values?.address?.state}
-					onBlur={handleBlur}
-					onChange={handleChange}
-					error={!!touched?.address?.state && !!errors?.address?.state}
-					helperText={touched?.address?.state && errors?.address?.state}
-				/> */}
-				<FlexBox className="flex-row items-center">
-					<Paragraph className="text-lg">STATE</Paragraph>
+				<FlexBox className="flex-row items-center space-x-4">
+					<TextField
+						name="address.city"
+						label="* city"
+						placeholder="City"
+						value={values?.address?.city}
+						onBlur={handleBlur}
+						onChange={handleChange}
+						error={!!touched?.address?.city && !!errors?.address?.city}
+						helperText={touched?.address?.city && errors?.address?.city}
+					/>
 					<Select
+						label="* state"
 						className="rounded border text-lg"
 						values={usStatesAbbreviationList}
 						setOption={handleChange}

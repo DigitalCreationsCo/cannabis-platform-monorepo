@@ -17,8 +17,6 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import * as yup from 'yup';
 
-// dispensaryKey and dispensary code are mentioned interchangeably
-// the code refers to the value `dispensaryKey`
 function ProvideDispensaryKey() {
 	const searchParams = useSearchParams();
 	const code = searchParams.get('code') || '';
@@ -97,7 +95,7 @@ function ProvideDispensaryKey() {
 					<LoadingDots />
 				</Center>
 			) : (
-				<Grid className="flex min-h-[320px] w-full flex-col items-center justify-center space-y-4 text-center">
+				<Grid className="flex min-h-[320px] mx-auto max-w-lg flex-col items-center justify-center space-y-4 text-center">
 					<H1 className="text-primary text-4xl">Welcome to Gras</H1>
 					<H5>{TextContent.account.DISPENSARY_JOINING}</H5>
 					<Paragraph>
@@ -106,17 +104,19 @@ function ProvideDispensaryKey() {
 						<b>Don't have a code?</b> Email us at{' '}
 						<a
 							className="underline"
-							href="mailto::support@grascannabis.org?subject=Get my Dispensary Code!&body=I want to create a Dispensary account. I'm claiming my Dispensary code. Thank you!"
+							href="mailto::support@grascannabis.org?subject=Get my Dispensary Code!&body=Hello, I want to create a Dispensary account. Please email my Dispensary code. Thank you!"
 						>
 							support@grascannabis.org
 						</a>{' '}
 						to claim your code.
 					</Paragraph>
 					<TextField
-						className="mx-auto w-3/4 max-w-[440px] text-center"
+						className="mx-auto max-w-[440px] text-center"
+						// containerClassName="w-3/4"
 						name="dispensaryKey"
 						maxLength={25}
 						label="Dispensary Code"
+						justifyLabel="center"
 						placeholder="**** **** **** ****"
 						value={values?.dispensaryKey}
 						onBlur={handleBlur}
