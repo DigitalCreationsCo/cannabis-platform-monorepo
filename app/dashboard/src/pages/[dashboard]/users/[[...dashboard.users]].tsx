@@ -25,6 +25,8 @@ type UsersDashboardProps = {
 };
 
 function Users({ users }: UsersDashboardProps) {
+	if (!users) throw new Error();
+
 	const [, setDialogOpen] = useState(false);
 	const [deleteId, setDeleteId] = useState('');
 

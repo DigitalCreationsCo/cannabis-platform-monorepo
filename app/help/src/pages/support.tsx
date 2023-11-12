@@ -10,6 +10,7 @@ import {
 	H5,
 } from '@cd/ui-lib';
 import Head from 'next/head';
+import Link from 'next/link';
 import { useEffect } from 'react';
 
 function Support() {
@@ -19,7 +20,7 @@ function Support() {
 				if (window?.BrevoConversations?.openChat) {
 					window.BrevoConversations.openChat();
 				}
-			}, 2000);
+			}, 2400);
 		}
 		openChat();
 	}, []);
@@ -31,26 +32,28 @@ function Support() {
 			</Head>
 			<FlexBox className="mx-auto w-[80%] space-y-2 md:w-[440px]">
 				<PageHeader title="Support" Icon={Icons.Shield} />
-				<H4 className="whitespace-pre-line">Thanks for choosing Gras.</H4>
-				<Paragraph>
-					We're working around the clock to deliver a world class support
-					service for you.{'\n'}
-					For software support, please dial the toll-free support phone number
-					during business hours.
-					{`Thanks for choosing Gras.
-            We're working around the clock to deliver a world class support service for your business.
-            Reach out to us for support. 
-			Our team is always ready to help.`}
+				<H4>Thank you for choosing Gras.</H4>
+				<Paragraph className="whitespace-pre-line">
+					{`Our team is available to deliver our best support for your business.
+
+					For technical support, you can reach our team through chat and email. 
+					Our toll-free support line is open during business hours.`}
 				</Paragraph>
-				<FlexBox className="m-auto">
+				<FlexBox>
+					<H5 className="whitespace-pre-line">Gras Support</H5>
 					<FlexBox className="flex-row items-center space-x-2">
-						<H4 className="m-auto whitespace-pre-line">Gras Support</H4>
 						<IconWrapper Icon={Icons.PhoneFilled} className="text-dark" />
+						<Link href={`tel:+15707901185`}>
+							<H5>+1-570-790-1185</H5>
+						</Link>
 					</FlexBox>
-					<H4>570-790-1185</H4>
-					<H5 className="whitespace-pre-line underline">
-						{`email ${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}`}
-					</H5>
+					<Link
+						href={`mailto:${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}?subject=Support Request`}
+					>
+						<H5 className="whitespace-pre-line underline">
+							{`email ${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}`}
+						</H5>
+					</Link>
 				</FlexBox>
 			</FlexBox>
 		</Page>

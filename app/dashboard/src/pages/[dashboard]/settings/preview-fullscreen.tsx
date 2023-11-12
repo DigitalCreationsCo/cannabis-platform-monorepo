@@ -2,8 +2,7 @@ import { crypto } from '@cd/core-lib';
 import { type OrganizationWithDashboardDetails } from '@cd/data-access';
 import { H4, Page, type LayoutContextProps } from '@cd/ui-lib';
 import { useSearchParams } from 'next/navigation';
-import Script from 'next/script';
-import { Suspense, useEffect } from 'react';
+import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { type RootState } from '../../../redux/store';
 import { RenderPreview } from './setup-widget';
@@ -20,10 +19,8 @@ function PreviewFullScreenWidget({ organization }: PreviewFullScreenProps) {
 	}, []);
 	const searchParams = useSearchParams();
 	const _w = searchParams.get('_w') as string;
-	console.info('script ', _w);
 
 	const _widgetScript = crypto.decrypt(_w);
-	console.info('_widgetScript ', _widgetScript);
 	return (
 		<Page className={'relative h-screen pb-4'}>
 			<div className="top-0 z-1 m-auto border rounded p-4">

@@ -76,10 +76,9 @@ export default function Compliance() {
 			<H2 className="text-primary">
 				Search Cannabis Federal And State Regulations
 			</H2>
-			<FlexBox className="flex-row items-center">
+			<FlexBox className="flex-row items-center gap-2">
 				<Paragraph className="text-lg">STATE</Paragraph>
 				<Select
-					className="rounded border text-lg"
 					values={usStatesAbbreviationList}
 					defaultValue={defaultStateAbbrev()}
 					setOption={setStateAbbrev}
