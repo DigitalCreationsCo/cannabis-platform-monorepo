@@ -5,6 +5,7 @@ import React, {
 	type SVGAttributes,
 } from 'react';
 import { twMerge } from 'tailwind-merge';
+import { styles } from '../../styleClassNames';
 import IconButton from '../button/IconButton';
 import FlexBox from '../FlexBox';
 import { Small } from '../Typography';
@@ -53,17 +54,17 @@ function TextField({
 		...props,
 	};
 	const [focus, setFocus] = useState(false);
-	const styles = {
-		flexContainer: 'space-x-0 space-y-0 w-full',
-		label: ['px-2', 'w-full', justifyLabel && `text-${justifyLabel}`],
-	};
 	return (
 		<FlexBox
-			className={twMerge(styles.flexContainer, containerClassName, 'text-dark')}
+			className={twMerge(
+				'space-x-0 space-y-0 w-full',
+				'text-dark',
+				containerClassName,
+			)}
 		>
 			{label && (
 				<FlexBox className="items-start w-full">
-					<label className={twMerge(styles.label)}>
+					<label className={twMerge(styles.label_f(justifyLabel))}>
 						<Small className="text-primary">{label}</Small>
 					</label>
 				</FlexBox>

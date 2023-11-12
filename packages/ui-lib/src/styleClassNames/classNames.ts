@@ -64,6 +64,11 @@ const styles = Object.freeze({
 		container:
 			'cursor-default flex-col min-h-[188px] pt-10 px-4 bg-secondary min-w-full bottom-0 shadow-lg',
 	},
+	label_f: (justifyLabel: 'left' | 'center' | 'right' | undefined = 'left') => [
+		'px-2',
+		'w-full',
+		justifyLabel && `text-${justifyLabel}`,
+	],
 	responsiveContainer: [
 		'bg-inverse min-h-full min-w-full sm:!rounded-none md:min-w-min md:min-h-min md:!rounded px-12',
 	],

@@ -29,62 +29,63 @@ export async function updateOrganization(
 	organization: OrganizationUpdateType,
 ): Promise<OrganizationWithAddress> {
 	try {
-		// const data: Prisma.OrganizationUpdateInput = {
-		// 	name: organization.name,
-		// 	dialCode: organization.dialCode || '1',
-		// 	phone: organization.phone,
-		// 	stripeAccountId: organization.stripeAccountId,
-		// 	stripeOnboardingComplete: organization.stripeOnboardingComplete,
-		// 	termsAccepted: organization.termsAccepted,
-		// 	address: {
-		// 		update: {
-		// 			street1: organization?.address?.street1,
-		// 			street2: organization?.address?.street2,
-		// 			city: organization?.address?.city,
-		// 			state: organization?.address?.state,
-		// 			country: organization?.address?.country,
-		// 			zipcode: Number(organization?.address?.zipcode),
-		// 			countryCode: organization?.address?.countryCode,
-		// 			coordinates: {
-		// 				upsert: {
-		// 					create: {
-		// 						radius: organization?.address?.coordinates?.radius,
-		// 						latitude: Number(organization?.address?.coordinates?.latitude),
-		// 						longitude: Number(
-		// 							organization?.address?.coordinates?.longitude,
-		// 						),
-		// 					},
-		// 					update: {
-		// 						radius: organization?.address?.coordinates?.radius,
-		// 						latitude: Number(organization?.address?.coordinates?.latitude),
-		// 						longitude: Number(
-		// 							organization?.address?.coordinates?.longitude,
-		// 						),
-		// 					},
-		// 				},
-		// 			},
-		// 		},
-		// 	},
-		// 	subdomain: {
-		// 		connectOrCreate: {
-		// 			where: { id: organization.subdomainId },
-		// 			create: { id: organization.subdomainId, isValid: true },
-		// 		},
-		// 	},
-		// 	vendor: {
-		// 		connectOrCreate: {
-		// 			where: { id: organization.vendorId },
-		// 			create: {
-		// 				id: organization.vendorId,
-		// 				name: organization.name,
-		// 				publicName: organization.name,
-		// 			},
-		// 		},
-		// 	},
-		// };
+		const data: Prisma.OrganizationUpdateInput = {
+			name: organization.name,
+			dialCode: organization.dialCode || '1',
+			phone: organization.phone,
+			stripeAccountId: organization.stripeAccountId,
+			stripeOnboardingComplete: organization.stripeOnboardingComplete,
+			termsAccepted: organization.termsAccepted,
+			address: {
+				update: {
+					street1: organization?.address?.street1,
+					street2: organization?.address?.street2,
+					city: organization?.address?.city,
+					state: organization?.address?.state,
+					country: organization?.address?.country,
+					zipcode: Number(organization?.address?.zipcode),
+					countryCode: organization?.address?.countryCode,
+					coordinates: {
+						upsert: {
+							create: {
+								radius: organization?.address?.coordinates?.radius,
+								latitude: Number(organization?.address?.coordinates?.latitude),
+								longitude: Number(
+									organization?.address?.coordinates?.longitude,
+								),
+							},
+							update: {
+								radius: organization?.address?.coordinates?.radius,
+								latitude: Number(organization?.address?.coordinates?.latitude),
+								longitude: Number(
+									organization?.address?.coordinates?.longitude,
+								),
+							},
+						},
+					},
+				},
+			},
+			subdomain: {
+				connectOrCreate: {
+					where: { id: organization.subdomainId },
+					create: { id: organization.subdomainId, isValid: true },
+				},
+			},
+			vendor: organization.vendorName
+				? {
+						connectOrCreate: {
+							where: { name: organization.vendorName },
+							create: {
+								name: organization.vendorName,
+								publicName: organization.vendorName,
+							},
+						},
+				  }
+				: undefined,
+		};
 		return await prisma.organization.update({
 			where: { id: organization.id },
-			data: { ...(organization as any) },
+			data: data,
 			include: {
 				address: {
 					include: {
@@ -105,14 +106,11 @@ export async function createOrganization(
 	organization: OrganizationCreateType,
 ): Promise<OrganizationWithAddress> {
 	try {
-		// organization.vendorId = organization.vendorId ?? createId();
-		organization.vendorName =
-			organization.vendorName ?? organization.name.toLowerCase();
 		organization.subdomainId = makeUrlFriendly(organization.name);
+		organization.vendorName = organization.vendorName ?? '';
 
 		const { address, subdomainId, schedule } = organization;
 
-		console.debug('prisma create organization');
 		return (await prisma.organization.create({
 			data: {
 				id: organization.id || undefined,
@@ -161,16 +159,12 @@ export async function createOrganization(
 						create: { id: subdomainId, isValid: true },
 					},
 				},
-				vendor: organization.vendorId
+				vendor: organization.vendorName
 					? {
-							// connect to vendor, or create new vendor from organization
-							// this will be fine with the beginning clients, when taking on a larger client, or a second client, we will need to create a shared vendor
 							connectOrCreate: {
 								where: { name: organization.vendorName },
-								// where: { id: organization.vendorId },
 								create: {
-									id: organization.vendorId,
-									publicName: organization.name,
+									publicName: organization.vendorName,
 									name: organization.vendorName,
 								},
 							},
