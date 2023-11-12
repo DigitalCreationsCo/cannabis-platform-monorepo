@@ -1,4 +1,4 @@
-import { type POS } from '@cd/data-access';
+import { type Inventory, type POS } from '@cd/data-access';
 
 export function generateWidgetScriptTag({
 	id,
@@ -6,6 +6,7 @@ export function generateWidgetScriptTag({
 	position,
 	shape,
 	pos,
+	inventory,
 	parentElement = null,
 }: {
 	id: string;
@@ -13,6 +14,7 @@ export function generateWidgetScriptTag({
 	position: string;
 	shape: string;
 	pos: POS;
+	inventory: Inventory;
 	parentElement?: string | null;
 }) {
 	return document.createTextNode(
@@ -24,6 +26,7 @@ export function generateWidgetScriptTag({
 			position: ${position}, 
 			shape: ${shape}, 
 			pos: ${pos},
+			inventory: ${inventory},
 			parentElement: ${parentElement},
 		});</script>`,
 	).textContent as string;

@@ -16,12 +16,14 @@ import {
 	DispensaryUserCreate,
 	ProvideDispensaryCode,
 	ProvideStripeAccountId,
+	ConnectIntegrations,
 } from '../../components/form';
 
 const FormStepComponents = [
 	ProvideDispensaryCode,
 	DispensaryCreate,
 	DispensaryUserCreate,
+	ConnectIntegrations,
 	ProvideStripeAccountId,
 	DispensaryReview,
 	DispensarySignUpComplete,
@@ -30,7 +32,7 @@ const FormStepComponents = [
 function DispensarySignUpStepForm() {
 	const [runConfetti, setRunConfetti] = useState(false);
 	return (
-		<Page className={twMerge(styles.gradient, 'md:pt-16')}>
+		<Page className={twMerge(styles.gradient, 'pb-0', 'md:py-16')}>
 			<Head>
 				<title>Grascannabis.org - Create a Dispensary Account</title>
 				<meta name="Gras App" content="Built by Gras Cannabis Co." />

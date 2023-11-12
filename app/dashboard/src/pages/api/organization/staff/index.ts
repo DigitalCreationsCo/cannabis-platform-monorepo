@@ -20,7 +20,7 @@ handler.get(async (req, res: NextApiResponse) => {
 		// return res.status(res.statusCode).json(data);
 	} catch (error: any) {
 		console.error(error.message);
-		return res.json(error);
+		return res.json({ success: 'false', error: error.message });
 	}
 });
 
@@ -43,13 +43,11 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 				headers: { ...applicationHeaders },
 			},
 		);
+		if (response.data.success === 'false') throw new Error(response.data.error);
 		return res.status(response.status).json(response.data);
 	} catch (error: any) {
-		console.info(
-			'next api create Dispensary Staff User error: ',
-			error.message,
-		);
-		throw new Error(error.message);
+		console.info('api create Dispensary Staff User: ', error.message);
+		return res.json({ success: 'false', error: error.message });
 	}
 });
 
@@ -65,7 +63,7 @@ handler.put(async (req, res: NextApiResponse) => {
 		// return res.status(res.statusCode).json(response.data);
 	} catch (error: any) {
 		console.error(error.message);
-		return res.json(error);
+		return res.json({ success: 'false', error: error.message });
 	}
 });
 
