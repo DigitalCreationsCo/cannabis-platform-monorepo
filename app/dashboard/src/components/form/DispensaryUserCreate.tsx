@@ -47,21 +47,13 @@ function DispensaryUserCreate() {
 					dispensaryId: formValues.organization?.id,
 				},
 			);
-
-			console.info('response: ', response);
-			if (response.status === 404) {
-				throw new Error(response.data);
-			}
-
-			if (response.status === 400) {
-				throw new Error(response.data);
-			}
-
+			if (response.data.success === 'false')
+				throw new Error(response.data.error);
 			toast.success('User is created succesfully.');
 			setLoadingButton(false);
 			nextFormStep();
 		} catch (error: any) {
-			console.info('Dispensary User Error: ', error);
+			console.info('Dispensary User Error: ', error.message);
 			toast.error(error.message);
 			setLoadingButton(false);
 		}
@@ -277,14 +269,13 @@ const initialValues = {
 		city: '',
 		state: '',
 		zipcode: null,
-		country: 'United States',
+		country: 'United_States',
 		countryCode: 'US',
 	},
 	isLegalAge: false,
 	idVerified: false,
 	memberships: [],
 	termsAccepted: false,
-	imageUser: [],
 };
 
 const validationSchema = yup.object().shape({

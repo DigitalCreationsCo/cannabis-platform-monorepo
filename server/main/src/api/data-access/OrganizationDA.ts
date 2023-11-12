@@ -93,13 +93,13 @@ export default class OrganizationDA {
 					address: { include: { coordinates: true } },
 				},
 			)) as OrganizationUpdateType;
+			organization = { ...previousData, ...organization };
 
 			// set address coordinates
-			if (coordinatesIsEmpty(previousData?.address)) {
+			if (coordinatesIsEmpty(organization?.address)) {
 				const coordinates = await getGeoCoordinatesFromAddress(
 					organization.address,
 				);
-				console.info('coordinates fetched: ', coordinates);
 				organization.address.coordinates = {
 					latitude: Number(coordinates.latitude),
 					longitude: Number(coordinates.longitude),
