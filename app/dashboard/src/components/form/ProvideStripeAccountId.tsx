@@ -61,6 +61,9 @@ function ProvideStripeAccountId() {
 				organization: {
 					stripeAccountId: values.stripeAccountId,
 					stripeOnboardingComplete: true,
+					showInMarketPlace: true,
+					subscribedForDelivery: true,
+					subscribedForPickup: true,
 				},
 			});
 			toast.success(response.data.message);
