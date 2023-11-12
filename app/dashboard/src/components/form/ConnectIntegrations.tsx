@@ -39,7 +39,11 @@ function ConnectIntegrations() {
 	const onSubmit = async (values: typeof initialValues) => {
 		try {
 			setLoadingButton(true);
-			setFormValues({ organization: { ...values } });
+			setFormValues({
+				organization: {
+					...values,
+				},
+			});
 			await updateDispensaryRecord();
 			nextFormStep();
 		} catch (error: any) {
