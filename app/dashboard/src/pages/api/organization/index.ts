@@ -26,7 +26,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 		});
 	} catch (error: any) {
 		console.error(error.message);
-		return res.json({ success: false, error: error.message });
+		return res.json({ success: 'false', error: error.message });
 	}
 });
 
@@ -46,7 +46,7 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
 		});
 	} catch (error: any) {
 		console.error(error.message);
-		return res.json({ success: false, error: error.message });
+		return res.json({ success: 'false', error: error.message });
 	}
 });
 

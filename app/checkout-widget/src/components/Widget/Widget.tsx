@@ -60,7 +60,7 @@ function Widget(
 Widget.defaultProps = {
 	position: 'right',
 	shape: 'rectangle',
-	useDutchie: false,
+	pos: 'none',
 } as import('../../widget.types').DeliveryWidgetConfigOptions;
 
 export default Widget;

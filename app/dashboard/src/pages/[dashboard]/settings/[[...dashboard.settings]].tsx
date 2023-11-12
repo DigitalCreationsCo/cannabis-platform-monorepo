@@ -10,6 +10,7 @@ import {
 } from '@cd/ui-lib';
 import Link from 'next/link';
 import { connect } from 'react-redux';
+import { twMerge } from 'tailwind-merge';
 import { type RootState } from '../../../redux/store';
 
 function Settings({
@@ -17,8 +18,10 @@ function Settings({
 }: {
 	organization: OrganizationWithDashboardDetails;
 }) {
+	if (!organization) throw new Error();
+
 	return (
-		<Page className="p-1">
+		<Page className={twMerge('sm:px-4 md:pr-16')}>
 			<PageHeader title="Settings" Icon={Icons.Settings} />
 
 			<div className="tabs">
@@ -32,7 +35,7 @@ function Settings({
 					className="tab pl-0"
 					href={TextContent.href.setup_widget_f(organization.id)}
 				>
-					<Button className="p-2">Setup Checkout Widget</Button>
+					<Button className="p-2">Widget Setup</Button>
 				</Link>
 			</div>
 		</Page>

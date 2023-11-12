@@ -18,8 +18,9 @@ import { type OrderWithShopDetails } from './order.types';
  * User Data Access functions
  *
  * createUser
+ * upsertUser
  * updateUser
- * createDispensaryAdmin
+ * upsertDispensaryAdmin
  * updateDispensaryAdmin
  * findUserWithDetailsByEmail
  * findUserWithDetailsByPhone
@@ -418,17 +419,11 @@ export async function upsertDispensaryAdmin(
 		console.info('upsert Dispensary Staff record: ', user.email);
 		return user;
 	} catch (error: any) {
-		console.info('create Dispensary Staff user error: ', error);
-		if (
-			error instanceof Prisma.PrismaClientKnownRequestError &&
-			error.code === 'P2002'
-		) {
-			const dupFields = error?.meta?.target;
-			throw new Error(
-				`${dupFields} exists already. Please choose a different ${dupFields}.`,
-			);
+		console.info('error code', error.code);
+		if (error.code === 'P2002') {
+			throw new Error(`Unique value ${error.meta.target[0]} already exists`);
 		}
-		throw new Error(error.message);
+		throw new Error('An error occured while creating the user.');
 	}
 }
 
@@ -513,14 +508,8 @@ export async function updateDispensaryAdmin(
 		console.info('updated Dispensary Staff record: ', user.email);
 		return user;
 	} catch (error: any) {
-		if (
-			error instanceof Prisma.PrismaClientKnownRequestError &&
-			error.code === 'P2002'
-		) {
-			const dupFields = error?.meta?.target;
-			throw new Error(
-				`${dupFields} exists already. Please choose a different ${dupFields}.`,
-			);
+		if (error.code === 'P2002') {
+			throw new Error(`Unique value ${error.meta.target[0]} already exists`);
 		}
 		throw new Error(error.message);
 	}

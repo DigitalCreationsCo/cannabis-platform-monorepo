@@ -1,6 +1,15 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-import { crypto, modalActions, modalTypes, TextContent } from '@cd/core-lib';
-import { type OrganizationWithDashboardDetails } from '@cd/data-access';
+import {
+	crypto,
+	generateWidgetScriptTag,
+	modalActions,
+	modalTypes,
+	TextContent,
+} from '@cd/core-lib';
+import {
+	type Inventory,
+	type OrganizationWithDashboardDetails,
+	type POS,
+} from '@cd/data-access';
 import {
 	Card,
 	H3,
@@ -13,8 +22,10 @@ import {
 	FlexBox,
 	Icons,
 	Paragraph,
+	IconButton,
+	CopyClipboardButton,
 } from '@cd/ui-lib';
-import Link from 'next/link';
+import icons from '@cd/ui-lib/src/icons';
 import Router from 'next/router';
 import Script from 'next/script';
 import { useCallback, useState } from 'react';
@@ -23,6 +34,20 @@ import { connect } from 'react-redux';
 import { useAppDispatch } from '../../../redux/hooks';
 import { type RootState } from '../../../redux/store';
 
+export const pointOfSaleSystemList: POS[] = [
+	'dutchie',
+	'blaze',
+	'weedmaps',
+	'none',
+];
+
+export const inventorySystemList: Inventory[] = [
+	'dutchie',
+	'blaze',
+	'weedmaps',
+	'none',
+];
+
 type SetupWidgetProps = {
 	organization: OrganizationWithDashboardDetails;
 };
@@ -30,43 +55,86 @@ type SetupWidgetProps = {
 function SetupWidget({ organization }: SetupWidgetProps) {
 	const dispatch = useAppDispatch();
 
+	const [position, setPosition] = useState('right');
+	const [shape, setShape] = useState('rectangle');
+	const [pos, setPOS] =
+		useState<OrganizationWithDashboardDetails['pos']>('none');
+	const [inventory, setInventory] =
+		useState<OrganizationWithDashboardDetails['inventory']>('none');
+
 	function openEmailModal() {
 		dispatch(
 			modalActions.openModal({
 				modalType: modalTypes.emailModal,
+				modalText: `Hello, our Dispensary wants to receive online delivery orders from Delivery By Gras. We are installing the Delivery By Gras app on our store website. 
+				Please provide support to install this script in the ecommerce page located at ${
+					organization.ecommerceUrl
+				}. 
+				Script:
+				${generateWidgetScriptTag({
+					id: organization.id,
+					name: organization.name,
+					position,
+					shape,
+					pos,
+					inventory,
+				})}
+				The script instructions are available at ${
+					process.env.NEXT_PUBLIC_DASHBOARD_APP_URL +
+					TextContent.href.install_guide
+				}. 
+				Thank you!`,
 			}),
 		);
 	}
 
-	const [position, setPosition] = useState('right');
-	const [shape, setShape] = useState('rectangle');
-	const [useDutchie, setUseDutchie] = useState(false);
-
-	function generateScript() {
-		return document.createTextNode(
-			`<script src="https://localhost:9000/widget.js"></script><script>GrasDeliveryWidget.mount({dispensaryId: ${organization.id}, dispensaryName: ${organization.name}, position: ${position}, shape: ${shape}, useDutchie: ${useDutchie}});</script>`,
-		).textContent as string;
-	}
-
 	const WidgetScript = useCallback(
-		() => <>{generateScript()}</>,
-		[position, shape, useDutchie],
+		() => (
+			<div className="bg-gray-200 p-4 font-encode tracking-widest">
+				<CopyClipboardButton
+					copyText={generateWidgetScriptTag({
+						id: organization.id,
+						name: organization.name,
+						position,
+						shape,
+						pos,
+						inventory,
+					})}
+				/>
+				<Paragraph className="text-left">SAMPLE SCRIPT</Paragraph>
+				{generateWidgetScriptTag({
+					id: organization.id,
+					name: organization.name,
+					position,
+					shape,
+					pos,
+					inventory,
+				})}
+			</div>
+		),
+		[position, shape, pos],
 	);
 
-	const _w = generateScript();
-	console.info('_w ', _w);
-
+	const _w = generateWidgetScriptTag({
+		id: organization.id,
+		name: organization.name,
+		position,
+		shape,
+		pos,
+		inventory,
+	});
 	const encrypt = crypto.encrypt(_w);
 
 	return (
 		<Page>
 			<PageHeader
-				title="Setup Your Gras Checkout Widget"
+				title="Setup Delivery By Gras Widget"
 				Icon={Icons.WifiBridgeAlt}
-				// navigation={ <DashboardNavigation /> }
 			>
 				<Button
-					onClick={() => Router.back()}
+					onClick={() =>
+						Router.push(TextContent.href.settings_f(organization.id))
+					}
 					className="bg-inverse hover:bg-inverse active:bg-accent-soft place-self-start"
 				>
 					back
@@ -76,7 +144,7 @@ function SetupWidget({ organization }: SetupWidgetProps) {
 				<Card className="col-span-1 m-0 space-y-2 p-0 md:!w-full lg:!w-full">
 					<div
 						id="configure-widget"
-						className="w-4/5 m-auto relative space-y-2"
+						className="w-4/5 m-auto relative space-y-6"
 					>
 						<FlexBox className="pb-2">
 							<Paragraph>
@@ -109,14 +177,27 @@ function SetupWidget({ organization }: SetupWidgetProps) {
 						</FlexBox>
 						<FlexBox className="mx-auto flex-row items-center justify-center">
 							<Small className="font-semibold">
-								Do you use Dutchie checkout in your store?
+								Do you use integrated ecommerce service in your store?
+								{'\n'}(If no choice applies, select none).
 							</Small>
 							<Select
-								values={['yes', 'no']}
-								defaultValue="no"
-								setOption={(val: string) => {
-									if (val === 'yes') setUseDutchie(true);
-									else setUseDutchie(false);
+								values={pointOfSaleSystemList}
+								defaultValue={'none'}
+								setOption={(val: typeof pointOfSaleSystemList[number]) => {
+									setPOS(val);
+								}}
+							/>
+						</FlexBox>
+						<FlexBox className="mx-auto flex-row items-center justify-center">
+							<Small className="font-semibold">
+								Do you use integrated inventory service in your store?
+								{'\n'}(If no choice applies, select none).
+							</Small>
+							<Select
+								values={inventorySystemList}
+								defaultValue={'none'}
+								setOption={(val: typeof inventorySystemList[number]) => {
+									setInventory(val);
 								}}
 							/>
 						</FlexBox>
@@ -125,28 +206,27 @@ function SetupWidget({ organization }: SetupWidgetProps) {
 								Copy and paste the code below to add Checkout Widget to your
 								ecommerce store.
 							</Small>
-							<div className="rounded p-4 md:bg-gray-200">
-								<code>
-									<WidgetScript />
-								</code>
-							</div>
+							<WidgetScript />
+
 							{/* INSTALL WITH A DEVELOPER'S HELP */}
-							{/* <IconButton
+							<IconButton
 								onClick={openEmailModal}
-								Icon={icons.RepoSourceCode}
+								Icon={icons.Devices}
 								size="lg"
 								bg="transparent"
 								border
 								className="p-4 my-4 border-2"
 							>
-								<Paragraph className="whitespace-pre">{` Install with a developer's help`}</Paragraph>
-							</IconButton> */}
+								<Paragraph className="whitespace-pre">{` Get help from a developer`}</Paragraph>
+							</IconButton>
 						</FlexBox>
 					</div>
 				</Card>
 				<Card className="bg-light min-h-[400px] h-full !w-full lg:!w-full grow rounded p-4 shadow">
 					<H3 className="text-primary mx-auto text-center">Preview Widget</H3>
-					<FlexBox className="flex-row py-2">
+
+					{/* FULL PAGE CHECKOUT WIDGET PREVIEW */}
+					{/* <FlexBox className="flex-row py-2">
 						<Paragraph>Preview the checkout widget on your website.</Paragraph>
 						<Link
 							href={`${TextContent.href.preview_fullscreen_widget(
@@ -157,7 +237,7 @@ function SetupWidget({ organization }: SetupWidgetProps) {
 						>
 							<Paragraph className="font-bold">View full screen</Paragraph>
 						</Link>
-					</FlexBox>
+					</FlexBox> */}
 					<RenderPreview organization={organization}>
 						<Script
 							async
@@ -171,7 +251,8 @@ function SetupWidget({ organization }: SetupWidgetProps) {
 									dispensaryName: organization.name,
 									position,
 									shape,
-									useDutchie,
+									pos,
+									inventory,
 									parentElement: '#widget-parent',
 								});
 							}}
@@ -202,19 +283,10 @@ export function RenderPreview({
 }: SetupWidgetProps & { children: React.ReactNode }) {
 	return (
 		<div id="widget-parent" className="relative h-full border w-full rounded">
-			{(organization?.ecommerceUrl && (
-				<Iframe
-					className="h-full w-full absolute"
-					// url={organization.ecommerceUrl}
-					// url={'https://www.releaf-shop.com/'}
-					url={'https://localhost:9000/demo-ecom/'}
-				/>
-			)) || (
-				<Iframe
-					className="h-full w-full absolute"
-					url={'https://localhost:9000/demo-ecom/'}
-				/>
-			)}
+			<Iframe
+				className="h-full w-full absolute"
+				url={organization.ecommerceUrl || 'https://localhost:9000/demo-ecom/'}
+			/>
 			{children}
 		</div>
 	);

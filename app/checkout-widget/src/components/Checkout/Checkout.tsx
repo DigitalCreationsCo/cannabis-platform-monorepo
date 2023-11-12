@@ -3,6 +3,7 @@ import TextContent from '@cd/core-lib/src/constants/text.constant';
 import { type SimpleCart } from '@cd/core-lib/src/types/redux.types';
 import { crypto } from '@cd/core-lib/src/utils/crypto';
 import { urlBuilder } from '@cd/core-lib/src/utils/urlBuilder';
+import { type POS } from '@cd/data-access';
 import Button from '@cd/ui-lib/src/components/button/Button';
 import CloseButton from '@cd/ui-lib/src/components/button/CloseButton';
 import CopyRight from '@cd/ui-lib/src/components/CopyRight';
@@ -26,7 +27,7 @@ export default class Checkout extends Component<
 		isLoading: boolean;
 		isRedirecting: boolean;
 		isScrolledToBottom: boolean;
-		isDutchieCheckout: boolean;
+		pos: POS;
 	}
 > {
 	constructor(props: ViewProps) {
@@ -43,24 +44,39 @@ export default class Checkout extends Component<
 			isLoading: false,
 			isRedirecting: false,
 			isScrolledToBottom: false,
-			isDutchieCheckout: props.useDutchie || false,
+			pos: props.pos,
 		};
 	}
 
 	getCartData = async () => {
 		let configKey: DOMKey = 'cart';
-		if (
-			this.props.useDutchie ||
-			!!document.querySelector('[aria-label="dutchiePay"]')
-		) {
-			this.setState({ isDutchieCheckout: true });
-			configKey = 'dutchie-checkout';
+		switch (this.props.pos) {
+			case 'dutchie':
+				configKey = 'dutchie';
+				break;
+			case 'weedmaps':
+				configKey = 'weedmaps';
+				break;
+			case 'blaze':
+				configKey = 'blaze';
+				break;
+			case 'none':
+				configKey = 'cart';
+				break;
+			default:
+				configKey = 'cart';
 		}
+		if (document.querySelector('[aria-label="dutchiePay"]')) {
+			this.setState({ pos: 'dutchie' });
+			configKey = 'dutchie';
+		}
+
 		const config = new CrawlerConfig(configKey).config;
+
 		let crawler;
 		// eslint-disable-next-line sonarjs/no-small-switch
 		switch (configKey) {
-			case 'dutchie-checkout':
+			case 'dutchie':
 				crawler = await import('../../crawler/dutchie-crawler').then(
 					(c) => c.default,
 				);
@@ -129,7 +145,8 @@ export default class Checkout extends Component<
 	}
 
 	useStaticQuantity() {
-		return this.state.isDutchieCheckout;
+		// handle item quantities from dutchie checkout
+		return this.state.pos === 'dutchie';
 	}
 
 	render() {
