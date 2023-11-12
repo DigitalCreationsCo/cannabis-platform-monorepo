@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import {
 	crypto,
 	generateWidgetScriptTag,
@@ -111,7 +110,9 @@ function SetupWidget({ organization }: SetupWidgetProps) {
 				Icon={Icons.WifiBridgeAlt}
 			>
 				<Button
-					onClick={() => Router.back()}
+					onClick={() =>
+						Router.push(TextContent.href.settings_f(organization.id))
+					}
 					className="bg-inverse hover:bg-inverse active:bg-accent-soft place-self-start"
 				>
 					back
