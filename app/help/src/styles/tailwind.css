@@ -3044,11 +3044,6 @@ details > summary {
   margin-bottom: 0.5rem;
 }
 
-.my-4 {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-}
-
 .mb-4 {
   margin-bottom: 1rem;
 }
@@ -3083,10 +3078,6 @@ details > summary {
 
 .mt-8 {
   margin-top: 2rem;
-}
-
-.block {
-  display: block;
 }
 
 .inline-block {
@@ -3352,14 +3343,6 @@ details > summary {
   width: 100vw;
 }
 
-.w-4\/5 {
-  width: 80%;
-}
-
-.w-auto {
-  width: auto;
-}
-
 .min-w-\[140px\] {
   min-width: 140px;
 }
@@ -3413,14 +3396,6 @@ details > summary {
   max-width: 1280px;
 }
 
-.max-w-sm {
-  max-width: 24rem;
-}
-
-.max-w-\[100px\] {
-  max-width: 100px;
-}
-
 .flex-1 {
   flex: 1 1 0%;
 }
@@ -3439,11 +3414,6 @@ details > summary {
 
 .table-auto {
   table-layout: auto;
-}
-
-.rotate-180 {
-  --tw-rotate: 180deg;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
 .rotate-90 {
@@ -3739,10 +3709,6 @@ details > summary {
   white-space: pre-line;
 }
 
-.whitespace-pre-wrap {
-  white-space: pre-wrap;
-}
-
 .\!rounded {
   border-radius: 0.25rem !important;
 }
@@ -3832,6 +3798,11 @@ details > summary {
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
 }
 
+.bg-gray-200 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(229 231 235 / var(--tw-bg-opacity));
+}
+
 .bg-indigo-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(224 231 255 / var(--tw-bg-opacity));
@@ -3871,11 +3842,6 @@ details > summary {
 
 .bg-transparent {
   background-color: transparent;
-}
-
-.bg-gray-200 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(229 231 235 / var(--tw-bg-opacity));
 }
 
 .bg-gradient-to-b {
@@ -4429,16 +4395,8 @@ details > summary {
   text-decoration-line: underline;
 }
 
-.focus\:border:focus {
-  border-width: 1.5px;
-}
-
 .focus\:\!border-primary:focus {
   border-color: var(--primary) !important;
-}
-
-.focus\:border-primary:focus {
-  border-color: var(--primary);
 }
 
 .focus\:bg-accent-soft:focus {
@@ -4447,10 +4405,6 @@ details > summary {
 
 .focus\:bg-transparent:focus {
   background-color: transparent;
-}
-
-.focus\:bg-none:focus {
-  background-image: none;
 }
 
 .focus\:outline-none:focus {
@@ -4466,24 +4420,12 @@ details > summary {
   --tw-ring-color: var(--primary) !important;
 }
 
-.active\:border:active {
-  border-width: 1.5px;
-}
-
-.active\:border-primary:active {
-  border-color: var(--primary);
-}
-
 .active\:bg-accent:active {
   background-color: var(--accent);
 }
 
 .active\:bg-accent-soft:active {
   background-color: var(--accent-soft);
-}
-
-.active\:bg-none:active {
-  background-image: none;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -4631,10 +4573,6 @@ details > summary {
     max-width: 120px;
   }
 
-  .md\:max-w-lg {
-    max-width: 32rem;
-  }
-
   .md\:grow {
     flex-grow: 1;
   }
@@ -4679,11 +4617,6 @@ details > summary {
 
   .md\:\!rounded-btn {
     border-radius: var(--rounded-btn) !important;
-  }
-
-  .md\:bg-gray-200 {
-    --tw-bg-opacity: 1;
-    background-color: rgb(229 231 235 / var(--tw-bg-opacity));
   }
 
   .md\:p-5 {
