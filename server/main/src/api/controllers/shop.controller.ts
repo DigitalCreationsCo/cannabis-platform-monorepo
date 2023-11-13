@@ -3,6 +3,7 @@ import {
 	type OrderCreateType,
 	type OrderWithDispatchDetails,
 } from '@cd/data-access';
+import ShopDA from 'api/data-access/ShopDA';
 import { OrderDA } from '../data-access';
 
 /* =================================
@@ -55,8 +56,6 @@ export default class ShopController {
 		try {
 			console.log('fulfillOrderAndStartDispatch: ', req.body);
 			const orderId: string = req.body.orderId;
-			await OrderDA.updateOrderFulfillmentStatus(orderId, 'Processing');
-
 			const order = (await OrderDA.getOrderById(orderId, {
 				customer: true,
 				driver: true,
@@ -72,10 +71,14 @@ export default class ShopController {
 				destinationAddress: true,
 				route: true,
 			})) as OrderWithDispatchDetails['order'];
+
+			await OrderDA.updateOrderFulfillmentStatus(orderId, 'Processing');
+			await ShopDA.processDispensaryPOSOrder(order);
 			await OrderDA.addDispatchOrderMongo(order);
+
 			return res.status(201).json({
 				success: 'true',
-				message: `dispatch order created successfully`,
+				message: `Order fulfillment acknowledged. Dispatch order created successfully`,
 			});
 		} catch (error: any) {
 			console.info('fulfillOrderAndStartDispatch: ', error);

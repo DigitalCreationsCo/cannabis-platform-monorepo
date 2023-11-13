@@ -4,7 +4,7 @@
 	"compilerOptions": {
 		"baseUrl": "./src",
 		"strict": false,
-		"module": "ES2015",
+		"module": "es2020",
 		"paths": {
 			"@cd/core-lib": ["../../../packages/core-lib/src/index"],
 			"@cd/data-access": ["../../../packages/data-access/src/index"],
