@@ -2,8 +2,8 @@ import {
 	type OrderWithDispatchDetails,
 	type OrganizationWithAddress,
 } from '@cd/data-access';
-import { preview } from 'vite';
-import { getDigitToWord, renderAddress, showTime } from '../utils';
+import { showTime } from '../utils/time.util';
+import { renderAddress } from '../utils/ui.util';
 
 /* eslint-disable @typescript-eslint/naming-convention */
 const nbsp = '\xa0';
@@ -357,3 +357,29 @@ const TextContent = Object.freeze({
 });
 
 export default TextContent;
+
+export const SMSTemplate = Object.freeze({
+	driver: {
+		delivery_info_f: (order: OrderWithDispatchDetails['order']) =>
+			`${TextContent.dispatch.status.DELIVERY_DEADLINE_f(
+				order,
+			)}\n${TextContent.dispatch.status.PICKUP_ADDRESS_f(
+				order.organization,
+			)}\n${TextContent.dispatch.status.DELIVER_TO_CUSTOMER_f(order)}`,
+		new_order_f: (order: OrderWithDispatchDetails['order']) =>
+			TextContent.dispatch.status.NEW_ORDER_FROM_GRAS +
+			'\n' +
+			TextContent.dispatch.status.PICKUP_ADDRESS_f(order.organization) +
+			'\n' +
+			TextContent.dispatch.status.REPLY_TO_ACCEPT_ORDER,
+	},
+});
+
+export const SocketMessageTemplate = Object.freeze({
+	driver: {
+		new_order_f: (order: OrderWithDispatchDetails['order']) =>
+			TextContent.dispatch.status.NEW_ORDER +
+			'\n' +
+			TextContent.dispatch.status.PICKUP_ADDRESS_f(order.organization),
+	},
+});
