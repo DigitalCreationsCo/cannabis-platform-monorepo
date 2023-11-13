@@ -10,6 +10,7 @@ POST    '/check-onboard'    checkOnboardStripeDispensaryAccount
 
 ================================= */
 
+router.route('/').post(accountCtrl.getStripeAccount);
 router.route('/create').post(accountCtrl.createStripeDispensaryAccount);
 router.route('/connect').post(accountCtrl.connectStripeDispensaryAccount);
 router

@@ -5544,6 +5544,7 @@ __metadata:
     "@types/node": 18.11.10
     "@typescript-eslint/eslint-plugin": 5.45.0
     "@typescript-eslint/parser": 5.45.0
+    "@urql/core": ^4.1.4
     awesome-typescript-loader: ^5.2.1
     axios: 1.2.1
     babel-core: 6.26.3
@@ -12859,6 +12860,16 @@ __metadata:
     "@0no-co/graphql.web": ^1.0.1
     wonka: ^6.3.2
   checksum: adeb666c632acbd85dbb6d48aab81b8ec26e839ff525b71a93e6d0cc1632bab49b4615585527ccc8b98fbf5c2e1a9f5c20bdd92d3f89d573803f069d97ea09eb
+  languageName: node
+  linkType: hard
+
+"@urql/core@npm:^4.1.4":
+  version: 4.1.4
+  resolution: "@urql/core@npm:4.1.4"
+  dependencies:
+    "@0no-co/graphql.web": ^1.0.1
+    wonka: ^6.3.2
+  checksum: ca08793835ace77054be5e20d3b48403ed145fa8da47ebecc430fe097e856ad28a74dc50e67373b2a1219378c973232d52ca8725c2e5d711c178f11a331dc68a
   languageName: node
   linkType: hard
 
