@@ -11,9 +11,9 @@ const styles = {
 	checkout_f: (expanded: ViewProps['expanded']) => [
 		expanded ? 'touch-none' : 'touch-auto',
 		expanded
-			? 'p-2 h-[520px] md:h-2/3 md:w-[540px] flex-col'
+			? 'p-2 h-[520px] md:h-2/3 md:w-[440px] flex-col'
 			: 'h-[48px] md:w-[310px] flex-row',
-		'justify-center flex items-center',
+		'justify-center flex items-center mx-auto',
 	],
 	container: ['min-h-[44px] md:min-h-0 w-fit z-25 absolute bottom-0'],
 	inner_container_f: (props: ViewProps) => [
