@@ -52,6 +52,7 @@ function ProvideDispensaryKey() {
 		} catch (error: any) {
 			console.info('downloadDispensaryData: ', error);
 			setLoading(false);
+			setLoadingButton(false);
 			// throw new Error(error.message);
 		}
 	}
