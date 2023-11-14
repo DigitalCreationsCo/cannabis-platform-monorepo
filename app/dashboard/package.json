@@ -9,7 +9,7 @@
 		"boarding.js": "3.5.2",
 		"busboy": "1.6.0",
 		"cors": "2.8.5",
-		"date-fns": "2.29.3",
+		"date-fns-tz": "2.0.0",
 		"find-up": "5.0.0",
 		"framer-motion": "10.15.0",
 		"json-immutable": "0.5.0",

@@ -1,6 +1,6 @@
 import prisma from '@cd/data-access';
 import { MongoClient } from 'mongodb';
-import { DriverDA, OrderDA } from './api/data-access';
+import { DriverDA, ShopDA } from './api/data-access';
 import server from './server';
 
 const port = process.env.SERVER_PORT || 6001;
@@ -22,7 +22,7 @@ async function connectDb() {
 		console.info(` >> server-main starting in ${process.env.NODE_ENV} mode.`);
 		await MongoClient.connect(mongoConnectUrl)
 			.then(async (client) => {
-				await OrderDA.useMongoDB(client);
+				await ShopDA.useMongoDB(client);
 				await DriverDA.useMongoDB(client);
 				console.info(' >> server-mdain: Mongo Database 👏 is ready for query.');
 
@@ -48,7 +48,10 @@ process.on('SIGINT', async function () {
 	await prisma
 		.$disconnect()
 		.then(process.exit(0))
-		.catch((error: any) => process.exit(1));
+		.catch((error: any) => {
+			console.info('sigint ', error.message);
+			process.exit(1);
+		});
 });
 
 export { connectDb, server };

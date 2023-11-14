@@ -1,7 +1,7 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import { calculateDeliveryDeadline } from '@cd/core-lib';
 import {
-	type OrderWithDashboardDetails,
+	type OrderWithFullDetails,
 	type OrganizationWithDashboardDetails,
 	type ProductWithDashboardDetails,
 	type UserDispensaryAdmin,
@@ -374,9 +374,10 @@ const products: ProductWithDashboardDetails[] = [
 	},
 ];
 
-const orders: OrderWithDashboardDetails[] = [
+const orders: OrderWithFullDetails[] = [
 	{
 		id: '1',
+		type: 'delivery',
 		subtotal: 12000,
 		total: 12399,
 		taxFactor: 0.6,
@@ -473,6 +474,7 @@ const orders: OrderWithDashboardDetails[] = [
 			email: 'bmejiadeveloper2@gmail.com',
 			createdAt: new Date(),
 			updatedAt: new Date(),
+			licenseNumber: '123456789',
 			user: {
 				id: 'bf346k4u7x2b2hhr6wvgiwao',
 				firstName: 'Bryant',

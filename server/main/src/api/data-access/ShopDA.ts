@@ -14,6 +14,7 @@ import {
 	findProductsByOrg,
 	findProductsByText,
 	findProductWithDetails,
+	type POS,
 	updateOrder,
 	updateOrderWithOrderItems,
 	updateVariantQuantity,
@@ -24,8 +25,9 @@ import {
 	type Prisma,
 	type PurchaseCreate,
 } from '@cd/data-access';
-import { type POSIntegration } from 'integrations/integration.types';
 import { type MongoClient } from 'mongodb';
+import { id } from '../../../jest.config';
+import { type POSIntegration } from '../../integrations/integration.types';
 
 /* =================================
 Order Data Access - Data class for Order SQL Table and dispatchOrders Mongo Collection
@@ -55,7 +57,7 @@ let dispatchOrders;
 
 const dispatch_namespace = process.env.DISPATCH_DB_NS;
 
-export default class OrderDA {
+export default class ShopDA {
 	static async useMongoDB(mongoClient: MongoClient) {
 		try {
 			if (!dispatchOrders)
@@ -65,9 +67,9 @@ export default class OrderDA {
 
 			return;
 		} catch (e: any) {
-			console.error(`Unable to establish collection handle in OrderDA: ${e}`);
+			console.error(`Unable to establish collection handle in ShopDA: ${e}`);
 			throw new Error(
-				`Unable to establish collection handle in OrderDA: ${e.message}`,
+				`Unable to establish collection handle in ShopDA: ${e.message}`,
 			);
 		}
 	}
@@ -101,35 +103,38 @@ export default class OrderDA {
 		}
 	}
 
-	static async processDispensaryPOSOrder(
-		order: OrderWithDispatchDetails['order'],
-	) {
+	static async getPOSIntegrationService(pos: POS) {
 		try {
 			let POSIntegrationService: POSIntegration;
-			switch (order.organization.pos) {
+			switch (pos) {
 				// use metrc integration for dutchie integration for now,
 				// dutchiePOS delivery does not sync to metrc.
 				case 'dutchie':
-					POSIntegrationService = await import('../../integrations/metrc')
-						.default;
+					POSIntegrationService = await (
+						await import('../../integrations/metrc')
+					).default;
 					break;
 				case 'blaze':
-					POSIntegrationService = await import('../../integrations/blazePOS')
-						.default;
+					POSIntegrationService = await (
+						await import('../../integrations/blazePOS')
+					).default;
 					break;
 				case 'weedmaps':
-					POSIntegrationService = await import('../../integrations/weedmapsPOS')
-						.default;
+					POSIntegrationService = await (
+						await import('../../integrations/weedmapsPOS')
+					).default;
 					break;
 				case 'none':
-					POSIntegrationService = await import('../../integrations/metrc')
-						.default;
+					POSIntegrationService = await (
+						await import('../../integrations/metrc')
+					).default;
 					break;
 				default:
-					POSIntegrationService = await import('../../integrations/metrc')
-						.default;
+					POSIntegrationService = await (
+						await import('../../integrations/metrc')
+					).default;
 			}
-			await POSIntegrationService.processSale(order);
+			return POSIntegrationService;
 		} catch (error: any) {
 			console.error(error.message);
 			throw new Error(error.message);
