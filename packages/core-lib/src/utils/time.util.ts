@@ -103,23 +103,7 @@ export function formatToTimeZone(
 	// locale = 'en-US',
 ) {
 	try {
-		return formatInTimeZone(
-			new Date(dateString),
-			timeZone,
-			formatStr,
-			options,
-			// locale: {
-			// 	code: locale,
-			// 	localize: {
-			// 		ordinalNumber: null,
-			// 		eraordinalNumber: null,
-			// 		quarterordinalNumber: null,
-			// 		monthordinalNumber: null,
-			// 		dayordinalNumber: null,
-			// 		dayPeriodordinalNumber: null,
-			// 	},
-			// },
-		);
+		return formatInTimeZone(new Date(dateString), timeZone, formatStr, options);
 	} catch (error: any) {
 		console.error('formatToTimeZone: ', error.message);
 		throw new Error(error.message);
