@@ -5,7 +5,7 @@ import {
 	normalizeUserData,
 } from '@cd/core-lib';
 import { type AddressCreateType } from '@cd/data-access';
-import { OrderDA, UserDA } from '../data-access';
+import { ShopDA, UserDA } from '../data-access';
 
 /* =================================
 UserController - controller class for user business actions
@@ -158,7 +158,7 @@ export default class UserController {
 	static async getOrdersForUser(req, res) {
 		try {
 			const id = req.params.id || '';
-			const data = await OrderDA.getOrdersByUser(id);
+			const data = await ShopDA.getOrdersByUser(id);
 			if (!data)
 				return res.status(404).json({
 					success: 'false',

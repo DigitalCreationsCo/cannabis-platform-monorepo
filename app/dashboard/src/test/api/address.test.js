@@ -21,7 +21,7 @@ describe('handler makes the correct server call with the given params', () => {
 				city: 'Lancaster',
 				state: 'PA',
 				zipcode: 17602,
-				country: 'United States',
+				country: 'United_States',
 				countryCode: 'US',
 				coordinateId: '1',
 			},

@@ -6,7 +6,7 @@ import {
 	usePagination,
 } from '@cd/core-lib';
 import {
-	type OrderWithDashboardDetails,
+	type OrderWithFullDetails,
 	type OrganizationWithDashboardDetails,
 	type ProductWithDashboardDetails,
 	type UserDispensaryAdmin,
@@ -33,7 +33,7 @@ interface DashboardProps {
 	organization: OrganizationWithDashboardDetails;
 	user: UserDispensaryAdmin;
 	products: ProductWithDashboardDetails[];
-	orders: OrderWithDashboardDetails[];
+	orders: OrderWithFullDetails[];
 }
 
 function Dashboard({ user, organization, products, orders }: DashboardProps) {
