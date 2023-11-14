@@ -205,13 +205,16 @@ describe('convertSubTotalAndTaxNumber', () => {
 describe('extractValueFromStringInfo', () => {
 	it('returns the correct data from an item string as whole number', () => {
 		const string = 'Subtotal: $405.00Taxes: $36.45';
-		expect(extractValueFromStringInfo(string, 'taxes')[0].value).toBe(3645);
-		expect(extractValueFromStringInfo(string, 'subtotal')[0].value).toBe(40500);
+		expect(extractValueFromStringInfo(string, 'taxes')).toBe(3645);
+		expect(extractValueFromStringInfo(string, 'subtotal')).toBe(40500);
 
 		const string2 = 'Subtotal: $405.00 Taxes: $36.45';
-		expect(extractValueFromStringInfo(string2, 'taxes')[0].value).toBe(3645);
-		expect(extractValueFromStringInfo(string2, 'subtotal')[0].value).toBe(
-			40500,
-		);
+		expect(extractValueFromStringInfo(string2, 'taxes')).toBe(3645);
+		expect(extractValueFromStringInfo(string2, 'subtotal')).toBe(40500);
+
+		const string3 = 'Subtotal: $405.00Discount: $68.00 Taxes: $36.45';
+		expect(extractValueFromStringInfo(string3, 'taxes')).toBe(3645);
+		expect(extractValueFromStringInfo(string3, 'subtotal')).toBe(40500);
+		expect(extractValueFromStringInfo(string3, 'discount')).toBe(6800);
 	});
 });

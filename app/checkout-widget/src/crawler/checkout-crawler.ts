@@ -27,7 +27,6 @@ export default async function cheerioCrawler(config: DOMSelector, key: DOMKey) {
 	}
 }
 
-// in the future, take all these functions and build a Crawler Class
 export async function processCrawlerData<K extends DOMKey>(
 	html: string,
 	config: DOMSelector,

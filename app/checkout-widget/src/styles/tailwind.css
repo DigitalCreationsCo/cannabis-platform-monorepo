@@ -2914,6 +2914,10 @@ html {
   max-height: fit-content;
 }
 
+.max-h-\[520px\] {
+  max-height: 520px;
+}
+
 .min-h-\[200px\] {
   min-height: 200px;
 }

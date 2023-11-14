@@ -6,12 +6,14 @@ import {
 const styles = {
 	cart_list: [
 		'mx-auto flex flex-col items-center ',
-		'overflow-y-auto overscroll-none',
+		'overflow-y-auto',
+		'overscroll-none',
+		'h-fit',
 	],
 	checkout_f: (expanded: ViewProps['expanded']) => [
 		expanded ? 'touch-none' : 'touch-auto',
 		expanded
-			? 'p-2 h-[520px] md:h-2/3 md:w-[440px] flex-col'
+			? 'p-4 max-h-[520px] md:h-2/3 md:w-[440px] flex-col'
 			: 'h-[48px] md:w-[310px] flex-row',
 		'justify-center flex items-center mx-auto',
 	],

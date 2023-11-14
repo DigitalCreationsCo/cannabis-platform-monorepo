@@ -262,6 +262,17 @@ export default class Checkout extends Component<
 								</div>
 							)}
 						{this.state.cart.cartItems.length > 0 &&
+							this.state.cart.discount !== undefined && (
+								<div className="w-2/3 flex flex-row justify-end">
+									<Paragraph className="text-light">discount</Paragraph>
+									<Price
+										color="light"
+										className="pl-2 text-light"
+										basePrice={this.state.cart.discount}
+									/>
+								</div>
+							)}
+						{/* {this.state.cart.cartItems.length > 0 &&
 							this.state.cart.tax !== undefined && (
 								<div className="w-2/3 flex flex-row justify-end">
 									<Paragraph className="text-light">taxes</Paragraph>
@@ -271,7 +282,7 @@ export default class Checkout extends Component<
 										basePrice={this.state.cart.tax}
 									/>
 								</div>
-							)}
+							)} */}
 						{this.state.cart.cartItems.length > 0 && (
 							<div className="w-3/4 md:w-2/3 flex flex-row justify-end">
 								<Paragraph className="text-light">Your total is</Paragraph>
