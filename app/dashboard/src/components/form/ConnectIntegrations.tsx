@@ -103,55 +103,55 @@ function ConnectIntegrations() {
 	return (
 		<form className={'content relative'} onSubmit={handleSubmit}>
 			<Grid className="mx-auto max-w-[525px] gap-4">
-				<AnimatePresence>
-					<FlexBox className="flex-row justify-between gap-4 pr-2 md:pr-0">
-						<FlexBox>
-							<H3>Connect Point of Sale Integrations</H3>
-							<Paragraph>
-								Gras integrates with your point of sale and inventory service,
-								to make delivery easy.
-							</Paragraph>
-						</FlexBox>
-						<Image
-							className="rounded-btn"
-							src={'/logo.png'}
-							alt="Gras Cannabis logo"
-							height={63}
-							width={63}
-							priority
-						/>
-					</FlexBox>
-					<Small>{TextContent.ui.FORM_FIELDS}</Small>
-					<FlexBox className="flex-row justify-between items-center space-x-4">
+				<FlexBox className="flex-row justify-between gap-4 pr-2 md:pr-0">
+					<FlexBox>
+						<H3>Connect Point of Sale Integrations</H3>
 						<Paragraph>
-							Do you use integrated point of sale in your store?
-							{'\n'}(If no choice applies, select none).
+							Gras integrates with your point of sale and inventory service, to
+							make delivery easy.
 						</Paragraph>
-						<Select
-							name={'pos'}
-							className="w-[150px]"
-							values={pointOfSaleSystemList}
-							defaultValue={'none'}
-							setOption={(e: any) => {
-								handleChange(e);
-								setPos(e.target.value);
-								switch (e.target.value) {
-									case 'dutchie':
-										setFieldValue('weedmapsKey', '');
-										setFieldValue('blazeKey', '');
-										break;
-									case 'blaze':
-										setFieldValue('weedmapsKey', '');
-										setFieldValue('dutchieKey', '');
-										break;
-									case 'weedmaps':
-										setFieldValue('dutchieKey', '');
-										setFieldValue('blazeKey', '');
-										break;
-								}
-							}}
-						/>
 					</FlexBox>
+					<Image
+						className="rounded-btn"
+						src={'/logo.png'}
+						alt="Gras Cannabis logo"
+						height={63}
+						width={63}
+						priority
+					/>
+				</FlexBox>
+				<Small>{TextContent.ui.FORM_FIELDS}</Small>
+				<FlexBox className="flex-row justify-between items-center space-x-4">
+					<Paragraph>
+						Do you use integrated point of sale in your store?
+						{'\n'}(If no choice applies, select none).
+					</Paragraph>
+					<Select
+						name={'pos'}
+						className="w-[150px]"
+						values={pointOfSaleSystemList}
+						defaultValue={'none'}
+						setOption={(e: any) => {
+							handleChange(e);
+							setPos(e.target.value);
+							switch (e.target.value) {
+								case 'dutchie':
+									setFieldValue('weedmapsKey', '');
+									setFieldValue('blazeKey', '');
+									break;
+								case 'blaze':
+									setFieldValue('weedmapsKey', '');
+									setFieldValue('dutchieKey', '');
+									break;
+								case 'weedmaps':
+									setFieldValue('dutchieKey', '');
+									setFieldValue('blazeKey', '');
+									break;
+							}
+						}}
+					/>
+				</FlexBox>
+				<AnimatePresence>
 					{pos === 'dutchie' && (
 						<motion.div
 							initial={{ y: -50, opacity: 0 }}
@@ -203,26 +203,28 @@ function ConnectIntegrations() {
 							/>
 						</motion.div>
 					)}
-					<FlexBox className="flex-row justify-between items-center space-x-4">
-						<Paragraph>
-							Do you use inventory service in your store?
-							{'\n'}(If no choice applies, select none).
-						</Paragraph>
-						<Select
-							name={'inventory'}
-							className="w-[150px]"
-							values={inventorySystemList}
-							defaultValue={'none'}
-							setOption={(e: any) => {
-								handleChange(e);
-								setInventory(e.target.value);
-								if (e.target.value !== 'metrc') {
-									setFieldValue('metrcLicenseNumber', '');
-									setFieldValue('metrcUserKey', '');
-								}
-							}}
-						/>
-					</FlexBox>
+				</AnimatePresence>
+				<FlexBox className="flex-row justify-between items-center space-x-4">
+					<Paragraph>
+						Do you use inventory service in your store?
+						{'\n'}(If no choice applies, select none).
+					</Paragraph>
+					<Select
+						name={'inventory'}
+						className="w-[150px]"
+						values={inventorySystemList}
+						defaultValue={'none'}
+						setOption={(e: any) => {
+							handleChange(e);
+							setInventory(e.target.value);
+							if (e.target.value !== 'metrc') {
+								setFieldValue('metrcLicenseNumber', '');
+								setFieldValue('metrcUserKey', '');
+							}
+						}}
+					/>
+				</FlexBox>
+				<AnimatePresence>
 					{inventory === 'metrc' && (
 						<motion.div
 							initial={{ y: -50, opacity: 0 }}
@@ -251,25 +253,25 @@ function ConnectIntegrations() {
 							/>
 						</motion.div>
 					)}
-					<FlexBox className="m-auto flex-row space-x-4 pb-20">
-						<Button onClick={prevFormStep} disabled={loadingButton}>
-							back
-						</Button>
-						<Button
-							id="dispensary-create-step-4"
-							type="submit"
-							loading={loadingButton}
-							onClick={(e) => {
-								e.preventDefault();
-								e.stopPropagation();
-								notifyValidation();
-								handleSubmit();
-							}}
-						>
-							{TextContent.ui.CONTINUE}
-						</Button>
-					</FlexBox>
 				</AnimatePresence>
+				<FlexBox className="m-auto flex-row space-x-4 pb-20">
+					<Button onClick={prevFormStep} disabled={loadingButton}>
+						back
+					</Button>
+					<Button
+						id="dispensary-create-step-4"
+						type="submit"
+						loading={loadingButton}
+						onClick={(e) => {
+							e.preventDefault();
+							e.stopPropagation();
+							notifyValidation();
+							handleSubmit();
+						}}
+					>
+						{TextContent.ui.CONTINUE}
+					</Button>
+				</FlexBox>
 			</Grid>
 		</form>
 	);
