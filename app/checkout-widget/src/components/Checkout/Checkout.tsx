@@ -225,10 +225,12 @@ export default class Checkout extends Component<
 							className="object-contain animate-[shake_4s_ease-in-out_infinite]"
 						/>
 						<Paragraph className="text-light m-auto">
-							{TextContent.info.GRAS_WILL_DELIVER_STRAIGHT_TO_YOUR_DOOR}
-							{'\n'}
+							{TextContent.info.PARTNER_FOR_DELIVERY_f(
+								this.props.dispensaryName,
+							)}
+						</Paragraph>
+						<Paragraph className="text-light m-auto">
 							{TextContent.info.TIME_GUARANTEE}
-							{'\n'}
 						</Paragraph>
 						<Paragraph className="text-light m-auto">
 							<b>{TextContent.shop.ORDER_INFO_HEADER}</b> 🔽
@@ -248,26 +250,28 @@ export default class Checkout extends Component<
 							/>
 						</div>
 
-						{this.state.cart.subtotal && (
-							<div className="w-2/3 flex flex-row justify-end">
-								<Paragraph className="text-light">subtotal</Paragraph>
-								<Price
-									color="light"
-									className="pl-2 text-light"
-									basePrice={this.state.cart.subtotal}
-								/>
-							</div>
-						)}
-						{this.state.cart.tax !== undefined && (
-							<div className="w-2/3 flex flex-row justify-end">
-								<Paragraph className="text-light">taxes</Paragraph>
-								<Price
-									color="light"
-									className="pl-2 text-light"
-									basePrice={this.state.cart.tax}
-								/>
-							</div>
-						)}
+						{this.state.cart.cartItems.length > 0 &&
+							this.state.cart.subtotal && (
+								<div className="w-2/3 flex flex-row justify-end">
+									<Paragraph className="text-light">subtotal</Paragraph>
+									<Price
+										color="light"
+										className="pl-2 text-light"
+										basePrice={this.state.cart.subtotal}
+									/>
+								</div>
+							)}
+						{this.state.cart.cartItems.length > 0 &&
+							this.state.cart.tax !== undefined && (
+								<div className="w-2/3 flex flex-row justify-end">
+									<Paragraph className="text-light">taxes</Paragraph>
+									<Price
+										color="light"
+										className="pl-2 text-light"
+										basePrice={this.state.cart.tax}
+									/>
+								</div>
+							)}
 						{this.state.cart.cartItems.length > 0 && (
 							<div className="w-3/4 md:w-2/3 flex flex-row justify-end">
 								<Paragraph className="text-light">Your total is</Paragraph>
@@ -320,7 +324,7 @@ export default class Checkout extends Component<
 						)}
 						<div className="flex flex-col">
 							<Paragraph color="light" className="m-auto">
-								Delivery by Gras to your door
+								<b>Delivery by Gras</b> to your door
 							</Paragraph>
 							<Small
 								className="cursor-pointer m-auto w-fit border-b-2"

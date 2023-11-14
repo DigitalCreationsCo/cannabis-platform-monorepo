@@ -160,6 +160,11 @@ const TextContent = Object.freeze({
 		THANK_YOU: `Thank you for choosing Gras.`,
 		TIME_GUARANTEE: `We guarantee a delivery time of two hours`,
 
+		ORDER_AT_CHECKOUT: `Place your order at checkout.`,
+		PARTNER_FOR_DELIVERY_f: (organizationName?: string) =>
+			`${
+				organizationName || 'Your favorite Dispensary'
+			} is partnering with Gras to offer you home delivery.`,
 		FULL_SERVICE_CANNABIS_DELIVERY: `Gras is Full-Service Cannabis Delivery For Your Dispensary`,
 		GRAS_WILL_DELIVER_STRAIGHT_TO_YOUR_DOOR:
 			'Gras will deliver your order straight to your door.',

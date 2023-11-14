@@ -1,19 +1,16 @@
-import {
-	type OrderWithFullDetails,
-	type OrderWithDispatchDetails,
-} from '@cd/data-access';
+import { type OrderWithFullDetails } from '@cd/data-access';
 import { gql, createClient } from '@urql/core';
 import { type POSIntegration } from './integration.types';
 
 const DutchiePOS: POSIntegration = class {
 	static async processPickupOrder(order: OrderWithFullDetails) {
 		try {
-			// const client = createClient({
-			// 	url: process.env.DUTCHIE_API_ENDPOINT +
-			// 	fetchOptions: {
-			// 		headers: { authorization: 'Bearer ' + process.env.DUTCHIE_API_KEY },
-			// 	},
-			// });
+			const client = createClient({
+				url: process.env.DUTCHIE_API_ENDPOINT +
+				fetchOptions: {
+					headers: { authorization: 'Bearer ' + process.env.DUTCHIE_API_KEY },
+				},
+			});
 			const query = gql``;
 		} catch (error: any) {
 			console.error('dutchiePOSIntegration: ', error.message);
