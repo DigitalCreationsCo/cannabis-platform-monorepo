@@ -536,6 +536,8 @@ model Organization {
   metrcLicenseNumber       String?
   metrcUserKey             String?
   dutchieKey               String?
+  weedmapsKey              String?
+  blazeKey                 String?
 
   @@index([id])
   @@index([name])
@@ -555,6 +557,7 @@ enum Inventory {
   dutchie
   weedmaps
   blaze
+  metrc
 }
 
 model Schedule {

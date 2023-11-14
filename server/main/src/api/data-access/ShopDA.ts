@@ -107,11 +107,12 @@ export default class ShopDA {
 		try {
 			let POSIntegrationService: POSIntegration;
 			switch (pos) {
-				// use metrc integration for dutchie integration for now,
-				// dutchiePOS delivery does not sync to metrc.
 				case 'dutchie':
+					// Note:
+					// dutchiePOS delivery does not sync to metrc.
+					// use metrc integration to record delivery
 					POSIntegrationService = await (
-						await import('../../integrations/metrc')
+						await import('../../integrations/dutchiePOS')
 					).default;
 					break;
 				case 'blaze':
@@ -126,12 +127,12 @@ export default class ShopDA {
 					break;
 				case 'none':
 					POSIntegrationService = await (
-						await import('../../integrations/metrc')
+						await import('../../integrations/metrcInventory')
 					).default;
 					break;
 				default:
 					POSIntegrationService = await (
-						await import('../../integrations/metrc')
+						await import('../../integrations/metrcInventory')
 					).default;
 			}
 			return POSIntegrationService;

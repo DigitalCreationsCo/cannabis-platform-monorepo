@@ -45,6 +45,7 @@ export const inventorySystemList: Inventory[] = [
 	'dutchie',
 	'blaze',
 	'weedmaps',
+	'metrc',
 	'none',
 ];
 
