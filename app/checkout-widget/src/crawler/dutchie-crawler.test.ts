@@ -208,11 +208,11 @@ describe('extractValueFromStringInfo', () => {
 		expect(extractValueFromStringInfo(string, 'taxes')).toBe(3645);
 		expect(extractValueFromStringInfo(string, 'subtotal')).toBe(40500);
 
-		const string2 = 'Subtotal: $405.00 Taxes: $36.45';
+		const string2 = 'Subtotal: $405.00Taxes: $36.45';
 		expect(extractValueFromStringInfo(string2, 'taxes')).toBe(3645);
 		expect(extractValueFromStringInfo(string2, 'subtotal')).toBe(40500);
 
-		const string3 = 'Subtotal: $405.00Discount: $68.00 Taxes: $36.45';
+		const string3 = 'Subtotal: $405.00Discount: ($68.00)Taxes: $36.45';
 		expect(extractValueFromStringInfo(string3, 'taxes')).toBe(3645);
 		expect(extractValueFromStringInfo(string3, 'subtotal')).toBe(40500);
 		expect(extractValueFromStringInfo(string3, 'discount')).toBe(6800);
