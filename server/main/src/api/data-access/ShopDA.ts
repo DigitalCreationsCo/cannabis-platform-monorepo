@@ -26,7 +26,6 @@ import {
 	type PurchaseCreate,
 } from '@cd/data-access';
 import { type MongoClient } from 'mongodb';
-import { id } from '../../../jest.config';
 import { type POSIntegration } from '../../integrations/integration.types';
 
 /* =================================
