@@ -48,9 +48,7 @@
 			<li><a href="./bookmarklet.js">Bookmarklet Code</a></li>
 			<script>
 				var bookmarklet =
-					"var s= document.createElement('script'); s.setAttribute('src', '" +
-					window.location.href +
-					"bookmarklet.js'); s.setAttribute('crossorigin', 'anonymous'); document.body.appendChild(s);";
+					"var s= document.createElement('script'); s.setAttribute('src', 'https://localhost:9000/bookmarklet.js'); s.setAttribute('crossorigin', 'anonymous'); document.body.appendChild(s);";
 				bookmarklet = '(function(){' + bookmarklet + '})();';
 				document
 					.querySelector('#bookmarklet')

@@ -16,7 +16,7 @@ export const _orgUpsert = {
 		city: 'Lancaster',
 		state: 'Pennsylvania',
 		zipcode: 17603,
-		country: 'United States',
+		country: 'United_States',
 		countryCode: 'US',
 		coordinates: {
 			radius: 10000,
@@ -62,7 +62,7 @@ export const _orgWithStripeAccountId = {
 		city: 'New York City',
 		state: 'NY',
 		zipcode: Number('02040'),
-		country: 'United States',
+		country: 'United_States',
 		countryCode: 'US',
 		coordinates: {
 			addressId: '123444',

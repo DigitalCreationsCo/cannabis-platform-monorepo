@@ -38,6 +38,7 @@ export type ThunkArgumentsType = {
 export type SimpleCart = {
 	subtotal?: number;
 	tax?: number;
+	discount?: number;
 	total: number;
 	cartItems: ProductVariantWithDetails[];
 	organizationId?: string;

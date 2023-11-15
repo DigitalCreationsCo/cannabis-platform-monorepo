@@ -12,7 +12,7 @@ import {
 } from '@cd/core-lib';
 import {
 	type OrderStatus,
-	type OrderWithDashboardDetails,
+	type OrderWithFullDetails,
 	type OrderWithDetails,
 	type ProductVariantWithDetails,
 } from '@cd/data-access';
@@ -39,7 +39,7 @@ import {
 	useOnClickOutside,
 } from '@cd/ui-lib';
 import axios from 'axios';
-import { format } from 'date-fns';
+import { format } from 'date-fns-tz';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRef, useState } from 'react';
@@ -50,7 +50,7 @@ import logo from '../../../../public/logo.png';
 export default function OrderDetails({
 	order,
 }: {
-	order: OrderWithDashboardDetails;
+	order: OrderWithFullDetails;
 }) {
 	const [updateOrder, setUpdateOrder] = useState<OrderWithDetails>();
 	const [orderStatus] = useState<OrderStatus>(order.orderStatus);

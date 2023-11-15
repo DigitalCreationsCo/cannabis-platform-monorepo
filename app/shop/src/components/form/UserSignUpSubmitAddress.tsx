@@ -45,7 +45,7 @@ function SubmitAddressForm() {
 			city: '',
 			state: null,
 			zipcode: 0,
-			country: 'United States',
+			country: 'United_States',
 			countryCode: 'US',
 		},
 	};

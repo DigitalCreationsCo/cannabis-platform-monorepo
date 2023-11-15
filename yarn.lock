@@ -4643,7 +4643,7 @@ __metadata:
     boarding.js: 3.5.2
     cors: 2.8.5
     daisyui: 2.51.6
-    date-fns: 2.29.3
+    date-fns-tz: 2.0.0
     dotenv: 16.0.3
     dotenv-cli: 7.0.0
     dotenv-expand: 10.0.0
@@ -4811,7 +4811,7 @@ __metadata:
     busboy: 1.6.0
     cors: 2.8.5
     daisyui: 2.51.6
-    date-fns: 2.29.3
+    date-fns-tz: 2.0.0
     dotenv: 16.0.3
     dotenv-cli: 7.0.0
     dotenv-expand: 10.0.0
@@ -4898,7 +4898,7 @@ __metadata:
     boarding.js: 3.5.2
     cors: 2.8.5
     daisyui: 2.51.6
-    date-fns: 2.29.3
+    date-fns-tz: 2.0.0
     dotenv: 16.0.3
     dotenv-cli: 7.0.0
     dotenv-expand: 10.0.0
@@ -4998,7 +4998,7 @@ __metadata:
     boarding.js: 3.5.2
     cors: 2.8.5
     daisyui: 2.51.6
-    date-fns: 2.29.3
+    date-fns-tz: 2.0.0
     dotenv: 16.0.3
     dotenv-cli: 7.0.0
     dotenv-expand: 10.0.0
@@ -5094,6 +5094,7 @@ __metadata:
     babel-watch: 7.7.2
     cross-env: 7.0.3
     crypto-js: 4.1.1
+    date-fns-tz: 2.0.0
     dotenv: 16.0.3
     dotenv-cli: 7.0.0
     dotenv-expand: 10.0.0
@@ -5544,6 +5545,7 @@ __metadata:
     "@types/node": 18.11.10
     "@typescript-eslint/eslint-plugin": 5.45.0
     "@typescript-eslint/parser": 5.45.0
+    "@urql/core": ^4.1.4
     awesome-typescript-loader: ^5.2.1
     axios: 1.2.1
     babel-core: 6.26.3
@@ -12862,6 +12864,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@urql/core@npm:^4.1.4":
+  version: 4.1.4
+  resolution: "@urql/core@npm:4.1.4"
+  dependencies:
+    "@0no-co/graphql.web": ^1.0.1
+    wonka: ^6.3.2
+  checksum: ca08793835ace77054be5e20d3b48403ed145fa8da47ebecc430fe097e856ad28a74dc50e67373b2a1219378c973232d52ca8725c2e5d711c178f11a331dc68a
+  languageName: node
+  linkType: hard
+
 "@urql/exchange-retry@npm:0.3.0":
   version: 0.3.0
   resolution: "@urql/exchange-retry@npm:0.3.0"
@@ -16234,7 +16246,7 @@ babel-watch@kmagiera/babel-watch:
     copyfiles: 2.4.1
     cors: 2.8.5
     css-loader: 6.7.3
-    date-fns: 2.29.3
+    date-fns-tz: 2.0.0
     dotenv: 16.0.3
     dotenv-cli: 7.0.0
     dotenv-expand: 10.0.0
@@ -18146,10 +18158,12 @@ babel-watch@kmagiera/babel-watch:
   languageName: node
   linkType: hard
 
-"date-fns@npm:2.29.3":
-  version: 2.29.3
-  resolution: "date-fns@npm:2.29.3"
-  checksum: e01cf5b62af04e05dfff921bb9c9933310ed0e1ae9a81eb8653452e64dc841acf7f6e01e1a5ae5644d0337e9a7f936175fd2cb6819dc122fdd9c5e86c56be484
+"date-fns-tz@npm:2.0.0":
+  version: 2.0.0
+  resolution: "date-fns-tz@npm:2.0.0"
+  peerDependencies:
+    date-fns: ">=2.0.0"
+  checksum: a6553603a9d26dd9669326c99a58a2335ac550bc060c74b86a5ad9e1de73c9d4e3e5236f0f552f990e616e4e8dcc2b6a637913a04d2e04396e6a9f8ae83c73da
   languageName: node
   linkType: hard
 

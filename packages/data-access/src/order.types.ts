@@ -111,7 +111,7 @@ export type OrderWithShopDetails = Order & {
 	destinationAddress: AddressWithCoordinates;
 };
 
-export type OrderWithDashboardDetails = Order & {
+export type OrderWithFullDetails = Order & {
 	items: ProductVariantWithDetails[];
 	customer: User;
 	organization: OrganizationWithDashboardDetails;
