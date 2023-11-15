@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 import {
-	type OrderWithDashboardDetails,
+	type OrderWithFullDetails,
 	type OrganizationWithDashboardDetails,
 	type ProductWithDetails,
 	type UserDispensaryAdmin,
@@ -41,7 +41,7 @@ export const getDispensaryById = createAsyncThunk(
 export type DispensaryStateProps = {
 	dispensary: OrganizationWithDashboardDetails;
 	products: ProductWithDetails[];
-	orders: OrderWithDashboardDetails[];
+	orders: OrderWithFullDetails[];
 	users: UserDispensaryAdmin[];
 	isLoading: boolean;
 	isSuccess: boolean;
@@ -69,7 +69,7 @@ export const dispensarySlice = createSlice({
 			{
 				payload,
 			}: {
-				payload: OrderWithDashboardDetails[];
+				payload: OrderWithFullDetails[];
 			},
 		) => {
 			const orders = payload;

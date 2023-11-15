@@ -1,6 +1,6 @@
 import { truncate } from '@cd/core-lib';
 import { type Order } from '@cd/data-access';
-import { format } from 'date-fns';
+import { format } from 'date-fns-tz';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 import Price from './Price';

@@ -1,5 +1,5 @@
 import { axios, dispensaryActions, urlBuilder } from '@cd/core-lib';
-import { type OrderWithDashboardDetails } from '@cd/data-access';
+import { type OrderWithFullDetails } from '@cd/data-access';
 import {
 	Grid,
 	Icons,
@@ -12,7 +12,7 @@ import { twMerge } from 'tailwind-merge';
 import { wrapper, type RootState } from '../../../redux/store';
 
 interface TrackingProps {
-	orders: OrderWithDashboardDetails[];
+	orders: OrderWithFullDetails[];
 }
 
 function DashboardTrackingPage({ orders }: TrackingProps) {

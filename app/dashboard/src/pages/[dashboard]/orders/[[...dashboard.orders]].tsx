@@ -5,7 +5,7 @@ import {
 	urlBuilder,
 	usePagination,
 } from '@cd/core-lib';
-import { type OrderWithDashboardDetails } from '@cd/data-access';
+import { type OrderWithFullDetails } from '@cd/data-access';
 import {
 	Grid,
 	H6,
@@ -21,7 +21,7 @@ import { twMerge } from 'tailwind-merge';
 import { wrapper, type RootState } from '../../../redux/store';
 
 interface OrdersDashboardProps {
-	orders: OrderWithDashboardDetails[];
+	orders: OrderWithFullDetails[];
 }
 
 function Orders({ orders }: OrdersDashboardProps) {

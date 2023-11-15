@@ -1,3 +1,5 @@
+import GrasDeliveryWidget from './gras-delivery-widget';
+
 // app bookmarklet for testing
 export default function bookmarklet() {
 	import('./gras-delivery-widget').then(({ default: GrasDeliveryWidget }) => {

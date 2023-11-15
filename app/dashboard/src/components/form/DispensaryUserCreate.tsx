@@ -1,4 +1,9 @@
-import { axios, TextContent, urlBuilder } from '@cd/core-lib';
+import {
+	axios,
+	TextContent,
+	urlBuilder,
+	usStatesAbbreviationList,
+} from '@cd/core-lib';
 import {
 	Button,
 	FlexBox,
@@ -6,6 +11,7 @@ import {
 	H3,
 	H6,
 	Paragraph,
+	Select,
 	Small,
 	TermsAgreement,
 	TextField,
@@ -176,26 +182,26 @@ function DispensaryUserCreate() {
 					error={!!touched?.address?.street2 && !!errors?.address?.street2}
 					helperText={touched?.address?.street2 && errors?.address?.street2}
 				/>{' '}
-				<TextField
-					name="address.city"
-					label="* city"
-					placeholder="City"
-					value={values?.address?.city}
-					onBlur={handleBlur}
-					onChange={handleChange}
-					error={!!touched?.address?.city && !!errors?.address?.city}
-					helperText={touched?.address?.city && errors?.address?.city}
-				/>
-				<TextField
-					name="address.state"
-					label="* state"
-					placeholder="State"
-					value={values?.address?.state}
-					onBlur={handleBlur}
-					onChange={handleChange}
-					error={!!touched?.address?.state && !!errors?.address?.state}
-					helperText={touched?.address?.state && errors?.address?.state}
-				/>
+				<FlexBox className="flex-row items-center space-x-4">
+					<TextField
+						containerClassName={'flex-1'}
+						name="address.city"
+						label="* city"
+						placeholder="City"
+						value={values?.address?.city}
+						onBlur={handleBlur}
+						onChange={handleChange}
+						error={!!touched?.address?.city && !!errors?.address?.city}
+						helperText={touched?.address?.city && errors?.address?.city}
+					/>
+					<Select
+						name="address.state"
+						containerClassName={'flex-1'}
+						label="* state"
+						values={usStatesAbbreviationList}
+						setOption={handleChange}
+					/>
+				</FlexBox>
 				<TextField
 					name="address.zipcode"
 					label="* zipcode"

@@ -1,3 +1,5 @@
+/* eslint-disable no-useless-escape */
+/* eslint-disable regexp/no-unused-capturing-group */
 /* eslint-disable regexp/no-super-linear-backtracking */
 import { getSelectedOptionValue } from '@cd/core-lib';
 import { type SimpleCart } from '@cd/core-lib/src/types/redux.types';
@@ -29,7 +31,8 @@ export default async function dutchieCrawler(config: DOMSelector) {
 
 async function fetchPageData(): Promise<string> {
 	try {
-		if (!document) throw new Error('Could not get page data');
+		if (typeof document === 'undefined')
+			throw new Error('Could not get page data');
 		return document.documentElement.innerHTML;
 	} catch (error: any) {
 		console.error(error);
@@ -113,20 +116,29 @@ export function buildSimpleCartFromDutchieCheckout(
 ): SimpleCart {
 	try {
 		if (!input) throw new Error('no input data');
+		console.info('buildSimpleCartFromDutchieCheckout input ', input);
 		const items = input.items;
-		const total = input.total;
+		const totalStringInfo = input.total;
+
+		const subtotal = convertDollarsToWholeNumber(
+				extractValueFromStringInfo(totalStringInfo, 'subtotal') || 0,
+			),
+			tax = convertDollarsToWholeNumber(
+				extractValueFromStringInfo(totalStringInfo, 'taxes') || 0,
+			),
+			discount = convertDollarsToWholeNumber(
+				extractValueFromStringInfo(totalStringInfo, 'discount') || 0,
+			);
+
 		return {
 			cartItems: buildCartItems(items, config, $).map((item) => ({
 				...item,
 				basePrice: item.basePrice / item.quantity,
 			})),
-			subtotal: convertDollarsToWholeNumber(
-				extractValueFromStringInfo(total, 'subtotal')[0].value,
-			),
-			tax: convertDollarsToWholeNumber(
-				extractValueFromStringInfo(total, 'taxes')[0].value,
-			),
-			total: convertSubTotalAndTaxNumber(total),
+			subtotal: subtotal,
+			discount: discount,
+			tax: tax,
+			total: subtotal + tax - discount,
 		};
 	} catch (error) {
 		console.error(
@@ -167,24 +179,22 @@ export function convertSubTotalAndTaxNumber(value: number | string) {
  */
 export function extractValueFromStringInfo(
 	inputString: string,
-	label: 'subtotal' | 'taxes',
+	label: 'subtotal' | 'discount' | 'taxes',
 ) {
-	// set string to all lowercase
 	inputString = inputString.toLowerCase();
-	// Define a regular expression to match the label and the dollar values
-	const regex = new RegExp(`${label}: \\$([\\d.]+)`, 'g');
-	// Initialize variables to store the results
-	const matches = [];
-	let match;
-	// Use the regular expression to find all tax matches in the input string
-	while ((match = regex.exec(inputString)) !== null) {
-		const value = convertDollarsToWholeNumber(match[1]);
-		matches.push({
-			label: label,
-			value: value,
-		});
-	}
-	return matches;
+	const regex =
+		/subtotal: \$(\d+\.\d+)|taxes: \$(\d+\.\d+)|discount: \((\$\d+\.\d+)\)/g;
+	const matches = {} as Record<typeof label, { value: number }>;
+	inputString.match(regex)?.forEach((match) => {
+		if (match.includes(label)) {
+			match = match.replace(/[()]/g, '').split(': ')[1];
+			const value = convertDollarsToWholeNumber(match);
+			matches[label] = {
+				value: value,
+			};
+		}
+	});
+	return matches[label]?.value;
 }
 
 export const regexFieldDict = {

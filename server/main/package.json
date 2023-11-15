@@ -4,6 +4,7 @@
 		"@cd/core-lib": "workspace:*",
 		"@cd/data-access": "workspace:*",
 		"@paralleldrive/cuid2": "2.2.1",
+		"@urql/core": "^4.1.4",
 		"axios": "1.2.1",
 		"body-parser": "1.20.2",
 		"busboy": "1.6.0",
