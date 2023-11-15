@@ -29,7 +29,7 @@ import {
 	UploadImageBox,
 } from '@cd/ui-lib';
 import axios from 'axios';
-import { format } from 'date-fns';
+import { format } from 'date-fns-tz';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import Link from 'next/link';

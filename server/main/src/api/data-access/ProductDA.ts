@@ -8,14 +8,13 @@ updateProductVariantQuantity
 
 ================================= */
 
-export default class OrderDA {
+export default class ShopDA {
 	static async updateProductVariantQuantity(
 		variantId: string,
 		quantity: number,
 	) {
 		try {
-			const data = await updateVariantQuantity(variantId, quantity, '-');
-			return data;
+			return await updateVariantQuantity(variantId, quantity, '-');
 		} catch (error: any) {
 			console.error(error.message);
 			throw new Error(error.message);

@@ -1,4 +1,8 @@
-import { integerToTime, showTime } from '../../src/utils/time.util';
+import {
+	formatToTimeZone,
+	integerToTime,
+	showTime,
+} from '../../src/utils/time.util';
 
 describe('showTime', () => {
 	const time = new Date('2020-01-01T12:00:00');
@@ -25,5 +29,29 @@ describe('integerToTime ', () => {
 		expect(integerToTime(955)).toStrictEqual('9:55am');
 		expect(integerToTime(900)).toStrictEqual('9:00am');
 		expect(integerToTime(0)).toStrictEqual('12:00am');
+	});
+});
+
+describe('formatToTimeZone ', () => {
+	test('displays a correct time from input', () => {
+		expect(
+			formatToTimeZone('2020-01-01T12:00:00', 'UTC', 'yyyy-MM-dd HH:mm:ss', {
+				timeZone: 'UTC',
+			}),
+		).toStrictEqual('2020-01-01 17:00:00');
+		expect(
+			formatToTimeZone('2020-01-01T12:00:00', 'UTC', 'yyyy-MM-dd HH:mm:ss'),
+		).toStrictEqual('2020-01-01 17:00:00');
+		expect(
+			formatToTimeZone('2020-01-01T12:00:00', 'EST', 'yyyy-MM-dd HH:mm:ss', {
+				timeZone: 'UTC',
+			}),
+		).toStrictEqual('2020-01-01 12:00:00');
+		expect(
+			formatToTimeZone('2020-01-01T12:00:00', 'PST', 'yyyy-MM-dd HH:mm:ss'),
+		).toStrictEqual('2020-01-01 09:00:00');
+		expect(
+			formatToTimeZone('2020-01-01T12:00:00', 'PST', 'yyyy-MM-dd'),
+		).toStrictEqual('2020-01-01');
 	});
 });

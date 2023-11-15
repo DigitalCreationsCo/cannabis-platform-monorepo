@@ -93,6 +93,7 @@ module.exports = {
 		library: 'GrasDeliveryWidget',
 		libraryExport: 'default',
 		libraryTarget: 'window',
+		publicPath: 'http://localhost:9001/',
 	},
 	devtool: 'source-map',
 };

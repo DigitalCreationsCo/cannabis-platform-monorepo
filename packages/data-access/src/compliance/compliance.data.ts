@@ -1,5 +1,5 @@
 import { type Compliance, type USStateAbbreviated } from '@prisma/client';
-import prisma from './db/prisma';
+import prisma from '../db/prisma';
 
 export async function findCompliance({
 	state,

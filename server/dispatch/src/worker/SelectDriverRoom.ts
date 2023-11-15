@@ -1,4 +1,9 @@
-import { dispatchEvents, TextContent } from '@cd/core-lib';
+import {
+	dispatchEvents,
+	SMSTemplate,
+	SocketMessageTemplate,
+	TextContent,
+} from '@cd/core-lib';
 import { type OrderWithDispatchDetails } from '@cd/data-access';
 import { type Client } from '../../../../packages/core-lib/src/types/dispatch.types';
 import Messager from '../message';
@@ -20,20 +25,12 @@ class SelectDriverRoom extends WorkerRoom {
 					this.messager.sendSMS({
 						event: dispatchEvents.new_order,
 						phone: client.phone,
-						data:
-							TextContent.dispatch.status.NEW_ORDER_FROM_GRAS +
-							'\n' +
-							TextContent.dispatch.status.PICKUP_ADDRESS_f(order.organization) +
-							'\n' +
-							TextContent.dispatch.status.REPLY_TO_ACCEPT_ORDER,
+						data: SMSTemplate.driver.new_order_f(order),
 					});
 					this.messager.sendSocketMessage({
 						event: dispatchEvents.new_order,
 						socketId: client.socketId,
-						data:
-							TextContent.dispatch.status.NEW_ORDER +
-							'\n' +
-							TextContent.dispatch.status.PICKUP_ADDRESS_f(order.organization),
+						data: SocketMessageTemplate.driver.new_order_f(order),
 					});
 				});
 			},

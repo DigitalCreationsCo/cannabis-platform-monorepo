@@ -1,5 +1,6 @@
 /* eslint-disable sonarjs/cognitive-complexity */
 import { TextContent, urlBuilder } from '@cd/core-lib';
+import { type Inventory, type POS } from '@cd/data-access';
 import {
 	Button,
 	FlexBox,
@@ -8,10 +9,12 @@ import {
 	Paragraph,
 	Select,
 	Small,
+	TextField,
 	useFormContext,
 } from '@cd/ui-lib';
 import axios from 'axios';
 import { useFormik } from 'formik';
+import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
@@ -27,6 +30,8 @@ function ConnectIntegrations() {
 	}, []);
 
 	const [loadingButton, setLoadingButton] = useState(false);
+	const [pos, setPos] = useState<POS>('none');
+	const [inventory, setInventory] = useState<Inventory>('none');
 
 	const { prevFormStep, nextFormStep, formValues, setFormValues } =
 		useFormContext();
@@ -34,6 +39,11 @@ function ConnectIntegrations() {
 	const initialValues = {
 		pos: formValues.organization?.pos || 'none',
 		inventory: formValues.organization?.inventory || 'none',
+		dutchieKey: formValues.organization?.dutchieKey || '',
+		blazeKey: formValues.organization?.blazeKey || '',
+		weedmapsKey: formValues.organization?.weedmapsKey || '',
+		metrcLicenseNumber: formValues.organization?.metrcLicenseNumber || '',
+		metrcUserKey: formValues.organization?.metrcUserKey || '',
 	};
 
 	const onSubmit = async (values: typeof initialValues) => {
@@ -52,7 +62,16 @@ function ConnectIntegrations() {
 		}
 	};
 
-	const { handleChange, handleSubmit, validateForm } = useFormik({
+	const {
+		handleChange,
+		handleBlur,
+		errors,
+		touched,
+		values,
+		handleSubmit,
+		validateForm,
+		setFieldValue,
+	} = useFormik({
 		initialValues,
 		onSubmit,
 		validationSchema,
@@ -112,9 +131,79 @@ function ConnectIntegrations() {
 						className="w-[150px]"
 						values={pointOfSaleSystemList}
 						defaultValue={'none'}
-						setOption={handleChange}
+						setOption={(e: any) => {
+							handleChange(e);
+							setPos(e.target.value);
+							switch (e.target.value) {
+								case 'dutchie':
+									setFieldValue('weedmapsKey', '');
+									setFieldValue('blazeKey', '');
+									break;
+								case 'blaze':
+									setFieldValue('weedmapsKey', '');
+									setFieldValue('dutchieKey', '');
+									break;
+								case 'weedmaps':
+									setFieldValue('dutchieKey', '');
+									setFieldValue('blazeKey', '');
+									break;
+							}
+						}}
 					/>
 				</FlexBox>
+				<AnimatePresence>
+					{pos === 'dutchie' && (
+						<motion.div
+							initial={{ y: -50, opacity: 0 }}
+							animate={{ y: 0, opacity: 1 }}
+							exit={{ y: -50, opacity: 0 }}
+						>
+							<TextField
+								name="dutchieKey"
+								label="* Dutchie API key"
+								placeholder="Enter Dutchie API key"
+								value={values?.dutchieKey}
+								onBlur={handleBlur}
+								onChange={handleChange}
+								error={!!touched.dutchieKey && !!errors.dutchieKey}
+							/>
+						</motion.div>
+					)}
+					{pos === 'blaze' && (
+						<motion.div
+							initial={{ y: -50, opacity: 0 }}
+							animate={{ y: 0, opacity: 1 }}
+							exit={{ y: -50, opacity: 0 }}
+						>
+							<TextField
+								name="blazeKey"
+								label="* Blaze API key"
+								placeholder="Enter Blaze API key"
+								value={values?.blazeKey}
+								onBlur={handleBlur}
+								onChange={handleChange}
+								error={!!touched.blazeKey && !!errors.blazeKey}
+							/>
+						</motion.div>
+					)}
+					{pos === 'weedmaps' && (
+						<motion.div
+							initial={{ y: -50, opacity: 0 }}
+							animate={{ y: 0, opacity: 1 }}
+							exit={{ y: -50, opacity: 0 }}
+						>
+							<TextField
+								name="weedmapsKey"
+								label="* Weedmaps API key"
+								placeholder="Enter Weedmaps API key"
+								value={values?.weedmapsKey}
+								onBlur={handleBlur}
+								onChange={handleChange}
+								error={!!touched.weedmapsKey && !!errors.weedmapsKey}
+							/>
+						</motion.div>
+					)}
+				</AnimatePresence>
 				<FlexBox className="flex-row justify-between items-center space-x-4">
 					<Paragraph>
 						Do you use inventory service in your store?
@@ -125,9 +214,46 @@ function ConnectIntegrations() {
 						className="w-[150px]"
 						values={inventorySystemList}
 						defaultValue={'none'}
-						setOption={handleChange}
+						setOption={(e: any) => {
+							handleChange(e);
+							setInventory(e.target.value);
+							if (e.target.value !== 'metrc') {
+								setFieldValue('metrcLicenseNumber', '');
+								setFieldValue('metrcUserKey', '');
+							}
+						}}
 					/>
 				</FlexBox>
+				<AnimatePresence>
+					{inventory === 'metrc' && (
+						<motion.div
+							initial={{ y: -50, opacity: 0 }}
+							animate={{ y: 0, opacity: 1 }}
+							exit={{ y: -50, opacity: 0 }}
+						>
+							<TextField
+								name="metrcLicenseNumber"
+								label="* Metric License Number"
+								placeholder="What is the Dispensary License Number?"
+								value={values?.metrcLicenseNumber}
+								onBlur={handleBlur}
+								onChange={handleChange}
+								error={
+									!!touched.metrcLicenseNumber && !!errors.metrcLicenseNumber
+								}
+							/>
+							<TextField
+								name="metrcUserKey"
+								label="* Metrc API Key"
+								placeholder="What is the Metrc API Key?"
+								value={values?.metrcUserKey}
+								onBlur={handleBlur}
+								onChange={handleChange}
+								error={!!touched.metrcUserKey && !!errors.metrcUserKey}
+							/>
+						</motion.div>
+					)}
+				</AnimatePresence>
 				<FlexBox className="m-auto flex-row space-x-4 pb-20">
 					<Button onClick={prevFormStep} disabled={loadingButton}>
 						back
@@ -154,6 +280,31 @@ function ConnectIntegrations() {
 const validationSchema = yup.object().shape({
 	pos: yup.string().required(),
 	inventory: yup.string().required(),
+	dutchieKey: yup.string().when('pos', {
+		is: 'dutchie',
+		then: yup.string().required('Enter Dutchie API key'),
+		otherwise: yup.string(),
+	}),
+	blazeKey: yup.string().when('pos', {
+		is: 'blaze',
+		then: yup.string().required('Enter Blaze API key'),
+		otherwise: yup.string(),
+	}),
+	weedmapsKey: yup.string().when('pos', {
+		is: 'weedmaps',
+		then: yup.string().required('Enter Weedmaps API key'),
+		otherwise: yup.string(),
+	}),
+	metrcLicenseNumber: yup.string().when('inventory', {
+		is: 'metrc',
+		then: yup.string().required('Enter Metrc License Number'),
+		otherwise: yup.string(),
+	}),
+	metrcUserKey: yup.string().when('inventory', {
+		is: 'metrc',
+		then: yup.string().required('Enter Metrc API Key'),
+		otherwise: yup.string(),
+	}),
 });
 
 export default ConnectIntegrations;
