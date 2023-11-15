@@ -254,12 +254,24 @@ model Driver {
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
   user          User           @relation(fields: [id], references: [id])
+  licenseNumber String?
+  vehicle       Vehicle[]
   driverSession DriverSession?
   orders        Order[]
   routes        Route[]
 
   @@index([id])
   @@index([email])
+}
+
+model Vehicle {
+  id            String         @id @unique @default(cuid())
+  make          String
+  model         String
+  year          Int
+  licensePlateNumber String
+  driverId      String
+  driver        Driver         @relation(fields: [driverId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model DriverSession {
@@ -412,6 +424,7 @@ model Membership {
 
 model Order {
   id                      String           @id @unique @default(cuid())
+  type                    OrderType        @default(delivery)
   items                   ProductVariant[] @relation("OrderToProductVariant")
 
   subtotal                Int
@@ -467,6 +480,11 @@ model Order {
   @@index([organizationId])
 }
 
+enum OrderType {
+  delivery
+  pickup
+}
+
 model Purchase {
   id            String        @id @unique @default(cuid())
   paymentStatus PaymentStatus @default(Pending)
@@ -490,9 +508,6 @@ model Organization {
   addressId                String              @unique
   dialCode                 String
   phone                    String?
-  vendor                   Vendor?             @relation(fields: [vendorId, vendorName], references: [id, name])
-  vendorId                 String?
-  vendorName               String?
   termsAccepted            Boolean             @default(false)
   subdomainId              String
   createdAt                DateTime            @default(now())
@@ -513,6 +528,20 @@ model Organization {
   subscribedForDelivery    Boolean             @default(false)
   subscribedForPickup      Boolean             @default(false)
 
+  vendor                   Vendor?             @relation(fields: [vendorId, vendorName], references: [id, name])
+  vendorId                 String?
+  vendorName               String?
+  
+  ecommerceUrl             String?
+  pos                      POS                 @default(none)
+  inventory                Inventory           @default(none)
+
+  metrcLicenseNumber       String?
+  metrcUserKey             String?
+  dutchieKey               String?
+  weedmapsKey              String?
+  blazeKey                 String?
+
   @@index([id])
   @@index([name])
   @@index([vendorId])
@@ -531,6 +560,7 @@ enum Inventory {
   dutchie
   weedmaps
   blaze
+  metrc
 }
 
 model Schedule {
@@ -867,6 +897,8 @@ model user_roles {
 enum OrderStatus {
   Pending
   Processing
+  ReadyForPickup
+  ReadyForDelivery
   OnDelivery
   Delivered
   Cancelled

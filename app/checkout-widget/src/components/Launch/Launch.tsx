@@ -2,7 +2,7 @@ import { TextContent } from '@cd/core-lib';
 import useCheckHrefIncludes from '@cd/core-lib/src/hooks/useCheckHrefIncludes';
 import CloseButton from '@cd/ui-lib/src/components/button/CloseButton';
 import CopyRight from '@cd/ui-lib/src/components/CopyRight';
-import { Paragraph, Small } from '@cd/ui-lib/src/components/Typography';
+import { Paragraph } from '@cd/ui-lib/src/components/Typography';
 import { getBreakpointValue } from '@cd/ui-lib/src/hooks/useBreakpoint';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -39,12 +39,10 @@ function Launch({
 
 					<div className="flex flex-col p-2">
 						<Paragraph className="m-auto" color="light">
-							<b>{dispensaryName || 'Your dispensary'}</b> is teaming up with{' '}
-							<b>Gras</b> to bring delivery to you.{' '}
+							{TextContent.info.PARTNER_FOR_DELIVERY_f(dispensaryName)}
 						</Paragraph>
-
 						<Paragraph className="m-auto text-inverse" color="light">
-							Place your order at checkout
+							{TextContent.info.ORDER_AT_CHECKOUT}
 						</Paragraph>
 						<div className="m-auto">
 							<CopyRight prepend={TextContent.legal.HOME_DELIVERY_BY_GRAS} />
@@ -71,9 +69,9 @@ function Launch({
 							className="object-contain animate-shake"
 						/>
 					)}
-					<Small color="light" className="items-center">
-						<b>Home Delivery by Gras</b>&nbsp;is available!
-					</Small>
+					<Paragraph color="light" className="items-center">
+						<b>Delivery&nbsp;by&nbsp;Gras</b>&nbsp;is&nbsp;available!
+					</Paragraph>
 					{screenwidth >= md && <div className="w-[20px]"></div>}
 				</div>
 			)}

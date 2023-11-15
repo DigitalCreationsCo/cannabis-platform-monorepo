@@ -33,7 +33,7 @@ router.route('/orders').post(shopCtrl.createOrder);
 
 router.route('/orders').put(shopCtrl.updateOrderById);
 
-router.route('/orders-fulfill').post(shopCtrl.fulfillOrderAndStartDispatch);
+router.route('/orders-fulfill').post(shopCtrl.fulfillOrder);
 
 router.route('/products/org/:id').get(shopCtrl.getProductsByOrg);
 

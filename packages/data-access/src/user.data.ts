@@ -419,7 +419,8 @@ export async function upsertDispensaryAdmin(
 		console.info('upsert Dispensary Staff record: ', user.email);
 		return user;
 	} catch (error: any) {
-		console.info('error code', error.code);
+		console.error(error.message);
+		console.error('error code', error.code);
 		if (error.code === 'P2002') {
 			throw new Error(`Unique value ${error.meta.target[0]} already exists`);
 		}

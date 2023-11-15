@@ -43,7 +43,7 @@ function UserSignUpForm() {
 			city: 'Philadelphia',
 			state: 'PA',
 			zipcode: 19130,
-			country: 'United States',
+			country: 'United_States',
 			countryCode: 'US',
 			userId: '',
 			coordinateId: '',

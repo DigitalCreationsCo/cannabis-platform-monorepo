@@ -1,9 +1,10 @@
-import { TextContent } from '@cd/core-lib';
+/* eslint-disable sonarjs/no-duplicated-branches */
+import { pruneData, TextContent } from '@cd/core-lib';
 import {
+	type OrderWithFullDetails,
 	type OrderCreateType,
-	type OrderWithDispatchDetails,
 } from '@cd/data-access';
-import { OrderDA } from '../data-access';
+import { ShopDA } from '../data-access';
 
 /* =================================
 ShopController - controller class for ecommerce business actions
@@ -30,7 +31,7 @@ export default class ShopController {
 		try {
 			const order: OrderCreateType = req.body;
 			console.info('create order input: ', order);
-			const createdOrder = await OrderDA.createOrder(order);
+			const createdOrder = await ShopDA.createOrder(order);
 			return res.status(201).json({
 				success: 'true',
 				message: 'Order created Successfully',
@@ -51,15 +52,14 @@ export default class ShopController {
 	 * @param res
 	 * @returns
 	 */
-	static async fulfillOrderAndStartDispatch(req, res) {
+	static async fulfillOrder(req, res) {
 		try {
-			console.log('fulfillOrderAndStartDispatch: ', req.body);
+			console.log('fulfillOrder: ', req.body);
 			const orderId: string = req.body.orderId;
-			await OrderDA.updateOrderFulfillmentStatus(orderId, 'Processing');
-
-			const order = (await OrderDA.getOrderById(orderId, {
+			const order = (await ShopDA.getOrderById(orderId, {
 				customer: true,
 				driver: true,
+				items: true,
 				organization: {
 					include: {
 						address: {
@@ -71,11 +71,32 @@ export default class ShopController {
 				},
 				destinationAddress: true,
 				route: true,
-			})) as OrderWithDispatchDetails['order'];
-			await OrderDA.addDispatchOrderMongo(order);
+			})) as OrderWithFullDetails;
+
+			// update order status
+			await ShopDA.updateOrderFulfillmentStatus(orderId, 'Processing');
+
+			const POSIntegration = await ShopDA.getPOSIntegrationService(
+				order.organization.pos,
+			);
+
+			switch (order.type) {
+				case 'delivery':
+					await POSIntegration.processDeliveryOrder(order);
+					await ShopDA.addDispatchOrderMongo(pruneData(order, ['items']));
+					break;
+				case 'pickup':
+					await POSIntegration.processPickupOrder(order);
+					break;
+				default: // delivery
+					await POSIntegration.processDeliveryOrder(order);
+					await ShopDA.addDispatchOrderMongo(pruneData(order, ['items']));
+					break;
+			}
+
 			return res.status(201).json({
 				success: 'true',
-				message: `dispatch order created successfully`,
+				message: `Order fulfillment acknowledged. Dispatch order created successfully`,
 			});
 		} catch (error: any) {
 			console.info('fulfillOrderAndStartDispatch: ', error);
@@ -97,7 +118,7 @@ export default class ShopController {
 	//         // create payment record
 	//         // add order to user record, add order to dispensary,
 	//         // decrement item stock
-	//         const purchase = await OrderDA.createPurchase({
+	//         const purchase = await ShopDA.createPurchase({
 	//             orderId: orderPayload.id,
 	//             gateway: "stripe",
 	//             type: charge.payment_method_details.type,
@@ -107,7 +128,7 @@ export default class ShopController {
 	//             updatedAt: new Date(),
 	//         });
 
-	//         order = await OrderDA.createOrder({
+	//         order = await ShopDA.createOrder({
 	//             ...orderPayload,
 	//             purchaseId: purchase.id,
 	//             orderStatus: 'Processing'
@@ -129,7 +150,7 @@ export default class ShopController {
 	static async getOrdersByOrganization(req, res) {
 		try {
 			const organizationId = req.params.id || {};
-			const data = await OrderDA.getOrdersByOrganization(organizationId);
+			const data = await ShopDA.getOrdersByOrganization(organizationId);
 			if (!data)
 				return res
 					.status(404)
@@ -144,7 +165,7 @@ export default class ShopController {
 	static async getOrderById(req, res) {
 		try {
 			const id = req.params.id || '';
-			const data = await OrderDA.getOrderById(id);
+			const data = await ShopDA.getOrderById(id);
 			// this is the preferred pattern for controller responses VV
 			// across ALL apps and systems
 			if (!data) return res.status(404).json('Order not found');
@@ -158,7 +179,7 @@ export default class ShopController {
 	static async updateOrderById(req, res) {
 		try {
 			const order = req.body;
-			const data = await OrderDA.updateOrderById(order);
+			const data = await ShopDA.updateOrderById(order);
 			if (!data) return res.status(400).json('Could not update');
 			return res.status(200).json(data);
 		} catch (error: any) {
@@ -171,7 +192,7 @@ export default class ShopController {
 		try {
 			const organizationId = req.params.id || {};
 
-			const data = await OrderDA.getProductsByOrg(organizationId);
+			const data = await ShopDA.getProductsByOrg(organizationId);
 			if (!data) return res.status(404).json('Products not found');
 			return res.status(200).json(data);
 		} catch (error: any) {
@@ -185,7 +206,7 @@ export default class ShopController {
 			const idList = req.body || [];
 			const { page, limit } = req.params;
 
-			const data = await OrderDA.getProductsByOrg(idList, page, limit);
+			const data = await ShopDA.getProductsByOrg(idList, page, limit);
 			if (!data) return res.status(404).json('Products not found');
 			return res.status(200).json(data);
 		} catch (error: any) {
@@ -197,7 +218,7 @@ export default class ShopController {
 	static async getProductById(req, res) {
 		try {
 			const id = req.params.id || '';
-			const data = await OrderDA.getProductById(id);
+			const data = await ShopDA.getProductById(id);
 			// this is the preferred pattern for controller responses VV
 			// across ALL apps and systems
 			if (!data) return res.status(404).json('Product not found');
@@ -211,7 +232,7 @@ export default class ShopController {
 	static async searchProducts(req, res) {
 		try {
 			const { search, organizationId } = req.body;
-			const data = await OrderDA.searchProducts(search, organizationId);
+			const data = await ShopDA.searchProducts(search, organizationId);
 			if (!data) return res.status(404).json('Products Not Found');
 			return res.status(200).json(data);
 		} catch (error: any) {

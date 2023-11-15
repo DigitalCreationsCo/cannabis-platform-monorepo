@@ -1,5 +1,5 @@
 import { type Order } from '@cd/data-access';
-import { format } from 'date-fns';
+import { format } from 'date-fns-tz';
 import { twMerge } from 'tailwind-merge';
 import Icons from '../icons';
 import Row from './atomic/Row';

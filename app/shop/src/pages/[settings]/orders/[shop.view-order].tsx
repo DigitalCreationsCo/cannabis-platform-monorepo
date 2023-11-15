@@ -20,7 +20,7 @@ import {
 	type LayoutContextProps,
 } from '@cd/ui-lib';
 import { getOrderStatusColor } from '@cd/ui-lib/src/components/OrderRow';
-import { format } from 'date-fns';
+import { format } from 'date-fns-tz';
 import Image from 'next/image';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';

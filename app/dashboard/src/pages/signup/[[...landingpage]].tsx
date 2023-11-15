@@ -26,14 +26,39 @@ import benefitTwoImg from '../../../public/pair-of-buds.png';
 
 function LandingPage() {
 	return (
-		<Page gradient="pink" className="pb-0">
+		<Page gradient="pink" className="pb-8 flex flex-col gap-8">
 			<Hero />
-			<EmbedVideo />
 			<Benefits data={benefitOne} />
+			<div className="py-12">
+				<H3 className="font-normal text-center tracking-wider">
+					Works with the leading cannabis software
+				</H3>
+				<FlexBox className="flex-row items-center justify-center ">
+					<Image
+						src={
+							'https://storage.googleapis.com/e4f53ea0212ea91d-image-dispensary/metrc.png'
+						}
+						alt={'metrc'}
+						loader={({ src }) => src}
+						width={200}
+						height={150}
+					/>
+					<Image
+						src={
+							'https://storage.googleapis.com/e4f53ea0212ea91d-image-dispensary/dutchie.png'
+						}
+						alt={'dutchie'}
+						loader={({ src }) => src}
+						width={220}
+						height={150}
+					/>
+				</FlexBox>
+			</div>
+			<EmbedVideo />
 			<Benefits imgPos="right" data={benefitTwo} />
 			<div className="space-y-16 p-12">
 				<div>
-					<H3 className="text-inverse m-auto drop-shadow-xl mt-3 max-w-2xl text-center text-2xl font-bold leading-snug tracking-tight sm:text-4xl lg:leading-tight">
+					<H3 className="text-inverse m-auto drop-shadow-xl mt-3 max-w-2xl text-center text-2xl font-bold leading-snug tracking-wider sm:text-4xl lg:leading-tight">
 						Frequently Asked Questions
 					</H3>
 					<FAQ />
@@ -50,7 +75,9 @@ function LandingPage() {
 							}}
 							className="hover:text-primary duration-0 mx-auto text-xl text-inverse font-semibold underline"
 						>
-							<H3 className="text-center m-auto">We're available.</H3>
+							<H3 className="text-center m-auto tracking-wider">
+								We're available.
+							</H3>
 						</Button>
 					</div>
 				</div>
@@ -107,31 +134,36 @@ LandingPage.getLayoutContext = (): LayoutContextProps => ({
 
 const Hero = () => {
 	return (
-		<Card className="m-auto shadow-2xl drop-shadow-xl !pb-16 lg:!px-20 lg:!w-10/12 lg:!rounded-[44px]">
-			<FlexBox className="container m-auto flex flex-col p-8 space-y-4 xl:space-y-0 xl:space-x-4 xl:flex-row xl:px-0">
-				<div className="flex w-full h-full m-auto max-w-2xl items-center">
-					<H1 className="text-secondary-light m-auto text-center font-bold lg:text-center text-2xl md:text-3xl lg:text-4xl xl:text-6xl xl:leading-tight">
+		<Card className="m-auto shadow-2xl drop-shadow-xl !pb-16 lg:!px-20 lg:!w-10/12 lg:!rounded-[44px] space-y-8">
+			<FlexBox className="container m-auto flex flex-col py-8 space-y-8 xl:space-x-4 xl:flex-row xl:px-0">
+				<div className="flex h-full m-auto items-center">
+					<H1 className="font-bold text-secondary-light m-auto text-center lg:text-center text-5xl md:text-7xl tracking-wide xl:leading-tight">
 						{TextContent.info.FULL_SERVICE_CANNABIS_DELIVERY}
 					</H1>
 				</div>
-				<Image
-					src={heroImg}
-					className={
-						'rounded-full w-1/2 xl:w-1/3 m-auto self-center'
-						// 'rounded-full my-auto hidden object-cover md:mr-auto lg:block'
-					}
-					alt="Hero Illustration"
-					loading="eager"
-					placeholder="blur"
-				/>
+				<div className="w-md">
+					<Image
+						src={heroImg}
+						className={
+							'rounded-full w-md xl:max-w-sm m-auto self-center'
+							// 'rounded-full my-auto hidden object-cover md:mr-auto lg:block'
+						}
+						alt="Hero Illustration"
+						loading="eager"
+						placeholder="blur"
+					/>
+				</div>
 			</FlexBox>
-			<FlexBox className="flex flex-col items-center justify-center space-y-4 pb-4 md:flex-row md:items-end md:space-x-12 lg:space-x-24">
-				<Link href={'#benefit-one'} scroll={false}>
+			<FlexBox className="flex flex-col items-center justify-center space-y-12 pb-4 md:flex-row md:items-end md:space-x-12 lg:space-x-24">
+				<Link href={'#waitlist'} scroll={false}>
 					<Button size="lg" bg="secondary-light" hover="primary-light">
 						{TextContent.info.LEARN_MORE}
 					</Button>
 				</Link>
-				<div className="flex flex-col items-center justify-center space-y-4">
+				<div
+					id="waitlist"
+					className="flex flex-col items-center justify-center space-y-4"
+				>
 					<Paragraph className="w-[330px]">
 						Missed our signup window?{'\n'}
 						<b>Join our waitlist.</b> We'll message you when we launch in your
@@ -157,12 +189,9 @@ const EmbedVideo = () => {
 	return (
 		<FlexBox className="p-8 m-auto flex-col gap-8">
 			<div>
-				<H3 className="text-inverse drop-shadow-xl mt-3 max-w-2xl text-center text-3xl font-bold leading-snug tracking-tight lg:text-4xl lg:leading-tight">
-					Introducing Delivery By Gras
+				<H3 className="text-inverse drop-shadow-xl mt-3 max-w-2xl text-center text-3xl font-bold leading-snug tracking-wider lg:text-4xl lg:leading-tight">
+					Fast, Easy, Secure Delivery Service for your Dispensary
 				</H3>
-				<Paragraph className="m-auto py-4 text-justify leading-normal lg:text-lg xl:text-lg">
-					Fast, Secure and Reliable Delivery Service for your Dispensary.
-				</Paragraph>
 			</div>
 			<Video
 				Embed={() => (
@@ -185,19 +214,21 @@ const Benefits = (props: any) => {
 	return (
 		<FlexBox
 			id="benefit-one"
-			className="md:mt-12 flex flex-col flex-wrap items-center justify-center space-y-8 p-8 md:flex-row md:space-x-12 md:space-y-0"
+			className="flex flex-col flex-wrap items-center justify-center space-y-8 py-24 md:flex-row md:space-x-12 md:space-y-0"
 		>
 			<div
-				className={`max-w-[580px] space-y-2 md:w-1/2 ${
+				className={`space-y-8 md:w-1/2 ${
 					data.imgPos === 'right' ? 'lg:justify-end' : ''
 				}`}
 			>
-				<H3 className="text-inverse drop-shadow-xl mt-3 max-w-2xl text-center text-2xl font-bold leading-snug tracking-tight lg:text-4xl lg:leading-tight">
+				<H3 className="text-inverse drop-shadow-xl mt-3 text-center text-4xl font-bold leading-snug tracking-wider lg:text-4xl lg:leading-tight">
 					{data.title}
 				</H3>
-				<Paragraph className="m-auto max-w-[440px] py-4 text-justify leading-normal lg:text-lg xl:text-lg">
-					{data.desc}
-				</Paragraph>
+				{data.desc && (
+					<Paragraph className="m-auto py-4 text-justify leading-normal lg:text-lg xl:text-lg">
+						{data.desc}
+					</Paragraph>
+				)}
 				<div className="space-y-2">
 					{data.bullets.map((item: any, index: any) => (
 						<Benefit key={index} title={item.title} icon={item.icon}>
@@ -229,70 +260,72 @@ function Benefit(props: any) {
 	return (
 		<div className="m-auto flex max-w-[440px] items-start space-x-3">
 			<div className="mt-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-cream">
-				<IconWrapper className="text-dark" Icon={props.icon} iconSize={25} />
+				<IconWrapper className="text-inverse" iconSize={32} Icon={props.icon} />
 			</div>
 			<div>
 				<H5 className="text-inverse text-xl font-medium ">{props.title}</H5>
-				<Paragraph className="mt-1">{props.children}</Paragraph>
+				<Paragraph className="mt-1 text-lg">{props.children}</Paragraph>
 			</div>
 		</div>
 	);
 }
 
 const benefitOne = {
-	title: 'We Deliver Medical and Recreational Cannabis',
-	desc: `We help you process delivery orders. 
-	A Gras DeliveryPerson delivers quickly and safely to your customers. `,
+	title: 'Delivering Medical and Recreational Cannabis',
+	// desc: `We help you process delivery orders.
+	// A Gras DeliveryPerson delivers quickly and safely to your customers. `,
 	image: benefitOneImg,
 	bullets: [
 		{
-			title: 'Safe And Secure',
-			desc: 'Our DeliveryPersons are trained in customer service, compliance and safety.',
+			title: 'Secure Delivery',
+			desc: 'Our Delivery team is trained in industry compliance and safety.',
 			icon: Icons.UserAdmin,
 		},
 		{
-			title: 'Industry Compliant Platform',
-			desc: 'We follow the state compliance guidelines for transporting and delivering cannabis, and we are fully insured.',
-			icon: Icons.TaskComplete,
+			title: `So Easy You'll Giggle`,
+			desc: `Sign up and receive deliveries the same day.`,
+			icon: Icons.CheckmarkOutline,
 		},
 		{
-			title: 'Easy to Order',
-			desc: 'Orders are placed online. We guarantee delivery within 2 hours in Baltimore, Maryland.',
+			title: 'Same-Day Delivery',
+			desc: 'We guarantee delivery within 2 hours in Baltimore, Maryland.',
 			icon: Icons.ShoppingBag,
 		},
 	],
 };
 
 const benefitTwo = {
-	title: 'A Platform That Grows With You',
-	desc: `Gras is investing in the growth of your dispensary. Our goal is for you to have your best years in business yet. `,
+	title: 'Easy, Compliant Delivery That Grows With You',
+	// desc: `Gras is investing in the growth of your dispensary. Our goal is for you to have your best years in business yet. `,
 	image: benefitTwoImg,
 	bullets: [
 		{
-			title: `So Easy You'll Giggle`,
-			desc: `Sign up and setup in 10 minutes, easy.`,
-			icon: Icons.CheckmarkOutline,
+			title: 'Industry Compliant',
+			desc: 'We follow all state compliance guidelines for delivery and sale of cannabis.',
+			// and we are fully insured.',
+			icon: Icons.TaskComplete,
 		},
 		{
-			title: 'World Class Support',
+			title: 'Support When You Need It',
 			desc: (
 				<>
-					Gras support team is available during peak hours and off hours. We are
-					available by phone, email, and chat.
-					<br />
+					Gras support is available by phone, email and chat. We're only a phone
+					call or a click away.
+					{/* <br />
 					<Link
 						href={TextContent.href.support}
 						className="hover:text-primary inline-block mx-auto text-2xl text-inverse font-semibold underline"
 					>
 						<H3>Get Support</H3>
-					</Link>
+					</Link> */}
 				</>
 			),
 			icon: Icons.ServiceDesk,
 		},
 		{
-			title: 'Our Goal Is Your Growth',
-			desc: 'Gras is committed to long term service for your business. We believe in building a sustainable cannabis industry.',
+			title: 'Your Growth Is Our Goal',
+			desc: `Gras is committed to long term growth. 
+			We believe in building a sustainable cannabis industry.`,
 			icon: Icons.IncreaseLevel,
 		},
 	],
@@ -306,19 +339,16 @@ const CallToSignup = () => {
 		<FlexBox className="m-auto">
 			<div className="bg-secondary-light mx-auto flex w-full max-w-4xl flex-col flex-wrap place-content-center content-center items-center space-y-4 rounded-xl p-7 text-white sm:flex-row sm:space-x-8 md:space-y-0 lg:flex-nowrap lg:p-12">
 				<div className="text-center lg:text-center">
-					<h2 className="text-2xl font-medium lg:text-3xl">
-						Make your people happy.
+					<h2 className="text-xl max-w-sm md:text-2xl font-medium lg:text-3xl">
+						Make your people happy with Delivery&nbsp;by&nbsp;Gras
 					</h2>
-					<p className="mt-2 font-medium text-white text-opacity-90 lg:text-xl">
-						Start Delivery by Gras today.
-					</p>
 				</div>
 				<Link href={`/signup/create-dispensary-account?code=${code}`}>
 					<Button
 						size="lg"
 						bg="primary"
 						hover="primary-light"
-						className="duration-5 lg:p-12"
+						className="duration-5 lg:p-12 text-2xl"
 					>
 						{TextContent.account.CTA}
 					</Button>

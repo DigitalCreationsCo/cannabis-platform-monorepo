@@ -7,17 +7,47 @@ import {
 } from '@cd/core-lib';
 import { updateDispensaryStripeAccount } from '@cd/data-access';
 import type Stripe from 'stripe';
+import stripe from 'stripe';
 import StripeService from '../stripe';
 
 /* =================================
 AccountController - controller class for preworking data and calling stripe accounts functions
 
 members:
-authorizeDispensaryAccount
+getStripeAccount
+createStripeDispensaryAccount
+connectStripeDispensaryAccount
 checkOnboardDispensaryAccount
 
 ================================= */
 export default class AccountController {
+	/**
+	 * Get stripe account data
+	 * @param req
+	 * @param res
+	 */
+	static async getStripeAccount(req, res) {
+		try {
+			const { stripeAccountId }: OrganizationStripeDetail = req.body;
+
+			const account = await StripeService.getAccount(stripeAccountId);
+			if (!account) throw new Error(TextContent.error.STRIPE_ACCOUNT_NOT_FOUND);
+
+			return res.status(200).json({
+				success: 'true',
+				payload: account,
+			});
+		} catch (error: any) {
+			console.error('stripe get account: ', error);
+			if (error.mesage === TextContent.error.STRIPE_ACCOUNT_NOT_FOUND)
+				return res.status(404).json({
+					success: 'false',
+					error: error.message,
+				});
+			return res.status(500).json({ success: 'false', error: error.message });
+		}
+	}
+
 	/**
 	 * Create a stripe account, and save the id to a dispensary record (Organization)
 	 * @param req
@@ -158,12 +188,13 @@ export default class AccountController {
 	 */
 	static async checkOnboardStripeDispensaryAccount(req, res) {
 		try {
-			const { id, stripeAccountId }: OrganizationStripeDetail = req.body;
+			const { id: dispensaryId, stripeAccountId }: OrganizationStripeDetail =
+				req.body;
 			const stripeOnboardingComplete = await StripeService.checkOnboardAccount(
 				stripeAccountId,
 			);
 			if (stripeOnboardingComplete) {
-				await updateDispensaryStripeAccount(id, stripeAccountId, {
+				await updateDispensaryStripeAccount(dispensaryId, stripeAccountId, {
 					stripeOnboardingComplete: true,
 				});
 				console.debug(
