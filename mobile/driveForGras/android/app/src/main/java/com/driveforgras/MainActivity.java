@@ -11,7 +11,6 @@ import com.facebook.react.defaults.DefaultReactActivityDelegate;
 import expo.modules.ReactActivityDelegateWrapper;
 
 public class MainActivity extends ReactActivity {
-
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     // Set the theme to AppTheme BEFORE onCreate to support 
@@ -41,10 +40,7 @@ public class MainActivity extends ReactActivity {
         this,
         getMainComponentName(),
         // If you opted-in for the New Architecture, we enable the Fabric Renderer.
-        DefaultNewArchitectureEntryPoint.getFabricEnabled(), // fabricEnabled
-        // If you opted-in for the New Architecture, we enable Concurrent React (i.e. React 18).
-        DefaultNewArchitectureEntryPoint.getConcurrentReactEnabled() // concurrentRootEnabled
-        ));
+        DefaultNewArchitectureEntryPoint.getFabricEnabled()));
   }
 
   /**
