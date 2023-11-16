@@ -232,7 +232,7 @@ const socketSlice = createSlice({
 			}, 2000);
 		},
 	},
-	extraReducers: {
+	extraReducers: (builder) => {
 		// [testAsyncAction.fulfilled]: () => {},
 		// [createOrderSocketConnection.fulfilled]: () => {},
 		// [createOrderSocketConnection.pending]: () => {},
