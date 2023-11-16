@@ -1,5 +1,6 @@
 import { Login } from '@carbon/icons-react';
-import { TextContent } from '@cd/core-lib';
+import TextContent from '@cd/core-lib/src/constants/text.constant';
+import { selectDriverState } from '@cd/core-lib/src/reducer/driver.reducer';
 import React from 'react';
 // import Icons from '@cd/native-ui/src/icons';
 // import {
@@ -11,13 +12,20 @@ import { View, Text } from 'react-native';
 import Screen from '../components/atomic/Screen';
 // import { LoginView, PasscodeView } from '../views';
 import { NODE_ENV, NEXT_PUBLIC_SHOP_APP_URL } from '@env';
+import { useAppSelector } from '../redux/store';
+import { useSelector } from 'react-redux';
+
 const DriverLoginScreen = () => {
+	const driver = useSelector(selectDriverState);
 	// const LoginStack = createStackNavigator();
+
 	return (
 		<>
 			<Text>env: {NODE_ENV}</Text>
 			<Text>Shop Url: {NEXT_PUBLIC_SHOP_APP_URL}</Text>
 			<Text>LoginScreen</Text>
+			<Text>Driver username: {driver.driver.user.username}</Text>
+			<Text>name: {driver.driver.user.firstName}</Text>
 		</>
 	);
 

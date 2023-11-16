@@ -100,7 +100,7 @@ const { store, persistor } = makeStore();
 export { store, persistor };
 
 export type AppStore = ReturnType<typeof makeStore>;
-export type AppDispatch = ReturnType<typeof store.dispatch>;
+export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppThunk<ReturnType = void> = ThunkAction<
 	ReturnType,
@@ -108,5 +108,5 @@ export type AppThunk<ReturnType = void> = ThunkAction<
 	unknown,
 	Action<string>
 >;
-// export const useAppDispatch: () => AppDispatch = useDispatch;
-// export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+export const useAppDispatch: () => AppDispatch = useDispatch;
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
