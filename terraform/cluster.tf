@@ -95,11 +95,6 @@ resource "kubernetes_namespace" "redis" {
     annotations = {
       name = "redis"
     }
-
-    labels = {
-      mylabel = "redis"
-    }
-
     name = "redis"
   }
 }

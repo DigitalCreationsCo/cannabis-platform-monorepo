@@ -17,8 +17,10 @@ import {
 	shop,
 	user,
 	compliance,
+	cacheHandler,
 } from './api/routes';
 import backendConfig from './config';
+import { initializeRedis } from './lib/redis-cart';
 
 const shopDomain = process.env.NEXT_PUBLIC_SHOP_APP_URL;
 const dashboardDomain = process.env.NEXT_PUBLIC_DASHBOARD_APP_URL;
@@ -48,10 +50,12 @@ app.use(middleware());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+initializeRedis();
+
 app.use('/api/v1/healthcheck', (_, res) => {
 	return res.status(200).json({ status: 'ok', server: 'main' });
 });
-
+app.use('/api/v1/cache', cacheHandler);
 app.use('/api/v1/user', user);
 app.use('/api/v1/driver', driver);
 app.use('/api/v1/shop', shop);

@@ -10,6 +10,7 @@ import {
 	selectUserState,
 	TextContent,
 	type SimpleCart,
+	crypto,
 } from '@cd/core-lib';
 import { type ProductVariantWithDetails } from '@cd/data-access';
 import {
@@ -33,8 +34,8 @@ import router from 'next/router';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
+import { createClient } from 'redis';
 import { twMerge } from 'tailwind-merge';
-import { redisShopController } from '../../lib/redis-cart';
 
 function QuickDelivery({ simpleCart }: { simpleCart: SimpleCart }) {
 	const dispatch = useDispatch();
@@ -141,7 +142,6 @@ function QuickDelivery({ simpleCart }: { simpleCart: SimpleCart }) {
 							<Paragraph>Is your order correct?</Paragraph>
 							<CheckBox
 								name="confirm-order"
-								className="w-[122px]"
 								checked={confirm}
 								label={confirm ? `It's correct` : `No, it's not`}
 								onChange={() => setConfirm(!confirm)}
@@ -164,8 +164,8 @@ function QuickDelivery({ simpleCart }: { simpleCart: SimpleCart }) {
 								<Paragraph>
 									That's great! Except, we dont have your info. {'\n'}
 									<b>Please sign in</b>, so our{' '}
-									<span className="text-primary">Gras DeliveryPerson</span> can
-									deliver to you.
+									<span className="text-primary">DeliveryPerson</span> can get
+									to you.
 								</Paragraph>
 								<SignInButton size="lg" />
 							</>
@@ -192,18 +192,33 @@ const styles = {
 };
 
 export async function getServerSideProps({ query }: NextPageContext) {
-	if (!query.cart) return { notFound: true };
-
 	try {
-		// this redis get will not timeout if the client is not connected
-		// handle the timeout from the requesting client, before navigating here
-		const token = await redisShopController.getCartToken(
-			query['cart'] as string,
-		);
+		if (!query.cart) return { notFound: true };
+		const key = query['cart'] as string;
+
+		const redis = createClient({
+			socket: {
+				host: process.env.REDIS_HOST,
+				port: Number(process.env.REDIS_PORT),
+			},
+			password: process.env.REDIS_PASSWORD,
+		});
+		redis.on('error', (error: any) => {
+			console.error('Redis Error', error);
+			throw new Error(error.message);
+		});
+		redis.on('node error', (error: any) => {
+			console.error('Redis Node Error', error);
+			throw new Error(error.message);
+		});
+
+		redis.connect();
+
+		const tokenCipher = await redis.get(key);
+		const token = tokenCipher ? crypto.decrypt(tokenCipher) : null;
+		redis.disconnect();
 
 		if (!token) return { notFound: true };
-
-		console.info('token', token);
 		return { props: { simpleCart: JSON.parse(token) } };
 	} catch (error) {
 		console.error('quickDelivery: ', error.message);
