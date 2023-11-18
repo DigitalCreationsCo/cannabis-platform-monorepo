@@ -1,5 +1,5 @@
 {
-	"main": "dist/index.mjs",
+	"main": "dist/index.js",
 	"module": "dist/index.mjs",
 	"types": "dist/index.d.ts",
 	"name": "@cd/native-ui",
@@ -46,7 +46,7 @@
 		"@types/react-dom": "18.0.11",
 		"react": "18.2.0",
 		"react-dom": "18.2.0",
-		"react-native": "0.72.6"
+		"react-native": "0.71.14"
 	},
 	"peerDependenciesMeta": {
 		"@types/react": {
@@ -58,20 +58,22 @@
 	},
 	"private": true,
 	"scripts": {
-		"postcss": "postcss ./src/styles/index.css -o ./dist/index.css",
-		"build": "rimraf ./dist && tsup",
-		"build:ci": "rimraf ./dist && tsup",
-		"build:css": "npx tailwindcss -i ./src/styles/index.css -o ./dist/index.css --minify",
-		"build:css-watch": "npx tailwindcss -i ./src/styles/index.css -o ./dist/index.css --minify --watch",
+		"build": "yarn build:css && rm -rf ./dist && tsup src/index.ts",
+		"build:ci": "tsup src/index.ts",
+		"build:css": "tailwindcss -i ./src/styles/native-ui.css -o ./src/styles/tailwind.css",
+		"build:storybook": "storybook build --output-dir dist/storybook",
+		"build:watch": "rimraf ./dist && tsup --watch",
 		"clean": "rimraf ./.next ./out ./dist ./build ./node_modules ./coverage ./tsconfig.tsbuildinfo ./node_modules/.cache",
-		"watch": "rimraf ./dist && tsup --watch",
+		"watch": "npm-run-all --parallel --print-label watch-tailwind build:watch",
 		"lint-fix": "eslint . --ext .ts,.tsx,.js,.jsx,.cjs,.mjs --fix",
-		"lint": "eslint . --ext .ts,.tsx,.js,.jsx,.cjs,.mjs --cache --cache-location ../../.cache/eslint/ui-lib.eslintcache",
-		"test": "run-s test:unit",
+		"lint": "eslint . --ext .ts,.tsx,.js,.jsx,.cjs,.mjs --cache --cache-location ../../.cache/eslint/native-ui.eslintcache",
 		"test:unit": "echo \"No unit tests yet\" && exit 0",
 		"test:unit-ci": "echo \"No unit tests yet\" && exit 0",
 		"typecheck": "tsc --project ./tsconfig.json --noEmit",
-		"sync-assets": "rimraf ./public/assets && syncdir ../../static/assets ./public/assets --copy"
+		"storybook": "storybook dev -p 6006",
+		"sync-assets": "rimraf ./public/assets && syncdir ../../static/assets ./public/assets --copy",
+		"watch-tailwind": "tailwindcss -o ./src/styles/tailwind.css --watch",
+		"build-storybook": "storybook build"
 	},
 	"version": "0.0.1"
 }

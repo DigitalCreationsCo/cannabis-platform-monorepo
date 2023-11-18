@@ -1,6 +1,8 @@
-import { Login } from '@carbon/icons-react';
 import TextContent from '@cd/core-lib/src/constants/text.constant';
 import { selectDriverState } from '@cd/core-lib/src/reducer/driver.reducer';
+import FlexBox from '@cd/native-ui/src/components/FlexBox'
+import {H1, H5} from '@cd/native-ui/src/components/Typography'
+import Icons from '@cd/native-ui/src/icons'
 import React from 'react';
 // import Icons from '@cd/native-ui/src/icons';
 // import {
@@ -21,22 +23,18 @@ const DriverLoginScreen = () => {
 
 	return (
 		<>
-			<Text>env: {NODE_ENV}</Text>
-			<Text>Shop Url: {NEXT_PUBLIC_SHOP_APP_URL}</Text>
-			<Text>LoginScreen</Text>
-			<Text>Driver username: {driver.driver.user.username}</Text>
-			<Text>name: {driver.driver.user.firstName}</Text>
-		</>
-	);
-
-	{
-		/* <View>
+			<View>
 				<FlexBox className="flex-row items-center">
 					<H1 color="light">{TextContent.info.COMPANY_NAME}</H1>
 					<Icons.Flower color="white" />
 				</FlexBox>
-				<H5 color="light">{TextContent.technical.DRIVER_APP} DRIVER APP</H5>
+				<H5 color="light">{TextContent.info.DELIVERY_BY_GRAS} DRIVER APP</H5>
 			</View>
+		</>
+	);
+
+	{
+		/* <
 
 			<LoginStack.Navigator
 				initialRouteName="Login"

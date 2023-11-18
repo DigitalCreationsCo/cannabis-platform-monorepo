@@ -145,6 +145,8 @@ const TextContent = Object.freeze({
 		CANNABIS_DELIVERED_TODAY: `Cannabis,${'\xa0'}Delivered${'\xa0'}Today🌴`,
 		COMPANY_NAME: 'Gras',
 		CONTACT_SUPPORT: `For support, dial ${process.env.NEXT_PUBLIC_SUPPORT_PHONE}.`,
+
+		DELIVERY_BY_GRAS: `Delivery by Gras`,
 		EMAIL: 'Email',
 		GET_CANNABIS_DELIVERED: `Get${nbsp}Cannabis${nbsp}Delivered`,
 		GRAS_MISSION: `It's our mission to cultivate meaningful experiences with our customers and partners in the cannabis world, one${nbsp}delivery${nbsp}at${nbsp}a${nbsp}time.`,
@@ -208,13 +210,12 @@ const TextContent = Object.freeze({
 	technical: {
 		SHOP_WEB_APP: '',
 		ADMIN_APP: '',
-		DRIVER_APP: 'Delivery by Gras ',
+		DRIVER_APP: '',
 		CHECKOUT_WIDGET: '',
 		MOBILE_APP: '',
 	},
 
 	legal: {
-		HOME_DELIVERY_BY_GRAS: `Delivery by Gras`,
 		COMPANY_NAME: 'Gras',
 		COPYRIGHT: `© 2023`,
 		COPYRIGHT_RIGHTS_RESERVED: 'Gras © 2023 All rights reserved.',

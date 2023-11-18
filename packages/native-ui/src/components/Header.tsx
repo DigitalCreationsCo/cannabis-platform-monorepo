@@ -2,7 +2,7 @@ import { type PropsWithChildren } from 'react';
 import { Text, View } from 'react-native';
 import { Path, Svg } from 'react-native-svg';
 import { twMerge } from 'tailwind-merge';
-import { RNstyles } from '../styles';
+import { styles } from '../classes';
 import SearchField from './SearchField';
 
 type HeaderProps = {
@@ -12,11 +12,11 @@ type HeaderProps = {
 } & PropsWithChildren;
 function Header({ onSearchChange, placeholder, children }: HeaderProps) {
 	return (
-		<View className={twMerge(RNstyles.header.container)}>
-			<View className={twMerge(RNstyles.header.header)}>
+		<View className={twMerge(styles.header.container)}>
+			<View className={twMerge(styles.header.header)}>
 				<Text
 					// htmlFor={drawerComponentId}
-					className={twMerge(RNstyles.header.drawerButton)}
+					className={twMerge(styles.header.drawerButton)}
 				>
 					{/* // add this svg to ui-lib lib */}
 					<Svg

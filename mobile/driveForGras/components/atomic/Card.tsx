@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react';
 import { View } from 'react-native';
 import { twMerge } from 'tailwind-merge';
-// import { RNstyles } from '../../styles/classes';
+// import { styles } from '../../styles/classes';
 import { H4, H5 } from '../Typography';
 
 type CardProps = {
@@ -18,7 +18,7 @@ function Card({
 }: CardProps & PropsWithChildren) {
 	return (
 		<View
-		// className={twMerge(RNstyles.card.container, className)}
+		// className={twMerge(styles.card.container, className)}
 		>
 			{title && <H5 className="whitespace-pre">{title}</H5>}
 			{amount !== undefined && <H4>{amount}</H4>}

@@ -29,11 +29,11 @@ const Modal = ({
 	return (
 		<View
 			className={twMerge(
-				RNstyles.modal.modalClass,
-				RNstyles.modal.isModalOpen_f(modalVisible),
+				styles.modal.modalClass,
+				styles.modal.isModalOpen_f(modalVisible),
 			)}
 		>
-			<View className={twMerge(RNstyles.modal.modalBox, className)}>
+			<View className={twMerge(styles.modal.modalBox, className)}>
 				{showCloseButton && <CloseButton onPress={onClose} />}
 				<H6 className={twMerge('pb-2')}>{description}</H6>
 				{children}

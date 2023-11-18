@@ -4,11 +4,11 @@ import { defineConfig } from 'tsup';
 
 export default defineConfig((options) => ({
 	entry: ['src/index.ts'],
-	splitting: false,
-	treeshake: false,
-	clean: false,
-	dts: false,
-	format: ['esm'],
+	// splitting: true,
+	// treeshake: true,
+	// clean: false,
+	// dts: false,
+	format: ['esm', 'cjs'],
 	external: [
 		'document',
 		'@cd/core-lib',
@@ -24,9 +24,10 @@ export default defineConfig((options) => ({
 		'path',
 		'zlib',
 		'stream',
+		'crypto',
 	],
 	// platform: 'node',
-	target: 'esnext',
+	target: 'es2020',
 	tsconfig: path.resolve('./tsconfig.build.json'),
 	sourcemap: !options.watch,
 	minify: !options.watch,

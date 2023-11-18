@@ -3,8 +3,29 @@
 @tailwind utilities;
 
 @layer base {
+	html {
+		@apply text-dark;
+	}
+
+	body {
+		@apply text-dark;
+		-ms-overflow-style: none;
+	}
+	
+	body::-webkit-scrollbar {
+		display: none;
+	}
+	
 	a * {
 		cursor: pointer;
+	}
+
+	details > summary::-webkit-details-marker {
+		display: none;
+	}
+
+	details > summary {
+		list-style: none;
 	}
 
 	:root {
