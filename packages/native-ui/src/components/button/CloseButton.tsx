@@ -1,6 +1,6 @@
 import { type CarbonIconType } from '@carbon/icons-react';
 import { type SVGAttributes } from 'react';
-import { twMerge } from 'tailwind-merge';
+import { View } from '@themed';
 import Icons from '../../icons';
 import IconButton from './IconButton';
 
@@ -16,17 +16,10 @@ function CloseButton({
 	className,
 	...props
 }: CloseButtonProps) {
-	const closeButtonStyle =
-		'bg-transparent hover:bg-transparent md:hover:bg-transparent shadow-none top-0 right-0 p-2 m-0 min-w-min h-min absolute';
 	return (
-		<div className={twMerge('w-full relative py-2')}>
-			<IconButton
-				size={16}
-				className={twMerge(closeButtonStyle, className)}
-				{...props}
-				Icon={Icon}
-			/>
-		</div>
+		<View>
+			<IconButton size={16} {...props} Icon={Icon} />
+		</View>
 	);
 }
 

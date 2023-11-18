@@ -1,15 +1,14 @@
+import { modalActions } from '@cd/core-lib/src/reducer/modal.reducer';
 import {
-	modalActions,
-	modalTypes,
-	selectIsAddressAdded,
 	selectUserState,
-} from '@cd/core-lib';
+	selectIsAddressAdded,
+} from '@cd/core-lib/src/reducer/user.reducer';
+import { modalTypes } from '@cd/core-lib/src/types/modal.types';
 import { useDispatch, useSelector } from 'react-redux';
-import { twMerge } from 'tailwind-merge';
+import { Text } from '@themed';
 import Center from '../atomic/Center';
 import Button from '../button/Button';
 import FlexBox from '../FlexBox';
-import { H4, Paragraph } from '../Typography';
 import Modal from './Modal';
 
 interface CheckoutModalProps {
@@ -42,21 +41,20 @@ function CheckoutModal({
 	return (
 		<Modal
 			disableClickOutside
-			className={twMerge(styles.responsive, 'flex flex-col')}
 			modalVisible={modalVisible}
 			onClose={dispatchCloseModal}
 			{...props}
 		>
 			<Center className="space-y-8 w-3/4 m-auto pb-8">
-				<H4>It looks like you haven't ordered with us before.</H4>
+				<Text>It looks like you haven't ordered with us before.</Text>
 
 				{!user.isSignedIn && (
 					<>
-						<Paragraph>
+						<Text>
 							We'll need your contact info and address so our delivery person
 							can get to you.{'\n'}
 							Sign In with your account
-						</Paragraph>
+						</Text>
 						<FlexBox className="space-y-8">
 							<Button className="place-self-center" onPress={openLoginModal}>
 								Sign In
@@ -67,11 +65,11 @@ function CheckoutModal({
 
 				{user.isSignedIn && !isAddressAdded && (
 					<>
-						<Paragraph>
+						<Text>
 							We'll need your contact info and address so our delivery person
 							can get to you.{'\n'}
 							Hit <b>Next</b> to provide your info.
-						</Paragraph>
+						</Text>
 						<FlexBox className="space-y-8">
 							<Button onPress={completeSignUp} className="place-self-center">
 								Next
@@ -93,8 +91,3 @@ function CheckoutModal({
 }
 
 export default CheckoutModal;
-
-const styles = {
-	responsive:
-		'min-w-full min-h-screen sm:!rounded-none md:min-w-min md:min-h-min md:!rounded px-12 py-8',
-};

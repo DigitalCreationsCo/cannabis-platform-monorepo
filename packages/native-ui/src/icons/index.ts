@@ -1,5 +1,3 @@
-// import * as CarbonIcons from '@carbon/icons-react';
-
 import AlarmClock from './AlarmClock';
 import AppleStore from './AppleStore';
 import BabyFeeder from './BabyFeeder';

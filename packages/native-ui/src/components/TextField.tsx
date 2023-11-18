@@ -77,7 +77,7 @@
 
 // export default TextField;
 
-import { Text, View } from 'react-native';
+import { View, Text } from '@themed';
 const RNTextField = () => {
 	return (
 		<View>

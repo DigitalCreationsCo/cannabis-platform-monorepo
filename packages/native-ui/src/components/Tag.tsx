@@ -1,16 +1,13 @@
-import { type PropsWithChildren, type SVGAttributes } from 'react';
-import { type GestureResponderEvent, View } from 'react-native';
+import React, { type PropsWithChildren, type SVGAttributes } from 'react';
+import { type GestureResponderEvent } from 'react-native';
+import { Text, View } from '@themed';
 import IconWrapper from './IconWrapper';
-import { Small } from './Typography';
 
 function Tag({ Icon, onClick, children }: TagProps) {
 	return (
-		<View
-			onResponderStart={onClick}
-			className="cursor-default badge badge-primary m-2 gap-2 w-[112px]"
-		>
-			<Small>{children}</Small>
-			{Icon && <IconWrapper Icon={Icon} className="fill-light" size={11} />}
+		<View onResponderStart={onClick}>
+			<Text>{children}</Text>
+			{Icon && <IconWrapper Icon={Icon} size={11} />}
 		</View>
 	);
 }

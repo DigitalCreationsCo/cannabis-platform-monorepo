@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { TextInput, View } from 'react-native';
-import { twMerge } from 'tailwind-merge';
-import { styles } from '../classes';
+import { TextInput } from 'react-native';
+import { View } from '@themed';
 import Icons from '../icons';
+import { styles } from '../styles';
 import IconWrapper from './IconWrapper';
 
 type SearchBarProps = {
@@ -13,19 +13,9 @@ function SearchBar({ placeholder = 'Search', onChange }: SearchBarProps) {
 	const [isFocused, setFocused] = useState(false);
 	// const searchRef = useRef(null);
 	return (
-		<View
-			onResponderStart={() => setFocused(true)}
-			className={twMerge(
-				styles.searchField.container,
-				styles.searchField.isFocused_f(isFocused),
-			)}
-		>
+		<View onResponderStart={() => setFocused(true)}>
 			<IconWrapper Icon={Icons.Search2} />
-			<TextInput
-				placeholder={placeholder}
-				className="text-lg outline-none h-full w-full"
-				onChange={onChange}
-			/>
+			<TextInput placeholder={placeholder} onChange={onChange} />
 		</View>
 	);
 }

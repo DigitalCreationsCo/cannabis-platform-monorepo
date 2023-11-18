@@ -1,16 +1,8 @@
 import { type PropsWithChildren } from 'react';
-import { View } from 'react-native';
-// import { twMerge } from 'tailwind-merge';
+import { View } from '@themed';
 
-const FlexBox = ({
-	children,
-	className,
-}: { className?: string } & PropsWithChildren) => (
-	<View
-	// className={twMerge('flex flex-col', 'items-start', className)}
-	>
-		{children}
-	</View>
+const FlexBox = ({ children }: { className?: string } & PropsWithChildren) => (
+	<View>{children}</View>
 );
 
 export default FlexBox;

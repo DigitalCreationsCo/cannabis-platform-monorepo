@@ -1,8 +1,8 @@
 import { type PropsWithChildren } from 'react';
-import { View } from 'react-native';
+import { View } from '@themed';
 
 function Padding({ children }: PropsWithChildren) {
-	return <View className="p-12">{children}</View>;
+	return <View>{children}</View>;
 }
 
 export default Padding;

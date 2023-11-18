@@ -1,9 +1,9 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View } from '@themed';
 
 function Table() {
 	return (
-		<View className="table-auto">
+		<View>
 			<View></View>
 			<View></View>
 		</View>
