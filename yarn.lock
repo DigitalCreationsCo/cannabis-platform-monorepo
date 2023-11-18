@@ -5254,11 +5254,9 @@ __metadata:
     "@types/react": 18.0.34
     "@types/react-dom": 18.0.11
     "@types/react-native": 0.72.2
-    babel-plugin-rewrite-require: 1.14.5
     crypto-js: 4.1.1
     expo: 48.0.21
     expo-checkbox: 2.3.1
-    expo-crypto: ~12.2.1
     expo-font: 11.1.1
     expo-linking: 4.0.1
     expo-location: 15.1.1
@@ -5272,7 +5270,7 @@ __metadata:
     react: 18.2.0
     react-dom: 18.2.0
     react-native: 0.71.14
-    react-native-dotenv: ^3.4.9
+    react-native-dotenv: 3.4.9
     react-native-gesture-handler: 2.9.0
     react-native-safe-area-context: 4.5.0
     react-native-screens: 3.20.0
@@ -5281,7 +5279,7 @@ __metadata:
     react-redux: 8.0.2
     react-test-renderer: 18.2.0
     redux-persist: 6.0.0
-    supertokens-react-native: ^4.0.8
+    supertokens-react-native: 4.0.8
     typescript: 4.9.3
   languageName: unknown
   linkType: soft
@@ -14918,13 +14916,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-plugin-rewrite-require@npm:1.14.5":
-  version: 1.14.5
-  resolution: "babel-plugin-rewrite-require@npm:1.14.5"
-  checksum: 6fc89b37786e9ddda9138a693d0ba450900cde07d3a399d6ba9f8394a1e5807a99ecf1318dd9dbf2d05ee775d1987595347c5fb3b0340aadecfed6fac80f32d6
-  languageName: node
-  linkType: hard
-
 "babel-plugin-syntax-trailing-function-commas@npm:^7.0.0-beta.0":
   version: 7.0.0-beta.0
   resolution: "babel-plugin-syntax-trailing-function-commas@npm:7.0.0-beta.0"
@@ -15182,7 +15173,7 @@ babel-watch@kmagiera/babel-watch:
   languageName: node
   linkType: hard
 
-"base64-js@npm:^1.1.2, base64-js@npm:^1.2.3, base64-js@npm:^1.3.0, base64-js@npm:^1.3.1, base64-js@npm:^1.5.1":
+"base64-js@npm:^1.1.2, base64-js@npm:^1.2.3, base64-js@npm:^1.3.1, base64-js@npm:^1.5.1":
   version: 1.5.1
   resolution: "base64-js@npm:1.5.1"
   checksum: 669632eb3745404c2f822a18fc3a0122d2f9a7a13f7fb8b5823ee19d1d2ff9ee5b52c53367176ea4ad093c332fd5ab4bd0ebae5a8e27917a4105a4cfc86b1005
@@ -20172,17 +20163,6 @@ babel-watch@kmagiera/babel-watch:
   peerDependencies:
     expo: "*"
   checksum: 647fda433b302780eae453a6dc58ea6da4aed42753729b04fd3ecaca277cc1979a67cfeaea2c6a60b82ca5d79f139b08b94576986264a1f13b0ef1bfc2911d01
-  languageName: node
-  linkType: hard
-
-"expo-crypto@npm:~12.2.1":
-  version: 12.2.2
-  resolution: "expo-crypto@npm:12.2.2"
-  dependencies:
-    base64-js: ^1.3.0
-  peerDependencies:
-    expo: "*"
-  checksum: ddeb42e266a61bc72a9b10ef35067d0b45a946622074d8516123d6ca31891c5393ffb06357c1de98455efd4f4900b96f5992334ee63d04dcfeab2a9861409d46
   languageName: node
   linkType: hard
 
@@ -31091,7 +31071,7 @@ babel-watch@kmagiera/babel-watch:
   languageName: node
   linkType: hard
 
-"react-native-dotenv@npm:^3.4.9":
+"react-native-dotenv@npm:3.4.9":
   version: 3.4.9
   resolution: "react-native-dotenv@npm:3.4.9"
   dependencies:
@@ -34508,7 +34488,7 @@ babel-watch@kmagiera/babel-watch:
   languageName: node
   linkType: hard
 
-"supertokens-react-native@npm:^4.0.8":
+"supertokens-react-native@npm:4.0.8":
   version: 4.0.8
   resolution: "supertokens-react-native@npm:4.0.8"
   dependencies:
