@@ -11,7 +11,7 @@ function RenderCart() {
 	const { cart } = useSelector(selectCartState);
 
 	return (
-		<div className={styles.cartContainer}>
+		<div className={twMerge(styles.cartContainer)}>
 			<RenderTotal />
 			{cart.length > 0 ? (
 				<Grid className={twMerge(styles.cartGrid)}>

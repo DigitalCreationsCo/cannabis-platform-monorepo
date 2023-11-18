@@ -4,7 +4,7 @@ import nc from 'next-connect';
 
 const handler = nc();
 // get orders from an organization
-handler.get(async (req, res: NextApiResponse) => {
+handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 	try {
 		res.setHeader('Cache-Control', 'public, s-maxage=120');
 		const organizationId = req.headers['organization-id'] as string;

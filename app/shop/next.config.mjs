@@ -1,3 +1,5 @@
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { config } from 'dotenv';
 import { expand } from 'dotenv-expand';
 import withTranspiledModules from 'next-transpile-modules';
@@ -6,10 +8,7 @@ import {
 	PHASE_PRODUCTION_BUILD,
 	PHASE_TEST,
 } from 'next/constants.js';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import { loadEnv } from './src/config/loadEnv.mjs';
-import source from 'shell-source';
+import loadEnv from './src/config/loadEnv.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

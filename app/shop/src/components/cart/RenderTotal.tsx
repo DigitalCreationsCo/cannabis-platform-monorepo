@@ -7,7 +7,7 @@ function RenderTotal({ total }: { total?: number }) {
 	total = total || totalCart;
 
 	return total > 0 ? (
-		<div className="h-8 border">
+		<div className="h-8">
 			<H4 className={styles.total}>
 				Your total is
 				<Price basePrice={total} />

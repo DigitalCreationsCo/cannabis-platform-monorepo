@@ -5,7 +5,7 @@ import nc from 'next-connect';
 
 const handler = nc();
 // get users from an organization
-handler.get(async (req, res: NextApiResponse) => {
+handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 	try {
 		// res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
 		// const { user } = await getSession({ req, res });
@@ -52,7 +52,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 });
 
 // update a user record
-handler.put(async (req, res: NextApiResponse) => {
+handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
 	try {
 		// const {user, dispensaryId, role}: {user: UserCreateType, role: "ADMIN" | "OWNER" | undefined, dispensaryId: string; } = req.body;
 		// const response = await axios.put(urlBuilder.main.staff(), { user, role, dispensaryId }, {

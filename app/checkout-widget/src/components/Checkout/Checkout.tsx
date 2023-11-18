@@ -118,7 +118,7 @@ export default class Checkout extends Component<
 							'content-type': 'application/json',
 						},
 						withCredentials: true,
-						timeout: 4000,
+						timeout: 40000,
 					},
 				);
 				console.info('response ', response);

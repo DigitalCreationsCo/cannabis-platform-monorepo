@@ -2333,6 +2333,13 @@ details > summary {
 
 .sticky {
   position: sticky;
+<<<<<<< HEAD
+}
+
+.inset-auto {
+  inset: auto;
+=======
+>>>>>>> production
 }
 
 .-right-2 {
@@ -2349,6 +2356,13 @@ details > summary {
 
 .left-0 {
   left: 0px;
+<<<<<<< HEAD
+}
+
+.left-1\/2 {
+  left: 50%;
+=======
+>>>>>>> production
 }
 
 .right-0 {
@@ -2357,6 +2371,13 @@ details > summary {
 
 .top-0 {
   top: 0px;
+<<<<<<< HEAD
+}
+
+.top-1\/2 {
+  top: 50%;
+=======
+>>>>>>> production
 }
 
 .top-\[66px\] {
@@ -2417,10 +2438,13 @@ details > summary {
 
 .row-start-5 {
   grid-row-start: 5;
+<<<<<<< HEAD
+=======
 }
 
 .float-right {
   float: right;
+>>>>>>> production
 }
 
 .m-0 {
@@ -2459,6 +2483,13 @@ details > summary {
 
 .mb-5 {
   margin-bottom: 1.25rem;
+<<<<<<< HEAD
+}
+
+.ml-2 {
+  margin-left: 0.5rem;
+=======
+>>>>>>> production
 }
 
 .ml-4 {
@@ -2543,10 +2574,13 @@ details > summary {
 
 .h-\[12px\] {
   height: 12px;
+<<<<<<< HEAD
+=======
 }
 
 .h-\[200px\] {
   height: 200px;
+>>>>>>> production
 }
 
 .h-\[220px\] {
@@ -2669,6 +2703,8 @@ details > summary {
 
 .w-\[200px\] {
   width: 200px;
+<<<<<<< HEAD
+=======
 }
 
 .w-\[240px\] {
@@ -2677,14 +2713,18 @@ details > summary {
 
 .w-\[320px\] {
   width: 320px;
+>>>>>>> production
 }
 
 .w-\[330px\] {
   width: 330px;
+<<<<<<< HEAD
+=======
 }
 
 .w-\[400px\] {
   width: 400px;
+>>>>>>> production
 }
 
 .w-\[66px\] {
@@ -2732,16 +2772,24 @@ details > summary {
   min-width: min-content;
 }
 
+<<<<<<< HEAD
+.max-w-4xl {
+  max-width: 56rem;
+=======
 .max-w-2xl {
   max-width: 42rem;
+>>>>>>> production
 }
 
 .max-w-\[300px\] {
   max-width: 300px;
+<<<<<<< HEAD
+=======
 }
 
 .max-w-\[420px\] {
   max-width: 420px;
+>>>>>>> production
 }
 
 .max-w-\[50px\] {
@@ -2781,8 +2829,18 @@ details > summary {
   table-layout: auto;
 }
 
+<<<<<<< HEAD
+.-translate-x-1\/2 {
+  --tw-translate-x: -50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.-translate-y-1\/2 {
+  --tw-translate-y: -50%;
+=======
 .rotate-90 {
   --tw-rotate: 90deg;
+>>>>>>> production
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
@@ -2836,6 +2894,8 @@ details > summary {
 
 .animate-bounce {
   animation: bounce 1s infinite;
+<<<<<<< HEAD
+=======
 }
 
 @keyframes pulse {
@@ -2846,6 +2906,7 @@ details > summary {
 
 .animate-pulse {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+>>>>>>> production
 }
 
 .cursor-default {
@@ -2886,6 +2947,8 @@ details > summary {
 
 .flex-nowrap {
   flex-wrap: nowrap;
+<<<<<<< HEAD
+=======
 }
 
 .place-items-center {
@@ -2894,6 +2957,7 @@ details > summary {
 
 .content-center {
   align-content: center;
+>>>>>>> production
 }
 
 .items-start {
@@ -3158,6 +3222,14 @@ details > summary {
 .bg-indigo-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(224 231 255 / var(--tw-bg-opacity));
+<<<<<<< HEAD
+}
+
+.bg-indigo-300 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(165 180 252 / var(--tw-bg-opacity));
+=======
+>>>>>>> production
 }
 
 .bg-inherit {
@@ -3204,6 +3276,16 @@ details > summary {
   background-image: linear-gradient(to top right, var(--tw-gradient-stops));
 }
 
+<<<<<<< HEAD
+.from-purple-400 {
+  --tw-gradient-from: #c084fc var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(192 132 252 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+.to-indigo-700 {
+  --tw-gradient-to: #4338ca var(--tw-gradient-to-position);
+=======
 .from-primary {
   --tw-gradient-from: var(--primary) var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(255 255 255 / 0) var(--tw-gradient-to-position);
@@ -3212,6 +3294,7 @@ details > summary {
 
 .to-primary-light {
   --tw-gradient-to: var(--primary-light) var(--tw-gradient-to-position);
+>>>>>>> production
 }
 
 .fill-light {
@@ -3252,6 +3335,8 @@ details > summary {
 
 .p-5 {
   padding: 1.25rem;
+<<<<<<< HEAD
+=======
 }
 
 .p-6 {
@@ -3265,6 +3350,7 @@ details > summary {
 .\!px-4 {
   padding-left: 1rem !important;
   padding-right: 1rem !important;
+>>>>>>> production
 }
 
 .\!py-0 {
@@ -3339,6 +3425,13 @@ details > summary {
 
 .pb-24 {
   padding-bottom: 6rem;
+<<<<<<< HEAD
+}
+
+.pb-6 {
+  padding-bottom: 1.5rem;
+=======
+>>>>>>> production
 }
 
 .pb-8 {
@@ -3603,11 +3696,14 @@ details > summary {
 .drop-shadow {
   --tw-drop-shadow: drop-shadow(0 1px 2px rgb(0 0 0 / 0.1)) drop-shadow(0 1px 1px rgb(0 0 0 / 0.06));
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+<<<<<<< HEAD
+=======
 }
 
 .drop-shadow-md {
   --tw-drop-shadow: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+>>>>>>> production
 }
 
 .filter {
@@ -3692,6 +3788,10 @@ details > summary {
   background-color: transparent;
 }
 
+<<<<<<< HEAD
+.hover\:text-inverse-soft:hover {
+  color: var(--inverse-soft);
+=======
 .hover\:from-primary:hover {
   --tw-gradient-from: var(--primary) var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(255 255 255 / 0) var(--tw-gradient-to-position);
@@ -3704,6 +3804,7 @@ details > summary {
 
 .hover\:text-primary:hover {
   color: var(--primary);
+>>>>>>> production
 }
 
 .hover\:underline:hover {
@@ -3716,12 +3817,15 @@ details > summary {
 
 .focus\:bg-transparent:focus {
   background-color: transparent;
+<<<<<<< HEAD
+=======
 }
 
 .focus\:shadow-md:focus {
   --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+>>>>>>> production
 }
 
 .focus\:outline-none:focus {
@@ -3810,9 +3914,14 @@ details > summary {
     padding-top: 1rem;
   }
 
+<<<<<<< HEAD
+  .sm\:no-underline {
+    text-decoration-line: none;
+=======
   .sm\:text-4xl {
     font-size: 2.25rem;
     line-height: 2.5rem;
+>>>>>>> production
   }
 }
 
@@ -3854,6 +3963,79 @@ details > summary {
     width: fit-content;
   }
 
+<<<<<<< HEAD
+  .md\:min-w-\[264px\] {
+    min-width: 264px;
+  }
+
+  .md\:min-w-min {
+    min-width: min-content;
+  }
+
+  .md\:max-w-\[120px\] {
+    max-width: 120px;
+  }
+
+  .md\:grow {
+    flex-grow: 1;
+  }
+
+  .md\:flex-row {
+    flex-direction: row;
+  }
+
+  .md\:justify-center {
+    justify-content: center;
+  }
+
+  .md\:space-x-2 > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-x-reverse: 0;
+    margin-right: calc(0.5rem * var(--tw-space-x-reverse));
+    margin-left: calc(0.5rem * calc(1 - var(--tw-space-x-reverse)));
+  }
+
+  .md\:space-x-4 > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-x-reverse: 0;
+    margin-right: calc(1rem * var(--tw-space-x-reverse));
+    margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
+  }
+
+  .md\:space-x-8 > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-x-reverse: 0;
+    margin-right: calc(2rem * var(--tw-space-x-reverse));
+    margin-left: calc(2rem * calc(1 - var(--tw-space-x-reverse)));
+  }
+
+  .md\:self-start {
+    align-self: flex-start;
+  }
+
+  .md\:\!rounded {
+    border-radius: 0.25rem !important;
+  }
+
+  .md\:\!rounded-btn {
+    border-radius: var(--rounded-btn) !important;
+  }
+
+  .md\:p-5 {
+    padding: 1.25rem;
+  }
+
+  .md\:px-12 {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+
+  .md\:px-14 {
+    padding-left: 3.5rem;
+    padding-right: 3.5rem;
+  }
+
+  .md\:px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+=======
   .md\:min-w-\[224px\] {
     min-width: 224px;
   }
@@ -3924,6 +4106,7 @@ details > summary {
   .md\:px-14 {
     padding-left: 3.5rem;
     padding-right: 3.5rem;
+>>>>>>> production
   }
 
   .md\:py-4 {
@@ -3939,6 +4122,33 @@ details > summary {
     padding-bottom: 3.5rem;
   }
 
+<<<<<<< HEAD
+  .md\:pl-1 {
+    padding-left: 0.25rem;
+  }
+
+  .md\:pt-12 {
+    padding-top: 3rem;
+  }
+
+  .md\:pt-16 {
+    padding-top: 4rem;
+  }
+
+  .md\:pt-4 {
+    padding-top: 1rem;
+  }
+
+  .md\:pt-8 {
+    padding-top: 2rem;
+  }
+
+  .md\:text-4xl {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+  }
+
+=======
   .md\:pb-6 {
     padding-bottom: 1.5rem;
   }
@@ -3968,6 +4178,7 @@ details > summary {
     line-height: 1.75rem;
   }
 
+>>>>>>> production
   .md\:hover\:bg-transparent:hover {
     background-color: transparent;
   }
@@ -3986,6 +4197,129 @@ details > summary {
     grid-column: span 3 / span 3;
   }
 
+<<<<<<< HEAD
+  .lg\:row-span-3 {
+    grid-row: span 3 / span 3;
+  }
+
+  .lg\:row-span-5 {
+    grid-row: span 5 / span 5;
+  }
+
+  .lg\:row-start-auto {
+    grid-row-start: auto;
+  }
+
+  .lg\:mx-16 {
+    margin-left: 4rem;
+    margin-right: 4rem;
+  }
+
+  .lg\:mb-20 {
+    margin-bottom: 5rem;
+  }
+
+  .lg\:ml-0 {
+    margin-left: 0px;
+  }
+
+  .lg\:ml-2 {
+    margin-left: 0.5rem;
+  }
+
+  .lg\:\!hidden {
+    display: none !important;
+  }
+
+  .lg\:hidden {
+    display: none;
+  }
+
+  .lg\:h-28 {
+    height: 7rem;
+  }
+
+  .lg\:h-fit {
+    height: -moz-fit-content;
+    height: fit-content;
+  }
+
+  .lg\:\!w-2\/3 {
+    width: 66.666667% !important;
+  }
+
+  .lg\:\!w-full {
+    width: 100% !important;
+  }
+
+  .lg\:w-28 {
+    width: 7rem;
+  }
+
+  .lg\:w-\[198px\] {
+    width: 198px;
+  }
+
+  .lg\:min-w-\[800px\] {
+    min-width: 800px;
+  }
+
+  .lg\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .lg\:grid-cols-8 {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+
+  .lg\:flex-col {
+    flex-direction: column;
+  }
+
+  .lg\:items-start {
+    align-items: flex-start;
+  }
+
+  .lg\:justify-end {
+    justify-content: flex-end;
+  }
+
+  .lg\:gap-4 {
+    gap: 1rem;
+  }
+
+  .lg\:space-y-4 > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-y-reverse: 0;
+    margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
+    margin-bottom: calc(1rem * var(--tw-space-y-reverse));
+  }
+
+  .lg\:self-center {
+    align-self: center;
+  }
+
+  .lg\:rounded-full {
+    border-radius: 9999px;
+  }
+
+  .lg\:border-l-2 {
+    border-left-width: 2px;
+  }
+
+  .lg\:px-12 {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+
+  .lg\:px-16 {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+
+  .lg\:px-20 {
+    padding-left: 5rem;
+    padding-right: 5rem;
+=======
   .lg\:col-start-2 {
     grid-column-start: 2;
   }
@@ -4106,6 +4440,7 @@ details > summary {
   .lg\:px-16 {
     padding-left: 4rem;
     padding-right: 4rem;
+>>>>>>> production
   }
 
   .lg\:px-32 {
@@ -4113,6 +4448,30 @@ details > summary {
     padding-right: 8rem;
   }
 
+<<<<<<< HEAD
+  .lg\:pb-0 {
+    padding-bottom: 0px;
+  }
+
+  .lg\:pl-\[188px\] {
+    padding-left: 188px;
+  }
+
+  .lg\:pt-2 {
+    padding-top: 0.5rem;
+  }
+
+  .lg\:no-underline {
+    text-decoration-line: none;
+  }
+
+  .lg\:shadow-md {
+    --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  }
+
+=======
   .lg\:px-8 {
     padding-left: 2rem;
     padding-right: 2rem;
@@ -4145,6 +4504,7 @@ details > summary {
     box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
   }
 
+>>>>>>> production
   .lg\:shadow-none {
     --tw-shadow: 0 0 #0000;
     --tw-shadow-colored: 0 0 #0000;

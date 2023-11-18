@@ -1,4 +1,4 @@
-import { type NextApiResponse } from 'next';
+import { type NextApiRequest, type NextApiResponse } from 'next';
 import nc from 'next-connect';
 import NodeCache from 'node-cache';
 
@@ -6,7 +6,7 @@ const cache = new NodeCache({ stdTTL: 30 });
 const handler = nc();
 
 // get all categories route
-handler.get(async (req, res: NextApiResponse) => {
+handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 	try {
 		res.setHeader(
 			'Cache-Control',
