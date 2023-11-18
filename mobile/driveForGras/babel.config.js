@@ -19,6 +19,14 @@ module.exports = function (api) {
 					path: path.resolve(__dirname, '../../.env.' + nodeEnv),
 				},
 			],
+			[
+				'babel-plugin-rewrite-require',
+				{
+					aliases: {
+						crypto: 'expo-crypto',
+					},
+				},
+			],
 		],
 	};
 };
