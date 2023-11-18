@@ -4,10 +4,9 @@
 	"private": true,
 	"keywords": [
 		"monorepo",
-		"nextjs",
-		"prisma",
-		"workspace",
-		"vite"
+		"Next.js",
+		"Sanity",
+		"prisma"
 	],
 	"homepage": "https://github.com/DigitalCreationsCo/cannabis-platform-monorepo",
 	"repository": {
