@@ -1,7 +1,7 @@
-import {
-	calcSalePrice,
-	convertCentsToDollars,
-} from '@cd/core-lib/src/utils/transaction.util';
+// import {
+// 	calcSalePrice,
+// 	convertCentsToDollars,
+// } from '@cd/core-lib/src/utils/transaction.util';
 import { View, Text } from '@themed';
 
 type PriceProps = {
@@ -27,7 +27,8 @@ function Price({
 
 	const base = basePrice * quantity;
 
-	const toDollars = (value: number): string => convertCentsToDollars(value);
+	// const toDollars = (value: number): string => convertCentsToDollars(value);
+	const toDollars = (value: number): string => value.toString();
 
 	// discount is a flat number representing percentage off
 	function computeSalePrice() {
@@ -36,7 +37,8 @@ function Price({
 		if (salePrice) {
 			_salePrice = salePrice * quantity;
 		} else {
-			_salePrice = calcSalePrice(basePrice, _discount) * quantity;
+			// _salePrice = calcSalePrice(basePrice, _discount) * quantity;
+			_salePrice = _salePrice;
 		}
 		return _salePrice;
 	}

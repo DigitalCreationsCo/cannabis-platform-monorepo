@@ -34,4 +34,5 @@ const DriverLoginScreen = () => {
 			</LoginStack.Navigator> */
 };
 
-export default Screen(DriverLoginScreen);
+// export default Screen(DriverLoginScreen);
+export default DriverLoginScreen;

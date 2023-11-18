@@ -16,13 +16,12 @@
 			"@cd/eslint-config": ["../../packages/eslint-config/src/index"],
 			"@cd/native-ui": ["../../packages/native-ui/src/index"],
 			"@cd/native-ui/*": ["../../packages/native-ui/*"],
-			
 			"@cd/ui-lib": [
 				"../../../packages/ui-lib/src/index"
-			  ],
-			  "@cd/ui-lib/*": [
+			],
+			"@cd/ui-lib/*": [
 				"../../../packages/ui-lib/*"
-			  ],
+			],
 		},
 	},
 	"exclude": ["**/node_modules", "**/.*/", "./.expo/**"],

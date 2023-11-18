@@ -1,8 +1,7 @@
-import { type CarbonIconType } from '@carbon/icons-react';
 import { type SVGAttributes } from 'react';
 
 export type IconProps = {
-	Icon: ((props: SVGAttributes<SVGElement>) => JSX.Element) | CarbonIconType;
+	Icon: ((props: SVGAttributes<SVGElement>) => JSX.Element);
 	className?: string;
 	size?: number;
 	iconColor?: string;

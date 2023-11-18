@@ -1,11 +1,12 @@
-import { type ProductVariantWithDetails } from '@cd/data-access';
+// import { type ProductVariantWithDetails } from '@cd/data-access';
 import React, { type PropsWithChildren, useState } from 'react';
 import { Image, TextInput } from 'react-native';
 import { Text, View } from '@themed';
 import Price from './Price';
 
 type ProductItemProps = {
-	product: ProductVariantWithDetails;
+	// product: ProductVariantWithDetails;
+	product: any;
 	handleConfirm?: any;
 };
 function ProductItem({

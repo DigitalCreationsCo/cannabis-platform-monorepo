@@ -8,8 +8,7 @@ import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import React, { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { Provider as ReduxProvider, useSelector } from 'react-redux';
+import { Provider as ReduxProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistor, store } from '../redux/store';
 
@@ -36,15 +35,13 @@ export default function RootLayout() {
 	}, [error]);
 
 	return (
-		<SafeAreaProvider>
-			<ReduxProvider store={store}>
-				<PersistGate persistor={persistor}>
-					{/* Keep the splash screen open until the assets have loaded. In the future, we should just support async font loading with a native version of font-display. */}
-					{!loaded && <SplashScreen />}
-					{loaded && <AuthStack />}
-				</PersistGate>
-			</ReduxProvider>
-		</SafeAreaProvider>
+		<ReduxProvider store={store}>
+			<PersistGate persistor={persistor}>
+				{/* Keep the splash screen open until the assets have loaded. In the future, we should just support async font loading with a native version of font-display. */}
+				{!loaded && <SplashScreen />}
+				{loaded && <AuthStack />}
+			</PersistGate>
+		</ReduxProvider>
 	);
 }
 

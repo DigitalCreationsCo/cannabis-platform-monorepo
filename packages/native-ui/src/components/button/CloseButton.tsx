@@ -1,11 +1,10 @@
-import { type CarbonIconType } from '@carbon/icons-react';
 import { type SVGAttributes } from 'react';
 import { View } from '@themed';
 import Icons from '../../icons';
 import IconButton from './IconButton';
 
 interface CloseButtonProps {
-	Icon?: ((props: SVGAttributes<SVGElement>) => JSX.Element) | CarbonIconType;
+	Icon?: ((props: SVGAttributes<SVGElement>) => JSX.Element);
 	onPress?: () => void;
 	theme?: 'light' | 'dark';
 	className?: string;

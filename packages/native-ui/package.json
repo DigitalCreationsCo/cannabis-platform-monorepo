@@ -18,6 +18,7 @@
 		"babel-loader": "9.1.2",
 		"cross-env": "7.0.3",
 		"jest": "29.3.1",
+		"babel-plugin-rewrite-require": "1.14.5",
 		"jest-environment-jsdom": "29.3.1",
 		"prettier": "2.8.0",
 		"react": "18.2.0",
@@ -42,12 +43,6 @@
 		"react-native": "0.71.14"
 	},
 	"peerDependenciesMeta": {
-		"react": {
-			"optional": true
-		},
-		"react-native": {
-			"optional": true
-		},
 		"@types/react": {
 			"optional": true
 		},
@@ -56,11 +51,17 @@
 		},
 		"@types/react-native": {
 			"optional": true
+		},
+		"react": {
+			"optional": true
+		},
+		"react-native": {
+			"optional": true
 		}
 	},
 	"private": true,
 	"scripts": {
-		"build": "yarn build:css && rm -rf ./dist && tsup src/index.ts",
+		"build": "rm -rf ./dist && tsup src/index.ts",
 		"build:ci": "tsup src/index.ts",
 		"build:storybook": "storybook build --output-dir dist/storybook",
 		"clean": "rimraf ./.next ./out ./dist ./build ./node_modules ./coverage ./tsconfig.tsbuildinfo ./node_modules/.cache",

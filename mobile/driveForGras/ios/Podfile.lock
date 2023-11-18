@@ -13,6 +13,8 @@ PODS:
     - ExpoModulesCore
   - Expo (48.0.21):
     - ExpoModulesCore
+  - ExpoCrypto (12.2.2):
+    - ExpoModulesCore
   - ExpoKeepAwake (12.0.1):
     - ExpoModulesCore
   - ExpoModulesCore (1.2.7):
@@ -401,6 +403,7 @@ DEPENDENCIES:
   - EXFont (from `../../../node_modules/expo-font/ios`)
   - EXLocation (from `../../../node_modules/expo-location/ios`)
   - Expo (from `../../../node_modules/expo`)
+  - ExpoCrypto (from `../../../node_modules/expo-crypto/ios`)
   - ExpoKeepAwake (from `../../../node_modules/expo-keep-awake/ios`)
   - ExpoModulesCore (from `../../../node_modules/expo-modules-core`)
   - ExpoSystemUI (from `../../../node_modules/expo-system-ui/ios`)
@@ -468,6 +471,8 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/expo-location/ios"
   Expo:
     :path: "../../../node_modules/expo"
+  ExpoCrypto:
+    :path: "../../../node_modules/expo-crypto/ios"
   ExpoKeepAwake:
     :path: "../../../node_modules/expo-keep-awake/ios"
   ExpoModulesCore:
@@ -562,6 +567,7 @@ SPEC CHECKSUMS:
   EXFont: 6ea3800df746be7233208d80fe379b8ed74f4272
   EXLocation: 74a0ba446f54fd585ea6cfcd19a25644bf22c30d
   Expo: 0d9f112757acc6bf32103eabccf91267780bd580
+  ExpoCrypto: 9105610a09cd6290b900bd82fc5d190e489125a3
   ExpoKeepAwake: 69f5f627670d62318410392d03e0b5db0f85759a
   ExpoModulesCore: 653958063a301098b541ae4dfed1ac0b98db607b
   ExpoSystemUI: 0be5173ee2a7c01e9abc44f56d879a1eaaa16527
