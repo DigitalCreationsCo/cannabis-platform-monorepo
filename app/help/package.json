@@ -64,7 +64,6 @@
 		"react-redux": "8.0.2",
 		"react-responsive-carousel": "3.2.23",
 		"react-slick": "0.29.0",
-		"redis": "4.6.6",
 		"sharp": "0.32.1",
 		"swr": "2.2.4",
 		"tailwind-merge": "1.8.0"
