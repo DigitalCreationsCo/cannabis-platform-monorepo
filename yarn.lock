@@ -4826,7 +4826,6 @@ __metadata:
     react-redux: 8.0.2
     react-responsive-carousel: 3.2.23
     react-slick: 0.29.0
-    redis: 4.6.6
     redux-devtools-extension: 2.13.9
     redux-mock-store: ^1.5.4
     redux-persist: 6.0.0
@@ -5083,7 +5082,6 @@ __metadata:
     react-redux: 8.0.2
     react-responsive-carousel: 3.2.23
     react-slick: 0.29.0
-    redis: 4.6.6
     redux-devtools-extension: 2.13.9
     redux-mock-store: ^1.5.4
     redux-persist: 6.0.0
@@ -5714,6 +5712,7 @@ __metadata:
     nodemon: 2.0.20
     pm2: 5.2.2
     prettier: 2.8.0
+    redis: 4.6.6
     rimraf: 4.4.1
     supertest: 6.3.3
     supertokens-node: 12.1.3
