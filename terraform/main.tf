@@ -44,6 +44,10 @@ provider "google-beta" {
   zone        = var.zone
 }
 
+provider "kubernetes" {
+  config_path = "${local.root_dir}/.kube/kubeconfig.yaml"
+}
+
 resource "google_compute_network" "gras-network" {
   name                    = var.network_name
   auto_create_subnetworks = "false"

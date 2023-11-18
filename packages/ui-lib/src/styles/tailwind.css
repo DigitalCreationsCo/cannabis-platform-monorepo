@@ -4087,10 +4087,22 @@ details > summary {
 		padding: 1.25rem;
 	}
 
+<<<<<<< HEAD
+  .md\:px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .md\:py-4 {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+=======
 	.md\:px-12 {
 		padding-left: 3rem;
 		padding-right: 3rem;
 	}
+>>>>>>> production
 
 	.md\:px-14 {
 		padding-left: 3.5rem;

@@ -245,7 +245,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
 										name={`state`}
 										label="State"
 										placeholder="State"
-										value={addressUpdate?.state}
+										value={addressUpdate?.state as string}
 										onBlur={handleBlur}
 										onChange={(e) => handleAddressUpdate(e, 'state')}
 									/> */}
