@@ -10,12 +10,22 @@
 		"incremental": true,
 		"paths": {
 			"@cd/core-lib": ["../../packages/core-lib/src/index"],
+			"@cd/core-lib/*": ["../../packages/core-lib/*"],
 			"@cd/data-access": ["../../packages/data-access/src/index"],
+			"@cd/data-access/*": ["../../packages/data-access/*"],
 			"@cd/eslint-config": ["../../packages/eslint-config/src/index"],
-			"@cd/native-ui": ["../../packages/native-ui/src/index"]
-		}
+			"@cd/native-ui": ["../../packages/native-ui/src/index"],
+			"@cd/native-ui/*": ["../../packages/native-ui/*"],
+			
+			"@cd/ui-lib": [
+				"../../../packages/ui-lib/src/index"
+			  ],
+			  "@cd/ui-lib/*": [
+				"../../../packages/ui-lib/*"
+			  ],
+		},
 	},
-	"exclude": ["**/node_modules", "app", "**/.*/"],
+	"exclude": ["**/node_modules", "**/.*/", "./.expo/**"],
 	"include": [
 		"next-env.d.ts",
 		"**/*.ts",

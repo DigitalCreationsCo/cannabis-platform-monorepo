@@ -63,7 +63,7 @@ const AuthNavigator = () => {
 						// 	...TransitionPresets.FadeFromBottomAndroid,
 						// }}
 					/>
-					<Stack.Screen name="driverSignUp" />
+					{/* <Stack.Screen name="driverSignUp" /> */}
 
 					{/* <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 					<Stack.Screen name="modal" options={{ presentation: 'modal' }} /> */}

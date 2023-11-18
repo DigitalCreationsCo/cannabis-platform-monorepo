@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { TextInput, View } from 'react-native';
 import { twMerge } from 'tailwind-merge';
+import { styles } from '../classes';
 import Icons from '../icons';
-import { RNstyles } from '../styles';
 import IconWrapper from './IconWrapper';
 
 type SearchBarProps = {
@@ -16,8 +16,8 @@ function SearchBar({ placeholder = 'Search', onChange }: SearchBarProps) {
 		<View
 			onResponderStart={() => setFocused(true)}
 			className={twMerge(
-				RNstyles.searchField.container,
-				RNstyles.searchField.isFocused_f(isFocused),
+				styles.searchField.container,
+				styles.searchField.isFocused_f(isFocused),
 			)}
 		>
 			<IconWrapper Icon={Icons.Search2} />

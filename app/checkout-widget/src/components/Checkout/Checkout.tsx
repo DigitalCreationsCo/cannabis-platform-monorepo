@@ -319,7 +319,7 @@ export default class Checkout extends Component<
 							{TextContent.prompt.REVIEW_CHECKOUT}
 						</Small>
 						<div className="m-auto">
-							<CopyRight prepend={TextContent.legal.HOME_DELIVERY_BY_GRAS} />
+							<CopyRight prepend={TextContent.info.DELIVERY_BY_GRAS} />
 						</div>
 					</>
 				) : (
