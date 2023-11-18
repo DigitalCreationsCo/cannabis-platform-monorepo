@@ -13,8 +13,8 @@
 		"web": "NODE_ENV='development' expo start --web",
 		"test": "jest --watchAll",
 		"test:unit": "echo test:unit",
-		"lint": "echo lint",
-		"lint-fix": "echo lint-fix",
+		"lint": "eslint .",
+		"lint-fix": "eslint . --fix",
 		"clean": "rm -rf .expo ios/build android/app/build",
 		"test:unit-ci": "echo \"Error: no test specified\" && exit 0"
 	},

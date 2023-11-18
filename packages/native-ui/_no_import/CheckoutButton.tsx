@@ -1,7 +1,7 @@
-import { cartActions } from '@cd/core-lib';
+import { cartActions } from '@cd/core-lib/src/reducer/cart.reducer';
 import { toast } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
-import Button, { type ButtonProps } from './Button';
+import Button, { type ButtonProps } from '../button/Button';
 
 type CheckoutButtonProps = ButtonProps;
 

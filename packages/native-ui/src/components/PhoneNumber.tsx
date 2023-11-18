@@ -1,5 +1,6 @@
 import React from 'react';
-import { Paragraph } from './Typography';
+import { Text } from '@themed';
+
 export default function PhoneNumber({ phone }: { phone: string }) {
 	const split = phone.split('-');
 	const formatPhoneNumber =
@@ -10,5 +11,5 @@ export default function PhoneNumber({ phone }: { phone: string }) {
 		split[1].substr(3, 3) +
 		'-' +
 		split[1].substr(6, 4);
-	return <Paragraph>{formatPhoneNumber}</Paragraph>;
+	return <Text>{formatPhoneNumber}</Text>;
 }

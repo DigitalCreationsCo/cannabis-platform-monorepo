@@ -1,6 +1,5 @@
-import { Screen } from '../components';
+import { Screen, Text, View } from '@cd/native-ui';
 // import React, { useRef, useState } from "react";
-import { Text, View } from 'react-native';
 // import {
 //   SafeAreaView, Text, TextInput, TouchableOpacity, View
 // } from "react-native";

@@ -23,7 +23,7 @@ function ClickableTags({ values, setValues, valueKey }: ClickableTagProps) {
 		}
 	};
 	return (
-		<FlexBox className="min-h-[49px] pb-2">
+		<FlexBox>
 			{[...values].map((c, index) => (
 				<Tag
 					key={valueKey + '-' + index}

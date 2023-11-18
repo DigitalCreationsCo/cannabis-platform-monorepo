@@ -1,22 +1,8 @@
 import { type PropsWithChildren } from 'react';
-import { View } from 'react-native';
-import { twMerge } from 'tailwind-merge';
+import { View } from '@themed';
 
-function Center({
-	className,
-	children,
-}: { className?: string } & PropsWithChildren) {
-	return (
-		<View
-			className={twMerge(
-				'grow',
-				'justify-center items-center text-center',
-				className,
-			)}
-		>
-			{children}
-		</View>
-	);
+function Center({ children }: { className?: string } & PropsWithChildren) {
+	return <View>{children}</View>;
 }
 
 export default Center;

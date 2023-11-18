@@ -1,14 +1,14 @@
-import { calcSalePrice, convertCentsToDollars } from '@cd/core-lib';
-import { View } from 'react-native';
-import { twMerge } from 'tailwind-merge';
-import { Paragraph } from './Typography';
+import {
+	calcSalePrice,
+	convertCentsToDollars,
+} from '@cd/core-lib/src/utils/transaction.util';
+import { View, Text } from '@themed';
 
 type PriceProps = {
 	basePrice: number;
 	salePrice?: number;
 	discount?: number;
 	quantity?: number;
-	className?: string;
 	locale?: string; // country
 	showDiscount?: boolean;
 	showOriginalPrice?: boolean;
@@ -19,7 +19,6 @@ function Price({
 	salePrice,
 	discount = 0,
 	quantity = 1,
-	className,
 	showDiscount = false,
 	showOriginalPrice = false,
 	locale = 'en-us',
@@ -43,18 +42,12 @@ function Price({
 	}
 
 	return (
-		<View className={twMerge('flex flex-row space-x-2 pl-2', className)}>
+		<View>
 			{showOriginalPrice && (
-				<Paragraph className="text-accent line-through">
-					{_currencySymbol[locale] + toDollars(base)}
-				</Paragraph>
+				<Text>{_currencySymbol[locale] + toDollars(base)}</Text>
 			)}
-			{showDiscount && discount > 0 && (
-				<Paragraph className="text-accent">`${discount}% off`</Paragraph>
-			)}
-			<Paragraph className="text-dark">
-				{_currencySymbol[locale] + toDollars(computeSalePrice())}
-			</Paragraph>
+			{showDiscount && discount > 0 && <Text>`${discount}% off`</Text>}
+			<Text>{_currencySymbol[locale] + toDollars(computeSalePrice())}</Text>
 		</View>
 	);
 }
