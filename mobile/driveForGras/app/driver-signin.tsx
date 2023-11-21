@@ -31,8 +31,10 @@ const DriverLoginScreen = () => {
 	return (
 		<Container>
 			<Row>
-				<Text style={styles.text.h}>{TextContent.info.DELIVER_FOR_GRAS}</Text>
-				<Icons.Flower />
+				<Center>
+					<Text style={styles.text.h}>{TextContent.info.DELIVER_FOR_GRAS}</Text>
+					<Icons.Flower />
+				</Center>
 			</Row>
 
 			<Image

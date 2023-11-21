@@ -26,6 +26,7 @@ module.exports = function (api) {
 						crypto: 'crypto-js',
 						'@components': './components',
 						'@views': './views',
+						'@styles': './styles',
 					},
 					extensions: ['.js', '.jsx', '.ts', '.tsx'],
 				},

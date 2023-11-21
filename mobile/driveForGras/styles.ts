@@ -9,9 +9,8 @@ const textStyles = Object.freeze<Record<string, TextStyle>>({
 const viewStyles = Object.freeze<Record<string, ViewStyle>>({
 	container: {
 		flex: 1,
-		justifyContent: 'space-evenly',
 	},
-	row: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
+	row: { flexDirection: 'row' },
 	center: {
 		alignItems: 'center',
 		justifyContent: 'center',
