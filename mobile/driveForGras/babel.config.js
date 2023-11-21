@@ -19,6 +19,16 @@ module.exports = function (api) {
 					path: path.resolve(__dirname, '../../.env.' + nodeEnv),
 				},
 			],
+			[
+				'module-resolver',
+				{
+					alias: {
+						'@components': './components/index',
+						'@views': './views/index',
+					},
+					extensions: ['.js', '.jsx', '.ts', '.tsx'],
+				},
+			],
 		],
 	};
 };

@@ -1,6 +1,6 @@
 import { type AnchorHTMLAttributes, type PropsWithChildren } from 'react';
-import { View, Text } from '@themed';
-import IconWrapper from './IconWrapper';
+import { View, Text, IconWrapper } from '@components';
+
 export interface NavLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
 	href: string;
 	isActive: boolean;

@@ -2,7 +2,7 @@
 // 	calcSalePrice,
 // 	convertCentsToDollars,
 // } from '@cd/core-lib/src/utils/transaction.util';
-import { View, Text } from '@themed';
+import { View, Text } from '@components';
 
 type PriceProps = {
 	basePrice: number;

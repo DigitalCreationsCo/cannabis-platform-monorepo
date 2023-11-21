@@ -1,4 +1,4 @@
-import { View } from '@themed';
+import { View } from '@components';
 
 const LoadingDots = () => {
 	const dot = 'animate-bounce w-[12px] h-[12px] rounded-full bg-primary';

@@ -1,7 +1,7 @@
-import { View } from '@themed';
 import { useState } from 'react';
 import { TextInput } from 'react-native';
-import Icons from './icons';
+import { View } from '@components';
+import Icons from '../icons';
 import IconWrapper from './IconWrapper';
 import { styles } from './styles';
 

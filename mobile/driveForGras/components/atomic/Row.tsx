@@ -1,5 +1,5 @@
 import { type PropsWithChildren } from 'react';
-import Card from './Card';
+import { Card } from '@components';
 
 function Row({ children }: { className?: string } & PropsWithChildren) {
 	return <Card>{children}</Card>;

@@ -1,5 +1,5 @@
 import { type PropsWithChildren } from 'react';
-import { View } from '@themed';
+import { View } from '@components';
 
 function Padding({ children }: PropsWithChildren) {
 	return <View>{children}</View>;

@@ -1,5 +1,5 @@
 import { type PropsWithChildren } from 'react';
-import { Text, View } from '@themed';
+import { Text, View } from '@components';
 
 type CardProps = {
 	title?: string;
