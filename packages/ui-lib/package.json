@@ -85,15 +85,14 @@
 		"build:watch": "rimraf ./dist && tsup --watch",
 		"clean": "rimraf ./.next ./out ./dist ./build ./node_modules ./coverage ./tsconfig.tsbuildinfo ./node_modules/.cache",
 		"watch": "npm-run-all --parallel --print-label watch-tailwind build:watch",
-		"lint-fix": "eslint . --ext .ts,.tsx,.js,.jsx,.cjs,.mjs --fix",
+		"lint:fix": "eslint . --ext .ts,.tsx,.js,.jsx,.cjs,.mjs --fix",
 		"lint": "eslint . --ext .ts,.tsx,.js,.jsx,.cjs,.mjs --cache --cache-location ../../.cache/eslint/ui-lib.eslintcache",
 		"test:unit": "echo \"No unit tests yet\" && exit 0",
 		"test:unit-ci": "echo \"No unit tests yet\" && exit 0",
 		"typecheck": "tsc --project ./tsconfig.json --noEmit",
 		"storybook": "storybook dev -p 6006",
 		"sync-assets": "rimraf ./public/assets && syncdir ../../static/assets ./public/assets --copy",
-		"watch-tailwind": "tailwindcss -o ./src/styles/tailwind.css --watch",
-		"build-storybook": "storybook build"
+		"watch-tailwind": "tailwindcss -o ./src/styles/tailwind.css --watch"
 	},
 	"version": "0.0.1"
 }
