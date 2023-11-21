@@ -46,7 +46,10 @@ const DriverLoginScreen = () => {
 
 			<View>
 				<Center>
-					<Text>{'Please enter the empty fields'}</Text>
+					<Text style={styles.text.p}>
+						{(errors.email || errors.password) &&
+							'Please enter the empty fields'}
+					</Text>
 				</Center>
 				<TextField name={'email'} control={control} />
 				<TextField name={'password'} control={control} />
