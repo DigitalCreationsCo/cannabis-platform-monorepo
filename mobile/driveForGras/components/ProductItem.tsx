@@ -1,8 +1,7 @@
 // import { type ProductVariantWithDetails } from '@cd/data-access';
 import React, { type PropsWithChildren, useState } from 'react';
 import { Image, TextInput } from 'react-native';
-import { Text, View } from '@themed';
-import Price from './Price';
+import { Price, Text, View } from '@components';
 
 type ProductItemProps = {
 	// product: ProductVariantWithDetails;

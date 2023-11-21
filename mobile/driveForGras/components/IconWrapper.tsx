@@ -1,7 +1,7 @@
 import { type SVGAttributes } from 'react';
 
 export type IconProps = {
-	Icon: ((props: SVGAttributes<SVGElement>) => JSX.Element);
+	Icon: (props: SVGAttributes<SVGElement>) => JSX.Element;
 	className?: string;
 	size?: number;
 	iconColor?: string;

@@ -1,8 +1,4 @@
-// import router from 'next/router';
-import { Text } from '@themed';
-import Center from './atomic/Center';
-import CopyRight from './CopyRight';
-import FlexBox from './FlexBox';
+import { Text, Center, CopyRight, FlexBox } from '@components';
 
 function ErrorMessage({ code, message }: { code: number; message: string }) {
 	return (

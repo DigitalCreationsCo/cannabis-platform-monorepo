@@ -1,7 +1,6 @@
-import { Text, View } from '@themed';
 import { type PropsWithChildren } from 'react';
 import { Path, Svg } from 'react-native-svg';
-import SearchField from './SearchField';
+import { Text, SearchField, View } from '@components';
 import { styles } from './styles';
 
 type HeaderProps = {

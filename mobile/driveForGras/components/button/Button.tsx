@@ -1,8 +1,7 @@
 /* eslint-disable sonarjs/cognitive-complexity */
 import React, { type PropsWithChildren } from 'react';
 import { TouchableOpacity, type GestureResponderEvent } from 'react-native';
-import Center from '../atomic/Center';
-import LoadingDots from '../LoadingDots';
+import { Center, LoadingDots } from '@components';
 
 export interface ButtonProps extends PropsWithChildren {
 	size?: 'lg' | 'sm' | 'md';

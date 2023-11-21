@@ -1,5 +1,5 @@
 import { type PropsWithChildren } from 'react';
-import { View } from '@themed';
+import { View } from '@components';
 
 const FlexBox = ({ children }: { className?: string } & PropsWithChildren) => (
 	<View>{children}</View>

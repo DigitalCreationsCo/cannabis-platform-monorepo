@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from '@themed';
+import { View } from '@components';
 
 function Table() {
 	return (

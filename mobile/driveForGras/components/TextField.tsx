@@ -77,7 +77,7 @@
 
 // export default TextField;
 
-import { View, Text } from '@themed';
+import { View, Text } from '@components';
 const RNTextField = () => {
 	return (
 		<View>

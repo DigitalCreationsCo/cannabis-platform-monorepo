@@ -1,5 +1,5 @@
 import { type PropsWithChildren } from 'react';
-import { Text } from '@themed';
+import { Text } from '@components';
 
 function Label({ children }: PropsWithChildren) {
 	return <Text>{children}</Text>;

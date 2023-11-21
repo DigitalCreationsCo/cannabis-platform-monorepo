@@ -1,7 +1,5 @@
 import { Checkbox } from 'expo-checkbox';
-import { View } from 'react-native';
-import { Text } from '@themed';
-import FlexBox from './FlexBox';
+import { FlexBox, Text, View } from '@components';
 
 export interface CheckBoxProps {
 	LabelComponent?: ({ children }: { children: string }) => JSX.Element;
