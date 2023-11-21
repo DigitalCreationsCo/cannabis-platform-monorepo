@@ -1,4 +1,4 @@
-import { Text, View } from '@cd/native-ui';
+import { Text, View } from '@components';
 import { Link, Stack } from 'expo-router';
 import { StyleSheet } from 'react-native';
 
