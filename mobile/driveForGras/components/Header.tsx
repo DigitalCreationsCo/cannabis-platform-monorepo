@@ -1,7 +1,8 @@
 import { type PropsWithChildren } from 'react';
 import { Path, Svg } from 'react-native-svg';
-import { Text, SearchField, View } from '@components';
-import { styles } from './styles';
+import SearchField from './SearchField';
+import { styles } from '../styles';
+import { View, Text } from './Themed';
 
 type HeaderProps = {
 	onSearchChange?: () => void;

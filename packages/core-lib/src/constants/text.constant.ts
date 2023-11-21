@@ -76,6 +76,8 @@ const TextContent = Object.freeze({
 		CREATE_AN_ACCOUNT: 'Create an account',
 		CREATE_YOUR_ACCOUNT: 'Create your account',
 
+		FORGOT_YOUR_PASSWORD: 'Forgot your password?',
+
 		CREATE_DISPENSARY_ACCOUNT: 'Create a Dispensary account',
 		ABOUT_DISPENSARY_ADMIN_ACCOUNT: `Create an account to own and manage your dispensary's inventory, data, and other users. 
     This account will have the most access to your dispensary.`,
@@ -102,7 +104,7 @@ const TextContent = Object.freeze({
 		ONETIME_PASSCODE_SENT_MOBILE_f: (receipient: string) =>
 			`Your one time passcode has been sent to ${receipient}.`,
 
-		SIGNING_IN: `signing in`,
+		SIGNING_IN: `Signing in`,
 		SIGNOUT: 'Sign out',
 		SIGNIN: 'Sign In',
 		SIGNIN_EMAIL: 'Sign in with your email',

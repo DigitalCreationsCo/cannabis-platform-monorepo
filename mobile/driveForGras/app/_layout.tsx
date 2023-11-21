@@ -20,7 +20,7 @@ export {
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const unstable_settings = {
 	// Ensure that reloading on `/modal` keeps a back button present.
-	initialRouteName: 'index',
+	initialRouteName: '/index',
 };
 
 export default function RootLayout() {
@@ -52,16 +52,10 @@ const AuthStack = () => {
 	return (
 		<>
 			<ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-				<Stack>
-					<Stack.Screen
-						name="index"
-						// options={{
-						// 	...TransitionPresets.FadeFromBottomAndroid,
-						// }}
-					/>
-					{/* <Stack.Screen name="driverSignUp" /> */}
-					{/* <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-					<Stack.Screen name="modal" options={{ presentation: 'modal' }} /> */}
+				<Stack screenOptions={{ headerShown: false }}>
+					<Stack.Screen name="index" />
+					<Stack.Screen name="driverSignUp" />
+					<Stack.Screen name="modal" options={{ presentation: 'modal' }} />
 				</Stack>
 			</ThemeProvider>
 		</>

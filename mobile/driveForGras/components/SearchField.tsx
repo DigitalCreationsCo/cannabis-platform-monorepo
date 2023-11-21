@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { TextInput } from 'react-native';
-import { View } from '@components';
 import Icons from '../icons';
 import IconWrapper from './IconWrapper';
-import { styles } from './styles';
+import { styles } from '../styles';
+import { View } from './Themed';
 
 type SearchBarProps = {
 	onChange?: () => void;
