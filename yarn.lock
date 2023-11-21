@@ -4826,6 +4826,7 @@ __metadata:
     react-redux: 8.0.2
     react-responsive-carousel: 3.2.23
     react-slick: 0.29.0
+    redis: 4.6.6
     redux-devtools-extension: 2.13.9
     redux-mock-store: ^1.5.4
     redux-persist: 6.0.0

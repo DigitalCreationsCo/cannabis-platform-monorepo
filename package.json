@@ -37,7 +37,7 @@
 		"g:codegen": "yarn workspaces foreach -ptv run codegen",
 		"g:typecheck": "yarn workspaces foreach -ptv run typecheck",
 		"g:lint": "yarn workspaces foreach -ptv run lint --color",
-		"g:lint-fix": "yarn workspaces foreach -ptv run lint-fix",
+		"g:lint-fix": "yarn workspaces foreach -ptv run lint:fix",
 		"g:lint-staged-files": "lint-staged --allow-empty",
 		"g:lint-styles": "yarn workspaces foreach -ptv run lint-styles --color",
 		"g:lint-all": "prettier --write .",

@@ -44,6 +44,7 @@ export const H1 = ({
 	return (
 		<h1
 			className={twMerge(
+				'xl:leading-tight',
 				'font-encode',
 				styles['cursor-inherit'],
 				'text-4xl font-bold whitespace-normal',

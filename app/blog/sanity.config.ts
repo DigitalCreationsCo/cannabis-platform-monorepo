@@ -18,8 +18,8 @@ import {
 	dataset,
 	previewSecretId,
 	projectId,
-} from '~/lib/sanity.api';
-import { schema } from '~/schemas';
+} from './src/lib/sanity.api';
+import { schema } from './src/schemas';
 
 const iframeOptions = {
 	url: defineUrlResolver({
@@ -40,7 +40,7 @@ export default defineConfig({
 	schema,
 	plugins: [
 		deskTool({
-			// `defaultDocumentNode` is responsible for adding a “Preview” tab to the document pane
+			// `defaultDocumentNode` is responsible for adding a “Preview” tab to the document pane
 			// You can add any React component to `S.view.component` and it will be rendered in the pane
 			// and have access to content in the form in real-time.
 			// It's part of the Studio's “Structure Builder API” and is documented here:
