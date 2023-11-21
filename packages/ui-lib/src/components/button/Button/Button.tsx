@@ -91,7 +91,7 @@ export default function Button({
 				  ]
 				: 'text-secondary',
 		],
-		focus: ['focus:outline-none focus:bg-' + bg],
+		focus: ['focus:bg-' + bg],
 		hover: [
 			!disabled
 				? hover && ['hover:bg-' + hover, 'transition ease-in-out duration-50']

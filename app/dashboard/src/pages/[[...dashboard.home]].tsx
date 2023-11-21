@@ -1,8 +1,8 @@
 import {
 	getDashboardSite,
-	selectDispensaryState,
-	selectUserState,
-	TextContent,
+	// selectDispensaryState,
+	// selectUserState,
+	// TextContent,
 } from '@cd/core-lib';
 import {
 	Button,
@@ -10,7 +10,6 @@ import {
 	FlexBox,
 	H1,
 	H3,
-	H5,
 	Page,
 	Paragraph,
 	SignInButton,
@@ -18,14 +17,14 @@ import {
 } from '@cd/ui-lib';
 import Image, { type StaticImageData } from 'next/image';
 import Link from 'next/link';
-import Router from 'next/router';
+// import Router from 'next/router';
 import { type PropsWithChildren } from 'react';
 import backdrop from '../../public/marijuana-backdrop.png';
-import { useAppSelector } from '../redux/hooks';
+// import { useAppSelector } from '../redux/hooks';
 
 function DashboardStart() {
-	const { isSignedIn } = useAppSelector(selectUserState);
-	const { dispensary } = useAppSelector(selectDispensaryState);
+	// const { isSignedIn } = useAppSelector(selectUserState);
+	// const { dispensary } = useAppSelector(selectDispensaryState);
 	// if (isSignedIn) Router.push(TextContent.href.dashboard_f(dispensary.id));
 
 	return (
@@ -80,6 +79,8 @@ const ImageBackDrop = ({
 					objectFit: 'cover',
 					objectPosition: '80% 40%',
 				}}
+				loading="eager"
+				placeholder="blur"
 				priority
 			/>
 			<div

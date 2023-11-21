@@ -20,6 +20,7 @@
 		"noEmit": false,
 		"allowJs": true,
 		"outDir": "./deploy/dist",
+		"moduleResolution": "Node",
 		"jsx": "react-jsx",
 		"paths": {
 			"@cd/ui-lib": ["../../../packages/ui-lib/src/index"],
@@ -30,5 +31,5 @@
 			"@cd/data-access/*": ["../../../packages/data-access/*"],
 			"@cd/eslint-config": ["../../../packages/eslint-config/src/index"]
 		}
-	},
+	}
 }

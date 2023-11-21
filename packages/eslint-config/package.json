@@ -55,7 +55,7 @@
 	"private": true,
 	"scripts": {
 		"lint": "eslint --ext .ts,.js,.cjs,.mjs",
-		"lint-fix": "eslint  --ext .ts,.tsx,.js,.jsx --fix",
+		"lint:fix": "eslint  --ext .ts,.tsx,.js,.jsx --fix",
 		"typecheck": "tsc --project tsconfig.json --noEmit",
 		"clean": "rimraf ./.next ./out ./dist ./build ./node_modules ./coverage ./tsconfig.tsbuildinfo ./node_modules/.cache"
 	},

@@ -165,7 +165,7 @@ const TextContent = Object.freeze({
 			`${
 				organizationName || 'Your favorite Dispensary'
 			} is partnering with Gras to offer you home delivery.`,
-		FULL_SERVICE_CANNABIS_DELIVERY: `Fast & Easy \n Cannabis Delivery`,
+		FULL_SERVICE_CANNABIS_DELIVERY: `Easy & Secure \n Cannabis Delivery`,
 		GRAS_WILL_DELIVER_STRAIGHT_TO_YOUR_DOOR:
 			'Gras will deliver your order straight to your door.',
 		GRAS_DELIVERS_FOR_DISPENSARIES:

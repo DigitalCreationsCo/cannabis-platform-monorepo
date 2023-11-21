@@ -29,7 +29,7 @@ const config = {
 		NODE_ENV: 'test',
 	},
 	setupFilesAfterEnv: [
-		'<rootDir>/jest/setup.ts',
+		'<rootDir>/jest/setup.js',
 		'@testing-library/jest-dom/extend-expect',
 	],
 	testMatch: [
