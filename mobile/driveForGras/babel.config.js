@@ -23,8 +23,9 @@ module.exports = function (api) {
 				'module-resolver',
 				{
 					alias: {
-						'@components': './components/index',
-						'@views': './views/index',
+						crypto: 'crypto-js',
+						'@components': './components',
+						'@views': './views',
 					},
 					extensions: ['.js', '.jsx', '.ts', '.tsx'],
 				},

@@ -1,4 +1,7 @@
-import { Text, Center, CopyRight, FlexBox } from '@components';
+import { Center } from './atomic';
+import CopyRight from './CopyRight';
+import FlexBox from './FlexBox';
+import { Text } from './Themed';
 
 function ErrorMessage({ code, message }: { code: number; message: string }) {
 	return (

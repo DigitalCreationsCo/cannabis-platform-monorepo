@@ -1,6 +1,7 @@
 import { type SVGAttributes } from 'react';
-import { View, IconButton } from '@components';
-import Icons from '../icons';
+import Icons from '../../icons';
+import { View } from '../Themed';
+import IconButton from './IconButton';
 
 interface CloseButtonProps {
 	Icon?: (props: SVGAttributes<SVGElement>) => JSX.Element;

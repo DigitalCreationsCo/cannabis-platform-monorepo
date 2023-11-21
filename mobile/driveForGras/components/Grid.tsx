@@ -1,5 +1,5 @@
 import { type PropsWithChildren } from 'react';
-import { View, Text } from '@components';
+import { View, Text } from './Themed';
 
 type GridProps = {
 	title?: string;

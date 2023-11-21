@@ -1,16 +1,55 @@
 import { type TextStyle, type ViewStyle } from 'react-native';
+import { fontSize, shadow, spacing } from './constants';
 
-const textStyles: Record<string, TextStyle> = Object.freeze({
-	h1: { fontSize: 30 },
+const textStyles = Object.freeze<Record<string, TextStyle>>({
+	h: { fontSize: fontSize.lg },
+	p: { fontSize: fontSize.sm },
 });
 
-const viewStyles: Record<string, ViewStyle> = Object.freeze({
-	container: { flex: 1 },
+const viewStyles = Object.freeze<Record<string, ViewStyle>>({
+	container: {
+		flex: 1,
+		justifyContent: 'space-evenly',
+	},
+	row: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
+	center: {
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	buttonPrimary: {
+		borderRadius: spacing.radius,
+		alignItems: 'center',
+		justifyContent: 'center',
+		height: spacing.sm,
+		margin: spacing[2],
+	},
+	buttonSecondary: {
+		borderRadius: spacing.radius,
+		alignItems: 'center',
+		justifyContent: 'center',
+		height: spacing.sm,
+		margin: spacing[2],
+		backgroundColor: 'transparent',
+	},
+});
+
+const inputStyles = Object.freeze<Record<string, ViewStyle>>({
+	textFieldContainer: {
+		borderWidth: 1,
+		borderColor: 'green',
+		borderRadius: spacing.radius,
+		padding: spacing[1],
+		margin: spacing[2],
+		justifyContent: 'center',
+		...shadow,
+	},
+	textField: { flex: 1, justifyContent: 'flex-end' },
 });
 
 const styles = {
 	text: { ...textStyles },
 	view: { ...viewStyles },
+	input: { ...inputStyles },
 };
 
 export { styles };

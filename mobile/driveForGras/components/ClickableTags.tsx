@@ -4,8 +4,9 @@ import {
 	type SetStateAction,
 	useState,
 } from 'react';
-import { Tag, FlexBox } from '@components';
 import Icons from '../icons';
+import FlexBox from './FlexBox';
+import Tag from './Tag';
 
 function ClickableTags({ values, setValues, valueKey }: ClickableTagProps) {
 	const [editMode, setEditMode] = useState(false);

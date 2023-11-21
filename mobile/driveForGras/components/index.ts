@@ -1,4 +1,3 @@
-/* eslint-disable import/no-cycle */
 export * from './atomic';
 export * from './button';
 export * from './CheckBox';

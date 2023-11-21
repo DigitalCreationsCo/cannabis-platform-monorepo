@@ -1,5 +1,6 @@
-import { Text, IconButton } from '@components';
-import Icons from '../icons';
+import Icons from '../../icons';
+import { Text } from '../Themed';
+import IconButton from './IconButton';
 
 type DeleteButtonProps = {
 	size?: number;

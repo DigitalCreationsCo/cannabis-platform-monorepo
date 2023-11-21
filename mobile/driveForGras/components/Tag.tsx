@@ -1,6 +1,7 @@
 import React, { type PropsWithChildren, type SVGAttributes } from 'react';
 import { type GestureResponderEvent } from 'react-native';
-import { Text, IconWrapper, View } from '@components';
+import IconWrapper from './IconWrapper';
+import { Text, View } from './Themed';
 
 function Tag({ Icon, onClick, children }: TagProps) {
 	return (

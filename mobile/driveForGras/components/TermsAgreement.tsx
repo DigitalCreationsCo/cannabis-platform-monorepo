@@ -1,5 +1,7 @@
 import { type ReactNode } from 'react';
-import { FlexBox, Label, CheckBox, type CheckBoxProps } from '@components';
+import CheckBox, { type CheckBoxProps } from './CheckBox';
+import FlexBox from './FlexBox';
+import Label from './Label';
 
 function TermsAgreement({
 	description,

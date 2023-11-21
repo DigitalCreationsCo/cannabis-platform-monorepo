@@ -1,5 +1,5 @@
 import { type PropsWithChildren } from 'react';
-import { Card } from '@components';
+import { Card } from './atomic';
 
 type FormCardProps = {
 	className?: string;
