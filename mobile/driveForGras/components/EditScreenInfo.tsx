@@ -1,6 +1,6 @@
-import { Text, MonoText, View } from '@cd/native-ui';
 import React from 'react';
 import { StyleSheet } from 'react-native';
+import { Text, MonoText, View } from '@components';
 import Colors from '../constants/Colors';
 import { ExternalLink } from './ExternalLink';
 

@@ -1,7 +1,8 @@
 import TextContent from '@cd/core-lib/src/constants/text.constant';
-import { Screen, styles, View, Text } from '@cd/native-ui';
-import Icons from '@cd/native-ui/src/icons';
 import React from 'react';
+import { Screen, View, Text } from '@components';
+import Icons from '../icons';
+import { styles } from '../styles';
 
 const DriverLoginScreen = () => {
 	return (
@@ -35,4 +36,4 @@ const DriverLoginScreen = () => {
 };
 
 // export default Screen(DriverLoginScreen);
-export default DriverLoginScreen;
+export default Screen(DriverLoginScreen);
