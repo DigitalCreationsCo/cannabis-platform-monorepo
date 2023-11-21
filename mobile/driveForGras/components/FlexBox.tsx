@@ -1,8 +1,7 @@
-import { type PropsWithChildren } from 'react';
-import { View } from './Themed';
+import { View, type ViewProps } from './Themed';
 
-const FlexBox = ({ children }: { className?: string } & PropsWithChildren) => (
-	<View>{children}</View>
+const FlexBox = (props: ViewProps) => (
+	<View style={{ flexDirection: 'column' }}>{props.children}</View>
 );
 
 export default FlexBox;

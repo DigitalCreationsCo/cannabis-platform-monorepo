@@ -2,10 +2,10 @@ import { StyleSheet } from 'react-native';
 import { Text, View } from '@components';
 import { EditScreenInfo } from '@views';
 
-export default function TabTwoScreen() {
+export default function DriverSettings() {
 	return (
 		<View style={styles.container}>
-			<Text style={styles.title}>Tab Two</Text>
+			<Text style={styles.title}>Driver Settings</Text>
 			<View
 				style={styles.separator}
 				lightColor="#eee"

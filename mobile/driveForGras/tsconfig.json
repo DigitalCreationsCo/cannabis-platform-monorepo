@@ -19,6 +19,7 @@
 			"@components/*": ["./components/*"],
 			"@views": ["./views/index"],
 			"@views/*": ["./views/*"],
+			"@styles": ["./styles"],
 			"@cd/core-lib": ["../../packages/core-lib/src/index"],
 			"@cd/core-lib/*": ["../../packages/core-lib/*"],
 			"@cd/data-access": ["../../packages/data-access/src/index"],

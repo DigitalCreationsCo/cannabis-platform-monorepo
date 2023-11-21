@@ -13,6 +13,7 @@ export { default as Header } from './Header';
 export { default as IconWrapper } from './IconWrapper';
 export * from './IconWrapper';
 export { default as Label } from './Label';
+export { default as Greeting } from './Greeting';
 export { default as LoadingDots } from './LoadingDots';
 // export * from './modal';
 export { default as NavLink } from './NavLink';
