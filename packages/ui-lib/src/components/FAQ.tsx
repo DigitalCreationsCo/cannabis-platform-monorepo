@@ -107,11 +107,11 @@ export default function FAQ({ data = faqData }: { data?: FAQDATA }) {
 	];
 	return (
 		<FlexBox className="mx-auto items-center w-full max-w-2xl rounded-2xl p-8 px-2">
-			<div className="tabs gap-2 pb-6">
+			<div className="tabs w-full pb-6">
 				{topics.map((key) => (
 					<Button
 						bg="inverse"
-						className="tab tab-bordered tab-active btn btn-ghost text-dark text-xl font-normal"
+						className="tab tab-bordered tab-active flex-1 btn btn-ghost text-dark text-xl font-normal capitalize"
 						key={`FAQ-${key}`}
 						onClick={() => setTopic(key)}
 					>
