@@ -34,11 +34,15 @@ function FriendsPictures() {
 			<Image
 				src={friends2}
 				alt="friends of gras 2"
+				loading="eager"
+				placeholder="blur"
+				priority
 				className="-my-5 min-w-[500px] w-[700px] overflow-hidden opacity-60 xl:block"
 			/>
 			<Image
 				src={friends1}
 				alt="friends of gras"
+				placeholder="blur"
 				className="-my-5 hidden w-[500px] overflow-hidden opacity-60 xl:block"
 			/>
 		</FlexBox>
@@ -219,6 +223,8 @@ const ImageBackDrop = ({
 				src={src}
 				alt=""
 				fill
+				loading="eager"
+				placeholder="blur"
 				style={{
 					zIndex: -1,
 					objectFit: 'cover',

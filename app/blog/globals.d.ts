@@ -2,6 +2,7 @@
 declare module '*.png';
 declare module 'next-connect';
 declare module 'json-immutable';
+declare module 'boarding.js';
 
 interface Window {
 	BrevoConversationsID?: string;

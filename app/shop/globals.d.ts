@@ -3,6 +3,7 @@ declare module 'json-immutable';
 declare module 'redux-mock-store';
 declare module 'shell-source';
 declare module 'next-connect';
+declare module 'boarding.js';
 
 interface Window {
 	BrevoConversationsID?: string;
