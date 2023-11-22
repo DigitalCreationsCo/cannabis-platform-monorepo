@@ -1,11 +1,15 @@
+import MapView from 'react-native-maps';
 import { Greeting, Screen, Text, View } from '@components';
 import { styles } from '@styles';
-import { EditScreenInfo } from '@views';
 
 function DriverMapScreen() {
 	return (
 		<View style={styles.view.container}>
 			<Greeting />
+
+			<View>
+				<MapView />
+			</View>
 		</View>
 	);
 }
