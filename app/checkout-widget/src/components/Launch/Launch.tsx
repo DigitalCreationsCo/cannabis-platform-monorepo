@@ -45,7 +45,7 @@ function Launch({
 							{TextContent.info.ORDER_AT_CHECKOUT}
 						</Paragraph>
 						<div className="m-auto">
-							<CopyRight prepend={TextContent.legal.HOME_DELIVERY_BY_GRAS} />
+							<CopyRight prepend={TextContent.info.DELIVERY_BY_GRAS} />
 						</div>
 					</div>
 

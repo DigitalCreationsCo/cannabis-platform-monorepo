@@ -6,7 +6,6 @@
 		"@cd/core-lib": "workspace:*",
 		"@paralleldrive/cuid2": "^2.2.0",
 		"axios": "1.2.1",
-		"bcryptjs": "2.4.3",
 		"body-parser": "1.20.2",
 		"busboy": "1.6.0",
 		"cloudinary": "1.32.0",

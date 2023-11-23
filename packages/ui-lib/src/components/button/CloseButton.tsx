@@ -19,13 +19,15 @@ function CloseButton({
 	...props
 }: CloseButtonProps) {
 	const closeButtonStyle = [
-		'bg-transparent hover:bg-transparent md:hover:bg-transparent shadow-none top-0 right-0 p-2 m-0 min-w-min h-min absolute',
+		'btn btn-ghost top-0 right-0 p-2 m-0 min-w-min h-min absolute',
 		props.theme === 'light' ? 'text-light' : 'text-dark',
 	];
 
 	return (
-		<div className={twMerge('relative top-0 right-0')}>
+		<div className={twMerge('fixed top-5 right-6')}>
 			<IconButton
+				bg="transparent"
+				hover="transparent"
 				color="light"
 				iconSize={iconSize}
 				className={twMerge(closeButtonStyle, className)}

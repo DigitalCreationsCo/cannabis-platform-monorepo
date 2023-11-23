@@ -67,23 +67,23 @@ function TopBar({ signOut }: TopBarProps) {
 				</Link>
 			</FlexBox>
 			<FlexBox className="flex flex-row items-center md:space-x-4 md:pr-2">
-				{/* GET SUPPORT BUTTON */}
-				{isSignedIn && (
-					<Link
-						className={twMerge('hidden sm:block')}
-						href={TextContent.href.support}
-					>
-						<IconButton
-							className={twMerge(styles.BUTTON.highlight, 'pt-0.5')}
-							iconSize={28}
+				{/* SHOW ACCOUNT DROPDOWN BUTTON OR SIGNIN */}
+				{isSignedIn && <_AccountDropDown />}
+				{!isSignedIn && (
+					<FlexBox>
+						<Button
+							className={twMerge(styles.BUTTON.highlight, 'pt-1')}
 							size="sm"
-							hover="transparent"
 							bg="transparent"
-							Icon={Icons.Help}
-							iconColor={'dark'}
-						></IconButton>
-					</Link>
+							hover="transparent"
+							onClick={openLoginModal}
+						>
+							Sign In
+						</Button>
+					</FlexBox>
 				)}
+
+				{/* SHOW CART BUTTON WITH BADGE OR PLAIN CART BUTTON */}
 				<Link href={replaceRelativePath(TextContent.href.bag)}>
 					<IconButton
 						className={twMerge(styles.BUTTON.highlight, 'pt-0.5 indicator')}
@@ -101,20 +101,6 @@ function TopBar({ signOut }: TopBarProps) {
 						)}
 					</IconButton>
 				</Link>
-				{isSignedIn && <_AccountDropDown />}
-				{!isSignedIn && (
-					<FlexBox>
-						<Button
-							className={twMerge(styles.BUTTON.highlight, 'pt-1')}
-							size="sm"
-							bg="transparent"
-							hover="transparent"
-							onClick={openLoginModal}
-						>
-							Sign In
-						</Button>
-					</FlexBox>
-				)}
 			</FlexBox>
 		</div>
 	);
@@ -141,6 +127,22 @@ function TopBar({ signOut }: TopBarProps) {
 						'menu dropdown-content bg-inverse top-0 absolute right-0 mt-12 w-48 rounded shadow',
 					)}
 				>
+					{isSignedIn && (
+						<Link
+							className={twMerge('hidden sm:block')}
+							href={TextContent.href.support}
+						>
+							<IconButton
+								className={twMerge(styles.BUTTON.highlight, 'pt-0.5')}
+								iconSize={28}
+								size="sm"
+								hover="transparent"
+								bg="transparent"
+								Icon={Icons.Help}
+								iconColor={'dark'}
+							></IconButton>
+						</Link>
+					)}
 					<FlexBox className="active:bg-accent-soft focus:bg-accent-soft w-full">
 						<Link href={TextContent.href.settings} className="w-full">
 							<Button

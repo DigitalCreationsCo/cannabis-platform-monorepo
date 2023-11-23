@@ -24,6 +24,7 @@ export interface ButtonProps
 		| 'primary'
 		| 'primary-light'
 		| 'secondary'
+		| 'secondary-light'
 		| 'transparent';
 	transparent?: true | false;
 	border?: boolean;
@@ -66,11 +67,10 @@ export default function Button({
 		noClickWhileLoading: loading && 'cursor-not-allowed',
 		size: [
 			(size === 'lg' && 'text-xl min-w-[180px] min-h-[70px]') ||
-				(size === 'sm' && 'text-sm h-[30px]') ||
-				'min-w-[140px] h-10',
+				(size === 'sm' && 'text-md h-[30px]') ||
+				'min-w-[140px] text-lg h-10',
 		],
-		// bgColor: [disabled && 'bg-accent' || 'bg-' + bg],
-		bgColor: [
+		bg: [
 			(disabled && 'bg-accent') ||
 				(bg === 'primary' && 'bg-primary') ||
 				(bg === 'primary-light' && 'bg-primary-light') ||
@@ -93,9 +93,16 @@ export default function Button({
 		],
 		focus: ['focus:bg-' + bg],
 		hover: [
-			!disabled
-				? hover && ['hover:bg-' + hover, 'transition ease-in-out duration-50']
-				: '',
+			'transition ease-in-out duration-50',
+			(!disabled && hover === 'primary' && 'hover:bg-primary') ||
+				(hover === 'primary-light' && 'hover:bg-primary-light') ||
+				(hover === 'secondary' && 'hover:bg-secondary') ||
+				(hover === 'secondary-light' && 'hover:bg-secondary-light') ||
+				(hover === 'accent' && 'hover:bg-accent') ||
+				(hover === 'accent-soft' && 'hover:bg-accent-soft') ||
+				(hover === 'inverse' && 'hover:bg-inverse') ||
+				(hover === 'inverse-soft' && 'hover:bg-inverse-soft') ||
+				(hover === 'transparent' && 'hover:bg-transparent'),
 		],
 		transparent: (transparent && 'opacity-90') || '',
 		border: [

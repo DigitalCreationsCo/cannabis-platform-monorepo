@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 import { type OrderWithDetails } from '@cd/data-access';
-import { type AnyAction, type Store } from '@reduxjs/toolkit';
+import {
+	type AnyAction,
+	type Store,
+	type MiddlewareAPI,
+} from '@reduxjs/toolkit';
 import { io, type Socket } from 'socket.io-client';
 import { socketActions } from '../reducer/socket.reducer';
 import { userActions } from '../reducer/user.reducer';
@@ -14,7 +18,9 @@ import {
 import { urlBuilder } from '../utils/urlBuilder';
 // import { driverActions } from "../features/driver.reducer";
 
-const socketMiddleware = (store: Store<AppState>) => {
+// const socketMiddleware = (store: Store<AppState>) => {
+// const socketMiddleware = (store: MiddlewareAPI) => {
+const socketMiddleware = (store: any) => {
 	// in the future, add this socket map to reducer socket ?
 
 	const socketMap = new Map<string, Socket>();
