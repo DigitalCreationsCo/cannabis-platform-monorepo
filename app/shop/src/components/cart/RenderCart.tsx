@@ -1,4 +1,3 @@
-import {} from '@carbon/icons-react';
 import { selectCartState, TextContent } from '@cd/core-lib';
 import { type ProductVariantWithDetails } from '@cd/data-access';
 import { Grid, Paragraph, ProductItem } from '@cd/ui-lib';

@@ -30,7 +30,7 @@ function CheckBox({
 			className={twMerge(styles.checkboxContainer, 'justify-center', className)}
 		>
 			<input
-				className="cursor-pointer"
+				className="cursor-pointer bg-primary accent-primary-light"
 				style={{ height: '30px', width: '30px' }}
 				type="checkbox"
 				id={inputProps.name}

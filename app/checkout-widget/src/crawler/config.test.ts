@@ -1,4 +1,4 @@
-import { getDispensaryDomain } from '@cd/core-lib';
+import { getDispensaryDomain } from '@cd/core-lib/src/utils/url.util';
 
 describe('getDispensaryDomain', () => {
 	it('localhost', () => {

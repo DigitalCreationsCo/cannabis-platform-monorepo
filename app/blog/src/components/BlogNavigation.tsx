@@ -13,7 +13,9 @@ const BlogNavigation = () => {
 	}));
 	return (
 		<div>
-			<GrasSignature className="text-yellow">read our blog</GrasSignature>
+			<GrasSignature className="text-yellow text-center">
+				read our blog
+			</GrasSignature>
 			<ul className="tabs">
 				{renderNavLinkAndSubLinks(navLinkGroups, pathname)}
 			</ul>
