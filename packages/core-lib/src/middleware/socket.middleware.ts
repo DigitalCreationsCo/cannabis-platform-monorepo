@@ -16,7 +16,7 @@ import {
 	type SocketEventPayload,
 } from '../types/socket.types';
 import { urlBuilder } from '../utils/urlBuilder';
-// import { driverActions } from "../features/driver.reducer";
+import { driverActions } from "../reducer/driver.reducer";
 
 // const socketMiddleware = (store: Store<AppState>) => {
 // const socketMiddleware = (store: MiddlewareAPI) => {
@@ -49,6 +49,10 @@ const socketMiddleware = (store: any) => {
 	// eslint-disable-next-line sonarjs/cognitive-complexity
 	return (next: any) => (action: AnyAction) => {
 		next(action);
+
+		if (driverActions.updateOnlineStatus.rejected.match(action)) {
+			store.dispatch(socketActions.setError({error: action.payload.error}));
+		}
 
 		// DISPATCH SOCKET EVENT HANDLERS
 		// if (open connection to dispatch)
