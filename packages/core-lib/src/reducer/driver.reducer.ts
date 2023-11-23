@@ -9,6 +9,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { type AppState, type ThunkArgumentsType } from '../types';
 import { pruneData, urlBuilder } from '../utils';
+import { socketActions } from './socket.reducer';
 
 export const updateOnlineStatus = createAsyncThunk<
 	{ success: boolean; isOnline: boolean },
@@ -38,7 +39,11 @@ export const updateOnlineStatus = createAsyncThunk<
 		};
 	} catch (error) {
 		console.error('updateOnlineStatus error: ', error.message);
-		return thunkAPI.rejectWithValue('Something went wrong. Please try again.');
+		thunkAPI.dispatch(socketActions.setError(error.message));
+		return thunkAPI.rejectWithValue({
+			isOnline: onlineStatus,
+			error: error.message,
+		});
 	}
 });
 
@@ -147,25 +152,27 @@ export const driverSlice = createSlice({
 			state.isLoading = false;
 			state.isError = false;
 		}),
-			builder.addCase(updateOnlineStatus.pending, (state) => {
-				state.isLoading = true;
-			}),
-			builder.addCase(updateOnlineStatus.rejected, (state, { payload }) => {
-				state.isLoading = false;
-				state.isError = true;
-				state.errorMessage = payload as string;
-				throw new Error(state.errorMessage);
-			}),
-			builder.addCase(signOutUserAsync.fulfilled, () => initialState),
-			builder.addCase(signOutUserAsync.pending, (state) => {
-				state.isLoading = true;
-			}),
-			builder.addCase(signOutUserAsync.rejected, (state, { payload }) => {
-				state.isSuccess = false;
-				state.isLoading = false;
-				state.isError = true;
-				state.errorMessage = payload as string;
-			});
+		builder.addCase(updateOnlineStatus.pending, (state) => {
+			state.isLoading = true;
+		}),
+		builder.addCase(updateOnlineStatus.rejected, (state, { payload }) => {
+			const { isOnline, error } = payload;
+
+			state.isLoading = false;
+			state.isError = true;
+			state.errorMessage = error;
+		}),
+
+		builder.addCase(signOutUserAsync.fulfilled, () => initialState),
+		builder.addCase(signOutUserAsync.pending, (state) => {
+			state.isLoading = true;
+		}),
+		builder.addCase(signOutUserAsync.rejected, (state, { payload }) => {
+			state.isSuccess = false;
+			state.isLoading = false;
+			state.isError = true;
+			state.errorMessage = payload as string;
+		});
 	},
 });
 

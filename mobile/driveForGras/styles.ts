@@ -10,7 +10,7 @@ const viewStyles = Object.freeze<Record<string, ViewStyle>>({
 	container: {
 		flex: 1,
 	},
-	row: { flexDirection: 'row' },
+	row: { flexDirection: 'row', alignItems: 'center' },
 	center: {
 		alignItems: 'center',
 		justifyContent: 'center',

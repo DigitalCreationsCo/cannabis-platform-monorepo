@@ -15941,6 +15941,7 @@ babel-watch@kmagiera/babel-watch:
     prettier: 2.8.0
     react-cookie: 4.1.1
     react-native-codegen: 0.70.7
+    react-native-safe-area-context: ^4.7.4
     rimraf: 4.4.1
     rollup: 3.20.2
     rollup-plugin-postcss: 4.0.2
@@ -31102,6 +31103,16 @@ babel-watch@kmagiera/babel-watch:
     react: "*"
     react-native: "*"
   checksum: 958df1d20492aa89c23d746f88409a3a3bd1b0d397c80310a4b0bbec9888cbbeb7579c9c92dad46841e2e6536491806206228ba009b7c8af970670aef8273a30
+  languageName: node
+  linkType: hard
+
+"react-native-safe-area-context@npm:^4.7.4":
+  version: 4.7.4
+  resolution: "react-native-safe-area-context@npm:4.7.4"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: c8553ca1b5972bb7180657574e8d9a9512b571724484f657e4f9bf269e60777fe623bd525082140c638904974981a59abd8e968595f4a000e16098faa41aeaf6
   languageName: node
   linkType: hard
 

@@ -17,30 +17,33 @@ export default function AuthStack() {
 	return (
 		<Stack
 			screenOptions={{
-				headerTintColor: Colors[colorScheme ?? 'light'].tint,
-				navigationBarColor: Colors[colorScheme ?? 'light'].background,
-				statusBarColor: Colors[colorScheme ?? 'light'].background,
+				headerShown: false,
+				// headerTintColor: Colors[colorScheme ?? 'light'].tint,
+				// navigationBarColor: Colors[colorScheme ?? 'light'].background,
+				// statusBarColor: Colors[colorScheme ?? 'light'].background,
 			}}
 		>
 			<Stack.Screen
 				name="(tabs)"
-				options={{
-					title: 'Map',
-					headerRight: () => (
-						<Link href="/modal" asChild>
-							<Pressable>
-								{({ pressed }) => (
-									<FontAwesome
-										name="info-circle"
-										size={25}
-										color={Colors[colorScheme ?? 'light'].text}
-										style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-									/>
-								)}
-							</Pressable>
-						</Link>
-					),
-				}}
+				options={
+					{
+						// 	title: 'Map',
+						// 	headerRight: () => (
+						// 		<Link href="/modal" asChild>
+						// 			<Pressable>
+						// 				{({ pressed }) => (
+						// 					<FontAwesome
+						// 						name="info-circle"
+						// 						size={25}
+						// 						color={Colors[colorScheme ?? 'light'].text}
+						// 						style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+						// 					/>
+						// 				)}
+						// 			</Pressable>
+						// 		</Link>
+						// 	),
+					}
+				}
 			/>
 			<Stack.Screen
 				name="new-order"
