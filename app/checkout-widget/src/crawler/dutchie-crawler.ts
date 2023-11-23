@@ -1,9 +1,9 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable regexp/no-unused-capturing-group */
 /* eslint-disable regexp/no-super-linear-backtracking */
-import { getSelectedOptionValue } from '@cd/core-lib';
 import { type SimpleCart } from '@cd/core-lib/src/types/redux.types';
 import { convertDollarsToWholeNumber } from '@cd/core-lib/src/utils/transaction.util';
+import { getSelectedOptionValue } from '@cd/core-lib/src/utils/ui.util';
 import { type ProductVariantWithDetails } from '@cd/data-access';
 import * as cheerio from 'cheerio';
 import {

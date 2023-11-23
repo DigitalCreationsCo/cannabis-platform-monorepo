@@ -39,7 +39,8 @@ export default function DropZone({
 				className: twMerge(
 					'min-h-[200px] items-center border rounded-btn bg-light border-accent flex flex-col justify-center',
 					isDragActive ? 'bg-accent' : 'transparent',
-					'transition outline-none',
+					'transition',
+					// 'outline-none',
 					'dropzone',
 				),
 			})}

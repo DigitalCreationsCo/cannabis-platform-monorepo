@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
+import { TextContent } from '../../../core-lib/src';
 import Button from './button/Button/Button';
 import Center from './Center';
 import CheckBox from './CheckBox';
@@ -27,9 +28,9 @@ const CheckAge = ({
 	};
 
 	return (
-		<Center>
+		<Center className="w-full">
 			<H1>Welcome to Gras</H1>
-			<H3>first thing first, are you 21 years or older?</H3>
+			<H3>{TextContent.prompt.ARE_YOU_LEGAL}</H3>
 
 			<FlexBox className="p-4 space-y-4">
 				<CheckBox

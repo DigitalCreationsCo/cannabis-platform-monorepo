@@ -16,7 +16,7 @@ module.exports = {
 	testEnvironmentOptions: {
 		NODE_ENV: 'test',
 	},
-	testPathIgnorePatterns: ['\\**/node_modules/'],
+	testPathIgnorePatterns: ['\\**/node_modules/', '\\/jest'],
 	transform: {
 		'^.+\\.m?[tj]sx?$': [
 			'ts-jest',

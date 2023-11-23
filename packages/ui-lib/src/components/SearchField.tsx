@@ -29,7 +29,11 @@ function SearchBar({ placeholder = 'Search', onChange }: SearchBarProps) {
 			<IconWrapper Icon={Icons.Search} iconColor="light" iconSize={28} />
 			<input
 				placeholder={placeholder}
-				className="bg-inherit text-inverse placeholder:text-inverse-soft text-lg outline-none h-full w-full"
+				className={twMerge([
+					'bg-inherit text-inverse placeholder:text-inverse-soft text-lg',
+					// 'outline-none',
+					'h-full w-full',
+				])}
 				onChange={onChange}
 			/>
 		</div>

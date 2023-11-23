@@ -23,18 +23,13 @@ const styles = Object.freeze({
 		'text-inverse border-2 tracking-wider z-5 top-0 right-0 p-3 m-3 badge absolute',
 	],
 	HERO: {
-		container: [
-			'w-full md:pt-4 md:pb-6 px-4 md:px-14 lg:px-32',
-			'justify-center',
-		],
+		container: ['w-full p-4 md:px-14 lg:px-32', 'justify-center'],
 		content: [
 			'mx-auto',
-			'flex-col md:flex-row items-start',
+			'flex-col md:flex-row items-center',
 			'space-y-4 md:space-x-8',
 		],
-		responsiveHeading: [
-			'text-3xl sm:text-4xl pb-0 whitespace-normal font-semi-bold',
-		],
+		responsiveHeading: ['text-3xl sm:text-4xl whitespace-normal'],
 	},
 	TOPBAR: {
 		topbar: [
@@ -57,7 +52,7 @@ const styles = Object.freeze({
 			'btn focus:!border-primary focus:!ring-primary focus:!outline-primary h-32 w-32 col-span-1 !rounded-full p-0 m-0 overflow-hidden',
 		],
 		highlight: [
-			'border border-transparent transition-10 hover:border hover:border-primary rounded-btn px-4 text-md',
+			'border border-transparent transition-10 hover:border hover:border-primary rounded-btn px-4',
 		],
 	},
 	FOOTER: {
