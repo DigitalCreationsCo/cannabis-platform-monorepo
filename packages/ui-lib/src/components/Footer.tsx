@@ -17,10 +17,10 @@ import { GrasSignature, H4, Paragraph } from './Typography';
 export default function Footer() {
 	const navigation = [
 		{
-			name: TextContent.account.DISPENSARIES_START_HERE,
+			name: TextContent.account.CREATE_DISPENSARY_ACCOUNT,
 			href: getDashboardSite('/signup/create-dispensary-account'),
 		},
-		{ name: 'get support', href: TextContent.href.support },
+		{ name: 'Get Support', href: TextContent.href.support },
 		{ name: 'About Gras', href: TextContent.href.about },
 		{ name: 'Services', href: TextContent.href.services },
 		// { name: 'Blog', href: TextContent.href.blog },
@@ -91,10 +91,8 @@ export default function Footer() {
 								</Link>
 							</FlexBox>
 
-							<Paragraph className="text-onest lg:text-lg mt-2 md:mt-4 max-w-md text-white tracking-wider">
-								{TextContent.info.ABOUT_GRAS}
-								<br />
-								{TextContent.info.GRAS_MISSION}
+							<Paragraph className="text-onest lg:text-lg mt-8 max-w-md text-white tracking-wider">
+								{TextContent.info.ABOUT_GRAS_AND_MISSION}
 							</Paragraph>
 							<CopyRight className="lg:text-lg" />
 						</div>

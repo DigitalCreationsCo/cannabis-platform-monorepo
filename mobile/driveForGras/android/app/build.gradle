@@ -113,13 +113,13 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.driveforgras"
+    namespace 'com.vibrantceo.driveForGras'
     defaultConfig {
-        applicationId "com.driveforgras"
+        applicationId 'com.vibrantceo.driveForGras'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
     }
 
     splits {

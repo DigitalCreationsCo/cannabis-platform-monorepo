@@ -4,6 +4,9 @@ declare module 'redux-mock-store';
 declare module 'shell-source';
 declare module 'next-connect';
 declare module 'boarding.js';
+declare module '*.mp4' {
+	export default string;
+}
 
 interface Window {
 	BrevoConversationsID?: string;
