@@ -12,7 +12,7 @@ module.exports = {
 				'help',
 				'blog',
 				'widget',
-				'drive',
+				'driver',
 				'ui',
 				'native-ui',
 				'core',

@@ -25,10 +25,10 @@ terraform {
         # https://registry.terraform.io/providers/hashicorp/local/latest/docs
     }
 
-    backend "gcs" {
-      bucket = "e4f53ea0212ea91d-bucket-tf-state"
-      prefix = "terraform/prod"
-    }
+    # backend "gcs" {
+      # bucket = "e4f53ea0212ea91d-bucket-tf-state"
+      # prefix = "terraform/prod"
+    # }
     required_version = ">= 1.0"
 }
 

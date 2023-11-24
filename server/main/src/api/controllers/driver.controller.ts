@@ -86,12 +86,12 @@ export default class DriverController {
 
 	static async updateStatus(req, res) {
 		try {
-			const { id, goToStatus } = req.body;
-			const data = await DriverDA.updateOnlineStatus(id, goToStatus);
-			if (!data.success) {
-				if (goToStatus === true)
+			const { id, onlineStatus } = req.body;
+			const data = await DriverDA.updateOnlineStatus(id, onlineStatus);
+			if (data.success === 'false') {
+				if (onlineStatus === true)
 					return res.status(400).json('Could not go online. Please try again.');
-				if (goToStatus === false) return res.status(400).json(data);
+				if (onlineStatus === false) return res.status(400).json(data);
 			}
 			return res.status(200).json(data);
 		} catch (error: any) {
