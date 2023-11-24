@@ -1,17 +1,14 @@
 import { createAdapter } from '@socket.io/redis-adapter';
 import { Server } from 'socket.io';
 import {
-	subscribeWebsocketConnectClientRedis,
-	websocketConnectClientRedis,
+	redisDispatchSockets,
+	subscribeDispatchSockets,
 } from '../redis-dispatch';
 import WorkerRoomController from './worker.controller';
 
 global.io = new Server();
 global.io.adapter(
-	createAdapter(
-		websocketConnectClientRedis,
-		subscribeWebsocketConnectClientRedis,
-	),
+	createAdapter(redisDispatchSockets, subscribeDispatchSockets),
 );
 
 new WorkerRoomController();
