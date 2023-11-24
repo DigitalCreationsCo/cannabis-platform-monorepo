@@ -1,6 +1,6 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { getDispensaryDomain } from '@cd/core-lib';
+import { getDispensaryDomain } from '@cd/core-lib/src/utils/url.util';
 import {
 	type CrawlerConfig,
 	type DOMKey,

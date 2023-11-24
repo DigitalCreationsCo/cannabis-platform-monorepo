@@ -3,7 +3,7 @@ import { Server } from 'socket.io';
 import {
 	subscribeWebsocketConnectClientRedis,
 	websocketConnectClientRedis,
-} from '../redis-client';
+} from '../redis-dispatch';
 import WorkerRoomController from './worker.controller';
 
 global.io = new Server();

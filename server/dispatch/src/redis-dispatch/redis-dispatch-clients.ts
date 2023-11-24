@@ -1,69 +1,66 @@
 import { isEmpty } from '@cd/core-lib';
-import { createClient } from 'redis';
 import {
 	type Client,
 	type ClientType,
-} from '../../../../packages/core-lib/src/types/dispatch.types';
+} from '@cd/core-lib/src/types/dispatch.types';
+import { createClient } from 'redis';
 
-const connectClientRedis = createClient({
-	url: process.env.DISPATCH_CONNECT_REDIS_URL,
+const redisDispatchClients = createClient({
 	socket: {
-		tls: false,
-		timeout: 20000,
+		host: process.env.REDIS_DISPATCH_CLIENTS,
+		port: Number(process.env.REDIS_DISPATCH_CLIENTS_PORT),
 	},
+	password: process.env.REDIS_DISPATCH_CLIENTS_PASSWORD,
 });
-connectClientRedis.on('connect', () => {
-	console.info('connectClientRedis: connected');
+redisDispatchClients.on('connect', () => {
+	console.info('redisDispatchClients connected');
 });
-connectClientRedis.on('error', (err) => {
-	console.error('connectClientRedis: ', err);
+redisDispatchClients.on('error', (err) => {
 	throw new Error(err.message);
 });
-connectClientRedis.connect();
+redisDispatchClients.connect();
 
-class RedisConnectClientController {
+class RedisDispatchClientsController {
 	async saveClient(client: ClientType) {
-		console.log('saveClient input ', client);
-		await connectClientRedis
+		await redisDispatchClients
 			.SET(client.phone, JSON.stringify({ ...client }))
 			.catch((error: any) => {
 				console.error('saveClient: ', error);
 			});
-		console.info('saveClient: ', client);
 	}
 
 	async getManyClientsByPhone(idList: { phone: string }[]) {
 		let clients: ClientType[] = [];
 		let id;
 		for (id of idList) {
-			await connectClientRedis
+			await redisDispatchClients
 				.GET(id.phone)
 				.then((client) => clients.push(client as unknown as ClientType))
-				.catch((err) => console.error('getSocketsByDriverIds: ', err));
+				.catch((err) => console.error('getManyClientsByPhone: ', err));
 		}
 		clients = clients.filter((client) => !isEmpty(client));
 		return clients;
 	}
 
 	async getOneClientByPhone(phone: string): Promise<Client> {
-		return await connectClientRedis
+		return await redisDispatchClients
 			.GET(phone)
 			.then((client) => client && JSON.parse(client))
 			.catch((err) => console.error('getClientByPhone: ', err));
 	}
 
 	async removeRoomFromClient(client: ClientType) {
-		return connectClientRedis
+		return redisDispatchClients
 			.SET(client.phone, JSON.stringify({ ...client, roomId: '', orderId: '' }))
 			.catch((err) => console.info('removeRoomFromClient: ', err));
 	}
 
 	async deleteClient(client: ClientType) {
-		await connectClientRedis
+		await redisDispatchClients
 			.DEL(client.phone)
 			.catch((err) => console.info('deleteClient: ', err));
 	}
 }
 
-const connectClientController = new RedisConnectClientController();
-export { connectClientController };
+const redisDispatchClientsController = new RedisDispatchClientsController();
+export { redisDispatchClientsController };

@@ -1,5 +1,4 @@
-/* eslint-disable sonarjs/cognitive-complexity */
-/* eslint-disable sonarjs/no-duplicate-string */
+import cluster from 'cluster';
 import { createServer } from 'http';
 import {
 	dispatchEvents,
@@ -15,16 +14,51 @@ import {
 import ClusterInit from './master/cluster-init';
 import {
 	redisDispatchClientsController,
-	subscribeDispatchSockets,
-	redisDispatchSockets,
+	subscribeWebsocketConnectClientRedis,
+	websocketConnectClientRedis,
 } from './redis-dispatch';
 
+// What's happening in this file?
+// init cluster primary and workers
+// create http server with event handling
+// handle incoming sms messages
+// handling sms replies from customers and drivers
+// send matching clients to worker rooms
+// initialize io server
+
+// what is the ideal order of these events?
+// 1. init cluster primary and workers
+// 2. create http server with event handling
+// 3. init form another file - handle incoming sms messages
+// 3. init from another file - handling sms replies from customers and drivers
+// 4. include with cluster primary init - send matching clients to worker rooms
+// 5. initialize io server
+// 6. start server
+// 7. start interval to delete vacant and completed rooms
+
 try {
+	//  cluster initializing for primary and worker processes
 	new ClusterInit();
 
-	const httpServer = createServer((req, res) => {
+	// interval runs to delete vacant and completed rooms
+	// 5 minutes
+	// setInterval(() => {
+	// 	redisDispatchRoomController.deleteClosedRooms();
+	// }, 1000 * 60 * 5);
+
+	// create http server
+	// eslint-disable-next-line sonarjs/cognitive-complexity
+	const httpServer = createServer(function (req, res) {
+		console.info(
+			cluster.isPrimary ? 'MASTER' : 'WORKER',
+			' received request ',
+			req.url,
+		);
+		// handle new order, send events to SelectDriverRoom
+		// receive sms reply from driver, and send emit to room on worker
 		const url = new URL(req.url || '', `http://${req.headers.host}`);
 
+		// handle incoming sms from driver, send events to SelectDriverRoom
 		if (req.method === 'POST' && url.pathname === '/sms/driver-new-order') {
 			let body = '';
 			req.on('data', (chunk) => {
@@ -32,11 +66,14 @@ try {
 			});
 			req.on('end', async () => {
 				res.end();
+				console.info('request body ', body);
+				// send a response ok
 				// let to = '';
 				let from = '';
 				let text = '';
-				switch (getSMSApiOrigin(req.headers['user-agent'] || '')) {
+				switch (getSMSApiOrigin(req.headers['user-agent'] as string)) {
 					case 'telnyx':
+						// verify webhook signatures from telnyx
 						if (
 							JSON.parse(body).data.payload.is_spam == 'true' ||
 							JSON.parse(body).data.event_type !== 'message.received'
@@ -46,12 +83,13 @@ try {
 						text = JSON.parse(body).data.payload.text;
 						break;
 					case 'textGrid':
+						// type TextGridReturnMessagePayload
 						from = parseUrlFriendlyStringToObject(body).From;
 						text = parseUrlFriendlyStringToObject(body).Body;
 						break;
 					default:
 						console.info('unhandled sms api origin');
-						throw new Error('unhandled sms api origin');
+						return null;
 				}
 
 				/* match reply message from driver to accept
@@ -59,8 +97,10 @@ try {
 				 - send a messageprofile id with every message, use it to parse the correct event
 				 - see if theres a way to append metadata to telnyx webhook, so we can parse the correct event
 				*/
-				// handle confirmation message
+
+				// handling sms replies from customers and drivers
 				if (text.match(/\b1\b/)) {
+					console.info('phone ,', from.split('+1')[1]);
 					const client: Client =
 						await redisDispatchClientsController.getOneClientByPhone(
 							from.split('+1')[1],
@@ -214,7 +254,10 @@ try {
 	// initialize io server
 	global.io = new Server(httpServer);
 	global.io.adapter(
-		createAdapter(redisDispatchSockets, subscribeDispatchSockets),
+		createAdapter(
+			websocketConnectClientRedis,
+			subscribeWebsocketConnectClientRedis,
+		),
 	);
 	global.io.on('connection', function (socket) {
 		socket.listenersAny().forEach((listener) => socket.offAny(listener)); // remove all listeners
@@ -248,16 +291,12 @@ try {
 			`  🚚 server-dispatch is in ${process.env.NODE_ENV} mode on port ${port}.`,
 		);
 	});
-
-	// interval runs to delete vacant and completed rooms
-	// 5 minutes
-	// setInterval(() => {
-	// 	redisDispatchRoomController.deleteClosedRooms();
-	// }, 1000 * 60 * 5);
 } catch (error) {
 	console.error('server-dispatch error: ', error);
 	process.exit(1);
 }
+
+export {};
 
 function getSMSApiOrigin(userAgent: string) {
 	if (userAgent.includes('telnyx')) {

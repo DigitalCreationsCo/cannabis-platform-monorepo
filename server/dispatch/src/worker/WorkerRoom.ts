@@ -3,9 +3,9 @@ import { dispatchEvents, type NavigateEvent } from '@cd/core-lib';
 import { type Socket } from 'socket.io';
 import { type Client } from '../../../../packages/core-lib/src/types/dispatch.types';
 import {
-	connectClientController,
-	dispatchRoomController,
-} from '../redis-client';
+	redisDispatchClientsController,
+	redisDispatchRoomController,
+} from '../redis-dispatch';
 
 export default class WorkerRoom extends EventEmitter {
 	id;
@@ -74,8 +74,8 @@ export default class WorkerRoom extends EventEmitter {
 			.then((sockets) =>
 				sockets.find((socket) => socket.id === client.socketId)?.leave(this.id),
 			);
-		await connectClientController.removeRoomFromClient(client);
-		await dispatchRoomController.removeClientFromRoom(this.id, client);
+		await redisDispatchClientsController.removeRoomFromClient(client);
+		await redisDispatchRoomController.removeClientFromRoom(this.id, client);
 		this.clients = this.clients.filter((c) => c.id !== client.id);
 	}
 
@@ -92,9 +92,9 @@ export default class WorkerRoom extends EventEmitter {
 		);
 		this.removeAllListeners();
 		this.clients.forEach(async (client) => {
-			await connectClientController.removeRoomFromClient(client);
+			await redisDispatchClientsController.removeRoomFromClient(client);
 		});
-		await dispatchRoomController.deleteRoom(this.id);
+		await redisDispatchRoomController.deleteRoom(this.id);
 		this.emit(dispatchEvents.closed);
 		this.isClosed = true;
 	}
