@@ -1,24 +1,30 @@
-// Learn more https://docs.expo.io/guides/customizing-metro
 const { getDefaultConfig } = require('expo/metro-config');
 const path = require('path');
+const __projectRoot = __dirname;
+const __workspaceRoot = path.resolve(__projectRoot, '../..');
 
-const projectRoot = __dirname;
-const workspaceRoot = path.resolve(projectRoot, '../..');
+/** @type {import('expo/metro-config').MetroConfig} */
+const config = getDefaultConfig(__projectRoot);
 
-const config = getDefaultConfig(workspaceRoot);
-
-// const appDependencyPackages = {};
-// config.watchFolders = [projectRoot, ...Object.values(appDependencyPackages)];
-
-config.watchFolders = [workspaceRoot];
-
-// config.resolver.extraNodeModules = appDependencyPackages;
+config.watchFolders = [__workspaceRoot];
 
 config.resolver.nodeModulesPaths = [
-	path.resolve(projectRoot, 'node_modules'),
-	path.resolve(workspaceRoot, 'node_modules'),
+	path.resolve(__workspaceRoot, 'node_modules'),
 ];
 
-config.resolver.disableHierarchicalLookup = true;
+config.resolver.blockList = [prependRegex(__workspaceRoot, [/app/, /tools/])];
 
-// module.exports = config;
+module.exports = config;
+
+function prependRegex(string, regexes) {
+	return new RegExp(
+		regexes
+			.map(
+				(regex) =>
+					'(' +
+					path.resolve(string, regex.source.replace(/\//g, path.sep)) +
+					')',
+			)
+			.join('|'),
+	);
+}

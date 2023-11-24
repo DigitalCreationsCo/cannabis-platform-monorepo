@@ -121,30 +121,22 @@ const socketSlice = createSlice({
 		openConnection: (state) => {
 			state.connectionOpenInit = true;
 			state.connectionCloseInit = false;
-
-			console.info('open connection.');
 		},
-
 		closingConnection: (state) => {
 			state.connectionOpenInit = false;
 			state.connectionCloseInit = true;
-
-			console.info('closing connection.');
 		},
-
 		connectionEstablished: (state) => {
 			state.connectionOpenInit = false;
 			state.connectionCloseInit = false;
 			state.isConnected = true;
-
 			console.info('connection established. ready to send and receive data.');
 		},
 		connectionClosed: (state) => {
 			state.connectionOpenInit = false;
 			state.connectionCloseInit = false;
 			state.isConnected = false;
-
-			console.info('socket connection is closed.');
+			console.info('connection is closed.');
 		},
 		receiveNewOrderRequest: (
 			state,
@@ -223,6 +215,10 @@ const socketSlice = createSlice({
 			// add a timeout for the message here or where message is displayed in UI
 			state.message = message;
 		},
+		setError: (state, { payload: { error } }) => {
+			// add a timeout for the message here or where message is displayed in UI
+			state.errorMessage = error;
+		},
 		clearMessage: (state) => {
 			state.message = '';
 		},
@@ -232,7 +228,7 @@ const socketSlice = createSlice({
 			}, 2000);
 		},
 	},
-	extraReducers: {
+	extraReducers: (builder) => {
 		// [testAsyncAction.fulfilled]: () => {},
 		// [createOrderSocketConnection.fulfilled]: () => {},
 		// [createOrderSocketConnection.pending]: () => {},
