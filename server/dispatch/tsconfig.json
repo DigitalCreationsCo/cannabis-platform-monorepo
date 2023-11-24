@@ -7,6 +7,7 @@
 		"target": "ES2015",
 		"lib": ["ES2015"],
 		"module": "es2020",
+		"moduleResolution": "node",
 		"paths": {
 			"@cd/core-lib": ["../../../packages/core-lib/src/index"],
 			"@cd/data-access": ["../../../packages/data-access/src/index"],
@@ -21,7 +22,8 @@
 		"**/*.cjs",
 		"**/*.mjs",
 		"**/*.jsx",
-		"**/*.json"
-, "../../packages/core-lib/src/types/dispatch.types.ts"	],
+		"**/*.json",
+		"../../packages/core-lib/src/types/dispatch.types.ts"
+	],
 	"exclude": ["**/.*/", "dist"]
 }

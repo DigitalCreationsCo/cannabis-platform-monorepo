@@ -15,7 +15,7 @@ import {
 } from '@cd/core-lib';
 import { type OrderWithDispatchDetails } from '@cd/data-access';
 import type DispatchDA from '../data-access/DispatchDA';
-import { connectClientController } from '../redis-client/clients-redis';
+import { redisDispatchClientsController } from '../redis-dispatch/redis-dispatch-clients';
 import settings from './cluster-settings';
 
 global.lastWorkerId = 0;
@@ -196,7 +196,7 @@ class ClusterController {
 				// throw new Error(TextContent.error.DRIVER_NOT_FOUND);
 			}
 			// dont get clients, rather update clients for every order
-			// const clients = await connectClientController.getManyClientsByPhone(
+			// const clients = await redisDispatchClientsController.getManyClientsByPhone(
 			// 	driversWithinDeliveryRange,
 			// );
 
@@ -211,7 +211,7 @@ class ClusterController {
 					roomId,
 				});
 				console.log('client joining ', client, 'room ', roomId);
-				connectClientController.saveClient(client);
+				redisDispatchClientsController.saveClient(client);
 				clients.push(client);
 				console.info('pushed new client');
 				// }
@@ -244,7 +244,7 @@ class ClusterController {
 			];
 
 			const roomId = createRoomId('deliver-order', order.id);
-			// const clients = await connectClientController.getManyClientsByPhone(
+			// const clients = await redisDispatchClientsController.getManyClientsByPhone(
 			// 	usersJoining,
 			// );
 
@@ -259,7 +259,7 @@ class ClusterController {
 			// 			roomId,
 			// 		});
 			// 		console.log('client joining ', client, 'room ', roomId);
-			// 		connectClientController.saveClient(client);
+			// 		redisDispatchClientsController.saveClient(client);
 			// 		clients.push(client);
 			// 		console.info('pushed new client');
 			// 	}
@@ -268,7 +268,7 @@ class ClusterController {
 			const clients: Client[] = [];
 			usersJoining.forEach(async (user) => {
 				// get or create client, and update client in redis cache
-				let client = await connectClientController.getOneClientByPhone(
+				let client = await redisDispatchClientsController.getOneClientByPhone(
 					user.phone,
 				);
 				if (isEmpty(client))
@@ -279,7 +279,7 @@ class ClusterController {
 						roomId,
 					});
 				console.log('client joining ', client, 'room ', roomId);
-				await connectClientController.saveClient({
+				await redisDispatchClientsController.saveClient({
 					...client,
 					roomId,
 					orderId: order.id,
@@ -309,7 +309,7 @@ class ClusterController {
 
 			// clients.forEach(
 			// 	async (client) =>
-			// 		await dispatchRoomController.addClient(roomId, client),
+			// 		await redisDispatchRoomController.addClient(roomId, client),
 			// );
 			if (++global.lastWorkerId >= settings.numCPUs) {
 				global.lastWorkerId = 0;
@@ -330,7 +330,7 @@ class ClusterController {
 	}
 
 	// static async deleteClientFromRoomOnMaster(client: Client) {
-	// 	await connectClientController.deleteClient(client);
+	// 	await redisDispatchClientsController.deleteClient(client);
 	// }
 }
 

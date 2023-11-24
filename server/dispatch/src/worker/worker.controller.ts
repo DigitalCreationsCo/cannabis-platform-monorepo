@@ -10,7 +10,7 @@ import {
 	type RoomAction,
 	type WorkerToMasterPayload,
 } from '@cd/core-lib';
-import { dispatchRoomController } from '../redis-client';
+import { redisDispatchRoomController } from '../redis-dispatch';
 import DeliverOrderRoom from './DeliverOrderRoom';
 import SelectDriverRoom from './SelectDriverRoom';
 import type WorkerRoom from './WorkerRoom';
@@ -36,7 +36,7 @@ export default class WorkerRoomController {
 								});
 								// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 								const room = new SelectDriverRoom(roomId, clients as Client[]);
-								await dispatchRoomController.createRoom(room);
+								await redisDispatchRoomController.createRoom(room);
 								room.emit(dispatchEvents.new_order, order);
 								break;
 							} else if (roomId.startsWith('deliver-order')) {
@@ -48,7 +48,7 @@ export default class WorkerRoomController {
 								});
 								// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 								const room = new DeliverOrderRoom(roomId, clients as Client[]);
-								await dispatchRoomController.createRoom(room);
+								await redisDispatchRoomController.createRoom(room);
 
 								room.once(
 									NavigateEvent.pickup_product,
@@ -130,7 +130,7 @@ export default class WorkerRoomController {
 						// 			cameMsg,
 						// 	);
 
-						// const room = await dispatchRoomController.getRoomById(roomId);
+						// const room = await redisDispatchRoomController.getRoomById(roomId);
 						// room.emit('message', message);
 						// Messager.sendMessage(client, message as string);
 						// console.log(
@@ -156,7 +156,7 @@ export default class WorkerRoomController {
 							// console.info('global rooms: ');
 							// console.info(global.rooms);
 							const room: WorkerRoom | undefined =
-								await dispatchRoomController.getRoomById(roomId);
+								await redisDispatchRoomController.getRoomById(roomId);
 							console.log('room: ', room);
 
 							let newRoom;
@@ -205,7 +205,7 @@ export default class WorkerRoomController {
 							console.info('order: ', order);
 
 							const room: WorkerRoom | undefined =
-								await dispatchRoomController.getRoomById(roomId);
+								await redisDispatchRoomController.getRoomById(roomId);
 							console.log('room: ', room);
 
 							let newRoom;

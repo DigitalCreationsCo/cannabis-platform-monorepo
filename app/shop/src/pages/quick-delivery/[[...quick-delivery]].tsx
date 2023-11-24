@@ -198,10 +198,10 @@ export async function getServerSideProps({ query }: NextPageContext) {
 
 		const redis = createClient({
 			socket: {
-				host: process.env.REDIS_HOST,
-				port: Number(process.env.REDIS_PORT),
+				host: process.env.REDIS_TRANSFER_CART,
+				port: Number(process.env.REDIS_TRANSFER_CART_PORT),
 			},
-			password: process.env.REDIS_PASSWORD,
+			password: process.env.REDIS_TRANSFER_CART_PASSWORD,
 		});
 		redis.on('error', (error: any) => {
 			console.error('Redis Error', error);
