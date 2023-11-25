@@ -1,21 +1,20 @@
 import TextContent from '@cd/core-lib/src/constants/text.constant';
 import useAfterMount from '@cd/core-lib/src/hooks/useAfterMount';
-import {
-	selectDriverState,
-	updateOnlineStatus,
-} from '@cd/core-lib/src/reducer/driver.reducer';
+import { updateOnlineStatus } from '@cd/core-lib/src/reducer/action/updateOnlineStatus';
+import { selectDriverState } from '@cd/core-lib/src/reducer/driver.reducer';
 import {
 	selectSocketState,
 	socketActions,
 } from '@cd/core-lib/src/reducer/socket.reducer';
+import {
+	useAppDispatch,
+	useAppSelector,
+} from '@cd/core-lib/src/types/redux.types';
 import { useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
-import { useSelector } from 'react-redux';
 import { Button, Center, Greeting, Screen, Text, View } from '@components';
 import { spacing } from '@constants';
-import { useAppDispatch } from '../../../redux/store';
-import newOrder from '../new-order';
 
 const DriverMapScreen = () => {
 	const { height, width } = spacing;
@@ -24,7 +23,7 @@ const DriverMapScreen = () => {
 
 	const dispatch = useAppDispatch();
 
-	const { isOnline } = useSelector(selectDriverState).driver.driverSession;
+	const { isOnline } = useAppSelector(selectDriverState).driver.driverSession;
 	const {
 		connectionOpenInit,
 		connectionCloseInit,
@@ -32,7 +31,7 @@ const DriverMapScreen = () => {
 		errorMessage,
 		message,
 		incomingOrder: { newOrder },
-	} = useSelector(selectSocketState);
+	} = useAppSelector(selectSocketState);
 
 	// trigger status update
 	const [updateOnlineStatus, setUpdateOnlineStatus] = useState(false);
@@ -44,6 +43,10 @@ const DriverMapScreen = () => {
 	// 3. when the driver is online, and the socket is connected, do nothing
 	// 4. when the driver is offline, and the socket is connected, disconnect the socket
 	// 5. when the driver is offline, and the socket is not connected, do nothing
+
+	// handling socket connection and app state
+	// updateOnline -> dispatch openConnection
+	// middleware -> openConnection ->
 
 	useAfterMount(() => {
 		// const connectionIsNotBusy = !connectionOpenInit || connectionCloseInit;
@@ -67,6 +70,10 @@ const DriverMapScreen = () => {
 		isOnline === false && setUpdateOnlineStatus(false);
 	}, [isOnline]);
 
+	useAfterMount(() => {
+		connectionCloseInit === false && setUpdateOnlineStatus(false);
+	}, [connectionCloseInit === false]);
+
 	useEffect(() => {
 		if (newOrder) {
 			router.replace('/new-order');
@@ -74,20 +81,29 @@ const DriverMapScreen = () => {
 	}, [newOrder]);
 
 	const _displayTestVars = useMemo(
-		() =>
-			JSON.stringify(
-				{
-					connectionOpenInit,
-					connectionCloseInit,
-					isConnected,
-					errorMessage: errorMessage,
-					message,
-					isOnline,
-					updateOnlineStatus,
-				},
-				null,
-				2,
-			),
+		() => (
+			<View>
+				<Text>
+					{JSON.stringify(
+						{
+							connectionOpenInit,
+							connectionCloseInit,
+							isConnected,
+							errorMessage: errorMessage,
+							message,
+							isOnline,
+							updateOnlineStatus,
+						},
+						null,
+						2,
+					)}
+					{'\n'}
+					{isConnected
+						? 'connected to websocket server'
+						: 'websocket not connected.'}
+				</Text>
+			</View>
+		),
 		[
 			connectionOpenInit,
 			connectionCloseInit,
@@ -112,21 +128,13 @@ const DriverMapScreen = () => {
 				/>
 			</View>
 
-			<View>
-				<Text>{_displayTestVars}</Text>
-				<Text>
-					{isConnected
-						? 'connected to websocket server'
-						: 'websocket not connected.'}
-				</Text>
-			</View>
+			{_displayTestVars}
+
 			<Center>
-				<Text style={{ color: 'red' }}>
-					{(errorMessage && 'An Error Occured') || ''}
-				</Text>
+				<Text style={{ color: 'red' }}>{errorMessage || ''}</Text>
 			</Center>
 			<Button
-				// disabled={connectionOpenInit}
+				disabled={connectionOpenInit}
 				onPress={() => setUpdateOnlineStatus(!updateOnlineStatus)}
 			>
 				{isOnline

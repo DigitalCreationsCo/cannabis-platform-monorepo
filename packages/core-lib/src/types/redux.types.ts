@@ -1,5 +1,15 @@
 import { type ProductVariantWithDetails } from '@cd/data-access';
-import { type Store } from '@reduxjs/toolkit';
+import {
+	type Action,
+	type ThunkAction,
+	type Dispatch,
+	type Store,
+} from '@reduxjs/toolkit';
+import {
+	useDispatch,
+	type TypedUseSelectorHook,
+	useSelector,
+} from 'react-redux';
 import { type BlogStateProps } from '../reducer/blog.reducer';
 import { type CartStateProps } from '../reducer/cart.reducer';
 import { type DispensaryStateProps } from '../reducer/dispensary.reducer';
@@ -44,3 +54,17 @@ export type SimpleCart = {
 	organizationId?: string;
 	organizationName?: string;
 };
+
+// this is screwed up VVV, i dont understand redux well enough
+export type AppStore = Store<AppState>;
+export type AppDispatch = Dispatch<any>;
+export type RootState = Store<AppState>;
+export type AppAction = Action<any> | AppThunk;
+export type AppThunk<ReturnType = void> = ThunkAction<
+	ReturnType,
+	AppState,
+	unknown,
+	Action<string>
+>;
+export const useAppDispatch: () => AppDispatch = useDispatch;
+export const useAppSelector: TypedUseSelectorHook<AppState> = useSelector;

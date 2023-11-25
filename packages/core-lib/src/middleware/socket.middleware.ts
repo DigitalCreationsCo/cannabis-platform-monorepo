@@ -1,8 +1,7 @@
-/* eslint-disable sonarjs/cognitive-complexity */
-/* eslint-disable @typescript-eslint/ban-ts-comment */
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import { type OrderWithDispatchDetails } from '@cd/data-access';
-import { type AnyAction, type MiddlewareAPI } from '@reduxjs/toolkit';
+import { type MiddlewareAPI } from '@reduxjs/toolkit';
 import { io, type Socket } from 'socket.io-client';
 import { driverActions } from '../reducer/driver.reducer';
 import { socketActions } from '../reducer/socket.reducer';
@@ -15,13 +14,7 @@ import {
 import { getProperty } from '../utils';
 import { urlBuilder } from '../utils/urlBuilder';
 
-const socketMiddleware = (store: MiddlewareAPI<_, AppState>) => {
-	const socketMap: Record<string, Socket> = {};
-
-	const { id, phone } = store.getState().driver.driver.user;
-
-	let dispatch_socket: Socket | null;
-
+const socketMiddleware = (store: MiddlewareAPI<any, AppState>) => {
 	/**
 	 * Get orderId from socket key (socket.id) ?
 	 * @param socketKey
@@ -41,7 +34,14 @@ const socketMiddleware = (store: MiddlewareAPI<_, AppState>) => {
 		return getProperty(socketMap, socketKey);
 	}
 
-	return (next: any) => async (action: AnyAction) => {
+	const socketMap: Record<string, Socket> = {};
+
+	let dispatch_socket: Socket | null;
+
+	const { id, phone } = store.getState().driver.driver.user;
+
+	// eslint-disable-next-line sonarjs/cognitive-complexity
+	return (next: any) => async (action: any) => {
 		next(action);
 
 		if (driverActions.updateOnlineStatus.rejected.match(action)) {
@@ -68,7 +68,7 @@ const socketMiddleware = (store: MiddlewareAPI<_, AppState>) => {
 			// 2. if failure, update driver status isOnline false
 
 			console.debug('creating dispatch_socket');
-			const dispatch_socket = io(urlBuilder.dispatch.connect(), {
+			dispatch_socket = io(urlBuilder.dispatch.connect(), {
 				// query: { token },
 				autoConnect: true,
 				transports: ['websocket'],
@@ -83,13 +83,18 @@ const socketMiddleware = (store: MiddlewareAPI<_, AppState>) => {
 			dispatch_socket.on('error', (err) => {
 				throw new Error(err.message);
 			});
+			socketMap['dispatch_socket'] = dispatch_socket;
 
-			store.getState().socket.connectionOpenInit === false &&
+			try {
 				store.dispatch(driverActions.updateOnlineStatus(true));
+			} catch (error) {
+				console.error('updateOnlineStatus handle', error.message);
+				store.dispatch(socketActions.setError(error.message));
+			}
 
 			dispatch_socket.on(SocketEvent.connection, async () => {
 				store.dispatch(socketActions.connectionEstablished());
-				dispatch_socket.emit(SocketEvent.connect_client, { id, phone });
+				dispatch_socket?.emit(SocketEvent.connect_client, { id, phone });
 			});
 
 			dispatch_socket.on(
@@ -172,7 +177,7 @@ const socketMiddleware = (store: MiddlewareAPI<_, AppState>) => {
 		}
 
 		if (socketActions.declineOrder.match(action)) {
-			dispatch_socket.emit(SocketEvent.decline_order);
+			dispatch_socket?.emit(SocketEvent.decline_order);
 			store.dispatch(
 				socketActions.setMessage(
 					'You declined this order. Stay online to receive more delivery orders!',
@@ -181,14 +186,17 @@ const socketMiddleware = (store: MiddlewareAPI<_, AppState>) => {
 			store.dispatch(socketActions.clearOrderRequest());
 		}
 
+		let socketKey: string;
+		let _order_socket_connection: Socket | null;
+
 		const isActiveDelivery =
 			store.getState().driver.driver.driverSession.isActiveDelivery;
 
-		let socketKey: string;
 		for (socketKey in socketMap) {
+			// eslint-disable-next-line sonarjs/no-collapsible-if
 			if (isActiveDelivery === true) {
 				if (socketKey.startsWith('order:')) {
-					const _order_socket_connection: Socket = getSocket(socketKey);
+					_order_socket_connection = getSocket(socketKey) as Socket;
 
 					_order_socket_connection.on(SocketEvent.connection, () => {
 						console.info('socket connection for ' + socketKey);
@@ -196,7 +204,7 @@ const socketMiddleware = (store: MiddlewareAPI<_, AppState>) => {
 
 					_order_socket_connection.on(SocketEvent.get_location, () => {
 						// const { geoLocation } = store.getState().user.user.location;
-						const { geoLocation } = [24, 24];
+						const geoLocation = [24, 24];
 
 						_order_socket_connection.emit(SocketEvent.send_location, {
 							data: { location: geoLocation },
@@ -333,7 +341,7 @@ const socketMiddleware = (store: MiddlewareAPI<_, AppState>) => {
 					}
 
 					// dispatch socket disconnect
-					dispatch_socket.on(SocketEvent.disconnect, () => {
+					dispatch_socket?.on(SocketEvent.disconnect, () => {
 						console.info('disconnect dispatch socket again, to be sure.');
 						delete socketMap['dispatch_socket'];
 					});
@@ -374,39 +382,49 @@ const socketMiddleware = (store: MiddlewareAPI<_, AppState>) => {
 							store.dispatch(socketActions.ordersCompletedAll());
 						}
 					}
+					if (socketActions.closingConnection.match(action)) {
+						try {
+							if (dispatch_socket) {
+								console.log('1a');
+								dispatch_socket.close();
+								console.log(2);
+								delete socketMap['dispatch_socket'];
+								console.log(3);
+								dispatch_socket = null;
+								console.log(4);
+							}
+
+							console.info('order socket', _order_socket_connection);
+							if (_order_socket_connection) {
+								console.log(6);
+								_order_socket_connection.close();
+								console.log(7);
+								delete socketMap[socketKey];
+								console.log(8);
+								_order_socket_connection = null;
+								console.log(9);
+							}
+
+							store.dispatch(socketActions.connectionClosed());
+						} catch (error) {
+							console.info('error closing connection: ', error);
+						}
+					}
 				} // is a orderSocket
 			} // socketMap iterate
 		} // isActiveDelivery
 		// handle for the proper disconnect on closing, using orderId for discretion
 		if (socketActions.closingConnection.match(action)) {
 			try {
-				const dispatch_socket = getProperty(socketMap, 'dispatch_socket');
-				console.info('dispatch socket', dispatch_socket);
 				if (dispatch_socket) {
-					console.log(1);
+					console.log('1b');
 					dispatch_socket.close();
 					console.log(2);
-					dispatch_socket.destroy();
-					console.log(3);
 					delete socketMap['dispatch_socket'];
-					console.log(4);
+					console.log(3);
 					dispatch_socket = null;
-					console.log(5);
+					console.log(4);
 				}
-
-				console.info('order socket', _order_socket_connection);
-				if (_order_socket_connection) {
-					console.log(6);
-					_order_socket_connection.close();
-					console.log(7);
-					_order_socket_connection.destroy();
-					console.log(8);
-					delete socketMap[socketKey];
-					console.log(9);
-					_order_socket_connection = null;
-					console.log(10);
-				}
-
 				store.dispatch(socketActions.connectionClosed());
 			} catch (error) {
 				console.info('error closing connection: ', error);

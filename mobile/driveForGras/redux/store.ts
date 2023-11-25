@@ -1,16 +1,8 @@
-import { driverReducer } from '@cd/core-lib/src/reducer/driver.reducer';
-import { ThunkArgumentsType } from '@cd/core-lib/src/types/redux.types';
-import { socketReducer } from '@cd/core-lib/src/reducer/socket.reducer';
 import { default as socketMiddleware } from '@cd/core-lib/src/middleware/socket.middleware';
+import { driverReducer } from '@cd/core-lib/src/reducer/driver.reducer';
+import { socketReducer } from '@cd/core-lib/src/reducer/socket.reducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {
-	Action,
-	combineReducers,
-	configureStore,
-	Store,
-	ThunkAction,
-} from '@reduxjs/toolkit';
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import { combineReducers, configureStore, type Store } from '@reduxjs/toolkit';
 import {
 	FLUSH,
 	PAUSE,
@@ -22,13 +14,12 @@ import {
 	REHYDRATE,
 } from 'redux-persist';
 import { signOut } from 'supertokens-react-native';
-// import navigationService from '../app/navigation/navigationService';
 
 const rootReducer = combineReducers({
-	// user: userReducer,
 	driver: driverReducer,
 	socket: socketReducer,
 });
+// create storage config for each reducer, to selectively save data in storage
 
 const config = {
 	key: 'root',
@@ -66,14 +57,13 @@ const supertokensArguments = {
 // };
 
 const makeStore = () => {
-	let store: Store;
 	const thunkArguments: { store: Store | null; supertokens: any } = {
 		store: null,
 		supertokens: supertokensArguments,
 		// navigation: navigationService,
 	};
 
-	store = configureStore({
+	const store = configureStore({
 		devTools: process.env.NODE_ENV !== 'production',
 		reducer: persistReducer(config, rootReducer),
 		middleware: (getDefaultMiddleware) =>
@@ -98,15 +88,3 @@ const makeStore = () => {
 const { store, persistor } = makeStore();
 
 export { store, persistor };
-
-export type AppStore = ReturnType<typeof makeStore>;
-export type AppDispatch = typeof store.dispatch;
-export type RootState = ReturnType<typeof store.getState>;
-export type AppThunk<ReturnType = void> = ThunkAction<
-	ReturnType,
-	RootState,
-	unknown,
-	Action<string>
->;
-export const useAppDispatch: () => AppDispatch = useDispatch;
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;

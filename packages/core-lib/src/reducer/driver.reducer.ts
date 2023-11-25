@@ -1,49 +1,7 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-
 import { type DriverWithSessionJoin } from '@cd/data-access';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
 import { type AppState, type ThunkArgumentsType } from '../types';
-import { urlBuilder } from '../utils';
-
-/**
- * update driver session status in db
- */
-export const updateOnlineStatus = createAsyncThunk<
-	{ success?: boolean; isOnline: boolean; error?: string },
-	boolean,
-	{ extra: ThunkArgumentsType }
->('driver/updateOnlineStatus', async (onlineStatus, thunkAPI) => {
-	try {
-		const state = (await thunkAPI.getState()) as DriverSessionState;
-
-		const id = state.driver.user.id;
-
-		const response = await axios.post(
-			urlBuilder.main.driverUpdateStatus(),
-			{
-				id,
-				onlineStatus,
-			},
-			{ validateStatus: (status) => status < 500 },
-		);
-
-		if (response.status !== 200) throw new Error(response.data);
-
-		return {
-			...response.data,
-			success: 'true',
-			isOnline: onlineStatus,
-		};
-	} catch (error) {
-		console.error('updateOnlineStatus error: ', error.message);
-		// thunkAPI.dispatch(socketActions.setError(error.message));
-		return thunkAPI.rejectWithValue({
-			isOnline: onlineStatus,
-			error: error.message,
-		});
-	}
-});
+import { updateOnlineStatus } from './action/updateOnlineStatus';
 
 const signOutUserAsync = createAsyncThunk<
 	void,
@@ -74,9 +32,9 @@ export type DriverSessionState = {
 const initialState: DriverSessionState = {
 	driver: {
 		user: {
-			id: '',
+			id: '123',
 			email: '',
-			username: '',
+			username: 'username_placeholder',
 			firstName: '',
 			lastName: '',
 			dialCode: '',
@@ -157,11 +115,8 @@ export const driverSlice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder.addCase(updateOnlineStatus.fulfilled, (state, { payload }) => {
-			// console.info('update online status fulfilled, payload: ', payload);
 			const { isOnline } = payload;
-
 			state.driver.driverSession['isOnline'] = isOnline;
-
 			state.isSuccess = true;
 			state.isLoading = false;
 			state.isError = false;
@@ -173,11 +128,10 @@ export const driverSlice = createSlice({
 				updateOnlineStatus.rejected,
 				(state, { payload }: any) => {
 					const { isOnline, error } = payload;
-
+					state.driver.driverSession['isOnline'] = !isOnline;
 					state.isLoading = false;
 					state.isError = true;
 					state.errorMessage = error;
-					state.driver.driverSession['isOnline'] = !isOnline;
 				},
 			),
 			builder.addCase(signOutUserAsync.fulfilled, () => initialState),
