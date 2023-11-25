@@ -1,29 +1,23 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-// @ts-nocheck
 
-import {
-	Coordinates,
-	type DriverWithDetails,
-	type DriverWithSessionJoin,
-} from '@cd/data-access';
+import { type DriverWithSessionJoin } from '@cd/data-access';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { type AppState, type ThunkArgumentsType } from '../types';
-import { pruneData, urlBuilder } from '../utils';
-import { socketActions } from './socket.reducer';
+import { urlBuilder } from '../utils';
 
 /**
  * update driver session status in db
  */
 export const updateOnlineStatus = createAsyncThunk<
-	{ success: boolean; isOnline: boolean },
+	{ success?: boolean; isOnline: boolean; error?: string },
 	boolean,
 	{ extra: ThunkArgumentsType }
 >('driver/updateOnlineStatus', async (onlineStatus, thunkAPI) => {
 	try {
 		const state = (await thunkAPI.getState()) as DriverSessionState;
 
-		const id = state.driver.driver.id;
+		const id = state.driver.user.id;
 
 		const response = await axios.post(
 			urlBuilder.main.driverUpdateStatus(),
@@ -43,7 +37,7 @@ export const updateOnlineStatus = createAsyncThunk<
 		};
 	} catch (error) {
 		console.error('updateOnlineStatus error: ', error.message);
-		thunkAPI.dispatch(socketActions.setError(error.message));
+		// thunkAPI.dispatch(socketActions.setError(error.message));
 		return thunkAPI.rejectWithValue({
 			isOnline: onlineStatus,
 			error: error.message,
@@ -90,16 +84,24 @@ const initialState: DriverSessionState = {
 			emailVerified: false,
 			isLegalAge: null,
 			idVerified: false,
-			passwordHash: '',
-			passwordResetToken: '',
+			// passwordHash: '',
+			// passwordResetToken: '',
 			termsAccepted: false,
+			isSignUpComplete: false,
+			scannedDOB: null,
+			idFrontImage: null,
+			idBackImage: null,
+			address: [],
+			profilePicture: null,
 		},
+		licenseNumber: '',
 		driverSession: {
 			id: '',
 			isOnline: false,
 			isActiveDelivery: false,
 			currentCoordinates: [],
 			currentRoute: [],
+			routeId: '',
 		},
 	},
 	isSignedIn: false,
@@ -113,31 +115,28 @@ export const driverSlice = createSlice({
 	name: 'driver',
 	initialState,
 	reducers: {
-		signinDriverSync: (state, { payload }: { payload: DriverWithDetails }) => {
+		signinDriverSync: (
+			state,
+			{ payload }: { payload: DriverWithSessionJoin },
+		) => {
 			console.info('sign in driver, payload: ', payload);
-
-			const driver = pruneData(payload, [
-				'timeJoined',
-				'createdAt',
-				'updatedAt',
-			]);
+			const driver = payload;
 			state.driver = driver;
-
 			state.isSignedIn = true;
 			state.isLoading = false;
 			state.isSuccess = true;
 			state.isError = false;
 		},
-		updateCoordinatesLocally: (state, { payload }: { payload: [number, number] }) => {
-			const previousCoordinates = state.driver.driverSession.currentCoordinates;
+		updateCoordinatesLocally: (
+			state,
+			{ payload }: { payload: [number, number] },
+		) => {
+			// const previousCoordinates = state.driver.driverSession.currentCoordinates;
 			const coordinates = payload;
-			if (coordinates.length === 2)
-			  {
+			if (coordinates.length === 2) {
 				state.driver.driverSession.currentCoordinates = coordinates;
 				// return {previousCoordinates, coordinates};
-			}
-			else
-			  throw new Error('invalid coordinates');
+			} else throw new Error('invalid coordinates');
 		},
 		setActiveDelivery: (state, { payload }) => {
 			if (!state.driver.driverSession)
@@ -167,27 +166,30 @@ export const driverSlice = createSlice({
 			state.isLoading = false;
 			state.isError = false;
 		}),
-		builder.addCase(updateOnlineStatus.pending, (state) => {
-			state.isLoading = true;
-		}),
-		builder.addCase(updateOnlineStatus.rejected, (state, { payload }) => {
-			const { isOnline, error } = payload;
+			builder.addCase(updateOnlineStatus.pending, (state) => {
+				state.isLoading = true;
+			}),
+			builder.addCase(
+				updateOnlineStatus.rejected,
+				(state, { payload }: any) => {
+					const { isOnline, error } = payload;
 
-			state.isLoading = false;
-			state.isError = true;
-			state.errorMessage = error;
-		}),
-
-		builder.addCase(signOutUserAsync.fulfilled, () => initialState),
-		builder.addCase(signOutUserAsync.pending, (state) => {
-			state.isLoading = true;
-		}),
-		builder.addCase(signOutUserAsync.rejected, (state, { payload }) => {
-			state.isSuccess = false;
-			state.isLoading = false;
-			state.isError = true;
-			state.errorMessage = payload as string;
-		});
+					state.isLoading = false;
+					state.isError = true;
+					state.errorMessage = error;
+					state.driver.driverSession['isOnline'] = !isOnline;
+				},
+			),
+			builder.addCase(signOutUserAsync.fulfilled, () => initialState),
+			builder.addCase(signOutUserAsync.pending, (state) => {
+				state.isLoading = true;
+			}),
+			builder.addCase(signOutUserAsync.rejected, (state, { payload }) => {
+				state.isSuccess = false;
+				state.isLoading = false;
+				state.isError = true;
+				state.errorMessage = payload as string;
+			});
 	},
 });
 
