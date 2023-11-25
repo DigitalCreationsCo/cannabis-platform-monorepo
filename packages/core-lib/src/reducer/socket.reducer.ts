@@ -1,14 +1,13 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
-import { type OrderWithDetails } from '@cd/data-access';
+import { OrderWithDispatchDetails } from '@cd/data-access';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { Socket } from 'socket.io-client';
 import { type AppState } from '../types/redux.types';
 import {
 	type IncomingOrder,
 	type SocketEventPayload,
 } from '../types/socket.types';
-
-// ACTIONS TRIGGER EVENTS IN THE SOCKET MIDDLEWARE
 
 export const testAsyncAction = createAsyncThunk(
 	'socket/testAsyncAction',
@@ -19,46 +18,94 @@ export const testAsyncAction = createAsyncThunk(
 	},
 );
 
-// export const orderAccepted = createAsyncThunk(
-//   "socket/orderAccepted",
-//   async ({ newOrder }, thunkAPI) => {
-//     try {
-//       let order = { ...newOrder };
-//       order.metadata = {
-//         isDriverAdded: false,
-//         isDriverArrivedToVendor: false,
-//         isProductPickup: false,
-//         isDriverArrivedToCustomer: false,
-//         isDeliveryComplete: false,
-//       };
-//       await thunkAPI.dispatch(
-//         socketActions.addOrderToDispatchOrders({ order })
-//       );
-//       const { dispatchOrders } = await thunkAPI.getState().socket;
-//       console.info("orderAccepted: dispatchOrders: ", dispatchOrders);
-//       await thunkAPI.dispatch(
-//         socketActions.sortDispatchRoute({ dispatchOrders })
-//       );
-//     } catch (err) {
-//       console.info("A general error occured: orderAccepted-", error);
-//       thunkAPI.rejectWithValue("A general error occured: orderAccepted- ");
-//     }
-//   }
-// );
+// ACTIONS TRIGGER EVENTS IN THE SOCKET MIDDLEWARE
+export const goOnline = createAsyncThunk<
+	{ success: boolean; isOnline: boolean },
+	boolean,
+	{ extra: ThunkArgumentsType, state: AppState }
+>('driver/goOnline', async (onlineStatus, thunkAPI) => {
+	try {
+		const state = await thunkAPI.getState();
+		const {id, phone} = state.driver.driver.user;
 
-// export const sortDispatchRoute = createAsyncThunk(
-//   "socket/sortDispatchRoute",
-//   async ({ dispatchOrders }, thunkAPI) => {
-//     try {
-//       const sortedRoute = await dispatchOrders;
-//       console.info("sorted Dispatch Route: ", sortedRoute);
-//       return { sortedRoute };
-//     } catch (err) {
-//       console.info("A general error occured: sortDispatchRoute-", error);
-//       thunkAPI.rejectWithValue("A general error occured: sortDispatchRoute- ");
-//     }
-//   }
-// );
+		// 1. connect socket to dispatch
+		//  if success, update driver status isOnline true
+		// 		const { isOnline } = payload;
+		// 		state.driver.driverSession['isOnline'] = isOnline;
+		// 2. if failure, update driver status isOnline false
+
+			const dispatch_socket = io(urlBuilder.dispatch.connect(), {
+				// query: { token },
+				autoConnect: true,
+				transports: ['websocket'],
+				// jsonp: false,
+			})
+			dispatch_socket.on('connect_error', (err) => { throw new Error(err.message)})
+			dispatch_socket.on('connect_timeout', (err) => {throw new Error(err.message)})
+			dispatch_socket.on('error', (err) => {throw new Error(err.message)})
+			
+			state.socket.socketMap['dispatch_socket'] = dispatch_socket;
+
+		// const response = await axios.post(
+		// 	urlBuilder.main.driverUpdateStatus(),
+		// 	{
+		// 		id,
+		// 		onlineStatus,
+		// 	},
+		// 	{ validateStatus: (status) => status < 500 },
+		// );
+
+		// if (response.status !== 200) throw new Error(response.data);
+
+		thunkAPI.dispatch(driverActions.updateOnlineStatus(true));
+
+		return {
+			...response.data,
+			success: 'true',
+			isOnline: onlineStatus,
+		};
+	} catch (error) {
+		console.error('goOnline: ', error.message);
+		thunkAPI.dispatch(socketActions.setError(error.message));
+		thunkAPI.dispatch(driverActions.updateOnlineStatus(false));
+
+		return thunkAPI.rejectWithValue({
+			isOnline: onlineStatus,
+			error: error.message,
+		});
+	}
+});
+
+export const addOrderAndOptimizeRoute = createAsyncThunk<{ sortedRoute: (OrderWithDispatchDetails['order'])[]}, OrderWithDispatchDetails['order'], { state: AppState }>(
+  "socket/addOrderAndOptimizeRoute",
+  async (newOrder, thunkAPI) => {
+	try {
+	  const { dispatchOrders } = thunkAPI.getState().socket;
+	  const { sortedRoute } = await thunkAPI.dispatch(
+		sortDispatchRoute({ ...dispatchOrders, newOrder })
+	  );
+	  thunkAPI.dispatch(socketActions.clearOrderRequest());
+	  return { sortedRoute };
+	} catch (error) {
+	  console.info("addOrderAndOptimizeRoute: ", error);
+	  thunkAPI.rejectWithValue(error.message);
+	}
+  }
+);
+
+export const sortDispatchRoute = createAsyncThunk<{ sortedRoute: (OrderWithDispatchDetails['order'])[]}, OrderWithDispatchDetails['order'], { state: AppState }>(
+  "socket/sortDispatchRoute",
+  async (dispatchOrders, thunkAPI) => {
+    try {
+	// currently returns the same orderedRoute, but in future will return a sorted route from api call
+      const sortedRoute = dispatchOrders;
+      return { sortedRoute };
+    } catch (error) {
+      console.info("sortDispatchRoute: ", error);
+      thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
 
 /* 
 forEach order in orderList,
@@ -91,18 +138,20 @@ return both of them, concat to routeList
 // );
 
 export type SocketStateType = {
+	socketMap: Record<string, Socket>;
 	connectionOpenInit: boolean;
 	connectionCloseInit: boolean;
 	isConnected: boolean;
 	errorMessage: string;
 	message: string;
-	dispatchOrders: OrderWithDetails[];
-	remainingRoute: OrderWithDetails[];
-	destinationType: 'organization' | 'customer';
+	dispatchOrders: OrderWithDispatchDetails['order'][];
+	remainingRoute: OrderWithDispatchDetails['order'][];
+	destinationType: 'vendor' | 'customer';
 	incomingOrder: IncomingOrder;
 };
 
 const initialState: SocketStateType = {
+	socketMap: {},
 	connectionOpenInit: false,
 	connectionCloseInit: false,
 	isConnected: false,
@@ -140,7 +189,7 @@ const socketSlice = createSlice({
 		},
 		receiveNewOrderRequest: (
 			state,
-			{ payload }: { payload: SocketEventPayload<OrderWithDetails> },
+			{ payload }: { payload: SocketEventPayload<OrderWithDispatchDetails['order']> },
 		) => {
 			state.incomingOrder.message = payload.message;
 			state.incomingOrder.newOrder = payload.data;
@@ -149,16 +198,18 @@ const socketSlice = createSlice({
 			state.incomingOrder.newOrder = null;
 			state.incomingOrder.message = null;
 		},
-		acceptOrder: () => {
-			console.info('accept_order');
-		},
 		declineOrder: () => {
 			console.info('decline_order');
 		},
-		addOrderToDispatchOrders: (state, { payload }) => {
-			const { order } = payload;
-			state.dispatchOrders.push(order);
+		acceptOrder: (state, { payload }) => {
+			console.info('accept_order');
+			const { orderId } = payload;
 		},
+		addSocketToMap: (state, {payload}) => {
+			console.info('add_socket_to_map');
+			state.socketMap[payload.socketKey] = payload.socket;
+		},
+		
 		pickupProducts: () => {
 			// const { orderIdList } = payload;
 		},
@@ -170,18 +221,14 @@ const socketSlice = createSlice({
 		// beginOrder: () => {},
 		arriveToVendor: (_, { payload }) => {
 			const { vendorId } = payload;
-			console.info('arrive to vendor : ', vendorId);
 			NavigationService.navigate(DeliveryScreens.PICKUP_PRODUCT_VIEW);
 		},
 		// navigateToCustomer: () => {},
 		arriveToCustomer: (_, { payload }) => {
 			const { orderId } = payload;
-			console.info('arrive to customer orderId: ', orderId);
 			NavigationService.navigate(DeliveryScreens.FINALIZE_DELIVERY_VIEW);
 		},
-		// completeOrder: () => {},
-		// beginSubsequentOrder: () => {},
-		updateDestinationType: (state, { payload }) => {
+		updateDestinationType: (state, { payload }: { payload: 'vendor' | 'customer'}) => {
 			state.destinationType = payload;
 		},
 		removeRouteDestination: (state) => {
@@ -211,13 +258,13 @@ const socketSlice = createSlice({
 			state.remainingRoute = [];
 			state.isActiveDelivery = false;
 		},
-		setMessage: (state, { payload: { message } }) => {
-			// add a timeout for the message here or where message is displayed in UI
-			state.message = message;
+		setMessage: (state, { payload }) => {
+			state.message = payload;
 		},
-		setError: (state, { payload: { error } }) => {
-			// add a timeout for the message here or where message is displayed in UI
-			state.errorMessage = error;
+		setError: (state, { payload }) => {
+			state.errorMessage = payload;
+			state.connectionOpenInit = false;
+			state.connectionCloseInit = false;
 		},
 		clearMessage: (state) => {
 			state.message = '';
@@ -229,6 +276,30 @@ const socketSlice = createSlice({
 		},
 	},
 	extraReducers: (builder) => {
+		builder.addCase(goOnline.fulfilled, (state, { payload }) => {
+			state.isSuccess = true;
+			state.isLoading = false;
+			state.isError = false;
+		}),
+		builder.addCase(goOnline.pending, (state) => {
+			state.isLoading = true;
+		}),
+		builder.addCase(goOnline.rejected, (state, { payload }) => {
+			const { isOnline, error } = payload;
+
+			state.isLoading = false;
+			state.isError = true;
+			state.errorMessage = error;
+		})
+		builder.addCase(addOrderToDispatchOrders.fulfilled, (state, {payload}) => {
+			const { sortedRoute } = payload;
+			state.remainingRoute = sortedRoute;
+		}),
+		builder.addCase(addOrderToDispatchOrders.pending, () => {}),
+		builder.addCase(addOrderToDispatchOrders.rejected, (state, {payload}) => {
+			console.info("addOrderToDispatchOrders", payload);
+		})
+	}
 		// [testAsyncAction.fulfilled]: () => {},
 		// [createOrderSocketConnection.fulfilled]: () => {},
 		// [createOrderSocketConnection.pending]: () => {},
@@ -245,11 +316,12 @@ const socketSlice = createSlice({
 		// [completeDeliveryOrder.fulfilled]: (state, { payload }) => {},
 		// [completeDeliveryOrder.pending]: () => {},
 		// [completeDeliveryOrder.rejected]: () => {},
-	},
 });
 
 export const socketActions = {
 	...socketSlice.actions,
+	goOnline,
+	addOrderAndOptimizeRoute
 	// createOrderSocketConnection,
 	// orderAccepted,
 	// sortDispatchRoute,

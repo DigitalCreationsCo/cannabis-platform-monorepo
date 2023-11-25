@@ -1,8 +1,8 @@
 import TextContent from '@cd/core-lib/src/constants/text.constant';
 import useAfterMount from '@cd/core-lib/src/hooks/useAfterMount';
 import {
-	driverActions,
 	selectDriverState,
+	updateOnlineStatus,
 } from '@cd/core-lib/src/reducer/driver.reducer';
 import {
 	selectSocketState,
@@ -18,12 +18,16 @@ import { Button, Center, Greeting, Screen, Text, View } from '@components';
 import { spacing } from '@constants';
 import { styles } from '@styles';
 import { useAppDispatch, useAppSelector } from '../../../redux/store';
+import newOrder from '../new-order';
 
 const DriverMapScreen = () => {
-	const router = useRouter();
-	const dispatch = useAppDispatch();
 	const { height, width } = spacing;
 
+	const router = useRouter();
+
+	const dispatch = useAppDispatch();
+
+	const { isOnline } = useSelector(selectDriverState).driver.driverSession;
 	const {
 		connectionOpenInit,
 		connectionCloseInit,
@@ -32,23 +36,31 @@ const DriverMapScreen = () => {
 		message,
 		incomingOrder: { newOrder },
 	} = useSelector(selectSocketState);
-	const { isOnline } = useSelector(selectDriverState).driver.driverSession;
 
 	// trigger status update
 	const [updateOnlineStatus, setUpdateOnlineStatus] = useState(false);
 
-	useEffect(() => {
-		dispatch(
-			driverActions.updateOnlineStatus(
-				updateOnlineStatus,
-			) as unknown as AnyAction,
-		);
+	// use cases for connecting clients
+	// isOnline is 0
+	// 1. when the user clicks go Online, connect the socket.
+	// 2. when the driver is online, and the socket is not connected, reconnect the socket
+	// 3. when the driver is online, and the socket is connected, do nothing
+	// 4. when the driver is offline, and the socket is connected, disconnect the socket
+	// 5. when the driver is offline, and the socket is not connected, do nothing
+
+	useAfterMount(() => {
+		// if (isOnline) {
+		// 	// if driver is online, and the socket is not connected, reconnect the socket
+		// 	// handle this in middleware
+		// } else {
+		updateOnlineStatus
+			? dispatch(socketActions.openConnection())
+			: dispatch(socketActions.closingConnection());
+		// }
 	}, [updateOnlineStatus]);
 
 	useAfterMount(() => {
-		isOnline
-			? dispatch(socketActions.openConnection())
-			: dispatch(socketActions.closingConnection());
+		isOnline === false && setUpdateOnlineStatus(false);
 	}, [isOnline]);
 
 	useEffect(() => {
@@ -110,7 +122,7 @@ const DriverMapScreen = () => {
 				</Text>
 			</Center>
 			<Button
-				disabled={connectionOpenInit}
+				// disabled={connectionOpenInit}
 				onPress={() => setUpdateOnlineStatus(!updateOnlineStatus)}
 			>
 				{isOnline

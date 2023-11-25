@@ -1,8 +1,5 @@
 import { isEmpty } from '@cd/core-lib';
-import {
-	type Client,
-	type ClientType,
-} from '@cd/core-lib/src/types/dispatch.types';
+import { type Client } from '@cd/core-lib/src/types/dispatch.types';
 import { createClient } from 'redis';
 
 // what is a 'client' in this case?
@@ -32,7 +29,7 @@ connectClientRedis.on('error', (err) => {
 connectClientRedis.connect();
 
 class RedisredisDispatchClientsController {
-	async saveClient(client: ClientType) {
+	async saveClient(client: Client) {
 		console.log('saveClient input ', client);
 		await connectClientRedis
 			.SET(client.phone, JSON.stringify({ ...client }))
@@ -43,12 +40,12 @@ class RedisredisDispatchClientsController {
 	}
 
 	async getManyClientsByPhone(idList: { phone: string }[]) {
-		let clients: ClientType[] = [];
+		let clients: Client[] = [];
 		let id;
 		for (id of idList) {
 			await connectClientRedis
 				.GET(id.phone)
-				.then((client) => clients.push(client as unknown as ClientType))
+				.then((client) => clients.push(client as unknown as Client))
 				.catch((err) => console.error('getSocketsByDriverIds: ', err));
 		}
 		clients = clients.filter((client) => !isEmpty(client));
@@ -62,13 +59,13 @@ class RedisredisDispatchClientsController {
 			.catch((err) => console.error('getClientByPhone: ', err));
 	}
 
-	async removeRoomFromClient(client: ClientType) {
+	async removeRoomFromClient(client: Client) {
 		return connectClientRedis
 			.SET(client.phone, JSON.stringify({ ...client, roomId: '', orderId: '' }))
 			.catch((err) => console.info('removeRoomFromClient: ', err));
 	}
 
-	async deleteClient(client: ClientType) {
+	async deleteClient(client: Client) {
 		await connectClientRedis
 			.DEL(client.phone)
 			.catch((err) => console.info('deleteClient: ', err));

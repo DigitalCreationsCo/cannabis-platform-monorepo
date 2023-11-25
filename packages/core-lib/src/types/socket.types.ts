@@ -2,10 +2,7 @@ import { type OrderWithDispatchDetails } from '@cd/data-access';
 
 export const dispatchEvents = Object.freeze({
 	connection: 'connection',
-	client_connect: 'client_connect',
-	customer_connect: 'customer_connect',
-	driver_connect: 'driver_connect',
-	vendor_connect: 'vendor_connect',
+	connect_client: 'connect_client',
 	disconnect: 'disconnect',
 
 	new_order: 'new_order',
@@ -38,6 +35,9 @@ export const NavigateEvent = Object.freeze({
 });
 
 export interface SocketEventPayload<T> {
+	success: boolean;
+	event?: string;
+	type?: string;
 	message: string | null;
 	data?: T;
 }
