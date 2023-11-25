@@ -7,7 +7,6 @@ import {
 } from '@reduxjs/toolkit';
 import { io, type Socket } from 'socket.io-client';
 import { socketActions } from '../reducer/socket.reducer';
-import { userActions } from '../reducer/user.reducer';
 import { type AppState } from '../types';
 import {
 	dispatchEvents as SocketEvent,
@@ -112,7 +111,7 @@ const socketMiddleware = (store: MiddlewareAPI<_,AppState>) => {
 					// IMPLEMENT ERROR HANDLING!
 
 					const socketKey = 'order:' + newOrder.id;
-					let order_socket = io(urlBuilder.DISPATCH_CONNECT() + '/' + socketKey);
+					let order_socket = io(urlBuilder.dispatch.connect() + '/' + socketKey);
 							
 					store.dispatch(socketActions.addSocketToMap({socketKey: socketKey, socket: order_socket}));
 
