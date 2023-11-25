@@ -208,20 +208,18 @@ try {
 		createAdapter(redisDispatchSockets, subscribeDispatchSockets),
 	);
 	global.io.on('connection', function (socket) {
-		socket.emit('connection', { success: true });
+		socket.emit(dispatchEvents.connection, {
+			event: dispatchEvents.connection,
+			success: true,
+			message: 'connection established',
+			socketId: socket.id,
+		});
 		console.debug('a websocket client connected', socket.id);
 
 		socket.listenersAny().forEach((listener) => socket.offAny(listener)); // remove all listeners
 		socket.on('connect_client', async ({ id, phone }: SocketMessage) => {
 			const client = new Client({ socketId: socket.id, userId: id, phone });
-			console.info('a websocket client connected', client);
 			redisDispatchClientsController.saveClient(client);
-			socket.emit(dispatchEvents.connection, {
-				event: dispatchEvents.connection,
-				success: true,
-				message: 'connection established',
-				socketId: socket.id,
-			});
 		});
 
 		socket.on('disconnect', async () => {

@@ -1,6 +1,9 @@
 import TextContent from '@cd/core-lib/src/constants/text.constant';
 import useAfterMount from '@cd/core-lib/src/hooks/useAfterMount';
-import { selectDriverState } from '@cd/core-lib/src/reducer/driver.reducer';
+import {
+	selectDriverState,
+	updateOnlineStatus,
+} from '@cd/core-lib/src/reducer/driver.reducer';
 import {
 	selectSocketState,
 	socketActions,
@@ -12,6 +15,7 @@ import { useSelector } from 'react-redux';
 import { Button, Center, Greeting, Screen, Text, View } from '@components';
 import { spacing } from '@constants';
 import { useAppDispatch } from '../../../redux/store';
+import newOrder from '../new-order';
 
 const DriverMapScreen = () => {
 	const { height, width } = spacing;
@@ -42,10 +46,17 @@ const DriverMapScreen = () => {
 	// 5. when the driver is offline, and the socket is not connected, do nothing
 
 	useAfterMount(() => {
+		// const connectionIsNotBusy = !connectionOpenInit || connectionCloseInit;
+		// const connectionIsNotBusy = () =>
+		// 	(updateOnlineStatus && !connectionOpenInit) ||
+		// 	!updateOnlineStatus ||
+		// 	connectionCloseInit;
 		// if (isOnline) {
 		// 	// if driver is online, and the socket is not connected, reconnect the socket
 		// 	// handle this in middleware
 		// } else {
+
+		// updateOnlineStatus && connectionIsNotBusy
 		updateOnlineStatus
 			? dispatch(socketActions.openConnection())
 			: dispatch(socketActions.closingConnection());

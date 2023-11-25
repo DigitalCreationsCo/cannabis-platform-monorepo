@@ -24,23 +24,26 @@ export type UserWithDriverDetails = UserWithDetails & {
 	driverSession: DriverSessionWithJoinedData;
 };
 
-export type DriverWithSessionJoin = Driver & {
-	user: UserWithDetails;
-	driverSession: DriverSessionWithJoinedData;
+export type DriverWithSessionJoin = Omit<
+	Driver,
+	'id' | 'email' | 'createdAt' | 'updatedAt'
+> & {
+	user: Omit<UserWithDetails, 'createdAt' | 'updatedAt'>;
+	driverSession: Omit<DriverSessionWithJoinedData, 'createdAt' | 'updatedAt'>;
 };
 
 export type DriverSessionWithJoinedData = DriverSession & {
 	id: string;
-	email: string;
-	phone: string;
-	firstName: string;
-	lastName: string;
-	isOnline: boolean;
-	isActiveDelivery: boolean;
-	currentCoordinates: [number, number];
-	currentRoute: RouteWithCoordinates;
-	routeId: string;
-	route: Route;
+	email?: string;
+	phone?: string;
+	firstName?: string;
+	lastName?: string;
+	isOnline?: boolean;
+	isActiveDelivery?: boolean;
+	currentCoordinates?: [number, number] | [];
+	currentRoute?: RouteWithCoordinates | [];
+	routeId?: string;
+	route?: Route;
 };
 
 export type RouteWithCoordinates = Route & {

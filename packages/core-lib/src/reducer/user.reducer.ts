@@ -84,13 +84,12 @@ export const userSlice = createSlice({
 			{ payload }: { payload: UserWithDetails | Passwordless.User },
 		) => {
 			console.info('signinUserSync payload', payload);
-			const user = pruneData(payload, ['timeJoined', 'createdAt', 'updatedAt']);
+			const user = pruneData(payload, ['createdAt', 'updatedAt']);
 			state.user = user;
 			state.isSignedIn = true;
 			state.isLoading = false;
 			state.isSuccess = true;
 			state.isError = false;
-			console.info('user reducer');
 		},
 		updateOrders: (
 			state,
