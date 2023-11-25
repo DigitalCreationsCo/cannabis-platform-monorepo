@@ -6,7 +6,7 @@ import {
 	type IncomingOrder,
 	type SocketEventPayload,
 } from '../types/socket.types';
-import { driverActions } from './driver.reducer';
+import { updateOnlineStatus } from './action/updateOnlineStatus';
 
 export const testAsyncAction = createAsyncThunk(
 	'socket/testAsyncAction',
@@ -24,7 +24,7 @@ export const goOnline = createAsyncThunk<
 	{ extra: ThunkArgumentsType; state: AppState }
 >('driver/goOnline', async (onlineStatus, thunkAPI) => {
 	try {
-		thunkAPI.dispatch(driverActions.updateOnlineStatus(true));
+		thunkAPI.dispatch(updateOnlineStatus(true));
 		return {
 			success: 'true',
 			isOnline: onlineStatus,
@@ -32,7 +32,7 @@ export const goOnline = createAsyncThunk<
 	} catch (error) {
 		console.error('goOnline: ', error.message);
 		thunkAPI.dispatch(socketActions.setError(error.message));
-		thunkAPI.dispatch(driverActions.updateOnlineStatus(false));
+		thunkAPI.dispatch(updateOnlineStatus(false));
 
 		return thunkAPI.rejectWithValue({
 			isOnline: onlineStatus,
@@ -258,29 +258,33 @@ const socketSlice = createSlice({
 		// 		state.isError = true;
 		// 		state.errorMessage = error;
 		// 	});
+
+		builder.addCase(updateOnlineStatus.rejected, (state) => {
+			console.info('updateOnlineStatus rejected, closing connection');
+			state.connectionOpenInit = false;
+			state.connectionCloseInit = true;
+			console.info('closing connection');
+		});
+
 		builder.addCase(
 			addOrderAndOptimizeRoute.fulfilled,
 			(state, { payload }) => {
 				// const { sortedRoute } = payload;
 				// state.remainingRoute = sortedRoute;
 			},
-		),
-			builder.addCase(addOrderAndOptimizeRoute.pending, () => {}),
-			builder.addCase(
-				addOrderAndOptimizeRoute.rejected,
-				(state, { payload }) => {
-					console.info('addOrderAndOptimizeRoute', payload);
-				},
-			);
-
+		);
+		builder.addCase(addOrderAndOptimizeRoute.pending, () => {});
+		builder.addCase(addOrderAndOptimizeRoute.rejected, (state, { payload }) => {
+			console.info('addOrderAndOptimizeRoute', payload);
+		});
 		builder.addCase(sortDispatchRoute.fulfilled, (state, { payload }) => {
 			const { sortedRoute } = payload;
 			state.remainingRoute = sortedRoute;
-		}),
-			builder.addCase(sortDispatchRoute.pending, () => {}),
-			builder.addCase(sortDispatchRoute.rejected, (state, { payload }) => {
-				console.info('addOrderAndOptimizeRoute', payload);
-			});
+		});
+		builder.addCase(sortDispatchRoute.pending, () => {});
+		builder.addCase(sortDispatchRoute.rejected, (state, { payload }) => {
+			console.info('addOrderAndOptimizeRoute', payload);
+		});
 	},
 	// [testAsyncAction.fulfilled]: () => {},
 	// [createOrderSocketConnection.fulfilled]: () => {},
