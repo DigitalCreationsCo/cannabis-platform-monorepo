@@ -14,6 +14,8 @@ const viewStyles = Object.freeze<Record<string, ViewStyle>>({
 	center: {
 		alignItems: 'center',
 		justifyContent: 'center',
+		alignContent: 'center',
+		alignSelf: 'center',
 	},
 	buttonPrimary: {
 		borderRadius: spacing.radius,
