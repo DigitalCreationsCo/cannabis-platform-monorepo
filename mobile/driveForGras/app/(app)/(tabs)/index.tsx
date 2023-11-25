@@ -1,24 +1,17 @@
 import TextContent from '@cd/core-lib/src/constants/text.constant';
 import useAfterMount from '@cd/core-lib/src/hooks/useAfterMount';
-import {
-	selectDriverState,
-	updateOnlineStatus,
-} from '@cd/core-lib/src/reducer/driver.reducer';
+import { selectDriverState } from '@cd/core-lib/src/reducer/driver.reducer';
 import {
 	selectSocketState,
 	socketActions,
 } from '@cd/core-lib/src/reducer/socket.reducer';
-import { userActions } from '@cd/core-lib/src/reducer/user.reducer';
-import { type AnyAction } from '@reduxjs/toolkit';
 import { useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { useSelector } from 'react-redux';
 import { Button, Center, Greeting, Screen, Text, View } from '@components';
 import { spacing } from '@constants';
-import { styles } from '@styles';
-import { useAppDispatch, useAppSelector } from '../../../redux/store';
-import newOrder from '../new-order';
+import { useAppDispatch } from '../../../redux/store';
 
 const DriverMapScreen = () => {
 	const { height, width } = spacing;

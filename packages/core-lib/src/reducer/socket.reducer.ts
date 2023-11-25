@@ -3,6 +3,7 @@
 import { OrderWithDispatchDetails } from '@cd/data-access';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { Socket } from 'socket.io-client';
+import { urlBuilder } from '../utils';
 import { type AppState } from '../types/redux.types';
 import {
 	type IncomingOrder,
