@@ -1,9 +1,12 @@
-import { type PropsWithChildren } from 'react';
 import { styles } from '../../styles';
-import { View } from '../Themed';
+import { View, type ViewProps } from '../Themed';
 
-function Center(props: PropsWithChildren) {
-	return <View style={styles.view.center}>{props.children}</View>;
+function Center(props: ViewProps) {
+	return (
+		<View style={styles.view.center} {...props}>
+			{props.children}
+		</View>
+	);
 }
 
 export default Center;

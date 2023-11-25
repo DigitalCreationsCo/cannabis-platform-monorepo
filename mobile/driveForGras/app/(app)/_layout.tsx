@@ -1,7 +1,7 @@
-import { FontAwesome } from '@expo/vector-icons';
-import { Link, Redirect, Stack } from 'expo-router';
-import { Pressable, useColorScheme } from 'react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { selectDriverState } from '@cd/core-lib/src/reducer/driver.reducer';
+import { useAppSelector } from '@cd/core-lib/src/types';
+import { Redirect, Stack } from 'expo-router';
+import { useColorScheme } from 'react-native';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const unstable_settings = {
@@ -12,7 +12,7 @@ export const unstable_settings = {
 export default function AuthStack() {
 	const colorScheme = useColorScheme();
 
-	const isSignedIn = true;
+	const { isSignedIn } = useAppSelector(selectDriverState);
 	if (!isSignedIn) return <Redirect href="/driver-signin" />;
 	return (
 		<Stack

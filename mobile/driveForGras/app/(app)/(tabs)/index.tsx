@@ -1,6 +1,5 @@
 import TextContent from '@cd/core-lib/src/constants/text.constant';
 import useAfterMount from '@cd/core-lib/src/hooks/useAfterMount';
-import { updateOnlineStatus } from '@cd/core-lib/src/reducer/action/updateOnlineStatus';
 import { selectDriverState } from '@cd/core-lib/src/reducer/driver.reducer';
 import {
 	selectSocketState,
@@ -49,17 +48,6 @@ const DriverMapScreen = () => {
 	// middleware -> openConnection ->
 
 	useAfterMount(() => {
-		// const connectionIsNotBusy = !connectionOpenInit || connectionCloseInit;
-		// const connectionIsNotBusy = () =>
-		// 	(updateOnlineStatus && !connectionOpenInit) ||
-		// 	!updateOnlineStatus ||
-		// 	connectionCloseInit;
-		// if (isOnline) {
-		// 	// if driver is online, and the socket is not connected, reconnect the socket
-		// 	// handle this in middleware
-		// } else {
-
-		// updateOnlineStatus && connectionIsNotBusy
 		updateOnlineStatus
 			? dispatch(socketActions.openConnection())
 			: dispatch(socketActions.closingConnection());
@@ -128,7 +116,7 @@ const DriverMapScreen = () => {
 				/>
 			</View>
 
-			{_displayTestVars}
+			{/* {_displayTestVars} */}
 
 			<Center>
 				<Text style={{ color: 'red' }}>{errorMessage || ''}</Text>

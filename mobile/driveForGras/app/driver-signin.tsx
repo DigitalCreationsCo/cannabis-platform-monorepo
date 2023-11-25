@@ -12,7 +12,6 @@ import {
 	Button,
 	Center,
 } from '@components';
-import Icons from '../icons';
 import { styles } from '../styles';
 
 const DriverLoginScreen = () => {
@@ -33,7 +32,7 @@ const DriverLoginScreen = () => {
 			<Row>
 				<Center>
 					<Text style={styles.text.h}>{TextContent.info.DELIVER_FOR_GRAS}</Text>
-					<Icons.Flower />
+					{/* <Icons.Flower /> */}
 				</Center>
 			</Row>
 
@@ -57,7 +56,7 @@ const DriverLoginScreen = () => {
 				<TextField name={'password'} control={control} />
 			</View>
 
-			<Button>
+			<Button onPress={handleSubmit(onSubmit)}>
 				{false ? TextContent.account.SIGNING_IN : TextContent.account.SIGNIN}
 			</Button>
 
