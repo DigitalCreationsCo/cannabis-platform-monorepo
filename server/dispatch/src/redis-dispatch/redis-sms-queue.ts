@@ -1,6 +1,6 @@
-import { createClient, type RedisClientType } from 'redis';
+import { createClient, type RedisClient } from 'redis';
 
-const redisSMSQueue: RedisClientType = createClient({
+const redisSMSQueue: RedisClient = createClient({
 	socket: {
 		host: process.env.REDIS_SMS_QUEUE,
 		port: Number(process.env.REDIS_SMS_QUEUE_PORT),

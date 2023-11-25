@@ -43,7 +43,7 @@ try {
 	// interval runs to delete vacant and completed rooms
 	// 5 minutes
 	// setInterval(() => {
-	// 	redisDispatchRoomController.deleteClosedRooms();
+	// 	redisDispatchRoomsController.deleteClosedRooms();
 	// }, 1000 * 60 * 5);
 
 	// create http server
@@ -266,7 +266,7 @@ try {
 		socket.on(
 			dispatchEvents.connection,
 			async ({ id, phone }: SocketMessage) => {
-				const client = new Client({ socketId: socket.id, id, phone });
+				const client = new Client({ socketId: socket.id, userId: id, phone });
 				redisDispatchClientsController.saveClient(client);
 				socket.emit(dispatchEvents.connection, {
 					event: dispatchEvents.connection,

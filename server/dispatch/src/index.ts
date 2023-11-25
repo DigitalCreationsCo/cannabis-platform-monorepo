@@ -5,6 +5,7 @@ import {
 	dispatchEvents,
 	isEmpty,
 	parseUrlFriendlyStringToObject,
+	type SocketEventPayload,
 } from '@cd/core-lib';
 import { createAdapter } from '@socket.io/redis-adapter';
 import { Server } from 'socket.io';
@@ -17,6 +18,7 @@ import {
 	redisDispatchClientsController,
 	subscribeDispatchSockets,
 	redisDispatchSockets,
+	redisDispatchRoomsController,
 } from './redis-dispatch';
 
 try {
@@ -50,7 +52,6 @@ try {
 						text = parseUrlFriendlyStringToObject(body).Body;
 						break;
 					default:
-						console.info('unhandled sms api origin');
 						throw new Error('unhandled sms api origin');
 				}
 
@@ -65,12 +66,11 @@ try {
 						await redisDispatchClientsController.getOneClientByPhone(
 							from.split('+1')[1],
 						);
-					console.info('client retrieved using incoming sms message', client);
 					if (!isEmpty(client)) {
 						new ClusterInit().sendToWorker({
 							action: 'accept-order',
 							payload: {
-								roomId: client.roomId,
+								roomId: client.roomId as string,
 								clients: [client],
 							},
 						});
@@ -90,13 +90,10 @@ try {
 			});
 			req.on('end', async () => {
 				res.end();
-				console.info('request body ', body);
-				// let to = '';
 				let from = '';
 				let text = '';
 				switch (getSMSApiOrigin(req.headers['user-agent'] as string)) {
 					case 'telnyx':
-						// verify webhook signatures from telnyx
 						if (
 							JSON.parse(body).data.payload.is_spam == 'true' ||
 							JSON.parse(body).data.event_type !== 'message.received'
@@ -106,7 +103,6 @@ try {
 						text = JSON.parse(body).data.payload.text;
 						break;
 					case 'textGrid':
-						// type TextGridReturnMessagePayload
 						from = parseUrlFriendlyStringToObject(body).From;
 						text = parseUrlFriendlyStringToObject(body).Body;
 						break;
@@ -131,7 +127,7 @@ try {
 						new ClusterInit().sendToWorker({
 							action: 'accept-order',
 							payload: {
-								roomId: client.roomId,
+								roomId: client.roomId as string,
 								clients: [client],
 							},
 						});
@@ -173,7 +169,6 @@ try {
 						text = parseUrlFriendlyStringToObject(body).Body;
 						break;
 					default:
-						console.info('unhandled sms api origin');
 						return null;
 				}
 
@@ -183,13 +178,10 @@ try {
 				 - see if theres a way to append metadata to telnyx webhook, so we can parse the correct event
 				*/
 				if (text.match(/\byes\b/)) {
-					console.info('phone ,', from.split('+1')[1]);
 					const client: Client =
 						await redisDispatchClientsController.getOneClientByPhone(
 							from.split('+1')[1],
 						);
-					console.info('client retrieved using incoming sms message', client);
-
 					// RIGHT NOW, THIS IS SENDING ORDER-COMPLETE EVENT,
 					// IT OUGHT TO SEND CUSTOMER-RECEIVED-PRODUCT EVENT,
 					// AND THEN THE ROOM WILL EMIT ORDER-COMPLETE EVENT,
@@ -199,7 +191,7 @@ try {
 						new ClusterInit().sendToWorker({
 							action: 'order-complete',
 							payload: {
-								roomId: client.roomId,
+								roomId: client.roomId as string,
 								clients: [client],
 							},
 						});
@@ -211,34 +203,35 @@ try {
 		}
 	});
 
-	// initialize io server
 	global.io = new Server(httpServer);
 	global.io.adapter(
 		createAdapter(redisDispatchSockets, subscribeDispatchSockets),
 	);
 	global.io.on('connection', function (socket) {
-		socket.listenersAny().forEach((listener) => socket.offAny(listener)); // remove all listeners
-		console.info('MASTER: connected client ', socket.id);
+		socket.emit('connection', { success: true });
+		console.debug('a websocket client connected', socket.id);
 
-		socket.on(
-			dispatchEvents.connection,
-			async ({ id, phone }: SocketMessage) => {
-				const client = new Client({ socketId: socket.id, id, phone });
-				redisDispatchClientsController.saveClient(client);
-				socket.emit(dispatchEvents.connection, {
-					event: dispatchEvents.connection,
-					message: 'connection established',
-				});
-			},
-		);
+		socket.listenersAny().forEach((listener) => socket.offAny(listener)); // remove all listeners
+		socket.on('connect_client', async ({ id, phone }: SocketMessage) => {
+			const client = new Client({ socketId: socket.id, userId: id, phone });
+			console.info('a websocket client connected', client);
+			redisDispatchClientsController.saveClient(client);
+			socket.emit(dispatchEvents.connection, {
+				event: dispatchEvents.connection,
+				success: true,
+				message: 'connection established',
+				socketId: socket.id,
+			});
+		});
 
 		socket.on('disconnect', async () => {
 			// disconnect event from socket.io
+			console.info('a websocket client disconnected', socket.id);
 		});
 
 		socket.on('error', (e) => {
-			// error event from socket.io
 			console.log('MASTER ERROR: ' + e);
+			throw new Error(e.message);
 		});
 	});
 
@@ -251,9 +244,9 @@ try {
 
 	// interval runs to delete vacant and completed rooms
 	// 5 minutes
-	// setInterval(() => {
-	// 	redisDispatchRoomController.deleteClosedRooms();
-	// }, 1000 * 60 * 5);
+	setInterval(() => {
+		redisDispatchRoomsController.deleteClosedRooms();
+	}, 1000 * 60 * 5);
 } catch (error) {
 	console.error('server-dispatch error: ', error);
 	process.exit(1);

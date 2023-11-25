@@ -22,7 +22,7 @@ redisDispatchRooms.on('error', (err) => {
 });
 redisDispatchRooms.connect();
 
-class RedisredisDispatchRoomController {
+class RedisredisDispatchRoomsController {
 	async getRooms() {
 		return redisDispatchRooms.KEYS('*').then((keys) => {
 			if (!keys.length) return [];
@@ -55,13 +55,13 @@ class RedisredisDispatchRoomController {
 	// 		.catch((err) => console.info('getClientsByRoom: ', err));
 	// }
 
-	// async isClientInRoom(roomId: string, client: ClientType) {
+	// async isClientInRoom(roomId: string, client: Client) {
 	// 	return await dispatchRoomsRedis
 	// 		.sIsMember(roomId, JSON.stringify(client))
 	// 		.catch((err) => console.info('isClientInRoom: ', err));
 	// }
 
-	// async addClient(roomId: string, client: ClientType) {
+	// async addClient(roomId: string, client: Client) {
 	// 	return await dispatchRoomsRedis
 	// 		.SADD(roomId, JSON.stringify(client))
 	// 		.catch((err) => console.info('addClient: ', err));
@@ -87,8 +87,9 @@ class RedisredisDispatchRoomController {
 				await this.deleteRoom(room.id);
 			}
 		});
+		console.debug('redisDispatchRooms closed ' + rooms.length + ' rooms');
 	}
 }
 
-const redisDispatchRoomController = new RedisredisDispatchRoomController();
-export { redisDispatchRoomController };
+const redisDispatchRoomsController = new RedisredisDispatchRoomsController();
+export { redisDispatchRoomsController };

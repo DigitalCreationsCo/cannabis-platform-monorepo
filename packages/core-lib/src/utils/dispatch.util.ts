@@ -1,7 +1,7 @@
-import { type ClientType } from '../types/dispatch.types';
+import { Client } from '../types/dispatch.types';
 
-export function checkClientsForUser(clients: ClientType[], id: string) {
-	return clients.some((client) => client.id === id);
+export function checkClientsForUser(clients: Client[], id: string) {
+	return clients.some((client) => client.userId === id);
 }
 
 export function createRoomId(

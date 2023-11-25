@@ -2,6 +2,7 @@
 // @ts-nocheck
 
 import {
+	Coordinates,
 	type DriverWithDetails,
 	type DriverWithSessionJoin,
 } from '@cd/data-access';
@@ -11,6 +12,9 @@ import { type AppState, type ThunkArgumentsType } from '../types';
 import { pruneData, urlBuilder } from '../utils';
 import { socketActions } from './socket.reducer';
 
+/**
+ * update driver session status in db
+ */
 export const updateOnlineStatus = createAsyncThunk<
 	{ success: boolean; isOnline: boolean },
 	boolean,
@@ -123,6 +127,17 @@ export const driverSlice = createSlice({
 			state.isLoading = false;
 			state.isSuccess = true;
 			state.isError = false;
+		},
+		updateCoordinatesLocally: (state, { payload }: { payload: [number, number] }) => {
+			const previousCoordinates = state.driver.driverSession.currentCoordinates;
+			const coordinates = payload;
+			if (coordinates.length === 2)
+			  {
+				state.driver.driverSession.currentCoordinates = coordinates;
+				// return {previousCoordinates, coordinates};
+			}
+			else
+			  throw new Error('invalid coordinates');
 		},
 		setActiveDelivery: (state, { payload }) => {
 			if (!state.driver.driverSession)

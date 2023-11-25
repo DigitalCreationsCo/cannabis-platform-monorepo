@@ -32,36 +32,36 @@ export type RoomType = {
 
 export type ClusterMessagePayload = {
 	roomId: string;
-	clients?: ClientType[];
+	clients?: Client[];
 	message?: string;
 	order?: OrderWithDispatchDetails['order'];
 };
 
 export type WorkerToMasterPayload = {
 	roomId: string;
-	client?: ClientType;
+	client?: Client;
 	message?: string;
 	orderId: string;
 };
 
-export interface ClientType {
-	socketId?: string;
-	id: string;
-	phone: string;
-	roomId?: string;
-	orderId?: string;
-}
+// export interface ClientType {
+// 	socketId?: string;
+// 	id: string;
+// 	phone: string;
+// 	roomId?: string;
+// 	orderId?: string;
+// }
 
 export class Client {
-	socketId: string;
-	roomId: string;
-	id: string;
+	socketId?: string;
+	roomId?: string;
+	userId: string;
 	phone: string;
-	orderId: string;
-	constructor({ socketId, roomId, id, phone, orderId }: ClientType) {
+	orderId?: string;
+	constructor({ socketId, roomId, userId, phone, orderId }: Client) {
 		this.socketId = socketId || '';
 		this.roomId = roomId || '';
-		this.id = id;
+		this.userId = userId;
 		this.phone = phone;
 		this.orderId = orderId || '';
 	}

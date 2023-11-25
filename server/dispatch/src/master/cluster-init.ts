@@ -3,12 +3,11 @@
 import { type Worker } from 'cluster';
 import cluster from 'node:cluster';
 import {
-	Client,
 	createRoomId,
 	getOrderIdFromRoom,
 	isEmpty,
 	TextContent,
-	type ClientType,
+	Client,
 	type ClusterMessage,
 	type ClusterMessagePayload,
 	type WorkerToMasterPayload,
@@ -53,7 +52,7 @@ class ClusterController {
 								console.info('add-driver-to-record: ', payload.roomId);
 								await this.db?.addDriverToOrderRecord(
 									getOrderIdFromRoom(payload.roomId),
-									payload.client?.id as string,
+									payload.client?.userId as string,
 								);
 
 								await this.db?.dequeueOrder(getOrderIdFromRoom(payload.roomId));
@@ -205,7 +204,7 @@ class ClusterController {
 			const roomId = createRoomId('select-driver', order.id);
 			driversWithinDeliveryRange?.forEach(async (driver) => {
 				const client = new Client({
-					id: driver.id,
+					userId: driver.id,
 					phone: driver.phone,
 					orderId: order.id,
 					roomId,
@@ -253,7 +252,7 @@ class ClusterController {
 			// usersJoining.forEach(async (user) => {
 			// 	if (!checkClientsForUser(clients, user.id)) {
 			// 		const client = new Client({
-			// 			id: user.id,
+			// 			userId: user.id,
 			// 			phone: user.phone,
 			// 			orderId: order.id,
 			// 			roomId,
@@ -273,7 +272,7 @@ class ClusterController {
 				);
 				if (isEmpty(client))
 					client = new Client({
-						id: user.id,
+						userId: user.id,
 						phone: user.phone,
 						orderId: order.id,
 						roomId,
@@ -298,7 +297,7 @@ class ClusterController {
 	}
 
 	async subscribeToRoom(
-		clients: ClientType[],
+		clients: Client[],
 		roomId: string,
 		message?: string,
 		order?: OrderWithDispatchDetails['order'],
@@ -309,7 +308,7 @@ class ClusterController {
 
 			// clients.forEach(
 			// 	async (client) =>
-			// 		await redisDispatchRoomController.addClient(roomId, client),
+			// 		await redisDispatchRoomsController.addClient(roomId, client),
 			// );
 			if (++global.lastWorkerId >= settings.numCPUs) {
 				global.lastWorkerId = 0;
