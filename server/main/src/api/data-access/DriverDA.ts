@@ -6,6 +6,7 @@ import {
 	findDriverWithDetailsById,
 	findDriverWithDetailsByPhone,
 	updateDriver,
+	updateDriverOnlineStatus,
 	type DriverCreateType,
 	type DriverSessionWithJoinedData,
 	type DriverWithSessionJoin,
@@ -13,6 +14,7 @@ import {
 	type UserWithDriverDetails,
 } from '@cd/data-access';
 import { type Collection, type MongoClient } from 'mongodb';
+import error from 'supertokens-node/lib/build/error';
 
 /* =================================
 Driver Data Access - data class for Driver SQL Table and DriverSessions Mongo Collection
@@ -203,21 +205,20 @@ export default class DriverDA {
 		}
 	}
 
-	static async updateOnlineStatus(id, onlineStatus) {
+	static async updateOnlineStatus(id: string, onlineStatus: boolean) {
 		try {
-			const updateStatus = await driverSessions.updateOne(
+			const updateStatusPrismaPromise = await updateDriverOnlineStatus(
+				id,
+				onlineStatus,
+			);
+			const updateStatusMongoPromise = await driverSessions.updateOne(
 				{ id },
 				{ $set: { isOnline: onlineStatus } },
 				{ upsert: true },
 			);
-
-			if (!updateStatus.acknowledged) {
-				throw new Error(`Could not update status driver: ${id}`);
-			}
-
+			await Promise.all([updateStatusPrismaPromise, updateStatusMongoPromise]);
 			return { success: 'true' };
 		} catch (error: any) {
-			console.error(`Error update driver status, ${error}`);
 			throw new Error(error.message);
 		}
 	}

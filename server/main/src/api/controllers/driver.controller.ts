@@ -90,12 +90,15 @@ export default class DriverController {
 			const data = await DriverDA.updateOnlineStatus(id, onlineStatus);
 			if (data.success === 'false') {
 				if (onlineStatus === true)
-					return res.status(400).json('Could not go online. Please try again.');
+					return res.status(400).json({
+						success: 'false',
+						message: 'Service is not available. Please try again.',
+					});
 				if (onlineStatus === false) return res.status(400).json(data);
 			}
 			return res.status(200).json(data);
 		} catch (error: any) {
-			console.info(`updateStatus: `, error);
+			console.info(`updateStatus: `, error.message);
 			res.status(500).json({ success: 'false', error: error.message });
 		}
 	}

@@ -8,6 +8,7 @@ import { type UserCreateType } from './user.data';
  *
  * createDriver
  * updateDriver
+ * updateDriverOnlineStatus
  * findDriverWithDetailsByEmail
  * findDriverWithDetailsByPhone
  * findDriverWithDetailsById
@@ -74,11 +75,27 @@ export async function createDriver(userData: DriverCreateType) {
 	}
 }
 
+export async function updateDriverOnlineStatus(id: string, isOnline: boolean) {
+	try {
+		return await prisma.driverSession.update({
+			where: {
+				id,
+			},
+			data: {
+				isOnline,
+			},
+		});
+	} catch (error: any) {
+		if (error.code === 'P2025') throw new Error(error.meta.cause);
+		throw new Error(error.message);
+	}
+}
+
 export async function updateDriver(userData: UserCreateType) {
 	try {
 		const { coordinates, ...addressData } = userData.address[0];
 
-		const user = await prisma.user.update({
+		return await prisma.user.update({
 			where: {
 				email: userData.email,
 			},
@@ -133,9 +150,6 @@ export async function updateDriver(userData: UserCreateType) {
 				driver: true,
 			},
 		});
-
-		console.info('user updated: ', user.email);
-		return user;
 	} catch (error: any) {
 		if (
 			error instanceof Prisma.PrismaClientKnownRequestError &&
