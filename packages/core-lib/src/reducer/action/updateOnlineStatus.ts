@@ -14,15 +14,12 @@ export const updateOnlineStatus = createAsyncThunk<
 	try {
 		const state = thunkAPI.getState() as AppState;
 		const id = state.driver.driver.user.id;
-		const response = await axios.post(
-			urlBuilder.main.driverUpdateStatus(),
-			{
-				id,
-				onlineStatus,
-			},
-			{ validateStatus: (status) => status < 500 },
-		);
-		if (response.status !== 200) throw new Error(response.data);
+		const response = await axios.post(urlBuilder.main.driverUpdateStatus(), {
+			id,
+			onlineStatus,
+		});
+
+		if (response.data.success === 'false') throw new Error(response.data.error);
 		return {
 			...response.data,
 			success: 'true',
