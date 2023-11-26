@@ -74,6 +74,8 @@ async function handleDriverAppOTPCodeAPI(input: {
 	flowType: 'USER_INPUT_CODE';
 }): Promise<PasswordlessResponseWithDriverDetails> {
 	try {
+		console.debug('handleDriverAppOTPCodeAPI: ', input);
+
 		const response = await axios.post(urlBuilder.main.submitOTP(), input);
 		if (response.data.status !== 'OK') throw new Error(response.data.message);
 		return response.data;

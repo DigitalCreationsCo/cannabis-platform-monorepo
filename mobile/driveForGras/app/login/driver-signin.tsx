@@ -14,12 +14,13 @@ import {
 	Text,
 	Container,
 	Row,
-	View,
 	TextField,
 	Button,
 	Center,
 	FlexBox,
+	Padding,
 } from '@components';
+import { spacing } from '@constants';
 import { styles } from '@styles';
 import leaf from '../../assets/images/leaf.gif';
 
@@ -75,10 +76,13 @@ const DriverLoginScreen = () => {
 				router.push({
 					pathname: '/login/driver-signin-handle-otp',
 					params: {
-						otp: JSON.stringify({
-							...response,
-							emailOrPhone: values.emailOrPhone,
-						}),
+						otp: encodeURIComponent(
+							JSON.stringify({
+								...response,
+								emailOrPhone: values.emailOrPhone,
+								_invalidChars: 'asd+asd+++asd///;;;[[[]]]{{{}}}',
+							}),
+						),
 					},
 				});
 			}
@@ -89,7 +93,7 @@ const DriverLoginScreen = () => {
 	}
 
 	return (
-		<Container>
+		<Container style={{ paddingBottom: spacing.sm }}>
 			<Row>
 				<Center>
 					<Text style={styles.text.h}>{TextContent.info.DELIVER_FOR_GRAS}</Text>
@@ -108,7 +112,7 @@ const DriverLoginScreen = () => {
 				</Center>
 			</FlexBox>
 
-			<View>
+			<Padding>
 				<Center>
 					<Text style={styles.text.error}>
 						{!!touched.emailOrPhone && errors.emailOrPhone}
@@ -122,17 +126,16 @@ const DriverLoginScreen = () => {
 					onChangeText={handleChange('emailOrPhone')}
 					placeholder={'enter your email or phone'}
 				/>
-			</View>
-
-			<Button
-				disabled={loading}
-				onPress={() => {
-					validateForm();
-					handleSubmit();
-				}}
-			>
-				{loading ? 'Rolling...' : 'Continue'}
-			</Button>
+				<Button
+					disabled={loading}
+					onPress={() => {
+						validateForm();
+						handleSubmit();
+					}}
+				>
+					{loading ? 'Rolling...' : 'Continue'}
+				</Button>
+			</Padding>
 		</Container>
 	);
 };

@@ -49,7 +49,6 @@ export function SafeAreaView(props: ViewProps) {
 		{ light: lightColor, dark: darkColor },
 		'background',
 	);
-
 	return (
 		<DefaultSafeAreaView style={[{ backgroundColor }, style]} {...otherProps} />
 	);
@@ -66,9 +65,11 @@ export function View(props: ViewProps) {
 }
 
 export function Container(props: ViewProps) {
-	return <View style={styles.view.container} {...props} />;
+	const { style, ...otherProps } = props;
+	return <View style={[styles.view.container, style]} {...otherProps} />;
 }
 
 export function Row(props: ViewProps) {
-	return <View style={styles.view.row} {...props} />;
+	const { style, ...otherProps } = props;
+	return <View style={styles.view.row} {...otherProps} />;
 }

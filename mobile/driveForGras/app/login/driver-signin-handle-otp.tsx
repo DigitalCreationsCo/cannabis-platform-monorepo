@@ -41,9 +41,10 @@ const DriverSignInHandlePassCode = () => {
 	});
 
 	const params = useLocalSearchParams();
-	const { otp } = params;
+	const otpParams = decodeURIComponent(params.otp as string);
+
 	const payload = {
-		...JSON.parse(otp as string),
+		...JSON.parse(otpParams),
 		userInputCode: values.userInputCode,
 		userContext: {
 			appUser: 'DRIVER',
@@ -55,19 +56,7 @@ const DriverSignInHandlePassCode = () => {
 		try {
 			if (!loading) {
 				setLoading(true);
-
 				if (payload.status === 'OK' && payload.flowType === 'USER_INPUT_CODE') {
-					// const payload = {
-					// 	userInputCode: values.userInputCode,
-					// 	preAuthSessionId: encodeURIComponent(preAuthSessionId as string),
-					// 	deviceId: encodeURIComponent(deviceId as string),
-					// 	status: status as 'OK',
-					// 	flowType: flowType as 'USER_INPUT_CODE',
-					// 	userContext: {
-					// 		appUser: 'DRIVER',
-					// 	},
-					// 	appUser: 'DRIVER',
-					// };
 					const response = await handleDriverAppOTPCodeAPI(payload);
 					dispatch(driverActions.signinDriverSync(response.user));
 					router.replace('(tabs)');
