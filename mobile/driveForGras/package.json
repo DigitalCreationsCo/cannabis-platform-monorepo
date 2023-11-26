@@ -7,7 +7,7 @@
 		"start": "NODE_ENV='development' expo start",
 		"start:dev": "NODE_ENV='development' expo start --dev-client -c",
 		"start:production": "NODE_ENV='production' npx expo start --no-dev --minify -c",
-		"start-clear": "yarn build:deps && NODE_ENV='development' expo start -c",
+		"start:cold": "yarn clean && yarn build:deps && NODE_ENV='development' expo start -c",
 		"android": "NODE_ENV='development' expo run:android",
 		"ios": "NODE_ENV='development' expo run:ios",
 		"web": "NODE_ENV='development' expo start --web",

@@ -26,7 +26,7 @@ const DriverMapScreen = () => {
 	const {
 		connectionOpenInit,
 		connectionCloseInit,
-		isConnected,
+		isConnectedToDispatch,
 		errorMessage,
 		message,
 		incomingOrder: { newOrder },
@@ -47,20 +47,24 @@ const DriverMapScreen = () => {
 	// updateOnline -> dispatch openConnection
 	// middleware -> openConnection ->
 
+	// updateOnline -> dispatch closingConnection
+	// middleware -> closingConnection ->
+
 	useAfterMount(() => {
+		console.info(
+			'after mount hook: updateOnlineStatus is ',
+			updateOnlineStatus,
+		);
 		updateOnlineStatus
 			? dispatch(socketActions.openConnection())
 			: dispatch(socketActions.closingConnection());
 		// }
 	}, [updateOnlineStatus]);
 
-	useAfterMount(() => {
-		isOnline === false && setUpdateOnlineStatus(false);
-	}, [isOnline]);
-
-	useAfterMount(() => {
-		connectionCloseInit === false && setUpdateOnlineStatus(false);
-	}, [connectionCloseInit === false]);
+	// useAfterMount(() => {
+	// 	console.log('connectionOpenInit is ', connectionOpenInit);
+	// connectionCloseInit === false && setUpdateOnlineStatus(false);
+	// }, [connectionCloseInit]);
 
 	useEffect(() => {
 		if (newOrder) {
@@ -76,7 +80,7 @@ const DriverMapScreen = () => {
 						{
 							connectionOpenInit,
 							connectionCloseInit,
-							isConnected,
+							isConnectedToDispatch,
 							errorMessage: errorMessage,
 							message,
 							isOnline,
@@ -86,7 +90,7 @@ const DriverMapScreen = () => {
 						2,
 					)}
 					{'\n'}
-					{isConnected
+					{isConnectedToDispatch
 						? 'connected to websocket server'
 						: 'websocket not connected.'}
 				</Text>
@@ -95,7 +99,7 @@ const DriverMapScreen = () => {
 		[
 			connectionOpenInit,
 			connectionCloseInit,
-			isConnected,
+			isConnectedToDispatch,
 			errorMessage,
 			message,
 			isOnline,
