@@ -207,7 +207,7 @@ export async function findDriverWithDetailsByPhone(
 		});
 
 		if (!user || !user.driver)
-			throw new Error("Sorry, we couldn't find you. Please try again.");
+			throw new Error("We couldn't find you. Please try again.");
 
 		const { driver, ...userData } = user;
 

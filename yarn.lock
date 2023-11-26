@@ -4494,11 +4494,11 @@ __metadata:
     expo-status-bar: 1.4.4
     expo-system-ui: 2.2.1
     expo-web-browser: 12.1.1
+    formik: 2.2.9
     jest: 29.3.1
     jest-expo: 48.0.0
     react: 18.2.0
     react-dom: 18.2.0
-    react-hook-form: ^7.48.2
     react-native: 0.71.14
     react-native-dotenv: 3.4.9
     react-native-gesture-handler: 2.9.0
@@ -4512,6 +4512,7 @@ __metadata:
     redux-persist: 6.0.0
     supertokens-react-native: 4.0.8
     typescript: 4.9.3
+    yup: 0.32.11
   languageName: unknown
   linkType: soft
 
@@ -31782,15 +31783,6 @@ babel-watch@kmagiera/babel-watch:
     react: ^16.6.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.6.0 || ^17.0.0 || ^18.0.0
   checksum: 7ca7e47f8af14ea186688b512a87ab912bf6041312b297f92516341b140b3f0f8aedf5a44d226d99e69ed067b0cc106e38aeb9c9b738ffcc63d10721c844db90
-  languageName: node
-  linkType: hard
-
-"react-hook-form@npm:^7.48.2":
-  version: 7.48.2
-  resolution: "react-hook-form@npm:7.48.2"
-  peerDependencies:
-    react: ^16.8.0 || ^17 || ^18
-  checksum: 39652d08f78f16e5234049ceeb794d8bcd4d146772aca99c6db8c5aea8926cd4a230d02098886a441074deefbc24ffcb5ed57bc7cb0009d950115f5b3e627f12
   languageName: node
   linkType: hard
 

@@ -104,7 +104,6 @@ export default class DriverDA {
 			console.info(`updated driver ${driver.id}`);
 			return { ...driver, driverSession };
 		} catch (error: any) {
-			console.error('UserDA error: ', error.message);
 			throw new Error(error.message);
 		}
 	}
@@ -144,7 +143,6 @@ export default class DriverDA {
 				.then((result) => result)) as unknown as DriverSessionWithJoinedData;
 			return { ...driver, driverSession };
 		} catch (error: any) {
-			console.error(error.message);
 			throw new Error(error.message);
 		}
 	}
@@ -189,7 +187,6 @@ export default class DriverDA {
 				driverSession,
 			};
 		} catch (error: any) {
-			console.error(error.message);
 			throw new Error(error.message);
 		}
 	}
