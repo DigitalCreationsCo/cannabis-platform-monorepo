@@ -75,8 +75,10 @@ const DriverLoginScreen = () => {
 				router.push({
 					pathname: '/login/driver-signin-handle-otp',
 					params: {
-						...response,
-						emailOrPhone: values.emailOrPhone,
+						otp: JSON.stringify({
+							...response,
+							emailOrPhone: values.emailOrPhone,
+						}),
 					},
 				});
 			}

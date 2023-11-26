@@ -49,7 +49,7 @@ const inputStyles = Object.freeze<Record<string, ViewStyle>>({
 		height: spacing.sm,
 		...shadow,
 	},
-	textField: { flex: 1, justifyContent: 'flex-end' },
+	textField: { flex: 1, justifyContent: 'flex-end', textAlign: 'center' },
 });
 
 const styles = {

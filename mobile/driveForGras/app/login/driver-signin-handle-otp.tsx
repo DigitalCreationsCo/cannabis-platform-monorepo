@@ -5,6 +5,7 @@ import { useAppDispatch } from '@cd/core-lib/src/types';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useFormik } from 'formik';
 import { useState } from 'react';
+import * as React from 'react';
 import * as yup from 'yup';
 import {
 	Button,
@@ -40,65 +41,68 @@ const DriverSignInHandlePassCode = () => {
 	});
 
 	const params = useLocalSearchParams();
-	const {
-		status,
-		deviceId,
-		preAuthSessionId,
-		flowType,
-		fetchResponse,
-		message,
-		emailOrPhone,
-	} = params;
+	const { otp } = params;
+	const payload = {
+		...JSON.parse(otp as string),
+		userInputCode: values.userInputCode,
+		userContext: {
+			appUser: 'DRIVER',
+		},
+		appUser: 'DRIVER',
+	};
 
 	async function handleOTPCodeAndSignIn() {
 		try {
 			if (!loading) {
 				setLoading(true);
-				if (status === 'OK' && flowType === 'USER_INPUT_CODE') {
-					const payload: any = {
-						userInputCode: values.userInputCode,
-						preAuthSessionId,
-						deviceId,
-						status,
-						flowType,
-						userContext: {
-							appUser: 'DRIVER',
-						},
-						appUser: 'DRIVER',
-					};
+
+				if (payload.status === 'OK' && payload.flowType === 'USER_INPUT_CODE') {
+					// const payload = {
+					// 	userInputCode: values.userInputCode,
+					// 	preAuthSessionId: encodeURIComponent(preAuthSessionId as string),
+					// 	deviceId: encodeURIComponent(deviceId as string),
+					// 	status: status as 'OK',
+					// 	flowType: flowType as 'USER_INPUT_CODE',
+					// 	userContext: {
+					// 		appUser: 'DRIVER',
+					// 	},
+					// 	appUser: 'DRIVER',
+					// };
 					const response = await handleDriverAppOTPCodeAPI(payload);
-					console.info('response ', response);
 					dispatch(driverActions.signinDriverSync(response.user));
+					router.replace('(tabs)');
 				}
 			}
 		} catch (error: any) {
 			setLoading(false);
 			if (error.message === "Sorry, we couldn't find you. Please try again.")
 				router.replace('/login/not-registered-to-drive');
-			setFieldError('userInputCode', error.message);
+			// setFieldError('userInputCode', error.message);
+			setFieldError('userInputCode', 'An error occurred. Please try again.');
 		}
 	}
 
 	return (
 		<Container>
-			<Text>HANDLE OTP CODE</Text>
+			{/* <Text>HANDLE OTP CODE</Text>
 			<Text>
 				{`status ${status} \n deviceId ${deviceId} \n preAuthSessionId ${preAuthSessionId} \n flowType ${flowType} \n fetchResponse ${fetchResponse} \n message ${message}`}
 				{'userinputcode: ' + values.userInputCode}
-			</Text>
+			</Text> */}
 
 			<FlexBox>
 				<Center>
 					<Text style={styles.text.p}>
-						{`Your one-time passcode was sent to ${emailOrPhone}.`}
+						{`Your one-time passcode was sent to ${payload.emailOrPhone}.`}
 					</Text>
 				</Center>
 			</FlexBox>
 
 			<View>
 				<Center>
-					<Text style={styles.text.error}>
-						{!!touched.userInputCode && errors.userInputCode}
+					<Text style={[(errors.userInputCode && styles.text.error) || null]}>
+						{(!!touched.userInputCode && errors.userInputCode) ||
+							'enter your one-time passcode'}
 					</Text>
 				</Center>
 				<TextField
@@ -106,7 +110,7 @@ const DriverSignInHandlePassCode = () => {
 					value={values.userInputCode}
 					onBlur={handleBlur('userInputCode')}
 					onChangeText={handleChange('userInputCode')}
-					placeholder={'enter your one-time passcode'}
+					// placeholder={'enter your one-time passcode'}
 				/>
 			</View>
 

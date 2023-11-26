@@ -17,6 +17,8 @@ export default function AuthStack() {
 	return (
 		<Stack
 			screenOptions={{
+				animation: 'simple_push',
+				animationTypeForReplace: 'push',
 				headerShown: false,
 				// headerTintColor: Colors[colorScheme ?? 'light'].tint,
 				// navigationBarColor: Colors[colorScheme ?? 'light'].background,
