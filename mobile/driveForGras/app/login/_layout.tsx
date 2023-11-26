@@ -12,8 +12,14 @@ export default function LoginStack() {
 				headerShown: false,
 			}}
 		>
-			<Stack.Screen name="driver-signin" />
-			<Stack.Screen name="driver-signin-handle-otp" />
+			<Stack.Screen
+				name="driver-signin"
+				options={{ animation: 'slide_from_bottom' }}
+			/>
+			<Stack.Screen
+				name="driver-signin-handle-otp"
+				options={{ animation: 'flip' }}
+			/>
 		</Stack>
 	);
 }

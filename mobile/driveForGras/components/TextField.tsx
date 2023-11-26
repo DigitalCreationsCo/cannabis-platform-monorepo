@@ -51,7 +51,7 @@ const RNTextField = (props: TextFieldProps) => {
 				onBlur={props.onBlur}
 				onChangeText={props.onChangeText}
 				value={props.value}
-				style={(styles.input.textField, styles.text.p)}
+				style={[styles.input.textField, styles.text.p]}
 				{...props}
 			/>
 		</View>
