@@ -13,7 +13,7 @@ export default function AuthStack() {
 	const colorScheme = useColorScheme();
 
 	const { isSignedIn } = useAppSelector(selectDriverState);
-	if (!isSignedIn) return <Redirect href="/driver-signin" />;
+	if (!isSignedIn) return <Redirect href="/login" />;
 	return (
 		<Stack
 			screenOptions={{

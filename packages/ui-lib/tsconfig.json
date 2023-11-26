@@ -7,6 +7,7 @@
 		"target": "es2020",
 		"lib": ["dom", "dom.iterable", "es2020"],
 		"module": "es2020",
+		"moduleResolution": "node",
 		"jsx": "react-jsx",
 		"noEmit": false,
 		"incremental": true,

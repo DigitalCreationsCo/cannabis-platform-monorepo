@@ -4,11 +4,13 @@ import { fontSize, shadow, spacing } from './constants';
 const textStyles = Object.freeze<Record<string, TextStyle>>({
 	h: { fontSize: fontSize.lg },
 	p: { fontSize: fontSize.sm },
+	error: { fontSize: fontSize.sm, color: '#dd1616', fontWeight: '500' },
 });
 
 const viewStyles = Object.freeze<Record<string, ViewStyle>>({
 	container: {
-		flex: 1,
+		width: '100%',
+		height: '100%',
 	},
 	row: { flexDirection: 'row', alignItems: 'center' },
 	center: {
@@ -18,6 +20,8 @@ const viewStyles = Object.freeze<Record<string, ViewStyle>>({
 		alignSelf: 'center',
 	},
 	buttonPrimary: {
+		borderWidth: 1,
+		borderColor: 'black',
 		borderRadius: spacing.radius,
 		alignItems: 'center',
 		justifyContent: 'center',
@@ -39,9 +43,10 @@ const inputStyles = Object.freeze<Record<string, ViewStyle>>({
 		borderWidth: 1,
 		borderColor: 'green',
 		borderRadius: spacing.radius,
-		padding: spacing[1],
+		padding: spacing[2],
 		margin: spacing[2],
 		justifyContent: 'center',
+		height: spacing.sm,
 		...shadow,
 	},
 	textField: { flex: 1, justifyContent: 'flex-end' },

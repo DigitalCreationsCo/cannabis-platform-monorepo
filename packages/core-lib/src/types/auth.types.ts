@@ -1,5 +1,5 @@
 import {
-	type DriverWithDetails,
+	type DriverWithSessionJoin,
 	type UserWithDetails,
 } from '@cd/data-access/src';
 
@@ -30,6 +30,6 @@ export type PasswordlessResponseWithUserDetails = {
 export type PasswordlessResponseWithDriverDetails = {
 	status: 'OK';
 	createdNewUser: boolean;
-	user: DriverWithDetails;
+	user: DriverWithSessionJoin;
 	fetchResponse: Response;
 };

@@ -1,7 +1,10 @@
 /* eslint-disable sonarjs/cognitive-complexity */
 // import { UserRoleClaim } from "supertokens-node/recipe/userroles";
 import { type PasswordlessSignInRequestPayload } from '@cd/core-lib';
-import { type DriverWithDetails, type UserWithDetails } from '@cd/data-access';
+import {
+	type DriverWithSessionJoin,
+	type UserWithDetails,
+} from '@cd/data-access';
 import Dashboard from 'supertokens-node/recipe/dashboard';
 import Passwordless from 'supertokens-node/recipe/passwordless';
 import Session from 'supertokens-node/recipe/session';
@@ -45,7 +48,16 @@ export const backendConfig = (): AuthConfig => {
 									);
 								}
 							},
-							consumeCode: async (input: PasswordlessSignInRequestPayload) => {
+							consumeCode: async (
+								input: PasswordlessSignInRequestPayload,
+							): Promise<
+								| {
+										status: 'OK';
+										createdNewUser: boolean;
+										user: Passwordless.User;
+								  }
+								| any
+							> => {
 								try {
 									const response = await originalImplementation.consumeCode(
 										input,
@@ -75,8 +87,10 @@ export const backendConfig = (): AuthConfig => {
 										response.status === 'OK'
 										// && response.createdNewUser === false
 									) {
-										let user: UserWithDetails | DriverWithDetails | null;
+										let user: UserWithDetails | DriverWithSessionJoin | null;
 										if (input.userContext.appUser === 'DRIVER') {
+											// handle driver not found with an error state
+
 											if (response.user.email) {
 												user = await DriverDA.getDriverByEmail(
 													response.user.email,
@@ -84,7 +98,7 @@ export const backendConfig = (): AuthConfig => {
 												response.user = {
 													...response.user,
 													...user,
-												} as Passwordless.User & DriverWithDetails;
+												} as Passwordless.User & DriverWithSessionJoin;
 											} else if (response.user.phoneNumber) {
 												user = await DriverDA.getDriverByPhone(
 													response.user.phoneNumber,
@@ -92,7 +106,7 @@ export const backendConfig = (): AuthConfig => {
 												response.user = {
 													...response.user,
 													...user,
-												} as Passwordless.User & DriverWithDetails;
+												} as Passwordless.User & DriverWithSessionJoin;
 											}
 										} else {
 											if (response.user.email) {
@@ -166,7 +180,8 @@ export const backendConfig = (): AuthConfig => {
 									return response;
 								} catch (error: any) {
 									console.error(' consume code error: ', error);
-									throw new Error(error.message);
+									return { message: error.message };
+									// throw new Error(error.message);
 								}
 							},
 						};
@@ -179,7 +194,6 @@ export const backendConfig = (): AuthConfig => {
 							) => {
 								const { appUser } = await input.options.req.getJSONBody();
 								input.userContext = { ...input.userContext, appUser };
-
 								return originalImplementation.consumeCodePOST(input);
 							},
 						};
