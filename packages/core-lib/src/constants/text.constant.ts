@@ -106,11 +106,11 @@ const TextContent = Object.freeze({
 
 		SIGNING_IN: `Signing in`,
 		SIGNOUT: 'Sign out',
-		SIGNIN: 'Sign In',
+		SIGNIN: 'Sign in',
 		SIGNIN_EMAIL: 'Sign in with your email',
 		SIGNIN_PHONE: 'Sign in with your phone',
 		SIGNIN_EMAIL_OR_PHONE: 'Sign in with your email or phone',
-		SIGNUP: 'Sign Up',
+		SIGNUP: 'Sign up',
 		CTA: 'SIGN ME UP',
 	},
 
