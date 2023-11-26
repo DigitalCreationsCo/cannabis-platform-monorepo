@@ -106,7 +106,7 @@ export type SocketStateType = {
 	socketMap: Record<string, Socket>;
 	connectionOpenInit: boolean;
 	connectionCloseInit: boolean;
-	isConnected: boolean;
+	isConnectedToDispatch: boolean;
 	errorMessage: string;
 	message: string;
 	dispatchOrders: OrderWithDispatchDetails['order'][];
@@ -119,7 +119,7 @@ const initialState: SocketStateType = {
 	socketMap: {},
 	connectionOpenInit: false,
 	connectionCloseInit: false,
-	isConnected: false,
+	isConnectedToDispatch: false,
 	errorMessage: '',
 	message: '',
 	dispatchOrders: [],
@@ -144,13 +144,15 @@ const socketSlice = createSlice({
 		connectionEstablished: (state) => {
 			state.connectionOpenInit = false;
 			state.connectionCloseInit = false;
-			state.isConnected = true;
+			state.isConnectedToDispatch = true;
+			state.errorMessage = '';
 			console.info('connection established. ready to send and receive data.');
 		},
 		connectionClosed: (state) => {
 			state.connectionOpenInit = false;
 			state.connectionCloseInit = false;
-			state.isConnected = false;
+			state.isConnectedToDispatch = false;
+			state.errorMessage = '';
 			console.info('connection is closed.');
 		},
 		receiveNewOrderRequest: (
@@ -229,7 +231,9 @@ const socketSlice = createSlice({
 			state.message = payload;
 		},
 		setError: (state, { payload }) => {
-			state.errorMessage = payload;
+			const error = payload;
+			console.error('socket error: ', error);
+			state.errorMessage = error;
 			state.connectionOpenInit = false;
 			state.connectionCloseInit = false;
 		},
@@ -260,10 +264,9 @@ const socketSlice = createSlice({
 		// 	});
 
 		builder.addCase(updateOnlineStatus.rejected, (state) => {
-			console.info('updateOnlineStatus rejected, closing connection');
 			state.connectionOpenInit = false;
 			state.connectionCloseInit = true;
-			console.info('closing connection');
+			console.info('updateOnlineStatus rejected, closing connection');
 		});
 
 		builder.addCase(

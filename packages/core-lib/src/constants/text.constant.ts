@@ -241,7 +241,7 @@ const TextContent = Object.freeze({
 	dispatch: {
 		status: {
 			START_DELIVERING: 'Go Online',
-			STOP_DELIVERING: 'Go Offline',
+			STOP_DELIVERING: "You're Connected",
 			ACCEPT_ORDER: `You accepted the delivery order!\nTravel to pickup the order.`,
 			ALL_DELIVERY_ORDERS: 'Your Delivery Queue',
 			CONNECTED: `Connected to the dispatch server.`,

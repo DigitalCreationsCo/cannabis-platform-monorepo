@@ -96,6 +96,11 @@ export default class DriverController {
 					});
 				if (onlineStatus === false) return res.status(400).json(data);
 			}
+			console.info(
+				'successfully updated driverSession status ',
+				id,
+				onlineStatus,
+			);
 			return res.status(200).json(data);
 		} catch (error: any) {
 			console.info(`updateStatus: `, error.message);

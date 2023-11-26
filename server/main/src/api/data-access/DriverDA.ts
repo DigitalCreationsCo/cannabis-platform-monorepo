@@ -14,7 +14,6 @@ import {
 	type UserWithDriverDetails,
 } from '@cd/data-access';
 import { type Collection, type MongoClient } from 'mongodb';
-import error from 'supertokens-node/lib/build/error';
 
 /* =================================
 Driver Data Access - data class for Driver SQL Table and DriverSessions Mongo Collection

@@ -23,6 +23,9 @@ export async function createDriver(userData: DriverCreateType) {
 		return await prisma.driver.create({
 			data: {
 				email: userData.email,
+				driverSession: {
+					create: {},
+				},
 				user: {
 					connectOrCreate: {
 						where: {
@@ -58,6 +61,7 @@ export async function createDriver(userData: DriverCreateType) {
 				},
 			},
 			include: {
+				driverSession: true,
 				user: {
 					include: {
 						address: { include: { coordinates: true } },
@@ -77,12 +81,21 @@ export async function createDriver(userData: DriverCreateType) {
 
 export async function updateDriverOnlineStatus(id: string, isOnline: boolean) {
 	try {
-		return await prisma.driverSession.update({
+		return await prisma.driver.update({
 			where: {
 				id,
 			},
 			data: {
-				isOnline,
+				driverSession: {
+					upsert: {
+						create: {
+							isOnline,
+						},
+						update: {
+							isOnline,
+						},
+					},
+				},
 			},
 		});
 	} catch (error: any) {
@@ -147,7 +160,11 @@ export async function updateDriver(userData: UserCreateType) {
 			include: {
 				address: { include: { coordinates: true } },
 				profilePicture: true,
-				driver: true,
+				driver: {
+					include: {
+						driverSession: true,
+					},
+				},
 			},
 		});
 	} catch (error: any) {
@@ -172,6 +189,7 @@ export async function findDriverWithDetailsByEmail(
 				email,
 			},
 			include: {
+				driverSession: true,
 				user: {
 					include: {
 						address: { include: { coordinates: true } },
@@ -195,7 +213,11 @@ export async function findDriverWithDetailsByPhone(
 				phone,
 			},
 			include: {
-				driver: true,
+				driver: {
+					include: {
+						driverSession: true,
+					},
+				},
 				address: { include: { coordinates: true } },
 				memberships: {
 					orderBy: {
@@ -232,6 +254,7 @@ export async function findDriverWithDetailsById(
 				id,
 			},
 			include: {
+				driverSession: true,
 				user: {
 					include: {
 						address: { include: { coordinates: true } },

@@ -45,6 +45,7 @@ const socketMiddleware = (store: MiddlewareAPI<any, AppState>) => {
 		next(action);
 
 		if (driverActions.updateOnlineStatus.rejected.match(action)) {
+			console.info('updateOnlineStatus rejected');
 			store.dispatch(socketActions.setError(action.payload.error));
 		}
 
@@ -382,52 +383,22 @@ const socketMiddleware = (store: MiddlewareAPI<any, AppState>) => {
 							store.dispatch(socketActions.ordersCompletedAll());
 						}
 					}
-					if (socketActions.closingConnection.match(action)) {
-						try {
-							if (dispatch_socket) {
-								console.log('1a');
-								dispatch_socket.close();
-								console.log(2);
-								delete socketMap['dispatch_socket'];
-								console.log(3);
-								dispatch_socket = null;
-								console.log(4);
-							}
-
-							console.info('order socket', _order_socket_connection);
-							if (_order_socket_connection) {
-								console.log(6);
-								_order_socket_connection.close();
-								console.log(7);
-								delete socketMap[socketKey];
-								console.log(8);
-								_order_socket_connection = null;
-								console.log(9);
-							}
-
-							store.dispatch(socketActions.connectionClosed());
-						} catch (error) {
-							console.info('error closing connection: ', error);
-						}
-					}
 				} // is a orderSocket
 			} // socketMap iterate
 		} // isActiveDelivery
 		// handle for the proper disconnect on closing, using orderId for discretion
 		if (socketActions.closingConnection.match(action)) {
 			try {
+				store.dispatch(driverActions.updateOnlineStatus(false));
 				if (dispatch_socket) {
-					console.log('1b');
 					dispatch_socket.close();
-					console.log(2);
 					delete socketMap['dispatch_socket'];
-					console.log(3);
 					dispatch_socket = null;
-					console.log(4);
 				}
 				store.dispatch(socketActions.connectionClosed());
 			} catch (error) {
 				console.info('error closing connection: ', error);
+				store.dispatch(socketActions.setError(error.message));
 			}
 		}
 	};

@@ -18,7 +18,7 @@ export const updateOnlineStatus = createAsyncThunk<
 			id,
 			onlineStatus,
 		});
-
+		console.log('updateOnlineStatus response: ', response.data);
 		if (response.data.success === 'false') throw new Error(response.data.error);
 		return {
 			...response.data,
