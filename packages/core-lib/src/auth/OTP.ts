@@ -57,9 +57,7 @@ async function handleOTPCodeAPI(input: {
 	flowType: 'USER_INPUT_CODE';
 }): Promise<PasswordlessResponseWithUserDetails> {
 	try {
-		const response = await axios.post(urlBuilder.main.submitOTP(), {
-			...input,
-		});
+		const response = await axios.post(urlBuilder.main.submitOTP(), input);
 		if (response.data.status !== 'OK') throw new Error(response.data.message);
 		return response.data;
 	} catch (err: any) {
@@ -76,9 +74,7 @@ async function handleDriverAppOTPCodeAPI(input: {
 	flowType: 'USER_INPUT_CODE';
 }): Promise<PasswordlessResponseWithDriverDetails> {
 	try {
-		const response = await axios.post(urlBuilder.main.submitOTP(), {
-			...input,
-		});
+		const response = await axios.post(urlBuilder.main.submitOTP(), input);
 		if (response.data.status !== 'OK') throw new Error(response.data.message);
 		return response.data;
 	} catch (err: any) {
