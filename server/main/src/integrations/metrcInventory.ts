@@ -23,33 +23,30 @@ const MetrcIntegration: POSIntegration = class {
 
 	static async processPickupOrder(order: OrderWithFullDetails) {
 		try {
-			if (!order.organization.metrcLicenseNumber)
-				throw new Error('Organization does not have a Metrc license number');
+			// if (!order.organization.metrcLicenseNumber)
+			// 	throw new Error('Organization does not have a Metrc license number');
 
-			const endpoint = this.getMetricStateEndpoint(
-				order.organization.address.state,
-			);
+			// const endpoint = this.getMetricStateEndpoint(
+			// 	order.organization.address.state,
+			// );
 
-			// get local Dispensary date and time
-			const transactionDate = formatToTimeZone(
-				order.createdAt,
-				TimeZoneMap[order.organization.address.state],
-				'yyyy-MM-dd',
-			);
-			// const transactionTime = formatToTimeZone(
+			// // get local Dispensary date and time
+			// const transactionDate = formatToTimeZone(
 			// 	order.createdAt,
 			// 	TimeZoneMap[order.organization.address.state],
-			// 	'HH:mm:ss',
+			// 	'yyyy-MM-dd',
 			// );
-			const { metrcLicenseNumber } = order.organization;
 
-			const transactionPackageData: Package[] = order.items.map((item) => ({}));
+			// const { metrcLicenseNumber } = order.organization;
 
-			await axios.post(
-				endpoint +
-					`/sales/v1/transactions/${transactionDate}?licenseNumber=${metrcLicenseNumber}`,
-				transactionPackageData,
-			);
+			// const transactionPackageData: Package[] = order.items.map((item) => ({}));
+
+			// await axios.post(
+			// 	endpoint +
+			// 		`/sales/v1/transactions/${transactionDate}?licenseNumber=${metrcLicenseNumber}`,
+			// 	transactionPackageData,
+			// );
+			return;
 		} catch (error: any) {
 			console.error('Metrc Integration: ', error.message);
 			throw new Error(error.message);
@@ -58,13 +55,14 @@ const MetrcIntegration: POSIntegration = class {
 
 	static async processDeliveryOrder(order: OrderWithDispatchDetails['order']) {
 		try {
-			if (!order.organization.metrcLicenseNumber)
-				throw new Error('Organization does not have a Metrc license number');
+			// if (!order.organization.metrcLicenseNumber)
+			// 	throw new Error('Organization does not have a Metrc license number');
 
-			const endpoint = this.getMetricStateEndpoint(
-				order.organization.address.state,
-			);
-			await axios.post(endpoint, {});
+			// const endpoint = this.getMetricStateEndpoint(
+			// 	order.organization.address.state,
+			// );
+			// await axios.post(endpoint, {});
+			return;
 		} catch (error: any) {
 			console.error('Metrc Integration: ', error.message);
 			throw new Error(error.message);

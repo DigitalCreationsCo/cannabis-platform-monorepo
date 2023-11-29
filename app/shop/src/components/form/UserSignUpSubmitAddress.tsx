@@ -183,11 +183,12 @@ function SubmitAddressForm() {
 					helperText={touched?.address?.state && errors?.address?.state}
 				/> */}
 				<FlexBox className="flex-row items-center">
-					<Paragraph className="text-lg">STATE</Paragraph>
 					<Select
+						name="address.state"
+						label="* state"
 						className="rounded border text-lg"
 						values={usStatesAbbreviationList}
-						defaultValue={'MD'}
+						// setOption={handleChange('address.state')}
 						setOption={handleChange}
 					/>
 				</FlexBox>

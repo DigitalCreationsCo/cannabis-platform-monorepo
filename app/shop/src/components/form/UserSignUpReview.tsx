@@ -144,8 +144,8 @@ function UserSignUpReview() {
 								<Link href={href.browse}>
 									<Button>Go to Gras</Button>
 								</Link>
-								<Link href={href.account_f(account.id)}>
-									<Button>Go to my account</Button>
+								<Link href={href.checkout}>
+									<Button>Checkout</Button>
 								</Link>
 							</>
 						</FlexBox>

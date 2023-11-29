@@ -100,9 +100,9 @@ const TextContent = Object.freeze({
 		VERIFY_ID_COMPLETE: 'Thanks for verifying!',
 
 		ONETIME_PASSCODE_SENT_EMAIL_f: (receipient: string) =>
-			`A one time passcode has been sent to ${receipient}.`,
+			`Your sign in passcode was sent to ${receipient}.`,
 		ONETIME_PASSCODE_SENT_MOBILE_f: (receipient: string) =>
-			`Your one time passcode has been sent to ${receipient}.`,
+			`Your sign in passcode was sent to ${receipient}.`,
 
 		SIGNING_IN: `Signing in`,
 		SIGNOUT: 'Sign out',
@@ -332,8 +332,9 @@ const TextContent = Object.freeze({
 
 	href: {
 		browse: '/browse',
-
 		bag: '/mybag',
+		checkout: '/checkout',
+
 		blog: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/blog`,
 		services: `${process.env.NEXT_PUBLIC_DASHBOARD_APP_URL}/signup`,
 		storefront_f: (subdomain: string) =>
