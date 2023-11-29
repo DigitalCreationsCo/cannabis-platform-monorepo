@@ -49,7 +49,7 @@ function QuickDelivery({ simpleCart }: { simpleCart: SimpleCart }) {
 	if (idVerified === true && isLegalAge === false)
 		router.push('/sorry-we-cant-serve-you');
 
-	const [confirm, setConfirm] = useState(false);
+	const [confirm, setConfirm] = useState(true);
 	const canProceed = !cartIsEmpty && confirm;
 
 	useEffect(() => {
@@ -87,6 +87,7 @@ function QuickDelivery({ simpleCart }: { simpleCart: SimpleCart }) {
 		<Page
 			className={twMerge(
 				styles.gradient,
+				'overflow-x-hidden',
 				'flex flex-col pb-0',
 				confirm ? 'md:!pb-0' : 'md:pb-12',
 			)}
@@ -99,14 +100,15 @@ function QuickDelivery({ simpleCart }: { simpleCart: SimpleCart }) {
 				/>
 			</Head>
 			<Card className="bg-inverse-soft m-auto flex grow flex-col">
-				<H2>{TextContent.info.GET_CANNABIS_DELIVERED}</H2>
-				<Center className="m-auto flex w-full !grow flex-col space-y-0 py-0 sm:w-[380px] md:w-fit md:space-y-2">
-					<Paragraph className="place-self-start text-left">
+				<H2>{TextContent.info.CANNABIS_DELIVERED}</H2>
+				<Center className="m-auto flex w-full !grow flex-col py-0 sm:w-[380px] md:w-fit space-y-2">
+					{/* <Paragraph className="place-self-start text-left">
 						Before we deliver to you,
 						<br />
 						let's make sure your order is correct.
-					</Paragraph>
-					<H5 className="place-self-start">{TextContent.shop.YOUR_ORDER}</H5>
+					</Paragraph> */}
+					{/* <H5 className="place-self-start">{TextContent.shop.YOUR_ORDER}</H5> */}
+					<H5 className="place-self-start">Review your order</H5>
 					{cartIsEmpty ? (
 						<Paragraph className="col-span-2 ">
 							{TextContent.info.THANK_YOU}
@@ -127,49 +129,50 @@ function QuickDelivery({ simpleCart }: { simpleCart: SimpleCart }) {
 									),
 								)}
 							</div>
-							<H5 className="flex w-full justify-end leading-none">
-								subtotal
-								<Price basePrice={cart.subtotal || 0} />
-							</H5>
-							<H5 className="flex w-full justify-end leading-none">
-								taxes
-								<Price basePrice={cart.taxAmount || 0} />
-							</H5>
-							<H5 className="flex w-full justify-end leading-none">
-								Your total is
-								<Price basePrice={cart.total || 0} />
-							</H5>
-							<Paragraph>Is your order correct?</Paragraph>
+							<div className="md:justify-end md:w-full">
+								<H5 className="flex w-full justify-end leading-none">
+									subtotal
+									<Price basePrice={cart.subtotal || 0} />
+								</H5>
+								<H5 className="flex w-full justify-end leading-none">
+									taxes
+									<Price basePrice={cart.taxAmount || 0} />
+								</H5>
+								<H5 className="flex w-full justify-end leading-none">
+									Your total is
+									<Price basePrice={cart.total || 0} />
+								</H5>
+							</div>
+
+							{/* <Paragraph>Is your order correct?</Paragraph>
 							<CheckBox
 								name="confirm-order"
 								checked={confirm}
 								label={confirm ? `It's correct` : `No, it's not`}
 								onChange={() => setConfirm(!confirm)}
-							/>
+							/> */}
+							{user.isSignedIn ? (
+								<>
+									<Paragraph>{TextContent.prompt.REVIEW_CHECKOUT}</Paragraph>
+									<CheckoutButton
+										size="lg"
+										disabled={!canProceed}
+										onClick={checkoutOrCompleteSignUp}
+									/>
+								</>
+							) : (
+								<>
+									<Paragraph>
+										That's great! Except, we dont have your info. {'\n'}
+										<b>Please sign in</b>, so our{' '}
+										<span className="text-primary">DeliveryPerson</span> can get
+										to you.
+									</Paragraph>
+									<SignInButton size="lg" />
+								</>
+							)}
 						</>
 					)}
-
-					{canProceed &&
-						(user.isSignedIn ? (
-							<>
-								<Paragraph>{TextContent.prompt.REVIEW_CHECKOUT}</Paragraph>
-								<CheckoutButton
-									size="lg"
-									disabled={!canProceed}
-									onClick={checkoutOrCompleteSignUp}
-								/>
-							</>
-						) : (
-							<>
-								<Paragraph>
-									That's great! Except, we dont have your info. {'\n'}
-									<b>Please sign in</b>, so our{' '}
-									<span className="text-primary">DeliveryPerson</span> can get
-									to you.
-								</Paragraph>
-								<SignInButton size="lg" />
-							</>
-						))}
 				</Center>
 			</Card>
 		</Page>

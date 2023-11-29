@@ -74,7 +74,9 @@ export default function Button({
 					<LoadingDots />
 				</Center>
 			) : (
-				<Text style={[styles.text.p, { color }]}>{props.children}</Text>
+				<Text style={[styles.text.p, { color, fontWeight: '500' }]}>
+					{props.children}
+				</Text>
 			)}
 		</TouchableOpacity>
 	);

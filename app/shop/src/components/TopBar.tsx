@@ -66,7 +66,7 @@ function TopBar({ signOut }: TopBarProps) {
 					</Paragraph>
 				</Link>
 			</FlexBox>
-			<FlexBox className="flex flex-row items-center md:space-x-4 md:pr-2">
+			<FlexBox className="flex flex-row items-center space-x-4 px-4 pr-2">
 				{/* GET SUPPORT BUTTON */}
 				{isSignedIn && (
 					<Link

@@ -2,9 +2,14 @@ import { type TextStyle, type ViewStyle } from 'react-native';
 import { fontSize, shadow, spacing } from './constants';
 
 const textStyles = Object.freeze<Record<string, TextStyle>>({
-	h: { fontSize: fontSize.lg },
-	p: { fontSize: fontSize.sm },
-	error: { fontSize: fontSize.sm, color: '#dd1616', fontWeight: '500' },
+	h: { fontSize: fontSize.lg, letterSpacing: 0.4 },
+	p: { fontSize: fontSize.sm, letterSpacing: 0.4 },
+	error: {
+		fontSize: fontSize.sm,
+		color: '#dd1616',
+		fontWeight: '500',
+		letterSpacing: 0.4,
+	},
 });
 
 const viewStyles = Object.freeze<Record<string, ViewStyle>>({
@@ -23,13 +28,12 @@ const viewStyles = Object.freeze<Record<string, ViewStyle>>({
 		padding: spacing[4],
 	},
 	buttonPrimary: {
-		borderWidth: 1,
-		borderColor: 'black',
 		borderRadius: spacing.radius,
 		alignItems: 'center',
 		justifyContent: 'center',
 		height: spacing.sm,
 		margin: spacing[2],
+		...shadow,
 	},
 	buttonSecondary: {
 		borderRadius: spacing.radius,
