@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import cluster from 'cluster';
+import console from 'console';
 import { getGeoJsonPairFromCoordinates } from '@cd/core-lib';
 import prisma, {
 	addDriverToOrder,
@@ -9,12 +10,14 @@ import prisma, {
 	type OrderUpdateType,
 	type OrganizationWithAddress,
 } from '@cd/data-access';
+import { from } from 'form-data';
 import {
 	MongoClient,
 	type ChangeStream,
 	type Collection,
 	type PushOperator,
 } from 'mongodb';
+import { error } from 'winston';
 
 class DispatchDA {
 	driver_sessions_collection: Collection | undefined;
@@ -161,48 +164,49 @@ class DispatchDA {
 	 * @param coordinates
 	 * @returns driversession[]
 	 */
-	async findDriversWithinRange(
+	async findDriversWithinRadius(
 		organization: OrganizationWithAddress,
 		radiusFactor = 1,
 	): Promise<{ id: string; phone: string; dialCode: string }[]> {
 		try {
-			const geoJsonPoint = getGeoJsonPairFromCoordinates(
+			const allDrivers = await this.driver_sessions_collection
+				?.find({ isOnline: true, isActiveDelivery: false })
+				.toArray();
+			console.debug(`${allDrivers?.length} total drivers available.`);
+
+			const radiusDeltaMeters =
+				(organization.address.coordinates?.radius || 5000) *
+				radiusFactor *
+				10000; // <- debugging (REMOVE THIS)
+			const radiusDeltaKilometers = radiusDeltaMeters / 1000;
+			console.info(
+				` finding drivers within range of ${radiusDeltaMeters}m / ${radiusDeltaKilometers}km.`,
+			);
+
+			const dispensaryCoordinates = getGeoJsonPairFromCoordinates(
 				organization.address.coordinates as Coordinates,
 			);
-			if (!geoJsonPoint) throw new Error('No coordinates are valid.');
-			console.info(
-				`findDriversWithinRange for the coordinates ${JSON.stringify(
-					geoJsonPoint,
-				)}
-				with radiusFactor ${radiusFactor}
-				covering a radius of ${
-					(organization.address.coordinates?.radius || 5000) * radiusFactor
-				} meters, 
-				${
-					((organization.address.coordinates?.radius || 5000) * radiusFactor) /
-					1000
-				} kilometers`,
-			);
-			const drivers = (await this.driver_sessions_collection
+			if (!dispensaryCoordinates) throw new Error('No coordinates are valid.');
+
+			const driversFound = (await this.driver_sessions_collection
 				?.aggregate([
 					{
 						$geoNear: {
-							near: geoJsonPoint,
+							near: dispensaryCoordinates,
 							query: { isOnline: true, isActiveDelivery: false },
-							maxDistance:
-								(organization.address.coordinates?.radius || 5000) *
-								radiusFactor, // meters
+							maxDistance: radiusDeltaMeters,
 							distanceField: 'distanceToFirstStop',
 							spherical: true,
 						},
 					},
-					{ $limit: 10 },
+					{ $limit: 5 },
 					{ $project: { _id: 0, id: 1, phone: 1, dialCode: 1 } },
 				])
 				.toArray()) as { id: string; phone: string; dialCode: string }[];
-			return drivers || [];
+			console.info('drivers found: ', driversFound?.length);
+			return driversFound || [];
 		} catch (error: any) {
-			console.error('findDriversWithinRange: ', error);
+			console.error('findDriversWithinRange: ', error.message);
 			throw new Error(error.message);
 		}
 	}

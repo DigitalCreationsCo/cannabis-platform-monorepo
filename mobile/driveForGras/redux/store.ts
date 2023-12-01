@@ -66,17 +66,17 @@ const makeStore = () => {
 	const store = configureStore({
 		devTools: process.env.NODE_ENV !== 'production',
 		reducer: persistReducer(config, rootReducer),
-		middleware: (getDefaultMiddleware) =>
-			[
-				...getDefaultMiddleware({
-					serializableCheck: {
-						ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-					},
-					thunk: {
-						extraArgument: thunkArguments,
-					},
-				}),
-			].concat([socketMiddleware]),
+		middleware: (getDefaultMiddleware) => [
+			...getDefaultMiddleware({
+				serializableCheck: {
+					ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+				},
+				thunk: {
+					extraArgument: thunkArguments,
+				},
+			}),
+			socketMiddleware,
+		],
 	});
 	thunkArguments.store = store;
 

@@ -7,7 +7,13 @@ import {
 	parseUrlFriendlyStringToObject,
 	type SocketEventPayload,
 } from '@cd/core-lib';
+import {
+	logger,
+	createRequestLogger,
+	createErrorLogger,
+} from '@cd/core-lib/lib/logger';
 import { createAdapter } from '@socket.io/redis-adapter';
+import express from 'express';
 import { Server } from 'socket.io';
 import {
 	Client,
@@ -22,186 +28,142 @@ import {
 } from './redis-dispatch';
 
 try {
-	new ClusterInit();
+	const app = express();
+	const httpServer = createServer(app);
 
-	const httpServer = createServer((req, res) => {
-		const url = new URL(req.url || '', `http://${req.headers.host}`);
+	app.use(createRequestLogger());
 
-		if (req.method === 'POST' && url.pathname === '/sms/driver-new-order') {
-			let body = '';
-			req.on('data', (chunk) => {
-				body += chunk.toString();
-			});
-			req.on('end', async () => {
-				res.end();
-				// let to = '';
-				let from = '';
-				let text = '';
-				switch (getSMSApiOrigin(req.headers['user-agent'] || '')) {
-					case 'telnyx':
-						if (
-							JSON.parse(body).data.payload.is_spam == 'true' ||
-							JSON.parse(body).data.event_type !== 'message.received'
-						)
-							return;
-						from = JSON.parse(body).data.payload.from.phone_number;
-						text = JSON.parse(body).data.payload.text;
-						break;
-					case 'textGrid':
-						from = parseUrlFriendlyStringToObject(body).From;
-						text = parseUrlFriendlyStringToObject(body).Body;
-						break;
-					default:
-						throw new Error('unhandled sms api origin');
-				}
+	app.post('/sms/driver-new-order', async (req, res) => {
+		const body = req.body;
 
-				/* match reply message from driver to accept
-				 handle message edge cases:
-				 - send a messageprofile id with every message, use it to parse the correct event
-				 - see if theres a way to append metadata to telnyx webhook, so we can parse the correct event
-				*/
-				// handle confirmation message
-				if (text.match(/\b1\b/)) {
-					const client: Client =
-						await redisDispatchClientsController.getOneClientByPhone(
-							from.split('+1')[1],
-						);
-					if (!isEmpty(client)) {
-						new ClusterInit().sendToWorker({
-							action: 'accept-order',
-							payload: {
-								roomId: client.roomId as string,
-								clients: [client],
-							},
-						});
-					} else {
-						console.error('MASTER: client not found for phone: ', from);
-					}
-				}
-			});
+		let from = '';
+		let text = '';
+		switch (getSMSApiOrigin(req.headers['user-agent'] || '')) {
+			case 'telnyx':
+				if (
+					JSON.parse(body).data.payload.is_spam == 'true' ||
+					JSON.parse(body).data.event_type !== 'message.received'
+				)
+					return;
+				from = JSON.parse(body).data.payload.from.phone_number;
+				text = JSON.parse(body).data.payload.text;
+				break;
+			case 'textGrid':
+				from = parseUrlFriendlyStringToObject(body).From;
+				text = parseUrlFriendlyStringToObject(body).Body;
+				break;
+			default:
+				throw new Error('unhandled sms api origin');
 		}
 
-		// handle deliver order, send events to DeliverOrderRoom
-		// receive sms reply from users, and send emit to room on worker
-		if (req.method === 'POST' && url.pathname === '/sms/deliver-order') {
-			let body = '';
-			req.on('data', (chunk) => {
-				body += chunk.toString();
-			});
-			req.on('end', async () => {
-				res.end();
-				let from = '';
-				let text = '';
-				switch (getSMSApiOrigin(req.headers['user-agent'] as string)) {
-					case 'telnyx':
-						if (
-							JSON.parse(body).data.payload.is_spam == 'true' ||
-							JSON.parse(body).data.event_type !== 'message.received'
-						)
-							return;
-						from = JSON.parse(body).data.payload.from.phone_number;
-						text = JSON.parse(body).data.payload.text;
-						break;
-					case 'textGrid':
-						from = parseUrlFriendlyStringToObject(body).From;
-						text = parseUrlFriendlyStringToObject(body).Body;
-						break;
-					default:
-						console.info('unhandled sms api origin');
-						return null;
-				}
-
-				/* match reply message from driver to accept
-				 handle message edge cases:
-				 - send a messageprofile id with every message, use it to parse the correct event
-				 - see if theres a way to append metadata to telnyx webhook, so we can parse the correct event
-				*/
-				if (text.match(/\b1\b/)) {
-					console.info('phone ,', from.split('+1')[1]);
-					const client: Client =
-						await redisDispatchClientsController.getOneClientByPhone(
-							from.split('+1')[1],
-						);
-					console.info('client retrieved using incoming sms message', client);
-					if (!isEmpty(client)) {
-						new ClusterInit().sendToWorker({
-							action: 'accept-order',
-							payload: {
-								roomId: client.roomId as string,
-								clients: [client],
-							},
-						});
-					} else {
-						console.error('MASTER: client not found for phone: ', from);
-					}
-				}
-			});
-		}
-
-		if (
-			req.method === 'POST' &&
-			url.pathname === '/sms/customer-receive-product'
-		) {
-			let body = '';
-			req.on('data', (chunk) => {
-				body += chunk.toString();
-			});
-			req.on('end', async () => {
-				res.end();
-				console.info('request body ', body);
-				// let to = '';
-				let from = '';
-				let text = '';
-				switch (getSMSApiOrigin(req.headers['user-agent'] as string)) {
-					case 'telnyx':
-						// verify webhook signatures from telnyx
-						if (
-							JSON.parse(body).data.payload.is_spam == 'true' ||
-							JSON.parse(body).data.event_type !== 'message.received'
-						)
-							return;
-						from = JSON.parse(body).data.payload.from.phone_number;
-						text = JSON.parse(body).data.payload.text;
-						break;
-					case 'textGrid':
-						// type TextGridReturnMessagePayload
-						from = parseUrlFriendlyStringToObject(body).From;
-						text = parseUrlFriendlyStringToObject(body).Body;
-						break;
-					default:
-						return null;
-				}
-
-				/* match reply message from driver to accept
-				 handle message edge cases:
-				 - send a messageprofile id with every message, use it to parse the correct event
-				 - see if theres a way to append metadata to telnyx webhook, so we can parse the correct event
-				*/
-				if (text.match(/\byes\b/)) {
-					const client: Client =
-						await redisDispatchClientsController.getOneClientByPhone(
-							from.split('+1')[1],
-						);
-					// RIGHT NOW, THIS IS SENDING ORDER-COMPLETE EVENT,
-					// IT OUGHT TO SEND CUSTOMER-RECEIVED-PRODUCT EVENT,
-					// AND THEN THE ROOM WILL EMIT ORDER-COMPLETE EVENT,
-					// THIS IS TESTABLE AS IS. :)
-
-					if (!isEmpty(client)) {
-						new ClusterInit().sendToWorker({
-							action: 'order-complete',
-							payload: {
-								roomId: client.roomId as string,
-								clients: [client],
-							},
-						});
-					} else {
-						console.error('MASTER: client not found for phone: ', from);
-					}
-				}
-			});
+		if (text.match(/\b1\b/)) {
+			const client: Client =
+				await redisDispatchClientsController.getOneClientByPhone(
+					from.split('+1')[1],
+				);
+			if (!isEmpty(client)) {
+				new ClusterInit().sendToWorker({
+					action: 'accept-order',
+					payload: {
+						roomId: client.roomId as string,
+						clients: [client],
+					},
+				});
+			} else {
+				console.error('MASTER: client not found for phone: ', from);
+			}
 		}
 	});
+
+	app.post('/sms/deliver-order', async (req, res) => {
+		const body = req.body;
+
+		let from = '';
+		let text = '';
+		switch (getSMSApiOrigin(req.headers['user-agent'] as string)) {
+			case 'telnyx':
+				if (
+					JSON.parse(body).data.payload.is_spam == 'true' ||
+					JSON.parse(body).data.event_type !== 'message.received'
+				)
+					return;
+				from = JSON.parse(body).data.payload.from.phone_number;
+				text = JSON.parse(body).data.payload.text;
+				break;
+			case 'textGrid':
+				from = parseUrlFriendlyStringToObject(body).From;
+				text = parseUrlFriendlyStringToObject(body).Body;
+				break;
+			default:
+				console.info('unhandled sms api origin');
+				return null;
+		}
+
+		if (text.match(/\b1\b/)) {
+			console.info('phone ,', from.split('+1')[1]);
+			const client: Client =
+				await redisDispatchClientsController.getOneClientByPhone(
+					from.split('+1')[1],
+				);
+			console.info('client retrieved using incoming sms message', client);
+			if (!isEmpty(client)) {
+				new ClusterInit().sendToWorker({
+					action: 'accept-order',
+					payload: {
+						roomId: client.roomId as string,
+						clients: [client],
+					},
+				});
+			} else {
+				console.error('MASTER: client not found for phone: ', from);
+			}
+		}
+	});
+
+	app.post('/sms/customer-receive-product', async (req, res) => {
+		const body = req.body;
+		let from = '';
+		let text = '';
+		switch (getSMSApiOrigin(req.headers['user-agent'] as string)) {
+			case 'telnyx':
+				// verify webhook signatures from telnyx
+				if (
+					JSON.parse(body).data.payload.is_spam == 'true' ||
+					JSON.parse(body).data.event_type !== 'message.received'
+				)
+					return;
+				from = JSON.parse(body).data.payload.from.phone_number;
+				text = JSON.parse(body).data.payload.text;
+				break;
+			case 'textGrid':
+				// type TextGridReturnMessagePayload
+				from = parseUrlFriendlyStringToObject(body).From;
+				text = parseUrlFriendlyStringToObject(body).Body;
+				break;
+			default:
+				return null;
+		}
+
+		if (text.match(/\byes\b/)) {
+			const client: Client =
+				await redisDispatchClientsController.getOneClientByPhone(
+					from.split('+1')[1],
+				);
+			if (!isEmpty(client)) {
+				new ClusterInit().sendToWorker({
+					action: 'order-complete',
+					payload: {
+						roomId: client.roomId as string,
+						clients: [client],
+					},
+				});
+			} else {
+				console.error('MASTER: client not found for phone: ', from);
+			}
+		}
+	});
+
+	global.logger = logger;
 
 	global.io = new Server(httpServer);
 	global.io.adapter(
@@ -232,6 +194,10 @@ try {
 			throw new Error(e.message);
 		});
 	});
+
+	app.use(createErrorLogger());
+
+	new ClusterInit();
 
 	const port = (process.env.SERVER_PORT as unknown as number) || 6041;
 	httpServer.listen(port, () => {

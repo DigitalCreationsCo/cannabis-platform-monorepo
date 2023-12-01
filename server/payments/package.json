@@ -53,6 +53,7 @@
 		"test:watch": "../../node_modules/jest/bin/jest.js --watchAll",
 		"watch": "rimraf ./node_modules/.cache && dotenv -e ../../.env.development -- babel-watch -e \".ts\" -c ./babel.config.js ./src/index.ts",
 		"stripe:webhook": "stripe listen --forward-to localhost:6021/webhook",
+		"stripe:webhook-trigger": "stripe trigger checkout.session.completed",
 		"start": "dotenv -e ../../.env.production -- node dist"
 	},
 	"version": "0.0.1"

@@ -116,17 +116,28 @@ class ClusterController {
 				import('../data-access/DispatchDA').then(async (DispatchDA) => {
 					this.db = await DispatchDA.default;
 					this.db.dispatch_orders_changestream?.on('change', async (change) => {
-						console.info('changestream event', change.operationType);
+						console.info('document event:', change.operationType);
 						let order;
 						let queueStatus;
 						switch (change.operationType) {
 							case 'insert':
-								order = (change.fullDocument as OrderWithDispatchDetails).order;
-								// assign driver to dispatch order
-								if (isEmpty(order.driver)) {
-									this.createSelectDriverRoom(order);
+								try {
+									order = (change.fullDocument as OrderWithDispatchDetails)
+										.order;
+									// assign driver to dispatch order
+									if (isEmpty(order.driver)) {
+										this.createSelectDriverRoom(order);
+									}
+								} catch (error: any) {
+									console.error(error.message);
+									// add better error handling here, for dispatch failover
+									// throw new Error(error.message);
+
+									// if Invalid Coordinates, update the coordinates for the order.
+									// prisma -> mongo update -> leads to 'update' changestream event
 								}
 								break;
+
 							case 'update':
 								order = (change.fullDocument as OrderWithDispatchDetails).order;
 								console.info('update order: ', order);
@@ -168,32 +179,32 @@ class ClusterController {
 	}
 
 	async createSelectDriverRoom(order: OrderWithDispatchDetails['order']) {
-		console.info(`selecting driver for order ${order.id}`);
 		try {
 			let radiusFactor = 1;
-			// get driver records within delivery range
-			let driversWithinDeliveryRange = await this.db?.findDriversWithinRange(
+			console.info(` dispatch is finding a driver for order:${order.id}.`);
+
+			let driversWithinRadius = await this.db?.findDriversWithinRadius(
 				order.organization,
 				radiusFactor,
 			);
+
+			console.info('driversWithinRadius: ', driversWithinRadius);
+			// if no drivers found, increase radius and find again
+			while (isEmpty(driversWithinRadius)) {
+				if (radiusFactor < 5) {
+					radiusFactor *= 1.5;
+					console.info('increasing radius to ', radiusFactor);
+					driversWithinRadius = await this.db?.findDriversWithinRadius(
+						order.organization,
+						radiusFactor,
+					);
+				} else throw new Error('0 drivers found within the delivery radius.');
+			}
+
 			console.info(
-				'# of drivers within delivery range: ',
-				driversWithinDeliveryRange?.length,
+				`${driversWithinRadius?.length} drivers found within the delivery radius.`,
 			);
-			// if no drivers found, increase radius and try again
-			// while (radiusFactor < 5 && driversWithinDeliveryRange.length < 2) {
-			while (radiusFactor < 5 && isEmpty(driversWithinDeliveryRange)) {
-				radiusFactor *= 1.5;
-				driversWithinDeliveryRange = await this.db?.findDriversWithinRange(
-					order.organization,
-					radiusFactor,
-				);
-			}
-			if (isEmpty(driversWithinDeliveryRange)) {
-				// await a poll to find drivers when they become available
-				console.info('no drivers found within delivery range');
-				// throw new Error(TextContent.error.DRIVER_NOT_FOUND);
-			}
+
 			// dont get clients, rather update clients for every order
 			// const clients = await redisDispatchClientsController.getManyClientsByPhone(
 			// 	driversWithinDeliveryRange,
@@ -202,7 +213,7 @@ class ClusterController {
 			const clients: Client[] = [];
 			// create client for each driver, update existing clients
 			const roomId = createRoomId('select-driver', order.id);
-			driversWithinDeliveryRange?.forEach(async (driver) => {
+			driversWithinRadius?.forEach(async (driver) => {
 				const client = new Client({
 					userId: driver.id,
 					phone: driver.phone,
@@ -213,7 +224,6 @@ class ClusterController {
 				redisDispatchClientsController.saveClient(client);
 				clients.push(client);
 				console.info('pushed new client');
-				// }
 			});
 			console.info('select-driver clients ', clients);
 			await this.subscribeToRoom(
@@ -223,8 +233,12 @@ class ClusterController {
 				order,
 			);
 		} catch (error: any) {
-			console.error('Dispatch: createSelectDriverRoom: ', error);
-			throw new Error(error.message);
+			console.error(
+				'A driver was not found for order' + order.id + ': ' + error.message,
+			);
+			// throw new Error(
+			// 	'A driver was not found for order' + order.id + ': ' + error.message,
+			// );
 		}
 	}
 

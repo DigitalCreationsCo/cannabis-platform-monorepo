@@ -41,6 +41,8 @@ router.route('/products/:id').get(shopCtrl.getProductById);
 
 router.route('/products').post(shopCtrl.searchProducts);
 
+router.route('/test/orders-fulfill').post(shopCtrl.testFulfillmentOrder);
+
 router
 	.route('/products&_page=:page&_limit=:limit')
 	.post(shopCtrl.getProductsByMultipleOrgs);
