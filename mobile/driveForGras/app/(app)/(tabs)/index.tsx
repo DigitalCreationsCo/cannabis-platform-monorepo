@@ -61,11 +61,6 @@ const DriverMapScreen = () => {
 		// }
 	}, [updateOnlineStatus]);
 
-	// useAfterMount(() => {
-	// 	console.log('connectionOpenInit is ', connectionOpenInit);
-	// connectionCloseInit === false && setUpdateOnlineStatus(false);
-	// }, [connectionCloseInit]);
-
 	useEffect(() => {
 		if (newOrder) {
 			router.replace('/new-order');

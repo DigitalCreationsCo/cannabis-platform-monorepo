@@ -32,9 +32,9 @@ export type DriverSessionState = {
 const initialState: DriverSessionState = {
 	driver: {
 		user: {
-			id: '123',
+			id: '',
 			email: '',
-			username: 'username_placeholder',
+			username: '',
 			firstName: '',
 			lastName: '',
 			dialCode: '',

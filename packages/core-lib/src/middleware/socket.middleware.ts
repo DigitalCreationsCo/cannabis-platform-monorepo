@@ -1,3 +1,4 @@
+/* eslint-disable no-inner-declarations */
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import { type OrderWithDispatchDetails } from '@cd/data-access';
@@ -14,7 +15,7 @@ import {
 import { getProperty } from '../utils';
 import { urlBuilder } from '../utils/urlBuilder';
 
-const socketMiddleware = (store: MiddlewareAPI<any, AppState>) => {
+const socketMiddleware = (store: any) => {
 	/**
 	 * Get orderId from socket key (socket.id) ?
 	 * @param socketKey
@@ -38,11 +39,11 @@ const socketMiddleware = (store: MiddlewareAPI<any, AppState>) => {
 
 	let dispatch_socket: Socket | null;
 
-	const { id, phone } = store.getState().driver.driver.user;
-
 	// eslint-disable-next-line sonarjs/cognitive-complexity
 	return (next: any) => async (action: any) => {
 		next(action);
+
+		const { id, phone } = store.getState().driver.driver.user;
 
 		if (driverActions.updateOnlineStatus.rejected.match(action)) {
 			console.info('updateOnlineStatus rejected');
@@ -68,29 +69,48 @@ const socketMiddleware = (store: MiddlewareAPI<any, AppState>) => {
 			// 		state.driver.driverSession['isOnline'] = isOnline;
 			// 2. if failure, update driver status isOnline false
 
-			console.debug('creating dispatch_socket');
-			dispatch_socket = io(urlBuilder.dispatch.connect(), {
-				// query: { token },
-				autoConnect: true,
-				transports: ['websocket'],
-				// jsonp: false,
-			});
-			dispatch_socket.on('connect_error', (err) => {
-				throw new Error(err.message);
-			});
-			dispatch_socket.on('connect_timeout', (err) => {
-				throw new Error(err.message);
-			});
-			dispatch_socket.on('error', (err) => {
-				throw new Error(err.message);
-			});
-			socketMap['dispatch_socket'] = dispatch_socket;
-
 			try {
+				async function connectSocketOrTimeout(): Promise<string> {
+					dispatch_socket = io(urlBuilder.dispatch.connect(), {
+						// query: { token },
+						autoConnect: true,
+						transports: ['websocket'],
+						// jsonp: false,
+					});
+
+					console.debug('creating dispatch_socket');
+
+					return await Promise.race([
+						new Promise((resolve, reject) => {
+							dispatch_socket.on('connect', () => {
+								resolve(dispatch_socket);
+							});
+							dispatch_socket.on('connect_error', (err) => {
+								reject(err);
+							});
+							dispatch_socket.on('connect_timeout', (err) => {
+								reject(err);
+							});
+							dispatch_socket.on('error', (err) => {
+								reject(err);
+							});
+						}),
+						new Promise((resolve, reject) => {
+							setTimeout(() => {
+								reject(new Error('Error connecting dispatch socket.'));
+							}, 2000);
+						}),
+					]);
+				}
+
+				dispatch_socket = await connectSocketOrTimeout();
+				socketMap['dispatch_socket'] = dispatch_socket;
+
 				store.dispatch(driverActions.updateOnlineStatus(true));
 			} catch (error) {
 				console.error('updateOnlineStatus handle', error.message);
 				store.dispatch(socketActions.setError(error.message));
+				store.dispatch(socketActions.closingConnection());
 			}
 
 			dispatch_socket.on(SocketEvent.connection, async () => {
