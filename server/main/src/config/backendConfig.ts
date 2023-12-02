@@ -5,7 +5,10 @@ import {
 	type DriverWithSessionJoin,
 	type UserWithDetails,
 } from '@cd/data-access';
+import jwksClient from 'jwks-rsa';
+import { createToken } from 'server';
 import Dashboard from 'supertokens-node/recipe/dashboard';
+import jwt from 'supertokens-node/recipe/jwt';
 import Passwordless from 'supertokens-node/recipe/passwordless';
 import Session from 'supertokens-node/recipe/session';
 import UserRoles from 'supertokens-node/recipe/userroles';
@@ -16,12 +19,13 @@ const baseDomain = process.env.NEXT_PUBLIC_APP_DOMAIN || 'grascannabis.org';
 const dashboardDomain =
 	process.env.NEXT_PUBLIC_DASHBOARD_APP_URL || 'https://app.grascannabis.org';
 const apiDomain = process.env.BACKEND_URL || `https://backend.grascannabis.org`;
+const apiBasePath = '/api/v1';
 
 const appInfo = {
 	appName: process.env.NEXT_PUBLIC_SHOP_APP_NAME || 'Gras',
 	apiDomain,
 	websiteDomain: baseDomain,
-	apiBasePath: '/api/v1',
+	apiBasePath,
 };
 
 export const backendConfig = (): AuthConfig => {
@@ -54,14 +58,19 @@ export const backendConfig = (): AuthConfig => {
 								| {
 										status: 'OK';
 										createdNewUser: boolean;
-										user: Passwordless.User;
+										user: Passwordless.User &
+											(UserWithDetails | DriverWithSessionJoin);
 								  }
 								| any
 							> => {
 								try {
-									const response = await originalImplementation.consumeCode(
-										input,
-									);
+									const response:
+										| {
+												status: 'OK';
+												createdNewUser: boolean;
+												user: Passwordless.User;
+										  }
+										| any = await originalImplementation.consumeCode(input);
 									if (response.status === 'INCORRECT_USER_INPUT_CODE_ERROR') {
 										throw new Error(`Invalid passcode. Please try again. 
                           You have ${
@@ -83,98 +92,69 @@ export const backendConfig = (): AuthConfig => {
 										throw new Error('There was an error. Please try again.');
 									}
 
-									if (
-										response.status === 'OK'
-										// && response.createdNewUser === false
-									) {
-										let user: UserWithDetails | DriverWithSessionJoin | null;
+									if (response.status === 'OK') {
 										if (input.userContext.appUser === 'DRIVER') {
-											// handle driver not found with an error state
-
+											let user: DriverWithSessionJoin;
 											if (response.user.email) {
 												user = await DriverDA.getDriverByEmail(
 													response.user.email,
 												);
-												response.user = {
-													...response.user,
-													...user,
-												} as Passwordless.User & DriverWithSessionJoin;
 											} else if (response.user.phoneNumber) {
 												user = await DriverDA.getDriverByPhone(
 													response.user.phoneNumber,
 												);
-												response.user = {
-													...response.user,
-													...user,
-												} as Passwordless.User & DriverWithSessionJoin;
 											}
+											// TODO: handle driver not found with an error state
+											response.user = {
+												...response.user,
+												...user,
+												token: await createToken({
+													id: user.user.id,
+													email: user.user.email,
+												}),
+											};
 										} else {
+											let user: UserWithDetails;
 											if (response.user.email) {
 												user = await UserDA.getUserByEmail(response.user.email);
-												if (
-													user?.memberships?.length > 0 &&
-													(user?.memberships?.[0]?.role.toLocaleUpperCase() ===
-														'ADMIN' ||
-														user?.memberships?.[0]?.role.toLocaleUpperCase() ===
-															'OWNER' ||
-														user?.memberships?.[0]?.role.toLocaleUpperCase() ===
-															'MEMBER')
-												) {
-													const addRole = await UserRoles.addRoleToUser(
-														response.user.id,
-														user?.memberships?.[0]?.role.toLocaleUpperCase(),
-													);
-													if (addRole.status === 'UNKNOWN_ROLE_ERROR') {
-														// No such role exists
-														console.info('no such role exists');
-													}
-
-													if (
-														addRole.status === 'OK' &&
-														addRole.didUserAlreadyHaveRole === true
-													) {
-														console.log('user already had the role');
-														// The user already had the role
-													}
-												}
-												response.user = {
-													...response.user,
-													...user,
-												} as Passwordless.User & UserWithDetails;
 											} else if (response.user.phoneNumber) {
 												user = await UserDA.getUserByPhone(
 													response.user.phoneNumber,
 												);
-												if (
-													user?.memberships?.length > 0 &&
-													(user?.memberships?.[0]?.role.toLocaleUpperCase() ===
-														'ADMIN' ||
-														user?.memberships?.[0]?.role.toLocaleUpperCase() ===
-															'OWNER' ||
-														user?.memberships?.[0]?.role.toLocaleUpperCase() ===
-															'MEMBER')
-												) {
-													const addRole = await UserRoles.addRoleToUser(
-														response.user.id,
-														user?.memberships?.[0]?.role.toLocaleUpperCase(),
-													);
-													if (addRole.status === 'UNKNOWN_ROLE_ERROR') {
-														// No such role exists
-														console.info('no such role exists');
-													}
-													if (
-														addRole.status === 'OK' &&
-														addRole.didUserAlreadyHaveRole === true
-													) {
-														console.log('user already had the role');
-														// The user already had the role
-													}
-												}
-												response.user = {
-													...response.user,
-													...user,
-												} as Passwordless.User & UserWithDetails;
 											}
+											if (
+												user?.memberships?.length > 0 &&
+												(user?.memberships?.[0]?.role.toLocaleUpperCase() ===
+													'ADMIN' ||
+													user?.memberships?.[0]?.role.toLocaleUpperCase() ===
+														'OWNER' ||
+													user?.memberships?.[0]?.role.toLocaleUpperCase() ===
+														'MEMBER')
+											) {
+												const addRole = await UserRoles.addRoleToUser(
+													response.user.id,
+													user?.memberships?.[0]?.role.toLocaleUpperCase(),
+												);
+												if (addRole.status === 'UNKNOWN_ROLE_ERROR') {
+													// No such role exists
+													console.info('no such role exists');
+												}
+												if (
+													addRole.status === 'OK' &&
+													addRole.didUserAlreadyHaveRole === true
+												) {
+													console.log('user already had the role');
+													// The user already had the role
+												}
+											}
+											response.user = {
+												...response.user,
+												...user,
+												token: await createToken({
+													id: user.id,
+													email: user.email,
+												}),
+											};
 										}
 									}
 									return response;
@@ -211,7 +191,13 @@ export const backendConfig = (): AuthConfig => {
 			Dashboard.init({
 				apiKey: process.env.SUPERTOKENS_DASHBOARD_KEY,
 			}),
+			jwt.init(),
 		],
 		isInServerlessEnv: false,
 	};
 };
+
+// eslint-disable-next-line no-var
+export const jwtClient = jwksClient({
+	jwksUri: `${apiDomain}${apiBasePath}/jwt/jwks.json`,
+});

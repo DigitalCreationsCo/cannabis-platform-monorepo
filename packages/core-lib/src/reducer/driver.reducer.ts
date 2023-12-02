@@ -21,6 +21,7 @@ const signOutUserAsync = createAsyncThunk<
 });
 
 export type DriverSessionState = {
+	token: string;
 	driver: DriverWithSessionJoin;
 	isSignedIn: boolean;
 	isLoading: boolean;
@@ -30,6 +31,7 @@ export type DriverSessionState = {
 };
 
 const initialState: DriverSessionState = {
+	token: '',
 	driver: {
 		user: {
 			id: '',
@@ -42,8 +44,6 @@ const initialState: DriverSessionState = {
 			emailVerified: false,
 			isLegalAge: null,
 			idVerified: false,
-			// passwordHash: '',
-			// passwordResetToken: '',
 			termsAccepted: false,
 			isSignUpComplete: false,
 			scannedDOB: null,
@@ -75,9 +75,11 @@ export const driverSlice = createSlice({
 	reducers: {
 		signinDriverSync: (
 			state,
-			{ payload }: { payload: DriverWithSessionJoin },
+			{ payload }: { payload: DriverWithSessionJoin & { token: string } },
 		) => {
 			console.info('sign in driver, payload: ', payload);
+			const { token } = payload;
+			state.token = token;
 			const driver = payload;
 			state.driver = driver;
 			state.isSignedIn = true;

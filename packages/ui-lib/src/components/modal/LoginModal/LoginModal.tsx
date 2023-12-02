@@ -1,5 +1,8 @@
 import { isLegalAgeAndVerified, TextContent, userActions } from '@cd/core-lib';
-import { type UserWithDetails } from '@cd/data-access';
+import {
+	type DriverWithSessionJoin,
+	type UserWithDetails,
+} from '@cd/data-access';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -249,7 +252,12 @@ function LoginModal({
 						setCookie('yesOver21', 'true');
 						console.debug('set yesOver21 cookie to true');
 					}
-					dispatch(userActions.signinUserSync(response.user));
+					dispatch(
+						userActions.signinUserSync(
+							response.user as unknown as (UserWithDetails &
+								DriverWithSessionJoin) & { token: string },
+						),
+					);
 				}
 				toast.success(TextContent.account.SIGNING_IN, { duration: 5000 });
 				dispatchCloseModal();

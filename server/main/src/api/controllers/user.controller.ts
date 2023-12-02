@@ -148,6 +148,7 @@ export default class UserController {
 				payload: data,
 			});
 		} catch (error: any) {
+			console.error('getUserById: ', error.message);
 			return res.status(500).json({
 				success: 'false',
 				error: error.message,
