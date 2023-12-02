@@ -90,6 +90,7 @@ export const userSlice = createSlice({
 			state.isLoading = false;
 			state.isSuccess = true;
 			state.isError = false;
+			document.cookie = 'yesOver21=true;path=/';
 		},
 		updateOrders: (
 			state,

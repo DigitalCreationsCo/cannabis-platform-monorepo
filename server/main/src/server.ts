@@ -8,7 +8,6 @@ import {
 	errorHandler as STerror,
 	middleware as STmiddleware,
 } from 'supertokens-node/framework/express';
-import jwt from 'supertokens-node/recipe/jwt';
 import Session, {
 	type SessionInformation,
 } from 'supertokens-node/recipe/session';
@@ -118,15 +117,4 @@ function getKey(header: JwtHeader, callback: SigningKeyCallback) {
 		const signingKey = key.getPublicKey();
 		callback(err, signingKey);
 	});
-}
-
-export async function createToken(payload: any) {
-	const jwtResponse = await jwt.createJWT({
-		...payload,
-		source: 'microservice',
-	});
-	if (jwtResponse.status === 'OK') {
-		return jwtResponse.jwt;
-	}
-	throw new Error('Unable to create JWT. Should never come here.');
 }

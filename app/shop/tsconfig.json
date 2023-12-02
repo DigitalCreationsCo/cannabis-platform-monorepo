@@ -10,6 +10,10 @@
 		"jsx": "preserve",
 		"incremental": true,
 		"paths": {
+			"@config": ["./config/index"],
+			"@config/*": ["./config/*"],
+			"@redux": ["./redux/index"],
+			"@redux/*": ["./redux/*"],
 			"@cd/ui-lib": ["../../../packages/ui-lib/src/index"],
 			"@cd/ui-lib/*": ["../../../packages/ui-lib/*"],
 			"@cd/core-lib": ["../../../packages/core-lib/src/index"],
