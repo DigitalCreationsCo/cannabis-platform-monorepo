@@ -32,29 +32,8 @@ const DriverMapScreen = () => {
 		incomingOrder: { newOrder },
 	} = useAppSelector(selectSocketState);
 
-	// trigger status update
 	const [updateOnlineStatus, setUpdateOnlineStatus] = useState(false);
-
-	// use cases for connecting clients
-	// isOnline is 0
-	// 1. when the user clicks go Online, connect the socket.
-	// 2. when the driver is online, and the socket is not connected, reconnect the socket
-	// 3. when the driver is online, and the socket is connected, do nothing
-	// 4. when the driver is offline, and the socket is connected, disconnect the socket
-	// 5. when the driver is offline, and the socket is not connected, do nothing
-
-	// handling socket connection and app state
-	// updateOnline -> dispatch openConnection
-	// middleware -> openConnection ->
-
-	// updateOnline -> dispatch closingConnection
-	// middleware -> closingConnection ->
-
 	useAfterMount(() => {
-		console.info(
-			'after mount hook: updateOnlineStatus is ',
-			updateOnlineStatus,
-		);
 		updateOnlineStatus
 			? dispatch(socketActions.openConnection())
 			: dispatch(socketActions.closingConnection());

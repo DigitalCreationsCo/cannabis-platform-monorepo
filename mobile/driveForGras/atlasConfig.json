@@ -1,0 +1,9 @@
+{
+	"appId": "devicesync-rkxzk",
+	"appUrl": "https://realm.mongodb.com/groups/64aaf6f95f65991a932a5f72/apps/6569a374a1ea69670418002f",
+	"baseUrl": "https://realm.mongodb.com",
+	"clientApiBaseUrl": "https://us-east-2.aws.realm.mongodb.com",
+	"dataApiBaseUrl": "https://us-east-2.aws.data.mongodb-api.com",
+	"dataExplorerLink": "https://cloud.mongodb.com/links/64aaf6f95f65991a932a5f72/explorer/delivery-database/database/collection/find",
+	"dataSourceName": "mongodb-atlas"
+}
