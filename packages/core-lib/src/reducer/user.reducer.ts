@@ -5,7 +5,6 @@ import {
 	type UserWithDetails,
 } from '@cd/data-access';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import type Passwordless from 'supertokens-node/recipe/passwordless';
 import { type AppState, type ThunkArgumentsType } from '../types';
 import { pruneData, reconcileStateArray } from '../utils';
 
@@ -27,9 +26,8 @@ export const signOutUserAsync = createAsyncThunk<
 });
 
 export type UserStateProps = {
-	token: string | null;
+	token: string;
 	user: UserWithDetails;
-	// friendList: any[];
 	isSignedIn: boolean;
 	isLoading: boolean;
 	isSuccess: boolean;
@@ -81,9 +79,11 @@ export const userSlice = createSlice({
 	reducers: {
 		signinUserSync: (
 			state,
-			{ payload }: { payload: UserWithDetails | Passwordless.User },
+			{ payload }: { payload: UserWithDetails & { token: string } },
 		) => {
 			console.info('signinUserSync payload', payload);
+			const { token } = payload;
+			state.token = token;
 			const user = pruneData(payload, ['createdAt', 'updatedAt']);
 			state.user = user;
 			state.isSignedIn = true;

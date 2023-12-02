@@ -1,15 +1,6 @@
 import { Router } from 'express';
-import { orgCtrl } from '../controllers';
 const router = Router();
-/* =================================
-Error Handling Test Routes
 
-"/badParam/:id"     Bad Query Parameter
-"/500"              500 Response Error
-"/200WithError"     200 Response With Error
-"/200"              200 Ok
-
-================================= */
 router.route('/badParam/:id').get((req, res) => {
 	res.status(404).json('Bad query parameter.');
 });

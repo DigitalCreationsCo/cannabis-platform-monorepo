@@ -2,28 +2,6 @@ import { Router } from 'express';
 import { shopCtrl } from '../controllers';
 
 const router = Router();
-/* =================================
-Shop Routes
-
-'/orders/org/:id                            getOrdersByOrg
-
-'/orders/:id                                getOrderById
-
-'/orders'                                   createOrder
-
-'/orders                                    updateOrderById
-
-'/orders-fulfill'                           fulfillOrder
-
-'/products/org/:id                          getProductsByOrg
-
-'/products/:id                              getProductById
-
-'/products'                                 searchProducts
-
-'/products&_page=:page&_limit=:limit'       getProductsByMultipleOrgs
-
-================================= */
 
 router.route('/orders/org/:id').get(shopCtrl.getOrdersByOrganization);
 
