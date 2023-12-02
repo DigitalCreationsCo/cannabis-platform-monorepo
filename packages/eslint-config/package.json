@@ -1,62 +1,62 @@
 {
-	"peerDependencies": {
-		"eslint": "8.29.0",
-		"prettier": "2.8.0",
-		"react": "18.2.0",
-		"react-dom": "18.2.0",
-		"typescript": "4.9.3"
-	},
-	"peerDependenciesMeta": {
-		"prettier": {
-			"optional": true
-		},
-		"react": {
-			"optional": true
-		},
-		"react-dom": {
-			"optional": true
-		},
-		"typescript": {
-			"optional": true
-		}
-	},
-	"devDependencies": {
-		"@types/jest": "29.2.4",
-		"@types/node": "18.11.10",
-		"@types/prettier": "2.7.2",
-		"@types/react": "18.0.34",
-		"@types/react-dom": "18.0.11",
-		"@typescript-eslint/eslint-plugin": "5.45.0",
-		"@typescript-eslint/parser": "5.45.0",
-		"eslint": "8.29.0",
-		"eslint-config-prettier": "8.5.0",
-		"eslint-import-resolver-typescript": "3.5.3",
-		"eslint-plugin-import": "2.26.0",
-		"eslint-plugin-jest": "27.2.1",
-		"eslint-plugin-jest-formatting": "3.1.0",
-		"eslint-plugin-jsx-a11y": "6.6.1",
-		"eslint-plugin-prettier": "4.2.1",
-		"eslint-plugin-react": "7.31.11",
-		"eslint-plugin-react-hooks": "4.6.0",
-		"eslint-plugin-regexp": "1.15.0",
-		"eslint-plugin-sonarjs": "0.19.0",
-		"eslint-plugin-storybook": "0.6.14",
-		"eslint-plugin-tailwindcss": "3.12.1",
-		"eslint-plugin-testing-library": "5.11.0",
-		"prettier": "2.8.0",
-		"react": "18.2.0",
-		"rimraf": "4.4.1",
-		"tailwindcss": "3.3.2",
-		"typescript": "4.9.3"
-	},
-	"main": "./src/index.js",
-	"name": "@cd/eslint-config",
-	"private": true,
-	"scripts": {
-		"lint": "eslint --ext .ts,.js,.cjs,.mjs",
-		"lint:fix": "eslint  --ext .ts,.tsx,.js,.jsx --fix",
-		"typecheck": "tsc --project tsconfig.json --noEmit",
-		"clean": "rimraf ./.next ./out ./dist ./build ./node_modules ./coverage ./tsconfig.tsbuildinfo ./node_modules/.cache"
-	},
-	"version": "1.0.0"
+  "peerDependencies": {
+    "eslint": "8.29.0",
+    "prettier": "2.8.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "typescript": "4.9.3"
+  },
+  "peerDependenciesMeta": {
+    "prettier": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    },
+    "typescript": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/jest": "29.2.4",
+    "@types/node": "18.11.10",
+    "@types/prettier": "2.7.2",
+    "@types/react": "18.0.34",
+    "@types/react-dom": "18.0.11",
+    "@typescript-eslint/eslint-plugin": "5.45.0",
+    "@typescript-eslint/parser": "5.45.0",
+    "eslint": "8.29.0",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-import-resolver-typescript": "3.5.3",
+    "eslint-plugin-import": "2.26.0",
+    "eslint-plugin-jest": "27.2.1",
+    "eslint-plugin-jest-formatting": "3.1.0",
+    "eslint-plugin-jsx-a11y": "6.6.1",
+    "eslint-plugin-prettier": "4.2.1",
+    "eslint-plugin-react": "7.31.11",
+    "eslint-plugin-react-hooks": "4.6.0",
+    "eslint-plugin-regexp": "1.15.0",
+    "eslint-plugin-sonarjs": "0.19.0",
+    "eslint-plugin-storybook": "0.6.15",
+    "eslint-plugin-tailwindcss": "3.12.1",
+    "eslint-plugin-testing-library": "5.11.0",
+    "prettier": "2.8.0",
+    "react": "18.2.0",
+    "rimraf": "4.4.1",
+    "tailwindcss": "3.3.2",
+    "typescript": "4.9.3"
+  },
+  "main": "./src/index.js",
+  "name": "@cd/eslint-config",
+  "private": true,
+  "scripts": {
+    "lint": "eslint --ext .ts,.js,.cjs,.mjs",
+    "lint:fix": "eslint  --ext .ts,.tsx,.js,.jsx --fix",
+    "typecheck": "tsc --project tsconfig.json --noEmit",
+    "clean": "rimraf ./.next ./out ./dist ./build ./node_modules ./coverage ./tsconfig.tsbuildinfo ./node_modules/.cache"
+  },
+  "version": "1.0.0"
 }
