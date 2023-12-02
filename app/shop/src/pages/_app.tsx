@@ -109,7 +109,7 @@ function App({ Component, ...rest }: CustomAppProps) {
 											protectedPages={[
 												'/settings',
 												'/checkout',
-												'/orders',
+												// '/orders',
 												'/account',
 											]}
 										>

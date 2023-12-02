@@ -1,12 +1,14 @@
 /* eslint-disable sonarjs/cognitive-complexity */
 // import { UserRoleClaim } from "supertokens-node/recipe/userroles";
-import { type PasswordlessSignInRequestPayload } from '@cd/core-lib';
+import {
+	phoneWithoutDialCode,
+	type PasswordlessSignInRequestPayload,
+} from '@cd/core-lib';
 import {
 	type DriverWithSessionJoin,
 	type UserWithDetails,
 } from '@cd/data-access';
 import jwksClient from 'jwks-rsa';
-import { createToken } from 'server';
 import Dashboard from 'supertokens-node/recipe/dashboard';
 import jwt from 'supertokens-node/recipe/jwt';
 import Passwordless from 'supertokens-node/recipe/passwordless';
@@ -71,6 +73,7 @@ export const backendConfig = (): AuthConfig => {
 												user: Passwordless.User;
 										  }
 										| any = await originalImplementation.consumeCode(input);
+									console.info('response, ', response);
 									if (response.status === 'INCORRECT_USER_INPUT_CODE_ERROR') {
 										throw new Error(`Invalid passcode. Please try again. 
                           You have ${
@@ -119,8 +122,9 @@ export const backendConfig = (): AuthConfig => {
 												user = await UserDA.getUserByEmail(response.user.email);
 											} else if (response.user.phoneNumber) {
 												user = await UserDA.getUserByPhone(
-													response.user.phoneNumber,
+													phoneWithoutDialCode(response.user.phoneNumber),
 												);
+												console.info('user by phone: ', user);
 											}
 											if (
 												user?.memberships?.length > 0 &&
@@ -147,6 +151,7 @@ export const backendConfig = (): AuthConfig => {
 													// The user already had the role
 												}
 											}
+											console.info('user ', user);
 											response.user = {
 												...response.user,
 												...user,
@@ -201,3 +206,14 @@ export const backendConfig = (): AuthConfig => {
 export const jwtClient = jwksClient({
 	jwksUri: `${apiDomain}${apiBasePath}/jwt/jwks.json`,
 });
+
+export async function createToken(payload: any) {
+	const jwtResponse = await jwt.createJWT({
+		...payload,
+		source: 'microservice',
+	});
+	if (jwtResponse.status === 'OK') {
+		return jwtResponse.jwt;
+	}
+	throw new Error('Unable to create JWT. Should never come here.');
+}

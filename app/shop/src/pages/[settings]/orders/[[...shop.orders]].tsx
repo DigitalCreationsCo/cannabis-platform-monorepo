@@ -28,6 +28,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
 				const response = await axios.get(
 					urlBuilder.shop + `/api/user/${query.settings}/orders`,
 				);
+				console.log('response: ', response.data);
 				if (response.data.success === 'false')
 					throw new Error(response.data.error);
 				return {
