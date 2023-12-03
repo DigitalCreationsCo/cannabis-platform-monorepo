@@ -1,5 +1,5 @@
 /* eslint-disable prefer-rest-params */
-import { blogActions, shopActions } from '@cd/core-lib';
+import { blogActions, shopActions, TextContent } from '@cd/core-lib';
 import {
 	LoadingPage,
 	ModalProvider,

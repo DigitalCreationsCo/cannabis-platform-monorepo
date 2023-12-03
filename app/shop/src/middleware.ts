@@ -1,3 +1,5 @@
+/* eslint-disable no-case-declarations */
+import { TextContent } from '@cd/core-lib';
 import { NextResponse, type NextRequest } from 'next/server';
 
 export const config = {
@@ -42,8 +44,14 @@ export default async function middleware(req: NextRequest) {
 			console.info('middleware detected: shop path');
 			url = req.nextUrl.clone();
 
-			// eslint-disable-next-line no-case-declarations
 			const over21 = req.cookies.get('yesOver21')?.value;
+			const isSignupComplete = req.cookies.get('isSignUpComplete')?.value;
+
+			if (url.pathname === '/browse' && isSignupComplete === 'false') {
+				url.pathname = TextContent.href.createAccount;
+				return NextResponse.redirect(url);
+			}
+
 			// base url redirect to /browse if over21
 			if (url.pathname === '/' && over21 === 'true') {
 				url.pathname = '/browse';

@@ -58,7 +58,6 @@ const initialState: UserStateProps = {
 		],
 		phone: '',
 		orders: [],
-		// preferences: {},
 		emailVerified: false,
 		isLegalAge: null,
 		idVerified: false,
@@ -91,6 +90,9 @@ export const userSlice = createSlice({
 			state.isSuccess = true;
 			state.isError = false;
 			document.cookie = 'yesOver21=true;path=/';
+			if (!user.isSignUpComplete) {
+				document.cookie = 'isSignUpComplete=false;path=/';
+			}
 		},
 		updateOrders: (
 			state,
