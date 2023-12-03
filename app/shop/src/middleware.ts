@@ -44,7 +44,6 @@ export default async function middleware(req: NextRequest) {
 
 			// eslint-disable-next-line no-case-declarations
 			const over21 = req.cookies.get('yesOver21')?.value;
-			console.info('over21', over21);
 			// base url redirect to /browse if over21
 			if (url.pathname === '/' && over21 === 'true') {
 				url.pathname = '/browse';
@@ -52,12 +51,7 @@ export default async function middleware(req: NextRequest) {
 			}
 
 			// redirect under21 to homepage
-			if (
-				url.pathname !== '/' &&
-				pagesAllowOver21Only.includes(url.pathname) &&
-				over21 !== 'true'
-			) {
-				console.info('redirecting the youth to homepage');
+			if (pagesAllowOver21Only.includes(url.pathname) && over21 !== 'true') {
 				url.pathname = '/';
 				return NextResponse.redirect(url);
 			}

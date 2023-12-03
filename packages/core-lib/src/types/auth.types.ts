@@ -2,6 +2,7 @@ import {
 	type DriverWithSessionJoin,
 	type UserWithDetails,
 } from '@cd/data-access/src';
+import { type User } from 'supertokens-node/lib/build/types';
 
 export type ApiContext = {
 	action: 'SIGN_OUT' | 'REFRESH_SESSION';
@@ -32,4 +33,14 @@ export type PasswordlessResponseWithDriverDetails = {
 	createdNewUser: boolean;
 	user: DriverWithSessionJoin;
 	fetchResponse: Response;
+};
+
+export type STUser = User & {
+	token: string;
+	user: UserWithDetails | DriverWithSessionJoin;
+};
+export type ConsumerCodeResponse = {
+	status: 'OK';
+	createdNewUser: boolean;
+	user: STUser;
 };

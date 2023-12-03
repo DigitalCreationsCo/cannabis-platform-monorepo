@@ -10,7 +10,7 @@ function ShopAccountPage() {
 	const { user } = useSelector(selectUserState);
 	return (
 		<Page className="pb-0 md:pb-24">
-			<Card className="m-auto mb-0 pb-0 md:max-w-[500px]">
+			<Card className="m-auto my-0 pb-0 md:max-w-[500px]">
 				<H2 className="text-primary">{TextContent.account.MY_ACCOUNT}</H2>
 				{renderNestedDataObject(user, Paragraph, {
 					removeFields: [
