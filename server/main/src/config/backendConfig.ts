@@ -9,6 +9,7 @@ import {
 	type UserWithDetails,
 } from '@cd/data-access';
 import jwksClient from 'jwks-rsa';
+import { type User } from 'supertokens-node/lib/build/types';
 import Dashboard from 'supertokens-node/recipe/dashboard';
 import jwt from 'supertokens-node/recipe/jwt';
 import Passwordless from 'supertokens-node/recipe/passwordless';
@@ -16,6 +17,8 @@ import Session from 'supertokens-node/recipe/session';
 import UserRoles from 'supertokens-node/recipe/userroles';
 import { type AuthConfig } from '../../interfaces';
 import { DriverDA, UserDA } from '../api/data-access';
+
+type STUser = User & (UserWithDetails | DriverWithSessionJoin);
 
 const baseDomain = process.env.NEXT_PUBLIC_APP_DOMAIN || 'grascannabis.org';
 const dashboardDomain =
@@ -55,13 +58,12 @@ export const backendConfig = (): AuthConfig => {
 								}
 							},
 							consumeCode: async (
-								input: PasswordlessSignInRequestPayload,
+								input: any,
 							): Promise<
 								| {
 										status: 'OK';
 										createdNewUser: boolean;
-										user: Passwordless.User &
-											(UserWithDetails | DriverWithSessionJoin);
+										user: STUser;
 								  }
 								| any
 							> => {
@@ -70,7 +72,7 @@ export const backendConfig = (): AuthConfig => {
 										| {
 												status: 'OK';
 												createdNewUser: boolean;
-												user: Passwordless.User;
+												user: STUser;
 										  }
 										| any = await originalImplementation.consumeCode(input);
 									console.info('response, ', response);
@@ -137,6 +139,7 @@ export const backendConfig = (): AuthConfig => {
 											) {
 												const addRole = await UserRoles.addRoleToUser(
 													response.user.id,
+													response.user.id,
 													user?.memberships?.[0]?.role.toLocaleUpperCase(),
 												);
 												if (addRole.status === 'UNKNOWN_ROLE_ERROR') {
@@ -175,7 +178,8 @@ export const backendConfig = (): AuthConfig => {
 						return {
 							...originalImplementation,
 							consumeCodePOST: async (
-								input: PasswordlessSignInRequestPayload & { options: any },
+								// input: PasswordlessSignInRequestPayload & { options: any },
+								input: any,
 							) => {
 								const { appUser } = await input.options.req.getJSONBody();
 								input.userContext = { ...input.userContext, appUser };
@@ -188,9 +192,6 @@ export const backendConfig = (): AuthConfig => {
 			Session.init({
 				cookieSecure: true,
 				cookieDomain: `.${baseDomain}`,
-				jwt: {
-					enable: true,
-				},
 			}),
 			UserRoles.init(),
 			Dashboard.init({

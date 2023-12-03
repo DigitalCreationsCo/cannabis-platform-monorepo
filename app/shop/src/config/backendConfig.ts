@@ -32,9 +32,6 @@ export const backendConfig = (): AuthConfig => {
 			Session.init({
 				cookieSecure: true,
 				cookieDomain: `.${baseDomain}`,
-				jwt: {
-					enable: true,
-				},
 			}),
 			jwt.init(),
 		],
