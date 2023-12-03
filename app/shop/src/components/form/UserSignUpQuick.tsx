@@ -48,6 +48,7 @@ function UserSignUpQuickForm() {
 	const [loadingButton, setLoadingButton] = useState(false);
 
 	const initialValues = {
+		id: user.id,
 		firstName: formValues?.newUser?.firstName || '',
 		lastName: formValues?.newUser?.lastName || '',
 		username: formValues?.newUser?.username || '',
@@ -60,6 +61,7 @@ function UserSignUpQuickForm() {
 	};
 
 	const validationSchema = yup.object().shape({
+		id: yup.string().required('Id is required').min(3, 'Id is required'),
 		firstName: yup
 			.string()
 			.required(TextContent.prompt.FIRST_NAME_REQUIRED)
