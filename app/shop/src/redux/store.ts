@@ -1,4 +1,5 @@
 import {
+	type AppAction,
 	blogReducer,
 	cartReducer,
 	crashMiddleware,
@@ -13,7 +14,6 @@ import {
 	combineReducers,
 	configureStore,
 	type Action,
-	type AnyAction,
 	type Store,
 	type ThunkAction,
 } from '@reduxjs/toolkit';
@@ -42,7 +42,7 @@ const rootReducer = combineReducers({
 	blog: blogReducer,
 });
 
-const hydratableReducer = (state: any, action: AnyAction) => {
+const hydratableReducer = (state: any, action: AppAction) => {
 	if (action.type === HYDRATE) {
 		return {
 			...state, // use previous state

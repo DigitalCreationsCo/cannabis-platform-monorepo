@@ -239,13 +239,13 @@ function LoginModal({
 
 		const handleOTPAndSignIn = async () => {
 			try {
-				const response = await consumeCode({
+				const response = (await consumeCode({
 					userInputCode: values.passcode,
-				});
+				})) as unknown as ConsumerCodeResponse;
 				console.info('OTP signin response', response);
 				if (response.status === 'OK') {
 					const { token, user } = (response as unknown as ConsumerCodeResponse)
-						.user;
+						._user;
 					if (isLegalAgeAndVerified(user as unknown as UserWithDetails)) {
 						setCookie('yesOver21', 'true');
 						console.debug('set yesOver21 cookie to true');

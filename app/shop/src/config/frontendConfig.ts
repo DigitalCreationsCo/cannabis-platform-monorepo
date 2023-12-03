@@ -17,22 +17,22 @@ const appInfo: AppInfo = {
 		(process.env.NODE_ENV === 'production' && '/main/api/v1') || '/api/v1',
 };
 
-export const frontendConfig = () => {
+export const frontendConfig = (): any => {
 	return {
 		appInfo,
 		enableDebugLogs: process.env.SUPERTOKENS_DEBUG === 'true',
 		recipeList: [
 			Passwordless.init({
 				contactMethod: 'EMAIL_OR_PHONE',
-				onHandleEvent: (event: any) => {
-					if (event.action === 'SUCCESS') {
-						if (event.isNewUser || !event.user.isSignUpComplete)
-							window.location.href = `${shopDomain}/signup/create-account`;
-						else {
-							window.location.reload();
-						}
-					}
-				},
+				// onHandleEvent: (event: any) => {
+				// 	if (event.action === 'SUCCESS') {
+				// 		if (event.isNewUser || !event.user.isSignUpComplete)
+				// 			window.location.href = `${shopDomain}/signup/create-account`;
+				// 		else {
+				// 			window.location.reload();
+				// 		}
+				// 	}
+				// },
 				// override: {
 				// 	functions: (originalImplementation) => {
 				// 		return {
@@ -53,7 +53,7 @@ export const frontendConfig = () => {
 				// },
 			}),
 			Session.init({
-				cookieDomain: `.${baseDomain}`,
+				// cookieDomain: `.${baseDomain}`,
 			}),
 		],
 		isInServerLessEnv: false,

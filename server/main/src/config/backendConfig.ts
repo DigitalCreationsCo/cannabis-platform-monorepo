@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 /* eslint-disable sonarjs/no-small-switch */
 /* eslint-disable sonarjs/cognitive-complexity */
 import {
@@ -10,6 +11,8 @@ import {
 	type UserWithDetails,
 } from '@cd/data-access';
 import { createId } from '@paralleldrive/cuid2';
+import { driver } from 'api/routes';
+import e from 'express';
 import jwksClient from 'jwks-rsa';
 import SuperTokens, { RecipeUserId } from 'supertokens-node';
 import Dashboard from 'supertokens-node/recipe/dashboard';
@@ -64,7 +67,6 @@ export const backendConfig = (): AuthConfig => {
 									const response = await originalImplementation.consumeCode(
 										input,
 									);
-									console.info('response, ', response);
 									if (response.status === 'INCORRECT_USER_INPUT_CODE_ERROR') {
 										throw new Error(`Invalid passcode. Please try again. 
                           You have ${
@@ -87,118 +89,82 @@ export const backendConfig = (): AuthConfig => {
 									}
 
 									if (response.status === 'OK') {
-										let driver: DriverWithSessionJoin = null;
-										let user: UserWithDetails = null;
-										switch (input.userContext.appUser) {
-											case 'DRIVER':
-												// driver sign in flow
-												// the driver is already created in the database at this point, from the signup form
-												if (response.user.emails[0]) {
-													driver = (await DriverDA.getDriverByEmail(
-														response.user.emails[0],
-													)) as DriverWithSessionJoin;
-												} else if (response.user.phoneNumbers[0]) {
-													driver = (await DriverDA.getDriverByPhone(
-														response.user.phoneNumbers[0],
-													)) as DriverWithSessionJoin;
-												} else {
-													driver = (await DriverDA.getDriverById(
-														response.user.id,
-													)) as DriverWithSessionJoin;
-												}
-
-												// map new supertokens user with created driver id
-												if (
-													response.createdNewRecipeUser &&
-													response.user.loginMethods.length === 1
-												) {
-													const externalUserId = driver.user.id;
-
-													await SuperTokens.createUserIdMapping({
-														superTokensUserId: response.user.id,
-														externalUserId,
-													});
-													response.user.id = externalUserId;
-													response.user.loginMethods[0].recipeUserId =
-														new RecipeUserId(externalUserId);
-												}
-												Object.assign(response.user, {
-													user: driver,
-													token: createToken({
-														id: driver.user.id,
-														email: driver.user.email,
-													}),
-												});
-												// RETURN JWT TOKEN IN ACCESS PAYLOAD ??
-												break;
-
-											default:
-												// user sign in flow
-												// the user is created in supertokens first, the signup form is completed afterward
-												if (
-													response.createdNewRecipeUser &&
-													response.user.loginMethods.length === 1
-												) {
-													const externalUserId = createId();
-													await SuperTokens.createUserIdMapping({
-														superTokensUserId: response.user.id,
-														externalUserId,
-													});
-													response.user.id = externalUserId;
-													response.user.loginMethods[0].recipeUserId =
-														new RecipeUserId(externalUserId);
-												} else if (response.user.emails[0]) {
-													user = await UserDA.getUserByEmail(
-														response.user.emails[0],
-													);
-												} else {
-													if (response.user.phoneNumbers[0]) {
-														user = await UserDA.getUserByPhone(
-															phoneWithoutDialCode(
-																response.user.phoneNumbers[0],
-															),
-														);
-													}
-													if (
-														user?.memberships?.length > 0 &&
-														(user?.memberships?.[0]?.role.toLocaleUpperCase() ===
-															'ADMIN' ||
-															user?.memberships?.[0]?.role.toLocaleUpperCase() ===
-																'OWNER' ||
-															user?.memberships?.[0]?.role.toLocaleUpperCase() ===
-																'MEMBER')
-													) {
-														const addRole = await UserRoles.addRoleToUser(
-															response.user.id,
-															response.user.id,
-															user?.memberships?.[0]?.role.toLocaleUpperCase(),
-														);
-														if (addRole.status === 'UNKNOWN_ROLE_ERROR') {
-															// No such role exists
-															console.info('no such role exists');
-														}
-														if (
-															addRole.status === 'OK' &&
-															addRole.didUserAlreadyHaveRole === true
-														) {
-															console.log('user already had the role');
-															// The user already had the role
-														}
-													}
-
-													Object.assign(response.user, {
-														user,
-														token: createToken({
-															id: user.id,
-															email: user.email,
-														}),
-													});
-												}
-												// RETURN JWT TOKEN IN ACCESS PAYLOAD ??
-												break;
-										}
-										return response;
+										// 	switch (input.userContext.appUser) {
+										// 		case 'DRIVER':
+										// 			(async () => {
+										// 				let user: DriverWithSessionJoin = null;
+										// 				// driver sign in flow
+										// 				// the driver is already created in the database at this point, from the signup form
+										// 				if (response.user.emails[0]) {
+										// 					user = await DriverDA.getDriverByEmail(
+										// 						response.user.emails[0],
+										// 					);
+										// 				} else if (response.user.phoneNumbers[0]) {
+										// 					user = await DriverDA.getDriverByPhone(
+										// 						response.user.phoneNumbers[0],
+										// 					);
+										// 				} else {
+										// 					user = await DriverDA.getDriverById(
+										// 						response.user.id,
+										// 					);
+										// 				}
+										// 				// map new supertokens user with created driver id
+										// 				if (
+										// 					response.createdNewRecipeUser &&
+										// 					response.user.loginMethods.length === 1
+										// 				) {
+										// 					const externalUserId = user.user.id;
+										// 					await SuperTokens.createUserIdMapping({
+										// 						superTokensUserId: response.user.id,
+										// 						externalUserId,
+										// 					});
+										// 					response.user.id = externalUserId;
+										// 					response.user.loginMethods[0].recipeUserId =
+										// 						new RecipeUserId(externalUserId);
+										// 				}
+										// 				Object.assign(response, {
+										// 					_user: {
+										// 						user,
+										// 						token: await createToken({
+										// 							id: user.user.id,
+										// 							email: user.user.email,
+										// 						}),
+										// 					},
+										// 				});
+										// 				// RETURN JWT TOKEN IN ACCESS PAYLOAD ??
+										// 			})();
+										// 			break;
+										// 		default:
+										// 			(async () => {
+										// 				let user: UserWithDetails = null;
+										// 				// user sign in flow
+										// 				// the user is created in supertokens first, the signup form is completed afterward
+										// 				if (
+										// 					response.createdNewRecipeUser &&
+										// 					response.user.loginMethods.length === 1
+										// 				) {
+										// 					const externalUserId = createId();
+										// 					await SuperTokens.createUserIdMapping({
+										// 						superTokensUserId: response.user.id,
+										// 						externalUserId,
+										// 					});
+										// 					response.user.id = externalUserId;
+										// 					response.user.loginMethods[0].recipeUserId =
+										// 						new RecipeUserId(externalUserId);
+										// 				} else if (response.user.emails[0]) {
+										// 					user = await UserDA.getUserByEmail(
+										// 						response.user.emails[0],
+										// 					);
+										// 				} else {
+										// 					console.info('consumeCode response, ', response);
+										// 				}
+										// 				// RETURN JWT TOKEN IN ACCESS PAYLOAD ??
+										// 			})();
+										// 			break;
+										// 	}
 									}
+									console.info('consumeCode response, ', response);
+									return response as unknown as ConsumerCodeResponse;
 								} catch (error: any) {
 									console.error(' consume code error: ', error);
 									return { message: error.message };
@@ -213,10 +179,106 @@ export const backendConfig = (): AuthConfig => {
 							consumeCodePOST: async (
 								// input: PasswordlessSignInRequestPayload & { options: any },
 								input: any,
-							) => {
+							): Promise<ConsumerCodeResponse | any> => {
+								console.info('consumeCodePOST input, ', input);
 								const { appUser } = await input.options.req.getJSONBody();
 								input.userContext = { ...input.userContext, appUser };
-								return originalImplementation.consumeCodePOST(input);
+								const response = (await originalImplementation.consumeCodePOST(
+									input,
+								)) as unknown as ConsumerCodeResponse;
+
+								if (response.status === 'OK') {
+									switch (appUser) {
+										case 'DRIVER':
+											await (async () => {
+												let user: DriverWithSessionJoin;
+												// driver sign in flow
+												if (
+													response.createdNewRecipeUser &&
+													response.user.loginMethods.length === 1
+												) {
+													const externalUserId = user.user.id;
+
+													await SuperTokens.createUserIdMapping({
+														superTokensUserId: response.user.id,
+														externalUserId,
+													});
+													response.user.id = externalUserId;
+													response.user.loginMethods[0].recipeUserId =
+														new RecipeUserId(externalUserId);
+												} else {
+													if (response.user.emails[0]) {
+														user = await DriverDA.getDriverByEmail(
+															response.user.emails[0],
+														);
+													} else if (response.user.phoneNumbers[0]) {
+														user = await DriverDA.getDriverByPhone(
+															response.user.phoneNumbers[0],
+														);
+													} else {
+														user = await DriverDA.getDriverById(
+															response.user.id,
+														);
+													}
+												}
+												// map new supertokens user with created driver id
+												response._user = {
+													user,
+													token: await createToken({
+														id: user.user.id,
+													}),
+												};
+												// RETURN JWT TOKEN IN ACCESS PAYLOAD ??
+											})();
+											break;
+
+										default:
+											await (async () => {
+												let user: UserWithDetails;
+
+												// user sign in flow
+												// the user is created in supertokens first, the signup form is completed afterward
+												if (
+													response.createdNewRecipeUser &&
+													response.user.loginMethods.length === 1
+												) {
+													const externalUserId = createId();
+													await SuperTokens.createUserIdMapping({
+														superTokensUserId: response.user.id,
+														externalUserId,
+													});
+													response.user.id = externalUserId;
+													response.user.loginMethods[0].recipeUserId =
+														new RecipeUserId(externalUserId);
+												} else {
+													if (response.user.emails[0]) {
+														user = await UserDA.getUserByEmail(
+															response.user.emails[0],
+														);
+													} else if (response.user.phoneNumbers[0]) {
+														user = await UserDA.getUserByPhone(
+															response.user.phoneNumbers[0],
+														);
+													} else {
+														user = await UserDA.getUserById(response.user.id);
+													}
+												}
+												console.info('appening user to response, ');
+												response._user = {
+													user,
+													token: await createToken({
+														id: response.user.id,
+														// email: user.email,
+													}),
+												};
+												console.log('response, ', response);
+												// RETURN JWT TOKEN IN ACCESS PAYLOAD ??
+											})();
+											break;
+									}
+								}
+								console.info('consumeCodePOST response, ', response);
+								return response;
 							},
 						};
 					},

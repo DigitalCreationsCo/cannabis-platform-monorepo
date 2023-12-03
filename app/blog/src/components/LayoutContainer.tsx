@@ -1,5 +1,6 @@
 import { selectModalState, selectUserState, userActions } from '@cd/core-lib';
 import { Layout, type LayoutContextProps } from '@cd/ui-lib';
+import router from 'next/router';
 import { type PropsWithChildren } from 'react';
 import { useCookies } from 'react-cookie';
 import { useSelector } from 'react-redux';
@@ -17,8 +18,7 @@ const LayoutContainer = (props: LayoutContextProps & PropsWithChildren) => {
 	const signOut = async () => {
 		dispatch(userActions.signOutUserAsync());
 		setCookie('yesOver21', 'false', { path: '/' });
-		console.debug('set yesOver21 cookie to false');
-		window.location.reload();
+		router.replace('/');
 	};
 	return (
 		<div className="bg-accent">

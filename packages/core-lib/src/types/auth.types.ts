@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import {
 	type DriverWithSessionJoin,
 	type UserWithDetails,
@@ -35,12 +36,13 @@ export type PasswordlessResponseWithDriverDetails = {
 	fetchResponse: Response;
 };
 
-export type STUser = User & {
+export type STUser = {
 	token: string;
 	user: UserWithDetails | DriverWithSessionJoin;
 };
 export type ConsumerCodeResponse = {
 	status: 'OK';
-	createdNewUser: boolean;
-	user: STUser;
+	createdNewRecipeUser: boolean;
+	user: User;
+	_user: STUser;
 };

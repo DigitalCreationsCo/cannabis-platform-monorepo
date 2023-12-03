@@ -28,6 +28,7 @@ import { profilePictures } from '../../data/profilePicture';
 import { userSignUpTour } from '../../tour/userSignUpTour';
 
 function UserSignUpQuickForm() {
+	const userState = useSelector(selectUserState);
 	const user = useSelector(selectUserState).user;
 
 	function startTour() {
