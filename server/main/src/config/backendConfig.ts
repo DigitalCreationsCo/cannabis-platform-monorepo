@@ -1,20 +1,17 @@
 /* eslint-disable sonarjs/no-small-switch */
 /* eslint-disable sonarjs/cognitive-complexity */
 import {
+	type ConsumerCodeResponse,
 	phoneWithoutDialCode,
 	type PasswordlessSignInRequestPayload,
 } from '@cd/core-lib';
 import {
-	Driver,
 	type DriverWithSessionJoin,
 	type UserWithDetails,
 } from '@cd/data-access';
 import { createId } from '@paralleldrive/cuid2';
-import { driver, user } from 'api/routes';
-import { response } from 'express';
 import jwksClient from 'jwks-rsa';
 import SuperTokens, { RecipeUserId } from 'supertokens-node';
-import { type User } from 'supertokens-node/lib/build/types';
 import Dashboard from 'supertokens-node/recipe/dashboard';
 import jwt from 'supertokens-node/recipe/jwt';
 import Passwordless from 'supertokens-node/recipe/passwordless';
@@ -22,8 +19,6 @@ import Session from 'supertokens-node/recipe/session';
 import UserRoles from 'supertokens-node/recipe/userroles';
 import { type AuthConfig } from '../../interfaces';
 import { DriverDA, UserDA } from '../api/data-access';
-
-type STUser = User & (UserWithDetails | DriverWithSessionJoin);
 
 const baseDomain = process.env.NEXT_PUBLIC_APP_DOMAIN || 'grascannabis.org';
 const dashboardDomain =
@@ -64,14 +59,7 @@ export const backendConfig = (): AuthConfig => {
 							},
 							consumeCode: async (
 								input: any,
-							): Promise<
-								| {
-										status: 'OK';
-										createdNewUser: boolean;
-										user: STUser;
-								  }
-								| any
-							> => {
+							): Promise<ConsumerCodeResponse | any> => {
 								try {
 									const response = await originalImplementation.consumeCode(
 										input,
@@ -99,8 +87,8 @@ export const backendConfig = (): AuthConfig => {
 									}
 
 									if (response.status === 'OK') {
-										let driver: DriverWithSessionJoin;
-										let user: UserWithDetails;
+										let driver: DriverWithSessionJoin = null;
+										let user: UserWithDetails = null;
 										switch (input.userContext.appUser) {
 											case 'DRIVER':
 												// driver sign in flow
@@ -134,10 +122,13 @@ export const backendConfig = (): AuthConfig => {
 													response.user.loginMethods[0].recipeUserId =
 														new RecipeUserId(externalUserId);
 												}
-												response.user = {
-													...response.user,
-													...driver,
-												};
+												Object.assign(response.user, {
+													user: driver,
+													token: createToken({
+														id: driver.user.id,
+														email: driver.user.email,
+													}),
+												});
 												// RETURN JWT TOKEN IN ACCESS PAYLOAD ??
 												break;
 
@@ -160,42 +151,49 @@ export const backendConfig = (): AuthConfig => {
 													user = await UserDA.getUserByEmail(
 														response.user.emails[0],
 													);
-												} else if (response.user.phoneNumbers[0]) {
-													user = await UserDA.getUserByPhone(
-														phoneWithoutDialCode(response.user.phoneNumbers[0]),
-													);
-												}
-												if (
-													user?.memberships?.length > 0 &&
-													(user?.memberships?.[0]?.role.toLocaleUpperCase() ===
-														'ADMIN' ||
-														user?.memberships?.[0]?.role.toLocaleUpperCase() ===
-															'OWNER' ||
-														user?.memberships?.[0]?.role.toLocaleUpperCase() ===
-															'MEMBER')
-												) {
-													const addRole = await UserRoles.addRoleToUser(
-														response.user.id,
-														response.user.id,
-														user?.memberships?.[0]?.role.toLocaleUpperCase(),
-													);
-													if (addRole.status === 'UNKNOWN_ROLE_ERROR') {
-														// No such role exists
-														console.info('no such role exists');
+												} else {
+													if (response.user.phoneNumbers[0]) {
+														user = await UserDA.getUserByPhone(
+															phoneWithoutDialCode(
+																response.user.phoneNumbers[0],
+															),
+														);
 													}
 													if (
-														addRole.status === 'OK' &&
-														addRole.didUserAlreadyHaveRole === true
+														user?.memberships?.length > 0 &&
+														(user?.memberships?.[0]?.role.toLocaleUpperCase() ===
+															'ADMIN' ||
+															user?.memberships?.[0]?.role.toLocaleUpperCase() ===
+																'OWNER' ||
+															user?.memberships?.[0]?.role.toLocaleUpperCase() ===
+																'MEMBER')
 													) {
-														console.log('user already had the role');
-														// The user already had the role
+														const addRole = await UserRoles.addRoleToUser(
+															response.user.id,
+															response.user.id,
+															user?.memberships?.[0]?.role.toLocaleUpperCase(),
+														);
+														if (addRole.status === 'UNKNOWN_ROLE_ERROR') {
+															// No such role exists
+															console.info('no such role exists');
+														}
+														if (
+															addRole.status === 'OK' &&
+															addRole.didUserAlreadyHaveRole === true
+														) {
+															console.log('user already had the role');
+															// The user already had the role
+														}
 													}
-												}
 
-												response.user = {
-													...response.user,
-													...user,
-												};
+													Object.assign(response.user, {
+														user,
+														token: createToken({
+															id: user.id,
+															email: user.email,
+														}),
+													});
+												}
 												// RETURN JWT TOKEN IN ACCESS PAYLOAD ??
 												break;
 										}

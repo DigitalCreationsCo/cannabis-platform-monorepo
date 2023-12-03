@@ -33,26 +33,24 @@ export const frontendConfig = () => {
 						}
 					}
 				},
-				override: {
-					functions: (originalImplementation) => {
-						return {
-							...originalImplementation,
-							consumeCode: async (input: any) => {
-								try {
-									console.info('consume code input: ', input);
-									return originalImplementation.consumeCode(input);
-								} catch (error) {
-									console.info('consume code shop: ', error);
-									throw new Error(error.message);
-								}
-							},
-							resendCode: async (input: any) => {
-								console.info('resend code input: ', input);
-								return originalImplementation.resendCode(input);
-							},
-						};
-					},
-				},
+				// override: {
+				// 	functions: (originalImplementation) => {
+				// 		return {
+				// 			...originalImplementation,
+				// 			consumeCode: async (input: any) => {
+				// 				try {
+				// 					return originalImplementation.consumeCode(input);
+				// 				} catch (error) {
+				// 					throw new Error(error.message);
+				// 				}
+				// 			},
+				// 			resendCode: async (input: any) => {
+				// 				console.info('resend code input: ', input);
+				// 				return originalImplementation.resendCode(input);
+				// 			},
+				// 		};
+				// 	},
+				// },
 			}),
 			Session.init({
 				cookieDomain: `.${baseDomain}`,

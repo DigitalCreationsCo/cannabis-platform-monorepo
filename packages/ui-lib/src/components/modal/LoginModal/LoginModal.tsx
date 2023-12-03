@@ -1,8 +1,10 @@
-import { isLegalAgeAndVerified, TextContent, userActions } from '@cd/core-lib';
 import {
-	type DriverWithSessionJoin,
-	type UserWithDetails,
-} from '@cd/data-access';
+	type ConsumerCodeResponse,
+	isLegalAgeAndVerified,
+	TextContent,
+	userActions,
+} from '@cd/core-lib';
+import { type UserWithDetails } from '@cd/data-access';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -242,21 +244,17 @@ function LoginModal({
 				});
 				console.info('OTP signin response', response);
 				if (response.status === 'OK') {
-					console.debug(
-						'user is legal age and verified, ',
-						isLegalAgeAndVerified(response.user as unknown as UserWithDetails),
-					);
-					if (
-						isLegalAgeAndVerified(response.user as unknown as UserWithDetails)
-					) {
+					const { token, user } = (response as unknown as ConsumerCodeResponse)
+						.user;
+					if (isLegalAgeAndVerified(user as unknown as UserWithDetails)) {
 						setCookie('yesOver21', 'true');
 						console.debug('set yesOver21 cookie to true');
 					}
 					dispatch(
-						userActions.signinUserSync(
-							response.user as unknown as (UserWithDetails &
-								DriverWithSessionJoin) & { token: string },
-						),
+						userActions.signinUserSync({
+							token,
+							...(user as unknown as UserWithDetails),
+						}),
 					);
 				}
 				toast.success(TextContent.account.SIGNING_IN, { duration: 5000 });

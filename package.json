@@ -198,6 +198,7 @@
     "postcss-js": "4.0.1"
   },
   "dependencies": {
-    "react-native-safe-area-context": "4.7.4"
+    "react-native-safe-area-context": "4.7.4",
+    "supertokens-web-js": "^0.8.0"
   }
 }

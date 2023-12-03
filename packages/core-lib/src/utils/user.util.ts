@@ -29,9 +29,15 @@ function hasMembershipRoleAccess(user: UserWithDetails, role: MembershipRole) {
 }
 
 function isLegalAgeAndVerified(
-	user: UserWithDetails,
+	user?: UserWithDetails,
 ): { verified: boolean; isLegal: boolean } | false {
-	if (user.idVerified === false || user.isLegalAge === false) return false;
+	if (
+		typeof user?.idVerified === 'undefined' ||
+		user?.idVerified === false ||
+		typeof user?.isLegalAge === 'undefined' ||
+		user?.isLegalAge === false
+	)
+		return false;
 	return { verified: user.idVerified, isLegal: user.isLegalAge as boolean };
 }
 
