@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
 	PrismaClient,
@@ -17,8 +18,8 @@ import {
 	type Vendor,
 } from '@prisma/client';
 import axios from 'axios';
-import { type OrganizationCreateType } from '../organization.types';
-import { type ReviewWithUserDetails } from '../product.data';
+import { type OrganizationCreateType } from '../organization.types.js';
+import { type ReviewWithUserDetails } from '../product.data.js';
 
 const prisma = new PrismaClient();
 
@@ -2470,7 +2471,7 @@ const createProducts = async () => {
 		},
 	];
 
-	products.map(async (product) => {
+	products.forEach(async (product) => {
 		await prisma.product.create({
 			data: {
 				...product,
