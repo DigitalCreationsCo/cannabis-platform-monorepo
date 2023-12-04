@@ -1,4 +1,9 @@
-import { cartActions, selectCartState, TextContent } from '@cd/core-lib';
+import {
+	cartActions,
+	selectCartState,
+	TextContent,
+	useAppDispatch,
+} from '@cd/core-lib';
 import { type ProductVariant } from '@cd/data-access';
 import {
 	Card,
@@ -15,7 +20,6 @@ import {
 import { useEffect } from 'react';
 import Confetti from 'react-confetti';
 import { useSelector } from 'react-redux';
-import { useAppDispatch } from '../../../redux/hooks';
 
 function CheckoutSuccess() {
 	const dispatch = useAppDispatch();

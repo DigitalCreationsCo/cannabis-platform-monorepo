@@ -36,13 +36,12 @@ export type PasswordlessResponseWithDriverDetails = {
 	fetchResponse: Response;
 };
 
-export type STUser = {
-	token: string;
-	user: UserWithDetails | DriverWithSessionJoin;
-};
 export type ConsumerCodeResponse = {
 	status: 'OK';
 	createdNewRecipeUser: boolean;
 	user: User;
-	_user: STUser;
+	_user: {
+		token: string;
+		user: UserWithDetails | DriverWithSessionJoin;
+	};
 };

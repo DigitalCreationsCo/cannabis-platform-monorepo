@@ -3,6 +3,7 @@ import {
 	selectOrder,
 	selectUserState,
 	TextContent,
+	useAppSelector,
 } from '@cd/core-lib';
 import { type OrderWithShopDetails } from '@cd/data-access';
 import {
@@ -25,8 +26,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../../../public/logo.png';
-import { useAppSelector } from '../../../redux/hooks';
-import { wrapper } from '../../../redux/store';
+import { wrapper } from '../../../store';
 
 function ViewOrder({ orderId }: { orderId: string }) {
 	const { user } = useAppSelector(selectUserState);

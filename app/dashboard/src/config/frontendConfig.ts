@@ -39,8 +39,7 @@ export const frontendConfig = () => {
 					}
 				},
 			}),
-			Session.init({ cookieDomain: `.${baseDomain}` }),
+			Session.init(),
 		],
-		isInServerLessEnv: false,
 	};
 };

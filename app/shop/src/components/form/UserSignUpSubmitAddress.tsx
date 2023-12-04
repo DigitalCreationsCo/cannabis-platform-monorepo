@@ -1,4 +1,8 @@
-import { urlBuilder, usStatesAbbreviationList } from '@cd/core-lib';
+import {
+	TextContent,
+	urlBuilder,
+	usStatesAbbreviationList,
+} from '@cd/core-lib';
 import { type AddressCreateType } from '@cd/data-access';
 import {
 	Button,
@@ -223,7 +227,7 @@ function SubmitAddressForm() {
 							prevFormStep();
 						}}
 					>
-						go back
+						{TextContent.ui.BACK}
 					</Button>
 					<Button
 						id="submit-address-step-2"
@@ -237,7 +241,7 @@ function SubmitAddressForm() {
 							handleSubmit();
 						}}
 					>
-						Next
+						{TextContent.ui.CONTINUE}
 					</Button>
 				</FlexBox>
 			</Grid>

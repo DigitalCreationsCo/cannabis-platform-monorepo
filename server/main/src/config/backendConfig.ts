@@ -3,7 +3,6 @@
 /* eslint-disable sonarjs/cognitive-complexity */
 import {
 	type ConsumerCodeResponse,
-	phoneWithoutDialCode,
 	type PasswordlessSignInRequestPayload,
 } from '@cd/core-lib';
 import {
@@ -11,8 +10,6 @@ import {
 	type UserWithDetails,
 } from '@cd/data-access';
 import { createId } from '@paralleldrive/cuid2';
-import { driver } from 'api/routes';
-import e from 'express';
 import jwksClient from 'jwks-rsa';
 import SuperTokens, { RecipeUserId } from 'supertokens-node';
 import Dashboard from 'supertokens-node/recipe/dashboard';
@@ -223,7 +220,7 @@ export const backendConfig = (): AuthConfig => {
 												}
 												// map new supertokens user with created driver id
 												response._user = {
-													user,
+													user: { ...user, id: response.user.id },
 													token: await createToken({
 														id: user.user.id,
 													}),
@@ -265,7 +262,7 @@ export const backendConfig = (): AuthConfig => {
 												}
 												console.info('appening user to response, ');
 												response._user = {
-													user,
+													user: { ...user, id: response.user.id },
 													token: await createToken({
 														id: response.user.id,
 														// email: user.email,

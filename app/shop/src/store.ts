@@ -1,22 +1,15 @@
 import {
 	blogReducer,
 	cartReducer,
-	crashMiddleware,
 	locationMiddleware,
 	locationReducer,
-	loggerMiddleware,
 	modalReducer,
 	shopReducer,
 	userReducer,
+	type AppStore,
 } from '@cd/core-lib';
-import {
-	combineReducers,
-	configureStore,
-	type Action,
-	type AnyAction,
-	type Store,
-	type ThunkAction,
-} from '@reduxjs/toolkit';
+// import { crashMiddleware, loggerMiddleware } from '@cd/core-lib/src/middleware';
+import { combineReducers, configureStore, type Store } from '@reduxjs/toolkit';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 import {
 	FLUSH,
@@ -31,7 +24,7 @@ import {
 import storage from 'redux-persist/lib/storage';
 import { signOut } from 'supertokens-auth-react/recipe/session';
 
-const middlewares = [locationMiddleware, crashMiddleware, loggerMiddleware];
+// const middlewares = [locationMiddleware, crashMiddleware, loggerMiddleware];
 
 const rootReducer = combineReducers({
 	modal: modalReducer,
@@ -42,7 +35,7 @@ const rootReducer = combineReducers({
 	blog: blogReducer,
 });
 
-const hydratableReducer = (state: any, action: AnyAction) => {
+const hydratableReducer = (state: any, action: any) => {
 	if (action.type === HYDRATE) {
 		return {
 			...state, // use previous state
@@ -59,11 +52,19 @@ const hydratableReducer = (state: any, action: AnyAction) => {
 	}
 };
 
-export const persistConfig = {
-	key: 'root',
-	blacklist: ['modal'],
-	storage,
-};
+// dont persist state in a development container
+export const persistConfig =
+	process.env.NODE_ENV === 'development' && process.env.DEV_ENV === 'docker'
+		? {
+				key: 'root',
+				whitelist: ['modal', 'shop', 'user', 'blog'],
+				storage,
+		  }
+		: {
+				key: 'root',
+				blacklist: ['modal'],
+				storage,
+		  };
 
 const supertokensArguments = () => {
 	return { signOut };
@@ -89,7 +90,7 @@ const makeStore = () => {
 						extraArgument: thunkArguments,
 					},
 				}),
-				...middlewares,
+				// ...middlewares,
 			],
 		});
 		// @ts-ignore
@@ -107,24 +108,13 @@ const makeStore = () => {
 						extraArgument: thunkArguments,
 					},
 				}),
-				...middlewares,
+				// ...middlewares,
 			],
 		});
 	}
 	thunkArguments.store = store;
 	return store;
 };
-
-const store: any = makeStore();
-export type AppStore = ReturnType<typeof makeStore>;
-export type AppDispatch = ReturnType<typeof store.dispatch>;
-export type RootState = ReturnType<typeof store.getState>;
-export type AppThunk<ReturnType = void> = ThunkAction<
-	ReturnType,
-	RootState,
-	unknown,
-	Action<string>
->;
 
 export const wrapper = createWrapper<AppStore>(makeStore, {
 	// debug: process.env.NODE_ENV !== 'production',

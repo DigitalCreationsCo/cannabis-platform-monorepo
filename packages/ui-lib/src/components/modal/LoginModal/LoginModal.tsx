@@ -244,16 +244,15 @@ function LoginModal({
 				})) as unknown as ConsumerCodeResponse;
 				console.info('OTP signin response', response);
 				if (response.status === 'OK') {
-					const { token, user } = (response as unknown as ConsumerCodeResponse)
-						._user;
-					if (isLegalAgeAndVerified(user as unknown as UserWithDetails)) {
+					const { _user } = response as ConsumerCodeResponse;
+					if (isLegalAgeAndVerified(_user.user as UserWithDetails)) {
 						setCookie('yesOver21', 'true');
 						console.debug('set yesOver21 cookie to true');
 					}
 					dispatch(
 						userActions.signinUserSync({
-							token,
-							...(user as unknown as UserWithDetails),
+							token: _user.token,
+							user: _user.user as UserWithDetails,
 						}),
 					);
 				}

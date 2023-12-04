@@ -4,6 +4,8 @@ import {
 	selectSelectedLocationState,
 	selectShopState,
 	shopActions,
+	useAppDispatch,
+	useAppSelector,
 } from '@cd/core-lib';
 import { type AddressPayload } from '@cd/data-access';
 import { type AnyAction } from '@reduxjs/toolkit';
@@ -11,7 +13,6 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useSelector } from 'react-redux';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
 
 // ADD SWR FOR DATA FETCH
 const LocationProvider = () => {

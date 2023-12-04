@@ -1,9 +1,11 @@
 import {
 	axios,
 	renderNestedDataObject,
+	selectIsCartEmpty,
 	TextContent,
 	urlBuilder,
 	userActions,
+	useAppDispatch,
 } from '@cd/core-lib';
 import { type UserWithDetails } from '@cd/data-access';
 import {
@@ -20,9 +22,10 @@ import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { toast } from 'react-hot-toast';
-import { useAppDispatch } from '../../redux/hooks';
+import { useSelector } from 'react-redux';
 
 function UserSignUpReview() {
+	const isCartEmpty = useSelector(selectIsCartEmpty);
 	const { href } = TextContent;
 	const dispatch = useAppDispatch();
 
@@ -42,6 +45,8 @@ function UserSignUpReview() {
 			});
 			if (response.data.success === 'false')
 				throw new Error(response.data.error);
+			console.info('createdAccount: ', response.data.payload);
+			// get token here, and pass it to signin action
 			const createdAccount: UserWithDetails = response.data.payload;
 			setAccount(createdAccount);
 			return createdAccount;
@@ -71,7 +76,7 @@ function UserSignUpReview() {
 
 	useEffect(() => {
 		return () => {
-			if (account) dispatch(userActions.signinUserSync(account));
+			if (account) dispatch(userActions.signinUserSync(account as any));
 		};
 	}, [account]);
 
@@ -141,12 +146,19 @@ function UserSignUpReview() {
 						})}
 						<FlexBox className="m-auto flex-row space-x-4 pb-20">
 							<>
-								<Link href={href.browse}>
-									<Button>Go to Gras</Button>
-								</Link>
-								<Link href={href.checkout}>
-									<Button>Checkout</Button>
-								</Link>
+								{isCartEmpty ? (
+									<Link href={href.browse}>
+										<Button bg="primary" hover="primary-light" size="lg">
+											Go to Gras
+										</Button>
+									</Link>
+								) : (
+									<Link href={href.checkout}>
+										<Button bg="primary" hover="primary-light" size="lg">
+											Checkout
+										</Button>
+									</Link>
+								)}
 							</>
 						</FlexBox>
 					</>

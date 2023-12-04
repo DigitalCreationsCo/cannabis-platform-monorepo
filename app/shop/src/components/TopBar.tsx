@@ -126,7 +126,7 @@ function TopBar({ signOut }: TopBarProps) {
 					<Image
 						tabIndex={0}
 						src={(user.profilePicture?.location as string) || logo}
-						alt={user.email}
+						alt={user.email || 'my account'}
 						width={40}
 						height={40}
 						className="rounded-full border"

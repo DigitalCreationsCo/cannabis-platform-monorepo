@@ -58,7 +58,6 @@ export type SimpleCart = {
 // this is screwed up VVV, i dont understand redux well enough
 export type AppStore = Store<AppState>;
 export type AppDispatch = Dispatch<any>;
-export type RootState = Store<AppState>;
 export type AppAction = Action<any> | AppThunk;
 export type AppThunk<ReturnType = void> = ThunkAction<
 	ReturnType,

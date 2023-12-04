@@ -4,6 +4,7 @@ import {
 	urlBuilder,
 	usePagination,
 	userActions,
+	useAppDispatch,
 } from '@cd/core-lib';
 import { type OrderWithShopDetails } from '@cd/data-access';
 import {
@@ -17,8 +18,7 @@ import {
 	type LayoutContextProps,
 } from '@cd/ui-lib';
 import { useEffect } from 'react';
-import { useAppDispatch } from '../../../redux/hooks';
-import { wrapper } from '../../../redux/store';
+import { wrapper } from '../../../store';
 
 export const getServerSideProps = wrapper.getServerSideProps(
 	() =>

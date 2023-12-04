@@ -1,7 +1,7 @@
 import { blogActions, TextContent } from '@cd/core-lib';
 import { type LayoutContextProps, Page, Grid, H1 } from '@cd/ui-lib';
 import { type AnyAction } from '@reduxjs/toolkit';
-import { wrapper } from '../redux/store';
+import { wrapper } from '../store';
 
 function BlogDirectory() {
 	return (
