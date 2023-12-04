@@ -1,5 +1,4 @@
 /* eslint-disable no-case-declarations */
-import { TextContent } from '@cd/core-lib';
 import { NextResponse, type NextRequest } from 'next/server';
 
 export const config = {
@@ -48,7 +47,7 @@ export default async function middleware(req: NextRequest) {
 			const isSignupComplete = req.cookies.get('isSignUpComplete')?.value;
 
 			if (url.pathname === '/browse' && isSignupComplete === 'false') {
-				url.pathname = TextContent.href.createAccount;
+				url.pathname = '/signup/create-account';
 				return NextResponse.redirect(url);
 			}
 
