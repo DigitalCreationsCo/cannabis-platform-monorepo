@@ -36,6 +36,7 @@ export default class UserController {
 			}
 			const normalizedUser = normalizeUserData(rawUser);
 			const data = await UserDA.upsertUser(normalizedUser);
+			console.info('createUser data: ', data);
 			if (!data)
 				return res.status(404).json({
 					success: 'false',
@@ -46,15 +47,24 @@ export default class UserController {
 				payload: data,
 			});
 		} catch (error: any) {
-			if (error.message.includes('This user exists already'))
-				return res.status(400).json({
+			console.error('createUser: ', error.message);
+			if (error.message.includes('Unique value')) {
+				res.status(400).json({
 					success: 'false',
 					error: error.message,
 				});
-			return res.status(500).json({
-				success: 'false',
-				error: error.message,
-			});
+				// eslint-disable-next-line sonarjs/no-duplicated-branches
+			} else if (error.message.includes('This user exists already')) {
+				res.status(400).json({
+					success: 'false',
+					error: error.message,
+				});
+			} else {
+				res.status(500).json({
+					success: 'false',
+					error: error.message,
+				});
+			}
 		}
 	}
 

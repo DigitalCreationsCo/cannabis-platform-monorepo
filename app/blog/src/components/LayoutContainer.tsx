@@ -1,15 +1,15 @@
-import { selectModalState, selectUserState, userActions } from '@cd/core-lib';
+import {
+	selectModalState,
+	useAppDispatch,
+	selectUserState,
+	userActions,
+} from '@cd/core-lib';
 import { Layout, type LayoutContextProps } from '@cd/ui-lib';
-import router from 'next/router';
 import { type PropsWithChildren } from 'react';
-import { useCookies } from 'react-cookie';
 import { useSelector } from 'react-redux';
-import { useAppDispatch } from '../redux/hooks';
 import BlogNavigation from './BlogNavigation';
 
 const LayoutContainer = (props: LayoutContextProps & PropsWithChildren) => {
-	const [, setCookie] = useCookies(['yesOver21']);
-
 	const user = useSelector(selectUserState);
 	const { modalVisible } = useSelector(selectModalState);
 
@@ -17,8 +17,6 @@ const LayoutContainer = (props: LayoutContextProps & PropsWithChildren) => {
 
 	const signOut = async () => {
 		dispatch(userActions.signOutUserAsync());
-		setCookie('yesOver21', 'false', { path: '/' });
-		router.replace('/');
 	};
 	return (
 		<div className="bg-accent">

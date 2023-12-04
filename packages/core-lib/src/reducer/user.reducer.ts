@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 import {
@@ -15,8 +17,7 @@ export const signOutUserAsync = createAsyncThunk<
 		// dispatch: Dispatch<AnyAction>;
 		extra: ThunkArgumentsType;
 	}
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
->('user/signOutUserAsync', async (_, { dispatch, extra, rejectWithValue }) => {
+>('user/signOutUserAsync', async (_, { extra, rejectWithValue }) => {
 	try {
 		const { signOut } = extra.supertokens;
 		await signOut();
@@ -78,21 +79,22 @@ export const userSlice = createSlice({
 	reducers: {
 		signinUserSync: (
 			state,
-			{ payload }: { payload: UserWithDetails & { token: string } },
+			{ payload }: { payload: { user: UserWithDetails; token: string } },
 		) => {
 			console.info('signinUserSync payload', payload);
-			const { token } = payload;
+			let { token, user } = payload;
 			state.token = token;
-			const user = pruneData(payload, ['createdAt', 'updatedAt']);
-			state.user = user;
+			state.user = pruneData(user, ['createdAt', 'updatedAt']);
 			state.isSignedIn = true;
 			state.isLoading = false;
 			state.isSuccess = true;
 			state.isError = false;
+
 			document.cookie = 'yesOver21=true;path=/';
 			if (!user.isSignUpComplete) {
 				document.cookie = 'isSignUpComplete=false;path=/';
 			}
+			window.location.reload();
 		},
 		updateOrders: (
 			state,
@@ -117,8 +119,10 @@ export const userSlice = createSlice({
 		},
 	},
 	extraReducers: (builder) => {
-		builder.addCase(signOutUserAsync.fulfilled, () => {
-			return initialState;
+		builder.addCase(signOutUserAsync.fulfilled, (state) => {
+			document.cookie = 'yesOver21=false;path=/';
+			window.location.href = '/';
+			return (state = initialState);
 		}),
 			builder.addCase(signOutUserAsync.pending, (state) => {
 				state.isLoading = true;

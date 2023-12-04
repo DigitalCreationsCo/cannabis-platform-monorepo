@@ -25,6 +25,37 @@ import {
 import backendConfig, { jwtClient } from './config';
 import { initializeRedis } from './lib/redis-cart';
 
+const authenticateToken = () => async (req, res, next) => {
+	try {
+		const session = await Session.getSession(req, res, {
+			sessionRequired: false,
+		});
+		if (session !== undefined) {
+			// const userId = session.getUserId();
+			// do something with the userId?
+			next();
+		} else {
+			let jwt = req.headers['authorization'];
+			jwt = jwt === undefined ? undefined : jwt.split('Bearer ')[1];
+			if (jwt === undefined) {
+				return res.status(401);
+			} else {
+				verify(jwt, getKey, {}, function (err) {
+					if (err) {
+						return res.status(401).json({ success: false, error: err });
+					}
+					// const decodedJWT = decoded;
+					// do something with the decodedJWT?
+					next();
+				});
+			}
+		}
+	} catch (err) {
+		console.error('authenticateToken: ', err);
+		next(err);
+	}
+};
+
 const shopDomain = process.env.NEXT_PUBLIC_SHOP_APP_URL;
 const dashboardDomain = process.env.NEXT_PUBLIC_DASHBOARD_APP_URL;
 
@@ -47,22 +78,23 @@ app.use(
 		credentials: true,
 	}),
 );
-app.use(STmiddleware());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 initializeRedis();
 
+app.use(STmiddleware());
+
 app.use('/api/v1/healthcheck', (_, res) => {
 	return res.status(200).json({ status: 'ok', server: 'main' });
 });
-app.use('/api/v1/cache', authenticateToken, cacheHandler);
-app.use('/api/v1/user', authenticateToken, user);
-app.use('/api/v1/driver', authenticateToken, driver);
-app.use('/api/v1/shop', authenticateToken, shop);
-app.use('/api/v1/organization', authenticateToken, organization);
-app.use('/api/v1/blog', authenticateToken, blog);
-app.use('/api/v1/compliance', authenticateToken, compliance);
+app.use('/api/v1/cache', authenticateToken(), cacheHandler);
+app.use('/api/v1/user', authenticateToken(), user);
+app.use('/api/v1/driver', authenticateToken(), driver);
+app.use('/api/v1/shop', authenticateToken(), shop);
+app.use('/api/v1/organization', authenticateToken(), organization);
+app.use('/api/v1/blog', authenticateToken(), blog);
+app.use('/api/v1/compliance', authenticateToken(), compliance);
 
 app.use('/api/v1/error', errorRoute);
 app.use(STerror());
@@ -79,38 +111,6 @@ export type SessionResponse = {
 	status: boolean;
 	session: SessionInformation;
 };
-
-export async function authenticateToken(req, res, next) {
-	try {
-		const session = await Session.getSession(req, res, {
-			sessionRequired: false,
-		});
-
-		if (session !== undefined) {
-			const userId = session.getUserId();
-			// do something with the userId?
-			next();
-		} else {
-			let jwt = req.headers['authorization'];
-			jwt = jwt === undefined ? undefined : jwt.split('Bearer ')[1];
-			if (jwt === undefined) {
-				return res.status(401);
-			} else {
-				verify(jwt, getKey, {}, function (err, decoded) {
-					if (err) {
-						return res.status(401).json({ success: false, error: err });
-					}
-					const decodedJWT = decoded;
-					// do something with the decodedJWT?
-					next();
-				});
-			}
-		}
-	} catch (err) {
-		console.error('Error in authenticateToken: ', err);
-		next(err);
-	}
-}
 
 function getKey(header: JwtHeader, callback: SigningKeyCallback) {
 	jwtClient.getSigningKey(header.kid as string, function (err, key) {

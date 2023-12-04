@@ -1,5 +1,5 @@
 /* eslint-disable prefer-rest-params */
-import { blogActions, shopActions, TextContent } from '@cd/core-lib';
+import { blogActions, shopActions } from '@cd/core-lib';
 import {
 	LoadingPage,
 	ModalProvider,
@@ -8,7 +8,7 @@ import {
 	type LayoutContextProps,
 	ErrorBoundary,
 } from '@cd/ui-lib';
-// import { type AnyAction } from '@reduxjs/toolkit';
+import { type AnyAction } from '@reduxjs/toolkit';
 import { AnimatePresence } from 'framer-motion';
 import { type AppProps } from 'next/app';
 import Head from 'next/head';
@@ -19,15 +19,15 @@ import { PersistGate } from 'redux-persist/integration/react';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session from 'supertokens-auth-react/recipe/session';
 import { LayoutContainer, LocationProvider, TopBar } from '../components';
-import { frontendConfig } from '../config/frontendConfig';
-import { wrapper } from '../redux/store';
+import { frontendConfig } from '../config';
+import { wrapper } from '../store';
 import '../styles/anim8-gradient.css';
 import '../styles/shop.css';
 // eslint-disable-next-line import/no-unresolved, @typescript-eslint/no-unused-vars
 import '../styles/tailwind.css';
 
 if (typeof window !== 'undefined') {
-	SuperTokensReact.init(frontendConfig());
+	SuperTokensReact.init(frontendConfig() as any);
 }
 
 type CustomAppProps = AppProps & {
@@ -130,7 +130,8 @@ function App({ Component, ...rest }: CustomAppProps) {
 															'https://conversations-widget.brevo.com/brevo-conversations.js';
 														if (d.head) d.head.appendChild(s);
 													})(document, window, 'BrevoConversations')}
-												{!routerLoading &&
+												{process.env.NODE_ENV === 'production' &&
+													!routerLoading &&
 													(function (
 														h,
 														o,

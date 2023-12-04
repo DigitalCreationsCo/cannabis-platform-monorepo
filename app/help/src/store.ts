@@ -1,4 +1,5 @@
 import {
+	type AppStore,
 	blogReducer,
 	cartReducer,
 	crashMiddleware,
@@ -12,12 +13,9 @@ import {
 import {
 	combineReducers,
 	configureStore,
-	type Action,
 	type AnyAction,
 	type Store,
-	type ThunkAction,
 } from '@reduxjs/toolkit';
-import { serialize, deserialize } from 'json-immutable';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 import {
 	FLUSH,
@@ -116,19 +114,8 @@ const makeStore = () => {
 	return store;
 };
 
-const store: any = makeStore();
-export type AppStore = ReturnType<typeof makeStore>;
-export type AppDispatch = ReturnType<typeof store.dispatch>;
-export type RootState = ReturnType<typeof store.getState>;
-export type AppThunk<ReturnType = void> = ThunkAction<
-	ReturnType,
-	RootState,
-	unknown,
-	Action<string>
->;
-
 export const wrapper = createWrapper<AppStore>(makeStore, {
-	debug: process.env.NODE_ENV !== 'production',
-	serializeState: (state) => serialize(state),
-	deserializeState: (state) => deserialize(state),
+	// debug: process.env.NODE_ENV !== 'production',
+	// serializeState: (state) => serialize(state),
+	// deserializeState: (state) => deserialize(state)
 });

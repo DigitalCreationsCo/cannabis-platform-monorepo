@@ -6,19 +6,16 @@ const handler = nc();
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 	try {
 		const { token } = req.body;
-
 		const { data } = await axios.post(
 			`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.NEXT_PUBLIC_RECAPTCHA_V2_SECRET_KEY}&response=${token}`,
 		);
-
 		if (data.success) {
-			res.status(200).send({ isHuman: true });
+			res.status(200).send({ success: 'true', isHuman: true });
 		} else {
-			res.status(401).send({ isHuman: false });
+			res.status(401).send({ success: 'false', isHuman: false });
 		}
 	} catch (error) {
-		// Handle any errors that occur during the reCAPTCHA verification process
-		console.error(error);
+		console.error('api recaptcha: ', error.message);
 		res.status(500).send('Error verifying reCAPTCHA');
 	}
 });

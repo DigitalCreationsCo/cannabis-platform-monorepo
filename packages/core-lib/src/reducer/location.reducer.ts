@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
-
 import { type Address } from '@cd/data-access';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { type AppState } from '../types';

@@ -2,11 +2,9 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import { type OrderWithDispatchDetails } from '@cd/data-access';
-import { type MiddlewareAPI } from '@reduxjs/toolkit';
 import { io, type Socket } from 'socket.io-client';
 import { driverActions } from '../reducer/driver.reducer';
 import { socketActions } from '../reducer/socket.reducer';
-import { type AppState } from '../types';
 import {
 	dispatchEvents as SocketEvent,
 	NavigateEvent,

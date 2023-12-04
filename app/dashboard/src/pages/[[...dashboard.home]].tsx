@@ -1,9 +1,4 @@
-import {
-	getDashboardSite,
-	// selectDispensaryState,
-	// selectUserState,
-	// TextContent,
-} from '@cd/core-lib';
+import { getDashboardSite } from '@cd/core-lib';
 import {
 	Button,
 	Center,
@@ -17,10 +12,8 @@ import {
 } from '@cd/ui-lib';
 import Image, { type StaticImageData } from 'next/image';
 import Link from 'next/link';
-// import Router from 'next/router';
 import { type PropsWithChildren } from 'react';
 import backdrop from '../../public/marijuana-backdrop.png';
-// import { useAppSelector } from '../redux/hooks';
 
 function DashboardStart() {
 	// const { isSignedIn } = useAppSelector(selectUserState);

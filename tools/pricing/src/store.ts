@@ -1,16 +1,15 @@
-import { dispensaryReducer, modalReducer, userReducer } from '@cd/core-lib';
 import {
+	type AppStore,
 	crashMiddleware,
-	dispensaryMiddleware,
+	locationMiddleware,
 	loggerMiddleware,
-} from '@cd/core-lib/src/middleware';
+	modalReducer,
+} from '@cd/core-lib';
 import {
 	combineReducers,
 	configureStore,
-	type Action,
 	type AnyAction,
 	type Store,
-	type ThunkAction,
 } from '@reduxjs/toolkit';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 import {
@@ -24,58 +23,39 @@ import {
 	REHYDRATE,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import { signOut } from 'supertokens-auth-react/recipe/session';
-
-const supertokensArguments = () => {
-	return { signOut };
-};
-
-const customMiddlewares = [
-	dispensaryMiddleware,
-	crashMiddleware,
-	loggerMiddleware,
-];
-
+const middlewares = [locationMiddleware, crashMiddleware, loggerMiddleware];
 const rootReducer = combineReducers({
 	modal: modalReducer,
-	user: userReducer,
-	dispensary: dispensaryReducer,
 });
-
-const hydratableReducer = (state: RootState, action: AnyAction) => {
+const hydratableReducer = (state: any, action: AnyAction) => {
 	if (action.type === HYDRATE) {
 		return {
 			...state, // use previous state
-			// ...action.payload, // apply delta from hydration
+			// ...action.payload // apply delta from hydration
 		};
 	}
 	if (action.type === REHYDRATE) {
 		return {
 			...state,
-			// ...action.payload, // apply delta from hydration
+			...action.payload, // apply delta from hydration
 		};
 	} else {
 		return rootReducer(state, action);
 	}
 };
+export const persistConfig = {
+	key: 'root',
+	blacklist: ['modal'],
+	storage,
+};
 
 const makeStore = () => {
 	let store;
-
-	const isClient = typeof window !== 'undefined';
-
-	const thunkArguments: { store: Store | null; supertokens: any } = {
+	const thunkArguments: { store: Store | null } = {
 		store: null,
-		supertokens: supertokensArguments(),
 	};
-
+	const isClient = typeof window !== 'undefined';
 	if (isClient) {
-		const persistConfig = {
-			key: 'root',
-			blacklist: ['modal'],
-			storage,
-		};
-
 		store = configureStore({
 			devTools: process.env.NODE_ENV !== 'production',
 			reducer: persistReducer(persistConfig, rootReducer),
@@ -88,7 +68,7 @@ const makeStore = () => {
 						extraArgument: thunkArguments,
 					},
 				}),
-				...customMiddlewares,
+				...middlewares,
 			],
 		});
 		// @ts-ignore
@@ -106,27 +86,11 @@ const makeStore = () => {
 						extraArgument: thunkArguments,
 					},
 				}),
-				...customMiddlewares,
+				...middlewares,
 			],
 		});
 	}
 	thunkArguments.store = store;
 	return store;
 };
-
-const store: any = makeStore();
-export type AppStore = ReturnType<typeof makeStore>;
-export type AppDispatch = typeof store.dispatch;
-export type RootState = ReturnType<typeof store.getState>;
-export type AppThunk<ReturnType = void> = ThunkAction<
-	ReturnType,
-	RootState,
-	unknown,
-	Action<string>
->;
-
-export const wrapper = createWrapper<AppStore>(makeStore, {
-	// debug: process.env.NODE_ENV !== 'production',
-	// serializeState: (state) => serialize(state),
-	// deserializeState: (state) => deserialize(state)
-});
+export const wrapper = createWrapper<AppStore>(makeStore);

@@ -1,17 +1,22 @@
 import {
+	type AppStore,
+	blogReducer,
+	cartReducer,
 	crashMiddleware,
 	locationMiddleware,
+	locationReducer,
 	loggerMiddleware,
 	modalReducer,
+	shopReducer,
+	userReducer,
 } from '@cd/core-lib';
 import {
+	type AnyAction,
 	combineReducers,
 	configureStore,
-	type Action,
-	type AnyAction,
 	type Store,
-	type ThunkAction,
 } from '@reduxjs/toolkit';
+import { serialize, deserialize } from 'json-immutable';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 import {
 	FLUSH,
@@ -24,10 +29,19 @@ import {
 	REHYDRATE,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import { signOut } from 'supertokens-auth-react/recipe/session';
+
 const middlewares = [locationMiddleware, crashMiddleware, loggerMiddleware];
+
 const rootReducer = combineReducers({
 	modal: modalReducer,
+	user: userReducer,
+	location: locationReducer,
+	shop: shopReducer,
+	cart: cartReducer,
+	blog: blogReducer,
 });
+
 const hydratableReducer = (state: any, action: AnyAction) => {
 	if (action.type === HYDRATE) {
 		return {
@@ -44,16 +58,22 @@ const hydratableReducer = (state: any, action: AnyAction) => {
 		return rootReducer(state, action);
 	}
 };
+
 export const persistConfig = {
 	key: 'root',
 	blacklist: ['modal'],
 	storage,
 };
 
+const supertokensArguments = () => {
+	return { signOut };
+};
+
 const makeStore = () => {
 	let store;
-	const thunkArguments: { store: Store | null } = {
+	const thunkArguments: { store: Store | null; supertokens: any } = {
 		store: null,
+		supertokens: supertokensArguments(),
 	};
 	const isClient = typeof window !== 'undefined';
 	if (isClient) {
@@ -94,15 +114,9 @@ const makeStore = () => {
 	thunkArguments.store = store;
 	return store;
 };
-const store: any = makeStore();
 
-export type AppStore = ReturnType<typeof makeStore>;
-export type AppDispatch = ReturnType<typeof store.dispatch>;
-export type RootState = ReturnType<typeof store.getState>;
-export type AppThunk<ReturnType = void> = ThunkAction<
-	ReturnType,
-	RootState,
-	unknown,
-	Action<string>
->;
-export const wrapper = createWrapper<AppStore>(makeStore);
+export const wrapper = createWrapper<AppStore>(makeStore, {
+	debug: process.env.NODE_ENV !== 'production',
+	serializeState: (state) => serialize(state),
+	deserializeState: (state) => deserialize(state),
+});

@@ -1,34 +1,42 @@
-import { urlBuilder } from '@cd/core-lib';
-import axios from 'axios';
+import { axios, urlBuilder } from '@cd/core-lib';
 import nc from 'next-connect';
-import supertokens from 'supertokens-node';
-import { type SessionRequest } from 'supertokens-node/framework/express';
+import NextCors from 'nextjs-cors';
+import Supertokens from 'supertokens-node';
 import { superTokensNextWrapper } from 'supertokens-node/nextjs';
-import Session from 'supertokens-node/recipe/session';
-import { backendConfig } from '@config';
+import { verifySession } from 'supertokens-node/recipe/session/framework/express';
+import { backendConfig } from '../../../../config';
 
-supertokens.init(backendConfig());
-const handler = nc();
+Supertokens.init(backendConfig());
+
 // get orders from a single user
-handler.get(async (req: SessionRequest, res: any) => {
+const handler = nc();
+handler.get(async (req: any, res: any) => {
 	try {
-		const session = await superTokensNextWrapper(
+		await NextCors(req, res, {
+			methods: ['GET'],
+			origin: process.env.NEXT_PUBLIC_SHOP_APP_URL,
+			credentials: true,
+			allowedHeaders: ['content-type', ...Supertokens.getAllCORSHeaders()],
+		});
+
+		await superTokensNextWrapper(
 			async (next) => {
-				return await Session.getSession(req, res);
+				return await verifySession()(req, res, next);
 			},
 			req,
 			res,
 		);
 
-		const userId = session.getUserId();
-		console.info('session', session);
 		res.setHeader('Cache-Control', 'public, s-maxage=120');
 		const { id } = req.query;
 		const { data } = await axios(urlBuilder.main.ordersByUser(id));
 		return res.status(res.statusCode).json(data);
 	} catch (error: any) {
-		console.error(error.message);
-		return res.json(error);
+		console.error('api get orders from user: ', error.message);
+		return res.json({
+			success: 'false',
+			error: error.message,
+		});
 	}
 });
 
