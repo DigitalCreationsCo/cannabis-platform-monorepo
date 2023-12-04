@@ -3831,6 +3831,34 @@ html {
   background-color: transparent;
 }
 
+.hover\:bg-accent:hover {
+  background-color: var(--accent);
+}
+
+.hover\:bg-inverse:hover {
+  background-color: var(--inverse);
+}
+
+.hover\:bg-inverse-soft:hover {
+  background-color: var(--inverse-soft);
+}
+
+.hover\:bg-primary:hover {
+  background-color: var(--primary);
+}
+
+.hover\:bg-primary-light:hover {
+  background-color: var(--primary-light);
+}
+
+.hover\:bg-secondary:hover {
+  background-color: var(--secondary);
+}
+
+.hover\:bg-secondary-light:hover {
+  background-color: var(--secondary-light);
+}
+
 .hover\:from-primary:hover {
   --tw-gradient-from: var(--primary) var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(255 255 255 / 0) var(--tw-gradient-to-position);

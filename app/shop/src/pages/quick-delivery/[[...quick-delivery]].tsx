@@ -16,7 +16,6 @@ import { type ProductVariantWithDetails } from '@cd/data-access';
 import {
 	Card,
 	Center,
-	CheckBox,
 	CheckoutButton,
 	H2,
 	H5,

@@ -104,7 +104,6 @@ export const userSlice = createSlice({
 				payload: OrderWithShopDetails[];
 			},
 		) => {
-			console.info('updateOrders action');
 			const orders = payload;
 			reconcileStateArray(state.user.orders, orders);
 		},

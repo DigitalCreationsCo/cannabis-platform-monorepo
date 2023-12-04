@@ -261,7 +261,8 @@ export const Tiny = ({
 }: Props) => {
 	return (
 		<span
-			className={twMerge(
+			className={twMerge([
+				'w-fit',
 				'font-onest',
 				(color === 'light' && 'text-inverse') ||
 					(color === 'dark' && 'text-dark') ||
@@ -269,7 +270,7 @@ export const Tiny = ({
 				styles['cursor-inherit'],
 				'text-xs whitespace-normal',
 				className,
-			)}
+			])}
 			{...props}
 		>
 			{children}

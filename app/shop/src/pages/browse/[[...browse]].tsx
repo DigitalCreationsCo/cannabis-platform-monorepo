@@ -16,7 +16,6 @@ import {
 	type LayoutContextProps,
 } from '@cd/ui-lib';
 // import { useEffect } from 'react';
-import router from 'next/router';
 import { useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import { DispensaryCard, InfoCard } from '../../components';
