@@ -16,7 +16,7 @@ function SettingsPage() {
 	const { user } = useSelector(selectUserState);
 
 	return (
-		<Page>
+		<Page className="bg-inverse-soft">
 			<FlexBox className="mx-auto w-[80%] sm:w-auto">
 				<Padding>
 					<H1>Settings</H1>

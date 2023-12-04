@@ -38,7 +38,6 @@ function Checkout() {
 	const cartIsEmpty = useSelector(selectIsCartEmpty);
 
 	async function canCheckout(order: OrderCreateType) {
-		console.log('checking order valid ', order);
 		if (
 			!cartIsEmpty &&
 			order?.destinationAddress !== undefined &&

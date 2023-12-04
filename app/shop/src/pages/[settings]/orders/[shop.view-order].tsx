@@ -155,7 +155,6 @@ export const getServerSideProps = wrapper.getServerSideProps(
 					},
 				};
 			} catch (error) {
-				console.log(`ViewOrder SSP: ${error}`);
 				return {
 					notFound: true,
 				};

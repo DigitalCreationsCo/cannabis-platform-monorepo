@@ -3,8 +3,7 @@ import Link from 'next/link';
 import router from 'next/router';
 import { Button } from './button';
 import Center from './Center';
-import CopyRight from './CopyRight';
-import { H1, H5, Paragraph, Span } from './Typography';
+import { H1, H5, Span } from './Typography';
 
 function ErrorMessage({ code, message = '' }: { code: number; message?: any }) {
 	return (
@@ -13,17 +12,15 @@ function ErrorMessage({ code, message = '' }: { code: number; message?: any }) {
 				{TextContent.error.REQUEST_FAILED}
 			</H1>
 			<H5 className="whitespace-pre-line pt-4 pb-8 text-center">
-				{message}{' '}
+				{message}
+				{'\n'}
 				<Link href={TextContent.href.support} className="underline">
-					get support
+					Get Support
 				</Link>
-				.
-				{/* <Span className="text-error text-center inline">{code || ''}</Span> */}
+				{'\n'}
+				<Span className="text-error text-center inline">{code || ''}</Span>
 			</H5>
 			<Button onClick={() => router.back()}>{TextContent.ui.BACK}</Button>
-			<Paragraph className="pt-2">
-				<CopyRight />
-			</Paragraph>
 		</Center>
 	);
 }

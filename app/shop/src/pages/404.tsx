@@ -1,4 +1,9 @@
-import { ErrorMessage, Page, type LayoutContextProps } from '@cd/ui-lib';
+import {
+	CopyRight,
+	ErrorMessage,
+	Page,
+	type LayoutContextProps,
+} from '@cd/ui-lib';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 function _404({ code = 404 }: { code: number }) {
@@ -6,9 +11,9 @@ function _404({ code = 404 }: { code: number }) {
 		<Page>
 			<ErrorMessage
 				code={code}
-				message={`This resource is not found.  
-                   Please try again later, or call our support phone number. Thank you.`}
+				message={`This resource is not found. Please try again or contact our support team.`}
 			/>
+			<CopyRight className="m-auto" />
 		</Page>
 	);
 }
