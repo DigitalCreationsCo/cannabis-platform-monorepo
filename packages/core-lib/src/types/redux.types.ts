@@ -55,7 +55,6 @@ export type SimpleCart = {
 	organizationName?: string;
 };
 
-// this is screwed up VVV, i dont understand redux well enough
 export type AppStore = Store<AppState>;
 export type AppDispatch = Dispatch<any>;
 export type AppAction = Action<any> | AppThunk;

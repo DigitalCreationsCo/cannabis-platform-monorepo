@@ -1,14 +1,15 @@
 import {
 	blogReducer,
 	cartReducer,
-	locationMiddleware,
 	locationReducer,
 	modalReducer,
 	shopReducer,
 	userReducer,
 	type AppStore,
+	crashMiddleware,
+	locationMiddleware,
+	loggerMiddleware,
 } from '@cd/core-lib';
-// import { crashMiddleware, loggerMiddleware } from '@cd/core-lib/src/middleware';
 import { combineReducers, configureStore, type Store } from '@reduxjs/toolkit';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 import {
@@ -24,7 +25,7 @@ import {
 import storage from 'redux-persist/lib/storage';
 import { signOut } from 'supertokens-auth-react/recipe/session';
 
-// const middlewares = [locationMiddleware, crashMiddleware, loggerMiddleware];
+const middlewares = [locationMiddleware, crashMiddleware, loggerMiddleware];
 
 const rootReducer = combineReducers({
 	modal: modalReducer,
@@ -90,7 +91,7 @@ const makeStore = () => {
 						extraArgument: thunkArguments,
 					},
 				}),
-				// ...middlewares,
+				...middlewares,
 			],
 		});
 		// @ts-ignore
@@ -108,7 +109,7 @@ const makeStore = () => {
 						extraArgument: thunkArguments,
 					},
 				}),
-				// ...middlewares,
+				...middlewares,
 			],
 		});
 	}
