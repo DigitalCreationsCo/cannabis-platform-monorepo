@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import { Prisma } from '@prisma/client';
 import prisma from './db/prisma';
 import { type DriverCreateType, type DriverWithDetails } from './driver.types';
@@ -184,7 +185,7 @@ export async function findDriverWithDetailsByEmail(
 	email: string,
 ): Promise<DriverWithDetails | null> {
 	try {
-		return await prisma.driver.findUnique({
+		const driver = await prisma.driver.findUnique({
 			where: {
 				email,
 			},
@@ -198,9 +199,21 @@ export async function findDriverWithDetailsByEmail(
 				},
 			},
 		});
+
+		if (!driver)
+			throw new Error(
+				"Sorry, we couldn't find a driver with that email address.",
+			);
+
+		return driver;
 	} catch (error: any) {
-		console.error(error);
-		throw new Error(error.message);
+		console.error('findDriverWithDetailsByEmail: ', error.message);
+
+		if (error.code === 'P2025')
+			throw new Error(
+				"Sorry, we couldn't find a driver with that email address.",
+			);
+		throw new Error('An error occurred while finding the driver.');
 	}
 }
 
@@ -229,7 +242,9 @@ export async function findDriverWithDetailsByPhone(
 		});
 
 		if (!user || !user.driver)
-			throw new Error("We couldn't find you. Please try again.");
+			throw new Error(
+				"Sorry, we couldn't find a driver with that phone number.",
+			);
 
 		const { driver, ...userData } = user;
 
@@ -240,8 +255,13 @@ export async function findDriverWithDetailsByPhone(
 			},
 		};
 	} catch (error: any) {
-		console.error(error);
-		throw new Error(error.message);
+		console.error('findDriverWithDetailsByPhone: ', error.message);
+
+		if (error.code === 'P2025')
+			throw new Error(
+				"Sorry, we couldn't find a driver with that phone number.",
+			);
+		throw new Error('An error occurred while finding the driver.');
 	}
 }
 
@@ -249,7 +269,7 @@ export async function findDriverWithDetailsById(
 	id: string,
 ): Promise<DriverWithDetails | null> {
 	try {
-		return await prisma.driver.findUnique({
+		const driver = await prisma.driver.findUnique({
 			where: {
 				id,
 			},
@@ -263,9 +283,15 @@ export async function findDriverWithDetailsById(
 				},
 			},
 		});
+
+		if (!driver) throw new Error("Sorry, we couldn't find a driver.");
+		return driver;
 	} catch (error: any) {
-		console.error(error);
-		throw new Error(error.message);
+		console.error('findDriverWithDetailsById: ', error.message);
+
+		if (error.code === 'P2025')
+			throw new Error("Sorry, we couldn't find a driver.");
+		throw new Error('An error occurred while finding the driver.');
 	}
 }
 
@@ -277,7 +303,7 @@ export async function deleteDriverById(id: string) {
 			},
 		});
 	} catch (error: any) {
-		console.error(error);
+		console.error('deleteDriverById:', error.message);
 		if (error.meta.cause) throw new Error(error.meta.cause);
 		throw new Error(error.message);
 	}

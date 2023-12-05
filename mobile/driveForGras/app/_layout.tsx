@@ -13,8 +13,9 @@ import { useColorScheme } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider as ReduxProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import { useLocationWatch } from '../hooks';
+import { appId, baseUrl } from '../atlasConfig.json';
 import { store, persistor } from '../redux/store';
+import { DriverSession } from '../schema/DriverSession';
 
 export {
 	// Catch any errors thrown by the Layout component.
@@ -32,24 +33,22 @@ export default function RootLayout() {
 	}, [error]);
 
 	const colorScheme = useColorScheme();
-	useLocationWatch();
 
 	return (
-		<AppProvider id={appId} baseUrl={baseUrl}>
-			<UserProvider fallback={WelcomeView}>
-				<RealmProvider
-					schema={[Item]}
-					sync={{
-						flexible: true,
-						onError: (_session, error) => {
-							// Show sync errors in the console
-							console.error(error);
-						},
-					}}
-					fallback={LoadingIndicator}
-				>
-					<ReduxProvider store={store}>
-						<PersistGate persistor={persistor}>
+		<ReduxProvider store={store}>
+			<PersistGate persistor={persistor}>
+				<AppProvider id={appId} baseUrl={baseUrl}>
+					<UserProvider fallback={<Slot />}>
+						<RealmProvider
+							schema={[DriverSession]}
+							sync={{
+								flexible: true,
+								onError: (_session, error) => {
+									// Show sync errors in the console
+									console.error(error);
+								},
+							}}
+						>
 							<SafeAreaProvider>
 								<ThemeProvider
 									value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
@@ -59,10 +58,10 @@ export default function RootLayout() {
 									{loaded && <Slot />}
 								</ThemeProvider>
 							</SafeAreaProvider>
-						</PersistGate>
-					</ReduxProvider>
-				</RealmProvider>
-			</UserProvider>
-		</AppProvider>
+						</RealmProvider>
+					</UserProvider>
+				</AppProvider>
+			</PersistGate>
+		</ReduxProvider>
 	);
 }

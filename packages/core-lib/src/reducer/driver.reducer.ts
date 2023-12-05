@@ -1,4 +1,7 @@
-import { type DriverWithSessionJoin } from '@cd/data-access';
+import {
+	type CoordinatesCreateType,
+	type DriverWithSessionJoin,
+} from '@cd/data-access';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { type AppState, type ThunkArgumentsType } from '../types';
 import { updateOnlineStatus } from './action/updateOnlineStatus';
@@ -57,7 +60,7 @@ const initialState: DriverSessionState = {
 			id: '',
 			isOnline: false,
 			isActiveDelivery: false,
-			currentCoordinates: [],
+			currentCoordinates: undefined,
 			currentRoute: [],
 			routeId: '',
 		},
@@ -73,31 +76,42 @@ export const driverSlice = createSlice({
 	name: 'driver',
 	initialState,
 	reducers: {
+		/**
+		 * receive session payload and token and set state
+		 * @param state
+		 * @param param1
+		 */
 		signinDriverSync: (
 			state,
-			{ payload }: { payload: DriverWithSessionJoin & { token: string } },
+			{
+				payload,
+			}: { payload: { driver: DriverWithSessionJoin; token: string } },
 		) => {
-			console.info('sign in driver, payload: ', payload);
-			const { token } = payload;
+			const { token, driver } = payload;
 			state.token = token;
-			const driver = payload;
 			state.driver = driver;
 			state.isSignedIn = true;
 			state.isLoading = false;
 			state.isSuccess = true;
 			state.isError = false;
 		},
-		updateCoordinatesLocally: (
+
+		updateCoordinates: (
 			state,
-			{ payload }: { payload: [number, number] },
+			{ payload }: { payload: CoordinatesCreateType },
 		) => {
 			// const previousCoordinates = state.driver.driverSession.currentCoordinates;
 			const coordinates = payload;
-			if (coordinates.length === 2) {
-				state.driver.driverSession.currentCoordinates = coordinates;
-				// return {previousCoordinates, coordinates};
-			} else throw new Error('invalid coordinates');
+			state.driver.driverSession.currentCoordinates = coordinates;
 		},
+
+		appendCoordinatesToRoute: (
+			state,
+			{ payload }: { payload: CoordinatesCreateType },
+		) => {
+			state.driver.driverSession.currentRoute.push(payload);
+		},
+
 		setActiveDelivery: (state, { payload }) => {
 			if (!state.driver.driverSession)
 				throw new Error('Driver session is not defined.');
@@ -105,12 +119,14 @@ export const driverSlice = createSlice({
 
 			state.driver.driverSession['isActiveDelivery'] = payload;
 		},
+
 		clearState: (state) => {
 			state.isError = false;
 			state.isSuccess = false;
 			state.isLoading = false;
 			return state;
 		},
+
 		clearErrorMessage: (state) => {
 			state.errorMessage = '';
 		},

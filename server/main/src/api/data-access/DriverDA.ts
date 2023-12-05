@@ -116,13 +116,23 @@ export default class DriverDA {
 	 */
 	static async getDriverById(id: string): Promise<DriverWithSessionJoin> {
 		try {
-			const driver = await findDriverWithDetailsById(id);
-			const driverSession = (await driverSessions.findOne({
-				id: id,
-			})) as unknown as DriverSessionWithJoinedData;
-			return { ...driver, driverSession };
+			return await Promise.all([
+				findDriverWithDetailsById(id),
+				driverSessions.findOne({
+					id: id,
+				}),
+			]).then(
+				(res) => {
+					const driver = res[0];
+					const driverSession =
+						res[1] as unknown as DriverSessionWithJoinedData;
+					return { ...driver, driverSession };
+				},
+				(err) => {
+					throw new Error(err.message);
+				},
+			);
 		} catch (error: any) {
-			console.error(error.message);
 			throw new Error(error.message);
 		}
 	}
@@ -134,13 +144,22 @@ export default class DriverDA {
 	 * @param phone
 	 * @returns
 	 */
-	static async getDriverByPhone(phone): Promise<DriverWithSessionJoin> {
+	static async getDriverByPhone(phone: string): Promise<DriverWithSessionJoin> {
 		try {
-			const driver = await findDriverWithDetailsByPhone(phone);
-			const driverSession = (await driverSessions
-				.findOne({ phone: phone })
-				.then((result) => result)) as unknown as DriverSessionWithJoinedData;
-			return { ...driver, driverSession };
+			return await Promise.all([
+				findDriverWithDetailsByPhone(phone),
+				driverSessions.findOne({ phone }),
+			]).then(
+				(res) => {
+					const driver = res[0];
+					const driverSession =
+						res[1] as unknown as DriverSessionWithJoinedData;
+					return { ...driver, driverSession };
+				},
+				(err) => {
+					throw new Error(err.message);
+				},
+			);
 		} catch (error: any) {
 			throw new Error(error.message);
 		}

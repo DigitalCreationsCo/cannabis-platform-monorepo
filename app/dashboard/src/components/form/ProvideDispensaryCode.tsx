@@ -100,7 +100,7 @@ function ProvideDispensaryKey() {
 					<H1 className="text-primary text-4xl">Welcome to Gras</H1>
 					<H5>{TextContent.account.DISPENSARY_JOINING}</H5>
 					<Paragraph>
-						Enter your <b>dispensary code</b> to create your Dispensary account.
+						Enter your Dispensary Code provided by our team.
 						<br />
 						<b>Don't have a code?</b> Email us at{' '}
 						<a
@@ -108,8 +108,8 @@ function ProvideDispensaryKey() {
 							href="mailto::support@grascannabis.org?subject=Get my Dispensary Code!&body=Hello, I want to create a Dispensary account. Please email my Dispensary code. Thank you!"
 						>
 							support@grascannabis.org
-						</a>{' '}
-						to claim your code.
+						</a>
+						. We'll get you set up.
 					</Paragraph>
 					<TextField
 						className="mx-auto max-w-[440px] text-center"
@@ -136,7 +136,7 @@ function ProvideDispensaryKey() {
 							handleSubmit();
 						}}
 					>
-						Next
+						{TextContent.ui.CONTINUE}
 					</Button>
 				</Grid>
 			)}

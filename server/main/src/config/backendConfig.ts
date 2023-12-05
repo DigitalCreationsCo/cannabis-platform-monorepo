@@ -2,6 +2,7 @@
 /* eslint-disable sonarjs/no-small-switch */
 /* eslint-disable sonarjs/cognitive-complexity */
 import {
+	getPhoneWithoutDialCode,
 	type ConsumerCodeResponse,
 	type PasswordlessSignInRequestPayload,
 } from '@cd/core-lib';
@@ -177,105 +178,123 @@ export const backendConfig = (): AuthConfig => {
 								// input: PasswordlessSignInRequestPayload & { options: any },
 								input: any,
 							): Promise<ConsumerCodeResponse | any> => {
-								console.info('consumeCodePOST input, ', input);
-								const { appUser } = await input.options.req.getJSONBody();
-								input.userContext = { ...input.userContext, appUser };
-								const response = (await originalImplementation.consumeCodePOST(
-									input,
-								)) as unknown as ConsumerCodeResponse;
+								try {
+									console.info('consumeCodePOST input, ', input);
+									const { appUser } = await input.options.req.getJSONBody();
+									input.userContext = { ...input.userContext, appUser };
+									const response =
+										(await originalImplementation.consumeCodePOST(
+											input,
+										)) as unknown as ConsumerCodeResponse;
 
-								if (response.status === 'OK') {
-									switch (appUser) {
-										case 'DRIVER':
-											await (async () => {
-												let user: DriverWithSessionJoin;
-												// driver sign in flow
-												if (
-													response.createdNewRecipeUser &&
-													response.user.loginMethods.length === 1
-												) {
-													const externalUserId = user.user.id;
+									if (response.status === 'OK') {
+										switch (appUser) {
+											case 'DRIVER':
+												await (async () => {
+													let user: DriverWithSessionJoin;
 
-													await SuperTokens.createUserIdMapping({
-														superTokensUserId: response.user.id,
-														externalUserId,
-													});
-													response.user.id = externalUserId;
-													response.user.loginMethods[0].recipeUserId =
-														new RecipeUserId(externalUserId);
-												} else {
+													// driver sign in flow
+													// TODO: resolve when a user will log in,
+													// if they will fill a web form,
+													// or how to handle supertokens id to match the user id
+
+													// in theory, the user can create the supertokens user, and
+													// use the same email / phone to fill the web form,
+
+													// On the backend, the same credential will be used to link
+													// supertokens account and db account
+
 													if (response.user.emails[0]) {
 														user = await DriverDA.getDriverByEmail(
 															response.user.emails[0],
 														);
 													} else if (response.user.phoneNumbers[0]) {
 														user = await DriverDA.getDriverByPhone(
-															response.user.phoneNumbers[0],
+															getPhoneWithoutDialCode(
+																response.user.phoneNumbers[0],
+															),
 														);
 													} else {
 														user = await DriverDA.getDriverById(
 															response.user.id,
 														);
 													}
-												}
-												// map new supertokens user with created driver id
-												response._user = {
-													user: { ...user, id: response.user.id },
-													token: await createToken({
-														id: user.user.id,
-													}),
-												};
-												// RETURN JWT TOKEN IN ACCESS PAYLOAD ??
-											})();
-											break;
 
-										default:
-											await (async () => {
-												let user: UserWithDetails;
-
-												// user sign in flow
-												// the user is created in supertokens first, the signup form is completed afterward
-												if (
-													response.createdNewRecipeUser &&
-													response.user.loginMethods.length === 1
-												) {
-													const externalUserId = createId();
-													await SuperTokens.createUserIdMapping({
-														superTokensUserId: response.user.id,
-														externalUserId,
-													});
-													response.user.id = externalUserId;
-													response.user.loginMethods[0].recipeUserId =
-														new RecipeUserId(externalUserId);
-												} else {
-													if (response.user.emails[0]) {
-														user = await UserDA.getUserByEmail(
-															response.user.emails[0],
-														);
-													} else if (response.user.phoneNumbers[0]) {
-														user = await UserDA.getUserByPhone(
-															response.user.phoneNumbers[0],
-														);
-													} else {
-														user = await UserDA.getUserById(response.user.id);
+													if (
+														response.createdNewRecipeUser &&
+														response.user.loginMethods.length === 1
+													) {
+														const externalUserId = user.user.id;
+														await SuperTokens.createUserIdMapping({
+															superTokensUserId: response.user.id,
+															externalUserId,
+														});
+														response.user.id = externalUserId;
+														response.user.loginMethods[0].recipeUserId =
+															new RecipeUserId(externalUserId);
 													}
-												}
-												console.info('appening user to response, ');
-												response._user = {
-													user: { ...user, id: response.user.id },
-													token: await createToken({
-														id: response.user.id,
-														// email: user.email,
-													}),
-												};
-												console.log('response, ', response);
-												// RETURN JWT TOKEN IN ACCESS PAYLOAD ??
-											})();
-											break;
+
+													// map new supertokens user with created driver id
+													response._user = {
+														user: { ...user, id: response.user.id },
+														token: await createToken({
+															id: user.user.id,
+														}),
+													};
+													// RETURN JWT TOKEN IN ACCESS PAYLOAD ??
+												})();
+												break;
+
+											default:
+												await (async () => {
+													let user: UserWithDetails;
+
+													// user sign in flow
+													// the user is created in supertokens first, the signup form is completed afterward
+													if (
+														response.createdNewRecipeUser &&
+														response.user.loginMethods.length === 1
+													) {
+														const externalUserId = createId();
+														await SuperTokens.createUserIdMapping({
+															superTokensUserId: response.user.id,
+															externalUserId,
+														});
+														response.user.id = externalUserId;
+														response.user.loginMethods[0].recipeUserId =
+															new RecipeUserId(externalUserId);
+													} else {
+														if (response.user.emails[0]) {
+															user = await UserDA.getUserByEmail(
+																response.user.emails[0],
+															);
+														} else if (response.user.phoneNumbers[0]) {
+															user = await UserDA.getUserByPhone(
+																getPhoneWithoutDialCode(
+																	response.user.phoneNumbers[0],
+																),
+															);
+														} else {
+															user = await UserDA.getUserById(response.user.id);
+														}
+													}
+													response._user = {
+														user: { ...user, id: response.user.id },
+														token: await createToken({
+															id: response.user.id,
+														}),
+													};
+												})();
+												break;
+										}
 									}
+									console.info('consumeCodePOST response, ', response);
+									return response;
+								} catch (error: any) {
+									console.error('consumeCodePOST: ', error);
+									return { message: error.message };
+									// throw new Error(error.message);
 								}
-								console.info('consumeCodePOST response, ', response);
-								return response;
 							},
 						};
 					},

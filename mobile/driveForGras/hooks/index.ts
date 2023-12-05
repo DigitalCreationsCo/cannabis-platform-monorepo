@@ -1,2 +1,1 @@
-import { useLocationWatch } from './useLocationWatch';
-export { useLocationWatch };
+export * from './useLocation';
