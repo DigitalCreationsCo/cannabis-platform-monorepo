@@ -2,6 +2,7 @@ import { selectDriverState } from '@cd/core-lib/src/reducer/driver.reducer';
 import { useAppSelector } from '@cd/core-lib/src/types';
 import { Redirect, Stack } from 'expo-router';
 import { useColorScheme } from 'react-native';
+import { useLocation } from '../../hooks';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const unstable_settings = {
@@ -9,7 +10,8 @@ export const unstable_settings = {
 	initialRouteName: '/(tabs)',
 };
 
-export default function AuthStack() {
+export default function AppStack() {
+	useLocation();
 	const colorScheme = useColorScheme();
 
 	const { isSignedIn } = useAppSelector(selectDriverState);

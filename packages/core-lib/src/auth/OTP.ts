@@ -1,8 +1,5 @@
 import { axios } from '../axiosInstance';
-import {
-	type PasswordlessResponseWithDriverDetails,
-	type PasswordlessResponseWithUserDetails,
-} from '../types';
+import { type ConsumerCodeResponse } from '../types';
 import { urlBuilder } from '../utils/urlBuilder';
 
 type CreateCodeResponse = {
@@ -55,9 +52,11 @@ async function handleOTPCodeAPI(input: {
 	deviceId: string;
 	status: 'OK';
 	flowType: 'USER_INPUT_CODE';
-}): Promise<PasswordlessResponseWithUserDetails> {
+}): Promise<ConsumerCodeResponse> {
 	try {
-		const response = await axios.post(urlBuilder.main.submitOTP(), input);
+		const response = await axios.post<
+			ConsumerCodeResponse | { status: 0; message: string }
+		>(urlBuilder.main.submitOTP(), input);
 		if (response.data.status !== 'OK') throw new Error(response.data.message);
 		return response.data;
 	} catch (err: any) {
@@ -72,11 +71,11 @@ async function handleDriverAppOTPCodeAPI(input: {
 	deviceId: string;
 	status: 'OK';
 	flowType: 'USER_INPUT_CODE';
-}): Promise<PasswordlessResponseWithDriverDetails> {
+}): Promise<ConsumerCodeResponse> {
 	try {
-		console.debug('handleDriverAppOTPCodeAPI: ', input);
-
-		const response = await axios.post(urlBuilder.main.submitOTP(), input);
+		const response = await axios.post<
+			ConsumerCodeResponse | { status: 0; message: string }
+		>(urlBuilder.main.submitOTP(), input);
 		if (response.data.status !== 'OK') throw new Error(response.data.message);
 		return response.data;
 	} catch (err: any) {

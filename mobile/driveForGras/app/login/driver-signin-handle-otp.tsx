@@ -2,6 +2,7 @@ import { handleDriverAppOTPCodeAPI } from '@cd/core-lib/src/auth/OTP';
 import { TextContent } from '@cd/core-lib/src/constants';
 import { driverActions } from '@cd/core-lib/src/reducer/driver.reducer';
 import { useAppDispatch } from '@cd/core-lib/src/types';
+import { type DriverWithSessionJoin } from '@cd/data-access';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useFormik } from 'formik';
 import { useState } from 'react';
@@ -43,11 +44,14 @@ const DriverSignInHandlePassCode = () => {
 	const params = useLocalSearchParams();
 	const otpParams = decodeURIComponent(params.otp as string);
 
+	console.log('otpParams', JSON.parse(otpParams));
 	const payload = {
+		// what's necessary here??
 		...JSON.parse(otpParams),
 		userInputCode: values.userInputCode,
 		userContext: {
 			appUser: 'DRIVER',
+			...JSON.parse(otpParams),
 		},
 		appUser: 'DRIVER',
 	};
@@ -58,7 +62,13 @@ const DriverSignInHandlePassCode = () => {
 				setLoading(true);
 				if (payload.status === 'OK' && payload.flowType === 'USER_INPUT_CODE') {
 					const response = await handleDriverAppOTPCodeAPI(payload);
-					dispatch(driverActions.signinDriverSync(response.user));
+					const { _user } = response;
+					dispatch(
+						driverActions.signinDriverSync({
+							token: _user.token,
+							driver: _user.user as DriverWithSessionJoin,
+						}),
+					);
 					router.replace('(tabs)');
 				}
 			}

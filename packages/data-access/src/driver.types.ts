@@ -4,6 +4,7 @@ import {
 	type Prisma,
 	type Route,
 } from '@prisma/client';
+import { type CoordinatesCreateType } from './address.types';
 import { type UserWithDetails } from './user.data';
 
 export type DriverCreateType = Prisma.UserUncheckedCreateWithoutDriverInput & {
@@ -40,12 +41,11 @@ export type DriverSessionWithJoinedData = DriverSession & {
 	lastName?: string;
 	isOnline?: boolean;
 	isActiveDelivery?: boolean;
-	currentCoordinates?: [number, number] | [];
-	currentRoute?: RouteWithCoordinates | [];
+	currentCoordinates?: CoordinatesCreateType;
+	currentRoute: RouteWithCoordinates;
 	routeId?: string;
 	route?: Route;
 };
 
-export type RouteWithCoordinates = Route & {
-	coordinates: [number, number][];
-};
+// export type RouteWithCoordinates = (Route & Coordinates)[];
+export type RouteWithCoordinates = CoordinatesCreateType[];

@@ -16,11 +16,7 @@ import { Button, Center, Greeting, Screen, Text, View } from '@components';
 import { spacing } from '@constants';
 
 const DriverMapScreen = () => {
-	const { height, width } = spacing;
-
-	const router = useRouter();
-
-	const dispatch = useAppDispatch();
+	const [updateOnlineStatus, setUpdateOnlineStatus] = useState(false);
 
 	const { isOnline } = useAppSelector(selectDriverState).driver.driverSession;
 	const {
@@ -32,13 +28,16 @@ const DriverMapScreen = () => {
 		incomingOrder: { newOrder },
 	} = useAppSelector(selectSocketState);
 
-	const [updateOnlineStatus, setUpdateOnlineStatus] = useState(false);
+	const dispatch = useAppDispatch();
+
 	useAfterMount(() => {
 		updateOnlineStatus
 			? dispatch(socketActions.openConnection())
 			: dispatch(socketActions.closingConnection());
 		// }
 	}, [updateOnlineStatus]);
+
+	const router = useRouter();
 
 	useEffect(() => {
 		if (newOrder) {
@@ -81,6 +80,7 @@ const DriverMapScreen = () => {
 		],
 	);
 
+	const { height, width } = spacing;
 	return (
 		<View>
 			<Greeting />
