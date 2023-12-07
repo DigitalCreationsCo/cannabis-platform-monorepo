@@ -12,6 +12,7 @@ export * from './ui.util';
 export * from './url.util';
 export * from './urlBuilder';
 export * from './widget.util';
+export * from './type.util';
 export * from './user.util';
 
 export type ValueOf<T> = T[keyof T];
