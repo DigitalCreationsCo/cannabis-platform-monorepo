@@ -15,6 +15,7 @@ import {
 import { createAdapter } from '@socket.io/redis-adapter';
 import express from 'express';
 import { Server } from 'socket.io';
+import { fleetConfigRoutes, fleetRoutes } from 'routes/fleet.route';
 import {
 	Client,
 	type SocketMessage,
@@ -32,6 +33,7 @@ try {
 	const httpServer = createServer(app);
 
 	app.use(createRequestLogger());
+	app.use('/api/v1/fleet-config', fleetConfigRoutes);
 
 	app.post('/sms/driver-new-order', async (req, res) => {
 		const body = req.body;
