@@ -23,12 +23,17 @@ import '../styles/blog.css';
 import '../styles/tailwind.css';
 
 if (typeof window !== 'undefined') {
-	SuperTokensReact.init(frontendConfig());
+	SuperTokensReact.init(frontendConfig() as any);
+}
+
+export interface SharedPageProps {
+	draftMode: boolean;
+	token: string;
 }
 
 type CustomAppProps = AppProps & {
 	Component: ExtendedPageComponent;
-};
+} & SharedPageProps;
 
 function App({ Component, ...rest }: CustomAppProps) {
 	const { store, props } = wrapper.useWrappedStore(rest);

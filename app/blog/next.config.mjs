@@ -64,6 +64,7 @@ const nextConfig = (phase) => {
 				'https://storage.cloud.google.com',
 				'www.storage.cloud.google.com',
 				'storage.cloud.google.com',
+				'cdn.sanity.io',
 			],
 		},
 	};

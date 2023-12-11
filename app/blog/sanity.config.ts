@@ -1,37 +1,31 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 /**
  * This config is used to set up Sanity Studio that's mounted on the `/pages/studio/[[...index]].tsx` route
  */
-
 import { visionTool } from '@sanity/vision';
 import { defineConfig } from 'sanity';
-import {
-	defineUrlResolver,
-	Iframe,
-	type IframeOptions,
-} from 'sanity-plugin-iframe-pane';
-import { previewUrl } from 'sanity-plugin-iframe-pane/preview-url';
+import { Iframe, type IframeOptions } from 'sanity-plugin-iframe-pane';
 import { deskTool } from 'sanity/desk';
-
-// see https://www.sanity.io/docs/api-versioning for how versioning works
-import {
-	apiVersion,
-	dataset,
-	previewSecretId,
-	projectId,
-} from './src/lib/sanity.api';
+import { apiVersion, dataset, projectId } from './src/lib/sanity.api';
 import { schema } from './src/schemas';
 
+// function getPreviewUrl(doc: SanityDocument) {
+// 	return doc?.slug?.current
+// 		? `${window.location.host}/${doc.slug.current}`
+// 		: `${window.location.host}`;
+// }
+
 const iframeOptions = {
-	url: defineUrlResolver({
-		base: '/api/draft',
-		requiresSlug: ['post'],
-	}),
-	urlSecretId: previewSecretId,
+	url: {
+		origin: 'same-origin',
+		preview: '/api/draft',
+		draftMode: '/api/draft',
+	},
 	reload: { button: true },
 } satisfies IframeOptions;
 
 export default defineConfig({
-	basePath: '/studio',
+	basePath: '/blog/studio',
 	name: 'project-name',
 	title: 'Project Name',
 	projectId,
@@ -55,11 +49,11 @@ export default defineConfig({
 			},
 		}),
 		// Add the "Open preview" action
-		previewUrl({
-			base: '/api/draft',
-			requiresSlug: ['post'],
-			urlSecretId: previewSecretId,
-		}),
+		// previewUrl({
+		// 	base: '/api/draft',
+		// 	requiresSlug: ['post'],
+		// 	urlSecretId: previewSecretId,
+		// }),
 		// Vision lets you query your content with GROQ in the studio
 		// https://www.sanity.io/docs/the-vision-plugin
 		visionTool({ defaultApiVersion: apiVersion }),
