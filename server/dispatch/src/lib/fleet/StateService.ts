@@ -35,7 +35,7 @@ class StateService {
 	}
 
 	getManifest(vehicleId: string) {
-		console.info('getting manifest for %s', vehicleId);
+		console.info('getting manifest for vehicled id ', vehicleId);
 		if (this.fleetConfig === null) {
 			return null;
 		}
@@ -127,9 +127,9 @@ class StateService {
 	 */
 	addClientToDeliveryVehicleMap(
 		clientId: string,
-		vehicle: maps.fleetengine.delivery.v1.DeliveryVehicle,
+		vehicle: maps.fleetengine.delivery.v1.IDeliveryVehicle,
 	) {
-		const vehicleId = this.getId(vehicle.name);
+		const vehicleId = this.getId(vehicle.name as string);
 		if (!this.isDeliveryVehicleAssigned(vehicleId)) {
 			this.clientToDeliveryVehicleMapping.set(clientId, vehicleId);
 			const manifest = this.getManifest(vehicleId);

@@ -15,7 +15,7 @@ export class ServiceUtils {
 	) {
 		response.statusCode = code;
 		response.write(JSON.stringify({ error: message }));
-		response.end();
+		// response.end();
 	}
 
 	static async writeProtoJson(file: File, message: string) {

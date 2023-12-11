@@ -1,28 +1,18 @@
 import type { ServerResponse } from 'http';
 import AuthenticatedDeliveryServiceProvider from './auth/AuthenticatedDeliveryServiceProvider';
-import { fleetApi } from './fleet.api';
-import { type Stop, type Manifest } from './fleet.types';
+import { fleetApi, googleApi } from './fleet.api';
+import { type Stop } from './fleet.types';
 import type FleetConfig from './fleetConfig';
 import StateService from './StateService';
 import { FleetConfigUtils } from './utils';
+import { BackendUtils } from './utils/BackendUtils';
 import BaseService from './utils/BaseServiceClass';
 import { ServiceUtils } from './utils/ServiceUtils';
 
-const PROJECT_ID = 'YOUR_GCP_PROJECT_NAME';
-const VEHICLE_ID = 'YOUR_VEHICLE_ID';
-const SERVICE_ACCOUNT = 'YOUR_SERVICE_ACCOUNT';
-const SERVICE_ACCOUNT_EMAIL = `${SERVICE_ACCOUNT}@${PROJECT_ID}.iam.gserviceaccount.com`;
-
-const FLEET_ENGINE_ADDRESS_PROP_KEY = 'fleetengine-address';
-const PROVIDER_ID_PROP_KEY = 'provider-id';
-const SERVER_SERVICE_ACCOUNT_EMAIL_PROP_KEY = 'server-service-account-email';
-const DRIVER_SERVICE_ACCOUNT_EMAIL_PROP_KEY = 'driver-service-account-email';
-const CONSUMER_SERVICE_ACCOUNT_EMAIL_PROP_KEY =
-	'consumer-service-account-email';
-const FLEET_READER_SERVICE_ACCOUNT_EMAIL_PROP_KEY =
-	'fleet-reader-service-account-email';
-const API_KEY_PROP_KEY = 'api-key';
-const BACKEND_HOST_PROP_KEY = 'backend-host';
+// const PROJECT_ID = 'YOUR_GCP_PROJECT_NAME';
+// const VEHICLE_ID = 'YOUR_VEHICLE_ID';
+// const SERVICE_ACCOUNT = 'YOUR_SERVICE_ACCOUNT';
+// const SERVICE_ACCOUNT_EMAIL = `${SERVICE_ACCOUNT}@${PROJECT_ID}.iam.gserviceaccount.com`;
 
 function assertConfig<FleetConfig>(
 	config: FleetConfig,
@@ -40,6 +30,9 @@ function assertConfig<FleetConfig>(
 }
 
 class FleetConfigService extends BaseService {
+	stateService: typeof StateService;
+	authenticatedDeliveryServiceProvider: typeof AuthenticatedDeliveryServiceProvider;
+
 	constructor(
 		stateService: typeof StateService,
 		authenticatedDeliveryServiceProvider: typeof AuthenticatedDeliveryServiceProvider,
@@ -49,9 +42,6 @@ class FleetConfigService extends BaseService {
 		this.authenticatedDeliveryServiceProvider =
 			authenticatedDeliveryServiceProvider;
 	}
-
-	stateService: typeof StateService;
-	authenticatedDeliveryServiceProvider: typeof AuthenticatedDeliveryServiceProvider;
 
 	async processConfigUpload(fileContent: File, response: ServerResponse) {
 		console.log('Processing config...');
@@ -72,7 +62,10 @@ class FleetConfigService extends BaseService {
 		for (const m of fleetConfig.manifests) {
 			// add timestamp here
 
-			let startLocation: Manifest['vehicle']['start_location'];
+			let startLocation = {
+				longitude: -122.09259,
+				latitude: 37.42311,
+			};
 			if (m.vehicle.start_location !== null) {
 				startLocation = m.vehicle.start_location;
 			}
@@ -85,10 +78,7 @@ class FleetConfigService extends BaseService {
 					name: m.vehicle.id,
 					type: m.vehicle.type,
 					lastLocation: {
-						location: {
-							latitude: m.vehicle.start_location.latitude,
-							longitude: m.vehicle.start_location.longitude,
-						},
+						location: new googleApi.type.LatLng(startLocation),
 					},
 					remainingVehicleJourneySegments: [],
 				},
@@ -163,7 +153,8 @@ class FleetConfigService extends BaseService {
 			// Set the backend ID for each manifest.
 			for (const manifest of fleetConfig.manifests) {
 				// test key, add the backend property generator class and abstract these keys
-				manifest.vehicle.provider_id = PROVIDER_ID_PROP_KEY;
+				manifest.vehicle.provider_id =
+					BackendUtils.backendProperties.providerId();
 			}
 		}
 
