@@ -15,7 +15,14 @@ import {
 import { createAdapter } from '@socket.io/redis-adapter';
 import express from 'express';
 import { Server } from 'socket.io';
-import { fleetConfigRoutes, fleetRoutes } from 'routes/fleet.route';
+import {
+	tokenRoutes,
+	fleetConfigRoutes,
+	javascriptConfigRoutes,
+	manifestRoutes,
+	taskRoutes,
+} from 'routes';
+import { deliveryVehicleRoutes } from 'routes/delivery-vehicle.route';
 import {
 	Client,
 	type SocketMessage,
@@ -33,7 +40,12 @@ try {
 	const httpServer = createServer(app);
 
 	app.use(createRequestLogger());
+	app.use('/api/v1/token', tokenRoutes);
+	app.use('/api/v1/tasks', taskRoutes);
+	app.use('/api/v1/delivery-vehicle', deliveryVehicleRoutes);
 	app.use('/api/v1/fleet-config', fleetConfigRoutes);
+	app.use('/api/v1/manifest', manifestRoutes);
+	app.use('/api/v1/config.js', javascriptConfigRoutes);
 
 	app.post('/sms/driver-new-order', async (req, res) => {
 		const body = req.body;

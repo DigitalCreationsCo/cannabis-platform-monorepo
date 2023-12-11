@@ -37,18 +37,3 @@ fleetConfigRoutes.post(
 );
 
 export { fleetConfigRoutes };
-
-// function assertConfig<FleetConfig>(
-// 	config: FleetConfig,
-// 	errorMessage: string,
-// ): asserts config is FleetConfig {
-// 	if (!(config instanceof Object)) {
-// 		throw new Error(errorMessage);
-// 	}
-// 	if (!('description' in config)) {
-// 		throw new Error(errorMessage);
-// 	}
-// 	if (!('manifests' in config)) {
-// 		throw new Error(errorMessage);
-// 	}
-// }

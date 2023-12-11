@@ -2,8 +2,11 @@
 import fleetengine from '@googlemaps/fleetengine-delivery';
 import { GoogleAuth } from 'google-auth-library';
 import { type JSONClient } from 'google-auth-library/build/src/auth/googleauth';
+import {
+	AuthorizationHeaderProvider,
+	AuthTokenUtils,
+} from '../auth/AuthTokenUtils';
 import BaseService from '../utils/BaseServiceClass';
-import { AuthorizationHeaderProvider, signToken } from './authUtils';
 
 class AuthenticatedDeliveryServiceProvider extends BaseService {
 	constructor() {
@@ -11,7 +14,7 @@ class AuthenticatedDeliveryServiceProvider extends BaseService {
 	}
 
 	async getAuthenticatedDeliveryService() {
-		const token = await signToken({});
+		const token = await AuthTokenUtils.signToken({});
 		const googleAuth = new GoogleAuth();
 		googleAuth.cachedCredential = new AuthorizationHeaderProvider(
 			token as string,
