@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
-import { TextContent } from '@cd/core-lib';
 import { type LayoutContextProps, Page, Grid, H1, Carousel } from '@cd/ui-lib';
 import { type GetStaticProps, type InferGetStaticPropsType } from 'next';
 import { useLiveQuery } from 'next-sanity/preview';
