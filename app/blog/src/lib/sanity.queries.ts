@@ -34,4 +34,5 @@ export interface Post {
 	excerpt?: string;
 	mainImage?: ImageAsset;
 	body: PortableTextBlock[];
+	shareImage: ImageAsset;
 }
