@@ -1,6 +1,6 @@
+import { validatePreviewUrl } from '@sanity/preview-url-secret';
 import type { NextApiRequest } from 'next';
-import { isValidSecret } from 'sanity-plugin-iframe-pane/is-valid-secret';
-import { previewSecretId, readToken } from '../../lib/sanity.api';
+import { readToken } from '../../lib/sanity.api';
 import { getClient } from '../../lib/sanity.client';
 
 export default async function preview(req: NextApiRequest, res: any) {
@@ -25,10 +25,11 @@ export default async function preview(req: NextApiRequest, res: any) {
 		token: readToken,
 	});
 
+	const { isValid } = await validatePreviewUrl(authClient, req.url as string);
+
 	// This is the most common way to check for auth, but we encourage you to use your existing auth
 	// infra to protect your token and securely transmit it to the client
-	const validSecret = await isValidSecret(authClient, previewSecretId, secret);
-	if (!validSecret) {
+	if (!isValid) {
 		return res.status(401).send('Invalid secret');
 	}
 
