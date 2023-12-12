@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { showTime } from '@cd/core-lib';
 import { PortableText } from '@portabletext/react';
 import type { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { useLiveQuery } from 'next-sanity/preview';
+import Head from 'next/head';
 import Image from 'next/image';
 
 import { readToken } from '../../lib/sanity.api';
@@ -52,6 +54,16 @@ export default function ProjectSlugRoute(
 
 	return (
 		<div>
+			<Head>
+				<meta
+					property="og:image"
+					content={urlForImage(post?.shareImage)!.url()}
+				/>
+				<meta
+					name="twitter:image"
+					content={urlForImage(post?.shareImage)!.url()}
+				/>
+			</Head>
 			<section className="post">
 				{post.mainImage ? (
 					<Image

@@ -3904,9 +3904,10 @@ __metadata:
     redux-persist: 6.0.0
     rimraf: 4.4.1
     sanity: 3.20.0
+    sanity-next-social-image-generator: ^1.0.1
     sanity-plugin-iframe-pane: 3.1.3
     sharp: 0.32.1
-    styled-components: 6.1.1
+    styled-components: ^5.2 || ^6
     supertokens-auth-react: 0.28.1
     supertokens-node: 12.1.3
     swr: 2.2.4
@@ -6972,6 +6973,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ioredis/commands@npm:^1.1.1":
+  version: 1.2.0
+  resolution: "@ioredis/commands@npm:1.2.0"
+  checksum: 9b20225ba36ef3e5caf69b3c0720597c3016cc9b1e157f519ea388f621dd9037177f84cfe7e25c4c32dad7dd90c70ff9123cd411f747e053cf292193c9c461e2
+  languageName: node
+  linkType: hard
+
 "@isaacs/cliui@npm:^8.0.2":
   version: 8.0.2
   resolution: "@isaacs/cliui@npm:8.0.2"
@@ -9278,6 +9286,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sanity/client@npm:^3.3.5":
+  version: 3.4.1
+  resolution: "@sanity/client@npm:3.4.1"
+  dependencies:
+    "@sanity/eventsource": ^4.0.0
+    get-it: ^6.1.1
+    make-error: ^1.3.0
+    object-assign: ^4.1.1
+    rxjs: ^6.0.0
+  checksum: 1b184b193459b1e469f03b1d3d9c5f3c25ea2f8cfa4dadc4eac343f15245dae18be365b90d67b0b460623f192ae2f10f9b54ce133fa92a0fc331ca32b0c15bfa
+  languageName: node
+  linkType: hard
+
 "@sanity/client@npm:^6.8.6, @sanity/client@npm:^6.9.3":
   version: 6.9.3
   resolution: "@sanity/client@npm:6.9.3"
@@ -9332,6 +9353,16 @@ __metadata:
     event-source-polyfill: 1.0.31
     eventsource: 2.0.2
   checksum: ec4025a06b973bdfdd76aede8a8ad32ccabc03aea6e37c28bd259231d485f7cf3e2efd43ebdf1ae177c3dca603999feb10977563ec5658d1f8c3e9e31072c682
+  languageName: node
+  linkType: hard
+
+"@sanity/eventsource@npm:^4.0.0":
+  version: 4.1.1
+  resolution: "@sanity/eventsource@npm:4.1.1"
+  dependencies:
+    event-source-polyfill: 1.0.31
+    eventsource: 2.0.2
+  checksum: fe917520bea39b1651211d3c94a0fc80dfae1d6174da743ad33e0da5a499bcd475932927132594809556aa3727070106e532854b0914f544bf8a5354db0ea4b9
   languageName: node
   linkType: hard
 
@@ -9590,6 +9621,13 @@ __metadata:
     lodash: ^4.17.21
     object-inspect: ^1.6.0
   checksum: 484854df5fa08ded5e383ebc83952620e2e04f3b47e0ab64e14581988edc41b326487558f9431ace13406f85d7a0e3209ec872b5674237be5c578f4e2515eead
+  languageName: node
+  linkType: hard
+
+"@sanity/timed-out@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "@sanity/timed-out@npm:4.0.2"
+  checksum: 00a7412f6e0f5e87f599e9678f750d42d93c67473881d80f3ea0497eb6371344ddf520dce92bdc93248f6139ad512c583c027dd9ff0e8a99c008097e772666c7
   languageName: node
   linkType: hard
 
@@ -14715,6 +14753,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"axios@npm:^0.27.2":
+  version: 0.27.2
+  resolution: "axios@npm:0.27.2"
+  dependencies:
+    follow-redirects: ^1.14.9
+    form-data: ^4.0.0
+  checksum: 38cb7540465fe8c4102850c4368053c21683af85c5fdf0ea619f9628abbcb59415d1e22ebc8a6390d2bbc9b58a9806c874f139767389c862ec9b772235f06854
+  languageName: node
+  linkType: hard
+
 "axobject-query@npm:^2.2.0":
   version: 2.2.0
   resolution: "axobject-query@npm:2.2.0"
@@ -16157,6 +16205,13 @@ babel-watch@kmagiera/babel-watch:
   languageName: unknown
   linkType: soft
 
+"capture-stack-trace@npm:^1.0.0":
+  version: 1.0.2
+  resolution: "capture-stack-trace@npm:1.0.2"
+  checksum: 13295e8176e8de74bcbe0e4fd938bed9eb4204b4cc200210ff46df91cb20b69e86f6ef42f408a59454f8b62e567ef0ee6ee5b5e7e16e686668bc77f2741542b4
+  languageName: node
+  linkType: hard
+
 "case-sensitive-paths-webpack-plugin@npm:^2.4.0":
   version: 2.4.0
   resolution: "case-sensitive-paths-webpack-plugin@npm:2.4.0"
@@ -16696,7 +16751,7 @@ babel-watch@kmagiera/babel-watch:
   languageName: node
   linkType: hard
 
-"cluster-key-slot@npm:1.1.2":
+"cluster-key-slot@npm:1.1.2, cluster-key-slot@npm:^1.1.0":
   version: 1.1.2
   resolution: "cluster-key-slot@npm:1.1.2"
   checksum: be0ad2d262502adc998597e83f9ded1b80f827f0452127c5a37b22dfca36bab8edf393f7b25bb626006fb9fb2436106939ede6d2d6ecf4229b96a47f27edd681
@@ -17473,6 +17528,15 @@ babel-watch@kmagiera/babel-watch:
   languageName: node
   linkType: hard
 
+"create-error-class@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "create-error-class@npm:3.0.2"
+  dependencies:
+    capture-stack-trace: ^1.0.0
+  checksum: 7254a6f96002d3226d3c1fec952473398761eb4fb12624c5dce6ed0017cdfad6de39b29aa7139680d7dcf416c25f2f308efda6eb6d9b7123f829b19ef8271511
+  languageName: node
+  linkType: hard
+
 "create-jest@npm:^29.7.0":
   version: 29.7.0
   resolution: "create-jest@npm:29.7.0"
@@ -18032,7 +18096,7 @@ babel-watch@kmagiera/babel-watch:
   languageName: node
   linkType: hard
 
-"date-fns@npm:^2.26.1, date-fns@npm:^2.29.3":
+"date-fns@npm:^2.26.1, date-fns@npm:^2.29.2, date-fns@npm:^2.29.3":
   version: 2.30.0
   resolution: "date-fns@npm:2.30.0"
   dependencies:
@@ -18424,6 +18488,13 @@ babel-watch@kmagiera/babel-watch:
   version: 1.2.1
   resolution: "denodeify@npm:1.2.1"
   checksum: a85c8f7fce5626e311edd897c27ad571b29393c4a739dc29baee48328e09edd82364ff697272dd612462c67e48b4766389642b5bdfaea0dc114b7c6a276c0eae
+  languageName: node
+  linkType: hard
+
+"denque@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "denque@npm:2.1.0"
+  checksum: 1d4ae1d05e59ac3a3481e7b478293f4b4c813819342273f3d5b826c7ffa9753c520919ba264f377e09108d24ec6cf0ec0ac729a5686cbb8f32d797126c5dae74
   languageName: node
   linkType: hard
 
@@ -21580,7 +21651,7 @@ babel-watch@kmagiera/babel-watch:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.0.0, follow-redirects@npm:^1.14.0, follow-redirects@npm:^1.14.8, follow-redirects@npm:^1.15.0, follow-redirects@npm:^1.15.2":
+"follow-redirects@npm:^1.0.0, follow-redirects@npm:^1.14.0, follow-redirects@npm:^1.14.8, follow-redirects@npm:^1.14.9, follow-redirects@npm:^1.15.0, follow-redirects@npm:^1.15.2, follow-redirects@npm:^1.2.4":
   version: 1.15.3
   resolution: "follow-redirects@npm:1.15.3"
   peerDependenciesMeta:
@@ -21675,6 +21746,13 @@ babel-watch@kmagiera/babel-watch:
     combined-stream: ^1.0.8
     mime-types: ^2.1.12
   checksum: b019e8d35c8afc14a2bd8a7a92fa4f525a4726b6d5a9740e8d2623c30e308fbb58dc8469f90415a856698933c8479b01646a9dff33c87cc4e76d72aedbbf860d
+  languageName: node
+  linkType: hard
+
+"form-urlencoded@npm:^2.0.7":
+  version: 2.0.9
+  resolution: "form-urlencoded@npm:2.0.9"
+  checksum: 07054480c81b173086bde23edd068ab164c64e041c9b82b9fa913c04bb05348a995533cb778d53e0f386e33c1ecc66bfed8e5d2d2dfc1b6f7f5a960bb9d6ac1f
   languageName: node
   linkType: hard
 
@@ -21807,7 +21885,7 @@ babel-watch@kmagiera/babel-watch:
   languageName: node
   linkType: hard
 
-"from2@npm:^2.1.0, from2@npm:^2.3.0":
+"from2@npm:^2.1.0, from2@npm:^2.1.1, from2@npm:^2.3.0":
   version: 2.3.0
   resolution: "from2@npm:2.3.0"
   dependencies:
@@ -22080,6 +22158,32 @@ babel-watch@kmagiera/babel-watch:
     has-symbols: ^1.0.3
     hasown: ^2.0.0
   checksum: 447ff0724df26829908dc033b62732359596fcf66027bc131ab37984afb33842d9cd458fd6cecadfe7eac22fd8a54b349799ed334cf2726025c921c7250e7417
+  languageName: node
+  linkType: hard
+
+"get-it@npm:^6.1.1":
+  version: 6.1.1
+  resolution: "get-it@npm:6.1.1"
+  dependencies:
+    "@sanity/timed-out": ^4.0.2
+    create-error-class: ^3.0.2
+    debug: ^2.6.8
+    decompress-response: ^6.0.0
+    follow-redirects: ^1.2.4
+    form-urlencoded: ^2.0.7
+    into-stream: ^3.1.0
+    is-plain-object: ^2.0.4
+    is-retry-allowed: ^1.1.0
+    is-stream: ^1.1.0
+    nano-pubsub: ^1.0.2
+    object-assign: ^4.1.1
+    parse-headers: ^2.0.4
+    progress-stream: ^2.0.0
+    same-origin: ^0.1.1
+    simple-concat: ^1.0.1
+    tunnel-agent: ^0.6.0
+    url-parse: ^1.1.9
+  checksum: f2d7a13267c7401a8cb0da0f588285e6bf5ca24ac525bf2e13edff2a171c9d1fe97d6dbdb639faedfe254162b94b266ff51a21933f94b8da95d9984c4b9ef3d9
   languageName: node
   linkType: hard
 
@@ -23598,6 +23702,16 @@ babel-watch@kmagiera/babel-watch:
   languageName: node
   linkType: hard
 
+"into-stream@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "into-stream@npm:3.1.0"
+  dependencies:
+    from2: ^2.1.1
+    p-is-promise: ^1.1.0
+  checksum: e6e1a202227b20c446c251ef95348b3e8503cdc75aa2a09076f8821fc42c1b7fd43fabaeb8ed3cf9eb875942cfa4510b66949c5317997aa640921cc9bbadcd17
+  languageName: node
+  linkType: hard
+
 "into-stream@npm:^6.0.0":
   version: 6.0.0
   resolution: "into-stream@npm:6.0.0"
@@ -23628,6 +23742,23 @@ babel-watch@kmagiera/babel-watch:
   version: 2.0.0
   resolution: "invert-kv@npm:2.0.0"
   checksum: 52ea317354101ad6127c6e4c1c6a2d27ae8d3010b6438b60d76d6a920e55410e03547f97f9d1f52031becf5656bbef91d36ee7daa9e26ebc374a9cb342e1f127
+  languageName: node
+  linkType: hard
+
+"ioredis@npm:^5.2.3":
+  version: 5.3.2
+  resolution: "ioredis@npm:5.3.2"
+  dependencies:
+    "@ioredis/commands": ^1.1.1
+    cluster-key-slot: ^1.1.0
+    debug: ^4.3.4
+    denque: ^2.1.0
+    lodash.defaults: ^4.2.0
+    lodash.isarguments: ^3.1.0
+    redis-errors: ^1.2.0
+    redis-parser: ^3.0.0
+    standard-as-callback: ^2.1.0
+  checksum: 9a23559133e862a768778301efb68ae8c2af3c33562174b54a4c2d6574b976e85c75a4c34857991af733e35c48faf4c356e7daa8fb0a3543d85ff1768c8754bc
   languageName: node
   linkType: hard
 
@@ -24251,6 +24382,13 @@ babel-watch@kmagiera/babel-watch:
   dependencies:
     is-unc-path: ^1.0.0
   checksum: 3271a0df109302ef5e14a29dcd5d23d9788e15ade91a40b942b035827ffbb59f7ce9ff82d036ea798541a52913cbf9d2d0b66456340887b51f3542d57b5a4c05
+  languageName: node
+  linkType: hard
+
+"is-retry-allowed@npm:^1.1.0":
+  version: 1.2.0
+  resolution: "is-retry-allowed@npm:1.2.0"
+  checksum: 50d700a89ae31926b1c91b3eb0104dbceeac8790d8b80d02f5c76d9a75c2056f1bb24b5268a8a018dead606bddf116b2262e5ac07401eb8b8783b266ed22558d
   languageName: node
   linkType: hard
 
@@ -26274,6 +26412,13 @@ babel-watch@kmagiera/babel-watch:
   languageName: node
   linkType: hard
 
+"lodash.isarguments@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "lodash.isarguments@npm:3.1.0"
+  checksum: ae1526f3eb5c61c77944b101b1f655f846ecbedcb9e6b073526eba6890dc0f13f09f72e11ffbf6540b602caee319af9ac363d6cdd6be41f4ee453436f04f13b5
+  languageName: node
+  linkType: hard
+
 "lodash.isboolean@npm:^3.0.3":
   version: 3.0.3
   resolution: "lodash.isboolean@npm:3.0.3"
@@ -26627,7 +26772,7 @@ babel-watch@kmagiera/babel-watch:
   languageName: node
   linkType: hard
 
-"make-error@npm:1.x, make-error@npm:^1.1.1":
+"make-error@npm:1.x, make-error@npm:^1.1.1, make-error@npm:^1.3.0":
   version: 1.3.6
   resolution: "make-error@npm:1.3.6"
   checksum: b86e5e0e25f7f777b77fabd8e2cbf15737972869d852a22b7e73c17623928fccb826d8e46b9951501d3f20e51ad74ba8c59ed584f610526a48f8ccf88aaec402
@@ -27992,6 +28137,13 @@ babel-watch@kmagiera/babel-watch:
   languageName: node
   linkType: hard
 
+"nano-pubsub@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "nano-pubsub@npm:1.0.2"
+  checksum: e557408ba8296b0bbcfc48cbc4a5d2d4ecaa2dfb877bd66e17d087277bb901349a43d769ca1345818cf4dd8fc94b6c6b65103d8474dfb0d17b3440711e1f0b1b
+  languageName: node
+  linkType: hard
+
 "nano-pubsub@npm:^2.0.1":
   version: 2.0.1
   resolution: "nano-pubsub@npm:2.0.1"
@@ -28305,6 +28457,15 @@ babel-watch@kmagiera/babel-watch:
   version: 3.1.1
   resolution: "node-abort-controller@npm:3.1.1"
   checksum: 2c340916af9710328b11c0828223fc65ba320e0d082214a211311bf64c2891028e42ef276b9799188c4ada9e6e1c54cf7a0b7c05dd9d59fcdc8cd633304c8047
+  languageName: node
+  linkType: hard
+
+"node-addon-api@npm:^5.0.0":
+  version: 5.1.0
+  resolution: "node-addon-api@npm:5.1.0"
+  dependencies:
+    node-gyp: latest
+  checksum: 2508bd2d2981945406243a7bd31362fc7af8b70b8b4d65f869c61731800058fb818cc2fd36c8eac714ddd0e568cc85becf5e165cebbdf7b5024d5151bbc75ea1
   languageName: node
   linkType: hard
 
@@ -29105,6 +29266,13 @@ babel-watch@kmagiera/babel-watch:
   languageName: node
   linkType: hard
 
+"p-is-promise@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "p-is-promise@npm:1.1.0"
+  checksum: 64d7c6cda18af2c91c04209e5856c54d1a9818662d2320b34153d446645f431307e04406969a1be00cad680288e86dcf97b9eb39edd5dc4d0b1bd714ee85e13b
+  languageName: node
+  linkType: hard
+
 "p-is-promise@npm:^2.0.0":
   version: 2.1.0
   resolution: "p-is-promise@npm:2.1.0"
@@ -29347,7 +29515,7 @@ babel-watch@kmagiera/babel-watch:
   languageName: node
   linkType: hard
 
-"parse-headers@npm:^2.0.5":
+"parse-headers@npm:^2.0.4, parse-headers@npm:^2.0.5":
   version: 2.0.5
   resolution: "parse-headers@npm:2.0.5"
   checksum: 3e97f01e4c7f960bfbfd0ee489f0bd8d3c72b6c814f1f79b66abec2cca8eaf8e4ecd89deba0b6e61266469aed87350bc932001181c01ff8c29a59e696abe251f
@@ -32713,6 +32881,22 @@ babel-watch@kmagiera/babel-watch:
   languageName: node
   linkType: hard
 
+"redis-errors@npm:^1.0.0, redis-errors@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "redis-errors@npm:1.2.0"
+  checksum: f28ac2692113f6f9c222670735aa58aeae413464fd58ccf3fce3f700cae7262606300840c802c64f2b53f19f65993da24dc918afc277e9e33ac1ff09edb394f4
+  languageName: node
+  linkType: hard
+
+"redis-parser@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "redis-parser@npm:3.0.0"
+  dependencies:
+    redis-errors: ^1.0.0
+  checksum: 89290ae530332f2ae37577647fa18208d10308a1a6ba750b9d9a093e7398f5e5253f19855b64c98757f7129cccce958e4af2573fdc33bad41405f87f1943459a
+  languageName: node
+  linkType: hard
+
 "redis@npm:4.6.6":
   version: 4.6.6
   resolution: "redis@npm:4.6.6"
@@ -33590,6 +33774,15 @@ babel-watch@kmagiera/babel-watch:
   languageName: node
   linkType: hard
 
+"rxjs@npm:^6.0.0":
+  version: 6.6.7
+  resolution: "rxjs@npm:6.6.7"
+  dependencies:
+    tslib: ^1.9.0
+  checksum: bc334edef1bb8bbf56590b0b25734ba0deaf8825b703256a93714308ea36dff8a11d25533671adf8e104e5e8f256aa6fdfe39b2e248cdbd7a5f90c260acbbd1b
+  languageName: node
+  linkType: hard
+
 "rxjs@npm:^7.0.0, rxjs@npm:^7.8.0, rxjs@npm:^7.8.1":
   version: 7.8.1
   resolution: "rxjs@npm:7.8.1"
@@ -33675,12 +33868,32 @@ babel-watch@kmagiera/babel-watch:
   languageName: node
   linkType: hard
 
+"same-origin@npm:^0.1.1":
+  version: 0.1.1
+  resolution: "same-origin@npm:0.1.1"
+  checksum: 7b99b116a31ecbd597171a8506742c0432f39a8f4e7bda5a858c71c5eba664b857bd44273c7e8cad3935f4e4b62f3639aa176740a7cbc5e60b337f7e7ece8268
+  languageName: node
+  linkType: hard
+
 "sanity-diff-patch@npm:^3.0.2":
   version: 3.0.2
   resolution: "sanity-diff-patch@npm:3.0.2"
   dependencies:
     "@sanity/diff-match-patch": ^3.0.0
   checksum: c821f462e5e1bc259dc7d61ff1395aaff3884df18b89f425b2020f203edc1aa6971670ca81696f621e35c9a4f4e65a439353b0f343516ce5f9d2b65970cf97b8
+  languageName: node
+  linkType: hard
+
+"sanity-next-social-image-generator@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "sanity-next-social-image-generator@npm:1.0.1"
+  dependencies:
+    "@sanity/client": ^3.3.5
+    axios: ^0.27.2
+    date-fns: ^2.29.2
+    ioredis: ^5.2.3
+    sharp: ^0.30.7
+  checksum: 9a77dc4c0cd132e6b897866f2b47d9dffb2239f4e716f33103cdeb29dc813eecb79ddccd2640154f6471d74a952f86308d434da438c1ee6d649ace1178a3f014
   languageName: node
   linkType: hard
 
@@ -34252,6 +34465,23 @@ babel-watch@kmagiera/babel-watch:
   languageName: node
   linkType: hard
 
+"sharp@npm:^0.30.7":
+  version: 0.30.7
+  resolution: "sharp@npm:0.30.7"
+  dependencies:
+    color: ^4.2.3
+    detect-libc: ^2.0.1
+    node-addon-api: ^5.0.0
+    node-gyp: latest
+    prebuild-install: ^7.1.1
+    semver: ^7.3.7
+    simple-get: ^4.0.1
+    tar-fs: ^2.1.1
+    tunnel-agent: ^0.6.0
+  checksum: bbc63ca3c7ea8a5bff32cd77022cfea30e25a03f5bd031e935924bf6cf0e11e3388e8b0e22b3137bf8816aa73407f1e4fbeb190f3a35605c27ffca9f32b91601
+  languageName: node
+  linkType: hard
+
 "shebang-command@npm:^1.2.0":
   version: 1.2.0
   resolution: "shebang-command@npm:1.2.0"
@@ -34340,7 +34570,7 @@ babel-watch@kmagiera/babel-watch:
   languageName: node
   linkType: hard
 
-"simple-concat@npm:^1.0.0":
+"simple-concat@npm:^1.0.0, simple-concat@npm:^1.0.1":
   version: 1.0.1
   resolution: "simple-concat@npm:1.0.1"
   checksum: 4d211042cc3d73a718c21ac6c4e7d7a0363e184be6a5ad25c8a1502e49df6d0a0253979e3d50dbdd3f60ef6c6c58d756b5d66ac1e05cda9cacd2e9fc59e3876a
@@ -35055,6 +35285,13 @@ babel-watch@kmagiera/babel-watch:
   languageName: node
   linkType: hard
 
+"standard-as-callback@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "standard-as-callback@npm:2.1.0"
+  checksum: 88bec83ee220687c72d94fd86a98d5272c91d37ec64b66d830dbc0d79b62bfa6e47f53b71646011835fc9ce7fae62739545d13124262b53be4fbb3e2ebad551c
+  languageName: node
+  linkType: hard
+
 "stat-mode@npm:~0.1.0":
   version: 0.1.0
   resolution: "stat-mode@npm:0.1.0"
@@ -35520,7 +35757,7 @@ babel-watch@kmagiera/babel-watch:
   languageName: node
   linkType: hard
 
-"styled-components@npm:6.1.1":
+"styled-components@npm:^5.2 || ^6":
   version: 6.1.1
   resolution: "styled-components@npm:6.1.1"
   dependencies:
@@ -36813,7 +37050,7 @@ babel-watch@kmagiera/babel-watch:
   languageName: node
   linkType: hard
 
-"tslib@npm:^1.10.0, tslib@npm:^1.11.1, tslib@npm:^1.13.0, tslib@npm:^1.8.1":
+"tslib@npm:^1.10.0, tslib@npm:^1.11.1, tslib@npm:^1.13.0, tslib@npm:^1.8.1, tslib@npm:^1.9.0":
   version: 1.14.1
   resolution: "tslib@npm:1.14.1"
   checksum: dbe628ef87f66691d5d2959b3e41b9ca0045c3ee3c7c7b906cc1e328b39f199bb1ad9e671c39025bd56122ac57dfbf7385a94843b1cc07c60a4db74795829acd
@@ -37559,7 +37796,7 @@ babel-watch@kmagiera/babel-watch:
   languageName: node
   linkType: hard
 
-"url-parse@npm:^1.5.3, url-parse@npm:^1.5.9":
+"url-parse@npm:^1.1.9, url-parse@npm:^1.5.3, url-parse@npm:^1.5.9":
   version: 1.5.10
   resolution: "url-parse@npm:1.5.10"
   dependencies:
