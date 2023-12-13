@@ -1,3 +1,4 @@
+import { replaceRelativePath } from '@cd/core-lib';
 import { createImageClient } from 'sanity-next-social-image-generator';
 import logo from '../../../public/logo.png';
 
@@ -16,24 +17,24 @@ export default async function generatePreviewImage(req, res) {
 	// Generate the image when Sanity's webhook hits your API
 	const { imageUrl, text, _id, _type } = req.body;
 	try {
-		console.info(
-			'request generating image for',
-			_type,
-			_id,
-			'imageUrl',
-			imageUrl,
-		);
 		const generated = await client.generateImage({
 			id: _id,
 			backgroundImageUrl: imageUrl,
 			text,
-			blur: 10,
-			darken: 50,
-			logo,
+
+			blur: 3,
+			darken: 40,
+			backgroundFit: 'cover',
+			height: 1200,
+			width: 1200,
+			fontSize: 100,
+			fontName: 'Arial Black',
+
+			logo: new URL(logo.src, process.env.NEXT_PUBLIC_BLOG_APP_URL as string)
+				.href,
 			logoPosition: 'bottomRight',
 		});
 		console.info('generated image for', _id, _type, 'generated', generated);
-		console.info('generated image for', _id, _type);
 		res.status(200).send('Ok');
 	} catch (e) {
 		console.error('Error generating image for', _type, _id, e.message);
