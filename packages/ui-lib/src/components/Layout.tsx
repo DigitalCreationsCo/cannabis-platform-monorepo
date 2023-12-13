@@ -58,9 +58,8 @@ function Layout({
 	className,
 }: LayoutProps & PropsWithChildren) {
 	const styles = {
-		// main: 'bg-inverse-soft flex flex-col grow border',
 		main: 'bg-inherit flex-1',
-		isModalOverlay: isModalVisible && 'w-full static',
+		isModalOverlay: isModalVisible && 'w-full fixed bg-inherit',
 	};
 
 	const navLinkContainerId = 'dashboard-links-container';
@@ -74,7 +73,7 @@ function Layout({
 				className,
 			)}
 		>
-			<div className={styles.main}>
+			<div className={twMerge(styles.main)}>
 				{showTopBar && TopBarComponent && (
 					<TopBarComponent signOut={signOut} doesSessionExist={isSession} />
 				)}

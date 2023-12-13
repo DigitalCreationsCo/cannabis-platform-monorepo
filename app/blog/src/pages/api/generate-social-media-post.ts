@@ -32,11 +32,13 @@ export default async function generateSocialMediaPost(req, res) {
 			text,
 
 			blur: 3,
-			darken: 40,
+			darken: 32,
+
+			height: 1400,
+			width: 1400,
+
 			backgroundFit: 'cover',
-			height: 1200,
-			width: 1200,
-			fontSize: 100,
+			fontSize: 90,
 			fontName: 'Arial Black',
 
 			logo: new URL(logo.src, process.env.NEXT_PUBLIC_BLOG_APP_URL as string)
@@ -66,16 +68,16 @@ export default async function generateSocialMediaPost(req, res) {
 		const contentUrl = resolveUrl(`/post/${slug.current}`);
 
 		// post to automation webhook that will use Buffer API to publish posts
-		await axios.post(process.env.MAKE_GENERATE_SOCIAL_POST_WEBHOOK as string, {
-			_id,
-			_type,
-			title,
-			slug: slug.current,
-			excerpt,
-			mainImage: mainImage.url || '',
-			shareImage: shareImage.url,
-			contentUrl,
-		});
+		// await axios.post(process.env.MAKE_GENERATE_SOCIAL_POST_WEBHOOK as string, {
+		// 	_id,
+		// 	_type,
+		// 	title,
+		// 	slug: slug.current,
+		// 	excerpt,
+		// 	mainImage: mainImage.url || '',
+		// 	shareImage: shareImage.url,
+		// 	contentUrl,
+		// });
 	} catch (e) {
 		console.error('Error generating image for', _type, _id, e.message);
 		res.status(500).send(e);

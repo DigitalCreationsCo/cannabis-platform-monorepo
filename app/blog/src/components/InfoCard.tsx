@@ -3,10 +3,9 @@ import { truncateWordsAndLeaveN } from '@cd/core-lib';
 import { FlexBox, H3, Paragraph } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
-import { type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { urlForImage } from 'lib/sanity.image';
 import logo from '../../public/logo.png';
+import { urlForImage } from '../lib/sanity.image';
 import { resolveHref } from '../lib/sanity.links';
 import { type Post } from '../lib/sanity.queries';
 
