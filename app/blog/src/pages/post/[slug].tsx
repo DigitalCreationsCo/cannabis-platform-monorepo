@@ -1,11 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { showTime } from '@cd/core-lib';
-import { PortableText } from '@portabletext/react';
 import type { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { useLiveQuery } from 'next-sanity/preview';
 import Head from 'next/head';
-import Image from 'next/image';
-
+import { Post as PostComponent } from '../../components';
 import { readToken } from '../../lib/sanity.api';
 import { getClient } from '../../lib/sanity.client';
 import { urlForImage } from '../../lib/sanity.image';
@@ -64,28 +61,7 @@ export default function ProjectSlugRoute(
 					content={urlForImage(post?.shareImage)?.url()}
 				/>
 			</Head>
-			<section className="post">
-				{post.mainImage ? (
-					<Image
-						className="post__cover"
-						// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-						src={urlForImage(post.mainImage)!.url()}
-						height={231}
-						width={367}
-						alt=""
-					/>
-				) : (
-					<div className="post__cover--none" />
-				)}
-				<div className="post__container">
-					<h1 className="post__title">{post.title}</h1>
-					<p className="post__excerpt">{post.excerpt}</p>
-					<p className="post__date">{showTime(post._createdAt)}</p>
-					<div className="post__content">
-						<PortableText value={post.body} />
-					</div>
-				</div>
-			</section>
+			<PostComponent post={post} />
 		</div>
 	);
 }

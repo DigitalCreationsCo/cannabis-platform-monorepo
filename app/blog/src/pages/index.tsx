@@ -1,36 +1,17 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
-import { type LayoutContextProps, Page, Grid, H1, Carousel } from '@cd/ui-lib';
+import { type LayoutContextProps, Page } from '@cd/ui-lib';
 import { type GetStaticProps, type InferGetStaticPropsType } from 'next';
 import { useLiveQuery } from 'next-sanity/preview';
+import dynamic from 'next/dynamic';
+import Posts from 'components/Posts';
 import { readToken } from 'lib/sanity.api';
-import { InfoCard } from '../components';
+import { PreviewPosts } from '../components';
 import { getClient } from '../lib/sanity.client';
 import { getPosts, type Post, postsQuery } from '../lib/sanity.queries';
 import type { SharedPageProps } from './_app';
 
-function BlogDirectory(props: InferGetStaticPropsType<typeof getStaticProps>) {
-	const [posts] = useLiveQuery<Post[]>(props.posts, postsQuery);
-
-	return (
-		<Page className={'bg-inherit px-8'}>
-			<Grid className="grid-flow-col-dense auto-cols-min auto-rows-min gap-4">
-				{posts.length ? (
-					posts.map((post) => <InfoCard key={post._id} data={post} />)
-				) : (
-					<div>Welcome. There no posts here.</div>
-				)}
-			</Grid>
-		</Page>
-	);
-}
-
-export default BlogDirectory;
-
-BlogDirectory.getLayoutContext = (): LayoutContextProps => ({
-	showHeader: false,
-	showSideNav: true,
-});
+const PreviewProvider = dynamic(() => import('../components/PreviewProvider'));
 
 export const getStaticProps: GetStaticProps<
 	SharedPageProps & {
@@ -47,3 +28,31 @@ export const getStaticProps: GetStaticProps<
 		},
 	};
 };
+
+function BlogDirectory(props: InferGetStaticPropsType<typeof getStaticProps>) {
+	const [posts] = useLiveQuery<Post[]>(props.posts, postsQuery);
+
+	if (props.draftMode && props.token) {
+		return (
+			<PreviewProvider previewToken={previewToken}>
+				<PreviewPosts posts={posts} />
+				<div className="prose prose-blue p-8">
+					<a href="/api/disable-draft">Exit preview</a>
+				</div>
+			</PreviewProvider>
+		);
+	}
+
+	return (
+		<Page className={'bg-inherit px-8'}>
+			<Posts posts={posts} />
+		</Page>
+	);
+}
+
+export default BlogDirectory;
+
+BlogDirectory.getLayoutContext = (): LayoutContextProps => ({
+	showHeader: false,
+	showSideNav: true,
+});

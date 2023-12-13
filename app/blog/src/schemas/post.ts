@@ -1,4 +1,5 @@
 import { defineField, defineType } from 'sanity';
+import { AutoPreviewPane } from '../components';
 
 export default defineType({
 	name: 'post',
@@ -47,16 +48,23 @@ export default defineType({
 			type: 'image',
 			readOnly: true,
 		}),
+		defineField({
+			type: 'string',
+			name: 'hiddenPreviewField',
+			components: {
+				field: AutoPreviewPane,
+			},
+		}),
 	],
-	preview: {
-		select: {
-			title: 'title',
-			author: 'author.name',
-			media: 'mainImage',
-		},
-		prepare(selection) {
-			const { author } = selection;
-			return { ...selection, subtitle: author && `by ${author}` };
-		},
-	},
+	// preview: {
+	// 	select: {
+	// 		title: 'title',
+	// 		author: 'author.name',
+	// 		media: 'mainImage',
+	// 	},
+	// 	prepare(selection) {
+	// 		const { author } = selection;
+	// 		return { ...selection, subtitle: author && `by ${author}` };
+	// 	},
+	// },
 });
