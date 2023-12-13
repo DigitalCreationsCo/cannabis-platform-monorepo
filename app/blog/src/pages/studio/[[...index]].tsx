@@ -1,4 +1,4 @@
-import { type LayoutContextProps } from '@cd/ui-lib';
+import { FlexBox, type LayoutContextProps } from '@cd/ui-lib';
 import { NextStudio } from 'next-sanity/studio';
 import { metadata } from 'next-sanity/studio/metadata';
 import Head from 'next/head';
@@ -12,7 +12,7 @@ export default function StudioPage() {
 					<meta key={key} name={key} content={value} />
 				))}
 			</Head>
-			<div className="w-full max-h-fit">
+			<div className="w-full">
 				<NextStudio config={config} unstable_globalStyles />
 			</div>
 		</>
@@ -23,4 +23,5 @@ StudioPage.getLayoutContext = (): LayoutContextProps => ({
 	showHeader: false,
 	showSideNav: false,
 	showFooter: false,
+	showTopBar: false,
 });

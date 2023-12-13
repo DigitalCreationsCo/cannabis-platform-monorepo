@@ -2922,6 +2922,10 @@ details > summary {
   z-index: 50;
 }
 
+.-z-10 {
+  z-index: -10;
+}
+
 .col-span-1 {
   grid-column: span 1 / span 1;
 }
@@ -3151,6 +3155,18 @@ details > summary {
 
 .h-min {
   height: min-content;
+}
+
+.\!h-1\/2 {
+  height: 50% !important;
+}
+
+.h-\[500px\] {
+  height: 500px;
+}
+
+.h-\[700px\] {
+  height: 700px;
 }
 
 .max-h-\[240px\] {
@@ -3437,6 +3453,18 @@ details > summary {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.snap-x {
+  scroll-snap-type: x var(--tw-scroll-snap-strictness);
+}
+
+.snap-mandatory {
+  --tw-scroll-snap-strictness: mandatory;
+}
+
+.snap-always {
+  scroll-snap-stop: always;
 }
 
 .auto-cols-min {
@@ -3815,6 +3843,10 @@ details > summary {
 
 .to-primary-light {
   --tw-gradient-to: var(--primary-light) var(--tw-gradient-to-position);
+}
+
+.bg-fixed {
+  background-attachment: fixed;
 }
 
 .fill-light {

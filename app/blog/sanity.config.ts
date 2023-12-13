@@ -8,6 +8,7 @@
 import { assist } from '@sanity/assist';
 import { visionTool } from '@sanity/vision';
 import { defineConfig } from 'sanity';
+import { unsplashImageAsset } from 'sanity-plugin-asset-source-unsplash';
 import { Iframe, type IframeOptions } from 'sanity-plugin-iframe-pane';
 import { deskTool } from 'sanity/desk';
 import { apiVersion, dataset, projectId } from './src/lib/sanity.api';
@@ -87,6 +88,7 @@ export default defineConfig({
 		// Vision lets you query your content with GROQ in the studio
 		// https://www.sanity.io/docs/the-vision-plugin
 		visionTool({ defaultApiVersion: apiVersion }),
+		unsplashImageAsset(),
 		assist(),
 	],
 });

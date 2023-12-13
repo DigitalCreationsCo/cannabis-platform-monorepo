@@ -4,7 +4,7 @@ import icons from '@cd/ui-lib/src/icons';
 import { PortableText } from '@portabletext/react';
 import Image from 'next/image';
 import Router from 'next/router';
-import { urlForImage } from 'lib/sanity.image';
+import { urlForImage } from '../lib/sanity.image';
 import { type Post } from '../lib/sanity.queries';
 
 export default function Post({ post }: { post: Post }) {
