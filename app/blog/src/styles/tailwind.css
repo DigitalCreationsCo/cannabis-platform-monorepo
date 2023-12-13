@@ -2894,10 +2894,6 @@ details > summary {
   bottom: 0px;
 }
 
-.left-0 {
-  left: 0px;
-}
-
 .right-0 {
   right: 0px;
 }
@@ -3086,6 +3082,10 @@ details > summary {
 
 .h-32 {
   height: 8rem;
+}
+
+.h-36 {
+  height: 9rem;
 }
 
 .h-6 {
@@ -3285,6 +3285,10 @@ details > summary {
 
 .w-screen {
   width: 100vw;
+}
+
+.\!w-full {
+  width: 100% !important;
 }
 
 .min-w-\[140px\] {
@@ -3527,6 +3531,18 @@ details > summary {
   gap: 2rem;
 }
 
+.gap-y-12 {
+  row-gap: 3rem;
+}
+
+.gap-y-8 {
+  row-gap: 2rem;
+}
+
+.gap-y-6 {
+  row-gap: 1.5rem;
+}
+
 .space-x-0 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 0;
   margin-right: calc(0px * var(--tw-space-x-reverse));
@@ -3613,6 +3629,10 @@ details > summary {
 
 .self-center {
   align-self: center;
+}
+
+.self-stretch {
+  align-self: stretch;
 }
 
 .justify-self-end {
@@ -3817,8 +3837,16 @@ details > summary {
   stroke: currentColor;
 }
 
+.object-contain {
+  object-fit: contain;
+}
+
 .object-cover {
   object-fit: cover;
+}
+
+.object-top {
+  object-position: top;
 }
 
 .p-0 {
@@ -3835,6 +3863,10 @@ details > summary {
 
 .p-2 {
   padding: 0.5rem;
+}
+
+.p-24 {
+  padding: 6rem;
 }
 
 .p-3 {
@@ -4024,6 +4056,11 @@ details > summary {
   line-height: 1;
 }
 
+.text-7xl {
+  font-size: 4.5rem;
+  line-height: 1;
+}
+
 .text-lg {
   font-size: 1.125rem;
   line-height: 1.75rem;
@@ -4086,6 +4123,10 @@ details > summary {
 
 .tracking-wider {
   letter-spacing: 0.05em;
+}
+
+.tracking-widest {
+  letter-spacing: 0.1em;
 }
 
 .text-accent-soft {
@@ -4221,6 +4262,11 @@ details > summary {
 
 .drop-shadow {
   --tw-drop-shadow: drop-shadow(0 1px 2px rgb(0 0 0 / 0.1)) drop-shadow(0 1px 1px rgb(0 0 0 / 0.06));
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+
+.drop-shadow-lg {
+  --tw-drop-shadow: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
@@ -4505,10 +4551,6 @@ details > summary {
     min-width: 224px;
   }
 
-  .md\:min-w-\[264px\] {
-    min-width: 264px;
-  }
-
   .md\:min-w-\[340px\] {
     min-width: 340px;
   }
@@ -4563,6 +4605,10 @@ details > summary {
     padding: 1.25rem;
   }
 
+  .md\:p-24 {
+    padding: 6rem;
+  }
+
   .md\:px-12 {
     padding-left: 3rem;
     padding-right: 3rem;
@@ -4613,6 +4659,11 @@ details > summary {
   .md\:text-lg {
     font-size: 1.125rem;
     line-height: 1.75rem;
+  }
+
+  .md\:text-7xl {
+    font-size: 4.5rem;
+    line-height: 1;
   }
 
   .md\:hover\:bg-transparent:hover {
@@ -4743,6 +4794,10 @@ details > summary {
 
   .lg\:border-l-2 {
     border-left-width: 2px;
+  }
+
+  .lg\:p-24 {
+    padding: 6rem;
   }
 
   .lg\:px-12 {

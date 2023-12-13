@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { Card, FlexBox, H3, Paragraph } from '@cd/ui-lib';
+import { truncateWordsAndLeaveN } from '@cd/core-lib';
+import { FlexBox, H3, Paragraph } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
 import { type PropsWithChildren } from 'react';
@@ -16,73 +17,35 @@ type InfoCardProps = {
 };
 
 function InfoCard({ data: info, className }: InfoCardProps) {
-	const styles = {
-		dispensarycard: [
-			// 'relative',
-			// 'w-[200px] md:min-w-[264px] md:w-[340px] h-[220px] p-4 !rounded',
-		],
-		isOpenBadge: [
-			// 'text-inverse border-2 tracking-wider z-5 top-0 right-0 p-3 m-3 badge absolute',
-		],
-	};
-
 	return (
-		<div
+		<Link
+			href={resolveHref('post', info.slug.current) as string}
 			className={twMerge([
+				'flex flex-col',
 				'w-[300px]',
 				'h-[360px]',
 				'bg-dark',
 				'rounded',
+				'overflow-hidden',
 				className,
 			])}
 		>
-			<Link href={resolveHref('post', info.slug.current) as string}>
+			<FlexBox className="grow relative">
 				<Image
 					src={urlForImage(info.mainImage!)!.url() || logo.src}
 					alt="card-backdrop"
-					loader={({ src }) => src}
-					width={300}
-					height={360}
+					fill
+					className="object-cover object-top"
 				/>
-				<FlexBox className={twMerge('p-4')}>
-					<H3 className="text-inverse">{info.title}</H3>
-
-					<Paragraph className="text-inverse">{info.excerpt}</Paragraph>
-				</FlexBox>
-			</Link>
-		</div>
+			</FlexBox>
+			<div className={twMerge('h-36', 'p-2')}>
+				<H3 className="text-inverse">{info.title}</H3>
+				<Paragraph className="text-inverse">
+					{truncateWordsAndLeaveN(info.excerpt as string, 12)}
+				</Paragraph>
+			</div>
+		</Link>
 	);
 }
-
-const ImageBackDrop = ({
-	src,
-	children,
-}: { src: string } & PropsWithChildren) => {
-	return (
-		<div className="absolute left-0 top-0 h-full w-full">
-			<Image
-				className="h-full w-full rounded object-cover"
-				src={src}
-				alt="card-backdrop"
-				loader={({ src }) => src}
-				width={340}
-				height={340}
-			/>
-			<div
-				className="rounded"
-				style={{
-					backgroundColor: 'rgba(1,12,2,0.14)',
-					position: 'absolute',
-					height: '100%',
-					width: '100%',
-					left: '0',
-					top: '0',
-				}}
-			>
-				{children}
-			</div>
-		</div>
-	);
-};
 
 export default InfoCard;

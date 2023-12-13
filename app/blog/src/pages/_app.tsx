@@ -82,7 +82,6 @@ function App({ Component, ...rest }: CustomAppProps) {
 				<ReduxProvider store={store}>
 					<PersistGate persistor={persistor} loading={<LoadingPage />}>
 						<ToastProvider />
-						<ModalProvider />
 						<AnimatePresence
 							mode="wait"
 							initial={false}
@@ -101,6 +100,8 @@ function App({ Component, ...rest }: CustomAppProps) {
 										]}
 									>
 										<>
+											<ModalProvider />
+
 											<Component {...props.pageProps} />
 											{!routerLoading &&
 												(function (d, w, c: 'BrevoConversations') {
