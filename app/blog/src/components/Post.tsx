@@ -1,5 +1,5 @@
 import { formatToTimeZone } from '@cd/core-lib';
-import { Button, H1, IconWrapper, Paragraph } from '@cd/ui-lib';
+import { Button, H1, H2, H3, H4, H5, IconWrapper, Paragraph } from '@cd/ui-lib';
 import icons from '@cd/ui-lib/src/icons';
 import { PortableText } from '@portabletext/react';
 import Image from 'next/image';
@@ -39,7 +39,19 @@ export default function Post({ post }: { post: Post }) {
 			)}
 
 			<Paragraph className="post__content font-semibold tracking-widest">
-				<PortableText value={post.body} />
+				<PortableText
+					value={post.body}
+					components={{
+						block: {
+							h1: H1,
+							h2: H2,
+							h3: H3,
+							h4: H4,
+							normal: Paragraph,
+							blockquote: Paragraph,
+						},
+					}}
+				/>
 			</Paragraph>
 		</section>
 	);

@@ -22,7 +22,7 @@ const LayoutContainer = (props: LayoutContextProps & PropsWithChildren) => {
 		window.location.reload();
 	};
 	return (
-		<div className="bg-accent">
+		<div className="bg-accent-soft">
 			<Layout
 				isModalVisible={modalVisible}
 				SideNavComponent={BlogNavigation}
