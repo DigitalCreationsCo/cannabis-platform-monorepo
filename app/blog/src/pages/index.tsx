@@ -44,7 +44,7 @@ function BlogDirectory(props: InferGetStaticPropsType<typeof getStaticProps>) {
 	}
 
 	return (
-		<Page className={'bg-inherit px-8'}>
+		<Page className={'bg-inherit px-8 min-h-[660px]'}>
 			<Posts posts={posts} />
 		</Page>
 	);

@@ -1,13 +1,16 @@
 import { formatToTimeZone } from '@cd/core-lib';
-import { H1, Paragraph } from '@cd/ui-lib';
+import { Button, H1, IconWrapper, Paragraph } from '@cd/ui-lib';
+import icons from '@cd/ui-lib/src/icons';
 import { PortableText } from '@portabletext/react';
 import Image from 'next/image';
+import Router from 'next/router';
 import { urlForImage } from 'lib/sanity.image';
 import { type Post } from '../lib/sanity.queries';
 
 export default function Post({ post }: { post: Post }) {
 	return (
 		<section className="post p-2 flex flex-col gap-y-6">
+			<BackButton />
 			<div>
 				<Paragraph className="post__date tracking-wider text-inverse">
 					{formatToTimeZone(post._createdAt, 'EST', 'MM-dd-yyyy hh:mm')}
@@ -39,5 +42,19 @@ export default function Post({ post }: { post: Post }) {
 				<PortableText value={post.body} />
 			</Paragraph>
 		</section>
+	);
+}
+
+function BackButton() {
+	return (
+		<Button
+			size="sm"
+			bg="transparent"
+			className="text-dark self-start  sm:py-0"
+			onClick={() => Router.back()}
+		>
+			<IconWrapper Icon={icons.ArrowLeft} className="pr-1" />
+			back
+		</Button>
 	);
 }

@@ -3186,6 +3186,10 @@ details > summary {
   min-height: 64px;
 }
 
+.min-h-\[660px\] {
+  min-height: 660px;
+}
+
 .min-h-\[70px\] {
   min-height: 70px;
 }
@@ -3285,10 +3289,6 @@ details > summary {
 
 .w-screen {
   width: 100vw;
-}
-
-.\!w-full {
-  width: 100% !important;
 }
 
 .min-w-\[140px\] {
@@ -3531,14 +3531,6 @@ details > summary {
   gap: 2rem;
 }
 
-.gap-y-12 {
-  row-gap: 3rem;
-}
-
-.gap-y-8 {
-  row-gap: 2rem;
-}
-
 .gap-y-6 {
   row-gap: 1.5rem;
 }
@@ -3629,10 +3621,6 @@ details > summary {
 
 .self-center {
   align-self: center;
-}
-
-.self-stretch {
-  align-self: stretch;
 }
 
 .justify-self-end {
@@ -3837,10 +3825,6 @@ details > summary {
   stroke: currentColor;
 }
 
-.object-contain {
-  object-fit: contain;
-}
-
 .object-cover {
   object-fit: cover;
 }
@@ -3863,10 +3847,6 @@ details > summary {
 
 .p-2 {
   padding: 0.5rem;
-}
-
-.p-24 {
-  padding: 6rem;
 }
 
 .p-3 {
@@ -4053,11 +4033,6 @@ details > summary {
 
 .text-5xl {
   font-size: 3rem;
-  line-height: 1;
-}
-
-.text-7xl {
-  font-size: 4.5rem;
   line-height: 1;
 }
 
@@ -4499,6 +4474,11 @@ details > summary {
     border-radius: 0.25rem;
   }
 
+  .sm\:py-0 {
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+
   .sm\:pt-4 {
     padding-top: 1rem;
   }
@@ -4605,10 +4585,6 @@ details > summary {
     padding: 1.25rem;
   }
 
-  .md\:p-24 {
-    padding: 6rem;
-  }
-
   .md\:px-12 {
     padding-left: 3rem;
     padding-right: 3rem;
@@ -4656,14 +4632,14 @@ details > summary {
     padding-top: 2rem;
   }
 
-  .md\:text-lg {
-    font-size: 1.125rem;
-    line-height: 1.75rem;
-  }
-
   .md\:text-7xl {
     font-size: 4.5rem;
     line-height: 1;
+  }
+
+  .md\:text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
   }
 
   .md\:hover\:bg-transparent:hover {
@@ -4794,10 +4770,6 @@ details > summary {
 
   .lg\:border-l-2 {
     border-left-width: 2px;
-  }
-
-  .lg\:p-24 {
-    padding: 6rem;
   }
 
   .lg\:px-12 {
