@@ -32,7 +32,7 @@ export interface Post {
 	title?: string;
 	slug: Slug;
 	excerpt?: string;
-	mainImage?: ImageAsset;
+	mainImage: ImageAsset;
 	body: PortableTextBlock[];
 	shareImage: ImageAsset;
 }
