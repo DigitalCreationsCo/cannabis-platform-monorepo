@@ -63,7 +63,7 @@ export function truncateWordsAndLeaveN(text: string, numWordsToKeep: number) {
 		return text;
 	}
 	const truncatedWords = words.slice(0, numWordsToKeep);
-	return truncatedWords.join(' ');
+	return truncatedWords.join(' ').concat('...');
 }
 
 export function redact(text: string) {

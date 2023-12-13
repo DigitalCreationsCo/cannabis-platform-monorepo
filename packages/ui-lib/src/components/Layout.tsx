@@ -60,7 +60,7 @@ function Layout({
 	const styles = {
 		// main: 'bg-inverse-soft flex flex-col grow border',
 		main: 'bg-inherit flex-1',
-		isModalOverlay: isModalVisible && 'w-full fixed',
+		isModalOverlay: isModalVisible && 'w-full static',
 	};
 
 	const navLinkContainerId = 'dashboard-links-container';

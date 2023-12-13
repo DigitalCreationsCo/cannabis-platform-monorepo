@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { Page, type LayoutContextProps } from '@cd/ui-lib';
 import type { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { useLiveQuery } from 'next-sanity/preview';
 import Head from 'next/head';
@@ -50,7 +51,7 @@ export default function ProjectSlugRoute(
 	});
 
 	return (
-		<div>
+		<Page className={'bg-inherit'}>
 			<Head>
 				<meta
 					property="og:image"
@@ -62,7 +63,7 @@ export default function ProjectSlugRoute(
 				/>
 			</Head>
 			<PostComponent post={post} />
-		</div>
+		</Page>
 	);
 }
 
@@ -74,3 +75,8 @@ export const getStaticPaths = async () => {
 		fallback: 'blocking',
 	};
 };
+
+ProjectSlugRoute.getLayoutContext = (): LayoutContextProps => ({
+	showHeader: false,
+	showSideNav: true,
+});

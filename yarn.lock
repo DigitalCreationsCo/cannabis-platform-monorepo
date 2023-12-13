@@ -3824,6 +3824,7 @@ __metadata:
     "@next/env": 13.2.4
     "@paralleldrive/cuid2": 2.2.0
     "@reduxjs/toolkit": 1.9.2
+    "@sanity/assist": ^1.2.15
     "@sanity/client": 6.8.6
     "@sanity/demo": 1.0.2
     "@sanity/types": 3.20.0
@@ -9236,6 +9237,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sanity/assist@npm:^1.2.15":
+  version: 1.2.15
+  resolution: "@sanity/assist@npm:1.2.15"
+  dependencies:
+    "@sanity/icons": ^2.4.0
+    "@sanity/incompatible-plugin": ^1.0.4
+    "@sanity/ui": ^1.6.0
+    date-fns: ^2.30.0
+    react-fast-compare: ^3.2.1
+    react-is: ^18.2.0
+    rxjs: ^7.8.0
+    rxjs-exhaustmap-with-trailing: ^2.1.1
+  peerDependencies:
+    react: ^18
+    sanity: ^3.16
+    styled-components: ^5.2 || ^6.0.0
+  checksum: ade4c06698a96b6161ee0dac53c1d52cf86674720283e1fce789e63e619212a150ccc1ab164834f3588571f5ae537134923ec098a1d9aae2856d45ca819cc4d9
+  languageName: node
+  linkType: hard
+
 "@sanity/bifur-client@npm:^0.3.1":
   version: 0.3.1
   resolution: "@sanity/bifur-client@npm:0.3.1"
@@ -9422,6 +9443,15 @@ __metadata:
   peerDependencies:
     react: ^16.9 || ^17 || ^18
   checksum: 9c606bc60d4edd3873996b34871cb7480b2f8af4175a6828a9ec02b08d75bc9d38eff3678f969a4363c068bd35258b554fb340425eccbc41d1046490a2fadfa6
+  languageName: node
+  linkType: hard
+
+"@sanity/icons@npm:^2.4.0":
+  version: 2.8.0
+  resolution: "@sanity/icons@npm:2.8.0"
+  peerDependencies:
+    react: ^18
+  checksum: 77761836b25d73afa7344e07ca242ebb6cf9a85c67522aab1c019d1a23abe8a99bc6ae4b4060f9b51b7dff126c7d7d96699f6c668b796399b7b53874a9756103
   languageName: node
   linkType: hard
 
@@ -9650,7 +9680,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sanity/ui@npm:^1.9.3":
+"@sanity/ui@npm:^1.6.0, @sanity/ui@npm:^1.9.3":
   version: 1.9.3
   resolution: "@sanity/ui@npm:1.9.3"
   dependencies:
@@ -18095,7 +18125,7 @@ babel-watch@kmagiera/babel-watch:
   languageName: node
   linkType: hard
 
-"date-fns@npm:^2.26.1, date-fns@npm:^2.29.2, date-fns@npm:^2.29.3":
+"date-fns@npm:^2.26.1, date-fns@npm:^2.29.2, date-fns@npm:^2.29.3, date-fns@npm:^2.30.0":
   version: 2.30.0
   resolution: "date-fns@npm:2.30.0"
   dependencies:
@@ -31976,7 +32006,7 @@ babel-watch@kmagiera/babel-watch:
   languageName: node
   linkType: hard
 
-"react-fast-compare@npm:3.2.2, react-fast-compare@npm:^3.2.0":
+"react-fast-compare@npm:3.2.2, react-fast-compare@npm:^3.2.0, react-fast-compare@npm:^3.2.1":
   version: 3.2.2
   resolution: "react-fast-compare@npm:3.2.2"
   checksum: 2071415b4f76a3e6b55c84611c4d24dcb12ffc85811a2840b5a3f1ff2d1a99be1020d9437ee7c6e024c9f4cbb84ceb35e48cf84f28fcb00265ad2dfdd3947704
