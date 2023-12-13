@@ -57,11 +57,11 @@ export default function ProjectSlugRoute(
 			<Head>
 				<meta
 					property="og:image"
-					content={urlForImage(post?.shareImage)!.url()}
+					content={urlForImage(post?.shareImage)?.url()}
 				/>
 				<meta
 					name="twitter:image"
-					content={urlForImage(post?.shareImage)!.url()}
+					content={urlForImage(post?.shareImage)?.url()}
 				/>
 			</Head>
 			<section className="post">

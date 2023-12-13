@@ -3375,6 +3375,10 @@ details > summary {
   cursor: pointer;
 }
 
+.resize {
+  resize: both;
+}
+
 .auto-cols-min {
   grid-auto-columns: min-content;
 }

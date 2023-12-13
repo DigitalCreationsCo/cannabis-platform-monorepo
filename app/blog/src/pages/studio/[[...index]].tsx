@@ -12,7 +12,7 @@ export default function StudioPage() {
 					<meta key={key} name={key} content={value} />
 				))}
 			</Head>
-			<div className="w-full max-h-fit border">
+			<div className="w-full max-h-fit">
 				<NextStudio config={config} unstable_globalStyles />
 			</div>
 		</>
