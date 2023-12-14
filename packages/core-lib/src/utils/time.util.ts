@@ -2,8 +2,8 @@
 import { formatInTimeZone, type OptionsWithTZ } from 'date-fns-tz';
 import { type ValueOf } from './index';
 
-export const showTime = (time: Date) =>
-	time.toLocaleTimeString('en-US', {
+export const showTime = (date: Date | string) =>
+	new Date(date).toLocaleTimeString('en-US', {
 		hour: '2-digit',
 		minute: '2-digit',
 		hour12: true,

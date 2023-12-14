@@ -90,7 +90,7 @@
 		"read-cert": "openssl x509 -in $0 -text -noout"
 	},
 	"engines": {
-		"node": "16.20.0",
+		"node": "18.19.0",
 		"yarn": ">=1.22.0",
 		"npm": "please-use-yarn"
 	},
