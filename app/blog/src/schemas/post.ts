@@ -49,6 +49,12 @@ export default defineType({
 			readOnly: true,
 		}),
 		defineField({
+			name: 'categories',
+			title: 'Categories',
+			type: 'array',
+			of: [{ type: 'reference', to: { type: 'category' } }],
+		}),
+		defineField({
 			type: 'string',
 			name: 'hiddenPreviewField',
 			components: {
