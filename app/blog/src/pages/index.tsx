@@ -44,7 +44,7 @@ function BlogDirectory(props: InferGetStaticPropsType<typeof getStaticProps>) {
 	}
 
 	return (
-		<Page className={'bg-inherit px-8 min-h-[660px]'}>
+		<Page className={'border bg-inherit p-8 min-h-[660px]'}>
 			<Posts posts={posts} />
 		</Page>
 	);
@@ -53,6 +53,7 @@ function BlogDirectory(props: InferGetStaticPropsType<typeof getStaticProps>) {
 export default BlogDirectory;
 
 BlogDirectory.getLayoutContext = (): LayoutContextProps => ({
-	showHeader: false,
+	// showHeader: false,
 	showSideNav: true,
+	showSearch: false,
 });
