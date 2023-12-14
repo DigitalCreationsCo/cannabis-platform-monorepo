@@ -35,15 +35,15 @@ export default function Post({ post }: { post: Post }) {
 				<H1 className="md:text-7xl font-onest font-semibold text-inverse tracking-wide drop-shadow-lg">
 					{post.title}
 				</H1>{' '}
-				<Paragraph className="post__excerpt tracking-wider text-inverse drop-shadow">
+				<Paragraph className="post__excerpt tracking-wider text-inverse drop-shadow text-lg max-w-3xl">
 					{post.excerpt}
 				</Paragraph>
 			</div>
 
 			{post.mainImage ? (
-				<div className="post__cover shadow">
+				<div className="post__cover">
 					<Image
-						className="rounded"
+						className="rounded shadow"
 						// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 						src={urlForImage(post.mainImage)!.url()}
 						height={400}

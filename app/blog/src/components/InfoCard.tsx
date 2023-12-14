@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { truncateWordsAndLeaveN } from '@cd/core-lib';
-import { FlexBox, H3, Paragraph } from '@cd/ui-lib';
+import { FlexBox, H3, H4, Paragraph } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
@@ -38,7 +38,7 @@ function InfoCard({ data: info, className }: InfoCardProps) {
 				/>
 			</FlexBox>
 			<div className={twMerge('h-36', 'p-2')}>
-				<H3 className="text-inverse">{info.title}</H3>
+				<H4 className="text-inverse tracking-wider">{info.title}</H4>
 				<Paragraph className="text-inverse">
 					{truncateWordsAndLeaveN(info.excerpt as string, 12)}
 				</Paragraph>

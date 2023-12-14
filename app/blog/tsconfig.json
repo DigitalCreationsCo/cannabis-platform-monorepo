@@ -23,6 +23,9 @@
       }
     ],
     "paths": {
+      "@cd/ai": [
+        "../../../packages/ai/index"
+      ],
       "@cd/ui-lib": [
         "../../../packages/ui-lib/src/index"
       ],
