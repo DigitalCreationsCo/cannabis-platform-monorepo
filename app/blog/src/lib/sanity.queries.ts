@@ -5,13 +5,11 @@ import groq from 'groq';
 import { type SanityClient } from 'next-sanity';
 
 export const postsQuery = groq`*[_type == "post" && defined(slug.current)] | order(_createdAt desc)`;
-
 export async function getPosts(client: SanityClient): Promise<Post[]> {
 	return await client.fetch(postsQuery);
 }
 
-export const postBySlugQuery = groq`*[_type == "post" && slug.current == $slug][0]`;
-
+export const postBySlugQuery = groq`*[_type == "post" && slug.current == $slug][0]{ ..., "categories": categories[]->title}`;
 export async function getPost(
 	client: SanityClient,
 	slug: string,
@@ -25,6 +23,11 @@ export const postSlugsQuery = groq`
 *[_type == "post" && defined(slug.current)][].slug.current
 `;
 
+export const categoryStringsQuery = groq`*[_type == 'category']{ title }[].title`;
+export async function getCategories(client: SanityClient): Promise<string[]> {
+	return await client.fetch(categoryStringsQuery);
+}
+
 export interface Post {
 	_type: 'post';
 	_id: string;
@@ -32,6 +35,8 @@ export interface Post {
 	title?: string;
 	slug: Slug;
 	excerpt?: string;
-	mainImage?: ImageAsset;
+	mainImage: ImageAsset;
 	body: PortableTextBlock[];
+	shareImage: ImageAsset;
+	categories: string[];
 }
