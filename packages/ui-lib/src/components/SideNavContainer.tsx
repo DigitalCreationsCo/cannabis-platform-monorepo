@@ -38,7 +38,7 @@ function SideNavContainer({
 			!showSideNav && 'hidden',
 			'bg-inherit',
 			'lg:w-[198px] h-fit',
-			'pt-4 lg:ml-2 py-4',
+			'lg:ml-2 py-8',
 		],
 	};
 	return (

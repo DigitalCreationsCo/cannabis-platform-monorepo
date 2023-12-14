@@ -12,10 +12,8 @@ const BlogNavigation = () => {
 		enabled: true,
 	}));
 	return (
-		<div>
-			<GrasSignature className="text-yellow text-center">
-				read our blog
-			</GrasSignature>
+		<div className="cursor-default">
+			<GrasSignature className="text-yellow text-center">read on</GrasSignature>
 			<ul className="tabs">
 				{renderNavLinkAndSubLinks(navLinkGroups, pathname)}
 			</ul>
