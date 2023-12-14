@@ -23,9 +23,9 @@ function resolveUrl(href = '/') {
 const iframeOptions = {
 	url: (document) =>
 		document?.slug?.current
-			? // ? resolveUrl(`/post/${document.slug.current}`)
-			  resolveUrl(`/post/${document.slug.current}`)
+			? resolveUrl(`/api/draft?slug=${document.slug.current}`)
 			: resolveUrl(),
+	// url: resolveUrl('/api/draft'),
 	showDisplayUrl: true,
 	reload: { button: true },
 } satisfies IframeOptions;
@@ -71,13 +71,7 @@ export default defineConfig({
 							// Default form view
 							S.view.form(),
 							// Preview
-							S.view
-								.component(Iframe)
-								.options(iframeOptions)
-								// .options({
-								// 	url: (doc: SanityDocument) => getPreviewUrl(doc),
-								// })
-								.title('Preview'),
+							S.view.component(Iframe).options(iframeOptions).title('Preview'),
 						]);
 						break;
 					default:

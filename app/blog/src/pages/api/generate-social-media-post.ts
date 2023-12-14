@@ -1,4 +1,3 @@
-import { axios } from '@cd/core-lib';
 import { createClient } from 'next-sanity';
 import { createImageClient } from 'sanity-next-social-image-generator';
 import logo from '../../../public/logo.png';
@@ -8,6 +7,7 @@ const client = createClient({
 	dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
 	projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
 	token: process.env.SANITY_API_EDITOR_TOKEN,
+	useCdn: true,
 });
 
 // const redisUrl = redis://default:*******@redis-14623.c238.us-central1-2.gce.cloud.redislabs.com:xxxxx
@@ -20,6 +20,7 @@ const imageClient = createImageClient({
 	token: process.env.SANITY_API_EDITOR_TOKEN,
 });
 
+// new posts in sanity data lake will trigger this endpoint, to create a social media shareImage, and share to social media via Make Webhook
 export default async function generateSocialMediaPost(req, res) {
 	// Generate the image when Sanity's webhook hits your API
 	const { imageUrl, text, _id, _type } = req.body;
