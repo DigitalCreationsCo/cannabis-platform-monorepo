@@ -1,5 +1,4 @@
 import { createClient, type SanityClient } from 'next-sanity';
-import { type Settings } from 'sanity';
 import {
 	apiVersion,
 	dataset,
@@ -15,6 +14,7 @@ import {
 	categoryStringsQuery,
 	settingsQuery,
 	postAndMoreStoriesQuery,
+	type Settings,
 } from './sanity.queries';
 
 export function getClient(preview?: { token: string }): SanityClient {
