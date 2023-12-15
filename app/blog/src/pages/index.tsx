@@ -1,56 +1,53 @@
 import { type LayoutContextProps, Page } from '@cd/ui-lib';
-import { type GetStaticProps, type InferGetStaticPropsType } from 'next';
-import { useLiveQuery } from 'next-sanity/preview';
-import dynamic from 'next/dynamic';
-import { PreviewPosts } from '../components';
+import { type GetStaticProps, NextApiResponse } from 'next';
+import PreviewIndexPage from 'components/PreviewIndexPage';
 import Posts from '../components/Posts';
 import { readToken } from '../lib/sanity.api';
-import { getClient } from '../lib/sanity.client';
-import { getPosts, type Post, postsQuery } from '../lib/sanity.queries';
+import { getClient, getPosts, getSettings } from '../lib/sanity.client';
+import { type Post, type Settings } from '../lib/sanity.queries';
 import type { SharedPageProps } from './_app';
 
-const PreviewProvider = dynamic(() => import('../components/PreviewProvider'));
+interface DirectoryProps extends SharedPageProps {
+	posts: Post[];
+	settings: Settings;
+}
 
-export const getStaticProps: GetStaticProps<
-	SharedPageProps & {
-		posts: Post[];
-	}
-> = async ({ draftMode = false }) => {
-	const client = getClient(draftMode ? { token: readToken } : undefined);
-	const posts = await getPosts(client);
-	return {
-		props: {
-			draftMode,
-			token: draftMode ? readToken : '',
-			posts,
-		},
-	};
-};
+interface Query {
+	[key: string]: string;
+}
 
-function BlogDirectory(props: InferGetStaticPropsType<typeof getStaticProps>) {
-	const [posts] = useLiveQuery<Post[]>(props.posts, postsQuery);
-
-	console.info('draftMode', props.draftMode);
-	console.info('token', props.token);
+export default function BlogDirectory(props: DirectoryProps) {
 	if (props.draftMode && props.token) {
-		return (
-			<PreviewProvider previewToken={props.token} draftMode={props.draftMode}>
-				<PreviewPosts posts={posts} />
-				<div className="prose prose-blue p-8">
-					<a href="/api/disable-draft">Exit preview</a>
-				</div>
-			</PreviewProvider>
-		);
+		return <PreviewIndexPage posts={props.posts} settings={props.settings} />;
 	}
 
 	return (
 		<Page className={'bg-inherit p-8 min-h-[660px]'}>
-			<Posts posts={posts} />
+			<Posts posts={props.posts} />
 		</Page>
 	);
 }
 
-export default BlogDirectory;
+export const getStaticProps: GetStaticProps<DirectoryProps, Query> = async (
+	ctx,
+) => {
+	const { draftMode = false } = ctx;
+	const client = getClient(draftMode ? { token: readToken } : undefined);
+
+	const [settings, posts = []] = await Promise.all([
+		getSettings(client),
+		getPosts(client),
+	]);
+
+	return {
+		props: {
+			posts,
+			settings,
+			draftMode,
+			token: draftMode ? readToken : '',
+		},
+	};
+};
 
 BlogDirectory.getLayoutContext = (): LayoutContextProps => ({
 	showSideNav: true,

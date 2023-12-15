@@ -16,7 +16,7 @@ import { twMerge } from 'tailwind-merge';
 import { urlForImage } from '../lib/sanity.image';
 import { type Post } from '../lib/sanity.queries';
 
-const H4 = (props) => {
+const H4 = (props: any) => {
 	const hexColor = getRandomHexColor();
 	return (
 		<H4Base className={twMerge(`text-inverse text-[${hexColor}]`)} {...props} />

@@ -8,7 +8,7 @@ import {
 } from 'next/constants.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { loadEnv } from './src/config/loadEnv.mjs';
+import { loadEnv } from './config/loadEnv.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -40,6 +40,16 @@ const nextConfig = (phase) => {
 				net: false,
 				tls: false,
 			};
+
+			config.resolve.alias = {
+				...config.resolve.alias,
+				lib: path.resolve(__dirname, 'lib'),
+				components: path.resolve(__dirname, 'components'),
+				pages: path.resolve(__dirname, 'pages'),
+				plugins: path.resolve(__dirname, 'plugins'),
+				schemas: path.resolve(__dirname, 'schemas'),
+			};
+
 			return config;
 		},
 		env: {
@@ -65,6 +75,7 @@ const nextConfig = (phase) => {
 				'www.storage.cloud.google.com',
 				'storage.cloud.google.com',
 				'cdn.sanity.io',
+				'source.unsplash.com',
 			],
 		},
 	};

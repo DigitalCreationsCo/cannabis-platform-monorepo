@@ -16,27 +16,27 @@ const noOverlayWorkaroundScript = `
   })
 `;
 export default class MainDocument extends Document {
-	static async getInitialProps(ctx: DocumentContext) {
-		const originalRenderPage = ctx.renderPage;
+	// static async getInitialProps(ctx: DocumentContext) {
+	// 	const originalRenderPage = ctx.renderPage;
 
-		// Run the React rendering logic synchronously
-		ctx.renderPage = () =>
-			originalRenderPage({
-				// Useful for wrapping the whole react tree
-				enhanceApp: (App) => App,
-				// Useful for wrapping in a per-page basis
-				enhanceComponent: (Component) => Component,
-			});
+	// 	// Run the React rendering logic synchronously
+	// 	ctx.renderPage = () =>
+	// 		originalRenderPage({
+	// 			// Useful for wrapping the whole react tree
+	// 			enhanceApp: (App) => App,
+	// 			// Useful for wrapping in a per-page basis
+	// 			enhanceComponent: (Component) => Component,
+	// 		});
 
-		const initialProps = await Document.getInitialProps(ctx);
-		return {
-			...initialProps,
-		};
-	}
+	// 	const initialProps = await Document.getInitialProps(ctx);
+	// 	return {
+	// 		...initialProps,
+	// 	};
+	// }
 
 	render() {
 		return (
-			<Html data-theme="cannabis" className="scroll-smooth">
+			<Html lang="en" data-theme="cannabis" className="scroll-smooth">
 				<Head title="Grascannabis.org - Cannabis, Delivered.">
 					<meta name="Gras App" content="Built by Gras Inc." />
 					{process.env.NODE_ENV !== 'production' && (
