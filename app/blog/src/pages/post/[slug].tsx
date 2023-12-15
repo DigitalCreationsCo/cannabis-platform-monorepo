@@ -1,45 +1,46 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Page, type LayoutContextProps } from '@cd/ui-lib';
-import type { GetStaticProps, InferGetStaticPropsType } from 'next';
-import { useLiveQuery } from 'next-sanity/preview';
-import dynamic from 'next/dynamic';
+import type { GetStaticProps } from 'next';
 import Head from 'next/head';
-import { Post as PostComponent, PreviewPost } from '../../components';
+import PreviewPostPage from 'components/PreviewPostPage';
+import { Post as PostComponent } from '../../components';
 import { readToken } from '../../lib/sanity.api';
-import { getClient } from '../../lib/sanity.client';
-import { urlForImage } from '../../lib/sanity.image';
 import {
-	getPost,
-	type Post,
-	postBySlugQuery,
-	postSlugsQuery,
-} from '../../lib/sanity.queries';
+	getAllPostsSlugs,
+	getClient,
+	getPostAndMoreStories,
+	getSettings,
+} from '../../lib/sanity.client';
+import { urlForImage } from '../../lib/sanity.image';
+import { type Post, type Settings } from '../../lib/sanity.queries';
 import type { SharedPageProps } from '../_app';
+
+interface PageProps extends SharedPageProps {
+	post: Post;
+	morePosts: Post[];
+	settings?: Settings;
+}
 
 interface Query {
 	[key: string]: string;
 }
 
-const PreviewProvider = dynamic(
-	() => import('../../components/PreviewProvider'),
-);
-
 export const getStaticPaths = async () => {
-	const client = getClient();
-	const slugs = await client.fetch(postSlugsQuery);
+	const slugs = await getAllPostsSlugs();
 	return {
 		paths: slugs?.map(({ slug }) => `/post/${slug}`) || [],
 		fallback: 'blocking',
 	};
 };
 
-export const getStaticProps: GetStaticProps<
-	SharedPageProps & {
-		post: Post;
-	},
-	Query
-> = async ({ draftMode = false, params = {} }) => {
+export const getStaticProps: GetStaticProps<PageProps, Query> = async (ctx) => {
+	const { draftMode = false, params = {} } = ctx;
+
 	const client = getClient(draftMode ? { token: readToken } : undefined);
-	const post = await getPost(client, params.slug);
+	const [settings, { post, morePosts }] = await Promise.all([
+		getSettings(client),
+		getPostAndMoreStories(client, params.slug),
+	]);
 
 	if (!post) {
 		return {
@@ -49,28 +50,21 @@ export const getStaticProps: GetStaticProps<
 
 	return {
 		props: {
+			post,
+			morePosts,
+			settings,
 			draftMode,
 			token: draftMode ? readToken : '',
-			post,
 		},
 	};
 };
 
-export default function ProjectSlugRoute(
-	props: InferGetStaticPropsType<typeof getStaticProps>,
-) {
-	const [post] = useLiveQuery(props.post, postBySlugQuery, {
-		slug: props.post.slug.current,
-	});
+export default function ProjectSlugRoute(props: PageProps) {
+	const { settings, post, morePosts, draftMode } = props;
 
-	if (props.draftMode && props.token) {
+	if (draftMode) {
 		return (
-			<PreviewProvider previewToken={props.token} draftMode={props.draftMode}>
-				<PreviewPost post={post} />
-				<div className="prose prose-lg px-4 prose-blue clear-both py-16 mx-auto">
-					<a href="/api/disable-draft">Exit preview</a>
-				</div>
-			</PreviewProvider>
+			<PreviewPostPage post={post} morePosts={morePosts} settings={settings!} />
 		);
 	}
 

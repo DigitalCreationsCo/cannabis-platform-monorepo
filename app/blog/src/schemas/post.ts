@@ -1,5 +1,7 @@
+import { format } from 'date-fns-tz';
 import { defineField, defineType } from 'sanity';
 import { AutoPreviewPane } from '../components';
+import author from './author';
 
 export default defineType({
 	name: 'post',
@@ -10,16 +12,18 @@ export default defineType({
 			name: 'title',
 			title: 'Title',
 			type: 'string',
+			validation: (rule) => rule.required(),
 		}),
 		defineField({
 			name: 'slug',
 			title: 'Slug',
 			type: 'slug',
-			validation: (Rule) => Rule.required(),
 			options: {
 				source: 'title',
 				maxLength: 96,
+				isUnique: (value, context) => context.defaultIsUnique(value, context),
 			},
+			validation: (Rule) => Rule.required(),
 		}),
 		defineField({
 			name: 'excerpt',
@@ -39,6 +43,18 @@ export default defineType({
 			name: 'body',
 			title: 'Body',
 			type: 'blockContent',
+		}),
+		defineField({
+			name: 'date',
+			title: 'Date',
+			type: 'datetime',
+			initialValue: () => new Date().toISOString(),
+		}),
+		defineField({
+			name: 'author',
+			title: 'Author',
+			type: 'reference',
+			to: [{ type: author.name }],
 		}),
 		defineField({
 			name: 'shareImage',
@@ -62,15 +78,20 @@ export default defineType({
 			},
 		}),
 	],
-	// preview: {
-	// 	select: {
-	// 		title: 'title',
-	// 		author: 'author.name',
-	// 		media: 'mainImage',
-	// 	},
-	// 	prepare(selection) {
-	// 		const { author } = selection;
-	// 		return { ...selection, subtitle: author && `by ${author}` };
-	// 	},
-	// },
+	preview: {
+		select: {
+			title: 'title',
+			author: 'author.name',
+			date: 'date',
+			media: 'mainImage',
+		},
+		prepare({ title, media, author, date }) {
+			const subtitles = [
+				author && `by ${author}`,
+				date && `on ${format(date, 'LLL d, yyyy')}`,
+			].filter(Boolean);
+
+			return { title, media, subtitle: subtitles.join(' ') };
+		},
+	},
 });

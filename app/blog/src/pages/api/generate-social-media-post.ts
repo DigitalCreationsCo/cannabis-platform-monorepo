@@ -21,7 +21,7 @@ const imageClient = createImageClient({
 });
 
 // new posts in sanity data lake will trigger this endpoint, to create a social media shareImage, and share to social media via Make Webhook
-export default async function generateSocialMediaPost(req, res) {
+export default async function generateSocialMediaPost(req: any, res: any) {
 	// Generate the image when Sanity's webhook hits your API
 	const { imageUrl, text, _id, _type } = req.body;
 	try {

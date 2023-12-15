@@ -23,6 +23,11 @@
       }
     ],
     "paths": {
+      "lib/*": ["./lib/*"],
+      "components/*": ["./components/*"],
+      "pages/*": ["./pages/*"],
+      "plugins/*": ["./plugins/*"],
+      "schemas/*": ["./schemas/*"],
       "@cd/ai": [
         "../../../packages/ai/index"
       ],

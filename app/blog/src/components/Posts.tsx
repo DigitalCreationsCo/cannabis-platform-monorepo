@@ -10,15 +10,11 @@ function Posts({ posts = [] }: { posts: Post[] }) {
 			<Head>
 				<title>{title}</title>
 			</Head>
-			{/* <Grid className="grid-flow-col-dense auto-cols-min auto-rows-min gap-4"> */}
 			<div className="flex flex-wrap gap-4">
-				{posts.length ? (
-					posts.map((post) => <InfoCard key={post._id} data={post} />)
-				) : (
-					<div>Welcome. There no posts here.</div>
-				)}
+				{posts.map((post) => (
+					<InfoCard key={post._id} data={post} />
+				))}
 			</div>
-			{/* </Grid> */}
 		</>
 	);
 }
