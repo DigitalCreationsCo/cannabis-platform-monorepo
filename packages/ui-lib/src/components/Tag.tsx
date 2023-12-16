@@ -32,5 +32,5 @@ export default Tag;
 type TagProps = {
 	Icon?: ((props: SVGAttributes<SVGElement>) => JSX.Element) | null;
 	onClick?: MouseEventHandler<HTMLElement> & ReactEventHandler<Element>;
-	className: string | string[];
+	className?: string | string[];
 } & PropsWithChildren;

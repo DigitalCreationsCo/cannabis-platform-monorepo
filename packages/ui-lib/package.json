@@ -12,7 +12,7 @@
 	},
 	"devDependencies": {
 		"@babel/preset-env": "^7.23.2",
-		"@babel/preset-react": "^7.22.15",
+		"@babel/preset-react": "7.22.15",
 		"@babel/preset-typescript": "^7.23.2",
 		"@carbon/icons-react": "11.16.0",
 		"@storybook/addon-essentials": "7.4.6",

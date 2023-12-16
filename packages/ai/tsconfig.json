@@ -3,8 +3,8 @@
 	"extends": "../../tsconfig.base.json",
 	"compilerOptions": {
 		"baseUrl": ".",
-		"target": "es2020",
-		"lib": ["es2020"],
+		"target": "es2015",
+		"lib": ["es2015"],
 		"module": "es2020",
 		"moduleResolution": "node",
 		"paths": {

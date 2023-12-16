@@ -1,4 +1,3 @@
-import { formatToTimeZone } from '@cd/core-lib';
 import {
 	Button,
 	H1,
@@ -11,12 +10,13 @@ import {
 import icons from '@cd/ui-lib/src/icons';
 import { PortableText } from '@portabletext/react';
 import Image from 'next/image';
-import Router from 'next/router';
+import { default as Router } from 'next/router';
 import { twMerge } from 'tailwind-merge';
 import { urlForImage } from '../lib/sanity.image';
 import { type Post } from '../lib/sanity.queries';
+import Date from './PostDate';
 
-const H4 = (props) => {
+const H4 = (props: any) => {
 	const hexColor = getRandomHexColor();
 	return (
 		<H4Base className={twMerge(`text-inverse text-[${hexColor}]`)} {...props} />
@@ -28,7 +28,7 @@ export default function Post({ post }: { post: Post }) {
 			<BackButton />
 			<div>
 				<Paragraph className="post__date tracking-wider text-inverse inline">
-					{formatToTimeZone(post._createdAt, 'EST', 'MM-dd-yyyy hh:mm')}
+					<Date dateString={post._createdAt} />
 				</Paragraph>
 				{'  '}
 				<Paragraph className="text-inverse inline">{post.categories}</Paragraph>
@@ -74,12 +74,12 @@ export default function Post({ post }: { post: Post }) {
 	);
 }
 
-function BackButton() {
+function BackButton({ className }: { className?: string }) {
 	return (
 		<Button
 			size="sm"
 			bg="transparent"
-			className="text-dark self-start  sm:py-0"
+			className={twMerge('text-dark self-start sm:py-0', className)}
 			onClick={() => Router.back()}
 		>
 			<IconWrapper Icon={icons.ArrowLeft} className="pr-1" />
