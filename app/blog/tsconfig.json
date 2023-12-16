@@ -1,73 +1,49 @@
 {
-  "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "target": "ES2015",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "ES2015"
-    ],
-    "allowJs": true,
-    "forceConsistentCasingInFileNames": true,
-    "esModuleInterop": true,
-    "module": "es2020",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "jsx": "preserve",
-    "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
-    "baseUrl": "./src",
-    "paths": {
-      "lib/*": ["./lib/*"],
-      "components/*": ["./components/*"],
-      "components": ["./components/index"],
-      "plugins/*": ["./plugins/*"],
-      "schemas/*": ["./schemas/*"],
-      "@cd/ai": [
-        "../../../packages/ai/index"
-      ],
-      "@cd/ui-lib": [
-        "../../../packages/ui-lib/src/index"
-      ],
-      "@cd/ui-lib/*": [
-        "../../../packages/ui-lib/*"
-      ],
-      "@cd/core-lib": [
-        "../../../packages/core-lib/src/index"
-      ],
-      "@cd/core-lib/*": [
-        "../../../packages/core-lib/*"
-      ],
-      "@cd/data-access": [
-        "../../../packages/data-access/src/index"
-      ],
-      "@cd/data-access/*": [
-        "../../../packages/data-access/*"
-      ],
-      "@cd/eslint-config": [
-        "../../../packages/eslint-config/src/index"
-      ]
-    }
-  },
-  "exclude": [
-    "**/node_modules",
-    "**/.*/**",
-    "./.next/**"
-  ],
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.mts",
-    "**/*.js",
-    "**/*.cjs",
-    "**/*.mjs",
-    "**/*.jsx",
-    "**/*.json"
-  ]
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"extends": "../../tsconfig.base.json",
+	"compilerOptions": {
+		"target": "ES2015",
+		"lib": ["dom", "dom.iterable", "ES2015"],
+		"allowJs": true,
+		"forceConsistentCasingInFileNames": true,
+		"esModuleInterop": true,
+		"module": "es2020",
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"jsx": "preserve",
+		"incremental": true,
+		"plugins": [
+			{
+				"name": "next"
+			}
+		],
+		"baseUrl": ".",
+		"paths": {
+			"lib/*": ["./src/lib/*"],
+			"components/*": ["./src/components/*"],
+			"components": ["./src/components/index"],
+			"plugins/*": ["./src/plugins/*"],
+			"schemas/*": ["./src/schemas/*"],
+			"@cd/ai": ["../../packages/ai/index"],
+			"@cd/ui-lib": ["../../packages/ui-lib/src/index"],
+			"@cd/ui-lib/*": ["../../packages/ui-lib/*"],
+			"@cd/core-lib": ["../../packages/core-lib/src/index"],
+			"@cd/core-lib/*": ["../../packages/core-lib/*"],
+			"@cd/data-access": ["../../packages/data-access/src/index"],
+			"@cd/data-access/*": ["../../packages/data-access/*"],
+			"@cd/eslint-config": ["../../packages/eslint-config/src/index"]
+		}
+	},
+	"exclude": ["**/node_modules", "**/.*/**", "./.next/**"],
+	"include": [
+		"next-env.d.ts",
+		"**/*.ts",
+		"**/*.tsx",
+		"**/*.mts",
+		"**/*.js",
+		"**/*.cjs",
+		"**/*.mjs",
+		"**/*.jsx",
+		"**/*.json"
+	]
 }

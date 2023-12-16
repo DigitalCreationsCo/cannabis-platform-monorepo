@@ -15,12 +15,15 @@ async function init(): Promise<SatoriOptions['fonts']> {
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-expect-error
 		globalThis.Intl.Segmenter = await createIntlSegmenterPolyfill(
-			fetch(new URL('public/break_iterator.wasm', import.meta.url)),
+			fetch(new URL('../../../public/break_iterator.wasm', import.meta.url)),
 		);
 	}
 
 	const fontData = await fetch(
-		new URL('public/Inter-Bold.woff', import.meta.url),
+		new URL(
+			'../../../public/fonts/EncodeSans-VariableFont_wdth,wght.ttf',
+			import.meta.url,
+		),
 	).then((res) => res.arrayBuffer());
 
 	return [{ name: 'Inter', data: fontData, style: 'normal', weight: 700 }];
