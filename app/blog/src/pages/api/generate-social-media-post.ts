@@ -66,7 +66,7 @@ export default async function generateSocialMediaPost(req: any, res: any) {
 		const { title, slug, excerpt, mainImage, shareImage } = post;
 		console.info('image url: ', shareImage.url);
 
-		const contentUrl = resolveUrl(`/post/${slug.current}`);
+		const contentUrl = resolveUrl(`/post/${slug}`);
 
 		// post to automation webhook that will use Buffer API to publish posts
 		// await axios.post(process.env.MAKE_GENERATE_SOCIAL_POST_WEBHOOK as string, {

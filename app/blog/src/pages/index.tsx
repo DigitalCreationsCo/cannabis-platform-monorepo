@@ -1,11 +1,11 @@
-import { type LayoutContextProps, Page } from '@cd/ui-lib';
+import { type LayoutContextProps } from '@cd/ui-lib';
 import { type GetStaticProps } from 'next';
+import IndexPage from 'components/IndexPage';
 import PreviewIndexPage from 'components/PreviewIndexPage';
 import { readToken } from '../lib/sanity.api';
 import { getClient, getPosts, getSettings } from '../lib/sanity.client';
 import { type Post, type Settings } from '../lib/sanity.queries';
-import type { SharedPageProps } from './_app';
-import IndexPage from 'components/IndexPage';
+import { type SharedPageProps } from './_app';
 
 interface DirectoryProps extends SharedPageProps {
 	posts: Post[];
@@ -20,7 +20,7 @@ export default function BlogDirectory(props: DirectoryProps) {
 	if (props.draftMode && props.token) {
 		return <PreviewIndexPage posts={props.posts} settings={props.settings} />;
 	}
-	return <IndexPage posts={props.posts} settings={props.settings} />
+	return <IndexPage posts={props.posts} settings={props.settings} />;
 }
 
 export const getStaticProps: GetStaticProps<DirectoryProps, Query> = async (

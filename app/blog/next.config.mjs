@@ -35,21 +35,30 @@ const nextConfig = (phase) => {
 	const config = {
 		basePath: '/blog',
 		webpack: (config) => {
+			// if (!config.resolve) config.resolve = {};
+
 			config.resolve.fallback = {
 				...config.resolve.fallback,
 				net: false,
 				tls: false,
 			};
 
-			config.resolve.alias = {
-				...config.resolve.alias,
-				lib: path.resolve(__dirname, 'lib'),
-				components: path.resolve(__dirname, 'components'),
-				pages: path.resolve(__dirname, 'pages'),
-				plugins: path.resolve(__dirname, 'plugins'),
-				schemas: path.resolve(__dirname, 'schemas'),
+			const customAliases = {
+				lib: path.resolve(__dirname, 'src/lib'),
+				components: path.resolve(__dirname, 'src/components'),
+				pages: path.resolve(__dirname, 'src/pages'),
+				plugins: path.resolve(__dirname, 'src/plugins'),
+				schemas: path.resolve(__dirname, 'src/schemas'),
 			};
 
+			if (!config.resolve.alias) {
+				config.resolve.alias = { ...customAliases };
+			} else {
+				config.resolve.alias = {
+					...config.resolve.alias,
+					...customAliases,
+				};
+			}
 			return config;
 		},
 		env: {

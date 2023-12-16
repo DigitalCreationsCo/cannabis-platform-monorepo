@@ -1,3 +1,4 @@
+import { Page } from '@cd/ui-lib';
 import { notFound } from 'next/navigation';
 import MoreStories from 'components/MoreStories';
 import PostBody from 'components/PostBody';
@@ -27,7 +28,7 @@ export default function PostPage(props: PostPageProps) {
 	}
 
 	return (
-		<>
+		<Page className={'bg-inherit p-8 min-h-[660px]'}>
 			<PostPageHead settings={settings} post={post} />
 
 			{preview && !post ? (
@@ -48,6 +49,6 @@ export default function PostPage(props: PostPageProps) {
 					{morePosts?.length > 0 && <MoreStories posts={morePosts} />}
 				</>
 			)}
-		</>
+		</Page>
 	);
 }

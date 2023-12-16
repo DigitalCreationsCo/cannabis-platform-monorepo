@@ -1,10 +1,4 @@
-import Document, {
-	Head,
-	Html,
-	Main,
-	NextScript,
-	type DocumentContext,
-} from 'next/document';
+import Document, { Head, Html, Main, NextScript } from 'next/document';
 
 const noOverlayWorkaroundScript = `
   window.addEventListener('error', event => {
