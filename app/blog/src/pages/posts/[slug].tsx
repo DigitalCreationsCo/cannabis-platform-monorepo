@@ -3,7 +3,9 @@ import { Page, type LayoutContextProps } from '@cd/ui-lib';
 import { type GetStaticProps } from 'next';
 import Head from 'next/head';
 import { default as PostComponent } from 'components/Post';
+import PostPage from 'components/PostPage';
 import PreviewPostPage from 'components/PreviewPostPage';
+import { urlForImage } from 'lib/sanity.image';
 import { readToken } from '../../lib/sanity.api';
 import {
 	getAllPostsSlugs,
@@ -11,7 +13,6 @@ import {
 	getPostAndMoreStories,
 	getSettings,
 } from '../../lib/sanity.client';
-import { urlForImage } from '../../lib/sanity.image';
 import { type Post, type Settings } from '../../lib/sanity.queries';
 import { type SharedPageProps } from '../_app';
 
@@ -28,7 +29,7 @@ interface Query {
 export const getStaticPaths = async () => {
 	const slugs = await getAllPostsSlugs();
 	return {
-		paths: slugs?.map(({ slug }) => `/post/${slug}`) || [],
+		paths: slugs?.map(({ slug }) => `/posts/${slug}`) || [],
 		fallback: 'blocking',
 	};
 };
@@ -58,7 +59,6 @@ export const getStaticProps: GetStaticProps<PageProps, Query> = async (ctx) => {
 		},
 	};
 };
-
 export default function ProjectSlugRoute(props: PageProps) {
 	const { settings, post, morePosts, draftMode } = props;
 
@@ -67,6 +67,8 @@ export default function ProjectSlugRoute(props: PageProps) {
 			<PreviewPostPage post={post} morePosts={morePosts} settings={settings!} />
 		);
 	}
+
+	// return <PostPage post={post} morePosts={morePosts} settings={settings!} />;
 
 	return (
 		<Page className={'bg-inherit'}>
@@ -87,5 +89,5 @@ export default function ProjectSlugRoute(props: PageProps) {
 
 ProjectSlugRoute.getLayoutContext = (): LayoutContextProps => ({
 	showHeader: false,
-	showSideNav: true,
+	showSideNavOnDesktop: false,
 });

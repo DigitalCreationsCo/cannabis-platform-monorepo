@@ -45,12 +45,6 @@ export default defineType({
 			type: 'blockContent',
 		}),
 		defineField({
-			name: 'date',
-			title: 'Date',
-			type: 'datetime',
-			initialValue: () => new Date().toISOString(),
-		}),
-		defineField({
 			name: 'author',
 			title: 'Author',
 			type: 'reference',
@@ -82,7 +76,7 @@ export default defineType({
 		select: {
 			title: 'title',
 			author: 'author.name',
-			date: 'date',
+			date: '_createdAt',
 			media: 'mainImage',
 		},
 		prepare({ title, media, author, date }) {

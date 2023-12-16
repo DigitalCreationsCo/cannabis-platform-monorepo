@@ -7,11 +7,14 @@ import type { Post } from 'lib/sanity.queries';
 export default function PostPreview({
 	title,
 	mainImage,
-	date,
+	_createdAt,
 	excerpt,
 	author,
 	slug,
-}: Pick<Post, 'title' | 'mainImage' | 'date' | 'excerpt' | 'author' | 'slug'>) {
+}: Pick<
+	Post,
+	'title' | 'mainImage' | '_createdAt' | 'excerpt' | 'author' | 'slug'
+>) {
 	return (
 		<div>
 			<div className="mb-5">
@@ -23,12 +26,15 @@ export default function PostPreview({
 				/>
 			</div>
 			<h3 className="mb-3 text-3xl leading-snug">
-				<Link href={`/posts/${slug}`} className="hover:underline">
+				<Link
+					href={`/posts/${slug}`}
+					className="hover:underline decoration-primary"
+				>
 					{title}
 				</Link>
 			</h3>
 			<div className="mb-4 text-lg">
-				<Date dateString={date as string} />
+				<Date dateString={_createdAt} />
 			</div>
 			{excerpt && <p className="mb-4 text-lg leading-relaxed">{excerpt}</p>}
 			{author && <Avatar name={author.name} picture={author.picture} />}

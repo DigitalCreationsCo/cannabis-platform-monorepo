@@ -5,9 +5,9 @@ import Date from './PostDate';
 import PostTitle from './PostTitle';
 
 export default function PostHeader(
-	props: Pick<Post, 'title' | 'mainImage' | 'date' | 'author' | 'slug'>,
+	props: Pick<Post, 'title' | 'mainImage' | '_createdAt' | 'author' | 'slug'>,
 ) {
-	const { title, mainImage, date, author, slug } = props;
+	const { title, mainImage, _createdAt, author, slug } = props;
 	return (
 		<>
 			<PostTitle>{title}</PostTitle>
@@ -27,7 +27,7 @@ export default function PostHeader(
 					{author && <Avatar name={author.name} picture={author.picture} />}
 				</div>
 				<div className="mb-6 text-lg">
-					<Date dateString={date || ''} />
+					<Date dateString={_createdAt} />
 				</div>
 			</div>
 		</>

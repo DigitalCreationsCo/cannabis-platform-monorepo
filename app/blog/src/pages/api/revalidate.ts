@@ -68,7 +68,7 @@ async function queryStaleRoutes(
 	body: any,
 	// Pick<
 	// 	ParsedBody<SanityDocument>['body'],
-	// 	'_type' | '_id' | 'date' | 'slug'
+	// 	'_type' | '_id' | '_createdAt' | 'slug'
 	// >,
 ): Promise<StaleRoute[]> {
 	const client = createClient({
@@ -89,9 +89,9 @@ async function queryStaleRoutes(
 			// Assume that the post document was deleted. Query the datetime used to sort "More stories" to determine if the post was in the list.
 			const moreStories = await client.fetch(
 				groq`count(
-          *[_type == "post"] | order(date desc, _updatedAt desc) [0...3] [dateTime(date) > dateTime($date)]
+          *[_type == "post"] | order(_createdAt desc, _updatedAt desc) [0...3] [dateTime(_createdAt) > dateTime($_createdAt)]
         )`,
-				{ date: body.date },
+				{ date: body._createdAt },
 			);
 			// If there's less than 3 posts with a newer date, we need to revalidate everything
 			if (moreStories < 3) {
@@ -130,7 +130,7 @@ async function mergeWithMoreStories(
 	slugs: string[],
 ): Promise<string[]> {
 	const moreStories = await client.fetch(
-		groq`*[_type == "post"] | order(date desc, _updatedAt desc) [0...3].slug.current`,
+		groq`*[_type == "post"] | order(_createdAt desc, _updatedAt desc) [0...3].slug.current`,
 	);
 	if (slugs.some((slug) => moreStories.includes(slug))) {
 		const allSlugs = await _queryAllRoutes(client);

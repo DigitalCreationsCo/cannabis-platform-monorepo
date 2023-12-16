@@ -39,7 +39,7 @@ export default function PostPage(props: PostPageProps) {
 						<PostHeader
 							title={post.title}
 							mainImage={post.mainImage}
-							date={post.date}
+							_createdAt={post._createdAt}
 							author={post.author}
 							slug={post.slug}
 						/>
