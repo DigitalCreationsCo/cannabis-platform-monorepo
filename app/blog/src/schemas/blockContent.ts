@@ -56,5 +56,25 @@ export default defineType({
 				],
 			},
 		}),
+		{
+			type: 'image',
+			options: {
+				hotspot: true,
+			},
+			fields: [
+				{
+					title: 'Image caption',
+					name: 'caption',
+					type: 'string',
+					description: 'Caption displayed below the image.',
+				},
+				{
+					title: 'Alternative text',
+					name: 'alt',
+					type: 'string',
+					description: 'Important for SEO and accessiblity.',
+				},
+			],
+		},
 	],
 });

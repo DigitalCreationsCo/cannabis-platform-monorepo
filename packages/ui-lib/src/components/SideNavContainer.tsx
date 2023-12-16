@@ -35,10 +35,11 @@ function SideNavContainer({
 		drawerOverlay: ['drawer-overlay h-full lg:hidden'],
 
 		sideNavComponentContainer: [
+			'w-full',
 			!showSideNav && 'hidden',
 			'bg-inherit',
-			'lg:w-[198px] h-fit',
-			'lg:ml-2 py-8',
+			'w-full h-fit',
+			'py-24',
 		],
 	};
 	return (

@@ -3,7 +3,7 @@
 	"extends": "./tsconfig.json",
 	"compilerOptions": {
 		"target": "ES2015",
-		"module": "ES2015",
+		"module": "es2020",
 		"noEmit": false,
 		"declaration": true,
 		"declarationMap": false,

@@ -19,19 +19,13 @@ interface LayoutContextProps {
 	showTopBar?: boolean;
 	showHeader?: boolean;
 	showFooter?: boolean;
+	showSideNavOnDesktop?: boolean;
 	TopBarComponent?: React.ElementType;
 }
 
 interface LayoutProps extends LayoutContextProps, PropsWithChildren {
-	showSideNavOnDesktop?: boolean;
-	showSideNav?: boolean;
-	showHeader?: boolean;
-	showTopBar?: boolean;
 	SideNavComponent: React.ElementType;
 	signOut?: () => void;
-	onSearchChange?: ChangeEventHandler<HTMLInputElement> &
-		ReactEventHandler<Element>;
-	placeholder?: string;
 	isSession: boolean;
 	isModalVisible?: boolean;
 	className?: string | string[];
@@ -41,11 +35,11 @@ interface LayoutProps extends LayoutContextProps, PropsWithChildren {
 // header goes in here as generic component with props
 function Layout({
 	showSideNav = true,
-	showHeader = true,
-	showTopBar = true,
 	showSideNavOnDesktop = true,
+	showHeader = true,
 	showHeaderDrawer = true,
 	showSearch = true,
+	showTopBar = true,
 	showFooter = true,
 	SideNavComponent,
 	TopBarComponent,

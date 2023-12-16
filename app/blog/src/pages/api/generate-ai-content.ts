@@ -3,7 +3,8 @@ import { openai } from '@cd/ai';
 import { type NextApiResponse } from 'next';
 import nc from 'next-connect';
 import { createClient } from 'next-sanity';
-import { getCategories, type Post } from '../../lib/sanity.queries';
+import { getCategories } from 'lib/sanity.client';
+import { type Post } from 'lib/sanity.queries';
 
 // generate cms content with openai, by providing a list of post titles to the trained model.
 const handler = nc();

@@ -1,7 +1,6 @@
 import { type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 import AnimationWrapper from './AnimationWrapper';
-import { Tiny } from './Typography';
 
 type PageProps = {
 	gradient?: 'pink' | 'green';

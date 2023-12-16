@@ -1,20 +1,14 @@
 import { LiveQueryProvider } from 'next-sanity/preview';
-
 import { useMemo } from 'react';
 import { getClient } from '../lib/sanity.client';
 
 export default function PreviewProvider({
 	children,
-	previewToken,
-	draftMode,
+	token,
 }: {
 	children: React.ReactNode;
-	previewToken: string;
-	draftMode: boolean;
+	token: string;
 }) {
-	const client = useMemo(
-		() => getClient(draftMode ? { token: previewToken } : undefined),
-		[previewToken, draftMode],
-	);
+	const client = useMemo(() => getClient({ token }), [token]);
 	return <LiveQueryProvider client={client}>{children}</LiveQueryProvider>;
 }
