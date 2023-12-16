@@ -1,7 +1,3 @@
-/* eslint-disable sonarjs/no-small-switch */
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-// @ts-nocheck
-/* eslint-disable sonarjs/no-duplicate-string */
 /**
  * This config is used to set up Sanity Studio that's mounted on the `/pages/studio/[[...index]].tsx` route
  */
@@ -9,26 +5,25 @@ import { assist } from '@sanity/assist';
 import { visionTool } from '@sanity/vision';
 import { defineConfig } from 'sanity';
 import { unsplashImageAsset } from 'sanity-plugin-asset-source-unsplash';
-import { Iframe, type IframeOptions } from 'sanity-plugin-iframe-pane';
 import { deskTool } from 'sanity/desk';
-import { apiVersion, dataset, projectId } from './src/lib/sanity.api';
+import { presentationTool } from 'sanity/presentation';
+import settings from 'schemas/settings';
+import {
+	apiVersion,
+	dataset,
+	DRAFT_MODE_ROUTE,
+	projectId,
+} from './src/lib/sanity.api';
+import { locate } from './src/plugins/locate';
+import { previewDocumentNode } from './src/plugins/previewPane';
+import { settingsStructure, settingsPlugin } from './src/plugins/settings';
 import { schema } from './src/schemas';
 
-function resolveUrl(href = '/') {
+export function resolveUrl(href = '/') {
 	return process.env.NODE_ENV === 'production'
 		? `${process.env.NEXT_PUBLIC_BLOG_APP_URL}${href}`
 		: `${process.env.NEXT_PUBLIC_BLOG_APP_URL}/blog${href}`;
 }
-
-const iframeOptions = {
-	url: (document) =>
-		document?.slug?.current
-			? resolveUrl(`/api/draft?slug=${document.slug.current}`)
-			: resolveUrl(),
-	// url: resolveUrl('/api/draft'),
-	showDisplayUrl: true,
-	reload: { button: true },
-} satisfies IframeOptions;
 
 export default defineConfig({
 	basePath: '/blog/studio',
@@ -42,6 +37,9 @@ export default defineConfig({
 
 	plugins: [
 		deskTool({
+			structure: settingsStructure(settings),
+			// `defaultDocumentNode` is responsible for adding a “Preview” tab to the document pane
+			defaultDocumentNode: previewDocumentNode(),
 			// structure: (S) => {
 			// 	return S.list()
 			// 		.menuItemGroups()
@@ -64,25 +62,37 @@ export default defineConfig({
 			// and have access to content in the form in real-time.
 			// It's part of the Studio's “Structure Builder API” and is documented here:
 			// https://www.sanity.io/docs/structure-builder-reference
-			defaultDocumentNode: (S, { schemaType }) => {
-				switch (schemaType) {
-					case 'post':
-						return S.document().views([
-							// Default form view
-							S.view.form(),
-							// Preview
-							S.view.component(Iframe).options(iframeOptions).title('Preview'),
-						]);
-						break;
-					default:
-						return S.document().views([S.view.form()]);
-				}
+			// defaultDocumentNode: (S, { schemaType }) => {
+			// 	switch (schemaType) {
+			// 		case 'post':
+			// 			return S.document().views([
+			// 				// Default form view
+			// 				S.view.form(),
+			// 				// Preview
+			// 				S.view.component(Iframe).options(iframeOptions).title('Preview'),
+			// 			]);
+			// 			break;
+			// 		default:
+			// 			return S.document().views([S.view.form()]);
+			// 	}
+			// },
+		}),
+		presentationTool({
+			locate,
+			previewUrl: {
+				origin: resolveUrl(),
+				draftMode: {
+					enable: DRAFT_MODE_ROUTE,
+				},
 			},
 		}),
+		// Configures the global "new document" button, and document actions, to suit the Settings document singleton
+		settingsPlugin({ type: settings.name }),
+		// Add an image asset source for Unsplash
+		unsplashImageAsset(),
 		// Vision lets you query your content with GROQ in the studio
 		// https://www.sanity.io/docs/the-vision-plugin
 		visionTool({ defaultApiVersion: apiVersion }),
-		unsplashImageAsset(),
 		assist(),
 	],
 });

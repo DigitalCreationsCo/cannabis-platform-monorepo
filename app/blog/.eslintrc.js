@@ -1,3 +1,5 @@
+require('@cd/eslint-config/src/patch/modern-module-resolution');
+
 const { getDefaultIgnorePatterns } = require('@cd/eslint-config/src/helpers');
 
 module.exports = {
@@ -7,6 +9,14 @@ module.exports = {
 		project: 'tsconfig.json',
 	},
 	ignorePatterns: [...getDefaultIgnorePatterns(), '.next', '.out'],
+	settings: {
+		'import/resolver': {
+			typescript: {
+				project: ['tsconfig.json'],
+			},
+			node: {},
+		},
+	},
 	extends: [
 		'@cd/eslint-config/src/bases/typescript',
 		'@cd/eslint-config/src/bases/sonar',
@@ -15,16 +25,11 @@ module.exports = {
 		'@cd/eslint-config/src/bases/react',
 		'@cd/eslint-config/src/bases/tailwind',
 		'@cd/eslint-config/src/bases/rtl',
-		// Add specific rules for nextjs
 		'plugin:@next/next/core-web-vitals',
-		// Apply prettier and disable incompatible rules
 		'@cd/eslint-config/src/bases/prettier',
 	],
 	rules: {
-		// https://github.com/vercel/next.js/discussions/16832
 		'@next/next/no-img-element': 'off',
-		// For the sake of example
-		// https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md
 		'jsx-a11y/anchor-is-valid': 'off',
 	},
 	overrides: [

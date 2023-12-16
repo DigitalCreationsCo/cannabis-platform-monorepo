@@ -105,7 +105,7 @@ export function formatToTimeZone(
 	try {
 		return formatInTimeZone(new Date(dateString), timeZone, formatStr, options);
 	} catch (error: any) {
-		console.error('formatToTimeZone: ', error.message);
+		console.error('formatToTimeZone: ', error.message, dateString, timeZone);
 		throw new Error(error.message);
 	}
 }
