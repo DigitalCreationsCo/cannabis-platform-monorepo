@@ -1,3 +1,5 @@
+require('@cd/eslint-config/src/patch/modern-module-resolution');
+
 const { getDefaultIgnorePatterns } = require('@cd/eslint-config/src/helpers');
 
 module.exports = {
@@ -7,6 +9,14 @@ module.exports = {
 		project: 'tsconfig.json',
 	},
 	ignorePatterns: [...getDefaultIgnorePatterns(), '.next', '.out'],
+	settings: {
+		'import/resolver': {
+			typescript: {
+				project: ['tsconfig.json'],
+			},
+			node: {},
+		},
+	},
 	extends: [
 		'@cd/eslint-config/src/bases/typescript',
 		'@cd/eslint-config/src/bases/sonar',
