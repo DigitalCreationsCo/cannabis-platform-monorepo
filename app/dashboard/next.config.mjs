@@ -1,6 +1,5 @@
 import { config } from 'dotenv';
 import { expand } from 'dotenv-expand';
-import withTranspiledModules from 'next-transpile-modules';
 import {
 	PHASE_DEVELOPMENT_SERVER,
 	PHASE_PRODUCTION_BUILD,
@@ -37,6 +36,12 @@ const nextConfig = (phase) => {
 	 * @type {import('next').NextConfig}
 	 */
 	const config = {
+		transpilePackages: [
+			'@cd/eslint-config',
+			'@cd/data-access',
+			'@cd/core-lib',
+			'@cd/ui-lib',
+		],
 		rewrites: async () => [
 			{
 				source: '/help',
@@ -92,12 +97,7 @@ const nextConfig = (phase) => {
 			],
 		},
 	};
-	return withTranspiledModules([
-		'@cd/ui-lib',
-		'@cd/data-access',
-		'@cd/eslint-config',
-		'@cd/core-lib',
-	])(config);
+	return config;
 };
 
 export default nextConfig;

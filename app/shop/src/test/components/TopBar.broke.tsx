@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable jest/no-commented-out-tests */
 import { type AppState } from '@cd/core-lib';
 import { mount } from 'enzyme';

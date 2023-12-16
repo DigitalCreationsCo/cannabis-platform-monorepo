@@ -1,6 +1,6 @@
 import { CogIcon } from '@sanity/icons';
 import { defineArrayMember, defineField, defineType } from 'sanity';
-import * as demo from '../../lib/demo.data';
+import * as demo from 'lib/demo.data';
 
 import OpenGraphInput from './OpenGraphInput';
 

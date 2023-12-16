@@ -1,6 +1,5 @@
 import { config } from 'dotenv';
 import { expand } from 'dotenv-expand';
-import withTranspiledModules from 'next-transpile-modules';
 import {
 	PHASE_DEVELOPMENT_SERVER,
 	PHASE_PRODUCTION_BUILD,
@@ -34,6 +33,12 @@ const nextConfig = (phase) => {
 	 */
 	const config = {
 		basePath: '/blog',
+		transpilePackages: [
+			'@cd/eslint-config',
+			'@cd/data-access',
+			'@cd/core-lib',
+			'@cd/ui-lib',
+		],
 		webpack: (config) => {
 			config.resolve.fallback = {
 				...config.resolve.fallback,
@@ -69,13 +74,7 @@ const nextConfig = (phase) => {
 			],
 		},
 	};
-
-	return withTranspiledModules([
-		'@cd/eslint-config',
-		'@cd/data-access',
-		'@cd/core-lib',
-		'@cd/ui-lib',
-	])(config);
+	return config;
 };
 
 export default nextConfig;
