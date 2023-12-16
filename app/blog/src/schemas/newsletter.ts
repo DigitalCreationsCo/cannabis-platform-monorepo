@@ -18,7 +18,7 @@ export default defineType({
 		defineField({
 			title: 'Greeting',
 			name: 'greeting',
-						type: 'string',
+			type: 'string',
 		}),
 		defineField({
 			title: 'Content',
@@ -28,13 +28,13 @@ export default defineType({
 				defineArrayMember({
 					title: 'Section',
 					type: 'section',
-				})
-			]
+				}),
+			],
 		}),
 		defineField({
 			title: 'Outro',
 			name: 'outro',
 			type: 'string',
 		}),
-	]
+	],
 });

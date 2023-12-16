@@ -12,5 +12,4 @@ export * from './url.util';
 export * from './urlBuilder';
 export * from './widget.util';
 export * from './user.util';
-export * from './type.util'
-
+export * from './type.util';

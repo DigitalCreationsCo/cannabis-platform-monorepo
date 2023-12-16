@@ -9,13 +9,14 @@ import { AnimatePresence } from 'framer-motion';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { Provider as ReduxProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session from 'supertokens-auth-react/recipe/session';
-import { LayoutContainer, TopBar } from '../components';
-import { frontendConfig } from '../config/frontendConfig';
+import TopBar from 'components/BlogTopBar';
+import LayoutContainer from 'components/LayoutContainer';
+import { frontendConfig } from '../../config/frontendConfig';
 import { wrapper } from '../redux/store';
 import '../styles/anim8-gradient.css';
 import '../styles/blog.css';
@@ -26,20 +27,39 @@ if (typeof window !== 'undefined') {
 	SuperTokensReact.init(frontendConfig() as any);
 }
 
+const PreviewProvider = lazy(() => import('../components/PreviewProvider'));
+const VisualEditing = lazy(() => import('../components/VisualEditing'));
+
+export type PageComponent = {
+	getLayoutContext?: () => LayoutContextProps;
+};
+
 export interface SharedPageProps {
 	draftMode: boolean;
 	token: string;
 }
 
-type CustomAppProps = AppProps & {
-	Component: ExtendedPageComponent;
-} & SharedPageProps;
+export interface SupertokensProps {
+	fromSupertokens: string;
+}
+
+type CustomAppProps = AppProps<SharedPageProps & SupertokensProps> & {
+	Component: PageComponent;
+};
 
 function App({ Component, ...rest }: CustomAppProps) {
-	const { store, props } = wrapper.useWrappedStore(rest);
-
+	const { store } = wrapper.useWrappedStore(rest);
 	// @ts-ignore
 	const persistor = store._persistor;
+
+	const { pageProps } = rest;
+
+	const getLayoutContext = (): LayoutContextProps => ({
+		TopBarComponent: TopBar,
+		...(Component.getLayoutContext && Component.getLayoutContext()),
+	});
+
+	const { token, draftMode } = pageProps;
 
 	const [routerLoading, setRouterLoading] = useState(true),
 		router = useRouter();
@@ -50,7 +70,7 @@ function App({ Component, ...rest }: CustomAppProps) {
 
 	useEffect(() => {
 		async function doRefresh() {
-			if (props.pageProps.fromSupertokens === 'needs-refresh') {
+			if (pageProps.fromSupertokens === 'needs-refresh') {
 				console.info('needs refresh');
 				if (await Session.attemptRefreshingSession()) {
 					location.reload();
@@ -61,16 +81,11 @@ function App({ Component, ...rest }: CustomAppProps) {
 			}
 		}
 		doRefresh();
-	}, [props.pageProps.fromSupertokens]);
+	}, [pageProps.fromSupertokens]);
 
-	if (props.pageProps.fromSupertokens === 'needs-refresh') {
+	if (pageProps.fromSupertokens === 'needs-refresh') {
 		return null;
 	}
-
-	const getLayoutContext = (): LayoutContextProps => ({
-		TopBarComponent: TopBar,
-		...(Component.getLayoutContext && Component.getLayoutContext()),
-	});
 
 	return (
 		<>
@@ -101,7 +116,18 @@ function App({ Component, ...rest }: CustomAppProps) {
 										]}
 									>
 										<>
-											<Component {...props.pageProps} />
+											{draftMode ? (
+												<PreviewProvider token={token}>
+													<Component {...pageProps} />
+												</PreviewProvider>
+											) : (
+												<Component {...pageProps} />
+											)}
+											{draftMode && (
+												<Suspense>
+													<VisualEditing />
+												</Suspense>
+											)}
 											{!routerLoading &&
 												(function (d, w, c: 'BrevoConversations') {
 													w.BrevoConversationsID =
@@ -157,10 +183,4 @@ function App({ Component, ...rest }: CustomAppProps) {
 		</>
 	);
 }
-
 export default wrapper.withRedux(App);
-
-export type ExtendedPageComponent = {
-	getLayoutContext?: () => LayoutContextProps;
-	fromSupertokens: string;
-};
