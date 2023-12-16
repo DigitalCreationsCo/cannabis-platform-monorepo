@@ -27,23 +27,27 @@ if (typeof window !== 'undefined') {
 	SuperTokensReact.init(frontendConfig() as any);
 }
 
-export interface SharedPageProps {
-	draftMode: boolean;
-	token: string;
-	getLayoutContext?: () => LayoutContextProps;
-}
-
 const PreviewProvider = lazy(() => import('../components/PreviewProvider'));
 const VisualEditing = lazy(() => import('../components/VisualEditing'));
 
-function App({
-	Component,
-	...rest
-}: AppProps<
-	SharedPageProps & {
-		fromSupertokens: string;
-	}
->) {
+export type PageComponent = {
+	getLayoutContext?: () => LayoutContextProps;
+};
+
+export interface SharedPageProps {
+	draftMode: boolean;
+	token: string;
+}
+
+export interface SupertokensProps {
+	fromSupertokens: string;
+}
+
+type CustomAppProps = AppProps<SharedPageProps & SupertokensProps> & {
+	Component: PageComponent;
+};
+
+function App({ Component, ...rest }: CustomAppProps) {
 	const { store } = wrapper.useWrappedStore(rest);
 	// @ts-ignore
 	const persistor = store._persistor;
@@ -52,7 +56,7 @@ function App({
 
 	const getLayoutContext = (): LayoutContextProps => ({
 		TopBarComponent: TopBar,
-		...(pageProps.getLayoutContext && pageProps.getLayoutContext()),
+		...(Component.getLayoutContext && Component.getLayoutContext()),
 	});
 
 	const { token, draftMode } = pageProps;
@@ -179,5 +183,4 @@ function App({
 		</>
 	);
 }
-export default App;
-// export default wrapper.withRedux(App);
+export default wrapper.withRedux(App);

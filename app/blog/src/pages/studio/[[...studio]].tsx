@@ -8,7 +8,11 @@ export { metadata } from 'next-sanity/studio/metadata';
 export { viewport } from 'next-sanity/studio/viewport';
 
 export default function StudioPage() {
-	return <NextStudio config={config} />;
+	return (
+		<div className="h-full w-full">
+			<NextStudio config={config} />;
+		</div>
+	);
 }
 
 StudioPage.getLayoutContext = (): LayoutContextProps => ({

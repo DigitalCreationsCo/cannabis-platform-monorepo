@@ -45,6 +45,6 @@ export const getStaticProps: GetStaticProps<DirectoryProps, Query> = async (
 };
 
 BlogDirectory.getLayoutContext = (): LayoutContextProps => ({
-	showSideNav: true,
 	showSearch: false,
+	showSideNavOnDesktop: false,
 });

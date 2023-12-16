@@ -12,7 +12,7 @@ const BlogNavigation = () => {
 		enabled: true,
 	}));
 	return (
-		<div className="cursor-default">
+		<div className="cursor-default w-full">
 			<GrasSignature className="text-yellow text-center">read on</GrasSignature>
 			<ul className="tabs">
 				{renderNavLinkAndSubLinks(navLinkGroups, pathname)}

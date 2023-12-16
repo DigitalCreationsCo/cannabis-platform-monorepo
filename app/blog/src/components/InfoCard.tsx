@@ -26,6 +26,8 @@ function InfoCard({ data: info, className }: InfoCardProps) {
 				'bg-dark',
 				'rounded',
 				'overflow-hidden',
+				'border-4 border-transparent',
+				'hover:border-yellow',
 				className,
 			])}
 		>
