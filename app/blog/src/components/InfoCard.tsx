@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { truncateWordsAndLeaveN } from '@cd/core-lib';
-import { FlexBox, H3, H4, Paragraph } from '@cd/ui-lib';
+import { FlexBox, H4, Paragraph } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
@@ -18,7 +18,7 @@ type InfoCardProps = {
 function InfoCard({ data: info, className }: InfoCardProps) {
 	return (
 		<Link
-			href={resolveHref('post', info.slug.current) as string}
+			href={resolveHref('post', info.slug) as string}
 			className={twMerge([
 				'flex flex-col',
 				'w-[300px]',

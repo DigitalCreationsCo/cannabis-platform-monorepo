@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Page, type LayoutContextProps } from '@cd/ui-lib';
-import type { GetStaticProps } from 'next';
+import { type GetStaticProps } from 'next';
 import Head from 'next/head';
+import { default as PostComponent } from 'components/Post';
 import PreviewPostPage from 'components/PreviewPostPage';
-import { Post as PostComponent } from '../../components';
 import { readToken } from '../../lib/sanity.api';
 import {
 	getAllPostsSlugs,
@@ -13,7 +13,7 @@ import {
 } from '../../lib/sanity.client';
 import { urlForImage } from '../../lib/sanity.image';
 import { type Post, type Settings } from '../../lib/sanity.queries';
-import type { SharedPageProps } from '../_app';
+import { type SharedPageProps } from '../_app';
 
 interface PageProps extends SharedPageProps {
 	post: Post;

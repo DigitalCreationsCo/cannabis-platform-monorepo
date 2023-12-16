@@ -6,7 +6,7 @@
 		"strict": true,
 		"target": "ES2015",
 		"lib": ["ES2015"],
-		"module": "es2020",
+		"module": "es2015",
 		"paths": {
 			"@cd/core-lib": ["../../../packages/core-lib/src/index"],
 			"@cd/data-access": ["../../../packages/data-access/src/index"],

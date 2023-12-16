@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Card } from '@sanity/ui';
 import { createIntlSegmenterPolyfill } from 'intl-segmenter-polyfill';
 import satori, { type SatoriOptions } from 'satori';
@@ -7,10 +9,10 @@ import { height, OpenGraphImage, width } from '../../components/OpenGraphImage';
 import type { Settings } from '../../lib/sanity.queries';
 
 async function init(): Promise<SatoriOptions['fonts']> {
-	if (!globalThis?.Intl?.Segmenter) {
+	if ((!globalThis?.Intl as any)?.Segmenter) {
 		console.debug('Polyfilling Intl.Segmenter');
-		// @ts-expect-error
 		globalThis.Intl = globalThis.Intl || {};
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-expect-error
 		globalThis.Intl.Segmenter = await createIntlSegmenterPolyfill(
 			fetch(new URL('public/break_iterator.wasm', import.meta.url)),
@@ -54,7 +56,7 @@ export default function OpenGraphPreview(props: Settings['ogImage']) {
 
 	// Also handle the satori render call in SWR to enable caching and only re-render when the title changes or fonts hot reload
 	const { data: __html } = useSWR(
-		[props.title, fonts satisfies SatoriOptions['fonts']],
+		[props!.title, fonts satisfies SatoriOptions['fonts']],
 		([title, fonts]) => {
 			return satori(<OpenGraphImage title={title || ''} />, {
 				width,

@@ -1,6 +1,6 @@
 import { format } from 'date-fns-tz';
 import { defineField, defineType } from 'sanity';
-import { AutoPreviewPane } from '../components';
+import { AutoPreviewPane } from '../components/AutoPreviewPane';
 import author from './author';
 
 export default defineType({
