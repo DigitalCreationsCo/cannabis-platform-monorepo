@@ -6,7 +6,7 @@
 		"strict": false,
 		"target": "ES2015",
 		"lib": ["ES2015"],
-		"module": "ES2015",
+		"module": "es2020",
 		"jsx": "preserve",
 		"paths": {
 			"@cd/core-lib": ["../../../packages/core-lib/src/index"],

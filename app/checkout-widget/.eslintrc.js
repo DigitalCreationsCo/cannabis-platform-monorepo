@@ -1,3 +1,5 @@
+require('@cd/eslint-config/src/patch/modern-module-resolution');
+
 const { getDefaultIgnorePatterns } = require('@cd/eslint-config/src/helpers');
 
 module.exports = {

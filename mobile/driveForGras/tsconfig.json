@@ -9,7 +9,7 @@
 		"target": "es2015",
 		"lib": ["dom", "dom.iterable", "es2015"],
 		"esModuleInterop": false,
-		"module": "es2015",
+		"module": "es2020",
 		"moduleResolution": "node",
 		"jsx": "react-native",
 		"incremental": true,
