@@ -21,7 +21,7 @@ export default defineConfig((options) => ({
 		'find-up',
 	],
 	platform: 'browser',
-	target: ['es2015', 'chrome70', 'edge18', 'firefox70', 'node16'],
+	target: ['es2015', 'chrome70', 'edge18', 'firefox70', 'node18'],
 	tsconfig: path.resolve('./tsconfig.build.json'),
 	sourcemap: !options.watch,
 	minify: !options.watch,

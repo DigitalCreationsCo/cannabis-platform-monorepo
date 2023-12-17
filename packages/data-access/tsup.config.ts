@@ -9,7 +9,7 @@ export default defineConfig((options) => {
 		dts: true,
 		format: ['esm', 'cjs'],
 		platform: 'node',
-		target: ['node16'],
+		target: ['node18'],
 		tsconfig: path.resolve(__dirname, './tsconfig.build.json'),
 		sourcemap: !options.watch,
 		// Do not minify node only packages to let patching possible by the consumer (ie: patch-package)

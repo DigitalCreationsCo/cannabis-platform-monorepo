@@ -14,7 +14,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    image: node:16-buster
+    image: node:18.19-buster
     env_file: 
       - .env.docker
     working_dir: /root/app/shop
