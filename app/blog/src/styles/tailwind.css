@@ -5095,16 +5095,6 @@ details > summary {
 		line-height: 1.75rem;
 	}
 
-	.md\:text-6xl {
-		font-size: 3.75rem;
-		line-height: 1;
-	}
-
-	.md\:text-5xl {
-		font-size: 3rem;
-		line-height: 1;
-	}
-
 	.md\:leading-none {
 		line-height: 1;
 	}
