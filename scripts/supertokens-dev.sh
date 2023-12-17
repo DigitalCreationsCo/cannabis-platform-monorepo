@@ -7,4 +7,4 @@ docker run \
 	-e POSTGRESQL_PORT=5432 \
 	-e POSTGRESQL_DATABASE_NAME=postgres \
 	-e POSTGRESQL_CONNECTION_URI="postgresql://postgres:RRJV@y_CK-jz9rj@db.runhqicnmxfwlzwllswi.supabase.co:5432/postgres" \
-	-d registry.supertokens.io/supertokens/supertokens-postgresql:3.14
+	-d registry.supertokens.io/supertokens/supertokens-postgresql:7.0

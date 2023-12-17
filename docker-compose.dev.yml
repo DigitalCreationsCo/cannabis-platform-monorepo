@@ -106,7 +106,7 @@ services:
   # #  - 'NODE_ENV=development'
 
   # supertokens:
-  #   image: docker.io/grasadmin/supertokens:3.14
+  #   image: docker.io/grasadmin/supertokens:7.0
   #   ports:
   #     - '3567:3567'
   #   env_file:

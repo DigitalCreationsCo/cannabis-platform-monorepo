@@ -17,7 +17,7 @@ import Session from 'supertokens-auth-react/recipe/session';
 import TopBar from 'components/BlogTopBar';
 import LayoutContainer from 'components/LayoutContainer';
 import { frontendConfig } from '../../config/frontendConfig';
-import { wrapper } from '../redux/store';
+import { wrapper } from '../store';
 import '../styles/anim8-gradient.css';
 import '../styles/blog.css';
 // eslint-disable-next-line import/no-unresolved, @typescript-eslint/no-unused-vars

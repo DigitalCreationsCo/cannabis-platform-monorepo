@@ -1,4 +1,4 @@
-import { axios } from '@cd/core-lib';
+import { axios } from '@cd/core-lib/src/axiosInstance';
 import TextContent from '@cd/core-lib/src/constants/text.constant';
 import { type SimpleCart } from '@cd/core-lib/src/types/redux.types';
 import { crypto } from '@cd/core-lib/src/utils/crypto';

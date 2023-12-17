@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import { NextResponse, type NextRequest } from 'next/server';
 
 export const config = {
@@ -42,9 +43,14 @@ export default async function middleware(req: NextRequest) {
 			console.info('middleware detected: shop path');
 			url = req.nextUrl.clone();
 
-			// eslint-disable-next-line no-case-declarations
 			const over21 = req.cookies.get('yesOver21')?.value;
-			console.info('over21', over21);
+			const isSignupComplete = req.cookies.get('isSignUpComplete')?.value;
+
+			if (url.pathname === '/browse' && isSignupComplete === 'false') {
+				url.pathname = '/signup/create-account';
+				return NextResponse.redirect(url);
+			}
+
 			// base url redirect to /browse if over21
 			if (url.pathname === '/' && over21 === 'true') {
 				url.pathname = '/browse';
@@ -52,12 +58,7 @@ export default async function middleware(req: NextRequest) {
 			}
 
 			// redirect under21 to homepage
-			if (
-				url.pathname !== '/' &&
-				pagesAllowOver21Only.includes(url.pathname) &&
-				over21 !== 'true'
-			) {
-				console.info('redirecting the youth to homepage');
+			if (pagesAllowOver21Only.includes(url.pathname) && over21 !== 'true') {
 				url.pathname = '/';
 				return NextResponse.redirect(url);
 			}

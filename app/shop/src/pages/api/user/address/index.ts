@@ -1,23 +1,40 @@
-import { urlBuilder } from '@cd/core-lib';
+import { axios, urlBuilder } from '@cd/core-lib';
 import { type AddressCreateType } from '@cd/data-access';
-import axios from 'axios';
-import { type NextApiRequest, type NextApiResponse } from 'next';
 import nc from 'next-connect';
+import NextCors from 'nextjs-cors';
+import Supertokens from 'supertokens-node';
+import { superTokensNextWrapper } from 'supertokens-node/nextjs';
+import { verifySession } from 'supertokens-node/recipe/session/framework/express';
+import { backendConfig } from '../../../../config';
 
-const handler = nc();
+Supertokens.init(backendConfig());
+
 // add address to user
-handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = nc();
+handler.post(async (req: any, res: any) => {
 	try {
-		const address: AddressCreateType = req.body;
-		console.info('address: ', address);
-		const response = await axios.post(urlBuilder.main.address(), address, {
-			headers: {
-				'Content-Type': 'application/json',
+		await NextCors(req, res, {
+			methods: ['POST'],
+			origin: process.env.NEXT_PUBLIC_SHOP_APP_URL,
+			credentials: true,
+			allowedHeaders: ['content-type', ...Supertokens.getAllCORSHeaders()],
+		});
+
+		await superTokensNextWrapper(
+			async (next) => {
+				return await verifySession()(req, res, next);
 			},
+			req,
+			res,
+		);
+
+		const address: AddressCreateType = req.body;
+		const response = await axios.post(urlBuilder.main.address(), address, {
+			headers: { ...req.headers },
 		});
 		return res.status(response.status).json(response.data);
 	} catch (error: any) {
-		console.error(error.message);
+		console.error('api add address: ', error.message);
 		return res.json({
 			success: 'false',
 			error: error.message,

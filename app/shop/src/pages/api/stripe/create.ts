@@ -1,19 +1,37 @@
-import { urlBuilder } from '@cd/core-lib';
-import axios from 'axios';
-import { type NextApiRequest, type NextApiResponse } from 'next';
+import { axios, urlBuilder } from '@cd/core-lib';
 import nc from 'next-connect';
+import NextCors from 'nextjs-cors';
+import Supertokens from 'supertokens-node';
+import { superTokensNextWrapper } from 'supertokens-node/nextjs';
+import { verifySession } from 'supertokens-node/recipe/session/framework/express';
+import { backendConfig } from '../../../config';
 
-const handler = nc();
+Supertokens.init(backendConfig());
 
 // create stripe account, connect to dispensary
-handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = nc();
+handler.post(async (req: any, res: any) => {
 	try {
+		await NextCors(req, res, {
+			methods: ['POST'],
+			origin: process.env.NEXT_PUBLIC_SHOP_APP_URL,
+			credentials: true,
+			allowedHeaders: ['content-type', ...Supertokens.getAllCORSHeaders()],
+		});
+
+		await superTokensNextWrapper(
+			async (next) => {
+				return await verifySession()(req, res, next);
+			},
+			req,
+			res,
+		);
+
 		const response = await axios.post(
 			urlBuilder.payment.createStripe(),
 			req.body,
 			{
-				validateStatus: (status) =>
-					(status >= 200 && status <= 302) || status == 404,
+				headers: { ...req.headers },
 			},
 		);
 
@@ -34,8 +52,11 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 			return res.status(response.status).json(response.data);
 		}
 	} catch (error: any) {
-		console.error('next api create stripe account error: ', error.message);
-		throw new Error(error.message);
+		console.error('api create stripe account: ', error.message);
+		return res.json({
+			success: 'false',
+			error: error.message,
+		});
 	}
 });
 

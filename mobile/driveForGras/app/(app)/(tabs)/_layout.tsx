@@ -19,29 +19,18 @@ export default function TabLayout() {
 	return (
 		<Tabs
 			screenOptions={{
+				headerShown: false,
 				tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
 			}}
 		>
-			<Tabs.Screen
-				name="index"
-				options={{
-					title: 'Delivery Map',
-					tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-				}}
-			/>
-			<Tabs.Screen
-				name="driver-history"
-				options={{
-					title: 'History',
-					tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-				}}
-			/>
+			<Tabs.Screen name="index" />
+			<Tabs.Screen name="driver-history" />
 			<Tabs.Screen
 				name="driver-settings"
-				options={{
-					title: 'Settings',
-					tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-				}}
+				// options={{
+				// 	title: 'Settings',
+				// 	tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+				// }}
 			/>
 		</Tabs>
 	);

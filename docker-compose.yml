@@ -42,7 +42,7 @@ services:
       - "6001:6001"
 
   supertokens:
-    image: registry.supertokens.io/supertokens/supertokens-postgresql:3.14
+    image: registry.supertokens.io/supertokens/supertokens-postgresql:7.0
     environment:
       - 'POSTGRESQL_USER=postgres'
       - 'POSTGRESQL_PASSWORD=RRJV@y_CK-jz9rj'

@@ -1,5 +1,4 @@
 import { useRef } from 'react';
-import { Controller, type Control } from 'react-hook-form';
 import { TextInput, type TextInputProps } from 'react-native';
 import { styles } from '../styles';
 import { View, Text, useThemeColor, type ThemeProps } from './Themed';
@@ -7,8 +6,7 @@ import { View, Text, useThemeColor, type ThemeProps } from './Themed';
 type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> &
 	ThemeProps &
 	TextInputProps & {
-		name: string;
-		control: Control;
+		label?: string;
 	};
 
 const RNTextField = (props: TextFieldProps) => {
@@ -39,22 +37,22 @@ const RNTextField = (props: TextFieldProps) => {
 				style,
 			]}
 		>
-			<Text style={[{ color: inverseColor }, styles.text.p]}>{props.name}</Text>
-			<Controller
-				name={props.name}
-				control={props.control}
-				rules={{ required: props.required }}
-				render={({ field: { onChange, onBlur, value } }) => (
-					<TextInput
-						ref={ref}
-						autoCapitalize={props.autoCapitalize}
-						placeholder={props.placeholder}
-						onBlur={onBlur}
-						onChangeText={onChange}
-						value={value}
-						style={(styles.input.textField, styles.text.h)}
-					/>
-				)}
+			{(props.label && (
+				<Text style={[{ color: inverseColor }, styles.text.p]}>
+					{props.label}
+				</Text>
+			)) ||
+				null}
+			<TextInput
+				autoComplete="off"
+				ref={ref}
+				autoCapitalize={props.autoCapitalize}
+				placeholder={props.placeholder}
+				onBlur={props.onBlur}
+				onChangeText={props.onChangeText}
+				value={props.value}
+				style={[styles.input.textField, styles.text.p]}
+				{...props}
 			/>
 		</View>
 	);

@@ -1,0 +1,19 @@
+# Pre-commit hook to automatically resolve conflicts in specific files
+
+# Check for merge conflicts
+conflicted_files=$(git diff --name-only --diff-filter=U)
+
+if [ -n "$conflicted_files" ]; then
+    echo "Merge conflicts detected. Resolving conflicts in specific files..."
+
+    # Loop through each conflicted file
+    while IFS= read -r file; do
+        # Check if the conflicted file is tailwind.css or .cache/modules-sha
+        if [[ "$file" == *"tailwind.css" ]] || [[ "$file" == *".cache/modules-sha"* ]]; then
+            # Checkout --theirs for the conflicted file
+            git checkout --theirs "$file"
+            git add "$file"
+            echo "Resolved conflict in: $file"
+        fi
+    done <<< "$conflicted_files"
+fi

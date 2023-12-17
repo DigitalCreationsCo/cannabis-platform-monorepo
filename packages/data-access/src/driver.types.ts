@@ -4,6 +4,7 @@ import {
 	type Prisma,
 	type Route,
 } from '@prisma/client';
+import { type CoordinatesCreateType } from './address.types';
 import { type UserWithDetails } from './user.data';
 
 export type DriverCreateType = Prisma.UserUncheckedCreateWithoutDriverInput & {
@@ -24,25 +25,27 @@ export type UserWithDriverDetails = UserWithDetails & {
 	driverSession: DriverSessionWithJoinedData;
 };
 
-export type DriverWithSessionJoin = Driver & {
-	user: UserWithDetails;
-	driverSession: DriverSessionWithJoinedData;
+export type DriverWithSessionJoin = Omit<
+	Driver,
+	'id' | 'email' | 'createdAt' | 'updatedAt'
+> & {
+	user: Omit<UserWithDetails, 'createdAt' | 'updatedAt'>;
+	driverSession: Omit<DriverSessionWithJoinedData, 'createdAt' | 'updatedAt'>;
 };
 
 export type DriverSessionWithJoinedData = DriverSession & {
 	id: string;
-	email: string;
-	phone: string;
-	firstName: string;
-	lastName: string;
-	isOnline: boolean;
-	isActiveDelivery: boolean;
-	currentCoordinates: [number, number];
+	email?: string;
+	phone?: string;
+	firstName?: string;
+	lastName?: string;
+	isOnline?: boolean;
+	isActiveDelivery?: boolean;
+	currentCoordinates?: CoordinatesCreateType;
 	currentRoute: RouteWithCoordinates;
-	routeId: string;
-	route: Route;
+	routeId?: string;
+	route?: Route;
 };
 
-export type RouteWithCoordinates = Route & {
-	coordinates: [number, number][];
-};
+// export type RouteWithCoordinates = (Route & Coordinates)[];
+export type RouteWithCoordinates = CoordinatesCreateType[];

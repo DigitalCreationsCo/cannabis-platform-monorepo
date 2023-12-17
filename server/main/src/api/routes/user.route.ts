@@ -1,37 +1,29 @@
 import { Router } from 'express';
 import { userCtrl } from '../controllers';
 const router = Router();
-/* =================================
-User Routes
 
-"/:id"                     getUserById
-
-"/address"                      addAddressToUser
-
-GET "/:id/address/:addressId"  getAddressById
-
-DELETE "/:id/address/:addressId"  deleteAddressById
-
-================================= */
-
+// '/' POST createUser
 router.route('/').post(userCtrl.createUser);
-
-router.route('/').put(userCtrl.updateUser);
-
+// '/staff' POST createDispensaryStaff
 router.route('/staff').post(userCtrl.createDispensaryStaff);
 
+// '/' PUT updateUser
+router.route('/').put(userCtrl.updateUser);
+// '/staff' PUT updateDispensaryStaff
 router.route('/staff').put(userCtrl.updateDispensaryStaff);
 
+// '/:id' GET getUserById
 router.route('/:id').get(userCtrl.getUserById);
-
+// '/:id' DELETE deleteUser
 router.route('/:id').delete(userCtrl.deleteUser);
 
+// '/:id/address/:addressId' GET getAddressById
+router.route('/:id/address/:addressId').get(userCtrl.getAddressById);
+// '/address' POST addAddressToUser
 router.route('/address').post(userCtrl.addAddressToUser);
+// '/:id/address/:addressId' DELETE removeAddressFromUser
+router.route('/:id/address/:addressId').delete(userCtrl.removeAddressFromUser);
 
 router.route('/:id/orders').get(userCtrl.getOrdersForUser);
-
-router.route('/:id/address/:addressId').get(userCtrl.getAddressById);
-
-router.route('/:id/address/:addressId').delete(userCtrl.removeAddressFromUser);
 
 export default router;

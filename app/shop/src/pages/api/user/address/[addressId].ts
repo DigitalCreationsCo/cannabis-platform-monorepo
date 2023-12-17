@@ -1,21 +1,46 @@
-import { urlBuilder } from '@cd/core-lib';
-import axios from 'axios';
-// import { authMiddleware, healthCheckMiddleware } from 'middleware';
-import { type NextApiRequest, type NextApiResponse } from 'next';
+import { axios, urlBuilder } from '@cd/core-lib';
 import nc from 'next-connect';
+import NextCors from 'nextjs-cors';
+import Supertokens from 'supertokens-node';
+import { superTokensNextWrapper } from 'supertokens-node/nextjs';
+import { verifySession } from 'supertokens-node/recipe/session/framework/express';
+import { backendConfig } from '../../../../config';
 
+Supertokens.init(backendConfig());
+
+// delete address from user
 const handler = nc();
-
-handler.delete(async (req: NextApiRequest, res: NextApiResponse) => {
+handler.delete(async (req: any, res: any) => {
 	try {
-		const { id, addressId } = req.query;
-		const { data } = await axios.delete(
-			urlBuilder.main.addressByIdAndUser(addressId, id),
+		await NextCors(req, res, {
+			methods: ['DELETE'],
+			origin: process.env.NEXT_PUBLIC_SHOP_APP_URL,
+			credentials: true,
+			allowedHeaders: ['content-type', ...Supertokens.getAllCORSHeaders()],
+		});
+
+		await superTokensNextWrapper(
+			async (next) => {
+				return await verifySession()(req, res, next);
+			},
+			req,
+			res,
 		);
-		return res.status(res.statusCode).json(data);
+
+		const { id, addressId } = req.query;
+		const response = await axios.delete(
+			urlBuilder.main.addressByIdAndUser(addressId, id),
+			{
+				headers: { ...req.headers },
+			},
+		);
+		return res.status(response.status).json(response.data);
 	} catch (error: any) {
-		console.error(error.message);
-		return res.json(error);
+		console.error('api delete address: ', error.message);
+		return res.json({
+			success: 'false',
+			error: error.message,
+		});
 	}
 });
 

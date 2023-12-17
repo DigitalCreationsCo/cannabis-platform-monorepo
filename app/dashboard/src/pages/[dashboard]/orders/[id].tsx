@@ -13,7 +13,6 @@ import {
 import {
 	type OrderStatus,
 	type OrderWithFullDetails,
-	type OrderWithDetails,
 	type ProductVariantWithDetails,
 } from '@cd/data-access';
 import {
@@ -52,7 +51,7 @@ export default function OrderDetails({
 }: {
 	order: OrderWithFullDetails;
 }) {
-	const [updateOrder, setUpdateOrder] = useState<OrderWithDetails>();
+	const [updateOrder, setUpdateOrder] = useState<OrderWithFullDetails>();
 	const [orderStatus] = useState<OrderStatus>(order.orderStatus);
 
 	const [searchProductTerms, setSearchProductTerms] = useState('');
@@ -72,7 +71,7 @@ export default function OrderDetails({
 	const { notFoundResult, doSearchProducts, productSearchResult } =
 		useProductSearch();
 
-	function removeRelatedFields(order: OrderWithDetails) {
+	function removeRelatedFields(order: OrderWithFullDetails) {
 		// delete order['driver'];
 		// delete order['customer'];
 		// delete order.destinationAddress;

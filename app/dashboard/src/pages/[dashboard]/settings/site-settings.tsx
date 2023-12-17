@@ -14,8 +14,11 @@
 // import ShippingTax from "components/site-settings/ShippingTax";
 // import SocialLinks from "components/site-settings/SocialLinks";
 // import TopbarSetting from "components/site-settings/TopbarSetting";
-import { pruneData, TextContent } from '@cd/core-lib';
-import { type OrganizationWithDashboardDetails } from '@cd/data-access';
+import { type AppState, pruneData, TextContent } from '@cd/core-lib';
+import {
+	type SiteSetting,
+	type OrganizationWithDashboardDetails,
+} from '@cd/data-access';
 import {
 	Button,
 	Card,
@@ -32,11 +35,10 @@ import Router from 'next/router';
 import { useState } from 'react';
 import { connect } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
-import { type RootState } from '../../../redux/store';
 
 type SiteSettingsDashboardProps = {
 	dispensary: OrganizationWithDashboardDetails;
-	siteSetting: Record<string, string>;
+	siteSetting: SiteSetting;
 };
 
 function SiteSettings({ dispensary, siteSetting }: SiteSettingsDashboardProps) {
@@ -45,11 +47,7 @@ function SiteSettings({ dispensary, siteSetting }: SiteSettingsDashboardProps) {
 	const [setting, setSetting] = useState('');
 	return (
 		<Page className={twMerge('sm:px-4 md:pr-16')}>
-			<PageHeader
-				title="Site Settings"
-				Icon={Icons.CategoryOutlined}
-				// navigation={ <DashboardNavigation /> }
-			>
+			<PageHeader title="Site Settings" Icon={Icons.CategoryOutlined}>
 				<Button
 					onClick={() =>
 						Router.push(TextContent.href.settings_f(dispensary.id))
@@ -90,11 +88,12 @@ function SiteSettings({ dispensary, siteSetting }: SiteSettingsDashboardProps) {
 							className={twMerge(
 								`w-[50px] h-[50px] mr-2`,
 								'border',
-								`bg-[${siteSetting[setting]}]`,
+								`bg-[${siteSetting[setting as keyof SiteSetting]}]`,
 							)}
 						></div>
 					)}
-					{setting && setting + ': ' + siteSetting[setting]}
+					{setting &&
+						setting + ': ' + siteSetting[setting as keyof SiteSetting]}
 				</Paragraph>
 				<Link
 					target={'_blank'}
@@ -114,13 +113,10 @@ SiteSettings.getLayoutContext = (): LayoutContextProps => ({
 	showHeader: false,
 });
 
-function mapStateToProps(state: RootState) {
+function mapStateToProps(state: AppState) {
 	const { dispensary } = state;
 
 	const siteSetting = dispensary.dispensary.siteSetting;
-	if (!siteSetting) {
-		return {};
-	}
 
 	return {
 		dispensary: dispensary.dispensary,

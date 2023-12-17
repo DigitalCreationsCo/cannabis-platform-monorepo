@@ -3,6 +3,7 @@ import {
 	selectUserState,
 	usStatesAbbreviationList,
 	stateMap,
+	useAppSelector,
 	renderNestedDataObject,
 } from '@cd/core-lib';
 import { type USStateAbbreviated } from '@cd/data-access';
@@ -19,7 +20,6 @@ import {
 } from '@cd/ui-lib';
 import { Suspense, useMemo, useState } from 'react';
 import useSWR from 'swr';
-import { useAppSelector } from '../redux/hooks';
 
 export default function Compliance() {
 	const { user } = useAppSelector(selectUserState);

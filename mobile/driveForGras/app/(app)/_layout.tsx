@@ -1,7 +1,8 @@
-import { FontAwesome } from '@expo/vector-icons';
-import { Link, Redirect, Stack } from 'expo-router';
-import { Pressable, useColorScheme } from 'react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { selectDriverState } from '@cd/core-lib/src/reducer/driver.reducer';
+import { useAppSelector } from '@cd/core-lib/src/types';
+import { Redirect, Stack } from 'expo-router';
+import { useColorScheme } from 'react-native';
+import { useLocation } from '../../hooks';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const unstable_settings = {
@@ -9,38 +10,44 @@ export const unstable_settings = {
 	initialRouteName: '/(tabs)',
 };
 
-export default function AuthStack() {
+export default function AppStack() {
+	useLocation();
 	const colorScheme = useColorScheme();
 
-	const isSignedIn = true;
-	if (!isSignedIn) return <Redirect href="/driver-signin" />;
+	const { isSignedIn } = useAppSelector(selectDriverState);
+	if (!isSignedIn) return <Redirect href="/login" />;
 	return (
 		<Stack
 			screenOptions={{
-				headerTintColor: Colors[colorScheme ?? 'light'].tint,
-				navigationBarColor: Colors[colorScheme ?? 'light'].background,
-				statusBarColor: Colors[colorScheme ?? 'light'].background,
+				animation: 'simple_push',
+				animationTypeForReplace: 'push',
+				headerShown: false,
+				// headerTintColor: Colors[colorScheme ?? 'light'].tint,
+				// navigationBarColor: Colors[colorScheme ?? 'light'].background,
+				// statusBarColor: Colors[colorScheme ?? 'light'].background,
 			}}
 		>
 			<Stack.Screen
 				name="(tabs)"
-				options={{
-					title: 'Map',
-					headerRight: () => (
-						<Link href="/modal" asChild>
-							<Pressable>
-								{({ pressed }) => (
-									<FontAwesome
-										name="info-circle"
-										size={25}
-										color={Colors[colorScheme ?? 'light'].text}
-										style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-									/>
-								)}
-							</Pressable>
-						</Link>
-					),
-				}}
+				options={
+					{
+						// 	title: 'Map',
+						// 	headerRight: () => (
+						// 		<Link href="/modal" asChild>
+						// 			<Pressable>
+						// 				{({ pressed }) => (
+						// 					<FontAwesome
+						// 						name="info-circle"
+						// 						size={25}
+						// 						color={Colors[colorScheme ?? 'light'].text}
+						// 						style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+						// 					/>
+						// 				)}
+						// 			</Pressable>
+						// 		</Link>
+						// 	),
+					}
+				}
 			/>
 			<Stack.Screen
 				name="new-order"

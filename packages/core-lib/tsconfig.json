@@ -13,5 +13,16 @@
 			"@cd/eslint-config": ["../../../packages/eslint-config/src/index"]
 		}
 	},
-	"exclude": ["**/node_modules", "**/.*/", "dist", "build", "**/test/*"]
+	"exclude": ["**/node_modules", "**/.*/", "dist", "build", "**/test/*"],
+	// "include": [
+	// 	"next-env.d.ts",
+	// 	"**/*.ts",
+	// 	"**/*.tsx",
+	// 	"**/*.mts",
+	// 	"**/*.js",
+	// 	"**/*.cjs",
+	// 	"**/*.mjs",
+	// 	"**/*.jsx",
+	// 	"**/*.json"
+	// ]
 }
