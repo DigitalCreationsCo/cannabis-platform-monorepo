@@ -22,10 +22,15 @@ metadata:
   name: gras-shop
   namespace: default
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: gras-shop
-  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
   template:
     metadata:
       labels:
@@ -54,6 +59,7 @@ spec:
           ports:
             - name: shop-port
               containerPort: 3000
+      restartPolicy: Always
 
           # livenessProbe:
           #   httpGet:
