@@ -3,6 +3,11 @@ import { gql, createClient } from '@urql/core';
 import { type POSIntegration } from './integration.types';
 
 const DutchiePOS: POSIntegration = class {
+	static getDutchieEndpoint() {
+		// assert value
+		// return process.env.DUTCHIE_API_ENDPOINT;
+	}
+
 	static async processPickupOrder(order: OrderWithFullDetails) {
 		try {
 			// const client = createClient({
@@ -11,9 +16,13 @@ const DutchiePOS: POSIntegration = class {
 			// 		headers: { authorization: 'Bearer ' + process.env.DUTCHIE_API_KEY },
 			// 	},
 			// });
-			const query = gql``;
+			// const query = gql``;
+			return;
 		} catch (error: any) {
-			console.error('dutchiePOSIntegration: ', error.message);
+			console.error(
+				'dutchiePOSIntegration processPickupOrder: ',
+				error.message,
+			);
 			throw new Error(error.message);
 		}
 	}
@@ -21,8 +30,12 @@ const DutchiePOS: POSIntegration = class {
 	static async processDeliveryOrder(order: OrderWithFullDetails) {
 		try {
 			// const query = gql``;
+			return;
 		} catch (error: any) {
-			console.error('dutchiePOSIntegration: ', error.message);
+			console.error(
+				'dutchiePOSIntegration processDeliveryOrder: ',
+				error.message,
+			);
 			throw new Error(error.message);
 		}
 	}

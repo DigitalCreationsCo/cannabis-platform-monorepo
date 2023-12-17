@@ -1,4 +1,9 @@
-import { axios, dispensaryActions, urlBuilder } from '@cd/core-lib';
+import {
+	type AppState,
+	axios,
+	dispensaryActions,
+	urlBuilder,
+} from '@cd/core-lib';
 import { type OrderWithFullDetails } from '@cd/data-access';
 import {
 	Grid,
@@ -9,7 +14,7 @@ import {
 } from '@cd/ui-lib';
 import { connect } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
-import { wrapper, type RootState } from '../../../redux/store';
+import { wrapper } from '../../../store';
 
 interface TrackingProps {
 	orders: OrderWithFullDetails[];
@@ -36,7 +41,7 @@ DashboardTrackingPage.getLayoutContext = (): LayoutContextProps => ({
 	showSideNav: true,
 });
 
-function mapStateToProps(state: RootState) {
+function mapStateToProps(state: AppState) {
 	const { dispensary } = state;
 	return {
 		orders: dispensary.orders,

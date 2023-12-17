@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-// const usePagination = <P>(data: P[], pageSize = 10): P[] => {
-const usePagination = (data: any[], pageSize = 10) => {
+const usePagination = <T,>(
+	data: T[],
+	pageSize = 10,
+): { current: T[]; PaginationButtons: () => JSX.Element } => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const totalPages = Math.ceil(data.length / pageSize);
 	const PaginationButtons = () =>
@@ -21,7 +23,9 @@ const usePagination = (data: any[], pageSize = 10) => {
 					</button>
 				))}
 			</div>
-		) : null;
+		) : (
+			<></>
+		);
 
 	const indexOfLastTodo = currentPage * pageSize;
 	const indexOfFirstTodo = indexOfLastTodo - pageSize;

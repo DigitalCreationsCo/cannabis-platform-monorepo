@@ -84,7 +84,7 @@ const TextContent = Object.freeze({
     This account will have the most access to your dispensary.`,
 		NO_MEMBERSHIP_PERMISSION: `You don't have the permissions to sign in here. 
 	Please visit grascannabis.org.`,
-		DISPENSARY_JOINING: `Helping you serve the world of cannabis.`,
+		DISPENSARY_JOINING: `Helping you serve the world with cannabis.`,
 
 		DISPENSARIES_START_HERE: 'Dispensaries, get started here',
 		DISPENSARY_STRIPE_ACCOUNT: `If your dispensary uses stripe for payments, you can connect your stripe account here, by entering your stripe ID. If you don't have a stripe account, Gras will create one for you.`,
@@ -101,17 +101,17 @@ const TextContent = Object.freeze({
 		VERIFY_ID_COMPLETE: 'Thanks for verifying!',
 
 		ONETIME_PASSCODE_SENT_EMAIL_f: (receipient: string) =>
-			`A one time passcode has been sent to ${receipient}.`,
+			`Your sign in passcode was sent to ${receipient}.`,
 		ONETIME_PASSCODE_SENT_MOBILE_f: (receipient: string) =>
-			`Your one time passcode has been sent to ${receipient}.`,
+			`Your sign in passcode was sent to ${receipient}.`,
 
 		SIGNING_IN: `Signing in`,
 		SIGNOUT: 'Sign out',
-		SIGNIN: 'Sign In',
+		SIGNIN: 'Sign in',
 		SIGNIN_EMAIL: 'Sign in with your email',
 		SIGNIN_PHONE: 'Sign in with your phone',
 		SIGNIN_EMAIL_OR_PHONE: 'Sign in with your email or phone',
-		SIGNUP: 'Sign Up',
+		SIGNUP: 'Sign up',
 		CTA: 'SIGN ME UP',
 	},
 
@@ -226,8 +226,7 @@ const TextContent = Object.freeze({
 		COPYRIGHT_RIGHTS_RESERVED: 'Gras © 2023 All rights reserved.',
 		I_AGREE_TO_THE_USER_TERMS: `I agree to the User Terms and Conditions`,
 		I_AGREE_TO_THE_DISPENSARY_TERMS: `I agree to the Dispensary Terms and Conditions`,
-		AGREE_TO_TERMS:
-			'Before creating an account with Gras, please agree to our ',
+		AGREE_TO_TERMS: 'Before creating an account with Gras, please read our ',
 		READ_USER_TERMS_OF_SERVICE:
 			'Please read the Gras User Terms and Conditions policy.',
 		USER_TERMS_OF_SERVICE: 'User Terms and Conditions',
@@ -243,6 +242,8 @@ const TextContent = Object.freeze({
 
 	dispatch: {
 		status: {
+			START_DELIVERING: 'Go Online',
+			STOP_DELIVERING: "You're Connected",
 			ACCEPT_ORDER: `You accepted the delivery order!\nTravel to pickup the order.`,
 			ALL_DELIVERY_ORDERS: 'Your Delivery Queue',
 			CONNECTED: `Connected to the dispatch server.`,
@@ -333,8 +334,10 @@ const TextContent = Object.freeze({
 
 	href: {
 		browse: '/browse',
-
 		bag: '/mybag',
+		checkout: '/checkout',
+		createAccountFQUrl: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/signup/create-account`,
+		createAccount: `/signup/create-account`,
 		blog: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/blog`,
 		services: `${process.env.NEXT_PUBLIC_DASHBOARD_APP_URL}/signup`,
 		storefront_f: (subdomain: string) =>

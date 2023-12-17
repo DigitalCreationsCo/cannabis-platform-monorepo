@@ -20,14 +20,14 @@ import Session, {
 import { LayoutContainer } from '../components';
 import DashboardTopBar from '../components/DashboardTopBar';
 import { frontendConfig } from '../config/frontendConfig';
-import { wrapper } from '../redux/store';
+import { wrapper } from '../store';
 import '../styles/anim8-gradient.css';
 import '../styles/dashboard.css';
 // eslint-disable-next-line import/no-unresolved, @typescript-eslint/no-unused-vars
 import '../styles/tailwind.css';
 
 if (typeof window !== 'undefined') {
-	SuperTokensReact.init(frontendConfig());
+	SuperTokensReact.init(frontendConfig() as any);
 }
 
 type CustomAppProps = AppProps & {

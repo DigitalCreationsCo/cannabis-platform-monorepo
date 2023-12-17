@@ -1,4 +1,8 @@
-import axios, { type AxiosError, type AxiosRequestConfig } from 'axios';
+import axios, {
+	type AxiosError,
+	type AxiosResponse,
+	type AxiosRequestConfig,
+} from 'axios';
 import { TextContent } from './constants';
 
 const MAX_RETRIES = 2;
@@ -16,6 +20,15 @@ interface AxiosErrorCustom extends AxiosError {
 	config: AxiosConfigCustom;
 }
 
+interface AxiosResponseCustom extends AxiosResponse {
+	data: {
+		success: boolean;
+		message?: string;
+		payload?: any;
+		error?: string;
+	};
+}
+
 const instance = axios.create({
 	timeout: TIMEOUT,
 	// validateStatus: (status: number) => (status >= 200 && status < 300) || status === 404
@@ -23,7 +36,7 @@ const instance = axios.create({
 });
 
 axios.interceptors.response.use(
-	(response) => {
+	(response: AxiosResponseCustom) => {
 		return response;
 	},
 	(error: AxiosErrorCustom) => {

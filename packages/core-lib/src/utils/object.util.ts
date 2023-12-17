@@ -1,6 +1,21 @@
 import { type UserCreateType } from '@cd/data-access';
 
 /**
+ * getProperty
+ * @param object
+ * @param propName
+ * @returns property value if object has property, null otherwise
+ */
+export function getProperty(obj: any, propName: any) {
+	// eslint-disable-next-line no-prototype-builtins
+	if (obj && obj.hasOwnProperty(propName)) {
+		return obj[propName];
+	} else {
+		return null;
+	}
+}
+
+/**
  * isEmpty
  * @param object
  * @returns true if object is an object and is empty, null

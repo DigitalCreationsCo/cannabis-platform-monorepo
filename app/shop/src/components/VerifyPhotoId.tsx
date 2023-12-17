@@ -5,7 +5,9 @@ import {
 	DropZone,
 	FlexBox,
 	H2,
+	H3,
 	H5,
+	Paragraph,
 	UploadImageBox,
 	useFormContext,
 } from '@cd/ui-lib';
@@ -56,8 +58,8 @@ const VerifyPhotoId = () => {
 	const captchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_V2_SITE_KEY || '';
 	const captchaRef = useRef<any>(null);
 	useEffect(() => {
-		console.info('captchaSiteKey: ', captchaSiteKey);
-		console.info('captchaRef: ', captchaRef);
+		// console.info('captchaSiteKey: ', captchaSiteKey);
+		// console.info('captchaRef: ', captchaRef);
 	}, []);
 	async function handleCaptcha(e: any) {
 		try {
@@ -158,11 +160,10 @@ const VerifyPhotoId = () => {
 			}}
 		>
 			<Center className="m-auto w-3/4 space-y-4 md:pb-0">
-				<H2 id="verify-id-step-2">Please verify your id</H2>
-				<H5>
-					Please upload a picture of the front and back of your state's photo id
-					card.
-				</H5>
+				<H3 id="verify-id-step-2">Please verify your ID</H3>
+				<Paragraph>
+					Take a photo of the front and back of your state identification.
+				</Paragraph>
 				<div id="verify-id-step-3" className="h-[200px] w-[240px]">
 					{frontImage ? (
 						<UploadImageBox fill={true} onClick={() => setFrontImage(null)}>
@@ -260,7 +261,7 @@ const VerifyPhotoId = () => {
 							onSubmitUpload();
 						}}
 					>
-						Verify ID
+						{TextContent.ui.CONTINUE}
 					</Button>
 				</FlexBox>
 			</Center>

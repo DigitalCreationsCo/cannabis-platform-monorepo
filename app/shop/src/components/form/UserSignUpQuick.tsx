@@ -28,6 +28,7 @@ import { profilePictures } from '../../data/profilePicture';
 import { userSignUpTour } from '../../tour/userSignUpTour';
 
 function UserSignUpQuickForm() {
+	const userState = useSelector(selectUserState);
 	const user = useSelector(selectUserState).user;
 
 	function startTour() {
@@ -48,6 +49,7 @@ function UserSignUpQuickForm() {
 	const [loadingButton, setLoadingButton] = useState(false);
 
 	const initialValues = {
+		id: user.id,
 		firstName: formValues?.newUser?.firstName || '',
 		lastName: formValues?.newUser?.lastName || '',
 		username: formValues?.newUser?.username || '',
@@ -60,6 +62,7 @@ function UserSignUpQuickForm() {
 	};
 
 	const validationSchema = yup.object().shape({
+		id: yup.string().required('Id is required').min(3, 'Id is required'),
 		firstName: yup
 			.string()
 			.required(TextContent.prompt.FIRST_NAME_REQUIRED)
@@ -178,12 +181,13 @@ function UserSignUpQuickForm() {
 			<H4 id="user-signup-step-1">Create your account</H4>
 
 			<Grid className="grid-cols-2 space-y-4">
-				<Paragraph className="col-span-2" id="user-signup-step-2">
+				<Paragraph className="col-span-2">
 					* Please fill the required fields.
 				</Paragraph>
 
 				<FlexBox className="col-span-2 flex-row space-x-4">
 					<TextField
+						id="user-signup-step-2"
 						name="phone"
 						label="* phone number"
 						placeholder="your phone number"
@@ -293,7 +297,7 @@ function UserSignUpQuickForm() {
 						error={!!touched.termsAccepted && !!errors.termsAccepted}
 						description={
 							<>
-								<div id="dispensary-create-step-3 inline-block">
+								<div id="dispensary-create-step-3" className="inline-block">
 									<Paragraph>{TextContent.legal.AGREE_TO_TERMS}</Paragraph>
 									<a
 										href={TextContent.href.user_tos}
@@ -321,7 +325,7 @@ function UserSignUpQuickForm() {
 							prevFormStep();
 						}}
 					>
-						go back
+						{TextContent.ui.BACK}
 					</Button>
 
 					<Button
@@ -337,7 +341,7 @@ function UserSignUpQuickForm() {
 							handleSubmit();
 						}}
 					>
-						Next
+						{TextContent.ui.CONTINUE}
 					</Button>
 				</FlexBox>
 			</Grid>

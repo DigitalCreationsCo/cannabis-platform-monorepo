@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import {
-	type DriverWithDetails,
+	type DriverWithSessionJoin,
 	type UserWithDetails,
 } from '@cd/data-access/src';
+import { type User } from 'supertokens-node/lib/build/types';
 
 export type ApiContext = {
 	action: 'SIGN_OUT' | 'REFRESH_SESSION';
@@ -30,6 +32,16 @@ export type PasswordlessResponseWithUserDetails = {
 export type PasswordlessResponseWithDriverDetails = {
 	status: 'OK';
 	createdNewUser: boolean;
-	user: DriverWithDetails;
+	user: DriverWithSessionJoin;
 	fetchResponse: Response;
+};
+
+export type ConsumerCodeResponse = {
+	status: 'OK';
+	createdNewRecipeUser: boolean;
+	user: User;
+	_user: {
+		token: string;
+		user: UserWithDetails | DriverWithSessionJoin;
+	};
 };

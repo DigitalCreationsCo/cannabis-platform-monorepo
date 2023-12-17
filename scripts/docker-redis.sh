@@ -11,10 +11,10 @@ if [ "$1" = "cart" ]; then
 elif [ "$1" = "dispatch" ]; then
     echo "starting dispatch-redis-db"
 
-    docker run --name dispatch-connect-redis -d -p 6311:6379 redis redis-server --save 60 1 --loglevel warning
-    docker run --name socket-publish-redis -d -p 6321:6379 redis redis-server --save 60 1 --loglevel warning
-    docker run --name dispatch-rooms-redis -d -p 6331:6379 redis redis-server --save 60 1 --loglevel warning
-    docker run --name message-publish-redis -d -p 6341:6379 redis redis-server --save 60 1 --loglevel warning
+    docker run --name redis-dispatch-clients -d -p 6311:6379 redis redis-server --save 60 1 --loglevel warning
+    docker run --name redis-dispatch-sockets -d -p 6321:6379 redis redis-server --save 60 1 --loglevel warning
+    docker run --name redis-dispatch-rooms -d -p 6331:6379 redis redis-server --save 60 1 --loglevel warning
+    docker run --name redis-sms-queue -d -p 6341:6379 redis redis-server --save 60 1 --loglevel warning
     exit 0
     
 elif [ "$1" = "image-preview" ]; then
@@ -28,11 +28,10 @@ elif [ "$1" = "all" ]; then
 
     # redis-cart client
     docker run --name redis-cart -d -p 6300:6379 redis redis-server --save 60 1 --loglevel warning
-
-    docker run --name dispatch-connect-redis -d -p 6311:6379 redis redis-server --save 60 1 --loglevel warning
-    docker run --name socket-publish-redis -d -p 6321:6379 redis redis-server --save 60 1 --loglevel warning
-    docker run --name dispatch-rooms-redis -d -p 6331:6379 redis redis-server --save 60 1 --loglevel warning
-    docker run --name message-publish-redis -d -p 6341:6379 redis redis-server --save 60 1 --loglevel warning
+    docker run --name redis-dispatch-clients -d -p 6311:6379 redis redis-server --save 60 1 --loglevel warning
+    docker run --name redis-dispatch-sockets -d -p 6321:6379 redis redis-server --save 60 1 --loglevel warning
+    docker run --name redis-dispatch-rooms -d -p 6331:6379 redis redis-server --save 60 1 --loglevel warning
+    docker run --name redis-sms-queue -d -p 6341:6379 redis redis-server --save 60 1 --loglevel warning
     docker run --name redis-image-preview -d -p 6351:6379 redis redis-server --save 60 1 --loglevel warning
     exit 0
     

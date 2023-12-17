@@ -58,7 +58,7 @@ userSignUpTour.defineSteps([
 	{
 		element: '#user-signup-step-5',
 		popover: {
-			title: `When you're ready, click Next.`,
+			title: `${TextContent.prompt.CONTINUE}`,
 			description: ``,
 		},
 	},

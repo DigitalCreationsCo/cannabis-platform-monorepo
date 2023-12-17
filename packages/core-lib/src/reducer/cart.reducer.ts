@@ -114,12 +114,7 @@ export const createOrderForCheckout = createAsyncThunk<OrderCreateType, void>(
 			const cart = thunkAPI.getState().cart as CartStateProps;
 
 			let { user } = thunkAPI.getState().user as UserStateProps;
-			user = pruneData(user, [
-				'timeJoined',
-				'memberships',
-				'idFrontImage',
-				'idBackImage',
-			]);
+			user = pruneData(user, ['memberships', 'idFrontImage', 'idBackImage']);
 
 			const { dispensaries } = thunkAPI.getState().shop as ShopStateProps;
 

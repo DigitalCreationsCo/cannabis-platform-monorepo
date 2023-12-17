@@ -21,7 +21,7 @@ function CheckBox({
 }: CheckBoxProps) {
 	const styles = {
 		checkboxContainer:
-			'flex flex-row items-center space-x-2 py-8 md:py-4 m-auto self-center md:self-start',
+			'flex flex-row items-center space-x-2 py-8 md:py-4 m-auto self-center md:self-start w-full',
 		helperText: error && 'input-error border-2',
 	};
 

@@ -1,13 +1,13 @@
-import { type ClientType } from '../../../../packages/core-lib/src/types/dispatch.types';
+import { type Client } from '../../../../packages/core-lib/src/types/dispatch.types';
 import { FeatureConfig } from '../config/dispatch.features';
 import SMSModule from '../lib/sms';
 
 class Messager {
-	static async sendAll(event: any, recipients: ClientType[], data: string) {
+	static async sendAll(event: any, recipients: Client[], data: string) {
 		recipients.forEach((client) => this.sendMessage(event, client, data));
 	}
 
-	static async sendMessage(event: any, client: ClientType, data: string) {
+	static async sendMessage(event: any, client: Client, data: string) {
 		FeatureConfig.sms.enabled &&
 			this.sendSMS({ event: event, phone: client.phone, data: data });
 		FeatureConfig.socket.enabled &&
