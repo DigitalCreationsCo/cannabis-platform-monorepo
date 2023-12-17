@@ -24,40 +24,8 @@ export const frontendConfig = () => {
 		recipeList: [
 			Passwordless.init({
 				contactMethod: 'EMAIL_OR_PHONE',
-				onHandleEvent: (event: any) => {
-					if (event.action === 'SUCCESS') {
-						if (event.isNewUser || !event.user.isSignUpComplete)
-							window.location.href = `${shopDomain}/signup/create-account`;
-						else {
-							window.location.reload();
-						}
-					}
-				},
-				override: {
-					functions: (originalImplementation) => {
-						return {
-							...originalImplementation,
-							consumeCode: async (input: any) => {
-								try {
-									console.info('consume code input: ', input);
-									return originalImplementation.consumeCode(input);
-								} catch (error) {
-									console.info('consume code shop: ', error);
-									throw new Error(error.message);
-								}
-							},
-							resendCode: async (input: any) => {
-								console.info('resend code input: ', input);
-								return originalImplementation.resendCode(input);
-							},
-						};
-					},
-				},
 			}),
-			Session.init({
-				cookieDomain: `.${baseDomain}`,
-			}),
+			Session.init(),
 		],
-		isInServerLessEnv: false,
 	};
 };

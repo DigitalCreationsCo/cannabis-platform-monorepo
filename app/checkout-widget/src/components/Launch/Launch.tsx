@@ -1,4 +1,4 @@
-import { TextContent } from '@cd/core-lib';
+import TextContent from '@cd/core-lib/src/constants/text.constant';
 import useCheckHrefIncludes from '@cd/core-lib/src/hooks/useCheckHrefIncludes';
 import CloseButton from '@cd/ui-lib/src/components/button/CloseButton';
 import CopyRight from '@cd/ui-lib/src/components/CopyRight';

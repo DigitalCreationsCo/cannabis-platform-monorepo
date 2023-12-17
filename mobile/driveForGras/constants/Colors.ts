@@ -19,7 +19,7 @@ const yellow = '#FFF244';
 export default {
 	light: {
 		text: dark,
-		inverseText: dark,
+		inverseText: light,
 		background: inverse,
 		primary: inverseSoft,
 		accent: secondaryLight,

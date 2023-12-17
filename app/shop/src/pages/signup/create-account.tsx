@@ -8,13 +8,12 @@ import { twMerge } from 'tailwind-merge';
 import ContinueSignUp from './continue';
 
 function CreateUserAccount() {
-	const { user } = useSelector(selectUserState);
-	if (!user.id) router.push('/');
+	const userState = useSelector(selectUserState);
+	if (!userState.isSignedIn) router.push('/');
 	useEffect(() => {
-		// onmount
-		if (user.isSignUpComplete) router.push('/');
+		if (userState.user.isSignUpComplete) router.push('/');
 	}, []);
-	if (user.id)
+	if (userState.isSignedIn)
 		return (
 			<Page className={twMerge(styles.gradient)}>
 				<Head>

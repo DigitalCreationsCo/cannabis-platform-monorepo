@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { usePagination } from '@cd/core-lib';
-import { type UserWithDetails } from '@cd/data-access';
+import { type AppState, usePagination } from '@cd/core-lib';
+import { type UserDispensaryAdmin } from '@cd/data-access';
 import {
 	DeleteButton,
 	Grid,
@@ -18,10 +18,9 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { connect } from 'react-redux';
-import { type RootState } from '../../../redux/store';
 
 type UsersDashboardProps = {
-	users: UserWithDetails[];
+	users: UserDispensaryAdmin[];
 };
 
 function Users({ users }: UsersDashboardProps) {
@@ -137,7 +136,7 @@ Users.getLayoutContext = (): LayoutContextProps => ({
 	showHeader: false,
 });
 
-function mapStateToProps(state: RootState) {
+function mapStateToProps(state: AppState) {
 	const { dispensary } = state;
 	return {
 		users: dispensary.users,

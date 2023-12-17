@@ -1,9 +1,9 @@
 /* eslint-disable sonarjs/cognitive-complexity */
 import * as React from 'react';
 import { TouchableOpacity, type TouchableOpacityProps } from 'react-native';
+import { styles } from '@styles';
 import Center from '../atomic/Center';
 import LoadingDots from '../LoadingDots';
-import { styles } from '../../styles';
 import { Text, type ThemeProps, useThemeColor } from '../Themed';
 
 type ButtonProps = TouchableOpacityProps &
@@ -54,6 +54,11 @@ export default function Button({
 		{ light: lightColor, dark: darkColor },
 		'borderColor',
 	);
+	const color = useThemeColor(
+		{ light: lightColor, dark: darkColor },
+		props.secondary ? 'text' : 'inverseText',
+	);
+
 	const buttonStyle = props.secondary
 		? styles.view.buttonSecondary
 		: styles.view.buttonPrimary;
@@ -69,7 +74,9 @@ export default function Button({
 					<LoadingDots />
 				</Center>
 			) : (
-				<Text style={styles.text.p}>{props.children}</Text>
+				<Text style={[styles.text.p, { color, fontWeight: '500' }]}>
+					{props.children}
+				</Text>
 			)}
 		</TouchableOpacity>
 	);

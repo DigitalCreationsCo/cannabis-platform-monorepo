@@ -1,9 +1,11 @@
 import {
+	type AppState,
 	crypto,
 	generateWidgetScriptTag,
 	modalActions,
 	modalTypes,
 	TextContent,
+	useAppDispatch,
 } from '@cd/core-lib';
 import {
 	type Inventory,
@@ -31,8 +33,6 @@ import Script from 'next/script';
 import { useCallback, useState } from 'react';
 import Iframe from 'react-iframe';
 import { connect } from 'react-redux';
-import { useAppDispatch } from '../../../redux/hooks';
-import { type RootState } from '../../../redux/store';
 
 export const pointOfSaleSystemList: POS[] = [
 	'dutchie',
@@ -269,7 +269,7 @@ SetupWidget.getLayoutContext = (): LayoutContextProps => ({
 	showHeader: false,
 });
 
-function mapStateToProps(state: RootState) {
+function mapStateToProps(state: AppState) {
 	const { dispensary } = state;
 	return {
 		organization: dispensary.dispensary,

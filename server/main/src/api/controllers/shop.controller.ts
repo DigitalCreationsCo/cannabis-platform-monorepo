@@ -4,6 +4,7 @@ import {
 	type OrderWithFullDetails,
 	type OrderCreateType,
 } from '@cd/data-access';
+import { createId } from '@paralleldrive/cuid2';
 import { ShopDA } from '../data-access';
 
 /* =================================
@@ -87,6 +88,7 @@ export default class ShopController {
 					break;
 				case 'pickup':
 					await POSIntegration.processPickupOrder(order);
+					// no dispatch order is necessary for pickup
 					break;
 				default: // delivery
 					await POSIntegration.processDeliveryOrder(order);
@@ -102,6 +104,28 @@ export default class ShopController {
 			console.info('fulfillOrderAndStartDispatch: ', error);
 			if (error.message === TextContent.error.ORDER_NOT_FOUND)
 				return res.status(404).json({ success: 'false', error: error.message });
+			return res.status(500).json({ success: 'false', error: error.message });
+		}
+	}
+
+	/**
+	 * Update OrderStatus and send to Dispatch server for delivery processing
+	 * @param req
+	 * @param res
+	 * @returns
+	 */
+	static async testFulfillmentOrder(req, res) {
+		try {
+			const order: OrderWithFullDetails = req.body;
+			order.id = createId();
+			await ShopDA.addDispatchOrderMongo(order);
+
+			return res.status(201).json({
+				success: 'true',
+				message: `Test Dispatch order created successfully. OrderId: ${order.id}`,
+			});
+		} catch (error: any) {
+			console.info('testFulfillmentOrder: ', error);
 			return res.status(500).json({ success: 'false', error: error.message });
 		}
 	}

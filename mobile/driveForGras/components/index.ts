@@ -17,7 +17,6 @@ export { default as Greeting } from './Greeting';
 export { default as LoadingDots } from './LoadingDots';
 // export * from './modal';
 export { default as NavLink } from './NavLink';
-export { default as Padding } from './Padding';
 export { default as PhoneNumber } from './PhoneNumber';
 export { default as Price } from './Price';
 export { default as ProductItem } from './ProductItem';

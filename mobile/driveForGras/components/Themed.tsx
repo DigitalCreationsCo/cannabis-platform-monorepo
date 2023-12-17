@@ -8,6 +8,7 @@ import {
 	useColorScheme,
 	View as DefaultView,
 } from 'react-native';
+import { SafeAreaView as DefaultSafeAreaView } from 'react-native-safe-area-context';
 import Colors from '../constants/Colors';
 import { styles } from '../styles';
 
@@ -42,6 +43,17 @@ export function Text(props: TextProps) {
 	);
 }
 
+export function SafeAreaView(props: ViewProps) {
+	const { style, lightColor, darkColor, ...otherProps } = props;
+	const backgroundColor = useThemeColor(
+		{ light: lightColor, dark: darkColor },
+		'background',
+	);
+	return (
+		<DefaultSafeAreaView style={[{ backgroundColor }, style]} {...otherProps} />
+	);
+}
+
 export function View(props: ViewProps) {
 	const { style, lightColor, darkColor, ...otherProps } = props;
 	const backgroundColor = useThemeColor(
@@ -53,9 +65,11 @@ export function View(props: ViewProps) {
 }
 
 export function Container(props: ViewProps) {
-	return <View style={styles.view.container} {...props} />;
+	const { style, ...otherProps } = props;
+	return <View style={[styles.view.container, style]} {...otherProps} />;
 }
 
 export function Row(props: ViewProps) {
-	return <View style={styles.view.row} {...props} />;
+	const { style, ...otherProps } = props;
+	return <View style={styles.view.row} {...otherProps} />;
 }

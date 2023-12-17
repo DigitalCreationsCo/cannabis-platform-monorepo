@@ -1,10 +1,9 @@
-import { crypto } from '@cd/core-lib';
+import { type AppState, crypto } from '@cd/core-lib';
 import { type OrganizationWithDashboardDetails } from '@cd/data-access';
 import { H4, Page, type LayoutContextProps } from '@cd/ui-lib';
 import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { type RootState } from '../../../redux/store';
 import { RenderPreview } from './setup-widget';
 
 type PreviewFullScreenProps = {
@@ -57,7 +56,7 @@ PreviewFullScreenWidget.getLayoutContext = (): LayoutContextProps => ({
 	showFooter: false,
 });
 
-function mapStateToProps(state: RootState) {
+function mapStateToProps(state: AppState) {
 	const { dispensary } = state;
 	return {
 		organization: dispensary.dispensary,

@@ -10,7 +10,7 @@ import {
 	type RoomAction,
 	type WorkerToMasterPayload,
 } from '@cd/core-lib';
-import { dispatchRoomController } from '../redis-client';
+import { redisDispatchRoomsController } from '../redis-dispatch';
 import DeliverOrderRoom from './DeliverOrderRoom';
 import SelectDriverRoom from './SelectDriverRoom';
 import type WorkerRoom from './WorkerRoom';
@@ -36,7 +36,7 @@ export default class WorkerRoomController {
 								});
 								// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 								const room = new SelectDriverRoom(roomId, clients as Client[]);
-								await dispatchRoomController.createRoom(room);
+								await redisDispatchRoomsController.createRoom(room);
 								room.emit(dispatchEvents.new_order, order);
 								break;
 							} else if (roomId.startsWith('deliver-order')) {
@@ -48,7 +48,7 @@ export default class WorkerRoomController {
 								});
 								// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 								const room = new DeliverOrderRoom(roomId, clients as Client[]);
-								await dispatchRoomController.createRoom(room);
+								await redisDispatchRoomsController.createRoom(room);
 
 								room.once(
 									NavigateEvent.pickup_product,
@@ -130,14 +130,14 @@ export default class WorkerRoomController {
 						// 			cameMsg,
 						// 	);
 
-						// const room = await dispatchRoomController.getRoomById(roomId);
+						// const room = await redisDispatchRoomsController.getRoomById(roomId);
 						// room.emit('message', message);
 						// Messager.sendMessage(client, message as string);
 						// console.log(
 						// 	'WORKER ' +
 						// 		process.pid +
 						// 		': user ' +
-						// 		client.id +
+						// 		client.userId +
 						// 		' in room send msg ' +
 						// 		message,
 						// );
@@ -156,10 +156,10 @@ export default class WorkerRoomController {
 							// console.info('global rooms: ');
 							// console.info(global.rooms);
 							const room: WorkerRoom | undefined =
-								await dispatchRoomController.getRoomById(roomId);
+								await redisDispatchRoomsController.getRoomById(roomId);
 							console.log('room: ', room);
 
-							let newRoom;
+							let newRoom: SelectDriverRoom | undefined;
 							newRoom = new SelectDriverRoom(roomId, clients as Client[]);
 
 							newRoom.once(
@@ -177,12 +177,12 @@ export default class WorkerRoomController {
 										throw new Error(
 											'sendToMaster: add-driver-to-record failed',
 										);
-									newRoom.emit(dispatchEvents.close_room);
+									newRoom?.emit(dispatchEvents.close_room);
 								},
 							);
 
 							newRoom.addListener('closed', async () => {
-								newRoom = undefined;
+								if (newRoom) newRoom = undefined;
 								console.info(`room ${roomId} closed`);
 							});
 
@@ -205,7 +205,7 @@ export default class WorkerRoomController {
 							console.info('order: ', order);
 
 							const room: WorkerRoom | undefined =
-								await dispatchRoomController.getRoomById(roomId);
+								await redisDispatchRoomsController.getRoomById(roomId);
 							console.log('room: ', room);
 
 							let newRoom;

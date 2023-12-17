@@ -4,6 +4,7 @@ import {
 	renderSchedule,
 	selectOrganizationBySubdomain,
 	TextContent,
+	useAppSelector,
 } from '@cd/core-lib';
 import {
 	type ProductVariantWithDetails,
@@ -32,8 +33,7 @@ import Router from 'next/router';
 import { type PropsWithChildren, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../../public/logo2.png';
-import { useAppSelector } from '../../redux/hooks';
-import { wrapper } from '../../redux/store';
+import { wrapper } from '../../store';
 
 function Storefront({ subdomain }: { subdomain: string }) {
 	const organization = useAppSelector(
@@ -68,7 +68,6 @@ function Storefront({ subdomain }: { subdomain: string }) {
 			</Paragraph>
 
 			{/* subtitle */}
-
 			<DispensaryStatus />
 		</div>
 	);

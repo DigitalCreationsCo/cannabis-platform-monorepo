@@ -5,6 +5,7 @@
 		"baseUrl": "./src",
 		"strict": false,
 		"module": "es2020",
+		"moduleResolution": "node",
 		"paths": {
 			"@cd/core-lib": ["../../../packages/core-lib/src/index"],
 			"@cd/data-access": ["../../../packages/data-access/src/index"],
