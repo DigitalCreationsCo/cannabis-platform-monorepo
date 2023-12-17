@@ -1,7 +1,7 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import { createId } from '@paralleldrive/cuid2';
 import {
-	Prisma,
+	type Prisma,
 	type ImageUser,
 	type Membership,
 	type MembershipRole,
@@ -85,34 +85,28 @@ export async function createUser(userData: UserCreateType) {
 		return user;
 	} catch (error: any) {
 		console.error(error);
-		if (
-			error instanceof Prisma.PrismaClientKnownRequestError &&
-			error.code === 'P2002'
-		) {
-			const dupFields = error?.meta?.target;
-			throw new Error(
-				`${dupFields} exists already. Please choose a different ${dupFields}.`,
-			);
-		}
+
+		if (error.code === 'P2002')
+			throw new Error(`Unique value ${error.meta.target[0]} already exists`);
+
 		throw new Error(error.message);
 	}
 }
 
 export async function upsertUser(userData: UserCreateType) {
 	try {
-		const userExists = await prisma.user.findUnique({
-			where: {
-				email: userData.email,
-			},
-		});
-		const newId = createId();
-		const userId = userData.id ?? userExists?.id ?? newId;
+		const { id } = userData;
+		// const userExists = await prisma.user.findUnique({
+		// 	where: {
+		// 		id,
+		// 	},
+		// });
 		const user = await prisma.user.upsert({
 			where: {
-				email: userData.email,
+				id,
 			},
 			create: {
-				id: userId,
+				id,
 				email: userData.email,
 				emailVerified: userData.emailVerified ?? false,
 				username: userData.username,
@@ -222,7 +216,7 @@ export async function upsertUser(userData: UserCreateType) {
 				profilePicture: {
 					connectOrCreate: {
 						where: {
-							userId,
+							userId: id,
 						},
 						create: {
 							location: userData.profilePicture?.location,
@@ -245,15 +239,10 @@ export async function upsertUser(userData: UserCreateType) {
 		return user;
 	} catch (error: any) {
 		console.error('upset user error: ', error);
-		if (
-			error instanceof Prisma.PrismaClientKnownRequestError &&
-			error.code === 'P2002'
-		) {
-			const dupFields = error?.meta?.target;
-			throw new Error(
-				`${dupFields} exists already. Please choose a different ${dupFields}.`,
-			);
-		}
+
+		if (error.code === 'P2002')
+			throw new Error(`Unique value ${error.meta.target[0]} already exists`);
+
 		throw new Error(error.message);
 	}
 }
@@ -349,15 +338,10 @@ export async function updateUser(userData: UserCreateType) {
 		return user;
 	} catch (error: any) {
 		console.error(error);
-		if (
-			error instanceof Prisma.PrismaClientKnownRequestError &&
-			error.code === 'P2002'
-		) {
-			const dupFields = error?.meta?.target;
-			throw new Error(
-				`${dupFields} exists already. Please choose a different ${dupFields}.`,
-			);
-		}
+
+		if (error.code === 'P2002')
+			throw new Error(`Unique value ${error.meta.target[0]} already exists`);
+
 		throw new Error(error.message);
 	}
 }
@@ -421,9 +405,10 @@ export async function upsertDispensaryAdmin(
 	} catch (error: any) {
 		console.error(error.message);
 		console.error('error code', error.code);
-		if (error.code === 'P2002') {
+
+		if (error.code === 'P2002')
 			throw new Error(`Unique value ${error.meta.target[0]} already exists`);
-		}
+
 		throw new Error('An error occured while creating the user.');
 	}
 }
@@ -509,9 +494,9 @@ export async function updateDispensaryAdmin(
 		console.info('updated Dispensary Staff record: ', user.email);
 		return user;
 	} catch (error: any) {
-		if (error.code === 'P2002') {
+		if (error.code === 'P2002')
 			throw new Error(`Unique value ${error.meta.target[0]} already exists`);
-		}
+
 		throw new Error(error.message);
 	}
 }

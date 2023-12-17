@@ -96,7 +96,6 @@ export default class UserDA {
 
 	static async upsertUser(upsertUserData: UserCreateType) {
 		try {
-			console.info('upsertUserData: ', upsertUserData);
 			return await upsertUser(upsertUserData);
 		} catch (error: any) {
 			throw new Error(error.message);

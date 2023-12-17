@@ -1,6 +1,7 @@
 import { Center, H1, H6, type LayoutContextProps, Page } from '@cd/ui-lib';
 import Image from 'next/image';
 import meadow from '../../public/meadow.jpg';
+
 function AgeNotEnough() {
 	return (
 		<Page>

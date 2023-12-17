@@ -7,6 +7,7 @@ export * from './schedule.util';
 export * from './stripe.util';
 export * from './time.util';
 export * from './transaction.util';
+export * from './phone.util';
 export * from './ui.util';
 export * from './url.util';
 export * from './urlBuilder';

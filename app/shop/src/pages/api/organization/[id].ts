@@ -1,34 +1,51 @@
 import { axios, urlBuilder } from '@cd/core-lib';
-import { type NextApiRequest, type NextApiResponse } from 'next';
 import nc from 'next-connect';
+import NextCors from 'nextjs-cors';
 import NodeCache from 'node-cache';
+import Supertokens from 'supertokens-node';
+import { superTokensNextWrapper } from 'supertokens-node/nextjs';
+import { verifySession } from 'supertokens-node/recipe/session/framework/express';
+import { backendConfig } from '../../../config';
+
+Supertokens.init(backendConfig());
 
 // Notes on caching in directory: /_dev/cache.txt
 const cache = new NodeCache({ stdTTL: 30 });
-const handler = nc();
 
-// THIS IS THE CORRECT RESPONSE HANDLING PATTERN WITH AXIOS CONFIG! VVV
 // get a single organization details
-handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = nc();
+handler.get(async (req: any, res: any) => {
 	try {
+		await NextCors(req, res, {
+			methods: ['GET'],
+			origin: process.env.NEXT_PUBLIC_SHOP_APP_URL,
+			credentials: true,
+			allowedHeaders: ['content-type', ...Supertokens.getAllCORSHeaders()],
+		});
+
+		await superTokensNextWrapper(
+			async (next) => {
+				return await verifySession()(req, res, next);
+			},
+			req,
+			res,
+		);
+
 		res.setHeader('Cache-Control', 'public, s-maxage=60');
 
 		const { id } = req.query;
-		console.debug('get organization by Id: ', id);
 		if (cache.has(`organization/${id}`)) {
-			console.debug('cache hit');
 			const org = cache.get(`organization/${id}`);
 			return res.status(200).json({
 				success: 'true',
 				payload: org,
-				fromCache: true,
 			});
 		} else {
-			console.debug('cache miss');
-			const response = await axios(urlBuilder.main.organizationById(id));
+			const response = await axios(urlBuilder.main.organizationById(id), {
+				headers: { ...req.headers },
+			});
 			if (response.data.success == 'false')
-				throw new Error(response.data.message);
-			console.debug('cache set');
+				throw new Error(response.data.error);
 			cache.set(`organization/${id}`, response.data.payload);
 			return res.status(200).json({
 				success: 'true',
@@ -36,7 +53,7 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 			});
 		}
 	} catch (error: any) {
-		console.error('next-api organization[id] Error: ', error.message);
+		console.error('api get organization: ', error.message);
 		return res.json({
 			success: 'false',
 			error: error.message,

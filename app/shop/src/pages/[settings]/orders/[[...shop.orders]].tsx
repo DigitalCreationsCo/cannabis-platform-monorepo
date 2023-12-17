@@ -4,6 +4,7 @@ import {
 	urlBuilder,
 	usePagination,
 	userActions,
+	useAppDispatch,
 } from '@cd/core-lib';
 import { type OrderWithShopDetails } from '@cd/data-access';
 import {
@@ -16,20 +17,46 @@ import {
 	Row,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
+import NextCors from 'nextjs-cors';
 import { useEffect } from 'react';
-import { useAppDispatch } from '../../../redux/hooks';
-import { wrapper } from '../../../redux/store';
+import Supertokens from 'supertokens-node';
+import { superTokensNextWrapper } from 'supertokens-node/nextjs';
+import { verifySession } from 'supertokens-node/recipe/session/framework/express';
+import { backendConfig } from '../../../config';
+import { wrapper } from '../../../store';
+
+if (typeof window === 'undefined') {
+	Supertokens.init(backendConfig());
+}
 
 export const getServerSideProps = wrapper.getServerSideProps(
 	() =>
-		async ({ query }: any) => {
+		async ({ query, req, res }: { query: any; req: any; res: any }) => {
 			try {
-				if (!query.settings) throw new Error();
-				const response = await axios.get(
+				await NextCors(req, res, {
+					methods: ['GET'],
+					origin: process.env.NEXT_PUBLIC_SHOP_APP_URL,
+					credentials: true,
+					allowedHeaders: ['content-type', ...Supertokens.getAllCORSHeaders()],
+				});
+
+				await superTokensNextWrapper(
+					async (next) => {
+						return await verifySession()(req, res, next);
+					},
+					req,
+					res,
+				);
+
+				if (!query.settings) throw new Error('no query found');
+
+				const response = await axios(
 					urlBuilder.shop + `/api/user/${query.settings}/orders`,
+					{ headers: { ...req.headers } },
 				);
 				if (response.data.success === 'false')
 					throw new Error(response.data.error);
+
 				return {
 					props: {
 						user: { id: query.settings },
@@ -37,7 +64,6 @@ export const getServerSideProps = wrapper.getServerSideProps(
 					},
 				};
 			} catch (error) {
-				console.log(error);
 				return {
 					notFound: true,
 				};
@@ -52,22 +78,22 @@ interface ShopOrdersProps {
 
 function ShopOrders({ user, orders }: ShopOrdersProps) {
 	const dispatch = useAppDispatch();
+
 	useEffect(() => {
 		dispatch(userActions.updateOrders(orders));
 	}, [orders]);
 
-	console.info('page props, orders: ', orders);
 	const { current, PaginationButtons } = usePagination(orders);
 
 	return (
 		<Page className="pb-0 md:pb-24">
-			<Card className="mx-auto">
+			<Card className="mx-auto h-full">
 				<H2 className="text-primary">{TextContent.account.MY_ORDERS}</H2>
 				<Grid className="w-full gap-2">
 					<Row className="grid h-[44px] grid-cols-12 border-none shadow-none drop-shadow-none">
 						<H6 className="col-span-4">order</H6>
 						<H6 className="col-span-4">status</H6>
-						<H6 className="col-span-2">date of sale</H6>
+						<H6 className="col-span-2">date</H6>
 						<H6 className="col-span-2 justify-self-end">total</H6>
 					</Row>
 					{current.length > 0 ? (

@@ -1,4 +1,9 @@
-import { isLegalAgeAndVerified, TextContent, userActions } from '@cd/core-lib';
+import {
+	type ConsumerCodeResponse,
+	isLegalAgeAndVerified,
+	TextContent,
+	userActions,
+} from '@cd/core-lib';
 import { type UserWithDetails } from '@cd/data-access';
 import { useFormik } from 'formik';
 import Image from 'next/image';
@@ -234,22 +239,22 @@ function LoginModal({
 
 		const handleOTPAndSignIn = async () => {
 			try {
-				const response = await consumeCode({
+				const response = (await consumeCode({
 					userInputCode: values.passcode,
-				});
+				})) as unknown as ConsumerCodeResponse;
 				console.info('OTP signin response', response);
 				if (response.status === 'OK') {
-					console.debug(
-						'user is legal age and verified, ',
-						isLegalAgeAndVerified(response.user as unknown as UserWithDetails),
-					);
-					if (
-						isLegalAgeAndVerified(response.user as unknown as UserWithDetails)
-					) {
+					const { _user } = response as ConsumerCodeResponse;
+					if (isLegalAgeAndVerified(_user.user as UserWithDetails)) {
 						setCookie('yesOver21', 'true');
 						console.debug('set yesOver21 cookie to true');
 					}
-					dispatch(userActions.signinUserSync(response.user));
+					dispatch(
+						userActions.signinUserSync({
+							token: _user.token,
+							user: _user.user as UserWithDetails,
+						}),
+					);
 				}
 				toast.success(TextContent.account.SIGNING_IN, { duration: 5000 });
 				dispatchCloseModal();

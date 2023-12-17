@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import { Prisma } from '@prisma/client';
 import prisma from './db/prisma';
 import { type DriverCreateType, type DriverWithDetails } from './driver.types';
@@ -8,6 +9,7 @@ import { type UserCreateType } from './user.data';
  *
  * createDriver
  * updateDriver
+ * updateDriverOnlineStatus
  * findDriverWithDetailsByEmail
  * findDriverWithDetailsByPhone
  * findDriverWithDetailsById
@@ -22,6 +24,9 @@ export async function createDriver(userData: DriverCreateType) {
 		return await prisma.driver.create({
 			data: {
 				email: userData.email,
+				driverSession: {
+					create: {},
+				},
 				user: {
 					connectOrCreate: {
 						where: {
@@ -57,6 +62,7 @@ export async function createDriver(userData: DriverCreateType) {
 				},
 			},
 			include: {
+				driverSession: true,
 				user: {
 					include: {
 						address: { include: { coordinates: true } },
@@ -74,11 +80,36 @@ export async function createDriver(userData: DriverCreateType) {
 	}
 }
 
+export async function updateDriverOnlineStatus(id: string, isOnline: boolean) {
+	try {
+		return await prisma.driver.update({
+			where: {
+				id,
+			},
+			data: {
+				driverSession: {
+					upsert: {
+						create: {
+							isOnline,
+						},
+						update: {
+							isOnline,
+						},
+					},
+				},
+			},
+		});
+	} catch (error: any) {
+		if (error.code === 'P2025') throw new Error(error.meta.cause);
+		throw new Error(error.message);
+	}
+}
+
 export async function updateDriver(userData: UserCreateType) {
 	try {
 		const { coordinates, ...addressData } = userData.address[0];
 
-		const user = await prisma.user.update({
+		return await prisma.user.update({
 			where: {
 				email: userData.email,
 			},
@@ -130,12 +161,13 @@ export async function updateDriver(userData: UserCreateType) {
 			include: {
 				address: { include: { coordinates: true } },
 				profilePicture: true,
-				driver: true,
+				driver: {
+					include: {
+						driverSession: true,
+					},
+				},
 			},
 		});
-
-		console.info('user updated: ', user.email);
-		return user;
 	} catch (error: any) {
 		if (
 			error instanceof Prisma.PrismaClientKnownRequestError &&
@@ -153,11 +185,12 @@ export async function findDriverWithDetailsByEmail(
 	email: string,
 ): Promise<DriverWithDetails | null> {
 	try {
-		return await prisma.driver.findUnique({
+		const driver = await prisma.driver.findUnique({
 			where: {
 				email,
 			},
 			include: {
+				driverSession: true,
 				user: {
 					include: {
 						address: { include: { coordinates: true } },
@@ -166,9 +199,21 @@ export async function findDriverWithDetailsByEmail(
 				},
 			},
 		});
+
+		if (!driver)
+			throw new Error(
+				"Sorry, we couldn't find a driver with that email address.",
+			);
+
+		return driver;
 	} catch (error: any) {
-		console.error(error);
-		throw new Error(error.message);
+		console.error('findDriverWithDetailsByEmail: ', error.message);
+
+		if (error.code === 'P2025')
+			throw new Error(
+				"Sorry, we couldn't find a driver with that email address.",
+			);
+		throw new Error('An error occurred while finding the driver.');
 	}
 }
 
@@ -181,7 +226,11 @@ export async function findDriverWithDetailsByPhone(
 				phone,
 			},
 			include: {
-				driver: true,
+				driver: {
+					include: {
+						driverSession: true,
+					},
+				},
 				address: { include: { coordinates: true } },
 				memberships: {
 					orderBy: {
@@ -193,7 +242,9 @@ export async function findDriverWithDetailsByPhone(
 		});
 
 		if (!user || !user.driver)
-			throw new Error("Sorry, we couldn't find you. Please try again.");
+			throw new Error(
+				"Sorry, we couldn't find a driver with that phone number.",
+			);
 
 		const { driver, ...userData } = user;
 
@@ -204,8 +255,13 @@ export async function findDriverWithDetailsByPhone(
 			},
 		};
 	} catch (error: any) {
-		console.error(error);
-		throw new Error(error.message);
+		console.error('findDriverWithDetailsByPhone: ', error.message);
+
+		if (error.code === 'P2025')
+			throw new Error(
+				"Sorry, we couldn't find a driver with that phone number.",
+			);
+		throw new Error('An error occurred while finding the driver.');
 	}
 }
 
@@ -213,11 +269,12 @@ export async function findDriverWithDetailsById(
 	id: string,
 ): Promise<DriverWithDetails | null> {
 	try {
-		return await prisma.driver.findUnique({
+		const driver = await prisma.driver.findUnique({
 			where: {
 				id,
 			},
 			include: {
+				driverSession: true,
 				user: {
 					include: {
 						address: { include: { coordinates: true } },
@@ -226,9 +283,15 @@ export async function findDriverWithDetailsById(
 				},
 			},
 		});
+
+		if (!driver) throw new Error("Sorry, we couldn't find a driver.");
+		return driver;
 	} catch (error: any) {
-		console.error(error);
-		throw new Error(error.message);
+		console.error('findDriverWithDetailsById: ', error.message);
+
+		if (error.code === 'P2025')
+			throw new Error("Sorry, we couldn't find a driver.");
+		throw new Error('An error occurred while finding the driver.');
 	}
 }
 
@@ -240,7 +303,7 @@ export async function deleteDriverById(id: string) {
 			},
 		});
 	} catch (error: any) {
-		console.error(error);
+		console.error('deleteDriverById:', error.message);
 		if (error.meta.cause) throw new Error(error.meta.cause);
 		throw new Error(error.message);
 	}

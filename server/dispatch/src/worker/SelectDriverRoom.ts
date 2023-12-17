@@ -50,7 +50,9 @@ class SelectDriverRoom extends WorkerRoom {
 				this.clients.forEach((client) => {
 					// send declined order notification to the declined clients
 					if (
-						!acceptingClients.find((acceptingC) => acceptingC.id === client.id)
+						!acceptingClients.find(
+							(acceptingC) => acceptingC.userId === client.userId,
+						)
 					) {
 						this.messager.sendSMS({
 							event: dispatchEvents.order_assigned_to_another_driver,
@@ -68,10 +70,12 @@ class SelectDriverRoom extends WorkerRoom {
 
 					// send accept order notification to the accepted client
 					if (
-						acceptingClients.find((acceptingC) => acceptingC.id === client.id)
+						acceptingClients.find(
+							(acceptingC) => acceptingC.userId === client.userId,
+						)
 					) {
 						console.info(
-							`${this.id}: client ${client.id} accepted order ${client.orderId}`,
+							`${this.id}: client ${client.userId} accepted order ${client.orderId}`,
 						);
 						this.messager.sendSMS({
 							event: dispatchEvents.order_assigned,

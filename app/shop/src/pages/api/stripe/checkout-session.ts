@@ -1,23 +1,41 @@
 import { axios, urlBuilder } from '@cd/core-lib';
-import { type NextApiRequest, type NextApiResponse } from 'next';
 import nc from 'next-connect';
+import NextCors from 'nextjs-cors';
+import Supertokens from 'supertokens-node';
+import { superTokensNextWrapper } from 'supertokens-node/nextjs';
+import { verifySession } from 'supertokens-node/recipe/session/framework/express';
+import { backendConfig } from '../../../config';
 
-const handler = nc();
+Supertokens.init(backendConfig());
 
 // create stripe checkout
-handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = nc();
+handler.post(async (req: any, res: any) => {
 	try {
-		const checkoutOrder = req.body;
+		await NextCors(req, res, {
+			methods: ['POST'],
+			origin: process.env.NEXT_PUBLIC_SHOP_APP_URL,
+			credentials: true,
+			allowedHeaders: ['content-type', ...Supertokens.getAllCORSHeaders()],
+		});
 
-		const response = await axios.post(
-			urlBuilder.payment.checkout(),
-			checkoutOrder,
+		await superTokensNextWrapper(
+			async (next) => {
+				return await verifySession()(req, res, next);
+			},
+			req,
+			res,
 		);
 
-		console.log('response: ', response.data);
+		const order = req.body;
+
+		const response = await axios.post(urlBuilder.payment.checkout(), order, {
+			headers: { ...req.headers },
+		});
+
 		return res.status(response.status).json(response.data);
 	} catch (error: any) {
-		console.info('next api checkout-session error: ', error.message);
+		console.info('api checkout-session: ', error.message);
 		return res.json({
 			success: 'false',
 			error: error.message,

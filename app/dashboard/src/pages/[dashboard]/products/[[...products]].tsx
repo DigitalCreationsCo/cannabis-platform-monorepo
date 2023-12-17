@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { usePagination } from '@cd/core-lib';
+import { type AppState, usePagination } from '@cd/core-lib';
 import { type ProductWithDashboardDetails } from '@cd/data-access';
 import {
 	Grid,
@@ -17,7 +17,6 @@ import { useState, type Dispatch, type SetStateAction } from 'react';
 import { toast } from 'react-hot-toast';
 import { connect } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
-import { type RootState } from '../../../redux/store';
 
 interface ProductsDashboardProps {
 	products: ProductWithDashboardDetails[];
@@ -117,7 +116,7 @@ Products.getLayoutContext = (): LayoutContextProps => ({
 	},
 });
 
-function mapStateToProps(state: RootState) {
+function mapStateToProps(state: AppState) {
 	const { dispensary } = state;
 	return {
 		products: dispensary.products,

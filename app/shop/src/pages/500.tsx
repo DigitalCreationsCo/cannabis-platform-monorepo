@@ -1,24 +1,25 @@
-export default function Custom500() {
-	return <h1>500 - Server-side error occurred</h1>;
+import {
+	CopyRight,
+	ErrorMessage,
+	Page,
+	type LayoutContextProps,
+} from '@cd/ui-lib';
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+function _500() {
+	return (
+		<Page>
+			<ErrorMessage
+				code={500}
+				message={`An error occured. Please try again or contact our support team.`}
+			/>
+			<CopyRight className="m-auto" />
+		</Page>
+	);
 }
 
-// import { ErrorMessage, Page, type LayoutContextProps } from '@cd/ui-lib';
+_500.getLayoutContext = (): LayoutContextProps => ({
+	showHeader: false,
+});
 
-// // eslint-disable-next-line @typescript-eslint/naming-convention
-// function _500() {
-// 	return (
-// 		<Page>
-// 			<ErrorMessage
-// 				code={500}
-// 				message={`Thank you for using our service. Our servers are not available currently.
-//                     Please dial the support phone number or try again later.`}
-// 			/>
-// 		</Page>
-// 	);
-// }
-
-// _500.getLayoutContext = (): LayoutContextProps => ({
-// 	showHeader: false,
-// });
-
-// export default _500;
+export default _500;

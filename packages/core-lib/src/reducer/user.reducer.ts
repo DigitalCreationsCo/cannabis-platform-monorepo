@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 import {
@@ -5,7 +7,6 @@ import {
 	type UserWithDetails,
 } from '@cd/data-access';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import type Passwordless from 'supertokens-node/recipe/passwordless';
 import { type AppState, type ThunkArgumentsType } from '../types';
 import { pruneData, reconcileStateArray } from '../utils';
 
@@ -16,8 +17,7 @@ export const signOutUserAsync = createAsyncThunk<
 		// dispatch: Dispatch<AnyAction>;
 		extra: ThunkArgumentsType;
 	}
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
->('user/signOutUserAsync', async (_, { dispatch, extra, rejectWithValue }) => {
+>('user/signOutUserAsync', async (_, { extra, rejectWithValue }) => {
 	try {
 		const { signOut } = extra.supertokens;
 		await signOut();
@@ -27,9 +27,8 @@ export const signOutUserAsync = createAsyncThunk<
 });
 
 export type UserStateProps = {
-	token: string | null;
+	token: string;
 	user: UserWithDetails;
-	// friendList: any[];
 	isSignedIn: boolean;
 	isLoading: boolean;
 	isSuccess: boolean;
@@ -60,7 +59,6 @@ const initialState: UserStateProps = {
 		],
 		phone: '',
 		orders: [],
-		// preferences: {},
 		emailVerified: false,
 		isLegalAge: null,
 		idVerified: false,
@@ -81,16 +79,22 @@ export const userSlice = createSlice({
 	reducers: {
 		signinUserSync: (
 			state,
-			{ payload }: { payload: UserWithDetails | Passwordless.User },
+			{ payload }: { payload: { user: UserWithDetails; token: string } },
 		) => {
 			console.info('signinUserSync payload', payload);
-			const user = pruneData(payload, ['timeJoined', 'createdAt', 'updatedAt']);
-			state.user = user;
+			let { token, user } = payload;
+			state.token = token;
+			state.user = pruneData(user, ['createdAt', 'updatedAt']);
 			state.isSignedIn = true;
 			state.isLoading = false;
 			state.isSuccess = true;
 			state.isError = false;
-			console.info('user reducer');
+
+			document.cookie = 'yesOver21=true;path=/';
+			if (!user.isSignUpComplete) {
+				document.cookie = 'isSignUpComplete=false;path=/';
+			}
+			window.location.reload();
 		},
 		updateOrders: (
 			state,
@@ -100,7 +104,6 @@ export const userSlice = createSlice({
 				payload: OrderWithShopDetails[];
 			},
 		) => {
-			console.info('updateOrders action');
 			const orders = payload;
 			reconcileStateArray(state.user.orders, orders);
 		},
@@ -115,8 +118,10 @@ export const userSlice = createSlice({
 		},
 	},
 	extraReducers: (builder) => {
-		builder.addCase(signOutUserAsync.fulfilled, () => {
-			return initialState;
+		builder.addCase(signOutUserAsync.fulfilled, (state) => {
+			document.cookie = 'yesOver21=false;path=/';
+			window.location.href = '/';
+			return (state = initialState);
 		}),
 			builder.addCase(signOutUserAsync.pending, (state) => {
 				state.isLoading = true;

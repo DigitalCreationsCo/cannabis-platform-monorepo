@@ -1,4 +1,5 @@
 import {
+	type AppState,
 	axios,
 	dispensaryActions,
 	TextContent,
@@ -27,7 +28,7 @@ import { useMemo } from 'react';
 import { connect } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import { FeatureConfig } from '../../config/dashboard.features';
-import { wrapper, type RootState } from '../../redux/store';
+import { wrapper } from '../../store';
 
 interface DashboardProps {
 	organization: OrganizationWithDashboardDetails;
@@ -165,10 +166,10 @@ Dashboard.getLayoutContext = (): LayoutContextProps => ({
 	showSideNav: true,
 });
 
-function mapStateToProps(state: RootState) {
+function mapStateToProps(state: AppState) {
 	const { user, dispensary } = state;
 	return {
-		user: user.user,
+		user: user.user as UserDispensaryAdmin,
 		organization: dispensary.dispensary,
 		products: dispensary.products,
 		orders: dispensary.orders,

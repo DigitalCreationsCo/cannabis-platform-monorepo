@@ -1,8 +1,7 @@
-import { TextContent } from '@cd/core-lib';
+import { type AppState, TextContent } from '@cd/core-lib';
 import { type OrganizationWithDashboardDetails } from '@cd/data-access';
 import {
 	Button,
-	H2,
 	Icons,
 	Page,
 	PageHeader,
@@ -11,7 +10,6 @@ import {
 import Link from 'next/link';
 import { connect } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
-import { type RootState } from '../../../redux/store';
 
 function Settings({
 	organization,
@@ -47,7 +45,7 @@ Settings.getLayoutContext = (): LayoutContextProps => ({
 	showSideNav: true,
 });
 
-function mapStateToProps(state: RootState) {
+function mapStateToProps(state: AppState) {
 	const { dispensary } = state;
 	return {
 		organization: dispensary.dispensary,

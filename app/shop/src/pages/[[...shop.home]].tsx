@@ -5,6 +5,8 @@ import {
 	modalTypes,
 	selectUserState,
 	TextContent,
+	useAppDispatch,
+	useAppSelector,
 } from '@cd/core-lib';
 import {
 	Button,
@@ -31,7 +33,6 @@ import friends2 from '../../public/friends2.png';
 import friendsVideo from '../../public/Gras-community-clip.mp4';
 import backdrop from '../../public/marijuana-backdrop.png';
 import { FlowingBackDrop } from '../lib/FlowingBackDrop';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
 
 function FriendsPictures() {
 	return (

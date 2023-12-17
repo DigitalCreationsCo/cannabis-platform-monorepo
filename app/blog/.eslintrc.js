@@ -36,7 +36,6 @@ module.exports = {
 		{
 			files: ['next.config.mjs'],
 			rules: {
-				'import/order': 'off',
 				'@typescript-eslint/ban-ts-comment': 'off',
 			},
 		},

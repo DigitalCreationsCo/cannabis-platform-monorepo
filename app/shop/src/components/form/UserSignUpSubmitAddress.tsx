@@ -1,4 +1,8 @@
-import { urlBuilder, usStatesAbbreviationList } from '@cd/core-lib';
+import {
+	TextContent,
+	urlBuilder,
+	usStatesAbbreviationList,
+} from '@cd/core-lib';
 import { type AddressCreateType } from '@cd/data-access';
 import {
 	Button,
@@ -183,11 +187,12 @@ function SubmitAddressForm() {
 					helperText={touched?.address?.state && errors?.address?.state}
 				/> */}
 				<FlexBox className="flex-row items-center">
-					<Paragraph className="text-lg">STATE</Paragraph>
 					<Select
+						name="address.state"
+						label="* state"
 						className="rounded border text-lg"
 						values={usStatesAbbreviationList}
-						defaultValue={'MD'}
+						// setOption={handleChange('address.state')}
 						setOption={handleChange}
 					/>
 				</FlexBox>
@@ -222,7 +227,7 @@ function SubmitAddressForm() {
 							prevFormStep();
 						}}
 					>
-						go back
+						{TextContent.ui.BACK}
 					</Button>
 					<Button
 						id="submit-address-step-2"
@@ -236,7 +241,7 @@ function SubmitAddressForm() {
 							handleSubmit();
 						}}
 					>
-						Next
+						{TextContent.ui.CONTINUE}
 					</Button>
 				</FlexBox>
 			</Grid>

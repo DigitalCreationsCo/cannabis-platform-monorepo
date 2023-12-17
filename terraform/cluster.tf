@@ -88,13 +88,18 @@ resource "null_resource" "local_k8s_context" {
   }
 }
 
-resource "kubernetes_namespace" "redis" {
-  depends_on = [google_container_cluster.gras_cluster]
+# resource "kubernetes_namespace" "redis" {
+#   depends_on = [google_container_cluster.gras_cluster]
 
-  metadata {
-    annotations = {
-      name = "redis"
-    }
-    name = "redis"
-  }
-}
+#   metadata {
+#     annotations = {
+#       name = "redis"
+#     }
+
+#     labels = {
+#       mylabel = "redis"
+#     }
+
+#     name = "redis"
+#   }
+# }
