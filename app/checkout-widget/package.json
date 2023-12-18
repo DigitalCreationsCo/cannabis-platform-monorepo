@@ -28,6 +28,7 @@
 		"build": "NODE_ENV=production webpack-cli --mode production && dotenv -e ../../.env.production -- webpack",
 		"build:css": "tailwindcss -o ./src/styles/tailwind.css",
 		"build:storybook": "storybook build --output-dir dist/storybook",
+		"clean": "rm -rf ./.next ./out ./dist ./build ./node_modules ./coverage ./tsconfig.tsbuildinfo",
 		"deploy": "yarn build && cd deploy && gcloud app deploy",
 		"dev": "npm-run-all --parallel --print-label watch-tailwind dev-server",
 		"dev-server": "(npx local-ssl-proxy --config proxy.config.json) & NODE_ENV=development dotenv -e ../../.env.development -- webpack-dev-server",
