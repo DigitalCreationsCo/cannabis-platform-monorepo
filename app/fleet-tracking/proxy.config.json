@@ -1,9 +1,0 @@
-{
-	"fleet-tracking-proxy": {
-		"source": 3013,
-		"target": 3003,
-		"hostname": "localhost",
-		"key": "../../proxy-certs/localhost.key",
-		"cert": "../../proxy-certs/localhost.crt"
-	}
-}

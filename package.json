@@ -33,7 +33,7 @@
 		"g:build-css": "yarn workspaces foreach run build:css",
 		"g:changeset": "changeset",
 		"g:check-dist": "yarn workspaces foreach -ptv run check-dist",
-		"g:clean": "rm -rf node_modules && yarn workspaces foreach -ptv run clean",
+		"g:clean": "yarn workspaces foreach run clean && rm -rf node_modules",
 		"g:codegen": "yarn workspaces foreach -ptv run codegen",
 		"g:typecheck": "yarn workspaces foreach -ptv run typecheck",
 		"g:lint": "yarn workspaces foreach -ptv run lint --color",
