@@ -1,6 +1,6 @@
 FROM grasadmin/node_modules as cache
 
-FROM node:18-alpine3.18 as build
+FROM node:18-alpine3.17 as build
 WORKDIR /root
 COPY --from=cache /node_modules ./node_modules
 COPY package.json ./
