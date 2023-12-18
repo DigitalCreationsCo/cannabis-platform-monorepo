@@ -373,6 +373,7 @@ PODS:
     - glog
     - hermes-engine
     - RCT-Folly (= 2021.07.22.00)
+<<<<<<< HEAD
     - React-callinvoker (= 0.71.14)
     - React-Core (= 0.71.14)
     - React-cxxreact (= 0.71.14)
@@ -381,6 +382,14 @@ PODS:
     - React-perflogger (= 0.71.14)
   - RealmJS (12.3.1):
     - React
+=======
+    - React-callinvoker (= 0.71.8)
+    - React-Core (= 0.71.8)
+    - React-cxxreact (= 0.71.8)
+    - React-jsi (= 0.71.8)
+    - React-logger (= 0.71.8)
+    - React-perflogger (= 0.71.8)
+>>>>>>> feat/dashboard-delivery-tracking
   - RNCAsyncStorage (1.17.11):
     - React-Core
   - RNGestureHandler (2.9.0):
@@ -567,7 +576,11 @@ SPEC CHECKSUMS:
   EXFileSystem: 0b4a2c08c2dc92146849772145d61c1773144283
   EXFont: 6ea3800df746be7233208d80fe379b8ed74f4272
   EXLocation: 74a0ba446f54fd585ea6cfcd19a25644bf22c30d
+<<<<<<< HEAD
   Expo: 0d9f112757acc6bf32103eabccf91267780bd580
+=======
+  Expo: 8448e3a2aa1b295f029c81551e1ab6d986517fdb
+>>>>>>> feat/dashboard-delivery-tracking
   ExpoKeepAwake: 69f5f627670d62318410392d03e0b5db0f85759a
   ExpoModulesCore: 653958063a301098b541ae4dfed1ac0b98db607b
   ExpoSystemUI: 0be5173ee2a7c01e9abc44f56d879a1eaaa16527
@@ -594,6 +607,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 7bf923954b4e035f494b01ac16633963412660d7
   React-logger: 655ff5db8bd922acfbe76a4983ffab048916343e
   react-native-maps: 085f614cf14d3637b2048bb9752da5b1c27c2886
+<<<<<<< HEAD
   react-native-safe-area-context: 2cd91d532de12acdb0a9cbc8d43ac72a8e4c897c
   React-perflogger: 4987ad83731c23d11813c84263963b0d3028c966
   React-RCTActionSheet: 5ad952b2a9740d87a5bd77280c4bc23f6f89ea0c
@@ -610,6 +624,24 @@ SPEC CHECKSUMS:
   ReactCommon: 7f3dd5e98a9ec627c6b03d26c062bf37ea9fc888
   RealmJS: 578e16cf7c0b32c13a23b2df667b021bb3c36f1c
   RNCAsyncStorage: 8616bd5a58af409453ea4e1b246521bb76578d60
+=======
+  react-native-safe-area-context: 39c2d8be3328df5d437ac1700f4f3a4f75716acc
+  React-perflogger: d21f182895de9d1b077f8a3cd00011095c8c9100
+  React-RCTActionSheet: 0151f83ef92d2a7139bba7dfdbc8066632a6d47b
+  React-RCTAnimation: 5ec9c0705bb2297549c120fe6473aa3e4a01e215
+  React-RCTAppDelegate: 9895fd1b6d1176d88c4b10ddc169b2e1300c91f0
+  React-RCTBlob: f3634eb45b6e7480037655e1ca93d1136ac984dd
+  React-RCTImage: 3c12cb32dec49549ae62ed6cba4018db43841ffc
+  React-RCTLinking: 310e930ee335ef25481b4a173d9edb64b77895f9
+  React-RCTNetwork: b6837841fe88303b0c04c1e3c01992b30f1f5498
+  React-RCTSettings: 600d91fe25fa7c16b0ff891304082440f2904b89
+  React-RCTText: a0a19f749088280c6def5397ed6211b811e7eef3
+  React-RCTVibration: 43ffd976a25f6057a7cf95ea3648ba4e00287f89
+  React-runtimeexecutor: 7c51ae9d4b3e9608a2366e39ccaa606aa551b9ed
+  ReactCommon: 85c98ab0a509e70bf5ee5d9715cf68dbf495b84c
+  RNCAsyncStorage: 8616bd5a58af409453ea4e1b246521bb76578d60
+  RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
+>>>>>>> feat/dashboard-delivery-tracking
   RNGestureHandler: 071d7a9ad81e8b83fe7663b303d132406a7d8f39
   RNScreens: 218801c16a2782546d30bd2026bb625c0302d70f
   RNSVG: 07dbd870b0dcdecc99b3a202fa37c8ca163caec2
