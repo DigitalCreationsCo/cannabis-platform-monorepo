@@ -1,6 +1,5 @@
 import { config } from 'dotenv';
 import { expand } from 'dotenv-expand';
-import withTranspiledModules from 'next-transpile-modules';
 import {
 	PHASE_DEVELOPMENT_SERVER,
 	PHASE_PRODUCTION_BUILD,
@@ -8,7 +7,7 @@ import {
 } from 'next/constants.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { loadEnv } from './src/config/loadEnv.mjs';
+import { loadEnv } from './config/loadEnv.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -34,6 +33,12 @@ const nextConfig = (phase) => {
 	 */
 	const config = {
 		basePath: '/blog',
+		transpilePackages: [
+			'@cd/eslint-config',
+			'@cd/data-access',
+			'@cd/core-lib',
+			'@cd/ui-lib',
+		],
 		webpack: (config) => {
 			config.resolve.fallback = {
 				...config.resolve.fallback,
@@ -64,16 +69,12 @@ const nextConfig = (phase) => {
 				'https://storage.cloud.google.com',
 				'www.storage.cloud.google.com',
 				'storage.cloud.google.com',
+				'cdn.sanity.io',
+				'source.unsplash.com',
 			],
 		},
 	};
-
-	return withTranspiledModules([
-		'@cd/eslint-config',
-		'@cd/data-access',
-		'@cd/core-lib',
-		'@cd/ui-lib',
-	])(config);
+	return config;
 };
 
 export default nextConfig;

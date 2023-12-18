@@ -14,3 +14,4 @@ export function assertType<T>(
 		throw new Error(errorMessage);
 	}
 }
+export type ValueOf<T> = T[keyof T];

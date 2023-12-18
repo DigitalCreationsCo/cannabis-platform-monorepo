@@ -19,19 +19,13 @@ interface LayoutContextProps {
 	showTopBar?: boolean;
 	showHeader?: boolean;
 	showFooter?: boolean;
+	showSideNavOnDesktop?: boolean;
 	TopBarComponent?: React.ElementType;
 }
 
 interface LayoutProps extends LayoutContextProps, PropsWithChildren {
-	showSideNavOnDesktop?: boolean;
-	showSideNav?: boolean;
-	showHeader?: boolean;
-	showTopBar?: boolean;
 	SideNavComponent: React.ElementType;
 	signOut?: () => void;
-	onSearchChange?: ChangeEventHandler<HTMLInputElement> &
-		ReactEventHandler<Element>;
-	placeholder?: string;
 	isSession: boolean;
 	isModalVisible?: boolean;
 	className?: string | string[];
@@ -41,11 +35,11 @@ interface LayoutProps extends LayoutContextProps, PropsWithChildren {
 // header goes in here as generic component with props
 function Layout({
 	showSideNav = true,
-	showHeader = true,
-	showTopBar = true,
 	showSideNavOnDesktop = true,
+	showHeader = true,
 	showHeaderDrawer = true,
 	showSearch = true,
+	showTopBar = true,
 	showFooter = true,
 	SideNavComponent,
 	TopBarComponent,
@@ -58,9 +52,8 @@ function Layout({
 	className,
 }: LayoutProps & PropsWithChildren) {
 	const styles = {
-		// main: 'bg-inverse-soft flex flex-col grow border',
 		main: 'bg-inherit flex-1',
-		isModalOverlay: isModalVisible && 'w-full fixed',
+		isModalOverlay: isModalVisible && 'w-full fixed bg-inherit',
 	};
 
 	const navLinkContainerId = 'dashboard-links-container';
@@ -74,7 +67,7 @@ function Layout({
 				className,
 			)}
 		>
-			<div className={styles.main}>
+			<div className={twMerge(styles.main)}>
 				{showTopBar && TopBarComponent && (
 					<TopBarComponent signOut={signOut} doesSessionExist={isSession} />
 				)}

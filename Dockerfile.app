@@ -1,6 +1,6 @@
 FROM --platform=linux/amd64 grasadmin/node_modules as cache
 
-FROM --platform=linux/amd64 node:16-alpine as build
+FROM --platform=linux/amd64 node:18.19-alpine as build
 ARG BUILD_TYPE
 ARG BUILD_CONTEXT
 WORKDIR /root
@@ -11,7 +11,7 @@ RUN yarn workspaces focus --all
 RUN yarn workspaces foreach -itR --from @cd/$BUILD_TYPE-$BUILD_CONTEXT run build:ci
 
 
-FROM --platform=linux/amd64 node:16-alpine
+FROM --platform=linux/amd64 node:18.19-alpine
 ENV NODE_ENV=production
 ARG BUILD_TYPE
 ARG BUILD_CONTEXT

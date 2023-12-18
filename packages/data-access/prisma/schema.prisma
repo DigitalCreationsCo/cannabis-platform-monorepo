@@ -1259,4 +1259,3 @@ model userid_mapping {
   @@unique([app_id, supertokens_user_id], map: "userid_mapping_supertokens_user_id_key")
   @@index([app_id, supertokens_user_id], map: "userid_mapping_supertokens_user_id_index")
 }
-

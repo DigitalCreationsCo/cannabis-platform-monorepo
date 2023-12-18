@@ -6,7 +6,7 @@
 		"baseUrl": "./src",
 		"target": "ES2015",
 		"lib": ["ES2015"],
-		"module": "ES2015",
+		"module": "es2020",
 		"noEmit": false,
 		"incremental": true,
 		"paths": {

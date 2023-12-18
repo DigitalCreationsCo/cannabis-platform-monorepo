@@ -19,7 +19,7 @@ const LayoutContainer = (props: LayoutContextProps & PropsWithChildren) => {
 		dispatch(userActions.signOutUserAsync());
 	};
 	return (
-		<div className="bg-accent">
+		<div className="bg-accent-soft">
 			<Layout
 				isModalVisible={modalVisible}
 				SideNavComponent={BlogNavigation}
