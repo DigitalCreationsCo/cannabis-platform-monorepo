@@ -70,7 +70,7 @@ build_node_modules:
     - mkdir -p .docker
     - docker save -o ".docker/fs.tar" "grasadmin/node_modules:${TAG}" "2>&1 || :"
     - docker system prune -a
-  allow_failure: true
+  allow_failure: false
   cache: &node_modules
     key:
       files:
@@ -189,11 +189,9 @@ deploy:
     kubectl get pods
   needs:
     - job: build_module
+      optional: true
   parallel:
     matrix: !reference [.modules]
-  needs:
-    - job: build_module
-      optional: true
 
 .modules:
   - MODULE:
