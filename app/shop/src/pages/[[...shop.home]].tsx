@@ -13,26 +13,18 @@ import {
 	FlexBox,
 	H1,
 	H2,
-	H3,
 	H4,
-	H5,
 	Page,
 	Paragraph,
-	Span,
-	styles,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
-import { motion } from 'framer-motion';
 import Image, { type StaticImageData } from 'next/image';
 import Link from 'next/link';
 import { useState, type PropsWithChildren } from 'react';
-import style from 'styled-jsx/style';
 import { twMerge } from 'tailwind-merge';
 import friends1 from '../../public/friends1.png';
 import friends2 from '../../public/friends2.png';
 import friendsVideo from '../../public/Gras-community-clip.mp4';
-import backdrop from '../../public/marijuana-backdrop.png';
-import { FlowingBackDrop } from '../lib/FlowingBackDrop';
 
 function FriendsPictures() {
 	return (
@@ -135,7 +127,7 @@ function StartPage() {
 						<FlexBox className="flex p-4 px-8 lg:px-20 grow w-full space-x-2">
 							<H1
 								color="light"
-								className="text-3xl sm:text-5xl lg:text-6xl whitespace-pre-line border-b border-transparent text-inverse w-lg"
+								className="text-3xl sm:text-5xl lg:text-6xl whitespace-pre-line border-b border-transparent text-inverse w-lg font-semibold tracking-wide"
 							>
 								{/* Welcome to Gras. */}
 								{TextContent.info.SAME_DAY_DELIVERY}&nbsp;🌴
