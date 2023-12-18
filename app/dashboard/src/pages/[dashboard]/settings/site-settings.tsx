@@ -31,7 +31,7 @@ import {
 	type LayoutContextProps,
 } from '@cd/ui-lib';
 import Link from 'next/link';
-import Router from 'next/router';
+import { default as Router } from 'next/router';
 import { useState } from 'react';
 import { connect } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
