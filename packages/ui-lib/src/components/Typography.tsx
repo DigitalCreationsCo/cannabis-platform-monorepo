@@ -70,6 +70,7 @@ export const H2 = ({
 		<h2
 			className={twMerge(
 				'font-encode',
+				'tracking-wider',
 				styles['cursor-inherit'],
 				'font-bold text-3xl whitespace-normal',
 				(color === 'light' && 'text-inverse') ||
@@ -94,6 +95,7 @@ export const H3 = ({
 		<h3
 			className={twMerge(
 				'font-encode',
+				'tracking-wider',
 				styles['cursor-inherit'],
 				'font-bold text-2xl whitespace-normal',
 				(color === 'light' && 'text-inverse') ||
@@ -118,6 +120,7 @@ export const H4 = ({
 		<h4
 			className={twMerge(
 				'font-encode',
+				'tracking-wider',
 				styles['cursor-inherit'],
 				'font-semibold text-xl whitespace-normal',
 				(color === 'light' && 'text-inverse') ||
@@ -141,6 +144,7 @@ export const H5 = ({
 	return (
 		<h5
 			className={twMerge(
+				'tracking-wider',
 				styles['cursor-inherit'],
 				'font-semibold text-lg whitespace-normal',
 				(color === 'light' && 'text-inverse') ||
@@ -164,6 +168,7 @@ export const H6 = ({
 	return (
 		<h6
 			className={twMerge(
+				'tracking-wider',
 				styles['cursor-inherit'],
 				'font-semibold text-md whitespace-normal',
 				(color === 'light' && 'text-inverse') ||
@@ -189,12 +194,12 @@ export const Paragraph = ({
 			className={twMerge(
 				'font-onest',
 				'font-light',
+				'tracking-wider',
 				styles['cursor-inherit'],
 				'whitespace-pre-line',
 				(color === 'light' && 'text-inverse') ||
 					(color === 'dark' && 'text-dark') ||
 					'text-inherit',
-				'tracking-wide',
 				className,
 			)}
 			{...props}

@@ -25,7 +25,7 @@ import Link from 'next/link';
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
-import logo from '../../public/logo.png';
+import logo from '../../public/logo2.png';
 
 export type TopBarProps = {
 	doesSessionExist?: boolean;
@@ -54,11 +54,11 @@ function TopBar({ signOut }: TopBarProps) {
 	return (
 		<div className={twMerge(styles.TOPBAR.topbar)}>
 			<FlexBox className="flex-row items-center">
-				<Link href={'/'} className="shrink-0">
-					<Image alt="Gras" width={50} height={50} src={logo} />
-				</Link>
 				<Link href={'/'} className="z-50">
 					<GrasSignature className="text-secondary pt-0.5">Gras</GrasSignature>
+				</Link>
+				<Link href={'/'} className="shrink-0">
+					<Image alt="Gras" width={55} height={55} src={logo} />
 				</Link>
 				<Link href={'/'}>
 					<Paragraph className={twMerge(styles.TOPBAR.tagline)}>

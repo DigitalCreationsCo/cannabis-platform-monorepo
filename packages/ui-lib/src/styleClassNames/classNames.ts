@@ -52,7 +52,7 @@ const styles = Object.freeze({
 			'btn focus:!border-primary focus:!ring-primary focus:!outline-primary h-32 w-32 col-span-1 !rounded-full p-0 m-0 overflow-hidden',
 		],
 		highlight: [
-			'border border-transparent transition-10 hover:border hover:border-primary rounded-btn px-4',
+			'border border-transparent transition-10 hover:border hover:border-primary rounded-btn px-4 tracking-wide',
 		],
 	},
 	FOOTER: {
