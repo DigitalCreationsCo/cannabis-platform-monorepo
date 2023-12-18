@@ -11,6 +11,7 @@ const copyrightsymbol = '&#169';
 
 const TextContent = Object.freeze({
 	prompt: {
+		ARE_YOU_LEGAL: 'are you 21 years or older?',
 		ACCEPT_ORDER: 'Do you want to accept the order?',
 		CONFIRM_ADD_TO_CART: `Your bag contains an item from another shop.
     Do you want to empty the bag and add this item instead?`,
@@ -140,13 +141,14 @@ const TextContent = Object.freeze({
 
 	info: {
 		ABOUT_GRAS: `Gras is a home-grown service company. `,
-		ABOUT_GRAS_2: `Gras is a home-grown service-first company. We serve our communities by enabling communication and support between people and businesses.`,
+		ABOUT_GRAS_AND_MISSION: `Gras is a home-grown company creating meaningful experiences for our customers and partners in the cannabis world, one${nbsp}delivery${nbsp}at${nbsp}a${nbsp}time. `,
 		BUILDING_TRUST_WITH_OUR_PARTNERS: `Gras is building a trusted community of partners and cannabis lovers.`,
-		CANNABIS_DELIVERED: `Cannabis,${'\xa0'}Delivered.${'\xa0'}🌴${'\xa0'}🔥`,
-		CANNABIS_DELIVERED_TEXT: `Cannabis,${'\xa0'}Delivered.`,
+		CANNABIS_DELIVERED: `Cannabis,${'\xa0'}Delivered${'\xa0'}🌴${'\xa0'}🔥`,
+		CANNABIS_DELIVERED_TEXT: `Cannabis,${'\xa0'}Delivered`,
 		CANNABIS_DELIVERED_TODAY: `Cannabis,${'\xa0'}Delivered${'\xa0'}Today🌴`,
 		COMPANY_NAME: 'Gras',
 		CONTACT_SUPPORT: `For support, dial ${process.env.NEXT_PUBLIC_SUPPORT_PHONE}.`,
+		ENJOY_BUD_WITH_YOUR_BUDS: 'Enjoy bud with your buds',
 
 		DELIVERY_BY_GRAS: `Delivery by Gras`,
 		EMAIL: 'Email',
@@ -176,6 +178,7 @@ const TextContent = Object.freeze({
 			'Gras delivers for Medicinal and Recreational Dispensaries directly to customers.',
 		YOUR_PEOPLE_ARE_OUR_PEOPLE: `Your people are our people.`,
 		DELIVER_FOR_GRAS: 'Deliver for Gras',
+		SAME_DAY_DELIVERY: 'Same-Day Cannabis Delivery',
 	},
 
 	blog: {

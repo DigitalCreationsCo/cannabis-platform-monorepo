@@ -4389,10 +4389,6 @@ details > summary {
   border-color: var(--primary);
 }
 
-.hover\:bg-accent:hover {
-  background-color: var(--accent);
-}
-
 .hover\:bg-accent-soft:hover {
   background-color: var(--accent-soft);
 }
@@ -4400,30 +4396,6 @@ details > summary {
 .hover\:bg-gray-100:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
-}
-
-.hover\:bg-inverse:hover {
-  background-color: var(--inverse);
-}
-
-.hover\:bg-inverse-soft:hover {
-  background-color: var(--inverse-soft);
-}
-
-.hover\:bg-primary:hover {
-  background-color: var(--primary);
-}
-
-.hover\:bg-primary-light:hover {
-  background-color: var(--primary-light);
-}
-
-.hover\:bg-secondary:hover {
-  background-color: var(--secondary);
-}
-
-.hover\:bg-secondary-light:hover {
-  background-color: var(--secondary-light);
 }
 
 .hover\:bg-transparent:hover {

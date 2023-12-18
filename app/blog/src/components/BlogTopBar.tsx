@@ -68,23 +68,8 @@ function TopBar({ signOut }: TopBarProps) {
 				</Paragraph>
 			</Link>
 			<div className="flex-1"></div>
-			<FlexBox className="flex flex-row items-center space-x-4 px-4 pr-2">
-				{isSignedIn && (
-					<Link
-						className={twMerge('hidden sm:block')}
-						href={TextContent.href.support}
-					>
-						<IconButton
-							className={twMerge(styles.BUTTON.highlight, 'pt-0.5')}
-							iconSize={28}
-							size="sm"
-							hover="transparent"
-							bg="transparent"
-							Icon={Icons.Help}
-							iconColor={'dark'}
-						></IconButton>
-					</Link>
-				)}
+			<FlexBox className="flex flex-row items-center md:space-x-4 md:pr-2">
+				<_AccountDropDown />
 				<Link href={replaceRelativePath(TextContent.href.bag)}>
 					<IconButton
 						className={twMerge(styles.BUTTON.highlight, 'pt-0.5 indicator')}
@@ -102,8 +87,7 @@ function TopBar({ signOut }: TopBarProps) {
 						)}
 					</IconButton>
 				</Link>
-				{isSignedIn && <_AccountDropDown />}
-				{!isSignedIn && (
+				{/* {!isSignedIn && (
 					<FlexBox>
 						<Button
 							className={twMerge(styles.BUTTON.highlight, 'pt-1')}
@@ -115,7 +99,7 @@ function TopBar({ signOut }: TopBarProps) {
 							Sign In
 						</Button>
 					</FlexBox>
-				)}
+				)} */}
 			</FlexBox>
 		</div>
 	);
@@ -123,18 +107,44 @@ function TopBar({ signOut }: TopBarProps) {
 	function AccountDropDown() {
 		return (
 			<div className="dropdown dropdown-end m-0 p-0">
-				<label className="btn btn-ghost h-[54px] w-[54px] rounded-full p-0">
-					<Image
-						tabIndex={0}
-						src={(user.profilePicture?.location as string) || logo}
-						alt={user.email}
-						width={40}
-						height={40}
-						className="rounded-full border"
-						loader={({ src }) => src}
-						unoptimized
-					/>
-				</label>
+				{isSignedIn ? (
+					<label className="btn btn-ghost h-[54px] w-[54px] rounded-full p-0">
+						<Image
+							tabIndex={0}
+							src={(user.profilePicture?.location as string) || logo}
+							alt={user.email}
+							width={40}
+							height={40}
+							className="rounded-full border"
+							loader={({ src }) => src}
+							unoptimized
+						/>
+					</label>
+				) : (
+					<>
+						<FlexBox className="active:bg-accent-soft focus:bg-accent-soft hidden w-full md:block">
+							<Button
+								className={twMerge(styles.BUTTON.highlight, 'pt-1')}
+								size="sm"
+								bg="transparent"
+								hover="transparent"
+								onClick={openLoginModal}
+							>
+								Sign In
+							</Button>
+						</FlexBox>
+						<label tabIndex={0} className="md:hidden">
+							<IconButton
+								className={twMerge(styles.BUTTON.highlight, 'pt-1')}
+								size="sm"
+								bg="transparent"
+								hover="transparent"
+								Icon={Icons.OverflowMenuHorizontal}
+								iconSize={28}
+							/>
+						</label>
+					</>
+				)}
 				<ul
 					tabIndex={0}
 					id="Account-Dropdown"
@@ -142,29 +152,58 @@ function TopBar({ signOut }: TopBarProps) {
 						'menu dropdown-content bg-inverse top-0 absolute right-0 mt-12 w-48 rounded shadow',
 					)}
 				>
-					<FlexBox className="active:bg-accent-soft focus:bg-accent-soft w-full">
-						<Link href={TextContent.href.settings} className="w-full">
+					{(!isSignedIn && (
+						<FlexBox className="active:bg-accent-soft focus:bg-accent-soft w-full md:hidden">
 							<Button
-								size="md"
+								className={twMerge(styles.BUTTON.highlight, 'pt-1 w-full')}
 								bg="transparent"
 								hover="transparent"
-								className="w-full"
+								onClick={openLoginModal}
 							>
-								Settings
+								Sign In
 							</Button>
-						</Link>
-					</FlexBox>
-					<FlexBox className="active:bg-accent-soft focus:bg-accent-soft w-full">
-						<Button
-							size="md"
-							bg="transparent"
-							hover="transparent"
-							className="w-full"
-							onClick={signOut}
-						>
-							Sign Out
-						</Button>
-					</FlexBox>
+						</FlexBox>
+					)) || <></>}
+					{(isSignedIn && (
+						<>
+							<FlexBox className="active:bg-accent-soft focus:bg-accent-soft w-full">
+								<Link
+									className={twMerge('hidden sm:block')}
+									href={TextContent.href.support}
+								>
+									<IconButton
+										className={twMerge(styles.BUTTON.highlight, 'pt-0.5')}
+										iconSize={28}
+										hover="transparent"
+										bg="transparent"
+										Icon={Icons.Help}
+										iconColor={'dark'}
+									></IconButton>
+								</Link>
+							</FlexBox>
+							<FlexBox className="active:bg-accent-soft focus:bg-accent-soft w-full">
+								<Link href={TextContent.href.settings} className="w-full">
+									<Button
+										bg="transparent"
+										hover="transparent"
+										className="w-full"
+									>
+										Settings
+									</Button>
+								</Link>
+							</FlexBox>
+							<FlexBox className="active:bg-accent-soft focus:bg-accent-soft w-full">
+								<Button
+									bg="transparent"
+									hover="transparent"
+									className="w-full"
+									onClick={signOut}
+								>
+									Sign Out
+								</Button>
+							</FlexBox>
+						</>
+					)) || <></>}
 				</ul>
 			</div>
 		);

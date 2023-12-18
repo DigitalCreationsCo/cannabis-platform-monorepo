@@ -2,7 +2,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { config } from 'dotenv';
 import { expand } from 'dotenv-expand';
-import withTranspiledModules from 'next-transpile-modules';
+
 import {
 	PHASE_DEVELOPMENT_SERVER,
 	PHASE_PRODUCTION_BUILD,
@@ -34,6 +34,12 @@ const nextConfig = (phase) => {
 	 * @type {import('next').NextConfig}
 	 */
 	const config = {
+		transpilePackages: [
+			'@cd/eslint-config',
+			'@cd/data-access',
+			'@cd/core-lib',
+			'@cd/ui-lib',
+		],
 		rewrites: async () => [
 			{
 				source: '/help',
@@ -52,7 +58,23 @@ const nextConfig = (phase) => {
 				destination: process.env.NEXT_PUBLIC_BLOG_APP_URL + '/blog/:path*',
 			},
 		],
-		webpack: (config) => {
+		webpack: (config, { isServer }) => {
+			const prefix = config.assetPrefix ?? config.basePath ?? '';
+
+			config.module.rules.push({
+				test: /\.mp4$/,
+				use: [
+					{
+						loader: 'file-loader',
+						options: {
+							publicPath: `${prefix}/_next/static/media/`,
+							outputPath: `${isServer ? '../' : ''}static/media/`,
+							name: '[name].[hash].[ext]',
+						},
+					},
+				],
+			});
+
 			config.resolve.fallback = {
 				...config.resolve.fallback,
 				net: false,
@@ -104,12 +126,7 @@ const nextConfig = (phase) => {
 			],
 		},
 	};
-	return withTranspiledModules([
-		'@cd/eslint-config',
-		'@cd/data-access',
-		'@cd/core-lib',
-		'@cd/ui-lib',
-	])(config);
+	return config;
 };
 
 export default nextConfig;

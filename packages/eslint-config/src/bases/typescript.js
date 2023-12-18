@@ -1,8 +1,3 @@
-/**
- * Custom config base for projects using typescript / javascript.
- * @see https://github.com/belgattitude/nextjs-monorepo-example/tree/main/packages/eslint-config-bases
- */
-
 module.exports = {
 	env: {
 		es6: true,
@@ -22,6 +17,7 @@ module.exports = {
 		'import/resolver': {
 			typescript: {
 				project: [
+					'tsconfig.json',
 					'packages/*/tsconfig.json',
 					'app/*/tsconfig.json',
 					'server/*/tsconfig.json',
@@ -29,6 +25,11 @@ module.exports = {
 					'mobile/*/tsconfig.json',
 				],
 			},
+			// node: {
+			// 	project: ['tsconfig.json'],
+			// 	extensions: ['.js', '.jsx', '.ts', '.tsx'],
+			// 	moduleDirectory: ['../../**/node_modules', 'src/'],
+			// },
 		},
 	},
 	extends: [
@@ -38,12 +39,58 @@ module.exports = {
 		'plugin:@typescript-eslint/recommended',
 	],
 	rules: {
-		'comma-dangle': 'off',
-		'@typescript-eslint/comma-dangle': 'off',
-		// https://medium.com/@steven-lemon182/are-typescript-barrel-files-an-anti-pattern-72a713004250
 		'import/no-cycle': 2,
-		// will use 'import/no-duplicates'.
+		'import/default': ['error'],
+		'import/namespace': 'off', // ['error'] If you want the extra check (typechecks will spot most issues already)
 		'no-duplicate-imports': 'off',
+		'import/no-duplicates': ['error'],
+		'import/order': [
+			'error',
+			{
+				groups: [
+					'builtin',
+					'external',
+					'internal',
+					'parent',
+					'sibling',
+					'index',
+					'object',
+				],
+				alphabetize: { order: 'asc', caseInsensitive: true },
+			},
+		],
+
+		'import/no-named-as-default-member': ['warn'],
+		'import/no-named-as-default': ['warn'],
+
+		'no-empty-function': 'off',
+		'@typescript-eslint/no-empty-function': [
+			'error',
+			{ allow: ['private-constructors'] },
+		],
+
+		'@typescript-eslint/no-unused-vars': [
+			'warn',
+			{ argsIgnorePattern: '^_', ignoreRestSiblings: true },
+		],
+
+		'@typescript-eslint/no-explicit-any': 'off',
+		'@typescript-eslint/consistent-type-exports': 'error',
+		'@typescript-eslint/consistent-type-imports': [
+			'error',
+			{ prefer: 'type-imports', fixStyle: 'inline-type-imports' },
+		],
+		'@typescript-eslint/ban-tslint-comment': ['error'],
+		'@typescript-eslint/ban-ts-comment': [
+			'error',
+			{
+				'ts-expect-error': 'allow-with-description',
+				minimumDescriptionLength: 10,
+				'ts-ignore': false,
+				'ts-nocheck': true,
+				'ts-check': false,
+			},
+		],
 		'spaced-comment': [
 			'error',
 			'always',
@@ -60,55 +107,6 @@ module.exports = {
 			},
 		],
 		'linebreak-style': ['error', 'unix'],
-		'no-empty-function': 'off',
-		'import/default': ['error'],
-		'import/no-unresolved': ['error'],
-		// Slow: https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/namespace.md
-		'import/namespace': 'off', // ['error'] If you want the extra check (typechecks will spot most issues already)
-		// https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-duplicates.md
-		'import/no-duplicates': ['error'],
-		'import/no-named-as-default-member': ['warn'],
-		'import/no-named-as-default': ['off'],
-		'import/order': [
-			'error',
-			{
-				groups: [
-					'builtin',
-					'external',
-					'internal',
-					'parent',
-					'sibling',
-					'index',
-					'object',
-				],
-				alphabetize: { order: 'asc', caseInsensitive: true },
-			},
-		],
-		'@typescript-eslint/ban-tslint-comment': ['error'],
-		'@typescript-eslint/ban-ts-comment': [
-			'error',
-			{
-				'ts-expect-error': 'allow-with-description',
-				minimumDescriptionLength: 10,
-				'ts-ignore': false,
-				'ts-nocheck': true,
-				'ts-check': false,
-			},
-		],
-		'@typescript-eslint/no-explicit-any': ['off', { ignoreRestArgs: false }],
-		'@typescript-eslint/no-empty-function': [
-			'error',
-			{ allow: ['private-constructors'] },
-		],
-		'@typescript-eslint/no-unused-vars': [
-			'warn',
-			{ argsIgnorePattern: '^_', ignoreRestSiblings: true },
-		],
-		'@typescript-eslint/consistent-type-exports': 'error',
-		'@typescript-eslint/consistent-type-imports': [
-			'error',
-			{ prefer: 'type-imports', fixStyle: 'inline-type-imports' },
-		],
 		'@typescript-eslint/naming-convention': [
 			'error',
 			{

@@ -5,8 +5,9 @@
 		"baseUrl": "./src",
 		"target": "ES2015",
 		"lib": ["dom", "dom.iterable", "ES2015"],
-		"module": "ESNext",
+		"module": "es2020",
 		"moduleResolution": "node",
+		"esModuleInterop": true,
 		"jsx": "preserve",
 		"incremental": true,
 		"paths": {

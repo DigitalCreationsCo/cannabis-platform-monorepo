@@ -5,10 +5,11 @@
 		"baseUrl": "./src",
 		"target": "ES2015",
 		"lib": ["dom", "dom.iterable", "ES2015"],
-		"module": "esnext",
-		"moduleResolution": "node",
+		"module": "es2020",
 		"jsx": "preserve",
 		"incremental": true,
+		"moduleResolution": "node",
+		"esModuleInterop": true,
 		"paths": {
 			"@cd/ui-lib": ["../../../packages/ui-lib/src/index"],
 			"@cd/ui-lib/*": ["../../../packages/ui-lib/*"],

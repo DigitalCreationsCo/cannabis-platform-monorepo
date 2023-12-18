@@ -6,8 +6,8 @@
 		"strict": false,
 		"target": "ES2015",
 		"lib": ["ES2015"],
+		"module": "es2020",
 		"moduleResolution": "node",
-		"module": "ES2015",
 		"jsx": "preserve",
 		"paths": {
 			"@cd/eslint-config": ["../../../packages/eslint-config/src/index"]

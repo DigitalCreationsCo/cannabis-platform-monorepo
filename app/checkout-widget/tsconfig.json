@@ -1,6 +1,28 @@
 {
 	"$schema": "https://json.schemastore.org/tsconfig",
 	"extends": "../../tsconfig.base.json",
+	"compilerOptions": {
+		"baseUrl": "./src",
+		"lib": ["dom", "dom.iterable", "es2015"],
+		"module": "es2020",
+		"target": "es2015",
+		"noEmit": false,
+		"allowJs": true,
+		"outDir": "./deploy/dist",
+		"moduleResolution": "Node",
+		"incremental": true,
+		"esModuleInterop": true,
+		"jsx": "react-jsx",
+		"paths": {
+			"@cd/ui-lib": ["../../../packages/ui-lib/src/index"],
+			"@cd/ui-lib/*": ["../../../packages/ui-lib/*"],
+			"@cd/core-lib": ["../../../packages/core-lib/src/index"],
+			"@cd/core-lib/*": ["../../../packages/core-lib/*"],
+			"@cd/data-access": ["../../../packages/data-access/src/index"],
+			"@cd/data-access/*": ["../../../packages/data-access/*"],
+			"@cd/eslint-config": ["../../../packages/eslint-config/src/index"]
+		}
+	},
 	"exclude": [
 		"build",
 		"dist",
@@ -12,24 +34,15 @@
 		".storybook/**",
 		"**/.*/"
 	],
-	"compilerOptions": {
-		"baseUrl": "./src",
-		"lib": ["dom", "dom.iterable", "ES2020"],
-		"module": "ES2020",
-		"target": "ES2020",
-		"noEmit": false,
-		"allowJs": true,
-		"outDir": "./deploy/dist",
-		"moduleResolution": "Node",
-		"jsx": "react-jsx",
-		"paths": {
-			"@cd/ui-lib": ["../../../packages/ui-lib/src/index"],
-			"@cd/ui-lib/*": ["../../../packages/ui-lib/*"],
-			"@cd/core-lib": ["../../../packages/core-lib/src/index"],
-			"@cd/core-lib/*": ["../../../packages/core-lib/*"],
-			"@cd/data-access": ["../../../packages/data-access/src/index"],
-			"@cd/data-access/*": ["../../../packages/data-access/*"],
-			"@cd/eslint-config": ["../../../packages/eslint-config/src/index"]
-		}
-	}
+	"include": [
+		"next-env.d.ts",
+		"**/*.ts",
+		"**/*.tsx",
+		"**/*.mts",
+		"**/*.js",
+		"**/*.cjs",
+		"**/*.mjs",
+		"**/*.jsx",
+		"**/*.json"
+	]
 }

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/media-has-caption */
 import {
 	getDashboardSite,
 	modalActions,
@@ -11,8 +12,10 @@ import {
 	Button,
 	FlexBox,
 	H1,
+	H2,
 	H3,
 	H4,
+	H5,
 	Page,
 	Paragraph,
 	Span,
@@ -23,9 +26,11 @@ import { motion } from 'framer-motion';
 import Image, { type StaticImageData } from 'next/image';
 import Link from 'next/link';
 import { useState, type PropsWithChildren } from 'react';
+import style from 'styled-jsx/style';
 import { twMerge } from 'tailwind-merge';
 import friends1 from '../../public/friends1.png';
 import friends2 from '../../public/friends2.png';
+import friendsVideo from '../../public/Gras-community-clip.mp4';
 import backdrop from '../../public/marijuana-backdrop.png';
 import { FlowingBackDrop } from '../lib/FlowingBackDrop';
 
@@ -66,27 +71,35 @@ function StartPage() {
 	const [dialogOpen, setDialogOpen] = useState(false);
 	return (
 		<Page className="bg-secondary text-light p-0 sm:p-0 md:p-0 lg:p-0">
-			<FlexBox className="h-full w-full">
-				<FlexBox
-					className={twMerge(styles.HERO.container, 'anim8-green-gradient')}
-				>
-					<FlexBox className={twMerge(styles.HERO.content)}>
-						<FlexBox className="my-4 space-y-4 md:space-x-8 lg:flex-row ">
-							<FlexBox className="m-auto">
-								<H1
-									color="light"
-									className={twMerge(styles.HERO.responsiveHeading)}
-								>
-									Cannabis,&nbsp;Delivered{'\xa0'}🌴
-								</H1>
-								<H4
-									className="self-end font-bold pr-10 sm:text-3xl"
-									color="light"
-								>
-									same day home delivery 🏠
-								</H4>
-							</FlexBox>
-							{/* <FlexBox className="flex-row  space-x-1 border lg:flex-col lg:space-x-0">
+			{/* <FlowingBackDrop src={backdrop}> */}
+			<ImageBackDrop video={friendsVideo}>
+				{/* <FriendsPictures /> */}
+
+				<FlexBox className="h-full w-full">
+					{/* <FlexBox
+						style={{
+							backgroundColor: 'rgba(180,180,0,0.7)',
+						}}
+						className={twMerge(
+							styles.HERO.container,
+							// 'anim8-green-gradient'
+						)}
+					>
+						<FlexBox className={twMerge(styles.HERO.content)}>
+							<H1
+								color="light"
+								className={twMerge(styles.HERO.responsiveHeading, 'text-center')}
+							>
+								{/* Cannabis,&nbsp;Delivered{'\xa0'}🌴
+								Same-Day Cannabis&nbsp;Delivery 🌴
+							</H1>
+							<H4
+										className="self-end font-bold pr-10 sm:text-3xl"
+										color="light"
+									>
+										same day home delivery 🏠
+									</H4>
+					<FlexBox className="flex-row  space-x-1 border lg:flex-col lg:space-x-0">
 								<H2 color="light" className="text-2xl lg:text-3xl">
 									fast,
 								</H2>
@@ -96,71 +109,87 @@ function StartPage() {
 								<H2 color="light" className="text-2xl lg:text-3xl">
 									secure delivery
 								</H2>
-							</FlexBox> */}
+							</FlexBox>
+							<Button
+								size="lg"
+								bg="secondary"
+								transparent
+								className="hover:bg-primary-light"
+								onClick={openCheckAgeModalOrEnterSite}
+							>
+								Enter
+							</Button>
 						</FlexBox>
-						<Button
-							size="lg"
-							bg="secondary"
-							transparent
-							className="hover:bg-primary-light"
-							onClick={openCheckAgeModalOrEnterSite}
-						>
-							Enter
-						</Button>
-					</FlexBox>
-				</FlexBox>
-
-				<FlowingBackDrop src={backdrop}>
-					<FriendsPictures />
+					</FlexBox> */}
 
 					<FlexBox
-						className="bg-secondary m-auto grow space-y-2 pb-8 sm:py-4"
+						className="m-auto grow space-y-2"
 						style={{
-							backgroundColor: 'rgba(0,120,0,0.8)',
+							// backgroundColor: 'rgba(0,120,0,0.8)',
 							height: '100%',
 							width: '100%',
 							left: '0',
 							top: '0',
 						}}
 					>
-						{!isSignedIn && (
-							<FlexBox
-								className={twMerge(styles.about, 'self-center xl:self-center')}
+						<FlexBox className="flex p-4 px-8 lg:px-20 grow w-full space-x-2">
+							<H1
+								color="light"
+								className="text-3xl sm:text-5xl lg:text-6xl whitespace-pre-line border-b border-transparent text-inverse w-lg"
 							>
-								<H4 className="text-xl">
-									{TextContent.account.DISPENSARIES_START_HERE}!
-								</H4>
-								<Link
-									href={getDashboardSite('/signup/create-dispensary-account')}
+								{/* Welcome to Gras. */}
+								{TextContent.info.SAME_DAY_DELIVERY}&nbsp;🌴
+							</H1>
+
+							{!isSignedIn && (
+								<FlexBox
+									className={
+										twMerge('hidden sm:block items-center pt-2')
+										// styles.about,
+									}
 								>
+									<H4 className="text-center font-normal">
+										{TextContent.account.DISPENSARIES_START_HERE}
+									</H4>
+									<Link
+										href={getDashboardSite('/signup/create-dispensary-account')}
+									>
+										<Button
+											bg="primary"
+											transparent
+											className="hover:bg-primary-light px-4"
+										>
+											<Paragraph color="light">
+												{TextContent.account.CREATE_DISPENSARY_ACCOUNT}
+											</Paragraph>
+										</Button>
+									</Link>
+								</FlexBox>
+							)}
+							{
+								<div className="flex grow self-center">
 									<Button
 										size="lg"
 										bg="primary"
 										transparent
-										className="hover:bg-primary-light p-4"
+										className="uppercase hover:bg-primary-light p-8 self-end"
+										onClick={openCheckAgeModalOrEnterSite}
 									>
-										<Paragraph color="light">
-											{TextContent.account.CREATE_DISPENSARY_ACCOUNT}
-										</Paragraph>
+										<H2 className="font-bold">
+											{TextContent.info.ENJOY_BUD_WITH_YOUR_BUDS}
+										</H2>
 									</Button>
-								</Link>
-							</FlexBox>
-						)}
-						<FlexBox className="relative m-auto flex min-h-[380px] max-w-[480px]">
-							<FlexBox className="mx-auto flex-row flex-wrap justify-center items-start space-x-2">
-								<H3
-									color="light"
-									className="text-light max-w-[360px] whitespace-pre-line border-b border-transparent text-justify"
-								>
-									Welcome to Gras.{'\n'}
+								</div>
+							}
+						</FlexBox>
+						{/* <button
+								className="inline hover:text-secondary-light cursor-pointer items-center pb-0.5 hover:underline"
+								onClick={() => setDialogOpen(true)}
+							>
+								<H3 className="text-5xl underline whitespace-pre-line">
+									Who are we?
 								</H3>
-								<button
-									className="hover:text-secondary-light cursor-pointer items-center pb-0.5 text-2xl hover:underline"
-									onClick={() => setDialogOpen(true)}
-								>
-									<H3 className="underline">Who are we?</H3>
-								</button>
-							</FlexBox>
+							</button>
 							<FlexBox className="chat chat-start h-full grow flex-row items-center px-2">
 								<motion.div
 									className="bg-primary mb-2 rounded-[20px]"
@@ -197,45 +226,71 @@ function StartPage() {
 										)}
 									>
 										{dialogOpen ? '😄' : '😊'}
-									</motion.div> */}
+									</motion.div>
 								</motion.div>
-							</FlexBox>
-						</FlexBox>
+							</FlexBox> */}
 					</FlexBox>
-				</FlowingBackDrop>
-			</FlexBox>
+					{/* </FlowingBackDrop> */}
+				</FlexBox>
+			</ImageBackDrop>
 		</Page>
 	);
 }
 
 const ImageBackDrop = ({
+	video,
 	src,
 	children,
-}: { src: string | StaticImageData } & PropsWithChildren) => {
+}: { video?: any; src?: string | StaticImageData } & PropsWithChildren) => {
 	return (
+		// <div
+		// 	className="relative flex border-light w-full grow border"
+		// 	style={{
+		// 		clipPath: 'inset(0 0 0 0)',
+		// 	}}
+		// >
+		// {src && (
+		// 	<Image
+		// 		priority
+		// 		src={src}
+		// 		alt=""
+		// 		fill
+		// 		style={{
+		// 			zIndex: -1,
+		// 			objectFit: 'cover',
+		// 			objectPosition: '44% 20%',
+		// 		}}
+		// 	/>
+		// )}
+		// {video && (
 		<div
-			className="relative flex grow"
+			className="relative flex w-full grow"
 			style={{
 				clipPath: 'inset(0 0 0 0)',
 			}}
 		>
-			<Image
-				priority
-				src={src}
-				alt=""
-				fill
-				loading="eager"
-				placeholder="blur"
+			<video
 				style={{
+					position: 'absolute',
+					aspectRatio: 'auto',
+					width: '100%',
+					height: '100%',
 					zIndex: -1,
 					objectFit: 'cover',
-					objectPosition: '44% 20%',
+					objectPosition: '40% 40%',
+					left: '0',
+					top: '0',
 				}}
+				src={video}
+				autoPlay
+				loop
+				muted
 			/>
 			<div
 				style={{
 					zIndex: -1,
-					backgroundColor: 'rgba(0,0,0,0.4)',
+					// backgroundColor: 'rgba(0,0,0,0.2)',
+					backgroundColor: 'rgba(20,100,20,0.24)',
 					position: 'fixed',
 					height: '100%',
 					width: '100%',

@@ -1,37 +1,74 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import type { PortableTextBlock } from '@portabletext/types';
-import type { ImageAsset, Slug } from '@sanity/types';
+import type { ImageAsset } from '@sanity/types';
 import groq from 'groq';
-import { type SanityClient } from 'next-sanity';
 
-export const postsQuery = groq`*[_type == "post" && defined(slug.current)] | order(_createdAt desc)`;
+const postFields = groq`
+  _id,
+  _type,
+  title,
+  _createdAt,
+  _updatedAt,
+  excerpt,
+  mainImage,
+  shareImage,
+  body,
+  "slug": slug.current,
+  "author": author->{name, picture},
+  "categories": categories[]->title
+  `;
 
-export async function getPosts(client: SanityClient): Promise<Post[]> {
-	return await client.fetch(postsQuery);
-}
+export const settingsQuery = groq`*[_type == "settings"][0]`;
 
-export const postBySlugQuery = groq`*[_type == "post" && slug.current == $slug][0]`;
+export const postsQuery = groq`
+*[_type == "post"] | order(_createdAt desc, _updatedAt desc) {
+  ${postFields}
+}`;
 
-export async function getPost(
-	client: SanityClient,
-	slug: string,
-): Promise<Post> {
-	return await client.fetch(postBySlugQuery, {
-		slug,
-	});
-}
+export const postAndMoreStoriesQuery = groq`
+{
+  "post": *[_type == "post" && slug.current == $slug] | order(_updatedAt desc) [0] {
+    content,
+    ${postFields}
+  },
+  "morePosts": *[_type == "post" && slug.current != $slug] | order(_createdAt desc, _updatedAt desc) [0...2] {
+    content,
+    ${postFields}
+  }
+}`;
 
 export const postSlugsQuery = groq`
-*[_type == "post" && defined(slug.current)][].slug.current
-`;
+  *[_type == "post" && defined(slug.current)][].slug.current
+  `;
+
+export const postBySlugQuery = groq`*[_type == "post" && slug.current == $slug][0]{ ${postFields} }`;
+
+export const categoryStringsQuery = groq`*[_type == 'category']{ title }[].title`;
+
+export interface Author {
+	name?: string;
+	picture?: any;
+}
 
 export interface Post {
 	_type: 'post';
 	_id: string;
 	_createdAt: string;
+	_updatedAt?: string;
 	title?: string;
-	slug: Slug;
+	slug: string;
 	excerpt?: string;
-	mainImage?: ImageAsset;
+	author?: Author;
+	mainImage: ImageAsset;
 	body: PortableTextBlock[];
+	shareImage: ImageAsset;
+	categories: string[];
+}
+
+export interface Settings {
+	title?: string;
+	description?: any[];
+	ogImage?: {
+		title?: string;
+	};
 }
