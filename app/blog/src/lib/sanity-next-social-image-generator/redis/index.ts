@@ -1,3 +1,3 @@
-import redisLib from 'ioredis';
+import { createClient } from 'redis';
 
-export const getRedis = (redisUrl: string) => new redisLib(redisUrl);
+export const getRedis = (redisUrl: string) => createClient({ url: redisUrl });

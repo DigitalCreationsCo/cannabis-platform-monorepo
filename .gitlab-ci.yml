@@ -14,7 +14,7 @@ build_node_modules:
   services:
     - docker:23.0.5-dind
   variables:
-    DOCKER_BUILDKIT: "1"
+    DOCKER_BUILDKIT: '1'
     DOCKER_DRIVER: overlay2
     MODULE: '/node_modules'
     BUILD_TYPE: ''
@@ -22,9 +22,9 @@ build_node_modules:
     ROOTDIR: '.'
     TAG: ${CI_COMMIT_SHORT_SHA}
   before_script:
-    - apk --no-cache add git
+    - apk --no-cache add git libvips
     - mkdir -p .docker
-    - "docker load -q -i .docker/fs.tar 2>&1 || :"
+    - 'docker load -q -i .docker/fs.tar 2>&1 || :'
     - rm -rf .docker
     - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin "${CI_REGISTRY}"
   script: |
@@ -85,7 +85,7 @@ build_module:
   services:
     - docker:23.0.5-dind
   variables:
-    DOCKER_BUILDKIT: "1"
+    DOCKER_BUILDKIT: '1'
     DOCKER_DRIVER: overlay2
     MODULE: $MODULE
     BUILD_TYPE: ''
@@ -102,7 +102,7 @@ build_module:
       changes:
         - '${MODULE}/**/*'
   before_script:
-    - apk --no-cache add git
+    - apk --no-cache add git libvips
     - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin "${CI_REGISTRY}"
   script: |
     printenv
