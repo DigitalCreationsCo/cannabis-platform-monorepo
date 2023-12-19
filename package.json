@@ -189,7 +189,6 @@
 		"rimraf": "4.4.1",
 		"rollup": "3.20.2",
 		"rollup-plugin-postcss": "4.0.2",
-		"sanity-next-social-image-generator": "1.0.1",
 		"serve": "14.2.0",
 		"sharp": "0.32.1",
 		"stripe": "11.15.0",
@@ -209,7 +208,6 @@
 		"@types/react-dom": "18.0.11",
 		"postcss": "8.4.21",
 		"postcss-js": "4.0.1",
-		"sanity-next-social-image-generator/sharp": "0.32.1",
 		"sharp": "0.32.1"
 	},
 	"dependencies": {

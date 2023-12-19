@@ -1,5 +1,5 @@
 import { createClient } from 'next-sanity';
-import { createImageClient } from 'sanity-next-social-image-generator';
+import { createImageClient } from 'lib/sanity-next-social-image-generator';
 import logo from '../../../public/logo.png';
 import { type Post } from '../../lib/sanity.queries';
 
