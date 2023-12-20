@@ -7,5 +7,5 @@ find . \
 -prune -false -o -name '.webpack' \
 -prune -false -o -type f -name 'yarn.lock' \
 | sort \
-| xargs shasum > .cache/modules-sha && \
-git add .cache/modules-sha
+| xargs shasum > .cache/checksums/modules-sha && \
+git add .cache/checksums/modules-sha

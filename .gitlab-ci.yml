@@ -9,10 +9,10 @@ build_node_modules:
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       changes:
-        - '.cache/modules-sha'
+        - '.cache/checksums/modules-sha'
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       changes:
-        - '.cache/modules-sha'
+        - '.cache/checksums/modules-sha'
   image: docker:23.0.5
   services:
     - docker:23.0.5-dind
@@ -81,7 +81,7 @@ build_node_modules:
   cache: &node_modules
     key:
       files:
-        - .cache/modules-sha
+        - .cache/checksums/modules-sha
         - yarn.lock
     paths:
       - .docker
