@@ -1,6 +1,6 @@
 {
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
+  "main": "./dist/index.cjs",
+	"module": "./dist/index.js",
   "name": "@cd/core-lib",
   "type": "module",
   "peerDependencies": {
