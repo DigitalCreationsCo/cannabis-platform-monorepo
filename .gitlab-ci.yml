@@ -4,7 +4,7 @@
 
 variables:
   CI_DEBUG_TRACE: "true"
-  
+
 build_node_modules:
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
@@ -25,7 +25,7 @@ build_node_modules:
     ROOTDIR: '.'
     TAG: ${CI_COMMIT_SHORT_SHA}
   before_script:
-    - apk --no-cache add git
+    - apk --no-cache add git npm yarn
     - mkdir -p .docker
     - 'docker load -q -i .docker/fs.tar 2>&1 || :'
     - rm -rf .docker
