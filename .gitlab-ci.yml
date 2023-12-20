@@ -31,7 +31,7 @@ build_node_modules:
     printenv
     echo -e "\033[0;34m## Building app bundles ##\033[0m"
     # yarn workspaces foreach -ptv --include '@cd/*' run build || exit 1
-    yarn workspaces foreach -ptv --include '@cd/*' run build
+    yarn workspaces foreach run build:ci
 
     echo -e "\033[0;34m## Building node_modules image ##\033[0m"
 
