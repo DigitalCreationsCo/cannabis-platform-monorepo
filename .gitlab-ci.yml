@@ -69,7 +69,8 @@ build_node_modules:
     fi
   after_script:
     - mkdir -p .docker
-    - docker save -o ".docker/fs.tar" "grasadmin/node_modules:${TAG}" "2>&1 || :"
+    # - docker save -o ".docker/fs.tar" "grasadmin/node_modules:${TAG}" "2>&1 || :"
+    - docker save -o ".docker/fs.tar" "${image_tag}" "2>&1 || :"
     - docker system prune -a
   allow_failure: false
   cache: &node_modules
