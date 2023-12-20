@@ -8,8 +8,8 @@ if [ -n "$conflicted_files" ]; then
 
     # Loop through each conflicted file
     while IFS= read -r file; do
-        # Check if the conflicted file is tailwind.css or .cache/modules-sha
-        if [[ "$file" == *"tailwind.css" ]] || [[ "$file" == *".cache/modules-sha"* ]]; then
+        # Check if the conflicted file is tailwind.css or .cache/checksums/modules-sha
+        if [[ "$file" == *"tailwind.css" ]] || [[ "$file" == *".cache/checksums/modules-sha"* ]]; then
             # Checkout --theirs for the conflicted file
             git checkout --theirs "$file"
             git add "$file"
