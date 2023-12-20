@@ -2,6 +2,9 @@
 # adopt these good caching practices: https://docs.gitlab.com/ee/ci/caching/#good-caching-practices
 # and these! https://medium.com/disdj/speed-up-npm-yarn-install-in-gitlab-1434437f9857
 
+variables:
+  CI_DEBUG_TRACE: "true"
+  
 build_node_modules:
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
@@ -30,7 +33,6 @@ build_node_modules:
   script: |
     printenv
     echo -e "\033[0;34m## Building app bundles ##\033[0m"
-    # yarn workspaces foreach -ptv --include '@cd/*' run build || exit 1
     yarn workspaces foreach run build:ci
 
     echo -e "\033[0;34m## Building node_modules image ##\033[0m"
