@@ -49,7 +49,7 @@ spec:
             # readOnlyRootFilesystem: true
             # runAsNonRoot: true
             # runAsUser: 1000
-          image: registry.supertokens.io/supertokens/supertokens-postgresql:7.0
+          image: grasadmin/supertokens:7.0
           imagePullPolicy: Always
           env:
             - name: 'SUPERTOKENS_HOST'
