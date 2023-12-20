@@ -3,7 +3,7 @@
   "dependencies": {
     "@cd/core-lib": "workspace:*",
     "@cd/data-access": "workspace:*",
-    "@googlemaps/fleetengine-delivery": "https://storage.googleapis.com/fleetengine-gapic/dist/latest_release/maps-fleetengine-delivery-v1-nodejs.tar.gz",
+    "@googlemaps/fleetengine-delivery": "./maps-fleetengine-delivery-v1-nodejs.tar.gz",
     "@socket.io/redis-adapter": "8.2.1",
     "axios": "1.2.1",
     "cors": "2.8.5",

@@ -4359,7 +4359,7 @@ __metadata:
     "@babel/preset-typescript": 7.23.2
     "@cd/core-lib": "workspace:*"
     "@cd/data-access": "workspace:*"
-    "@googlemaps/fleetengine-delivery": "https://storage.googleapis.com/fleetengine-gapic/dist/latest_release/maps-fleetengine-delivery-v1-nodejs.tar.gz"
+    "@googlemaps/fleetengine-delivery": ./maps-fleetengine-delivery-v1-nodejs.tar.gz
     "@socket.io/redis-adapter": 8.2.1
     "@types/jest": 29.2.4
     "@types/node": 18.11.10
@@ -6694,12 +6694,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@googlemaps/fleetengine-delivery@https://storage.googleapis.com/fleetengine-gapic/dist/latest_release/maps-fleetengine-delivery-v1-nodejs.tar.gz":
+"@googlemaps/fleetengine-delivery@file:./maps-fleetengine-delivery-v1-nodejs.tar.gz::locator=%40cd%2Fserver-dispatch%40workspace%3Aserver%2Fdispatch":
   version: 0.1.0
-  resolution: "@googlemaps/fleetengine-delivery@https://storage.googleapis.com/fleetengine-gapic/dist/latest_release/maps-fleetengine-delivery-v1-nodejs.tar.gz"
+  resolution: "@googlemaps/fleetengine-delivery@file:./maps-fleetengine-delivery-v1-nodejs.tar.gz::locator=%40cd%2Fserver-dispatch%40workspace%3Aserver%2Fdispatch"
   dependencies:
     google-gax: ^4.0.5
-  checksum: f7a79b7e07e67f4c54124beef789934bb93a21300d5defcdc7e7e93878fc8d6d8db481f1f812915c7f5cd57fbc602b75c932f021588aad4c102d6acd3cfee703
+  checksum: 8d012639e41b14fb38d5bbfd42be8c573d4ba62e748f15b81906c42c6d436581899d676eb753695e171c2afbbd62901e854139eef55e261c3f066340736fa55a
   languageName: node
   linkType: hard
 
