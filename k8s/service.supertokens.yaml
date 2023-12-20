@@ -4,7 +4,7 @@ kind: Service
 metadata:
   name: supertokens
   labels:
-    app.kubernetes.io/version: 3.14.0
+    app.kubernetes.io/version: "7.0"
     app.kubernetes.io/managed-by: supertokens
 spec:
   type: ClusterIP
@@ -22,7 +22,7 @@ kind: Deployment
 metadata:
   name: supertokens
   labels:
-    app.kubernetes.io/version: 3.14.0
+    app.kubernetes.io/version: "7.0"
     app.kubernetes.io/managed-by: supertokens
 spec:
   replicas: 1
@@ -49,11 +49,11 @@ spec:
             # readOnlyRootFilesystem: true
             # runAsNonRoot: true
             # runAsUser: 1000
-          image: grasadmin/supertokens:3.14
+          image: registry.supertokens.io/supertokens/supertokens-postgresql:7.0
           imagePullPolicy: Always
           env:
-            # - name: 'SUPERTOKENS_HOST'
-            #   value: '0.0.0.0'
+            - name: 'SUPERTOKENS_HOST'
+              value: '0.0.0.0'
             - name: 'SUPERTOKENS_PORT'
               value: '3567'
             - name: 'POSTGRESQL_CONNECTION_POOL_SIZE'
