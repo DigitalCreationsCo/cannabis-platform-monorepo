@@ -16,7 +16,7 @@
     "test:unit-ci": "jest --config ./jest.config.ts --ci --runInBand --reporters=default --reporters=jest-junit --passWithNoTests",
     "test:coverage": "jest --config ./jest.config.ts --coverage --passWithNoTests",
     "test:watch": "jest --config ./jest.config.ts --watchAll --passWithNoTests",
-    "start": "node server.js",
+    "start": "PORT=3005 node server.js",
     "watch-tailwind": "tailwindcss -i ./src/styles/help.css -o ./src/styles/tailwind.css --watch"
   },
   "packageManager": "yarn@3.3.1",
