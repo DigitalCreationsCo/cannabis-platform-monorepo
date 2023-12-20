@@ -35,7 +35,7 @@ k8s
 terraform
 
 # node
-**/node_modules
+# **/node_modules
 npm-debug.log
 
 # developer files
@@ -44,7 +44,7 @@ _dev_notes
 _productivity
 _blog
 
-# bundles
-**/build
-**/dist
-# **/.next
+# # bundles
+# **/build
+# **/dist
+# # **/.next
