@@ -29,9 +29,6 @@ build_node_modules:
     - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin "${CI_REGISTRY}"
   script: |
     printenv
-    echo -e "\033[0;34m## Building app bundles ##\033[0m"
-    yarn workspaces foreach -ptv --include '@cd/*' run build || exit 1
-
     echo -e "\033[0;34m## Building node_modules image ##\033[0m"
 
     # Check if module name was set
@@ -48,6 +45,7 @@ build_node_modules:
 
     if [ -n "${TAG}" ]; then
     # Build
+      docker build -t "grasadmin/node_modules:${TAG}" -f "Dockerfile.node_modules" .
       docker build --cache-from="grasadmin/node_modules:${TAG}" -t "grasadmin/node_modules:${TAG}" -f "Dockerfile.node_modules" .
 
       image_tag="${CI_REGISTRY_IMAGE}/${BUILD_CONTEXT}:${TAG}"
@@ -78,13 +76,8 @@ build_node_modules:
     key:
       files:
         - .cache/modules-sha
-        - yarn.lock
     paths:
       - .docker
-      - node_modules/
-      - app/
-      - server/
-      - packages/
     when: on_success
 
 build_module:
