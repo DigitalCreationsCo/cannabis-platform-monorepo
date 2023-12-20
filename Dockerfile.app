@@ -31,4 +31,5 @@ ENV NEXT_PUBLIC_SERVER_PAYMENTS_URL="https://backend.grascannabis.org/payments"
 ENV NEXT_PUBLIC_SERVER_IMAGE_URL="https://backend.grascannabis.org/image"
 ENV NEXT_PUBLIC_SERVER_DISPATCH_URL="https://backend.grascannabis.org/dispatch"
 EXPOSE $PORT
+ENV HOSTNAME "0.0.0.0"
 CMD [ "yarn", "start", "--env", "production"]    
