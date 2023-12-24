@@ -1,5 +1,11 @@
 -- CreateEnum
-CREATE TYPE "ArticleType" AS ENUM ('dispensaries', 'drivers', 'events', 'entertainment', 'culture', 'art', 'sports', 'science', 'politics', 'business', 'health', 'food', 'gras');
+CREATE TYPE "ArticleTag" AS ENUM ('dispensaries', 'drivers', 'events', 'entertainment', 'culture', 'art', 'sports', 'science', 'politics', 'business', 'health', 'food', 'gras');
+
+-- CreateEnum
+CREATE TYPE "Country" AS ENUM ('United States', 'Canada');
+
+-- CreateEnum
+CREATE TYPE "CountryCode" AS ENUM ('US', 'CN');
 
 -- CreateEnum
 CREATE TYPE "CurrencyName" AS ENUM ('USD');
@@ -8,13 +14,28 @@ CREATE TYPE "CurrencyName" AS ENUM ('USD');
 CREATE TYPE "Day" AS ENUM ('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday');
 
 -- CreateEnum
+CREATE TYPE "Inventory" AS ENUM ('none', 'dutchie', 'weedmaps', 'blaze');
+
+-- CreateEnum
+CREATE TYPE "LicenseType" AS ENUM ('dispensary', 'delivery');
+
+-- CreateEnum
 CREATE TYPE "MembershipRole" AS ENUM ('1', '2', '3');
 
 -- CreateEnum
 CREATE TYPE "OrderStatus" AS ENUM ('Pending', 'Processing', 'OnDelivery', 'Delivered', 'Cancelled', 'Completed');
 
 -- CreateEnum
+CREATE TYPE "POS" AS ENUM ('none', 'dutchie', 'weedmaps', 'blaze');
+
+-- CreateEnum
 CREATE TYPE "PaymentStatus" AS ENUM ('Pending', 'Paid', 'Failed');
+
+-- CreateEnum
+CREATE TYPE "USState" AS ENUM ('ALABAMA', 'ALASKA', 'ARIZONA', 'ARKANSAS', 'CALIFORNIA', 'COLORADO', 'CONNECTICUT', 'DELAWARE', 'FLORIDA', 'GEORGIA', 'HAWAII', 'IDAHO', 'ILLINOIS', 'INDIANA', 'IOWA', 'KANSAS', 'KENTUCKY', 'LOUISIANA', 'MAINE', 'MARYLAND', 'MASSACHUSETTS', 'MICHIGAN', 'MINNESOTA', 'MISSISSIPPI', 'MISSOURI', 'MONTANA', 'NEBRASKA', 'NEVADA', 'NEW_HAMPSHIRE', 'NEW_JERSEY', 'NEW_MEXICO', 'NEW_YORK', 'NORTH_CAROLINA', 'NORTH_DAKOTA', 'OHIO', 'OKLAHOMA', 'OREGON', 'PENNSYLVANIA', 'RHODE_ISLAND', 'SOUTH_CAROLINA', 'SOUTH_DAKOTA', 'TENNESSEE', 'TEXAS', 'UTAH', 'VERMONT', 'VIRGINIA', 'WASHINGTON', 'WEST_VIRGINIA', 'WISCONSIN', 'WYOMING');
+
+-- CreateEnum
+CREATE TYPE "USStateAbbreviated" AS ENUM ('AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY');
 
 -- CreateEnum
 CREATE TYPE "Unit" AS ENUM ('g');
@@ -47,13 +68,13 @@ CREATE TABLE "Address" (
     "street1" TEXT NOT NULL,
     "street2" TEXT,
     "city" TEXT NOT NULL,
-    "state" TEXT NOT NULL,
     "zipcode" INTEGER NOT NULL,
-    "country" TEXT NOT NULL,
-    "countryCode" TEXT,
     "coordinateId" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "state" "USStateAbbreviated" DEFAULT 'MD',
+    "country" "Country" NOT NULL DEFAULT 'United States',
+    "countryCode" "CountryCode" DEFAULT 'US',
 
     CONSTRAINT "Address_pkey" PRIMARY KEY ("id")
 );
@@ -65,11 +86,11 @@ CREATE TABLE "Article" (
     "title" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "href" TEXT NOT NULL,
-    "tag" "ArticleType" NOT NULL,
     "content" TEXT NOT NULL,
     "author" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "tag" "ArticleTag",
 
     CONSTRAINT "Article_pkey" PRIMARY KEY ("id")
 );
@@ -94,6 +115,16 @@ CREATE TABLE "CategoryList" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "CategoryList_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Compliance" (
+    "id" TEXT NOT NULL,
+    "state" "USStateAbbreviated" NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Compliance_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -190,6 +221,14 @@ CREATE TABLE "ImageVendor" (
 );
 
 -- CreateTable
+CREATE TABLE "LicenseGuidelines" (
+    "state" "USStateAbbreviated" NOT NULL,
+    "licenseType" "LicenseType"[],
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL
+);
+
+-- CreateTable
 CREATE TABLE "Membership" (
     "id" TEXT NOT NULL,
     "role" "MembershipRole" NOT NULL,
@@ -247,14 +286,18 @@ CREATE TABLE "Organization" (
     "addressId" TEXT NOT NULL,
     "dialCode" TEXT NOT NULL,
     "phone" TEXT,
-    "vendorId" TEXT NOT NULL,
-    "vendorName" TEXT NOT NULL,
+    "vendorId" TEXT,
+    "vendorName" TEXT,
     "termsAccepted" BOOLEAN NOT NULL DEFAULT false,
     "subdomainId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "subscribedForDelivery" BOOLEAN NOT NULL DEFAULT false,
     "subscribedForPickup" BOOLEAN NOT NULL DEFAULT false,
+    "ecommerceUrl" TEXT,
+    "showInMarketPlace" BOOLEAN NOT NULL DEFAULT true,
+    "pos" "POS" NOT NULL DEFAULT 'none',
+    "inventory" "Inventory" NOT NULL DEFAULT 'none',
 
     CONSTRAINT "Organization_pkey" PRIMARY KEY ("id")
 );
@@ -341,6 +384,18 @@ CREATE TABLE "Route" (
 );
 
 -- CreateTable
+CREATE TABLE "SaleGuidelines" (
+    "state" "USStateAbbreviated" NOT NULL,
+    "medicalSales" BOOLEAN NOT NULL,
+    "recreationalSales" BOOLEAN NOT NULL,
+    "ageLimit" INTEGER NOT NULL,
+    "thcLimit" INTEGER NOT NULL,
+    "weightLimit" DOUBLE PRECISION NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL
+);
+
+-- CreateTable
 CREATE TABLE "Schedule" (
     "id" TEXT NOT NULL,
     "days" INTEGER,
@@ -395,9 +450,9 @@ CREATE TABLE "Session" (
 -- CreateTable
 CREATE TABLE "SiteSetting" (
     "id" TEXT NOT NULL,
-    "description" TEXT,
-    "title" TEXT NOT NULL,
-    "bannerText" TEXT,
+    "description" TEXT DEFAULT 'We''ve launched our shop on Gras! Browse our goods.',
+    "title" TEXT NOT NULL DEFAULT 'Your Shop Title',
+    "bannerText" TEXT DEFAULT 'Welcome',
     "organizationId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -405,7 +460,7 @@ CREATE TABLE "SiteSetting" (
     "primaryColor" TEXT DEFAULT '#14a33d',
     "secondaryColor" TEXT DEFAULT '#13622a',
     "tertiaryColor" TEXT DEFAULT '#fff2da',
-    "textColor" TEXT DEFAULT '#3e3a3a',
+    "textColor" TEXT DEFAULT '#a8a8a8',
 
     CONSTRAINT "SiteSetting_pkey" PRIMARY KEY ("id")
 );
@@ -418,6 +473,21 @@ CREATE TABLE "SubDomain" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "SubDomain_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "TransportGuidelines" (
+    "state" "USStateAbbreviated" NOT NULL,
+    "transportWeightLimit" DOUBLE PRECISION NOT NULL,
+    "transportStartTime" INTEGER NOT NULL,
+    "transportEndTime" INTEGER NOT NULL,
+    "transportLockedStorage" BOOLEAN NOT NULL,
+    "transportManifest" BOOLEAN NOT NULL,
+    "transportStaff" INTEGER NOT NULL,
+    "medicalDelivery" BOOLEAN NOT NULL,
+    "recreationalDelivery" BOOLEAN NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL
 );
 
 -- CreateTable
@@ -491,6 +561,25 @@ CREATE TABLE "all_auth_recipe_users" (
     "time_joined" BIGINT NOT NULL,
 
     CONSTRAINT "all_auth_recipe_users_pkey" PRIMARY KEY ("user_id")
+);
+
+-- CreateTable
+CREATE TABLE "app_id_to_user_id" (
+    "app_id" VARCHAR(64) NOT NULL DEFAULT 'public',
+    "user_id" CHAR(36) NOT NULL,
+    "recipe_id" VARCHAR(128) NOT NULL,
+    "primary_or_recipe_user_id" CHAR(36) NOT NULL,
+    "is_linked_or_is_a_primary_user" BOOLEAN NOT NULL DEFAULT false,
+
+    CONSTRAINT "app_id_to_user_id_pkey" PRIMARY KEY ("app_id","user_id")
+);
+
+-- CreateTable
+CREATE TABLE "apps" (
+    "app_id" VARCHAR(64) NOT NULL DEFAULT 'public',
+    "created_at_time" BIGINT,
+
+    CONSTRAINT "apps_pkey" PRIMARY KEY ("app_id")
 );
 
 -- CreateTable
@@ -617,6 +706,71 @@ CREATE TABLE "session_info" (
 );
 
 -- CreateTable
+CREATE TABLE "tenant_configs" (
+    "connection_uri_domain" VARCHAR(256) NOT NULL DEFAULT '',
+    "app_id" VARCHAR(64) NOT NULL DEFAULT 'public',
+    "tenant_id" VARCHAR(64) NOT NULL DEFAULT 'public',
+    "core_config" TEXT,
+    "email_password_enabled" BOOLEAN,
+    "passwordless_enabled" BOOLEAN,
+    "third_party_enabled" BOOLEAN,
+
+    CONSTRAINT "tenant_configs_pkey" PRIMARY KEY ("connection_uri_domain","app_id","tenant_id")
+);
+
+-- CreateTable
+CREATE TABLE "tenant_thirdparty_provider_clients" (
+    "connection_uri_domain" VARCHAR(256) NOT NULL DEFAULT '',
+    "app_id" VARCHAR(64) NOT NULL DEFAULT 'public',
+    "tenant_id" VARCHAR(64) NOT NULL DEFAULT 'public',
+    "third_party_id" VARCHAR(28) NOT NULL,
+    "client_type" VARCHAR(64) NOT NULL DEFAULT '',
+    "client_id" VARCHAR(256) NOT NULL,
+    "client_secret" TEXT,
+    "scope" VARCHAR(128)[],
+    "force_pkce" BOOLEAN,
+    "additional_config" TEXT,
+
+    CONSTRAINT "tenant_thirdparty_provider_clients_pkey" PRIMARY KEY ("connection_uri_domain","app_id","tenant_id","third_party_id","client_type")
+);
+
+-- CreateTable
+CREATE TABLE "tenant_thirdparty_providers" (
+    "connection_uri_domain" VARCHAR(256) NOT NULL DEFAULT '',
+    "app_id" VARCHAR(64) NOT NULL DEFAULT 'public',
+    "tenant_id" VARCHAR(64) NOT NULL DEFAULT 'public',
+    "third_party_id" VARCHAR(28) NOT NULL,
+    "name" VARCHAR(64),
+    "authorization_endpoint" TEXT,
+    "authorization_endpoint_query_params" TEXT,
+    "token_endpoint" TEXT,
+    "token_endpoint_body_params" TEXT,
+    "user_info_endpoint" TEXT,
+    "user_info_endpoint_query_params" TEXT,
+    "user_info_endpoint_headers" TEXT,
+    "jwks_uri" TEXT,
+    "oidc_discovery_endpoint" TEXT,
+    "require_email" BOOLEAN,
+    "user_info_map_from_id_token_payload_user_id" VARCHAR(64),
+    "user_info_map_from_id_token_payload_email" VARCHAR(64),
+    "user_info_map_from_id_token_payload_email_verified" VARCHAR(64),
+    "user_info_map_from_user_info_endpoint_user_id" VARCHAR(64),
+    "user_info_map_from_user_info_endpoint_email" VARCHAR(64),
+    "user_info_map_from_user_info_endpoint_email_verified" VARCHAR(64),
+
+    CONSTRAINT "tenant_thirdparty_providers_pkey" PRIMARY KEY ("connection_uri_domain","app_id","tenant_id","third_party_id")
+);
+
+-- CreateTable
+CREATE TABLE "tenants" (
+    "app_id" VARCHAR(64) NOT NULL DEFAULT 'public',
+    "tenant_id" VARCHAR(64) NOT NULL DEFAULT 'public',
+    "created_at_time" BIGINT,
+
+    CONSTRAINT "tenants_pkey" PRIMARY KEY ("app_id","tenant_id")
+);
+
+-- CreateTable
 CREATE TABLE "thirdparty_users" (
     "third_party_id" VARCHAR(28) NOT NULL,
     "third_party_user_id" VARCHAR(128) NOT NULL,
@@ -625,6 +779,15 @@ CREATE TABLE "thirdparty_users" (
     "time_joined" BIGINT NOT NULL,
 
     CONSTRAINT "thirdparty_users_pkey" PRIMARY KEY ("third_party_id","third_party_user_id")
+);
+
+-- CreateTable
+CREATE TABLE "user_last_active" (
+    "app_id" VARCHAR(64) NOT NULL DEFAULT 'public',
+    "user_id" VARCHAR(128) NOT NULL,
+    "last_active_time" BIGINT,
+
+    CONSTRAINT "user_last_active_pkey" PRIMARY KEY ("app_id","user_id")
 );
 
 -- CreateTable
@@ -678,6 +841,12 @@ CREATE UNIQUE INDEX "CategoryList_id_key" ON "CategoryList"("id" ASC);
 
 -- CreateIndex
 CREATE UNIQUE INDEX "CategoryList_organizationId_key" ON "CategoryList"("organizationId" ASC);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Compliance_id_key" ON "Compliance"("id" ASC);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Compliance_state_key" ON "Compliance"("state" ASC);
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Coordinates_id_key" ON "Coordinates"("id" ASC);
@@ -738,6 +907,9 @@ CREATE INDEX "ImageVendor_id_idx" ON "ImageVendor"("id" ASC);
 
 -- CreateIndex
 CREATE UNIQUE INDEX "ImageVendor_id_key" ON "ImageVendor"("id" ASC);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "LicenseGuidelines_state_key" ON "LicenseGuidelines"("state" ASC);
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Membership_id_key" ON "Membership"("id" ASC);
@@ -848,6 +1020,9 @@ CREATE INDEX "Route_orderId_idx" ON "Route"("orderId" ASC);
 CREATE UNIQUE INDEX "Route_orderId_key" ON "Route"("orderId" ASC);
 
 -- CreateIndex
+CREATE UNIQUE INDEX "SaleGuidelines_state_key" ON "SaleGuidelines"("state" ASC);
+
+-- CreateIndex
 CREATE INDEX "Schedule_id_idx" ON "Schedule"("id" ASC);
 
 -- CreateIndex
@@ -903,6 +1078,9 @@ CREATE INDEX "SubDomain_id_idx" ON "SubDomain"("id" ASC);
 
 -- CreateIndex
 CREATE UNIQUE INDEX "SubDomain_id_key" ON "SubDomain"("id" ASC);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "TransportGuidelines_state_key" ON "TransportGuidelines"("state" ASC);
 
 -- CreateIndex
 CREATE INDEX "User_email_idx" ON "User"("email" ASC);
@@ -980,6 +1158,12 @@ CREATE INDEX "_ServiceToServiceList_B_index" ON "_ServiceToServiceList"("B" ASC)
 CREATE INDEX "all_auth_recipe_users_pagination_index" ON "all_auth_recipe_users"("time_joined" DESC, "user_id" DESC);
 
 -- CreateIndex
+CREATE INDEX "app_id_to_user_id_app_id_index" ON "app_id_to_user_id"("app_id" ASC);
+
+-- CreateIndex
+CREATE INDEX "app_id_to_user_id_primary_user_id_index" ON "app_id_to_user_id"("primary_or_recipe_user_id" ASC, "app_id" ASC);
+
+-- CreateIndex
 CREATE INDEX "emailpassword_password_reset_token_expiry_index" ON "emailpassword_pswd_reset_tokens"("token_expiry" ASC);
 
 -- CreateIndex
@@ -1019,7 +1203,19 @@ CREATE UNIQUE INDEX "passwordless_users_phone_number_key" ON "passwordless_users
 CREATE INDEX "role_permissions_permission_index" ON "role_permissions"("permission" ASC);
 
 -- CreateIndex
+CREATE INDEX "tenant_thirdparty_provider_clients_third_party_id_index" ON "tenant_thirdparty_provider_clients"("connection_uri_domain" ASC, "app_id" ASC, "tenant_id" ASC, "third_party_id" ASC);
+
+-- CreateIndex
+CREATE INDEX "tenant_thirdparty_providers_tenant_id_index" ON "tenant_thirdparty_providers"("connection_uri_domain" ASC, "app_id" ASC, "tenant_id" ASC);
+
+-- CreateIndex
+CREATE INDEX "tenants_app_id_index" ON "tenants"("app_id" ASC);
+
+-- CreateIndex
 CREATE UNIQUE INDEX "thirdparty_users_user_id_key" ON "thirdparty_users"("user_id" ASC);
+
+-- CreateIndex
+CREATE INDEX "user_last_active_app_id_index" ON "user_last_active"("app_id" ASC);
 
 -- CreateIndex
 CREATE INDEX "user_roles_role_index" ON "user_roles"("role" ASC);
@@ -1052,6 +1248,9 @@ ALTER TABLE "ImageProduct" ADD CONSTRAINT "ImageProduct_variantId_fkey" FOREIGN 
 ALTER TABLE "ImageUser" ADD CONSTRAINT "ImageUser_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "LicenseGuidelines" ADD CONSTRAINT "LicenseGuidelines_state_fkey" FOREIGN KEY ("state") REFERENCES "Compliance"("state") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Membership" ADD CONSTRAINT "Membership_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -1073,7 +1272,7 @@ ALTER TABLE "Organization" ADD CONSTRAINT "Organization_addressId_fkey" FOREIGN 
 ALTER TABLE "Organization" ADD CONSTRAINT "Organization_subdomainId_fkey" FOREIGN KEY ("subdomainId") REFERENCES "SubDomain"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE "Organization" ADD CONSTRAINT "Organization_vendorId_vendorName_fkey" FOREIGN KEY ("vendorId", "vendorName") REFERENCES "Vendor"("id", "name") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Organization" ADD CONSTRAINT "Organization_vendorId_vendorName_fkey" FOREIGN KEY ("vendorId", "vendorName") REFERENCES "Vendor"("id", "name") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Product" ADD CONSTRAINT "Product_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "Organization"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -1103,6 +1302,9 @@ ALTER TABLE "Route" ADD CONSTRAINT "Route_driverId_fkey" FOREIGN KEY ("driverId"
 ALTER TABLE "Route" ADD CONSTRAINT "Route_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "Order"("id") ON DELETE NO ACTION ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "SaleGuidelines" ADD CONSTRAINT "SaleGuidelines_state_fkey" FOREIGN KEY ("state") REFERENCES "Compliance"("state") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Schedule" ADD CONSTRAINT "Schedule_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "Organization"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -1110,6 +1312,9 @@ ALTER TABLE "Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId"
 
 -- AddForeignKey
 ALTER TABLE "SiteSetting" ADD CONSTRAINT "SiteSetting_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "Organization"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "TransportGuidelines" ADD CONSTRAINT "TransportGuidelines_state_fkey" FOREIGN KEY ("state") REFERENCES "Compliance"("state") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_AddressToUser" ADD CONSTRAINT "_AddressToUser_A_fkey" FOREIGN KEY ("A") REFERENCES "Address"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -1142,6 +1347,12 @@ ALTER TABLE "_ServiceToServiceList" ADD CONSTRAINT "_ServiceToServiceList_A_fkey
 ALTER TABLE "_ServiceToServiceList" ADD CONSTRAINT "_ServiceToServiceList_B_fkey" FOREIGN KEY ("B") REFERENCES "ServiceList"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "app_id_to_user_id" ADD CONSTRAINT "app_id_to_user_id_app_id_fkey" FOREIGN KEY ("app_id") REFERENCES "apps"("app_id") ON DELETE CASCADE ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE "app_id_to_user_id" ADD CONSTRAINT "app_id_to_user_id_primary_or_recipe_user_id_fkey" FOREIGN KEY ("app_id", "primary_or_recipe_user_id") REFERENCES "app_id_to_user_id"("app_id", "user_id") ON DELETE CASCADE ON UPDATE NO ACTION;
+
+-- AddForeignKey
 ALTER TABLE "emailpassword_pswd_reset_tokens" ADD CONSTRAINT "emailpassword_pswd_reset_tokens_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "emailpassword_users"("user_id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -1149,6 +1360,18 @@ ALTER TABLE "passwordless_codes" ADD CONSTRAINT "passwordless_codes_device_id_ha
 
 -- AddForeignKey
 ALTER TABLE "role_permissions" ADD CONSTRAINT "role_permissions_role_fkey" FOREIGN KEY ("role") REFERENCES "roles"("role") ON DELETE CASCADE ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE "tenant_thirdparty_provider_clients" ADD CONSTRAINT "tenant_thirdparty_provider_clients_third_party_id_fkey" FOREIGN KEY ("connection_uri_domain", "app_id", "tenant_id", "third_party_id") REFERENCES "tenant_thirdparty_providers"("connection_uri_domain", "app_id", "tenant_id", "third_party_id") ON DELETE CASCADE ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE "tenant_thirdparty_providers" ADD CONSTRAINT "tenant_thirdparty_providers_tenant_id_fkey" FOREIGN KEY ("connection_uri_domain", "app_id", "tenant_id") REFERENCES "tenant_configs"("connection_uri_domain", "app_id", "tenant_id") ON DELETE CASCADE ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE "tenants" ADD CONSTRAINT "tenants_app_id_fkey" FOREIGN KEY ("app_id") REFERENCES "apps"("app_id") ON DELETE CASCADE ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE "user_last_active" ADD CONSTRAINT "user_last_active_app_id_fkey" FOREIGN KEY ("app_id") REFERENCES "apps"("app_id") ON DELETE CASCADE ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE "user_roles" ADD CONSTRAINT "user_roles_role_fkey" FOREIGN KEY ("role") REFERENCES "roles"("role") ON DELETE CASCADE ON UPDATE NO ACTION;
