@@ -11,6 +11,6 @@ npx prisma migrate diff \
 --script > prisma/forward.sql
 echo "generated prisma/forward.sql"
 
-echo "executing prisma/forward.sql"
-npx prisma db execute --url "$DATABASE_URL" --file prisma/forward.sql
-echo "done"
+# echo "executing prisma/forward.sql"
+# npx prisma db execute --url "$DATABASE_URL" --file prisma/forward.sql
+# echo "done"
