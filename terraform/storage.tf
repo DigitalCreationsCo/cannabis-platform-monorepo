@@ -38,6 +38,14 @@ resource "google_storage_bucket" "image_dispensary" {
   }
 }
 
+resource "null_resource" "upload_dispensary_images" {
+  depends_on = [google_storage_bucket.image_dispensary]
+  provisioner "local-exec" {
+    # upload dispensary images to newly created bucket
+    command = "./scripts/storage/upload-dispensary-images.sh ${google_storage_bucket.image_dispensary.name}"
+  }
+}
+
 resource "google_storage_bucket" "regulations" {
   name          = "${random_id.bucket_prefix.hex}-regulations"
   force_destroy = false
@@ -76,5 +84,4 @@ resource "null_resource" "upload_annotations" {
     # upload regulations content to newly created bucket
     command = "./scripts/storage/upload-annotations.sh ${google_storage_bucket.ml_annotations.name}"
   }
-  
 }
