@@ -11,7 +11,7 @@ import {
 import Session, {
 	type SessionInformation,
 } from 'supertokens-node/recipe/session';
-import UserRoles from 'supertokens-node/recipe/userroles';
+// import UserRoles from 'supertokens-node/recipe/userroles';
 import {
 	blog,
 	driver,
@@ -22,8 +22,17 @@ import {
 	compliance,
 	cacheHandler,
 } from './api/routes';
-import backendConfig, { jwtClient } from './config';
-import { initializeRedis } from './lib/redis-cart';
+import { backendConfig, jwtClient } from './config';
+
+const shopDomain = process.env.NEXT_PUBLIC_SHOP_APP_URL;
+const dashboardDomain = process.env.NEXT_PUBLIC_DASHBOARD_APP_URL;
+
+try {
+	Supertokens.init(backendConfig());
+} catch (err) {
+	console.error('Supertokens init error: ', err);
+	throw Error('Supertokens is not available.');
+}
 
 const authenticateToken = () => async (req, res, next) => {
 	try {
@@ -56,18 +65,11 @@ const authenticateToken = () => async (req, res, next) => {
 	}
 };
 
-const shopDomain = process.env.NEXT_PUBLIC_SHOP_APP_URL;
-const dashboardDomain = process.env.NEXT_PUBLIC_DASHBOARD_APP_URL;
-
-if (Supertokens) {
-	Supertokens.init(backendConfig());
-} else throw Error('Supertokens is not available.');
-
-UserRoles.createNewRoleOrAddPermissions('MembershipRole', [
-	'OWNER',
-	'ADMIN',
-	'MEMBER',
-]);
+// UserRoles.createNewRoleOrAddPermissions('MembershipRole', [
+// 	'OWNER',
+// 	'ADMIN',
+// 	'MEMBER',
+// ]);
 
 const app = express();
 app.use(
@@ -80,8 +82,6 @@ app.use(
 );
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
-initializeRedis();
 
 app.use(STmiddleware());
 
