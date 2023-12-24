@@ -65,6 +65,7 @@ resource "null_resource" "swap_new_ssl_cert" {
 
 # swap certificates during resource replace
 resource "null_resource" "swap_tmp_ssl_cert" {
+  # depends_on = [google_compute_region_target_https_proxy.default]
   # Delete ingressgateway on destroy
   provisioner "local-exec" {
     when    = destroy
@@ -78,7 +79,7 @@ resource "google_compute_region_target_https_proxy" "default" {
   region  = google_compute_subnetwork.default.region
   name    = "l7-xlb-proxy-https"
   url_map = google_compute_region_url_map.default.id
-  # depends_on = [google_compute_region_ssl_certificate.default,  null_resource.create_ssl_cert, null_resource.delete_ssl_cert]
   depends_on = [google_compute_region_ssl_certificate.default,null_resource.swap_new_ssl_cert, null_resource.swap_tmp_ssl_cert]
+  # depends_on = [google_compute_region_ssl_certificate.default, null_resource.swap_tmp_ssl_cert]
   ssl_certificates = [google_compute_region_ssl_certificate.default.id]
 }

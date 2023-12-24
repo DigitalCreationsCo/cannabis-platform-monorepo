@@ -33,7 +33,7 @@ resource "google_compute_region_backend_service" "default" {
   health_checks = [google_compute_region_health_check.default.id]
 
   backend {
-    group = "https://www.googleapis.com/compute/v1/projects/${var.project_id}/zones/asia-east2-a/networkEndpointGroups/ingressgateway"
+    group = "https://www.googleapis.com/compute/v1/projects/${var.project_id}/zones/us-east5-a/networkEndpointGroups/ingressgateway"
     capacity_scaler = 1
     balancing_mode = "RATE"
     # This is a reasonable max rate for an Envoy proxy
@@ -41,7 +41,7 @@ resource "google_compute_region_backend_service" "default" {
   }
 
   backend {
-    group = "https://www.googleapis.com/compute/v1/projects/${var.project_id}/zones/asia-east2-b/networkEndpointGroups/ingressgateway"
+    group = "https://www.googleapis.com/compute/v1/projects/${var.project_id}/zones/us-east5-b/networkEndpointGroups/ingressgateway"
     capacity_scaler = 1
     balancing_mode = "RATE"
     # This is a reasonable max rate for an Envoy proxy
@@ -49,7 +49,7 @@ resource "google_compute_region_backend_service" "default" {
   }
 
   backend {
-    group = "https://www.googleapis.com/compute/v1/projects/${var.project_id}/zones/asia-east2-c/networkEndpointGroups/ingressgateway"
+    group = "https://www.googleapis.com/compute/v1/projects/${var.project_id}/zones/us-east5-c/networkEndpointGroups/ingressgateway"
     capacity_scaler = 1
     balancing_mode = "RATE"
     # This is a reasonable max rate for an Envoy proxy
@@ -76,15 +76,15 @@ resource "null_resource" "delete_ingressgateway" {
   # Delete ingressgateway on destroy
   provisioner "local-exec" {
     when    = destroy
-    command = "gcloud compute network-endpoint-groups delete ingressgateway --quiet --zone=asia-east2-a"
+    command = "gcloud compute network-endpoint-groups delete ingressgateway --quiet --zone=us-east5-a"
   }
   provisioner "local-exec" {
     when    = destroy
-    command = "gcloud compute network-endpoint-groups delete ingressgateway --quiet --zone=asia-east2-b"
+    command = "gcloud compute network-endpoint-groups delete ingressgateway --quiet --zone=us-east5-b"
   }
   provisioner "local-exec" {
     when    = destroy
-    command = "gcloud compute network-endpoint-groups delete ingressgateway --quiet --zone=asia-east2-c"
+    command = "gcloud compute network-endpoint-groups delete ingressgateway --quiet --zone=us-east5-c"
   }
 }
 

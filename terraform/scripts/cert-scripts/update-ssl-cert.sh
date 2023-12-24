@@ -1,7 +1,7 @@
 # If you have enabled HTTPS and want to update the SSL certificate, this script will help make it easier to do the swap.
 
 # Update these values for your use!
-region="asia-east2"
+region="us-east5"
 cert_name="gras-ssl-cert"
 tmp_cert_name="tmp-gras-ssl-cert"
 private_key_file="terraform/certs/privkey.pem"

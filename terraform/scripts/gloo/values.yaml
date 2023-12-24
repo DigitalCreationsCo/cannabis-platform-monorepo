@@ -4,7 +4,7 @@ gatewayProxies:
       type: ClusterIP
       extraAnnotations:
         cloud.google.com/neg: '{"exposed_ports": {"80":{"name": "ingressgateway"}}}'
-        cloud.google.com/neg-status: '{"network_endpoint_groups":{"80":"ingressgateway"},"zones":["asia-east2-a", "asia-east2-b","asia-east2-c",]}'
+        cloud.google.com/neg-status: '{"network_endpoint_groups":{"80":"ingressgateway"},"zones":["us-east5-a", "us-east5-b","us-east5-c",]}'
     kind:
       deployment:
         replicas: 2
