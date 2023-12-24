@@ -1,4 +1,4 @@
-region="asia-east2"
+region="us-east5"
 cert_name="gras-ssl-cert"
 tmp_cert_name="tmp-gras-ssl-cert"
 private_key_file="terraform/certs/privkey.pem"
