@@ -3,7 +3,7 @@ import { type RedisClientType, createClient } from 'redis';
 let redis: RedisClientType | null = null;
 
 export const initializeRedis = () => {
-	console.log('Connecting to redis cluster');
+	console.log('Init Redis Transfer Cart');
 	redis = createClient({
 		socket: {
 			host: process.env.REDIS_TRANSFER_CART,
