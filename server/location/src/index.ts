@@ -8,8 +8,28 @@ const mongoConnectUrl = process.env.MONGODB_CONNECTION_URL;
 
 connectDb()
 	.then(() => {
+		console.info(
+			` ✈️ Server-Location starting in ${process.env.NODE_ENV} mode.`,
+		);
 		server.listen(port, () => {
-			console.info(` ✈️ server-location listening on port ${port}.`);
+			console.info(` ✈️ Server-Location listening on port ${port}.`);
+
+			// measure cpu usage
+			const startCpuUsage = process.cpuUsage();
+			const now = Date.now();
+			while (Date.now() - now < 1000);
+			console.info(
+				` 
+ CPU Usage:`,
+				process.cpuUsage(startCpuUsage),
+			);
+
+			// measure memory usage
+			console.info(
+				` 
+ Memory Usage:`,
+				process.memoryUsage(),
+			);
 		});
 	})
 	.catch((err) => {
@@ -20,20 +40,17 @@ connectDb()
 
 async function connectDb() {
 	try {
-		console.info(
-			` ✈️ server-location starting in ${process.env.NODE_ENV} mode.`,
-		);
 		await MongoClient.connect(mongoConnectUrl)
 			.then(async (client) => {
 				await LocationDA.useMongoDB(client);
 				console.info(
-					' ✈️ server-location: Mongo Database 👏 is ready for query.',
+					' ✈️ Server-Location: Mongo Database 👏 is ready for query.',
 				);
 				await prisma.$connect();
 			})
 			.then(async () => {
 				console.info(
-					' ✈️ server-location: Prisma Database 👏👏 is ready for query.',
+					' ✈️ Server-Location: Prisma Database 👏👏 is ready for query.',
 				);
 			})
 			.then(() =>
