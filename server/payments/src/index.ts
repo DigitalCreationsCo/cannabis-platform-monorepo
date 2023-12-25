@@ -6,7 +6,27 @@ const port = process.env.SERVER_PORT || 6021;
 connectDb()
 	.then(() => {
 		server.listen(port, () => {
-			console.info(` 💰 server-payments is listening on port ${port}.`);
+			console.info(
+				` 💰 Server-Payments starting in ${process.env.NODE_ENV} mode.`,
+			);
+			console.info(` 💰 Server-Payments is listening on port ${port}.`);
+
+			// measure cpu usage
+			const startCpuUsage = process.cpuUsage();
+			const now = Date.now();
+			while (Date.now() - now < 1000);
+			console.info(
+				` 
+ CPU Usage:`,
+				process.cpuUsage(startCpuUsage),
+			);
+
+			// measure memory usage
+			console.info(
+				` 
+ Memory Usage:`,
+				process.memoryUsage(),
+			);
 		});
 	})
 	.catch((err) => {
@@ -16,22 +36,19 @@ connectDb()
 
 async function connectDb() {
 	try {
-		console.info(
-			` 💰 server-payments starting in ${process.env.NODE_ENV} mode.`,
-		);
 		await prisma
 			.$connect()
 			.then(async () => {
 				console.info(
-					' 💰 server-payments: Prisma Database 👏👏 is ready for query.',
+					' 💰 Server-Payments: Prisma Database 👏👏 is ready for query.',
 				);
 			})
 			.then(() =>
-				console.info(' 💰 server-payments is connected to database.'),
+				console.info(' 💰 Server-Payments is connected to database.'),
 			);
 	} catch (error: any) {
 		console.error(
-			' 💰 server-payments: Error connecting to database: ',
+			' 💰 Server-Payments: Error connecting to database: ',
 			error.stack,
 		);
 		prisma.$disconnect();

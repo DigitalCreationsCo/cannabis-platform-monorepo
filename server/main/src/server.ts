@@ -80,10 +80,10 @@ app.use(
 		credentials: true,
 	}),
 );
+app.use(STmiddleware());
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
-app.use(STmiddleware());
 
 app.use('/api/v1/healthcheck', (_, res) => {
 	return res.status(200).json({ status: 'ok', server: 'main' });
@@ -96,8 +96,10 @@ app.use('/api/v1/organization', authenticateToken(), organization);
 app.use('/api/v1/blog', authenticateToken(), blog);
 app.use('/api/v1/compliance', authenticateToken(), compliance);
 
-app.use('/api/v1/error', errorRoute);
+// app.use('/api/v1/error', errorRoute);
+
 app.use(STerror());
+
 app.use((err, req, res, next) => {
 	console.error('A general error occured: ', err);
 	res.status(500).json({ success: false, error: err.message });
