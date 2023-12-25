@@ -37,56 +37,42 @@ spec:
         app: gras-shop
     spec:
       serviceAccountName: default
+      restartPolicy: Always
       containers:
         - name: gras-shop
           image: grasadmin/shop:TAG
           imagePullPolicy: Always
           terminationMessagePolicy: FallbackToLogsOnError
           env:
-            - name: SUPERTOKENS_DEBUG
-              value: "true"
-            - name: "NEXT_PUBLIC_HELP_APP_URL"
-              value: "help.svc.cluster.local"
-            - name: "NEXT_PUBLIC_BLOG_APP_URL"
-              value: "blog.svc.cluster.local"
+          - name: SUPERTOKENS_DEBUG
+            value: "true"
+          - name: "NEXT_PUBLIC_HELP_APP_URL"
+            value: "help.svc.cluster.local"
+          - name: "NEXT_PUBLIC_BLOG_APP_URL"
+            value: "blog.svc.cluster.local"
           resources:
-            limits:
-              cpu: '200m'
-              memory: '250Mi'
             requests:
-              cpu: '200m'
-              memory: '250Mi'
+              cpu: '0.2'
+              memory: '192Mi'
+            limits:
+              cpu: '1'
+              memory: '512Mi'
           ports:
             - name: shop-port
               containerPort: 3000
-      restartPolicy: Always
-
-          # livenessProbe:
-          #   httpGet:
-          #     path: /api/healthcheck
-          #     port: shop-port
-          #   failureThreshold: 2
-          #   initialDelaySeconds: 20
-          #   periodSeconds: 10
-          #   timeoutSeconds: 3
-
-          # readinessProbe:
-          #   httpGet:
-          #     path: /api/healthcheck
-          #     port: shop-port
-          #   failureThreshold: 2
-          #   initialDelaySeconds: 20
-          #   periodSeconds: 10
-          #   timeoutSeconds: 3
-      affinity: {}
-        # Because the cluster uses spot nodes that can be shut down at any time, having at least
-        # 2 replicas with antiAffinity is recommended for application resilency when a node shuts down
-        # podAntiAffinity:
-        #   requiredDuringSchedulingIgnoredDuringExecution:
-        #     - labelSelector:
-        #         matchExpressions:
-        #           - key: 'app'
-        #             operator: In
-        #             values:
-        #               - gras-shop
-        #       topologyKey: 'kubernetes.io/hostname'
+          livenessProbe:
+            httpGet:
+              path: /api/healthcheck
+              port: shop-port
+            failureThreshold: 2
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            timeoutSeconds: 3
+          readinessProbe:
+            httpGet:
+              path: /api/healthcheck
+              port: shop-port
+            failureThreshold: 2
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            timeoutSeconds: 3

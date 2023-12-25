@@ -39,6 +39,7 @@ spec:
       securityContext:
         {}
         # fsGroup: 2000
+      restartPolicy: Always
       containers:
         - name: supertokens
           securityContext:
@@ -76,12 +77,10 @@ spec:
               value: '5'
             - name: 'DISABLE_TELEMETRY'
               value: 'true'
-
           ports:
             - containerPort: 3567
               protocol: TCP
               name: http
-
           livenessProbe:
             httpGet:
               path: /hello
@@ -90,7 +89,6 @@ spec:
             initialDelaySeconds: 30
             periodSeconds: 10
             timeoutSeconds: 50
-
           readinessProbe:
             httpGet:
               path: /hello
@@ -99,24 +97,10 @@ spec:
             initialDelaySeconds: 30
             periodSeconds: 10
             timeoutSeconds: 50
-
           resources:
-            limits:
-              cpu: 200m
-              memory: 256Mi
             requests:
               cpu: 128m
               memory: 175Mi
-      affinity:
-        {}
-          # podAntiAffinity:
-          #   preferredDuringSchedulingIgnoredDuringExecution:
-          #     - weight: 1
-          #       podAffinityTerm:
-          #         labelSelector:
-          #           matchExpressions:
-          #             - key: "app.kubernetes.io/name"
-          #               operator: In
-          #               values:
-          #                 - supertokens
-          #         topologyKey: kubernetes.io/hostname
+            limits:
+              cpu: 200m
+              memory: 256Mi

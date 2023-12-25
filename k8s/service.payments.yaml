@@ -30,6 +30,7 @@ spec:
         app: gras-server-payments
     spec:
       serviceAccountName: default
+      restartPolicy: Always
       containers:
         - name: gras-server-payments
           image: grasadmin/payments:TAG
