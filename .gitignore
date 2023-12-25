@@ -19,7 +19,7 @@ app/shop/src/styles/tailwind.css
 
 # monorepo cache
 .cache/*
-!.cache/checksum
+!.cache/checksums
 
 # testing
 **/coverage

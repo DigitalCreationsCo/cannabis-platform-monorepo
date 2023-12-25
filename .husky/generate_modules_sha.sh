@@ -2,6 +2,7 @@
 cat <<EOF
 Generating node_modules cache hash modules-sha..
 EOF
+mkdir -p .cache/checksums && \
 find . \
 -type d -name 'node_modules' \
 -prune -false -o -name '.webpack' \
