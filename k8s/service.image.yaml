@@ -30,6 +30,7 @@ spec:
         app: gras-server-image
     spec:
       serviceAccountName: default
+      restartPolicy: Always
       containers:
         - name: gras-server-image
           image: grasadmin/image:TAG

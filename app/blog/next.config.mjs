@@ -26,8 +26,31 @@ const nextConfig = (phase) => {
 	const isTest = phase === PHASE_TEST;
 
 	console.info(
-		`isDev:${isDev}  isProd:${isProd}   isStaging:${isStaging} isTest:${isTest}`,
+		`isDev:${isDev}
+isProd:${isProd}
+isStaging:${isStaging}
+isTest:${isTest}`,
 	);
+
+	// measure cpu usage
+	const startCpuUsage = process.cpuUsage();
+	const now = Date.now();
+	while (Date.now() - now < 1000);
+	console.info(
+		` 
+CPU Usage:`,
+		process.cpuUsage(startCpuUsage),
+	);
+
+	// measure memory usage
+	console.info(
+		` 
+Memory Usage:`,
+		process.memoryUsage(),
+		`
+		`,
+	);
+
 	/**
 	 * @type {import('next').NextConfig}
 	 */

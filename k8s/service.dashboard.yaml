@@ -32,6 +32,7 @@ spec:
         app: gras-dashboard
     spec:
       serviceAccountName: default
+      restartPolicy: Always
       containers:
         - name: gras-dashboard
           image: grasadmin/dashboard:TAG
@@ -45,42 +46,28 @@ spec:
             - name: "NEXT_PUBLIC_BLOG_APP_URL"
               value: "blog.svc.cluster.local"
           resources:
-            limits:
-              cpu: '200m'
-              memory: '250Mi'
             requests:
-              cpu: '200m'
-              memory: '250Mi'
+              cpu: '0.2'
+              memory: '256Mi'
+            limits:
+              cpu: '0.4'
+              memory: '512Mi'
           ports:
             - name: dashboard-port
               containerPort: 3001
-
-          # livenessProbe:
-          #   httpGet:
-          #     path: /api/healthcheck
-          #     port: dashboard-port
-          #   failureThreshold: 2
-          #   initialDelaySeconds: 20
-          #   periodSeconds: 10
-          #   timeoutSeconds: 3
-
-          # readinessProbe:
-          #   httpGet:
-          #     path: /api/healthcheck
-          #     port: dashboard-port
-          #   failureThreshold: 2
-          #   initialDelaySeconds: 20
-          #   periodSeconds: 10
-          #   timeoutSeconds: 3
-      affinity: {}
-        # Because the cluster uses spot nodes that can be shut down at any time, having at least
-        # 2 replicas with antiAffinity is recommended for application resilency when a node shuts down
-        # podAntiAffinity:
-        #   requiredDuringSchedulingIgnoredDuringExecution:
-        #     - labelSelector:
-        #         matchExpressions:
-        #           - key: 'app'
-        #             operator: In
-        #             values:
-        #               - gras-dashboard
-        #       topologyKey: 'kubernetes.io/hostname'
+          livenessProbe:
+            httpGet:
+              path: /api/healthcheck
+              port: dashboard-port
+            failureThreshold: 2
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            timeoutSeconds: 3
+          readinessProbe:
+            httpGet:
+              path: /api/healthcheck
+              port: dashboard-port
+            failureThreshold: 2
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            timeoutSeconds: 3

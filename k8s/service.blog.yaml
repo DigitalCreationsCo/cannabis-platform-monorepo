@@ -32,47 +32,35 @@ spec:
         app: gras-blog
     spec:
       serviceAccountName: default
+      restartPolicy: Always
       containers:
         - name: gras-blog
           image: grasadmin/blog:TAG
           imagePullPolicy: Always
           terminationMessagePolicy: FallbackToLogsOnError
           resources:
-            limits:
-              cpu: '100m'
-              memory: '150Mi'
             requests:
-              cpu: '100m'
-              memory: '150Mi'
+              cpu: '0.2'
+              memory: '200Mi'
+            limits:
+              cpu: '0.4'
+              memory: '256Mi'
           ports:
             - name: blog-port
               containerPort: 3007
-          # livenessProbe:
-          #   httpGet:
-          #     path: /api/healthcheck
-          #     port: blog-port
-          #   failureThreshold: 2
-          #   initialDelaySeconds: 20
-          #   periodSeconds: 10
-          #   timeoutSeconds: 3
-
-          # readinessProbe:
-          #   httpGet:
-          #     path: /api/healthcheck
-          #     port: blog-port
-          #   failureThreshold: 2
-          #   initialDelaySeconds: 20
-          #   periodSeconds: 10
-          #   timeoutSeconds: 3
-      affinity: {}
-        # Because the cluster uses spot nodes that can be shut down at any time, having at least
-        # 2 replicas with antiAffinity is recommended for application resilency when a node shuts down
-        # podAntiAffinity:
-        #   requiredDuringSchedulingIgnoredDuringExecution:
-        #     - labelSelector:
-        #         matchExpressions:
-        #           - key: 'app'
-        #             operator: In
-        #             values:
-        #               - gras-blog
-        #       topologyKey: 'kubernetes.io/hostname'
+          livenessProbe:
+            httpGet:
+              path: /api/healthcheck
+              port: blog-port
+            failureThreshold: 2
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            timeoutSeconds: 3
+          readinessProbe:
+            httpGet:
+              path: /api/healthcheck
+              port: blog-port
+            failureThreshold: 2
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            timeoutSeconds: 3
