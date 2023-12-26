@@ -54,19 +54,14 @@ function App({ Component, ...rest }: CustomAppProps) {
 
 	const { pageProps } = rest;
 
-	const getLayoutContext = (): LayoutContextProps => ({
-		TopBarComponent: TopBar,
-		...(Component.getLayoutContext && Component.getLayoutContext()),
-	});
-
 	const { token, draftMode } = pageProps;
 
-	const [routerLoading, setRouterLoading] = useState(true),
-		router = useRouter();
+	const [routerLoading, setRouterLoading] = useState(true);
+	const router = useRouter();
 
 	useEffect(() => {
 		router.isReady && setRouterLoading(false);
-	}, [router]);
+	}, [router.isReady]);
 
 	useEffect(() => {
 		async function doRefresh() {
@@ -86,6 +81,11 @@ function App({ Component, ...rest }: CustomAppProps) {
 	if (pageProps.fromSupertokens === 'needs-refresh') {
 		return null;
 	}
+
+	const getLayoutContext = (): LayoutContextProps => ({
+		TopBarComponent: TopBar,
+		...(Component.getLayoutContext && Component.getLayoutContext()),
+	});
 
 	return (
 		<>
@@ -143,7 +143,8 @@ function App({ Component, ...rest }: CustomAppProps) {
 														'https://conversations-widget.brevo.com/brevo-conversations.js';
 													if (d.head) d.head.appendChild(s);
 												})(document, window, 'BrevoConversations')}
-											{!routerLoading &&
+											{process.env.NODE_ENV === 'production' &&
+												!routerLoading &&
 												(function (
 													h,
 													o,
