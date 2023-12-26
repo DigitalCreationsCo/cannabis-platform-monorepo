@@ -47,10 +47,10 @@ spec:
               value: "blog.svc.cluster.local"
           resources:
             requests:
-              cpu: '0.2'
+              cpu: '0.1'
               memory: '256Mi'
             limits:
-              cpu: '0.4'
+              cpu: '0.2'
               memory: '512Mi'
           ports:
             - name: dashboard-port
