@@ -40,10 +40,10 @@ spec:
           terminationMessagePolicy: FallbackToLogsOnError
           resources:
             requests:
-              cpu: '0.2'
+              cpu: '0.1'
               memory: '128Mi'
             limits:
-              cpu: '0.4'
+              cpu: '0.2'
               memory: '256Mi'
           ports:
             - name: help-port
