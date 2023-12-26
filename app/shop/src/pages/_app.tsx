@@ -1,5 +1,5 @@
 /* eslint-disable prefer-rest-params */
-import { blogActions, shopActions } from '@cd/core-lib';
+import { shopActions } from '@cd/core-lib';
 import {
 	LoadingPage,
 	ModalProvider,
@@ -30,26 +30,35 @@ if (typeof window !== 'undefined') {
 	SuperTokensReact.init(frontendConfig() as any);
 }
 
-type CustomAppProps = AppProps & {
-	Component: ExtendedPageComponent;
+export type PageComponent = {
+	getLayoutContext?: () => LayoutContextProps;
+};
+
+export interface SupertokensProps {
+	fromSupertokens: string;
+}
+
+type CustomAppProps = AppProps<SupertokensProps> & {
+	Component: PageComponent;
 };
 
 function App({ Component, ...rest }: CustomAppProps) {
-	const { store, props } = wrapper.useWrappedStore(rest);
-
+	const { store } = wrapper.useWrappedStore(rest);
 	// @ts-ignore
 	const persistor = store._persistor;
 
-	const [routerLoading, setRouterLoading] = useState(true),
-		router = useRouter();
+	const { pageProps } = rest;
+
+	const [routerLoading, setRouterLoading] = useState(true);
+	const router = useRouter();
 
 	useEffect(() => {
 		router.isReady && setRouterLoading(false);
-	}, [router]);
+	}, [router.isReady]);
 
 	useEffect(() => {
 		async function doRefresh() {
-			if (props.pageProps.fromSupertokens === 'needs-refresh') {
+			if (pageProps.fromSupertokens === 'needs-refresh') {
 				console.info('needs refresh');
 				if (await Session.attemptRefreshingSession()) {
 					location.reload();
@@ -60,7 +69,7 @@ function App({ Component, ...rest }: CustomAppProps) {
 			}
 		}
 		doRefresh();
-	}, [props.pageProps.fromSupertokens]);
+	}, [pageProps.fromSupertokens]);
 
 	useEffect(() => {
 		!store.getState().shop.isLoading &&
@@ -70,11 +79,7 @@ function App({ Component, ...rest }: CustomAppProps) {
 			);
 	}, [store]);
 
-	useEffect(() => {
-		store.dispatch(blogActions.getLatestArticles() as unknown as AnyAction);
-	}, []);
-
-	if (props.pageProps.fromSupertokens === 'needs-refresh') {
+	if (pageProps.fromSupertokens === 'needs-refresh') {
 		return null;
 	}
 
@@ -114,7 +119,7 @@ function App({ Component, ...rest }: CustomAppProps) {
 											]}
 										>
 											<>
-												<Component {...props.pageProps} />
+												<Component {...pageProps} />
 												{!routerLoading &&
 													(function (d, w, c: 'BrevoConversations') {
 														w.BrevoConversationsID =
@@ -174,8 +179,3 @@ function App({ Component, ...rest }: CustomAppProps) {
 }
 
 export default wrapper.withRedux(App);
-
-export type ExtendedPageComponent = {
-	getLayoutContext?: () => LayoutContextProps;
-	fromSupertokens: string;
-};
