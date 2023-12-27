@@ -8,7 +8,7 @@ function Posts({ posts = [] }: { posts: Post[] }) {
 			<h2 className="mb-8 text-6xl font-bold leading-tight md:text-7xl">
 				More Stories
 			</h2>
-			<Carousel
+			{/* <Carousel
 				slidesToShow={1}
 				slidesToScroll={1}
 				title="Posts"
@@ -18,12 +18,12 @@ function Posts({ posts = [] }: { posts: Post[] }) {
 				loading={false}
 				Component={InfoCard}
 				infinite={false}
-			/>
-			{/* <div className="mb-12 overflow-x-scroll">
+			/> */}
+			<div className="flex flex-wrap gap-10">
 				{posts.map((post) => (
 					<InfoCard key={post._id} data={post} />
 				))}
-			</div> */}
+			</div>
 		</section>
 	);
 }

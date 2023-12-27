@@ -1,11 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { Page, type LayoutContextProps } from '@cd/ui-lib';
+import { type LayoutContextProps } from '@cd/ui-lib';
 import { type GetStaticProps } from 'next';
-import Head from 'next/head';
-import { default as PostComponent } from 'components/Post';
 import PostPage from 'components/PostPage';
 import PreviewPostPage from 'components/PreviewPostPage';
-import { urlForImage } from 'lib/sanity.image';
 import { readToken } from '../../lib/sanity.api';
 import {
 	getAllPostsSlugs,
@@ -68,23 +65,7 @@ export default function ProjectSlugRoute(props: PageProps) {
 		);
 	}
 
-	// return <PostPage post={post} morePosts={morePosts} settings={settings!} />;
-
-	return (
-		<Page className={'bg-inherit'}>
-			<Head>
-				<meta
-					property="og:image"
-					content={urlForImage(post?.shareImage)?.url()}
-				/>
-				<meta
-					name="twitter:image"
-					content={urlForImage(post?.shareImage)?.url()}
-				/>
-			</Head>
-			<PostComponent post={post} />
-		</Page>
-	);
+	return <PostPage post={post} morePosts={morePosts} settings={settings!} />;
 }
 
 ProjectSlugRoute.getLayoutContext = (): LayoutContextProps => ({

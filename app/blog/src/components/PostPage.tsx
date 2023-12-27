@@ -1,12 +1,26 @@
-import { Page } from '@cd/ui-lib';
+import {
+	Button,
+	H1,
+	H2,
+	H3,
+	H4,
+	IconWrapper,
+	Page,
+	Paragraph,
+} from '@cd/ui-lib';
+import icons from '@cd/ui-lib/src/icons';
+import { PortableText } from '@portabletext/react';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import MoreStories from 'components/MoreStories';
-import PostBody from 'components/PostBody';
-import PostHeader from 'components/PostHeader';
+import { default as Router } from 'next/router';
+import { twMerge } from 'tailwind-merge';
 import PostPageHead from 'components/PostPageHead';
 import PostTitle from 'components/PostTitle';
 import SectionSeparator from 'components/SectionSeparator';
+import { urlForImage } from 'lib/sanity.image';
 import type { Post, Settings } from 'lib/sanity.queries';
+import MorePosts from './MorePosts';
+import Date from './PostDate';
 
 export interface PostPageProps {
 	preview?: boolean;
@@ -28,27 +42,80 @@ export default function PostPage(props: PostPageProps) {
 	}
 
 	return (
-		<Page className={'bg-inherit p-8 min-h-[660px]'}>
+		<Page className={'bg-inherit pt-8 min-h-[660px]'}>
 			<PostPageHead settings={settings} post={post} />
 
 			{preview && !post ? (
 				<PostTitle>Loading…</PostTitle>
 			) : (
 				<>
-					<article>
-						<PostHeader
-							title={post.title}
-							mainImage={post.mainImage}
-							_createdAt={post._createdAt}
-							author={post.author}
-							slug={post.slug}
-						/>
-						<PostBody body={post.body} />
+					<article className="w-full mx-auto max-w-7xl">
+						<BackButton />
+						<H1 className="text-5xl md:text-7xl font-onest font-normal text-inverse drop-shadow-lg mb-4">
+							{post.title}
+						</H1>{' '}
+						<div className="flex flex-col w-full">
+							<div className="mb-4">
+								<Paragraph className="post__date text-inverse inline">
+									<Date dateString={post._createdAt} />
+								</Paragraph>
+								{'  '}
+								<Paragraph className="text-inverse inline">
+									{post.categories}
+								</Paragraph>
+							</div>
+							<Paragraph className="mb-4 post__excerpt text-inverse drop-shadow text-lg">
+								{post.excerpt}
+							</Paragraph>
+							{post.mainImage ? (
+								<div className="post__cover mb-8">
+									<Image
+										className="rounded shadow"
+										// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+										src={urlForImage(post.mainImage)!.url()}
+										height={800}
+										width={1600}
+										alt=""
+									/>
+								</div>
+							) : (
+								<div className="post__cover--none" />
+							)}
+						</div>
+						<Paragraph className="post__content font-semibold">
+							<PortableText
+								value={post.body}
+								components={{
+									block: {
+										h1: H1,
+										h2: H2,
+										h3: H3,
+										h4: H4,
+										normal: Paragraph,
+										blockquote: Paragraph,
+									},
+								}}
+							/>
+						</Paragraph>
 					</article>
 					<SectionSeparator />
-					{morePosts?.length > 0 && <MoreStories posts={morePosts} />}
+					{morePosts.length > 0 && <MorePosts posts={morePosts} />}
 				</>
 			)}
 		</Page>
+	);
+}
+
+function BackButton({ className }: { className?: string }) {
+	return (
+		<Button
+			size="sm"
+			bg="transparent"
+			className={twMerge('text-dark self-start sm:py-0', className)}
+			onClick={() => Router.back()}
+		>
+			<IconWrapper Icon={icons.ArrowLeft} className="pr-1" />
+			back
+		</Button>
 	);
 }

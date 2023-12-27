@@ -16,16 +16,22 @@ export default function PostPageHead({ settings, post }: PostPageHeadProps) {
 		<Head>
 			<title>{post.title ? `${post.title} | ${title}` : title}</title>
 			<BlogMeta />
-			{post.mainImage?.assetId && (
+			{post.shareImage?.assetId && (
 				<meta
 					property="og:image"
-					content={urlForImage(post.mainImage)!
+					content={urlForImage(post.shareImage)!
 						.width(1200)
 						.height(627)
 						.fit('crop')
 						.url()}
 				/>
 			)}
+			{
+				<meta
+					name="twitter:image"
+					content={urlForImage(post?.shareImage)?.url()}
+				/>
+			}
 		</Head>
 	);
 }

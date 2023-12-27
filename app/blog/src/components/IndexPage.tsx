@@ -1,10 +1,9 @@
-import { Page } from '@cd/ui-lib';
+import { type LayoutContextProps, Page } from '@cd/ui-lib';
 import HeroPost from 'components/HeroPost';
 import IndexPageHead from 'components/IndexPageHead';
 import type { Post, Settings } from 'lib/sanity.queries';
 import BlogHeader from './BlogHeader';
 import MorePosts from './MorePosts';
-import MoreStories from './MoreStories';
 
 export interface IndexPageProps {
 	preview?: boolean;
@@ -13,13 +12,13 @@ export interface IndexPageProps {
 	settings: Settings;
 }
 
-export default function IndexPage(props: IndexPageProps) {
+function IndexPage(props: IndexPageProps) {
 	const { posts, settings } = props;
 	const [heroPost, ...morePosts] = posts || [];
 	const { title = '', description = '' } = settings || {};
 
 	return (
-		<Page className={'bg-inherit lg:mx-32 min-h-[660px] border'}>
+		<Page className={'bg-inherit xl:mx-32 min-h-[660px]'}>
 			<IndexPageHead settings={settings} />
 			<BlogHeader
 				title={title}
@@ -34,10 +33,12 @@ export default function IndexPage(props: IndexPageProps) {
 					author={heroPost.author}
 					slug={heroPost.slug}
 					excerpt={heroPost.excerpt}
+					categories={heroPost.categories}
 				/>
 			)}
 			{morePosts.length > 0 && <MorePosts posts={morePosts} />}
-			{/* {morePosts.length > 0 && <MoreStories posts={morePosts} />} */}
 		</Page>
 	);
 }
+
+export default IndexPage;

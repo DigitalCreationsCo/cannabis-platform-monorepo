@@ -71,15 +71,16 @@ function Layout({
 				{showTopBar && TopBarComponent && (
 					<TopBarComponent signOut={signOut} doesSessionExist={isSession} />
 				)}
-				{showHeader && (
-					<Header
-						showSearch={showSearch}
-						showDrawer={showHeaderDrawer}
-						placeholder={placeholder}
-						onSearchChange={onSearchChange}
-						drawerComponentId={drawerComponentId}
-					/>
-				)}
+				{showHeader &&
+					((
+						<Header
+							showSearch={showSearch}
+							showDrawer={showHeaderDrawer}
+							placeholder={placeholder}
+							onSearchChange={onSearchChange}
+							drawerComponentId={drawerComponentId}
+						/>
+					) || <></>)}
 				<SideNavContainer
 					showSideNavOnDesktop={showSideNavOnDesktop}
 					showSideNav={showSideNav}
