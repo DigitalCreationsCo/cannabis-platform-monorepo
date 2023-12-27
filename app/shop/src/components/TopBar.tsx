@@ -25,7 +25,7 @@ import Link from 'next/link';
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
-import logo from '../../public/logo2.png';
+import logo from '../../public/logo.png';
 
 export type TopBarProps = {
 	doesSessionExist?: boolean;

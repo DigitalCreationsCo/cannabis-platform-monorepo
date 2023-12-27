@@ -23,9 +23,9 @@ export default function Footer() {
 		{ name: 'Get Support', href: TextContent.href.support },
 		{ name: 'About Gras', href: TextContent.href.about },
 		{ name: 'Services', href: TextContent.href.services },
-		// { name: 'Blog', href: TextContent.href.blog },
 	];
 	const legal = [
+		{ name: 'Blog', href: TextContent.href.blog },
 		{ name: 'Help Center', href: TextContent.href.help },
 		{
 			name: 'Terms and Conditions',
@@ -54,7 +54,7 @@ export default function Footer() {
 									href={replaceRelativePath(item.href)}
 									className="w-fit"
 								>
-									<Paragraph className="text-inverse underline lg:no-underline hover:underline lg:text-lg text-onest tracking-wider">
+									<Paragraph className="text-lg text-inverse underline lg:no-underline hover:underline lg:text-lg">
 										{item.name}
 									</Paragraph>
 								</Link>
@@ -70,7 +70,7 @@ export default function Footer() {
 									passHref
 									className="w-fit"
 								>
-									<Paragraph className="text-inverse underline lg:no-underline hover:underline lg:text-lg text-onest tracking-wider">
+									<Paragraph className="text-lg text-inverse underline lg:no-underline hover:underline lg:text-lg">
 										{item.name}
 									</Paragraph>
 								</Link>
@@ -91,14 +91,14 @@ export default function Footer() {
 								</Link>
 							</FlexBox>
 
-							<Paragraph className="text-onest lg:text-lg mt-8 max-w-md text-white tracking-wider">
+							<Paragraph className="lg:text-lg mt-8 max-w-md text-white">
 								{TextContent.info.ABOUT_GRAS_AND_MISSION}
 							</Paragraph>
 							<CopyRight className="lg:text-lg" />
 						</div>
 						<div className="pb-12 lg:pb-0">
-							<Paragraph className="text-inverse font-semibold lg:text-lg tracking-wider">
-								Follow us online
+							<Paragraph className="text-lg text-inverse font-semibold">
+								Follow us
 							</Paragraph>
 							<FlexBox className="mt-5 flex-row space-x-5 text-inverse">
 								<a
@@ -136,10 +136,8 @@ export default function Footer() {
 							</FlexBox>
 						</div>
 					</div>
-					<div className="row-start-1 row-span-1 lg:col-start-6 lg:row-start-auto">
-						<H4 className="text-onest tracking-wider" color="light">
-							{TextContent.info.CANNABIS_DELIVERED}
-						</H4>
+					<div className="row-start-1 row-span-1 lg:col-start-6 lg:row-start-auto pt-4">
+						<H4 color="light">{TextContent.info.CANNABIS_DELIVERED}</H4>
 					</div>
 				</Grid>
 			</FlexBox>

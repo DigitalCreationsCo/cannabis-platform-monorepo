@@ -141,7 +141,7 @@ const TextContent = Object.freeze({
 
 	info: {
 		ABOUT_GRAS: `Gras is a home-grown service company. `,
-		ABOUT_GRAS_AND_MISSION: `Gras is a home-grown company creating meaningful experiences for our customers and partners in the cannabis world, one${nbsp}delivery${nbsp}at${nbsp}a${nbsp}time. `,
+		ABOUT_GRAS_AND_MISSION: `Gras is a home-grown delivery company creating meaningful experiences for our customers and partners in the cannabis world, one${nbsp}delivery${nbsp}at${nbsp}a${nbsp}time. `,
 		BUILDING_TRUST_WITH_OUR_PARTNERS: `Gras is building a trusted community of partners and cannabis lovers.`,
 		CANNABIS_DELIVERED: `Cannabis,${'\xa0'}Delivered${'\xa0'}🌴${'\xa0'}🔥`,
 		CANNABIS_DELIVERED_TEXT: `Cannabis,${'\xa0'}Delivered`,
