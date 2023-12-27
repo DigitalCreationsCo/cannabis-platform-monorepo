@@ -13,7 +13,7 @@ import {
 import {
 	Button,
 	FlexBox,
-	H2,
+	GrasSignature,
 	IconButton,
 	Icons,
 	Paragraph,
@@ -51,16 +51,19 @@ function DashboardTopBar({ signOut }: TopBarProps) {
 
 	return (
 		<div className={twMerge(styles.TOPBAR.topbar)}>
-			<Link
-				href={isSignedIn ? '/' : getShopSite('/')}
-				passHref
-				className="shrink-0"
-			>
-				<Image alt="Gras" width={50} height={50} src={logo} />
-			</Link>
-			<Link href={isSignedIn ? '/' : getShopSite('/')}>
-				<H2 className="text-secondary pt-0.5">Gras</H2>
-			</Link>
+			<FlexBox className="flex-row items-center">
+				<Link href={'/'} className="z-50">
+					<GrasSignature className="text-secondary pt-0.5">Gras</GrasSignature>
+				</Link>
+				<Link href={'/'} className="shrink-0">
+					<Image alt="Gras" width={55} height={55} src={logo} />
+				</Link>
+				<Link href={'/'}>
+					<Paragraph className={twMerge(styles.TOPBAR.tagline)}>
+						{TextContent.info.CANNABIS_DELIVERED_TEXT}
+					</Paragraph>
+				</Link>
+			</FlexBox>
 
 			<Link href={isSignedIn ? '/' : getShopSite('/')}>
 				<Paragraph className={twMerge(styles.TOPBAR.tagline)}>
