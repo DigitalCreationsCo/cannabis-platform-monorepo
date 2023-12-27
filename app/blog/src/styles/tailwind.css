@@ -2976,11 +2976,6 @@ details > summary {
   margin: auto;
 }
 
-.mx-24 {
-  margin-left: 6rem;
-  margin-right: 6rem;
-}
-
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -2994,10 +2989,6 @@ details > summary {
 .my-4 {
   margin-top: 1rem;
   margin-bottom: 1rem;
-}
-
-.mb-10 {
-  margin-bottom: 2.5rem;
 }
 
 .mb-12 {
@@ -3048,10 +3039,6 @@ details > summary {
   margin-top: 3rem;
 }
 
-.mt-16 {
-  margin-top: 4rem;
-}
-
 .mt-2 {
   margin-top: 0.5rem;
 }
@@ -3070,6 +3057,10 @@ details > summary {
 
 .mt-8 {
   margin-top: 2rem;
+}
+
+.mb-10 {
+  margin-bottom: 2.5rem;
 }
 
 .block {
@@ -3711,8 +3702,16 @@ details > summary {
   overflow: visible;
 }
 
+.overflow-scroll {
+  overflow: scroll;
+}
+
 .overflow-x-hidden {
   overflow-x: hidden;
+}
+
+.overflow-x-scroll {
+  overflow-x: scroll;
 }
 
 .scroll-smooth {
@@ -3835,6 +3834,10 @@ details > summary {
 
 .bg-dark {
   background-color: var(--dark);
+}
+
+.bg-dark-soft {
+  background-color: var(--dark-soft);
 }
 
 .bg-gray-100 {
@@ -4150,6 +4153,11 @@ details > summary {
   line-height: 1rem;
 }
 
+.text-8xl {
+  font-size: 6rem;
+  line-height: 1;
+}
+
 .font-bold {
   font-weight: var(--font-weight-bold);
 }
@@ -4418,6 +4426,14 @@ details > summary {
   transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
 }
 
+.text-outline {
+  color: #13622a;
+  -webkit-text-stroke: 0.1px #FFF244;
+  /* Outline color and width (webkit browsers) */
+  text-stroke: 1px #FFF244;
+  /* Outline color and width (standard) */
+}
+
 .cursor-inherit {
   cursor: inherit;
 }
@@ -4639,6 +4655,11 @@ details > summary {
     font-size: 2.25rem;
     line-height: 2.5rem;
   }
+
+  .sm\:text-8xl {
+    font-size: 6rem;
+    line-height: 1;
+  }
 }
 
 @media (min-width: 768px) {
@@ -4725,10 +4746,6 @@ details > summary {
 
   .md\:flex-row {
     flex-direction: row;
-  }
-
-  .md\:justify-between {
-    justify-content: space-between;
   }
 
   .md\:gap-x-16 {
@@ -4838,11 +4855,6 @@ details > summary {
     line-height: 1;
   }
 
-  .md\:text-8xl {
-    font-size: 6rem;
-    line-height: 1;
-  }
-
   .md\:text-lg {
     font-size: 1.125rem;
     line-height: 1.75rem;
@@ -4899,8 +4911,17 @@ details > summary {
     margin-right: 4rem;
   }
 
+  .lg\:mx-32 {
+    margin-left: 8rem;
+    margin-right: 8rem;
+  }
+
   .lg\:ml-0 {
     margin-left: 0px;
+  }
+
+  .lg\:mt-10 {
+    margin-top: 2.5rem;
   }
 
   .lg\:\!hidden {
@@ -4972,6 +4993,10 @@ details > summary {
     --tw-space-y-reverse: 0;
     margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
     margin-bottom: calc(1rem * var(--tw-space-y-reverse));
+  }
+
+  .lg\:self-end {
+    align-self: flex-end;
   }
 
   .lg\:self-center {
@@ -5090,6 +5115,14 @@ details > summary {
 
   .xl\:grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .xl\:flex-row {
+    flex-direction: row;
+  }
+
+  .xl\:justify-between {
+    justify-content: space-between;
   }
 
   .xl\:pl-0 {

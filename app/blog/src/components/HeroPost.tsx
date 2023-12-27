@@ -12,7 +12,7 @@ export default function HeroPost(
 ) {
 	const { title, mainImage, _createdAt, excerpt, author, slug } = props;
 	return (
-		<section>
+		<section className="border">
 			<div className="mb-8 md:mb-16">
 				<MainImage
 					slug={slug}

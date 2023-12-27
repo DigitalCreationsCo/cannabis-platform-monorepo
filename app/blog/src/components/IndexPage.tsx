@@ -4,6 +4,7 @@ import IndexPageHead from 'components/IndexPageHead';
 import type { Post, Settings } from 'lib/sanity.queries';
 import BlogHeader from './BlogHeader';
 import MorePosts from './MorePosts';
+import MoreStories from './MoreStories';
 
 export interface IndexPageProps {
 	preview?: boolean;
@@ -18,7 +19,7 @@ export default function IndexPage(props: IndexPageProps) {
 	const { title = '', description = '' } = settings || {};
 
 	return (
-		<Page className={'bg-inherit mx-24 min-h-[660px]'}>
+		<Page className={'bg-inherit lg:mx-32 min-h-[660px] border'}>
 			<IndexPageHead settings={settings} />
 			<BlogHeader
 				title={title}

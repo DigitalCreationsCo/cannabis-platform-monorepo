@@ -1,3 +1,4 @@
+import { Carousel } from '@cd/ui-lib';
 import { type Post } from '../lib/sanity.queries';
 import InfoCard from './InfoCard';
 
@@ -7,11 +8,22 @@ function Posts({ posts = [] }: { posts: Post[] }) {
 			<h2 className="mb-8 text-6xl font-bold leading-tight md:text-7xl">
 				More Stories
 			</h2>
-			<div className="flex flex-wrap gap-12 mb-12">
+			<Carousel
+				slidesToShow={1}
+				slidesToScroll={1}
+				title="Posts"
+				startHidden={false}
+				data={posts}
+				dataKey={'gras'}
+				loading={false}
+				Component={InfoCard}
+				infinite={false}
+			/>
+			{/* <div className="mb-12 overflow-x-scroll">
 				{posts.map((post) => (
 					<InfoCard key={post._id} data={post} />
 				))}
-			</div>
+			</div> */}
 		</section>
 	);
 }
