@@ -1,3 +1,4 @@
+import { H3, Paragraph } from '@cd/ui-lib';
 import Link from 'next/link';
 import type { Post } from '../lib/sanity.queries';
 import AuthorAvatar from './AuthorAvatar';
@@ -7,12 +8,19 @@ import Date from './PostDate';
 export default function HeroPost(
 	props: Pick<
 		Post,
-		'title' | 'mainImage' | '_createdAt' | 'excerpt' | 'author' | 'slug'
+		| 'title'
+		| 'mainImage'
+		| '_createdAt'
+		| 'excerpt'
+		| 'author'
+		| 'slug'
+		| 'categories'
 	>,
 ) {
-	const { title, mainImage, _createdAt, excerpt, author, slug } = props;
+	const { title, mainImage, _createdAt, excerpt, author, slug, categories } =
+		props;
 	return (
-		<section className="border">
+		<section>
 			<div className="mb-8 md:mb-16">
 				<MainImage
 					slug={slug}
@@ -21,25 +29,26 @@ export default function HeroPost(
 					priority
 				/>
 			</div>
-			<div className="mb-20 md:mb-28 md:grid xl:grid-cols-2 md:gap-x-16 lg:gap-x-8">
+			<div className="mb-20 md:mb-28 md:grid 2xl:grid-cols-2 md:gap-x-16 lg:gap-x-8">
 				<div>
-					<h3 className="mb-4 text-4xl leading-tight lg:text-6xl">
+					<H3 className="mb-4 text-4xl font-normal leading-tight lg:text-6xl">
 						<Link
 							href={`/posts/${slug}`}
 							className="hover:underline decoration-secondary"
 						>
 							{title || 'Untitled'}
 						</Link>
-					</h3>
+					</H3>
 					<div className="mb-4 text-lg md:mb-0">
 						<Date dateString={_createdAt} />
+						<Paragraph>{categories}</Paragraph>
 					</div>
 				</div>
 				<div>
 					{excerpt && (
-						<p className="my-4 text-lg leading-relaxed tracking-wider">
+						<Paragraph className="my-4 text-lg leading-relaxed tracking-wider">
 							{excerpt}
-						</p>
+						</Paragraph>
 					)}
 					{author && (
 						<AuthorAvatar name={author.name} picture={author.picture} />

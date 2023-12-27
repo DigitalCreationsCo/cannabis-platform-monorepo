@@ -20,8 +20,8 @@ function Header({
 	onSearchChange,
 	placeholder,
 	drawerComponentId,
-	showDrawer = true,
-	showSearch = true,
+	showDrawer,
+	showSearch,
 	children,
 }: HeaderProps) {
 	const headerContainerStyle = [

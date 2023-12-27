@@ -17,7 +17,7 @@ export default function BlogHeader({
 	switch (level) {
 		case 1:
 			return (
-				<header className="border mb-10 lg:mt-10 flex flex-col items-center md:mb-12 xl:flex-row xl:justify-between">
+				<header className="mb-10 lg:mt-10 flex flex-col items-center md:mb-12 xl:flex-row xl:justify-between">
 					<GrasSignature
 						className={twMerge(
 							'text-outline drop-shadow text-6xl font-bold leading-tight tracking-tight md:pr-8 sm:text-8xl',
@@ -26,7 +26,7 @@ export default function BlogHeader({
 						{title}
 					</GrasSignature>
 					<H4
-						className={`text-inverse lg:self-end text-center text-2xl md:pl-8 md:text-left ${styles.portableText}`}
+						className={`text-inverse xl:self-end text-center text-2xl md:pl-8 md:text-left ${styles.portableText}`}
 					>
 						<PortableText value={description} />
 					</H4>
