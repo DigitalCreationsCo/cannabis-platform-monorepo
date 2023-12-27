@@ -56,7 +56,7 @@ spec:
               memory: '192Mi'
             limits:
               cpu: '0.5'
-              memory: '256Mi'
+              memory: '500Mi'
           ports:
             - name: shop-port
               containerPort: 3000
@@ -65,7 +65,7 @@ spec:
               path: /api/healthcheck
               port: shop-port
             failureThreshold: 2
-            initialDelaySeconds: 60
+            initialDelaySeconds: 120
             periodSeconds: 10
             timeoutSeconds: 3
           readinessProbe:
@@ -73,6 +73,6 @@ spec:
               path: /api/healthcheck
               port: shop-port
             failureThreshold: 2
-            initialDelaySeconds: 60
+            initialDelaySeconds: 120
             periodSeconds: 10
             timeoutSeconds: 3
