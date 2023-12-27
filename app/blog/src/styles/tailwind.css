@@ -3172,6 +3172,10 @@ details > summary {
   height: 360px;
 }
 
+.h-\[400px\] {
+  height: 400px;
+}
+
 .h-\[44px\] {
   height: 44px;
 }
@@ -3211,14 +3215,6 @@ details > summary {
 
 .h-min {
   height: min-content;
-}
-
-.h-\[300px\] {
-  height: 300px;
-}
-
-.h-\[400px\] {
-  height: 400px;
 }
 
 .max-h-\[240px\] {
@@ -4445,7 +4441,7 @@ details > summary {
 @font-face {
   font-family: 'Gras';
 
-  src: url('../../public/fonts/RockSalt-Regular.ttf');
+  src: url('../../public/fonts/RustyHooks-Regular.ttf');
 }
 
 @media (min-width: 768px) {

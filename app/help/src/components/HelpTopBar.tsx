@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import {
-	getShopSite,
 	modalActions,
 	modalTypes,
 	replaceRelativePath,
@@ -14,10 +13,9 @@ import {
 import {
 	Button,
 	FlexBox,
-	H2,
+	GrasSignature,
 	IconButton,
 	Icons,
-	IconWrapper,
 	Paragraph,
 	styles,
 } from '@cd/ui-lib';
@@ -55,19 +53,19 @@ function TopBar({ signOut }: TopBarProps) {
 
 	return (
 		<div className={twMerge(styles.TOPBAR.topbar)}>
-			<Link href={getShopSite('/')} className="shrink-0">
-				<Image alt="Gras" width={50} height={50} src={logo} />
-			</Link>
-
-			<Link href={getShopSite('/')}>
-				<H2 className="text-secondary pt-0.5">Gras</H2>
-			</Link>
-
-			<Link href={getShopSite('/')}>
-				<Paragraph className={twMerge(styles.TOPBAR.tagline)}>
-					{TextContent.info.CANNABIS_DELIVERED_TEXT}
-				</Paragraph>
-			</Link>
+			<FlexBox className="flex-row items-center">
+				<Link href={'/'} className="z-50">
+					<GrasSignature className="text-secondary pt-0.5">Gras</GrasSignature>
+				</Link>
+				<Link href={'/'} className="shrink-0">
+					<Image alt="Gras" width={55} height={55} src={logo} />
+				</Link>
+				<Link href={'/'}>
+					<Paragraph className={twMerge(styles.TOPBAR.tagline)}>
+						{TextContent.info.CANNABIS_DELIVERED_TEXT}
+					</Paragraph>
+				</Link>
+			</FlexBox>
 			<div className="flex-1"></div>
 
 			<FlexBox className="flex flex-row items-center md:space-x-4 md:pr-2">
