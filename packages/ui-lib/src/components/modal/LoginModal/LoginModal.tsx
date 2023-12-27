@@ -173,7 +173,7 @@ function LoginModal({
 							Continue
 						</Button>
 					</FlexBox>
-					<FlexBox className="flex-col mx-auto justify-center">
+					{/* <FlexBox className="flex-col mx-auto justify-center">
 						<Paragraph className="text-lg mx-auto text-center">
 							Are you a dispensary?
 						</Paragraph>
@@ -186,7 +186,7 @@ function LoginModal({
 								{TextContent.account.CREATE_DISPENSARY_ACCOUNT}
 							</H4>
 						</Link>
-					</FlexBox>
+					</FlexBox> */}
 				</Grid>
 			</form>
 		);
@@ -376,7 +376,7 @@ function LoginModal({
 			onClose={closeModalAndReset}
 			{...props}
 		>
-			<div className="mx-auto m-0 p-0">
+			<div className="mx-auto m-0 p-0 h-[400px]">
 				<FlexBox className="mx-auto">
 					<Image
 						src={logo}

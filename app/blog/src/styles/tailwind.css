@@ -2719,21 +2719,6 @@ details > summary {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
-.avatar.online:before {
-  content: "";
-  position: absolute;
-  z-index: 10;
-  display: block;
-  border-radius: 9999px;
-  --tw-bg-opacity: 1;
-  background-color: hsl(var(--su) / var(--tw-bg-opacity));
-  width: 15%;
-  height: 15%;
-  top: 7%;
-  right: 7%;
-  box-shadow: 0 0 0 2px hsl(var(--b1));
-}
-
 .btn-group .btn:not(:first-child):not(:last-child) {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
@@ -3226,6 +3211,14 @@ details > summary {
 
 .h-min {
   height: min-content;
+}
+
+.h-\[300px\] {
+  height: 300px;
+}
+
+.h-\[400px\] {
+  height: 400px;
 }
 
 .max-h-\[240px\] {
@@ -5012,17 +5005,20 @@ details > summary {
     padding-right: 8rem;
   }
 
-  .lg\:px-8 {
-    padding-left: 2rem;
-    padding-right: 2rem;
-  }
-
   .lg\:pb-0 {
     padding-bottom: 0px;
   }
 
+  .lg\:pl-20 {
+    padding-left: 5rem;
+  }
+
   .lg\:pl-\[188px\] {
     padding-left: 188px;
+  }
+
+  .lg\:pr-8 {
+    padding-right: 2rem;
   }
 
   .lg\:pt-2 {
