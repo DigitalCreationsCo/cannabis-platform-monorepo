@@ -3026,6 +3026,16 @@ details > summary {
   margin-bottom: 1rem;
 }
 
+.mx-4 {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.mx-2 {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
 .mb-10 {
   margin-bottom: 2.5rem;
 }
@@ -3241,6 +3251,10 @@ details > summary {
 
 .h-min {
   height: min-content;
+}
+
+.h-\[300px\] {
+  height: 300px;
 }
 
 .max-h-\[240px\] {
@@ -4236,6 +4250,10 @@ details > summary {
   letter-spacing: 0.1em;
 }
 
+.tracking-normal {
+  letter-spacing: 0em;
+}
+
 .text-accent-soft {
   color: var(--accent-soft);
 }
@@ -4638,6 +4656,10 @@ details > summary {
     flex-grow: 1;
   }
 
+  .sm\:justify-start {
+    justify-content: flex-start;
+  }
+
   .sm\:space-x-2 > :not([hidden]) ~ :not([hidden]) {
     --tw-space-x-reverse: 0;
     margin-right: calc(0.5rem * var(--tw-space-x-reverse));
@@ -4794,6 +4816,10 @@ details > summary {
 
   .md\:\!rounded-btn {
     border-radius: var(--rounded-btn) !important;
+  }
+
+  .md\:rounded {
+    border-radius: 0.25rem;
   }
 
   .md\:p-5 {

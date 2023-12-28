@@ -29,9 +29,9 @@ export default function HeroPost(
 					priority
 				/>
 			</div>
-			<div className="mb-20 md:mb-28 md:grid 2xl:grid-cols-2 md:gap-x-16 lg:gap-x-8">
+			<div className="px-1 mb-20 md:mb-28 md:grid 2xl:grid-cols-2 md:gap-x-16 lg:gap-x-8">
 				<div>
-					<H3 className="mb-4 text-4xl font-normal leading-tight lg:text-6xl">
+					<H3 className="mb-4 text-4xl tracking-normal font-onest font-semibold drop-shadow-lg leading-tight lg:text-6xl">
 						<Link
 							href={`/posts/${slug}`}
 							className="hover:underline decoration-secondary"
@@ -46,7 +46,7 @@ export default function HeroPost(
 				</div>
 				<div>
 					{excerpt && (
-						<Paragraph className="my-4 text-lg leading-relaxed tracking-wider">
+						<Paragraph className="my-4 text-lg leading-relaxed">
 							{excerpt}
 						</Paragraph>
 					)}
