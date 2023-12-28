@@ -50,11 +50,9 @@ export default function PostPage(props: PostPageProps) {
 			) : (
 				<>
 					<article className="w-full mx-auto max-w-7xl">
-						<BackButton />
-						<H1 className="text-5xl md:text-7xl font-onest font-normal text-inverse drop-shadow-lg mb-4">
-							{post.title}
-						</H1>{' '}
-						<div className="flex flex-col w-full">
+						<div className="flex flex-col w-full px-1">
+							<BackButton />
+							<PostTitle>{post.title}</PostTitle>
 							<div className="mb-4">
 								<Paragraph className="post__date text-inverse inline">
 									<Date dateString={post._createdAt} />
@@ -64,25 +62,25 @@ export default function PostPage(props: PostPageProps) {
 									{post.categories}
 								</Paragraph>
 							</div>
-							<Paragraph className="mb-4 post__excerpt text-inverse drop-shadow text-lg">
+							<Paragraph className="leading-tight mb-4 post__excerpt text-inverse drop-shadow text-lg">
 								{post.excerpt}
 							</Paragraph>
-							{post.mainImage ? (
-								<div className="post__cover mb-8">
-									<Image
-										className="rounded shadow"
-										// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-										src={urlForImage(post.mainImage)!.url()}
-										height={800}
-										width={1600}
-										alt=""
-									/>
-								</div>
-							) : (
-								<div className="post__cover--none" />
-							)}
 						</div>
-						<Paragraph className="post__content font-semibold">
+						{post.mainImage ? (
+							<div className="post__cover mb-8">
+								<Image
+									className="md:rounded shadow"
+									// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+									src={urlForImage(post.mainImage)!.url()}
+									height={800}
+									width={1600}
+									alt=""
+								/>
+							</div>
+						) : (
+							<div className="post__cover--none" />
+						)}
+						<Paragraph className="leading-tight post__content px-1">
 							<PortableText
 								value={post.body}
 								components={{

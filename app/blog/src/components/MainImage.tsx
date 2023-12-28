@@ -21,7 +21,7 @@ export default function MainImage(props: CoverImageProps) {
 			)}
 		>
 			<Image
-				className="h-auto w-full rounded"
+				className="h-auto w-full md:rounded"
 				width={2000}
 				height={1000}
 				alt=""

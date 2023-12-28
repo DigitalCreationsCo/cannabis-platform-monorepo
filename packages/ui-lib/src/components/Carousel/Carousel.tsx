@@ -1,8 +1,7 @@
-import { type ArticleTag } from '@cd/data-access';
 import { useRef, useState } from 'react';
 import Slider, { type Settings as CarouselSettings } from 'react-slick';
-import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import { twMerge } from 'tailwind-merge';
 import Icons from '../../icons';
 import Button from '../button/Button';
@@ -28,7 +27,7 @@ export default function Carousel<D>({
 	titleSize = 'md',
 	data = [],
 	dataKey,
-	...props
+	...carouselProps
 }: CarouselProps<D>) {
 	const sliderRef = useRef<Slider>(null);
 
@@ -67,19 +66,19 @@ export default function Carousel<D>({
 	const slidesToShow = data.length > 0 ? Math.min(data.length, 4) : 1;
 
 	const settings: CarouselSettings = {
-		// lazyLoad: 'anticipated',
-		// arrows: true,
-		// variableWidth: true,
-		centerMode: false,
-		infinite: true,
-		// edgeFriction: 0.1,
-		// speed: 440,
-		// autoplay: true,
-		// autoplaySpeed: props.autoplaySpeed || 5000,
 		slidesToShow,
 		slidesToScroll: slidesToShow,
 		cssEase: 'ease-out',
 		responsive: [
+			{
+				breakpoint: 768,
+				settings: {
+					vertical: true,
+					slidesToShow: 2,
+					slidesToScroll: 2,
+					initialSlide: 0,
+				},
+			},
 			{
 				breakpoint: 1024,
 				settings: {
@@ -88,35 +87,29 @@ export default function Carousel<D>({
 					initialSlide: 0,
 				},
 			},
-			{
-				breakpoint: 768,
-				settings: {
-					slidesToShow,
-					slidesToScroll: slidesToShow,
-					initialSlide: 0,
-				},
-			},
 		],
-		...props,
+		...carouselProps,
 	};
 
 	return (
-		<FlexBox className="min-w-full grow border flex-row items-center">
-			{title && <H5>{title}</H5>}
-			<CarouselButton
-				direction={settings.vertical ? 'up' : 'left'}
-				onClick={decrement}
-			/>
-			<Slider ref={sliderRef} {...settings}>
-				{data.length > 0 &&
-					data.map((el, index) => (
-						<Component key={dataKey + '-' + index} data={el} />
-					))}
-			</Slider>
-			<CarouselButton
-				direction={settings.vertical ? 'down' : 'right'}
-				onClick={increment}
-			/>
+		<FlexBox className="min-w-full flex-row items-center border">
+			<>
+				{title && <H5>{title}</H5>}
+				<CarouselButton
+					direction={settings.vertical ? 'up' : 'left'}
+					onClick={decrement}
+				/>
+				<Slider ref={sliderRef} {...settings} className="px-4 w-full">
+					{data.length > 0 &&
+						data.map((el, index) => (
+							<Component key={dataKey + '-' + index} data={el} />
+						))}
+				</Slider>
+				<CarouselButton
+					direction={settings.vertical ? 'down' : 'right'}
+					onClick={increment}
+				/>
+			</>
 		</FlexBox>
 	);
 }

@@ -1,7 +1,9 @@
+import { H1 } from '@cd/ui-lib';
+
 export default function PostTitle({ children }: { children: React.ReactNode }) {
 	return (
-		<h1 className="mb-12 text-center text-6xl font-bold leading-tight tracking-tighter md:text-left md:text-7xl md:leading-none lg:text-8xl">
+		<H1 className="text-5xl md:text-7xl leading-tight font-onest font-normal text-inverse drop-shadow-lg mb-4">
 			{children}
-		</h1>
+		</H1>
 	);
 }
