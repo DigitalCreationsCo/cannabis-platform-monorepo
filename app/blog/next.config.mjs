@@ -15,6 +15,7 @@ const _env =
 	process.env.NEXT_PUBLIC_IS_LOCAL_BUILD == '1'
 		? 'development'
 		: process.env.NODE_ENV;
+
 expand(config({ path: loadEnv(_env) }));
 
 const nextConfig = (phase) => {

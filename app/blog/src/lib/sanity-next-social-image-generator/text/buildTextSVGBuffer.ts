@@ -1,9 +1,10 @@
 import { type TextOptions } from './types';
 
 export const buildTextSVGBuffer = (config: TextOptions): Buffer => {
+	console.info('buildTextSVGBuffer text: ', config.text);
 	const svgText = constructMultilineSVGText(
-		(config.width = 1),
-		(config.height = 1),
+		(config.width = 1000),
+		(config.height = 1000),
 		(config.fontSize = 10),
 		(config.text = ''),
 	);

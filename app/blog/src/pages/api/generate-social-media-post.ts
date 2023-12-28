@@ -22,10 +22,10 @@ const imageClient = createImageClient({
 
 // new posts in sanity data lake will trigger this endpoint, to create a social media shareImage, and share to social media via Make Webhook
 export default async function generateSocialMediaPost(req: any, res: any) {
-	// Generate the image when Sanity's webhook hits your API
 	const { imageUrl, text, _id, _type } = req.body;
 	try {
 		console.info(' generating social media share image.. for', _type, _id);
+		console.info('Applying text to image, ', text);
 
 		const generateShareImage = await imageClient.generateImage({
 			id: _id,
@@ -33,10 +33,10 @@ export default async function generateSocialMediaPost(req: any, res: any) {
 			text,
 
 			blur: 3,
-			darken: 32,
+			darken: 28,
 
-			height: 1400,
-			width: 1400,
+			height: 2000,
+			width: 2000,
 
 			backgroundFit: 'cover',
 			fontSize: 90,
@@ -54,28 +54,28 @@ export default async function generateSocialMediaPost(req: any, res: any) {
 			'generated: ',
 			generateShareImage,
 		);
+
 		res.status(200).send('Ok');
 
-		console.info(' sending post payload to create social media post');
+		// console.info(' sending post payload to create social media post');
 
 		// wait 30 seconds for the image to be generated
-		await new Promise((resolve) => setTimeout(resolve, 30000));
+		// await new Promise((resolve) => setTimeout(resolve, 30000));
 
-		const post = (await client.getDocument(_id)) as Post;
-		console.info(' fetched post from sanity', post);
-		const { title, slug, excerpt, mainImage, shareImage } = post;
-		console.info('image url: ', shareImage.url);
+		// const post = (await client.getDocument(_id)) as Post;
 
-		const contentUrl = resolveUrl(`/posts/${slug}`);
+		// const { title, slug, excerpt, mainImage, shareImage } = post;
+
+		// const contentUrl = `https://grascannabis.org/blog/posts/${slug}`;
 
 		// post to automation webhook that will use Buffer API to publish posts
 		// await axios.post(process.env.MAKE_GENERATE_SOCIAL_POST_WEBHOOK as string, {
 		// 	_id,
 		// 	_type,
 		// 	title,
-		// 	slug: slug.current,
+		// 	slug,
 		// 	excerpt,
-		// 	mainImage: mainImage.url || '',
+		// 	mainImage: mainImage.url,
 		// 	shareImage: shareImage.url,
 		// 	contentUrl,
 		// });
@@ -83,10 +83,4 @@ export default async function generateSocialMediaPost(req: any, res: any) {
 		console.error('Error generating image for', _type, _id, e.message);
 		res.status(500).send(e);
 	}
-}
-
-function resolveUrl(href = '/') {
-	return process.env.NODE_ENV === 'production'
-		? `${process.env.NEXT_PUBLIC_BLOG_APP_URL}${href}`
-		: `${process.env.NEXT_PUBLIC_BLOG_APP_URL}/blog${href}`;
 }

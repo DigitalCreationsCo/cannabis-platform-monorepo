@@ -16,6 +16,7 @@ const _env =
 	process.env.NEXT_PUBLIC_IS_LOCAL_BUILD == '1'
 		? 'development'
 		: process.env.NODE_ENV;
+
 expand(config({ path: loadEnv(_env) }));
 
 const nextConfig = (phase) => {
@@ -145,6 +146,8 @@ Memory Usage:`,
 				'https://storage.cloud.google.com',
 				'www.storage.cloud.google.com',
 				'storage.cloud.google.com',
+				'cdn.sanity.io',
+				'source.unsplash.com',
 			],
 		},
 	};
