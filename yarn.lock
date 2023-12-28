@@ -3648,8 +3648,6 @@ __metadata:
     react-hot-toast: 2.4.0
     react-iframe: 1.8.5
     react-redux: 8.0.2
-    react-responsive-carousel: 3.2.23
-    react-slick: 0.29.0
     redis: 4.6.6
     redux-devtools-extension: 2.13.9
     redux-persist: 6.0.0
@@ -3907,8 +3905,6 @@ __metadata:
     react-hot-toast: 2.4.0
     react-iframe: 1.8.5
     react-redux: 8.0.2
-    react-responsive-carousel: 3.2.23
-    react-slick: 0.29.0
     redux-devtools-extension: 2.13.9
     redux-mock-store: ^1.5.4
     redux-persist: 6.0.0
@@ -4001,8 +3997,6 @@ __metadata:
     react-hot-toast: 2.4.0
     react-iframe: 1.8.5
     react-redux: 8.0.2
-    react-responsive-carousel: 3.2.23
-    react-slick: 0.29.0
     redis: 4.6.6
     redux-devtools-extension: 2.13.9
     redux-mock-store: ^1.5.4
@@ -4633,7 +4627,7 @@ __metadata:
     "@types/node": 18.11.10
     "@types/react": 18.0.34
     "@types/react-dom": 18.0.11
-    "@types/react-slick": ^0.23.10
+    "@types/react-slick": ^0.23.13
     autoprefixer: 10.4.13
     babel-loader: 9.1.2
     cross-env: 7.0.3
@@ -4650,12 +4644,11 @@ __metadata:
     prettier: 2.8.0
     react: 18.2.0
     react-dom: 18.2.0
-    react-responsive-carousel: 3.2.23
-    react-slick: 0.29.0
+    react-slick: ^0.29.0
     rimraf: 4.4.1
     rollup: 3.20.2
     rollup-plugin-postcss: 4.0.2
-    slick-carousel: 1.8.1
+    slick-carousel: ^1.8.1
     storybook: 7.4.6
     style-loader: 3.3.2
     sync-directory: 6.0.4
@@ -12952,16 +12945,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-slick@npm:0.23.10":
-  version: 0.23.10
-  resolution: "@types/react-slick@npm:0.23.10"
-  dependencies:
-    "@types/react": "*"
-  checksum: 1e53fe8385e853881741a450d15c52d6433334b671fee4044939037f8e5b83968cb91fd9dbe7e6686e906882ebcf370b81bd55b6688f8e810020e23a968c0385
-  languageName: node
-  linkType: hard
-
-"@types/react-slick@npm:^0.23.10":
+"@types/react-slick@npm:^0.23.13":
   version: 0.23.13
   resolution: "@types/react-slick@npm:0.23.13"
   dependencies:
@@ -16562,7 +16546,6 @@ __metadata:
     "@types/node": 18.11.10
     "@types/prettier": 2.7.2
     "@types/react-dom": 18.0.11
-    "@types/react-slick": 0.23.10
     "@types/recluster": 0.4.3
     "@typescript-eslint/eslint-plugin": 5.45.0
     "@typescript-eslint/parser": 5.45.0
@@ -32411,7 +32394,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:*, prop-types@npm:^15.5.0, prop-types@npm:^15.5.4, prop-types@npm:^15.5.8, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
+"prop-types@npm:*, prop-types@npm:^15.5.0, prop-types@npm:^15.5.4, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -32932,15 +32915,6 @@ __metadata:
   peerDependencies:
     react: ">= 16.8 || 18.0.0"
   checksum: 174b744d5ca898cf3d84ec1aeb6cef5211c446697e45dc8ece8287a03d291f8d07253206d5a1247ef156fd385d65e7de666d4d5c2986020b8543b8f2434e8b40
-  languageName: node
-  linkType: hard
-
-"react-easy-swipe@npm:^0.0.21":
-  version: 0.0.21
-  resolution: "react-easy-swipe@npm:0.0.21"
-  dependencies:
-    prop-types: ^15.5.8
-  checksum: 225f12a9dd410db1c790220867ab1eb58e2ef0a2bdae8541330805fc5b9905e242ab307b019f9aaed76473849a753f363baff03fa8a77e7a1860d7b41dc83ec0
   languageName: node
   linkType: hard
 
@@ -33465,17 +33439,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-responsive-carousel@npm:3.2.23":
-  version: 3.2.23
-  resolution: "react-responsive-carousel@npm:3.2.23"
-  dependencies:
-    classnames: ^2.2.5
-    prop-types: ^15.5.8
-    react-easy-swipe: ^0.0.21
-  checksum: 8a5b915f140a05425554a0c108c60a0b103dae49808486d39147df09c832ad712c7d7f4a66f0d0c39529ca095b4a327f0cc440d91b5f7a39ab13076931f74bd0
-  languageName: node
-  linkType: hard
-
 "react-router-dom@npm:6.10.0":
   version: 6.10.0
   resolution: "react-router-dom@npm:6.10.0"
@@ -33525,7 +33488,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-slick@npm:0.29.0":
+"react-slick@npm:^0.29.0":
   version: 0.29.0
   resolution: "react-slick@npm:0.29.0"
   dependencies:
@@ -35774,7 +35737,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"slick-carousel@npm:1.8.1":
+"slick-carousel@npm:^1.8.1":
   version: 1.8.1
   resolution: "slick-carousel@npm:1.8.1"
   peerDependencies:

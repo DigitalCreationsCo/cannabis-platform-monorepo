@@ -122,7 +122,6 @@
     "@types/node": "18.11.10",
     "@types/prettier": "2.7.2",
     "@types/react-dom": "18.0.11",
-    "@types/react-slick": "0.23.10",
     "@types/recluster": "0.4.3",
     "@typescript-eslint/eslint-plugin": "5.45.0",
     "@typescript-eslint/parser": "5.45.0",

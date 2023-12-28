@@ -1,8 +1,9 @@
-import { type LayoutContextProps, Page } from '@cd/ui-lib';
+import { type LayoutContextProps, Page, Carousel } from '@cd/ui-lib';
 import HeroPost from 'components/HeroPost';
 import IndexPageHead from 'components/IndexPageHead';
 import type { Post, Settings } from 'lib/sanity.queries';
 import BlogHeader from './BlogHeader';
+import InfoCard from './InfoCard';
 import MorePosts from './MorePosts';
 
 export interface IndexPageProps {
