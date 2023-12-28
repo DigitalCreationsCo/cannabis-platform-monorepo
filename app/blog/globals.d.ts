@@ -8,6 +8,7 @@ declare module 'boarding.js';
 interface Window {
 	BrevoConversationsID?: string;
 	BrevoConversations?: any;
+	BrevoConversationsSetup: any;
 	hj: any;
 	_hjSettings: any;
 }

@@ -338,7 +338,7 @@ const TextContent = Object.freeze({
 		checkout: '/checkout',
 		createAccountFQUrl: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/signup/create-account`,
 		createAccount: `/signup/create-account`,
-		blog: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/blog`,
+		blog: `/blog`,
 		services: `${process.env.NEXT_PUBLIC_DASHBOARD_APP_URL}/signup`,
 		storefront_f: (subdomain: string) =>
 			`${process.env.NEXT_PUBLIC_SHOP_APP_URL}/browse/${subdomain}`,

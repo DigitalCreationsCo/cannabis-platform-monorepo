@@ -17,7 +17,7 @@ export const uploadToSanity = ({
 }: UploadArgs) => {
 	return new Promise<void>(async (resolve, reject) => {
 		try {
-			const redis = getRedis(redisUrl);
+			const redis = await getRedis(redisUrl);
 
 			const shouldUpdate = await shouldUpdatePreviewImage(
 				documentId,

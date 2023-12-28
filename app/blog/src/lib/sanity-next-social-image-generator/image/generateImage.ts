@@ -54,7 +54,7 @@ export const generateImage = async ({
 
 	// Add text
 	if (text) {
-		const buffer = buildTextSVGBuffer({
+		const buffer = await buildTextSVGBuffer({
 			width,
 			height,
 			text,

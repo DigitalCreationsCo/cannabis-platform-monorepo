@@ -134,7 +134,7 @@ const ImageBackDrop = ({
 			<div
 				style={{
 					zIndex: -1,
-					backgroundColor: 'rgba(20,100,20,0.24)',
+					backgroundColor: 'rgba(20,100,20,0.13)',
 					position: 'fixed',
 					height: '100%',
 					width: '100%',

@@ -16,6 +16,7 @@ type InfoCardProps = {
 };
 
 function InfoCard({ data: info, className }: InfoCardProps) {
+	console.log('info', info);
 	return (
 		<Link
 			href={resolveHref('post', info.slug) as string}
@@ -33,7 +34,7 @@ function InfoCard({ data: info, className }: InfoCardProps) {
 		>
 			<FlexBox className="grow relative">
 				<Image
-					src={urlForImage(info.mainImage!)!.url() || logo.src}
+					src={urlForImage(info.mainImage)?.url() || logo.src}
 					alt="card-backdrop"
 					fill
 					className="object-cover object-top"

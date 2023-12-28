@@ -3026,22 +3026,8 @@ details > summary {
   margin-bottom: 1rem;
 }
 
-.mx-4 {
-  margin-left: 1rem;
-  margin-right: 1rem;
-}
-
-.mx-2 {
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
-}
-
 .mb-10 {
   margin-bottom: 2.5rem;
-}
-
-.mb-12 {
-  margin-bottom: 3rem;
 }
 
 .mb-20 {
@@ -3251,10 +3237,6 @@ details > summary {
 
 .h-min {
   height: min-content;
-}
-
-.h-\[300px\] {
-  height: 300px;
 }
 
 .max-h-\[240px\] {
@@ -4230,6 +4212,10 @@ details > summary {
   line-height: 1.25;
 }
 
+.tracking-normal {
+  letter-spacing: 0em;
+}
+
 .tracking-tight {
   letter-spacing: -0.025em;
 }
@@ -4248,10 +4234,6 @@ details > summary {
 
 .tracking-widest {
   letter-spacing: 0.1em;
-}
-
-.tracking-normal {
-  letter-spacing: 0em;
 }
 
 .text-accent-soft {
@@ -4896,10 +4878,6 @@ details > summary {
     line-height: 1.75rem;
   }
 
-  .md\:leading-none {
-    line-height: 1;
-  }
-
   .md\:tracking-tighter {
     letter-spacing: -0.05em;
   }
@@ -5080,11 +5058,6 @@ details > summary {
 
   .lg\:text-6xl {
     font-size: 3.75rem;
-    line-height: 1;
-  }
-
-  .lg\:text-8xl {
-    font-size: 6rem;
     line-height: 1;
   }
 

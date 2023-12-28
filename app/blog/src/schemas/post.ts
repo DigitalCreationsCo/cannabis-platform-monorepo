@@ -1,4 +1,4 @@
-import { format } from 'date-fns-tz';
+import { format, parseISO } from 'date-fns';
 import { defineField, defineType } from 'sanity';
 import { AutoPreviewPane } from '../components/AutoPreviewPane';
 import author from './author';
@@ -82,7 +82,7 @@ export default defineType({
 		prepare({ title, media, author, date }) {
 			const subtitles = [
 				author && `by ${author}`,
-				date && `on ${format(date, 'LLL d, yyyy')}`,
+				date && `on ${format(parseISO(date), 'LLL d, yyyy')}`,
 			].filter(Boolean);
 
 			return { title, media, subtitle: subtitles.join(' ') };

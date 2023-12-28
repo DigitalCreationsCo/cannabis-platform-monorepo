@@ -11,6 +11,7 @@ import {
 	loggerMiddleware,
 } from '@cd/core-lib';
 import { combineReducers, configureStore, type Store } from '@reduxjs/toolkit';
+import { serialize, deserialize } from 'json-immutable';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 import {
 	FLUSH,
@@ -118,7 +119,7 @@ const makeStore = () => {
 };
 
 export const wrapper = createWrapper<AppStore>(makeStore, {
-	// debug: process.env.NODE_ENV !== 'production',
-	// serializeState: (state) => serialize(state),
-	// deserializeState: (state) => deserialize(state)
+	debug: process.env.NODE_ENV !== 'production',
+	serializeState: (state) => serialize(state),
+	deserializeState: (state) => deserialize(state),
 });

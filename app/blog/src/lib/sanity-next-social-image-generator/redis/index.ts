@@ -1,3 +1,7 @@
 import { createClient } from 'redis';
 
-export const getRedis = (redisUrl: string) => createClient({ url: redisUrl });
+export const getRedis = async (redisUrl: string) => {
+	const client = createClient({ url: redisUrl });
+	client.connect();
+	return client;
+};
