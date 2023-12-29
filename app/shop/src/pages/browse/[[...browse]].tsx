@@ -65,8 +65,6 @@ export default function MarketPlace() {
 			}`}</H5> */}
 			<Grid className="relative space-y-5">
 				<Carousel
-					startHidden={false}
-					loading={!isLoadedDispensaries}
 					infinite={process.env.NODE_ENV === 'development'}
 					title={`Find Dispensaries In ${
 						selectedLocation.address.city || 'Baltimore'
@@ -76,11 +74,8 @@ export default function MarketPlace() {
 					dataKey={'dispensaries'}
 					autoplaySpeed={6000}
 					speed={90}
-					skeletonNum={4}
 				/>
 				<Carousel
-					startHidden={false}
-					loading={!isLoadedArticles}
 					Component={InfoCard}
 					infinite={false}
 					title={`What's New In Cannabis`}
@@ -88,7 +83,6 @@ export default function MarketPlace() {
 					dataKey={'gras'}
 					autoplaySpeed={5000}
 					speed={90}
-					skeletonNum={1}
 				/>
 				{/* <Carousel
           title={`Recommended Products`}
