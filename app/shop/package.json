@@ -39,7 +39,6 @@
     "@cd/eslint-config": "workspace:*",
     "@cd/ui-lib": "workspace:*",
     "@paralleldrive/cuid2": "2.2.1",
-    "@react-three/fiber": "^8.14.5",
     "@reduxjs/toolkit": "1.9.2",
     "@typeform/embed-react": "2.28.0",
     "axios": "1.2.1",
@@ -58,16 +57,13 @@
     "react-confetti": "6.1.0",
     "react-cookie": "4.1.1",
     "react-dom": "18.2.0",
-    "react-dropzone": "14.2.3",
     "react-google-recaptcha": "3.1.0",
     "react-hot-toast": "2.4.0",
-    "react-iframe": "1.8.5",
     "react-redux": "8.0.2",
     "redis": "4.6.6",
     "sharp": "0.33.1",
     "swr": "2.2.4",
-    "tailwind-merge": "1.8.0",
-    "three": "^0.157.0"
+    "tailwind-merge": "1.8.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.23.2",
@@ -114,7 +110,6 @@
     "postcss-cli": "10.1.0",
     "prettier": "2.8.0",
     "redux-devtools-extension": "2.13.9",
-    "redux-mock-store": "^1.5.4",
     "redux-persist": "6.0.0",
     "rimraf": "4.4.1",
     "shell-source": "1.1.0",

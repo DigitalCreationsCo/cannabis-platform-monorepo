@@ -3026,6 +3026,16 @@ details > summary {
   margin-bottom: 1rem;
 }
 
+.my-12 {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
+.my-24 {
+  margin-top: 6rem;
+  margin-bottom: 6rem;
+}
+
 .mb-10 {
   margin-bottom: 2.5rem;
 }
@@ -3611,6 +3621,10 @@ details > summary {
 
 .gap-8 {
   gap: 2rem;
+}
+
+.gap-4 {
+  gap: 1rem;
 }
 
 .gap-y-20 {
@@ -4313,12 +4327,12 @@ details > summary {
   text-decoration-line: line-through;
 }
 
-.decoration-primary {
-  text-decoration-color: var(--primary);
+.decoration-inverse {
+  text-decoration-color: var(--inverse);
 }
 
-.decoration-secondary {
-  text-decoration-color: var(--secondary);
+.decoration-primary {
+  text-decoration-color: var(--primary);
 }
 
 .accent-primary-light {
@@ -4699,6 +4713,10 @@ details > summary {
 
   .md\:block {
     display: block;
+  }
+
+  .md\:inline {
+    display: inline;
   }
 
   .md\:grid {

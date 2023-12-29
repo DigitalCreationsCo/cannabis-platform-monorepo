@@ -57,12 +57,6 @@ Memory Usage:`,
 	 */
 	const config = {
 		basePath: '/blog',
-		transpilePackages: [
-			'@cd/eslint-config',
-			'@cd/data-access',
-			'@cd/core-lib',
-			'@cd/ui-lib',
-		],
 		webpack: (config) => {
 			config.resolve.fallback = {
 				...config.resolve.fallback,
@@ -97,6 +91,12 @@ Memory Usage:`,
 				'source.unsplash.com',
 			],
 		},
+		transpilePackages: [
+			'@cd/eslint-config',
+			'@cd/data-access',
+			'@cd/core-lib',
+			'@cd/ui-lib',
+		],
 	};
 	return config;
 };

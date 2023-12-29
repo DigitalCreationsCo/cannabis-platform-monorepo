@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { Paragraph } from '@cd/ui-lib';
 import Image from 'next/image';
 import { urlForImage } from '../lib/sanity.image';
 import type { Author } from '../lib/sanity.queries';
@@ -20,7 +21,7 @@ export default function AuthorAvatar(props: Author) {
 					alt={picture?.alt ?? name}
 				/>
 			</div>
-			<div className="text-xl font-bold">{name}</div>
+			<Paragraph className="text-xl">{name}</Paragraph>
 		</div>
 	);
 }
