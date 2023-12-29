@@ -23,7 +23,7 @@ const iframeOptions = {
 			switch (document._type) {
 				case 'post':
 					return (document as any)?.slug?.current
-						? `/posts/${(document as any).slug.current}`
+						? `/blog/posts/${(document as any).slug.current}`
 						: new Error('Missing slug');
 				default:
 					return new Error(`Unknown document type: ${document?._type}`);

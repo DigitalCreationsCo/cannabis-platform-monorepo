@@ -3,10 +3,10 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from 'next-sanity';
 import { apiVersion, dataset, projectId } from 'lib/sanity.api';
 
-const token = process.env.SANITY_API_READ_TOKEN;
+const token = process.env.SANITY_API_DRAFT_TOKEN;
 if (!token) {
 	throw new Error(
-		'A secret is provided but there is no `SANITY_API_READ_TOKEN` environment variable setup.',
+		'A secret is provided but there is no `SANITY_API_DRAFT_TOKEN` environment variable setup.',
 	);
 }
 const client = createClient({

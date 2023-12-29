@@ -57,12 +57,6 @@ Memory Usage:`,
 	 * @type {import('next').NextConfig}
 	 */
 	const config = {
-		transpilePackages: [
-			'@cd/eslint-config',
-			'@cd/data-access',
-			'@cd/core-lib',
-			'@cd/ui-lib',
-		],
 		rewrites: async () => [
 			{
 				source: '/help',
@@ -82,7 +76,7 @@ Memory Usage:`,
 			},
 		],
 		webpack: (config, { isServer }) => {
-			const prefix = config.assetPrefix ?? config.basePath ?? '';
+			// const prefix = config.assetPrefix ?? config.basePath ?? '';
 
 			config.module.rules.push({
 				test: /\.mp4$/,
@@ -90,7 +84,8 @@ Memory Usage:`,
 					{
 						loader: 'file-loader',
 						options: {
-							publicPath: `${prefix}/_next/static/media/`,
+							// publicPath: `${prefix}/_next/static/media/`,
+							publicPath: `/_next/static/media/`,
 							outputPath: `${isServer ? '../' : ''}static/media/`,
 							name: '[name].[hash].[ext]',
 						},
@@ -150,6 +145,12 @@ Memory Usage:`,
 				'source.unsplash.com',
 			],
 		},
+		transpilePackages: [
+			'@cd/eslint-config',
+			'@cd/data-access',
+			'@cd/core-lib',
+			'@cd/ui-lib',
+		],
 	};
 	return config;
 };

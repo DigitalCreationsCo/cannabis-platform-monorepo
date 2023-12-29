@@ -1,4 +1,4 @@
-import sanityClient from '@sanity/client';
+import { createClient } from 'next-sanity';
 
 export const getClient = (
 	dataset: string,
@@ -7,7 +7,7 @@ export const getClient = (
 	token: string,
 	useCdn = false,
 ) =>
-	sanityClient({
+	createClient({
 		dataset,
 		projectId,
 		apiVersion,

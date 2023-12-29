@@ -4,6 +4,7 @@ import { openai } from '@cd/ai';
 import { type NextApiResponse } from 'next';
 import nc from 'next-connect';
 import { createClient } from 'next-sanity';
+import { type Slug } from 'sanity';
 import { getCategories } from 'lib/sanity.client';
 
 // generate cms content with openai, by providing a list of post titles to the trained model.
@@ -59,10 +60,10 @@ handler.post(async (req: any, res: NextApiResponse) => {
 		console.info('content: ', response.choices[0].message.content);
 		const content: {
 			title: string;
-			slug: string;
+			slug: Slug;
 			excerpt: string;
-			body: string;
-			categories: string[];
+			body: any;
+			categories: string;
 		} = JSON.parse(response.choices[0].message.content as string);
 		if (!content) throw new Error('No content was generated.');
 

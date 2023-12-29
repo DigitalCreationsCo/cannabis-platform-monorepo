@@ -35,12 +35,12 @@ export default function BlogHeader({
 
 		case 2:
 			return (
-				<header>
-					<h2 className="mb-20 mt-8 text-2xl font-bold leading-tight tracking-tight md:text-4xl md:tracking-tighter">
+				<header className="px-4">
+					<GrasSignature className="mb-20 mt-8 text-2xl font-bold leading-tight tracking-tight md:text-4xl md:tracking-tighter">
 						<Link href="/" className="hover:underline">
 							{title}
 						</Link>
-					</h2>
+					</GrasSignature>
 				</header>
 			);
 
