@@ -21,8 +21,8 @@ function DashboardStart() {
 	// if (isSignedIn) Router.push(TextContent.href.dashboard_f(dispensary.id));
 
 	return (
-		<ImageBackDrop src={backdrop}>
-			<Page className="m-0 flex grow border-b bg-transparent p-0 md:p-0 lg:p-0">
+		<Page className="m-0 flex grow border-b bg-transparent p-0 md:p-0 lg:p-0 h-[666px]">
+			<ImageBackDrop src={backdrop}>
 				<Center className="space-y-4 m-auto">
 					<FlexBox className="md:flex-row">
 						<H3 className="whitespace-pre md:text-4xl" color="light">
@@ -52,8 +52,8 @@ function DashboardStart() {
 						</Link>
 					</FlexBox>
 				</Center>
-			</Page>
-		</ImageBackDrop>
+			</ImageBackDrop>
+		</Page>
 	);
 }
 
@@ -62,18 +62,18 @@ const ImageBackDrop = ({
 	children,
 }: { src: string | StaticImageData } & PropsWithChildren) => {
 	return (
-		<div className="relative flex h-full grow">
+		<div className="relative flex w-full h-full grow">
 			<Image
 				src={src}
 				alt=""
-				fill
 				style={{
+					position: 'absolute',
+					width: '100%',
+					height: '100%',
 					zIndex: -1,
 					objectFit: 'cover',
 					objectPosition: '80% 40%',
 				}}
-				loading="eager"
-				placeholder="blur"
 				priority
 			/>
 			<div
