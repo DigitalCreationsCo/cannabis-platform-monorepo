@@ -734,6 +734,13 @@ details > summary {
   pointer-events: none;
 }
 
+.btn-circle {
+  height: 3rem;
+  width: 3rem;
+  border-radius: 9999px;
+  padding: 0px;
+}
+
 .btn.loading,
     .btn.loading:hover {
   pointer-events: none;
@@ -2223,6 +2230,34 @@ details > summary {
   width: 320px;
 }
 
+.btn-circle:where(.btn-xs) {
+  height: 1.5rem;
+  width: 1.5rem;
+  border-radius: 9999px;
+  padding: 0px;
+}
+
+.btn-circle:where(.btn-sm) {
+  height: 2rem;
+  width: 2rem;
+  border-radius: 9999px;
+  padding: 0px;
+}
+
+.btn-circle:where(.btn-md) {
+  height: 3rem;
+  width: 3rem;
+  border-radius: 9999px;
+  padding: 0px;
+}
+
+.btn-circle:where(.btn-lg) {
+  height: 4rem;
+  width: 4rem;
+  border-radius: 9999px;
+  padding: 0px;
+}
+
 .indicator :where(.indicator-item) {
   right: 0px;
   left: auto;
@@ -2348,21 +2383,6 @@ details > summary {
   bottom: auto;
   --tw-translate-y: 0px;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.avatar.online:before {
-  content: "";
-  position: absolute;
-  z-index: 10;
-  display: block;
-  border-radius: 9999px;
-  --tw-bg-opacity: 1;
-  background-color: hsl(var(--su) / var(--tw-bg-opacity));
-  width: 15%;
-  height: 15%;
-  top: 7%;
-  right: 7%;
-  box-shadow: 0 0 0 2px hsl(var(--b1));
 }
 
 .btn-group .btn:not(:first-child):not(:last-child) {
@@ -2756,6 +2776,10 @@ details > summary {
   height: 30px;
 }
 
+.h-\[400px\] {
+  height: 400px;
+}
+
 .h-\[44px\] {
   height: 44px;
 }
@@ -2842,10 +2866,6 @@ details > summary {
   width: 4rem;
 }
 
-.w-20 {
-  width: 5rem;
-}
-
 .w-3\/4 {
   width: 75%;
 }
@@ -2909,10 +2929,6 @@ details > summary {
 
 .w-min {
   width: min-content;
-}
-
-.w-screen {
-  width: 100vw;
 }
 
 .min-w-\[140px\] {
@@ -3299,10 +3315,6 @@ details > summary {
 
 .rounded-full {
   border-radius: 9999px;
-}
-
-.rounded-lg {
-  border-radius: 0.5rem;
 }
 
 .rounded-md {
@@ -4359,17 +4371,20 @@ details > summary {
     padding-right: 8rem;
   }
 
-  .lg\:px-8 {
-    padding-left: 2rem;
-    padding-right: 2rem;
-  }
-
   .lg\:pb-0 {
     padding-bottom: 0px;
   }
 
+  .lg\:pl-20 {
+    padding-left: 5rem;
+  }
+
   .lg\:pl-\[188px\] {
     padding-left: 188px;
+  }
+
+  .lg\:pr-8 {
+    padding-right: 2rem;
   }
 
   .lg\:pt-2 {

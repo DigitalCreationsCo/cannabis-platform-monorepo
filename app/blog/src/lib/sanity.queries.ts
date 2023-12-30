@@ -45,6 +45,16 @@ export const postBySlugQuery = groq`*[_type == "post" && slug.current == $slug][
 
 export const categoryStringsQuery = groq`*[_type == 'category']{ title }[].title`;
 
+export const nonPublishedPostsQuery = groq`*[_type == 'post' && (!defined(publishedInNewsLetter) || publishedInNewsLetter == false)][0...$count]{ 
+  title,
+  _createdAt,
+  _updatedAt,
+  excerpt,
+  "mainImage": mainImage.asset->url,
+  "slug": slug.current,
+  "author": author->{name, picture},
+  "categories": categories[]->title }`;
+
 export interface Author {
 	name?: string;
 	picture?: any;
@@ -63,6 +73,7 @@ export interface Post {
 	body: PortableTextBlock[];
 	shareImage: ImageAsset;
 	categories: string[];
+	publishedInNewsLetter?: boolean;
 }
 
 export interface Settings {

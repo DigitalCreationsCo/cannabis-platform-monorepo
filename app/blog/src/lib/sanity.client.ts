@@ -15,6 +15,7 @@ import {
 	settingsQuery,
 	postAndMoreStoriesQuery,
 	type Settings,
+	nonPublishedPostsQuery,
 } from './sanity.queries';
 
 export function getClient(preview?: { token: string }): SanityClient {
@@ -75,4 +76,11 @@ export async function getPostAndMoreStories(
 
 export async function getCategories(client: SanityClient): Promise<string[]> {
 	return await client.fetch(categoryStringsQuery);
+}
+
+export async function getNonPublishedPosts(
+	client: SanityClient,
+	count: number,
+): Promise<Post[]> {
+	return await client.fetch(nonPublishedPostsQuery, { count });
 }
