@@ -1,3 +1,4 @@
+import { axios } from '@cd/core-lib';
 import prisma from '@cd/data-access';
 import { MongoClient } from 'mongodb';
 import { DriverDA, ShopDA } from './api/data-access';
@@ -7,7 +8,8 @@ import server from './server';
 const port = process.env.SERVER_PORT || 6001;
 const mongoConnectUrl = process.env.MONGODB_CONNECTION_URL;
 
-connectDb()
+pingSupertokens()
+	.then(() => connectDb())
 	.then(() => {
 		initializeRedis();
 
@@ -49,6 +51,16 @@ process.on('SIGINT', async function () {
 			process.exit(1);
 		});
 });
+
+async function pingSupertokens() {
+	try {
+		await axios(process.env.SUPERTOKENS_CONNECTION_URI + '/hello');
+		console.info(' >> Server-Main: Supertokens 👏 is ready for query.');
+	} catch (error) {
+		console.error('pingSupertokens: ', error.message);
+		process.exit(1);
+	}
+}
 
 async function connectDb() {
 	try {
