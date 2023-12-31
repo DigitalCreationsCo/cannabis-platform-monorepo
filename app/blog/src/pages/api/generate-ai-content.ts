@@ -57,15 +57,21 @@ handler.post(async (req: any, res: NextApiResponse) => {
 			],
 		});
 
-		console.info('content: ', response.choices[0].message.content);
 		const content: {
 			title: string;
 			slug: Slug;
 			excerpt: string;
 			body: any;
 			categories: string;
-		} = JSON.parse(response.choices[0].message.content as string);
+		} = JSON.parse(
+			JSON.parse(JSON.stringify(response.choices[0].message.content)),
+		);
 		if (!content) throw new Error('No content was generated.');
+
+		console.info('content created: ', content);
+		console.info('typeof content: ', typeof content);
+
+		console.info('title:', content.title);
 
 		const newPost = {
 			_type: 'post',

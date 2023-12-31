@@ -132,15 +132,14 @@ function TopBar({ signOut }: TopBarProps) {
 							className={twMerge('hidden sm:block')}
 							href={TextContent.href.support}
 						>
-							<IconButton
-								className={twMerge(styles.BUTTON.highlight, 'pt-0.5')}
-								iconSize={28}
-								size="sm"
-								hover="transparent"
+							<Button
+								size="md"
 								bg="transparent"
-								Icon={Icons.Help}
-								iconColor={'dark'}
-							></IconButton>
+								hover="transparent"
+								className={twMerge(styles.BUTTON.highlight, 'w-full', 'pt-1')}
+							>
+								Support
+							</Button>
 						</Link>
 					)}
 					<FlexBox className="active:bg-accent-soft focus:bg-accent-soft w-full">
@@ -149,7 +148,7 @@ function TopBar({ signOut }: TopBarProps) {
 								size="md"
 								bg="transparent"
 								hover="transparent"
-								className="w-full"
+								className={twMerge(styles.BUTTON.highlight, 'w-full', 'pt-1')}
 							>
 								Settings
 							</Button>
@@ -160,7 +159,7 @@ function TopBar({ signOut }: TopBarProps) {
 							size="md"
 							bg="transparent"
 							hover="transparent"
-							className="w-full"
+							className={twMerge(styles.BUTTON.highlight, 'w-full', 'pt-1')}
 							onClick={signOut}
 						>
 							Sign Out
