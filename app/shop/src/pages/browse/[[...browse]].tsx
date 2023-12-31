@@ -44,7 +44,7 @@ export default function MarketPlace() {
 
 	const styles = {
 		responsiveHeading: [
-			'text-2xl md:text-4xl pb-0 px-4 lg:px-0 whitespace-normal font-semi-bold hidden sm:block',
+			'text-4xl pb-0 px-4 whitespace-normal font-semi-bold hidden sm:block',
 		],
 	};
 
@@ -55,7 +55,7 @@ export default function MarketPlace() {
 					<H1 color="light" className={twMerge(styles.responsiveHeading)}>
 						{TextContent.info.CANNABIS_DELIVERED}
 					</H1>
-					<H3 className="text-inverse px-4 ">
+					<H3 className="text-inverse px-4">
 						Good day{user.firstName && `, ${user.firstName}`}!
 					</H3>
 				</div>
