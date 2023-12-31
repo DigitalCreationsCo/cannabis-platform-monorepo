@@ -92,9 +92,9 @@ export default function Carousel<D>({
 	};
 
 	return (
-		<FlexBox className="min-w-full flex-row items-center border">
-			<>
-				{title && <H5>{title}</H5>}
+		<div className="px-4">
+			<div className="px-8">{title && <H5>{title}</H5>}</div>
+			<FlexBox className="min-w-full flex-row items-center">
 				<CarouselButton
 					direction={settings.vertical ? 'up' : 'left'}
 					onClick={decrement}
@@ -109,8 +109,8 @@ export default function Carousel<D>({
 					direction={settings.vertical ? 'down' : 'right'}
 					onClick={increment}
 				/>
-			</>
-		</FlexBox>
+			</FlexBox>
+		</div>
 	);
 }
 
