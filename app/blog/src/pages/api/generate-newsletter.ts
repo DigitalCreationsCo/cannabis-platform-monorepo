@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { title } from 'process';
 import { openai } from '@cd/ai';
-import axios from 'axios';
 import { type NextApiResponse } from 'next';
 import nc from 'next-connect';
 import { createClient } from 'next-sanity';
+import { BrevoMailer } from 'lib/brevo-mailer';
 import { getNonPublishedPosts } from 'lib/sanity.client';
 import { type Post } from 'lib/sanity.queries';
 
@@ -14,7 +13,10 @@ handler.post(async (req: any, res: NextApiResponse) => {
 	try {
 		const NUM_ARTICLES_FOR_NEWSLETTER = 3;
 
-		const { articleUrlsList }: { articleUrlsList: string[] } = req.body;
+		const {
+			subject,
+			articleUrlsList,
+		}: { subject: string; articleUrlsList: string[] } = req.body;
 
 		if (!articleUrlsList.length)
 			throw new Error('Did not provide article urls list.');
@@ -43,8 +45,8 @@ handler.post(async (req: any, res: NextApiResponse) => {
 			],
 		});
 
-		const aiGeneratedContent = JSON.parse(
-			response.choices[0].message.content as string,
+		const aiGeneratedContent = Object.values(
+			JSON.parse(response.choices[0].message.content as string),
 		);
 		if (!aiGeneratedContent) throw new Error('No content was generated.');
 		console.info('aiGeneratedContent: ', aiGeneratedContent);
@@ -67,12 +69,20 @@ handler.post(async (req: any, res: NextApiResponse) => {
 			NUM_ARTICLES_FOR_NEWSLETTER - aiGeneratedContent.length,
 		);
 
-		const newsletterContent = [...aiGeneratedContent, ...blogContent];
+		const newsletterContent = [...aiGeneratedContent, ...blogContent] as {
+			title: string;
+			excerpt: string;
+			mainImage: string;
+			footer: string;
+			link: string;
+		}[];
 
-		await axios.post(
-			process.env.MAKE_GENERATE_NEWSLETTER_WEBHOOK as string,
-			newsletterContent,
-		);
+		const mailer = new BrevoMailer();
+		await mailer.sendCampaign(subject, newsletterContent);
+		// await axios.post(
+		// 	process.env.MAKE_GENERATE_NEWSLETTER_WEBHOOK as string,
+		// 	newsletterContent,
+		// );
 
 		return res
 			.status(200)
