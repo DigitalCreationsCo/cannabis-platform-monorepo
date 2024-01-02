@@ -59,6 +59,7 @@
     "app:build-all": "yarn workspaces foreach -ptv --include '@cd/app-*' run build",
     "app:clean": "yarn workspaces foreach -ptv --include '@cd/app-*' run clean",
     "dev-all": "concurrently \"yarn packages:watch\" \"yarn server:watch\" \"yarn app:dev\"",
+    "autogpt": "cd AutoGPT && docker compose run --service-ports --rm auto-gpt serve",
     "docker:dev": "docker compose -f docker-compose.dev.yml up -d",
     "docker:supertokens": "sh scripts/supertokens-dev.sh",
     "docker:shadow-db": "sh scripts/docker-shadow-db.sh",

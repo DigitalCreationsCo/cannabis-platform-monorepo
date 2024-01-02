@@ -11,5 +11,9 @@
 			"@cd/eslint-config": ["../../../packages/eslint-config/src/index"],
 		}
 	},
-	"exclude": ["**/node_modules", "**/.*/",]
+	"exclude": ["**/node_modules", "**/.*/",],
+	"include": [
+		"**/*.ts",
+		"**/*.js",
+	]
 }
