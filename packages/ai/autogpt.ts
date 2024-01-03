@@ -1,40 +1,49 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import Agent, {
+	createAgentTask,
 	type StepHandler,
 	type StepInput,
 	type StepResult,
 	type TaskInput,
 } from 'agent-protocol';
+import { openai } from './openai';
 
-// export class Autogpt {
-// 	agent: Agent;
-// 	constructor() {
-// 		this.agent = new Agent(taskHandler, {
-// 			port: 8000,
-// 			workspace: './workspace',
-// 		});
-// 		this.agent.start();
-// 	}
-// }
-async function taskHandler(taskInput: TaskInput | null): Promise<StepHandler> {
-	console.log(`task: ${taskInput}`);
-
+async function taskHandler(
+	taskId: any,
+	taskInput: TaskInput | null,
+): Promise<StepHandler> {
 	async function stepHandler(stepInput: StepInput | null): Promise<StepResult> {
-		console.log(`step: ${stepInput}`);
-		return {
-			output: stepInput,
-		};
-	}
+		try {
+			console.log(`step: ${stepInput}`);
+			const output = await openai.openai!.chat.completions.create({
+				model: 'gpt-3.5-turbo',
+				messages: [
+					{ role: 'system', content: taskInput },
+					{ role: 'user', content: stepInput },
+				],
+			});
 
-	return stepHandler;
+			return {
+				output,
+			};
+		} catch (error) {
+			console.error('stepHandler: ', error.message);
+			throw new Error(error.message);
+		}
+	}
+	try {
+		console.log(`task: ${taskId}`);
+
+		return stepHandler;
+	} catch (error) {
+		console.error('taskHandler: ', error.message);
+		throw new Error(error.message);
+	}
 }
-Agent.handleTask(taskHandler, {
-	port: 8000,
-	workspace: './workspace',
-});
+
 const agent = new Agent(taskHandler, {
 	port: 8000,
 	workspace: './workspace',
 });
-agent.start();
 
-export { agent };
+export { agent, createAgentTask };

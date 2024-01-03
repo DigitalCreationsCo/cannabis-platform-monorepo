@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { openai } from '@cd/ai';
+// import { agent } from '@cd/ai';
+import { agent, createAgentTask } from '@cd/ai';
 import { type NextApiResponse } from 'next';
 import nc from 'next-connect';
 import { createClient } from 'next-sanity';
@@ -15,38 +16,40 @@ handler.post(async (req: any, res: NextApiResponse) => {
 
 		const {
 			subject,
+			header,
 			articleUrlsList,
-		}: { subject: string; articleUrlsList: string[] } = req.body;
+		}: { subject: string; header: string; articleUrlsList: string[] } =
+			req.body;
 
 		if (!articleUrlsList.length)
 			throw new Error('Did not provide article urls list.');
 
-		const response = await openai.openai!.chat.completions.create({
-			model: 'gpt-3.5-turbo',
-			messages: [
-				{
-					role: 'system',
-					content: `You are a subject matter expert on all things growing cannabis, smoking cannabis, cannabis foods and beverages, and cannabis culture. You are able to give me advice on how to grow cannabis indoors, outdoors, and in greenhouses. You are able to give me advice on how to smoke cannabis in a variety of ways. You are able to give me advice on how to make cannabis foods and beverages. You are able to give me advice on how to make cannabis edibles. You are able to give me advice on how to make cannabis tinctures. You are able to give me advice on how to make cannabis topicals. You are able to give me advice on how to make cannabis concentrates. You are able to give me advice on how to make cannabis extracts. You are able to give me advice on how to make cannabis oils. You are able to give me advice on how to make cannabis hash. 
-					For each article link I give to you, you will create a summarized version of the article. You are able to rephrase any article link I give to you. When I give you an article link, you will craft a well-written prose explaining the contents of the article, no more than 8 sentences long. Your writing style is friendly, and easy to ready. You use creative visual language in your writing. You create phrases and sentences with entertaining, delightful language and a friendly voice. Conclude the article with 1 or 2 sentences fitting to resolve the topic. 
-					Return a response as an array type of objects with the following properties: { 
-						title: A creative title, 
-						excerpt: the short summary of the article, 
-						mainImage: the url of the main image of the article,
-						footer: the sentence, "The full story is available here", the word here is a hyperlink to the article link,
-						link: the given article link
-					}. You will execute these instructions whenever I give you a list of article urls.`,
-				},
-				{
-					role: 'user',
-					content:
-						'Create article summaries for this list of articles: ' +
-						articleUrlsList.join(', '),
-				},
-			],
+		const _generateNewsletterTask = await createAgentTask({
+			input: `You are a subject matter expert on all things growing cannabis, smoking cannabis, cannabis foods and beverages, and cannabis culture. You are able to give me advice on how to grow cannabis indoors, outdoors, and in greenhouses. You are able to give me advice on how to smoke cannabis in a variety of ways. You are able to give me advice on how to make cannabis foods and beverages. You are able to give me advice on how to make cannabis edibles. You are able to give me advice on how to make cannabis tinctures. You are able to give me advice on how to make cannabis topicals. You are able to give me advice on how to make cannabis concentrates. You are able to give me advice on how to make cannabis extracts. You are able to give me advice on how to make cannabis oils. You are able to give me advice on how to make cannabis hash.
+		For each article link I give to you, you will create a summarized version of the article. You are able to rephrase any article link I give to you. When I give you an article link, you will craft a well-written prose explaining the contents of the article, no more than 8 sentences long. Your writing style is friendly, and easy to ready. You use creative visual language in your writing. You create phrases and sentences with entertaining, delightful language and a friendly voice. Conclude the article with 1 or 2 sentences fitting to resolve the topic.
+		Return a response as an array type of objects with the following properties: {
+			title: A creative title,
+			excerpt: the short summary of the article,
+			mainImage: the url address of the article's cover image,
+			footer: the sentence, "The full story is available here", the word here is a hyperlink to the article link,
+			link: the given article link
+		}. You will execute these instructions whenever I give you a list of article urls.`,
 		});
 
-		const aiGeneratedContent = Object.values(
-			JSON.parse(response.choices[0].message.content as string),
+		const handler = await agent.taskHandler(
+			_generateNewsletterTask.task_id,
+			_generateNewsletterTask.input,
+		);
+
+		const { output } = await handler(
+			'Create article summaries for this list of articles: ' +
+				articleUrlsList.join(', '),
+		);
+		const stringOutput = String(output.choices[0].message.content);
+		console.info('stringOutput: ', stringOutput);
+
+		const aiGeneratedContent = normalizeOpenAIResponse(
+			JSON.parse(output.choices[0].message.content),
 		);
 		if (!aiGeneratedContent) throw new Error('No content was generated.');
 		console.info('aiGeneratedContent: ', aiGeneratedContent);
@@ -55,7 +58,6 @@ handler.post(async (req: any, res: NextApiResponse) => {
 			'NUM_ARTICLES_FOR_NEWSLETTER - generatedContent.length ',
 			NUM_ARTICLES_FOR_NEWSLETTER - aiGeneratedContent.length,
 		);
-
 		const client = createClient({
 			dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
 			projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -78,19 +80,34 @@ handler.post(async (req: any, res: NextApiResponse) => {
 		}[];
 
 		const mailer = new BrevoMailer();
-		await mailer.sendCampaign(subject, newsletterContent);
-		// await axios.post(
-		// 	process.env.MAKE_GENERATE_NEWSLETTER_WEBHOOK as string,
-		// 	newsletterContent,
-		// );
+		await mailer.sendCampaign(subject, header, newsletterContent);
 
 		return res
 			.status(200)
 			.json({ success: 'true', payload: [...newsletterContent] });
 	} catch (error) {
-		console.error(error);
+		console.error('generate newsletter: ', error.message);
 		res.status(500).json({ success: 'false', error: error.message });
 	}
 });
 
 export default handler;
+
+function normalizeOpenAIResponse(response: any): any[] | void {
+	console.info('openai response: ', response);
+
+	try {
+		let normalizedResponse = [];
+		if (Array.isArray(response)) {
+			normalizedResponse = response;
+		} else if (response && response.articles) {
+			normalizedResponse = response.articles;
+		} else {
+			normalizedResponse = Object.values(response);
+		}
+		return normalizedResponse;
+	} catch (error) {
+		console.error('Unexpected openai response format:', response);
+		throw new Error('Unexpected openai response format');
+	}
+}

@@ -11,6 +11,7 @@ export class BrevoMailer {
 
 	sendCampaign(
 		subject: string,
+		header: string,
 		content: {
 			title: string;
 			excerpt: string;
@@ -20,45 +21,30 @@ export class BrevoMailer {
 		}[],
 	) {
 		try {
-			// const formattedContent = content.map((item) => {
-			// 	console.info('item: ', item);
-			// 	return `<div>
-			//             <h4>${item.title}</h4>
-			//             <img src="${item.mainImage}" alt="${
-			// 		item.title
-			// 	}" height="500" width="1000" />
-			//             <p>${item.excerpt}</p>
-			//             <p>${
-			// 									item.footer?.replace(/\s*here$/, '') ||
-			// 									'More info available '
-			// 								} <a href="${item.link}">here</a></p>
-			//         </div>
-			//         <br />
-			//         <br />`;
-			// });
 			const newsLetterEmailCampaign = new brevo.CreateEmailCampaign();
 
 			newsLetterEmailCampaign.name = subject;
 			newsLetterEmailCampaign.subject = subject;
-			newsLetterEmailCampaign.header = `Weekly Cannabis News from Gras`;
-			newsLetterEmailCampaign.previewText = `Weekly Cannabis News from Gras`;
-
+			newsLetterEmailCampaign.header = header;
+			newsLetterEmailCampaign.previewText = header;
 			newsLetterEmailCampaign.sender = {
 				name: 'Bryant',
 				email: 'bryantmejia@grascannabis.org',
 			};
 
-			// newsLetterEmailCampaign.templateId = 15;
-
-			// newsLetterEmailCampaign.recipients = { listIds: [3] };
 			newsLetterEmailCampaign.toField = 'bryantmejia@grascannabis.org';
-
-			// newsLetterEmailCampaign.scheduledAt = new Date().toISOString();
 
 			newsLetterEmailCampaign.htmlContent = buildNewsletterTemplate(
 				subject,
+				header,
 				content,
 			);
+
+			// newsLetterEmailCampaign.templateId = 15;
+
+			// newsLetterEmailCampaign.recipients = { listIds: [3] };
+
+			// newsLetterEmailCampaign.scheduledAt = new Date().toISOString();
 
 			// newsLetterEmailCampaign.params = {
 			// 	parameter: 'My param value',
