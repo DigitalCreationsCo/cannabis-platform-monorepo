@@ -1,8 +1,5 @@
 import { Paragraph } from '@cd/ui-lib';
-import Image from 'next/image';
 import Avatar from 'components/AuthorAvatar';
-import { urlForImage } from 'lib/sanity.image';
-import post from 'schemas/post';
 import type { Post } from '../lib/sanity.queries';
 import CoverImage from './MainImage';
 import Date from './PostDate';
@@ -13,6 +10,7 @@ export default function PostHeader(
 		Post,
 		| 'title'
 		| 'mainImage'
+		| 'mainImageAsset'
 		| '_createdAt'
 		| 'excerpt'
 		| 'author'
@@ -20,8 +18,20 @@ export default function PostHeader(
 		| 'categories'
 	>,
 ) {
-	const { title, mainImage, _createdAt, author, excerpt, slug, categories } =
-		props;
+	const {
+		title,
+		mainImage,
+		mainImageAsset,
+		_createdAt,
+		author,
+		excerpt,
+		slug,
+		categories,
+	} = props;
+
+	console.info('PostHeader');
+	console.info('mainImage', mainImage);
+	console.info('mainImageAsset', mainImageAsset);
 	return (
 		<>
 			<PostTitle>{title}</PostTitle>
@@ -43,6 +53,8 @@ export default function PostHeader(
 					image={mainImage}
 					priority
 					slug={slug}
+					creditUser={mainImageAsset.creditLine}
+					creditLink={mainImageAsset.source?.url}
 				/>
 			</div>
 		</>

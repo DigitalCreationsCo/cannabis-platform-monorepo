@@ -1,4 +1,3 @@
-/* eslint-disable no-async-promise-executor */
 import { type RedisClientType } from 'redis';
 import { getRedis } from '../redis';
 import { getClient } from './client';
@@ -17,12 +16,9 @@ export const uploadToSanity = ({
 }: UploadArgs) => {
 	return new Promise<void>(async (resolve, reject) => {
 		try {
-			const redis = await getRedis(redisUrl);
+			const redis = (await getRedis(redisUrl)) as RedisClientType;
 
-			const shouldUpdate = await shouldUpdatePreviewImage(
-				documentId,
-				redis as RedisClientType,
-			);
+			const shouldUpdate = await shouldUpdatePreviewImage(documentId, redis);
 
 			// If this document's image has already been updated in the last 10 seconds, ignore.
 			// This avoids the infinite "update" webhook loop

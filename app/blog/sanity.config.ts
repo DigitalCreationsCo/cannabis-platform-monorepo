@@ -7,6 +7,7 @@ import { defineConfig } from 'sanity';
 import { unsplashImageAsset } from 'sanity-plugin-asset-source-unsplash';
 import { deskTool } from 'sanity/desk';
 import { presentationTool } from 'sanity/presentation';
+import { createAsyncPublishAction } from 'plugins/action/asyncPublish';
 import settings from 'schemas/settings';
 import {
 	apiVersion,
@@ -34,6 +35,15 @@ export default defineConfig({
 	dataset,
 
 	schema,
+
+	document: {
+		actions: (prev, context) =>
+			prev.map((originalAction) =>
+				originalAction.action === 'publish'
+					? createAsyncPublishAction(originalAction, context)
+					: originalAction,
+			),
+	},
 
 	plugins: [
 		deskTool({

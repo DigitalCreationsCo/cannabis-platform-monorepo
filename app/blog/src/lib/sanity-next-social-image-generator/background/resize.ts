@@ -1,11 +1,6 @@
 import sharp from 'sharp';
-import { type Fits } from '../image/types';
+import { Fits } from '../image/types';
 
-export const resize = async (
-	image: Buffer,
-	width: number,
-	height: number,
-	fit: Fits,
-): Promise<sharp.Sharp> => {
-	return sharp(image).resize({ width, height, fit });
+export const resize = async (image: Buffer, width: number, height: number, fit: Fits): Promise<sharp.Sharp> => {
+  return sharp(image).resize({ width, height, fit });
 };

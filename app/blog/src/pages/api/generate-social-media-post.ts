@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { axios } from '@cd/core-lib';
 import { createClient } from 'next-sanity';
 import { createImageClient } from 'lib/sanity-next-social-image-generator';
+import { getPostById } from 'lib/sanity.client';
 import logo from '../../../public/logo.png';
-import { type Post } from '../../lib/sanity.queries';
 
 const client = createClient({
 	dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
@@ -24,6 +26,8 @@ const imageClient = createImageClient({
 export default async function generateSocialMediaPost(req: any, res: any) {
 	const { imageUrl, text, _id, _type } = req.body;
 	try {
+		console.info('generateSocialMediaPost webhook body: ', req.body);
+
 		console.info(' generating social media share image.. for', _type, _id);
 		console.info('Applying text to image, ', text);
 
@@ -32,14 +36,14 @@ export default async function generateSocialMediaPost(req: any, res: any) {
 			backgroundImageUrl: imageUrl,
 			text,
 
-			blur: 3,
+			blur: 4,
 			darken: 28,
 
 			height: 2000,
 			width: 2000,
 
 			backgroundFit: 'cover',
-			fontSize: 90,
+			fontSize: 120,
 			fontName: 'Arial Black',
 
 			logo: new URL(logo.src, process.env.NEXT_PUBLIC_BLOG_APP_URL as string)
@@ -54,33 +58,47 @@ export default async function generateSocialMediaPost(req: any, res: any) {
 			'generated: ',
 			generateShareImage,
 		);
+	} catch (e) {
+		console.error(
+			'Error generating social media image: ',
+			_type,
+			_id,
+			e.message,
+		);
+		return res.status(500).send(e.message);
+	}
 
-		res.status(200).send('Ok');
-
-		// console.info(' sending post payload to create social media post');
-
+	try {
+		console.info(' sending payload to create social media post');
 		// wait 30 seconds for the image to be generated
-		// await new Promise((resolve) => setTimeout(resolve, 30000));
+		await new Promise((resolve) => setTimeout(resolve, 30000));
 
-		// const post = (await client.getDocument(_id)) as Post;
+		const post = await getPostById(client, _id);
 
-		// const { title, slug, excerpt, mainImage, shareImage } = post;
-
-		// const contentUrl = `https://grascannabis.org/blog/posts/${slug}`;
+		const { title, slug, excerpt, mainImageAsset, shareImage, contentUrl } =
+			post;
 
 		// post to automation webhook that will use Buffer API to publish posts
-		// await axios.post(process.env.MAKE_GENERATE_SOCIAL_POST_WEBHOOK as string, {
-		// 	_id,
-		// 	_type,
-		// 	title,
-		// 	slug,
-		// 	excerpt,
-		// 	mainImage: mainImage.url,
-		// 	shareImage: shareImage.url,
-		// 	contentUrl,
-		// });
+		await axios.post(process.env.MAKE_GENERATE_SOCIAL_POST_WEBHOOK as string, {
+			_id,
+			_type,
+			title,
+			slug,
+			excerpt,
+			mainImage: mainImageAsset.url,
+			shareImage: shareImage.url,
+			contentUrl,
+		});
+		console.info(' successfully created social media post: ' + title);
+
+		return res.status(200).send({ success: 'true' });
 	} catch (e) {
-		console.error('Error generating image for', _type, _id, e.message);
-		res.status(500).send(e);
+		console.error(
+			'Error generating social media post: ',
+			_type,
+			_id,
+			e.message,
+		);
+		return res.status(500).send(e.message);
 	}
 }

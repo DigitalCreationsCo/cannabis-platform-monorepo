@@ -11,11 +11,14 @@ const postFields = groq`
   _updatedAt,
   excerpt,
   mainImage,
-  shareImage,
+  "mainImageAsset": mainImage.asset->,
+  "shareImage": shareImage.asset->,
   body,
   "slug": slug.current,
   "author": author->{name, picture},
-  "categories": categories[]->title
+  "categories": categories[]->title,
+  isPublishedInNewsLetter,
+  contentUrl,
   `;
 
 export const settingsQuery = groq`*[_type == "settings"][0]`;
@@ -28,11 +31,11 @@ export const postsQuery = groq`
 export const postAndMoreStoriesQuery = groq`
 {
   "post": *[_type == "post" && slug.current == $slug] | order(_updatedAt desc) [0] {
-    content,
+    body,
     ${postFields}
   },
   "morePosts": *[_type == "post" && slug.current != $slug] | order(_createdAt desc, _updatedAt desc) [0...2] {
-    content,
+    body,
     ${postFields}
   }
 }`;
@@ -43,9 +46,11 @@ export const postSlugsQuery = groq`
 
 export const postBySlugQuery = groq`*[_type == "post" && slug.current == $slug][0]{ ${postFields} }`;
 
+export const postByIdQuery = groq`*[_type == "post" && _id == $_id][0]{ ${postFields} }`;
+
 export const categoryStringsQuery = groq`*[_type == 'category']{ title }[].title`;
 
-export const nonPublishedPostsQuery = groq`*[_type == 'post' && (!defined(publishedInNewsLetter) || publishedInNewsLetter == false)][0...$count]{ 
+export const nonPublishedPostsQuery = groq`*[_type == 'post' && (!defined(isPublishedInNewsLetter) || isPublishedInNewsLetter == false)][0...$count]{ 
   title,
   _createdAt,
   _updatedAt,
@@ -70,10 +75,12 @@ export interface Post {
 	excerpt?: string;
 	author?: Author;
 	mainImage: ImageAsset;
+	mainImageAsset: ImageAsset;
 	body: PortableTextBlock[];
 	shareImage: ImageAsset;
 	categories: string[];
-	publishedInNewsLetter?: boolean;
+	isPublishedInNewsLetter?: boolean;
+	contentUrl?: string;
 }
 
 export interface Settings {
