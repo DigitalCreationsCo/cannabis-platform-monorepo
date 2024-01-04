@@ -43,6 +43,7 @@ export default function PostPage(props: PostPageProps) {
 							_createdAt={post._createdAt}
 							title={post.title}
 							mainImage={post.mainImage}
+							mainImageAsset={post.mainImageAsset}
 							author={post.author}
 							excerpt={post.excerpt}
 							categories={post.categories}

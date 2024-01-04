@@ -1,4 +1,8 @@
-import { createClient, type SanityClient } from 'next-sanity';
+import {
+	createClient,
+	type SanityClient,
+	type SanityDocument,
+} from 'next-sanity';
 import {
 	apiVersion,
 	dataset,
@@ -16,6 +20,7 @@ import {
 	postAndMoreStoriesQuery,
 	type Settings,
 	nonPublishedPostsQuery,
+	postByIdQuery,
 } from './sanity.queries';
 
 export function getClient(preview?: { token: string }): SanityClient {
@@ -67,6 +72,15 @@ export async function getPostBySlug(
 	});
 }
 
+export async function getPostById(
+	client: SanityClient,
+	_id: string,
+): Promise<Post> {
+	return await client.fetch(postByIdQuery, {
+		_id,
+	});
+}
+
 export async function getPostAndMoreStories(
 	client: SanityClient,
 	slug: string,
@@ -83,4 +97,28 @@ export async function getNonPublishedPosts(
 	count: number,
 ): Promise<Post[]> {
 	return await client.fetch(nonPublishedPostsQuery, { count });
+}
+
+export async function setPostPublishedInNewsletter(
+	client: SanityClient,
+	postId: string,
+): Promise<Post> {
+	console.info(`setting ${postId} -> isPublishedInNewsLetter to 'true'.`);
+	return await client
+		.patch(postId)
+		.set({ isPublishedInNewsLetter: true })
+		.commit<Post>();
+}
+
+export async function setContentUrl(
+	client: SanityClient,
+	document: SanityDocument,
+): Promise<Post> {
+	const contentUrl = `https://grascannabis.org/blog/posts/${document.slug.current}`;
+	const patched = await client
+		.patch(document._id)
+		.set({ contentUrl })
+		.commit<Post>();
+	console.info(`set contentUrl to ${contentUrl} for ${document.slug.current}.`);
+	return patched;
 }

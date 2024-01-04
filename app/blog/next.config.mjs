@@ -89,6 +89,7 @@ Memory Usage:`,
 				'storage.cloud.google.com',
 				'cdn.sanity.io',
 				'source.unsplash.com',
+				'unsplash.com',
 			],
 		},
 		transpilePackages: [

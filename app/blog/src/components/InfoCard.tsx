@@ -4,8 +4,8 @@ import { FlexBox, H4, Paragraph } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
+import { urlForImage } from 'lib/sanity.image';
 import logo from '../../public/logo.png';
-import { urlForImage } from '../lib/sanity.image';
 import { resolveHref } from '../lib/sanity.links';
 import { type Post } from '../lib/sanity.queries';
 
@@ -16,7 +16,6 @@ type InfoCardProps = {
 };
 
 function InfoCard({ data: info, className }: InfoCardProps) {
-	console.log('info', info);
 	return (
 		<Link
 			href={resolveHref('post', info.slug) as string}
@@ -34,10 +33,12 @@ function InfoCard({ data: info, className }: InfoCardProps) {
 		>
 			<FlexBox className="grow relative">
 				<Image
+					blurDataURL={urlForImage(info.mainImage)?.blur(100).url()}
 					src={urlForImage(info.mainImage)?.url() || logo.src}
-					alt="card-backdrop"
+					alt={info.title as string}
 					fill
 					className="object-cover object-top"
+					sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 				/>
 			</FlexBox>
 			<div className={twMerge('h-36', 'p-2')}>
