@@ -82,6 +82,18 @@ export default defineType({
 			initialValue: false,
 		}),
 		defineField({
+			name: 'isPublishedToSocialMedia',
+			title: 'Is Published To Social Media Accounts',
+			type: 'boolean',
+			description:
+				'If true, this post has been pushed to Twitter, Facebook, and Instagram.',
+			options: {
+				layout: 'checkbox',
+			},
+			readOnly: true,
+			initialValue: false,
+		}),
+		defineField({
 			type: 'string',
 			name: 'contentUrl',
 			title: 'Content URL',

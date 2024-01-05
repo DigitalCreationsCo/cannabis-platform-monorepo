@@ -16,7 +16,7 @@ export default function PostPageHead({ settings, post }: PostPageHeadProps) {
 		<Head>
 			<title>{post.title ? `${post.title} | ${title}` : title}</title>
 			<BlogMeta />
-			{post.shareImage?.assetId && (
+			{post.shareImage?.asset?._ref && (
 				<meta
 					property="og:image"
 					content={urlForImage(post.shareImage)!

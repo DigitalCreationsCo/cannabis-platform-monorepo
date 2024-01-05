@@ -12,12 +12,13 @@ const postFields = groq`
   excerpt,
   mainImage,
   "mainImageAsset": mainImage.asset->,
-  "shareImage": shareImage.asset->,
+  shareImage,
   body,
   "slug": slug.current,
   "author": author->{name, picture},
   "categories": categories[]->title,
   isPublishedInNewsLetter,
+  isPublishedToSocialMedia,
   contentUrl,
   `;
 
@@ -77,9 +78,10 @@ export interface Post {
 	mainImage: ImageAsset;
 	mainImageAsset: ImageAsset;
 	body: PortableTextBlock[];
-	shareImage: ImageAsset;
+	shareImage: any;
 	categories: string[];
-	isPublishedInNewsLetter?: boolean;
+	isPublishedInNewsLetter: boolean;
+	isPublishedToSocialMedia: boolean;
 	contentUrl?: string;
 }
 
