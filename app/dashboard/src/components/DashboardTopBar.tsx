@@ -52,24 +52,18 @@ function DashboardTopBar({ signOut }: TopBarProps) {
 	return (
 		<div className={twMerge(styles.TOPBAR.topbar)}>
 			<FlexBox className="flex-row items-center">
-				<Link href={'/'} className="z-50">
+				<Link href={isSignedIn ? '/' : getShopSite('/')} className="z-50">
 					<GrasSignature className="text-secondary pt-0.5">Gras</GrasSignature>
 				</Link>
-				<Link href={'/'} className="shrink-0">
+				<Link href={isSignedIn ? '/' : getShopSite('/')} className="shrink-0">
 					<Image alt="Gras" width={55} height={55} src={logo} />
 				</Link>
-				<Link href={'/'}>
+				<Link href={isSignedIn ? '/' : getShopSite('/')}>
 					<Paragraph className={twMerge(styles.TOPBAR.tagline)}>
 						{TextContent.info.CANNABIS_DELIVERED_TEXT}
 					</Paragraph>
 				</Link>
 			</FlexBox>
-
-			<Link href={isSignedIn ? '/' : getShopSite('/')}>
-				<Paragraph className={twMerge(styles.TOPBAR.tagline)}>
-					{TextContent.info.CANNABIS_DELIVERED_TEXT}
-				</Paragraph>
-			</Link>
 			<div className="flex-1"></div>
 
 			<FlexBox className="flex flex-row items-center md:space-x-4 md:pr-2">

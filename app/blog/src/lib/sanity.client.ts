@@ -110,6 +110,17 @@ export async function setPostPublishedInNewsletter(
 		.commit<Post>();
 }
 
+export async function setPostPublishedToSocialMedia(
+	client: SanityClient,
+	postId: string,
+): Promise<Post> {
+	console.info(`setting ${postId} -> isPublishedToSocialMedia to 'true'.`);
+	return await client
+		.patch(postId)
+		.set({ isPublishedToSocialMedia: true })
+		.commit<Post>();
+}
+
 export async function setContentUrl(
 	client: SanityClient,
 	document: SanityDocument,
