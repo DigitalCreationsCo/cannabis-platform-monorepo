@@ -1,5 +1,9 @@
-export const darkenFilter = async (darken: number, width: number, height: number): Promise<Buffer> => {
-  const overlay = `<svg width="${width}" height="${height}">
+export const darkenFilter = async (
+	darken: number,
+	width: number,
+	height: number,
+): Promise<Buffer> => {
+	const overlay = `<svg width="${width}" height="${height}">
     <rect
       width="${width}"
       height="${height}"
@@ -8,5 +12,5 @@ export const darkenFilter = async (darken: number, width: number, height: number
     />
   </svg>`;
 
-  return Buffer.from(overlay);
+	return Buffer.from(overlay);
 };

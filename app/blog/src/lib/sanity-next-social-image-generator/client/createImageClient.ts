@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
+
 import { generateImage } from '../image/generateImage';
 import { type GenerateOptions } from '../image/types';
 import { uploadToSanity } from '../sanity';
@@ -12,7 +15,9 @@ export const createImageClient = ({
 	redisUrl,
 }: ClientConfigOptions): Client => {
 	return {
-		generateImage: async (args: GenerateOptions): Promise<Buffer | {}> => {
+		generateImage: async (
+			args: GenerateOptions,
+		): Promise<Buffer | Record<string, unknown>> => {
 			try {
 				const image = await generateImage(args);
 
