@@ -34,36 +34,38 @@ try {
 	throw Error('Supertokens is not available.');
 }
 
-export const authenticateToken = () => async (req, res, next) => {
-	try {
-		const session = await Session.getSession(req, res, {
-			sessionRequired: false,
-		});
-		if (session !== undefined) {
-			// const userId = session.getUserId();
-			// do something with the userId?
-			next();
-		} else {
-			let jwt = req.headers['authorization'];
-			jwt = jwt === undefined ? undefined : jwt.split('Bearer ')[1];
-			if (jwt === undefined) {
-				return res.status(401);
+export function authenticateToken() {
+	return async function (req, res, next) {
+		try {
+			const session = await Session.getSession(req, res, {
+				sessionRequired: false,
+			});
+			if (session !== undefined) {
+				// const userId = session.getUserId();
+				// do something with the userId?
+				next();
 			} else {
-				verify(jwt, getKey, {}, function (err) {
-					if (err) {
-						return res.status(401).json({ success: false, error: err });
-					}
-					// const decodedJWT = decoded;
-					// do something with the decodedJWT?
-					next();
-				});
+				let jwt = req.headers['authorization'];
+				jwt = jwt === undefined ? undefined : jwt.split('Bearer ')[1];
+				if (jwt === undefined) {
+					return res.status(401);
+				} else {
+					verify(jwt, getKey, {}, function (err) {
+						if (err) {
+							return res.status(401).json({ success: false, error: err });
+						}
+						// const decodedJWT = decoded;
+						// do something with the decodedJWT?
+						next();
+					});
+				}
 			}
+		} catch (err) {
+			console.error('authenticateToken: ', err);
+			next(err);
 		}
-	} catch (err) {
-		console.error('authenticateToken: ', err);
-		next(err);
-	}
-};
+	};
+}
 
 // UserRoles.createNewRoleOrAddPermissions('MembershipRole', [
 // 	'OWNER',
