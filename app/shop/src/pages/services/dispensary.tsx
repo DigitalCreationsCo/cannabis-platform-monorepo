@@ -210,10 +210,15 @@ const CTASignup = () => {
 			<div className="bg-secondary-light mx-auto flex w-full max-w-4xl flex-col flex-wrap place-content-center content-center items-center space-y-4 md:rounded-xl p-7 text-white sm:flex-row sm:space-x-8 md:space-y-0 lg:flex-nowrap lg:p-12">
 				<div className="text-center lg:text-center">
 					<h2 className="text-xl max-w-sm md:text-2xl font-medium lg:text-3xl">
-						Make your people happy with Delivery&nbsp;by&nbsp;Gras
+						{/* Make your people happy with Delivery&nbsp;by&nbsp;Gras */}
+						Make your people happy
 					</h2>
 				</div>
-				<Link href={`/signup/create-dispensary-account?code=${code}`}>
+				<Link
+					href={getDashboardSite(
+						`/signup/create-dispensary-account?code=${code}`,
+					)}
+				>
 					<Button
 						size="lg"
 						bg="primary"
