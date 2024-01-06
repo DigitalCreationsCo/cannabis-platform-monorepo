@@ -3,7 +3,7 @@
 import { Card } from '@sanity/ui';
 import { createIntlSegmenterPolyfill } from 'intl-segmenter-polyfill';
 import satori, { type SatoriOptions } from 'satori';
-import styled from 'styled-components';
+import { styled } from 'styled-components';
 import useSWR from 'swr/immutable';
 import { height, OpenGraphImage, width } from '../../components/OpenGraphImage';
 import type { Settings } from '../../lib/sanity.queries';

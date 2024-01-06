@@ -1,3 +1,7 @@
+/* eslint-disable no-async-promise-executor */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
+
 import { type RedisClientType } from 'redis';
 import { getRedis } from '../redis';
 import { getClient } from './client';

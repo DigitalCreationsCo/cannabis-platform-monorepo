@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { type TextOptions } from './types';
 
 export const buildTextSVGBuffer = (config: TextOptions): Buffer => {
 	const svgText = constructMultilineSVGText(
-		config.width,
-		config.height,
-		config.fontSize,
-		config.text,
+		config.width!,
+		config.height!,
+		config.fontSize!,
+		config.text!,
 	);
 
 	const svg = `
