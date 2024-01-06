@@ -232,6 +232,7 @@ export const backendConfig = (): AuthConfig => {
 														response.user.id = externalUserId;
 														response.user.loginMethods[0].recipeUserId =
 															new RecipeUserId(externalUserId);
+														// if new user, send a welcome email
 													}
 
 													// map new supertokens user with created driver id
@@ -263,6 +264,8 @@ export const backendConfig = (): AuthConfig => {
 														response.user.id = externalUserId;
 														response.user.loginMethods[0].recipeUserId =
 															new RecipeUserId(externalUserId);
+
+														// if new user, send a welcome email
 													} else {
 														if (response.user.emails[0]) {
 															user = await UserDA.getUserByEmail(
