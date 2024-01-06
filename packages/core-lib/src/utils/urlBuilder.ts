@@ -43,9 +43,9 @@ const urlBuilder = {
 			urlBuilder.main.baseUrl + `/organization/${id}`,
 		organizationWithDashboardDetails: (id: any) =>
 			urlBuilder.main.baseUrl + `/organization/dashboard/${id}`,
-		organizationsByZipCode: (zipcode: number, limit: number, radius: number) =>
+		organizationsByZipCode: (zipcode: number, limit = 5, radius = 10000) =>
 			urlBuilder.main.baseUrl +
-			`/organization/zipcode/${zipcode}&_${limit}&_${radius}`,
+			`/organization/zipcode=${zipcode}&limit=${limit}&radius=${radius}`,
 
 		categoryList: (id: any) =>
 			urlBuilder.main.baseUrl + `/organization/${id}/categories`,

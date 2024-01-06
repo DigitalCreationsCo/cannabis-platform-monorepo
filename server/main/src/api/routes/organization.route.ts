@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { authenticateToken } from '../../server';
 import { orgCtrl } from '../controllers';
 const router = Router();
 /* =================================
@@ -20,22 +21,22 @@ Organization Routes
 
 ================================= */
 
-router.route('/').post(orgCtrl.createOrganization);
+router.post('/', authenticateToken, orgCtrl.createOrganization);
+router.put('/', authenticateToken, orgCtrl.updateOrganization);
+router.get('/:id', authenticateToken, orgCtrl.getOrganizationById);
+router.get(
+	'/dashboard/:id',
+	authenticateToken,
+	orgCtrl.getOrganizationWithDashboardDetails,
+);
+router.delete('/:id', authenticateToken, orgCtrl.deleteOrganizationById);
 
-router.route('/').put(orgCtrl.updateOrganization);
+router.get('/:id/categories', authenticateToken, orgCtrl.getCategoryList);
+router.get('/:id/users', authenticateToken, orgCtrl.getUsersByOrganization);
 
-router.route('/:id').get(orgCtrl.getOrganizationById);
-
-router.route('/dashboard/:id').get(orgCtrl.getOrganizationWithDashboardDetails);
-
-router.route('/:id').delete(orgCtrl.deleteOrganizationById);
-
-router
-	.route('/zipcode/:zipcode&_:limit&_:radius')
-	.get(orgCtrl.getOrganizationsByZipcode);
-
-router.route('/:id/categories').get(orgCtrl.getCategoryList);
-
-router.route('/:id/users').get(orgCtrl.getUsersByOrganization);
+router.get(
+	'/zipcode=:zipcode&limit=:limit&radius=:radius',
+	orgCtrl.getOrganizationsByZipcode,
+);
 
 export default router;

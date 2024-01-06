@@ -112,7 +112,7 @@ const TextContent = Object.freeze({
 		SIGNIN_PHONE: 'Sign in with your phone',
 		SIGNIN_EMAIL_OR_PHONE: 'Sign in with your email or phone',
 		SIGNUP: 'Sign up',
-		CTA: 'SIGN ME UP',
+		CTA: 'SIGN UP FOR DELIVERY',
 	},
 
 	error: {
@@ -339,7 +339,7 @@ const TextContent = Object.freeze({
 		createAccountFQUrl: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/signup/create-account`,
 		createAccount: `/signup/create-account`,
 		blog: `/blog`,
-		services: `${process.env.NEXT_PUBLIC_DASHBOARD_APP_URL}/signup`,
+		services: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/services`,
 		storefront_f: (subdomain: string) =>
 			`${process.env.NEXT_PUBLIC_SHOP_APP_URL}/browse/${subdomain}`,
 

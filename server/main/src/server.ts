@@ -34,7 +34,7 @@ try {
 	throw Error('Supertokens is not available.');
 }
 
-const authenticateToken = () => async (req, res, next) => {
+export const authenticateToken = () => async (req, res, next) => {
 	try {
 		const session = await Session.getSession(req, res, {
 			sessionRequired: false,
@@ -92,7 +92,7 @@ app.use('/api/v1/cache', authenticateToken(), cacheHandler);
 app.use('/api/v1/user', authenticateToken(), user);
 app.use('/api/v1/driver', authenticateToken(), driver);
 app.use('/api/v1/shop', authenticateToken(), shop);
-app.use('/api/v1/organization', authenticateToken(), organization);
+app.use('/api/v1/organization', organization);
 app.use('/api/v1/blog', authenticateToken(), blog);
 app.use('/api/v1/compliance', authenticateToken(), compliance);
 
