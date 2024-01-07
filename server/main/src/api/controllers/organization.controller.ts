@@ -164,11 +164,17 @@ export default class OrganizationController {
 
 	static async getOrganizationsByZipcode(req, res) {
 		try {
+			console.info('API: getOrganizationsByZipcode: params ', req.params);
 			const {
 				zipcode,
-				limit,
-				radius,
+				limit = 5,
+				radius = 10000,
 			}: { zipcode: number; limit: number; radius: number } = req.params;
+			if (!zipcode)
+				return res
+					.status(400)
+					.json({ success: 'false', error: 'Zipcode is required' });
+
 			const data = await OrganizationDA.getOrganizationsByZipcode(
 				Number(zipcode),
 				Number(limit),
