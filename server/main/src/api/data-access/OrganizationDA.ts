@@ -188,6 +188,14 @@ export default class OrganizationDA {
 		radius: number,
 	) {
 		try {
+			console.info(
+				'getOrganizationsByZipcode: zipcode: ' +
+					zipcode +
+					' limit: ' +
+					limit +
+					' radius: ' +
+					radius,
+			);
 			return await findOrganizationsByZipcode(zipcode, limit, radius);
 		} catch (error: any) {
 			throw new Error(error.message);

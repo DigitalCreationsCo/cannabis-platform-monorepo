@@ -1,3 +1,4 @@
+import console from 'console';
 import http from 'http';
 import bodyParser from 'body-parser';
 import cors from 'cors';
@@ -15,7 +16,6 @@ import Session, {
 import {
 	blog,
 	driver,
-	errorRoute,
 	organization,
 	shop,
 	user,
@@ -40,6 +40,7 @@ export function authenticateToken() {
 			const session = await Session.getSession(req, res, {
 				sessionRequired: false,
 			});
+			console.info('authenticateToken session: ', session);
 			if (session !== undefined) {
 				// const userId = session.getUserId();
 				// do something with the userId?
@@ -47,15 +48,21 @@ export function authenticateToken() {
 			} else {
 				let jwt = req.headers['authorization'];
 				jwt = jwt === undefined ? undefined : jwt.split('Bearer ')[1];
+				console.info('authenticateToken jwt: ', jwt);
 				if (jwt === undefined) {
-					return res.status(401);
+					return res
+						.status(401)
+						.json({ success: 'false', error: 'No JWT provided' });
 				} else {
-					verify(jwt, getKey, {}, function (err) {
+					verify(jwt, getKey, {}, function (err, decoded) {
 						if (err) {
-							return res.status(401).json({ success: false, error: err });
+							console.error('authenticateToken error: ', err.message);
+							return res
+								.status(401)
+								.json({ success: 'false', error: err.message });
 						}
-						// const decodedJWT = decoded;
-						// do something with the decodedJWT?
+						const decodedJWT = decoded;
+						console.info('authenticateToken decodedJWT: ', decodedJWT);
 						next();
 					});
 				}
@@ -117,7 +124,9 @@ export type SessionResponse = {
 };
 
 function getKey(header: JwtHeader, callback: SigningKeyCallback) {
+	console.info('getKey header: ', header);
 	jwtClient.getSigningKey(header.kid as string, function (err, key) {
+		if (err) return callback(err);
 		const signingKey = key.getPublicKey();
 		callback(err, signingKey);
 	});
