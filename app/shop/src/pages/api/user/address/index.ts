@@ -5,7 +5,7 @@ import NextCors from 'nextjs-cors';
 import Supertokens from 'supertokens-node';
 import { superTokensNextWrapper } from 'supertokens-node/nextjs';
 import { verifySession } from 'supertokens-node/recipe/session/framework/express';
-import { backendConfig } from '../../../../config';
+import { backendConfig } from '../../../../config/backendConfig';
 
 Supertokens.init(backendConfig());
 

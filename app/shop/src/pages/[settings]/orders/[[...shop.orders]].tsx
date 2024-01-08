@@ -22,7 +22,7 @@ import { useEffect } from 'react';
 import Supertokens from 'supertokens-node';
 import { superTokensNextWrapper } from 'supertokens-node/nextjs';
 import { verifySession } from 'supertokens-node/recipe/session/framework/express';
-import { backendConfig } from '../../../config';
+import { backendConfig } from '../../../config/backendConfig';
 import { wrapper } from '../../../store';
 
 if (typeof window === 'undefined') {

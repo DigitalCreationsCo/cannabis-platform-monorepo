@@ -37,13 +37,13 @@ export default class MainDocument extends Document {
 			<Html data-theme="cannabis" className="scroll-smooth">
 				<Head title="Grascannabis.org - Cannabis, Delivered.">
 					<meta name="Gras App" content="Built by Gras Inc." />
-					{process.env.NODE_ENV !== 'production' && (
+					{/* {process.env.NODE_ENV !== 'production' && (
 						<script
 							dangerouslySetInnerHTML={{
 								__html: noOverlayWorkaroundScript,
 							}}
 						/>
-					)}
+					)} */}
 				</Head>
 				<body>
 					<Main />

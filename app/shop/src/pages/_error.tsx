@@ -31,7 +31,6 @@ function Error({
 }
 
 Error.getInitialProps = ({ res, err }: NextPageContext) => {
-	console.info('error');
 	const statusCode =
 		(err as AxiosError)?.response?.status ??
 		res?.statusCode ??
