@@ -19,7 +19,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session from 'supertokens-auth-react/recipe/session';
 import { LayoutContainer, LocationProvider, TopBar } from '../components';
-import { frontendConfig } from '../config';
+import { frontendConfig } from '../config/frontendConfig';
 import { wrapper } from '../store';
 import '../styles/anim8-gradient.css';
 import '../styles/shop.css';
@@ -178,4 +178,4 @@ function App({ Component, ...rest }: CustomAppProps) {
 	);
 }
 
-export default wrapper.withRedux(App);
+export default App;
