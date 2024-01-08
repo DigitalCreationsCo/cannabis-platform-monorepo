@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { isEmpty } from '@cd/core-lib';
 import { Router } from 'express';
 import { StateService } from 'lib/fleet';
 import ManifestService from 'lib/fleet/ManifestService';
@@ -67,7 +68,7 @@ manifestRoutes.post('/:vehicleId', async (req, res) => {
 	// Read the post body to figure out what to update. Right now, we only support assignment, or
 	// updating the vehicle status. The post body should just be a json object with keys.
 	const updates = JSON.parse(req.body);
-	if (!req.body) {
+	if (isEmpty(updates)) {
 		console.error('The client attempted to update the vehicle with no data');
 		ServiceUtils.setErrorResponse(
 			res,
