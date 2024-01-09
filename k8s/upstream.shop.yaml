@@ -21,11 +21,11 @@ spec:
       timeout: 5s
       unhealthyThreshold: 2
       reuseConnection: false
-      noTrafficInterval: 60s # Start sending health checks after 5 seconds (default is 60)
+      noTrafficInterval: 60s
   outlierDetection:
     consecutive5xx: 3
     maxEjectionPercent: 50
     interval: 5s
   circuitBreakers:
-    maxRetries: 10 # Default is 3
+    maxRetries: 10
   ignoreHealthOnHostRemoval: true
