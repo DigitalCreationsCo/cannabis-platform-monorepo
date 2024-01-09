@@ -5,6 +5,7 @@ import {
 	type UserCreateType,
 } from '@cd/data-access';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { twMerge } from 'tailwind-merge';
 import ErrorMessage from './ErrorMessage';
 import FlexBox from './FlexBox';
 
@@ -53,6 +54,7 @@ interface FormStepProviderProps {
 	isComplete?: () => void;
 	loading?: boolean;
 	setLoading?: (loading: boolean) => void;
+	stepPosition?: 'top' | 'bottom';
 }
 
 function FormStepProvider({
@@ -61,6 +63,7 @@ function FormStepProvider({
 	isComplete,
 	loading,
 	setLoading,
+	stepPosition = 'top',
 }: FormStepProviderProps) {
 	const formComponentProps: FormComponentProps = { loading, setLoading };
 
@@ -86,9 +89,10 @@ function FormStepProvider({
 	const currentStep = formstep,
 		totalSteps = validFormSteps.length,
 		showStepNumber =
-			currentStep !== undefined &&
-			totalSteps !== undefined &&
-			`step ${currentStep + 1} of ${totalSteps}`;
+			(currentStep !== undefined &&
+				totalSteps !== undefined &&
+				`step ${currentStep + 1} of ${totalSteps}`) ||
+			'';
 
 	const FormStepComponent = useMemo(
 		() => validFormSteps[formstep],
@@ -110,8 +114,55 @@ function FormStepProvider({
 				isComplete,
 			}}
 		>
+			<div
+				className={twMerge([
+					stepPosition === 'bottom' && '!hidden',
+					'relative bottom-0 flex p-8',
+				])}
+			>
+				<ul className="steps mx-auto w-full">
+					<li
+						className={twMerge(
+							'step',
+							currentStep >= 0 ? 'step-primary' : 'step-inverse',
+						)}
+					>
+						Verify ID
+					</li>
+					<li
+						className={twMerge(
+							'step',
+							currentStep >= 1 ? 'step-primary' : 'step-inverse',
+						)}
+					>
+						Create account
+					</li>
+					<li
+						className={twMerge(
+							'step',
+							currentStep >= 2 ? 'step-primary' : 'step-inverse',
+						)}
+					>
+						Enter Address
+					</li>
+					<li
+						className={twMerge(
+							'step',
+							currentStep >= 3 ? 'step-primary' : 'step-inverse',
+						)}
+					>
+						Get Deals
+					</li>
+				</ul>
+				{/* <FlexBox className={styles.stepNumber}>{showStepNumber}</FlexBox> */}
+			</div>
 			<FormStepComponent {...formComponentProps} />
-			<div className="relative bottom-0 flex justify-end p-5">
+			<div
+				className={twMerge([
+					stepPosition === 'top' && '!hidden',
+					'relative bottom-0 flex justify-end p-5',
+				])}
+			>
 				<FlexBox className={styles.stepNumber}>{showStepNumber}</FlexBox>
 			</div>
 		</FormContext.Provider>

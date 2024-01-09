@@ -14,7 +14,10 @@ export const getBreakpointValue = (value: string): number => {
 	);
 };
 
-export const useBreakpoint = (): string => {
+export const useBreakpoint = (): {
+	currentBreakpoint: number;
+	biggestBreakpointValue: number;
+} => {
 	let currentBreakpoint = '';
 	let biggestBreakpointValue = 0;
 	for (const breakpoint of Object.keys(fullConfig.theme.screens)) {
@@ -24,7 +27,7 @@ export const useBreakpoint = (): string => {
 			window.innerWidth >= breakpointValue
 		) {
 			biggestBreakpointValue = breakpointValue;
-			currentBreakpoint = breakpoint;
+			currentBreakpoint = breakpointValue;
 		}
 	}
 	return { currentBreakpoint, biggestBreakpointValue };

@@ -21,7 +21,7 @@ import { toast } from 'react-hot-toast';
 import * as yup from 'yup';
 import { submitAddressTour } from '../../tour/submitAddressTour';
 
-function SubmitAddressForm() {
+function SubmitCreditCardForm() {
 	function startTour() {
 		if (!submitAddressTour.isActivated) submitAddressTour.start();
 	}
@@ -249,4 +249,4 @@ function SubmitAddressForm() {
 	);
 }
 
-export default SubmitAddressForm;
+export default SubmitCreditCardForm;

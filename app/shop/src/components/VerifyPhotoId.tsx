@@ -38,7 +38,7 @@ const VerifyPhotoId = () => {
 	}
 
 	useEffect(() => {
-		startTour();
+		if (window.location.pathname != '/') startTour();
 	}, []);
 
 	const { resetFormValues, nextFormStep, setFormValues } = useFormContext();
@@ -162,7 +162,7 @@ const VerifyPhotoId = () => {
 			<Center className="m-auto w-3/4 space-y-4 md:pb-0">
 				<H3 id="verify-id-step-2">Please verify your ID</H3>
 				<Paragraph>
-					Take a photo of the front and back of your state identification.
+					Submit a photo of the front and back of your state identification.
 				</Paragraph>
 				<div id="verify-id-step-3" className="h-[200px] w-[240px]">
 					{frontImage ? (

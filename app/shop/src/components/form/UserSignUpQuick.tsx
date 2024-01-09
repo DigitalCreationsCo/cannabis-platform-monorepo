@@ -17,6 +17,7 @@ import {
 	TextField,
 	useFormContext,
 } from '@cd/ui-lib';
+import { createId } from '@paralleldrive/cuid2';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
@@ -36,7 +37,7 @@ function UserSignUpQuickForm() {
 	}
 
 	useEffect(() => {
-		startTour();
+		if (window.location.pathname != '/') startTour();
 	}, []);
 
 	const { nextFormStep, prevFormStep, setFormValues, formValues } =
@@ -49,7 +50,7 @@ function UserSignUpQuickForm() {
 	const [loadingButton, setLoadingButton] = useState(false);
 
 	const initialValues = {
-		id: user.id,
+		id: user.id || createId(),
 		firstName: formValues?.newUser?.firstName || '',
 		lastName: formValues?.newUser?.lastName || '',
 		username: formValues?.newUser?.username || '',
@@ -298,14 +299,16 @@ function UserSignUpQuickForm() {
 						description={
 							<>
 								<div id="dispensary-create-step-3" className="inline-block">
-									<Paragraph>{TextContent.legal.AGREE_TO_TERMS}</Paragraph>
+									<Paragraph className="inline">
+										{TextContent.legal.AGREE_TO_TERMS}{' '}
+									</Paragraph>
 									<a
 										href={TextContent.href.user_tos}
 										target="_blank"
 										rel="noreferrer noopener"
-										className="inline"
+										className="inline-block"
 									>
-										<H6 className={'inline border-b-2'}>
+										<H6 className={'inline-block border-b-2 border'}>
 											{TextContent.legal.USER_TERMS_OF_SERVICE}
 										</H6>
 										.
