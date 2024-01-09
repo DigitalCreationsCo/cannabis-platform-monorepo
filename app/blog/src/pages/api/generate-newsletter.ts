@@ -9,6 +9,7 @@ import {
 	getNonPublishedPosts,
 	setPostPublishedInNewsletter,
 } from 'lib/sanity.client';
+import { urlForImage } from 'lib/sanity.image';
 import { type Post } from 'lib/sanity.queries';
 
 // generate newsletter content combination with openai and cms content, by providing a list of article urls to the trained model.
@@ -84,7 +85,7 @@ handler.post(async (req: any, res: NextApiResponse) => {
 				_id: post._id,
 				title: post.title!,
 				excerpt: post.excerpt!,
-				mainImage: post.mainImageAsset.url,
+				mainImage: urlForImage(post.mainImageAsset)!.url(),
 				footer: `More info available here.`,
 				link: post.contentUrl,
 			};
