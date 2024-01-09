@@ -52,8 +52,14 @@ function App({ Component, ...rest }: CustomAppProps) {
 	const [routerLoading, setRouterLoading] = useState(true);
 	const router = useRouter();
 
+	// useEffect(() => {
+	// 	router.isReady && setRouterLoading(false);
+	// }, [router.isReady]);
+
 	useEffect(() => {
-		router.isReady && setRouterLoading(false);
+		if (router.isReady) {
+			setRouterLoading(false);
+		}
 	}, [router.isReady]);
 
 	useEffect(() => {
@@ -71,13 +77,13 @@ function App({ Component, ...rest }: CustomAppProps) {
 		doRefresh();
 	}, [pageProps.fromSupertokens]);
 
-	useEffect(() => {
-		!store.getState().shop.isLoading &&
-			store.getState().shop.dispensaries.length === 0 &&
-			store.dispatch(
-				shopActions.getInitialDispensaries() as unknown as AnyAction,
-			);
-	}, [store]);
+	// useEffect(() => {
+	// 	!store.getState().shop.isLoading &&
+	// 		store.getState().shop.dispensaries.length === 0 &&
+	// 		store.dispatch(
+	// 			shopActions.getInitialDispensaries() as unknown as AnyAction,
+	// 		);
+	// }, [store]);
 
 	if (pageProps.fromSupertokens === 'needs-refresh') {
 		return null;
@@ -109,15 +115,15 @@ function App({ Component, ...rest }: CustomAppProps) {
 								<LoadingPage />
 							) : (
 								<LayoutContainer {...getLayoutContext()}>
-									<ErrorBoundary>
-										<ProtectedPage
-											protectedPages={[
-												'/settings',
-												'/checkout',
-												// '/orders',
-												'/account',
-											]}
-										>
+									<ProtectedPage
+										protectedPages={[
+											'/settings',
+											'/checkout',
+											// '/orders',
+											'/account',
+										]}
+									>
+										<ErrorBoundary>
 											<>
 												<Component {...pageProps} />
 												{!routerLoading &&
@@ -166,8 +172,8 @@ function App({ Component, ...rest }: CustomAppProps) {
 														undefined,
 													)}
 											</>
-										</ProtectedPage>
-									</ErrorBoundary>
+										</ErrorBoundary>
+									</ProtectedPage>
 								</LayoutContainer>
 							)}
 						</AnimatePresence>
@@ -178,4 +184,4 @@ function App({ Component, ...rest }: CustomAppProps) {
 	);
 }
 
-export default App;
+export default wrapper.withRedux(App);
