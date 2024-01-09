@@ -1,11 +1,11 @@
 import { selectUserState } from '@cd/core-lib';
-import { Page, type LayoutContextProps } from '@cd/ui-lib';
+import { Card, H2, Page, type LayoutContextProps } from '@cd/ui-lib';
 import Head from 'next/head';
 import router from 'next/router';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
-import ContinueSignUp from './continue';
+import ContinueSignUp from '../../components/form/ContinueSignUp';
 
 function CreateUserAccount() {
 	const userState = useSelector(selectUserState);
@@ -19,7 +19,12 @@ function CreateUserAccount() {
 				<Head>
 					<meta name="Gras App" content="Built by Gras Cannabis Co." />
 				</Head>
-				<ContinueSignUp />
+				<Card className="bg-inverse-soft m-auto h-full space-y-2">
+					<H2 id="verify-id-step-1" className="text-primary">
+						Welcome to Gras
+					</H2>
+					<ContinueSignUp />
+				</Card>
 			</Page>
 		);
 }

@@ -479,61 +479,6 @@ html {
   --yellow: #FFF244;
 }
 
-html {
-  color: var(--dark);
-}
-
-body {
-  color: var(--dark);
-  -ms-overflow-style: none;
-}
-
-body::-webkit-scrollbar {
-  display: none;
-}
-
-a * {
-  cursor: pointer;
-}
-
-details > summary::-webkit-details-marker {
-  display: none;
-}
-
-details > summary {
-  list-style: none;
-}
-
-:root {
-  --font-weight-normal: 400;
-  --font-weight-semibold: 600;
-  --font-weight-bold: 800;
-  --font-weight-display: 900;
-  --font-weight-btn: 600;
-  --rounded-btn: 0.25rem;
-}
-
-/* .theme-dark {
-    --color-bg-primary: #847543;
-    --color-bg-secondary: #dcd0c0;
-    --color-bg-default: #f4f4f4;
-    --color-bg-inverse: #373737;
-
-    --color-text-primary: rgb(246, 244, 244);
-    --color-text-secondary: #927e7e;
-    --color-text-default: #373737;
-    --color-text-default-soft: #6a6a6a;
-    --color-text-inverse: #fff;
-    --color-text-inverse-soft: #bbb;
-
-    --font-weight-normal: 400;
-    --font-weight-bold: 800;
-    --font-weight-display: 400;
-    --font-weight-btn: 600;
-
-    --rounded-btn: 0;
-  } */
-
 *, ::before, ::after {
   --tw-border-spacing-x: 0;
   --tw-border-spacing-y: 0;
@@ -1281,6 +1226,15 @@ details > summary {
 
 .select[multiple] {
   height: auto;
+}
+
+.steps {
+  display: inline-grid;
+  grid-auto-flow: column;
+  overflow: hidden;
+  overflow-x: auto;
+  counter-reset: step;
+  grid-auto-columns: 1fr;
 }
 
 .steps .step {
@@ -2066,6 +2020,86 @@ details > summary {
   content: attr(data-content);
 }
 
+.steps .step-neutral + .step-neutral:before,
+  .steps .step-neutral:after {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--n) / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: hsl(var(--nc) / var(--tw-text-opacity));
+}
+
+.steps .step-primary + .step-primary:before,
+  .steps .step-primary:after {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--p) / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: hsl(var(--pc) / var(--tw-text-opacity));
+}
+
+.steps .step-secondary + .step-secondary:before,
+  .steps .step-secondary:after {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--s) / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: hsl(var(--sc) / var(--tw-text-opacity));
+}
+
+.steps .step-accent + .step-accent:before,
+  .steps .step-accent:after {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--a) / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: hsl(var(--ac) / var(--tw-text-opacity));
+}
+
+.steps .step-info + .step-info:before {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--in) / var(--tw-bg-opacity));
+}
+
+.steps .step-info:after {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--in) / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: hsl(var(--inc, var(--nc)) / var(--tw-text-opacity));
+}
+
+.steps .step-success + .step-success:before {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--su) / var(--tw-bg-opacity));
+}
+
+.steps .step-success:after {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--su) / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: hsl(var(--suc, var(--nc)) / var(--tw-text-opacity));
+}
+
+.steps .step-warning + .step-warning:before {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--wa) / var(--tw-bg-opacity));
+}
+
+.steps .step-warning:after {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--wa) / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: hsl(var(--wac, var(--nc)) / var(--tw-text-opacity));
+}
+
+.steps .step-error + .step-error:before {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--er) / var(--tw-bg-opacity));
+}
+
+.steps .step-error:after {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--er) / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: hsl(var(--erc, var(--nc)) / var(--tw-text-opacity));
+}
+
 .tab:hover {
   --tw-text-opacity: 1;
 }
@@ -2730,6 +2764,10 @@ details > summary {
 
 .grid {
   display: grid;
+}
+
+.\!hidden {
+  display: none !important;
 }
 
 .hidden {
@@ -3871,14 +3909,6 @@ details > summary {
 .ease-out {
   transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
 }
-
-.cursor-inherit {
-  cursor: inherit;
-}
-
-/* Hide scrollbar for Chrome, Safari and Opera */
-
-/* Hide scrollbar for IE, Edge and Firefox */
 
 @media (min-width: 768px) {
   .md\:\!rounded-btn {

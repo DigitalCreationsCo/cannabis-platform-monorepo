@@ -9,18 +9,24 @@ import {
 } from '@cd/core-lib';
 import {
 	Button,
+	Card,
 	FlexBox,
+	getBreakpointValue,
 	H1,
-	H2,
+	H3,
 	H4,
+	IconWrapper,
 	Page,
 	Paragraph,
+	useBreakpoint,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
+import Icons from '@cd/ui-lib/src/icons';
 import { type StaticImageData } from 'next/image';
 import Link from 'next/link';
-import { type PropsWithChildren } from 'react';
+import { useEffect, type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
+import ContinueSignUp from 'components/form/ContinueSignUp';
 import friendsVideo from '../../public/Gras-community-clip.mp4';
 
 function StartPage() {
@@ -37,67 +43,73 @@ function StartPage() {
 	}
 
 	return (
-		<Page className="bg-secondary text-light p-0 sm:p-0 md:p-0 lg:p-0 h-[666px]">
-			<ImageBackDrop video={friendsVideo}>
-				<FlexBox className="h-full w-full">
-					<FlexBox
-						className="m-auto grow space-y-2"
-						style={{
-							height: '100%',
-							width: '100%',
-							left: '0',
-							top: '0',
-						}}
+		<Page className="bg-secondary text-light p-0 sm:p-0 md:p-0 lg:p-0">
+			{/* <ImageBackDrop video={friendsVideo}></ImageBackDrop> */}
+			<FlexBox className="mx-auto flex p-4 px-8 md:px-20 w-full space-x-2 items-center space-y-2 md:space-y-8">
+				<div className="flex flex-col self-center text-center gap-y-2">
+					<H1
+						color="light"
+						className="mx-auto text-center text-4xl sm:text-4xl lg:text-6xl whitespace-pre-line border-b border-transparent text-inverse w-lg font-semibold tracking-wide"
 					>
-						<FlexBox className="flex p-4 px-8 lg:px-20 grow w-full space-x-2">
-							<H1
-								color="light"
-								className="text-4xl sm:text-4xl lg:text-6xl whitespace-pre-line border-b border-transparent text-inverse w-lg font-semibold tracking-wide"
-							>
-								{TextContent.info.SAME_DAY_DELIVERY}&nbsp;🌴
-							</H1>
-
-							{!isSignedIn && (
-								<FlexBox
-									className={twMerge('hidden sm:block items-center pt-2')}
-								>
-									<H4 className="text-center font-normal">
-										{TextContent.account.DISPENSARIES_START_HERE}
-									</H4>
-									<Link
-										href={getDashboardSite('/signup/create-dispensary-account')}
-									>
-										<Button
-											bg="primary"
-											transparent
-											className="hover:bg-primary-light px-4"
-										>
-											<Paragraph color="light">
-												{TextContent.account.CREATE_DISPENSARY_ACCOUNT}
-											</Paragraph>
-										</Button>
-									</Link>
-								</FlexBox>
-							)}
-							{
-								<div className="flex grow self-center">
-									<Button
+						{TextContent.info.SAME_DAY_DELIVERY}&nbsp;🌴
+					</H1>
+					{/* <Button
 										size="lg"
 										bg="primary"
 										transparent
 										className="uppercase hover:bg-primary-light p-8 self-end"
 										onClick={openCheckAgeModalOrEnterSite}
-									>
-										<H2 className="font-bold">
-											{TextContent.info.ENJOY_BUD_WITH_YOUR_BUDS}
-										</H2>
-									</Button>
-								</div>
-							}
-						</FlexBox>
-					</FlexBox>
+									> */}
+					<H3 className="text-2xl lg:text-4xl">
+						{TextContent.info.ENJOY_BUD_WITH_YOUR_BUDS}
+					</H3>
+					{/* </Button> */}
+				</div>
+				<div className="mx-auto items-center self-center">
+					<video
+						className="w-full lg:max-w-3xl 2xl:max-w-5xl"
+						style={{
+							// position: 'absolute',
+							aspectRatio: 'auto',
+							// width: '100%',
+							// height: '100%',
+							// zIndex: -1,
+							objectFit: 'cover',
+							objectPosition: '40% 40%',
+							left: '0',
+							top: '0',
+						}}
+						src={friendsVideo}
+						autoPlay
+						loop
+						muted
+					/>
+				</div>
+				<HowItWorks />
+			</FlexBox>
+			<SignUpForm />
+
+			<div className="p-16">
+				<hr className="border-2" />
+			</div>
+			{!isSignedIn && (
+				<FlexBox className={twMerge('hidden sm:block py-2 w-fit mx-auto')}>
+					<H4 className="text-center font-normal">
+						{TextContent.account.DISPENSARIES_START_HERE}
+					</H4>
+					<Link href={getDashboardSite('/signup/create-dispensary-account')}>
+						<Button
+							bg="primary"
+							transparent
+							className="hover:bg-primary-light px-4"
+						>
+							<Paragraph color="light">
+								{TextContent.account.CREATE_DISPENSARY_ACCOUNT}
+							</Paragraph>
+						</Button>
+					</Link>
 				</FlexBox>
-			</ImageBackDrop>
+			)}
 		</Page>
 	);
 }
@@ -144,6 +156,60 @@ const ImageBackDrop = ({
 			></div>
 			{children}
 		</div>
+	);
+};
+
+const HowItWorks = () => {
+	return (
+		<FlexBox className="w-3/4 md:w-full lg:px-20 md:flex-row justify-center gap-8 lg:gap-12 py-4 mx-auto text-xl">
+			<FlexBox className="md:max-w-[300px] xl:max-w-[240px] 2xl:max-w-[320px] flex-row md:flex-col items-center gap-4 text-center">
+				<IconWrapper Icon={Icons.MobileAdd} iconSize={76} />
+				<Paragraph>
+					Sign up below for free and get a delivery text message daily.
+				</Paragraph>
+			</FlexBox>
+			<FlexBox className="md:max-w-[300px] xl:max-w-[240px] 2xl:max-w-[320px] flex-row md:flex-col items-center gap-4 text-center">
+				<IconWrapper Icon={Icons.MobileCheck} iconSize={76} />
+				<Paragraph>
+					If interested just reply with the number of packs you want.
+				</Paragraph>
+			</FlexBox>
+			<FlexBox className="md:max-w-[300px] xl:max-w-[240px] 2xl:max-w-[320px] flex-row md:flex-col items-center gap-4 text-center">
+				<IconWrapper Icon={Icons.MobilityServices} iconSize={76} />
+				<Paragraph>Your weed will be delivered to your doorstep.</Paragraph>
+			</FlexBox>
+		</FlexBox>
+	);
+};
+
+const SignUpForm = () => {
+	const dispatch = useAppDispatch();
+	function openLoginModal() {
+		dispatch(
+			modalActions.openModal({
+				modalType: modalTypes.loginModal,
+			}),
+		);
+	}
+
+	return (
+		<Card className="!rounded w-11/12 mx-auto text-dark text-center lg:!py-12">
+			<H4>SIGN UP FOR GRAS</H4>
+			<Paragraph className="font-semibold">
+				Your daily text offering you great deals on weed delivery
+			</Paragraph>
+			<Paragraph className="mx-auto">
+				<Button
+					onClick={openLoginModal}
+					bg="transparent"
+					hover="transparent"
+					className="underline self-center text-blue-700"
+				>
+					(Already A Member? Sign In)
+				</Button>
+			</Paragraph>
+			<ContinueSignUp />
+		</Card>
 	);
 };
 
