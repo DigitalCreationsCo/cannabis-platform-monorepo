@@ -8,7 +8,7 @@ const handler = nc();
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 	try {
 		const response = await axios.post(
-			urlBuilder.payment.connectStripe(),
+			urlBuilder.payment.connectStripeDispensaryAccount(),
 			req.body,
 		);
 		if (response.status === 404) throw new Error(response.data.error);

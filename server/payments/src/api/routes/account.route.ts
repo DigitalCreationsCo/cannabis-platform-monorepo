@@ -11,10 +11,24 @@ POST    '/check-onboard'    checkOnboardStripeDispensaryAccount
 ================================= */
 
 router.route('/').post(accountCtrl.getStripeAccount);
-router.route('/create').post(accountCtrl.createStripeDispensaryAccount);
-router.route('/connect').post(accountCtrl.connectStripeDispensaryAccount);
+
+// dispensary account methods
 router
-	.route('/check-onboard')
+	.route('/create-dispensary')
+	.post(accountCtrl.createStripeAccountDispensary);
+router
+	.route('/connect-dispensary')
+	.post(accountCtrl.connectStripeAccountDispensary);
+router
+	.route('/check-onboard-dispensary')
 	.post(accountCtrl.checkOnboardStripeDispensaryAccount);
+
+// customer account methods
+router.route('/create-customer').post(accountCtrl.createStripeAccountCustomer);
+
+// driver account methods
+router.route('/create-driver').post(accountCtrl.createStripeAccountDriver);
+
+// platform account methods
 
 export default router;

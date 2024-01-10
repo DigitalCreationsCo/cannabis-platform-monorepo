@@ -9,8 +9,8 @@ import {
 	UserSignUpQuick,
 	UserSignUpReview,
 	VerifyPhotoId,
+	SubmitCreditCard,
 } from '..';
-import SubmitCreditCardForm from './SubmitCreditCard';
 
 function ContinueSignUp() {
 	const { user } = useSelector(selectUserState),
@@ -26,7 +26,7 @@ function ContinueSignUp() {
 		!idVerified ? VerifyPhotoId : null,
 		!isSignUpComplete ? UserSignUpQuick : null,
 		SubmitAddress,
-		SubmitCreditCardForm,
+		SubmitCreditCard,
 		UserSignUpReview,
 	];
 	const [runConfetti, setRunConfetti] = useState(false);

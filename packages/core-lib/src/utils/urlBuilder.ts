@@ -79,11 +79,24 @@ const urlBuilder = {
 
 	payment: {
 		baseUrl: paymentUrl + '/api/v1',
-		purchase: () => urlBuilder.payment.baseUrl + '/payment/purchase',
-		createStripe: () => urlBuilder.payment.baseUrl + `/accounts/create`,
-		connectStripe: () => urlBuilder.payment.baseUrl + `/accounts/connect`,
-		checkOnboard: () => urlBuilder.payment.baseUrl + '/accounts/check-onboard',
+		// purchase: () => urlBuilder.payment.baseUrl + '/payment/purchase',
+
+		getStripeAccount: () => urlBuilder.payment.baseUrl + '/account',
+
+		setupSubscriptionDispensary: () =>
+			urlBuilder.payment.baseUrl + '/payment/subscribe-dispensary',
+		createStripeDispensaryAccount: () =>
+			urlBuilder.payment.baseUrl + `/account/create-dispensary`,
+		connectStripeDispensaryAccount: () =>
+			urlBuilder.payment.baseUrl + `/account/connect-dispensary`,
+		checkOnboard: () =>
+			urlBuilder.payment.baseUrl + '/account/check-onboard-dispensary',
+
 		checkout: () => urlBuilder.payment.baseUrl + '/payment/checkout',
+		saveCustomerPaymentMethod: () =>
+			urlBuilder.payment.baseUrl + '/payment/save-payment',
+		createCustomer: () =>
+			urlBuilder.payment.baseUrl + '/account/create-customer',
 	},
 
 	image: {

@@ -101,6 +101,24 @@ class StripeService {
 		}
 	}
 
+	async createCustomerAccount(customerParams: Stripe.CustomerCreateParams) {
+		try {
+			return await this.stripe.customers.create(customerParams);
+		} catch (error: any) {
+			console.error('createCustomerAccount: ', error.message);
+			throw new Error(error.message);
+		}
+	}
+
+	async saveCustomerPaymentMethod() {
+		try {
+			// create payment intent
+		} catch (error: any) {
+			console.error('saveCustomerPaymentMethod: ', error.message);
+			throw new Error(error.message);
+		}
+	}
+
 	// REFUND AN APPLICATION FEE
 	// const refund = await stripe.refunds.create({
 	// 	charge: '{CHARGE_ID}',

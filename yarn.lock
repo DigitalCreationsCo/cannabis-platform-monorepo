@@ -3943,6 +3943,8 @@ __metadata:
     "@next/env": 13.2.4
     "@paralleldrive/cuid2": 2.2.1
     "@reduxjs/toolkit": 1.9.2
+    "@stripe/react-stripe-js": 2.4.0
+    "@stripe/stripe-js": ^2.3.0
     "@tailwindcss/typography": 0.5.8
     "@testing-library/dom": 9.3.1
     "@testing-library/jest-dom": 5.16.5
@@ -11796,6 +11798,26 @@ __metadata:
     "@types/express": ^4.7.0
     file-system-cache: 2.3.0
   checksum: 556049c22e585b4416a071d0327b071c6eb4acd487fe88353fe435ca48e3818128c16d3f8586cafbb875446e8999de663d71700f07f5e35259a156234e46a297
+  languageName: node
+  linkType: hard
+
+"@stripe/react-stripe-js@npm:2.4.0":
+  version: 2.4.0
+  resolution: "@stripe/react-stripe-js@npm:2.4.0"
+  dependencies:
+    prop-types: ^15.7.2
+  peerDependencies:
+    "@stripe/stripe-js": ^1.44.1 || ^2.0.0
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 4cf16c9bca6cff67cfef51d95a1521563dc579f5957ae0bcb773b958afa1a57bc90c35a157e2e11452a2d1c0c26eddbe5644afe7f07cd39ed55697385d7b18a9
+  languageName: node
+  linkType: hard
+
+"@stripe/stripe-js@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "@stripe/stripe-js@npm:2.3.0"
+  checksum: 80b5269acbabd86a7ce06733303fa2ea3f5346d5f8ad3d3651197c22441a7c26698e0ed65b01b677bc24546fa3029ae024abfbe9877384147506ef08430948e4
   languageName: node
   linkType: hard
 
