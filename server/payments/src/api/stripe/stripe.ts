@@ -11,12 +11,18 @@ import { PaymentDA } from '../data-access';
 /* =================================
 Stripe Service
 
-handleWebhookEvents
 checkout
+createCustomerAccount
+saveCustomerPaymentMethod
+
 getAccount
+
 createDispensaryAccount
 createDispensaryAccountLink
 checkOnboardAccount
+
+constructStripeEvent
+handleWebhookEvents
 
 ================================= */
 class StripeService {
@@ -110,8 +116,9 @@ class StripeService {
 		}
 	}
 
-	async saveCustomerPaymentMethod() {
+	async saveCustomerPaymentMethod(params: Stripe.SetupIntentCreateParams) {
 		try {
+			return await this.stripe.setupIntents.create(params);
 			// create payment intent
 		} catch (error: any) {
 			console.error('saveCustomerPaymentMethod: ', error.message);

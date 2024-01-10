@@ -27,7 +27,9 @@ router
 router.route('/create-customer').post(accountCtrl.createStripeAccountCustomer);
 
 // driver account methods
-router.route('/create-driver').post(accountCtrl.createStripeAccountDriver);
+router
+	.route('/create-driver')
+	.post(accountCtrl.createStripeAccountDeliveryDriver);
 
 // platform account methods
 
