@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { type OrganizationCreateType } from '@cd/data-access';
 
 export type DispensaryCreateStripeAccountPayload = {
@@ -25,4 +26,13 @@ export type OrganizationStripeDetail = {
 export type CustomerCreateStripeAccountPayload = {
 	id: string;
 	email: string;
+	firstName: string;
+	lastName: string;
+	phone: string;
+};
+
+export type CustomerCreateStripeAccountResponse = {
+	success: 'true' | 'false';
+	message: string;
+	payload: { client_secret: string };
 };

@@ -319,7 +319,7 @@ function UserSignUpQuickForm() {
 						label={TextContent.legal.I_AGREE_TO_THE_USER_TERMS}
 					/>
 				</div>
-				<FlexBox className="col-span-2 flex-row justify-center space-x-4 py-2">
+				<FlexBox className="col-span-2 flex-row justify-evenly space-x-8 py-4">
 					<Button
 						disabled={loadingButton}
 						onClick={(e) => {

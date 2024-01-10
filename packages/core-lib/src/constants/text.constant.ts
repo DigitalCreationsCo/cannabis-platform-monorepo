@@ -179,6 +179,7 @@ const TextContent = Object.freeze({
 		YOUR_PEOPLE_ARE_OUR_PEOPLE: `Your people are our people.`,
 		DELIVER_FOR_GRAS: 'Deliver for Gras',
 		SAME_DAY_DELIVERY: 'Same-Day Cannabis Delivery',
+		TOP_SHELF_CANNABIS_DELIVERED_DAILY: 'Top-Shelf Cannabis Delivered Daily',
 	},
 
 	blog: {
@@ -203,8 +204,8 @@ const TextContent = Object.freeze({
 		ITEMS: 'Items',
 		LOADING: 'Loading...',
 		SAVE_CHANGES: 'Save Changes',
-		CONTINUE: 'continue',
-		BACK: 'go back',
+		CONTINUE: 'Next',
+		BACK: 'Previous',
 
 		HOME_LOCATION_IS_SET: "We'll send your next delivery to Home.",
 		CURRENT_LOCATION_IS_SET:

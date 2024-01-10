@@ -1,3 +1,4 @@
+import { type ServerResponse } from 'http';
 import {
 	type CustomerCreateStripeAccountPayload,
 	TextContent,
@@ -5,6 +6,7 @@ import {
 	type DispensaryConnectStripeAccountPayload,
 	type DispensaryCreateStripeAccountPayload,
 	type OrganizationStripeDetail,
+	CustomerCreateStripeAccountResponse,
 } from '@cd/core-lib';
 import { updateDispensaryStripeAccount } from '@cd/data-access';
 import type Stripe from 'stripe';
@@ -241,11 +243,23 @@ export default class AccountController {
 	 * @param res
 	 */
 	static async createStripeAccountCustomer(req, res) {
-		const { id, email }: CustomerCreateStripeAccountPayload = req.body;
-		const customer = await StripeService.createCustomerAccount({});
+		const {
+			id,
+			email,
+			phone,
+			firstName,
+			lastName,
+		}: CustomerCreateStripeAccountPayload = req.body;
+		console.info('create stripe customer account: ', req.body);
+
+		const customer = await StripeService.createCustomerAccount({
+			email,
+			phone,
+			name: `${firstName} ${lastName}`,
+			metadata: { id },
+		});
 		const intent = await StripeService.saveCustomerPaymentMethod({
 			customer: customer.id,
-			// In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
 		});
 		return res.status(201).json({
 			success: 'true',
