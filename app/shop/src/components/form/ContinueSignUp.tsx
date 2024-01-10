@@ -9,7 +9,7 @@ import {
 	UserSignUpQuick,
 	UserSignUpReview,
 	VerifyPhotoId,
-	SubmitCreditCard,
+	SubmitPaymentMethod,
 } from '..';
 
 function ContinueSignUp() {
@@ -23,11 +23,11 @@ function ContinueSignUp() {
 
 	// Formstep components with null values will be ignored
 	const FormStepComponents = [
-		!idVerified ? VerifyPhotoId : null,
-		!isSignUpComplete ? UserSignUpQuick : null,
-		SubmitAddress,
-		SubmitCreditCard,
-		UserSignUpReview,
+		// !idVerified ? VerifyPhotoId : null,
+		// !isSignUpComplete ? UserSignUpQuick : null,
+		// SubmitAddress,
+		SubmitPaymentMethod,
+		// UserSignUpReview,
 	];
 	const [runConfetti, setRunConfetti] = useState(false);
 

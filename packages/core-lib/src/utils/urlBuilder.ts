@@ -97,6 +97,9 @@ const urlBuilder = {
 			urlBuilder.payment.baseUrl + '/payment/save-payment',
 		createCustomer: () =>
 			urlBuilder.payment.baseUrl + '/account/create-customer',
+
+		createStripeDeliveryDriverAccount: () =>
+			urlBuilder.payment.baseUrl + `/account/create-driver`,
 	},
 
 	image: {

@@ -76,7 +76,10 @@ export default class PaymentController {
 			if (!paymentMethodId || !customerId)
 				throw new Error('Missing payment method or customer id.');
 
-			const paymentMethod = await StripeService.saveCustomerPaymentMethod();
+			const paymentMethod = await StripeService.saveCustomerPaymentMethod({
+				customer: customerId,
+				payment_method: paymentMethodId,
+			});
 			// paymentMethodId,
 			// customerId,
 

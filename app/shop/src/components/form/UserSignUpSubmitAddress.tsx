@@ -218,7 +218,7 @@ function SubmitAddressForm() {
                         error={!!touched?.address?.country && !!errors?.address?.country}
                         helperText={touched?.address?.country && errors?.address?.country}
                     /> */}
-				<FlexBox className="flex-row justify-center space-x-4 py-2">
+				<FlexBox className="flex-row justify-evenly space-x-8 py-4">
 					<Button
 						disabled={loadingButton}
 						onClick={(e) => {

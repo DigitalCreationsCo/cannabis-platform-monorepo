@@ -14,22 +14,13 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 
 		if (response.status == 404) throw new Error('Stripe account is not found.');
 
-		if (response.status === 302) {
-			console.info('302 redirect response');
-			return res.status(response.status).json(response.data);
-		}
-
 		if (response.status === 201) {
 			console.info('201 response');
-			return res.status(response.status).json(response.data);
-		}
-
-		if (response.status === 200) {
-			console.info('200 response');
+			console.info('response.data: ', response.data);
 			return res.status(response.status).json(response.data);
 		}
 	} catch (error: any) {
-		console.error('next api create stripe account error: ', error.message);
+		console.error('api/stripe/create-customer: ', error.message);
 		throw new Error(error.message);
 	}
 });

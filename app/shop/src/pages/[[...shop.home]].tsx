@@ -45,13 +45,14 @@ function StartPage() {
 	return (
 		<Page className="bg-secondary text-light p-0 sm:p-0 md:p-0 lg:p-0">
 			{/* <ImageBackDrop video={friendsVideo}></ImageBackDrop> */}
-			<FlexBox className="mx-auto flex p-4 px-8 md:px-20 w-full space-x-2 items-center space-y-2 md:space-y-8">
-				<div className="flex flex-col self-center text-center gap-y-2">
+			<FlexBox className="mx-auto flex p-4 px-8 md:px-20 w-full space-x-2 items-center space-y-2 lg:space-y-8">
+				<div className="flex flex-col self-center text-center lg:py-4">
 					<H1
 						color="light"
-						className="mx-auto text-center text-4xl sm:text-4xl lg:text-6xl whitespace-pre-line border-b border-transparent text-inverse w-lg font-semibold tracking-wide"
+						className="mx-auto text-center text-[1.5rem] md:text-[2rem] lg:text-[3rem] whitespace-pre-line overflow-x-visible border-b border-transparent text-inverse w-lg font-semibold tracking-wide"
 					>
-						{TextContent.info.SAME_DAY_DELIVERY}&nbsp;🌴
+						{/* {TextContent.info.SAME_DAY_DELIVERY}&nbsp;🌴 */}
+						{TextContent.info.TOP_SHELF_CANNABIS_DELIVERED_DAILY}&nbsp;🌴
 					</H1>
 					{/* <Button
 										size="lg"
@@ -60,7 +61,7 @@ function StartPage() {
 										className="uppercase hover:bg-primary-light p-8 self-end"
 										onClick={openCheckAgeModalOrEnterSite}
 									> */}
-					<H3 className="text-2xl lg:text-4xl">
+					<H3 className="text-xl md:text-2xl lg:text-4xl">
 						{TextContent.info.ENJOY_BUD_WITH_YOUR_BUDS}
 					</H3>
 					{/* </Button> */}
@@ -89,7 +90,7 @@ function StartPage() {
 			</FlexBox>
 			<SignUpForm />
 
-			<div className="p-16">
+			<div className="w-full px-8 md:px-16 lg:w-4/5 mx-auto py-20">
 				<hr className="border-2" />
 			</div>
 			{!isSignedIn && (
