@@ -1,4 +1,5 @@
 import {
+	type CustomerCreateStripeAccountPayload,
 	TextContent,
 	urlBuilder,
 	type DispensaryConnectStripeAccountPayload,
@@ -14,6 +15,7 @@ AccountController - controller class for preworking data and calling stripe acco
 
 members:
 getStripeAccount
+
 createStripeDispensaryAccount
 connectStripeDispensaryAccount
 checkOnboardDispensaryAccount
@@ -234,16 +236,28 @@ export default class AccountController {
 	}
 
 	/**
-	 * Create a stripe customer account
+	 * Create a stripe customer account, and add a payment method.
 	 * @param req
 	 * @param res
 	 */
-	static async createStripeAccountCustomer(req, res) {}
+	static async createStripeAccountCustomer(req, res) {
+		const { id, email }: CustomerCreateStripeAccountPayload = req.body;
+		const customer = await StripeService.createCustomerAccount({});
+		const intent = await StripeService.saveCustomerPaymentMethod({
+			customer: customer.id,
+			// In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
+		});
+		return res.status(201).json({
+			success: 'true',
+			message: 'Customer account and payment method created successfully.',
+			payload: { client_secret: intent.client_secret },
+		});
+	}
 
 	/**
 	 * Create a stripe driver account
 	 * @param req
 	 * @param res
 	 */
-	static async createStripeAccountDriver(req, res) {}
+	static async createStripeAccountDeliveryDriver(req, res) {}
 }

@@ -8,7 +8,7 @@ const handler = nc();
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 	try {
 		const response = await axios.post(
-			urlBuilder.payment.createStripeDispensaryAccount(),
+			urlBuilder.payment.createCustomer(),
 			req.body,
 		);
 

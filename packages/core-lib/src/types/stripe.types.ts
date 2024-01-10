@@ -21,3 +21,8 @@ export type OrganizationStripeDetail = {
 	id: string;
 	stripeAccountId: string;
 };
+
+export type CustomerCreateStripeAccountPayload = {
+	id: string;
+	email: string;
+};
