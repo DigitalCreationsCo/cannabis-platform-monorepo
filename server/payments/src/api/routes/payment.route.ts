@@ -17,5 +17,6 @@ router
 
 router.route('/checkout').post(paymentCtrl.createCheckout);
 router.route('/save-payment').post(paymentCtrl.saveCustomerPaymentMethod);
+router.route('/charge-customer').post(paymentCtrl.chargeCustomer);
 
 export default router;

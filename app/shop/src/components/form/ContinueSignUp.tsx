@@ -23,11 +23,11 @@ function ContinueSignUp() {
 
 	// Formstep components with null values will be ignored
 	const FormStepComponents = [
-		// !idVerified ? VerifyPhotoId : null,
-		// !isSignUpComplete ? UserSignUpQuick : null,
-		// SubmitAddress,
+		!idVerified ? VerifyPhotoId : null,
+		!isSignUpComplete ? UserSignUpQuick : null,
+		SubmitAddress,
 		SubmitPaymentMethod,
-		// UserSignUpReview,
+		UserSignUpReview,
 	];
 	const [runConfetti, setRunConfetti] = useState(false);
 

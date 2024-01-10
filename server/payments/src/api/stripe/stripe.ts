@@ -118,8 +118,10 @@ class StripeService {
 
 	async saveCustomerPaymentMethod(params: Stripe.SetupIntentCreateParams) {
 		try {
-			return await this.stripe.setupIntents.create(params);
-			// create payment intent
+			return await this.stripe.setupIntents.create({
+				...params,
+				automatic_payment_methods: { enabled: true },
+			});
 		} catch (error: any) {
 			console.error('saveCustomerPaymentMethod: ', error.message);
 			throw new Error(error.message);
