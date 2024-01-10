@@ -48,7 +48,7 @@ app.use('/api/v1/healthcheck', (_, res) => {
 	return res.status(200).json({ status: 'ok', server: 'payments' });
 });
 app.use('/api/v1/payment', paymentRoutes);
-app.use('/api/v1/accounts', accountRoutes);
+app.use('/api/v1/account', accountRoutes);
 app.use(SupertokensErrorHandler());
 app.use((err: any, req: express.Request, res: express.Response) => {
 	res.status(500).send(err.message);

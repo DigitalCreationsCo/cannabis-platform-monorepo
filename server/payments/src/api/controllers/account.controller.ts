@@ -7,7 +7,6 @@ import {
 } from '@cd/core-lib';
 import { updateDispensaryStripeAccount } from '@cd/data-access';
 import type Stripe from 'stripe';
-import stripe from 'stripe';
 import StripeService from '../stripe';
 
 /* =================================
@@ -53,7 +52,7 @@ export default class AccountController {
 	 * @param req
 	 * @param res
 	 */
-	static async createStripeDispensaryAccount(req, res) {
+	static async createStripeAccountDispensary(req, res) {
 		try {
 			console.log('create Stripe Dispensary Account, ', req.body);
 			const {
@@ -113,7 +112,7 @@ export default class AccountController {
 	 * @param req
 	 * @param res
 	 */
-	static async connectStripeDispensaryAccount(req, res) {
+	static async connectStripeAccountDispensary(req, res) {
 		try {
 			const {
 				organization: dispensaryAccount,
@@ -233,4 +232,18 @@ export default class AccountController {
 			return res.status(500).json({ success: 'false', error: error.message });
 		}
 	}
+
+	/**
+	 * Create a stripe customer account
+	 * @param req
+	 * @param res
+	 */
+	static async createStripeAccountCustomer(req, res) {}
+
+	/**
+	 * Create a stripe driver account
+	 * @param req
+	 * @param res
+	 */
+	static async createStripeAccountDriver(req, res) {}
 }
