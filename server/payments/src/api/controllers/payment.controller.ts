@@ -12,6 +12,10 @@ PaymentController - controller class for payment processing actions
 
 members:
 createCheckout
+saveCustomerPaymentMethod
+chargeCustomer
+
+setupSubscribeDispensary
 
 ================================= */
 
@@ -78,7 +82,7 @@ export default class PaymentController {
 
 			const paymentMethod = await StripeService.saveCustomerPaymentMethod({
 				customer: customerId,
-				payment_method: paymentMethodId,
+				// payment_method: paymentMethodId,
 			});
 			// paymentMethodId,
 			// customerId,
@@ -93,6 +97,8 @@ export default class PaymentController {
 			return res.status(500).json({ success: 'false', error: error.message });
 		}
 	}
+
+	static async chargeCustomer(req, res) {}
 
 	static async setupSubscribeDispensary(req, res) {}
 }

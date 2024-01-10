@@ -116,9 +116,7 @@ function SubmitCreditCard() {
 	const options: StripeElementsOptions = {
 		mode: 'setup',
 		currency: 'usd',
-		setupFutureUsage: 'on_session',
-		captureMethod: 'automatic',
-		appearance: {},
+		setup_future_usage: 'off_session',
 	};
 
 	return (
