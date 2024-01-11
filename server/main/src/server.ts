@@ -40,7 +40,9 @@ export function authenticateToken() {
 			const session = await Session.getSession(req, res, {
 				sessionRequired: false,
 			});
+
 			console.info('authenticateToken session: ', session);
+
 			if (session !== undefined) {
 				// const userId = session.getUserId();
 				// do something with the userId?
@@ -48,7 +50,9 @@ export function authenticateToken() {
 			} else {
 				let jwt = req.headers['authorization'];
 				jwt = jwt === undefined ? undefined : jwt.split('Bearer ')[1];
+
 				console.info('authenticateToken jwt: ', jwt);
+
 				if (jwt === undefined) {
 					return res
 						.status(401)

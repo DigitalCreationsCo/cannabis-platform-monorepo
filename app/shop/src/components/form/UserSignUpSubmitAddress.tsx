@@ -80,8 +80,10 @@ function SubmitAddressForm() {
 				urlBuilder.shop + '/api/user/address',
 				values.address,
 			);
-			if (response.data.success === 'false')
+
+			if (!response.data.success || response.data.success === 'false')
 				throw new Error(response.data.error);
+
 			setFormValues({
 				newUser: {
 					address: {

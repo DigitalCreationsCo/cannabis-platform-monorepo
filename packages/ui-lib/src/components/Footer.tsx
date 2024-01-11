@@ -25,13 +25,15 @@ export default function Footer() {
 		{ name: 'Services', href: TextContent.href.services },
 	];
 	const legal = [
-		{ name: 'Blog', href: TextContent.href.blog },
-		{ name: 'Help Center', href: TextContent.href.help },
+		{ name: 'Frequently Asked Questions', href: TextContent.href.faq },
+		{ name: 'Privacy Policy', href: TextContent.href.privacy },
 		{
 			name: 'Terms and Conditions',
 			href: TextContent.href.dispensary_tos,
 		},
-		{ name: 'Compliance', href: TextContent.href.compliance },
+		{ name: 'Blog', href: TextContent.href.blog },
+		{ name: 'Help Center', href: TextContent.href.help },
+		// { name: 'Compliance', href: TextContent.href.compliance },
 		// {
 		// 	name: 'User Terms and Conditions',
 		// 	href: TextContent.href.user_tos,
@@ -40,7 +42,6 @@ export default function Footer() {
 		// 	name: 'Delivery Terms and Conditions',
 		// 	href: TextContent.href.driver_tos,
 		// },
-		{ name: 'Privacy Policy', href: TextContent.href.privacy },
 	];
 	return (
 		<>
