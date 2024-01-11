@@ -3944,7 +3944,7 @@ __metadata:
     "@paralleldrive/cuid2": 2.2.1
     "@reduxjs/toolkit": 1.9.2
     "@stripe/react-stripe-js": 2.4.0
-    "@stripe/stripe-js": ^2.3.0
+    "@stripe/stripe-js": 2.3.0
     "@tailwindcss/typography": 0.5.8
     "@testing-library/dom": 9.3.1
     "@testing-library/jest-dom": 5.16.5
@@ -11814,7 +11814,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@stripe/stripe-js@npm:^2.3.0":
+"@stripe/stripe-js@npm:2.3.0":
   version: 2.3.0
   resolution: "@stripe/stripe-js@npm:2.3.0"
   checksum: 80b5269acbabd86a7ce06733303fa2ea3f5346d5f8ad3d3651197c22441a7c26698e0ed65b01b677bc24546fa3029ae024abfbe9877384147506ef08430948e4

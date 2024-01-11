@@ -139,8 +139,10 @@ const VerifyPhotoId = () => {
 					'Content-Type': 'multipart/form-data',
 				},
 			});
-			if (response.data.success == 'false')
+
+			if (!response.data.success || response.data.success == 'false')
 				throw new Error(response.data.error);
+
 			return response.data;
 		} catch (error: any) {
 			if (error.code === 'ERR_NETWORK')

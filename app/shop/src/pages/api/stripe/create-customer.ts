@@ -3,8 +3,7 @@ import { type NextApiRequest, type NextApiResponse } from 'next';
 import nc from 'next-connect';
 
 const handler = nc();
-
-// create stripe account, connect to dispensary
+// create stripe customer account
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 	try {
 		const response = await axios.post(

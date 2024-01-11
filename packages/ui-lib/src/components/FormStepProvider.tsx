@@ -86,13 +86,13 @@ function FormStepProvider({
 	const { canProceed, setCanProceed, formstep, nextFormStep, prevFormStep } =
 		useHashNavigate(formId);
 
-	const currentStep = formstep,
-		totalSteps = validFormSteps.length,
-		showStepNumber =
-			(currentStep !== undefined &&
-				totalSteps !== undefined &&
-				`step ${currentStep + 1} of ${totalSteps}`) ||
-			'';
+	const currentStep = formstep;
+	const totalSteps = validFormSteps.length;
+	const showStepNumber =
+		(currentStep !== undefined &&
+			totalSteps !== undefined &&
+			`step ${currentStep + 1} of ${totalSteps}`) ||
+		'';
 
 	const FormStepComponent = useMemo(
 		() => validFormSteps[formstep],
@@ -154,7 +154,6 @@ function FormStepProvider({
 						Get Deals
 					</li>
 				</ul>
-				{/* <FlexBox className={styles.stepNumber}>{showStepNumber}</FlexBox> */}
 			</div>
 			<FormStepComponent {...formComponentProps} />
 			<div

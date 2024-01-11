@@ -36,3 +36,8 @@ export type CustomerCreateStripeAccountResponse = {
 	message: string;
 	payload: { client_secret: string };
 };
+// | {
+// 		success: 'false';
+// 		message: string;
+// 		error: string;
+//   };

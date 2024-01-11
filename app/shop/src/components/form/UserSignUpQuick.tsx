@@ -108,8 +108,9 @@ function UserSignUpQuickForm() {
 				...formValues.newUser,
 			});
 			console.log('signup response: ', response);
-			if (response.data.success === 'false')
-				throw new Error(response.data.error);
+
+			if (!response.data.success || response.data.success === 'false')
+				throw new Error(response.data.message || response.data.error);
 
 			console.info('user sign up response.data.payload', response.data.payload);
 			setFormValues({
@@ -308,7 +309,7 @@ function UserSignUpQuickForm() {
 										rel="noreferrer noopener"
 										className="inline-block"
 									>
-										<H6 className={'inline-block border-b-2 border'}>
+										<H6 className={'inline-block border-b-2'}>
 											{TextContent.legal.USER_TERMS_OF_SERVICE}
 										</H6>
 										.

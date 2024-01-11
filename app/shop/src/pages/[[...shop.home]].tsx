@@ -11,20 +11,18 @@ import {
 	Button,
 	Card,
 	FlexBox,
-	getBreakpointValue,
 	H1,
 	H3,
 	H4,
 	IconWrapper,
 	Page,
 	Paragraph,
-	useBreakpoint,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
 import Icons from '@cd/ui-lib/src/icons';
 import { type StaticImageData } from 'next/image';
 import Link from 'next/link';
-import { useEffect, type PropsWithChildren } from 'react';
+import { useEffect, useState, type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 import ContinueSignUp from 'components/form/ContinueSignUp';
 import friendsVideo from '../../public/Gras-community-clip.mp4';
@@ -162,21 +160,30 @@ const ImageBackDrop = ({
 
 const HowItWorks = () => {
 	return (
-		<FlexBox className="w-3/4 md:w-full lg:px-20 md:flex-row justify-center gap-8 lg:gap-12 py-4 mx-auto text-xl">
-			<FlexBox className="md:max-w-[300px] xl:max-w-[240px] 2xl:max-w-[320px] flex-row md:flex-col items-center gap-4 text-center">
-				<IconWrapper Icon={Icons.MobileAdd} iconSize={76} />
+		<FlexBox className="w-full md:w-full lg:px-20 md:flex-row justify-center gap-8 lg:gap-12 py-4 mx-auto text-xl">
+			<FlexBox className="md:max-w-[300px] xl:max-w-[240px] 2xl:max-w-[320px] flex-row md:flex-col items-center gap-4 text-center text-md">
+				<IconWrapper
+					Icon={Icons.MobileAdd}
+					iconSize={window.innerWidth < 1000 ? 60 : 76}
+				/>
 				<Paragraph>
 					Sign up below for free and get a delivery text message daily.
 				</Paragraph>
 			</FlexBox>
-			<FlexBox className="md:max-w-[300px] xl:max-w-[240px] 2xl:max-w-[320px] flex-row md:flex-col items-center gap-4 text-center">
-				<IconWrapper Icon={Icons.MobileCheck} iconSize={76} />
+			<FlexBox className="md:max-w-[300px] xl:max-w-[240px] 2xl:max-w-[320px] flex-row md:flex-col items-center gap-4 text-center text-md">
+				<IconWrapper
+					Icon={Icons.MobileCheck}
+					iconSize={window.innerWidth < 1000 ? 60 : 76}
+				/>
 				<Paragraph>
 					If interested just reply with the number of packs you want.
 				</Paragraph>
 			</FlexBox>
-			<FlexBox className="md:max-w-[300px] xl:max-w-[240px] 2xl:max-w-[320px] flex-row md:flex-col items-center gap-4 text-center">
-				<IconWrapper Icon={Icons.MobilityServices} iconSize={76} />
+			<FlexBox className="md:max-w-[300px] xl:max-w-[240px] 2xl:max-w-[320px] flex-row md:flex-col items-center gap-4 text-center text-md">
+				<IconWrapper
+					Icon={Icons.MobilityServices}
+					iconSize={window.innerWidth < 1000 ? 60 : 76}
+				/>
 				<Paragraph>Your weed will be delivered to your doorstep.</Paragraph>
 			</FlexBox>
 		</FlexBox>

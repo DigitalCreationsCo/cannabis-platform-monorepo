@@ -42,7 +42,7 @@ function ContinueSignUp() {
 
 			<FormStepProvider
 				FormStepComponents={FormStepComponents}
-				formId="signup-form"
+				formId="weed-text-signup-form"
 				isComplete={() => setRunConfetti(true)}
 				stepPosition={'top'}
 			/>

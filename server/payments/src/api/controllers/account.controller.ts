@@ -1,4 +1,3 @@
-import { type ServerResponse } from 'http';
 import {
 	type CustomerCreateStripeAccountPayload,
 	TextContent,
@@ -258,9 +257,11 @@ export default class AccountController {
 			name: `${firstName} ${lastName}`,
 			metadata: { id },
 		});
+
 		const intent = await StripeService.saveCustomerPaymentMethod({
 			customer: customer.id,
 		});
+
 		return res.status(201).json({
 			success: 'true',
 			message: 'Customer account and payment method created successfully.',
