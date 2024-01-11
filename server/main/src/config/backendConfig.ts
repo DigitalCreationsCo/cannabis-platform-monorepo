@@ -252,6 +252,9 @@ export const backendConfig = (): AuthConfig => {
 
 													// user sign in flow
 													// the user is created in supertokens first, the signup form is completed afterward
+
+													// 2. in weed-text signup, the user is created before supertokens is called.
+													// figure out a way to resolve this / call supertokens first to create the Passwordless user
 													if (
 														response.createdNewRecipeUser &&
 														response.user.loginMethods.length === 1
