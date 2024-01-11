@@ -42,6 +42,8 @@ export default class UserController {
 					success: 'false',
 					error: 'User could not be created.',
 				});
+
+			// subscribe new user to weed-texts
 			return res.status(201).json({
 				success: 'true',
 				payload: data,
