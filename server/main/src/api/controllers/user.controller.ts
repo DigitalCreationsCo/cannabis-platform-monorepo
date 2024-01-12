@@ -4,7 +4,8 @@ import {
 	isArray,
 	normalizeUserData,
 } from '@cd/core-lib';
-import { type AddressCreateType } from '@cd/data-access';
+import { type UserWithDetails, type AddressCreateType } from '@cd/data-access';
+import { EmailService } from '../../lib/email/EmailService';
 import { ShopDA, UserDA } from '../data-access';
 
 /* =================================
@@ -44,6 +45,10 @@ export default class UserController {
 				});
 
 			// subscribe new user to weed-texts
+
+			// send new user email
+			EmailService.sendNewUserEmail({ user: data as UserWithDetails });
+
 			return res.status(201).json({
 				success: 'true',
 				payload: data,
@@ -81,6 +86,9 @@ export default class UserController {
 					success: 'false',
 					error: 'Dispensary user could not be created.',
 				});
+
+			// send new dispensary email
+			// EmailService.sendNewDispensaryEmail({ user: data as UserWithDetails, organization: dispensaryId });
 			return res.status(201).json({
 				success: 'true',
 				payload: data,

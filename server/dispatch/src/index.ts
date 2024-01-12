@@ -21,8 +21,8 @@ import {
 	javascriptConfigRoutes,
 	manifestRoutes,
 	taskRoutes,
-} from 'routes';
-import { deliveryVehicleRoutes } from 'routes/delivery-vehicle.route';
+	deliveryVehicleRoutes,
+} from './routes';
 import {
 	Client,
 	type SocketMessage,

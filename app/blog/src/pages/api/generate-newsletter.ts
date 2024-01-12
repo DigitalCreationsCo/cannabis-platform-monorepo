@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 // import { agent } from '@cd/ai';
 import { agent, createAgentTask } from '@cd/ai';
+import { BrevoMailer } from '@cd/core-lib/lib/brevo-mailer';
 import { type NextApiResponse } from 'next';
 import nc from 'next-connect';
 import { createClient } from 'next-sanity';
-import { BrevoMailer } from 'lib/brevo-mailer';
 import {
 	getNonPublishedPosts,
 	setPostPublishedInNewsletter,
@@ -100,7 +100,7 @@ handler.post(async (req: any, res: NextApiResponse) => {
 		}[] = [...aiGeneratedContent, ...normalizeBlogContent];
 
 		const mailer = new BrevoMailer();
-		await mailer.sendCampaign(subject, header, newsletterContent);
+		await mailer.sendNewsletterCampaign(subject, header, newsletterContent);
 
 		normalizeBlogContent.forEach(async (post) => {
 			await setPostPublishedInNewsletter(client, post._id);

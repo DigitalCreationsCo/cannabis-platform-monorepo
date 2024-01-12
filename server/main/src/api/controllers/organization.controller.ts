@@ -4,6 +4,7 @@ import {
 	type OrganizationUpdateType,
 	type OrganizationWithDashboardDetails,
 } from '@cd/data-access';
+import { EmailService } from '../../lib/email/EmailService';
 import { OrganizationDA } from '../data-access';
 
 /* =================================
