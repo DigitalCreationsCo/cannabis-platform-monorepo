@@ -21,6 +21,7 @@ import {
 	user,
 	compliance,
 	cacheHandler,
+	emailRoutes,
 } from './api/routes';
 import { backendConfig, jwtClient } from './config';
 
@@ -108,6 +109,7 @@ app.use('/api/v1/shop', authenticateToken(), shop);
 app.use('/api/v1/organization', organization);
 app.use('/api/v1/blog', authenticateToken(), blog);
 app.use('/api/v1/compliance', authenticateToken(), compliance);
+app.use('/api/v1/email', authenticateToken(), emailRoutes);
 
 // app.use('/api/v1/error', errorRoute);
 

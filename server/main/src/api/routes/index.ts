@@ -5,4 +5,5 @@ export { default as organization } from './organization.route';
 export { default as shop } from './shop.route';
 export { default as user } from './user.route';
 export { default as compliance } from './compliance.route';
+export { default as emailRoutes } from './email.route';
 export { default as cacheHandler } from './cache.route';

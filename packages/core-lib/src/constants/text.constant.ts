@@ -113,6 +113,9 @@ const TextContent = Object.freeze({
 		SIGNIN_EMAIL_OR_PHONE: 'Sign in with your email or phone',
 		SIGNUP: 'Sign up',
 		CTA: 'SIGN UP FOR DELIVERY',
+		THANK_YOU_FOR_SIGNING_UP: 'Thanks for Signing up to Delivery By Gras!',
+		THANK_YOU_FOR_SIGNING_UP_WEED_TEXT_DEAL:
+			'Thanks for Signing up to Delivery By Gras! Your first deal is on the way!',
 	},
 
 	error: {
