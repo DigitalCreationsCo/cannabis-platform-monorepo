@@ -1,5 +1,5 @@
+import { EmailService } from '@cd/core-lib/lib/email/EmailService';
 import { Router } from 'express';
-import { EmailService } from '../../lib/email/EmailService';
 
 const router = Router();
 /* =================================

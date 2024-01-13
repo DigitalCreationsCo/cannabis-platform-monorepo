@@ -117,7 +117,7 @@ handler.post(async (req: any, res: NextApiResponse) => {
 		const createdPost = await client.create(newPost);
 		console.info(' The post was successfully created!');
 		return res
-			.status(200)
+			.status(201)
 			.json({ success: 'true', payload: { ...newPost, ...createdPost } });
 	} catch (error) {
 		console.error(error);

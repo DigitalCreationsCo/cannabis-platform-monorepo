@@ -63,6 +63,7 @@
     "socket.io-client": "4.6.1",
     "supertokens-auth-react": "0.35.8",
     "tailwind-merge": "1.8.0",
+    "telnyx": "1.25.5",
     "vite": "4.2.1",
     "winston": "3.11.0"
   },

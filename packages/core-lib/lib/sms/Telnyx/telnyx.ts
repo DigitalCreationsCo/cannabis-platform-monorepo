@@ -1,5 +1,5 @@
-import { dispatchEvents } from '@cd/core-lib';
 import Telnyx from 'telnyx';
+import { dispatchEvents } from '../../../src';
 
 class TelnyxApi {
 	telnyx: any;
