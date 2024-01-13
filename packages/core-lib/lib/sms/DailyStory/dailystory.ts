@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import axios from 'axios';
-import { dispatchEvents } from '../../message';
+import { dispatchEvents } from '../../../src';
 
 class SMSModule {
-	smsApi: 'TextGrid' | 'Telnyx';
-	constructor(smsApi: 'TextGrid') {
+	smsApi: 'DailyStory';
+	constructor(smsApi: 'DailyStory') {
 		this.smsApi = smsApi;
 	}
 	async send(
@@ -20,7 +20,7 @@ class SMSModule {
 			const from = getIncomingPhoneNumberForMessageEvent(event);
 			const to = `+1${phoneTo}`;
 			await axios.post(
-				`${process.env.TEXTGRID_BASE_URL}/Accounts/${process.env.TEXTGRID_ACCOUNT_SID}/Messages.json`,
+				`DailyStoryAPIURL`,
 				{
 					body: data,
 					from,
@@ -28,32 +28,36 @@ class SMSModule {
 				},
 				{
 					headers: {
-						Authorization:
-							'Bearer ' +
-							Buffer.from(
-								`${process.env.TEXTGRID_ACCOUNT_SID}:${process.env.TEXTGRID_AUTHTOKEN}`,
-							).toString('base64'),
+						Authorization: `Bearer ${process.env.DAILYSTORY_API_KEY}`,
 						'Content-type': 'application/json',
 					},
 				},
 			);
 		} catch (error) {
-			console.error('SMSModule.send: ', error);
+			console.error('dailystory.send: ', error);
 		}
 	}
 }
 
+/**
+ * Allows for sending from different numbers based on message event, useful for some sms platforms
+ * @param event
+ * @returns
+ */
 function getIncomingPhoneNumberForMessageEvent(
 	event: keyof typeof dispatchEvents,
 ) {
 	// eslint-disable-next-line sonarjs/no-small-switch
 	switch (event) {
 		case dispatchEvents.new_order:
-			return process.env.PHONE_NUMBER_DRIVER_ACCEPT_ORDER;
+			// return process.env.PHONE_NUMBER_DRIVER_ACCEPT_ORDER;
+			return getDailyStoryPhoneNumber();
 		case dispatchEvents.order_assigned:
-			return process.env.PHONE_NUMBER_DRIVER_ASSIGN_ORDER;
+			// return process.env.PHONE_NUMBER_DRIVER_ASSIGN_ORDER;
+			return getDailyStoryPhoneNumber();
 		case dispatchEvents.order_assigned_to_another_driver:
-			return process.env.PHONE_NUMBER_DRIVER_ASSIGN_ORDER;
+			// return process.env.PHONE_NUMBER_DRIVER_ASSIGN_ORDER;
+			return getDailyStoryPhoneNumber();
 		default:
 			console.info(
 				'getIncomingPhoneNumberForMessageEvent: unhandled event ',
@@ -61,18 +65,9 @@ function getIncomingPhoneNumberForMessageEvent(
 			);
 	}
 }
-export default new SMSModule('TextGrid');
 
-export type TextGridReturnMessagePayload = {
-	SmsMessageSid?: string;
-	NumMedia?: string;
-	SmsSid?: string;
-	SmsStatus?: string;
-	Body: string;
-	To?: string;
-	NumSegments?: string;
-	MessageSid?: string;
-	AccountSid?: string;
-	From: string;
-	ApiVersion?: string;
-};
+function getDailyStoryPhoneNumber() {
+	return ``;
+}
+
+export default new SMSModule('DailyStory');

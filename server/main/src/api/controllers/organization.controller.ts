@@ -1,10 +1,10 @@
 import { getGeoCoordinatesFromAddress } from '@cd/core-lib';
+import { EmailService } from '@cd/core-lib/lib/email/EmailService';
 import {
 	type OrganizationCreateType,
 	type OrganizationUpdateType,
 	type OrganizationWithDashboardDetails,
 } from '@cd/data-access';
-import { EmailService } from '../../lib/email/EmailService';
 import { OrganizationDA } from '../data-access';
 
 /* =================================

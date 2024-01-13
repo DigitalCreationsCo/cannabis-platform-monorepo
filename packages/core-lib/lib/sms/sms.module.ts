@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { TextContent, type dispatchEvents } from '@cd/core-lib';
+import { TextContent, type dispatchEvents } from '../../src';
 import { type SMSAPI } from './Telnyx/telnyx';
 
 class SMSModule {
-	apiName: 'TextGrid' | 'Telnyx';
+	apiName: SMSApiProvider;
 	smsApi: SMSAPI | undefined;
-	constructor(apiName: 'TextGrid' | 'Telnyx') {
+	constructor(apiName: SMSApiProvider) {
 		switch (apiName) {
 			case 'TextGrid':
 				import('./TextGrid/textgrid').then(
@@ -15,6 +15,11 @@ class SMSModule {
 			case 'Telnyx':
 				import('./Telnyx/telnyx').then(
 					(Telnyx) => (this.smsApi = Telnyx.default),
+				);
+				break;
+			case 'DailyStory':
+				import('./DailyStory/dailystory').then(
+					(DailyStory) => (this.smsApi = DailyStory.default),
 				);
 				break;
 			default:
@@ -41,4 +46,6 @@ class SMSModule {
 	}
 }
 
-export default new SMSModule('Telnyx');
+export default new SMSModule('DailyStory');
+
+type SMSApiProvider = 'TextGrid' | 'Telnyx' | 'DailyStory';
