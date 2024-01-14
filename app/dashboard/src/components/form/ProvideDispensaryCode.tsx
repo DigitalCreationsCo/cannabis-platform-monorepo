@@ -45,12 +45,12 @@ function ProvideDispensaryKey() {
 				urlBuilder.dashboard + `/api/organization/${dispensaryKey}`,
 			);
 			if (response.data.success == 'false') {
-				throw new Error(response.data.error);
+				throw new Error(response.data.error || response.data.message);
 			}
 			setFormValues({ organization: { ...response.data.payload } });
 			nextFormStep();
 		} catch (error: any) {
-			console.info('downloadDispensaryData: ', error);
+			toast.error(error.message);
 			setLoading(false);
 			setLoadingButton(false);
 			// throw new Error(error.message);
