@@ -11,7 +11,6 @@ SMS Routes
 
 "/weed-text-response"                    POST
 
-
 ================================= */
 
 // sms platform received inbound message, keyword automation and webhook sends the inbound to this endpoint for order processing

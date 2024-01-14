@@ -17,7 +17,6 @@ const handler = nc();
 handler.post(async (req: any, res: any) => {
 	try {
 		const jwt = await createAnonymousJWT({});
-		console.info('anonymous jwt created: ', jwt);
 
 		req.headers['authorization'] = `Bearer ${jwt}`;
 

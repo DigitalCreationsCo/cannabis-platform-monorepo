@@ -14,7 +14,7 @@ const apiBasePath = '/api/v1';
 const appInfo = {
 	appName: process.env.NEXT_PUBLIC_SHOP_APP_NAME || 'Gras',
 	apiDomain,
-	websiteDomain: baseDomain,
+	websiteDomain: dashboardDomain,
 	apiBasePath,
 };
 

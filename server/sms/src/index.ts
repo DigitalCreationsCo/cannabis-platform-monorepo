@@ -12,6 +12,7 @@ pingSupertokens()
 	.then(() => connectDb())
 	.then(() => {
 		initializeRedis();
+		runWeedTextDailyDealScheduledJob();
 
 		server.listen(port, () => {
 			console.info(
@@ -87,4 +88,9 @@ async function connectDb() {
 	}
 }
 
+async function runWeedTextDailyDealScheduledJob() {
+	// get daily deal from from database
+	// schedule a chron job to send the daily deal to DailyStory SMS api, targeting the appropriate customer segment
+	// save the daily deal to redis
+}
 export { connectDb, server };

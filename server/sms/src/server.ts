@@ -9,12 +9,10 @@ import {
 	errorHandler as STerror,
 	middleware as STmiddleware,
 } from 'supertokens-node/framework/express';
-import Session, {
-	type SessionInformation,
-} from 'supertokens-node/recipe/session';
+import Session from 'supertokens-node/recipe/session';
 // import UserRoles from 'supertokens-node/recipe/userroles';
 import { backendConfig, jwtClient } from './config';
-import smsRoutes from './sms.route'
+import smsRoutes from './sms.route';
 
 const shopDomain = process.env.NEXT_PUBLIC_SHOP_APP_URL;
 const dashboardDomain = process.env.NEXT_PUBLIC_DASHBOARD_APP_URL;
@@ -25,6 +23,42 @@ try {
 	console.error('Supertokens init error: ', err);
 	throw Error('Supertokens is not available.');
 }
+
+const app = express();
+app.use(
+	cors({
+		origin: [shopDomain, dashboardDomain],
+		allowedHeaders: ['content-type', ...Supertokens.getAllCORSHeaders()],
+		methods: ['GET', 'PUT', 'POST', 'DELETE'],
+		credentials: true,
+	}),
+);
+
+app.use(STmiddleware());
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+app.use('/api/v1/healthcheck', (_, res) => {
+	return res.status(200).json({ status: 'ok', server: 'sms' });
+});
+
+app.use('/api/v1/sms', smsRoutes);
+
+// HOW DOES WEED TEXT FUNCTION??
+// this server runs a scheduled chron job, that sends the daily deal to DailyStory SMS api, targeting the appropriate customer segment
+// Where does the daily deal come from? The daily deal is created in the dashboard, and saved to the database.
+
+app.use(STerror());
+app.use((err, req, res, next) => {
+	console.error('A general error occured: ', err);
+	res.status(500).json({ success: false, error: err.message });
+	next();
+});
+
+const server = http.createServer(app);
+
+export default server;
 
 export function authenticateToken() {
 	return async function (req, res, next) {
@@ -69,38 +103,6 @@ export function authenticateToken() {
 		}
 	};
 }
-
-const app = express();
-app.use(
-	cors({
-		origin: [shopDomain, dashboardDomain],
-		allowedHeaders: ['content-type', ...Supertokens.getAllCORSHeaders()],
-		methods: ['GET', 'PUT', 'POST', 'DELETE'],
-		credentials: true,
-	}),
-);
-app.use(STmiddleware());
-
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-
-app.use('/api/v1/healthcheck', (_, res) => {
-	return res.status(200).json({ status: 'ok', server: 'sms' });
-});
-
-app.use('/api/v1/sms', smsRoutes);
-
-// app.use('/api/v1/email', authenticateToken(), emailRoutes);
-
-app.use(STerror());
-app.use((err, req, res, next) => {
-	console.error('A general error occured: ', err);
-	res.status(500).json({ success: false, error: err.message });
-	next();
-});
-
-const server = http.createServer(app);
-export default server;
 
 function getKey(header: JwtHeader, callback: SigningKeyCallback) {
 	console.info('getKey header: ', header);

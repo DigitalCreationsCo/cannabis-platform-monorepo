@@ -27,6 +27,7 @@ export const frontendConfig = () => {
 				contactMethod: 'EMAIL_OR_PHONE',
 				onHandleEvent: (event: Passwordless.OnHandleEventContext) => {
 					if (event.action === 'SUCCESS') {
+						console.info('Passwordless.onHandleEvent ', event);
 						const { user } = event as Passwordless.OnHandleEventContext & {
 							user: UserWithDetails;
 						};

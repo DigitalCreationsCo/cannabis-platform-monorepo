@@ -11,6 +11,7 @@ import {
 	type UserWithDetails,
 } from '@cd/data-access';
 import { createId } from '@paralleldrive/cuid2';
+import { response } from 'express';
 import jwksClient from 'jwks-rsa';
 import SuperTokens, { RecipeUserId } from 'supertokens-node';
 import Dashboard from 'supertokens-node/recipe/dashboard';
@@ -18,6 +19,7 @@ import jwt from 'supertokens-node/recipe/jwt';
 import Passwordless from 'supertokens-node/recipe/passwordless';
 import Session from 'supertokens-node/recipe/session';
 import UserRoles from 'supertokens-node/recipe/userroles';
+import { user } from 'api/routes';
 import { type AuthConfig } from '../../interfaces';
 import { DriverDA, UserDA } from '../api/data-access';
 
@@ -260,15 +262,24 @@ export const backendConfig = (): AuthConfig => {
 														response.user.loginMethods.length === 1
 													) {
 														const externalUserId = createId();
+														await SuperTokens.deleteUserIdMapping({
+															userId: response.user.id,
+														});
 														await SuperTokens.createUserIdMapping({
 															superTokensUserId: response.user.id,
 															externalUserId,
 														});
 														response.user.id = externalUserId;
+
+														console.info(
+															'loginMethods[0], ',
+															response.user.loginMethods[0],
+														);
 														response.user.loginMethods[0].recipeUserId =
 															new RecipeUserId(externalUserId);
 
-														// if new user, send a welcome email
+														// if new user, send a welcome email, and link to complete signup
+														// if new user completed signup, send a welcome email
 													} else {
 														if (response.user.emails[0]) {
 															user = await UserDA.getUserByEmail(

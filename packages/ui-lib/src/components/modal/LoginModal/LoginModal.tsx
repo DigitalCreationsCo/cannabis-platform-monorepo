@@ -297,7 +297,9 @@ function LoginModal({
 			}
 		};
 
-		const showResendOrCountdown = canSend ? 'Resend' : `Resend in ${counter}`;
+		const showResendOrCountdown = canSend
+			? 'Resend Code'
+			: `Resend in ${counter}`;
 
 		return (
 			<form>
@@ -376,7 +378,7 @@ function LoginModal({
 			onClose={closeModalAndReset}
 			{...props}
 		>
-			<div className="mx-auto m-0 p-0 h-[400px]">
+			<div className="mx-auto m-0 p-0 min-h-[400px]">
 				<FlexBox className="mx-auto">
 					<Image
 						src={logo}
