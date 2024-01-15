@@ -45,9 +45,7 @@ function DashboardStart() {
 								transparent
 								className="hover:bg-primary-light p-4"
 							>
-								<Paragraph color="light">
-									{`Create a Dispensary account`}
-								</Paragraph>
+								<Paragraph>{`Create a Dispensary account`}</Paragraph>
 							</Button>
 						</Link>
 					</FlexBox>

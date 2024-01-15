@@ -124,6 +124,7 @@ export default function EnterOTPForm({
 			dispatchCloseModal();
 		} catch (error: any) {
 			setLoadingButton(false);
+			console.error('handleOTPAndSignIn: ', error);
 			toast.error(error.message, { duration: 10000 });
 		}
 	}
