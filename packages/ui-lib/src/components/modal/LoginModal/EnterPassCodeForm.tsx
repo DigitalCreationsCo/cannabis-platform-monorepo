@@ -3,8 +3,13 @@ import {
 	isLegalAgeAndVerified,
 	TextContent,
 	userActions,
+	type AppUser,
+	handleOTPCodeAPI,
+	type ConsumeCodeResponse,
+	type ConsumeCodeResponse,
 } from '@cd/core-lib';
 import { type UserWithDetails } from '@cd/data-access';
+import { response } from 'express';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
@@ -75,23 +80,46 @@ export default function EnterOTPForm({
 
 	async function handleOTPAndSignIn() {
 		try {
-			const response = (await consumeCode({
+			const response = await consumeCode({
 				userInputCode: values.passcode,
-			})) as unknown as ConsumerCodeResponse;
+			});
+
 			console.info('OTP signin response', response);
-			if (response.status === 'OK') {
-				const { _user } = response as ConsumerCodeResponse;
-				if (isLegalAgeAndVerified(_user.user as UserWithDetails)) {
-					setCookie('yesOver21', 'true');
-					console.debug('set yesOver21 cookie to true');
-				}
-				dispatch(
-					userActions.signinUserSync({
-						token: _user.token,
-						user: _user.user as UserWithDetails,
-					}),
-				);
+
+			if (response.status === 'INCORRECT_USER_INPUT_CODE_ERROR') {
+				throw new Error(`Invalid passcode. Please try again.
+						  You have ${
+								response.maximumCodeInputAttempts -
+								response.failedCodeInputAttemptCount
+							} attempts left.`);
 			}
+
+			if (response.status === 'EXPIRED_USER_INPUT_CODE_ERROR') {
+				throw new Error(`Invalid passcode. Please try again.
+						  You have ${
+								response.maximumCodeInputAttempts -
+								response.failedCodeInputAttemptCount
+							} attempts left.`);
+			}
+
+			if (response.status === 'RESTART_FLOW_ERROR') {
+				console.error(response.status);
+				throw new Error('There was an error. Please try again.');
+			}
+
+			const { user, token } = (response as unknown as ConsumeCodeResponse)
+				.userFromDb;
+
+			if (isLegalAgeAndVerified(user as UserWithDetails)) {
+				setCookie('yesOver21', 'true');
+				console.debug('set yesOver21 cookie to true');
+			}
+			dispatch(
+				userActions.signinUserSync({
+					token,
+					user: user as UserWithDetails,
+				}),
+			);
 			toast.success(TextContent.account.SIGNING_IN, { duration: 5000 });
 			dispatchCloseModal();
 		} catch (error: any) {

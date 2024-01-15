@@ -118,10 +118,11 @@ export const userSlice = createSlice({
 		},
 	},
 	extraReducers: (builder) => {
-		builder.addCase(signOutUserAsync.fulfilled, (state) => {
-			document.cookie = 'yesOver21=false;path=/';
-			window.location.href = '/';
-			return (state = initialState);
+		builder.addCase(signOutUserAsync.fulfilled, () => {
+			// 	document.cookie = 'yesOver21=false;path=/';
+			// 	// window.location.href = '/';
+			// clear dispensary state on user signout
+			return initialState;
 		}),
 			builder.addCase(signOutUserAsync.pending, (state) => {
 				state.isLoading = true;
