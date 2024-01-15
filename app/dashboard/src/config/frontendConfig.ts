@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { hasMembershipRoleAccess, TextContent } from '@cd/core-lib';
 import { type UserWithDetails } from '@cd/data-access';
 import Passwordless from 'supertokens-auth-react/recipe/passwordless';
@@ -25,20 +26,39 @@ export const frontendConfig = () => {
 		recipeList: [
 			Passwordless.init({
 				contactMethod: 'EMAIL_OR_PHONE',
-				onHandleEvent: (event: Passwordless.OnHandleEventContext) => {
-					if (event.action === 'SUCCESS') {
-						console.info('Passwordless.onHandleEvent ', event);
-						const { user } = event as Passwordless.OnHandleEventContext & {
-							user: UserWithDetails;
-						};
-						console.info('checking membership role access ', user);
-						if (hasMembershipRoleAccess(user, 'MEMBER')) {
-							return;
-						} else {
-							throw new Error(TextContent.account.NO_MEMBERSHIP_PERMISSION);
-						}
-					}
+				preAPIHook: async (context) => {
+					console.info('Passwordless.preAPIHook ', context);
+					return context;
 				},
+				postAPIHook: async (context) => {
+					console.info('Passwordless.postAPIHook ', context);
+				},
+				override: {
+					functions: (oi) => {
+						oi.consumeCode = async (input) => {
+							console.info('oi.consumeCode input: ', input);
+							return oi.consumeCode(input);
+						};
+						return oi;
+					},
+				},
+				// onHandleEvent: (
+				// 	event: Passwordless.OnHandleEventContext & { _user: UserWithDetails },
+				// ) => {
+				// 	if (event.action === 'SUCCESS') {
+				// 		console.info('Passwordless.onHandleEvent ', event);
+				// 		// const { user } = event as Passwordless.OnHandleEventContext & {
+				// 		// 	user: UserWithDetails;
+				// 		// };
+				// 		const { _user: user } = event;
+				// 		console.info('checking membership role access ', user);
+				// 		if (hasMembershipRoleAccess(user, 'MEMBER')) {
+				// 			return;
+				// 		} else {
+				// 			throw new Error(TextContent.account.NO_MEMBERSHIP_PERMISSION);
+				// 		}
+				// 	}
+				// },
 			}),
 			Session.init(),
 		],

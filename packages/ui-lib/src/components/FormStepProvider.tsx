@@ -121,38 +121,17 @@ function FormStepProvider({
 				])}
 			>
 				<ul className="steps mx-auto w-full">
-					<li
-						className={twMerge(
-							'step',
-							currentStep >= 0 ? 'step-primary' : 'step-inverse',
-						)}
-					>
-						Verify ID
-					</li>
-					<li
-						className={twMerge(
-							'step',
-							currentStep >= 1 ? 'step-primary' : 'step-inverse',
-						)}
-					>
-						Create account
-					</li>
-					<li
-						className={twMerge(
-							'step',
-							currentStep >= 2 ? 'step-primary' : 'step-inverse',
-						)}
-					>
-						Enter Address
-					</li>
-					<li
-						className={twMerge(
-							'step',
-							currentStep >= 3 ? 'step-primary' : 'step-inverse',
-						)}
-					>
-						Get Deals
-					</li>
+					{validFormSteps.map((formStepComponent, index) => (
+						<li
+							key={`step-${index}`}
+							className={twMerge(
+								'step',
+								currentStep >= index ? 'step-primary' : 'step-inverse',
+							)}
+						>
+							{formStepComponent?.displayName}
+						</li>
+					))}
 				</ul>
 			</div>
 			<FormStepComponent {...formComponentProps} />

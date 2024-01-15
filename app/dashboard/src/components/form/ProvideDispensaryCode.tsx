@@ -17,7 +17,7 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import * as yup from 'yup';
 
-function ProvideDispensaryKey() {
+const ProvideDispensaryKey = () => {
 	const searchParams = useSearchParams();
 	const code = searchParams.get('code') || '';
 	if (code) downloadDispensaryData(code);
@@ -142,8 +142,9 @@ function ProvideDispensaryKey() {
 			)}
 		</form>
 	);
-}
+};
 
+ProvideDispensaryKey.displayName = 'Enter Dispensary Code';
 export default ProvideDispensaryKey;
 
 const validationSchema = yup.object().shape({
