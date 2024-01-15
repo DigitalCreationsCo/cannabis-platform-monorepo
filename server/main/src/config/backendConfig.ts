@@ -2,27 +2,31 @@
 /* eslint-disable sonarjs/no-small-switch */
 /* eslint-disable sonarjs/cognitive-complexity */
 import {
+	type AppUser,
 	getPhoneWithoutDialCode,
-	type ConsumerCodeResponse,
 	type PasswordlessSignInRequestPayload,
+	type ConsumeCodeResponse,
 } from '@cd/core-lib';
 import {
 	type DriverWithSessionJoin,
 	type UserWithDetails,
 } from '@cd/data-access';
 import { createId } from '@paralleldrive/cuid2';
+import { user } from 'api/routes';
 import { response } from 'express';
 import jwksClient from 'jwks-rsa';
 import SuperTokens, { RecipeUserId } from 'supertokens-node';
+import { type HttpRequest } from 'supertokens-node/lib/build/types';
 import Dashboard from 'supertokens-node/recipe/dashboard';
 import Jwt from 'supertokens-node/recipe/jwt';
-import Passwordless from 'supertokens-node/recipe/passwordless';
+import jwt from 'supertokens-node/recipe/jwt';
+import Passwordless, {
+	consumeCode,
+} from 'supertokens-node/recipe/passwordless';
 import Session from 'supertokens-node/recipe/session';
 import UserRoles from 'supertokens-node/recipe/userroles';
-import { user } from 'api/routes';
 import { type AuthConfig } from '../../interfaces';
 import { DriverDA, UserDA } from '../api/data-access';
-import jwt from 'supertokens-node/recipe/jwt';
 
 const baseDomain = process.env.NEXT_PUBLIC_APP_DOMAIN || 'grascannabis.org';
 const dashboardDomain =
@@ -42,12 +46,92 @@ export const backendConfig = (): AuthConfig => {
 		framework: 'express',
 		supertokens: {
 			connectionURI: process.env.SUPERTOKENS_CONNECTION_URI,
+			networkInterceptor: (request: HttpRequest, userContext: any) => {
+				console.log('networkInterceptor userContext: ', userContext);
+				console.log('networkInterceptor http request to core: ', request);
+				// this can also be used to return a modified request object.
+				return request;
+			},
 		},
 		appInfo,
 		recipeList: [
 			Passwordless.init({
 				flowType: 'USER_INPUT_CODE',
 				contactMethod: 'EMAIL_OR_PHONE',
+				override: {
+					apis: (oi) => {
+						return {
+							...oi,
+							async consumeCodePOST(input): Promise<ConsumeCodeResponse | any> {
+								console.info('consumeCodePOST input, ', input);
+
+								console.info(
+									'consumeCodePOST input.options.req.getJSONBody, ',
+									await input.options.req.getJSONBody(),
+								);
+
+								console.info(
+									'consumeCodePOST app-user header, ',
+									await SuperTokens.getRequestFromUserContext(
+										input.userContext,
+									).getHeaderValue('app-user'),
+								);
+
+								console.info(
+									'consumeCodePOST input.userContext, ',
+									await input.userContext,
+								);
+
+								let appUser: AppUser;
+
+								const request = SuperTokens.getRequestFromUserContext(
+									input.userContext,
+								);
+
+								if (request !== undefined) {
+									appUser = request.getHeaderValue('app-user') as AppUser;
+								} else {
+									/**
+									 * This is possible if the function is triggered from the user management dashboard
+									 *
+									 * In this case set a reasonable default value to use
+									 */
+									appUser = 'DISPENSARY_USER';
+								}
+
+								console.info('consumeCodePOST appUser, ', appUser);
+
+								console.info(
+									'consumeCodePOST formData, ',
+									await SuperTokens.getRequestFromUserContext(
+										input.userContext,
+									).getFormData(),
+								);
+								console.info(
+									'consumeCodePOST jsonBody, ',
+									await SuperTokens.getRequestFromUserContext(
+										input.userContext,
+									).getJSONBody(),
+								);
+
+								const response = (await oi.consumeCodePOST(
+									input,
+								)) as unknown as ConsumeCodeResponse;
+
+								if (response.status === 'OK') {
+									response.userFromDb = {
+										user: { firstName: 'Bryant' },
+										token: await createToken({}),
+									} as any;
+								}
+
+								console.info('consumeCodePOST response, ', response);
+
+								return response;
+							},
+						};
+					},
+				},
 			}),
 			Session.init({
 				cookieSecure: true,

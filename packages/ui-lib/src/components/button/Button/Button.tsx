@@ -60,7 +60,7 @@ export default function Button({
 			'rounded-btn',
 			'whitespace-nowrap',
 			'font-btn',
-			!transparent && 'shadow-md',
+			'shadow-md',
 			'flex items-center place-self-center',
 			'justify-center',
 		],
@@ -71,8 +71,7 @@ export default function Button({
 				'min-w-[140px] text-lg h-10',
 		],
 		bg: [
-			((transparent || bg === 'transparent') && 'bg-transparent') ||
-				(disabled && 'bg-accent') ||
+			(disabled && 'bg-accent') ||
 				(bg === 'primary' && 'bg-primary') ||
 				(bg === 'primary-light' && 'bg-primary-light') ||
 				(bg === 'secondary' && 'bg-secondary') ||
@@ -80,7 +79,8 @@ export default function Button({
 				(bg === 'accent' && 'bg-accent') ||
 				(bg === 'accent-soft' && 'bg-accent-soft') ||
 				(bg === 'inverse' && 'bg-inverse') ||
-				(bg === 'inverse-soft' && 'bg-inverse-soft'),
+				(bg === 'inverse-soft' && 'bg-inverse-soft') ||
+				(bg === 'transparent' && 'bg-transparent'),
 		],
 		textColor: [
 			!disabled
@@ -94,15 +94,15 @@ export default function Button({
 		focus: ['focus:bg-' + bg],
 		hover: [
 			'transition ease-in-out duration-50',
-			((transparent || hover === 'transparent') && 'hover:bg-transparent') ||
-				(!disabled && hover === 'primary' && 'hover:bg-primary') ||
+			(!disabled && hover === 'primary' && 'hover:bg-primary') ||
 				(hover === 'primary-light' && 'hover:bg-primary-light') ||
 				(hover === 'secondary' && 'hover:bg-secondary') ||
 				(hover === 'secondary-light' && 'hover:bg-secondary-light') ||
 				(hover === 'accent' && 'hover:bg-accent') ||
 				(hover === 'accent-soft' && 'hover:bg-accent-soft') ||
 				(hover === 'inverse' && 'hover:bg-inverse') ||
-				(hover === 'inverse-soft' && 'hover:bg-inverse-soft'),
+				(hover === 'inverse-soft' && 'hover:bg-inverse-soft') ||
+				(hover === 'transparent' && 'hover:bg-transparent'),
 		],
 		transparent: (transparent && 'opacity-90') || '',
 		border: [

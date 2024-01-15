@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { axios } from '../axiosInstance';
-import { type ConsumerCodeResponse } from '../types';
+import { type AppUser, type ConsumerCodeResponse } from '../types';
 import { urlBuilder } from '../utils/urlBuilder';
 
 type CreateCodeResponse = {
@@ -17,10 +18,12 @@ async function getOTPCodeEmailAPI(email: string): Promise<CreateCodeResponse> {
 			urlBuilder.main.getOTP(),
 			{ email },
 		);
+
 		if (response.data.status !== 'OK') throw new Error(response.data.message);
+
 		return response.data;
 	} catch (err: any) {
-		console.info('getOTPCodeEmailAPI error: ', err);
+		console.info('getOTPCodeEmailAPI error: ', err.message);
 		if (err.isSuperTokensGeneralError === true) throw new Error(err.message);
 		else throw new Error('Service is not available.');
 	}
@@ -36,11 +39,13 @@ async function getOTPCodePhoneAPI(
 				phoneNumber,
 			},
 		);
+
 		if (response.data.status !== 'OK') throw new Error(response.data.message);
+
 		return response.data;
 	} catch (err: any) {
 		console.info('phone ', phoneNumber);
-		console.info('getOTPCodePhoneAPI error: ', err);
+		console.info('getOTPCodePhoneAPI error: ', err.message);
 		if (err.isSuperTokensGeneralError === true) throw new Error(err.message);
 		else throw new Error('Service is not available.');
 	}
@@ -57,10 +62,12 @@ async function handleOTPCodeAPI(input: {
 		const response = await axios.post<
 			ConsumerCodeResponse | { status: 0; message: string }
 		>(urlBuilder.main.submitOTP(), input);
+
 		if (response.data.status !== 'OK') throw new Error(response.data.message);
+
 		return response.data;
 	} catch (err: any) {
-		console.error('handleOTPCodeAPI: ', err);
+		console.error('handleOTPCodeAPI: ', err.message);
 		throw new Error(err.message);
 	}
 }
@@ -73,13 +80,21 @@ async function handleDriverAppOTPCodeAPI(input: {
 	flowType: 'USER_INPUT_CODE';
 }): Promise<ConsumerCodeResponse> {
 	try {
+		const appUser: AppUser = 'DRIVER_USER';
+
 		const response = await axios.post<
 			ConsumerCodeResponse | { status: 0; message: string }
-		>(urlBuilder.main.submitOTP(), input);
+		>(urlBuilder.main.submitOTP(), input, {
+			headers: {
+				'app-user': appUser,
+			},
+		});
+
 		if (response.data.status !== 'OK') throw new Error(response.data.message);
+
 		return response.data;
 	} catch (err: any) {
-		console.error('handleDriverAppOTPCodeAPI: ', err);
+		console.error('handleDriverAppOTPCodeAPI: ', err.message);
 		throw new Error(err.message);
 	}
 }

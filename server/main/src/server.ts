@@ -89,7 +89,11 @@ const app = express();
 app.use(
 	cors({
 		origin: [shopDomain, dashboardDomain],
-		allowedHeaders: ['content-type', ...Supertokens.getAllCORSHeaders()],
+		allowedHeaders: [
+			'content-type',
+			'app-user',
+			...Supertokens.getAllCORSHeaders(),
+		],
 		methods: ['GET', 'PUT', 'POST', 'DELETE'],
 		credentials: true,
 	}),

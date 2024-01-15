@@ -45,15 +45,29 @@ const DriverSignInHandlePassCode = () => {
 	const otpParams = decodeURIComponent(params.otp as string);
 
 	console.log('otpParams', JSON.parse(otpParams));
-	const payload = {
+	const payload: {
+		status: any;
+		deviceId: string;
+		preAuthSessionId: string;
+		flowType: 'USER_INPUT_CODE';
+		fetchResponse: string;
+		message: string;
+		emailOrPhone: string;
+		userInputCode: string;
+		userContext: {
+			// appUser: AppUser;
+			emailOrPhone: string;
+		};
+		// appUser: AppUser;
+	} = {
 		// what's necessary here??
 		...JSON.parse(otpParams),
 		userInputCode: values.userInputCode,
 		userContext: {
-			appUser: 'DRIVER',
+			// appUser: 'DRIVER_USER',
 			...JSON.parse(otpParams),
 		},
-		appUser: 'DRIVER',
+		// appUser: 'DRIVER_USER',
 	};
 
 	async function handleOTPCodeAndSignIn() {

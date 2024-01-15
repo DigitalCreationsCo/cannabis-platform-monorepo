@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { hasMembershipRoleAccess, TextContent } from '@cd/core-lib';
+import {
+	type AppUser,
+	hasMembershipRoleAccess,
+	TextContent,
+} from '@cd/core-lib';
 import { type UserWithDetails } from '@cd/data-access';
 import Passwordless from 'supertokens-auth-react/recipe/passwordless';
 import Session from 'supertokens-auth-react/recipe/session';
@@ -26,20 +30,71 @@ export const frontendConfig = () => {
 		recipeList: [
 			Passwordless.init({
 				contactMethod: 'EMAIL_OR_PHONE',
+				// getRedirectionURL: async (context) => {
+				// 	if (context.action === 'SUCCESS') {
+				// 		console.info('getRedirectionURL context: ', context);
+
+				// 		// called on a successful sign in / up. Where should the user go next?
+				// 		const redirectToPath = context.redirectToPath;
+				// 		if (redirectToPath !== undefined) {
+				// 			// we are navigating back to where the user was before they authenticated
+				// 			return redirectToPath;
+				// 		}
+				// 		if (context.isNewRecipeUser) {
+				// 			// user signed up
+				// 			return '/onboarding';
+				// 		} else {
+				// 			// user signed in
+				// 			return '/dashboard';
+				// 		}
+				// 	}
+				// 	// return undefined to let the default behaviour play out
+				// 	return undefined;
+				// },
 				preAPIHook: async (context) => {
+					const appUser: AppUser = 'DISPENSARY_USER';
 					console.info('Passwordless.preAPIHook ', context);
+
+					if (context.action === 'PASSWORDLESS_CONSUME_CODE') {
+						// attach app-user identifier header to request
+						context.requestInit.headers = {
+							...context.requestInit.headers,
+							'app-user': appUser,
+						};
+					}
 					return context;
 				},
 				postAPIHook: async (context) => {
 					console.info('Passwordless.postAPIHook ', context);
 				},
+				onHandleEvent: async (context) => {
+					console.info(
+						'onHandleEvent successful: ',
+						context.action === 'SUCCESS' && (context.user as any),
+					);
+					return context;
+				},
 				override: {
 					functions: (oi) => {
-						oi.consumeCode = async (input) => {
-							console.info('oi.consumeCode input: ', input);
-							return oi.consumeCode(input);
+						return {
+							...oi,
+							consumeCode: async (input) => {
+								console.info('oi.consumeCode input: ', input);
+								console.info(
+									'oi.consumeCode input.userContext: ',
+									input.userContext,
+								);
+
+								const response = await oi.consumeCode(input);
+								console.info('oi.consumeCode response: ', response);
+
+								console.info(
+									'oi.consumeCode response.user: ',
+									response.status === 'OK' && (response.user as any),
+								);
+								return response;
+							},
 						};
-						return oi;
 					},
 				},
 				// onHandleEvent: (
@@ -60,7 +115,15 @@ export const frontendConfig = () => {
 				// 	}
 				// },
 			}),
-			Session.init(),
+			Session.init({
+				onHandleEvent: (event) => {
+					console.info(
+						'Session.onHandleEvent ',
+						event.action === 'SESSION_CREATED' && event.userContext,
+					);
+					return event;
+				},
+			}),
 		],
 	};
 };
