@@ -3357,10 +3357,6 @@ details > summary {
   height: 360px;
 }
 
-.h-\[400px\] {
-  height: 400px;
-}
-
 .h-\[44px\] {
   height: 44px;
 }
@@ -3417,6 +3413,10 @@ details > summary {
 
 .min-h-\[200px\] {
   min-height: 200px;
+}
+
+.min-h-\[400px\] {
+  min-height: 400px;
 }
 
 .min-h-\[440px\] {
