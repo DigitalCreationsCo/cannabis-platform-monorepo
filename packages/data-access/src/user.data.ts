@@ -628,7 +628,7 @@ export async function findDispensaryStaffUserByEmail(
 						role: 'asc',
 					},
 					include: {
-						organization: {
+						organizations: {
 							include: {
 								products: {
 									include: {
@@ -680,7 +680,7 @@ export async function findDispensaryStaffUserByPhone(
 						role: 'asc',
 					},
 					include: {
-						organization: {
+						organizations: {
 							include: {
 								products: {
 									include: {
@@ -732,7 +732,7 @@ export async function findDispensaryStaffUserById(
 						role: 'asc',
 					},
 					include: {
-						organization: {
+						organizations: {
 							include: {
 								products: {
 									include: {
@@ -814,9 +814,7 @@ export type MembershipWithUser = Membership & {
 	user: User;
 };
 
-export type MembershipWithOrganizationDashboardDetails = Omit<
-	Prisma.MembershipUpsertArgs['create'],
-	'userId' | 'organization'
-> & {
-	organization: OrganizationWithDashboardDetails;
-};
+export type MembershipWithOrganizationDashboardDetails =
+	Prisma.MembershipUpsertArgs['create'] & {
+		organizations: OrganizationWithDashboardDetails;
+	};
