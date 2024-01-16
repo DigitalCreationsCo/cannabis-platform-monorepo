@@ -9,6 +9,7 @@ Blog Routes
 "/:id"                  PUT updateBlog
 "/:id"                  GET getBlogById
 "/:id"                  DELETE deleteBlogById
+"/tag"                  POST getBlogsByTags
 
 ================================= */
 
