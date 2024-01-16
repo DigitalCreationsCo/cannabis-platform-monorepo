@@ -1,4 +1,4 @@
-import { type UserWithDetails } from '@cd/data-access/src';
+import { type UserDispensaryStaffWithDispensaryDetails } from '@cd/data-access/src';
 import { type AnyAction, type MiddlewareAPI } from '@reduxjs/toolkit';
 import { TextContent } from '../constants';
 import { dispensaryActions } from '../reducer';
@@ -25,16 +25,19 @@ const dispensaryMiddleware =
 			}
 
 			if (action.type === 'user/signinUserSync') {
-				const user = action.payload as UserWithDetails;
+				const user = action.payload as UserDispensaryStaffWithDispensaryDetails;
 				if (hasMembershipRoleAccess(user, 'MEMBER')) {
-					const organizationId = user.memberships?.[0].organizationId as string;
+					const organization = user.memberships?.[0].organization;
+					store.dispatch(dispensaryActions.setDispensary(organization));
+				} else if (user.memberships?.[0].organizationId) {
 					store.dispatch(
 						dispensaryActions.getDispensaryById(
-							organizationId,
+							user.memberships?.[0].organizationId,
 						) as unknown as AnyAction,
 					);
-					// remove this api call, merge the request into getUser, to return the dispensary data.
-				} else throw new Error(TextContent.error.DISPENSARY_NOT_FOUND);
+				} else {
+					throw new Error(TextContent.error.DISPENSARY_NOT_FOUND);
+				}
 			}
 		} catch (error) {
 			console.info('Dispensary Middleware: Caught an exception: ');

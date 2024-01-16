@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { FeatureConfig } from '../config/dashboard.features';
 
-export const getNavLinkGroups: (id: string) => NavLinkType[] = (id: string) =>
+export const getNavLinkGroups = (id = 'undefined'): NavLinkType[] =>
 	[
 		{
 			href: TextContent.href.dashboard_f(id),
@@ -92,7 +92,7 @@ export const getNavLinkGroups: (id: string) => NavLinkType[] = (id: string) =>
 const DashboardNavigation = () => {
 	const { pathname } = useRouter();
 	const { dispensary } = useSelector(selectDispensaryState);
-	const navLinkGroups = getNavLinkGroups(dispensary.id);
+	const navLinkGroups = getNavLinkGroups(dispensary?.id);
 
 	function renderNavLinkAndSubLinks(navLinkGroup: NavLinkType[]): any[] {
 		return navLinkGroup

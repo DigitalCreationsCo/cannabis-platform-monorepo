@@ -6,7 +6,6 @@ import {
 	type Membership,
 	type MembershipRole,
 	type User,
-	Organization,
 } from '@prisma/client';
 import { type OrganizationWithDashboardDetails } from 'organization.types';
 import {
@@ -614,7 +613,7 @@ export async function findDispensaryStaffUserByEmail(
 	email: string,
 ): Promise<UserDispensaryStaffWithDispensaryDetails | null> {
 	try {
-		return await prisma.user.findUnique({
+		return (await prisma.user.findUnique({
 			where: {
 				email,
 			},
@@ -629,29 +628,33 @@ export async function findDispensaryStaffUserByEmail(
 						role: 'asc',
 					},
 					include: {
-						organizations: {
-							products: {
-								include: {
-									categories: true,
-									reviews: { include: { user: true } },
-									variants: { include: { images: true } },
+						organization: {
+							include: {
+								products: {
+									include: {
+										categories: true,
+										variants: { include: { images: true } },
+										reviews: {
+											include: { user: { include: { profilePicture: true } } },
+										},
+									},
 								},
+								orders: { orderBy: { createdAt: 'desc' } },
+								address: { include: { coordinates: true } },
+								memberships: { include: { user: true } },
+								images: true,
+								categoryList: true,
+								siteSetting: true,
+								schedule: true,
+								subdomain: true,
+								vendor: true,
 							},
-							orders: { orderBy: { createdAt: 'desc' } },
-							address: { include: { coordinates: true } },
-							memberships: { include: { user: true } },
-							images: true,
-							categoryList: true,
-							siteSetting: true,
-							schedule: true,
-							subdomain: true,
-							vendor: true,
 						},
 					},
 				},
 				profilePicture: true,
 			},
-		});
+		})) as unknown as UserDispensaryStaffWithDispensaryDetails;
 	} catch (error: any) {
 		console.error(error);
 		throw new Error(error);
@@ -662,9 +665,9 @@ export async function findDispensaryStaffUserByPhone(
 	phone: string,
 ): Promise<UserDispensaryStaffWithDispensaryDetails | null> {
 	try {
-		return await prisma.user.findUnique({
+		return (await prisma.user.findUnique({
 			where: {
-				email,
+				phone,
 			},
 			include: {
 				address: {
@@ -676,10 +679,34 @@ export async function findDispensaryStaffUserByPhone(
 					orderBy: {
 						role: 'asc',
 					},
+					include: {
+						organization: {
+							include: {
+								products: {
+									include: {
+										categories: true,
+										variants: { include: { images: true } },
+										reviews: {
+											include: { user: { include: { profilePicture: true } } },
+										},
+									},
+								},
+								orders: { orderBy: { createdAt: 'desc' } },
+								address: { include: { coordinates: true } },
+								memberships: { include: { user: true } },
+								images: true,
+								categoryList: true,
+								siteSetting: true,
+								schedule: true,
+								subdomain: true,
+								vendor: true,
+							},
+						},
+					},
 				},
 				profilePicture: true,
 			},
-		});
+		})) as unknown as UserDispensaryStaffWithDispensaryDetails;
 	} catch (error: any) {
 		console.error(error);
 		throw new Error(error);
@@ -690,9 +717,9 @@ export async function findDispensaryStaffUserById(
 	id: string,
 ): Promise<UserDispensaryStaffWithDispensaryDetails | null> {
 	try {
-		return await prisma.user.findUnique({
+		return (await prisma.user.findUnique({
 			where: {
-				email,
+				id,
 			},
 			include: {
 				address: {
@@ -705,29 +732,33 @@ export async function findDispensaryStaffUserById(
 						role: 'asc',
 					},
 					include: {
-						organizations: {
-							products: {
-								include: {
-									categories: true,
-									reviews: { include: { user: true } },
-									variants: { include: { images: true } },
+						organization: {
+							include: {
+								products: {
+									include: {
+										categories: true,
+										variants: { include: { images: true } },
+										reviews: {
+											include: { user: { include: { profilePicture: true } } },
+										},
+									},
 								},
+								orders: { orderBy: { createdAt: 'desc' } },
+								address: { include: { coordinates: true } },
+								memberships: { include: { user: true } },
+								images: true,
+								categoryList: true,
+								siteSetting: true,
+								schedule: true,
+								subdomain: true,
+								vendor: true,
 							},
-							orders: { orderBy: { createdAt: 'desc' } },
-							address: { include: { coordinates: true } },
-							memberships: { include: { user: true } },
-							images: true,
-							categoryList: true,
-							siteSetting: true,
-							schedule: true,
-							subdomain: true,
-							vendor: true,
 						},
 					},
 				},
 				profilePicture: true,
 			},
-		});
+		})) as unknown as UserDispensaryStaffWithDispensaryDetails;
 	} catch (error: any) {
 		console.error(error);
 		throw new Error(error);
@@ -750,15 +781,13 @@ export type UserCreateType = Prisma.UserCreateInput & {
 };
 
 export type UserDispensaryStaff = User & {
-	profilePicture: Prisma.ImageUserCreateWithoutUserInput;
+	profilePicture: ImageUser | null;
 	memberships: Prisma.MembershipUpsertArgs['create'][];
 };
 
 export type UserDispensaryStaffWithDispensaryDetails = User & {
-	profilePicture: Prisma.ImageUserCreateWithoutUserInput;
-	memberships: Prisma.MembershipUpsertArgs['create'][] & {
-		organization: OrganizationWithDashboardDetails;
-	};
+	profilePicture: ImageUser | null;
+	memberships: MembershipWithOrganizationDashboardDetails[];
 };
 
 export type UserWithProfilePicture = User & {
@@ -779,4 +808,15 @@ export type UserLoginData = {
 export type CreateUserParams = {
 	role: string;
 	dispensaryId: string;
+};
+
+export type MembershipWithUser = Membership & {
+	user: User;
+};
+
+export type MembershipWithOrganizationDashboardDetails = Omit<
+	Prisma.MembershipUpsertArgs['create'],
+	'userId' | 'organization'
+> & {
+	organization: OrganizationWithDashboardDetails;
 };

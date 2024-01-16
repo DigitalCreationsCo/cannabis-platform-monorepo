@@ -10,15 +10,7 @@ import {
 	selectUserState,
 	TextContent,
 } from '@cd/core-lib';
-import {
-	Button,
-	FlexBox,
-	GrasSignature,
-	IconButton,
-	Icons,
-	Paragraph,
-	styles,
-} from '@cd/ui-lib';
+import { Button, FlexBox, GrasSignature, Paragraph, styles } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCallback } from 'react';
@@ -166,11 +158,7 @@ function DashboardTopBar({ signOut }: TopBarProps) {
 								<Button
 									bg="transparent"
 									hover="transparent"
-									className={twMerge(
-										styles.BUTTON.highlight,
-										'w-full',
-										'pt-1',
-									)}
+									className={twMerge(styles.BUTTON.highlight, 'w-full', 'pt-1')}
 									onClick={signOut}
 								>
 									Sign Out
