@@ -6,7 +6,9 @@ import {
 	type Membership,
 	type MembershipRole,
 	type User,
+	Organization,
 } from '@prisma/client';
+import { type OrganizationWithDashboardDetails } from 'organization.types';
 import {
 	type AddressCreateType,
 	type AddressWithCoordinates,
@@ -20,12 +22,15 @@ import { type OrderWithShopDetails } from './order.types';
  * createUser
  * upsertUser
  * updateUser
- * upsertDispensaryAdmin
- * updateDispensaryAdmin
  * findUserWithDetailsByEmail
  * findUserWithDetailsByPhone
  * findUserWithDetailsById
- * updateUserPasswordToken
+ * deleteUserById
+ * upsertDispensaryStaffUser
+ * updateDispensaryStaffUser
+ * findDispensaryStaffUserByEmail
+ * findDispensaryStaffUserByPhone
+ * findDispensaryStaffUserById
  */
 export async function createUser(userData: UserCreateType) {
 	try {
@@ -346,161 +351,6 @@ export async function updateUser(userData: UserCreateType) {
 	}
 }
 
-export async function upsertDispensaryAdmin(
-	userData: UserCreateType,
-	createParams: CreateUserParams,
-) {
-	try {
-		const { ...addressData } = userData.address[0];
-
-		const user = await prisma.user.upsert({
-			where: {
-				email: userData.email,
-			},
-			create: {
-				email: userData.email,
-				emailVerified: false,
-				username: userData.username,
-				firstName: userData.firstName,
-				lastName: userData.lastName,
-				termsAccepted: true,
-				dialCode: userData.dialCode,
-				phone: userData.phone,
-				address: {
-					create: [{ ...addressData }],
-				},
-				memberships: {
-					create: {
-						role: createParams['role'] as MembershipRole,
-						organizationId: createParams['dispensaryId'],
-					},
-				},
-			},
-			update: {
-				email: userData.email,
-				emailVerified: false,
-				username: userData.username,
-				firstName: userData.firstName,
-				lastName: userData.lastName,
-				termsAccepted: true,
-				dialCode: userData.dialCode,
-				phone: userData.phone,
-				address: {
-					create: [{ ...addressData }],
-				},
-				memberships: {
-					create: {
-						role: createParams['role'] as MembershipRole,
-						organizationId: createParams['dispensaryId'],
-					},
-				},
-			},
-			include: {
-				memberships: true,
-			},
-		});
-
-		console.info('upsert Dispensary Staff record: ', user.email);
-		return user;
-	} catch (error: any) {
-		console.error(error.message);
-		console.error('error code', error.code);
-
-		if (error.code === 'P2002')
-			throw new Error(`Unique value ${error.meta.target[0]} already exists`);
-
-		throw new Error('An error occured while creating the user.');
-	}
-}
-
-export async function updateDispensaryAdmin(
-	userData: any,
-	createParams: CreateUserParams,
-) {
-	try {
-		const { organizationId, coordinates, coordinateId, ...addressData } =
-			userData.address;
-
-		const user = await prisma.user.update({
-			where: {
-				id: userData.id,
-				email: userData.email,
-			},
-			data: {
-				email: userData.email,
-				emailVerified: false,
-				username: userData.username,
-				firstName: userData.firstName,
-				lastName: userData.lastName,
-				termsAccepted: true,
-				dialCode: userData.dialCode,
-				phone: userData.phone,
-				address: userData.address
-					? {
-							create: {
-								...addressData,
-								coordinates: coordinates?.id
-									? {
-											connectOrCreate: {
-												where: {
-													id: coordinates?.id,
-												},
-												create: {
-													latitude: Number(coordinates?.latitude),
-													longitude: Number(coordinates?.longitude),
-												},
-											},
-									  }
-									: {
-											create: {
-												latitude: Number(coordinates?.latitude),
-												longitude: Number(coordinates?.longitude),
-											},
-									  },
-							},
-					  }
-					: undefined,
-				profilePicture: userData.profilePicture
-					? {
-							create: {
-								...userData.profilePicture,
-							},
-					  }
-					: undefined,
-				memberships: userData.memberships?.[0]?.id
-					? {
-							connectOrCreate: {
-								where: {
-									id: userData?.memberships?.[0].id,
-								},
-								create: {
-									role: createParams['role'] as MembershipRole,
-									organizationId: createParams['dispensaryId'],
-								},
-							},
-					  }
-					: {
-							create: {
-								role: createParams['role'] as MembershipRole,
-								organizationId: createParams['dispensaryId'],
-							},
-					  },
-			},
-			include: {
-				memberships: true,
-			},
-		});
-
-		console.info('updated Dispensary Staff record: ', user.email);
-		return user;
-	} catch (error: any) {
-		if (error.code === 'P2002')
-			throw new Error(`Unique value ${error.meta.target[0]} already exists`);
-
-		throw new Error(error.message);
-	}
-}
-
 export async function findUserWithDetailsByEmail(
 	email: string,
 ): Promise<UserWithDetails | null> {
@@ -605,6 +455,285 @@ export async function deleteUserById(id: string) {
 	}
 }
 
+export async function upsertDispensaryStaffUser(
+	userData: UserCreateType,
+	createParams: CreateUserParams,
+) {
+	try {
+		const { ...addressData } = userData.address[0];
+
+		const user = await prisma.user.upsert({
+			where: {
+				email: userData.email,
+			},
+			create: {
+				email: userData.email,
+				emailVerified: false,
+				username: userData.username,
+				firstName: userData.firstName,
+				lastName: userData.lastName,
+				termsAccepted: true,
+				dialCode: userData.dialCode,
+				phone: userData.phone,
+				address: {
+					create: [{ ...addressData }],
+				},
+				memberships: {
+					create: {
+						role: createParams['role'] as MembershipRole,
+						organizationId: createParams['dispensaryId'],
+					},
+				},
+			},
+			update: {
+				email: userData.email,
+				emailVerified: false,
+				username: userData.username,
+				firstName: userData.firstName,
+				lastName: userData.lastName,
+				termsAccepted: true,
+				dialCode: userData.dialCode,
+				phone: userData.phone,
+				address: {
+					create: [{ ...addressData }],
+				},
+				memberships: {
+					create: {
+						role: createParams['role'] as MembershipRole,
+						organizationId: createParams['dispensaryId'],
+					},
+				},
+			},
+			include: {
+				memberships: true,
+			},
+		});
+
+		console.info('upsert Dispensary Staff record: ', user.email);
+		return user;
+	} catch (error: any) {
+		console.error(error.message);
+		console.error('error code', error.code);
+
+		if (error.code === 'P2002')
+			throw new Error(`Unique value ${error.meta.target[0]} already exists`);
+
+		throw new Error('An error occured while creating the user.');
+	}
+}
+
+export async function updateDispensaryStaffUser(
+	userData: any,
+	createParams: CreateUserParams,
+) {
+	try {
+		const { organizationId, coordinates, coordinateId, ...addressData } =
+			userData.address;
+
+		const user = await prisma.user.update({
+			where: {
+				id: userData.id,
+				email: userData.email,
+			},
+			data: {
+				email: userData.email,
+				emailVerified: false,
+				username: userData.username,
+				firstName: userData.firstName,
+				lastName: userData.lastName,
+				termsAccepted: true,
+				dialCode: userData.dialCode,
+				phone: userData.phone,
+				address: userData.address
+					? {
+							create: {
+								...addressData,
+								coordinates: coordinates?.id
+									? {
+											connectOrCreate: {
+												where: {
+													id: coordinates?.id,
+												},
+												create: {
+													latitude: Number(coordinates?.latitude),
+													longitude: Number(coordinates?.longitude),
+												},
+											},
+									  }
+									: {
+											create: {
+												latitude: Number(coordinates?.latitude),
+												longitude: Number(coordinates?.longitude),
+											},
+									  },
+							},
+					  }
+					: undefined,
+				profilePicture: userData.profilePicture
+					? {
+							create: {
+								...userData.profilePicture,
+							},
+					  }
+					: undefined,
+				memberships: userData.memberships?.[0]?.id
+					? {
+							connectOrCreate: {
+								where: {
+									id: userData?.memberships?.[0].id,
+								},
+								create: {
+									role: createParams['role'] as MembershipRole,
+									organizationId: createParams['dispensaryId'],
+								},
+							},
+					  }
+					: {
+							create: {
+								role: createParams['role'] as MembershipRole,
+								organizationId: createParams['dispensaryId'],
+							},
+					  },
+			},
+			include: {
+				memberships: true,
+			},
+		});
+
+		console.info('updated Dispensary Staff record: ', user.email);
+		return user;
+	} catch (error: any) {
+		if (error.code === 'P2002')
+			throw new Error(`Unique value ${error.meta.target[0]} already exists`);
+
+		throw new Error(error.message);
+	}
+}
+
+export async function findDispensaryStaffUserByEmail(
+	email: string,
+): Promise<UserDispensaryStaffWithDispensaryDetails | null> {
+	try {
+		return await prisma.user.findUnique({
+			where: {
+				email,
+			},
+			include: {
+				address: {
+					include: {
+						coordinates: true,
+					},
+				},
+				memberships: {
+					orderBy: {
+						role: 'asc',
+					},
+					include: {
+						organizations: {
+							products: {
+								include: {
+									categories: true,
+									reviews: { include: { user: true } },
+									variants: { include: { images: true } },
+								},
+							},
+							orders: { orderBy: { createdAt: 'desc' } },
+							address: { include: { coordinates: true } },
+							memberships: { include: { user: true } },
+							images: true,
+							categoryList: true,
+							siteSetting: true,
+							schedule: true,
+							subdomain: true,
+							vendor: true,
+						},
+					},
+				},
+				profilePicture: true,
+			},
+		});
+	} catch (error: any) {
+		console.error(error);
+		throw new Error(error);
+	}
+}
+
+export async function findDispensaryStaffUserByPhone(
+	phone: string,
+): Promise<UserDispensaryStaffWithDispensaryDetails | null> {
+	try {
+		return await prisma.user.findUnique({
+			where: {
+				email,
+			},
+			include: {
+				address: {
+					include: {
+						coordinates: true,
+					},
+				},
+				memberships: {
+					orderBy: {
+						role: 'asc',
+					},
+				},
+				profilePicture: true,
+			},
+		});
+	} catch (error: any) {
+		console.error(error);
+		throw new Error(error);
+	}
+}
+
+export async function findDispensaryStaffUserById(
+	id: string,
+): Promise<UserDispensaryStaffWithDispensaryDetails | null> {
+	try {
+		return await prisma.user.findUnique({
+			where: {
+				email,
+			},
+			include: {
+				address: {
+					include: {
+						coordinates: true,
+					},
+				},
+				memberships: {
+					orderBy: {
+						role: 'asc',
+					},
+					include: {
+						organizations: {
+							products: {
+								include: {
+									categories: true,
+									reviews: { include: { user: true } },
+									variants: { include: { images: true } },
+								},
+							},
+							orders: { orderBy: { createdAt: 'desc' } },
+							address: { include: { coordinates: true } },
+							memberships: { include: { user: true } },
+							images: true,
+							categoryList: true,
+							siteSetting: true,
+							schedule: true,
+							subdomain: true,
+							vendor: true,
+						},
+					},
+				},
+				profilePicture: true,
+			},
+		});
+	} catch (error: any) {
+		console.error(error);
+		throw new Error(error);
+	}
+}
+
 export type UserWithDetails = User &
 	Omit<User, 'createdAt' | 'updatedAt'> & {
 		address: AddressWithCoordinates[];
@@ -620,9 +749,16 @@ export type UserCreateType = Prisma.UserCreateInput & {
 	memberships: Prisma.MembershipUpsertArgs['create'][];
 };
 
-export type UserDispensaryAdmin = User & {
+export type UserDispensaryStaff = User & {
 	profilePicture: Prisma.ImageUserCreateWithoutUserInput;
 	memberships: Prisma.MembershipUpsertArgs['create'][];
+};
+
+export type UserDispensaryStaffWithDispensaryDetails = User & {
+	profilePicture: Prisma.ImageUserCreateWithoutUserInput;
+	memberships: Prisma.MembershipUpsertArgs['create'][] & {
+		organization: OrganizationWithDashboardDetails;
+	};
 };
 
 export type UserWithProfilePicture = User & {

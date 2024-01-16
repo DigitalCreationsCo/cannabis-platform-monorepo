@@ -4,12 +4,12 @@ import {
 	type OrderWithFullDetails,
 	type OrganizationWithDashboardDetails,
 	type ProductWithDashboardDetails,
-	type UserDispensaryAdmin,
+	type UserDispensaryStaff,
 	type UserWithProfilePicture,
 } from '@cd/data-access';
 import { createId } from '@paralleldrive/cuid2';
 
-const userDispensaryAdmin: UserDispensaryAdmin = {
+const UserDispensaryStaff: UserDispensaryStaff = {
 	id: 'bf346k4u7xq030hr6wvgiwao',
 	firstName: 'Doug',
 	lastName: 'Doogie',
@@ -572,4 +572,4 @@ const orders: OrderWithFullDetails[] = [
 	},
 ];
 
-export { userDispensaryAdmin, notAdminUser, organization, products, orders };
+export { UserDispensaryStaff, notAdminUser, organization, products, orders };
