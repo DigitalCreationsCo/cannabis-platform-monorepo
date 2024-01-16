@@ -65,8 +65,14 @@ export const getNavLinkGroups = (id = 'undefined'): NavLinkType[] =>
 		{
 			href: TextContent.href.setup_widget_f(id),
 			title: 'Widget Setup',
-			icon: Icons.WifiBridgeAlt,
+			icon: Icons.Tools,
 			enabled: true,
+		},
+		{
+			href: TextContent.href.daily_deals_weed_text_f(id),
+			title: 'Daily Deals',
+			icon: Icons.CalendarAdd,
+			enabled: FeatureConfig.weed_text.enabled,
 		},
 		// {
 		//   href: "/delivery-time",

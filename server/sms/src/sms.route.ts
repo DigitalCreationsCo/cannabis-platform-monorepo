@@ -1,5 +1,5 @@
+import { type WeedTextDeal } from '@cd/core-lib';
 import SMSModule from '@cd/core-lib/lib/sms';
-import { type ProductVariant } from '@cd/data-access';
 import { Router } from 'express';
 import nodeCache from 'node-cache';
 const redisWeedText = {};
@@ -122,11 +122,3 @@ const setDailyDeal = async (deal: WeedTextDeal) => {
 	// get dailydeal from rediscache
 	return await redisWeedText.setEx(deal.dealId, deal, 86400);
 };
-
-interface WeedTextDeal {
-	dealId: string;
-	startTime: Date;
-	endTime: Date;
-	products: ProductVariant[];
-	subtotal: number;
-}

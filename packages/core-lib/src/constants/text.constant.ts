@@ -358,8 +358,9 @@ const TextContent = Object.freeze({
 		site: `/site-settings`,
 		site_f: (id: string) => `/${id}/settings/site-settings`,
 		setup_widget_f: (id: string) => `/${id}/settings/setup-widget`,
-		preview_fullscreen_widget: (id: string) =>
+		preview_fullscreen_widget_f: (id: string) =>
 			`/${id}/settings/preview-fullscreen`,
+		daily_deals_weed_text_f: (id: string) => `/${id}/daily-deals`,
 		support: '/help/support',
 
 		help: `/help`,
