@@ -1,36 +1,39 @@
 import { Component, type PropsWithChildren } from 'react';
+import { render } from 'react-dom';
+import error from 'supertokens-node/lib/build/error';
+import ErrorMessage from './ErrorMessage';
 interface ErrorBoundaryProps extends PropsWithChildren {
 	fallback: React.ReactNode;
 }
 
 class ErrorBoundary extends Component<
 	ErrorBoundaryProps,
-	{ hasError: boolean }
+	{ hasError: boolean; error: any }
 > {
 	fallback: any;
 	constructor(props: any) {
 		super(props);
-		this.state = { hasError: false };
+		this.state = { hasError: false, error: undefined };
 		this.fallback;
 	}
 
 	static defaultProps = {
 		fallback: (
-			<div>
-				<h2>Oops, there is an error!</h2>
+			<>
+				<ErrorMessage />
 				{/* <button
 					type="button"
 					onClick={() => this.setState({ hasError: false })}
-				>
+					>
 					Try again?
 				</button> */}
-			</div>
+			</>
 		),
 	};
 
 	static getDerivedStateFromError(error: any) {
 		// Update state so the next render will show the fallback UI
-		return { hasError: true };
+		return { hasError: true, error };
 	}
 
 	componentDidCatch(error: any, errorInfo: any) {

@@ -51,7 +51,7 @@ export type DispensaryStateProps = {
 };
 
 const initialState: DispensaryStateProps = {
-	dispensary: null,
+	dispensary: {},
 	products: [],
 	orders: [],
 	users: [],

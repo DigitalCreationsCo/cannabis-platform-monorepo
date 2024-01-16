@@ -4,7 +4,6 @@ import {
 	dispensaryActions,
 	TextContent,
 	urlBuilder,
-	usePagination,
 } from '@cd/core-lib';
 import {
 	type OrderWithFullDetails,
@@ -18,6 +17,7 @@ import {
 	H6,
 	Icons,
 	OrderRow,
+	usePagination,
 	Page,
 	PageHeader,
 	VariantRow,

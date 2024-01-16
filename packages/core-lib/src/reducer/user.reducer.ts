@@ -85,15 +85,15 @@ export const userSlice = createSlice({
 			console.info('signinUserSync payload', payload);
 			let { token, user } = payload;
 			state.token = token;
-			state.user = pruneData(user, ['createdAt', 'updatedAt']);
-			// remove organization from memberships, this is handled by dispensary middleware
+			// remove organization from memberships, organization is handled by dispensary middleware
 			user.memberships?.forEach(
 				(membership: MembershipWithOrganizationDashboardDetails) => {
-					if (membership.organization) {
-						delete membership.organization;
+					if (membership.organizations) {
+						delete membership.organizations;
 					}
 				},
 			);
+			state.user = user;
 			state.isSignedIn = true;
 			state.isLoading = false;
 			state.isSuccess = true;
@@ -103,7 +103,7 @@ export const userSlice = createSlice({
 			if (!user.isSignUpComplete) {
 				document.cookie = 'isSignUpComplete=false;path=/';
 			}
-			window.location.reload();
+			// window.location.reload();
 		},
 		updateOrders: (
 			state,

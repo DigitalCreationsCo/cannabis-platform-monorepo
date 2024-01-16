@@ -6,14 +6,11 @@ import {
 	type AppUser,
 	getPhoneWithoutDialCode,
 	type ConsumeCodeResponse,
+	type UserFromDBAuthResponse,
 } from '@cd/core-lib';
-import {
-	type UserWithDetails,
-	type DriverWithSessionJoin,
-	type UserDispensaryStaffWithDispensaryDetails,
-} from '@cd/data-access';
 import jwksClient from 'jwks-rsa';
 import SuperTokens, { RecipeUserId } from 'supertokens-node';
+import { type HttpRequest } from 'supertokens-node/lib/build/types';
 import Dashboard from 'supertokens-node/recipe/dashboard';
 import Jwt from 'supertokens-node/recipe/jwt';
 import Passwordless from 'supertokens-node/recipe/passwordless';
@@ -41,12 +38,12 @@ export const backendConfig = (): AuthConfig => {
 		supertokens: {
 			connectionURI: process.env.SUPERTOKENS_CONNECTION_URI,
 			// // enable for debugging
-			// networkInterceptor: (request: HttpRequest, userContext: any) => {
-			// 	console.log('networkInterceptor userContext: ', userContext);
-			// 	console.log('networkInterceptor http request to core: ', request);
-			// 	// this can also be used to return a modified request object.
-			// 	return request;
-			// },
+			networkInterceptor: (request: HttpRequest, userContext: any) => {
+				console.log('networkInterceptor userContext: ', userContext);
+				console.log('networkInterceptor http request to core: ', request);
+				// this can also be used to return a modified request object.
+				return request;
+			},
 		},
 		appInfo,
 		recipeList: [
@@ -54,20 +51,20 @@ export const backendConfig = (): AuthConfig => {
 				flowType: 'USER_INPUT_CODE',
 				contactMethod: 'EMAIL_OR_PHONE',
 				override: {
-					// functions: (oi) => {
-					// 	return {
-					// 		...oi,
-					// 		createCode: async (input) => {
-					// 			try {
-					// 				return await oi.createCode(input);
-					// 			} catch (error) {
-					// 				throw new Error(
-					// 					'The Sign In server is not available. Please contact Gras Support.',
-					// 				);
-					// 			}
-					// 		},
-					// 	};
-					// },
+					functions: (oi) => {
+						return {
+							...oi,
+							createCode: async (input) => {
+								try {
+									return await oi.createCode(input);
+								} catch (error) {
+									throw new Error(
+										'The Sign In server is not available. Please contact Gras Support.',
+									);
+								}
+							},
+						};
+					},
 					apis: (oi) => {
 						return {
 							...oi,
@@ -96,10 +93,7 @@ export const backendConfig = (): AuthConfig => {
 								)) as unknown as ConsumeCodeResponse;
 
 								if (response.status === 'OK') {
-									let user:
-										| UserWithDetails
-										| UserDispensaryStaffWithDispensaryDetails
-										| DriverWithSessionJoin;
+									let user: UserFromDBAuthResponse['user'];
 									switch (appUser) {
 										case 'ADMIN_USER':
 											if (response.user.emails[0]) {
