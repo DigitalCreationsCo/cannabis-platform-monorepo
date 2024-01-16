@@ -1,4 +1,10 @@
-type FeatureType = 'orders' | 'products' | 'users' | 'delivery_tracking';
+type FeatureType =
+	| 'orders'
+	| 'products'
+	| 'users'
+	| 'delivery_tracking'
+	| 'storefront';
+
 type Config = Record<FeatureType, { enabled: boolean }>;
 export type FeatureConfigInterface = Readonly<Config>;
 
@@ -15,10 +21,15 @@ const config: Config = Object.freeze({
 	users: {
 		enabled: true,
 	},
+	storefront: {
+		enabled: false,
+	},
 });
 
 const loadFeatureConfig: (arg: Config) => FeatureConfigInterface = (
 	config: Config,
 ) => Object.freeze(config);
+
 const FeatureConfig: FeatureConfigInterface = loadFeatureConfig(config);
+
 export { FeatureConfig, loadFeatureConfig };

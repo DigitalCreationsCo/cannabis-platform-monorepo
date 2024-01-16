@@ -1,4 +1,4 @@
-import { selectDispensaryState, TextContent } from '@cd/core-lib';
+import { isArray, selectDispensaryState, TextContent } from '@cd/core-lib';
 import { Icons, NavLink, type NavLinkType } from '@cd/ui-lib';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
@@ -41,22 +41,33 @@ export const getNavLinkGroups = (id = 'undefined'): NavLinkType[] =>
 			title: 'Settings',
 			icon: Icons.Settings,
 			enabled: true,
-			subLinks: [
-				{
-					href: TextContent.href.site_f(id),
-					title: 'Site Settings',
-					icon: Icons.CategoryOutlined,
-					enabled: true,
-				},
-				{
-					href: TextContent.href.setup_widget_f(id),
-					title: 'Widget Setup',
-					icon: Icons.WifiBridgeAlt,
-					enabled: true,
-				},
-			],
+			// subLinks: [
+			// 	{
+			// 		href: TextContent.href.site_f(id),
+			// 		title: 'Site Settings',
+			// 		icon: Icons.CategoryOutlined,
+			// 		enabled: FeatureConfig.storefront.enabled,
+			// 	},
+			// 	{
+			// 		href: TextContent.href.setup_widget_f(id),
+			// 		title: 'Widget Setup',
+			// 		icon: Icons.WifiBridgeAlt,
+			// 		enabled: true,
+			// 	},
+			// ],
 		},
-
+		{
+			href: TextContent.href.site_f(id),
+			title: 'Site Settings',
+			icon: Icons.CategoryOutlined,
+			enabled: FeatureConfig.storefront.enabled,
+		},
+		{
+			href: TextContent.href.setup_widget_f(id),
+			title: 'Widget Setup',
+			icon: Icons.WifiBridgeAlt,
+			enabled: true,
+		},
 		// {
 		//   href: "/delivery-time",
 		//   title: "Delivery Time",
@@ -98,8 +109,8 @@ const DashboardNavigation = () => {
 		return navLinkGroup
 			.filter((link) => link.enabled)
 			.map((link) => (
-				// isArray(item) ? (
-				// 	renderNavLinkAndSubLinks(item)
+				// isArray(link) ? (
+				// 	renderNavLinkAndSubLinks(link)
 				// ) :
 				<NavLink
 					key={link.title}
