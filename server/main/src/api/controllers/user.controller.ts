@@ -14,8 +14,8 @@ UserController - controller class for user business actions
 members:
 createUser
 updateUser
-createDispensaryStaff
-updateDispensaryStaff
+createDispensaryStaffUser
+updateDispensaryStaffUser
 getUserById
 getOrdersForUser
 getAddressById
@@ -75,12 +75,16 @@ export default class UserController {
 		}
 	}
 
-	static async createDispensaryStaff(req, res) {
+	static async createDispensaryStaffUser(req, res) {
 		try {
 			let { user } = req.body;
 			const { role, dispensaryId } = req.body;
 			user = addressObjectIntoArray(user);
-			const data = await UserDA.createDispensaryStaff(user, role, dispensaryId);
+			const data = await UserDA.createDispensaryStaffUser(
+				user,
+				role,
+				dispensaryId,
+			);
 			if (!data)
 				return res.status(404).json({
 					success: 'false',
@@ -94,7 +98,7 @@ export default class UserController {
 				payload: data,
 			});
 		} catch (error: any) {
-			console.info('createDispensaryStaff: ', error.message);
+			console.info('createDispensaryStaffUser: ', error.message);
 			return res.status(500).json({
 				success: 'false',
 				error: error.message,
@@ -102,10 +106,14 @@ export default class UserController {
 		}
 	}
 
-	static async updateDispensaryStaff(req, res) {
+	static async updateDispensaryStaffUser(req, res) {
 		try {
 			const { user, role, dispensaryId } = req.body;
-			const data = await UserDA.updateDispensaryStaff(user, role, dispensaryId);
+			const data = await UserDA.updateDispensaryStaffUser(
+				user,
+				role,
+				dispensaryId,
+			);
 			if (!data)
 				return res.status(404).json({
 					success: 'false',
@@ -116,7 +124,7 @@ export default class UserController {
 				payload: data,
 			});
 		} catch (error: any) {
-			console.info('updateDispensaryStaff: ', error.message);
+			console.info('updateDispensaryStaffUser: ', error.message);
 			return res.status(500).json({
 				success: 'false',
 				error: error.message,

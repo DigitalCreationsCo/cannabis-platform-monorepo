@@ -4,7 +4,7 @@ export interface AuthConfig {
 	framework: TypeFramework;
 	supertokens: {
 		connectionURI: string;
-		networkInterceptor: any;
+		networkInterceptor?: any;
 	};
 	appInfo: {
 		appName: string;

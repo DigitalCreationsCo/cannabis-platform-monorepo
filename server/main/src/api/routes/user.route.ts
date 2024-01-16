@@ -5,12 +5,12 @@ const router = Router();
 // '/' POST createUser
 router.route('/').post(userCtrl.createUser);
 // '/staff' POST createDispensaryStaff
-router.route('/staff').post(userCtrl.createDispensaryStaff);
+router.route('/staff').post(userCtrl.createDispensaryStaffUser);
 
 // '/' PUT updateUser
 router.route('/').put(userCtrl.updateUser);
 // '/staff' PUT updateDispensaryStaff
-router.route('/staff').put(userCtrl.updateDispensaryStaff);
+router.route('/staff').put(userCtrl.updateDispensaryStaffUser);
 
 // '/:id' GET getUserById
 router.route('/:id').get(userCtrl.getUserById);

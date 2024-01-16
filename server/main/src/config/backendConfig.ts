@@ -1,28 +1,21 @@
+/* eslint-disable sonarjs/no-duplicated-branches */
 /* eslint-disable no-case-declarations */
 /* eslint-disable sonarjs/no-small-switch */
 /* eslint-disable sonarjs/cognitive-complexity */
 import {
 	type AppUser,
 	getPhoneWithoutDialCode,
-	type PasswordlessSignInRequestPayload,
 	type ConsumeCodeResponse,
 } from '@cd/core-lib';
 import {
 	type DriverWithSessionJoin,
 	type UserWithDetails,
 } from '@cd/data-access';
-import { createId } from '@paralleldrive/cuid2';
-import { user } from 'api/routes';
-import { response } from 'express';
 import jwksClient from 'jwks-rsa';
 import SuperTokens, { RecipeUserId } from 'supertokens-node';
-import { type HttpRequest } from 'supertokens-node/lib/build/types';
 import Dashboard from 'supertokens-node/recipe/dashboard';
 import Jwt from 'supertokens-node/recipe/jwt';
-import jwt from 'supertokens-node/recipe/jwt';
-import Passwordless, {
-	consumeCode,
-} from 'supertokens-node/recipe/passwordless';
+import Passwordless from 'supertokens-node/recipe/passwordless';
 import Session from 'supertokens-node/recipe/session';
 import UserRoles from 'supertokens-node/recipe/userroles';
 import { type AuthConfig } from '../../interfaces';
@@ -46,12 +39,13 @@ export const backendConfig = (): AuthConfig => {
 		framework: 'express',
 		supertokens: {
 			connectionURI: process.env.SUPERTOKENS_CONNECTION_URI,
-			networkInterceptor: (request: HttpRequest, userContext: any) => {
-				console.log('networkInterceptor userContext: ', userContext);
-				console.log('networkInterceptor http request to core: ', request);
-				// this can also be used to return a modified request object.
-				return request;
-			},
+			// // enable for debugging
+			// networkInterceptor: (request: HttpRequest, userContext: any) => {
+			// 	console.log('networkInterceptor userContext: ', userContext);
+			// 	console.log('networkInterceptor http request to core: ', request);
+			// 	// this can also be used to return a modified request object.
+			// 	return request;
+			// },
 		},
 		appInfo,
 		recipeList: [
@@ -59,28 +53,25 @@ export const backendConfig = (): AuthConfig => {
 				flowType: 'USER_INPUT_CODE',
 				contactMethod: 'EMAIL_OR_PHONE',
 				override: {
+					functions: (oi) => {
+						return {
+							...oi,
+							createCode: async (input) => {
+								try {
+									return await oi.createCode(input);
+								} catch (error) {
+									throw new Error(
+										'The Sign In server is not available. Please contact Gras Support.',
+									);
+								}
+							},
+						};
+					},
 					apis: (oi) => {
 						return {
 							...oi,
 							async consumeCodePOST(input): Promise<ConsumeCodeResponse | any> {
 								console.info('consumeCodePOST input, ', input);
-
-								console.info(
-									'consumeCodePOST input.options.req.getJSONBody, ',
-									await input.options.req.getJSONBody(),
-								);
-
-								console.info(
-									'consumeCodePOST app-user header, ',
-									await SuperTokens.getRequestFromUserContext(
-										input.userContext,
-									).getHeaderValue('app-user'),
-								);
-
-								console.info(
-									'consumeCodePOST input.userContext, ',
-									await input.userContext,
-								);
 
 								let appUser: AppUser;
 
@@ -99,28 +90,96 @@ export const backendConfig = (): AuthConfig => {
 									appUser = 'DISPENSARY_USER';
 								}
 
-								console.info('consumeCodePOST appUser, ', appUser);
-
-								console.info(
-									'consumeCodePOST formData, ',
-									await SuperTokens.getRequestFromUserContext(
-										input.userContext,
-									).getFormData(),
-								);
-								console.info(
-									'consumeCodePOST jsonBody, ',
-									await SuperTokens.getRequestFromUserContext(
-										input.userContext,
-									).getJSONBody(),
-								);
-
 								const response = (await oi.consumeCodePOST(
 									input,
 								)) as unknown as ConsumeCodeResponse;
 
 								if (response.status === 'OK') {
+									let user: UserWithDetails | DriverWithSessionJoin;
+									switch (appUser) {
+										case 'ADMIN_USER':
+											if (response.user.emails[0]) {
+												user = await UserDA.getUserByEmail(
+													response.user.emails[0],
+												);
+											} else if (response.user.phoneNumbers[0]) {
+												user = await UserDA.getUserByPhone(
+													getPhoneWithoutDialCode(
+														response.user.phoneNumbers[0],
+													),
+												);
+											} else {
+												user = await UserDA.getUserById(response.user.id);
+											}
+											break;
+										case 'DISPENSARY_USER':
+											if (response.user.emails[0]) {
+												user = await UserDA.getUserByEmail(
+													response.user.emails[0],
+												);
+											} else if (response.user.phoneNumbers[0]) {
+												user = await UserDA.getUserByPhone(
+													getPhoneWithoutDialCode(
+														response.user.phoneNumbers[0],
+													),
+												);
+											} else {
+												user = await UserDA.getUserById(response.user.id);
+											}
+											break;
+										case 'CUSTOMER_USER':
+											if (response.user.emails[0]) {
+												user = await UserDA.getUserByEmail(
+													response.user.emails[0],
+												);
+											} else if (response.user.phoneNumbers[0]) {
+												user = await UserDA.getUserByPhone(
+													getPhoneWithoutDialCode(
+														response.user.phoneNumbers[0],
+													),
+												);
+											} else {
+												user = await UserDA.getUserById(response.user.id);
+											}
+											break;
+										case 'DRIVER_USER':
+											if (response.user.emails[0]) {
+												user = await DriverDA.getDriverByEmail(
+													response.user.emails[0],
+												);
+											} else if (response.user.phoneNumbers[0]) {
+												user = await DriverDA.getDriverByPhone(
+													getPhoneWithoutDialCode(
+														response.user.phoneNumbers[0],
+													),
+												);
+											} else {
+												user = await DriverDA.getDriverById(response.user.id);
+											}
+									}
+
+									if (
+										response.createdNewRecipeUser &&
+										response.user.loginMethods.length === 1
+									) {
+										const externalUserId = user.id;
+										await SuperTokens.deleteUserIdMapping({
+											userId: response.user.id,
+										});
+										await SuperTokens.createUserIdMapping({
+											superTokensUserId: response.user.id,
+											externalUserId,
+										});
+										// response.user.id = externalUserId;
+										response.user.loginMethods[0].recipeUserId =
+											new RecipeUserId(externalUserId);
+
+										// if new user, send a welcome email, and link to complete signup
+										// if new user completed signup, send a welcome email
+									}
+
 									response.userFromDb = {
-										user: { firstName: 'Bryant' },
+										user,
 										token: await createToken({}),
 									} as any;
 								}
@@ -152,7 +211,7 @@ export const jwtClient = jwksClient({
 });
 
 export async function createToken(payload: any) {
-	const jwtResponse = await jwt.createJWT({
+	const jwtResponse = await Jwt.createJWT({
 		...payload,
 		source: 'microservice',
 	});
@@ -174,46 +233,7 @@ export async function createToken(payload: any) {
 // 	// 				);
 // 	// 			}
 // 	// 		},
-// 	// 		consumeCode: async (
-// 	// 			input: any,
-// 	// 		): Promise<ConsumerCodeResponse | any> => {
-// 	// 			try {
-// 	// 				const response = await originalImplementation.consumeCode(
-// 	// 					input,
-// 	// 				);
-// 	// 				if (response.status === 'INCORRECT_USER_INPUT_CODE_ERROR') {
-// 	// 					throw new Error(`Invalid passcode. Please try again.
-// 	//       You have ${
-// 	// 									response.maximumCodeInputAttempts -
-// 	// 									response.failedCodeInputAttemptCount
-// 	// 								} attempts left.`);
-// 	// 				}
 
-// 	// 				if (response.status === 'EXPIRED_USER_INPUT_CODE_ERROR') {
-// 	// 					throw new Error(`Invalid passcode. Please try again.
-// 	//       You have ${
-// 	// 									response.maximumCodeInputAttempts -
-// 	// 									response.failedCodeInputAttemptCount
-// 	// 								} attempts left.`);
-// 	// 				}
-
-// 	// 				if (response.status === 'RESTART_FLOW_ERROR') {
-// 	// 					console.error(response.status);
-// 	// 					throw new Error('There was an error. Please try again.');
-// 	// 				}
-
-// 	// 				if (response.status === 'OK') {
-// 	// 				}
-// 	// 				console.info('consumeCode response, ', response);
-// 	// 				return response as unknown as ConsumerCodeResponse;
-// 	// 			} catch (error: any) {
-// 	// 				console.error(' consume code error: ', error);
-// 	// 				return { message: error.message };
-// 	// 				// throw new Error(error.message);
-// 	// 			}
-// 	// 		},
-// 	// 	};
-// 	// },
 // 	apis: (originalImplementation) => {
 // 		return {
 // 			...originalImplementation,
