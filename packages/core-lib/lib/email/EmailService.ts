@@ -1,10 +1,10 @@
-import { TextContent } from '@cd/core-lib';
-import { BrevoMailer } from '@cd/core-lib/lib/brevo-mailer';
 import {
 	type DriverWithDetails,
 	type Organization,
 	type UserWithDetails,
 } from '@cd/data-access';
+import { BrevoMailer } from '@cd/core-lib/lib/brevo-mailer';
+import { TextContent } from '../../src';
 
 export class EmailService {
 	static async sendNewUserEmail({

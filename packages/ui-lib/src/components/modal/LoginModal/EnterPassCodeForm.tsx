@@ -1,15 +1,10 @@
 import {
-	type ConsumerCodeResponse,
 	isLegalAgeAndVerified,
 	TextContent,
 	userActions,
-	type AppUser,
-	handleOTPCodeAPI,
-	type ConsumeCodeResponse,
 	type ConsumeCodeResponse,
 } from '@cd/core-lib';
 import { type UserWithDetails } from '@cd/data-access';
-import { response } from 'express';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
@@ -162,9 +157,9 @@ export default function EnterOTPForm({
 		}
 	};
 
-	const showResendOrCountdown = canSend
-		? 'Resend Code'
-		: `Resend in ${counter}`;
+	// const showResendOrCountdown = canSend
+	// 	? 'Resend Code'
+	// 	: `Resend in ${counter}`;
 
 	return (
 		<form>

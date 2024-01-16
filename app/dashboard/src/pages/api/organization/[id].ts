@@ -14,7 +14,7 @@ Supertokens.init(backendConfig());
 
 const cache = new NodeCache({ stdTTL: 30 });
 
-// get a single organization details
+// get an organization with dashboard details
 const handler = nc();
 handler.get(async (req: any, res: any) => {
 	try {
@@ -45,9 +45,12 @@ handler.get(async (req: any, res: any) => {
 				payload: org,
 			});
 		} else {
-			const response = await axios(urlBuilder.main.organizationById(id), {
-				headers: { ...req.headers },
-			});
+			const response = await axios(
+				urlBuilder.main.organizationWithDashboardDetails(id),
+				{
+					headers: { ...req.headers },
+				},
+			);
 			if (response.data.success == 'false')
 				throw new Error(response.data.error);
 			cache.set(`organization/${id}`, response.data.payload);

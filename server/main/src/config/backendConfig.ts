@@ -8,8 +8,9 @@ import {
 	type ConsumeCodeResponse,
 } from '@cd/core-lib';
 import {
-	type DriverWithSessionJoin,
 	type UserWithDetails,
+	type DriverWithSessionJoin,
+	type UserDispensaryStaffWithDispensaryDetails,
 } from '@cd/data-access';
 import jwksClient from 'jwks-rsa';
 import SuperTokens, { RecipeUserId } from 'supertokens-node';
@@ -53,20 +54,20 @@ export const backendConfig = (): AuthConfig => {
 				flowType: 'USER_INPUT_CODE',
 				contactMethod: 'EMAIL_OR_PHONE',
 				override: {
-					functions: (oi) => {
-						return {
-							...oi,
-							createCode: async (input) => {
-								try {
-									return await oi.createCode(input);
-								} catch (error) {
-									throw new Error(
-										'The Sign In server is not available. Please contact Gras Support.',
-									);
-								}
-							},
-						};
-					},
+					// functions: (oi) => {
+					// 	return {
+					// 		...oi,
+					// 		createCode: async (input) => {
+					// 			try {
+					// 				return await oi.createCode(input);
+					// 			} catch (error) {
+					// 				throw new Error(
+					// 					'The Sign In server is not available. Please contact Gras Support.',
+					// 				);
+					// 			}
+					// 		},
+					// 	};
+					// },
 					apis: (oi) => {
 						return {
 							...oi,
@@ -95,7 +96,10 @@ export const backendConfig = (): AuthConfig => {
 								)) as unknown as ConsumeCodeResponse;
 
 								if (response.status === 'OK') {
-									let user: UserWithDetails | DriverWithSessionJoin;
+									let user:
+										| UserWithDetails
+										| UserDispensaryStaffWithDispensaryDetails
+										| DriverWithSessionJoin;
 									switch (appUser) {
 										case 'ADMIN_USER':
 											if (response.user.emails[0]) {
@@ -114,11 +118,11 @@ export const backendConfig = (): AuthConfig => {
 											break;
 										case 'DISPENSARY_USER':
 											if (response.user.emails[0]) {
-												user = await UserDA.getUserByEmail(
+												user = await UserDA.getDispensaryStaffUserByEmail(
 													response.user.emails[0],
 												);
 											} else if (response.user.phoneNumbers[0]) {
-												user = await UserDA.getUserByPhone(
+												user = await UserDA.getDispensaryStaffUserByPhone(
 													getPhoneWithoutDialCode(
 														response.user.phoneNumbers[0],
 													),

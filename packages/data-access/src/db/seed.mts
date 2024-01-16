@@ -1092,39 +1092,35 @@ const createOrganizations = async () => {
 					organization.id,
 			);
 
-			axios
-				.post<OrganizationCreateType>(
-					(process?.env?.NEXT_PUBLIC_SERVER_LOCATION_URL +
-						'/api/v1/serve-local/organizations/record') as string,
-					{
-						id: organization.id,
-						name: organization.name,
-						dialCode: organization.dialCode,
-						phone: organization.phone,
-						address: {
-							street1: org.address.create?.street1,
-							street2: org.address.create?.street2,
-							city: org.address.create?.city,
-							state: org.address.create?.state,
-							zipcode: org.address.create?.zipcode,
-							country: org.address.create?.country,
-							countryCode: org.address.create?.countryCode,
-							coordinates: {
-								latitude: org.address.create?.coordinates?.create?.latitude,
-								longitude: org.address.create?.coordinates?.create?.longitude,
-							},
+			await axios.post<OrganizationCreateType>(
+				(process?.env?.NEXT_PUBLIC_SERVER_LOCATION_URL +
+					'/api/v1/serve-local/organizations/record') as string,
+				{
+					id: organization.id,
+					name: organization.name,
+					dialCode: organization.dialCode,
+					phone: organization.phone,
+					address: {
+						street1: org.address.create?.street1,
+						street2: org.address.create?.street2,
+						city: org.address.create?.city,
+						state: org.address.create?.state,
+						zipcode: org.address.create?.zipcode,
+						country: org.address.create?.country,
+						countryCode: org.address.create?.countryCode,
+						coordinates: {
+							latitude: org.address.create?.coordinates?.create?.latitude,
+							longitude: org.address.create?.coordinates?.create?.longitude,
 						},
-						vendorId: organization.vendorId,
-						subdomain: organization.subdomainId,
 					},
-					{
-						validateStatus: (status) =>
-							(status >= 200 && status <= 302) || status == 404,
-					},
-				)
-				.catch((error) => {
-					throw new Error(error);
-				});
+					vendorId: organization.vendorId,
+					subdomain: organization.subdomainId,
+				},
+				{
+					validateStatus: (status) =>
+						(status >= 200 && status <= 302) || status == 404,
+				},
+			);
 
 			console.info(
 				'create mongo.organization_geolocate record: ' +
@@ -1158,15 +1154,6 @@ const createUsers = async () => {
 			idFrontImage: null,
 			idBackImage: null,
 			termsAccepted: true,
-			memberships: {
-				create: {
-					id: '1',
-					role: 'MEMBER',
-					organizationId: 'bf346k4u7x2b2hhr6wsofppp',
-					createdAt: new Date(),
-					updatedAt: new Date(),
-				},
-			},
 			profilePicture: {
 				create: {
 					id: '1',
@@ -1196,15 +1183,6 @@ const createUsers = async () => {
 			idFrontImage: null,
 			idBackImage: null,
 			termsAccepted: true,
-			memberships: {
-				create: {
-					id: '2',
-					role: 'ADMIN',
-					organizationId: 'bf346k4u7x2b2hhr6wvgippp',
-					createdAt: new Date(),
-					updatedAt: new Date(),
-				},
-			},
 			profilePicture: {
 				create: {
 					id: '2',
@@ -1946,7 +1924,7 @@ async function createMemberships() {
 		{
 			id: '1',
 			role: 'MEMBER',
-			organizationId: '2',
+			organizationId: 'bf346k4u7x2b2hhr6wsofppp',
 			userId: 'bfhk6k4u7xq030hr6wvgiwao',
 			createdAt: new Date(),
 			updatedAt: new Date(),
@@ -1954,33 +1932,58 @@ async function createMemberships() {
 		{
 			id: '2',
 			role: 'ADMIN',
-			organizationId: '2',
-			userId: '1',
+			userId: 'pf346k4u7xq030hr6wvgiwap',
+			organizationId: 'bf346k4u7x2b2hhr6wvgippp',
 			createdAt: new Date(),
 			updatedAt: new Date(),
 		},
-		{
-			id: '3',
-			role: 'OWNER',
-			organizationId: '2',
-			userId: '1',
-			createdAt: new Date(),
-			updatedAt: new Date(),
-		},
-		{
-			id: '4',
-			role: 'OWNER',
-			organizationId: '3',
-			userId: '3',
-			createdAt: new Date(),
-			updatedAt: new Date(),
-		},
+		// {
+		// 	id: '1',
+		// 	role: 'MEMBER',
+		// 	organizationId: '2',
+		// 	userId: 'bfhk6k4u7xq030hr6wvgiwao',
+		// 	createdAt: new Date(),
+		// 	updatedAt: new Date(),
+		// },
+		// {
+		// 	id: '2',
+		// 	role: 'ADMIN',
+		// 	organizationId: '2',
+		// 	userId: '1',
+		// 	createdAt: new Date(),
+		// 	updatedAt: new Date(),
+		// },
+		// {
+		// 	id: '3',
+		// 	role: 'OWNER',
+		// 	organizationId: '2',
+		// 	userId: '1',
+		// 	createdAt: new Date(),
+		// 	updatedAt: new Date(),
+		// },
+		// {
+		// 	id: '4',
+		// 	role: 'OWNER',
+		// 	organizationId: '3',
+		// 	userId: '3',
+		// 	createdAt: new Date(),
+		// 	updatedAt: new Date(),
+		// },
 	];
 
-	await prisma.membership.createMany({
-		data: memberships,
-		skipDuplicates: true,
-	});
+	memberships.forEach(
+		async (membership) =>
+			await prisma.membership.create({
+				data: {
+					id: membership.id,
+					role: membership.role,
+					organizationId: membership.organizationId,
+					userId: membership.userId,
+					createdAt: membership.createdAt,
+					updatedAt: membership.updatedAt,
+				},
+			}),
+	);
 	console.info('create prisma.membership records');
 }
 
@@ -2817,7 +2820,7 @@ async function main() {
 	await createCategories();
 
 	// await createOrders(); // appended to organization seed
-	// await createMemberships(); // appended to user seed
+	await createMemberships();
 
 	// await createProducts(); // appended to organization seed
 	// await createVariants(); // appended to product seed

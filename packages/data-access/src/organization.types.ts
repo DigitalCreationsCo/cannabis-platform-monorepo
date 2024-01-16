@@ -3,16 +3,15 @@ import {
 	type CategoryList,
 	type Coordinates,
 	type ImageOrganization,
-	type Membership,
 	type Order,
 	type Organization,
 	type Prisma,
 	type Schedule,
 	type SiteSetting,
 	type SubDomain,
-	type User,
 	type Vendor,
 } from '@prisma/client';
+import { type MembershipWithUser } from 'user.data';
 import {
 	type AddressPayload,
 	type AddressWithCoordinates,
@@ -71,8 +70,4 @@ export type OrganizationWithDashboardDetails = Organization & {
 export type UserLocation = {
 	userLocation: Coordinates;
 	proximityRadius: number;
-};
-
-export type MembershipWithUser = Membership & {
-	user: User;
 };

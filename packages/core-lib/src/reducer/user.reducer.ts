@@ -3,6 +3,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 import {
+	type MembershipWithOrganizationDashboardDetails,
 	type OrderWithShopDetails,
 	type UserWithDetails,
 } from '@cd/data-access';
@@ -85,6 +86,14 @@ export const userSlice = createSlice({
 			let { token, user } = payload;
 			state.token = token;
 			state.user = pruneData(user, ['createdAt', 'updatedAt']);
+			// remove organization from memberships, this is handled by dispensary middleware
+			user.memberships?.forEach(
+				(membership: MembershipWithOrganizationDashboardDetails) => {
+					if (membership.organization) {
+						delete membership.organization;
+					}
+				},
+			);
 			state.isSignedIn = true;
 			state.isLoading = false;
 			state.isSuccess = true;
