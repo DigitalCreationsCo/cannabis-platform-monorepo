@@ -113,7 +113,7 @@ function DashboardTopBar({ signOut }: TopBarProps) {
 					)) || <></>}
 					{(isSignedIn && (
 						<>
-							{Object.values(getNavLinkGroups(dispensary.id).flat()).map(
+							{Object.values(getNavLinkGroups(dispensary?.id).flat()).map(
 								(link, index) => (
 									<FlexBox
 										key={`nav-dashboard-${index}`}

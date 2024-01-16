@@ -121,7 +121,7 @@ app.use(STerror());
 
 app.use((err, req, res, next) => {
 	console.error('A general error occured: ', err);
-	res.status(500).json({ success: false, error: err.message });
+	res.status(500).json({ success: false, error: 'A general error occured.' });
 	next();
 });
 

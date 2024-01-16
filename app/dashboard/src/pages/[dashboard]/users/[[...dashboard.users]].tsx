@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { type AppState, usePagination } from '@cd/core-lib';
+import { type AppState } from '@cd/core-lib';
 import { type UserDispensaryStaff } from '@cd/data-access';
 import {
 	DeleteButton,
@@ -10,6 +10,7 @@ import {
 	PageHeader,
 	Paragraph,
 	Row,
+	usePagination,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
 import axios from 'axios';

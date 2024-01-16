@@ -4,7 +4,6 @@ import {
 	axios,
 	dispensaryActions,
 	urlBuilder,
-	usePagination,
 } from '@cd/core-lib';
 import { type OrderWithFullDetails } from '@cd/data-access';
 import {
@@ -12,6 +11,7 @@ import {
 	H6,
 	Icons,
 	OrderRow,
+	usePagination,
 	Page,
 	PageHeader,
 	Row,

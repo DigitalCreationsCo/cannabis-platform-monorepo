@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import {
+	type UserDispensaryStaffWithDispensaryDetails,
 	type DriverWithSessionJoin,
 	type UserWithDetails,
 } from '@cd/data-access/src';
@@ -44,8 +45,13 @@ export type ConsumeCodeResponse = {
 	status: 'OK';
 	createdNewRecipeUser: boolean;
 	user: User;
-	userFromDb: {
-		token: string;
-		user: UserWithDetails | DriverWithSessionJoin;
-	};
+	userFromDb: UserFromDBAuthResponse;
+};
+
+export type UserFromDBAuthResponse = {
+	token: string;
+	user:
+		| UserWithDetails
+		| DriverWithSessionJoin
+		| UserDispensaryStaffWithDispensaryDetails;
 };
