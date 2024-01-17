@@ -1,6 +1,5 @@
 import { showTime, type AppState, type WeedTextDeal } from '@cd/core-lib';
 import {
-	CurrencyName,
 	type OrderWithFullDetails,
 	type OrganizationWithDashboardDetails,
 	type ProductWithDashboardDetails,
@@ -14,10 +13,8 @@ import {
 	PageHeader,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
-import Link from 'next/link';
 import { connect } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
-import { boolean, number } from 'yup';
 
 interface DashboardProps {
 	organization: OrganizationWithDashboardDetails;

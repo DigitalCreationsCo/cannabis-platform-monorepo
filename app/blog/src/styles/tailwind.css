@@ -3293,6 +3293,10 @@ details > summary {
   aspect-ratio: 16 / 9;
 }
 
+.\!h-\[20px\] {
+  height: 20px !important;
+}
+
 .h-0 {
   height: 0px;
 }
@@ -3451,6 +3455,10 @@ details > summary {
   min-height: 100vh;
 }
 
+.\!w-\[20px\] {
+  width: 20px !important;
+}
+
 .w-12 {
   width: 3rem;
 }
@@ -3566,10 +3574,6 @@ details > summary {
 
 .max-w-7xl {
   max-width: 80rem;
-}
-
-.max-w-\[300px\] {
-  max-width: 300px;
 }
 
 .max-w-\[420px\] {
