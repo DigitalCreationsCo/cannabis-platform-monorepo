@@ -18,7 +18,6 @@ module.exports = {
 				'core',
 				'db',
 				'main',
-				'location',
 				'dispatch',
 				'image',
 				'payments',
