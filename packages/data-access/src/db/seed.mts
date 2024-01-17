@@ -1093,7 +1093,7 @@ const createOrganizations = async () => {
 			);
 
 			await axios.post<OrganizationCreateType>(
-				(process?.env?.NEXT_PUBLIC_SERVER_LOCATION_URL +
+				(process?.env?.NEXT_PUBLIC_SERVER_MAIN_URL +
 					'/api/v1/serve-local/organizations/record') as string,
 				{
 					id: organization.id,

@@ -1,7 +1,6 @@
 const shop = process.env.NEXT_PUBLIC_SHOP_APP_URL;
 const dashboard = process.env.NEXT_PUBLIC_DASHBOARD_APP_URL;
 const mainUrl = process.env.NEXT_PUBLIC_SERVER_MAIN_URL;
-const locationUrl = process.env.NEXT_PUBLIC_SERVER_LOCATION_URL;
 const paymentUrl = process.env.NEXT_PUBLIC_SERVER_PAYMENTS_URL;
 const imageUrl = process.env.NEXT_PUBLIC_SERVER_IMAGE_URL;
 const dispatchUrl = process.env.NEXT_PUBLIC_SERVER_DISPATCH_URL;
@@ -65,16 +64,13 @@ const urlBuilder = {
 
 		blog: () => urlBuilder.main.baseUrl + `/blog`,
 		blogById: (id: string) => urlBuilder.main.baseUrl + `/blog/${id}`,
-	},
 
-	location: {
-		baseUrl: locationUrl + '/api/v1',
 		organizationsLocal: () =>
-			urlBuilder.location.baseUrl + '/serve-local/organizations',
+			urlBuilder.main.baseUrl + '/serve-local/organizations',
 		organizationLocationRecord: () =>
-			urlBuilder.location.baseUrl + '/serve-local/organizations/record',
+			urlBuilder.main.baseUrl + '/serve-local/organizations/record',
 		getOrganizationRecord: (id: string) =>
-			urlBuilder.location.baseUrl + `/serve-local/organizations/${id}`,
+			urlBuilder.main.baseUrl + `/serve-local/organizations/${id}`,
 	},
 
 	payment: {
