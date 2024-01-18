@@ -5,4 +5,3 @@ export * from './modal.types';
 export * from './redux.types';
 export * from './socket.types';
 export * from './stripe.types';
-export * from './shop.types';

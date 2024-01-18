@@ -4,6 +4,7 @@ const mainUrl = process.env.NEXT_PUBLIC_SERVER_MAIN_URL;
 const paymentUrl = process.env.NEXT_PUBLIC_SERVER_PAYMENTS_URL;
 const imageUrl = process.env.NEXT_PUBLIC_SERVER_IMAGE_URL;
 const dispatchUrl = process.env.NEXT_PUBLIC_SERVER_DISPATCH_URL;
+const smsUrl = process.env.NEXT_PUBLIC_SERVER_SMS_URL;
 
 const urlBuilder = {
 	shop,
@@ -79,8 +80,6 @@ const urlBuilder = {
 
 		getStripeAccount: () => urlBuilder.payment.baseUrl + '/account',
 
-		setupSubscriptionDispensary: () =>
-			urlBuilder.payment.baseUrl + '/payment/subscribe-dispensary',
 		createStripeDispensaryAccount: () =>
 			urlBuilder.payment.baseUrl + `/account/create-dispensary`,
 		connectStripeDispensaryAccount: () =>
@@ -88,14 +87,18 @@ const urlBuilder = {
 		checkOnboard: () =>
 			urlBuilder.payment.baseUrl + '/account/check-onboard-dispensary',
 
-		checkout: () => urlBuilder.payment.baseUrl + '/payment/checkout',
-		saveCustomerPaymentMethod: () =>
-			urlBuilder.payment.baseUrl + '/payment/save-payment',
+		createStripeDeliveryDriverAccount: () =>
+			urlBuilder.payment.baseUrl + `/account/create-driver`,
 		createCustomer: () =>
 			urlBuilder.payment.baseUrl + '/account/create-customer',
 
-		createStripeDeliveryDriverAccount: () =>
-			urlBuilder.payment.baseUrl + `/account/create-driver`,
+		setupSubscriptionDispensary: () =>
+			urlBuilder.payment.baseUrl + '/payment/subscribe-dispensary',
+		checkout: () => urlBuilder.payment.baseUrl + '/payment/checkout',
+		saveCustomerPaymentMethod: () =>
+			urlBuilder.payment.baseUrl + '/payment/save-payment',
+		chargeCustomer: () =>
+			urlBuilder.payment.baseUrl + '/payment/charge-customer',
 	},
 
 	image: {
@@ -111,6 +114,17 @@ const urlBuilder = {
 		// newOrder: () => urlBuilder.dispatch.baseUrl + '/dispatch/order/new',
 		// connect: () => urlBuilder.dispatch.baseUrl + '/dispatch/connect',
 		connect: () => `${dispatchUrl}`,
+	},
+
+	sms: {
+		baseUrl: smsUrl + '/api/v1',
+		dailyDealById: (id: string) =>
+			urlBuilder.sms.baseUrl + `/sms/daily-deal/${id}`,
+		dailyDealsByOrganization: (id: string) =>
+			urlBuilder.sms.baseUrl + `/sms/daily-deals/organization/${id}`,
+		dailyDeal: () => urlBuilder.sms.baseUrl + `/sms/daily-deal`,
+		dailyDealSmsResponse: () =>
+			urlBuilder.sms.baseUrl + `/sms/daily-deal-sms-response`,
 	},
 };
 

@@ -1,0 +1,72 @@
+import { type WeedTextDeal } from '@prisma/client';
+import { type OrganizationWithOrderDetails } from 'organization.types';
+import prisma from './db/prisma';
+
+/*
+ *   createWeedTextDeal
+ */
+
+/**
+ * createWeedTextDeal
+ * @param deal WeedTextDeal
+ * @returns Promise<WeedTextDeal>
+ */
+export async function createWeedTextDeal(
+	deal: WeedTextDeal,
+): Promise<WeedTextDeal> {
+	try {
+		return await prisma.weedTextDeal.create({
+			data: {
+				id: deal.id,
+				title: deal.title,
+				description: deal.description,
+				total: deal.total,
+				startTime: deal.startTime,
+				endTime: deal.endTime,
+				organizationId: deal.organizationId,
+			},
+			// include: {
+			// 	organization: {
+			// 		include: {
+			// 			address: { include: { coordinates: true } },
+			// 		},
+			// 	},
+			// },
+		});
+	} catch (error) {
+		console.error('createWeedTextDeal: ', error);
+		throw error;
+	}
+}
+
+export async function findDailyDeal(id: string): Promise<WeedTextDeal | null> {
+	try {
+		return await prisma.weedTextDeal.findUnique({
+			where: {
+				id,
+			},
+		});
+	} catch (error) {
+		console.error('getDailyDeal: ', error);
+		throw error;
+	}
+}
+
+export async function findDailyDealsByOrganization(
+	organizationId: string,
+): Promise<WeedTextDeal[]> {
+	try {
+		return await prisma.weedTextDeal.findMany({
+			where: {
+				organizationId,
+			},
+		});
+	} catch (error) {
+		console.error('getDailyDealsByOrganization: ', error);
+		throw error;
+	}
+}
+
+export type WeedTextDealWithOrganization = WeedTextDeal & {
+	organization: OrganizationWithOrderDetails;
+};

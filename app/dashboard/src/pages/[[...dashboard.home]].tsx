@@ -1,4 +1,10 @@
-import { getDashboardSite } from '@cd/core-lib';
+import {
+	getDashboardSite,
+	selectDispensaryState,
+	selectUserState,
+	TextContent,
+	useAppSelector,
+} from '@cd/core-lib';
 import {
 	Button,
 	Center,
@@ -12,13 +18,14 @@ import {
 } from '@cd/ui-lib';
 import Image, { type StaticImageData } from 'next/image';
 import Link from 'next/link';
+import { default as Router } from 'next/router';
 import { type PropsWithChildren } from 'react';
 import backdrop from '../../public/marijuana-backdrop.png';
 
 function DashboardStart() {
-	// const { isSignedIn } = useAppSelector(selectUserState);
-	// const { dispensary } = useAppSelector(selectDispensaryState);
-	// if (isSignedIn) Router.push(TextContent.href.dashboard_f(dispensary.id));
+	const { isSignedIn } = useAppSelector(selectUserState);
+	const { dispensary } = useAppSelector(selectDispensaryState);
+	if (isSignedIn) Router.push(TextContent.href.dashboard_f(dispensary?.id));
 
 	return (
 		<Page className="m-0 flex grow border-b bg-transparent p-0 md:p-0 lg:p-0 h-[666px]">

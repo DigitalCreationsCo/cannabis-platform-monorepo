@@ -242,6 +242,7 @@ model User {
   reviews          Review[]
   sessions         Session[]
   address          Address[]    @relation("AddressToUser")
+  isSubscribedForWeedText Boolean @default(true)
 
   @@index([id])
   @@index([email])
@@ -417,6 +418,7 @@ model Order {
   id                      String           @id @unique @default(cuid())
   type                    OrderType        @default(delivery)
   items                   ProductVariant[] @relation("OrderToProductVariant")
+  isWeedTextOrder         Boolean          @default(false)
 
   subtotal                Int
   taxFactor               Float
@@ -455,7 +457,7 @@ model Order {
   isCompleted             Boolean          @default(false)
   completedAt             DateTime?
   duration                Int?
-  isLateDelivery          Boolean?
+  isDeliveredOnTime       Boolean?
 
   purchaseId              String?          @unique
   purchase                Purchase?
@@ -513,8 +515,10 @@ model Organization {
   products                 Product[]
   siteSetting              SiteSetting?
   memberships              Membership[]        @relation("MembershipToOrganization")
-  subscribedForDelivery    Boolean             @default(false)
+  subscribedForDelivery    Boolean             @default(true)
   subscribedForPickup      Boolean             @default(false)
+  subscribedForWeedText    Boolean             @default(true)
+  weedTextDeals            WeedTextDeal[]
 
   vendor                   Vendor?             @relation(fields: [vendorId, vendorName], references: [id, name])
   vendorId                 String?
@@ -617,6 +621,7 @@ model ProductVariant {
   images           ImageProduct[] @relation("images")
   product          Product        @relation(fields: [productId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   order            Order[]        @relation("OrderToProductVariant")
+  weedTextDeal     WeedTextDeal[]
 
   @@index([id])
   @@index([productId])
@@ -787,6 +792,19 @@ enum ArticleTag {
   health
   food
   gras
+}
+
+model WeedTextDeal {
+  title       String
+  id          String        @id @unique @default(cuid())
+  description String
+  startTime   DateTime      @default(now())
+  endTime     DateTime
+  isExpired   Boolean       @default(false)
+  products    ProductVariant[]
+  total       Int
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model all_auth_recipe_users {

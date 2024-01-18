@@ -4,6 +4,7 @@
 import jwksClient from 'jwks-rsa';
 import jwt from 'supertokens-node/recipe/jwt';
 import Session from 'supertokens-node/recipe/session';
+import { type AuthConfig } from '../../interfaces';
 
 const baseDomain = process.env.NEXT_PUBLIC_APP_DOMAIN || 'grascannabis.org';
 const apiDomain = process.env.BACKEND_URL || `https://backend.grascannabis.org`;
@@ -16,7 +17,7 @@ const appInfo = {
 	apiBasePath,
 };
 
-export const backendConfig = () => {
+export const backendConfig = (): AuthConfig => {
 	return {
 		framework: 'express',
 		supertokens: {

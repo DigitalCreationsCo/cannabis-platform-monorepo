@@ -1,17 +1,12 @@
 import { axios } from '@cd/core-lib';
 import prisma from '@cd/data-access';
-import { MongoClient } from 'mongodb';
-import { DriverDA, ShopDA } from './api/data-access';
-import { initializeRedis } from './lib/redis-cart';
 import server from './server';
 
-const port = process.env.SERVER_PORT || 6001;
-const mongoConnectUrl = process.env.MONGODB_CONNECTION_URL;
+const port = process.env.SERVER_PORT || 6051;
 
 pingSupertokens()
 	.then(() => connectDb())
 	.then(() => {
-		initializeRedis();
 		runWeedTextDailyDealScheduledJob();
 
 		server.listen(port, () => {
@@ -66,18 +61,9 @@ async function pingSupertokens() {
 async function connectDb() {
 	try {
 		console.info(' >> Server-Main is connecting to database...');
-		await MongoClient.connect(mongoConnectUrl)
-			.then(async (client) => {
-				await ShopDA.useMongoDB(client);
-				await DriverDA.useMongoDB(client);
-				console.info(' >> Server-Main: Mongo Database 👏 is ready for query.');
-			})
-			.then(async () => {
-				await prisma.$connect();
-				console.info(
-					' >> Server-Main: Prisma Database 👏👏 is ready for query.',
-				);
-			});
+		await prisma.$connect().then(() => {
+			console.info(' >> Server-Main: Prisma Database 👏👏 is ready for query.');
+		});
 	} catch (error: any) {
 		console.error(
 			' >> Server-Main: Error connecting to database: ',
