@@ -27,6 +27,7 @@ const UserDispensaryStaff: UserDispensaryStaff = {
 	termsAccepted: true,
 	createdAt: new Date(),
 	updatedAt: new Date(),
+	isSubscribedForWeedText: true,
 	profilePicture: {
 		id: '1',
 		location:
@@ -35,6 +36,7 @@ const UserDispensaryStaff: UserDispensaryStaff = {
 		blurhash: 'dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH',
 		createdAt: new Date(),
 		updatedAt: new Date(),
+		userId: 'bf346k4u7xq030hr6wvgiwao',
 	},
 	memberships: [
 		{
@@ -65,6 +67,7 @@ const notAdminUser: UserWithProfilePicture = {
 	termsAccepted: true,
 	createdAt: new Date(),
 	updatedAt: new Date(),
+	isSubscribedForWeedText: true,
 	profilePicture: {
 		id: '2',
 		location:
@@ -407,7 +410,8 @@ const orders: OrderWithFullDetails[] = [
 		customerReceivedOrderAt: new Date(),
 		completedAt: new Date(),
 		duration: 262626,
-		isLateDelivery: false,
+		isWeedTextOrder: false,
+		isDeliveredOnTime: false,
 		items: [
 			{
 				id: '3',
@@ -468,6 +472,7 @@ const orders: OrderWithFullDetails[] = [
 			termsAccepted: true,
 			createdAt: new Date(),
 			updatedAt: new Date(),
+			isSubscribedForWeedText: true,
 		},
 		driver: {
 			id: 'bf346k4u7x2b2hhr6wvgiwao',
@@ -493,6 +498,7 @@ const orders: OrderWithFullDetails[] = [
 				scannedDOB: new Date(),
 				createdAt: new Date(),
 				updatedAt: new Date(),
+				isSubscribedForWeedText: true,
 				profilePicture: {
 					location: '',
 					id: '1',

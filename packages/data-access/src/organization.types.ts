@@ -42,6 +42,11 @@ export type OrganizationMetadata = {
 	metadata?: { productsFetched?: boolean };
 };
 
+export type OrganizationWithOrderDetails = Organization &
+	Omit<Organization, 'stripeAccountId' | 'createdAt' | 'updatedAt'> & {
+		address: AddressWithCoordinates;
+	};
+
 export type OrganizationWithShopDetails = Organization &
 	Omit<Organization, 'stripeAccountId' | 'createdAt' | 'updatedAt'> & {
 		address: AddressWithCoordinates;

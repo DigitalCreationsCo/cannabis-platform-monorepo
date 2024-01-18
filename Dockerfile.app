@@ -31,6 +31,7 @@ ENV NEXT_PUBLIC_SERVER_MAIN_URL="https://backend.grascannabis.org/main"
 ENV NEXT_PUBLIC_SERVER_PAYMENTS_URL="https://backend.grascannabis.org/payments"
 ENV NEXT_PUBLIC_SERVER_IMAGE_URL="https://backend.grascannabis.org/image"
 ENV NEXT_PUBLIC_SERVER_DISPATCH_URL="https://backend.grascannabis.org/dispatch"
+ENV NEXT_PUBLIC_SERVER_SMS_URL="https://backend.grascannabis.org/sms"
 
 EXPOSE $PORT
 

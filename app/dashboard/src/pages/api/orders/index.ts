@@ -36,13 +36,18 @@ handler.get(async (req: any, res: any) => {
 
 		res.setHeader('Cache-Control', 'public, s-maxage=120');
 		const organizationId = req.headers['organization-id'] as string;
-		const response = await axios(urlBuilder.main.ordersByOrgId(organizationId));
+		const response = await axios(
+			urlBuilder.main.ordersByOrgId(organizationId),
+			{
+				headers: { ...req.headers },
+			},
+		);
 
 		if (response.data.success == 'false') throw new Error(response.data.error);
 
 		return res.status(response.status).json(response.data);
 	} catch (error: any) {
-		console.error('GET /api/orders ', error.message);
+		console.error('GET /api/orders: ', error.message);
 		return res.json({
 			success: 'false',
 			error: error.message,
