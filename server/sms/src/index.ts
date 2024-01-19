@@ -11,9 +11,9 @@ pingSupertokens()
 
 		server.listen(port, () => {
 			console.info(
-				` >> Server-Main is starting in ${process.env.NODE_ENV} mode.`,
+				` 📞 Server-SMS is starting in ${process.env.NODE_ENV} mode.`,
 			);
-			console.info(` >> Server-Main is listening on port ${port}.`);
+			console.info(` 📞 Server-SMS is listening on port ${port}.`);
 
 			// measure cpu usage
 			const startCpuUsage = process.cpuUsage();
@@ -51,7 +51,7 @@ process.on('SIGINT', async function () {
 async function pingSupertokens() {
 	try {
 		await axios(process.env.SUPERTOKENS_CONNECTION_URI + '/hello');
-		console.info(' >> Server-Main: Supertokens 👏 is ready for query.');
+		console.info(' 📞 Server-SMS: Supertokens 👏 is ready for query.');
 	} catch (error) {
 		console.error('pingSupertokens: ', error.message);
 		process.exit(1);
@@ -60,13 +60,13 @@ async function pingSupertokens() {
 
 async function connectDb() {
 	try {
-		console.info(' >> Server-Main is connecting to database...');
+		console.info(' 📞 Server-SMS is connecting to database...');
 		await prisma.$connect().then(() => {
-			console.info(' >> Server-Main: Prisma Database 👏👏 is ready for query.');
+			console.info(' 📞 Server-SMS: Prisma Database 👏👏 is ready for query.');
 		});
 	} catch (error: any) {
 		console.error(
-			' >> Server-Main: Error connecting to database: ',
+			' 📞 Server-SMS: Error connecting to database: ',
 			error.stack,
 		);
 		prisma.$disconnect();

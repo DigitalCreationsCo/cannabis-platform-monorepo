@@ -238,7 +238,7 @@ export async function createToken(payload: any) {
 // 			consumeCodePOST: async (
 // 				// input: PasswordlessSignInRequestPayload & { options: any },
 // 				input: any,
-// 			): Promise<ConsumerCodeResponse | any> => {
+// 			): Promise<ConsumeCodeResponse | any> => {
 // 				try {
 // 					console.info('consumeCodePOST input, ', input);
 // 					const { appUser } = await input.options.req.getJSONBody();
@@ -246,7 +246,7 @@ export async function createToken(payload: any) {
 // 					const response =
 // 						(await originalImplementation.consumeCodePOST(
 // 							input,
-// 						)) as unknown as ConsumerCodeResponse;
+// 						)) as unknown as ConsumeCodeResponse;
 
 // 					if (response.status === 'OK') {
 // 						switch (appUser) {

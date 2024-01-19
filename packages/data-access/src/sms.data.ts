@@ -1,6 +1,6 @@
 import { type WeedTextDeal } from '@prisma/client';
-import { type OrganizationWithOrderDetails } from 'organization.types';
 import prisma from './db/prisma';
+import { type OrganizationWithOrderDetails } from './organization.types';
 
 /*
  *   createWeedTextDeal

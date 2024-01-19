@@ -7,7 +7,6 @@ import {
 	type Purchase,
 	type User,
 } from '@prisma/client';
-import { type UserWithDetails } from 'user.data';
 import { type AddressWithCoordinates } from './address.types';
 import {
 	type DriverWithDetails,
@@ -17,6 +16,7 @@ import {
 	type OrganizationWithDashboardDetails,
 	type OrganizationWithShopDetails,
 } from './organization.types';
+import { type UserWithDetails } from './user.data';
 import { type ProductVariantWithDetails } from './variant.data';
 
 export class OrderClass {

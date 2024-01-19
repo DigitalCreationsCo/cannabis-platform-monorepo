@@ -36,6 +36,8 @@ export type DriverSessionState = {
 const initialState: DriverSessionState = {
 	token: '',
 	driver: {
+		email: '',
+		id: '',
 		user: {
 			id: '',
 			email: '',
@@ -54,6 +56,7 @@ const initialState: DriverSessionState = {
 			idBackImage: null,
 			address: [],
 			profilePicture: null,
+			isSubscribedForWeedText: false,
 		},
 		licenseNumber: '',
 		driverSession: {

@@ -26,13 +26,11 @@ interface DashboardProps {
 	dailyDeals: WeedTextDeal[];
 }
 
-function DailyDealsPage({
-	user,
-	organization,
-	products,
-	orders,
-	dailyDeals,
-}: DashboardProps) {
+// PAGES NEED BETTER ERROR HANDLING WHEN SERVICES ARE NOT AVAILABLE, OR AUTH FAILS
+
+function DailyDealsPage(props: DashboardProps) {
+	const { user, organization, products, orders, dailyDeals } = props;
+	console.info('props ', props);
 	// const dailyDeals: WeedTextDeal[] = [
 	// 	{
 	// 		title: 'You dont want to miss this!',
@@ -68,7 +66,7 @@ function DailyDealsPage({
 
 	const DailyDeals = () => (
 		<>
-			{dailyDeals.length ? (
+			{dailyDeals?.length ? (
 				dailyDeals.map((deal, index) => (
 					<div
 						key={`daily-deal-${index + 1}`}
@@ -135,14 +133,15 @@ export const getServerSideProps = wrapper.getServerSideProps(
 						},
 					},
 				);
+
 				if (!response.data.success || response.data.success === 'false')
 					throw new Error(response.data.error);
 
 				return {
-					props: { dailyDeals: response.data.data },
+					props: { dailyDeals: response.data },
 				};
 			} catch (error) {
-				console.log(error);
+				console.log('DailyDealsPage: ', error);
 				return {
 					notFound: true,
 				};

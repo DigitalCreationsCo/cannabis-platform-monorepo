@@ -21,6 +21,7 @@ handler.get(async (req: any, res: any) => {
 	try {
 		const jwt = await createAnonymousJWT({});
 		req.headers['authorization'] = `Bearer ${jwt}`;
+		console.info('jwt: ', jwt);
 
 		await NextCors(req, res, {
 			methods: ['GET'],
@@ -36,7 +37,7 @@ handler.get(async (req: any, res: any) => {
 			req,
 			res,
 		);
-		res.setHeader('Cache-Control', 'public, s-maxage=120');
+		// res.setHeader('Cache-Control', 'public, s-maxage=120');
 		const organizationId = req.headers['organization-id'] as string;
 
 		// const { id } = req.query;
@@ -53,6 +54,7 @@ handler.get(async (req: any, res: any) => {
 				headers: { ...req.headers },
 			},
 		);
+		console.info('response: ', response.data);
 		if (response.data.success == 'false') throw new Error(response.data.error);
 
 		// cache.set(`organization/${id}`, response.data.payload);

@@ -7,13 +7,13 @@ import {
 	type MembershipRole,
 	type User,
 } from '@prisma/client';
-import { type OrganizationWithDashboardDetails } from 'organization.types';
 import {
 	type AddressCreateType,
 	type AddressWithCoordinates,
 } from './address.types';
 import prisma from './db/prisma';
 import { type OrderWithShopDetails } from './order.types';
+import { type OrganizationWithDashboardDetails } from './organization.types';
 
 /*
  * User Data Access functions
