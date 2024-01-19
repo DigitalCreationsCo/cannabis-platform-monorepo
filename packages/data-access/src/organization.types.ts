@@ -11,7 +11,6 @@ import {
 	type SubDomain,
 	type Vendor,
 } from '@prisma/client';
-import { type MembershipWithUser } from 'user.data';
 import {
 	type AddressPayload,
 	type AddressWithCoordinates,
@@ -20,6 +19,7 @@ import {
 	type ProductWithDashboardDetails,
 	type ProductWithShopDetails,
 } from './product.data';
+import { type MembershipWithUser } from './user.data';
 
 export type OrganizationCreateType = Prisma.OrganizationUncheckedCreateInput & {
 	address: AddressPayload;

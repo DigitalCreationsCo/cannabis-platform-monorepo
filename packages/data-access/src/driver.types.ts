@@ -25,7 +25,7 @@ export type UserWithDriverDetails = UserWithDetails & {
 	driverSession: DriverSessionWithJoinedData;
 };
 
-export type DriverWithSessionJoin = Driver & {
+export type DriverWithSessionJoin = Omit<Driver, 'createdAt' | 'updatedAt'> & {
 	user: Omit<UserWithDetails, 'createdAt' | 'updatedAt'>;
 	driverSession: Omit<DriverSessionWithJoinedData, 'createdAt' | 'updatedAt'>;
 };

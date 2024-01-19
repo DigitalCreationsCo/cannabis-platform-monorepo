@@ -43,7 +43,7 @@ app.use('/api/v1/healthcheck', (_, res) => {
 	return res.status(200).json({ status: 'ok', server: 'sms' });
 });
 
-app.use('/api/v1/sms', smsRoutes);
+app.use('/api/v1/sms', authenticateToken(), smsRoutes);
 
 // HOW DOES WEED TEXT FUNCTION??
 // this server runs a scheduled chron job, that sends the daily deal to DailyStory SMS api, targeting the appropriate customer segment
@@ -63,6 +63,8 @@ export default server;
 export function authenticateToken() {
 	return async function (req, res, next) {
 		try {
+			console.info('server/sms authenticateToken');
+
 			const session = await Session.getSession(req, res, {
 				sessionRequired: false,
 			});

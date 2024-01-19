@@ -45,7 +45,7 @@ const dispensaryMiddleware =
 					hasMembershipRoleAccess(user, 'MEMBER') &&
 					!isEmpty(user.memberships?.[0].organizations)
 				) {
-					const organization = user.memberships?.[0].organizations?.[0];
+					const organization = user.memberships?.[0].organizations;
 					console.info(
 						'dispensary middleware organization',
 						user.memberships[0],

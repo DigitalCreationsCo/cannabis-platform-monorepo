@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { axios } from '../axiosInstance';
-import { type AppUser, type ConsumerCodeResponse } from '../types';
+import { type ConsumeCodeResponse, type AppUser } from '../types';
 import { urlBuilder } from '../utils/urlBuilder';
 
 type CreateCodeResponse = {
@@ -57,10 +57,10 @@ async function handleOTPCodeAPI(input: {
 	deviceId: string;
 	status: 'OK';
 	flowType: 'USER_INPUT_CODE';
-}): Promise<ConsumerCodeResponse> {
+}): Promise<ConsumeCodeResponse> {
 	try {
 		const response = await axios.post<
-			ConsumerCodeResponse | { status: 0; message: string }
+			ConsumeCodeResponse | { status: 0; message: string }
 		>(urlBuilder.main.submitOTP(), input);
 
 		if (response.data.status !== 'OK') throw new Error(response.data.message);
@@ -78,12 +78,12 @@ async function handleDriverAppOTPCodeAPI(input: {
 	deviceId: string;
 	status: 'OK';
 	flowType: 'USER_INPUT_CODE';
-}): Promise<ConsumerCodeResponse> {
+}): Promise<ConsumeCodeResponse> {
 	try {
 		const appUser: AppUser = 'DRIVER_USER';
 
 		const response = await axios.post<
-			ConsumerCodeResponse | { status: 0; message: string }
+			ConsumeCodeResponse | { status: 0; message: string }
 		>(urlBuilder.main.submitOTP(), input, {
 			headers: {
 				'app-user': appUser,
