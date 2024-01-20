@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import { TextContent } from '@cd/core-lib';
+import { getDashboardSite, TextContent } from '@cd/core-lib';
 import {
 	Button,
 	Card,
@@ -216,7 +216,7 @@ const CTASignup = () => {
 				</div>
 				<Link
 					href={getDashboardSite(
-						`/signup/create-dispensary-account?code=${code}`,
+						`/signup/create-dispensary-account${code ? '?code=' + code : ''}`,
 					)}
 				>
 					<Button
@@ -241,7 +241,7 @@ function LandingPage() {
 	}, []);
 
 	return (
-		<Page gradient="pink" className="pb-8 flex flex-col gap-8">
+		<Page gradient="green" className={twMerge('pb-8 flex flex-col gap-8')}>
 			<Hero />
 			<Benefits id={'benefit-one'} data={benefitOne} className="text-inverse" />
 			<div className="py-12">

@@ -160,33 +160,42 @@ const ImageBackDrop = ({
 
 const HowItWorks = () => {
 	return (
-		<FlexBox className="w-full md:w-full lg:px-20 md:flex-row justify-center gap-8 lg:gap-12 py-4 mx-auto text-xl">
-			<FlexBox className="md:max-w-[300px] xl:max-w-[240px] 2xl:max-w-[320px] flex-row md:flex-col items-center gap-4 text-center text-md">
-				<IconWrapper
-					Icon={Icons.MobileAdd}
-					iconSize={window.innerWidth < 1000 ? 60 : 76}
-				/>
-				<Paragraph>
-					Sign up below for free and get a delivery text message daily.
+		<div className="text-xl pt-4 pb-6">
+			<FlexBox className="w-full md:w-full lg:px-20 md:flex-row justify-center gap-8 lg:gap-12 pb-6 mx-auto text-xl">
+				<FlexBox className="md:max-w-[300px] xl:max-w-[240px] 2xl:max-w-[320px] flex-row md:flex-col items-center gap-4 text-center">
+					<IconWrapper
+						Icon={Icons.MobileAdd}
+						iconSize={window.innerWidth < 1000 ? 60 : 76}
+					/>
+					<Paragraph className="xl:text-2xl">
+						Sign up below for free and get a daily deal via text message.
+					</Paragraph>
+				</FlexBox>
+				<FlexBox className="md:max-w-[300px] xl:max-w-[240px] 2xl:max-w-[320px] flex-row md:flex-col items-center gap-4 text-center">
+					<IconWrapper
+						Icon={Icons.MobileCheck}
+						iconSize={window.innerWidth < 1000 ? 60 : 76}
+					/>
+					<Paragraph className="lg:text-2xl">
+						If interested just reply with the number of packs you want.
+					</Paragraph>
+				</FlexBox>
+				<FlexBox className="md:max-w-[300px] xl:max-w-[240px] 2xl:max-w-[320px] flex-row md:flex-col items-center gap-4 text-center">
+					<IconWrapper
+						Icon={Icons.MobilityServices}
+						iconSize={window.innerWidth < 1000 ? 60 : 76}
+					/>
+					<Paragraph className="lg:text-2xl">
+						Your weed will be delivered to your doorstep the same day.*
+					</Paragraph>
+				</FlexBox>
+			</FlexBox>
+			<div>
+				<Paragraph className="text-center ">
+					* {TextContent.info.TIME_GUARANTEE}
 				</Paragraph>
-			</FlexBox>
-			<FlexBox className="md:max-w-[300px] xl:max-w-[240px] 2xl:max-w-[320px] flex-row md:flex-col items-center gap-4 text-center text-md">
-				<IconWrapper
-					Icon={Icons.MobileCheck}
-					iconSize={window.innerWidth < 1000 ? 60 : 76}
-				/>
-				<Paragraph>
-					If interested just reply with the number of packs you want.
-				</Paragraph>
-			</FlexBox>
-			<FlexBox className="md:max-w-[300px] xl:max-w-[240px] 2xl:max-w-[320px] flex-row md:flex-col items-center gap-4 text-center text-md">
-				<IconWrapper
-					Icon={Icons.MobilityServices}
-					iconSize={window.innerWidth < 1000 ? 60 : 76}
-				/>
-				<Paragraph>Your weed will be delivered to your doorstep.</Paragraph>
-			</FlexBox>
-		</FlexBox>
+			</div>
+		</div>
 	);
 };
 
@@ -202,11 +211,12 @@ const SignUpForm = () => {
 
 	return (
 		<Card className="!rounded w-11/12 mx-auto text-dark text-center lg:!py-12">
-			<H4>SIGN UP FOR GRAS</H4>
-			<Paragraph className="font-semibold">
-				Your daily text offering you great deals on weed delivery
+			<H4>SIGN UP BELOW</H4>
+			<Paragraph className="font-semibold text-xl pt-4">
+				We'll send you a daily deal via text message with great deals on good
+				weed.
 			</Paragraph>
-			<Paragraph className="mx-auto">
+			<Paragraph className="mx-auto pt-2">
 				<Button
 					onClick={openLoginModal}
 					bg="transparent"
@@ -216,7 +226,7 @@ const SignUpForm = () => {
 					(Already A Member? Sign In)
 				</Button>
 			</Paragraph>
-			<ContinueSignUp />
+			{/* <ContinueSignUp /> */}
 		</Card>
 	);
 };

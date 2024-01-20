@@ -86,7 +86,7 @@ const TextContent = Object.freeze({
 	Please visit grascannabis.org.`,
 		DISPENSARY_JOINING: `Helping you serve the world with cannabis.`,
 
-		DISPENSARIES_START_HERE: 'Dispensaries, get started here',
+		DISPENSARIES_START_HERE: 'Dispensaries, Get Started here',
 		DISPENSARY_STRIPE_ACCOUNT: `If your dispensary uses stripe for payments, you can connect your stripe account here, by entering your stripe ID. If you don't have a stripe account, Gras will create one for you.`,
 		CONNECT_MY_STRIPE: `Connect my stripe account`,
 		CONNECTING_TO_STRIPE: `connecting to stripe`,
