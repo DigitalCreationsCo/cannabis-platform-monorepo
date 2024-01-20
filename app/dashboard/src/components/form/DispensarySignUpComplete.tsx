@@ -37,20 +37,20 @@ function DispensarySignUpComplete() {
 	);
 	return (
 		<Grid className="mx-auto max-w-[525px] space-y-2 pt-8">
-			<FlexBox className="flex-row justify-between">
-				<FlexBox>
-					<H2 className="whitespace-normal tracking-wide">Congratulations</H2>
-					<H4 className="whitespace-normal tracking-wide">
-						{TextContent.account.DISPENSARY_ACCOUNT_IS_CREATED}
-					</H4>
+			<FlexBox className="items-center">
+				<FlexBox className="flex-row justify-between items-end">
+					<H2 className="whitespace-normal tracking-wide">Congratulations!</H2>
+					<Image
+						alt="Gras Cannabis logo"
+						src={'/logo.png'}
+						height={63}
+						width={63}
+						priority
+					/>
 				</FlexBox>
-				<Image
-					alt="Gras Cannabis logo"
-					src={'/logo.png'}
-					height={63}
-					width={63}
-					priority
-				/>
+				<H4 className="whitespace-normal tracking-wide">
+					{TextContent.account.DISPENSARY_ACCOUNT_IS_CREATED}
+				</H4>
 			</FlexBox>
 			<Center className="space-y-4 py-4">
 				<H4 className="cursor-default">What's next?</H4>

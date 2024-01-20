@@ -83,6 +83,7 @@ function App({ Component, ...rest }: CustomAppProps) {
 		'/site-settings',
 		'/setup-widget',
 		'/users',
+		'/daily-deals',
 	];
 
 	const getLayoutContext = (): LayoutContextProps => ({

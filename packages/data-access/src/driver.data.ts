@@ -154,7 +154,9 @@ export async function updateDriver(userData: UserCreateType) {
 					: undefined,
 				memberships: userData.memberships
 					? {
-							create: userData.memberships,
+							createMany: {
+								data: userData.memberships as Prisma.MembershipCreateManyUserInput[],
+							},
 					  }
 					: undefined,
 			},

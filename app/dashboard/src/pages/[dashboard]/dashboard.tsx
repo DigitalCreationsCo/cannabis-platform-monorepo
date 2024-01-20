@@ -4,13 +4,12 @@ import {
 	dispensaryActions,
 	TextContent,
 	urlBuilder,
-	usePagination,
 } from '@cd/core-lib';
 import {
 	type OrderWithFullDetails,
 	type OrganizationWithDashboardDetails,
 	type ProductWithDashboardDetails,
-	type UserDispensaryAdmin,
+	type UserDispensaryStaff,
 } from '@cd/data-access';
 import {
 	Card,
@@ -18,6 +17,7 @@ import {
 	H6,
 	Icons,
 	OrderRow,
+	usePagination,
 	Page,
 	PageHeader,
 	VariantRow,
@@ -32,7 +32,7 @@ import { wrapper } from '../../store';
 
 interface DashboardProps {
 	organization: OrganizationWithDashboardDetails;
-	user: UserDispensaryAdmin;
+	user: UserDispensaryStaff;
 	products: ProductWithDashboardDetails[];
 	orders: OrderWithFullDetails[];
 }
@@ -169,7 +169,7 @@ Dashboard.getLayoutContext = (): LayoutContextProps => ({
 function mapStateToProps(state: AppState) {
 	const { user, dispensary } = state;
 	return {
-		user: user.user as UserDispensaryAdmin,
+		user: user.user as UserDispensaryStaff,
 		organization: dispensary.dispensary,
 		products: dispensary.products,
 		orders: dispensary.orders,

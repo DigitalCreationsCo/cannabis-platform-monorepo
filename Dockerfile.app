@@ -28,10 +28,10 @@ ENV NEXT_PUBLIC_SHOP_APP_URL="https://grascannabis.org"
 ENV NEXT_PUBLIC_DASHBOARD_APP_URL="https://app.grascannabis.org"
 ENV BACKEND_URL=https://backend.grascannabis.org
 ENV NEXT_PUBLIC_SERVER_MAIN_URL="https://backend.grascannabis.org/main"
-ENV NEXT_PUBLIC_SERVER_LOCATION_URL="https://backend.grascannabis.org/location"
 ENV NEXT_PUBLIC_SERVER_PAYMENTS_URL="https://backend.grascannabis.org/payments"
 ENV NEXT_PUBLIC_SERVER_IMAGE_URL="https://backend.grascannabis.org/image"
 ENV NEXT_PUBLIC_SERVER_DISPATCH_URL="https://backend.grascannabis.org/dispatch"
+ENV NEXT_PUBLIC_SERVER_SMS_URL="https://backend.grascannabis.org/sms"
 
 EXPOSE $PORT
 

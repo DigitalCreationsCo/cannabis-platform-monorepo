@@ -1,4 +1,5 @@
 import {
+	useEffect,
 	type ChangeEventHandler,
 	type PropsWithChildren,
 	type ReactEventHandler,
@@ -53,8 +54,22 @@ function Layout({
 }: LayoutProps & PropsWithChildren) {
 	const styles = {
 		main: 'bg-inherit flex-1',
-		isModalOverlay: isModalVisible && 'w-full fixed bg-inherit',
+		isModalOverlay:
+			isModalVisible && 'w-full relative bg-inherit overscroll-none',
 	};
+
+	useEffect(() => {
+		const lockScroll = (e: Event) => {
+			if (isModalVisible) {
+				e.preventDefault();
+				e.stopPropagation();
+				e.stopImmediatePropagation();
+				return false;
+			}
+		};
+		document.addEventListener('wheel', lockScroll, { passive: false });
+		return () => document.removeEventListener('wheel', lockScroll, false);
+	}, [isModalVisible]);
 
 	const navLinkContainerId = 'dashboard-links-container';
 	const drawerComponentId = 'dashboard-links-drawer';

@@ -1,4 +1,5 @@
 import { getGeoCoordinatesFromAddress } from '@cd/core-lib';
+import { EmailService } from '@cd/core-lib/lib/email/EmailService';
 import { type AddressPayload, type DriverCreateType } from '@cd/data-access';
 import { DriverDA } from '../data-access';
 
@@ -29,6 +30,10 @@ export default class DriverController {
 				return res
 					.status(404)
 					.json({ success: 'false', error: 'Driver could not be created.' });
+
+			// send new driver email
+			EmailService.sendNewDeliveryPersonEmail({ user: driver });
+
 			return res.status(201).json({ success: 'true', payload: driver });
 		} catch (error: any) {
 			console.error('createDriver: ', error);

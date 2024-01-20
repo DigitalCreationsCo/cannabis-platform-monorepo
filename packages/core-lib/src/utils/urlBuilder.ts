@@ -1,10 +1,10 @@
 const shop = process.env.NEXT_PUBLIC_SHOP_APP_URL;
 const dashboard = process.env.NEXT_PUBLIC_DASHBOARD_APP_URL;
 const mainUrl = process.env.NEXT_PUBLIC_SERVER_MAIN_URL;
-const locationUrl = process.env.NEXT_PUBLIC_SERVER_LOCATION_URL;
 const paymentUrl = process.env.NEXT_PUBLIC_SERVER_PAYMENTS_URL;
 const imageUrl = process.env.NEXT_PUBLIC_SERVER_IMAGE_URL;
 const dispatchUrl = process.env.NEXT_PUBLIC_SERVER_DISPATCH_URL;
+const smsUrl = process.env.NEXT_PUBLIC_SERVER_SMS_URL;
 
 const urlBuilder = {
 	shop,
@@ -65,25 +65,40 @@ const urlBuilder = {
 
 		blog: () => urlBuilder.main.baseUrl + `/blog`,
 		blogById: (id: string) => urlBuilder.main.baseUrl + `/blog/${id}`,
-	},
 
-	location: {
-		baseUrl: locationUrl + '/api/v1',
 		organizationsLocal: () =>
-			urlBuilder.location.baseUrl + '/serve-local/organizations',
+			urlBuilder.main.baseUrl + '/serve-local/organizations',
 		organizationLocationRecord: () =>
-			urlBuilder.location.baseUrl + '/serve-local/organizations/record',
+			urlBuilder.main.baseUrl + '/serve-local/organizations/record',
 		getOrganizationRecord: (id: string) =>
-			urlBuilder.location.baseUrl + `/serve-local/organizations/${id}`,
+			urlBuilder.main.baseUrl + `/serve-local/organizations/${id}`,
 	},
 
 	payment: {
 		baseUrl: paymentUrl + '/api/v1',
-		purchase: () => urlBuilder.payment.baseUrl + '/payment/purchase',
-		createStripe: () => urlBuilder.payment.baseUrl + `/accounts/create`,
-		connectStripe: () => urlBuilder.payment.baseUrl + `/accounts/connect`,
-		checkOnboard: () => urlBuilder.payment.baseUrl + '/accounts/check-onboard',
+		// purchase: () => urlBuilder.payment.baseUrl + '/payment/purchase',
+
+		getStripeAccount: () => urlBuilder.payment.baseUrl + '/account',
+
+		createStripeDispensaryAccount: () =>
+			urlBuilder.payment.baseUrl + `/account/create-dispensary`,
+		connectStripeDispensaryAccount: () =>
+			urlBuilder.payment.baseUrl + `/account/connect-dispensary`,
+		checkOnboard: () =>
+			urlBuilder.payment.baseUrl + '/account/check-onboard-dispensary',
+
+		createStripeDeliveryDriverAccount: () =>
+			urlBuilder.payment.baseUrl + `/account/create-driver`,
+		createCustomer: () =>
+			urlBuilder.payment.baseUrl + '/account/create-customer',
+
+		setupSubscriptionDispensary: () =>
+			urlBuilder.payment.baseUrl + '/payment/subscribe-dispensary',
 		checkout: () => urlBuilder.payment.baseUrl + '/payment/checkout',
+		saveCustomerPaymentMethod: () =>
+			urlBuilder.payment.baseUrl + '/payment/save-payment',
+		chargeCustomer: () =>
+			urlBuilder.payment.baseUrl + '/payment/charge-customer',
 	},
 
 	image: {
@@ -99,6 +114,17 @@ const urlBuilder = {
 		// newOrder: () => urlBuilder.dispatch.baseUrl + '/dispatch/order/new',
 		// connect: () => urlBuilder.dispatch.baseUrl + '/dispatch/connect',
 		connect: () => `${dispatchUrl}`,
+	},
+
+	sms: {
+		baseUrl: smsUrl + '/api/v1',
+		dailyDealById: (id: string) =>
+			urlBuilder.sms.baseUrl + `/sms/daily-deal/${id}`,
+		dailyDealsByOrganization: (id: string) =>
+			urlBuilder.sms.baseUrl + `/sms/daily-deals/organization/${id}`,
+		dailyDeal: () => urlBuilder.sms.baseUrl + `/sms/daily-deal`,
+		dailyDealSmsResponse: () =>
+			urlBuilder.sms.baseUrl + `/sms/daily-deal-sms-response`,
 	},
 };
 
