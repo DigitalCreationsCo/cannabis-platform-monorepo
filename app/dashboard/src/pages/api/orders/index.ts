@@ -1,18 +1,54 @@
 import { axios, urlBuilder } from '@cd/core-lib';
 import { type NextApiRequest, type NextApiResponse } from 'next';
 import nc from 'next-connect';
+import NextCors from 'nextjs-cors';
+import Supertokens from 'supertokens-node';
+import { superTokensNextWrapper } from 'supertokens-node/nextjs';
+import { verifySession } from 'supertokens-node/recipe/session/framework/express';
+import {
+	backendConfig,
+	createAnonymousJWT,
+} from '../../../config/backendConfig';
 
-const handler = nc();
+Supertokens.init(backendConfig());
+
 // get orders from an organization
-handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = nc();
+handler.get(async (req: any, res: any) => {
 	try {
+		const jwt = await createAnonymousJWT({});
+		req.headers['authorization'] = `Bearer ${jwt}`;
+
+		await NextCors(req, res, {
+			methods: ['GET'],
+			origin: process.env.NEXT_PUBLIC_DASHBOARD_APP_URL,
+			credentials: true,
+			allowedHeaders: ['content-type', ...Supertokens.getAllCORSHeaders()],
+		});
+
+		await superTokensNextWrapper(
+			async (next) => {
+				return await verifySession()(req, res, next);
+			},
+			req,
+			res,
+		);
+
 		res.setHeader('Cache-Control', 'public, s-maxage=120');
 		const organizationId = req.headers['organization-id'] as string;
-		const response = await axios(urlBuilder.main.ordersByOrgId(organizationId));
+		const response = await axios(
+			urlBuilder.main.ordersByOrgId(organizationId),
+			{
+				headers: { ...req.headers },
+			},
+		);
+
+		if (response.data.success == 'false') throw new Error(response.data.error);
+
 		return res.status(response.status).json(response.data);
 	} catch (error: any) {
-		console.error('dashboard api: get orders ', error.message);
-		return res.status(500).json({
+		console.error('GET /api/orders: ', error.message);
+		return res.json({
 			success: 'false',
 			error: error.message,
 		});

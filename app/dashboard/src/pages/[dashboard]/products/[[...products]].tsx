@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { type AppState, usePagination } from '@cd/core-lib';
+import { type AppState } from '@cd/core-lib';
 import { type ProductWithDashboardDetails } from '@cd/data-access';
 import {
 	Grid,
@@ -9,6 +9,7 @@ import {
 	Page,
 	PageHeader,
 	ProductRow,
+	usePagination,
 	Row,
 	type LayoutContextProps,
 } from '@cd/ui-lib';

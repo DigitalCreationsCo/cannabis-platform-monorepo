@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 // import { agent } from '@cd/ai';
 import { agent, createAgentTask } from '@cd/ai';
+import { BrevoMailer } from '@cd/core-lib/lib/brevo-mailer';
 import { type NextApiResponse } from 'next';
 import nc from 'next-connect';
 import { createClient } from 'next-sanity';
-import { BrevoMailer } from 'lib/brevo-mailer';
 import {
 	getNonPublishedPosts,
 	setPostPublishedInNewsletter,
 } from 'lib/sanity.client';
+import { urlForImage } from 'lib/sanity.image';
 import { type Post } from 'lib/sanity.queries';
 
 // generate newsletter content combination with openai and cms content, by providing a list of article urls to the trained model.
@@ -84,7 +85,7 @@ handler.post(async (req: any, res: NextApiResponse) => {
 				_id: post._id,
 				title: post.title!,
 				excerpt: post.excerpt!,
-				mainImage: post.mainImageAsset.url,
+				mainImage: urlForImage(post.mainImageAsset)!.url(),
 				footer: `More info available here.`,
 				link: post.contentUrl,
 			};
@@ -99,7 +100,7 @@ handler.post(async (req: any, res: NextApiResponse) => {
 		}[] = [...aiGeneratedContent, ...normalizeBlogContent];
 
 		const mailer = new BrevoMailer();
-		await mailer.sendCampaign(subject, header, newsletterContent);
+		await mailer.sendNewsletterCampaign(subject, header, newsletterContent);
 
 		normalizeBlogContent.forEach(async (post) => {
 			await setPostPublishedInNewsletter(client, post._id);

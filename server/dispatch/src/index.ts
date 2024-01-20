@@ -21,8 +21,8 @@ import {
 	javascriptConfigRoutes,
 	manifestRoutes,
 	taskRoutes,
-} from 'routes';
-import { deliveryVehicleRoutes } from 'routes/delivery-vehicle.route';
+	deliveryVehicleRoutes,
+} from './routes';
 import {
 	Client,
 	type SocketMessage,
@@ -213,7 +213,7 @@ try {
 
 	new ClusterInit();
 
-	const port = (process.env.SERVER_PORT as unknown as number) || 6041;
+	const port = process.env.SERVER_PORT || 6041;
 	httpServer.listen(port, () => {
 		console.info(
 			`  🚚 server-dispatch is in ${process.env.NODE_ENV} mode on port ${port}.`,

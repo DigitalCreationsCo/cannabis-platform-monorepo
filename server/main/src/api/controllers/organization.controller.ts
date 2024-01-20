@@ -1,4 +1,5 @@
 import { getGeoCoordinatesFromAddress } from '@cd/core-lib';
+import { EmailService } from '@cd/core-lib/lib/email/EmailService';
 import {
 	type OrganizationCreateType,
 	type OrganizationUpdateType,
@@ -25,16 +26,20 @@ export default class OrganizationController {
 	static async createOrganization(req, res) {
 		try {
 			const organization: OrganizationCreateType = req.body;
+
 			const coordinates = await getGeoCoordinatesFromAddress(
 				organization.address,
 			);
+
 			organization.address.coordinates = { ...coordinates };
+
 			const data = await OrganizationDA.createOrganization(organization);
 			if (!data)
 				return res.status(404).json({
 					success: 'false',
 					message: 'Organization could not be created.',
 				});
+
 			return res.status(201).json({
 				success: 'true',
 				message: data.message,

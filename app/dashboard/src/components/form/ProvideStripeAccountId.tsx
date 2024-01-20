@@ -105,6 +105,10 @@ function ProvideStripeAccountId() {
 				email: formValues.newUser?.email as string,
 				// we can assume the email is submitted at this point
 			});
+
+			if (!response.data.success || response.data.success == 'false')
+				throw new Error(response.data.error);
+
 			if (response.status === 302) {
 				// allow form navigation after submitting
 				setCanProceed(true);
@@ -113,9 +117,12 @@ function ProvideStripeAccountId() {
 					window.location.href = response.data.redirect;
 				}
 			}
+
 			if (response.status !== 201)
 				throw new Error('Error creating stripe account.');
+
 			const { stripeAccountId } = response.data.payload;
+
 			setFormValues({ organization: { stripeAccountId } });
 			setLoadingButton2(false);
 			toast.success(response.data.message);

@@ -1,13 +1,14 @@
 import {
+	type CustomerCreateStripeAccountPayload,
 	TextContent,
 	urlBuilder,
 	type DispensaryConnectStripeAccountPayload,
 	type DispensaryCreateStripeAccountPayload,
 	type OrganizationStripeDetail,
+	CustomerCreateStripeAccountResponse,
 } from '@cd/core-lib';
 import { updateDispensaryStripeAccount } from '@cd/data-access';
 import type Stripe from 'stripe';
-import stripe from 'stripe';
 import StripeService from '../stripe';
 
 /* =================================
@@ -15,6 +16,7 @@ AccountController - controller class for preworking data and calling stripe acco
 
 members:
 getStripeAccount
+
 createStripeDispensaryAccount
 connectStripeDispensaryAccount
 checkOnboardDispensaryAccount
@@ -53,7 +55,7 @@ export default class AccountController {
 	 * @param req
 	 * @param res
 	 */
-	static async createStripeDispensaryAccount(req, res) {
+	static async createStripeAccountDispensary(req, res) {
 		try {
 			console.log('create Stripe Dispensary Account, ', req.body);
 			const {
@@ -113,7 +115,7 @@ export default class AccountController {
 	 * @param req
 	 * @param res
 	 */
-	static async connectStripeDispensaryAccount(req, res) {
+	static async connectStripeAccountDispensary(req, res) {
 		try {
 			const {
 				organization: dispensaryAccount,
@@ -233,4 +235,44 @@ export default class AccountController {
 			return res.status(500).json({ success: 'false', error: error.message });
 		}
 	}
+
+	/**
+	 * Create a stripe customer account, and add a payment method.
+	 * @param req
+	 * @param res
+	 */
+	static async createStripeAccountCustomer(req, res) {
+		const {
+			id,
+			email,
+			phone,
+			firstName,
+			lastName,
+		}: CustomerCreateStripeAccountPayload = req.body;
+		console.info('create stripe customer account: ', req.body);
+
+		const customer = await StripeService.createCustomerAccount({
+			email,
+			phone,
+			name: `${firstName} ${lastName}`,
+			metadata: { id },
+		});
+
+		const intent = await StripeService.saveCustomerPaymentMethod({
+			customer: customer.id,
+		});
+
+		return res.status(201).json({
+			success: 'true',
+			message: 'Customer account and payment method created successfully.',
+			payload: { client_secret: intent.client_secret },
+		});
+	}
+
+	/**
+	 * Create a stripe driver account
+	 * @param req
+	 * @param res
+	 */
+	static async createStripeAccountDeliveryDriver(req, res) {}
 }
