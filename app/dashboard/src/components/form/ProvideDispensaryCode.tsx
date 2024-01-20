@@ -17,6 +17,7 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import * as yup from 'yup';
 
+// This page can accept 'code' query param to auto-fill and auto-fetch the dispensary key field
 const ProvideDispensaryKey = () => {
 	const searchParams = useSearchParams();
 	const code = searchParams.get('code') || '';
