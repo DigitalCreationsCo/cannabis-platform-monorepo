@@ -27,7 +27,7 @@ function SubmitAddressForm() {
 	}
 
 	useEffect(() => {
-		startTour();
+		if (window.location.pathname != '/') startTour();
 	}, []);
 
 	const { nextFormStep, prevFormStep, formValues, setFormValues } =
@@ -80,8 +80,10 @@ function SubmitAddressForm() {
 				urlBuilder.shop + '/api/user/address',
 				values.address,
 			);
-			if (response.data.success === 'false')
+
+			if (!response.data.success || response.data.success === 'false')
 				throw new Error(response.data.error);
+
 			setFormValues({
 				newUser: {
 					address: {
@@ -218,7 +220,7 @@ function SubmitAddressForm() {
                         error={!!touched?.address?.country && !!errors?.address?.country}
                         helperText={touched?.address?.country && errors?.address?.country}
                     /> */}
-				<FlexBox className="flex-row justify-center space-x-4 py-2">
+				<FlexBox className="flex-row justify-evenly space-x-8 py-4">
 					<Button
 						disabled={loadingButton}
 						onClick={(e) => {

@@ -48,6 +48,7 @@ function DispensarySignUpStepForm() {
 					formId="dispensary-signup-form"
 					FormStepComponents={FormStepComponents}
 					isComplete={() => setRunConfetti(true)}
+					stepPosition="bottom"
 				/>
 			</FormCard>
 		</Page>

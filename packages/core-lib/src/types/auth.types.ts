@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import {
+	type UserDispensaryStaffWithDispensaryDetails,
 	type DriverWithSessionJoin,
 	type UserWithDetails,
 } from '@cd/data-access/src';
@@ -9,10 +10,14 @@ export type ApiContext = {
 	action: 'SIGN_OUT' | 'REFRESH_SESSION';
 	requestInit: RequestInit;
 	url: string;
-	// appUser: AppUser
+	appUser: AppUser;
 };
 
-export type AppUser = 'DRIVER' | 'CUSTOMER' | 'ADMIN';
+export type AppUser =
+	| 'DRIVER_USER'
+	| 'CUSTOMER_USER'
+	| 'ADMIN_USER'
+	| 'DISPENSARY_USER';
 
 export type PasswordlessSignInRequestPayload = {
 	userContext: any;
@@ -36,12 +41,17 @@ export type PasswordlessResponseWithDriverDetails = {
 	fetchResponse: Response;
 };
 
-export type ConsumerCodeResponse = {
+export type ConsumeCodeResponse = {
 	status: 'OK';
 	createdNewRecipeUser: boolean;
 	user: User;
-	_user: {
-		token: string;
-		user: UserWithDetails | DriverWithSessionJoin;
-	};
+	userFromDb: UserFromDBAuthResponse;
+};
+
+export type UserFromDBAuthResponse = {
+	token: string;
+	user:
+		| UserWithDetails
+		| DriverWithSessionJoin
+		| UserDispensaryStaffWithDispensaryDetails;
 };

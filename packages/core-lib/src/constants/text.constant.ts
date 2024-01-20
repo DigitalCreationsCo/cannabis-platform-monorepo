@@ -113,6 +113,9 @@ const TextContent = Object.freeze({
 		SIGNIN_EMAIL_OR_PHONE: 'Sign in with your email or phone',
 		SIGNUP: 'Sign up',
 		CTA: 'SIGN UP FOR DELIVERY',
+		THANK_YOU_FOR_SIGNING_UP: 'Thanks for Signing up to Delivery By Gras!',
+		THANK_YOU_FOR_SIGNING_UP_WEED_TEXT_DEAL:
+			'Thanks for Signing up to Delivery By Gras! Your first deal is on the way!',
 	},
 
 	error: {
@@ -179,6 +182,7 @@ const TextContent = Object.freeze({
 		YOUR_PEOPLE_ARE_OUR_PEOPLE: `Your people are our people.`,
 		DELIVER_FOR_GRAS: 'Deliver for Gras',
 		SAME_DAY_DELIVERY: 'Same-Day Cannabis Delivery',
+		TOP_SHELF_CANNABIS_DELIVERED_DAILY: 'Top-Shelf Cannabis Delivered Daily',
 	},
 
 	blog: {
@@ -203,8 +207,8 @@ const TextContent = Object.freeze({
 		ITEMS: 'Items',
 		LOADING: 'Loading...',
 		SAVE_CHANGES: 'Save Changes',
-		CONTINUE: 'continue',
-		BACK: 'go back',
+		CONTINUE: 'Next',
+		BACK: 'Previous',
 
 		HOME_LOCATION_IS_SET: "We'll send your next delivery to Home.",
 		CURRENT_LOCATION_IS_SET:
@@ -354,8 +358,9 @@ const TextContent = Object.freeze({
 		site: `/site-settings`,
 		site_f: (id: string) => `/${id}/settings/site-settings`,
 		setup_widget_f: (id: string) => `/${id}/settings/setup-widget`,
-		preview_fullscreen_widget: (id: string) =>
+		preview_fullscreen_widget_f: (id: string) =>
 			`/${id}/settings/preview-fullscreen`,
+		daily_deals_weed_text_f: (id: string) => `/${id}/daily-deals`,
 		support: '/help/support',
 
 		help: `/help`,

@@ -40,6 +40,8 @@
     "@cd/ui-lib": "workspace:*",
     "@paralleldrive/cuid2": "2.2.1",
     "@reduxjs/toolkit": "1.9.2",
+    "@stripe/react-stripe-js": "2.4.0",
+    "@stripe/stripe-js": "2.3.0",
     "@typeform/embed-react": "2.28.0",
     "axios": "1.2.1",
     "boarding.js": "3.5.2",

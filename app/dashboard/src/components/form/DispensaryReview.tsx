@@ -62,7 +62,7 @@ function DispensaryReview() {
 						prevFormStep();
 					}}
 				>
-					back
+					{TextContent.ui.BACK}
 				</Button>
 				<Button
 					type="submit"
@@ -72,7 +72,7 @@ function DispensaryReview() {
 						nextFormStep();
 					}}
 				>
-					Next
+					{TextContent.ui.CONTINUE}
 				</Button>
 			</FlexBox>
 		</Grid>

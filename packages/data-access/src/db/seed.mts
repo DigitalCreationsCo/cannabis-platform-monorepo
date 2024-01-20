@@ -1,5 +1,6 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { error } from 'console';
 import {
 	PrismaClient,
 	type Address,
@@ -110,1034 +111,1032 @@ const createCoordinates = async () => {
 /**
  * insert dispensary records into pg db, and POST geolocate records to mongo db
  */
-const createOrganizations = async () => {
-	// ORGANIZATION
-	const orgs: (Prisma.OrganizationCreateInput & {
-		address: Prisma.AddressCreateNestedOneWithoutOrganizationInput;
-		schedule: Prisma.ScheduleCreateNestedManyWithoutOrganizationInput;
-		images: Prisma.ImageOrganizationCreateNestedManyWithoutOrganizationInput;
-		// products: Prisma.ProductCreateInput[];
-		// categoryList: Prisma.CategoryListCreateInput;
-	})[] = [
-		{
-			id: 'bf346k4u7x2b2hhr6wvgippp',
-			name: 'Curaleaf MD Reisterstown',
-			stripeAccountId: null,
-			stripeOnboardingComplete: false,
-			dialCode: '1',
-			phone: '',
-			subdomain: {
-				connectOrCreate: {
-					where: {
-						id: 'curaleaf',
-					},
-					create: {
-						id: 'curaleaf',
-						isValid: true,
-						createdAt: new Date(),
-						updatedAt: new Date(),
-					},
-				},
-			},
-			vendor: {
-				connectOrCreate: {
-					where: {
-						name: 'curaleaf',
-					},
-					create: {
-						name: 'curaleaf',
-						publicName: 'Curaleaf',
-						createdAt: new Date(),
-						updatedAt: new Date(),
-					},
-				},
-			},
-			termsAccepted: false,
-			address: {
-				create: {
-					street1: '11722 Reisterstown Rd',
-					street2: '',
-					city: 'Reisterstown',
-					state: 'MD',
-					zipcode: 21136,
-					country: 'United_States',
-					countryCode: 'US',
-					coordinates: {
+async function createOrganizations() {
+	try {
+		const orgs: (Prisma.OrganizationCreateInput & {
+			address: Prisma.AddressCreateNestedOneWithoutOrganizationInput;
+			schedule: Prisma.ScheduleCreateNestedManyWithoutOrganizationInput;
+			images: Prisma.ImageOrganizationCreateNestedManyWithoutOrganizationInput;
+			// products: Prisma.ProductCreateInput[];
+			// categoryList: Prisma.CategoryListCreateInput;
+		})[] = [
+			{
+				id: 'bf346k4u7x2b2hhr6wvgippp',
+				name: 'Curaleaf MD Reisterstown',
+				stripeAccountId: null,
+				stripeOnboardingComplete: false,
+				dialCode: '1',
+				phone: '',
+				subdomain: {
+					connectOrCreate: {
+						where: {
+							id: 'curaleaf',
+						},
 						create: {
-							radius: 10000,
-							latitude: 39.445438,
-							longitude: -76.809394,
+							id: 'curaleaf',
+							isValid: true,
 							createdAt: new Date(),
 							updatedAt: new Date(),
 						},
 					},
-					createdAt: new Date(),
-					updatedAt: new Date(),
+				},
+				vendor: {
+					connectOrCreate: {
+						where: {
+							name: 'curaleaf',
+						},
+						create: {
+							name: 'curaleaf',
+							publicName: 'Curaleaf',
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+					},
+				},
+				termsAccepted: false,
+				address: {
+					create: {
+						street1: '11722 Reisterstown Rd',
+						street2: '',
+						city: 'Reisterstown',
+						state: 'MD',
+						zipcode: 21136,
+						country: 'United_States',
+						countryCode: 'US',
+						coordinates: {
+							create: {
+								radius: 10000,
+								latitude: 39.445438,
+								longitude: -76.809394,
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+						},
+						createdAt: new Date(),
+						updatedAt: new Date(),
+					},
+				},
+				ecommerceUrl:
+					'https://curaleaf.com/shop/maryland/curaleaf-md-reisterstown',
+				showInMarketPlace: true,
+				schedule: {
+					createMany: {
+						data: [
+							{
+								day: 'Monday',
+								openAt: 800,
+								closeAt: 2000,
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+							{
+								day: 'Tuesday',
+								openAt: 800,
+								closeAt: 2000,
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+							{
+								day: 'Wednesday',
+								openAt: 800,
+								closeAt: 2000,
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+							{
+								day: 'Thursday',
+								openAt: 800,
+								closeAt: 2000,
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+							{
+								day: 'Friday',
+								openAt: 800,
+								closeAt: 2000,
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+							{
+								day: 'Saturday',
+								openAt: 800,
+								closeAt: 2000,
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+							{
+								day: 'Sunday',
+								openAt: 800,
+								closeAt: 2000,
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+						],
+					},
+				},
+				images: {
+					createMany: {
+						data: [
+							{
+								location:
+									'https://storage.googleapis.com/e4f53ea0212ea91d-image-dispensary/curaleaf.png',
+								blurhash: '',
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+						],
+					},
+				},
+				products: {
+					create: {
+						name: 'King OG',
+						description: 'turpentines all day baby',
+						features: 'fresh, without formaline',
+						tags: 'mini, flower, og',
+						rating: 4.5,
+						variants: {
+							create: {
+								id: '1',
+								name: 'King OG',
+								unit: 'g',
+								size: 3.5,
+								currency: 'USD',
+								basePrice: 6999,
+								discount: 10,
+								stock: 5,
+								organizationId: 'bf346k4u7x2b2hhr6wvgippp',
+								rating: 4.5,
+								organizationName: 'Curaleaf',
+								quantity: 3,
+								isDiscount: true,
+								salePrice: 6499,
+								sku: 1234567,
+								images: {
+									create: {
+										id: '2',
+										location:
+											'https://storage.googleapis.com/e4f53ea0212ea91d-image-dispensary/flower/bugs.png',
+										createdAt: new Date(),
+										updatedAt: new Date(),
+									},
+								},
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+						},
+						createdAt: new Date(),
+						updatedAt: new Date(),
+					},
+				},
+				orders: {
+					create: {
+						subtotal: 12000,
+						total: 12399,
+						taxFactor: 0.6,
+						taxAmount: 1239,
+						orderStatus: 'Pending',
+						customerId: 'bfhk6k4u7xq030hr6wvgiwao',
+						addressId: '5',
+						driverId: 'bf346k4u7x2b2hhr6wvgiwao',
+						purchase: {
+							create: {
+								paymentStatus: 'Pending',
+								gateway: 'stripe',
+								type: 'card',
+								amount: 12399,
+								token: '12345',
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+						},
+						routeId: null,
+						isDeliveredOrder: false,
+						isCustomerReceivedOrder: false,
+						isCompleted: false,
+						createdAt: new Date(),
+						updatedAt: new Date(),
+						deliveryDeadline: new Date(Date.now() + 2 * 60 * 60 * 1000),
+						isDriverAssigned: false,
+						driverAssignedAt: new Date(),
+						isProductPickedUp: false,
+						productPickedUpAt: new Date(),
+						customerReceivedOrderAt: new Date(),
+						completedAt: new Date(),
+						deliveredAt: new Date(),
+					},
+				},
+				siteSetting: {
+					create: {
+						title: 'Curaleaf MD Reisterstown',
+						description: 'CuraLeaf MD Description text',
+						bannerText: 'Curaleaf MD Banner Text',
+						createdAt: new Date(),
+						updatedAt: new Date(),
+					},
+				},
+				categoryList: {
+					create: {} as any,
+				},
+				createdAt: new Date(),
+				updatedAt: new Date(),
+			},
+			{
+				id: 'bf346k4u7x2b2hhr6wsofcsc',
+				name: 'ReLeaf Shop Baltimore',
+				stripeAccountId: null,
+				stripeOnboardingComplete: false,
+				dialCode: '1',
+				phone: '4107739054',
+				ecommerceUrl: 'https://www.releaf-shop.com/shop',
+				showInMarketPlace: true,
+				subdomain: {
+					connectOrCreate: {
+						where: {
+							id: 'releaf-shop',
+						},
+						create: {
+							id: 'releaf-shop',
+							isValid: true,
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+					},
+				},
+				vendor: {
+					connectOrCreate: {
+						where: {
+							name: 'releaf-shop',
+						},
+						create: {
+							name: 'releaf-shop',
+							publicName: 'Releaf Shop',
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+					},
+				},
+				termsAccepted: false,
+				address: {
+					create: {
+						street1: '1114 Cathederal Street',
+						street2: 'Suite 5',
+						city: 'Baltimore',
+						state: 'MD',
+						zipcode: 21201,
+						country: 'United_States',
+						countryCode: 'US',
+						coordinates: {
+							create: {
+								radius: 10000,
+								latitude: 39.302045,
+								longitude: -76.618481,
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+						},
+						createdAt: new Date(),
+						updatedAt: new Date(),
+					},
+				},
+				schedule: {
+					create: {
+						days: 1234560,
+						openAt: 9,
+						closeAt: 21,
+						createdAt: new Date(),
+						updatedAt: new Date(),
+					},
+				},
+				siteSetting: {
+					create: {
+						title: 'Welcome to Releaf Shop Baltimore',
+						createdAt: new Date(),
+						updatedAt: new Date(),
+					},
+				},
+				images: {
+					createMany: {
+						data: [
+							{
+								location:
+									'https://storage.googleapis.com/e4f53ea0212ea91d-image-dispensary/releaf-shop.png',
+								blurhash: '',
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+						],
+					},
 				},
 			},
-			ecommerceUrl:
-				'https://curaleaf.com/shop/maryland/curaleaf-md-reisterstown',
-			showInMarketPlace: true,
-			schedule: {
-				createMany: {
-					data: [
-						{
-							day: 'Monday',
-							openAt: 800,
-							closeAt: 2000,
+			{
+				id: 'bf346k4u7x2b2hhr6wsofppp',
+				name: 'Golden Nugget Dispensary',
+				stripeAccountId: 'acct_1NtESYPZq3lkE1db',
+				stripeOnboardingComplete: true,
+				dialCode: '1',
+				phone: '5553592525',
+				ecommerceUrl: 'https://localhost:9000',
+				showInMarketPlace: true,
+				subdomain: {
+					connectOrCreate: {
+						where: {
+							id: 'golden-nugget',
+						},
+						create: {
+							id: 'golden-nugget',
+							isValid: true,
 							createdAt: new Date(),
 							updatedAt: new Date(),
 						},
-						{
-							day: 'Tuesday',
-							openAt: 800,
-							closeAt: 2000,
-							createdAt: new Date(),
-							updatedAt: new Date(),
-						},
-						{
-							day: 'Wednesday',
-							openAt: 800,
-							closeAt: 2000,
-							createdAt: new Date(),
-							updatedAt: new Date(),
-						},
-						{
-							day: 'Thursday',
-							openAt: 800,
-							closeAt: 2000,
-							createdAt: new Date(),
-							updatedAt: new Date(),
-						},
-						{
-							day: 'Friday',
-							openAt: 800,
-							closeAt: 2000,
-							createdAt: new Date(),
-							updatedAt: new Date(),
-						},
-						{
-							day: 'Saturday',
-							openAt: 800,
-							closeAt: 2000,
-							createdAt: new Date(),
-							updatedAt: new Date(),
-						},
-						{
-							day: 'Sunday',
-							openAt: 800,
-							closeAt: 2000,
-							createdAt: new Date(),
-							updatedAt: new Date(),
-						},
-					],
+					},
 				},
+				vendor: {
+					connectOrCreate: {
+						where: {
+							name: 'golden nugget',
+						},
+						create: {
+							name: 'golden nugget',
+							publicName: 'Golden Nugget',
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+					},
+				},
+				termsAccepted: false,
+				address: {
+					create: {
+						street1: '111 NewTown Rd',
+						street2: '',
+						city: 'Baltimore',
+						state: 'MD',
+						zipcode: 21226,
+						country: 'United_States',
+						countryCode: 'US',
+						coordinates: {
+							create: {
+								radius: 10000,
+								latitude: 39.445438,
+								longitude: -76.809394,
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+						},
+						createdAt: new Date(),
+						updatedAt: new Date(),
+					},
+				},
+				images: {
+					createMany: {
+						data: [
+							{
+								location:
+									'https://storage.googleapis.com/e4f53ea0212ea91d-image-dispensary/cannabis.png',
+								blurhash: '',
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+						],
+					},
+				},
+				products: {
+					create: {
+						name: 'King OG',
+						description: 'turpentines all day baby',
+						features: 'fresh, without formaline',
+						tags: 'mini, flower, og',
+						rating: 4.5,
+						variants: {
+							create: {
+								name: 'King OG',
+								unit: 'g',
+								size: 3.5,
+								currency: 'USD',
+								basePrice: 6999,
+								discount: 10,
+								stock: 5,
+								organizationId: 'bf346k4u7x2b2hhr6wsofppp',
+								rating: 4.5,
+								organizationName: 'Golden Nugget Dispensary',
+								quantity: 3,
+								isDiscount: true,
+								salePrice: 6499,
+								sku: 1234567,
+								images: {
+									create: {
+										location:
+											'https://storage.googleapis.com/e4f53ea0212ea91d-image-dispensary/flower/bugs.png',
+										createdAt: new Date(),
+										updatedAt: new Date(),
+									},
+								},
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+						},
+						createdAt: new Date(),
+						updatedAt: new Date(),
+					},
+				},
+				orders: {
+					create: {
+						subtotal: 12000,
+						total: 12399,
+						taxFactor: 0.6,
+						taxAmount: 1239,
+						orderStatus: 'Pending',
+						customerId: 'bfhk6k4u7xq030hr6wvgiwao',
+						addressId: '5',
+						driverId: 'bf346k4u7x2b2hhr6wvgiwao',
+						purchase: {
+							create: {
+								paymentStatus: 'Pending',
+								gateway: 'stripe',
+								type: 'card',
+								amount: 12399,
+								token: '12345',
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+						},
+						routeId: null,
+						isDeliveredOrder: false,
+						isCustomerReceivedOrder: false,
+						isCompleted: false,
+						createdAt: new Date(),
+						updatedAt: new Date(),
+						deliveryDeadline: new Date(Date.now() + 2 * 60 * 60 * 1000),
+						isDriverAssigned: false,
+						driverAssignedAt: new Date(),
+						isProductPickedUp: false,
+						productPickedUpAt: new Date(),
+						customerReceivedOrderAt: new Date(),
+						completedAt: new Date(),
+						deliveredAt: new Date(),
+					},
+				},
+				schedule: {
+					createMany: {
+						data: [
+							{
+								day: 'Monday',
+								openAt: 900,
+								closeAt: 2100,
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+							{
+								day: 'Tuesday',
+								openAt: 900,
+								closeAt: 2100,
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+							{
+								day: 'Wednesday',
+								openAt: 900,
+								closeAt: 2100,
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+							{
+								day: 'Thursday',
+								openAt: 900,
+								closeAt: 2100,
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+							{
+								day: 'Friday',
+								openAt: 900,
+								closeAt: 2100,
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+							{
+								day: 'Saturday',
+								openAt: 900,
+								closeAt: 2100,
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+							{
+								day: 'Sunday',
+								openAt: 900,
+								closeAt: 2100,
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+						],
+					},
+				},
+				siteSetting: {
+					create: {
+						title: 'Golden Nugget Dispensary',
+						description: 'Best nuggets coast to coast',
+						bannerText: 'Now delivering to your door',
+						createdAt: new Date(),
+						updatedAt: new Date(),
+					},
+				},
+				categoryList: {
+					create: {} as any,
+				},
+				createdAt: new Date(),
+				updatedAt: new Date(),
 			},
-			images: {
-				createMany: {
-					data: [
+			{
+				id: 'bf346k4u7x2b2hhr6wvgdddp',
+				name: 'SunnySide',
+				stripeAccountId: null,
+				stripeOnboardingComplete: false,
+				dialCode: '1',
+				phone: '6663776778',
+				ecommerceUrl: 'https://www.sunnyside.shop/store/lancaster-pa',
+				showInMarketPlace: true,
+				vendor: {
+					connectOrCreate: {
+						where: {
+							name: 'sunnyside',
+						},
+						create: {
+							name: 'sunnyside',
+							publicName: 'SunnySide',
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+					},
+				},
+				subdomain: {
+					connectOrCreate: {
+						where: {
+							id: 'sunnyside',
+						},
+						create: {
+							id: 'sunnyside',
+							isValid: true,
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+					},
+				},
+				termsAccepted: false,
+				address: {
+					create: {
+						street1: '1866 Fruitville Pike',
+						street2: '',
+						city: 'Lancaster',
+						state: 'PA',
+						zipcode: 17601,
+						country: 'United_States',
+						countryCode: 'US',
+						coordinates: {
+							create: {
+								radius: 10000,
+								latitude: 39.3077,
+								longitude: -76.5958,
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+						},
+						createdAt: new Date(),
+						updatedAt: new Date(),
+					},
+				},
+				images: {
+					create: [
 						{
 							location:
-								'https://storage.googleapis.com/e4f53ea0212ea91d-image-dispensary/curaleaf.png',
+								'https://storage.googleapis.com/e4f53ea0212ea91d-image-dispensary/sunnyside.png',
 							blurhash: '',
 							createdAt: new Date(),
 							updatedAt: new Date(),
 						},
 					],
 				},
-			},
-			products: {
-				create: {
-					name: 'King OG',
-					description: 'turpentines all day baby',
-					features: 'fresh, without formaline',
-					tags: 'mini, flower, og',
-					rating: 4.5,
-					variants: {
-						create: {
-							id: '1',
-							name: 'King OG',
-							unit: 'g',
-							size: 3.5,
-							currency: 'USD',
-							basePrice: 6999,
-							discount: 10,
-							stock: 5,
-							organizationId: 'bf346k4u7x2b2hhr6wvgippp',
-							rating: 4.5,
-							organizationName: 'Curaleaf',
-							quantity: 3,
-							isDiscount: true,
-							salePrice: 6499,
-							sku: 1234567,
-							images: {
-								create: {
-									id: '2',
-									location:
-										'https://storage.googleapis.com/e4f53ea0212ea91d-image-dispensary/flower/bugs.png',
-									createdAt: new Date(),
-									updatedAt: new Date(),
+				products: {
+					create: {
+						name: 'Eagle cbd oil',
+						description: 'Satisfying Liquid Goochy',
+						features: 'fresh, relaxing',
+						tags: 'cbd, og',
+						rating: 2.5,
+						variants: {
+							create: {
+								name: 'Eagle cbd oil',
+								unit: 'g',
+								size: 3.5,
+								currency: 'USD',
+								basePrice: 6999,
+								discount: 5,
+								stock: 5,
+								organizationId: 'bf346k4u7x2b2hhr6wvgdddp',
+								quantity: 3,
+								rating: 4.5,
+								isDiscount: true,
+								salePrice: 6499,
+								organizationName: 'Curaleaf',
+								sku: 1234567,
+								images: {
+									create: {
+										id: '1',
+										location:
+											'https://storage.googleapis.com/e4f53ea0212ea91d-image-dispensary/flower/bugs.png',
+										createdAt: new Date(),
+										updatedAt: new Date(),
+									},
 								},
+								createdAt: new Date(),
+								updatedAt: new Date(),
 							},
-							createdAt: new Date(),
-							updatedAt: new Date(),
 						},
-					},
-					createdAt: new Date(),
-					updatedAt: new Date(),
-				},
-			},
-			orders: {
-				create: {
-					subtotal: 12000,
-					total: 12399,
-					taxFactor: 0.6,
-					taxAmount: 1239,
-					orderStatus: 'Pending',
-					customerId: 'bfhk6k4u7xq030hr6wvgiwao',
-					addressId: '5',
-					driverId: 'bf346k4u7x2b2hhr6wvgiwao',
-					purchase: {
-						create: {
-							paymentStatus: 'Pending',
-							gateway: 'stripe',
-							type: 'card',
-							amount: 12399,
-							token: '12345',
-							createdAt: new Date(),
-							updatedAt: new Date(),
-						},
-					},
-					routeId: null,
-					isDeliveredOrder: false,
-					isCustomerReceivedOrder: false,
-					isCompleted: false,
-					createdAt: new Date(),
-					updatedAt: new Date(),
-					deliveryDeadline: new Date(Date.now() + 2 * 60 * 60 * 1000),
-					isDriverAssigned: false,
-					driverAssignedAt: new Date(),
-					isProductPickedUp: false,
-					productPickedUpAt: new Date(),
-					customerReceivedOrderAt: new Date(),
-					completedAt: new Date(),
-					deliveredAt: new Date(),
-				},
-			},
-			siteSetting: {
-				create: {
-					title: 'Curaleaf MD Reisterstown',
-					description: 'CuraLeaf MD Description text',
-					bannerText: 'Curaleaf MD Banner Text',
-					createdAt: new Date(),
-					updatedAt: new Date(),
-				},
-			},
-			categoryList: {
-				create: {} as any,
-			},
-			createdAt: new Date(),
-			updatedAt: new Date(),
-		},
-		{
-			id: 'bf346k4u7x2b2hhr6wsofcsc',
-			name: 'ReLeaf Shop Baltimore',
-			stripeAccountId: null,
-			stripeOnboardingComplete: false,
-			dialCode: '1',
-			phone: '4107739054',
-			ecommerceUrl: 'https://www.releaf-shop.com/shop',
-			showInMarketPlace: true,
-			subdomain: {
-				connectOrCreate: {
-					where: {
-						id: 'releaf-shop',
-					},
-					create: {
-						id: 'releaf-shop',
-						isValid: true,
 						createdAt: new Date(),
 						updatedAt: new Date(),
 					},
 				},
-			},
-			vendor: {
-				connectOrCreate: {
-					where: {
-						name: 'releaf-shop',
-					},
+				orders: {
 					create: {
-						name: 'releaf-shop',
-						publicName: 'Releaf Shop',
+						subtotal: 12000,
+						total: 23444,
+						taxFactor: 0.6,
+						taxAmount: 1239,
+						orderStatus: 'Processing',
+						customer: {
+							connect: {
+								id: 'bfhk6k4u7xq030hr6wvgiwao',
+							},
+						},
+						destinationAddress: {
+							connect: {
+								id: '5',
+							},
+						},
+						driver: {
+							connect: {
+								id: 'bf346k4u7x2b2hhr6wvgiwao',
+							},
+						},
+						purchase: {
+							create: {
+								paymentStatus: 'Paid',
+								gateway: 'stripe',
+								type: 'card',
+								amount: 23444,
+								token: '12345',
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+						},
+						routeId: null,
+						isDeliveredOrder: false,
+						isCustomerReceivedOrder: false,
+						isCompleted: false,
+						createdAt: new Date(),
+						updatedAt: new Date(),
+						deliveryDeadline: new Date(Date.now() + 2 * 60 * 60 * 1000),
+						isDriverAssigned: false,
+						driverAssignedAt: new Date(),
+						isProductPickedUp: false,
+						productPickedUpAt: new Date(),
+						customerReceivedOrderAt: new Date(),
+						completedAt: new Date(),
+						deliveredAt: new Date(),
+					},
+				},
+				siteSetting: {
+					create: {
+						title: 'Sunnyside',
+						description: 'Sunnyside Description text',
+						bannerText: 'Sunnyside Banner Text',
 						createdAt: new Date(),
 						updatedAt: new Date(),
 					},
 				},
+				schedule: {
+					createMany: {
+						data: [
+							{
+								day: 'Monday',
+								openAt: 900,
+								closeAt: 2100,
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+							{
+								day: 'Tuesday',
+								openAt: 900,
+								closeAt: 2100,
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+							{
+								day: 'Wednesday',
+								openAt: 900,
+								closeAt: 2100,
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+							{
+								day: 'Thursday',
+								openAt: 900,
+								closeAt: 2100,
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+							{
+								day: 'Friday',
+								openAt: 900,
+								closeAt: 2100,
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+							{
+								day: 'Saturday',
+								openAt: 900,
+								closeAt: 2100,
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+							{
+								day: 'Sunday',
+								openAt: 900,
+								closeAt: 2100,
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+						],
+					},
+				},
+				createdAt: new Date(),
+				updatedAt: new Date(),
 			},
-			termsAccepted: false,
-			address: {
-				create: {
-					street1: '1114 Cathederal Street',
-					street2: 'Suite 5',
-					city: 'Baltimore',
-					state: 'MD',
-					zipcode: 21201,
-					country: 'United_States',
-					countryCode: 'US',
-					coordinates: {
+			{
+				id: 'bf346k4u7x2b2hhr6wvgaaap',
+				name: 'Remedy Baltimore',
+				stripeAccountId: null,
+				stripeOnboardingComplete: false,
+				dialCode: '1',
+				phone: '',
+				termsAccepted: false,
+				ecommerceUrl:
+					'https://baltimore.remedymaryland.com/stores/remedy-baltimore',
+				showInMarketPlace: true,
+				subdomain: {
+					connectOrCreate: {
+						where: {
+							id: 'remedy',
+						},
 						create: {
-							radius: 10000,
-							latitude: 39.302045,
-							longitude: -76.618481,
+							id: 'remedy',
+							isValid: true,
 							createdAt: new Date(),
 							updatedAt: new Date(),
 						},
 					},
-					createdAt: new Date(),
-					updatedAt: new Date(),
 				},
-			},
-			schedule: {
-				create: {
-					days: 1234560,
-					openAt: 9,
-					closeAt: 21,
-					createdAt: new Date(),
-					updatedAt: new Date(),
+				vendor: {
+					connectOrCreate: {
+						where: {
+							name: 'remedy',
+						},
+						create: {
+							name: 'remedy',
+							publicName: 'Remedy',
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						},
+					},
 				},
-			},
-			siteSetting: {
-				create: {
-					title: 'Welcome to Releaf Shop Baltimore',
-					createdAt: new Date(),
-					updatedAt: new Date(),
+				address: {
+					create: {
+						street1: '7165 Security Blvd Suite C',
+						street2: '',
+						city: 'Windsor Mill',
+						state: 'MD',
+						zipcode: 21244,
+						country: 'United_States',
+						countryCode: 'US',
+						coordinates: {
+							create: {
+								radius: 10000,
+								latitude: 39.313284,
+								longitude: -76.757832,
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+						},
+						createdAt: new Date(),
+						updatedAt: new Date(),
+					},
 				},
-			},
-			images: {
-				createMany: {
-					data: [
+				images: {
+					create: [
 						{
 							location:
-								'https://storage.googleapis.com/e4f53ea0212ea91d-image-dispensary/releaf-shop.png',
+								'https://storage.googleapis.com/e4f53ea0212ea91d-image-dispensary/remedy.png',
 							blurhash: '',
 							createdAt: new Date(),
 							updatedAt: new Date(),
 						},
 					],
 				},
-			},
-		},
-		{
-			id: 'bf346k4u7x2b2hhr6wsofppp',
-			name: 'Golden Nugget Dispensary',
-			stripeAccountId: 'acct_1NtESYPZq3lkE1db',
-			stripeOnboardingComplete: true,
-			dialCode: '1',
-			phone: '5553592525',
-			ecommerceUrl: 'https://localhost:9000',
-			showInMarketPlace: true,
-			subdomain: {
-				connectOrCreate: {
-					where: {
-						id: 'golden-nugget',
-					},
+				products: {
 					create: {
-						id: 'golden-nugget',
-						isValid: true,
+						name: 'Razmatazz',
+						description: 'sweet and sour',
+						features: 'fresh, relaxing',
+						tags: 'flower, og',
+						rating: 4.0,
 						createdAt: new Date(),
 						updatedAt: new Date(),
 					},
 				},
-			},
-			vendor: {
-				connectOrCreate: {
-					where: {
-						name: 'golden nugget',
-					},
+				orders: {
 					create: {
-						name: 'golden nugget',
-						publicName: 'Golden Nugget',
-						createdAt: new Date(),
-						updatedAt: new Date(),
-					},
-				},
-			},
-			termsAccepted: false,
-			address: {
-				create: {
-					street1: '111 NewTown Rd',
-					street2: '',
-					city: 'Baltimore',
-					state: 'MD',
-					zipcode: 21226,
-					country: 'United_States',
-					countryCode: 'US',
-					coordinates: {
-						create: {
-							radius: 10000,
-							latitude: 39.445438,
-							longitude: -76.809394,
-							createdAt: new Date(),
-							updatedAt: new Date(),
-						},
-					},
-					createdAt: new Date(),
-					updatedAt: new Date(),
-				},
-			},
-			images: {
-				createMany: {
-					data: [
-						{
-							location:
-								'https://storage.googleapis.com/e4f53ea0212ea91d-image-dispensary/cannabis.png',
-							blurhash: '',
-							createdAt: new Date(),
-							updatedAt: new Date(),
-						},
-					],
-				},
-			},
-			products: {
-				create: {
-					name: 'King OG',
-					description: 'turpentines all day baby',
-					features: 'fresh, without formaline',
-					tags: 'mini, flower, og',
-					rating: 4.5,
-					variants: {
-						create: {
-							name: 'King OG',
-							unit: 'g',
-							size: 3.5,
-							currency: 'USD',
-							basePrice: 6999,
-							discount: 10,
-							stock: 5,
-							organizationId: 'bf346k4u7x2b2hhr6wsofppp',
-							rating: 4.5,
-							organizationName: 'Golden Nugget Dispensary',
-							quantity: 3,
-							isDiscount: true,
-							salePrice: 6499,
-							sku: 1234567,
-							images: {
-								create: {
-									location:
-										'https://storage.googleapis.com/e4f53ea0212ea91d-image-dispensary/flower/bugs.png',
-									createdAt: new Date(),
-									updatedAt: new Date(),
-								},
+						subtotal: 12000,
+						total: 1244,
+						taxFactor: 0.6,
+						taxAmount: 1239,
+						orderStatus: 'Delivered',
+						customer: {
+							connect: {
+								id: 'bfhk6k4u7xq030hr6wvgiwao',
 							},
-							createdAt: new Date(),
-							updatedAt: new Date(),
 						},
-					},
-					createdAt: new Date(),
-					updatedAt: new Date(),
-				},
-			},
-			orders: {
-				create: {
-					subtotal: 12000,
-					total: 12399,
-					taxFactor: 0.6,
-					taxAmount: 1239,
-					orderStatus: 'Pending',
-					customerId: 'bfhk6k4u7xq030hr6wvgiwao',
-					addressId: '5',
-					driverId: 'bf346k4u7x2b2hhr6wvgiwao',
-					purchase: {
-						create: {
-							paymentStatus: 'Pending',
-							gateway: 'stripe',
-							type: 'card',
-							amount: 12399,
-							token: '12345',
-							createdAt: new Date(),
-							updatedAt: new Date(),
-						},
-					},
-					routeId: null,
-					isDeliveredOrder: false,
-					isCustomerReceivedOrder: false,
-					isCompleted: false,
-					createdAt: new Date(),
-					updatedAt: new Date(),
-					deliveryDeadline: new Date(Date.now() + 2 * 60 * 60 * 1000),
-					isDriverAssigned: false,
-					driverAssignedAt: new Date(),
-					isProductPickedUp: false,
-					productPickedUpAt: new Date(),
-					customerReceivedOrderAt: new Date(),
-					completedAt: new Date(),
-					deliveredAt: new Date(),
-				},
-			},
-			schedule: {
-				createMany: {
-					data: [
-						{
-							day: 'Monday',
-							openAt: 900,
-							closeAt: 2100,
-							createdAt: new Date(),
-							updatedAt: new Date(),
-						},
-						{
-							day: 'Tuesday',
-							openAt: 900,
-							closeAt: 2100,
-							createdAt: new Date(),
-							updatedAt: new Date(),
-						},
-						{
-							day: 'Wednesday',
-							openAt: 900,
-							closeAt: 2100,
-							createdAt: new Date(),
-							updatedAt: new Date(),
-						},
-						{
-							day: 'Thursday',
-							openAt: 900,
-							closeAt: 2100,
-							createdAt: new Date(),
-							updatedAt: new Date(),
-						},
-						{
-							day: 'Friday',
-							openAt: 900,
-							closeAt: 2100,
-							createdAt: new Date(),
-							updatedAt: new Date(),
-						},
-						{
-							day: 'Saturday',
-							openAt: 900,
-							closeAt: 2100,
-							createdAt: new Date(),
-							updatedAt: new Date(),
-						},
-						{
-							day: 'Sunday',
-							openAt: 900,
-							closeAt: 2100,
-							createdAt: new Date(),
-							updatedAt: new Date(),
-						},
-					],
-				},
-			},
-			siteSetting: {
-				create: {
-					title: 'Golden Nugget Dispensary',
-					description: 'Best nuggets coast to coast',
-					bannerText: 'Now delivering to your door',
-					createdAt: new Date(),
-					updatedAt: new Date(),
-				},
-			},
-			categoryList: {
-				create: {} as any,
-			},
-			createdAt: new Date(),
-			updatedAt: new Date(),
-		},
-		{
-			id: 'bf346k4u7x2b2hhr6wvgdddp',
-			name: 'SunnySide',
-			stripeAccountId: null,
-			stripeOnboardingComplete: false,
-			dialCode: '1',
-			phone: '6663776778',
-			ecommerceUrl: 'https://www.sunnyside.shop/store/lancaster-pa',
-			showInMarketPlace: true,
-			vendor: {
-				connectOrCreate: {
-					where: {
-						name: 'sunnyside',
-					},
-					create: {
-						name: 'sunnyside',
-						publicName: 'SunnySide',
-						createdAt: new Date(),
-						updatedAt: new Date(),
-					},
-				},
-			},
-			subdomain: {
-				connectOrCreate: {
-					where: {
-						id: 'sunnyside',
-					},
-					create: {
-						id: 'sunnyside',
-						isValid: true,
-						createdAt: new Date(),
-						updatedAt: new Date(),
-					},
-				},
-			},
-			termsAccepted: false,
-			address: {
-				create: {
-					street1: '1866 Fruitville Pike',
-					street2: '',
-					city: 'Lancaster',
-					state: 'PA',
-					zipcode: 17601,
-					country: 'United_States',
-					countryCode: 'US',
-					coordinates: {
-						create: {
-							radius: 10000,
-							latitude: 39.3077,
-							longitude: -76.5958,
-							createdAt: new Date(),
-							updatedAt: new Date(),
-						},
-					},
-					createdAt: new Date(),
-					updatedAt: new Date(),
-				},
-			},
-			images: {
-				create: [
-					{
-						location:
-							'https://storage.googleapis.com/e4f53ea0212ea91d-image-dispensary/sunnyside.png',
-						blurhash: '',
-						createdAt: new Date(),
-						updatedAt: new Date(),
-					},
-				],
-			},
-			products: {
-				create: {
-					name: 'Eagle cbd oil',
-					description: 'Satisfying Liquid Goochy',
-					features: 'fresh, relaxing',
-					tags: 'cbd, og',
-					rating: 2.5,
-					variants: {
-						create: {
-							name: 'Eagle cbd oil',
-							unit: 'g',
-							size: 3.5,
-							currency: 'USD',
-							basePrice: 6999,
-							discount: 5,
-							stock: 5,
-							organizationId: 'bf346k4u7x2b2hhr6wvgdddp',
-							quantity: 3,
-							rating: 4.5,
-							isDiscount: true,
-							salePrice: 6499,
-							organizationName: 'Curaleaf',
-							sku: 1234567,
-							images: {
-								create: {
-									id: '1',
-									location:
-										'https://storage.googleapis.com/e4f53ea0212ea91d-image-dispensary/flower/bugs.png',
-									createdAt: new Date(),
-									updatedAt: new Date(),
-								},
+						destinationAddress: {
+							connect: {
+								id: '3',
 							},
-							createdAt: new Date(),
-							updatedAt: new Date(),
 						},
+						driver: {
+							connect: {
+								id: 'bf346k4u7x2b2hhr6wvgiwao',
+							},
+						},
+						purchase: {
+							create: {
+								paymentStatus: 'Paid',
+								gateway: 'stripe',
+								type: 'card',
+								amount: 12399,
+								token: '12345',
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+						},
+						isDeliveredOrder: false,
+						isCustomerReceivedOrder: false,
+						isCompleted: false,
+						routeId: null,
+						createdAt: new Date(),
+						updatedAt: new Date(),
+						deliveryDeadline: new Date(Date.now() + 2 * 60 * 60 * 1000),
+						isDriverAssigned: false,
+						driverAssignedAt: new Date(),
+						isProductPickedUp: false,
+						productPickedUpAt: new Date(),
+						customerReceivedOrderAt: new Date(),
+						completedAt: new Date(),
+						deliveredAt: new Date(),
 					},
-					createdAt: new Date(),
-					updatedAt: new Date(),
 				},
-			},
-			orders: {
-				create: {
-					subtotal: 12000,
-					total: 23444,
-					taxFactor: 0.6,
-					taxAmount: 1239,
-					orderStatus: 'Processing',
-					customer: {
-						connect: {
-							id: 'bfhk6k4u7xq030hr6wvgiwao',
-						},
+				schedule: {
+					createMany: {
+						data: [
+							{
+								day: 'Monday',
+								openAt: 500,
+								closeAt: 2200,
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+							{
+								day: 'Tuesday',
+								openAt: 500,
+								closeAt: 2200,
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+							{
+								day: 'Wednesday',
+								openAt: 500,
+								closeAt: 2200,
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+							{
+								day: 'Thursday',
+								openAt: 500,
+								closeAt: 2200,
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+							{
+								day: 'Friday',
+								openAt: 500,
+								closeAt: 2200,
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+							{
+								day: 'Saturday',
+								openAt: 500,
+								closeAt: 2200,
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+							{
+								day: 'Sunday',
+								openAt: 500,
+								closeAt: 2200,
+								createdAt: new Date(),
+								updatedAt: new Date(),
+							},
+						],
 					},
-					destinationAddress: {
-						connect: {
-							id: '5',
-						},
-					},
-					driver: {
-						connect: {
-							id: 'bf346k4u7x2b2hhr6wvgiwao',
-						},
-					},
-					purchase: {
-						create: {
-							paymentStatus: 'Paid',
-							gateway: 'stripe',
-							type: 'card',
-							amount: 23444,
-							token: '12345',
-							createdAt: new Date(),
-							updatedAt: new Date(),
-						},
-					},
-					routeId: null,
-					isDeliveredOrder: false,
-					isCustomerReceivedOrder: false,
-					isCompleted: false,
-					createdAt: new Date(),
-					updatedAt: new Date(),
-					deliveryDeadline: new Date(Date.now() + 2 * 60 * 60 * 1000),
-					isDriverAssigned: false,
-					driverAssignedAt: new Date(),
-					isProductPickedUp: false,
-					productPickedUpAt: new Date(),
-					customerReceivedOrderAt: new Date(),
-					completedAt: new Date(),
-					deliveredAt: new Date(),
 				},
-			},
-			siteSetting: {
-				create: {
-					title: 'Sunnyside',
-					description: 'Sunnyside Description text',
-					bannerText: 'Sunnyside Banner Text',
-					createdAt: new Date(),
-					updatedAt: new Date(),
-				},
-			},
-			schedule: {
-				createMany: {
-					data: [
-						{
-							day: 'Monday',
-							openAt: 900,
-							closeAt: 2100,
-							createdAt: new Date(),
-							updatedAt: new Date(),
-						},
-						{
-							day: 'Tuesday',
-							openAt: 900,
-							closeAt: 2100,
-							createdAt: new Date(),
-							updatedAt: new Date(),
-						},
-						{
-							day: 'Wednesday',
-							openAt: 900,
-							closeAt: 2100,
-							createdAt: new Date(),
-							updatedAt: new Date(),
-						},
-						{
-							day: 'Thursday',
-							openAt: 900,
-							closeAt: 2100,
-							createdAt: new Date(),
-							updatedAt: new Date(),
-						},
-						{
-							day: 'Friday',
-							openAt: 900,
-							closeAt: 2100,
-							createdAt: new Date(),
-							updatedAt: new Date(),
-						},
-						{
-							day: 'Saturday',
-							openAt: 900,
-							closeAt: 2100,
-							createdAt: new Date(),
-							updatedAt: new Date(),
-						},
-						{
-							day: 'Sunday',
-							openAt: 900,
-							closeAt: 2100,
-							createdAt: new Date(),
-							updatedAt: new Date(),
-						},
-					],
-				},
-			},
-			createdAt: new Date(),
-			updatedAt: new Date(),
-		},
-		{
-			id: 'bf346k4u7x2b2hhr6wvgaaap',
-			name: 'Remedy Baltimore',
-			stripeAccountId: null,
-			stripeOnboardingComplete: false,
-			dialCode: '1',
-			phone: '',
-			termsAccepted: false,
-			ecommerceUrl:
-				'https://baltimore.remedymaryland.com/stores/remedy-baltimore',
-			showInMarketPlace: true,
-			subdomain: {
-				connectOrCreate: {
-					where: {
-						id: 'remedy',
-					},
+				siteSetting: {
 					create: {
-						id: 'remedy',
-						isValid: true,
+						title: 'Remedy Baltimore',
+						description: 'Remedy Description text',
+						bannerText: 'Remedy Banner Text',
+						primaryColor: '#fff',
+						secondaryColor: '#17C649',
+						tertiaryColor: '#fff2da',
+						backgroundColor: '#000',
 						createdAt: new Date(),
 						updatedAt: new Date(),
 					},
 				},
-			},
-			vendor: {
-				connectOrCreate: {
-					where: {
-						name: 'remedy',
-					},
-					create: {
-						name: 'remedy',
-						publicName: 'Remedy',
-						createdAt: new Date(),
-						updatedAt: new Date(),
-					},
+				categoryList: {
+					create: {} as any,
 				},
+				createdAt: new Date(),
+				updatedAt: new Date(),
 			},
-			address: {
-				create: {
-					street1: '7165 Security Blvd Suite C',
-					street2: '',
-					city: 'Windsor Mill',
-					state: 'MD',
-					zipcode: 21244,
-					country: 'United_States',
-					countryCode: 'US',
-					coordinates: {
-						create: {
-							radius: 10000,
-							latitude: 39.313284,
-							longitude: -76.757832,
-							createdAt: new Date(),
-							updatedAt: new Date(),
-						},
-					},
-					createdAt: new Date(),
-					updatedAt: new Date(),
-				},
-			},
-			images: {
-				create: [
-					{
-						location:
-							'https://storage.googleapis.com/e4f53ea0212ea91d-image-dispensary/remedy.png',
-						blurhash: '',
-						createdAt: new Date(),
-						updatedAt: new Date(),
-					},
-				],
-			},
-			products: {
-				create: {
-					name: 'Razmatazz',
-					description: 'sweet and sour',
-					features: 'fresh, relaxing',
-					tags: 'flower, og',
-					rating: 4.0,
-					createdAt: new Date(),
-					updatedAt: new Date(),
-				},
-			},
-			orders: {
-				create: {
-					subtotal: 12000,
-					total: 1244,
-					taxFactor: 0.6,
-					taxAmount: 1239,
-					orderStatus: 'Delivered',
-					customer: {
-						connect: {
-							id: 'bfhk6k4u7xq030hr6wvgiwao',
-						},
-					},
-					destinationAddress: {
-						connect: {
-							id: '3',
-						},
-					},
-					driver: {
-						connect: {
-							id: 'bf346k4u7x2b2hhr6wvgiwao',
-						},
-					},
-					purchase: {
-						create: {
-							paymentStatus: 'Paid',
-							gateway: 'stripe',
-							type: 'card',
-							amount: 12399,
-							token: '12345',
-							createdAt: new Date(),
-							updatedAt: new Date(),
-						},
-					},
-					isDeliveredOrder: false,
-					isCustomerReceivedOrder: false,
-					isCompleted: false,
-					routeId: null,
-					createdAt: new Date(),
-					updatedAt: new Date(),
-					deliveryDeadline: new Date(Date.now() + 2 * 60 * 60 * 1000),
-					isDriverAssigned: false,
-					driverAssignedAt: new Date(),
-					isProductPickedUp: false,
-					productPickedUpAt: new Date(),
-					customerReceivedOrderAt: new Date(),
-					completedAt: new Date(),
-					deliveredAt: new Date(),
-				},
-			},
-			schedule: {
-				createMany: {
-					data: [
-						{
-							day: 'Monday',
-							openAt: 500,
-							closeAt: 2200,
-							createdAt: new Date(),
-							updatedAt: new Date(),
-						},
-						{
-							day: 'Tuesday',
-							openAt: 500,
-							closeAt: 2200,
-							createdAt: new Date(),
-							updatedAt: new Date(),
-						},
-						{
-							day: 'Wednesday',
-							openAt: 500,
-							closeAt: 2200,
-							createdAt: new Date(),
-							updatedAt: new Date(),
-						},
-						{
-							day: 'Thursday',
-							openAt: 500,
-							closeAt: 2200,
-							createdAt: new Date(),
-							updatedAt: new Date(),
-						},
-						{
-							day: 'Friday',
-							openAt: 500,
-							closeAt: 2200,
-							createdAt: new Date(),
-							updatedAt: new Date(),
-						},
-						{
-							day: 'Saturday',
-							openAt: 500,
-							closeAt: 2200,
-							createdAt: new Date(),
-							updatedAt: new Date(),
-						},
-						{
-							day: 'Sunday',
-							openAt: 500,
-							closeAt: 2200,
-							createdAt: new Date(),
-							updatedAt: new Date(),
-						},
-					],
-				},
-			},
-			siteSetting: {
-				create: {
-					title: 'Remedy Baltimore',
-					description: 'Remedy Description text',
-					bannerText: 'Remedy Banner Text',
-					primaryColor: '#fff',
-					secondaryColor: '#17C649',
-					tertiaryColor: '#fff2da',
-					backgroundColor: '#000',
-					createdAt: new Date(),
-					updatedAt: new Date(),
-				},
-			},
-			categoryList: {
-				create: {} as any,
-			},
-			createdAt: new Date(),
-			updatedAt: new Date(),
-		},
-	];
+		];
 
-	orgs.forEach(async (org) => {
-		try {
+		orgs.forEach(async (org) => {
 			const organization = await prisma.organization
 				.create({
 					data: org,
 				})
-				.catch((error) => {
-					throw new Error(error);
-				});
+				.then(async (organization) => {
+					console.info(
+						'create prisma.organization record: ' +
+							organization.name +
+							': ' +
+							organization.id,
+					);
 
-			console.info(
-				'create prisma.organization record: ' +
-					organization.name +
-					': ' +
-					organization.id,
-			);
-
-			axios
-				.post<OrganizationCreateType>(
-					(process?.env?.NEXT_PUBLIC_SERVER_LOCATION_URL +
-						'/api/v1/serve-local/organizations/record') as string,
-					{
-						id: organization.id,
-						name: organization.name,
-						dialCode: organization.dialCode,
-						phone: organization.phone,
-						address: {
-							street1: org.address.create?.street1,
-							street2: org.address.create?.street2,
-							city: org.address.create?.city,
-							state: org.address.create?.state,
-							zipcode: org.address.create?.zipcode,
-							country: org.address.create?.country,
-							countryCode: org.address.create?.countryCode,
-							coordinates: {
-								latitude: org.address.create?.coordinates?.create?.latitude,
-								longitude: org.address.create?.coordinates?.create?.longitude,
+					await axios.post<OrganizationCreateType>(
+						process?.env?.NEXT_PUBLIC_SERVER_MAIN_URL +
+							'/api/v1/serve-local/organizations/record',
+						{
+							id: organization.id,
+							name: organization.name,
+							dialCode: organization.dialCode,
+							phone: organization.phone,
+							address: {
+								street1: org.address.create?.street1,
+								street2: org.address.create?.street2,
+								city: org.address.create?.city,
+								state: org.address.create?.state,
+								zipcode: org.address.create?.zipcode,
+								country: org.address.create?.country,
+								countryCode: org.address.create?.countryCode,
+								coordinates: {
+									latitude: org.address.create?.coordinates?.create?.latitude,
+									longitude: org.address.create?.coordinates?.create?.longitude,
+								},
 							},
+							vendorId: organization.vendorId,
+							subdomain: organization.subdomainId,
 						},
-						vendorId: organization.vendorId,
-						subdomain: organization.subdomainId,
-					},
-					{
-						validateStatus: (status) =>
-							(status >= 200 && status <= 302) || status == 404,
-					},
-				)
-				.catch((error) => {
-					throw new Error(error);
-				});
+						{
+							validateStatus: (status) =>
+								(status >= 200 && status <= 302) || status == 404,
+						},
+					);
 
-			console.info(
-				'create mongo.organization_geolocate record: ' +
-					organization.name +
-					': ' +
-					organization.id,
-			);
-		} catch (error) {
-			throw new Error(`${org.name} was not created. ${error.message}`);
-		}
-	});
-	console.info('create prisma.organization records');
-};
+					console.info(
+						'create mongo.organization_geolocate record: ' +
+							organization.name +
+							': ' +
+							organization.id,
+					);
+				})
+				.finally(() => {
+					console.info('create prisma.organization records');
+				})
+				.catch((error) => {
+					throw new Error(`${org.name} was not created. ${error.message}`);
+				});
+		});
+	} catch (error) {
+		throw new Error(error.message);
+	}
+}
 
 const createUsers = async () => {
 	// USERS
@@ -1158,15 +1157,6 @@ const createUsers = async () => {
 			idFrontImage: null,
 			idBackImage: null,
 			termsAccepted: true,
-			memberships: {
-				create: {
-					id: '1',
-					role: 'MEMBER',
-					organizationId: 'bf346k4u7x2b2hhr6wsofppp',
-					createdAt: new Date(),
-					updatedAt: new Date(),
-				},
-			},
 			profilePicture: {
 				create: {
 					id: '1',
@@ -1196,15 +1186,6 @@ const createUsers = async () => {
 			idFrontImage: null,
 			idBackImage: null,
 			termsAccepted: true,
-			memberships: {
-				create: {
-					id: '2',
-					role: 'ADMIN',
-					organizationId: 'bf346k4u7x2b2hhr6wvgippp',
-					createdAt: new Date(),
-					updatedAt: new Date(),
-				},
-			},
 			profilePicture: {
 				create: {
 					id: '2',
@@ -1632,7 +1613,8 @@ const createOrders = async () => {
 			platformFee: 1200,
 			mileageFee: 1425,
 			distance: 15455,
-			isLateDelivery: false,
+			isWeedTextOrder: false,
+			isDeliveredOnTime: false,
 			duration: 1234,
 			subtotal: 12000,
 			total: 12399,
@@ -1690,7 +1672,7 @@ const createOrders = async () => {
 			platformFee: 1200,
 			mileageFee: 1425,
 			distance: 15455,
-			isLateDelivery: false,
+			isDeliveredOnTime: false,
 			duration: 1234,
 			subtotal: 12000,
 			total: 23444,
@@ -1748,7 +1730,7 @@ const createOrders = async () => {
 			platformFee: 1200,
 			mileageFee: 1425,
 			distance: 15455,
-			isLateDelivery: false,
+			isDeliveredOnTime: false,
 			duration: 1234,
 			subtotal: 12000,
 			total: 1244,
@@ -1795,7 +1777,7 @@ const createOrders = async () => {
 			platformFee: 1200,
 			mileageFee: 1425,
 			distance: 15455,
-			isLateDelivery: false,
+			isDeliveredOnTime: false,
 			duration: 1234,
 			subtotal: 12000,
 			total: 6999,
@@ -1842,7 +1824,7 @@ const createOrders = async () => {
 			platformFee: 1200,
 			mileageFee: 1425,
 			distance: 15455,
-			isLateDelivery: false,
+			isDeliveredOnTime: false,
 			duration: 1234,
 			subtotal: 12000,
 			total: 12999,
@@ -1889,7 +1871,7 @@ const createOrders = async () => {
 			platformFee: 1200,
 			mileageFee: 1425,
 			distance: 15455,
-			isLateDelivery: false,
+			isDeliveredOnTime: false,
 			duration: 1234,
 			subtotal: 12000,
 			total: 14599,
@@ -1946,7 +1928,7 @@ async function createMemberships() {
 		{
 			id: '1',
 			role: 'MEMBER',
-			organizationId: '2',
+			organizationId: 'bf346k4u7x2b2hhr6wsofppp',
 			userId: 'bfhk6k4u7xq030hr6wvgiwao',
 			createdAt: new Date(),
 			updatedAt: new Date(),
@@ -1954,33 +1936,58 @@ async function createMemberships() {
 		{
 			id: '2',
 			role: 'ADMIN',
-			organizationId: '2',
-			userId: '1',
+			userId: 'pf346k4u7xq030hr6wvgiwap',
+			organizationId: 'bf346k4u7x2b2hhr6wvgippp',
 			createdAt: new Date(),
 			updatedAt: new Date(),
 		},
-		{
-			id: '3',
-			role: 'OWNER',
-			organizationId: '2',
-			userId: '1',
-			createdAt: new Date(),
-			updatedAt: new Date(),
-		},
-		{
-			id: '4',
-			role: 'OWNER',
-			organizationId: '3',
-			userId: '3',
-			createdAt: new Date(),
-			updatedAt: new Date(),
-		},
+		// {
+		// 	id: '1',
+		// 	role: 'MEMBER',
+		// 	organizationId: '2',
+		// 	userId: 'bfhk6k4u7xq030hr6wvgiwao',
+		// 	createdAt: new Date(),
+		// 	updatedAt: new Date(),
+		// },
+		// {
+		// 	id: '2',
+		// 	role: 'ADMIN',
+		// 	organizationId: '2',
+		// 	userId: '1',
+		// 	createdAt: new Date(),
+		// 	updatedAt: new Date(),
+		// },
+		// {
+		// 	id: '3',
+		// 	role: 'OWNER',
+		// 	organizationId: '2',
+		// 	userId: '1',
+		// 	createdAt: new Date(),
+		// 	updatedAt: new Date(),
+		// },
+		// {
+		// 	id: '4',
+		// 	role: 'OWNER',
+		// 	organizationId: '3',
+		// 	userId: '3',
+		// 	createdAt: new Date(),
+		// 	updatedAt: new Date(),
+		// },
 	];
 
-	await prisma.membership.createMany({
-		data: memberships,
-		skipDuplicates: true,
-	});
+	memberships.forEach(
+		async (membership) =>
+			await prisma.membership.create({
+				data: {
+					id: membership.id,
+					role: membership.role,
+					organizationId: membership.organizationId,
+					userId: membership.userId,
+					createdAt: membership.createdAt,
+					updatedAt: membership.updatedAt,
+				},
+			}),
+	);
 	console.info('create prisma.membership records');
 }
 
@@ -2799,37 +2806,43 @@ const createReviews = async () => {
 };
 
 async function main() {
-	console.info(`\nPerforming seed in ${process.env.DATABASE_ENV} environment.`);
-	console.debug(`\nSeeding database at ${process.env.DATABASE_URL}`);
+	try {
+		console.info(
+			`\nPerforming seed in ${process.env.DATABASE_ENV} environment.`,
+		);
+		console.debug(`\nSeeding database at ${process.env.DATABASE_URL}`);
 
-	await createCompliance();
-	await createDrivers();
+		await createCompliance();
+		await createDrivers();
 
-	await createAddresses();
+		await createAddresses();
 
-	await createVendors();
-	await createCoordinates();
-	await createOrganizations();
-	await createUsers();
+		await createVendors();
+		await createCoordinates();
+		await createOrganizations();
+		await createUsers();
 
-	// await createSchedules();
-	await createSubdomains();
-	await createCategories();
+		// await createSchedules(); // appended to organizations
+		await createSubdomains();
+		await createCategories();
 
-	// await createOrders(); // appended to organization seed
-	// await createMemberships(); // appended to user seed
+		// await createOrders(); // appended to organization seed
 
-	// await createProducts(); // appended to organization seed
-	// await createVariants(); // appended to product seed
-	// await createReviews(); // appended to product seed
+		// await createProducts(); // appended to organization seed
+		// await createVariants(); // appended to product seed
+		// await createReviews(); // appended to product seed
 
-	await createVendorImages();
-	// await createOrganizationImages();
-	// await createProductImages();
-	// await createUserImages(); // appended to user seed
+		await createVendorImages();
+		// await createOrganizationImages(); //appended to organizations
+		// await createProductImages(); // appended to products
+		// await createUserImages(); // appended to user seed
+		await createArticles();
+		// await createArticleImages(); // appended to article seed
 
-	await createArticles();
-	// await createArticleImages(); // appended to article seed
+		await createMemberships();
+	} catch (e) {
+		throw new Error(e);
+	}
 }
 
 main()

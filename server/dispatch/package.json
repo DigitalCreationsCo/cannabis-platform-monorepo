@@ -15,7 +15,6 @@
     "redis": "4.6.6",
     "socket.io": "4.6.1",
     "supertokens-node": "16.6.1",
-    "telnyx": "1.25.5",
     "winston": "3.11.0"
   },
   "devDependencies": {

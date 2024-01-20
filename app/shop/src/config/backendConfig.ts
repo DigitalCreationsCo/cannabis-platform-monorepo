@@ -1,4 +1,5 @@
 /* eslint-disable sonarjs/cognitive-complexity */
+import { createId } from '@paralleldrive/cuid2';
 import jwt from 'supertokens-node/recipe/jwt';
 import Passwordless from 'supertokens-node/recipe/passwordless';
 import Session from 'supertokens-node/recipe/session';
@@ -38,3 +39,17 @@ export const backendConfig = (): AuthConfig => {
 		isInServerlessEnv: false,
 	};
 };
+
+export async function createAnonymousJWT(payload: any) {
+	const jwtResponse = await Session.createJWT(
+		{
+			id: `guest-${createId()}`,
+			...payload,
+		},
+		60000,
+	);
+	if (jwtResponse.status === 'OK') {
+		return jwtResponse.jwt;
+	}
+	throw new Error('Unable to create anonymous JWT. Should never come here.');
+}

@@ -12,6 +12,10 @@ PaymentController - controller class for payment processing actions
 
 members:
 createCheckout
+saveCustomerPaymentMethod
+chargeCustomer
+
+setupSubscribeDispensary
 
 ================================= */
 
@@ -68,4 +72,33 @@ export default class PaymentController {
 			return res.status(500).json({ success: 'false', error: error.message });
 		}
 	}
+
+	static async saveCustomerPaymentMethod(req, res) {
+		try {
+			const { paymentMethodId, customerId } = req.body;
+
+			if (!paymentMethodId || !customerId)
+				throw new Error('Missing payment method or customer id.');
+
+			const paymentMethod = await StripeService.saveCustomerPaymentMethod({
+				customer: customerId,
+				// payment_method: paymentMethodId,
+			});
+			// paymentMethodId,
+			// customerId,
+
+			return res.status(200).json({
+				success: 'true',
+				message: 'Payment method is saved.',
+				paymentMethod,
+			});
+		} catch (error: any) {
+			console.error('saveCustomerPaymentMethod: ', error.message);
+			return res.status(500).json({ success: 'false', error: error.message });
+		}
+	}
+
+	static async chargeCustomer(req, res) {}
+
+	static async setupSubscribeDispensary(req, res) {}
 }

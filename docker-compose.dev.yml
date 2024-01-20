@@ -71,15 +71,6 @@ services:
     env_file:
       - .env.development
 
-  # location:
-  #   image: docker.io/grasadmin/location
-  #   ports:
-  #     - '6011:6011'
-  #   environment:
-  #     - 'NODE_ENV=development'
-  #   env_file:
-  #     - .env.development
-
   # payments:
   #   image: docker.io/grasadmin/payments
   #   ports:

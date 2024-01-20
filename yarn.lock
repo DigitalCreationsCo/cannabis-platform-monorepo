@@ -3943,6 +3943,8 @@ __metadata:
     "@next/env": 13.2.4
     "@paralleldrive/cuid2": 2.2.1
     "@reduxjs/toolkit": 1.9.2
+    "@stripe/react-stripe-js": 2.4.0
+    "@stripe/stripe-js": 2.3.0
     "@tailwindcss/typography": 0.5.8
     "@testing-library/dom": 9.3.1
     "@testing-library/jest-dom": 5.16.5
@@ -4077,6 +4079,7 @@ __metadata:
     socket.io-client: 4.6.1
     supertokens-auth-react: 0.35.8
     tailwind-merge: 1.8.0
+    telnyx: 1.25.5
     ts-jest: 29.0.3
     tsup: 6.7.0
     typescript: 4.9.3
@@ -4391,7 +4394,6 @@ __metadata:
     socket.io: 4.6.1
     supertest: 6.3.3
     supertokens-node: 16.6.1
-    telnyx: 1.25.5
     ts-jest: 29.0.3
     ts-node: 10.9.1
     ts-node-dev: 2.0.0
@@ -4445,54 +4447,6 @@ __metadata:
     supertest: 6.3.3
     supertokens-node: 16.6.1
     tesseract.js: 3.0.2
-    ts-jest: 29.0.3
-    ts-node: 10.9.1
-    typescript: 4.9.3
-  languageName: unknown
-  linkType: soft
-
-"@cd/server-location@workspace:server/location":
-  version: 0.0.0-use.local
-  resolution: "@cd/server-location@workspace:server/location"
-  dependencies:
-    "@babel/cli": 7.20.7
-    "@babel/core": 7.21.4
-    "@babel/node": 7.20.7
-    "@babel/preset-env": ^7.23.2
-    "@babel/preset-typescript": 7.23.2
-    "@cd/core-lib": "workspace:*"
-    "@cd/data-access": "workspace:*"
-    "@types/bcryptjs": 2.4.2
-    "@types/jest": 29.2.4
-    "@types/node": 18.11.10
-    "@typescript-eslint/eslint-plugin": 5.45.0
-    "@typescript-eslint/parser": 5.45.0
-    axios: 1.2.1
-    babel-plugin-inline-dotenv: 1.7.0
-    babel-watch: 7.7.2
-    bcryptjs: 2.4.3
-    body-parser: 1.20.2
-    busboy: 1.6.0
-    cors: 2.8.5
-    cross-env: 7.0.3
-    dotenv: 16.0.3
-    dotenv-cli: 7.0.0
-    dotenv-expand: 10.0.0
-    eslint: 8.37.0
-    eslint-plugin-import: 2.26.0
-    eslint-plugin-prettier: 4.2.1
-    eslint-plugin-simple-import-sort: 8.0.0
-    express: 4.18.2
-    find-up: 5.0.0
-    jest: 29.3.1
-    mongodb: 5.8.1
-    nanoid: 3.3.4
-    nodemon: 2.0.20
-    pm2: ^5.2.2
-    prettier: 2.8.0
-    rimraf: 4.4.1
-    supertest: 6.3.3
-    supertokens-node: 16.6.1
     ts-jest: 29.0.3
     ts-node: 10.9.1
     typescript: 4.9.3
@@ -4602,6 +4556,70 @@ __metadata:
     supertokens-node: 16.6.1
     ts-jest: 29.0.3
     ts-node: 10.9.1
+    typescript: 4.9.3
+  languageName: unknown
+  linkType: soft
+
+"@cd/server-sms@workspace:server/sms":
+  version: 0.0.0-use.local
+  resolution: "@cd/server-sms@workspace:server/sms"
+  dependencies:
+    "@babel/cli": 7.20.7
+    "@babel/core": 7.21.4
+    "@babel/node": 7.20.7
+    "@babel/preset-env": ^7.23.2
+    "@babel/preset-typescript": 7.23.2
+    "@cd/core-lib": "workspace:*"
+    "@cd/data-access": "workspace:*"
+    "@paralleldrive/cuid2": 2.2.1
+    "@types/bcryptjs": 2.4.2
+    "@types/jest": 29.2.4
+    "@types/node": 18.11.10
+    "@typescript-eslint/eslint-plugin": 5.45.0
+    "@typescript-eslint/parser": 5.45.0
+    "@urql/core": 4.1.4
+    awesome-typescript-loader: ^5.2.1
+    axios: 1.2.1
+    babel-core: 6.26.3
+    babel-loader: 9.1.2
+    babel-plugin-css-modules-transform: 1.6.2
+    babel-plugin-inline-dotenv: 1.7.0
+    babel-plugin-inline-import: 3.0.0
+    babel-plugin-module-resolver: 5.0.0
+    babel-watch: 7.7.2
+    body-parser: 1.20.2
+    busboy: 1.6.0
+    concurrently: 8.0.1
+    cors: 2.8.5
+    cross-env: 7.0.3
+    dotenv: 16.0.3
+    dotenv-cli: 7.0.0
+    dotenv-expand: 10.0.0
+    eslint: 8.37.0
+    eslint-config-prettier: 8.5.0
+    eslint-plugin-import: 2.26.0
+    eslint-plugin-prettier: 4.2.1
+    eslint-plugin-simple-import-sort: 8.0.0
+    express: 4.18.2
+    file-loader: 6.2.0
+    find-up: 5.0.0
+    jest: 29.3.1
+    jsonwebtoken: 9.0.2
+    jwks-rsa: 3.1.0
+    mongodb: 5.8.1
+    nanoid: 3.3.4
+    node-cache: 5.1.2
+    nodemon: 2.0.20
+    pm2: ^5.2.2
+    prettier: 2.8.0
+    redis: 4.6.6
+    rimraf: 4.4.1
+    supertest: 6.3.3
+    supertokens-node: 16.6.1
+    ts-jest: 29.0.3
+    ts-loader: 9.4.2
+    ts-node: 10.9.1
+    ts-node-dev: 2.0.0
     typescript: 4.9.3
   languageName: unknown
   linkType: soft
@@ -11799,6 +11817,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@stripe/react-stripe-js@npm:2.4.0":
+  version: 2.4.0
+  resolution: "@stripe/react-stripe-js@npm:2.4.0"
+  dependencies:
+    prop-types: ^15.7.2
+  peerDependencies:
+    "@stripe/stripe-js": ^1.44.1 || ^2.0.0
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 4cf16c9bca6cff67cfef51d95a1521563dc579f5957ae0bcb773b958afa1a57bc90c35a157e2e11452a2d1c0c26eddbe5644afe7f07cd39ed55697385d7b18a9
+  languageName: node
+  linkType: hard
+
+"@stripe/stripe-js@npm:2.3.0":
+  version: 2.3.0
+  resolution: "@stripe/stripe-js@npm:2.3.0"
+  checksum: 80b5269acbabd86a7ce06733303fa2ea3f5346d5f8ad3d3651197c22441a7c26698e0ed65b01b677bc24546fa3029ae024abfbe9877384147506ef08430948e4
+  languageName: node
+  linkType: hard
+
 "@surma/rollup-plugin-off-main-thread@npm:^2.2.2":
   version: 2.2.3
   resolution: "@surma/rollup-plugin-off-main-thread@npm:2.2.3"
@@ -15843,13 +15881,6 @@ __metadata:
   dependencies:
     tweetnacl: ^0.14.3
   checksum: 4edfc9fe7d07019609ccf797a2af28351736e9d012c8402a07120c4453a3b789a15f2ee1530dc49eee8f7eb9379331a8dd4b3766042b9e502f74a68e7f662291
-  languageName: node
-  linkType: hard
-
-"bcryptjs@npm:2.4.3":
-  version: 2.4.3
-  resolution: "bcryptjs@npm:2.4.3"
-  checksum: 0e80ed852a41f5dfb1853f53ee14a7390b0ef263ce05dba6e2ef3cd919dfad025a7c21ebcfe5bc7fa04b100990edf90c7a877ff7fe623d3e479753253131b629
   languageName: node
   linkType: hard
 

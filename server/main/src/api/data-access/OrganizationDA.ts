@@ -45,7 +45,7 @@ export default class OrganizationDA {
 			);
 
 			const response = await axios.post(
-				urlBuilder.location.organizationLocationRecord(),
+				urlBuilder.main.organizationLocationRecord(),
 				{
 					id: data.id,
 					name: organization.name,
@@ -119,7 +119,7 @@ export default class OrganizationDA {
 				now updating location record...`,
 			);
 			const response = await axios.put(
-				urlBuilder.location.organizationLocationRecord(),
+				urlBuilder.main.organizationLocationRecord(),
 				{ ...data },
 				{
 					headers: {
@@ -150,9 +150,7 @@ export default class OrganizationDA {
 		try {
 			const _deleted = await deleteOrganizationById(organizationId);
 			console.info('_deleted: ', _deleted);
-			await axios.delete(
-				urlBuilder.location.getOrganizationRecord(_deleted.id),
-			);
+			await axios.delete(urlBuilder.main.getOrganizationRecord(_deleted.id));
 
 			console.info(`Dispensary record ${_deleted.name} is deleted OK.`);
 			return `Dispensary record ${_deleted.name} is deleted OK.`;

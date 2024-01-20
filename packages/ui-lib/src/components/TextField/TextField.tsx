@@ -5,10 +5,10 @@ import React, {
 	type SVGAttributes,
 } from 'react';
 import { twMerge } from 'tailwind-merge';
+import { Paragraph } from '../../components/Typography';
 import { styles } from '../../styleClassNames';
 import IconButton from '../button/IconButton';
 import FlexBox from '../FlexBox';
-import { Small } from '../Typography';
 
 type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
 	className?: string;
@@ -65,7 +65,7 @@ function TextField({
 			{label && (
 				<FlexBox className="items-start w-full">
 					<label className={twMerge(styles.label_f(justifyLabel))}>
-						<Small className="text-primary">{label}</Small>
+						<Paragraph className="text-primary">{label}</Paragraph>
 					</label>
 				</FlexBox>
 			)}

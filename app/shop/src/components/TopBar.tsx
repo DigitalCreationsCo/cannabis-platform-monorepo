@@ -128,19 +128,21 @@ function TopBar({ signOut }: TopBarProps) {
 					)}
 				>
 					{isSignedIn && (
-						<Link
-							className={twMerge('hidden sm:block')}
-							href={TextContent.href.support}
-						>
-							<Button
-								size="md"
-								bg="transparent"
-								hover="transparent"
-								className={twMerge(styles.BUTTON.highlight, 'w-full', 'pt-1')}
+						<FlexBox className="active:bg-accent-soft focus:bg-accent-soft w-full">
+							<Link
+								className={twMerge('hidden sm:block')}
+								href={TextContent.href.support}
 							>
-								Support
-							</Button>
-						</Link>
+								<Button
+									size="md"
+									bg="transparent"
+									hover="transparent"
+									className={twMerge(styles.BUTTON.highlight, 'w-full', 'pt-1')}
+								>
+									Support
+								</Button>
+							</Link>
+						</FlexBox>
 					)}
 					<FlexBox className="active:bg-accent-soft focus:bg-accent-soft w-full">
 						<Link href={TextContent.href.settings} className="w-full">

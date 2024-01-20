@@ -2,7 +2,6 @@ import {
 	axios,
 	TextContent,
 	urlBuilder,
-	usePagination,
 	userActions,
 	useAppDispatch,
 } from '@cd/core-lib';
@@ -13,6 +12,7 @@ import {
 	H2,
 	H6,
 	OrderRow,
+	usePagination,
 	Page,
 	Row,
 	type LayoutContextProps,
@@ -28,48 +28,6 @@ import { wrapper } from '../../../store';
 if (typeof window === 'undefined') {
 	Supertokens.init(backendConfig());
 }
-
-export const getServerSideProps = wrapper.getServerSideProps(
-	() =>
-		async ({ query, req, res }: { query: any; req: any; res: any }) => {
-			try {
-				await NextCors(req, res, {
-					methods: ['GET'],
-					origin: process.env.NEXT_PUBLIC_SHOP_APP_URL,
-					credentials: true,
-					allowedHeaders: ['content-type', ...Supertokens.getAllCORSHeaders()],
-				});
-
-				await superTokensNextWrapper(
-					async (next) => {
-						return await verifySession()(req, res, next);
-					},
-					req,
-					res,
-				);
-
-				if (!query.settings) throw new Error('no query found');
-
-				const response = await axios(
-					urlBuilder.shop + `/api/user/${query.settings}/orders`,
-					{ headers: { ...req.headers } },
-				);
-				if (response.data.success === 'false')
-					throw new Error(response.data.error);
-
-				return {
-					props: {
-						user: { id: query.settings },
-						orders: response.data.payload,
-					},
-				};
-			} catch (error) {
-				return {
-					notFound: true,
-				};
-			}
-		},
-);
 
 interface ShopOrdersProps {
 	orders: OrderWithShopDetails[];
@@ -124,3 +82,45 @@ ShopOrders.getLayoutContext = (): LayoutContextProps => ({
 });
 
 export default ShopOrders;
+
+export const getServerSideProps = wrapper.getServerSideProps(
+	() =>
+		async ({ query, req, res }: { query: any; req: any; res: any }) => {
+			try {
+				await NextCors(req, res, {
+					methods: ['GET'],
+					origin: process.env.NEXT_PUBLIC_SHOP_APP_URL,
+					credentials: true,
+					allowedHeaders: ['content-type', ...Supertokens.getAllCORSHeaders()],
+				});
+
+				await superTokensNextWrapper(
+					async (next) => {
+						return await verifySession()(req, res, next);
+					},
+					req,
+					res,
+				);
+
+				if (!query.settings) throw new Error('no query found');
+
+				const response = await axios(
+					urlBuilder.shop + `/api/user/${query.settings}/orders`,
+					{ headers: { ...req.headers } },
+				);
+				if (response.data.success === 'false')
+					throw new Error(response.data.error);
+
+				return {
+					props: {
+						user: { id: query.settings },
+						orders: response.data.payload,
+					},
+				};
+			} catch (error) {
+				return {
+					notFound: true,
+				};
+			}
+		},
+);
