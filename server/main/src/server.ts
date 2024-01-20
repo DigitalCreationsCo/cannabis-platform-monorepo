@@ -21,6 +21,8 @@ import {
 	user,
 	compliance,
 	cacheHandler,
+	locationRoutes,
+	emailRoutes,
 } from './api/routes';
 import { backendConfig, jwtClient } from './config';
 
@@ -40,7 +42,9 @@ export function authenticateToken() {
 			const session = await Session.getSession(req, res, {
 				sessionRequired: false,
 			});
+
 			console.info('authenticateToken session: ', session);
+
 			if (session !== undefined) {
 				// const userId = session.getUserId();
 				// do something with the userId?
@@ -48,7 +52,9 @@ export function authenticateToken() {
 			} else {
 				let jwt = req.headers['authorization'];
 				jwt = jwt === undefined ? undefined : jwt.split('Bearer ')[1];
+
 				console.info('authenticateToken jwt: ', jwt);
+
 				if (jwt === undefined) {
 					return res
 						.status(401)
@@ -84,7 +90,11 @@ const app = express();
 app.use(
 	cors({
 		origin: [shopDomain, dashboardDomain],
-		allowedHeaders: ['content-type', ...Supertokens.getAllCORSHeaders()],
+		allowedHeaders: [
+			'content-type',
+			'app-user',
+			...Supertokens.getAllCORSHeaders(),
+		],
 		methods: ['GET', 'PUT', 'POST', 'DELETE'],
 		credentials: true,
 	}),
@@ -104,6 +114,8 @@ app.use('/api/v1/shop', authenticateToken(), shop);
 app.use('/api/v1/organization', organization);
 app.use('/api/v1/blog', authenticateToken(), blog);
 app.use('/api/v1/compliance', authenticateToken(), compliance);
+app.use('/api/v1/email', authenticateToken(), emailRoutes);
+app.use('/api/v1/serve-local', locationRoutes);
 
 // app.use('/api/v1/error', errorRoute);
 
@@ -111,7 +123,7 @@ app.use(STerror());
 
 app.use((err, req, res, next) => {
 	console.error('A general error occured: ', err);
-	res.status(500).json({ success: false, error: err.message });
+	res.status(500).json({ success: false, error: 'A general error occured.' });
 	next();
 });
 

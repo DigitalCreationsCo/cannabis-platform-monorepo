@@ -90,7 +90,6 @@ export default defineType({
 			options: {
 				layout: 'checkbox',
 			},
-			readOnly: true,
 			initialValue: false,
 		}),
 		defineField({

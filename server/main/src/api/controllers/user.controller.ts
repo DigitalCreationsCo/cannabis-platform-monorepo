@@ -4,7 +4,8 @@ import {
 	isArray,
 	normalizeUserData,
 } from '@cd/core-lib';
-import { type AddressCreateType } from '@cd/data-access';
+import { EmailService } from '@cd/core-lib/lib/email/EmailService';
+import { type UserWithDetails, type AddressCreateType } from '@cd/data-access';
 import { ShopDA, UserDA } from '../data-access';
 
 /* =================================
@@ -13,8 +14,8 @@ UserController - controller class for user business actions
 members:
 createUser
 updateUser
-createDispensaryStaff
-updateDispensaryStaff
+createDispensaryStaffUser
+updateDispensaryStaffUser
 getUserById
 getOrdersForUser
 getAddressById
@@ -42,6 +43,12 @@ export default class UserController {
 					success: 'false',
 					error: 'User could not be created.',
 				});
+
+			// subscribe new user to weed-texts
+
+			// send new user email
+			EmailService.sendNewUserEmail({ user: data as UserWithDetails });
+
 			return res.status(201).json({
 				success: 'true',
 				payload: data,
@@ -68,23 +75,30 @@ export default class UserController {
 		}
 	}
 
-	static async createDispensaryStaff(req, res) {
+	static async createDispensaryStaffUser(req, res) {
 		try {
 			let { user } = req.body;
 			const { role, dispensaryId } = req.body;
 			user = addressObjectIntoArray(user);
-			const data = await UserDA.createDispensaryStaff(user, role, dispensaryId);
+			const data = await UserDA.createDispensaryStaffUser(
+				user,
+				role,
+				dispensaryId,
+			);
 			if (!data)
 				return res.status(404).json({
 					success: 'false',
 					error: 'Dispensary user could not be created.',
 				});
+
+			// send new dispensary email
+			// EmailService.sendNewDispensaryEmail({ user: data as UserWithDetails, organization: dispensaryId });
 			return res.status(201).json({
 				success: 'true',
 				payload: data,
 			});
 		} catch (error: any) {
-			console.info('createDispensaryStaff: ', error.message);
+			console.info('createDispensaryStaffUser: ', error.message);
 			return res.status(500).json({
 				success: 'false',
 				error: error.message,
@@ -92,10 +106,14 @@ export default class UserController {
 		}
 	}
 
-	static async updateDispensaryStaff(req, res) {
+	static async updateDispensaryStaffUser(req, res) {
 		try {
 			const { user, role, dispensaryId } = req.body;
-			const data = await UserDA.updateDispensaryStaff(user, role, dispensaryId);
+			const data = await UserDA.updateDispensaryStaffUser(
+				user,
+				role,
+				dispensaryId,
+			);
 			if (!data)
 				return res.status(404).json({
 					success: 'false',
@@ -106,7 +124,7 @@ export default class UserController {
 				payload: data,
 			});
 		} catch (error: any) {
-			console.info('updateDispensaryStaff: ', error.message);
+			console.info('updateDispensaryStaffUser: ', error.message);
 			return res.status(500).json({
 				success: 'false',
 				error: error.message,

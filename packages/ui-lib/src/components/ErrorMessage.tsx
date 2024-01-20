@@ -5,7 +5,14 @@ import { Button } from './button';
 import Center from './Center';
 import { H1, H5, Span } from './Typography';
 
-function ErrorMessage({ code, message = '' }: { code: number; message?: any }) {
+function ErrorMessage({
+	code,
+	message = `Please try again.
+If you need help, `,
+}: {
+	code?: number;
+	message?: any;
+}) {
 	return (
 		<Center className="text-center m-auto">
 			<H1 className="whitespace-pre-line text-center">
@@ -20,7 +27,7 @@ function ErrorMessage({ code, message = '' }: { code: number; message?: any }) {
 				{'\n'}
 				<Span className="text-error text-center inline">{code || ''}</Span>
 			</H5>
-			<Button onClick={() => router.back()}>{TextContent.ui.BACK}</Button>
+			<Button onClick={() => router.back()}>Go back</Button>
 		</Center>
 	);
 }

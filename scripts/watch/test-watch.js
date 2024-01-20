@@ -32,12 +32,6 @@ const commands = [
 		cwd: '../server/main',
 	},
 	{
-		name: 'server-location',
-		command: 'yarn',
-		args: ['test:watch'],
-		cwd: '../server/location',
-	},
-	{
 		name: 'server-payments',
 		command: 'yarn',
 		args: ['test:watch'],

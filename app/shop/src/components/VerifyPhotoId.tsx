@@ -38,7 +38,7 @@ const VerifyPhotoId = () => {
 	}
 
 	useEffect(() => {
-		startTour();
+		if (window.location.pathname != '/') startTour();
 	}, []);
 
 	const { resetFormValues, nextFormStep, setFormValues } = useFormContext();
@@ -139,8 +139,10 @@ const VerifyPhotoId = () => {
 					'Content-Type': 'multipart/form-data',
 				},
 			});
-			if (response.data.success == 'false')
+
+			if (!response.data.success || response.data.success == 'false')
 				throw new Error(response.data.error);
+
 			return response.data;
 		} catch (error: any) {
 			if (error.code === 'ERR_NETWORK')
@@ -162,7 +164,7 @@ const VerifyPhotoId = () => {
 			<Center className="m-auto w-3/4 space-y-4 md:pb-0">
 				<H3 id="verify-id-step-2">Please verify your ID</H3>
 				<Paragraph>
-					Take a photo of the front and back of your state identification.
+					Submit a photo of the front and back of your state identification.
 				</Paragraph>
 				<div id="verify-id-step-3" className="h-[200px] w-[240px]">
 					{frontImage ? (

@@ -5,7 +5,10 @@ import NextCors from 'nextjs-cors';
 import Supertokens from 'supertokens-node';
 import { superTokensNextWrapper } from 'supertokens-node/nextjs';
 import { verifySession } from 'supertokens-node/recipe/session/framework/express';
-import { backendConfig } from '../../../config/backendConfig';
+import {
+	backendConfig,
+	createAnonymousJWT,
+} from '../../../config/backendConfig';
 
 Supertokens.init(backendConfig());
 
@@ -13,6 +16,10 @@ Supertokens.init(backendConfig());
 const handler = nc();
 handler.post(async (req: any, res: any) => {
 	try {
+		const jwt = await createAnonymousJWT({});
+
+		req.headers['authorization'] = `Bearer ${jwt}`;
+
 		await NextCors(req, res, {
 			methods: ['POST'],
 			origin: process.env.NEXT_PUBLIC_SHOP_APP_URL,
@@ -22,7 +29,7 @@ handler.post(async (req: any, res: any) => {
 
 		await superTokensNextWrapper(
 			async (next) => {
-				return await verifySession()(req, res, next);
+				return await verifySession({ sessionRequired: false })(req, res, next);
 			},
 			req,
 			res,
@@ -34,7 +41,7 @@ handler.post(async (req: any, res: any) => {
 		});
 		return res.status(response.status).json(response.data);
 	} catch (error: any) {
-		console.error('api create user: ', error.message);
+		console.error('POST api/user: ', error.message);
 		return res.json({
 			success: 'false',
 			error: error.message,

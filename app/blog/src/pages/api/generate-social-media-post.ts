@@ -45,49 +45,49 @@ export default async function generateSocialMediaPost(req: any, res: any) {
 		idempotencyCache.set(idempotencyKey, idempotencyKey);
 	}
 
-	try {
-		console.info(' generating social media share image.. for', _type, _id);
-		console.info(' applying text: ', text);
-
-		const generateShareImage = await imageClient.generateImage({
-			id: _id,
-			backgroundImageUrl: imageUrl,
-			text,
-
-			blur: 4,
-			darken: 28,
-
-			height: 2000,
-			width: 2000,
-
-			backgroundFit: 'cover',
-			fontSize: 130,
-			fontName: 'Arial Black',
-
-			logoWidth: 600,
-			logo: new URL(logo.src, process.env.NEXT_PUBLIC_BLOG_APP_URL as string)
-				.href,
-			logoPosition: 'bottomRight',
-		});
-
-		console.info(
-			' generated image for',
-			_type,
-			_id,
-			'generated: ',
-			generateShareImage,
-		);
-	} catch (e) {
-		console.error(
-			'Error generating social media image: ',
-			_type,
-			_id,
-			e.message,
-		);
-		return res.status(500).send(e.message);
-	}
-
 	if (!isPublishedToSocialMedia) {
+		try {
+			console.info(' generating social media share image.. for', _type, _id);
+			console.info(' applying text: ', text);
+
+			const generateShareImage = await imageClient.generateImage({
+				id: _id,
+				backgroundImageUrl: imageUrl,
+				text,
+
+				blur: 4,
+				darken: 28,
+
+				height: 2000,
+				width: 2000,
+
+				backgroundFit: 'cover',
+				fontSize: 130,
+				fontName: 'Arial Black',
+
+				logoWidth: 600,
+				logo: new URL(logo.src, process.env.NEXT_PUBLIC_BLOG_APP_URL as string)
+					.href,
+				logoPosition: 'bottomRight',
+			});
+
+			console.info(
+				' generated image for',
+				_type,
+				_id,
+				'generated: ',
+				generateShareImage,
+			);
+		} catch (e) {
+			console.error(
+				'Error generating social media image: ',
+				_type,
+				_id,
+				e.message,
+			);
+			return res.status(500).send(e.message);
+		}
+
 		try {
 			console.info(' sending payload to create social media post');
 			// wait 30 seconds for the image to be generated

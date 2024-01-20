@@ -3,7 +3,7 @@
 # and these! https://medium.com/disdj/speed-up-npm-yarn-install-in-gitlab-1434437f9857
 
 variables:
-  CI_DEBUG_TRACE: "true"
+  CI_DEBUG_TRACE: 'true'
 
 build_node_modules:
   rules:
@@ -88,7 +88,7 @@ build_node_modules:
       - node_modules/
       - app/
       - server/
-      - packages/
+      - packages/ # maybe don't cache this dir
     when: on_success
 
 build_module:
@@ -112,6 +112,7 @@ build_module:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       changes:
         - '${MODULE}/**/*'
+        - 'packages'
   before_script:
     - apk --no-cache add git
     - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin "${CI_REGISTRY}"
@@ -212,6 +213,5 @@ deploy:
       - app/help
       - app/blog
       - server/main
-      - server/location
       - server/payments
       - server/image

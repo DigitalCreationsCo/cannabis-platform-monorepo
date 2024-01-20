@@ -60,6 +60,7 @@
 		"studio": "dotenv -e ../../.env.development -- yarn prisma studio",
 		"studio-production": "dotenv -e ../../.env.production -- yarn prisma studio",
 		"shadow-db": "sh ../../scripts/docker/shadow-db.sh",
+		"validate": "dotenv -e ../../.env.development -- yarn prisma validate",
 		"push": "dotenv -e ../../.env.development -- yarn prisma db push",
 		"pull": "dotenv -e ../../.env.development -- npx prisma db pull",
 		"seed": "npx prisma generate && dotenv -e ../../.env.development -- yarn prisma db seed",

@@ -10,6 +10,7 @@ import {
 import Link from 'next/link';
 import { connect } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
+import { FeatureConfig } from 'config/dashboard.features';
 
 function Settings({
 	organization,
@@ -24,7 +25,10 @@ function Settings({
 
 			<div className="tabs">
 				<Link
-					className="tab pl-0"
+					className={twMerge(
+						'tab pl-0',
+						FeatureConfig.storefront.enabled ? '' : 'hidden',
+					)}
 					href={TextContent.href.site_f(organization.id)}
 				>
 					<Button className="p-2">Site Settings</Button>

@@ -17,6 +17,7 @@ import {
 	TextField,
 	useFormContext,
 } from '@cd/ui-lib';
+import { createId } from '@paralleldrive/cuid2';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
@@ -36,7 +37,7 @@ function UserSignUpQuickForm() {
 	}
 
 	useEffect(() => {
-		startTour();
+		if (window.location.pathname != '/') startTour();
 	}, []);
 
 	const { nextFormStep, prevFormStep, setFormValues, formValues } =
@@ -49,7 +50,7 @@ function UserSignUpQuickForm() {
 	const [loadingButton, setLoadingButton] = useState(false);
 
 	const initialValues = {
-		id: user.id,
+		id: user.id || createId(),
 		firstName: formValues?.newUser?.firstName || '',
 		lastName: formValues?.newUser?.lastName || '',
 		username: formValues?.newUser?.username || '',
@@ -107,8 +108,9 @@ function UserSignUpQuickForm() {
 				...formValues.newUser,
 			});
 			console.log('signup response: ', response);
-			if (response.data.success === 'false')
-				throw new Error(response.data.error);
+
+			if (!response.data.success || response.data.success === 'false')
+				throw new Error(response.data.message || response.data.error);
 
 			console.info('user sign up response.data.payload', response.data.payload);
 			setFormValues({
@@ -298,14 +300,16 @@ function UserSignUpQuickForm() {
 						description={
 							<>
 								<div id="dispensary-create-step-3" className="inline-block">
-									<Paragraph>{TextContent.legal.AGREE_TO_TERMS}</Paragraph>
+									<Paragraph className="inline">
+										{TextContent.legal.AGREE_TO_TERMS}{' '}
+									</Paragraph>
 									<a
 										href={TextContent.href.user_tos}
 										target="_blank"
 										rel="noreferrer noopener"
-										className="inline"
+										className="inline-block"
 									>
-										<H6 className={'inline border-b-2'}>
+										<H6 className={'inline-block border-b-2'}>
 											{TextContent.legal.USER_TERMS_OF_SERVICE}
 										</H6>
 										.
@@ -316,7 +320,7 @@ function UserSignUpQuickForm() {
 						label={TextContent.legal.I_AGREE_TO_THE_USER_TERMS}
 					/>
 				</div>
-				<FlexBox className="col-span-2 flex-row justify-center space-x-4 py-2">
+				<FlexBox className="col-span-2 flex-row justify-evenly space-x-8 py-4">
 					<Button
 						disabled={loadingButton}
 						onClick={(e) => {
