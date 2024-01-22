@@ -226,7 +226,7 @@ const SignUpForm = () => {
 					(Already A Member? Sign In)
 				</Button>
 			</Paragraph>
-			{/* <ContinueSignUp /> */}
+			<ContinueSignUp />
 		</Card>
 	);
 };

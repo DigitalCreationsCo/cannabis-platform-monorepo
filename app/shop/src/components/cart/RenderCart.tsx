@@ -4,6 +4,7 @@ import { Grid, Paragraph, ProductItem } from '@cd/ui-lib';
 import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
+import { FeatureConfig } from 'config/shop.features';
 import RenderTotal from './RenderTotal';
 
 function RenderCart() {
@@ -24,11 +25,15 @@ function RenderCart() {
 			) : (
 				<div className="flex h-full flex-col place-content-center text-center">
 					<Paragraph>Your bag is empty</Paragraph>
-					<Link href="/browse">
-						<Paragraph className={'inline-block cursor-pointer border-b-2'}>
-							{TextContent.shop.BAG_TAGLINE_CURE_FILL_MY_BAG}
-						</Paragraph>
-					</Link>
+					{FeatureConfig.storefront.enabled ? (
+						<Link href="/browse">
+							<Paragraph className={'inline-block cursor-pointer border-b-2'}>
+								{TextContent.shop.BAG_TAGLINE_CURE_FILL_MY_BAG}
+							</Paragraph>
+						</Link>
+					) : (
+						<></>
+					)}
 				</div>
 			)}
 		</div>

@@ -68,6 +68,7 @@
 		"reseed": "yarn clear-db && yarn seed",
 		"baseline": "dotenv -e ../../.env.production -- sh scripts/create-baseline.sh",
 		"migrate-dev": "sh scripts/migrate-dev.sh",
+		"migrate-diff-dev": "dotenv -e ../../.env.development -- sh scripts/migrate-diff.sh",
 		"migrate-reset-dev": "dotenv -e ../../.env.development -- yarn prisma migrate reset",
 		"clear-tables": "dotenv -e ../../.env.development -- node --loader ts-node/esm ./src/db/clear.mts",
 		"migrate-deploy": "dotenv -e ../../.env.production -- npx prisma migrate deploy",
