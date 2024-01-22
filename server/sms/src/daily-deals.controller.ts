@@ -21,7 +21,7 @@ import {
 } from '@cd/data-access';
 import axios from 'axios';
 import nodeCache from 'node-cache';
-import { redisDailyDeals } from 'redis-daily-deals';
+import { redisDailyDeals } from './redis-daily-deals';
 
 const oneDaySeconds = 86400;
 type RequestedDeliveryTime = 'now' | 'later';
@@ -374,7 +374,9 @@ export const getAllCacheDailyDeals = async (): Promise<
 	);
 	if (!dailyDeals.length || dailyDeals.length === 0) {
 		// get dailydeal from redis
+		// RETURN WEEDTEXTDEAL[] || []
 		dailyDeals = JSON.parse(await redisDailyDeals.get('*'));
+		console.info('redis daily deals: ', dailyDeals);
 
 		if (!dailyDeals.length || dailyDeals.length === 0) {
 			// get dailydeal from db
