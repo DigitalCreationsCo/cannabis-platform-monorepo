@@ -3,8 +3,39 @@ import prisma from './db/prisma';
 import { type OrganizationWithOrderDetails } from './organization.types';
 
 /*
+ *  findActiveDailyDeals
  *   createWeedTextDeal
+ *   findDailyDeal
+ *  findDailyDealsByOrganization
  */
+
+/**
+ * findActiveDailyDeals
+ * @param
+ * @returns
+ */
+export async function findActiveDailyDeals(): Promise<
+	WeedTextDealWithOrganization[]
+> {
+	try {
+		return await prisma.weedTextDeal.findMany({
+			where: {
+				startTime: { lte: new Date() },
+				endTime: { gte: new Date() },
+			},
+			include: {
+				organization: {
+					include: {
+						address: { include: { coordinates: true } },
+					},
+				},
+			},
+		});
+	} catch (error) {
+		console.error('createWeedTextDeal: ', error);
+		throw error;
+	}
+}
 
 /**
  * createWeedTextDeal

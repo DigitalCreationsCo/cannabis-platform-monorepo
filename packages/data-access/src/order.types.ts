@@ -13,8 +13,8 @@ import {
 	type RouteWithCoordinates,
 } from './driver.types';
 import {
+	type OrganizationWithOrderDetails,
 	type OrganizationWithDashboardDetails,
-	type OrganizationWithShopDetails,
 } from './organization.types';
 import { type UserWithDetails } from './user.data';
 import { type ProductVariantWithDetails } from './variant.data';
@@ -97,7 +97,7 @@ export class OrderClass {
 }
 
 export type OrderCreateType = Order & {
-	organization: OrganizationWithShopDetails;
+	organization: OrganizationWithOrderDetails;
 	customer: UserWithDetails;
 	destinationAddress: AddressWithCoordinates;
 	items: ProductVariantWithDetails[];
