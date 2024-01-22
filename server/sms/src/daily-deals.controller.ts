@@ -4,7 +4,9 @@ import {
 	multiplyAllItemsForOrder,
 	buildOrderRecord,
 	isEmpty,
+	showTime,
 } from '@cd/core-lib';
+import SMS from '@cd/core-lib/lib/sms/sms.module';
 import {
 	createWeedTextDeal,
 	findDailyDeal,
@@ -15,13 +17,15 @@ import {
 	type WeedTextDeal,
 	findActiveDailyDeals,
 	findOrganizationById,
+	type OrderWithShopDetails,
 } from '@cd/data-access';
 import axios from 'axios';
 import nodeCache from 'node-cache';
-
-const redisWeedText = {};
+import { redisDailyDeals } from 'redis-daily-deals';
 
 const oneDaySeconds = 86400;
+type RequestedDeliveryTime = 'now' | 'later';
+
 const dailyDealCache = new nodeCache({
 	stdTTL: oneDaySeconds,
 	checkperiod: oneDaySeconds,
@@ -141,12 +145,17 @@ export class DailyDealsController {
 			// external service handles keywords
 			// handle them here as well for redundancy
 
+			// TODO: CREATE MULTISTEP MESSAGING
+			// step 1 - ask for number of orders
+			// step 2 - ask for delivery time ( now or later )
+			const deliveryTime: RequestedDeliveryTime = 'now';
+
 			const dailyWeedTextDeal = await isValidWeedTextOrderRequest(req.body);
 			if (dailyWeedTextDeal) {
 				const { numOrders, phoneNumber, dealId } = req.body;
 
 				// limit the number of db lookups and ajax calls, for the lowest latency possible
-				await processWeedTextOrder({
+				const order = await processWeedTextOrder({
 					dailyDeal: dailyWeedTextDeal,
 					numOrders,
 					phoneNumber,
@@ -154,7 +163,12 @@ export class DailyDealsController {
 				});
 
 				// sendOrderConfirmation via sms
-				sendOrderConfirmationSMS(phoneNumber);
+				sendOrderConfirmationSMS(
+					phoneNumber,
+					numOrders,
+					deliveryTime,
+					order.deliveryDeadline,
+				);
 				return res.status(200).json({
 					success: 'true',
 					message: 'Order created Successfully',
@@ -205,7 +219,10 @@ async function processWeedTextOrder({
 			throw new Error('Invalid Order');
 		}
 
-		const createdOrder = await axios.post(urlBuilder.main.orders(), order);
+		const createdOrder = await axios.post<OrderWithShopDetails>(
+			urlBuilder.main.orders(),
+			order,
+		);
 
 		// send ajax request for payment service to charge the customer's card
 		await axios.post(urlBuilder.payment.chargeCustomer(), {
@@ -213,6 +230,7 @@ async function processWeedTextOrder({
 		});
 
 		// a successful stripe webhook response will start the fulfillment process
+		return createdOrder.data;
 	} catch (error) {
 		console.error(error);
 	}
@@ -265,11 +283,18 @@ async function buildOrderFromWeedTextRequest({
 	}
 }
 
-async function sendOrderConfirmationSMS(phone: string) {
-	SMSModule.send(
+async function sendOrderConfirmationSMS(
+	phone: string,
+	numOrders: number,
+	deliveryTime: RequestedDeliveryTime,
+	etaTime: Date,
+) {
+	SMS.send(
 		'new_order',
 		phone,
-		`Thanks for ordering. We will send you an update when your order is on the way!`,
+		`Got it, you want ${numOrders}, delivered ${deliveryTime}.  We'll deliver to you by ${showTime(
+			etaTime,
+		)} We'll message you when it's on the way!`,
 	);
 }
 
@@ -324,7 +349,7 @@ const getCacheDailyDeal = async (
 	);
 	if (!dailyDeal) {
 		// get dailydeal from redis
-		dailyDeal = await redisWeedText.get(dealId);
+		dailyDeal = JSON.parse(await redisDailyDeals.get(dealId));
 		if (!dailyDeal) {
 			// get dailydeal from db
 			dailyDeal = (await findDailyDeal(dealId)) as WeedTextDealWithOrganization;
@@ -338,14 +363,47 @@ const getCacheDailyDeal = async (
 	return dailyDeal.isExpired && dailyDeal;
 };
 
+export const getAllCacheDailyDeals = async (): Promise<
+	WeedTextDealWithOrganization[]
+> => {
+	// get dailydeal from memory cache
+	let dailyDeals = Object.values(
+		await dailyDealCache.mget<WeedTextDealWithOrganization>(
+			await dailyDealCache.keys(),
+		),
+	);
+	if (!dailyDeals.length || dailyDeals.length === 0) {
+		// get dailydeal from redis
+		dailyDeals = JSON.parse(await redisDailyDeals.get('*'));
+
+		if (!dailyDeals.length || dailyDeals.length === 0) {
+			// get dailydeal from db
+			dailyDeals = await findActiveDailyDeals();
+			dailyDeals.forEach((deal) => {
+				try {
+					setCacheDailyDeal(deal);
+				} catch (error) {
+					console.error(
+						'getAllCacheDailyDeals encountered an error with deal ' + deal.id,
+						deal,
+						error,
+					);
+					throw new Error(error.message);
+				}
+			});
+		}
+	}
+	return dailyDeals;
+};
+
 export const setCacheDailyDeal = async (deal: WeedTextDealWithOrganization) => {
 	try {
-		await dailyDealCache.set<WeedTextDealWithOrganization>(
+		dailyDealCache.set<WeedTextDealWithOrganization>(
 			deal.id,
 			deal,
-			86400,
+			oneDaySeconds,
 		);
-		await redisWeedText.setEx(deal.id, deal, 86400);
+		await redisDailyDeals.setEx(deal.id, oneDaySeconds, JSON.stringify(deal));
 	} catch (error) {
 		console.error('cacheDailyDeal: ', error);
 	}

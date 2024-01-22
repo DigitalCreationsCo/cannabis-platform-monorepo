@@ -10,7 +10,6 @@ pingSupertokens()
 	.then(() => {
 		// start the cron job scheduler
 		DailyDealScheduler.start();
-
 		server.listen(port, () => {
 			console.info(
 				` 📞 Server-SMS is starting in ${process.env.NODE_ENV} mode.`,

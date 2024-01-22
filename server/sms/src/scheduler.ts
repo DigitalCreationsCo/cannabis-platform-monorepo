@@ -1,7 +1,10 @@
 import SMS from '@cd/core-lib/lib/sms';
-import { findActiveDailyDeals } from '@cd/data-access';
+import { findActiveDailyDeals, setExpiredDailyDeals } from '@cd/data-access';
 import { schedule } from 'node-cron';
-import { setCacheDailyDeal } from './daily-deals.controller';
+import {
+	getAllCacheDailyDeals,
+	setCacheDailyDeal,
+} from './daily-deals.controller';
 
 export default class DailyDealScheduler {
 	static start() {
@@ -15,6 +18,7 @@ export default class DailyDealScheduler {
 			schedule('0 0 * * *', () => {
 				updateDailyDealsCache();
 			});
+			console.info('Scheduled daily deal update task.');
 		} catch (error) {
 			console.error('runUpdateDailyDealsTask: ', error);
 			// send an alert email if this fails
@@ -23,6 +27,14 @@ export default class DailyDealScheduler {
 
 	static async runSendDailyDealsTask() {
 		try {
+			let taskStartTime;
+
+			// run the first batch of messages
+			// if there are more messages to send, schedule the next batch at the next stagger time
+			// continue until messages are sent to all customer segments
+			let smsStaggerTime;
+			let customerSegmentId;
+			const dailyDeals = await getAllCacheDailyDeals();
 			// get daily deal from from database
 			// schedule a chron job to send the daily deal to DailyStory SMS api, targeting the appropriate customer segment
 			// save the daily deal to redis
@@ -42,6 +54,9 @@ export default class DailyDealScheduler {
 			// schema update: add segmentId to organization table
 			//              : add user
 			//
+			console.info(
+				'Scheduled daily deal send task to start at ' + taskStartTime,
+			);
 		} catch (error) {
 			console.error('runSendDailyDealsTask: ', error);
 		}
@@ -49,19 +64,24 @@ export default class DailyDealScheduler {
 }
 
 async function updateDailyDealsCache() {
-	const activeDailyDeals = await findActiveDailyDeals();
-	activeDailyDeals.forEach((deal) => {
-		try {
-			setCacheDailyDeal(deal);
-		} catch (error) {
-			console.error(
-				'updateDailyDealsCache encountered an error with deal ' + deal.id,
-				deal,
-				error,
-			);
-			throw new Error(error.message);
-		}
-	});
+	try {
+		await expireDailyDeals();
+		const activeDailyDeals = await findActiveDailyDeals();
+		activeDailyDeals.forEach((deal) => {
+			try {
+				setCacheDailyDeal(deal);
+			} catch (error) {
+				console.error(
+					'updateDailyDealsCache encountered an error with deal ' + deal.id,
+					deal,
+					error,
+				);
+				throw new Error(error.message);
+			}
+		});
+	} catch (error) {
+		throw new Error(error.message);
+	}
 }
 
 async function sendDailyDealToWeedText(recipients: string[], deal: any) {
@@ -69,6 +89,16 @@ async function sendDailyDealToWeedText(recipients: string[], deal: any) {
 		// send transactional sms to each recipient, ideally send to an entire segment in a batch message - review ds api docs
 		SMS.send();
 	} catch (error: any) {
-		throw new Error('sendDailyDealToWeedText: ', error.message);
+		console.error('sendDailyDealToWeedText: ', error);
+		throw new Error(error.message);
+	}
+}
+
+async function expireDailyDeals() {
+	try {
+		setExpiredDailyDeals();
+	} catch (error: any) {
+		console.error('expireDailyDeals: ', error);
+		throw new Error(error.message);
 	}
 }

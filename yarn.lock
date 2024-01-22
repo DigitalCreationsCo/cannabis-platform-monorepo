@@ -4602,7 +4602,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": 5.45.0
     "@typescript-eslint/parser": 5.45.0
     "@urql/core": 4.1.4
-    api: ^6.1.1
+    api: 6.1.1
     awesome-typescript-loader: ^5.2.1
     axios: 1.2.1
     babel-core: 6.26.3
@@ -4634,7 +4634,7 @@ __metadata:
     mongodb: 5.8.1
     nanoid: 3.3.4
     node-cache: 5.1.2
-    node-cron: ^3.0.3
+    node-cron: 3.0.3
     nodemon: 2.0.20
     pm2: ^5.2.2
     prettier: 2.8.0
@@ -14701,7 +14701,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"api@npm:^6.1.1":
+"api@npm:6.1.1":
   version: 6.1.1
   resolution: "api@npm:6.1.1"
   dependencies:
@@ -30142,7 +30142,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-cron@npm:^3.0.3":
+"node-cron@npm:3.0.3":
   version: 3.0.3
   resolution: "node-cron@npm:3.0.3"
   dependencies:
