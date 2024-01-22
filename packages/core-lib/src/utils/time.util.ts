@@ -10,9 +10,9 @@ export const showTime = (date: Date | string) =>
 	});
 
 export function calculateDeliveryDeadline(): Date {
-	const hour = 60 * 60 * 1000;
-	const deliveryTime = Number(process.env.NEXT_PUBLIC_DELIVERY_TIME);
-	return new Date(Date.now() + deliveryTime * hour);
+	const hourSeconds = 60 * 60 * 1000;
+	const deliveryGuaranteeHours = Number(process.env.NEXT_PUBLIC_DELIVERY_TIME);
+	return new Date(Date.now() + deliveryGuaranteeHours * hourSeconds);
 }
 
 export function integerToTime(number: number): string {

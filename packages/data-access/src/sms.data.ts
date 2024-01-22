@@ -22,6 +22,7 @@ export async function findActiveDailyDeals(): Promise<
 			where: {
 				startTime: { lte: new Date() },
 				endTime: { gte: new Date() },
+				isExpired: false,
 			},
 			include: {
 				organization: {
@@ -94,6 +95,27 @@ export async function findDailyDealsByOrganization(
 		});
 	} catch (error) {
 		console.error('getDailyDealsByOrganization: ', error);
+		throw error;
+	}
+}
+
+/*
+ * update all deals that have expired
+ * @param
+ * @returns
+ */
+export async function setExpiredDailyDeals() {
+	try {
+		await prisma.weedTextDeal.updateMany({
+			where: {
+				endTime: { lte: new Date() },
+			},
+			data: {
+				isExpired: true,
+			},
+		});
+	} catch (error) {
+		console.error('setExpiredDailyDeals: ', error);
 		throw error;
 	}
 }
