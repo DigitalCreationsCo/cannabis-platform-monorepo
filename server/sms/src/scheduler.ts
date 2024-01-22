@@ -27,33 +27,36 @@ export default class DailyDealScheduler {
 
 	static async runSendDailyDealsTask() {
 		try {
-			let taskStartTime;
-
+			const taskStartTime = '0 0 10 * *';
 			// run the first batch of messages
 			// if there are more messages to send, schedule the next batch at the next stagger time
 			// continue until messages are sent to all customer segments
 			let smsStaggerTime;
 			let customerSegmentId;
-			const dailyDeals = await getAllCacheDailyDeals();
-			// get daily deal from from database
-			// schedule a chron job to send the daily deal to DailyStory SMS api, targeting the appropriate customer segment
-			// save the daily deal to redis
-			// 1. get orgs that are subscribed for daily deals
-			//
-			// send each deal to a customer segment in dailystory
-			// dynamically divide segments based on the number of deals.
-			// 1. get the number of deals
-			// 2. send deals to the most popular segments
-			// 3. if any segments are left over, send the top deals to those segments ( ranked by subscription tier )
-			//
-			// 2. get the latest daily deal for each org
-			// 3. get cached user list for each org, from redis -- structure this as a hash?
-			// 4. loop through each deal, send the daily to dailyStory - send subscribed users as recipients,
-			// OPTION: create user segments on dailyStory?? - this would be easier, and woulnd't require a redis cache
-			// NOTE: store the segmentID for each org
-			// schema update: add segmentId to organization table
-			//              : add user
-			//
+			// run this task at taskStartTime every day
+			schedule(taskStartTime, async (now) => {
+				console.info('Running SendDailyDeal task, t: ' + now);
+				const dailyDeals = await getAllCacheDailyDeals();
+				// get daily deal from from database
+				// schedule a chron job to send the daily deal to DailyStory SMS api, targeting the appropriate customer segment
+				// save the daily deal to redis
+				// 1. get orgs that are subscribed for daily deals
+				//
+				// send each deal to a customer segment in dailystory
+				// dynamically divide segments based on the number of deals.
+				// 1. get the number of deals
+				// 2. send deals to the most popular segments
+				// 3. if any segments are left over, send the top deals to those segments ( ranked by subscription tier )
+				//
+				// 2. get the latest daily deal for each org
+				// 3. get cached user list for each org, from redis -- structure this as a hash?
+				// 4. loop through each deal, send the daily to dailyStory - send subscribed users as recipients,
+				// OPTION: create user segments on dailyStory?? - this would be easier, and woulnd't require a redis cache
+				// NOTE: store the segmentID for each org
+				// schema update: add segmentId to organization table
+				//              : add user
+				//
+			});
 			console.info(
 				'Scheduled daily deal send task to start at ' + taskStartTime,
 			);
