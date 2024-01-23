@@ -34,22 +34,27 @@ export class BrevoMailer {
 
 			newsLetterEmailCampaign.toField = 'bryantmejia@grascannabis.org';
 
+			// newsLetterEmailCampaign.templateId = 15;
 			newsLetterEmailCampaign.htmlContent = buildNewsletterTemplate(
 				subject,
 				header,
 				content,
 			);
 
-			// newsLetterEmailCampaign.templateId = 15;
-
-			// newsLetterEmailCampaign.recipients = { listIds: [3] };
-
-			// newsLetterEmailCampaign.scheduledAt = new Date().toISOString();
+			newsLetterEmailCampaign.recipients = { listIds: [3] };
 
 			// newsLetterEmailCampaign.params = {
 			// 	parameter: 'My param value',
 			// 	subject: 'common subject',
 			// };
+
+			// schedule send for Tuesday 8AM
+			const tuesday = new Date();
+			tuesday.setDate(tuesday.getDate() + ((2 + 7 - tuesday.getDay()) % 7));
+			tuesday.setHours(8);
+			tuesday.setMinutes(0);
+			tuesday.setSeconds(0);
+			newsLetterEmailCampaign.scheduledAt = tuesday.toISOString();
 
 			this.apiInstance
 				.createEmailCampaign(newsLetterEmailCampaign)
