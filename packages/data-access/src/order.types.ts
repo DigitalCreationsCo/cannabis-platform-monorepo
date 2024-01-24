@@ -13,9 +13,10 @@ import {
 	type RouteWithCoordinates,
 } from './driver.types';
 import {
+	type OrganizationWithOrderDetails,
 	type OrganizationWithDashboardDetails,
-	type OrganizationWithShopDetails,
 } from './organization.types';
+import { type UserWithDetails } from './user.data';
 import { type ProductVariantWithDetails } from './variant.data';
 
 export class OrderClass {
@@ -52,7 +53,7 @@ export class OrderClass {
 	createdAt: Date;
 	updatedAt: Date;
 	deliveryDeadline: Date;
-	isLateDelivery: boolean | null;
+	isDeliveredOnTime: boolean | null;
 
 	items: ProductVariantWithDetails[];
 	// eslint-disable-next-line sonarjs/cognitive-complexity
@@ -90,14 +91,14 @@ export class OrderClass {
 		this.createdAt = order.createdAt || new Date();
 		this.updatedAt = order.updatedAt || new Date();
 		this.deliveryDeadline = order.deliveryDeadline;
-		this.isLateDelivery = order.isLateDelivery;
+		this.isDeliveredOnTime = order.isDeliveredOnTime;
 		this.items = order.items;
 	}
 }
 
 export type OrderCreateType = Order & {
-	organization: OrganizationWithShopDetails;
-	customer: User;
+	organization: OrganizationWithOrderDetails;
+	customer: UserWithDetails;
 	destinationAddress: AddressWithCoordinates;
 	items: ProductVariantWithDetails[];
 };
@@ -143,3 +144,44 @@ export type DispatchQueueStatus =
 	| 'Dispatching'
 	| 'Dispatched'
 	| 'Failed';
+
+export type OrderCreateMinimalFields = Omit<
+	OrderCreateType,
+	| 'distance'
+	| 'mileageFee'
+	| 'platformFee'
+	| 'deliveryFee'
+	| 'id'
+	| 'deliveryDeadline'
+	| 'isDriverAssigned'
+	| 'driverAssignedAt'
+	| 'isProductPickedUp'
+	| 'productPickedUpAt'
+	| 'isCustomerReceivedOrder'
+	| 'customerReceivedOrderAt'
+	| 'isDeliveredOrder'
+	| 'deliveredAt'
+	| 'isCompleted'
+	| 'completedAt'
+	| 'duration'
+	| 'isDeliveredOnTime'
+	| 'purchaseId'
+	| 'routeId'
+	| 'createdAt'
+	| 'updatedAt'
+	| 'driverId'
+	| 'driver'
+	| 'addressId'
+	| 'orderStatus'
+> &
+	Partial<
+		Pick<
+			OrderCreateType,
+			| 'distance'
+			| 'mileageFee'
+			| 'platformFee'
+			| 'deliveryFee'
+			| 'orderStatus'
+			| 'addressId'
+		>
+	>;

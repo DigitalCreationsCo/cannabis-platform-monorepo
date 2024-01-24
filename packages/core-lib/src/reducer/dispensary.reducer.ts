@@ -4,7 +4,7 @@ import {
 	type OrderWithFullDetails,
 	type OrganizationWithDashboardDetails,
 	type ProductWithDetails,
-	type UserDispensaryAdmin,
+	type UserDispensaryStaff,
 } from '@cd/data-access';
 import {
 	createAsyncThunk,
@@ -42,7 +42,7 @@ export type DispensaryStateProps = {
 	dispensary: OrganizationWithDashboardDetails;
 	products: ProductWithDetails[];
 	orders: OrderWithFullDetails[];
-	users: UserDispensaryAdmin[];
+	users: UserDispensaryStaff[];
 	isLoading: boolean;
 	isSuccess: boolean;
 	isError: boolean;

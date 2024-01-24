@@ -100,7 +100,11 @@ handler.post(async (req: any, res: NextApiResponse) => {
 		}[] = [...aiGeneratedContent, ...normalizeBlogContent];
 
 		const mailer = new BrevoMailer();
-		await mailer.createScheduledNewsletterCampaign(subject, header, newsletterContent);
+		await mailer.createScheduledNewsletterCampaign(
+			subject,
+			header,
+			newsletterContent,
+		);
 
 		normalizeBlogContent.forEach(async (post) => {
 			await setPostPublishedInNewsletter(client, post._id);

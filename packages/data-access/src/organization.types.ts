@@ -3,14 +3,12 @@ import {
 	type CategoryList,
 	type Coordinates,
 	type ImageOrganization,
-	type Membership,
 	type Order,
 	type Organization,
 	type Prisma,
 	type Schedule,
 	type SiteSetting,
 	type SubDomain,
-	type User,
 	type Vendor,
 } from '@prisma/client';
 import {
@@ -21,6 +19,7 @@ import {
 	type ProductWithDashboardDetails,
 	type ProductWithShopDetails,
 } from './product.data';
+import { type MembershipWithUser } from './user.data';
 
 export type OrganizationCreateType = Prisma.OrganizationUncheckedCreateInput & {
 	address: AddressPayload;
@@ -42,6 +41,11 @@ export type OrganizationUpdateType = Organization & {
 export type OrganizationMetadata = {
 	metadata?: { productsFetched?: boolean };
 };
+
+export type OrganizationWithOrderDetails = Organization &
+	Omit<Organization, 'stripeAccountId' | 'createdAt' | 'updatedAt'> & {
+		address: AddressWithCoordinates;
+	};
 
 export type OrganizationWithShopDetails = Organization &
 	Omit<Organization, 'stripeAccountId' | 'createdAt' | 'updatedAt'> & {
@@ -71,8 +75,4 @@ export type OrganizationWithDashboardDetails = Organization & {
 export type UserLocation = {
 	userLocation: Coordinates;
 	proximityRadius: number;
-};
-
-export type MembershipWithUser = Membership & {
-	user: User;
 };

@@ -54,6 +54,7 @@ const initialState: DriverSessionState = {
 			idBackImage: null,
 			address: [],
 			profilePicture: null,
+			isSubscribedForWeedText: false,
 		},
 		licenseNumber: '',
 		driverSession: {

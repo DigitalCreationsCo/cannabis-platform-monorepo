@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { type AppState, usePagination } from '@cd/core-lib';
-import { type UserDispensaryAdmin } from '@cd/data-access';
+import { type AppState } from '@cd/core-lib';
+import { type UserDispensaryStaff } from '@cd/data-access';
 import {
 	DeleteButton,
 	Grid,
@@ -8,6 +8,7 @@ import {
 	Icons,
 	Page,
 	PageHeader,
+	usePagination,
 	Paragraph,
 	Row,
 	type LayoutContextProps,
@@ -20,7 +21,7 @@ import { toast } from 'react-hot-toast';
 import { connect } from 'react-redux';
 
 type UsersDashboardProps = {
-	users: UserDispensaryAdmin[];
+	users: UserDispensaryStaff[];
 };
 
 function Users({ users }: UsersDashboardProps) {
