@@ -3,7 +3,6 @@ import {
 	type AddressCreateType,
 	type AddressPayload,
 	type Coordinates,
-	type OrderCreateType,
 } from '@cd/data-access';
 import haversine from 'haversine-distance';
 import { axios } from '../axiosInstance';
@@ -84,7 +83,9 @@ export async function getGeoAddressFromCoordinates(coordinates: {
 	}
 }
 
-export function getCoordinatePairFromCoordinates(userlocation: Coordinates) {
+export function getCoordinatePairFromCoordinates(
+	userlocation: Coordinates,
+): [number, number] {
 	if (userlocation.latitude && userlocation.longitude)
 		return [Number(userlocation.longitude), Number(userlocation.latitude)];
 	else throw new Error('Invalid coordinates');
@@ -123,11 +124,20 @@ export function coordinatesIsEmpty(address: AddressCreateType) {
 /**
  * calculates haversine distance between two coordinate points
  */
-export function getDistanceFromCoordinates(
+export function getHaversineDistanceFromCoordinates(
 	source: Coordinates,
 	dest: Coordinates,
 ) {
 	return haversine(source, dest);
+}
+
+export async function getTravelDistanceFromCoordinates(
+	source: Coordinates,
+	dest: Coordinates,
+) {
+	return await (
+		await getRoutingDetails(source, dest)
+	).trips[0].distance;
 }
 
 /**
@@ -136,15 +146,12 @@ export function getDistanceFromCoordinates(
  * @returns RoutingDetailsResponse
  */
 export async function getRoutingDetails(
-	order: OrderCreateType,
+	source: Coordinates,
+	dest: Coordinates,
 ): Promise<RoutingDetailsResponse> {
 	try {
-		const sourceCoordinates = getCoordinatePairFromCoordinates(
-			order.organization.address.coordinates as Coordinates,
-		);
-		const destCoordinates = getCoordinatePairFromCoordinates(
-			order.destinationAddress.coordinates as Coordinates,
-		);
+		const sourceCoordinates = getCoordinatePairFromCoordinates(source);
+		const destCoordinates = getCoordinatePairFromCoordinates(dest);
 		const response = await axios.get(
 			`${process.env.NEXT_PUBLIC_LOCATION_IQ_ROUTING_URL}/${sourceCoordinates};${destCoordinates}?key=${process.env.NEXT_PUBLIC_LOCATION_IQ_API_KEY}&overview=false&roundtrip=false`,
 			{

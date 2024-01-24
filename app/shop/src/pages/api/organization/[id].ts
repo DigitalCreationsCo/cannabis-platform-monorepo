@@ -5,17 +5,22 @@ import NodeCache from 'node-cache';
 import Supertokens from 'supertokens-node';
 import { superTokensNextWrapper } from 'supertokens-node/nextjs';
 import { verifySession } from 'supertokens-node/recipe/session/framework/express';
-import { backendConfig } from '../../../config/backendConfig';
+import {
+	backendConfig,
+	createAnonymousJWT,
+} from '../../../config/backendConfig';
 
 Supertokens.init(backendConfig());
 
-// Notes on caching in directory: /_dev/cache.txt
 const cache = new NodeCache({ stdTTL: 30 });
 
 // get a single organization details
 const handler = nc();
 handler.get(async (req: any, res: any) => {
 	try {
+		const jwt = await createAnonymousJWT({});
+		req.headers['authorization'] = `Bearer ${jwt}`;
+
 		await NextCors(req, res, {
 			methods: ['GET'],
 			origin: process.env.NEXT_PUBLIC_SHOP_APP_URL,
@@ -31,7 +36,7 @@ handler.get(async (req: any, res: any) => {
 			res,
 		);
 
-		res.setHeader('Cache-Control', 'public, s-maxage=60');
+		res.setHeader('Cache-Control', 'public, s-maxage=120');
 
 		const { id } = req.query;
 		if (cache.has(`organization/${id}`)) {
@@ -53,7 +58,7 @@ handler.get(async (req: any, res: any) => {
 			});
 		}
 	} catch (error: any) {
-		console.error('api get organization: ', error.message);
+		console.error('api/organization/[id]: ', error.message);
 		return res.json({
 			success: 'false',
 			error: error.message,

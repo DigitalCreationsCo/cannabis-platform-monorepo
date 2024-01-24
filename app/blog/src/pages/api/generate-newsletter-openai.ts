@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { openai } from '@cd/ai';
+import { BrevoMailer } from '@cd/core-lib/lib/brevo-mailer';
 import { type NextApiResponse } from 'next';
 import nc from 'next-connect';
 import { createClient } from 'next-sanity';
-import { BrevoMailer } from 'lib/brevo-mailer';
 import {
 	getNonPublishedPosts,
 	setPostPublishedInNewsletter,
@@ -119,10 +119,9 @@ ${blogPosts.length} articles retrieved from CMS.`);
 				footer: string;
 				link: string;
 			}[] = [...aiGeneratedContent, ...normalizedBlogContent];
-
 			const mailer = new BrevoMailer();
 			await mailer
-				.createScheduledNewsletterCampaign(subject, header, newsletterContent)
+				.sendNewsletterCampaign(subject, header, newsletterContent)
 				.then(() => {
 					console.info('Successfully created newsletter campaign.');
 

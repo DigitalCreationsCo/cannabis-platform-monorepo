@@ -3,6 +3,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 import {
+	type MembershipWithOrganizationDashboardDetails,
 	type OrderWithShopDetails,
 	type UserWithDetails,
 } from '@cd/data-access';
@@ -84,7 +85,15 @@ export const userSlice = createSlice({
 			console.info('signinUserSync payload', payload);
 			let { token, user } = payload;
 			state.token = token;
-			state.user = pruneData(user, ['createdAt', 'updatedAt']);
+			// remove organization from memberships, organization is handled by dispensary middleware
+			user.memberships?.forEach(
+				(membership: MembershipWithOrganizationDashboardDetails) => {
+					if (membership.organizations) {
+						delete membership.organizations;
+					}
+				},
+			);
+			state.user = user;
 			state.isSignedIn = true;
 			state.isLoading = false;
 			state.isSuccess = true;
@@ -94,7 +103,7 @@ export const userSlice = createSlice({
 			if (!user.isSignUpComplete) {
 				document.cookie = 'isSignUpComplete=false;path=/';
 			}
-			window.location.reload();
+			// window.location.reload();
 		},
 		updateOrders: (
 			state,
@@ -118,13 +127,15 @@ export const userSlice = createSlice({
 		},
 	},
 	extraReducers: (builder) => {
-		builder.addCase(signOutUserAsync.fulfilled, (state) => {
+		builder.addCase(signOutUserAsync.fulfilled, () => {
 			document.cookie = 'yesOver21=false;path=/';
-			window.location.href = '/';
-			return (state = initialState);
+			// 	// window.location.href = '/';
+			// clear dispensary state on user signout
+			return initialState;
 		}),
 			builder.addCase(signOutUserAsync.pending, (state) => {
 				state.isLoading = true;
+				state.isSignedIn = false; // dont trigger dispensary middleware
 			}),
 			builder.addCase(signOutUserAsync.rejected, (state, { payload }) => {
 				state.isSuccess = false;

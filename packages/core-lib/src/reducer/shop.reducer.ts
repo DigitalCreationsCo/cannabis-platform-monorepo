@@ -53,7 +53,7 @@ export const getDispensariesLocal = createAsyncThunk<
 		const { coordinates } = location[selectLocationType].address;
 
 		const response = await axios.post(
-			urlBuilder.location.organizationsLocal(),
+			urlBuilder.main.organizationsLocal(),
 			{
 				userLocation: coordinates,
 				proximityRadius: radius,

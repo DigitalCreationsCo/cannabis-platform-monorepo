@@ -14,7 +14,6 @@ export function createAsyncPublishAction(
 	context: DocumentActionsContext,
 ): DocumentActionComponent {
 	const client = context.getClient({ apiVersion });
-
 	return (props: DocumentActionProps) => {
 		const originalResult = originalAction(props) as DocumentActionDescription;
 		const publishedDocument: SanityDocument = props.published!;

@@ -15,3 +15,4 @@ export * from './session.data';
 export * from './compliance';
 export * from './user.data';
 export * from './variant.data';
+export * from './sms.data';

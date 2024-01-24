@@ -3,13 +3,15 @@ import {
 	createUser,
 	deleteUserById,
 	findAddressById,
+	findDispensaryStaffUserByEmail,
+	findDispensaryStaffUserByPhone,
 	findUserWithDetailsByEmail,
 	findUserWithDetailsById,
 	findUserWithDetailsByPhone,
 	removeAddressByIdAndUserId,
-	updateDispensaryAdmin,
+	updateDispensaryStaffUser,
 	updateUser,
-	upsertDispensaryAdmin,
+	upsertDispensaryStaffUser,
 	upsertUser,
 	type UserCreateType,
 } from '@cd/data-access';
@@ -30,12 +32,14 @@ createUser
 upsertUser
 createDispensaryStaff
 updateDispensaryStaff
+getDispensaryStaffUserByEmail
+getDispensaryStaffUserByPhone
 deleteUser
 
 ================================= */
 
 export default class UserDA {
-	static async getUserById(id) {
+	static async getUserById(id: string) {
 		try {
 			return await findUserWithDetailsById(id);
 		} catch (error: any) {
@@ -43,7 +47,7 @@ export default class UserDA {
 		}
 	}
 
-	static async getUserByEmail(email) {
+	static async getUserByEmail(email: string) {
 		try {
 			return await findUserWithDetailsByEmail(email);
 		} catch (error: any) {
@@ -51,7 +55,7 @@ export default class UserDA {
 		}
 	}
 
-	static async getUserByPhone(phone) {
+	static async getUserByPhone(phone: string) {
 		try {
 			return await findUserWithDetailsByPhone(phone);
 		} catch (error: any) {
@@ -62,6 +66,41 @@ export default class UserDA {
 	static async getAddressById(addressId) {
 		try {
 			return await findAddressById(addressId);
+		} catch (error: any) {
+			throw new Error(error.message);
+		}
+	}
+
+	static async createUser(data: UserCreateType) {
+		try {
+			return await createUser(data);
+		} catch (error: any) {
+			throw new Error(error.message);
+		}
+	}
+
+	static async upsertUser(upsertUserData: UserCreateType) {
+		try {
+			return await upsertUser(upsertUserData);
+		} catch (error: any) {
+			throw new Error(error.message);
+		}
+	}
+
+	static async updateUser(updateUserData: UserCreateType) {
+		try {
+			console.info('updateUserData: ', updateUserData);
+			const user = await updateUser(updateUserData);
+			console.info(`updated user ${user.id}`);
+			return user;
+		} catch (error: any) {
+			throw new Error(error.message);
+		}
+	}
+
+	static async deleteUser(id) {
+		try {
+			return await deleteUserById(id);
 		} catch (error: any) {
 			throw new Error(error.message);
 		}
@@ -86,29 +125,13 @@ export default class UserDA {
 		}
 	}
 
-	static async createUser(data: UserCreateType) {
-		try {
-			return await createUser(data);
-		} catch (error: any) {
-			throw new Error(error.message);
-		}
-	}
-
-	static async upsertUser(upsertUserData: UserCreateType) {
-		try {
-			return await upsertUser(upsertUserData);
-		} catch (error: any) {
-			throw new Error(error.message);
-		}
-	}
-
-	static async createDispensaryStaff(
+	static async createDispensaryStaffUser(
 		createUserData: UserCreateType,
 		role: string,
 		dispensaryId: string,
 	) {
 		try {
-			return await upsertDispensaryAdmin(createUserData, {
+			return await upsertDispensaryStaffUser(createUserData, {
 				role,
 				dispensaryId,
 			});
@@ -117,13 +140,13 @@ export default class UserDA {
 		}
 	}
 
-	static async updateDispensaryStaff(
+	static async updateDispensaryStaffUser(
 		createUserData: UserCreateType,
 		role: string,
 		dispensaryId: string,
 	) {
 		try {
-			return await updateDispensaryAdmin(createUserData, {
+			return await updateDispensaryStaffUser(createUserData, {
 				role,
 				dispensaryId,
 			});
@@ -132,20 +155,17 @@ export default class UserDA {
 		}
 	}
 
-	static async updateUser(updateUserData: UserCreateType) {
+	static async getDispensaryStaffUserByEmail(email: string) {
 		try {
-			console.info('updateUserData: ', updateUserData);
-			const user = await updateUser(updateUserData);
-			console.info(`updated user ${user.id}`);
-			return user;
+			return await findDispensaryStaffUserByEmail(email);
 		} catch (error: any) {
 			throw new Error(error.message);
 		}
 	}
 
-	static async deleteUser(id) {
+	static async getDispensaryStaffUserByPhone(phone: string) {
 		try {
-			return await deleteUserById(id);
+			return await findDispensaryStaffUserByPhone(phone);
 		} catch (error: any) {
 			throw new Error(error.message);
 		}

@@ -14,12 +14,6 @@ const commands = [
 		cwd: '../server/main',
 	},
 	{
-		name: 'server-location',
-		command: 'yarn',
-		args: ['watch'],
-		cwd: '../server/location',
-	},
-	{
 		name: 'stripe-webhook',
 		command: 'yarn',
 		args: ['stripe:webhook'],

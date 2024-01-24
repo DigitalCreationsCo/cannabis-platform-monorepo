@@ -15,22 +15,23 @@ import axios from 'axios';
 import { applicationHeaders } from '../axiosInstance';
 import { TextContent } from '../constants';
 import { type AppState } from '../types';
-import { reconcileStateArray, urlBuilder } from '../utils';
+import { reconcileStateArray } from '../utils';
 import { signOutUserAsync } from './user.reducer';
 
 export const getDispensaryById = createAsyncThunk(
 	'dispensary/getDispensaryById',
 	async (organizationId: string, thunkAPI) => {
 		try {
+			console.info('async thunk getDispensaryById: ', organizationId);
 			const response = await axios.get<any, OrganizationWithDashboardDetails>(
-				urlBuilder.main.organizationWithDashboardDetails(organizationId),
+				`/api/organization/${organizationId}`,
 				{
 					headers: {
 						...applicationHeaders,
 					},
 				},
 			);
-			if (response.data.success) return response.data.payload;
+			if (response.data.success === 'true') return response.data.payload;
 		} catch (error) {
 			console.error('getDispensaryById: ', error);
 			return thunkAPI.rejectWithValue(TextContent.error.DISPENSARY_NOT_FOUND);
@@ -50,7 +51,7 @@ export type DispensaryStateProps = {
 };
 
 const initialState: DispensaryStateProps = {
-	dispensary: [],
+	dispensary: {},
 	products: [],
 	orders: [],
 	users: [],
@@ -64,6 +65,14 @@ export const dispensarySlice = createSlice({
 	name: 'dispensary',
 	initialState,
 	reducers: {
+		setDispensary: (
+			state,
+			{ payload }: { payload: OrganizationWithDashboardDetails },
+		) => {
+			const organization = payload;
+			state.dispensary = organization;
+			console.info('setDispensary ', organization.name);
+		},
 		updateDispensaryOrders: (
 			state,
 			{
