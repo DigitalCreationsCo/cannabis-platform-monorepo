@@ -1,7 +1,7 @@
 import { axios } from '@cd/core-lib';
 import prisma from '@cd/data-access';
 import { MongoClient } from 'mongodb';
-import { DriverDA, ShopDA } from './api/data-access';
+import { DriverDA, LocationDA, ShopDA } from './api/data-access';
 import { initializeRedis } from './lib/redis-cart';
 import NewsletterScheduler from './newsletter.scheduler';
 import server from './server';
@@ -46,16 +46,6 @@ pingSupertokens()
 		process.exit(1);
 	});
 
-process.on('SIGINT', async function () {
-	await prisma
-		.$disconnect()
-		.then(process.exit(0))
-		.catch((error: any) => {
-			console.info('sigint ', error.message);
-			process.exit(1);
-		});
-});
-
 async function pingSupertokens() {
 	try {
 		await axios(process.env.SUPERTOKENS_CONNECTION_URI + '/hello');
@@ -71,6 +61,7 @@ async function connectDb() {
 		console.info(' >> Server-Main is connecting to database...');
 		await MongoClient.connect(mongoConnectUrl)
 			.then(async (client) => {
+				await LocationDA.useMongoDB(client);
 				await ShopDA.useMongoDB(client);
 				await DriverDA.useMongoDB(client);
 				console.info(' >> Server-Main: Mongo Database 👏 is ready for query.');
@@ -90,5 +81,15 @@ async function connectDb() {
 		process.exit(1);
 	}
 }
+
+process.on('SIGINT', async function () {
+	await prisma
+		.$disconnect()
+		.then(process.exit(0))
+		.catch((error: any) => {
+			console.info('sigint ', error.message);
+			process.exit(1);
+		});
+});
 
 export { connectDb, server };

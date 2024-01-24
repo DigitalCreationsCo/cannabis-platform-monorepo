@@ -1,4 +1,13 @@
-import { type OrderStatus, type OrderWithShopDetails } from '@cd/data-access';
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import {
+	type OrderCreateType,
+	type OrderStatus,
+	type OrderWithShopDetails,
+	type Coordinates,
+	type OrderCreateMinimalFields,
+	type ProductVariant,
+} from '@cd/data-access';
+import { getTravelDistanceFromCoordinates } from './geo.util';
 
 const orderStatusList: OrderStatus[] = [
 	'Pending',
@@ -6,6 +15,18 @@ const orderStatusList: OrderStatus[] = [
 	'Delivered',
 	'Cancelled',
 ];
+
+const isValidOrderRecord = (order: OrderCreateMinimalFields) => {
+	if (
+		order?.destinationAddress !== undefined &&
+		order?.organization !== undefined &&
+		order?.customerId &&
+		order?.subtotal > 0 &&
+		order?.total > 0
+	)
+		return true;
+	else throw new Error('Invalid order');
+};
 
 /**
  * returns the order status as a boolean
@@ -70,25 +91,41 @@ function convertDollarsToWholeNumber(value: number | string) {
 function calculateTransactionFees(
 	order: OrderWithShopDetails,
 ): OrderWithShopDetails {
-	const { subtotal, distance } = order;
+	// weedTextDeals include taxes and fees in the price.
+	if (order.isWeedTextOrder) {
+		return order;
+	} else {
+		const { subtotal, distance } = order;
 
-	const delivery_fee = calculateDeliveryFee(subtotal);
-	const mileage_fee = calculateMileageFee(distance);
-	const platform_fee = calculatePlatformFee(subtotal);
+		const deliveryFee = calculateDeliveryFee(subtotal);
+		const mileageFee = calculateMileageFee(distance);
+		const platformFee = calculatePlatformFee(subtotal);
 
-	// customer pays for delivery fee, mileage fee
-	// dispensary pays for platform fee
-	// drivers are paid from delivery fees
-	const total =
-		Number(order.subtotal) + Number(delivery_fee) + Number(mileage_fee);
+		// customer pays for delivery fee, mileage fee
+		// dispensary pays for platform fee
+		// drivers are paid from delivery fees
+		const total = calculateTransactionTotal({
+			subtotal,
+			deliveryFee,
+			mileageFee,
+		});
 
-	return {
-		...order,
-		deliveryFee: delivery_fee,
-		mileageFee: mileage_fee,
-		platformFee: platform_fee,
-		total,
-	};
+		return {
+			...order,
+			deliveryFee,
+			mileageFee,
+			platformFee,
+			total,
+		};
+	}
+}
+
+function calculateTransactionTotal({
+	subtotal = 0,
+	deliveryFee = 0,
+	mileageFee = 0,
+}) {
+	return Number(subtotal) + Number(deliveryFee) + Number(mileageFee);
 }
 
 /**
@@ -129,10 +166,90 @@ const convertMetersToMiles = (meters: number) =>
  * @returns number
  */
 function calculatePlatformFee(subtotal: number) {
-	return Math.round(subtotal * Number(process.env.NEXT_PUBLIC_PLATFORM_FEE));
+	return Math.round(subtotal * Number(process.env.NEXT_PUBLIC_PLATFORM_FEE!));
+}
+
+export async function buildOrderRecord({
+	type = 'delivery',
+	organization,
+	customer,
+	subtotal,
+	taxFactor,
+	taxAmount,
+	isWeedTextOrder = false,
+	distance,
+	mileageFee,
+	platformFee,
+	deliveryFee,
+	destinationAddress,
+	orderStatus = 'Pending',
+	items,
+	total,
+}: OrderCreateMinimalFields) {
+	try {
+		if (!distance) {
+			distance = await getTravelDistanceFromCoordinates(
+				organization.address.coordinates as Coordinates,
+				customer.address[0].coordinates as Coordinates,
+			);
+		}
+
+		destinationAddress = destinationAddress ?? customer.address[0];
+
+		mileageFee = mileageFee ?? calculateMileageFee(distance);
+		platformFee = platformFee ?? calculatePlatformFee(subtotal);
+		deliveryFee = deliveryFee ?? calculateDeliveryFee(subtotal);
+
+		total =
+			total ?? calculateTransactionTotal({ subtotal, deliveryFee, mileageFee });
+		// should platformFee be included in this??
+
+		const order: OrderCreateMinimalFields = {
+			type,
+			orderStatus,
+			organizationId: organization.id,
+			organization,
+			customer,
+			customerId: customer.id,
+			addressId: customer.address[0].id,
+			destinationAddress,
+			taxFactor,
+			taxAmount,
+			distance,
+			subtotal,
+			mileageFee,
+			platformFee,
+			deliveryFee,
+			total,
+			isWeedTextOrder,
+			items,
+		};
+
+		if (!isValidOrderRecord(order)) {
+			throw new Error('Invalid order record');
+		}
+		return order as OrderCreateType;
+	} catch (error) {
+		console.error('buildOrderRecord: ', error);
+		throw new Error(error.message);
+	}
+}
+
+function multiplyAllItemsForOrder(items: ProductVariant[], numOrders: number) {
+	return items.map((item) => {
+		const { quantity, basePrice, salePrice, ...rest } = item;
+		return {
+			...rest,
+			quantity: quantity * numOrders,
+			basePrice: basePrice * numOrders,
+			salePrice: salePrice * numOrders,
+		};
+	});
 }
 
 export {
+	multiplyAllItemsForOrder,
+	isValidOrderRecord,
 	orderStatusList,
 	checkOrderIsCompleteOrCanceled,
 	calcSalePrice,
@@ -144,4 +261,5 @@ export {
 	calculateDeliveryFee,
 	calculateMileageFee,
 	convertMetersToMiles,
+	calculateTransactionTotal,
 };

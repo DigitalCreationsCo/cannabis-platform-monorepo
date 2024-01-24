@@ -21,14 +21,12 @@ function CheckBox({
 }: CheckBoxProps) {
 	const styles = {
 		checkboxContainer:
-			'flex flex-row items-center space-x-2 py-8 md:py-4 m-auto self-center md:self-start w-full',
+			'flex flex-row space-x-2 py-8 md:py-4 md:self-start w-full',
 		helperText: error && 'input-error border-2',
 	};
 
 	return (
-		<div
-			className={twMerge(styles.checkboxContainer, 'justify-center', className)}
-		>
+		<div className={twMerge(styles.checkboxContainer, className)}>
 			<input
 				className="cursor-pointer bg-primary accent-primary-light"
 				style={{ height: '30px', width: '30px' }}

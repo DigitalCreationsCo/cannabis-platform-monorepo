@@ -1,6 +1,6 @@
-import { createClient, type RedisClient } from 'redis';
+import { createClient, type RedisClientType } from 'redis';
 
-const redisSMSQueue: RedisClient = createClient({
+const redisSMSQueue: RedisClientType = createClient({
 	socket: {
 		host: process.env.REDIS_SMS_QUEUE,
 		port: Number(process.env.REDIS_SMS_QUEUE_PORT),
@@ -10,7 +10,7 @@ const redisSMSQueue: RedisClient = createClient({
 redisSMSQueue.on('connect', () => {
 	console.info('redisSMSQueue connected');
 });
-redisSMSQueue.on('error', (err) => {
+redisSMSQueue.on('error', (err: any) => {
 	throw new Error(err.message);
 });
 redisSMSQueue.connect();

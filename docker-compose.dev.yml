@@ -14,7 +14,7 @@ services:
       - 3000
     ports:
       - 3000:3000
-    command: "yarn next dev"
+    command: 'yarn next dev'
 
   dashboard:
     environment:
@@ -31,8 +31,8 @@ services:
       - 3000
     ports:
       - 3000:3000
-    command: "yarn next dev"
-  
+    command: 'yarn next dev'
+
   # dashboard:
   #   image: docker.io/grasadmin/dashboard
   #   ports:
@@ -70,15 +70,6 @@ services:
       - 'NODE_ENV=development'
     env_file:
       - .env.development
-
-  # location:
-  #   image: docker.io/grasadmin/location
-  #   ports:
-  #     - '6011:6011'
-  #   environment:
-  #     - 'NODE_ENV=development'
-  #   env_file:
-  #     - .env.development
 
   # payments:
   #   image: docker.io/grasadmin/payments

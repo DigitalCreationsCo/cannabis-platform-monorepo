@@ -1,4 +1,8 @@
-import { type MembershipRole, type UserWithDetails } from '@cd/data-access';
+import {
+	type UserDispensaryStaffWithDispensaryDetails,
+	type MembershipRole,
+	type UserWithDetails,
+} from '@cd/data-access';
 
 /**
  * Checks if the user has the given membership role or greater
@@ -6,7 +10,10 @@ import { type MembershipRole, type UserWithDetails } from '@cd/data-access';
  * @param user
  * @param role
  */
-function hasMembershipRoleAccess(user: UserWithDetails, role: MembershipRole) {
+function hasMembershipRoleAccess(
+	user: UserWithDetails | UserDispensaryStaffWithDispensaryDetails,
+	role: MembershipRole,
+) {
 	if (user.memberships) {
 		// memberships[0] will be the highest role, if the user has multiple roles, using the standard find queries in `packages/data-access/src/user.ts`
 		const membershipRole = user.memberships?.[0]?.role.toLocaleUpperCase();

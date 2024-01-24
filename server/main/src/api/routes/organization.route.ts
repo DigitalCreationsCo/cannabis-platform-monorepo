@@ -5,19 +5,21 @@ const router = Router();
 /* =================================
 Organization Routes
 
-"/"                     createOrganization
+GET '/zipcode=:zipcode&limit=:limit&radius=:radius' getOrganizationsByZipcode
 
-"/:id"                  getOrganizationById
+POST "/"											createOrganization
 
-"/:id"                  deleteOrganizationById
+PUT  "/"                     						updateOrganization
 
-"/search?zipcode=:zipcode&limit=:limit&radius=:radius"     getOrganizationByZipcode
+GET	 "/:id"                  						getOrganizationById
 
-"/:id/categories"       getCategoryList
+GET	 "/dashboard/:id"                  				getOrganizationWithDashboardDetails
 
-"/:id/users"            getUsersByOrganization
+DELETE "/:id"                  						deleteOrganizationById
 
-"/product/:id/update"   updateProduct
+GET "/:id/categories"       						getCategoryList
+
+GET "/:id/users"            						getUsersByOrganization
 
 ================================= */
 

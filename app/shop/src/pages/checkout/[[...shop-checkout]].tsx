@@ -1,5 +1,6 @@
 import {
 	axios,
+	isValidOrderRecord,
 	renderAddress,
 	selectCartState,
 	selectIsCartEmpty,
@@ -38,16 +39,7 @@ function Checkout() {
 	const cartIsEmpty = useSelector(selectIsCartEmpty);
 
 	async function canCheckout(order: OrderCreateType) {
-		if (
-			!cartIsEmpty &&
-			order?.destinationAddress !== undefined &&
-			order?.organization !== undefined &&
-			order?.customerId &&
-			order?.subtotal > 0 &&
-			order?.total > 0
-		)
-			return;
-		else throw new Error('Invalid order');
+		!cartIsEmpty && isValidOrderRecord(order);
 	}
 
 	async function createStripeCheckout() {

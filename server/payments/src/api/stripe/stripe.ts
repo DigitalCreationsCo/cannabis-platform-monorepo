@@ -11,12 +11,18 @@ import { PaymentDA } from '../data-access';
 /* =================================
 Stripe Service
 
-handleWebhookEvents
 checkout
+createCustomerAccount
+saveCustomerPaymentMethod
+
 getAccount
+
 createDispensaryAccount
 createDispensaryAccountLink
 checkOnboardAccount
+
+constructStripeEvent
+handleWebhookEvents
 
 ================================= */
 class StripeService {
@@ -97,6 +103,27 @@ class StripeService {
 				},
 			});
 		} catch (error: any) {
+			throw new Error(error.message);
+		}
+	}
+
+	async createCustomerAccount(customerParams: Stripe.CustomerCreateParams) {
+		try {
+			return await this.stripe.customers.create(customerParams);
+		} catch (error: any) {
+			console.error('createCustomerAccount: ', error.message);
+			throw new Error(error.message);
+		}
+	}
+
+	async saveCustomerPaymentMethod(params: Stripe.SetupIntentCreateParams) {
+		try {
+			return await this.stripe.setupIntents.create({
+				...params,
+				automatic_payment_methods: { enabled: true },
+			});
+		} catch (error: any) {
+			console.error('saveCustomerPaymentMethod: ', error.message);
 			throw new Error(error.message);
 		}
 	}
