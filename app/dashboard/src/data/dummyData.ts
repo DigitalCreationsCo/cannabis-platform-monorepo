@@ -4,12 +4,12 @@ import {
 	type OrderWithFullDetails,
 	type OrganizationWithDashboardDetails,
 	type ProductWithDashboardDetails,
-	type UserDispensaryAdmin,
+	type UserDispensaryStaff,
 	type UserWithProfilePicture,
 } from '@cd/data-access';
 import { createId } from '@paralleldrive/cuid2';
 
-const userDispensaryAdmin: UserDispensaryAdmin = {
+const UserDispensaryStaff: UserDispensaryStaff = {
 	id: 'bf346k4u7xq030hr6wvgiwao',
 	firstName: 'Doug',
 	lastName: 'Doogie',
@@ -27,7 +27,9 @@ const userDispensaryAdmin: UserDispensaryAdmin = {
 	termsAccepted: true,
 	createdAt: new Date(),
 	updatedAt: new Date(),
+	isSubscribedForWeedText: true,
 	profilePicture: {
+		userId: 'bf346k4u7xq030hr6wvgiwao',
 		id: '1',
 		location:
 			'https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png',
@@ -65,6 +67,7 @@ const notAdminUser: UserWithProfilePicture = {
 	termsAccepted: true,
 	createdAt: new Date(),
 	updatedAt: new Date(),
+	isSubscribedForWeedText: true,
 	profilePicture: {
 		id: '2',
 		location:
@@ -407,7 +410,8 @@ const orders: OrderWithFullDetails[] = [
 		customerReceivedOrderAt: new Date(),
 		completedAt: new Date(),
 		duration: 262626,
-		isLateDelivery: false,
+		isDeliveredOnTime: true,
+		isWeedTextOrder: true,
 		items: [
 			{
 				id: '3',
@@ -468,6 +472,7 @@ const orders: OrderWithFullDetails[] = [
 			termsAccepted: true,
 			createdAt: new Date(),
 			updatedAt: new Date(),
+			isSubscribedForWeedText: true,
 		},
 		driver: {
 			id: 'bf346k4u7x2b2hhr6wvgiwao',
@@ -493,6 +498,7 @@ const orders: OrderWithFullDetails[] = [
 				scannedDOB: new Date(),
 				createdAt: new Date(),
 				updatedAt: new Date(),
+				isSubscribedForWeedText: false,
 				profilePicture: {
 					location: '',
 					id: '1',
@@ -572,4 +578,4 @@ const orders: OrderWithFullDetails[] = [
 	},
 ];
 
-export { userDispensaryAdmin, notAdminUser, organization, products, orders };
+export { UserDispensaryStaff, notAdminUser, organization, products, orders };
