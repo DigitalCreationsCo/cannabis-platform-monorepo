@@ -78,7 +78,7 @@ export default defineType({
 			options: {
 				layout: 'checkbox',
 			},
-			readOnly: true,
+			readOnly: false,
 			initialValue: false,
 		}),
 		defineField({
@@ -90,6 +90,7 @@ export default defineType({
 			options: {
 				layout: 'checkbox',
 			},
+			readOnly: false,
 			initialValue: false,
 		}),
 		defineField({

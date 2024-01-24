@@ -1,5 +1,5 @@
-GRAS CANNABIS SAAS MONOREPO
----
+## GRAS CANNABIS SAAS MONOREPO
+
 SHOP
 THE BASE APP SHOPPING MARKETPLACE APP IS @CD/SHOP
 
@@ -18,27 +18,26 @@ MAIN
 MAIN SERVER IS RESPONSIBLE FOR AUTHENTICATION SESSIONS, AND QUERY FOR ENTITY DATA ( USER , DRIVER, ORGANIZATION ,VENDOR, ECOMMERCE ). IT USES SUPERTOKENS LIBRARY FOR AUTHENTICATION AND SESSIONING. JWT TOKEN PERMISSIONS ARE NOT CURRENTLY BUILT.
 ALSO RESPONSIBLE FOR GEOSPATIAL QUERIES. IT USES MONGODB SERVER TO QUERY GEOJSON DATA.
 
-
 Dev Environment
 You'll need arm64 machine with apple M1 CPU, ideally.
 
 You need these command line tools
-gcloud 
-    Google Cloud SDK 437.0.1
-    bq 2.0.93
-    core 2023.06.30
-    gcloud-crc32c 1.0.0
-    gke-gcloud-auth-plugin 0.5.3
-    gsutil 5.24
+gcloud
+Google Cloud SDK 437.0.1
+bq 2.0.93
+core 2023.06.30
+gcloud-crc32c 1.0.0
+gke-gcloud-auth-plugin 0.5.3
+gsutil 5.24
 kubectl
-    Client Version: v1.28.2
-    Kustomize Version: v5.0.4-0.20230601165947-6ce0bf390ce3
-    Server Version: v1.27.3-gke.100
+Client Version: v1.28.2
+Kustomize Version: v5.0.4-0.20230601165947-6ce0bf390ce3
+Server Version: v1.27.3-gke.100
 terraform
-    Terraform v1.5.7
-    on darwin_arm64
+Terraform v1.5.7
+on darwin_arm64
 docker
-    Version 23.0.5
-    API version 1.42
+Version 23.0.5
+API version 1.42
 python
-    Version 3.8.15
+Version 3.8.15

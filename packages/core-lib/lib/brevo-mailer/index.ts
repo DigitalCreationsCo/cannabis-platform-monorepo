@@ -7,6 +7,8 @@ import {
 import * as brevo from '@getbrevo/brevo';
 import { buildNewsletterTemplate } from './newsletter-template';
 
+const _BryantEmail = 'bryantmejia@grascannabis.org';
+
 export class BrevoMailer {
 	private emailsApi: brevo.TransactionalEmailsApi;
 	private campaignsApi: brevo.EmailCampaignsApi;
@@ -39,42 +41,43 @@ export class BrevoMailer {
 			newsLetterEmailCampaign.previewText = header;
 			newsLetterEmailCampaign.sender = {
 				name: 'Bryant',
-				email: 'bryantmejia@grascannabis.org',
+				email: _BryantEmail,
 			};
 
-			newsLetterEmailCampaign.toField = 'bryantmejia@grascannabis.org';
+			// newsLetterEmailCampaign.toField = _BryantEmail;
 
+			// newsLetterEmailCampaign.templateId = 15;
 			newsLetterEmailCampaign.htmlContent = buildNewsletterTemplate(
 				subject,
 				header,
 				content,
 			);
 
-			// newsLetterEmailCampaign.templateId = 15;
-
-			// newsLetterEmailCampaign.recipients = { listIds: [3] };
-
-			// newsLetterEmailCampaign.scheduledAt = new Date().toISOString();
+			newsLetterEmailCampaign.recipients = { listIds: [3] };
 
 			// newsLetterEmailCampaign.params = {
 			// 	parameter: 'My param value',
 			// 	subject: 'common subject',
 			// };
 
-			this.campaignsApi
-				.createEmailCampaign(newsLetterEmailCampaign)
-				.then((data) => {
-					console.info(
-						'createEmailCampaign successfully. Returned data: ' +
-							JSON.stringify(data),
-					);
-				})
-				.catch((error) => {
-					console.error(error);
-					throw new Error(error);
-				});
+			// schedule send for Tuesday 8AM
+			const tuesday = new Date();
+			tuesday.setDate(tuesday.getDate() + ((2 + 7 - tuesday.getDay()) % 7));
+			tuesday.setHours(8);
+			tuesday.setMinutes(0);
+			tuesday.setSeconds(0);
+			newsLetterEmailCampaign.scheduledAt = tuesday.toISOString();
+
+			const newsletter = await this.campaignsApi.createEmailCampaign(
+				newsLetterEmailCampaign,
+			);
+
+			// send test email to newsletter team
+			this.campaignsApi.sendTestEmail(newsletter.body.id, {
+				emailTo: [_BryantEmail],
+			});
 		} catch (error) {
-			console.error('brevo.sendNewsletterCampaign: ', error.message);
+			console.error('brevo.createEmailCampaign: ', error.message);
 			throw new Error(error.message);
 		}
 	}

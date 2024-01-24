@@ -7,6 +7,19 @@ import { BrevoMailer } from '@cd/core-lib/lib/brevo-mailer';
 import { TextContent } from '../../src';
 
 export class EmailService {
+	static async createScheduledNewsletterCampaign({
+		subject,
+		header,
+		content,
+	}: NewsletterContent) {
+		try {
+			const mailer = new BrevoMailer();
+			return await mailer.sendNewsletterCampaign(subject, header, content);
+		} catch (error) {
+			throw new Error(error.message);
+		}
+	}
+
 	static async sendNewUserEmail({
 		subject = TextContent.account.THANK_YOU_FOR_SIGNING_UP_WEED_TEXT_DEAL,
 		header = TextContent.account.THANK_YOU_FOR_SIGNING_UP,
@@ -65,4 +78,16 @@ export class EmailService {
 			throw new Error(error.message);
 		}
 	}
+}
+
+export interface NewsletterContent {
+	subject: string;
+	header: string;
+	content: {
+		title: string;
+		excerpt: string;
+		mainImage: string;
+		footer: string;
+		link: string;
+	}[];
 }

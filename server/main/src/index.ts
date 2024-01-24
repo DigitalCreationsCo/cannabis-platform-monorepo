@@ -3,6 +3,7 @@ import prisma from '@cd/data-access';
 import { MongoClient } from 'mongodb';
 import { DriverDA, LocationDA, ShopDA } from './api/data-access';
 import { initializeRedis } from './lib/redis-cart';
+import NewsletterScheduler from './newsletter.scheduler';
 import server from './server';
 
 const port = process.env.SERVER_PORT || 6001;
@@ -11,8 +12,11 @@ const mongoConnectUrl = process.env.MONGODB_CONNECTION_URL;
 pingSupertokens()
 	.then(() => connectDb())
 	.then(() => {
+		// init redis db clients
 		initializeRedis();
-
+		// start scheduled tasks
+		NewsletterScheduler.start();
+		// start server
 		server.listen(port, () => {
 			console.info(
 				` >> Server-Main is starting in ${process.env.NODE_ENV} mode.`,

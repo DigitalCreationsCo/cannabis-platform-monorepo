@@ -29,6 +29,7 @@ const UserDispensaryStaff: UserDispensaryStaff = {
 	updatedAt: new Date(),
 	isSubscribedForWeedText: true,
 	profilePicture: {
+		userId: 'bf346k4u7xq030hr6wvgiwao',
 		id: '1',
 		location:
 			'https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png',
@@ -36,7 +37,6 @@ const UserDispensaryStaff: UserDispensaryStaff = {
 		blurhash: 'dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH',
 		createdAt: new Date(),
 		updatedAt: new Date(),
-		userId: 'bf346k4u7xq030hr6wvgiwao',
 	},
 	memberships: [
 		{
@@ -410,8 +410,8 @@ const orders: OrderWithFullDetails[] = [
 		customerReceivedOrderAt: new Date(),
 		completedAt: new Date(),
 		duration: 262626,
-		isWeedTextOrder: false,
-		isDeliveredOnTime: false,
+		isDeliveredOnTime: true,
+		isWeedTextOrder: true,
 		items: [
 			{
 				id: '3',
@@ -498,7 +498,7 @@ const orders: OrderWithFullDetails[] = [
 				scannedDOB: new Date(),
 				createdAt: new Date(),
 				updatedAt: new Date(),
-				isSubscribedForWeedText: true,
+				isSubscribedForWeedText: false,
 				profilePicture: {
 					location: '',
 					id: '1',
