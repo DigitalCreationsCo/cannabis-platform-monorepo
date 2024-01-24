@@ -12,9 +12,9 @@ import {
 	H2,
 	H6,
 	OrderRow,
-	usePagination,
 	Page,
 	Row,
+	usePagination,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
 import NextCors from 'nextjs-cors';

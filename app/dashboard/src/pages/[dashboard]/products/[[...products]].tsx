@@ -8,8 +8,8 @@ import {
 	Icons,
 	Page,
 	PageHeader,
-	ProductRow,
 	usePagination,
+	ProductRow,
 	Row,
 	type LayoutContextProps,
 } from '@cd/ui-lib';

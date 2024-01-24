@@ -52,6 +52,7 @@ export const postByIdQuery = groq`*[_type == "post" && _id == $_id][0]{ ${postFi
 export const categoryStringsQuery = groq`*[_type == 'category']{ title }[].title`;
 
 export const nonPublishedPostsQuery = groq`*[_type == 'post' && (!defined(isPublishedInNewsLetter) || isPublishedInNewsLetter == false)][0...$count]{ 
+  _id, 
   title,
   _createdAt,
   _updatedAt,
@@ -59,7 +60,9 @@ export const nonPublishedPostsQuery = groq`*[_type == 'post' && (!defined(isPubl
   "mainImage": mainImage.asset->url,
   "slug": slug.current,
   "author": author->{name, picture},
-  "categories": categories[]->title }`;
+  "categories": categories[]->title,
+  contentUrl,
+}`;
 
 export interface Author {
 	name?: string;
