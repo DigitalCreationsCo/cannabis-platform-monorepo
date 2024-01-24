@@ -8,7 +8,6 @@ import {
 	getNonPublishedPosts,
 	setPostPublishedInNewsletter,
 } from 'lib/sanity.client';
-import { urlForImage } from 'lib/sanity.image';
 import { type Post } from 'lib/sanity.queries';
 
 // generate newsletter content combination with openai and cms content, by providing a list of article urls to the trained model.
@@ -17,6 +16,13 @@ handler.post(async (req: any, res: NextApiResponse) => {
 	try {
 		const NUM_ARTICLES_FOR_NEWSLETTER = 3;
 
+		console.info(
+			`generate-newsletter-open-ai:,
+'Subject': ${req.body.subject},
+'Header': ${req.body.header},
+'ArticleUrlsList': ${req.body.articleUrlsList}`,
+		);
+
 		const {
 			subject,
 			header,
@@ -24,15 +30,19 @@ handler.post(async (req: any, res: NextApiResponse) => {
 		}: { subject: string; header: string; articleUrlsList: string[] } =
 			req.body;
 
-		if (!articleUrlsList.length)
+		if (articleUrlsList?.length === undefined)
 			throw new Error('Did not provide article urls list.');
 
-		const response = await openai.openai!.chat.completions.create({
-			model: 'gpt-3.5-turbo',
-			messages: [
+		let aiGeneratedContent;
+		if (articleUrlsList?.length > 0) {
+			console.info(' Generating content with open ai...');
+			const response = await openai.openai!.chat.completions.create(
 				{
-					role: 'system',
-					content: `You are a subject matter expert on all things growing cannabis, smoking cannabis, cannabis foods and beverages, and cannabis culture. You are able to give me advice on how to grow cannabis indoors, outdoors, and in greenhouses. You are able to give me advice on how to smoke cannabis in a variety of ways. You are able to give me advice on how to make cannabis foods and beverages. You are able to give me advice on how to make cannabis edibles. You are able to give me advice on how to make cannabis tinctures. You are able to give me advice on how to make cannabis topicals. You are able to give me advice on how to make cannabis concentrates. You are able to give me advice on how to make cannabis extracts. You are able to give me advice on how to make cannabis oils. You are able to give me advice on how to make cannabis hash. 
+					model: 'gpt-3.5-turbo',
+					messages: [
+						{
+							role: 'system',
+							content: `You are a subject matter expert on all things growing cannabis, smoking cannabis, cannabis foods and beverages, and cannabis culture. You are able to give me advice on how to grow cannabis indoors, outdoors, and in greenhouses. You are able to give me advice on how to smoke cannabis in a variety of ways. You are able to give me advice on how to make cannabis foods and beverages. You are able to give me advice on how to make cannabis edibles. You are able to give me advice on how to make cannabis tinctures. You are able to give me advice on how to make cannabis topicals. You are able to give me advice on how to make cannabis concentrates. You are able to give me advice on how to make cannabis extracts. You are able to give me advice on how to make cannabis oils. You are able to give me advice on how to make cannabis hash. 
 					For each article link I give to you, you will create a summarized version of the article. You are able to rephrase any article link I give to you. When I give you an article link, you will craft a well-written prose explaining the contents of the article, no more than 8 sentences long. Your writing style is friendly, and easy to ready. You use creative visual language in your writing. You create phrases and sentences with entertaining, delightful language and a friendly voice. Conclude the article with 1 or 2 sentences fitting to resolve the topic. 
 					Return a response as an array type of objects with the following properties: { 
 						title: A creative title, 
@@ -41,19 +51,25 @@ handler.post(async (req: any, res: NextApiResponse) => {
 						footer: "The full story is available here.",
 						link: the given article link
 					}. You will execute these instructions whenever I give you a list of article urls.`,
+						},
+						{
+							role: 'user',
+							content:
+								'Create article summaries for this list of articles: ' +
+								articleUrlsList.join(', '),
+						},
+					],
 				},
-				{
-					role: 'user',
-					content:
-						'Create article summaries for this list of articles: ' +
-						articleUrlsList.join(', '),
-				},
-			],
-		});
+				{ timeout: 30000 },
+			);
 
-		const aiGeneratedContent = normalizeOpenAIResponse(
-			response.choices[0].message.content,
-		);
+			console.info('response from open ai: ', response.choices[0].message);
+			aiGeneratedContent = normalizeOpenAIResponse(
+				response.choices[0].message.content,
+			);
+		} else {
+			aiGeneratedContent = [];
+		}
 
 		if (!aiGeneratedContent) throw new Error('No content was generated.');
 		console.info('aiGeneratedContent: ', aiGeneratedContent);
@@ -66,49 +82,59 @@ handler.post(async (req: any, res: NextApiResponse) => {
 			apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION,
 		});
 
-		console.info(
-			`${NUM_ARTICLES_FOR_NEWSLETTER} articles requested for newsletter.
-			${aiGeneratedContent.length} articles generated by openAi.
-			${
-				NUM_ARTICLES_FOR_NEWSLETTER - aiGeneratedContent.length
-			} articles retrieved from CMS.`,
-		);
-
-		const blogContent: Post[] = await getNonPublishedPosts(
+		const blogPosts: Post[] = await getNonPublishedPosts(
 			client,
 			NUM_ARTICLES_FOR_NEWSLETTER - aiGeneratedContent.length,
 		);
 
-		const normalizeBlogContent = blogContent.map((post) => {
-			console.info('cms post: ', post.title);
-			return {
-				_id: post._id,
-				title: post.title as string,
-				excerpt: post.excerpt as string,
-				mainImage: urlForImage(post.mainImageAsset)!.url(),
-				footer: `More info available here.`,
-				link: post.contentUrl,
-			};
-		});
+		console.info(
+			`
+${aiGeneratedContent.length} articles generated by openAi.
+${blogPosts.length} articles retrieved from CMS.`,
+		);
 
-		const newsletterContent: {
-			title: string;
-			excerpt: string;
-			mainImage: string;
-			footer: string;
-			link: string;
-		}[] = [...aiGeneratedContent, ...normalizeBlogContent];
+		if (aiGeneratedContent.length === 0 && blogPosts.length === 0) {
+			throw new Error(`
+No content was generated. Check your database and cms datasources.
+${aiGeneratedContent.length} articles generated by openAi.
+${blogPosts.length} articles retrieved from CMS.`);
+			// send alert email to content admin
+		} else {
+			const normalizedBlogContent = blogPosts.map((post) => {
+				console.info('blog post: ', post);
+				return {
+					_id: post._id,
+					title: post.title as string,
+					excerpt: post.excerpt as string,
+					mainImage: post.mainImage,
+					footer: `More info available here.`,
+					link: post.contentUrl,
+				};
+			});
 
-		const mailer = new BrevoMailer();
-		await mailer.sendCampaign(subject, header, newsletterContent);
+			const newsletterContent: {
+				title: string;
+				excerpt: string;
+				mainImage: string;
+				footer: string;
+				link: string;
+			}[] = [...aiGeneratedContent, ...normalizedBlogContent];
 
-		normalizeBlogContent.forEach(async (post) => {
-			await setPostPublishedInNewsletter(client, post._id);
-		});
+			const mailer = new BrevoMailer();
+			await mailer
+				.createScheduledNewsletterCampaign(subject, header, newsletterContent)
+				.then(() => {
+					console.info('Successfully created newsletter campaign.');
 
-		return res
-			.status(200)
-			.json({ success: 'true', payload: [...newsletterContent] });
+					normalizedBlogContent.forEach(async (post) => {
+						await setPostPublishedInNewsletter(client, post._id);
+					});
+				});
+
+			return res
+				.status(201)
+				.json({ success: 'true', payload: [...newsletterContent] });
+		}
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ success: 'false', error: error.message });

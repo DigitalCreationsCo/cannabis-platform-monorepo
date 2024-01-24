@@ -9,7 +9,7 @@ export class BrevoMailer {
 		this.apiInstance.setApiKey(0, process.env.BREVO_API_KEY as string);
 	}
 
-	sendCampaign(
+	async createScheduledNewsletterCampaign(
 		subject: string,
 		header: string,
 		content: {
@@ -48,13 +48,26 @@ export class BrevoMailer {
 			// 	subject: 'common subject',
 			// };
 
-			// schedule send for Tuesday 8AM
-			const tuesday = new Date();
-			tuesday.setDate(tuesday.getDate() + ((2 + 7 - tuesday.getDay()) % 7));
-			tuesday.setHours(8);
-			tuesday.setMinutes(0);
-			tuesday.setSeconds(0);
-			newsLetterEmailCampaign.scheduledAt = tuesday.toISOString();
+			// Get the current date
+			const currentDate = new Date();
+			// Get the current day of the week (0 for Sunday, 1 for Monday, ..., 6 for Saturday)
+			const currentDay = currentDate.getDay();
+			// Calculate the difference between the current day and Tuesday
+			let daysUntilTuesday = (2 + 7 - currentDay) % 7;
+			// If today is Tuesday, add 7 days to get the next Tuesday
+			if (daysUntilTuesday === 0) {
+				daysUntilTuesday = 7;
+			}
+			// Create the date of the coming Tuesday
+			const comingTuesday = new Date(currentDate);
+			comingTuesday.setHours(8, 0, 0, 0);
+			comingTuesday.setDate(currentDate.getDate() + daysUntilTuesday);
+
+			newsLetterEmailCampaign.scheduledAt = comingTuesday.toISOString();
+			console.info(
+				'Campaign scheduled for: ',
+				newsLetterEmailCampaign.scheduledAt,
+			);
 
 			this.apiInstance
 				.createEmailCampaign(newsLetterEmailCampaign)
