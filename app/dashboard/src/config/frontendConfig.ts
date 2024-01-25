@@ -5,6 +5,7 @@ import {
 	TextContent,
 } from '@cd/core-lib';
 import { type UserWithDetails } from '@cd/data-access';
+import { default as Router } from 'next/router';
 import Passwordless from 'supertokens-auth-react/recipe/passwordless';
 import Session from 'supertokens-auth-react/recipe/session';
 import { type AppInfo } from 'supertokens-node/lib/build/types';
@@ -125,5 +126,16 @@ export const frontendConfig = () => {
 				},
 			}),
 		],
+		windowHandler: (oI) => {
+			return {
+				...oI,
+				location: {
+					...oI.location,
+					setHref: (href) => {
+						Router.push(href);
+					},
+				},
+			};
+		},
 	};
 };

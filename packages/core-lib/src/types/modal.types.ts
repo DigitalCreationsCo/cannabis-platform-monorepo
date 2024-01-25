@@ -9,4 +9,5 @@ export const modalTypes = Object.freeze({
 	checkoutModal: 'CHECKOUT_MODAL',
 	checkAgeModal: 'CHECK_AGE_MODAL',
 	emailModal: 'EMAIL_MODAL',
+	newDealModal: 'NEW_DEAL_MODAL',
 });

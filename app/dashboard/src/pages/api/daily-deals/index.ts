@@ -37,7 +37,7 @@ handler.get(async (req: any, res: any) => {
 			req,
 			res,
 		);
-		// res.setHeader('Cache-Control', 'public, s-maxage=120');
+		res.setHeader('Cache-Control', 'public, s-maxage=120');
 		const organizationId = req.headers['organization-id'] as string;
 
 		// const { id } = req.query;

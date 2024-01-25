@@ -14,19 +14,19 @@ const dispensaryMiddleware =
 			const dispensaryState = store.getState()
 				.dispensary as AppState['dispensary'];
 
-			if (
-				typeof window !== 'undefined' &&
-				window.location.pathname === '/' &&
-				userState.isSignedIn
-			) {
-				console.info(
-					'dispensary middleware navigate to dashboard: ',
-					TextContent.href.dashboard_f(dispensaryState.dispensary?.id),
-				);
-				window.location.href = TextContent.href.dashboard_f(
-					dispensaryState.dispensary?.id,
-				);
-			}
+			// if (
+			// 	typeof window !== 'undefined' &&
+			// 	window.location.pathname === '/' &&
+			// 	userState.isSignedIn
+			// ) {
+			// 	console.info(
+			// 		'dispensary middleware navigate to dashboard: ',
+			// 		TextContent.href.dashboard_f(dispensaryState.dispensary?.id),
+			// 	);
+			// 	window.location.href = TextContent.href.dashboard_f(
+			// 		dispensaryState.dispensary?.id,
+			// 	);
+			// }
 
 			if (action.type === 'user/signinUserSync') {
 				const payload = action.payload as UserFromDBAuthResponse;
