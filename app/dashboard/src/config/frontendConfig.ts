@@ -126,12 +126,12 @@ export const frontendConfig = () => {
 				},
 			}),
 		],
-		windowHandler: (oI) => {
+		windowHandler: (oI: any) => {
 			return {
 				...oI,
 				location: {
 					...oI.location,
-					setHref: (href) => {
+					setHref: (href: string) => {
 						Router.push(href);
 					},
 				},

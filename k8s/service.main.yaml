@@ -36,9 +36,9 @@ spec:
           image: grasadmin/main:TAG
           imagePullPolicy: Always
           terminationMessagePolicy: FallbackToLogsOnError
-          env:
-          - name: DEBUG
-            value: com.supertokens
+          # env:
+          # - name: DEBUG
+          #   value: com.supertokens
           resources:
             requests:
               cpu: '0.2'
