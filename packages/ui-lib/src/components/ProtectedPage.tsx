@@ -40,24 +40,24 @@ function ProtectedPage({
 		router.push('/');
 	}
 
-	useEffect(() => {
-		if (isProtectedPage && !user.isSignedIn) {
-			console.info('ProtectedPage: user is not signed in');
-			router.push('/');
-		}
-	}, [user]);
-	useEffect(() => {
-		if (isMemberPage && !hasMembershipRoleAccess(user.user, 'MEMBER')) {
-			console.info('ProtectedPage: user is not a member');
-			router.push('/');
-		}
-	}, [user]);
-	useEffect(() => {
-		if (isAdminPage && !hasMembershipRoleAccess(user.user, 'MEMBER')) {
-			console.info('ProtectedPage: user is not an admin');
-			router.push('/');
-		}
-	}, [user]);
+	// useEffect(() => {
+	// 	if (isProtectedPage && !user.isSignedIn) {
+	// 		console.info('ProtectedPage: user is not signed in');
+	// 		router.push('/');
+	// 	}
+	// }, [user]);
+	// useEffect(() => {
+	// 	if (isMemberPage && !hasMembershipRoleAccess(user.user, 'MEMBER')) {
+	// 		console.info('ProtectedPage: user is not a member');
+	// 		router.push('/');
+	// 	}
+	// }, [user]);
+	// useEffect(() => {
+	// 	if (isAdminPage && !hasMembershipRoleAccess(user.user, 'MEMBER')) {
+	// 		console.info('ProtectedPage: user is not an admin');
+	// 		router.push('/');
+	// 	}
+	// }, [user]);
 
 	if (user.isLoading) return <LoadingPage />;
 

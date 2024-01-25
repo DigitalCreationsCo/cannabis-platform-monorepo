@@ -11,6 +11,7 @@ import CheckAgeModal from './CheckAgeModal';
 import CheckoutModal from './CheckoutModal';
 import EmailModal from './EmailModal';
 import LoginModal from './LoginModal/LoginModal';
+import NewDealModal from './NewDealModal';
 // import ConfirmModal from "./ConfirmModal";
 // import MessageBanner from "./MessageBanner";
 // import MessageModal from "./MessageModal";
@@ -28,6 +29,7 @@ const MODAL_COMPONENTS = Object.freeze({
 	CART_MODAL: CartModal,
 	LOGIN_MODAL: LoginModal,
 	EMAIL_MODAL: EmailModal,
+	NEW_DEAL_MODAL: NewDealModal,
 });
 
 type ModalContainerProps = ModalStateProps & {

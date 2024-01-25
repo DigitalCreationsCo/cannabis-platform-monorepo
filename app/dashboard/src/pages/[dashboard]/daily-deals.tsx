@@ -1,4 +1,12 @@
-import { axios, showTime, urlBuilder, type AppState } from '@cd/core-lib';
+import {
+	axios,
+	modalActions,
+	modalTypes,
+	showTime,
+	urlBuilder,
+	useAppDispatch,
+	type AppState,
+} from '@cd/core-lib';
 import {
 	type WeedTextDeal,
 	type OrderWithFullDetails,
@@ -31,39 +39,15 @@ interface DashboardProps {
 function DailyDealsPage(props: DashboardProps) {
 	const { user, organization, products, orders, dailyDeals } = props;
 	console.info('props ', props);
-	// const dailyDeals: WeedTextDeal[] = [
-	// 	{
-	// 		title: 'You dont want to miss this!',
-	// 		dealId: '123',
-	// 		startTime: new Date(),
-	// 		// set date for tomorrow
-	// 		endTime: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
-	// 		products: [
-	// 			{
-	// 				name: 'Product 1',
-	// 				id: '1',
-	// 				sku: 1234567,
-	// 				organizationId: '1234',
-	// 				organizationName: 'Golden Nugget Dispensary',
-	// 				productId: '123',
-	// 				rating: 4.3,
-	// 				unit: 'g',
-	// 				size: 7,
-	// 				quantity: 1,
-	// 				basePrice: 3599,
-	// 				discount: 3,
-	// 				isDiscount: true,
-	// 				salePrice: 3499,
-	// 				currency: 'USD',
-	// 				stock: 100,
-	// 				createdAt: new Date(),
-	// 				updatedAt: new Date(),
-	// 			},
-	// 		],
-	// 		subtotal: 19799,
-	// 	},
-	// ];
 
+	const dispatch = useAppDispatch();
+	async function openNewDealModal() {
+		dispatch(
+			modalActions.openModal({
+				modalType: modalTypes.newDealModal,
+			}),
+		);
+	}
 	const DailyDeals = () => (
 		<>
 			{dailyDeals?.length ? (
@@ -94,6 +78,7 @@ function DailyDealsPage(props: DashboardProps) {
 				<Button
 					className="px-4 bg-inverse active:bg-accent-soft place-self-start"
 					hover="accent-soft"
+					onClick={openNewDealModal}
 				>
 					+ new Daily Deal
 				</Button>
@@ -150,3 +135,36 @@ export const getServerSideProps = wrapper.getServerSideProps(
 );
 
 export default connect(mapStateToProps)(DailyDealsPage);
+
+// const dailyDeals: WeedTextDeal[] = [
+// 	{
+// 		title: 'You dont want to miss this!',
+// 		dealId: '123',
+// 		startTime: new Date(),
+// 		// set date for tomorrow
+// 		endTime: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
+// 		products: [
+// 			{
+// 				name: 'Product 1',
+// 				id: '1',
+// 				sku: 1234567,
+// 				organizationId: '1234',
+// 				organizationName: 'Golden Nugget Dispensary',
+// 				productId: '123',
+// 				rating: 4.3,
+// 				unit: 'g',
+// 				size: 7,
+// 				quantity: 1,
+// 				basePrice: 3599,
+// 				discount: 3,
+// 				isDiscount: true,
+// 				salePrice: 3499,
+// 				currency: 'USD',
+// 				stock: 100,
+// 				createdAt: new Date(),
+// 				updatedAt: new Date(),
+// 			},
+// 		],
+// 		subtotal: 19799,
+// 	},
+// ];
