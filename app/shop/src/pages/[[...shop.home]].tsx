@@ -45,12 +45,10 @@ function StartPage() {
 			{/* <ImageBackDrop video={friendsVideo}></ImageBackDrop> */}
 			<FlexBox className="mx-auto flex p-4 px-8 md:px-20 w-full space-x-2 items-center space-y-2 lg:space-y-8">
 				<div className="flex flex-col self-center text-center lg:py-4">
-					<H1
-						color="light"
-						className="mx-auto text-center text-[1.5rem] md:text-[2rem] lg:text-[3rem] whitespace-pre-line overflow-x-visible border-b border-transparent text-inverse w-lg font-semibold tracking-wide"
-					>
+					<H1 className="text-light mx-auto text-center text-[1.5rem] md:text-[2rem] lg:text-[3rem] whitespace-pre-line overflow-x-visible border-b border-transparent w-lg font-semibold tracking-wide">
 						{/* {TextContent.info.SAME_DAY_DELIVERY}&nbsp;🌴 */}
-						{TextContent.info.TOP_SHELF_CANNABIS_DELIVERED_DAILY}&nbsp;🌴
+						{/* {TextContent.info.TOP_SHELF_CANNABIS_DELIVERED_DAILY}&nbsp;🌴 */}
+						We Deliver Top-Shelf Cannabis Daily&nbsp;🌴
 					</H1>
 					{/* <Button
 										size="lg"
@@ -60,7 +58,8 @@ function StartPage() {
 										onClick={openCheckAgeModalOrEnterSite}
 									> */}
 					<H3 className="text-xl md:text-2xl lg:text-4xl">
-						{TextContent.info.ENJOY_BUD_WITH_YOUR_BUDS}
+						{/* {TextContent.info.ENJOY_BUD_WITH_YOUR_BUDS} */}
+						So You Can Enjoy Bud With Your Buds
 					</H3>
 					{/* </Button> */}
 				</div>
