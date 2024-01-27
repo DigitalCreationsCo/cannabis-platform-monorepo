@@ -5,9 +5,11 @@ import {
 	buildOrderRecord,
 	isEmpty,
 	showTime,
+	getDailyDealProductsAndCalculateTotal,
 } from '@cd/core-lib';
 import SMS from '@cd/core-lib/lib/sms/sms.module';
 import {
+	type DailyDealCreateWithSkus,
 	findDailyDeal,
 	findDailyDealsByOrganization,
 	findUserWithDetailsByPhone,
@@ -65,14 +67,16 @@ export class DailyDealsController {
 	 */
 	static async createDailyDeal(req, res) {
 		try {
-			const DailyDeal: DailyDeal = req.body;
-			const data = await createDailyDeal(DailyDeal);
-
+			const dailyDealCreateDataWithSkus: DailyDealCreateWithSkus = req.body;
+			const dailyDealWithProductDetails =
+				await getDailyDealProductsAndCalculateTotal(
+					dailyDealCreateDataWithSkus,
+				);
+			await createDailyDeal(dailyDealWithProductDetails);
 			console.debug(' Successfully created DailyDeal record.');
 			return res.status(201).json({
 				success: 'true',
 				message: ' You created a new Daily Deal.',
-				payload: data,
 			});
 		} catch (error) {
 			console.error(`createDailyDeal: ${error}`);

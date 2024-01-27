@@ -43,16 +43,17 @@ export async function findActiveDailyDeals(): Promise<
  * @param deal DailyDeal
  * @returns Promise<DailyDeal>
  */
-export async function createDailyDeal(deal: DailyDeal): Promise<DailyDeal> {
+export async function createDailyDeal(
+	deal: DailyDealWithProductDetails,
+): Promise<DailyDeal> {
 	try {
 		return await prisma.dailyDeal.create({
 			data: {
-				id: deal.id,
 				title: deal.title,
 				description: deal.description,
 				total: deal.total,
-				startTime: deal.startTime,
-				endTime: deal.endTime,
+				startTime: new Date(deal.startTime),
+				endTime: new Date(deal.endTime),
 				organizationId: deal.organizationId,
 			},
 			// include: {
@@ -122,10 +123,15 @@ export type DailyDealWithOrganization = DailyDeal & {
 	organization: OrganizationWithOrderDetails;
 };
 
+export type DailyDealWithProductDetails = Omit<DailyDeal, 'id'> & {
+	products: ProductVariant[];
+};
+
 export type DailyDealCreateWithSkus = Omit<
 	DailyDeal,
 	'products' | 'id' | 'isExpired' | 'total'
 > & {
+	organization: OrganizationWithOrderDetails;
 	products: Pick<
 		ProductVariant,
 		'sku' | 'quantity' | 'organizationId' | 'isDiscount' | 'discount'

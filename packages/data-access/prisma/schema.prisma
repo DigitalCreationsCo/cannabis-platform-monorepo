@@ -555,6 +555,7 @@ enum Inventory {
   weedmaps
   blaze
   metrc
+  biotrack
 }
 
 model Schedule {

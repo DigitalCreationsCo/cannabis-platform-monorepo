@@ -5,12 +5,12 @@ import React, {
 	type SVGAttributes,
 } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { Paragraph } from '../../components/Typography';
-import { styles } from '../../styleClassNames';
-import IconButton from '../button/IconButton';
-import FlexBox from '../FlexBox';
+import { styles } from '../styleClassNames';
+import { Paragraph } from './../components/Typography';
+import IconButton from './button/IconButton';
+import FlexBox from './FlexBox';
 
-type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
+type TextAreaProps = React.InputHTMLAttributes<HTMLTextAreaElement> & {
 	className?: string;
 	containerClassName?: string;
 	maxNumber?: number;
@@ -30,7 +30,8 @@ type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
 	onClickIcon?: any;
 	inputRef?: any;
 };
-function TextField({
+
+export default function TextArea({
 	className,
 	containerClassName,
 	maxNumber,
@@ -49,8 +50,8 @@ function TextField({
 	onClickIcon,
 	inputRef,
 	...props
-}: TextFieldProps) {
-	const inputProps: React.InputHTMLAttributes<HTMLInputElement> = {
+}: TextAreaProps) {
+	const inputProps: React.InputHTMLAttributes<HTMLTextAreaElement> = {
 		...props,
 	};
 	const [focus, setFocus] = useState(false);
@@ -65,9 +66,7 @@ function TextField({
 			{label && (
 				<FlexBox className="items-start w-full">
 					<label className={twMerge(styles.label_f(justifyLabel))}>
-						<Paragraph className="text-primary whitespace-nowrap">
-							{label}
-						</Paragraph>
+						<Paragraph className="text-primary">{label}</Paragraph>
 					</label>
 				</FlexBox>
 			)}
@@ -85,7 +84,7 @@ function TextField({
 						Icon={insertIcon}
 					/>
 				)}
-				<input
+				<textarea
 					aria-label={label || name}
 					ref={inputRef}
 					onFocus={() => {
@@ -125,5 +124,3 @@ function TextField({
 		</FlexBox>
 	);
 }
-
-export default TextField;

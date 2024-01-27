@@ -24,8 +24,8 @@ import {
 	type LayoutContextProps,
 } from '@cd/ui-lib';
 import { connect } from 'react-redux';
-import { wrapper } from 'store';
 import { twMerge } from 'tailwind-merge';
+import { wrapper } from 'store';
 
 interface DashboardProps {
 	organization: OrganizationWithDashboardDetails;
@@ -131,6 +131,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
 				if (!response.data.success || response.data.success === 'false')
 					throw new Error(response.data.error);
 
+				console.info('DailyDealsPage: ', response.data);
 				return {
 					props: { dailyDeals: response.data },
 				};
