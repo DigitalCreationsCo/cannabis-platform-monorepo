@@ -20,11 +20,12 @@ import {
 	Icons,
 	Page,
 	PageHeader,
+	Paragraph,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
 import { connect } from 'react-redux';
-import { twMerge } from 'tailwind-merge';
 import { wrapper } from 'store';
+import { twMerge } from 'tailwind-merge';
 
 interface DashboardProps {
 	organization: OrganizationWithDashboardDetails;
@@ -38,7 +39,6 @@ interface DashboardProps {
 
 function DailyDealsPage(props: DashboardProps) {
 	const { user, organization, products, orders, dailyDeals } = props;
-	console.info('props ', props);
 
 	const dispatch = useAppDispatch();
 	async function openNewDailyDealModal() {
@@ -62,30 +62,39 @@ function DailyDealsPage(props: DashboardProps) {
 					</div>
 				))
 			) : (
-				<></>
+				<Paragraph>You have no deals. Try adding one.</Paragraph>
 			)}
 		</>
 	);
 
 	return (
-		<Page className={twMerge('sm:px-4')}>
+		<Page className={twMerge('sm:px-4 pb-4 md:pb-24')}>
 			<PageHeader
 				iconColor={'primary'}
 				title={`Daily Deals`}
-				subTitle={`Campaigns`}
-				Icon={Icons.CalendarAdd}
+				subTitle={`Deals are sent daily via text message`}
+				Icon={Icons.Mobile}
 			>
 				<Button
-					className="px-4 bg-inverse active:bg-accent-soft place-self-start"
+					className="hidden md:block px-4 bg-inverse active:bg-accent-soft place-self-start"
 					hover="accent-soft"
 					onClick={openNewDailyDealModal}
 				>
-					+ new Daily Deal
+					new Daily Deal
 				</Button>
 			</PageHeader>
-			<Grid className="mt-2 gap-2">
+			<Grid className="flex grow gap-2">
 				<DailyDeals />
 			</Grid>
+			<div>
+				<Button
+					className="md:hidden px-4 bg-inverse active:bg-accent-soft place-self-end self-end justify-self-end"
+					hover="accent-soft"
+					onClick={openNewDailyDealModal}
+				>
+					new Daily Deal
+				</Button>
+			</div>
 		</Page>
 	);
 }
