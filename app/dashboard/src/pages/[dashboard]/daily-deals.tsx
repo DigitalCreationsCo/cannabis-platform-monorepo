@@ -8,7 +8,7 @@ import {
 	type AppState,
 } from '@cd/core-lib';
 import {
-	type WeedTextDeal,
+	type DailyDeal,
 	type OrderWithFullDetails,
 	type OrganizationWithDashboardDetails,
 	type ProductWithDashboardDetails,
@@ -31,7 +31,7 @@ interface DashboardProps {
 	user: UserDispensaryStaff;
 	products: ProductWithDashboardDetails[];
 	orders: OrderWithFullDetails[];
-	dailyDeals: WeedTextDeal[];
+	dailyDeals: DailyDeal[];
 }
 
 // PAGES NEED BETTER ERROR HANDLING WHEN SERVICES ARE NOT AVAILABLE, OR AUTH FAILS
@@ -41,10 +41,10 @@ function DailyDealsPage(props: DashboardProps) {
 	console.info('props ', props);
 
 	const dispatch = useAppDispatch();
-	async function openNewDealModal() {
+	async function openNewDailyDealModal() {
 		dispatch(
 			modalActions.openModal({
-				modalType: modalTypes.newDealModal,
+				modalType: modalTypes.NewDailyDealModal,
 			}),
 		);
 	}
@@ -78,7 +78,7 @@ function DailyDealsPage(props: DashboardProps) {
 				<Button
 					className="px-4 bg-inverse active:bg-accent-soft place-self-start"
 					hover="accent-soft"
-					onClick={openNewDealModal}
+					onClick={openNewDailyDealModal}
 				>
 					+ new Daily Deal
 				</Button>
@@ -136,7 +136,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
 export default connect(mapStateToProps)(DailyDealsPage);
 
-// const dailyDeals: WeedTextDeal[] = [
+// const dailyDeals: DailyDeal[] = [
 // 	{
 // 		title: 'You dont want to miss this!',
 // 		dealId: '123',

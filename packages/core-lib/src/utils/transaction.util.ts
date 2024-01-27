@@ -91,7 +91,7 @@ function convertDollarsToWholeNumber(value: number | string) {
 function calculateTransactionFees(
 	order: OrderWithShopDetails,
 ): OrderWithShopDetails {
-	// weedTextDeals include taxes and fees in the price.
+	// DailyDeals include taxes and fees in the price.
 	if (order.isWeedTextOrder) {
 		return order;
 	} else {

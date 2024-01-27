@@ -7,7 +7,7 @@ export { default as CheckoutModal } from './CheckoutModal';
 export { default as ConfirmationModal } from './ConfirmationModal';
 export { default as EmailModal } from './EmailModal';
 export { default as LoginModal } from './LoginModal/LoginModal';
-export { default as NewDealModal } from './NewDealModal';
+export { default as NewDailyDealModal } from './NewDailyDealModal';
 export * from './Modal';
 export { default as Modal } from './Modal';
 export { default as ModalProvider } from './ModalProvider';
