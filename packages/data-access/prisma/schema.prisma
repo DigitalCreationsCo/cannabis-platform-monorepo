@@ -513,12 +513,13 @@ model Organization {
   schedule                 Schedule[]
   subdomain                SubDomain           @relation(fields: [subdomainId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   products                 Product[]
+  productVariants          ProductVariant[]
   siteSetting              SiteSetting?
   memberships              Membership[]        @relation("MembershipToOrganization")
   subscribedForDelivery    Boolean             @default(true)
   subscribedForPickup      Boolean             @default(false)
   subscribedForWeedText    Boolean             @default(true)
-  weedTextDeals            WeedTextDeal[]
+  dailyDeals               DailyDeal[]
 
   vendor                   Vendor?             @relation(fields: [vendorId, vendorName], references: [id, name])
   vendorId                 String?
@@ -538,6 +539,7 @@ model Organization {
   @@index([name])
   @@index([vendorId])
   @@index([subdomainId])
+  @@unique([id, name])
 }
 
 enum POS {
@@ -602,9 +604,10 @@ model Product {
 model ProductVariant {
   id               String         @id @unique @default(cuid())
   name             String
-  sku              Float?
+  sku              String
   organizationId   String
   organizationName String
+  organization   Organization     @relation(fields: [organizationId, organizationName], references: [id, name], onDelete: Cascade, onUpdate: Cascade)
   productId        String
   rating           Float
   unit             Unit           @default(g)
@@ -621,7 +624,7 @@ model ProductVariant {
   images           ImageProduct[] @relation("images")
   product          Product        @relation(fields: [productId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   order            Order[]        @relation("OrderToProductVariant")
-  weedTextDeal     WeedTextDeal[]
+  dailyDeals       DailyDeal[]
 
   @@index([id])
   @@index([productId])
@@ -794,7 +797,31 @@ enum ArticleTag {
   gras
 }
 
-model WeedTextDeal {
+model FeaturesBackend {
+  feature     FeatureBe     @unique
+  enabled     Boolean       @default(false)
+}
+
+model FeaturesFrontend {
+  feature     FeatureFe     @unique
+  enabled     Boolean       @default(false)
+}
+
+enum FeatureBe {
+  weed_text
+}
+
+enum FeatureFe {
+  daily_deals_sms
+  orders
+  products
+  users
+  delivery_tracking
+  storefront
+  checkout_widget
+}
+
+model DailyDeal {
   title       String
   id          String        @id @unique @default(cuid())
   description String

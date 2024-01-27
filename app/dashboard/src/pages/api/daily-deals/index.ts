@@ -1,5 +1,5 @@
 import { axios, urlBuilder } from '@cd/core-lib';
-import { type WeedTextDeal } from '@cd/data-access';
+import { type DailyDeal } from '@cd/data-access';
 import nc from 'next-connect';
 import NextCors from 'nextjs-cors';
 import NodeCache from 'node-cache';
@@ -88,11 +88,11 @@ handler.post(async (req: any, res: any) => {
 			res,
 		);
 
-		const weedTextDeal: WeedTextDeal = req.body;
+		const DailyDeal: DailyDeal = req.body;
 
 		const response = await axios.post(
 			urlBuilder.sms.dailyDeal(),
-			weedTextDeal,
+			DailyDeal,
 			{
 				headers: {
 					'Content-Type': 'application/json',

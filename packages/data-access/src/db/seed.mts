@@ -24,6 +24,26 @@ import { type ReviewWithUserDetails } from '../product.data.js';
 
 const prisma = new PrismaClient();
 
+const createFeaturesBackend = async () => {
+	await prisma.featuresBackend.createMany({
+		data: [{ feature: 'weed_text', enabled: true }],
+	});
+};
+
+const createFeaturesFrontend = async () => {
+	await prisma.featuresFrontend.createMany({
+		data: [
+			{ feature: 'checkout_widget', enabled: false },
+			{ feature: 'delivery_tracking', enabled: false },
+			{ feature: 'orders', enabled: true },
+			{ feature: 'products', enabled: false },
+			{ feature: 'storefront', enabled: false },
+			{ feature: 'users', enabled: true },
+			{ feature: 'daily_deals_sms', enabled: true },
+		],
+	});
+};
+
 const createCompliance = async () => {
 	await prisma.compliance.create({
 		data: {

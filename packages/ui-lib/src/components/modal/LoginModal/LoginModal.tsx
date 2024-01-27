@@ -2,9 +2,9 @@ import { useEffect, useMemo, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { styles } from '../../../styleClassNames';
 import Modal from '../Modal';
-import EnterOTPForm from './EnterPassCodeForm';
+import EnterPasscode from './EnterPassCodeForm';
 import LoginModalHeader from './LoginModalHeader';
-import SendOTPForm from './SendPassCodeForm';
+import SendPasscode from './SendPassCodeForm';
 
 interface LoginModalProps {
 	dispatchCloseModal: () => void;
@@ -27,7 +27,7 @@ export default function LoginModal({
 	const FormStepComponents: (({
 		prevFormStep,
 		nextFormStep,
-	}: LoginFormComponentProps) => JSX.Element)[] = [SendOTPForm, EnterOTPForm];
+	}: LoginFormComponentProps) => JSX.Element)[] = [SendPasscode, EnterPasscode];
 
 	const FormStepComponent = useMemo(
 		() => FormStepComponents[formStep],

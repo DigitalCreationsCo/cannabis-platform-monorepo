@@ -90,7 +90,8 @@
     "sms:get-phone-numbers": "dotenv -e .env.production -- node server/dispatch/src/lib/sms/get-active-phonenumbers.mjs",
     "read-csr": "openssl req -text -in $0 -noout",
     "read-cert": "openssl x509 -in $0 -text -noout",
-    "deps:sync": "yarn syncpack fix-mismatches"
+    "deps:sync": "yarn syncpack fix-mismatches",
+    "snippet": "node scripts/create-snippet.js"
   },
   "engines": {
     "node": "18.19.0",

@@ -8,16 +8,16 @@ import {
 } from '@cd/core-lib';
 import SMS from '@cd/core-lib/lib/sms/sms.module';
 import {
-	createWeedTextDeal,
 	findDailyDeal,
 	findDailyDealsByOrganization,
 	findUserWithDetailsByPhone,
 	type OrderCreateType,
-	type WeedTextDealWithOrganization,
-	type WeedTextDeal,
+	type DailyDealWithOrganization,
+	type DailyDeal,
 	findActiveDailyDeals,
 	findOrganizationById,
 	type OrderWithShopDetails,
+	createDailyDeal,
 } from '@cd/data-access';
 import axios from 'axios';
 import nodeCache from 'node-cache';
@@ -65,10 +65,10 @@ export class DailyDealsController {
 	 */
 	static async createDailyDeal(req, res) {
 		try {
-			const weedTextDeal: WeedTextDeal = req.body;
-			const data = await createWeedTextDeal(weedTextDeal);
+			const DailyDeal: DailyDeal = req.body;
+			const data = await createDailyDeal(DailyDeal);
 
-			console.debug(' Successfully created weedTextDeal record.');
+			console.debug(' Successfully created DailyDeal record.');
 			return res.status(201).json({
 				success: 'true',
 				message: ' You created a new Daily Deal.',
@@ -150,13 +150,13 @@ export class DailyDealsController {
 			// step 2 - ask for delivery time ( now or later )
 			const deliveryTime: RequestedDeliveryTime = 'now';
 
-			const dailyWeedTextDeal = await isValidWeedTextOrderRequest(req.body);
-			if (dailyWeedTextDeal) {
+			const dailyDailyDeal = await isValidWeedTextOrderRequest(req.body);
+			if (dailyDailyDeal) {
 				const { numOrders, phoneNumber, dealId } = req.body;
 
 				// limit the number of db lookups and ajax calls, for the lowest latency possible
 				const order = await processWeedTextOrder({
-					dailyDeal: dailyWeedTextDeal,
+					dailyDeal: dailyDailyDeal,
 					numOrders,
 					phoneNumber,
 					dealId,
@@ -202,7 +202,7 @@ async function processWeedTextOrder({
 	dealId: string;
 	numOrders: number;
 	phoneNumber: string;
-	dailyDeal: WeedTextDealWithOrganization;
+	dailyDeal: DailyDealWithOrganization;
 }) {
 	try {
 		// send ajax request to server/main for order processing
@@ -245,7 +245,7 @@ async function buildOrderFromWeedTextRequest({
 	dealId: string;
 	numOrders: number;
 	customerPhoneNumber: string;
-	dailyDeal: WeedTextDealWithOrganization;
+	dailyDeal: DailyDealWithOrganization;
 }): Promise<OrderCreateType> {
 	try {
 		const customer = await findUserWithDetailsByPhone(customerPhoneNumber);
@@ -300,7 +300,7 @@ async function sendOrderConfirmationSMS(
 
 const isValidWeedTextOrderRequest = async (
 	body: Record<string, any>,
-): Promise<WeedTextDealWithOrganization | false> => {
+): Promise<DailyDealWithOrganization | false> => {
 	try {
 		// check body for required fields
 		const isValidRequestPayload = (body) =>
@@ -327,7 +327,7 @@ const isValidWeedTextOrderRequest = async (
 	}
 };
 
-function isOrderPlacedAtAValidTime(date: any, deal: WeedTextDeal) {
+function isOrderPlacedAtAValidTime(date: any, deal: DailyDeal) {
 	const { startTime, endTime } = deal;
 	// check the time of the request, if it's not from today, don't process it
 	// compare date to today's date
@@ -342,17 +342,15 @@ function isOrderPlacedAtAValidTime(date: any, deal: WeedTextDeal) {
 
 const getCacheDailyDeal = async (
 	dealId: string,
-): Promise<WeedTextDealWithOrganization | false> => {
+): Promise<DailyDealWithOrganization | false> => {
 	// get dailydeal from memory cache
-	let dailyDeal = await dailyDealCache.get<WeedTextDealWithOrganization>(
-		dealId,
-	);
+	let dailyDeal = await dailyDealCache.get<DailyDealWithOrganization>(dealId);
 	if (!dailyDeal) {
 		// get dailydeal from redis
 		dailyDeal = JSON.parse(await redisDailyDeals.get(dealId));
 		if (!dailyDeal) {
 			// get dailydeal from db
-			dailyDeal = (await findDailyDeal(dealId)) as WeedTextDealWithOrganization;
+			dailyDeal = (await findDailyDeal(dealId)) as DailyDealWithOrganization;
 			if (!dailyDeal) {
 				return false;
 			} else {
@@ -364,17 +362,17 @@ const getCacheDailyDeal = async (
 };
 
 export const getAllCacheDailyDeals = async (): Promise<
-	WeedTextDealWithOrganization[]
+	DailyDealWithOrganization[]
 > => {
 	// get dailydeal from memory cache
 	let dailyDeals = Object.values(
-		await dailyDealCache.mget<WeedTextDealWithOrganization>(
+		await dailyDealCache.mget<DailyDealWithOrganization>(
 			await dailyDealCache.keys(),
 		),
 	);
 	if (!dailyDeals.length || dailyDeals.length === 0) {
 		// get dailydeal from redis
-		// RETURN WEEDTEXTDEAL[] || []
+		// RETURN DailyDeal[] || []
 		dailyDeals = JSON.parse(await redisDailyDeals.get('*'));
 		console.info('redis daily deals: ', dailyDeals);
 
@@ -398,13 +396,9 @@ export const getAllCacheDailyDeals = async (): Promise<
 	return dailyDeals;
 };
 
-export const setCacheDailyDeal = async (deal: WeedTextDealWithOrganization) => {
+export const setCacheDailyDeal = async (deal: DailyDealWithOrganization) => {
 	try {
-		dailyDealCache.set<WeedTextDealWithOrganization>(
-			deal.id,
-			deal,
-			oneDaySeconds,
-		);
+		dailyDealCache.set<DailyDealWithOrganization>(deal.id, deal, oneDaySeconds);
 		await redisDailyDeals.setEx(deal.id, oneDaySeconds, JSON.stringify(deal));
 	} catch (error) {
 		console.error('cacheDailyDeal: ', error);

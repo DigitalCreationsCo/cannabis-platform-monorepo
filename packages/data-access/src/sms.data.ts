@@ -1,10 +1,10 @@
-import { type WeedTextDeal } from '@prisma/client';
+import { type ProductVariant, type DailyDeal } from '@prisma/client';
 import prisma from './db/prisma';
 import { type OrganizationWithOrderDetails } from './organization.types';
 
 /*
  *  findActiveDailyDeals
- *   createWeedTextDeal
+ *   createDailyDeal
  *   findDailyDeal
  *  findDailyDealsByOrganization
  */
@@ -15,10 +15,10 @@ import { type OrganizationWithOrderDetails } from './organization.types';
  * @returns
  */
 export async function findActiveDailyDeals(): Promise<
-	WeedTextDealWithOrganization[]
+	DailyDealWithOrganization[]
 > {
 	try {
-		return await prisma.weedTextDeal.findMany({
+		return await prisma.dailyDeal.findMany({
 			where: {
 				startTime: { lte: new Date() },
 				endTime: { gte: new Date() },
@@ -33,21 +33,19 @@ export async function findActiveDailyDeals(): Promise<
 			},
 		});
 	} catch (error) {
-		console.error('createWeedTextDeal: ', error);
+		console.error('createDailyDeal: ', error);
 		throw error;
 	}
 }
 
 /**
- * createWeedTextDeal
- * @param deal WeedTextDeal
- * @returns Promise<WeedTextDeal>
+ * createDailyDeal
+ * @param deal DailyDeal
+ * @returns Promise<DailyDeal>
  */
-export async function createWeedTextDeal(
-	deal: WeedTextDeal,
-): Promise<WeedTextDeal> {
+export async function createDailyDeal(deal: DailyDeal): Promise<DailyDeal> {
 	try {
-		return await prisma.weedTextDeal.create({
+		return await prisma.dailyDeal.create({
 			data: {
 				id: deal.id,
 				title: deal.title,
@@ -66,14 +64,14 @@ export async function createWeedTextDeal(
 			// },
 		});
 	} catch (error) {
-		console.error('createWeedTextDeal: ', error);
+		console.error('createDailyDeal: ', error);
 		throw error;
 	}
 }
 
-export async function findDailyDeal(id: string): Promise<WeedTextDeal | null> {
+export async function findDailyDeal(id: string): Promise<DailyDeal | null> {
 	try {
-		return await prisma.weedTextDeal.findUnique({
+		return await prisma.dailyDeal.findUnique({
 			where: {
 				id,
 			},
@@ -86,9 +84,9 @@ export async function findDailyDeal(id: string): Promise<WeedTextDeal | null> {
 
 export async function findDailyDealsByOrganization(
 	organizationId: string,
-): Promise<WeedTextDeal[]> {
+): Promise<DailyDeal[]> {
 	try {
-		return await prisma.weedTextDeal.findMany({
+		return await prisma.dailyDeal.findMany({
 			where: {
 				organizationId,
 			},
@@ -106,7 +104,7 @@ export async function findDailyDealsByOrganization(
  */
 export async function setExpiredDailyDeals() {
 	try {
-		await prisma.weedTextDeal.updateMany({
+		await prisma.dailyDeal.updateMany({
 			where: {
 				endTime: { lte: new Date() },
 			},
@@ -120,6 +118,16 @@ export async function setExpiredDailyDeals() {
 	}
 }
 
-export type WeedTextDealWithOrganization = WeedTextDeal & {
+export type DailyDealWithOrganization = DailyDeal & {
 	organization: OrganizationWithOrderDetails;
+};
+
+export type DailyDealCreateWithSkus = Omit<
+	DailyDeal,
+	'products' | 'id' | 'isExpired' | 'total'
+> & {
+	products: Pick<
+		ProductVariant,
+		'sku' | 'quantity' | 'organizationId' | 'isDiscount' | 'discount'
+	>[];
 };

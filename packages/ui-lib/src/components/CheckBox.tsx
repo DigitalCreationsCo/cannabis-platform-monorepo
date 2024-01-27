@@ -12,6 +12,8 @@ export interface CheckBoxProps
 }
 
 function CheckBox({
+	name,
+	onChange,
 	LabelComponent = Paragraph,
 	error,
 	label,
@@ -31,14 +33,15 @@ function CheckBox({
 				className="cursor-pointer bg-primary accent-primary-light"
 				style={{ height: '30px', width: '30px' }}
 				type="checkbox"
-				id={inputProps.name}
+				id={name}
+				onChange={onChange}
 				{...inputProps}
 			/>
 			<FlexBox className={twMerge('flex-col', styles.helperText)}>
 				{helperText && <LabelComponent>{helperText}</LabelComponent>}
 				{label && (
 					<LabelComponent>
-						<Label className="cursor-pointer" htmlFor={inputProps.name}>
+						<Label className="cursor-pointer" htmlFor={name}>
 							{label}
 						</Label>
 					</LabelComponent>
