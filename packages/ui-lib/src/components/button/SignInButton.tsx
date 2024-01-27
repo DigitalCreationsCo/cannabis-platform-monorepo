@@ -1,6 +1,5 @@
 import { modalActions, modalTypes } from '@cd/core-lib';
 import { useDispatch } from 'react-redux';
-import { Paragraph } from '../Typography';
 import Button, { type ButtonProps } from './Button/Button';
 
 type SignInButtonProps = ButtonProps;
@@ -23,7 +22,7 @@ function SignInButton(props: SignInButtonProps) {
 			className="place-self-center mb-4"
 			onClick={openLoginModal}
 		>
-			<Paragraph>Sign In</Paragraph>
+			Sign In
 		</Button>
 	);
 }
