@@ -90,16 +90,12 @@ handler.post(async (req: any, res: any) => {
 
 		const DailyDeal: DailyDeal = req.body;
 
-		const response = await axios.post(
-			urlBuilder.sms.dailyDeal(),
-			DailyDeal,
-			{
-				headers: {
-					'Content-Type': 'application/json',
-					...req.headers,
-				},
+		const response = await axios.post(urlBuilder.sms.dailyDeal(), DailyDeal, {
+			headers: {
+				'Content-Type': 'application/json',
+				...req.headers,
 			},
-		);
+		});
 		if (response.data.success == 'false') throw new Error(response.data.error);
 		return res.status(response.status).json({
 			success: 'true',

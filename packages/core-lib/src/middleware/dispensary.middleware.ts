@@ -6,7 +6,7 @@ import { type UserFromDBAuthResponse, type AppState } from '../types';
 import { hasMembershipRoleAccess, isEmpty } from '../utils';
 
 const dispensaryMiddleware =
-	(store: MiddlewareAPI) => (next: any) => (action: AnyAction) => {
+	(store: MiddlewareAPI) => (next: any) => async (action: AnyAction) => {
 		try {
 			next(action);
 
@@ -36,12 +36,12 @@ const dispensaryMiddleware =
 						'dispensary middleware organization',
 						user.memberships[0],
 					);
-					store.dispatch(dispensaryActions.setDispensary(organization));
+					await store.dispatch(dispensaryActions.setDispensary(organization));
 				} else if (
 					hasMembershipRoleAccess(user, 'MEMBER') &&
 					user.memberships?.[0].organizationId
 				) {
-					store.dispatch(
+					await store.dispatch(
 						dispensaryActions.getDispensaryById(
 							user.memberships?.[0].organizationId,
 						) as unknown as AnyAction,

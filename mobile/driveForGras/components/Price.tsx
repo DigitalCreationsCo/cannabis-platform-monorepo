@@ -1,13 +1,11 @@
-// import {
-// 	calcSalePrice,
-// 	convertCentsToDollars,
-// } from '@cd/core-lib/src/utils/transaction.util';
+import { calculateProductSaleAtQuantity } from '@cd/core-lib';
 import { View, Text } from './Themed';
 
 type PriceProps = {
 	basePrice: number;
 	salePrice?: number;
 	discount?: number;
+	isDiscount?: boolean;
 	quantity?: number;
 	locale?: string; // country
 	showDiscount?: boolean;
@@ -19,6 +17,7 @@ function Price({
 	salePrice,
 	discount = 0,
 	quantity = 1,
+	isDiscount = false,
 	showDiscount = false,
 	showOriginalPrice = false,
 	locale = 'en-us',
@@ -30,26 +29,24 @@ function Price({
 	// const toDollars = (value: number): string => convertCentsToDollars(value);
 	const toDollars = (value: number): string => value.toString();
 
-	// discount is a flat number representing percentage off
-	function computeSalePrice() {
-		let _salePrice: number;
-		const _discount = discount;
-		if (salePrice) {
-			_salePrice = salePrice * quantity;
-		} else {
-			// _salePrice = calcSalePrice(basePrice, _discount) * quantity;
-			_salePrice = _salePrice;
-		}
-		return _salePrice;
-	}
-
 	return (
 		<View>
 			{showOriginalPrice && (
 				<Text>{_currencySymbol[locale] + toDollars(base)}</Text>
 			)}
 			{showDiscount && discount > 0 && <Text>`${discount}% off`</Text>}
-			<Text>{_currencySymbol[locale] + toDollars(computeSalePrice())}</Text>
+			<Text>
+				{_currencySymbol[locale] +
+					toDollars(
+						calculateProductSaleAtQuantity({
+							basePrice,
+							discount,
+							salePrice,
+							quantity,
+							isDiscount,
+						}),
+					)}
+			</Text>
 		</View>
 	);
 }

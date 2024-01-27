@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { selectDispensaryState } from '@cd/core-lib';
+import { axios, selectDispensaryState, urlBuilder } from '@cd/core-lib';
 import { type DailyDealCreateWithSkus } from '@cd/data-access';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
@@ -12,6 +12,7 @@ import Center from '../Center';
 import CheckBox from '../CheckBox';
 import FlexBox from '../FlexBox';
 import Grid from '../Grid';
+import TextArea from '../TextArea';
 import TextField from '../TextField';
 import { H2, Paragraph } from '../Typography';
 import Modal from './Modal';
@@ -40,6 +41,7 @@ function NewDailyDealModal({
 		endTime: new Date(new Date().setHours(23, 0, 0, 0)),
 		organizationId: dispensaryId,
 		products: [],
+		organization: dispensary,
 	};
 
 	const [loadingButton, setLoadingButton] = useState(false);
@@ -61,7 +63,19 @@ function NewDailyDealModal({
 		title: yup.string().required('Add a title'),
 		description: yup.string().required('Add a description'),
 		startTime: yup.string().required('Add a start time'),
-		endTime: yup.string().required('Add an end time'),
+		// endtime must be after the current time
+		endTime: yup
+			.string()
+			.required('Add an end time')
+			.test(
+				'is-in-the-future',
+				'End time must be after current time',
+				(value) => {
+					const now = new Date();
+					const endTime = new Date(value!);
+					return endTime > now;
+				},
+			),
 		products: yup.array().required('Add at least one product sku'),
 	});
 
@@ -95,6 +109,17 @@ function NewDailyDealModal({
 	async function onSubmit() {
 		try {
 			setLoadingButton(true);
+			const response = await axios.post(
+				urlBuilder.dashboard + '/api/daily-deals',
+				{ ...values, organization: dispensary },
+			);
+
+			if (response.data.success === 'false') {
+				throw new Error(response.data.error || 'Error creating daily deal');
+			}
+
+			toast.success('Saved.');
+			setLoadingButton(false);
 			closeModalAndReset();
 		} catch (error: any) {
 			console.error(error);
@@ -169,9 +194,11 @@ function NewDailyDealModal({
 										containerClassName="w-20 lg:flex-col lg:items-start"
 										className="my-2 border text-center"
 										autoComplete="off"
+										min={0}
+										max={100}
 										type="number"
 										name={`products[${index}].discount`}
-										label="discount"
+										label="discount %"
 										placeholder="1"
 										value={values.products[index].discount}
 										onBlur={handleBlur}
@@ -224,12 +251,12 @@ function NewDailyDealModal({
 							/>
 							<CheckBox
 								name={'addProduct.isDiscount'}
-								onChange={(e) =>
+								onChange={() => {
 									setAddProduct((state) => ({
 										...state,
-										isDiscount: e.target.value as unknown as boolean,
-									}))
-								}
+										isDiscount: !state.isDiscount,
+									}));
+								}}
 								checked={addProduct['isDiscount']}
 								LabelComponent={Paragraph}
 								label="apply discount?"
@@ -242,7 +269,9 @@ function NewDailyDealModal({
 									autoComplete="off"
 									type="number"
 									name={`addProduct.discount`}
-									label="discount"
+									label="discount %"
+									min={0}
+									max={100}
 									placeholder="0"
 									value={addProduct['discount'] || 0}
 									onBlur={handleBlur}
@@ -286,9 +315,9 @@ function NewDailyDealModal({
 							onChange={handleChange}
 							error={!!touched.title && !!errors.title}
 						/>
-						<TextField
+						<TextArea
 							containerClassName="m-auto lg:flex-col lg:items-start"
-							className="my-2 border text-center"
+							className="my-2 border text-center m-auto lg:flex-col lg:items-start"
 							autoComplete="off"
 							type="text"
 							name="description"
@@ -307,7 +336,7 @@ function NewDailyDealModal({
 							name="startTime"
 							label="start time"
 							placeholder=""
-							value={values.startTime}
+							value={values.startTime as unknown as string}
 							onBlur={handleBlur}
 							onChange={handleChange}
 							error={!!touched.startTime && !!errors.startTime}
@@ -320,14 +349,14 @@ function NewDailyDealModal({
 							name="endTime"
 							label="end time"
 							placeholder=""
-							value={values.endTime}
+							value={values.endTime as unknown as string}
 							onBlur={handleBlur}
 							onChange={handleChange}
 							error={!!touched.endTime && !!errors.endTime}
 						/>
 						<Button
 							loading={loadingButton}
-							className="place-self-center mt-2"
+							className="place-self-center mt-2 p-2"
 							type="submit"
 							onClick={(e) => {
 								e.preventDefault();
@@ -351,5 +380,5 @@ export default NewDailyDealModal;
 
 const styles = {
 	responsive:
-		'min-w-full min-h-screen sm:!rounded-none md:min-w-min md:min-h-min md:!rounded px-12 py-8 lg:ml-[200px]',
+		'min-w-full min-h-screen sm:!rounded-none md:min-w-min md:min-h-min md:!rounded px-0 py-8 lg:ml-[200px]',
 };

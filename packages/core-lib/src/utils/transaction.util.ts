@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {
+	type ProductVariantWithDetails,
+	type DailyDealWithProductDetails,
+	type DailyDealCreateWithSkus,
 	type OrderCreateType,
 	type OrderStatus,
 	type OrderWithShopDetails,
@@ -7,6 +10,7 @@ import {
 	type OrderCreateMinimalFields,
 	type ProductVariant,
 } from '@cd/data-access';
+import IntegrationService from '../../lib/point-of-sale';
 import { getTravelDistanceFromCoordinates } from './geo.util';
 
 const orderStatusList: OrderStatus[] = [
@@ -42,12 +46,14 @@ const checkOrderIsCompleteOrCanceled = (order: OrderWithShopDetails) =>
  * @param discount a flat number representing percentage off
  * @returns
  */
-function calcSalePrice(price: number, discount: number) {
+function calcSalePrice(price: number, isDiscount: boolean, discount: number) {
 	const _discountPercentage = discount / 100;
 	const _price = price;
-	return _price === discount * price
-		? _price
-		: _price - price * _discountPercentage;
+	return isDiscount
+		? _price === discount * price
+			? _price
+			: _price - price * _discountPercentage
+		: price;
 }
 
 /**
@@ -247,6 +253,86 @@ function multiplyAllItemsForOrder(items: ProductVariant[], numOrders: number) {
 	});
 }
 
+async function getDailyDealProductsAndCalculateTotal(
+	deal: DailyDealCreateWithSkus,
+) {
+	if (
+		!deal.products.length ||
+		deal.products.length === 0 ||
+		!deal.products[0].sku
+	) {
+		throw new Error('No products were provided');
+	}
+
+	if (!deal.organization) {
+		throw new Error('No organization was provided');
+	}
+
+	const { products: skus } = deal;
+	const posIntegration = await IntegrationService.getPOSIntegrationService(
+		deal.organization.pos,
+	);
+
+	const products = (await Promise.all(
+		skus.map(async ({ sku }) => {
+			return await posIntegration.getProduct(sku);
+		}),
+	)) as ProductVariantWithDetails[];
+
+	const subtotal = calculateSubtotal(products);
+	const deliveryFee = calculateDeliveryFee(subtotal);
+
+	const dealWithProducts: DailyDealWithProductDetails = {
+		...deal,
+		products,
+		total: calculateTransactionTotal({
+			subtotal,
+			deliveryFee,
+			mileageFee: 0, // mileage fee is calculated after the order is placed. The dispensary pays for this fee for daily deals.
+		}),
+		isExpired: false,
+	};
+
+	return dealWithProducts;
+}
+
+function calculateSubtotal(products: ProductVariantWithDetails[]) {
+	return products.reduce((sum, item) => {
+		const { basePrice, salePrice, discount, isDiscount, quantity } = item;
+		return (
+			sum +
+			calculateProductSaleAtQuantity({
+				basePrice,
+				salePrice,
+				isDiscount,
+				discount,
+				quantity,
+			})
+		);
+	}, 0);
+}
+
+// discount is a flat number representing percentage off
+function calculateProductSaleAtQuantity({
+	basePrice,
+	discount = 0,
+	isDiscount = false,
+	salePrice,
+	quantity,
+}: {
+	basePrice: number;
+	discount?: number;
+	isDiscount?: boolean;
+	salePrice?: number;
+	quantity: number;
+}) {
+	let price = basePrice * quantity;
+	if (salePrice) {
+		price = salePrice * quantity;
+	}
+	return (price = isDiscount ? price * (discount / 100) : price);
+}
+
 export {
 	multiplyAllItemsForOrder,
 	isValidOrderRecord,
@@ -256,10 +342,13 @@ export {
 	getCurrencySymbol,
 	convertCentsToDollars,
 	convertDollarsToWholeNumber,
+	calculateSubtotal,
+	calculateProductSaleAtQuantity,
 	calculateTransactionFees,
 	calculatePlatformFee,
 	calculateDeliveryFee,
 	calculateMileageFee,
 	convertMetersToMiles,
 	calculateTransactionTotal,
+	getDailyDealProductsAndCalculateTotal,
 };

@@ -555,7 +555,7 @@ function getItemDiscountPrice(item: ProductVariantWithDetails) {
 		item.discount !== undefined
 	) {
 		discount = item.discount;
-		return calcSalePrice(item.basePrice, discount);
+		return calcSalePrice(item.basePrice, item.isDiscount, discount);
 	} else return item.basePrice;
 }
 
