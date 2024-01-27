@@ -4,9 +4,7 @@ import {
 	Center,
 	DropZone,
 	FlexBox,
-	H2,
 	H3,
-	H5,
 	Paragraph,
 	UploadImageBox,
 	useFormContext,
@@ -162,9 +160,10 @@ const VerifyPhotoId = () => {
 			}}
 		>
 			<Center className="m-auto w-3/4 space-y-4 md:pb-0">
-				<H3 id="verify-id-step-2">Please verify your ID</H3>
+				<H3 id="verify-id-step-2">21+ only. We'll need to see your ID</H3>
 				<Paragraph>
-					Submit a photo of the front and back of your state identification.
+					Submit a photo of the front and back of your state ID or driver's
+					license.
 				</Paragraph>
 				<div id="verify-id-step-3" className="h-[200px] w-[240px]">
 					{frontImage ? (
@@ -178,7 +177,8 @@ const VerifyPhotoId = () => {
 						</UploadImageBox>
 					) : (
 						<DropZone
-							title="Upload ID Front Image"
+							title="Upload ID Front Photo"
+							buttonText="Upload image"
 							maxFiles={1}
 							onChange={async (files: any) => {
 								const promiseFiles = files.map(async (file: any) => {
@@ -201,7 +201,6 @@ const VerifyPhotoId = () => {
 								const uploadFile: Image[] = await Promise.all(promiseFiles);
 								setFrontImage(uploadFile[0]);
 							}}
-							imageSize="Upload 600 * 600 image"
 						/>
 					)}
 				</div>
@@ -217,7 +216,8 @@ const VerifyPhotoId = () => {
 						</UploadImageBox>
 					) : (
 						<DropZone
-							title="Upload ID Back Image"
+							title="Upload ID Back Photo"
+							buttonText="Upload image"
 							maxFiles={1}
 							onChange={async (files: any) => {
 								const promiseFiles = files.map(async (file: any) => {
@@ -240,7 +240,6 @@ const VerifyPhotoId = () => {
 								const uploadFile: Image[] = await Promise.all(promiseFiles);
 								setBackImage(uploadFile[0]);
 							}}
-							imageSize="Upload 600 * 600 image"
 						/>
 					)}
 				</div>
