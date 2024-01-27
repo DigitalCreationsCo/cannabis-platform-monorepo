@@ -65,7 +65,7 @@
 		"pull": "dotenv -e ../../.env.development -- npx prisma db pull",
 		"seed": "npx prisma generate && dotenv -e ../../.env.development -- yarn prisma db seed",
 		"seed-production": "npx prisma generate && dotenv -e ../../.env.production -- yarn prisma db seed",
-		"reseed": "yarn clear-db && yarn seed",
+		"reseed": "yarn clear-tables && yarn prisma generate && yarn push && yarn seed",
 		"baseline": "dotenv -e ../../.env.production -- sh scripts/create-baseline.sh",
 		"migrate-dev": "sh scripts/migrate-dev.sh",
 		"migrate-diff-dev": "dotenv -e ../../.env.development -- sh scripts/migrate-diff.sh",
