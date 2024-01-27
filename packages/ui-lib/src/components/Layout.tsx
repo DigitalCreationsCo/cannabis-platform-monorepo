@@ -61,7 +61,7 @@ function Layout({
 	useEffect(() => {
 		const lockScroll = (e: Event) => {
 			if (isModalVisible) {
-				e.preventDefault();
+				// e.preventDefault();
 				e.stopPropagation();
 				e.stopImmediatePropagation();
 				return false;

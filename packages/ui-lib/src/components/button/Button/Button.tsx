@@ -2,6 +2,7 @@ import React, { type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 import Center from '../../Center';
 import LoadingDots from '../../LoadingDots';
+import { Paragraph } from '../../Typography';
 
 export interface ButtonProps
 	extends PropsWithChildren<React.HTMLAttributes<HTMLButtonElement>> {
@@ -108,7 +109,9 @@ export default function Button({
 		border: [
 			border ? 'border-' + (borderColor || hover) : 'border-transparent',
 		],
+		text: ['font-semibold'],
 	};
+
 	return (
 		<button
 			type={type}
@@ -125,6 +128,16 @@ export default function Button({
 				<Center>
 					<LoadingDots />
 				</Center>
+			) : typeof children?.valueOf() === 'string' ? (
+				<Paragraph
+					className={twMerge(
+						size === 'lg' ? 'text-xl' : '',
+						'font-medium',
+						'text-inherit',
+					)}
+				>
+					{children}
+				</Paragraph>
 			) : (
 				children
 			)}

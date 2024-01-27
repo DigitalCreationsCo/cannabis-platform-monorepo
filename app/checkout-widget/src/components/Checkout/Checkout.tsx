@@ -307,11 +307,9 @@ export default class Checkout extends Component<
 							{this.state.isLoading === true ? (
 								<LoadingDots />
 							) : (
-								(this.state.cartError && (
-									<Paragraph color="light" className="mx-auto w-2/3">
-										{this.state.cartError}
-									</Paragraph>
-								)) ||
+								// <Paragraph color="light" className="mx-auto w-2/3">
+								this.state.cartError ||
+								// {/* </Paragraph> */}
 								'Checkout'
 							)}
 						</Button>
