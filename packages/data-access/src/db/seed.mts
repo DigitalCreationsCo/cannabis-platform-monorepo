@@ -1,6 +1,8 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { error } from 'console';
+import { type } from 'os';
+import { features } from 'process';
 import {
 	PrismaClient,
 	type Address,
@@ -19,6 +21,7 @@ import {
 	type Vendor,
 } from '@prisma/client';
 import axios from 'axios';
+import { any } from 'jest-mock-extended';
 import { type OrganizationCreateType } from '../organization.types.js';
 import { type ReviewWithUserDetails } from '../product.data.js';
 
@@ -267,47 +270,6 @@ async function createOrganizations() {
 						],
 					},
 				},
-				products: {
-					create: {
-						name: 'King OG',
-						description: 'turpentines all day baby',
-						features: 'fresh, without formaline',
-						tags: 'mini, flower, og',
-						rating: 4.5,
-						variants: {
-							create: {
-								id: '1',
-								name: 'King OG',
-								unit: 'g',
-								size: 3.5,
-								currency: 'USD',
-								basePrice: 6999,
-								discount: 10,
-								stock: 5,
-								organizationId: 'bf346k4u7x2b2hhr6wvgippp',
-								rating: 4.5,
-								organizationName: 'Curaleaf',
-								quantity: 3,
-								isDiscount: true,
-								salePrice: 6499,
-								sku: 1234567,
-								images: {
-									create: {
-										id: '2',
-										location:
-											'https://storage.googleapis.com/e4f53ea0212ea91d-image-dispensary/flower/bugs.png',
-										createdAt: new Date(),
-										updatedAt: new Date(),
-									},
-								},
-								createdAt: new Date(),
-								updatedAt: new Date(),
-							},
-						},
-						createdAt: new Date(),
-						updatedAt: new Date(),
-					},
-				},
 				orders: {
 					create: {
 						subtotal: 12000,
@@ -519,45 +481,6 @@ async function createOrganizations() {
 						],
 					},
 				},
-				products: {
-					create: {
-						name: 'King OG',
-						description: 'turpentines all day baby',
-						features: 'fresh, without formaline',
-						tags: 'mini, flower, og',
-						rating: 4.5,
-						variants: {
-							create: {
-								name: 'King OG',
-								unit: 'g',
-								size: 3.5,
-								currency: 'USD',
-								basePrice: 6999,
-								discount: 10,
-								stock: 5,
-								organizationId: 'bf346k4u7x2b2hhr6wsofppp',
-								rating: 4.5,
-								organizationName: 'Golden Nugget Dispensary',
-								quantity: 3,
-								isDiscount: true,
-								salePrice: 6499,
-								sku: 1234567,
-								images: {
-									create: {
-										location:
-											'https://storage.googleapis.com/e4f53ea0212ea91d-image-dispensary/flower/bugs.png',
-										createdAt: new Date(),
-										updatedAt: new Date(),
-									},
-								},
-								createdAt: new Date(),
-								updatedAt: new Date(),
-							},
-						},
-						createdAt: new Date(),
-						updatedAt: new Date(),
-					},
-				},
 				orders: {
 					create: {
 						subtotal: 12000,
@@ -733,46 +656,6 @@ async function createOrganizations() {
 							updatedAt: new Date(),
 						},
 					],
-				},
-				products: {
-					create: {
-						name: 'Eagle cbd oil',
-						description: 'Satisfying Liquid Goochy',
-						features: 'fresh, relaxing',
-						tags: 'cbd, og',
-						rating: 2.5,
-						variants: {
-							create: {
-								name: 'Eagle cbd oil',
-								unit: 'g',
-								size: 3.5,
-								currency: 'USD',
-								basePrice: 6999,
-								discount: 5,
-								stock: 5,
-								organizationId: 'bf346k4u7x2b2hhr6wvgdddp',
-								quantity: 3,
-								rating: 4.5,
-								isDiscount: true,
-								salePrice: 6499,
-								organizationName: 'Curaleaf',
-								sku: 1234567,
-								images: {
-									create: {
-										id: '1',
-										location:
-											'https://storage.googleapis.com/e4f53ea0212ea91d-image-dispensary/flower/bugs.png',
-										createdAt: new Date(),
-										updatedAt: new Date(),
-									},
-								},
-								createdAt: new Date(),
-								updatedAt: new Date(),
-							},
-						},
-						createdAt: new Date(),
-						updatedAt: new Date(),
-					},
 				},
 				orders: {
 					create: {
@@ -959,17 +842,6 @@ async function createOrganizations() {
 							updatedAt: new Date(),
 						},
 					],
-				},
-				products: {
-					create: {
-						name: 'Razmatazz',
-						description: 'sweet and sour',
-						features: 'fresh, relaxing',
-						tags: 'flower, og',
-						rating: 4.0,
-						createdAt: new Date(),
-						updatedAt: new Date(),
-					},
 				},
 				orders: {
 					create: {
@@ -2024,13 +1896,13 @@ async function createVariants() {
 			discount: 10,
 			stock: 5,
 			productId: '1',
-			organizationId: '2',
+			organizationId: 'bf346k4u7x2b2hhr6wvgippp',
 			rating: 4.5,
-			organizationName: 'Curaleaf',
+			organizationName: 'Curaleaf MD Reisterstown',
 			quantity: 3,
 			isDiscount: true,
 			salePrice: 6499,
-			sku: 1234567,
+			sku: '1234567',
 			createdAt: new Date(),
 			updatedAt: new Date(),
 		},
@@ -2045,12 +1917,12 @@ async function createVariants() {
 			rating: 4.5,
 			stock: 9,
 			productId: '1',
-			organizationId: '2',
-			organizationName: 'Curaleaf',
+			organizationId: 'bf346k4u7x2b2hhr6wvgippp',
+			organizationName: 'Curaleaf MD Reisterstown',
 			quantity: 3,
 			isDiscount: true,
 			salePrice: 6499,
-			sku: 1234567,
+			sku: '1234567',
 			createdAt: new Date(),
 			updatedAt: new Date(),
 		},
@@ -2064,13 +1936,13 @@ async function createVariants() {
 			discount: 5,
 			stock: 5,
 			productId: '2',
-			organizationId: '2',
+			organizationId: 'bf346k4u7x2b2hhr6wvgippp',
 			rating: 4.5,
-			organizationName: 'Curaleaf',
+			organizationName: 'Curaleaf MD Reisterstown',
 			quantity: 3,
 			isDiscount: true,
 			salePrice: 6499,
-			sku: 1234567,
+			sku: '1234567',
 			createdAt: new Date(),
 			updatedAt: new Date(),
 		},
@@ -2084,13 +1956,13 @@ async function createVariants() {
 			discount: 5,
 			stock: 5,
 			productId: '3',
-			organizationId: '2',
-			organizationName: 'Curaleaf',
+			organizationId: 'bf346k4u7x2b2hhr6wvgippp',
+			organizationName: 'Curaleaf MD Reisterstown',
 			quantity: 3,
 			isDiscount: true,
 			rating: 4.5,
 			salePrice: 6499,
-			sku: 1234567,
+			sku: '1234567',
 			createdAt: new Date(),
 			updatedAt: new Date(),
 		},
@@ -2105,12 +1977,12 @@ async function createVariants() {
 			rating: 4.5,
 			stock: 5,
 			productId: '4',
-			organizationId: '2',
-			organizationName: 'Curaleaf',
+			organizationId: 'bf346k4u7x2b2hhr6wvgippp',
+			organizationName: 'Curaleaf MD Reisterstown',
 			quantity: 3,
 			isDiscount: true,
 			salePrice: 6499,
-			sku: 1234567,
+			sku: '1234567',
 			createdAt: new Date(),
 			updatedAt: new Date(),
 		},
@@ -2124,13 +1996,13 @@ async function createVariants() {
 			discount: 5,
 			stock: 5,
 			productId: '5',
-			organizationId: '2',
+			organizationId: 'bf346k4u7x2b2hhr6wvgippp',
 			quantity: 3,
 			rating: 4.5,
 			isDiscount: true,
 			salePrice: 6499,
-			organizationName: 'Curaleaf',
-			sku: 1234567,
+			organizationName: 'Curaleaf MD Reisterstown',
+			sku: '1234567',
 			createdAt: new Date(),
 			updatedAt: new Date(),
 		},
@@ -2145,12 +2017,12 @@ async function createVariants() {
 			discount: 5,
 			stock: 5,
 			productId: '6',
-			organizationId: '2',
-			organizationName: 'Curaleaf',
+			organizationId: 'bf346k4u7x2b2hhr6wvgippp',
+			organizationName: 'Curaleaf MD Reisterstown',
 			quantity: 3,
 			isDiscount: true,
 			salePrice: 6499,
-			sku: 1234567,
+			sku: '1234567',
 			createdAt: new Date(),
 			updatedAt: new Date(),
 		},
@@ -2165,12 +2037,12 @@ async function createVariants() {
 			stock: 5,
 			rating: 4.5,
 			productId: '7',
-			organizationId: '2',
-			organizationName: 'Curaleaf',
+			organizationId: 'bf346k4u7x2b2hhr6wvgippp',
+			organizationName: 'Curaleaf MD Reisterstown',
 			quantity: 3,
 			isDiscount: true,
 			salePrice: 6499,
-			sku: 1234567,
+			sku: '1234567',
 			createdAt: new Date(),
 			updatedAt: new Date(),
 		},
@@ -2182,7 +2054,7 @@ async function createVariants() {
 	});
 	console.info('create prisma.productVariant records');
 }
-const createProducts = async () => {
+const createProductsAndVariants = async () => {
 	// PRODUCT
 	const products: Prisma.ProductCreateInput[] = [
 		{
@@ -2204,30 +2076,9 @@ const createProducts = async () => {
 					comment: 'Great thing!',
 					user: {
 						connect: {
-							id: 'bf346k4u7xq030hr6wvgiwao',
+							id: 'bfhk6k4u7xq030hr6wvgiwao',
 						},
 					},
-					createdAt: new Date(),
-					updatedAt: new Date(),
-				},
-			},
-			variants: {
-				create: {
-					id: '1',
-					name: 'King OG',
-					unit: 'g',
-					size: 3.5,
-					currency: 'USD',
-					basePrice: 6999,
-					discount: 10,
-					stock: 5,
-					organizationId: 'bf346k4u7x2b2hhr6wvgippp',
-					rating: 4.5,
-					organizationName: 'Curaleaf',
-					quantity: 3,
-					isDiscount: true,
-					salePrice: 6499,
-					sku: 1234567,
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				},
@@ -2258,12 +2109,12 @@ const createProducts = async () => {
 					discount: 5,
 					stock: 5,
 					organizationId: 'bf346k4u7x2b2hhr6wvgippp',
+					organizationName: 'Curaleaf MD Reisterstown',
 					rating: 4.5,
-					organizationName: 'Curaleaf',
 					quantity: 3,
 					isDiscount: true,
 					salePrice: 6499,
-					sku: 1234567,
+					sku: '1234567',
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				},
@@ -2294,12 +2145,12 @@ const createProducts = async () => {
 					discount: 5,
 					stock: 5,
 					organizationId: 'bf346k4u7x2b2hhr6wvgippp',
-					organizationName: 'Curaleaf',
+					organizationName: 'Curaleaf MD Reisterstown',
 					quantity: 3,
 					isDiscount: true,
 					rating: 4.5,
 					salePrice: 6499,
-					sku: 1234567,
+					sku: '1234567',
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				},
@@ -2331,11 +2182,11 @@ const createProducts = async () => {
 					rating: 4.5,
 					stock: 5,
 					organizationId: 'bf346k4u7x2b2hhr6wvgippp',
-					organizationName: 'Curaleaf',
+					organizationName: 'Curaleaf MD Reisterstown',
 					quantity: 3,
 					isDiscount: true,
 					salePrice: 6499,
-					sku: 1234567,
+					sku: '1234567',
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				},
@@ -2351,7 +2202,7 @@ const createProducts = async () => {
 			tags: 'cbd, og',
 			organization: {
 				connect: {
-					id: 'bf346k4u7x2b2hhr6wvgdddp',
+					id: 'bf346k4u7x2b2hhr6wsofcsc',
 				},
 			},
 			rating: 2.5,
@@ -2365,13 +2216,13 @@ const createProducts = async () => {
 					basePrice: 6999,
 					discount: 5,
 					stock: 5,
-					organizationId: 'bf346k4u7x2b2hhr6wvgdddp',
+					organizationId: 'bf346k4u7x2b2hhr6wsofcsc',
 					quantity: 3,
 					rating: 4.5,
 					isDiscount: true,
 					salePrice: 6499,
-					organizationName: 'Curaleaf',
-					sku: 1234567,
+					organizationName: 'ReLeaf Shop Baltimore',
+					sku: '1234567',
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				},
@@ -2403,11 +2254,11 @@ const createProducts = async () => {
 					discount: 5,
 					stock: 5,
 					organizationId: 'bf346k4u7x2b2hhr6wvgdddp',
-					organizationName: 'Curaleaf',
+					organizationName: 'SunnySide',
 					quantity: 3,
 					isDiscount: true,
 					salePrice: 6499,
-					sku: 1234567,
+					sku: '1234567',
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				},
@@ -2439,11 +2290,11 @@ const createProducts = async () => {
 					stock: 5,
 					rating: 4.5,
 					organizationId: 'bf346k4u7x2b2hhr6wvgdddp',
-					organizationName: 'Curaleaf',
+					organizationName: 'SunnySide',
 					quantity: 3,
 					isDiscount: true,
 					salePrice: 6499,
-					sku: 1234567,
+					sku: '1234567',
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				},
@@ -2459,7 +2310,7 @@ const createProducts = async () => {
 			tags: 'cbd, og',
 			organization: {
 				connect: {
-					id: 'bf346k4u7x2b2hhr6wvgaaap',
+					id: 'bf346k4u7x2b2hhr6wvgdddp',
 				},
 			},
 			rating: 2.5,
@@ -2782,15 +2633,15 @@ const createReviews = async () => {
 			rating: 5,
 			comment: 'Great thing!',
 			productId: '1',
-			userId: 'bf346k4u7xq030hr6wvgiwao',
+			userId: 'bfhk6k4u7xq030hr6wvgiwao',
 			createdAt: new Date(),
 			updatedAt: new Date(),
 			user: {
-				id: 'bf346k4u7xq030hr6wvgiwao',
+				id: 'bfhk6k4u7xq030hr6wvgiwao',
 				username: 'Sammy223',
 				profilePicture: {
 					id: '2',
-					userId: 'bf346k4u7xq030hr6wvgiwao',
+					userId: 'bfhk6k4u7xq030hr6wvgiwao',
 					location:
 						'https://www.baltimoremagazine.com/wp-content/uploads/2019/12/baltimore-oriole-s52-11-018-l-0.jpg',
 					blurhash: 'dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH',
@@ -2848,7 +2699,6 @@ async function main() {
 
 		// await createOrders(); // appended to organization seed
 
-		// await createProducts(); // appended to organization seed
 		// await createVariants(); // appended to product seed
 		// await createReviews(); // appended to product seed
 
@@ -2859,7 +2709,12 @@ async function main() {
 		await createArticles();
 		// await createArticleImages(); // appended to article seed
 
-		await createMemberships();
+		setTimeout(async () => {
+			console.info('waiting 30 seconds for records to be created');
+			await createMemberships();
+
+			await createProductsAndVariants();
+		}, 30000);
 	} catch (e) {
 		throw new Error(e);
 	}
