@@ -7,6 +7,7 @@ import {
 	type ProductWithDashboardDetails,
 	type UserDispensaryStaff,
 	type UserWithProfilePicture,
+	type DailyDeal,
 } from '@cd/data-access';
 import { createId } from '@paralleldrive/cuid2';
 import { calculateDeliveryDeadline } from './utils';
@@ -694,7 +695,7 @@ const orders: OrderWithFullDetails[] = [
 	},
 ];
 
-const dailyDeals: DailyDealCreateWithSkus[] = [
+const dailyDealsCreate: DailyDealCreateWithSkus[] = [
 	{
 		title: 'Fire deals happening now',
 		description:
@@ -716,6 +717,42 @@ const dailyDeals: DailyDealCreateWithSkus[] = [
 	},
 ];
 
+const dailyDeals: DailyDeal[] = [
+	{
+		id: '1',
+		title: 'You dont want to miss this!',
+		description: "You dont want to miss this! Order before we're sold out!",
+		isExpired: false,
+		organizationId: 'bf346k4u7x2b2hhr6wsofppp',
+		startTime: new Date(),
+		// set date for tomorrow
+		endTime: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
+		// products: [
+		// 	{
+		// 		name: 'Product 1',
+		// 		id: '1',
+		// 		sku: 1234567,
+		// 		organizationId: '1234',
+		// 		organizationName: 'Golden Nugget Dispensary',
+		// 		productId: '123',
+		// 		rating: 4.3,
+		// 		unit: 'g',
+		// 		size: 7,
+		// 		quantity: 1,
+		// 		basePrice: 3599,
+		// 		discount: 3,
+		// 		isDiscount: true,
+		// 		salePrice: 3499,
+		// 		currency: 'USD',
+		// 		stock: 100,
+		// 		createdAt: new Date(),
+		// 		updatedAt: new Date(),
+		// 	},
+		// ],
+		total: 19799,
+	},
+];
+
 export {
 	userDispensaryStaff,
 	notAdminUser,
@@ -723,5 +760,6 @@ export {
 	products,
 	orders,
 	variants,
+	dailyDealsCreate,
 	dailyDeals,
 };

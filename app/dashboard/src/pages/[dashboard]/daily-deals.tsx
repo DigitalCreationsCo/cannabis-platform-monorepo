@@ -24,8 +24,8 @@ import {
 	type LayoutContextProps,
 } from '@cd/ui-lib';
 import { connect } from 'react-redux';
-import { twMerge } from 'tailwind-merge';
 import { wrapper } from 'store';
+import { twMerge } from 'tailwind-merge';
 
 interface DashboardProps {
 	organization: OrganizationWithDashboardDetails;
@@ -145,36 +145,3 @@ export const getServerSideProps = wrapper.getServerSideProps(
 );
 
 export default connect(mapStateToProps)(DailyDealsPage);
-
-// const dailyDeals: DailyDeal[] = [
-// 	{
-// 		title: 'You dont want to miss this!',
-// 		dealId: '123',
-// 		startTime: new Date(),
-// 		// set date for tomorrow
-// 		endTime: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
-// 		products: [
-// 			{
-// 				name: 'Product 1',
-// 				id: '1',
-// 				sku: 1234567,
-// 				organizationId: '1234',
-// 				organizationName: 'Golden Nugget Dispensary',
-// 				productId: '123',
-// 				rating: 4.3,
-// 				unit: 'g',
-// 				size: 7,
-// 				quantity: 1,
-// 				basePrice: 3599,
-// 				discount: 3,
-// 				isDiscount: true,
-// 				salePrice: 3499,
-// 				currency: 'USD',
-// 				stock: 100,
-// 				createdAt: new Date(),
-// 				updatedAt: new Date(),
-// 			},
-// 		],
-// 		subtotal: 19799,
-// 	},
-// ];
