@@ -56,7 +56,7 @@ export async function createDailyDeal(
 				endTime: new Date(deal.endTime),
 				organizationId: deal.organizationId,
 				products: {
-					create: [...deal.products],
+					connect: [...deal.products.map((p) => ({ id: p.id }))],
 				},
 			},
 			// include: {
