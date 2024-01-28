@@ -1,5 +1,6 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import {
+	type DailyDealCreateWithSkus,
 	type ProductVariant,
 	type OrderWithFullDetails,
 	type OrganizationWithDashboardDetails,
@@ -693,6 +694,28 @@ const orders: OrderWithFullDetails[] = [
 	},
 ];
 
+const dailyDeals: DailyDealCreateWithSkus[] = [
+	{
+		title: 'Fire deals happening now',
+		description:
+			"Warm up with these FIRE DEALS!! We're selling out fast! Get yours now!!",
+		startTime: new Date(),
+		// end time is 24 hours from now
+		endTime: new Date(Date.now() + 24 * 60 * 60 * 1000),
+		organizationId: 'bf346k4u7x2b2hhr6wsofppp',
+		organization,
+		products: variants.map(
+			({ sku, quantity, isDiscount, discount, organizationId }) => ({
+				sku,
+				quantity,
+				isDiscount,
+				discount,
+				organizationId,
+			}),
+		),
+	},
+];
+
 export {
 	userDispensaryStaff,
 	notAdminUser,
@@ -700,4 +723,5 @@ export {
 	products,
 	orders,
 	variants,
+	dailyDeals,
 };

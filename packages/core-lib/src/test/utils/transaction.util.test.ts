@@ -424,12 +424,21 @@ describe('calculateProductSaleAtQuantity', () => {
 	test(' returns the expected value', () => {
 		expect(
 			calculateProductSaleAtQuantity({
-				basePrice: 2000,
-				isDiscount: true,
+				basePrice: 6999,
 				discount: 10,
-				quantity: 2,
+				quantity: 3,
+				isDiscount: true,
+				salePrice: 0,
 			}),
-		).toStrictEqual(3600);
+		).toStrictEqual(18897),
+			expect(
+				calculateProductSaleAtQuantity({
+					basePrice: 2000,
+					isDiscount: true,
+					discount: 10,
+					quantity: 2,
+				}),
+			).toStrictEqual(3600);
 		expect(
 			calculateProductSaleAtQuantity({
 				basePrice: 1000,

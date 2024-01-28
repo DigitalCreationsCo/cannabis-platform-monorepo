@@ -356,7 +356,7 @@ function calculateProductSaleAtQuantity({
 	if (salePrice && salePrice > 0 && isDiscount) {
 		price = salePrice * quantity;
 	}
-	return isDiscount ? price - price * (discount / 100) : price;
+	return isDiscount ? price - Math.round(price * (discount / 100)) : price;
 }
 
 export {

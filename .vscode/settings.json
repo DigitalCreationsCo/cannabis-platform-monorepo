@@ -5,7 +5,7 @@
 			"fileMatch": ["**/tsup.config.json"]
 		}
 	],
-	"editor.snippetSuggestions": "top",
+	// "editor.snippetSuggestions": "top",
 	// "editor.formatOnSave": true,
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
 	"editor.codeActionsOnSave": {
