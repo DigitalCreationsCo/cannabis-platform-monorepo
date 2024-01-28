@@ -1,6 +1,6 @@
 /* eslint-disable sonarjs/no-duplicate-string */
-import { calculateDeliveryDeadline } from '@cd/core-lib';
 import {
+	type ProductVariant,
 	type OrderWithFullDetails,
 	type OrganizationWithDashboardDetails,
 	type ProductWithDashboardDetails,
@@ -8,8 +8,9 @@ import {
 	type UserWithProfilePicture,
 } from '@cd/data-access';
 import { createId } from '@paralleldrive/cuid2';
+import { calculateDeliveryDeadline } from './utils';
 
-const UserDispensaryStaff: UserDispensaryStaff = {
+const userDispensaryStaff: UserDispensaryStaff = {
 	id: 'bf346k4u7xq030hr6wvgiwao',
 	firstName: 'Doug',
 	lastName: 'Doogie',
@@ -377,6 +378,89 @@ const products: ProductWithDashboardDetails[] = [
 	},
 ];
 
+const variants: ProductVariant[] = [
+	{
+		id: '1',
+		name: 'King OG',
+		unit: 'g',
+		size: 3.5,
+		currency: 'USD',
+		basePrice: 6999,
+		discount: 10,
+		stock: 5,
+		productId: '1',
+		organizationId: 'bf346k4u7x2b2hhr6wsofppp',
+		rating: 4.5,
+		organizationName: 'Golden Nugget Dispensary',
+		quantity: 3,
+		isDiscount: true,
+		salePrice: 6499,
+		sku: '123',
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+	{
+		id: '2',
+		name: 'King OG',
+		unit: 'g',
+		size: 9,
+		currency: 'USD',
+		basePrice: 17999,
+		discount: 5,
+		rating: 4.5,
+		stock: 9,
+		productId: '1',
+		organizationId: 'bf346k4u7x2b2hhr6wsofppp',
+		organizationName: 'Golden Nugget Dispensary',
+		quantity: 3,
+		isDiscount: true,
+		salePrice: 6499,
+		sku: '234',
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+	{
+		id: '3',
+		name: 'Blackberry Kush',
+		unit: 'g',
+		size: 3.5,
+		currency: 'USD',
+		basePrice: 6999,
+		discount: 5,
+		stock: 5,
+		productId: '2',
+		organizationId: 'bf346k4u7x2b2hhr6wvgippp',
+		rating: 4.5,
+		organizationName: 'Curaleaf MD Reisterstown',
+		quantity: 3,
+		isDiscount: true,
+		salePrice: 6499,
+		sku: '1234567',
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+	{
+		id: '4',
+		name: 'Blackberry Nuggs',
+		unit: 'g',
+		size: 3.5,
+		currency: 'USD',
+		basePrice: 6999,
+		discount: 5,
+		stock: 5,
+		productId: '3',
+		organizationId: 'bf346k4u7x2b2hhr6wvgippp',
+		organizationName: 'Curaleaf MD Reisterstown',
+		quantity: 3,
+		isDiscount: true,
+		rating: 4.5,
+		salePrice: 6499,
+		sku: '1234567',
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+];
+
 const orders: OrderWithFullDetails[] = [
 	{
 		id: '1',
@@ -473,6 +557,37 @@ const orders: OrderWithFullDetails[] = [
 			createdAt: new Date(),
 			updatedAt: new Date(),
 			isSubscribedForWeedText: true,
+			profilePicture: {
+				location: '',
+				id: '1',
+				blurhash: '',
+				createdAt: new Date(),
+				updatedAt: new Date(),
+				userId: 'bf346k4u7x2b2hhr6wvgiwao',
+			},
+			address: [
+				{
+					id: '12345',
+					street1: '123 Harbor St',
+					street2: 'Suite 200',
+					city: 'Baltimore',
+					state: 'MD',
+					zipcode: 21230,
+					country: 'United_States',
+					countryCode: 'US',
+					coordinateId: '1',
+					createdAt: new Date(),
+					updatedAt: new Date(),
+					coordinates: {
+						id: '1',
+						latitude: 33,
+						longitude: 81,
+						radius: 1000000,
+						createdAt: new Date(),
+						updatedAt: new Date(),
+					},
+				},
+			],
 		},
 		driver: {
 			id: 'bf346k4u7x2b2hhr6wvgiwao',
@@ -578,4 +693,11 @@ const orders: OrderWithFullDetails[] = [
 	},
 ];
 
-export { UserDispensaryStaff, notAdminUser, organization, products, orders };
+export {
+	userDispensaryStaff,
+	notAdminUser,
+	organization,
+	products,
+	orders,
+	variants,
+};

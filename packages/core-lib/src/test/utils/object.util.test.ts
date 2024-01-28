@@ -1,30 +1,30 @@
-import { getProperty, isArray, isEmpty } from '../../src/utils/object.util';
+import { getProperty, isArray, isEmpty } from '../..';
 
 describe('isEmpty', () => {
 	test('return existing object property', () => {
 		expect(getProperty({ id: '1' }, 'id')).toStrictEqual('1');
-	})
+	});
 	test('return null if property does not exist', () => {
 		expect(getProperty({ id: '1' }, 'name')).toStrictEqual(null);
-	})
+	});
 	test('return null if object is null', () => {
 		expect(getProperty(null, 'name')).toStrictEqual(null);
-	})
+	});
 	test('return null if object is undefined', () => {
 		expect(getProperty(undefined, 'name')).toStrictEqual(null);
-	})
+	});
 	test('return null if object is 0', () => {
 		expect(getProperty(0, 'name')).toStrictEqual(null);
-	})
+	});
 	test('return null if object is boolean', () => {
 		expect(getProperty(true, 'name')).toStrictEqual(null);
-	})
+	});
 	test('return null if object is empty string', () => {
 		expect(getProperty('', 'name')).toStrictEqual(null);
-	})
-})
+	});
+});
 
-	describe('isEmpty', () => {
+describe('isEmpty', () => {
 	test('empty array returns true', () => {
 		expect(isEmpty([])).toStrictEqual(true);
 	});

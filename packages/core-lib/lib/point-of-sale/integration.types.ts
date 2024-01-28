@@ -5,7 +5,9 @@ import {
 
 export interface POSIntegration {
 	// s2sIntegration: Inventory;
-	getOrder: (orderId: string) => Promise<OrderWithDispatchDetails | undefined>;
+	getOrder: (
+		orderId: string,
+	) => Promise<OrderWithDispatchDetails['order'] | undefined>;
 	getProduct: (sku: string) => Promise<ProductVariantWithDetails | undefined>;
 	processPickupOrder: (
 		order: OrderWithDispatchDetails['order'],

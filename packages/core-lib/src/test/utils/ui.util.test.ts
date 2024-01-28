@@ -4,8 +4,8 @@ import {
 	getDigitToWord,
 	renderAddress,
 	renderNestedDataObject,
-	renderSchedule
-} from '../../src/utils/ui.util';
+	renderSchedule,
+} from '../..';
 
 const address: Address = {
 	id: '1',
@@ -62,7 +62,7 @@ describe('renderSchedule', () => {
 		{ day: 'Friday', openAt: 800, closeAt: 2000 },
 		{ day: 'Saturday', openAt: 800, closeAt: 1600 },
 		{ day: 'Sunday', openAt: 800, closeAt: 1600 },
-	] as Schedule[]
+	] as Schedule[];
 	test(' displays a correct address', () => {
 		expect(renderSchedule(schedule)).toStrictEqual(
 			`Monday 8:00am to 8:00pm
@@ -203,14 +203,13 @@ describe('renderNestedDataObject ', () => {
 	});
 });
 
-
 describe('getDigitToWord', () => {
 	it('gets correct word from a digit', () => {
-		expect(getDigitToWord('1')).toStrictEqual('one')
-		expect(getDigitToWord('2')).toStrictEqual('two')
-		expect(getDigitToWord('9')).toStrictEqual('nine')
-		expect(getDigitToWord(1)).toStrictEqual('one')
-		expect(getDigitToWord(2)).toStrictEqual('two')
-		expect(getDigitToWord(9)).toStrictEqual('nine')
-	})
-})
+		expect(getDigitToWord('1')).toStrictEqual('one');
+		expect(getDigitToWord('2')).toStrictEqual('two');
+		expect(getDigitToWord('9')).toStrictEqual('nine');
+		expect(getDigitToWord(1)).toStrictEqual('one');
+		expect(getDigitToWord(2)).toStrictEqual('two');
+		expect(getDigitToWord(9)).toStrictEqual('nine');
+	});
+});

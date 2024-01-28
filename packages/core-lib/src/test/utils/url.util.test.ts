@@ -5,7 +5,7 @@ import {
 	getShopSite,
 	parseUrlFriendlyStringToObject,
 	parseUrlParameters,
-} from '../../src/utils/url.util';
+} from '../..';
 
 describe('formatUrl.test', () => {
 	const environments: {

@@ -1,10 +1,12 @@
-import { axios, formatToTimeZone, TimeZoneMap } from '@cd/core-lib';
 import {
 	type OrderWithFullDetails,
 	type USStateAbbreviated,
 	type OrderWithDispatchDetails,
 	type Package,
+	type ProductVariantWithDetails,
 } from '@cd/data-access';
+import { axios, formatToTimeZone, TimeZoneMap } from '../../src';
+import { variants } from '../../src/dummyData';
 import { type POSIntegration } from './integration.types';
 
 const MetrcIntegration: POSIntegration = class {
@@ -21,7 +23,17 @@ const MetrcIntegration: POSIntegration = class {
 		}
 	}
 
-	static async processPickupOrder(order: OrderWithFullDetails) {
+	static async getProduct(sku: string) {
+		return (await variants.find(
+			(product) => product.sku === sku,
+		)) as ProductVariantWithDetails;
+	}
+
+	static async getOrder(orderId: string) {
+		return (await {}) as OrderWithDispatchDetails['order'] | undefined;
+	}
+
+	static async processPickupOrder(order: OrderWithDispatchDetails['order']) {
 		try {
 			// if (!order.organization.metrcLicenseNumber)
 			// 	throw new Error('Organization does not have a Metrc license number');

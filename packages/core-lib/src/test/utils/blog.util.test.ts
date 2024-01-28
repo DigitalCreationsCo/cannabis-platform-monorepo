@@ -1,5 +1,5 @@
 import { ArticleTag, ArticleWithDetails } from '@cd/data-access';
-import { saveArticlesByTag } from '../../src/reducer/blog.reducer';
+import { saveArticlesByTag } from '../..';
 
 describe('saveArticlesByTag ', () => {
 	test(' correct save articles to state using tag property, with no duplicate articles', () => {

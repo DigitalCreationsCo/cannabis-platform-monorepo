@@ -1,4 +1,4 @@
-import { calcSalePrice, convertCentsToDollars } from '@cd/core-lib';
+import { calculateSalePrice, convertCentsToDollars } from '@cd/core-lib';
 import { twMerge } from 'tailwind-merge';
 import { Paragraph } from './Typography';
 
@@ -6,6 +6,7 @@ type PriceProps = {
 	basePrice: number;
 	salePrice?: number;
 	discount?: number;
+	isDiscount?: boolean;
 	quantity?: number;
 	className?: string;
 	locale?: string; // country
@@ -20,6 +21,7 @@ function Price({
 	salePrice,
 	discount = 0,
 	quantity = 1,
+	isDiscount = false,
 	className,
 	showDiscount = false,
 	showOriginalPrice = false,
@@ -39,7 +41,9 @@ function Price({
 		const _discount = discount;
 
 		if (salePrice) _salePrice = salePrice * quantity;
-		else _salePrice = calcSalePrice(basePrice, _discount) * quantity;
+		else
+			_salePrice =
+				calculateSalePrice(basePrice, isDiscount, _discount) * quantity;
 
 		return _salePrice;
 	}

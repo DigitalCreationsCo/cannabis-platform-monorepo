@@ -1,8 +1,4 @@
-import {
-	formatToTimeZone,
-	integerToTime,
-	showTime,
-} from '../../src/utils/time.util';
+import { formatToTimeZone, integerToTime, showTime } from '../..';
 
 describe('showTime', () => {
 	const time = new Date('2020-01-01T12:00:00');

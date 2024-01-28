@@ -1,5 +1,5 @@
 import { UserWithDetails } from '@cd/data-access';
-import { hasMembershipRoleAccess, isLegalAgeAndVerified } from '../../src/utils/user.util';
+import { hasMembershipRoleAccess, isLegalAgeAndVerified } from '../..';
 describe('User Utils Tests', () => {
 	const userWithMemberRole = {
 		firstName: 'Doug',
@@ -94,34 +94,35 @@ describe('User isLegalAgeAndVerified', () => {
 		isLegalAge: true,
 		idVerified: true,
 	} as UserWithDetails;
-	
+
 	const userIsNotLegalAndVerified = {
 		firstName: 'Doug',
 		isLegalAge: false,
 		idVerified: true,
 	} as UserWithDetails;
-	
+
 	const userIsNotLegalAndNotIdVerified = {
 		firstName: 'Doug',
 		isLegalAge: false,
 		idVerified: false,
 	} as UserWithDetails;
-	
+
 	it('userIsLegalAndVerified returns true', async () => {
-		expect(isLegalAgeAndVerified(userIsLegalAndVerified)).toStrictEqual(
-			{isLegal: true, verified: true}
-		);
+		expect(isLegalAgeAndVerified(userIsLegalAndVerified)).toStrictEqual({
+			isLegal: true,
+			verified: true,
+		});
 	});
-	
+
 	it('userIsNotLegalAndVerified returns false', async () => {
 		expect(isLegalAgeAndVerified(userIsNotLegalAndVerified)).toStrictEqual(
-			false
+			false,
 		);
 	});
-	
+
 	it('userIsNotLegalAndNotIdVerified returns false', async () => {
 		expect(isLegalAgeAndVerified(userIsNotLegalAndNotIdVerified)).toStrictEqual(
-			false
+			false,
 		);
 	});
 });

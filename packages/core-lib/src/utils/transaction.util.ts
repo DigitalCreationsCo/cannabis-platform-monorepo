@@ -13,6 +13,27 @@ import {
 import IntegrationService from '../../lib/point-of-sale';
 import { getTravelDistanceFromCoordinates } from './geo.util';
 
+/** 
+ * orderStatusList,
+	isValidOrderRecord,
+	checkOrderIsCompleteOrCanceled,
+	calculateSalePrice,
+	getCurrencySymbol,
+	convertCentsToDollars,
+	convertDollarsToWholeNumber,
+	calculateTransactionFees,
+	calculateTransactionTotal,
+	calculateDeliveryFeeFromSubtotal,
+	convertMetersToMiles,
+	calculateMileageFee,
+	calculatePlatformFee,
+	buildOrderRecord,
+	multiplyAllItemsForOrder,
+	getDailyDealProductsAndCalculateTotal,
+	calculateSubtotal,
+	calculateProductSaleAtQuantity,
+*/
+
 const orderStatusList: OrderStatus[] = [
 	'Pending',
 	'Processing',
@@ -46,7 +67,11 @@ const checkOrderIsCompleteOrCanceled = (order: OrderWithShopDetails) =>
  * @param discount a flat number representing percentage off
  * @returns
  */
-function calcSalePrice(price: number, isDiscount: boolean, discount: number) {
+function calculateSalePrice(
+	price: number,
+	isDiscount: boolean,
+	discount: number,
+) {
 	const _discountPercentage = discount / 100;
 	const _price = price;
 	return isDiscount
@@ -103,7 +128,7 @@ function calculateTransactionFees(
 	} else {
 		const { subtotal, distance } = order;
 
-		const deliveryFee = calculateDeliveryFee(subtotal);
+		const deliveryFee = calculateDeliveryFeeFromSubtotal(subtotal);
 		const mileageFee = calculateMileageFee(distance);
 		const platformFee = calculatePlatformFee(subtotal);
 
@@ -139,7 +164,7 @@ function calculateTransactionTotal({
  * @param subtotal
  * @returns number
  */
-function calculateDeliveryFee(subtotal: number) {
+function calculateDeliveryFeeFromSubtotal(subtotal: number) {
 	return Math.round(subtotal * Number(process.env.NEXT_PUBLIC_DELIVERY_FEE));
 }
 
@@ -175,7 +200,7 @@ function calculatePlatformFee(subtotal: number) {
 	return Math.round(subtotal * Number(process.env.NEXT_PUBLIC_PLATFORM_FEE!));
 }
 
-export async function buildOrderRecord({
+async function buildOrderRecord({
 	type = 'delivery',
 	organization,
 	customer,
@@ -204,7 +229,7 @@ export async function buildOrderRecord({
 
 		mileageFee = mileageFee ?? calculateMileageFee(distance);
 		platformFee = platformFee ?? calculatePlatformFee(subtotal);
-		deliveryFee = deliveryFee ?? calculateDeliveryFee(subtotal);
+		deliveryFee = deliveryFee ?? calculateDeliveryFeeFromSubtotal(subtotal);
 
 		total =
 			total ?? calculateTransactionTotal({ subtotal, deliveryFee, mileageFee });
@@ -273,6 +298,7 @@ async function getDailyDealProductsAndCalculateTotal(
 		deal.organization.pos,
 	);
 
+	// fetch products from integrated point of sale
 	const products = (await Promise.all(
 		skus.map(async ({ sku }) => {
 			return await posIntegration.getProduct(sku);
@@ -280,7 +306,7 @@ async function getDailyDealProductsAndCalculateTotal(
 	)) as ProductVariantWithDetails[];
 
 	const subtotal = calculateSubtotal(products);
-	const deliveryFee = calculateDeliveryFee(subtotal);
+	const deliveryFee = calculateDeliveryFeeFromSubtotal(subtotal);
 
 	const dealWithProducts: DailyDealWithProductDetails = {
 		...deal,
@@ -317,7 +343,7 @@ function calculateProductSaleAtQuantity({
 	basePrice,
 	discount = 0,
 	isDiscount = false,
-	salePrice,
+	salePrice = 0,
 	quantity,
 }: {
 	basePrice: number;
@@ -327,28 +353,29 @@ function calculateProductSaleAtQuantity({
 	quantity: number;
 }) {
 	let price = basePrice * quantity;
-	if (salePrice) {
+	if (salePrice && salePrice > 0 && isDiscount) {
 		price = salePrice * quantity;
 	}
-	return (price = isDiscount ? price * (discount / 100) : price);
+	return isDiscount ? price - price * (discount / 100) : price;
 }
 
 export {
-	multiplyAllItemsForOrder,
-	isValidOrderRecord,
 	orderStatusList,
+	isValidOrderRecord,
 	checkOrderIsCompleteOrCanceled,
-	calcSalePrice,
+	calculateSalePrice,
 	getCurrencySymbol,
 	convertCentsToDollars,
 	convertDollarsToWholeNumber,
+	calculateTransactionFees,
+	calculateTransactionTotal,
+	calculateDeliveryFeeFromSubtotal,
+	convertMetersToMiles,
+	calculateMileageFee,
+	calculatePlatformFee,
+	buildOrderRecord,
+	multiplyAllItemsForOrder,
+	getDailyDealProductsAndCalculateTotal,
 	calculateSubtotal,
 	calculateProductSaleAtQuantity,
-	calculateTransactionFees,
-	calculatePlatformFee,
-	calculateDeliveryFee,
-	calculateMileageFee,
-	convertMetersToMiles,
-	calculateTransactionTotal,
-	getDailyDealProductsAndCalculateTotal,
 };
