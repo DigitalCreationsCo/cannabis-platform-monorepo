@@ -34,7 +34,10 @@ function Settings({
 					<Button className="p-2">Site Settings</Button>
 				</Link>
 				<Link
-					className="tab pl-0"
+					className={twMerge(
+						'tab pl-0',
+						FeatureConfig.checkout_widget.enabled ? '' : 'hidden',
+					)}
 					href={TextContent.href.setup_widget_f(organization.id)}
 				>
 					<Button className="p-2">Widget Setup</Button>

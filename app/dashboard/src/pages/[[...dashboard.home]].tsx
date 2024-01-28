@@ -12,7 +12,6 @@ import {
 	H1,
 	H3,
 	Page,
-	Paragraph,
 	SignInButton,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
