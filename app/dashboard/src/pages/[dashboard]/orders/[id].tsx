@@ -3,7 +3,7 @@
 // @ts-nocheck
 
 import {
-	calcSalePrice,
+	calculateSalePrice,
 	getDashboardSite,
 	renderAddress,
 	TextContent,
@@ -145,7 +145,7 @@ export default function OrderDetails({
 		variant: ProductVariantWithDetails,
 		quantity: number,
 	) => {
-		const salePrice = calcSalePrice(variant.basePrice, variant.discount);
+		const salePrice = calculateSalePrice(variant.basePrice, variant.discount);
 
 		const addItem: any = {
 			discount: variant.discount,
@@ -292,6 +292,7 @@ export default function OrderDetails({
 								basePrice={item.basePrice}
 								discount={item.discount}
 								salePrice={item.salePrice}
+								isDiscount={item.isDiscount}
 							/>
 
 							{/* {orderStatus === 'Pending' ? (

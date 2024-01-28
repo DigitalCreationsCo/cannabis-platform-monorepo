@@ -1,4 +1,3 @@
-
 describe('checkIsDispensaryOpen', () => {
 	const now = new Date(),
 		open = new Date(),

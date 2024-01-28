@@ -1,5 +1,5 @@
 import { type OrderWithDispatchDetails } from '@cd/data-access';
-import { dummyProductVariants } from './dummyProductVariants';
+import { variants } from '../../src/dummyData';
 import { type POSIntegration } from './integration.types';
 
 const WeedmapsPOS: POSIntegration = class {
@@ -9,11 +9,11 @@ const WeedmapsPOS: POSIntegration = class {
 	}
 
 	static async getProduct(sku: string) {
-		return await dummyProductVariants.find((product) => product.sku === sku);
+		return await variants.find((product) => product.sku === sku);
 	}
 
 	static async getOrder(orderId: string) {
-		return (await {}) as OrderWithDispatchDetails;
+		return (await {}) as OrderWithDispatchDetails['order'];
 	}
 
 	static async processPickupOrder(order: OrderWithDispatchDetails['order']) {

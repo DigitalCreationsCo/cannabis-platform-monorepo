@@ -114,7 +114,7 @@ export type OrderWithShopDetails = Order & {
 
 export type OrderWithFullDetails = Order & {
 	items: ProductVariantWithDetails[];
-	customer: User;
+	customer: UserWithDetails;
 	organization: OrganizationWithDashboardDetails;
 	driver: DriverWithDetails | null;
 	route: RouteWithCoordinates;

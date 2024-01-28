@@ -1,4 +1,4 @@
-import TextContent from '../../src/constants/text.constant';
+import { TextContent } from '../..';
 
 describe('Text Content tests', () => {
 	it('TextContent is read only', async () => {

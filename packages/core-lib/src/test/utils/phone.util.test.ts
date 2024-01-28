@@ -1,4 +1,4 @@
-import { getPhoneWithoutDialCode } from '../../src/utils/phone.util';
+import { getPhoneWithoutDialCode } from '../..';
 
 describe('PhoneUtil', () => {
 	it('split area code from phone number', () => {
