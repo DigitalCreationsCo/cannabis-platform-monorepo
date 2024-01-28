@@ -9,6 +9,19 @@ export const showTime = (date: Date | string) =>
 		hour12: true,
 	});
 
+export const showDay = (date: Date | string) => {
+	// if the day is today, return 'today'
+	const today = new Date();
+	if (new Date(date).getDate() === today.getDate()) return 'today';
+	// if the day is tomorrow, return 'tomorrow'
+	const tomorrow = new Date(today);
+	tomorrow.setDate(today.getDate() + 1);
+	if (new Date(date).getDate() === tomorrow.getDate()) return 'tomorrow';
+	// return new Date(date).toLocaleDateString('en-US', {
+	// 	weekday: 'long',
+	// });
+	return new Date(date).toDateString();
+};
 export function calculateDeliveryDeadline(): Date {
 	const hourSeconds = 60 * 60 * 1000;
 	const deliveryGuaranteeHours = Number(process.env.NEXT_PUBLIC_DELIVERY_TIME);

@@ -121,6 +121,7 @@ function NewDailyDealModal({
 			toast.success('Saved.');
 			setLoadingButton(false);
 			closeModalAndReset();
+			window.location.reload();
 		} catch (error: any) {
 			console.error(error);
 			setLoadingButton(false);

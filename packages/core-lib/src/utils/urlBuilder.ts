@@ -119,10 +119,10 @@ const urlBuilder = {
 	sms: {
 		baseUrl: smsUrl + '/api/v1',
 		dailyDealById: (id: string) =>
-			urlBuilder.sms.baseUrl + `/sms/daily-deal/${id}`,
+			urlBuilder.sms.baseUrl + `/sms/daily-deals/${id}`,
 		dailyDealsByOrganization: (id: string) =>
 			urlBuilder.sms.baseUrl + `/sms/daily-deals/organization/${id}`,
-		dailyDeal: () => urlBuilder.sms.baseUrl + `/sms/daily-deal`,
+		dailyDeal: () => urlBuilder.sms.baseUrl + `/sms/daily-deals`,
 		dailyDealSmsResponse: () =>
 			urlBuilder.sms.baseUrl + `/sms/daily-deal-sms-response`,
 	},

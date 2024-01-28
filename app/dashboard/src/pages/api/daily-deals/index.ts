@@ -19,9 +19,8 @@ const cache = new NodeCache({ stdTTL: 30 });
 const handler = nc();
 handler.get(async (req: any, res: any) => {
 	try {
-		const jwt = await createAnonymousJWT({});
-		req.headers['authorization'] = `Bearer ${jwt}`;
-		console.info('jwt: ', jwt);
+		// req.headers['authorization'] = `Bearer ${jwt}`;
+		// console.info('jwt: ', jwt);
 
 		await NextCors(req, res, {
 			methods: ['GET'],
