@@ -8,7 +8,7 @@ const redisDailyDeals = createClient({
 	password: process.env.REDIS_DAILY_DEALS_PASSWORD,
 });
 redisDailyDeals.on('connect', () => {
-	console.info('redisDispatchRooms connected');
+	console.info('redisDailyDeals connected');
 });
 redisDailyDeals.on('error', (err) => {
 	throw new Error(err.message);
