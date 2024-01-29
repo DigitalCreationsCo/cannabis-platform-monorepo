@@ -59,7 +59,8 @@ function StartPage() {
 									> */}
 					<H3 className="text-xl md:text-2xl lg:text-4xl">
 						{/* {TextContent.info.ENJOY_BUD_WITH_YOUR_BUDS} */}
-						So You Can Enjoy Bud With Your Buds
+						{/* So You Can Enjoy Bud With Your Buds */}
+						Enjoy Bud With Your Buds
 					</H3>
 					{/* </Button> */}
 				</div>
@@ -159,7 +160,7 @@ const ImageBackDrop = ({
 
 const HowItWorks = () => {
 	return (
-		<div className="text-xl pt-4 pb-6">
+		<div className="text-xl pt-2 pb-4 lg:pb-6">
 			<FlexBox className="w-full md:w-full lg:px-20 md:flex-row justify-center gap-8 lg:gap-12 pb-6 mx-auto text-xl">
 				<FlexBox className="md:max-w-[300px] xl:max-w-[240px] 2xl:max-w-[320px] flex-row md:flex-col items-center gap-4 text-center">
 					<IconWrapper
