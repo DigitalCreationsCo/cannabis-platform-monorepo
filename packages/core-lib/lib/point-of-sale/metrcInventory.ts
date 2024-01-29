@@ -4,6 +4,7 @@ import {
 	type OrderWithDispatchDetails,
 	type Package,
 	type ProductVariantWithDetails,
+	type UserWithDetails,
 } from '@cd/data-access';
 import { axios, formatToTimeZone, TimeZoneMap } from '../../src';
 import { variants } from '../../src/dummyData';
@@ -21,6 +22,10 @@ const MetrcIntegration: POSIntegration = class {
 			default:
 				throw new Error('Operating state not supported');
 		}
+	}
+
+	static async getCustomerByPhone(phone: string) {
+		return (await {}) as UserWithDetails;
 	}
 
 	static async getProduct(sku: string) {

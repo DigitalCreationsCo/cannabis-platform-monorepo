@@ -27,7 +27,9 @@ export default class DailyDealScheduler {
 
 	static async runSendDailyDealsTask() {
 		try {
-			const taskStartTime = '0 0 10 * *';
+			// run this task at 955am every day
+			const taskStartTime = '0 55 9 * * *';
+
 			// run the first batch of messages
 			// if there are more messages to send, schedule the next batch at the next stagger time
 			// continue until messages are sent to all customer segments
@@ -41,7 +43,11 @@ export default class DailyDealScheduler {
 				// schedule a chron job to send the daily deal to DailyStory SMS api, targeting the appropriate customer segment
 				// save the daily deal to redis
 				// 1. get orgs that are subscribed for daily deals
-				//
+
+				dailyDeals.forEach(async (deal) => {
+					deal.
+					await sendDailyDealViaWeedText();
+				});
 				// send each deal to a customer segment in dailystory
 				// dynamically divide segments based on the number of deals.
 				// 1. get the number of deals
@@ -66,6 +72,16 @@ export default class DailyDealScheduler {
 	}
 }
 
+async function sendDailyDealViaWeedText(recipients: string[], deal: any) {
+	try {
+		// send transactional sms to each recipient, ideally send to an entire segment in a batch message - review ds api docs
+		SMS.send();
+	} catch (error: any) {
+		console.error('sendDailyDealViaWeedText: ', error);
+		throw new Error(error.message);
+	}
+}
+
 async function updateDailyDealsCache() {
 	try {
 		await expireDailyDeals();
@@ -83,16 +99,6 @@ async function updateDailyDealsCache() {
 			}
 		});
 	} catch (error) {
-		throw new Error(error.message);
-	}
-}
-
-async function sendDailyDealToWeedText(recipients: string[], deal: any) {
-	try {
-		// send transactional sms to each recipient, ideally send to an entire segment in a batch message - review ds api docs
-		SMS.send();
-	} catch (error: any) {
-		console.error('sendDailyDealToWeedText: ', error);
 		throw new Error(error.message);
 	}
 }

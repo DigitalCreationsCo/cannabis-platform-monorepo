@@ -1,4 +1,4 @@
-import { type OrderWithDispatchDetails } from '@cd/data-access';
+import { UserWithDetails, type OrderWithDispatchDetails } from '@cd/data-access';
 import { variants } from '../../src/dummyData';
 import { type POSIntegration } from './integration.types';
 
@@ -14,6 +14,10 @@ const BlazePOS: POSIntegration = class {
 
 	static async getOrder(orderId: string) {
 		return (await {}) as OrderWithDispatchDetails['order'];
+	}
+
+	static async getCustomerByPhone(phone: string) {
+		return (await {}) as UserWithDetails;
 	}
 
 	static async processPickupOrder(order: OrderWithDispatchDetails['order']) {
