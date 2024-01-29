@@ -96,7 +96,6 @@ function NewDailyDealModal({
 	function notifyValidation() {
 		validateForm().then((errors) => {
 			if (errors && Object.values(errors).length > 0) {
-				console.info('validation errors: ', errors);
 				toast.error(
 					errors.description! ||
 						errors.title! ||

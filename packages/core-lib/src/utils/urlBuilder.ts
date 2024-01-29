@@ -126,6 +126,11 @@ const urlBuilder = {
 		dailyDealSmsResponse: () =>
 			urlBuilder.sms.baseUrl + `/sms/daily-deal-sms-response`,
 	},
+
+	dailyStory: {
+		baseUrl: process.env.NEXT_PUBLIC_DAILYSTORY_API_URL + '/api/v1',
+		createContact: () => urlBuilder.dailyStory.baseUrl + '/contact',
+	},
 };
 
 export { urlBuilder };

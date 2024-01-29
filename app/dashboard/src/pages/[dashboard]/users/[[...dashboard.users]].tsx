@@ -53,7 +53,7 @@ function Users({ users }: UsersDashboardProps) {
 	};
 
 	return (
-		<Page>
+		<Page className="lg:min-h-[710px]">
 			<PageHeader
 				title="Users"
 				Icon={Icons.User2}

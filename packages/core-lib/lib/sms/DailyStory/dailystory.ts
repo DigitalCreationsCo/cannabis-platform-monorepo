@@ -20,7 +20,7 @@ class SMSModule {
 			const from = getIncomingPhoneNumberForMessageEvent(event);
 			const to = `+1${phoneTo}`;
 			await axios.post(
-				process.env.DAILYSTORY_API_URL as string,
+				process.env.NEXT_PUBLIC_DAILYSTORY_API_URL as string,
 				{
 					body: data,
 					from,
