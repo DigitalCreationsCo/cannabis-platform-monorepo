@@ -41,3 +41,9 @@ class DailyStoryApi {
 
 const dailyStoryApi = new DailyStoryApi();
 export { dailyStoryApi };
+
+export type DailyStoryData = {
+	Status: boolean;
+	Message: string;
+	Response: { id: string };
+};
