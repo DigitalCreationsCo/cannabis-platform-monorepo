@@ -448,18 +448,18 @@ async function createOrganizations() {
 				termsAccepted: false,
 				address: {
 					create: {
-						street1: '111 NewTown Rd',
+						street1: '636 6th Ave',
 						street2: '',
-						city: 'Baltimore',
-						state: 'MD',
-						zipcode: 21226,
+						city: 'New York',
+						state: 'NY',
+						zipcode: 10001,
 						country: 'United_States',
 						countryCode: 'US',
 						coordinates: {
 							create: {
 								radius: 10000,
-								latitude: 39.445438,
-								longitude: -76.809394,
+								latitude: 40.740851,
+								longitude: -73.994265,
 								createdAt: new Date(),
 								updatedAt: new Date(),
 							},

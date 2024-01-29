@@ -128,8 +128,10 @@ const urlBuilder = {
 	},
 
 	dailyStory: {
-		baseUrl: process.env.NEXT_PUBLIC_DAILYSTORY_API_URL + '/api/v1',
-		createContact: () => urlBuilder.dailyStory.baseUrl + '/contact',
+		baseUrl: process.env.NEXT_PUBLIC_DAILYSTORY_API_URL,
+		createContact: () => `${urlBuilder.dailyStory.baseUrl}/api/v1/contact/`,
+		addTagsToContact: (id: string) =>
+			urlBuilder.dailyStory.baseUrl + `/api/v2/contact/${id}/tags`,
 	},
 };
 

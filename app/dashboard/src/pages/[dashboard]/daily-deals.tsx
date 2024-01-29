@@ -1,17 +1,20 @@
 /* eslint-disable sonarjs/no-duplicated-branches */
 import {
-	applicationHeaders,
 	axios,
 	modalActions,
 	modalTypes,
+	selectDispensaryState,
 	showDay,
 	showTime,
 	urlBuilder,
 	useAppDispatch,
+	useAppSelector,
 	type AppState,
 	type ResponseDataEnvelope,
 } from '@cd/core-lib';
+import { type DailyStoryData } from '@cd/core-lib/lib/DailyStory.api';
 import {
+	type USStateAbbreviated,
 	type DailyDeal,
 	type OrderWithFullDetails,
 	type OrganizationWithDashboardDetails,
@@ -29,6 +32,7 @@ import {
 	TextField,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
+import { type AxiosResponse } from 'axios';
 import { backendConfig } from 'config/backendConfig';
 import { useFormik } from 'formik';
 import NodeCache from 'node-cache';
@@ -63,7 +67,7 @@ function DailyDealsPage(props: DashboardProps) {
 		);
 	}
 	const DailyDeals = () => (
-		<>
+		<div className="my-4 flex grow">
 			<Grid className="flex grow flex-col md:flex-row gap-2 flex-wrap">
 				{dailyDeals?.length ? (
 					dailyDeals.map((deal, index) => (
@@ -93,14 +97,14 @@ function DailyDealsPage(props: DashboardProps) {
 			</Grid>
 			<div>
 				<Button
-					className="md:hidden my-4 px-4 bg-inverse active:bg-accent-soft place-self-end self-end justify-self-end"
+					className="md:hidden mt-2 px-4 bg-inverse active:bg-accent-soft place-self-end self-end justify-self-end"
 					hover="accent-soft"
 					onClick={openNewDailyDealModal}
 				>
 					new Daily Deal
 				</Button>
 			</div>
-		</>
+		</div>
 	);
 
 	return (
@@ -128,17 +132,26 @@ function DailyDealsPage(props: DashboardProps) {
 }
 
 function SendDailyDealsInviteForm() {
+	const { dispensary } = useAppSelector(selectDispensaryState);
+	const { city, state, zipcode } = dispensary.address;
+
 	const [loadingButton, setLoadingButton] = useState(false);
 	const initialValues: {
 		firstName: string;
 		lastName: string;
 		phone: string;
 		email: string;
+		city?: string;
+		state?: USStateAbbreviated;
+		zipcode?: number;
 	} = {
 		firstName: '',
 		lastName: '',
 		phone: '',
 		email: '',
+		city,
+		state: state as USStateAbbreviated,
+		zipcode,
 	};
 	const {
 		resetForm,
@@ -171,22 +184,36 @@ function SendDailyDealsInviteForm() {
 	async function onSubmit() {
 		try {
 			setLoadingButton(true);
-			const response = await axios.post(
-				urlBuilder.dashboard + '/api/daily-deals/contact',
-				values,
+			const response = await axios.post<
+				ResponseDataEnvelope<DailyStoryData>,
+				AxiosResponse<ResponseDataEnvelope<DailyStoryData>>,
 				{
-					headers: { ...applicationHeaders },
-				},
-			);
+					email: string;
+					mobilePhone: string;
+					firstName: string;
+					lastName: string;
+					city?: string;
+					region?: string;
+					postalCode?: number;
+				}
+			>(urlBuilder.dashboard + '/api/daily-deals/contact', {
+				email: values.email,
+				mobilePhone: values.phone,
+				firstName: values.firstName,
+				lastName: values.lastName,
+				city: values.city,
+				region: values.state,
+				postalCode: values.zipcode,
+			});
 
 			if (!response.data.success || response.data.success === 'false')
 				throw new Error(response.data.error);
 
-			toast.success(`Sent invite link to ${values.firstName}`);
+			toast.success(`Sent invite link to ${values.firstName}!`);
 			setLoadingButton(false);
 			resetForm();
 		} catch (error: any) {
-			console.error(error);
+			console.error('send invite link: ', error);
 			setLoadingButton(false);
 			toast.error(error.message);
 		}
@@ -196,7 +223,7 @@ function SendDailyDealsInviteForm() {
 			<Paragraph>
 				{/* {`Send your customers an invite link to share with their friends. When their friends
 				place their first order, your customer will receive a $10 credit to their account.`} */}
-				Send a customer an invite link to Daily Deals
+				Invite a customer to Daily Deals
 			</Paragraph>
 			<Grid className="grid-cols-2 max-w-lg">
 				<TextField
@@ -242,6 +269,7 @@ function SendDailyDealsInviteForm() {
 				/>
 			</Grid>
 			<Button
+				type="submit"
 				loading={loadingButton}
 				onClick={(e) => {
 					e.preventDefault();
