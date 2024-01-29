@@ -99,7 +99,7 @@ function Dashboard({ user, organization, products, orders }: DashboardProps) {
 	}
 
 	return (
-		<Page className={twMerge('sm:px-4')}>
+		<Page className={twMerge('lg:min-h-[710px] sm:px-4')}>
 			<PageHeader
 				iconColor={'primary'}
 				title={`${organization.name}`}

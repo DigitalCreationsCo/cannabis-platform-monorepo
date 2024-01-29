@@ -1,5 +1,6 @@
 /* eslint-disable sonarjs/no-duplicated-branches */
 import {
+	applicationHeaders,
 	axios,
 	modalActions,
 	modalTypes,
@@ -25,15 +26,20 @@ import {
 	Page,
 	PageHeader,
 	Paragraph,
+	TextField,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
+import { backendConfig } from 'config/backendConfig';
+import { useFormik } from 'formik';
 import NodeCache from 'node-cache';
+import { useState } from 'react';
+import { toast } from 'react-hot-toast';
 import { connect } from 'react-redux';
 import { wrapper } from 'store';
 import Supertokens from 'supertokens-node';
 import Session from 'supertokens-node/recipe/session';
 import { twMerge } from 'tailwind-merge';
-import { backendConfig } from 'config/backendConfig';
+import * as yup from 'yup';
 
 interface DashboardProps {
 	organization: OrganizationWithDashboardDetails;
@@ -87,7 +93,7 @@ function DailyDealsPage(props: DashboardProps) {
 			</Grid>
 			<div>
 				<Button
-					className="md:hidden px-4 bg-inverse active:bg-accent-soft place-self-end self-end justify-self-end"
+					className="md:hidden my-4 px-4 bg-inverse active:bg-accent-soft place-self-end self-end justify-self-end"
 					hover="accent-soft"
 					onClick={openNewDailyDealModal}
 				>
@@ -98,15 +104,15 @@ function DailyDealsPage(props: DashboardProps) {
 	);
 
 	return (
-		<Page className={twMerge('sm:px-4 pb-4 md:pb-24')}>
+		<Page className={twMerge('lg:min-h-[710px] sm:px-4 pb-4 lg:pb-24')}>
 			<PageHeader
 				iconColor={'primary'}
 				title={`Daily Deals`}
-				subTitle={`Deals are sent daily via text message`}
+				subTitle={`Daily Deals are sent to customers text message`}
 				Icon={Icons.Mobile}
 			>
 				<Button
-					className="hidden md:block px-4 bg-inverse active:bg-accent-soft place-self-start"
+					className="hidden my-4 md:block px-4 bg-inverse active:bg-accent-soft place-self-start"
 					hover="accent-soft"
 					onClick={openNewDailyDealModal}
 				>
@@ -116,23 +122,137 @@ function DailyDealsPage(props: DashboardProps) {
 
 			<DailyDeals />
 			<hr />
-			<SendCustomerReferralLink />
+			<SendDailyDealsInviteForm />
 		</Page>
 	);
 }
 
-function SendCustomerReferralLink() {
+function SendDailyDealsInviteForm() {
+	const [loadingButton, setLoadingButton] = useState(false);
+	const initialValues: {
+		firstName: string;
+		lastName: string;
+		phone: string;
+		email: string;
+	} = {
+		firstName: '',
+		lastName: '',
+		phone: '',
+		email: '',
+	};
+	const {
+		resetForm,
+		values,
+		errors,
+		touched,
+		handleBlur,
+		handleChange,
+		handleSubmit,
+		validateForm,
+	} = useFormik({
+		initialValues,
+		onSubmit,
+		validationSchema: yup.object().shape({
+			firstName: yup.string().required('First name is required'),
+			lastName: yup.string().required('Last name is required'),
+			phone: yup.string().required('Phone number is required'),
+			email: yup.string().email().required('Email is required'),
+		}),
+	});
+	function notifyValidation() {
+		validateForm().then((errors) => {
+			if (errors && Object.values(errors).length > 0) {
+				toast.error(
+					Object.values(errors)[0].toString() || 'Error sending invite link',
+				);
+			}
+		});
+	}
+	async function onSubmit() {
+		try {
+			setLoadingButton(true);
+			const response = await axios.post(
+				urlBuilder.dashboard + '/api/daily-deals/contact',
+				values,
+				{
+					headers: { ...applicationHeaders },
+				},
+			);
+
+			if (!response.data.success || response.data.success === 'false')
+				throw new Error(response.data.error);
+
+			toast.success(`Sent invite link to ${values.firstName}`);
+			setLoadingButton(false);
+			resetForm();
+		} catch (error: any) {
+			console.error(error);
+			setLoadingButton(false);
+			toast.error(error.message);
+		}
+	}
 	return (
-		<div>
+		<div className="">
 			<Paragraph>
-				{`Send your customers a referral link to share with their friends. When their friends
-				place their first order, your customer will receive a $10 credit to their account.`}
+				{/* {`Send your customers an invite link to share with their friends. When their friends
+				place their first order, your customer will receive a $10 credit to their account.`} */}
+				Send a customer an invite link to Daily Deals
 			</Paragraph>
+			<Grid className="grid-cols-2 max-w-lg">
+				<TextField
+					containerClassName="px-2 col-span-1"
+					name="firstName"
+					label="* first name"
+					placeholder="first name"
+					value={values?.firstName}
+					onBlur={handleBlur}
+					onChange={handleChange}
+					error={!!touched.firstName && !!errors.firstName}
+					helperText={touched.firstName && errors.firstName}
+				/>
+				<TextField
+					containerClassName="px-2 col-span-1"
+					name="lastName"
+					label="* last name"
+					placeholder="last name"
+					value={values?.lastName}
+					onBlur={handleBlur}
+					onChange={handleChange}
+					error={!!touched.lastName && !!errors.lastName}
+				/>
+				<TextField
+					containerClassName="px-2 col-span-1"
+					name="phone"
+					label="* phone"
+					placeholder="phone"
+					value={values?.phone}
+					onBlur={handleBlur}
+					onChange={handleChange}
+					error={!!touched.phone && !!errors.phone}
+				/>
+				<TextField
+					containerClassName="px-2 col-span-1"
+					name="email"
+					label="* email"
+					placeholder="email"
+					value={values?.email}
+					onBlur={handleBlur}
+					onChange={handleChange}
+					error={!!touched.email && !!errors.email}
+				/>
+			</Grid>
 			<Button
-				className="px-4 bg-inverse active:bg-accent-soft"
+				loading={loadingButton}
+				onClick={(e) => {
+					e.preventDefault();
+					e.stopPropagation();
+					notifyValidation();
+					handleSubmit();
+				}}
+				className="mx-2 my-4 px-4 bg-inverse active:bg-accent-soft"
 				hover="accent-soft"
 			>
-				Send Referral Link
+				Send Invite Link
 			</Button>
 		</div>
 	);
@@ -154,7 +274,7 @@ function mapStateToProps(state: AppState) {
 }
 
 export const getServerSideProps = wrapper.getServerSideProps(
-	(store) =>
+	() =>
 		async ({ query, req, res }: any) => {
 			res.setHeader('Cache-Control', 'private, s-maxage=120');
 
@@ -204,20 +324,23 @@ export const getServerSideProps = wrapper.getServerSideProps(
 					// So we must send a "signal" to the frontend which will then call the
 					// refresh API and reload the page.
 
-					return { props: { fromSupertokens: 'needs-refresh' } };
+					// return { props: { fromSupertokens: 'needs-refresh' } };
+					return { props: { dailyDeals: [] } }; // this works offline
 					// or return {fromSupertokens: 'needs-refresh'} in case of getInitialProps
 				} else if (err.type === Session.Error.UNAUTHORISED) {
 					// in this case, there is no session, or it has been revoked on the backend.
 					// either way, sending this response will make the frontend try and refresh
 					// which will fail and redirect the user to the login screen.
-					return { props: { fromSupertokens: 'needs-refresh' } };
+
+					// return { props: { fromSupertokens: 'needs-refresh' } };
+					return { props: { dailyDeals: [] } }; // this works offline
 				}
 
 				throw err;
 
-				return {
-					notFound: true,
-				};
+				// return {
+				// 	notFound: true,
+				// };
 			}
 		},
 );
