@@ -1,9 +1,6 @@
 /* eslint-disable sonarjs/no-duplicate-string */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { error } from 'console';
-import { type } from 'os';
-import { features } from 'process';
 import {
+	type DailyDeal,
 	PrismaClient,
 	type Address,
 	type Category,
@@ -21,8 +18,11 @@ import {
 	type Vendor,
 } from '@prisma/client';
 import axios from 'axios';
-import { any } from 'jest-mock-extended';
-import { type OrganizationCreateType } from '../organization.types.js';
+import { type DailyDealCreateWithSkus } from 'sms.data.js';
+import {
+	type OrganizationWithOrderDetails,
+	type OrganizationCreateType,
+} from '../organization.types.js';
 import { type ReviewWithUserDetails } from '../product.data.js';
 
 const prisma = new PrismaClient();
@@ -969,7 +969,7 @@ async function createOrganizations() {
 		];
 
 		orgs.forEach(async (org) => {
-			const organization = await prisma.organization
+			await prisma.organization
 				.create({
 					data: org,
 				})
@@ -1346,7 +1346,7 @@ const createCategories = async () => {
 
 const createDrivers = async () => {
 	// DRIVERS
-	const driver = await prisma.driver.upsert({
+	await prisma.driver.upsert({
 		where: {
 			email: 'bmejiadeveloper2@gmail.com',
 		},
@@ -1883,177 +1883,177 @@ async function createMemberships() {
 	console.info('create prisma.membership records');
 }
 
+// PRODUCTVARIANT
+const variants: ProductVariant[] = [
+	{
+		id: '1',
+		name: 'King OG',
+		unit: 'g',
+		size: 3.5,
+		currency: 'USD',
+		basePrice: 6999,
+		discount: 10,
+		stock: 5,
+		productId: '1',
+		organizationId: 'bf346k4u7x2b2hhr6wvgippp',
+		rating: 4.5,
+		organizationName: 'Curaleaf MD Reisterstown',
+		quantity: 3,
+		isDiscount: true,
+		salePrice: 6499,
+		sku: '1234567',
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+	{
+		id: '2',
+		name: 'King OG',
+		unit: 'g',
+		size: 9,
+		currency: 'USD',
+		basePrice: 17999,
+		discount: 5,
+		rating: 4.5,
+		stock: 9,
+		productId: '1',
+		organizationId: 'bf346k4u7x2b2hhr6wvgippp',
+		organizationName: 'Curaleaf MD Reisterstown',
+		quantity: 3,
+		isDiscount: true,
+		salePrice: 6499,
+		sku: '1234567',
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+	{
+		id: '3',
+		name: 'Blackberry Kush',
+		unit: 'g',
+		size: 3.5,
+		currency: 'USD',
+		basePrice: 6999,
+		discount: 5,
+		stock: 5,
+		productId: '2',
+		organizationId: 'bf346k4u7x2b2hhr6wvgippp',
+		rating: 4.5,
+		organizationName: 'Curaleaf MD Reisterstown',
+		quantity: 3,
+		isDiscount: true,
+		salePrice: 6499,
+		sku: '1234567',
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+	{
+		id: '4',
+		name: 'Blackberry Nuggs',
+		unit: 'g',
+		size: 3.5,
+		currency: 'USD',
+		basePrice: 6999,
+		discount: 5,
+		stock: 5,
+		productId: '3',
+		organizationId: 'bf346k4u7x2b2hhr6wvgippp',
+		organizationName: 'Curaleaf MD Reisterstown',
+		quantity: 3,
+		isDiscount: true,
+		rating: 4.5,
+		salePrice: 6499,
+		sku: '1234567',
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+	{
+		id: '5',
+		name: 'Red Taffy Firetruck',
+		unit: 'g',
+		size: 3.5,
+		currency: 'USD',
+		basePrice: 6999,
+		discount: 5,
+		rating: 4.5,
+		stock: 5,
+		productId: '4',
+		organizationId: 'bf346k4u7x2b2hhr6wvgippp',
+		organizationName: 'Curaleaf MD Reisterstown',
+		quantity: 3,
+		isDiscount: true,
+		salePrice: 6499,
+		sku: '1234567',
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+	{
+		id: '6',
+		name: 'Eagle cbd oil',
+		unit: 'g',
+		size: 3.5,
+		currency: 'USD',
+		basePrice: 6999,
+		discount: 5,
+		stock: 5,
+		productId: '5',
+		organizationId: 'bf346k4u7x2b2hhr6wvgippp',
+		quantity: 3,
+		rating: 4.5,
+		isDiscount: true,
+		salePrice: 6499,
+		organizationName: 'Curaleaf MD Reisterstown',
+		sku: '1234567',
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+	{
+		id: '7',
+		name: 'Magic Mountain Bush',
+		unit: 'g',
+		size: 3.5,
+		currency: 'USD',
+		basePrice: 6999,
+		rating: 4.5,
+		discount: 5,
+		stock: 5,
+		productId: '6',
+		organizationId: 'bf346k4u7x2b2hhr6wvgippp',
+		organizationName: 'Curaleaf MD Reisterstown',
+		quantity: 3,
+		isDiscount: true,
+		salePrice: 6499,
+		sku: '1234567',
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+	{
+		id: '8',
+		name: 'Razmatazz',
+		unit: 'g',
+		size: 3.5,
+		currency: 'USD',
+		basePrice: 6999,
+		discount: 5,
+		stock: 5,
+		rating: 4.5,
+		productId: '7',
+		organizationId: 'bf346k4u7x2b2hhr6wvgippp',
+		organizationName: 'Curaleaf MD Reisterstown',
+		quantity: 3,
+		isDiscount: true,
+		salePrice: 6499,
+		sku: '1234567',
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+];
 async function createVariants() {
-	// PRODUCTVARIANT
-	const variants: ProductVariant[] = [
-		{
-			id: '1',
-			name: 'King OG',
-			unit: 'g',
-			size: 3.5,
-			currency: 'USD',
-			basePrice: 6999,
-			discount: 10,
-			stock: 5,
-			productId: '1',
-			organizationId: 'bf346k4u7x2b2hhr6wvgippp',
-			rating: 4.5,
-			organizationName: 'Curaleaf MD Reisterstown',
-			quantity: 3,
-			isDiscount: true,
-			salePrice: 6499,
-			sku: '1234567',
-			createdAt: new Date(),
-			updatedAt: new Date(),
-		},
-		{
-			id: '2',
-			name: 'King OG',
-			unit: 'g',
-			size: 9,
-			currency: 'USD',
-			basePrice: 17999,
-			discount: 5,
-			rating: 4.5,
-			stock: 9,
-			productId: '1',
-			organizationId: 'bf346k4u7x2b2hhr6wvgippp',
-			organizationName: 'Curaleaf MD Reisterstown',
-			quantity: 3,
-			isDiscount: true,
-			salePrice: 6499,
-			sku: '1234567',
-			createdAt: new Date(),
-			updatedAt: new Date(),
-		},
-		{
-			id: '3',
-			name: 'Blackberry Kush',
-			unit: 'g',
-			size: 3.5,
-			currency: 'USD',
-			basePrice: 6999,
-			discount: 5,
-			stock: 5,
-			productId: '2',
-			organizationId: 'bf346k4u7x2b2hhr6wvgippp',
-			rating: 4.5,
-			organizationName: 'Curaleaf MD Reisterstown',
-			quantity: 3,
-			isDiscount: true,
-			salePrice: 6499,
-			sku: '1234567',
-			createdAt: new Date(),
-			updatedAt: new Date(),
-		},
-		{
-			id: '4',
-			name: 'Blackberry Nuggs',
-			unit: 'g',
-			size: 3.5,
-			currency: 'USD',
-			basePrice: 6999,
-			discount: 5,
-			stock: 5,
-			productId: '3',
-			organizationId: 'bf346k4u7x2b2hhr6wvgippp',
-			organizationName: 'Curaleaf MD Reisterstown',
-			quantity: 3,
-			isDiscount: true,
-			rating: 4.5,
-			salePrice: 6499,
-			sku: '1234567',
-			createdAt: new Date(),
-			updatedAt: new Date(),
-		},
-		{
-			id: '5',
-			name: 'Red Taffy Firetruck',
-			unit: 'g',
-			size: 3.5,
-			currency: 'USD',
-			basePrice: 6999,
-			discount: 5,
-			rating: 4.5,
-			stock: 5,
-			productId: '4',
-			organizationId: 'bf346k4u7x2b2hhr6wvgippp',
-			organizationName: 'Curaleaf MD Reisterstown',
-			quantity: 3,
-			isDiscount: true,
-			salePrice: 6499,
-			sku: '1234567',
-			createdAt: new Date(),
-			updatedAt: new Date(),
-		},
-		{
-			id: '6',
-			name: 'Eagle cbd oil',
-			unit: 'g',
-			size: 3.5,
-			currency: 'USD',
-			basePrice: 6999,
-			discount: 5,
-			stock: 5,
-			productId: '5',
-			organizationId: 'bf346k4u7x2b2hhr6wvgippp',
-			quantity: 3,
-			rating: 4.5,
-			isDiscount: true,
-			salePrice: 6499,
-			organizationName: 'Curaleaf MD Reisterstown',
-			sku: '1234567',
-			createdAt: new Date(),
-			updatedAt: new Date(),
-		},
-		{
-			id: '7',
-			name: 'Magic Mountain Bush',
-			unit: 'g',
-			size: 3.5,
-			currency: 'USD',
-			basePrice: 6999,
-			rating: 4.5,
-			discount: 5,
-			stock: 5,
-			productId: '6',
-			organizationId: 'bf346k4u7x2b2hhr6wvgippp',
-			organizationName: 'Curaleaf MD Reisterstown',
-			quantity: 3,
-			isDiscount: true,
-			salePrice: 6499,
-			sku: '1234567',
-			createdAt: new Date(),
-			updatedAt: new Date(),
-		},
-		{
-			id: '8',
-			name: 'Razmatazz',
-			unit: 'g',
-			size: 3.5,
-			currency: 'USD',
-			basePrice: 6999,
-			discount: 5,
-			stock: 5,
-			rating: 4.5,
-			productId: '7',
-			organizationId: 'bf346k4u7x2b2hhr6wvgippp',
-			organizationName: 'Curaleaf MD Reisterstown',
-			quantity: 3,
-			isDiscount: true,
-			salePrice: 6499,
-			sku: '1234567',
-			createdAt: new Date(),
-			updatedAt: new Date(),
-		},
-	];
-
 	await prisma.productVariant.createMany({
 		data: variants,
 		skipDuplicates: true,
 	});
 	console.info('create prisma.productVariant records');
 }
+
 const createProductsAndVariants = async () => {
 	// PRODUCT
 	const products: Prisma.ProductCreateInput[] = [
@@ -2676,6 +2676,26 @@ const createReviews = async () => {
 	console.info('create prisma.review records');
 };
 
+async function createDailyDeals() {
+	const dailyDeals: DailyDeal[] = [
+		{
+			id: '1',
+			title: 'You dont want to miss this!',
+			description: "You dont want to miss this! Order before we're sold out!",
+			isExpired: false,
+			organizationId: 'bf346k4u7x2b2hhr6wsofppp',
+			startTime: new Date(),
+			// set date for tomorrow
+			endTime: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
+			total: 12000,
+		},
+	];
+
+	await prisma.dailyDeal.createMany({
+		data: dailyDeals,
+	});
+}
+
 async function main() {
 	try {
 		console.info(
@@ -2709,12 +2729,17 @@ async function main() {
 		await createArticles();
 		// await createArticleImages(); // appended to article seed
 
+		await createSchedules();
 		setTimeout(async () => {
 			console.info('waiting 30 seconds for records to be created');
 			await createMemberships();
 
 			await createProductsAndVariants();
-		}, 30000);
+			await createDailyDeals();
+		}, 10000);
+
+		createFeaturesBackend();
+		createFeaturesFrontend();
 	} catch (e) {
 		throw new Error(e);
 	}

@@ -45,7 +45,6 @@ export default class DailyDealScheduler {
 				// 1. get orgs that are subscribed for daily deals
 
 				dailyDeals.forEach(async (deal) => {
-					deal.
 					await sendDailyDealViaWeedText();
 				});
 				// send each deal to a customer segment in dailystory

@@ -1,3 +1,5 @@
+/* eslint-disable sonarjs/cognitive-complexity */
+/* eslint-disable sonarjs/no-small-switch */
 import { type UserDispensaryStaffWithDispensaryDetails } from '@cd/data-access/src';
 import { type AnyAction, type MiddlewareAPI } from '@reduxjs/toolkit';
 import { TextContent } from '../constants';
@@ -14,6 +16,20 @@ const dispensaryMiddleware =
 			const dispensaryState = store.getState()
 				.dispensary as AppState['dispensary'];
 
+			// allow for easy linking
+			if (typeof window !== 'undefined' && userState.isSignedIn) {
+				switch (window.location.pathname) {
+					case '/daily-deals':
+						window.location.href = TextContent.href.daily_deals_weed_text_f(
+							dispensaryState.dispensary?.id,
+						);
+						break;
+					default:
+						break;
+				}
+			}
+
+			// handle async signin user
 			if (action.type === 'user/signinUserSync') {
 				const payload = action.payload as UserFromDBAuthResponse;
 				const user = payload.user as UserDispensaryStaffWithDispensaryDetails;
