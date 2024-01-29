@@ -27,13 +27,13 @@ import {
 	Paragraph,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
-import { backendConfig } from 'config/backendConfig';
 import NodeCache from 'node-cache';
 import { connect } from 'react-redux';
 import { wrapper } from 'store';
 import Supertokens from 'supertokens-node';
 import Session from 'supertokens-node/recipe/session';
 import { twMerge } from 'tailwind-merge';
+import { backendConfig } from 'config/backendConfig';
 
 interface DashboardProps {
 	organization: OrganizationWithDashboardDetails;
@@ -57,33 +57,44 @@ function DailyDealsPage(props: DashboardProps) {
 		);
 	}
 	const DailyDeals = () => (
-		<Grid className="flex grow flex-col md:flex-row gap-2 flex-wrap">
-			{dailyDeals?.length ? (
-				dailyDeals.map((deal, index) => (
-					<div
-						key={`daily-deal-${index + 1}`}
-						className="border rounded w-[386px] p-2"
-					>
-						<FlexBox className="w-full flex-row justify-between">
-							<Paragraph>
-								{deal.title}
-								<br />
-								{`starts ${showTime(deal.startTime)} ${showDay(
-									deal.startTime,
-								)}`}
-							</Paragraph>
-							<FlexBox>
-								<Paragraph className="text-red-800">
-									{deal.isExpired ? 'expired' : 'active'}
+		<>
+			<Grid className="flex grow flex-col md:flex-row gap-2 flex-wrap">
+				{dailyDeals?.length ? (
+					dailyDeals.map((deal, index) => (
+						<div
+							key={`daily-deal-${index + 1}`}
+							className="border rounded w-[386px] p-2"
+						>
+							<FlexBox className="w-full flex-row justify-between">
+								<Paragraph>
+									{deal.title}
+									<br />
+									{`starts ${showTime(deal.startTime)} ${showDay(
+										deal.startTime,
+									)}`}
 								</Paragraph>
+								<FlexBox>
+									<Paragraph className="text-red-800">
+										{deal.isExpired ? 'expired' : 'active'}
+									</Paragraph>
+								</FlexBox>
 							</FlexBox>
-						</FlexBox>
-					</div>
-				))
-			) : (
-				<Paragraph>You have no deals. Try adding one.</Paragraph>
-			)}
-		</Grid>
+						</div>
+					))
+				) : (
+					<Paragraph>You have no deals. Try adding one.</Paragraph>
+				)}
+			</Grid>
+			<div>
+				<Button
+					className="md:hidden px-4 bg-inverse active:bg-accent-soft place-self-end self-end justify-self-end"
+					hover="accent-soft"
+					onClick={openNewDailyDealModal}
+				>
+					new Daily Deal
+				</Button>
+			</div>
+		</>
 	);
 
 	return (
@@ -102,17 +113,28 @@ function DailyDealsPage(props: DashboardProps) {
 					new Daily Deal
 				</Button>
 			</PageHeader>
+
 			<DailyDeals />
-			<div>
-				<Button
-					className="md:hidden px-4 bg-inverse active:bg-accent-soft place-self-end self-end justify-self-end"
-					hover="accent-soft"
-					onClick={openNewDailyDealModal}
-				>
-					new Daily Deal
-				</Button>
-			</div>
+			<hr />
+			<SendCustomerReferralLink />
 		</Page>
+	);
+}
+
+function SendCustomerReferralLink() {
+	return (
+		<div>
+			<Paragraph>
+				{`Send your customers a referral link to share with their friends. When their friends
+				place their first order, your customer will receive a $10 credit to their account.`}
+			</Paragraph>
+			<Button
+				className="px-4 bg-inverse active:bg-accent-soft"
+				hover="accent-soft"
+			>
+				Send Referral Link
+			</Button>
+		</div>
 	);
 }
 
