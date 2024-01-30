@@ -1,5 +1,6 @@
 import { type CarbonIconType } from '@carbon/icons-react';
-import React, {
+import {
+	type TextareaHTMLAttributes,
 	useState,
 	type ReactEventHandler,
 	type SVGAttributes,
@@ -10,7 +11,7 @@ import { Paragraph } from './../components/Typography';
 import IconButton from './button/IconButton';
 import FlexBox from './FlexBox';
 
-type TextAreaProps = React.InputHTMLAttributes<HTMLTextAreaElement> & {
+type TextAreaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
 	className?: string;
 	containerClassName?: string;
 	maxNumber?: number;
@@ -36,7 +37,6 @@ export default function TextArea({
 	containerClassName,
 	maxNumber,
 	name,
-	type,
 	error,
 	value,
 	label,
@@ -51,7 +51,7 @@ export default function TextArea({
 	inputRef,
 	...props
 }: TextAreaProps) {
-	const inputProps: React.InputHTMLAttributes<HTMLTextAreaElement> = {
+	const inputProps: TextareaHTMLAttributes<HTMLTextAreaElement> = {
 		...props,
 	};
 	const [focus, setFocus] = useState(false);
@@ -94,7 +94,6 @@ export default function TextArea({
 					name={name}
 					maxLength={maxNumber}
 					defaultValue={defaultValue}
-					type={type}
 					value={value}
 					onChange={onChange}
 					onBlur={() => {
@@ -103,10 +102,11 @@ export default function TextArea({
 					}}
 					placeholder={helperText || placeholder}
 					className={twMerge(
+						'py-2',
 						'text-lg',
 						'bg-light',
 						'items-center',
-						'p-4 rounded-btn',
+						'px-4 rounded-btn',
 						'wh-10',
 						// 'outline-none focus:outline-none',
 						'w-full',

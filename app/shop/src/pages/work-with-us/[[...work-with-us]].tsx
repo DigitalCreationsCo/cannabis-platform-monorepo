@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 import { twMerge } from 'tailwind-merge';
 import Benefits from 'components/landing-page/benefits/Benefits';
 import Partners from 'components/landing-page/partners/Partners';
-import heroImg from '../../../public/cannabis-delivered.jpg';
 import { ContactUs, Hero, ServicesTopBar } from '../../components/landing-page';
 import {
 	benefitDataDeliveryThatWorksForYou,
@@ -23,7 +22,7 @@ export default function DispensaryLandingPage() {
 				'bg-inverse-soft',
 				'lg:min-h-[710px]',
 				'flex flex-col gap-8',
-				'p-0 md:p-0 lg:p-0 pb-8',
+				'p-0 m-0 md:p-0 lg:p-0',
 			)}
 		>
 			<Hero />

@@ -319,7 +319,6 @@ function NewDailyDealModal({
 							containerClassName="m-auto lg:flex-col lg:items-start"
 							className="my-2 border text-center m-auto lg:flex-col lg:items-start"
 							autoComplete="off"
-							type="text"
 							name="description"
 							label="description"
 							placeholder=""

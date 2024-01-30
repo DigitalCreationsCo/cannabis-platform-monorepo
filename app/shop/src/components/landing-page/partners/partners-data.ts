@@ -18,6 +18,6 @@ export const partners: Partner[] = [
 	{
 		name: 'biotrack',
 		title: 'BioTrack',
-		imgSrc: require('../../../../public/dutchie.png'),
+		imgSrc: require('../../../../public/biotrack.png'),
 	},
 ];
