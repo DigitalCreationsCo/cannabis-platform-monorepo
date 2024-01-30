@@ -2,6 +2,7 @@ import { TextContent } from '@cd/core-lib';
 import { Button, FlexBox, H1 } from '@cd/ui-lib';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
+import heroImg from '../../../public/cannabis-delivered.jpg';
 
 function Hero() {
 	return (
