@@ -33,17 +33,17 @@ import {
 	type LayoutContextProps,
 } from '@cd/ui-lib';
 import { type AxiosResponse } from 'axios';
-import { backendConfig } from 'config/backendConfig';
 import { useFormik } from 'formik';
 import NodeCache from 'node-cache';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { connect } from 'react-redux';
-import { wrapper } from 'store';
 import Supertokens from 'supertokens-node';
 import Session from 'supertokens-node/recipe/session';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
+import { backendConfig } from 'config/backendConfig';
+import { wrapper } from 'store';
 
 interface DashboardProps {
 	organization: OrganizationWithDashboardDetails;

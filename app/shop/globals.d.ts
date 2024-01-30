@@ -11,6 +11,7 @@ declare module '*.mp4' {
 interface Window {
 	BrevoConversationsID?: string;
 	BrevoConversations?: any;
+	BrevoConversationsSetup: any;
 	hj: any;
 	_hjSettings: any;
 }
