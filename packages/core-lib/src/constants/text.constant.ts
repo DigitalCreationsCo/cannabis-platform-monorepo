@@ -93,6 +93,8 @@ const TextContent = Object.freeze({
 		I_DONT_HAVE_STRIPE: `I don't have a stripe account`,
 		ENTER_OR_GO_TO_ACCOUNT:
 			'You can enter the Gras site, or view your account.',
+
+		GET_STARTED: 'Get Started',
 		MY_ACCOUNT: 'My Account',
 		MY_ORDERS: `My Orders`,
 
@@ -151,6 +153,7 @@ const TextContent = Object.freeze({
 		CANNABIS_DELIVERED_TODAY: `Cannabis,${'\xa0'}Delivered${'\xa0'}Today🌴`,
 		COMPANY_NAME: 'Gras',
 		CONTACT_SUPPORT: `For support, dial ${process.env.NEXT_PUBLIC_SUPPORT_PHONE}.`,
+		CONTACT_US: 'Contact us',
 		ENJOY_BUD_WITH_YOUR_BUDS: 'Enjoy bud with your buds',
 
 		DELIVERY_BY_GRAS: `Delivery by Gras`,
@@ -174,7 +177,10 @@ const TextContent = Object.freeze({
 			`${
 				organizationName || 'Your favorite Dispensary'
 			} is partnering with Gras to offer you home delivery.`,
-		FULL_SERVICE_CANNABIS_DELIVERY: `Easy & Secure \n Cannabis Delivery`,
+		EASY_AND_SECURE_DELIVERY: `Easy and Secure \n Cannabis Delivery`,
+		FAST_AND_SECURE_DELIVERY: `Fast and Secure \n Cannabis Delivery`,
+		FAST_AND_EASY_DELIVERY: `Fast and Easy \n Cannabis Delivery`,
+		FULL_SERVICE_CANNABIS_DELIVERY: `Full Service \n Cannabis Delivery`,
 		GRAS_WILL_DELIVER_STRAIGHT_TO_YOUR_DOOR:
 			'Gras will deliver your order straight to your door.',
 		GRAS_DELIVERS_FOR_DISPENSARIES:
@@ -343,7 +349,7 @@ const TextContent = Object.freeze({
 		createAccountFQUrl: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/signup/create-account`,
 		createAccount: `/signup/create-account`,
 		blog: `/blog`,
-		services: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/services`,
+		work_with_us: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/work-with-us`,
 		storefront_f: (subdomain: string) =>
 			`${process.env.NEXT_PUBLIC_SHOP_APP_URL}/browse/${subdomain}`,
 
