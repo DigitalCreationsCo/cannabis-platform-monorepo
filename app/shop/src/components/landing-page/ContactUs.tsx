@@ -2,6 +2,7 @@ import {
 	type ResponseDataEnvelope,
 	TextContent,
 	urlBuilder,
+	usStatesAbbreviationList,
 } from '@cd/core-lib';
 import { type DailyStoryData } from '@cd/core-lib/lib/DailyStory.api';
 import { type USStateAbbreviated } from '@cd/data-access';
@@ -24,7 +25,7 @@ import { toast } from 'react-hot-toast';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 
-type ContactUsFormResponse = {
+export type ContactUsFormResponse = {
 	firstName: string;
 	lastName: string;
 	phone: string;
@@ -39,6 +40,8 @@ type ContactUsFormResponse = {
 		| 'search'
 		| 'other';
 	allowProcessResponse: boolean;
+	title: string;
+	company: string;
 };
 
 const howDidYouHearAboutUsOptions: {
@@ -64,6 +67,8 @@ export default function ContactUsForm() {
 		message: '',
 		howDidYouHearAboutUs: 'Linkedin',
 		allowProcessResponse: false,
+		title: '',
+		company: '',
 	};
 	const {
 		resetForm,
@@ -82,7 +87,20 @@ export default function ContactUsForm() {
 			lastName: yup.string().required('Last name is required'),
 			phone: yup.string().required('Phone number is required'),
 			email: yup.string().email().required('Email is required'),
+			city: yup.string().required('City is required'),
+			state: yup.string().required('State is required'),
+			zipcode: yup.string().required('Zipcode is required'),
 			message: yup.string().required('Message is required'),
+			howDidYouHearAboutUs: yup
+				.string()
+				.oneOf(
+					howDidYouHearAboutUsOptions.map(({ value }) => value),
+					'Please select an option',
+				)
+				.required('Please select an option'),
+			allowProcessResponse: yup.boolean().isTrue('Please agree to the terms'),
+			title: yup.string().required('Title is required'),
+			company: yup.string().required('Company is required'),
 		}),
 	});
 	function notifyValidation() {
@@ -101,19 +119,9 @@ export default function ContactUsForm() {
 				ResponseDataEnvelope<DailyStoryData>,
 				AxiosResponse<ResponseDataEnvelope<DailyStoryData>>,
 				ContactUsFormResponse
-			>(urlBuilder.shop + '/api/contact-us', {
-				email: values.email,
-				phone: values.phone,
-				firstName: values.firstName,
-				lastName: values.lastName,
-				city: values.city,
-				state: values.state,
-				zipcode: values.zipcode,
-				allowProcessResponse: values.allowProcessResponse,
-				howDidYouHearAboutUs: values.howDidYouHearAboutUs,
-				message: values.message,
-			});
+			>(urlBuilder.shop + '/api/contact-us', values);
 
+			console.info('Contact Us: ', response.data);
 			if (!response.data.success || response.data.success === 'false')
 				throw new Error(response.data.error);
 
@@ -136,7 +144,7 @@ export default function ContactUsForm() {
 					className="pb-16 text-2xl text-light max-w-full md:max-w-2xl col-span-2 lg:col-span-1 xl:ml-auto"
 				>
 					<Paragraph className="leading-loose tracking-wider mb-2 max-w-md md:max-w-full text-xl md:my-6 md:text-3xl">
-						Our goal is to bring your business to people.
+						We deliver your business to more people.
 					</Paragraph>
 					<H2 className="md:text-6xl max-w-2xl lg:max-w-full lg:col-span-2 leading-relaxed">
 						<span className="font-bold text-primary-light">
@@ -178,12 +186,12 @@ export default function ContactUsForm() {
 					<Grid className="grid-cols-2">
 						<Paragraph className="col-span-2 px-2 text-light mb-2 md:max-w-full text-xl md:my-8">
 							{`Please fill out the form below. 
-						Our team will contact you within 24 hours.`}
+						Someone from our senior team will contact you within 24 hours.`}
 						</Paragraph>
 						<TextField
 							containerClassName="px-2 col-span-1"
 							name="firstName"
-							label="* first name"
+							label=" first name"
 							placeholder="first name"
 							value={values?.firstName}
 							onBlur={handleBlur}
@@ -194,7 +202,7 @@ export default function ContactUsForm() {
 						<TextField
 							containerClassName="px-2 col-span-1"
 							name="lastName"
-							label="* last name"
+							label=" last name"
 							placeholder="last name"
 							value={values?.lastName}
 							onBlur={handleBlur}
@@ -203,9 +211,10 @@ export default function ContactUsForm() {
 						/>
 
 						<TextField
+							type="email"
 							containerClassName="px-2 xl:col-span-2"
 							name="email"
-							label="* email address"
+							label=" email address"
 							placeholder="email address"
 							value={values?.email}
 							onBlur={handleBlur}
@@ -213,20 +222,75 @@ export default function ContactUsForm() {
 							error={!!touched.email && !!errors.email}
 						/>
 						<TextField
-							containerClassName="px-2 xl:col-span-2"
+							containerClassName="px-2 xl:col-span-1"
+							name="company"
+							label=" company"
+							placeholder="company"
+							value={values?.company}
+							onBlur={handleBlur}
+							onChange={handleChange}
+							error={!!touched.company && !!errors.company}
+						/>
+						<TextField
+							containerClassName="px-2 xl:col-span-1"
+							name="title"
+							label=" title"
+							placeholder="title"
+							value={values.title}
+							onBlur={handleBlur}
+							onChange={handleChange}
+							error={!!touched.title && !!errors.title}
+							helperText={touched.title && errors.title}
+						/>
+						<TextField
+							containerClassName="px-2 xl:col-span-1"
+							type="tel"
 							name="phone"
-							label="* phone"
+							label=" phone"
 							placeholder="phone"
 							value={values?.phone}
 							onBlur={handleBlur}
 							onChange={handleChange}
 							error={!!touched.phone && !!errors.phone}
 						/>
+						<TextField
+							containerClassName="px-2 xl:col-span-1"
+							name="city"
+							label=" city"
+							placeholder="city"
+							value={values.city}
+							onBlur={handleBlur}
+							onChange={handleChange}
+							error={!!touched.city && !!errors.city}
+							helperText={touched.city && errors.city}
+						/>
+
+						<Select
+							containerClassName="px-2 xl:col-span-auto"
+							name="state"
+							label=" state"
+							className="rounded border text-lg"
+							values={usStatesAbbreviationList}
+							setOption={handleChange}
+						/>
+
+						<TextField
+							containerClassName="px-2 xl:col-span-1"
+							name="zipcode"
+							label=" zipcode"
+							placeholder="Zipcode"
+							type="number"
+							value={values.zipcode}
+							onBlur={handleBlur}
+							onChange={handleChange}
+							error={!!touched.zipcode && !!errors.zipcode}
+							helperText={touched.zipcode && errors.zipcode}
+						/>
 						<TextArea
 							rows={4}
 							containerClassName="px-2 col-span-2"
 							name="message"
-							label="* message"
+							label=" message"
 							placeholder="Tell us about your delivery need"
 							value={values?.message}
 							onBlur={handleBlur}
@@ -236,10 +300,10 @@ export default function ContactUsForm() {
 						<Select
 							values={howDidYouHearAboutUsOptions.map(({ value }) => value)}
 							containerClassName="p-2 xl:col-span-2"
-							name="phone"
+							name="howDidYouHearAboutUs"
 							label="How did you hear about Gras?"
-							placeholder="phone"
-							value={values?.phone}
+							placeholder="howDidYouHearAboutUs"
+							value={values?.howDidYouHearAboutUs}
 							onBlur={handleBlur}
 							setOption={handleChange}
 						/>
@@ -264,7 +328,7 @@ export default function ContactUsForm() {
 									handleSubmit();
 								}}
 							>
-								{TextContent.account.CTA}
+								{TextContent.prompt.CONTACT_US}
 							</Button>
 						</div>
 					</Grid>
