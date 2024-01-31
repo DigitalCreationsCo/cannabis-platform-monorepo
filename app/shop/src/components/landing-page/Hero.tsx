@@ -38,7 +38,7 @@ function Hero() {
 								hover="primary-light"
 								className="w-[240px]"
 							>
-								{TextContent.info.CONTACT_US}
+								{TextContent.prompt.CONTACT_US}
 							</Button>
 						</Link>
 						<Link href={'#benefit-one'} scroll={false}>
